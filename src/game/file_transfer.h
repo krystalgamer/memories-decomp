@@ -285,6 +285,45 @@ extern void (*D_8009B120)(void);
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 
+/* The two stream-side busy words, and the last of this family that no header
+ * owned: file_transfer_runtime.c spelled both `extern volatile` while
+ * file_stream.c spelled both plain, and neither declaration was shared.
+ *
+ * The qualifier is not decoration on the runtime's side, and the reason is
+ * instruction scheduling rather than anything being discarded. func_80014A5C
+ * stores one word and then immediately tests the other:
+ *
+ *     D_8009B124 = 1;
+ *     if (D_8009B0E8 != 0) {
+ *         return;
+ *     }
+ *
+ * With `volatile` the load of D_8009B0E8 cannot move above the store to
+ * D_8009B124, so the load-delay slot in front of the branch has nothing to
+ * fill it and the assembler leaves a nop:
+ *
+ *     sh    v0,0(gp)        # D_8009B124 = 1
+ *     lw    v0,0(gp)        # D_8009B0E8
+ *     nop
+ *     bnez  v0,...
+ *
+ * Without it the load hoists above the store and fills that slot itself, the
+ * nop goes, and the function ends four bytes earlier -- which is the whole of
+ * the size difference, 0x1d07fc against 0x1d0800. The same pinning is already
+ * recorded for D_8009B0F4 in notes/decompilation-workflow.md; it is the
+ * ordinary consequence of a volatile access sitting between a store and a
+ * dependent load.
+ *
+ * It is decoration on the other side, which is what lets one declaration
+ * serve both. file_stream.c only clears the pair once each inside
+ * File_InitTransferState, with no dependent load to hoist, so taking the
+ * volatile view costs it nothing and the build is byte for byte. The stronger
+ * spelling absorbs the weaker one here, and the guarded two-arm form input.h
+ * and sound.h use is not needed.
+ */
+extern volatile s32 D_8009B0E8;
+extern volatile u16 D_8009B124;
+
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
