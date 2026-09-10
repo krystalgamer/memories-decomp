@@ -356,6 +356,41 @@ be corroborated before being treated as final.
 - Record uncertain fields and competing interpretations in notes rather than
   hiding them with unsafe casts.
 
+### Raw byte indexing can be load-bearing
+
+Replacing `*(s32 *)(p + 0x1C)` style access with a member of a struct the tree
+already defines is the tidiest-looking change available, and it is not always
+free. It changes what the compiler is allowed to assume about aliasing.
+
+`func_8002FB78(u8 *p, s32 mode)` is the worked example. Every offset it touches
+maps onto an existing `FileTransferDescriptor` field, and it calls
+`LoadImage2((RECT *)p, ...)`, which confirms the record opens with the `x/y/w/h`
+pair. Retyping the parameter and converting all ten accesses does not merely
+fail the match, it produces a *better* function: the executable comes out eight
+bytes short and the object drops from 1948 to 1940 bytes.
+
+The disassembly locates it. Through `u8 *`, the load of `D_8009B0F4` is pinned
+after the halfword stores, because a byte pointer may alias that global:
+
+    sh   v0,4(s0)
+    lui  v0,0x0
+    lw   v0,0(v0)
+
+Through `FileTransferDescriptor *` it hoists above them, and the mask constants
+are then shared across the `switch` arms, which is where the two instructions
+go:
+
+    lui  v1,0x0
+    lw   v1,0(v1)
+    li   v0,832
+    sh   v0,48(s0)
+
+So the cast is not always untidy spelling. Where a function stores through a
+byte pointer and reads globals in the same basic block, the byte pointer is
+what stops GCC from optimising past retail, and the raw access has to stay.
+Attempt the conversion per function and measure it; it cannot be applied as a
+blanket cleanup.
+
 ## Declaration audits
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
