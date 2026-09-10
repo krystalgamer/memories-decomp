@@ -5,12 +5,11 @@
 #include "duel_deck_card.h"
 #include "file_transfer.h"
 #include "util_memory.h"
+#include "util_compare_s16.h"
 
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];
 extern u8 D_8015C424[];
-
-extern s32 Util_CompareS16(s16 *, s16 *);
 
 void Duel_RequestCombinedDeckData(void)
 {

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "util_compare_s16.h"
 
 int Util_CompareS16(const short *left, const short *right)
 {
