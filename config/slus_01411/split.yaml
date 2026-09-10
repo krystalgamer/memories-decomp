@@ -171,7 +171,7 @@ segments:
       - [0x8b730, .sdata, game/duel_card_effects]
       - [0x8b73d, pad]
       - [0x8b740, .sdata, game/duel_magic_effect_format]
-      - [0x8b744, sdata, initialized_data_8009af44]
+      - [0x8B744, .sdata, game/frontend_debug_constants]
       - [0x8B754, .sdata, game/debug_font_format_data]
       - [0x8B75C, .sdata, game/options_layout_position_data]
       - [0x8B764, .sdata, game/save_data_mask_state]

@@ -2,8 +2,8 @@
 
 Notes on moving `.sdata` out of link-resolved blobs and into the C
 translation units that use it. Everything below was measured against the
-resident image; the one conversion attempted so far did not match, and the
-measurement is recorded rather than the intent.
+resident image; successful and blocked conversions are both recorded so
+later work starts from measured compiler behavior.
 
 ## What the image looks like today
 
@@ -14,16 +14,15 @@ object built from that C source. A bare `sdata` entry naming
 it is resolved by an assignment in `config/slus_01411/c_symbols.ld` rather
 than defined anywhere.
 
-Five sources own their small data today. Three of them are data-only
-translation units that follow one shape — an explicit section attribute and
-an initializer:
+Several sources own their small data today. Data-only translation units
+generally follow one shape — an explicit section attribute and an initializer:
 
 ```c
 u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
-Three blobs remain, at `0x8009AF08`, `0x8009AF2A` and `0x8009AF44`, plus a
-larger one at `0x8009AF6C`.
+Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`, plus a larger one
+at `0x8009AF6C`.
 
 ## The owning unit is predictable, not a guess
 
@@ -111,13 +110,33 @@ naming a byte inside an object is exactly what a linker script is for.
 A conversion here would at best be partial: C owning the bytes, with one
 assignment left behind in `c_symbols.ld`.
 
-## The other two blobs are blocked for different reasons
+## `0x8009AF44` is C-owned with scalar halfword packing
 
-`0x8009AF44`, 32 bytes, names four symbols. Two of them, `D_8009AF44` and
-`D_8009AF46`, are referenced only from `func_80030998.c`, which is one of the
-five sources that are a raw `.word` listing with no C in them at all. Those
-symbols therefore have no C spelling to preserve or to move, and the other
-two sit far apart with long unnamed runs between them.
+After the following format and layout ranges moved into their own C objects,
+the remaining extracted range was 16 bytes:
+
+```text
+00 05 01 00 00 00 01 00 0f 00 f0 00 00 0f 00 f0
+```
+
+It has public symbols at `D_8009AF44`, `D_8009AF46` and `D_8009AF4C`,
+corresponding to offsets `0`, `2` and `8`. A natural C spelling using one
+scalar and two arrays did not reproduce that layout: GCC 2.8.1 emitted
+`.align 2` before each array, producing offsets `0`, `4` and `12` and a
+20-byte section. Packed wrapper types and reduced variable-alignment
+attributes produced the same assembly.
+
+The exact spelling is eight ordered `u16` scalars. GCC emits `.align 1` for
+each scalar, so the three public boundary names land at the retail offsets
+and the unnamed continuation values remain local to
+`frontend_debug_constants.c`. The resulting `.sdata` section is exactly 16
+bytes with two-byte alignment, and the complete executable matches.
+
+`D_8009AF44` and `D_8009AF46` remain relocation targets in the raw-word
+`func_80030998.c`; `D_8009AF4C` remains the start of the eight-byte mask block
+read by unmatched `func_80030294`.
+
+## The remaining unowned blob
 
 `0x8009AF08`, 28 bytes, names no symbols at all in `c_symbols.ld` and has no
 C consumer. It does contain a pointer — the word at `+0x10` reads
