@@ -5830,47 +5830,47 @@
       "address": "0x8005F27C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13C",
-      "source": "src/game/func_8005F27C.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F3B8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F564",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F588",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F5C8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x14C",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F714",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x9C",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F7B0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
       "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005F828",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xF4",
       "source": "src/game/model_effect_state.c"
     },
@@ -5878,7 +5878,7 @@
       "address": "0x8005F91C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C8",
-      "source": "src/game/func_8005F91C.c"
+      "source": "src/game/model_effect_state.c"
     },
     {
       "address": "0x8005FAE4",

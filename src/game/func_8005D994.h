@@ -19,7 +19,7 @@
  * The parameter stays u8 * rather than being given a struct: three halfwords
  * at fixed offsets is all the body evidences, func_8005F5C8's own argument
  * arrives from unmatched assembly so nothing in C says where it comes from,
- * and func_8005F91C.h records the same u8 * choice for the same reason. */
+ * and model_effect_state.h records the same u8 * choice for the same reason. */
 void func_8005D994(s32 arg0, s32 arg1, s32 arg2, s32 arg3, u8 *arg4, s32 arg5);
 
 #endif

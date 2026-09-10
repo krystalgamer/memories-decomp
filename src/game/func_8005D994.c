@@ -5,6 +5,7 @@
 #include "model.h"
 #include "model_transfer_flags.h"
 #include "func_8005D994.h"
+#include "model_effect_state.h"
 
 void func_8005D994(
     s32 arg0,

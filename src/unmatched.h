@@ -121,7 +121,7 @@ void func_800540B4(s32);
  * file that used to declare it. */
 void func_80045514(void);           /* sound_runtime.c */
 void func_800559D4(s32);            /* model_cleanup.c */
-void func_8005E808(u8 *);           /* func_8005F91C.c, and the candidate
+void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
                                        source src/candidates/func_8005E808.c
                                        defines it with the same u8 * */
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
