@@ -1025,7 +1025,7 @@ requires the additional call-graph evidence recorded in its row:
 
 | Address | Current symbol | Signature evidence | Local corroboration |
 |---|---|---|---|
-| `0x80073704` | `PCopen` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/func_80059908.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
+| `0x80073704` | `PCopen` | The exact-size 32-byte `OPEN.OBJ` / `PCopen` signature matches once. | [`func_80059908`](../src/game/file_query_wrappers.c) and [`func_8005988C`](../src/game/file_query_wrappers.c) pass a path followed by zero flags and permissions, then test the returned handle. |
 | `0x80073724` | `PCclose` | The exact-size 16-byte `CLOSE.OBJ` / `PCclose` signature matches once. | Both matching file helpers pass the handle after their final seek or read. |
 | `0x80073734` | `PClseek` | The exact-size 36-byte `LSEEK.OBJ` / `PClseek` signature matches once. | Callers use `(handle, 0, 2)` to obtain the file length and `(handle, offset, 0)` to select an absolute read position. |
 | `0x80073758` | `PCread` | The 192-byte `READ.OBJ` / `PCread` and `WRITE.OBJ` / `PCwrite` catalogue signatures are byte-identical, so the signature alone cannot choose a name. | The body calls the unique `_SN_read` wrapper below, and `func_80059908` treats its return as the number of bytes placed in successive destination chunks; that call graph resolves the identity. |
