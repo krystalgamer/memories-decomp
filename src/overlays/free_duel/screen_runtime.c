@@ -6,7 +6,7 @@
 #include "../../game/card_constants.h"
 #include "../../game/duel_effect_mode_7.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/display_object_layout.h"
+#include "../../game/display_object.h"
 #include "../../game/input.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
@@ -39,14 +39,21 @@
    positions, screen flags and sparkle pool; there is no data or rodata
    boundary between them.
 
-   One unit settles FreeDuel_GetSparkleSlot's return type. It was declared
-   u8 ** by the caller and defined void **; the definition wins and the one
-   call site assigns through a void ** local.
+   One unit settles the sparkle path's types from allocation through release:
+   FreeDuel_SpawnSparkle returns DisplayObject *, the pool stores those
+   pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **.
 
    func_8004036C uses display_object_api.h's guarded `void (void)` arm. The
    sparkle updater's call passes no argument, so taking the normal
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */
+
+extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
+extern s16 D_801D0000[];
+extern Pair D_801D5608;
+extern u8 gFreeDuel_aDuelistRecords[];
+extern u8 D_8009B269;
+extern u8 D_8009B26C;
 
 typedef struct {
     u8 unk_00[0x30];
@@ -61,27 +68,6 @@ typedef struct {
     u8 pad1[85];
     u8 mode;
 } Obj;
-
-typedef struct {
-    u8 unk0[0x4];
-    u32 flags;
-    u8 unk8[0x4];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 unkF;
-    u8 unk10[0x50];
-    s16 timer;
-    u8 unk62[0xA];
-    u8 state;
-} FreeDuelSparkle;
-
-extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern s16 D_801D0000[];
-extern Pair D_801D5608;
-extern u8 gFreeDuel_aDuelistRecords[];
-extern u8 D_8009B269;
-extern u8 D_8009B26C;
 
 void FreeDuel_UpdateScrollbar(void)
 {
@@ -135,16 +121,16 @@ void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
     func_80039A60(panel);
 }
 
-u8 *FreeDuel_SpawnSparkle(void)
+DisplayObject *FreeDuel_SpawnSparkle(void)
 {
-    u8 *x;
+    DisplayObject *x;
 
     x = func_800400AC(func_8004002C(), 2);
     func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
-    x[0x5F] = 0x80;
-    *(s32 *)(x + 0x48) = 0x180018;
+    ((u8 *)x)[0x5F] = 0x80;
+    x->field_48.word = 0x180018;
     func_800428EC(x, 5);
-    *(u16 *)(x + 8) = *(u16 *)(x + 8) | 0x20;
+    x->flags |= 0x20;
     return x;
 }
 
@@ -157,7 +143,7 @@ void FreeDuel_Init(u8 *src)
     s32 col;
     s32 count;
     u16 *rec;
-    void **slot;
+    DisplayObject **slot;
     u8 *cell;
     Obj *obj;
     RECT *clut;
@@ -186,7 +172,7 @@ void FreeDuel_Init(u8 *src)
         func_80039794();
         gFreeDuel_bScreenFlags |= 0x20;
     }
-    i = 15;
+    i = FREE_DUEL_SPARKLE_POOL_CAPACITY - 1;
     slot = gFreeDuel_apSparklePool + i;
     do {
         *slot = 0;
@@ -312,11 +298,11 @@ done:
     SD_BGMPlay(29376);
 }
 
-void **FreeDuel_GetSparkleSlot(void)
+DisplayObject **FreeDuel_GetSparkleSlot(void)
 {
     s32 i;
 
-    for (i = 15; i >= 0; i--) {
+    for (i = FREE_DUEL_SPARKLE_POOL_CAPACITY - 1; i >= 0; i--) {
         if (gFreeDuel_apSparklePool[i] == 0) {
             return &gFreeDuel_apSparklePool[i];
         }
@@ -326,26 +312,26 @@ void **FreeDuel_GetSparkleSlot(void)
 
 void FreeDuel_UpdateSparkle(void)
 {
-    FreeDuelSparkle *obj;
+    DisplayObject *obj;
     s32 level;
     s16 timer;
     s32 i;
 
-    for (i = 15; i >= 0; i--) {
-        obj = (FreeDuelSparkle *)gFreeDuel_apSparklePool[i];
-        if (obj != 0 && (obj->state & 0xF) == 1) {
-            if (!(obj->state & 0x80)) {
-                obj->state |= 0x80;
-                obj->timer = 16;
-                *(u32 *)&obj->r = 0x404040;
-                obj->flags |= (GsALON | GsAONE);
+    for (i = FREE_DUEL_SPARKLE_POOL_CAPACITY - 1; i >= 0; i--) {
+        obj = gFreeDuel_apSparklePool[i];
+        if (obj != 0 && (obj->field_6C & 0xF) == 1) {
+            if (!(obj->field_6C & 0x80)) {
+                obj->field_6C |= 0x80;
+                obj->field_60 = 16;
+                obj->field_0C = 0x404040;
+                obj->attribute |= (GsALON | GsAONE);
             }
-            level = obj->r - 4;
-            obj->b = level;
-            obj->g = level;
-            obj->r = level;
-            timer = obj->timer - 1;
-            obj->timer = timer;
+            level = ((u8 *)&obj->field_0C)[0] - 4;
+            ((u8 *)&obj->field_0C)[2] = level;
+            ((u8 *)&obj->field_0C)[1] = level;
+            ((u8 *)&obj->field_0C)[0] = level;
+            timer = obj->field_60 - 1;
+            obj->field_60 = timer;
             if (timer == 0) {
                 func_8004036C();
                 gFreeDuel_apSparklePool[i] = 0;
@@ -357,8 +343,8 @@ void FreeDuel_UpdateSparkle(void)
 void FreeDuel_UpdateCursorTween(void)
 {
     u8 *widget = gFreeDuel_pCursorWidget;
-    void **slot;
-    u8 *sparkle;
+    DisplayObject **slot;
+    DisplayObject *sparkle;
     s32 tx;
     s32 ty;
     s32 sx;
@@ -399,12 +385,12 @@ void FreeDuel_UpdateCursorTween(void)
         slot = FreeDuel_GetSparkleSlot();
         sparkle = FreeDuel_SpawnSparkle();
         if (sparkle != 0 && slot != 0) {
-            *(u32 *)(sparkle + 0x30) = *(u32 *)(widget + 0x30);
+            sparkle->field_30.word = *(u32 *)(widget + 0x30);
             func_800428EC(sparkle, (s8)(widget[0x16] - 1));
-            func_80041D60((DisplayObject *)sparkle);
-            *(u32 *)(sparkle + 0x4C) = *(u32 *)(widget + 0x4C);
-            sparkle[0x6C] = 1;
-            *(u16 *)(sparkle + 8) |= 1;
+            func_80041D60(sparkle);
+            sparkle->field_4C = *(s32 *)(widget + 0x4C);
+            sparkle->field_6C = 1;
+            sparkle->flags |= 1;
             *slot = sparkle;
         }
     }

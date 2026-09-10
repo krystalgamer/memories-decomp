@@ -2099,6 +2099,20 @@ the committed cell.
 These are code-derived controls, not a new runtime test of the delegated
 dialogs or their button handling.
 
+**Cursor trail and screen audio.** During each non-final tween update,
+`FreeDuel_UpdateCursorTween` can allocate one object into the highest free
+slot of the 16-entry `gFreeDuel_apSparklePool`. The matching updater initializes
+that `DisplayObject` to additive grey `0x404040` with a 16-update timer,
+subtracts four from each colour channel per update, and releases the object
+and clears its slot when the timer reaches zero. This is a visual
+display-object effect, separate from the screen's audio startup.
+
+At the end of `FreeDuel_Init`, `SD_BGMPlay(0x72C0)` dispatches into the sound
+driver and queues command `0x48`. That pins the post-initialization ramp seen
+in the historical trace to BGM-driver state. It is not the full-screen visual
+fade in `gFade_State`, and the static code does not yet justify narrower names
+for the changing driver fields.
+
 **Duel Master K** is the exception in every way: not in the campaign, always
 unlocked, and receives a **copy of your own deck**. The setup comparison at
 `0x80017D84` sends opponent IDs below 39 through
