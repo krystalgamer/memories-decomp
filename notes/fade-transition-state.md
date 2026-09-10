@@ -279,9 +279,9 @@ either. It adds the position offsets at `D_800FE0BC`/`D_800FE0BE` to x/y
 while building the packet. Consequently, `(0,240)` here is not by itself
 evidence that the resulting rectangle is invisible or clipped.
 
-The scratchpad `FadeBox.tag` is a `GsBOXF.attribute` word, not a GPU packet
-tag or command byte. The SDK translates `0x60000000` and `0x50000000` into
-draw-mode words `0xE1000240` and `0xE1000220`, respectively
+The scratchpad `GsBOXF.attribute` word is not a GPU packet tag or command
+byte. The SDK translates `0x60000000` and `0x50000000` into draw-mode words
+`0xE1000240` and `0xE1000220`, respectively
 (`0x80084258..0x80084280`); both produce rectangle command byte `0x62`,
 including semi-transparency, rather than `0x60`
 (`0x8008429C..0x800842AC`). The tinted path changes the attribute and clamps
