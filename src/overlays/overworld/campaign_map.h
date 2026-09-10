@@ -20,6 +20,33 @@
  * stride rather than a typed element, which is load-bearing under -G8. */
 extern u8 gCampaignMap_aLocationTable[];
 
+/* One live-map location record. The 66-byte stride above is the size, and the
+ * only part of it the live path names is the signed pair at +0x0C: the map
+ * position of the location. CampaignMap_UpdateLocationTransition passes the
+ * pair to func_8004318C to walk the marker towards it while the move runs,
+ * then writes it into the marker's f48/f50 once the move ends.
+ *
+ * alternate_location.h describes the same 66-byte record for the mechanical
+ * copy of this family, and reaches the same pair at +0x0C on its way to the
+ * alternate marker's +0x30/+0x32. That agreement corroborates the offset and
+ * is explicitly not a reason to share one type between the two families: the
+ * tables are distinct symbols, and the pair is signed here because it is
+ * assigned to MapObject's s16 f48/f50, where the alternate copy spells both
+ * halves u16. The rest of the record stays padding until a live-path use
+ * names it; CampaignMap_SetCameraFromLocation reads +2 through +0xA through
+ * the byte view instead. */
+typedef struct {
+    u8 pad0[12];
+    s16 f12;
+    s16 f14;
+    u8 pad16[50];
+} MapLocation;
+
+/* The stride the table is indexed at everywhere else in the family. */
+typedef char MapLocation_size_must_be_66[
+    sizeof(MapLocation) == 66 ? 1 : -1
+];
+
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_LocationPrev;
 extern s32 gCampaignMap_MoveState;

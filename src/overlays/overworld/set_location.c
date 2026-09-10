@@ -48,13 +48,6 @@ extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
 extern u8 D_8009B27A;
 
-typedef struct {
-    u8 pad0[12];
-    s16 f12;
-    s16 f14;
-    u8 pad16[50];
-} Location;
-
 void CampaignMap_ClearLocationObjects(void)
 {
     s32 i;
@@ -419,10 +412,10 @@ s32 CampaignMap_UpdateLocationTransition(void)
             marker->f96 += quotient;
             func_8004318C(
                 (DisplayObjectPosition *)marker,
-                ((Location *)gCampaignMap_aLocationTable)[
+                ((MapLocation *)gCampaignMap_aLocationTable)[
                     gCampaignMap_Location
                 ].f12,
-                ((Location *)gCampaignMap_aLocationTable)[
+                ((MapLocation *)gCampaignMap_aLocationTable)[
                     gCampaignMap_Location
                 ].f14,
                 marker->f96
@@ -448,11 +441,11 @@ s32 CampaignMap_UpdateLocationTransition(void)
         }
         if (D_801695C8 != 0) {
             D_801695C8->f48 =
-                ((Location *)gCampaignMap_aLocationTable)[
+                ((MapLocation *)gCampaignMap_aLocationTable)[
                     gCampaignMap_Location
                 ].f12;
             D_801695C8->f50 =
-                ((Location *)gCampaignMap_aLocationTable)[
+                ((MapLocation *)gCampaignMap_aLocationTable)[
                     gCampaignMap_Location
                 ].f14;
         }
