@@ -61,6 +61,22 @@ extern u8 gPassword_abDigits[];
 extern s32 gPassword_nDigitIndex;
 extern u16 D_8016D424;
 
+/* 0x801D07E0, named gLibrary_dwStarchips in config/slus_01411/symbols.txt:62.
+ * Both units that reach it are in this module and already include this
+ * header. refresh_displays.c loads it once, `D_801D5608 =
+ * gLibrary_dwStarchips;` in Password_RefreshStarchipDisplay
+ * (refresh_displays.c:50). shop.c loads it under this name once, in the
+ * compare `gLibrary_dwStarchips < D_801A8000[D_8016D4DC * 2]` in
+ * Password_UpdateShopScreen (shop.c:275), and the same function reaches it
+ * again as `pool[504]` after `pool = D_801D0000;` (shop.c:319, :322), a
+ * load and a store at +2016 off D_801D0000 that this declaration leaves
+ * alone. Nothing pins the sign: the copy and the subtraction are the same
+ * either way, and the compare is unsigned either way because its other
+ * operand is u32 (shop.c:44). u32 here follows the other `dw` names in the
+ * tree's headers (save_data.h:87-88). The two units used to declare it
+ * privately, one as s32 and one as u32. */
+extern u32 gLibrary_dwStarchips;
+
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
