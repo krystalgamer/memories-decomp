@@ -137,6 +137,15 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * all before this, so neither the argument list nor the void return was being
  * checked against the definition. */
 void SaveData_RequestWrite(void);
+
+/* The load side of the same pair, both reached from the main-menu overlay's
+ * boot path. SaveData_RequestLoad starts the read into
+ * gSaveData_aTransferBuffer; SaveData_PollLoad reports how it finished, and
+ * frontend.c branches on that result.
+ *
+ * Both were declared in that overlay and nowhere else. */
+void SaveData_RequestLoad(void);
+s32 SaveData_PollLoad(void);
 s32 SaveData_HasSameDuelistCode(
     SaveDataState *left,
     SaveDataState *right
