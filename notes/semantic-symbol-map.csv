@@ -67,6 +67,7 @@ function,0x8001EF1C,Duel_CalcBattleAttack,high,"gms.c monBattleEffAtk; local bat
 function,0x8001EF78,Duel_CalcBattleDefense,high,"gms.c monBattleEffDef; local battle callers","Calculates effective monster defense during battle."
 function,0x80021558,Duel_CalcRankScoreChange,high,"gms.c rankScoreChange; ram_map rank table","Looks up the score change for one duel statistic."
 function,0x80021598,Duel_CalcRankScore,high,"gms.c calcRankScore; local result flow","Calculates the final duel-rank score."
+function,0x80021480,Duel_ShowResultPage,high,"end-of-duel page index at DuelResultDisplayState +0x37; matching root/ten-child visibility updates; page_text_ids TextBox_Create input; F129","Displays the selected one of three duel-result pages."
 function,0x80021810,Duel_SelectCardDrop,high,"gms.c cardDrop; ram_map drop pools","Selects a card from the active drop table."
 function,0x800243F4,Duel_ShuffleDeck,high,"gms.c shuffleDeck; local deck buffers","Shuffles one deck and writes its permutation."
 function,0x800245A0,Duel_ShuffleBothDecks,high,"gms.c shuffleBothDecks; local callers","Shuffles the player and opponent decks."
