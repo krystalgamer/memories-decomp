@@ -42,7 +42,7 @@ help:
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
-		'  check-unmatched-contracts  Verify unmatched function declarations and exceptions' \
+		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  candidate-index  Regenerate the stored-candidate index' \
 		'  check-candidate-index  Verify the stored-candidate index is current' \
 		'  candidate-bundles  Regenerate human-facing resident candidate bundles' \

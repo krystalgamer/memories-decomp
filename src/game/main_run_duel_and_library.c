@@ -22,7 +22,7 @@
 #include "duel_side_state.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B26C, D_8009B26E;
+extern u8 D_8009B26C;
 extern u8 D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
 extern u8 gCampaignSceneIndex[9];

@@ -714,16 +714,30 @@ anything above `types.h`:
 - `D_8009B363` is written by four files spanning four subsystems with no
   header between them, so it went to `unmatched.h`.
 
-`make check-unmatched-contracts` enforces the function side of that boundary.
-It cross-references `functions.csv`, the matching-C source manifest, and
-`unmatched.h`: an unmatched function referenced by matching C must have one
-central declaration, and a file-local declaration is rejected unless its
+`make check-unmatched-contracts` enforces both sides of that boundary. For
+functions it cross-references `functions.csv`, the matching-C source manifest,
+and `unmatched.h`: an unmatched function referenced by matching C must have
+one central declaration, and a file-local declaration is rejected unless its
 exact source and spelling appear in
-`unmatched_contract_exceptions.json`. The exception list is intentionally
-site-specific so a type change cannot hide behind an approved symbol name.
-The same check rejects declarations that remain in `unmatched.h` after a
-function becomes matching C. Unreferenced assembly functions are reported by
-the inventory but do not receive guessed prototypes merely to fill the header.
+`unmatched_contract_exceptions.json`. The same check rejects declarations that
+remain after a function becomes matching C. Unreferenced assembly functions
+do not receive guessed prototypes merely to fill the header.
+
+For data, the check cross-references `c_symbols.ld`, every top-level extern in
+matching C, and all resident headers. A symbol centralized in `unmatched.h`
+cannot remain locally declared, lose its linker assignment, or gain a
+subsystem-header declaration without making the check fail. Distinct guarded
+central views are allowed; exact duplicates are not. A measured local
+addressing view can remain only when its source and normalized declaration are
+recorded in `unmatched_data_contract_exceptions.json`. Both exception lists
+are site-specific so a type or qualifier change cannot hide behind an approved
+symbol name.
+
+The data audit also reports the headerless remainder without rejecting it.
+That lets centralization proceed in measured batches instead of flattening
+array, section, volatile, or asm-alias forms simply to make a count reach zero.
+The first enforced batch moved thirty unanimous primitive declarations from
+thirty-one matching-C sites already including `unmatched.h`.
 
 #### A neighbour can refute a size, never establish one
 

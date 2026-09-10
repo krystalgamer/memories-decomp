@@ -13,7 +13,6 @@
 #include "game_over.h"
 #include "../unmatched.h"
 
-extern s32 D_8009B378;
 /* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
 
 void func_8003C950(void)

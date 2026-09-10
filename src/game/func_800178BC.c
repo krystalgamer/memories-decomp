@@ -2,6 +2,7 @@
 #include "func_800178BC.h"
 #include "view_state.h"
 #include "screen_projection.h"
+#include "duel_side_view_angles.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

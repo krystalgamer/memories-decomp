@@ -20,8 +20,6 @@ void func_80037CE0(volatile u8 *object) {
     }
 }
 
-extern u16 D_8009B33A;
-
 void Text_ExtendGlyphCode(u8 *object)
 {
     u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
