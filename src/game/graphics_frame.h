@@ -314,6 +314,28 @@ extern u8 D_8009B4A8[];
  * number of halves is not. */
 extern u8 D_800A5768[];
 
+/* Three flags Main_Init sets in its init block: D_8009B0AD and D_8009B0D0 to
+ * 1, D_8009B0A8 to 0. graphics_frame.c DEFINES all three plain, for the same
+ * reason it defines D_8009B0C1: the assembler resolves a small global
+ * gp-relative only when the unit defines it.
+ *
+ * main_services.c reached them through its own `extern volatile u8`
+ * declarations, under a comment saying the init block is volatile so the
+ * emitted order is the source order. That holds for the rest of that run but
+ * not for these three: dropping the volatile and taking these declarations
+ * instead builds byte-identical, measured by the PR adding this block. The
+ * same was already true of D_8009B0C1 above, whose volatile view in
+ * main_init.c was dropped the same way.
+ *
+ * Their neighbour D_8009B0A0 is deliberately NOT here: graphics_frame.c
+ * defines it `u8 D_8009B0A0[4]` while main_services.c both declares it a
+ * scalar and assigns `D_8009B0A0 = 2`. Array and scalar are two faithful
+ * views of one address, so neither spelling can absorb the other and that
+ * declaration stays local. */
+extern u8 D_8009B0AD;
+extern u8 D_8009B0D0;
+extern u8 D_8009B0A8;
+
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);
 

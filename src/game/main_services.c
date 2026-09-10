@@ -36,13 +36,14 @@ extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
 
-/* The init block is a run of byte stores to distinct globals; declared
-   volatile so the emitted order is the source order (see Main_Init). The
+/* The init block is a run of byte stores to distinct globals; the ones
+   declared volatile here are volatile so the emitted order is the source
+   order (see Main_Init). That is measured, not assumed, and it does not
+   extend to the whole run: the first three stores (D_8009B0AD, D_8009B0D0,
+   D_8009B0A8) build byte-identical without it and now take plain
+   declarations from graphics_frame.h, the unit that defines them. The
    six D_8009B14x bytes are addressed %hi/%lo in retail, so they sit outside
    small data. */
-extern volatile u8 D_8009B0AD;
-extern volatile u8 D_8009B0D0;
-extern volatile u8 D_8009B0A8;
 extern volatile u8 D_8009B144 __attribute__((section(".data")));
 extern volatile u8 D_8009B143 __attribute__((section(".data")));
 extern volatile u8 D_8009B142 __attribute__((section(".data")));
