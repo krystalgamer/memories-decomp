@@ -2,6 +2,7 @@
 #include "../psyq/libspu.h"
 #define D_80011434_IS_CONST
 #include "sound.h"
+#include "sound_voice_envelope.h"
 
 /* The voice-attribute block lives in the 0x40-byte hole at +0x4C0, which is
    exactly sizeof(SpuVoiceAttr) and pins a_mode/adsr1/adsr2 to the offsets the
