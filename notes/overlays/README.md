@@ -346,9 +346,12 @@ jr    $v0
 
 Its five words sit at module offset `0x7C`–`0x90`, immediately after
 `func_80168CDC`'s initialiser. This was another contribution inside the old
-combined blob. The current layout assigns it to
-`overlays/password/func_8016A37C` as `.rodata`; #2158 replaced both that
-contribution and the function's complete `0x237C`–`0x2930` text region.
+combined blob. #2158 replaced both that contribution and the function's
+complete `0x237C`–`0x2930` text region with C. Since #3859 returned the
+function to a build-integrated candidate
+([`src/candidates/password/func_8016A37C.c`](../../src/candidates/password/func_8016A37C.c)), the layout
+assigns the table to `overlays/password/rodata_7C` as `rodata` and the text
+to `overlays/password/text_237C` as `asm`.
 
 ### What the "module header" actually is
 
@@ -668,8 +671,9 @@ tools/environments/python/bin/python tools/project/overlay_scan_reloads.py \
 With no arguments it scans every function still marked `unmatched_asm` in all
 five modules. In the original scan, `MainMenu_DrawTradeOffersAndHighlights`,
 the volatile-local control, reported 3 and `MainMenu_UpdateFrontendMenu`
-reported 1. Those are historical measurements, not a claim that either
-function remains unmatched.
+reported 1. Those are historical measurements. The first function matches;
+`MainMenu_UpdateFrontendMenu` is a build-integrated candidate again since #3859
+([`src/candidates/main_menu/func_80180390.c`](../../src/candidates/main_menu/func_80180390.c)).
 
 ### The second tell: a reload of the address a store just wrote
 

@@ -85,3 +85,6 @@ merge-order rule as `notes/global-usage.csv`: after rebasing across any
 canonical-header change, regenerate and review them even when Git reports no
 textual conflict. Resident candidates intentionally exclude `src/overlays/`
 from their declaration index because they cannot include overlay headers.
+An overlay candidate (an entry with a `"module"`, in `src/candidates/<module>/`)
+indexes its own module's headers as well and no other module's; see
+`notes/overlays/candidates/rules.md`.

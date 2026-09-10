@@ -5,8 +5,10 @@
 
 typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 
-/* Frontend screen state, all of it owned by frontend.c. None of these is
- * defined in C.
+/* Frontend screen state, all of it owned by the front-end functions in
+ * frontend.c and frontend_background.c and by MainMenu_UpdateFrontendMenu
+ * (now a build-integrated candidate, src/candidates/main_menu/func_80180390.c). None
+ * of these is defined in C.
  *
  * What the uses show, without renaming anything:
  *

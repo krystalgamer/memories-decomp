@@ -131,14 +131,14 @@ undefined-function linker script, so the original `jal` target and every
 table byte remain unchanged. The table is data-owned in the live view while
 this independent alternate-path reference is explicitly retained.
 
-At the *real* tail boundary, Splat initially invented `func_801695C8` instead
+At the original raw-tail boundary, Splat initially invented `func_801695C8` instead
 of retaining the existing data name, which failed the link.
 `overworld_symbols.txt` now records `D_801695C8` explicitly so the raw tail
 exports the name its consumers use. This is an input label for Splat, not a
 linker assignment over a C definition.
 
 There is no linker alias for `gCampaignMap_aLocationTable` to retire. The
-reference symbol map still tells Splat its address; the generated linker
+project-owned symbol map retains its reference address; the generated linker
 script obtains its storage from the C object's `.data`. Clean image matches
 and ELF/object ownership checks distinguish this from merely resolving the
 old symbol at link time.
@@ -146,3 +146,9 @@ old symbol at link time.
 The separate alternate table is now also C-owned; see
 [`alternate-location-data.md`](alternate-location-data.md). Its equal bytes
 do not merge its address or type contract with the live table described here.
+
+The following aligned 80-byte live-state prefix is now C-owned as well;
+[`live-state-data.md`](live-state-data.md) documents its separate scalar
+definitions and the nonzero boundary word retained at `0x80169618`.
+That later mapping marks `D_801695C8` and the other state exports defined in
+the project-owned build map rather than leaving them on the raw-tail path.

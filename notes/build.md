@@ -1183,7 +1183,9 @@ identical 1464-byte objects at regular stride, uniformly `.word`, mostly
 zero, and referenced by nothing anywhere in the tree -- no source, no
 generated assembly, no configuration. Its head holds two ranges that look
 better still: `D_8016D440` is 36 words and `D_8016D4DC` is 45, both entirely
-zero, and both have real consumers in `shop.c`.
+zero, and both have real consumers: `D_8016D440` in `shop.c` and
+`D_8016D4DC` in `Password_UpdateShopScreen` (now a build-integrated candidate,
+[`src/candidates/password/func_8016A37C.c`](../src/candidates/password/func_8016A37C.c)).
 
 Both are traps, for the same reason.
 
@@ -1191,7 +1193,8 @@ Both are traps, for the same reason.
 objects -- sixteen bytes -- and the overlay's own function notes describe
 exactly that, four decoration objects one per password digit. But the label
 runs 144 bytes, because that is the distance to the next *named* symbol.
-`D_8016D4DC` is worse: C declares it `u16`, and the label spans 180 bytes.
+`D_8016D4DC` is worse: the stored C declares it `u16`, and the label spans
+180 bytes.
 
 So in these blobs a label's extent is the gap to the next name, not the size
 of the object it names. The regions are sparsely named, so most labels look
@@ -1257,7 +1260,7 @@ reads the header word in `free_duel`, `password`, or either overworld
 module.
 
 `main_menu` is different, and it is the interesting case.
-`trade_update.c` declares
+`trade_inventory.c` declares
 
 ```c
 extern s32 D_80180000[];

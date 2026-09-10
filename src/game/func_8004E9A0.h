@@ -13,7 +13,8 @@
  * in its source and appear in no header, so there is no subsystem header that
  * this function could sit beside on the strength of the state it reads.
  *
- * model_cleanup.c is the only caller and held the only declaration. */
+ * func_80059CE4 in model_scene_states.c is the only caller and held the only
+ * declaration. */
 void func_8004E9A0(void);
 
 #endif

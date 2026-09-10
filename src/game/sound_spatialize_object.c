@@ -2,14 +2,13 @@
 #include "sound_spatialize_object.h"
 #include "sound_sequence_constants.h"
 
-extern u8 *D_8009B458;
-
-void SD_SpatializeSecondaryObject(u8 *object, u8 *channel)
+void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
+                                 SDSecondaryRecord *channel)
 {
     s32 pan;
-    u8 *state1;
-    u8 *state2;
-    u8 *state3;
+    SDSecondaryState *state1;
+    SDSecondaryState *state2;
+    SDSecondaryState *state3;
     s32 level;
     s32 product;
     s32 left;
@@ -17,10 +16,11 @@ void SD_SpatializeSecondaryObject(u8 *object, u8 *channel)
     s32 center;
 
     state1 = D_8009B458;
-    if (state1[0x815] != 0) {
+    if (state1->field_0815 != 0) {
         pan = SD_SECONDARY_PAN_CENTER;
     } else {
-        pan = state1[0x4BF] + object[0xA] + object[0xB] + channel[1] -
+        pan = state1->transfer.field_001B + object->field_000A +
+              object->field_000B + channel->pan -
               SD_SECONDARY_PAN_SUM_BIAS;
     }
     if (pan < 0) {
@@ -29,15 +29,15 @@ void SD_SpatializeSecondaryObject(u8 *object, u8 *channel)
     if (pan >= SD_SECONDARY_PAN_LIMIT) {
         pan = SD_SECONDARY_PAN_MAX;
     }
-    object[0xC] = pan;
+    object->pan = pan;
 
     state2 = D_8009B458;
-    level = state2[0x4BC] * *(u16 *)(state2 + 0x512);
-    level = level * channel[5];
-    level = level * channel[3];
+    level = state2->transfer.field_0018 * (u16)state2->field_0512;
+    level = level * channel->expression;
+    level = level * channel->volume;
     level = level >> 14;
-    level = level * object[8];
-    product = level * object[9];
+    level = level * object->field_0008;
+    product = level * object->field_0009;
     level = product >> 14;
 
     left = level;
@@ -55,12 +55,12 @@ void SD_SpatializeSecondaryObject(u8 *object, u8 *channel)
     }
 
     state3 = D_8009B458;
-    pan = left * *(s16 *)(state3 + 0x7E4);
-    right = right * *(s16 *)(state3 + 0x7E6);
+    pan = left * state3->field_07E4;
+    right = right * state3->field_07E6;
     left = pan >> 7;
-    level = left * (*(volatile u8 *)(object + 0xE) & 0x7F);
+    level = left * (*(volatile u8 *)&object->field_000E & 0x7F);
     right = right >> 7;
-    pan = right * (*(volatile u8 *)(object + 0xE) & 0x7F);
-    *(u16 *)(object + 0x14) = level >> 7;
-    *(u16 *)(object + 0x16) = pan >> 7;
+    pan = right * (*(volatile u8 *)&object->field_000E & 0x7F);
+    object->level_left = level >> 7;
+    object->level_right = pan >> 7;
 }

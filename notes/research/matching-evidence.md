@@ -6633,7 +6633,7 @@ Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
 layout equality is not sufficient. The test is **whether anything writes two
 adjacent members as one word.**
 
-- `fade_overlay.c` uses `GsBOXF` directly. Retail writes the `0x04` and
+- `fade_runtime.c` uses `GsBOXF` directly. Retail writes the `0x04` and
   `0x08` words whole -- x together with y, w together with h -- so those two
   accesses cast the address of the first halfword to `u32 *`. The individual
   y and h updates retain their measured unsigned and signed halfword views.
@@ -7107,8 +7107,8 @@ Following the `gCardGrid_*` measurement above, three more of the twelve
 signedness conflicts resolve. Each is a different shape, and the shape is what
 predicts the answer.
 
-    D_8009B079   model_effect_state.c u8, model_transfer_state.c s8
-                 Both declarers only ever WRITE it, and only constants:
+    D_8009B079   former model-effect-state source u8, former transfer-state
+                 source s8. Both declarers only ever WRITE it, and only constants:
                  `= 1` and `= 0`. Nothing reads its sign, so no load is
                  generated that could differ. Both the mixed spelling the
                  tree had and a unified u8 match.

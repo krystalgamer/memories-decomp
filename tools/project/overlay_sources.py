@@ -134,6 +134,7 @@ def c_segments(root: Path, layout: Path) -> list[dict[str, str]]:
     ordered = dict.fromkeys(source for _kind, source in wired)
     return [
         {
+            "kind": "data" if source in data else "text",
             "source": source,
             "profile": combined[source],
             "object": str(PurePosixPath(source).with_suffix(".o")),

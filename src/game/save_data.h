@@ -172,9 +172,10 @@ extern u8 gSaveData_aHeaderTemplate[];
  * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
  * SaveData_UpdateDuelLoad (two_player_save_runtime.c, the
  * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (src/overlays/main_menu/trade_update.c:608, `+ slot * 0x1000`) and
- * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c:156 and
- * :197, through that unit's 16-byte Block16 view, cast at the use). The
+ * (src/overlays/main_menu/trade_inventory.c:47, `+ slot * 0x1000`) and
+ * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
+ * src/candidates/main_menu/func_801821DC.c, through its 16-byte Block16
+ * view, cast at the use). The
  * resident listings form the address with lui/addiu (func_800179F4.s:226-227,
  * func_8003FD14.s:22-23, func_8003F8D4.s:115-116 and :136-137) and say
  * nothing about the object's width. c_symbols.ld names D_801D160C (+0x40C)
@@ -188,10 +189,11 @@ extern u8 D_801D1200[];
  * Text_SjisToGlyphCodes, from state->player_name_sjis
  * (save_data_payload.c:191); NameEntry_Init does the same from
  * gSaveData_aPlayerNameSjis and NameEntry_UpdateDialog does the same from
- * D_8016D418. Both name-entry paths now live in
- * src/overlays/password/name_entry_runtime.c and call the converter by
- * address, as func_8003BC40. The one reader is NameEntry_UpdateDialog's byte
- * scan in that source, which runs to TEXT_STRING_TERMINATOR. Every access
+ * D_8016D418. The two name-entry paths live in
+ * src/overlays/password/name_entry_runtime.c and name_entry_dialog.c and call
+ * the converter by address, as func_8003BC40. The one reader is
+ * NameEntry_UpdateDialog's byte scan in name_entry_dialog.c, which runs to
+ * TEXT_STRING_TERMINATOR. Every access
  * takes the address (the resident listing func_8003D0F4.s:7-8 forms it with
  * lui/addiu), so the listings do not say how wide the object is. The resident
  * unit used to declare it `u8 [16]` and the overlay paths `u8 []`. */
@@ -223,7 +225,8 @@ void SaveData_RequestWrite(void);
 /* The load side of the same pair, both reached from the main-menu overlay's
  * boot path. SaveData_RequestLoad starts the read into
  * gSaveData_aTransferBuffer; SaveData_PollLoad reports how it finished, and
- * frontend.c branches on that result.
+ * MainMenu_UpdateFrontendMenu (now a build-integrated candidate,
+ * src/candidates/main_menu/func_80180390.c) branches on that result.
  *
  * Both were declared in that overlay and nowhere else. */
 void SaveData_RequestLoad(void);

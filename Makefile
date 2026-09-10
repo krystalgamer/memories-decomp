@@ -155,6 +155,7 @@ check-unmatched-contracts:
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
+	@$(PYTHON) tools/project/candidate_builds.py --overlays
 
 match-overlays: build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify

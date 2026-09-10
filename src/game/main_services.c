@@ -1,4 +1,6 @@
 #define D_8009B0A3_IS_VOLATILE_SCALAR
+#define D_8009B142_IN_DATA_VOLATILE
+#define GRAPHICS_DRAW_ENV_IS_VOLATILE
 /* func_80013360 re-reads the pad word on each path and needs it out of
    small data; see the arms in input.h. */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -36,22 +38,17 @@ extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
 extern s32 D_8009B0D4;
 
-/* The init block is a run of byte stores to distinct globals; the ones
-   declared volatile here are volatile so the emitted order is the source
+/* The init block is a run of byte stores to distinct globals; its volatile
+   views (including the shared header arms) keep the emitted order the source
    order (see Main_Init). That is measured, not assumed, and it does not
    extend to the whole run: the first three stores (D_8009B0AD, D_8009B0D0,
    D_8009B0A8) build byte-identical without it and now take plain
    declarations from graphics_frame.h, the unit that defines them. The
    six D_8009B14x bytes are addressed %hi/%lo in retail, so they sit outside
    small data. */
-extern volatile u8 D_8009B144 __attribute__((section(".data")));
-extern volatile u8 D_8009B143 __attribute__((section(".data")));
-extern volatile u8 D_8009B142 __attribute__((section(".data")));
-extern volatile u8 D_800FE048[];
 extern volatile u8 D_8009B0A0;
 extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
-extern DISPENV D_800FE0A8;
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If
@@ -97,7 +94,7 @@ void func_8001306C(void) {
 /* Graphics and input start-up, called from Main_Init with the work area
  * in $a0. Resets the GPU, sets up a 320x240 display and the display
  * buffers, then initialises the frame flags and the six 0x8009B14x bytes
- * and the display-object slots at D_800FE048. The work area holds two
+ * and the drawing environment at D_800FE048. The work area holds two
  * 0x5160-byte frame buffers; each gets its four ordering tables at
  * +0x5110 (lengths 2, 6, 0xC and 6 with their table bases at +0, +0x10,
  * +0x110 and +0x4110) cleared from the last to the first. The screen
@@ -131,11 +128,11 @@ void func_80013154(u8 *base)
     D_8009B143 = 1;
     D_8009B14A = 1;
     D_8009B142 = 1;
-    D_800FE048[0x18] = 1;
-    D_800FE048[0x16] = 1;
-    D_800FE048[0x19] = 1;
-    D_800FE048[0x1A] = 1;
-    D_800FE048[0x1B] = 1;
+    D_800FE048[0].isbg = 1;
+    D_800FE048[0].dtd = 1;
+    D_800FE048[0].r0 = 1;
+    D_800FE048[0].g0 = 1;
+    D_800FE048[0].b0 = 1;
     count = six;
     D_8009B0A0 = 2;
     D_8009B0A1 = count;

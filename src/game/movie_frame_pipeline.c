@@ -1,4 +1,6 @@
+#define D_8009B142_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -16,9 +18,6 @@
    and are the whole gcc_2_8_1_g8 run between func_8005B85C and
    movie_stream_requests.c. */
 
-extern u8 D_8009B142 __attribute__((section(".data")));
-extern u8 D_8009B143 __attribute__((section(".data")));
-extern u8 D_8009B144 __attribute__((section(".data")));
 extern u8 D_8009B4A0;
 extern u8 D_8009B4A1;
 extern u8 D_8009B4A2;

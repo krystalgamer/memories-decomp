@@ -15,7 +15,7 @@
  * o->stream_58. This unit spells its parameter as a byte pointer and does not
  * claim the channel type.
  *
- * func_80038148.c is the only consumer, and its local extern already agreed
+ * func_80038148 is the only consumer, and its local extern already agreed
  * with this in every part but the spelling: u32 against unsigned int and
  * u8 * against unsigned char *, which are the same types. */
 unsigned int func_80036D70(unsigned char *object);

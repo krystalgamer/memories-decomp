@@ -1,4 +1,5 @@
 #include "../types.h"
+#define SDSECONDARYSTATE_BYTE_ALIAS
 #include "sound_spatialize_object.h"
 #include "../psyq/libapi.h"
 
@@ -6,8 +7,6 @@
 #include "sound_event_runtime.h"
 #include "sound_spatialization.h"
 #include "func_8004ACE4.h"
-
-extern u8 *D_8009B458_bytes asm("D_8009B458");
 
 #include "sound_secondary_commands.h"
 
@@ -89,7 +88,9 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
             do {
                 if (id2 == c->objects[i].channel_index) {
                     if (c->objects[i].field_000D != 0) {
-                        SD_SpatializeSecondaryObject((u8 *)c + m, (u8 *)c + off);
+                        SD_SpatializeSecondaryObject(
+                            (SDSecondaryObject *)((u8 *)c + m),
+                            (SDSecondaryRecord *)((u8 *)c + off));
                         SD_SetVoiceVolume(i, D_8009B458->objects[i].level_left,
                                           D_8009B458->objects[i].level_right);
                     }
