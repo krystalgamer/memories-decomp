@@ -640,22 +640,25 @@ property of the profile rather than of taste:
 | compile `-G8`, assemble `-G8` | `%gp_rel` | an array, or `section(".data")` |
 | compile `-G8`, assemble **`-G4`** | `%gp_rel` | an array with a size the assembler can see is **above 4** |
 
-The array length is a threshold, not a claim about storage. Two symbols carry
-the pattern today, and both would overrun their neighbours if read literally:
+The array length is a threshold, not a claim about storage. Two symbols have
+carried the pattern, and both would overrun their neighbours if read literally:
 
 - `gDuel_bTerrain` (0x8009B364) is one byte -- `gFreeDuel_bReturnFlags` sits at
   0x8009B365 -- yet is declared `[8]` and `[]` as well as a plain and a
   `section(".data")` scalar, across eight files spanning all three rows above.
-- `gSD_bOutputType` (0x8009B408) is read only at index 0 yet is declared `[16]`
-  and `[9]`. `options_init.c` states the reason inline: it "needs an oversized
-  array extern to force absolute (lui+lbu)".
+- `gSD_bOutputType` (0x8009B408) is read only at index 0 yet was declared `[16]`
+  and `[9]`. `options_init.c` stated the reason inline: it "needs an oversized
+  array extern to force absolute (lui+lbu)". Its consumers now take the
+  `section(".data")` arm `sound.h` guards instead.
 
 The last row is why the forms are not interchangeable, and it is worth
 measuring rather than assuming. Relaxing `func_80024E58.c`'s `[8]` to an
 incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
 the identical relaxation in `func_8001798C.c`, which assembles at `-G8`, is
-exact. `options_init.c` is the second file in the tree on the `-G4` assembler
-arm, and it carries a sized array for the same reason.
+exact. `options_init.c` used to sit on the `-G4` assembler arm with a sized
+array for the same reason. Once it took the `.data` arm, the assembler
+threshold had nothing left to decide in it, and `Options_Init` now builds at
+`gcc_2_8_1_g8_split` inside `options_screen.c`.
 
 So a run of incompatible declarations of one global is not automatically drift
 to be collapsed. Check the profiles first: if the spellings line up with the
@@ -832,8 +835,8 @@ Both translation units in the disagreement compile at `-G8`, so the profile is
 not what separates them; the declared size alone decides, by falling on one
 side or the other of the eight-byte small-data threshold. The `[9]` claims
 eighteen bytes for an eight-byte object, which reads like an error until the
-relocation shows it is doing the same job `options_init.c` documents inline
-for `gSD_bOutputType` -- oversizing on purpose to force absolute addressing.
+relocation shows it is doing the same job `options_init.c` once documented
+inline for `gSD_bOutputType` -- oversizing on purpose to force absolute addressing.
 
 The `[4]` is load bearing from the other direction, and this one was written
 down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data

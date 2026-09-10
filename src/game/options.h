@@ -6,9 +6,9 @@
 
 /* The options screen's shared state.
  *
- * options_update_layout.h next to this one is the per-TU header for
- * Options_UpdateLayout, in the shape #2495 asks for. This one is the family's
- * state, which all three sources were declaring by hand.
+ * options_screen.h next to this one is the per-TU header for
+ * options_screen.c, in the shape #2495 asks for. This one is the screen's
+ * state, which its former sources were each declaring by hand.
  *
  *   gOptions_bSelection   The highlighted row, passed to Options_UpdateLayout
  *                         and tested against 0 for the first entry.
@@ -16,10 +16,10 @@
  *                         `gOptions_bState & 0xF`.
  *   gOptions_bOutputType  The audio output setting, only ever 0 or 1.
  *
- * options_update.c writes `gOptions_bState = *(u8 *)&gOptions_bSelection + 1`,
+ * Options_HandleInput writes `gOptions_bState = *(u8 *)&gOptions_bSelection + 1`,
  * reading the signed byte through an unsigned lvalue. That cast is at the use,
  * not in the declaration, so the divergent load stays exactly where it was and
- * gOptions_bSelection keeps the s8 spelling all three sources gave it.
+ * gOptions_bSelection keeps the s8 spelling every former source gave it.
  */
 extern s8 gOptions_bSelection;
 extern u8 gOptions_bState;
@@ -41,10 +41,10 @@ extern s8 gOptions_bOutputType;
  * see below.
  */
 
-/* The two display objects the options screen keeps. options_init.c creates
- * them and stores them here; options_update_layout.c reads them back.
+/* The two display objects the options screen keeps. Options_Init creates
+ * them and stores them here; Options_UpdateLayout reads them back.
  *
- * options_init.c used to spell these `struct Obj *`, against a struct of its
+ * Options_Init used to spell these `struct Obj *`, against a struct of its
  * own. It never dereferenced either global -- it only assigned them -- so
  * that spelling was an abstention rather than a competing claim, and the
  * local struct existed only to give the function's register-allocated local
