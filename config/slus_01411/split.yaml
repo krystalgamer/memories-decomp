@@ -179,7 +179,7 @@ segments:
       - [0x8B754, .sdata, game/debug_font_format_data]
       - [0x8B75C, .sdata, game/options_layout_position_data]
       - [0x8B764, .sdata, game/save_data_mask_state]
-      - [0x8B76C, sdata, initialized_data_8009af6c]
+      - [0x8B76C, .sdata, game/data_8009af6c]
       - [0x8B788, .sdata, game/model_graphics_state]
       - [0x8B7AC, .sdata, game/model_primitive_templates]
       - [0x8B7E4, .sdata, game/model_handler_state]

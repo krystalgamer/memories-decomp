@@ -427,20 +427,21 @@ The original 276 bytes at `0x8009AF6C` were previously written off here as a
 scattered grab-bag with no coherent translation unit. Three interior ranges
 are now C-owned: the 36-byte model/graphics state block at `0x8009AF88`, the
 56-byte primitive-template block at `0x8009AFAC`, and the 116-byte handler
-state/diagnostic block at `0x8009AFE4`. The remaining 68 bytes are the
-scattered head and tail described below.
+state/diagnostic block at `0x8009AFE4`; the 28-byte head at `0x8009AF6C` has
+since been converted as well. The remaining 40 bytes are the tail described
+below.
 
 Mapping the original 77 labels in address order now gives five pieces:
 
 | range | state |
 | --- | --- |
-| `0x8009AF6C`-`0x8009AF87` | scattered 28-byte head |
+| `0x8009AF6C`-`0x8009AF87` | C-owned mixed-subsystem window |
 | `0x8009AF88`-`0x8009AFAB` | C-owned model/graphics state |
 | `0x8009AFAC`-`0x8009AFE3` | C-owned model primitive templates |
 | `0x8009AFE4`-`0x8009B057` | C-owned model handler state and diagnostics |
 | `0x8009B058`-`0x8009B07F` | scattered 40-byte tail |
 
-The three owned ranges prove that placement was never the obstacle. All are
+The four owned ranges prove that placement was never the obstacle. All are
 data-only units inserted between `save_data_mask_state` and
 `ai_script_source_line_format`, so their position comes directly from the
 split template. `model_graphics_state` also proves that mixed byte, halfword
@@ -453,6 +454,59 @@ varied block: five leading state labels, a private halfword continuation, two
 word pairs, two mutable words, and eleven fixed 4- or 8-byte strings. That
 spelling produces an exact 116-byte section without relocations. The split at
 `D_8009B058` leaves the unrelated 40-byte tail extracted.
+
+#### Scatter is not what blocks a carve; gaps are
+
+The 28-byte head above was written off twice here, first as part of a
+grab-bag and then as "scattered", on the grounds that its contents have no
+common subject. That reasoning was wrong, and the range converted without
+difficulty once the right question was asked.
+
+Its contents really are unrelated: a `"%s\n"` format used only by the
+still-unmatched function at `0x8002E41C`, two separate one-character strings
+read by `mem_card_create_state.c` and `func_80044608.c`, the display-object
+`ot_index` array, and the `"MTrk"` MIDI track tag compared by
+`sound_sequence_marker_scan.c`. Four subsystems, no shared subject, and no
+name for the unit better than its address.
+
+None of that matters. What decides whether a range can be carved is whether
+its objects **tile it exactly**, leaving no byte unaccounted for. Here they
+do: 4 + 4 + 8 + 4 + 8 is 28, which is exactly the distance to
+`model_graphics_state`. Because every byte is claimed, the unit reproduces
+the window whatever its contents mean. Coherence is a naming problem, not a
+matching problem, and `data_80091510.c` already established that an
+address-named unit is an acceptable answer to it.
+
+The corollary is the useful one: a range should be screened by measuring
+whether its objects sum to its length, not by reading its contents and
+judging whether they belong together. Screening by subject rejects ranges
+that would have converted, which is what happened here.
+
+#### A splat label is not always an object
+
+This range names seven labels but holds five objects. `D_8009AF74` is one
+eight-byte `volatile u16[4]`, and because code addresses its middle elements
+directly, spimdisasm also emitted names at `0x8009AF76` and `0x8009AF7A`.
+
+Defining those two as separate objects would have produced byte-identical
+output and still been wrong, since they are positions inside an array rather
+than things in their own right. The bytes cannot detect this error, so the
+check has to come from the consumers: `display_object_helpers.h` had already
+worked out the array shape and recorded that the two inner labels were once
+spelled privately.
+
+This is the resident-side counterpart to the overlay obstacle noted earlier,
+where a label's extent is the gap to the next name rather than an object's
+size. Both say the same thing: label boundaries are evidence about where code
+points, not about where objects begin and end. Read the consumers before
+trusting them.
+
+The remaining coherent handler range is harder only because its layout mixes
+single bytes, packed sub-word state, words and aligned strings. Its identity is
+still clear: the model handler family and `func_800540B4` are its readers, and
+the strings and state words are renderer diagnostics/working state. Any next
+conversion should therefore start from byte-layout probes, not from uncertainty
+about placement or ownership.
 
 ### The small-data region
 
