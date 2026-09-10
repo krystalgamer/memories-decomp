@@ -6,7 +6,6 @@
 #include "text_box_runtime.h"
 #include "duel_card.h"
 
-extern CardListRowSet D_801A8000[];
 extern s32 D_801D5608[];
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
 
