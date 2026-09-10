@@ -8,6 +8,7 @@
 #include "../../game/main_services.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
+#include "ordering_tables.h"
 
 /* The Trade screen's offer display and its inventory bookkeeping: the offer
    and highlight draw (0x80183B2C), the three-digit number it prints
@@ -85,8 +86,6 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         } while (i < D_80185C9C[1][0]);
     }
 }
-
-extern GsOT *D_800E9D90[];
 
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 {

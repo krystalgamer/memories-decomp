@@ -23,8 +23,8 @@
 #include "../../game/graphics_constants.h"
 #include "../../game/data_transfer_request.h"
 #include "../../game/mem_card.h"
+#include "ordering_tables.h"
 
-extern GsOT *D_800E9D90[];
 extern u16 D_8009B0D8;
 
 extern s32 SaveData_PollLoad(void);
