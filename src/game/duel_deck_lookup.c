@@ -3,8 +3,6 @@
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
 
-extern u8 D_801D0000[];
-
 int func_8002C4DC(int value)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -25,7 +23,8 @@ int func_8002C518(int a0)
 {
     int flag;
 
-    flag = (D_801D0000[a0 + 591] != 0) ? 1 : -1;
+    flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
+        a0 - CARD_ID_FIRST] != 0) ? 1 : -1;
     if (flag < 0) {
         return func_8002C4DC(a0);
     }

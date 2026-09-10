@@ -153,9 +153,11 @@ candidates drop only six bypassed private-extern dependencies:
 `func_80013C28` drops `D_8009AF18`, `D_8009B0F8`, `D_8009B114` and
 `D_8009B138`; `func_80045514` drops `D_8009B460` and `func_80014C40`.
 Their canonical aggregate hashes are reviewed accordingly, not their byte
-fingerprints. Resident headerless diagnostics decrease from 99 names / 159
-sites to 95 / 153; this diagnostic excludes candidate-only declarations and
-names outside its linker inventory.
+fingerprints. On the independent starting base, resident headerless
+diagnostics decrease from 99 names / 159 sites to 95 / 153; this diagnostic
+excludes candidate-only declarations and names outside its linker inventory.
+After integrating the save/name-entry master updates, the combined tree
+reports 94 / 148 and retains the same four-name/six-site request-family gain.
 
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.

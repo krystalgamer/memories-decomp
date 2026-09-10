@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_DUEL_EFFECT_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 
 #define DUEL_EFFECT_OFFSET(type, member) ((u32)&(((type *)0)->member))
 
@@ -22,28 +23,9 @@
    entry's Shift-JIS glyph code, and the 0x0C pair is its local pixel
    position, which TextBox_GetGlyphAt searches to find the node under a
    coordinate. */
-typedef struct {
-    u16 code_00;
-    u16 pad_02;
-    s32 field_04;
-    s32 field_08;
-    s16 x_0C;
-    s16 y_0E;
-    u8 field_10;
-    u8 flags_11;
-    u8 field_12;
-    u8 field_13;
-    u8 pad_14;
-    u8 field_15;
-    /* func_80036C14 writes 0x16 on its 0x100 path and 0x17 on its
-       0x80 path, and nothing in the resident tree reads either. Two
-       writes in exclusive branches say bytes live here and nothing
-       about what they carry. */
-    u8 field_16;
-    u8 field_17;
-    u8 field_18;
-    u8 pad_19[3];
-} DuelEffectEntry;
+/* DuelEffectEntry is defined in ygo_types.h. func_80036C14 writes 0x16 on
+   its 0x100 path and 0x17 on its 0x80 path, with no resident readers; those
+   fields therefore retain offset names in the central definition. */
 
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it there),
@@ -195,37 +177,6 @@ typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
 ];
 typedef char DuelEffectChannel_field_61_offset_must_be_0x61[
     DUEL_EFFECT_OFFSET(DuelEffectChannel, field_61) == 0x61 ? 1 : -1
-];
-
-typedef char DuelEffectEntry_size_must_be_0x1C[
-    sizeof(DuelEffectEntry) == 0x1C ? 1 : -1
-];
-typedef char DuelEffectEntry_must_be_four_byte_aligned[
-    sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
-];
-typedef char DuelEffectEntry_code_00_offset_must_be_0[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
-];
-typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
-];
-typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
-];
-typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_12_offset_must_be_0x12[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_12) == 0x12 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_15) == 0x15 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
 ];
 
 #undef DUEL_EFFECT_OFFSET

@@ -31,6 +31,69 @@ workspace must not be interpreted as the save-file size; the separate header
 and duplicate-state staging layout is documented in
 [`../memory-card-runtime.md`](../memory-card-runtime.md#save-payload-staging).
 
+## Shared live-workspace contract
+
+[`save_data.h`](../../src/game/save_data.h) owns `D_801D0000` and the
+independently labeled chest, player-name and Free Duel record interiors.
+The live `SaveDataWorkspace.state` starts at `+0x200`, while `SaveDataState`
+remains a prefix of the persisted block, not a replacement allocation:
+
+| State offset | Workspace offset | Observed view and evidence |
+|---|---|---|
+| `0x000` | `0x200` | Forty `u16` deck IDs; starter-deck generation writes them and `func_8002C4DC` scans them. |
+| `0x050` | `0x250` | 722 `u8` card quantities; `library_runtime.c` walks `gLibrary_abCardChest`, and `func_8002C518` reads the same bytes as `card_quantities[id - 1]`. Its Library caller supplies IDs 1 through 722. |
+| `0x334` | `0x534` | Signed 32-bit duelist code; the name-entry writer now uses the same field as save validation. |
+| `0x40C` | `0x60C` | Twelve SJIS name bytes; the name-entry checksum now uses the field, while `name_entry_runtime.c` retains the `gSaveData_aPlayerNameSjis` label. |
+| `0x418` | `0x618` | 256 packed flag bytes; `Campaign_TestStoryFlag` indexes `campaign_flags` using the established encoded-ID masks. |
+| `0x51C` | `0x71C` | Forty four-byte Free Duel records, including slot zero; `FreeDuel_Init` updates the independently labeled `gFreeDuel_aDuelistRecords`, and `FreeDuel_PlaceCursor` reads through the workspace base. |
+| `0x5DC` | `0x7DC` | Scene byte plus the following byte, written together by the save prompt; runtime restore reads only the scene byte. |
+| `0x5E0` | `0x7E0` | Unsigned starchip balance; the password shop's decrement now uses `state.starchips` instead of word index 504. |
+
+The four unknown bytes at `+0x518` and the gap after the Free Duel records
+remain unnamed padding. Compile-time assertions fix the newly exposed
+offsets, record stride, workspace state offset and unchanged `0x5E4` state
+prefix size. Neither this prefix nor the `0x7E4` workspace view claims the
+full `0x680` persisted-state or `0x3000` cleared-workspace extent.
+
+`SaveDataDuelistRecord` has named unsigned win/loss fields and a two-element
+halfword array for the outcome cursor. The renderer explicitly casts each
+counter to `s16`, preserving its signed loads even though the updater loads
+and stores unsigned halfwords and saturates through a signed comparison.
+The array view lets that updater advance from wins to losses without
+stepping outside a scalar member. No counter label is redirected to an
+offset from another symbol.
+
+All eleven former private declarations in six resident and four overlay
+translation units now use the shared header. The eight workspace-base users
+are the story-flag tester/updater, deck lookup, effect-object pool helper,
+save prompt, Free Duel screen, password shop and name-entry entry point.
+Library and name-entry runtime supply the other two units. No integrated
+candidate directly declares these symbols; all nineteen candidate object
+fingerprints and their canonical dependency contracts remain unchanged.
+
+### Measured addressing boundaries
+
+The default workspace declaration is an incomplete byte array. The save
+prompt in `func_8002EE94` selects `SAVE_DATA_WORKSPACE_AS_HALFWORDS` to keep
+its incomplete `s16` array. Its two stores use the shared header/state
+offsets but intentionally still write both bytes at `+0x7DC`. Replacing
+them with a casted scalar field store made GCC fold away the base-address
+`addiu`, changed register allocation and shortened the resident image by
+four bytes; the guarded array retains the original instructions.
+
+`func_8002C570` retains its byte-offset API and two-stage base calculation.
+Its displacement is now derived from the card-quantity layout, but no caller
+establishes that its argument is a bounded one-based card ID. Moving the
+one-based bias into the base pointer changed the `D_801D0000` relocation
+addend from zero to minus one and the byte-load displacement from `0x24F` to
+`0x250`; that spelling was rejected. `Library_UpdateCardUsedFlag` likewise
+retains its existing byte cursor, encoded requests and register assignments.
+
+The resident image and all five complete overlays remain byte-identical.
+These are declaration and access-view changes only: the storage remains
+generated, integer interfaces remain integers, and no semantic symbol rename,
+new register pin, compiler-profile change or C data mapping is implied.
+
 ## The stamped word and its source
 
 | address | how it is formed |

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_PASSWORD_NAME_ENTRY_STATE_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 
 /* State shared by the name-entry screen's lifecycle functions.
  *
@@ -51,30 +52,16 @@ extern u8 *D_8016D418;
 
 /* The selection frame the keyboard moves. NameEntry_Init positions it and
  * installs the drawing callback described by name_entry_frame.h; the fields
- * extend that drawing prefix with the ones the keyboard tween needs, and
- * +0x30/+0x32 and +0x3C agree with NameEntrySelectionFrameView where the two
- * views overlap.
+ * combine the drawing fields with the ones the keyboard tween needs.
+ * NameEntrySelectionFrameView is an alias of this same central contract.
  *
  * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
  * pointer func_800400AC returned, then stores that pointer here with a cast.
  * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and timer
  * and writes stepX and stepY. NameEntry_SpawnGlyphSprite reads x and y.
- * Every offset those functions reach is a member here or falls inside
- * pad_3E, so this remains the superset view. */
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;           /* 0x30 */
-    s16 y;           /* 0x32 */
-    u8 pad_34[0x2];
-    s16 stepX;       /* 0x36, signed 8.8 per update */
-    s16 stepY;       /* 0x38 */
-    u8 pad_3A[0x2];
-    u16 width;       /* 0x3C */
-    u8 pad_3E[0x20];
-    u8 widthBonus;   /* 0x5E, 20 for the wide finish control, else 0 */
-    u8 pad_5F;
-    s16 timer;       /* 0x60, eight updates of the move tween */
-} SelectionFrame;
+ * The drawing callback additionally constrains priority and height.
+ * ygo_types.h defines the combined SelectionFrame; the observed prefix is
+ * not a claim about the complete display-object allocation. */
 
 extern SelectionFrame *D_8016D404;
 
