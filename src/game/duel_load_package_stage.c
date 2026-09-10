@@ -8,6 +8,7 @@
 #include "graphics_frame.h"
 #include "../unmatched.h"
 #include "duel_card_checks.h"
+#include "duel_load_package_stage.h"
 
 extern u8 *D_80010000 __attribute__((section(".data")));
 extern u8 *D_800101DC __attribute__((section(".data")));

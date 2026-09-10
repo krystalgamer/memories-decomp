@@ -14,6 +14,7 @@
 #include "display_object_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 #include "display_object_helpers.h"
 #include "view_state.h"
 #include "duel_effect_resource_record.h"
@@ -33,7 +34,6 @@ extern u16 D_8009B16C;
 extern u8 *D_8009B1D8;
 extern u8 *D_8009B1DC;
 
-extern void Duel_LoadPackageStage(void);
 extern void func_8001778C(void);
 extern void func_800178BC(void);
 extern void func_8002C598(void);
