@@ -484,6 +484,33 @@ The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
 
+### An arity mismatch is measured, not assumed, in either direction
+
+When a declaration and its definition disagree about how many arguments there
+are, the two directions are not symmetric and neither is decided by looking.
+
+A caller that sets FEWER argument registers than the callee reads cannot be
+repaired. src/unmatched.h records this for func_8004CB0C: model_slot_setup.c
+calls it with no arguments while the callee reads $a0 through $a3, and only
+$a0 is set, so the rest are whatever the register file happened to hold. There
+is no expression to write for them, and its `void (void)` declaration stays.
+
+A caller that passes MORE than the callee reads is the case that looks equally
+unfixable and is not. duel_card_effects.c declared `s32 func_8001F364(s32)`
+and called it with a flag at both sites; the definition takes void and never
+looks at the register. Dropping the argument and the parameter is
+byte-identical, so the declaration follows the definition. The instinct that
+retail sets $a0 because the declaration says to was wrong here.
+
+Two more in the same family, both already recorded in unmatched.h:
+func_800540B4 gained its true one-parameter signature at a site that declared
+none, because $a0 already held the value the caller would have written; and
+func_80013C28 keeps two incompatible spellings on purpose.
+
+So: an arity mismatch is a measurement, not a reading. Try the definition's
+signature at the call sites and build. It costs one build and settles which
+of the two directions this instance is.
+
 ## Compiler experiments
 
 - Keep probe sources, generated objects, and diffs under `tmp/`.
