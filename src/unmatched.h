@@ -13,11 +13,12 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 53 such
- * functions today. When this header was started, 34 of them were declared
- * locally at 48 sites; after this change three are, at seven sites, and all
- * three are the deliberate disagreements listed below rather than
- * duplication waiting to be moved.
+ * unmatched_asm, once its consumers are known to agree. There are 52 such
+ * functions today. Thirty-nine have caller-visible contracts here. Three
+ * remain local at seven sites, and all three are the deliberate disagreements
+ * listed below rather than duplication waiting to be moved. The remaining ten
+ * have no executable reference from matching C, so this header does not invent
+ * signatures for them.
  *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
@@ -246,6 +247,20 @@ s32 func_800534B8(void);
 void func_8005C7BC(void);
 void func_8005D378(void);
 void func_8004158C(u8 *, s32, s32);
+
+/* Three caller-visible contracts that were outside the central inventory.
+ *
+ * func_800482B0 had one local declaration in SD_SEPlay. Its wider integer
+ * parameters are the caller's measured view and remain distinct from the
+ * narrower internal types in the build-integrated candidate.
+ *
+ * func_80015EF4 and func_80056828 were called implicitly. The former takes the
+ * caller's record and scratch buffers; void * preserves the record boundary
+ * without importing a subsystem type into this root header. The latter takes
+ * the model player/slot index already passed by its sole caller. */
+void func_800482B0(s32, s32, u8, s32, s32, s32);
+void func_80015EF4(void *, u8 *, u8 *, s32 *);
+void func_80056828(s32);
 
 /* Three more undefined globals, each declared identically by every consumer
  * and only ever read or written as a scalar, so none of them has a

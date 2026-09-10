@@ -1,8 +1,7 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "sound_output_state.h"
 #include "sound.h"
-
-extern void func_800482B0(s32, s32, u8, s32, s32, s32);
 
 void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
 {

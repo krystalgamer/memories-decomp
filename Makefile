@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -42,6 +42,7 @@ help:
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
+		'  check-unmatched-contracts  Verify unmatched function declarations and exceptions' \
 		'  candidate-index  Regenerate the stored-candidate index' \
 		'  check-candidate-index  Verify the stored-candidate index is current' \
 		'  candidate-bundles  Regenerate human-facing resident candidate bundles' \
@@ -147,6 +148,10 @@ check-metadata:
 	@$(PYTHON) tools/project/candidate_files.py --check
 	@$(PYTHON) tools/project/candidate_human_bundles.py --check
 	@$(PYTHON) tools/project/candidate_builds.py --check
+	@$(PYTHON) tools/project/unmatched_contracts.py
+
+check-unmatched-contracts:
+	@$(PYTHON) tools/project/unmatched_contracts.py
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
@@ -247,6 +252,7 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/function_inventory.py
 	@$(PYTHON) tools/project/classify_functions.py
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
+	@$(PYTHON) tools/project/unmatched_contracts.py
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace
