@@ -334,10 +334,9 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  * each writes both members at once -- the low word from a table entry and the
  * high word from the index beside it.
  *
- * The typedef is shared here; the extern that uses it is not. D_801D5608 is a
- * staging area with several faithful views, spelled s32 and s32 [] elsewhere
- * and reached through an explicit .reloc in main_run_credits.c, so each
- * consumer keeps the declaration its own reads need. See notes/build.md. */
+ * game/text_staging.h owns the guarded extern views of D_801D5608. Pair
+ * remains the overlays' view, not a claim that the staging area always holds
+ * this shape. main_run_credits.c keeps its explicit relocations. */
 typedef struct {
     u32 lo;
     u32 hi;
