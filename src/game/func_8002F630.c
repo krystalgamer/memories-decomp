@@ -12,13 +12,13 @@
 #include "file_transfer.h"
 #include "script_state.h"
 #include "script_image_objects.h"
+#include "sound_output.h"
 #include "../unmatched.h"
 #include "func_8002F630.h"
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
 
 extern DisplayObject *D_800EAE98[];
-extern u32 func_8004703C(void);
 
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
