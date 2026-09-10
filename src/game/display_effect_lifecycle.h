@@ -29,16 +29,8 @@ void func_80039F44(DisplayEffectState *object);
 void func_80039F90(void **objects);
 void func_80039FD4(u8 *object);
 
-/* The effect object func_80038EB0 last armed: it stores a pointer into
- * D_800EB010 here at three sites, and the readers walk that record by
- * byte offset (0x30, 0x32, 0x33, 0x3C, 0x40, 0x42 and 0x44 across the
- * three reading units) or hand it to func_80039FD4, whose parameter is
- * u8 *. MenuRecord now names all of those but 0x3C, so the reason the
- * pointer is still u8 * is func_80039FD4's parameter and the remaining
- * byte-offset consumers, not a gap in the record. func_8003787C now casts
- * it to MenuRecord for display_effect_step. Retail reaches the pointer
- * gp-relative at every one of its thirteen sites. */
-extern u8 *D_8009B328;
+/* D_8009B328 moved to menu_record.h with the MenuRecord * type it now
+ * carries; it points into D_800EB010, which is declared there too. */
 void func_80039FF8(DisplayEffectState *object);
 
 #endif

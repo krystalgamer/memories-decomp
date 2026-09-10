@@ -14,7 +14,7 @@ void func_8003787C(DuelEffectChannel *a0) {
     if (!(v1 & 0x80)) {
         a0->state_51 = v1 | 0x80;
     }
-    a0b = (MenuRecord *)D_8009B328;
+    a0b = D_8009B328;
     if (a0b->display_effect_step == 0) {
         func_80039FD4((u8 *)a0b);
         a0->state_51 = 0;
