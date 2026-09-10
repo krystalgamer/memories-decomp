@@ -58,7 +58,7 @@ void func_80042874(
 )
 {
     object->resource = resource;
-    func_80040468(object, arg1, arg2, arg3, arg4, arg5);
+    func_80040468((u8 *)object, arg1, arg2, arg3, arg4, arg5);
 }
 
 void func_800428A8(
