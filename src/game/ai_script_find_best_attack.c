@@ -42,9 +42,10 @@ void AiScript_FindBestAttack(void) {
             continue;
         }
 
-        for (j = 0x38,
+        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST,
              e = t + (AI_ACTIVE_CARD_RECORD_SIZE + AI_ACTIVE_CARD_SIDE_BYTE_STRIDE);
-             j < 0x3D; j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
+             j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
+             j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
             if (*(s16 *)e == 0) {
                 continue;
             }
