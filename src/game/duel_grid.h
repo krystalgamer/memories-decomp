@@ -26,9 +26,13 @@ typedef struct {
  * `cursor->row * DUEL_FIELD_ROW_SIZE + cursor->col`. func_8001D5B4 spelled
  * the same two bytes x and y, which is the same claim in weaker terms.
  *
- * This describes only those two bytes. duel_update_card_pick_cursor.c holds
- * a longer view of the same record reaching 0x19, and the two do not overlap
- * in what they name, so they stay separate. */
+ * This describes only those two bytes. duel_card_pick_cursor.h holds a
+ * longer view of the same record, DuelCardPickCursor, reaching 0x19.
+ * They stay separate because this narrow view is what func_80017034
+ * casts to, not because they disagree: they name col and row at the
+ * same 0x0F and 0x10, which duel_card_pick_cursor.h states as well.
+ * The earlier wording here claimed the two do not overlap in what they
+ * name, and that was simply wrong. */
 typedef struct {
     u8 pad_00[0xF];
     s8 col;
