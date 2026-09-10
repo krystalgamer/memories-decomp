@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "sound.h"
+#include "func_80049FB4.h"
 #include "sound_voice_envelope.h"
 #include "../psyq/libspu.h"
 #include "sound_sequence_constants.h"
 #include "sound_spatialization.h"
-
-s32 func_80049FB4(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
  * (or when forced). Caches the bend value in the object, adds SD_CalcPitchBend's

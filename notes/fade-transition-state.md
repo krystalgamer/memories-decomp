@@ -142,7 +142,8 @@ start an eight-unit banded transition.
 
 ## The wrapper family in `fade_control.c`
 
-`fade_control.c` is seventeen thin wrappers over the setup paths above. They
+`fade_control.c` opens with `Fade_InitOutColor` and the blocking `Fade_Wait`,
+and the rest of it is seventeen thin wrappers over the setup paths above. They
 vary along three axes, and reading them as a grid is what makes the unnamed
 ones tractable:
 
