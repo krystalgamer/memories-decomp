@@ -6,7 +6,7 @@
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
-#include "duel_card_object_cleanup.h"
+#include "duel_card_record_lifecycle.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
 #include "sound.h"

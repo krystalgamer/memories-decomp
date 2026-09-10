@@ -8,7 +8,7 @@
    tables, declared here so the source that defines them and the units that
    read them cannot drift apart. D_800908A0 is read as u16 halfwords by
    debug_effect_screen.c, func_800177C4.c and func_8001B0CC.c (the last
-   through inline assembly); duel_card_icon_setup.c keeps its own
+   through inline assembly); duel_card_record_lifecycle.c keeps its own
    DuelFieldPosition view of the same table, because func_80024D34 loads the
    pair with lh. */
 extern u16 D_800908A0[];

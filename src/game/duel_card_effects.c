@@ -13,7 +13,7 @@
 #include "duel_grid.h"
 #include "duel_card.h"
 #include "func_80019BA0.h"
-#include "duel_card_object_cleanup.h"
+#include "duel_card_record_lifecycle.h"
 #include "duel_card_effects.h"
 
 /* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8

@@ -21,7 +21,7 @@ scene, input, sound, and transfer state are excluded.
 ### Placement starts unused
 
 Matching
-[`Duel_SetupCardRecord`](../src/game/duel_setup_card_record.c) constructs a
+[`Duel_SetupCardRecord`](../src/game/duel_card_record_lifecycle.c) constructs a
 field record by assigning:
 
 ```c

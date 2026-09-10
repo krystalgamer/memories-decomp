@@ -789,7 +789,7 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 
 Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
-migrations include `duel_setup_card_record.c`, `func_800289BC.c`,
+migrations include `duel_card_record_lifecycle.c`, `func_800289BC.c`,
 `file_cd_helpers.c`, `func_800582C0.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `MainMenu_DrawValueSetup` in `value_setup.c` (formerly
@@ -873,7 +873,7 @@ without changing how the function pointer is installed.
 
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
-callers, `duel_setup_card_record.c` and `func_800289BC.c`, use that interface.
+callers, `duel_card_record_lifecycle.c` and `func_800289BC.c`, use that interface.
 `func_800582C0.c` likewise uses the shared `LoadImage2` prototype while
 retaining rectangle-compatible local storage. Other image-transfer callers
 may retain local record views where an SDK structure changes exact code

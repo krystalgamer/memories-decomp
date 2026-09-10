@@ -1076,39 +1076,39 @@
     },
     {
       "address": "0x80024914",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/duel_card_object_cleanup.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024954",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_card_object_cleanup.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x8002497C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/duel_get_terrain_boost.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x800249E0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",
-      "source": "src/game/duel_setup_card_record.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024C1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
-      "source": "src/game/duel_card_icon_setup.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024D34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/duel_card_icon_setup.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024DC8",
