@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "model.h"
+#include "graphics_frame.h"
 #include "model_slot_properties.h"
 
 extern s32 D_800FE240 __attribute__((section(".data")));
-extern u8 D_800A5768[];
 extern u8 D_8009AFA2;
 
 s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {

@@ -268,6 +268,25 @@ extern s16 gGraphics_sViewportY;
  * measurement here, not the total. */
 extern u8 D_8009B4A8[];
 
+/* The other half of that pair, the one the comment above refers to:
+ *
+ *     arg = &D_800A5768[gGraphics_bActiveBuffer * 140000];
+ *
+ * Model_HasInsufficientBufferSpace says what the region is. It takes the
+ * allocation pointer D_800FE240, subtracts this base to get the bytes used,
+ * subtracts the current half (`D_8009AFA2 * 140000`, D_8009AFA2 being the copy
+ * of the buffer index Graphics_BeginFrame stores next to it), and measures the
+ * remainder against 0x222E0.
+ *
+ * 0x222E0 is 140000. The stride and the capacity are the same number, written
+ * decimal where the half is selected and hex where the free space is checked,
+ * so this is one 140000-byte buffer per half and the model data is
+ * bump-allocated inside the active one.
+ *
+ * Unsized for the same reason as its neighbour: the stride is measured, the
+ * number of halves is not. */
+extern u8 D_800A5768[];
+
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);
 
