@@ -3,11 +3,6 @@
 
 #include "duel_card.h"
 
-/* D_801A7B64 is D_801A7AD8 + 5 * DUEL_CARD_RECORD_SIZE, so the records this
-   file walks from it are the same 0x1C card records the function above walks
-   from D_801A7AD8. */
-extern DuelCardRecord D_801A7B64[];
-
 void func_8002C938(u32 *output, int alternate)
 {
     register int base __asm__("$6") =

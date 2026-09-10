@@ -8,8 +8,6 @@
 #include "display_projection.h"
 #include "../unmatched.h"
 
-extern DuelCardRecord D_801A7B64[];
-
 void SetGeomScreen();
 
 void func_800164FC(void) {

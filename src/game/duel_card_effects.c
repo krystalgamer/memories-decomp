@@ -245,8 +245,6 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-extern DuelCardRecord D_801A7B64[];
-
 void DuelEffect_UpdateFieldMarker(void) {
     DuelCardRecord *r;
     u8 *p;

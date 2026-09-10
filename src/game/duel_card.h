@@ -63,6 +63,23 @@ typedef char DuelCardRecord_table_index_offset_must_be_0x18[
 
 extern DuelCardRecord D_801A7AD8[];
 
+/* The same table, entered five records in: 0x801A7B64 is 0x8C past
+ * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
+ * &D_801A7AD8[5]. duel_card_object_queries.c already said so in its own
+ * words -- "the records this file walks from it are the same 0x1C card
+ * records the function above walks from D_801A7AD8".
+ *
+ * The second name is load bearing and is not an inference here:
+ * duel_card_object_queries.c reaches it from an asm block as
+ *
+ *     lui $2,%hi(D_801A7B64)
+ *     addiu %0,$2,%lo(D_801A7B64)
+ *
+ * so the relocation names this symbol in the source itself. Rewriting it as
+ * an offset from D_801A7AD8 would change what that block relocates against.
+ */
+extern DuelCardRecord D_801A7B64[];
+
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
  * type and CARD_STAT_VALUE_MASK for the stat value. */
