@@ -14,6 +14,7 @@
  * documented jtbl_80010578 rodata split; candidate storage does not.
  */
 #include "../types.h"
+#include "../game/sound_transfer_lifecycle.h"
 
 typedef struct {
     u8 pad_00[0x40];
@@ -99,7 +100,6 @@ extern s32 func_80014C40(void *, void *);
 extern void func_800476B4(u8 *, s32);
 extern u8 func_80045484(void);
 extern void SD_ArmBusyCallback(void);
-extern s16 func_800496C4(u8 *, s32, s32);
 extern void func_80049C40(s32);
 extern void func_80049F10(s32, s32);
 extern void func_80049CB0(s16);

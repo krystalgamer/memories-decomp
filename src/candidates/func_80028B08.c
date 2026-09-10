@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "../game/text_encode_decimal_digits.h"
+#include "../game/display_object_projection.h"
 
 typedef struct {
     u32 field_0;
@@ -95,9 +97,7 @@ typedef struct {
 
 extern Rec D_800EA0E8[];
 
-extern s32 func_80041F90(Obj *, s32, s32, Extra *);
 extern void func_80042188(Params *, Ctx *, s32, s32, Extra *);
-extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
@@ -145,8 +145,8 @@ void func_80028B08(Obj *obj, s32 arg1) {
         f4 = f4 | (win->field_4 & 0x08000000);
         obj->field_4 = f4;
         if (func_80041F90(
-                obj, win->field_30 + win->field_18,
-                win->field_32 + win->field_1A, EXT
+                (struct DisplayObject *)obj, win->field_30 + win->field_18,
+                win->field_32 + win->field_1A, (struct ProjectionOut *)EXT
             ) <= 0) {
             return;
         }

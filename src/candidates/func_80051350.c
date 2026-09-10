@@ -15,6 +15,7 @@
 #include "../types.h"
 #define MODEL_GRAPHICS_STATE_AF99_UNSIGNED
 #include "../game/model_graphics_state.h"
+#include "../psyq/libgte.h"
 
 typedef union {
     u32 word;
@@ -47,9 +48,6 @@ extern Record D_800F2C40[];
 extern s32 D_800F56F0[];
 extern s16 D_8009B47A;
 
-extern s32 rcos(s32);
-extern s32 rsin(s32);
-extern s32 SquareRoot0(s32);
 extern void Model_UpdateViewMetrics(s32);
 
 s32 func_80051350(s32 mode, s32 min_extent, s32 depth)

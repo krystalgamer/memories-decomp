@@ -20,6 +20,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../game/text_encode_decimal_digits.h"
 
 extern u8 *D_8009B2FC;
 extern u8 D_80090DD8[];
@@ -28,7 +29,6 @@ extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 
 extern void func_800316F0(u8 *, s32, u8 *, s32);
 extern void func_80031784(u8 *, s32, u8 *, s32);
-extern void Text_EncodeDecimalDigits(s32, s32, u8 *);
 extern void Text_EncodeDecimalNoPadding(s32, s32, u8 *);
 
 void func_80031874(u8 *obj, s32 ot)

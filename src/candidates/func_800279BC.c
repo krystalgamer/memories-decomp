@@ -2,17 +2,15 @@
 #include "../game/duel_card.h"
 #include "../game/duel_card_checks.h"
 #include "../game/duel_check_quit_input.h"
+#include "../game/duel_field_equip_search.h"
+#include "../game/rand_get_interval.h"
+#include "../game/duel_card_selection.h"
+#include "../psyq/rand.h"
 
 extern u8 D_800907D8[];
 extern u8 D_800EAE88[];
 extern u8 D_8009B1D5;
 extern s8 *D_8009B1C8;
-
-extern s32 Duel_CollectFieldCardsByType(u8 **, s32, s32);
-extern s32 Rand_GetInterval(s32);
-extern s32 rand(void);
-extern s32 func_8002778C(void *);
-extern s32 func_800278A0(void *);
 
 /* Current best under gcc_2_8_1_g8_split: 269/271 instructions, opcode
  * distance 8, and 176 differing positions.
@@ -59,8 +57,8 @@ s32 func_800279BC(void)
         goto walk;
     }
     {
-        Duel_CollectFieldCardsByType((u8 **)lista, 0xA, 0x17);
-        Duel_CollectFieldCardsByType((u8 **)listb, 5, -1);
+        Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x17);
+        Duel_CollectFieldCardsByType((DuelCardRecord **)listb, 5, -1);
         ea = lista[0];
         if (ea != 0) {
             pa = lista;
@@ -81,7 +79,7 @@ s32 func_800279BC(void)
                 ea = *pa;
             } while (ea != 0);
         }
-        n = Duel_CollectFieldCardsByType((u8 **)lista, 0xA, 0x14);
+        n = Duel_CollectFieldCardsByType((DuelCardRecord **)lista, 0xA, 0x14);
         if (n == 0) {
             goto no_equip;
         }
@@ -140,7 +138,7 @@ loop:
                     }
                     goto none;
                 }
-                v = func_8002778C(rec);
+                v = func_8002778C((DuelSelectionSource *)rec);
                 if (v < 0) {
                     goto none;
                 }

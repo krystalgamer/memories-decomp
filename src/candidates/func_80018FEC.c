@@ -15,6 +15,13 @@
 #include "../types.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
+#include "../game/rand_get_interval.h"
+#include "../game/fade.h"
+#include "../game/display_object_motion.h"
+#include "../game/func_8002C604.h"
+#include "../game/sound_output.h"
+#include "../game/model_scene_states.h"
+#include "../psyq/rand.h"
 
 extern u16 D_8009B23A;
 extern u16 D_8009B162;
@@ -41,20 +48,12 @@ extern u8 D_8009B369 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 
-extern void func_8001EC70(void);
 extern void func_8004036C(u8 *);
-extern void func_80015C84(void);
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);
 extern s32 func_80042B40(s32);
-extern u8 *func_8002C604(s32);
-extern s32 rand(void);
-extern s32 Rand_GetInterval(s32);
 extern void func_8002C68C(s32);
 extern void func_8003FF88(s32);
-extern void func_800156DC(void);
-extern void func_800472A8(s32);
-extern void func_80059C18(s32);
 
 void func_80018FEC(void)
 {
@@ -86,7 +85,7 @@ void func_80018FEC(void)
         i = 0;
         cards = D_8015C424;
         poses = D_80090918;
-        fn = func_8001EC70;
+        fn = (void (*)(void))func_8001EC70;
         fnv = (s32)fn;
         objs = D_800E9EF0;
         D_8009B23A = flags | 0x8000;
