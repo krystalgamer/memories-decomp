@@ -38,7 +38,7 @@
  * index and then lhu) or a beqz null test, and both writes store either the
  * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
  * pointer, and the two s32 spellings were casts around one. func_8005EBF4.c
- * walks it as bytes and func_8005F91C.c stores it from a u8 array, so u8 *
+ * walks it as bytes and func_8005F91C.c stores `(u8 *)D_800F5788`, so u8 *
  * is what the uses claim; func_8005DBA4 and func_8005E808 (still assembly)
  * read it the same way. Every retail access is gp-relative, so no unit needs
  * an arm.
