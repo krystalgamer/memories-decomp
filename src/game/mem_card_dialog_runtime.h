@@ -6,12 +6,13 @@
 
 /* The memory card dialog's modal runtime.
  *
- * func_8003EED0 is the fifth entry of the step table D_80090F9C
- * (mem_card_dialog_steps.c): it reads the save from each card slot in turn,
- * checks both against the staged records with SaveData_HasSameDuelistCode and
- * writes them back. MemCardDialog_Update is the frame pump that dispatches
+ * MemCardDialog_UpdateTradeSave is the fifth entry of the step table
+ * D_80090F9C (mem_card_dialog_steps.c), selected only by
+ * SaveData_RequestTradeWrite: it reads the save from each card slot in turn,
+ * checks both against the staged records with SaveData_HasSameDuelistCode
+ * and writes them back in alternating 0x80-byte chunks. MemCardDialog_Update is the frame pump that dispatches
  * that table; MemCardDialog_Poll calls it before reading the outcome. */
-void func_8003EED0(void);
+void MemCardDialog_UpdateTradeSave(void);
 void MemCardDialog_Update(void);
 
 /* Picks the first free effect channel into D_8009B3EE and opens the dialog's

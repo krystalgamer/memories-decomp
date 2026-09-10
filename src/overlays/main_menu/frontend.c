@@ -9,7 +9,7 @@
 #include "../../types.h"
 #include "../../game/two_player_save_setup.h"
 #include "../../game/save_data.h"
-#include "../../game/func_8003FCD8.h"
+#include "../../game/save_data_update_trade_load.h"
 #include "../../unmatched.h"
 #include "../../game/input.h"
 #include "../../game/display_object_api.h"
@@ -165,7 +165,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
 
     if (D_8018459C != 0) {
-        poll = func_8003FCD8();
+        poll = SaveData_UpdateTradeLoad();
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();
@@ -180,7 +180,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
 
     if (D_8018459D != 0) {
-        poll = func_8003FD14();
+        poll = SaveData_UpdateDuelLoad();
         if (poll != 0) {
             if (poll == 1) {
                 Input_ResetPads();

@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "data_transfer_request.h"
 #include "card_constants.h"
-#include "func_8003FCD8.h"
+#include "save_data_update_trade_load.h"
 #include "mem_card.h"
 #include "save_data.h"
 #include "text_sjis_to_glyph_codes.h"
@@ -11,7 +11,7 @@ extern s32 D_801D5608[];
 extern u8 D_801D160C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
-s32 func_8003FD14(void)
+s32 SaveData_UpdateDuelLoad(void)
 {
     s32 result;
     s32 i;
@@ -23,7 +23,7 @@ s32 func_8003FD14(void)
         D_8009B3ED |= 128;
         D_8009B3C0 = 40;
     }
-    result = func_8003FCD8();
+    result = SaveData_UpdateTradeLoad();
     if (result == 1) {
         left = D_801D1200;
         right = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
@@ -58,7 +58,7 @@ s32 func_8003FD14(void)
 extern u8 D_801D1880[];
 extern void *D_8009B3E0;
 
-void func_8003FE14(void)
+void SaveData_RequestTradeWrite(void)
 {
     u8 *p = D_801D1880;
     u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;

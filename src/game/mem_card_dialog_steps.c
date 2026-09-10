@@ -16,5 +16,5 @@ void (*D_80090F9C[])(void) = {
     MemCardDialog_StepLoadUnprompted,
     MemCardDialog_StepSave,
     MemCardDialog_StepNone,
-    func_8003EED0,
+    MemCardDialog_UpdateTradeSave,
 };

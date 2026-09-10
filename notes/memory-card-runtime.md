@@ -72,15 +72,14 @@ The step table `D_80090F9C` has five entries:
 | `1` | `MemCardDialog_StepLoadUnprompted` | `MemCardDialog_UpdateLoad` from state `1`, with dialog flag `0x200`, which swaps the accept and success messages |
 | `2` | `MemCardDialog_StepSave` | `MemCardDialog_UpdateSave` from state `0`, also a confirmation prompt |
 | `3` | `MemCardDialog_StepNone` | nothing; no caller selects it |
-| `4` | `func_8003EED0` | reads the save from each card slot, checks both with `SaveData_HasSameDuelistCode`, and writes them back |
+| `4` | `MemCardDialog_UpdateTradeSave` | reads the save from each card slot, checks both with `SaveData_HasSameDuelistCode`, and writes them back |
 
 `MemCardDialog_UpdateLoad` accepts the card with `MemCardAccept`, finds the
 file with `MemCardGetDirentry` and reads it with `MemCardReadFile`.
 `MemCardDialog_UpdateSave` adds the directory and free-space checks
 (`MemCard_FindEntry`, `MemCard_CalcFreeBlocks`), an optional `MemCardFormat`,
-`MemCardCreateFile`, and `MemCardWriteFile`. Step `4` keeps its address: it
-belongs to the two-save workflow described under the selector table below,
-whose operation has no settled name.
+`MemCardCreateFile`, and `MemCardWriteFile`. Step `4` is the trade
+write-back described under the selector table below.
 
 ## Registration matrix
 
@@ -298,17 +297,47 @@ The exact callers use four selector values:
 | Selector | Caller context | Buffer and length |
 |---:|---|---|
 | `0` | `SaveData_RequestLoad` | `0x801D3200`, `0x680` |
-| `1` | Two paths in assembly `func_8003F8D4` | `0x801D1200` or `0x801D2200`, each `0x680` |
+| `1` | Two paths in `SaveData_UpdateLoadPair` | `0x801D1200` or `0x801D2200`, each `0x680` |
 | `2` | `SaveData_RequestWrite` | `0x801D3200`, `0xD00` |
-| `4` | `func_8003FE14` in the two-player save setup | `0x801D1880`, `TWO_PLAYER_SAVE_TRANSFER_SIZE` (`0x400`) |
+| `4` | `SaveData_RequestTradeWrite` | `0x801D1880`, `TWO_PLAYER_SAVE_TRANSFER_SIZE` (`0x400`) |
 
 The named callers establish selectors `0` and `2` as the normal single-save
-load and write requests. Selectors `1` and `4` belong to distinct parts of the
-two-save workflow, but their broader state-machine operation names remain
-unassigned. The two working slots and their parallel player-name buffers are
-separated by `TWO_PLAYER_SAVE_SLOT_STRIDE` (`0x1000`). The staged write still
-fits within one `0x2000`-byte memory-card block; these calls do not establish
-how the remaining on-card bytes are populated.
+load and write requests. Selectors `1` and `4` are the two halves of the
+two-card workflow described next. The two working slots and their parallel
+player-name buffers are separated by `TWO_PLAYER_SAVE_SLOT_STRIDE` (`0x1000`).
+The staged write still fits within one `0x2000`-byte memory-card block; these
+calls do not establish how the remaining on-card bytes are populated.
+
+### Trade and two-player duel
+
+Main-menu items `3` and `2` both need a save from each memory card slot.
+`SaveData_UpdateLoadPair` (`0x8003F8D4`) is the shared per-frame loader: it
+opens its own box with `MemCardDialog_CreateObject` and waits for the confirm
+or cancel button. It then issues step `1` into `0x801D1200` for slot 1 and
+into `0x801D2200` for slot 2 (`D_8009B3F9 = 0x10`). It returns `1` only when
+the two saves have different duelist codes (`SaveData_HasSameDuelistCode`
+fails). A matching pair shows the message in `D_8009B3C0` and returns `2`.
+The two wrappers differ in that message and in what they check afterwards:
+
+| Function | Message | After a good pair | Callers |
+|---|---:|---|---|
+| `SaveData_UpdateTradeLoad` (`0x8003FCD8`) | `0x29` | nothing more | main-menu item `3`; `func_80030EC8`, which then enters mode `14`, `Main_RunTrade` |
+| `SaveData_UpdateDuelLoad` (`0x8003FD14`) | `40`, `36` | all 40 deck slots nonzero in both saves, then both player names converted to glyph codes | main-menu item `2`; `func_80031000`, which then enters mode `16`, the two-player duel setup |
+
+`SaveData_UpdateDuelLoad` sets its message before it calls
+`SaveData_UpdateTradeLoad`, whose one-shot latch then leaves it alone. That
+reuse is why the trade wrapper sits under the duel one.
+
+When the trade screen in the `main_menu` overlay has moved the traded card
+counts between the two saves, it calls `SaveData_RequestTradeWrite`
+(`0x8003FE14`). That call stamps the primary and secondary integrity records
+of both slots at `0x801D1880` and `0x801D2880`, records the second slot in
+`D_8009B3E0`, and issues step `4`. `MemCardDialog_UpdateTradeSave`
+(`0x8003EED0`) first re-reads the save on each card and refuses unless each
+still has the duelist code that was loaded from it, trying the duplicate state
+copy at `+0x680` once before it gives up. Then it writes the two `0x400`-byte
+blocks in alternating `0x80`-byte chunks, one card then the other, so a failure
+partway leaves the cards at most one chunk apart.
 
 ## Save integrity and successful-load application
 

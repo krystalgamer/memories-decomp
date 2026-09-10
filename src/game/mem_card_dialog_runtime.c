@@ -18,14 +18,14 @@
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
 
-/* The memory-card save operation followed by the modal runtime that drives
-   the operation table. MemCardDialog_Update dispatches func_8003EED0 through
-   D_80090F9C, and both sides share the dialog flags, result words, active
-   channel, and request outcome. */
+/* The trade write-back operation followed by the modal runtime that drives
+   the operation table. MemCardDialog_Update dispatches
+   MemCardDialog_UpdateTradeSave through D_80090F9C, and both sides share the
+   dialog flags, result words, active channel, and request outcome. */
 
 extern u32 D_8009B3E0;
 
-void func_8003EED0(void)
+void MemCardDialog_UpdateTradeSave(void)
 {
     s32 files;
     u8 *record;

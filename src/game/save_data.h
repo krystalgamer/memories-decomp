@@ -85,11 +85,12 @@ extern u8 gSaveData_aHeaderTemplate[];
 
 /* 0x801D1200. Five functions in four units take its address and nothing
  * else: func_800179F4 (func_800179F4.c:166, `pool = D_801D1200;`, then
- * `pool + 0x1000` at :168), func_8003F8D4 (func_8003F8D4.c:77 as the first
- * argument to MemCardDialog_Request, and :93-94 through SaveDataState casts,
- * the second at `D_801D1200 + 0x1000`; that unit also names +0x1000 as
- * D_801D2200, :13 and :102), func_8003FD14 (two_player_save_setup.c:28-29,
- * the second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
+ * `pool + 0x1000` at :168), SaveData_UpdateLoadPair
+ * (save_data_update_load_pair.c:77 as the first argument to
+ * MemCardDialog_Request, and :93-94 through SaveDataState casts, the second
+ * at `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200, :13
+ * and :102), SaveData_UpdateDuelLoad (two_player_save_setup.c:28-29, the
+ * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
  * (src/overlays/main_menu/trade_update.c:608, `+ slot * 0x1000`) and
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c:156 and
  * :197, through that unit's 16-byte Block16 view, cast at the use). The
