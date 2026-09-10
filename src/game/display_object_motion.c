@@ -6,6 +6,7 @@
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
+#include "trig_constants.h"
 
 void func_8001EC70(DisplayObject *object)
 {
@@ -16,8 +17,9 @@ void func_8001EC70(DisplayObject *object)
     }
     func_8004318C((DisplayObjectPosition *)object, (s16)object->position.h.field_28,
                  (s16)object->position.h.field_2A, object->field_60);
-    object->field_60 += 0x800 / (s16)object->field_2C.h.field_2C;
-    if (object->field_60 >= 0x800) {
+    object->field_60 +=
+        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
+    if (object->field_60 >= TRIG_ANGLE_HALF_TURN) {
         object->field_6C = 0;
         object->update = 0;
     }
@@ -35,8 +37,9 @@ void func_8001ED20(DisplayObject *object)
     }
     func_8004318C((DisplayObjectPosition *)object, (s16)object->position.h.field_28,
                  (s16)object->position.h.field_2A, object->field_60);
-    object->field_60 += 0x800 / (s16)object->field_2C.h.field_2C;
-    if (object->field_60 >= 0x800) {
+    object->field_60 +=
+        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
+    if (object->field_60 >= TRIG_ANGLE_HALF_TURN) {
         object->field_30.word = object->position.word;
         object->field_20.b.field_22 = 0;
         if (!object->field_20.b.field_21) {
