@@ -76,7 +76,7 @@ void func_8002F630(void) {
         func_800428EC((u8 *)o, -1);
         D_800EAE98[10] = o;
         q = func_800400AC(func_8004002C(), four);
-        func_800427DC(q, 0);
+        func_800427DC((u8 *)q, 0);
         color = 0xF00140;
         q->field_30.word = 0x140;
         q->field_38.word = 0xF00000;
