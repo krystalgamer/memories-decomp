@@ -17,19 +17,8 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 #include "func_80019608.h"
+#include "display_object_work_slots.h"
 
-/* Declared three ways across the tree, and all three agree on what it
-   holds: this file walks [0] and [1] as display objects, and
-   main_run_trade.c reaches [0] through (*(DisplayObject **)D_800E9EF0).
-   func_8002CB50.c spells it int [] only to bulk-copy five words out of
-   it, which is a copier's view rather than a third opinion.
-
-   Unifying it on DisplayObject *[] is blocked on where the single
-   declaration would live: the only header this file and
-   main_run_trade.c share is display_object_api.h, which eighteen
-   overlay files include, so it is cross-module and out of scope. Left
-   as-is rather than moved somewhere it does not belong. */
-extern u8 *D_800E9EF0[];
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what gives the
    store below the retail load-delay nop. c_symbols.ld overrides the common
@@ -40,8 +29,8 @@ void func_80019608(void)
 {
     DisplayObject *p;
     DuelCardRecord *slot;
-    u8 *q0;
-    u8 *q1;
+    DisplayObject *q0;
+    DisplayObject *q1;
     u8 state;
     u16 flags;
     u16 f2;
@@ -61,7 +50,7 @@ void func_80019608(void)
     register s32 v4 __asm__("$5");
     register s32 v5 __asm__("$5");
 
-    p = (DisplayObject *)D_800E9EF0[0];
+    p = D_800E9EF0[0];
     flags = D_8009B23A;
     if ((flags & 0x8000) == 0) {
         D_8009B23A = flags | 0xC000;
@@ -94,7 +83,7 @@ void func_80019608(void)
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_800E9EF0[1] = (u8 *)p;
+            D_800E9EF0[1] = p;
             return;
         }
         if ((state & 0x40) == 0) {
@@ -107,11 +96,10 @@ void func_80019608(void)
             func_8004036C(p);
             q1 = D_800E9EF0[1];
             D_800E9EF0[0] = 0;
-            *(u16 *)(q1 + 8) =
-                *(u16 *)(q1 + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
+            q1->flags = q1->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
             return;
         }
-        p = (DisplayObject *)D_800E9EF0[1];
+        p = D_800E9EF0[1];
         if ((state & 0x20) == 0) {
             v2 = p->field_20.b.field_21 + 6;
             p->field_20.b.field_21 = v2;
@@ -139,36 +127,36 @@ void func_80019608(void)
         return;
     case 3:
         if ((state & 0x80) == 0) {
-            p = (DisplayObject *)D_800E9EF0[1];
+            p = D_800E9EF0[1];
             D_8009B174 = state | 0x80;
             func_8001944C((DisplayObject *)p);
             D_800E9EF0[0] =
-                (u8 *)func_80019564((DisplayObjectConfigView *)p);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | (GsALON | GsAONE);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & ~GsROTOFF;
+                func_80019564((DisplayObjectConfigView *)p);
+            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute | (GsALON | GsAONE);
+            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute & ~GsROTOFF;
             D_800E9EF0[1] =
-                (u8 *)func_80019564((DisplayObjectConfigView *)p);
-            func_800428EC(D_800E9EF0[1], -1);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | (GsALON | GsATWO);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & ~GsROTOFF;
+                func_80019564((DisplayObjectConfigView *)p);
+            func_800428EC((u8 *)D_800E9EF0[1], -1);
+            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
+            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;
             func_80029528(0);
             return;
         }
         q0 = D_800E9EF0[0];
-        fld = *(s16 *)(q0 + 0x44);
+        fld = q0->field_44.h.field_44;
         v4 = fld + 0x80;
         q1 = D_800E9EF0[1];
-        *(u16 *)(q1 + 0x46) = v4;
-        *(u16 *)(q1 + 0x44) = v4;
-        *(u16 *)(q0 + 0x46) = v4;
-        *(u16 *)(q0 + 0x44) = v4;
-        v5 = D_800E9EF0[0][0xC] - 4;
+        *(u16 *)&q1->field_44.h.field_46 = v4;
+        *(u16 *)&q1->field_44.h.field_44 = v4;
+        *(u16 *)&q0->field_44.h.field_46 = v4;
+        *(u16 *)&q0->field_44.h.field_44 = v4;
+        v5 = *(u8 *)&D_800E9EF0[0]->field_0C - 4;
         if (v5 < 0) {
             v5 = 0;
         }
         v5 = v5 | ((v5 << 16) | (v5 << 8));
-        *(u32 *)(D_800E9EF0[0] + 0xC) = v5;
-        *(u32 *)(D_800E9EF0[1] + 0xC) = v5;
+        D_800E9EF0[0]->field_0C = v5;
+        D_800E9EF0[1]->field_0C = v5;
         if (v5 != 0) {
             return;
         }
