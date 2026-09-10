@@ -9,6 +9,8 @@
 
 extern u8 *D_8009B458_bytes asm("D_8009B458");
 
+#include "sound_secondary_commands.h"
+
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 {
     SDSecondaryState *b;
