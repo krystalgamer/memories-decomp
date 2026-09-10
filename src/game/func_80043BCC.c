@@ -12,8 +12,6 @@
 #include "main_reset_frontend_runtime.h"
 #include "text_box_lifecycle.h"
 
-extern u8 D_8009B428;
-
 s32 func_80043BCC(void) {
     s32 r;
     u32 f;
