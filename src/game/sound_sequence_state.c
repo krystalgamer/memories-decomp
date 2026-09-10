@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "sound.h"
+#include "sound_sequence_state.h"
 
 void func_800490F0(s16 value, u8 flag)
 {

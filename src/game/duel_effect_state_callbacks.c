@@ -9,12 +9,12 @@
 #include "menu_record.h"
 #include "duel_effect.h"
 #include "duel_effect_state_callbacks.h"
+#define FUNC_80049120_IGNORES_OBJECT
+#include "sound_sequence_state.h"
 
 extern s16 D_8009B322;
 extern u8 D_8009B335;
 extern u16 D_8009B348[2];
-extern int func_80049120(void *);
-
 extern u16 gGraphics_uViewportX[] asm("gGraphics_sViewportX");
 extern u16 gGraphics_uViewportY[] asm("gGraphics_sViewportY");
 
