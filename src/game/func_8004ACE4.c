@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "func_8004ACE4.h"
 
 void func_8004ACE4(u8 *entry, int unused)
 {
