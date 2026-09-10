@@ -1,0 +1,141 @@
+from __future__ import annotations
+
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+
+REPOSITORY = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPOSITORY / "tools/project"))
+
+from psyq_signatures import classify, find_matches, parse_signature, scan
+
+
+class PsyqSignatureTests(unittest.TestCase):
+    def setUp(self) -> None:
+        if Path.cwd().resolve() != REPOSITORY:
+            raise RuntimeError("run these tests from the repository root")
+        temporary = tempfile.TemporaryDirectory(
+            prefix="psyq-signatures-test-", dir=REPOSITORY / "tmp"
+        )
+        self.addCleanup(temporary.cleanup)
+        self.signatures = Path(temporary.name)
+
+    def test_parse_signature_marks_wildcards(self) -> None:
+        pattern, mask = parse_signature("AA ?? 0f")
+
+        self.assertEqual(pattern, b"\xaa\x00\x0f")
+        self.assertEqual(mask, b"\xff\x00\xff")
+
+    def test_find_matches_requires_alignment_and_full_mask(self) -> None:
+        pattern, mask = parse_signature("AA BB CC DD ?? 11 22 33")
+        payload = bytearray(40)
+        payload[0:8] = bytes.fromhex("AA BB CC DD 99 11 22 33")
+        payload[9:17] = bytes.fromhex("AA BB CC DD 88 11 22 33")
+        payload[24:32] = bytes.fromhex("AA BB CC DD 77 11 22 44")
+
+        self.assertEqual(find_matches(bytes(payload), pattern, mask), [0])
+
+    def test_find_matches_rejects_unanchorable_signatures(self) -> None:
+        pattern, mask = parse_signature("AA ?? BB ?? CC")
+
+        self.assertIsNone(find_matches(b"\xaa\x00\xbb\x00\xcc", pattern, mask))
+
+    def test_scan_rejects_duplicates_and_placeholder_labels(self) -> None:
+        entries = [
+            {
+                "name": "UNIQUE.OBJ",
+                "sig": "AA BB CC DD 11 22 33 44",
+                "labels": [
+                    {"name": "RealName", "offset": 0},
+                    {"name": "text_4", "offset": 4},
+                ],
+            },
+            {
+                "name": "DUPLICATE.OBJ",
+                "sig": "10 20 30 40",
+                "labels": [{"name": "DuplicateName", "offset": 0}],
+            },
+            {
+                "name": "ABSENT.OBJ",
+                "sig": "DE AD BE EF",
+                "labels": [{"name": "AbsentName", "offset": 0}],
+            },
+            {
+                "name": "UNANCHORED.OBJ",
+                "sig": "AA ?? BB",
+                "labels": [{"name": "UnanchoredName", "offset": 0}],
+            },
+        ]
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            json.dumps(entries), encoding="utf-8"
+        )
+        payload = bytearray(24)
+        payload[0:8] = bytes.fromhex("AA BB CC DD 11 22 33 44")
+        payload[8:12] = bytes.fromhex("10 20 30 40")
+        payload[16:20] = bytes.fromhex("10 20 30 40")
+
+        result = scan(self.signatures, 0x80010000, bytes(payload))
+
+        self.assertEqual(result["unique"], 1)
+        self.assertEqual(result["multiple"], 1)
+        self.assertEqual(result["absent"], 1)
+        self.assertEqual(result["unanchored"], 1)
+        self.assertEqual(
+            result["proposals"],
+            {
+                0x80010000: {
+                    "RealName": ["LIBTEST.LIB/UNIQUE.OBJ+0x0"]
+                }
+            },
+        )
+
+    def test_classify_keeps_ambiguous_and_off_start_names_out(self) -> None:
+        proposals = {
+            0x80010000: {"KnownName": ["LIB/KNOWN.OBJ+0x0"]},
+            0x80010010: {"NewName": ["LIB/NEW.OBJ+0x0"]},
+            0x80010020: {"CorpusName": ["LIB/DIFFERENT.OBJ+0x0"]},
+            0x80010030: {
+                "AliasA": ["LIBA/SHARED.OBJ+0x0"],
+                "AliasB": ["LIBB/SHARED.OBJ+0x0"],
+            },
+            0x80010040: {"OffStart": ["LIB/OFFSTART.OBJ+0x4"]},
+        }
+        inventory = {
+            0x80010000: {"name": "KnownName"},
+            0x80010010: {
+                "name": "func_80010010",
+                "size": "0x10",
+                "status": "psyq/sdk",
+                "module": "psyq",
+            },
+            0x80010020: {"name": "ExistingName"},
+        }
+
+        result = classify(proposals, inventory)
+
+        self.assertEqual(result["agreed"], [(0x80010000, "KnownName")])
+        self.assertEqual(
+            [(address, name) for address, name, _row, _providers in result["new"]],
+            [(0x80010010, "NewName")],
+        )
+        self.assertEqual(
+            result["disagreed"],
+            [
+                (
+                    0x80010020,
+                    "CorpusName",
+                    "ExistingName",
+                    ["LIB/DIFFERENT.OBJ+0x0"],
+                )
+            ],
+        )
+        self.assertEqual(
+            result["ambiguous"], [(0x80010030, ["AliasA", "AliasB"])]
+        )
+        self.assertEqual(result["off_start"], 1)
+
+
+if __name__ == "__main__":
+    unittest.main()
