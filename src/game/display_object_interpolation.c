@@ -3,17 +3,17 @@
 #include "trig_constants.h"
 #include "display_object_interpolation.h"
 
-void func_8004318C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
+void func_8004318C(
+    DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3
+)
 {
-    s32 x = (*(s16 *)(arg0 + 0x36) + arg1) >> 1;
-    s32 y = (*(s16 *)(arg0 + 0x38) + arg2) >> 1;
+    s32 x = (object->x + arg1) >> 1;
+    s32 y = (object->y + arg2) >> 1;
     s32 scale = rcos(arg3);
     s32 scale2 = scale;
 
-    *(u16 *)(arg0 + 0x30) =
-        x + (*(s16 *)(arg0 + 0x36) - x) * scale / ONE;
-    *(u16 *)(arg0 + 0x32) =
-        y + (*(s16 *)(arg0 + 0x38) - y) * scale2 / ONE;
+    object->out_x = x + (object->x - x) * scale / ONE;
+    object->out_y = y + (object->y - y) * scale2 / ONE;
 }
 
 void func_80043230(

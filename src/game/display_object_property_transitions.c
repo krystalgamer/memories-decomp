@@ -46,6 +46,6 @@ void func_8001D3C4(DisplayObject*o)
 {
  if(!func_80042B98((DisplayObjectLifecycle*)o)){if(*(s16*)&o->field_2C.h.field_2C!=o->field_20.b.field_21)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60;func_80043178((DisplayObjectSnapshot*)o);o->field_60=0;}
  if(o->field_20.b.field_21!=*(s16*)&o->field_2C.h.field_2C)o->field_20.b.field_21+=0x80/o->field_2C.h.field_2E;
- func_8004318C((u8*)o,*(s16*)&o->position.h.field_28,*(s16*)&o->position.h.field_2A,o->field_60);o->field_60+=0x800/o->field_2C.h.field_2E;
+ func_8004318C((DisplayObjectPosition *)o,*(s16*)&o->position.h.field_28,*(s16*)&o->position.h.field_2A,o->field_60);o->field_60+=0x800/o->field_2C.h.field_2E;
  if(o->field_60>=0x800){u8 target=*(s16*)&o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.field_21=target;o->field_30.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
 }
