@@ -64,7 +64,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
         func_80022D94(shift, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                       D_800907AC[D_8009B1D5][o->page][pos]);
         o->row = pos;
-        index = pos * 5 + o->col;
+        index = pos * DUEL_FIELD_ROW_SIZE + o->col;
         DisplayObject_ResetVelocity(d);
         d->moving = 0;
         d->steps = shift;
@@ -79,11 +79,11 @@ void func_80023D08(GridCursor *o, s32 dir) {
         if (dir & 2) {
             pos = o->col - 1;
         }
-        if ((u32)pos >= 5) {
+        if ((u32)pos >= DUEL_FIELD_ROW_SIZE) {
             return;
         }
         o->col = pos;
-        index = o->row * 5 + (s8)pos;
+        index = o->row * DUEL_FIELD_ROW_SIZE + (s8)pos;
         DisplayObject_ResetVelocity(d);
         shift = 8;
         d->steps = shift;
