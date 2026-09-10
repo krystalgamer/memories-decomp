@@ -88,9 +88,10 @@ and the full executable still matched:
   comment claiming a separate linker name was needed to stop GCC retaining the
   address. That unit now reaches the word through one name in
   both of its statements, and the `c_symbols.ld` entry is gone.
-- The two signed comparisons in `func_8001455C.c` (`< 0` and `>= 0`, testing
-  bit 31) do not need a signed declaration; an `(s32)` cast at the two use
-  sites reproduces both sign-bit branches unchanged.
+- The two signed comparisons in `func_8001455C` within
+  [`file_transfer_control.c`](../src/game/file_transfer_control.c) (`< 0` and
+  `>= 0`, testing bit 31) do not need a signed declaration; an `(s32)` cast at
+  the two use sites reproduces both sign-bit branches unchanged.
 
 ### What is left
 
