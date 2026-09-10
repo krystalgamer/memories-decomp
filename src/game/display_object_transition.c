@@ -10,6 +10,7 @@
 #include "display_object.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
+#include "display_object_transition.h"
 
 void func_8004365C(DisplayObject *a, DisplayObject *b)
 {
