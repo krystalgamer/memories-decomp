@@ -258,8 +258,8 @@ The following packages tile WA sectors `5776-8661` without gaps:
 | Menu background/symbol package | `8103-8153` | 50 | `0xFD3800-0xFEC800` |
 | Egypt overworld before coup | `8153-8311` | 158 | `0xFEC800-0x103B800` |
 | Egypt overworld after coup | `8311-8469` | 158 | `0x103B800-0x108A800` |
-| Fixed package | `8469-8519` | 50 | `0x108A800-0x10A3800` |
-| Direct bank load | `8519-8535` | 16 | `0x10A3800-0x10AB800` |
+| Options image/PocketStation package | `8469-8519` | 50 | `0x108A800-0x10A3800` |
+| Options direct PocketStation bank | `8519-8535` | 16 | `0x10A3800-0x10AB800` |
 | Fixed package | `8535-8585` | 50 | `0x10AB800-0x10C4800` |
 | Fixed package | `8585-8661` | 76 | `0x10C4800-0x10EA800` |
 

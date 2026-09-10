@@ -127,9 +127,9 @@ NEW GAME / LOAD / 2P DUEL / TRADE / OPTION. The menu's own logic runs from a mod
 |---|---|---|
 | `Main_RunOptionsMenu` | 0x8002D6C8 | The OPTION screen's mode tick. |
 | `Options_Init / Options_Update` | 0x8003C628 / 0x8003C8CC | Build the screen and initialize its state; then dispatch that state each frame until exit. |
-| `Options_HandleInput` | 0x8003C7A0 | Toggles stereo/mono on the sound row, confirms other rows, and cancels back out. |
-| `Options_UpdateLayout` | 0x8003C568 | Positions the selection cursor and the stereo/mono widget for the current row and output type. |
-| `gOptions_bState / gOptions_bSelection` | 0x8009B37C / 0x8009B384 | Options-screen state-machine value and selected row. |
+| `Options_HandleInput` | 0x8003C7A0 | Toggles stereo/mono on the naturally reachable sound row and cancels back out. Dormant nonzero-selection confirm branches have no natural NTSC-U writer. |
+| `Options_UpdateLayout` | 0x8003C568 | Positions the cursor and stereo/mono widget for the supplied selection byte; two nonzero positions remain dormant. |
+| `gOptions_bState / gOptions_bSelection` | 0x8009B37C / 0x8009B384 | Options state-machine value and selection byte; the selection is initialized to zero and has no later retail writer. |
 | `gOptions_bOutputType` | 0x8009B37D | Working copy of the stereo/mono choice used to position the option widgets. |
 | `SD_SetOutputType` | 0x80046FA0 | The STEREO/MONO setter (0=stereo, 1=mono): writes the driver's mode byte and re-mixes CD audio on the spot. |
 | `gSD_bOutputType` | 0x8009B408 | The stored stereo/mono setting. |

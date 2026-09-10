@@ -385,9 +385,9 @@ on the suspects side until proven.)
 
 | address | name | description |
 |---|---|---|
-| 0x8003C568 | `Options_UpdateLayout` | Positions the selection cursor for the current row and updates the stereo/mono widget from the working output type, setting that widget's `0x40` flag when another row is selected. |
+| 0x8003C568 | `Options_UpdateLayout` | Positions the cursor for the supplied selection byte and updates the stereo/mono widget from the working output type. The layout retains two nonzero positions, but the NTSC-U executable has no post-initialization writer for the selection. |
 | 0x8003C628 | `Options_Init` | Creates the Options screen objects, initializes its active state and selection, copies the stored sound output type with negative values reset to stereo, lays out the widgets, and starts the screen sound. |
-| 0x8003C7A0 | `Options_HandleInput` | Toggles stereo/mono with horizontal input on row zero, commits the sound-driver setting immediately, confirms another row by changing state, or cancels the screen. |
+| 0x8003C7A0 | `Options_HandleInput` | Toggles stereo/mono with horizontal input on the naturally reachable row and commits the sound-driver setting immediately, or cancels the screen. Nonzero-selection confirm branches remain but have no natural NTSC-U writer. |
 | 0x8003C8CC | `Options_Update` | Dispatches the low nibble of the Options state to fade-out waiting, input handling, an idle state, or a return to input, then returns the resulting state. |
 
 ## Batch: memory-card I/O events
@@ -579,7 +579,7 @@ on the suspects side until proven.)
 | 0x8009B365 | `gFreeDuel_bReturnFlags` | Free Duel return-action flags: `0x40` after visiting Build Deck and `0x80` after starting a duel. |
 | 0x8009B37C | `gOptions_bState` | Current Options-screen state dispatched by `Options_Update`. |
 | 0x8009B37D | `gOptions_bOutputType` | Options-screen working copy of the stereo/mono selection used by input and layout updates. |
-| 0x8009B384 | `gOptions_bSelection` | Selected row on the Options screen. |
+| 0x8009B384 | `gOptions_bSelection` | Options selection byte, initialized to row zero. The executable retains nonzero layout/state branches but no post-initialization writer. |
 
 ## Batch: file and persistent storage globals
 
