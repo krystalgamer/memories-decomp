@@ -4,7 +4,7 @@
 #include "../psyq/libgs.h"
 #include "card_constants.h"
 #include "duel_card.h"
-#include "duel_card_object_cleanup.h"
+#include "duel_card_record_lifecycle.h"
 #include "duel_side_state.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"

@@ -933,7 +933,7 @@ when requested, exports the three records' object words. Matching
 [`func_8002622C`](../../src/game/func_8002622C.c) uses a query with no output
 buffer. The later execution routine `func_800262D4` (still unmatched assembly)
 requests the output at `0x800262F8`, then calls
-[`func_80024914`](../../src/game/duel_card_object_cleanup.c) for the three
+[`func_80024914`](../../src/game/duel_card_record_lifecycle.c) for the three
 selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.
 Eligibility and later tribute removal are separate steps, not a destructive
 test. This is code-backed selection/removal evidence, not a new runtime trace
@@ -1302,7 +1302,7 @@ accounting, not every route into it, other writers, or a new runtime trace.
 in `D_8009B22A` and its record index in `D_8009B1B8`, but does not increment
 the statistic. Matching `func_8001F364` in the same source runs the
 presentation sequence. Mode 1 calls
-[`func_80024954`](../../src/game/duel_card_object_cleanup.c) to clear the
+[`func_80024954`](../../src/game/duel_card_record_lifecycle.c) to clear the
 selected card's flags and remove its object. Only when the later mode-3 countdown
 finishes does it increment statistic `+0x06` in
 `0x800E9FF0 + (D_8009B1D5 ^ 1) * 0x20` and return zero. The grid mapping
@@ -1331,7 +1331,7 @@ Its kept-card loop does not increment the draw cursor.
 Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) then tests
 that cursor against `DECK_SIZE` before each new draw. Below the limit it
 passes the cursor to
-[`Duel_SetupCardRecord`](../../src/game/duel_setup_card_record.c), places the
+[`Duel_SetupCardRecord`](../../src/game/duel_card_record_lifecycle.c), places the
 drawn card's index in the hand, and increments the byte. At the limit it
 takes the deck-exhaustion path instead. A successful new draw therefore
 advances this statistic before the card is played; a refill can advance it

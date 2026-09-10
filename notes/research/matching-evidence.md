@@ -5303,7 +5303,7 @@ coordinates into a fresh object and plays the sound.
   `%hi`/`%lo` pair.
 
 - *The `D_8015C424` table offset splits as `+ 0x48000` then `0x36B4`,* the same
-  shape `duel_trap_resolution.c` and `duel_setup_card_record.c` already use.
+  shape `duel_trap_resolution.c` and `Duel_SetupCardRecord` already use.
   Writing the whole 0x4B6B4 in one expression folds it into the relocation and
   drops the separate register add.
 

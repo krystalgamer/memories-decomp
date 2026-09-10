@@ -30,7 +30,7 @@
      %gp_rel, so a TU that needs the absolute form must push the symbol out of
      small data. An array of unknown or large size does that:
          func_8001798C.c        (gcc_2_8_1_g8)         extern u8 gDuel_bTerrain[];
-         duel_get_terrain_boost.c (gcc_2_8_1_g8_split) extern u8 gDuel_bTerrain[];
+         duel_card_record_lifecycle.c (gcc_2_8_1_g8_split) extern u8 gDuel_bTerrain[];
 
      ...or section(".data") does it while keeping the scalar, which is what
      buys the assembler macro form those two functions need:
@@ -48,7 +48,7 @@
    length; no spelling here claims the object has more than one byte.
 
    c_symbols.ld also defines gDuel_bTerrainCodegenAlias at the same 0x8009B364
-   so duel_get_terrain_boost.c can materialize the one byte's address twice in
+   so Duel_GetTerrainBoost can materialize the one byte's address twice in
    one function, which retail does and a single name cannot reproduce. */
 
 /* Attack modifier in CARD_STAT_SCALE units, one row per monster card type and
