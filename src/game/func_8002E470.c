@@ -9,7 +9,6 @@
 #include "func_8002E128.h"
 #include "func_8002E470.h"
 
-extern u16 D_8009B270;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
