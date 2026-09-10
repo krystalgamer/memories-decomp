@@ -12,6 +12,7 @@
 #include "../../game/func_8003B6AC.h"
 #include "../../game/func_80043178.h"
 #include "../../game/sound.h"
+#include "../../game/save_data.h"
 #include "name_entry_keyboard.h"
 #include "name_entry_state.h"
 
@@ -58,7 +59,6 @@ extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 
 extern s8 D_8009B34D;
-extern u8 D_801B125A[];
 extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 

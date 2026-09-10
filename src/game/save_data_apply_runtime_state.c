@@ -5,7 +5,6 @@
 #include "sound.h"
 #include "text_sjis_to_glyph_codes.h"
 
-extern u8 D_801B125A[16];
 extern s8 gSD_bOutputType[16];
 
 #define gCampaignSceneIndex (*(u8 *)0x8009B27A)
