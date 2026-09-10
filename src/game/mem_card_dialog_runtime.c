@@ -16,6 +16,7 @@
 #include "../unmatched.h"
 #include "duel_effect_mark_object_if_active.h"
 #include "mem_card_dialog_steps.h"
+#include "mem_card_dialog_runtime.h"
 
 /* The memory-card save operation followed by the modal runtime that drives
    the operation table. func_8003F454 dispatches func_8003EED0 through
@@ -167,7 +168,7 @@ void func_8003EED0(void)
     }
 }
 
-u8 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
+s32 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
 {
     s32 saved_index = index;
     s32 value;
@@ -205,8 +206,6 @@ u8 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
 }
 
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-extern s32 func_8003F2B0_int(DisplayObject *, s32, s32, s32)
-    asm("func_8003F2B0");
 
 void func_8003F388(void)
 {
@@ -246,7 +245,7 @@ void func_8003F454(void)
             gMemCard_wDialogFlags = 0;
             return;
         }
-        if (func_8003F2B0_int(
+        if (func_8003F2B0(
                 (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
             TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
@@ -304,7 +303,7 @@ void func_8003F454(void)
             *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
             return;
         }
-        if (func_8003F2B0_int(
+        if (func_8003F2B0(
                 (DisplayObject *)D_8009B3D8, 0x20, 0x50, -1
             ) == 0) {
             gMemCard_wDialogFlags =
