@@ -1,7 +1,7 @@
-/* Two display-effect update callbacks, on the same DisplayEffectState record
- * and the same first-frame latch func_80039F1C.
+/* Seven contiguous display-effect position and update callbacks on the same
+ * MenuRecord / DisplayEffectState storage.
  *
- * The two disagree about how wide the per-frame step multiplier is, and
+ * The final four disagree about how wide the per-frame step multiplier is, and
  * graphics_frame.h says a unit that needs two spellings takes an alias rather
  * than a second declaration -- display_object_fade_callbacks.c already does
  * this for the plain and volatile pair. Here the unit keeps the plain s32 arm
@@ -21,9 +21,186 @@
 #include "display_object_helpers.h"
 #include "display_object_position.h"
 #include "menu_record.h"
+#include "trig_constants.h"
+#include "func_8003A990.h"
+#include "func_8003AAE4.h"
+#include "func_8003AC48.h"
 #include "display_effect_update_callbacks.h"
 
 extern u16 D_8009B0D8_halfword asm("D_8009B0D8");
+
+void func_8003A920(
+    DisplayPositionGroup *group,
+    s16 x,
+    s16 y
+)
+{
+    s32 i;
+
+    for (i = 2; i >= 0; i--) {
+        if (group->children[i] != 0) {
+            group->children[i]->x = x;
+            group->children[i]->y = y;
+        }
+    }
+}
+
+void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y)
+{
+    group->x = x;
+    group->y = y;
+    func_8003A920(group, (s16)x, (s16)y);
+}
+
+/* Eases one display-effect record from its 0x34/0x36 position to the
+   0x40/0x42 destination over a quarter turn of cosine, then clears the step
+   byte. The record is a MenuRecord, the element type of D_800EB010;
+   display_effect_step_table.c hands this callback a u8 *, so the parameter
+   stays that and the record is taken through a local.
+
+   Every use goes through that local, including the two calls that want a
+   u8 * again. That is not tidiness: leaving `p` live alongside `r` makes
+   GCC 2.8.1 hold both in callee-saved registers, which grows the frame by
+   eight bytes and the function with it. One name, one register. */
+void func_8003A990(u8 *p)
+{
+    MenuRecord *r = (MenuRecord *)p;
+    s32 d;
+    s32 t;
+    s32 c;
+    s32 dx;
+    s32 dy;
+
+    if (func_80039F1C((DisplayEffectState *)r) == 0) {
+        r->field_48 = TRIG_ANGLE_QUARTER_TURN;
+        d = TRIG_ANGLE_QUARTER_TURN / r->field_44;
+        r->field_4A = d;
+        if (d >= 0) {
+            r->field_48 = 0;
+        }
+        r->field_44 = *(u16 *)&r->field_40 - r->field_34;
+        r->field_46 = *(u16 *)&r->field_42 - r->field_36;
+    }
+
+    t = *(u16 *)&r->field_48 + *(u16 *)&r->field_4A;
+    r->field_48 = t;
+
+    if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
+        func_8003A95C((DisplayPositionGroup *)r, r->field_40, r->field_42);
+        r->display_effect_step = 0;
+    } else {
+        c = rcos((s16)t);
+        dx = c * r->field_44 / ONE;
+        dy = c * r->field_46 / ONE;
+        if (r->field_4A < 0) {
+            dx = r->field_44 - dx;
+            dy = r->field_46 - dy;
+        }
+        func_8003A95C(
+            (DisplayPositionGroup *)r,
+            (s16)(*(u16 *)&r->field_40 - dx),
+            (s16)(*(u16 *)&r->field_42 - dy)
+        );
+    }
+}
+
+void func_8003AAE4(MenuRecord *p) {
+    u8 *q;
+    s32 *e;
+    s32 *c;
+    s32 a;
+    s32 b;
+    s32 v;
+    s32 m;
+    s32 i;
+
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
+        *(s16 *)&p->field_34 = 0x68;
+        p->field_32 |= 0x10;
+        if (p->field_3C != 0) {
+            *(s16 *)&p->field_34 = 0xD8;
+        }
+        func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
+                      *(s16 *)&p->field_36);
+        q = *(u8 **)&p->grid[0][0];
+        a = *(s8 *)(q + 0x16);
+        b = q[0x67];
+        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), a);
+        e = p->grid[1];
+        func_8003A1EC(p, (u8 **)e, b);
+        func_8003A440((u8 **)e, (GsALON | GsATWO), a - 1);
+        p->field_40 = 0;
+    }
+
+    v = (u16)p->field_40 + D_8009B0D8 * 8;
+    p->field_40 = v;
+
+    if (p->field_40 >= 0x80) {
+        p->display_effect_step = 0;
+        func_8003A440((u8 **)p->grid[0], 0,
+                      *(s8 *)(*(u8 **)&p->grid[0][0] + 0x16));
+        func_80039F90((void **)p->grid[1]);
+        p->field_32 &= 0xEF;
+    } else {
+        m = p->field_40;
+        m |= (m << 8) | (m << 16);
+        for (i = 2, c = &p->grid[0][2]; i >= 0; i--, c--) {
+            if (*(u8 **)c != 0) {
+                *(s32 *)(*(u8 **)c + 0xC) = m;
+            }
+            if (*(u8 **)(c + 3) != 0) {
+                *(s32 *)(*(u8 **)(c + 3) + 0xC) = m;
+            }
+        }
+    }
+}
+
+void func_8003AC48(MenuRecord *p)
+{
+    DisplayObject *h;
+    u8 **d;
+    DisplayObject *e;
+    s32 x;
+    s32 y;
+    s32 t;
+    s32 u;
+    s32 m;
+    s32 i;
+
+    if (func_80039F1C((DisplayEffectState *)p) == 0) {
+        p->field_32 |= 0x10;
+        h = (DisplayObject *)p->grid[0][0];
+        x = h->field_16;
+        y = h->field_67;
+        func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), x);
+        d = (u8 **)p->grid[1];
+        func_8003A1EC(p, d, y);
+        func_8003A440(d, (GsALON | GsATWO), x - 1);
+        p->field_40 = 0x80;
+    }
+
+    t = *(u16 *)&p->field_40 - (D_8009B0D8 << 3);
+    p->field_40 = t;
+    u = (s16)t;
+    if (u <= 0) {
+        p->display_effect_step = 0;
+        func_80039F90((void **)p->grid[1]);
+        func_80039FD4((u8 *)p);
+    } else {
+        m = u;
+        m |= (m << 8) | (m << 16);
+        for (i = 2; i >= 0; i--) {
+            e = (DisplayObject *)p->grid[0][i];
+            if (e != 0) {
+                e->field_0C = m;
+            }
+            e = (DisplayObject *)p->grid[1][i];
+            if (e != 0) {
+                e->field_0C = m;
+            }
+        }
+    }
+}
 
 void func_8003AD6C(MenuRecord *p)
 {
