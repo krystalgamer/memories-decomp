@@ -75,7 +75,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         func_8004036C((void *)object->field_2C);
         object->field_30 = (void *)0;
         object->field_2C = 0;
-        func_800391E4((u8 *)object);
+        func_800391E4(object);
         if ((object->flags_34 & 0x40) == 0) {
             entry = &D_800EB288[object->range_start_5C];
             object->entry_head_24 = entry;
@@ -93,7 +93,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
     }
     if (object->state_51 != 0) {
-        D_80090E64[object->state_51 & 0x1F]((u8 *)object);
+        D_80090E64[object->state_51 & 0x1F](object);
         object->flags_34 = object->flags_34 & 0xFBFF;
         return;
     }

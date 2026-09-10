@@ -7,7 +7,7 @@
 
 extern u8 D_801B1245[];
 extern s32 D_801D5608;
-extern void func_80035B7C(DuelEffectChannel *);
+extern void func_80035B7C(void *);
 extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 void Password_RefreshDigitDisplay(void)

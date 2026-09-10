@@ -98,7 +98,7 @@ void func_800323F8(u32, void *, s32, s32);
 /* One consumer, duel_scene_update.c, which calls it without arguments. */
 void func_800235C0(void);
 
-/* Three consumers, identical spelling in all three: func_800528AC.c,
+/* Three consumers, identical spelling in all three: model_scene_setup.c,
  * model_cleanup.c and model_slot_support.c. The last of those is the site
  * described above, which used to declare no parameters; once it was given the
  * true one-parameter signature all three agreed, which is what made this

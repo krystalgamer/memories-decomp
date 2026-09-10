@@ -292,9 +292,23 @@ field through matching `SaveData_HasSameDuelistCode`.
 
 ### 2.2 Options
 
-Sound output: mono or stereo. (The guides mention nothing else on this
-screen; the mode's code reach is large only because it shares the menu
-framework.) [`Main_RunOptionsMenu` `0x8002D6C8`]
+The naturally reachable setting is sound output: **stereo** (`0`) or **mono**
+(`1`). The selection byte is initialized to row zero, and a complete retail
+instruction scan finds no later store or address formation for it. Up/down
+are not tested, and Cross/Square do nothing while the selection remains zero.
+Right changes stereo to mono, Left changes mono to stereo, and Circle exits;
+the sound driver and stored runtime byte update immediately on a successful
+horizontal change. [`Main_RunOptionsMenu` `0x8002D6C8`]
+
+Matching code retains two nonzero selection positions and confirm branches,
+but they are not naturally reachable: selection 1 enters an empty state that
+no longer handles input, while selection 2 returns to the input state on the
+next update. Options initialization also loads two distinct 32 KiB
+PocketStation payloads to `0x80140000`, with the second overwriting the first
+before the screen begins. This proves disabled or vestigial machinery, not the
+labels of additional NTSC-U options. See the
+[full static contract](../options-screen.md); the pending human trace is still
+needed for visible labels and observed directional behavior.
 
 > **Entered from:** initial menu. **Exits to:** initial menu. **Reads/writes:**
 > the runtime sound setting. Save creation normalizes an unset negative value
@@ -1255,7 +1269,7 @@ skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
-Matching [`func_80017F04`](../../src/game/duel_card_display_state.c) fills
+Matching [`func_80017F04`](../../src/game/func_800179F4.c) fills
 that object byte from the card's packed type field, using
 `CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
 [`Duel_CalcRankScore`](../../src/game/duel_rewards.c) reads statistic
@@ -2294,13 +2308,21 @@ unchanged:
 | `+0x5C000` | 0x1800 | `0x801A8000` | the AI script area (reading) |
 | `+0x5D800` | 0x1800 | `0x801A9800` | second AI script buffer |
 | `+0x5F000` | 0x4000 | VRAM (832, 0) | pictures |
-| `+0x63000` | 0x2800 | `0x80100000` | not read |
+| `+0x63000` | 0x2800 | `0x80100000` | loaded, terrain-invariant structured bytes; no byte consumer established |
 | `+0x65800` | 0x10000 | VRAM (640, 256) | the field picture — the only chunk that differs between the seven terrains |
 
 The second script block is live, not padding or an unread copy:
 `func_8001D670` passes `0x801A9800` directly to `AiScript_Init` at
 `0x8001D7D8`. That establishes the buffer's consumer, but not the meaning of
 each byte within it.
+
+Phase 11 is also transferred, but its apparent model-side consumer is only a
+non-null gate: matching `func_80056250` never dereferences the arena argument
+and ignores the supplied `0x63000` and `4` arguments. All seven phase copies
+are identical, and the duel overlay forms no address into
+`0x80100000-0x801027FF`. The bytes remain deliberately unnamed rather than
+being mislabeled as model data. See the
+[negative-space audit](../duel-package-unused-data.md).
 
 Twelve of the thirteen chunks are byte-identical across the seven terrain
 copies; the tables decode with every id in range (fusion 25,131 rows, equip
@@ -2311,8 +2333,11 @@ framebuffers, i.e. the texture area.
 **The per-duelist block.** Before a duel the opponent's block is read:
 **3 sectors at `0x1D33 + 3 × id`** into `0x801781D8` [`func_800179F4`] —
 deck weights at +0, the POW / BCD / TEC drop pools at +0x5B4 / +0xB68 /
-+0x111C (1,460 bytes each), the rank table at +0x16D0 (200 bytes), 104
-unread bytes at +0x1798. All 156 weight tables sum to 2048.
++0x111C (1,460 bytes each), the rank table at +0x16D0 (200 bytes), then
+104 bytes of `0xFF` sector padding at +0x1798. All 156 weight tables sum to
+2048. Every one of the 40 tails is byte-identical, rank callers stay within
+the ten five-pair rows, and neither resident code nor the duel overlay forms
+an address into the padding range.
 
 **Overlays.** `0x80146000` receives the duel image above. The named screen
 images are not limited to the two originally located in WA:
@@ -2428,7 +2453,8 @@ Not verified in code:
   patched-game observation establishes their complete user-visible effects;
 * the home terrains of the five shrines and the finale (only Sebek/Neku's
   Yami is sourced);
-* three chunks of the duel blob and the 104-byte tail of the duelist block.
+* the byte-level formats of the two live AI script buffers and the structured
+  but byte-unconsumed phase 11 payload in the duel blob.
 
 Corrected from the earlier version of this document: the rank-table
 category labels (rows 4, 5, 8, 9); the seven-rank list (ten); the duelist

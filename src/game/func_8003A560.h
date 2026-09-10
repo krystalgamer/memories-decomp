@@ -5,6 +5,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+#define DISPLAY_EFFECT_VRAM_SLOT_COUNT 5
+
 /* The wider display-effect view owned by this callback. The lifecycle helpers
  * consume the same record through their narrower DisplayEffectState view. */
 typedef struct {

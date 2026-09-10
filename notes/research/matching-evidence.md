@@ -3164,7 +3164,7 @@ Measured while typing `D_801A7AD8`, a `0x1C`-byte duel card record reached
 through raw casts in eleven files. One file converted cleanly and matched. Five
 others, converted identically, did not:
 
-- `func_8001825C.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
+- `duel_phase_entry.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
   to a callee. Once the array is typed, that expression scales **twice** - the
   multiply is still written and the pointer arithmetic scales again - which both
   changes the address and grows the text. Rewriting it as `&D_801A7AD8[i]` fixed
@@ -6716,7 +6716,7 @@ included header already declares, and delete the local copy. Run against
 survey that are easy to get wrong. Writing the whole result down is worth more
 than the one deletion it yields.
 
-**The one real member.** `func_800528AC.c` declared `extern ModelSlot
+**The one real member.** `model_scene_setup.c` declared `extern ModelSlot
 D_800F2C40[]` while already including `model.h`, which declares the same symbol
 as `ModelSlot[MODEL_SLOT_COUNT]`. Compatible types, the array is far above the
 `-G8` threshold, and deleting the local line keeps the executable byte-exact.
@@ -6857,7 +6857,7 @@ in the caller that produces it.
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_8001798C.c
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
-    func_80017F04          def 3 (duel_card_display_state.c)  <-  decl 1 in func_80018004.c
+    func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c

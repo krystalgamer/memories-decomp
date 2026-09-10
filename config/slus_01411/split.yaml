@@ -84,7 +84,7 @@ segments:
       - [0xC10, .rodata, game/mem_card_load_state]
       - [0xC68, .rodata, game/mem_card_create_state]
       - [0xCD4, rodata, initial_data_1e5]
-      - [0xCD8, .rodata, game/mem_card_save_state]
+      - [0xCD8, .rodata, game/mem_card_dialog_runtime]
       - [0xCEC, rodata, initial_data_1e2]
       - [0xCF0, .rodata, game/func_8003F8D4]
       - [0xD20, rodata, initial_data_1e3]

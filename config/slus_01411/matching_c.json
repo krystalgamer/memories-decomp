@@ -604,19 +604,19 @@
       "address": "0x80017DB4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/duel_card_display_state.c"
+      "source": "src/game/func_800179F4.c"
     },
     {
       "address": "0x80017E3C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/duel_card_display_state.c"
+      "source": "src/game/func_800179F4.c"
     },
     {
       "address": "0x80017F04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x100",
-      "source": "src/game/duel_card_display_state.c"
+      "source": "src/game/func_800179F4.c"
     },
     {
       "address": "0x80018004",
@@ -646,7 +646,7 @@
       "address": "0x8001825C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3AC",
-      "source": "src/game/func_8001825C.c"
+      "source": "src/game/duel_phase_entry.c"
     },
     {
       "address": "0x80018608",
@@ -3406,7 +3406,7 @@
       "address": "0x8003EED0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3E0",
-      "source": "src/game/mem_card_save_state.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003F2B0",
@@ -5056,25 +5056,25 @@
       "address": "0x80052528",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/model_view_adjustments.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x80052694",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/model_view_adjustments.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800528AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
-      "source": "src/game/func_800528AC.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x80052D2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x398",
-      "source": "src/game/func_80052D2C.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800530C4",

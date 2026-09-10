@@ -104,6 +104,15 @@ the `DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT` (`0x10`) request covers
 package-relative bytes from `+0x65800` to exclusive end `+0x6D800`: the first
 `0x8000` bytes of the final 32-sector callback phase.
 
+The five-sector phase at package-relative `+0x63000` is likewise identical
+across all seven terrain packages, with SHA-256
+`4d7c12766dec03a2d8faca71801dbc336db55144d52b2aad2f95efc263a2e237`.
+It is copied to `0x80100000`, but matching `func_80056250` only checks that
+pointer for null and never reads the bytes; its `0x63000` and `4` arguments
+are unused. The current image therefore establishes a real transfer but no
+payload role. The full negative evidence is recorded in
+[`duel-package-unused-data.md`](duel-package-unused-data.md).
+
 ### End-of-duel results package
 
 Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,
@@ -257,6 +266,28 @@ and their palette rows in the second. The executable phase and its exact hash
 are tracked under [`src/overlays/password/`](../src/overlays/password/).
 See [`modding-tutorial-evidence.md`](modding-tutorial-evidence.md) for the
 resource-level offsets and visual-label confidence.
+
+### Options and PocketStation package
+
+`Main_RunOptionsMenu` calls `func_8003C2B4`, which first requests 50 WA
+sectors beginning at `0x2115`. Its matching callback `func_8003C120` accounts
+for the complete package:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0x108A800-0x109A800` | `0x10000` / 32 sectors | Schedules the main image phase through the GPU/VRAM transfer path. |
+| `0x109A800-0x109B000` | `0x800` / 1 sector | Stages palette data. |
+| `0x109B000-0x109B800` | `0x800` / 1 sector | Uploads the staged block as a `256 x 4` rectangle at VRAM `(256, 240)`, then transfers this sector to `0x801AF000`. |
+| `0x109B800-0x10A3800` | `0x8000` / 16 sectors | Transfers a PocketStation-titled 32 KiB payload to `0x80140000`. |
+
+The phase sizes total the requested 50 sectors exactly. After waiting,
+`func_8003C2B4` requests the next 16 sectors (`0x2147..0x2156`) directly to
+the same `0x80140000` address. The two 32 KiB payloads have distinct hashes
+and differ in 28,915 bytes; the second therefore replaces, rather than
+extends, the first before `Options_Init` runs. Their Shift-JIS headers identify
+two variants of `PocketStation   Yu-Gi-Oh! Shin Duel Monsters`, differing in
+the title punctuation. See [`options-screen.md`](options-screen.md) for the
+input reachability boundary and exact hashes.
 
 ## Development-path evidence
 

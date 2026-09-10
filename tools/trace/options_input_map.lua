@@ -1,13 +1,14 @@
 -- options_input_map.lua
 --
 -- WHAT THIS ANSWERS
---   notes/research/the-game.md confirms mono/stereo on the Options screen but
---   does not name the other visible rows or their results. Matching
---   Options_HandleInput shows horizontal output toggles on selection 0 and
---   confirm states derived from every nonzero selection.
+--   Static analysis establishes stereo/mono on selection 0 and finds no
+--   post-initialization writer for the selection byte anywhere in the retail
+--   executable. The layout and update code retain two nonzero positions and
+--   confirm states, so this trace checks whether ordinary directional input is
+--   visibly inert and records any labels that remain on screen.
 --
---   This trace captures the three-row selection, small state machine, working
---   and stored output types, raw main mode, and each physical pressed mask.
+--   This trace captures the selection byte, small state machine, working and
+--   stored output types, raw main mode, and each physical pressed mask.
 --   It also records intermediate state changes before settlement so the
 --   one-frame state-3 path is not hidden by the final snapshot.
 --
@@ -23,9 +24,9 @@
 --      tools/trace/result/options_input_map.txt and fill in context.
 --
 -- WHAT TO WRITE IN THE CONTEXT
---   Name all three visible row labels and which side of the first row is mono
---   versus stereo. For the Cross sample, describe the visible result of the
---   highlighted non-audio row. State what Circle did.
+--   Name every visible row label and which side of the sound row is mono versus
+--   stereo. State whether either Down press moved the highlight despite the
+--   static writer search, what Cross did, and what Circle did.
 
 local ffi = require('ffi')
 
@@ -132,9 +133,10 @@ local function finish(reason)
     print('')
     print('==== USER CONTEXT ====')
     print('')
-    print('<name all three row labels and mono/stereo sides; for every sample')
+    print('<name every visible row and the mono/stereo sides; for every sample')
     print(' describe the highlighted row, visible value, animation/sound/result,')
-    print(' and whether the screen exited; state what Cross and Circle did>')
+    print(' and whether the screen exited; say whether Down/Up moved the')
+    print(' highlight, and state what Cross and Circle did>')
     print('')
     print('==== TRACE RESULT =====')
     print('')

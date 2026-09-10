@@ -21,6 +21,7 @@
 #include "library_mark_owned_cards.h"
 #include "sound.h"
 #include "text_render_state.h"
+#include "func_8002BAB4.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -28,7 +29,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
 
 void func_8002BFCC(void) {
