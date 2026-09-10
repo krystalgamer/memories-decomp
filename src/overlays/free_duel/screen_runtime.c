@@ -72,12 +72,6 @@ typedef struct {
     u8 state;
 } FreeDuelSparkle;
 
-extern FreeDuelWidget *gFreeDuel_pCursorWidget_layout
-    asm("gFreeDuel_pCursorWidget");
-extern FreeDuelWidget *gFreeDuel_pThumbWidget_layout
-    asm("gFreeDuel_pThumbWidget");
-extern u8 *gFreeDuel_pCursorWidget_bytes asm("gFreeDuel_pCursorWidget");
-extern u8 *gFreeDuel_pThumbWidget_bytes asm("gFreeDuel_pThumbWidget");
 extern s16 D_8009B32E;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern s16 D_801D0000[];
@@ -96,7 +90,7 @@ extern void func_8003FF08(s32);
 
 void FreeDuel_UpdateScrollbar(void)
 {
-    FreeDuelWidget *cursor = gFreeDuel_pCursorWidget_layout;
+    FreeDuelWidget *cursor = (FreeDuelWidget *)gFreeDuel_pCursorWidget;
     s32 relative = cursor->y - gGraphics_sViewportY;
 
     if (relative < 0x28) {
@@ -105,7 +99,8 @@ void FreeDuel_UpdateScrollbar(void)
     if (relative >= 0x91) {
         gGraphics_sViewportY = cursor->y - 0x90;
     }
-    gFreeDuel_pThumbWidget_layout->y = (cursor->y - 0x28) * 72 / 364 + 7;
+    ((FreeDuelWidget *)gFreeDuel_pThumbWidget)->y =
+        (cursor->y - 0x28) * 72 / 364 + 7;
 }
 
 void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
@@ -308,9 +303,9 @@ done:
     obj->mode = 128;
     func_800428EC(obj, 15);
     obj->attr |= 0x28;
-    gFreeDuel_pThumbWidget_bytes = (u8 *)obj;
+    gFreeDuel_pThumbWidget = (u8 *)obj;
     obj = (Obj *)FreeDuel_SpawnSparkle();
-    gFreeDuel_pCursorWidget_bytes = (u8 *)obj;
+    gFreeDuel_pCursorWidget = (u8 *)obj;
     obj->flags &= ~GsROTOFF;
     if (gFreeDuel_bReturnFlags == 0) {
         obj->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
@@ -366,7 +361,7 @@ void FreeDuel_UpdateSparkle(void)
 
 void FreeDuel_UpdateCursorTween(void)
 {
-    u8 *widget = gFreeDuel_pCursorWidget_bytes;
+    u8 *widget = gFreeDuel_pCursorWidget;
     void **slot;
     u8 *sparkle;
     s32 tx;
@@ -432,10 +427,10 @@ void FreeDuel_UpdateScreen(void)
         if ((*(u16 *)(panel + 0x34) & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
-            *(u16 *)(gFreeDuel_pCursorWidget_bytes + 8) |=
+            *(u16 *)(gFreeDuel_pCursorWidget + 8) |=
                 DISPLAY_OBJECT_FLAG_RENDERABLE;
             FreeDuel_PlaceCursor(
-                (FreeDuelWidget *)gFreeDuel_pCursorWidget_bytes, 1
+                (FreeDuelWidget *)gFreeDuel_pCursorWidget, 1
             );
         }
         return;
@@ -522,9 +517,9 @@ void FreeDuel_Entry(void)
         if (phase >= 8) {
             phase = 0xF - phase;
         }
-        *(s16 *)(gFreeDuel_pCursorWidget_bytes + 0x46) =
+        *(s16 *)(gFreeDuel_pCursorWidget + 0x46) =
             phase * 48 + 0x1000;
-        *(s16 *)(gFreeDuel_pCursorWidget_bytes + 0x44) =
+        *(s16 *)(gFreeDuel_pCursorWidget + 0x44) =
             phase * 48 + 0x1000;
     }
     FreeDuel_UpdateSparkle();
