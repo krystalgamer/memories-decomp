@@ -1283,9 +1283,14 @@ here so that it can be dropped in as-is the day MASPSX emits the nop.
 
 ### Register pins
 
-Issue #5 accepts `register` variables pinned to a hard register for functions
-that are otherwise unmatchable. Two things are worth knowing before reaching for
-one.
+Issue #5 accepted `register` variables pinned to a hard register for functions
+that are otherwise unmatchable. #3859 withdrew that: a match that depends on a
+pin (or on inline asm, or on a mixed `-G` profile) is kept as a
+build-integrated candidate instead, and `make check-metadata` rejects the
+device in matching C (`tools/project/check_matching_hygiene.py`). A pin is
+still a useful measuring instrument while working a candidate, and a pin that
+turns out to be inert should simply be deleted. Two things are worth knowing
+before reaching for one.
 
 #### Fixing allocation is a smaller claim than coercing a sequence
 

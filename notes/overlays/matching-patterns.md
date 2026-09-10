@@ -10,9 +10,12 @@ not universal compiler rules or proof of the original author's declarations.
 The historical Trade identifiers `func_80184030` and `func_801844D8` now
 refer to `MainMenu_ApplyTradeOfferInventoryDelta` and
 `MainMenu_RebuildTradeInventoryRows`; their measured source constraints remain.
-Register bindings permitted by #5 can also reproduce a target without an
-inline assembly statement. The accepted source and a fully relocated image
-comparison decide whether a reconstruction matches.
+Issue #5 once accepted register bindings, and #3859 withdrew that: a
+function that reproduces its target only through a pinned register or an
+inline asm statement is a build-integrated candidate, not matching C, and
+`make check-metadata` rejects either device in a matching source
+(`tools/project/check_matching_hygiene.py`). The accepted source and a fully
+relocated image comparison decide whether a reconstruction matches.
 
 All game-owned functions in the five configured overlays had matching C by
 #2180. #3859 returned four of them, whose matches depended on pinned registers

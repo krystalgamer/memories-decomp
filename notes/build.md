@@ -740,6 +740,16 @@ both there and in `unmatched.h`. Either place is one declaration site; both
 would be two. Local declarations of a candidate still need an exception like
 any other unmatched function.
 
+`make check-metadata` also runs `make check-matching-hygiene`, which keeps
+matching C honest in the sense #3859 set out. Every entry in
+`matching_c.json` and the overlay manifests must be a C definition built by
+one consistent profile, so it rejects a profile whose compiler `-G` differs
+from its MASPSX `-G`, a `register` variable pinned with `asm("$N")`, an asm
+statement in the function body, asm reached through a project macro or a
+`static inline` helper, and a function supplied only as top-level asm. A
+device that measures as inert is deleted; one the match depends on means the
+function belongs in `src/candidates/`.
+
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
 matching C, and all resident headers. A symbol centralized in `unmatched.h`
 cannot remain locally declared, lose its linker assignment, or gain a
