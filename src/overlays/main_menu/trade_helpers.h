@@ -6,21 +6,15 @@
 #include "../../game/card_constants.h"
 
 /* One entry of D_801845EC, the two Trade card-display slots.
-
-   Three code paths view this symbol three different ways and all three agree;
-   they are views of one array, not competing claims about it.
-
-     MainMenu_InitTradeScreen
-                     MainMenuSlot D_801845EC[]  - builds both entries, writing
-                     .object from func_800400AC and clearing .unk4
-     trade_draw.c    u8 *D_801845EC[]           - reads [0] and [2]
-     MainMenu_UpdateTradeScreen
-                     MainMenuWidget *D_801845EC - reads ->y
-
-   The 8-byte stride is what reconciles them: trade_draw.c's [0] and [2] are
-   the `object` pointers of entries 0 and 1 at a 4-byte pointer stride, and
-   the updater's declaration names the same first pointer, so `->y` is
-   entry 0's object. Only the initializer's view sees `unk4` at all. */
+   MainMenu_InitTradeScreen's `i < 2` loop stores the func_800400AC result,
+   or 0, into `.object` and 0 into `.unk4` (trade_update.c:70-81);
+   MainMenu_DrawTradeOffersAndHighlights reads `[0].object` and
+   `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen stores
+   `->y` through `[0].object` and `[1].object` (trade_update.c:569, :572).
+   The two readers used to declare the symbol `u8 *[]`, read at [0] and
+   [2], and `MainMenuWidget *`, with entry 1's pointer declared on its own
+   as D_801845F4 (+8); the 8-byte stride reconciled those views, and spelled
+   through this type they build the same overlay (measured, one build). */
 typedef struct {
     u8 *object;
     s32 unk4;
@@ -29,6 +23,8 @@ typedef struct {
 typedef char MainMenuSlot_size_must_be_8[
     sizeof(MainMenuSlot) == 8 ? 1 : -1
 ];
+
+extern MainMenuSlot D_801845EC[];
 
 /* One side's Trade list scroll position, D_80185C8C[side]. The README records
    the meaning: "[side][0] is the current scrolling top; [1] is its target".
@@ -68,6 +64,24 @@ typedef struct {
     u8 frame;
 } MainMenuWidget;
 
+/* The two Trade display handles, D_801845DC and D_801845E0 -- the pair
+ * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
+ * releases and clears. MainMenu_InitTradeScreen stores a func_800400AC
+ * result into each (trade_update.c:52-53, :60-61), ORs 0x28 into +8
+ * (:56, :64) and passes it to func_800428EC (:57, :65);
+ * MainMenu_ReleaseTradeDisplayHandles passes each to func_8004036C and
+ * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen reads
+ * D_801845E0->frame (trade_update.c:145) and passes D_801845E0 to
+ * func_80040410 (:576); MainMenu_RebuildTradeInventoryRows reads ->frame
+ * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
+ * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
+ * read `frame`. `frame` is a member of that view and +8 falls inside its
+ * pad0 (display_object_config.h:13 names the same halfword `flags` in
+ * DisplayObjectConfig), so the widget view is the one kept here; the +8 and
+ * func_800428EC sites cast to bytes. */
+extern MainMenuWidget *D_801845DC;
+extern MainMenuWidget *D_801845E0;
+
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force);
 void MainMenu_DrawTradeOffersAndHighlights(void);
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value);
@@ -104,11 +118,11 @@ extern u8 D_80185CD1;
  * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
  * row for 0x8018338C records why), and the other two sources reach the same
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
- * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:173-176, :184),
+ * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`
- * (trade_screen_helpers.c:103), and MainMenu_UpdateTradeScreen indexes
- * `[0][...]` (trade_update.c:217). Row 1 is also named on its own as
- * D_80185144 (trade_update.c:23, :358; +0xB48 = CARD_COUNT * 4), which keeps
+ * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen indexes
+ * `[0][...]` (trade_update.c:281). Row 1 is also named on its own as
+ * D_80185144 (trade_update.c:27, :422; +0xB48 = CARD_COUNT * 4), which keeps
  * its private declaration. Two rows end at D_80185C8C, +0x1690. */
 extern CardCountEntry D_801845FC[][CARD_COUNT];
 

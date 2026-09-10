@@ -26,7 +26,6 @@
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
    D_80185C9C is read by the draw and written through by the delta. */
 
-extern u8 *D_801845EC[];
 extern u16 D_80185C9C[][11];
 extern u8 D_80185CC8;
 
@@ -35,8 +34,8 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     u8 *volatile obj[2];
     s32 i;
 
-    obj[0] = D_801845EC[0];
-    obj[1] = D_801845EC[2];
+    obj[0] = D_801845EC[0].object;
+    obj[1] = D_801845EC[1].object;
 
     if (D_80185CC8 != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
@@ -136,9 +135,6 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
         value = quotient;
     }
 }
-
-extern void *D_801845DC;
-extern void *D_801845E0;
 
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {
