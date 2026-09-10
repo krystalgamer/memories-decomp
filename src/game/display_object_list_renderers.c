@@ -18,7 +18,7 @@ void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 void func_80040DD8(void) {
     u8 *g;
     u8 *h;
-    u8 *e;
+    DisplayObject *e;
     u8 *tb;
     DisplayObjectCallback fn;
     s32 eight;
@@ -49,30 +49,30 @@ void func_80040DD8(void) {
         bit = 0x40000;
 
         do {
-            e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
-            fn = *(DisplayObjectCallback *)(e + 0x24);
-            i = *(s16 *)(e + 2);
+            e = &D_800EFE48[i];
+            fn = e->update;
+            i = e->next;
             if (fn != (DisplayObjectCallback)0) {
-                fn(e);
+                fn((u8 *)e);
             }
-            if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+            if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                v = *(s32 *)(e + 4);
-                w0 = *(s32 *)(e + 0x28);
-                w1 = *(s32 *)(e + 0x30);
-                w2 = *(s32 *)(e + 0x38);
-                w3 = *(s32 *)(e + 0x40);
+                v = e->attribute;
+                w0 = *(s32 *)((u8 *)e + 0x28);
+                w1 = *(s32 *)((u8 *)e + 0x30);
+                w2 = *(s32 *)((u8 *)e + 0x38);
+                w3 = *(s32 *)((u8 *)e + 0x40);
                 *(s32 *)(g + 8) = w0;
                 *(s32 *)(g + 0x10) = w1;
                 *(s32 *)(g + 0x18) = w2;
                 *(s32 *)(g + 0x20) = w3;
-                *(s32 *)(g + 4) = *(s32 *)(e + 0x2C);
-                *(s32 *)(g + 0xC) = *(s32 *)(e + 0x34);
-                *(s32 *)(g + 0x14) = *(s32 *)(e + 0x3C);
-                w4 = *(s32 *)(e + 0x44);
+                *(s32 *)(g + 4) = *(s32 *)((u8 *)e + 0x2C);
+                *(s32 *)(g + 0xC) = *(s32 *)((u8 *)e + 0x34);
+                *(s32 *)(g + 0x14) = *(s32 *)((u8 *)e + 0x3C);
+                w4 = *(s32 *)((u8 *)e + 0x44);
                 g[3] = eight;
                 g[7] = hi;
-                fl = *(u16 *)(e + 8);
+                fl = e->flags;
                 *(s32 *)(g + 0x1C) = w4;
 
                 if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -88,32 +88,32 @@ void func_80040DD8(void) {
                     *(u16 *)(g + 0x22) = *(u16 *)(g + 0x22) - dx;
                 }
 
-                if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-                    if (func_80041E7C(*(s32 *)(e + 0x20),
-                                      (s16)*(u16 *)(g + 8) + *(s16 *)(e + 0x18),
+                if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+                    if (func_80041E7C(*(s32 *)((u8 *)e + 0x20),
+                                      (s16)*(u16 *)(g + 8) + *(s16 *)((u8 *)e + 0x18),
                                       (s16)*(u16 *)(g + 0xA) +
-                                          *(s16 *)(e + 0x1A),
+                                          *(s16 *)((u8 *)e + 0x1A),
                                       h) <= 0) {
                         goto next;
                     }
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, g, *(s32 *)(tb + e[0x17] * 4),
-                              *(u16 *)(e + 0x14) | bit, h);
+                func_80042188(v, g, *(s32 *)(tb + e->ot_index * 4),
+                              e->field_14 | bit, h);
 
-                if (e[0x5A] != 0) {
-                    x0 = *(s32 *)(e + 0x48);
-                    x1 = *(s32 *)(e + 0x50);
+                if (*(u8 *)&e->field_5A != 0) {
+                    x0 = *(s32 *)((u8 *)e + 0x48);
+                    x1 = *(s32 *)((u8 *)e + 0x50);
                     *(s32 *)(g + 8) = x0;
                     *(s32 *)(g + 0x10) = x1;
-                    *(s32 *)(g + 4) = *(s32 *)(e + 0x4C);
-                    x2 = *(s32 *)(e + 0x54);
+                    *(s32 *)(g + 4) = *(s32 *)((u8 *)e + 0x4C);
+                    x2 = *(s32 *)((u8 *)e + 0x54);
                     g[3] = eight;
                     g[7] = hi;
                     *(s32 *)(g + 0xC) = x2;
-                    func_80042188(v, g, *(s32 *)(tb + e[0x17] * 4),
-                                  *(u16 *)(e + 0x14) | bit, h);
+                    func_80042188(v, g, *(s32 *)(tb + e->ot_index * 4),
+                                  e->field_14 | bit, h);
                 }
             }
         next:

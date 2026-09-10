@@ -380,11 +380,32 @@ typedef struct DisplayObject {
    two list heads (D_800EFE38[4] and [5]) may simply carry differently
    shaped payloads. Recorded as an open question rather than guessed at.
 
-   The practical consequence: display_object_list_renderers.c cannot be
-   converted to member access. Besides 0x72, it reads 0x58 as an s32
-   across field_58 and field_5A, 0x68 as an s32 across the u8 at 0x68,
-   and 0x6C as a u16 across the u8 at 0x6C. Those spans are retail's,
-   and the record cannot express them. */
+   The practical consequence, restated after measuring it. The earlier
+   wording said display_object_list_renderers.c could not be converted
+   to member access because the record cannot express its spans. That
+   reason is right for func_80041068, wrong for func_80040DD8, and not
+   the whole reason for either.
+
+   func_80041068 genuinely cannot convert: it reads 0x64 as an s32
+   beginning inside pad_62, and tests e[0x72], which is outside the
+   record. Neither is expressible however the members are spelled. Its
+   0x58, 0x68 and 0x6C spans are a lesser matter -- *(s32 *)&object->
+   field_58 and its like express those, as this record's own users
+   already do for its unions.
+
+   func_80040DD8 reaches nothing past 0x5A and every offset it uses
+   lands on a named member, so the span argument never applied to it.
+   Converting all of it still fails, for the reason func_80016784.c
+   records about its own 0x0C read: a member read is a struct reference,
+   the scratchpad stores it sits between are not, and GCC 2.8.1 floats
+   the load across them. Measured here as five instructions gone and
+   twenty bytes off the executable, retail's v0/v1/a0/a1 with their
+   load-delay nops becoming a2/a3/t0/t1 with none.
+
+   So the reads that do not sit between scratchpad stores are converted
+   -- next, attribute, flags, field_14, ot_index, update and the 0x5A
+   test -- and the vertex block between them keeps its casts, re-based
+   on (u8 *) so retyping the cursor cannot rescale them. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 
