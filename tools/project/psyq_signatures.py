@@ -164,6 +164,8 @@ def signature_entry_fields(
         raise SignatureError(
             f"{path}: entry {index} name is not a string"
         )
+    if not entry_name.strip():
+        raise SignatureError(f"{path}: entry {index} name is empty")
     signature = entry["sig"]
     if not isinstance(signature, str):
         raise SignatureError(
@@ -186,6 +188,10 @@ def signature_entry_fields(
             raise SignatureError(
                 f"{path}: entry {index} label {label_index} "
                 "name is not a string"
+            )
+        if not name.strip():
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} name is empty"
             )
         offset = label.get("offset")
         if type(offset) is not int:
@@ -228,6 +234,13 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
                 raise SignatureError(
                     f"{path}: entry {index} sig: {error}"
                 ) from error
+            for label_index, (_name, offset) in enumerate(labels):
+                if offset < 0 or offset >= len(pattern):
+                    raise SignatureError(
+                        f"{path}: entry {index} label {label_index} "
+                        f"offset {offset} is outside the "
+                        f"{len(pattern)}-byte signature"
+                    )
             matches = find_matches(payload, pattern, mask)
             if matches is None:
                 unanchored += 1
