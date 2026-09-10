@@ -230,7 +230,7 @@ table of relocations and a typed record array. Five things make one of these:
    file cannot also supply them from another segment; `make split` says so
    rather than letting the bytes land in the wrong place. It lists no
    small-data section, which is why `.sdata` and `.sbss` can go back into the
-   matched text unit that owns them, the way `ai_script_call_control.c` does.
+   matched text unit that owns them, the way `duel_trap_resolution.c` does.
 3. **Name the profile in `config/slus_01411/data_c.json`.** Data units are not
    in `matching_c.json`, which describes functions; the build gets its compiler
    profile from this manifest, and `make split` rejects a file that owns a

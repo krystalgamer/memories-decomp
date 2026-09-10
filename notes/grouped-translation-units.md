@@ -71,7 +71,7 @@ source grouping.
 | `src/game/ai_script_vm.c` | `gcc_2_8_1_g0_split` | `AiScript_Init` (`0x800705D8`), `AiScript_Run` (`0x80070650`) |
 | `src/game/ai_card_ranges.c` | `gcc_2_8_1_g0_split` | Four contiguous AI card-selection helpers: winning-card (`0x80070738`) and general card (`0x800707C4`) range decoders with their compiler-owned jump tables, followed by card-ID (`0x80070870`) and card-type (`0x800708C4`) set predicates |
 | `src/game/ai_script_card_info.c` | `gcc_2_8_1_g0_split` | `AiScript_TestHighStat` (`0x80071194`) through `AiScript_LoadCardID` (`0x800712B4`) |
-| `src/game/ai_script_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpNotEqual` (`0x80070B3C`), `AiScript_JumpBetween` (`0x80070BB8`), `AiScript_JumpRandom` (`0x80070C60`) |
+| `src/game/ai_script_control_flow.c` | `gcc_2_8_1_g0_split` | The AI script VM's control-flow opcodes, nine contiguous functions: the six conditional jumps from `AiScript_JumpGreaterEqual` (`0x800709C0`) through `AiScript_JumpRandom` (`0x80070C60`), `AiScript_Call` (`0x80070D00`) and `AiScript_Return` (`0x80070DA8`), and `AiScript_SetRandom` (`0x80070E20`), which was already grouped with the call pair. The former sources alternated between `gcc_2_8_1_g0_split` and `gcc_2_8_1_g8_split`, and every member compiles to an identical object at `gcc_2_8_1_g0_split`. Bounded below by `ai_script_support.c` and above by `AiScript_Subtract`, an arithmetic opcode |
 | `src/game/ai_script_end.c` | `gcc_2_8_1_g0` | `AiScript_EndHand` (`0x80070FF8`), `AiScript_EndField` (`0x80071000`) |
 | `src/game/ai_script_skip.c` | `gcc_2_8_1_g0` | `AiScript_SkipHand` (`0x80072F1C`), `AiScript_SkipField` (`0x80072F54`) |
 | `src/game/ai_script_nop.c` | `gcc_2_8_1_g0` | `AiScript_HandNop` (`0x80073300`), `AiScript_FieldNop` (`0x80073308`) |
@@ -158,8 +158,6 @@ source grouping.
 | `src/game/model_buffer_getters.c` | `gcc_2_8_1_g0_split` | Two leaf pointer getters at `0x80059214` and `0x80059220` returning buffer bases `D_800F56A0` and `D_800FE148` |
 | `src/game/model_state_setters.c` | `gcc_2_8_1_g8` | Paired leaf setters at `0x80059AE0` and `0x80059AEC` for the halfword at `D_8009AF92` and byte at `D_8009AFA4` |
 | `src/game/model_primitive_handler.c` | `gcc_2_8_1_g0_split` | Primitive-family selector (`0x800603DC`) and `Model_GetPrimitiveHandler` (`0x8006041C`) |
-| `src/game/ai_script_comparison_jumps.c` | `gcc_2_8_1_g0_split` | `AiScript_JumpGreaterEqual` (`0x800709C0`), `AiScript_JumpGreater` (`0x80070A40`) |
-| `src/game/ai_script_call_control.c` | `gcc_2_8_1_g8_split` | Three call-stack and control helpers from `AiScript_Call` (`0x80070D00`) through `AiScript_SetRandom` (`0x80070E20`) |
 | `src/game/sound_output.c` | `gcc_2_8_1_g8` | Eighteen contiguous sound output reset, initialization, control, command dispatch, default-argument, and sequence-state helpers from `0x80046DE8` through `0x80047458`, including `SD_SetOutputType` |
 | `src/game/sound_frontend.c` | `gcc_2_8_1_g8` | Nine game-facing sound initialization and command helpers from `Sound_InitFrontend` (`0x8003FE80`) through `SD_StopAll` (`0x8003FFFC`), including `SD_SEPlayFull` |
 | `src/game/sound_init.c` | `gcc_2_8_1_g0` | Thirteen music/sequence and secondary sound-state initialization helpers from `0x80049200` through `0x800495EC`, including `SD_Init` |
@@ -219,8 +217,8 @@ of:
 The three-function AI call-control group at `0x80070D00-0x80070EB4` was
 initially blocked by incompatible local declarations of `gAiScript_State`.
 All three helpers now use the shared `AiScriptState` declaration from `ai.h`,
-so `AiScript_Call`, `AiScript_Return`, and `AiScript_SetRandom` build together
-in `ai_script_call_control.c`.
+so `AiScript_Call`, `AiScript_Return`, and `AiScript_SetRandom` build together.
+They now sit in `ai_script_control_flow.c` with the six jump opcodes below them.
 
 ## Preconditions worth checking before spending a build
 
