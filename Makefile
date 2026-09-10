@@ -233,6 +233,10 @@ check-candidate-headlines:
 	@$(PYTHON) tools/project/check_candidate_headlines.py --self-test
 	@$(PYTHON) tools/project/check_candidate_headlines.py
 
+check-data-symbols:
+	@$(PYTHON) tools/project/check_data_symbol_ownership.py --self-test
+	@$(PYTHON) tools/project/check_data_symbol_ownership.py
+
 disc-files: workspace
 	@$(PYTHON) tools/project/disc_image.py extract $(FILES)
 

@@ -44,6 +44,9 @@ jobs:
       - name: Verify candidate headlines match their inventory rows
         run: make check-candidate-headlines
 
+      - name: Verify no C data definition collides with a linker assignment
+        run: make check-data-symbols
+
       - name: Check grouped translation-unit notes
         run: make check-notes
 
