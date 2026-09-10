@@ -31,17 +31,20 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
-## Display-refresh translation unit
+## Shop text-display translation unit
 
 `refresh_displays.c` keeps the eight-digit password renderer next to the
-starchip-balance renderer. Both rebuild fixed text slots through
-`func_8003B6AC`, `func_80035BE4`, and `func_80039A14`.
+starchip-balance renderer and the modal message-box creator. All three
+rebuild or create fixed shop text slots through `func_80035BE4`, and the
+refreshers and flagged message path drive them through `func_80039A14`.
 
 The definitions remain in executable order: `Password_RefreshDigitDisplay`
 occupies `0x80169C30..0x80169D10`, followed by
-`Password_RefreshStarchipDisplay` through `0x80169D84`. Both use
+`Password_RefreshStarchipDisplay` through `0x80169D84`, then
+`Password_CreateMessageBox` through `0x80169E20`. All three use
 `gcc_2_8_1_g0_split`, and one C subsegment at module offset `0x1C30` covers
-the complete contiguous `0x154`-byte text range.
+the complete contiguous `0x1F0`-byte text range. The digit-cursor unit starts
+immediately afterward.
 
 ## Password-shop lifecycle
 
