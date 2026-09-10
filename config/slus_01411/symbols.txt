@@ -842,6 +842,7 @@ CdSyncCallback = 0x8007E880; // type:func
 CdDataCallback_8007E8A0 = 0x8007E8A0; // type:func
 
 // Semantic names
+D_8009AF0C = 0x8009AF0C; // defined:True
 D_8009AF40 = 0x8009AF40; // defined:True
 D_8009AF44 = 0x8009AF44; // defined:True
 D_8009AF46 = 0x8009AF46; // defined:True

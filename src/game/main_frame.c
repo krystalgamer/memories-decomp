@@ -5,7 +5,9 @@
 #include "sound_output.h"
 #include "main_services.h"
 
-extern u8 D_8009AF0C;
+/* Small data at 0x8009AF0C: prevents a nested VBlank callback from calling
+   func_80047050 while the previous call is still running. */
+u8 D_8009AF0C __attribute__((section(".sdata"))) = 0;
 
 void Main_VBlankCB(void)
 {
