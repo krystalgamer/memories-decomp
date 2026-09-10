@@ -38,6 +38,20 @@ extern u8 gFreeDuel_bReturnFlags;
 
 extern void *gFreeDuel_apSparklePool[];
 
+/* The two objects FreeDuel_Init stores here: the thumb it takes from
+ * func_800400AC (screen_runtime.c:301, :306) and the cursor from
+ * FreeDuel_SpawnSparkle (:307-308). Both are byte pointers.
+ * FreeDuel_UpdateScrollbar reads the cursor's y at +0x32 through a
+ * FreeDuelWidget view (:93-94, :97, :100) and writes the thumb's y the same
+ * way (:102-103). FreeDuel_UpdateCursorTween reaches the cursor at +0x16,
+ * +0x30, +0x32, +0x36, +0x38, +0x4C and +0x60 (:364, :378-391, :395-396,
+ * :407-410), FreeDuel_UpdateScreen at +8 (:430) and FreeDuel_Entry at +0x44
+ * and +0x46 (:520-523). FreeDuelWidget is 0x34 bytes (:47-51), so +0x36,
+ * +0x38, +0x44, +0x46, +0x4C and +0x60 lie past it. screen_runtime.c used to
+ * declare each twice through asm aliases, `FreeDuelWidget *` and `u8 *`. */
+extern u8 *gFreeDuel_pCursorWidget;
+extern u8 *gFreeDuel_pThumbWidget;
+
 void FreeDuel_Entry(void);
 /* Resident entry alias used before this overlay is linked into its slot. */
 void func_80168FB4(void);

@@ -73,12 +73,13 @@ not mark object or ownership boundaries:
 - `FreeDuel_Entry` drives the screen update, cursor pulse, and sparkle-pool
   updater each frame.
 
-The merged unit keeps the differing cursor-global views explicit. The layout
-helpers use the verified `FreeDuelWidget` `x`/`y` prefix, while initialization
-and runtime code retain byte-pointer aliases for their offset-based accesses;
-both C identifiers bind to the same overlay symbols. `D_800EB0F8` likewise
-keeps a byte alias for `FreeDuel_PlaceCursor` beside the typed
-`DuelEffectChannel` declaration used by the runtime.
+`gFreeDuel_pCursorWidget` and `gFreeDuel_pThumbWidget` are declared once, as
+byte pointers, in `free_duel.h`; `FreeDuel_UpdateScrollbar` casts them to the
+verified `FreeDuelWidget` `x`/`y` prefix at the use, `FreeDuel_UpdateScreen`
+casts the cursor when it calls `FreeDuel_PlaceCursor`, and initialization and
+runtime code keep their offset-based byte accesses. `D_800EB0F8` keeps a byte
+alias for `FreeDuel_PlaceCursor` beside the typed `DuelEffectChannel`
+declaration used by the runtime.
 
 The sparkle-pool allocator and updater remain at `0x8016899C` and
 `0x801689D4`. Both reverse-scan the same 16-entry
@@ -182,7 +183,8 @@ cursor's offset within the visible window between `0x28` and `0x90`, pushing
 positions the scrollbar thumb with
 
 ```c
-gFreeDuel_pThumbWidget->y = (cursor->y - 0x28) * 72 / 364 + 7;
+((FreeDuelWidget *)gFreeDuel_pThumbWidget)->y =
+    (cursor->y - 0x28) * 72 / 364 + 7;
 ```
 
 The `364` in that expression is exactly `7 * 52` — the row pitch times
