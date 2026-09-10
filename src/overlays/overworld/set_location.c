@@ -449,13 +449,13 @@ s32 CampaignMap_PickExit(void)
     exits = record->exits;
     if (gCampaignMap_Location >= 10) {
         if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0 &&
-            (gInput_wPad1Pressed & 0x20) != 0) {
+            (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             SD_SEPlayFull(48);
             gCampaignMap_MoveState = 24;
             return 0;
         }
     }
-    if ((gInput_wPad1Pressed & 0xC0) != 0) {
+    if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) != 0) {
         ready = record->confirm_gate;
         if (ready != 0) {
             if (Campaign_TestStoryFlag(exits->story_flag) != 0) {
