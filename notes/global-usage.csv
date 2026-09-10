@@ -220,7 +220,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x80070710,Ai_GetHandSize,matching_c,game,C,src/game/ai_get_hand_size.c,read,,return gDuel_aOpponentData[gDuel_bOpponentID].values[0];
 0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x800734DC,AiScript_LoadOpponentData,matching_c,game,C,src/game/ai_script_load_opponent_data.c,read,,mem[dst] = gDuel_aOpponentData[index].values[1] * 100; | mem[dst] = gDuel_aOpponentData[index].values[field + 1];
 0x8009AF08,runtime_gp,runtime_gp,0x8001306C,func_8001306C,matching_c,game,C,src/game/main_services.c,read_write,32,cnt = runtime_gp - 1; | runtime_gp = 0x3C; | (+1 more)
-0x8009AF0C,D_8009AF0C,D_8009AF0C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,,D_8009AF0C = 0; | D_8009AF0C = 1; | (+1 more)
+0x8009AF0C,D_8009AF0C,D_8009AF0C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,8,D_8009AF0C = 0; | D_8009AF0C = 1; | (+1 more)
 0x8009AF18,D_8009AF18,D_8009AF18,0x80013C28,func_80013C28,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_004428.s,read,32,"lw $a0, %gp_rel(D_8009AF18)($gp) | lw $s0, %gp_rel(D_8009AF18)($gp) | (+2 more)"
 0x8009AF20,D_8009AF20,D_8009AF20,0x800178BC,func_800178BC,matching_c,game,C,src/game/func_800178BC.c,read,16,D_800F2848.angle = D_8009AF20[0];
 0x8009AF20,D_8009AF20,D_8009AF20,0x8001D670,func_8001D670,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,address,,"addiu $v0, $gp, %gp_rel(D_8009AF20)"
@@ -725,7 +725,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B074,D_8009B074,D_8009B074,0x8005DBA4,func_8005DBA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04e3a4.s,read_write,32,"lw $a0, %gp_rel(D_8009B074)($gp) | lw $a1, %gp_rel(D_8009B074)($gp) | (+6 more)"
 0x8009B074,D_8009B074,D_8009B074,0x8005E808,func_8005E808,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04e3a4.s,read,32,"lw $v0, %gp_rel(D_8009B074)($gp)"
 0x8009B074,D_8009B074,D_8009B074,0x8005F070,func_8005F070,matching_c,game,C,src/game/func_8005EBF4.c,read,8,u8 *table = D_8009B074;
-0x8009B074,D_8009B074,D_8009B074,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,write,8,D_8009B074 = D_800F5788;
+0x8009B074,D_8009B074,D_8009B074,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,write,8,D_8009B074 = (u8 *)D_800F5788;
 0x8009B074,D_8009B074,D_8009B074,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_transfer_state.c,write,8,D_8009B074 = 0;
 0x8009B074,D_8009B074,D_8009B074,0x8005FB14,func_8005FB14,matching_c,game,C,src/game/model_transfer_state.c,read,8,value = (s32)D_8009B074;
 0x8009B074,D_8009B074,D_8009B074,0x8005FB30,func_8005FB30,matching_c,game,C,src/game/model_transfer_state.c,read,8,data = D_8009B074;
@@ -2867,8 +2867,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/func_8005EBF4.c,address,,pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
 0x800F5768,D_800F5768,D_800F5768,0x8005F070,func_8005F070,matching_c,game,C,src/game/func_8005EBF4.c,address,,*(u16 *)&D_800F5768[0].vx = *(u16 *)(left + 0); | *(u16 *)&D_800F5768[0].vy = *(u16 *)(left + 4); | (+7 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005DBA4,func_8005DBA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04e3a4.s,address,,"addiu $a0, $v0, %lo(D_800F5788) | addiu $s1, $v0, %lo(D_800F5788) | (+1 more)"
-0x800F5788,D_800F5788,D_800F5788,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/func_8005EBF4.c,read,,"&D_800F5788[(cur - D_800F5788 + 1) % D_8009B078], | &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078] | (+2 more)"
-0x800F5788,D_800F5788,D_800F5788,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,read,,D_8009B074 = D_800F5788; | q = D_800F5788; | (+1 more)
+0x800F5788,D_800F5788,D_800F5788,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/func_8005EBF4.c,address,,"&D_800F5788[(cur - D_800F5788 + 1) % D_8009B078], | &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078] | (+2 more)"
+0x800F5788,D_800F5788,D_800F5788,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/func_8005F91C.c,address,,D_8009B074 = (u8 *)D_800F5788; | q = (u8 *)D_800F5788; | (+1 more)
 0x800F5918,D_800F5918,D_800F5918,0x8005FC1C,func_8005FC1C,matching_c,game,C,src/game/model_handler_registry.c,address,,e = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x8005FE44,func_8005FE44,matching_c,game,C,src/game/model_handler_registry.c,address,,e = D_800F5918;
 0x800F5918,D_800F5918,D_800F5918,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = D_800F5918;
