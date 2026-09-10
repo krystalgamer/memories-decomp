@@ -4,6 +4,7 @@
 #define D_8009B369_IN_DATA
 #define D_8009B368_IN_DATA
 #include "../types.h"
+#include "func_800179F4.h"
 #include "graphics_frame.h"
 #include "duel_transition_color.h"
 #include "save_data.h"
@@ -28,7 +29,6 @@ extern u8 gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
 extern u32 D_80010000[];
-extern void func_800179F4(void);
 
 void Main_RunDuel(void)
 {

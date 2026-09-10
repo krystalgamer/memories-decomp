@@ -10,6 +10,7 @@
 #include "input.h"
 #include "rand_get_interval.h"
 #include "display_object.h"
+#include "func_800179F4.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
@@ -50,8 +51,6 @@
         state 0xD.  */
 
 extern u16 D_8009B1E0;
-extern DisplayObject *D_8009B214;
-extern DisplayObject *D_8009B21C;
 
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 
