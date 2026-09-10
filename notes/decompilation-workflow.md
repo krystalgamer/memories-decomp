@@ -480,6 +480,28 @@ before the source was read:
   a `return D_8009B3EF;` matches a declaration pattern whose type position
   accepts `return`.
 
+A scan for duplicated *type definitions* rather than duplicated declarations
+adds two more of its own:
+
+- **The SDK headers repeat layouts on purpose.** `src/psyq` defines many
+  structures that are byte-identical to a sibling under another name --
+  `CdlLOC` and `DslLOC`, `SndVolume2` and `SpuVolume`, and the whole `SPRT_*`,
+  `TILE_*`, `DR_*` and `GsADIV_*` families. That repetition is the published
+  interface, so a layout scan has to exclude `src/psyq` before its output means
+  anything.
+
+- **An identical layout is not an identical record.** `DuelFieldPosition` in
+  `duel_grid.h` and `ScreenPair` in `screen_projection.h` are both
+  `{ s16 x; s16 y; }` and describe unrelated memory: the duel cursor, and one
+  entry of the projected slot table `D_800EA070`. Merging them would assert a
+  relationship that does not exist. The reverse error is available too --
+  `ProjectedPair` sits in the same header as `ScreenPair` and differs only in
+  that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
+  normalises widths to compare shapes reports them as one record and hides the
+  single distinction the header exists to record. Duplication worth collecting
+  looks like what `screen_projection.h` actually collected: three textually
+  identical spellings of one GTE result, in three files, for one address.
+
 The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
