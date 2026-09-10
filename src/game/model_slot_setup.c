@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_slot_setup.h"
 #include "model_word_memory.h"
 #include "model.h"
 #include "model_init_light_triplet.h"
