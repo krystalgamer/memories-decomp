@@ -35,6 +35,20 @@ typedef char DisplayEffectVramSlot_size_must_be_0x18C10[
     sizeof(DisplayEffectVramSlot) == 0x18C10 ? 1 : -1
 ];
 
+/* DISPLAY_EFFECT_VRAM_SLOT_COUNT bytes, one per DisplayEffectVramSlot of
+ * D_80010000 that func_8003A560 walks: it starts slot at the last one, steps
+ * i down to 0 and slot with it (func_8003A560.c:31-32, :58), takes i into
+ * D_8009B326 when the entry is negative (:33-34), compares each entry with
+ * a->field_30 (:36), stores a->field_30 at D_8009B326 (:80) and indexes the
+ * D_80010000 slots with the same byte (:84); func_80039E9C stores -1 into
+ * all of them (menu_record_reset.c:28-35). The declaration stays unsized:
+ * func_8003A560.c builds under gcc_2_8_1_g8_split, where a complete
+ * five-byte array is small data and the link fails
+ * (notes/research/matching-evidence.md:6684-6695). menu_record_reset.c used
+ * to declare it `s8 [DISPLAY_EFFECT_VRAM_SLOT_COUNT]` and func_8003A560.c
+ * `s8 []`. */
+extern s8 D_8015C410[];
+
 void func_8003A560(DisplayEffectVramState *state);
 
 #endif
