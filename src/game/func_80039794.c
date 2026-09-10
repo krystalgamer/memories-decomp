@@ -66,7 +66,7 @@ reset:
                 }
             } else {
                 if (q->flags & 8) {
-                    if (gInput_wPad1Pressed & 0xC0) {
+                    if (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) {
                         q->flags &= 0xFFF7;
                         func_8004036C(q->obj);
                         q->obj = 0;
