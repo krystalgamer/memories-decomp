@@ -12,17 +12,19 @@
  * documented in script_command_busy.h, and handlers set and clear 0x4000,
  * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
  *
- * Two translation units deliberately keep their own spelling and must not
- * be switched to this declaration:
- *
- *   duel_effect_state_callbacks.c declares it as an array plus a scalar
- *   asm() alias, because, as its own comment records, separate linker names
- *   are what stop GCC retaining the address across a call.
- *
- *   text_box_build_step.c pins it into .data with an attribute, which is
- *   what decides gp-relative versus absolute addressing under -G8.
+ * The text callbacks select the historical array and signed scalar views;
+ * TextBox_BuildStep selects the absolute unsigned scalar. These arms keep
+ * the measured addressing without private declarations in the consumers.
  */
+#if defined(SCRIPT_STATE_TEXT_CALLBACK_VIEWS)
+extern u16 D_8009B27C[];
+extern s16 D_8009B27C_scalar asm("D_8009B27C")
+    __attribute__((section(".data")));
+#elif defined(SCRIPT_STATE_COMMAND_IN_DATA)
+extern u16 D_8009B27C __attribute__((section(".data")));
+#else
 extern u16 D_8009B27C;
+#endif
 
 /* The script instruction cursor: a byte pointer walking the script stream.
  *
@@ -69,27 +71,50 @@ extern u8 D_801A8000[];
  * and unsigned for the final copy (retail lhu). Retail reaches them
  * gp-relative in all four of those units.
  *
- * duel_effect_state_callbacks.c keeps its own spelling for the same
- * reason as D_8009B27C above -- an array plus a scalar asm() alias, with
- * its comment on why -- and must not be switched to these. */
+ * The text callback arm preserves both the unsigned arrays and the signed
+ * absolute scalar aliases. Base2_8009B2A8/AA are distinct linker identifiers
+ * at the same addresses: they stop GCC retaining addresses across calls. */
 /* A sixteen-bit operand the script engine assembles from the stream a byte at
- * a time -- script_flag_commands.c and script_update_viewport_tween.c both
- * build it as `cursor[0] | (cursor[1] << 8)` -- and which func_8002F630.c
- * also sets from func_80036D3C's return.
+ * a time in script_flag_commands.c and func_8002F630.c. The text callback
+ * func_8003771C sets it from func_80036D3C's return.
  *
- * Read unsigned everywhere except one site, which takes it as
+ * The default-arm consumers read it unsigned except one site, which takes it as
  * `*(s16 *)&D_8009B29C` to get a signed value out of the same halfword. That
  * cast stays at the use, so the declaration here is the plain u16 all three
  * consumers already wrote.
  *
- * duel_effect_state_callbacks.c is the fourth namer and keeps its own
- * spelling, `s16` with a .data section attribute. That is the same
- * arrangement this header already records for D_8009B27C above: it does not
- * include this header, so the two never meet. */
+ * The text callback arm keeps its signed, absolute spelling. */
+#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
+extern s16 D_8009B29C __attribute__((section(".data")));
+extern u16 D_8009B2A8[];
+extern u16 D_8009B2AA[];
+extern u16 Base2_8009B2A8[];
+extern u16 Base2_8009B2AA[];
+extern s16 D_8009B2A8_scalar asm("D_8009B2A8")
+    __attribute__((section(".data")));
+extern s16 D_8009B2AA_scalar asm("D_8009B2AA")
+    __attribute__((section(".data")));
+#else
 extern u16 D_8009B29C;
-
 extern u16 D_8009B2A8;
 extern u16 D_8009B2AA;
+#endif
+
+/* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-frame
+ * deltas. The intervening command latch and stream pointer are independent
+ * symbols, not padding in a fabricated contiguous tween object. */
+extern s32 D_8009B284;
+extern s32 D_8009B288;
+extern s32 D_8009B294;
+extern s32 D_8009B298;
+
+/* func_8002F968 loads this signed countdown from its two-byte operand. */
+extern s16 D_8009B278;
+
+/* Script_OpShowImage and func_8002F630 retain an allocated display object
+ * here until their later command phase releases it with func_8004036C. */
+struct DisplayObject;
+extern struct DisplayObject *D_8009B280;
 
 /* The show-image command's halfword operand. func_8002E470 and func_8002E6B8
  * read it from the stream as `cursor[0] | (cursor[1] << 8)`: the low twelve
@@ -99,11 +124,13 @@ extern u16 D_8009B2AA;
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
- * duel_effect_state_callbacks.c is the fourth namer and stores
- * func_80036D3C's result into it through $at; it keeps its own `u16 []`
- * spelling for the same reason this header records for D_8009B27C and
- * D_8009B29C above: it does not include this header. */
+ * The text callbacks store func_80036D3C's result through $at, requiring
+ * the unsized-array arm rather than a small scalar. */
+#ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
+extern u16 D_8009B270[];
+#else
 extern u16 D_8009B270;
+#endif
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.
  *

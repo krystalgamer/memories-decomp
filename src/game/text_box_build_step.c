@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_HELD_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
+#define SCRIPT_STATE_COMMAND_IN_DATA
 #include "../types.h"
 #include "func_80037C74.h"
 #include "input.h"
@@ -13,6 +14,7 @@
 #include "func_80036C14.h"
 #include "menu_record_reset.h"
 #include "script_command_table.h"
+#include "script_state.h"
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
@@ -25,7 +27,6 @@ extern void (*D_80090F18[])(u8 *);
    common symbol, so no storage is allocated here.  volatile is what keeps the
    read-back after the store, which retail issues at every use. */
 volatile u16 D_8009B33A;
-extern u16 D_8009B27C __attribute__((section(".data")));
 
 void TextBox_BuildStep(DuelEffectChannel *object)
 {
