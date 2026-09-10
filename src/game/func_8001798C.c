@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "duel_package.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 
 /* One byte at 0x8009B364. This TU assembles at -G8, where a one-byte scalar
  * would be addressed %gp_rel; the array form is what keeps it out of small
  * data so the address is materialized absolutely. The size is irrelevant
  * here, unlike func_80024E58.c. See duel_terrain_boost.h. */
 extern u8 gDuel_bTerrain[];
-extern void Duel_LoadPackageStage(void);
 
 void func_8001798C(void)
 {
