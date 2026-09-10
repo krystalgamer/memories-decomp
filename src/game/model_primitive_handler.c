@@ -4,7 +4,6 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model_primitive_handler.h"
-#include "model_primitive_handler_entries.h"
 #include "../unmatched.h"
 
 void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}

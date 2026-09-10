@@ -20,6 +20,12 @@
  * have no executable reference from matching C, so this header does not invent
  * signatures for them.
  *
+ * Hand-written assembly belongs here on the same terms. The status differs but
+ * the reason does not: handwritten_asm functions have no defining C
+ * translation unit either, so there is nowhere else for a shared declaration
+ * to live, and every consumer otherwise writes its own. The primitive handler
+ * entry points at the end of this file arrived that way.
+ *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
  * A local declaration is not always duplication. Several of these functions
@@ -425,5 +431,57 @@ extern s16 D_800EFE3C;
  * control reads the two words as an address adjustment. The consumers share
  * no narrower state contract, so the raw byte-array view stays here. */
 extern u8 D_800E9EC0[];
+
+/* The thirty-two primitive handler entry points, in retail's own arm order in
+ * memory.
+ *
+ * These are hand-written assembly rather than the unmatched assembly the rest
+ * of this header covers, so they have no defining C translation unit either.
+ * model_primitive_handler.c and model_handler_registry.c both only ever take
+ * their addresses, never call them, so nothing in the tree checked one copy
+ * against the other; the two files used to declare the set locally, then
+ * shared it through a model_primitive_handler_entries.h that existed for no
+ * other purpose. It folds in here.
+ *
+ * The reason that header could not simply be model_primitive_handler.h still
+ * holds and is worth keeping written down: that header declares func_800603DC
+ * as void *(u32), while model_handler_registry.c declares the same function
+ * as `extern s32 (*func_800603DC())()` and uses it sixty-seven times. Those
+ * spellings collide, so the registry cannot include model_primitive_handler.h
+ * at all. This header does not declare func_800603DC, so both files can take
+ * the entry points from here.
+ */
+void func_800612C0(void);
+void func_8006151C(void);
+void func_800617E0(void);
+void func_80061A84(void);
+void func_80061DDC(void);
+void func_80062058(void);
+void func_8006233C(void);
+void func_80062600(void);
+void func_80062978(void);
+void func_80062BC0(void);
+void func_80062E70(void);
+void func_80063100(void);
+void func_80063444(void);
+void func_800636AC(void);
+void func_8006397C(void);
+void func_80063C2C(void);
+void func_80063F90(void);
+void func_80064248(void);
+void func_80064568(void);
+void func_80064868(void);
+void func_80064C1C(void);
+void func_80064EF4(void);
+void func_80065234(void);
+void func_80065554(void);
+void func_80065928(void);
+void func_80065BCC(void);
+void func_80065ED8(void);
+void func_800661C4(void);
+void func_80066564(void);
+void func_80066828(void);
+void func_80066B54(void);
+void func_80066E60(void);
 
 #endif
