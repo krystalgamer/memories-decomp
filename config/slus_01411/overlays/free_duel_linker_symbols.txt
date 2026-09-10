@@ -6,3 +6,4 @@ gInput_wPad1Pressed = 0x8009B398;
 gInput_wPad1Held = 0x8009B3A4;
 DisplayObject_ResetVelocity = 0x800429D8;
 DisplayObject_StepPositionXY = 0x80042A78;
+gDuel_awPlayerDeck = 0x801D0200;
