@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -49,6 +49,7 @@ help:
 		'  check-candidate-bundle-builds  Compile every human candidate bundle' \
 		'  candidate-builds  Run the normal build and validate tracked source candidates' \
 		'  check-candidate-builds  Verify tracked source-candidate metadata' \
+		'  candidate-contract-hashes  Print current canonical candidate contracts' \
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
@@ -191,6 +192,9 @@ candidate-builds: build
 
 check-candidate-builds:
 	@$(PYTHON) tools/project/candidate_builds.py --check
+
+candidate-contract-hashes:
+	@$(PYTHON) tools/project/candidate_builds.py --print-contract-hashes
 
 review-deferred: workspace
 	@$(PYTHON) tools/project/review_deferred.py $(REVIEW_DEFERRED_ARGS)
