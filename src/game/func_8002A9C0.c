@@ -4,6 +4,7 @@
 #include "gpu_packets.h"
 #include "display_object_api.h"
 #include "display_object.h"
+#include "func_8002A9C0.h"
 
 /* The update callback func_8002ABB4 installs at 0x4C on the object it
    builds: it fades the object out over its own field_60 countdown, projects
