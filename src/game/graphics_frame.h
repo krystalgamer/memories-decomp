@@ -255,6 +255,19 @@ extern u8 D_8009B144;
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
 
+/* The double-buffered graphics work area. Graphics_BeginFrame picks the half
+ * for the frame it is starting and publishes it:
+ *
+ *     D_8009B0B4 = &D_8009B4A8[gGraphics_bActiveBuffer * 20832];
+ *
+ * so the buffer is 20832 bytes per half, selected by the same index that
+ * chooses D_800A5768's half a few lines above it. Main_Init takes the base
+ * while it brings the loader block up.
+ *
+ * Left unsized, which is what both declarers already said; the stride is the
+ * measurement here, not the total. */
+extern u8 D_8009B4A8[];
+
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);
 
