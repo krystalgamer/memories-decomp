@@ -20,7 +20,12 @@ typedef struct {
     u8 active;
     s32 velocity_x;
     s32 velocity_y;
-    u8 pad_20[36];
+    u8 pad_20[4];
+    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
+       fills one per iteration. They were inside pad_20 until now; naming them
+       moves nothing, and render still begins at 0x44 immediately after the
+       last of them. */
+    DisplayObject *slots[8];
     DisplayObject *render;
 } LibraryMotionState;
 
