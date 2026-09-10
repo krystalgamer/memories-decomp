@@ -8,10 +8,10 @@
 /* Four contiguous AI script opcode handlers, in address order:
    AiScript_FindDefenseStopper (0x80071CB0), AiScript_CountCards (0x80071EB8),
    AiScript_FindFirstCard (0x80071FC8) and AiScript_FindCard (0x8007214C).
-   They are the whole gcc_2_8_1_cc_g0_as_g8_split run above func_80071B64,
-   which compiles at gcc_2_8_1_g8_split_no_strength_reduce. All four read
-   their operands with AiScript_ReadByte, scan gDuel_aActiveCards, and write
-   their answer back into gAiScript_aMemory. */
+   They sit directly above func_80071B64, which compiles at
+   gcc_2_8_1_g8_split_no_strength_reduce. All four read their operands with
+   AiScript_ReadByte, scan gDuel_aActiveCards, and write their answer back
+   into gAiScript_aMemory. */
 
 /* AI script opcode taking two operand bytes: a register that when non-zero
  * makes a face-down opponent card invisible to the scan, and the register to

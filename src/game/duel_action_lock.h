@@ -40,15 +40,17 @@ extern s16 D_8009B1D2;
  * by func_8001BD88 and func_8001D670, still assembly, 30 sites at +0;
  * whether it belongs to the same object is not established. Four bytes,
  * the extent up to D_8009B210, stays gp-relative at every threshold in
- * play; with [4] shared instead, func_8002596C's assembler -G4 takes the
- * eight bytes out of small data and the tree does not link. */
+ * play; with [4] shared instead, an assembler -G4 (func_8002596C.c's until
+ * #3859 found that threshold inert) takes the eight bytes out of small data
+ * and the tree does not link. */
 extern s16 D_8009B20C[2];
 
 /* The halfword immediately past that pair, at D_8009B20C + 4 -- the extent
  * the note above measures against. It stays a separate declaration for the
  * reason recorded there: spelling the pair as [4] to cover these four bytes
- * takes eight bytes out of small data under func_8002596C's assembler -G4 and
- * the tree stops linking, so this address gets its own scalar.
+ * takes eight bytes out of small data under an assembler -G4, which
+ * func_8002596C.c was built at until #3859, and the tree stopped linking, so
+ * this address got its own scalar.
  *
  * It is the trap presentation's mode: func_8001F364 in duel_trap_resolution.c
  * sequences on `D_8009B210 & 0xF` through four modes and stores 1, 2 and 3
