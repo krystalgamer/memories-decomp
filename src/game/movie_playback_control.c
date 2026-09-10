@@ -2,14 +2,13 @@
 #include "../types.h"
 #define D_8009B142_IS_AGGREGATE
 #include "graphics_frame.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "mdec_sync.h"
 #include "movie_playback_control.h"
+#include "movie_stream_requests.h"
 #include "sound_mix.h"
-
-extern void func_8005C388(s32, s32, s32, s32, s32);
-extern s32 func_8005C530(void);
 
 void func_8003594C(s32 arg0)
 {

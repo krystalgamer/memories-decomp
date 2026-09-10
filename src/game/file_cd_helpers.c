@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "file_cd_helpers.h"
 #include "movie_frame_pipeline.h"
 #include "../psyq/libds.h"
 #include "../psyq/libgte.h"

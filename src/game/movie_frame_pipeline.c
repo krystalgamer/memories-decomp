@@ -4,6 +4,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libpress.h"
 #include "../psyq/libcd.h"
+#include "file_cd_helpers.h"
+#include "func_8005C62C.h"
 #include "graphics_constants.h"
 #include "mdec_sync.h"
 #include "sound_mix.h"
@@ -24,8 +26,6 @@ extern u8 D_8009B4A2;
    accesses would come out gp-relative; retail reaches this one through
    lui %hi / %lo. */
 extern s32 D_800F5D44 __attribute__((section(".data")));
-
-extern void func_8005C62C(CdlLOC *loc);
 
 s32 func_8005BB7C(s32 arg0) {
     RECT rect;
@@ -226,7 +226,7 @@ s32 func_8005BFC8(s32 resync) {
             }
             timeouts++;
             if (resync != 0 || timeouts >= 10) {
-                func_8005C62C(&D_8009B49C);
+                func_8005C62C((s32)&D_8009B49C);
                 timeouts = 0;
             }
             /* One shared store: reorg copies it into both back-jump delay
