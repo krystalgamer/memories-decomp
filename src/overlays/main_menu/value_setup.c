@@ -11,6 +11,7 @@
 #include "../../game/main_services.h"
 #include "../../game/sound.h"
 #include "entrypoints.h"
+#include "ordering_tables.h"
 
 /* The value-setup screen: the three lifecycle entry points func_8002DC38.c
    calls - start, update per tick, finish - and the four helpers that only
@@ -72,7 +73,6 @@ extern u8 *D_801845A4;
 extern ValueWidgetView *D_801845B0[];
 extern u8 *D_801845B8;
 extern u8 D_801845BE;
-extern GsOT *D_800E9D90[];
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
 void MainMenu_StartValueWidgetTween(s32 index, s32 value);
