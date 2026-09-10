@@ -71,8 +71,8 @@ void func_8004044C(
  * 0x3C, now covers 0x40 and 0x48 as well, so every offset this view exists to
  * name is reachable through the canonical record at both widths: the word
  * writes keep their sw through `.word` and the narrow users take `.h`.
- * Measured -- display_slot_lifecycle.c, func_80040588.c and func_800408D0.c
- * all still build byte-identically.
+ * Measured -- display_slot_lifecycle.c, func_80040588.c and
+ * display_object_updates.c all still build byte-identically.
  *
  * What keeps this view alive is no longer the layout but the signature below:
  * func_80040510 and its callers pass the record as this type, and several of

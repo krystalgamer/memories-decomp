@@ -18,12 +18,13 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * func_80040588.c's local DisplayObject (+0x17, +0x30, +0x3C, +0x5C). Every
  * offset they share agrees; each named a different subset.
  *
- * That exception is now resolved. func_80040588.c and func_800408D0.c used
- * to keep private copies because they reach a u8 at +0x22 and a pair of u16
- * at +0x3C/+0x3E, which fall inside the words display_slot_lifecycle.c
- * stores with single word writes. Splitting those words outright would have
- * turned an sw into an sh; carrying each as a union of both widths does not,
- * so the word writes keep their sw and both renderers now take this record.
+ * That exception is now resolved. func_80040588.c and
+ * display_object_updates.c used to keep private copies because they reach a
+ * u8 at +0x22 and a pair of u16 at +0x3C/+0x3E, which fall inside the words
+ * display_slot_lifecycle.c stores with single word writes. Splitting those
+ * words outright would have turned an sw into an sh; carrying each as a
+ * union of both widths does not, so the word writes keep their sw and both
+ * renderers now take this record.
  *
  * The same device now covers 0x40 and 0x48, the two words
  * display_object_config.h's separate halfword view names that were still
