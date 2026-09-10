@@ -131,9 +131,9 @@ void func_80018608(void)
    state has returned to zero. */
 void func_8001898C(void) {
     u8 hand[HAND_SIZE];
-    u8 *rec;
+    DuelCardRecord *rec;
     u8 *fl;
-    u8 *placed;
+    DuelCardRecord *placed;
     DuelHandSlot *base;
     DuelHandSlot *slot;
     u8 *p;
@@ -165,14 +165,15 @@ void func_8001898C(void) {
             }
         }
         ((u8 *)D_8009B1C8)[1]++;
-        rec = (u8 *)D_801A7AD8;
-        for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec += DUEL_CARD_RECORD_SIZE) {
-            flags = *(u16 *)(rec + 0x16);
+        rec = D_801A7AD8;
+        for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
+            flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
-                *(u16 *)(rec + 0x16) = flags & ~DUEL_CARD_FLAG_USED_THIS_TURN;
-                Duel_ApplyCardObjectFlags(*(DuelCardDisplayObject **)rec);
+                rec->flags = flags & ~DUEL_CARD_FLAG_USED_THIS_TURN;
+                Duel_ApplyCardObjectFlags(
+                    (DuelCardDisplayObject *)rec->object);
             } else {
-                *(u16 *)(rec + 0x16) = 0;
+                rec->flags = 0;
             }
         }
         for (i = 0; i < HAND_SIZE; i++) {
@@ -184,12 +185,12 @@ void func_8001898C(void) {
         slot = base;
         y = 0xE;
         idx = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT;
-        rec = (u8 *)D_801A7AD8 + idx * DUEL_CARD_RECORD_SIZE;
+        rec = &D_801A7AD8[idx];
         placed = rec;
-        for (; i < HAND_SIZE; i++, rec += DUEL_CARD_RECORD_SIZE) {
+        for (; i < HAND_SIZE; i++, rec++) {
             p = &hand[i];
-            *(u16 *)(rec + 0x16) = 0;
-            *(u8 **)rec = 0;
+            rec->flags = 0;
+            rec->object = 0;
             if (*(s8 *)p >= 0) {
                 ((u8 *)D_8009B1C8 + n)[0x1A] = *p;
                 Duel_SetupCardRecord(idx, *(s8 *)p);
@@ -198,7 +199,7 @@ void func_8001898C(void) {
                 slot->object = (u8 *)func_80018004(placed, y, 0x292);
                 slot++;
                 y += 0x3C;
-                placed += DUEL_CARD_RECORD_SIZE;
+                placed++;
             }
         }
         D_8009B1EC = HAND_SIZE - n;
