@@ -5,9 +5,9 @@
 #include "../psyq/libapi.h"
 #include "io_event_helpers.h"
 
-extern s32 D_8009B438;
+extern s32 gMemCard_nFreeBlocks;
 
-extern u8 D_800F2888[];
+extern u8 gMemCard_aDirEntries[];
 extern u8 D_8009AF7C[];
 
 /* The definition in mem_card_requests.c returns s32 and takes four
@@ -21,7 +21,7 @@ s32 MemCard_DoLoadDirectory(void) {
     register s32 one asm("a0");
     s32 v1;
 
-    v1 = D_8009B43D;
+    v1 = gMemCard_bLoadStep;
     if (v1 == 1) {
         goto state1;
     }
@@ -57,31 +57,31 @@ state0:
     goto state0_zero;
 
 state0_info:
-    v0 = D_8009B43C - 1;
-    D_8009B43C = (u8)v0;
+    v0 = gMemCard_bRetries - 1;
+    gMemCard_bRetries = (u8)v0;
     if ((s8)v0 == 0) {
         goto ret;
     }
     MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-    _card_info(D_8009B437);
+    _card_info(gMemCard_bChannel);
     return -1;
 
 state0_zero:
-    if (D_8009B44E & 0x80) {
-        if (D_8009B43E != 8) {
+    if (gMemCard_bDirFlags & 0x80) {
+        if (gMemCard_bRequest != 8) {
             goto ret;
         }
     }
     gMemCard_nIOResult = 3;
 sub_poll_entry:
-    if (D_8009B43E == 1) {
+    if (gMemCard_bRequest == 1) {
         goto ret;
     }
-    D_8009B43C = 0xA;
-    D_8009B43D = (u8)(D_8009B43D + 1);
+    gMemCard_bRetries = 0xA;
+    gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);
 sub_retry:
-    MemCard_ClearIOEvents(D_800F2AF0);
-    _card_clear(D_8009B437);
+    MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
+    _card_clear(gMemCard_bChannel);
     return -1;
 
 state1:
@@ -93,40 +93,42 @@ state1:
     if (v1 != 2) {
         goto ret;
     }
-    v0 = D_8009B43C - 1;
-    D_8009B43C = (u8)v0;
+    v0 = gMemCard_bRetries - 1;
+    gMemCard_bRetries = (u8)v0;
     if ((s8)v0 > 0) {
         goto sub_retry;
     }
     goto ret;
 
 state1_zero:
-    D_8009B43C = 0xA;
-    D_8009B43D = 2;
+    gMemCard_bRetries = 0xA;
+    gMemCard_bLoadStep = 2;
 load_retry:
     MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-    _card_load(D_8009B437);
+    _card_load(gMemCard_bChannel);
     return -1;
 
 state2:
     v0 = gMemCard_nIOResult;
     if (v0 == 2) {
-        v0 = D_8009B43C - 1;
-        D_8009B43C = (u8)v0;
+        v0 = gMemCard_bRetries - 1;
+        gMemCard_bRetries = (u8)v0;
         if ((s8)v0 > 0) {
             goto load_retry;
         }
     }
 
-    D_8009B44E |= 0x80;
+    gMemCard_bDirFlags |= 0x80;
     v1 = gMemCard_nIOResult;
     if (v1 != 0) {
         goto after_load;
     }
-    D_8009B444 = D_800F2888;
-    MemCard_FindFiles(D_8009B437, (const char *)D_8009AF7C,
-                      (struct DIRENTRY *)D_800F2888, &D_8009B440);
-    D_8009B438 = MemCard_CalcFreeBlocks(D_8009B444, D_8009B440);
+    gMemCard_pDirEntries = gMemCard_aDirEntries;
+    MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C,
+                      (struct DIRENTRY *)gMemCard_aDirEntries,
+                      &gMemCard_nDirEntries);
+    gMemCard_nFreeBlocks =
+        MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries);
 
 after_load:
     if (gMemCard_nIOResult == 3) {

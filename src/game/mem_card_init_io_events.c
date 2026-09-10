@@ -15,9 +15,9 @@ void MemCard_InitIOEvents(void)
     int count;
     {
         register long *base = gMemCard_aIOEventHandles;
-        D_8009B43E = -1;
-        D_8009B44E = 0;
-        D_8009B444 = 0;
+        gMemCard_bRequest = -1;
+        gMemCard_bDirFlags = 0;
+        gMemCard_pDirEntries = 0;
         items = gMemCard_aIOEventHandles;
         EnterCriticalSection();
         cb0 = MemCard_SetIOResultCompleteCB;
@@ -48,7 +48,7 @@ void MemCard_ClearCard(int chan)
     int count = 10;
 
     do {
-        MemCard_ClearIOEvents(D_800F2AF0);
+        MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
         _card_clear(chan);
         while (gMemCard_nIOResult < 0) {
         }

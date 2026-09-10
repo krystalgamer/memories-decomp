@@ -5,9 +5,10 @@
 
 /* Claims the single request slot the low-level card driver runs.
  *
- * Returns 0 while an earlier request is still pending (D_8009B43E is only
- * negative when idle); otherwise records the channel and request code,
- * resets the retry and sub-state bytes, and marks gMemCard_nIOResult
+ * Returns 0 while an earlier request is still pending (gMemCard_bRequest is
+ * only negative when idle); otherwise records the channel and request code
+ * in gMemCard_bChannel and gMemCard_bRequest, resets gMemCard_bRetries,
+ * gMemCard_bLoadStep and gMemCard_bRequestStep, and marks gMemCard_nIOResult
  * pending. The unmatched poll at 0x80044838 dispatches on the code and puts
  * the slot back to -1 once it hands the caller a result:
  *
