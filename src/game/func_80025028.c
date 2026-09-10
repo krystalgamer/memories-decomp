@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "duel_card.h"
+#include "func_80025028.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the

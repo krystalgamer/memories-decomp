@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "func_80025028.h"
 #include "duel_card_object_helpers.h"
 #include "func_8002C604.h"
 #include "duel_side_state.h"
@@ -35,7 +36,6 @@ u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
 };
 
 s32 func_8001F364(s32);
-s32 func_80025028(s32);
 
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
