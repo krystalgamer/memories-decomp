@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -36,11 +37,6 @@ extern u8 D_800EA0E8[];
 extern void func_80029528(s32);
 extern void func_80029574(s32);
 extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
-
-typedef struct {
-    u32 lo;
-    u32 hi;
-} Pair;
 
 extern u32 D_800EB12C;
 extern u16 D_8016D4DC;
