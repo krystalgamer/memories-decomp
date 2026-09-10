@@ -26,7 +26,7 @@ extern u32 D_80010000[];
 
 extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8004D75C(s32 a0);
-extern void func_8004D914(s32 a0);
+#include "../game/func_8004D914.h"
 extern void func_8005A4C4(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
 extern void func_8005A468(s32 a0, s32 a1);
 extern void func_800590DC(s32 a0);
