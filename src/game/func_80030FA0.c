@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "frontend_debug_tables.h"
+#include "func_80030FA0.h"
 
 extern u8 D_8009B26C __attribute__((section(".data")));
 extern u8 D_8009B2B2;

@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "frontend_step_tables.h"
+#include "func_80030FA0.h"
+#include "func_80030FD0.h"
 
 /* Initialized data at 0x80090D7C: the two step tables func_80031084
  * dispatches through.
@@ -25,7 +27,6 @@
 
 void func_80031078(void);
 void func_80031000(void);
-void func_80030FA0(void);
 void func_80030998(void);
 void func_80030F40(void);
 void func_800307B8(void);
@@ -36,7 +37,6 @@ void func_80030D5C(void);
 void func_80030E30(void);
 void func_80030E7C(void);
 void func_80030EC8(void);
-void func_80030FD0(void);
 
 void (*D_80090D7C[])(void) = {
     func_80031078,
