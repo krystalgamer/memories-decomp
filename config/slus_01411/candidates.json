@@ -6,15 +6,14 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80013C28.c",
       "target": "src/candidates_target/func_80013C28.S",
-      "candidate_build_sha256": "af5c1dd30ead5be0b1be847255b67f61b101744ce3611aa19814e65f3318ef76",
+      "candidate_build_sha256": "782095671fb4a07dd6af90f7d0f1b72e7e03fa2bacc980f5581660daeb779506",
       "target_bytes_sha256": "b1be595887a725648050fc70a7a9198433bdf5a6f6608e8b302acd8e5acad754",
-      "canonical_contract_sha256": "38fc256cbfdde87ddac9a9dfccba462de99d9e7de5fa36570a36e200248bd530",
+      "canonical_contract_sha256": "dce4ada561b3521c605a3cf2970e5eff1ca870fc07929ef857b301c883cdee36",
       "canonical_contracts": {
         "D_8009AF18": "e6295e88242ffe7e2331e62b4598e8ea04dd660bebd54e5f2b8492a2af800dd7",
         "D_8009B0F8": "39bc50bec9aa39f70ca9ad0ae593464f5f8c874d86346ebf22588b371df83407",
         "D_8009B114": "37ef5b6773289e6e85bffa34221255a2c7549f712e36cf305a16d0b819444067",
-        "D_8009B138": "ccf2030206d8f16a0568c3b691a74431adc9b21e503d60da7c8e2f23731f8486",
-        "func_80077150": "bc3020706c88e292acb047406e4e0396cbb6108b502274606cac474562140e2a"
+        "D_8009B138": "ccf2030206d8f16a0568c3b691a74431adc9b21e503d60da7c8e2f23731f8486"
       }
     },
     {
