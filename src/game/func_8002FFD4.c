@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "scene_script.h"
 #include "scene_script_record_callbacks.h"
 
 void func_8002FFD4(u8 *arg0) {
