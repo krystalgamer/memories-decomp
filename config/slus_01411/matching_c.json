@@ -5006,9 +5006,9 @@
     },
     {
       "address": "0x8004D914",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x200",
-      "source": "src/game/func_8004D914.c"
+      "source": "src/game/model_slot_row_tables.c"
     },
     {
       "address": "0x8004DB14",
