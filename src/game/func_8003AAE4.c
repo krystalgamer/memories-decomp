@@ -31,7 +31,7 @@ void func_8003AAE4(u8 *p) {
         b = q[0x67];
         func_8003A440((u8 **)p, (GsALON | GsAONE), a);
         e = p + 0xC;
-        func_8003A1EC(p, e, b);
+        func_8003A1EC(p, (u8 **)e, b);
         func_8003A440((u8 **)e, (GsALON | GsATWO), a - 1);
         *(s16 *)(p + 0x40) = 0;
     }
