@@ -15,28 +15,17 @@
 #include "duel_effect.h"
 #include "display_object_api.h"
 #include "sound.h"
+#include "duel_field_effect_transition.h"
 #include "duel_field_effect_steps.h"
-
-typedef struct Object {
-    u16 x, y;
-    u8 pad_04[0x16];
-    u16 field_1A;
-    u8 flags, count;
-    u8 pad_1E[6];
-    void (*callback)(struct Object *);
-    u8 pad_28[0x44];
-    u8 active;
-} Object;
-extern void func_80025B28(Object *);
 
 void func_80025F3C(void)
 {
-    Object *object;
+    DuelFieldEffectObject *object;
     DuelCardRecord *entry;
     int slot;
     register int side __asm__("$3");
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (Object *)func_8002C604(0x15);
+        object = (DuelFieldEffectObject *)func_8002C604(0x15);
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
         D_8009B1F0[side] = (u8 *)object;
@@ -47,7 +36,7 @@ void func_80025F3C(void)
         object->field_1A = side;
         SD_SEPlayFull(0x23);
     } else if (!(D_8009B220 & 0x40)) {
-        if (((Object *)D_8009B17C)->count != 0) {
+        if (((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
             D_8009B220 |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
@@ -56,14 +45,15 @@ void func_80025F3C(void)
             ) {
                 entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) == 0x90000000) {
-                    register Object *current __asm__("$2");
-                    current = entry->object;
+                    register DuelFieldEffectObject *current __asm__("$2");
+                    current = (DuelFieldEffectObject *)entry->object;
                     current->callback = func_80025B28;
                     current->active = 1;
                 }
             }
         }
-    } else if (func_80042B40(1) == 0 && ((Object *)D_8009B17C)->count >= 2) {
+    } else if (func_80042B40(1) == 0 &&
+               ((DuelFieldEffectObject *)D_8009B17C)->count >= 2) {
         D_800E9FF0[D_8009B1D5 ^ 1].field_19 = 4;
         D_8009B220 = 0;
     }
