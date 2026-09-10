@@ -2,6 +2,7 @@
 #include "func_8004DC38.h"
 #include "model.h"
 #include "func_80058E1C.h"
+#include "func_800528AC.h"
 #include "../unmatched.h"
 
 extern s32 Model_HasInsufficientBufferSpace(s32, s32);
