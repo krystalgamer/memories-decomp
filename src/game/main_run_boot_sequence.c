@@ -1,6 +1,7 @@
 #define D_8009B098_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
+#include "display_object_transition.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
@@ -15,8 +16,6 @@
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
-extern void func_8004365C(void *, void *);
-extern void func_800438B8(int);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
@@ -52,7 +51,7 @@ void Main_RunBootSequence(s32 mode)
     func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
                   D_801AF000);
     *(u16 *)(object + 8) |= 0x28;
-    func_8004365C(0, object);
+    func_8004365C(0, (DisplayObject *)object);
     func_800438B8(4);
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
@@ -70,7 +69,7 @@ void Main_RunBootSequence(s32 mode)
     func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
                   D_801AF000);
     *(u16 *)(object + 8) |= 0x28;
-    func_8004365C(first, object);
+    func_8004365C((DisplayObject *)first, (DisplayObject *)object);
     func_80047AD0(2);
     func_80012D84(4);
     File_RequestMainMenuPackage();
