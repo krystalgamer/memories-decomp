@@ -47,8 +47,10 @@ extern PasswordCursorView *gPassword_pDigitCursorWidget;
 
 extern PasswordCardPreviewView *D_8016D4D8;
 
-/* Shop/password-entry state. Every password-shop function now lives in
- * shop.c and uses these shared declarations.
+/* Shop/password-entry state. Every password-shop function lives in shop.c
+ * and uses these shared declarations, except Password_UpdateShopScreen, now
+ * a build-integrated candidate (src/candidates/password/func_8016A37C.c) that
+ * includes this header.
  *
  *   gPassword_abDigits     The eight entered digits.
  *   gPassword_nDigitIndex  Which of them the cursor is on.
@@ -58,8 +60,9 @@ extern PasswordCardPreviewView *D_8016D4D8;
  * This paragraph used to say it was not, and to give three conflicting
  * spellings as the reason; the declaration was added later and the
  * paragraph was left behind, so the header asserted the opposite of what it
- * did. `shop.c` now owns the cursor helpers, initializer and updater together,
- * so every password-shop user consumes the shared view. */
+ * did. `shop.c` owns the cursor helpers and initializer, and the stored
+ * updater candidate includes this header too, so every password-shop user
+ * consumes the shared view. */
 extern u8 gPassword_abDigits[];
 extern s32 gPassword_nDigitIndex;
 extern u16 D_8016D424;

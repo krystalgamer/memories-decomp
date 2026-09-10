@@ -125,7 +125,9 @@ extern u16 gInput_wPad1Repeat;
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
- * trade_update.c declare `volatile u16 D_8009B394[]` and read both `[0]` and
+ * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
+ * src/candidates/main_menu/func_801821DC.c) declare
+ * `volatile u16 D_8009B394[]` and read both `[0]` and
  * `[1]`; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is the
  * obvious tidy-up and it does not build. Measured on the value-setup updater: the
  * main_menu module stops matching, and it still fails when only one of the two

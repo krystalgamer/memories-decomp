@@ -423,7 +423,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion, including main-menu entry easing in `MainMenu_UpdateFrontendMenu`. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion; main-menu entry easing in `MainMenu_UpdateFrontendMenu` (a build-integrated candidate since #3859, [`src/candidates/main_menu/func_80180390.c`](../src/candidates/main_menu/func_80180390.c)) uses it the same way. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
@@ -1138,12 +1138,13 @@ provides both `abs(int)` and an `ABS` macro whose argument can be evaluated
 more than once. `convert.h` declares decimal and base-selectable integer
 parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
-can change argument setup. Exactly three matching sources include it:
+can change argument setup. Exactly three matching sources call qsort through
+it:
 `duel_deck_card_data.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
-`trade_update.c` sorts `CARD_COUNT` four-byte id/count entries through one
+`trade_inventory.c` sorts `CARD_COUNT` four-byte id/count entries through one
 of six `int (*)()` comparators selected by the inventory mode.
 `sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
 giving qsort itself a declaration changes its argument setup, so the file

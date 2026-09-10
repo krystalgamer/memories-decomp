@@ -293,6 +293,64 @@ extern int sdk_call(int value);
             (root / "overlays").rmdir()
             root.rmdir()
 
+    def test_overlay_header_index_sees_only_its_own_module(self) -> None:
+        root = REPOSITORY / "tmp/test-candidate-contract-overlay-module"
+        for directory in ("game", "overlays/password", "overlays/main_menu"):
+            (root / directory).mkdir(parents=True, exist_ok=True)
+        try:
+            (root / "game/state.h").write_text(
+                "extern s16 value;\n", encoding="utf-8"
+            )
+            (root / "overlays/password/state.h").write_text(
+                "extern s32 value;\n", encoding="utf-8"
+            )
+            (root / "overlays/main_menu/state.h").write_text(
+                "extern u8 value;\n", encoding="utf-8"
+            )
+
+            index = candidate_builds.canonical_declaration_index(
+                {"value"}, root, overlay_module="password"
+            )
+
+            self.assertEqual(
+                index["value"],
+                [
+                    ("game/state.h", "extern s16 value;"),
+                    ("overlays/password/state.h", "extern s32 value;"),
+                ],
+            )
+        finally:
+            for path in (
+                "game/state.h",
+                "overlays/password/state.h",
+                "overlays/main_menu/state.h",
+            ):
+                (root / path).unlink(missing_ok=True)
+            for directory in (
+                "overlays/password",
+                "overlays/main_menu",
+                "overlays",
+                "game",
+            ):
+                (root / directory).rmdir()
+            root.rmdir()
+
+    def test_candidate_module_is_optional_and_checked(self) -> None:
+        self.assertIsNone(candidate_builds.candidate_module({}))
+        self.assertEqual(
+            candidate_builds.candidate_module({"module": "password"}),
+            "password",
+        )
+        with self.assertRaises(candidate_builds.CandidateBuildError):
+            candidate_builds.candidate_module({"module": "../game"})
+        self.assertEqual(
+            candidate_builds.candidate_directory(Path("/x"), "password"),
+            Path("/x/password"),
+        )
+        self.assertEqual(
+            candidate_builds.candidate_directory(Path("/x"), None), Path("/x")
+        )
+
     def test_header_index_orders_paths_deterministically(self) -> None:
         root = REPOSITORY / "tmp/test-candidate-contract-order"
         root.mkdir(parents=True, exist_ok=True)
