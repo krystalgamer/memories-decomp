@@ -164,8 +164,6 @@ void func_80048D08(s32 side, u32 *src)
 #include "sound_init.h"
 #include "sound_voice_data.h"
 
-extern void func_80049600(s32);
-
 void func_80048F14(void)
 {
     SpuReverbAttr packet;
