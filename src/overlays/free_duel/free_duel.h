@@ -44,10 +44,10 @@ extern DisplayObject *gFreeDuel_apSparklePool[
 ];
 
 /* The two objects FreeDuel_Init stores here: the thumb it takes from
- * func_800400AC and the cursor from FreeDuel_SpawnSparkle. Their complete
- * shared-layout conversion remains measured separately in screen_runtime.c. */
-extern u8 *gFreeDuel_pCursorWidget;
-extern u8 *gFreeDuel_pThumbWidget;
+ * func_800400AC and the cursor from FreeDuel_SpawnSparkle. The cursor uses
+ * the same allocation and layout as the sparkle trail it leaves behind. */
+extern DisplayObject *gFreeDuel_pCursorWidget;
+extern DisplayObject *gFreeDuel_pThumbWidget;
 
 /* Builds the duelist grid screen, uploading each available duelist's
  * portrait record from `src` to VRAM with LoadImage2 on the way.

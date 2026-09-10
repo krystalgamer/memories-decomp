@@ -41,7 +41,8 @@
 
    One unit settles the sparkle path's types from allocation through release:
    FreeDuel_SpawnSparkle returns DisplayObject *, the pool stores those
-   pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **.
+   pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **. The cursor
+   and thumb use the same record; signed coordinate reads are explicit.
 
    func_8004036C uses display_object_api.h's guarded `void (void)` arm. The
    sparkle updater's call passes no argument, so taking the normal
@@ -55,36 +56,22 @@ extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
-typedef struct {
-    u8 unk_00[0x30];
-    s16 x;
-    s16 y;
-} FreeDuelWidget;
-
-typedef struct {
-    u8 pad0[4];
-    u32 flags;
-    u16 attr;
-    u8 pad1[85];
-    u8 mode;
-} Obj;
-
 void FreeDuel_UpdateScrollbar(void)
 {
-    FreeDuelWidget *cursor = (FreeDuelWidget *)gFreeDuel_pCursorWidget;
-    s32 relative = cursor->y - gGraphics_sViewportY;
+    DisplayObject *cursor = gFreeDuel_pCursorWidget;
+    s32 relative = (s16)cursor->field_30.h.field_32 - gGraphics_sViewportY;
 
     if (relative < 0x28) {
-        gGraphics_sViewportY = cursor->y - 0x28;
+        gGraphics_sViewportY = (s16)cursor->field_30.h.field_32 - 0x28;
     }
     if (relative >= 0x91) {
-        gGraphics_sViewportY = cursor->y - 0x90;
+        gGraphics_sViewportY = (s16)cursor->field_30.h.field_32 - 0x90;
     }
-    ((FreeDuelWidget *)gFreeDuel_pThumbWidget)->y =
-        (cursor->y - 0x28) * 72 / 364 + 7;
+    gFreeDuel_pThumbWidget->field_30.h.field_32 =
+        ((s16)cursor->field_30.h.field_32 - 0x28) * 72 / 364 + 7;
 }
 
-void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
+void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 {
     s32 col;
     s32 index;
@@ -96,8 +83,8 @@ void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
 
     col = gFreeDuel_bCursorColumn;
     panel = D_800EB0F8_raw;
-    w->x = col * 56 + 20;
-    w->y = gFreeDuel_bCursorRow * 52 + 40;
+    w->field_30.h.field_30 = col * 56 + 20;
+    w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);
     if (arm == 0) {
         return;
@@ -127,9 +114,9 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 
     x = func_800400AC(func_8004002C(), 2);
     func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
-    ((u8 *)x)[0x5F] = 0x80;
+    ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
-    func_800428EC(x, 5);
+    func_800428EC((u8 *)x, 5);
     x->flags |= 0x20;
     return x;
 }
@@ -145,7 +132,7 @@ void FreeDuel_Init(u8 *src)
     u16 *rec;
     DisplayObject **slot;
     u8 *cell;
-    Obj *obj;
+    DisplayObject *obj;
     RECT *clut;
 
     if (gFreeDuel_bReturnFlags & 0x80) {
@@ -252,8 +239,8 @@ done:
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 18,
                           (i / 16) * 64 + 128, (i & 15) + 496);
-            obj->flags |= 0x1000000;
-            obj->attr &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            obj->attribute |= 0x1000000;
+            obj->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         }
     }
     for (k = 25, i = 0; i < 15; i++, k++) {
@@ -265,34 +252,34 @@ done:
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 48, 20,
                           (k / 16) * 64 + 128, (k & 15) + 496);
-            obj->flags |= 0x1000000;
-            obj->attr &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            obj->attribute |= 0x1000000;
+            obj->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         }
     }
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
-    func_800428EC(obj, 10);
-    obj->flags |= 0x1000000;
-    obj->attr |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_800428EC((u8 *)obj, 10);
+    obj->attribute |= 0x1000000;
+    obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
-    func_800428EC(obj, -10);
-    obj->flags |= 0x1000000;
-    obj->attr |= 0x28;
+    func_800428EC((u8 *)obj, -10);
+    obj->attribute |= 0x1000000;
+    obj->flags |= 0x28;
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
-    obj->mode = 128;
-    func_800428EC(obj, 15);
-    obj->attr |= 0x28;
-    gFreeDuel_pThumbWidget = (u8 *)obj;
-    obj = (Obj *)FreeDuel_SpawnSparkle();
-    gFreeDuel_pCursorWidget = (u8 *)obj;
-    obj->flags &= ~GsROTOFF;
+    ((u8 *)&obj->field_5E)[1] = 128;
+    func_800428EC((u8 *)obj, 15);
+    obj->flags |= 0x28;
+    gFreeDuel_pThumbWidget = obj;
+    obj = FreeDuel_SpawnSparkle();
+    gFreeDuel_pCursorWidget = obj;
+    obj->attribute &= ~GsROTOFF;
     if (gFreeDuel_bReturnFlags == 0) {
-        obj->attr &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-        FreeDuel_PlaceCursor((FreeDuelWidget *)obj, 0);
+        obj->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        FreeDuel_PlaceCursor(obj, 0);
     } else {
-        FreeDuel_PlaceCursor((FreeDuelWidget *)obj, 1);
+        FreeDuel_PlaceCursor(obj, 1);
     }
     FreeDuel_UpdateScrollbar();
     SD_BGMPlay(29376);
@@ -342,7 +329,7 @@ void FreeDuel_UpdateSparkle(void)
 
 void FreeDuel_UpdateCursorTween(void)
 {
-    u8 *widget = gFreeDuel_pCursorWidget;
+    DisplayObject *widget = gFreeDuel_pCursorWidget;
     DisplayObject **slot;
     DisplayObject *sparkle;
     s32 tx;
@@ -356,39 +343,39 @@ void FreeDuel_UpdateCursorTween(void)
             return;
         }
         gFreeDuel_bScreenFlags |= 0x40;
-        *(u16 *)(widget + 0x60) = 8;
-        DisplayObject_ResetVelocity(widget);
+        widget->field_60 = 8;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)widget);
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
-        d = *(s16 *)(widget + 0x30);
+        d = (s16)widget->field_30.h.field_30;
         d = tx - d;
         sx = (d << 8) / 8;
         d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
-        *(s16 *)(widget + 0x36) = sx;
-        d = *(s16 *)(widget + 0x32);
+        widget->field_34.h.field_36 = sx;
+        d = (s16)widget->field_30.h.field_32;
         d = ty - d;
-        *(s16 *)(widget + 0x38) = (d << 8) / 8;
+        widget->field_38.h.field_38 = (d << 8) / 8;
     }
 
-    DisplayObject_StepPositionXY(widget);
-    left = *(u16 *)(widget + 0x60) - 1;
-    *(u16 *)(widget + 0x60) = left;
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)widget);
+    left = (u16)widget->field_60 - 1;
+    widget->field_60 = left;
     if (left == 0) {
         gFreeDuel_bCursorColumn = gFreeDuel_bTargetColumn;
         gFreeDuel_bCursorRow = gFreeDuel_bTargetRow;
-        FreeDuel_PlaceCursor((FreeDuelWidget *)widget, 1);
+        FreeDuel_PlaceCursor(widget, 1);
         gFreeDuel_bScreenFlags &= ~0x40;
         SD_SEPlayFull(47);
     } else {
         slot = FreeDuel_GetSparkleSlot();
         sparkle = FreeDuel_SpawnSparkle();
         if (sparkle != 0 && slot != 0) {
-            sparkle->field_30.word = *(u32 *)(widget + 0x30);
-            func_800428EC(sparkle, (s8)(widget[0x16] - 1));
+            sparkle->field_30.word = widget->field_30.word;
+            func_800428EC((u8 *)sparkle, (s8)((u8)widget->field_16 - 1));
             func_80041D60(sparkle);
-            sparkle->field_4C = *(s32 *)(widget + 0x4C);
+            sparkle->field_4C = widget->field_4C;
             sparkle->field_6C = 1;
             sparkle->flags |= 1;
             *slot = sparkle;
@@ -408,10 +395,10 @@ void FreeDuel_UpdateScreen(void)
         if ((*(u16 *)(panel + 0x34) & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
-            *(u16 *)(gFreeDuel_pCursorWidget + 8) |=
+            gFreeDuel_pCursorWidget->flags |=
                 DISPLAY_OBJECT_FLAG_RENDERABLE;
             FreeDuel_PlaceCursor(
-                (FreeDuelWidget *)gFreeDuel_pCursorWidget, 1
+                gFreeDuel_pCursorWidget, 1
             );
         }
         return;
@@ -498,9 +485,9 @@ void FreeDuel_Entry(void)
         if (phase >= 8) {
             phase = 0xF - phase;
         }
-        *(s16 *)(gFreeDuel_pCursorWidget + 0x46) =
+        gFreeDuel_pCursorWidget->field_44.h.field_46 =
             phase * 48 + 0x1000;
-        *(s16 *)(gFreeDuel_pCursorWidget + 0x44) =
+        gFreeDuel_pCursorWidget->field_44.h.field_44 =
             phase * 48 + 0x1000;
     }
     FreeDuel_UpdateSparkle();

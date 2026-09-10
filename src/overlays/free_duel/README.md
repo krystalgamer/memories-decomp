@@ -73,13 +73,26 @@ not mark object or ownership boundaries:
 - `FreeDuel_Entry` drives the screen update, cursor pulse, and sparkle-pool
   updater each frame.
 
-`gFreeDuel_pCursorWidget` and `gFreeDuel_pThumbWidget` remain byte pointers in
-`free_duel.h`; `FreeDuel_UpdateScrollbar` casts them to the verified
-`FreeDuelWidget` signed `x`/`y` prefix at the use, while later cursor code
-needs offsets through `+0x60`. A broad conversion to the shared
-`DisplayObject` changed signed loads and old-GCC scheduling, so that cursor
-view remains deliberately local rather than claiming the shared record's
-unsigned halfword view is interchangeable.
+`gFreeDuel_pCursorWidget` and `gFreeDuel_pThumbWidget` are `DisplayObject *`
+in `free_duel.h`, just like the sparkle pool. The cursor is returned by
+`FreeDuel_SpawnSparkle`; the thumb, banners and portrait tiles come from the
+same allocator. Their placement, flag changes, movement, pulsing and trail
+copies now use the existing shared record. The private `FreeDuelWidget` and
+`Obj` layouts are gone; no new display-object type was needed.
+
+The old conversion rejection was about signed accesses, not a different
+allocation. The canonical XY halves at `+0x30/+0x32` are `u16`, whereas the
+scrollbar and velocity calculations require `s16`. Explicit `(s16)` reads
+preserve those calculations. Conversely, the tween countdown retains a
+`(u16)` read of `field_60`, and the priority calculation reads `field_16` as
+`u8` before its final `s8` conversion. These are local numeric interpretations
+of shared fields, not competing declarations of the objects.
+
+The position trail copy uses `field_30.word`, keeping the original single
+word transfer while cursor placement and scrolling use the halfword members.
+The initializer and constructor write only the high byte of `field_5E`
+through `((u8 *)&object->field_5E)[1]`; this preserves the byte at `+0x5F`
+without a raw object-base offset or a speculative new meaning for the field.
 
 The sparkle path is fully on the shared display-object type.
 `FreeDuel_SpawnSparkle` returns `DisplayObject *`;
@@ -94,6 +107,21 @@ per update, then releases the ambient object and clears the pool slot.
 One unit now settles `FreeDuel_GetSparkleSlot` as `DisplayObject **` from
 definition through both callers, rather than preserving the former
 `u8 **`/`void **` disagreement.
+
+The cursor's motion path is velocity integration: it clears the fractional
+state with `DisplayObject_ResetVelocity`, writes the 8.8 deltas to
+`field_34.h.field_36` / `field_38.h.field_38`, and calls
+`DisplayObject_StepPositionXY`. The existing `DisplayObjectVelocity` view
+is used at those two API boundaries. Its interpretation does not generalize
+to other object kinds that use the same offsets for saved positions.
+
+A measured alternative kept a second function-scope
+`DisplayObjectVelocity *motion` alias throughout the tween. That created an
+extra `move s2,s1`, extending `FreeDuel_UpdateCursorTween` from 120 to 121
+instructions (`0x1E0` to `0x1E4`). It was rejected, not hidden behind a new
+profile or register pin. The accepted version keeps one live object pointer
+and uses canonical members. The complete shared-type conversion reproduces
+all five overlay images with the existing profile.
 
 `FreeDuel_Init` ends by calling `SD_BGMPlay(0x72C0)`. The resident sound path
 routes that command through `func_80047314`, `func_8004733C`, and
@@ -161,16 +189,18 @@ The renderable and screen-space bits in the `u16` flag word at object offset
 | `FreeDuel_Init` hidden cursor | `obj->attr &= ~0x40` | `~DISPLAY_OBJECT_FLAG_RENDERABLE` |
 | `FreeDuel_UpdateScreen` cursor reveal | `\|= 0x40` | `DISPLAY_OBJECT_FLAG_RENDERABLE` |
 
-`attr` in this module's local `Obj` view sits at `+8` — after a four-byte pad
-and the separate 32-bit word at `+4` — so it is the same field the resident
-renderers test through `*(u16 *)(e + 8)`.
+The retired local `Obj` view called the halfword at `+8` `attr` and the word
+at `+4` `flags`. Those names were opposite to the shared record's convention:
+the code now uses `DisplayObject.flags` for `+8` and
+`DisplayObject.attribute` for `+4`. The bit values and access widths do not
+change.
 
 Two neighbouring literals are deliberately **left as numbers**:
 
-- `obj->attr |= 0x28` combines `0x8` with a `0x20` bit that
+- `obj->flags |= 0x28` combines `0x8` with a `0x20` bit that
   `display_object_layout.h` does not define. Naming only half of a composite
   would imply the rest is understood, so the whole value stays raw.
-- The 32-bit `obj->flags` writes are a **different field at `+4`**, not the
+- The 32-bit `obj->attribute` writes are a **different field at `+4`**, not the
   flag word, so no display object flag constant applies to them. They are
   libgs `GsSPRITE` attribute bits, and `libgs.h` names most of them:
   `0x8000000` is `GsROTOFF` and `0x50000000` is `GsALON | GsAONE`, both now
@@ -194,8 +224,8 @@ cursor's offset within the visible window between `0x28` and `0x90`, pushing
 positions the scrollbar thumb with
 
 ```c
-((FreeDuelWidget *)gFreeDuel_pThumbWidget)->y =
-    (cursor->y - 0x28) * 72 / 364 + 7;
+gFreeDuel_pThumbWidget->field_30.h.field_32 =
+    ((s16)cursor->field_30.h.field_32 - 0x28) * 72 / 364 + 7;
 ```
 
 The `364` in that expression is exactly `7 * 52` — the row pitch times
