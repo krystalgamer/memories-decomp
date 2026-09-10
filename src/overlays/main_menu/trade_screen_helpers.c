@@ -92,7 +92,6 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
 
-extern CardCountEntry D_801845FC[];
 extern u16 D_80185C8C[][2];
 extern MainMenuWidget *D_801845E0;
 

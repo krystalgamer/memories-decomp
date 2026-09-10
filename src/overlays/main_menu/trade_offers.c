@@ -161,8 +161,6 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
     }
 }
 
-extern CardCountEntry D_801845FC[];
-
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
     CardCountEntry *p;
@@ -173,7 +171,7 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 
     i = 0;
     offset = slot * 2888;
-    p = D_801845FC;
+    p = D_801845FC[0];
     while (i < CARD_COUNT) {
         entry = (CardCountEntry *)(offset + (s32)p);
         if (entry->id == id) {

@@ -2,6 +2,8 @@
 #define MEMORIES_DECOMP_MAIN_MENU_TRADE_HELPERS_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
+#include "../../game/card_constants.h"
 
 /* One entry of D_801845EC, the two Trade card-display slots.
 
@@ -92,5 +94,21 @@ extern u8 D_80185CCE;
 extern u8 D_80185CCF;
 extern u8 D_80185CD0;
 extern u8 D_80185CD1;
+
+/* The per-side working card table, two rows of CARD_COUNT CardCountEntry
+ * (ygo_types.h) records. Four sources reach it and all four already include
+ * this header; three of them spelled it `CardCountEntry []`, one
+ * `CardCountEntry [][CARD_COUNT]`. The two-dimensional shape is the one that
+ * matched MainMenu_RefreshTradeInventory (trade_inventory.c:33-34 store
+ * `[slot][i].id` and `.count`, :42 sorts `[slot]`; the module's functions.csv
+ * row for 0x8018338C records why), and the other three sources reach the same
+ * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
+ * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:173-176, :184),
+ * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`
+ * (trade_screen_helpers.c:103), and MainMenu_UpdateTradeScreen indexes
+ * `[0][...]` (trade_update.c:217). Row 1 is also named on its own as
+ * D_80185144 (trade_update.c:23, :358; +0xB48 = CARD_COUNT * 4), which keeps
+ * its private declaration. Two rows end at D_80185C8C, +0x1690. */
+extern CardCountEntry D_801845FC[][CARD_COUNT];
 
 #endif

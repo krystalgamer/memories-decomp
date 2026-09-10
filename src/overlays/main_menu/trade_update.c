@@ -20,7 +20,6 @@ typedef struct {
 extern MainMenuWidget *D_801845E0;
 extern MainMenuWidget *D_801845EC;
 extern MainMenuWidget *D_801845F4;
-extern CardCountEntry D_801845FC[];
 extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C[2][2];
 extern u16 D_80185C9C[2][11];
@@ -215,7 +214,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     if (D_80185C8C[0][0] != D_80185C8C[0][1]) {
         goto scroll0;
     }
-    card0 = &D_801845FC[D_80185C8C[0][0] + D_80185CCA[0]];
+    card0 = &D_801845FC[0][D_80185C8C[0][0] + D_80185CCA[0]];
     if (D_80185CC8[0] != 0) {
         if ((D_8009B398[0] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
