@@ -411,6 +411,56 @@ function that only reads through its parameter is safe however many globals
 it touches, and a function that stores through it needs the measurement even
 if it touches one.
 
+#### The alias rule is the last filter, not the first
+
+Scanning the tree for `*(T *)(base + off)` finds about a thousand sites, and
+the store filter above cuts far less of that than it looks like it should.
+Working through one batch of read-only candidates, every one was rejected
+before the alias question came up, each for a different reason. They are worth
+knowing because a scan reports all of them as clean:
+
+- **The file already says the conversion was tried.**
+  `ai_script_find_killer.c` opens by recording that it is a
+  `-fno-strength-reduce` user, that the walk's reads at +0, +2, +6 and +9 make
+  gcc build a second induction variable biased at +2, and that "an index form,
+  a struct cursor, dropping the named compare value and inlining the base were
+  all tried". The bias belongs to the reducer, not the spelling.
+
+- **The base is a second symbol for storage another symbol already names.**
+  `D_800F3A10` is `D_800F2C40[0].field_DD0` and `D_800F56FC` is
+  `&D_800F56F0.vrx`; both headers keep the interior symbol deliberately,
+  because the matched sites reach the field through it and spelling it as an
+  offset from the enclosing object changes which symbol their relocations
+  name.
+
+- **The width or signedness of the read does not match the named field.**
+  `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
+  `s32`, and `e[2]` where `field_0002` is `s16`. Each such site needs a
+  `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
+  pays noise.
+
+- **The arithmetic is the function's logic.** In `func_80058434` the base is
+  either `&D_800F56F0` or its interior `vrx` symbol depending on a sign, and
+  the destination is `base ± 0xC`; the pointer arithmetic is how the function
+  swaps which triple is source and which is destination.
+
+- **The stores are in a form the scan did not match.**
+  `display_effect_update_callbacks.c` stores with `*(DisplayObject **)p = o`
+  and `p[0x33] = 0`, and `library_runtime.c` uses `*(u16 *)(p + 2) += 0xC`.
+  A store detector has to cover `*(T **)base =`, `base[i] =` and `+=`, or it
+  will hand back store-through-pointer functions as read-only ones.
+
+What survives is narrow and worth stating positively: the conversion is a good
+bet when the base is a byte pointer taken to a global that already has a named
+type, and every offset read matches a field of that type in both width and
+signedness. `func_80058624` is the worked example. It read
+`D_800F56F0.vpx` by name and then took `p = (u8 *)&D_800F56F0` to read +8,
++0xC and +0x14 of the same object; `D_800F56F0` is a `GsRVIEW2`, so those are
+`vpz`, `vrx` and `vrz`, and naming them was byte-exact on the first build.
+A file that reaches a named global through an anonymous pointer is the shape
+to look for, and `camera_view.h` records that ten files once did exactly that
+to this one object.
+
 ### Name the record in one change, reach it in another
 
 Two of these conversions failed in the same shape, and both split cleanly
