@@ -107,4 +107,18 @@ extern u8 D_8009B260;
  * instructions have. */
 DuelEffectRequest *func_8002C68C(s32 id);
 
+/* The pool those requests live in: the eight records this header already
+ * fixes the shape and count of, DUEL_EFFECT_REQUEST_COUNT of them at 0x20
+ * bytes each, both asserted above.
+ *
+ * The bound is kept rather than dropped. Both declarers already spelled it
+ * `[DUEL_EFFECT_REQUEST_COUNT]`, and an array's declared size is a -G input
+ * for this toolchain, so leaving it unsized would not be a neutral tidy-up.
+ *
+ * All three accessors are matching C and all three take its address:
+ * func_8002C598 and func_8002C5CC walk it from the base, and func_8002C6C8
+ * starts from `&D_800EAD88[0]` -- its own comment calls that "the eight
+ * D_800EAD88 requests". */
+extern DuelEffectRequest D_800EAD88[DUEL_EFFECT_REQUEST_COUNT];
+
 #endif
