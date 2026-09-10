@@ -13,43 +13,11 @@
 #include "duel_card.h"
 #include "display_object.h"
 #include "display_object_config.h"
+#include "duel_field_display_objects.h"
 #include "duel_effect.h"
 #include "duel_selection_layout.h"
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
-
-/* One field-grid source record, as the three functions here actually reach
-   it. The two sources this unit was split across described it twice and
-   disagreed in three places; all three are settled by what the matched code
-   loads and stores, not by preference.
-
-   Two distinct DisplayObject pointers, not one. func_800234E4 creates an
-   object and stores it at +0x04; func_80023144 loads a pointer from +0x00 to
-   place its text box. Both accesses are in matched code, so the record
-   carries both. Whether the two ever hold the same object is not established
-   here, so +0x00 keeps an offset name.
-
-   +0x17 is one field with two former names, `table_index` and `field_17`:
-   func_800234E4 adds it to the side offset to pick a graphic, func_80023144
-   compares it against 2 and 3 to pick a text-box style. Both readings are a
-   small region discriminator, so it keeps the name that says what it selects.
-
-   The third disagreement was func_80023144's own signature - declared taking
-   u8 here, defined taking s32 there. The definition wins; the call site
-   passes a u8 that promotes. */
-typedef struct {
-    DisplayObject *field_00;  /* 0x00, read by func_80023144 */
-    DisplayObject *object;    /* 0x04, created and stored by func_800234E4 */
-    u8 pad_08[7];
-    s8 x;                     /* 0x0F */
-    s8 y;                     /* 0x10 */
-    u8 pad_11[3];
-    u8 field_14;              /* 0x14, the text box's slot */
-    u8 pad_15[1];
-    s8 field_16;              /* 0x16, y bias of the text box */
-    u8 table_index;           /* 0x17 */
-    u8 field_18;              /* 0x18 */
-} DuelFieldDisplaySource;
 
 extern u8 D_8009B344 __attribute__((section(".data")));
 extern s32 D_801D5608[];

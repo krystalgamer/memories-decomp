@@ -6,10 +6,11 @@
 #include "func_80022D94.h"
 #include "../unmatched.h"
 #include "func_80023D08.h"
+#define FUNC_8002348C_AMBIENT_SOURCE
+#include "duel_field_display_objects.h"
 
 extern s16 D_800907AC[2][2][4];
 
-extern void func_8002348C(void);
 void func_80023D08(GridCursor *o, s32 dir) {
     DuelFieldCursorObject *d;
     s32 pos;
