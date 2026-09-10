@@ -42,7 +42,7 @@ void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
         buffer_arg = buffer;
         table = gMovie_aStreamRanges;
         value += table[index].sector_count;
-        func_8005B8A0(buffer, arg1, end_frame, value, arg3, arg4);
+        func_8005B8A0((u8 *)buffer, arg1, end_frame, value, arg3, arg4);
     }
 }
 
