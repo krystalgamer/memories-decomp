@@ -32,7 +32,7 @@ typedef char BuildDeckTransitionState_pane_index_offset_must_be_0x6342[
 #undef BUILD_DECK_TRANSITION_STATE_OFFSET
 
 /* Read by three C functions; no C function stores it. func_80032C48 reads
- * the byte at +0x606A + card_id (card_list_sort.c:139-140), func_80033998
+ * the byte at +0x606A + card_id (card_list_sort.c:188-189), func_80033998
  * walks 0x10-byte entries from +0x2D50 (func_80033998.c:8-10), and
  * func_80033BE8 reads the pointers at +0x2D38 and +0x5A84 through
  * `(u8 *)base` (func_800339D0.c), calls
