@@ -21,7 +21,6 @@
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 extern u8 D_8015C424[];
-extern DuelCardRecord D_801A7B64[];
 
 void func_8001825C(void)
 {
