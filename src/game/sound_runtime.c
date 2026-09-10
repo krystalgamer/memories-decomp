@@ -7,8 +7,6 @@
 #include "sound_voice_constants.h"
 #include "../unmatched.h"
 
-extern void func_80049F10(s16, s16);
-
 s32 SD_EnqueueCommand(SDCommand *src) {
     SDValue *b1;
     SDValue *b2;
