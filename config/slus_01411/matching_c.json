@@ -4622,31 +4622,31 @@
     },
     {
       "address": "0x80058F20",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/model_slot_data.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80058F74",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/model_slot_data.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80058FB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/model_copy_slot_u16_values.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x80059000",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
       "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800590DC",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
       "source": "src/game/model_slot_support.c"
     },
@@ -4654,35 +4654,35 @@
       "address": "0x80059134",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/model_init_light_triplet.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800591C0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/func_800591C0.c"
+      "source": "src/game/model_slot_support.c"
     },
     {
       "address": "0x800591FC",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/func_800591FC.c"
+      "source": "src/game/model_buffer_getters.c"
     },
     {
       "address": "0x80059208",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/func_80059208.c"
+      "source": "src/game/model_buffer_getters.c"
     },
     {
       "address": "0x80059214",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
       "source": "src/game/model_buffer_getters.c"
     },
     {
       "address": "0x80059220",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
       "source": "src/game/model_buffer_getters.c"
     },
