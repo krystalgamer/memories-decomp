@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_YGO_TYPES_H
 
 #include "types.h"
+#include "game/card_constants.h"
 
 /* Only the first five words at 0x80010000: three reused MODEL payload
  * bases, followed by the two primary modules entered at +4. This is an
@@ -70,6 +71,186 @@ typedef struct {
 } ModelHandlerObject;
 
 #define YGO_TYPE_OFFSET(type, member) ((u32)&(((type *)0)->member))
+
+/* Shared text/effect node. The word members preserve the alignment required
+   by the resident compactor's whole-entry lw/sw copies. */
+typedef struct {
+    u16 code_00;
+    u16 pad_02;
+    s32 field_04;
+    s32 field_08;
+    s16 x_0C;
+    s16 y_0E;
+    u8 field_10;
+    u8 flags_11;
+    u8 field_12;
+    u8 field_13;
+    u8 pad_14;
+    u8 field_15;
+    /* Written on distinct text-effect paths; their meaning is unresolved. */
+    u8 field_16;
+    u8 field_17;
+    u8 field_18;
+    u8 pad_19[3];
+} DuelEffectEntry;
+
+typedef char DuelEffectEntry_size_must_be_0x1C[
+    sizeof(DuelEffectEntry) == 0x1C ? 1 : -1
+];
+typedef char DuelEffectEntry_must_be_four_byte_aligned[
+    sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectEntry_code_00_offset_must_be_0[
+    YGO_TYPE_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
+];
+typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
+    YGO_TYPE_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
+];
+typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
+];
+typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
+    YGO_TYPE_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_12_offset_must_be_0x12[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_12) == 0x12 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_15) == 0x15 ? 1 : -1
+];
+typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
+];
+
+typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
+
+/* The installed callback selects scale versus destination XY at 0x44/0x46.
+   This is a name-entry view, not a universal display-object interpretation. */
+typedef struct {
+    u8 pad_00[0x4];
+    u32 flags;
+    u8 pad_08[0x3C];
+    s16 scale_x;
+    s16 scale_y;
+    u32 field_48;
+    DuelEffectEntry *sourceGlyph;
+    u8 pad_50[0xA];
+    s16 savedSourceX;
+    u8 pad_5C[0x4];
+    s16 frame;
+    u8 pad_62[0x5];
+    u8 textBoxSlot;
+    u8 pad_68[0x2];
+    u8 sequence;
+} GlyphSprite;
+
+typedef char GlyphSprite_size_must_be_0x6C[
+    sizeof(GlyphSprite) == 0x6C ? 1 : -1
+];
+typedef char GlyphSprite_scale_offset_must_be_0x44[
+    YGO_TYPE_OFFSET(GlyphSprite, scale_x) == 0x44 ? 1 : -1
+];
+typedef char GlyphSprite_source_offset_must_be_0x4C[
+    YGO_TYPE_OFFSET(GlyphSprite, sourceGlyph) == 0x4C ? 1 : -1
+];
+typedef char GlyphSprite_saved_x_offset_must_be_0x5A[
+    YGO_TYPE_OFFSET(GlyphSprite, savedSourceX) == 0x5A ? 1 : -1
+];
+typedef char GlyphSprite_frame_offset_must_be_0x60[
+    YGO_TYPE_OFFSET(GlyphSprite, frame) == 0x60 ? 1 : -1
+];
+typedef char GlyphSprite_sequence_offset_must_be_0x6A[
+    YGO_TYPE_OFFSET(GlyphSprite, sequence) == 0x6A ? 1 : -1
+];
+
+/* Dialog panel reached through the text box, not the keyboard selection
+   frame. slide is signed distance remaining on the panel's own transition. */
+typedef struct {
+    u8 pad_00[0x8];
+    u16 flags;
+    u8 pad_0A[0x26];
+    s16 x;
+    s16 y;
+    u8 pad_34[0x2C];
+    s16 slide;
+    u8 pad_62[0xA];
+    u8 status;
+} DialogCaret;
+
+typedef char DialogCaret_size_must_be_0x6E[
+    sizeof(DialogCaret) == 0x6E ? 1 : -1
+];
+typedef char DialogCaret_position_offset_must_be_0x30[
+    YGO_TYPE_OFFSET(DialogCaret, x) == 0x30 ? 1 : -1
+];
+typedef char DialogCaret_slide_offset_must_be_0x60[
+    YGO_TYPE_OFFSET(DialogCaret, slide) == 0x60 ? 1 : -1
+];
+typedef char DialogCaret_status_offset_must_be_0x6C[
+    YGO_TYPE_OFFSET(DialogCaret, status) == 0x6C ? 1 : -1
+];
+
+/* The drawing callback and keyboard tween operate on the same allocation.
+   Their old prefixes agreed at every common offset; this joins their fields. */
+typedef struct {
+    u8 pad_00[0x14];
+    s16 priority;
+    u8 pad_16[0x1A];
+    s16 x;
+    s16 y;
+    u8 pad_34[0x2];
+    s16 stepX;
+    s16 stepY;
+    u8 pad_3A[0x2];
+    u16 width;
+    u16 height;
+    u8 pad_40[0x1E];
+    u8 widthBonus;
+    u8 pad_5F;
+    s16 timer;
+} SelectionFrame;
+
+typedef SelectionFrame NameEntrySelectionFrameView;
+
+typedef char SelectionFrame_size_must_be_0x62[
+    sizeof(SelectionFrame) == 0x62 ? 1 : -1
+];
+typedef char SelectionFrame_priority_offset_must_be_0x14[
+    YGO_TYPE_OFFSET(SelectionFrame, priority) == 0x14 ? 1 : -1
+];
+typedef char SelectionFrame_position_offset_must_be_0x30[
+    YGO_TYPE_OFFSET(SelectionFrame, x) == 0x30 ? 1 : -1
+];
+typedef char SelectionFrame_velocity_offset_must_be_0x36[
+    YGO_TYPE_OFFSET(SelectionFrame, stepX) == 0x36 ? 1 : -1
+];
+typedef char SelectionFrame_extent_offset_must_be_0x3C[
+    YGO_TYPE_OFFSET(SelectionFrame, width) == 0x3C ? 1 : -1
+];
+typedef char SelectionFrame_bonus_offset_must_be_0x5E[
+    YGO_TYPE_OFFSET(SelectionFrame, widthBonus) == 0x5E ? 1 : -1
+];
+typedef char SelectionFrame_timer_offset_must_be_0x60[
+    YGO_TYPE_OFFSET(SelectionFrame, timer) == 0x60 ? 1 : -1
+];
+
+#define NAME_ENTRY_STARTER_DECK_POOL_PADDING_SIZE 18
+
+typedef struct {
+    u16 draw_count;
+    u16 weights[CARD_COUNT];
+    u8 padding[NAME_ENTRY_STARTER_DECK_POOL_PADDING_SIZE];
+} NameEntryStarterDeckPool;
+
+typedef char NameEntryStarterDeckPool_size_must_be_0x5B8[
+    sizeof(NameEntryStarterDeckPool) == 0x5B8 ? 1 : -1
+];
+typedef char NameEntryStarterDeckPool_weights_offset_must_be_2[
+    YGO_TYPE_OFFSET(NameEntryStarterDeckPool, weights) == 2 ? 1 : -1
+];
 
 /* Live overworld records: camera setup/tween, marker placement and exit
    selection all read the same 66-byte stride. The alternate map is separate. */
