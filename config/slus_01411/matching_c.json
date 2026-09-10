@@ -5056,25 +5056,25 @@
       "address": "0x80052528",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/model_view_adjustments.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x80052694",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/model_view_adjustments.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800528AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
-      "source": "src/game/func_800528AC.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x80052D2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x398",
-      "source": "src/game/func_80052D2C.c"
+      "source": "src/game/model_scene_setup.c"
     },
     {
       "address": "0x800530C4",
