@@ -629,6 +629,16 @@ s32 SD_ProcessSequenceTracks(void);
 void func_800464F0(void);
 s32 func_80049138(s16 arg0, s32 arg1);
 
+/* The third export of sd_sequence_tracks.c, joining its two siblings above.
+   It walks the track records from D_8009B458 for track_count entries and
+   returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
+   every track has ended. sound_secondary_playback.c is the only caller and
+   its local extern already agreed with this.
+
+   The 3 is the value func_80049F50 promotes into the secondary path's state
+   byte, as the note further down records. */
+s32 SD_GetSequenceStatus(void);
+
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
    the return width and the narrower one is right to: sound_runtime.c compares
