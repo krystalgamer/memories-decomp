@@ -142,8 +142,7 @@ source grouping.
 | `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
 | `src/game/options_update.c` | `gcc_2_8_1_g8` | Contiguous options input handler (`0x8003C7A0`) and per-frame state dispatcher (`0x8003C8CC`) |
 | `src/game/game_over.c` | `gcc_2_8_1_g8_split` | Contiguous Game Over setup (`0x8003C950`) and per-frame update (`0x8003CA5C`) |
-| `src/game/input_update_pads.c` | `gcc_2_8_1_g8_split` | Contiguous raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`) |
-| `src/game/input_state_backup.c` | `gcc_2_8_1_g8` | `Input_BackupPad1AndUsePad2` (`0x8003CDF8`) and the contiguous `Input_RestorePad1FromBackup` (`0x8003CE48`) counterpart |
+| `src/game/input_pads.c` | `gcc_2_8_1_g8_split` | The controller runtime, six contiguous functions: `Input_ResetPads` (`0x8003CB7C`), `Input_InitPads` (`0x8003CBE8`), which ends by calling it, the raw controller-packet decoder (`0x8003CC38`) and held/pressed/repeat publisher (`0x8003CCD8`), and the pad-1/pad-2 swap pair `Input_BackupPad1AndUsePad2` (`0x8003CDF8`) and `Input_RestorePad1FromBackup` (`0x8003CE48`). `Input_InitPads` and the swap pair were recorded at `gcc_2_8_1_g8`, but each compiles to an identical object at `gcc_2_8_1_g8_split`. Bounded below by `game_over.c`, whose object does change without split addresses, and above by the `gcc_2_8_1_g8` save-data checksum unit |
 | `src/game/save_data_checksum.c` | `gcc_2_8_1_g8` | `SaveData_NextMaskWord` (`0x8003CE74`), the contiguous CRC-16/XMODEM calculator (`0x8003CEB8`), and primary/secondary checksum-mask writer (`0x8003CF14`) |
 | `src/game/save_data_validation.c` | `gcc_2_8_1_g8` | `SaveData_HasSameDuelistCode` (`0x8003D288`) and `SaveData_MatchesDuelistAndCurrentSequence` (`0x8003D2B8`) |
 | `src/game/dialog_transition.c` | `gcc_2_8_1_g8` | Three contiguous dialog/card-reveal transition handlers from `0x8003D518` through `0x8003D74C`, sharing display objects and `D_8009B3C1` state bits |
@@ -279,6 +278,27 @@ symbol two ways, so the inference does not hold in either direction.
 cheapest tier of evidence available here, below even the `-G` table in
 `notes/build.md`, and it is the right tool for finding this disagreement --
 just not for concluding the merge is impossible.
+
+### A recorded profile is one that matches, not the only one
+
+Condition 2 is checked against the profile `matching_c.json` records, but that
+profile only says which flags reproduce the function. It does not say no other
+profile does. Where two neighbours differ only in a flag that one of them never
+exercises, the "profile boundary" between them is an accident of which profile
+was tried first.
+
+The profiles most often split by this are `gcc_2_8_1_g8` and
+`gcc_2_8_1_g8_split`, which differ only in `-msplit-addresses`, and
+`gcc_2_8_1_g0` and `gcc_2_8_1_g8`, which differ only in the small-data
+threshold. A function with no global it could split, or no small data it could
+reach, often compiles to the same object under both.
+
+The check is cheap and needs no link: compile the source under both profiles
+with `build_baseline.compile_c` and compare `objdump -s -r -t -h` of the two
+objects. If they are identical, the function can take its neighbour's profile
+and the pair is judged on meaning like any other. `input_pads.c` was formed
+this way. The check does not replace the full build, which still has to
+match, because the merged unit is compiled as one.
 
 ### A merged unit inherits both halves' `.rodata`
 
