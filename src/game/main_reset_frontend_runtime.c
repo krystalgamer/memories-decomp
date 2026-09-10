@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_config.h"
+#include "display_object_api.h"
 #include "graphics_frame.h"
 #include "func_80035A64.h"
 #include "input.h"

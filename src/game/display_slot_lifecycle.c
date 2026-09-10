@@ -113,3 +113,37 @@ void func_8004020C(DisplayObject *slot)
 
     slot->flags = 0;
 }
+
+void func_800402A0(DisplayObject *slot, s32 key)
+{
+    u16 saved = slot->flags;
+    s32 v;
+
+    func_8004020C(slot);
+    v = *(s16 *)((u8 *)D_800EFE38 + key * 2);
+    if (v < 0) {
+        *(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
+        slot->next = -1;
+        slot->previous = -1;
+    } else {
+        D_800EFE48[v].previous = slot->field_0A;
+        slot->next = *(u16 *)((u8 *)D_800EFE38 + key * 2);
+    }
+    slot->previous = -1;
+    *(u16 *)((u8 *)D_800EFE38 + key * 2) = slot->field_0A;
+    slot->flags = saved;
+}
+
+void func_8004036C(void *object)
+{
+    if (object != 0) {
+        func_8004020C((DisplayObject *)object);
+    }
+}
+
+void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{u8*p=(u8*)D_800EFE48;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){*(s16*)(p+8)=0;p+=DISPLAY_OBJECT_RECORD_SIZE;}}}
+
+void func_800403F0(void)
+{
+    DisplayObject_ResetPool();
+}
