@@ -3164,7 +3164,7 @@ Measured while typing `D_801A7AD8`, a `0x1C`-byte duel card record reached
 through raw casts in eleven files. One file converted cleanly and matched. Five
 others, converted identically, did not:
 
-- `func_8001825C.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
+- `duel_phase_entry.c` also passed `D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE`
   to a callee. Once the array is typed, that expression scales **twice** - the
   multiply is still written and the pointer arithmetic scales again - which both
   changes the address and grows the text. Rewriting it as `&D_801A7AD8[i]` fixed
