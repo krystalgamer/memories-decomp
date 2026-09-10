@@ -24,7 +24,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
  *
  * The same memory is also borrowed as scratch once the duel is over:
  * func_80020F4C casts it to DuelResultSpriteSlot * for the outro, which
- * func_80020F4C.h documents as "the gDuel_awRitualData scratch". That reuse is
+ * duel_result_outro.h documents as "the gDuel_awRitualData scratch". That reuse is
  * why the array stays unsized here -- the two consumers disagree about the
  * element type, and only the halfword view belongs to this header.
  *

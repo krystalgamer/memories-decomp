@@ -7,7 +7,7 @@
 #include "func_8001825C.h"
 #include "func_80019608.h"
 #include "func_800208D4.h"
-#include "func_80020F4C.h"
+#include "duel_result_outro.h"
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *

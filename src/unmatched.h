@@ -132,7 +132,7 @@ void func_800262D4(void);
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
- * none of them read through it. func_80020D4C.c sized it [16], but nothing
+ * none of them read through it. func_80020D4C sized it [16], but nothing
  * takes its sizeof, so the bound was decorative. */
 extern u8 D_801AF000[];
 

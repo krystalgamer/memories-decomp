@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80020F4C.h"
+#include "duel_result_outro.h"
 #include "duel_screen_tables.h"
 
 /* Initialized data at 0x800908A0 through 0x80090998, previously a generated
@@ -18,7 +18,7 @@
    is transcribed as bytes and left unnamed.
 
    D_80090928 and D_80090960 are the duel-result sprite tables, for a real
-   opponent and for none. func_80020F4C.c already declares both as
+   opponent and for none. The outro already declared both as
    DuelResultSpriteSpec[][DUEL_RESULT_SPRITE_COUNT], and the extracted sizes
    agree: two winning sides by seven sprites by a four-byte spec. */
 u16 D_800908A0[] = {

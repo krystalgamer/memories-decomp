@@ -1,8 +1,11 @@
-#ifndef MEMORIES_DECOMP_FUNC_80020F4C_H
-#define MEMORIES_DECOMP_FUNC_80020F4C_H
+#ifndef MEMORIES_DECOMP_DUEL_RESULT_OUTRO_H
+#define MEMORIES_DECOMP_DUEL_RESULT_OUTRO_H
 
 #include "../types.h"
+#include "duel_card_display_state.h"
 #include "display_object.h"
+
+void func_80020EE8(DuelCardDisplayObject *object);
 
 #define DUEL_RESULT_SPRITE_COUNT 7
 

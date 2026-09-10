@@ -508,9 +508,9 @@ extern u16 D_8009B412;
  *
  * Declared here because this header owns both halves of its contract: the
  * DisplayObject it takes, and the DisplayObjectCallback typedef that
- * func_80020F4C.c casts it to when installing it. That file held the only
- * declaration and does not call the function itself, so the cast is the whole
- * use -- the declaration has to match for the address to be taken.
+ * func_80020F4C casts it to when installing it. func_80020F4C's old file held
+ * the only declaration and did not call the function itself, so the cast was
+ * the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
  * slot; func_80042BC0 in display_object_lifecycle.h is a sibling by role but
