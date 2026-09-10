@@ -1,13 +1,131 @@
 #define FUNC_8004B374_CALL_WITH_UNUSED_ARG
 #include "../types.h"
-#include "sound_sequence_events.h"
-
 #include "func_8004B374.h"
-#include "sound_secondary_commands.h"
 #include "sound.h"
+#include "sound_secondary_commands.h"
+#include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
-#include "sound_sequence_values.h"
 #include "../unmatched.h"
+
+/* The sequence parser: the fixed-width big-endian readers, the header reader
+   that uses them to set up track and tempo, and the handlers for the meta,
+   SysEx and channel events the running-status reader dispatches. All eight
+   consume the same SDSequenceTrack stream through SD_ReadSequenceByte.
+
+   SD_ReadSequenceHeader was recorded at gcc_2_8_1_cc_g8_as_g0_split against
+   gcc_2_8_1_g0 for the rest; it compiles to an identical object at
+   gcc_2_8_1_g0, as its own history note below says it was first matched
+   with -G0. Bounded below by SD_FindMidiTrackChunk, which does need its
+   profile, and above by SD_ReadSequenceEvent at gcc_2_8_1_g8_split. */
+
+s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
+{
+    s32 first = SD_ReadSequenceByte(input);
+    s32 second = SD_ReadSequenceByte(input);
+    s32 third = SD_ReadSequenceByte(input);
+    s32 fourth = SD_ReadSequenceByte(input);
+
+    return (fourth & 0xFF) + ((third & 0xFF) << 8) +
+           ((second & 0xFF) << 16) + (first << 24);
+}
+
+s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
+{
+    s32 high = SD_ReadSequenceByte(input);
+    s32 low = SD_ReadSequenceByte(input);
+
+    return (low & 0xFF) | ((high & 0xFF) << 8);
+}
+
+/* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
+ * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
+ * this is the C. Flags: -O2 -G0 -mno-split-addresses, as -G0 (gp == 0, the
+ * scalar D_8009B458 arm). The full history is in docs/PARKED.txt.
+ *
+ * Track/tempo-stream setup on D_8009B458: resets the record's stream
+ * fields, reads a halfword through SD_ReadSequenceU16BE and a word through
+ * SD_ReadSequenceU32BE (its top three bytes are the raw tempo), computes
+ * 60000000 / tempo * 100 / 115, clamps it to 0xFF, halves or quarters it by
+ * mode (0x1E: >> 2; 0x18 and 0x3C: >> 1) and stores the byte into +0x16 and
+ * +0x14 of the record before handing it to SD_ReadSequenceByte.
+ *
+ * The shape is the D_8009B0F4-family idiom: a `do { } while (0);` (a macro
+ * in the original) round the eight statements from the +0x7F0 store to the
+ * +0x808 store. The last three levers, in order: a base local `b` loaded
+ * BEFORE the byte store through the pointee, so the +0x518 store goes
+ * through the pre-store base while everything after the `sb` reloads;
+ * the dividend named inside the pin (`k = 60000000;`); the call result
+ * routed through the later result name (`v = call >> 8; r = v;`), which
+ * puts the whole reciprocal block in retail's order; and finally the
+ * +0x7F0 store moved INSIDE the pin, which is what forms `p` and copies it
+ * into $a0 before the two word stores -- the permuter found that last one
+ * at score 0 after 13 -> 7 by hand. Every one of these was measured as
+ * worthless or worse while an earlier fault was still open.
+ */
+
+s32 SD_ReadSequenceHeader(void) {
+    u8 *b;
+    SDSequenceTrack *p;
+    u32 r;
+    u32 v;
+    s32 m;
+    u32 k;
+
+    b = (u8 *)D_8009B458;
+    p = (SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET);
+    b[0x801] = 0;
+    do {
+        D_8009B458->field_07F0 = 0;
+        D_8009B458->field_07F4 = 0;
+        ((SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET))->pos = 8;
+        D_8009B458->timebase = SD_ReadSequenceU16BE(p);
+        D_8009B458->track_count = 1;
+        D_8009B458->field_07F8 = 0;
+        D_8009B458->field_07EC = 0x10000;
+        v = (u32)SD_ReadSequenceU32BE(p) >> 8;
+        r = v;
+        k = 60000000;
+        D_8009B458->field_0808 = r;
+    } while (0);
+
+    v = k / r;
+    v = v * 100 / 115;
+    if (v >= 0x100) {
+        v = 0xFF;
+    }
+
+    m = D_8009B458->timebase;
+    if (m == 0x1E) {
+        goto sh2;
+    }
+    if (m < 0x1F) {
+        if (m == 0x18) {
+            goto sh1;
+        }
+        goto store;
+    }
+    if (m != 0x3C) {
+        goto mask;
+    }
+sh1:
+    v >>= 1;
+    goto mask;
+sh2:
+    v >>= 2;
+mask:
+store:
+    p->tempo_step = v & 0xFF;
+    p->tempo_accumulator = v & 0xFF;
+    SD_ReadSequenceByte(p);
+
+    if (D_8009B458->timebase >= 0x60) {
+        D_8009B458->field_0804 = D_8009B458->timebase;
+    } else {
+        D_8009B458->field_0804 = 0;
+    }
+    D_8009B458->field_0804 = D_8009B458->timebase;
+    return 1;
+}
 
 void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 {

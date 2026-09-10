@@ -3,13 +3,13 @@
 
 #include "../types.h"
 
-/* The three sequence commands sound_sequence_events.c dispatches:
+/* The three sequence commands SD_DispatchSequenceChannelEvent dispatches:
  * SD_SEQUENCE_CONTROL_CHANGE, SD_SEQUENCE_PROGRAM_CHANGE and
  * SD_SEQUENCE_PITCH_BEND respectively.
  *
- * That file declared all three itself, and every one of its declarations
- * widened a u8 to s32 -- the channel index for the latter two, and the
- * control value for the first. Nothing compared the spellings, because
+ * Its old file, sound_sequence_events.c, declared all three itself, and
+ * every one of its declarations widened a u8 to s32 -- the channel index for
+ * the latter two, and the control value for the first. Nothing compared the spellings, because
  * passing an s32 where a u8 is expected is an ordinary arithmetic
  * conversion rather than a diagnosable mismatch, so the build matched with
  * both live in the tree.

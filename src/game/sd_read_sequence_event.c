@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "sd_read_sequence_event.h"
-#include "sound_sequence_events.h"
+#include "sound_sequence_parser.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"
 

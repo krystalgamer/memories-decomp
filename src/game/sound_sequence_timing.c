@@ -3,8 +3,7 @@
 #include "sound_sequence_marker_scan.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_timing.h"
-#include "sound_sequence_values.h"
-#include "sd_read_sequence_header.h"
+#include "sound_sequence_parser.h"
 
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {
