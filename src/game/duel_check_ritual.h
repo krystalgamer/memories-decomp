@@ -15,4 +15,20 @@ typedef struct {
  * the callers adds a zero-extension instruction that retail does not have. */
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 
+/* The recipe table that function walks. Duel_LoadPackageStage's case 4 fills
+ * it, handing the address to a transfer as both value_08 and value_0C with
+ * mode 0x800, the same way its case 3 fills gDuel_aFusionTable. Duel_CheckRitual
+ * then scans it as fixed-size records -- id first, stepping by
+ * DUEL_RITUAL_RECIPE_HALFWORD_COUNT -- and stops on a zero id, so the loaded
+ * data is self-terminating.
+ *
+ * The same memory is also borrowed as scratch once the duel is over:
+ * func_80020F4C casts it to DuelResultSpriteSlot * for the outro, which
+ * func_80020F4C.h documents as "the gDuel_awRitualData scratch". That reuse is
+ * why the array stays unsized here -- the two consumers disagree about the
+ * element type, and only the halfword view belongs to this header.
+ *
+ * func_800218F0 also takes its address and is still assembly. */
+extern u16 gDuel_awRitualData[];
+
 #endif

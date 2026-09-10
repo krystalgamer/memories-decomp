@@ -1,6 +1,7 @@
 #define D_8009B362_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "duel_check_ritual.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -53,7 +54,6 @@ extern DisplayObject *D_8009B214;
 extern DisplayObject *D_8009B21C;
 
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern u16 gDuel_awRitualData[];
 
 void func_80020F4C(void)
 {
