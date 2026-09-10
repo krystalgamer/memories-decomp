@@ -165,8 +165,8 @@ extern u8 gMemCard_bRetries;
 extern u8 gMemCard_bLoadStep;
 
 /* The message the two-save load shows when it rejects the pair:
- * save_data_update_load_pair.c and save_data_update_trade_load.c set it to
- * 0x29, 40 and 36 at different failures and two_player_save_setup.c reads it
+ * two_player_save_runtime.c sets it to 0x29, 40 and 36 at different failures
+ * and reads it
  * back. All three spell it plain u8. */
 extern u8 D_8009B3C0;
 
@@ -206,21 +206,20 @@ extern s32 D_801D5648[];
  * an unsized u8 array read only at [0], which is the same -G8 lever
  * D_801D5648 keeps above.
  *
- * D_8009B3ED: SaveData_UpdateTradeLoad (save_data_update_trade_load.c:8-10)
- * and SaveData_UpdateDuelLoad (two_player_save_setup.c:22-24) test bit 0x80
+ * D_8009B3ED: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
+ * two_player_save_runtime.c test bit 0x80
  * clear, set it and store
  * D_8009B3C0; func_80030EC8 (frontend_scene_states.c:151), func_80031000
  * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch, main_menu/frontend.c:415 and :420) store 0.
  *
- * D_8009B3EA: SaveData_UpdateLoadPair masks it with 0xF
- * (save_data_update_load_pair.c:42), tests bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB, ORs 0x80, 0x40 and
- * 0xC0 and ANDs 0xBF into it (:45-142); SaveData_UpdateDuelLoad stores 10
- * (two_player_save_setup.c:32); the three functions above store 0.
+ * D_8009B3EA: SaveData_UpdateLoadPair in two_player_save_runtime.c masks it
+ * with 0xF, tests bits 0x80 and 0x40, stores 1, 0x82, 2, 3, 0xA and 0xB,
+ * ORs 0x80, 0x40 and 0xC0 and ANDs 0xBF into it; SaveData_UpdateDuelLoad
+ * stores 10 in the same unit; the three functions above store 0.
  *
- * u8 because the three units that load either byte
- * (save_data_update_load_pair.c, save_data_update_trade_load.c,
- * two_player_save_setup.c) already declared it u8 and matched, and the retail loads are lbu. Retail addressing: func_80030EC8
+ * u8 because the grouped unit's former sources already declared it u8 and
+ * matched, and the retail loads are lbu. Retail addressing: func_80030EC8
  * and func_80031000 store both through lui $at (func_80030EC8.s:11-14,
  * func_80031000.s:11-14), which is the .data arm; the other four units are
  * gp-relative or, in the main_menu overlay, built at -G0, which is the
