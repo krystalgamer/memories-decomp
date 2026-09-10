@@ -13,8 +13,6 @@
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
 
-extern u8 D_8009B1EC;
-
 extern void Duel_RequestCombinedDeckData(void);
 extern void Duel_PopulateCombinedDeckData(void);
 #include "duel_card_layout.h"

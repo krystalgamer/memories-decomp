@@ -46,7 +46,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 }
 
 extern u8 D_8009B1ED;
-extern u8 D_8009B1EC;
 extern u8 D_8015C424[];
 
 void func_80018C34(u8 *arg0);
