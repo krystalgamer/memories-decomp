@@ -9,6 +9,7 @@
 #include "../unmatched.h"
 #include "campaign_scene_package.h"
 #include "frontend_debug_state.h"
+#include "func_80031354.h"
 
 void func_80031354(void)
 {

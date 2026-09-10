@@ -6,6 +6,7 @@
 #include "file_transfer.h"
 #include "frontend_debug_state.h"
 #include "../unmatched.h"
+#include "async_state_poll.h"
 
 extern u8 D_8009B26C[];
 
