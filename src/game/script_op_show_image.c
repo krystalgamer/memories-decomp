@@ -33,7 +33,7 @@ void Script_OpShowImage(void) {
     u16 flags;
     s32 ret;
     s32 masked;
-    register u32 mask asm("v0");
+    u32 mask;
 
     ret = func_8002E3B4();
     mask = 0x2000000;
