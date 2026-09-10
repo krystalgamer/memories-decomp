@@ -3,6 +3,8 @@
 
 #include "../types.h"
 #include "../psyq/libcd.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 /* The movie frame pipeline's entry points.
  *
@@ -60,6 +62,21 @@ extern u32 D_8009B070;
 extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));
+
+/* The movie work area lives at D_8009B498 + 0x40000. Only its tail
+ * is reached by name here. LoadImage is handed
+ * D_8009B498 + 0x42400 + idx * 8 with idx kept in 0..3 by an
+ * and-with-~3, which is what fixes slots at four entries; the two
+ * rects that follow are the frame the display is centred on
+ * ((screen - w) / 2 on both axes) and the strip the MDEC is filling
+ * (w * h / 2 words to DecDCTout). Nothing before 0x2400 is reached
+ * through this type, so the head stays an opaque block. */
+typedef struct {
+    u8 head[0x2400];
+    RECT slots[4];
+    RECT frame;
+    RECT strip;
+} MovieWorkArea;
 
 extern u8 *D_8009B498;
 extern CdlLOC D_8009B49C;

@@ -118,10 +118,10 @@ s32 func_8005BE3C(void) {
     s32 result;
     s32 x;
     s32 y;
-    u8 *frame;
-    u8 *display;
-    u8 *rects;
-    u8 *out;
+    MovieWorkArea *frame;
+    MovieWorkArea *display;
+    MovieWorkArea *rects;
+    MovieWorkArea *out;
     s32 slot;
     s32 side;
 
@@ -145,24 +145,29 @@ s32 func_8005BE3C(void) {
     *(volatile u8 *)&D_8009B062 = 0;
     GetDrawEnv(&env);
 
-    frame = D_8009B498 + 0x40000;
-    display = D_8009B498 + 0x40000;
+    frame = (MovieWorkArea *)(D_8009B498 + 0x40000);
+    display = (MovieWorkArea *)(D_8009B498 + 0x40000);
     x = env.clip.x +
-        ((D_8009B060 != 0 ? 0x1E0 : 0x140) - *(s16 *)(frame + 0x2424)) / 2;
+        ((D_8009B060 != 0 ? 0x1E0 : 0x140) - frame->frame.w) / 2;
     side = D_8009B060;
     slot = D_8009B066;
-    *(s16 *)(display + 0x2428) = x;
-    *(s16 *)(frame + 0x2420) = x;
+    /* frame and display hold one address, so typed these two stores
+       hit provably distinct members and GCC reschedules them against
+       the surrounding gp loads. Through u8 * it cannot tell them
+       apart, which is the order retail has; kept opaque, and re-based
+       so retyping the cursor does not rescale the offsets. */
+    *(s16 *)((u8 *)display + 0x2428) = x;
+    *(s16 *)((u8 *)frame + 0x2420) = x;
 
-    rects = D_8009B498 + 0x40000;
-    y = *(u16 *)&env.clip.y + (0xF0 - *(s16 *)(rects + 0x2426)) / 2;
-    *(s16 *)(rects + 0x242A) = y;
-    *(s16 *)(rects + 0x2422) = y;
+    rects = (MovieWorkArea *)(D_8009B498 + 0x40000);
+    y = *(u16 *)&env.clip.y + (0xF0 - rects->frame.h) / 2;
+    rects->strip.y = y;
+    rects->frame.y = y;
     DecDCTin((u32 *)(D_8009B498 + 0x1B000 + slot * 0xE000), side);
 
-    out = D_8009B498 + 0x40000;
+    out = (MovieWorkArea *)(D_8009B498 + 0x40000);
     DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00),
-              *(s16 *)(out + 0x242C) * *(s16 *)(out + 0x242E) / 2);
+              out->strip.w * out->strip.h / 2);
 
     result = func_8005BFC8(1);
     if (result != 0) {
@@ -194,7 +199,7 @@ s32 func_8005BFC8(s32 resync) {
        register across the calls. This compiler has no global constant
        propagation, so a local set once serves every store below. */
     s32 set;
-    u8 *rects;
+    MovieWorkArea *rects;
     StHEADER *header;
     u32 width;
     u32 frame_width;
@@ -262,25 +267,25 @@ s32 func_8005BFC8(s32 resync) {
     DecDCTvlc2(ring, (u32 *)(D_8009B498 + 0x1B000 + D_8009B066 * 0xE000),
                (u16 *)D_8009B498);
 
-    rects = D_8009B498 + 0x40000;
+    rects = (MovieWorkArea *)(D_8009B498 + 0x40000);
     width = hdr->width;
     frame_width = D_8009B060 != 0 ? width * 3 / 2 : width;
     columns = 0x10;
-    *(u16 *)(rects + 0x2424) = frame_width;
+    *(u16 *)&rects->frame.w = frame_width;
 
     /* Reading the height into a local before the mode byte is what puts
        the work-area pointer ahead of the height in local-alloc. */
     header = hdr;
-    rects = D_8009B498 + 0x40000;
+    rects = (MovieWorkArea *)(D_8009B498 + 0x40000);
     height = header->height;
     wide = D_8009B060;
-    *(u16 *)(rects + 0x2426) = height;
+    *(u16 *)&rects->frame.h = height;
     if (wide != 0) {
         columns = 0x18;
     }
     base = ring;
-    *(u16 *)(rects + 0x242C) = columns;
-    *(u16 *)(rects + 0x242E) = header->height;
+    *(u16 *)&rects->strip.w = columns;
+    *(u16 *)&rects->strip.h = header->height;
     StFreeRing(base);
     return 0;
 }
@@ -317,7 +322,7 @@ void func_8005C1F4(void) {
     register s32 nxt asm("$5");
     s32 tmp;
     register s32 add asm("$4");
-    u8 *out;
+    MovieWorkArea *out;
 
     if (D_8009B060 != 0) {
         if (D_800F5D44 != 0) {
@@ -341,16 +346,16 @@ void func_8005C1F4(void) {
     }
     rem = nxt - (tmp & ~3);
     D_8009B067 = rem;
-    out = D_8009B498 + 0x40000;
+    out = (MovieWorkArea *)(D_8009B498 + 0x40000);
     /* Loaded in two statements so +0x2428 is read before +0x242C, which
        naming the second one for its pin would otherwise reverse. */
-    sum = *(u16 *)(out + 0x2428);
-    add = *(u16 *)(out + 0x242C);
+    sum = *(u16 *)&out->strip.x;
+    add = *(u16 *)&out->strip.w;
     sum = sum + add;
-    *(s16 *)(out + 0x2428) = sum;
-    if ((s16)sum < *(s16 *)(out + 0x2420) + *(s16 *)(out + 0x2424)) {
+    out->strip.x = sum;
+    if ((s16)sum < out->frame.x + out->frame.w) {
         DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00),
-                  *(s16 *)(out + 0x242C) * *(s16 *)(out + 0x242E) / 2);
+                  out->strip.w * out->strip.h / 2);
     } else {
         D_8009B062 = 1;
     }
