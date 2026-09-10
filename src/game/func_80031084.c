@@ -12,6 +12,7 @@
 #include "../unmatched.h"
 #include "frontend_step_tables.h"
 #include "frontend_debug_tables.h"
+#include "frontend_debug_state.h"
 
 void func_80031084(void) {
     DuelEffectChannel *boxes;

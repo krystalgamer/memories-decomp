@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_api.h"
 #include "duel_interface_setup.h"
+#include "duel_effect.h"
 #include "fade.h"
 #include "func_800300C8.h"
 #include "func_8003B6AC.h"
@@ -9,35 +10,32 @@
 #include "text_box_runtime.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B2B2;
-extern DisplayObject *D_8009B2E4;
-
 void func_80030198(void)
 {
-    u8 *text_box;
-    u8 *object;
+    DuelEffectChannel *text_box;
+    DisplayObject *object;
 
     D_8009B2B2 = 0x80;
     D_8009B2EB = 0;
     D_8009B2F0 = 0;
     func_8003B6AC(1, 1);
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
-    text_box[0x5A] = 16;
-    text_box[0x5B] = 16;
-    func_80039A14(text_box);
+    text_box->field_5A = 16;
+    text_box->field_5B = 16;
+    func_80039A14((u8 *)text_box);
     object = func_800400AC(func_8004002C(), 4);
-    D_8009B2E4 = (DisplayObject *)object;
-    func_800427DC((DisplayObject *)object, 0);
-    object[0x45] = 0xC0;
-    object[0x3D] = 0xC0;
-    object[0x35] = 0xC0;
-    object[0x2D] = 0xC0;
+    D_8009B2E4 = object;
+    func_800427DC(object, 0);
+    ((u8 *)&object->field_44)[1] = 0xC0;
+    ((u8 *)&object->field_3C)[1] = 0xC0;
+    ((u8 *)&object->field_34)[1] = 0xC0;
+    ((u8 *)&object->field_2C)[1] = 0xC0;
     func_800300C8();
     Fade_WaitIn();
 }
 
 void func_80030250(
-    void *data,
+    u8 *data,
     s32 field_B4,
     s32 field_B5,
     s32 field_B6,

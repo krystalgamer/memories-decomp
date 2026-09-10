@@ -4,6 +4,7 @@
 #include "two_player_save_setup.h"
 #include "mem_card.h"
 #include "file_transfer.h"
+#include "frontend_debug_state.h"
 #include "../unmatched.h"
 
 extern u8 D_8009B26C[];
