@@ -7,6 +7,7 @@
 #include "duel_hand.h"
 #include "main_frame.h"
 #include "duel_side_state.h"
+#include "duel_check_quit_input.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "duel_package.h"
@@ -26,7 +27,6 @@ extern void (*D_800E9DBC[])(void);
 extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
 
-extern u8 gDuel_bQuitDialogState;
 extern u16 D_8009B204;
 extern u16 D_8009B16C;
 extern u8 *D_8009B22C;
