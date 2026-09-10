@@ -156,7 +156,7 @@ next:
     *(s32 *)(buf + 0x514C) = six;
     *(u8 **)(buf + 0x5150) = buf + 0x4110;
     do {
-        GsClearOt(0, k, buf + off);
+        GsClearOt(0, k, (GsOT *)(buf + off));
         off -= 0x14;
         k--;
     } while (k >= 0);
