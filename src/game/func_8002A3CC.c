@@ -4,8 +4,6 @@
 #include "func_8002A2F4.h"
 #include "func_8002A3CC.h"
 
-extern LibraryMotionState D_800EA1E8;
-
 s32 func_8002A3CC(void)
 {
     LibraryMotionState *object = &D_800EA1E8;
