@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_AGGREGATE
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #define D_8009B0CC_IN_DATA
+#define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
 #include "func_80036D3C.h"
 #include "../psyq/rand.h"
@@ -16,27 +17,12 @@
 #include "menu_record.h"
 #include "duel_effect.h"
 #include "duel_effect_state_callbacks.h"
+#include "script_state.h"
 #include "sound.h"
 #define FUNC_80049120_IGNORES_OBJECT
 #include "sound_sequence_state.h"
 
 extern signed char D_8009B32C;
-extern u16 D_8009B2AA[];
-/* Separate linker names keep GCC from retaining these addresses across calls. */
-extern u16 Base2_8009B2AA[];
-extern u16 D_8009B2A8[];
-extern u16 Base2_8009B2A8[];
-/* script_state.h declares this u16; kept here as the unsized array the
-   $at store needs, since this unit cannot include that header. */
-extern u16 D_8009B270[];
-extern u16 D_8009B27C[];
-extern s16 D_8009B27C_scalar asm("D_8009B27C")
-    __attribute__((section(".data")));
-extern s16 D_8009B29C __attribute__((section(".data")));
-extern s16 D_8009B2A8_scalar asm("D_8009B2A8")
-    __attribute__((section(".data")));
-extern s16 D_8009B2AA_scalar asm("D_8009B2AA")
-    __attribute__((section(".data")));
 extern s16 D_8009B322;
 extern u8 D_8009B335;
 extern u16 D_8009B348[2];
