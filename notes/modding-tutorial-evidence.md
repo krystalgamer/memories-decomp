@@ -610,7 +610,8 @@ known `WA_MRG.MRG` screen packages:
 | Password frame palette | `0xFB7A00` | `+0x200` in the palette block at `0xFB7800` | Password-screen CLUT upload |
 | Password card/cursor palette | `0xFB8800` | `+0x1000` in the palette block at `0xFB7800` | Password-screen CLUT upload |
 
-`func_80043960` requests the 54-sector boot UI package at WA sector `0x1690`,
+`Main_RunBootSequence` requests the 54-sector boot UI package at WA sector
+`0x1690`,
 which is byte range `0xB48000-0xB63000`. Its callback transfers an initial
 `0x18000`-byte graphics region followed by the `0x1000`-byte block beginning
 at `0xB60000`; that second block is uploaded to VRAM rectangle
@@ -655,9 +656,9 @@ exactly. The eighth row is entirely zero, corroborating the warning that
 selecting the unused eighth colour slot makes affected text or symbols
 disappear unless a complete replacement palette is supplied.
 
-The loader independently confirms the region. `func_80043960` includes
+The loader independently confirms the region. `Main_RunBootSequence` includes
 `WA_MRG.MRG+0xB61000` in its 54-sector boot UI request, and
-`func_80043328` transfers an `0x800`-byte tail beginning there before
+`Main_LoadBootPackageStage` transfers an `0x800`-byte tail beginning there before
 uploading a `(640, 232, 16, 8)` rectangle. That upload consumes exactly the
 first `0x100` bytes: eight rows times sixteen 16-bit colours. Bytes
 `0xB61100-0xB617FF` are zero padding in the retail archive.

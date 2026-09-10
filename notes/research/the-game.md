@@ -2390,12 +2390,14 @@ rather than being duplicated as a sixth configured module. See the
 
 An address in `0x80168xxx` consequently needs the loaded-image identity
 before it can name a function. The five configured images are not an
-exhaustive list of runtime code. In particular, `func_80043960`'s WA
+exhaustive list of runtime code. In particular, `Main_RunBootSequence`'s WA
 startup request loads a `0x1800`-byte phase from sectors `[5827, 5830)` at
-`0x80168000`. **Both previously unplaced "enable" GameShark guards match
-this image**, at `0x80168188` and `0x80168100`; neither requires one of the
-five configured screen images or a different game revision to locate its
-guard. Their branch rewrites are recorded in
+`0x80168000`. This module contains the retail console-modification warning.
+**Both previously unplaced "enable" GameShark guards match this image**, at
+`0x80168188` and `0x80168100`; neither requires one of the five configured
+screen images or a different game revision to locate its guard. The
+[complete boot package contract](../boot-frontend-sequence.md) and their
+branch rewrites are recorded in
 [the code-site evidence](gameshark-codes.md#located-enable-code-guards).
 
 The duel bank above and a second, still-unidentified SU image at sectors

@@ -3898,7 +3898,7 @@
       "address": "0x80043328",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1CC",
-      "source": "src/game/func_80043328.c"
+      "source": "src/game/main_load_boot_package_stage.c"
     },
     {
       "address": "0x800434F4",
@@ -3922,7 +3922,7 @@
       "address": "0x80043960",
       "profile": "gcc_2_8_1_g8",
       "size": "0x26C",
-      "source": "src/game/func_80043960.c"
+      "source": "src/game/main_run_boot_sequence.c"
     },
     {
       "address": "0x80043BCC",

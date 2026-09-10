@@ -8,7 +8,7 @@
 #include "../psyq/libcd.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "func_80043960.h"
+#include "main_run_boot_sequence.h"
 #include "graphics_constants.h"
 #include "display_object_helpers.h"
 #include "main_reset_frontend_runtime.h"
@@ -20,7 +20,7 @@ extern void func_800438B8(int);
 extern void func_801680F4(void);
 extern int func_80168160(int);
 extern void func_8007AFA4(void);
-void func_80043960(s32 mode)
+void Main_RunBootSequence(s32 mode)
 {
     register u8 *object;
     register u8 *first;
@@ -29,7 +29,9 @@ void func_80043960(s32 mode)
         File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
         File_WaitForTransfers();
     }
-    File_RequestAsyncTransfer(0, 0, 0x1690, 0x36, func_80043328, 0, 0);
+    File_RequestAsyncTransfer(
+        0, 0, 0x1690, 0x36, Main_LoadBootPackageStage, 0, 0
+    );
     if (mode != 0) {
         int display;
         File_WaitForTransfers();

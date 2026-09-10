@@ -90,7 +90,9 @@ void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void func_8003C120(FileTransferDescriptor *descriptor, s32 mode);
 void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
-void func_80043328(FileTransferDescriptor *descriptor, s32 mode);
+void Main_LoadBootPackageStage(
+    FileTransferDescriptor *descriptor, s32 stage
+);
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
