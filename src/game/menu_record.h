@@ -16,7 +16,10 @@
 typedef struct {
     s32 grid[4][3];
     s8 field_30;
-    u8 pad_31;
+    /* DisplayEffectState names this same byte field_31 on this same
+       memory; func_8002EB78 and display_effect_update_callbacks.c
+       reach it too. Named to agree with that view. */
+    u8 field_31;
     u8 field_32;
     u8 display_effect_step;
     u16 field_34;
@@ -29,7 +32,12 @@ typedef struct {
     u8 pad_38[2];
     u8 field_3A;
     u8 field_3B;
-    u8 pad_3C[4];
+    /* Written by func_8002EB78 and func_80038EB0 and read by
+       display_effect_update_callbacks.c and
+       duel_effect_interaction_states.c. Four sites prove a byte is
+       here; none of them says what it carries. */
+    u8 field_3C;
+    u8 pad_3D[3];
     /* The six halfwords the sweep in func_8003A990 works, and the tail this
        record had no names for.
 

@@ -11,7 +11,7 @@
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
 void func_80038EB0(EffectObject *o) {
-    u8 *e;
+    MenuRecord *e;
     s32 id;
     s32 flags;
     s32 slot;
@@ -24,12 +24,12 @@ void func_80038EB0(EffectObject *o) {
     id = a;
     flags = b;
 
-    e = (u8 *)D_800EB010;
+    e = D_800EB010;
     if (id >= 0x41) {
-        e += 0x98;
-    } else if (*(s8 *)(e + 0x30) != id) {
-        e += 0x4C;
-        if (*(s8 *)(e + 0x30) != id) {
+        e += 2;
+    } else if (e->field_30 != id) {
+        e++;
+        if (e->field_30 != id) {
             e = 0;
         }
     }
@@ -38,7 +38,7 @@ void func_80038EB0(EffectObject *o) {
         if (e == 0) {
             return;
         }
-        D_8009B328 = e;
+        D_8009B328 = (u8 *)e;
         if (flags & 2) {
             func_80039FD4((u8 *)e);
             return;
@@ -47,18 +47,18 @@ void func_80038EB0(EffectObject *o) {
             o->state = 0xE;
             return;
         }
-        if (e[0x3C] != 0) {
-            *(s16 *)(e + 0x40) = 0x178;
+        if (e->field_3C != 0) {
+            e->field_40 = 0x178;
         } else {
-            *(s16 *)(e + 0x40) = -0x38;
+            e->field_40 = -0x38;
         }
-        *(s16 *)(e + 0x42) = 0xB2;
-        *(s16 *)(e + 0x44) = 0x10;
+        e->field_42 = 0xB2;
+        e->field_44 = 0x10;
         o->state = 7;
-        e[0x33] = 3;
+        e->display_effect_step = 3;
         if (id >= 0x41) {
-            e[0x33] = 5;
-            *(s16 *)(e + 0x40) = 1;
+            e->display_effect_step = 5;
+            e->field_40 = 1;
         }
         return;
     }
@@ -69,15 +69,15 @@ void func_80038EB0(EffectObject *o) {
         if (id >= 0x41) {
             return;
         }
-        D_8009B328 = e;
+        D_8009B328 = (u8 *)e;
         if (flags & 0x40) {
-            e[0x31] = flags & 3;
+            e->field_31 = flags & 3;
             o->state = 9;
             return;
         } else if (flags & 0x20) {
-            e[0x32] &= 0xEF;
+            e->field_32 &= 0xEF;
             if (flags & 1) {
-                e[0x32] |= 0x10;
+                e->field_32 |= 0x10;
             }
             return;
         }
@@ -87,32 +87,32 @@ void func_80038EB0(EffectObject *o) {
     if (id >= 0x41) {
         slot = 2;
     }
-    e = (u8 *)D_800EB010 + slot * sizeof(MenuRecord);
+    e = &D_800EB010[slot];
     func_80039F44((DisplayEffectState *)e);
-    e[0x30] = id;
-    e[0x3C] = slot;
+    e->field_30 = id;
+    e->field_3C = slot;
     if (slot != 0) {
-        *(s16 *)(e + 0x34) = 0x178;
+        *(s16 *)&e->field_34 = 0x178;
     } else {
-        *(s16 *)(e + 0x34) = -0x38;
+        *(s16 *)&e->field_34 = -0x38;
     }
     o->state = 6;
     D_8009B328 = e;
     if (id >= 0x41) {
-        e[0x33] = 5;
-        e[0x3C] = 2;
-        *(s16 *)(e + 0x34) = 0xF0;
-        *(s16 *)(e + 0x40) = 0;
-        *(s16 *)(e + 0x36) = 0x60;
+        e->display_effect_step = 5;
+        e->field_3C = 2;
+        *(s16 *)&e->field_34 = 0xF0;
+        e->field_40 = 0;
+        *(s16 *)&e->field_36 = 0x60;
         return;
     }
-    e[0x33] = 2;
-    *(s16 *)(e + 0x40) = 3;
+    e->display_effect_step = 2;
+    e->field_40 = 3;
     if (flags & 8) {
-        *(s16 *)(e + 0x34) = 0x400;
-        *(s16 *)(e + 0x40) = 7;
+        *(s16 *)&e->field_34 = 0x400;
+        e->field_40 = 7;
     }
     if (flags & 0x10) {
-        e[0x31] = (flags >> 1) & 3;
+        e->field_31 = (flags >> 1) & 3;
     }
 }
