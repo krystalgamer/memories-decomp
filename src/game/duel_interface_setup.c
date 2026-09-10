@@ -16,7 +16,7 @@ extern u8 D_8009B2B6;
 extern u8 D_8009B2B8;
 extern u8 D_8009B2C0;
 extern u8 D_8009B2E0;
-extern void *D_8009B2E4;
+extern DisplayObject *D_8009B2E4;
 extern u8 D_8009B2EA;
 extern void *D_8009B2EC;
 extern u8 D_8009B2F0;
@@ -35,7 +35,7 @@ void func_80030198(void)
     text_box[0x5B] = 16;
     func_80039A14(text_box);
     object = func_800400AC(func_8004002C(), 4);
-    D_8009B2E4 = object;
+    D_8009B2E4 = (DisplayObject *)object;
     func_800427DC((DisplayObject *)object, 0);
     object[0x45] = 0xC0;
     object[0x3D] = 0xC0;

@@ -20,29 +20,21 @@ struct LayoutSource {
     u16 row;
 };
 
-/* Write side, D_8009B2E4: four x/y pairs at a 8-byte stride from 0x28.
+/* The write side, D_8009B2E4, used to have a narrow view here called
+ * LayoutTarget. It is gone: the record is a DisplayObject.
  *
- * This is NOT the whole record, and deliberately not merged with the other
- * views of the same pointer. func_80031354.c describes D_8009B2E4 with its own
- * LocalRecord naming a u16 at offset 0x08, and duel_interface_setup.c holds it
- * as void *. The three views do not disagree -- the fields named here start at
- * 0x28, so they do not overlap LocalRecord's 0x08 at all -- but no file reads
- * both regions, so there is no evidence for a single combined layout and
- * combining them would assert one. */
-struct LayoutTarget {
-    u8 pad0[0x28];
-    s16 field28;
-    s16 field2A;
-    u8 pad2C[4];
-    s16 field30;
-    s16 field32;
-    u8 pad34[4];
-    s16 field38;
-    s16 field3A;
-    u8 pad3C[4];
-    s16 field40;
-    s16 field42;
-};
+ * That view was declined a merge on the grounds that no file read both its
+ * region (from 0x28) and the u16 at 0x08 that func_80031354.c named with a
+ * local LocalRecord of its own. #3388 retired that LocalRecord for
+ * DisplayObject, which names both -- flags at 0x08, and the four position
+ * unions whose halfword pairs are exactly the eight fields LayoutTarget
+ * listed: position.h at 0x28/0x2A, field_30.h at 0x30/0x32, field_38.h at
+ * 0x38/0x3A and field_40.h at 0x40/0x42. So the overlapping witness the old
+ * comment said did not exist is now in the tree, and the reason to keep a
+ * separate view expired with it.
+ *
+ * LayoutSource above is NOT retired, for a reason that has not expired: it
+ * and DuelEffectChannel disagree about the signedness of 0x40. */
 
 void func_800300C8(void);
 
