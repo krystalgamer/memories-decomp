@@ -106,7 +106,7 @@ void func_800323F8(u32, void *, s32, s32);
 void func_800235C0(void);
 
 /* Three consumers, identical spelling in all three: model_scene_setup.c,
- * model_cleanup.c and model_slot_support.c. The last of those is the site
+ * model_scene_states.c and model_slot_support.c. The last of those is the site
  * described above, which used to declare no parameters; once it was given the
  * true one-parameter signature all three agreed, which is what made this
  * safe to move.
@@ -126,7 +126,7 @@ void func_800540B4(s32);
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
 void func_80045514(void);           /* sound_runtime.c */
-void func_800559D4(s32);            /* model_cleanup.c */
+void func_800559D4(s32);            /* model_scene_states.c */
 void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
                                        source src/candidates/func_8005E808.c
                                        defines it with the same u8 * */
