@@ -12,28 +12,11 @@
 #include "duel_apply_card_object_flags.h"
 #include "duel_field_effect_transition.h"
 
-typedef struct Obj {
-    s16 x;
-    s16 y;
-    u8 pad_04[0x19];
-    u8 field_1D;
-    u8 pad_1E[4];
-    u8 timer;
-    u8 pad_23;
-    void *callback;
-    u8 pad_28[0x3F];
-    u8 mark;
-    u8 pad_68[2];
-    u8 index;
-    u8 pad_6B;
-    u8 active;
-} Obj;
-
 #define DUEL_FIELD_EFFECT_TIMER_STEP 8
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
 #define DUEL_FIELD_EFFECT_TIMER_LIMIT 64
 
-void func_80025B28(Obj *o)
+void func_80025B28(DuelFieldEffectObject *o)
 {
     o->timer += DUEL_FIELD_EFFECT_TIMER_STEP;
     if (!(o->active & 0x80) &&
@@ -55,14 +38,14 @@ void func_80025B28(Obj *o)
    occupied slot of the current side over to the func_80025B28 animation. */
 void func_80025BEC(void)
 {
-    Obj *object;
-    Obj *target;
+    DuelFieldEffectObject *object;
+    DuelFieldEffectObject *target;
     DuelCardRecord *record;
     u16 flags;
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (Obj *)func_8002C604(0x13);
+        object = (DuelFieldEffectObject *)func_8002C604(0x13);
         object->x = 0xA0;
         D_8009B17C = (u8 *)object;
         object->y = 0x68;
@@ -70,7 +53,8 @@ void func_80025BEC(void)
         return;
     }
     flags = D_8009B220;
-    if ((flags & 0x40) == 0 && ((Obj *)D_8009B17C)->field_1D != 0) {
+    if ((flags & 0x40) == 0 &&
+        ((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
         D_8009B220 = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
@@ -79,8 +63,8 @@ void func_80025BEC(void)
                word; 0x90000000 selects bits 0x9000 of flags at +0x16. */
             if ((*(u32 *)&record->terrain_modifier & 0x90000000) ==
                 0x90000000) {
-                target = (Obj *)record->object;
-                target->callback = (void *)func_80025B28;
+                target = (DuelFieldEffectObject *)record->object;
+                target->callback = func_80025B28;
                 target->active = 1;
             }
         }
