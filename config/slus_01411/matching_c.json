@@ -566,15 +566,15 @@
     },
     {
       "address": "0x80017708",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/func_80017708.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x8001778C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/func_8001778C.c"
+      "source": "src/game/duel_state_init.c"
     },
     {
       "address": "0x800177C4",

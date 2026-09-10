@@ -32,7 +32,6 @@
 #include "../unmatched.h"
 #include "func_800179F4.h"
 #include "func_8001755C.h"
-#include "func_8001778C.h"
 #include "duel_effect_object_pool.h"
 #include "func_80029574.h"
 #include "text_render_state.h"
