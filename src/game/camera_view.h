@@ -6,6 +6,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
+#define CAMERA_POSE_VECTOR_COUNT 3
+
 /* The reference view the game keeps for GsSetRefView2, and the copy it
    stashes one record later.
 
@@ -27,7 +29,7 @@
    func_8005EBF4, which indexes it with an eight-byte stride, and by the
    gaps the writer leaves at +6, +14 and +22, which are exactly SVECTOR's
    pad member. */
-extern SVECTOR D_800F5768[3];
+extern SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
 
 extern GsRVIEW2 D_800F56F0;
 
