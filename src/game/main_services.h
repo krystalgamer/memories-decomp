@@ -32,7 +32,7 @@
  * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
  * `D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
- * (src/overlays/main_menu/trade_offers.c:150, `D_800E9DB0[1] = 0;`). Before
+ * (src/overlays/main_menu/trade_offers.c:145, `D_800E9DB0[1] = 0;`). Before
  * that the overlay reached it as D_800E9DB4, with a private declaration in
  * each unit. The per-slot names D_800E9DB8 and D_800E9DBC (0x800E9DB0 + 8
  * and + 12) carry no displacement off D_800E9DB0, so their writers do not
