@@ -370,7 +370,7 @@ extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
 /* The text engine's control byte, shared with the dialog and duel-effect
- * screens. text_handle_choice_command.c sets it from a command nibble
+ * screens. Text_HandleChoiceCommand sets it from a command nibble
  * (`c & 0xF0`), text_stream_commands.c reads it whole, and the other two test
  * it by mask -- 0x30 for the layout arm and 0x40 for the choice arm. No C
  * source defines it and the four that use it share no subsystem header, so it
