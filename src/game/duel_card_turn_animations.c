@@ -6,8 +6,7 @@
 #include "duel_card_turn_animations.h"
 #include "duel_card_display_state.h"
 #include "duel_apply_card_object_flags.h"
-
-s32 func_80042B98(u8 *arg0);
+#include "display_object_lifecycle.h"
 
 /* The mirror of func_800229F4: the card turn-back animation step. Picks
  * the mode (+0x2E) from the card record's flags when func_80042B98 says
@@ -25,7 +24,7 @@ void func_80022674(DuelCardTurnObject *p) {
     s32 f;
 
     e = &D_801A7AD8[p->record_index];
-    if (func_80042B98((u8 *)p) == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
@@ -73,7 +72,7 @@ m0:
 reset:
     p->phase = 0;
     p->field_24 = 0;
-    func_80017E3C((u8 *)p);
+    func_80017E3C((DuelCardDisplayObject *)p);
     return;
 m1:
     f = p->phase;
@@ -176,7 +175,7 @@ void func_800229F4(DuelCardTurnObject *p) {
     s32 f;
 
     e = &D_801A7AD8[p->record_index];
-    if (func_80042B98((u8 *)p) == 0) {
+    if (func_80042B98((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
