@@ -435,8 +435,8 @@ Original Sony PsyQ names -- meaningful if you know the SDK.
 | 0x8007A628 | `CD_set_test_parmnum` | psyq |
 | 0x8007A634 | `text_14A4` | psyq |
 | 0x8007A710 | `CdIntToPos` | psyq |
-| 0x8007A820 | `atol` | psyq |
-| 0x8007A840 | `CdSetDebug` | psyq |
+| 0x8007A820 | `CdReady` | psyq |
+| 0x8007A840 | `CdReadyCallback_8007A840` | psyq |
 | 0x8007A860 | `CdDataCallback` | psyq |
 | 0x8007A8C0 | `text_30` | psyq |
 | 0x8007A9AC | `DS_CQ_flush` | psyq |
