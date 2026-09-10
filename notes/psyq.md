@@ -786,9 +786,13 @@ object, packet, and sorting paths also use `libgs.h`, including
 `func_800134E0.c`,
 `func_8005B260` in [`gpu_packets.c`](../src/game/gpu_packets.c),
 `model_scene_setup.c`, `model_cleanup.c`, and `model_texture_upload.c`.
-No current game C includes `libhmd.h`. These imports justify their specific
-API and field uses; a local render or model record still requires field-level
-and resident-call evidence before migration to an SDK type.
+Current hierarchical-model C also includes `libhmd.h`. Representative
+consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
+animation APIs; `model_slot_updates.c` for the `GsCOORDUNIT` layout; and
+`model_handler_registry.c` for the imported HMD handler sentinels. These
+imports justify their specific API and field uses; a local render or model
+record still requires field-level and resident-call evidence before migration
+to an SDK type.
 
 Matching `func_8005B260` exercises the shared packet ABI directly. It reads
 the source primitive's `P_TAG.len`, copies that tag and payload into the
