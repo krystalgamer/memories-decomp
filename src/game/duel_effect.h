@@ -73,7 +73,7 @@ typedef struct DuelEffectChannel {
      * assigns 0.
      *
      * The s32 spelling survived field_28's retype because
-     * `b->field_2C = 0x200` in func_8002BFCC.c looked like an integer use of
+     * `b->field_2C = 0x200` in func_8002BFCC looked like an integer use of
      * this field. It is not: that b is a DuelEffectResourceRecord *, which
      * has its own field_2C at its own offset. func_800179F4.c's
      * `pane->field_2C = 0` is that same other record. */
