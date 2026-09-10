@@ -7,8 +7,6 @@
 #include "build_deck_transition_state.h"
 #include "../psyq/rand.h"
 
-extern BuildDeckTransitionState *D_8009B2FC;
-
 s32 func_80033BE8(void)
 {
     s32 intensity;

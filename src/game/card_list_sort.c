@@ -4,6 +4,7 @@
 #include "rand_get_interval.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "build_deck_transition_state.h"
 
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
@@ -27,8 +28,6 @@
    - The first loop increments the index before the row pointer and every
      other loop the row pointer first, which is the order retail schedules the
      two induction variables in each. */
-
-extern u8 *D_8009B2FC;
 
 void func_80032C48(CardList *list)
 {
@@ -137,8 +136,8 @@ void func_80032C48(CardList *list)
             row->key = -1;
             if (row->field_0D != 0) {
                 row->key = 0x100;
-                if (*(D_8009B2FC + row->card_id + 0x606A) != 0) {
-                    row->key = *(D_8009B2FC + row->card_id + 0x606A);
+                if (*((u8 *)D_8009B2FC + row->card_id + 0x606A) != 0) {
+                    row->key = *((u8 *)D_8009B2FC + row->card_id + 0x606A);
                 }
             }
         }
