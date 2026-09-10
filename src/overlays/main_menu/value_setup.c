@@ -9,6 +9,7 @@
 #include "../../game/display_object_helpers.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/main_services.h"
+#include "../../game/sound.h"
 #include "entrypoints.h"
 
 /* The value-setup screen: the three lifecycle entry points func_8002DC38.c
@@ -74,7 +75,6 @@ extern u8 D_801845BE;
 extern GsOT *D_800E9D90[];
 extern volatile u16 D_8009B394[];
 extern volatile u16 D_8009B398[];
-extern void func_80048658(s32, s32, s32);
 void MainMenu_StartValueWidgetTween(s32 index, s32 value);
 void MainMenu_DrawValueSetup(void);
 s32 MainMenu_CountDecimalDigits(s32 value);
@@ -183,11 +183,11 @@ s32 MainMenu_UpdateValueSetup(void)
 
     if (busyA == 0 && busyB == 0) {
         if ((D_8009B398[0] & PAD_BUTTON_CANCEL) || (D_8009B398[1] & PAD_BUTTON_CANCEL)) {
-            func_80048658(8, 0xFF, 0);
+            SD_SEPlay(8, 0xFF, 0);
             return -1;
         }
         if ((D_8009B398[0] & PAD_BUTTON_START) || (D_8009B398[1] & PAD_BUTTON_START)) {
-            func_80048658(7, 0xFF, 0);
+            SD_SEPlay(7, 0xFF, 0);
             return 1;
         }
     }
@@ -195,7 +195,7 @@ s32 MainMenu_UpdateValueSetup(void)
     if (busyA == 0) {
         if (D_801845BC[0] < 2) {
             if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                func_80048658(6, 0xFF, 0);
+                SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
@@ -211,7 +211,7 @@ s32 MainMenu_UpdateValueSetup(void)
         } else {
             if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[0];
-                func_80048658(6, 0xFF, 0);
+                SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
@@ -235,7 +235,7 @@ s32 MainMenu_UpdateValueSetup(void)
     if (busyB == 0) {
         if (D_801845BC[1] < 2) {
             if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                func_80048658(6, 0xFF, 0);
+                SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
@@ -251,7 +251,7 @@ s32 MainMenu_UpdateValueSetup(void)
         } else {
             if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[6];
-                func_80048658(6, 0xFF, 0);
+                SD_SEPlay(6, 0xFF, 0);
                 if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
