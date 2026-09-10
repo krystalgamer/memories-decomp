@@ -3,8 +3,8 @@
 
 #include "../types.h"
 
-/* The DS command-completion callbacks the loader hands to func_8007B1F4 and
-   func_8007B468. Each one is registered with the command it belongs to and is
+/* The DS command-completion callbacks the loader hands to DsCommand and
+   DsPacket. Each one is registered with the command it belongs to and is
    called back with the drive's event code:
      5  the command needs retrying - bump D_8009B130 and reissue the identical
         command, which is why each handler names itself;

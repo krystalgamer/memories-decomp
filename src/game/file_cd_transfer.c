@@ -9,15 +9,13 @@ extern s32 D_8009B138;
 extern u8 D_801D4200[];
 
 extern void func_80013C28(u8, u8 *, u32 *);
-extern void func_8007B1F4(s32, void *, void *, s32);
-extern s32 func_8007B468(s32, void *, s32, void *, s32);
 extern s32 CdPosToInt_8007E710(s32);
 
 void func_800140A0(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        func_8007B468(0xA0, D_8009B104, 6, func_800140A0, -1);
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
         DsStartReadySystem(func_80013C28, -1);
@@ -31,7 +29,7 @@ void func_80014134(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        func_8007B468(0xA0, D_8009B104, 0x15, func_80014134, -1);
+        DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);
     } else if (event == 2) {
         D_8009B0F4 &= ~0x400;
     }
@@ -41,7 +39,7 @@ void func_800141A8(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        func_8007B1F4(9, 0, func_800141A8, -1);
+        DsCommand(9, 0, (DslCB)func_800141A8, -1);
     } else if (event == 2) {
         gFile_PrimaryTransferDescriptor.substate = 1;
         D_8009B0F4 &= ~0x400;
@@ -53,7 +51,7 @@ void func_80014220(s32 event)
     event &= 0xFF;
     if (event == 5) {
         D_8009B130++;
-        func_8007B1F4(9, 0, func_80014220, -1);
+        DsCommand(9, 0, (DslCB)func_80014220, -1);
     } else if (event == 2) {
         __asm__ volatile(
             "sh $4, %%gp_rel(D_8009B100)($28)"
@@ -67,7 +65,7 @@ void func_80014294(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        func_8007B1F4(0xD, D_8009B11C, func_80014294, -1);
+        DsCommand(0xD, (u8 *)D_8009B11C, (DslCB)func_80014294, -1);
     } else if (event == 2) {
         D_8009B100 = 4;
         D_8009B0F4 &= ~0x400;
@@ -78,7 +76,7 @@ void func_80014308(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        func_8007B468(0x4A, D_8009B104, 0x1B, func_80014308, -1);
+        DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);
     } else if (event == 2) {
         D_8009B100 = 5;
         D_8009B0F4 |= 0x1000;
