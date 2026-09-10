@@ -18,6 +18,7 @@
 #include "display_object_motion.h"
 #include "input.h"
 #include "rand_get_interval.h"
+#include "trig_constants.h"
 #include "func_800179F4.h"
 #include "file_transfer.h"
 #include "func_80020BE4.h"
@@ -262,7 +263,8 @@ void func_80020F4C(void)
                     func_80042918(obj);
                     obj->field_2C.word = obj->field_30.word;
                     obj->position.h.field_28 = (rand() & 0x3F) + 0x140;
-                    obj->position.h.field_2A = Rand_GetInterval(0x1000);
+                    obj->position.h.field_2A =
+                        Rand_GetInterval(TRIG_ANGLE_FULL_TURN);
                     obj->field_6C = 1;
                     obj->update = (DisplayObjectCallback)func_80020D4C;
                     slots[i].object = obj;

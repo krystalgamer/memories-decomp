@@ -112,6 +112,29 @@ class PsyqSignatureTests(unittest.TestCase):
                 with self.assertRaisesRegex(SignatureError, message):
                     scan(self.signatures, 0x80010000, b"")
 
+    def test_scan_rejects_empty_entry_and_label_names(self) -> None:
+        cases = [
+            (
+                {"name": "", "sig": "AA BB CC DD"},
+                "entry 0 name is empty",
+            ),
+            (
+                {
+                    "name": "BAD.OBJ",
+                    "sig": "AA BB CC DD",
+                    "labels": [{"name": " ", "offset": 0}],
+                },
+                "entry 0 label 0 name is empty",
+            ),
+        ]
+        for entry, message in cases:
+            with self.subTest(message=message):
+                (self.signatures / "LIBTEST.LIB.json").write_text(
+                    json.dumps([entry]), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SignatureError, message):
+                    scan(self.signatures, 0x80010000, b"")
+
     def test_scan_reports_catalogue_context_for_invalid_signature(self) -> None:
         cases = [
             ("", "entry 0 sig: signature is empty"),
@@ -162,6 +185,24 @@ class PsyqSignatureTests(unittest.TestCase):
                     "name": "BAD.OBJ",
                     "sig": "AA BB CC DD",
                     "labels": [label],
+                }
+                (self.signatures / "LIBTEST.LIB.json").write_text(
+                    json.dumps([entry]), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SignatureError, message):
+                    scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_label_offsets_outside_signature(self) -> None:
+        cases = [
+            (-1, "offset -1 is outside the 4-byte signature"),
+            (4, "offset 4 is outside the 4-byte signature"),
+        ]
+        for offset, message in cases:
+            with self.subTest(offset=offset):
+                entry = {
+                    "name": "BAD.OBJ",
+                    "sig": "AA BB CC DD",
+                    "labels": [{"name": "BadLabel", "offset": offset}],
                 }
                 (self.signatures / "LIBTEST.LIB.json").write_text(
                     json.dumps([entry]), encoding="utf-8"
