@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_checks.h"
-#include "../game/duel_check_quit_input.h"
 
 extern u8 D_800907D8[];
 extern u8 D_800EAE88[];
 extern u8 D_8009B1D5;
+extern u16 D_8009B16C;
 extern s8 *D_8009B1C8;
 
 extern s32 Duel_CollectFieldCardsByType(u8 **, s32, s32);

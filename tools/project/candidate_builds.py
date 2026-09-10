@@ -44,10 +44,6 @@ RELOCATION = re.compile(
     r"^\s*(?P<offset>[0-9A-Fa-f]{8})\s+"
     r"(?P<kind>R_MIPS_\S+)\s+(?P<value>\S+)\s*$"
 )
-IDENTIFIER = re.compile(r"^[A-Za-z_]\w*$")
-ASM_ALIAS = re.compile(
-    r'\basm\s*\(\s*"(?P<name>[A-Za-z_]\w*)"\s*\)'
-)
 
 
 class CandidateBuildError(RuntimeError):
@@ -64,8 +60,6 @@ class Candidate:
     target: Path
     candidate_build_sha256: str
     target_bytes_sha256: str
-    canonical_contract_sha256: str
-    canonical_contracts: dict[str, str]
 
     @property
     def key(self) -> str:
@@ -74,275 +68,6 @@ class Candidate:
 
 def sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
-
-
-def strip_c_comments(text: str) -> str:
-    output: list[str] = []
-    index = 0
-    quote: str | None = None
-    escaped = False
-    while index < len(text):
-        char = text[index]
-        follow = text[index + 1] if index + 1 < len(text) else ""
-        if quote is not None:
-            output.append(char)
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == quote:
-                quote = None
-            index += 1
-            continue
-        if char in ('"', "'"):
-            quote = char
-            output.append(char)
-            index += 1
-            continue
-        if char == "/" and follow == "*":
-            output.extend((" ", " "))
-            index += 2
-            while index < len(text):
-                char = text[index]
-                follow = text[index + 1] if index + 1 < len(text) else ""
-                if char == "*" and follow == "/":
-                    output.extend((" ", " "))
-                    index += 2
-                    break
-                output.append("\n" if char == "\n" else " ")
-                index += 1
-            continue
-        if char == "/" and follow == "/":
-            output.extend((" ", " "))
-            index += 2
-            while index < len(text) and text[index] != "\n":
-                output.append(" ")
-                index += 1
-            continue
-        output.append(char)
-        index += 1
-    return "".join(output)
-
-
-def normalized_statement(text: str) -> str:
-    lines = [
-        line
-        for line in text.splitlines()
-        if not line.lstrip().startswith("#")
-    ]
-    return " ".join(" ".join(lines).split())
-
-
-def top_level_statements(text: str) -> list[str]:
-    text = strip_c_comments(text)
-    statements: list[str] = []
-    start = 0
-    depth = 0
-    braces: list[bool] = []
-    quote: str | None = None
-    escaped = False
-    for index, char in enumerate(text):
-        if quote is not None:
-            if escaped:
-                escaped = False
-            elif char == "\\":
-                escaped = True
-            elif char == quote:
-                quote = None
-            continue
-        if char in ('"', "'"):
-            quote = char
-            continue
-        if char == "{":
-            prefix = normalized_statement(text[start:index])
-            transparent = bool(
-                re.search(r'\bextern\s+"C"\s*$', prefix)
-            )
-            braces.append(transparent)
-            if transparent:
-                start = index + 1
-            else:
-                depth += 1
-            continue
-        if char == "}":
-            transparent = braces.pop() if braces else False
-            if not transparent and depth > 0:
-                depth -= 1
-            if transparent or depth == 0:
-                start = index + 1
-            continue
-        if char != ";" or depth != 0:
-            continue
-        statement = normalized_statement(text[start:index + 1])
-        if statement:
-            statements.append(statement)
-        start = index + 1
-    return statements
-
-
-def extern_symbol(statement: str) -> str:
-    if not statement.startswith("extern "):
-        raise CandidateBuildError(
-            f"not an extern declaration: {statement}"
-        )
-    alias = ASM_ALIAS.search(statement)
-    if alias is not None:
-        return alias.group("name")
-    declaration = re.split(
-        r"\b(?:asm|__attribute__)\s*\(",
-        statement,
-        maxsplit=1,
-    )[0].rstrip()
-    pointer = re.search(
-        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*\)",
-        declaration,
-    )
-    if pointer is not None:
-        return pointer.group("name")
-    function = re.search(
-        r"\b(?P<name>[A-Za-z_]\w*)\s*\(",
-        declaration,
-    )
-    if function is not None:
-        return function.group("name")
-    declaration = declaration.rstrip(";").rstrip()
-    declaration = re.sub(r"(?:\[[^\]]*\]\s*)+$", "", declaration)
-    name = re.search(r"(?P<name>[A-Za-z_]\w*)\s*$", declaration)
-    if name is None:
-        raise CandidateBuildError(
-            f"cannot find extern symbol in: {statement}"
-        )
-    return name.group("name")
-
-
-def candidate_extern_symbols(text: str) -> list[str]:
-    symbols = {
-        extern_symbol(statement)
-        for statement in top_level_statements(text)
-        if statement.startswith("extern ")
-    }
-    return sorted(symbols)
-
-
-def canonical_declaration_index(
-    symbols: set[str],
-    header_root: Path | None = None,
-) -> dict[str, list[tuple[str, str]]]:
-    header_root = header_root or ROOT / "src"
-    index = {symbol: [] for symbol in symbols}
-    for path in sorted(header_root.rglob("*.h")):
-        relative = path.relative_to(header_root).as_posix()
-        for statement in top_level_statements(
-            path.read_text(encoding="utf-8", errors="surrogateescape")
-        ):
-            statement_symbols = symbols & set(
-                re.findall(r"\b[A-Za-z_]\w*\b", statement)
-            )
-            for symbol in statement_symbols:
-                index[symbol].append((relative, statement))
-    for declarations in index.values():
-        declarations.sort()
-    return index
-
-
-def canonical_symbol_contract_hash(
-    symbol: str,
-    declarations: list[tuple[str, str]],
-) -> str:
-    payload = json.dumps(
-        {
-            "symbol": symbol,
-            "declarations": [
-                {"path": path, "statement": statement}
-                for path, statement in declarations
-            ],
-        },
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("utf-8")
-    return sha256(b"candidate-contract-symbol-v1\0" + payload)
-
-
-def canonical_contract_hashes(
-    symbols: list[str],
-    declaration_index: dict[str, list[tuple[str, str]]],
-) -> dict[str, str]:
-    return {
-        symbol: canonical_symbol_contract_hash(
-            symbol,
-            declaration_index.get(symbol, []),
-        )
-        for symbol in sorted(symbols)
-    }
-
-
-def canonical_contract_hash(contracts: dict[str, str]) -> str:
-    payload = json.dumps(
-        contracts,
-        sort_keys=True,
-        separators=(",", ":"),
-    ).encode("ascii")
-    return sha256(b"candidate-contract-v1\0" + payload)
-
-
-def canonical_contract_difference(
-    expected: dict[str, str],
-    actual: dict[str, str],
-) -> tuple[list[str], list[str], list[str]]:
-    expected_names = set(expected)
-    actual_names = set(actual)
-    added = sorted(actual_names - expected_names)
-    removed = sorted(expected_names - actual_names)
-    changed = sorted(
-        name
-        for name in expected_names & actual_names
-        if expected[name] != actual[name]
-    )
-    return added, removed, changed
-
-
-def validate_canonical_contract_metadata(
-    address: int,
-    configured_contract_hash: object,
-    configured_contracts: object,
-    contracts: dict[str, str],
-) -> None:
-    if (
-        not isinstance(configured_contract_hash, str)
-        or SHA256.fullmatch(configured_contract_hash) is None
-    ):
-        raise CandidateBuildError(
-            f"{address:#010x}: invalid canonical contract hash"
-        )
-    if not isinstance(configured_contracts, dict):
-        raise CandidateBuildError(
-            f"{address:#010x}: canonical contracts must be an object"
-        )
-    if any(
-        not isinstance(name, str)
-        or IDENTIFIER.fullmatch(name) is None
-        or not isinstance(value, str)
-        or SHA256.fullmatch(value) is None
-        for name, value in configured_contracts.items()
-    ):
-        raise CandidateBuildError(
-            f"{address:#010x}: invalid canonical contract entry"
-        )
-    added, removed, changed = canonical_contract_difference(
-        configured_contracts,
-        contracts,
-    )
-    if added or removed or changed:
-        raise CandidateBuildError(
-            f"{address:#010x}: canonical contracts differ: "
-            f"added={added}, removed={removed}, changed={changed}"
-        )
-    contract_hash = canonical_contract_hash(contracts)
-    if configured_contract_hash != contract_hash:
-        raise CandidateBuildError(
-            f"{address:#010x}: canonical contract hash differs: "
-            f"{contract_hash}"
-        )
 
 
 def load_profiles() -> dict[str, dict[str, object]]:
@@ -432,19 +157,11 @@ def target_words(candidate: Candidate) -> bytes:
     )
 
 
-def load_candidates(
-    verify_contracts: bool = True,
-) -> tuple[list[Candidate], dict[str, dict[str, object]]]:
+def load_candidates() -> tuple[list[Candidate], dict[str, dict[str, object]]]:
     configuration = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
-    schema = configuration.get("schema")
-    if schema not in (1, 2):
+    if configuration.get("schema") != 1:
         raise CandidateBuildError(
             f"{CONFIG_PATH.relative_to(ROOT)}: unsupported schema"
-        )
-    if verify_contracts and schema != 2:
-        raise CandidateBuildError(
-            f"{CONFIG_PATH.relative_to(ROOT)}: "
-            "schema 2 canonical contract metadata is required"
         )
     items = configuration.get("candidates")
     if not isinstance(items, list) or not items:
@@ -459,32 +176,6 @@ def load_candidates(
     seen_addresses: set[int] = set()
     configured_sources: set[str] = set()
     configured_targets: set[str] = set()
-    source_texts: dict[int, str] = {}
-    source_symbols: dict[int, list[str]] = {}
-
-    for item in items:
-        if not isinstance(item, dict):
-            raise CandidateBuildError("candidate entry must be an object")
-        address_value = item.get("address")
-        if not isinstance(address_value, str):
-            raise CandidateBuildError("candidate address must be a string")
-        try:
-            address = int(address_value, 0)
-        except ValueError as error:
-            raise CandidateBuildError(
-                f"invalid candidate address {address_value}"
-            ) from error
-        source = configured_path(item.get("source"), SOURCE_DIRECTORY, ".c")
-        source_text = source.read_text(encoding="utf-8")
-        source_texts[address] = source_text
-        source_symbols[address] = candidate_extern_symbols(source_text)
-
-    all_symbols = {
-        symbol
-        for symbols in source_symbols.values()
-        for symbol in symbols
-    }
-    declaration_index = canonical_declaration_index(all_symbols)
 
     for item in items:
         if not isinstance(item, dict):
@@ -537,21 +228,6 @@ def load_candidates(
         if not isinstance(target_hash, str) or SHA256.fullmatch(target_hash) is None:
             raise CandidateBuildError(f"{address:#010x}: invalid target byte hash")
 
-        contracts = canonical_contract_hashes(
-            source_symbols[address],
-            declaration_index,
-        )
-        contract_hash = canonical_contract_hash(contracts)
-        configured_contract_hash = item.get("canonical_contract_sha256")
-        configured_contracts = item.get("canonical_contracts")
-        if verify_contracts:
-            validate_canonical_contract_metadata(
-                address,
-                configured_contract_hash,
-                configured_contracts,
-                contracts,
-            )
-
         candidate = Candidate(
             address=address,
             name=row["name"],
@@ -561,10 +237,8 @@ def load_candidates(
             target=target,
             candidate_build_sha256=candidate_hash,
             target_bytes_sha256=target_hash,
-            canonical_contract_sha256=contract_hash,
-            canonical_contracts=contracts,
         )
-        source_text = source_texts[address]
+        source_text = source.read_text(encoding="utf-8")
         if re.search(
             rf"\b{re.escape(candidate.name)}\s*\([^;{{}}]*\)\s*\{{",
             source_text,
@@ -604,21 +278,6 @@ def load_candidates(
             f"extra={sorted(actual_targets - configured_targets)}"
         )
     return candidates, profiles
-
-
-def print_contract_hashes(candidates: list[Candidate]) -> None:
-    for candidate in candidates:
-        contracts = json.dumps(
-            candidate.canonical_contracts,
-            sort_keys=True,
-            separators=(",", ":"),
-        )
-        print(
-            f"{candidate.key} "
-            f"canonical_contract_sha256="
-            f"{candidate.canonical_contract_sha256} "
-            f"canonical_contracts={contracts}"
-        )
 
 
 def run_output(command: list[str]) -> str:
@@ -843,29 +502,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
     parser.add_argument("--print-hashes", action="store_true")
-    parser.add_argument("--print-contract-hashes", action="store_true")
     args = parser.parse_args()
-    selected_modes = sum(
-        (
-            args.check,
-            args.print_hashes,
-            args.print_contract_hashes,
-        )
-    )
-    if selected_modes > 1:
-        parser.error(
-            "--check, --print-hashes and --print-contract-hashes "
-            "are mutually exclusive"
-        )
     try:
         if Path.cwd().resolve() != ROOT:
             raise CandidateBuildError("run this command from the repository root")
-        candidates, profiles = load_candidates(
-            verify_contracts=not args.print_contract_hashes,
-        )
-        if args.print_contract_hashes:
-            print_contract_hashes(candidates)
-        elif args.check:
+        candidates, profiles = load_candidates()
+        if args.check:
             print(f"candidate sources: OK ({len(candidates)})")
         else:
             build_candidates(candidates, profiles, args.print_hashes)
