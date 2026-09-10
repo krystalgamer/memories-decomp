@@ -60,6 +60,17 @@ typedef struct {
     u16 field_0006;
 } SDNote;
 
+/* The eight-byte bank header func_80046A08 copies into the start of SDValue.
+ * This packed word view is for that whole-record copy: its byte alignment is
+ * what preserves the retail lwl/lwr and swl/swr sequence. */
+typedef struct {
+    s32 words[2];
+} __attribute__((packed)) SDBankHeaderWords;
+
+typedef char SDBankHeaderWords_size_must_be_8[
+    sizeof(SDBankHeaderWords) == 8 ? 1 : -1
+];
+
 typedef struct {
     u16 field_0000;
     u16 field_0002;

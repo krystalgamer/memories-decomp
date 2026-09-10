@@ -29,11 +29,6 @@ extern u8 D_801E8FF8 __attribute__((section(".data")));
  * retail keeps in a second register for the last comparison.
  */
 
-typedef struct {
-    s32 a;
-    s32 b;
-} __attribute__((packed)) SeHdr;
-
 void func_80046A08(void) {
     u8 *b;
     u8 *a0;
@@ -55,7 +50,8 @@ void func_80046A08(void) {
         return;
     case 1:
         if ((func_8004703C() & 7) == 0) {
-            *(SeHdr *)g_SDValue = *(SeHdr *)0x801E6800;
+            *(SDBankHeaderWords *)g_SDValue =
+                *(SDBankHeaderWords *)0x801E6800;
             g_SDValue->field_003C += 1;
             return;
         }
