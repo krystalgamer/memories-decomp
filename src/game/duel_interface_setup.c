@@ -10,16 +10,7 @@
 #include "../unmatched.h"
 
 extern u8 D_8009B2B2;
-extern u8 D_8009B2B4;
-extern u8 D_8009B2B5;
-extern u8 D_8009B2B6;
-extern u8 D_8009B2B8;
-extern u8 D_8009B2C0;
-extern u8 D_8009B2E0;
 extern DisplayObject *D_8009B2E4;
-extern u8 D_8009B2EA;
-extern void *D_8009B2EC;
-extern u8 D_8009B2F0;
 
 void func_80030198(void)
 {

@@ -5,12 +5,8 @@
 #include "../psyq/libds.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B108;
 extern s32 D_8009B0E8;
-extern s32 D_8009B0FC;
-extern u8 D_8009B110;
 extern u16 D_8009B124;
-extern s32 D_8009B12C;
 
 extern s32 func_8007AFA4(void);
 extern s32 CdPosToInt_8007E710(const CdlLOC *);

@@ -3,6 +3,7 @@
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "duel_grid.h"
+#include "duel_side_view_angles.h"
 #include "func_80022D94.h"
 #include "../unmatched.h"
 #include "func_80023D08.h"

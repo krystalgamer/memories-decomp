@@ -7,6 +7,7 @@
  * carry-add scheduling, one shared carry-zero store and the caret-clear loop.
  */
 #include "../types.h"
+#include "../unmatched.h"
 
 typedef struct {
     u8 b[8];
@@ -20,14 +21,8 @@ extern u8 D_800EAED8[];
 extern u16 gDebug_nSceneOrSoundID;
 extern u16 D_8009B2CA;
 extern u16 D_8009B2CC;
-extern u8 D_8009B2B4;
-extern u8 D_8009B2B8;
-extern u8 D_8009B2C0;
 extern u8 D_8009B2DC;
-extern u8 D_8009B2E0;
 extern u8 D_8009B2E9;
-extern u8 D_8009B2EA;
-extern void *D_8009B2EC;
 
 extern volatile u16 gInput_wPad1Held[4];
 extern volatile u16 gInput_wPad2Held[4];

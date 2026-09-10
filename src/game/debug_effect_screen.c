@@ -31,20 +31,14 @@ extern s32 D_8009B30C __attribute__((section(".data")));
 extern u8 D_8009B16C[4];
 /* The tuned pair the HUD prints: D_8009AF2A selects which of the two
    D_8009AF2C entries the up/down repeat adjusts. */
-extern u8 D_8009AF2A;
-extern u8 D_8009AF2C[2];
-extern u8 D_8009AF2D;
 extern u8 D_8009AF2E;
 extern u8 *D_8009B180;
 extern u8 *D_8009B184;
 extern DuelCardRecord D_801A7B80[];
 
 /* "~c0702D EFFECT = %2d %2d\n" */
-extern u8 D_80010074[];
 /* "               **\n~c777\0" */
-extern u8 D_80010090[];
 /* "            **\n~c777\0" */
-extern u8 D_800100A8[];
 
 void func_800220B8(void) {
     ViewState *b;

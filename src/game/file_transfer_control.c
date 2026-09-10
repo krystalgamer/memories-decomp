@@ -221,7 +221,6 @@ void func_80014A5C(s32 arg0)
    value_8, value_c, value_1c, value_30 and mode_46. */
 extern FileRequestSlot D_801D4200;
 extern u8 D_801D4200_raw[] asm("D_801D4200");
-extern void (*D_8009B128)(void);
 extern void func_80014B30_callback(void) asm("func_80014B30");
 
 void func_80014B30(FileTransferDescriptor *object, s32 mode)

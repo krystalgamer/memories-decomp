@@ -204,7 +204,6 @@ u8 func_8003F2B0(DisplayObject *object, s32 arg1, s32 arg2, s32 index)
     return object->field_6C;
 }
 
-extern s32 D_8009B3BC;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern s32 func_8003F2B0_int(DisplayObject *, s32, s32, s32)
     asm("func_8003F2B0");

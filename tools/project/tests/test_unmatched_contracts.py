@@ -25,6 +25,8 @@ class UnmatchedContractTests(unittest.TestCase):
         self.write_matching(["src/game/caller.c"])
         self.write("src/unmatched.h", "#include \"types.h\"\n")
         self.write_exceptions([])
+        self.write_data_exceptions([])
+        self.write_linker_symbols("")
 
     def tearDown(self) -> None:
         shutil.rmtree(self.root, ignore_errors=True)
@@ -75,6 +77,12 @@ class UnmatchedContractTests(unittest.TestCase):
     def write_exceptions(self, exceptions: list[dict[str, str]]) -> None:
         self.write(
             "config/slus_01411/unmatched_contract_exceptions.json",
+            json.dumps({"schema": 1, "exceptions": exceptions}),
+        )
+
+    def write_data_exceptions(self, exceptions: list[dict[str, str]]) -> None:
+        self.write(
+            "config/slus_01411/unmatched_data_contract_exceptions.json",
             json.dumps({"schema": 1, "exceptions": exceptions}),
         )
 
@@ -169,6 +177,7 @@ class UnmatchedContractTests(unittest.TestCase):
         )
 
     def test_data_attributes_are_not_function_declarations(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
         self.write(
             "src/unmatched.h",
             'extern s32 data __attribute__((section(".data")));\n',
@@ -244,6 +253,135 @@ func = 0x80020000; // still an assignment
             unmatched_contracts.linker_symbols(self.root),
             {"data", "func"},
         )
+
+    def test_central_data_rejects_unapproved_local_declaration(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/unmatched.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            "extern s32 data;\nvoid caller(void) { data = 1; }\n",
+        )
+
+        self.assertTrue(
+            any("local declaration of central unmatched data data" in error
+                for error in self.errors())
+        )
+
+    def test_central_data_rejects_removed_linker_assignment(self) -> None:
+        self.write("src/unmatched.h", "extern s32 data;\n")
+        self.write("src/game/caller.c", "void caller(void) {}\n")
+
+        self.assertTrue(
+            any("stale data declaration data" in error for error in self.errors())
+        )
+
+    def test_central_data_rejects_subsystem_header_takeover(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/unmatched.h", "extern s32 data;\n")
+        self.write("src/game/state.h", "extern s32 data;\n")
+        self.write("src/game/caller.c", "void caller(void) {}\n")
+
+        self.assertTrue(
+            any("resident headers ['game/state.h']" in error
+                for error in self.errors())
+        )
+
+    def test_exact_data_exception_allows_local_codegen_view(self) -> None:
+        declaration = (
+            'extern s32 data __attribute__((section(".data")));'
+        )
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/unmatched.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            declaration + "\nvoid caller(void) { data = 1; }\n",
+        )
+        self.write_data_exceptions(
+            [
+                {
+                    "symbol": "data",
+                    "source": "src/game/caller.c",
+                    "declaration": declaration,
+                    "reason": "Absolute addressing is load-bearing.",
+                }
+            ]
+        )
+
+        self.assertEqual(self.errors(), [])
+
+    def test_data_exception_drift_is_actionable(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/unmatched.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            "extern volatile s32 data;\nvoid caller(void) { data = 1; }\n",
+        )
+        self.write_data_exceptions(
+            [
+                {
+                    "symbol": "data",
+                    "source": "src/game/caller.c",
+                    "declaration": "extern s32 data;",
+                    "reason": "The local view is load-bearing.",
+                }
+            ]
+        )
+
+        errors = self.errors()
+        self.assertTrue(any("is not approved" in error for error in errors))
+        self.assertTrue(any("not found exactly" in error for error in errors))
+
+    def test_distinct_guarded_central_data_views_are_allowed(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/unmatched.h",
+            """
+#ifdef DATA_POINTER
+extern u8 *data;
+#else
+extern s32 data;
+#endif
+""",
+        )
+        self.write("src/game/caller.c", "void caller(void) {}\n")
+
+        self.assertEqual(self.errors(), [])
+
+    def test_function_pointer_data_is_not_a_function_prototype(self) -> None:
+        self.write_linker_symbols("D_80010000 = 0x80010000;\n")
+        self.write(
+            "src/unmatched.h",
+            "extern void (*D_80010000)(void);\n",
+        )
+        self.write("src/game/caller.c", "void caller(void) {}\n")
+
+        self.assertEqual(self.errors(), [])
+
+    def test_duplicate_central_data_declaration_is_rejected(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/unmatched.h",
+            "extern s32 data;\nextern s32 data;\n",
+        )
+        self.write("src/game/caller.c", "void caller(void) {}\n")
+
+        self.assertTrue(
+            any("duplicate data declarations for data" in error
+                for error in self.errors())
+        )
+
+    def test_headerless_data_is_reported_without_guessing_a_contract(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/caller.c",
+            "extern s32 data;\nvoid caller(void) { data = 1; }\n",
+        )
+
+        errors, stats = unmatched_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(stats["headerless_data"], 1)
+        self.assertEqual(stats["headerless_data_sites"], 1)
 
 
 if __name__ == "__main__":

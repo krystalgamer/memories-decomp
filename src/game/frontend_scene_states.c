@@ -27,7 +27,6 @@
    func_80030FA0. */
 
 extern u8 D_8009B26C[];
-extern u8 D_8009B2E8;
 extern u16 gDebug_nSceneOrSoundID;
 
 void func_80030C10(void)
