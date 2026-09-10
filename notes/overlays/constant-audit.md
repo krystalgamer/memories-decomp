@@ -167,10 +167,11 @@ genuine semantic work, in rough value order:
 
 - **Display-object flag bits** — done. The renderable (`0x40`) and
   screen-space (`0x8`) bits at object offset `+8` are named against
-  `display_object_layout.h`. Worth recording that `free_duel/screen_runtime.c` declares
-  `u32 flags; u16 attr;` after a four-byte pad, so its member named `flags` is
-  the unrelated 32-bit word at `+4` and `attr` is the real flag word; naming by
-  member name rather than offset would have been backwards.
+  `display_object_layout.h`. `free_duel/screen_runtime.c` formerly declared
+  `u32 flags; u16 attr;` after a four-byte pad, so naming by member name
+  rather than offset would have been backwards. It now uses the shared
+  `DisplayObject`: `attribute` is the word at `+4` and `flags` the halfword
+  at `+8`, preserving the same accesses.
 - **Screen-extent literals `0x140`/`0xF0`** — closed as *not* nameable. All
   eight call sites of the text-box builder `TextBox_Create` (`0x80035BE4`)
   take `(slot, textId, x, y, w, h)`, and the trailing pair is a per-call box
