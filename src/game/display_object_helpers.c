@@ -28,26 +28,26 @@ void func_800427DC(DisplayObject *object, int value)
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-void func_80042824(u8 *object, int value)
+void func_80042824(DisplayObject *object, int value)
 {
     u32 initial = 0x00808080;
-    u16 flags = *(u16 *)(object + 8);
+    u16 flags = object->flags;
 
-    *(u32 *)(object + 0x68) = initial;
-    *(u32 *)(object + 0x5C) = initial;
-    *(u32 *)(object + 0x50) = initial;
-    *(u32 *)(object + 0x44) = initial;
-    *(u32 *)(object + 0x38) = initial;
-    *(u32 *)(object + 0x2C) = initial;
-    *(u32 *)(object + 0x10) = 0;
-    object[0x21] = 0;
-    object[0x20] = 0;
-    object[0x22] = 0;
-    *(u16 *)(object + 0x1C) = 0;
-    *(u16 *)(object + 0x1A) = 0;
-    *(u16 *)(object + 0x18) = 0;
-    object[0x72] = value;
-    *(u16 *)(object + 8) = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    *(u32 *)&object->field_68 = initial;
+    *(u32 *)&object->field_5C = initial;
+    object->field_50.word = initial;
+    object->field_44.word = initial;
+    object->field_38.word = initial;
+    object->field_2C.word = initial;
+    object->field_10 = 0;
+    object->field_20.b.field_21 = 0;
+    object->field_20.b.field_20 = 0;
+    object->field_20.b.field_22 = 0;
+    object->field_1C = 0;
+    object->field_1A = 0;
+    object->field_18 = 0;
+    ((u8 *)object)[0x72] = value;
+    object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 void func_80042874(

@@ -64,7 +64,7 @@ extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
 #endif
 
 void func_800427DC(DisplayObject *object, int value);
-void func_80042824(u8 *object, int value);
+void func_80042824(DisplayObject *object, int value);
 void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *resource );
 /* arg8 is a resource pointer, not an integer. Every caller passes one -- the
    overlays pass D_801AF000 / D_801AF800, the resident callers pass a spec or
