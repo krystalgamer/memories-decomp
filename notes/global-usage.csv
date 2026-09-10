@@ -843,7 +843,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,record[20] = record[20] - D_8009B0D8 * 2; | record[4] = record[4] + D_8009B0D8 * 16; | (+1 more)
 0x8009B0D8,D_8009B0D8,D_8009B0D8_volatile,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,,v = p[4] - (D_8009B0D8_volatile << 4); | v = p[6] - (D_8009B0D8_volatile << 4);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AAE4,func_8003AAE4,matching_c,game,C,src/game/func_8003AAE4.c,read,32,v = (u16)p->field_40 + D_8009B0D8 * 8;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AC48,func_8003AC48,matching_c,game,C,src/game/func_8003AC48.c,read,32,t = *(u16 *)(p + 0x40) - (D_8009B0D8 << 3);
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AC48,func_8003AC48,matching_c,game,C,src/game/func_8003AC48.c,read,32,t = *(u16 *)&p->field_40 - (D_8009B0D8 << 3);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AD6C,func_8003AD6C,matching_c,game,C,src/game/display_effect_update_callbacks.c,read,32,n = (u16)p->field_40 - D_8009B0D8 * 8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8_halfword,0x8003B054,func_8003B054,matching_c,game,C,src/game/display_effect_update_callbacks.c,read,,*(u16 *)&o->field_60 += D_8009B0D8_halfword; | *(u16 *)&o->field_60 -= D_8009B0D8_halfword;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_update_pads.c,read,32,value = gInput_abRepeatTimers[i] + D_8009B0D8;
@@ -1766,12 +1766,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B326,D_8009B326,D_8009B326,0x8003A560,func_8003A560,matching_c,game,C,src/game/func_8003A560.c,read_write,,D_8009B326 = 0; | D_8009B326 = i; | (+2 more)
 0x8009B327,gDialog_bInputState,gDialog_bInputState,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read_write,8,f = *(s8 *)&gDialog_bInputState; | g = gDialog_bInputState; | (+2 more)
 0x8009B327,gDialog_bInputState,gDialog_bInputState,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_handle_choice_command.c,write,8,gDialog_bInputState = 0; | gDialog_bInputState = 1;
-0x8009B328,D_8009B328,D_8009B328,0x800377C8,func_800377C8,matching_c,game,C,src/game/duel_effect_interaction_states.c,read,8,p = D_8009B328; | u8 *q = D_8009B328; | (+2 more)
-0x8009B328,D_8009B328,D_8009B328,0x8003787C,func_8003787C,matching_c,game,C,src/game/func_8003787C.c,read,8,a0b = (MenuRecord *)D_8009B328;
-0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B328[0x33] == 0) {
-0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 6; | (+1 more)
-0x8009B328,D_8009B328,D_8009B328,0x80037950,func_80037950,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B328[0x32] = flags | 0x10; | D_8009B328[0x33] = 4; | (+1 more)
-0x8009B328,D_8009B328,D_8009B328,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,8,D_8009B328 = (u8 *)e; | D_8009B328 = e;
+0x8009B328,D_8009B328,D_8009B328,0x800377C8,func_800377C8,matching_c,game,C,src/game/duel_effect_interaction_states.c,read,,MenuRecord *q = D_8009B328; | MenuRecord *r = D_8009B328; | (+2 more)
+0x8009B328,D_8009B328,D_8009B328,0x8003787C,func_8003787C,matching_c,game,C,src/game/func_8003787C.c,read,,a0b = D_8009B328;
+0x8009B328,D_8009B328,D_8009B328,0x800378D8,func_800378D8,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,,if (D_8009B328->display_effect_step == 0) {
+0x8009B328,D_8009B328,D_8009B328,0x80037914,func_80037914,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,,D_8009B328->display_effect_step = 6; | D_8009B328->field_32 = flags | 0x10; | (+1 more)
+0x8009B328,D_8009B328,D_8009B328,0x80037950,func_80037950,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,,D_8009B328->display_effect_step = 4; | D_8009B328->field_32 = flags | 0x10; | (+1 more)
+0x8009B328,D_8009B328,D_8009B328,0x80038EB0,func_80038EB0,matching_c,game,C,src/game/func_80038EB0.c,write,,D_8009B328 = e;
 0x8009B32C,D_8009B32C,D_8009B32C,0x800375A4,func_800375A4,matching_c,game,C,src/game/duel_effect_interaction_states.c,read_write,8,void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&0x80)==0){o->state_51=f|0x80;D_8009B32C=10;...
 0x8009B32E,D_8009B32E,D_8009B32E,0x800218F0,func_800218F0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0120f0.s,write,16,"lui $at, %hi(D_8009B32E) | sh $v0, %lo(D_8009B32E)($at)"
 0x8009B32E,D_8009B32E,D_8009B32E,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_800383DC.c,read,16,s32 a2 = D_8009B32E;
