@@ -15,8 +15,6 @@ extern u16 gDebug_nLastSoundID;
 extern u16 D_8009B2CA;
 extern u16 D_8009B2DA;
 extern u16 D_8009B2CC;
-extern u8 D_8009B2C2;
-extern u8 D_8009B2C1;
 
 void func_800307B8(void)
 {
