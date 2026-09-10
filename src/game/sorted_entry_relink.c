@@ -1,8 +1,9 @@
 #include "../types.h"
 #include "sorted_entry.h"
 #include "func_80035598.h"
+#include "../psyq/qsort.h"
 
-/* The original qsort call is unprototyped; a prototype changes argument setup. */
+/* Use the historical PSYQ declaration, whose comparator has unspecified args. */
 void func_800355C8(void)
 {
     u8 *base = (u8 *)D_8009B304;

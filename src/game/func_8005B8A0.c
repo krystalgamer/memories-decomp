@@ -11,6 +11,8 @@
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libetc.h"
 
 s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     RECT rect;
@@ -26,8 +28,10 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     D_8009B061 = a5;
     if (D_8009B060 != 0) {
         /* Retail sets $a0 and $a1 here even though GsGetActiveBuff takes
-           no arguments; the two values are kept so the call setup matches. */
-        m = GsGetActiveBuff(D_80010000, a5);
+           no arguments. The call goes through a two-argument view of the
+           libgs.h declaration so that setup survives with the prototype in
+           scope, instead of through an implicit declaration. */
+        m = ((int (*)(void *, s32))GsGetActiveBuff)(D_80010000, a5);
         rect.x = m * 0x140;
         rect.y = 0;
         rect.w = D_800FE0D0;

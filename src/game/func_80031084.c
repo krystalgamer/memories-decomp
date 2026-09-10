@@ -13,6 +13,10 @@
 #include "frontend_step_tables.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "func_800300C8.h"
+#include "text_box_runtime.h"
 
 void func_80031084(void) {
     DuelEffectChannel *boxes;

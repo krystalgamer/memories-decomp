@@ -33,6 +33,7 @@
 #include "../game/main_services.h"
 #include "../game/rand_constants.h"
 #include "../game/movie_playback_control.h"
+#include "../psyq/libgs.h"
 
 extern volatile u8 D_8009B0D1;
 extern void *volatile D_8009B0B4;

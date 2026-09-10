@@ -23,6 +23,7 @@
 #include "func_80022D94.h"
 #include "../unmatched.h"
 #include "duel_card_effects.h"
+#include "display_object_api.h"
 
 /* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
    scales by 100 and the direct-damage amounts func_8002525C scales by 10,
