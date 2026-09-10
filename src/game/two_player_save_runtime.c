@@ -68,11 +68,11 @@ s32 SaveData_UpdateLoadPair(void)
         }
         return 0;
     case 1:
-        if (gInput_wPad1Pressed & 0x20) {
+        if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) {
             SD_SEPlayFull(8);
             D_8009B3EA = 0x82;
             *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
-        } else if (gInput_wPad1Pressed & 0x40) {
+        } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
             SD_SEPlayFull(7);
             D_8009B3EA = 2;
             *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
