@@ -2,14 +2,10 @@
 #include "text_constants.h"
 #include "func_800383DC.h"
 
-struct Obj {
-    u8 pad[0x58];
-    u8 counter;
-};
 extern u16 D_8009B32E;
 
-u32 *func_800383DC(struct Obj *a0) {
-    struct Obj *a3 = a0;
+u32 *func_800383DC(DuelEffectChannel *a0) {
+    DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
     u32 v1;
     u8 counter;
@@ -29,8 +25,8 @@ u32 *func_800383DC(struct Obj *a0) {
         v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2];
     }
 
-    counter = a3->counter + 1;
-    a3->counter = counter;
+    counter = *(u8 *)&a3->stream_58 + 1;
+    *(u8 *)&a3->stream_58 = counter;
     offset = (s8)counter;
     slot = (u32 *)((u8 *)a3 + offset * 4);
     *slot = v1;
