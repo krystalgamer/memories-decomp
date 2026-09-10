@@ -4,6 +4,8 @@
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_grid.h"
+#include "duel_selection_layout.h"
+#include "duel_card.h"
 
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern s8 D_800EA02F[];
@@ -76,4 +78,42 @@ void Duel_ClearHandSlots(void)
         i++;
         entry += sizeof(DuelHandSlot);
     } while (i < HAND_SIZE);
+}
+
+void func_80017708(void) {
+    s32 row, j;
+    for (row = 0; row < DUEL_SIDE_COUNT; row++) {
+        u8 *p = D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE;
+        for (
+            j = 0;
+            j < DUEL_SELECTION_RECORDS_PER_SIDE;
+            p += DUEL_SELECTION_RECORD_SIZE, j++
+        ) {
+            *(u32 *)(p + 0x00) = 0;
+            *(u32 *)(p + 0x04) = 0;
+            *(u32 *)(p + 0x08) = 0;
+            p[0x18] = 0;
+            p[0x13] = 1;
+            p[0x17] = j;
+            p[0x14] = (j != 3) ? j : 1;
+        }
+    }
+    D_800E9F10[0x13] = 0;
+    D_800E9F10[DUEL_SELECTION_SIDE_SIZE + 0x13] = 0;
+}
+
+void func_8001778C(void)
+{
+    u8 *entry = (u8 *)D_801A7AD8;
+    int i = 0;
+    u8 *field_16 = entry + 0x16;
+
+    do {
+        *(int *)entry = 0;
+        *(int *)(field_16 - 0x12) = 0;
+        *(u16 *)field_16 = 0;
+        field_16 += sizeof(DuelCardRecord);
+        i++;
+        entry += sizeof(DuelCardRecord);
+    } while (i < DUEL_CARD_RECORD_COUNT);
 }
