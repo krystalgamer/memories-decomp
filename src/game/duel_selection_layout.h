@@ -2,11 +2,27 @@
 #define MEMORIES_DECOMP_DUEL_SELECTION_LAYOUT_H
 
 #include "../types.h"
+#include "duel_hand.h"
 
 #define DUEL_SELECTION_RECORD_SIZE 0x1C
 #define DUEL_SELECTION_RECORDS_PER_SIDE 4
 #define DUEL_SELECTION_SIDE_SIZE \
     (DUEL_SELECTION_RECORDS_PER_SIDE * DUEL_SELECTION_RECORD_SIZE)
+
+/* Prefix view of one side's selection records. The hand pointer at +8 is
+ * written by both duel phase entries; the remaining side record stays byte
+ * addressed because its wider layout is not established. */
+typedef struct {
+    u8 pad_00[8];
+    DuelHandSlot *hand;
+} DuelSelectionSideView;
+
+typedef char DuelSelectionSideView_hand_offset_must_be_8[
+    (u32)&(((DuelSelectionSideView *)0)->hand) == 8 ? 1 : -1
+];
+typedef char DuelSelectionSideView_size_must_be_0xC[
+    sizeof(DuelSelectionSideView) == 0xC ? 1 : -1
+];
 
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
 extern u8 D_800E9F10[];
