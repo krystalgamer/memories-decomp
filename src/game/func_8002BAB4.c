@@ -12,7 +12,6 @@
 #include "library_state_handlers.h"
 #include "func_8002A788.h"
 
-extern u8 D_800EA1E8[];
 /* Overlay-resident halfwords, addressed %hi/%lo in retail under -G8. */
 extern s16 D_80181002 __attribute__((section(".data")));
 extern s16 D_80181012 __attribute__((section(".data")));
