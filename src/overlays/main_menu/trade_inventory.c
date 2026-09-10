@@ -2,10 +2,10 @@
 #include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
+#include "../../game/save_data.h"
 #include "trade_helpers.h"
 
 extern s32 D_80180000[];
-extern u8 D_801D1200[];
 extern CardCountEntry D_801845FC[][CARD_COUNT];
 extern u8 D_80185CCC[];
 extern MainMenuState D_801A8000[];

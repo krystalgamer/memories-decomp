@@ -1,5 +1,6 @@
 #include "../../types.h"
 #include "../../game/two_player_save_setup.h"
+#include "../../game/save_data.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
 #include "entrypoints.h"
@@ -27,7 +28,6 @@ extern u8 D_80185CC8[2];
 extern u8 D_80185CCA[2];
 extern u8 D_80185CCB;
 extern u8 D_80185CCC[2];
-extern Block16 D_801D1200[];
 extern u8 D_800EB224[];
 extern volatile u16 D_8009B394[2];
 extern volatile u16 D_8009B398[2];
@@ -90,7 +90,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             goto out;
         }
         if (result == 1) {
-            destination = D_801D1200;
+            destination = (Block16 *)D_801D1200;
             destination2 = destination + 256;
             source2 = destination + 360;
             source = destination + 104;
@@ -131,7 +131,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
 
     if (D_80185CD0 != 0) {
-        base = D_801D1200;
+        base = (Block16 *)D_801D1200;
         backup_source2 = base + 256;
         backup_destination2 = base + 360;
         save_destination = base + 104;
