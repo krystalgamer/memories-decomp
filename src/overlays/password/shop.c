@@ -43,7 +43,6 @@ extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
-extern u32 D_801D07E0;
 extern u32 D_801D0000[];
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
@@ -273,7 +272,7 @@ void Password_UpdateShopScreen(void)
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (D_801D07E0 < D_801A8000[D_8016D4DC * 2]) {
+            if (gLibrary_dwStarchips < D_801A8000[D_8016D4DC * 2]) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);

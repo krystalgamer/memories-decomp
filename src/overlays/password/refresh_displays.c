@@ -6,7 +6,6 @@
 #include "../../game/text_box_runtime.h"
 
 extern u8 D_801B1245[];
-extern s32 D_801D07E0;
 extern s32 D_801D5608;
 extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
@@ -48,7 +47,7 @@ void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
 
-    D_801D5608 = D_801D07E0;
+    D_801D5608 = gLibrary_dwStarchips;
     func_8003B6AC(3, 1);
     func_80035BE4(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
     boxes = D_800EB0F8;
