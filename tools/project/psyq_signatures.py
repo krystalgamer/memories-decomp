@@ -148,6 +148,47 @@ def find_matches(payload: bytes, pattern: bytes, mask: bytes) -> list[int] | Non
     return matches
 
 
+def signature_entry_fields(
+    path: Path, index: int, entry: dict
+) -> tuple[str, str, list[tuple[str, int]]]:
+    entry_name = entry.get("name")
+    if not isinstance(entry_name, str):
+        raise SignatureError(
+            f"{path}: entry {index} name is not a string"
+        )
+    signature = entry["sig"]
+    if not isinstance(signature, str):
+        raise SignatureError(
+            f"{path}: entry {index} sig is not a string"
+        )
+    labels = entry.get("labels", [])
+    if not isinstance(labels, list):
+        raise SignatureError(
+            f"{path}: entry {index} labels is not an array"
+        )
+
+    validated_labels: list[tuple[str, int]] = []
+    for label_index, label in enumerate(labels):
+        if not isinstance(label, dict):
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} is not an object"
+            )
+        name = label.get("name")
+        if not isinstance(name, str):
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} "
+                "name is not a string"
+            )
+        offset = label.get("offset")
+        if type(offset) is not int:
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} "
+                "offset is not an integer"
+            )
+        validated_labels.append((name, offset))
+    return entry_name, signature, validated_labels
+
+
 def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
     """address -> {name: [providers]}, plus counts for the report."""
     proposals: dict[int, dict[str, list[str]]] = {}
@@ -170,7 +211,10 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
             if "sig" not in entry:
                 continue
             signature_entries += 1
-            pattern, mask = parse_signature(entry["sig"])
+            entry_name, signature, labels = signature_entry_fields(
+                path, index, entry
+            )
+            pattern, mask = parse_signature(signature)
             matches = find_matches(payload, pattern, mask)
             if matches is None:
                 unanchored += 1
@@ -182,12 +226,10 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
                 multiple += 1
                 continue
             unique += 1
-            for label in entry.get("labels", []):
-                name = label["name"]
+            for name, offset in labels:
                 if PLACEHOLDER.match(name):
                     continue
-                offset = label["offset"]
-                provider = f"{library}/{entry['name']}+{offset:#x}"
+                provider = f"{library}/{entry_name}+{offset:#x}"
                 address = load_address + matches[0] + offset
                 proposals.setdefault(address, {}).setdefault(name, []).append(provider)
     if signature_entries == 0:

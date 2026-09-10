@@ -80,6 +80,63 @@ class PsyqSignatureTests(unittest.TestCase):
         with self.assertRaisesRegex(SignatureError, "no signature entries"):
             scan(self.signatures, 0x80010000, b"")
 
+    def test_scan_rejects_non_string_entry_fields(self) -> None:
+        cases = [
+            (
+                {"name": 42, "sig": "AA BB CC DD"},
+                "entry 0 name is not a string",
+            ),
+            (
+                {"name": "BAD.OBJ", "sig": 42},
+                "entry 0 sig is not a string",
+            ),
+        ]
+        for entry, message in cases:
+            with self.subTest(message=message):
+                (self.signatures / "LIBTEST.LIB.json").write_text(
+                    json.dumps([entry]), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SignatureError, message):
+                    scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_non_array_labels(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            json.dumps(
+                [{"name": "BAD.OBJ", "sig": "AA BB CC DD", "labels": {}}]
+            ),
+            encoding="utf-8",
+        )
+
+        with self.assertRaisesRegex(
+            SignatureError, "entry 0 labels is not an array"
+        ):
+            scan(self.signatures, 0x80010000, b"")
+
+    def test_scan_rejects_invalid_label_fields(self) -> None:
+        cases = [
+            (42, "label 0 is not an object"),
+            (
+                {"name": 42, "offset": 0},
+                "label 0 name is not a string",
+            ),
+            (
+                {"name": "BadLabel", "offset": "0"},
+                "label 0 offset is not an integer",
+            ),
+        ]
+        for label, message in cases:
+            with self.subTest(message=message):
+                entry = {
+                    "name": "BAD.OBJ",
+                    "sig": "AA BB CC DD",
+                    "labels": [label],
+                }
+                (self.signatures / "LIBTEST.LIB.json").write_text(
+                    json.dumps([entry]), encoding="utf-8"
+                )
+                with self.assertRaisesRegex(SignatureError, message):
+                    scan(self.signatures, 0x80010000, b"")
+
     def test_scan_rejects_duplicates_and_placeholder_labels(self) -> None:
         entries = [
             {
