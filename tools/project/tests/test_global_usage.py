@@ -124,6 +124,114 @@ class SharedDeclarationTests(unittest.TestCase):
         self.assertEqual(array_arrays, {"gSharedValues"})
         self.assertEqual(array_declarations, {"gSharedValues"})
 
+    def test_inactive_source_define_does_not_select_header_view(self) -> None:
+        header = self.header.parent / "shared.h"
+        header.write_text(
+            "#ifdef USE_BYTE_VIEW\n"
+            "extern u8 gSharedValues[];\n"
+            "#else\n"
+            "extern u32 gSharedValues;\n"
+            "#endif\n",
+            encoding="utf-8",
+        )
+        source = self.header.parent / "source.c"
+        text = (
+            "#if 0\n"
+            "#define USE_BYTE_VIEW\n"
+            "#endif\n"
+            '#include "shared.h"\n'
+        )
+
+        widths, arrays, declarations = load_included_declarations(
+            self.header.parent,
+            source,
+            text,
+            {"gSharedValues"},
+        )
+
+        self.assertEqual(widths, {"gSharedValues": "32"})
+        self.assertEqual(arrays, set())
+        self.assertEqual(declarations, {"gSharedValues"})
+
+    def test_inactive_source_undef_keeps_header_view(self) -> None:
+        header = self.header.parent / "shared.h"
+        header.write_text(
+            "#ifdef USE_BYTE_VIEW\n"
+            "extern u8 gSharedValues[];\n"
+            "#else\n"
+            "extern u32 gSharedValues;\n"
+            "#endif\n",
+            encoding="utf-8",
+        )
+        source = self.header.parent / "source.c"
+        text = (
+            "#define USE_BYTE_VIEW\n"
+            "#if 0\n"
+            "#undef USE_BYTE_VIEW\n"
+            "#endif\n"
+            '#include "shared.h"\n'
+        )
+
+        widths, arrays, declarations = load_included_declarations(
+            self.header.parent,
+            source,
+            text,
+            {"gSharedValues"},
+        )
+
+        self.assertEqual(widths, {"gSharedValues": "8"})
+        self.assertEqual(arrays, {"gSharedValues"})
+        self.assertEqual(declarations, {"gSharedValues"})
+
+    def test_inactive_source_include_contributes_no_declarations(self) -> None:
+        header = self.header.parent / "shared.h"
+        header.write_text(
+            "extern u32 gSharedValues;\n",
+            encoding="utf-8",
+        )
+        source = self.header.parent / "source.c"
+        text = '#if 0\n#include "shared.h"\n#endif\n'
+
+        widths, arrays, declarations = load_included_declarations(
+            self.header.parent,
+            source,
+            text,
+            {"gSharedValues"},
+        )
+
+        self.assertEqual(widths, {})
+        self.assertEqual(arrays, set())
+        self.assertEqual(declarations, set())
+
+    def test_unsupported_source_condition_keeps_views_unresolved(self) -> None:
+        header = self.header.parent / "shared.h"
+        header.write_text(
+            "#ifdef USE_BYTE_VIEW\n"
+            "extern u8 gSharedValues[];\n"
+            "#else\n"
+            "extern u32 gSharedValues;\n"
+            "#endif\n",
+            encoding="utf-8",
+        )
+        source = self.header.parent / "source.c"
+        text = (
+            "#if FEATURE_FLAG || OTHER_FLAG\n"
+            "#define USE_BYTE_VIEW\n"
+            "#endif\n"
+            '#include "shared.h"\n'
+        )
+
+        widths, arrays, declarations = load_included_declarations(
+            self.header.parent,
+            source,
+            text,
+            {"gSharedValues"},
+        )
+
+        self.assertEqual(widths, {"gSharedValues": ""})
+        self.assertEqual(arrays, {"gSharedValues"})
+        self.assertEqual(declarations, {"gSharedValues"})
+
     def test_unsupported_condition_keeps_conflicting_views(self) -> None:
         header = self.header.parent / "shared.h"
         header.write_text(

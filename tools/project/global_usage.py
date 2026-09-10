@@ -475,7 +475,8 @@ def load_declarations(
 
 
 def simple_preprocessor_condition(
-    expression: str, defined_macros: set[str]
+    expression: str,
+    defined_macros: set[str] | dict[str, bool | None],
 ) -> bool | None:
     expression = expression.strip()
     for negate, pattern in (
@@ -487,7 +488,13 @@ def simple_preprocessor_condition(
         match = re.fullmatch(pattern, expression)
         if match is not None:
             name = match.group(1) or match.group(2)
-            value = name in defined_macros
+            value = (
+                defined_macros.get(name, False)
+                if isinstance(defined_macros, dict)
+                else name in defined_macros
+            )
+            if value is None:
+                return None
             return not value if negate else value
     if expression in {"0", "1"}:
         return expression == "1"
@@ -564,14 +571,124 @@ def active_preprocessor_text(
     return text if stack else "".join(output)
 
 
-def defined_macros_before(text: str, end: int) -> set[str]:
-    macros: set[str] = set()
-    for line in text[:end].splitlines():
+def preprocessor_not(value: bool | None) -> bool | None:
+    return None if value is None else not value
+
+
+def preprocessor_and(
+    left: bool | None, right: bool | None
+) -> bool | None:
+    if left is False or right is False:
+        return False
+    if left is True and right is True:
+        return True
+    return None
+
+
+def preprocessor_or(
+    left: bool | None, right: bool | None
+) -> bool | None:
+    if left is True or right is True:
+        return True
+    if left is False and right is False:
+        return False
+    return None
+
+
+def update_macro_state(
+    macros: dict[str, bool | None],
+    name: str,
+    defined: bool,
+    active: bool | None,
+) -> None:
+    if active is True:
+        macros[name] = defined
+    elif active is None and macros.get(name, False) != defined:
+        macros[name] = None
+
+
+def source_includes(
+    text: str,
+) -> list[tuple[str, set[str] | None]]:
+    macros: dict[str, bool | None] = {}
+    stack: list[tuple[bool | None, bool | None]] = []
+    active: bool | None = True
+    includes: list[tuple[str, set[str] | None]] = []
+    for line in text.splitlines():
+        stripped = line.strip()
+        if match := re.match(r"^#\s*ifdef\s+([A-Za-z_][A-Za-z0-9_]*)", stripped):
+            condition = macros.get(match.group(1), False)
+            stack.append((active, condition))
+            active = preprocessor_and(active, condition)
+            continue
+        if match := re.match(r"^#\s*ifndef\s+([A-Za-z_][A-Za-z0-9_]*)", stripped):
+            condition = preprocessor_not(
+                macros.get(match.group(1), False)
+            )
+            stack.append((active, condition))
+            active = preprocessor_and(active, condition)
+            continue
+        if match := re.match(r"^#\s*if\s+(.+)$", stripped):
+            condition = simple_preprocessor_condition(match.group(1), macros)
+            stack.append((active, condition))
+            active = preprocessor_and(active, condition)
+            continue
+        if match := re.match(r"^#\s*elif\s+(.+)$", stripped):
+            if not stack:
+                raise GlobalUsageError("source has #elif without #if")
+            condition = simple_preprocessor_condition(match.group(1), macros)
+            parent_active, branch_taken = stack[-1]
+            active = preprocessor_and(
+                parent_active,
+                preprocessor_and(
+                    preprocessor_not(branch_taken),
+                    condition,
+                ),
+            )
+            stack[-1] = (
+                parent_active,
+                preprocessor_or(branch_taken, condition),
+            )
+            continue
+        if re.match(r"^#\s*else\b", stripped):
+            if not stack:
+                raise GlobalUsageError("source has #else without #if")
+            parent_active, branch_taken = stack[-1]
+            active = preprocessor_and(
+                parent_active,
+                preprocessor_not(branch_taken),
+            )
+            stack[-1] = (parent_active, True)
+            continue
+        if re.match(r"^#\s*endif\b", stripped):
+            if not stack:
+                raise GlobalUsageError("source has #endif without #if")
+            parent_active, _branch_taken = stack.pop()
+            active = parent_active
+            continue
         if match := DEFINE_RE.match(line):
-            macros.add(match.group(1))
-        elif match := UNDEF_RE.match(line):
-            macros.discard(match.group(1))
-    return macros
+            update_macro_state(macros, match.group(1), True, active)
+            continue
+        if match := UNDEF_RE.match(line):
+            update_macro_state(macros, match.group(1), False, active)
+            continue
+        if match := LOCAL_INCLUDE_RE.match(line):
+            if active is False:
+                continue
+            defined_macros = (
+                None
+                if active is None
+                or any(value is None for value in macros.values())
+                else {
+                    name
+                    for name, value in macros.items()
+                    if value is True
+                }
+            )
+            includes.append((match.group(1), defined_macros))
+    if stack:
+        raise GlobalUsageError("source has unbalanced preprocessor conditionals")
+    return includes
 
 
 def load_included_declarations(
@@ -581,8 +698,7 @@ def load_included_declarations(
     known_names: set[str],
 ) -> tuple[dict[str, str], set[str], set[str]]:
     declarations: list[tuple[dict[str, str], set[str], set[str]]] = []
-    for match in LOCAL_INCLUDE_RE.finditer(text):
-        include = match.group(1)
+    for include, defined_macros in source_includes(text):
         header_path = (source_path.parent / include).resolve()
         try:
             header_path.relative_to(root.resolve())
@@ -594,7 +710,7 @@ def load_included_declarations(
             load_declarations(
                 header_path,
                 known_names,
-                defined_macros_before(text, match.start()),
+                defined_macros,
             )
         )
     return merge_declarations(declarations)
