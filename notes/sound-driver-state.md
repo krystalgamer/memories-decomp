@@ -550,11 +550,12 @@ failure is `SD_TRANSFER_ERROR` (`-1`), while `func_800497E0` returns
 the window length. A completed window returns the matched state token;
 the state marker and result codes are separate roles despite sharing `-1`.
 
-The transfer entrypoint remains `func_80077150`. The comparison material has
-a documented [SpuRead/SpuWrite naming conflict](research/Unchiga_Symbols/NAMING.md#conflicts-31-rows-where-two-names-claim-one-address)
-for that address. Neither the wrapper's old `SpuRead` comment nor an imported
-name list resolves the direction; keep the address-based declaration until
-the SDK identity is independently established.
+The transfer entrypoint is `SpuWrite`. The signature catalogue proposes both
+`SpuRead` and `SpuWrite` because their small public wrappers are byte-identical,
+but the resident body calls confirmed internal `_spu_Fw`; adjacent `_spu_Fr`
+is the read helper. Both matching callers set the SPU transfer-start address,
+then submit a source buffer and require the full byte count back. The direction
+therefore comes from the local call graph rather than an imported name.
 
 ### Sequence-input header tags
 

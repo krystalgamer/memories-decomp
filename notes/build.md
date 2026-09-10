@@ -620,6 +620,17 @@ anything above `types.h`:
 - `D_8009B363` is written by four files spanning four subsystems with no
   header between them, so it went to `unmatched.h`.
 
+`make check-unmatched-contracts` enforces the function side of that boundary.
+It cross-references `functions.csv`, the matching-C source manifest, and
+`unmatched.h`: an unmatched function referenced by matching C must have one
+central declaration, and a file-local declaration is rejected unless its
+exact source and spelling appear in
+`unmatched_contract_exceptions.json`. The exception list is intentionally
+site-specific so a type change cannot hide behind an approved symbol name.
+The same check rejects declarations that remain in `unmatched.h` after a
+function becomes matching C. Unreferenced assembly functions are reported by
+the inventory but do not receive guessed prototypes merely to fill the header.
+
 #### A neighbour can refute a size, never establish one
 
 Both directions come up, and only one of them is sound.

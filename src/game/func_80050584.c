@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
 #include "model_load_monster_merge.h"

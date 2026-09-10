@@ -6,8 +6,6 @@
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
 
-extern int func_80077150(int, int);
-
 void func_80049640(void)
 {
     s32 value;
@@ -65,7 +63,8 @@ s32 func_8004975C(s32 value, s16 expected)
     {
         SDSecondaryTransfer *entry = &state->transfer;
         SpuSetTransferStartAddr((u32)entry->field_0014);
-        if (func_80077150(saved, entry->field_0010) != entry->field_0010)
+        if (SpuWrite((u8 *)saved, (u32)entry->field_0010) !=
+            entry->field_0010)
             return SD_TRANSFER_ERROR;
         entry->field_000C = saved;
     }

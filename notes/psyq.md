@@ -79,18 +79,24 @@ disagree**. The tool is checked against work done independently, and that
 number is the regression signal -- if it falls, the matcher broke rather than
 the catalogue being wrong.
 
-Five catalogue conflicts remain summarized below. They are small routines
+Four catalogue conflicts remain summarized below. They are small routines
 duplicated verbatim across libraries, so bytes alone cannot separate them:
 unresolved rows remain `func_XXXXXXXX`, while applied rows require a separate
 call-graph tiebreak.
 
 | Address | Competing names |
 |---|---|
-| `0x80077150` | `SpuRead`, `SpuWrite` |
 | `0x8007CDC0` | `CdMix`, `DsMix` |
 | `0x8007E7F0` | `DsControl`, `DsControlB` (inventory keeps `CdControlB`) |
 | `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
 | `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
+
+The removed `0x80077150` conflict is resolved as `SpuWrite`. Its only internal
+transfer call is to confirmed `_spu_Fw`; `_spu_Fr` is the separate adjacent
+read helper. Matching sound-transfer callers first select an SPU RAM
+destination with `SpuSetTransferStartAddr`, then pass a source buffer and byte
+count to this entry and require that full count back. This call graph rules out
+the byte-identical `SpuRead` signature proposal.
 
 The removed `0x8007A840` conflict is resolved as
 `CdReadyCallback_8007A840`. It replaces and returns `D_800934E4`, and
@@ -259,6 +265,7 @@ Every row below is now an applied project symbol.
 | `0x80076ED0` | `SpuSetKey` | Applied Psy-Q 4.6 identity; matching sound-driver paths switch selected voice masks off during cleanup and slot reuse, including the four-state mask assembled by `SD_UpdateRuntime`. |
 | `0x80077090` | `SpuGetKeyStatus` | Applied from the unique 144-byte Psy-Q 4.6 `LIBSPU.LIB/S_GKS.OBJ` signature; matching sound-driver paths poll individual voice masks during cleanup and reuse. |
 | `0x80077120` | `SpuSetKeyOnWithAttr` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_SKOWA.OBJ` signature. |
+| `0x80077150` | `SpuWrite` | Applied confirmed identity for the buffer-to-SPU transfer wrapper: it calls confirmed `_spu_Fw`, while the adjacent `_spu_Fr` is the read helper; matching callers select an SPU destination and submit source buffers. |
 | `0x800771B0` | `SpuSetTransferStartAddr` | Applied from the unique 96-byte Psy-Q 4.6 `LIBSPU.LIB/S_STSA.OBJ` signature; matching transfer paths select the SPU RAM destination. |
 | `0x80077210` | `SpuSetTransferMode` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_STM.OBJ` signature; matching initialization selects DMA mode zero. |
 | `0x80077240` | `SpuIsTransferCompleted` | Applied from the unique 176-byte Psy-Q 4.6 `LIBSPU.LIB/S_ITC.OBJ` signature; matching reset code selects blocking or nonblocking status. `func_8001455C` also uses the canonical `libspu.h` declaration to poll mode zero before clearing its pending-transfer flag. |

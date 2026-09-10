@@ -43,8 +43,8 @@ void func_80039C94(u8 *);
 
 void (*D_80090EAC[])(u8 *) = {
     func_80037DA4,
-    func_800380D4,
-    func_80038110,
+    (void (*)(u8 *))func_800380D4,
+    (void (*)(u8 *))func_80038110,
     func_80038148,
     func_800382A8,
     (void (*)(u8 *))func_80038334,
@@ -53,7 +53,7 @@ void (*D_80090EAC[])(u8 *) = {
     (void (*)(u8 *))func_80038070,
     (void (*)(u8 *))func_800383DC,
     func_80038498,
-    func_80038094,
+    (void (*)(u8 *))func_80038094,
     func_800384E4,
     (void (*)(u8 *))Text_StartCampaignDuel,
     (void (*)(u8 *))func_80038690,

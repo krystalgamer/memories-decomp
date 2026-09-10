@@ -364,7 +364,7 @@ Original Sony PsyQ names -- meaningful if you know the SDK.
 | 0x80076ED0 | `SpuSetKey` | psyq |
 | 0x80077090 | `SpuGetKeyStatus` | psyq |
 | 0x80077120 | `SpuSetKeyOnWithAttr` | psyq |
-| 0x80077150 | `SpuRead` | psyq |
+| 0x80077150 | `SpuWrite` | psyq |
 | 0x800771B0 | `SpuSetTransferStartAddr` | psyq |
 | 0x80077210 | `SpuSetTransferMode` | psyq |
 | 0x80077240 | `SpuIsTransferCompleted` | psyq |
