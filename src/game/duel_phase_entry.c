@@ -3,6 +3,7 @@
 #include "../types.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
+#include "duel_phase_entry.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"

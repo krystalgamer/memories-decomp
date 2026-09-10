@@ -3,6 +3,7 @@
 #include "../unmatched.h"
 #include "debug_effect_screen.h"
 #include "duel_draw_resolution.h"
+#include "duel_phase_entry.h"
 #include "func_8001825C.h"
 #include "func_80019608.h"
 #include "func_800208D4.h"
@@ -27,9 +28,6 @@
  * it. That is recorded rather than corrected: nothing here establishes that
  * the game ever produces index 15, and widening the array would change the
  * bytes. */
-
-void func_80018608(void);
-void func_8001898C(void);
 
 void (*D_80090998[])(void) = {
     func_80022618,
