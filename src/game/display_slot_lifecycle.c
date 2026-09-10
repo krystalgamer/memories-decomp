@@ -7,8 +7,6 @@
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 
-extern u16 D_8009B410;
-extern u16 D_8009B412;
 extern u8 tail_data_start[];
 
 s32 func_8004002C(void)
