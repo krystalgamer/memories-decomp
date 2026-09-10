@@ -62,20 +62,3 @@ retail assembly under `src/candidates_target/` and build metadata in
 note or `for_humans` bundle. Normal full and incremental builds compile these
 sources, compare path-independent hashes of their text and relocations, and
 reject undefined symbols that are absent from the linked target.
-
-The metadata also fingerprints every canonical header declaration named by a
-candidate-local `extern`. This is separate from the object hash: a candidate
-may keep compiling to identical bytes after a game type or prototype changes,
-precisely because its private declaration bypasses the canonical header. The
-contract fingerprint makes that change fail with the candidate and dependency
-names before the stale source can be trusted. A dependency with no canonical
-declaration is fingerprinted explicitly too, so later centralizing it is also
-detected.
-
-`make candidate-contract-hashes` prints the current aggregate and per-symbol
-hashes for an intentional metadata review. It does not modify
-`candidates.json`; update that file only after checking why each reported
-dependency changed. Prefer consuming the canonical header and removing the
-private `extern` when that preserves the candidate fingerprint. Refresh a hash
-with the private declaration still present only when the mismatch is measured
-and intentionally part of the current candidate.
