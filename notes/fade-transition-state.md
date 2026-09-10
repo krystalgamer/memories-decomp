@@ -70,7 +70,7 @@ the middle pair for decreasing levels. With the unsigned, nonnegative
 does not clear the active flag; transition completion remains the separate
 responsibility of `Fade_Update`.
 
-[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) draws array index `i`
+[`Fade_DrawOverlay`](../src/game/fade_overlay.c) draws array index `i`
 at `y = i * 8` with height 8 and intensity `0xFF - band_levels[i]`.
 Thus indices 14/15 are the two center bands and 0/29 are the top/bottom
 bands. The **eight-pixel band height is not a fixed eight-unit ramp step**.
@@ -128,14 +128,14 @@ rather than inferred from a caller's name:
 
 | Setup path | Initial head / target | Default setup |
 |---|---|---|
-| `Fade_InitIn` in [`fade_in.c`](../src/game/fade_in.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitIn` in [`fade_overlay.c`](../src/game/fade_overlay.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_out.c`](../src/game/fade_out.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 
 `Fade_StartIn` and `Fade_StartOut` call those initializers, then request
 step `8` and flag `0x01` (band mode). However, both call a color helper
 **after** that request. When `D_8009B145` is nonzero,
-[`func_8001572C`](../src/game/func_8001572C.c) replaces the flags with `0x90`,
-while [`func_80015870`](../src/game/fade_color.c) replaces them with `0xB0`.
+[`func_8001572C`](../src/game/fade_overlay.c) replaces the flags with `0x90`,
+while [`func_80015870`](../src/game/fade_overlay.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
 replacing the entire flag byte. The wrappers therefore do not unconditionally
 start an eight-unit banded transition.
@@ -227,7 +227,7 @@ context before assigning fixed timings or screen-specific meanings.
 
 ## Draw eligibility and box submission
 
-[`Fade_DrawOverlay`](../src/game/fade_draw_overlay.c) calls `Fade_Update`
+[`Fade_DrawOverlay`](../src/game/fade_overlay.c) calls `Fade_Update`
 **before** testing whether to draw. Its condition uses the updated state:
 
 ```c

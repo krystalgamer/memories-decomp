@@ -2,8 +2,21 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "graphics_frame.h"
 
 #include "fade.h"
+
+/* The fade overlay and the fade-in side of its setup: Fade_DrawOverlay,
+   which runs the transition and draws the band boxes every frame, the band
+   fill it starts from, the white-mode reset and the two white-mode colour
+   helpers, and Fade_InitIn, Fade_StartIn and Fade_InitInColor.
+
+   The six former sources were recorded at gcc_2_8_1_g8_split,
+   gcc_2_8_1_g0_split and gcc_2_8_1_g8. Every member compiles to an
+   identical object at gcc_2_8_1_g8_split. The unit stops above at
+   fade_out.c, whose Fade_InitOut and Fade_StartOut change without split
+   addresses, and below at Fade_Update, which needs its own assembler
+   threshold. */
 
 /* Full-screen fade / brightness overlay, drawn once per frame from
    func_8001306C's dispatcher.
@@ -112,5 +125,103 @@ void Fade_DrawOverlay(void) {
             p->b = (u8) tint;
         }
         GsSortBoxFill(p, (GsOT *)ot, depth);
+    }
+}
+
+void func_800156B8(s32 arg0)
+{
+    u8 *p = (u8 *)&gFade_State;
+    s32 i;
+
+    for (i = 0x1D; i >= 0; i--) {
+        *(p + i + 0xA) = arg0;
+    }
+}
+
+void func_800156DC(void)
+{
+    FadeTransitionState *state;
+    D_8009B145 = 1;
+    Fade_InitOut();
+    state = &gFade_State;
+    state->flags = 0;
+    state->level = 0;
+    D_8009B142 = 0xFF;
+    D_8009B143 = 0xFF;
+    D_8009B144 = 0xFF;
+    func_80015D0C();
+}
+
+void func_8001572C(void)
+{
+    FadeTransitionState *state;
+    int value;
+    if (D_8009B145 != 0) {
+        value = 0xFFFFFF;
+        state = &gFade_State;
+        *(s32 *)state = value;
+        state->flags = 0x90;
+        state->step = 0xC;
+        D_8009B14C = 1;
+        D_8009B144 = 1;
+        D_8009B14B = 1;
+        D_8009B143 = 1;
+        D_8009B14A = 1;
+        D_8009B142 = 1;
+    }
+}
+
+void Fade_InitIn(void)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    state->target_level = 0xFF;
+    state->flags = 0x80;
+    D_8009B141 &= 0x7F;
+    state->field_08 = 0;
+    func_800156B8(state->level);
+    state->step = 0xC;
+    func_8001572C();
+}
+
+void Fade_StartIn(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitIn();
+    state = &gFade_State;
+    state->step = 8;
+    state->flags |= 1;
+    func_8001572C();
+}
+
+void Fade_InitInColor(int color)
+{
+    FadeTransitionState *state;
+
+    if (color == 0xFFFFFF) {
+        D_8009B145 = 1;
+    }
+    *(s32 *)&gFade_State = color;
+    Fade_InitIn();
+    state = &gFade_State;
+    state->flags |= 0x30;
+    func_8001572C();
+}
+
+void func_80015870(void)
+{
+    FadeTransitionState *state;
+    int color;
+
+    if (D_8009B145 != 0) {
+        color = 0xFFFFFF;
+        state = &gFade_State;
+        *(s32 *)state = color;
+        state->flags = 0xB0;
+        state->step = 0xC;
+        D_8009B14A = 0xFF;
+        D_8009B14B = 0xFF;
+        D_8009B14C = 0xFF;
     }
 }
