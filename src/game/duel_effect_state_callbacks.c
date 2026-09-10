@@ -17,76 +17,76 @@ extern int func_80049120(void *);
 extern u16 gGraphics_uViewportX[] asm("gGraphics_sViewportX");
 extern u16 gGraphics_uViewportY[] asm("gGraphics_sViewportY");
 
-void func_800378D8(u8 *object)
+void func_800378D8(DuelEffectChannel *object)
 {
-    u8 flags = ((DuelEffectChannel *)object)->state_51;
+    u8 flags = object->state_51;
 
     if ((flags & 0x80) == 0) {
-        ((DuelEffectChannel *)object)->state_51 = flags | 0x80;
+        object->state_51 = flags | 0x80;
     }
     if (D_8009B328[0x33] == 0) {
-        ((DuelEffectChannel *)object)->state_51 = 0;
+        object->state_51 = 0;
     }
 }
 
-void func_80037914(u8 *object)
+void func_80037914(DuelEffectChannel *object)
 {
     u8 flags = D_8009B328[0x32];
 
     if ((flags & 3) == 0) {
         D_8009B328[0x32] = flags | 0x10;
         D_8009B328[0x33] = 6;
-        ((DuelEffectChannel *)object)->state_51 = 8;
+        object->state_51 = 8;
     }
 }
 
-void func_80037950(u8 *object)
+void func_80037950(DuelEffectChannel *object)
 {
     u8 flags = D_8009B328[0x32];
 
     if ((flags & 3) == 0) {
         D_8009B328[0x32] = flags | 0x10;
         D_8009B328[0x33] = 4;
-        ((DuelEffectChannel *)object)->state_51 = 8;
+        object->state_51 = 8;
     }
 }
 
-void func_8003798C(u8 *object)
+void func_8003798C(DuelEffectChannel *object)
 {
     if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
          D_8009B134_abs) == 0) {
-        ((DuelEffectChannel *)object)->state_51 = 0;
+        object->state_51 = 0;
     }
 }
 
-void func_800379C4(u8 *object)
+void func_800379C4(DuelEffectChannel *object)
 {
     if (func_80049120(object) != 1) {
-        ((DuelEffectChannel *)object)->state_51 = 0;
+        object->state_51 = 0;
     }
 }
 
-void func_800379F8(u8 *object)
+void func_800379F8(DuelEffectChannel *object)
 {
-    u8 flags = ((DuelEffectChannel *)object)->state_51;
+    u8 flags = object->state_51;
 
     if ((flags & 0x80) == 0) {
-        ((DuelEffectChannel *)object)->state_51 = flags | 0x80;
-        D_8009B322 = func_80036D3C(object);
+        object->state_51 = flags | 0x80;
+        D_8009B322 = func_80036D3C((u8 *)object);
     }
     D_8009B322--;
     if (D_8009B322 == 0) {
-        ((DuelEffectChannel *)object)->state_51 = 0;
+        object->state_51 = 0;
     }
 }
 
-void func_80037A58(u8 *object)
+void func_80037A58(DuelEffectChannel *object)
 {
-    u8 flags = ((DuelEffectChannel *)object)->state_51;
+    u8 flags = object->state_51;
 
     if ((flags & 0x80) == 0) {
-        ((DuelEffectChannel *)object)->state_51 = flags | 0x80;
-        D_8009B322 = func_80036D3C(object);
+        object->state_51 = flags | 0x80;
+        D_8009B322 = func_80036D3C((u8 *)object);
         D_8009B348[0] = gGraphics_uViewportX[0];
         D_8009B348[1] = gGraphics_uViewportY[0];
     }
@@ -98,7 +98,7 @@ void func_80037A58(u8 *object)
     if (D_8009B322 == 0) {
         gGraphics_uViewportX[0] = D_8009B348[0];
         gGraphics_uViewportY[0] = D_8009B348[1];
-        ((DuelEffectChannel *)object)->state_51 = 0;
+        object->state_51 = 0;
     }
 }
 
@@ -108,9 +108,9 @@ void func_80037A58(u8 *object)
    times before clearing the state. The switch falls through deliberately -
    each stage re-arms the 0xFF countdown and drops into the next test in the
    same call. */
-void func_80037B40(u8 *object)
+void func_80037B40(DuelEffectChannel *object)
 {
-    DuelEffectChannel *p = (DuelEffectChannel *)object;
+    DuelEffectChannel *p = object;
 
     if ((p->state_51 & 0x80) == 0) {
         p->state_51 |= 0x80;
