@@ -52,11 +52,34 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * `LibraryMotionState *state = &D_800EA1E8;` and work through the fields whose
  * offsets are asserted above.
  *
- * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4.c and
- * func_8002BFCC.c, which take only the first byte -- func_8002BAB4.c's comment
- * calls it "the low nibble of D_800EA1E8's first byte" and dispatches the
- * library screen state on it. Neither of those files includes this header, so
- * the two views never meet and no guarded arm is needed here.
+ * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4.c,
+ * which takes only the first byte -- its comment calls it "the low nibble of
+ * D_800EA1E8's first byte" and dispatches the library screen state on it.
+ * That file still does not include this header.
+ *
+ * func_8002BFCC.c was described here as doing the same, and that was wrong.
+ * It reaches nine distinct offsets: the mode byte, x and y at 0x08 and 0x0A,
+ * rest_x and rest_y at 0x12 and 0x14, render at 0x44, and then 0x48, 0x54
+ * and a per-card sweep at 0x56 with a four-byte stride. The first six are
+ * this record's own fields and it now spells them that way; the rest lie at
+ * or past the asserted 0x48 size and stay byte reaches.
+ *
+ * That it drives x, y, rest_x, rest_y and render is also evidence about the
+ * open question below: those are this record's motion fields, not a mode
+ * byte a neighbouring object might share, so the file is walking this record
+ * rather than something that merely starts at the same address. What follows
+ * 0x48 is a separate question, and the stride-4 sweep at 0x56 is the first
+ * thing recorded about it.
+ *
+ * Spelling those six as members is nevertheless blocked, and the reason is
+ * the one this note already gave, now met head on. func_8002BFCC.c needs
+ * func_8002BAB4's prototype and that header declares `u8 D_800EA1E8[]`
+ * beside it, so including this one as well gives
+ * `conflicting types for D_800EA1E8`. An asm() alias does not help, because
+ * LibraryMotionState is defined in the same header as the extern that
+ * collides. The way out is to give the type its own header, separate from
+ * the declaration -- which is what #2501 asks for anyway -- and that is a
+ * larger change than the conversion it would unblock.
  *
  * That byte view is not folded in on purpose. Whether the mode byte is a field
  * of this record or a separate object sharing its first bytes is not
