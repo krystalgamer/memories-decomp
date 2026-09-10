@@ -85,9 +85,79 @@ is what sets the move width, so it is deliberately not interchangeable with
 
 The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
 two-slot request table, `FileRequestSlot`: `func_80014C40` stages a request
-into slot 1 and `func_800141A8` promotes slot 1 into slot 0, both with
+into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
 whole-record copies at that stride, and `func_80014B30` then programs the
 descriptor from slot 0.
+
+### Sound-to-loader request contract
+
+`src/ygo_types.h` owns `FileRequestSlot`, shared by the sound producer, the
+dispatcher and the transfer-phase callback. The sound candidate
+`func_80045514` previously called the dispatcher through a private
+`s32 func_80014C40(void *, void *)` prototype and described the request as
+`Cmd`. This is not merely a similar layout: it passes `D_8009B460` itself
+to `func_80014C40`, which copies that object into the secondary request slot.
+`SD_InitState` installs `0x801E1650` in that pointer, immediately before the
+separate object initialized at `0x801E1670`.
+
+The dispatcher now takes `FileRequestSlot *` in its owning `file_transfer.h`
+prototype and implementation; the sound candidate includes that prototype.
+All nine observed fields have offset assertions, and the `0x20` size and
+four-byte alignment retain the existing word copies:
+
+| Offset | Shared type | Producer and consumer evidence |
+|---:|---|---|
+| `+0x00` | `s32 field_00` | Sound writes file values 4, 5 and 6; dispatcher forwards the word to `func_80013A94` or ORs it with request flags |
+| `+0x04` | `s32 field_04` | Sound writes its current offset; dispatcher adds it to the LBA base or forwards it to descriptor setup |
+| `+0x08` | four unknown bytes | Included in whole-record copies; no field interpretation introduced |
+| `+0x0C` | `s32 field_0C` | Sound writes its `+0x68` word; `func_80014B30` assigns it to descriptor `field_30.word` |
+| `+0x10` | `s32 field_10` | Sound writes its `+0x6C` word; the callback copies it to both destination words |
+| `+0x14/+0x18` | `s32 field_14/field_18` | Sound writes its two phase quantities; dispatcher tests their sum and callback consumes them by phase |
+| `+0x1C` | `s16 field_1C` | Sound clears or writes a range length; dispatcher distinguishes negative, zero and positive values with a signed halfword read |
+| `+0x1E/+0x1F` | `u8 field_1E/field_1F` | Sound writes filter bytes; dispatcher passes them to `File_RequestSecondaryRangeTransfer` in `1F, 1E` order |
+
+Nine dispatcher reads use the shared fields rather than raw offsets. The
+post-copy `+4` reload intentionally remains
+`*(s32 *)((u8 *)p + 4)`: changing just that access to `p->field_04` exchanges
+the request pointer's and sector-offset local's `s1/s2` allocation under the
+recorded GCC 2.8.1/MASPSX 2.81 profile. The instruction count and copy widths
+stay equal, but the first differing byte is at resident `0x80014C44`.
+Retaining that scalar view makes the typed API and other nine accesses exact;
+no new pin, scheduling barrier or compiler-profile change is needed.
+The result remains the original `s32` status-or-descriptor value, including
+the null-request polling operation.
+
+The remaining request/sector state declarations are owned by two headers:
+
+| Owner | Symbols and retained views |
+|---|---|
+| `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
+| `file_transfer.h` | `D_8009AF18` typed descriptor pointer by default; `FILE_TRANSFER_CURRENT_AS_BYTES` retains the sector candidate's original byte-pointer view |
+| `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `func_800140A0` and incremented by `func_80013C28` |
+| `file_transfer.h` | `D_8009B11C[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
+| `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
+
+This removes twelve private global declarations and one private prototype
+across `file_transfer_runtime.c`, `sd_init_state.c` and the two candidates.
+The existing `data_8009af10.c` owner already includes `file_transfer.h`, so
+its initialized `.sdata` pointer definition is now checked against the shared
+declaration without changing its relocation or storage. No other storage is
+converted to C. The sector candidate keeps its signed/nonvolatile raw
+descriptor accesses; the shared descriptor has deliberate volatile fields,
+so its byte view is not silently replaced. Sound's unrelated local
+two-word `Pair` is called `SoundCommandPair` to avoid colliding with the
+text-staging type imported through the central type header.
+
+All 19 candidate object fingerprints remain unchanged. The two migrated
+candidates drop only six bypassed private-extern dependencies:
+`func_80013C28` drops `D_8009AF18`, `D_8009B0F8`, `D_8009B114` and
+`D_8009B138`; `func_80045514` drops `D_8009B460` and `func_80014C40`.
+Their canonical aggregate hashes are reviewed accordingly, not their byte
+fingerprints. On the independent starting base, resident headerless
+diagnostics decrease from 99 names / 159 sites to 95 / 153; this diagnostic
+excludes candidate-only declarations and names outside its linker inventory.
+After integrating the save/name-entry master updates, the combined tree
+reports 94 / 148 and retains the same four-name/six-site request-family gain.
 
 The corrected LBA-table address is `0x800E9EA8`; interpreting the signed
 `addiu` immediate as unsigned incorrectly produces `0x800F9EA8`.

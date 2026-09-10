@@ -11,12 +11,6 @@
    The thirteen functions are contiguous and communicate through the shared
    descriptors, request slots and D_8009B0F4 state word. */
 
-extern char D_8009B11C[1];
-extern u8 D_8009B11C_byte asm("D_8009B11C");
-extern u8 D_8009B114;
-extern s32 D_8009B138;
-extern FileRequestSlot D_801D4200;
-extern u8 D_801D4200_raw[] asm("D_801D4200");
 extern void func_80014B30_callback(void) asm("func_80014B30");
 extern void func_80013C28(u8, u8 *, u32 *);
 extern s32 CdPosToInt_8007E710(s32);
@@ -373,7 +367,7 @@ tail:
         callback();
 }
 
-s32 func_80014C40(u8 *p, u8 *q) {
+s32 func_80014C40(FileRequestSlot *p, u8 *q) {
     u8 *e;
     u8 *r;
     FileTransferCallback f;
@@ -386,16 +380,16 @@ s32 func_80014C40(u8 *p, u8 *q) {
     s32 w;
     s32 t;
 
-    if (p == (u8 *)0) {
+    if (p == (FileRequestSlot *)0) {
         return D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
-    a = *(s32 *)(p + 0x14);
-    b = *(s32 *)(p + 0x18);
-    c = *(s16 *)(p + 0x1C);
+    a = p->field_14;
+    b = p->field_18;
+    c = p->field_1C;
 
     if ((a | b | c) == 0) {
-        return (s32)func_80013A94(*(s32 *)p, *(s32 *)(p + 4));
+        return (s32)func_80013A94(p->field_00, p->field_04);
     }
 
     if (c != 0) {
@@ -404,9 +398,9 @@ s32 func_80014C40(u8 *p, u8 *q) {
             D_8009B112 = D_8009B112 | 2;
             return 1;
         }
-        n = *(s32 *)D_800E9EC0 + *(s32 *)(p + 4);
+        n = *(s32 *)D_800E9EC0 + p->field_04;
         return (s32)File_RequestSecondaryRangeTransfer(
-            n, n + c, p[0x1F], p[0x1E]
+            n, n + c, p->field_1F, p->field_1E
         );
     }
 
@@ -416,7 +410,7 @@ s32 func_80014C40(u8 *p, u8 *q) {
     }
 
     {
-        w = *(s32 *)p;
+        w = p->field_00;
         /* Borrowed local: `m`'s real assignment is three lines down and this
          * one is dead, but it ties the negation's pseudo to m's allocation
          * and rotates $s2/$s3/$s4 into retail's order. A fresh name, six
@@ -424,8 +418,9 @@ s32 func_80014C40(u8 *p, u8 *q) {
         m = a;
         t = -m;
         r = D_801D4200_raw;
-        *(FileRequestSlot *)(r + 0x20) = *(FileRequestSlot *)p;
-        m = *(s32 *)(p + 4);
+        *(FileRequestSlot *)(r + 0x20) = *p;
+        /* The post-copy reload's scalar view preserves GCC's allocation. */
+        m = *(s32 *)((u8 *)p + 4);
         D_8009B0F4 =
             D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;

@@ -14,7 +14,9 @@
  * documented jtbl_80010578 rodata split; candidate storage does not.
  */
 #include "../types.h"
+#define SOUND_TRANSFER_REQUEST_IN_DATA
 #include "../game/sound_transfer_lifecycle.h"
+#include "../game/file_transfer.h"
 
 typedef struct {
     u8 pad_00[0x40];
@@ -69,22 +71,9 @@ typedef struct {
 } SD;
 
 typedef struct {
-    s32 cmd;
-    s32 arg;
-    u8 pad_08[4];
-    s32 wC;
-    s32 w10;
-    s32 w14;
-    s32 w18;
-    s16 h1C;
-    u8 b1E;
-    u8 b1F;
-} Cmd;
-
-typedef struct {
     u32 a;
     u32 b;
-} Pair;
+} SoundCommandPair;
 
 typedef struct {
     u16 h0;
@@ -94,9 +83,6 @@ typedef struct {
 } List;
 
 extern SD *g_SDValue __attribute__((section(".data")));
-extern Cmd *D_8009B460 __attribute__((section(".data")));
-
-extern s32 func_80014C40(void *, void *);
 extern void func_800476B4(u8 *, s32);
 extern u8 func_80045484(void);
 extern void SD_ArmBusyCallback(void);
@@ -124,33 +110,33 @@ void func_80045514(void)
             }
             {
                 SD *sd = g_SDValue;
-                Cmd *b = D_8009B460;
+                FileRequestSlot *b = D_8009B460;
 
-                b->w10 = sd->w6C;
-                b->wC = sd->w68;
-                b->arg = sd->w60;
-                b->w18 = sd->w74;
-                b->b1F = 0;
-                b->h1C = 0;
-                b->w14 = sd->w70;
-                D_8009B460->b1E = 0;
+                b->field_10 = sd->w6C;
+                b->field_0C = sd->w68;
+                b->field_04 = sd->w60;
+                b->field_18 = sd->w74;
+                b->field_1F = 0;
+                b->field_1C = 0;
+                b->field_14 = sd->w70;
+                D_8009B460->field_1E = 0;
             }
-            D_8009B460->cmd = g_SDValue->w5C;
-            if (D_8009B460->w18 == 0 && D_8009B460->w14 == 0) {
+            D_8009B460->field_00 = g_SDValue->w5C;
+            if (D_8009B460->field_18 == 0 && D_8009B460->field_14 == 0) {
                 g_SDValue->b7D = 0;
                 goto clear_7c;
             }
             switch (g_SDValue->w5C & 0xF0) {
             case 0x10:
-                D_8009B460->cmd = 4;
+                D_8009B460->field_00 = 4;
                 func_80014C40(D_8009B460, g_SDValue->b1629);
                 break;
             case 0x20:
-                D_8009B460->cmd = 5;
+                D_8009B460->field_00 = 5;
                 func_80014C40(D_8009B460, g_SDValue->b1619);
                 break;
             case 0x40:
-                D_8009B460->cmd = 6;
+                D_8009B460->field_00 = 6;
                 func_80014C40(D_8009B460, g_SDValue->b1639);
                 break;
             }
@@ -205,17 +191,17 @@ void func_80045514(void)
             goto clear_7d_7c;
         }
         {
-            Pair *e = (Pair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
+            SoundCommandPair *e = (SoundCommandPair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
 
-            D_8009B460->w10 = 0;
-            D_8009B460->w18 = 0;
-            D_8009B460->wC = 0;
-            D_8009B460->w14 = 0;
-            D_8009B460->h1C = 0;
-            D_8009B460->b1F = g_SDValue->b530;
-            D_8009B460->b1E = g_SDValue->b531;
-            D_8009B460->cmd = 6;
-            D_8009B460->arg = (e->a & 0xFFFFFF) + g_SDValue->w50;
+            D_8009B460->field_10 = 0;
+            D_8009B460->field_18 = 0;
+            D_8009B460->field_0C = 0;
+            D_8009B460->field_14 = 0;
+            D_8009B460->field_1C = 0;
+            D_8009B460->field_1F = g_SDValue->b530;
+            D_8009B460->field_1E = g_SDValue->b531;
+            D_8009B460->field_00 = 6;
+            D_8009B460->field_04 = (e->a & 0xFFFFFF) + g_SDValue->w50;
             func_80014C40(D_8009B460, 0);
         }
         goto clear_7d_7c;
@@ -225,7 +211,7 @@ void func_80045514(void)
             goto clear_7d_7c;
         }
         {
-            Pair *e = (Pair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
+            SoundCommandPair *e = (SoundCommandPair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
             u32 a = e->a;
             u32 b = e->b;
 
@@ -237,15 +223,15 @@ void func_80045514(void)
             g_SDValue->b533 = a >> 29;
             g_SDValue->w528 = g_SDValue->w528 + g_SDValue->w50;
             g_SDValue->w52C = g_SDValue->w52C + g_SDValue->w50;
-            D_8009B460->w10 = 0;
-            D_8009B460->w18 = 0;
-            D_8009B460->wC = 0;
-            D_8009B460->w14 = 0;
-            D_8009B460->h1C = (u16)g_SDValue->w52C - (u16)g_SDValue->w528 + 0x10;
-            D_8009B460->b1F = g_SDValue->b530;
-            D_8009B460->b1E = g_SDValue->b531;
-            D_8009B460->cmd = 6;
-            D_8009B460->arg = g_SDValue->w528;
+            D_8009B460->field_10 = 0;
+            D_8009B460->field_18 = 0;
+            D_8009B460->field_0C = 0;
+            D_8009B460->field_14 = 0;
+            D_8009B460->field_1C = (u16)g_SDValue->w52C - (u16)g_SDValue->w528 + 0x10;
+            D_8009B460->field_1F = g_SDValue->b530;
+            D_8009B460->field_1E = g_SDValue->b531;
+            D_8009B460->field_00 = 6;
+            D_8009B460->field_04 = g_SDValue->w528;
             func_80014C40(D_8009B460, 0);
         }
         goto clear_7d_7c;
