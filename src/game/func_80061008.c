@@ -5,6 +5,7 @@
 #include "display_object_helpers.h"
 #include "func_80060B38.h"
 #include "card_list_rows.h"
+#include "func_80061008.h"
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen. */
 #define gGraphics_sViewportY_abs (*(s16 *)0x8009B148)

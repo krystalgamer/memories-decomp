@@ -1,6 +1,7 @@
 #include "../types.h"
 
 #include "model.h"
+#include "model_slot_data.h"
 
 void *func_80058F20(s32 index, s32 slot)
 {

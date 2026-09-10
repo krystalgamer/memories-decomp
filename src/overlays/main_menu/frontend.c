@@ -26,11 +26,9 @@
 #include "../../game/data_transfer_request.h"
 #include "../../game/mem_card.h"
 #include "ordering_tables.h"
+#include "../../game/sound.h"
 
 extern u16 D_8009B0D8;
-
-extern void func_8003F87C(void);
-extern void SD_SEPlay(s32, s32, s32);
 
 typedef struct { s16 h; } H16s;
 
@@ -421,7 +419,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             D_8018459D = D_8018459D + 1;
             return -1;
         case 0xA:
-            func_8003F87C();
+            SaveData_RequestWrite();
             D_8018459A = D_8018459A + 1;
             return -1;
         }

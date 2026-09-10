@@ -6,3 +6,5 @@ GsSortPoly = 0x80084320;
 rsin = 0x800866A0;
 gInput_wPad1Repeat = 0x8009B394;
 gInput_wPad1Pressed = 0x8009B398;
+SaveData_RequestWrite = 0x8003F87C;
+TextBox_Destroy = 0x80035B7C;

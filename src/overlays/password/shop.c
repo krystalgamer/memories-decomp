@@ -22,6 +22,10 @@
 #include "../../game/sound.h"
 #include "../../game/fade.h"
 #include "dialog_choice_ref.h"
+#include "../../game/func_800291E0.h"
+#include "../../game/func_80029574.h"
+#include "../../game/duel_effect_resource_setup.h"
+#include "../../game/text_box_lifecycle.h"
 
 /* The password shop screen: its two resident entry points, the preview
    helper both of them call, and the password lookup the updater is the only
@@ -40,9 +44,6 @@ extern u8 D_801B1245[];
 extern u8 *D_8016D430;
 extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
-extern void func_80029528(s32);
-extern void func_80029574(s32);
-extern PasswordCardPreviewView *func_800291E0(s32, s32, s32);
 
 extern u16 D_8016D4DC;
 extern u32 D_8016D438;
@@ -53,10 +54,6 @@ extern u32 D_801D0000[];
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-
-extern void func_80029164(s32, s32);
-extern void func_80035B7C(void *);
-extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
 
 void Password_RefreshDigitDisplay(void)
 {
@@ -81,7 +78,7 @@ void Password_RefreshDigitDisplay(void)
     }
     *out = TEXT_STRING_TERMINATOR;
     func_8003B6AC(2, 1);
-    func_80035BE4(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
+    TextBox_Create(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
     boxes = D_800EB0F8;
     boxes[2].field_5A = 0x10;
     boxes[2].field_5B = 0x10;
@@ -94,7 +91,7 @@ void Password_RefreshStarchipDisplay(void)
 
     D_801D5608_starchips = gLibrary_dwStarchips;
     func_8003B6AC(3, 1);
-    func_80035BE4(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
+    TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
     boxes = D_800EB0F8;
     boxes[3].field_5A = 0x10;
     boxes[3].field_5B = 0x10;
@@ -105,8 +102,8 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 {
     DuelEffectChannel *object;
 
-    func_80035B7C(D_800EB0F8);
-    object = func_80035BE4(0, message_id, 0x98, 0x98, 0xA0, 0x40);
+    TextBox_Destroy(D_800EB0F8);
+    object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
     object->field_53 = 1;
     if (flags & 0xF) {
         func_80039A14((u8 *)object);
@@ -188,7 +185,7 @@ void Password_RecreateCardPreview(s32 ignored)
     PasswordCardPreviewView *obj;
 
     func_80029528(0);
-    obj = func_800291E0(0, -1, -1);
+    obj = (PasswordCardPreviewView *)func_800291E0(0, -1, -1);
     obj->y = 0x1E;
     obj->phase = 0x80;
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;

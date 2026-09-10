@@ -24,6 +24,11 @@
 #include "name_entry_frame.h"
 #include "name_entry_state.h"
 #include "dialog_choice_ref.h"
+#include "../../game/rand_get_interval.h"
+#include "../../game/text_box_lifecycle.h"
+#include "../../game/dialog_choice_state.h"
+#include "../../game/display_object_interpolation.h"
+#include "../../game/text_sjis_to_glyph_codes.h"
 
 /* The complete name-entry screen pipeline in executable order: setup and
    selection-frame drawing, glyph lookup and effects, then keyboard, dialog,
@@ -78,21 +83,12 @@ extern u8 gSaveData_aPlayerNameSjis[];
 extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 
-extern s32 func_800358FC(s32);
-extern void *func_80035BE4(s32, s32, s32, s32, s32, s32);
-extern void *func_800374F4(DuelEffectChannel *);
-extern void func_80043230(DialogCaret *, s32, s32, s32);
-extern void func_80035B7C(void *);
-extern void func_80039934(DuelEffectChannel *, s32, s32);
-extern void func_80015B00(void);
-extern void func_8003BC40(u8 *, u8 *, s32);
-
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;
 
     func_8003B6AC(1, 1);
-    object = func_80035BE4(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
+    object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
     object->field_5A = 0x14;
     object->field_5B = 0x12;
     func_80039A14((u8 *)object);
@@ -177,16 +173,16 @@ void NameEntry_Init(void)
     D_8016D403 = 0;
     D_8016D408 = 0;
     D_8016D418 = gSaveData_aPlayerNameSjis;
-    func_8003BC40(D_801B125A, gSaveData_aPlayerNameSjis,
+    Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
     func_8003B6AC(3, 1);
-    func_80035BE4(3, 254, 112, 204, 96, 16);
+    TextBox_Create(3, 254, 112, 204, 96, 16);
     boxes = D_800EB0F8;
     boxes[3].field_5A = 16;
     boxes[3].field_5B = 16;
     func_80039A14((u8 *)&boxes[3]);
     func_8003B6AC(0, 1);
-    sprite = func_80035BE4(0, 243, 262, 60, 100, 100);
+    sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->field_5A = 20;
     sprite->field_5B = 18;
     func_80039A14(sprite);
@@ -292,8 +288,8 @@ void NameEntry_UpdateGlyphFragment(u8 *object)
     if ((flags & 0x80) == 0) {
         object[0x6C] = flags | 0x80;
         DisplayObject_ResetVelocity(object);
-        *(s16 *)(object + 0x36) = func_800358FC(0x200) - 0x100;
-        *(s16 *)(object + 0x38) = -func_800358FC(0x180);
+        *(s16 *)(object + 0x36) = Rand_GetInterval(0x200) - 0x100;
+        *(s16 *)(object + 0x38) = -Rand_GetInterval(0x180);
     }
     *(s16 *)(object + 0x36) =
         DisplayObject_StepTowardZero(*(s16 *)(object + 0x36), 8);
@@ -773,7 +769,7 @@ void NameEntry_UpdateDialog(void)
         if ((flags & 4) == 0) {
             D_8016D400 = flags | 4;
             func_8003B6AC(2, 2);
-            box = func_80035BE4(2, D_8016D4D2 & 0xFFF, 16, 248,
+            box = TextBox_Create(2, D_8016D4D2 & 0xFFF, 16, 248,
                                  288, 48);
             box->field_59 = 20;
             id = D_8016D4D2;
@@ -782,7 +778,7 @@ void NameEntry_UpdateDialog(void)
                     func_80039A14((u8 *)box);
                     D_8009B34D = 0;
                 }
-                box->field_30 = func_800374F4(box);
+                box->field_30 = Dialog_OpenChoice(box);
             } else {
                 box->flags_34 |= 8;
                 do {
@@ -806,19 +802,21 @@ void NameEntry_UpdateDialog(void)
             pos = caret->slide;
             if (pos >= 0) {
                 caret->slide = pos - 85;
-                func_80043230(caret, 16, 248, (s16)(pos - 85));
+                func_80043230((DisplayObjectPosition *)caret, 16, 248,
+                              (s16)(pos - 85));
                 if (caret->slide < 0) {
                     caret->x = 16;
                     fb = D_8016D400;
                     caret->y = 248;
                     D_8016D400 = fb & 0xF9;
-                    func_80035B7C(box);
+                    TextBox_Destroy(box);
                     D_8016D4D2 = 0;
                     return;
                 }
             } else {
                 caret->slide = pos + 85;
-                func_80043230(caret, 16, 176, (s16)(pos + 85));
+                func_80043230((DisplayObjectPosition *)caret, 16, 176,
+                              (s16)(pos + 85));
                 if (caret->slide >= 0) {
                     caret->x = 16;
                     fc = D_8016D400;
@@ -826,7 +824,7 @@ void NameEntry_UpdateDialog(void)
                     D_8016D400 = fc & 0xFD;
                 }
             }
-            func_80039934(box, caret->x, caret->y);
+            TextBox_SetPos((u8 *)box, caret->x, caret->y);
             return;
         }
         if ((D_8016D4D2 & 0x8000) == 0) {
@@ -857,7 +855,7 @@ void NameEntry_UpdateDialog(void)
     if ((flags & 0x20) != 0) {
         SD_SEPlayFull(45);
         SD_BGMFadeOut();
-        func_80015B00();
+        Fade_WaitOut();
         D_8016D400 = D_8016D400 | 0x10;
         return;
     }
@@ -872,8 +870,8 @@ void NameEntry_UpdateDialog(void)
         func_8004036C(caret);
         ff = D_8016D400;
         D_8016D400 = ff & 0x7F;
-        func_8003BC40(D_801B125A, D_8016D418, 6);
-        func_80035BE4(3, 254, 112, 204, 96, 16);
+        Text_SjisToGlyphCodes(D_801B125A, D_8016D418, 6);
+        TextBox_Create(3, 254, 112, 204, 96, 16);
         panel = D_800EB0F8;
         panel[3].field_5A = 16;
         panel[3].field_5B = 16;

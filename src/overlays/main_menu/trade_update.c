@@ -15,6 +15,11 @@
 #include "../../game/duel_card_viewer.h"
 #include "../../game/duel_effect.h"
 #include "../../game/sound.h"
+#include "../../game/input.h"
+#include "../../game/text_box_lifecycle.h"
+#include "../../game/func_80061008.h"
+#include "../../game/func_800610E0.h"
+#include "../../game/func_800611D0.h"
 
 typedef struct { u32 words[256]; } Block1024;
 
@@ -36,12 +41,6 @@ extern volatile u16 D_8009B394[2];
 extern volatile u16 D_8009B398[2];
 extern volatile u16 D_8009B3A4[2];
 extern u16 D_8009B246;
-
-extern void func_8003CB7C(void);
-extern void func_80061008(s32, s32, s32, s32);
-extern void func_800611D0(s32);
-extern void func_800610E0(s32);
-extern void func_80035B7C(void *);
 
 void MainMenu_InitTradeScreen(void)
 {
@@ -180,13 +179,13 @@ s32 MainMenu_UpdateTradeScreen(void)
                 D_80185CC8[i] = 0;
                 i++;
             } while (i < 2);
-            func_8003CB7C();
+            Input_ResetPads();
             D_80185CCF = 0;
             D_80185CD0 = 0;
             D_80185CD1 = 0;
         } else {
             func_800611D0(*(volatile u8 *)&D_80185CCE);
-            func_8003CB7C();
+            Input_ResetPads();
             D_80185CD0 = 0;
             D_80185CD1 = 0;
         }
@@ -241,7 +240,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             (D_8009B398[1] & 0x20) != 0) {
             other = ((D_8009B398[0] >> 5) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
-            func_80035B7C(D_800EB224);
+            TextBox_Destroy(D_800EB224);
             D_80185CC8[other] = 0;
             func_800610E0(other ^ 1);
             D_80185CCF = 0;
@@ -252,11 +251,11 @@ s32 MainMenu_UpdateTradeScreen(void)
             SD_SEPlay(48, 255, 0);
             switch (D_80185CCE) {
             case 0:
-                func_80035B7C(D_800EB224);
+                TextBox_Destroy(D_800EB224);
                 D_80185CD0 = 1;
                 break;
             case 1:
-                func_80035B7C(D_800EB224);
+                TextBox_Destroy(D_800EB224);
                 i = 1;
                 clearFlags = D_80185CC8 + i;
                 do {
@@ -282,7 +281,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     if (D_80185CC8[0] != 0) {
         if ((D_8009B398[0] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
-            func_80035B7C(D_800EB224);
+            TextBox_Destroy(D_800EB224);
             D_80185CC8[0] = 0;
         }
         goto check_scroll0;
@@ -423,7 +422,7 @@ player1:
     if (D_80185CC8[1] != 0) {
         if ((D_8009B398[1] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
-            func_80035B7C(D_800EB224);
+            TextBox_Destroy(D_800EB224);
             D_80185CC8[1] = 0;
         }
         goto check_scroll1;
@@ -583,8 +582,8 @@ update:
     }
     if (D_80185CC8[0] != 0 && D_80185CC8[1] != 0) {
         D_80185CCE = 0;
-        func_80035B7C(D_800EB224);
-        func_80035B7C(D_800EB224);
+        TextBox_Destroy(D_800EB224);
+        TextBox_Destroy(D_800EB224);
         func_800611D0(*(volatile u8 *)&D_80185CCE);
         D_80185CCF = 1;
     }

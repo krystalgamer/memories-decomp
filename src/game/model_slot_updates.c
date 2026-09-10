@@ -6,6 +6,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model.h"
+#include "func_8005922C.h"
 
 #define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
 

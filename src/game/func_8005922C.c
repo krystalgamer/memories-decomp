@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "func_8005922C.h"
 
 /* Rebuilds one coordinate unit's local matrix from its Euler angles, scales it
  * when the caller supplies a scale vector, and clears the stamp so libgs
