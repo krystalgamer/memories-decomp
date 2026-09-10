@@ -22,7 +22,7 @@
       "end": "0x80058F20",
       "module": "psyq/sdk",
       "status": "sdk_asm",
-      "evidence": "Sixteen bytes of SDK assembly embedded in the game span. The GsGetWorkBase identification was withdrawn as a misidentification; the region boundary itself is unaffected."
+      "evidence": "Sixteen bytes of assembly embedded in the game span, named GsGetWorkBase until krystalgamer withdrew that identity as a misidentification. The withdrawal is a maintainer decision rather than a new byte or usage finding. The boundary is unaffected, because it was drawn from the size and position of the run and not from the name. The psyq/sdk module and sdk_asm status are inherited from the withdrawn identity and are not independently evidenced; they are left in place rather than replaced by an equally unevidenced guess."
     },
     {
       "name": "game-after-libgs-getter",

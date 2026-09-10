@@ -33,8 +33,11 @@ The startup range:
 
 The four-instruction SDK getter at `0x80058F10` is an embedded PsyQ
 exception inside the broader game-code address span. It was previously
-recorded as `GsGetWorkBase`; that identification was withdrawn as a
-misidentification, so the function keeps its address-based name. Game-owned code
+recorded as `GsGetWorkBase`; krystalgamer withdrew that identity as a
+misidentification, so the function keeps its address-based name. The
+withdrawal is a maintainer decision rather than a new byte or usage finding,
+and the `psyq/sdk` classification is inherited from the withdrawn identity
+rather than independently evidenced. Game-owned code
 resumes at `0x80058F20`, so `function_regions.json` records the getter as its
 own region rather than assigning the complete `0x80012B50-0x80073704` range
 to the game.
