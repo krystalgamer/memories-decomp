@@ -1,10 +1,9 @@
 #include "../types.h"
+#include "model_graphics_state.h"
 #include "model_scene_states.h"
 #include "model_slot_properties.h"
 #include "model_effect_state.h"
 #include "model_scene_setup.h"
-
-extern u16 D_8009AF96;
 
 void func_80059C18(s32 value)
 {

@@ -11,6 +11,7 @@
 #include "model_state_setters.h"
 #include "model_slot_setup.h"
 #include "model_update_view_metrics.h"
+#include "model_graphics_state.h"
 #define FUNC_80058434_CALL_WITH_UNUSED_ARG
 #include "func_80058434.h"
 #include "camera_view.h"
@@ -30,8 +31,6 @@ extern s16 D_800F2B4A[];
 extern s32 Model_HasInsufficientBufferSpace(s32, s32);
 extern s32 func_80059AA8(s32, s32);
 extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
-extern u8 D_8009AF98;
-extern unsigned short D_8009AF8C, D_8009AF90, D_8009AF8E;
 extern ModelBytes8 D_8009B478_p asm("D_8009B478");
 extern ModelBytes8 D_8009B480;
 extern void func_800857C0(int);
@@ -502,7 +501,6 @@ void func_800530C4(void)
 extern s16 D_8009B488[MODEL_SLOT_COUNT];
 extern u8 D_8009B48E[2];
 extern u8 D_8009B490[2];
-extern u8 *D_8009AF88;
 extern u16 D_800F5678[];
 
 void Model_SetSlotProperties(s32 idx, ...)

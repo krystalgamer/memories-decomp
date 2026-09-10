@@ -547,26 +547,6 @@ extern ModelCameraMove D_800F2B20;
 extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 #endif
 
-/* The two out-of-band arguments func_800528AC hands to func_800540B4, kept
- * here because the first of them points into the table above:
- *
- *     global_base = (s32)((u8 *)D_800F2B50 + 1);
- *     D_8009AF9C  = off + global_base;
- *     D_8009AF9B  = (e->flags >> 2) & 1;
- *     func_800540B4(render_side);
- *
- * and both are cleared to 0 once that call returns. func_800533D8 in
- * model_scene_setup.c clears the same pair immediately after it walks
- * D_800F2B50 clearing each entry's flags bit 0, which is the other place the
- * association shows.
- *
- * Neither is read anywhere in matched C. The only reader is func_800540B4,
- * still assembly, which takes them as `lbu %gp_rel(D_8009AF9B)` and
- * `lw %gp_rel(D_8009AF9C)` -- so the u8 and the word are retail's own widths,
- * and every access is gp-relative. D_8009AF9C stays s32 rather than becoming
- * a pointer type: that is what both writers spell and what the lw reads. */
-extern u8 D_8009AF9B;
-extern s32 D_8009AF9C;
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
 

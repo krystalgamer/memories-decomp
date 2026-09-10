@@ -6,6 +6,7 @@
 #include "../psyq/libgpu.h"
 
 #include "model.h"
+#include "model_graphics_state.h"
 #include "model_cleanup.h"
 #include "../unmatched.h"
 #include "model_scene_states.h"

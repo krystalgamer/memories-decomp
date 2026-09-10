@@ -21,8 +21,10 @@ generally follow one shape — an explicit section attribute and an initializer:
 u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
-Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`, plus a larger one
-at `0x8009AF6C`.
+Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`. The former
+`0x8009AF6C` blob is now split around two C-owned interior ranges: a 28-byte
+head at `0x8009AF6C`, model/graphics state at `0x8009AF88`, model primitive
+templates at `0x8009AFAC`, and a 156-byte tail at `0x8009AFE4`.
 
 ## The owning unit is predictable, not a guess
 
@@ -135,6 +137,34 @@ bytes with two-byte alignment, and the complete executable matches.
 `D_8009AF44` and `D_8009AF46` remain relocation targets in the raw-word
 `func_80030998.c`; `D_8009AF4C` remains the start of the eight-byte mask block
 read by unmatched `func_80030294`.
+
+## `0x8009AF88` is one C-owned model/graphics state block
+
+The 36 bytes from `D_8009AF88` through the unnamed continuation at
+`0x8009AFAB` are now emitted by `model_graphics_state.c`. They combine the
+active model-record pointer, model view/scene state, graphics buffer/frame
+state, and six trailing bytes reached by unmatched model code.
+
+The exact layout needs separate scalar objects rather than a struct because
+assembly names eighteen interior addresses independently. Explicit `.sdata`
+attributes keep zero-valued objects out of `.sbss`; private continuation
+scalars preserve the unnamed bytes. The resulting object has:
+
+```text
+.sdata  size=00000024  align=2**2
+00000000 R_MIPS_32 D_80091008
+```
+
+Every public symbol lands at its retail offset, and the linked payload matches
+the original 36 bytes.
+
+Two compiler views are deliberately retained. `graphics_frame.c` needs
+absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
+`func_80058E1C` needs the volatile small-data view of `D_8009AFA3`.
+`func_8004E7B0` also keeps tentative common definitions of `D_8009AF88`,
+`D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens its text by
+four bytes. The data-only unit remains the strong definition, so those commons
+allocate no storage.
 
 ## The remaining unowned blob
 

@@ -1,7 +1,5 @@
 #include "../types.h"
-
-extern unsigned char D_8009AFA0;
-extern unsigned char D_8009AFA6;
+#include "model_graphics_state.h"
 
 int func_80058DC0(void)
 {

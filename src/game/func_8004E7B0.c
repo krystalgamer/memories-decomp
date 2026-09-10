@@ -1,6 +1,13 @@
 #include "../types.h"
 #include "model.h"
-#include "model_record_tables.h"
+#include "model_graphics_state.h"
+
+/* These tentative definitions are a codegen input: changing them to extern
+ * shortens this function by four bytes. model_graphics_state.c supplies the
+ * strong .sdata definitions, so the common symbols allocate no storage. */
+u8 *D_8009AF88;
+s16 D_8009AF8E;
+s16 D_8009AF90;
 
 ModelBytes8 D_8009B478;
 s16 D_8009B47A;
@@ -8,9 +15,6 @@ s16 D_8009B47C;
 ModelBytes8 D_8009B480;
 s16 D_8009B482;
 s16 D_8009B484;
-u8 *D_8009AF88 __attribute__((section(".sdata"))) = D_80091008;
-s16 D_8009AF8E;
-s16 D_8009AF90;
 
 void func_8004E7B0(s32 force)
 {

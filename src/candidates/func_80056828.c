@@ -15,6 +15,7 @@
  * and register roles.
  */
 #include "../types.h"
+#include "../game/model_graphics_state.h"
 #include "../psyq/libetc.h"
 #include "../psyq/stdio.h"
 #include "../game/script_state.h"
@@ -22,7 +23,6 @@
 extern u8 D_800F2C40[];
 extern u8 D_80010538[];
 extern u32 D_80010000[];
-extern u8 D_8009AFA0;
 
 extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 extern void func_8004D75C(s32 a0);

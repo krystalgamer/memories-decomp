@@ -1,7 +1,6 @@
 #include "../types.h"
+#include "model_graphics_state.h"
 #include "func_80058E1C.h"
-
-extern volatile unsigned char D_8009AFA3;
 
 int func_80058E1C(void)
 {
