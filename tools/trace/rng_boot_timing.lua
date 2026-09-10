@@ -7,12 +7,13 @@
 --   srand(0x55555555), and the rand recurrence, but not which screen is
 --   visible at each call.
 --
---   This trace records every rand and srand entry from the boot seed through
+--   This trace records every rand and srand entry from the BIOS shell through
 --   the first three seconds of main mode 8. Each row includes the VSync frame,
 --   mode, call site, old seed, and the state/result implied by the confirmed
---   runtime implementation. Human context supplies the visible-screen labels.
---   The earlier 0x56 seed is outside this window. A post-boot 0x56 reseed is
---   logged if it occurs, but is not required for capture to finish.
+--   runtime implementation. It arms after the requested hard reset, before
+--   either game seed call, so both the initial 0x56 seed and later
+--   0x55555555 seed are in scope. Human context supplies the visible-screen
+--   labels.
 --
 --   PCSX-Redux removes Lua breakpoints during a console reset. The script
 --   therefore listens for ExecutionFlow::Reset and reinstalls both execution
@@ -27,15 +28,15 @@
 --   4. Hard-reset the emulated console. The script should print both
 --      "reset observed" and "breakpoints reinstalled at BIOS shell".
 --      Do not skip the intro or press buttons.
---   5. Note what is visible at the boot seed, first rand call, main mode 8
---      entry, and any post-boot 0x56 reseed that is actually reported.
+--   5. Note what is visible at the initial 0x56 seed, the later 0x55555555
+--      seed, first rand call, main mode 8 entry, and any further reseed.
 --   6. After the trace prints, copy the whole document into
 --      tools/trace/result/rng_boot_timing.txt and fill in the context.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   Confirm the interpreter CPU and hard reset, whether any input or intro
---   skip was used, what was visible at each live milestone, and when the title
---   screen appeared.
+--   skip was used, what was visible at both seed calls and each later live
+--   milestone, and when the title screen appeared.
 
 local ffi = require('ffi')
 
@@ -86,13 +87,14 @@ end
 
 local lines = {}
 local vsyncFrames = 0
-local bootFrame = nil
+local captureFrame = nil
 local menuFrame = nil
 local lastMode = nil
 local eventCount = 0
 local randCalls = 0
 local srandCalls = 0
 local sawStartupSeed = false
+local sawBootSeed = false
 local callbackError = nil
 local eventLimitReached = false
 local armed = false
@@ -107,13 +109,14 @@ end
 local function resetCaptureState()
     lines = {}
     vsyncFrames = 0
-    bootFrame = nil
+    captureFrame = nil
     menuFrame = nil
     lastMode = nil
     eventCount = 0
     randCalls = 0
     srandCalls = 0
     sawStartupSeed = false
+    sawBootSeed = false
     callbackError = nil
     eventLimitReached = false
     armed = false
@@ -123,10 +126,10 @@ local function resetCaptureState()
 end
 
 local function relativeFrame()
-    if bootFrame == nil then
+    if captureFrame == nil then
         return 0
     end
-    return vsyncFrames - bootFrame
+    return vsyncFrames - captureFrame
 end
 
 local function callSite()
@@ -148,32 +151,34 @@ local function record(text)
     ))
 end
 
-local function armOnBootSeed(argument)
-    if argument ~= BOOT_SEED then
-        return
-    end
-
+local function armAtShell()
     lines = {}
-    bootFrame = vsyncFrames
+    captureFrame = vsyncFrames
     menuFrame = nil
     lastMode = mainMode()
     eventCount = 0
     randCalls = 0
     srandCalls = 0
     sawStartupSeed = false
+    sawBootSeed = false
     callbackError = nil
     eventLimitReached = false
     armed = true
+    resetSeen = true
+    noBootSeedWarningPrinted = false
     done = false
 
-    print('rng_boot_timing: boot seed observed; note the visible screen')
+    emit(string.format(
+        'milestone frame=%05d bios_shell mode=%02d seed=0x%08X',
+        relativeFrame(), mainMode(), u32(SEED)
+    ))
+    print('rng_boot_timing: capture armed at BIOS shell')
 end
 
 local function onSrand()
     local regs = PCSX.getRegisters()
     local argument = tonumber(regs.GPR.n.a0)
 
-    armOnBootSeed(argument)
     if not armed or done then
         return
     end
@@ -185,9 +190,19 @@ local function onSrand()
         callSite(), oldSeed, argument
     ))
 
-    if argument == STARTUP_SEED and not sawStartupSeed then
-        sawStartupSeed = true
-        print('rng_boot_timing: post-boot srand(0x56) observed; note the visible screen')
+    if argument == STARTUP_SEED then
+        if not sawBootSeed and not sawStartupSeed then
+            print('rng_boot_timing: initial srand(0x56) observed; '
+                .. 'note the visible screen')
+            sawStartupSeed = true
+        else
+            print('rng_boot_timing: additional srand(0x56) observed; '
+                .. 'note the visible screen')
+        end
+    elseif argument == BOOT_SEED and not sawBootSeed then
+        sawBootSeed = true
+        print('rng_boot_timing: srand(0x55555555) observed; '
+            .. 'note the visible screen')
     end
 end
 
@@ -228,16 +243,22 @@ local function finish(reason)
     print('==== USER CONTEXT ====')
     print('')
     print('<confirm interpreter CPU and hard reset; state whether input or an')
-    print(' intro skip was used; identify the visible screen at the boot seed,')
-    print(' any later srand(0x56), first rand call, mode 8 entry, and title appearance>')
+    print(' intro skip was used; identify the visible screen at the initial')
+    print(' 0x56 seed, the 0x55555555 seed, first rand call, mode 8 entry,')
+    print(' any later reseed, and title appearance>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
     print(string.format(
-        'summary: events=%d rand_calls=%d srand_calls=%d startup_seed_seen=%s',
-        eventCount, randCalls, srandCalls, tostring(sawStartupSeed)
+        'summary: events=%d rand_calls=%d srand_calls=%d '
+            .. 'startup_seed_seen=%s boot_seed_seen=%s',
+        eventCount,
+        randCalls,
+        srandCalls,
+        tostring(sawStartupSeed),
+        tostring(sawBootSeed)
     ))
     for _, line in ipairs(lines) do
         print(line)
@@ -264,11 +285,12 @@ local function poll()
             and not noBootSeedWarningPrinted
             and vsyncFrames >= NO_BOOT_SEED_WARNING_FRAMES then
             noBootSeedWarningPrinted = true
-            print('rng_boot_timing: no boot seed hit after reset; confirm '
-                .. 'the reinstall messages and interpreter CPU')
+            print('rng_boot_timing: BIOS shell capture not armed; confirm '
+                .. 'the shell/reinstall message')
         end
         if vsyncFrames >= TIMEOUT_FRAMES then
-            finish('timed out before srand(0x55555555); use interpreter CPU')
+            finish('timed out before BIOS shell capture; hard-reset and '
+                   .. 'confirm breakpoint reinstallation')
         end
         return
     end
@@ -276,6 +298,14 @@ local function poll()
     if eventLimitReached then
         finish('maximum event count reached; partial boot trace follows')
         return
+    end
+
+    if not sawBootSeed
+        and not noBootSeedWarningPrinted
+        and relativeFrame() >= NO_BOOT_SEED_WARNING_FRAMES then
+        noBootSeedWarningPrinted = true
+        print('rng_boot_timing: no srand(0x55555555) hit after BIOS shell; '
+            .. 'confirm interpreter CPU')
     end
 
     local mode = mainMode()
@@ -287,7 +317,7 @@ local function poll()
         ))
     end
 
-    if mode == MENU_MODE and menuFrame == nil then
+    if sawBootSeed and mode == MENU_MODE and menuFrame == nil then
         menuFrame = relativeFrame()
         emit(string.format(
             'milestone frame=%05d main_mode_8 seed=0x%08X',
@@ -296,9 +326,19 @@ local function poll()
         print('rng_boot_timing: main mode 8 observed; note the visible screen')
     elseif menuFrame ~= nil
         and relativeFrame() - menuFrame >= POST_MENU_FRAMES then
-        finish('captured boot through three seconds of main mode 8')
+        if sawStartupSeed then
+            finish('captured startup and boot seeds through three seconds '
+                   .. 'of main mode 8')
+        else
+            finish('captured boot seed but not initial 0x56 seed; '
+                   .. 'partial trace follows')
+        end
     elseif relativeFrame() >= TIMEOUT_FRAMES then
-        finish('timed out after boot seed; partial trace follows')
+        if sawBootSeed then
+            finish('timed out after boot seed; partial trace follows')
+        else
+            finish('timed out before srand(0x55555555); partial trace follows')
+        end
     end
 end
 
@@ -359,6 +399,7 @@ listener_rng_boot_shell = PCSX.Events.createEventListener(
     function()
         local ok, err = pcall(function()
             installBreakpoints('reinstalled at BIOS shell')
+            armAtShell()
         end)
         if not ok then
             callbackError = tostring(err)
@@ -377,4 +418,4 @@ listener_rng_boot_timing = PCSX.Events.createEventListener(
 )
 
 installBreakpoints('installed')
-print('rng_boot_timing: armed; hard-reset without skipping the intro')
+print('rng_boot_timing: ready; hard-reset without skipping the intro')

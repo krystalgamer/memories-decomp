@@ -216,11 +216,13 @@ They do not identify which image was visible at either call.
 
 The community claim that seeding happens during the Konami logo and
 consumption begins during the intro remains **unverified screen timing**
-(Data Crystal). The pending `rng_boot_timing` trace begins at the later
-`0x55555555` seed, so the earlier `0x56` call is outside its capture window;
-its absence from that log would not show that the initializer failed to run.
-The [RNG evidence and trace scope](../rng.md) keep these static facts
-separate from the visible milestones that only a human run can establish.
+(Data Crystal). The pending `rng_boot_timing` trace reinstalls its breakpoints
+at the BIOS shell after a hard reset, before either game seed, and records both
+calls plus subsequent consumption through title. A boot-seed hit without the
+initial `0x56` is reported as a partial capture rather than evidence that the
+initializer did not run. The [RNG evidence and trace scope](../rng.md) keep
+these static facts separate from the visible milestones that only a human run
+can establish.
 
 Pressing Start on the title opens the **initial menu**:
 
