@@ -17,8 +17,6 @@ extern u16 D_8009B2DA;
 extern u16 D_8009B2CC;
 extern u8 D_8009B2C2;
 extern u8 D_8009B2C1;
-extern u8 D_8009B2DC;
-extern u8 D_8009B2E9;
 
 void func_800307B8(void)
 {
