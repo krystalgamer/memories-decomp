@@ -3,7 +3,6 @@
 #include "script_state.h"
 #include "script_flag_commands.h"
 
-extern u8 D_801A8000[];
 void func_8002E918(void)
 {
     register u8 *cursor __asm__("$5") = D_8009B290;

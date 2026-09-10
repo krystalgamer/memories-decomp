@@ -8,7 +8,6 @@
 #include "script_state.h"
 
 extern s32 D_800EB12C[];
-extern u8 D_801A8000[];
 extern u16 D_8009B28C;
 
 void Script_RunTick(void)

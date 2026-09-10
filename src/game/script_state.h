@@ -35,6 +35,30 @@ extern u16 D_8009B27C;
  */
 extern u8 *D_8009B290;
 
+/* The loaded script package, as the script engine reads it: a byte base the
+ * cursor above is set from.
+ *
+ * script_run_tick.c states the layout in one line --
+ * `D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
+ * the package is a table of little-endian u16 byte offsets indexed by script
+ * number, and the entry is where that script's code starts. The other three
+ * namers jump within the same package: script_flag_commands.c,
+ * script_stream_commands.c and func_8002F9D4.c all set the cursor to
+ * `D_801A8000 + offset`. All four spelled it `extern u8 D_801A8000[]`, which
+ * is the spelling kept here.
+ *
+ * This is the script engine's view of the address, not a claim to own it.
+ * The same buffer is read as 24-byte records through
+ * `CardListRowSet D_801A8000[]` in card_list_rows.h, and the overlays reach
+ * it as `u32 []` and `MainMenuState []`. None of those files includes this
+ * header and none of the four here includes card_list_rows.h, so the
+ * spellings never meet.
+ *
+ * The four file-transfer units that store `(s32)D_801A8000` into a transfer
+ * object's fields keep their own declarations: they never read through the
+ * base, which is a different reading from this one. */
+extern u8 D_801A8000[];
+
 /* The viewport tween target, X then Y, as two consecutive halfwords.
  *
  * func_8002E6B8 and Script_OpViewportTween read them out of the script
