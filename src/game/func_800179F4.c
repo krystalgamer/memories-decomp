@@ -17,6 +17,7 @@
 #include "duel_load_package_stage.h"
 #include "display_object_helpers.h"
 #include "view_state.h"
+#include "main_services.h"
 #include "duel_effect_resource_record.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
@@ -26,7 +27,6 @@
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-extern void (*D_800E9DBC[])(void);
 extern u8 D_801D1200[];
 
 extern u16 D_8009B204;
@@ -147,7 +147,7 @@ void func_800179F4(void)
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = (u8 *)D_8009B21C;
     obj->field_50.word = (s32)prev;
-    D_800E9DBC[0] = func_800164FC;
+    D_800E9DB0[3] = func_800164FC;
     if (D_8009B369 != 1) {
         p = 0;
         D_8009B1DC = 0;

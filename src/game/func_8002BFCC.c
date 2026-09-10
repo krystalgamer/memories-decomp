@@ -8,6 +8,7 @@
 #include "file_transfer.h"
 #include "func_8003B6AC.h"
 #include "graphics_frame.h"
+#include "main_services.h"
 #include "text_box_lifecycle.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
@@ -27,7 +28,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern void (*D_800E9DBC[])(void);
 extern u8 D_800EA1E8[];
 extern s32 D_801D5608[];
 
@@ -68,7 +68,7 @@ void func_8002BFCC(void) {
                               (FileTransferCallback)func_8002BD0C, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
-    D_800E9DBC[0] = func_80029EC4;
+    D_800E9DB0[3] = func_80029EC4;
     func_80029590();
     r = D_800EA1E8;
     D_800EA1E8[0] = 0;
