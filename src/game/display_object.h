@@ -359,6 +359,33 @@ typedef struct DisplayObject {
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;
 
+/* Two functions reach past this record, and it is not a mistake in
+   either of them, so do not "fix" the size to accommodate them
+   without settling what follows.
+
+   The 0x70 stride is not merely asserted, it is fixed by the layout:
+   D_800EFE48 holds DISPLAY_OBJECT_POOL_CAPACITY (96) entries, and
+   0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
+   D_800F2848 begins. There is no room for a larger record.
+
+   Yet func_80041068 in display_object_list_renderers.c walks this pool
+   with that stride and then tests e[0x72] as a flag, reading a second
+   vertex set from 0x58, 0x64, 0x68 and 0x6C when it is set; and
+   func_80042824 in display_object_helpers.c writes object[0x72]. Both
+   land two bytes past the record, which is `next` of the following
+   entry.
+
+   What that means is not established here. The sibling renderer
+   func_80040DD8 gates its second submission on e[0x5A] instead, so the
+   two list heads (D_800EFE38[4] and [5]) may simply carry differently
+   shaped payloads. Recorded as an open question rather than guessed at.
+
+   The practical consequence: display_object_list_renderers.c cannot be
+   converted to member access. Besides 0x72, it reads 0x58 as an s32
+   across field_58 and field_5A, 0x68 as an s32 across the u8 at 0x68,
+   and 0x6C as a u16 across the u8 at 0x6C. Those spans are retail's,
+   and the record cannot express them. */
+
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 
 typedef char DisplayObject_size_must_match_record_size[
