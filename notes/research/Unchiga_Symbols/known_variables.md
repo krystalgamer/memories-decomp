@@ -196,8 +196,8 @@ Only true while that screen's module is resident (config/modules/README.md). Sou
 |---|---|
 | 0x8016AB38 | `gNameEntry_abCellTable` |
 | 0x8016ABC0 | `gNameEntry_abRowJump` |
-| 0x8016ABD4 | `gNameEntry_aStarterSets` |
-| 0x8016D3DC | `gNameEntry_apStarterSets` |
+| 0x8016ABD4 | `gNameEntry_aStarterDeckPools` |
+| 0x8016D3DC | `gNameEntry_apStarterDeckPools` |
 | 0x8016D400 | `gNameEntry_bFlags` |
 | 0x8016D401 | `gNameEntry_bColumn` |
 | 0x8016D402 | `gNameEntry_bRow` |

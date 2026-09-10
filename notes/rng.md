@@ -253,6 +253,8 @@ produce a short deck if its first 720 weights total less than 2048.
 
 Starting-deck prediction must reproduce these discarded calls and redraws.
 The selected cards determine how far the stream advances, so the deck and the
+full typed row/pointer layout are documented in
+[`starter-deck-pools.md`](starter-deck-pools.md).
 RNG state immediately after generation cannot be modeled independently.
 
 ## Community timing observations

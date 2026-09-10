@@ -210,6 +210,12 @@ immediately before its only caller, `NameEntry_Main` (`0x8016AA6C`). After
 name acceptance, the main routine builds the weighted starter deck, hashes the
 completed player-name bytes, and stamps a nonzero save identifier.
 
+The generator consumes the checked `NameEntryStarterDeckPool` layout through
+the null-terminated `gNameEntry_apStarterDeckPools` table. Seven records at
+`gNameEntry_aStarterDeckPools` contain one draw count, 722 weights and 18
+padding bytes each; see
+[`notes/starter-deck-pools.md`](../../../notes/starter-deck-pools.md).
+
 Both functions use `gcc_2_8_1_g0_split`. One C subsegment at module offset
 `0x2930` covers the complete `0x208`-byte range through `0x8016AB38`; the
 unmatched module text begins there. The source also retains
