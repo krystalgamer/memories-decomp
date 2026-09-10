@@ -92,7 +92,7 @@ segments:
       - [0x1034, rodata, initial_data_1e4]
       - [0x1F84, .rodata, game/file_transfer_steps]
       - [0x1FC8, rodata, initial_data_1f]
-      - [0x1FD8, .rodata, game/func_8005B64C]
+      - [0x1FD8, .rodata, game/main_menu_load_package_stage]
       - [0x1FEC, rodata, initial_data_1d]
       - [0x214C, .rodata, game/ai_card_ranges]
       - [0x2194, .rodata, game/ai_script_calc_card_power]

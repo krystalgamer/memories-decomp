@@ -433,10 +433,15 @@ SU sectors `98-114`, beginning at `0x31000`, so the tutorial's offset lies in
 the asset area immediately before the code rather than inside the overlay.
 
 Matching `File_RequestMainMenuPackage` requests the first `0x73` sectors of `SU.MRG`
-(`0x39800` bytes) and installs `func_8005B64C` as the phase callback. Its five
-transfer lengths are `0x20000`, `0x10000`, `0x1000`, `0x8000`, and `0x800`.
-The `0x1000` phase therefore begins exactly at `+0x30000`, stages those bytes
-at `0x801DD000`, and ends at the `+0x31000` main-menu executable boundary.
+(`0x39800` bytes) and installs `MainMenu_LoadPackageStage` as the phase
+callback. Its five transfer lengths are `0x20000`, `0x10000`, `0x1000`,
+`0x8000`, and `0x800`, which exactly cover the request. The `0x1000` phase
+therefore begins at `+0x30000`, stages those bytes at `0x801DD000`, and ends
+at the `+0x31000` main-menu executable boundary. The preceding phases upload
+the menu image regions to VRAM, and the two following phases load the
+executable at `0x80180000` and its `0x800`-byte display-resource bank at
+`0x801AF800`; see the
+[complete package layout](../src/overlays/main_menu/README.md#complete-package-layout).
 
 At the start of the following phase, the callback uploads that staging buffer
 through `LoadImage2`. The resident `RECT` at `0x8009B058` decodes as
@@ -448,10 +453,16 @@ In the retail archive, all six `0x200`-byte chunks from `0x30000` through
 `0x30BFF` contain nonzero 16-bit values consistent with PlayStation colour
 data. The following `0x400` bytes at `0x30C00-0x30FFF` are zero padding before
 the executable begins, so the upload consists of six populated palette rows
-followed by two zero rows. The complete region hashes to:
+followed by two zero rows. The populated `0xC00` bytes hash to:
 
 ```text
 SHA-256: 5b59103a270882b261ff9c13ba68060a90b3b01f9b5475da50af11dc5908ba19
+```
+
+The complete `0x1000`-byte phase, including the two zero rows, hashes to:
+
+```text
+SHA-256: 26704e08cfa8e4504e20c8d51e7cb860c985fd8b7e4c885b1c626c6207fa1de8
 ```
 
 The matching main-menu overlay identifies one direct consumer.

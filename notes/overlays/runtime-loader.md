@@ -602,7 +602,14 @@ File_RequestAsyncTransfer(
 
 The package at `7903` is therefore the **name entry** screen, not the main
 menu. The main menu is not a WA package at all: `File_RequestMainMenuPackage` requests
-`File_RequestAsyncTransfer(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0,
-0)`, where `gFile_szSuMrgPath` at `0x800117C8` is the path literal
-`M:/mrgSU/SU.mrg`, and its executable phase is SU sectors `98-114` loaded at
-`0x80180000`.
+`File_RequestAsyncTransfer(1, gFile_szSuMrgPath, 0, 0x73,
+MainMenu_LoadPackageStage, 0, 0)`, where `gFile_szSuMrgPath` at `0x800117C8`
+is the path literal `M:/mrgSU/SU.mrg`.
+
+`MainMenu_LoadPackageStage` accounts for the complete 115-sector request:
+64 sectors and 32 sectors are streamed into two VRAM image regions, two
+sectors stage the palette block, 16 sectors load the executable at
+`0x80180000` after uploading that palette, and the final sector loads the
+display-resource bank at `0x801AF800`. The complete phase table and retail
+hashes are in the
+[main-menu overlay README](../../src/overlays/main_menu/README.md#complete-package-layout).

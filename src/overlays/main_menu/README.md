@@ -12,19 +12,48 @@ Verified boundaries:
 | SU executable phase | sectors `98-114`, `0x8000` bytes |
 | Runtime image range | `0x80180000-0x80188000` |
 | Leading word | `0x0000000F`; semantic role unconfirmed |
-| Phase SHA-256 | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
+| Executable SHA-256 | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
 
 The request is recovered from the resident loader trace. `Main_RunMenu`
 (`0x8002D588`) calls `File_RequestMainMenuPackage`, whose request is:
 
 ```c
-func_80014E1C(1, gFile_szSuMrgPath, 0, 0x73, func_8005B64C, 0, 0);
+File_RequestAsyncTransfer(
+    1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0
+);
 ```
 
 `gFile_szSuMrgPath` at `0x800117C8` is the development path literal
 `M:/mrgSU/SU.mrg`, so this form selects a named archive instead of the WA
 screen packages. The third and fourth arguments remain the first sector and
 the sector count.
+
+## Complete package layout
+
+`MainMenu_LoadPackageStage` is called with stage indices zero through four.
+Its programmed byte counts sum to `0x39800`, exactly the requested 115
+sectors, and therefore fix every phase boundary:
+
+| Stage | SU sectors | Size | Destination / action | SHA-256 |
+|---:|---:|---:|---|---|
+| 0 | `0-64` | `0x20000` | Uploads 64 sector-sized `64 x 16` BGR555 rectangles, filling VRAM `(512,256)-(767,511)` | `c3c9f33d18323c86a479a1903f0f0cdee31aa58e0ab4ac81a18b859d8eb40e90` |
+| 1 | `64-96` | `0x10000` | Uploads 32 sector-sized `64 x 16` BGR555 rectangles, filling VRAM `(896,0)-(1023,255)` | `a41dc530ac406b08297a15d7d75bcc43e1a642744315aeaf83cd8935e8783376` |
+| 2 | `96-98` | `0x1000` | Stages the main-menu palette block at `0x801DD000` | `26704e08cfa8e4504e20c8d51e7cb860c985fd8b7e4c885b1c626c6207fa1de8` |
+| 3 | `98-114` | `0x8000` | Uploads the staged palette to VRAM `(0,240)`, then loads the executable at `0x80180000` | `34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97` |
+| 4 | `114-115` | `0x800` | Loads the display-resource bank at `0x801AF800` | `417734e33126c1071d4b990dfae0bb34162e6c0aefd9151c84a9448cf38abf27` |
+
+For stages 0 and 1, the resident CD callback copies the descriptor's
+`field_30` halfwords into its leading `RECT`, uploads one `0x800`-byte sector,
+and advances the rectangle by 16 rows, moving 64 pixels right at each vertical
+wrap. Stage 2 deliberately delays its upload: stage 3 first calls
+`LoadImage2` with the resident `{0, 240, 256, 8}` rectangle, then redirects
+the descriptor to the overlay destination stored at `0x8001002C`, whose
+retail value is `0x80180000`.
+
+The final `0x800` bytes are loaded only after the executable. The main-menu
+overlay passes `D_801AF800` throughout `frontend.c` and `value_setup.c` to the
+shared display-object resource initializer, identifying this phase as the
+overlay's display-resource bank rather than executable padding.
 
 ## Image shape
 

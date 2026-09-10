@@ -2972,7 +2972,7 @@ recorded mismatch at offset `+0x0` therefore says nothing about the body: it
 says the candidate declared different stack storage from the original, and the
 difference is readable directly off the two constants.
 
-`func_8005B64C` (0x8005B64C) deferred with:
+`MainMenu_LoadPackageStage` (0x8005B64C) deferred with:
 
     byte +0x0: e0!=e8; word +0x0: e0ffbd27!=e8ffbd27
 

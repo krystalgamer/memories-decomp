@@ -1161,7 +1161,7 @@ Fleet-written descriptions of verified *mechanics*, not game meaning (e.g. `flag
 | 0x80059DD8 | `call_slot_handler_800fc1c_rows` | fleet |
 | 0x8005A1F4 | `dist_to_stored_pos` | fleet |
 | 0x8005A8C4 | `Model_HasInsufficientBufferSpace` | fleet |
-| 0x8005B64C | `select_reverb_preset` | fleet |
+| 0x8005B64C | `MainMenu_LoadPackageStage` | memories-decomp |
 | 0x8005BFC8 | `str_stream_wait_and_decode_frame` | fleet |
 | 0x8005C388 | `lookup_speed_and_start_read` | fleet |
 | 0x8005D994 | `setup_positional_sfx` | fleet |
