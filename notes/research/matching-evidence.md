@@ -3278,17 +3278,26 @@ What was safe, all confirmed against the full-executable hash:
   | `func_800289BC` | matches (once every access is converted) |
   | `func_80020BE4` | matches |
   | `func_8002F4C0` | one byte: the `0x100` store to +0x32 is scheduled later |
-  | `func_800434F4` | one byte, same shape |
+  | `func_800434F4` | matches with typed modes 0/1 and byte views in mode 2 |
   | `func_8002FB78` | eight bytes shorter |
   | `func_8003A01C` | eight bytes shorter |
   | `func_80032184` | thirty-six bytes shorter |
 
-  Nothing distinguishes the two that convert by inspection: they touch the
-  same members, call the same helpers and do the same `D_8009B0F4`
-  read-modify-write. `func_80020BE4` is the one with `do { } while (0);`
-  blocks already pinning two of its store runs, which is a plausible reason
-  and not a measured one. So convert one of these at a time and build; do not
-  convert the family in a batch on the strength of a sibling.
+  `func_800434F4` establishes a narrower boundary than the first all-member
+  experiment showed. Its modes 0 and 1 and its common `done` store can use
+  `FileTransferDescriptor` members exactly. Mode 2 cannot: member syntax
+  changes the register preloaded in the switch delay slot and reorders the
+  `x`, `y`, and `w` stores around `LoadImage2`. Keeping byte-pointer views
+  only for that arm restores the retail sequence while preserving the typed
+  callback contract everywhere.
+
+  Nothing distinguished the two all-member conversions by inspection: they
+  touch the same members, call the same helpers and do the same
+  `D_8009B0F4` read-modify-write. `func_80020BE4` is the one with
+  `do { } while (0);` blocks already pinning two of its store runs, which is
+  a plausible reason and not a measured one. So convert one of these at a
+  time and build; do not convert the family in a batch on the strength of a
+  sibling.
 
 ### Screening rule for the three of these
 
@@ -6860,7 +6869,6 @@ in the caller that produces it.
     func_80041D60          def 3 (func_80041D60.c)  <-  decl 1 in screen_runtime.c
     func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
     func_80043328          def 2 (func_80043328.c)  <-  decl 0 in func_80043960.c
-    func_800434F4          def 2 (func_800434F4.c)  <-  decl 0 in func_80043960.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
