@@ -54,8 +54,11 @@ work (`Main_InitFreeDuelMenu` 0x8003B9BC, module-resident `FreeDuel_Init`
 0x801DC000), findings F121-F128 (free-duel screen init and portrait VRAM layout,
 the per-card 7-sector art record at LBA 10817+7*id with its LoadImage rects,
 the card-title rasterisation facts, mode-byte values), and one medium-confidence
-proposal held back (`gMain_apLoadArena`, the load-arena pointer table at
-0x80010000). Rebuild after the re-split is byte-identical.
+proposal held back (`gMain_apLoadArena`, then believed to be an eight-word
+load-arena table at `0x80010000`). Later complete consumer coverage expanded
+the block to fourteen words and rejected that homogeneous array/name; F123
+records the four supported cohorts. Rebuild after the re-split is
+byte-identical.
 
 **2026-09-04 delta (second).** Six names, all byte-verified in the source repo
 (commits `a6677c8`, `4d03619`, `2e9bbf6`): `gDuel_abCardLevelAttr` 0x801D5332,

@@ -184,7 +184,10 @@ linker organization.
 ## Runtime load slots
 
 The region beginning at `0x8013A000` contains fixed high-memory destinations
-referenced through a shared table at `0x80010000`. Important boundaries include:
+referenced through the pointer-constant block at `0x80010000..0x80010034`.
+Those words form four consumer-proven cohorts rather than one homogeneous
+array; see the
+[complete map](high-memory-load-addresses.md). Important boundaries include:
 
 - `0x8013A000`
 - `0x8013B000`

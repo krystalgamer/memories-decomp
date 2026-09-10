@@ -202,30 +202,22 @@ at a time through the `CdGetSector`-like function at `0x8007E3D0`, advances
 the destination by `0x800`, and invokes the phase callback when the phase byte
 count reaches zero. `File_WaitForTransfers` is the synchronous wait used by many callers.
 
-## Shared high-memory table
+## High-memory pointer constants
 
-The table at `0x80010000` contains:
+The fourteen contiguous words at `0x80010000..0x80010034` contain:
 
-| Index | Value | Observed role |
-|---:|---:|---|
-| 0 | `0x80100000` | Main WA callback bank |
-| 1 | `0x80140000` | Second main bank |
-| 2 | `0x80180000` | Third main bank |
-| 3 | `0x8013A000` | Paired executable/module slot A |
-| 4 | `0x8017A000` | Paired executable/module slot B |
-| 5 | `0x8013B000` | Paired slot A |
-| 6 | `0x8017B000` | Paired slot B |
-| 7 | `0x80135000` | Paired work/data slot A |
-| 8 | `0x80175000` | Paired work/data slot B |
-| 9 | `0x80136000` | Paired work/data slot A |
-| 10 | `0x80176000` | Paired work/data slot B |
-| 11 | `0x80180000` | SU callback destination |
-| 12 | `0x80180000` | SU direct destination |
-| 13 | `0x80185CD4` | Pointer used after an SU overlay load |
+| Range | Values | Established role |
+|---:|---|---|
+| `0x80010000..0x80010008` | `0x80100000`, `0x80140000`, `0x80180000` | General/model payload bases selected by model slot and reused by other loaders |
+| `0x8001000C..0x80010018` | `0x8013A000`, `0x8017A000`, `0x8013B000`, `0x8017B000` | Paired MODEL-loaded primary and position-variant module slots, called at `+4` |
+| `0x8001001C..0x80010028` | `0x80135000`, `0x80175000`, `0x80136000`, `0x80176000` | Paired data arguments passed to those MODEL module entries |
+| `0x8001002C..0x80010034` | `0x80180000`, `0x80180000`, `0x80185CD4` | SU callback destination, SU direct destination, and an interior pointer used after the direct load |
 
-Game code selects indices 3 and 4 as callable module bases, indices 11 and 12
-for SU transfers, and index 13 after loading an SU module. This is a shared
-layout table, not an archive directory.
+The physical contiguity does not establish one homogeneous array. The MODEL
+callback's sixteen byte-consuming stages exactly cover each `0x114`-sector
+record and distinguish callable module slots from their data arguments; the
+last SU word is an interior module pointer rather than a load arena. See the
+[complete consumer and MODEL-stage map](../high-memory-load-addresses.md).
 
 A separate two-word table at `0x800101D8` is WA-specific in all observed
 resident references:

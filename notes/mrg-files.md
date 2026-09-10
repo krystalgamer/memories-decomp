@@ -71,7 +71,10 @@ a WA-only destination list. Resident loader traces currently establish:
 | `0x80180000` | `SU.MRG` | Reused executable module slot |
 
 WA therefore supplies several overlays and data ranges, but not every
-high-memory slot. The table at `0x80010000` is a shared game layout table.
+high-memory slot. The constants at `0x80010000..0x80010034` mix general
+payload bases, paired MODEL module slots, paired MODEL data arguments, and
+SU-specific pointers; they are not one WA or main-menu destination table.
+See [`high-memory-load-addresses.md`](high-memory-load-addresses.md).
 
 ## Recovered WA organization
 
