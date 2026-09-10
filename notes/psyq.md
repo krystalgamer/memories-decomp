@@ -1125,6 +1125,20 @@ and includes `strings.h` for confirmed `strcmp` and `strcpy` calls. Replacing
 an exact hand-written copy loop with `memcpy` or `bcopy` still requires a full
 executable match because GCC may choose different load/store sequences.
 
+The `memory.h` consumer inventory is complete at eight matching sources.
+`ai_script_vm.c` uses `bzero` to clear the interpreter state, operand memory,
+and auxiliary block. The seven `memset` consumers are `func_800592AC.c`,
+`func_8005D994.c`, `model_distance_queries.c`, `func_80059B90.c`,
+`func_8005EBF4.c`, `model_scene_setup.c`, and
+`model_update_view_metrics.c`. Across those files the calls clear vector-sized
+work records or the four-pointer control-point array before later fields are
+filled.
+
+The `strings.h` inventory is exactly two matching sources:
+`mem_card_directory.c` calls `strcmp` while searching directory entries, and
+`data_transfer_request.c` calls `strcpy` when staging a requested path. No
+current game C includes the compatibility-only `string.h` wrapper directly.
+
 Do not add `src/types.h` to an imported header solely for uniformity. Headers
 that expose project-adapted fixed-width records must include it directly and
 use the project aliases; self-contained prototype-only headers may retain the
