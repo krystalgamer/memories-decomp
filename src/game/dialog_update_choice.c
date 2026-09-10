@@ -26,7 +26,7 @@ void Dialog_UpdateChoice(u8 *p) {
         func_800427DC((u8 *)e, 1);
         func_80042918(e);
         func_800428EC((u8 *)e, (s8)(*(*(u8 **)(p + 0x28) + 0x16) + 1));
-        *(s32 *)(p + 0x30) = (s32)e;
+        *(DisplayObject **)(p + 0x30) = e;
         *(s32 *)&e->field_54 = 0x2000;
         e->field_4C = 0x2000;
         e->field_34 = 0x2000;
@@ -74,8 +74,8 @@ void Dialog_UpdateChoice(u8 *p) {
     p[0x51] = 0;
     SD_SEPlayFull(7);
     if ((D_8009B34C & 0x40) == 0) {
-        func_8004036C(*(s32 *)(p + 0x30));
-        *(s32 *)(p + 0x30) = 0;
+        func_8004036C(*(DisplayObject **)(p + 0x30));
+        *(DisplayObject **)(p + 0x30) = 0;
         p[0x51] = 3;
     }
 }
