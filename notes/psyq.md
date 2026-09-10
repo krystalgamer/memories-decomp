@@ -1180,7 +1180,7 @@ filled.
 
 The `strings.h` inventory is exactly two matching sources:
 `mem_card_directory.c` calls `strcmp` while searching directory entries, and
-`data_transfer_request.c` calls `strcpy` when staging a requested path. No
+`mem_card_dialog_runtime.c` calls `strcpy` when staging a requested path. No
 current game C includes the compatibility-only `string.h` wrapper directly.
 
 Do not add `src/types.h` to an imported header solely for uniformity. Headers

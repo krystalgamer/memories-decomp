@@ -33,7 +33,7 @@
  * to a print routine. */
 char D_8009AF6C[4] __attribute__((section(".sdata"))) = "%s\n";
 
-/* Read by mem_card_create_state.c. */
+/* Read by mem_card_dialog_load_save.c. */
 u8 D_8009AF70[4] __attribute__((section(".sdata"))) = "*";
 
 /* Indexed by a display object's ot_index. Declared in

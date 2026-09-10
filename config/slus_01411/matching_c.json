@@ -3362,45 +3362,45 @@
     },
     {
       "address": "0x8003E46C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/mem_card_dialog_set_message.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E490",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/mem_card_load_state.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E7D4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/mem_card_dialog_load_steps.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E80C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/mem_card_dialog_load_steps.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003E854",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x63C",
-      "source": "src/game/mem_card_create_state.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003EE90",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/mem_card_dialog_save_steps.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003EEC8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/mem_card_dialog_save_steps.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003EED0",
@@ -3428,21 +3428,21 @@
     },
     {
       "address": "0x8003F70C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/data_transfer_request.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003F740",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/data_transfer_request.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003F758",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
-      "source": "src/game/data_transfer_request.c"
+      "source": "src/game/mem_card_dialog_runtime.c"
     },
     {
       "address": "0x8003F7D4",
