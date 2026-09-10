@@ -4,6 +4,10 @@
 #include "../types.h"
 #include "file_transfer.h"
 
+/* Async phase callback for func_80029164's seven-sector request. It retains
+ * the definition's byte view of the transfer descriptor. */
+void func_800289BC(u8 *descriptor, s32 mode);
+
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
  * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,

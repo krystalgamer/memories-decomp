@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "duel_effect_resource_record.h"
+#include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
 void func_800289BC(u8 *p, s32 mode)
