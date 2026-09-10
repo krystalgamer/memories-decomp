@@ -4990,7 +4990,7 @@
       "address": "0x8004D134",
       "profile": "gcc_2_8_1_g0",
       "size": "0x458",
-      "source": "src/game/func_8004D134.c"
+      "source": "src/game/model_slot_row_tables.c"
     },
     {
       "address": "0x8004D58C",
