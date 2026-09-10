@@ -75,7 +75,7 @@ one file:
 |---|---|---|
 | the deck | `0x801D0200` | 40 × u16 card ids |
 | the trunk (chest) | `0x801D0250` | 722 bytes, one per card: copies owned |
-| duelist code | `0x801D0534` (state `+0x334`) | u32; generated nonzero for a new save and compared by `SaveData_HasSameDuelistCode` |
+| duelist code | `gSaveData_dwDuelistCode` (`0x801D0534`, state `+0x334`) | u32; new-save token formed from the VBlank tick and 12-byte name XOR, guaranteed nonzero but not unique; compared by `SaveData_HasSameDuelistCode`; [full contract](../duelist-code.md) |
 | player name | `gSaveData_aPlayerNameSjis` (`0x801D060C`, state `+0x40C`) | 12-byte Shift-JIS field; runtime conversion uses a six-character bound |
 | the **flag array** | `0x801D0618` | 256 bytes = 2048 one-bit flags, numbered 0–0x7FF, MSB first within each byte [tested by `Campaign_TestStoryFlag`, set/cleared by `Library_UpdateCardUsedFlag`]. Known ranges: `0x20`–`0x45` a per-duelist flag set together with the unlock (`0x1F + id`; reading: defeated in campaign — nothing that tests it was traced); `0x47`–`0x6F` the story's own flags, mapped one by one in §7.11; `0x121`–`0x3F2` card *seen* for the Library (`0x120 + card`); `0x401`–`0x6D2` password *already used* (`0x400 + card`, tested and set by the shop); `0x6E1`–`0x706` Free Duel *unlocked* (`0x6E0 + id`, bytes `0x801D06F4`–`0x801D06F8`). |
 | Free Duel grid records | `gFreeDuel_aDuelistRecords` (`0x801D071C`) | 40 × {u16 wins, u16 losses}; slot 0 is the Build Deck tile, duelist IDs 1–39 begin at `0x801D0720` |

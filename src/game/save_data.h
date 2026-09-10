@@ -79,6 +79,7 @@ typedef struct {
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
+extern s32 gSaveData_dwDuelistCode;
 
 extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];

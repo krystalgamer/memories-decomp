@@ -52,8 +52,8 @@ s32 Main_Init(void)
     D_8009B0CC = 0;
     D_8009B0C8 = 0;
     D_8009B0C0 = 0;
-    D_8009B09C = 0;
-    t = D_8009B09C;
+    gMain_dwVBlankTick = 0;
+    t = gMain_dwVBlankTick;
     D_8009B0C3 = 0;
     D_8009B0C1 = 0;
     D_8009B0D8 = 1;
@@ -61,7 +61,7 @@ s32 Main_Init(void)
     D_8009B0D1 = 0;
     *(u8 *)&D_8009B230 = 1;
     D_8009B0B4 = p;
-    D_8009B0C4 = t;
+    gSaveData_dwVBlankCounter = t;
     func_80013154();
     func_800403F0();
     func_800151B0();

@@ -110,8 +110,9 @@ extern u8 D_8009B0C1 __attribute__((section(".data")));
 extern u8 D_8009B0C1;
 #endif
 
-/* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
- * D_8009B0C4 and before bumping D_8009B0C8, and stores 0 into as the last
+/* A byte Main_VBlankCB stores 1 into after bumping gMain_dwVBlankTick and
+ * gSaveData_dwVBlankCounter and before bumping D_8009B0C8, and stores 0 into
+ * as the last
  * statement of its D_8009AF0C == 0 block, after func_80047050 has run.
  * Main_Init zeroes it in its init block. No C unit reads it, and neither
  * of the two resident listings that name it loads it. Initial value not
@@ -160,8 +161,8 @@ extern s32 D_8009B0CC __attribute__((section(".data")));
 extern volatile s32 D_8009B0CC;
 #endif
 
-/* A frame counter ticked by Main_VBlankCB in the same block as D_8009B0C8.
- * Main_Init zeroes it and reads it into a local it stores to D_8009B0C4 at
+/* A boot-lifetime tick incremented once by Main_VBlankCB. Main_Init zeroes it
+ * and reads it into a local it stores to gSaveData_dwVBlankCounter at
  * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
  * low six and seven bits into a triangle wave for a pulsing colour; the
  * password overlay's NameEntry_Main shifts it left by eight and ors it
@@ -177,31 +178,30 @@ extern volatile s32 D_8009B0CC;
  * func_800339D0.c (-G8) defines the .data arm;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
-#ifdef D_8009B09C_IN_DATA
-extern s32 D_8009B09C __attribute__((section(".data")));
+#ifdef G_MAIN_DW_VBLANK_TICK_IN_DATA
+extern s32 gMain_dwVBlankTick __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B09C;
+extern volatile s32 gMain_dwVBlankTick;
 #endif
 
 /* The VBlank counter the save block carries. Main_VBlankCB ticks it beside
- * D_8009B09C; Main_Init stores into it, at the end of its block, the value
- * it read from D_8009B09C (notes/research/matching-evidence.md:488-490 is
+ * gMain_dwVBlankTick; Main_Init stores into it, at the end of its block, the
+ * value it read from gMain_dwVBlankTick
+ * (notes/research/matching-evidence.md:488-490 is
  * why that copy goes through a local); SaveData_BuildPayload copies it into
  * the payload word at SAVE_DATA_VBLANK_COUNTER_OFFSET and
  * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
- * (save_data.h:65). Sign is not visible in any use (++, a store of that
- * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
- * and is not established.
+ * (save_data.h:65).
  *
  * main_frame.c and main_init.c reach it gp-relative and take the volatile
  * form below; SaveData_ApplyRuntimeState stores through $at (lui/sw) and
  * SaveData_BuildPayload loads through a lui/lw pair, each while reaching
  * another symbol through $gp, so save_data_payload.c, which holds both,
  * defines the .data arm. */
-#ifdef D_8009B0C4_IN_DATA
-extern s32 D_8009B0C4 __attribute__((section(".data")));
+#ifdef G_SAVE_DATA_DW_VBLANK_COUNTER_IN_DATA
+extern s32 gSaveData_dwVBlankCounter __attribute__((section(".data")));
 #else
-extern volatile s32 D_8009B0C4;
+extern volatile s32 gSaveData_dwVBlankCounter;
 #endif
 
 /* A flags halfword. Graphics_SyncFrame skips DrawSync(0) when bit 0x8000

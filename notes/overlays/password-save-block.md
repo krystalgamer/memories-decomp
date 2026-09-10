@@ -18,8 +18,8 @@ The function does five things in order:
 3. Runs `NameEntry_Init`, then advances the normal frame update and `rand`
    until `NameEntry_PollCompletion` reports that name entry is finished.
 4. Calls `NameEntry_BuildStarterDeck`.
-5. Stamps a non-zero word at `0x801D0534`, exactly `0x334` bytes after
-   `gDuel_awPlayerDeck` (`0x801D0200`), retrying until it is non-zero.
+5. Stamps the nonzero `SaveDataState.duelist_code` at `0x801D0534`, exactly
+   `0x334` bytes after `gDuel_awPlayerDeck` (`0x801D0200`).
 
 The cleared range is much wider than the live persistent state. No template
 is copied by the diagnostic call; the subsequent name-entry and starter-deck
@@ -35,7 +35,7 @@ and duplicate-state staging layout is documented in
 
 | address | how it is formed |
 |---|---|
-| `0x801D0534` | `(D_8009B09C << 8) | checksum`, rewritten until non-zero |
+| `gSaveData_dwDuelistCode` (`0x801D0534`) | `(gMain_dwVBlankTick << 8) | checksum`, rewritten until nonzero |
 | `gSaveData_aPlayerNameSjis` (`0x801D060C`–`0x801D0617`) | the twelve bytes XORed together to make `checksum` |
 
 Two things line up with the documented map and are worth recording:
@@ -49,9 +49,11 @@ Two things line up with the documented map and are worth recording:
   saves, establishing it as the duelist code used to reject a save competing
   or trading with a copy of itself.
 
-The retry therefore guarantees that every newly initialized save receives a
-nonzero duelist code. Its value combines timing/RNG state with all 12 bytes of
-the name field; it is not a pointer to, or copy of, the overlay format string.
+The first candidate combines the boot-lifetime VBlank tick with all 12 bytes
+of the name field. Only the zero case substitutes `rand() << 8`; the routine
+does not otherwise test uniqueness. See
+[`../duelist-code.md`](../duelist-code.md) for the complete producer,
+persistence, comparison, FM-Online, and credits contract.
 
 ## Password use is a bitfield, not a counter
 

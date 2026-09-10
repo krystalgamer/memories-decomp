@@ -467,8 +467,8 @@ source's.
 
 `Main_Init` (`0x80012B50`, 0x184) is the worked example. Its six recorded
 attempts all fail at `+0x50`, the head of a block of twelve stores to
-`D_8009B098`, `D_8009B09C`, `D_8009B0C0`, `D_8009B0C1`, `D_8009B0C3`,
-`D_8009B0C4`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
+`D_8009B098`, `gMain_dwVBlankTick`, `D_8009B0C0`, `D_8009B0C1`, `D_8009B0C3`,
+`gSaveData_dwVBlankCounter`, `D_8009B0C8`, `D_8009B0CC`, `D_8009B0D1`, `D_8009B0D8`,
 `D_8009B230` and the pointer `D_8009B0B4`. Written plain, the block comes out
 in an order that matches neither the source nor the target, and rewriting the
 source order does not move it — the scheduler is choosing. Declared `volatile`,
@@ -476,18 +476,20 @@ emitted order equals source order and the block can be transcribed straight off
 the target's disassembly.
 
 The same declaration recovers a second thing here. The target zeroes
-`D_8009B09C` and immediately re-reads it:
+`gMain_dwVBlankTick` and immediately re-reads it:
 
 ```
-sw $zero, %gp_rel(D_8009B09C)($gp)
-lw $a1,   %gp_rel(D_8009B09C)($gp)
+sw $zero, %gp_rel(gMain_dwVBlankTick)($gp)
+lw $a1,   %gp_rel(gMain_dwVBlankTick)($gp)
 ```
 
 Plain, GCC forwards the stored zero and the function is one instruction short;
 `volatile` restores the load. But the read and its consumer are thirteen
-instructions apart in the target — the `sw $a1, %gp_rel(D_8009B0C4)($gp)` is
+instructions apart in the target — the
+`sw $a1, %gp_rel(gSaveData_dwVBlankCounter)($gp)` is
 the last store of the block — and `volatile` forbids moving either, so
-`D_8009B0C4 = D_8009B09C;` as a single statement cannot produce it. It has to
+`gSaveData_dwVBlankCounter = gMain_dwVBlankTick;` as a single statement cannot
+produce it. It has to
 be a local assigned right after the zeroing and consumed at the end.
 
 Together these take `Main_Init` from a body that diverges at `+0x50` to 97 of

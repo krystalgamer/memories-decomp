@@ -11,8 +11,8 @@ u8 D_8009AF0C __attribute__((section(".sdata"))) = 0;
 
 void Main_VBlankCB(void)
 {
-    D_8009B09C++;
-    D_8009B0C4++;
+    gMain_dwVBlankTick++;
+    gSaveData_dwVBlankCounter++;
     D_8009B0C3 = 1;
     D_8009B0C8++;
     Input_ReadRawPads();

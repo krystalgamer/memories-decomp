@@ -1,4 +1,4 @@
-#define D_8009B0C4_IN_DATA
+#define G_SAVE_DATA_DW_VBLANK_COUNTER_IN_DATA
 #define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
 #define SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
@@ -147,7 +147,7 @@ void SaveData_BuildPayload(u8 *data)
 
     Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);
 
-    saved_value = D_8009B0C4;
+    saved_value = gSaveData_dwVBlankCounter;
     output_type = gSD_bOutputType;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_TERTIARY_OFFSET) = 0;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_VBLANK_COUNTER_OFFSET) =
@@ -194,7 +194,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
      * These discarded addresses use the retail assembler-temporary form.
      * Symbolic stores allocate ordinary registers and change exact codegen.
      */
-    D_8009B0C4 = state->vblank_counter;
+    gSaveData_dwVBlankCounter = state->vblank_counter;
     gSaveDataSequence = state->save_sequence;
     gCampaignSceneIndex = state->campaign_scene_index;
 

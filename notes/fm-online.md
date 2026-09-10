@@ -183,7 +183,9 @@ return value from zero to one. This directly identifies the bypassed path as a
 failed duelist-code validation result. The preceding exact
 `SaveData_HasSameDuelistCode` call compares the 32-bit field at offset `0x334`
 in the two loaded save buffers; equality takes this failure branch. The
-broader semantics of `D_8009B3EA` remain unresolved.
+broader semantics of `D_8009B3EA` remain unresolved. The field's complete
+generation and consumer contract is documented in
+[`duelist-code.md`](duelist-code.md).
 
 The life-point width adjustment reads `RAM::lp[i] - 2`, so it tests the
 displayed values at `0x800EA002` and `0x800EA022`. Its loading and end-of-duel

@@ -193,8 +193,8 @@ glabel func_80029EC4
     /* 1A974 8002A174 2000A9AF */   sw        $t1, 0x20($sp)
   .L8002A178:
     /* 1A978 8002A178 801F103C */  lui        $s0, (0x1F80000F >> 16)
-    /* 1A97C 8002A17C 0A80023C */  lui        $v0, %hi(D_8009B09C)
-    /* 1A980 8002A180 9CB0428C */  lw         $v0, %lo(D_8009B09C)($v0)
+    /* 1A97C 8002A17C 0A80023C */  lui        $v0, %hi(gMain_dwVBlankTick)
+    /* 1A980 8002A180 9CB0428C */  lw         $v0, %lo(gMain_dwVBlankTick)($v0)
     /* 1A984 8002A184 0050033C */  lui        $v1, (0x50000000 >> 16)
     /* 1A988 8002A188 000003AE */  sw         $v1, (0x1F800000 & 0xFFFF)($s0)
     /* 1A98C 8002A18C 0E0000A2 */  sb         $zero, (0x1F80000E & 0xFFFF)($s0)

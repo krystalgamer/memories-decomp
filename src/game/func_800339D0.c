@@ -1,6 +1,6 @@
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
-#define D_8009B09C_IN_DATA
+#define G_MAIN_DW_VBLANK_TICK_IN_DATA
 #include "../types.h"
 #include "func_80032B38.h"
 #include "duel_effect.h"
@@ -125,7 +125,7 @@ s32 func_80033BE8(void)
 
     rand();
 
-    intensity = D_8009B09C & 0x3F;
+    intensity = gMain_dwVBlankTick & 0x3F;
     if (intensity >= 0x20) {
         intensity = 0x3F - intensity;
     }

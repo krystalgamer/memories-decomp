@@ -355,7 +355,9 @@ type at `+0x5DE` when `gSD_bOutputType` is negative.
 The two-save comparison path first uses `SaveData_HasSameDuelistCode` on the
 32-bit field at `+0x334`. `SaveData_MatchesDuelistAndCurrentSequence` accepts
 the pair only when that code matches and the second save's sequence at `+0x404`
-equals the current `gSaveDataSequence` value.
+equals the current `gSaveDataSequence` value. The code's name-entry generation,
+nonzero-only guarantee, FM-Online bypass, and credits use are documented in
+[`duelist-code.md`](duelist-code.md).
 
 ## Evidence boundary
 
