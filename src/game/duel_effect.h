@@ -92,7 +92,12 @@ typedef struct DuelEffectChannel {
     u16 range_count_5E;
     u8 field_60;
     u8 field_61;
-    u8 pad_62[2];
+    /* Written by func_80037DA4 (with a type value), func_80038B08 and
+       duel_effect_entry_control.c, and read back by func_80036C14.
+       Named rather than described: the writes and the read prove a
+       byte is here, not what it carries. */
+    u8 field_62;
+    u8 pad_63;
 } DuelEffectChannel;
 
 typedef char DuelEffectChannel_size_must_be_0x64[
