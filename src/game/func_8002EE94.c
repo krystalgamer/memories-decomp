@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
+#define SAVE_DATA_WORKSPACE_AS_HALFWORDS
 #include "../types.h"
 #include "card_constants.h"
 #include "data_transfer_request.h"
@@ -30,7 +31,6 @@ extern u8 D_8009B26C __attribute__((section(".data")));
 extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
-extern s16 D_801D0000[];
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 
 int func_8002EE5C(void)
@@ -214,12 +214,14 @@ void func_8002EE94(void)
     if ((gInput_wPad1Pressed & 0xC0) == 0) {
         return;
     }
-    D_801D0000[0x3EE] = D_8009B2A6;
+    D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+              sizeof(s16)] = D_8009B2A6;
     choice = gDialog_bChoice;
     switch (choice) {
     case 0:
         SD_SEPlayFull(7);
-        D_801D0000[0x3EE] = D_8009B2A6;
+        D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+                  sizeof(s16)] = D_8009B2A6;
         SaveData_RequestWrite();
         D_8009B27C |= 0x80;
         break;

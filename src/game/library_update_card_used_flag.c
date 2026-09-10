@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "campaign_flags.h"
-
-extern u8 D_801D0000[];
+#include "save_data.h"
 
 void Library_UpdateCardUsedFlag(s32 arg0)
 {

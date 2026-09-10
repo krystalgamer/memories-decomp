@@ -1,15 +1,15 @@
 #include "../types.h"
 #include "duel_effect_request.h"
 #include "duel_effect_object_pool.h"
-
-extern u8 D_801D0000[];
+#include "save_data.h"
 
 int func_8002C570(int offset)
 {
     u8 *object;
 
     object = (u8 *)((u32)D_801D0000 + offset);
-    if (object[0x24F]) {
+    if (object[SAVE_DATA_HEADER_SIZE + SAVE_DATA_CARD_QUANTITIES_OFFSET -
+               CARD_ID_FIRST]) {
         return 1;
     }
     return -1;

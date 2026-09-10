@@ -247,8 +247,6 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
     }
 }
 
-extern u8 gLibrary_abCardChest[];
-
 void Library_MarkOwnedCards(void)
 {
     u8 *p = gLibrary_abCardChest;

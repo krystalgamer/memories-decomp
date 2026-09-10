@@ -41,7 +41,6 @@ extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
 extern u8 D_8016D403;
 extern u8 D_8016D4D0;
-extern u8 gSaveData_aPlayerNameSjis[];
 extern DuelEffectChannel D_800EB1C0;
 extern u8 D_8016D41C;
 

@@ -26,6 +26,7 @@
 #include "../../game/func_80029574.h"
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
+#include "../../game/save_data.h"
 
 /* The password shop screen: its two resident entry points, the preview
    helper both of them call, and the password lookup the updater is the only
@@ -50,7 +51,6 @@ extern u32 D_8016D438;
 extern u32 D_801A8000[];
 extern Pair D_801D5608;
 extern s32 D_801D5608_starchips asm("D_801D5608");
-extern u32 D_801D0000[];
 extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
@@ -287,7 +287,7 @@ void Password_UpdateShopScreen(void)
     PasswordCardPreviewView *widget;
     s32 index;
     s32 state;
-    register u32 *pool __asm__("$2");
+    register SaveDataWorkspace *pool __asm__("$2");
     u32 count;
     s32 step;
     u16 flags2;
@@ -445,10 +445,10 @@ void Password_UpdateShopScreen(void)
         if (step == 0) {
             step = 1;
         }
-        pool = D_801D0000;
+        pool = (SaveDataWorkspace *)D_801D0000;
         count = count - step;
         D_8016D438 = count;
-        pool[504] = pool[504] - step;
+        pool->state.starchips = pool->state.starchips - step;
         if (count == 0) {
             D_8016D424 = 4;
         }

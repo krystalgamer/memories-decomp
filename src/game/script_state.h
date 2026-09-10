@@ -112,7 +112,8 @@ extern u16 D_8009B270;
  * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
  * func_8002E5AC sets the dialog bit. D_8009B2A6 is the scene index the
  * save-prompt command (func_8002EE94) reads out of the script stream and
- * copies into D_801D0000[0x3EE] and, as a byte, into gCampaignSceneIndex.
+ * copies into workspace +0x7DC (the scene byte and its following byte;
+ * see save_data.h's halfword arm) and, as a byte, into gCampaignSceneIndex.
  * Retail reaches both gp-relative; the second is spelled
  * %gp_rel(D_8009B2A4 + 0x2) in the listings (func_8002EE94.s:27, 324,
  * 350, 361) because nothing references its address directly, so its
