@@ -74,15 +74,16 @@ void func_8002BFCC(void) {
     D_800EA1E8[0] = 0;
     c = gCardGrid_bCursorColumn;
     d = c;
-    if (c >= 0xA) {
-        x = (c % 10) * 0xE + 0xAE;
+    if (c >= CARD_GRID_SECTION_SIDE_LENGTH) {
+        x = (c % CARD_GRID_SECTION_SIDE_LENGTH) * 0xE + 0xAE;
     } else {
-        x = (d % 10) * 0xE + 0xE;
+        x = (d % CARD_GRID_SECTION_SIDE_LENGTH) * 0xE + 0xE;
     }
     *(s16 *)(r + 0x12) = x;
     *(s16 *)(r + 8) = x;
     k = gCardGrid_bCursorRow;
-    y = (k / 10) * 0xB2 + (k % 10) * 0x10 + 0xE;
+    y = (k / CARD_GRID_SECTION_SIDE_LENGTH) * 0xB2
+        + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
     *(s16 *)(r + 0x14) = y;
     *(s16 *)(r + 0xA) = y;
     func_8002A660(r);

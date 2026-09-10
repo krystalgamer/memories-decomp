@@ -3,12 +3,19 @@
 
 #include "../types.h"
 
+#define CARD_GRID_SECTION_SIDE_LENGTH 10
+#define CARD_GRID_SECTIONS_PER_ROW 2
+#define CARD_GRID_SECTION_CARD_COUNT \
+    (CARD_GRID_SECTION_SIDE_LENGTH * CARD_GRID_SECTION_SIDE_LENGTH)
+#define CARD_GRID_SECTION_ROW_CARD_COUNT \
+    (CARD_GRID_SECTION_CARD_COUNT * CARD_GRID_SECTIONS_PER_ROW)
+
 /* The card grid's cursor position.
  *
  * func_8002A788 draws the grid and reads both into s32 locals; func_8002BFCC
- * places the cursor sprite from them, deriving x from the column as
- * `(c % 10) * 0xE + 0xAE` and y from the row as
- * `(k / 10) * 0xB2 + (k % 10) * 0x10 + 0xE`, so the grid is ten wide.
+ * places the cursor sprite within a section from them, deriving x from the
+ * column remainder and y from the row quotient/remainder. The cursor spans
+ * two side-by-side 10x10 sections per section row.
  *
  * Both must stay small-data eligible, and that is not a style question here:
  * func_8002A788 reaches them from inline assembly carrying hand-written
