@@ -5366,9 +5366,9 @@
     },
     {
       "address": "0x8005969C",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x64",
-      "source": "src/game/func_8005969C.c"
+      "source": "src/game/model_slot_state_updates.c"
     },
     {
       "address": "0x80059700",
