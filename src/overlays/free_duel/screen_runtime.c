@@ -12,6 +12,7 @@
 #include "../../game/duel_effect.h"
 #include "../../game/duel_side_state.h"
 #include "../../game/graphics_frame.h"
+#include "../../game/text_constants.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
@@ -72,7 +73,6 @@ typedef struct {
     u8 state;
 } FreeDuelSparkle;
 
-extern s16 D_8009B32E;
 extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern s16 D_801D0000[];
 extern Pair D_801D5608;
@@ -111,7 +111,7 @@ void FreeDuel_PlaceCursor(FreeDuelWidget *w, s32 arm)
     s16 trunc;
     u8 *panel;
     s16 *base;
-    s16 *slot;
+    u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
     panel = D_800EB0F8_raw;
