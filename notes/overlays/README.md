@@ -1057,14 +1057,14 @@ responding: it answers "is the content right yet" separately from "is it in the
 right place", and those are different questions that the standard metrics
 conflate.
 
-`tools/project/overlay_blind_audit.py` runs it over every candidate stored in
-`candidates.md` at once and prints the immediates each side actually chose,
-with the zeroed relocations filtered out. That is worth doing periodically
-rather than only on the function being worked: run across all five stored
-candidates it reported `func_8016913C` writing `+0x76` and `+0x78` where the
-target writes `+0x5E` and `+0x60` -- a struct whose padding was twenty-four
-bytes too long, which had survived several passes because both headline
-metrics were blind to it.
+`tools/project/overlay_blind_audit.py` runs it over every `func_*.md`
+candidate under [`notes/overlays/candidates/`](candidates/) at once and
+prints the immediates each side actually chose, with the zeroed relocations
+filtered out. That is worth doing periodically rather than only on the
+function being worked. In a recorded five-candidate run it reported
+`func_8016913C` writing `+0x76` and `+0x78` where the target writes `+0x5E`
+and `+0x60` -- a struct whose padding was twenty-four bytes too long, which
+had survived several passes because both headline metrics were blind to it.
 
 ## A register-form shift means the count is not a constant
 
