@@ -1,6 +1,9 @@
 #include "../types.h"
 #include "../psyq/stdio.h"
+#include "func_80047480.h"
+#include "func_80047788.h"
 #include "sound.h"
+#include "sound_output.h"
 
 extern u8 D_800107A8[];
 extern u8 D_800107DC[];
@@ -30,10 +33,6 @@ typedef struct {
     s32 a;
     s32 b;
 } __attribute__((packed)) SeHdr;
-
-s32 func_8004703C(void);
-void func_800470B0(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-void func_80047480(void);
 
 void func_80046A08(void) {
     u8 *b;
@@ -120,7 +119,7 @@ void func_80046A08(void) {
         a2 = 0x2000;
         a3 = 0x40;
     call:
-        func_800470B0(a0, a1, a2, a3);
+        func_800470B0((s32)a0, a1, a2, a3);
         g_SDValue->field_003C += 1;
         return;
     no8:

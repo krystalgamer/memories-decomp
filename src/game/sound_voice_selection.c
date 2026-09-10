@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "func_80047788.h"
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
-
-extern void func_80047788(u16);
 
 void func_80047864(s32 index)
 {
