@@ -3,13 +3,13 @@
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
+#include "func_80060B38.h"
 
 extern u8 D_801A8000[];
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen. */
 #define gGraphics_sViewportY_abs (*(s16 *)0x8009B148)
 #define gGraphics_sViewportX_abs (*(s16 *)0x8009B146)
-extern void func_80060B38(void);
 
 void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
 {
