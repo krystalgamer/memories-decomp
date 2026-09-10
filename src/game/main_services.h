@@ -92,6 +92,11 @@ void func_80013154(void);
 void func_80013154(u8 *base);
 #endif
 void func_80013360(void);
+
+/* The pump itself, and the call that empties the registry. func_8001306C
+   walks the four slots once per frame; func_800134B4 clears all four. Both
+   callers already spelled the pump this way. */
+void func_8001306C(void);
 void func_800134B4(void);
 
 #endif
