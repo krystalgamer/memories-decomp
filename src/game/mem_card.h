@@ -138,6 +138,28 @@ extern u8 D_8009B3D4;
  *               init path clears the whole byte. */
 extern s8 D_8009B43E;
 extern u8 D_8009B44E;
+
+/* Stored by func_800440B4 (func_800440B4.c:11, `D_8009B43C = 10;`;
+ * func_800440B4.s:8 `sb`) and by func_80044608, which loads it under u8
+ * and matched: `v0 = D_8009B43C - 1; D_8009B43C = (u8)v0;` at
+ * func_80044608.c:60-61, :96-97, :114-115, and `D_8009B43C = 0xA;` at :80
+ * and :104 (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104,
+ * :124). The writer spelled it char, where a store shows no sign; the
+ * D_8009B437 comment above records the same split. Still in assembly:
+ * func_80044838.s (lbu :137, :307; sb :75, :140, :211, :288, :310).
+ * D_8009B43D is the next symbol, at +1 (c_symbols.ld:298). Every access
+ * is `%gp_rel`; plain declaration. */
+extern u8 D_8009B43C;
+
+/* Stored by func_800440B4 (func_800440B4.c:15, `D_8009B43D = 0;`;
+ * func_800440B4.s:13 `sb $zero`) and by func_80044608, which loads it
+ * under u8 and matched: `v1 = D_8009B43D;` at func_80044608.c:24,
+ * `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at
+ * :105 (func_80044608.s lbu :5, :72; sb :75, :106). No function still in
+ * assembly names it. D_8009B43E, declared s8 above, is at +1
+ * (c_symbols.ld:299). Every access is `%gp_rel`; plain declaration. */
+extern u8 D_8009B43D;
+
 /* The dialog message the save path raises: func_8003F8D4.c and
  * func_8003FCD8.c set it to 0x29, 40 and 36 at different failures and
  * two_player_save_setup.c reads it back. All three spell it plain u8. */
