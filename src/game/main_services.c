@@ -53,8 +53,6 @@ extern volatile u8 D_8009B0A1;
 extern volatile u8 D_8009B0A2;
 extern DISPENV D_800FE0A8;
 
-extern void func_80014A5C(s32 a0);
-
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If
    neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
