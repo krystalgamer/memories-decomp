@@ -1,5 +1,6 @@
 #define D_8009B36A_IN_DATA
 #include "../types.h"
+#include "display_object.h"
 #include "duel_card_object_helpers.h"
 #include "duel_effect_request.h"
 #include "func_8002C604.h"
@@ -29,7 +30,7 @@ void func_8001825C(void)
     u8 *obj;
     u8 *q;
     register u8 *b asm("$3");
-    u8 *card;
+    DisplayObject *card;
     s32 i;
     s32 keep;
     s32 y;
@@ -125,15 +126,16 @@ void func_8001825C(void)
     {
         register s32 replay_offset asm("$5") = 0x48000;
         b = D_8015C424;
-        card = *(u8 **)(b + D_8009B208[n] * DUEL_CARD_RECORD_SIZE +
+        card = *(DisplayObject **)(b + D_8009B208[n] * DUEL_CARD_RECORD_SIZE +
                         replay_offset + 0x36B4);
     }
     func_8001352C();
     obj = (u8 *)func_8002C68C(0xB);
-    *(u16 *)obj = *(u16 *)(card + 0x30);
-    *(u16 *)(obj + 2) = *(u16 *)(card + 0x32);
-    *(u16 *)(obj + 4) = *(u16 *)(card + 0x34);
-    *(u16 *)(obj + 0x1A) = func_800181EC(card);
-    func_80024954((u8 *)D_801A7AD8 + card[0x6A] * DUEL_CARD_RECORD_SIZE);
+    *(u16 *)obj = card->field_30.h.field_30;
+    *(u16 *)(obj + 2) = card->field_30.h.field_32;
+    *(u16 *)(obj + 4) = *(u16 *)&card->field_34;
+    *(u16 *)(obj + 0x1A) = func_800181EC((CardObject *)card);
+    func_80024954((u8 *)D_801A7AD8 +
+                  card->field_6A * DUEL_CARD_RECORD_SIZE);
     SD_SEPlayFull(0x1F);
 }
