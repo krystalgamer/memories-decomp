@@ -11,7 +11,7 @@
 
 /* Entries 0 through 12 of the secondary text-command table D_80090EAC,
    the handlers the F8 escape reaches, together with func_80038024, the
-   helper several of them share. Each takes the text channel and reads its
+   helper two of them share. Each takes the text channel and reads its
    operands from the channel's live stream. Entry 13, Text_StartCampaignDuel,
    is next in both the table and the image, but it only builds at
    gcc_2_8_1_g0 and stays its own unit.
