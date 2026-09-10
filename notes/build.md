@@ -573,6 +573,44 @@ cleanup target, and the reads confirm the split is meaningful rather than
 accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
 offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 
+#### Agreeing relocations do not mean interchangeable declarations
+
+The check above rejects a symbol when its objects disagree. The tempting
+converse -- that agreeing relocations clear a symbol for centralizing -- is
+false, and `gAi_wBestDifference` is the counter-example. Two files declare it,
+they disagree about the spelling, and yet both objects relocate it the same
+way:
+
+| Translation unit | Spelling | Profile | Relocation |
+| --- | --- | --- | --- |
+| `ai_script_load_best_values.c` | `extern unsigned short gAi_wBestDifference` | `gcc_2_8_1_g0` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `ai_script_find_best_attack.c` | `extern u16 gAi_wBestDifference[]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+
+The object is two bytes and holds exactly one `u16`: `gAi_bBestAttacker` is the
+next name, at `+2`, with `gAi_bBestTarget` at `+3`. Nothing indexes above `[0]`.
+So the array brackets describe no more storage than the scalar does, and by the
+size and index tests alone the two spellings look like drift worth collapsing.
+
+They are not. Read the profiles against the table above and each spelling is
+the one its own translation unit needs. `ai_script_load_best_values.c` compiles
+at `-G0`, where nothing is placed in small data and a plain scalar already gets
+`lui %hi` + `%lo`; it needs no lever. `ai_script_find_best_attack.c` compiles at
+`-G8`, where a two-byte scalar would be placed in small data and addressed
+`%gp_rel`; the brackets are what push it back out. The agreement in the last
+column is the *result* of two different levers pulled correctly, not evidence
+that one declaration could serve both. Unify them on the scalar and the `-G8`
+consumer goes `%gp_rel`; unify them on the array and the `-G0` consumer changes
+the expression it reads for no reason.
+
+The order the checks are applied therefore matters. Disagreeing relocations
+reject a symbol outright, but agreeing relocations only mean the profiles have
+not yet been consulted: when the consumers compile under *different* `-G`
+settings, agreement is the expected outcome of correct code and says nothing
+about interchangeability. Compare profiles before reading the relocations as a
+clearance. A symbol like this one belongs in a shared header only behind the
+same kind of guarded arms `input.h` and `sound.h` already use -- never as one
+flat declaration.
+
 #### One address, several faithful types
 
 Not every symbol has a type waiting to be found. Some are shared staging
