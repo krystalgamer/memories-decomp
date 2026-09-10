@@ -1,4 +1,6 @@
+#define D_8009B098_IN_DATA
 #include "../types.h"
+#include "graphics_frame.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "../psyq/libgte.h"
@@ -13,7 +15,6 @@
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
-extern short D_8009B098[];
 extern void func_800434F4(void);
 extern void func_80043328(void);
 extern void func_8004365C(void *, void *);
@@ -40,7 +41,7 @@ void func_80043960(s32 mode)
             0, 1000
         );
         SetDumpFnt(display);
-        D_8009B098[0] = 0;
+        D_8009B098 = 0;
         func_80047AD0(2);
         func_80012D84(4);
         File_WaitForTransfers();
@@ -58,7 +59,7 @@ void func_80043960(s32 mode)
         0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 1000
     ));
-    D_8009B098[0] = 0;
+    D_8009B098 = 0;
     CdFlush();
     first = object;
     func_801680F4();
