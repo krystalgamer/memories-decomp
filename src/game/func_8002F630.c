@@ -15,8 +15,8 @@
 #include "../unmatched.h"
 #include "func_8002F630.h"
 #include "func_8002F4C0.h"
+#include "campaign_scene_package.h"
 
-extern DisplayObject *D_8009B2A0;
 extern DisplayObject *D_8009B280;
 extern DisplayObject *D_800EAE98[];
 extern u32 func_8004703C(void);

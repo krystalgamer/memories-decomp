@@ -10,7 +10,6 @@
 #include "../psyq/libgpu.h"
 #include "func_8002E3FC.h"
 
-extern DisplayObject *D_8009B2A0;
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
