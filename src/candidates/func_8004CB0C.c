@@ -13,6 +13,7 @@
  * work is source ownership and lifetime rather than assembler normalization.
  */
 #include "../types.h"
+#include "../game/ordering_tables.h"
 
 typedef struct {
     u8 pad_00[0x4C];
@@ -34,8 +35,6 @@ typedef struct {
 } Event;
 
 extern Channel D_800F2C40[];
-extern void *D_800E9D98;
-extern void *D_800E9D9C;
 extern s32 D_8001001C;
 extern s32 D_80010020;
 extern s32 D_80010024;
@@ -59,7 +58,7 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     u8 *slot;
     u8 *search_slot;
     u8 *cursor;
-    void *table;
+    GsOT *table;
     Event ev;
     s32 acc;
     s32 count;

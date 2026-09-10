@@ -4,7 +4,7 @@
 #include "display_object_updates.h"
 #include "func_800408D0.h"
 
-extern s32 D_800E9D90[];
+#include "ordering_tables.h"
 
 void func_80040BF8(void)
 {
@@ -12,7 +12,7 @@ void func_80040BF8(void)
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
-        s32 *table = (s32 *)D_800E9D90;
+        GsOT **table = D_800E9D90;
 
         do {
             DisplayObject *object =
@@ -28,7 +28,7 @@ void func_80040BF8(void)
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                func_800408D0(object, table[data[0x17]],
+                func_800408D0(object, (s32)table[object->ot_index],
                               *(s16 *)(data + 0x14));
             }
         } while (i >= 0);
@@ -56,7 +56,7 @@ void func_80040D14(void)
 
     if (i >= 0) {
         DisplayObject *base = D_800EFE48;
-        s32 *table = (s32 *)D_800E9D90;
+        GsOT **table = D_800E9D90;
 
         do {
             DisplayObject *object =
@@ -76,7 +76,7 @@ void func_80040D14(void)
                     *(void (**)(u8 *, s32))(data + 0x4C);
 
                 if (secondary != 0) {
-                    secondary(data, table[data[0x17]]);
+                    secondary(data, (s32)table[object->ot_index]);
                 }
             }
         } while (i >= 0);

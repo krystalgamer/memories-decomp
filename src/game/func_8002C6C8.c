@@ -3,6 +3,7 @@
 #include "duel_effect_request.h"
 #include "func_8002C6C8.h"
 #include "../psyq/libgte.h"
+#include "ordering_tables.h"
 
 /* Clears D_8009B260's bit 0x1, then walks the eight D_800EAD88 requests.
    For each request whose flags contain 0x80: raises D_8009B260's bit 0 unless
@@ -16,7 +17,6 @@
    savedF1A must be s32, not the field's true s16 type -- declaring it s16
    makes gcc emit an unsigned reload + manual sign-extend at the call site
    instead of the target's plain signed halfword load. */
-extern s32 D_800E9D90[];
 extern u8 D_8009B261;
 extern DuelEffectRequest *D_8009B264;
 extern void func_801462B0(
@@ -46,9 +46,9 @@ s32 func_8002C6C8(void) {
                 rec->flags = flags2 | 0x40;
                 rec->field_1A = -1;
             }
-            rec->field_0C = D_800E9D90[1];
+            rec->field_0C = (s32)D_800E9D90[1];
             D_8009B264 = rec;
-            rec->field_08 = D_800E9D90[2];
+            rec->field_08 = (s32)D_800E9D90[2];
             func_801462B0(rec->id, savedF1A, (s32)rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(D_800F2848.projection);

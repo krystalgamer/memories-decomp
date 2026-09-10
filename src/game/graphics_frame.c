@@ -7,6 +7,7 @@
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
+#include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"
 #include "movie_playback_control.h"
@@ -32,7 +33,6 @@ s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
 extern u8 D_800FE048[];
 extern u8 D_8009B141 __attribute__((section(".data")));
-extern u32 *D_800E9D90[4];
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number
    of frame advances consumed by the next game update. */
@@ -64,12 +64,12 @@ void Graphics_BeginFrame(void)
 {
     s32 i;
     s32 off;
-    u32 **slot;
+    GsOT **slot;
     s32 src;
     s32 idx;
-    u32 *ptr;
+    GsOT *ptr;
     u8 *arg;
-    u32 **base;
+    GsOT **base;
 
     if (D_8009B0A8 == 0) {
         D_800FE048[0x18] = D_8009B0D0;
@@ -111,11 +111,11 @@ void Graphics_BeginFrame(void)
     base = D_800E9D90;
     slot = base + 3;
     do {
-        ptr = (u32 *)(D_8009B0B4 + off);
+        ptr = (GsOT *)(D_8009B0B4 + off);
         *slot = ptr;
         slot--;
-        *ptr = *(u8 *)(i + src);
-        GsClearOt(0, 0, (GsOT *)ptr);
+        ptr->length = *(u8 *)(i + src);
+        GsClearOt(0, 0, ptr);
         off -= 0x14;
         i--;
     } while (i >= 0);

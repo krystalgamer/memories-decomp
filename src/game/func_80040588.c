@@ -8,6 +8,7 @@
 #include "sprite_primitive.h"
 #include "graphics_frame.h"
 #include "func_80040588.h"
+#include "ordering_tables.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -15,7 +16,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
-extern s32 D_800E9D90[];
 extern s16 D_800EFE3A[];
 
 void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
@@ -32,10 +32,10 @@ void func_80040588(void) {
     u8 *g;
     u8 *h;
     DisplayObject *e;
-    s32 *tb;
+    GsOT **tb;
     DisplayObjectCallback fn;
     s32 i;
-    s32 tex;
+    GsOT *ot;
     s32 mode;
     s32 idx;
 
@@ -66,7 +66,7 @@ void func_80040588(void) {
                 p->cxcy.word = e->field_40.word;
                 p->uv.word = e->field_5C;
                 mode = e->field_14 | 0x10000;
-                tex = tb[idx];
+                ot = tb[idx];
                 p->tpage = e->field_66;
 
                 if ((e->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -99,7 +99,7 @@ void func_80040588(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = e->field_14 | 0x30000;
                 }
-                func_80042188(p, g, tex, mode, h + 0x20);
+                func_80042188(p, g, (s32)ot, mode, h + 0x20);
                 break;
             }
         } while (i >= 0);

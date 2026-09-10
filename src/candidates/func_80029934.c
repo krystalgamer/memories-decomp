@@ -14,11 +14,11 @@
 #include "../unmatched.h"
 #include "../game/func_800556E8.h"
 #include "../game/gpu_packets.h"
+#include "../game/ordering_tables.h"
 
 extern void func_80029684(s32, s32, s16 *, s32 *, s32, s32);
 extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
 
-extern s32 D_800E9D9C;
 extern MATRIX D_800FE148;
 extern s16 D_800EA1E8[];
 extern u8 D_80181000[];
@@ -54,7 +54,7 @@ void func_80029934(void)
     angle = 0;
     SetGeomOffset(0xD0, 0x60);
     SetGeomScreen(0x12C);
-    arg = D_800E9D9C;
+    arg = (s32)D_800E9D9C;
     GsSetLsMatrix(&D_800FE148);
 
     *(Blk8 *)par = *(Blk8 *)D_80181000;

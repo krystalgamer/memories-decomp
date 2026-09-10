@@ -5,7 +5,7 @@
 #include "../psyq/libgs.h"
 #include "func_80016D2C.h"
 
-extern s32 D_800E9D90[];
+#include "ordering_tables.h"
 
 void func_80016D2C(
     DisplayObject *style,
@@ -21,7 +21,7 @@ void func_80016D2C(
         digit->u = temp[i] << 3;
         GsSortFastSprite(
             digit,
-            (GsOT *)D_800E9D90[style->ot_index],
+            D_800E9D90[style->ot_index],
             style->field_14
         );
         digit->x += 8;

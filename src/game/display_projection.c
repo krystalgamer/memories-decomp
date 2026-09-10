@@ -7,6 +7,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "func_80016784.h"
+#define ORDERING_TABLE_SLOT2_ARRAY
+#include "ordering_tables.h"
 
 void func_80015D18(DisplayObject *object)
 {
@@ -50,9 +52,6 @@ void func_80015DB8(DisplayObject *object)
    swc2 $14. Here the source coordinates come from the object's own target
    record and the projected pair is biased into the object's screen fields. */
 
-/* Declared as an array so it stays out of small data: the target reads it with
-   a %hi/%lo pair while D_8009B1D5, a byte, is %gp_rel in the same body. */
-extern void *D_800E9D98[];
 void func_80015DFC(DisplayProjectionTrackedObject *object)
 {
     ProjectedPair p;
@@ -92,7 +91,7 @@ void func_80015DFC(DisplayProjectionTrackedObject *object)
             object->screen_y = y - 0x1D;
         }
     }
-    func_80016784(object->record, D_800E9D98[0], object->screen_x,
+    func_80016784(object->record, (s32)D_800E9D98[0], object->screen_x,
                   object->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }
