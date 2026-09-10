@@ -72,7 +72,7 @@ void func_800379F8(DuelEffectChannel *object)
 
     if ((flags & 0x80) == 0) {
         object->state_51 = flags | 0x80;
-        D_8009B322 = func_80036D3C((u8 *)object);
+        D_8009B322 = func_80036D3C(object);
     }
     D_8009B322--;
     if (D_8009B322 == 0) {
@@ -86,7 +86,7 @@ void func_80037A58(DuelEffectChannel *object)
 
     if ((flags & 0x80) == 0) {
         object->state_51 = flags | 0x80;
-        D_8009B322 = func_80036D3C((u8 *)object);
+        D_8009B322 = func_80036D3C(object);
         D_8009B348[0] = gGraphics_uViewportX[0];
         D_8009B348[1] = gGraphics_uViewportY[0];
     }

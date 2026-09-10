@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_START_CAMPAIGN_DUEL_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* D_80090EAC entry: arms a campaign duel from the object's script stream. It
  * takes four bytes in order -- opponent id, D_8009B370, D_8009B372, terrain --
@@ -11,6 +12,6 @@
  *
  * It also resets D_8009B360 to -1 before any of that, which is what makes the
  * duel's own state read as unset. Register-pinned throughout. */
-void Text_StartCampaignDuel(u8 *object);
+void Text_StartCampaignDuel(DuelEffectChannel *object);
 
 #endif
