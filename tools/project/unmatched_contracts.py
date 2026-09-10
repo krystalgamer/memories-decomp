@@ -252,6 +252,13 @@ def load_exceptions(
     return exceptions
 
 
+# Statuses whose declarations may live in the central header. Both kinds lack a
+# defining C translation unit, which is the whole reason a shared declaration
+# has nowhere else to go; only unmatched_asm is *required* to be centralized,
+# while handwritten_asm is admitted a group at a time as it is moved.
+CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
+
+
 def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory(root)
     unmatched = {
@@ -264,7 +271,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     for name, statement in central_pairs:
         central[name].append(statement)
         status = statuses.get(name)
-        if status != "unmatched_asm":
+        if status not in CENTRALIZABLE_STATUSES:
             errors.append(
                 f"{UNMATCHED_HEADER}: stale declaration {name}: "
                 f"functions.csv status is {status or 'absent'}"

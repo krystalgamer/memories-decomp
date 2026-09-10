@@ -13,7 +13,7 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 #include "model_handler_registry.h"
-#include "model_primitive_handler_entries.h"
+#include "../unmatched.h"
 #include "model_object_handler_entries.h"
 
 extern s32 (*func_800603DC())();
