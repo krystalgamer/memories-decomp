@@ -10,9 +10,15 @@
  * pair is where the pad is steering it, clamped to the grid, and the screen
  * runtime walks the cursor toward the target.
  *
- * gFreeDuel_bReturnFlags is deliberately absent: the resident callers declare
- * it with an explicit .data section attribute that the overlay callers do not
- * use, so a single spelling would not serve both.
+ * gFreeDuel_bReturnFlags used to be left out of this header because the
+ * resident callers declare it with an explicit .data section attribute that
+ * the overlay callers do not use. That is true, and it does not matter here:
+ * the question is not whether a divergent spelling exists but whether any file
+ * carrying it includes this header. func_8002D458.c and func_80030FA0.c are
+ * the two .data declarers and neither includes free_duel.h -- they are
+ * resident units and this header is overlay-local -- so the two spellings
+ * never meet and the overlay can share the plain one below. fade.h does the
+ * same for D_8009B141 and mem_card.h for D_8009B3D4.
  */
 extern s8 gFreeDuel_bCursorColumn;
 extern s8 gFreeDuel_bCursorRow;
@@ -23,6 +29,12 @@ extern s8 gFreeDuel_bTargetRow;
 extern u8 gFreeDuel_abGridAvailable[];
 
 extern u8 gFreeDuel_bScreenFlags;
+
+/* Why the screen ended. screen_runtime.c stores 0x40 and 0x80 at its two exit
+ * points and reads the byte back on later passes -- 0x80 once and the whole
+ * byte against 0 twice -- so the overlay records the reason and acts on it
+ * next time round. The two resident writers only ever clear it. */
+extern u8 gFreeDuel_bReturnFlags;
 
 extern void *gFreeDuel_apSparklePool[];
 

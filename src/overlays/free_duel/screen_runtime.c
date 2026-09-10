@@ -85,7 +85,6 @@ extern Pair D_801D5608;
 extern u8 gFreeDuel_aDuelistRecords[];
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
-extern u8 gFreeDuel_bReturnFlags;
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
 extern void func_80035BE4(s32, s32, s32, s32, s32, s32);
