@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "model_state_setters.h"
 
 extern unsigned short D_8009AF92;
 extern unsigned char D_8009AFA4;
