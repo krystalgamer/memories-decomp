@@ -2,9 +2,9 @@
 #include "name_entry_keyboard.h"
 #include "../../psyq/rand.h"
 #include "../../game/card_constants.h"
+#include "../../game/save_data.h"
 
 extern u16 *D_8016D3DC[];
-extern s16 D_801D0200[];
 extern void func_8002CCE4(s32);
 
 void NameEntry_BuildStarterDeck(void)
@@ -22,7 +22,7 @@ void NameEntry_BuildStarterDeck(void)
     for (i = CARD_COUNT - 1; i >= 0; i--) {
         counts[i] = 0;
     }
-    out = D_801D0200;
+    out = (s16 *)gDuel_awPlayerDeck;
     table = D_8016D3DC;
     entry = *table;
     while (entry != 0) {

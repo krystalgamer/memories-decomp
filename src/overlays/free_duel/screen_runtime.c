@@ -10,6 +10,7 @@
 #include "../../game/graphics_frame.h"
 #include "../../psyq/rand.h"
 #include "../../game/sound.h"
+#include "../../game/save_data.h"
 #include "../../game/display_object_helpers.h"
 #define FUNC_8004036C_AMBIENT_OBJECT
 #include "../../game/display_object_api.h"
@@ -57,7 +58,6 @@ extern u8 *gFreeDuel_pCursorWidget;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 extern u8 gFreeDuel_bReturnFlags;
-extern u16 D_801D0200[];
 extern u8 *FreeDuel_SpawnSparkle(void);
 extern void func_80024DC8(s32, s32, s32, s32);
 extern void func_80033C90(void);
@@ -230,7 +230,7 @@ void FreeDuel_UpdateScreen(void)
             SD_SEPlayFull(0x30);
             return;
         }
-        entry = D_801D0200;
+        entry = gDuel_awPlayerDeck;
         for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
                 SD_SEPlayFull(9);

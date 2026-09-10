@@ -7,7 +7,6 @@
 #include "../../psyq/stdio.h"
 
 extern u8 D_801D0000[];
-extern u8 D_801D0200[];
 extern void func_80035748(void *, s32, s32);
 
 void NameEntry_Main(void)
@@ -26,7 +25,7 @@ void NameEntry_Main(void)
         rand();
     } while (NameEntry_PollCompletion() == 0);
     NameEntry_BuildStarterDeck();
-    state = D_801D0200;
+    state = (u8 *)gDuel_awPlayerDeck;
     checksum = 0;
     entry = state + SAVE_DATA_PLAYER_NAME_OFFSET;
     for (i = SAVE_DATA_PLAYER_NAME_SIZE - 1; i >= 0; i--) {
