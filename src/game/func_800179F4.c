@@ -1,5 +1,6 @@
 #define D_8009B369_IN_DATA
 #include "../types.h"
+#include "duel_shuffle_both_decks.h"
 #include "duel_draw_status_numbers.h"
 #include "save_data.h"
 #include "duel_grid.h"
@@ -39,7 +40,6 @@ extern void func_8002C598(void);
 extern void func_80029574(s32);
 extern void func_80035668(s32);
 extern void func_8001755C(void);
-extern void Duel_ShuffleBothDecks(u8 *, u8 *);
 
 void func_800179F4(void)
 {

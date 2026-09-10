@@ -19,14 +19,20 @@
  * Declared u8 with the halfword read spelled as a cast at the use, which is
  * what both sources already said.
  *
- * Duel_ShuffleDeck itself is deliberately absent. Its definition is
- * `(s32 src, u8 *out16, u8 *out8)` and duel_shuffle_both_decks.c declares
- * `(void *, void *, void *)`, passing its own `void *` parameters straight
- * through; the body then tests `src == 0`. Whether the pointer-versus-s32
- * first parameter is load bearing at that call has not been measured, and a
- * shared prototype would have to pick one of the two. It needs its own
- * change.
+ * Duel_ShuffleDeck's own prototype is here now. It was left out while
+ * duel_shuffle_both_decks.c declared `(void *, void *, void *)` against this
+ * definition's `(s32 src, u8 *out16, u8 *out8)`, on the grounds that whether
+ * the pointer-versus-s32 first parameter was load bearing at that call had
+ * not been measured.
+ *
+ * It is not. The shared prototype takes the definition's spelling and the
+ * caller converts at the call site, and the executable is unchanged. `src`
+ * is an address the body walks with `src += 2` and reads through
+ * `*(u16 *)src`, so s32 describes what the parameter actually holds, and
+ * the one caller that passes a pointer says so with a cast.
  */
 extern u8 gDuel_awOpponentDeckPool[];
+
+void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8);
 
 #endif
