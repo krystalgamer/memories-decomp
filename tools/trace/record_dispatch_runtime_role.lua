@@ -103,7 +103,7 @@ local function recordText(addr)
     if addr == 0 then
         return 'null'
     end
-    if not isRam(addr, 8) then
+    if addr % 2 ~= 0 or not isRam(addr, 8) then
         return string.format('invalid(0x%08X)', addr)
     end
     return string.format(
