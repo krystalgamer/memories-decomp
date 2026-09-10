@@ -3,6 +3,7 @@
 #include "func_80044DC0.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
+#include "sound_sequence_state.h"
 #include "sound_output_state.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
@@ -70,8 +71,6 @@ void func_80046DE8(void)
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"
-extern void func_800490F0(s16, u8);
-extern void func_80049108(s16, u8);
 /* Not a duplicate of the sound_init.h declaration: a second addressing view
    of the same symbol. The one call below narrows its second argument to s16,
    and the canonical (s32, s32) prototype would widen it back. */
