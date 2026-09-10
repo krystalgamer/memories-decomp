@@ -28,10 +28,22 @@ extern u8 *gFreeDuel_pThumbWidget;
 
 extern void func_80035C38(s32, s32, s32, s32, s32, s32, s32);
 extern void func_80040510(Obj *, s32, s32, s32, s32, s32, s32, s32, s32, s32);
-extern Obj *FreeDuel_SpawnSparkle(void);
 extern void FreeDuel_PlaceCursor(u8 *, s32);
 extern void FreeDuel_UpdateScrollbar(void);
 extern void func_8003FF08(s32);
+
+u8 *FreeDuel_SpawnSparkle(void)
+{
+    u8 *x;
+
+    x = func_800400AC(func_8004002C(), 2);
+    func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
+    x[0x5F] = 0x80;
+    *(s32 *)(x + 0x48) = 0x180018;
+    func_800428EC(x, 5);
+    *(u16 *)(x + 8) = *(u16 *)(x + 8) | 0x20;
+    return x;
+}
 
 void FreeDuel_Init(u8 *src)
 {
@@ -184,7 +196,7 @@ done:
     func_800428EC(obj, 15);
     obj->attr |= 0x28;
     gFreeDuel_pThumbWidget = (u8 *)obj;
-    obj = FreeDuel_SpawnSparkle();
+    obj = (Obj *)FreeDuel_SpawnSparkle();
     gFreeDuel_pCursorWidget = (u8 *)obj;
     obj->flags &= ~GsROTOFF;
     if (gFreeDuel_bReturnFlags == 0) {
