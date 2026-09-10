@@ -1,6 +1,5 @@
 #include "../types.h"
-
-extern u32 D_8009B09C;
+#include "graphics_frame.h"
 
 void Widget_UpdatePulseColour(u8 *arg0)
 {
