@@ -1119,7 +1119,7 @@ callers are `ai_script_control_flow.c` and `ai_script_print.c` for VM
 error/checkpoint output, `duel_magic_effect_dispatch.c` for the copied field
 grid y value, `func_80046A08.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
-`mem_card_requests.c` uses `sprintf` for `MemCard_FindFiles` and three request
+`mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request
 formatters; `func_8005106C.c` formats a three-number string immediately passed
 to `FntPrint`. `file_set_position_table.c` is the separate eighth formatted
 output caller and keeps `printf` unprototyped: adding any declaration changes
@@ -1178,7 +1178,7 @@ work records or the four-pointer control-point array before later fields are
 filled.
 
 The `strings.h` inventory is exactly two matching sources:
-`mem_card_directory.c` calls `strcmp` while searching directory entries, and
+`mem_card_driver.c` calls `strcmp` while searching directory entries, and
 `mem_card_dialog_runtime.c` calls `strcpy` when staging a requested path. No
 current game C includes the compatibility-only `string.h` wrapper directly.
 
@@ -1480,7 +1480,7 @@ The existing C sources expose several useful starting points:
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists` in `src/game/file_cd_helpers.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `func_8005BFC8` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
 | Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across `func_8005B8A0.c` and `func_8005BFC8` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
-| Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_requests.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; `mem_card_directory.c` deliberately retains byte-oriented 40-byte views for its name and file-size consumers. |
+| Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_driver.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; the free-space and name consumers deliberately retain byte-oriented 40-byte views. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c), and `func_80057544`/`func_800577B0` in [`file_transfer_steps.c`](../src/game/file_transfer_steps.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
 | Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `duel_card_stat_display.c`, `func_80031784.c`, and `fade_overlay.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
@@ -1493,7 +1493,7 @@ The existing C sources expose several useful starting points:
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `sound_output_state.c`: `func_80045054` passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in `sound_voice_selection.c`, `sound_voice_setup.c`, `sound_voice_volume.c`, and `sound_secondary_playback.c`: each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `sound_output_transition.c`: `func_8004671C` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |
-| Memory-card I/O event lifecycle | `OpenEvent` / `EnableEvent` / `CloseEvent`, `SwCARD` / `HwCARD`, and `EvSp*` / `EvMdINTR` constants | Migration complete in `mem_card_init_io_events.c` and `mem_card_close_io_events.c`: the eight `long` handles remain game-owned storage while the callbacks, constants, and prototypes come from `libapi.h`. |
+| Memory-card I/O event lifecycle | `OpenEvent` / `EnableEvent` / `CloseEvent`, `SwCARD` / `HwCARD`, and `EvSp*` / `EvMdINTR` constants | Migration complete in `mem_card_driver.c`: the eight `long` handles remain game-owned storage while the callbacks, constants, and prototypes come from `libapi.h`. |
 
 These migrations are game-source refactors and must remain byte-identical.
 Canonical SDK spelling improves call semantics, but exact code generation takes

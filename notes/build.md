@@ -464,7 +464,7 @@ difficulty once the right question was asked.
 
 Its contents really are unrelated: a `"%s\n"` format used only by the
 still-unmatched function at `0x8002E41C`, two separate one-character strings
-read by `mem_card_dialog_load_save.c` and `mem_card_do_load_directory.c`, the display-object
+read by `mem_card_dialog_load_save.c` and `mem_card_driver.c`, the display-object
 `ot_index` array, and the `"MTrk"` MIDI track tag compared by
 `sound_sequence_marker_scan.c`. Four subsystems, no shared subject, and no
 name for the unit better than its address.
