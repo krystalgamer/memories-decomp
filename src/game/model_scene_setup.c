@@ -261,10 +261,10 @@ void func_800528AC(void)
         for (j = 0; j < slot->field_E1B; j++) {
             s32 t = slot->field_BF5;
             if (v != 0) {
-                *((u8 *)slot->field_1E0[j] + 0xC) = v;
+                slot->field_1E0[j]->sid = v;
                 t = v;
             }
-            func_8004DC38((u8 *)slot, j, t, aa);
+            func_8004DC38(slot, j, t, aa);
         }
         if (v != 0) {
             slot->field_BF5 = v;
@@ -292,10 +292,10 @@ void func_800528AC(void)
         for (k = 0; k < slot->field_E1B; k++) {
             s32 t = slot->field_BF5;
             if (keep != 0) {
-                *((u8 *)slot->field_1E0[k] + 0xC) = keep;
+                slot->field_1E0[k]->sid = keep;
                 t = keep;
             }
-            func_8004DC38((u8 *)slot, k, t, sv);
+            func_8004DC38(slot, k, t, sv);
         }
         if (keep != 0) {
             slot->field_BF5 = keep;

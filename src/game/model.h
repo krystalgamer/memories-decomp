@@ -44,27 +44,42 @@ typedef struct {
     u16 max;
 } ModelSlotRow;
 
-/* One entry of the slot's MODEL_SLOT_PART_COUNT-wide part table at 0x1E0.
- * Only the fields the model code reaches are named: func_80057AF4 stores the
- * part's current source index at +0x08, func_800528AC pushes a part id
- * through +0x0C, func_8005611C copies +0x18 down to +0x16, and func_8004D75C
- * reads +0x18 as the part's first command key while stamping the row it was
- * resolved on into +0x1A. */
+/* One entry of the slot's MODEL_SLOT_PART_COUNT-wide part table at 0x1E0:
+ * the animation sequence driving one part of the model, which is libhmd's
+ * GsSEQ. func_8005C6A0 hands this table to GsLinkAnim as GsSEQ ** and the
+ * library fills it in, and every field the game touches is one GsSEQ names
+ * and uses the way libhmd does:
+ *
+ *   ii / aframe  func_80057AF4 stores a command index into ii, and
+ *                func_80056250 clears both to 0xFFFF when it rearms a part
+ *   sid / speed  model_scene_setup.c and model_slot_state_updates.c switch
+ *                a part's sequence through sid; func_8005A468 sets speed
+ *                for every part, and the rearm resets it to 0x10
+ *   rframe..ti   func_8004DC38 seeks a part by writing the frames left,
+ *                total frames, current and target index
+ *   start /      func_8004D75C reads start as the part's first command key
+ *   start_sid    and stamps the row it resolved into start_sid, and the
+ *                rearm restarts from both: ti = start, sid = start_sid
+ *
+ * Mirrored rather than taken from libhmd.h so this header stays free of the
+ * libgte/libgpu/libgs/libhmd chain, as field_D18 below does for
+ * GsCOORDUNIT. model_slot_updates.c asserts the two layouts agree. */
 typedef struct {
-    u8 pad_00[8];
-    u16 field_08;
-    /* func_80056250 resets these three beside field_08, field_0C
-     * and field_1A when it rearms a part: 0x0A and 0x10 to a
-     * halfword each, 0x0D to 0x10. */
-    u16 field_0A;
-    u8 field_0C;
-    u8 field_0D;
-    u8 pad_0E[2];
-    u16 field_10;
-    u8 pad_12[4];
-    u16 field_16;
-    u16 field_18;
-    u8 field_1A;
+    u32 rewrite_idx;
+    u16 size;
+    u16 num;
+    u16 ii;
+    u16 aframe;
+    u8 sid;
+    s8 speed;
+    u16 srcii;
+    s16 rframe;
+    u16 tframe;
+    u16 ci;
+    u16 ti;
+    u16 start;
+    u8 start_sid;
+    u8 traveling;
 } ModelSlotPart;
 
 typedef struct {
@@ -300,8 +315,8 @@ typedef char ModelSlotRow_size_must_be_0x76[
 typedef char ModelSlotRow_max_offset_must_be_0x74[
     MODEL_OFFSET(ModelSlotRow, max) == 0x74 ? 1 : -1
 ];
-typedef char ModelSlotPart_field_18_offset_must_be_0x18[
-    MODEL_OFFSET(ModelSlotPart, field_18) == 0x18 ? 1 : -1
+typedef char ModelSlotPart_start_offset_must_be_0x18[
+    MODEL_OFFSET(ModelSlotPart, start) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlot_field_2C8_offset_must_be_0x2C8[
     MODEL_OFFSET(ModelSlot, field_2C8) == 0x2C8 ? 1 : -1

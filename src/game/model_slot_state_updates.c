@@ -76,12 +76,12 @@ void func_800597C8(s32 idx, s32 flag, s32 val)
             s32 arg2 = rec->field_BF5;
 
             if (flag != 0) {
-                u8 *entry = (u8 *)rec->field_1E0[i];
+                ModelSlotPart *part = rec->field_1E0[i];
                 arg2 = flag;
-                entry[0xC] = flag;
+                part->sid = flag;
             }
 
-            func_8004DC38((u8 *)rec, i, arg2, arg3);
+            func_8004DC38(rec, i, arg2, arg3);
             count = rec->field_E1B;
             i++;
         } while (i < count);
