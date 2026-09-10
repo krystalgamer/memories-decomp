@@ -36,14 +36,13 @@ Verified channel fields used by matching C include:
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
-Eight pure-C users now include the shared header and use
-`DuelEffectChannel`: `func_80028310`, `func_80035A64`, `TextBox_SetRect`,
-`DuelEffect_InitEntry`, `DuelEffect_CreateChannel`, `func_8003D614`,
-`func_8003F388`, and `TextBox_BuildStep`.
-
-The callbacks in `duel_effect_state_callbacks.c` and `dialog_choice_state.c`
-reach the record through a cast rather than a typed parameter: they are
-entries of `D_80090E64`, which declares them `void (*)(u8 *)`.
+Matching C users across the duel-effect and text-box paths include the shared
+header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
+the record through `TextBoxStateCallback`, now declared
+`void (*)(DuelEffectChannel *)`; all eighteen entries of `D_80090E64` have
+typed parameters and the table requires no function-pointer casts. The casts
+that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
+`u8 *`, not uncertainty about the callback record.
 
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
