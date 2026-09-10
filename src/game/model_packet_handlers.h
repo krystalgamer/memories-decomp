@@ -3,6 +3,9 @@
 
 #include "../types.h"
 
+/* Interpolates one animation track; func_8005C768 returns it for type 0x2019. */
+u8 *func_8005CEF0(u8 **animation);
+
 /* Installs the packet handler for one model's animation stream.
  *
  * func_8005C768 maps a packet's type word to the routine that consumes it,
