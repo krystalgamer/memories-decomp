@@ -12,8 +12,8 @@
 #include "model_transfer_state.h"
 #include "func_8004E9A0.h"
 #include "func_800528AC.h"
+#include "model_handler_registry.h"
 
-extern s32 func_8005FC1C(s32);
 void func_80059CE4(void)
 {
     u8 *state = (u8 *)&D_800F56F0;
