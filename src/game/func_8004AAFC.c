@@ -1,10 +1,9 @@
+#define FUNC_8004A7C0_CALL_WITH_UNUSED_ARG
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "func_8004A7C0.h"
 #include "sound_sequence_constants.h"
 #include "sound.h"
-
-void func_8004A43C(u8 *arg0, s32 arg1);
-void func_8004A7C0(s32 arg0, s32 arg1);
 
 /* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
  * under-0x10 ones through func_8004A43C, resets a record whose voice is SPU_OFF,
@@ -42,7 +41,7 @@ void func_8004AAFC(void) {
         do {
             e = p + o;
             if (e[3] < SD_SEQUENCE_CHANNEL_COUNT) {
-                func_8004A43C(e, 0);
+                func_8004A43C((SDSecondaryObject *)e, 0);
             }
             if (*q == SPU_OFF) {
                 if (e[0xD] == 0) {

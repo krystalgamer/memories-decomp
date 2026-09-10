@@ -1,5 +1,7 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
+#include "func_8004A7C0.h"
+#include "func_8004B374.h"
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
