@@ -13,16 +13,15 @@
  * derivation: the horizontal distance and the yaw both take vp - vr in x
  * and z, and the pitch takes the y pair against that distance.
  *
- * They stay casts anyway, which was measured rather than assumed. Spelling
- * them as members -- either through a hoisted local or with the cast
- * repeated at each access, both of which produce the same object -- keeps
- * the instruction count at 226 but renames registers across the whole
- * function, a2 to a3, a3 to t0, t0 to t1 and t1 to t2, starting inside the
- * whole-record copy that the change does not touch. That is allocation
- * pressure rather than the aliasing effect display_object.h describes, and
- * there is no local lever for it.
+ * They are read as *(s32 *)&view->vpx rather than view->vpx, and that is
+ * measured. The plain member reads keep the instruction count at 226 but
+ * rename registers across the whole function. Taking each member's address
+ * keeps every read a scalar reference, as the old (m + offset) casts were,
+ * and builds byte-identically. It is the same device
+ * display_object_list_renderers.c needed; both files store to fixed
+ * addresses between the reads.
  *
- * Typing the parameter instead is a separate obstacle: GsRVIEW2 is an
+ * The parameter itself stays u8 *, for a separate reason: GsRVIEW2 is an
  * anonymous typedef, so this unit's header cannot forward declare it the
  * way model.h does for struct _GsCOORDUNIT, and pulling libgs.h in needs
  * the libgte and libgpu chain that seven of this header's nine includers
@@ -39,6 +38,7 @@
 
 void Model_UpdateViewMetrics(u8 *m) {
     u8 *b;
+    GsRVIEW2 *view;
 
     b = (u8 *)&D_800F56F0;
     if (m == 0) {
@@ -46,16 +46,17 @@ void Model_UpdateViewMetrics(u8 *m) {
     } else if (b != 0 && m != b) {
         D_800F56F0 = *(GsRVIEW2 *)m;
     }
+    view = (GsRVIEW2 *)m;
 
-    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) * (*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) + (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)) * (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)));
+    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
 
-    D_8009B47A = ratan2(*(s32 *)(m + 8) - *(s32 *)(m + 0x14),
-                        *(s32 *)(m + 0) - *(s32 *)(m + 0xC));
+    D_8009B47A = ratan2(*(s32 *)&view->vpz - *(s32 *)&view->vrz,
+                        *(s32 *)&view->vpx - *(s32 *)&view->vrx);
 
-    D_8009B47C = ratan2(*(s32 *)(m + 4) - *(s32 *)(m + 0x10),
+    D_8009B47C = ratan2(*(s32 *)&view->vpy - *(s32 *)&view->vry,
                         *(s16 *)&D_8009B478);
 
-    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) * (*(s32 *)(m + 0) - *(s32 *)(m + 0xC)) + (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) * (*(s32 *)(m + 4) - *(s32 *)(m + 0x10)) + (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)) * (*(s32 *)(m + 8) - *(s32 *)(m + 0x14)));
+    *(s16 *)&D_8009B478 = SquareRoot0((*(s32 *)&view->vpx - *(s32 *)&view->vrx) * (*(s32 *)&view->vpx - *(s32 *)&view->vrx) + (*(s32 *)&view->vpy - *(s32 *)&view->vry) * (*(s32 *)&view->vpy - *(s32 *)&view->vry) + (*(s32 *)&view->vpz - *(s32 *)&view->vrz) * (*(s32 *)&view->vpz - *(s32 *)&view->vrz));
 
     D_8009B47A = (*(s16 *)&D_8009B47A + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
@@ -64,13 +65,20 @@ void Model_UpdateViewMetrics(u8 *m) {
 }
 
 /* Builds a coordinate unit for one model slot's entry and hands the caller's
- * record (arg3) a matrix built from the camera angles, parented to it.
+ * GsCOORDUNIT (arg3) a matrix built from the camera angles, parented to it.
+ *
+ * arg3's rotation is read from the slot's own unit at field_D18 through a
+ * volatile view of the slot table, which reloads the pointer for each angle
+ * as retail does. The view has to be a struct reference: through a cast
+ * pointer the load is a fixed-address scalar and floats above the flg store.
+ * The third angle keeps its (u16) because it lands in an int, where the sign
+ * would otherwise turn lhu into lh.
  *
  * The local `unit` is a whole GsCOORDUNIT: `matrix` and `workm` are the pair
  * GsGetLwUnit copies between, `rot` is the zeroed vector RotMatrix_gte reads,
  * and `super` is the parent link, left null because this unit is the root of
  * the chain arg3 is spliced onto at the end. */
-void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
+void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
 {
     GsCOORDUNIT unit;
     SVECTOR ang;
@@ -79,19 +87,19 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     SVECTOR sv90;
     MATRIX work;
     u8 scratch[8];
-    u8 *p;
+    ModelSlot *slot;
     s32 z;
     register s32 turn asm("$6");
     /* Prevent GCC from carrying &work across the final pair of calls. */
     register u8 *stack_pointer asm("$sp");
 
-    p = (u8 *)D_800F2C40 + index * MODEL_SLOT_SIZE;
-    if (p[0xE17] < arg1) {
-        arg1 = p[0xE18];
+    slot = &D_800F2C40[index];
+    if (slot->entry_count < arg1) {
+        arg1 = slot->field_E18;
     }
 
     GsGetLwUnit(
-        (GsCOORDUNIT *)(*(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        (GsCOORDUNIT *)(slot->entries + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
         &ls
     );
     GsSetLsMatrix(&ls);
@@ -116,18 +124,18 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, u8 *arg3)
     sv90.vz = D_8009B47C;
     sv88 = sv90;
 
-    *(s32 *)arg3 = 0;
-    *(s16 *)(arg3 + 0x44) = turn - *(u16 *)((*(u8 * volatile *)((u8 *)D_800F2C40 + 0xD18)) + 0x44);
-    *(s16 *)(arg3 + 0x46) = turn - *(u16 *)((*(u8 * volatile *)((u8 *)D_800F2C40 + 0xD18)) + 0x46);
-    z = turn - *(u16 *)((*(u8 * volatile *)((u8 *)D_800F2C40 + 0xD18)) + 0x48);
-    *(s16 *)(arg3 + 0x48) = z;
-    RotMatrixZXY((SVECTOR *)(arg3 + 0x44), (MATRIX *)(arg3 + 4));
+    arg3->flg = 0;
+    arg3->rot.vx = turn - ((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vx;
+    arg3->rot.vy = turn - ((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vy;
+    z = turn - (u16)((volatile ModelSlot *)D_800F2C40)->field_D18->rot.vz;
+    arg3->rot.vz = z;
+    RotMatrixZXY(&arg3->rot, &arg3->matrix);
 
     RotMatrix_gte(&sv88, &work);
-    MulMatrix((MATRIX *)(arg3 + 4), (MATRIX *)(stack_pointer + 0x98));
+    MulMatrix(&arg3->matrix, (MATRIX *)(stack_pointer + 0x98));
 
-    *(s32 *)(arg3 + 0x20) = 0;
-    *(s32 *)(arg3 + 0x1C) = 0;
-    *(s32 *)(arg3 + 0x18) = 0;
-    *(GsCOORDUNIT **)(arg3 + 0x4C) = &unit;
+    arg3->matrix.t[2] = 0;
+    arg3->matrix.t[1] = 0;
+    arg3->matrix.t[0] = 0;
+    arg3->super = &unit;
 }

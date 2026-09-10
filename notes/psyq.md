@@ -612,9 +612,10 @@ the identity, and its length exactly equals the inventory function extent.
 The canonical declarations are already present in `libgte.h`, and the
 independent Unchiga catalogue agrees at all three addresses. These remain
 resident SDK assembly entries rather than game-owned C.
-Matching `func_800580D4` supplies its byte-oriented input and scratch output
-through layout-only casts at the `RotTransSV` boundary instead of maintaining
-an address-based local prototype.
+Matching `func_800580D4` supplies its byte-oriented input through a
+layout-only cast at the `RotTransSV` boundary instead of maintaining an
+address-based local prototype, and takes its output as the `GsCOORDUNIT *` it
+is.
 
 Duplicate library copies require address-qualified symbols rather than aliases.
 For example, CD conversion helpers appear more than once in the executable,

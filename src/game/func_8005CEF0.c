@@ -6,126 +6,132 @@
 #include "model.h"
 #include "model_packet_handlers.h"
 
-/* Advances one animation track: interpolates the translation (+0x18) and
- * the three rotation angles (+0x44) between the track's two keyframes over
- * its duration, wrapping angles across the full-turn boundary on 16-tick
- * tracks, rebuilds the matrix through RotMatrixYXZ_gte, and mirrors the six
- * results into the track's optional output record. Returns 1 when the
- * track has no duration. */
-u8 *func_8005CEF0(u8 **arg0) {
-    u8 *s1;
-    u8 *fr;
+/* Advances one animation track: interpolates the translation and the three
+ * rotation angles between the track's two keyframes over its duration,
+ * wrapping angles across the full-turn boundary on 16-tick tracks, rebuilds
+ * the matrix through RotMatrixYXZ_gte, and mirrors the six results into the
+ * track's optional output record. Returns 1 when the track has no duration.
+ *
+ * Each value is (source * rframe + target * (tframe - rframe)) / tframe, so
+ * it is the source keyframe when rframe equals tframe and the target when
+ * rframe reaches zero. The GsCOORDUNIT it rewrites is
+ * named by the sequence's rewrite_idx: the top byte selects one of the
+ * section pointers that follow header_size, the low 24 bits a word offset
+ * into that section. */
+int func_8005CEF0(GsARGUNIT_ANIM *sp) {
+    ModelAnimParams *params;
+    GsSEQ *seq;
     GsCOORDUNIT *dst;
-    u8 *out;
-    s32 t;
-    s32 dur;
-    u32 w;
-    u32 n;
+    ModelKeyframe *out;
+    s32 rest;
+    s32 total;
+    u32 offset;
+    u32 section;
     s32 v;
-    u16 a0;
-    u16 a1;
-    u16 a2;
-    u16 b0;
-    u16 b1;
-    u16 b2;
-    s1 = ((u8 *)arg0) + (*(s32 *)(((u8 *)arg0) + 0x14) * 4 + 0x14);
-    fr = *(u8 **)s1;
-    if (*(u16 *)(fr + 0x12) == 0) {
-        return (u8 *)1;
+    u16 source_rx;
+    u16 source_ry;
+    u16 source_rz;
+    u16 target_rx;
+    u16 target_ry;
+    u16 target_rz;
+    params = (ModelAnimParams *)(&sp->header_size + sp->header_size);
+    seq = params->seq;
+    if (seq->tframe == 0) {
+        return 1;
     }
-    t = *(s16 *)(fr + 0x10);
-    dur = *(u16 *)(fr + 0x12);
-    w = *(s32 *)fr;
-    n = w >> 24;
-    w &= 0xFFFFFF;
-    dst = (GsCOORDUNIT *)(*(u8 **)(((u8 *)arg0) + n * 4 + 0x14) + w * 4);
-    dst->matrix.t[0] = (*(s16 *)((*(u8 **)(s1 + 4)) + 0) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 0) * (dur - t)) / dur;
-    dst->matrix.t[1] = (*(s16 *)((*(u8 **)(s1 + 4)) + 2) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 2) * (dur - t)) / dur;
-    dst->matrix.t[2] = (*(s16 *)((*(u8 **)(s1 + 4)) + 4) * t + *(s16 *)((*(u8 **)(s1 + 8)) + 4) * (dur - t)) / dur;
-    b0 = *(u16 *)((*(u8 **)(s1 + 8)) + 6);
-    b1 = *(u16 *)((*(u8 **)(s1 + 8)) + 8);
-    b2 = *(u16 *)((*(u8 **)(s1 + 8)) + 0xA);
-    a0 = *(u16 *)((*(u8 **)(s1 + 4)) + 6);
-    a1 = *(u16 *)((*(u8 **)(s1 + 4)) + 8);
-    a2 = *(u16 *)((*(u8 **)(s1 + 4)) + 0xA);
-    if (dur == 16) {
-        if ((s16)a0 - (s16)b0 < 0) {
+    rest = seq->rframe;
+    total = seq->tframe;
+    offset = seq->rewrite_idx;
+    section = offset >> 24;
+    offset &= 0xFFFFFF;
+    dst = (GsCOORDUNIT *)((u32 *)(&sp->header_size)[section] + offset);
+    dst->matrix.t[0] = (params->source->x * rest + params->target->x * (total - rest)) / total;
+    dst->matrix.t[1] = (params->source->y * rest + params->target->y * (total - rest)) / total;
+    dst->matrix.t[2] = (params->source->z * rest + params->target->z * (total - rest)) / total;
+    target_rx = params->target->rx;
+    target_ry = params->target->ry;
+    target_rz = params->target->rz;
+    source_rx = params->source->rx;
+    source_ry = params->source->ry;
+    source_rz = params->source->rz;
+    if (total == 16) {
+        if ((s16)source_rx - (s16)target_rx < 0) {
             goto n0;
         }
-        if ((s16)a0 - (s16)b0 >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)source_rx - (s16)target_rx >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w0;
         }
         goto d0;
     n0:
-        if ((s16)b0 - (s16)a0 < MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)target_rx - (s16)source_rx < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d0;
         }
     w0:
-        v = (s16)b0;
+        v = (s16)target_rx;
         if (v > 0) {
             v = v - MODEL_ANGLE_FULL_TURN;
         } else {
             v = v + MODEL_ANGLE_FULL_TURN;
         }
-        b0 = v;
+        target_rx = v;
     d0:
         ;
-        if ((s16)a1 - (s16)b1 < 0) {
+        if ((s16)source_ry - (s16)target_ry < 0) {
             goto n1;
         }
-        if ((s16)a1 - (s16)b1 >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)source_ry - (s16)target_ry >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w1;
         }
         goto d1;
     n1:
-        if ((s16)b1 - (s16)a1 < MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)target_ry - (s16)source_ry < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d1;
         }
     w1:
-        v = (s16)b1;
+        v = (s16)target_ry;
         if (v > 0) {
             v = v - MODEL_ANGLE_FULL_TURN;
         } else {
             v = v + MODEL_ANGLE_FULL_TURN;
         }
-        b1 = v;
+        target_ry = v;
     d1:
         ;
-        if ((s16)a2 - (s16)b2 < 0) {
+        if ((s16)source_rz - (s16)target_rz < 0) {
             goto n2;
         }
-        if ((s16)a2 - (s16)b2 >= MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)source_rz - (s16)target_rz >= MODEL_ANGLE_WRAP_THRESHOLD) {
             goto w2;
         }
         goto d2;
     n2:
-        if ((s16)b2 - (s16)a2 < MODEL_ANGLE_WRAP_THRESHOLD) {
+        if ((s16)target_rz - (s16)source_rz < MODEL_ANGLE_WRAP_THRESHOLD) {
             goto d2;
         }
     w2:
-        v = (s16)b2;
+        v = (s16)target_rz;
         if (v > 0) {
             v = v - MODEL_ANGLE_FULL_TURN;
         } else {
             v = v + MODEL_ANGLE_FULL_TURN;
         }
-        b2 = v;
+        target_rz = v;
     d2:
         ;
     }
-    dst->rot.vx = ((s16)a0 * t + (s16)b0 * (dur - t)) / dur;
-    dst->rot.vy = ((s16)a1 * t + (s16)b1 * (dur - t)) / dur;
-    dst->rot.vz = ((s16)a2 * t + (s16)b2 * (dur - t)) / dur;
+    dst->rot.vx = ((s16)source_rx * rest + (s16)target_rx * (total - rest)) / total;
+    dst->rot.vy = ((s16)source_ry * rest + (s16)target_ry * (total - rest)) / total;
+    dst->rot.vz = ((s16)source_rz * rest + (s16)target_rz * (total - rest)) / total;
     RotMatrixYXZ_gte(&dst->rot, &dst->matrix);
     dst->flg = 0;
-    out = *(u8 **)(s1 + 0xC);
+    out = params->out;
     if (out != 0) {
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x0) = *(u16 *)&dst->matrix.t[0];
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x2) = *(u16 *)&dst->matrix.t[1];
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x4) = *(u16 *)&dst->matrix.t[2];
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x6) = *(u16 *)&dst->rot.vx;
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0x8) = *(u16 *)&dst->rot.vy;
-        *(u16 *)(*(u8 **)(s1 + 0xC) + 0xA) = *(u16 *)&dst->rot.vz;
+        params->out->x = dst->matrix.t[0];
+        params->out->y = dst->matrix.t[1];
+        params->out->z = dst->matrix.t[2];
+        params->out->rx = dst->rot.vx;
+        params->out->ry = dst->rot.vy;
+        params->out->rz = dst->rot.vz;
     }
-    return (u8 *)0;
+    return 0;
 }

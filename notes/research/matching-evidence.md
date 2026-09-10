@@ -3235,6 +3235,26 @@ What was safe, all confirmed against the full-executable hash:
   stores a whole struct and reads its fields, expect the conversion to cost
   a build to check rather than being free by inspection.
 
+- **The fix for that is to take the member's address, not to keep the
+  offset.** `*(s32 *)&view->vpx` builds byte-identically where `view->vpx`
+  does not. GCC 2.8.1 marks a member read as a struct reference and a read
+  through a cast pointer as a scalar, and it lets a load from a varying
+  struct address move past a store to a fixed scalar address. The old
+  `*(s32 *)(m + 0)` was a scalar; taking the member's address keeps it one
+  and still names the field. The same device converted all 74 offset casts
+  in `display_object_list_renderers.c`, where the fixed stores are the
+  scratchpad primitive's.
+  - Only reads that follow such a store need it. Loads earlier in the block
+    can be plain member reads.
+  - It works only when the cast type differs from the member's declared
+    type. `*(s32 *)&e->field_4C` on an `s32` member folds straight back into
+    a member read; spell it `*(u32 *)&`.
+  - The mirror case also happens. In `func_800580D4` a volatile pointer load
+    written as `*(GsCOORDUNIT * volatile *)&D_800F2C40[0].field_D18` is a
+    fixed-address scalar and floated above a store through the varying
+    `arg3`. Written as a struct reference,
+    `((volatile ModelSlot *)D_800F2C40)->field_D18`, it stays put.
+
 - **When converting a record to a typed pointer, convert every access to it
   at once.** `func_800289BC` reaches a `0x40`-byte record through `u8 *e`
   and already casts four sub-rectangles to `RECT` before calling
