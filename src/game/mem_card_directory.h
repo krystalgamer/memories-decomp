@@ -16,7 +16,7 @@ s32 MemCard_CalcFreeBlocks(u8 *entry, s32 count);
 s32 MemCard_FindEntry(u8 *name, u8 *entry, s32 count);
 
 /* Current directory-entry buffer and the number of records loaded into it. */
-extern u8 *D_8009B444;
-extern s32 D_8009B440;
+extern u8 *gMemCard_pDirEntries;
+extern s32 gMemCard_nDirEntries;
 
 #endif

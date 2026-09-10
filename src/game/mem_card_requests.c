@@ -12,10 +12,10 @@ typedef char MemCardDirectoryEntry_size_must_match[
 ];
 
 extern u8 D_80010538[];
-extern u8 D_800F2B00[];
-extern s32 D_8009B430;
-extern s16 D_8009B434;
-extern s16 D_8009B44C;
+extern u8 gMemCard_szRequestPath[];
+extern s32 gMemCard_pRequestBuf;
+extern s16 gMemCard_wRequestSize;
+extern s16 gMemCard_wRequestOffset;
 
 int MemCard_ReqLoadDirectory(int chan)
 {
@@ -26,8 +26,8 @@ int MemCard_ReqLoadDirectory(int chan)
     _card_info(chan);
     while (gMemCard_nIOResult < 0) {
     }
-    MemCard_ClearIOEvents(D_800F2AF0);
-    _card_clear(D_8009B437);
+    MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
+    _card_clear(gMemCard_bChannel);
     while (gMemCard_nIOResult < 0) {
     }
     MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
@@ -42,10 +42,10 @@ int MemCard_ReqReadFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 3)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
-        D_8009B44C = offset;
-        D_8009B430 = buf;
-        D_8009B434 = size;
+        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        gMemCard_wRequestOffset = offset;
+        gMemCard_pRequestBuf = buf;
+        gMemCard_wRequestSize = size;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
@@ -60,8 +60,8 @@ int MemCard_ReqReadSector(int chan, int buf, int sector)
     int result;
 
     if (MemCard_BeginRequest(chan, 11)) {
-        D_8009B44C = sector;
-        D_8009B430 = buf;
+        gMemCard_wRequestOffset = sector;
+        gMemCard_pRequestBuf = buf;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
@@ -76,10 +76,10 @@ int MemCard_ReqWriteFile(int chan, int name, int buf, int offset, int size)
     int result;
 
     if (MemCard_BeginRequest(chan, 4)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
-        D_8009B44C = offset;
-        D_8009B430 = buf;
-        D_8009B434 = size;
+        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        gMemCard_wRequestOffset = offset;
+        gMemCard_pRequestBuf = buf;
+        gMemCard_wRequestSize = size;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
@@ -94,8 +94,8 @@ int MemCard_ReqWriteSector(int chan, int buf, int sector)
     int result;
 
     if (MemCard_BeginRequest(chan, 12)) {
-        D_8009B44C = sector;
-        D_8009B430 = buf;
+        gMemCard_wRequestOffset = sector;
+        gMemCard_pRequestBuf = buf;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;
@@ -110,8 +110,8 @@ int MemCard_ReqCreateFile(int chan, int name, int blocks)
     int result;
 
     if (MemCard_BeginRequest(chan, 8)) {
-        sprintf((char *)D_800F2B00, (char *)D_80010538, chan, name);
-        D_8009B434 = blocks;
+        sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);
+        gMemCard_wRequestSize = blocks;
         MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
         _card_info(chan);
         result = 1;

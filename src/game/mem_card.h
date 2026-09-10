@@ -47,7 +47,7 @@ extern s32 gMemCard_nIOResult;
  * reads it with lbu at ten sites, all gp-relative into $a0, five of the reads
  * in func_80044838, still assembly; so it is one unsigned byte, and the one
  * char spelling was the writer's, where a store shows no sign. */
-extern u8 D_8009B437;
+extern u8 gMemCard_bChannel;
 
 extern u8 gMemCard_szSaveFileName[];
 
@@ -91,7 +91,7 @@ extern u16 gMemCard_wDialogFlags;
  * one already include this header and already spell the element `long`. That
  * spelling is preserved here for the same reason it is above: the event API
  * hands these back as long and nothing has measured the difference. */
-extern long D_800F2AF0[];
+extern long gMemCard_aHwIOEventHandles[];
 
 /* The request state machines' shared state. Every symbol below was declared
  * identically by each of its users, all of which already include this header.
@@ -131,36 +131,43 @@ extern u8 D_8009B3D4;
 
 /* The IO event machinery's own two bytes.
  *
- *   D_8009B43E  A signed state, armed from a caller's argument and tested as
- *               `>= 0`, `== 1` and `!= 8`, so the sign and the specific
- *               values both matter.
- *   D_8009B44E  A flag byte. MemCard_DoLoadDirectory sets bit 0x80 once it
- *               has tried to list the card and tests it to skip the reload;
- *               the init path clears the whole byte. */
-extern s8 D_8009B43E;
-extern u8 D_8009B44E;
+ *   gMemCard_bRequest   The request code, armed from MemCard_BeginRequest's
+ *                       argument and tested as `>= 0`, `== 1` and `!= 8`,
+ *                       so the sign and the specific values both matter.
+ *                       -1 is idle; mem_card_begin_request.h lists the
+ *                       codes.
+ *   gMemCard_bDirFlags  A flag byte. MemCard_DoLoadDirectory sets bit 0x80
+ *                       once it has tried to list the card and tests it to
+ *                       skip the reload; the init path clears the whole
+ *                       byte. */
+extern s8 gMemCard_bRequest;
+extern u8 gMemCard_bDirFlags;
 
-/* Stored by MemCard_BeginRequest (mem_card_begin_request.c:11,
- * `D_8009B43C = 10;`; func_800440B4.s:8 `sb`) and by MemCard_DoLoadDirectory,
- * which loads it under u8 and matched: `v0 = D_8009B43C - 1;
- * D_8009B43C = (u8)v0;` at mem_card_do_load_directory.c:60-61, :96-97,
- * :114-115, and `D_8009B43C = 0xA;` at :80 and :104 (func_80044608.s lbu
- * :40, :94, :121; sb :43, :73, :97, :104, :124). The writer spelled it char,
- * where a store shows no sign; the D_8009B437 comment above records the same
- * split. Still in assembly: func_80044838.s (lbu :137, :307; sb :75, :140,
- * :211, :288, :310). D_8009B43D is the next symbol, at +1
- * (c_symbols.ld:298). Every access is `%gp_rel`; plain declaration. */
-extern u8 D_8009B43C;
+/* The retry budget of the current stage. Stored by MemCard_BeginRequest
+ * (mem_card_begin_request.c:11, `gMemCard_bRetries = 10;`;
+ * func_800440B4.s:8 `sb`) and by MemCard_DoLoadDirectory, which loads it
+ * under u8 and matched: `v0 = gMemCard_bRetries - 1;
+ * gMemCard_bRetries = (u8)v0;` at mem_card_do_load_directory.c:60-61,
+ * :96-97, :114-115, and `gMemCard_bRetries = 0xA;` at :80 and :104
+ * (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
+ * writer spelled it char, where a store shows no sign; the gMemCard_bChannel
+ * comment above records the same split. Still in assembly: func_80044838.s
+ * (lbu :137, :307; sb :75, :140, :211, :288, :310). gMemCard_bLoadStep is the
+ * next symbol, at +1 (c_symbols.ld:272). Every access is `%gp_rel`; plain
+ * declaration. */
+extern u8 gMemCard_bRetries;
 
-/* Stored by MemCard_BeginRequest (mem_card_begin_request.c:15,
- * `D_8009B43D = 0;`; func_800440B4.s:13 `sb $zero`) and by
+/* MemCard_DoLoadDirectory's sub-state: 0 _card_info, 1 _card_clear,
+ * 2 _card_load. Stored by MemCard_BeginRequest (mem_card_begin_request.c:15,
+ * `gMemCard_bLoadStep = 0;`; func_800440B4.s:13 `sb $zero`) and by
  * MemCard_DoLoadDirectory, which loads it under u8 and matched:
- * `v1 = D_8009B43D;` at mem_card_do_load_directory.c:24,
- * `D_8009B43D = (u8)(D_8009B43D + 1);` at :81 and `D_8009B43D = 2;` at :105
- * (func_80044608.s lbu :5, :72; sb :75, :106). No function still in
- * assembly names it. D_8009B43E, declared s8 above, is at +1
- * (c_symbols.ld:299). Every access is `%gp_rel`; plain declaration. */
-extern u8 D_8009B43D;
+ * `v1 = gMemCard_bLoadStep;` at mem_card_do_load_directory.c:24,
+ * `gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1);` at :81 and
+ * `gMemCard_bLoadStep = 2;` at :105 (func_80044608.s lbu :5, :72; sb :75,
+ * :106). No function still in assembly names it. gMemCard_bRequest,
+ * declared s8 above, is at +1 (c_symbols.ld:273). Every access is
+ * `%gp_rel`; plain declaration. */
+extern u8 gMemCard_bLoadStep;
 
 /* The message the two-save load shows when it rejects the pair:
  * save_data_update_load_pair.c and save_data_update_trade_load.c set it to

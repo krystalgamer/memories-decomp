@@ -97,14 +97,14 @@ event constants come from Psy-Q's `kernel.h`; `OpenEvent`, `EnableEvent`,
 
 `MemCard_InitIOEvents` enters a critical section before opening the events,
 enables all eight handles after creation, and exits the critical section only
-after the complete set is active. It also resets three surrounding
-memory-card state values at `D_8009B43E`, `D_8009B44E`, and `D_8009B444`;
-the first two broader roles remain address-based. `D_8009B444` is the current
-directory-entry buffer: `MemCard_DoLoadDirectory` points it at `D_800F2888`,
-stores the loaded entry count in `D_8009B440`, and passes both to
-`MemCard_CalcFreeBlocks`. `MemCard_FindLoadedEntry` forwards the same
-buffer/count pair to `MemCard_FindEntry` when it searches for a
-caller-supplied filename.
+after the complete set is active. It also resets three surrounding memory-card
+state values: the request code `gMemCard_bRequest` (to idle), the directory
+flags `gMemCard_bDirFlags`, and `gMemCard_pDirEntries`. `gMemCard_pDirEntries`
+is the current directory-entry buffer: `MemCard_DoLoadDirectory` points it at
+`gMemCard_aDirEntries`, stores the loaded entry count in
+`gMemCard_nDirEntries`, and passes both to `MemCard_CalcFreeBlocks`.
+`MemCard_FindLoadedEntry` forwards the same buffer/count pair to
+`MemCard_FindEntry` when it searches for a caller-supplied filename.
 
 The paired matching `MemCard_CloseIOEvents` teardown enters a critical section,
 closes the same eight `gMemCard_aIOEventHandles` entries in order, and then
@@ -143,8 +143,8 @@ none is ready. Nothing in the executable calls it.
 The driver picks the handle set by operation. `_card_info`, `_card_load` and
 the file-level `read` and `write` are prepared against
 `gMemCard_aIOEventHandles`, the `SwCARD` set; `_card_clear`, `_card_read` and
-`_card_write` are prepared against `D_800F2AF0`, the `HwCARD` set four handles
-further on.
+`_card_write` are prepared against `gMemCard_aHwIOEventHandles`, the `HwCARD`
+set four handles further on.
 
 Matching `MemCard_ClearCard` (`0x80044038`) shows how the result drives
 retries. It prepares the `HwCARD` set, calls `_card_clear(chan)`, waits while
@@ -156,66 +156,68 @@ without blocking inside `MemCard_DoLoadDirectory`, described next.
 
 `MemCard_DoLoadDirectory` (`0x80044608`) is the first stage of every request
 the poll at `0x80044838` runs. It advances one step per call on the sub-state
-byte `D_8009B43D`, returns `-1` while it has started a new event and is
+byte `gMemCard_bLoadStep`, returns `-1` while it has started a new event and is
 waiting, and otherwise returns the shared result:
 
 | Sub-state | Waits on | Next |
 |---:|---|---|
-| `0` | `_card_info` | Timeout re-issues `_card_info` until the retry byte `D_8009B43C` runs out, and an error finishes with `2`. A completed info on a card already listed (bit `0x80` of `D_8009B44E`) finishes with `0`, unless the request is `8`. Otherwise, and on a new-card event, request `1` finishes with `3`; every other request clears the card. |
+| `0` | `_card_info` | Timeout re-issues `_card_info` until the retry byte `gMemCard_bRetries` runs out, and an error finishes with `2`. A completed info on a card already listed (bit `0x80` of `gMemCard_bDirFlags`) finishes with `0`, unless the request is `8`. Otherwise, and on a new-card event, request `1` finishes with `3`; every other request clears the card. |
 | `1` | `_card_clear` | An error retries the clear. Completion starts `_card_load` and moves to `2`. |
-| `2` | `_card_load` | An error retries the load. Then bit `0x80` is set, and on success `MemCard_FindFiles` lists `*` into `D_800F2888` and `MemCard_CalcFreeBlocks` stores the free count in `D_8009B438`. |
+| `2` | `_card_load` | An error retries the load. Then bit `0x80` is set, and on success `MemCard_FindFiles` lists `*` into `gMemCard_aDirEntries` and `MemCard_CalcFreeBlocks` stores the free count in `gMemCard_nFreeBlocks`. |
 
 A new-card result at the end of the load stage is returned as `4` rather than
 `3`; that conversion is internal state-machine bookkeeping, not a fifth event
-callback. `D_8009B44E` is cleared by `MemCard_InitIOEvents` and nothing else
-clears bit `0x80`, so once a listing has been attempted, a plain completed info
-reuses it. A new-card event still forces the clear and reload, and so does
+callback. `gMemCard_bDirFlags` is cleared by `MemCard_InitIOEvents` and nothing
+else clears bit `0x80`, so once a listing has been attempted, a plain completed
+info reuses it. A new-card event still forces the clear and reload, and so does
 request `8`, the one that goes on to add a file.
 
 ## Request slot
 
 The low-level driver runs one request at a time. `MemCard_BeginRequest`
-(`0x800440B4`) claims the slot: it returns `0` while `D_8009B43E` is
+(`0x800440B4`) claims the slot: it returns `0` while `gMemCard_bRequest` is
 nonnegative, which means an earlier request is still pending, and otherwise
-stores the channel in `D_8009B437`, the request code in `D_8009B43E`, resets
-the retry byte `D_8009B43C` to `10` and both sub-state bytes to `0`, and sets
-`gMemCard_nIOResult` to `-1`. Every wrapper below calls it first and returns
-its refusal unchanged; on success the wrapper stages its arguments in the
-shared request globals, starts `_card_info(chan)` against
+stores the channel in `gMemCard_bChannel`, the request code in
+`gMemCard_bRequest`, resets the retry byte `gMemCard_bRetries` to `10` and both
+sub-state bytes, `gMemCard_bLoadStep` and `gMemCard_bRequestStep`, to `0`, and
+sets `gMemCard_nIOResult` to `-1`. Every wrapper below calls it first and
+returns its refusal unchanged; on success the wrapper stages its arguments in
+the shared request globals, starts `_card_info(chan)` against
 `gMemCard_aIOEventHandles`, and returns `1` without waiting.
 
 The poll at `0x80044838` is still assembly (the tracked candidate is
 `src/candidates/func_80044838.c`), but its dispatch fixes what each code does.
 It returns `-1` while the slot is idle and `0` while the request is still
 running; when it finishes it writes the code and the result through its two
-output pointers, puts `D_8009B43E` back to `-1`, and returns `1`.
+output pointers, puts `gMemCard_bRequest` back to `-1`, and returns `1`.
 
 | Code | Wrapper | Staged arguments | What the poll does |
 |---:|---|---|---|
 | `1` | `MemCard_ReqCardInfo(chan)` | none | Stops after the `_card_info` stage of `MemCard_DoLoadDirectory`, so it reports the card state without clearing it. |
-| `2` | `MemCard_ReqLoadDirectory(chan)` | none | Finishes `MemCard_DoLoadDirectory`, which lists `*` into `D_800F2888` and counts free blocks into `D_8009B438`. |
-| `3` | `MemCard_ReqReadFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | `open` with `O_RDONLY \| O_NOWAIT`, `lseek` to the offset, `read`. |
-| `4` | `MemCard_ReqWriteFile(chan, name, buf, offset, size)` | path, `D_8009B430`, `D_8009B44C`, `D_8009B434` | The same with `O_WRONLY \| O_NOWAIT` and `write`. |
-| `8` | `MemCard_ReqCreateFile(chan, name, blocks)` | path, `D_8009B434` | Result `7` when `D_8009B438` plus the block count reaches `16`, `6` when `MemCard_FindFiles` already finds the name, otherwise `open` with `O_CREAT` and the block count in the high half of the mode. |
-| `11` | `MemCard_ReqReadSector(chan, buf, sector)` | `D_8009B430`, `D_8009B44C` | `_card_read(chan, sector, buf)`, bypassing the file system. |
-| `12` | `MemCard_ReqWriteSector(chan, buf, sector)` | `D_8009B430`, `D_8009B44C` | `_card_write(chan, sector, buf)`. |
+| `2` | `MemCard_ReqLoadDirectory(chan)` | none | Finishes `MemCard_DoLoadDirectory`, which lists `*` into `gMemCard_aDirEntries` and counts free blocks into `gMemCard_nFreeBlocks`. |
+| `3` | `MemCard_ReqReadFile(chan, name, buf, offset, size)` | path, `gMemCard_pRequestBuf`, `gMemCard_wRequestOffset`, `gMemCard_wRequestSize` | `open` with `O_RDONLY \| O_NOWAIT`, `lseek` to the offset, `read`. |
+| `4` | `MemCard_ReqWriteFile(chan, name, buf, offset, size)` | path, `gMemCard_pRequestBuf`, `gMemCard_wRequestOffset`, `gMemCard_wRequestSize` | The same with `O_WRONLY \| O_NOWAIT` and `write`. |
+| `8` | `MemCard_ReqCreateFile(chan, name, blocks)` | path, `gMemCard_wRequestSize` | Result `7` when `gMemCard_nFreeBlocks` plus the block count reaches `16`, `6` when `MemCard_FindFiles` already finds the name, otherwise `open` with `O_CREAT` and the block count in the high half of the mode. |
+| `11` | `MemCard_ReqReadSector(chan, buf, sector)` | `gMemCard_pRequestBuf`, `gMemCard_wRequestOffset` | `_card_read(chan, sector, buf)`, bypassing the file system. |
+| `12` | `MemCard_ReqWriteSector(chan, buf, sector)` | `gMemCard_pRequestBuf`, `gMemCard_wRequestOffset` | `_card_write(chan, sector, buf)`. |
 
-The path is `D_800F2B00`, formatted as `bu%02X:%s` from the channel and the
-name. `D_8009B44C` is the byte offset for the file codes and the sector
-number for the raw codes, and `D_8009B434` is a byte count for reads and
-writes but a block count for creation; the names in the table are the
-wrappers' parameters, not roles for the globals.
+The path is `gMemCard_szRequestPath`, formatted as `bu%02X:%s` from the channel
+and the name. `gMemCard_wRequestOffset` is the byte offset for the file codes
+and the sector number for the raw codes, and `gMemCard_wRequestSize` is a byte
+count for reads and writes but a block count for creation, which is why those
+two globals carry neutral names; the argument names in the table are the
+wrappers' parameters.
 
 The code-`8` capacity test is recorded as the retail instructions have it
-(`addu`, `slti 0x10`) rather than interpreted. `D_8009B438` is the *free*
-count `MemCard_CalcFreeBlocks` returns, so the sum does not compare the
+(`addu`, `slti 0x10`) rather than interpreted. `gMemCard_nFreeBlocks` is the
+*free* count `MemCard_CalcFreeBlocks` returns, so the sum does not compare the
 request with the space left; the one caller makes its own free-count check
 before it issues the request, as described below.
 
 `MemCard_ReqLoadDirectory` is the one wrapper that blocks. Before it leaves
 request `2` for the poll it runs `_card_info(chan)` against the primary
 handle set, `_card_clear` against the alternate set using channel byte
-`D_8009B437`, then `_card_load(chan)` against the primary set again,
+`gMemCard_bChannel`, then `_card_load(chan)` against the primary set again,
 resetting the shared result before every stage and waiting for a nonnegative
 event result after each one. It does not reinterpret those three results.
 
