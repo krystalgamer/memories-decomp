@@ -53,9 +53,15 @@ typedef struct {
 typedef struct {
     u8 pad_00[8];
     u16 field_08;
-    u8 pad_0A[2];
+    /* func_80056250 resets these three beside field_08, field_0C
+     * and field_1A when it rearms a part: 0x0A and 0x10 to a
+     * halfword each, 0x0D to 0x10. */
+    u16 field_0A;
     u8 field_0C;
-    u8 pad_0D[9];
+    u8 field_0D;
+    u8 pad_0E[2];
+    u16 field_10;
+    u8 pad_12[4];
     u16 field_16;
     u16 field_18;
     u8 field_1A;
@@ -160,13 +166,22 @@ typedef struct {
     u8 *field_DDC;
     u8 *field_DE0;
     u8 *field_DE4;
-    u8 pad_DE8[0x10];
+    u8 pad_DE8[8];
+    /* The two cursor limits func_80056250 derives, which this
+     * unit's own header already describes as "the two cursor
+     * limits at +0xDF0/+0xDF4": the first is field_DE0 plus the
+     * summed hand width, the second that plus field_E02 * 4. */
+    s32 field_DF0;
+    s32 field_DF4;
     u16 field_DF8;
     u16 field_DFA;
     u16 field_DFC;
     u8 field_DFE;
     u8 field_DFF;
-    u8 pad_E00[6];
+    u8 pad_E00[2];
+    /* Scaled by 4 into field_DF4 by func_80056250. */
+    u16 field_E02;
+    u8 pad_E04[2];
     u16 field_E06;
     u8 pad_E08[2];
     /* func_8005611C seeds this halfword with 0x1000 and

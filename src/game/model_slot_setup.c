@@ -80,11 +80,11 @@ void func_8005611C(s32 arg0)
  * sprite fields, and applies the mode-dependent horizontal offset through
  * func_8005A468 before func_800582C0 draws it. */
 void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
-    u8 *p;
-    u8 *q;
-    u8 **c;
-    u8 *e;
-    u8 *r;
+    ModelSlot *p;
+    ModelSlot *q;
+    ModelSlotPart **c;
+    ModelSlot *e;
+    ModelSlot *r;
     s32 i;
     s32 j;
     s32 sum;
@@ -102,17 +102,17 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     func_8004D75C(arg0);
     func_8004D914(arg0);
-    p = arg0 * MODEL_SLOT_SIZE + (u8 *)D_800F2C40;
+    p = &D_800F2C40[arg0];
     sum = 0;
     if (arg0 < 2) {
         i = sum;
-        if (sum < p[0xE1B]) {
+        if (sum < p->field_E1B) {
             m = 0xFFFF;
-            n = p[0xE1B];
+            n = p->field_E1B;
             do {
-                if (*(u16 *)(p + i * 2 + 0x33C) != m) {
+                if (p->field_2C8[1][i] != m) {
                     k = i / 8;
-                    if (((p + k)[0xBEC] >> (i - k * 8)) & 1) {
+                    if ((p->field_BEC[k] >> (i - k * 8)) & 1) {
                         sum += 0x14;
                     } else {
                         sum += 0xC;
@@ -122,29 +122,29 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
             } while (i < n);
         }
     }
-    v = (*(s32 *)(p + 0xDF0) = *(s32 *)(p + 0xDE0) + sum);
-    *(s32 *)(p + 0xDF4) = v + *(u16 *)(p + 0xE02) * 4;
-    func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
+    v = (p->field_DF0 = (s32)p->field_DE0 + sum);
+    p->field_DF4 = v + p->field_E02 * 4;
+    func_8005A4C4((u8 *)p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
-    q = arg0 * MODEL_SLOT_SIZE + (u8 *)D_800F2C40;
-    c = (u8 **)(q + 0x1E0);
-    for (j = 0; j < q[0xE1B]; j++) {
-        *(u16 *)(*c + 8) = 0xFFFF;
-        *(u16 *)(*c + 0x16) = *(u16 *)(*c + 0x18);
-        *(u16 *)(*c + 0xA) = 0xFFFF;
-        (*c)[0xC] = (*c)[0x1A];
-        *(u16 *)(*c + 0x10) = 0;
-        (*c)[0xD] = 0x10;
+    q = &D_800F2C40[arg0];
+    c = q->field_1E0;
+    for (j = 0; j < q->field_E1B; j++) {
+        (*c)->field_08 = 0xFFFF;
+        (*c)->field_16 = (*c)->field_18;
+        (*c)->field_0A = 0xFFFF;
+        (*c)->field_0C = (*c)->field_1A;
+        (*c)->field_10 = 0;
+        (*c)->field_0D = 0x10;
         c++;
     }
 
     b = (u8 *)D_800F2C40;
-    e = arg0 * MODEL_SLOT_SIZE + b;
-    e[0xE1F] = 1;
+    e = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b);
+    e->field_E1F = 1;
     func_800590DC(arg0);
-    v = e[0xE0D] * 2;
+    v = e->field_E0D * 2;
     w = v;
-    switch (e[0xE16]) {
+    switch (e->field_E16) {
     case 0x23:
         w = 0;
         func_8005A468(arg0, w);
@@ -160,7 +160,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     }
     if (arg0 < 2) {
         b2 = (u8 *)D_800F2C40;
-        r = arg0 * MODEL_SLOT_SIZE + b2;
-        func_800582C0(arg0, r[0xE0C], *(u16 *)(r + 0xE0A));
+        r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
+        func_800582C0(arg0, r->field_E0C, r->field_E0A);
     }
 }
