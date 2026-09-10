@@ -7,8 +7,6 @@
 #include "script_state.h"
 #include "script_stream_commands.h"
 
-extern u8 D_801A8000[];
-
 void Script_OpSound(void)
 {
     u8 *q;
