@@ -326,15 +326,15 @@
     },
     {
       "address": "0x800158B8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/fade_out.c"
+      "source": "src/game/fade_overlay.c"
     },
     {
       "address": "0x80015904",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/fade_out.c"
+      "source": "src/game/fade_overlay.c"
     },
     {
       "address": "0x80015944",

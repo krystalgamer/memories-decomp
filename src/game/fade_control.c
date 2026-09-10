@@ -7,9 +7,11 @@
    and on the other setup paths. Fade_InitOutColor and Fade_Wait need
    gcc_2_8_1_g8_split; the wrappers were recorded at gcc_2_8_1_g8 but
    compile to identical objects at gcc_2_8_1_g8_split, so the unit builds
-   there. Fade_InitOut and Fade_StartOut, directly below, do not: fade_out.c
-   changes without split addresses, and it stays its own unit between this
-   one and the overlay and fade-in setup below it. */
+   there. Fade_InitOut and Fade_StartOut, which these wrappers call, are
+   defined in fade_overlay.c directly below: they were recorded at
+   gcc_2_8_1_g8 and read as a profile boundary, and they compile to an
+   identical object at gcc_2_8_1_g8_split too, so they were folded into the
+   overlay and setup unit they call into and are called from. */
 
 void Fade_InitOutColor(int color)
 {

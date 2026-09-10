@@ -8,17 +8,22 @@
 
 #include "fade.h"
 
-/* The fade overlay and the fade-in side of its setup: Fade_DrawOverlay,
-   which runs the transition and draws the band boxes every frame, the band
-   fill it starts from, the white-mode reset and the two white-mode colour
-   helpers, and Fade_InitIn, Fade_StartIn and Fade_InitInColor.
+/* The fade overlay and both sides of its setup: Fade_DrawOverlay, which
+   runs the transition and draws the band boxes every frame, the band fill
+   it starts from, the white-mode reset and the two white-mode colour
+   helpers, Fade_InitIn, Fade_StartIn and Fade_InitInColor, and the fade-out
+   pair Fade_InitOut, with head 0xFF, target 0, flag 0x80 and step 0x0C, and
+   contiguous strip-mode Fade_StartOut, with flag 0x01 and step 8.
 
-   The six former sources were recorded at gcc_2_8_1_g8_split,
+   The seven former sources were recorded at gcc_2_8_1_g8_split,
    gcc_2_8_1_g0_split and gcc_2_8_1_g8. Every member compiles to an
-   identical object at gcc_2_8_1_g8_split. The unit stops above at
-   fade_out.c, whose Fade_InitOut and Fade_StartOut change without split
-   addresses, and below at Fade_Update, which needs its own assembler
-   threshold. */
+   identical object at gcc_2_8_1_g8_split. Fade_InitOut and Fade_StartOut
+   were recorded at gcc_2_8_1_g8 and were read as a profile boundary; they
+   compile to an identical object at gcc_2_8_1_g8_split as well, so what
+   separated them was the profile that had been recorded rather than one
+   the code needs. The unit stops above at fade_control.c, the blocking and
+   wrapper layer built on these primitives, and below at Fade_Update, which
+   needs its own assembler threshold. */
 
 /* Full-screen fade / brightness overlay, drawn once per frame from
    func_8001306C's dispatcher.
@@ -220,4 +225,27 @@ void func_80015870(void)
         D_8009B14B = 0xFF;
         D_8009B14C = 0xFF;
     }
+}
+
+void Fade_InitOut(void)
+{
+    FadeTransitionState *state = &gFade_State;
+
+    state->field_08 = 0xFF;
+    state->target_level = 0;
+    state->flags = 0x80;
+    func_800156B8(state->level);
+    state->step = 0xC;
+    func_80015870();
+}
+
+void Fade_StartOut(void)
+{
+    FadeTransitionState *state;
+
+    Fade_InitOut();
+    state = &gFade_State;
+    state->step = 8;
+    state->flags |= 1;
+    func_80015870();
 }
