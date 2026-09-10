@@ -4,13 +4,13 @@
 #include "duel_effect.h"
 #include "text_control_commands.h"
 
-void func_80038D14(DuelEffectChannel *value)
+void Text_StartPageWait(DuelEffectChannel *value)
 {
     value->state_51 = 4;
     D_8009B350 = 1;
 }
 
-void func_80038D2C(DuelEffectChannel *object)
+void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 {
     s32 flag = func_80036D3C(object);
 

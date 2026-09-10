@@ -2,9 +2,9 @@
 #include "func_80037C74.h"
 #include "text_stream_commands.h"
 #include "duel_effect.h"
-#include "duel_effect_completion.h"
+#include "text_stream_completion.h"
 
-void func_80038E1C(u8 *object)
+void Text_NewLine(u8 *object)
 {
     object[0x56]++;
     *(u16 *)(object + 0x38) = 0x1000;
@@ -17,7 +17,7 @@ void func_80038E1C(u8 *object)
     }
 }
 
-void func_80038E7C(u8 *object)
+void Text_EndStream(u8 *object)
 {
     u16 flags;
 

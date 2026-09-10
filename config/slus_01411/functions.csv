@@ -463,8 +463,8 @@ address,size,name,status,module,notes
 0x80037B40,0x134,func_80037B40,matching_c,game,Exact collaborator match: updated switch fallthrough structure and aggregate global declarations reproduce linked bytes and relocations.
 0x80037C74,0x6C,func_80037C74,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80037CE0,0x4C,func_80037CE0,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80037D2C,0x40,func_80037D2C,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80037D6C,0x38,func_80037D6C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80037D2C,0x40,Text_ExtendGlyphCode,matching_c,game,"High-confidence semantic name: F0-F5 combine the command nibble with one following byte and return it to TextBox_BuildStep as a printable extended glyph code. 6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80037D6C,0x38,Text_SetStateFromStream,matching_c,game,"High-confidence semantic name: F7 consumes one byte into the text channel state and yields the frame. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80037DA4,0x280,func_80037DA4,matching_c,game,"Exact 160/160 match. The current pointer is pinned to $v0: the branch on the opcode byte flips local-alloc's choice for the pointer pair, and pinning the current pointer is enough to restore the target's assignment, with the slot pointer following into $v1. All the shape facts recorded in the candidate still hold, including the split profile for the gDuel_adwCardStats base and the two-argument func_80036C14 call."
 0x80038024,0x4C,func_80038024,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038070,0x24,func_80038070,matching_c,game,First -O2 -G8 call-wrapper candidate matched.
@@ -493,15 +493,15 @@ address,size,name,status,module,notes
 0x80038A44,0x6C,func_80038A44,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038AB0,0x58,func_80038AB0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038B08,0x44,func_80038B08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80038B4C,0x5C,func_80038B4C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80038B4C,0x5C,Text_DispatchSecondaryCommand,matching_c,game,"High-confidence semantic name: F8 consumes one secondary command index and dispatches D_80090EAC[index], whose handler owns any further operands. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
 0x80038BA8,0x48,Text_SetCursorOffset,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038BF0,0x124,Text_HandleChoiceCommand,matching_c,game,Exact post-terminal collaborator-derived match preserving chained byte-fetch and global scratch lifetimes.
-0x80038D14,0x18,func_80038D14,matching_c,game,First -O2 -G8 byte/global-store candidate matched.
-0x80038D2C,0x8C,func_80038D2C,matching_c,game,Exact pure-C script flag command. Bit 14 selects a shared-bank write while preserving the bit-15 clear modifier; otherwise the following halfword replaces the active cursor's low offset when the requested set/clear predicate holds.
-0x80038DB8,0x64,func_80038DB8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80038E1C,0x60,func_80038E1C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80038E7C,0x34,func_80038E7C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80038EB0,0x290,func_80038EB0,matching_c,game,"Struct-typed object, byte reads through temps copied after the pointer stores, base-first record lookup, if/else stores"
+0x80038D14,0x18,Text_StartPageWait,matching_c,game,"High-confidence semantic name: FA enters text state 4 and yields; that state opens the shared page/choice cursor and waits for confirmation. First -O2 -G8 byte/global-store candidate matched."
+0x80038D2C,0x8C,Text_HandleCampaignFlagCommand,matching_c,game,"High-confidence semantic name: F9 reads a campaign-flag command word; bit 14 selects a shared-bank write while preserving the bit-15 clear modifier, otherwise the following halfword replaces the active cursor's low offset when the requested set/clear predicate holds. Exact pure-C match."
+0x80038DB8,0x64,Text_PushStreamOffset,matching_c,game,"High-confidence semantic name: FC reads a little-endian u16 offset into the next stream slot and increments the stream depth. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
+0x80038E1C,0x60,Text_NewLine,matching_c,game,"High-confidence semantic name: FE increments the text line, resets the horizontal cursor, handles wrapping, and notifies the pending choice-line callback. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80038E7C,0x34,Text_EndStream,matching_c,game,"High-confidence semantic name: FF pops one stream level and marks the text complete only when the depth becomes negative. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80038EB0,0x290,Text_HandleDisplayEffectCommand,matching_c,game,"High-confidence semantic name: F6 reads display-effect id and flags, then starts, adjusts, waits on, or stops the selected D_800EB010 record. Struct-typed object, byte reads through temps copied after the pointer stores, base-first record lookup, if/else stores."
 0x80039140,0xA4,func_80039140,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800391E4,0x1CC,func_800391E4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800393B0,0x3E4,TextBox_BuildStep,matching_c,game,"Dialogue-script stepper for one text box: first entry resolves the string id and initializes its objects, later entries run byte-code opcodes through the D_80090F18 handler table until a printable byte, then queue one glyph."

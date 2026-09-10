@@ -4,7 +4,8 @@
 #include "../types.h"
 
 /* The three 0x4C-byte records at D_800EB010. Every accessor agrees on the
- * stride: func_80038EB0 indexes `D_800EB010 + slot * 0x4C`, func_8002EB78
+ * stride: Text_HandleDisplayEffectCommand indexes
+ * `D_800EB010 + slot * 0x4C`, func_8002EB78
  * selects a record with `((bit >> 7) * 0x4C)`, and func_80039E9C and
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
@@ -52,7 +53,7 @@ typedef struct {
     u8 pad_38[2];
     u8 field_3A;
     u8 field_3B;
-    /* Written by func_8002EB78 and func_80038EB0 and read by
+    /* Written by func_8002EB78 and Text_HandleDisplayEffectCommand and read by
        display_effect_update_callbacks.c and
        duel_effect_interaction_states.c. Four sites prove a byte is
        here; none of them says what it carries. */
@@ -112,7 +113,7 @@ typedef char MenuRecord_field_4A_must_be_at_0x4A[
 
 extern MenuRecord D_800EB010[];
 
-/* The effect record func_80038EB0 last armed: it stores an element of
+/* The effect record Text_HandleDisplayEffectCommand last armed: it stores an element of
    D_800EB010 here at three sites, and that is the whole of its provenance.
    It was declared u8 * in display_effect_lifecycle.h while its readers
    walked the record by byte offset -- 0x30, 0x32, 0x33, 0x3C, 0x40, 0x42
