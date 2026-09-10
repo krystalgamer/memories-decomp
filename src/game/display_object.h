@@ -62,7 +62,7 @@ typedef struct DisplayObject {
     u32 field_0C;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
     /* DuelStatusPosition called this priority before it was retired into
-       this record, and for its own consumer that is right: func_80016D2C.c
+       this record, and for its own consumer that is right: func_80016D2C
        passes it to GsSortFastSprite as the ordering-table depth, and
        display_slot_lifecycle.c seeds it from D_8009AF74[ot_index].
 
@@ -73,7 +73,7 @@ typedef struct DisplayObject {
        consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
-    /* An ordering-table index, not a texture index. func_80016D2C.c uses it
+    /* An ordering-table index, not a texture index. func_80016D2C uses it
        to pick D_800E9D90[ot_index], a GsOT * element, and hands it
        to GsSortFastSprite as the ordering table; func_80040588.c indexes the
        same array -- its local tb is assigned D_800E9D90 -- and passes the
