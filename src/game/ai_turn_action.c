@@ -9,11 +9,13 @@
 #include "rand_get_interval.h"
 #include "duel_field_equip_search.h"
 #include "duel_card_checks.h"
+#include "duel_card_selection.h"
+#include "func_8001EFD4.h"
 
-/* The AI's turn-action searches, in call order: the spell search, the fusion
-   search, and the pick that runs both. They are contiguous, share the
-   gcc_2_8_1_g8_split profile, and all three write the same pending selection
-   at D_800EAE88. */
+/* The AI's turn-action run: spell and fusion searches feed the action pick
+   through D_800EAE88, followed by the occupied and face-up field-target
+   selectors used by the next AI routine. All five functions are contiguous
+   and share the gcc_2_8_1_g8_split profile. */
 
 /* The pending selection lives in ai.h. The spell search writes it as a
    record; the other two write single bytes, so the byte view below is the
@@ -176,4 +178,62 @@ s32 func_80027508(void) {
         }
     }
     return 0;
+}
+
+int func_8002778C(DuelSelectionSource *source)
+{
+    int count = 0;
+    int slot = DUEL_FIELD_ROW_SIZE;
+
+    do {
+        int position =
+            slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+        DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
+
+        if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            count++;
+            if (func_8001EFD4((DisplayObject *)source->ptr,
+                              (DisplayObject *)entry->object) > 0)
+                return ((DuelSelectionObject *)entry->object)->index;
+        }
+        slot++;
+    } while (slot < DUEL_FIELD_SIDE_ZONE_COUNT);
+
+    if (count == 0)
+        return D_800907D8[
+            D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
+        ];
+    return -1;
+}
+
+s32 func_800278A0(void *arg0)
+{
+    s32 i;
+    s32 found = 0;
+    DuelCardRecord *entry = 0;
+
+    for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
+        u8 row = D_800907D8[
+            i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
+        ];
+        entry = &D_801A7AD8[row];
+        if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            found++;
+            if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
+                s32 result = func_8001EFD4(
+                    *(DisplayObject **)arg0,
+                    (DisplayObject *)entry->object);
+                if (result > 0) {
+                    return ((DuelSelectionObject *)entry->object)->index;
+                }
+            }
+        }
+    }
+
+    if (found == 0) {
+        return D_800907D8[
+            D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7
+        ];
+    }
+    return -1;
 }

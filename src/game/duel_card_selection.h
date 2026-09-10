@@ -3,12 +3,12 @@
 
 #include "../types.h"
 
-/* The two records duel_card_selection.c reaches its candidate cards through.
+/* The two private records the trailing selectors in ai_turn_action.c reach
+ * their candidate cards through.
  *
- * Neither leaves this translation unit. Nothing in src/ names either type or
- * either function, and the only object referencing func_8002778C and
- * func_800278A0 in the generated assembly is their own, so both shapes are
- * constrained solely by the reads in this file. */
+ * Neither record view leaves the merged translation unit. The immediately
+ * following unmatched AI routine calls both selectors through opaque
+ * storage, so these shapes remain constrained solely by the reads here. */
 
 /* A card's display object as this file uses it: only the byte at 0x6A is
  * named, and it is the value both functions return. This is NOT the whole
