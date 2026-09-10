@@ -6,8 +6,6 @@
 #include "dialog_choice.h"
 #include "text_handle_choice_command.h"
 
-extern u8 gDialog_bInputState;
-
 void Text_HandleChoiceCommand(u8 *p)
 {
     s32 t;

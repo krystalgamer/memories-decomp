@@ -49,4 +49,28 @@ extern s8 gDialog_bChoiceCount;
  */
 extern s8 gDialog_bChoice;
 
+/* The prompt's input state, the third member of that same shared set.
+ * Text_HandleChoiceCommand arms it when the command arrives -- 1 if the
+ * command byte's 0x80 bit is set, otherwise 0 -- and Dialog_UpdateChoice is
+ * the reader that spends it, clearing it back to 0.
+ *
+ * Declared u8, and one reader deliberately disagrees with that in place:
+ *
+ *     f = *(s8 *)&gDialog_bInputState;
+ *     g = gDialog_bInputState;
+ *
+ * Dialog_UpdateChoice takes the same byte twice, once through an explicit
+ * s8 cast and once plainly, and both loads are in the matched bytes. The
+ * cast is the lever that keeps retail's signed load, so it stays exactly
+ * where it is rather than being resolved into the declaration.
+ *
+ * Two of its arms have no writer. The function tests 0x40 -- taking the
+ * choice index from the low three bits and clearing the flag -- and 0x80,
+ * but notes/global-usage lists Dialog_UpdateChoice and
+ * Text_HandleChoiceCommand as the only accessors of this address in the
+ * image, assembly included, and between them they store only 0, 1 and
+ * `g & 0xBF`. Recorded as an observation about the code, not a claim about
+ * intent. */
+extern u8 gDialog_bInputState;
+
 #endif
