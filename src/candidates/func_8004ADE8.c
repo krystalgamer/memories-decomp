@@ -1,6 +1,21 @@
-#include "../../../../src/types.h"
-#include "../../../../src/psyq/libspu.h"
-#include "../../../../src/game/sound_sequence_constants.h"
+/*
+ * Starts one secondary-driver note by walking Psy-Q VAB program/tone data,
+ * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
+ * keying on, and routing reverb. Current best under
+ * gcc_2_8_1_cc_g8_as_g0: 355/355 instructions, opcode multiset distance 4,
+ * and 160 differing words.
+ *
+ * Unsigned key/tone indices, uncached driver-root loads, block-scoped reverb
+ * masks, folded VAB indices, two allocation call sites, and one forced root
+ * reload reproduce the current shape. The incoming channel remains pinned to
+ * $s7; it is the only pin and has the same eight uses as retail.
+ *
+ * Residual: four saved-register roles remain permuted, accounting for most
+ * positional differences, plus two load-scheduling nops in object setup.
+ */
+#include "../types.h"
+#include "../psyq/libspu.h"
+#include "../game/sound_sequence_constants.h"
 
 extern u8 *D_8009B458;
 extern s32 D_80011434[];
