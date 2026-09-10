@@ -126,7 +126,7 @@ next_opcode:
             goto next_opcode;
         }
     }
-    if (func_80037C74((u8 *)object) != 0) {
+    if (func_80037C74(object) != 0) {
         object->state_51 = 4;
         return;
     }

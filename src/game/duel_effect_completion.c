@@ -8,7 +8,7 @@ void func_80038E1C(u8 *object)
 {
     object[0x56]++;
     *(u16 *)(object + 0x38) = 0x1000;
-    if (func_80037C74(object)) {
+    if (func_80037C74((DuelEffectChannel *)object)) {
         object[0x51] = 4;
     }
     D_8009B350 = 1;
