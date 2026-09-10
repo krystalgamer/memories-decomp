@@ -10,13 +10,12 @@
 #include "func_80057AF4.h"
 #include "func_8002BAB4.h"
 #include "library_state_handlers.h"
+#include "func_8002A788.h"
 
 extern u8 D_800EA1E8[];
 /* Overlay-resident halfwords, addressed %hi/%lo in retail under -G8. */
 extern s16 D_80181002 __attribute__((section(".data")));
 extern s16 D_80181012 __attribute__((section(".data")));
-
-extern void func_8002A788(u8 *);
 
 /* Library screen state dispatcher on the low nibble of D_800EA1E8's first
  * byte. States 0, 1 and 3 hand the record to func_8002BAA0, func_8002A788
