@@ -58,25 +58,25 @@
       "address": "0x801688BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1EC",
-      "source": "src/overlays/overworld/camera_transition.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168AA8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x364",
-      "source": "src/overlays/overworld/camera_transition.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168E0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C0",
-      "source": "src/overlays/overworld/location_tick.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168FCC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1DC",
-      "source": "src/overlays/overworld/location_tick.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x801697D0",

@@ -42,18 +42,27 @@ Their `_functions.csv` inventories track per-function status, while their
 separate `_matching_c.json` manifests map accepted source/profile pairs.
 `make match-overlays` remains the exact-byte gate.
 
-## Location scene-setup translation unit
+## Active location lifecycle translation unit
 
-`set_location.c` contains the nine-function static scene-construction path:
-location object cleanup/rebuild and label creation, camera load/publish/reset
-and free-look, marker creation, then `CampaignMap_SetLocation`. One
-`gcc_2_8_1_g0_split` C subsegment at module offset `0x4` covers the complete
-`0x8B8`-byte range through `0x801688BC` in both verified variants.
+`set_location.c` contains all thirteen matched functions in the active
+campaign-map family: static scene setup, camera transition, exit selection,
+and per-frame location update. One `gcc_2_8_1_g0_split` C subsegment at module
+offset `0x4` covers the complete `0x11A4`-byte range from
+`CampaignMap_ClearLocationObjects` (`0x80168004`) through
+`CampaignMap_UpdateLocation` (`0x80168FCC`), ending at `0x801691A8` where the
+remaining unmatched text begins.
 
-`CampaignMap_SetLocation` directly calls the camera reset/load, label, object
-rebuild, and marker helpers and installs `CampaignMap_UpdateView` in the
-resident callback registry. Those functions share the selected 66-byte
-location record, live camera, map objects, marker, and display resources.
+The call graph closes the family:
+
+- `CampaignMap_SetLocation` calls the camera reset/load, label, object rebuild,
+  and marker helpers and installs `CampaignMap_UpdateView`.
+- `CampaignMap_UpdateLocation` calls the transition, object/label/marker
+  helpers, and its private `CampaignMap_PickExit`.
+- `CampaignMap_UpdateLocationTransition` calls
+  `CampaignMap_StartCameraTween` and `CampaignMap_SetCameraFromLocation`.
+
+All thirteen share the selected 66-byte location record, live camera,
+location objects, marker, transition accumulators, and map state.
 
 The merged unit keeps two same-symbol views of `D_801695F8`:
 `D_801695F8_objects` stores and releases display-object pointers, while
@@ -66,25 +75,6 @@ the resident executable plus all five verified module images found neither a
 direct `jal` nor a stored `0x80168388` pointer. Its input and camera writes are
 therefore a static function contract; computed or external entry remains an
 open question.
-
-## Camera-transition translation unit
-
-`camera_transition.c` keeps `CampaignMap_StartCameraTween` next to
-`CampaignMap_UpdateLocationTransition`, which calls it before advancing the
-shared fixed-point camera channels each frame. Both also use the same 66-byte
-location records.
-
-The definitions remain in executable order from `0x801688BC` through
-`0x80168E0C`. Both use `gcc_2_8_1_g0_split`; one C subsegment at module offset
-`0x8BC` covers the complete contiguous `0x550`-byte text range in both
-verified map variants.
-
-## Location-tick translation unit
-
-`location_tick.c` is the live map's per-frame logic: the exit picker and the
-tick that drives it, `0x80168E0C..0x801691A8` as one contiguous
-`gcc_2_8_1_g0_split` run wired as a single C subsegment at module offset
-`0xE0C` in both variants.
 
 | Address | Function | Was |
 |---|---|---|
@@ -103,16 +93,12 @@ through the same routines:
 | `CampaignMap_RebuildLocationObjects` | the tick, `CampaignMap_SetLocation` |
 | `CampaignMap_CreateLocationLabel` | the tick, `CampaignMap_SetLocation` |
 | `CampaignMap_CreateLocationMarker` | the tick, `CampaignMap_SetLocation` |
-| `CampaignMap_SetCameraFromLocation` | `camera_transition.c`, `CampaignMap_SetLocation` |
-
-So the unit stops at both ends for a reason rather than by exhaustion:
-`camera_transition.c` ends exactly at `0x80168E0C` and its two functions are
-the camera's own, and the text after `0x801691A8` is location-table data.
+| `CampaignMap_SetCameraFromLocation` | transition update, `CampaignMap_SetLocation` |
 
 `pick_exit.h` is removed. Its whole content was the picker's prototype, and
 the picker is now defined ahead of its only call site in the same unit, so
-nothing declares it any more. The other five headers stay: each covers a
-family with callers outside its own file.
+nothing declares it any more. The remaining headers stay as subsystem interfaces even though their
+definitions now share one source.
 
 ## Active and alternate location families
 
