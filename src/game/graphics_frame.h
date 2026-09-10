@@ -83,6 +83,33 @@ extern volatile u8 D_8009B0C0;
 extern u8 D_8009B0C0;
 #endif
 
+/* The byte Graphics_SyncFrame publishes after its `while (D_8009B0C8 <
+ * D_8009B0C0)` wait: it stores D_8009B0C8 into it, stores 1 if that byte is
+ * nonzero, and stores the byte plus one into D_8009B0D8. Main_Init
+ * zeroes it in its init block and func_80039794 compares a counter against
+ * it (`cnt >= D_8009B0C1`). No other C unit touches it.
+ *
+ * graphics_frame.c DEFINES it (`u8 D_8009B0C1;`) rather than declaring it,
+ * and that definition stays: its comment there says the assembler only
+ * resolves a small global gp-relative when the unit defines it, which is
+ * what supplies the load-delay nop before the store, and that the link
+ * overrides the common symbol with the retail address (which splat's
+ * generated undefined_syms_auto.txt supplies; c_symbols.ld does not list
+ * it). This header's plain declaration sits in front of that definition
+ * and does not change it.
+ *
+ * Graphics_SyncFrame and Main_Init reach it gp-relative (sb/lbu,
+ * func_80012DB4.s:20/24/26 and func_80012B50.s:34), so they take the plain
+ * byte; func_80039794 reaches it through %hi/%lo (func_80039794.s:50-51)
+ * and defines the .data arm. main_init.c used to declare it volatile; the
+ * plain form builds byte-identical (measured by the PR that added this
+ * block). */
+#ifdef D_8009B0C1_IN_DATA
+extern u8 D_8009B0C1 __attribute__((section(".data")));
+#else
+extern u8 D_8009B0C1;
+#endif
+
 /* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
  * D_8009B0C4 and before bumping D_8009B0C8, and stores 0 into as the last
  * statement of its D_8009AF0C == 0 block, after func_80047050 has run.
