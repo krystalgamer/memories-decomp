@@ -84,6 +84,13 @@ source. Duplicate data entries, conflicting grouped profiles, repeated
 source/section pairs, missing files and unknown profiles are errors. Raw
 `data`/`sdata`/`bss` blobs stay on the generated-assembly path.
 
+After linking, the build checks global data exports from every data-only
+manifest unit against the ELF. A missing export, an absolute alias overriding
+its definition, unallocated common storage or duplicate data definitions
+fails the build before binary extraction. Interior aliases not defined by
+the C object remain allowed. A byte-identical image alone does not prove
+that its globals are owned by the C definitions.
+
 Splat's linker section order still determines placement. Do not map the same
 object section in separate segments: the first occurrence consumes it.
 Keep ordinary data-only definitions in their own TU with a corresponding
@@ -106,7 +113,11 @@ its own Splat segment between the live text and the remaining raw/alternate
 tail, so `.data` section ordering cannot move it behind the alternate text.
 See [`campaign-map-records.md`](../../../notes/overlays/campaign-map-records.md)
 for field evidence, boundary ownership and the preserved nonzero unknown
-bytes. The surrounding state remains assembly-owned.
+bytes. The aligned live-state prefix at `0x801695C8-0x80169618` now comes
+from `overworld/live_state.c`, with one owning header for its 18 symbols.
+The two following flag bytes share a nonzero raw word and remain in assembly.
+See [the state ownership evidence](../../../notes/overlays/live-state-data.md)
+for widths, alignment and the all-symbol address checks.
 The alternate routine's unresolved call into the live table at `0x80169230`
 retains its exact target; data ownership does not resolve that call's meaning.
 
@@ -117,6 +128,11 @@ but both allocations and their distinct consumer contracts remain intact.
 The residual blob starts at `0x2274`; no following state is included.
 See [the alternate table evidence](../../../notes/overlays/alternate-location-data.md)
 for byte preservation and the interior-label audit.
+
+The overworld layouts use the project-owned symbol map directly. Its existing
+names and addresses are retained from the research map, but there is only one
+build declaration for each name so C-owned `defined:True` markers cannot be
+undermined by a second, undefined declaration. The research export is unchanged.
 
 The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
 in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator

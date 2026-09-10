@@ -27,22 +27,8 @@
 #include "../../game/text_render_state.h"
 #include "../../game/text_box_lifecycle.h"
 
-extern u8 D_80169619;
-extern u8 *D_801695F8_objects[] asm("D_801695F8");
-extern s32 D_801695F8_words[] asm("D_801695F8");
 #include "../../game/high_memory_addresses.h"
 extern void func_800857C0(int);
-extern s32 D_801695D4;
-extern s32 D_801695CC;
-extern s32 D_801695D0;
-extern s32 D_801695DC;
-extern s32 D_801695E0;
-extern s32 D_801695E4;
-extern s32 D_801695E8;
-extern s32 D_801695F0;
-extern s32 D_801695F4;
-extern s32 D_80169610;
-extern s32 D_80169614;
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
@@ -53,8 +39,8 @@ void CampaignMap_ClearLocationObjects(void)
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_8004036C(D_801695F8_objects[i]);
-        D_801695F8_objects[i] = 0;
+        func_8004036C(D_801695F8[i]);
+        D_801695F8[i] = 0;
     }
 }
 
@@ -79,7 +65,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                 );
                 func_800428EC(object, 5);
                 *(u16 *)(object + 8) |= 0x28;
-                D_801695F8_objects[i] = object;
+                D_801695F8[i] = object;
             }
         }
     }
@@ -259,7 +245,7 @@ void CampaignMap_SetLocation(s32 index)
     D_801695EC = 0;
     D_801695C8 = 0;
     for (i = 3; i >= 0; i--) {
-        D_801695F8_words[i] = 0;
+        D_801695F8[i] = 0;
     }
     func_800530C4();
     func_800533D8();
