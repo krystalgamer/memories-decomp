@@ -1,12 +1,14 @@
 #include "../types.h"
 #include "duel_get_base_card_stat.h"
 #include "ai.h"
+#include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_check_ritual.h"
 #include "duel_card.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
 #include "duel_card_checks.h"
+#include "duel_grid.h"
 
 extern u8 D_800EAE88[];
 
@@ -166,4 +168,197 @@ void Ai_CompleteFusion(s32 arg0)
         }
         i++;
     } while (i < gAiScript_State.fusion_count);
+}
+
+/* The two fusion-search opcodes below seed the fusion scratch in
+   gAiScript_State and recurse through Ai_CompleteFusion above. They were
+   recorded at gcc_2_8_1_cc_g0_as_g8_split and gcc_2_8_1_g8_split, and each
+   compiles to an identical object at this unit's gcc_2_8_1_g0_split. */
+
+/* AI script opcode taking three operand bytes: a register holding the search
+ * depth minus one, a register naming a set of slots to exclude, and the
+ * register to write. It seeds the fusion scratch in gAiScript_State - hand size
+ * at 0x9C, depth limit at 0x9D, excluded sets at 0x9E, best power at 0xA0,
+ * current depth at 0xA2, the current path from 0xA4 and per-slot in-use flags
+ * from 0xAA - then walks the five field slots and then the hand, recording the
+ * strongest card by either statistic and recursing through Ai_CompleteFusion
+ * once the depth allows it. The selected combo is stored separately at 0x38,
+ * with its inclusive best-depth bound at 0xA3.
+ * The answer classifies where the best combo starts:
+ * 3 when nothing was found, 0 when it starts past the field, otherwise 1 or 2
+ * on the second combo byte. */
+void AiScript_FindBestCombo(void)
+{
+    s32 depth;
+    s32 sets;
+    s32 dest;
+    s32 n;
+    s32 i;
+    s32 slot;
+    s32 card;
+    u8 *e;
+    s32 *table;
+
+    table = gAiScript_aMemory;
+    depth = table[AiScript_ReadByte()];
+    sets = table[AiScript_ReadByte()];
+    depth = depth + 1;
+    dest = AiScript_ReadByte();
+    n = Ai_GetHandSize();
+
+    gAiScript_State.fusion_count = n;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_limit = depth;
+    gAiScript_State.fusion_set = sets;
+
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        gAiScript_State.fusion_used[i] = 0;
+    }
+
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+        card = gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].card_id;
+        slot = i + 1;
+        if (card == 0) {
+            continue;
+        }
+        if (Ai_IsCardInSets(sets, slot) != 0) {
+            continue;
+        }
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = slot;
+        if (gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].attack >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].attack;
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].defense >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[i + AI_SLOT_OWN_MONSTER_FIRST].defense;
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gAiScript_State.fusion_limit >= 2) {
+            /* e deliberately points at the state base plus i, not at
+             * &fusion_used[i]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[i] costs two instructions. */
+            e = (u8 *)&gAiScript_State + i;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
+            Ai_CompleteFusion(card);
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
+        }
+    }
+
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        card = gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].card_id;
+        slot = i + AI_SLOT_OWN_HAND_FIRST;
+        if (card == 0) {
+            continue;
+        }
+        if (Ai_IsCardInSets(sets, slot) != 0) {
+            continue;
+        }
+        gAiScript_State.fusion_path[gAiScript_State.fusion_depth] = slot;
+        if (gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].attack >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].attack;
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].defense >
+            gAiScript_State.fusion_best_stat) {
+            gAiScript_State.fusion_best_stat =
+                gDuel_aActiveCards[i + AI_SLOT_OWN_HAND_FIRST].defense;
+            gAiScript_State.combo_cards[0] = slot;
+            gAiScript_State.combo_cards[1] = 0;
+            gAiScript_State.fusion_best_depth =
+                gAiScript_State.fusion_depth;
+        }
+        if (gAiScript_State.fusion_limit >= 3) {
+            /* e deliberately points at the state base plus i, not at
+             * &fusion_used[i]: keeping fusion_used's 0xAA in the access
+             * displacement lets the address arithmetic fill the branch delay
+             * slot. Spelling it &fusion_used[i] costs two instructions. */
+            e = (u8 *)&gAiScript_State + i;
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth + 1;
+            Ai_CompleteFusion(card);
+            e[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            gAiScript_State.fusion_depth =
+                gAiScript_State.fusion_depth - 1;
+        }
+    }
+
+    if (gAiScript_State.combo_cards[0] != 0) {
+        if (gAiScript_State.combo_cards[0] >= DUEL_FIELD_ROW_SIZE + 1) {
+            gAiScript_aMemory[dest] = 0;
+        } else if (gAiScript_State.combo_cards[1] != 0) {
+            gAiScript_aMemory[dest] = 1;
+        } else {
+            gAiScript_aMemory[dest] = 2;
+        }
+    } else {
+        gAiScript_aMemory[dest] = 3;
+    }
+}
+
+void AiScript_EvaluateFusion(void)
+{
+    s32 a;
+    s32 b;
+    s32 c;
+    s32 k;
+    s32 x;
+    s32 y;
+    s32 i;
+    s32 n;
+
+    a = gAiScript_aMemory[AiScript_ReadByte()];
+    b = gAiScript_aMemory[AiScript_ReadByte()] + 1;
+    c = gAiScript_aMemory[AiScript_ReadByte()];
+    k = AiScript_ReadByte();
+    n = Ai_GetHandSize();
+
+    gAiScript_State.fusion_count = n;
+    gAiScript_State.fusion_limit = b;
+    gAiScript_State.fusion_best_stat = 0;
+    gAiScript_State.fusion_depth = 0;
+    gAiScript_State.fusion_best_depth = 0;
+    gAiScript_State.fusion_set = c;
+
+    for (i = 0; i < gAiScript_State.fusion_count; i++) {
+        gAiScript_State.fusion_used[i] = 0;
+    }
+
+    x = Duel_GetBaseCardStat(a, 0);
+    y = Duel_GetBaseCardStat(a, 1);
+
+    if (y < x) {
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 0);
+    } else {
+        gAiScript_State.fusion_best_stat = Duel_GetBaseCardStat(a, 1);
+    }
+
+    Ai_CompleteFusion(a);
+
+    if (gAiScript_State.fusion_best_depth != 0) {
+        gAiScript_aMemory[k] = 0;
+    } else {
+        gAiScript_aMemory[k] = 1;
+    }
 }
