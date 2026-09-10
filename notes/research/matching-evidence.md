@@ -6853,7 +6853,6 @@ in the caller that produces it.
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
     func_8002348C          def 1 (duel_field_display_objects.c)  <-  decl 0 in func_80023D08.c
     func_80023D08          def 2 (func_80023D08.c)  <-  decl 1 in duel_cursor_status.c
-    func_800289BC          def 2 (func_800289BC.c)  <-  decl 0 in duel_effect_resource_setup.c
     func_8002A9C0          def 2 (func_8002A9C0.c)  <-  decl 0 in func_8002ABB4.c
     func_8002C604          def 1 (func_8002C604.c)  <-  decl 0 in func_8002C68C.c
     func_8002FB78          def 2 (func_8002FB78.c)  <-  decl 0 in func_8002FD10.c
