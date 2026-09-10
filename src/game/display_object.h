@@ -114,13 +114,19 @@ typedef struct DisplayObject {
     DisplayObjectCallback update;  /* 0x24 */
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
        sprite emitters take whole words, while display_parent_links.c derives a
-       parent-relative offset from the halves. A union records both without
-       forcing either side to spell the other's access. */
+       parent-relative offset from the halves. func_80023D08 also subtracts the
+       0x28/0x2A pair as signed screen coordinates, so both halfword signedness
+       views are retained. A union records them without forcing any consumer
+       to spell another's access. */
     union {
         struct {
             u16 field_28;
             u16 field_2A;
         } h;
+        struct {
+            s16 field_28;
+            s16 field_2A;
+        } s;
         s32 word;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
@@ -132,17 +138,21 @@ typedef struct DisplayObject {
        text_box_build_step.c clears it, and func_800391E4.c and
        Dialog_UpdateChoice write colour constants.
 
-       Halves: display_object_property_transitions.c compares 0x2C against the
-       byte at 0x21, and divides 0x80 and 0x800 by 0x2E to derive its
-       per-frame increments -- so 0x2E is a nonzero divisor rather than
-       padding. That file calls them `target` and `step`; the names here stay
-       with the offsets. */
+       Halves: display_object_property_transitions.c compares unsigned 0x2C
+       against the byte at 0x21, and divides 0x80 and 0x800 by signed 0x2E to
+       derive its per-frame increments. func_80023D08 instead treats both as
+       signed target coordinates while moving the duel cursor. Both readings
+       are retained; the names stay with the offsets. */
     union {
         u32 word;
         struct {
             u16 field_2C;
             s16 field_2E;
         } h;
+        struct {
+            s16 field_2C;
+            s16 field_2E;
+        } s;
     } field_2C;                    /* 0x2C */
     union {
         struct {

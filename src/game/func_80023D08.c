@@ -7,33 +7,17 @@
 #include "../unmatched.h"
 #include "func_80023D08.h"
 
-typedef struct {
-    u8 pad00[0x28];
-    s16 x;
-    s16 y;
-    s16 target_x;
-    s16 target_y;
-    u8 pad30[6];
-    u16 step_x;
-    u8 pad38[2];
-    u16 step_y;
-    u8 pad3C[0x24];
-    u16 steps;
-    u8 pad62[0xA];
-    u8 moving;
-} CursorObject;
-
 extern s16 D_800907AC[2][2][4];
 
 extern void func_8002348C(void);
 void func_80023D08(GridCursor *o, s32 dir) {
-    CursorObject *d;
+    DisplayObject *d;
     s32 pos;
     s32 shift;
     s32 index;
     register s32 q asm("$2");
 
-    d = (CursorObject *)o->object;
+    d = (DisplayObject *)o->object;
     if (o->flags & 0x80) {
         if (D_8009B162 != 0) {
             return;
@@ -65,14 +49,15 @@ void func_80023D08(GridCursor *o, s32 dir) {
                       D_800907AC[D_8009B1D5][o->page][pos]);
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;
-        DisplayObject_ResetVelocity(d);
-        d->moving = 0;
-        d->steps = shift;
-        d->target_x = d->x;
-        d->target_y = D_80090800[D_8009B1D5][index].y;
-        q = ((d->target_y - d->y) << 8) / shift;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
+        d->field_6C = 0;
+        d->field_60 = shift;
+        d->field_2C.s.field_2C = d->position.s.field_28;
+        d->field_2C.s.field_2E = D_80090800[D_8009B1D5][index].y;
+        q = ((d->field_2C.s.field_2E -
+              d->position.s.field_2A) << 8) / shift;
         D_8009B162 = 0x50;
-        d->step_y = q;
+        ((DisplayObjectVelocity *)d)->velocity_z = q;
         o->flags |= 0xC0;
     } else {
         pos = o->col + 1;
@@ -84,15 +69,16 @@ void func_80023D08(GridCursor *o, s32 dir) {
         }
         o->col = pos;
         index = o->row * DUEL_FIELD_ROW_SIZE + (s8)pos;
-        DisplayObject_ResetVelocity(d);
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)d);
         shift = 8;
-        d->steps = shift;
-        d->moving = 0;
-        d->target_x = D_80090800[D_8009B1D5][index].x;
+        d->field_60 = shift;
+        d->field_6C = 0;
+        d->field_2C.s.field_2C = D_80090800[D_8009B1D5][index].x;
         D_8009B162 = 0x40;
-        q = ((d->target_x - d->x) << shift) / shift;
-        d->target_y = d->y;
-        d->step_x = q;
+        q = ((d->field_2C.s.field_2C -
+              d->position.s.field_28) << shift) / shift;
+        d->field_2C.s.field_2E = d->position.s.field_2A;
+        ((DisplayObjectVelocity *)d)->velocity_x = q;
         o->flags |= 0x80;
     }
 }
