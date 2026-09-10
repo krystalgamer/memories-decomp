@@ -74,7 +74,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 6:
-        func_80048D08(1, D_8009B118);
+        func_80048D08(1, (u32 *)D_8009B118);
         break;
     }
 }
