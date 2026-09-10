@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_SCREEN_TABLES_H
 
 #include "../types.h"
-#include "func_80020F4C.h"
+#include "duel_result_outro.h"
 
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that

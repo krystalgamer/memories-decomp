@@ -1,29 +1,104 @@
+#define D_8009B0CC_IN_DATA
 #define D_8009B362_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
-#include "duel_check_ritual.h"
+#include "display_object.h"
+#include "display_object_api.h"
+#include "display_object_lifecycle.h"
+#include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "display_object_helpers.h"
+#include "display_object_layout.h"
+#include "duel_card_display_state.h"
+#include "duel_check_ritual.h"
 #include "../psyq/rand.h"
 #include "display_object_motion.h"
 #include "input.h"
 #include "rand_get_interval.h"
-#include "display_object.h"
 #include "func_800179F4.h"
-#include "display_object_api.h"
-#include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "func_80020BE4.h"
-#include "func_80020EE8.h"
 #include "sound.h"
 #include "sound_output.h"
 #include "fade.h"
-#include "../unmatched.h"
 #include "duel_side_state.h"
 #include "duel_package.h"
-#include "func_80020F4C.h"
 #include "duel_screen_tables.h"
+#include "duel_result_outro.h"
+#include "../unmatched.h"
+
+/* The duel-result outro and the two update callbacks it hangs on its
+   confetti: func_80020D4C orbits a sprite around its spawn point,
+   func_80020EE8 sends it flying off, and func_80020F4C is the outro
+   sequence that spawns the sprites on the first and retargets them at the
+   second. The three sources were recorded at gcc_2_8_1_g8_no_split,
+   gcc_2_8_1_g8 and gcc_2_8_1_g8_split, and each compiles to an identical
+   object at gcc_2_8_1_g8_split. Bounded below by the outro package's
+   transfer callback func_80020BE4, which needs gcc_2_8_1_g0, and above by
+   the reward step that begins at func_80021480. */
+
+/* Per-frame update for an object that orbits a fixed base position
+   (field_2C/field_2E) at a constant angular step of 0x30/frame, with radius
+   the object's field_28 (which also serves as its countdown timer -- it decays by
+   2/frame). When the timer reaches 0: clears field_6C/update, snaps the current
+   position (field_30/field_32) back to the base position in one 32-bit copy, and
+   returns. Otherwise, while D_8009B0CC's bit 0 is set, spawns a companion
+   slot object at the object's current position (tagged via
+   sub_table_lookup_set_flag using field_16-1), then advances the angle and
+   recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
+
+void func_80020D4C(DisplayObject *arg0) {
+    s16 timer;
+    u16 angle;
+    DisplayObject *slot;
+    s32 vy;
+
+    timer = (s16)arg0->position.h.field_28 - 2;
+    arg0->position.h.field_28 = timer;
+    if (timer <= 0) {
+        arg0->field_6C = 0;
+        arg0->update = 0;
+        arg0->field_30.word = arg0->field_2C.word;
+        return;
+    }
+
+    if (D_8009B0CC & 1) {
+        slot = func_800400AC(func_8004002C(), 2);
+        if (slot != 0) {
+            func_800428A8(slot, (s16)arg0->field_30.h.field_30,
+                                   (s16)arg0->field_30.h.field_32, 0,
+                                   arg0->field_68, arg0->field_69, 0x11, 9,
+                                   D_801AF000);
+            slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
+            slot->flags |= 0x28;
+            slot->attribute |= (GsALON | GsAONE);
+            func_800428EC((u8 *)slot, (u8)arg0->field_16 - 1);
+            slot->field_60 = 8;
+            slot->update = (DisplayObjectCallback)func_80042BC0;
+        }
+    }
+
+    angle = arg0->position.h.field_2A + 0x30;
+    arg0->position.h.field_2A = angle;
+    arg0->field_30.h.field_30 =
+        (s16)arg0->field_2C.h.field_2C +
+        rcos((s16) angle) * (s16)arg0->position.h.field_28 / ONE;
+    vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
+    arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
+}
+
+void func_80020EE8(DuelCardDisplayObject *object)
+{
+    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+        object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
+    }
+    object->field_21 -= 2;
+    if (object->field_21 < 0xC0) {
+        func_8004036C((u8 *)object);
+    }
+}
 
 /* Duel-result outro sequence, driven from the scene state word D_8009B23A.
 

@@ -7,8 +7,9 @@
 
    func_800179F4 allocates both from func_800400AC and hands each to
    func_80042918, whose parameter is DisplayObject *, which is what #3176
-   established and what func_80020F4C.c already declared. The other three
-   consumers spelled them u8 *; they are declared once here instead.
+   established and what func_80020F4C's source already declared. The
+   other three consumers spelled them u8 *; they are declared once here
+   instead.
 
    The prototype is the one main_run_duel_and_library.c held as its own
    extern, which was the only declaration anywhere. */

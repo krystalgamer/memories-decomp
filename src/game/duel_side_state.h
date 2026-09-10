@@ -222,7 +222,7 @@ extern s8 D_8009B238;
  * steps from the wins halfword to the losses halfword of the duelist
  * record when it is 1. Every retail access is a byte: sb through $at in
  * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
- * other symbols through $gp, so func_80020F4C.c and
+ * other symbols through $gp, so duel_result_outro.c and
  * main_run_duel_and_library.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the
