@@ -1,7 +1,8 @@
 #include "../types.h"
 #include "display_object_config.h"
-#include "func_80041D60.h"
 #include "display_object.h"
+#define FUNC_80041D60_AMBIENT_ARGS
+#include "func_80041D60.h"
 
 void func_80029108(DisplayObjectConfig *object, int arg1)
 {
@@ -12,7 +13,7 @@ void func_80029108(DisplayObjectConfig *object, int arg1)
     }
     if (value != object->field_69) {
         func_80040410(object, value);
-        func_80041D60(object);
+        func_80041D60((DisplayObject *)object);
         D_8009B424 = 1;
     }
 }

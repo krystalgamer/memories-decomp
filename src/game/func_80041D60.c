@@ -20,10 +20,10 @@
    caller left in $a1 and $a2. All three callers pass one argument, so on the
    cooldown path func_80041C8C receives two values the caller never
    supplied. That is what the retail image does. Declaring the real
-   three-argument prototype at either call site makes the call a
+   three-argument prototype at a call site makes the call a
    constraint violation, and passing arguments to satisfy it adds the
-   register setup and breaks the match, so both callers keep their
-   one-argument declarations on purpose.
+   register setup and breaks the match, so all three callers select the
+   guarded one-argument declaration on purpose.
 
    The three chain steps use separately-named pointer/offset locals
    (p1/off1, p2/off2, p3/off3) rather than one reused pair -- reusing a
