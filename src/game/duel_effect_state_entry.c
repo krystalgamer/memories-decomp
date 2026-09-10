@@ -2,7 +2,7 @@
 #include "duel_effect.h"
 #include "mem_card.h"
 #include "../unmatched.h"
-extern void func_8003E490(void);
+#include "mem_card_load_state.h"
 
 void func_8003E7D4(void)
 {
