@@ -3,7 +3,30 @@
  * Model_UpdateViewMetrics recomputes the cached distance, yaw and pitch of
  * the current view; func_800580D4 is the only thing that consumes the two
  * angles it produces, turning them plus one model slot's coordinate unit
- * into the transform its caller asked for. */
+ * into the transform its caller asked for.
+ *
+ * The view is a GsRVIEW2 and the six offsets read here are its members:
+ * 0x00, 0x04 and 0x08 are vpx, vpy and vpz, 0x0C, 0x10 and 0x14 are vrx,
+ * vry and vrz. Three things say so -- this function already casts m to
+ * GsRVIEW2 * to copy it whole into D_800F56F0, camera_view.h declares that
+ * global as GsRVIEW2, and the arithmetic reads as the standard camera
+ * derivation: the horizontal distance and the yaw both take vp - vr in x
+ * and z, and the pitch takes the y pair against that distance.
+ *
+ * They stay casts anyway, which was measured rather than assumed. Spelling
+ * them as members -- either through a hoisted local or with the cast
+ * repeated at each access, both of which produce the same object -- keeps
+ * the instruction count at 226 but renames registers across the whole
+ * function, a2 to a3, a3 to t0, t0 to t1 and t1 to t2, starting inside the
+ * whole-record copy that the change does not touch. That is allocation
+ * pressure rather than the aliasing effect display_object.h describes, and
+ * there is no local lever for it.
+ *
+ * Typing the parameter instead is a separate obstacle: GsRVIEW2 is an
+ * anonymous typedef, so this unit's header cannot forward declare it the
+ * way model.h does for struct _GsCOORDUNIT, and pulling libgs.h in needs
+ * the libgte and libgpu chain that seven of this header's nine includers
+ * do not have. */
 #include "../types.h"
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
