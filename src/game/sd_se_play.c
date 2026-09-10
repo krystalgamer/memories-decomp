@@ -15,7 +15,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     s32 lo;
     s32 hi;
     s32 n;
-    register u8 *e asm("$2");
+    register SDNote *e asm("$2");
     s32 t2;
 
     /* Keep both initialization blocks for GCC 2.8.1 instruction scheduling:
@@ -58,11 +58,13 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         if (n == 0xFFFF) {
             return;
         }
-        e = (u8 *)(n * 8 + (u32)a->field_0444);
-        t2 = e[2];
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)a->field_0444);
+        t2 = e->replacement_priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(v, 0, vol, (s16)pan, e[3], last_arg & 0xFF);
+        func_800482B0(
+            v, 0, vol, (s16)pan, e->allocation_mode, last_arg & 0xFF
+        );
     } else {
         SDValue *b = g_SDValue;
 
@@ -70,10 +72,13 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         if (n == 0xFFFF) {
             return;
         }
-        e = (u8 *)(n * 8 + (u32)b->field_0444);
-        t2 = e[2];
+        e = (SDNote *)(n * SD_NOTE_RECORD_SIZE + (u32)b->field_0444);
+        t2 = e->replacement_priority;
         last_arg = t2;
         vol &= 0xFF;
-        func_800482B0(idc & 0xFFFF, 0, vol, (s16)pan, e[3], last_arg & 0xFF);
+        func_800482B0(
+            idc & 0xFFFF, 0, vol, (s16)pan, e->allocation_mode,
+            last_arg & 0xFF
+        );
     }
 }

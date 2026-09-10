@@ -14,7 +14,7 @@
 /* Counts how many of the four voice slots are playing this sound id: an id
    match in voice_ids paired with a non-zero SPU envelope, which is what
    distinguishes a slot still sounding from one that has already decayed. */
-s16 func_80047FAC(s32 a0) {
+s16 SD_CountActiveEffectVoices(s32 a0) {
     u16 s1 = 0;
     s32 s0;
     u16 s2 = a0 & 0xFFFF;
@@ -37,7 +37,15 @@ s16 func_80047FAC(s32 a0) {
 /* Starts a sound-effect voice: looks the sound id up in the voice index table,
    derives the left and right volumes from the note table entry and the pan,
    keys the voice on and records the id, volumes and timer in the voice slots. */
-void func_8004803C(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags, u8 value) {
+void SD_StartEffectVoice(
+    u16 id,
+    u8 voice,
+    s32 pitch_add,
+    u8 volume,
+    s16 pan,
+    u8 allocation_mode,
+    u8 replacement_priority
+) {
     u16 idx;
 
     idx = g_SDValue->field_043C[id];
@@ -57,8 +65,8 @@ void func_8004803C(u16 id, u8 voice, s32 pitch_add, u8 volume, s16 pan, u8 flags
         g_SDValue->voice_attr.addr = g_SDValue->field_0444[idx].field_0006 << 4;
         SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice);
         g_SDValue->voice_active_mask |= 1 << voice;
-        g_SDValue->field_040C[voice] = value;
-        g_SDValue->voice_flags[voice] = flags;
+        g_SDValue->voice_replacement_priority[voice] = replacement_priority;
+        g_SDValue->voice_allocation_mode[voice] = allocation_mode;
         g_SDValue->voice_ids[voice] = id;
         g_SDValue->voice_volume_left[voice] = g_SDValue->voice_attr.volume.left;
         g_SDValue->voice_volume_right[voice] = g_SDValue->voice_attr.volume.right;

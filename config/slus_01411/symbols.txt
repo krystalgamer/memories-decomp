@@ -251,6 +251,9 @@ AiScript_Print = 0x800736C4; // type:func
 
 // Semantic names
 SD_SEPlayFull = 0x8003FEE0; // type:func
+SD_KeyOffEffectGroup = 0x80047F38; // type:func
+SD_CountActiveEffectVoices = 0x80047FAC; // type:func
+SD_StartEffectVoice = 0x8004803C; // type:func
 SD_InitState = 0x80046768; // type:func
 SD_SetOutputType = 0x80046FA0; // type:func
 SD_SEPlay = 0x80048658; // type:func

@@ -177,7 +177,7 @@ void func_80047CC4(s32 value)
     s32 normalized = func_80047C50((u16)value);
     SDValue *state = g_SDValue;
     s32 tries = 0;
-    s32 slot = state->field_0435;
+    s32 slot = state->next_voice_slot;
     s32 bit = 1 << (u8)slot;
     s32 command = 1 << ((u8)slot + SD_VOICE_SLOT_KEY_SHIFT);
 
@@ -186,7 +186,7 @@ void func_80047CC4(s32 value)
         if (state->voice_active_mask & bit) {
             if (state->voice_ids[(u8)slot] == (u16)normalized) {
                 func_80047C70(command);
-                g_SDValue->field_0435 = slot;
+                g_SDValue->next_voice_slot = slot;
                 g_SDValue->voice_active_mask &= ~bit;
                 break;
             }
@@ -258,7 +258,7 @@ void SD_KeyOffVoiceSlots(void)
     } while (total != 0 && count < 24);
 }
 
-s32 func_80047F38(u8 value)
+s32 SD_KeyOffEffectGroup(u8 value)
 {
     s32 i;
     s32 result = 0;
@@ -266,7 +266,7 @@ s32 func_80047F38(u8 value)
     SDValue *state = g_SDValue;
 
     for (i = 0; i < SD_VOICE_SLOT_COUNT; i++, mask <<= 1) {
-        if ((state->voice_flags[i] & 0xF) == value)
+        if ((state->voice_allocation_mode[i] & 0xF) == value)
             result |= mask;
     }
     if (result != 0)

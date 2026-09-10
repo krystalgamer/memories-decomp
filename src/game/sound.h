@@ -55,7 +55,8 @@ typedef struct {
 typedef struct {
     u8 volume;
     u8 timer;
-    u8 pad0002[2];
+    u8 replacement_priority;
+    u8 allocation_mode;
     u16 pitch;
     u16 field_0006;
 } SDNote;
@@ -112,15 +113,15 @@ typedef struct {
     u16 field_03CE;
     u8 pad03D0[0x34];
     u16 voice_ids[SD_VOICE_SLOT_COUNT];
-    u8 field_040C[SD_VOICE_SLOT_COUNT];
-    u8 voice_flags[SD_VOICE_SLOT_COUNT];
+    u8 voice_replacement_priority[SD_VOICE_SLOT_COUNT];
+    u8 voice_allocation_mode[SD_VOICE_SLOT_COUNT];
     u16 voice_volume_left[SD_VOICE_SLOT_COUNT];
     u16 voice_volume_right[SD_VOICE_SLOT_COUNT];
     u8 voice_value[SD_VOICE_SLOT_COUNT];
     u8 voice_step[SD_VOICE_SLOT_COUNT];
     u16 voice_timer[SD_VOICE_SLOT_COUNT];
     u8 voice_active_mask;
-    u8 field_0435;
+    u8 next_voice_slot;
     u8 pad0436[2];
     u32 field_0438;
     u16 *field_043C;
