@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "duel_terrain_boost.h"
-#include "func_8002CBF4.h"
+#include "duel_get_base_card_stat.h"
 #include "card_constants.h"
 #include "duel_card.h"
 
