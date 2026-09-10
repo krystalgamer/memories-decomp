@@ -386,12 +386,18 @@ typedef struct DisplayObject {
    reason is right for func_80041068, wrong for func_80040DD8, and not
    the whole reason for either.
 
-   func_80041068 genuinely cannot convert: it reads 0x64 as an s32
-   beginning inside pad_62, and tests e[0x72], which is outside the
-   record. Neither is expressible however the members are spelled. Its
-   0x58, 0x68 and 0x6C spans are a lesser matter -- *(s32 *)&object->
-   field_58 and its like express those, as this record's own users
-   already do for its unions.
+   func_80041068 was described here as one that "genuinely cannot
+   convert", on the grounds that it reads 0x64 as an s32 beginning inside
+   pad_62 and tests e[0x72], outside the record. That condemned the whole
+   function for two of its reaches, which is the same mistake the wording
+   above it made for the file. Both of those reaches simply stay byte
+   reaches -- e[0x72] as ((u8 *)e)[0x72], the spelling func_80042824
+   already uses for the identical write -- and everything else in the
+   function is subject to the ordinary rule below, not to them.
+
+   Its 0x58, 0x68 and 0x6C spans are likewise a lesser matter:
+   *(s32 *)&object->field_58 and its like express those, as this record's
+   own users already do for its unions.
 
    func_80040DD8 reaches nothing past 0x5A and every offset it uses
    lands on a named member, so the span argument never applied to it.
@@ -402,10 +408,12 @@ typedef struct DisplayObject {
    twenty bytes off the executable, retail's v0/v1/a0/a1 with their
    load-delay nops becoming a2/a3/t0/t1 with none.
 
-   So the reads that do not sit between scratchpad stores are converted
-   -- next, attribute, flags, field_14, ot_index, update and the 0x5A
-   test -- and the vertex block between them keeps its casts, re-based
-   on (u8 *) so retyping the cursor cannot rescale them. */
+   So in both renderers the reads that do not sit between scratchpad
+   stores are converted -- next, attribute, flags, field_14, ot_index,
+   update, and each function's own gate, func_80040DD8's 0x5A test and
+   func_80041068's 0x72 one -- and the vertex block between them keeps
+   its casts, re-based on (u8 *) so retyping the cursor cannot rescale
+   them. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 

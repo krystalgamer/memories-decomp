@@ -127,7 +127,7 @@ void func_80040DD8(void) {
 void func_80041068(void) {
     u8 *g;
     u8 *h;
-    u8 *e;
+    DisplayObject *e;
     u8 *tb;
     DisplayObjectCallback fn;
     s32 twelve;
@@ -157,34 +157,34 @@ void func_80041068(void) {
         bit = 0x50000;
 
         do {
-            e = (u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE;
-            fn = *(DisplayObjectCallback *)(e + 0x24);
-            i = *(s16 *)(e + 2);
+            e = &D_800EFE48[i];
+            fn = e->update;
+            i = e->next;
             if (fn != (DisplayObjectCallback)0) {
-                fn(e);
+                fn((u8 *)e);
             }
-            if (((*(u16 *)(e + 8) & DISPLAY_OBJECT_RENDERABLE_MASK) ^
+            if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                v = *(s32 *)(e + 4);
-                w0 = *(s32 *)(e + 0x28);
-                w1 = *(s32 *)(e + 0x34);
-                w2 = *(s32 *)(e + 0x40);
-                w3 = *(s32 *)(e + 0x4C);
+                v = e->attribute;
+                w0 = *(s32 *)((u8 *)e + 0x28);
+                w1 = *(s32 *)((u8 *)e + 0x34);
+                w2 = *(s32 *)((u8 *)e + 0x40);
+                w3 = *(s32 *)((u8 *)e + 0x4C);
                 *(s32 *)(g + 8) = w0;
                 *(s32 *)(g + 0x14) = w1;
                 *(s32 *)(g + 0x20) = w2;
                 *(s32 *)(g + 0x2C) = w3;
-                *(s32 *)(g + 4) = *(s32 *)(e + 0x2C);
-                *(s32 *)(g + 0x10) = *(s32 *)(e + 0x38);
-                *(s32 *)(g + 0x1C) = *(s32 *)(e + 0x44);
-                *(s32 *)(g + 0x28) = *(s32 *)(e + 0x50);
-                *(u16 *)(g + 0xC) = *(u16 *)(e + 0x30);
-                *(u16 *)(g + 0x18) = *(u16 *)(e + 0x3C);
-                *(u16 *)(g + 0x24) = *(u16 *)(e + 0x48);
-                w4 = *(u16 *)(e + 0x54);
+                *(s32 *)(g + 4) = *(s32 *)((u8 *)e + 0x2C);
+                *(s32 *)(g + 0x10) = *(s32 *)((u8 *)e + 0x38);
+                *(s32 *)(g + 0x1C) = *(s32 *)((u8 *)e + 0x44);
+                *(s32 *)(g + 0x28) = *(s32 *)((u8 *)e + 0x50);
+                *(u16 *)(g + 0xC) = *(u16 *)((u8 *)e + 0x30);
+                *(u16 *)(g + 0x18) = *(u16 *)((u8 *)e + 0x3C);
+                *(u16 *)(g + 0x24) = *(u16 *)((u8 *)e + 0x48);
+                w4 = *(u16 *)((u8 *)e + 0x54);
                 g[3] = twelve;
                 g[7] = hi;
-                fl = *(u16 *)(e + 8);
+                fl = e->flags;
                 *(u16 *)(g + 0x30) = w4;
 
                 if ((fl & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -200,34 +200,34 @@ void func_80041068(void) {
                     *(u16 *)(g + 0x2E) = *(u16 *)(g + 0x2E) - dx;
                 }
 
-                if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
-                    if (func_80041E7C(*(s32 *)(e + 0x20),
-                                      (s16)*(u16 *)(g + 8) + *(s16 *)(e + 0x18),
+                if ((e->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
+                    if (func_80041E7C(*(s32 *)((u8 *)e + 0x20),
+                                      (s16)*(u16 *)(g + 8) + *(s16 *)((u8 *)e + 0x18),
                                       (s16)*(u16 *)(g + 0xA) +
-                                          *(s16 *)(e + 0x1A),
+                                          *(s16 *)((u8 *)e + 0x1A),
                                       h) <= 0) {
                         goto next;
                     }
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, g, *(s32 *)(tb + e[0x17] * 4),
-                              *(u16 *)(e + 0x14) | bit, h);
+                func_80042188(v, g, *(s32 *)(tb + e->ot_index * 4),
+                              e->field_14 | bit, h);
 
-                if (e[0x72] != 0) {
-                    x0 = *(s32 *)(e + 0x58);
-                    x1 = *(s32 *)(e + 0x64);
+                if (((u8 *)e)[0x72] != 0) {
+                    x0 = *(s32 *)((u8 *)e + 0x58);
+                    x1 = *(s32 *)((u8 *)e + 0x64);
                     *(s32 *)(g + 8) = x0;
                     *(s32 *)(g + 0x14) = x1;
-                    *(s32 *)(g + 4) = *(s32 *)(e + 0x5C);
-                    *(s32 *)(g + 0x10) = *(s32 *)(e + 0x68);
-                    *(u16 *)(g + 0xC) = *(u16 *)(e + 0x60);
-                    x2 = *(u16 *)(e + 0x6C);
+                    *(s32 *)(g + 4) = *(s32 *)((u8 *)e + 0x5C);
+                    *(s32 *)(g + 0x10) = *(s32 *)((u8 *)e + 0x68);
+                    *(u16 *)(g + 0xC) = *(u16 *)((u8 *)e + 0x60);
+                    x2 = *(u16 *)((u8 *)e + 0x6C);
                     g[3] = twelve;
                     g[7] = hi;
                     *(u16 *)(g + 0x18) = x2;
-                    func_80042188(v, g, *(s32 *)(tb + e[0x17] * 4),
-                                  *(u16 *)(e + 0x14) | bit, h);
+                    func_80042188(v, g, *(s32 *)(tb + e->ot_index * 4),
+                                  e->field_14 | bit, h);
                 }
             }
         next:
