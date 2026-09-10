@@ -2176,31 +2176,31 @@
       "address": "0x80031E5C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
-      "source": "src/game/func_80031E5C.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x80031EE4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/game/func_80031EE4.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x80031F7C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
       "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x8003201C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
       "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x800320BC",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/game/build_deck_add_card.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x80032184",

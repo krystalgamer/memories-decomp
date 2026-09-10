@@ -557,8 +557,8 @@ no source names it yet, and `make match` is unaffected.
 
 The counterpart to the `%hi`-temporary and call-return rules. At this
 snapshot, `func_8003201C` (`0x8003201C`) reached its 40 instructions with the
-right multiset and a two-pair register permutation, and its own cohort file
-(`build_deck_add_card.c`) uses pins freely, so pins are the obvious next step.
+right multiset and a two-pair register permutation, and its own cohort
+(`BuildDeck_AddCard`) uses pins freely, so pins are the obvious next step.
 Every one tried makes it **41**: pinning the outer counter to `$6` makes GCC
 copy `$a0` into `$a3` first because the pinned register collides with the
 incoming argument, and pinning the inner counter or the entry pointer makes it
