@@ -8,6 +8,7 @@
 #include "duel_hand.h"
 #include "main_frame.h"
 #include "duel_side_state.h"
+#include "duel_shuffle_deck.h"
 #include "duel_check_quit_input.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -24,7 +25,6 @@
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern void (*D_800E9DBC[])(void);
-extern u8 gDuel_awOpponentDeckPool[];
 extern u8 D_801D1200[];
 
 extern u16 D_8009B204;
