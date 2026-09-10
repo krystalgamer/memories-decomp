@@ -201,7 +201,6 @@ Every row below is now an applied project symbol.
 
 | Address | SDK identity | Local evidence |
 |---|---|---|
-| `0x80058F10` | `GsGetWorkBase` | Confirmed from the canonical four-instruction getter, the real `libgs.h` `PACKET *` return type, and independent GMS and Unchiga identities. Unlike the three false-positive 16-byte FLIRT matches in the resident LIBDS range, this function returns the actual LIBGS packet work-base pointer consumed by model renderers. |
 | `0x80073758` | `PCread` | Applied despite byte-identical Psy-Q 4.6 `READ.OBJ` and `WRITE.OBJ` signatures: the resident body calls the unique `_SN_read` wrapper, and matching `func_80059908` passes a handle, destination buffer and count before comparing the returned byte count. The canonical `libsn.h` declaration has the same contract. |
 | `0x80073830` | `InitHeap` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C57.OBJ` signature. |
 | `0x80073840` | `_bu_init` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C112.OBJ` signature; matching memory-card setup invokes it after lower-level card initialization. |
