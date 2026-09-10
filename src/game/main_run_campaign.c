@@ -9,7 +9,6 @@
 extern u8 D_8009B26C;
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern void func_8002FD10(s32);
-extern void func_8002FFD4(void *);
 
 void Main_RunCampaign(void) {
     u8 flags = D_8009B26C;
