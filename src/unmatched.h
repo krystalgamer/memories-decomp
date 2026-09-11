@@ -169,6 +169,14 @@ extern s16 D_8009B46C;
 extern s16 D_8009B46E;
 extern u8 D_800F569F[];
 
+/* One consumer, func_800582C0.c. These four contiguous halfwords are filled
+ * as a RECT for StoreImage2, LoadImage2, and MoveImage. The linker assignments
+ * establish the scratch storage, but no subsystem header owns it. */
+extern s16 D_8009B470;
+extern s16 D_8009B472;
+extern s16 D_8009B474;
+extern s16 D_8009B476;
+
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names D_8009B11C
  * immediately after it, so no element can hide inside. Fifteen files declared
  * it identically as `extern s32 D_8009B118;`, which is why it can move here

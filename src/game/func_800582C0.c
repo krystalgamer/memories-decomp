@@ -1,14 +1,10 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
 #include "color.h"
 #include "func_800582C0.h"
-
-extern s16 D_8009B470;
-extern s16 D_8009B472;
-extern s16 D_8009B474;
-extern s16 D_8009B476;
 
 void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
     u16 buf[0x400];

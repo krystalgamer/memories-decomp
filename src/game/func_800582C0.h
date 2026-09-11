@@ -15,6 +15,9 @@
  * is at or above COLOR_FIXED_ONE the recolour is the identity, so the whole
  * strip moves in one MoveImage instead.
  *
+ * Its four-halfword RECT scratch at D_8009B470..D_8009B476 has no subsystem
+ * owner and is declared centrally in unmatched.h.
+ *
  * model_slot_setup.c is the only caller and supplies the tint and level from
  * the slot's field_E0C and field_E0A. */
 void func_800582C0(s32 side, s32 tint, s32 level);
