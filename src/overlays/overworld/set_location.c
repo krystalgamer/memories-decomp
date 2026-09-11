@@ -1,4 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define D_8009B26C_AS_SCALAR
+#define D_800E9ECE_AS_SCALAR
+#define D_800E9ECF_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_state.h"
@@ -29,9 +32,7 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
-extern u8 D_800E9ECE;
-extern u8 D_800E9ECF;
-extern u8 D_8009B26C;
+extern void func_800857C0(int);
 extern u8 D_8009B27A;
 
 void CampaignMap_ClearLocationObjects(void)

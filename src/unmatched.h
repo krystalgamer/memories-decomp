@@ -753,8 +753,16 @@ extern u32 D_8009B3E0;
 extern ModelBytes8 D_8009B480;
 extern s16 D_8009B488[MODEL_SLOT_COUNT];
 #endif
+#ifdef D_800E9ECE_AS_SCALAR
+extern u8 D_800E9ECE;
+#else
 extern u8 D_800E9ECE[];
+#endif
+#ifdef D_800E9ECF_AS_SCALAR
+extern u8 D_800E9ECF;
+#else
 extern u8 D_800E9ECF[];
+#endif
 extern s8 D_800EA02F[];
 extern u8 D_800EB224[];
 
