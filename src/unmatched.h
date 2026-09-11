@@ -578,8 +578,7 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * is assembly again. Their declarations moved here from the unit headers
  * that held them, comments included, and headers that held nothing else are
  * gone. The contract check accepts this home or the former unit header, but
- * not both. func_8004A764 is called only by the func_8004A518 candidate and
- * is declared here for it. Fade_Update is also declared here.
+ * not both.
  * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
@@ -595,10 +594,6 @@ struct DuelRitualResult;
 /* Fills the file position table. Its one caller is the boot-time start-up
  * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
 void File_SetPositionTable(void);
-
-/* The per-frame fade stepper, run by fade_runtime.c's overlay callback on
- * the fade record it builds. */
-void Fade_Update(FadeTransitionState *);
 
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
@@ -732,12 +727,6 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 /* Rebuilds the voice tables. func_80049BAC.c calls it right after
  * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
 void func_8004A518(void);
-
-/* Resets one SPU voice's envelope: clears ADSR1/ADSR2 and sets exponential
- * attack through SpuSetVoiceAttr, for the voice D_80011434[index] names.
- * func_8004A518 calls it for each record while it rebuilds the voice
- * tables. */
-void func_8004A764(s32 index);
 
 /* The definition in src/candidates/func_8004B374.c takes two parameters.
  * sound_sequence_parser.c, the one caller, passes a third, and that call
