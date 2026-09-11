@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -65,17 +66,6 @@
    the question, and naming it is what #2602 exists for. */
 extern u8 D_801845BC[];
 extern u8 *D_801845D8;
-/* One of the two values the screen edits. MainMenu_StartValueSetup seeds
-   value and shown from *out, the update steps shown toward value, the
-   drawing code reads shown, and MainMenu_FinishValueSetup writes value back
-   through out. Two of them fill the 0x18 bytes up to D_801845D8. */
-typedef struct {
-    u16 value;
-    u16 shown;
-    u16 *out;
-    u8 pad_08[4];
-} ValueSetupEntry;
-
 extern ValueSetupEntry D_801845C0[2];
 
 extern DisplayObject *D_801845A0;
