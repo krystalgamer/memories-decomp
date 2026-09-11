@@ -633,9 +633,12 @@ extern SDValue *g_SDValue;
 #endif
 #endif
 
-/* The note-start candidate retains byte-based addressing; resident consumers
- * use the shared layout. Both declarations describe the same pointer word. */
-#ifdef SDSECONDARYSTATE_AS_BYTES
+/* Voice setup units keep the pointer outside small data for their absolute
+ * loads. The note-start candidate retains byte-based addressing; other
+ * resident consumers use the shared layout. */
+#ifdef D_8009B458_IN_DATA
+extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
+#elif defined(SDSECONDARYSTATE_AS_BYTES)
 extern u8 *D_8009B458;
 #else
 extern SDSecondaryState *D_8009B458;
@@ -658,11 +661,10 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * both of which take a voice mask.
  *
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with sound_voice_envelope.c on the plain declaration that unit compiled to
+ * with the voice-envelope source on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; since #3859 only the func_8004A6F8 and func_8004A764 candidates
- * define it.
+ * qualifier; func_8004A6F8.c and the func_8004A764 candidate define it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];

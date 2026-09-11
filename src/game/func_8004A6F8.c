@@ -1,19 +1,13 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/sound_voice_envelope.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0_split, a single
- * threshold, it is 27 of 27 instructions with 5 differing, opcode distance
- * 0. The source below is the match, unchanged apart from its include paths. */
 #include "../types.h"
 #include "../psyq/libspu.h"
 #define D_80011434_IS_CONST
-#include "../game/sound.h"
-#include "../unmatched.h"
+#define D_8009B458_IN_DATA
+#include "sound.h"
 
 /* The voice-attribute block lives in the 0x40-byte hole at +0x4C0, which is
    exactly sizeof(SpuVoiceAttr) and pins a_mode/adsr1/adsr2 to the offsets the
-   target stores through. `const` on the table keeps it out of small data so
-   its address is materialised rather than reached through $gp. */
+   target stores through. The table and state-pointer declaration arms keep
+   their addresses out of small data. */
 
 #define ATTR(p) (*(SpuVoiceAttr *)((u8 *)(p) + 0x4C0))
 
