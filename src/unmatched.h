@@ -334,7 +334,7 @@ void func_80042C08(void);
  * arities are established: the code that reads +0x4C back and calls it has
  * not been matched, so nothing in C has ever had to state their arguments.
  *
- * func_80067220 is not a callback at all -- func_800608B8.c returns its
+ * func_80067220 is not a callback at all -- model_primitive_handler.c returns its
  * address as an s32 -- but it lands in the same place for the same reason.
  *
  * Both were spelled without a prototype by their consumers, which is the
@@ -505,10 +505,10 @@ void func_80066E60(void);
 /* The sixteen object handler entry points func_800608B8 dispatches to.
  *
  * Hand-written assembly like the primitive handlers above, and here too both
- * consumers -- func_800608B8.c and model_handler_registry.c -- only ever take
+ * consumers -- model_primitive_handler.c and model_handler_registry.c -- only ever take
  * their addresses, as `return (s32)func_...`, so nothing in the tree checked
  * one declaration against the other. They had already drifted once:
- * func_800608B8.c spelled them `int X()` while model_handler_registry.c
+ * model_primitive_handler.c spelled them `int X()` while model_handler_registry.c
  * spelled eight of them `void X(void)`.
  *
  * The retail image settled that, and the resolution is preserved here. Every
