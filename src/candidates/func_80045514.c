@@ -13,10 +13,13 @@
  * scheduling clusters. The eventual matching promotion will also need the
  * documented jtbl_80010578 rodata split; candidate storage does not.
  */
-#include "../types.h"
+#define G_SDVALUE_IN_DATA
+#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #define SOUND_TRANSFER_REQUEST_IN_DATA
+#include "../types.h"
 #include "../game/sound_transfer_lifecycle.h"
 #include "../game/file_transfer.h"
+#include "../game/sound.h"
 
 typedef struct {
     u8 pad_00[0x40];
@@ -82,34 +85,32 @@ typedef struct {
     u16 idx[1];
 } List;
 
-extern SD *g_SDValue __attribute__((section(".data")));
+#define SD_STATE ((SD *)g_SDValue)
+
 extern void func_800476B4(u8 *, s32);
 extern u8 func_80045484(void);
 extern void SD_ArmBusyCallback(void);
-extern void func_80049C40(s32);
-extern void func_80049F10(s32, s32);
-extern void func_80049CB0(s16);
 extern s16 func_80049A64(u8 *, s16);
 extern void func_80049AF4(s32, s32);
 
 void func_80045514(void)
 {
-    switch (g_SDValue->b7C) {
+    switch (SD_STATE->b7C) {
     case 81:
-        func_800476B4(g_SDValue->p58, g_SDValue->w50);
+        func_800476B4(SD_STATE->p58, SD_STATE->w50);
         goto clear_7d_7c;
 
     case 32:
-        switch (g_SDValue->b7D) {
+        switch (SD_STATE->b7D) {
         case 0:
             if (func_80014C40(0, 0) != 0) {
                 return;
             }
-            if (g_SDValue->w4CC != 0) {
+            if (SD_STATE->w4CC != 0) {
                 return;
             }
             {
-                SD *sd = g_SDValue;
+                SD *sd = SD_STATE;
                 FileRequestSlot *b = D_8009B460;
 
                 b->field_10 = sd->w6C;
@@ -121,69 +122,69 @@ void func_80045514(void)
                 b->field_14 = sd->w70;
                 D_8009B460->field_1E = 0;
             }
-            D_8009B460->field_00 = g_SDValue->w5C;
+            D_8009B460->field_00 = SD_STATE->w5C;
             if (D_8009B460->field_18 == 0 && D_8009B460->field_14 == 0) {
-                g_SDValue->b7D = 0;
+                SD_STATE->b7D = 0;
                 goto clear_7c;
             }
-            switch (g_SDValue->w5C & 0xF0) {
+            switch (SD_STATE->w5C & 0xF0) {
             case 0x10:
                 D_8009B460->field_00 = 4;
-                func_80014C40(D_8009B460, g_SDValue->b1629);
+                func_80014C40(D_8009B460, SD_STATE->b1629);
                 break;
             case 0x20:
                 D_8009B460->field_00 = 5;
-                func_80014C40(D_8009B460, g_SDValue->b1619);
+                func_80014C40(D_8009B460, SD_STATE->b1619);
                 break;
             case 0x40:
                 D_8009B460->field_00 = 6;
-                func_80014C40(D_8009B460, g_SDValue->b1639);
+                func_80014C40(D_8009B460, SD_STATE->b1639);
                 break;
             }
             SD_ArmBusyCallback();
-            g_SDValue->b7D = g_SDValue->b7D + 1;
+            SD_STATE->b7D = SD_STATE->b7D + 1;
             return;
         case 1:
             break;
         default:
             return;
         }
-        if (g_SDValue->b1618 != 0) {
+        if (SD_STATE->b1618 != 0) {
             return;
         }
-        g_SDValue->b7D = 0;
-        g_SDValue->b7C = 0;
+        SD_STATE->b7D = 0;
+        SD_STATE->b7C = 0;
         if ((func_80045484() & 0xFF) != 0) {
             return;
         }
-        g_SDValue->flags = g_SDValue->flags & 0xFFFC;
+        SD_STATE->flags = SD_STATE->flags & 0xFFFC;
         return;
 
     case 17:
-        switch (g_SDValue->b7D) {
+        switch (SD_STATE->b7D) {
         case 0:
-            if (g_SDValue->h510 == 0) {
-                g_SDValue->b7D = 1;
+            if (SD_STATE->h510 == 0) {
+                SD_STATE->b7D = 1;
                 return;
             }
-            if (g_SDValue->h512 < 0) {
+            if (SD_STATE->h512 < 0) {
                 return;
             }
-            g_SDValue->h512 = -0x20;
-            g_SDValue->b49 = 0;
+            SD_STATE->h512 = -0x20;
+            SD_STATE->b49 = 0;
             return;
         case 1:
             break;
         default:
             return;
         }
-        g_SDValue->h534 = 0xFFFF;
+        SD_STATE->h534 = 0xFFFF;
         if ((func_80045484() & 0xFF) != 0) {
             goto clear_7d_7c;
         }
-        g_SDValue->b7D = 0;
-        g_SDValue->flags = g_SDValue->flags & 0xFFF8;
-        g_SDValue->b7C = 0;
+        SD_STATE->b7D = 0;
+        SD_STATE->flags = SD_STATE->flags & 0xFFF8;
+        SD_STATE->b7C = 0;
         return;
 
     case 33:
@@ -191,17 +192,17 @@ void func_80045514(void)
             goto clear_7d_7c;
         }
         {
-            SoundCommandPair *e = (SoundCommandPair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
+            SoundCommandPair *e = (SoundCommandPair *)(SD_STATE->p58 + SD_STATE->h4E * 8);
 
             D_8009B460->field_10 = 0;
             D_8009B460->field_18 = 0;
             D_8009B460->field_0C = 0;
             D_8009B460->field_14 = 0;
             D_8009B460->field_1C = 0;
-            D_8009B460->field_1F = g_SDValue->b530;
-            D_8009B460->field_1E = g_SDValue->b531;
+            D_8009B460->field_1F = SD_STATE->b530;
+            D_8009B460->field_1E = SD_STATE->b531;
             D_8009B460->field_00 = 6;
-            D_8009B460->field_04 = (e->a & 0xFFFFFF) + g_SDValue->w50;
+            D_8009B460->field_04 = (e->a & 0xFFFFFF) + SD_STATE->w50;
             func_80014C40(D_8009B460, 0);
         }
         goto clear_7d_7c;
@@ -211,80 +212,80 @@ void func_80045514(void)
             goto clear_7d_7c;
         }
         {
-            SoundCommandPair *e = (SoundCommandPair *)(g_SDValue->p58 + g_SDValue->h4E * 8);
+            SoundCommandPair *e = (SoundCommandPair *)(SD_STATE->p58 + SD_STATE->h4E * 8);
             u32 a = e->a;
             u32 b = e->b;
 
-            g_SDValue->w528 = a & 0xFFFFFF;
-            g_SDValue->b531 = (a & 0x1F000000) >> 24;
-            g_SDValue->w52C = b & 0xFFFFFF;
-            g_SDValue->b530 = (b & 0x1F000000) >> 24;
-            g_SDValue->b532 = b >> 31;
-            g_SDValue->b533 = a >> 29;
-            g_SDValue->w528 = g_SDValue->w528 + g_SDValue->w50;
-            g_SDValue->w52C = g_SDValue->w52C + g_SDValue->w50;
+            SD_STATE->w528 = a & 0xFFFFFF;
+            SD_STATE->b531 = (a & 0x1F000000) >> 24;
+            SD_STATE->w52C = b & 0xFFFFFF;
+            SD_STATE->b530 = (b & 0x1F000000) >> 24;
+            SD_STATE->b532 = b >> 31;
+            SD_STATE->b533 = a >> 29;
+            SD_STATE->w528 = SD_STATE->w528 + SD_STATE->w50;
+            SD_STATE->w52C = SD_STATE->w52C + SD_STATE->w50;
             D_8009B460->field_10 = 0;
             D_8009B460->field_18 = 0;
             D_8009B460->field_0C = 0;
             D_8009B460->field_14 = 0;
-            D_8009B460->field_1C = (u16)g_SDValue->w52C - (u16)g_SDValue->w528 + 0x10;
-            D_8009B460->field_1F = g_SDValue->b530;
-            D_8009B460->field_1E = g_SDValue->b531;
+            D_8009B460->field_1C = (u16)SD_STATE->w52C - (u16)SD_STATE->w528 + 0x10;
+            D_8009B460->field_1F = SD_STATE->b530;
+            D_8009B460->field_1E = SD_STATE->b531;
             D_8009B460->field_00 = 6;
-            D_8009B460->field_04 = g_SDValue->w528;
+            D_8009B460->field_04 = SD_STATE->w528;
             func_80014C40(D_8009B460, 0);
         }
         goto clear_7d_7c;
 
     case 41:
     case 42:
-        if (g_SDValue->b7E != 0 && g_SDValue->h512 != 0) {
+        if (SD_STATE->b7E != 0 && SD_STATE->h512 != 0) {
             return;
         }
-        g_SDValue->b7C = 0;
+        SD_STATE->b7C = 0;
         goto clear_7d;
 
     case 72:
-        if (g_SDValue->h157A != 0) {
-            u8 *list = g_SDValue->p1564;
+        if (SD_STATE->h157A != 0) {
+            u8 *list = SD_STATE->p1564;
 
-            g_SDValue->h157A = func_800496C4(list + 0x50, 0,
+            SD_STATE->h157A = func_800496C4(list + 0x50, 0,
                                              *(s32 *)(list + 0xC));
-            if ((s16)g_SDValue->h157A != 0) {
-                g_SDValue->b7C = 0;
+            if ((s16)SD_STATE->h157A != 0) {
+                SD_STATE->b7C = 0;
                 return;
             }
         }
-        if (g_SDValue->h157E == 0) {
-            if ((g_SDValue->flags & 0x80) != 0) {
+        if (SD_STATE->h157E == 0) {
+            if ((SD_STATE->flags & 0x80) != 0) {
                 func_80049C40(0);
                 func_80049F10(0, 0);
-                g_SDValue->h1586 = 0;
-                g_SDValue->h1588 = 0;
-                g_SDValue->flags = g_SDValue->flags & 0xFF7F;
+                SD_STATE->h1586 = 0;
+                SD_STATE->h1588 = 0;
+                SD_STATE->flags = SD_STATE->flags & 0xFF7F;
             }
-            func_80049CB0(g_SDValue->h157E);
-            g_SDValue->h157E = -1;
+            func_80049CB0(SD_STATE->h157E);
+            SD_STATE->h157E = -1;
         }
         {
-            List *l = (List *)g_SDValue->p1564;
-            u32 i = g_SDValue->h4E & 0xF;
+            List *l = (List *)SD_STATE->p1564;
+            u32 i = SD_STATE->h4E & 0xF;
 
             if (i >= l->count) {
-                g_SDValue->b7C = 0;
+                SD_STATE->b7C = 0;
                 return;
             }
-            g_SDValue->h157E = func_80049A64((u8 *)l + l->idx[i] * 16,
-                                             g_SDValue->h157A);
-            if ((s16)g_SDValue->h157E == 0) {
-                g_SDValue->h157C = g_SDValue->h4E;
+            SD_STATE->h157E = func_80049A64((u8 *)l + l->idx[i] * 16,
+                                             SD_STATE->h157A);
+            if ((s16)SD_STATE->h157E == 0) {
+                SD_STATE->h157C = SD_STATE->h4E;
                 func_80049AF4(1, 1);
-                g_SDValue->b158A = 0xFF;
-                g_SDValue->flags = g_SDValue->flags | 0x80;
-                g_SDValue->h1588 = g_SDValue->h54;
+                SD_STATE->b158A = 0xFF;
+                SD_STATE->flags = SD_STATE->flags | 0x80;
+                SD_STATE->h1588 = SD_STATE->h54;
             }
         }
-        g_SDValue->b7C = 0;
+        SD_STATE->b7C = 0;
         goto clear_7d;
 
     case 0:
@@ -294,11 +295,11 @@ void func_80045514(void)
     goto clear_7d_7c;
 
 clear_7d:
-    g_SDValue->b7D = 0;
+    SD_STATE->b7D = 0;
     return;
 
 clear_7d_7c:
-    g_SDValue->b7D = 0;
+    SD_STATE->b7D = 0;
 clear_7c:
-    g_SDValue->b7C = 0;
+    SD_STATE->b7C = 0;
 }
