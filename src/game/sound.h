@@ -151,7 +151,8 @@ typedef struct {
     SDNote *field_0444;
     SDValueLink *field_0448;
     u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
-    u8 pad04CC[0x510 - SD_VOICE_LOOKUP_END_BYTE_OFFSET];
+    s32 field_04CC;
+    u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
     s16 cd_volume;
     s16 field_0512;
     u8 channel_volume[2];
@@ -160,9 +161,15 @@ typedef struct {
        "VolInf" signature checks out: the bank itself and the two records
        that follow it. */
     u8 *bank_0518[3];
-    u8 pad0524[0xF];
+    u8 pad0524[4];
+    u32 field_0528;
+    u32 field_052C;
+    u8 field_0530;
+    u8 field_0531;
+    u8 field_0532;
     u8 mix_multiplier;
-    u8 pad0534[8];
+    u16 field_0534;
+    u8 pad0536[6];
     u8 buffer_053C[4][0x200];
     u8 pad0D3C[0x800];
     u8 *buffer_ptrs_153C[4];
@@ -172,7 +179,7 @@ typedef struct {
     u8 pad1568[0x10];
     s16 field_1578;
     s16 field_157A;
-    u8 pad157C[2];
+    u16 field_157C;
     s16 field_157E;
     s16 field_1580;
     s16 field_1582;
@@ -191,7 +198,13 @@ typedef struct {
     s16 field_15F4;
     u8 pad15F6[0x22];
     u8 busy;
-    u8 pad1619[0x30];
+    /* Three 0x10-byte buffers, not one 0x30 region: func_80045514 passes
+       each of the three separately to func_80014C40, selected by
+       field_005C[0] & 0xF0 -- bits 4 to 7, the high nibble of the low
+       byte -- with cases 0x10, 0x20 and 0x40. */
+    u8 field_1619[0x10];
+    u8 field_1629[0x10];
+    u8 field_1639[0x10];
     /* The two "VolInf" trailer bytes, one per mixer-out bank; func_80046A08
        latches each into field_0042 / field_0044 as it loads them. */
     u8 field_1649;
