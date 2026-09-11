@@ -32,7 +32,8 @@ REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
 )
 SYMBOL_ALIAS_PATTERN = re.compile(
     r"\bextern\b[^;]*?\b(?:asm|__asm|__asm__)"
-    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)\s*;"
+    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)"
+    r"(?:\s*__attribute__\s*\(\([^;]*?\)\))*\s*;"
 )
 SYMBOL_DEFINITION_PATTERN = re.compile(
     r"^\s*([A-Za-z_.$][A-Za-z0-9_.$]*)\s*=", re.MULTILINE
@@ -71,11 +72,53 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def declared_symbol(declaration: str) -> str | None:
+    declaration = re.sub(
+        r"\b__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)",
+        "",
+        declaration,
+        flags=re.DOTALL,
+    )
+    pointer = re.search(r"\(\s*\*+\s*([A-Za-z_]\w*)\s*\)", declaration)
+    if pointer is not None:
+        return pointer.group(1)
+    function = re.search(r"\b([A-Za-z_]\w*)\s*\(", declaration)
+    if function is not None:
+        return function.group(1)
+    declaration = re.sub(r"(?:\[[^\]]*\]\s*)+$", "", declaration.strip())
+    variable = re.search(r"([A-Za-z_]\w*)\s*$", declaration)
+    return variable.group(1) if variable is not None else None
+
+
 def load_tracked_symbol_names(root: Path) -> set[str]:
     names: set[str] = set()
     for relative in TRACKED_SYMBOL_PATHS:
         path = resolve_within(root, relative, must_exist=True)
         names.update(SYMBOL_DEFINITION_PATTERN.findall(path.read_text()))
+    inventory_paths = [
+        resolve_within(root, "config/slus_01411/functions.csv", must_exist=True),
+        *sorted(
+            resolve_within(root, "config/slus_01411/overlays", must_exist=True).glob(
+                "*_functions.csv"
+            )
+        ),
+    ]
+    for path in inventory_paths:
+        with path.open(encoding="utf-8", newline="") as handle:
+            for row in csv.DictReader(handle):
+                name = row.get("name")
+                if name:
+                    names.add(name)
+    for path in sorted(resolve_within(root, "src", must_exist=True).rglob("*.h")):
+        try:
+            source = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        text = COMMENT_PATTERN.sub("", source)
+        for declaration in re.findall(r"\bextern\b([^;]+);", text, re.DOTALL):
+            name = declared_symbol(declaration)
+            if name is not None:
+                names.add(name)
     return names
 
 
@@ -208,22 +251,6 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="replace an existing matching source after inline refinement",
     )
-    parser.add_argument(
-        "--allow-register-pins",
-        action="store_true",
-        help=(
-            "accept `register` variables pinned to a hard register; "
-            "statement-level inline assembly is still rejected"
-        ),
-    )
-    parser.add_argument(
-        "--allow-symbol-aliases",
-        action="store_true",
-        help=(
-            "accept extern C aliases of symbols in the tracked linker tables; "
-            "statement-level inline assembly is still rejected"
-        ),
-    )
     return parser.parse_args()
 
 
@@ -331,11 +358,24 @@ def main() -> int:
 
         source_bytes = source.read_bytes()
         source_text = source_bytes.decode("utf-8")
-        tracked_symbol_names = (
-            load_tracked_symbol_names(root)
-            if args.allow_symbol_aliases
-            else set()
-        )
+        tracked_symbol_names = load_tracked_symbol_names(root)
+        source_without_comments = COMMENT_PATTERN.sub("", source_text)
+        if REGISTER_AGGREGATE_PIN_PATTERN.search(
+            source_without_comments
+        ) or REGISTER_PIN_PATTERN.search(source_without_comments):
+            raise IntegrationError(
+                f"{address:#010x}: matching C cannot contain hard-register variables"
+            )
+        if uses_asm_extension(
+            source_text,
+            allow_register_pins=True,
+            allow_symbol_aliases=True,
+            tracked_symbol_names=tracked_symbol_names,
+        ):
+            raise IntegrationError(
+                f"{address:#010x}: matching C contains statement-level GCC asm "
+                "or an assembler alias that is not a tracked symbol"
+            )
         if external_evidence is not None:
             evidence_source = resolve_within(
                 root,
@@ -353,16 +393,6 @@ def main() -> int:
             if sha256(source) != external_evidence["candidate_sha256"]:
                 raise IntegrationError(
                     f"{address:#010x}: source hash differs from matched reference evidence"
-                )
-            if uses_asm_extension(
-                source_text,
-                allow_register_pins=args.allow_register_pins,
-                allow_symbol_aliases=args.allow_symbol_aliases,
-                tracked_symbol_names=tracked_symbol_names,
-            ):
-                raise IntegrationError(
-                    f"{address:#010x}: reference match still contains GCC asm "
-                    "(symbol aliases must name a tracked linker symbol exactly)"
                 )
         definition_pattern = re.compile(
             rf"\b{re.escape(function.name)}\s*\("
