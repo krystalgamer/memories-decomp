@@ -40,7 +40,7 @@ PAIRS = [
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../unmatched.h"'),
     ("src/game/func_80049BAC.c", "func_8004A518", '#include "../unmatched.h"'),
     ("src/candidates/func_80015310.c", "Fade_StepBands", '#include "../unmatched.h"'),
-    ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../unmatched.h"'),
+    ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../game/sound.h"'),
     ("src/candidates/func_8004AAFC.c", "func_8004A43C", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
