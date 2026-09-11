@@ -1,19 +1,12 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_8004B374.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 74 of 74 instructions with 2
- * differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
+#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "../game/func_8004A7C0.h"
-#include "../game/sound_sequence_constants.h"
-#include "../game/sound.h"
+#include "func_8004A7C0.h"
+#include "sound_sequence_constants.h"
+#include "sound.h"
 
-/* MATCH 2026-09-05, pure C at default -O2 -G8 with the assembler at -G0
- * (PER_FUNC_AS_FLAGS): D_8009B458 bare through its own register, D_80011434
- * as cc1psx's own pair via $v0. Replaces a transcription (four asm levers:
- * an empty asm launder on the arg1 copy, reloads, pins).
+/* D_8009B458 is held in its own register and D_80011434 is materialized
+ * through cc1psx's address pair.
  *
  * The 21 differences the first pure C sat at were ONE mechanism: gcc hoisted
  * arg1's per-iteration `andi` out of the call-bearing loop into a saved
@@ -22,7 +15,7 @@
  * the LOOP_BEG/LOOP_END notes of for/while/do -- a goto loop has none, so
  * nothing is hoisted, which is what retail shows. Then, in order:
  *   29 -> 22  `a1 = arg1;` named at the top, masked at its use
- *   22 -> 11  `mask = 0;` written before `i = 0;` (13 under -G8/as -G0)
+ *   22 -> 11  `mask = 0;` written before `i = 0;`
  *   13 ->  5  `do { } while (0);` round the loop's bottom four statements
  *             (the permuter's find; it stops off/tbl rotating)
  *    5 ->  0  `i = 0; mask = 0;` -- two zeroings rather than `i = mask;`;

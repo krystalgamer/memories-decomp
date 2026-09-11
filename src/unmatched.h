@@ -741,11 +741,6 @@ void func_8004A764(s32 index);
  * sound_sequence_runtime.c. */
 void func_8004AAFC(void);
 
-/* The definition in src/candidates/func_8004B374.c takes two parameters.
- * sound_sequence_parser.c, the one caller, passes a third, and that call
- * is what this spells. */
-void func_8004B374(s32 channel, s32 value, s32 unused);
-
 void func_8004B854(void);
 
 s32 SD_FindMidiTrackChunk(s32 offset);

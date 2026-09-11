@@ -633,9 +633,12 @@ extern SDValue *g_SDValue;
 #endif
 #endif
 
-/* The note-start candidate retains byte-based addressing; resident consumers
- * use the shared layout. Both declarations describe the same pointer word. */
-#ifdef SDSECONDARYSTATE_AS_BYTES
+/* Voice setup units keep the pointer outside small data for their absolute
+ * loads. The note-start candidate retains byte-based addressing; other
+ * resident consumers use the shared layout. */
+#ifdef D_8009B458_IN_DATA
+extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
+#elif defined(SDSECONDARYSTATE_AS_BYTES)
 extern u8 *D_8009B458;
 #else
 extern SDSecondaryState *D_8009B458;
@@ -693,6 +696,10 @@ void func_8003FFB4(u32);
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
 void func_8004C84C(void);
+
+/* The definition consumes two arguments; parser callers also pass an ignored
+   third value, so the shared declaration deliberately leaves arity open. */
+void func_8004B374();
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
