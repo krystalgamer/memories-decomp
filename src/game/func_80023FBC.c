@@ -4,10 +4,11 @@
 #include "func_80023D08.h"
 #include "func_80023FBC.h"
 
-/* Same 2-element history slot as reset_history_ring_and_flags.c's
-   gInput_wPad1Held[2]; only index 0 is read here (declared scalar -- an array
-   extern forces absolute lui/addiu addressing here instead of the target's
-   gp-relative access). */
+/* gInput_wPad1Held is the first entry of the two-element pad-1/pad-2 run
+   that Input_ResetPads walks down from &gInput_wPad2Held in input_pads.c;
+   only the pad-1 entry is read here, so this unit takes the volatile scalar
+   arm -- an array extern forces absolute lui/addiu addressing here instead
+   of the target's gp-relative access. */
 
 /* Priority-encodes gInput_wPad1Held's direction bits into a small index (-1 if
    none are set; otherwise whichever bit, checked in RIGHT/DOWN/LEFT/UP

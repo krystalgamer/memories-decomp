@@ -40,11 +40,12 @@
 
 /* Absolute in the target, so array-typed to keep them out of small data. */
 
-/* Both callees are reached without a prototype in the original, so their
-   results arrive in $v0 already widened -- there is no andi/sll narrowing at
-   either call site. func_80024060 really returns u8 (see
-   src/call_80023fbc_read_field25.c) and card_pick_on_up really returns s16
-   (see src/card_pick.c). */
+/* Neither call site narrows the result: each jal is followed by its delay
+   slot and then a branch on $v0, with no andi or sll between, so the widened
+   value is the callee's own. func_80024060's listing ends `lbu $v0,
+   0x19($s0)` and really returns u8; func_80017034's non-zero exit is `lh $v0,
+   0xC($a2)` and really returns s16. Both are declared s32, in
+   duel_cursor_status.h and func_80017034.h, which this file includes. */
 void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
     u8 f;
     s32 picked;
