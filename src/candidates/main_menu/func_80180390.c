@@ -18,6 +18,7 @@
 #include "../../game/save_data_update_trade_load.h"
 #include "../../unmatched.h"
 #include "../../game/input.h"
+#include "../../game/display_object.h"
 #include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
@@ -34,8 +35,6 @@
 #include "../../overlays/main_menu/ordering_tables.h"
 #include "../../game/sound.h"
 #include "../../game/graphics_frame.h"
-
-typedef struct { s16 h; } H16s;
 
 s32 MainMenu_UpdateFrontendMenu(void)
 {
@@ -205,7 +204,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             goto next_entry;
         }
         timer = countdown - 1;
-        ((H16s *)(eloop + 0x60))->h = timer;
+        ((DisplayObject *)eloop)->field_60 = timer;
         if ((u32)gMain_bMenuID < 5) {
             if (i >= 5) {
                 goto hide_entry;
