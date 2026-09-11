@@ -1,5 +1,4 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
-#define DUEL_CARD_STAGING_WITH_DECK_ALIAS
 #include "../types.h"
 #include "duel_card_staging.h"
 #include "duel_draw_resolution.h"

@@ -64,9 +64,13 @@ from 109 names / 205 sites to 106 / 194 on the Tick388 base.
 
 The following boundaries remain deliberate:
 
-- The AI exporter retains a scalar deck view; the grouped draw unit retains
-  both its byte view and the distinct `D_8015C424_cards` compiler identity
-  with `asm("D_8015C424")`. Neither introduces a new linker symbol.
+- Both typed-view consumers share one declaration: `D_8015C424_cards`, an
+  `asm("D_8015C424")` alias beside the byte view, with no guard on either.
+  The AI exporter used to take a second declaration of the same type under
+  the base name; the alias reproduces its addressing at `gcc_2_8_1_g0_split`
+  as well, so both guards are gone. It still introduces no new linker
+  symbol -- `objdump -t` on the exporter's object lists one undefined
+  `D_8015C424`.
 - Deck ID reads in setup remain unsigned, while the draw path still reads
   `index_02` as signed. Typed fields do not normalize load widths or signs.
 - Byte offsets for image blocks, GPU pixels, ID staging lists and trap
