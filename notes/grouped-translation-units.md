@@ -310,28 +310,48 @@ its byte size divided by four is the number of table entries.
 
 ## Sources that cannot be grouped at all
 
-Five resident sources are an `__asm__` block of `.word` literals with explicit
-`.reloc` directives and no C statements outside it:
+Five resident sources were an `__asm__` block of `.word` literals with
+explicit `.reloc` directives and no C statements outside it: `func_800291E0`,
+`func_8002A4A8`, `func_8002A788`, `func_80030998` and `Main_RunCredits`. They
+were registered in `matching_c.json` with a compiler profile, but no C was
+compiled for them, so the profile was inert and the recorded match reflected
+literal bytes rather than codegen.
 
-- `src/game/func_800291E0.c`
-- `src/game/func_80030998.c`
-- `src/game/func_8002A788.c`
-- `src/game/func_8002A4A8.c`
-- `src/game/main_run_credits.c`
+#3859 reclassified all five to `unmatched_asm` and removed the sources, and
+each one's `functions.csv` row records that. They are now in neither
+`matching_c.json` nor `candidates.json`, so a candidate scan over matching C
+no longer reaches them and none of them needs excluding by name.
 
-They are registered in `matching_c.json` with a compiler profile, but no C is
-compiled for them, so the profile is inert and the recorded match reflects
-literal bytes rather than codegen. There is nothing to merge, and they cannot
-satisfy the per-TU header, single-definition-site, or usage-derived-type work
-either. Any candidate scan over matching C should exclude them explicitly;
-three otherwise-plausible contiguous same-profile runs are blocked by nothing
-except one of these sitting inside them.
+What they still do is leave a hole. Each sits between two matched functions,
+and for three of the five those neighbours share a profile: `func_800291E0`
+between two at `gcc_2_8_1_g0`, `func_80030998` between two at
+`gcc_2_8_1_g8`, and `Main_RunCredits` between two at
+`gcc_2_8_1_g8_split_comm`. Of those three, only in the last is the hole
+exactly the one function -- its size is `0x21C` and the gap between its
+neighbours is `0x21C` -- so that run is blocked by this alone; the other two
+gaps are wider than the function, holding two and three unmatched functions
+respectively. `func_8002A4A8`'s gap is exactly its size as well, but its
+neighbours carry different profiles, so no run reached it anyway. Either way a
+run spanning one of them fails conditions 1 and 4 on the gap, which needs no
+special case.
 
-This is a different thing from a source carrying a single inline opcode.
-`display_projection.c`, `func_800177C4.c`, `func_800178BC.c` and
-`func_8001B0CC.c` each contain `.word 0x4A180001`, the GTE `rtps` encoding the
-period assembler could not spell, inside ordinary C with real operand
-constraints. Those are normal C sources and group normally.
+This used to be contrasted with a source carrying a single inline opcode, and
+that contrast no longer separates two groupable populations. Seven sources
+contain `.word 0x4A180001`, the GTE `rtps` encoding the period assembler
+could not spell, inside ordinary C with real operand constraints:
+`func_80015D18.c`, `func_80015DFC.c`, `func_80015EF4.c`, `func_800177C4.c`,
+`func_800178BC.c`, `func_8001B0CC.c` and `func_80029934.c`. All seven are
+build-integrated candidates under `src/candidates/`, so none of them is in
+matching C to group, and they are there for two different reasons. Five were
+reclassified by #3859, and each of those five rows says the source was
+byte-exact only through that inline asm statement -- two of them through a
+register pin as well -- so for those the opcode is the reason rather than an
+incidental detail. The other two, `func_80015EF4.c` and `func_80029934.c`,
+are ordinary unmatched candidates whose rows record a live residual.
+
+`display_projection.c` used to be an example here and no longer carries the
+encoding at all. #3859/#3904 moved `func_80015D18` and `func_80015DFC` out of
+it -- 97 lines to 19 -- and both `.word` directives went with them.
 
 ## Whole-resident candidate survey
 
