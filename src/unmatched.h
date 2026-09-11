@@ -584,8 +584,7 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
  * func_80045514 candidate, declares it with an explicit extern that the
  * contract fingerprint records. func_80048768 and func_8004A6F8 have no
- * caller in C and get no declaration. Ai_GetHandSize is one of the deliberate
- * disagreements listed at the top. */
+ * caller in C and get no declaration. */
 
 struct CardList;
 struct DuelEffectChannel;
