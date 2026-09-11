@@ -13,15 +13,15 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * D_800EFE48[v].previous, and func_80040814 walks the list through next.
  */
 /* The union of the four private views this record had: display_object.h's
- * own (previous/next/flags/update), display_slot_lifecycle.c's DisplaySlot
+ * own (previous/next/flags/update), display_object_core.c's DisplaySlot
  * (the richest), display_projection.c's ProjectionEntry (+0x28) and
- * func_80040588.c's local DisplayObject (+0x17, +0x30, +0x3C, +0x5C). Every
+ * display_object_core.c's renderer view (+0x17, +0x30, +0x3C, +0x5C). Every
  * offset they share agrees; each named a different subset.
  *
- * That exception is now resolved. func_80040588.c and
+ * That exception is now resolved. display_object_core.c and
  * display_object_updates.c used to keep private copies because they reach a
  * u8 at +0x22 and a pair of u16 at +0x3C/+0x3E, which fall inside the words
- * display_slot_lifecycle.c stores with single word writes. Splitting those
+ * display_object_core.c stores with single word writes. Splitting those
  * words outright would have turned an sw into an sh; carrying each as a
  * union of both widths does not, so the word writes keep their sw and both
  * renderers now take this record.
@@ -65,18 +65,18 @@ typedef struct DisplayObject {
     /* DuelStatusPosition called this priority before it was retired into
        this record, and for its own consumer that is right: func_80016D2C
        passes it to GsSortFastSprite as the ordering-table depth, and
-       display_slot_lifecycle.c seeds it from D_8009AF74[ot_index].
+       display_object_core.c seeds it from D_8009AF74[ot_index].
 
        The name is not taken, because four other consumers treat it as a bit
        field rather than a depth: duel_card_effects.c adds D_8009B1D0 << 14,
-       src/candidates/func_800260D0.c adds step * 0x3000, and func_80040588.c or's
+       src/candidates/func_800260D0.c adds step * 0x3000, and display_object_core.c or's
        it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
        consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
     /* An ordering-table index, not a texture index. func_80016D2C uses it
        to pick D_800E9D90[ot_index], a GsOT * element, and hands it
-       to GsSortFastSprite as the ordering table; func_80040588.c indexes the
+       to GsSortFastSprite as the ordering table; display_object_core.c indexes the
        same array -- its local tb is assigned D_800E9D90 -- and passes the
        element to func_80042188. ordering_tables.h shares the four-pointer
        array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
@@ -90,7 +90,7 @@ typedef struct DisplayObject {
     u16 field_1C;                  /* 0x1C */
     s16 field_1E;                  /* 0x1E */
     /* 0x20 is reached both as a word and as the byte at +0x22. Both are
-       retail's: display_slot_lifecycle.c clears the whole word with one sw,
+       retail's: display_object_core.c clears the whole word with one sw,
        and the two sprite renderers read only the byte. Neither view is a
        superset, so the record carries both rather than choosing. */
     /* The byte at 0x21 is inside the halfword at 0x20, so it gets a third
@@ -219,7 +219,7 @@ typedef struct DisplayObject {
     } field_3C;                    /* 0x3C */
     /* 0x40 and 0x48 are the last two words display_object_config.h's separate
        halfword view covers, and they are read both ways for the same reason
-       0x3C is: display_slot_lifecycle.c clears each with one sw and the two
+       0x3C is: display_object_core.c clears each with one sw and the two
        sprite emitters copy each as a word, while func_80040510 and the dialog
        and duel layout code write the halves. The view calls 0x48/0x4A
        half_height_2/half_width_2; the halves are left field_-named here, as
@@ -245,7 +245,7 @@ typedef struct DisplayObject {
        The sprite emitters read the same word as a scale instead:
        func_80040588 and func_800408D0 assign it to sprite_primitive.h's u32
        `scale`, and display_object_transition.c animates the two halves from a
-       0x1000 base, with that file and display_slot_lifecycle.c resetting the
+       0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
 
        An earlier revision of this comment, from #2985, gave only the second
@@ -484,11 +484,11 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  *
  * DisplayObject_ResetPool advances one pointer into each and writes -1 through
  * both for DISPLAY_OBJECT_LIST_COUNT iterations, which is what fixes this
- * length, and display_slot_lifecycle.c stores into it by list key. The element
+ * length, and display_object_core.c stores into it by list key. The element
  * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
  * the reset walk uses an s16 *.
  *
- * func_800402A0 in display_slot_lifecycle.c reached it through a u8 * and
+ * func_800402A0 in display_object_core.c reached it through a u8 * and
  * scaled by two by hand. It now
  * takes this declaration and casts at the use site, which is the form it
  * already uses one line earlier for D_800EFE38. */
@@ -514,7 +514,7 @@ extern DisplayObject D_800F0548[
  * Every retail access is gp-relative (lhu/addiu/sh in func_8004020C.s:4-8
  * and func_800400AC.s:16-20, sh $zero in func_80040390.s:10-11), so the
  * plain halfword serves both the per-slot and whole-pool paths in
- * display_slot_lifecycle.c. */
+ * display_object_core.c. */
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 

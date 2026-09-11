@@ -54,7 +54,7 @@ s32 func_8004002C(void);
 void *func_800400AC(s32 index, s32 key);
 ```
 
-The defining `display_slot_lifecycle.c` and every current C caller include
+The defining `display_object_core.c` and every current C caller include
 this header. The migration removes 48 local getter declarations and 53 local
 allocator declarations, including old-style unspecified-argument spellings.
 Assembly-only word/relocation references in `func_800291E0` (generated
@@ -110,7 +110,7 @@ void func_800404CC(
 );
 ```
 
-The defining `display_object_config.c` and all 21 C caller units use this
+The defining `display_object_core.c` and all 21 C caller units use this
 contract, including the formerly implicit calls in `func_8002BFCC`.
 All 20 local configurator declarations are removed; this is not a
 callers-only or partially shared signature.
