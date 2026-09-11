@@ -13,6 +13,7 @@
 #include "../game/sound.h"
 #include "../game/func_80039794.h"
 #include "../game/duel_scene_callbacks.h"
+#include "../game/duel_scene_state.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_effect.h"
 #include "../game/duel_effect_request.h"
@@ -74,10 +75,9 @@ void func_80024200(void)
         __asm__("lui %0,%%hi(D_80090998)" : "=r"(callbacks));
         index = D_8009B23A;
         __asm__("addiu %0,%0,%%lo(D_80090998)" : "+r"(callbacks));
-        callbacks[index & 0xF]();
-        if (!(D_8009B23A & 0x8000)) {
+        callbacks[index & DUEL_SCENE_PHASE_MASK]();
+        if (!(D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED)) {
             D_8009B174 = 0;
         }
     }
 }
-
