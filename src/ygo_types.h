@@ -579,7 +579,9 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  * Password_UpdateShopScreen, is now a build-integrated candidate
  * (src/candidates/password/func_8016A37C.c).
  *
- * game/text_staging.h owns the guarded extern views of D_801D5608. Pair
+ * game/text_staging.h owns the declaration of D_801D5608. Pair is reached
+ * through that header's union member `pair`, not through a guarded extern
+ * view of its own; only the separate starchip alias is still guarded. Pair
  * remains the overlays' view, not a claim that the staging area always holds
  * this shape. Main_RunCredits reached it through explicit relocations and is
  * generated assembly again (#3859). */
