@@ -186,6 +186,7 @@ def parse_args() -> argparse.Namespace:
             "refinement",
             "collaborator",
             "post-terminal",
+            "reclassification",
         ),
         default="canonical",
         help="ledger containing the terminal matched result",
@@ -282,7 +283,11 @@ def main() -> int:
                         else (
                             "collaborator_match"
                             if args.evidence_source == "collaborator"
-                            else "post_terminal_resolution"
+                            else (
+                                "reclassification_match"
+                                if args.evidence_source == "reclassification"
+                                else "post_terminal_resolution"
+                            )
                         )
                     )
                 ),

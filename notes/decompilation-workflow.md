@@ -211,6 +211,16 @@ The recorder prefixes the durable summary with the new discriminator. Omitting
 it is rejected, so later sessions cannot see a post-terminal success without
 the evidence that justified reopening the hypothesis.
 
+If a previous post-terminal match was subsequently reclassified, preserve
+that terminal record. Record the new exact result with
+`--mode reclassification_match --new-discriminator "..."`, then promote it
+with `integrate_verified_match.py --evidence-source reclassification`.
+This separate one-result history requires an existing post-terminal match
+and an unmatched function at recording time; it does not reopen either the
+canonical or original external history. The new source must meet current
+acceptance rules, including no register pins, inline assembly, or mixed
+compiler/assembler `-G` thresholds.
+
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
 name exactly matches a symbol in the tracked linker tables; arbitrary
