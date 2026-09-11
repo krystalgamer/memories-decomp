@@ -4207,6 +4207,12 @@
       "source": "src/game/sound_spatialize_object.c"
     },
     {
+      "address": "0x8004A2F8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xC4",
+      "source": "src/game/sound_secondary_object_volumes.c"
+    },
+    {
       "address": "0x8004A3BC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x80",
