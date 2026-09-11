@@ -67,6 +67,18 @@ class PsyqSignatureTests(unittest.TestCase):
         ):
             scan(self.signatures, 0x80010000, b"")
 
+    def test_scan_reports_catalogue_path_for_invalid_json(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_text(
+            "[", encoding="utf-8"
+        )
+
+        with self.assertRaisesRegex(
+            SignatureError,
+            "LIBTEST[.]LIB[.]json: invalid JSON at line 1, column 2: "
+            "Expecting value",
+        ):
+            scan(self.signatures, 0x80010000, b"")
+
     def test_scan_rejects_non_array_catalogue(self) -> None:
         (self.signatures / "LIBTEST.LIB.json").write_text(
             "{}", encoding="utf-8"

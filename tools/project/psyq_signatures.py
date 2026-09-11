@@ -214,7 +214,13 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
     signature_entries = 0
     for path in paths:
         library = path.name[: -len(".json")]
-        entries = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            entries = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as error:
+            raise SignatureError(
+                f"{path}: invalid JSON at line {error.lineno}, "
+                f"column {error.colno}: {error.msg}"
+            ) from error
         if not isinstance(entries, list):
             raise SignatureError(f"{path}: expected a JSON array")
         for index, entry in enumerate(entries):

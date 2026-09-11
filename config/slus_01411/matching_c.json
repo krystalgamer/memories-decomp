@@ -916,7 +916,7 @@
       "address": "0x80024824",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/duel_deck_card_data.c"
+      "source": "src/game/duel_card_record_lifecycle.c"
     },
     {
       "address": "0x80024914",

@@ -63,6 +63,25 @@ so the tool takes a path to it and fetches nothing:
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
         --signatures <checkout>/460 --report
 
+### Catalogue input contract
+
+Treat the third-party directory as untrusted input rather than partial
+evidence. Before emitting either a report or semantic-map rows, the tool
+requires:
+
+- at least one `*.json` file and at least one entry carrying a `sig` across
+  those files; entries without `sig` are metadata and are skipped;
+- a top-level JSON array whose entries are objects;
+- non-empty object names and non-empty signatures made only from `??`
+  wildcards or exactly two hexadecimal digits per byte;
+- when present, a `labels` array of objects with non-empty string names and
+  integer offsets inside the parsed signature.
+
+Malformed JSON, an invalid field shape, or an out-of-range label aborts the
+whole command with status 2. No partial proposal set is printed. Passing these
+checks establishes that the catalogue is structurally usable; it does not make
+its labels authoritative or bypass the matching and corroboration rules below.
+
 Five rules decide whether a label becomes a proposal:
 
 1. The full masked pattern matches at a four-byte boundary.
@@ -1166,7 +1185,7 @@ parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. Exactly three matching sources call qsort through
 it:
-`duel_deck_card_data.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
+`src/candidates/func_80024734.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
