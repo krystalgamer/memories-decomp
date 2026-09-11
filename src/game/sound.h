@@ -716,6 +716,7 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
+void func_8004A518(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
