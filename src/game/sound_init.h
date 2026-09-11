@@ -5,6 +5,8 @@
 
 void func_80049200(s32 value);
 void func_80049230(s32 value, s32 data);
+void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
+void SsUtReverbOff_80074E60(void) asm("func_80074E60");
 void SD_Init(void);
 void func_80049308(void);
 void func_80049394(void *entry);

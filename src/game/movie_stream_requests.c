@@ -4,6 +4,7 @@
 #include "func_8005B8A0.h"
 #include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
+#include "../external_funcs.h"
 
 extern u8 D_800F5750[];
 

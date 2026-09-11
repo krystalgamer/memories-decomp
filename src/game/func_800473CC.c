@@ -10,10 +10,6 @@
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"
-/* Not a duplicate of the sound_init.h declaration: a second addressing view
-   of the same symbol. The one call below narrows its second argument to s16,
-   and the canonical (s32, s32) prototype would widen it back. */
-extern void func_80049230_s16(s32, s16) asm("func_80049230");
 
 void func_800473CC(u32 value)
 {

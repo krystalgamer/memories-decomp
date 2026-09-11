@@ -5,6 +5,7 @@
 #include "file_constants.h"
 #include "file_cd_helpers.h"
 #include "file_transfer.h"
+#include "../external_funcs.h"
 #include "../unmatched.h"
 
 /* The rest of the asynchronous disc-transfer runtime: the later
@@ -13,7 +14,6 @@
    communicate through the shared descriptors, request slots and D_8009B0F4
    state word. The first four callbacks are in file_transfer_runtime.c. */
 
-extern void func_80014B30_callback(void) asm("func_80014B30");
 extern u16 D_8009B0EC;
 
 void func_80014294(u8 event)

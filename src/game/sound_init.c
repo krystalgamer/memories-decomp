@@ -9,8 +9,6 @@
 #include "sound_transfer_lifecycle.h"
 #include "../unmatched.h"
 
-extern void func_80074E60(void);
-
 void func_80049200(s32 value)
 {
     func_80049230((s16)value, g_SDValue->field_164B);
@@ -134,7 +132,7 @@ void func_800494F4(s32 *data)
         i++;
         data++;
     } while (i < 530);
-    func_80074E60();
+    SsUtReverbOff_80074E60();
     func_8004A6D8();
     func_80049434();
 }

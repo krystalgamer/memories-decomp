@@ -1,0 +1,116 @@
+from __future__ import annotations
+
+import csv
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+import translation_unit_headers
+
+
+class TranslationUnitHeaderTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self.temporary.name)
+        (self.root / "config/slus_01411/overlays").mkdir(parents=True)
+        (self.root / "src/game").mkdir(parents=True)
+        self.write_inventory(
+            [
+                ("func_local", "matching_c"),
+                ("func_foreign", "matching_c"),
+                ("func_unmatched", "unmatched_asm"),
+            ]
+        )
+        self.write(
+            "config/slus_01411/matching_c.json",
+            json.dumps(
+                {
+                    "schema": 1,
+                    "functions": [
+                        {
+                            "address": "0x80010000",
+                            "size": "0x10",
+                            "source": "src/game/example.c",
+                            "profile": "test",
+                        }
+                    ],
+                }
+            ),
+        )
+
+    def tearDown(self) -> None:
+        self.temporary.cleanup()
+
+    def write(self, relative: str, text: str) -> None:
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+
+    def write_inventory(self, rows: list[tuple[str, str]]) -> None:
+        path = self.root / "config/slus_01411/functions.csv"
+        with path.open("w", encoding="utf-8", newline="") as handle:
+            writer = csv.writer(handle)
+            writer.writerow(("address", "size", "name", "status", "module", "notes"))
+            for index, (name, status) in enumerate(rows):
+                writer.writerow(
+                    (f"0x{0x80010000 + index * 0x10:08X}", "0x10", name, status, "game", "")
+                )
+
+    def problems(self, source: str) -> list[str]:
+        self.write("src/game/example.c", source)
+        return translation_unit_headers.audit(self.root)[0]
+
+    def test_same_unit_forward_is_accepted(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "void func_local(void);\n"
+                "void func_local(void) {}\n"
+            ),
+            [],
+        )
+
+    def test_foreign_matching_declaration_is_rejected(self) -> None:
+        problems = self.problems(
+            "void func_foreign(void);\n"
+            "void func_local(void) { func_foreign(); }\n"
+        )
+        self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))
+
+    def test_unknown_external_declaration_is_rejected(self) -> None:
+        problems = self.problems(
+            "void external_callback(void);\n"
+            "void func_local(void) { external_callback(); }\n"
+        )
+        self.assertTrue(
+            any("external_callback belongs in a header" in p for p in problems)
+        )
+
+    def test_unmatched_declaration_is_delegated(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "void func_unmatched(void);\n"
+                "void func_local(void) { func_unmatched(); }\n"
+            ),
+            [],
+        )
+
+    def test_function_pointer_object_is_not_a_prototype(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "extern void (*callbacks[])(void);\n"
+                "void func_local(void) {}\n"
+            ),
+            [],
+        )
+
+    def test_assembler_alias_declaration_is_rejected(self) -> None:
+        problems = self.problems(
+            'extern void alias(void) asm("func_foreign");\n'
+            "void func_local(void) { alias(); }\n"
+        )
+        self.assertTrue(any("alias belongs in a header" in p for p in problems))
+
+
+if __name__ == "__main__":
+    unittest.main()

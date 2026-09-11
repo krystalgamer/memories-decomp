@@ -4,6 +4,9 @@
 #include "file_transfer.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
+#define CD_POS_TO_INT_LOCATION_VIEW
+#include "../external_funcs.h"
+#undef CD_POS_TO_INT_LOCATION_VIEW
 #include "../unmatched.h"
 
 void File_InitTransferState(s32 value)

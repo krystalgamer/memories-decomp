@@ -86,5 +86,17 @@ extern u16 D_800C4E68;
 
 s32 CampaignMap_PickAlternateExit(void);
 void CampaignMap_UpdateAlternateLocation(void);
+s32 func_80169230(void);
+void func_801680E4(s32);
+void func_801682D0(s32);
+AlternateObject *func_80168A48(s32);
+void func_80066574(AlternateObject *);
+void func_80168624(void);
+void func_80021EA4(void);
+void func_80168040(void);
+void func_80065BFC(s32);
+void func_800158C8(void);
+s32 func_8004EB9C(s32);
+void func_80065B24(s32);
 
 #endif
