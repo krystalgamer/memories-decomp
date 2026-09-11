@@ -216,6 +216,11 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
         library = path.name[: -len(".json")]
         try:
             entries = json.loads(path.read_text(encoding="utf-8"))
+        except UnicodeDecodeError as error:
+            raise SignatureError(
+                f"{path}: invalid UTF-8 at byte {error.start}: "
+                f"{error.reason}"
+            ) from error
         except json.JSONDecodeError as error:
             raise SignatureError(
                 f"{path}: invalid JSON at line {error.lineno}, "
