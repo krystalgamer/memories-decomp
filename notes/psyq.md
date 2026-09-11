@@ -1166,9 +1166,9 @@ grid y value, `func_80046A08.c` for sound-bank setup values, and the password
 overlay's `name_entry_main.c` for its save-buffer address and size.
 `mem_card_driver.c` uses `sprintf` for `MemCard_FindFiles` and three request
 formatters; `func_8005106C.c` formats a three-number string immediately passed
-to `FntPrint`. `file_set_position_table.c` is the separate eighth formatted
-output caller and keeps `printf` unprototyped: adding any declaration changes
-GCC 2.8.1's loop layout by three instructions.
+to `FntPrint`. The `File_SetPositionTable` candidate is the separate eighth
+formatted output caller and keeps `printf` unprototyped: adding any
+declaration changes GCC 2.8.1's loop layout by three instructions.
 
 `malloc.h` exposes three parallel allocator families:
 `InitHeap`/`malloc`/`calloc`/`realloc`/`free`, then identically shaped `*2`
@@ -1539,7 +1539,7 @@ The existing C sources expose several useful starting points:
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `func_800592AC.c` and the `func_800580D4` candidate (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `func_80052D2C.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and the `func_80041E7C`/`func_80041F90` candidates (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `func_80045054` (now `src/candidates/func_80045054.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
-| Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in `sound_voice_setup.c` and `sound_voice_volume.c`, and in the candidates `func_80047864`, `func_80049CF8` and `func_80049DD8` (formerly in `sound_voice_selection.c` and `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
+| Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in the candidates `func_8004A43C` and `SD_SetVoiceVolume` (formerly in `sound_voice_setup.c` and `sound_voice_volume.c`), and in `func_80047864`, `func_80049CF8` and `func_80049DD8` (formerly in `sound_voice_selection.c` and `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `func_8004671C.c`: `func_8004671C` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |
 | Memory-card I/O event lifecycle | `OpenEvent` / `EnableEvent` / `CloseEvent`, `SwCARD` / `HwCARD`, and `EvSp*` / `EvMdINTR` constants | Migration complete in `mem_card_driver.c`: the eight `long` handles remain game-owned storage while the callbacks, constants, and prototypes come from `libapi.h`. |
 
