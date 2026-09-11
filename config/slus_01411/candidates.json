@@ -1180,12 +1180,8 @@
       "target": "src/candidates_target/func_80046294.S",
       "candidate_build_sha256": "8d64e380e91cc0b244efe4d8f038cd8cafced17210a389ade6e79f547b62a10c",
       "target_bytes_sha256": "dc63301cc7c426776e1dbd1e538bc35e1dd74c2aa0fb89c78294e7224774b414",
-      "canonical_contract_sha256": "0845e522ced2d45f3b5e680da90a8ca035f4a0ea3c8e4655e16efa4587b84896",
-      "canonical_contracts": {
-        "func_80049C40": "018437f5565920d92b2ee944d39b9e586a4c179f7fcda412a145be6eb2f633e7",
-        "func_80049F50": "4c94e4cf3854511800a4d16f67e090e176720a268809b7337a53fff2d4d9e791",
-        "g_SDValue": "a8a99ad8e22b875bb7bea8945d7340bb40cc65aa224f03561bea5559bcc2861f"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x800464F0",

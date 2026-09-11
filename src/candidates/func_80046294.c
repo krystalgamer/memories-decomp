@@ -7,7 +7,11 @@
  * load-bearing. Residual: four jump-table address-hoist positions and GCC's
  * canonicalized operand order for one commutative addu.
  */
+#define G_SDVALUE_IN_DATA
+#define FUNC_80049F50_RETURNS_S16
+#define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
+#include "../game/sound.h"
 
 typedef struct {
     u8 pad00[0x40];
@@ -24,11 +28,7 @@ typedef struct {
 
 typedef struct { u32 words[12]; } SoundEntry;
 
-extern SoundState *g_SDValue __attribute__((section(".data")));
-#define SOUND_STATE (g_SDValue)
-
-extern s16 func_80049F50(void);
-extern void func_80049C40(s16 arg0);
+#define SOUND_STATE ((SoundState *)g_SDValue)
 
 void func_80046294(void)
 {
