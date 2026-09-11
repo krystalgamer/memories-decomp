@@ -17,7 +17,7 @@ from integrate_verified_match import (
     load_tracked_symbol_names,
     uses_asm_extension,
 )
-from workspace import WorkspaceError, require_workspace_root, resolve_within
+from workspace import WorkspaceError, resolve_within
 
 
 class MatchingSourceContractError(RuntimeError):
@@ -170,8 +170,11 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     parse_args()
+    root = Path(__file__).resolve().parents[2]
+    if Path.cwd().resolve() != root:
+        print(f"error: run from repository root {root}", file=sys.stderr)
+        return 1
     try:
-        root = require_workspace_root()
         problems = audit(root)
     except (MatchingSourceContractError, WorkspaceError) as error:
         print(f"error: {error}", file=sys.stderr)
