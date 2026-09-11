@@ -552,8 +552,8 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Two translation units need a different spelling of this one declaration,
- * and both are codegen inputs rather than style:
+/* Three translation units need a different spelling of this one declaration,
+ * and all three are codegen inputs rather than style:
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -563,8 +563,21 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
  *
+ *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
+ *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
+ *   %lo at 0x80047788, again into $v1 at 0x80047804 and into $a0 at
+ *   0x80047828. Placing the symbol in .data takes it out of small data at
+ *   the compiler, with its real type and no assembler -G change. The unit
+ *   used to spell this as a second extern of its own beside this header's,
+ *   which is the same declaration twice; deleting that extern without this
+ *   arm builds `rebuilt executable is 0x1d07f4 bytes, expected 0x1d0800`,
+ *   twelve bytes and three instructions short, so the attribute is the
+ *   mechanism and not decoration.
+ *
  * Everything else takes the plain declaration. */
-#ifdef G_SDVALUE_AGGREGATE
+#ifdef G_SDVALUE_IN_DATA
+extern SDValue *g_SDValue __attribute__((section(".data")));
+#elif defined(G_SDVALUE_AGGREGATE)
 extern SDValue *g_SDValue[];
 #elif defined(G_SDVALUE_VOLATILE)
 extern SDValue *volatile g_SDValue;

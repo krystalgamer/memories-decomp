@@ -1141,7 +1141,7 @@
       "target": "src/candidates_target/func_80045514.S",
       "candidate_build_sha256": "7e8468b6a64084d93ae7ad0d80bc9a4e9beb6c199c71b5bacac540e2a518a349",
       "target_bytes_sha256": "65ecc569798a118d91c1481b626d818eb75ed88ab20abac213d6d5b1b46f5356",
-      "canonical_contract_sha256": "05fc08ba2cbe8b0cab8b4e183ec3c48b2eb5062e53f1a3109b32b52bea94efee",
+      "canonical_contract_sha256": "aebb3177af23745c04639df22d2996ce890f2fc1601935cd62def01a10c52ce2",
       "canonical_contracts": {
         "SD_ArmBusyCallback": "b348a2085280526e9a03e7da0c282457894afb8f92f9c82279161e3af67d5c35",
         "func_80045484": "e38e7ad8518b3e844c03e96da97ceaf3e86cab781ad8ce2caf7d696bc3096ea0",
@@ -1151,7 +1151,7 @@
         "func_80049C40": "018437f5565920d92b2ee944d39b9e586a4c179f7fcda412a145be6eb2f633e7",
         "func_80049CB0": "2ae6ab8bfc6493be63b2ad4445ff60f3937322d284f3807335149aaf1687686e",
         "func_80049F10": "4212982017d56bf14fa63255e5381017657641b0d8f19accef31992570f2c7cc",
-        "g_SDValue": "fbad4a17ce3e43c3273e8308016ef5fc0703e1e86b5a5a5a9c350b65f18b683f"
+        "g_SDValue": "a8a99ad8e22b875bb7bea8945d7340bb40cc65aa224f03561bea5559bcc2861f"
       }
     },
     {
@@ -1181,11 +1181,11 @@
       "target": "src/candidates_target/func_80046294.S",
       "candidate_build_sha256": "8d64e380e91cc0b244efe4d8f038cd8cafced17210a389ade6e79f547b62a10c",
       "target_bytes_sha256": "dc63301cc7c426776e1dbd1e538bc35e1dd74c2aa0fb89c78294e7224774b414",
-      "canonical_contract_sha256": "b97a1ca4b603cc84b05ab5fa562a9984398b8a702f27c490080995aa1f6cd620",
+      "canonical_contract_sha256": "0845e522ced2d45f3b5e680da90a8ca035f4a0ea3c8e4655e16efa4587b84896",
       "canonical_contracts": {
         "func_80049C40": "018437f5565920d92b2ee944d39b9e586a4c179f7fcda412a145be6eb2f633e7",
         "func_80049F50": "4c94e4cf3854511800a4d16f67e090e176720a268809b7337a53fff2d4d9e791",
-        "g_SDValue": "fbad4a17ce3e43c3273e8308016ef5fc0703e1e86b5a5a5a9c350b65f18b683f"
+        "g_SDValue": "a8a99ad8e22b875bb7bea8945d7340bb40cc65aa224f03561bea5559bcc2861f"
       }
     },
     {
