@@ -34,10 +34,6 @@
    compiles to an identical object under either, so the unit builds at
    gcc_2_8_1_g8_split. */
 
-extern volatile unsigned short gInput_wPad1RepeatBackup;
-extern volatile unsigned short gInput_wPad1PressedBackup;
-extern volatile unsigned short gInput_wPad1HeldBackup;
-
 void Input_BackupPad1AndUsePad2(void)
 {
     unsigned short value;
@@ -61,4 +57,3 @@ void Input_BackupPad1AndUsePad2(void)
     __asm__ volatile("nop");
     gInput_wPad1Repeat = value;
 }
-
