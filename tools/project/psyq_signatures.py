@@ -96,6 +96,17 @@ def load_inventory(root: Path) -> dict[int, dict[str, str]]:
         return {int(row["address"], 16): row for row in csv.DictReader(handle)}
 
 
+def validate_catalogue_scope(signatures: Path, psyq_version: str) -> None:
+    if psyq_version != "4.7":
+        return
+    paths = sorted(path.name for path in signatures.glob("*.json"))
+    if paths != ["LIBDS.LIB.json"]:
+        raise SignatureError(
+            f"{signatures}: Psy-Q 4.7 is permitted only for a directory "
+            "containing exactly LIBDS.LIB.json"
+        )
+
+
 def parse_signature(text: str) -> tuple[bytes, bytes]:
     pattern = bytearray()
     mask = bytearray()
@@ -418,6 +429,7 @@ def main() -> int:
         signatures = Path(args.signatures).expanduser()
         if not signatures.is_dir():
             raise SignatureError(f"not a directory: {signatures}")
+        validate_catalogue_scope(signatures, args.psyq_version)
         load_address, payload = load_payload(root)
         inventory = load_inventory(root)
         scanned = scan(signatures, load_address, payload)
