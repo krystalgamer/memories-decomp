@@ -81,6 +81,11 @@ typedef char SpritePrim_cy_must_be_at_0x12[
     (u32)&(((SpritePrim *)0)->cxcy.h.cy) == 0x12 ? 1 : -1
 ];
 
+/* The renderer the display-object paths hand the finished primitive to.
+   It was declared privately and identically in the three src/game/ sources
+   that call it, all of which already include this header. */
+void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
+
 /* The scratchpad block at 0x1F800378 that func_80041F90 writes its clip
    result into. */
 typedef struct {

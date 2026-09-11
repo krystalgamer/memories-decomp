@@ -9,8 +9,6 @@
 #include "sprite_primitive.h"
 #include "func_80016784.h"
 
-void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-
 /* Draws one card's frame on the duel field: position, the hand/field
  * flags, the card-number digits (via Duel_CalcCardStats and
  * Text_EncodeDecimalDigits) and the face/back sprite, through

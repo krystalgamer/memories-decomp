@@ -18,8 +18,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 
-void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-
 /* Submits one display object as a sprite in vertical strips of up to 64
    pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
    the object, offsets it by the viewport origin unless bit 3 is set, runs

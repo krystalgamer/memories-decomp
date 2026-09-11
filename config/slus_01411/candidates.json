@@ -454,9 +454,9 @@
       "target": "src/candidates_target/func_80028B08.S",
       "candidate_build_sha256": "6612d6f7624bcc07f04179ae8cba4bedbf04bb64baba0f44b864e2a4b8103bfe",
       "target_bytes_sha256": "fb38e3e28d6d26eaccec138ff5de546f183df0ce2012b07f1513827e2ddc5503",
-      "canonical_contract_sha256": "4f8c4102a93651f506850d175bf1835f3bf4c5903d3495778ba636a899684458",
+      "canonical_contract_sha256": "d77bf99f1b11980abdfec1de8b938aefb5dea932d6d85d186f1ca5b3e4ae64cd",
       "canonical_contracts": {
-        "func_80042188": "93e66aeb6440982bae204663a5ffcf0bc7beff6a1f0cef99a4555c3e226f3422"
+        "func_80042188": "bea21a22f6fbfa26837feb7f8b20e2ffa16fe6e866e1735729a2b8d8e508f5bf"
       }
     },
     {
@@ -990,9 +990,9 @@
       "target": "src/candidates_target/func_80040DD8.S",
       "candidate_build_sha256": "4d26e26b0dd8da096dfdcba13c719c4de5a83d1751f5cbcfcab8f0f2b1a61b7b",
       "target_bytes_sha256": "0769a11229cbb0e42416495cad88741c439773f780664fa826a9c8070a7d09b3",
-      "canonical_contract_sha256": "4f8c4102a93651f506850d175bf1835f3bf4c5903d3495778ba636a899684458",
+      "canonical_contract_sha256": "d77bf99f1b11980abdfec1de8b938aefb5dea932d6d85d186f1ca5b3e4ae64cd",
       "canonical_contracts": {
-        "func_80042188": "93e66aeb6440982bae204663a5ffcf0bc7beff6a1f0cef99a4555c3e226f3422"
+        "func_80042188": "bea21a22f6fbfa26837feb7f8b20e2ffa16fe6e866e1735729a2b8d8e508f5bf"
       }
     },
     {
@@ -1002,9 +1002,9 @@
       "target": "src/candidates_target/func_80041068.S",
       "candidate_build_sha256": "ac47500f707db561f61a5dc70b3ed00b4d5f762088208ca2366d54f7491882c8",
       "target_bytes_sha256": "7cf71a998952d8c570b363ee11f9fc256ab4776b4fa000bf6a4cd13a1b28dde3",
-      "canonical_contract_sha256": "4f8c4102a93651f506850d175bf1835f3bf4c5903d3495778ba636a899684458",
+      "canonical_contract_sha256": "d77bf99f1b11980abdfec1de8b938aefb5dea932d6d85d186f1ca5b3e4ae64cd",
       "canonical_contracts": {
-        "func_80042188": "93e66aeb6440982bae204663a5ffcf0bc7beff6a1f0cef99a4555c3e226f3422"
+        "func_80042188": "bea21a22f6fbfa26837feb7f8b20e2ffa16fe6e866e1735729a2b8d8e508f5bf"
       }
     },
     {

@@ -254,8 +254,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s16 D_800EFE3A[];
 
-void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
