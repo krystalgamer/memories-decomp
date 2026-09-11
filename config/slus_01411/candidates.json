@@ -714,10 +714,8 @@
       "target": "src/candidates_target/func_80031874.S",
       "candidate_build_sha256": "8ab5556c09cf842ae4584e1997edc68b14ab944b408e0a99e59a4c4d48cefa4a",
       "target_bytes_sha256": "910bef3829bf5637714de01765c2a100a2b7b738b0ed55648a565a9fafffeeb8",
-      "canonical_contract_sha256": "8d3ad01281c1ac1a1dab5c7a51b76c83130c41168a8cc8e3fcfdf4e71b9c8ba2",
+      "canonical_contract_sha256": "1b704a2e343631bbefd47bc0f652e33c0089a75adbb99fb309571116a140ae93",
       "canonical_contracts": {
-        "D_80090DD8": "89a2db4b1d49d09d69a967aa6bd1b62999bd8bcdbb7363290e6f0083371658b5",
-        "D_8009B2FC": "e89506a1b74fa9c1c111f6f5b99db03969529f1f1b0498e3ba5bbc2c5561dcae",
         "Text_EncodeDecimalNoPadding": "b2d1bfb56ec185f0e2c4b7b96169ed54e316b8306059150e5ce2b671c2d58498",
         "func_800316F0": "950179527f02487d72aee78f6d148c4fd8c5b0f70f2c33da7f79041154d8e9ff",
         "func_80031784": "413c68a6a449ee2a314f89c476e0a738db717edd02156b31adfe3c6ea1382115",
