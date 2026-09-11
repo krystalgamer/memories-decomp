@@ -1,12 +1,7 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_80049920.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 81 of 81 instructions with 2
- * differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
+#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "../game/sound.h"
+#include "sound.h"
 
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
