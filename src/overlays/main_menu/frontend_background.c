@@ -26,8 +26,6 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
-typedef struct { s16 h; } H16s;
-
 void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;

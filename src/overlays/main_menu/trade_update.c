@@ -21,12 +21,6 @@
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
 
-typedef struct { u32 words[256]; } Block1024;
-
-typedef struct {
-    u32 words[4];
-} Block16;
-
 extern MainMenuPair D_80185C8C[];
 extern u16 D_80185C9C[2][11];
 extern u8 D_80185CC8[2];
