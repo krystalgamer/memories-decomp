@@ -32,8 +32,9 @@ each of them was violated by something in the corpus:
 3. The label must not be an IDA placeholder (`text_1F0`, `loc_24`). Roughly
    half of all labels are placeholders and carry no information; adopting them
    would replace one meaningless name with another.
-4. The address must be a function start in the inventory. A label in the
-   middle of a function is a branch target, not a symbol.
+4. The address must be a preserved Psy-Q function start in the inventory. A
+   label in the middle of a function is a branch target, and a label on a
+   game-owned function is a byte collision rather than an SDK identity.
 5. No other library object may propose a *different* name for the same
    address. Small routines are duplicated verbatim across libraries -
    `0x8007A840` is claimed by six objects across LIBCD and LIBDS - so a
@@ -281,7 +282,8 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
 
 
 def classify(proposals: dict, inventory: dict) -> dict:
-    ambiguous, agreed, disagreed, new, off_start = [], [], [], [], 0
+    ambiguous, agreed, disagreed, new = [], [], [], []
+    outside_psyq, off_start = [], 0
     for address in sorted(proposals):
         names = proposals[address]
         if len(names) > 1:
@@ -291,6 +293,21 @@ def classify(proposals: dict, inventory: dict) -> dict:
         row = inventory.get(address)
         if row is None:
             off_start += 1
+            continue
+        if (
+            row.get("status") != "sdk_asm"
+            or not row.get("module", "").startswith("psyq/")
+        ):
+            outside_psyq.append(
+                (
+                    address,
+                    name,
+                    row["name"],
+                    row.get("status", ""),
+                    row.get("module", ""),
+                    sorted(names[name]),
+                )
+            )
             continue
         if row["name"] == name:
             agreed.append((address, name))
@@ -303,6 +320,7 @@ def classify(proposals: dict, inventory: dict) -> dict:
         "disagreed": disagreed,
         "new": new,
         "ambiguous": ambiguous,
+        "outside_psyq": outside_psyq,
         "off_start": off_start,
     }
 
@@ -340,6 +358,7 @@ def report(scanned: dict, result: dict) -> None:
     print(f"names already in the inventory, differing: {len(result['disagreed'])}")
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
+    print(f"labels on non-Psy-Q function starts      : {len(result['outside_psyq'])}")
     print(f"labels away from a function start        : {result['off_start']}")
     if result["disagreed"]:
         print()
@@ -351,6 +370,15 @@ def report(scanned: dict, result: dict) -> None:
         print("ambiguous, left alone:")
         for address, names in result["ambiguous"]:
             print(f"  {address:#010x} {', '.join(names)}")
+    if result["outside_psyq"]:
+        print()
+        print("non-Psy-Q function starts, left alone:")
+        for item in result["outside_psyq"]:
+            address, name, current, status, module, providers = item
+            print(
+                f"  {address:#010x} corpus {name} / inventory {current} "
+                f"({status}, {module}) [{providers[0]}]"
+            )
     if result["new"]:
         print()
         print("new:")
