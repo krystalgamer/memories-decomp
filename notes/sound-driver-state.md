@@ -331,11 +331,31 @@ here.
 
 All 26 resident `.c` files that name `g_SDValue` include `sound.h`, and so
 do all 22 build-integrated candidate `.c` files naming it. None of them
-declares the pointer itself any more. `func_80045514.c` still defines a private struct for the
-*pointee* and reaches it by casting the header's declaration, which is a
-different statement and is the subject of the paragraphs below.
-`func_80046294.c` did the same until 2026-09-11; what removed it is
-recorded there too.
+declares the pointer itself any more. **No candidate defines a private struct for the *pointee* any
+more either.** `func_80046294.c` and `func_80045514.c` were the last two and
+both went on 2026-09-11; what removed each is recorded in its own paragraph
+below, and the two answers are different.
+
+`func_80045514.c` was the larger of the two and the note above calls it the
+only exception left. Its private `SD` named 36 offsets. An exact pairing
+against `SDValue`, taken by compiling the header and reading `offsetof`
+rather than by matching names, put them in three buckets: 19 offsets the
+canonical already named at the same width and signedness, 6 covered by
+`field_005C[8]`, and 11 that fell inside five padding regions -- `pad04CC`,
+`pad0524`, `pad0534`, `pad157C` and `pad1619`.
+
+The 6 looked like the hard bucket and were not. Rewriting them as array
+indices moves the object, and the bisection says why: the array form alone
+is byte-identical, and the *signedness* alone reproduces the whole move --
+`u32` where the unit reads signed. The cast at the use closes it, the same
+answer `display_object_updates.c` already gives for a signed read of a
+canonical `u16`. Four other fields disagree in type the same way and take
+the same treatment: 0x50, 0x54, 0x58 and 0x1564.
+
+The 11 are a header addition, and each has a use in this unit to justify
+its width. The three at 0x1619, 0x1629 and 0x1639 are worth naming
+separately rather than as one 0x30 region: the unit passes each of the
+three to `func_80014C40` on its own, selected by the command word.
 
 As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
