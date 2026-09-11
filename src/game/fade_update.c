@@ -1,25 +1,11 @@
-/* Reclassified from matching_c (#3859). This was src/game/fade_update.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g1_split_comm, whose compiler
- * and assembler disagree about small data (GCC -G8, MASPSX -G1). Under
- * gcc_2_8_1_g8_split_comm, the same flags at a single threshold, it is 116
- * instructions against the target's 117, opcode distance 1. That profile
- * also keeps the three tentative definitions below common rather than
- * .sbss, which a candidate may not allocate; spelled extern instead the
- * function drops to 113 instructions. The source below is the match,
- * unchanged apart from its include paths. */
-
+#define D_8009B0D8_IN_DATA
 #include "../types.h"
-#include "../game/graphics_frame.h"
-#include "../game/fade.h"
+#include "graphics_frame.h"
+#include "fade.h"
 #include "../unmatched.h"
 
-/* Spelled as an array so it stays outside the -G small-data model and is
-   reached through %hi/%lo, whose lui covers the store's load delay. */
-extern u8 D_800E9ECC[];
-/* Defined rather than declared: the assembler only resolves a small global
-   gp-relative when the translation unit defines it, and that is what supplies
-   the three load-delay nops in the tint copy below. c_symbols.ld overrides
-   these common symbols, so no storage is allocated here. */
+/* Tentative definitions keep these bytes common and gp-relative, supplying
+   the three load-delay nops in the tint copy. c_symbols.ld overrides them. */
 u8 D_8009B142;
 u8 D_8009B143;
 u8 D_8009B144;
@@ -38,7 +24,7 @@ void Fade_Update(FadeTransitionState *p)
     if ((D_8009B141 & 0x80) == 0) {
         func_80015CFC();
     }
-    delta = p->step * D_8009B0D8;
+    delta = p->step * *(volatile s32 *)&D_8009B0D8;
     lvl = p->level;
     tgt = p->target_level;
     if (lvl != tgt) {

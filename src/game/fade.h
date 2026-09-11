@@ -9,6 +9,9 @@
 
 extern FadeTransitionState gFade_State;
 extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
+/* The updated fade level stays outside the small-data model so its split
+   address can fill the final clamp branch delay slot. */
+extern u8 D_800E9ECC[];
 
 /* Latches the white-fade path until the transition completes. Most fade
    units reach it through small data; Script_OpShowImage defines the arm below
@@ -63,6 +66,7 @@ extern u8 D_8009B14C;
 #endif
 
 void func_800151B0(void);
+void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);
 void func_800156B8(s32);
 void func_800156DC(void);

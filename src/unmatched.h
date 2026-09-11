@@ -578,8 +578,8 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * is assembly again. Their declarations moved here from the unit headers
  * that held them, comments included, and headers that held nothing else are
  * gone. The contract check accepts this home or the former unit header, but
- * not both. Fade_StepBands and func_8004A764 are called only by other
- * candidates, Fade_Update and func_8004A518, and are declared here for them.
+ * not both. Fade_StepBands is called by Fade_Update, while func_8004A764 is
+ * called only by the func_8004A518 candidate; both are declared here.
  * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
@@ -597,13 +597,8 @@ struct DuelRitualResult;
 void File_SetPositionTable(void);
 
 /* Refills gFade_State's fifteen mirrored band pairs by the configured step,
- * clamped between the current and target levels. Fade_Update, a candidate
- * too, is the one caller. */
+ * clamped between the current and target levels. Fade_Update is its caller. */
 void Fade_StepBands(void);
-
-/* The per-frame fade stepper, run by fade_runtime.c's overlay callback on
- * the fade record it builds. */
-void Fade_Update(FadeTransitionState *);
 
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
