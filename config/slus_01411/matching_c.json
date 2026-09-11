@@ -5210,15 +5210,15 @@
     },
     {
       "address": "0x80070920",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/ai_script_support.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070988",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
-      "source": "src/game/ai_script_support.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x800709C0",
@@ -5276,9 +5276,9 @@
     },
     {
       "address": "0x80070EB4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/ai_script_subtract.c"
+      "source": "src/game/ai_script_control_flow.c"
     },
     {
       "address": "0x80070F1C",
