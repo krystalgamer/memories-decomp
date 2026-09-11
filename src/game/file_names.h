@@ -15,4 +15,7 @@ extern u8 gFile_szDiscSdBgmDatPath[20];
 extern u8 gFile_szDiscMasterXaPath[20];
 extern u8 *gFile_apszName[8];
 
+/* Diagnostic format used while publishing each file's sector position. */
+extern u8 D_80010038[4] __attribute__((section(".data")));
+
 #endif

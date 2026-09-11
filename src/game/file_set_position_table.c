@@ -1,17 +1,7 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/file_set_position_table.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g2_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G2). Under gcc_2_8_1_g0, a single threshold,
- * it is 65 instructions against the target's 64, opcode distance 1. The
- * source below is the match, unchanged apart from its include paths. */
 #include "../types.h"
-#include "../game/file_names.h"
-#include "../unmatched.h"
-#include "../game/file_transfer.h"
-
-extern u8 D_800E9DF0[];
-extern u8 D_8009B0E0;
-extern u8 D_80010038[4];
+#include "file_names.h"
+#define D_8009B10C_IN_DATA
+#include "file_transfer.h"
 
 void File_SetPositionTable(void)
 {
