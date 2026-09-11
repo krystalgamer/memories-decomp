@@ -30,7 +30,7 @@
  * byte and returns nonzero while it is still busy; when it is idle, the cell
  * under the cursor is looked up in the field table (row * DUEL_FIELD_ROW_SIZE
  * + column, plus DUEL_FIELD_SIDE_GRID_SLOT_COUNT per player side) and the
- * record it names is offered to card_pick_on_up. A nonzero result is a
+ * record it names is offered to func_80017034. A nonzero result is a
  * successful pick: it is published in gDuel_wViewerCardID along with the
  * event code 0x14 and state 2. A zero result only re-arms the hold (counter
  * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
