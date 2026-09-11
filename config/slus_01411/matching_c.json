@@ -3559,6 +3559,12 @@
       "source": "src/game/mem_card_find_loaded_entry.c"
     },
     {
+      "address": "0x80044CFC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x10",
+      "source": "src/game/mem_card_set_io_result_complete_cb.c"
+    },
+    {
       "address": "0x80044D48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
