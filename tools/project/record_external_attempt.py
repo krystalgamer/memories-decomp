@@ -579,7 +579,7 @@ def parse_args() -> argparse.Namespace:
         "--allow-symbol-aliases",
         action="store_true",
         help=(
-            "accept extern C aliases of symbols in the tracked linker tables; "
+            "accept extern C aliases of tracked linker, inventory, or header symbols; "
             "statement-level inline assembly is still rejected"
         ),
     )
