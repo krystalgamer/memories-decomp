@@ -7,22 +7,22 @@
  * carry-add scheduling, one shared carry-zero store and the caret-clear loop.
  */
 #define FRONTEND_DEBUG_ROW_VIEWS
+#define D_8009AF4C_IS_AGGREGATE
+#define GINPUT_PAD1_HELD_SIZED_VOLATILE
+#define GINPUT_PAD2_HELD_SIZED_VOLATILE
+#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
+#define GINPUT_PAD2_PRESSED_SIZED_VOLATILE
+#define GINPUT_PAD1_REPEAT_SIZED_VOLATILE
+#define GINPUT_PAD2_REPEAT_SIZED_VOLATILE
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../game/debug_font_format_data.h"
 #include "../game/frontend_debug_state.h"
+#include "../game/frontend_debug_constants.h"
+#include "../game/input.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 #include "../unmatched.h"
-
-extern u8 D_8009AF4C[];
-
-extern volatile u16 gInput_wPad1Held[4];
-extern volatile u16 gInput_wPad2Held[4];
-extern volatile u16 gInput_wPad1Pressed[4];
-extern volatile u16 gInput_wPad2Pressed[4];
-extern volatile u16 gInput_wPad1Repeat[4];
-extern volatile u16 gInput_wPad2Repeat[4];
-
-extern void FntPrint(char *, ...);
 
 s32 func_80030294(void)
 {

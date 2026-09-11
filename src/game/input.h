@@ -64,13 +64,15 @@ extern u32 gInput_dwPendingHeld;
  *                     expands, rather than cc1psx's own %hi/%lo pair.
  *   _IS_AGGREGATE  -- an unsized array is not small data either, but gives
  *                     cc1psx's split pair instead of the bare symbol.
- *   _SIZED         -- eight bytes it does not have. That leaves small data
- *                     only where the assembler's -G sits below the
- *                     compiler's: its one consumer,
- *                     src/candidates/func_800307B8.c, records that it was
- *                     byte-exact under gcc_2_8_1_cc_g8_as_g4_split and is
- *                     117 instructions against the target's 120 at
- *                     gcc_2_8_1_g8.
+ *   _SIZED_VOLATILE -- eight bytes it does not have, and volatile. That
+ *                     leaves small data only where the assembler's -G sits
+ *                     below the compiler's. Its consumers are
+ *                     src/candidates/func_800307B8.c, which records that it
+ *                     was byte-exact under gcc_2_8_1_cc_g8_as_g4_split and
+ *                     is 117 instructions against the target's 120 at
+ *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
+ *                     which is under the same profile and reads all six
+ *                     pad names this way.
  *
  * A `[5]` arm used to sit beside that one, for src/candidates/func_80017034.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
@@ -97,11 +99,15 @@ extern volatile u16 gInput_wPad1Pressed;
 extern u16 gInput_wPad1Pressed;
 #endif
 
-/* gInput_wPad1Held is declared four different ways, and three of them are
- * codegen inputs. Same arms as gInput_wPad1Pressed above, same reasons; our
- * matching tree carries this symbol (0x8009B3A4) behind an equivalent set,
- * with a note on each recording which function needed it. */
-#ifdef GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+/* gInput_wPad1Held: same arms as gInput_wPad1Pressed above, same reasons;
+ * our matching tree carries this symbol (0x8009B3A4) behind an equivalent
+ * set, with a note on each recording which function needed it. The
+ * _SIZED_VOLATILE arm is src/candidates/func_80030294.c's, which reads this
+ * name and the five below it at [0] under gcc_2_8_1_cc_g8_as_g4_split; that
+ * unit's own header records the mechanism. */
+#ifdef GINPUT_PAD1_HELD_SIZED_VOLATILE
+extern volatile u16 gInput_wPad1Held[4];
+#elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_HELD_IN_DATA)
 extern u16 gInput_wPad1Held __attribute__((section(".data")));
@@ -113,11 +119,13 @@ extern volatile u16 gInput_wPad1Held;
 extern u16 gInput_wPad1Held;
 #endif
 
-/* gInput_wPad1Repeat is declared three ways; two are codegen inputs. Same
- * arms as the two symbols above, same reasons. It has no aggregate consumer,
- * so there is no aggregate arm -- a spelling nothing in the tree uses would
- * be a guess, not a lever. */
-#ifdef GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
+/* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
+ * the _SIZED_VOLATILE one is func_80030294.c's. It still has no aggregate
+ * consumer, so there is no unsized arm -- a spelling nothing in the tree
+ * uses would be a guess, not a lever. */
+#ifdef GINPUT_PAD1_REPEAT_SIZED_VOLATILE
+extern volatile u16 gInput_wPad1Repeat[4];
+#elif defined(GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_REPEAT_IS_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat;
@@ -132,7 +140,9 @@ extern u16 gInput_wPad1Repeat;
  * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
  *
  * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
- * the three with a .data consumer, so it is the only one with that arm.
+ * the three with a .data consumer, so it is the only one with that arm; all
+ * three have a _SIZED_VOLATILE arm, and all three of those are
+ * src/candidates/func_80030294.c's.
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
@@ -150,13 +160,17 @@ extern u16 gInput_wPad1Repeat;
  * Retail chose per site, so both spellings are faithful and neither can be
  * made to stand in for the other. Same shape as the overlaps recorded in
  * notes/memory-map.md and the main_menu README. */
-#ifdef GINPUT_PAD2_HELD_IS_VOLATILE
+#ifdef GINPUT_PAD2_HELD_SIZED_VOLATILE
+extern volatile u16 gInput_wPad2Held[4];
+#elif defined(GINPUT_PAD2_HELD_IS_VOLATILE)
 extern volatile u16 gInput_wPad2Held;
 #else
 extern u16 gInput_wPad2Held;
 #endif
 
-#ifdef GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
+#ifdef GINPUT_PAD2_PRESSED_SIZED_VOLATILE
+extern volatile u16 gInput_wPad2Pressed[4];
+#elif defined(GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
 #elif defined(GINPUT_PAD2_PRESSED_IS_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed;
@@ -164,7 +178,9 @@ extern volatile u16 gInput_wPad2Pressed;
 extern u16 gInput_wPad2Pressed;
 #endif
 
-#ifdef GINPUT_PAD2_REPEAT_IS_VOLATILE
+#ifdef GINPUT_PAD2_REPEAT_SIZED_VOLATILE
+extern volatile u16 gInput_wPad2Repeat[4];
+#elif defined(GINPUT_PAD2_REPEAT_IS_VOLATILE)
 extern volatile u16 gInput_wPad2Repeat;
 #else
 extern u16 gInput_wPad2Repeat;
