@@ -54,24 +54,31 @@ extern void (*D_8009B0B8)(void);
 
 /* A one-byte state value func_80013154 sets alongside D_8009B0A0 to
  * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
+ * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
+ * object is wider than the byte it is.
  *
- * Three arms, because all three consumers want a different addressing form
- * and each is load bearing. func_80013154 wants the volatile scalar: it
- * writes the byte directly and -G8 reaches a scalar gp-relative. Main_RunDuel
- * wants a sized array and main_run_selection_menus.c an unsized one, which
- * are the two ways to leave small data. The first two are now candidates
- * (src/candidates/func_80013154.c and src/candidates/func_8002CEE8.c).
+ * Two arms, because the consumers split on addressing form. func_80013154
+ * writes the byte from small data, which is what a scalar reaches at -G8:
+ *     sb         $v1, %gp_rel(D_8009B0A3)($gp)
+ * (src/candidates_target/func_80013154.S:65), and that arm is the volatile
+ * one. Main_RunDuel and Main_RunCampaignMap write it through index 0 and
+ * both want the absolute form, which an array of unknown size reaches at
+ * the same -G8:
+ *     lui        $at, %hi(D_8009B0A3)
+ *     sb         $v0, %lo(D_8009B0A3)($at)
+ * -- src/candidates_target/func_8002CEE8.S:35 and :120, and the same two
+ * words 0A80013C / A3B022A0 at 0x8002D2F8 and 0x8002D350 inside
+ * Main_RunCampaignMap.
  *
- * The [9] is a lever, not a size. c_symbols.ld names D_8009B0A4 one byte
- * after this symbol, so nine bytes would run through that and on past
- * gGraphics_bActiveBuffer at 0x8009B0AC. The array length is chosen to make
- * the assembler build an absolute address, exactly as gDuel_bTerrain's [8]
- * is (and as gSD_bOutputType's [16] was, before sound.h declared it once),
- * and it asserts nothing about storage. */
+ * A third arm, `u8 D_8009B0A3[9]`, used to serve
+ * src/candidates/func_8002CEE8.c. A bound the assembler can see is only
+ * needed where its -G sits below the compiler's, which is what
+ * duel_terrain_boost.h records for gDuel_bTerrain's [8] under
+ * gcc_2_8_1_cc_g8_as_g4_split; both array consumers here are plain
+ * gcc_2_8_1_g8, where the incomplete array is already outside small data.
+ * Relaxing the [9] to the shared [] leaves the retail SHA-256 unchanged. */
 #ifdef D_8009B0A3_IS_VOLATILE_SCALAR
 extern volatile u8 D_8009B0A3;
-#elif defined(D_8009B0A3_SIZED_ARRAY)
-extern u8 D_8009B0A3[9];
 #else
 extern u8 D_8009B0A3[];
 #endif

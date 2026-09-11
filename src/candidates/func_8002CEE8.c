@@ -4,7 +4,6 @@
  * 1 inline asm statement, so it is kept here as a candidate
  * rather than counted as a decompilation. It was src/game/main_run_duel_and_library.c.
  */
-#define D_8009B0A3_SIZED_ARRAY
 #define D_8009B0C0_IN_DATA
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
