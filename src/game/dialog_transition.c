@@ -14,7 +14,6 @@
 #include "dialog_transition.h"
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
-extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 
 void func_8003D518(u8 *state)
 {
@@ -140,7 +139,7 @@ void func_8003D74C(u8 *o)
         D_8009B3C1 = 0;
         return;
     }
-    r = (DuelEffectChannel *)(D_800EB0F8_raw + o[0x1A] * 100);
+    r = &D_800EB0F8[o[0x1A]];
     if ((f & 0x40) != 0) {
         func_80039794();
         if ((r->flags_34 & 0x2000) != 0) {

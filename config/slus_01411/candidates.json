@@ -1227,10 +1227,8 @@
       "target": "src/candidates_target/func_8004733C.S",
       "candidate_build_sha256": "f4eb9ecd805206acb3108b006497cd4ee860f453c32d899933a42b833493292e",
       "target_bytes_sha256": "10327320fc92463bd1c1a00895b33716675685752c47f6098d552ae47be33114",
-      "canonical_contract_sha256": "0dd8b9a19fdd15533ada2a09d0a491590bba38b835bbc289c74310212d7de7e2",
-      "canonical_contracts": {
-        "g_SDValue": "fbad4a17ce3e43c3273e8308016ef5fc0703e1e86b5a5a5a9c350b65f18b683f"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x80047480",
