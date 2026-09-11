@@ -1,8 +1,10 @@
 #include "../types.h"
-
-#define MODEL_ANGLE_FULL_TURN 0x1000
-#define MODEL_ANGLE_HALF_TURN (MODEL_ANGLE_FULL_TURN / 2)
-#define MODEL_ANGLE_WRAP_THRESHOLD (MODEL_ANGLE_HALF_TURN + 1)
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
+#include "../game/model.h"
+#include "../game/model_packet_handlers.h"
 
 typedef struct {
     s16 x;
@@ -16,33 +18,6 @@ typedef struct {
     s16 sz;
 } AnimSample;
 
-typedef struct {
-    u32 target;
-    u8 pad4[0x10 - 0x4];
-    s16 time;
-    u16 duration;
-} AnimTrack;
-
-typedef struct {
-    u32 field_0;
-    u8 matrix[0x18 - 0x4];
-    s32 x;
-    s32 y;
-    s32 z;
-    u8 pad24[0x44 - 0x24];
-    s16 rx;
-    s16 ry;
-    s16 rz;
-} AnimNode;
-
-typedef struct {
-    u8 pad0[0x14];
-    u32 slots[1];
-} AnimContext;
-
-extern void RotMatrixYXZ_gte(s16 *, void *);
-extern void ScaleMatrix(void *, s32 *);
-
 /*
  * Current best under gcc_2_8_1_g8_split: 396 instructions against 391,
  * with 263 differing positions and 362 target instructions aligned. This is
@@ -52,10 +27,10 @@ extern void ScaleMatrix(void *, s32 *);
  * Residual: the three angle-wrap blocks still compile with the wrong branch
  * shape and cross-jump behavior, leaving the candidate five instructions long.
  */
-s32 func_8005D378(AnimContext *ctx)
+s32 func_8005D378(GsARGUNIT_ANIM *ctx)
 {
-    AnimTrack *track;
-    AnimNode *node;
+    GsSEQ *track;
+    GsCOORDUNIT *node;
     s16 *out;
     u32 **slot;
     s32 t;
@@ -71,22 +46,22 @@ s32 func_8005D378(AnimContext *ctx)
     s32 c;
     s32 scale[3];
 
-    slot = (u32 **)((u8 *)ctx + ((ctx->slots[0] << 2) + 0x14));
-    track = (AnimTrack *)slot[0];
-    if (track->duration == 0) {
+    slot = (u32 **)(&ctx->header_size + ctx->header_size);
+    track = (GsSEQ *)slot[0];
+    if (track->tframe == 0) {
         return 1;
     }
 
-    t = track->time;
-    dur = track->duration;
+    t = track->rframe;
+    dur = track->tframe;
     rest = dur - t;
 
-    node = (AnimNode *)(*(u32 *)((u8 *)ctx + ((track->target >> 24) << 2) + 0x14)
-                        + ((track->target & 0xFFFFFF) << 2));
+    node = (GsCOORDUNIT *)(*(u32 *)((u8 *)ctx + ((track->rewrite_idx >> 24) << 2) + 0x14)
+                        + ((track->rewrite_idx & 0xFFFFFF) << 2));
 
-    node->x = (((AnimSample *)slot[1])->x * t + ((AnimSample *)slot[2])->x * rest) / dur;
-    node->y = (((AnimSample *)slot[1])->y * t + ((AnimSample *)slot[2])->y * rest) / dur;
-    node->z = (((AnimSample *)slot[1])->z * t + ((AnimSample *)slot[2])->z * rest) / dur;
+    node->matrix.t[0] = (((AnimSample *)slot[1])->x * t + ((AnimSample *)slot[2])->x * rest) / dur;
+    node->matrix.t[1] = (((AnimSample *)slot[1])->y * t + ((AnimSample *)slot[2])->y * rest) / dur;
+    node->matrix.t[2] = (((AnimSample *)slot[1])->z * t + ((AnimSample *)slot[2])->z * rest) / dur;
 
     rx = ((AnimSample *)slot[2])->rx;
     ry = ((AnimSample *)slot[2])->ry;
@@ -163,28 +138,28 @@ s32 func_8005D378(AnimContext *ctx)
     }
 
     rest2 = dur - t;
-    node->rx = ((s16)a * t + (s16)rx * rest2) / dur;
-    node->ry = ((s16)b * t + (s16)ry * rest2) / dur;
-    node->rz = ((s16)c * t + (s16)rz * rest2) / dur;
+    node->rot.vx = ((s16)a * t + (s16)rx * rest2) / dur;
+    node->rot.vy = ((s16)b * t + (s16)ry * rest2) / dur;
+    node->rot.vz = ((s16)c * t + (s16)rz * rest2) / dur;
 
-    out = &node->rx;
-    RotMatrixYXZ_gte(out, node->matrix);
+    out = &node->rot.vx;
+    RotMatrixYXZ_gte((SVECTOR *)out, &node->matrix);
 
     scale[0] = (((AnimSample *)slot[1])->sx * t + ((AnimSample *)slot[2])->sx * rest2) / dur;
     scale[1] = (((AnimSample *)slot[1])->sy * t + ((AnimSample *)slot[2])->sy * rest2) / dur;
     scale[2] = (((AnimSample *)slot[1])->sz * t + ((AnimSample *)slot[2])->sz * rest2) / dur;
-    ScaleMatrix(node->matrix, scale);
+    ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
-    node->field_0 = 0;
+    node->flg = 0;
     if (slot[3] == 0) {
         return 0;
     }
-    ((u16 *)slot[3])[0] = *(u16 *)&node->x;
-    ((u16 *)slot[3])[1] = *(u16 *)&node->y;
-    ((u16 *)slot[3])[2] = *(u16 *)&node->z;
-    ((u16 *)slot[3])[3] = *(u16 *)&node->rx;
-    ((u16 *)slot[3])[4] = *(u16 *)&node->ry;
-    ((u16 *)slot[3])[5] = *(u16 *)&node->rz;
+    ((u16 *)slot[3])[0] = *(u16 *)&node->matrix.t[0];
+    ((u16 *)slot[3])[1] = *(u16 *)&node->matrix.t[1];
+    ((u16 *)slot[3])[2] = *(u16 *)&node->matrix.t[2];
+    ((u16 *)slot[3])[3] = *(u16 *)&node->rot.vx;
+    ((u16 *)slot[3])[4] = *(u16 *)&node->rot.vy;
+    ((u16 *)slot[3])[5] = *(u16 *)&node->rot.vz;
     ((u16 *)slot[3])[6] = *(u16 *)&scale[0];
     ((u16 *)slot[3])[7] = *(u16 *)&scale[1];
     ((u16 *)slot[3])[8] = *(u16 *)&scale[2];

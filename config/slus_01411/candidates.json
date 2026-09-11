@@ -1804,11 +1804,8 @@
       "target": "src/candidates_target/func_8005D378.S",
       "candidate_build_sha256": "6eef42464be28f3f4f1df30bf2d3fe341df0edaeeafda6e0230bb5c93c868c0c",
       "target_bytes_sha256": "4cdacd08e0037b9b89c18e1167c042dc401fa50c01991ebc8ac2fb0df5db7924",
-      "canonical_contract_sha256": "3b0e658e5981f31227cfadd74120ab946ed5c8b1a27d8f1b2dfb55b8795812f0",
-      "canonical_contracts": {
-        "RotMatrixYXZ_gte": "250628a70ed508f30657ed2df39b7c8cdf2065f5a515bf23016643921cc42ef2",
-        "ScaleMatrix": "5b79440696b5da3ad23b66163054c2da478340b96f9698e83355cd7d6d78c68e"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x8005E808",
