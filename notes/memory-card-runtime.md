@@ -263,18 +263,28 @@ plus the candidate's three private function prototypes. These are identified
 memory-card objects, so their owning headers, not `unmatched.h`, carry the
 contracts.
 
-`MEM_CARD_REQUEST_POLL_VIEW` preserves the two existing compiler views:
+`MEM_CARD_REQUEST_POLL_VIEW` used to keep two compiler views of these five
+objects, and this entry recorded that it did so "without asserting that every
+difference is independently load-bearing". That was then measured. Four of the
+five differences were not load-bearing, the fifth was measured in the other
+direction, and the guard is gone:
 
-| Object | Matching producer | Retained poll |
+| Object | Declaration | What fixes it |
 |---|---|---|
-| `gMemCard_bRequest` | `s8` | `u8`, explicitly cast to `s8` at signed tests |
-| `gMemCard_bRequestStep` | `char` | `u8` |
-| `gMemCard_wRequestOffset`, `gMemCard_wRequestSize` | `s16` | `u16` |
-| `gMemCard_szRequestPath` | incomplete `u8` array | incomplete `char` array |
+| `gMemCard_bRequest` | `s8` | the producer tests `>= 0` and stores `-1`; the poll's target reads it `lb` five times and `lbu` once, and that single read is spelled `*(u8 *)&gMemCard_bRequest` |
+| `gMemCard_bRequestStep` | `u8` | the producer only stores it (`:120`); the poll's target reads it `lbu` eight times |
+| `gMemCard_wRequestOffset`, `gMemCard_wRequestSize` | `u16` | the producer only stores them, four and three assignments; the poll's target reads them `lhu`, three times and four |
+| `gMemCard_szRequestPath` | incomplete `char` array | neither side loads it; the producer's three `sprintf` calls already cast to `char *` |
 
-The producer stores the halfwords; the poll's unsigned loads feed the sector,
-seek, transfer-size and create-mode arguments. The guard retains those views
-without asserting that every difference is independently load-bearing.
+A store is `sb` or `sh` whichever sign the declaration carries, so for the
+middle three the producer's arm never reached an instruction, and the poll's
+unsigned loads -- which feed the sector, seek, transfer-size and create-mode
+arguments -- are now the only declaration. `gMemCard_bRequest` is the row that
+did reach one: through the `u8` arm `gMemCard_bRequest = -1;` materialised
+255, where its target has `addiu $v1, $zero, -0x1` before the `sb`, so
+collapsing the guard also moved that candidate one instruction closer. The
+five `(s8)` casts the poll needed over the `u8` arm are redundant under `s8`,
+and the candidate object is byte for byte the same without them.
 `gMemCard_pRequestBuf` stays an `s32` address, matching the request wrappers'
 integer buffer ABI. Event-handle elements stay `long`, and both asynchronous
 users select the existing volatile result arm. The poll's `D_8009B436`

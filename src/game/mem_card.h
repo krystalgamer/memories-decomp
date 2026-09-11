@@ -130,33 +130,32 @@ extern u8 D_8009B3D4;
  *                       argument and tested as `>= 0`, `== 1` and `!= 8`,
  *                       so the sign and the specific values both matter.
  *                       -1 is idle; mem_card_begin_request.h lists the
- *                       codes.
+ *                       codes. Its target reads it `lb` five times and `lbu`
+ *                       once, so the poll spells that one read
+ *                       `*(u8 *)&gMemCard_bRequest` and takes the signed
+ *                       declaration for the rest.
  *   gMemCard_bDirFlags  A flag byte. MemCard_DoLoadDirectory sets bit 0x80
  *                       once it has tried to list the card and tests it to
  *                       skip the reload; the init path clears the whole
  *                       byte. */
-#ifdef MEM_CARD_REQUEST_POLL_VIEW
-extern u8 gMemCard_bRequest;
-#else
 extern s8 gMemCard_bRequest;
-#endif
 extern u8 gMemCard_bDirFlags;
 
-/* The producer and retained poll use different signed views of the same
- * request slot. Keep their existing byte/halfword loads and plain addressing.
+/* One declaration each, and the reader is what fixes the type. The producer,
+ * mem_card_driver.c, only *stores* these three -- one assignment to the step
+ * (:120), four to the offset (:165, :182, :199, :216) and three to the size
+ * (:167, :201, :233) -- and a store is `sb` or `sh` whichever sign the
+ * declaration carries, so the signed views it used to select never reached an
+ * instruction. The poll, src/candidates/func_80044838.c, is what reads them,
+ * and its target listing fixes the widths and signs: eight `lbu` of the step,
+ * three `lhu` of the offset and four of the size
+ * (src/candidates_target/func_80044838.S).
  * Size is bytes for file I/O but blocks for create; offset is bytes for file
  * I/O but a sector number for the raw-card requests. */
-#ifdef MEM_CARD_REQUEST_POLL_VIEW
 extern u8 gMemCard_bRequestStep;
 extern u16 gMemCard_wRequestOffset;
 extern u16 gMemCard_wRequestSize;
 extern char gMemCard_szRequestPath[];
-#else
-extern char gMemCard_bRequestStep;
-extern s16 gMemCard_wRequestOffset;
-extern s16 gMemCard_wRequestSize;
-extern u8 gMemCard_szRequestPath[];
-#endif
 extern s32 gMemCard_pRequestBuf;
 extern u8 D_8009B436;
 

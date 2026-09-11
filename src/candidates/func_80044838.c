@@ -1,5 +1,4 @@
 #define GMEMCARD_NIORESULT_IS_VOLATILE
-#define MEM_CARD_REQUEST_POLL_VIEW
 #include "../types.h"
 #include "../psyq/libapi.h"
 #include "../game/mem_card.h"
@@ -22,7 +21,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
     s32 tries;
     s32 mode;
 
-    if ((s8)gMemCard_bRequest < 0) {
+    if (gMemCard_bRequest < 0) {
         return -1;
     }
     if (arg0 != 0) {
@@ -32,7 +31,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
     } else {
         _card_wait(gMemCard_bChannel != 0);
     }
-    switch ((s8)(gMemCard_bRequest - 1)) {
+    switch ((s8)(*(u8 *)&gMemCard_bRequest - 1)) {
     case 0:
     case 1:
         if (MemCard_DoLoadDirectory() >= 0) {
@@ -56,7 +55,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
         case 1:
             MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
             _new_card();
-            if ((s8)gMemCard_bRequest == 0xB) {
+            if (gMemCard_bRequest == 0xB) {
                 _card_read(gMemCard_bChannel, gMemCard_wRequestOffset,
                            (u8 *)gMemCard_pRequestBuf);
             } else {
@@ -90,7 +89,7 @@ s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
                 goto finish;
             }
             mode = 0x8001;
-            if ((s8)gMemCard_bRequest == 4) {
+            if (gMemCard_bRequest == 4) {
                 mode = 0x8002;
             }
             tries = 0xA;
@@ -116,7 +115,7 @@ seeked:
             MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
             tries = 0xA;
             do {
-                if ((s8)gMemCard_bRequest == 4) {
+                if (gMemCard_bRequest == 4) {
                     r = write(fd, (void *)gMemCard_pRequestBuf,
                               gMemCard_wRequestSize);
                 } else {
@@ -207,7 +206,7 @@ reopen:
     }
 finish:
     *out_result = gMemCard_nIOResult;
-    *out_state = (s8)gMemCard_bRequest;
+    *out_state = gMemCard_bRequest;
     gMemCard_bRequest = -1;
     return 1;
 }
