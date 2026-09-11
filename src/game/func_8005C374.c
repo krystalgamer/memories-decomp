@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "graphics_frame.h"
 #include "movie_frame_pipeline.h"
 #include "../psyq/libgte.h"
@@ -11,13 +12,10 @@
 #include "mdec_sync.h"
 #include "sound_mix.h"
 
-/* The movie player's setter for the three bytes at D_8009B4A0, the last
-   function of its gcc_2_8_1_g8 run. It follows func_8005C1F4, now a candidate
-   in src/candidates/func_8005C1F4.c, and precedes movie_stream_requests.c. */
-
-extern u8 D_8009B4A0;
-extern u8 D_8009B4A1;
-extern u8 D_8009B4A2;
+/* The movie player's setter for the three centrally declared bytes at
+   D_8009B4A0, the last function of its gcc_2_8_1_g8 run. It follows
+   func_8005C1F4, now a candidate in src/candidates/func_8005C1F4.c, and
+   precedes movie_stream_requests.c. */
 
 void func_8005C374(s32 first, s32 second, s32 third)
 {
