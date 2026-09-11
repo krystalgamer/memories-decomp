@@ -8,6 +8,7 @@
  */
 #define FRONTEND_DEBUG_ROW_VIEWS
 #include "../types.h"
+#include "../game/debug_font_format_data.h"
 #include "../game/frontend_debug_state.h"
 #include "../unmatched.h"
 
@@ -16,8 +17,6 @@ typedef struct {
 } Blk8;
 
 extern u8 D_8009AF4C[];
-extern char D_8009AF54[];
-extern char D_8009AF58[];
 
 extern volatile u16 gInput_wPad1Held[4];
 extern volatile u16 gInput_wPad2Held[4];

@@ -699,11 +699,9 @@
       "target": "src/candidates_target/func_80030294.S",
       "candidate_build_sha256": "ec9a2f9302287e5649b076cfc1f1dd16f81daccfd215c033357d74f9f9410add",
       "target_bytes_sha256": "579a8deb33a5c16f54868e38035a161d7eb6bfbcb34548584fbbf4716f91cdb4",
-      "canonical_contract_sha256": "7531636ec982324962bb066134ac3544633e679e08da875b4ae73479fb20c379",
+      "canonical_contract_sha256": "aeba22960bb13b1b23f5f4f05a951621c79085a5ecf6722a04c5ad0c8344d75b",
       "canonical_contracts": {
         "D_8009AF4C": "19e26851753e9c91fbd4db04917f6fc0a14575895e6e49bfe8987a34b57c8716",
-        "D_8009AF54": "7657427101be3127a98024cf955dc7e813432c626978c897448a93b4f9b013e8",
-        "D_8009AF58": "cf0b89c80a51f5a407ee9ffda38e6963778426340fe783e1929899adc3c1ed10",
         "FntPrint": "baac9eb92614e2c5b3efa1ec5e0d3668fa5e4445926a091880a2e142c3386f50",
         "gInput_wPad1Held": "575fb96bd7109dfae174ac51c7573b47edc1a9b345cbf850b79f7123a45ecc2b",
         "gInput_wPad1Pressed": "488bcc8b61098d9dc2d7d94da5564169e448cb9c397062d351074b71150b679c",
