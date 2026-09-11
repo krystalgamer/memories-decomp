@@ -12,6 +12,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/inline_c.h"
 #include "../psyq/libgs.h"
+#include "../game/screen_projection.h"
 #include "../unmatched.h"
 #include "../game/func_800556E8.h"
 #include "../game/gpu_packets.h"
@@ -20,7 +21,6 @@
 extern void func_80029684(s32, s32, s16 *, s32 *, s32, s32);
 extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
 
-extern MATRIX D_800FE148;
 extern s16 D_800EA1E8[];
 extern u8 D_80181000[];
 

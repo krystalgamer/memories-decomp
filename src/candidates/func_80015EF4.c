@@ -19,6 +19,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../game/screen_projection.h"
 #include "../game/ordering_tables.h"
 
 typedef struct {
@@ -26,8 +27,6 @@ typedef struct {
     u8 pad_04[0x14];
     s8 f18;
 } Holder;
-
-extern u8 D_800FE148[];
 
 extern s32 func_800879A0(void *);
 
@@ -104,7 +103,7 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     *(Bytes8 *)&cpy[3] = *(Bytes8 *)&rot[3];
 
     GsSetLightMatrix(lm);
-    GsSetLsMatrix((MATRIX *)D_800FE148);
+    GsSetLsMatrix(&D_800FE148);
 
     RotColorDpq(&rot[0], up, (CVECTOR *)ot,
                 (long *)(prim + 8), (CVECTOR *)(prim + 4),
