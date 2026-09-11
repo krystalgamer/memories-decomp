@@ -329,10 +329,14 @@ whose offset and type are defined by `SDValue`. The rest are byte-pointer
 arithmetic over the same layout, with no reason for the spelling recorded
 here.
 
-All 26 resident `.c` files that name `g_SDValue` include `sound.h`. Of the
-22 build-integrated candidate `.c` files naming it, 21 include `sound.h`;
-`func_80045514.c` alone still declares it privately with its own pointee
-type. As historical context, the sentence this replaces -- "All pure-C
+All 26 resident `.c` files that name `g_SDValue` include `sound.h`, and so
+do all 22 build-integrated candidate `.c` files naming it. None of them
+declares the pointer itself any more. Both `func_80045514.c` and
+`func_80046294.c` still define a private struct for the *pointee* and reach
+it by casting the header's declaration, which is a different statement and
+is the subject of the paragraphs below.
+
+As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
 both of the candidates that broke it were built in afterwards,
 `func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
@@ -346,16 +350,45 @@ preference. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
-one at a time -- every offset the unit reads (`flags_0040` at 0x40,
+one at a time. Every offset the unit reads -- `flags_0040` at 0x40,
 `command_count` at 0x4C, `field_007C` and `field_007D`, `field_157E`, and
-`commands` at 0x80) asserts at the offset the private struct places it,
-the three halfword widths assert equal, padding the private struct out to
-`SDValue`'s
-0x164C changes nothing, and two spellings of the byte view over the command
-queue give the same moved object as each other. What is left is the shape
-itself: the private struct is byte padding where `SDValue` is typed
-members, and gcc 2.8 marks a member access with the struct it came from.
-Recorded as an open question with its evidence, not as a blocked route.
+`commands` at 0x80 -- asserts at the offset the private struct places it, and
+the three halfword widths assert equal. Padding the private struct out to
+`SDValue`'s 0x164C changes nothing. Giving the private struct alignment 4,
+by writing its leading `u8 pad00[0x40]` as `u32 pad00[0x10]`, changes
+nothing either. And two spellings of the byte view over the command queue
+give the same moved object as each other, which is this project's own tell
+for a wrong axis.
+
+A word-typed member in a region the unit never reads changes nothing
+either. Writing `u8 pad4E[0x7C - 0x4E]` as `u8 pad4E_b[2];` followed by
+`u32 pad4E_w[11];` -- bytes first, so the word array lands on its own
+alignment at 0x50 and every later field keeps its offset -- leaves the
+object byte-identical as well.
+
+That last control has to state its field order, and the reason is that the
+first version of it got the order wrong. Written the other way round, with
+the word array first at 0x4E, natural alignment inserts two bytes before it
+and everything after moves: `f7C` to 0x7E, `entries` to 0x82, `f157E` to
+0x1580, and the struct from 0x1580 to 0x1584. That spelling does produce a
+different object, and a paragraph here briefly said so as evidence that
+unread member types matter. It was not evidence of that at all -- it moved
+five live fields. The claim is withdrawn.
+
+What settles it is seven assertions compiled by the target compiler rather
+than a byte count: `f7C` at 0x7C, `f7D` at 0x7D, `entries` at 0x80,
+`f157E` at 0x157E, `flags` at 0x40, `command_count` at 0x4C, and
+`sizeof` 0x1580. All seven hold under the bytes-first spelling. Under the
+words-first spelling five of them fail to compile, which is what makes them
+a test rather than a formality.
+
+So six eliminations and no positive result. The cause of the difference
+between the private struct and `SDValue` is **not established**: not the
+offsets, not the widths, not the size, not the alignment, not the spelling
+of the byte view, and not the presence of word-typed members among fields
+the unit does not read. No mechanism inside the compiler is claimed. It is
+an open question with its eliminations written down, and the route is not
+blocked.
 
 `func_80049138` is a third deliberate exception and is no longer a raw
 view. The global pointer is volatile in that routine, which the unit
