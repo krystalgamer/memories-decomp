@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "ygo_types.h"
+#include "game/sprite_primitive.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -19,11 +20,10 @@
  * are build-integrated candidates that keep theirs in the header of the unit
  * they came from: src/candidates/ still gives each of them a defining C
  * translation unit, so that header is a home in the sense this one is not
- * (see the #3859 sections at the end). Three remain local at five sites, and
- * all three are the deliberate disagreements listed below rather than
- * duplication waiting to be moved. The remaining thirty-two have no
- * executable reference from matching C, so this header does not invent
- * signatures for them.
+ * (see the #3859 sections at the end). Load-bearing caller-specific
+ * signatures use guarded declaration arms here rather than local exceptions.
+ * Functions with no executable reference from matching C do not get invented
+ * signatures.
  *
  * Hand-written assembly belongs here on the same terms. The status differs but
  * the reason does not: handwritten_asm functions have no defining C
@@ -33,13 +33,12 @@
  *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
- * A local declaration is not always duplication. Several of these functions
- * are declared incompatibly on purpose, because the declaration is what makes
- * the caller's code generation match:
+ * Several functions need incompatible declarations because the caller-visible
+ * type is what makes code generation match. Those variants still belong here:
  *
- *   func_8004CB0C   void (s32, s32, s32, s32) in the Model_LoadMonsterMerge
- *                   candidate, src/candidates/func_80056504.c, and
- *                   void (void) in model_slot_setup.c
+ *   func_8004CB0C   void (s32, s32, s32, s32) in the model candidates and
+ *                   void (void) in model_slot_setup.c; unmatched.h exposes
+ *                   both through a guarded declaration
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
  *   func_80042188   first parameter spelled s32 and SpritePrim *.
@@ -54,7 +53,8 @@
  *                   candidates build. Since #3859 moved those two out of
  *                   matching C, only the sprite arms remain there.
  *                   One flat prototype would have to be wrong for one caller
- *                   or the other, so it stays out until the arms are split.
+ *                   or the other, so unmatched.h exposes guarded raw and
+ *                   sprite arms.
  *                   The u8 * spelling is gone: func_80016784.c held the last
  *                   one and now builds a SpritePrim, like the other two
  *                   sprite callers, so only the two real arms remain.
@@ -73,8 +73,8 @@
  *   - model_slot_setup.c calls func_8004CB0C the same way, and that one
  *     cannot be fixed. The callee reads $a0, $a1, $a2 and $a3, but this site
  *     sets only $a0. The other three are whatever the register file happened
- *     to hold, so there is no expression to write for them. Its `void (void)`
- *     declaration stays, and is not a mistake.
+ *     to hold, so there is no expression to write for them. Its guarded
+ *     `void (void)` header arm is intentional.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local
@@ -95,6 +95,34 @@
  * access survives, or an asm() alias keeping GCC from holding an address
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
+
+/* Load-bearing caller views that cannot share one flat prototype. Consumers
+ * select the declaration they measured before including this header. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
+
+#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW
+void func_80042188(
+    SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra *
+);
+#elif defined(FUNC_80042188_SPRITE_VIEW)
+void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);
+#else
+void func_80042188(s32, u8 *, s32, s32, u8 *);
+#endif
+
+#ifdef FUNC_8004CB0C_NO_ARGUMENTS
+void func_8004CB0C(void);
+#else
+void func_8004CB0C(s32, s32, s32, s32);
+#endif
+
+/* Two consumers, identical spelling in both: func_80049138.c and
+ * sound_init.c. */
+void func_80046294(void);
 
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the

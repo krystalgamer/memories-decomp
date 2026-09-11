@@ -297,6 +297,12 @@ def load_exceptions(
 # has nowhere else to go; only unmatched_asm is *required* to be centralized,
 # while handwritten_asm is admitted a group at a time as it is moved.
 CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
+CENTRAL_VARIANT_COUNTS = {
+    "Ai_GetHandSize": 2,
+    "func_80013C28": 2,
+    "func_80042188": 3,
+    "func_8004CB0C": 2,
+}
 
 
 def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
@@ -317,10 +323,16 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"functions.csv status is {status or 'absent'}"
             )
     for name, statements in central.items():
-        if len(statements) > 1:
+        if len(statements) > 1 and name not in CENTRAL_VARIANT_COUNTS:
             errors.append(
                 f"{UNMATCHED_HEADER}: duplicate declarations for {name}: "
                 f"{statements}"
+            )
+        expected_variants = CENTRAL_VARIANT_COUNTS.get(name)
+        if expected_variants is not None and len(statements) != expected_variants:
+            errors.append(
+                f"{UNMATCHED_HEADER}: conditional declaration {name} must "
+                f"have exactly {expected_variants} arms: {statements}"
             )
 
     # A build-integrated candidate still has a defining C translation unit,
@@ -341,11 +353,11 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             )
 
     configured = load_exceptions(root)
-    approved = {
-        (item["source"], item["symbol"], item["declaration"])
-        for item in configured
-    }
-    found_approved: set[tuple[str, str, str]] = set()
+    if configured:
+        errors.append(
+            f"{EXCEPTIONS}: local unmatched-function exceptions are no longer "
+            "supported; use guarded declarations in src/unmatched.h"
+        )
     local_sites: list[tuple[str, str, str]] = []
     referenced_sites: list[tuple[str, str]] = []
     linker = linker_symbols(root)
@@ -369,25 +381,20 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         source_declarations = [
             pair for pair in declarations(text) if pair[0] in unmatched
         ]
-        source_approved: set[str] = set()
         for name, statement in source_declarations:
             key = (relative, name, statement)
             local_sites.append(key)
-            if key in approved:
-                found_approved.add(key)
-                source_approved.add(name)
-            else:
-                errors.append(
-                    f"{relative}: local declaration of unmatched function "
-                    f"{name} is not approved: {statement}"
-                )
+            errors.append(
+                f"{relative}: local declaration of unmatched function "
+                f"{name} is forbidden; use a guarded declaration in "
+                f"{UNMATCHED_HEADER}: {statement}"
+            )
         for name in sorted(
             executable_references(text, unmatched, source_declarations)
         ):
             referenced_sites.append((relative, name))
             if (
                 name not in central
-                and name not in source_approved
                 and name not in homes
             ):
                 errors.append(
@@ -406,22 +413,6 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     f"{relative}: local declaration of central unmatched data "
                     f"{name} is not approved: {statement}"
                 )
-
-    for source, name, statement in sorted(approved - found_approved):
-        errors.append(
-            f"{EXCEPTIONS}: configured exception not found exactly: "
-            f"{source}: {statement}"
-        )
-    for item in configured:
-        if item["symbol"] not in unmatched:
-            errors.append(
-                f"{EXCEPTIONS}: stale exception {item['symbol']}: "
-                f"functions.csv status is {statuses.get(item['symbol'], 'absent')}"
-            )
-        if item["symbol"] in central:
-            errors.append(
-                f"{EXCEPTIONS}: {item['symbol']} is both central and exceptional"
-            )
 
     all_data_symbols = set(local_data) | set(central_data)
     data_header_index = candidate_builds.canonical_declaration_index(
@@ -486,8 +477,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         "unmatched": len(unmatched),
         "central": len(central),
         "candidate_homes": len(homes),
-        "exception_names": len({item["symbol"] for item in configured}),
-        "exception_sites": len(configured),
+        "exception_names": 0,
+        "exception_sites": 0,
         "referenced_names": len({name for _, name in referenced_sites}),
         "referenced_sites": len(referenced_sites),
         "local_sites": len(local_sites),

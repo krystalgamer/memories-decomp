@@ -15,8 +15,6 @@
 
 #include "../game/ordering_tables.h"
 
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
  * word are setlen and setcode, 8 and 0x38 here, which is setPolyG4, and 12

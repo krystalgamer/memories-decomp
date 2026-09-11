@@ -8,14 +8,9 @@
 #include "../game/sprite_primitive.h"
 #include "../game/card_constants.h"
 #include "../ygo_types.h"
-
-extern void func_80042188(
-    SpritePrim *,
-    Func80028B08Ctx *,
-    s32,
-    s32,
-    Func80028B08Extra *
-);
+#define FUNC_80042188_CANDIDATE_SPRITE_VIEW
+#include "../unmatched.h"
+#undef FUNC_80042188_CANDIDATE_SPRITE_VIEW
 
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172

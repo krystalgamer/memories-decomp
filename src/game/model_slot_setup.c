@@ -9,6 +9,9 @@
 #include "model_slot_row_tables.h"
 #include "model_slot_support.h"
 #include "model_slot_updates.h"
+#define FUNC_8004CB0C_NO_ARGUMENTS
+#include "../unmatched.h"
+#undef FUNC_8004CB0C_NO_ARGUMENTS
 
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The
@@ -21,8 +24,6 @@
    at +0xE0A as COLOR_FIXED_ONE and the busy byte at +0xE1F as 0; the layout
    pass switches on that same +0xE16 (0x3E is one of its three cases), reads
    +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
-
-void func_8004CB0C(void);
 
 void func_8005611C(s32 arg0)
 {
