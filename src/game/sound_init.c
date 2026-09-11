@@ -132,7 +132,7 @@ void func_800494F4(s32 *data)
         i++;
         data++;
     } while (i < 530);
-    SsUtReverbOff_80074E60();
+    func_80074E60();
     func_8004A6D8();
     func_80049434();
 }

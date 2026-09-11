@@ -12,10 +12,10 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model.h"
+#define FUNC_800603DC_RETURNS_HANDLER
+#include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "../unmatched.h"
-
-extern s32 (*func_800603DC())();
 
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
