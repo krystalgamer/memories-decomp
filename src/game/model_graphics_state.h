@@ -29,13 +29,10 @@ extern u16 D_8009AF92;
 extern u8 D_8009AF94;
 extern u16 D_8009AF96;
 extern u8 D_8009AF98;
-/* Candidate func_80051350 needs its historical unsigned load/store view.
- * Matched C writes -1 and the assembly readers use lb, so the default is s8. */
-#ifdef MODEL_GRAPHICS_STATE_AF99_UNSIGNED
-extern u8 D_8009AF99;
-#else
+/* Its definition is `s8 D_8009AF99 = 1;` (model_graphics_state.c:14), the
+ * two assembly readers load it `lb` and none `lbu`, and both writers store
+ * -1: func_8005A188 (matched) and the func_80051350 candidate. */
 extern s8 D_8009AF99;
-#endif
 extern s8 D_8009AF9A;
 
 /* Out-of-band arguments func_800528AC publishes for unmatched func_800540B4:

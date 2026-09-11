@@ -13,7 +13,6 @@
  * matches. See notes/research/func-80051350-decode.md for the structural map.
  */
 #include "../types.h"
-#define MODEL_GRAPHICS_STATE_AF99_UNSIGNED
 #include "../game/model_graphics_state.h"
 #include "../psyq/libgte.h"
 
