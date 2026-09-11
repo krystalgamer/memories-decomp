@@ -10,7 +10,6 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
-#define FILE_TRANSFER_CURRENT_AS_BYTES
 #include "../game/file_transfer.h"
 
 void func_80013C28(s32 arg)
@@ -33,7 +32,7 @@ void func_80013C28(s32 arg)
         return;
     }
     D_8009B138++;
-    p = D_8009AF18;
+    p = (u8 *)D_8009AF18;
     switch (p[0x46]) {
     case 1:
         if ((D_8009B0F4 & 0x200000) == 0) {
@@ -49,15 +48,15 @@ void func_80013C28(s32 arg)
                     src++;
                 } while (i < 0x200);
             }
-            *(s32 *)(D_8009AF18 + 8) += 0x800;
+            *(s32 *)((u8 *)D_8009AF18 + 8) += 0x800;
         }
         D_8009B0F8 += 0x200;
-        *(s32 *)(D_8009AF18 + 0x10) -= 0x800;
-        if (*(s32 *)(D_8009AF18 + 0x10) <= 0) {
+        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
+        if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        q = D_8009AF18;
+        q = (u8 *)D_8009AF18;
         *(s32 *)(q + 0x28) -= 0x800;
         if (*(s32 *)(q + 0x28) <= 0) {
             *(s32 *)(q + 0x1C) = 0;
@@ -68,7 +67,7 @@ void func_80013C28(s32 arg)
             }
             *(s32 *)(q + 0x28) = *(s32 *)(q + 0x1C);
         }
-        if (*(s32 *)(D_8009AF18 + 0x10) <= 0) {
+        if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             goto clear;
         }
         return;
@@ -88,20 +87,20 @@ void func_80013C28(s32 arg)
             } while (i < 0x200);
             D_8009B0F8 += 0x200;
         }
-        *(s32 *)(D_8009AF18 + 0x10) -= 0x800;
-        if (*(s32 *)(D_8009AF18 + 0x10) <= 0) {
+        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
+        if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        r = D_8009AF18;
+        r = (u8 *)D_8009AF18;
         *(u16 *)(r + 0) = *(u16 *)(r + 0x30);
         *(u16 *)(r + 2) = *(u16 *)(r + 0x32);
-        while (LoadImage2((RECT *)D_8009AF18, (u32 *)dst)) {
+        while (LoadImage2((RECT *)(u8 *)D_8009AF18, (u32 *)dst)) {
         }
         if ((D_8009B0F4 & 0x20000) != 0) {
-            *(u16 *)(D_8009AF18 + 0x30) += 0x40;
+            *(u16 *)((u8 *)D_8009AF18 + 0x30) += 0x40;
         } else {
-            r = D_8009AF18;
+            r = (u8 *)D_8009AF18;
             n = *(u16 *)(r + 0x32) + 0x10;
             *(u16 *)(r + 0x32) = n;
             if ((n & 0xFF) == 0) {
@@ -109,7 +108,7 @@ void func_80013C28(s32 arg)
                 *(u16 *)(r + 0x30) += 0x40;
             }
         }
-        q = D_8009AF18;
+        q = (u8 *)D_8009AF18;
         *(s32 *)(q + 0x28) -= 0x800;
         if (*(s32 *)(q + 0x28) > 0) {
             goto counter;
@@ -135,14 +134,14 @@ void func_80013C28(s32 arg)
             }
             D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n);
         }
-        *(s32 *)(D_8009AF18 + 0x10) -= 0x800;
-        if (*(s32 *)(D_8009AF18 + 0x10) <= 0) {
+        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
+        if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        SpuSetTransferStartAddr(*(u32 *)(D_8009AF18 + 0x30));
+        SpuSetTransferStartAddr(*(u32 *)((u8 *)D_8009AF18 + 0x30));
         SpuWrite(dst, (u32)n);
-        q = D_8009AF18;
+        q = (u8 *)D_8009AF18;
         *(s32 *)(q + 0x30) += n;
         *(s32 *)(q + 0x28) -= 0x800;
         if (*(s32 *)(q + 0x28) > 0) {
@@ -157,7 +156,7 @@ void func_80013C28(s32 arg)
         }
         *(s32 *)(q + 0x28) = *(s32 *)(q + 0x1C);
     counter:
-        r = D_8009AF18;
+        r = (u8 *)D_8009AF18;
         *(u16 *)(r + 0x44) = *(u16 *)(r + 0x44) + 1;
         if (*(s32 *)(r + 0x10) > 0) {
             return;
