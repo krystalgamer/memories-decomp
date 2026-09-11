@@ -294,27 +294,61 @@ An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the
 four-voice tables, late control fields, and the music-track pointer.
 
-Two accesses deliberately retain an explicit byte-pointer expression:
+Eighteen accesses in nine files retain an explicit byte-pointer expression
+(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`), nine of them in resident
+sources and nine in build-integrated candidates. Three forms, counted by
+what the cast applies to:
 
-- `func_80047FAC` indexes the four voice IDs as
-  `((u8 *)g_SDValue + index * 2 + 0x404)` because direct structure-array
-  indexing changes GCC's address calculation and adds three instructions.
+- a cast on the pointer combined with an offset or index (twelve; six in
+  `sd_init_state.c`, and one of the twelve is passed as a call argument
+  rather than dereferenced);
+- a base local assigned `(u8 *)g_SDValue` (five, three of them in
+  `func_80045054.c`);
+- a cast on a member's value (one, `func_80047DB0.c:30`).
+
+This note records a code-generation rationale for exactly one of the
+eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
+layout of `SpuDecodedData` rather than for its spelling, and the rest are
+undocumented here. Of the three exceptions the note documents, only
+`func_800493F8` is still a byte-pointer access at all:
+
 - `func_800493F8` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because the direct member assignment changes
-  register allocation.
+  register allocation. It is `src/game/sound_init.c:86`, and the source
+  carries the measurement in a comment above the store.
+- `func_80047FAC` was documented as indexing the four voice IDs as
+  `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
+  `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
+  sound-effect voice slots (#2740)") replaced it with
+  `g_SDValue->voice_ids[s0]` -- `src/game/sound_effect_voices.c:26`, and
+  the function matches. Only the description is stale; the three-instruction
+  cost it claimed was not re-measured against the current source.
 
-Both files include `sound.h`; the raw expressions are exact-code-generation
-views of fields whose offsets and types are defined by `SDValue`.
+`func_800493F8`'s expression is an exact-code-generation view of a field
+whose offset and type are defined by `SDValue`. The rest are byte-pointer
+arithmetic over the same layout, with no reason for the spelling recorded
+here.
 
-All pure-C `g_SDValue` users now include `sound.h`. Nine additional functions
-use the shared command queue, buffer pointers, voice arrays, flags, and late
-control fields directly.
+All 26 resident `.c` files that name `g_SDValue` include `sound.h`. Of the
+22 build-integrated candidate `.c` files naming it, 20 include `sound.h`;
+`func_80045514.c` and `func_80046294.c` instead declare it privately with
+their own pointee types. As historical context, the sentence this replaces
+-- "All pure-C `g_SDValue` users now include `sound.h`" -- was written on
+2026-09-02, and both of those candidates were built in afterwards,
+`func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
+(#3359). Nine additional functions use the shared command queue,
+buffer pointers, voice arrays, flags, and late control fields directly.
 
-`func_80049138` is the third deliberate raw-view exception. The global pointer
-is volatile in that routine, and typed member expressions change its repeated
-load/register schedule. It suppresses the default extern declaration from
-`sound.h`, redeclares the pointer as `u8 * volatile`, and retains the verified
-offset expressions while still using the shared header as the layout source.
+`func_80049138` is a third deliberate exception and is no longer a raw
+view. The global pointer is volatile in that routine, which the unit
+selects by defining `G_SDVALUE_VOLATILE` -- an arm of `sound.h`'s own
+declaration chain rather than a suppression of it -- and `sound.h` carries
+the measurement. Its accesses are typed members (`p->music_track`,
+`q->flags_0040`, `q->field_1560`); the `u8 * volatile` redeclaration and
+the offset expressions this note described were removed by `98f79757`
+("Take every g_SDValue declaration from sound.h (#2610)") and `548c78cb`
+("Reach the sound driver's state block through SDValue, not byte offsets
+(#2500) (#2759)").
 
 Existing GCC constraints remain unchanged by layout migrations. The secondary
 spatialization contract below also covers callers containing constraints,
