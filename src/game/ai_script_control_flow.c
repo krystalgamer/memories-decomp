@@ -8,17 +8,34 @@
 #include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
 
+s32 Ai_IsCardInSets(s32 mode, s32 index)
+{
+    if (mode == 1 && Ai_IsCardInSet(index))
+        return 1;
+    if (mode == 2 && Ai_IsTypeInSet(index))
+        return 1;
+    return 0;
+}
+
+void AiScript_Jump(void)
+{
+    s32 result = AiScript_ReadShort();
+    register AiScriptState *state = &gAiScript_State;
+
+    state->script_cursor =
+        (u8 *)(result + (s32)state->script_base);
+}
+
 /* The AI script VM's control-flow opcodes: the six conditional jumps, which
    read register operands and a script-relative offset and move
    gAiScript_State.script_cursor when their test holds, then the call and
-   return pair that push and pop that cursor on the return stack. The last
-   member, AiScript_SetRandom, is not control flow; it was already grouped
-   with the call pair, and it draws from rand() the way AiScript_JumpRandom
-   does just before it.
+   return pair that push and pop that cursor on the return stack. The final
+   random-assignment and subtraction opcodes are data operations over the same
+   readers and register file.
 
-   The four former sources were recorded at gcc_2_8_1_g0_split and
-   gcc_2_8_1_g8_split in alternation. Every member compiles to an identical
-   object at gcc_2_8_1_g0_split, the profile of the AI units around it. */
+   The former support and subtract objects were recorded at gcc_2_8_1_g0 and
+   are byte-identical at gcc_2_8_1_g0_split. The nine-function control object
+   is byte-identical at gcc_2_8_1_g0_split and gcc_2_8_1_g8_split. */
 
 void AiScript_JumpGreaterEqual(void)
 {
@@ -154,3 +171,5 @@ void AiScript_SetRandom(void) {
 
     gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 }
+
+void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*values=gAiScript_aMemory;values[c]=values[a]-values[b];}
