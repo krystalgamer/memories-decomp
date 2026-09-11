@@ -309,8 +309,8 @@ what the cast applies to:
 This note records a code-generation rationale for exactly one of the
 eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
 layout of `SpuDecodedData` rather than for its spelling, and the rest are
-undocumented here. Of the three exceptions the note documents, only that
-one is still a byte-pointer access at all:
+undocumented here. Of the three exceptions the note documents, only
+`func_800493F8` is still a byte-pointer access at all:
 
 - `func_800493F8` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because the direct member assignment changes
@@ -329,11 +329,14 @@ whose offset and type are defined by `SDValue`. The rest are byte-pointer
 arithmetic over the same layout, with no reason for the spelling recorded
 here.
 
-Every resident `.c` that names `g_SDValue` includes `sound.h`. The two
-build-integrated candidates that reach it declare it privately instead;
-that sentence was written on 2026-09-02 and both candidates were built in
-afterwards, `func_80046294` on the 9th (#2992) and `func_80045514` on the
-10th (#3359). Nine additional functions use the shared command queue,
+All 26 resident `.c` files that name `g_SDValue` include `sound.h`. Of the
+22 build-integrated candidate `.c` files naming it, 20 include `sound.h`;
+`func_80045514.c` and `func_80046294.c` instead declare it privately with
+their own pointee types. As historical context, the sentence this replaces
+-- "All pure-C `g_SDValue` users now include `sound.h`" -- was written on
+2026-09-02, and both of those candidates were built in afterwards,
+`func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
+(#3359). Nine additional functions use the shared command queue,
 buffer pointers, voice arrays, flags, and late control fields directly.
 
 `func_80049138` is a third deliberate exception and is no longer a raw
