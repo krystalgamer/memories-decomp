@@ -4,25 +4,65 @@
 #include "card_constants.h"
 #include "display_object_api.h"
 #include "duel_card.h"
+#include "duel_card_data_transfer.h"
 #include "duel_card_layout.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_deck_card.h"
+#include "duel_deck_card_data.h"
 #include "duel_grid.h"
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
+#include "util_memory.h"
 
-/* One duel card record's lifecycle, in address order: releasing it
-   (func_80024914 drops the display object and the occupied flag,
-   func_80024954 then clears every flag), the terrain boost its setup needs,
-   Duel_SetupCardRecord, which fills the record from the deck card data and
-   uploads its art and name strip, and the card-type icon object that
-   func_80024D34 creates and hangs on the record it has just set up.
+/* The combined-deck producer and one duel card record's lifecycle, in address
+   order. Duel_PopulateCombinedDeckData builds the deck records and copied card
+   image blocks that Duel_SetupCardRecord consumes. The remaining functions
+   release/reset a record, derive its terrain boost, fill it from that deck
+   data, upload its art and name strip, and create/attach the card-type icon.
 
    The four former sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g8_split
    and gcc_2_8_1_g0_split. Every member compiles to an identical object at
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
+
+void Duel_PopulateCombinedDeckData(void)
+{
+    u8 *dst = D_8018C2D8;
+    DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
+    u8 *q;
+    u8 *src;
+    u8 *r;
+    u16 *p;
+    s32 i;
+    s32 id;
+    s32 w;
+    u16 v;
+
+    for (i = 0; i < COMBINED_DECK_SIZE; i++) {
+        q = D_8015C424 + i * 2;
+        v = *(u16 *)(q + DUEL_COMBINED_DECK_CARD_IDS_OFFSET);
+        rec->id = v;
+        id = (s16)v;
+        r = D_8015C424 + i;
+        rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+        rec->index_02 = i;
+        rec->data_block_index = i;
+
+        src = D_8015C424;
+        p = gDuel_awUniqueDeckCardIds;
+    search:
+        w = *p;
+        p++;
+        if (w != id) {
+            src += DUEL_CARD_DATA_BLOCK_SIZE;
+            goto search;
+        }
+        Util_CopyWords(dst, src, DUEL_CARD_DATA_BLOCK_SIZE);
+        dst += DUEL_CARD_DATA_BLOCK_SIZE;
+        rec++;
+    }
+}
 
 void func_80024914(DuelCardRecord *object)
 {

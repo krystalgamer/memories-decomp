@@ -597,7 +597,7 @@ void func_800164FC(void);
  * The dedupe relies on the sort: it compares only against the previous
  * element, so it removes runs of equal ids rather than duplicates in
  * general. Duel_PopulateCombinedDeckData, still matched in
- * duel_deck_card_data.c, depends on that. */
+ * duel_card_record_lifecycle.c, depends on that. */
 void Duel_RequestCombinedDeckData(void);
 
 /* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
