@@ -648,8 +648,6 @@ void func_8002A2F4(u8 *state);
  * to call it with no argument, leaving its own caller's id in $a0; it now
  * forwards that id, at no cost in instructions, so one spelling serves all
  * seven callers. */
-u8 *func_8002C604(s32 arg0);
-
 /* Returns the u16 result card id widened to s32. Declaring a narrow return at
  * the callers adds a zero-extension instruction that retail does not have.
  * duel_check_ritual.h keeps the result record and the recipe table. */

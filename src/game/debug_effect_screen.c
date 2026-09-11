@@ -6,6 +6,7 @@
 #include "../psyq/libgpu.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
+#include "duel_effect_request.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "duel_card.h"

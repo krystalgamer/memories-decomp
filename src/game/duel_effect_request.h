@@ -7,6 +7,8 @@
     ((u32)&(((DuelEffectRequest *)0)->member))
 #define DUEL_EFFECT_REQUEST_COUNT 8
 
+u8 *func_8002C604(s32 arg0);
+
 /* The record func_8002C68C hands a duel effect handler.
  *
  * func_8002C604 is where the layout comes from: it takes a free entry from
