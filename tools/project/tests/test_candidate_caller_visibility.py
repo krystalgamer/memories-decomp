@@ -67,7 +67,11 @@ def profiles_by_source() -> dict[str, str]:
     return result
 
 
-def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
+def compiler_diagnostics(
+    path: Path,
+    profile: dict[str, object],
+    include_dir: Path,
+) -> str:
     flags = [str(f) for f in profile["compiler_flags"] if FRONT_END_FLAG.match(str(f))]  # type: ignore[index]
     completed = subprocess.run(
         [
@@ -89,7 +93,11 @@ def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) ->
     )
     if completed.returncode != 0:
         raise AssertionError(f"{path} does not compile:\n{completed.stderr}")
-    return set(IMPLICIT.findall(completed.stderr))
+    return completed.stderr
+
+
+def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
+    return set(IMPLICIT.findall(compiler_diagnostics(path, profile, include_dir)))
 
 
 @unittest.skipUnless((REPOSITORY / COMPILER).is_file(), "needs the GCC 2.8.1 toolchain")
@@ -171,6 +179,38 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
+
+    def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
+        source = "src/candidates/func_80028B08.c"
+        path = REPOSITORY / source
+        profile = self.profile(source)
+        original = path.read_text(encoding="utf-8")
+        call = "func_80042188(PRM, CTX, arg1, arg, EXT);"
+        swapped = "func_80042188(PRM, EXT, arg1, arg, CTX);"
+        self.assertIn(call, original)
+        base_diagnostics = compiler_diagnostics(path, profile, path.parent)
+        self.assertNotRegex(
+            base_diagnostics,
+            r"passing arg [25] of `func_80042188' from incompatible pointer type",
+        )
+
+        (REPOSITORY / "tmp").mkdir(exist_ok=True)
+        scratch = Path(tempfile.mkdtemp(dir=REPOSITORY / "tmp"))
+        try:
+            probe = scratch / "a/b/c" / path.name
+            probe.parent.mkdir(parents=True)
+            probe.write_text(original.replace(call, swapped, 1), encoding="utf-8")
+            diagnostics = compiler_diagnostics(probe, profile, path.parent)
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
+        self.assertRegex(
+            diagnostics,
+            r"passing arg 2 of `func_80042188' from incompatible pointer type",
+        )
+        self.assertRegex(
+            diagnostics,
+            r"passing arg 5 of `func_80042188' from incompatible pointer type",
+        )
 
 
 if __name__ == "__main__":

@@ -303,6 +303,104 @@ CENTRAL_VARIANT_COUNTS = {
     "func_80042188": 3,
     "func_8004CB0C": 2,
 }
+CENTRAL_VARIANT_BLOCKS = {
+    "Ai_GetHandSize": (
+        "#ifdef AI_GET_HAND_SIZE_WIDE_RETURN",
+        "s32 Ai_GetHandSize(void);",
+        "#else",
+        "s8 Ai_GetHandSize(void);",
+        "#endif",
+    ),
+    "func_80013C28": (
+        "#ifdef FUNC_80013C28_CALLBACK_VIEW",
+        "void func_80013C28(u8, u8 *, u32 *);",
+        "#else",
+        "void func_80013C28(s32);",
+        "#endif",
+    ),
+    "func_80042188": (
+        "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW",
+        "struct Func80028B08Ctx;",
+        "struct Func80028B08Extra;",
+        "void func_80042188( SpritePrim *, struct Func80028B08Ctx *, s32, s32, struct Func80028B08Extra * );",
+        "#elif defined(FUNC_80042188_SPRITE_VIEW)",
+        "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);",
+        "#else",
+        "void func_80042188(s32, u8 *, s32, s32, u8 *);",
+        "#endif",
+    ),
+    "func_8004CB0C": (
+        "#ifdef FUNC_8004CB0C_NO_ARGUMENTS",
+        "void func_8004CB0C(void);",
+        "#else",
+        "void func_8004CB0C(s32, s32, s32, s32);",
+        "#endif",
+    ),
+}
+
+
+def canonical_source_lines(source: str) -> list[str]:
+    result: list[str] = []
+    statement: list[str] = []
+    for line in candidate_builds.strip_c_comments(source).splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            if statement:
+                result.append(" ".join(" ".join(statement).split()))
+                statement = []
+            result.append(" ".join(stripped.split()))
+            continue
+        statement.append(stripped)
+        if ";" in stripped:
+            result.append(" ".join(" ".join(statement).split()))
+            statement = []
+    if statement:
+        result.append(" ".join(" ".join(statement).split()))
+    return result
+
+
+def inactive_at(lines: list[str], stop: int) -> bool:
+    inactive: list[bool] = []
+    for line in lines[:stop]:
+        if line.startswith("#if "):
+            inactive.append(line == "#if 0" or (inactive[-1] if inactive else False))
+        elif line.startswith(("#ifdef ", "#ifndef ")):
+            inactive.append(inactive[-1] if inactive else False)
+        elif line.startswith("#else") and inactive:
+            parent_inactive = inactive[-2] if len(inactive) > 1 else False
+            inactive[-1] = parent_inactive or not inactive[-1]
+        elif line.startswith("#elif ") and inactive:
+            parent_inactive = inactive[-2] if len(inactive) > 1 else False
+            inactive[-1] = parent_inactive
+        elif line.startswith("#endif") and inactive:
+            inactive.pop()
+    return bool(inactive and inactive[-1])
+
+
+def validate_variant_block(
+    source: str,
+    name: str,
+    expected: tuple[str, ...],
+) -> str | None:
+    lines = canonical_source_lines(source)
+    starts = [
+        index
+        for index in range(len(lines) - len(expected) + 1)
+        if tuple(lines[index:index + len(expected)]) == expected
+    ]
+    if len(starts) != 1:
+        return (
+            f"{UNMATCHED_HEADER}: conditional declaration {name} must use "
+            f"the approved selector and ABI arms"
+        )
+    if inactive_at(lines, starts[0]):
+        return (
+            f"{UNMATCHED_HEADER}: conditional declaration {name} is inside "
+            "an inactive preprocessor arm"
+        )
+    return None
 
 
 def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
@@ -312,7 +410,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     }
     errors: list[str] = []
 
-    central_pairs = declarations(read_text(root / UNMATCHED_HEADER))
+    central_source = read_text(root / UNMATCHED_HEADER)
+    central_pairs = declarations(central_source)
     central = defaultdict(list)
     for name, statement in central_pairs:
         central[name].append(statement)
@@ -334,6 +433,11 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"{UNMATCHED_HEADER}: conditional declaration {name} must "
                 f"have exactly {expected_variants} arms: {statements}"
             )
+        expected_block = CENTRAL_VARIANT_BLOCKS.get(name)
+        if expected_block is not None:
+            error = validate_variant_block(central_source, name, expected_block)
+            if error is not None:
+                errors.append(error)
 
     # A build-integrated candidate still has a defining C translation unit,
     # src/candidates/, so the header of the unit it came from remains a home

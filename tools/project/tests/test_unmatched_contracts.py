@@ -106,6 +106,69 @@ class UnmatchedContractTests(unittest.TestCase):
 
         self.assertEqual(self.errors(), [])
 
+    def func_80042188_variant(self) -> str:
+        return (
+            "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW\n"
+            "struct Func80028B08Ctx;\n"
+            "struct Func80028B08Extra;\n"
+            "void func_80042188(\n"
+            "    SpritePrim *, struct Func80028B08Ctx *, s32, s32,\n"
+            "    struct Func80028B08Extra *\n"
+            ");\n"
+            "#elif defined(FUNC_80042188_SPRITE_VIEW)\n"
+            "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);\n"
+            "#else\n"
+            "void func_80042188(s32, u8 *, s32, s32, u8 *);\n"
+            "#endif\n"
+        )
+
+    def configure_func_80042188_variant(self, declaration: str) -> None:
+        self.write_inventory("func_80042188", "unmatched_asm")
+        self.write("src/unmatched.h", declaration)
+        self.write(
+            "src/game/caller.c",
+            "#include \"../unmatched.h\"\n"
+            "void caller(void) { func_80042188(0, 0, 0, 0, 0); }\n",
+        )
+
+    def test_approved_central_variant_abis_are_required(self) -> None:
+        self.configure_func_80042188_variant(
+            "void func_80042188();\n"
+            "void func_80042188();\n"
+            "void func_80042188();\n"
+        )
+        self.assertTrue(
+            any("approved selector and ABI arms" in error for error in self.errors())
+        )
+
+    def test_repeated_central_variant_arm_is_rejected(self) -> None:
+        declaration = self.func_80042188_variant().replace(
+            "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);",
+            "void func_80042188(s32, u8 *, s32, s32, u8 *);",
+        )
+        self.configure_func_80042188_variant(declaration)
+        self.assertTrue(
+            any("approved selector and ABI arms" in error for error in self.errors())
+        )
+
+    def test_inactive_central_variant_block_is_rejected(self) -> None:
+        self.configure_func_80042188_variant(
+            "#if 0\n" + self.func_80042188_variant() + "#endif\n"
+        )
+        self.assertTrue(
+            any("inactive preprocessor arm" in error for error in self.errors())
+        )
+
+    def test_misselected_central_variant_arm_is_rejected(self) -> None:
+        declaration = self.func_80042188_variant().replace(
+            "FUNC_80042188_SPRITE_VIEW",
+            "FUNC_80042188_WRONG_VIEW",
+        )
+        self.configure_func_80042188_variant(declaration)
+        self.assertTrue(
+            any("approved selector and ABI arms" in error for error in self.errors())
+        )
+
     def test_implicit_reference_requires_central_declaration(self) -> None:
         self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
 
