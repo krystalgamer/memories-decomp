@@ -764,7 +764,7 @@ address,size,name,status,module,notes
 0x80047AD0,0x98,func_80047AD0,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80047B68,0x4C,func_80047B68,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047BB4,0x9C,func_80047BB4,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80047C50,0x20,func_80047C50,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80047C50.c with target src/candidates_target/func_80047C50.S; profile gcc_2_8_1_g0. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 1 variable to hard registers, so it does not stand as a decompilation. Previously: 18 pre-policy variants: exact (-G0/-G8); selected -G0 forced-$v0 result; ordinary forms changed register allocation/branch delay slots"
+0x80047C50,0x20,func_80047C50,matching_c,game,Exact pure-C match: preserving the input in a u16 local before masking reproduces the retail $v0/$a0 live ranges and both return delay slots without register pins.
 0x80047C70,0x54,func_80047C70,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047CC4,0xEC,func_80047CC4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,func_80047DB0,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80047DB0.c with target src/candidates_target/func_80047DB0.S; profile gcc_2_8_1_g0. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: SD voice key-off by id; bank/slot table field_044C[2][32]"
