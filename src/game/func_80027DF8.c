@@ -1,4 +1,3 @@
-#define DUEL_CARD_STAGING_AS_DECK
 #include "../types.h"
 #include "duel_card_staging.h"
 #include "duel_side_state.h"
@@ -96,7 +95,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
                 s32 *p;
                 s32 id;
 
-                id = D_8015C424.cards[n].id;
+                id = D_8015C424_cards.cards[n].id;
                 out->card_id = id;
                 tbl = gDuel_adwCardStats;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);

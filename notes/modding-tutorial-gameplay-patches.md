@@ -456,7 +456,7 @@ for (card_id = EXODIA_FIRST_CARD_ID;
      card_id++) {
     for (i = 0; i < HAND_SIZE; i++) {
         if (buf[i] >= 0 &&
-            D_8015C424.cards[buf[i]].id == card_id) {
+            D_8015C424_cards.cards[buf[i]].id == card_id) {
             buf[i] = -1;
             goto found;
         }
