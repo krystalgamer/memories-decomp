@@ -48,7 +48,7 @@ source grouping.
 | `src/game/display_object_property_transitions.c` | `gcc_2_8_1_g8` | Three-channel byte convergence to per-channel targets (`0x8001D344`) and the contiguous timed position/interpolation transition with clip-flag lifecycle (`0x8001D3C4`) |
 | `src/game/display_object_motion.c` | `gcc_2_8_1_g8` | Timed position interpolation with speed-to-`0x800` completion (`0x8001EC70`) and the contiguous mode-progress variant that stores the final position and clears the clip flag when appropriate (`0x8001ED20`) |
 | `src/game/display_effect_resource_setup.c` | `gcc_2_8_1_g8_split` | Four contiguous display-effect resource functions from `func_8003A198` (`0x8003A198`) through `func_8003A560` (`0x8003A560`): the three-level resource-table probe, the up-to-three-object builder that calls it, child layer/attribute setup, and the VRAM page swap state callback that calls the builder after loading or restoring a page. The first and third functions are byte-identical under all four standard g0/g8 profiles; the builder is byte-identical at g0_split and g8_split; the final state callback requires g8_split and fixes the unit. The unrelated file-transfer callback `func_8003A01C` bounds it below, and the g0 display-effect position/update family bounds it above |
-| `src/game/display_effect_update_callbacks.c` | `gcc_2_8_1_g0` | Seven contiguous display-effect position and update functions from `func_8003A920` (`0x8003A920`) through `func_8003B054` (`0x8003B054`): three-child position propagation and its group setter, cosine position easing, paired fade-in/fade-out resource transitions, the four-row transition, and the portrait transition. Every callback operates on the same `MenuRecord`/`DisplayEffectState` storage, uses the `func_80039F1C` first-frame latch, and either creates, positions, fades, or releases the record's display-object groups. The first three functions are byte-identical at g0, g0_split, g8, and g8_split; the four trailing callbacks require g0 and fix the common profile. The unit retains the halfword alias for `D_8009B0D8` used by `func_8003B054`; the g8_split resource callback below and g0_split frame runtime above fix both boundaries |
+| `src/game/display_effect_update_callbacks.c` | `gcc_2_8_1_g0` | Seven contiguous display-effect position and update functions from `func_8003A920` (`0x8003A920`) through `func_8003B054` (`0x8003B054`): three-child position propagation and its group setter, cosine position easing, paired fade-in/fade-out resource transitions, the four-row transition, and the portrait transition. Every callback operates on the same `MenuRecord`/`DisplayEffectState` storage, uses the `func_80039F1C` first-frame latch, and either creates, positions, fades, or releases the record's display-object groups. The first three functions are byte-identical at g0, g0_split, g8, and g8_split; the four trailing callbacks require g0 and fix the common profile. `func_8003B054` reads `D_8009B0D8` through a `(u16)` cast at the use site, so the unit takes the shared `s32` declaration; the g8_split resource callback below and g0_split frame runtime above fix both boundaries |
 | `src/game/display_effect_process_menu_records.c` | `gcc_2_8_1_g0_split` | Per-record animation helper `func_8003B378` (`0x8003B378`) and its contiguous sole frame dispatcher `DisplayEffect_ProcessMenuRecords` (`0x8003B50C`). The dispatcher walks the three live `D_800EB010` records, calls the helper for flag-0x40 records, then dispatches `D_80090F68`; the helper's object is byte-identical under all four standard g0/g8 profiles and the dispatcher is byte-identical under the two split profiles. The following `func_8003B5C8` is an unrelated Shift-JIS decimal-key lookup, fixing the semantic upper boundary |
 | `src/game/duel_draw_status_numbers.c` | `gcc_2_8_1_g8_split` | 2 contiguous functions: `0x80016D2C`, `Duel_UpdateLifePointDisplay` (`0x80016DDC`). What remains after #3859 moved `Duel_DrawLifePointsAndDeckCounts`, which matched only through pinned registers or inline asm, to `src/candidates/`. |
 | `src/game/duel_battle_stats.c` | `gcc_2_8_1_g8_split` | Battle arithmetic between two duel cards: `Duel_CalcGuardianStarBonus` (`0x8001EE44`), the attack and defence calculators `Duel_CalcBattleAttack` (`0x8001EF1C`) and `Duel_CalcBattleDefense` (`0x8001EF78`) that add that bonus, and the AI's battle comparison `func_8001EFD4` (`0x8001EFD4`) that calls them. The two calculators were recorded at `gcc_2_8_1_g8` but compile to identical objects at `gcc_2_8_1_g8_split`. Bounded below by `display_object_motion.c` and above by the attack-trap selector in `duel_trap_resolution.c` |
@@ -232,21 +232,31 @@ func_8003B054.o    lhu  v1,0(v1)     R_MIPS_LO16   D_8009B0D8
 **This was recorded as blocking, and that was wrong.** The reasoning ran:
 retail reads one symbol at two widths, neither arm can replace the other, so
 merging must change a load. The first clause is right and the conclusion does
-not follow, because picking an arm is not the only way to spell a global. A
-unit that needs two widths takes an **alias** -- a second name for the same
-symbol, `extern u16 D_8009B0D8_halfword asm("D_8009B0D8");` -- which
-`graphics_frame.h` documents and `display_object_fade_callbacks.c` already
-uses on this very global for the plain and volatile pair. With the alias both
-loads survive exactly as above, and the two are now one unit,
-`display_effect_update_callbacks.c`, with the executable byte-identical.
+not follow, because the width is not a property of the declaration. gcc 2.8.1
+picks the narrow load from the *use*: `(u8)` and `(u16)` on an `int` global
+emit `lbu` and `lhu` against that same symbol. One `s32` declaration in
+`graphics_frame.h` therefore carries both loads above -- `func_8003AD6C`
+reads it plain and `func_8003B054` reads it `(u16)` -- and the two are now one
+unit, `display_effect_update_callbacks.c`, with the executable byte-identical.
+This unit first reached the second load through a second name for the symbol,
+`extern u16 D_8009B0D8_halfword asm("D_8009B0D8");`, which builds the same
+bytes; the cast is what is in the tree, because it needs no declaration of its
+own.
 
 So the rule is narrower than it looked. **Two sources that spell a shared
 global differently are blocked only when the difference cannot be expressed
-twice in one unit.** A guard-selected *width* or qualifier can be, through an
-alias. What genuinely blocks is a difference in the object itself -- a
-different type, extent or section attribute -- because an alias would then be
-a second declaration of a different thing rather than a second name for the
-same one.
+twice in one unit.** A *width* can be, at the use site. A qualifier cannot be
+spelled at a use -- but a unit that needs the reload on every read can select
+it for the whole unit, which is what `display_object_fade_callbacks.c` does
+(`#define D_8009B0D8_IS_VOLATILE`, and its five plain reads build the same
+under it). A unit that needs the qualifier on some reads and not others still
+needs a second name, and one does: `mem_card_dialog_load_save.c:22` declares
+`extern volatile u16 gMemCard_wDialogFlags_v asm("gMemCard_wDialogFlags");`
+for the three accesses in one helper while the rest of that unit reads the
+symbol plain. What genuinely blocks is a
+difference in the object itself -- a different type, extent or section
+attribute -- because a second declaration would then describe a different
+thing rather than the same one.
 
 Note also what the two-width read does *not* prove. It is tempting to read
 `lw` beside `lhu` as evidence that retail had two translation units here, but

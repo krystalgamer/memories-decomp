@@ -1,12 +1,13 @@
 /* Seven contiguous display-effect position and update callbacks on the same
  * MenuRecord / DisplayEffectState storage.
  *
- * The final four disagree about how wide the per-frame step multiplier is, and
- * graphics_frame.h says a unit that needs two spellings takes an alias rather
- * than a second declaration -- display_object_fade_callbacks.c already does
- * this for the plain and volatile pair. Here the unit keeps the plain s32 arm
- * for func_8003AD6C and func_8003B054 reaches the same symbol as a halfword,
- * which is the read its retail code does. */
+ * The final four scale a motion delta by the per-frame step multiplier and do
+ * not agree on its width. graphics_frame.h declares D_8009B0D8 once, as s32,
+ * and the disagreement is spelled at the use sites: func_8003AAE4,
+ * func_8003AC48 and func_8003AD6C read it plain, and func_8003B054 reads it
+ * `(u16)` twice, which is the halfword load its retail code does. A unit that
+ * needs the reload rather than a width selects that for the whole unit --
+ * display_object_fade_callbacks.c defines D_8009B0D8_IS_VOLATILE. */
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"

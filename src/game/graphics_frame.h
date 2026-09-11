@@ -11,11 +11,14 @@
  * frame moves things twice as far.
  *
  * It is one four-byte value, and the three widths seen in the listings come
- * from the use sites rather than the declaration. Eighteen accesses across
- * twelve functions, every one of them at offset zero: thirteen word, three
- * halfword, two byte, with func_80012DB4 in two of those groups. The next
- * named symbol is D_8009B0E8, sixteen bytes on, and nothing reads into that
- * gap. gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
+ * from the use sites rather than the declaration. The resident listings carry
+ * eighteen accesses across twelve functions, every one of them at offset
+ * zero: thirteen word, three halfword, two byte, with func_80012DB4 in two of
+ * those groups. That census is the resident one; the main_menu overlay adds a
+ * nineteenth access, a halfword read at offset zero --
+ * `lhu $a0, %lo(D_8009B0D8)($v0)` at
+ * src/candidates_target/main_menu/func_80180390.S:217.
+ * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
  * int global emit lbu and lhu against the same symbol -- so a narrow read is
  * written as a cast at the site, not as a declaration.
  *
