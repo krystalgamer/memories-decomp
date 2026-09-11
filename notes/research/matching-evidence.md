@@ -34,6 +34,22 @@ The shared `ai.h` declaration retains the existing return-width distinction:
 the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
 selects `s32` to preserve its two call sites without extra sign extension.
 
+### Secondary voice attributes without a mixed small-data profile
+
+`func_8004A764` (`0x8004A764`, 92 bytes) also matches at the ordinary
+`gcc_2_8_1_g8_split` profile. Its `D_8009B458` pointer load must stay in scalar
+macro form and expand absolutely, while the `D_80011434` mask table uses the
+split-address form. The existing `D_80011434_IS_CONST` view and the new
+`D_8009B458_IN_DATA` declaration selector in `sound.h` express both requirements
+without different compiler/assembler thresholds.
+
+The source writes the voice bit, ADSR mask, two cleared ADSR halfwords, and
+exponential-increase attack mode into the existing 0x40-byte `SpuVoiceAttr`
+view at state offset 0x4C0, then submits it to `SpuSetVoiceAttr`. No register
+pins, inline assembly, local externs, or new compiler profile are required.
+The plain G0 split candidate had five differing positions; the shared absolute
+pointer declaration at G8 restores all 23 instructions.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.

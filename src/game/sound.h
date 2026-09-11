@@ -634,9 +634,12 @@ extern SDValue *g_SDValue;
 #endif
 
 /* The note-start candidate retains byte-based addressing; resident consumers
- * use the shared layout. Both declarations describe the same pointer word. */
+ * use the shared layout. D_8009B458_IN_DATA keeps the pointer load absolute
+ * under G8 while func_8004A764 uses split addressing for its voice-mask table. */
 #ifdef SDSECONDARYSTATE_AS_BYTES
 extern u8 *D_8009B458;
+#elif defined(D_8009B458_IN_DATA)
+extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
 #else
 extern SDSecondaryState *D_8009B458;
 #endif
@@ -661,8 +664,8 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * with sound_voice_envelope.c on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; since #3859 only the func_8004A6F8 and func_8004A764 candidates
- * define it.
+ * qualifier; it is selected by the func_8004A6F8 candidate and matching
+ * func_8004A764.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
@@ -778,6 +781,10 @@ void func_80049C40(void);
 void func_80049CB0(void);
 #endif
 void SD_SetOutputType(s16);
+/* Resets one SPU voice's envelope: clears ADSR1/ADSR2 and sets exponential
+ * attack through SpuSetVoiceAttr, for the voice D_80011434[index] names.
+ * func_8004A518 calls it for each record while it rebuilds the voice tables. */
+void func_8004A764(s32 index);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
  * 2. SD_UpdateFades (src/candidates/func_80045C98.c) passes the same value
