@@ -241,6 +241,12 @@
       "source": "src/game/fade_step_bands.c"
     },
     {
+      "address": "0x80015310",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1D4",
+      "source": "src/game/fade_update.c"
+    },
+    {
       "address": "0x800154E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
@@ -4877,6 +4883,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8C",
       "source": "src/game/movie_stream_requests.c"
+    },
+    {
+      "address": "0x8005C4F0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x40",
+      "source": "src/game/file_exists.c"
     },
     {
       "address": "0x8005C530",

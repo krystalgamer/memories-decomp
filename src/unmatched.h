@@ -595,10 +595,6 @@ struct DuelRitualResult;
  * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
 void File_SetPositionTable(void);
 
-/* The per-frame fade stepper, run by fade_runtime.c's overlay callback on
- * the fade record it builds. */
-void Fade_Update(FadeTransitionState *);
-
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
