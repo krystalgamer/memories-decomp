@@ -580,8 +580,8 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
  * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 and func_8004A6F8 have no
- * caller in C and get no declaration. Ai_GetHandSize
+ * contract fingerprint records. func_80048768 has no
+ * caller in C and gets no declaration. Ai_GetHandSize
  * is now matching C; its caller-specific return declarations live in ai.h. */
 
 struct CardList;

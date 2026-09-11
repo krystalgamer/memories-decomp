@@ -34,6 +34,20 @@ The shared `ai.h` declaration retains the existing return-width distinction:
 the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
 selects `s32` to preserve its two call sites without extra sign extension.
 
+### Tone-envelope setup without a mixed small-data profile
+
+`func_8004A6F8` (`0x8004A6F8`, 108 bytes) matches all 27 instructions at
+ordinary `gcc_2_8_1_g8_split`, using the existing `D_8009B458_IN_DATA` and
+`D_80011434_IS_CONST` declaration selectors in `sound.h`. This independently
+confirms the addressing combination used by the already-matching
+`func_8004A764` in `sound_voice_envelope.c`, without pins, inline assembly,
+mixed thresholds, or local extern declarations.
+
+It keeps the opposite mask/voice store order from that reset function and
+copies the supplied tone record's three envelope halfwords at 0x20, 0x22,
+and 0x24 rather than supplying the reset constants. That record is not
+identified as a Psy-Q `VagAtr`, so it retains its existing byte-offset view.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
