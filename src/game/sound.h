@@ -675,6 +675,7 @@ extern s32 D_80011434[20];
 
 /* Resets one SPU voice's envelope through the shared attribute block. */
 void func_8004A764(s32 index);
+void func_8004B374(s32 channel, s32 value, s32 unused);
 
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
