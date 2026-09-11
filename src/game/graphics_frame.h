@@ -278,11 +278,12 @@ extern RECT D_800E9D70[2];
  * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
  * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.
  *
- * func_80015310.c is not converted, and its functions.csv row says why: the
- * three are DEFINED rather than declared there so the assembler resolves them
+ * Fade_Update defines the three rather than declaring them, and its
+ * functions.csv row says why: as definitions the assembler resolves them
  * gp-relative and supplies the three load-delay nops in the tint copy.  That
- * file still builds byte-identical with the declaration below visible ahead
- * of its definition, which is the only claim made here about the two.
+ * function's translation unit includes this header, so it builds
+ * byte-identical with the declaration below visible ahead of its definition,
+ * which is the only claim made here about the two.
  *
  *   _IN_DATA_VOLATILE -- startup's ordered, absolute-address byte stores
  *   _IN_DATA          -- out of small data at the compiler
