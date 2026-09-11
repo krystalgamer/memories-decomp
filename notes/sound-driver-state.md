@@ -330,14 +330,32 @@ arithmetic over the same layout, with no reason for the spelling recorded
 here.
 
 All 26 resident `.c` files that name `g_SDValue` include `sound.h`. Of the
-22 build-integrated candidate `.c` files naming it, 20 include `sound.h`;
-`func_80045514.c` and `func_80046294.c` instead declare it privately with
-their own pointee types. As historical context, the sentence this replaces
--- "All pure-C `g_SDValue` users now include `sound.h`" -- was written on
-2026-09-02, and both of those candidates were built in afterwards,
+22 build-integrated candidate `.c` files naming it, 21 include `sound.h`;
+`func_80045514.c` alone still declares it privately with its own pointee
+type. As historical context, the sentence this replaces -- "All pure-C
+`g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
+both of the candidates that broke it were built in afterwards,
 `func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
 (#3359). Nine additional functions use the shared command queue,
 buffer pointers, voice arrays, flags, and late control fields directly.
+
+`func_80046294` took the header's declaration back but kept a private
+struct for the pointee, and the reason is a measurement rather than a
+preference. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
+`FUNC_80049F50_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
+selected, so that the unit declares none of those three symbols itself, the
+candidate's object is byte-identical. Pointing the same reads at `SDValue`
+instead is not: the object changes. What that is not caused by was measured
+one at a time -- every offset the unit reads (`flags_0040` at 0x40,
+`command_count` at 0x4C, `field_007C` and `field_007D`, `field_157E`, and
+`commands` at 0x80) asserts at the offset the private struct places it,
+the three halfword widths assert equal, padding the private struct out to
+`SDValue`'s
+0x164C changes nothing, and two spellings of the byte view over the command
+queue give the same moved object as each other. What is left is the shape
+itself: the private struct is byte padding where `SDValue` is typed
+members, and gcc 2.8 marks a member access with the struct it came from.
+Recorded as an open question with its evidence, not as a blocked route.
 
 `func_80049138` is a third deliberate exception and is no longer a raw
 view. The global pointer is volatile in that routine, which the unit
