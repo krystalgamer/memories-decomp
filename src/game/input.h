@@ -103,7 +103,7 @@ extern u16 gInput_wPad1Pressed;
  * our matching tree carries this symbol (0x8009B3A4) behind an equivalent
  * set, with a note on each recording which function needed it. The
  * _SIZED_VOLATILE arm is src/candidates/func_80030294.c's, which reads this
- * name and the five below it at [0] under gcc_2_8_1_cc_g8_as_g4_split; that
+ * name and the other five at [0] under gcc_2_8_1_cc_g8_as_g4_split; that
  * unit's own header records the mechanism. */
 #ifdef GINPUT_PAD1_HELD_SIZED_VOLATILE
 extern volatile u16 gInput_wPad1Held[4];
