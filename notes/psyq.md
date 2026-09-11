@@ -65,7 +65,9 @@ so the tool takes a path to it and fetches nothing:
 
 `--emit-map` labels generated evidence as Psy-Q 4.6 by default. The permitted
 4.7 LIBDS cross-reference must pass `--psyq-version 4.7` when emitting rows;
-the option changes the evidence text, not signature matching.
+the option changes the evidence text, not signature matching. Selecting 4.7
+also fails unless the directory's complete `*.json` set is exactly
+`LIBDS.LIB.json`, so it cannot widen the exception to other 4.7 libraries.
 
 ### Catalogue input contract
 

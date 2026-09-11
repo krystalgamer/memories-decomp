@@ -16,6 +16,7 @@ from psyq_signatures import (
     find_matches,
     parse_signature,
     scan,
+    validate_catalogue_scope,
 )
 
 
@@ -40,6 +41,28 @@ class PsyqSignatureTests(unittest.TestCase):
 
         self.assertIn("Psy-Q 4.6", evidence(providers))
         self.assertIn("Psy-Q 4.7", evidence(providers, "4.7"))
+
+    def test_catalogue_scope_limits_version_47_to_libds(self) -> None:
+        validate_catalogue_scope(self.signatures, "4.6")
+        with self.assertRaisesRegex(
+            SignatureError,
+            "Psy-Q 4[.]7 is permitted only",
+        ):
+            validate_catalogue_scope(self.signatures, "4.7")
+
+        (self.signatures / "LIBDS.LIB.json").write_text(
+            "[]", encoding="utf-8"
+        )
+        validate_catalogue_scope(self.signatures, "4.7")
+
+        (self.signatures / "LIBGPU.LIB.json").write_text(
+            "[]", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(
+            SignatureError,
+            "directory containing exactly LIBDS[.]LIB[.]json",
+        ):
+            validate_catalogue_scope(self.signatures, "4.7")
 
     def test_parse_signature_rejects_empty_and_malformed_tokens(self) -> None:
         cases = [
