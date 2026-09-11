@@ -622,4 +622,31 @@ typedef char Pair_size_must_be_8[
     sizeof(Pair) == 8 ? 1 : -1
 ];
 
+/* One colour triple with a carried fourth byte. game/triangle_subdivision.c
+   subdivides a triangle and writes its corners through this type; the four
+   functions in that unit read and write three bytes each and none of them
+   reads a fourth byte or a stride, so the fourth is carried by the stride of
+   4 rather than used. This is the file's only array typedef, so it takes no
+   size assertion -- the extent is in the declaration. */
+typedef u8 Triplet[4];
+
+/* One of the two values the value-setup screen edits.
+   MainMenu_StartValueSetup seeds value and shown from *out, the update steps
+   shown toward value, the drawing code reads shown, and
+   MainMenu_FinishValueSetup writes value back through out. Two of them fill
+   the 0x18 bytes from D_801845C0 up to D_801845D8, and the merged rows for
+   that screen in config/slus_01411/overlays/main_menu_functions.csv read the
+   two displayed halfwords at +2 and +0xE, which is the same 0xC stride the
+   assertion below states. */
+typedef struct {
+    u16 value;
+    u16 shown;
+    u16 *out;
+    u8 pad_08[4];
+} ValueSetupEntry;
+
+typedef char ValueSetupEntry_size_must_be_0xC[
+    sizeof(ValueSetupEntry) == 0xC ? 1 : -1
+];
+
 #endif

@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../ygo_types.h"
 
 /* Recursive triangle subdivision, written twice: once over s16 vertices
    (func_8006BCA4) and once over three-byte colour triplets (func_8006C120),
@@ -22,8 +23,6 @@
    func_8006C2FC has no caller anywhere in the tree. It stays with the other
    two because it is the third member of the same primitive set and sits
    between them in the image, not because a call edge places it. */
-typedef u8 Triplet[4];
-
 void func_8006C2FC(u8 *output, s32 first, s32 second, s32 third);
 void func_8006C30C(u8 *destination, const u8 *source);
 void func_8006C330(u8 *out, u8 *a, u8 *b);
