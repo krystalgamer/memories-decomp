@@ -12,10 +12,12 @@
    reaches $a1 and the call site's argument setup is what the image contains,
    so the one-argument prototype would remove an instruction.
 
-   duel_update_card_pick_cursor.c records that both callees are reached
-   without a prototype in the original, so their results arrive in $v0
-   already widened with no narrowing at the call site. Its own s32 return
-   spelling preserves that.
+   duel_update_card_pick_cursor.c records that neither of its two call sites
+   narrows the result -- in its listing each jal is followed by its delay slot
+   and then a branch on $v0, with no andi or sll between -- so the widened
+   value in $v0 is the callee's own. func_80024060 ends `lbu $v0, 0x19($s0)`
+   and its value really is a byte; the s32 return spelling here preserves it
+   widened, which is what that call site reads.
 
    func_80024088's one-argument call to func_80023D08 is the harder case of
    the two, and it is now the FUNC_80023D08_AMBIENT_DIRECTION_ARG arm of
