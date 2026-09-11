@@ -491,7 +491,7 @@ address,size,name,status,module,notes
 0x800389C4,0x14,func_800389C4,matching_c,game,First halfword bit-clear candidate matched.
 0x800389D8,0x6C,func_800389D8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038A44,0x6C,func_80038A44,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80038AB0,0x58,func_80038AB0,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80038AB0.c with target src/candidates_target/func_80038AB0.S; profile gcc_2_8_1_g8. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80038AB0,0x58,func_80038AB0,matching_c,game,Pure-C post-terminal resolution: an s16 duelist-id local fed by the unsigned stream byte preserves both the target copy and signed blez without either register pin. Exact 88-byte text and two call relocations using gcc_2_8_1_g8 and existing headers (issue #5).
 0x80038B08,0x44,func_80038B08,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80038B4C,0x5C,Text_DispatchSecondaryCommand,matching_c,game,"High-confidence semantic name: F8 consumes one secondary command index and dispatches D_80090EAC[index], whose handler owns any further operands. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
 0x80038BA8,0x48,Text_SetCursorOffset,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
