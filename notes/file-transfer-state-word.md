@@ -52,9 +52,11 @@ declaration builds a 0x1D071C-byte one. Retail is 0x1D0800.
 ### Why two names survive
 
 The retail image reaches 0x8009B0F4 through two different addressing forms.
-Among the functions still held as assembly, `text_004428.s` uses
-`%gp_rel(D_8009B0F4)($gp)` seven times, and six other generated files use
-`lui %hi` / `%lo` fifty-nine times.
+Among the functions still held as assembly -- the 171 listings under
+`src/candidates_target/`, four of them under overlay subdirectories --
+`func_80013C28` uses `%gp_rel(D_8009B0F4)($gp)` on seven lines and
+`func_80014220` on two, while ten other listings, one of them an overlay, use
+`lui %hi` / `%lo` on eighty-six.
 
 A `-G8` translation unit cannot produce both forms from one declaration,
 because the assembler picks the form from whether the symbol is small-data
@@ -67,8 +69,9 @@ extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 ```
 
-`c_symbols.ld` ties `D_8009B0F4_abs` to the same address. 28 units take the
-gp-relative view and 23 take the absolute view. The split follows the unit's
+`c_symbols.ld` ties `D_8009B0F4_abs` to the same address. 29 `.c` files under
+`src/` name `D_8009B0F4` as a whole word and 20 name `D_8009B0F4_abs`; no file
+names both. The split follows the unit's
 compiler profile: every unit on the absolute view is a `-G8` profile, and no
 unit assembled at `-G0` needs it.
 
