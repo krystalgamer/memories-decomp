@@ -1,3 +1,4 @@
+#define GINPUT_PAD1_BACKUPS_ARE_VOLATILE
 #include "../types.h"
 #include "input.h"
 
