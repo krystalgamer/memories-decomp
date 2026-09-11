@@ -64,8 +64,8 @@ extern u32 D_8009B30C;
 extern SortedEntry *D_8009B310;
 extern u32 D_8009B314;
 
-/* func_800220B8.c also declares D_8009B30C, under
- * __attribute__((section(".data"))).  It is left alone here because three
- * open pull requests already touch that file; folding it in needs that arm. */
+/* func_800220B8 also declares D_8009B30C, as s32 and under
+ * __attribute__((section(".data"))).  It is left alone here because folding
+ * it in needs that arm and the u32/s32 disagreement settled. */
 
 #endif

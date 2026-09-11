@@ -5,11 +5,9 @@
 #include "duel_card_display_state.h"
 #include "duel_apply_card_object_flags.h"
 
-/* Same D_801A7AD8[] stat table (0x1C-byte stride) as
-   obj_apply_table801a7ad8_flags.c / table801a7ad8_row_search.c, but with the
-   field_21/field_22 bit mapping SWAPPED relative to that sibling: here the
-   face-down flag marks field_22, while the defense-position flag marks
-   field_21.
+/* Same D_801A7AD8[] stat table (0x1C-byte stride) as func_80017E3C, but with
+   the field_21/field_22 bit mapping SWAPPED relative to it: here the face-down
+   flag marks field_22, while the defense-position flag marks field_21.
 
    Clears the display flags' clip-test bit and field_22, then re-derives
    field_22 and field_21 from the selected D_801A7AD8 record's face-down and
