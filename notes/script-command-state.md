@@ -66,7 +66,7 @@ units:
 | --- | ---: |
 | `duel_effect_state_callbacks.c` | 10 |
 | `text_box_build_step.c` | 1 |
-| `script_update_viewport_tween.c` | 4 |
+| `script_update_viewport_tween.c` (now the `Script_UpdateViewportTween` candidate) | 4 |
 | `script_control_commands.c` | 1 |
 | `script_op_show_image.c` | 1 |
 | `func_8002F630.c` | 1 |
