@@ -340,22 +340,53 @@ below, and the two answers are different.
 only exception left. Its private `SD` named 36 offsets. An exact pairing
 against `SDValue`, taken by compiling the header and reading `offsetof`
 rather than by matching names, put them in three buckets: 19 offsets the
-canonical already named at the same width and signedness, 6 covered by
-`field_005C[8]`, and 11 that fell inside five padding regions -- `pad04CC`,
-`pad0524`, `pad0534`, `pad157C` and `pad1619`.
+canonical already named, 6 covered by `field_005C[8]`, and 11 that fell
+inside five padding regions -- `pad04CC`, `pad0524`, `pad0534`, `pad157C`
+and `pad1619`.
 
 The 6 looked like the hard bucket and were not. Rewriting them as array
 indices moves the object, and the bisection says why: the array form alone
 is byte-identical, and the *signedness* alone reproduces the whole move --
 `u32` where the unit reads signed. The cast at the use closes it, the same
 answer `display_object_updates.c` already gives for a signed read of a
-canonical `u16`. Four other fields disagree in type the same way and take
-the same treatment: 0x50, 0x54, 0x58 and 0x1564.
+canonical `u16`.
 
-The 11 are a header addition, and each has a use in this unit to justify
-its width. The three at 0x1619, 0x1629 and 0x1639 are worth naming
-separately rather than as one 0x30 region: the unit passes each of the
-three to `func_80014C40` on its own, selected by the command word.
+Sharing an offset is not sharing a type, and the 19 are one group only in
+the first sense: 14 of them also agree with the canonical in C type and
+five do not. Those five are four different questions rather than four more
+of the 6.
+
+  * **0x50**, private `s32` against canonical `u32`, *is* the 6's question
+    and takes the 6's answer -- `(s32)` at each read.
+  * **0x54**, private `u16` against canonical `u32`, is a narrowing rather
+    than a signedness change. The unit reads it once, and the `(u16)` sits
+    at that read.
+  * **0x58 and 0x1564** are pointer views. The canonical spells 0x58 `u32`
+    and 0x1564 `u16 *music_track`; this unit reaches the first as `u8 *`
+    and the second as both `u8 *` and `List *`. The cast is at the use, so
+    the canonical declaration and this unit's readings are both kept.
+  * **0x1588**, private `u16` against canonical `s16`, takes no treatment
+    at all, and that is why it is not in the list above. The unit only ever
+    *stores* this halfword. The sixteen bits written are the same under
+    either declaration, and there is no read here whose signedness could
+    differ.
+
+The 11 are a header addition, and the evidence behind each width is of
+three different kinds -- which is worth saying plainly, because "it has a
+use in this unit" flattens them into one.
+
+  * **Five are read here**: `field_04CC`, `field_0528`, `field_052C`,
+    `field_0530` and `field_0531`. The read's own width is the evidence.
+  * **Three are only written**: `field_0532 = b >> 31`,
+    `field_0534 = 0xFFFF` and `field_157C = field_004E`. What the width
+    rests on is the store and the private declaration this unit already
+    carried, not a measured read.
+  * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
+    worth naming separately rather than as one 0x30 region, because the
+    unit hands each of the three to `func_80014C40` on its own, selected by
+    `field_005C[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
+    where each buffer *starts*; the 0x10 extent is the private
+    declaration's, carried across, and is not proved here.
 
 As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and

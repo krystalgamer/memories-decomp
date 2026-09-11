@@ -199,8 +199,9 @@ typedef struct {
     u8 pad15F6[0x22];
     u8 busy;
     /* Three 0x10-byte buffers, not one 0x30 region: func_80045514 passes
-       each of the three separately to func_80014C40, selected by the low
-       nibble group of the command word. */
+       each of the three separately to func_80014C40, selected by
+       field_005C[0] & 0xF0 -- bits 4 to 7, the high nibble of the low
+       byte -- with cases 0x10, 0x20 and 0x40. */
     u8 field_1619[0x10];
     u8 field_1629[0x10];
     u8 field_1639[0x10];
