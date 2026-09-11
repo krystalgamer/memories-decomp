@@ -3,7 +3,29 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/rand.h"
+#include "display_flat_lights.h"
+#include "display_object.h"
+#include "display_object_layout.h"
+#include "display_object_list_renderer_table.h"
 #include "display_object_stream_state.h"
+#include "func_80041340.h"
+
+void func_80041340(void)
+{
+    s32 i;
+    SetBackColor(96, 96, 96);
+    SetFarColor(0, 0, 0);
+    GsSetFlatLight(0, &D_80090FCC);
+    GsSetFlatLight(1, &D_80090FDC);
+    GsSetFlatLight(2, &D_80090FDC);
+    for (i = DISPLAY_OBJECT_LIST_COUNT - 1; i >= 0; i--) {
+        if (D_800EFE38[i] >= 0) {
+            SetGeomScreen(150);
+            SetGeomOffset(0, 0);
+            D_80090FB0[i]();
+        }
+    }
+}
 
 /* The seven display-object stream opcode handlers, entries 0 through 6 of
    D_80090FEC in model_record_tables.c, which func_80041C8C dispatches as
@@ -14,8 +36,8 @@
 
    The three former sources were recorded at gcc_2_8_1_g8 and
    gcc_2_8_1_g8_split, and every member compiles to an identical object at
-   gcc_2_8_1_g8_split. Bounded below by func_80041340, the light and
-   geometry setup, and above by unmatched assembly. */
+   gcc_2_8_1_g8_split. Together with the contiguous frame renderer above,
+   this is the complete matching run between unmatched display-object code. */
 
 s32 func_8004141C(DisplayObjectStreamState *object)
 {
