@@ -695,10 +695,11 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
    SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
-   sound_sequence_runtime.c together with func_8004AAFC (unmatched.h). It
+   sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
 void func_8004C84C(void);
+void func_8004AAFC(void);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
@@ -706,8 +707,8 @@ void func_8004C84C(void);
    func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
    which rebuilds the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
-   (src/candidates/func_8004A43C.c), and its one caller is the func_8004AAFC
-   candidate. It stays here rather than in unmatched.h because it takes an
+   (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
+   stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
