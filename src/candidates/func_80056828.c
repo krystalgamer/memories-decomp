@@ -20,25 +20,24 @@
 #include "../psyq/stdio.h"
 #include "../game/script_state.h"
 
-extern u8 D_800F2C40[];
 extern u8 D_80010538[];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 
 extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_8004D75C(s32 a0);
 #include "../game/func_8004D914.h"
-extern void func_8005A4C4(s32 a0, s32 a1, s32 a2, s32 a3, s32 a4);
-extern void func_8005A468(s32 a0, s32 a1);
-extern void func_800590DC(s32 a0);
 #include "../game/func_800582C0.h"
-extern void func_8005F198(s32 a0);
-extern void func_8004DC38(s32 a0, s32 a1, s32 a2, s32 a3);
-extern void func_80048D08(s32 a0, void *a1);
+#include "../game/model_slot_row_tables.h"
+#include "../game/model_slot_support.h"
+#include "../game/model_slot_updates.h"
+#include "../game/model_transfer_flags.h"
+#include "../game/model.h"
+#include "../game/func_8004DC38.h"
+#include "../game/sound_voice_data.h"
 
 void func_80056828(s32 a0) {
     register s32 player asm("s0") = a0;
-    u8 *rec = D_800F2C40 + player * 0xE20;
+    u8 *rec = (u8 *)D_800F2C40 + player * 0xE20;
     u32 state;
     u32 idx;
     void **table;
@@ -88,7 +87,7 @@ void func_80056828(s32 a0) {
 
         L3:
             {
-                u8 *p = D_800F2C40 + player * 0xE20;
+                u8 *p = (u8 *)D_800F2C40 + player * 0xE20;
                 u8 v1;
                 u16 t1;
                 u8 t0;
@@ -144,14 +143,14 @@ void func_80056828(s32 a0) {
                         *(s32 *) (p + 0xDF4) = v0;
                     }
                 }
-                func_8005A4C4((s32)p, 0, 0, 0,
+                func_8005A4C4((ModelSlot *)p, 0, 0, 0,
                               player == 1 ? 0x800 : 0);
             }
             goto L_tail;
 
         L4:
             {
-                u8 *rec2 = D_800F2C40 + player * 0xE20;
+                u8 *rec2 = (u8 *)D_800F2C40 + player * 0xE20;
                 u8 *p = rec2 + 0x1E0;
                 u8 count;
                 s32 a1;
@@ -200,7 +199,7 @@ void func_80056828(s32 a0) {
 
         L6:
             {
-                u8 *p = D_800F2C40 + player * 0xE20;
+                u8 *p = (u8 *)D_800F2C40 + player * 0xE20;
                 u8 v1 = p[0xE0D];
                 u8 v1b = p[0xE16];
                 s32 a2 = v1 * 2;
@@ -233,7 +232,7 @@ void func_80056828(s32 a0) {
 
         L8:
             {
-                register u8 *base asm("$3") = D_800F2C40;
+                register u8 *base asm("$3") = (u8 *)D_800F2C40;
                 register u8 *p asm("$18") = base + player * 0xE20;
                 register s32 s1 asm("$17");
                 void *fn;
@@ -273,7 +272,7 @@ void func_80056828(s32 a0) {
                             o[0xC] = (u8) s1;
                             a2 = s1;
                         }
-                        func_8004DC38((s32) p, idx8, a2, s5);
+                        func_8004DC38((ModelSlot *)p, idx8, a2, s5);
                         v0 = p[0xE1B];
                         idx8 += 1;
                         s3 += 4;
@@ -288,7 +287,7 @@ void func_80056828(s32 a0) {
         L9:
             if (rec[0xE1D] == 0) {
                 v0 = player << 11;
-                func_80048D08(player, D_801A8000 + v0);
+                func_80048D08(player, (u32 *)(D_801A8000 + v0));
             }
             goto L_tail;
 
