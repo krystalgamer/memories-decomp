@@ -614,8 +614,6 @@ void File_SetPositionTable(void);
  * element, so it removes runs of equal ids rather than duplicates in
  * general. Duel_PopulateCombinedDeckData, still matched in
  * duel_card_record_lifecycle.c, depends on that. */
-void Duel_RequestCombinedDeckData(void);
-
 /* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
  * gDuel_bTerrain back after storing it and decrements in the same
  * expression. */
