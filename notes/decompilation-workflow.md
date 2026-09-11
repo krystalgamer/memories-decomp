@@ -211,6 +211,16 @@ The recorder prefixes the durable summary with the new discriminator. Omitting
 it is rejected, so later sessions cannot see a post-terminal success without
 the evidence that justified reopening the hypothesis.
 
+If a function already has a successful external record but was later
+reclassified to unmatched assembly, preserve that historical record. Record the
+new exact source with `--mode reclassification_match --new-discriminator "..."`
+and promote it with `integrate_verified_match.py --evidence-source reclassification`.
+This mode requires prior successful external evidence and an unmatched function
+at recording time. It adds one new success rather than rewriting the old source
+hash or reopening its terminal history. The audit selects the reclassification
+record independently of ledger ordering; a subsequent successful
+`inline_refinement` of the promoted function can supersede it in turn.
+
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
 name exactly matches a symbol in the tracked linker tables; arbitrary

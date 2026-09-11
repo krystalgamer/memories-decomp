@@ -1,0 +1,185 @@
+from __future__ import annotations
+
+import contextlib
+import csv
+import io
+import itertools
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+REPOSITORY = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPOSITORY / "tools/project"))
+
+import audit_repository
+import integrate_verified_match
+import record_external_attempt as recorder
+
+
+class ReclassificationMatchTests(unittest.TestCase):
+    def setUp(self) -> None:
+        if Path.cwd().resolve() != REPOSITORY:
+            raise RuntimeError("run these tests from the repository root")
+        self.address = 0x80012345
+        self.function = {
+            "address": "0x80012345", "size": "0x20", "name": "func_80012345",
+            "status": "unmatched_asm", "module": "game", "notes": "",
+        }
+        self.prior = {
+            "mode": "post_terminal_resolution", "address": "0x80012345",
+            "attempt": "1", "reference_path": "", "reference_sha256": "",
+            "profile": "old_profile", "candidate_source": "tmp/old.c",
+            "candidate_sha256": "1" * 64, "result": "matched",
+            "summary": "Historical pinned match, subsequently reclassified.",
+        }
+        self.current = {
+            **self.prior, "mode": "reclassification_match",
+            "profile": "new_profile", "candidate_source": "tmp/new.c",
+            "candidate_sha256": "2" * 64, "summary": "New discriminator: pure C.",
+        }
+        self.profiles = {"old_profile": {}, "new_profile": {}}
+
+    def validate(self, rows: list[dict[str, str]], integrated: bool = False) -> None:
+        function = {**self.function, "status": "matching_c" if integrated else "unmatched_asm"}
+        recorder.validate_rows(
+            rows, {self.address: function},
+            {self.address} if integrated else set(),
+            self.profiles, {self.address},
+        )
+
+    def test_history_valid_before_and_after_integration(self) -> None:
+        for integrated in (False, True):
+            self.validate([self.prior, self.current], integrated)
+
+    def test_prior_success_is_required(self) -> None:
+        deferred = {
+            **self.prior, "mode": "reference_match", "result": "deferred",
+            "reference_path": "tmp/references/ygofm-decomp/src/func_80012345.c",
+            "reference_sha256": "3" * 64,
+        }
+        for prior in ([], [deferred]):
+            with self.assertRaisesRegex(recorder.ExternalAttemptError, "lacks prior"):
+                self.validate([*prior, self.current])
+
+    def test_new_record_must_be_a_single_success(self) -> None:
+        with self.assertRaisesRegex(recorder.ExternalAttemptError, "must be matched"):
+            self.validate([self.prior, {**self.current, "result": "nonmatch"}])
+        with self.assertRaisesRegex(recorder.ExternalAttemptError, "exceeds 1"):
+            self.validate([self.prior, self.current, {**self.current, "attempt": "2"}])
+
+    def test_new_evidence_wins_independently_of_ledger_order(self) -> None:
+        old_reference = {**self.prior, "mode": "reference_match"}
+        for rows in itertools.permutations([self.prior, old_reference, self.current]):
+            self.assertIs(recorder.latest_successes(list(rows))[self.address], self.current)
+
+    def test_legacy_success_selection_is_unchanged(self) -> None:
+        reference = {**self.prior, "mode": "reference_match"}
+        self.assertIs(
+            recorder.latest_successes([self.prior, reference])[self.address], reference
+        )
+
+    def test_later_inline_refinement_can_supersede_reclassification(self) -> None:
+        refinement = {**self.current, "mode": "inline_refinement"}
+        self.validate([self.prior, self.current, refinement], integrated=True)
+        for rows in itertools.permutations([self.prior, self.current, refinement]):
+            self.assertIs(recorder.latest_successes(list(rows))[self.address], refinement)
+
+    def test_record_integrate_and_audit_preserve_old_evidence(self) -> None:
+        with tempfile.TemporaryDirectory(
+            prefix="reclassification-test-", dir=REPOSITORY / "tmp"
+        ) as temporary:
+            root = Path(temporary)
+            config = root / "config/slus_01411"
+            config.mkdir(parents=True)
+            candidate = root / "tmp/probe/candidate.c"
+            candidate.parent.mkdir(parents=True)
+            source = '#include "../../src/types.h"\nvoid func_80012345(void) {}\n'
+            candidate.write_text(source)
+            (root / "src").mkdir()
+            (root / "src/types.h").write_text("")
+
+            def write_csv(name: str, fields: tuple[str, ...], rows: list[dict[str, str]]) -> None:
+                with (config / name).open("w", newline="") as handle:
+                    writer = csv.DictWriter(handle, fieldnames=fields, lineterminator="\n")
+                    writer.writeheader()
+                    writer.writerows(rows)
+
+            write_csv("functions.csv", tuple(self.function), [self.function])
+            write_csv("external_attempts.csv", recorder.FIELDS, [self.prior])
+            write_csv("attempts.csv", audit_repository.ATTEMPT_FIELDS, [{
+                "address": "0x80012345", "attempt": "1", "compiler": "old_profile",
+                "flags": "historical", "result": "deferred", "summary": "Original campaign.",
+            }])
+            (config / "matching_c.json").write_text(json.dumps({"schema": 1, "functions": []}))
+            (config / "compiler_profiles.json").write_text(
+                json.dumps({"schema": 1, "profiles": self.profiles})
+            )
+            arguments = [
+                "record_external_attempt.py", "0x80012345",
+                "--mode", "reclassification_match", "--profile", "new_profile",
+                "--candidate", "tmp/probe/candidate.c", "--result", "matched",
+                "--new-discriminator", "Removed register pins.",
+                "--summary", "Exact replacement.",
+            ]
+            original_ledger = (config / "external_attempts.csv").read_bytes()
+            missing_discriminator = arguments.copy()
+            index = missing_discriminator.index("--new-discriminator")
+            del missing_discriminator[index:index + 2]
+            with (
+                patch.object(recorder, "require_workspace_root", return_value=root),
+                patch.object(sys, "argv", missing_discriminator),
+                contextlib.redirect_stderr(io.StringIO()) as errors,
+            ):
+                self.assertEqual(recorder.main(), 1)
+                self.assertIn("new-discriminator", errors.getvalue())
+            self.assertEqual((config / "external_attempts.csv").read_bytes(), original_ledger)
+
+            write_csv("functions.csv", tuple(self.function), [
+                {**self.function, "status": "matching_c"}
+            ])
+            with (
+                patch.object(recorder, "require_workspace_root", return_value=root),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stderr(io.StringIO()) as errors,
+            ):
+                self.assertEqual(recorder.main(), 1)
+                self.assertIn("requires unmatched assembly", errors.getvalue())
+            self.assertEqual((config / "external_attempts.csv").read_bytes(), original_ledger)
+            write_csv("functions.csv", tuple(self.function), [self.function])
+
+            with (
+                patch.object(recorder, "require_workspace_root", return_value=root),
+                patch.object(recorder, "preprocess_candidate", return_value=source),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(recorder.main(), 0)
+            ledger = config / "external_attempts.csv"
+            rows = recorder.load_rows(ledger)
+            self.assertEqual(rows[0], self.prior)
+            self.assertEqual(rows[1]["candidate_sha256"], recorder.sha256(candidate))
+
+            arguments = [
+                "integrate_verified_match.py", "0x80012345",
+                "--source", "tmp/probe/candidate.c",
+                "--destination", "src/game/func_80012345.c",
+                "--profile", "new_profile", "--evidence-source", "reclassification",
+                "--note", "Pure-C replacement.",
+            ]
+            with (
+                patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(integrate_verified_match.main(), 0)
+            self.assertEqual((root / "src/game/func_80012345.c").read_text(), source)
+            for ordered in (rows, list(reversed(rows))):
+                write_csv("external_attempts.csv", recorder.FIELDS, ordered)
+                audit_repository.audit_attempts(root)
+
+
+if __name__ == "__main__":
+    unittest.main()

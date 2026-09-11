@@ -37,6 +37,7 @@ MODES = {
     "inline_refinement",
     "collaborator_match",
     "post_terminal_resolution",
+    "reclassification_match",
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
 TERMINAL_RESULTS = {"matched", "deferred"}
@@ -51,6 +52,7 @@ MODE_MAX_ATTEMPTS = {
     "inline_refinement": MAX_ATTEMPTS,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
+    "reclassification_match": 1,
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
@@ -182,6 +184,38 @@ def terminal_resolution_addresses(
     }
 
 
+def previous_match_addresses(rows: list[dict[str, str]]) -> set[int]:
+    return {
+        parse_address(row["address"])
+        for row in rows
+        if row["result"] == "matched" and row["mode"] != "reclassification_match"
+    }
+
+
+def latest_successes(
+    rows: list[dict[str, str]],
+) -> dict[int, dict[str, str]]:
+    reclassified = {
+        parse_address(row["address"])
+        for row in rows
+        if row["mode"] == "reclassification_match" and row["result"] == "matched"
+    }
+    priority = {"reclassification_match": 1, "inline_refinement": 2}
+    successes: dict[int, dict[str, str]] = {}
+    for row in rows:
+        if row["result"] != "matched":
+            continue
+        address = parse_address(row["address"])
+        previous = successes.get(address)
+        if (
+            previous is None
+            or address not in reclassified
+            or priority.get(row["mode"], 0) >= priority.get(previous["mode"], 0)
+        ):
+            successes[address] = row
+    return successes
+
+
 def load_profiles(path: Path) -> dict[str, dict[str, Any]]:
     value = load_json(path)
     profiles = value.get("profiles") if isinstance(value, dict) else None
@@ -280,6 +314,7 @@ def validate_rows(
         rows,
         terminal_deferred_addresses,
     )
+    previous_matches = previous_match_addresses(rows)
     grouped: dict[tuple[str, int], list[dict[str, str]]] = {}
     for row in rows:
         mode = row["mode"]
@@ -360,6 +395,16 @@ def validate_rows(
                 raise ExternalAttemptError(
                     f"{address:#010x}: post-terminal resolution must be matched"
                 )
+        if mode == "reclassification_match":
+            if address not in previous_matches:
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match lacks prior "
+                    "matched external evidence"
+                )
+            if row["result"] != "matched":
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match must be matched"
+                )
         grouped.setdefault((mode, address), []).append(row)
 
     for (mode, address), history in grouped.items():
@@ -413,12 +458,10 @@ def sort_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     information. Sorting by address means two concurrent matches touch
     different parts of the file instead of both appending to the tail.
 
-    This ordering is safe for the existing consumers because a `matched` row is
-    unique per address: `audit_repository.py` selects the latest success by
-    address alone, without filtering on mode, and only a filter that keeps at
-    most one row per key can be insensitive to order. Recording a second
-    `matched` row for one address, under any mode, would break that and would
-    silently change which row `make audit` validates.
+    Reclassification matches preserve an earlier accepted source's evidence.
+    Consumers selecting successful evidence use latest_successes so the
+    reclassification record wins regardless of its position among old modes.
+    A later inline refinement of the promoted function still takes precedence.
 
     Note also that "last row for an address" no longer means "most recent
     event". Under the previous chronological order it did, and a new
@@ -466,7 +509,7 @@ def parse_args() -> argparse.Namespace:
         "--new-discriminator",
         help=(
             "new source, compiler, structure, runtime, or layout evidence; "
-            "required for post_terminal_resolution"
+            "required for post_terminal_resolution and reclassification_match"
         ),
     )
     parser.add_argument(
@@ -550,7 +593,7 @@ def main() -> int:
             "result": args.result,
             "summary": args.summary,
         }
-        if args.mode == "post_terminal_resolution":
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             required["new-discriminator"] = args.new_discriminator
         missing = [key for key, value in required.items() if not value]
         if missing:
@@ -579,6 +622,16 @@ def main() -> int:
             if address not in matching_addresses:
                 raise ExternalAttemptError(
                     f"{address:#010x}: inline refinement requires matching C"
+                )
+        elif args.mode == "reclassification_match":
+            if function["status"] != "unmatched_asm":
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification requires unmatched assembly"
+                )
+            if address not in previous_match_addresses(rows):
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification lacks prior "
+                    "matched external evidence"
                 )
         else:
             resolution_addresses = terminal_resolution_addresses(
@@ -680,7 +733,7 @@ def main() -> int:
             )
 
         summary = args.summary
-        if args.mode == "post_terminal_resolution":
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             summary = (
                 f"New discriminator: {args.new_discriminator}; "
                 f"exact result: {args.summary}"
