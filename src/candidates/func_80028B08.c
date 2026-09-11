@@ -2,6 +2,8 @@
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/display_object_projection.h"
 #include "../game/duel_effect_resource_record.h"
+#include "../psyq/libgs.h"
+#include "../game/display_object.h"
 #include "../game/sprite_primitive.h"
 
 typedef struct {
@@ -23,51 +25,6 @@ typedef struct {
     u32 field_4;
 } Extra;
 
-typedef struct {
-    u32 field_0;
-    u32 field_4;
-    u16 field_8;
-    u16 field_A;
-    u32 field_C;
-    u32 field_10;
-    s16 field_14;
-    s16 field_16;
-    s16 field_18;
-    s16 field_1A;
-    u32 field_1C;
-    u32 field_20;
-    u8 pad24[0x30 - 0x24];
-    s16 field_30;
-    s16 field_32;
-    u8 pad34[0x40 - 0x34];
-    u16 field_40;
-    u16 field_42;
-    u32 field_44;
-} Win;
-
-typedef struct {
-    u32 field_0;
-    s32 field_4;
-    u8 pad8[0x20 - 0x8];
-    u32 field_20;
-    u8 pad24[0x30 - 0x24];
-    u16 field_30;
-    u16 field_32;
-    u8 pad34[0x3C - 0x34];
-    u32 field_3C;
-    u32 field_40;
-    u32 field_44;
-    u8 pad48[0x54 - 0x48];
-    Win *field_54;
-    u8 pad58[0x5C - 0x58];
-    u16 field_5C;
-    u16 field_5E;
-    u8 pad60[0x66 - 0x60];
-    u8 field_66;
-    u8 field_67;
-    u8 field_68;
-} Obj;
-
 extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
 
 /*
@@ -78,13 +35,13 @@ extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
  * Residual: two rematerialized 0xF8 values replace target nops, and the two
  * later scratchpad bases remain exchanged between $s6 and $s7.
  */
-void func_80028B08(Obj *obj, s32 arg1) {
+void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
     Extra *EXT;
     SpritePrim *PRM;
     Ctx *CTX;
-    Win *win;
+    DisplayObject *win;
     DuelEffectResourceRecord *rec;
     s32 arg;
     s32 i;
@@ -96,65 +53,65 @@ void func_80028B08(Obj *obj, s32 arg1) {
 
     white = 0xF8;
     wrap = 0xFFFF;
-    win = obj->field_54;
-    if (obj->field_4 < 0) {
+    win = (DisplayObject *)obj->field_54;
+    if ((obj->attribute & GsDOFF) != 0) {
         return;
     }
-    flags = win->field_8;
+    flags = win->flags;
     if ((flags & 0x40) == 0) {
         return;
     }
     CTX = (Ctx *)0x1F800344;
     PRM = (SpritePrim *)0x1F800320;
     EXT = (Extra *)0x1F800398;
-    arg = ((win->field_14 - 1) & 0xFFFF) | 0x10000;
+    arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
-        obj->field_20 = win->field_20;
-        f4 = obj->field_4 & 0xF7FFFFFF;
-        obj->field_44 = win->field_44;
-        obj->field_4 = f4;
-        f4 = f4 | (win->field_4 & 0x08000000);
-        obj->field_4 = f4;
+        obj->field_20.word = win->field_20.word;
+        f4 = obj->attribute & ~GsROTOFF;
+        obj->field_44.word = win->field_44.word;
+        obj->attribute = f4;
+        f4 = f4 | (win->attribute & 0x08000000);
+        obj->attribute = f4;
         if (func_80041F90(
-                (struct DisplayObject *)obj, win->field_30 + win->field_18,
-                win->field_32 + win->field_1A, (struct ProjectionOut *)EXT
+                (struct DisplayObject *)obj, (s16)win->field_30.h.field_30 + (s16)win->field_18,
+                (s16)win->field_30.h.field_32 + (s16)win->field_1A, (struct ProjectionOut *)EXT
             ) <= 0) {
             return;
         }
         CTX->field_3 = 9;
-        arg = ((win->field_14 - 1) & 0xFFFF) | 0xF0000;
-        *(u32 *)&CTX->field_4 = win->field_C;
+        arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0xF0000;
+        *(u32 *)&CTX->field_4 = win->field_0C;
         CTX->field_7 = 0x2C;
     }
 
-    PRM->attribute = obj->field_4;
-    PRM->xy.h.x = win->field_30 + 0x13;
+    PRM->attribute = obj->attribute;
+    PRM->xy.h.x = win->field_30.h.field_30 + 0x13;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
-    PRM->xy.h.y = win->field_32 + 0x32;
-    PRM->rgb = win->field_C;
-    *(u32 *)&PRM->cxcy = obj->field_40;
+    PRM->xy.h.y = win->field_30.h.field_32 + 0x32;
+    PRM->rgb = win->field_0C;
+    *(u32 *)&PRM->cxcy = obj->field_40.word;
     PRM->uv.word = obj->field_5C;
     PRM->tpage = obj->field_66;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     CTX->field_7 = CTX->field_7 | 2;
-    PRM->xy.h.x = win->field_30 + 0xC;
+    PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
     PRM->extent.wh.w.word = 0x60;
     PRM->extent.wh.h = 0xE;
     PRM->cxcy.h.cy = white;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
     PRM->cxcy.h.cx = 0x1E0;
-    PRM->xy.h.y = win->field_32 + 0xE;
+    PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     EXT->field_4 = 0;
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
-    PRM->xy.h.x = win->field_30 + obj->field_30;
-    PRM->xy.h.y = win->field_32 + obj->field_32;
-    *(u32 *)&PRM->extent = obj->field_3C;
+    PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;
+    PRM->xy.h.y = win->field_30.h.field_32 + obj->field_30.h.field_32;
+    *(u32 *)&PRM->extent = obj->field_3C.word;
     PRM->uv.word = obj->field_5E;
     rec = &D_800EA0E8[obj->field_67];
     if (obj->field_68 < 0x14) {
@@ -183,8 +140,8 @@ void func_80028B08(Obj *obj, s32 arg1) {
         Text_EncodeDecimalDigits(i, 4, buf2);
 
         PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
-        PRM->xy.h.x = win->field_30 + 0x61;
-        PRM->xy.h.y = win->field_32 + 0x9D;
+        PRM->xy.h.x = win->field_30.h.field_30 + 0x61;
+        PRM->xy.h.y = win->field_30.h.field_32 + 0x9D;
         *(u32 *)&PRM->extent = 0x000D0006;
         if (rec->field_3C & 0x80) {
             PRM->cxcy.h.cy = 0xF9;
@@ -197,9 +154,9 @@ void func_80028B08(Obj *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        PRM->xy.h.x = win->field_30 + 0x61;
+        PRM->xy.h.x = win->field_30.h.field_30 + 0x61;
         PRM->cxcy.h.cy = white;
-        PRM->xy.h.y = win->field_32 + 0xAB;
+        PRM->xy.h.y = win->field_30.h.field_32 + 0xAB;
         if (rec->field_3C & 0x40) {
             PRM->cxcy.h.cy = 0xF9;
         }
@@ -211,12 +168,12 @@ void func_80028B08(Obj *obj, s32 arg1) {
             i--;
         } while (i >= 0);
 
-        PRM->xy.h.x = win->field_30 + 0x77;
+        PRM->xy.h.x = win->field_30.h.field_30 + 0x77;
         PRM->cxcy.h.cx = 0x1C0;
         *(u32 *)&PRM->extent = 0x00090009;
         PRM->uv.b.lo = 0;
         PRM->cxcy.h.cy = white;
-        PRM->xy.h.y = win->field_32 + 0x20;
+        PRM->xy.h.y = win->field_30.h.field_32 + 0x20;
         if (rec->field_3A != 0) {
             i = 0;
             do {
@@ -229,13 +186,13 @@ void func_80028B08(Obj *obj, s32 arg1) {
         func_80042188(PRM, CTX, arg1, arg, EXT);
     }
 
-    PRM->xy.h.x = win->field_30 + 0x6E;
+    PRM->xy.h.x = win->field_30.h.field_30 + 0x6E;
     *(u32 *)&PRM->extent = 0x00100010;
-    PRM->xy.h.y = win->field_32 + 0xD;
+    PRM->xy.h.y = win->field_30.h.field_32 + 0xD;
     tile = rec->field_3B << 4;
     PRM->uv.b.lo = tile;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     PRM->cxcy.h.cy = 0xFF;
-    PRM->cxcy.h.cx = win->field_40 + (u8)tile;
+    PRM->cxcy.h.cx = win->field_40.h.field_40 + (u8)tile;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 }
