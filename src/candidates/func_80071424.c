@@ -6,9 +6,9 @@
  */
 #include "../types.h"
 #include "../game/ai.h"
+#include "../game/ai_opponent_data.h"
 #include "../game/ai_script_read_byte.h"
 #include "../game/ai_script_commands.h"
-extern s8 gDuel_bOpponentID;
 void AiScript_LoadOpponentID(void)
 {
     int index = AiScript_ReadByte();
@@ -19,4 +19,3 @@ void AiScript_LoadOpponentID(void)
     value = gDuel_bOpponentID;
     values[index] = value;
 }
-

@@ -5,7 +5,9 @@
  * rather than counted as a decompilation. It was src/game/func_800179F4.c.
  */
 #define D_8009B369_IN_DATA
+#define AI_OPPONENT_ID_IN_DATA
 #include "../types.h"
+#include "../game/ai_opponent_data.h"
 #include "../game/duel_shuffle_both_decks.h"
 #include "../game/duel_draw_status_numbers.h"
 #include "../game/card_constants.h"
@@ -45,7 +47,6 @@
 #include "../game/trig_constants.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 
 extern u16 D_8009B204;
 extern u8 *D_8009B1D8;
@@ -192,4 +193,3 @@ void func_800179F4(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-

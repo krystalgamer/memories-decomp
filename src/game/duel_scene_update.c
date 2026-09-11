@@ -1,4 +1,6 @@
+#define AI_OPPONENT_ID_ARRAY
 #include "../types.h"
+#include "ai_opponent_data.h"
 #include "duel_side_state.h"
 #include "input.h"
 #include "duel_check_quit_input.h"
@@ -12,8 +14,6 @@
 #include "func_8002C6C8.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
-
-extern s8 gDuel_bOpponentID[9];
 
 void func_80024388(void)
 {

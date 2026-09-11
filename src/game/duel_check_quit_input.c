@@ -1,9 +1,9 @@
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
+#define AI_OPPONENT_ID_ARRAY
 #include "../types.h"
+#include "ai_opponent_data.h"
 #include "input.h"
 #include "duel_check_quit_input.h"
-
-extern signed char gDuel_bOpponentID[];
 
 int Duel_CheckQuitInput(void)
 {

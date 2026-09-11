@@ -7,8 +7,10 @@
 #define D_8009B0C0_IN_DATA
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
+#define AI_OPPONENT_ID_ARRAY
 #define D_8009B368_IN_DATA
 #include "../types.h"
+#include "../game/ai_opponent_data.h"
 #include "../game/func_800179F4.h"
 #include "../game/graphics_frame.h"
 #include "../game/func_800339D0.h"
@@ -28,7 +30,6 @@
 
 extern u8 D_8009B26C;
 extern u8 D_8009B2F8[9];
-extern s8 gDuel_bOpponentID[9];
 extern u8 gCampaignSceneIndex[9];
 extern u8 D_8009B370[9];
 extern u16 D_8009B16C[9];
@@ -96,4 +97,3 @@ void Main_RunDuel(void)
     }
     }
 }
-

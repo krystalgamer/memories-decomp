@@ -1,8 +1,8 @@
 #include "../types.h"
+#include "ai_opponent_data.h"
 #include "func_80024DC8.h"
 #include "duel_side_state.h"
 
-extern s8 gDuel_bOpponentID;
 extern u8 gDuel_bTerrain;
 extern u16 D_8009B370;
 extern u16 D_8009B372;

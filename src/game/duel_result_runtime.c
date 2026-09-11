@@ -1,7 +1,9 @@
 #define D_8009B0CC_IN_DATA
 #define D_8009B362_IN_DATA
+#define AI_OPPONENT_ID_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "ai_opponent_data.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_lifecycle.h"
@@ -143,8 +145,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
         state 0xD.  */
 
 extern u16 D_8009B1E0;
-
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 
 void func_80020F4C(void)
 {

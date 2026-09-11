@@ -21,4 +21,14 @@ typedef char AiOpponentData_size_must_be_9[
 
 extern AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT];
 
+#if defined(AI_OPPONENT_ID_IN_DATA)
+extern s8 gDuel_bOpponentID __attribute__((section(".data")));
+#elif defined(AI_OPPONENT_ID_UNSIGNED)
+extern u8 gDuel_bOpponentID;
+#elif defined(AI_OPPONENT_ID_ARRAY)
+extern s8 gDuel_bOpponentID[9];
+#else
+extern s8 gDuel_bOpponentID;
+#endif
+
 #endif
