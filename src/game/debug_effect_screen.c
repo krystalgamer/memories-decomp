@@ -4,7 +4,6 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_8002C604.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "main_frame.h"

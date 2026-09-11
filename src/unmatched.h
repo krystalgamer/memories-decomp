@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_UNMATCHED_H
 
 #include "types.h"
+#include "ygo_types.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -13,14 +14,14 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 170 such
- * functions today. Forty have their declarations here. Ninety-eight are
- * build-integrated candidates that keep theirs in the header of the unit they
- * came from: src/candidates/ still gives each of them a defining C
+ * unmatched_asm, once its consumers are known to agree. There are 205 such
+ * functions today. Sixty-nine have their declarations here. One hundred
+ * are build-integrated candidates that keep theirs in the header of the unit
+ * they came from: src/candidates/ still gives each of them a defining C
  * translation unit, so that header is a home in the sense this one is not
- * (see the #3859 section at the end). Three remain local at seven sites, and
- * all three are the deliberate disagreements listed below rather than
- * duplication waiting to be moved. The remaining twenty-nine have no
+ * (see the #3859 sections at the end). Four remain local at seven sites, and
+ * all four are the deliberate disagreements listed below rather than
+ * duplication waiting to be moved. The remaining thirty-two have no
  * executable reference from matching C, so this header does not invent
  * signatures for them.
  *
@@ -36,7 +37,8 @@
  * are declared incompatibly on purpose, because the declaration is what makes
  * the caller's code generation match:
  *
- *   func_8004CB0C   void (s32, s32, s32, s32) in model_load_monster_merge.c,
+ *   func_8004CB0C   void (s32, s32, s32, s32) in the Model_LoadMonsterMerge
+ *                   candidate, src/candidates/func_80056504.c, and
  *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
@@ -48,13 +50,18 @@
  *                   GsSortFastSprite/GsSortFlipSprite/GsSortSprite, where it
  *                   is a GsSPRITE *; the four-vertex arm never dereferences
  *                   it and only tests `and $s2, 0x4000000`, which is the
- *                   `v | 0x4000000` display_object_list_renderers.c builds.
+ *                   `v | 0x4000000` the func_80040DD8 and func_80041068
+ *                   candidates build. Since #3859 moved those two out of
+ *                   matching C, only the sprite arms remain there.
  *                   One flat prototype would have to be wrong for one caller
  *                   or the other, so it stays out until the arms are split.
  *                   The u8 * spelling is gone: func_80016784.c held the last
  *                   one and now builds a SpritePrim, like the other two
  *                   sprite callers, so only the two real arms remain.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
+ *   Ai_GetHandSize  s32 (void) in ai_card_ranges.c, whose code needs the
+ *                   widened return, and the definition's s8 (void) in
+ *                   ai_fusion.c
  *
  * Where a consumer declares no parameters and calls with none, the argument
  * register is not empty. It holds the CALLER'S OWN incoming parameter, still
@@ -115,9 +122,9 @@ void func_800235C0(void);
  * true one-parameter signature all three agreed, which is what made this
  * safe to move.
  *
- * func_800164FC.c also calls it, but had no declaration at all -- it was
+ * func_800164FC also calls it, but had no declaration at all -- it was
  * relying on an implicit one, which is worse than a duplicate because there
- * is no spelling to disagree with. It takes this header now.
+ * is no spelling to disagree with. Its candidate takes this header now.
  *
  * src/overlays/overworld/set_location.c spells the parameter int rather than
  * s32. The two are the same type, but that site is outside this change. */
@@ -517,10 +524,11 @@ int func_8006988C();
 int func_80069B40();
 
 /* A function #3859 moved back to generated assembly that has nowhere else
- * to be declared. The others it moved became build-integrated candidates
- * and keep their declarations in the header of the unit they came from,
- * because src/candidates/ still gives them a defining C translation unit and
- * the contract check accepts that home for a candidate.
+ * to be declared. The other pin and inline-asm functions it moved became
+ * build-integrated candidates and keep their declarations in the header of
+ * the unit they came from, because src/candidates/ still gives them a
+ * defining C translation unit and the contract check accepts that home for a
+ * candidate. The mixed -G share that follows took the other accepted home.
  *
  * func_800291E0 builds the display objects for slot `index` of the
  * D_800EA0E8 effect-resource records and returns the first of them. Its
@@ -530,5 +538,212 @@ int func_80069B40();
  * is the closest thing to evidence there is. The password overlay's shop.c
  * casts it to PasswordCardPreviewView *, a fourth view of the same object. */
 u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
+
+/* Also reclassified from matching_c by #3859: the mixed -G share. Each of
+ * these matched only under a compiler profile whose GCC and MASPSX
+ * small-data thresholds disagree, or only with register pins #3867 left
+ * load-bearing, so its source now lives in src/candidates/ and the function
+ * is assembly again. Their declarations moved here from the unit headers
+ * that held them, comments included, and headers that held nothing else are
+ * gone. The contract check accepts this home or the former unit header, but
+ * not both. Fade_StepBands and func_8004A764 are called only by other
+ * candidates, Fade_Update and func_8004A518, and are declared here for them.
+ * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
+ * forward-declared here, so its declaration stays in sound.h for the one
+ * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
+ * func_80045514 candidate, declares it with an explicit extern that the
+ * contract fingerprint records. func_80048768, func_80049920 and
+ * func_8004A6F8 have no caller in C and get no declaration. Ai_GetHandSize
+ * is one of the deliberate disagreements listed at the top. */
+
+struct CardList;
+struct DuelEffectChannel;
+struct DuelRitualResult;
+
+/* Fills the file position table. Its one caller is the boot-time start-up
+ * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
+void File_SetPositionTable(void);
+
+/* Refills gFade_State's fifteen mirrored band pairs by the configured step,
+ * clamped between the current and target levels. Fade_Update, a candidate
+ * too, is the one caller. */
+void Fade_StepBands(void);
+
+/* The per-frame fade stepper, run by fade_runtime.c's overlay callback on
+ * the fade record it builds. */
+void Fade_Update(FadeTransitionState *);
+
+/* The duel screen's per-frame view callback. It reads D_800F2848, programs
+ * the geometry engine from its projection field -- SetGeomScreen,
+ * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
+ * records.
+ *
+ * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
+ * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
+ * has to match the definition exactly for the address to be taken. */
+void func_800164FC(void);
+
+/* Builds the unique card id list for the combined deck and starts the fetch
+ * for it.
+ *
+ * It copies the combined deck ids down into the sort buffer, sorts them with
+ * qsort through Util_CompareS16, then walks the sorted run writing each id
+ * that differs from the previous one into a second buffer, so the result is
+ * the deck's ids deduplicated and in order, closed with a sentinel. It then
+ * asks File_TryRequestAsyncTransfer for the block spanning the first id to
+ * the last, with Duel_StepCardDataTransfer as the step callback, and records
+ * the returned transfer's state with the primary-active bit set.
+ *
+ * The dedupe relies on the sort: it compares only against the previous
+ * element, so it removes runs of equal ids rather than duplicates in
+ * general. Duel_PopulateCombinedDeckData, still matched in
+ * duel_deck_card_data.c, depends on that. */
+void Duel_RequestCombinedDeckData(void);
+
+/* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
+ * gDuel_bTerrain back after storing it and decrements in the same
+ * expression. */
+void func_80024E58(void);
+
+/* Starts the async read of one card's effect artwork into slot `slot` of the
+ * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
+ * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,
+ * seven sectors long, so a card's art is seven sectors and the table begins
+ * one card's worth past the card data.
+ *
+ * It hands back the transfer descriptor it started, with `slot` already
+ * stored in the descriptor's callback_data for func_800289BC to pick up, and
+ * it has published the descriptor's status through D_8009B0F4 with
+ * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
+ * which is why they can: the descriptor is reachable without it. The password
+ * overlay's shop.c calls it too. */
+FileTransferDescriptor *func_80029164(s32 slot, s32 value);
+
+void func_8002A2F4(u8 *state);
+
+/* Allocates and fills one effect request entry, storing arg0 as the id at
+ * +0x18, and returns the entry or 0 when none was free. func_8002C68C.c used
+ * to call it with no argument, leaving its own caller's id in $a0; it now
+ * forwards that id, at no cost in instructions, so one spelling serves all
+ * seven callers. */
+u8 *func_8002C604(s32 arg0);
+
+/* Returns the u16 result card id widened to s32. Declaring a narrow return at
+ * the callers adds a zero-extension instruction that retail does not have.
+ * duel_check_ritual.h keeps the result record and the recipe table. */
+s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
+
+/* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
+ * hands the scene over to. On its first frame it derives the per-frame 16.16
+ * deltas from the distance to the target over the remaining frame count, then
+ * advances both accumulators, publishes their high halves as the camera
+ * position, and snaps to the target when the counter runs out. */
+void Script_UpdateViewportTween(void);
+
+/* Entry 5 of the frontend step table D_80090D84 (frontend_step_tables.c):
+ * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
+ * the selected sound effect or BGM, and stops all sound on START. */
+void func_800307B8(void);
+
+/* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
+void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
+
+/* One step of the card list's cursor and paging input.
+ *
+ * It first places the scroll box, deriving a y position from the combined
+ * first and cursor rows scaled across 152 pixels by sort_row_count. It then
+ * settles any outstanding scroll: while first differs from first_target it
+ * moves first one row towards it, refreshes eight rows through
+ * func_80031E04 and returns immediately, so a page scroll is animated a row
+ * per call rather than jumped. Only once the two agree does it read the pad
+ * for paging and sorting.
+ *
+ * The return value is a handled flag: build_deck_pane_input.c, the only
+ * consumer, tests it against zero at both call sites and does no more work
+ * when it is set. */
+s32 func_800330BC(struct CardList *list);
+
+/* One frame of choice-cursor input on a dialog's text-box record. Returns 1
+ * when the repeat pad held a direction or R1 -- whether or not the cursor
+ * actually moved, because a clamped edge still counts as handled and returns
+ * before the cursor sound -- and 0 when it held none, which is the caller's
+ * signal to look at the other buttons.
+ *
+ * R1 wraps past the last choice to the first; up and down clamp. The record
+ * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
+ * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
+ * (src/candidates/func_8002EE94.c) holds the same object as
+ * DuelEffectChannel * and casts. */
+s32 Dialog_ReadChoiceInput(u8 *record);
+
+/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
+ * list once, and this runs it, reading the cursor input and repainting the
+ * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
+ * slots. */
+void Dialog_UpdateChoice(struct DuelEffectChannel *object);
+
+/* D_80090EAC entry: the fade command. Bit 6 of its operand sets D_8009B140 from
+ * the D_8009AF74 pair, bit 5 sets it to 4, and bit 4 starts a fade -- white
+ * through Fade_InitOutColor when bit 0 is set. The bits are tested in that
+ * order and are not exclusive. */
+void func_800388D8(u8 *object);
+
+/* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
+ * rather than only running callbacks. func_80040DD8 takes the list at
+ * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
+ * wide by 0x3C high. Both are reached only through that table. */
+void func_80040DD8(void);
+void func_80041068(void);
+
+void func_80047480(void);
+
+/* Three arguments, and no result: sound_spatialization.c already declared it
+   this way and matched, while two other files carried `extern int
+   SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
+void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
+
+/* Rebuilds the voice tables. func_80049BAC.c calls it right after
+ * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
+void func_8004A518(void);
+
+/* Resets one SPU voice's envelope: clears ADSR1/ADSR2 and sets exponential
+ * attack through SpuSetVoiceAttr, for the voice D_80011434[index] names.
+ * func_8004A518 calls it for each record while it rebuilds the voice
+ * tables. */
+void func_8004A764(s32 index);
+
+/* The per-frame key-off sweep over the 0x28-byte voice records at
+ * D_8009B458, called together with func_8004C84C by
+ * SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+ * sound_sequence_runtime.c. */
+void func_8004AAFC(void);
+
+/* The definition in src/candidates/func_8004B374.c takes two parameters.
+ * sound_sequence_parser.c, the one caller, passes a third, and that call
+ * is what this spells. */
+void func_8004B374(s32 channel, s32 value, s32 unused);
+
+void func_8004B854(void);
+
+s32 SD_FindMidiTrackChunk(s32 offset);
+
+/* Starts the asynchronous transfer that fills one model slot with a monster
+ * merge record, and records the slot's display properties while the request
+ * is in flight.
+ *
+ * Bit 0x80 of slot is a flag rather than part of the index. A negative model
+ * id reuses the id already in the slot, and each of p2 to p5 follows the same
+ * "negative means leave alone" convention.
+ *
+ * Returns zero once a transfer has been requested and one when the model id
+ * has no record to request. Both callers discard it. The candidate source
+ * carries the full account of which slots load from which file, and of the
+ * three model-id ranges that have no record. */
+s32 Model_LoadMonsterMerge(
+    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
+);
+
+/* An AI script opcode, installed by ai_script_commands.c's table. */
+void AiScript_CountCards(void);
 
 #endif

@@ -2,7 +2,7 @@
 #include "duel_reward_setup.h"
 #include "card_constants.h"
 #include "file_transfer.h"
-#include "func_80032184.h"
+#include "../unmatched.h"
 
 void func_80032328(void)
 {

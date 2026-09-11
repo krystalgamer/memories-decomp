@@ -36,6 +36,7 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"
+#include "../../unmatched.h"
 
 /* The password shop screen: its two resident entry points, the preview
    helper both of them call, and the password lookup the updater is the only

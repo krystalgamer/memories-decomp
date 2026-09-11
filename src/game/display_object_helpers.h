@@ -53,7 +53,8 @@ typedef struct {
    [1], func_8004293C sets 3 and reads [3], func_800400AC reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, func_800339D0.c,
-   func_8003DA40.c, func_800388D8.c, src/candidates/func_800283F4.c and
+   func_8003DA40.c, src/candidates/func_800388D8.c,
+   src/candidates/func_800283F4.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, func_800339D0.c, func_8003DA40.c
    and src/candidates/func_800283F4.c define the arm below for that. */

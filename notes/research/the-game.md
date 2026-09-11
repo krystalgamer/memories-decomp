@@ -918,8 +918,8 @@ On success, the three required monsters are sacrificed for the recipe's
 result monster; if the required materials are missing, the ritual card is
 consumed without a summon.
 
-The matching
-[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) checks the recipe
+The
+[`Duel_CheckRitual`](../../src/candidates/func_8002C7E8.c) source checks the recipe
 against three **distinct occupied monster-row records** on the acting side.
 It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
 face-down or defence-position bits. Face-down matching tributes are therefore

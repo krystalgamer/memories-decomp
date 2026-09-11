@@ -54,7 +54,7 @@ volatile u16 D_8009AF74[4] __attribute__((section(".sdata"))) = {
  * stays separate here. */
 u8 D_8009AF7C[4] __attribute__((section(".sdata"))) = "*";
 
-/* The MIDI track chunk tag. sound_sequence_marker_scan.c compares against it
+/* The MIDI track chunk tag. SD_FindMidiTrackChunk compares against it
  * while walking a sequence, which is what the tag means in a standard MIDI
  * file: the four bytes that introduce each track. */
 u8 D_8009AF80[8] __attribute__((section(".sdata"))) = "MTrk";

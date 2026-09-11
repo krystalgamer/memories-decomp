@@ -27,7 +27,7 @@
 #include "../game/display_object_interpolation.h"
 #include "../game/script_state.h"
 #include "../game/main_services.h"
-#include "../game/dialog_read_choice_input.h"
+#include "../unmatched.h"
 #include "../game/func_8002EE94.h"
 #include "../game/duel_effect_mark_object_if_active.h"
 

@@ -7,7 +7,6 @@
 #include "sound_output.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-#include "func_8004B854.h"
 #include "../unmatched.h"
 
 extern void func_80074E60(void);

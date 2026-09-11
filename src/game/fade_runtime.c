@@ -8,6 +8,7 @@
 #include "ordering_tables.h"
 
 #include "fade.h"
+#include "../unmatched.h"
 
 /* The complete fade overlay, setup, blocking, and wrapper runtime. All thirty
    contiguous functions operate on gFade_State and compile at

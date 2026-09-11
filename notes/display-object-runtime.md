@@ -89,7 +89,7 @@ for that separate function and explicitly convert its returned word to
 | Caller | Source |
 |---|---|
 | `Dialog_OpenChoice` | `duel_effect_state_callbacks.c` |
-| `Dialog_UpdateChoice` | `dialog_update_choice.c` |
+| `Dialog_UpdateChoice` | `src/candidates/func_800371A8.c` |
 | `func_80018150` | `duel_card_object_helpers.c` |
 | `func_8002E3FC` | `func_8002E3FC.c` |
 
@@ -375,8 +375,8 @@ of the fourth argument.
 | `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
-| `display_object_list_renderers.c`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
-| `display_object_list_renderers.c`, list key `5` | `5` | the same |
+| `func_80040DD8`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
+| `func_80041068`, list key `5` | `5` | the same |
 
 Cases `0`, `1` and `2` pass it straight into `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`

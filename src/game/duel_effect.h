@@ -97,7 +97,7 @@ typedef struct DuelEffectChannel {
     u8 pad_44[0x0D];
     /* The record's state byte. TextBox_BuildStep dispatches on its low five
        bits through D_80090E64, and 0x80 is a latch every one of those
-       callbacks sets on entry: dialog_update_choice.c and the contiguous
+       callbacks sets on entry: Dialog_UpdateChoice and the contiguous
        callbacks in duel_effect_state_callbacks.c open with the same
        `if ((state & 0x80) == 0) state |= 0x80;` and then write a new state
        number into it. */
@@ -268,9 +268,9 @@ extern u8 D_8009B355;
  * `if (D_8009B34E != 0)` in src/candidates/func_80023144.c;
  * func_8002A2F4 stores the byte at +0x54 of the object
  * TextBox_Create returned (`o` is u8 *) and then 4 when
- * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:37-41); func_80037DA4
- * stores it into `object[0x54]` when the opcode byte has bit 0x10
- * (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
+ * `*(p + (n << 2) + 0x56) & 1` (src/candidates/func_8002A2F4.c:41-44);
+ * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
+ * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
  * glosses the three results. No unit defines it; the address comes from the
  * generated tmp/splat/undefined_syms_auto.txt, and the nearest named symbol
  * above it is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt
@@ -280,10 +280,11 @@ extern u8 D_8009B355;
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in func_80023144 (func_80023144.s:162-163,
  * gcc_2_8_1_g8_split), so src/candidates/func_80023144.c defines the .data
- * arm; func_8002A2F4.c's unit assembles at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
- * compiler -G8, maspsx -G0), so its plain declaration is expanded through
- * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49); and
- * func_80037DA4's candidate takes the plain byte. Initial value not read. */
+ * arm; func_8002A2F4's unit assembled at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
+ * compiler -G8, maspsx -G0), so its plain declaration was expanded through
+ * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49) -- #3859
+ * moved it to src/candidates/ for exactly that profile; and func_80037DA4's
+ * candidate takes the plain byte. Initial value not read. */
 #ifdef D_8009B320_IN_DATA
 extern u8 D_8009B320 __attribute__((section(".data")));
 #else
@@ -295,12 +296,12 @@ extern u8 D_8009B320;
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `D_8009B34E = 1;` (src/candidates/func_80023144.c:46);
  * func_800283F4 stores `id = gDuel_wViewerCardID;` (its candidate, :111);
- * func_8002A2F4 stores func_8002A6B8's result (func_8002A2F4.c:23) and
- * then, under `if (n != 0)`, stores 0 when func_80029EB0's result `r` (:29)
- * has `(r & 0x80) == 0` (:32); func_80060E70 stores `id` (in its
- * candidate). func_80037DA4 reads it, plain and as the index in
- * `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]` (in its candidate).
- * Four functions still in assembly also store it:
+ * func_8002A2F4 stores func_8002A6B8's result
+ * (src/candidates/func_8002A2F4.c:27) and then, under `if (n != 0)`, stores
+ * 0 when func_80029EB0's result `r` (:33) has `(r & 0x80) == 0` (:35-36);
+ * func_80060E70 stores `id` (in its candidate). func_80037DA4 reads it,
+ * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
+ * (in its candidate). Four functions still in assembly also store it:
  * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
  * func_800262D4.s:379-380, func_8002ACA4.s:311-312.
  *
@@ -314,8 +315,9 @@ extern u8 D_8009B320;
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the three
  * units whose profiles are -G8 at both the compiler and maspsx --
  * the src/candidates/ files for func_80023144, func_800283F4 and
- * func_80060E70 -- define the .data arm, and card_list_text_boxes.c and
- * func_8002A2F4.c, whose units assemble at -G0, take the plain declaration.
+ * func_80060E70 -- define the .data arm, and card_list_text_boxes.c, whose
+ * unit assembles at -G0, takes the plain declaration, as the func_8002A2F4
+ * candidate does.
  * Initial value not read. */
 #ifdef GDUEL_WSELECTEDCARDID_IN_DATA
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));

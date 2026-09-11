@@ -11,7 +11,7 @@
  * it, reads the twelve-entry table at D_80010834 for that semitone, and
  * shifts by the octave.
  *
- * The result goes straight into SpuVoiceAttr's pitch: sound_voice_setup.c
+ * The result goes straight into SpuVoiceAttr's pitch: func_8004A43C
  * assigns it to D_8009B458->voice_attr.pitch and calls SpuSetVoiceAttr. */
 s32 func_80049FB4(s32 note_high, s32 note_low, s32 base, s32 offset);
 

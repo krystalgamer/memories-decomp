@@ -9,6 +9,10 @@
 #include "ai_script_commands.h"
 #include "duel_card_checks.h"
 #include "duel_grid.h"
+#include "../unmatched.h"
+
+/* The definition's own return type; ai_card_ranges.c widens it. */
+s8 Ai_GetHandSize(void);
 
 extern u8 D_800EAE88[];
 

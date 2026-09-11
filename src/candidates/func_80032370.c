@@ -8,7 +8,7 @@
 #include "../game/duel_reward_setup.h"
 #include "../game/card_constants.h"
 #include "../game/file_transfer.h"
-#include "../game/func_80032184.h"
+#include "../unmatched.h"
 
 void func_80032370(void)
 {

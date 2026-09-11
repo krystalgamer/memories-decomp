@@ -11,7 +11,7 @@
    take the channel's field_3C as x and three take field_3C + field_3E, and
    the y values come from the entry's field_18 modulo ten, which selects the
    dialog's row spacing. The record is the canonical DisplayObject:
-   dialog_update_choice.c stores one there, through the same 0x30. */
+   Dialog_UpdateChoice stores one there, through the same 0x30. */
 void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     DisplayObject *q;
     s32 n;

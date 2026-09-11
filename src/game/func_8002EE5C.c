@@ -17,7 +17,7 @@
 #include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"
-#include "dialog_read_choice_input.h"
+#include "../unmatched.h"
 #include "func_8002EE94.h"
 #include "duel_effect_mark_object_if_active.h"
 

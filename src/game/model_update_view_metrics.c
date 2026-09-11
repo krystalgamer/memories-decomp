@@ -19,8 +19,8 @@
  * rename registers across the whole function. Taking each member's address
  * keeps every read a scalar reference, as the old (m + offset) casts were,
  * and builds byte-identically. It is the same device
- * display_object_list_renderers.c needed; both files store to fixed
- * addresses between the reads.
+ * the func_80040DD8 and func_80041068 candidates use; they too store to
+ * fixed addresses between the reads.
  *
  * The parameter itself stays u8 *, for a separate reason: GsRVIEW2 is an
  * anonymous typedef, so this unit's header cannot forward declare it the

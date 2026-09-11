@@ -6,7 +6,6 @@
 #include "duel_card.h"
 #include "duel_card_object_helpers.h"
 #include "duel_effect_request.h"
-#include "func_8002C604.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_side_state.h"

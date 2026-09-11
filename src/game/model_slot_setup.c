@@ -12,8 +12,8 @@
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The
    two are contiguous -- 0x8005611C is 0x134 bytes and ends exactly at
-   0x80056250 -- and are bounded above by model_load_monster_merge.c at a
-   different profile.
+   0x80056250 -- and are bounded above by Model_LoadMonsterMerge, which is
+   assembly again.
 
    They are one initializer and its consumer. The reset writes the mode byte
    at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the halfword at

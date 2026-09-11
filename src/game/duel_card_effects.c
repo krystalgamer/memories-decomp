@@ -4,7 +4,7 @@
 #include "duel_trap_resolution.h"
 #include "func_80025028.h"
 #include "duel_card_object_helpers.h"
-#include "func_8002C604.h"
+#include "../unmatched.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_action_lock.h"

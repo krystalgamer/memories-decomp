@@ -175,7 +175,7 @@ typedef struct DisplayObject {
 
        Whole: display_object_helpers.c writes 0x00808080 here as the third of
        six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68 -- and
-       display_object_list_renderers.c copies it into a primitive's colour
+       func_80040DD8 and func_80041068 copy it into a primitive's colour
        word.
 
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
@@ -276,7 +276,7 @@ typedef struct DisplayObject {
        display_object_helpers.c zeroes in one run.
 
        For a gouraud-rendered object it is a vertex colour:
-       display_object_list_renderers.c copies it into a primitive's colour
+       func_80040DD8 and func_80041068 copy it into a primitive's colour
        word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
        0xA0A0A0.
 
@@ -304,7 +304,7 @@ typedef struct DisplayObject {
        pushed onto the whole tail. func_80041534 advances it by 4;
        func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
        reading DisplayObjectStreamState spells as `current`; and
-       display_object_list_renderers.c copies it into a primitive word.
+       func_80040DD8 and func_80041068 copy it into a primitive word.
 
        s32 serves all of them: a word load and store do not distinguish
        signedness, and the pointer writers cast, as they already do at 0x4C. */
@@ -392,7 +392,7 @@ typedef struct DisplayObject {
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
    D_800F2848 begins. There is no room for a larger record.
 
-   Yet func_80041068 in display_object_list_renderers.c walks this pool
+   Yet func_80041068 walks this pool
    with that stride and then tests e[0x72] as a flag, reading a second
    vertex set from 0x58, 0x64, 0x68 and 0x6C when it is set; and
    func_80042824 in display_object_helpers.c writes object[0x72]. Both
@@ -420,8 +420,8 @@ typedef struct DisplayObject {
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
    That is the same device func_80016784.c uses for its 0x0C colour word, and
-   it is how display_object_list_renderers.c now names every offset it
-   touches except 0x72. */
+   it is how the func_80040DD8 and func_80041068 candidates name every
+   offset they touch except 0x72. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 

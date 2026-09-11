@@ -6,7 +6,7 @@
  */
 #include "../types.h"
 #include "../game/sound.h"
-#include "../game/sound_sequence_marker_scan.h"
+#include "../unmatched.h"
 #include "../game/sound_sequence_reader.h"
 #include "../game/sound_sequence_timing.h"
 #include "../game/sound_sequence_parser.h"

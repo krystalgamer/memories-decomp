@@ -211,12 +211,5 @@ s32 Ai_IsTypeInSet(s32 index);
  * left in the script state's fusion_best_stat, fusion_best_depth and
  * combo_cards, and it returns immediately when fusion_count is zero. */
 void Ai_CompleteFusion(s32 card_id);
-/* ai_card_ranges.c needs the historical widened return declaration; using
- * the definition's s8 type there adds four sign-extension instructions. */
-#ifdef AI_HAND_SIZE_RETURNS_S32
-s32 Ai_GetHandSize(void);
-#else
-s8 Ai_GetHandSize(void);
-#endif
 
 #endif

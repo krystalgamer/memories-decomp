@@ -598,9 +598,11 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * both of which take a voice mask.
  *
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with sound_voice_envelope.c on the plain declaration that unit compiles to
- * 204 bytes of text instead of 200 and the executable stops linking, because
- * .initialized_data then overlaps .text.  Nothing else needs the qualifier.
+ * with sound_voice_envelope.c on the plain declaration that unit compiled to
+ * 204 bytes of text instead of 200 and the executable stopped linking,
+ * because .initialized_data then overlapped .text. Nothing else needs the
+ * qualifier; since #3859 only the func_8004A6F8 and func_8004A764 candidates
+ * define it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
@@ -623,31 +625,26 @@ void SD_SEPlayFull(u32);
 void SD_SEPlay(s32 id, s32 volume, s32 pan);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
-/* Three arguments, and no result: sound_spatialization.c already declared it
-   this way and matched, while two other files carried `extern int
-   SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
-void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
-/* Two per-frame sweeps over the runtime state at D_8009B458, called together
-   by SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
-   sound_sequence_runtime.c. func_8004AAFC
-   walks the 0x28-byte voice records and issues the key-off masks;
-   func_8004C84C counts down each active secondary object's field_001E and
-   clears entries that are inactive or out of channel range. Both took the
-   same spelling in each caller before this. */
-void func_8004AAFC(void);
+/* A per-frame sweep over the runtime state at D_8009B458, called by
+   SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+   sound_sequence_runtime.c together with func_8004AAFC (unmatched.h). It
+   counts down each active secondary object's field_001E and clears entries
+   that are inactive or out of channel range. */
 void func_8004C84C(void);
 
-/* Four more runtime entry points that were each reached through a local
+/* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
-   its position; func_8004A43C refreshes one secondary object's pitch;
-   func_8004A518 rebuilds the voice tables; func_80046A08 dispatches on
-   g_SDValue->field_003C. func_80049BAC.c calls the reset and
-   rebuild functions back to back. */
+   its position; func_80046A08 dispatches on g_SDValue->field_003C.
+   func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
+   which rebuilds the voice tables. func_8004A43C refreshes one secondary
+   object's pitch; it has been a candidate since #3859
+   (src/candidates/func_8004A43C.c), and its one caller is the func_8004AAFC
+   candidate. It stays here rather than in unmatched.h because it takes an
+   SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
-void func_8004A518(void);
 void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *D_8009B458,

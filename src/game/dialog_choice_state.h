@@ -23,13 +23,4 @@
  * caller stores it into a void * slot. */
 u8 *Dialog_OpenChoice(DuelEffectChannel *record);
 
-/* The per-frame half of the same state: Dialog_OpenChoice builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. dialog_choice.h describes the byte the two share.
- *
- * text_box_state_callbacks.c installs it in two adjacent D_80090E64 slots and
- * declared it itself until now -- while already including this header, which
- * is what an incomplete unit header costs. */
-void Dialog_UpdateChoice(DuelEffectChannel *object);
-
 #endif

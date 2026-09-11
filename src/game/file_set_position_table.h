@@ -1,6 +1,0 @@
-#ifndef MEMORIES_DECOMP_FILE_SET_POSITION_TABLE_H
-#define MEMORIES_DECOMP_FILE_SET_POSITION_TABLE_H
-
-void File_SetPositionTable(void);
-
-#endif

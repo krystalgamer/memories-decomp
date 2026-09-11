@@ -24,11 +24,11 @@
  *
  * gDialog_bChoice, the selected index these two are read against, is declared
  * eleven times in four different ways: plain s8, s8 with a .data section
- * attribute, u8 in dialog_read_choice_input.c, and `s8 [9]` in
- * src/candidates/func_80024200.c. The section attribute alone would need a
- * guarded arm, and the array spelling has to be understood before any of it
- * can be shared. It is a bigger question than these two and wants its own
- * change.
+ * attribute, u8 in dialog_read_choice_input.c (now a candidate), and
+ * `s8 [9]` in src/candidates/func_80024200.c. The section attribute alone
+ * would need a guarded arm, and the array spelling has to be understood
+ * before any of it can be shared. It is a bigger question than these two and
+ * wants its own change.
  */
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoiceCount;

@@ -20,7 +20,7 @@
 #include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
 #include "../game/fade.h"
-#include "../game/file_set_position_table.h"
+#include "../unmatched.h"
 #include "../game/func_800136D4.h"
 #include "../game/func_80041340.h"
 #include "../game/graphics_constants.h"
