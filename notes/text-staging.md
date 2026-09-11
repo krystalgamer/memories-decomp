@@ -59,12 +59,15 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- One integrated candidate does reference this family: the password producer
-  `src/candidates/password/func_8016A37C.c`, which reaches it through the
-  shared header rather than a private declaration. The distinction that holds
-  is the contract one. The probe over all 171 entries of
-  `config/slus_01411/candidates.json`, four of which carry a `module` and are
-  the overlay candidates, finds neither `D_801D5608` nor
+- Five build-integrated candidates reference this family, not one:
+  `src/candidates/func_80023144.c`, `func_8002A2F4.c`, `func_8003E854.c`,
+  `func_80060E70.c` and `password/func_8016A37C.c`. The filter is
+  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and each of the five
+  includes `src/game/text_staging.h` and declares nothing privately, so the
+  password producer is one example of the population rather than the whole of
+  it. The distinction that holds is the contract one. The probe over all 171
+  entries of `config/slus_01411/candidates.json`, four of which carry a
+  `module` and are the overlay candidates, finds neither `D_801D5608` nor
   `D_801D5608_starchips` in any entry's canonical contracts, so no entry
   declares either symbol privately; that file does not move when this header
   changes. The password candidate keeps its recorded build and target
