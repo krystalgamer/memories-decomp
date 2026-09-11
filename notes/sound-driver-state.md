@@ -346,16 +346,34 @@ preference. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
-one at a time -- every offset the unit reads (`flags_0040` at 0x40,
+one at a time. Every offset the unit reads -- `flags_0040` at 0x40,
 `command_count` at 0x4C, `field_007C` and `field_007D`, `field_157E`, and
-`commands` at 0x80) asserts at the offset the private struct places it,
-the three halfword widths assert equal, padding the private struct out to
-`SDValue`'s
-0x164C changes nothing, and two spellings of the byte view over the command
-queue give the same moved object as each other. What is left is the shape
-itself: the private struct is byte padding where `SDValue` is typed
-members, and gcc 2.8 marks a member access with the struct it came from.
-Recorded as an open question with its evidence, not as a blocked route.
+`commands` at 0x80 -- asserts at the offset the private struct places it, and
+the three halfword widths assert equal. Padding the private struct out to
+`SDValue`'s 0x164C changes nothing. Giving the private struct alignment 4,
+by writing its leading `u8 pad00[0x40]` as `u32 pad00[0x10]`, changes
+nothing either. And two spellings of the byte view over the command queue
+give the same moved object as each other, which is this project's own tell
+for a wrong axis.
+
+That alignment control was not in the first version of this paragraph. A
+review of the change that added it pointed out that the eliminations ruled
+out offset, width and size but not alignment, and that the explanation
+underneath was therefore a hypothesis carrying one control fewer than it
+claimed. It was, and the control has since been run.
+
+What does move the object, with the offsets, the widths, the size and the
+alignment all equal, is giving the private struct a word-typed member in a
+region the unit never reads: rewriting `u8 pad4E[0x7C - 0x4E]` as eleven
+`u32` plus two `u8` -- the same 0x2E bytes at the same place -- produces a
+third object again, neither the byte-identical one nor the `SDValue` one. So
+the members a struct declares *elsewhere* are a codegen input for accesses
+through it, and that is what the word "shape" is doing in this paragraph.
+
+The measurements stop there. They do not show that this accounts for the
+whole difference between the private struct and `SDValue`, and no mechanism
+inside the compiler is established here. It is a hypothesis with its
+eliminations written down, not a blocked route.
 
 `func_80049138` is a third deliberate exception and is no longer a raw
 view. The global pointer is volatile in that routine, which the unit
