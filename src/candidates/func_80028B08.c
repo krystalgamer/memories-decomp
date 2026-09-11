@@ -2,23 +2,7 @@
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/display_object_projection.h"
 #include "../game/duel_effect_resource_record.h"
-
-typedef struct {
-    u32 field_0;
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
-    s16 field_C;
-    u8 field_E;
-    u8 field_F;
-    u16 field_10;
-    s16 field_12;
-    u32 field_14;
-    u32 field_18;
-    u32 field_1C;
-    u32 field_20;
-} Params;
+#include "../game/sprite_primitive.h"
 
 typedef struct {
     u8 field_0;
@@ -84,7 +68,7 @@ typedef struct {
     u8 field_68;
 } Obj;
 
-extern void func_80042188(Params *, Ctx *, s32, s32, Extra *);
+extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
 
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
@@ -98,7 +82,7 @@ void func_80028B08(Obj *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
     Extra *EXT;
-    Params *PRM;
+    SpritePrim *PRM;
     Ctx *CTX;
     Win *win;
     DuelEffectResourceRecord *rec;
@@ -121,7 +105,7 @@ void func_80028B08(Obj *obj, s32 arg1) {
         return;
     }
     CTX = (Ctx *)0x1F800344;
-    PRM = (Params *)0x1F800320;
+    PRM = (SpritePrim *)0x1F800320;
     EXT = (Extra *)0x1F800398;
     arg = ((win->field_14 - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
@@ -143,49 +127,49 @@ void func_80028B08(Obj *obj, s32 arg1) {
         CTX->field_7 = 0x2C;
     }
 
-    PRM->field_0 = obj->field_4;
-    PRM->x = win->field_30 + 0x13;
-    PRM->w = 0x66;
-    PRM->h = 0x60;
-    PRM->y = win->field_32 + 0x32;
-    PRM->field_14 = win->field_C;
-    *(u32 *)&PRM->field_10 = obj->field_40;
-    *(u16 *)&PRM->field_E = obj->field_5C;
-    PRM->field_C = obj->field_66;
+    PRM->attribute = obj->field_4;
+    PRM->xy.h.x = win->field_30 + 0x13;
+    PRM->extent.wh.w.word = 0x66;
+    PRM->extent.wh.h = 0x60;
+    PRM->xy.h.y = win->field_32 + 0x32;
+    PRM->rgb = win->field_C;
+    *(u32 *)&PRM->cxcy = obj->field_40;
+    PRM->uv.word = obj->field_5C;
+    PRM->tpage = obj->field_66;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     CTX->field_7 = CTX->field_7 | 2;
-    PRM->x = win->field_30 + 0xC;
-    PRM->w = 0x60;
-    PRM->h = 0xE;
-    PRM->field_12 = white;
-    PRM->field_F = PRM->field_F + 0x60;
-    PRM->field_0 = (PRM->field_0 & 0xFEFFFFFF) | 0x60000000;
-    PRM->field_10 = 0x1E0;
-    PRM->y = win->field_32 + 0xE;
+    PRM->xy.h.x = win->field_30 + 0xC;
+    PRM->extent.wh.w.word = 0x60;
+    PRM->extent.wh.h = 0xE;
+    PRM->cxcy.h.cy = white;
+    PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
+    PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
+    PRM->cxcy.h.cx = 0x1E0;
+    PRM->xy.h.y = win->field_32 + 0xE;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     EXT->field_4 = 0;
-    PRM->field_C = 0x1F;
-    PRM->field_10 = PRM->field_10 + 0x10;
-    PRM->x = win->field_30 + obj->field_30;
-    PRM->y = win->field_32 + obj->field_32;
-    *(u32 *)&PRM->w = obj->field_3C;
-    *(u16 *)&PRM->field_E = obj->field_5E;
+    PRM->tpage = 0x1F;
+    PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
+    PRM->xy.h.x = win->field_30 + obj->field_30;
+    PRM->xy.h.y = win->field_32 + obj->field_32;
+    *(u32 *)&PRM->extent = obj->field_3C;
+    PRM->uv.word = obj->field_5E;
     rec = &D_800EA0E8[obj->field_67];
     if (obj->field_68 < 0x14) {
         if (rec->field_3C & 0x80) {
-            PRM->field_12 = PRM->field_12 + 1;
+            PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
         func_80042188(PRM, CTX, arg1, arg, EXT);
-        PRM->field_12 = white;
-        PRM->field_F = PRM->field_F + *(u8 *)&PRM->h;
-        PRM->y = PRM->y + (PRM->h + wrap);
+        PRM->cxcy.h.cy = white;
+        PRM->uv.b.hi = PRM->uv.b.hi + *(u8 *)&PRM->extent.wh.h;
+        PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
         if (rec->field_3C & 0x40) {
-            PRM->field_12 = 0xF9;
+            PRM->cxcy.h.cy = 0xF9;
         }
         func_80042188(PRM, CTX, arg1, arg, EXT);
-        PRM->field_12 = white;
+        PRM->cxcy.h.cy = white;
 
         i = rec->field_32 + rec->field_36;
         if (i >= 10000) {
@@ -198,46 +182,46 @@ void func_80028B08(Obj *obj, s32 arg1) {
         }
         Text_EncodeDecimalDigits(i, 4, buf2);
 
-        PRM->field_F = (PRM->field_F & 0x80) + 0x10;
-        PRM->x = win->field_30 + 0x61;
-        PRM->y = win->field_32 + 0x9D;
-        *(u32 *)&PRM->w = 0x000D0006;
+        PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
+        PRM->xy.h.x = win->field_30 + 0x61;
+        PRM->xy.h.y = win->field_32 + 0x9D;
+        *(u32 *)&PRM->extent = 0x000D0006;
         if (rec->field_3C & 0x80) {
-            PRM->field_12 = 0xF9;
+            PRM->cxcy.h.cy = 0xF9;
         }
         i = 3;
         do {
-            PRM->field_E = buf1[i] * 6 + 0x10;
+            PRM->uv.b.lo = buf1[i] * 6 + 0x10;
             func_80042188(PRM, CTX, arg1, arg, EXT);
-            PRM->x = PRM->x + 6;
+            PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
 
-        PRM->x = win->field_30 + 0x61;
-        PRM->field_12 = white;
-        PRM->y = win->field_32 + 0xAB;
+        PRM->xy.h.x = win->field_30 + 0x61;
+        PRM->cxcy.h.cy = white;
+        PRM->xy.h.y = win->field_32 + 0xAB;
         if (rec->field_3C & 0x40) {
-            PRM->field_12 = 0xF9;
+            PRM->cxcy.h.cy = 0xF9;
         }
         i = 3;
         do {
-            PRM->field_E = buf2[i] * 6 + 0x10;
+            PRM->uv.b.lo = buf2[i] * 6 + 0x10;
             func_80042188(PRM, CTX, arg1, arg, EXT);
-            PRM->x = PRM->x + 6;
+            PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
 
-        PRM->x = win->field_30 + 0x77;
-        PRM->field_10 = 0x1C0;
-        *(u32 *)&PRM->w = 0x00090009;
-        PRM->field_E = 0;
-        PRM->field_12 = white;
-        PRM->y = win->field_32 + 0x20;
+        PRM->xy.h.x = win->field_30 + 0x77;
+        PRM->cxcy.h.cx = 0x1C0;
+        *(u32 *)&PRM->extent = 0x00090009;
+        PRM->uv.b.lo = 0;
+        PRM->cxcy.h.cy = white;
+        PRM->xy.h.y = win->field_32 + 0x20;
         if (rec->field_3A != 0) {
             i = 0;
             do {
                 func_80042188(PRM, CTX, arg1, arg, EXT);
-                PRM->x = PRM->x - 9;
+                PRM->xy.h.x = PRM->xy.h.x - 9;
                 i++;
             } while (i < (s32)rec->field_3A);
         }
@@ -245,13 +229,13 @@ void func_80028B08(Obj *obj, s32 arg1) {
         func_80042188(PRM, CTX, arg1, arg, EXT);
     }
 
-    PRM->x = win->field_30 + 0x6E;
-    *(u32 *)&PRM->w = 0x00100010;
-    PRM->y = win->field_32 + 0xD;
+    PRM->xy.h.x = win->field_30 + 0x6E;
+    *(u32 *)&PRM->extent = 0x00100010;
+    PRM->xy.h.y = win->field_32 + 0xD;
     tile = rec->field_3B << 4;
-    PRM->field_E = tile;
-    PRM->field_F = PRM->field_F & 0x80;
-    PRM->field_12 = 0xFF;
-    PRM->field_10 = win->field_40 + (u8)tile;
+    PRM->uv.b.lo = tile;
+    PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
+    PRM->cxcy.h.cy = 0xFF;
+    PRM->cxcy.h.cx = win->field_40 + (u8)tile;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 }
