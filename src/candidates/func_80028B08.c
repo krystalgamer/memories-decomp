@@ -10,7 +10,6 @@
 #include "../game/display_object_packet_submit.h"
 #include "../game/card_constants.h"
 #include "../ygo_types.h"
-
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
  * differing positions. Scratchpad records must be locals below the entry

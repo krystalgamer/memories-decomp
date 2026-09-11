@@ -7,6 +7,7 @@
 #define FUNC_80013C28_CALLBACK_VIEW
 #include "func_80013C28.h"
 #include "../unmatched.h"
+#undef FUNC_80013C28_CALLBACK_VIEW
 
 /* The first four command-completion callbacks of the asynchronous
    disc-transfer runtime. Each re-issues its command on event 5 and clears the

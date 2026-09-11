@@ -11,6 +11,9 @@
 #include "display_object_updates.h"
 
 #include "ordering_tables.h"
+#define FUNC_80042188_SPRITE_VIEW
+#include "../unmatched.h"
+#undef FUNC_80042188_SPRITE_VIEW
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));

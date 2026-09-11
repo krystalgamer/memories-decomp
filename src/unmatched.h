@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "ygo_types.h"
+#include "game/sprite_primitive.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -31,10 +32,12 @@
  *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
- * A local declaration is not always duplication. Several of these functions
- * are declared incompatibly on purpose, because the declaration is what makes
- * the caller's code generation match:
+ * Several functions need incompatible declarations because the caller-visible
+ * type is what makes code generation match. Those variants still belong here:
  *
+ *   func_8004CB0C   void (s32, s32, s32, s32) in the model candidates and
+ *                   void (void) in model_slot_setup.c; unmatched.h exposes
+ *                   both through a guarded declaration
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
@@ -53,7 +56,7 @@
  *     cannot be fixed. The callee reads $a0, $a1, $a2 and $a3, but this site
  *     sets only $a0. The other three are whatever the register file happened
  *     to hold, so there is no expression to write for them. Its guarded
- *     `void (void)` header arm stays, and is not a mistake.
+ *     `void (void)` header arm is intentional.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local
@@ -74,6 +77,34 @@
  * access survives, or an asm() alias keeping GCC from holding an address
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
+
+/* Load-bearing caller views that cannot share one flat prototype. Consumers
+ * select the declaration they measured before including this header. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
+
+#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW
+void func_80042188(
+    SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra *
+);
+#elif defined(FUNC_80042188_SPRITE_VIEW)
+void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);
+#else
+void func_80042188(s32, u8 *, s32, s32, u8 *);
+#endif
+
+#ifdef FUNC_8004CB0C_NO_ARGUMENTS
+void func_8004CB0C(void);
+#else
+void func_8004CB0C(s32, s32, s32, s32);
+#endif
+
+/* Two consumers, identical spelling in both: func_80049138.c and
+ * sound_init.c. */
+void func_80046294(void);
 
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the

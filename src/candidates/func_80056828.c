@@ -19,8 +19,7 @@
 #include "../psyq/libetc.h"
 #include "../psyq/stdio.h"
 #include "../game/script_state.h"
-#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
-#include "../game/model_slot_setup.h"
+#include "../unmatched.h"
 
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"

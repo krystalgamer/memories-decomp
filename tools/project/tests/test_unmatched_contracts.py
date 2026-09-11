@@ -126,7 +126,7 @@ class UnmatchedContractTests(unittest.TestCase):
                 for error in self.errors())
         )
 
-    def test_exact_local_exception_is_accepted(self) -> None:
+    def test_local_exception_is_rejected_in_favour_of_guarded_header(self) -> None:
         declaration = "void func_test(s32 value);"
         self.write(
             "src/game/caller.c",
@@ -143,9 +143,13 @@ class UnmatchedContractTests(unittest.TestCase):
             ]
         )
 
-        self.assertEqual(self.errors(), [])
+        errors = self.errors()
+        self.assertTrue(any("exceptions are no longer supported" in error
+                            for error in errors))
+        self.assertTrue(any("local declaration of unmatched function func_test"
+                            in error for error in errors))
 
-    def test_exception_declaration_drift_is_actionable(self) -> None:
+    def test_local_exception_drift_remains_actionable(self) -> None:
         self.write(
             "src/game/caller.c",
             "void func_test(u32 value);\nvoid caller(void) { func_test(1); }\n",
@@ -162,8 +166,10 @@ class UnmatchedContractTests(unittest.TestCase):
         )
 
         errors = self.errors()
-        self.assertTrue(any("is not approved" in error for error in errors))
-        self.assertTrue(any("not found exactly" in error for error in errors))
+        self.assertTrue(any("exceptions are no longer supported" in error
+                            for error in errors))
+        self.assertTrue(any("local declaration of unmatched function func_test"
+                            in error for error in errors))
 
     def test_stale_central_declaration_is_rejected(self) -> None:
         self.write_inventory("func_test", "matching_c")
