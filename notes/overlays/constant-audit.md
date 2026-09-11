@@ -125,7 +125,7 @@ genuine semantic work, in rough value order:
    So the bit is texture-derived. **Its consumer is now identified too**, in
    generated assembly rather than in tracked C, which is why an earlier pass
    over `src/` alone concluded there was no reader. No tracked renderer tests
-   it: `display_object_list_renderers.c` and `func_80040588.c` check only
+   it: `display_object_list_renderers.c` and `display_object_core.c` check only
    `DISPLAY_OBJECT_RENDERABLE_MASK`, `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` and
    `DISPLAY_OBJECT_FLAG_CLIP_TEST`.
 
