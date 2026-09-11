@@ -877,6 +877,12 @@
       "source": "src/game/duel_field_display_objects.c"
     },
     {
+      "address": "0x80023D08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2B4",
+      "source": "src/game/func_80023D08.c"
+    },
+    {
       "address": "0x80023FBC",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0xA4",
