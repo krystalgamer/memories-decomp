@@ -454,9 +454,8 @@
       "target": "src/candidates_target/func_80028B08.S",
       "candidate_build_sha256": "6612d6f7624bcc07f04179ae8cba4bedbf04bb64baba0f44b864e2a4b8103bfe",
       "target_bytes_sha256": "fb38e3e28d6d26eaccec138ff5de546f183df0ce2012b07f1513827e2ddc5503",
-      "canonical_contract_sha256": "8fd7e538667d34b61e20b68aaa2c79a138ab4765a0b96845aff54b8eb8c3040e",
+      "canonical_contract_sha256": "4f8c4102a93651f506850d175bf1835f3bf4c5903d3495778ba636a899684458",
       "canonical_contracts": {
-        "D_800EA0E8": "3ce26582e8d2566e405eb13b1f4fcef9f8922c9320d0a0efd71b79c82e9b33ce",
         "func_80042188": "93e66aeb6440982bae204663a5ffcf0bc7beff6a1f0cef99a4555c3e226f3422"
       }
     },
