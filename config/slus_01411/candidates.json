@@ -1140,17 +1140,13 @@
       "target": "src/candidates_target/func_80045514.S",
       "candidate_build_sha256": "7e8468b6a64084d93ae7ad0d80bc9a4e9beb6c199c71b5bacac540e2a518a349",
       "target_bytes_sha256": "65ecc569798a118d91c1481b626d818eb75ed88ab20abac213d6d5b1b46f5356",
-      "canonical_contract_sha256": "aebb3177af23745c04639df22d2996ce890f2fc1601935cd62def01a10c52ce2",
+      "canonical_contract_sha256": "7e41818e2cb5244b82aac33a3932ad57f946d92e5d700a6225896b857d889486",
       "canonical_contracts": {
         "SD_ArmBusyCallback": "b348a2085280526e9a03e7da0c282457894afb8f92f9c82279161e3af67d5c35",
         "func_80045484": "e38e7ad8518b3e844c03e96da97ceaf3e86cab781ad8ce2caf7d696bc3096ea0",
         "func_800476B4": "bda04f3ef5ea16e4b705f319fecd0d18ca3dece6b1d603d26ed196124a68d5a7",
         "func_80049A64": "fc530cf23f5eed5a82824ae7ea62f7161b06e7cbcdba595f24ad5df49fb19ea1",
-        "func_80049AF4": "dcfe80a113bc0a8d20c5baf5a0a6921d5b8347e6cf5cc9ad0ada2cb1ed872fbc",
-        "func_80049C40": "018437f5565920d92b2ee944d39b9e586a4c179f7fcda412a145be6eb2f633e7",
-        "func_80049CB0": "2ae6ab8bfc6493be63b2ad4445ff60f3937322d284f3807335149aaf1687686e",
-        "func_80049F10": "4212982017d56bf14fa63255e5381017657641b0d8f19accef31992570f2c7cc",
-        "g_SDValue": "a8a99ad8e22b875bb7bea8945d7340bb40cc65aa224f03561bea5559bcc2861f"
+        "func_80049AF4": "dcfe80a113bc0a8d20c5baf5a0a6921d5b8347e6cf5cc9ad0ada2cb1ed872fbc"
       }
     },
     {

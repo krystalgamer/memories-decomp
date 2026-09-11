@@ -733,9 +733,10 @@ void func_80049CB0(void);
 void SD_SetOutputType(s16);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
- * 2. SD_UpdateFades (src/candidates/func_80045C98.c) is the only caller and
- * passes the same value twice; it declared this itself before, in the same
- * s16 pair the definition takes. */
+ * 2. SD_UpdateFades (src/candidates/func_80045C98.c) passes the same value
+ * twice; it declared this itself before, in the same s16 pair the definition
+ * takes. It is not the only caller -- func_80045514.c calls it with two
+ * literal zeros, and used to declare it as an s32 pair of its own. */
 void func_80049F10(s16 first, s16 second);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
