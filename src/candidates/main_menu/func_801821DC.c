@@ -29,6 +29,7 @@
 #include "../../game/func_80061008.h"
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
+#include "../../unmatched.h"
 
 extern s32 D_80180000[];
 extern MainMenuState D_801A8000[];
@@ -39,7 +40,6 @@ extern u8 D_80185CC8[2];
 extern u8 D_80185CCA[2];
 extern u8 D_80185CCB;
 extern u8 D_80185CCC[2];
-extern u8 D_800EB224[];
 
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 

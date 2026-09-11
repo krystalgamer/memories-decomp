@@ -407,6 +407,20 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     f"{name} is not approved: {statement}"
                 )
 
+    candidate_data_sites = 0
+    for source in sorted((root / "src/candidates").rglob("*.c")):
+        relative = source.relative_to(root).as_posix()
+        for name, statement in extern_object_declarations(
+            read_text(source), linker
+        ):
+            candidate_data_sites += 1
+            local_data[name].append((relative, statement))
+            if name in central_data:
+                errors.append(
+                    f"{relative}: local declaration of central unmatched data "
+                    f"{name} is not approved: {statement}"
+                )
+
     for source, name, statement in sorted(approved - found_approved):
         errors.append(
             f"{EXCEPTIONS}: configured exception not found exactly: "
@@ -494,6 +508,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         "central_data": len(central_data),
         "local_data_names": len(local_data),
         "local_data_sites": sum(len(sites) for sites in local_data.values()),
+        "candidate_data_sites": candidate_data_sites,
         "headerless_data": len(headerless_data),
         "headerless_data_sites": sum(
             len(local_data[name]) for name in headerless_data
@@ -528,7 +543,8 @@ def main() -> int:
         f"{stats['referenced_names']} referenced names; "
         f"{stats['central_data']} central data, "
         f"{stats['headerless_data']} headerless data/"
-        f"{stats['headerless_data_sites']} sites)"
+        f"{stats['headerless_data_sites']} sites, "
+        f"{stats['candidate_data_sites']} candidate sites)"
     )
     return 0
 

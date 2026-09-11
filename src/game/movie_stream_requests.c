@@ -4,9 +4,7 @@
 #include "func_8005B8A0.h"
 #include "movie_stream_requests.h"
 #include "movie_stream_ranges.h"
-#include "../external_funcs.h"
-
-extern u8 D_800F5750[];
+#include "../unmatched.h"
 
 s32 func_8005C464(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 {

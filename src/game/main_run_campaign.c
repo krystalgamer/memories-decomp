@@ -6,9 +6,8 @@
 #include "script_run_tick.h"
 #include "sound.h"
 #include "campaign_scene_package.h"
-
-extern u8 D_8009B26C;
-extern u8 gCampaignSceneIndex __attribute__((section(".data")));
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void Main_RunCampaign(void) {
     u8 flags = D_8009B26C;
