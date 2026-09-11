@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "color_constants.h"
 #include "model_slot_setup.h"
 #include "func_8004D914.h"
 #include "func_800582C0.h"
@@ -16,10 +17,10 @@
    assembly again.
 
    They are one initializer and its consumer. The reset writes the mode byte
-   at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the halfword at
-   +0xE0A as 0x1000 and the busy byte at +0xE1F as 0; the layout pass switches
-   on that same +0xE16 (0x3E is one of its three cases), reads +0xE0C, +0xE0D
-   and +0xE0A back, and sets +0xE1F to 1. */
+   at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the colour scale
+   at +0xE0A as COLOR_FIXED_ONE and the busy byte at +0xE1F as 0; the layout
+   pass switches on that same +0xE16 (0x3E is one of its three cases), reads
+   +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
 
 void func_8004CB0C(void);
 
@@ -46,7 +47,7 @@ void func_8005611C(s32 arg0)
     p->field_E0D = 8;
     p->field_E14 = 0xFF;
     p->field_DC0[3] = 0;
-    *(s16 *)&p->field_E0A = 0x1000;
+    *(s16 *)&p->field_E0A = COLOR_FIXED_ONE;
     p->field_E1D = 0;
     p->field_DFE = arg0;
     p->field_DFF = 0;
