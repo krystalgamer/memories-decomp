@@ -235,6 +235,12 @@
       "source": "src/game/func_800151B0.c"
     },
     {
+      "address": "0x800151D8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x138",
+      "source": "src/game/fade_step_bands.c"
+    },
+    {
       "address": "0x800154E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D4",
@@ -2269,6 +2275,12 @@
       "source": "src/game/duel_effect_command.c"
     },
     {
+      "address": "0x80038334",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x54",
+      "source": "src/game/func_80038334.c"
+    },
+    {
       "address": "0x80038388",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
@@ -3797,6 +3809,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x9C",
       "source": "src/game/sound_voice_selection.c"
+    },
+    {
+      "address": "0x80047C50",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x20",
+      "source": "src/game/func_80047C50.c"
     },
     {
       "address": "0x80047C70",

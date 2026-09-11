@@ -115,7 +115,7 @@ typedef struct DuelEffectChannel {
        as a word index rather than an offset: every reader scales it by four.
        TextBox_BuildStep advances the selected pointer past each opcode it
        consumes, and duel_effect_object_commands.c and
-       src/candidates/func_80038334.c reach the same slot the same way. Signed
+       func_80038334.c reach the same slot the same way. Signed
        because all three read it through an s8. */
     s8 stream_58;
     u8 field_59;
