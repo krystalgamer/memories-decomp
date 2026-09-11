@@ -1,6 +1,5 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define TEXT_STAGING_AS_PAIR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -99,8 +98,10 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     if (index != 0) {
         param = 12;
         base = (SaveDataWorkspace *)D_801D0000;
-        D_801D5608.lo = (s16)base->state.duelist_records[index].result.wins;
-        D_801D5608.hi = (s16)base->state.duelist_records[index].result.losses;
+        D_801D5608[0].pair.lo =
+            (s16)base->state.duelist_records[index].result.wins;
+        D_801D5608[0].pair.hi =
+            (s16)base->state.duelist_records[index].result.losses;
     }
     TextBox_Create(0, param, 16, 204, 288, 16);
     func_80039A60(panel);

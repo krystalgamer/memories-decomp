@@ -23,9 +23,9 @@ Every named scalar in the resident views remains `s32`.
 | `func_8002BFCC` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
 | `MemCardDialog_UpdateSave` in `mem_card_dialog_load_save.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
 | `SaveData_UpdateDuelLoad` in `save_data_transfer_runtime.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
-| `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values, keeping its existing `s32 [16][DUEL_SIDE_COUNT]` declaration, side-first pointer walk, and scoring order. |
-| `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned `Pair` view. |
-| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `Pair`; the starchip renderer uses the existing signed scalar alias. Neither becomes a resident card/count interpretation. |
+| `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
+| `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
+| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer uses the existing signed scalar alias. Neither becomes a resident card/count interpretation. |
 
 The union's `0x80` size comes from the rank producer's existing table, not an
 inferred allocation boundary. Assertions also cover the named members at
@@ -36,10 +36,19 @@ explains why these are not persistent ATK/DEF globals.
 
 ## Retained addressing and contract boundaries
 
-- `TEXT_STAGING_AS_RANK_ROWS` selects the rank producer's original table.
-  `TEXT_STAGING_AS_PAIR` selects the two overlays' original `Pair` scalar.
-  `TEXT_STAGING_STARCHIPS_ALIAS` exposes only the password source's existing
-  `D_801D5608_starchips` alias; its assembler identity is still `D_801D5608`.
+- `TEXT_STAGING_AS_RANK_ROWS` and `TEXT_STAGING_AS_PAIR` are gone. Both
+  selected a spelling the union already carries as a member, `rank_rows` and
+  `pair`, and neither was separated from it by addressing: the rank table and
+  the union are both outside small data at -G8, and the two `Pair` consumers
+  compile at `gcc_2_8_1_g0_split`, whose `compiler_flags` and `maspsx_flags`
+  in `config/slus_01411/compiler_profiles.json` both carry `-G0`. Written
+  through the members, the resident SHA-256 and all five overlay images are
+  unchanged. `TEXT_STAGING_STARCHIPS_ALIAS` remains and exposes only the
+  password source's existing `D_801D5608_starchips` alias; its assembler
+  identity is still `D_801D5608`. The `#define` for it in
+  `src/candidates/password/func_8016A37C.c` is inert -- a word-bounded grep
+  finds the alias used only in `src/overlays/password/shop.c` -- and is left
+  in place because that consumer is in an open pull request.
 - The default remains an incomplete array, preserving its small-data
   classification. No tentative definitions, `.data` attributes, pins, compiler
   profiles or grouped function order are added, removed or relocated.
@@ -50,11 +59,19 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- No integrated candidate references this family. All nineteen candidate
-  fingerprints and dependency metadata remain unchanged. The indirect text
-  number reader (`func_80038148` via `func_80036D70`) retains its integer
-  address boundary; the producer views do not establish a universal pointee
-  type for that general script operand.
+- One integrated candidate does reference this family: the password producer
+  `src/candidates/password/func_8016A37C.c`, which reaches it through the
+  shared header rather than a private declaration. The distinction that holds
+  is the contract one. The probe over all 171 entries of
+  `config/slus_01411/candidates.json`, four of which carry a `module` and are
+  the overlay candidates, finds neither `D_801D5608` nor
+  `D_801D5608_starchips` in any entry's canonical contracts, so no entry
+  declares either symbol privately; that file does not move when this header
+  changes. The password candidate keeps its recorded build and target
+  fingerprints and its other dependency contracts. The indirect text number
+  reader (`func_80038148` via `func_80036D70`) retains its integer address
+  boundary; the producer views do not establish a universal pointee type for
+  that general script operand.
 
 ## Tick389 measurement
 

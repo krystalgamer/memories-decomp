@@ -58,19 +58,23 @@ typedef char TextStagingValues_invalid_side_offset_must_be_0x40[
         ? 1 : -1
 ];
 
-/* Keep the incomplete-array addressing arm for resident message producers.
- * Only element zero is a view; this does not assert an array of allocations.
- * The rank producer and overlays retain their measured table/scalar forms. */
-#if defined(TEXT_STAGING_AS_PAIR) && defined(TEXT_STAGING_AS_RANK_ROWS)
-#error Select only one text staging declaration view
-#endif
-#if defined(TEXT_STAGING_AS_PAIR)
-extern Pair D_801D5608;
-#elif defined(TEXT_STAGING_AS_RANK_ROWS)
-extern s32 D_801D5608[16][DUEL_SIDE_COUNT];
-#else
+/* One declaration. Only element zero is a view; this does not assert an
+ * array of allocations, and the incomplete array is what keeps the symbol
+ * outside small data for the resident producers.
+ *
+ * The rank producer and the two overlay producers used to select their own
+ * spellings of this address, `s32 [16][DUEL_SIDE_COUNT]` and `Pair`. Both are
+ * already members of the union above, `rank_rows` and `pair`, and nothing
+ * separated them from it: the rank table is 128 bytes against the union's
+ * 0x80 and both are outside small data at -G8, while the two Pair consumers
+ * compile at gcc_2_8_1_g0_split, whose compiler_flags and maspsx_flags both
+ * carry -G0, so eight bytes cannot classify differently there either.
+ * Written through the members, the retail SHA-256 and all five overlay
+ * images are unchanged.
+ *
+ * The starchip alias below is the one spelling left apart. `library_count` at
+ * offset 0 is the same word, but its consumer is not touched here. */
 extern TextStagingValues D_801D5608[];
-#endif
 
 #ifdef TEXT_STAGING_STARCHIPS_ALIAS
 extern s32 D_801D5608_starchips asm("D_801D5608");
