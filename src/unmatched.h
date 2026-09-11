@@ -158,6 +158,17 @@ extern u8 D_801AF000[];
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
+/* One consumer, func_8004E9A0.c. The four contiguous halfwords at
+ * 0x8009B468..0x8009B46E are filled as a RECT before MoveImage, while
+ * D_800F569F is only indexed at zero as the animation gate. Their linker
+ * assignments establish storage but no subsystem header owns them, so their
+ * existing declarations move here without assigning broader semantics. */
+extern s16 D_8009B468;
+extern s16 D_8009B46A;
+extern s16 D_8009B46C;
+extern s16 D_8009B46E;
+extern u8 D_800F569F[];
+
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names D_8009B11C
  * immediately after it, so no element can hide inside. Fifteen files declared
  * it identically as `extern s32 D_8009B118;`, which is why it can move here
