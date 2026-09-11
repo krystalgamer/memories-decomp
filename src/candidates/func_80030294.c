@@ -8,13 +8,10 @@
  */
 #define FRONTEND_DEBUG_ROW_VIEWS
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../game/debug_font_format_data.h"
 #include "../game/frontend_debug_state.h"
 #include "../unmatched.h"
-
-typedef struct {
-    u8 b[8];
-} Blk8;
 
 extern u8 D_8009AF4C[];
 
@@ -49,7 +46,7 @@ s32 func_80030294(void)
     s32 d;
     u8 *text;
 
-    *(Blk8 *)masks = *(Blk8 *)D_8009AF4C;
+    *(Bytes8 *)masks = *(Bytes8 *)D_8009AF4C;
     ret = 0;
     row = (s8)D_8009B2DC;
     flags = D_8009B2EA;

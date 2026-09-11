@@ -6,7 +6,7 @@
  *
  * Scratchpad pointers are initialized after the early guard, typed bases
  * preserve the retail address mix, the model Y rotation is intentionally
- * recomputed, and Blk8 assignments produce the unaligned corner copies. The
+ * recomputed, and Bytes8 assignments produce the unaligned corner copies. The
  * four inline rtps words are byte-identical; the sprite base remains a
  * compiler operand rather than a named register.
  *
@@ -15,14 +15,11 @@
  * literal zero. The remaining work is source shape and scheduling.
  */
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../game/ordering_tables.h"
-
-typedef struct {
-    u8 b[8];
-} Blk8;
 
 typedef struct {
     void *model;
@@ -101,10 +98,10 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     RotTransSV(&q[2], &rot[2], (long *)depth);
     RotTransSV(&q[3], &rot[3], (long *)depth);
 
-    *(Blk8 *)&cpy[0] = *(Blk8 *)&rot[0];
-    *(Blk8 *)&cpy[1] = *(Blk8 *)&rot[1];
-    *(Blk8 *)&cpy[2] = *(Blk8 *)&rot[2];
-    *(Blk8 *)&cpy[3] = *(Blk8 *)&rot[3];
+    *(Bytes8 *)&cpy[0] = *(Bytes8 *)&rot[0];
+    *(Bytes8 *)&cpy[1] = *(Bytes8 *)&rot[1];
+    *(Bytes8 *)&cpy[2] = *(Bytes8 *)&rot[2];
+    *(Bytes8 *)&cpy[3] = *(Bytes8 *)&rot[3];
 
     GsSetLightMatrix(lm);
     GsSetLsMatrix((MATRIX *)D_800FE148);

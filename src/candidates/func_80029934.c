@@ -7,6 +7,7 @@
  * same ninth saved register.
  */
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/inline_c.h"
@@ -22,10 +23,6 @@ extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
 extern MATRIX D_800FE148;
 extern s16 D_800EA1E8[];
 extern u8 D_80181000[];
-
-typedef struct {
-    u8 b[8];
-} Blk8;
 
 void func_80029934(void)
 {
@@ -57,7 +54,7 @@ void func_80029934(void)
     arg = (s32)D_800E9D9C;
     GsSetLsMatrix(&D_800FE148);
 
-    *(Blk8 *)par = *(Blk8 *)D_80181000;
+    *(Bytes8 *)par = *(Bytes8 *)D_80181000;
 
     prim[3] = 7;
     *(s32 *)(prim + 4) = 0;
