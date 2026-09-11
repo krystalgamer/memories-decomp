@@ -579,7 +579,7 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * that held them, comments included, and headers that held nothing else are
  * gone. The contract check accepts this home or the former unit header, but
  * not both. func_8004A764 is called only by the func_8004A518 candidate and
- * is declared here for it. Fade_Update is also declared here.
+ * is declared here for it.
  * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
@@ -595,10 +595,6 @@ struct DuelRitualResult;
 /* Fills the file position table. Its one caller is the boot-time start-up
  * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
 void File_SetPositionTable(void);
-
-/* The per-frame fade stepper, run by fade_runtime.c's overlay callback on
- * the fade record it builds. */
-void Fade_Update(FadeTransitionState *);
 
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
