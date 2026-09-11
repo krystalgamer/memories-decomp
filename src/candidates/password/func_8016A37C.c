@@ -36,6 +36,7 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"
+#define D_8009B26C_AS_SCALAR
 #include "../../unmatched.h"
 
 /* The password shop screen: its two resident entry points, the preview
@@ -59,9 +60,6 @@ extern u8 D_800EA0E8[];
 extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
-extern u8 D_8009B269;
-extern u8 D_8009B26C;
-
 void Password_UpdateShopScreen(void)
 {
     PasswordCursorView *cursor;

@@ -26,15 +26,15 @@
 #include "../game/display_object_interpolation.h"
 #include "../game/script_state.h"
 #include "../game/main_services.h"
+#define D_8009B34C_IN_DATA
+#define D_8009B269_AS_SCALAR_DATA
+#define D_8009B26C_AS_SCALAR_DATA
+#define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
 #include "../game/dialog_read_choice_input.h"
 #include "../game/func_8002EE94.h"
 #include "../game/duel_effect_mark_object_if_active.h"
 
-extern u8 gCampaignSceneIndex;
-extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_8009B26C __attribute__((section(".data")));
-extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);

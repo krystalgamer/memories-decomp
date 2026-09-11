@@ -15,6 +15,8 @@
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
 #include "util_memory.h"
+#define D_80177EA4_VISIBLE
+#include "../unmatched.h"
 
 /* The combined-deck producer and one duel card record's lifecycle, in address
    order. Duel_PopulateCombinedDeckData builds the deck records and copied card
@@ -82,7 +84,6 @@ void func_80024954(DuelCardRecord *object)
 
 extern u8 gDuel_bTerrain[];
 /* Same byte, distinct compiler identity: keep both address materializations. */
-extern u8 gDuel_bTerrainCodegenAlias[];
 
 s32 Duel_GetTerrainBoost(s32 cardType)
 {
@@ -97,8 +98,6 @@ s32 Duel_GetTerrainBoost(s32 cardType)
 
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
-extern RECT D_80177EA4[];
-extern u8 D_8018C7D8[];
 
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;

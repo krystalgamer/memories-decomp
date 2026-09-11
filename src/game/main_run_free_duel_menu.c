@@ -10,9 +10,9 @@
 #include "main_modes.h"
 #include "fade.h"
 #include "sound.h"
+#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
 #include "high_memory_addresses.h"
 
 void Main_RunFreeDuelMenu(void) {

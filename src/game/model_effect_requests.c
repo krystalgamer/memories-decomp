@@ -3,8 +3,7 @@
 #include "model.h"
 #include "model_transfer_flags.h"
 #include "model_effect_requests.h"
-
-extern s16 D_800F2B22;
+#include "../unmatched.h"
 
 void func_80059EBC(s32 value)
 {

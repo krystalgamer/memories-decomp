@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "view_state.h"
 #include "func_80022D94.h"
+#include "../unmatched.h"
 
 void func_80022D94(int frames,int x,int z,int y,int value)
 {

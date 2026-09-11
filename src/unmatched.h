@@ -14,16 +14,14 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 203 such
- * functions today. Sixty-nine have their declarations here. Ninety-nine
- * are build-integrated candidates that keep theirs in the header of the unit
- * they came from: src/candidates/ still gives each of them a defining C
- * translation unit, so that header is a home in the sense this one is not
- * (see the #3859 sections at the end). Three remain local at five sites, and
- * all three are the deliberate disagreements listed below rather than
- * duplication waiting to be moved. The remaining thirty-two have no
- * executable reference from matching C, so this header does not invent
- * signatures for them.
+ * unmatched_asm, once its consumers are known to agree. Build-integrated
+ * candidates keep function declarations in the header of the unit they came
+ * from: src/candidates/ still gives each of them a defining C translation
+ * unit, so that header is a home in the sense this one is not (see the #3859
+ * sections at the end). The remaining local function declarations are
+ * deliberate disagreements listed below rather than duplication waiting to
+ * be moved. `make check-unmatched-contracts` prints the current counts and
+ * rejects new unaccounted declaration sites.
  *
  * Hand-written assembly belongs here on the same terms. The status differs but
  * the reason does not: handwritten_asm functions have no defining C
@@ -415,11 +413,13 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * func_8002EE94.c also clears it, spelled with a .data section attribute
- * because it addresses the byte outside small data. It does not include this
- * header, so the two never meet and no guarded arm is needed here; if it ever
- * does, that is what would go in. */
+ * The func_8002EE94 candidate also clears it, spelled with a .data section
+ * attribute because it addresses the byte outside small data. */
+#ifdef D_8009B34C_IN_DATA
+extern u8 D_8009B34C __attribute__((section(".data")));
+#else
 extern u8 D_8009B34C;
+#endif
 
 /* Linker-resolved data whose matching-C consumers already share this header.
  *
@@ -659,5 +659,147 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
+
+/* An AI script opcode, installed by ai_script_commands.c's table. */
+void AiScript_CountCards(void);
+
+/* Unmatched linker data consumed by matching C. These declarations preserve
+ * the existing caller types. The guarded arms are measured code-generation
+ * differences: scalar small-data access, array/address access, explicit
+ * .data placement, and pointer arithmetic are not interchangeable here. */
+extern u8 D_80010538[];
+extern u8 D_800107A8[];
+extern u8 D_800107DC[];
+extern u8 D_800107F4[];
+extern char D_800118AC[];
+extern char D_800118CC[];
+extern char D_800118E4[];
+extern s32 D_8009B0A4;
+extern s32 D_8009B0B0;
+extern s32 D_8009B0BC;
+extern s32 D_8009B0D4;
+extern u8 D_8009B152;
+#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
+extern DisplayObject *D_8009B188;
+extern DisplayObject *D_8009B18C;
+#endif
+extern s16 D_8009B1A0;
+#ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
+extern DisplayObject *D_8009B1CC;
+extern DisplayObject *D_8009B1F8;
+#endif
+#ifdef D_8009B204_AS_UNSIGNED
+extern u16 D_8009B204;
+#else
+extern s16 D_8009B204;
+#endif
+extern u16 D_8009B244;
+extern u8 D_8009B248;
+extern u8 D_8009B24A;
+extern u8 D_8009B261;
+#ifdef D_8009B264_VISIBLE
+extern DuelEffectRequest *D_8009B264;
+#endif
+
+#ifdef D_8009B269_AS_SCALAR_DATA
+extern u8 D_8009B269 __attribute__((section(".data")));
+#elif defined(D_8009B269_AS_ARRAY)
+extern u8 D_8009B269[];
+#else
+extern u8 D_8009B269;
+#endif
+
+#ifdef D_8009B26C_AS_SCALAR_DATA
+extern u8 D_8009B26C __attribute__((section(".data")));
+#elif defined(D_8009B26C_AS_SCALAR)
+extern u8 D_8009B26C;
+#else
+extern u8 D_8009B26C[];
+#endif
+
+#ifdef D_8009B2F8_AS_ARRAY
+extern u8 D_8009B2F8[];
+#else
+extern u8 D_8009B2F8;
+#endif
+extern s16 D_8009B322;
+extern u8 D_8009B324;
+extern u8 D_8009B325;
+extern s8 D_8009B32C;
+#ifdef D_8009B344_IN_DATA
+extern u8 D_8009B344 __attribute__((section(".data")));
+#else
+extern u8 D_8009B344;
+#endif
+extern u16 D_8009B348[2];
+#ifdef D_8009B370_AS_BYTE_ARRAY
+extern u8 D_8009B370[];
+#else
+extern u16 D_8009B370;
+#endif
+extern u16 D_8009B372;
+extern u16 D_8009B374;
+extern u16 D_8009B3CC;
+extern u8 D_8009B3CF;
+extern u8 D_8009B3DD;
+
+#ifdef D_8009B3E0_AS_POINTER
+extern void *D_8009B3E0;
+#else
+extern u32 D_8009B3E0;
+#endif
+
+#ifdef D_8009B_MODEL_VISIBLE
+extern ModelBytes8 D_8009B480;
+extern s16 D_8009B488[MODEL_SLOT_COUNT];
+#endif
+extern u8 D_800E9ECE[];
+extern u8 D_800E9ECF[];
+extern s8 D_800EA02F[];
+extern u8 D_800EB224[];
+
+#ifdef D_800EAE88_VISIBLE
+#ifdef D_800EAE88_AS_BYTES
+extern u8 D_800EAE88[];
+#else
+extern AiSelection D_800EAE88;
+#ifdef D_800EAE88_AS_SELECTION_AND_BYTES
+extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
+#endif
+#endif
+#endif
+
+extern u8 D_800EAE8E[];
+extern u8 D_800EAE8F;
+extern u8 D_800EF6E0[];
+extern s16 D_800F2B22;
+extern u8 D_800F39B0[];
+extern u8 D_800F39F0[];
+extern s32 D_800F56FC[];
+extern u8 D_800F5750[];
+#ifdef D_80177EA4_VISIBLE
+extern RECT D_80177EA4[];
+#endif
+extern u8 D_8018C7D8[];
+#ifdef D_801AB00C_VISIBLE
+extern AiActiveCard D_801AB00C[];
+#endif
+extern u8 D_801B122B[];
+extern u8 D_801B1238[];
+extern u8 D_801D160C[];
+extern u8 D_801D1880[];
+extern u8 D_801D9174[];
+extern u8 D_801D9174_b[];
+extern u8 D_801E27F8 __attribute__((section(".data")));
+extern u8 D_801E8FF8 __attribute__((section(".data")));
+#ifdef GCAMPAIGN_SCENE_INDEX_AS_ARRAY
+extern u8 gCampaignSceneIndex[];
+#elif defined(GCAMPAIGN_SCENE_INDEX_AS_SCALAR)
+extern u8 gCampaignSceneIndex;
+#else
+extern u8 gCampaignSceneIndex __attribute__((section(".data")));
+#endif
+extern u8 gDuel_bTerrainCodegenAlias[];
+extern u8 gFile_szSuMrgPath[];
 
 #endif

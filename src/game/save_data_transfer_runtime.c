@@ -17,12 +17,10 @@
 #include "two_player_save_setup.h"
 #include "text_staging.h"
 #include "util_memory.h"
+#define D_8009B3E0_AS_POINTER
 #include "../unmatched.h"
 
 extern u8 D_801D2200[];
-extern u8 D_801D160C[];
-extern u8 D_801B122B[];
-extern u8 D_801B1238[];
 
 /* The complete single-player and two-player save-transfer runtime. The first
    three functions request, poll, apply, build, and write the resident save;
@@ -255,9 +253,6 @@ s32 SaveData_UpdateDuelLoad(void)
     }
     return result;
 }
-
-extern u8 D_801D1880[];
-extern void *D_8009B3E0;
 
 void SaveData_RequestTradeWrite(void)
 {

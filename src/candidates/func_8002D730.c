@@ -20,8 +20,7 @@
 #include "../game/sound.h"
 #include "../game/main_services.h"
 #include "../game/options.h"
-
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C950();}if(func_8003CA5C()==0){unsigned char v;SD_BGMFadeOut();Fade_WaitOut();v=D_8009B269;__asm__ volatile("nop");D_8009B26C=v;if(v){D_8009B268=1;D_8009B26D=0;D_8009B26C=8;longjmp(D_800E9DC0,1);}}}

@@ -135,16 +135,13 @@
         "D_8009B17C": "988037eb761528c6d5f156dcde5695ebfa15683613416d68e5c934e0ac0172aa",
         "D_8009B1B4": "c80aa42785e440be2f65645b65d790bc4e72644f95864498c901046bbdab2fd0",
         "D_8009B1B9": "0ae591c9e8b31db123c02c558ae4b48dac0bc9929085aa831e40b99d09bc1647",
-        "D_8009B1D0": "c5d26544ef9e56ca56808431637dcff58f3157f2ad9463a015f370dd056a99ee",
         "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f",
         "D_8009B214": "2463f580e5f578ad222467ddd85858753602a6431c28ad312e3520a5c550034b",
         "D_8009B21C": "0051befd17509fde6fb74fc51e78cd6a81f932d8c3498282957c749f48b01240",
-        "D_8009B23A": "11af64fe9c894b42b7e5bc8afaafe78710739c45feece440551251bc560d7912",
         "D_8009B260": "65025e87329e975d9e0c63f0b7ccde697134970e7444fdb6c3c81ddecd72fa39",
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
         "D_8009B369": "6e803257c7f998856e40c8b71f8eabe95b64257a893f961575b0e4ebe7b401f5",
-        "D_800E9ECF": "584613df146f36bd540bd389530894f62ba669e15ea8665d898c8e6df72984d3",
         "D_800E9F04": "e6188a97141f47c41adf1b6dccfe4b80a7ba9f0cbb98e01493a0daba518d2ae5",
         "D_800E9F10": "4bd698efb2d4cfa01d760935b7af43eb27da81183064d7b98443c20cceedda58",
         "D_800E9FF0": "84aed827565a49a82d0aa6a5bd4db93d6620398cd1868c79b8ca714839f6f7e7",
@@ -186,10 +183,8 @@
       "target": "src/candidates_target/func_8001BAF0.S",
       "candidate_build_sha256": "1bd9373943cbc76c9cc5609909f7ddcc532ffcd6d537b70633fc2ee0f4f37568",
       "target_bytes_sha256": "3457751291f729ccd7a84b29203a153240420e379e80c25309cb1aba4518b345",
-      "canonical_contract_sha256": "4abf39651e18742e4474114571570decb7a702d25e6da51703734fca6663de70",
-      "canonical_contracts": {
-        "D_800EAE88": "aeca9fcf3772be39140341b7190a64276a76ebe5d16fa43889ad0ff9b84168b6"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x80023090",
@@ -264,12 +259,11 @@
       "target": "src/candidates_target/func_800279BC.S",
       "candidate_build_sha256": "97c1d5a5e42e3aa64bd443fa792e8d77a0d01b8fb5f0ab9b5afee34262683581",
       "target_bytes_sha256": "1ed0f0dfe1f5f4789c75bb80409302f1ef045844cad283c4f7670323dcec7767",
-      "canonical_contract_sha256": "99ee68adc6887827a59bde2562954747972cdd1af7d1124105265e52c7fa9cf3",
+      "canonical_contract_sha256": "038acef3f0aa7f811d2b678c0a5886dd6aac93339b324838111c63d8980ced2f",
       "canonical_contracts": {
         "D_800907D8": "5f4843cfcf7eee45899cddb0a99df93d2dfa66741d364fd706eeeac064586db6",
         "D_8009B1C8": "cb2023a8b8441e61d8eaea81c06cd6d4d8b0b78abe10a20bcf14995174c5dfb0",
-        "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f",
-        "D_800EAE88": "aeca9fcf3772be39140341b7190a64276a76ebe5d16fa43889ad0ff9b84168b6"
+        "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f"
       }
     },
     {
@@ -282,7 +276,6 @@
       "canonical_contract_sha256": "0c9aac3293c53a3a3a953e14f43cf333a351f2f75133fa1467aed98f2f0eedc9",
       "canonical_contracts": {
         "D_8009B240": "2f493901be5e38e6509b86fe5191666577ec9c58244816142e7adabf7dbc8550",
-        "D_8009B248": "3f8ce69ab83491391ebf84c9f615686fae3549c22c448e99ee39e3e9e0dcb355",
         "D_8009B24C": "f7b5ab97459da7770f883d6311e3d7550045a18d834fbfacf4742e219923781d",
         "D_8009B250": "fd559e9f631c3a8b9a8d5c44358ca042985ec4289562d6ffe618491f584d0538",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1"
@@ -523,7 +516,8 @@
       "canonical_contract_sha256": "aa119a03e6c80979be6f5b0b6da2f14193c41c259e9722560e250a2e76630a12",
       "canonical_contracts": {
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
-        "D_8009B374": "825e27fb80cf393088781661e715f0b1ffb902a4e5096c2f8d6dbb3a37c90911"
+        "D_8009B374": "825e27fb80cf393088781661e715f0b1ffb902a4e5096c2f8d6dbb3a37c90911",
+        "gDuel_bTerrain": "999d597180fbbf8f1dd714e0725ebd80279b049404641f60e32b6c40272aa238"
       }
     },
     {
@@ -932,9 +926,8 @@
       "target": "src/candidates_target/func_80056828.S",
       "candidate_build_sha256": "9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b",
       "target_bytes_sha256": "158a0dccd60747cf15169c6dff4cd2174067a58d6d8f14d3c3f45e350d4dcb26",
-      "canonical_contract_sha256": "6fe0df3bbc1c9207bce541d5117224b0d055902b949bc8192f93ab1411bd71a6",
+      "canonical_contract_sha256": "c136aba040041c271e511ae12d7be71908ade1d1e1e5ccbe252deea6d1c83a0d",
       "canonical_contracts": {
-        "D_80010538": "36e960796219710e447c98c1ecd73e2d5c50997fb7860f1fc43aa538325a72df",
         "func_8004CB0C": "2931cecc509a878337584567c337fe6433c23ed5dab7880b2e477d678ab04ea2"
       }
     },

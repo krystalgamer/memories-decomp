@@ -24,13 +24,14 @@
 #include "../game/library_runtime.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
+#define D_8009B26C_AS_SCALAR
+#define D_8009B2F8_AS_ARRAY
+#define GCAMPAIGN_SCENE_INDEX_AS_ARRAY
+#define D_8009B370_AS_BYTE_ARRAY
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
-extern u8 D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
-extern u8 gCampaignSceneIndex[9];
-extern u8 D_8009B370[9];
+
 extern u16 D_8009B16C[9];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"

@@ -6,9 +6,12 @@
 #include "../game/rand_get_interval.h"
 #include "../game/duel_card_selection.h"
 #include "../psyq/rand.h"
+#define D_800EAE88_VISIBLE
+#define D_800EAE88_AS_BYTES
+#include "../unmatched.h"
 
 extern u8 D_800907D8[];
-extern u8 D_800EAE88[];
+
 extern u8 D_8009B1D5;
 extern s8 *D_8009B1C8;
 

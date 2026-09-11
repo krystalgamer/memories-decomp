@@ -7,8 +7,7 @@
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 #include "duel_card.h"
-
-extern s8 D_800EA02F[];
+#include "../unmatched.h"
 
 void func_800175A0(void) {
     u16 sp[DUEL_SIDE_COUNT];

@@ -28,10 +28,10 @@
 #include "model.h"
 #include "model_scene_states.h"
 #include "model_transfer_state.h"
+#define D_8009B_MODEL_VISIBLE
 #include "../unmatched.h"
 
 extern ModelBytes8 D_8009B478_p asm("D_8009B478");
-extern ModelBytes8 D_8009B480;
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
    D_800F2B50, model slots, and the D_8009AFxx scene-control state. The
@@ -225,8 +225,6 @@ void func_800530C4(void)
 
 #include "../psyq/stdarg.h"
 #include "model.h"
-
-extern s16 D_8009B488[MODEL_SLOT_COUNT];
 
 void Model_SetSlotProperties(s32 idx, ...)
 {

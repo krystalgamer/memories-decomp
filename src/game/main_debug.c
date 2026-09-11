@@ -4,9 +4,8 @@
 #include "main_debug.h"
 #include "main_modes.h"
 #include "main_reset_frontend_runtime.h"
-
-extern u8 D_8009B269;
-extern u8 D_8009B26C;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void func_8002CDE8(void)
 {

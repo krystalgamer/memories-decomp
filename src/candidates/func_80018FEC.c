@@ -26,6 +26,8 @@
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
 #include "../game/display_object_work_slots.h"
+#define D_8009B269_AS_SCALAR_DATA
+#define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
@@ -37,11 +39,12 @@ extern u8 *D_8009B21C;
 extern u8 *D_8009B17C;
 
 extern s32 D_800E9F04[];
-extern u8 D_800E9ECF[];
+extern u8 D_800E9FF0[];
+extern u8 D_800EA030[];
+
 extern u8 D_8009B260[];
 extern u16 D_800EF658[];
-extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_8009B26C __attribute__((section(".data")));
+extern u8 D_8009B369 __attribute__((section(".data")));
 
 extern void func_8004036C(u8 *);
 extern void SD_BGMFadeOutWithStep(s32);

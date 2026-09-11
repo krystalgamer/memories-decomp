@@ -5,8 +5,8 @@
 #include "display_object_config.h"
 #include "display_object.h"
 #include "display_projection.h"
-
-extern DisplayObject *D_8009B1F8;
+#define D_8009B_DISPLAY_OBJECTS_VISIBLE
+#include "../unmatched.h"
 
 DisplayObject *func_8001D518(DisplayObject *source)
 {

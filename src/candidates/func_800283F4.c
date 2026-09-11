@@ -35,13 +35,13 @@
 #include "../game/duel_effect_resource_record.h"
 #include "../game/card_constants.h"
 #include "../game/func_800283F4.h"
+#define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
 
 extern DisplayObject *D_8009B240;
-extern u8 D_8009B248;
+
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
-extern u8 D_8009B26C __attribute__((section(".data")));
 
 void func_800283F4(void)
 {

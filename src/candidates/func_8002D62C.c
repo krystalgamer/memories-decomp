@@ -20,9 +20,8 @@
 #include "../game/sound.h"
 #include "../game/main_services.h"
 #include "../game/options.h"
-
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void Main_RunNameEntry(void)
 {
