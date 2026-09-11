@@ -223,12 +223,12 @@ extern u8 D_801DD000[];
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 /* The initialized .sdata pointer targets the primary descriptor. The sector
-   candidate retains its byte view and signed/nonvolatile offset accesses. */
-#ifdef FILE_TRANSFER_CURRENT_AS_BYTES
-extern u8 *D_8009AF18;
-#else
+   candidate reads the record at byte offsets and used to select a `u8 *`
+   declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
+   site instead, and its object is byte for byte unchanged by that -- a
+   pointer is one word either way, so the declared target type reaches no
+   instruction. */
 extern FileTransferDescriptor *D_8009AF18;
-#endif
 extern u32 *D_8009B0F8;
 
 /* func_800140A0 resets these counters before the ready-system callback,
