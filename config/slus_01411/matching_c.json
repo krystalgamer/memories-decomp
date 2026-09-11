@@ -4213,6 +4213,12 @@
       "source": "src/game/sound_sequence_runtime.c"
     },
     {
+      "address": "0x8004BBBC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x70",
+      "source": "src/game/sound_find_midi_track_chunk.c"
+    },
+    {
       "address": "0x8004BC2C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x7C",
