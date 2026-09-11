@@ -79,6 +79,16 @@ class PsyqSignatureTests(unittest.TestCase):
         ):
             scan(self.signatures, 0x80010000, b"")
 
+    def test_scan_reports_catalogue_path_for_invalid_utf8(self) -> None:
+        (self.signatures / "LIBTEST.LIB.json").write_bytes(b"[\xff]")
+
+        with self.assertRaisesRegex(
+            SignatureError,
+            "LIBTEST[.]LIB[.]json: invalid UTF-8 at byte 1: "
+            "invalid start byte",
+        ):
+            scan(self.signatures, 0x80010000, b"")
+
     def test_scan_rejects_non_array_catalogue(self) -> None:
         (self.signatures / "LIBTEST.LIB.json").write_text(
             "{}", encoding="utf-8"
