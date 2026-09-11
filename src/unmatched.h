@@ -184,6 +184,12 @@ extern u8 D_8009B4A0;
 extern u8 D_8009B4A1;
 extern u8 D_8009B4A2;
 
+/* One consumer, AiScript_Print. Both addresses are passed to printf as format
+ * strings; the second also receives the script checkpoint byte. Their
+ * contents remain unnamed, and no AI subsystem header owns them. */
+extern const char D_80011908[];
+extern const char D_80011918[];
+
 /* A single word at 0x8009B118, four bytes: c_symbols.ld names D_8009B11C
  * immediately after it, so no element can hide inside. Fifteen files declared
  * it identically as `extern s32 D_8009B118;`, which is why it can move here
