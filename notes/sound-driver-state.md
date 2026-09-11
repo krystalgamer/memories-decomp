@@ -331,10 +331,11 @@ here.
 
 All 26 resident `.c` files that name `g_SDValue` include `sound.h`, and so
 do all 22 build-integrated candidate `.c` files naming it. None of them
-declares the pointer itself any more. Both `func_80045514.c` and
-`func_80046294.c` still define a private struct for the *pointee* and reach
-it by casting the header's declaration, which is a different statement and
-is the subject of the paragraphs below.
+declares the pointer itself any more. `func_80045514.c` still defines a private struct for the
+*pointee* and reaches it by casting the header's declaration, which is a
+different statement and is the subject of the paragraphs below.
+`func_80046294.c` did the same until 2026-09-11; what removed it is
+recorded there too.
 
 As historical context, the sentence this replaces -- "All pure-C
 `g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
@@ -344,8 +345,10 @@ both of the candidates that broke it were built in afterwards,
 buffer pointers, voice arrays, flags, and late control fields directly.
 
 `func_80046294` took the header's declaration back but kept a private
-struct for the pointee, and the reason is a measurement rather than a
-preference. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
+struct for the pointee, and the reason was a measurement rather than a
+preference. That is **resolved as of 2026-09-11**; the eliminations below
+are kept because they are what made the answer findable, and the answer is
+the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
 `FUNC_80049F50_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
@@ -382,13 +385,41 @@ than a byte count: `f7C` at 0x7C, `f7D` at 0x7D, `entries` at 0x80,
 words-first spelling five of them fail to compile, which is what makes them
 a test rather than a formality.
 
-So six eliminations and no positive result. The cause of the difference
-between the private struct and `SDValue` is **not established**: not the
-offsets, not the widths, not the size, not the alignment, not the spelling
-of the byte view, and not the presence of word-typed members among fields
-the unit does not read. No mechanism inside the compiler is claimed. It is
-an open question with its eliminations written down, and the route is not
-blocked.
+Six eliminations and no positive result, and the seventh measurement is
+what answered it -- by asking a different question. Every elimination above
+varies the private struct while holding the *access* fixed. Holding the
+access fixed the other way round, and varying the struct, is one build
+each:
+
+| access spelled | over the private struct | over `SDValue` |
+| --- | --- | --- |
+| `((u8 *)X)[j]` | `0bd53f65...` | `0bd53f65...` |
+| `((SDCommand *)((u8 *)X + j))->command` | `c9c3f84b...` | `c9c3f84b...` |
+| `X[i].command` | `6d0bf0da...` | `778a511e...` |
+
+The first two rows are byte-identical across the two structs, so **the
+pointee type never was the difference**. The paragraph above that reads two
+agreeing byte-view spellings as "this project's own tell for a wrong axis"
+had the inference backwards: the axis is the access, the two spellings
+agreed because both are casts, and a third and fourth spelling of the same
+access give two further distinct objects.
+
+What the original load is, and what no cast reproduces, is an `ARRAY_REF`
+of a `u8` member -- `p->entries[j]` on the private struct's byte array.
+`SDValue` had no such member at 0x80, because it declares the queue as
+`SDCommand commands[16]`. Giving it one does it: `commands` is now a union
+of `c` (the typed array every dispatcher uses) and `b` (the byte view this
+unit uses), which is the idiom `display_object.h` already uses eleven
+times, and `p->commands.b[j]` builds `8d64e380...` -- the object the private
+struct produced. Both private types are gone from that unit: `SoundEntry`,
+its 0x30-byte copy record, is `SDCommand` and was neutral on its own before
+any of this, and `SoundState` is `SDValue`. The `SOUND_STATE` macro that
+cast the header's pointer to the private shadow is gone with them.
+
+The eliminations were not wasted -- they are what left the access as the
+only variable -- but the general lesson is cheaper than six of them: when a
+type substitution moves an object, vary the ACCESS with the type held
+fixed before varying the type any further.
 
 `func_80049138` is a third deliberate exception and is no longer a raw
 view. The global pointer is volatile in that routine, which the unit

@@ -19,12 +19,12 @@ s32 SD_EnqueueCommand(SDCommand *src) {
         goto full;
     }
     {
-        b1->commands[n1].command = src->command;
+        b1->commands.c[n1].command = src->command;
     }
 
     b2 = g_SDValue;
     n2 = b2->command_count;
-    b2->commands[n2] = *src;
+    b2->commands.c[n2] = *src;
 
     b3 = g_SDValue;
     one = 1;

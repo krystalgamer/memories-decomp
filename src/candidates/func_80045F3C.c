@@ -59,12 +59,12 @@ void SD_UpdateRuntime(void)
     if (p->command_count == 0) {
         return;
     }
-    e = (u8 *)&p->commands[0];
+    e = (u8 *)&p->commands.c[0];
     /* Four separate case bodies, not two shared ones: adjacent case values
        that share a body are merged into a case range, and the range tests GCC
        then emits are not the target's equality dispatch. Cross-jumping merges
        the duplicated bodies again, so nothing is spent on them. */
-    switch (p->commands[0].command) {
+    switch (p->commands.c[0].command) {
     case 0x44:
         if (p->field_1588 == 0) {
             p->field_1588 = *(u16 *)(e + 8);
