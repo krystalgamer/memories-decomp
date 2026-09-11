@@ -4027,6 +4027,12 @@
       "source": "src/game/sound_secondary_reset.c"
     },
     {
+      "address": "0x80049920",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x144",
+      "source": "src/game/func_80049920.c"
+    },
+    {
       "address": "0x80049A64",
       "profile": "gcc_2_8_1_g0",
       "size": "0x90",

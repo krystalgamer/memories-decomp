@@ -633,9 +633,12 @@ extern SDValue *g_SDValue;
 #endif
 #endif
 
-/* The note-start candidate retains byte-based addressing; resident consumers
- * use the shared layout. Both declarations describe the same pointer word. */
-#ifdef SDSECONDARYSTATE_AS_BYTES
+/* Voice setup units keep the pointer outside small data for their absolute
+ * loads. The note-start candidate retains byte-based addressing; other
+ * resident consumers use the shared layout. */
+#ifdef D_8009B458_IN_DATA
+extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
+#elif defined(SDSECONDARYSTATE_AS_BYTES)
 extern u8 *D_8009B458;
 #else
 extern SDSecondaryState *D_8009B458;
