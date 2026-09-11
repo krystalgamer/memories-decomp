@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/display_object_projection.h"
+#include "../game/duel_effect_resource_record.h"
 
 typedef struct {
     u32 field_0;
@@ -83,20 +84,6 @@ typedef struct {
     u8 field_68;
 } Obj;
 
-typedef struct {
-    u8 pad0[0x32];
-    s16 field_32;
-    s16 field_34;
-    s16 field_36;
-    s16 field_38;
-    u8 field_3A;
-    u8 field_3B;
-    u8 field_3C;
-    u8 pad3D[0x40 - 0x3D];
-} Rec;
-
-extern Rec D_800EA0E8[];
-
 extern void func_80042188(Params *, Ctx *, s32, s32, Extra *);
 
 /*
@@ -114,7 +101,7 @@ void func_80028B08(Obj *obj, s32 arg1) {
     Params *PRM;
     Ctx *CTX;
     Win *win;
-    Rec *rec;
+    DuelEffectResourceRecord *rec;
     s32 arg;
     s32 i;
     u16 flags;
