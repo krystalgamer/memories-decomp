@@ -325,15 +325,15 @@ def classify(proposals: dict, inventory: dict) -> dict:
     }
 
 
-def evidence(providers: list[str]) -> str:
+def evidence(providers: list[str], psyq_version: str = "4.6") -> str:
     origin, _, offset = providers[0].rpartition("+")
     return (
-        f"Unique exact Psy-Q 4.6 {origin} signature, label at object offset "
-        f"{offset}; the object matches the payload once"
+        f"Unique exact Psy-Q {psyq_version} {origin} signature, label at "
+        f"object offset {offset}; the object matches the payload once"
     )
 
 
-def emit_map(result: dict) -> None:
+def emit_map(result: dict, psyq_version: str = "4.6") -> None:
     writer = csv.writer(sys.stdout, lineterminator="\n")
     for address, name, row, providers in result["new"]:
         writer.writerow(
@@ -342,7 +342,7 @@ def emit_map(result: dict) -> None:
                 f"0x{address:08X}",
                 name,
                 "confirmed",
-                evidence(providers),
+                evidence(providers, psyq_version),
                 "",
             ]
         )
@@ -395,6 +395,12 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="directory of lab313ru psx_psyq_signatures JSON files (460)",
     )
+    parser.add_argument(
+        "--psyq-version",
+        choices=("4.6", "4.7"),
+        default="4.6",
+        help="catalogue version written into --emit-map evidence",
+    )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--report", action="store_true")
     mode.add_argument(
@@ -417,7 +423,7 @@ def main() -> int:
         scanned = scan(signatures, load_address, payload)
         result = classify(scanned["proposals"], inventory)
         if args.emit_map:
-            emit_map(result)
+            emit_map(result, args.psyq_version)
         else:
             report(scanned, result)
         return 0

@@ -63,6 +63,10 @@ so the tool takes a path to it and fetches nothing:
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
         --signatures <checkout>/460 --report
 
+`--emit-map` labels generated evidence as Psy-Q 4.6 by default. The permitted
+4.7 LIBDS cross-reference must pass `--psyq-version 4.7` when emitting rows;
+the option changes the evidence text, not signature matching.
+
 ### Catalogue input contract
 
 Treat the third-party directory as untrusted input rather than partial
@@ -143,6 +147,11 @@ against that library alone by giving the tool a directory holding only the
     mkdir tmp/sig-ds47 && cp <checkout>/470/LIBDS.LIB.json tmp/sig-ds47/
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
         --signatures tmp/sig-ds47 --report
+
+To emit semantic-map rows from that exception without labelling them as 4.6:
+
+    tools/environments/python/bin/python tools/project/psyq_signatures.py \
+        --signatures tmp/sig-ds47 --psyq-version 4.7 --emit-map
 
 The same five rules apply. `DSSYS_1.OBJ` and `DSSYS_2.OBJ` each match the
 payload exactly once. That yields 31 new names from `0x8007A9AC` to

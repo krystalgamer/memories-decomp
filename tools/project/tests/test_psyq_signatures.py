@@ -12,6 +12,7 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 from psyq_signatures import (
     SignatureError,
     classify,
+    evidence,
     find_matches,
     parse_signature,
     scan,
@@ -33,6 +34,12 @@ class PsyqSignatureTests(unittest.TestCase):
 
         self.assertEqual(pattern, b"\xaa\x00\x0f")
         self.assertEqual(mask, b"\xff\x00\xff")
+
+    def test_evidence_uses_selected_catalogue_version(self) -> None:
+        providers = ["LIBDS.LIB/DSSYS.OBJ+0x0"]
+
+        self.assertIn("Psy-Q 4.6", evidence(providers))
+        self.assertIn("Psy-Q 4.7", evidence(providers, "4.7"))
 
     def test_parse_signature_rejects_empty_and_malformed_tokens(self) -> None:
         cases = [
