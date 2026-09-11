@@ -12,13 +12,13 @@ void func_80045114(void)
     if ((state->flags_004A & 0x80) == 0)
         return;
     count = state->command_count;
-    if (state->commands[count].command == 0x11)
+    if (state->commands.c[count].command == 0x11)
         return;
     if (count > 0) {
-        if (state->commands[count - 1].command == 0x11)
+        if (state->commands.c[count - 1].command == 0x11)
             return;
         if (count >= 2) {
-            if (state->commands[count - 2].command == 0x11)
+            if (state->commands.c[count - 2].command == 0x11)
                 return;
         }
     }

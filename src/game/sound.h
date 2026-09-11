@@ -95,7 +95,29 @@ typedef struct {
     u8 field_007D;
     u8 field_007E;
     u8 pad007F;
-    SDCommand commands[SD_COMMAND_QUEUE_COUNT];
+    /* The queue is read two ways and this union records both, which is the
+       idiom display_object.h already uses eleven times.  Every dispatcher
+       that acts on one command takes `c` and reads a named member.
+       func_80046294 walks the queue with a byte cursor it also uses as the
+       source offset of a 0x30-byte copy, and takes `b`.
+
+       `b` is not decoration.  That unit kept a private struct for the whole
+       pointee until 2026-09-11, and notes/sound-driver-state.md recorded
+       six eliminations with no positive result.  What settles it is a pair
+       of measurements rather than a seventh elimination.  Spelled
+       `((u8 *)X)[j]` the object is the same whether X is the private
+       struct's byte array or this member, and spelled
+       `((SDCommand *)((u8 *)X + j))->command` it is again the same for
+       both -- so the pointee type never was the difference.  Through this
+       member the three reachable spellings -- those two and `X[i].command`
+       -- give three different objects and none of them the original,
+       because the original load is an ARRAY_REF of a `u8` member and a
+       cast is not one.  `b` is that member, and the object is
+       byte-identical. */
+    union {
+        SDCommand c[SD_COMMAND_QUEUE_COUNT];
+        u8 b[SD_COMMAND_QUEUE_COUNT * 0x30];
+    } commands;
     u8 pad0380[4];
     /* The staged SpuVoiceAttr the driver keys voices on with. func_8004803C
        fills in the live half per sound effect -- `voice` as the key bitmask,

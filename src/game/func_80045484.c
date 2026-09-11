@@ -7,7 +7,7 @@ s32 func_80045484(void) {
     s32 i;
 
     for (i = 1; i < g_SDValue->command_count; i++) {
-        s32 c = g_SDValue->commands[i].command;
+        s32 c = g_SDValue->commands.c[i].command;
         if (c == 0x20) {
             goto found;
         }
