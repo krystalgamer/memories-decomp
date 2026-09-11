@@ -4,7 +4,7 @@
  * pinning 3 variables to hard registers, so it is kept here as a candidate
  * rather than counted as a decompilation. It was src/game/func_80017034.c.
  */
-#define GINPUT_PAD1_PRESSED_SIZED5
+#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #include "../types.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_selection_layout.h"
