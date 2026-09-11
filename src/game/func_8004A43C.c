@@ -1,16 +1,10 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/sound_voice_setup.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0, a single threshold,
- * it is 54 instructions against the target's 55, opcode distance 3. The
- * source below is the match, unchanged apart from its include paths. */
+#define D_8009B458_IN_DATA
 #include "../types.h"
-#include "../game/sound.h"
-#include "../game/func_80049FB4.h"
-#include "../unmatched.h"
+#include "sound.h"
+#include "func_80049FB4.h"
 #include "../psyq/libspu.h"
-#include "../game/sound_sequence_constants.h"
-#include "../game/sound_spatialization.h"
+#include "sound_sequence_constants.h"
+#include "sound_spatialization.h"
 
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
  * (or when forced). Caches the bend value in the object, adds SD_CalcPitchBend's
