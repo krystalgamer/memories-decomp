@@ -14,13 +14,13 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 205 such
- * functions today. Sixty-nine have their declarations here. One hundred
+ * unmatched_asm, once its consumers are known to agree. There are 203 such
+ * functions today. Sixty-nine have their declarations here. Ninety-nine
  * are build-integrated candidates that keep theirs in the header of the unit
  * they came from: src/candidates/ still gives each of them a defining C
  * translation unit, so that header is a home in the sense this one is not
- * (see the #3859 sections at the end). Four remain local at seven sites, and
- * all four are the deliberate disagreements listed below rather than
+ * (see the #3859 sections at the end). Three remain local at five sites, and
+ * all three are the deliberate disagreements listed below rather than
  * duplication waiting to be moved. The remaining thirty-two have no
  * executable reference from matching C, so this header does not invent
  * signatures for them.
@@ -59,9 +59,6 @@
  *                   one and now builds a SpritePrim, like the other two
  *                   sprite callers, so only the two real arms remain.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
- *   Ai_GetHandSize  s32 (void) in ai_card_ranges.c, whose code needs the
- *                   widened return, and the definition's s8 (void) in
- *                   ai_fusion.c
  *
  * Where a consumer declares no parameters and calls with none, the argument
  * register is not empty. It holds the CALLER'S OWN incoming parameter, still
@@ -586,7 +583,7 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * func_80045514 candidate, declares it with an explicit extern that the
  * contract fingerprint records. func_80048768, func_80049920 and
  * func_8004A6F8 have no caller in C and get no declaration. Ai_GetHandSize
- * is one of the deliberate disagreements listed at the top. */
+ * is now matching C; its caller-specific return declarations live in ai.h. */
 
 struct CardList;
 struct DuelEffectChannel;

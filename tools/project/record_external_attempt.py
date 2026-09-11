@@ -37,6 +37,7 @@ MODES = {
     "inline_refinement",
     "collaborator_match",
     "post_terminal_resolution",
+    "reclassification_match",
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
 TERMINAL_RESULTS = {"matched", "deferred"}
@@ -51,6 +52,7 @@ MODE_MAX_ATTEMPTS = {
     "inline_refinement": MAX_ATTEMPTS,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
+    "reclassification_match": 1,
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
@@ -195,6 +197,15 @@ def load_profiles(path: Path) -> dict[str, dict[str, Any]]:
     return profiles
 
 
+def resolved_addresses(rows: list[dict[str, str]]) -> set[int]:
+    return {
+        parse_address(row["address"])
+        for row in rows
+        if row["mode"] == "post_terminal_resolution"
+        and row["result"] == "matched"
+    }
+
+
 def require_tmp_path(value: str, context: str) -> None:
     path = PurePosixPath(value)
     if (
@@ -280,6 +291,7 @@ def validate_rows(
         rows,
         terminal_deferred_addresses,
     )
+    previously_resolved = resolved_addresses(rows)
     grouped: dict[tuple[str, int], list[dict[str, str]]] = {}
     for row in rows:
         mode = row["mode"]
@@ -359,6 +371,12 @@ def validate_rows(
             if row["result"] != "matched":
                 raise ExternalAttemptError(
                     f"{address:#010x}: post-terminal resolution must be matched"
+                )
+        if mode == "reclassification_match":
+            if address not in previously_resolved or row["result"] != "matched":
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match requires a "
+                    "previous post-terminal match and a matched result"
                 )
         grouped.setdefault((mode, address), []).append(row)
 
@@ -466,7 +484,7 @@ def parse_args() -> argparse.Namespace:
         "--new-discriminator",
         help=(
             "new source, compiler, structure, runtime, or layout evidence; "
-            "required for post_terminal_resolution"
+            "required for post_terminal_resolution and reclassification_match"
         ),
     )
     parser.add_argument(
@@ -550,7 +568,7 @@ def main() -> int:
             "result": args.result,
             "summary": args.summary,
         }
-        if args.mode == "post_terminal_resolution":
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             required["new-discriminator"] = args.new_discriminator
         missing = [key for key, value in required.items() if not value]
         if missing:
@@ -579,6 +597,15 @@ def main() -> int:
             if address not in matching_addresses:
                 raise ExternalAttemptError(
                     f"{address:#010x}: inline refinement requires matching C"
+                )
+        elif args.mode == "reclassification_match":
+            if (
+                function["status"] != "unmatched_asm"
+                or address not in resolved_addresses(rows)
+            ):
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match requires an "
+                    "unmatched function with a previous post-terminal match"
                 )
         else:
             resolution_addresses = terminal_resolution_addresses(
@@ -680,7 +707,7 @@ def main() -> int:
             )
 
         summary = args.summary
-        if args.mode == "post_terminal_resolution":
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             summary = (
                 f"New discriminator: {args.new_discriminator}; "
                 f"exact result: {args.summary}"
