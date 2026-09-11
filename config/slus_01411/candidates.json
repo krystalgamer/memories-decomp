@@ -1556,19 +1556,10 @@
       "target": "src/candidates_target/func_8004CB0C.S",
       "candidate_build_sha256": "8a7cb6cbdeb962db3fc43fd2d667c10a2c1da30a83671a995122c4b6f750d625",
       "target_bytes_sha256": "bd333b0a4101956dd739ac479435ee87c5833303ee461545d9db1a6736b887c1",
-      "canonical_contract_sha256": "ee18d89c4dfaada4e8185361d4de50ac24452caeb8cbeb7032ed2e5011b90cf7",
+      "canonical_contract_sha256": "b5b5cca874ad12722f0c4690aa77f8c40bb8193544e93f26a7368c0381a353e7",
       "canonical_contracts": {
-        "GsMapCoordUnit": "de767a6a0ff7507f7f44471c4a5b493970ddbe337fc4bc24beb38d32f178d574",
-        "GsMapUnit": "fd86d694d17961cfac5c0cc49ff62c60643ceb5ff59f8b79962f2ea307677a5f",
-        "GsScanUnit": "087ede2205a8003b958269635db693b0a72873282301862d9e34b842cd296052",
-        "GsU_00000000": "55b342ed73187ab285bd4cb7e9986b7d88deed3f747ab8f47df1eb96f5661749",
         "func_8004D134": "52fbfff7b787eabaa6999f2ec110d685613e1db9ceca3a62853b0740abda8bc4",
-        "func_8004D58C": "c49b02bac9cd90aa1afc71b2f3b5ceda69b8c2bd2e668e0dd0d2860d91bb0445",
-        "func_8005A3D0": "c58cf9aea1b54b0f3a215aaa1307d4f5d28cad63cad650fd6536a7bc6070d287",
-        "func_8005C6A0": "0ef325fc047f637ac13228440003702a7ea603e295d7538ac199eec0776270ed",
-        "func_80060220": "5e471f3b80d337022c8f266cf1fee54007d422629aad668da91b1e5734c2b02e",
-        "func_8006086C": "6b549815ac1b8d9053e10d7dbd43a17b8ce5ff6a57a48153a8405312edce4302",
-        "func_80060AEC": "9bbcd1d46fea671f00d1861233fb374f3e34d96c31ff8639471222f4628857d9"
+        "func_8005A3D0": "c58cf9aea1b54b0f3a215aaa1307d4f5d28cad63cad650fd6536a7bc6070d287"
       }
     },
     {
