@@ -36,10 +36,19 @@ explains why these are not persistent ATK/DEF globals.
 
 ## Retained addressing and contract boundaries
 
-- `TEXT_STAGING_AS_RANK_ROWS` selects the rank producer's original table.
-  `TEXT_STAGING_AS_PAIR` selects the two overlays' original `Pair` scalar.
-  `TEXT_STAGING_STARCHIPS_ALIAS` exposes only the password source's existing
-  `D_801D5608_starchips` alias; its assembler identity is still `D_801D5608`.
+- `TEXT_STAGING_AS_RANK_ROWS` and `TEXT_STAGING_AS_PAIR` are gone. Both
+  selected a spelling the union already carries as a member, `rank_rows` and
+  `pair`, and neither was separated from it by addressing: the rank table and
+  the union are both outside small data at -G8, and the two `Pair` consumers
+  compile at `gcc_2_8_1_g0_split`, whose `compiler_flags` and `maspsx_flags`
+  in `config/slus_01411/compiler_profiles.json` both carry `-G0`. Written
+  through the members, the resident SHA-256 and all five overlay images are
+  unchanged. `TEXT_STAGING_STARCHIPS_ALIAS` remains and exposes only the
+  password source's existing `D_801D5608_starchips` alias; its assembler
+  identity is still `D_801D5608`. The `#define` for it in
+  `src/candidates/password/func_8016A37C.c` is inert -- a word-bounded grep
+  finds the alias used only in `src/overlays/password/shop.c` -- and is left
+  in place because that consumer is in an open pull request.
 - The default remains an incomplete array, preserving its small-data
   classification. No tentative definitions, `.data` attributes, pins, compiler
   profiles or grouped function order are added, removed or relocated.

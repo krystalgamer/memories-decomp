@@ -1,4 +1,3 @@
-#define TEXT_STAGING_AS_RANK_ROWS
 #define D_8009B0CC_IN_DATA
 #define D_8009B362_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
@@ -380,7 +379,8 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    end-reason adjustment selects the middle variant, not a rank letter.
    Both side scores at +0x2C start at DUEL_RANK_SCORE_INITIAL, then receive
    the end-reason and threshold-rule adjustments. Raw statistics are also
-   copied into the separate D_801D5608[stat][side] display table. */
+   copied into the separate D_801D5608[0].rank_rows[stat][side] display
+   table. */
 void Duel_CalcRankScore(void) {
     DuelResultDisplayState *p;
     DuelSideState *e;
@@ -390,7 +390,7 @@ void Duel_CalcRankScore(void) {
 
     p = D_8009B1E8;
     e = D_800E9FF0;
-    q = &D_801D5608[0][0];
+    q = &D_801D5608[0].rank_rows[0][0];
     p->page_text_ids[0] = 0x44;
     p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
     p->page_text_ids[2] = 0x45;

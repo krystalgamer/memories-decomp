@@ -6,7 +6,6 @@
  */
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
-#define TEXT_STAGING_AS_PAIR
 #define TEXT_STAGING_STARCHIPS_ALIAS
 #include "../../types.h"
 #include "../../ygo_types.h"
@@ -176,8 +175,8 @@ void Password_UpdateShopScreen(void)
         flags2 = D_8016D424;
         if ((flags2 & 0x8000) == 0) {
             D_8016D424 = flags2 | 0x8000;
-            D_801D5608.lo = D_801A8000[D_8016D4DC * 2];
-            D_801D5608.hi = D_8016D4DC;
+            D_801D5608[0].pair.lo = D_801A8000[D_8016D4DC * 2];
+            D_801D5608[0].pair.hi = D_8016D4DC;
             if (Campaign_TestStoryFlag(
                     D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
