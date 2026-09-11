@@ -48,10 +48,10 @@ extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 extern u32 gInput_dwPendingHeld;
 
-/* gInput_wPad1Pressed is declared seven different ways across the tree, and
- * six of the seven are codegen inputs rather than style. A consumer states
- * the spelling its own match needs before including this header; everything
- * else takes the plain scalar.
+/* gInput_wPad1Pressed is declared six different ways below, counting the
+ * plain scalar; the other five are codegen inputs rather than style. A
+ * consumer states the spelling its own match needs before including this
+ * header; everything else takes the plain scalar.
  *
  * Two independent knobs, so arms rather than one chain: a file that wants the
  * non-small form *and* the re-reads would silently lose the volatile if these
@@ -64,20 +64,31 @@ extern u32 gInput_dwPendingHeld;
  *                     expands, rather than cc1psx's own %hi/%lo pair.
  *   _IS_AGGREGATE  -- an unsized array is not small data either, but gives
  *                     cc1psx's split pair instead of the bare symbol.
- *   _SIZED         -- eight bytes it does not have, which is how a two-byte
- *                     symbol is pushed out of small data while the one- and
- *                     two-byte scalars beside it keep %gp_rel.
+ *   _SIZED         -- eight bytes it does not have. That leaves small data
+ *                     only where the assembler's -G sits below the
+ *                     compiler's: its one consumer,
+ *                     src/candidates/func_800307B8.c, records that it was
+ *                     byte-exact under gcc_2_8_1_cc_g8_as_g4_split and is
+ *                     117 instructions against the target's 120 at
+ *                     gcc_2_8_1_g8.
  *
- * Our matching tree carries the same symbol (0x8009B398) behind the same
- * seven arms, chosen per function, which is where this list comes from. */
+ * A `[5]` arm used to sit beside that one, for src/candidates/func_80017034.c
+ * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
+ * data at a single -G8 threshold, and the split flag decides only whose
+ * %hi/%lo pair the reference becomes, so nothing separated the two
+ * spellings: moving that unit to the aggregate arm leaves the retail SHA-256
+ * unchanged and check-candidate-builds green.
+ *
+ * An independent matching decompilation of this binary carries the same
+ * address behind eight declarations, chosen per function, which is where this
+ * list came from. Its sized arms are `[4]`, volatile and not, and it has no
+ * `[5]`. */
 #ifdef GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_PRESSED_IN_DATA)
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_PRESSED_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad1Pressed[4];
-#elif defined(GINPUT_PAD1_PRESSED_SIZED5)
-extern u16 gInput_wPad1Pressed[5];
 #elif defined(GINPUT_PAD1_PRESSED_IS_AGGREGATE)
 extern u16 gInput_wPad1Pressed[];
 #elif defined(GINPUT_PAD1_PRESSED_IS_VOLATILE)
