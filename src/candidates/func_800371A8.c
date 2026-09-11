@@ -16,6 +16,7 @@
 #include "../game/display_object_helpers.h"
 #include "../unmatched.h"
 #include "../game/dialog_choice.h"
+#include "../game/dialog_read_choice_input.h"
 #include "../game/dialog_choice_state.h"
 #include "../game/duel_effect.h"
 #include "../game/widget_update_pulse_colour.h"

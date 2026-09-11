@@ -24,7 +24,7 @@
  *
  * gDialog_bChoice, the selected index these two are read against, is declared
  * eleven times in four different ways: plain s8, s8 with a .data section
- * attribute, u8 in dialog_read_choice_input.c (now a candidate), and
+ * attribute, u8 in dialog_read_choice_input.c, and
  * `s8 [9]` in src/candidates/func_80024200.c. The section attribute alone
  * would need a guarded arm, and the array spelling has to be understood
  * before any of it can be shared. It is a bigger question than these two and
@@ -44,7 +44,7 @@ extern s8 gDialog_bChoiceCount;
  * declaration below and no guarded arm is needed here.
  *
  * Of the five that reach it from small data, four spelled it s8 and
- * dialog_read_choice_input.c spelled it u8. That was an abstention rather
+ * dialog_read_choice_input.c uses a u8 local. That was an abstention rather
  * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
  * assigning straight into a u8 local, so the load's signedness does not
  * survive. Taking s8 there builds byte for byte.
