@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_DUEL_REWARD_SETUP_H
 
 #include "../types.h"
+#include "file_transfer.h"
+
+void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
 
 /* Queues the reward table transfer: one async read of 0x4C sectors from
  * 0x2189 with func_80032184 as the completion callback, then waits for it.
