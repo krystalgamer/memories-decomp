@@ -779,11 +779,17 @@ genuinely homeless and lives in `unmatched.h`.
 
 Both directions come up, and only one of them is sound.
 
-Refuting works. `D_8009B0A3` is declared `[9]` by one consumer, and
+Refuting works. `D_8009B0A3` was declared `[9]` by one consumer, and
 `c_symbols.ld` names `D_8009B0A4` one byte later, so nine bytes would run
-through that and past `gGraphics_bActiveBuffer`. The bound is therefore an
-addressing lever rather than a size, the same as `gDuel_bTerrain`'s `[8]` and
-`gSD_bOutputType`'s `[16]`.
+through that and past `gGraphics_bActiveBuffer`. The bound was therefore an
+addressing lever rather than a size -- and that is what made it worth
+measuring rather than keeping. Both of the symbol's array consumers compile
+at a plain `gcc_2_8_1_g8` profile, where an incomplete array is already out
+of small data, so relaxing the `[9]` to the shared `[]` left the retail
+SHA-256 unchanged and the arm is gone. `gDuel_bTerrain`'s `[8]` is the case
+that survives the same question, and its own header records why: one
+consumer assembles at -G4 while compiling at -G8, and relaxing the bound
+there costs four bytes of text.
 
 Establishing does not. That the next name sits *n* bytes away shows only that
 nothing is named inside those *n* bytes; the object may be shorter, and

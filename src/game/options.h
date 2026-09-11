@@ -35,7 +35,11 @@ extern s8 gOptions_bOutputType;
  * addressing groups need. An earlier version of this note said the
  * s8 [16] and u8 [9] spellings could not be reconciled, and that was
  * wrong: both bounds were the same lever for absolute addressing and
- * neither asserted a size; main_services.h says so beside D_8009B0A3.
+ * neither asserted a size. Neither bound is in the tree any more: sound.h
+ * carries gSD_bOutputType in one header under a guard, and the [9] beside
+ * D_8009B0A3 was measured away, since both of that symbol's array
+ * consumers compile at a plain gcc_2_8_1_g8 profile, where an incomplete
+ * array is already outside small data.
  *
  * The two option display objects are no longer among the exceptions either:
  * see below.
