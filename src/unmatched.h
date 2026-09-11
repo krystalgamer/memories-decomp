@@ -741,8 +741,6 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 
 void func_8004B854(void);
 
-s32 SD_FindMidiTrackChunk(s32 offset);
-
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request
  * is in flight.
