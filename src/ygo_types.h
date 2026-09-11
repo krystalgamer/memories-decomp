@@ -40,6 +40,34 @@ typedef struct {
     u8 b[10];
 } SDInitBlk10;
 
+/* Eight bytes copied as one unit. Three build-integrated candidates each
+   defined this shape locally and used it only as the source and destination
+   of a whole-struct assignment: func_80015EF4 copies four rotation corners,
+   func_80029934 one parameter block out of D_80181000, and func_80030294 one
+   mask block out of D_8009AF4C.
+
+   The element type is what this type is for, and it is load-bearing for the
+   reason model.h:113-124 gives about ModelSlotCF8BlockWords -- the element
+   type sets the alignment and the alignment sets the move width. Here `u8`
+   gives alignment 1, so the assignment lowers to the unaligned move pair
+   rather than to word loads. The three targets say so directly -- an eight-byte
+   alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
+   src/candidates_target/ are exactly two pairs per source-level assignment:
+   func_80015EF4.S has 8 of each for its four copies, func_80029934.S and
+   func_80030294.S 2 of each for their one. A word-element spelling would not
+   reproduce them.
+
+   model.h's ModelBytes8 is the same shape and is deliberately left where it
+   is; it is also the declared type of two defined objects, which is a claim
+   about those objects rather than about a copy idiom. */
+typedef struct {
+    u8 b[8];
+} Bytes8;
+
+typedef char Bytes8_size_must_be_8[
+    sizeof(Bytes8) == 8 ? 1 : -1
+];
+
 typedef struct {
     u8 bytes[20];
 } TextDecimalDigitKeyBlock;
