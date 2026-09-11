@@ -8,10 +8,10 @@
  * columns, case 4 indexes gModel_abImageCopyFrameRows. Any other selector
  * value does nothing.
  *
- * Declared in a header of its own because nothing else owns what it touches:
- * D_800F569F, D_8009AF88 and the D_8009B468 rectangle are declared privately
- * in its source and appear in no header, so there is no subsystem header that
- * this function could sit beside on the strength of the state it reads.
+ * Declared in a header of its own because no subsystem owns the complete
+ * operation. D_8009AF88 comes from model_graphics_state.h; the five otherwise
+ * homeless linker-assigned globals are centralized in unmatched.h without
+ * assigning them broader ownership.
  *
  * func_80059CE4 in model_scene_states.c is the only caller and held the only
  * declaration. */
