@@ -1,16 +1,10 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_8004AAFC.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 122 of 122 instructions with 2
- * differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
 #define FUNC_8004A7C0_CALL_WITH_UNUSED_ARG
+#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "../game/func_8004A7C0.h"
-#include "../game/sound_sequence_constants.h"
-#include "../game/sound.h"
-#include "../unmatched.h"
+#include "func_8004A7C0.h"
+#include "sound_sequence_constants.h"
+#include "sound.h"
 
 /* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
  * under-0x10 ones through func_8004A43C, resets a record whose voice is SPU_OFF,

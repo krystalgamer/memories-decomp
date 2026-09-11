@@ -4093,6 +4093,12 @@
       "source": "src/game/sound_secondary_object_selection.c"
     },
     {
+      "address": "0x8004AAFC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E8",
+      "source": "src/game/func_8004AAFC.c"
+    },
+    {
       "address": "0x8004ACE4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x104",

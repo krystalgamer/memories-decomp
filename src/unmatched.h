@@ -739,12 +739,6 @@ void func_8004A518(void);
  * tables. */
 void func_8004A764(s32 index);
 
-/* The per-frame key-off sweep over the 0x28-byte voice records at
- * D_8009B458, called together with func_8004C84C by
- * SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
- * sound_sequence_runtime.c. */
-void func_8004AAFC(void);
-
 /* The definition in src/candidates/func_8004B374.c takes two parameters.
  * sound_sequence_parser.c, the one caller, passes a third, and that call
  * is what this spells. */
