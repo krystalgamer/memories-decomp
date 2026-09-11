@@ -17,16 +17,12 @@
 #include "../game/sound_init.h"
 #include "../game/sound_pending_entries.h"
 #include "../game/sound_output.h"
-/* Not a duplicate of the sound_init.h declaration: a second addressing view
-   of the same symbol. The one call below narrows its second argument to s16,
-   and the canonical (s32, s32) prototype would widen it back. */
-extern SDValue * volatile D_8009B45C_volatile asm("g_SDValue");
 
 void func_8004733C(s32 arg0, s32 arg1)
 {
     register s32 v asm("s1") = arg0;
 
-    if ((D_8009B45C_volatile->flags_004A & 2) == 0) {
+    if ((g_SDValue->flags_004A & 2) == 0) {
         return;
     }
     if (arg0 & 0x8000) {

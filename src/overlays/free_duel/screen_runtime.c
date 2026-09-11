@@ -51,7 +51,6 @@
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */
 
-extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
@@ -81,7 +80,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
-    panel = D_800EB0F8_raw;
+    panel = (u8 *)D_800EB0F8;
     w->field_30.h.field_30 = col * 56 + 20;
     w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);

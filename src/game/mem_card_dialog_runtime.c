@@ -222,8 +222,6 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     return object->field_6C;
 }
 
-extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-
 void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
@@ -265,7 +263,7 @@ void MemCardDialog_Update(void)
         if (MemCardDialog_StepSlide(
                 (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
-            TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
+            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
             D_8009B3D8 = (u8 *)0;
         }
@@ -296,7 +294,7 @@ void MemCardDialog_Update(void)
             goto b14;
         }
         func_80039794();
-        p = (DuelEffectChannel *)(D_800EB0F8_raw + D_8009B3EE * 100);
+        p = &D_800EB0F8[D_8009B3EE];
         if ((*(s32 *)&p->flags_34 & 0x2008) != 0x2000) {
             return;
         }
