@@ -552,8 +552,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Three translation units need a different spelling of this one declaration,
- * and all three are codegen inputs rather than style:
+/* Three spellings of this one declaration live below, and they are codegen
+ * inputs rather than style. Five translation units need one of them:
+ * func_800464F0.c takes the aggregate arm, func_80049138.c the volatile one,
+ * and func_80047788.c, func_80045514.c and func_80046294.c the .data one.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -572,9 +574,19 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   which is the same declaration twice; deleting that extern without this
  *   arm builds `rebuilt executable is 0x1d07f4 bytes, expected 0x1d0800`,
  *   twelve bytes and three instructions short, so the attribute is the
- *   mechanism and not decoration.
+ *   mechanism and not decoration. func_80045514.c and func_80046294.c took
+ *   this same arm when their own private externs were deleted, and each was
+ *   measured byte-identical with it; whether either would also build without
+ *   it was not measured.
  *
- * Everything else takes the plain declaration. */
+ * Everything else takes the plain declaration -- except
+ * sd_arm_busy_callback.c, which defines SDVALUE_CUSTOM_EXTERN to suppress
+ * this block and reaches the pointer as an absolute address instead. Its
+ * object shows what that buys: `lui v1, 0x800a` / `lw v1, -19364(v1)` for
+ * 0x8009B45C with NO relocation, where the SD_ClearBusyFlag two
+ * instructions later carries R_MIPS_HI16 and R_MIPS_LO16. The reason given
+ * there is that the absolute spelling is load-bearing in that unit; that
+ * claim lives in a comment in that file and is not re-measured here. */
 #ifdef G_SDVALUE_IN_DATA
 extern SDValue *g_SDValue __attribute__((section(".data")));
 #elif defined(G_SDVALUE_AGGREGATE)
