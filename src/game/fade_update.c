@@ -2,7 +2,6 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "fade.h"
-#include "../unmatched.h"
 
 /* Tentative definitions keep these bytes common and gp-relative, supplying
    the three load-delay nops in the tint copy. c_symbols.ld overrides them. */
