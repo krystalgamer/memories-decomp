@@ -701,6 +701,9 @@ void func_8003FFB4(u32);
 void func_8004C84C(void);
 void func_8004AAFC(void);
 
+/* The parser passes a third word that this routine intentionally ignores. */
+void func_8004B374(s32 channel, s32 value, s32 unused);
+
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.

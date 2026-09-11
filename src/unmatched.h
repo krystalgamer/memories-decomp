@@ -728,11 +728,6 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
  * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
 void func_8004A518(void);
 
-/* The definition in src/candidates/func_8004B374.c takes two parameters.
- * sound_sequence_parser.c, the one caller, passes a third, and that call
- * is what this spells. */
-void func_8004B374(s32 channel, s32 value, s32 unused);
-
 void func_8004B854(void);
 
 s32 SD_FindMidiTrackChunk(s32 offset);
