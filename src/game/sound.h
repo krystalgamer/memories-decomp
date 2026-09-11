@@ -664,13 +664,16 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * with the voice-envelope source on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; func_8004A6F8.c and the func_8004A764 candidate define it.
+ * qualifier; func_8004A6F8.c and sound_voice_envelope.c define it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
 #else
 extern s32 D_80011434[20];
 #endif
+
+/* Resets one SPU voice's envelope through the shared attribute block. */
+void func_8004A764(s32 index);
 
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
