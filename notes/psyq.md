@@ -88,8 +88,9 @@ Five rules decide whether a label becomes a proposal:
 2. The object matches the payload exactly once.
 3. The label is not an IDA placeholder (`text_1F0`, `loc_24`). Roughly half of
    all labels in the catalogue are placeholders and carry no information.
-4. The address is a function start in `config/slus_01411/functions.csv`. A
-   label inside a function is a branch target, not a symbol.
+4. The address is a function start classified as `sdk_asm` in a `psyq/*`
+   module by `config/slus_01411/functions.csv`. A label inside a function is a
+   branch target, while one on a game-owned function is a byte collision.
 5. No other library object proposes a *different* name for the same address.
 
 At pinned catalogue revision
@@ -111,6 +112,7 @@ The unique-object labels classify against the current function inventory as:
 | Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
 | New names for `func_XXXXXXXX` rows | 2 | `NormalClip` and `RotAverageNclip3_nom`, both withheld because their observed call arities conflict with `libgte.h` |
 | Addresses claimed under several names | 8 | Four resolved only with local call-graph evidence and four still unresolved below |
+| Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
 The 426 agreements are a regression checkpoint, not an immutable project

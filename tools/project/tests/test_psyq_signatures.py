@@ -291,16 +291,33 @@ class PsyqSignatureTests(unittest.TestCase):
                 "AliasB": ["LIBB/SHARED.OBJ+0x0"],
             },
             0x80010040: {"OffStart": ["LIB/OFFSTART.OBJ+0x4"]},
+            0x80010050: {
+                "GameCollision": ["LIB/GAME_COLLISION.OBJ+0x0"]
+            },
         }
         inventory = {
-            0x80010000: {"name": "KnownName"},
+            0x80010000: {
+                "name": "KnownName",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            },
             0x80010010: {
                 "name": "func_80010010",
                 "size": "0x10",
-                "status": "psyq/sdk",
-                "module": "psyq",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
             },
-            0x80010020: {"name": "ExistingName"},
+            0x80010020: {
+                "name": "ExistingName",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            },
+            0x80010050: {
+                "name": "func_80010050",
+                "size": "0x20",
+                "status": "matching_c",
+                "module": "game",
+            },
         }
 
         result = classify(proposals, inventory)
@@ -323,6 +340,19 @@ class PsyqSignatureTests(unittest.TestCase):
         )
         self.assertEqual(
             result["ambiguous"], [(0x80010030, ["AliasA", "AliasB"])]
+        )
+        self.assertEqual(
+            result["outside_psyq"],
+            [
+                (
+                    0x80010050,
+                    "GameCollision",
+                    "func_80010050",
+                    "matching_c",
+                    "game",
+                    ["LIB/GAME_COLLISION.OBJ+0x0"],
+                )
+            ],
         )
         self.assertEqual(result["off_start"], 1)
 
