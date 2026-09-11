@@ -27,8 +27,6 @@
 #include "func_8003AC48.h"
 #include "display_effect_update_callbacks.h"
 
-extern u16 D_8009B0D8_halfword asm("D_8009B0D8");
-
 void func_8003A920(
     DisplayPositionGroup *group,
     s16 x,
@@ -339,9 +337,9 @@ void func_8003B054(u8 *p)
     o = *(DisplayObject **)p;
     o2 = *(DisplayObject **)(p + 4);
     if (*(s16 *)(p + 0x40) != 0) {
-        *(u16 *)&o->field_60 += D_8009B0D8_halfword;
+        *(u16 *)&o->field_60 += (u16)D_8009B0D8;
     } else {
-        *(u16 *)&o->field_60 -= D_8009B0D8_halfword;
+        *(u16 *)&o->field_60 -= (u16)D_8009B0D8;
     }
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;

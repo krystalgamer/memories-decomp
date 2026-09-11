@@ -1,11 +1,10 @@
+#define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
 #include "duel_effect.h"
 #include "graphics_frame.h"
 #include "display_object_fade.h"
 #include "func_80039AD4.h"
 #include "display_object_fade_callbacks.h"
-
-extern volatile s32 D_8009B0D8_volatile asm("D_8009B0D8");
 
 void func_80039AFC(DuelEffectChannel *record)
 {
@@ -44,7 +43,7 @@ void func_80039BE0(DuelEffectChannel *p)
         p->field_14 = 0;
     }
     if (!(p->field_13 & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
-        v = p->field_04 - (D_8009B0D8_volatile << 4);
+        v = p->field_04 - (D_8009B0D8 << 4);
         if (v <= 0) {
             p->field_13 |= DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE;
             v = 0;
@@ -52,7 +51,7 @@ void func_80039BE0(DuelEffectChannel *p)
         p->field_04 = v;
         p->field_05 = v;
     } else {
-        v = p->field_06 - (D_8009B0D8_volatile << 4);
+        v = p->field_06 - (D_8009B0D8 << 4);
         if (v <= 0) {
             func_80039AD4(p);
             v = 0;

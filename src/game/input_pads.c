@@ -106,7 +106,7 @@ void Input_UpdatePads(void)
             if (new_bits & INPUT_PENDING_HIGH_BIT) {
                 repeat |= 1;
             }
-            value = gInput_abRepeatTimers[i] + D_8009B0D8;
+            value = gInput_abRepeatTimers[i] + (u8)D_8009B0D8;
             gInput_abRepeatTimers[i] = value;
             if (value >= gInput_bRepeatDelay) {
                 gInput_abRepeatTimers[i] = gInput_bRepeatInterval;

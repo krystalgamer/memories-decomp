@@ -1,4 +1,3 @@
-#define D_8009B0D8_IS_HALFWORD
 #include "../types.h"
 #include "display_object.h"
 #include "func_80041D60.h"
@@ -69,7 +68,7 @@ void func_80041D60(DisplayObject *arg0, s32 arg1, s32 arg2) {
     }
 
     if (!(arg0->flags & 3) && arg0->field_5A != 0) {
-        s16 remain = (u16)arg0->field_5A - D_8009B0D8;
+        s16 remain = (u16)arg0->field_5A - (u16)D_8009B0D8;
         arg0->field_5A = remain;
         if (remain <= 0) {
 call_it:

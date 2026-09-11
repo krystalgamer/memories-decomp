@@ -1947,9 +1947,9 @@
       "target": "src/candidates_target/main_menu/func_80180390.S",
       "candidate_build_sha256": "63fe11ab9609a50ad0693a9d9896cab6aaf0025adfccee354242ca2d3bc30128",
       "target_bytes_sha256": "283722f8d8b0126e39d6ff25bef7a9b4db2587eb3db3ec2662d3b2057d73c213",
-      "canonical_contract_sha256": "f23bf19544a6db49b6986ebfae69bc06460ad91f3e744fc534f06aab91bba699",
+      "canonical_contract_sha256": "09085f24a63b36782ae3f0f44e55b4efbe93ec8138bf392142b535462396e5e6",
       "canonical_contracts": {
-        "D_8009B0D8": "8b525aa21eb66739d20e37bd23383e995f7a3247eec384e9f438ba8790048019"
+        "D_8009B0D8": "f8d8b37e6f9f6dc3c07bf705fe3c469dc963389422e572557e1e7b4b94a2e67a"
       }
     },
     {

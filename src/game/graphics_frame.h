@@ -10,18 +10,22 @@
  * every other consumer scales a motion delta by it, which is why a dropped
  * frame moves things twice as far.
  *
- * It is read at three widths across the tree and the width is a codegen
- * input, not a style choice, so the arms:
+ * It is one four-byte value, and the three widths seen in the listings come
+ * from the use sites rather than the declaration. Eighteen accesses across
+ * twelve functions, every one of them at offset zero: thirteen word, three
+ * halfword, two byte, with func_80012DB4 in two of those groups. The next
+ * named symbol is D_8009B0E8, sixteen bytes on, and nothing reads into that
+ * gap. gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
+ * int global emit lbu and lhu against the same symbol -- so a narrow read is
+ * written as a cast at the site, not as a declaration.
  *
- *   _IS_HALFWORD -- read into halfword arithmetic (lhu, not lw)
- *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded
- *   _IN_DATA     -- out of small data at the compiler, with its true width
- *                   at that call site
+ * The two arms left select addressing and ordering, which a cast cannot:
  *
- * display_object_fade_callbacks.c needs the plain and the volatile spelling
- * in one translation unit, which no single arm can give, so it keeps its
- * asm("D_8009B0D8") alias -- a second name for one symbol, not a duplicate
- * declaration. */
+ *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded;
+ *                   display_object_fade_callbacks.c takes it for the whole
+ *                   unit, and its three plain reads build the same under it
+ *   _IN_DATA     -- out of small data at the compiler */
+
 /* The movie playback state byte, shared by three files that disagree about
  * how to reach it.
  *
@@ -45,9 +49,7 @@ extern u8 D_8009B318;
 #endif
 
 #ifdef D_8009B0D8_IN_DATA
-extern u8 D_8009B0D8 __attribute__((section(".data")));
-#elif defined(D_8009B0D8_IS_HALFWORD)
-extern u16 D_8009B0D8;
+extern s32 D_8009B0D8 __attribute__((section(".data")));
 #elif defined(D_8009B0D8_IS_VOLATILE)
 extern volatile s32 D_8009B0D8;
 #else
