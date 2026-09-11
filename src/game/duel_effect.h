@@ -69,7 +69,7 @@ typedef struct DuelEffectChannel {
      * Every consumer already asserted that: func_800391E4.c and
      * func_8002EE94 (now a candidate) cast it to DisplayObject *,
      * card_list_text_boxes.c reaches ->flags through it, func_8002EE94 also
-     * takes the DisplayObjectSnapshot view, and dialog_update_choice.c read it
+     * takes the DisplayObjectSnapshot view, and Dialog_UpdateChoice read it
      * through `*(u8 **)&`. The s32 spelling made every one of those a cast. */
     struct DisplayObject *field_28;
     /* The second display object this record owns, on the same evidence as
@@ -104,7 +104,7 @@ typedef struct DuelEffectChannel {
     u8 state_51;
     /* A per-tick countdown. TextBox_BuildStep reloads it from field_53,
        decrements it once per call and returns while it is still nonzero;
-       func_80037B40.c does the same with 0xFF as its reload. */
+       func_80037B40 does the same with 0xFF as its reload. */
     u8 delay_52;
     u8 field_53;
     u8 field_54;
