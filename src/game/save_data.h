@@ -172,7 +172,7 @@ extern u8 gSaveData_aHeaderTemplate[];
  * `D_801D1200 + 0x1000`; that unit also names +0x1000 as D_801D2200),
  * SaveData_UpdateDuelLoad (save_data_transfer_runtime.c, the
  * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (src/overlays/main_menu/trade_inventory.c:47, `+ slot * 0x1000`) and
+ * (src/overlays/main_menu/trade_inventory.c:41, `+ slot * 0x1000`) and
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
  * src/candidates/main_menu/func_801821DC.c, through its 16-byte Block16
  * view, cast at the use). The

@@ -26,8 +26,6 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
-typedef struct { s16 h; } H16s;
-
 void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
 {
     u8 *object;
