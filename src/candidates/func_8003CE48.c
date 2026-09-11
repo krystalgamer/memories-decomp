@@ -11,7 +11,6 @@
 #define GINPUT_PAD2_PRESSED_IS_VOLATILE
 #define GINPUT_PAD2_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
-#define D_8009B0D8_IN_DATA
 #include "../types.h"
 #include "../psyq/libapi.h"
 #include "../game/graphics_frame.h"

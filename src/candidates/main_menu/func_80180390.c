@@ -33,8 +33,7 @@
 #include "../../game/mem_card.h"
 #include "../../overlays/main_menu/ordering_tables.h"
 #include "../../game/sound.h"
-
-extern u16 D_8009B0D8;
+#include "../../game/graphics_frame.h"
 
 typedef struct { s16 h; } H16s;
 
@@ -183,7 +182,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             goto ret_m1;
         }
         ent6 = D_80184560;
-        acc = *(u16 *)(ent6 + 0x36) + D_8009B0D8;
+        acc = *(u16 *)(ent6 + 0x36) + (u16)D_8009B0D8;
         *(s16 *)(ent6 + 0x36) = acc;
         if ((s16)acc >= 0xBB8) {
             return -2;
