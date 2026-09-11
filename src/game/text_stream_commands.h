@@ -20,9 +20,10 @@ u8 func_8003B7E0(TextStreamOwner *object);
  * streams.
  *
  * func_80037CE0 takes a volatile pointer. That is not decoration: the body
- * reads the halfword at 0x34 through a volatile access and pins two locals to
- * $2 and $3, so the qualifier is part of how the function is written rather
- * than a claim about the caller's storage.
+ * reads the halfword at 0x34 through a volatile access, but writes it through
+ * an ordinary halfword lvalue so the store can fill the branch delay slot.
+ * The qualifier preserves access order rather than making a claim about the
+ * caller's storage.
  *
  * Text_ExtendGlyphCode and Text_SetStateFromStream both advance one of the
  * byte streams held at the front of the object, chosen by the signed byte at

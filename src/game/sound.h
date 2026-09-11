@@ -664,14 +664,17 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * with sound_voice_envelope.c on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; since #3859 only the func_8004A6F8 and func_8004A764 candidates
- * define it.
+ * qualifier; sound_voice_envelope.c and the func_8004A6F8 candidate define
+ * it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
 #else
 extern s32 D_80011434[20];
 #endif
+
+/* Resets one SPU voice's envelope through the shared attribute block. */
+void func_8004A764(s32 index);
 
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
@@ -692,14 +695,14 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
    SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
-   sound_sequence_runtime.c together with func_8004AAFC (unmatched.h). It
+   sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
 void func_8004C84C(void);
+void func_8004AAFC(void);
 
-/* The definition consumes two arguments; parser callers also pass an ignored
-   third value, so the shared declaration deliberately leaves arity open. */
-void func_8004B374();
+/* The parser passes a third word that this routine intentionally ignores. */
+void func_8004B374(s32 channel, s32 value, s32 unused);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
@@ -707,8 +710,8 @@ void func_8004B374();
    func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
    which rebuilds the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
-   (src/candidates/func_8004A43C.c), and its one caller is the func_8004AAFC
-   candidate. It stays here rather than in unmatched.h because it takes an
+   (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
+   stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);

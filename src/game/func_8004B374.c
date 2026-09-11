@@ -22,7 +22,7 @@
  *             gcc makes the copy itself and puts it in the guard's delay slot
  */
 
-void func_8004B374(s32 arg0, s32 arg1) {
+void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
     u8 *base;
     s32 mask;
     s32 i;

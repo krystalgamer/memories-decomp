@@ -55,7 +55,7 @@ extern u8 D_800E9F48[];
  * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
  * +0x19 (func_8001B938.c:37-42), +0x11 and +0x12 again (:53-54), +0x10
  * (:59) and +0xF (:68), loading it back for each; func_80017034 loads it
- * through a DuelFieldCursor cast (src/candidates/func_80017034.c:18-19). Six
+ * directly as a DuelCardPickCursor (src/game/func_80017034.c). Six
  * functions still in assembly, none with a profile in matching_c.json, also
  * store or load it: func_80018FEC.s:31 and :87, func_80019D18.s:32,
  * func_8001BD88.s (stores :35, :106, :720, :1140, :1369, :1394; loads :92,
@@ -69,8 +69,8 @@ extern u8 D_800E9F48[];
  * +0x19. That is true of DuelFieldCursor and false of the record as a
  * whole: DuelCardPickCursor is 0x1A bytes and ends at 0x19 exactly, and
  * duel_card_pick_cursor.h already recorded that its col, row and status
- * agree with the narrower views. src/candidates/func_80017034.c still casts
- * to the narrow DuelFieldCursor at its one use.
+ * agree with the narrower views. func_80017034 now uses this owning type
+ * without a cast.
  *
  * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
  * the record a pointer member there would raise its alignment to 4 and
