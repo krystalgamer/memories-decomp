@@ -642,13 +642,6 @@ void func_8002A2F4(u8 *state);
  * duel_check_ritual.h keeps the result record and the recipe table. */
 s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
 
-/* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
- * hands the scene over to. On its first frame it derives the per-frame 16.16
- * deltas from the distance to the target over the remaining frame count, then
- * advances both accumulators, publishes their high halves as the camera
- * position, and snaps to the target when the counter runs out. */
-void Script_UpdateViewportTween(void);
-
 /* Entry 5 of the frontend step table D_80090D84 (frontend_step_tables.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
