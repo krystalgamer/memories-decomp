@@ -152,12 +152,35 @@ class UnmatchedContractTests(unittest.TestCase):
         )
 
     def test_inactive_central_variant_block_is_rejected(self) -> None:
+        wrappers = (
+            ("#if 0\n", ""),
+            ("#if (0)\n", ""),
+            ("#if 0\n", "#elif 0\n"),
+            ("#if 1\n", "#elif 1\n"),
+        )
+        for opening, selected_arm in wrappers:
+            with self.subTest(opening=opening, selected_arm=selected_arm):
+                self.configure_func_80042188_variant(
+                    opening
+                    + selected_arm
+                    + self.func_80042188_variant()
+                    + "#endif\n"
+                )
+                self.assertTrue(
+                    any(
+                        "extra enclosing preprocessor arm" in error
+                        for error in self.errors()
+                    )
+                )
+
+    def test_header_guard_may_enclose_central_variant_block(self) -> None:
         self.configure_func_80042188_variant(
-            "#if 0\n" + self.func_80042188_variant() + "#endif\n"
+            "#ifndef MEMORIES_DECOMP_UNMATCHED_H\n"
+            "#define MEMORIES_DECOMP_UNMATCHED_H\n"
+            + self.func_80042188_variant()
+            + "#endif\n"
         )
-        self.assertTrue(
-            any("inactive preprocessor arm" in error for error in self.errors())
-        )
+        self.assertEqual(self.errors(), [])
 
     def test_misselected_central_variant_arm_is_rejected(self) -> None:
         declaration = self.func_80042188_variant().replace(

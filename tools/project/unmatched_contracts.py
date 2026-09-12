@@ -361,22 +361,14 @@ def canonical_source_lines(source: str) -> list[str]:
     return result
 
 
-def inactive_at(lines: list[str], stop: int) -> bool:
-    inactive: list[bool] = []
+def enclosing_conditionals(lines: list[str], stop: int) -> list[str]:
+    conditionals: list[str] = []
     for line in lines[:stop]:
-        if line.startswith("#if "):
-            inactive.append(line == "#if 0" or (inactive[-1] if inactive else False))
-        elif line.startswith(("#ifdef ", "#ifndef ")):
-            inactive.append(inactive[-1] if inactive else False)
-        elif line.startswith("#else") and inactive:
-            parent_inactive = inactive[-2] if len(inactive) > 1 else False
-            inactive[-1] = parent_inactive or not inactive[-1]
-        elif line.startswith("#elif ") and inactive:
-            parent_inactive = inactive[-2] if len(inactive) > 1 else False
-            inactive[-1] = parent_inactive
-        elif line.startswith("#endif") and inactive:
-            inactive.pop()
-    return bool(inactive and inactive[-1])
+        if line.startswith(("#if ", "#ifdef ", "#ifndef ")):
+            conditionals.append(line)
+        elif line.startswith("#endif") and conditionals:
+            conditionals.pop()
+    return conditionals
 
 
 def validate_variant_block(
@@ -395,10 +387,14 @@ def validate_variant_block(
             f"{UNMATCHED_HEADER}: conditional declaration {name} must use "
             f"the approved selector and ABI arms"
         )
-    if inactive_at(lines, starts[0]):
+    conditionals = enclosing_conditionals(lines, starts[0])
+    if conditionals not in (
+        [],
+        ["#ifndef MEMORIES_DECOMP_UNMATCHED_H"],
+    ):
         return (
-            f"{UNMATCHED_HEADER}: conditional declaration {name} is inside "
-            "an inactive preprocessor arm"
+            f"{UNMATCHED_HEADER}: conditional declaration {name} must not be "
+            "inside an extra enclosing preprocessor arm"
         )
     return None
 
