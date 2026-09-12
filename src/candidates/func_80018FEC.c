@@ -13,6 +13,7 @@
  * count are identical; the difference is placement, not missing operations.
  */
 #include "../types.h"
+#include "../game/func_8002C604.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"

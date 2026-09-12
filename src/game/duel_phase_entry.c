@@ -1,6 +1,7 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define D_8009B36A_IN_DATA
 #include "../types.h"
+#include "func_8002C604.h"
 #include "func_800179F4.h"
 #include "display_object.h"
 #include "duel_card.h"
