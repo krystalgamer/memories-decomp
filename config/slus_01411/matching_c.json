@@ -1573,6 +1573,12 @@
       "source": "src/game/main_run_password_menu.c"
     },
     {
+      "address": "0x8002D6C8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x68",
+      "source": "src/game/main_run_options_menu.c"
+    },
+    {
       "address": "0x8002D7C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
