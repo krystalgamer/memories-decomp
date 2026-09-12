@@ -78,7 +78,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
     object = TextBox_Create(
         0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
     );
-    func_80039A60(object);
+    func_80039A60((struct DuelEffectChannel *)object);
     return object;
 }
 
