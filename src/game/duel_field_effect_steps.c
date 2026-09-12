@@ -51,7 +51,7 @@ void DuelEffect_ApplySwords(void)
                     DuelFieldEffectObject *current;
 
                     current = (DuelFieldEffectObject *)entry->object;
-                    current->callback = func_80025B28;
+                    current->callback = DuelEffect_UpdateRevealCard;
                     current->active = 1;
                 }
             }

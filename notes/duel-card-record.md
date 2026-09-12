@@ -327,8 +327,9 @@ extern:
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `func_8001F364`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
-`DuelEffect_UpdateFieldMarker`, `func_80025B28`, `func_80025BEC`,
-`DuelEffect_ApplySwords`, `func_80026A3C`,
+`DuelEffect_ApplyStopDefense`, `DuelEffect_UpdateRevealCard`,
+`DuelEffect_ApplyDarkPiercingLight`, `DuelEffect_ApplySwords`,
+`DuelEffect_ApplyHarpiesFeatherDuster`,
 `func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
@@ -351,7 +352,7 @@ Raw local views retained for exact code generation:
   field loads and pointer-difference expression preserve the accepted code.
 - `DuelEffect_ApplySwords` likewise keeps the target's 32-bit `+0x14` read for the
   `0x90000000` state test.
-- `DuelEffect_UpdateFieldMarker` uses the shared record and flags, but keeps
+- `DuelEffect_ApplyStopDefense` uses the shared record and flags, but keeps
   the target's 32-bit `+0x14` read for its `0x88000000` state test.
 - `func_8002C938` keeps its explicit byte-address construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.

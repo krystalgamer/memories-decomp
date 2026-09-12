@@ -616,7 +616,8 @@ full, in the order things happen.
   at zero, then `Duel_UpdateLifePointDisplay` counts it up toward the true
   value with larger steps while the gap is large. The next halfword at
   record `+0x16` is also initialized to 8000 and is the side's maximum LP:
-  `func_800250C8` caps recovery at it, while direct damage changes only the
+  `DuelEffect_ApplyLifePointRecovery` caps recovery at it, while direct damage
+  changes only the
   authoritative value at `+0x14`.
 * Each side's 40-card deck is shuffled and each draws five. Matching
   `Duel_ShuffleBothDecks` passes the player source to
@@ -804,6 +805,9 @@ get an **effect group**, 0–13, and calls the group's handler pair from a
 30-entry table [`0x80090A5C`]. So every spell is one of fourteen behaviours,
 and which cards share a behaviour is data:
 
+The corresponding resident application symbols and their evidence boundaries
+are collected in [the magic-effect group dispatch contract](../magic-effect-groups.md).
+
 | group | cards | effect |
 |---|---|---|
 | 0 | all 34 equips and all 10 traps | nothing at play time — equips resolve when attached, traps when triggered |
@@ -828,7 +832,7 @@ draw entry decrements before play, producing the three visible locked turns,
 and both the AI script test and normal attack-selection path consume the same
 per-side byte.
 
-Within group 2, matching `func_800250C8` subtracts
+Within group 2, matching `DuelEffect_ApplyLifePointRecovery` subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to map the five cards to
 recovery-table indices `0`-`4`. During presentation setup, finding
 `DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID` (`688`) shifts only the effect-object
@@ -836,7 +840,8 @@ index into `5`-`9` and returns before a table lookup. The later application
 phase recomputes `0`-`4`: the normal path adds and caps the recovery amount,
 while the alternate path subtracts it and floors LP at zero.
 
-Within group 9, matching `func_80025D30` identifies Spellbinding Circle with
+Within group 9, matching `DuelEffect_ApplyStatPenalty` identifies Spellbinding
+Circle with
 `DUEL_SPELLBINDING_CIRCLE_CARD_ID` (`349`) and subtracts one
 `DUEL_STAT_PENALTY_PER_LEVEL` (`500`) from each occupied target's
 `stat_modifier`; Shadow Spell uses two such levels (`1000`). The same signed
@@ -938,8 +943,10 @@ The checker returns the recipe's result ID when all three matches are found,
 or zero when the recipe/material search fails. It does not consume the field
 cards: it only removes matched pointers from a temporary candidate list and,
 when requested, exports the three records' object words. Matching
-[`func_8002622C`](../../src/game/func_8002622C.c) uses a query with no output
-buffer. The later execution routine `func_800262D4` (still unmatched assembly)
+[`DuelEffect_StartRitual`](../../src/game/duel_ritual_effect.c) uses a query
+with no
+output buffer. The later execution routine `DuelEffect_ApplyRitual` (still
+unmatched assembly)
 requests the output at `0x800262F8`, then calls
 [`func_80024914`](../../src/game/duel_card_record_lifecycle.c) for the three
 selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.

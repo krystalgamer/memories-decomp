@@ -15,8 +15,8 @@
  *
  * func_80026BA4 maps the presented card ID to the effect ID the dispatcher
  * consumes, records the original card ID, and raises the active/handler flags.
- * func_80026A3C is its own group handler, one of the table entries. */
-void func_80026A3C(void);
+ * DuelEffect_ApplyHarpiesFeatherDuster is its own group handler. */
+void DuelEffect_ApplyHarpiesFeatherDuster(void);
 s32 func_80026B34(void);
 void func_80026BA4(s32 value, s32 flag);
 

@@ -26,7 +26,8 @@
  * into +0x00 and +0x02, the centre of a 320x240 screen, while
  * func_8001825C (id 0xB) and duel_trap_resolution.c (id 8) copy a card
  * record's +0x30/+0x32/+0x34 triple straight into all three, and
- * func_80026A3C (id 0x17) reads +0x04 back as a y coordinate. Naming the pair
+ * DuelEffect_ApplyHarpiesFeatherDuster (id 0x17) reads +0x04 back as a y
+ * coordinate. Naming the pair
  * x/y, which two of the private copies did, asserts the first reading over
  * the others. */
 typedef struct {
@@ -71,14 +72,14 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
 
 /* The request the running effect handler is working on. Four handlers store
  * the entry func_8002C604 hands them on their first call, under the
- * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
+ * DuelEffect_MarkInitialized guard; DuelEffect_ApplyStopDefense stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
- * func_80024E58 writes +0x1A; DuelEffect_ApplySwords and
+ * DuelEffect_ApplyTerrain writes +0x1A; DuelEffect_ApplySwords and
  * duel_card_effects.c read +0x1D through their own display-object
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
- * (func_80018FEC, func_80019D18, func_8001F55C, func_800262D4) still
+ * (func_80018FEC, func_80019D18, func_8001F55C, DuelEffect_ApplyRitual) still
  * assembly. */
 extern u8 *D_8009B17C;
 
@@ -89,24 +90,22 @@ extern u8 *D_8009B17C;
  * NONBLOCKING excludes long-running field effects from the pool's blocking
  * status while still dispatching them normally.
  *
- * The request pool's status byte below is separate. func_8002C68C raises
- * bit 7 when it hands out a request and func_8002C598 clears the byte;
- * func_8002C6C8 clears bit 0, raises it again while walking the records
- * and returns it;
- * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
- * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
+ * The request pool's status byte below is separate. func_8002C68C raises bit
+ * 7 when it hands out a request and func_8002C598 clears the byte;
+ * func_8002C6C8 clears bit 0, raises it again while walking blocking records
+ * and returns it; func_80024200 drops bit 7 unless bit 0 is set;
+ * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty and
+ * DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu everywhere and one
  * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
  * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
- * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
- * func_80018FEC (still assembly); duel_card_effects.c,
- * src/candidates/func_80024200.c and src/candidates/func_80018FEC.c define
+ * in func_80024200, DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty,
+ * DuelEffect_ApplyDarkPiercingLight and func_80018FEC. The matching
+ * func_80024200.c, duel_card_effects.c, and the func_80018FEC candidate define
  * the .data arm below for that. func_8002C68C.c takes the plain arm.
  *
  * This paragraph named duel_scene_update.c until 2026-09-12. That was true
  * when it was written: duel_scene_update.c defined the arm from #3231 until
- * 73dd62177 moved the code that needed it to src/candidates/func_80024200.c,
- * which is where the definition is now. The file still includes this header
- * and no longer defines the guard.
+ * the coordinator moved through a candidate and then returned to matching C.
  *
  * What the arm buys func_80018FEC is measured rather than assumed: retail
  * leaves the delay slot before that unit's D_8009B260 test empty, and the

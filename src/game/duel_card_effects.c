@@ -24,8 +24,8 @@
 #include "../unmatched.h"
 #include "duel_card_effects.h"
 
-/* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
-   scales by 100 and the direct-damage amounts func_8002525C scales by 10,
+/* Small data at 0x8009AF30, owned here: the recovery handler scales the
+   first table by 100 and the direct-damage handler scales the second by 10,
    one entry per card in each family. */
 u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
     DUEL_MOOYAN_CURRY_RECOVERY / DUEL_LIFE_POINT_RECOVERY_SCALE,
@@ -46,7 +46,7 @@ u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
    alternate path subtracts the same values and floors the result at zero. */
-void func_800250C8(void) {
+void DuelEffect_ApplyLifePointRecovery(void) {
     s32 s0;
     s32 s1;
     s32 flag;
@@ -108,7 +108,7 @@ block_14:
 
 /* Applies one of the five direct-damage cards. The selected table value is
    scaled by 10 and taken off the target side's life points, clamped at zero. */
-void func_8002525C(void) {
+void DuelEffect_ApplyDirectDamage(void) {
     s32 unit;
     s32 flags;
     u16 remaining;
@@ -162,7 +162,7 @@ apply:
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
 
-void func_8002538C(void) {
+void DuelEffect_ApplyMonsterRemoval(void) {
     DuelEffectRequest *p;
     u8 *e;
     u8 *tb;
@@ -250,7 +250,7 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-void DuelEffect_UpdateFieldMarker(void) {
+void DuelEffect_ApplyStopDefense(void) {
     DuelCardRecord *r;
     u8 *p;
     u8 *e;
@@ -314,7 +314,7 @@ void DuelEffect_UpdateFieldMarker(void) {
     D_8009B220 = D_8009B220 | 0x40;
 }
 
-void func_800257A0(void) {
+void DuelEffect_ApplyBoardDestruction(void) {
     DuelEffectRequest *e;
     DuelCardRecord *p;
     DuelCardRecord *q;
@@ -385,7 +385,7 @@ void func_800257A0(void) {
     D_8009B220 = 0;
 }
 
-void func_8002596C(void) {
+void DuelEffect_ApplyRaigeki(void) {
     u8 *p;
     u8 *e;
     u8 *r;
@@ -452,7 +452,7 @@ extern u8 D_800907D8_2d
     [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("D_800907D8");
 extern u8 D_800907D8_flat[] asm("D_800907D8");
 
-void func_80025B28(DuelFieldEffectObject *o)
+void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *o)
 {
     o->timer += DUEL_FIELD_EFFECT_TIMER_STEP;
     if (!(o->active & 0x80) &&
@@ -471,8 +471,8 @@ void func_80025B28(DuelFieldEffectObject *o)
 }
 
 /* Opens the duel-side effect prompt and, once acknowledged, hands every
-   occupied slot of the current side over to the func_80025B28 animation. */
-void func_80025BEC(void)
+   occupied slot to the shared reveal animation. */
+void DuelEffect_ApplyDarkPiercingLight(void)
 {
     DuelFieldEffectObject *object;
     DuelFieldEffectObject *target;
@@ -500,7 +500,7 @@ void func_80025BEC(void)
             if ((*(u32 *)&record->terrain_modifier & 0x90000000) ==
                 0x90000000) {
                 target = (DuelFieldEffectObject *)record->object;
-                target->callback = func_80025B28;
+                target->callback = DuelEffect_UpdateRevealCard;
                 target->active = 1;
             }
         }
@@ -513,7 +513,7 @@ void func_80025BEC(void)
 /* Companion field-wide stat-penalty sweep. It advances one occupied slot of
  * the acting side's second row per countdown, spawns the effect at that card,
  * and waits on the same request-completion state as the transition above. */
-void func_80025D30(void) {
+void DuelEffect_ApplyStatPenalty(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
     u8 *card;

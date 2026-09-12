@@ -39,7 +39,7 @@
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define W(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-void func_800262D4(void)
+void DuelEffect_ApplyRitual(void)
 {
     DisplayObject *object;
     DuelCardRecord *card;

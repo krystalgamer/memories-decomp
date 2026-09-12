@@ -23,7 +23,7 @@
  * the call and puts `n - 1` in the slot. The mask is not a mask: it is the
  * read-back of the byte global just stored, and the decrement belongs to the
  * same expression -- `n = gDuel_bTerrain - 1;` before the call. */
-void func_80024E58(void) {
+void DuelEffect_ApplyTerrain(void) {
     u8 *p;
     u8 *r;
     u8 *q;

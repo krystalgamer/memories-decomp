@@ -101,8 +101,6 @@ void func_800540B4(s32);
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
 
-/* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
-
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
  * none of them read through it. func_80020D4C sized it [16], but nothing
@@ -527,7 +525,6 @@ struct DuelRitualResult;
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
  * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,

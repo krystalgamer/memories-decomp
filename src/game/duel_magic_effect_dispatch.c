@@ -13,7 +13,7 @@
 #include "duel_magic_effect_format.h"
 #include "duel_magic_effect_dispatch.h"
 
-void func_80026A3C(void)
+void DuelEffect_ApplyHarpiesFeatherDuster(void)
 {
     int i;
 
