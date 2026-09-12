@@ -40,7 +40,8 @@
 void func_8005E808(u8 *p)
 {
     ModelKeyframeTimingView *state = (ModelKeyframeTimingView *)p;
-    s16 pos[3];
+    /* The copier writes four halfwords; only the first three are coordinates. */
+    s16 pos[4];
     s16 buf[10][3];
     u8 *e;
     u8 *q;
@@ -98,7 +99,7 @@ void func_8005E808(u8 *p)
             if (func_80058DD8(slot) != 1) {
                 continue;
             }
-            Model_CopySlotU16Values(slot, pos);
+            Model_CopySlotU16Values(slot, (u16 *)pos);
             pos[0] = pos[0] + *(u16 *)e;
             pos[1] = pos[1] + *(u16 *)q;
             pos[2] = pos[2] + *(u16 *)(q + 2);
