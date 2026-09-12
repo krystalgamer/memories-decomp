@@ -82,7 +82,7 @@ independently of the companion:
 
 Every second address is the first plus `TWO_PLAYER_SAVE_SLOT_STRIDE`
 (`0x1000`). `SaveData_RequestTradeWrite` publishes the second integrity block
-through `D_8009B3E0`, then starts selector `4` with
+through `gMemCard_pSecondaryTransferCursor`, then starts selector `4` with
 `TWO_PLAYER_SAVE_TRANSFER_SIZE` (`0x400`) at the first block. Selector `4` is
 the trade write-back, `MemCardDialog_UpdateTradeSave`; the load side and the
 two-player duel's use of the same slots are in

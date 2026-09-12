@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MEM_CARD_H
 
 #include "../types.h"
+#include "display_object.h"
 
 #define MEM_CARD_DIRECTORY_ENTRY_SIZE 40
 #define MEM_CARD_BLOCK_SIZE 8192
@@ -207,14 +208,17 @@ extern u8 D_8009B3C0;
  *               it as its `value` parameter and stores it while raising
  *               MEM_CARD_DIALOG_FLAG_RESULT_READY. Distinct from D_8009B3C0
  *               above, which is the save path's failure code.
- *   D_8009B3D8  The box's display object. Assigned when the dialog opens,
+ *   gMemCard_pDialogObject
+ *               The box's display object. Assigned when the dialog opens,
  *               null-tested before teardown and reset to 0 after
- *               func_8004036C releases it; the +0x60 halfword the callers
- *               drive between -0x400 and 0x400 is reached through it.
+ *               func_8004036C releases it; callers drive its field_60
+ *               between -0x400 and 0x400.
  */
 extern u8 D_8009B3EE;
 extern u8 D_8009B3C6;
-extern struct DisplayObject *D_8009B3D8;
+extern DisplayObject *gMemCard_pDialogObject;
+extern u8 *gMemCard_pPrimaryTransferCursor;
+extern u8 *gMemCard_pSecondaryTransferCursor;
 extern u8 D_8009B3DC;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;
