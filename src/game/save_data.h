@@ -155,7 +155,7 @@ extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
- * says and as duel_deck_lookup.c, func_8002EE5C.c, func_8002BD0C.c
+ * says and as duel_deck_lookup.c, duel_is_player_deck_complete.c, func_8002BD0C.c
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
@@ -217,7 +217,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
  * write it under gMemCard_szSaveFileName.
  *
- * Its one caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
+ * Its one caller, Script_OpSavePrompt (now src/candidates/func_8002EE94.c),
  * reached it with no declaration in scope at
  * all before this, so neither the argument list nor the void return was being
  * checked against the definition. */

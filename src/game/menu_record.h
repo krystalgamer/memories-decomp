@@ -5,13 +5,13 @@
 
 /* The three 0x4C-byte records at D_800EB010. Every accessor agrees on the
  * stride: Text_HandleDisplayEffectCommand indexes
- * `D_800EB010 + slot * 0x4C`, func_8002EB78
+ * `D_800EB010 + slot * 0x4C`, Script_OpShowMenu
  * selects a record with `((bit >> 7) * 0x4C)`, and func_80039E9C and
  * DuelEffect_MarkObjectIfActive both walk indices 2..0.
  *
  * field_30 is the signed marker the walkers test for `>= 0`;
  * display_effect_step selects the D_80090F68 lifecycle handler; field_34 is
- * the halfword func_8002EB78 seeds with 0xD8 and
+ * the halfword Script_OpShowMenu seeds with 0xD8 and
  * DuelEffect_MarkObjectIfActive later ORs bit 1 into.
  */
 typedef struct {
@@ -38,7 +38,7 @@ typedef struct {
     s32 grid[4][3];
     s8 field_30;
     /* DisplayEffectState names this same byte field_31 on this same
-       memory; func_8002EB78 and display_effect_update_callbacks.c
+       memory; Script_OpShowMenu and display_effect_update_callbacks.c
        reach it too. Named to agree with that view. */
     u8 field_31;
     u8 field_32;
@@ -53,7 +53,7 @@ typedef struct {
     u8 pad_38[2];
     u8 field_3A;
     u8 field_3B;
-    /* Written by func_8002EB78 and Text_HandleDisplayEffectCommand and read by
+    /* Written by Script_OpShowMenu and Text_HandleDisplayEffectCommand and read by
        display_effect_update_callbacks.c and
        duel_effect_state_callbacks.c. Four sites prove a byte is
        here; none of them says what it carries. */
@@ -128,7 +128,7 @@ typedef char MenuRecord_field_4A_must_be_at_0x4A[
 
 extern MenuRecord D_800EB010[];
 
-/* func_8002EB78 selects element 0 or 1 from D_800EB010 using operand bit
+/* Script_OpShowMenu selects element 0 or 1 from D_800EB010 using operand bit
  * 7, arms it, then polls its display_effect_step on subsequent ticks. */
 extern MenuRecord *D_8009B274;
 

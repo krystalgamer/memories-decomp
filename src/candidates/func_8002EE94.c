@@ -28,7 +28,7 @@
 #include "../game/main_services.h"
 #include "../unmatched.h"
 #include "../game/dialog_read_choice_input.h"
-#include "../game/func_8002EE94.h"
+#include "../game/script_op_save_prompt.h"
 #include "../game/duel_effect_mark_object_if_active.h"
 
 extern u8 gCampaignSceneIndex;
@@ -39,7 +39,7 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
 
-void func_8002EE94(void)
+void Script_OpSavePrompt(void)
 {
     DuelEffectChannel *box;
     register DisplayObject *obj __asm__("$17");
@@ -92,7 +92,7 @@ void func_8002EE94(void)
             return;
         }
         D_8009B27C |= 0x4000;
-        if (func_8002EE5C() == 0) {
+        if (Duel_IsPlayerDeckComplete() == 0) {
             D_8009B27C |= 0x200;
             SD_SEPlayFull(0x2A);
             return;

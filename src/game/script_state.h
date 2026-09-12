@@ -44,8 +44,8 @@ extern u8 *D_8009B290;
  * `D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2)` -- so the head of
  * the package is a table of little-endian u16 byte offsets indexed by script
  * number, and the entry is where that script's code starts. The other three
- * namers jump within the same package: src/game/func_8002E918.c,
- * script_stream_commands.c and func_8002F9D4.c all set the cursor to
+ * namers jump within the same package: Script_OpStoryFlag,
+ * Script_OpJump and Script_OpJumpIfDeckIncomplete all set the cursor to
  * `D_801A8000 + offset`. All four spelled it `extern u8 D_801A8000[]`, which
  * is the spelling kept here.
  *
@@ -63,7 +63,7 @@ extern u8 D_801A8000[];
 
 /* The viewport tween target, X then Y, as two consecutive halfwords.
  *
- * func_8002E6B8 and Script_OpViewportTween read them out of the script
+ * Script_OpStageImage and Script_OpViewportTween read them out of the script
  * stream as little-endian operands (cursor[0] | (cursor[1] << 8));
  * Script_OpShowImage copies them straight into gGraphics_sViewportX/Y,
  * and Script_UpdateViewportTween interpolates the viewport towards them,
@@ -75,7 +75,7 @@ extern u8 D_801A8000[];
  * absolute scalar aliases. Base2_8009B2A8/AA are distinct linker identifiers
  * at the same addresses: they stop GCC retaining addresses across calls. */
 /* A sixteen-bit operand the script engine assembles from the stream a byte at
- * a time in script_flag_commands.c and func_8002F630.c. The text callback
+ * a time in script_flag_commands.c and script_op_duel_result.c. The text callback
  * func_8003771C sets it from func_80036D3C's return.
  *
  * The default-arm consumers read it unsigned except one site, which takes it as
@@ -108,21 +108,21 @@ extern s32 D_8009B288;
 extern s32 D_8009B294;
 extern s32 D_8009B298;
 
-/* func_8002F968 loads this signed countdown from its two-byte operand. */
+/* Script_OpWait loads this signed countdown from its two-byte operand. */
 extern s16 D_8009B278;
 
-/* Script_OpShowImage and func_8002F630 retain an allocated display object
+/* Script_OpShowImage and Script_OpDuelResult retain an allocated display object
  * here until their later command phase releases it with func_8004036C. */
 struct DisplayObject;
 extern struct DisplayObject *D_8009B280;
 
 /* The show-image command's halfword operand. Script_OpLoadImageScene and
- * func_8002E6B8
+ * Script_OpStageImage
  * read it from the stream as `cursor[0] | (cursor[1] << 8)`: the low twelve
  * bits are the image index ScriptImage_RequestTransfer is handed, 0x8000 says
  * a viewport X/Y pair follows (Script_OpLoadImageScene masks the index down
  * to `& 0xFFF` and
- * reads the pair into gGraphics_sViewportX/Y; func_8002E6B8 into
+ * reads the pair into gGraphics_sViewportX/Y; Script_OpStageImage into
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
@@ -139,8 +139,8 @@ extern u16 D_8009B270;
  * D_8009B2A4 is the event-script flag word: Campaign_LoadScenePackage seeds it from
  * its argument, Script_RunTick clears DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE
  * and ORs in DUEL_EVENT_SCRIPT_FLAG_STARTED (duel_effect.h), and
- * func_8002E5AC sets the dialog bit. D_8009B2A6 is the scene index the
- * save-prompt command (func_8002EE94) reads out of the script stream and
+ * Script_OpShowDialog sets the dialog bit. D_8009B2A6 is the scene index the
+ * save-prompt command (Script_OpSavePrompt) reads out of the script stream and
  * copies into workspace +0x7DC (the scene byte and its following byte;
  * see save_data.h's halfword arm) and, as a byte, into gCampaignSceneIndex.
  * Retail reaches both gp-relative; the second is spelled

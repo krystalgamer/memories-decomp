@@ -7,7 +7,7 @@
    field_34 and returns. Does nothing if every marker is negative.
 
    The argument is another record from the same table, not a separate type:
-   func_8002EB78 hands this routine's caller a D_800EB010 element and writes
+   Script_OpShowMenu hands this routine's caller a D_800EB010 element and writes
    the same field_34 halfword itself. */
 void DuelEffect_MarkObjectIfActive(MenuRecord *a0) {
     int count;

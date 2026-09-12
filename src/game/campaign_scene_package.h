@@ -53,7 +53,7 @@ void Campaign_LoadScenePackageStage(
 );
 
 /* The scene package's primary display object. Campaign_LoadScenePackage
- * creates it, func_8002F630 hides and restores it around the duel-result
+ * creates it, Script_OpDuelResult hides and restores it around the duel-result
  * screen, and the inline-assembly event driver updates the same slot. */
 extern DisplayObject *D_8009B2A0;
 

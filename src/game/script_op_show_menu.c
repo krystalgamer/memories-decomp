@@ -5,9 +5,9 @@
 #include "menu_record.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
-#include "func_8002EB78.h"
+#include "script_op_show_menu.h"
 
-void func_8002EB78(void)
+void Script_OpShowMenu(void)
 {
     MenuRecord *o;
     s32 first;

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002EB78_H
-#define MEMORIES_DECOMP_FUNC_8002EB78_H
+#ifndef MEMORIES_DECOMP_SCRIPT_OP_SHOW_MENU_H
+#define MEMORIES_DECOMP_SCRIPT_OP_SHOW_MENU_H
 
 #include "../types.h"
 
@@ -8,6 +8,6 @@
  * showing, and stores the first byte as its content id with the low nibble of
  * the second as its mode. The chosen record is published through D_8009B274 for
  * the handlers that follow. */
-void func_8002EB78(void);
+void Script_OpShowMenu(void);
 
 #endif

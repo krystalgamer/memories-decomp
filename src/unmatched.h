@@ -415,7 +415,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * func_8002EE94.c also clears it, spelled with a .data section attribute
+ * Script_OpSavePrompt also clears it, spelled with a .data section attribute
  * because it addresses the byte outside small data. It does not include this
  * header, so the two never meet and no guarded arm is needed here; if it ever
  * does, that is what would go in. */
@@ -629,7 +629,7 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  *
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
- * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
+ * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad

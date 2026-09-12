@@ -10,7 +10,7 @@
  *
  * The parameter is a MenuRecord because that is what the definition takes, and
  * the record it is handed is another element of the same table rather than a
- * separate type: func_8002EB78 passes a D_800EB010 element and writes the same
+ * separate type: Script_OpShowMenu passes a D_800EB010 element and writes the same
  * field_34 halfword itself. Its two callers spelled it `void *`; they pass a
  * text-box channel over the same memory, and cast. */
 void DuelEffect_MarkObjectIfActive(MenuRecord *record);

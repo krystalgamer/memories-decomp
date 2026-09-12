@@ -4,7 +4,7 @@
 #include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
-#include "func_8002E5AC.h"
+#include "script_op_show_dialog.h"
 #include "script_command_table.h"
 #include "script_run_tick.h"
 #include "script_state.h"
