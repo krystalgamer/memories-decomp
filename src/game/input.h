@@ -67,7 +67,7 @@ extern u32 gInput_dwPendingHeld;
  *   _SIZED_VOLATILE -- eight bytes it does not have, and volatile. That
  *                     leaves small data only where the assembler's -G sits
  *                     below the compiler's. Its consumers are
- *                     src/candidates/func_800307B8.c, which records that it
+ *                     src/game/func_800307B8.c, which records that it
  *                     was byte-exact under gcc_2_8_1_cc_g8_as_g4_split and
  *                     is 117 instructions against the target's 120 at
  *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
@@ -85,7 +85,7 @@ extern u32 gInput_dwPendingHeld;
  *                     change. For both, the arm is here only because it is
  *                     the volatile arm that can be indexed.
  *
- * A `[5]` arm used to sit beside that one, for src/candidates/func_80017034.c
+ * A `[5]` arm used to sit beside that one, for src/game/func_80017034.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
  * data at a single -G8 threshold, and the split flag decides only whose
  * %hi/%lo pair the reference becomes, so nothing separated the two
