@@ -242,26 +242,37 @@ def mask_non_code(source: str) -> str:
             output[index] = " "
     masked = "".join(output)
     lines = masked.splitlines(keepends=True)
-    directive = False
     conditional_depth = 0
-    for index, line in enumerate(lines):
-        opening = False
-        closing = False
-        if not directive:
-            match = CONDITIONAL_DIRECTIVE.match(line)
-            if match is not None:
-                opening = match.group("directive") in {"if", "ifdef", "ifndef"}
-                closing = match.group("directive") == "endif"
-        if not directive and line.lstrip().startswith("#"):
-            directive = True
-        if directive or conditional_depth:
-            continuation = line.rstrip("\r\n").endswith("\\")
-            lines[index] = "".join("\n" if char == "\n" else " " for char in line)
-            directive = continuation
+    index = 0
+    while index < len(lines):
+        end = index
+        while (
+            end + 1 < len(lines)
+            and lines[end].rstrip("\r\n").endswith("\\")
+        ):
+            end += 1
+        logical_line = re.sub(
+            r"\\\r?\n",
+            "",
+            "".join(lines[index : end + 1]),
+        )
+        match = CONDITIONAL_DIRECTIVE.match(logical_line)
+        opening = (
+            match is not None
+            and match.group("directive") in {"if", "ifdef", "ifndef"}
+        )
+        closing = match is not None and match.group("directive") == "endif"
+        is_directive = logical_line.lstrip().startswith("#")
+        if is_directive or conditional_depth:
+            for line_index in range(index, end + 1):
+                lines[line_index] = "".join(
+                    "\n" if char == "\n" else " " for char in lines[line_index]
+                )
         if closing and conditional_depth:
             conditional_depth -= 1
         if opening:
             conditional_depth += 1
+        index = end + 1
     return "".join(lines)
 
 
