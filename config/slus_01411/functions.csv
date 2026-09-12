@@ -710,7 +710,7 @@ address,size,name,status,module,notes
 0x80044D48,0x58,func_80044D48,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80044DA0,0x20,func_80044DA0,matching_c,game,6 pre-policy variants: exact -G0; -G8 used GP-relative global access and volatile-byte form added loads
 0x80044DC0,0xD0,func_80044DC0,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
-0x80044E90,0xC8,func_80044E90,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80044E90.c with target src/candidates_target/func_80044E90.S; profile gcc_2_8_1_g0. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 1 variable to hard registers, so it does not stand as a decompilation. Previously: 4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0."
+0x80044E90,0xC8,func_80044E90,matching_c,game,Pure C match: an s16 saved input preserves the retail a1 lifetime without a register pin.
 0x80044F58,0x8C,func_80044F58,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80044FE4,0x18,func_80044FE4,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80044FFC,0x40,func_80044FFC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
