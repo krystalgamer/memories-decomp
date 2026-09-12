@@ -5,6 +5,7 @@
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "duel_side_state.h"
+#include "duel_scene_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_card_layout.h"
@@ -65,8 +66,8 @@ void func_80018DB4(void) {
     s32 y;
 
     v = D_8009B23A;
-    if ((v & 0x8000) == 0) {
-        D_8009B23A = v | 0x8000;
+    if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A = v | DUEL_SCENE_FLAG_INITIALIZED;
         D_8009B1ED = 1;
     }
 

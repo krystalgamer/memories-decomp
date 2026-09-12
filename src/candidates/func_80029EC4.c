@@ -1,4 +1,4 @@
-#include "../../../../src/types.h"
+#include "../types.h"
 
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
@@ -9,6 +9,14 @@ extern s32 D_8009B09C;
 extern s32 func_80029EB0(u8 *, s32);
 extern void GsSortFastSprite(u8 *, s32, s32);
 extern void GsSortGLine(u8 *, s32, s32);
+
+/*
+ * Current best under gcc_2_8_1_g0: 269 instructions against 268, with
+ * encoding distance 5 and 97 differing positions. The target is split-address
+ * code; retuning this source under gcc_2_8_1_g0_split remains the next step.
+ * The residual non-split build shares one D_800EA1E8 address, emits one extra
+ * shift, and leaves two delay slots empty.
+ */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by

@@ -785,7 +785,8 @@ The retail jump-table entry at `0x80010158` sends that substate to
 `0x8001D1C4`. After its `D_8009B162` gate clears, the code at
 `0x8001D214..0x8001D218` selects **duel state 6**.
 The [`func_80024200`](../../src/candidates/func_80024200.c) candidate dispatches
-through `D_80090998[D_8009B23A & 0xF]`; the retail entry at `0x800909B0`
+through `D_80090998[D_8009B23A & DUEL_SCENE_PHASE_MASK]`; the retail entry at
+`0x800909B0`
 maps state 6 to [`func_80019608`](../../src/candidates/func_80019608.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
@@ -1239,7 +1240,8 @@ counter supplies the value added to the score. The rows, measured:
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
 `+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
 record to the current side, `D_8009B1D5`, and increments that byte in its
-draw-entry initialization branch, guarded by `D_8009B23A & 0x8000`.
+draw-entry initialization branch, guarded by
+`D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED`.
 The increment precedes the used-card flag reset and hand reconstruction,
 including the refill request. Later calls while that flag remains set only
 poll for the message state to finish; they do not increment the counter.
@@ -1277,9 +1279,9 @@ static code evidence, not a new controlled trace.
 **When "pure magic" advances.** The candidate
 [`func_80019608`](../../src/candidates/func_80019608.c) increments the current
 side's byte `+0x05` in its initialization
-branch, before the later effect requests. The `0x8000` bit of
-`D_8009B23A` guards that branch: after it is set, subsequent polling calls
-skip this increment. At `0x80019674..0x80019698`, the writer requires the
+branch, before the later effect requests. `DUEL_SCENE_FLAG_INITIALIZED` in
+`D_8009B23A` guards that branch: after it is set, subsequent polling calls skip
+this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 

@@ -11,6 +11,7 @@
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
+#include "../game/func_8002C604.h"
 #include "../unmatched.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_effect_request.h"
@@ -63,4 +64,3 @@ void func_80025F3C(void)
         D_8009B220 = 0;
     }
 }
-

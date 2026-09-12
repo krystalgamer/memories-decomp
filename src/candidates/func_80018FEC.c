@@ -13,9 +13,11 @@
  * count are identical; the difference is placement, not missing operations.
  */
 #include "../types.h"
+#include "../game/func_8002C604.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
+#include "../game/duel_scene_state.h"
 #include "../game/rand_get_interval.h"
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
@@ -81,14 +83,14 @@ void func_80018FEC(void)
     u8 *other;
 
     flags = D_8009B23A;
-    if ((flags & 0x8000) == 0) {
+    if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = D_8015C424;
         poses = D_80090918;
         fn = (void (*)(void))func_8001EC70;
         fnv = (s32)fn;
         objs = D_800E9EF0;
-        D_8009B23A = flags | 0x8000;
+        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = D_8009B214;
         D_8009B1B4 = (DuelCardPickCursor *)&D_800E9F10[D_8009B1D5 * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;

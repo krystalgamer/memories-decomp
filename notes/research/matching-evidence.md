@@ -42,6 +42,39 @@ replacement `min(scale, 0x4000)` expression. All six canonical attempts are
 preserved; one post-terminal resolution records this result. No register
 pins, source-level inline assembly, symbol aliases, or new profile is used.
 
+### Sound command filtering without register pins
+
+`func_80046294` (`0x80046294`) now matches all 151 instructions and the
+196-byte region at `0x800106C0`, including both switch tables and their
+alignment. It uses ordinary `gcc_2_8_1_g8_split` and the existing
+`G_SDVALUE_IN_DATA` declaration in `sound.h`: no register pins, inline
+assembly, mixed small-data threshold, local extern, or new profile is needed.
+Earlier candidate/pin measurements below remain historical evidence.
+
+The byte-cursor control flow was corroborated by the user-provided
+`tmp/references/ygofm-decomp-machinegun/parked/func_80046294.c`; its path and
+hash are recorded with the post-terminal result. The source takes its actual
+`SDCommand` layout and callback declarations from the resident headers.
+
+| Controlled change | Linked instruction differences |
+| --- | --- |
+| Pin-free typed-state candidate with derived offsets | 23 |
+| Disable first instruction scheduling in a named experimental profile | 15 |
+| Byte cursor, shared decrement label, explicitly maintained offsets | 4 |
+| Derive offsets as `i * 48` and `(i + 1) * 48` inside the loop | 0 |
+| Flatten the `do { i = 0; } while (0)` initialization scope | 9 |
+
+The byte-cursor form recovers the different copy-pointer lifetimes in the
+two switch arms. Natural offset induction lets GCC hoist the switch-table
+address before its synthesized offset initializers. The initialization scope
+must remain: flattening it exchanges the loop-index and next-offset register
+roles. The experimental profiles were not retained.
+
+Both copies retain their 0x30-byte `SDCommand` assignment. The count is
+decremented through its unsigned halfword view, then tested through its signed
+view; the second arm tests the command word at byte offset 0x90. Keeping these
+byte-based expressions matters to GCC's allocation and operand ordering.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
