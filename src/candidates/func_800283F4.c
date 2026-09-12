@@ -85,7 +85,7 @@ void DuelEffect_UpdateCardViewerState(void)
         p[3].field_2E = 0xFF;
         func_80029164(3, (s16)gDuel_wViewerCardID);
         obj = (DisplayObject *)func_800291E0(3, -1, -1);
-        adj = D_8009B24B;
+        adj = gDuel_bCardViewerYOffset;
         *(s16 *)&obj->field_30.h.field_30 = -0x8C;
         obj->field_20.b.field_21 = 0x80;
         obj->field_30.h.field_32 += adj;
@@ -96,7 +96,7 @@ void DuelEffect_UpdateCardViewerState(void)
         func_800428EC((u8 *)obj, 0x14);
         D_8009B24C = obj;
         obj = func_800400AC(func_8004002C(), 2);
-        func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+        func_800404CC((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
         obj->field_60 = slide;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);

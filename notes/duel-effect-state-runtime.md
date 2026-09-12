@@ -26,6 +26,22 @@ confirmation before completing the state. Slot 2 runs
 card selection, Build Deck, and Trade. Slots 3 and 4 intentionally point at
 distinct empty handlers and are requested by adjacent frontend scene states.
 
+The dialog and card-viewer handlers consume a second payload family:
+
+| Address | Name | Contract |
+| --- | --- | --- |
+| `0x8009B240` | `gDuel_pCardViewerBackground` | Sliding background display object |
+| `0x8009B244` | `gDuel_wEffectDialogTextID` | Text resource selected for dialog states 0 and 1 |
+| `0x8009B24B` | `gDuel_bCardViewerYOffset` | Shared vertical offset published with a viewer request |
+| `0x8009B24C` | `gDuel_pCardViewerCard` | Card portrait display object |
+| `0x8009B250` | `gDuel_pCardViewerTextBox` | Optional card-stat text box |
+
+Build Deck and Trade publish a Y offset of `20`; the card viewer applies it to
+both the portrait and the text/background layout. The viewer creates, slides,
+and destroys the three pointer-owned objects as one presentation. The dialog
+handler passes `gDuel_wEffectDialogTextID` directly to `TextBox_Create`, so the
+two dialog slots share code while their producers select the content.
+
 `DuelEffect_MarkStateInitialized` owns bit `0x80` of
 `gDuel_bEffectHandlerFlags`, independently of the dispatcher's initialized bit
 in `gDuel_bEffectState`. Both dialog and card-viewer handlers use that helper
@@ -34,5 +50,6 @@ specific and stay unnamed.
 
 The card-viewer implementation remains a candidate because exact code
 generation requires two pinned registers. Its address-based source filename
-and the `D_8009B248` declaration are retained as lexical candidate contracts;
-the linked function and generated assembly use the semantic runtime names.
+and the `D_8009B240`, `D_8009B248`, `D_8009B24C`, and `D_8009B250`
+declarations are retained as lexical candidate contracts; the linked function
+and generated assembly use the semantic runtime names.

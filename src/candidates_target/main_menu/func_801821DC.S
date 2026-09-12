@@ -441,9 +441,9 @@ glabel MainMenu_UpdateTradeScreen
     /* 2810 80182810 11014010 */  beqz       $v0, .L80182C58
     /* 2814 80182814 0A80023C */   lui       $v0, %hi(D_8009B246)
     /* 2818 80182818 46B243A4 */  sh         $v1, %lo(D_8009B246)($v0)
-    /* 281C 8018281C 0A80033C */  lui        $v1, %hi(D_8009B24B)
+    /* 281C 8018281C 0A80033C */  lui        $v1, %hi(gDuel_bCardViewerYOffset)
     /* 2820 80182820 14000224 */  addiu      $v0, $zero, 0x14
-    /* 2824 80182824 4BB262A0 */  sb         $v0, %lo(D_8009B24B)($v1)
+    /* 2824 80182824 4BB262A0 */  sb         $v0, %lo(gDuel_bCardViewerYOffset)($v1)
     /* 2828 80182828 0A80033C */  lui        $v1, %hi(gDuel_bEffectState)
     /* 282C 8018282C 02000224 */  addiu      $v0, $zero, 0x2
     /* 2830 80182830 160B0608 */  j          .L80182C58
@@ -837,9 +837,9 @@ glabel MainMenu_UpdateTradeScreen
     /* 2DB0 80182DB0 17014010 */  beqz       $v0, .L80183210
     /* 2DB4 80182DB4 0A80023C */   lui       $v0, %hi(D_8009B246)
     /* 2DB8 80182DB8 46B243A4 */  sh         $v1, %lo(D_8009B246)($v0)
-    /* 2DBC 80182DBC 0A80033C */  lui        $v1, %hi(D_8009B24B)
+    /* 2DBC 80182DBC 0A80033C */  lui        $v1, %hi(gDuel_bCardViewerYOffset)
     /* 2DC0 80182DC0 14000224 */  addiu      $v0, $zero, 0x14
-    /* 2DC4 80182DC4 4BB262A0 */  sb         $v0, %lo(D_8009B24B)($v1)
+    /* 2DC4 80182DC4 4BB262A0 */  sb         $v0, %lo(gDuel_bCardViewerYOffset)($v1)
     /* 2DC8 80182DC8 0A80033C */  lui        $v1, %hi(gDuel_bEffectState)
     /* 2DCC 80182DCC 02000224 */  addiu      $v0, $zero, 0x2
     /* 2DD0 80182DD0 840C0608 */  j          .L80183210

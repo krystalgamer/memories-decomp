@@ -309,10 +309,11 @@ void func_80056828(s32);
  *
  * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
- * D_8009B23A's next name, D_8009B244, is ten bytes on, so that gap is an
- * upper bound rather than the size; nothing is named inside it and no
- * consumer reads past the halfword, so the u16 every consumer agrees on is
- * what is declared here and the bytes above it stay unclaimed. */
+ * D_8009B23A's next name, gDuel_wEffectDialogTextID at 0x8009B244, is ten
+ * bytes on, so that gap is an upper bound rather than the size; nothing is
+ * named inside it and no consumer reads past the halfword, so the u16 every
+ * consumer agrees on is what is declared here and the bytes above it stay
+ * unclaimed. */
 extern u16 D_8009B162;   /* nine declarers  */
 extern u16 D_8009B23A;   /* eight declarers */
 
