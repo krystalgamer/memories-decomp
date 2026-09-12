@@ -1,19 +1,13 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/duel_deck_card_data.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0_split, a single
- * threshold, it is 60 of 60 instructions with 8 differing, opcode distance
- * 0. The source below is the match, unchanged apart from its include paths. */
 #include "../types.h"
-#include "../game/duel_deck_card_data.h"
+#include "duel_deck_card_data.h"
 #include "../psyq/qsort.h"
-#include "../game/card_constants.h"
-#include "../game/duel_card_data_transfer.h"
-#include "../game/duel_deck_card.h"
-#include "../game/duel_card_staging.h"
-#include "../game/file_transfer.h"
-#include "../game/util_memory.h"
-#include "../game/util_compare_s16.h"
+#include "card_constants.h"
+#include "duel_card_data_transfer.h"
+#include "duel_deck_card.h"
+#include "duel_card_staging.h"
+#include "file_transfer.h"
+#include "util_memory.h"
+#include "util_compare_s16.h"
 
 void Duel_RequestCombinedDeckData(void)
 {
@@ -54,6 +48,6 @@ void Duel_RequestCombinedDeckData(void)
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
     result->position = (u32)table;
-    D_8009B0F4 =
+    D_8009B0F4_abs =
         result->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }

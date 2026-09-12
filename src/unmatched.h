@@ -595,22 +595,6 @@ struct DuelRitualResult;
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-/* Builds the unique card id list for the combined deck and starts the fetch
- * for it.
- *
- * It copies the combined deck ids down into the sort buffer, sorts them with
- * qsort through Util_CompareS16, then walks the sorted run writing each id
- * that differs from the previous one into a second buffer, so the result is
- * the deck's ids deduplicated and in order, closed with a sentinel. It then
- * asks File_TryRequestAsyncTransfer for the block spanning the first id to
- * the last, with Duel_StepCardDataTransfer as the step callback, and records
- * the returned transfer's state with the primary-active bit set.
- *
- * The dedupe relies on the sort: it compares only against the previous
- * element, so it removes runs of equal ids rather than duplicates in
- * general. Duel_PopulateCombinedDeckData, still matched in
- * duel_card_record_lifecycle.c, depends on that. */
-void Duel_RequestCombinedDeckData(void);
 
 /* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
  * gDuel_bTerrain back after storing it and decrements in the same
