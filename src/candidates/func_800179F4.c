@@ -35,6 +35,7 @@
 #include "../game/duel_action_lock.h"
 #include "../game/func_80016D04.h"
 #include "../game/func_80016778.h"
+#include "../game/func_800164FC.h"
 #include "../unmatched.h"
 #include "../game/func_800179F4.h"
 #include "../game/func_8001755C.h"
@@ -192,4 +193,3 @@ void func_800179F4(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-

@@ -591,16 +591,6 @@ struct DuelRitualResult;
  * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
 void File_SetPositionTable(void);
 
-/* The duel screen's per-frame view callback. It reads D_800F2848, programs
- * the geometry engine from its projection field -- SetGeomScreen,
- * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
- * records.
- *
- * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
- * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
- * has to match the definition exactly for the address to be taken. */
-void func_800164FC(void);
-
 /* Builds the unique card id list for the combined deck and starts the fetch
  * for it.
  *
