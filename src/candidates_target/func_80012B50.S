@@ -31,8 +31,8 @@ glabel Main_Init
     /* 3394 80012B94 21200000 */   addu      $a0, $zero, $zero
     /* 3398 80012B98 4357000C */  jal        func_80015D0C
     /* 339C 80012B9C 00000000 */   nop
-    /* 33A0 80012BA0 0A80043C */  lui        $a0, %hi(D_8009B4A8)
-    /* 33A4 80012BA4 A8B48424 */  addiu      $a0, $a0, %lo(D_8009B4A8)
+    /* 33A0 80012BA0 0A80043C */  lui        $a0, %hi(gGraphics_aFrameBuffers)
+    /* 33A4 80012BA4 A8B48424 */  addiu      $a0, $a0, %lo(gGraphics_aFrameBuffers)
     /* 33A8 80012BA8 01000324 */  addiu      $v1, $zero, 0x1
     /* 33AC 80012BAC C40180AF */  sw         $zero, %gp_rel(D_8009B0CC)($gp)
     /* 33B0 80012BB0 C00180AF */  sw         $zero, %gp_rel(D_8009B0C8)($gp)
@@ -47,7 +47,7 @@ glabel Main_Init
     /* 33D4 80012BD4 C90180A3 */  sb         $zero, %gp_rel(D_8009B0D1)($gp)
     /* 33D8 80012BD8 0A80013C */  lui        $at, %hi(D_8009B230)
     /* 33DC 80012BDC 30B223A0 */  sb         $v1, %lo(D_8009B230)($at)
-    /* 33E0 80012BE0 AC0184AF */  sw         $a0, %gp_rel(D_8009B0B4)($gp)
+    /* 33E0 80012BE0 AC0184AF */  sw         $a0, %gp_rel(gGraphics_pActiveFrameBuffer)($gp)
     /* 33E4 80012BE4 BC0185AF */  sw         $a1, %gp_rel(D_8009B0C4)($gp)
     /* 33E8 80012BE8 554C000C */  jal        func_80013154
     /* 33EC 80012BEC 00000000 */   nop

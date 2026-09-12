@@ -8,6 +8,7 @@
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
 #include "fade_constants.h"
+#include "graphics_frame_buffer.h"
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"
@@ -27,7 +28,7 @@ u8 D_8009B0D0;
 u16 D_8009B098;
 u8 D_8009B0A0[4];
 u8 gGraphics_bActiveBuffer;
-u8 *D_8009B0B4;
+GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
 
@@ -62,7 +63,6 @@ void Graphics_SyncFrame(void)
 void Graphics_BeginFrame(void)
 {
     s32 i;
-    s32 off;
     GsOT **slot;
     s32 src;
     s32 idx;
@@ -87,15 +87,15 @@ void Graphics_BeginFrame(void)
     }
     if ((D_8009B318 & 0x80) == 0) {
         if (D_8009B141 != 0) {
-            GsSortOt((GsOT *)(D_8009B0B4 + 0x5124),
-                     (GsOT *)(D_8009B0B4 + 0x5110));
+            GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[1],
+                     &gGraphics_pActiveFrameBuffer->ordering_tables[0]);
             if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
-                GsSortOt((GsOT *)(D_8009B0B4 + 0x5138),
-                         (GsOT *)(D_8009B0B4 + 0x5110));
-                GsSortOt((GsOT *)(D_8009B0B4 + 0x514C),
-                         (GsOT *)(D_8009B0B4 + 0x5110));
+                GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[2],
+                         &gGraphics_pActiveFrameBuffer->ordering_tables[0]);
+                GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[3],
+                         &gGraphics_pActiveFrameBuffer->ordering_tables[0]);
             }
-            GsDrawOt((GsOT *)(D_8009B0B4 + 0x5110));
+            GsDrawOt(&gGraphics_pActiveFrameBuffer->ordering_tables[0]);
         }
     }
     idx = GsGetActiveBuff();
@@ -104,18 +104,17 @@ void Graphics_BeginFrame(void)
     gGraphics_bActiveBuffer = idx;
     arg = &D_800A5768[gGraphics_bActiveBuffer * 140000];
     D_8009AFA2 = idx;
-    D_8009B0B4 = &D_8009B4A8[gGraphics_bActiveBuffer * 20832];
+    gGraphics_pActiveFrameBuffer =
+        &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
     func_800862C0(arg);
-    off = 0x514C;
     base = D_800E9D90;
     slot = base + 3;
     do {
-        ptr = (GsOT *)(D_8009B0B4 + off);
+        ptr = &gGraphics_pActiveFrameBuffer->ordering_tables[i];
         *slot = ptr;
         slot--;
         ptr->length = *(u8 *)(i + src);
         GsClearOt(0, 0, ptr);
-        off -= 0x14;
         i--;
     } while (i >= 0);
 }

@@ -456,6 +456,24 @@ extern int sdk_call(int value);
             (["added"], ["removed"], ["changed"]),
         )
 
+    def test_configured_used_contract_survives_header_centralization(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { gGraphics_pActiveFrameBuffer = p; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    [
+                        "gGraphics_pActiveFrameBuffer",
+                        "gGraphics_aFrameBuffers",
+                    ],
+                ),
+                ["gGraphics_pActiveFrameBuffer"],
+            )
+
     def test_contract_validation_reports_changed_dependencies(self) -> None:
         digest = "a" * 64
         with self.assertRaisesRegex(
