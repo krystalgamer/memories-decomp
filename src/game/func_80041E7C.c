@@ -1,23 +1,10 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers and 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/display_object_projection.c.
- */
 #include "../types.h"
 #include "../psyq/libgte.h"
-#include "../psyq/libgte_abi_variants.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
 #include "../game/display_object.h"
 #include "../game/display_object_projection.h"
-
-/* RotAverageNclip3_nom at 0x80089CF0. libgte.h declares it
-   `void RotAverageNclip3_nom(SVECTOR *, SVECTOR *, SVECTOR *)`; retail calls
-   it with a fourth pointer and reads the result, so the address-qualified ABI
-   alias preserves the retail call without changing the canonical declaration
-   (notes/psyq.md). */
 
 s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
 {
@@ -48,7 +35,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
     GsSetLsMatrix(mtx);
 
     {
-        register SVECTOR *v318 __asm__("$7") = (SVECTOR *)0x1F800318;
+        SVECTOR *v318 = (SVECTOR *)0x1F800318;
         SVECTOR *v310 = (SVECTOR *)0x1F800310;
 
         v318->vx = 0;
@@ -61,7 +48,7 @@ s32 func_80041E7C(u32 arg0, s32 arg1, s32 arg2, struct ProjectionOut *arg3)
         v310->vz = 0;
         v308->vz = 0;
 
-        RotAverageNclip3_nom_80089CF0(v308, v310, v318, v318);
+        RotAverageNclip3_nom(v308, v310, v318);
     }
 
     {
