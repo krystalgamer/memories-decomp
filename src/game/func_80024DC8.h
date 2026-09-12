@@ -14,4 +14,12 @@
  * the two resident callers pass constants, so neither side moves. */
 void func_80024DC8(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 
+/* Main_RunDuel indexes continuation bytes from this address; the setup
+ * function stores the same address as a halfword. */
+#ifdef D_8009B370_AS_ABSOLUTE_ARRAY
+extern u8 D_8009B370[9];
+#else
+extern u16 D_8009B370;
+#endif
+
 #endif

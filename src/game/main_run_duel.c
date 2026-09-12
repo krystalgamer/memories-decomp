@@ -2,14 +2,23 @@
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
 #define D_8009B368_IN_DATA
+#define D_8009B16C_AS_ABSOLUTE_ARRAY
+#define D_8009B2F8_AS_ABSOLUTE_ARRAY
+#define D_8009B370_AS_ABSOLUTE_ARRAY
+#define GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
+#define GDUEL_BOPPONENT_ID_AS_ABSOLUTE_ARRAY
 #include "../types.h"
+#include "../game/ai_opponent_data.h"
+#include "../game/duel_check_quit_input.h"
 #include "../game/func_800179F4.h"
+#include "../game/func_80024DC8.h"
 #include "../game/graphics_frame.h"
 #include "../game/func_800339D0.h"
 #include "../game/save_data.h"
 #include "../game/main_frame.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
+#include "../game/main_modes.h"
 #include "../game/main_reset_frontend_runtime.h"
 #include "../game/main_services.h"
 #include "../game/sound.h"
@@ -21,11 +30,6 @@
 #include "../unmatched.h"
 
 u8 D_8009B26C;
-extern u8 D_8009B2F8[9];
-extern s8 gDuel_bOpponentID[9];
-extern u8 gCampaignSceneIndex[9];
-extern u8 D_8009B370[9];
-extern u16 D_8009B16C[9];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 
@@ -89,4 +93,3 @@ void Main_RunDuel(void)
     }
     }
 }
-
