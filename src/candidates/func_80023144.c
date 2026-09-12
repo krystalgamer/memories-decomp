@@ -25,6 +25,7 @@
 #include "../game/text_box_lifecycle.h"
 #include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
+#include "../game/duel_swords_effect.h"
 
 extern u8 D_8009B344 __attribute__((section(".data")));
 
@@ -88,11 +89,11 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         TextStagingValues *dst = D_801D5608;
 
         style += 4;
-        rank = D_800E9FF0[D_8009B1D5 ^ 1].field_19;
+        rank = D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
-            if (rank < 0 || rank > 3) {
-                dst->card_stats.rank = 3;
+            if (rank < 0 || rank > DUEL_SWORDS_DURATION_TURNS) {
+                dst->card_stats.rank = DUEL_SWORDS_DURATION_TURNS;
             }
             D_8009B355 = 1;
         }
@@ -115,11 +116,11 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             side = side ^ 1;
         }
         dst = D_801D5608;
-        rank = D_800E9FF0[side].field_19;
+        rank = D_800E9FF0[side].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
-            if (rank < 0 || rank > 3) {
-                dst->card_stats.rank = 3;
+            if (rank < 0 || rank > DUEL_SWORDS_DURATION_TURNS) {
+                dst->card_stats.rank = DUEL_SWORDS_DURATION_TURNS;
             }
             D_8009B355 = 1;
         }

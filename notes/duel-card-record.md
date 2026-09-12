@@ -96,7 +96,7 @@ several functions use interior aliases or derived subranges.
 
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
-| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `func_80025F3C`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
+| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
 | `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
@@ -328,7 +328,7 @@ extern:
 `func_8001EFD4`, `func_8001F364`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
 `DuelEffect_UpdateFieldMarker`, `func_80025B28`, `func_80025BEC`,
-`func_80025F3C`, `func_80026A3C`,
+`DuelEffect_ApplySwords`, `func_80026A3C`,
 `func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
@@ -349,7 +349,7 @@ Raw local views retained for exact code generation:
 - `func_80017F04` uses the shared table declaration for its record-index
   calculation, but keeps the incoming record as a byte pointer so its
   field loads and pointer-difference expression preserve the accepted code.
-- `func_80025F3C` likewise keeps the target's 32-bit `+0x14` read for the
+- `DuelEffect_ApplySwords` likewise keeps the target's 32-bit `+0x14` read for the
   `0x90000000` state test.
 - `DuelEffect_UpdateFieldMarker` uses the shared record and flags, but keeps
   the target's 32-bit `+0x14` read for its `0x88000000` state test.

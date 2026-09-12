@@ -69,6 +69,7 @@ gLibrary_dwStarchips = 0x801D07E0;
 gDuel_aOpponentData = 0x800917F0;
 gAiScript_apfnCommand = 0x800916E0;
 gAiScript_State = 0x800F5BE8;
+gDuel_apSwordsEffectObjects = 0x8009B1F0;
 
 // Semantic names
 Main_Init = 0x80012B50; // type:func
@@ -499,6 +500,8 @@ Widget_UpdatePulseColour = 0x80037110; // type:func
 // Semantic names
 DuelEffect_ProcessEntries = 0x80039D64; // type:func
 DuelEffect_UpdateFieldMarker = 0x800255FC; // type:func
+DuelEffect_StartSwords = 0x80025EE0; // type:func
+DuelEffect_ApplySwords = 0x80025F3C; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func

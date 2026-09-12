@@ -5,12 +5,13 @@
 #include "../game/duel_field_equip_search.h"
 #include "../game/rand_get_interval.h"
 #include "../game/duel_card_selection.h"
+#include "../game/duel_side_state.h"
 #include "../psyq/rand.h"
 
 extern u8 D_800907D8[];
 extern u8 D_800EAE88[];
 extern u8 D_8009B1D5;
-extern s8 *D_8009B1C8;
+extern DuelSideState *D_8009B1C8;
 
 /* Current best under gcc_2_8_1_g8_split: 269/271 instructions, opcode
  * distance 8, and 176 differing positions.
@@ -144,7 +145,7 @@ loop:
                 }
             }
 have:
-            if (D_8009B1C8[0x19] == 0) {
+            if (D_8009B1C8->swords_turns_remaining == 0) {
                 out[0xB] = 0;
                 out[0xA] = v % 5 + 0x38;
                 out[9] = (s8)rec->table_index % 5 + 1;
