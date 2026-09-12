@@ -3,16 +3,21 @@ from __future__ import annotations
 import csv
 import json
 from pathlib import Path
-import tempfile
+import shutil
 import unittest
 
 import translation_unit_headers
 
 
+REPOSITORY = Path(__file__).resolve().parents[3]
+
+
 class TranslationUnitHeaderTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.temporary = tempfile.TemporaryDirectory()
-        self.root = Path(self.temporary.name)
+        if Path.cwd().resolve() != REPOSITORY:
+            raise RuntimeError("run these tests from the repository root")
+        self.root = REPOSITORY / "tmp/test-translation-unit-headers"
+        shutil.rmtree(self.root, ignore_errors=True)
         (self.root / "config/slus_01411/overlays").mkdir(parents=True)
         (self.root / "src/game").mkdir(parents=True)
         self.write_inventory(
@@ -40,7 +45,7 @@ class TranslationUnitHeaderTests(unittest.TestCase):
         )
 
     def tearDown(self) -> None:
-        self.temporary.cleanup()
+        shutil.rmtree(self.root, ignore_errors=True)
 
     def write(self, relative: str, text: str) -> None:
         path = self.root / relative
@@ -130,6 +135,46 @@ class TranslationUnitHeaderTests(unittest.TestCase):
     def test_each_function_in_multiple_declarators_is_checked(self) -> None:
         problems = self.problems(
             "void func_local(void), func_foreign(void);\n"
+            "void func_local(void) {}\n"
+        )
+        self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))
+
+    def test_initialized_object_does_not_hide_sibling_function(self) -> None:
+        problems = self.problems(
+            "int state = 0, func_foreign(void);\n"
+            "void func_local(void) {}\n"
+        )
+        self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))
+
+    def test_inactive_definition_does_not_claim_manifest_owned_function(self) -> None:
+        self.write(
+            "config/slus_01411/matching_c.json",
+            json.dumps(
+                {
+                    "schema": 1,
+                    "functions": [
+                        {
+                            "address": "0x80010000",
+                            "size": "0x10",
+                            "source": "src/game/example.c",
+                            "profile": "test",
+                        },
+                        {
+                            "address": "0x80010010",
+                            "size": "0x10",
+                            "source": "src/game/foreign.c",
+                            "profile": "test",
+                        },
+                    ],
+                }
+            ),
+        )
+        self.write("src/game/foreign.c", "void func_foreign(void) {}\n")
+        problems = self.problems(
+            "int func_foreign(void);\n"
+            "#if 0\n"
+            "int func_foreign(void) { return 0; }\n"
+            "#endif\n"
             "void func_local(void) {}\n"
         )
         self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))

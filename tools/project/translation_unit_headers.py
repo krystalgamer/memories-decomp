@@ -104,6 +104,48 @@ def matching_sources(root: Path) -> list[SourceUnit]:
     return sorted(sources, key=lambda unit: (unit.path, unit.module))
 
 
+def matching_owners(root: Path) -> dict[tuple[str, str], Path]:
+    inventories = [(root / CONFIG / "functions.csv", "resident")]
+    inventories.extend(
+        (path, f"overlay/{path.stem.removesuffix('_functions')}")
+        for path in sorted((root / CONFIG / "overlays").glob("*_functions.csv"))
+    )
+    names_by_address: dict[tuple[str, int], str] = {}
+    for path, module in inventories:
+        try:
+            with path.open(encoding="utf-8", newline="") as handle:
+                for row in csv.DictReader(handle):
+                    address = row.get("address")
+                    name = row.get("name")
+                    if address and name:
+                        names_by_address[(module, int(address, 0))] = name
+        except (OSError, UnicodeError, ValueError, csv.Error) as error:
+            raise HeaderContractError(f"{path}: {error}") from error
+
+    manifests = [(root / CONFIG / "matching_c.json", "resident")]
+    manifests.extend(
+        (path, f"overlay/{path.stem.removesuffix('_matching_c')}")
+        for path in sorted((root / CONFIG / "overlays").glob("*_matching_c.json"))
+    )
+    owners: dict[tuple[str, str], Path] = {}
+    for path, module in manifests:
+        value = read_json(path)
+        entries = value.get("functions") if isinstance(value, dict) else None
+        if not isinstance(entries, list):
+            raise HeaderContractError(f"{path}: missing functions list")
+        for entry in entries:
+            address = entry.get("address") if isinstance(entry, dict) else None
+            source = entry.get("source") if isinstance(entry, dict) else None
+            if not isinstance(address, str) or not isinstance(source, str):
+                raise HeaderContractError(
+                    f"{path}: function address and source must be strings"
+                )
+            name = names_by_address.get((module, int(address, 0)))
+            if name is not None:
+                owners[(module, name)] = root / source
+    return owners
+
+
 def split_declarators(statement: str) -> list[str]:
     parts: list[str] = []
     start = 0
@@ -138,10 +180,12 @@ def split_declarators(statement: str) -> list[str]:
 
 
 def declaration_names(statement: str) -> list[tuple[str, str | None]]:
-    if "=" in statement or statement.startswith("typedef "):
+    if statement.startswith("typedef "):
         return []
     result: list[tuple[str, str | None]] = []
     for declarator in split_declarators(statement):
+        if "=" in declarator:
+            continue
         declarator_without_pointer_objects = FUNCTION_POINTER_OBJECT.sub(
             " ", declarator
         )
@@ -218,6 +262,7 @@ def definition_names(source: str) -> set[str]:
 
 def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory_statuses(root)
+    owners = matching_owners(root)
     problems: list[str] = []
     source_count = 0
     declaration_count = 0
@@ -236,7 +281,18 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         for statement in candidate_builds.top_level_statements(source):
             for name, alias in declaration_names(statement):
                 declaration_count += 1
-                if name in definitions or alias in definitions:
+                symbols = {name}
+                if alias is not None:
+                    symbols.add(alias)
+                if any(
+                    owners.get((unit.module, symbol)) == path
+                    for symbol in symbols
+                ):
+                    same_unit_count += 1
+                    continue
+                if not any(
+                    (unit.module, symbol) in owners for symbol in symbols
+                ) and any(symbol in definitions for symbol in symbols):
                     same_unit_count += 1
                     continue
                 if statuses.get((unit.module, name)) == "unmatched_asm":
