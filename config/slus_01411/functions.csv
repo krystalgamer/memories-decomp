@@ -1623,7 +1623,7 @@ address,size,name,status,module,notes
 0x800878E0,0x2C,RotTransPers,sdk_asm,psyq/sdk,
 0x80087910,0x54,RotTransPers3,sdk_asm,psyq/sdk,
 0x80087970,0x28,RotTrans,sdk_asm,psyq/sdk,
-0x800879A0,0x24,func_800879A0,sdk_asm,psyq/sdk,
+0x800879A0,0x24,NormalClip,sdk_asm,psyq/sdk,Unique Psy-Q 4.6 LIBGTE.LIB/SMP_05.OBJ signature; candidate caller uses an address-qualified one-pointer ABI alias because the retail call does not match the canonical three-long header declaration.
 0x800879D0,0x78,RotTransPers4,sdk_asm,psyq/sdk,
 0x80087A50,0x58,RotAverage3,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/CMB_01.OBJ signature and matching projection caller.
 0x80087AB0,0x7C,RotAverage4,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/CMB_02.OBJ signature and matching projection caller.
@@ -1656,7 +1656,7 @@ address,size,name,status,module,notes
 0x80089C70,0x20,AverageZ3,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_00_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A470 (resident 0x80089C70), exactly covers the inventory extent, and labels AverageZ3 at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
 0x80089C90,0x24,AverageZ4,sdk_asm,psyq/sdk,
 0x80089CC0,0x30,RotTransSV,sdk_asm,psyq/sdk,"Identified by the unique 48-byte Psy-Q 4.6 LIBGTE.LIB/SMP_01_1.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A4C0 (resident 0x80089CC0), exactly covers the inventory extent, and labels RotTransSV at offset zero. The canonical libgte.h declaration, matching func_800580D4 caller, and independent Unchiga catalogue agree. Keep SDK assembly ownership."
-0x80089CF0,0x34,func_80089CF0,sdk_asm,psyq/sdk,
+0x80089CF0,0x34,RotAverageNclip3_nom,sdk_asm,psyq/sdk,Unique Psy-Q 4.6 LIBGTE.LIB/NOM_7.OBJ signature; candidate callers use an address-qualified four-SVECTOR ABI alias because the retail calls pass one more vector than the canonical header declaration.
 0x80089D30,0xA8,GsScanAnim,sdk_asm,psyq/sdk,
 0x80089DD8,0x3C,GsLinkAnim,sdk_asm,psyq/sdk,
 0x80089E20,0x1C,GsU_00000000,sdk_asm,psyq/sdk,
