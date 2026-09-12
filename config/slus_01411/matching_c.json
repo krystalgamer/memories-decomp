@@ -1213,6 +1213,12 @@
       "source": "src/game/func_80029108.c"
     },
     {
+      "address": "0x80029164",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x7C",
+      "source": "src/game/func_80029164.c"
+    },
+    {
       "address": "0x80029528",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
@@ -1759,6 +1765,12 @@
       "source": "src/game/duel_interface_setup.c"
     },
     {
+      "address": "0x800307B8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E0",
+      "source": "src/game/func_800307B8.c"
+    },
+    {
       "address": "0x80030C10",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
@@ -2051,6 +2063,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
       "source": "src/game/movie_playback_control.c"
+    },
+    {
+      "address": "0x80035A64",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/game/func_80035A64.c"
     },
     {
       "address": "0x80035AB8",
@@ -5519,6 +5537,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
       "source": "src/game/ai_script_query_commands.c"
+    },
+    {
+      "address": "0x80071460",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_terrain.c"
     },
     {
       "address": "0x8007149C",

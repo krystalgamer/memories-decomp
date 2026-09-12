@@ -11,5 +11,6 @@
  * call site does not support. */
 extern void (*D_80090D7C[])(void);
 extern void (*D_80090D84[])(void);
+void func_800307B8(void);
 
 #endif
