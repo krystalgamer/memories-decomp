@@ -21,8 +21,9 @@ generally follow one shape — an explicit section attribute and an initializer:
 u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
-Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`. The former
-`0x8009AF6C` blob is now split around three C-owned interior ranges: a 28-byte
+One small blob remains, at `0x8009AF2A`. The former `0x8009AF08` watchdog
+word is now owned by `main_services.c`, and the former
+`0x8009AF6C` blob is split around three C-owned interior ranges: a 28-byte
 head at `0x8009AF6C`, model/graphics state at `0x8009AF88`, model primitive
 templates at `0x8009AFAC`, model handler state at `0x8009AFE4`, and a 40-byte
 tail at `0x8009B058`.
@@ -187,12 +188,13 @@ All twenty public symbols land at their extracted offsets. Splitting the
 original blob at `D_8009B058` leaves the unrelated 40-byte tail in generated
 assembly rather than assigning it to the model-handler owner.
 
-## The remaining unowned blob
+## The runtime watchdog word
 
-`0x8009AF08`, 28 bytes, names no symbols at all in `c_symbols.ld` and has no
-C consumer. It does contain a pointer — the word at `+0x10` reads
-`0x800E9E60` — so it is a record rather than scratch, but nothing in C
-describes it.
+The four-byte extracted blob at `0x8009AF08` is `runtime_gp`, the watchdog
+counter read, decremented, and reset to `0x3C` only by `main_services.c`.
+That unit now defines the word in `.sdata`, preserving its `%gp_rel` accesses
+and its position before `main_frame`'s small data. The generated blob is no
+longer needed.
 
 ## A mislabelled `pad`
 
