@@ -547,22 +547,6 @@ int func_800695A4();
 int func_8006988C();
 int func_80069B40();
 
-/* A function #3859 moved back to generated assembly that has nowhere else
- * to be declared. The other pin and inline-asm functions it moved became
- * build-integrated candidates and keep their declarations in the header of
- * the unit they came from, because src/candidates/ still gives them a
- * defining C translation unit and the contract check accepts that home for a
- * candidate. The mixed -G share that follows took the other accepted home.
- *
- * func_800291E0 builds the display objects for slot `index` of the
- * D_800EA0E8 effect-resource records and returns the first of them. Its
- * source was only ever the target's own words in an asm block, so there is no
- * candidate, and u8 * is what its three callers agreed on rather than a
- * recovered type; func_800283F4.c casts the result to DisplayObject *, which
- * is the closest thing to evidence there is. The password overlay's shop.c
- * casts it to PasswordCardPreviewView *, a fourth view of the same object. */
-u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
-
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
  * small-data thresholds disagree, or only with register pins #3867 left
