@@ -1,13 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/duel_field_effect_steps.c.
- */
-/* Two steps of the same field-wide duel effect machinery. Both latch their
- * first frame through DuelEffect_MarkInitialized, both drive their phase
- * through D_8009B220, and both walk the acting side's grid D_800907D8 by
- * D_8009B1D5 into the card records at D_801A7AD8. */
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
@@ -43,7 +33,7 @@ void func_800260D0(void) {
     s32 x;
     s32 timer;
     s32 step;
-    register u8 *grid __asm__("$4");
+    u8 *grid;
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = -1;
@@ -61,12 +51,15 @@ void func_800260D0(void) {
     D_8009B20C[1] = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while func_80025F3C above uses the two-dimensional view the
-           unit's DUEL_FIELD_GRID_2D declaration gives. The cast is the one
-           place the two spellings meet. */
-        grid = (u8 *)D_800907D8;
-        base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
-                    DUEL_FIELD_SIDE_ZONE_COUNT;
+           below, while sibling func_80025F3C uses the two-dimensional view
+           selected by DUEL_FIELD_GRID_2D. The cast is the one
+           place the two spellings meet. The single-pass loop preserves the
+           retail grid and side register allocation under GCC 2.8.1. */
+        do {
+            grid = (u8 *)D_800907D8;
+            base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
+                        DUEL_FIELD_SIDE_ZONE_COUNT;
+        } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &D_801A7AD8[card];
         object = (DuelEffectObject *)func_8002C604(8);
