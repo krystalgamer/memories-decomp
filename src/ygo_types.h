@@ -40,6 +40,106 @@ typedef struct {
     u8 b[10];
 } SDInitBlk10;
 
+typedef struct {
+    void *model;
+    u8 pad_04[0x14];
+    s8 field_18;
+} DuelCardRenderHolder;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u16 rotation_x;
+    u16 rotation_y;
+    u16 rotation_z;
+    s16 scale_x;
+    s16 scale_y;
+    s16 scale_z;
+} ModelAnimationSample;
+
+typedef struct {
+    s32 values[2];
+} ModelSeparationPair;
+
+typedef struct {
+    u8 field_0;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
+    u8 field_4;
+    u8 field_5;
+    u8 field_6;
+    u8 field_7;
+    u16 field_8;
+    u8 field_A;
+    u8 field_B;
+} Func80028B08Ctx;
+
+typedef struct {
+    u32 field_0;
+    u32 field_4;
+} Func80028B08Extra;
+
+typedef struct {
+    u32 a;
+    u32 b;
+} SoundCommandPair;
+
+typedef struct {
+    u16 field_0;
+    u16 count;
+    u8 pad_04[0xC];
+    u16 indices[1];
+} SoundIndexList;
+
+typedef struct {
+    u32 words[4];
+} MainMenuTradeBlock16;
+
+typedef struct {
+    u32 words[256];
+} MainMenuTradeBlock1024;
+
+typedef union {
+    u64 all;
+    struct {
+        s32 column;
+        s32 stride;
+    } parts;
+} PasswordGlyphCoordinates;
+
+typedef char DuelCardRenderHolder_size_must_be_0x1C[
+    sizeof(DuelCardRenderHolder) == 0x1C ? 1 : -1
+];
+typedef char ModelAnimationSample_size_must_be_0x12[
+    sizeof(ModelAnimationSample) == 0x12 ? 1 : -1
+];
+typedef char ModelSeparationPair_size_must_be_8[
+    sizeof(ModelSeparationPair) == 8 ? 1 : -1
+];
+typedef char Func80028B08Ctx_size_must_be_0xC[
+    sizeof(Func80028B08Ctx) == 0xC ? 1 : -1
+];
+typedef char Func80028B08Extra_size_must_be_8[
+    sizeof(Func80028B08Extra) == 8 ? 1 : -1
+];
+typedef char SoundCommandPair_size_must_be_8[
+    sizeof(SoundCommandPair) == 8 ? 1 : -1
+];
+typedef char SoundIndexList_indices_offset_must_be_0x10[
+    (u32)&(((SoundIndexList *)0)->indices) == 0x10 ? 1 : -1
+];
+typedef char MainMenuTradeBlock16_size_must_be_0x10[
+    sizeof(MainMenuTradeBlock16) == 0x10 ? 1 : -1
+];
+typedef char MainMenuTradeBlock1024_size_must_be_0x400[
+    sizeof(MainMenuTradeBlock1024) == 0x400 ? 1 : -1
+];
+typedef char PasswordGlyphCoordinates_size_must_be_8[
+    sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
+];
+
 /* Eight bytes copied as one unit. Three build-integrated candidates each
    defined this shape locally and used it only as the source and destination
    of a whole-struct assignment: func_80015EF4 copies four rotation corners,

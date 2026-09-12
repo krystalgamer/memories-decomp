@@ -149,6 +149,7 @@ check-metadata:
 	@$(PYTHON) tools/project/candidate_human_bundles.py --check
 	@$(PYTHON) tools/project/candidate_builds.py --check
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/c_type_definitions.py
 
 check-unmatched-contracts:
 	@$(PYTHON) tools/project/unmatched_contracts.py
