@@ -7,6 +7,37 @@
 
 extern u8 D_800EAE88[];
 
+s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
+                                    s32 arg2)
+{
+    s32 count = 0;
+    s32 i = 0;
+    s32 d = D_8009B1D5;
+    s32 *t = gDuel_adwCardStats;
+    DuelCardRecord *r =
+        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+    s32 k;
+
+    do {
+        do {
+            if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
+                k = (s16)r->card_id;
+                k--;
+                if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                     CARD_STAT_TYPE_MASK) < arg2) {
+                    *out++ = r;
+                    count++;
+                }
+            }
+            i++;
+        } while (0);
+        r++;
+    } while (i < DUEL_FIELD_ROW_SIZE);
+
+    *out = 0;
+    return count;
+}
+
 s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
                                  s32 arg2) {
     s32 count = 0;
