@@ -1,15 +1,9 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_80047480.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_no_strength_reduce, whose
- * compiler and assembler disagree about small data (GCC -G8, MASPSX -G0).
- * Under gcc_2_8_1_g0, a single threshold, it is 110 instructions against
- * the target's 111, opcode distance 5. The source below is the match,
- * unchanged apart from its include paths. */
 #include "../types.h"
-#include "../unmatched.h"
-#include "../game/sound.h"
+#define G_SDVALUE_IN_DATA
+#include "sound.h"
 #include "../psyq/libspu.h"
-#include "../game/sound_pending_constants.h"
-#include "../game/sound_voice_constants.h"
+#include "sound_pending_constants.h"
+#include "sound_voice_constants.h"
 
 void func_80047480(void) {
     SDValue *p;
