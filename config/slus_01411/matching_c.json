@@ -4747,6 +4747,12 @@
       "source": "src/game/model_slot_setup.c"
     },
     {
+      "address": "0x80056504",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x324",
+      "source": "src/game/model_load_monster_merge.c"
+    },
+    {
       "address": "0x80057544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",

@@ -932,30 +932,16 @@
       }
     },
     {
-      "address": "0x80056504",
-      "profile": "gcc_2_8_1_g0_split",
-      "source": "src/candidates/func_80056504.c",
-      "target": "src/candidates_target/func_80056504.S",
-      "candidate_build_sha256": "5d96e853732439484f78c2caebf67c16f0111c107c18a5d9b3a6845c84274c9a",
-      "target_bytes_sha256": "72f2f85db08c003064d25a602b4b44af25ebb813a9a6083d45d08fc3c890024d",
-      "canonical_contract_sha256": "cba0c2087ccc294b4f8b7f791e3fb8623d7a64a7f2b520b2d09da815b31396aa",
-      "canonical_contracts": {
-        "D_800114F8": "a266a3be7675c6c8c07015b1a506bc63a3a3428d20fa4d5f5b20e2501522f6a7",
-        "func_8004CB0C": "2931cecc509a878337584567c337fe6433c23ed5dab7880b2e477d678ab04ea2",
-        "gFile_szModelMrgPath": "563e4bc1fa9280f56bc8e8b076a8fdb9726bd274f133974b91bf396ec6415eba"
-      }
-    },
-    {
       "address": "0x80056828",
       "profile": "gcc_2_8_1_g8_no_split",
       "source": "src/candidates/func_80056828.c",
       "target": "src/candidates_target/func_80056828.S",
       "candidate_build_sha256": "9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b",
       "target_bytes_sha256": "158a0dccd60747cf15169c6dff4cd2174067a58d6d8f14d3c3f45e350d4dcb26",
-      "canonical_contract_sha256": "6fe0df3bbc1c9207bce541d5117224b0d055902b949bc8192f93ab1411bd71a6",
+      "canonical_contract_sha256": "a9160770f6943c74a27f17c28bcd3794a7338d64680f43f2606cd425493ecd73",
       "canonical_contracts": {
         "D_80010538": "36e960796219710e447c98c1ecd73e2d5c50997fb7860f1fc43aa538325a72df",
-        "func_8004CB0C": "2931cecc509a878337584567c337fe6433c23ed5dab7880b2e477d678ab04ea2"
+        "func_8004CB0C": "ca23bb5df87b3dd3651a814d81571947d2f78ab150142c5184dabfe359236aa1"
       }
     },
     {

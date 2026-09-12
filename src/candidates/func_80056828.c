@@ -19,12 +19,13 @@
 #include "../psyq/libetc.h"
 #include "../psyq/stdio.h"
 #include "../game/script_state.h"
+#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+#include "../game/model_slot_setup.h"
 
 extern u8 D_80010538[];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 
-extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 #include "../game/func_8004D914.h"
 #include "../game/func_800582C0.h"
 #include "../game/model_slot_row_tables.h"

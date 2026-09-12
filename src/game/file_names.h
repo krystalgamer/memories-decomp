@@ -15,6 +15,10 @@ extern u8 gFile_szDiscSdBgmDatPath[20];
 extern u8 gFile_szDiscMasterXaPath[20];
 extern u8 *gFile_apszName[8];
 
+/* Model archive paths used directly by Model_LoadMonsterMerge. */
+extern u8 D_800114F8[];
+extern u8 gFile_szModelMrgPath[];
+
 /* Diagnostic format used while publishing each file's sector position. */
 extern u8 D_80010038[4] __attribute__((section(".data")));
 
