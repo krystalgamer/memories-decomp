@@ -24,7 +24,7 @@ void func_800140A0(u8 event)
         DsStartReadySystem(func_80013C28, -1);
         D_8009B114 = 0;
         D_8009B138 = 0;
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -34,7 +34,7 @@ void func_80014134(u8 event)
         D_8009B130++;
         DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);
     } else if (event == 2) {
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -45,7 +45,6 @@ void func_800141A8(u8 event)
         DsCommand(9, 0, (DslCB)func_800141A8, -1);
     } else if (event == 2) {
         gFile_PrimaryTransferDescriptor.substate = 1;
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
-
