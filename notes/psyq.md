@@ -1219,7 +1219,7 @@ parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. Exactly three matching sources call qsort through
 it:
-`src/candidates/func_80024734.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
+[`duel_request_combined_deck_data.c`](../src/game/duel_request_combined_deck_data.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
