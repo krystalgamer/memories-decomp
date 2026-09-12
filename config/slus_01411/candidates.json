@@ -1153,15 +1153,11 @@
       "target": "src/candidates_target/password/func_8016913C.S",
       "candidate_build_sha256": "a794ff9a59d25d4f04cab36e1fa01b7b742604589fe637fa72079b27be4b8fb6",
       "target_bytes_sha256": "8ea61340847936bca8d440dc87430c3dad555fde9143b74a4bf4ac9f09bdea9b",
-      "canonical_contract_sha256": "5e082c23a2b9909fffeecc7d74e5839d4e4e68507d25d9e9c07376db31704c18",
+      "canonical_contract_sha256": "cc5a45320cf36625f0ee84b2601877c65e0dae0805f54e2cbf75185cb0097989",
       "canonical_contracts": {
-        "D_800EB1C0": "fccb2689bab1c431fcfb460014afecbdde25608d1ac5329c02697755b94c0781",
         "D_8016AB38": "e9a27c93ebab9e97e70d77bb3e3be08523781f5cc3a4f1203ae39d3e8d96f6ed",
         "D_8016ABC0": "6676507d08b090917593ae4567199ca1370c7060894f1ff129e99e09cf34b315",
-        "D_8016D403": "2f1a51ed13a1d53a31633cb43a7ab40dfe7cd67dd26e48bce46340b4c7472839",
-        "D_8016D41C": "4dd96d52846e72d5abc525f17acd5fe9dadccaf65b73a1e477f415c323031395",
-        "D_8016D4D0": "da822159dcbf83dc457fcac77deb57c3ec2f3f034ffc8025c67310ac8025d61b",
-        "D_8016D4D4": "e8fec28a631a158241876f2f607d53983b76784629cd439b1a0770cf2bfa39a6"
+        "D_8016D4D4": "577b3bc1271f9b474f1bec63b798af914c72a16585c763ee1098526e755963a2"
       }
     },
     {
