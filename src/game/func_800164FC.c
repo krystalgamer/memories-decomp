@@ -1,17 +1,12 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_800164FC.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 158 instructions against the
- * target's 159, opcode distance 1. The source below is the match, unchanged
- * apart from its include paths. */
 #include "../types.h"
-#include "../game/view_state.h"
-#include "../game/duel_card_layout.h"
-#include "../game/duel_display.h"
-#include "../game/duel_grid.h"
-#include "../game/sorted_entry.h"
-#include "../game/duel_card.h"
-#include "../game/display_projection.h"
+#include "view_state.h"
+#include "duel_card_layout.h"
+#include "duel_display.h"
+#include "duel_grid.h"
+#define SORTED_ENTRY_STATE_IN_DATA
+#include "sorted_entry.h"
+#include "duel_card.h"
+#include "display_projection.h"
 #include "../unmatched.h"
 
 void func_800164FC(void) {

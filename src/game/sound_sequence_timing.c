@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "sound.h"
-#include "../unmatched.h"
 #include "sound_sequence_reader.h"
 #include "sound_sequence_timing.h"
 #include "sound_sequence_parser.h"
@@ -59,4 +58,3 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
         return;
     }
 }
-

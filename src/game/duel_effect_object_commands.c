@@ -36,3 +36,31 @@ void func_80038A44(DuelEffectChannel *object)
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |
         (value & 0xFFFF);
 }
+
+void func_80038AB0(DuelEffectChannel *object)
+{
+    s16 duelist_id;
+    u32 value;
+    u8 **stream;
+    u8 *cursor;
+
+    stream = &((u8 **)object)[object->stream_58];
+    cursor = *stream;
+    value = *cursor++;
+    duelist_id = value;
+    *stream = cursor;
+    if (duelist_id > 0) {
+        Library_UpdateCardUsedFlag(
+            duelist_id + CAMPAIGN_FLAG_DUELIST_DEFEATED_BASE);
+        Library_UpdateCardUsedFlag(duelist_id + FREE_DUEL_UNLOCK_FLAG_BASE);
+    }
+}
+
+void func_80038B08(DuelEffectChannel *object)
+{
+    func_8004036C(object->field_30);
+    object->field_30 = 0;
+    object->state_51 = 2;
+    object->field_62 = 0;
+    D_8009B350 = 1;
+}

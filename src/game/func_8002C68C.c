@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8002C604.h"
 #include "duel_effect_request.h"
 #include "../unmatched.h"
 

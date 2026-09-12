@@ -51,21 +51,34 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
  * Nothing else in the decompiled tree reads it, so its role is unverified. */
 extern u32 D_8009B300;
 
+#ifdef SORTED_ENTRY_STATE_IN_DATA
+extern SortedEntry *D_8009B304 __attribute__((section(".data")));
+#else
 extern SortedEntry *D_8009B304;
+#endif
 /* The entry count, saved by func_800355C8 across the sort and compared
  * against D_8009B314 by the walk in func_800164FC. */
+#ifdef SORTED_ENTRY_STATE_IN_DATA
+extern u32 D_8009B308 __attribute__((section(".data")));
+#else
 extern u32 D_8009B308;
+#endif
 /* Flag word.  func_80035680 sets bit 2 when it opens the list and
  * func_800355C8 clears it again.  func_800164FC tests bit 1 and clears bits
  * 0 and 1; nothing in the decompiled tree sets either of those two, so what
  * raises the flag it tests is not known here.  func_80035668 writes the word
  * wholesale, and both of its call sites pass 0. */
+#ifdef SORTED_ENTRY_STATE_IN_DATA
+extern u32 D_8009B30C __attribute__((section(".data")));
+extern SortedEntry *D_8009B310 __attribute__((section(".data")));
+extern u32 D_8009B314 __attribute__((section(".data")));
+#else
 extern u32 D_8009B30C;
 extern SortedEntry *D_8009B310;
 extern u32 D_8009B314;
+#endif
 
-/* func_800220B8 also declares D_8009B30C, as s32 and under
- * __attribute__((section(".data"))).  It is left alone here because folding
- * it in needs that arm and the u32/s32 disagreement settled. */
+/* func_800220B8 also declares D_8009B30C as signed under the same .data
+ * addressing view. */
 
 #endif

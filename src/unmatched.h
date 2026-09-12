@@ -99,10 +99,6 @@
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
 
-/* Two consumers, identical spelling in both: func_80049138.c and
- * sound_init.c. */
-void func_80046294(void);
-
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */
@@ -603,8 +599,6 @@ void File_SetPositionTable(void);
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-void func_800164FC(void);
-
 /* Builds the unique card id list for the combined deck and starts the fetch
  * for it.
  *
@@ -642,13 +636,6 @@ void func_80024E58(void);
 FileTransferDescriptor *func_80029164(s32 slot, s32 value);
 
 void func_8002A2F4(u8 *state);
-
-/* Allocates and fills one effect request entry, storing arg0 as the id at
- * +0x18, and returns the entry or 0 when none was free. func_8002C68C.c used
- * to call it with no argument, leaving its own caller's id in $a0; it now
- * forwards that id, at no cost in instructions, so one spelling serves all
- * seven callers. */
-u8 *func_8002C604(s32 arg0);
 
 /* Returns the u16 result card id widened to s32. Declaring a narrow return at
  * the callers adds a zero-extension instruction that retail does not have.
@@ -696,8 +683,6 @@ s32 func_800330BC(struct CardList *list);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-s32 Dialog_ReadChoiceInput(u8 *record);
-
 /* The per-frame half of Dialog_OpenChoice's state: that builds the choice
  * list once, and this runs it, reading the cursor input and repainting the
  * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
@@ -717,8 +702,6 @@ void func_800388D8(u8 *object);
 void func_80040DD8(void);
 void func_80041068(void);
 
-void func_80047480(void);
-
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
@@ -729,8 +712,6 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 void func_8004A518(void);
 
 void func_8004B854(void);
-
-s32 SD_FindMidiTrackChunk(s32 offset);
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request
