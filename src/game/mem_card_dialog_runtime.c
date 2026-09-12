@@ -214,7 +214,9 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-            (u8 *)D_800EB0F8 + saved_index * 100,
+            (DuelEffectChannel *)(
+                (u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
+            ),
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }
@@ -290,7 +292,7 @@ void MemCardDialog_Update(void)
                 p->flags_34 = p->flags_34 | 0x1008;
                 return;
             }
-            func_80039A14((u8 *)p);
+            func_80039A14(p);
             goto b14;
         }
         func_80039794();

@@ -504,7 +504,7 @@ the three row-`241` singleton objects, so those remain identified by ownership
 rather than appearance.
 
 The resident startup request in `func_80013154` and movie entry/exit requests
-in `func_8005B8A0` and `func_8005BB7C` use the same `320 x 240` dimensions
+in `func_8005B8A0` and `Movie_StopStream` use the same `320 x 240` dimensions
 with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
 arguments as `GRAPHICS_DEFAULT_WIDTH` and `GRAPHICS_DEFAULT_HEIGHT`.
 These are requested display dimensions, not buffer-placement coordinates:

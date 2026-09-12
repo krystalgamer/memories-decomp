@@ -1,3 +1,28 @@
+/*
+ * Preserve the constructor's return: `func_800291E0`
+ *
+ * The paired preview-object constructor at `0x800291E0` matches all 840 bytes
+ * on the existing uniform `gcc_2_8_1_g8_split` profile using `DisplayObject`
+ * and `DuelEffectResourceRecord`. The historical refinement attempts stopped
+ * at incomplete-type errors; the complete shared layouts already supply every
+ * field needed here, with explicit signed views of the resource halfwords.
+ *
+ * The comparison source declares a void return and inserts empty assembly
+ * barriers around the final pointer publication. Retail instead leaves the
+ * primary object in `$v0`, and the existing debug/viewer/shop callers consume
+ * that pointer. An ordinary `return (u8 *)object` gives the required final move,
+ * stores and reload without any of those barriers. The primary object is the
+ * second allocation, published at resource offset zero and linked from the
+ * secondary object at offset four.
+ *
+ * The reference's claim that its second argument is dead is also incorrect:
+ * the default path uses it as X before reusing that local for a setup value.
+ * Negative X/Y inputs still select the packed-stat fallback coordinates, while
+ * types `0x14` through `0x17` retain their special setup paths. Shared callback
+ * declarations and the canonical level/attribute table replace local externs.
+ * The canonical history and six-row terminal refinement history remain intact,
+ * followed by one post-terminal resolution for this pure-C reconstruction.
+ */
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_api.h"
