@@ -1,7 +1,7 @@
 # Duel scene action runtime
 
 The resident duel loop dispatches one of fifteen scene-state callbacks through
-`gDuel_apfnSceneStateHandler`. Candidate `func_80024200` reads the low nibble
+`gDuel_apfnSceneStateHandler`. Candidate `DuelScene_Update` reads the low nibble
 of `gDuel_wSceneStateFlags` and calls that table entry after card-effect and
 display-effect work are idle.
 
@@ -10,6 +10,39 @@ bits. `DUEL_SCENE_PHASE_MASK` names the low-nibble selector.
 `DUEL_SCENE_FLAG_INITIALIZED` is the only high bit with a uniform meaning:
 scene handlers test and set it around their first-frame setup. Other high bits
 are interpreted by individual handlers and remain unnamed globally.
+
+## Per-frame coordinator
+
+`DuelScene_UpdateWithSideInput` is the outer resident update entry. In a
+two-player duel it selects pad 1 or pad 2 from the active side, with the result
+outro side overriding the normal turn side. Pad 2 is temporarily published
+through the pad 1 globals around `DuelScene_Update`, then the original pad 1
+state is restored.
+
+`DuelScene_Update` advances camera motion and the eight-entry effect-request
+pool before it touches the scene callback. A blocking request, card effect, or
+effect-state handler pauses scene dispatch. The same coordinator creates,
+polls, and destroys the quit-confirmation dialog. Only after those gates are
+idle does it call the selected scene callback and clear the scene-local display
+latch when that callback has not marked itself entered.
+
+The request lifecycle is explicit:
+
+1. `DuelEffect_ResetRequestPool` clears the status byte and marks all eight
+   entries free.
+2. `DuelEffect_FindFreeRequest` returns the first entry without
+   `DUEL_EFFECT_REQUEST_FLAG_ACTIVE`.
+3. `DuelEffect_AllocateRequest` initializes that entry and sets its active
+   flag.
+4. `DuelEffect_CreateRequest` additionally raises
+   `DUEL_EFFECT_REQUEST_STATUS_ACTIVE`.
+5. `DuelEffect_UpdateRequests` dispatches every active entry, raises
+   `DUEL_EFFECT_REQUEST_STATUS_BLOCKING` for active requests not marked
+   nonblocking, and releases entries whose handler reports completion.
+
+The coordinator clears the pool-active status after an update finds no
+blocking requests. The status therefore records an outstanding request epoch,
+while the blocking bit is recomputed from the current entries every frame.
 
 The table order is:
 

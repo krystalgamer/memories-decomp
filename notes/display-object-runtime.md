@@ -195,7 +195,7 @@ The consumer evidence agrees across translation units:
   callbacks select through that same byte at `+0x17`; their local cursors
   now carry `GsOT **`, with explicit word conversions only at existing
   integer-parameter/callback boundaries.
-- `func_8002C604` copies slots 2 and 1 into request words `+0x08` and
+- `DuelEffect_AllocateRequest` copies slots 2 and 1 into request words `+0x08` and
   `+0x0C`, and `func_8002C6C8` refreshes those same words before dispatch.
   The initializer now indexes pointers rather than reading byte offsets
   from a locally declared `u8[]`. The request's existing word fields and

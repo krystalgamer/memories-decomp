@@ -70,7 +70,7 @@ void Main_RunDuel(void)
             D_8009B26E = value | 0x80;
             func_800179F4();
         } else {
-            func_80024388();
+            DuelScene_UpdateWithSideInput();
             if (D_8009B16C[0] & 0x2000)
                 D_8009B26E = 2;
         }

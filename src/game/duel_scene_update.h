@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_DUEL_SCENE_UPDATE_H
 #define MEMORIES_DECOMP_DUEL_SCENE_UPDATE_H
 
-void func_80024200(void);
-void func_80024388(void);
+void DuelScene_Update(void);
+void DuelScene_UpdateWithSideInput(void);
 
 #endif

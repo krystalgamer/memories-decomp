@@ -30,7 +30,7 @@ glabel DuelEffect_ApplyTerrain
     /* 1569C 80024E9C 0A80013C */  lui        $at, %hi(gDuel_bTerrain)
     /* 156A0 80024EA0 64B322A0 */  sb         $v0, %lo(gDuel_bTerrain)($at)
     /* 156A4 80024EA4 FF005030 */  andi       $s0, $v0, 0xFF
-    /* 156A8 80024EA8 81B1000C */  jal        func_8002C604
+    /* 156A8 80024EA8 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 156AC 80024EAC FFFF1026 */   addiu     $s0, $s0, -0x1
     /* 156B0 80024EB0 13000424 */  addiu      $a0, $zero, 0x13
     /* 156B4 80024EB4 740282AF */  sw         $v0, %gp_rel(D_8009B17C)($gp)

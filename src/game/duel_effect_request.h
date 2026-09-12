@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_REQUEST_H
 
 #include "../types.h"
+#include "duel_effect_allocate_request.h"
 
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
@@ -10,10 +11,13 @@
 #define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
 #define DUEL_EFFECT_REQUEST_FLAG_ACTIVE 0x80
 
-/* The record func_8002C68C hands a duel effect handler.
+#define DUEL_EFFECT_REQUEST_STATUS_BLOCKING 0x01
+#define DUEL_EFFECT_REQUEST_STATUS_ACTIVE 0x80
+
+/* The record DuelEffect_CreateRequest hands a duel effect handler.
  *
- * func_8002C604 is where the layout comes from: it takes a free entry from
- * func_8002C5CC and fills every field below, so each one is a store in the
+ * DuelEffect_AllocateRequest is where the layout comes from: it takes a free entry from
+ * DuelEffect_FindFreeRequest and fills every field below, so each one is a store in the
  * function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
  * +0x12, writes 8 at +0x10, the effect id at +0x18, zero at +0x1A, the shared
  * buffer D_80010000 + 0x3800 at +0x14, two words copied out of D_800E9D90 at
@@ -71,48 +75,53 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
 #undef DUEL_EFFECT_REQUEST_OFFSET
 
 /* The request the running effect handler is working on. Four handlers store
- * the entry func_8002C604 hands them on their first call, under the
+ * the entry DuelEffect_AllocateRequest hands them on their first call, under the
  * DuelEffect_MarkInitialized guard; DuelEffect_ApplyStopDefense stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
  * DuelEffect_ApplyTerrain writes +0x1A; DuelEffect_ApplySwords and
  * duel_card_effects.c read +0x1D through their own display-object
- * views and cast at the global. u8 * is func_8002C604's return type. Retail
+ * views and cast at the global. u8 * is DuelEffect_AllocateRequest's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
  * (DuelScene_UpdateExodiaResult, DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle, DuelEffect_ApplyRitual) still
  * assembly. */
 extern u8 *D_8009B17C;
 
-/* Request flags are a complete lifecycle contract. func_8002C604 raises
- * ACTIVE when it allocates an entry and func_8002C5CC uses that bit to find
- * a free one. func_8002C6C8 raises INITIALIZED immediately before the first
- * handler call and clears the whole byte when the handler reports completion.
+/* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
+ * raises ACTIVE when it allocates an entry and DuelEffect_FindFreeRequest uses
+ * that bit to find a free one. DuelEffect_UpdateRequests raises INITIALIZED
+ * immediately before the first handler call and clears the whole byte when the
+ * handler reports completion.
  * NONBLOCKING excludes long-running field effects from the pool's blocking
  * status while still dispatching them normally.
  *
- * The request pool's status byte below is separate. func_8002C68C raises bit
- * 7 when it hands out a request and func_8002C598 clears the byte;
- * func_8002C6C8 clears bit 0, raises it again while walking blocking records
- * and returns it; func_80024200 drops bit 7 unless bit 0 is set;
+ * The request pool's status byte below is separate. DuelEffect_CreateRequest
+ * raises bit 7 when it hands out a request and DuelEffect_ResetRequestPool
+ * clears the byte; DuelEffect_UpdateRequests clears bit 0, raises it again
+ * while walking blocking records and returns it; DuelScene_Update drops bit 7
+ * unless bit 0 is set;
  * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty and
  * DuelEffect_ApplyDarkPiercingLight test bit 0. Read lbu
  * everywhere and one byte wide (c_symbols.ld names D_8009B261 next). Retail
- * reaches it through $gp in func_8002C6C8, func_8002C68C and func_8002C598,
- * and through %hi/%lo in func_80024200, DuelEffect_ApplyRaigeki,
+ * reaches it through $gp in DuelEffect_UpdateRequests,
+ * DuelEffect_CreateRequest and DuelEffect_ResetRequestPool, and through
+ * %hi/%lo in DuelScene_Update, DuelEffect_ApplyRaigeki,
  * DuelEffect_ApplyStatPenalty,
  * DuelEffect_ApplyDarkPiercingLight and
  * DuelScene_UpdateExodiaResult (still assembly); duel_scene_update.c and
- * duel_card_effects.c define the .data arm below for that. func_8002C68C.c
+ * duel_card_effects.c define the .data arm below for that. DuelEffect_CreateRequest.c
  * takes the plain arm. */
-#ifdef D_8009B260_IN_DATA
-extern u8 D_8009B260 __attribute__((section(".data")));
+#ifdef gDuel_bEffectRequestStatus_IN_DATA
+extern u8 gDuel_bEffectRequestStatus __attribute__((section(".data")));
 #else
-extern u8 D_8009B260;
+extern u8 gDuel_bEffectRequestStatus;
 #endif
 
-/* Allocates a request for the given effect id, marks D_8009B260 and returns
- * it, or 0 when the pool is full. */
-DuelEffectRequest *func_8002C68C(s32 id);
+/* Allocates a request for the given effect id, marks the pool active, and
+ * returns it, or 0 when the pool is full. */
+DuelEffectRequest *DuelEffect_CreateRequest(s32 id);
+DuelEffectRequest *DuelEffect_FindFreeRequest(void);
+s32 DuelEffect_UpdateRequests(void);
 
 /* The pool those requests live in: the eight records this header already
  * fixes the shape and count of, DUEL_EFFECT_REQUEST_COUNT of them at 0x20
@@ -123,7 +132,7 @@ DuelEffectRequest *func_8002C68C(s32 id);
  * for this toolchain, so leaving it unsized would not be a neutral tidy-up.
  *
  * All three accessors are matching C and all three take its address:
- * func_8002C598 and func_8002C5CC walk it from the base, and func_8002C6C8
+ * DuelEffect_ResetRequestPool and DuelEffect_FindFreeRequest walk it from the base, and DuelEffect_UpdateRequests
  * starts from `&D_800EAD88[0]` -- its own comment calls that "the eight
  * D_800EAD88 requests". */
 extern DuelEffectRequest D_800EAD88[DUEL_EFFECT_REQUEST_COUNT];

@@ -10,7 +10,6 @@
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../unmatched.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_effect_request.h"
@@ -31,7 +30,7 @@ void DuelEffect_ApplySwords(void)
     int slot;
     register int side __asm__("$3");
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelFieldEffectObject *)func_8002C604(0x15);
+        object = (DuelFieldEffectObject *)DuelEffect_AllocateRequest(0x15);
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
         gDuel_apSwordsEffectObjects[side] = object;

@@ -14,7 +14,7 @@ void DuelEffect_StartRitual(void)
     if (!DuelEffect_MarkInitialized()) {
         D_8009B1A0 = Duel_CheckRitual(0, gDuel_wEffectCardID);
         if (D_8009B1A0) {
-            DuelEffectRequest *request = func_8002C68C(0x12);
+            DuelEffectRequest *request = DuelEffect_CreateRequest(0x12);
 
             request->field_00 = 0xA0;
             request->field_02 = 0x78;

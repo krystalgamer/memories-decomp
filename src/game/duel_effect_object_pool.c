@@ -15,13 +15,13 @@ int func_8002C570(int offset)
     return -1;
 }
 
-void func_8002C598(void)
+void DuelEffect_ResetRequestPool(void)
 {
     DuelEffectRequest *entry;
     int count;
     int fill;
 
-    D_8009B260 = 0;
+    gDuel_bEffectRequestStatus = 0;
     count = DUEL_EFFECT_REQUEST_COUNT;
     fill = -1;
     entry = D_800EAD88;
@@ -32,13 +32,13 @@ void func_8002C598(void)
     } while (--count != 0);
 }
 
-DuelEffectRequest *func_8002C5CC(void)
+DuelEffectRequest *DuelEffect_FindFreeRequest(void)
 {
     DuelEffectRequest *entry = D_800EAD88;
     int count = DUEL_EFFECT_REQUEST_COUNT;
 
     for (;;) {
-        if (!(entry->flags & 0x80)) {
+        if (!(entry->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE)) {
             return entry;
         }
         if (--count == 0) {

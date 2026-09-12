@@ -12,7 +12,7 @@
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *
- * func_80024200 (src/candidates/func_80024200.c) materializes this address
+ * DuelScene_Update (src/candidates/DuelScene_Update.c) materializes this address
  * itself and
  * calls `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
  * DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through the

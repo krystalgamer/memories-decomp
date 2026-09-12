@@ -103,7 +103,7 @@ glabel func_800179F4
     /* 8354 80017B54 4A2862A4 */   sh        $v0, %lo(D_800F284A)($v1)
     /* 8358 80017B58 B45D000C */  jal        Duel_ClearHandSlots
     /* 835C 80017B5C E8A01026 */   addiu     $s0, $s0, %lo(D_800EA0E8)
-    /* 8360 80017B60 66B1000C */  jal        func_8002C598
+    /* 8360 80017B60 66B1000C */  jal        DuelEffect_ResetRequestPool
     /* 8364 80017B64 00011124 */   addiu     $s1, $zero, 0x100
     /* 8368 80017B68 5DA5000C */  jal        func_80029574
     /* 836C 80017B6C 21200000 */   addu      $a0, $zero, $zero

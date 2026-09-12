@@ -172,7 +172,7 @@ state_four:
             if (func_8001F364()) {
                 break;
             }
-            request = func_8002C68C(0xD);
+            request = DuelEffect_CreateRequest(0xD);
             request->field_00 = object->field_30.h.field_30;
             request->field_02 = object->field_30.h.field_32;
             z = object->field_34.h.field_34;

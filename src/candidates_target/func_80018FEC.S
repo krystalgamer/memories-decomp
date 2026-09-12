@@ -122,8 +122,8 @@ glabel DuelScene_UpdateExodiaResult
     /* 9998 80019198 0020A230 */   andi      $v0, $a1, 0x2000
     /* 999C 8001919C 0C004010 */  beqz       $v0, .L800191D0
     /* 99A0 800191A0 00000000 */   nop
-    /* 99A4 800191A4 0A80023C */  lui        $v0, %hi(D_8009B260)
-    /* 99A8 800191A8 60B24290 */  lbu        $v0, %lo(D_8009B260)($v0)
+    /* 99A4 800191A4 0A80023C */  lui        $v0, %hi(gDuel_bEffectRequestStatus)
+    /* 99A8 800191A8 60B24290 */  lbu        $v0, %lo(gDuel_bEffectRequestStatus)($v0)
     /* 99AC 800191AC 00000000 */  nop
     /* 99B0 800191B0 01004230 */  andi       $v0, $v0, 0x1
     /* 99B4 800191B4 A1004014 */  bnez       $v0, .L8001943C
@@ -155,7 +155,7 @@ glabel DuelScene_UpdateExodiaResult
     /* 9A18 80019218 0F650008 */  j          .L8001943C
     /* 9A1C 8001921C 00000000 */   nop
   .L80019220:
-    /* 9A20 80019220 81B1000C */  jal        func_8002C604
+    /* 9A20 80019220 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 9A24 80019224 13000424 */   addiu     $a0, $zero, 0x13
     /* 9A28 80019228 21804000 */  addu       $s0, $v0, $zero
     /* 9A2C 8001922C 740290AF */  sw         $s0, %gp_rel(D_8009B17C)($gp)
@@ -196,7 +196,7 @@ glabel DuelScene_UpdateExodiaResult
     /* 9AB4 800192B4 FFDFA230 */  andi       $v0, $a1, 0xDFFF
     /* 9AB8 800192B8 00104234 */  ori        $v0, $v0, 0x1000
     /* 9ABC 800192BC 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
-    /* 9AC0 800192C0 81B1000C */  jal        func_8002C604
+    /* 9AC0 800192C0 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 9AC4 800192C4 13000424 */   addiu     $a0, $zero, 0x13
     /* 9AC8 800192C8 21804000 */  addu       $s0, $v0, $zero
     /* 9ACC 800192CC A0000224 */  addiu      $v0, $zero, 0xA0
@@ -211,7 +211,7 @@ glabel DuelScene_UpdateExodiaResult
     /* 9AF0 800192F0 140002AE */   sw        $v0, 0x14($s0)
   .L800192F4:
     /* 9AF4 800192F4 C80282A7 */  sh         $v0, %gp_rel(D_8009B1D0)($gp)
-    /* 9AF8 800192F8 81B1000C */  jal        func_8002C604
+    /* 9AF8 800192F8 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 9AFC 800192FC 21200000 */   addu      $a0, $zero, $zero
     /* 9B00 80019300 0F80033C */  lui        $v1, %hi(D_800E9EF0)
     /* 9B04 80019304 F09E6324 */  addiu      $v1, $v1, %lo(D_800E9EF0)
@@ -255,7 +255,7 @@ glabel DuelScene_UpdateExodiaResult
     /* 9B98 80019398 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9B9C 8001939C B8FF000C */  jal        SD_SEPlayFull
     /* 9BA0 800193A0 1D000424 */   addiu     $a0, $zero, 0x1D
-    /* 9BA4 800193A4 A3B1000C */  jal        func_8002C68C
+    /* 9BA4 800193A4 A3B1000C */  jal        DuelEffect_CreateRequest
     /* 9BA8 800193A8 18000424 */   addiu     $a0, $zero, 0x18
     /* 9BAC 800193AC E2FF000C */  jal        func_8003FF88
     /* 9BB0 800193B0 21800434 */   ori       $a0, $zero, 0x8021

@@ -16,7 +16,7 @@ glabel DuelEffect_ApplySwords
     /* 16748 80025F48 00000000 */   nop
     /* 1674C 80025F4C 18004014 */  bnez       $v0, .L80025FB0
     /* 16750 80025F50 00000000 */   nop
-    /* 16754 80025F54 81B1000C */  jal        func_8002C604
+    /* 16754 80025F54 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 16758 80025F58 15000424 */   addiu     $a0, $zero, 0x15
     /* 1675C 80025F5C 23000424 */  addiu      $a0, $zero, 0x23
     /* 16760 80025F60 CD028393 */  lbu        $v1, %gp_rel(D_8009B1D5)($gp)

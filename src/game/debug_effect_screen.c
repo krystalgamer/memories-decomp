@@ -2,11 +2,11 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
-#include "func_8002C604.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
+#include "duel_effect_request.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "duel_card.h"
@@ -120,7 +120,7 @@ void func_800220B8(void) {
    recreates the display for the current page (a message box, one or two
    card objects from D_801A7B80). Otherwise SELECT cycles the page (0..3),
    left/right toggles which coordinate the up/down repeat adjusts, and CROSS
-   places a new object through func_8002C604 at a page-dependent position. */
+   places a new object through DuelEffect_AllocateRequest at a page-dependent position. */
 void func_800222F4(void) {
     DisplayObject *obj;
     u8 *p;
@@ -178,7 +178,7 @@ void func_800222F4(void) {
             D_8009AF2C[D_8009AF2A] -= 2;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
-        p = func_8002C604(D_8009AF2C[0]);
+        p = DuelEffect_AllocateRequest(D_8009AF2C[0]);
         D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
         *(s16 *)(p + 0x1A) = D_8009AF2D;
         switch (D_8009AF2E) {

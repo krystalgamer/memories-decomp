@@ -51,7 +51,7 @@ glabel DuelEffect_ApplyCursebreaker
     /* 16964 80026164 80180300 */  sll        $v1, $v1, 2
     /* 16968 80026168 1A80023C */  lui        $v0, %hi(D_801A7AD8)
     /* 1696C 8002616C D87A4224 */  addiu      $v0, $v0, %lo(D_801A7AD8)
-    /* 16970 80026170 81B1000C */  jal        func_8002C604
+    /* 16970 80026170 81B1000C */  jal        DuelEffect_AllocateRequest
     /* 16974 80026174 21886200 */   addu      $s1, $v1, $v0
     /* 16978 80026178 21804000 */  addu       $s0, $v0, $zero
     /* 1697C 8002617C 03000224 */  addiu      $v0, $zero, 0x3
