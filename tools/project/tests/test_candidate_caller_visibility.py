@@ -44,6 +44,9 @@ PAIRS = [
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
+    ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_list_renderers.h"'),
+    ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_list_renderers.h"'),
+    ("src/game/func_80040DD8.c", "func_80042188", '#include "display_object_list_renderers.h"'),
 ]
 
 

@@ -6,8 +6,13 @@
 #include "../game/display_object.h"
 #include "../game/sprite_primitive.h"
 #include "../game/card_constants.h"
+#define FUNC_80042188_CARD_LIST_VIEW
+#include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
+#include "../unmatched.h"
+#undef func_80042188
 
-typedef struct {
+typedef struct Func80028B08Ctx {
     u8 field_0;
     u8 field_1;
     u8 field_2;
@@ -21,12 +26,10 @@ typedef struct {
     u8 field_B;
 } Ctx;
 
-typedef struct {
+typedef struct Func80028B08Extra {
     u32 field_0;
     u32 field_4;
 } Extra;
-
-extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
 
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172

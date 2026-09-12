@@ -109,6 +109,35 @@ extern u8 *alias asm("real_symbol");
                 ["CanonicalName"],
             )
 
+    def test_contract_symbols_follow_used_unmatched_header_functions(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            header = root / "functions.h"
+            source = root / "candidate.c"
+            header.write_text(
+                "void UnmatchedFunction(s32 value);\n"
+                "void MatchingFunction(s32 value);\n",
+                encoding="utf-8",
+            )
+            source.write_text(
+                '#include "functions.h"\n'
+                "void candidate(s32 value) {\n"
+                "    UnmatchedFunction(value);\n"
+                "    MatchingFunction(value);\n"
+                "}\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    source.read_text(),
+                    {"UnmatchedFunction"},
+                    {"UnmatchedFunction"},
+                ),
+                ["UnmatchedFunction"],
+            )
+
     def test_contract_hash_is_deterministic(self) -> None:
         declarations = {
             "alpha": [("b.h", "extern s32 alpha;")],

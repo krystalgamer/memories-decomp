@@ -11,11 +11,13 @@
 #include "../game/display_object_projection.h"
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
+#define FUNC_80042188_RAW_ATTRIBUTE_VIEW
+#include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
 #include "../unmatched.h"
+#undef func_80042188
 
 #include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* The POLY_GT4 sibling for the list rooted at D_800EFE38[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second
