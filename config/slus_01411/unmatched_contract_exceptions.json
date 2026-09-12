@@ -2,24 +2,6 @@
   "schema": 1,
   "exceptions": [
     {
-      "symbol": "func_80042188",
-      "source": "src/game/func_80016784.c",
-      "declaration": "void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
-      "reason": "This sprite arm requires the pointer contract rather than the raw display-list integer arm."
-    },
-    {
-      "symbol": "func_80042188",
-      "source": "src/game/display_object_core.c",
-      "declaration": "void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
-      "reason": "This sprite arm requires the pointer contract rather than the raw display-list integer arm."
-    },
-    {
-      "symbol": "func_80042188",
-      "source": "src/game/display_object_updates.c",
-      "declaration": "void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);",
-      "reason": "This sprite arm requires the pointer contract rather than the raw display-list integer arm."
-    },
-    {
       "symbol": "func_8004CB0C",
       "source": "src/game/model_slot_setup.c",
       "declaration": "void func_8004CB0C(void);",
