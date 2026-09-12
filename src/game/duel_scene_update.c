@@ -9,13 +9,12 @@
 #include "duel_scene_update.h"
 #include "duel_effect.h"
 #include "duel_effect_request.h"
-#include "func_8002C6C8.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 
 extern s8 gDuel_bOpponentID[9];
 
-void func_80024388(void)
+void DuelScene_UpdateWithSideInput(void)
 {
     int value = 0;
 
@@ -27,9 +26,9 @@ void func_80024388(void)
     }
     if (value != 0) {
         Input_BackupPad1AndUsePad2();
-        func_80024200();
+        DuelScene_Update();
         Input_RestorePad1FromBackup();
     } else {
-        func_80024200();
+        DuelScene_Update();
     }
 }

@@ -1,7 +1,6 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define D_8009B36A_IN_DATA
 #include "../types.h"
-#include "func_8002C604.h"
 #include "func_800179F4.h"
 #include "display_object.h"
 #include "duel_card.h"
@@ -85,7 +84,7 @@ void DuelScene_UpdateResume(void)
         func_8001352C();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
             if (D_800E9FF0[i].swords_turns_remaining != 0) {
-                obj = func_8002C604(0x15);
+                obj = DuelEffect_AllocateRequest(0x15);
                 *(u16 *)(obj + 0x1A) = i + 2;
                 obj[0x1C] |= 0x20;
                 gDuel_apSwordsEffectObjects[i] =
@@ -149,7 +148,7 @@ void DuelScene_UpdateResume(void)
         card = replay->record.object;
     }
     func_8001352C();
-    obj = (u8 *)func_8002C68C(0xB);
+    obj = (u8 *)DuelEffect_CreateRequest(0xB);
     *(u16 *)obj = card->field_30.h.field_30;
     *(u16 *)(obj + 2) = card->field_30.h.field_32;
     *(u16 *)(obj + 4) = *(u16 *)&card->field_34;

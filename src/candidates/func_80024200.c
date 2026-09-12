@@ -4,7 +4,7 @@
  * pinning 3 variables to hard registers and 3 inline asm statements, so it is kept here as a candidate
  * rather than counted as a decompilation. It was src/game/duel_scene_update.c.
  */
-#define D_8009B260_IN_DATA
+#define gDuel_bEffectRequestStatus_IN_DATA
 #include "../types.h"
 #include "../game/duel_side_state.h"
 #include "../game/input.h"
@@ -17,12 +17,11 @@
 #include "../game/duel_scene_update.h"
 #include "../game/duel_effect.h"
 #include "../game/duel_effect_request.h"
-#include "../game/func_8002C6C8.h"
 #include "../unmatched.h"
 #include "../game/duel_magic_effect_dispatch.h"
 
 extern s8 gDialog_bChoice[9];
-void func_80024200(void)
+void DuelScene_Update(void)
 {
     u8 value;
     DuelEffectChannel *window;
@@ -30,13 +29,14 @@ void func_80024200(void)
     if (D_8009B162 != 0) {
         func_800235C0();
     }
-    func_8002C6C8();
-    value = D_8009B260;
-    if (value & 0x80) {
-        if (value & 1) {
+    DuelEffect_UpdateRequests();
+    value = gDuel_bEffectRequestStatus;
+    if (value & DUEL_EFFECT_REQUEST_STATUS_ACTIVE) {
+        if (value & DUEL_EFFECT_REQUEST_STATUS_BLOCKING) {
             return;
         }
-        D_8009B260 = value & 0x7F;
+        gDuel_bEffectRequestStatus =
+            value & ~DUEL_EFFECT_REQUEST_STATUS_ACTIVE;
     }
     if (DuelEffect_UpdateCardEffect() != 0 || DuelEffect_UpdateState() != 0) {
         return;

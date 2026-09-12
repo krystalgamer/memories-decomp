@@ -9,7 +9,7 @@ void DuelEffect_StartSwords(void)
     DuelEffectRequest *object;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = func_8002C68C(0x12);
+        object = DuelEffect_CreateRequest(0x12);
         object->field_00 = 0xA0;
         object->field_02 = 0x78;
         object->field_1A = 1;

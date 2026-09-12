@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* gDuel_apfnSceneStateHandler entry 6, the card-use presentation sequence. Reached when
- * func_80024200 (src/candidates/func_80024200.c) dispatches on
+ * DuelScene_Update (src/candidates/func_80024200.c) dispatches on
  * `gDuel_wSceneStateFlags & DUEL_SCENE_PHASE_MASK`, and it hands control
  * back by writing 5 into that word.
  *

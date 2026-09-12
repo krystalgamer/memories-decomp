@@ -147,7 +147,7 @@ integer ABI boundaries.
 
 | Header arm | Consumers | Addressing retained |
 |---|---|---|
-| Default pointer | `Campaign_LoadScenePackageStage`, `func_8002C604`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
+| Default pointer | `Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
 | `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `func_8003B808`, `func_8003BF00`, `func_8005B8A0` | Forced `.data` declaration, not a storage definition |
 | `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `func_8001755C`, `main_run_duel_and_library.c`, `main_run_selection_menus.c`, candidate `func_80056828` | `D_80010000`-relative array addressing |
 

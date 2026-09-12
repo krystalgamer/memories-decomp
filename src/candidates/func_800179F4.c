@@ -119,7 +119,7 @@ void func_800179F4(void)
     func_8001352C();
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
-    func_8002C598();
+    DuelEffect_ResetRequestPool();
     func_80029574(0);
     pane->src_x = 0;
     pane->src_y = 256;

@@ -1420,13 +1420,13 @@
       "address": "0x8002C68C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_8002C68C.c"
+      "source": "src/game/duel_effect_request_create.c"
     },
     {
       "address": "0x8002C6C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/func_8002C6C8.c"
+      "source": "src/game/duel_effect_request_update.c"
     },
     {
       "address": "0x8002C938",

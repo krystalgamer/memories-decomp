@@ -5,7 +5,6 @@
  * target's 116, opcode distance 3. The source below is the match, unchanged
  * apart from its include paths. */
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../game/func_800179F4.h"
 #include "../game/duel_terrain_boost.h"
 #include "../game/duel_side_state.h"
@@ -55,7 +54,7 @@ void DuelEffect_ApplyTerrain(void) {
         v = *(u8 *)&gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain[0] = v;
         n = gDuel_bTerrain[0] - 1;
-        e = func_8002C604(0xA);
+        e = DuelEffect_AllocateRequest(0xA);
         D_8009B17C = e;
         *(s16 *)(e + 0x1A) = n;
         SD_SEPlayFull(0x13);

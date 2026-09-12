@@ -96,7 +96,7 @@ glabel Main_RunDuel
     /* 1D81C 8002D01C 33B40008 */  j          .L8002D0CC
     /* 1D820 8002D020 00000000 */   nop
   .L8002D024:
-    /* 1D824 8002D024 E290000C */  jal        func_80024388
+    /* 1D824 8002D024 E290000C */  jal        DuelScene_UpdateWithSideInput
     /* 1D828 8002D028 00000000 */   nop
     /* 1D82C 8002D02C 0A80023C */  lui        $v0, %hi(D_8009B16C)
     /* 1D830 8002D030 6CB14294 */  lhu        $v0, %lo(D_8009B16C)($v0)
