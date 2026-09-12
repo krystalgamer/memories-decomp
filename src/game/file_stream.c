@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../unmatched.h"
-
-extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
 void File_InitTransferState(s32 value)
 {

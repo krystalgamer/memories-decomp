@@ -3,6 +3,7 @@
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
 
@@ -15,9 +16,7 @@
    (src/candidates/func_80014220.c). */
 
 extern void func_80014B30_callback(void) asm("func_80014B30");
-extern s32 CdPosToInt_8007E710(s32);
 extern u16 D_8009B0EC;
-extern void CdIntToPos_8007E600(s32, void *);
 
 void func_80014294(u8 event)
 {
@@ -49,7 +48,7 @@ void func_80014390(u8 event, s32 arg1)
 
     if (event == 2) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
-        value = CdPosToInt_8007E710(arg1);
+        value = CdPosToInt_8007E710((const CdlLOC *)arg1);
         if (value > 0)
             *destination = value;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
@@ -142,7 +141,9 @@ set_state3:
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 4:
-            CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+            CdIntToPos_8007E600(
+                *(s32 *)(p + 0x24), (CdlLOC *)D_8009B104
+            );
             if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
                 return;
             }
@@ -197,7 +198,7 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+    CdIntToPos_8007E600(*(s32 *)(p + 0x24), (CdlLOC *)D_8009B104);
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
