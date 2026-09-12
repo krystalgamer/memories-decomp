@@ -25,10 +25,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPOSITORY / "tools/project"))
+import candidate_builds
+
 CONFIG = REPOSITORY / "config/slus_01411"
 COMPILER = "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 IMPLICIT = re.compile(r"implicit declaration of function `([^']+)'")
@@ -171,6 +175,38 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
+
+    def test_model_dispatch_contract_tracks_both_slot_setup_views(self) -> None:
+        entry = next(
+            candidate
+            for candidate in json.loads(
+                (CONFIG / "candidates.json").read_text(encoding="utf-8")
+            )["candidates"]
+            if candidate["address"] == "0x80056828"
+        )
+        declarations = candidate_builds.canonical_declaration_index(
+            {"func_8004CB0C"}
+        )["func_8004CB0C"]
+        self.assertEqual(
+            {statement for _, statement in declarations},
+            {
+                "void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);",
+                "void func_8004CB0C(void);",
+            },
+        )
+        expected = candidate_builds.canonical_symbol_contract_hash(
+            "func_8004CB0C", declarations
+        )
+        self.assertEqual(entry["canonical_contracts"]["func_8004CB0C"], expected)
+
+        changed = [
+            (path, statement.replace("s32 arg3", "u32 arg3", 1))
+            for path, statement in declarations
+        ]
+        changed_hash = candidate_builds.canonical_symbol_contract_hash(
+            "func_8004CB0C", changed
+        )
+        self.assertNotEqual(expected, changed_hash)
 
 
 if __name__ == "__main__":
