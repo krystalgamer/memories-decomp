@@ -40,8 +40,8 @@ extern s8 gDialog_bChoiceCount;
  *
  * Five sources spell it `s8` with a .data section attribute and one spells it
  * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data,
- * and none of those six includes this header, so they never meet the
- * declaration below and no guarded arm is needed here.
+ * and none of those six includes this header. The card-move presentation
+ * also needs an absolute load and selects GDIALOG_CHOICE_IN_DATA here.
  *
  * Of the five that reach it from small data, four spelled it s8 and
  * dialog_read_choice_input.c spelled it u8. That was an abstention rather
@@ -49,7 +49,11 @@ extern s8 gDialog_bChoiceCount;
  * assigning straight into a u8 local, so the load's signedness does not
  * survive. Taking s8 there builds byte for byte.
  */
+#ifdef GDIALOG_CHOICE_IN_DATA
+extern s8 gDialog_bChoice __attribute__((section(".data")));
+#else
 extern s8 gDialog_bChoice;
+#endif
 
 /* The prompt's input state, the third member of that same shared set.
  * Text_HandleChoiceCommand arms it when the command arrives -- 1 if the
