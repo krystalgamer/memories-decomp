@@ -80,6 +80,29 @@ independently confirming that the named bytes belong to one record rather
 than parallel arrays. Unchiga's same-address sketches and GMS pseudocode
 corroborate these accesses but do not determine the shared types.
 
+## Dialog and active-handler control bytes
+
+`duel_effect.h` also owns three scalar control contracts used by the resident
+state machine. `D_8009B244` is the message identifier passed to
+`TextBox_Create` by `func_80028310`. `D_8009B248` is that dialog's two-stage
+latch: bit `0x80` records that the box was created, and bit `0x40` records that
+its choice object was opened. `DuelEffect_UpdateState` clears the latch when a
+new request starts. `D_8009B24A` holds the active handler index copied from
+`D_8009B254` before the request byte receives its started bit.
+
+The header names only the two proven `D_8009B248` flags. It leaves the three
+symbols separate because the bytes between their addresses are live or
+unexplained; this is declaration centralization, not a claim that they form a
+single packed structure.
+
+The Build Deck mode-7 entry pair has a related but separate byte at
+`D_8009B2F8`. Its high bit selects the wide confirmation dialog in
+`func_800339D0`; in narrow mode, a nonzero choice cancels the pending exit.
+That flag now lives beside `BuildDeckTransitionState` rather than in two local
+magic-number uses. Its two local scalar declarations remain because the byte
+also has candidate-only array views whose relocation contracts are reviewed
+separately.
+
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
 from `field_18 % 10` after resolving the entry through the channel's

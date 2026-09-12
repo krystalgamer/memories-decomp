@@ -24,9 +24,6 @@
 #include "card_constants.h"
 #include "func_800283F4.h"
 
-extern u8 D_8009B248;
-extern u8 D_8009B24A;
-
 s32 DuelEffect_UpdateState(void) {
     u8 v = D_8009B254;
     if (v == 0) return 0;
