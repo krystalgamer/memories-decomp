@@ -1303,18 +1303,6 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x80071424",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80071424.c",
-      "target": "src/candidates_target/func_80071424.S",
-      "candidate_build_sha256": "5c640b97b76c7acf0a8ee6db63740f537c0ade229f25cc1d0fb62e762ee6908f",
-      "target_bytes_sha256": "03f457bd06a2d1dc0aeb02ceec8066142ac9534c9f5590f7cf1087f50a432635",
-      "canonical_contract_sha256": "0ca0d515f3ae9af4ecfc20f1c03c4ba26c599484b6fe40f6a4fe5d73859f802a",
-      "canonical_contracts": {
-        "gDuel_bOpponentID": "5716d28707618798b40ed15c5bdd5e0f644f30b5bad85a6a4c3519357ac091b4"
-      }
-    },
-    {
       "address": "0x8007164C",
       "profile": "gcc_2_8_1_g0",
       "source": "src/candidates/func_8007164C.c",
