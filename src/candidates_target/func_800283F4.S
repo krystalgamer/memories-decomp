@@ -39,7 +39,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18C5C 8002845C 2130A000 */   addu      $a2, $a1, $zero
     /* 18C60 80028460 21884000 */  addu       $s1, $v0, $zero
     /* 18C64 80028464 21202002 */  addu       $a0, $s1, $zero
-    /* 18C68 80028468 43038593 */  lbu        $a1, %gp_rel(D_8009B24B)($gp)
+    /* 18C68 80028468 43038593 */  lbu        $a1, %gp_rel(gDuel_bCardViewerYOffset)($gp)
     /* 18C6C 8002846C 74FF0224 */  addiu      $v0, $zero, -0x8C
     /* 18C70 80028470 300022A6 */  sh         $v0, 0x30($s1)
     /* 18C74 80028474 80000224 */  addiu      $v0, $zero, 0x80
@@ -57,7 +57,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18CA4 800284A4 21202002 */  addu       $a0, $s1, $zero
     /* 18CA8 800284A8 3B0A010C */  jal        func_800428EC
     /* 18CAC 800284AC 14000524 */   addiu     $a1, $zero, 0x14
-    /* 18CB0 800284B0 440391AF */  sw         $s1, %gp_rel(D_8009B24C)($gp)
+    /* 18CB0 800284B0 440391AF */  sw         $s1, %gp_rel(gDuel_pCardViewerCard)($gp)
     /* 18CB4 800284B4 0B00010C */  jal        func_8004002C
     /* 18CB8 800284B8 00000000 */   nop
     /* 18CBC 800284BC 21204000 */  addu       $a0, $v0, $zero
@@ -67,7 +67,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18CCC 800284CC 21202002 */  addu       $a0, $s1, $zero
     /* 18CD0 800284D0 48010524 */  addiu      $a1, $zero, 0x148
     /* 18CD4 800284D4 21380000 */  addu       $a3, $zero, $zero
-    /* 18CD8 800284D8 43038693 */  lbu        $a2, %gp_rel(D_8009B24B)($gp)
+    /* 18CD8 800284D8 43038693 */  lbu        $a2, %gp_rel(gDuel_bCardViewerYOffset)($gp)
     /* 18CDC 800284DC 02000224 */  addiu      $v0, $zero, 0x2
     /* 18CE0 800284E0 1000A2AF */  sw         $v0, 0x10($sp)
     /* 18CE4 800284E4 0D000224 */  addiu      $v0, $zero, 0xD
@@ -94,8 +94,8 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18D38 80028538 0F80023C */  lui        $v0, %hi(D_800EB0F8)
     /* 18D3C 8002853C F8B04324 */  addiu      $v1, $v0, %lo(D_800EB0F8)
     /* 18D40 80028540 600030A6 */  sh         $s0, 0x60($s1)
-    /* 18D44 80028544 380391AF */  sw         $s1, %gp_rel(D_8009B240)($gp)
-    /* 18D48 80028548 480380AF */  sw         $zero, %gp_rel(D_8009B250)($gp)
+    /* 18D44 80028544 380391AF */  sw         $s1, %gp_rel(gDuel_pCardViewerBackground)($gp)
+    /* 18D48 80028548 480380AF */  sw         $zero, %gp_rel(gDuel_pCardViewerTextBox)($gp)
   .L8002854C:
     /* 18D4C 8002854C 34006294 */  lhu        $v0, 0x34($v1)
     /* 18D50 80028550 00000000 */  nop
@@ -130,7 +130,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18DC0 800285C0 15000224 */  addiu      $v0, $zero, 0x15
     /* 18DC4 800285C4 540080A0 */  sb         $zero, 0x54($a0)
     /* 18DC8 800285C8 590082A0 */  sb         $v0, 0x59($a0)
-    /* 18DCC 800285CC 480384AF */  sw         $a0, %gp_rel(D_8009B250)($gp)
+    /* 18DCC 800285CC 480384AF */  sw         $a0, %gp_rel(gDuel_pCardViewerTextBox)($gp)
     /* 18DD0 800285D0 85E6000C */  jal        func_80039A14
     /* 18DD4 800285D4 00000000 */   nop
     /* 18DD8 800285D8 7DA10008 */  j          .L800285F4
@@ -161,7 +161,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18E30 80028630 40006230 */  andi       $v0, $v1, 0x40
     /* 18E34 80028634 7A004010 */  beqz       $v0, .L80028820
     /* 18E38 80028638 20006230 */   andi      $v0, $v1, 0x20
-    /* 18E3C 8002863C 3803918F */  lw         $s1, %gp_rel(D_8009B240)($gp)
+    /* 18E3C 8002863C 3803918F */  lw         $s1, %gp_rel(gDuel_pCardViewerBackground)($gp)
     /* 18E40 80028640 00000000 */  nop
     /* 18E44 80028644 60002786 */  lh         $a3, 0x60($s1)
     /* 18E48 80028648 00000000 */  nop
@@ -196,7 +196,7 @@ glabel DuelEffect_UpdateCardViewerState
   .L800286B8:
     /* 18EB8 800286B8 600020A6 */  sh         $zero, 0x60($s1)
   .L800286BC:
-    /* 18EBC 800286BC 4803848F */  lw         $a0, %gp_rel(D_8009B250)($gp)
+    /* 18EBC 800286BC 4803848F */  lw         $a0, %gp_rel(gDuel_pCardViewerTextBox)($gp)
     /* 18EC0 800286C0 00000000 */  nop
     /* 18EC4 800286C4 05008010 */  beqz       $a0, .L800286DC
     /* 18EC8 800286C8 00000000 */   nop
@@ -205,7 +205,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18ED4 800286D4 4DE6000C */  jal        TextBox_SetPos
     /* 18ED8 800286D8 00000000 */   nop
   .L800286DC:
-    /* 18EDC 800286DC 4403918F */  lw         $s1, %gp_rel(D_8009B24C)($gp)
+    /* 18EDC 800286DC 4403918F */  lw         $s1, %gp_rel(gDuel_pCardViewerCard)($gp)
     /* 18EE0 800286E0 00000000 */  nop
     /* 18EE4 800286E4 60002786 */  lh         $a3, 0x60($s1)
     /* 18EE8 800286E8 00000000 */  nop
@@ -254,13 +254,13 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18F84 80028784 25186400 */  or         $v1, $v1, $a0
     /* 18F88 80028788 63006014 */  bnez       $v1, .L80028918
     /* 18F8C 8002878C 00000000 */   nop
-    /* 18F90 80028790 3803848F */  lw         $a0, %gp_rel(D_8009B240)($gp)
+    /* 18F90 80028790 3803848F */  lw         $a0, %gp_rel(gDuel_pCardViewerBackground)($gp)
     /* 18F94 80028794 00000000 */  nop
     /* 18F98 80028798 60008284 */  lh         $v0, 0x60($a0)
     /* 18F9C 8002879C 00000000 */  nop
     /* 18FA0 800287A0 5D004014 */  bnez       $v0, .L80028918
     /* 18FA4 800287A4 00000000 */   nop
-    /* 18FA8 800287A8 4403828F */  lw         $v0, %gp_rel(D_8009B24C)($gp)
+    /* 18FA8 800287A8 4403828F */  lw         $v0, %gp_rel(gDuel_pCardViewerCard)($gp)
     /* 18FAC 800287AC 00000000 */  nop
     /* 18FB0 800287B0 60004284 */  lh         $v0, 0x60($v0)
     /* 18FB4 800287B4 00000000 */  nop
@@ -277,7 +277,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18FE0 800287E0 00000000 */   nop
     /* 18FE4 800287E4 4AA5000C */  jal        func_80029528
     /* 18FE8 800287E8 03000424 */   addiu     $a0, $zero, 0x3
-    /* 18FEC 800287EC 4803848F */  lw         $a0, %gp_rel(D_8009B250)($gp)
+    /* 18FEC 800287EC 4803848F */  lw         $a0, %gp_rel(gDuel_pCardViewerTextBox)($gp)
     /* 18FF0 800287F0 00000000 */  nop
     /* 18FF4 800287F4 03008010 */  beqz       $a0, .L80028804
     /* 18FF8 800287F8 00000000 */   nop
@@ -294,7 +294,7 @@ glabel DuelEffect_UpdateCardViewerState
   .L80028820:
     /* 19020 80028820 14004014 */  bnez       $v0, .L80028874
     /* 19024 80028824 00000000 */   nop
-    /* 19028 80028828 4403918F */  lw         $s1, %gp_rel(D_8009B24C)($gp)
+    /* 19028 80028828 4403918F */  lw         $s1, %gp_rel(gDuel_pCardViewerCard)($gp)
     /* 1902C 8002882C 00000000 */  nop
     /* 19030 80028830 21002292 */  lbu        $v0, 0x21($s1)
     /* 19034 80028834 00000000 */  nop
@@ -339,15 +339,15 @@ glabel DuelEffect_UpdateCardViewerState
     /* 190C8 800288C8 13004010 */  beqz       $v0, .L80028918
     /* 190CC 800288CC 00000000 */   nop
   .L800288D0:
-    /* 190D0 800288D0 3803848F */  lw         $a0, %gp_rel(D_8009B240)($gp)
+    /* 190D0 800288D0 3803848F */  lw         $a0, %gp_rel(gDuel_pCardViewerBackground)($gp)
     /* 190D4 800288D4 5E0C010C */  jal        func_80043178
     /* 190D8 800288D8 00041024 */   addiu     $s0, $zero, 0x400
-    /* 190DC 800288DC 4403848F */  lw         $a0, %gp_rel(D_8009B24C)($gp)
-    /* 190E0 800288E0 3803828F */  lw         $v0, %gp_rel(D_8009B240)($gp)
+    /* 190DC 800288DC 4403848F */  lw         $a0, %gp_rel(gDuel_pCardViewerCard)($gp)
+    /* 190E0 800288E0 3803828F */  lw         $v0, %gp_rel(gDuel_pCardViewerBackground)($gp)
     /* 190E4 800288E4 5E0C010C */  jal        func_80043178
     /* 190E8 800288E8 600050A4 */   sh        $s0, 0x60($v0)
     /* 190EC 800288EC FF000424 */  addiu      $a0, $zero, 0xFF
-    /* 190F0 800288F0 4403828F */  lw         $v0, %gp_rel(D_8009B24C)($gp)
+    /* 190F0 800288F0 4403828F */  lw         $v0, %gp_rel(gDuel_pCardViewerCard)($gp)
     /* 190F4 800288F4 02000524 */  addiu      $a1, $zero, 0x2
     /* 190F8 800288F8 F656000C */  jal        Fade_SetTargetLevel
     /* 190FC 800288FC 600050A4 */   sh        $s0, 0x60($v0)
