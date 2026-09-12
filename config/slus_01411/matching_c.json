@@ -3931,6 +3931,12 @@
       "source": "src/game/func_80045C98.c"
     },
     {
+      "address": "0x80045F3C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x358",
+      "source": "src/game/sd_update_runtime.c"
+    },
+    {
       "address": "0x80046294",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x25C",
