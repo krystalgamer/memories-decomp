@@ -106,5 +106,6 @@ typedef char CardListAssertSize[sizeof(CardList) == 0x2D4C ? 1 : -1];
 
 void func_80031CD4(CardList *list, s32 slot);
 void func_80031E04(CardList *list, s32 count);
+s32 func_800330BC(CardList *list);
 
 #endif
