@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../game/graphics_frame.h"
 #include "startup_data.h"
 #include "../game/graphics_frame.h"
 
@@ -12,6 +13,6 @@ u32 D_800906E8[7] = {
     0x0007DD08,
     (u32)&initialized_data_start,
     0x0000A828,
-    (u32)D_8009B4A8,
+    (u32)gGraphics_aFrameBuffers,
     0x00063280,
 };
