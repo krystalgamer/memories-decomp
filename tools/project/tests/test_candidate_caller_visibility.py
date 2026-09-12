@@ -1,4 +1,4 @@
-"""Callers of the #3859 mixed -G candidates must see a declaration.
+"""Callers must see their canonical function declarations.
 
 GCC 2.8.1 accepts a call with no visible prototype and treats the callee as
 `int f()`. The build stays byte-exact, and the ownership checks
@@ -13,6 +13,7 @@ Each pair below is compiled with its recorded profile's front-end flags and
 the callee. The negative control removes a caller's unmatched.h include while
 the global prototype stays in place, and requires the compiler to report the
 implicit call, so this test fails for exactly the regression it guards.
+The shared CD position-conversion declarations are covered at every caller too.
 """
 
 from __future__ import annotations
@@ -44,6 +45,12 @@ PAIRS = [
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
+    ("src/game/file_stream.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/game/func_80014294.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
+    ("src/game/func_80014294.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/game/func_8005C388.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
+    ("src/game/func_8005C388.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
 ]
 
 
@@ -133,6 +140,27 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     )
                 finally:
                     shutil.rmtree(scratch, ignore_errors=True)
+                self.assertIn(callee, found)
+
+    def test_lost_cd_header_is_caught_while_sdk_types_remain_visible(self) -> None:
+        header = (REPOSITORY / "src/game/file_cd_helpers.h").read_text(encoding="utf-8")
+        for source, callee, include in PAIRS:
+            if "file_cd_helpers.h" not in include:
+                continue
+            with self.subTest(source=source, callee=callee):
+                self.assertRegex(header, rf"\b{callee}\s*\(")
+                text = (REPOSITORY / source).read_text(encoding="utf-8")
+                self.assertIn(include + "\n", text)
+                with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+                    probe = Path(directory) / "a/b/c" / Path(source).name
+                    probe.parent.mkdir(parents=True)
+                    probe.write_text(
+                        text.replace(include, '#include "../psyq/libcd.h"', 1),
+                        encoding="utf-8",
+                    )
+                    found = implicit_calls(
+                        probe, self.profile(source), (REPOSITORY / source).parent
+                    )
                 self.assertIn(callee, found)
 
 
