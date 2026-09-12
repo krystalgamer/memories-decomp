@@ -15,7 +15,6 @@
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 
-extern u8 D_800EB224[];
 extern s8 gDialog_bChoice[9];
 
 /* One frame of the duel scene. It services the quit dialog when
