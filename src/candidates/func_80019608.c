@@ -23,7 +23,7 @@
 #include "../game/func_800291E0.h"
 #include "../game/duel_effect_resource_setup.h"
 #include "../unmatched.h"
-#include "../game/func_80019608.h"
+#include "../game/duel_scene_card_use.h"
 #include "../game/display_object_work_slots.h"
 #include "../game/duel_scene_state.h"
 
@@ -33,7 +33,7 @@
    symbol, so no storage is allocated here. */
 u16 D_8009B150;
 
-void func_80019608(void)
+void DuelScene_UpdateCardUse(void)
 {
     DisplayObject *p;
     DuelCardRecord *slot;

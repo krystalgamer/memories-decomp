@@ -4,7 +4,7 @@
 
 The pointer at `D_8009B1E8` refers to the transient result-state record built
 by the end-of-duel state machine. Two matching consumers already established
-its display-object and score prefix. The unmatched `func_800218F0` extends
+its display-object and score prefix. The unmatched `DuelScene_UpdateResultRewards` extends
 the same record through offset `+0x3D`, covering page selection, rank axis,
 starchip prize, and the selected card drop.
 

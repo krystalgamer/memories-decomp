@@ -42,7 +42,7 @@ the base symbol's name:
 
 `DuelCardReplayRecordBlock` retains its padded offset view, now shared by
 card lifecycle, draw resolution, phase entry, AI selection setup, trap
-presentation, and the integrated `func_80018FEC` candidate.
+presentation, and the integrated `DuelScene_UpdateExodiaResult` candidate.
 `DuelStagedDeckRecordBlock` provides the corresponding small-displacement
 deck-record view for `Duel_SetupCardRecord`. These views preserve the
 historical high-base materialization followed by a small field displacement;
@@ -116,7 +116,7 @@ five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
 The encoded field-card slot paths in `func_80028260`,
-`Duel_SetupCardRecord`, `func_80024D34`, and `func_80018DB4` add
+`Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still
 passed through without that normalization or new bounds checks.
@@ -143,7 +143,7 @@ field records. The normal ritual execution routine removes the exported
 cards later; see the selection/removal distinction in
 [`the-game.md` §5.7](research/the-game.md#57-traps-and-rituals).
 
-The draw-phase entry `func_8001898C` scans `DUEL_CARD_RECORD_COUNT` (`30`)
+The draw-phase entry `DuelScene_UpdateDrawPhase` scans `DUEL_CARD_RECORD_COUNT` (`30`)
 records at `DUEL_CARD_RECORD_SIZE` (`0x1C`) strides to reset per-turn flags.
 That bound belongs to this record table, not to the separate
 `DUEL_FIELD_SIDE_GRID_SLOT_COUNT` layout. Occupied records retain their
@@ -222,7 +222,7 @@ if either card is in defence position, or `-1` if both are in attack
 position. This is a return convention, not a claim that edited values
 could never produce an arithmetic difference of `-1`.
 
-The retail battle sequencer `func_8001F55C` calls the comparison at
+The retail battle sequencer `DuelScene_UpdateBattle` calls the comparison at
 `0x8001FBFC`. Its negative-result path tests for a result below `-1` at
 `0x8001FD2C` before reaching the LP update at `0x8001FD5C`; a returned
 `-1` is not processed there as one point of LP damage. This corroborates
@@ -291,7 +291,7 @@ The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
 cleared. Do not collapse these branches into a universal two-player copy.
 
 The initializer points `D_8009B1C8` at the active side record; the matching
-[turn-switch helper](../src/game/func_800208D4.c) refreshes that pointer
+[turn-switch helper](../src/game/duel_scene_turn_switch.c) refreshes that pointer
 when changing sides. Matching
 [`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:

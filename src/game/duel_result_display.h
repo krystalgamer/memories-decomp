@@ -60,7 +60,7 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * Duel_CalcRankScore takes it into a local before working through the same
  * record.
  *
- * Nothing in matched C sets it. The one writer, func_800218F0, is still
+ * Nothing in matched C sets it. The one writer, DuelScene_UpdateResultRewards, is still
  * assembly and reaches the word with lw and sw, so where the pointer comes
  * from is not established here -- only what it points at. */
 extern DuelResultDisplayState *D_8009B1E8;

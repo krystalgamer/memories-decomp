@@ -51,7 +51,7 @@ s32 Duel_HasAllExodiaPieces(void) {
 
 extern u8 D_8009B1ED;
 
-void func_80018DB4(void) {
+void DuelScene_UpdateDrawResolution(void) {
     u8 *p;
     u8 *c;
     DuelCardReplayRecordBlock *g;

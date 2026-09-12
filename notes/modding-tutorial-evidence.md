@@ -892,7 +892,7 @@ image regions must preserve or regenerate that `0x2A0`-byte title payload.
 **Tutorial:** `Results - Paletas.docx`
 
 The tutorial places the results-screen graphics at `WA_MRG.MRG+0xED5800`
-and a second image range at `+0xEDD800`. Resident function `func_80020F4C`
+and a second image range at `+0xEDD800`. Resident function `DuelScene_UpdateResultOutro`
 requests 34 sectors beginning at WA sector `0x1DAB`, exactly covering
 `0xED5800-0xEE6800`, during end-of-duel setup:
 
@@ -1229,7 +1229,7 @@ The tutorial identifies three little-endian `500` immediates in the SLUS:
 | `0x10784` | `0x8001FF84` | `F4 01 02 24` | Clamp the displayed modifier to `500` |
 | `0x1D3D0` | `0x8002CBD0` | `F4 01 02 24` | Return the positive Guardian Star matchup modifier |
 
-The first two sites are in `func_8001F55C`. That path advances a signed
+The first two sites are in `DuelScene_UpdateBattle`. That path advances a signed
 display value by `16` per update, clears its active flag once the value
 reaches the limit, clamps it to `500`, and writes the result to two display
 fields. Both immediates must change together to preserve the same stop and

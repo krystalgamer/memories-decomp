@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80019608_H
-#define MEMORIES_DECOMP_FUNC_80019608_H
+#ifndef MEMORIES_DECOMP_DUEL_SCENE_CARD_USE_H
+#define MEMORIES_DECOMP_DUEL_SCENE_CARD_USE_H
 
 #include "../types.h"
 
@@ -29,6 +29,6 @@
  * acting side's hand slots. That is not this function: nothing here reads a
  * hand, and functions.csv and notes/research/the-game.md both already called
  * it the card-use presentation sequence. */
-void func_80019608(void);
+void DuelScene_UpdateCardUse(void);
 
 #endif

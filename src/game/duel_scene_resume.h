@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8001825C_H
-#define MEMORIES_DECOMP_FUNC_8001825C_H
+#ifndef MEMORIES_DECOMP_DUEL_SCENE_RESUME_H
+#define MEMORIES_DECOMP_DUEL_SCENE_RESUME_H
 
 #include "../types.h"
 
@@ -8,6 +8,6 @@
  * one had, spawns the side indicator objects, and then either replays the
  * field effects or starts the BGM before fading in. Later ticks walk the
  * D_8009B208 replay list one entry per tick. */
-void func_8001825C(void);
+void DuelScene_UpdateResume(void);
 
 #endif
