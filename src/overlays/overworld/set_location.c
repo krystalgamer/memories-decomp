@@ -10,6 +10,8 @@
 #include "../../game/model_scene_setup.h"
 #include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
@@ -28,7 +30,6 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
-extern void func_800857C0(int);
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
@@ -128,7 +129,7 @@ void CampaignMap_ResetCamera(void)
     camera->view.rz = 0;
     camera->view.super = 0;
     camera->projection = 0x12C;
-    func_800857C0(0x12C);
+    GsSetProjection(0x12C);
     *(s32 *)(matrix + 0x0C) = 0;
     camera->field_06 = 0;
     *(s32 *)(matrix + 0x10) = 0;
