@@ -802,7 +802,7 @@ address,size,name,status,module,notes
 0x80049600,0x40,func_80049600,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x80049640,0x54,func_80049640,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049694,0x30,SD_Term,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x800496C4,0x98,func_800496C4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_800496C4.c with target src/candidates_target/func_800496C4.S; profile gcc_2_8_1_g0. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0."
+0x800496C4,0x98,func_800496C4,matching_c,game,Pure-C exact match: a one-iteration zero initializer with an unreachable contradictory back edge preserves the retail t0 zero and prologue schedule without register pins or inline assembly.
 0x8004975C,0x84,func_8004975C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800497E0,0xDC,func_800497E0,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x800498BC,0x3C,func_800498BC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
