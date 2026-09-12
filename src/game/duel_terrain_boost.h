@@ -23,8 +23,7 @@
 
      -G0 profiles (gcc_2_8_1_g0) put nothing in small data, so a plain scalar
      already gets lui %hi / %lo and needs no help:
-         func_80024DC8.c, src/candidates/func_80071460.c,
-         src/candidates/func_80038530.c
+         func_80024DC8.c, src/candidates/func_80038530.c
              extern u8 gDuel_bTerrain;            (also spelled unsigned char)
 
      -G8 profiles would make a one-byte object small data and address it
@@ -34,9 +33,9 @@
          duel_card_record_lifecycle.c (gcc_2_8_1_g8_split) extern u8 gDuel_bTerrain[];
 
      ...or section(".data") does it while keeping the scalar, which is what
-     buys the assembler macro form those two functions need:
+     buys the assembler macro form these functions need:
          src/candidates/func_800179F4.c (gcc_2_8_1_g8_split),
-         main_run_animated_battle.c
+         main_run_animated_battle.c, ai_script_load_terrain.c
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
      func_80024E58 was the one that needed a NUMBER. Its profile compiled at
