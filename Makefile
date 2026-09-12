@@ -68,7 +68,7 @@ help:
 		'  check-progress Verify that the README progress snapshot is current' \
 		'  check-candidate-headlines  Verify candidate notes and inventory rows state the same figures' \
 		'  check-notes    Verify grouped translation-unit notes match the build config' \
-		'  check-note-links  Verify local paths linked from notes exist' \
+		'  check-note-links  Verify local paths referenced from notes exist' \
 		'  disc-files     Extract the tracked DATA files from the disc image' \
 		'  disc-layout    Regenerate the tracked ISO9660 LBA manifest' \
 		'  verify-disc    Verify BIN/CUE layout and extracted file contents' \
