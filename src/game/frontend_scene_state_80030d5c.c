@@ -13,12 +13,8 @@
 #include "../game/main_services.h"
 #include "../game/frontend_scene_states.h"
 
-/* The frontend's scene states, in address order. Every one of them is a step
-   of the same state machine: the flags byte D_8009B2EB carries bit 0x80 for
-   "already entered", so the first call does the setup and each later call
-   polls for completion and clears the byte on the way out. The eight are
-   contiguous and are the whole gcc_2_8_1_g8 run between func_80030998 and
-   func_80030FA0. */
+/* Frontend scene state 0x80030D5C. D_8009B2EB carries bit 0x80 for
+   "already entered" and bit 0x40 while the selected scene or sound runs. */
 
 void func_80030D5C(void)
 {
