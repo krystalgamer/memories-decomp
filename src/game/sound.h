@@ -682,6 +682,7 @@ s32 SD_EnqueueCommand(SDCommand *);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 void SD_BGMPlay(u32);
+void func_80046294(void);
 void SD_SEPlayFull(u32);
 /* Three arguments, and no result. Its three callers spelled the id s32, u32
    and u16, and the last spelled the other two u8 and s8 -- all three collapse
