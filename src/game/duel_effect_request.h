@@ -89,8 +89,9 @@ extern u8 *D_8009B17C;
  * status while still dispatching them normally.
  *
  * The request pool's status byte below is separate. func_8002C68C raises
- * bit 7 when it hands out a request and func_8002C598 clears the byte; func_8002C6C8 clears
- * bit 0, raises it again while walking the records and returns it;
+ * bit 7 when it hands out a request and func_8002C598 clears the byte;
+ * func_8002C6C8 clears bit 0, raises it again while walking the records
+ * and returns it;
  * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
  * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
  * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
