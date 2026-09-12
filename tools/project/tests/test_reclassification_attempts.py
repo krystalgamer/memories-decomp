@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 import sys
 import unittest
+from itertools import permutations
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
@@ -82,6 +83,47 @@ class ReclassificationAttemptTests(unittest.TestCase):
     def test_audit_recognizes_the_same_history_modes_and_limits(self) -> None:
         self.assertEqual(attempts.MODES, audit_repository.EXTERNAL_MODES)
         self.assertEqual(attempts.MODE_MAX_ATTEMPTS, audit_repository.EXTERNAL_MODE_LIMITS)
+
+    def test_reclassification_supersedes_sorted_reference_success(self) -> None:
+        original = self.row("post_terminal_resolution")
+        reference = self.row(
+            "reference_match",
+            reference_path="tmp/references/ygofm-decomp/src/func_80070710.c",
+            reference_sha256="b" * 64,
+        )
+        current = self.row("reclassification_match", candidate_sha256="c" * 64)
+        rows = attempts.sort_rows([reference, current, original])
+        self.validate(rows)
+        self.assertIs(
+            audit_repository.latest_external_successes(rows)[self.address], current
+        )
+
+    def test_reclassification_selection_is_independent_of_row_order(self) -> None:
+        original = self.row("post_terminal_resolution")
+        reference = self.row("reference_match")
+        current = self.row("reclassification_match")
+        for rows in permutations([original, reference, current]):
+            with self.subTest(modes=[row["mode"] for row in rows]):
+                self.assertIs(
+                    audit_repository.latest_external_successes(list(rows))[self.address],
+                    current,
+                )
+
+    def test_legacy_success_order_is_unchanged_without_reclassification(self) -> None:
+        original = self.row("post_terminal_resolution")
+        reference = self.row("reference_match")
+        self.assertIs(
+            audit_repository.latest_external_successes([original, reference])[self.address],
+            reference,
+        )
+
+    def test_unsuccessful_rows_do_not_replace_successes(self) -> None:
+        original = self.row("post_terminal_resolution")
+        unsuccessful = self.row("reclassification_match", result="nonmatch")
+        self.assertIs(
+            audit_repository.latest_external_successes([original, unsuccessful])[self.address],
+            original,
+        )
 
 
 if __name__ == "__main__":

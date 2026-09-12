@@ -271,6 +271,26 @@ def function_body(source_text: str, name: str) -> str | None:
     return None
 
 
+def latest_external_successes(
+    rows: list[dict[str, str]],
+) -> dict[int, dict[str, str]]:
+    selected: dict[int, dict[str, str]] = {}
+    for row in rows:
+        if row["result"] == "matched":
+            address = parse_integer(row["address"], "external matched address")
+            previous = selected.get(address)
+            # Mode-sorted rows are not chronological: the follow-up supersedes
+            # historical reference successes even when those sort after it.
+            if (
+                previous is not None
+                and previous["mode"] == "reclassification_match"
+                and row["mode"] != "reclassification_match"
+            ):
+                continue
+            selected[address] = row
+    return selected
+
+
 def audit_attempts(root: Path) -> None:
     functions_path = root / "config/slus_01411/functions.csv"
     attempts_path = root / "config/slus_01411/attempts.csv"
@@ -524,13 +544,7 @@ def audit_attempts(root: Path) -> None:
                     f"{address:#010x}: final external attempt is not deferred"
                 )
 
-    latest_success_by_address: dict[int, dict[str, str]] = {}
-    for row in external_attempts:
-        if row["result"] == "matched":
-            address = parse_integer(
-                row["address"], "external matched address"
-            )
-            latest_success_by_address[address] = row
+    latest_success_by_address = latest_external_successes(external_attempts)
 
     for address, row in latest_success_by_address.items():
         mode = row["mode"]

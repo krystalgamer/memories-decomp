@@ -220,6 +220,8 @@ and an unmatched function at recording time; it does not reopen either the
 canonical or original external history. The new source must meet current
 acceptance rules, including no register pins, inline assembly, or mixed
 compiler/assembler `-G` thresholds.
+The audit treats this successful follow-up as authoritative even when an
+older `reference_match` row sorts after it; historical rows remain unchanged.
 
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
