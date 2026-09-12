@@ -19,9 +19,11 @@ through `gDuelEffect_apfnStateHandler`. A handler adds
 `DUEL_EFFECT_STATE_FLAG_COMPLETE`; the following update clears the request and
 returns idle.
 
-Slots 0 and 1 both run `DuelEffect_UpdateDialogState`. It creates the requested
-text box once, waits for the text and optional choice list, then waits for
-confirmation before completing the state. Slot 2 runs
+Slots 0 and 1 both contain `DuelEffect_UpdateDialogState`, although zero is
+the dispatcher's idle value and therefore never reaches slot 0 through this
+entry point. The dialog handler creates the requested text box once, waits for
+the text and optional choice list, then waits for confirmation before
+completing state 1. Slot 2 runs
 `DuelEffect_UpdateCardViewerState`, the card-detail presentation used by duel
 card selection, Build Deck, and Trade. Slots 3 and 4 intentionally point at
 distinct empty handlers and are requested by adjacent frontend scene states.
@@ -31,7 +33,7 @@ The dialog and card-viewer handlers consume a second payload family:
 | Address | Name | Contract |
 | --- | --- | --- |
 | `0x8009B240` | `gDuel_pCardViewerBackground` | Sliding background display object |
-| `0x8009B244` | `gDuel_wEffectDialogTextID` | Text resource selected for dialog states 0 and 1 |
+| `0x8009B244` | `gDuel_wEffectDialogTextID` | Text resource consumed by the dialog handler |
 | `0x8009B24B` | `gDuel_bCardViewerYOffset` | Shared vertical offset published with a viewer request |
 | `0x8009B24C` | `gDuel_pCardViewerCard` | Card portrait display object |
 | `0x8009B250` | `gDuel_pCardViewerTextBox` | Optional card-stat text box |
@@ -39,8 +41,8 @@ The dialog and card-viewer handlers consume a second payload family:
 Build Deck and Trade publish a Y offset of `20`; the card viewer applies it to
 both the portrait and the text/background layout. The viewer creates, slides,
 and destroys the three pointer-owned objects as one presentation. The dialog
-handler passes `gDuel_wEffectDialogTextID` directly to `TextBox_Create`, so the
-two dialog slots share code while their producers select the content.
+handler passes `gDuel_wEffectDialogTextID` directly to `TextBox_Create`. No
+resident writer is currently recovered, so the producer remains unspecified.
 
 `DuelEffect_MarkStateInitialized` owns bit `0x80` of
 `gDuel_bEffectHandlerFlags`, independently of the dispatcher's initialized bit
