@@ -1,13 +1,9 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_800388D8.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 60 instructions against the
- * target's 59, opcode distance 3. The source below is the match, unchanged
- * apart from its include paths. */
+#define D_8009B140_IN_DATA
+#define D_8009AF74_IN_DATA
 #include "../types.h"
-#include "../game/fade.h"
-#include "../game/display_object_helpers.h"
-#include "../unmatched.h"
+#include "fade.h"
+#include "display_object_helpers.h"
+#include "duel_effect_basic_commands.h"
 
 void func_800388D8(u8 *arg0)
 {

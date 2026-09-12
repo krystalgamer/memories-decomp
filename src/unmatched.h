@@ -681,12 +681,6 @@ s32 func_800330BC(struct CardList *list);
  * slots. */
 void Dialog_UpdateChoice(struct DuelEffectChannel *object);
 
-/* D_80090EAC entry: the fade command. Bit 6 of its operand sets D_8009B140 from
- * the D_8009AF74 pair, bit 5 sets it to 4, and bit 4 starts a fade -- white
- * through Fade_InitOutColor when bit 0 is set. The bits are tested in that
- * order and are not exclusive. */
-void func_800388D8(u8 *object);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
