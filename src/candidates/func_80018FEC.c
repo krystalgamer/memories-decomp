@@ -79,7 +79,7 @@ void func_80018FEC(void)
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = D_8015C424;
-        poses = D_80090918;
+        poses = (u8 *)&D_80090918;
         fn = (void (*)(void))func_8001EC70;
         fnv = (s32)fn;
         objs = D_800E9EF0;
