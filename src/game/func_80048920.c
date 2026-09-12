@@ -1,25 +1,19 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0_keep_large_ori this
- * source rebuilt the target byte for byte, but only by
- * pinning 4 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_80048920.c.
- */
 #include "../types.h"
-#include "../game/func_80044DC0.h"
-#include "../game/sound.h"
+#include "func_80044DC0.h"
+#include "sound.h"
 #include "../psyq/libspu.h"
-#include "../game/sound_pending_constants.h"
-#include "../game/sound_voice_constants.h"
-#include "../game/sound_voice_selection.h"
+#include "sound_pending_constants.h"
+#include "sound_voice_constants.h"
+#include "sound_voice_selection.h"
 
 void func_80048920(s32 arg0, s32 arg1)
 {
     s32 lo;
     s32 hi;
-    register s32 i __asm__("$16");
-    register s32 a1v __asm__("$17") = arg1;
-    register s32 idm __asm__("$18");
-    register s32 id __asm__("$6");
+    s32 i;
+    u8 a1v = arg1;
+    s32 idm;
+    u16 id;
     s32 ff;
 
     id = arg0;
