@@ -2,6 +2,7 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "func_8002C604.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "func_800291E0.h"
@@ -15,6 +16,7 @@
 #include "view_state.h"
 #include "display_object.h"
 #include "duel_card_display_state.h"
+#include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "debug_effect_screen.h"
@@ -125,8 +127,8 @@ void func_800222F4(void) {
     if (gInput_wPad1Held & PAD_BUTTON_START) {
         func_800220B8();
     }
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0xC000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
         D_8009B16C[2] = 0;
         D_8009AF2E = 0;
         D_8009AF2A = 0;
