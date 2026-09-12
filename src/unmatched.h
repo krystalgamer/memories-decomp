@@ -138,7 +138,7 @@ void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
 
 /* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
-void func_800262D4(void);
+void DuelEffect_ApplyRitual(void);
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
@@ -579,7 +579,7 @@ struct DuelRitualResult;
 /* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
  * gDuel_bTerrain back after storing it and decrements in the same
  * expression. */
-void func_80024E58(void);
+void DuelEffect_ApplyTerrain(void);
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of

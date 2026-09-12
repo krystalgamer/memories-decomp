@@ -15,7 +15,8 @@
  * record's flags must call this or the object keeps showing the old ones.
  * All four do exactly that -- func_8001898C after clearing
  * DUEL_CARD_FLAG_USED_THIS_TURN on every occupied record, func_8001825C
- * after restoring two ranges of records it re-set up, func_80025B28 after
+ * after restoring two ranges of records it re-set up,
+ * DuelEffect_UpdateRevealCard after
  * clearing the field-effect bits, and func_800229F4 in the shared reset block
  * of the card flip animation.
  *

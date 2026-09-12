@@ -32,7 +32,7 @@
  * Steps past the fifth clear D_8009B220 and end the sweep. A card sitting in
  * the swept slot with a negative stat modifier has it cleared and gets the
  * alternate object state 5. */
-void func_800260D0(void) {
+void DuelEffect_ApplyCursebreaker(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
     u8 *position;

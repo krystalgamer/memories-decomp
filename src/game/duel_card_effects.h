@@ -43,24 +43,17 @@ typedef char DuelFieldEffectObject_active_offset_must_be_0x6C[
 
 #undef DUEL_FIELD_EFFECT_OBJECT_OFFSET
 
-/* Eight adjacent handlers of gDuelEffect_apfnGroupHandler plus the transition
- * callback installed by func_80025BEC. They share the D_801A7AD8 field walk,
- * D_8009B220 phase state, effect-object requests and completion gates.
- *
- * func_800250C8 runs the table-driven LP change phases -- recovery values
- * scaled by 100 -- func_8002525C applies one of the five direct-damage cards,
- * func_8002538C and func_800257A0 are the two remaining LP arms, and
- * DuelEffect_UpdateFieldMarker repositions the field marker object from the
- * card record it follows. All five are reached only as table entries, so they
- * take no arguments and report through D_8009B220 like every other handler. */
-void func_800250C8(void);
-void func_8002525C(void);
-void func_8002538C(void);
-void func_800257A0(void);
-void DuelEffect_UpdateFieldMarker(void);
-void func_8002596C(void);
-void func_80025B28(DuelFieldEffectObject *object);
-void func_80025BEC(void);
-void func_80025D30(void);
+/* Adjacent application handlers from the magic-effect group table plus the
+ * per-card reveal callback. They share the D_801A7AD8 field walk,
+ * D_8009B220 phase state, effect-object requests and completion gates. */
+void DuelEffect_ApplyLifePointRecovery(void);
+void DuelEffect_ApplyDirectDamage(void);
+void DuelEffect_ApplyMonsterRemoval(void);
+void DuelEffect_ApplyBoardDestruction(void);
+void DuelEffect_ApplyStopDefense(void);
+void DuelEffect_ApplyRaigeki(void);
+void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *object);
+void DuelEffect_ApplyDarkPiercingLight(void);
+void DuelEffect_ApplyStatPenalty(void);
 
 #endif

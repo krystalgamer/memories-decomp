@@ -3,13 +3,13 @@
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "file_transfer.h"
-#include "func_8002622C.h"
+#include "duel_ritual_effect.h"
 #include "sound.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 extern s16 D_8009B1A0;
 
-void func_8002622C(void)
+void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
         D_8009B1A0 = Duel_CheckRitual(0, D_8009B1D2);

@@ -6,6 +6,6 @@
 /* Field-wide stat-restoration step driven once per 16 frames. It sweeps the
  * third grid row, staggering a type-8 effect object per slot and clearing a
  * negative stat modifier where it finds one. */
-void func_800260D0(void);
+void DuelEffect_ApplyCursebreaker(void);
 
 #endif

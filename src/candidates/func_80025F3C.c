@@ -53,7 +53,7 @@ void DuelEffect_ApplySwords(void)
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) == 0x90000000) {
                     register DuelFieldEffectObject *current __asm__("$2");
                     current = (DuelFieldEffectObject *)entry->object;
-                    current->callback = func_80025B28;
+                    current->callback = DuelEffect_UpdateRevealCard;
                     current->active = 1;
                 }
             }

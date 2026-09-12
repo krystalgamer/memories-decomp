@@ -303,7 +303,7 @@ extern u8 D_8009B320;
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Four functions still in assembly also store it:
  * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
- * func_800262D4.s:379-380, func_8002ACA4.s:311-312.
+ * DuelEffect_ApplyRitual assembly:379-380, func_8002ACA4.s:311-312.
  *
  * s16 because func_80037DA4, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
@@ -376,7 +376,8 @@ extern u8 D_8009B3C1;
  * $gp like the small-data neighbours here. */
 extern u8 D_8009B3C7;
 
-/* A 0x1C-byte effect object, the record func_80025D30 and func_800260D0 both
+/* A 0x1C-byte effect object, the record DuelEffect_ApplyStatPenalty and
+ * DuelEffect_ApplyCursebreaker both
  * walk. Both files described the same layout: the first named the halfword
  * at 0x12 and padded 0x06..0x11, the second padded straight across
  * 0x06..0x13. This carries the union of what each knew. */

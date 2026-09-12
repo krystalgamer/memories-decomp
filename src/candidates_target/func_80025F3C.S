@@ -58,8 +58,8 @@ glabel DuelEffect_ApplySwords
     /* 167EC 80025FEC 1A80023C */  lui        $v0, %hi(D_801A7AD8)
     /* 167F0 80025FF0 D87A4824 */  addiu      $t0, $v0, %lo(D_801A7AD8)
     /* 167F4 80025FF4 0090053C */  lui        $a1, (0x90000000 >> 16)
-    /* 167F8 80025FF8 0280023C */  lui        $v0, %hi(func_80025B28)
-    /* 167FC 80025FFC 285B4724 */  addiu      $a3, $v0, %lo(func_80025B28)
+    /* 167F8 80025FF8 0280023C */  lui        $v0, %hi(DuelEffect_UpdateRevealCard)
+    /* 167FC 80025FFC 285B4724 */  addiu      $a3, $v0, %lo(DuelEffect_UpdateRevealCard)
     /* 16800 80026000 01000624 */  addiu      $a2, $zero, 0x1
   .L80026004:
     /* 16804 80026004 CD028393 */  lbu        $v1, %gp_rel(D_8009B1D5)($gp)
