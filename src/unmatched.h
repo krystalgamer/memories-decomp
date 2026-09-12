@@ -595,11 +595,6 @@ void func_80024E58(void);
  * overlay's shop.c calls it too. */
 void func_8002A2F4(u8 *state);
 
-/* Returns the u16 result card id widened to s32. Declaring a narrow return at
- * the callers adds a zero-extension instruction that retail does not have.
- * duel_check_ritual.h keeps the result record and the recipe table. */
-s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
-
 /* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
  * hands the scene over to. On its first frame it derives the per-frame 16.16
  * deltas from the distance to the target over the remaining frame count, then

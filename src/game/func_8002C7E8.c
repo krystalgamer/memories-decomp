@@ -1,10 +1,3 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/duel_check_ritual.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0), and with 1 variable pinned to hard
- * registers. Under gcc_2_8_1_g0, a single threshold, it is 84 of 84
- * instructions with 8 differing, opcode distance 0. The source below is the
- * match, unchanged apart from its include paths. */
 #include "../types.h"
 #include "../game/duel_check_ritual.h"
 #include "../game/duel_side_state.h"
@@ -20,8 +13,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     DuelCardRecord *card;
     DuelCardRecord **first;
     DuelCardRecord **dst;
-    register DuelCardRecord **w __asm__("$3");
-    DuelCardRecord *c;
+    DuelCardRecord **w;
     u16 *p;
     u16 *q;
     s32 i;
@@ -42,16 +34,16 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     if (D_8009B1D5 != 0) {
         i = DUEL_CARD_SIDE_RECORD_COUNT + DUEL_FIELD_ROW_SIZE;
     }
-    c = &D_801A7AD8[i];
+    card = &D_801A7AD8[i];
     i = 0;
     w = cands;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         *w = 0;
-        if (c->flags & DUEL_CARD_FLAG_OCCUPIED) {
-            *w = c;
+        if (card->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            *w = card;
         }
         w++;
-        c++;
+        card++;
     }
 
     p++;
