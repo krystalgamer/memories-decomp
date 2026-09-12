@@ -1909,6 +1909,12 @@
       "source": "src/game/build_deck_card_counts.c"
     },
     {
+      "address": "0x80031EE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x98",
+      "source": "src/game/func_80031EE4.c"
+    },
+    {
       "address": "0x80031F7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
