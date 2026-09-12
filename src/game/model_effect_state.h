@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../ygo_types.h"
 
 /* Model-effect setup, state, endpoint queueing and dispatch.
  *
@@ -27,6 +28,11 @@ void func_8005F5C8(s32 mode, s32 coefficient, s32 offset, s32 arg);
 void func_8005F714(s32 first, s32 second, s32 arg);
 void func_8005F7B0(s32 value, s32 arg);
 void func_8005F828(s32 count, void *first, void *second, s32 arg);
-void func_8005F91C(s32 mode, u8 *first, u8 *second, s32 arg);
+void func_8005F91C(
+    s32 mode,
+    ModelEffectEndpoint *first,
+    ModelEffectEndpoint *second,
+    s32 arg
+);
 
 #endif

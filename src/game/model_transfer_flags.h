@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_TRANSFER_FLAGS_H
 
 #include "../types.h"
+#include "model_effect_key.h"
 
 /* Two independent flag bytes, D_8009B07B and D_8009B07C, each with a getter
  * and a setter.
@@ -36,16 +37,13 @@
  * u8 *, and a pointer against a word is a question about what the storage is,
  * not a spelling to pick.
  * The listings answer it: every retail read of the word is a base for a load
- * at a fixed offset (lhu 0x22 and 0x24, lbu 0x26, lh 0x6, or an addu with an
- * index and then lhu) or a beqz null test, and both writes store either the
- * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
- * pointer, and the two s32 spellings were casts around one. func_8005EBF4
- * walks it as bytes and func_8005F91C stores `(u8 *)D_800F5788`, so u8 *
- * is what the uses claim; func_8005DBA4 and func_8005E808 (still assembly)
- * read it the same way. Every retail access is gp-relative, so no unit needs
- * an arm.
+ * at a fixed field offset or a beqz null test, and both writes store either
+ * the address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). The ring
+ * layout is defined with Key in func_8005EBF4.h; func_8005DBA4 and
+ * func_8005E808 (still assembly) read the same fields. Every retail access is
+ * gp-relative, so no unit needs an arm.
  */
-extern u8 *D_8009B074;
+extern Key *D_8009B074;
 extern u8 D_8009B078;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;

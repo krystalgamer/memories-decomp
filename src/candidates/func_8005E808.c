@@ -1,6 +1,6 @@
 /*
- * Recomputes a model's audible radius. Current best: 253 instructions
- * against 251, opcode distance 6, 97 differing positions.
+ * Recomputes a model's audible radius. Current best: 252 instructions
+ * against 251, opcode distance 5.
  *
  * The magnitude of the s16 at +0x20 sets the base radius at +0x22, capped at
  * 0x4000; when that field is negative the two 8-byte descriptors after the
@@ -24,9 +24,8 @@
 #include "../game/model_copy_slot_u16_values.h"
 #include "../game/func_80058DD8.h"
 #include "../game/func_8005EBF4.h"
+#include "../game/model_transfer_flags.h"
 #include "../game/model_transfer_state.h"
-
-extern u8 *D_8009B074;
 
 /* Recomputes a model's audible radius. The magnitude of the s16 at +0x20 sets
    the base radius at +0x22, capped at 0x4000, and when that field is negative
@@ -58,7 +57,7 @@ void func_8005E808(u8 *p)
     s32 n;
     u16 v;
 
-    n = *(s16 *)(p + 0x20);
+    n = ((Key *)p)->magnitude;
     a = n;
     if (n < 0) {
         a = -a;
@@ -68,18 +67,18 @@ void func_8005E808(u8 *p)
         t = 1;
     }
     k = t * 2;
-    func_8005FB30(p);
-    *(s16 *)(p + 0x24) = 0;
-    if (D_8009B074[0x26] != 0) {
+    func_8005FB30((Key *)p);
+    ((Key *)p)->progress = 0;
+    if (D_8009B074->ready != 0) {
         return;
     }
-    p[0x26] = 1;
+    ((Key *)p)->ready = 1;
     if (a >= 0x4000) {
-        *(s16 *)(p + 0x22) = 0x4000;
+        ((Key *)p)->radius = 0x4000;
     } else {
-        *(s16 *)(p + 0x22) = k;
+        ((Key *)p)->radius = k;
     }
-    if (*(s16 *)(p + 0x20) >= 0) {
+    if (((Key *)p)->magnitude >= 0) {
         return;
     }
 
@@ -103,8 +102,8 @@ void func_8005E808(u8 *p)
             dy = pos[1] - *(s16 *)(g + 2);
             dz = pos[2] - *(s16 *)(g + 4);
             d = k * SquareRoot0(dx * dx + dy * dy + dz * dz) / 1000;
-            if (*(u16 *)(p + 0x22) < d) {
-                *(s16 *)(p + 0x22) = d;
+            if (((Key *)p)->radius < d) {
+                ((Key *)p)->radius = d;
             }
             continue;
         case 1:
@@ -138,8 +137,8 @@ void func_8005E808(u8 *p)
         default:
             continue;
         }
-        if (*(u16 *)(p + 0x22) < d) {
-            *(s16 *)(p + 0x22) = d;
+        if (((Key *)p)->radius < d) {
+            ((Key *)p)->radius = d;
         }
     }
 }
