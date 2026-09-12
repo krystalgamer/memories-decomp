@@ -18,7 +18,7 @@
  * declaration of the same type until then; nothing about its object changed
  * when it took this name, only which name its two relocations carry.
  *
- * func_800283F4 (src/candidates/func_800283F4.c) is the consumer. It hands
+ * DuelEffect_UpdateCardViewerState (src/candidates/func_800283F4.c) is the consumer. It hands
  * the id to func_80029164 to bring
  * the card's record in, and copies it into gDuel_wSelectedCardID for the
  * effect channels.
@@ -32,7 +32,7 @@ extern u16 gDuel_wViewerCardID;
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
  * src/candidates/main_menu/func_801821DC.c) both store 20 (0x14) when they
  * open the viewer, and
- * func_800283F4 is the consumer:
+ * DuelEffect_UpdateCardViewerState is the consumer:
  *
  *     adj = D_8009B24B;
  *     obj->field_30.h.field_32 += adj;

@@ -1,4 +1,4 @@
-#define D_8009B254_IN_DATA
+#define GDUEL_BEFFECTSTATE_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
@@ -17,7 +17,7 @@ void Main_RunCampaign(void) {
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
         Campaign_LoadScenePackage(gCampaignSceneIndex);
-        D_8009B254 = 0;
+        gDuel_bEffectState = 0;
         return;
     }
 

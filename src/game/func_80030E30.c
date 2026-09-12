@@ -1,5 +1,5 @@
 #define D_8009B36A_IN_DATA
-#define D_8009B254_IN_DATA
+#define GDUEL_BEFFECTSTATE_IN_DATA
 #define D_8009B368_IN_DATA
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
@@ -36,7 +36,7 @@ void func_80030E30(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
-        D_8009B254 = 3;
+        gDuel_bEffectState = DUEL_EFFECT_STATE_NOOP_3;
     }
     if (DuelEffect_UpdateState() == 0) {
         D_8009B2EB = 0;
@@ -49,7 +49,7 @@ void func_80030E7C(void)
 
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
-        D_8009B254 = 4;
+        gDuel_bEffectState = DUEL_EFFECT_STATE_NOOP_4;
     }
     if (DuelEffect_UpdateState() == 0) {
         D_8009B2EB = 0;
