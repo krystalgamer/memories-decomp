@@ -437,19 +437,6 @@
       }
     },
     {
-      "address": "0x8002D730",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_8002D730.c",
-      "target": "src/candidates_target/func_8002D730.S",
-      "candidate_build_sha256": "1e61c1db045b79341b90c025c069bf4cd8d09cea645723cc98284e4044ff9780",
-      "target_bytes_sha256": "215df710c2bb592da976d36dff816a50681321d93466bbf8e3d5cecd2ad32f8a",
-      "canonical_contract_sha256": "c415cad040a8a0deb5f6526f41a896837305cdd8cd30b74fb9b985066a8067a7",
-      "canonical_contracts": {
-        "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
-        "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1"
-      }
-    },
-    {
       "address": "0x8002EE94",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8002EE94.c",
