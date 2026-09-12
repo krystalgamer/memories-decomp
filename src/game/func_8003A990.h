@@ -9,7 +9,7 @@
  * still to travel, 0x48 the eased angle and 0x4A its per-tick step -- and
  * hands the result to the position helpers as x and y.
  *
- * Every offset belongs to MenuRecord, the callback table's element type. */
+ * Every offset belongs to MenuRecord, the callback table's argument type. */
 void func_8003A990(MenuRecord *record);
 
 #endif

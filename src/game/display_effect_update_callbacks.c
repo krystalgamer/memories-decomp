@@ -53,8 +53,8 @@ void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y)
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
-   byte. The record is a MenuRecord, the element type of D_800EB010 and
-   D_80090F68.
+   byte. The record is a MenuRecord, the element type of D_800EB010 and the
+   callback argument type stored by D_80090F68.
 
    Every use goes through that local, including the two calls that want a
    u8 * again. That is not tidiness: leaving `p` live alongside `r` makes

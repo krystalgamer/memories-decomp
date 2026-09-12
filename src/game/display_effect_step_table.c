@@ -19,8 +19,9 @@
  * the array would change the bytes.
  *
  * The table and dispatcher use MenuRecord *, matching the arena they walk.
- * The two lifecycle entries and two VRAM entries retain casts because those
- * handlers deliberately expose narrower layout views of the same record.
+ * The two repeated lifecycle entries and the single VRAM entry retain casts
+ * because those handlers deliberately expose narrower layout views of the
+ * same record.
  * The entries include two that share func_80039FF8. */
 
 void (*D_80090F68[])(MenuRecord *) = {

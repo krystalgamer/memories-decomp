@@ -90,7 +90,8 @@ The complete `D_80090F68` display-effect step table now carries
 selects its callback from a `D_800EB010` record. The easing callback, portrait
 callback, three dialog transitions and dialog-channel transition expose that
 type directly. The lifecycle and VRAM callbacks retain explicit table casts
-because their public parameters are narrower views of the same storage.
+because the two repeated lifecycle slots and the single VRAM slot expose
+narrower public views of the same storage.
 Handlers whose accepted bodies depend on byte arithmetic keep those
 expressions through preprocessor aliases rather than introducing a second
 live pointer that could change GCC 2.8.1 register allocation.
