@@ -96,6 +96,10 @@ typedef struct {
  * duplicate to be folded into the struct. */
 extern u8 D_800EAE90;
 
+/* AiScript_LoadBestAttacker reads the byte recorded by
+   AiScript_FindBestAttack before copying it into the VM register file. */
+extern u8 gAi_bBestAttacker;
+
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
