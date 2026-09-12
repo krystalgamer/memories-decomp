@@ -1945,7 +1945,7 @@ continues in Free Duel with every campaign duelist available.
 >   `table.tbl` decodes `0x00`–`0x5B`); `0xF0`–`0xFF` are control codes
 >   dispatched through a 16-entry table [`0x80090F18`, `TextBox_BuildStep`]:
 >   `F8 op` selects the 47-entry secondary table [`0x80090EAC`] whose op `0x19` is
->   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
+>   `Text_UnlockDuelist`, which sets `0x1F + id` and `0x6E0 + id`;
 >   `F9 u16` is the **flag** code
 >   [`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c):
 >   bit 14 selects a write; otherwise the command consumes a second u16 and a
