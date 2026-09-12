@@ -1,17 +1,14 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_8002A2F4.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0_split, a single threshold, it is 54 of 54 instructions with
- * 33 differing, opcode distance 4. The source below is the match, unchanged
- * apart from its include paths. */
+#define GDUEL_WSELECTEDCARDID_IN_DATA
+#define D_8009B320_IN_DATA
 #include "../types.h"
-#include "../game/text_box_lifecycle.h"
-#include "../game/duel_effect.h"
+#include "text_box_lifecycle.h"
+#include "duel_effect.h"
 #include "../unmatched.h"
-#include "../game/func_8002A788.h"
-#include "../game/func_80029EB0.h"
-#include "../game/text_box_runtime.h"
-#include "../game/text_staging.h"
+#include "func_8002A2F4.h"
+#include "func_8002A788.h"
+#include "func_80029EB0.h"
+#include "text_box_runtime.h"
+#include "text_staging.h"
 
 void func_8002A2F4(u8 *p)
 {

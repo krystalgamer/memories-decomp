@@ -25,6 +25,7 @@
 #include "func_8003B6AC.h"
 #include "main_services.h"
 #include "text_box_lifecycle.h"
+#include "func_8002A2F4.h"
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "display_object_helpers.h"
