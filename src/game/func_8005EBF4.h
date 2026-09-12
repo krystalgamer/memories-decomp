@@ -2,13 +2,11 @@
 #define YUGIOH_GAME_FUNC_8005EBF4_H
 
 #include "../types.h"
+#include "model_effect_key.h"
 
-/* One entry of the keyframe ring at D_800F5788. The record is treated as an
-   opaque 0x28-byte blob here: the evaluator only ever indexes into it by
-   channel through `(u8 *)key + k * 8`, so no field layout is asserted. */
-typedef struct {
-    u8 bytes[0x28];
-} Key;
+/* One entry of the keyframe ring at D_800F5788. func_8005F91C installs two
+   requested endpoints, func_8005FB30 resolves them into the following pair,
+   and func_8005E808 maintains the trailing radius state. */
 
 /* Timing/state tail used by func_8005E808; Key stays opaque to the evaluator. */
 #ifdef MODEL_KEYFRAME_TIMING_VIEW
