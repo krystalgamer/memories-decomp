@@ -41,9 +41,9 @@ void DuelEffect_ApplySwords(void)
         side = D_8009B1D5 ^ 1;
         object->field_1A = side;
         SD_SEPlayFull(0x23);
-    } else if (!(D_8009B220 & 0x40)) {
+    } else if (!(gDuel_wCardEffectFlags & 0x40)) {
         if (((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
-            D_8009B220 |= 0x40;
+            gDuel_wCardEffectFlags |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
@@ -62,6 +62,6 @@ void DuelEffect_ApplySwords(void)
                ((DuelFieldEffectObject *)D_8009B17C)->count >= 2) {
         D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }

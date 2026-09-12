@@ -33,28 +33,28 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
                 func_80024954(entry);
         }
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
-int func_80026B34(void)
+int DuelEffect_UpdateCardEffect(void)
 {
-    u16 flags = D_8009B220;
+    u16 flags = gDuel_wCardEffectFlags;
 
     if (flags & DUEL_CARD_EFFECT_FLAG_ACTIVE) {
         u8 *indices = gDuelEffect_abGroupByEffectId;
         DuelEffectHandler *callbacks;
-        int index = indices[D_8009B1A8] * DUEL_CARD_EFFECT_HANDLERS_PER_GROUP;
+        int index = indices[gDuel_sCardEffectIndex] * DUEL_CARD_EFFECT_HANDLERS_PER_GROUP;
 
         if (flags & DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER)
             index++;
         callbacks = gDuelEffect_apfnGroupHandler;
         callbacks[index]();
     }
-    return D_8009B220;
+    return gDuel_wCardEffectFlags;
 }
 
-void func_80026BA4(int value, int flag)
+void DuelEffect_StartCardEffect(int value, int flag)
 {
     int index;
 
@@ -73,11 +73,11 @@ void func_80026BA4(int value, int flag)
                 index = DUEL_DARK_MAGIC_RITUAL_EFFECT_INDEX;
             }
         }
-        D_8009B1A8 = index;
-        D_8009B1D2 = value;
-        D_8009B220 = DUEL_CARD_EFFECT_FLAG_ACTIVE;
+        gDuel_sCardEffectIndex = index;
+        gDuel_wEffectCardID = value;
+        gDuel_wCardEffectFlags = DUEL_CARD_EFFECT_FLAG_ACTIVE;
         if (flag) {
-            D_8009B220 =
+            gDuel_wCardEffectFlags =
                 DUEL_CARD_EFFECT_FLAG_ACTIVE |
                 DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER;
         }

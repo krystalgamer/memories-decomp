@@ -91,7 +91,7 @@ void func_800179F4(void)
     D_8009B162 = 0;
     D_8009B1D4 = 0;
     D_8009B204 = 0;
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
     D_8009B16C = 0;
     D_8009B174 = 0;
     if (D_8009B369 != 1) {

@@ -12,7 +12,7 @@ extern s16 D_8009B1A0;
 void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
-        D_8009B1A0 = Duel_CheckRitual(0, D_8009B1D2);
+        D_8009B1A0 = Duel_CheckRitual(0, gDuel_wEffectCardID);
         if (D_8009B1A0) {
             DuelEffectRequest *request = func_8002C68C(0x12);
 
@@ -26,6 +26,6 @@ void DuelEffect_StartRitual(void)
         (D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
         D_8009B134_abs
     )) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }

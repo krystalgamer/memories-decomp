@@ -130,7 +130,7 @@ void func_80019608(void)
         D_8009B174 = 2;
         return;
     case 2:
-        func_80026BA4((s16)D_8009B150, 0);
+        DuelEffect_StartCardEffect((s16)D_8009B150, 0);
         D_8009B174 = 3;
         return;
     case 3:
@@ -175,7 +175,7 @@ void func_80019608(void)
     case 4:
         if ((state & 0x80) == 0) {
             D_8009B174 = state | 0x80;
-            func_80026BA4((s16)D_8009B150, 1);
+            DuelEffect_StartCardEffect((s16)D_8009B150, 1);
             return;
         }
         D_8009B23A = 5;

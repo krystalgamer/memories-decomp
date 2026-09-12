@@ -52,7 +52,7 @@ void DuelEffect_ApplyTerrain(void) {
     if (DuelEffect_MarkInitialized() == 0) {
         r = (u8 *)D_8009B1C8;
         r[0xA] = r[0xA] + 1;
-        v = *(u8 *)&D_8009B1D2 - 0x49;
+        v = *(u8 *)&gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain[0] = v;
         n = gDuel_bTerrain[0] - 1;
         e = func_8002C604(0xA);
@@ -62,11 +62,11 @@ void DuelEffect_ApplyTerrain(void) {
         return;
     }
 
-    f = D_8009B220;
+    f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) == 0) {
         if (D_8009B17C[0x1D] != 0) {
-            D_8009B220 = f | 0x40;
+            gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
                 gDuel_bTerrain[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
@@ -84,7 +84,7 @@ void DuelEffect_ApplyTerrain(void) {
             b = gDuel_bTerrain[0];
             *(s16 *)(D_8009B17C + 0x1A) = -2;
             func_80040410(a, b);
-            D_8009B220 = D_8009B220 | 0x20;
+            gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }
         return;
     }
@@ -105,5 +105,5 @@ void DuelEffect_ApplyTerrain(void) {
         q += DUEL_CARD_RECORD_SIZE;
     } while (i < DUEL_CARD_RECORD_COUNT);
 
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
 }

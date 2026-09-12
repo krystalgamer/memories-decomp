@@ -53,7 +53,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
     u16 v1;
     DuelEffectRequest *obj;
 
-    s0 = D_8009B1D2;
+    s0 = gDuel_wEffectCardID;
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
@@ -67,9 +67,9 @@ void DuelEffect_ApplyLifePointRecovery(void) {
         SD_SEPlayFull(0x14);
         return;
     }
-    flag = D_8009B220;
+    flag = gDuel_wCardEffectFlags;
     if (!(flag & 0x40)) {
-        D_8009B220 = flag | 0x60;
+        gDuel_wCardEffectFlags = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
             v1 = D_8009B1C8->life_points.unsigned_value +
@@ -85,9 +85,9 @@ void DuelEffect_ApplyLifePointRecovery(void) {
         goto block_9;
     }
 block_9:
-    if (D_8009B220 & 0x20) {
+    if (gDuel_wCardEffectFlags & 0x20) {
         if (func_8001F364() == 0) {
-            D_8009B220 &= 0xFFDF;
+            gDuel_wCardEffectFlags &= 0xFFDF;
             obj = func_8002C68C(9);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
@@ -102,7 +102,7 @@ block_9:
             D_8009B1C8->life_points.unsigned_value = 0;
         }
 block_14:
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
@@ -115,7 +115,7 @@ void DuelEffect_ApplyDirectDamage(void) {
     DuelEffectRequest *obj;
     DuelSideState *p;
 
-    unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
+    unit = gDuel_wEffectCardID - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
@@ -127,18 +127,18 @@ void DuelEffect_ApplyDirectDamage(void) {
         SD_SEPlayFull(0x1C);
         return;
     }
-    flags = D_8009B220;
+    flags = gDuel_wCardEffectFlags;
     if (!(flags & 0x40)) {
-        D_8009B220 = flags | 0x60;
+        gDuel_wCardEffectFlags = flags | 0x60;
         if (D_8009B22A == 0) {
             p = &D_800E9FF0[D_8009B1D5 ^ 1];
             goto apply;
         }
         D_8009B210 = 0;
     }
-    if (D_8009B220 & 0x20) {
+    if (gDuel_wCardEffectFlags & 0x20) {
         if (func_8001F364() == 0) {
-            D_8009B220 &= 0xFFDF;
+            gDuel_wCardEffectFlags &= 0xFFDF;
             obj = func_8002C68C(7);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
@@ -155,7 +155,7 @@ apply:
         if ((s16) remaining < 0) {
             p->life_points.unsigned_value = 0;
         }
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
@@ -183,7 +183,7 @@ void DuelEffect_ApplyMonsterRemoval(void) {
         SD_SEPlayFull(0x22);
         i = 0;
         cb = gDuel_abMonsterRemovalRules;
-        x = D_8009B1D2;
+        x = gDuel_wEffectCardID;
         while (1) {
             if (*(u8 *)(i + (s32)cb) +
                     DUEL_MONSTER_REMOVAL_CARD_ID_BASE == x) {
@@ -199,12 +199,12 @@ void DuelEffect_ApplyMonsterRemoval(void) {
         D_8009B1AC = m;
         if (n >= 0x15) {
             D_8009B1AC = n * CARD_STAT_SCALE;
-            D_8009B220 = D_8009B220 | 1;
+            gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 1;
         }
         D_8009B1AE = 5;
         return;
 done:
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
@@ -230,7 +230,7 @@ head:
     if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) == 0) {
         goto next;
     }
-    if ((D_8009B220 & 1) != 0) {
+    if ((gDuel_wCardEffectFlags & 1) != 0) {
         goto arm;
     }
     if (*(u8 *)(*(s32 *)e + 0x68) != sp[-1]) {
@@ -265,7 +265,7 @@ void DuelEffect_ApplyStopDefense(void) {
         D_8009B20C[1] = -1;
     }
 
-    f = D_8009B220;
+    f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
@@ -279,21 +279,21 @@ void DuelEffect_ApplyStopDefense(void) {
                     func_80019BA0((DisplayObject *)r->object, 0xC0, 0, 6);
                     r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
-                D_8009B220 = D_8009B220 | 0x20;
+                gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
             }
         }
 
         if ((D_8009B17C[0x1C] & 0x80) != 0) {
             return;
         }
-        D_8009B220 = D_8009B220 & 0xFF9F;
+        gDuel_wCardEffectFlags = gDuel_wCardEffectFlags & 0xFF9F;
         return;
     }
 
     v = *(u16 *)&D_8009B20C[1] + 1;
     D_8009B20C[1] = v;
     if ((s16)v >= DUEL_FIELD_ROW_SIZE) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
@@ -311,7 +311,7 @@ void DuelEffect_ApplyStopDefense(void) {
     *(s16 *)(p + 4) = *(u16 *)(e + 2);
     SD_SEPlayFull(0x20);
 
-    D_8009B220 = D_8009B220 | 0x40;
+    gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
 }
 
 void DuelEffect_ApplyBoardDestruction(void) {
@@ -327,18 +327,18 @@ void DuelEffect_ApplyBoardDestruction(void) {
         return;
     }
 
-    f = D_8009B220;
+    f = gDuel_wCardEffectFlags;
 
     if ((f & 0x20) == 0) {
         if ((D_8009B112_abs & 0x4000) == 0) {
             return;
         }
-        D_8009B220 = f | 0x20;
+        gDuel_wCardEffectFlags = f | 0x20;
         e = func_8002C68C(0x11);
-        if (D_8009B1D2 == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
-            g = D_8009B220;
+        if (gDuel_wEffectCardID == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
+            g = gDuel_wCardEffectFlags;
             e->field_1A = 1;
-            D_8009B220 = g | 0x40;
+            gDuel_wCardEffectFlags = g | 0x40;
         }
         e->field_00 = 0;
         e->field_02 = 0;
@@ -382,7 +382,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
         } while (i < DUEL_FIELD_SIDE_ZONE_COUNT);
     }
 
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
 }
 
 void DuelEffect_ApplyRaigeki(void) {
@@ -416,7 +416,7 @@ void DuelEffect_ApplyRaigeki(void) {
     }
 
     if ((D_8009B260 & 1) == 0) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
@@ -488,10 +488,10 @@ void DuelEffect_ApplyDarkPiercingLight(void)
         SD_SEPlayFull(0x13);
         return;
     }
-    flags = D_8009B220;
+    flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
         ((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
-        D_8009B220 = flags | 0x40;
+        gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
             record = &D_801A7AD8[D_800907D8_2d[D_8009B1D5][i]];
@@ -506,7 +506,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
         }
     }
     if ((D_8009B260 & 1) == 0 && func_80042B40(1) == 0) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
@@ -525,9 +525,9 @@ void DuelEffect_ApplyStatPenalty(void) {
         D_8009B1D0 = 0;
     }
 
-    if ((D_8009B220 & 0x40) != 0) {
+    if ((gDuel_wCardEffectFlags & 0x40) != 0) {
         if ((D_8009B260 & 1) == 0) {
-            D_8009B220 = 0;
+            gDuel_wCardEffectFlags = 0;
         }
         return;
     }
@@ -549,7 +549,7 @@ void DuelEffect_ApplyStatPenalty(void) {
         object->y = *(u16 *)(card + 0x32);
         object->field_04 = *(u16 *)(card + 0x34);
         object->field_14 = object->field_14 + ((s16)D_8009B1D0 << 14);
-        if (D_8009B1D2 == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
+        if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
             record->stat_modifier =
                 record->stat_modifier - DUEL_STAT_PENALTY_PER_LEVEL;
@@ -565,6 +565,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 
     D_8009B1D0 = D_8009B1D0 + 1;
     if ((s16)D_8009B1D0 >= DUEL_FIELD_ROW_SIZE) {
-        D_8009B220 = D_8009B220 | 0x40;
+        gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
     }
 }

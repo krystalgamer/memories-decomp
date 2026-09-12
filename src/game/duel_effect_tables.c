@@ -15,21 +15,21 @@
    order. */
 DuelEffectHandler gDuelEffect_apfnGroupHandler
     [DUEL_EFFECT_GROUP_COUNT * DUEL_CARD_EFFECT_HANDLERS_PER_GROUP] = {
-    func_80024E4C, func_80024E4C,
-    func_80024E4C, DuelEffect_ApplyTerrain,
-    func_80024E4C, DuelEffect_ApplyLifePointRecovery,
-    func_80024E4C, DuelEffect_ApplyDirectDamage,
-    func_80024E4C, DuelEffect_ApplyBoardDestruction,
-    func_80024E4C, DuelEffect_ApplyMonsterRemoval,
-    func_80024E4C, DuelEffect_ApplyStopDefense,
-    func_80024E4C, DuelEffect_ApplyRaigeki,
-    func_80024E4C, DuelEffect_ApplyDarkPiercingLight,
-    func_80024E4C, DuelEffect_ApplyStatPenalty,
+    DuelEffect_ClearCardEffect, DuelEffect_ClearCardEffect,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyTerrain,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyLifePointRecovery,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyDirectDamage,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyBoardDestruction,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyMonsterRemoval,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyStopDefense,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyRaigeki,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyDarkPiercingLight,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyStatPenalty,
     DuelEffect_StartSwords, DuelEffect_ApplySwords,
-    func_80024E4C, DuelEffect_ApplyCursebreaker,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyCursebreaker,
     DuelEffect_StartRitual, DuelEffect_ApplyRitual,
-    func_80024E4C, DuelEffect_ApplyHarpiesFeatherDuster,
-    func_80024E4C, func_80024E4C,
+    DuelEffect_ClearCardEffect, DuelEffect_ApplyHarpiesFeatherDuster,
+    DuelEffect_ClearCardEffect, DuelEffect_ClearCardEffect,
 };
 
 /* The group each card effect id dispatches to. */

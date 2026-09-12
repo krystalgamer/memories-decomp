@@ -6,7 +6,7 @@
  */
 /* Two steps of the same field-wide duel effect machinery. Both latch their
  * first frame through DuelEffect_MarkInitialized, both drive their phase
- * through D_8009B220, and both walk the acting side's grid D_800907D8 by
+ * through gDuel_wCardEffectFlags, and both walk the acting side's grid D_800907D8 by
  * D_8009B1D5 into the card records at D_801A7AD8. */
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
@@ -29,7 +29,7 @@
  * D_8009B20C[1]; every later entry advances it and spawns a type-8 effect
  * object over the next slot of the third grid row (slots 10..14 of the acting
  * side), offsetting the object's depth by the step so the objects stagger.
- * Steps past the fifth clear D_8009B220 and end the sweep. A card sitting in
+ * Steps past the fifth clear gDuel_wCardEffectFlags and end the sweep. A card sitting in
  * the swept slot with a negative stat modifier has it cleared and gets the
  * alternate object state 5. */
 void DuelEffect_ApplyCursebreaker(void) {
@@ -91,6 +91,6 @@ void DuelEffect_ApplyCursebreaker(void) {
             }
         }
     } else {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
