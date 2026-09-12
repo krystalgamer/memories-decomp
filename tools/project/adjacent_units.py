@@ -27,8 +27,9 @@ worth reading before merging -- func_800134B4.c abuts view_state_orbit.c and
 its own file comment says it belongs with the per-frame service pump in
 main_services.c -- but the same flag fires on a source that simply has no
 header of its own and is declared in its subsystem's. Eight of today's nine
-OTHER-HEADER rows are that second shape, and #4131 merged one of them
-(func_8004A6F8.c into sound_voice_envelope.c) on its merits. So OTHER-HEADER
+OTHER-HEADER rows are that second shape, and #4131 proposes one of them
+(func_8004A6F8.c into sound_voice_envelope.c) on its merits; it is open,
+not merged. So OTHER-HEADER
 means "read the headers first", not "do not merge". Which of the two shapes a
 row is cannot be told apart mechanically here: the headers that gave the
 strongest JOIN evidence -- duel_effect_command.h, sound_voice_selection.h,
@@ -100,17 +101,46 @@ CONTROLS = (
 )
 
 
+# (header text, names that must be reported as declared, expected)
+PARSER_CONTROLS = (
+    ("void Alpha(void);\nvoid Beta(s32 a);\n", {"Alpha", "Beta"}, True),
+    # The two shapes the review found. Neither declares anything.
+    ("/* Alpha(); Beta(); */\n", {"Alpha", "Beta"}, False),
+    ('#define HELP "Alpha(); Beta();"\n', {"Alpha", "Beta"}, False),
+    # A call inside an inline body is not a declaration of the callee.
+    ("static __inline__ void Gamma(void) { Alpha(); Beta(); }\n",
+     {"Alpha", "Beta"}, False),
+    # ...but the inline function itself is still declared by its own prototype.
+    ("void Gamma(void);\nstatic __inline__ void Gamma(void) { Alpha(); }\n",
+     {"Gamma"}, True),
+    # A function-like macro naming a function does not declare it.
+    ("#define ALPHA_TWICE(x) Alpha(x); Alpha(x);\n", {"Alpha"}, False),
+    # A line comment, and a prototype that survives one on the same line.
+    ("// Alpha(void);\nvoid Beta(void);\n", {"Alpha"}, False),
+    ("void Beta(void);  // Alpha(void);\n", {"Beta"}, True),
+    # A definition without a preceding prototype declares nothing to include.
+    ("void Alpha(void)\n{\n    Beta();\n}\n", {"Alpha"}, False),
+)
+
+
 def self_test() -> int:
     failures = 0
+    for text, names, expected in PARSER_CONTROLS:
+        got = names <= declared_names(text)
+        if got != expected:
+            failures += 1
+            print(f"self-test: parser {text!r}: expected {expected}, got {got}")
     for *args, expected in CONTROLS:
         got = verdict(*args)
         if got != expected:
             failures += 1
             print(f"self-test: {args!r}: expected {expected}, got {got}")
+    total = len(CONTROLS) + len(PARSER_CONTROLS)
     if failures:
-        print(f"self-test: {failures} of {len(CONTROLS)} controls failed")
+        print(f"self-test: {failures} of {total} controls failed")
         return 1
-    print(f"self-test: OK ({len(CONTROLS)} controls)")
+    print(f"self-test: OK ({total} controls: "
+          f"{len(CONTROLS)} verdict, {len(PARSER_CONTROLS)} parser)")
     return 0
 
 
@@ -123,14 +153,70 @@ def load() -> tuple[list[dict], dict[int, str]]:
     return functions, names
 
 
+# A comment, a string literal and a call inside an inline body all look like
+# `name(` and none of them is a declaration. This header's own prose is full of
+# call-shaped examples, so matching the bare text fabricates exactly the
+# shared-owner evidence the report is supposed to have measured.
+_NOISE = re.compile(r"""/\*.*?\*/|//[^\n]*|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'""",
+                    re.S)
+_PROTOTYPE = re.compile(r"\b([A-Za-z_]\w*)\s*\([^;{}]*\)\s*;")
+
+
+def _blank(match: re.Match) -> str:
+    """Replace a run with spaces, keeping newlines so nothing shifts lines."""
+    return re.sub(r"[^\n]", " ", match.group(0))
+
+
+def _drop_directives(text: str) -> str:
+    """Preprocessor lines out, continuations included. A function-like macro is
+    not a declaration of the function it happens to name."""
+    lines = text.split("\n")
+    out, i = [], 0
+    while i < len(lines):
+        if lines[i].lstrip().startswith("#"):
+            while i < len(lines) and lines[i].rstrip().endswith("\\"):
+                out.append("")
+                i += 1
+            if i < len(lines):
+                out.append("")
+                i += 1
+        else:
+            out.append(lines[i])
+            i += 1
+    return "\n".join(out)
+
+
+def _file_scope(text: str) -> str:
+    """Everything inside braces out, so a call in an inline body cannot read as
+    a declaration. C has no calls at file scope, so what is left is safe."""
+    out, depth = [], 0
+    for char in text:
+        if char == "{":
+            depth += 1
+            out.append(" ")
+        elif char == "}":
+            depth = max(0, depth - 1)
+            out.append(" ")
+        else:
+            out.append(char if depth == 0 else (" " if char != "\n" else "\n"))
+    return "".join(out)
+
+
+def declared_names(text: str) -> set[str]:
+    """The function names this text actually declares: a prototype at file
+    scope, outside comments, literals, preprocessor lines and inline bodies."""
+    return set(_PROTOTYPE.findall(
+        _file_scope(_drop_directives(_NOISE.sub(_blank, text)))))
+
+
 def headers_declaring(names: list[str], texts: dict[str, str]) -> set[str]:
     """Headers that declare every one of these names. Empty if any name is
     unknown -- a partial match is not evidence that a header owns the unit."""
     if not names or not all(names):
         return set()
-    patterns = [re.compile(r"\b" + re.escape(name) + r"\s*\(") for name in names]
+    wanted = set(names)
     return {Path(path).name for path, text in texts.items()
-            if all(pattern.search(text) for pattern in patterns)}
+            if wanted <= declared_names(text)}
 
 
 def main() -> int:
