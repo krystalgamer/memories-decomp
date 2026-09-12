@@ -8,7 +8,7 @@
 #include "../unmatched.h"
 #include "script_image_objects.h"
 
-void func_8002DDFC(FileTransferDescriptor *obj, s32 mode)
+void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 {
     switch (mode) {
     case 0:
@@ -42,7 +42,7 @@ void func_8002DDFC(FileTransferDescriptor *obj, s32 mode)
     }
 }
 
-void func_8002DF2C(volatile u8 *owner, s32 value)
+void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
 {
     s32 index;
     s32 mode;
@@ -74,14 +74,14 @@ void func_8002DF2C(volatile u8 *owner, s32 value)
     }
     object = File_TryRequestAsyncTransfer(
         0, 0, base + index * stride + 0x21D5, stride,
-        func_8002DDFC, 0, 0
+        ScriptImage_TransferCallback, 0, 0
     );
     object->callback_data = (void *)(stride - 1);
     D_8009B0F4 =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-void func_8002E00C(ScriptImageEntry *entries)
+void ScriptImage_ReleaseObjects(ScriptImageEntry *entries)
 {
     s32 i;
 
@@ -93,7 +93,7 @@ void func_8002E00C(ScriptImageEntry *entries)
     }
 }
 
-void func_8002E060(u8 *owner, s32 size, s32 mode)
+void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode)
 {
     u8 *object = func_800400AC(func_8004002C(), 2);
 

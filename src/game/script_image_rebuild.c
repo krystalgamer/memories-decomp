@@ -2,7 +2,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "script_image_objects.h"
-#include "func_8002E128.h"
+#include "script_image_rebuild.h"
 #include "scene_image_overlay_tables.h"
 
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
@@ -37,7 +37,7 @@
  * arm's `t` (+2/145) or `o` (35).
  */
 
-void func_8002E128(u8 *p, s32 arg1) {
+void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
     s32 n;
     u8 *o;
     u8 *t;
@@ -60,12 +60,12 @@ void func_8002E128(u8 *p, s32 arg1) {
         t = &D_80090C00[n * 6];
         *(s16 *)(p + 4) = 0;
         if (t[0] & 1) {
-            func_8002E060(p + 0x14, 0x14, 1);
+            ScriptImage_CreateObject(p + 0x14, 0x14, 1);
             *(s16 *)(*(s32 *)(p + 0x14) + 0x30) = t[1];
             *(s16 *)(*(s32 *)(p + 0x14) + 0x32) = t[2];
         }
         if (t[0] & 2) {
-            func_8002E060(p + 0x28, 0x16, 2);
+            ScriptImage_CreateObject(p + 0x28, 0x16, 2);
             *(s16 *)(*(s32 *)(p + 0x28) + 0x30) = t[3];
             *(s16 *)(*(s32 *)(p + 0x28) + 0x32) = t[4];
             *(s16 *)(p + 0x2C) = t[5];
@@ -75,16 +75,16 @@ void func_8002E128(u8 *p, s32 arg1) {
             }
         }
     } else {
-        func_8002E060(p, 0x10, 0);
+        ScriptImage_CreateObject(p, 0x10, 0);
         if (n >= 0x100) {
             k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
             b = D_80090BA8;
             n = b[k * 2];
             if (n & 1) {
-                func_8002E060(p + 0x14, 0x12, 1);
+                ScriptImage_CreateObject(p + 0x14, 0x12, 1);
             }
             if (n & 2) {
-                func_8002E060(p + 0x28, 0x14, 2);
+                ScriptImage_CreateObject(p + 0x28, 0x14, 2);
                 *(s16 *)(p + 0x2C) = b[k * 2 + 1];
             }
         } else {
