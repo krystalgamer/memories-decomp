@@ -20,18 +20,7 @@
 #include "../game/sound_transfer_lifecycle.h"
 #include "../game/file_transfer.h"
 #include "../game/sound.h"
-
-typedef struct {
-    u32 a;
-    u32 b;
-} SoundCommandPair;
-
-typedef struct {
-    u16 h0;
-    u16 count;
-    u8 pad_04[0xC];
-    u16 idx[1];
-} List;
+#include "../ygo_types.h"
 
 extern void func_800476B4(u8 *, s32);
 extern u8 func_80045484(void);
@@ -222,14 +211,15 @@ void func_80045514(void)
             g_SDValue->field_157E = -1;
         }
         {
-            List *l = (List *)g_SDValue->music_track;
+            SoundIndexList *l = (SoundIndexList *)g_SDValue->music_track;
             u32 i = g_SDValue->field_004E & 0xF;
 
             if (i >= l->count) {
                 g_SDValue->field_007C = 0;
                 return;
             }
-            g_SDValue->field_157E = func_80049A64((u8 *)l + l->idx[i] * 16,
+            g_SDValue->field_157E = func_80049A64(
+                (u8 *)l + l->indices[i] * 16,
                                              g_SDValue->field_157A);
             if ((s16)g_SDValue->field_157E == 0) {
                 g_SDValue->field_157C = g_SDValue->field_004E;

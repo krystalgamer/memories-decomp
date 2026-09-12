@@ -121,7 +121,7 @@ void func_800283F4(void)
                 box->field_54 = 0;
                 box->field_59 = 0x15;
                 D_8009B250 = box;
-                func_80039A14((u8 *)box);
+                func_80039A14((struct DuelEffectChannel *)box);
                 break;
             }
         }
@@ -156,7 +156,7 @@ void func_800283F4(void)
             }
             pos_box = D_8009B250;
             if (pos_box != 0) {
-                TextBox_SetPos((u8 *)pos_box, *(s16 *)&obj->field_30.h.field_30,
+                TextBox_SetPos(pos_box, *(s16 *)&obj->field_30.h.field_30,
                                *(s16 *)&obj->field_30.h.field_32);
             }
         }
@@ -243,4 +243,3 @@ press:
     SD_SEPlayFull(0x34);
     D_8009B248 |= 0x50;
 }
-

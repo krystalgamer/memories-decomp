@@ -204,7 +204,6 @@ void AiScript_Add(void)
     values[output] = values[left] + values[right];
 }
 
-extern u8 D_800EAE8F;
 void func_8007368C(void)
 {
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];

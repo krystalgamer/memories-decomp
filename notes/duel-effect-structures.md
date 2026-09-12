@@ -44,6 +44,16 @@ typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
 
+The public text-box build/wait pair and `TextBox_SetPos` now also take
+`DuelEffectChannel *`. Typed producers such as `TextBox_Create` and
+`DuelEffect_CreateChannel` pass their results directly. A few exact-code
+consumers retain raw byte cursors internally and cast only at the call
+boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
+typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
+helper `func_80039AD4` takes `DuelEffectChannel *`, while preserving its two
+raw byte accesses inside `field_10`; this removes the incompatible-pointer
+calls from both fade callbacks without claiming names for those bytes.
+
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
 `DuelEffectEntry` has size `0x1C`, and `D_800EB288` is declared as 620

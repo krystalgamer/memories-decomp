@@ -228,7 +228,6 @@ extern s32 D_8009B118;
 void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
-void func_8001B170(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
@@ -576,9 +575,10 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
  * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 and func_8004A6F8 have no
- * caller in C and get no declaration. Ai_GetHandSize
- * is now matching C; its caller-specific return declarations live in ai.h. */
+ * contract fingerprint records. func_80048768 has no caller in C and gets no
+ * declaration; SD_SetVoiceEnvelopeFromTone is the named sound operation and
+ * stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
+ * return declarations live in ai.h. */
 
 struct CardList;
 struct DuelEffectChannel;
@@ -648,12 +648,6 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
- * slots. */
-void Dialog_UpdateChoice(struct DuelEffectChannel *object);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12

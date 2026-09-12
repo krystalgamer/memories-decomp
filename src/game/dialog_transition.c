@@ -76,7 +76,7 @@ void func_8003D614(u8 *state)
                 object->field_60
             );
             TextBox_SetPos(
-                (u8 *)entry,
+                entry,
                 *(s16 *)&object->field_30.h.field_30,
                 *(s16 *)&object->field_30.h.field_32
             );
@@ -131,7 +131,7 @@ void func_8003D74C(u8 *o)
         do {
             func_80039794();
         } while (r->field_30 == 0);
-        TextBox_SetPos((u8 *)r, *(s16 *)&p->field_30.h.field_30,
+        TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
     f = D_8009B3C1;
@@ -163,7 +163,7 @@ void func_8003D74C(u8 *o)
         } else {
             func_80043230((DisplayObjectPosition *)p, 0x20, 0x50, (s16)v);
         }
-        TextBox_SetPos((u8 *)r, *(s16 *)&p->field_30.h.field_30,
+        TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
     p = *(DisplayObject **)(o + 4);
