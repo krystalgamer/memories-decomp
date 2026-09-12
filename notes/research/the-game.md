@@ -821,6 +821,13 @@ and which cards share a behaviour is data:
 | 12 | all 24 rituals | validates the tributes and performs the summon (§5.7) |
 | 13 | Harpie's Feather Duster | destroys every magic/trap card the opponent has in play |
 
+Group 10 is now traced end to end in
+[the Swords of Revealing Light runtime contract](../swords-of-revealing-light.md).
+Its second handler installs an internal count of four on the opposing side;
+draw entry decrements before play, producing the three visible locked turns,
+and both the AI script test and normal attack-selection path consume the same
+per-side byte.
+
 Within group 2, matching `func_800250C8` subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to map the five cards to
 recovery-table indices `0`-`4`. During presentation setup, finding

@@ -9,7 +9,7 @@
 #include "duel_field_effect_steps.h"
 #include "duel_magic_effect_dispatch.h"
 #include "func_80024E58.h"
-#include "func_80025EE0.h"
+#include "duel_swords_effect.h"
 #include "func_80028310.h"
 #include "func_800283F4.h"
 
@@ -27,7 +27,7 @@ DuelEffectHandler gDuelEffect_apfnGroupHandler
     func_80024E4C, func_8002596C,
     func_80024E4C, func_80025BEC,
     func_80024E4C, func_80025D30,
-    func_80025EE0, func_80025F3C,
+    DuelEffect_StartSwords, DuelEffect_ApplySwords,
     func_80024E4C, func_800260D0,
     func_8002622C, func_800262D4,
     func_80024E4C, func_80026A3C,

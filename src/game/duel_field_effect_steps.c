@@ -1,4 +1,6 @@
-/* Field-wide duel effect step that marks qualifying opposing-side cards. */
+/* Applies Swords of Revealing Light to the opposing side. The handler creates
+ * its persistent effect object, stages the occupied field objects, then
+ * installs the three-turn attack lock once the presentation completes. */
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
@@ -14,8 +16,9 @@
 #include "sound.h"
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"
+#include "duel_swords_effect.h"
 
-void func_80025F3C(void)
+void DuelEffect_ApplySwords(void)
 {
     DuelFieldEffectObject *object;
     DuelCardRecord *entry;
@@ -27,7 +30,7 @@ void func_80025F3C(void)
         object = (DuelFieldEffectObject *)func_8002C604(0x15);
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
-        D_8009B1F0[side] = (u8 *)object;
+        gDuel_apSwordsEffectObjects[side] = object;
         object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
         object->x = 0xA0;
         object->y = 0x78;
@@ -55,7 +58,8 @@ void func_80025F3C(void)
         }
     } else if (func_80042B40(1) == 0 &&
                ((DuelFieldEffectObject *)D_8009B17C)->count >= 2) {
-        D_800E9FF0[D_8009B1D5 ^ 1].field_19 = 4;
+        D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
+            DUEL_SWORDS_INITIAL_COUNTER;
         D_8009B220 = 0;
     }
 }

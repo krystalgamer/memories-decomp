@@ -51,7 +51,7 @@ void func_800260D0(void) {
     D_8009B20C[1] = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while sibling func_80025F3C uses the two-dimensional view
+           below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
            selected by DUEL_FIELD_GRID_2D. The cast is the one
            place the two spellings meet. The single-pass loop preserves the
            retail grid and side register allocation under GCC 2.8.1. */
