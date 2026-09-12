@@ -4,6 +4,9 @@
  * registers, so it is kept here as a candidate rather than counted as a
  * decompilation. It was src/overlays/main_menu/trade_update.c.
  */
+#define GINPUT_PAD1_REPEAT_SIZED_VOLATILE
+#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
+#define GINPUT_PAD1_HELD_SIZED_VOLATILE
 #include "../../types.h"
 #include "../../game/graphics_frame.h"
 #include "../../game/display_object_api.h"
@@ -37,10 +40,6 @@ extern u8 D_80185CCA[2];
 extern u8 D_80185CCB;
 extern u8 D_80185CCC[2];
 extern u8 D_800EB224[];
-extern volatile u16 D_8009B394[2];
-extern volatile u16 D_8009B398[2];
-extern volatile u16 D_8009B3A4[2];
-extern u16 D_8009B246;
 
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
@@ -172,11 +171,11 @@ s32 MainMenu_UpdateTradeScreen(void)
 
     if (D_80185CCF != 0) {
         decision = 0;
-        if ((D_8009B394[0] & 0x5000) != 0 ||
-            (D_8009B394[1] & 0x5000) != 0) {
+        if ((gInput_wPad1Repeat[0] & 0x5000) != 0 ||
+            (gInput_wPad1Repeat[1] & 0x5000) != 0) {
             SD_SEPlay(6, 255, 0);
-            if ((D_8009B394[0] & 0x1000) != 0 ||
-                (D_8009B394[1] & 0x1000) != 0) {
+            if ((gInput_wPad1Repeat[0] & 0x1000) != 0 ||
+                (gInput_wPad1Repeat[1] & 0x1000) != 0) {
                 D_80185CCE = (D_80185CCE + 2) % 3;
             } else {
                 D_80185CCE = (D_80185CCE + 4) % 3;
@@ -184,9 +183,9 @@ s32 MainMenu_UpdateTradeScreen(void)
             func_800611D0(*(volatile u8 *)&D_80185CCE);
             goto modal_return;
         }
-        if ((D_8009B398[0] & 0x20) != 0 ||
-            (D_8009B398[1] & 0x20) != 0) {
-            other = ((D_8009B398[0] >> 5) ^ 1) & 1;
+        if ((gInput_wPad1Pressed[0] & 0x20) != 0 ||
+            (gInput_wPad1Pressed[1] & 0x20) != 0) {
+            other = ((gInput_wPad1Pressed[0] >> 5) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy(D_800EB224);
             D_80185CC8[other] = 0;
@@ -194,8 +193,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             D_80185CCF = 0;
             goto modal_return;
         }
-        if ((D_8009B398[0] & 0xC0) != 0 ||
-            (D_8009B398[1] & 0xC0) != 0) {
+        if ((gInput_wPad1Pressed[0] & 0xC0) != 0 ||
+            (gInput_wPad1Pressed[1] & 0xC0) != 0) {
             SD_SEPlay(48, 255, 0);
             switch (D_80185CCE) {
             case 0:
@@ -227,14 +226,14 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     card0 = &D_801845FC[0][D_80185C8C[0][0] + D_80185CCA[0]];
     if (D_80185CC8[0] != 0) {
-        if ((D_8009B398[0] & 0x20) != 0) {
+        if ((gInput_wPad1Pressed[0] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy(D_800EB224);
             D_80185CC8[0] = 0;
         }
         goto check_scroll0;
     }
-    if ((D_8009B398[0] & 0x80) != 0) {
+    if ((gInput_wPad1Pressed[0] & 0x80) != 0) {
         if (D_80185CC8[1] != 0 &&
             D_80185C9C[0][0] + D_80185C9C[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll0; }
@@ -244,17 +243,17 @@ s32 MainMenu_UpdateTradeScreen(void)
         D_80185CC8[0] = 1;
         goto check_scroll0;
     }
-    if ((D_8009B398[0] & 0x10) != 0) {
+    if ((gInput_wPad1Pressed[0] & 0x10) != 0) {
         if (card0->id != 0) {
-            D_8009B246 = card0->id;
+            gDuel_wViewerCardID = card0->id;
             D_8009B24B = 20;
             D_8009B254 = 2;
         }
         goto check_scroll0;
     }
-    if ((D_8009B394[0] & 0x900) != 0) {
+    if ((gInput_wPad1Repeat[0] & 0x900) != 0) {
         SD_SEPlay(47, 255, 0);
-        if ((D_8009B394[0] & 0x100) != 0) {
+        if ((gInput_wPad1Repeat[0] & 0x100) != 0) {
             D_80185CCC[0] = (D_80185CCC[0] + 5) % 6;
         } else {
             D_80185CCC[0] = (D_80185CCC[0] + 7) % 6;
@@ -264,15 +263,15 @@ s32 MainMenu_UpdateTradeScreen(void)
         dirty0++;
         goto check_scroll0;
     }
-    if ((D_8009B398[0] & 0xA000) != 0) {
-        if ((D_8009B398[0] & 0x8000) != 0) {
+    if ((gInput_wPad1Pressed[0] & 0xA000) != 0) {
+        if ((gInput_wPad1Pressed[0] & 0x8000) != 0) {
             flags &= ~1;
         } else {
             flags |= 1;
         }
         goto dirty0;
     }
-    if ((D_8009B398[0] & 0x20) != 0) {
+    if ((gInput_wPad1Pressed[0] & 0x20) != 0) {
         if (D_80185C9C[0][0] != 0) {
             MainMenu_AdjustTradeCardCount(0, D_80185C9C[0][D_80185C9C[0][0]], 1);
             SD_SEPlay(8, 255, 0);
@@ -285,7 +284,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         goto leave;
     }
-    if ((D_8009B398[0] & 0x40) != 0) {
+    if ((gInput_wPad1Pressed[0] & 0x40) != 0) {
         if (D_80185C9C[0][0] < 10) {
             if (card0->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll0; }
@@ -301,8 +300,8 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         { SD_SEPlay(9, 255, 0); goto check_scroll0; }
     }
-    if ((D_8009B3A4[0] & 0xC) != 0) {
-        if ((D_8009B3A4[0] & 4) != 0) {
+    if ((gInput_wPad1Held[0] & 0xC) != 0) {
+        if ((gInput_wPad1Held[0] & 4) != 0) {
             low = D_80185C8C[0][1] - 7;
             if (low < 0) { low = 0; }
             D_80185C8C[0][1] = low;
@@ -316,8 +315,8 @@ s32 MainMenu_UpdateTradeScreen(void)
         SD_SEPlay(6, 255, 0);
         goto check_scroll0;
     }
-    if ((D_8009B394[0] & 3) != 0) {
-        if ((D_8009B394[0] & 1) != 0) {
+    if ((gInput_wPad1Repeat[0] & 3) != 0) {
+        if ((gInput_wPad1Repeat[0] & 1) != 0) {
             low = D_80185C8C[0][1] - 50;
             if (low < 0) { low = 0; }
             D_80185C8C[0][1] = low;
@@ -332,8 +331,8 @@ s32 MainMenu_UpdateTradeScreen(void)
         dirty0++;
         goto check_scroll0;
     }
-    if ((D_8009B394[0] & 0x5000) != 0) {
-        if ((D_8009B394[0] & 0x1000) != 0) {
+    if ((gInput_wPad1Repeat[0] & 0x5000) != 0) {
+        if ((gInput_wPad1Repeat[0] & 0x1000) != 0) {
             if (D_80185CCA[0] != 0) {
                 SD_SEPlay(6, 255, 0);
                 D_80185CCA[0]--;
@@ -368,14 +367,14 @@ player1:
     }
     card1 = &D_80185144[D_80185C8C[1][0] + D_80185CCA[1]];
     if (D_80185CC8[1] != 0) {
-        if ((D_8009B398[1] & 0x20) != 0) {
+        if ((gInput_wPad1Pressed[1] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy(D_800EB224);
             D_80185CC8[1] = 0;
         }
         goto check_scroll1;
     }
-    if ((D_8009B398[1] & 0x80) != 0) {
+    if ((gInput_wPad1Pressed[1] & 0x80) != 0) {
         if (D_80185CC8[0] != 0 &&
             D_80185C9C[0][0] + D_80185C9C[1][0] == 0) {
             { SD_SEPlay(9, 255, 0); goto check_scroll1; }
@@ -385,17 +384,17 @@ player1:
         D_80185CC9 = 1;
         goto check_scroll1;
     }
-    if ((D_8009B398[1] & 0x10) != 0) {
+    if ((gInput_wPad1Pressed[1] & 0x10) != 0) {
         if (card1->id != 0) {
-            D_8009B246 = card1->id;
+            gDuel_wViewerCardID = card1->id;
             D_8009B24B = 20;
             D_8009B254 = 2;
         }
         goto check_scroll1;
     }
-    if ((D_8009B394[1] & 0x900) != 0) {
+    if ((gInput_wPad1Repeat[1] & 0x900) != 0) {
         SD_SEPlay(47, 255, 0);
-        if ((D_8009B394[1] & 0x100) != 0) {
+        if ((gInput_wPad1Repeat[1] & 0x100) != 0) {
             D_80185CCC[1] = (D_80185CCC[1] + 5) % 6;
         } else {
             D_80185CCC[1] = (D_80185CCC[1] + 7) % 6;
@@ -405,15 +404,15 @@ player1:
         dirty1++;
         goto check_scroll1;
     }
-    if ((D_8009B398[1] & 0xA000) != 0) {
-        if ((D_8009B398[1] & 0x8000) != 0) {
+    if ((gInput_wPad1Pressed[1] & 0xA000) != 0) {
+        if ((gInput_wPad1Pressed[1] & 0x8000) != 0) {
             flags &= ~2;
         } else {
             flags |= 2;
         }
         goto dirty1;
     }
-    if ((D_8009B398[1] & 0x20) != 0) {
+    if ((gInput_wPad1Pressed[1] & 0x20) != 0) {
         if (D_80185C9C[1][0] != 0) {
             MainMenu_AdjustTradeCardCount(1, D_80185C9C[1][D_80185C9C[1][0]], 1);
             SD_SEPlay(8, 255, 0);
@@ -428,7 +427,7 @@ player1:
         SD_SEPlay(8, 255, 0);
         return 1;
     }
-    if ((D_8009B398[1] & 0x40) != 0) {
+    if ((gInput_wPad1Pressed[1] & 0x40) != 0) {
         if (D_80185C9C[1][0] < 10) {
             if (card1->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll1; }
@@ -444,8 +443,8 @@ player1:
         }
         { SD_SEPlay(9, 255, 0); goto check_scroll1; }
     }
-    if ((D_8009B3A4[1] & 0xC) != 0) {
-        if ((D_8009B3A4[1] & 4) != 0) {
+    if ((gInput_wPad1Held[1] & 0xC) != 0) {
+        if ((gInput_wPad1Held[1] & 4) != 0) {
             low = D_80185C8C[1][1] - 7;
             if (low < 0) { low = 0; }
             D_80185C8C[1][1] = low;
@@ -462,8 +461,8 @@ player1:
         SD_SEPlay(6, 255, 0);
         goto check_scroll1;
     }
-    if ((D_8009B394[1] & 3) != 0) {
-        if ((D_8009B394[1] & 1) != 0) {
+    if ((gInput_wPad1Repeat[1] & 3) != 0) {
+        if ((gInput_wPad1Repeat[1] & 1) != 0) {
             low = D_80185C8C[1][1] - 50;
             if (low < 0) { low = 0; }
             D_80185C8C[1][1] = low;
@@ -481,8 +480,8 @@ player1:
         dirty1++;
         goto check_scroll1;
     }
-    if ((D_8009B394[1] & 0x5000) != 0) {
-        if ((D_8009B394[1] & 0x1000) != 0) {
+    if ((gInput_wPad1Repeat[1] & 0x5000) != 0) {
+        if ((gInput_wPad1Repeat[1] & 0x1000) != 0) {
             if (D_80185CCA[1] != 0) {
                 SD_SEPlay(6, 255, 0);
                 D_80185CCA[1]--;

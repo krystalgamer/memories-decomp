@@ -72,7 +72,13 @@ extern u32 gInput_dwPendingHeld;
  *                     is 117 instructions against the target's 120 at
  *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
  *                     which is under the same profile and reads all six
- *                     pad names this way.
+ *                     pad names this way. A third consumer since
+ *                     2026-09-12, src/candidates/main_menu/func_801821DC.c,
+ *                     is the exception to the sentence above: it assembles
+ *                     at -G0, where nothing is small data at either
+ *                     threshold, so the eight bytes reach nothing and the
+ *                     arm is there only because it is the volatile arm that
+ *                     can be indexed.
  *
  * A `[5]` arm used to sit beside that one, for src/candidates/func_80017034.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
@@ -107,7 +113,10 @@ extern u16 gInput_wPad1Pressed;
  * set, with a note on each recording which function needed it. The
  * _SIZED_VOLATILE arm is src/candidates/func_80030294.c's, which reads this
  * name and the other five at [0] under gcc_2_8_1_cc_g8_as_g4_split; that
- * unit's own header records the mechanism. */
+ * unit's own header records the mechanism. Since 2026-09-12 it has a second
+ * consumer, src/candidates/main_menu/func_801821DC.c, which reads [0] and
+ * [1]; that one assembles at -G0, where the declared size reaches nothing,
+ * so the arm is doing no work for it beyond naming the symbol. */
 #ifdef GINPUT_PAD1_HELD_SIZED_VOLATILE
 extern volatile u16 gInput_wPad1Held[4];
 #elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)
@@ -123,7 +132,8 @@ extern u16 gInput_wPad1Held;
 #endif
 
 /* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
- * the _SIZED_VOLATILE one is func_80030294.c's. It still has no aggregate
+ * the _SIZED_VOLATILE one is func_80030294.c's and, since 2026-09-12,
+ * src/candidates/main_menu/func_801821DC.c's. It still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree
  * uses would be a guess, not a lever. */
 #ifdef GINPUT_PAD1_REPEAT_SIZED_VOLATILE
@@ -157,13 +167,22 @@ extern u16 gInput_wPad1RepeatBackup;
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c) declare
- * `volatile u16 D_8009B394[]` and read both `[0]` and
- * `[1]`; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is the
- * obvious tidy-up and it does not build. Measured on the value-setup updater: the
- * main_menu module stops matching, and it still fails when only one of the two
- * symbols is converted, so it is the pad-2 access itself and not an
- * interaction between them.
+ * src/candidates/main_menu/func_801821DC.c) read both `[0]` and `[1]` of the
+ * pad-1 name; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is
+ * the obvious tidy-up and it does not build. Measured on the value-setup
+ * updater: the main_menu module stops matching, and it still fails when only
+ * one of the two symbols is converted, so it is the pad-2 access itself and
+ * not an interaction between them.
+ *
+ * That measurement is about the pad-2 NAME, and it does not reach the name
+ * used for the pad-1 element. The candidate above spelled it D_8009B394,
+ * D_8009B398 and D_8009B3A4 in three private declarations until 2026-09-12;
+ * it now takes the _SIZED_VOLATILE arms here and reads the same `[0]` and
+ * `[1]`. Same symbol, same displacement, same relocation -- and measured:
+ * every instruction in its object is unchanged, and the only difference the
+ * disassembly shows is which name the thirty-six relocations carry. Its
+ * profile assembles at -G0, so the arm's declared size cannot reach it; the
+ * object has no gp-relative relocation either way.
  *
  * The reason is addressing, not naming. `X[1]` is one materialization of the
  * pad-1 symbol plus a displacement; the pad-2 name is its own relocation.
