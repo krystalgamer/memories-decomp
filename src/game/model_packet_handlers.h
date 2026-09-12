@@ -34,6 +34,10 @@ typedef struct {
  * libhmd hands every GsU_03xxxxxx driver. */
 int func_8005CEF0(GsARGUNIT_ANIM *sp);
 
+/* Translation, rotation and scale interpolation; publishes nine halfwords
+ * when the packet supplies an output record. Returns 1 for zero duration. */
+s32 func_8005D378(GsARGUNIT_ANIM *ctx);
+
 /* Installs the packet handler for one model's animation stream.
  *
  * func_8005C768 maps a packet's type word to the routine that consumes it,
