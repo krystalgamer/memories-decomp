@@ -89,7 +89,7 @@ void func_80024E58(void) {
         return;
     }
 
-    if ((D_8009B17C[0x1C] & 0x80) != 0) {
+    if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
         return;
     }
 

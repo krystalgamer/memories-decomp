@@ -38,7 +38,7 @@ DuelEffectRequest *func_8002C5CC(void)
     int count = DUEL_EFFECT_REQUEST_COUNT;
 
     for (;;) {
-        if (!(entry->flags & 0x80)) {
+        if (!(entry->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE)) {
             return entry;
         }
         if (--count == 0) {

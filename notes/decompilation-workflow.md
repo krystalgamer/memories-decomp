@@ -420,7 +420,7 @@ The converse is the useful half, because it is what makes candidates cheap to
 pick. Four conversions since have been byte-exact on the first build:
 
     func_80037C74      DuelEffectChannel, five fields, no globals
-    func_8004318C      DisplayObjectPosition, four fields, no globals
+    DisplayObject_InterpolatePositionCosine DisplayObjectPosition, four fields, no globals
     Dialog_OpenChoice  DuelEffectChannel, five fields, no globals
     func_8003A1EC      MenuRecord, three fields, TWO globals
 
@@ -520,6 +520,14 @@ still spell them as retail needs.
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
 the tree, and a name-based scan of C text mis-reads several real constructs.
+`make check-translation-unit-headers` parses top-level statements in every
+built resident and overlay source, permits forwards for functions defined in
+that same translation unit, delegates unmatched assembly declarations to
+`unmatched_contracts.py`, and rejects every other function prototype. Known
+external entry points and address-qualified SDK copies live in
+`src/external_funcs.h`; subsystem-owned and caller-specific aliases stay in
+their owning headers.
+
 Each of these produced a wrong answer during the header-collection campaign
 before the source was read:
 
@@ -579,6 +587,19 @@ adds two more of its own:
 The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
+
+The unmatched-data pass now gives the scan a hard end condition. Every
+linker-resolved data declaration used by built resident C or a stored candidate
+must have a canonical header declaration; genuinely homeless data lives in
+`src/unmatched.h`. Caller-specific scalar, array, pointer, signedness, and
+explicit `.data` spellings are selected through guarded arms there rather than
+redeclared in a C file. `make check-unmatched-contracts` scans both source
+families and reports the number of remaining headerless names and sites; both
+must stay zero. Moving a declaration must not remove a live candidate
+dependency from enforcement: retained configured keys keep included-header
+contracts in the fingerprint after a candidate-local `extern` is centralized.
+Regenerate hashes only after preserving that coverage and measuring the new
+canonical owner.
 
 ### An arity mismatch is measured, not assumed, in either direction
 

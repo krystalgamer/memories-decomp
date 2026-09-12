@@ -7,6 +7,7 @@
 #include "display_object_api.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
+#include "color_constants.h"
 #include "duel_effect.h"
 #include "text_box_runtime.h"
 
@@ -58,8 +59,8 @@ void func_800391E4(DuelEffectChannel *p) {
         e->field_4C = 0xA0A0A0;
         e->field_34.word = 0xA0A0A0;
         e->field_2C.word = 0xA0A0A0;
-        e->field_44.word = 0x808080;
-        e->field_3C.word = 0x808080;
+        e->field_44.word = COLOR_RGB24_NEUTRAL_GREY;
+        e->field_3C.word = COLOR_RGB24_NEUTRAL_GREY;
         func_80039140(p);
     }
 }

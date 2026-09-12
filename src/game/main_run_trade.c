@@ -1,7 +1,6 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -58,7 +57,7 @@ void Main_RunTrade(void)
     case 1:
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
-            func_80043178((DisplayObjectSnapshot *)obj);
+            DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             obj->field_60 = 0x400;
             D_8009B26E = 2;
         }
@@ -66,7 +65,7 @@ void Main_RunTrade(void)
     case 2:
         y = *(u16 *)&obj->field_60 - 0x20;
         obj->field_60 = y;
-        func_80043230((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
+        Widget_SlideSine((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
         TextBox_SetPos(
             box,
             *(s16 *)&obj->field_30.h.field_30 + 0x18,

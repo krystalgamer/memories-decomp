@@ -85,6 +85,17 @@ corroborate these accesses but do not determine the shared types.
 from `field_18 % 10` after resolving the entry through the channel's
 `gDuelEffect_awEntryRangeBoundaries` range index.
 
+The complete `D_80090F68` display-effect step table now carries
+`void (*)(MenuRecord *)`, matching `DisplayEffect_ProcessMenuRecords`, which
+selects its callback from a `D_800EB010` record. The easing callback, portrait
+callback, three dialog transitions and dialog-channel transition expose that
+type directly. The lifecycle and VRAM callbacks retain explicit table casts
+because the two repeated lifecycle slots and the single VRAM slot expose
+narrower public views of the same storage.
+Handlers whose accepted bodies depend on byte arithmetic keep those
+expressions through preprocessor aliases rather than introducing a second
+live pointer that could change GCC 2.8.1 register allocation.
+
 `DuelEffect_PlaySoundCommand` is now exact C in the effect-handler dispatch
 family. It consumes one 16-bit script value, uses the high bit to select the
 flagged sound path, and arms effect state `0x11` with a follow-up value.

@@ -11,8 +11,6 @@
    The comparators were recorded at gcc_2_8_1_g0_split and compile to an
    identical object at the sort's gcc_2_8_1_g8_split. */
 
-extern s16 gCard_asNameSortKey[];
-
 s32 BuildDeck_CompareCard(
     CardListSortItem *arg0,
     CardListSortItem *arg1

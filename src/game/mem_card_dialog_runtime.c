@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
 #include "display_object_api.h"
@@ -25,8 +24,6 @@
    drives the operation table. MemCardDialog_Update dispatches the save and
    trade operations through D_80090F9C; all paths share the dialog flags,
    result words, active channel, and request outcome. */
-
-extern u32 D_8009B3E0;
 
 void MemCardDialog_StepSave(void)
 {
@@ -191,7 +188,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     s32 value;
 
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_60;
@@ -210,7 +207,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     }
     object->field_60 = value;
 
-    func_80043230((DisplayObjectPosition *)object, arg1, arg2, value);
+    Widget_SlideSine((DisplayObjectPosition *)object, arg1, arg2, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(

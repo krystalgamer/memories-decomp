@@ -1,4 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define D_8009B26C_AS_SCALAR
+#define D_800E9ECE_AS_SCALAR
+#define D_800E9ECF_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_state.h"
@@ -18,7 +21,6 @@
 #include "../../game/input.h"
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
-#include "../../game/func_80043178.h"
 #include "../../game/display_object_interpolation.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
@@ -30,9 +32,6 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
-extern u8 D_800E9ECE;
-extern u8 D_800E9ECF;
-extern u8 D_8009B26C;
 extern u8 D_8009B27A;
 
 void CampaignMap_ClearLocationObjects(void)
@@ -355,7 +354,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         marker = D_801695C8;
         D_801695EC = flags | 0x80;
         if (marker != 0) {
-            func_80043178(marker);
+            DisplayObject_SavePosition(marker);
             marker->f96 = 0;
         }
         D_801695D4 = gCampaignMap_MoveState;
@@ -396,7 +395,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         if (marker->f96 < 2048) {
             quotient = 2048 / gCampaignMap_MoveState;
             marker->f96 += quotient;
-            func_8004318C(
+            DisplayObject_InterpolatePositionCosine(
                 (DisplayObjectPosition *)marker,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location

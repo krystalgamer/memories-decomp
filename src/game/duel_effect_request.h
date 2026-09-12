@@ -6,6 +6,9 @@
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
 #define DUEL_EFFECT_REQUEST_COUNT 8
+#define DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING 0x20
+#define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
+#define DUEL_EFFECT_REQUEST_FLAG_ACTIVE 0x80
 
 /* The record func_8002C68C hands a duel effect handler.
  *
@@ -78,15 +81,22 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * assembly. */
 extern u8 *D_8009B17C;
 
-/* The request pool's status byte. func_8002C68C raises bit 7 when it hands
- * out a request and func_8002C598 clears the byte; func_8002C6C8 clears
- * bit 0, raises it again while walking the records and returns it;
- * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
- * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
- * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
- * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
- * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
- * func_80018FEC (still assembly); duel_scene_update.c and
+/* Request flags are a complete lifecycle contract. func_8002C604 raises
+ * ACTIVE when it allocates an entry and func_8002C5CC uses that bit to find
+ * a free one. func_8002C6C8 raises INITIALIZED immediately before the first
+ * handler call and clears the whole byte when the handler reports completion.
+ * NONBLOCKING excludes long-running field effects from the pool's blocking
+ * status while still dispatching them normally.
+ *
+ * The request pool's status byte below is separate. func_8002C68C raises bit
+ * 7 when it hands out a request and func_8002C598 clears the byte;
+ * func_8002C6C8 clears bit 0, raises it again while walking blocking records
+ * and returns it; func_80024200 drops bit 7 unless bit 0 is set;
+ * func_8002596C, func_80025D30 and func_80025BEC test bit 0. Read lbu
+ * everywhere and one byte wide (c_symbols.ld names D_8009B261 next). Retail
+ * reaches it through $gp in func_8002C6C8, func_8002C68C and func_8002C598,
+ * and through %hi/%lo in func_80024200, func_8002596C, func_80025D30,
+ * func_80025BEC and func_80018FEC (still assembly); duel_scene_update.c and
  * duel_card_effects.c define the .data arm below for that. func_8002C68C.c
  * takes the plain arm. */
 #ifdef D_8009B260_IN_DATA

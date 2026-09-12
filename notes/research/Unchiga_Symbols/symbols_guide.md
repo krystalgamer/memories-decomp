@@ -365,7 +365,7 @@ The original row is preserved rather than silently rewritten.
 |---|---|---|
 | `Main_RunGameOver` | 0x8002D730 | The game-over screen's mode tick. |
 | `Main_RunCredits` | 0x8002DA1C | The credits roll's mode tick. |
-| `Main_RunHirata` | 0x8002D7C4 | Empty in retail — a compiled-out developer mode, named for the Konami programmer whose source path survives in the debug strings. |
+| `Main_RunUnusedDeveloperMode` | 0x8002D7C4 | Empty in retail — a compiled-out developer mode. External evidence calls it `Main_RunHirata`; the accepted local name records its behavior instead. |
 
 
 ## Debug leftovers

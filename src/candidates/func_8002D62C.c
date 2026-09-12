@@ -12,7 +12,7 @@
 #include "../psyq/setjmp.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
-#include "../game/func_8002D458.h"
+#include "../game/main_menu_selection.h"
 #include "../game/func_8003C2B4.h"
 #include "../game/game_over.h"
 #include "../game/main_modes.h"
@@ -20,9 +20,8 @@
 #include "../game/sound.h"
 #include "../game/main_services.h"
 #include "../game/options.h"
-
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void Main_RunNameEntry(void)
 {
@@ -40,4 +39,3 @@ void Main_RunNameEntry(void)
         D_8009B26C = value;
     }
 }
-

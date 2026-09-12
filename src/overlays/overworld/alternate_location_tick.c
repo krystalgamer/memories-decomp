@@ -14,17 +14,6 @@ extern u8 D_8016A2BD;
 extern u8 D_8016A2C8;
 extern u8 D_8016A2C9;
 
-extern s32 func_80169230(void);
-extern void func_801680E4(s32);
-extern void func_801682D0(s32);
-extern AlternateObject *func_80168A48(s32);
-extern void func_80066574(AlternateObject *);
-extern void func_80168624(void);
-extern void func_80021EA4(void);
-extern void func_80168040(void);
-extern void func_80065BFC(s32);
-extern void func_800158C8(void);
-
 void CampaignMap_UpdateAlternateLocation(void)
 {
     s32 r;

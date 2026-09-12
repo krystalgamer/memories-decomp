@@ -17,8 +17,8 @@
  * The u8 widths come from the definitions and suit the data: these are
  * sequence bytes, and the reader hands them straight through.
  *
- * SD_SequenceTimerCallback is also defined in that unit but is deliberately
- * not here -- sound_event_runtime.h already declares it. */
+ * SD_SequenceTimerCallback lives in sd_sequence_timer_callback.c and is
+ * declared in sound_event_runtime.h, rather than this command header. */
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2);
 void func_8004B6E8(u8 index, s32 value);
 void func_8004B70C(u8 index, s32 unused, s32 value);

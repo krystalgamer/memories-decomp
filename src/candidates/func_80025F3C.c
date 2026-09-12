@@ -35,7 +35,7 @@ void func_80025F3C(void)
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
         D_8009B1F0[side] = (u8 *)object;
-        object->flags |= 0x20;
+        object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
         object->x = 0xA0;
         object->y = 0x78;
         side = D_8009B1D5 ^ 1;

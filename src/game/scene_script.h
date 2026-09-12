@@ -7,8 +7,9 @@
  *
  * Campaign_LoadScenePackage initializes the fixed scene presentation package
  * and clears
- * this table by subscripting it; func_8002E470 is a script command that runs
- * func_8002E00C over it before reading its next operand from the script
+ * this table by subscripting it; Script_OpLoadImageScene is a script command
+ * that runs ScriptImage_ReleaseObjects over it before reading its next operand
+ * from the script
  * stream. Main_RunCampaign is one of the consumers.
  *
  * Five records of 0x14 bytes, and the shape is measured rather than assumed.

@@ -19,7 +19,7 @@
    command, the page wait and campaign-flag command, the stream push, the
    new line and end of stream, and the display-effect command. See
    notes/text-control-bytecode.md. The other two primary handlers are
-   Text_ExtendGlyphCode, now src/candidates/func_80037D2C.c, and
+   Text_ExtendGlyphCode, now src/game/text_extend_glyph_code.c, and
    Text_SetStateFromStream in text_stream_commands.c.
 
    The seven former sources were recorded at gcc_2_8_1_g0_split,

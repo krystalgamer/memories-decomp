@@ -12,11 +12,8 @@
  *
  * func_8003B054 drives the objects those rows hold.
  *
- * display_effect_step_table.c declared func_8003AD6C as `u8 *` while the
- * definition had already become MenuRecord *; the table only stores the
- * address, so nothing caught the disagreement. func_8003B054's own parameter
- * is still u8 * because that is what its definition says. */
+ * Both callbacks use the MenuRecord element type stored by the step table. */
 void func_8003AD6C(MenuRecord *record);
-void func_8003B054(u8 *record);
+void func_8003B054(MenuRecord *record);
 
 #endif

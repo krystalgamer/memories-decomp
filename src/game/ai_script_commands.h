@@ -37,6 +37,7 @@ void AiScript_FindStrongest(void);
 void AiScript_FindWeakest(void);
 void AiScript_FindKiller(void);
 void AiScript_FindDefenseStopper(void);
+void AiScript_CountCards(void);
 void AiScript_FindFirstCard(void);
 void AiScript_FindCard(void);
 void AiScript_MatchType(void);

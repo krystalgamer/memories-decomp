@@ -116,10 +116,12 @@ extern s16 D_8009B278;
 struct DisplayObject;
 extern struct DisplayObject *D_8009B280;
 
-/* The show-image command's halfword operand. func_8002E470 and func_8002E6B8
+/* The show-image command's halfword operand. Script_OpLoadImageScene and
+ * func_8002E6B8
  * read it from the stream as `cursor[0] | (cursor[1] << 8)`: the low twelve
- * bits are the image index func_8002DF2C is handed, 0x8000 says a viewport
- * X/Y pair follows (func_8002E470 masks the index down to `& 0xFFF` and
+ * bits are the image index ScriptImage_RequestTransfer is handed, 0x8000 says
+ * a viewport X/Y pair follows (Script_OpLoadImageScene masks the index down
+ * to `& 0xFFF` and
  * reads the pair into gGraphics_sViewportX/Y; func_8002E6B8 into
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.

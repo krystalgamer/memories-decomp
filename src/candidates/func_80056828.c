@@ -20,7 +20,6 @@
 #include "../psyq/stdio.h"
 #include "../game/script_state.h"
 
-extern u8 D_80010538[];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 
@@ -34,6 +33,7 @@ extern void func_8004CB0C(s32 a0, s32 a1, s32 a2, s32 a3);
 #include "../game/model.h"
 #include "../game/func_8004DC38.h"
 #include "../game/sound_voice_data.h"
+#include "../unmatched.h"
 
 void func_80056828(s32 a0) {
     register s32 player asm("s0") = a0;

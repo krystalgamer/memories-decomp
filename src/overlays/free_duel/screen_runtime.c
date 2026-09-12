@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define D_8009B26C_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -8,6 +9,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object.h"
 #include "../../game/input.h"
+#include "../../game/color_constants.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_staging.h"
@@ -49,9 +51,6 @@
    sparkle updater's call passes no argument, so taking the normal
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */
-
-extern u8 D_8009B269;
-extern u8 D_8009B26C;
 
 void FreeDuel_UpdateScrollbar(void)
 {
@@ -309,7 +308,7 @@ void FreeDuel_UpdateSparkle(void)
             if (!(obj->field_6C & 0x80)) {
                 obj->field_6C |= 0x80;
                 obj->field_60 = 16;
-                obj->field_0C = 0x404040;
+                obj->field_0C = COLOR_RGB24_DIM_GREY;
                 obj->attribute |= (GsALON | GsAONE);
             }
             level = ((u8 *)&obj->field_0C)[0] - 4;

@@ -10,15 +10,10 @@
 
    D_80090DF8 is the build-deck pane transition step table.
    func_800339D0.c dispatches D_80090DF8[state & 0x3F] with the
-   transition state as a u8 *. The mask permits sixty-four entries and there
-   are five; that is recorded rather than corrected, because nothing shows the
-   game produces a larger index and widening the array would change the bytes.
-
-   BuildDeck_UpdatePaneTransition takes BuildDeckTransitionState *, so the two
-   entries that use it are cast to the table's element type, as
-   display_effect_step_table.c does for func_8003A560. The other three come
-   from build_deck_pane_input.h and func_800339D0.h, and already take the
-   element type.
+   shared BuildDeckTransitionState. The mask permits sixty-four entries and
+   there are five; that is recorded rather than corrected, because nothing
+   shows the game produces a larger index and widening the array would change
+   the bytes.
 
    D_80090E0C's first seven words are the divisor ladder
    Text_EncodeDecimalDigits indexes by digit count and then walks with
@@ -28,9 +23,9 @@
    their own. They are transcribed as they stand rather than named, because
    moving them out of the blob is what #2602 asks for and a name for them is
    not yet supported by anything. */
-void (*D_80090DF8[])(u8 *) = {
-    (void (*)(u8 *))BuildDeck_UpdatePaneTransition,
-    (void (*)(u8 *))BuildDeck_UpdatePaneTransition,
+void (*D_80090DF8[])(BuildDeckTransitionState *) = {
+    BuildDeck_UpdatePaneTransition,
+    BuildDeck_UpdatePaneTransition,
     func_800336F0,
     func_8003353C,
     func_800339D0,

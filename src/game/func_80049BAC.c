@@ -4,7 +4,6 @@
 #include "sound_spatialization.h"
 #define SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
 #include "sound_sequence_timing.h"
-#include "../unmatched.h"
 
 void func_80049BAC(s32 value)
 {
@@ -62,4 +61,3 @@ void func_80049CB0(void)
         D_8009B458->flag_0500 = 0;
     }
 }
-

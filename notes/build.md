@@ -1047,7 +1047,7 @@ a decision procedure.
 **Case one: the difference constrains optimization.** `graphics_frame.c`
 defines `D_8009B0AD`, `D_8009B0D0` and `D_8009B0A8` as plain bytes.
 `main_services.c` declared all three `extern volatile u8`, under a comment
-saying the init block (`func_80013154`, now `src/candidates/func_80013154.c`)
+saying the `func_80013154` init block in `src/game/main_services.c`
 is volatile so the emitted order is the source order.
 Those three are the *first three stores* of that run, so the honest
 expectation was a shift. There was none: dropping the `volatile` and taking
@@ -1139,7 +1139,7 @@ without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
 unmatched symbol, so it is out of scope for the `unmatched.h` work: three
-units define it -- `func_8002DC38.c`, `main_run_trade.c` and
+units define it -- `main_run_two_player_duel_setup.c`, `main_run_trade.c` and
 `main_run_animated_battle.c` -- as common symbols under the `*_comm`
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is

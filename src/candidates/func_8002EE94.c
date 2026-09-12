@@ -23,19 +23,18 @@
 #include "../game/func_80039794.h"
 #include "../game/func_8003B6AC.h"
 #include "../game/display_object.h"
-#include "../game/func_80043178.h"
 #include "../game/display_object_interpolation.h"
 #include "../game/script_state.h"
 #include "../game/main_services.h"
+#define D_8009B34C_IN_DATA
+#define D_8009B269_AS_SCALAR_DATA
+#define D_8009B26C_AS_SCALAR_DATA
+#define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
 #include "../game/dialog_read_choice_input.h"
 #include "../game/func_8002EE94.h"
 #include "../game/duel_effect_mark_object_if_active.h"
 
-extern u8 gCampaignSceneIndex;
-extern u8 D_8009B269 __attribute__((section(".data")));
-extern u8 D_8009B26C __attribute__((section(".data")));
-extern u8 D_8009B34C __attribute__((section(".data")));
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
 extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
@@ -105,7 +104,7 @@ void func_8002EE94(void)
         do {
             func_80039794();
         } while (box->field_30 == 0);
-        func_80043178((DisplayObjectSnapshot *)box->field_28);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)box->field_28);
         slot = box->field_28;
         next = D_8009B27C | 0x6000;
         slot->field_60 = -0x400;
@@ -164,7 +163,7 @@ void func_8002EE94(void)
     if ((flags & 0x1000) != 0) {
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
-            func_80043178((DisplayObjectSnapshot *)obj);
+            DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             *(s16 *)&box->field_28->field_60 = 0x400;
         }
         step = *(u16 *)&obj->field_60 - 0x40;
@@ -174,7 +173,7 @@ void func_8002EE94(void)
             D_8009B27C = 0;
             return;
         }
-        func_80043230((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
+        Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
         TextBox_SetPos((struct DuelEffectChannel *)box,
                        *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);
@@ -196,7 +195,7 @@ void func_8002EE94(void)
                            ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
             return;
         }
-        func_80043230((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
+        Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
         TextBox_SetPos((struct DuelEffectChannel *)box,
                        *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);

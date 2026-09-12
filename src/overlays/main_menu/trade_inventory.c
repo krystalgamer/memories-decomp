@@ -21,9 +21,7 @@
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
 
-extern s32 D_80180000[];
 extern MainMenuState D_801A8000[];
-extern u8 D_80185CCC[2];
 
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {

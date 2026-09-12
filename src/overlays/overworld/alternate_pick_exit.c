@@ -3,8 +3,6 @@
 
 extern u16 D_800C4E74;
 extern s32 D_8016A2B8;
-extern s32 func_8004EB9C(s32);
-extern void func_80065B24(s32);
 
 s32 CampaignMap_PickAlternateExit(void)
 {

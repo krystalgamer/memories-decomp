@@ -13,7 +13,7 @@
 #include "graphics_frame.h"
 #include "script_state.h"
 #include "script_image_objects.h"
-#include "func_8002E128.h"
+#include "script_image_rebuild.h"
 #include "script_op_show_image.h"
 
 #define VRAM_COPY_WIDTH 0x140
@@ -64,19 +64,19 @@ void Script_OpShowImage(void) {
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
-        func_8002E00C((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {
             func_80015C84(D_8009B145);
         }
-        func_8002DF2C((u8 *)D_800EAE98, D_8009B270 & 0xFFF);
+        ScriptImage_RequestTransfer((u8 *)D_800EAE98, D_8009B270 & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {
         D_8009B27C = flags | 0x2000;
         func_8004036C(D_8009B280);
-        func_8002E128((u8 *)D_800EAE98, -1);
+        ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1);
         if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) {
             func_80015C0C();
         }

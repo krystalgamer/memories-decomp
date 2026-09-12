@@ -21,9 +21,9 @@
 #include "../game/duel_selection_layout.h"
 #include "../game/display_object.h"
 #include "../game/display_object_api.h"
+#define D_800EAE88_VISIBLE
+#define D_800EAE88_AS_BYTES
 #include "../unmatched.h"
-
-extern u8 D_800EAE88[];
 
 /* Private helpers of the same duel action controller, func_8001BD88:
    selection-side setup in its state-3 paths followed by execution of the

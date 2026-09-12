@@ -25,9 +25,9 @@
 
 extern s32 func_8004A854(s32);
 extern s32 func_8004A940(s32, s32);
-extern s32 SD_CalcPitchBend(u8 *, s32);
 #include "../game/func_80049FB4.h"
 #include "../game/sound_spatialize_object.h"
+#include "../game/sound_spatialization.h"
 
 void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
 {
@@ -170,7 +170,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[5] = level;
         *(s16 *)(obj + 0x1A) = -1;
         *(s16 *)(obj + 0x1C) = rec[7];
-        pitch = SD_CalcPitchBend(obj, rec[7]) + obj[6] * 128;
+        pitch = SD_CalcPitchBend((SDSecondaryObject *)obj, rec[7]) + obj[6] * 128;
         *(s16 *)(D_8009B458 + 0x4D4) =
             func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));

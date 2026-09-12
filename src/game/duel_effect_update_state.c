@@ -16,7 +16,6 @@
 #include "display_object_helpers.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "file_transfer.h"
 #include "text_box_runtime.h"
@@ -24,9 +23,7 @@
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
 #include "func_800283F4.h"
-
-extern u8 D_8009B248;
-extern u8 D_8009B24A;
+#include "../unmatched.h"
 
 s32 DuelEffect_UpdateState(void) {
     u8 v = D_8009B254;

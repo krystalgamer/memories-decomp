@@ -41,8 +41,9 @@ void func_8003201C(u8 *state);
  *
  * `base` is s32 rather than a pointer because that is what the definition
  * takes: the screen record is reached by adding constants to it, never
- * dereferenced as a struct, and the arithmetic sits under a $a0 register pin.
- * Its one caller holds the same record as u8 * and casts. */
+ * dereferenced as a struct. Its one caller holds the same record as u8 * and
+ * casts. The no-strength-reduction profile keeps the ordinary induction
+ * pointer in the retail register without a hard-register pin. */
 void BuildDeck_AddCard(s32 base, s32 card_id);
 
 #endif

@@ -55,7 +55,7 @@ typedef struct {
  * size and differs from byte 0x80025CA2.
  *
  * func_80025F3C shared duel_field_effect_steps.c with func_800260D0 (now
- * src/candidates/func_800260D0.c), which walks the grid flat, so that unit
+ * func_800260D0.c), which walks the grid flat, so that unit
  * defined DUEL_FIELD_GRID_2D for the [side][slot] user and cast at the flat
  * one. Both candidates keep that. */
 extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];

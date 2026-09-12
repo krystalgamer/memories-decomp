@@ -109,6 +109,49 @@ extern u8 *alias asm("real_symbol");
                 ["CanonicalName"],
             )
 
+    def test_contract_symbols_keep_explicitly_tracked_header_owners(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            header = root / "owner.h"
+            header.write_text(
+                "extern unsigned char HeaderOwnedData;\n",
+                encoding="utf-8",
+            )
+            source = root / "candidate.c"
+            source.write_text(
+                '#include "owner.h"\n'
+                "unsigned char candidate(void) { return HeaderOwnedData; }\n",
+                encoding="utf-8",
+            )
+
+            symbols = candidate_builds.candidate_contract_symbols(
+                source,
+                source.read_text(),
+                ["HeaderOwnedData"],
+            )
+            first = candidate_builds.canonical_contract_hashes(
+                symbols,
+                candidate_builds.canonical_declaration_index(
+                    set(symbols),
+                    root,
+                ),
+            )
+
+            header.write_text(
+                "extern unsigned long HeaderOwnedData;\n",
+                encoding="utf-8",
+            )
+            changed = candidate_builds.canonical_contract_hashes(
+                symbols,
+                candidate_builds.canonical_declaration_index(
+                    set(symbols),
+                    root,
+                ),
+            )
+
+            self.assertEqual(symbols, ["HeaderOwnedData"])
+            self.assertNotEqual(first, changed)
+
     def test_contract_hash_is_deterministic(self) -> None:
         declarations = {
             "alpha": [("b.h", "extern s32 alpha;")],

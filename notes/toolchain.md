@@ -98,6 +98,15 @@ compiler selection still requires comparison with genuine Psy-Q 4.6 tools.
 the explicit flags above and maspsx emits its exact 64-byte instruction
 sequence, and the complete PS-X EXE retains the target SHA-256.
 
+`gcc_2_8_1_g0_split_no_cse_follow_jumps` adds only
+`-fno-cse-follow-jumps` to the existing G0 split-address profile.
+`func_80059700` uses it to retain the positive-magnitude copies across its
+state dispatch without register pins. Split addressing alone removes those
+copies; the no-CSE-follow-jumps profile without split addressing keeps them
+but changes the address/register setup. Both compiler and assembler remain
+at G0. This is a measured requirement for that source, not a project-wide
+compiler rule.
+
 ## Original CC1PSX default options
 
 The original Psy-Q 4.6 Win32 compiler backend identifies itself and reports

@@ -8,6 +8,7 @@
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
 #include "../types.h"
+#define D_8009B269_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "../game/duel_side_state.h"
 #include "../game/display_object_api.h"
@@ -23,7 +24,7 @@
 #include "../psyq/rand.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
-#include "../game/func_8002D458.h"
+#include "../game/main_menu_selection.h"
 #include "../game/func_80035A64.h"
 #include "../game/main_run_boot_sequence.h"
 #include "../game/func_80043BCC.h"
@@ -36,7 +37,7 @@
 
 extern volatile u8 D_8009B0D1;
 extern void *volatile D_8009B0B4;
-extern u8 D_8009B269 __attribute__((section(".data")));
+
 extern void __main(void);
 
 s32 Main_Init(void)
@@ -89,7 +90,7 @@ s32 Main_Init(void)
         File_RequestMainMenuPackage();
         File_WaitForTransfers();
     }
-    func_8002D458(func_80043BCC());
+    Main_ApplyMenuSelection(func_80043BCC());
     D_8009B269 = 8;
     Main_Loop();
     return 0;

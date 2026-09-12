@@ -283,7 +283,7 @@ void DuelEffect_UpdateFieldMarker(void) {
             }
         }
 
-        if ((D_8009B17C[0x1C] & 0x80) != 0) {
+        if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
             return;
         }
         D_8009B220 = D_8009B220 & 0xFF9F;

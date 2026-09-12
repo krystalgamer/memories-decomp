@@ -11,7 +11,7 @@ typedef struct DuelRitualResult {
     s32 field_0C;
 } DuelRitualResult;
 
-/* The recipe table that Duel_CheckRitual (unmatched.h) walks.
+/* The recipe table that Duel_CheckRitual walks.
  * Duel_LoadPackageStage's case 4 fills it, handing the address to a transfer
  * as both value_08 and value_0C with mode 0x800, the same way its case 3 fills
  * gDuel_aFusionTable. Duel_CheckRitual then scans it as fixed-size records --
@@ -26,5 +26,7 @@ typedef struct DuelRitualResult {
  *
  * func_800218F0 also takes its address and is still assembly. */
 extern u16 gDuel_awRitualData[];
+
+s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 
 #endif

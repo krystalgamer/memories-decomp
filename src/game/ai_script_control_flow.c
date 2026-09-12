@@ -7,6 +7,7 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 #include "ai_script_source_line_format.h"
+#include "../unmatched.h"
 
 s32 Ai_IsCardInSets(s32 mode, s32 index)
 {
@@ -123,10 +124,6 @@ void AiScript_JumpRandom(void)
         gAiScript_State.script_cursor = (u8 *)result;
     }
 }
-
-extern char D_800118AC[];
-extern char D_800118E4[];
-extern char D_800118CC[];
 
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();

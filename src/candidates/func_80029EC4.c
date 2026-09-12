@@ -1,12 +1,21 @@
 #include "../types.h"
+#include "../game/graphics_frame.h"
+#include "../game/library_runtime.h"
+#include "../game/func_80029EB0.h"
 
-extern s16 gGraphics_sViewportX;
-extern s16 gGraphics_sViewportY;
+/* 0x800E9D9C is the second ordering-table pointer. ordering_tables.h declares
+   it `GsOT *`; this unit reads it as a word, so the private spelling stays. */
 extern s32 D_800E9D9C;
-extern u8 D_800EA1E8[];
-extern s32 D_8009B09C;
 
-extern s32 func_80029EB0(u8 *, s32);
+/* src/psyq/libgs.h:791 and :802 declare these as
+   GsSortFastSprite(GsSPRITE *, GsOT *, unsigned short) and
+   GsSortGLine(GsGLINE *, GsOT *, unsigned short). Including it builds this
+   object byte for byte the same, and costs ten new warnings: the two
+   primitives here are scratchpad addresses held as u8 *, and the ordering
+   table is carried as a word, so every call reports an incompatible pointer
+   and arg 2 "makes pointer from integer without a cast". Making that coherent
+   means retyping the primitives and the handle, which is a change to what this
+   unit says about the objects, not to where its declarations live. */
 extern void GsSortFastSprite(u8 *, s32, s32);
 extern void GsSortGLine(u8 *, s32, s32);
 

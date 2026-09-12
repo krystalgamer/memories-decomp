@@ -15,8 +15,8 @@
    Input_InitPads ends by calling Input_ResetPads, and Input_ReadRawPads fills
    the gInput_dwPendingHeld word Input_UpdatePads consumes. The pad-1/pad-2
    swap pair that follows, which reads and rewrites the six pad masks
-   Input_UpdatePads publishes, is now in src/candidates/func_8003CDF8.c and
-   src/candidates/func_8003CE48.c.
+   Input_UpdatePads publishes, is Input_BackupPad1AndUsePad2 and
+   Input_RestorePad1FromBackup in src/game/input_pad1_backup.c.
 
    The four volatile guards are the decode/publish pair's. The two repeat
    masks' guards went with the swap pair: the remaining code builds the same

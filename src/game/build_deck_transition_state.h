@@ -12,7 +12,7 @@
  * callbacks. The two CardList records account for the formerly repeated
  * +4/+0x2D50 views; the three card-indexed byte tables line up exactly at
  * +0x5AC4, +0x5D97, and +0x606A. */
-typedef struct {
+typedef struct BuildDeckTransitionState {
     u16 *deck_cards;
     CardList lists[2];
     s32 chest_total;
@@ -75,7 +75,8 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * func_80033BE8 still spells the two scroll-box loads as byte offsets:
  * replacing those two expressions with the equivalent fields changes GCC
  * 2.8.1 instruction selection. The shared layout checks keep those preserved
- * raw accesses tied to the same record. */
+ * raw accesses tied to the same record. The complete D_80090DF8 callback
+ * family receives this type directly. */
 extern BuildDeckTransitionState *D_8009B2FC;
 
 #endif

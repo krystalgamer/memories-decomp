@@ -8,7 +8,6 @@
 #include "display_object_work_slots.h"
 #include "display_object_interpolation.h"
 #include "display_object_api.h"
-#include "func_80043178.h"
 #include "duel_apply_card_object_flags.h"
 #include "duel_card.h"
 #include "duel_card_staging.h"
@@ -55,7 +54,7 @@ void func_8001B170(void)
             goto state_four;
         }
         D_8009B174 = 1;
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0;
         if ((s16)object->field_30.h.field_30 == 0x86 ||
             (s16)object->field_30.h.field_32 == 0x2A) {
@@ -66,8 +65,8 @@ void func_8001B170(void)
 
     switch (D_8009B174 & 0xF) {
     case 1:
-        func_8004318C((DisplayObjectPosition *)object, 0x86, 0x2A,
-                     object->field_60);
+        DisplayObject_InterpolatePositionCosine(
+            (DisplayObjectPosition *)object, 0x86, 0x2A, object->field_60);
         object->field_60 += 0x80;
         if (object->field_60 < 0x800) {
             break;
@@ -116,12 +115,13 @@ state_four:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             object->field_2C.h.field_2E = func_8001B0CC(D_8009B19C) - 0x1E;
-            func_80043178((DisplayObjectSnapshot *)object);
+            DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
             object->field_60 = 0x400;
         }
         if (!(D_8009B174 & 0x40)) {
-            func_80043230((DisplayObjectPosition *)object,
-                         object->field_2C.h.field_2E, -0xBC, object->field_60);
+            Widget_SlideSine((DisplayObjectPosition *)object,
+                             object->field_2C.h.field_2E, -0xBC,
+                             object->field_60);
             object->field_60 -= 0x2A;
             if (object->field_60 > 0) {
                 break;
@@ -142,12 +142,13 @@ state_four:
             object = D_800E9EF0[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
             ((DisplayObjectPosition *)object)->out_y = -0xF0;
-            func_80043178((DisplayObjectSnapshot *)object);
+            DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
             object->field_60 = -0x400;
             break;
         }
-        func_80043230((DisplayObjectPosition *)object,
-                     (s16)object->field_30.h.field_30, -0x18, object->field_60);
+        Widget_SlideSine((DisplayObjectPosition *)object,
+                         (s16)object->field_30.h.field_30, -0x18,
+                         object->field_60);
         object->field_60 += 0x2A;
         if (object->field_60 < 0) {
             break;

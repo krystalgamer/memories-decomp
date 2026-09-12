@@ -2,8 +2,8 @@
 #include "duel_side_state.h"
 #include "duel_card_layout.h"
 #include "func_80027DF8.h"
-
-extern AiActiveCard D_801AB00C[];
+#define D_801AB00C_VISIBLE
+#include "../unmatched.h"
 
 void func_80028220(void)
 {

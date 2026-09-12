@@ -10,9 +10,10 @@ back to implicit declarations.
 
 Each pair below is compiled with its recorded profile's front-end flags and
 -Wimplicit-function-declaration, and must report no implicit declaration of
-the callee. The negative control removes a caller's unmatched.h include while
-the global prototype stays in place, and requires the compiler to report the
-implicit call, so this test fails for exactly the regression it guards.
+the callee. The negative control removes a caller's declaration-providing
+include while the prototype stays in its owning header, and requires the
+compiler to report the implicit call, so this test fails for exactly the
+regression it guards.
 The shared CD position-conversion declarations are covered at every caller too.
 """
 
@@ -37,11 +38,11 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 PAIRS = [
     ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
     ("src/game/sound_secondary_object_volumes.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
-    ("src/candidates/func_8004B734.c", "func_8004AAFC", '#include "../game/sound.h"'),
+    ("src/game/sd_sequence_timer_callback.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
-    ("src/game/func_80049BAC.c", "func_8004A518", '#include "../unmatched.h"'),
+    ("src/game/func_8004A6D8.c", "func_8004A518", '#include "sound.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
-    ("src/candidates/func_8004A518.c", "SD_ResetVoiceEnvelope", '#include "../game/sound.h"'),
+    ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
@@ -78,6 +79,7 @@ def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) ->
             os.devnull,
             "-Wimplicit-function-declaration",
             f"-I{include_dir}",
+            f"-I{REPOSITORY / 'src'}",
             *flags,
             str(path),
         ],
@@ -117,24 +119,45 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 self.assertNotIn(callee, found)
 
     def test_lost_include_is_caught_while_the_prototype_still_exists(self) -> None:
-        # The regression the review reproduced: func_80049BAC.c without its
-        # unmatched.h include, with func_8004A518's prototype still there.
+        # Keep each selected prototype in its owner while hiding that owner
+        # from the caller, reproducing the lost-include regression.
         unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
+        sound = (REPOSITORY / "src/game/sound.h").read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "unmatched.h" not in include:
+            if "unmatched.h" in include:
+                declarations = unmatched
+            elif callee == "func_8004A518":
+                declarations = sound
+            else:
                 continue
             with self.subTest(source=source, callee=callee):
-                self.assertRegex(unmatched, rf"(?m)^(?![ \t]*/?\*)[^\n]*\b{callee}\s*\(")
+                self.assertRegex(
+                    declarations,
+                    rf"(?m)^(?![ \t]*/?\*)[^\n]*\b{callee}\s*\(",
+                )
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
                 (REPOSITORY / "tmp").mkdir(exist_ok=True)
                 scratch = Path(tempfile.mkdtemp(dir=REPOSITORY / "tmp"))
                 try:
-                    # Nested so the probe's own relative includes cannot
-                    # resolve beside it; -I points them at the real directory.
+                    # Nested so ordinary relative includes still resolve
+                    # through -I, while this probe can supply a shadow owner
+                    # with only the selected prototype removed.
                     probe = scratch / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
-                    probe.write_text(text.replace(include + "\n", "", 1), encoding="utf-8")
+                    include_path = re.search(r'"([^"]+)"', include)
+                    self.assertIsNotNone(include_path)
+                    shadow = (probe.parent / include_path.group(1)).resolve()
+                    shadow.parent.mkdir(parents=True, exist_ok=True)
+                    without_callee, count = re.subn(
+                        rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$",
+                        "",
+                        declarations,
+                        count=1,
+                    )
+                    self.assertEqual(count, 1)
+                    shadow.write_text(without_callee, encoding="utf-8")
+                    probe.write_text(text, encoding="utf-8")
                     found = implicit_calls(
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )

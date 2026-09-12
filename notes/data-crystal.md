@@ -75,13 +75,13 @@ The page presents these as modes, but local code establishes them as
 main-menu entry/result IDs. The loaded menu module keeps its current entry in
 `gMain_bMenuID` (`0x80184594`); forcing that byte to `0x0B` exposes the hidden
 Debug Menu entry. They are not direct indices into the `Main_Loop` handler
-table at `0x80090B64`. `func_8002D458` stores a normally selected result in
+table at `0x80090B64`. `Main_ApplyMenuSelection` stores a normally selected result in
 `D_8009B26D`, accepts only values below `0x0B`, and translates several results
 to different internal handler indices:
 
 | Menu result | Community label | Internal handler index | Handler |
 |---:|---|---:|---|
-| `0x02` | 2P Duel | `0x10` | `func_8002DC38` |
+| `0x02` | 2P Duel | `0x10` | `Main_RunTwoPlayerDuelSetup` |
 | `0x03` | Trade | `0x0E` | `Main_RunTrade` |
 | `0x04` | Option | `0x0B` | `Main_RunOptionsMenu` |
 | `0x05` | Campaign | `0x02` | `Main_RunCampaign` |

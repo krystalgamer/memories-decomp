@@ -97,7 +97,7 @@ glabel Main_Init
   .L80012C9C:
     /* 349C 80012C9C F30E010C */  jal        func_80043BCC
     /* 34A0 80012CA0 00000000 */   nop
-    /* 34A4 80012CA4 16B5000C */  jal        func_8002D458
+    /* 34A4 80012CA4 16B5000C */  jal        Main_ApplyMenuSelection
     /* 34A8 80012CA8 21204000 */   addu      $a0, $v0, $zero
     /* 34AC 80012CAC 08000224 */  addiu      $v0, $zero, 0x8
     /* 34B0 80012CB0 0A80013C */  lui        $at, %hi(D_8009B269)
