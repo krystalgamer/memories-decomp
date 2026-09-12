@@ -51,18 +51,14 @@ void SD_UpdateFades(void) {
 
         v = g_SDValue->field_0044;
         if (v) {
-            register u16 p1 asm("$2") =
-                (u16)(v * (g_SDValue->field_1580 + 1));
-
-            v = p1 >> 8;
+            v *= g_SDValue->field_1580 + 1;
+            v >>= 8;
         } else {
             v = 0;
         }
         if (v) {
-            register u16 p2 asm("$2") =
-                (u16)(v * (g_SDValue->field_1586 + 1));
-
-            v = p2 >> 8;
+            v *= g_SDValue->field_1586 + 1;
+            v >>= 8;
         } else {
             v = 0;
         }
