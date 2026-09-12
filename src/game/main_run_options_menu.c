@@ -6,6 +6,8 @@
 #include "options.h"
 #include "sound.h"
 
+extern u8 D_8009B269;
+
 u8 D_8009B26C;
 
 void Main_RunOptionsMenu(void)
