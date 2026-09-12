@@ -89,11 +89,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * accessors are still assembly. */
 extern LibraryMotionState D_800EA1E8;
 
-/* Last requested cursor cell; equal requests leave an active tween alone. */
-extern s8 D_8009B258;
-extern s8 D_8009B259;
-
 s32 func_8002A3CC(void);
-void func_8002A4A8(s32 row, s32 col, s32 frames);
+void func_8002A4A8(s32 column, s32 row, s32 frames);
 
 #endif

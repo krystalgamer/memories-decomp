@@ -1,34 +1,35 @@
 #include "../types.h"
+#include "card_grid.h"
 #include "func_8002A3CC.h"
 
-void func_8002A4A8(s32 row, s32 col, s32 frames)
+void func_8002A4A8(s32 column, s32 row, s32 frames)
 {
-    s32 column = col;
+    s32 target_row = row;
     LibraryMotionState *state = &D_800EA1E8;
     s32 x;
     s32 delta;
 
-    if (row == D_8009B258 && column == D_8009B259) {
+    if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
         return;
     }
-    D_8009B258 = row;
-    D_8009B259 = column;
+    gCardGrid_bCursorColumn = column;
+    gCardGrid_bCursorRow = target_row;
     state->frames = frames;
-    if (row >= 10) {
-        x = (row % 10) * 14 + 0xAE;
+    if (column >= 10) {
+        x = (column % 10) * 14 + 0xAE;
     } else {
-        x = (row % 10) * 14 + 0xE;
+        x = (column % 10) * 14 + 0xE;
     }
     {
         s32 velocity_x;
         s32 velocity_y;
-        s32 bank = column / 10;
+        s32 bank = target_row / 10;
         s32 y;
 
         delta = (s16)x - state->x;
         delta <<= 16;
         velocity_x = delta / frames;
-        y = bank * 178 + (column % 10) * 16 + 0xE;
+        y = bank * 178 + (target_row % 10) * 16 + 0xE;
         delta = (s16)y - state->y;
         delta <<= 16;
         velocity_y = delta / frames;

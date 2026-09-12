@@ -13,16 +13,20 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
-### Keep one column snapshot: `func_8002A4A8`
+### Keep one row snapshot: `func_8002A4A8`
 
 The 440-byte library-cursor motion setup matches under the existing uniform
 `gcc_2_8_1_g8_split` profile with no register pins or inline assembly.
 The shared `LibraryMotionState` already supplies the complete offsets and
 signed integer/unsigned fractional halves missing from the terminal
-incomplete-type attempts. The reference's two column copies leave the
+incomplete-type attempts. The reference's two copies of its `col` argument leave the
 unpinned entry move after the unchanged-cell guard, changing ten instruction
-positions. Keeping one column snapshot through that guard and the Y-coordinate
+positions. Keeping one row snapshot through that guard and the Y-coordinate
 calculation restores retail's initial move into `$t1` without pinning it.
+The reference's argument names are reversed relative to the confirmed grid
+symbols: the first argument drives X/`gCardGrid_bCursorColumn`, and the second
+drives Y/`gCardGrid_bCursorRow`. The matching source uses those existing
+`card_grid.h` declarations, without adding duplicate address-named globals.
 
 The same signed `delta` is assigned and shifted in place for both 16.16
 velocity divisions. The unsigned fractional fields preserve the positive
