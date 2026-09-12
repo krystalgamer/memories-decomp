@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../psyq/stdio.h"
 #include "file_names.h"
 #define D_8009B10C_IN_DATA
 #include "file_transfer.h"
@@ -25,18 +26,18 @@ void File_SetPositionTable(void)
     *(s32 *)(state + 8) = 0x180018;
     *(s32 *)(state + 0x10) = 0xFC0230;
 
-    for (i = 0, position = gFile_anLba, name = gFile_apszName;;) {
+    i = 0;
+    position = gFile_anLba;
+    name = gFile_apszName;
+    while (i < FILE_POSITION_TABLE_CAPACITY) {
         current = *name;
         if (current == (u8 *)0) {
             break;
         }
         File_GetPosition(position, (const char *)current);
-        printf(D_80010038, current, *position);
+        printf((const char *)D_80010038, current, *position);
         position++;
         name++;
         i++;
-        if (i >= FILE_POSITION_TABLE_CAPACITY) {
-            break;
-        }
     }
 }
