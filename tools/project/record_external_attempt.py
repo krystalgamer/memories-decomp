@@ -13,12 +13,6 @@ from pathlib import PurePosixPath
 from typing import Any
 
 from workspace import WorkspaceError, require_workspace_root, resolve_within
-from integrate_verified_match import (
-    IntegrationError,
-    load_tracked_symbol_names,
-    preprocess_source,
-    uses_asm_extension,
-)
 
 
 class ExternalAttemptError(RuntimeError):
@@ -82,6 +76,17 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def preprocess_candidate(
+    root: Path, candidate: Path, profile: dict[str, Any]
+) -> str:
+    from integrate_verified_match import IntegrationError, preprocess_source
+
+    try:
+        return preprocess_source(root, candidate, profile)
+    except IntegrationError as error:
+        raise ExternalAttemptError(str(error)) from error
 
 
 def load_json(path: Path) -> Any:
@@ -617,6 +622,11 @@ def main() -> int:
                     "deferred canonical or inline-refinement history"
                 )
 
+        from integrate_verified_match import (
+            load_tracked_symbol_names,
+            uses_asm_extension,
+        )
+
         candidate = resolve_within(root, args.candidate, must_exist=True)
         temporary_root = resolve_within(root, "tmp", must_exist=True)
         try:
@@ -626,12 +636,9 @@ def main() -> int:
                 "candidate source must be beneath tmp/"
             ) from error
         source_text = candidate.read_text(encoding="utf-8")
-        try:
-            preprocessed_text = preprocess_source(
-                root, candidate, profiles[args.profile]
-            )
-        except IntegrationError as error:
-            raise ExternalAttemptError(str(error)) from error
+        preprocessed_text = preprocess_candidate(
+            root, candidate, profiles[args.profile]
+        )
         tracked_symbol_names = (
             load_tracked_symbol_names(root)
             if args.allow_symbol_aliases
