@@ -351,12 +351,10 @@
       "target": "src/candidates_target/func_8002BAB4.S",
       "candidate_build_sha256": "aed2407650bec3583f2159f6e5b366ba47390661138eb5b6cdcd223f41271946",
       "target_bytes_sha256": "af55b6b7e91127d6259a64cdeed80d07a0829829a3ad9fdaa5ef629c1b7df629",
-      "canonical_contract_sha256": "9eedaee88e87704e4b0642bb7253ba3c7b769d278ba813b033c823e1d1fbd130",
+      "canonical_contract_sha256": "8961c6c841ff155ec1051c2c2c8a26f39544ad46f88a227970d2a143fbc609a5",
       "canonical_contracts": {
         "D_80181002": "734aaf99436e3078054506ffefa76f4adf0b1225e9ea8ed1446c620cc10256fc",
-        "D_80181012": "91a38bb9ad5879b3e0ffe9676b0c19e6042ef553efc0f00b196470c5db8808e0",
-        "gGraphics_sViewportX": "2b771e65ff13b722ea5c275b4cd3fae30c7d787f576d9f3ddb97e6d1b23dc3ed",
-        "gGraphics_sViewportY": "d6eda5b54300f8099e986a80e959d408155b79d9e3ddfb1b365739f30c63ec29"
+        "D_80181012": "91a38bb9ad5879b3e0ffe9676b0c19e6042ef553efc0f00b196470c5db8808e0"
       }
     },
     {
@@ -494,13 +492,13 @@
       "target": "src/candidates_target/func_80031874.S",
       "candidate_build_sha256": "8ab5556c09cf842ae4584e1997edc68b14ab944b408e0a99e59a4c4d48cefa4a",
       "target_bytes_sha256": "910bef3829bf5637714de01765c2a100a2b7b738b0ed55648a565a9fafffeeb8",
-      "canonical_contract_sha256": "1f7d906388e32640bceddbc2caa7ee489722a231868b5ca42c8fb916bfdac159",
+      "canonical_contract_sha256": "c37f59805ac008f7cde9a94398aed8e79862c2334abf954e8eb1a95e8c4dd2f6",
       "canonical_contracts": {
         "Text_EncodeDecimalNoPadding": "b2d1bfb56ec185f0e2c4b7b96169ed54e316b8306059150e5ce2b671c2d58498",
         "func_800316F0": "950179527f02487d72aee78f6d148c4fd8c5b0f70f2c33da7f79041154d8e9ff",
         "func_80031784": "413c68a6a449ee2a314f89c476e0a738db717edd02156b31adfe3c6ea1382115",
-        "gGraphics_sViewportX": "2b771e65ff13b722ea5c275b4cd3fae30c7d787f576d9f3ddb97e6d1b23dc3ed",
-        "gGraphics_sViewportY": "d6eda5b54300f8099e986a80e959d408155b79d9e3ddfb1b365739f30c63ec29"
+        "gGraphics_sViewportX": "0de67de4523b36d111ba3f8509449aa0d16c0a8a556a936592e204e05165a2d5",
+        "gGraphics_sViewportY": "b3ee8688f3a20d7e8563cb9e28dc6d41c8dccc16a0a06ea4f56298e4cf11d326"
       }
     },
     {
