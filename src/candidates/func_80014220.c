@@ -28,7 +28,6 @@ void func_80014220(s32 event)
             "sh $4, %%gp_rel(D_8009B100)($28)"
             : : : "memory"
         );
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
-

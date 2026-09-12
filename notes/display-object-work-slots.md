@@ -22,6 +22,15 @@ separately cleared by the presentation and is not a sixth pointer slot.
 The header checks the 20-byte pointer span and every newly named object-field
 offset used by these consumers.
 
+`duel_screen_tables.h` now records the corresponding source-table shape.
+`D_80090918` contains five `DuelExodiaCardPose` records selected by card IDs
+`0x11` through `0x15`. Each record maps the card to a work-slot index and
+stores the x/y values with the `0x1A`/`0x1E` biases that `func_80018FEC`
+removes before starting motion. A separate trailing byte preserves the
+original table's 16-byte extent and the address of the following duel-result
+sprite table. The retained candidate keeps its raw-byte view for now because
+its documented near-match depends on the existing `anim * 3` expression.
+
 ## Preserved code-generation boundaries
 
 The declaration deliberately stays incomplete. `Main_RunTrade` requires

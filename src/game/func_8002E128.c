@@ -53,7 +53,7 @@ void func_8002E128(u8 *p, s32 arg1) {
         o = func_800400AC(func_8004002C(), 3);
         func_80040510(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
-        *(s32 *)(o + 4) |= 0x1000000;
+        *(s32 *)(o + 4) |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         *(u16 *)(o + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p[0x10] = 1;
         *(s32 *)p = (s32)o;
