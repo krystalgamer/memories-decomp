@@ -12,8 +12,10 @@
  * later jump slot with the effect-record store. The multiset and instruction
  * count are identical; the difference is placement, not missing operations.
  */
+#define D_8009B369_IN_DATA
 #include "../types.h"
 #include "../game/func_8002C604.h"
+#include "../game/duel_side_state.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
@@ -30,18 +32,14 @@
 #include "../psyq/rand.h"
 
 extern u8 D_8009B1B9;
-extern u8 D_8009B1D5;
-extern u8 gDuel_bWinnerSide;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
 extern u8 *D_8009B17C;
 
 extern s32 D_800E9F04[];
-extern u8 D_800E9FF0[];
 extern u8 D_800E9ECF[];
 extern u8 D_8009B260[];
 extern u16 D_800EF658[];
-extern u8 D_8009B369 __attribute__((section(".data")));
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern u8 D_8009B26C __attribute__((section(".data")));
 
@@ -203,8 +201,8 @@ next_obj:
     D_800EF658[0] = 0x309;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
-    D_800E9FF0[(u8)side * 0x20] = 0x28;
-    other = &D_800E9FF0[(D_8009B1D5 ^ 1) * 0x20];
+    D_800E9FF0[(u8)side].field_00 = 0x28;
+    other = (u8 *)&D_800E9FF0[D_8009B1D5 ^ 1];
     *(u16 *)(other + 0x14) = 0;
     *(u16 *)(other + 0x12) = 0;
     func_800472A8(0x7310);
