@@ -926,15 +926,15 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x8007164C",
+      "address": "0x800716C4",
       "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_8007164C.c",
-      "target": "src/candidates_target/func_8007164C.S",
-      "candidate_build_sha256": "02d0d437786572b6fdbf7f0e83bdc3cb851c994c8699b3c2f52d410c6b04976a",
-      "target_bytes_sha256": "013328c0cf1c459d931f8a0ed8b0840eb51fb83ac900e2f37a94ae51a29f7063",
-      "canonical_contract_sha256": "00cb96f1274893ab63b3e5f051961ca37d99c619a7981ce6e8d5177f1e35ebc0",
+      "source": "src/candidates/func_800716C4.c",
+      "target": "src/candidates_target/func_800716C4.S",
+      "candidate_build_sha256": "9c91dc7d47f3cc4f2e55093a4e21fbf2fc135da6e9fff56b510b3974bdfe39f1",
+      "target_bytes_sha256": "1da4839d3083a5cd04661e7c2d9d348b321c6e482913b7ff20f249621747572d",
+      "canonical_contract_sha256": "59ab6a8f2a3fb895efb14d8c5b25be366fabe719fe1c330823dfe112cb878e98",
       "canonical_contracts": {
-        "gAi_wBestDifference": "8562027762ba71b3914a391ebd6ea64ff35b140e518ccfca80443f013501fd9c"
+        "gAi_bBestTarget": "505a7bc9ef80542d7cce40d18a56fe40e7835499c225631a624a78cfeca572e9"
       }
     },
     {
