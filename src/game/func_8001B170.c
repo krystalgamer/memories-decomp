@@ -21,6 +21,7 @@
 #include "duel_trap_resolution.h"
 #include "duel_screen_tables.h"
 #include "dialog_choice.h"
+#include "dialog_read_choice_input.h"
 #include "text_box_lifecycle.h"
 #include "func_80039794.h"
 #include "func_80025028.h"

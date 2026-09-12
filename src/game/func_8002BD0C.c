@@ -34,6 +34,8 @@
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
+#include "func_8002A660.h"
+#include "text_box_runtime.h"
 
 /* The Library screen, in address order: the package-transfer phase
    callback, the pass that marks every owned card in the screen's state, and

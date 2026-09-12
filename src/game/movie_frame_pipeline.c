@@ -11,6 +11,8 @@
 #include "graphics_constants.h"
 #include "mdec_sync.h"
 #include "sound_mix.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libetc.h"
 
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then two of the three stages that

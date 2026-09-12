@@ -120,6 +120,9 @@ jobs:
       - name: Verify no C definition collides with a linker assignment
         run: make check-data-symbols-objects
 
+      - name: Verify every call sees a declaration
+        run: make check-declaration-visibility
+
       - name: Exercise the worker incremental loop
         run: |
           tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing
