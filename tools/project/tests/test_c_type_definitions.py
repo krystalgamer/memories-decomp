@@ -27,8 +27,13 @@ void f(void) { typedef int BlockLocal; BlockLocal value; }
 static struct Qualified {
     int value;
 } qualified;
+struct{int x;} anonymous_struct;
+enum{ANONYMOUS_VALUE = 1};
 """
-        self.assertEqual(c_type_definitions.type_definition_lines(text), [2, 5, 8, 11, 12])
+        self.assertEqual(
+            c_type_definitions.type_definition_lines(text),
+            [2, 5, 8, 11, 12, 15, 16],
+        )
 
     def test_ignores_comments_literals_and_declarations(self) -> None:
         text = """
@@ -36,6 +41,7 @@ static struct Qualified {
 const char *description = "struct Fake {";
 struct Forward;
 struct Forward *use(struct Forward *);
+int typedef_count;
 """
         self.assertEqual(c_type_definitions.type_definition_lines(text), [])
 

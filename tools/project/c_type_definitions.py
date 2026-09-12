@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TYPE_DEFINITION = re.compile(
-    r"\b(?:typedef|(?:struct|union|enum)\s+(?:[A-Za-z_]\w*\s*)?\{)"
+    r"\b(?:typedef\b|(?:struct|union|enum)\b\s*(?:[A-Za-z_]\w*\s*)?\{)"
 )
 
 
