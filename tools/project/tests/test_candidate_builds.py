@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
@@ -75,19 +76,75 @@ class CandidateContractTests(unittest.TestCase):
     def test_note_only_candidates_are_detected(self) -> None:
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             root = Path(directory)
-            resident = root / "notes/candidates"
-            overlay = root / "notes/overlays/candidates/for_humans"
-            resident.mkdir(parents=True)
-            overlay.mkdir(parents=True)
-            (resident / "func_80012345.md").write_text("candidate", encoding="utf-8")
-            (overlay / "func_80123456").mkdir()
+            resident = root / "notes/candidates/archive/func_80012345.md"
+            overlay = (
+                root
+                / "notes/overlays/candidates/password/func_80123456.md"
+            )
+            bundle = (
+                root
+                / "notes/overlays/candidates/password/for_humans"
+                / "func_80123456"
+            )
+            resident.parent.mkdir(parents=True)
+            overlay.parent.mkdir(parents=True)
+            bundle.mkdir(parents=True)
+            resident.write_text("candidate", encoding="utf-8")
+            overlay.write_text("candidate", encoding="utf-8")
+            (bundle / "candidate.c").write_text("candidate", encoding="utf-8")
 
             self.assertEqual(
                 candidate_builds.note_candidate_paths(root),
                 [
-                    "notes/candidates/func_80012345.md",
-                    "notes/overlays/candidates/for_humans/func_80123456",
+                    "notes/candidates/archive/func_80012345.md",
+                    "notes/overlays/candidates/password/for_humans/"
+                    "func_80123456",
+                    "notes/overlays/candidates/password/func_80123456.md",
                 ],
+            )
+
+    def test_note_only_candidate_stores_are_rejected_by_loader(self) -> None:
+        cases = (
+            "notes/candidates/archive/func_80012345.md",
+            "notes/overlays/candidates/password/func_80123456.md",
+            "notes/overlays/candidates/password/for_humans/"
+            "func_80123456/candidate.c",
+        )
+        for relative in cases:
+            with self.subTest(relative=relative):
+                with tempfile.TemporaryDirectory(
+                    dir=REPOSITORY / "tmp"
+                ) as directory:
+                    root = Path(directory)
+                    path = root / relative
+                    path.parent.mkdir(parents=True)
+                    path.write_text("candidate", encoding="utf-8")
+
+                    with mock.patch.object(candidate_builds, "ROOT", root):
+                        with self.assertRaisesRegex(
+                            candidate_builds.CandidateBuildError,
+                            "candidates must be build-integrated",
+                        ):
+                            candidate_builds.load_candidates()
+
+    def test_deep_candidate_sources_and_targets_are_detected(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            source = root / "src/candidates/password/deep/func_80123456.c"
+            target = (
+                root / "src/candidates_target/password/deep/func_80123456.S"
+            )
+            source.parent.mkdir(parents=True)
+            target.parent.mkdir(parents=True)
+            source.write_text("candidate", encoding="utf-8")
+            target.write_text("candidate", encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_code_paths(root),
+                (
+                    {"src/candidates/password/deep/func_80123456.c"},
+                    {"src/candidates_target/password/deep/func_80123456.S"},
+                ),
             )
 
     def test_extern_parser_handles_supported_forms(self) -> None:
