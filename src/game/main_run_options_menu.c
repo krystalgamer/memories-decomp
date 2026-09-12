@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "fade.h"
 #include "func_8003C2B4.h"
+#include "main_modes.h"
 #include "main_services.h"
 #include "options.h"
 #include "sound.h"
