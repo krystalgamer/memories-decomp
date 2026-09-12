@@ -34,7 +34,7 @@ void func_8003353C(u8 *p) {
         if (r != 0) {
             D_8009B24B = 0x14;
             gDuel_wViewerCardID = r;
-            D_8009B254 = 2;
+            gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         }
         return;
     }
@@ -88,7 +88,7 @@ void func_800336F0(u8 *p)
         if (r != 0) {
             D_8009B24B = 0x14;
             gDuel_wViewerCardID = r;
-            D_8009B254 = 2;
+            gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         }
         return;
     }

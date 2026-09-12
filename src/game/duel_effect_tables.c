@@ -8,8 +8,8 @@
 #include "duel_field_effect_steps.h"
 #include "duel_magic_effect_dispatch.h"
 #include "duel_swords_effect.h"
-#include "func_80028310.h"
-#include "func_800283F4.h"
+#include "duel_effect_dialog_state.h"
+#include "duel_effect_card_viewer_state.h"
 
 /* Initialized data at 0x80090A5C: two handlers per effect group, in group
    order. */
@@ -96,9 +96,9 @@ u8 gDuelEffect_abGroupByEffectId[DUEL_EFFECT_ID_COUNT] = {
 /* The five effect-state handlers DuelEffect_UpdateState runs. */
 DuelEffectHandler
     gDuelEffect_apfnStateHandler[DUEL_EFFECT_STATE_HANDLER_COUNT] = {
-    func_80028310,
-    func_80028310,
-    func_800283F4,
+    DuelEffect_UpdateDialogState,
+    DuelEffect_UpdateDialogState,
+    DuelEffect_UpdateCardViewerState,
     func_800289AC,
     func_800289B4,
 };

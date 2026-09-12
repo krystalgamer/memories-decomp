@@ -1,5 +1,5 @@
 #define GINPUT_PAD1_HELD_IS_AGGREGATE
-#define D_8009B254_IN_DATA
+#define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_effect.h"
@@ -78,11 +78,11 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
             /* Written as absolute literals, not through externs: these two
                are single incidental stores and the target addresses them
                through $at, which the symbolic form does not do. The third
-               store, to D_8009B254, reaches the same $at form through the
+               store, to gDuel_bEffectState, reaches the same $at form through the
                .data arm duel_effect.h declares for it. */
             *(u16 *) 0x8009B246 = picked;
             *(u8 *) 0x8009B24B = 0x14;
-            D_8009B254 = 2;
+            gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
             D_8009B162 = 0xC;
             D_8009B1D4 = D_8009B1D4 | 0x60;
