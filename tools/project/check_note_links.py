@@ -25,6 +25,7 @@ INLINE_PATH = re.compile(
     r"\.(?:S|c|csv|h|json|ld|md|py|txt|yaml|yml)"
     r")(?::[0-9][^`]*)?`"
 )
+UNTRACKED_PATH_PREFIXES = ("src/hirata/", "tools/vendor/")
 
 
 @dataclass(frozen=True)
@@ -72,7 +73,7 @@ def check_note_links(root: Path = ROOT) -> tuple[int, int, list[Problem]]:
                 continue
             for match in INLINE_PATH.finditer(line):
                 target = match.group("target")
-                if target.startswith("src/hirata/"):
+                if target.startswith(UNTRACKED_PATH_PREFIXES):
                     continue
                 references += 1
                 if not (root / target).exists():
