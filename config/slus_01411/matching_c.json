@@ -5443,6 +5443,12 @@
       "source": "src/game/ai_script_load_life_point.c"
     },
     {
+      "address": "0x80071460",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_terrain.c"
+    },
+    {
       "address": "0x8007149C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
