@@ -249,7 +249,9 @@ resident and overlay matching manifest. All three paths scan C literals and
 comments without regex boundary loss, apply line splicing before token checks,
 and inspect the compiler's preprocessed output so assembly introduced by an
 active included macro cannot bypass the source-only gate. Unused assembly
-macros are not expanded and therefore do not cause false failures.
+macros are not expanded and therefore do not cause false failures. Run this
+target after installing the matching compiler; the toolchain-backed CI build
+runs it separately from the toolchain-free metadata job.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
