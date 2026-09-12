@@ -1,7 +1,6 @@
 #define D_8009B0C4_IN_DATA
 #define GSD_BOUTPUTTYPE_IN_DATA
 #include "../types.h"
-#define SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
 #include "save_data.h"
 #include "graphics_frame.h"
 #include "sound.h"
@@ -26,11 +25,6 @@
    gcc_2_8_1_g8, gcc_2_8_1_g8_split and gcc_2_8_1_g8_no_split. None of those
    differences was a boundary: every member compiles to an identical object
    at gcc_2_8_1_g8, so the unit builds there. */
-
-/* Keeping these declarations at their original source position preserves the
- * exact GCC 2.8.1 allocation in SaveData_NextMaskWord. */
-extern u32 gSaveData_dwMaskStateLow;
-extern u32 gSaveData_dwMaskStateHigh;
 
 /* Advances the two-word save-data mask state and returns the next word. */
 u32 SaveData_NextMaskWord(void)

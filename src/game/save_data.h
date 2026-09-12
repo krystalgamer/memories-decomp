@@ -199,10 +199,17 @@ extern u8 D_801D1200[];
  * unit used to declare it `u8 [16]` and the overlay paths `u8 []`. */
 extern u8 D_801B125A[];
 extern s32 gSaveDataSequence;
-#ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
+/* The two words of the save-data mask state. save_data_payload.c used to
+ * declare these itself, behind a SAVE_DATA_DECLARE_MASK_STATE_LOCALLY guard
+ * that suppressed the pair here, with the reason recorded in that file:
+ * "keeping these declarations at their original source position preserves
+ * the exact GCC 2.8.1 allocation in SaveData_NextMaskWord". That was true
+ * when it was written on 2026-09-10; it is not true now, and the check is
+ * one build: with the guard and the local pair deleted the image still
+ * hashes 84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88.
+ * The guard had exactly one definer, so nothing else is affected. */
 extern u32 gSaveData_dwMaskStateLow;
 extern u32 gSaveData_dwMaskStateHigh;
-#endif
 
 u32 SaveData_NextMaskWord(void);
 void SaveData_SetMaskSeed(u32);
