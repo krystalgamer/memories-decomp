@@ -5440,31 +5440,31 @@
       "address": "0x80071194",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB4",
-      "source": "src/game/ai_script_card_info.c"
+      "source": "src/game/ai_script_query_commands.c"
     },
     {
       "address": "0x80071248",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/ai_script_card_info.c"
+      "source": "src/game/ai_script_query_commands.c"
     },
     {
       "address": "0x800712B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/ai_script_card_info.c"
+      "source": "src/game/ai_script_query_commands.c"
     },
     {
       "address": "0x80071320",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/game/ai_script_set_face_down.c"
+      "source": "src/game/ai_script_query_commands.c"
     },
     {
       "address": "0x800713B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/game/ai_script_load_life_point.c"
+      "source": "src/game/ai_script_query_commands.c"
     },
     {
       "address": "0x8007149C",
