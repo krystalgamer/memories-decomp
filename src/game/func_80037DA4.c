@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/duel_effect_command.c.
- */
 #include "../types.h"
 #include "../game/card_constants.h"
 #include "../game/func_80036C14.h"
@@ -31,11 +25,7 @@
 void func_80037DA4(u8 *object)
 {
     u8 **stream;
-    /* Pinned: the branch on the opcode byte flips local-alloc's choice for
-       this pair, so without it the slot pointer and the current pointer come
-       out in each other's registers. Pinning the current pointer is enough;
-       the slot pointer then follows into $v1. */
-    register u8 *current __asm__("$2");
+    u8 *current;
     s32 op;
     s32 id;
     s32 n;
@@ -45,7 +35,10 @@ void func_80037DA4(u8 *object)
     u8 *text;
     u8 **slot;
 
-    stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
+    kind = *(s8 *)(object + 0x58);
+    kind <<= 2;
+    kind = (u32)object - -kind;
+    stream = (u8 **)kind;
     object[0x62] = 0;
     current = *stream;
     op = current[0];
@@ -116,4 +109,3 @@ plain:
     *(u16 *)(object + 0x34) &= 0xFF7F;
     *(u16 *)(object + 0x38) += 0x10;
 }
-
