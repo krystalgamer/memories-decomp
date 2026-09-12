@@ -23,4 +23,10 @@
  * caller stores it into a void * slot. */
 u8 *Dialog_OpenChoice(DuelEffectChannel *record);
 
+/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
+ * list once, and this runs it, reading the cursor input and repainting the
+ * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
+ * slots. */
+void Dialog_UpdateChoice(DuelEffectChannel *object);
+
 #endif
