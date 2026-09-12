@@ -484,7 +484,7 @@
 #define gte_rtps() __asm__ volatile (				\
 	"nop;"							\
 	"nop;"							\
-	".word 0x0000007f" )
+	".word 0x4A180001" )
 
 #define gte_rtpt() __asm__ volatile (				\
 	"nop;"							\
