@@ -563,9 +563,28 @@ def target_words(candidate: Candidate) -> bytes:
     )
 
 
+def note_candidate_paths(root: Path) -> list[str]:
+    return sorted(
+        path.relative_to(root).as_posix()
+        for directory in (
+            root / "notes/candidates",
+            root / "notes/overlays/candidates",
+        )
+        for pattern in ("func_*.md", "for_humans/func_*")
+        for path in directory.glob(pattern)
+    )
+
+
 def load_candidates(
     verify_contracts: bool = True,
 ) -> tuple[list[Candidate], dict[str, dict[str, object]]]:
+    note_candidates = note_candidate_paths(ROOT)
+    if note_candidates:
+        raise CandidateBuildError(
+            "candidates must be build-integrated under src/candidates: "
+            f"{note_candidates}"
+        )
+
     configuration = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     schema = configuration.get("schema")
     if schema not in (1, 2):
@@ -735,13 +754,6 @@ def load_candidates(
         if sha256(target_words(candidate)) != candidate.target_bytes_sha256:
             raise CandidateBuildError(f"{target_relative}: target byte hash differs")
 
-        notes = ROOT / ("notes/candidates" if module is None else "notes/overlays/candidates")
-        note = notes / f"{key}.md"
-        bundle = notes / f"for_humans/{key}"
-        if note.exists() or bundle.exists():
-            raise CandidateBuildError(
-                f"{key}: build-integrated candidates cannot retain note bundles"
-            )
         candidates.append(candidate)
 
     actual_sources = {

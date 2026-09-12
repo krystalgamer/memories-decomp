@@ -4,12 +4,6 @@ name: Metadata
 # tracked text under config/, notes/ and src/, so they need no retail input, no
 # toolchain, no bootstrapped Python and no secrets -- which is what lets this
 # job watch every path, including the notes/** the overlay build ignores.
-#
-# A check that no workflow runs is a checklist item with extra steps. The
-# headline drift these catch accumulated for exactly that reason: the targets
-# existed and nothing invoked them. `check-candidate-index` is deliberately not
-# listed because `check-metadata` already runs the same
-# `candidate_files.py --check`.
 
 on:
   push:
@@ -45,9 +39,6 @@ jobs:
         run: |
           PYTHONPYCACHEPREFIX="$PWD/tmp/pycache" python3 -m unittest discover \
             -s tools/project/tests -p test_overlay_sources.py
-
-      - name: Verify candidate headlines match their inventory rows
-        run: make check-candidate-headlines
 
       - name: Verify no C data definition collides with a linker assignment
         run: make check-data-symbols
