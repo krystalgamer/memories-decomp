@@ -40,7 +40,8 @@ extern u8 D_800E9F10[];
  * passes the same expression to func_80023090.
  *
  * The overlap is retail's, not an artefact of the port, and the two names
- * have to stay separate: func_8001BD88 and func_8001D670 each take the
+ * have to stay separate: DuelScene_UpdateHandActions and
+ * DuelScene_UpdateFieldActions each take the
  * address of both symbols, and each carries its own
  * `addiu $v1, $v1, %lo(D_800E9F48)` relocation. Folding this into an offset
  * from D_800E9F10 would change which symbol those relocations name. */
@@ -58,8 +59,9 @@ extern u8 D_800E9F48[];
  * directly as a DuelCardPickCursor (src/game/func_80017034.c). Six
  * functions still in assembly, none with a profile in matching_c.json, also
  * store or load it: func_80018FEC.s:31 and :87, func_80019D18.s:32,
- * func_8001BD88.s (stores :35, :106, :720, :1140, :1369, :1394; loads :92,
- * :501, :507, :1150, :1227), func_8001D670.s (stores :56, :613, :753, :1409,
+ * DuelScene_UpdateHandActions (stores :35, :106, :720, :1140, :1369, :1394;
+ * loads :92, :501, :507, :1150, :1227), DuelScene_UpdateFieldActions
+ * (stores :56, :613, :753, :1409,
  * :1439; load :1412), func_8001F55C.s (stores :93, :183; load :96) and
  * func_800235C0.s:7.
  *

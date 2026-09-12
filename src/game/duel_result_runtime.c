@@ -31,6 +31,7 @@
 #include "duel_result_outro.h"
 #include "save_data.h"
 #include "card_constants.h"
+#include "duel_scene_state.h"
 #include "duel_grid.h"
 #include "duel_rank.h"
 #include "duel_result_display.h"
@@ -116,7 +117,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
     }
 }
 
-/* Duel-result outro sequence, driven from the scene state word D_8009B23A.
+/* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
    side in D_8009B362/D_8009B238, requests the outro package (0x1DAB, 0x22
@@ -161,9 +162,9 @@ void func_80020F4C(void)
 
     slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
 
-    v = D_8009B23A;
+    v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A = v | DUEL_SCENE_FLAG_INITIALIZED;
+        gDuel_wSceneStateFlags = v | DUEL_SCENE_FLAG_INITIALIZED;
         SD_BGMFadeOut();
         id = gDuel_bWinnerSide;
         D_8009B362 = 0;
@@ -317,7 +318,7 @@ void func_80020F4C(void)
             D_8009B174 = flags | 0x80;
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
-            D_8009B23A = 0xD;
+            gDuel_wSceneStateFlags = 0xD;
         }
         break;
     }

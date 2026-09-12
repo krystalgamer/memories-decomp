@@ -146,7 +146,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800179F4.c",
       "target": "src/candidates_target/func_800179F4.S",
-      "candidate_build_sha256": "366818f4b1c1e150b2a6dd1b430d1747116e9ce594353ed3b2745b63d00b0e23",
+      "candidate_build_sha256": "73d95a7d52d4ddab99acd26c309e2e30d8e53a59e3d3e65b10509a40ff0e822d",
       "target_bytes_sha256": "27c484605e8d3ac4025b18b0ecf4bb46f03ec24521c41b42728cb2ba51de2574",
       "canonical_contract_sha256": "d615b6ee3e9318eb9979c1eeb0216245547335d17fae79dc92519c97979bd61a",
       "canonical_contracts": {
@@ -196,23 +196,11 @@
       }
     },
     {
-      "address": "0x8001944C",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8001944C.c",
-      "target": "src/candidates_target/func_8001944C.S",
-      "candidate_build_sha256": "cc848f8c31cbb0c3df560871d5f1dca47f7eab95bfc1ed71cbecada8e167aad9",
-      "target_bytes_sha256": "67773779571c482ac94af59794e548437831fd549b93e1987bc40595ef363406",
-      "canonical_contract_sha256": "b54f4581ee8f555f825f9dea0509fdd40cb08daa8f606974a0bf5b67ec335c9b",
-      "canonical_contracts": {
-        "gGraphics_bActiveBuffer": "2048973b7cb4f7cad0a7ee4ce788a10ac64de4508bea9af5ac62313b4687a114"
-      }
-    },
-    {
       "address": "0x80019608",
       "profile": "gcc_2_8_1_g8_split_comm",
       "source": "src/candidates/func_80019608.c",
       "target": "src/candidates_target/func_80019608.S",
-      "candidate_build_sha256": "63fa7d75221a5c8e0c32953b97378c032374563bb651c3740461bcfa6f55620a",
+      "candidate_build_sha256": "b9e2161d36a5b077256dcfdf6fb7077950c26c9aff7cedf94b79c21562fd8bfb",
       "target_bytes_sha256": "482e7abefd1bde72d95454ce985e2eea16c9b84b9f73e35280de69d85bee5123",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
@@ -266,7 +254,7 @@
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_80024200.c",
       "target": "src/candidates_target/func_80024200.S",
-      "candidate_build_sha256": "b2ca380539b76668bbdef2020272c88cb3f4f8d16686983c8cfcb4b84428d772",
+      "candidate_build_sha256": "8a29239e802aa388284acbe832a080a4f6b817bc275e8d66c8ad739a9702c7e6",
       "target_bytes_sha256": "8968b795514e7f364869e714f6e2d987c0e51ff4dec0ba3a6916c0684d6b8a70",
       "canonical_contract_sha256": "80f952f789902ff629c2d263661a87aabd050658aa59061f567e74d81a9eb5e0",
       "canonical_contracts": {

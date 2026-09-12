@@ -72,11 +72,11 @@ void func_80024200(void)
         register void (**callbacks)(void) __asm__("$3");
         register u16 index __asm__("$2");
 
-        __asm__("lui %0,%%hi(D_80090998)" : "=r"(callbacks));
-        index = D_8009B23A;
-        __asm__("addiu %0,%0,%%lo(D_80090998)" : "+r"(callbacks));
+        __asm__("lui %0,%%hi(gDuel_apfnSceneStateHandler)" : "=r"(callbacks));
+        index = gDuel_wSceneStateFlags;
+        __asm__("addiu %0,%0,%%lo(gDuel_apfnSceneStateHandler)" : "+r"(callbacks));
         callbacks[index & DUEL_SCENE_PHASE_MASK]();
-        if (!(D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED)) {
+        if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
             D_8009B174 = 0;
         }
     }

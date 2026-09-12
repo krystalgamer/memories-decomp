@@ -43,7 +43,7 @@ extern DuelHandSlot D_800EA030[HAND_SIZE];
  * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing
  * hand back up -- and duel_draw_resolution.c spends it, taking one off per
  * card as the draw animation retires each one and raising bit 0x4000 in the
- * scene state D_8009B23A once it reaches zero.
+ * scene state gDuel_wSceneStateFlags once it reaches zero.
  *
  * Declared u8, which is what both sources say, with the one signed read left
  * spelled as a cast where it is:

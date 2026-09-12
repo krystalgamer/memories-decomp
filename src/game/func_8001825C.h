@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* D_80090998 duel phase entry: the duel-resume phase. It re-sets up every
+/* gDuel_apfnSceneStateHandler duel phase entry: the duel-resume phase. It re-sets up every
  * occupied record of both card ranges, restoring the flags and position each
  * one had, spawns the side indicator objects, and then either replays the
  * field effects or starts the BGM before fading in. Later ticks walk the

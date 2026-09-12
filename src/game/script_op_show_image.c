@@ -1,4 +1,5 @@
 #define D_8009B145_IN_DATA
+#define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -18,8 +19,6 @@
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 
-extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
-#define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
