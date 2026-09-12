@@ -37,7 +37,8 @@ void func_80038148(u8 *object);
 /* D_80090EAC entry: sets the object's glyph cell size from a one-byte operand --
  * 8 by 8 for 1, 8 by 12 for 2, unchanged otherwise -- and mirrors case 1 into
  * bit 0x100 of the object's 0x34 flags, which it clears first either way. The
- * body is register-pinned throughout. */
+ * stream read is inlined so the payload and channel retain independent
+ * local lifetimes without register bindings. */
 void func_800382A8(u8 *object);
 
 void func_80038334(DuelEffectChannel *object);
