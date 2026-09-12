@@ -252,15 +252,8 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * func_80014294.c and by func_80014220, a candidate since #3859
- * (src/candidates/func_80014220.c).
- *
- * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: func_80014220 stores to it from
- * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
- * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
- * -G8, so this declaration keeps that true; a `.data` arm here would break
- * that store rather than merely change a load. */
+ * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and
+ * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
