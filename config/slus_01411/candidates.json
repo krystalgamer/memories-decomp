@@ -444,14 +444,14 @@
       "target": "src/candidates_target/func_8002EE94.S",
       "candidate_build_sha256": "7c4b8416757b3d7cd63005cfe6d1991414f8d3c9aca5eb7cb8bf0d92b4677f6f",
       "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "af66bae55f634c40cb9a84b3e0957873a68c4936c198ededbaafa30a7a233668",
+      "canonical_contract_sha256": "aebb76d934cfd3d6998b9fea610bde50f3010e5d30fba9770d347e19854905b4",
       "canonical_contracts": {
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
         "D_8009B34C": "04051825cb2f95204c6d95694b44932038eb5ddbc52e7d484dfb3af995f1b162",
         "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
         "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8",
+        "gDialog_bChoice": "fd60e24c816450ea6a56fc121073fd6c6d7fc72208058c788acb6b4f25936b50",
         "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
       }
     },
@@ -531,11 +531,11 @@
       "target": "src/candidates_target/func_8003E854.S",
       "candidate_build_sha256": "8f00d32fba744fc83c24bc92866ab334b64138ba67ab392dc27257d0ff8d967b",
       "target_bytes_sha256": "845f1943b687f48e9474437c1ebefeed8672fff3f5870c7edf6010ea884d4bad",
-      "canonical_contract_sha256": "9114a2ede6a3158b6c273e2472e4b4947e73af2fe2484acf4840ba20f249dd5c",
+      "canonical_contract_sha256": "5781956a22409f790e89bb46656951f78c3c7283be76a1bbe239be3a1b6db818",
       "canonical_contracts": {
         "D_8009AF70": "955eb1782ce7b6389a84dc8e5e082096456a19891a689af0b7a6351774bb8b9b",
         "MemCardDialog_SetMessage": "46dac8c0b9d4b1da246ca55b7ba7b5cc99c13ee5d0a547222b064581dbb87139",
-        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8"
+        "gDialog_bChoice": "fd60e24c816450ea6a56fc121073fd6c6d7fc72208058c788acb6b4f25936b50"
       }
     },
     {
