@@ -53,10 +53,9 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * offsets are asserted above.
  *
  * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4
- * (src/candidates/func_8002BAB4.c), which takes only the first byte -- its
- * comment calls it "the low nibble of D_800EA1E8's first byte" and
- * dispatches the library screen state on it.
- * That file still does not include this header.
+ * (src/game/library_runtime.c), which takes only the first byte and dispatches
+ * the library screen state on its low nibble. That file still does not include
+ * this header.
  *
  * func_8002BFCC was described here as doing the same, and that was wrong.
  * It reaches nine distinct offsets: the mode byte, x and y at 0x08 and 0x0A,

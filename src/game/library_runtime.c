@@ -34,9 +34,6 @@
 #include "text_render_state.h"
 #include "text_staging.h"
 
-extern s16 D_80181002 __attribute__((section(".data")));
-extern s16 D_80181012 __attribute__((section(".data")));
-
 /* The first three functions of the Library screen: the trivial state handlers
    for states 0 and 3, followed by the per-frame dispatcher func_8002BAB4.
    The package-transfer phase callback, owned-card pass and entry
