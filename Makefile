@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -58,6 +58,7 @@ help:
 		'  candidates     List smallest zero-attempt game functions' \
 		'  review-deferred  List terminal histories for hypothesis review' \
 		'  siblings       Find exact-C functions with similar instruction shapes' \
+		'  adjacent-units  List sources adjacent in the image but still apart (#39)' \
 		'  external-attempts  Validate external-reference/refinement attempts' \
 		'  basic-types    Verify all C sources use src/types.h' \
 		'  global-usage   Regenerate tracked game-global usage reports' \
@@ -207,6 +208,10 @@ review-deferred: workspace
 
 siblings: verify-inputs
 	@$(PYTHON) tools/project/find_siblings.py $(SIBLING_ARGS)
+
+adjacent-units: workspace
+	@$(PYTHON) tools/project/adjacent_units.py --self-test
+	@$(PYTHON) tools/project/adjacent_units.py $(ARGS)
 
 external-attempts: workspace
 	@$(PYTHON) tools/project/record_external_attempt.py --check
