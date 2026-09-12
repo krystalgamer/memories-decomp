@@ -29,6 +29,7 @@
 #include "func_80018004.h"
 #include "duel_apply_card_object_flags.h"
 #include "duel_deck_card_data.h"
+#include "duel_swords_effect.h"
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
@@ -82,11 +83,12 @@ void func_8001825C(void)
         }
         func_8001352C();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
-            if (D_800E9FF0[i].field_19 != 0) {
+            if (D_800E9FF0[i].swords_turns_remaining != 0) {
                 obj = func_8002C604(0x15);
                 *(u16 *)(obj + 0x1A) = i + 2;
                 obj[0x1C] |= 0x20;
-                D_8009B1F0[i] = obj;
+                gDuel_apSwordsEffectObjects[i] =
+                    (DuelFieldEffectObject *)obj;
             }
         }
         if (D_8009B1C8->rank.result_adjustment ==
@@ -253,7 +255,7 @@ void func_80018608(void)
 
 /* Draw phase entry. On its first call it sets the phase flag, points the
    side state and selection records at the current side, ticks down the
-   side's pending counter (releasing the pending object at D_8009B1F0 when
+   side's Swords counter (releasing its effect object when
    it reaches zero), resets the used flag on every card record, then
    rebuilds the hand: the five hand slot bytes are copied out and cleared,
    each valid one gets its card record set up and a hand object spawned at
@@ -287,13 +289,14 @@ void func_8001898C(void) {
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = D_800EA030;
         *(DuelHandSlot **)((u8 *)D_8009B1B4 + 8) = base;
-        if (*(s8 *)((u8 *)D_8009B1C8 + 0x19) != 0) {
-            c = ((u8 *)D_8009B1C8)[0x19] - 1;
-            ((u8 *)D_8009B1C8)[0x19] = c;
+        if (D_8009B1C8->swords_turns_remaining != 0) {
+            c = D_8009B1C8->swords_turns_remaining - 1;
+            D_8009B1C8->swords_turns_remaining = c;
             if (c <= 0) {
-                ((u8 *)D_8009B1C8)[0x19] = 0;
-                *(u16 *)(D_8009B1F0[D_8009B1D5] + 0x1A) = 0xFFFD - D_8009B1D5;
-                D_8009B1F0[D_8009B1D5] = 0;
+                D_8009B1C8->swords_turns_remaining = 0;
+                gDuel_apSwordsEffectObjects[D_8009B1D5]->field_1A =
+                    0xFFFD - D_8009B1D5;
+                gDuel_apSwordsEffectObjects[D_8009B1D5] = 0;
             }
         }
         D_8009B1C8->rank.turns_taken++;

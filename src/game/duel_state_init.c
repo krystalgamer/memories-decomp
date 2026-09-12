@@ -39,7 +39,7 @@ void func_800175A0(void) {
         e->deck_draw_cursor = 0;
         t = sp[k];
         e->displayed_life_points = 0;
-        e->field_19 = 0;
+        e->swords_turns_remaining = 0;
         e->life_points.signed_value = t;
         e->max_life_points = t;
         e->card_view_mode = 0;

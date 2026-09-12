@@ -19,12 +19,13 @@
  * The three halfwords at +0x00, +0x02 and +0x04 are the request's payload and
  * their meaning is the effect id's business, not the record's, which is why
  * they are not named here. Two callers disagree about them and both are
- * right for their own id: func_80025EE0 (id 0x12) writes 0xA0/0x78 into +0x00
- * and +0x02, the centre of a 320x240 screen, while func_8001825C (id 0xB) and
- * duel_trap_resolution.c (id 8) copy a card record's +0x30/+0x32/+0x34 triple
- * straight into all three, and func_80026A3C (id 0x17) reads +0x04 back as a
- * y coordinate. Naming the pair x/y, which two of the private copies did,
- * asserts the first reading over the others. */
+ * right for their own id: DuelEffect_StartSwords (id 0x12) writes 0xA0/0x78
+ * into +0x00 and +0x02, the centre of a 320x240 screen, while
+ * func_8001825C (id 0xB) and duel_trap_resolution.c (id 8) copy a card
+ * record's +0x30/+0x32/+0x34 triple straight into all three, and
+ * func_80026A3C (id 0x17) reads +0x04 back as a y coordinate. Naming the pair
+ * x/y, which two of the private copies did, asserts the first reading over
+ * the others. */
 typedef struct {
     s16 field_00;   /* 0x00 */
     s16 field_02;   /* 0x02 */
@@ -69,7 +70,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * the entry func_8002C604 hands them on their first call, under the
  * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
- * func_80024E58 writes +0x1A; src/candidates/func_80025F3C.c and
+ * func_80024E58 writes +0x1A; DuelEffect_ApplySwords and
  * duel_card_effects.c read +0x1D through their own display-object
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative

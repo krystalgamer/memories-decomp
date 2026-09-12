@@ -61,9 +61,9 @@ void func_800260D0(void) {
     D_8009B20C[1] = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while func_80025F3C above uses the two-dimensional view the
-           unit's DUEL_FIELD_GRID_2D declaration gives. The cast is the one
-           place the two spellings meet. */
+           below, while DuelEffect_ApplySwords uses the two-dimensional view
+           the unit's DUEL_FIELD_GRID_2D declaration gives. The cast is the
+           one place the two spellings meet. */
         grid = (u8 *)D_800907D8;
         base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_SIDE_ZONE_COUNT;

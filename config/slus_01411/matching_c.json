@@ -1090,7 +1090,7 @@
       "address": "0x80025EE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x5C",
-      "source": "src/game/func_80025EE0.c"
+      "source": "src/game/duel_swords_effect.c"
     },
     {
       "address": "0x8002622C",

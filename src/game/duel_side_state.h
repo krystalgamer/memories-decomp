@@ -4,6 +4,7 @@
 #include "../types.h"
 #include "duel_grid.h"
 #include "card_constants.h"
+#include "duel_card_effects.h"
 
 /* The two 0x20-byte per-side duel records at D_800E9FF0, one per duellist.
  * D_8009B1D5 selects the side, and code that switches turns writes
@@ -56,7 +57,7 @@ typedef struct {
     /* Index of the next deck card to draw. The result screen labels this
      * statistic "cards used", but refill draws advance it before play. */
     s8 deck_draw_cursor;
-    s8 field_19;
+    s8 swords_turns_remaining;
     /* duel_draw_resolution.c's own view of this record calls +0x1A
      * hand[HAND_SIZE] and Duel_HasAllExodiaPieces copies five entries out of
      * it, so the six bytes are five hand slots and one separate byte. */
@@ -79,6 +80,9 @@ typedef char DuelRankStatistics_size_must_be_0x0D[
 ];
 typedef char DuelSideState_deck_draw_cursor_must_be_at_0x18[
     DUEL_SIDE_STATE_OFFSET(deck_draw_cursor) == 0x18 ? 1 : -1
+];
+typedef char DuelSideState_swords_turns_remaining_must_be_at_0x19[
+    DUEL_SIDE_STATE_OFFSET(swords_turns_remaining) == 0x19 ? 1 : -1
 ];
 typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
     DUEL_SIDE_STATE_OFFSET(card_view_mode) == 0x1F ? 1 : -1
@@ -104,19 +108,11 @@ extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
  * that on a turn change. */
 extern DuelSideState *D_8009B1C8;
 
-/* Each side's pending effect object, one func_8002C604 return per side.
- * func_8001825C creates one for every side whose field_19 is set and
- * writes its +0x1A and +0x1C; func_80025F3C stores the object it also
- * hands to D_8009B17C into the other side's slot; func_8001898C writes +0x1A
- * and clears the current side's slot once its pending counter runs out.
- * u8 * is func_8002C604's return type, and func_80025F3C
- * (src/candidates/func_80025F3C.c), which reads the object through its own
- * Object view (field_1A at 0x1A, flags at 0x1C, the same offsets the byte
- * views write), casts at the store the way it already does for D_8009B17C.
- * Two pointers, eight bytes to D_8009B1F8; retail reaches the array
- * gp-relative in all three functions, so the sized spelling stays small data
- * everywhere. Initial value not read. */
-extern u8 *D_8009B1F0[DUEL_SIDE_COUNT];
+/* Per-side Swords of Revealing Light display objects. The apply handler
+ * creates the opposing side's object, replay setup recreates active entries,
+ * and draw entry removes the current side's object when its counter expires. */
+extern DuelFieldEffectObject
+    *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
 /* The card id the last search or trap selection left behind. func_80025028
  * stores 0 before its slot loop and its argument on a hit, and its own
