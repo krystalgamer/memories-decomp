@@ -19,6 +19,15 @@ class CiWorkflowTests(unittest.TestCase):
             workflow,
         )
 
+    def test_external_attempt_check_does_not_require_retail_input(self) -> None:
+        makefile = (REPOSITORY / "Makefile").read_text(encoding="utf-8")
+
+        self.assertIn(
+            "\nexternal-attempts:\n"
+            "\t@$(PYTHON) tools/project/record_external_attempt.py --check\n",
+            makefile,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

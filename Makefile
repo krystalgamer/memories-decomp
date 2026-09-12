@@ -219,7 +219,7 @@ adjacent-units: workspace
 	@$(PYTHON) tools/project/adjacent_units.py --self-test
 	@$(PYTHON) tools/project/adjacent_units.py $(ARGS)
 
-external-attempts: workspace
+external-attempts:
 	@$(PYTHON) tools/project/record_external_attempt.py --check
 
 basic-types:
