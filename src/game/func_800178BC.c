@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800178BC.c.
- */
 #include "../types.h"
 #include "../game/func_800178BC.h"
 #include "../game/view_state.h"
@@ -12,6 +6,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/inline_c.h"
 #include "../unmatched.h"
 #include "../game/func_80017130.h"
 
@@ -30,22 +25,17 @@ void func_800178BC(void)
     D_800F2848.angle = D_8009AF20[0];
     func_8001352C();
     GsSetLsMatrix(&D_800FE148);
-    __asm__ volatile(
-        "lui $2, 0x1F80\n"
-        "ori $2, $2, 0x03E0\n"
-        "addiu $3, $0, 0x3E8\n"
-        "sh $3, 0($2)\n"
-        "sh $0, 2($2)\n"
-        "sh $3, 4($2)\n"
-        "lwc2 $0, 0($2)\n"
-        "lwc2 $1, 4($2)\n"
-        "nop\n"
-        "nop\n"
-        ".word 0x4A180001\n" /* rtps */
-        "addiu $2, $sp, 0x10\n"
-        "swc2 $14, 0($2)\n"
-        : "=m"(p) : : "$2", "$3"
-    );
+    {
+        volatile s16 *scratch = (volatile s16 *)0x1F8003E0;
+        s16 value = 0x3E8;
+
+        scratch[0] = value;
+        scratch[1] = 0;
+        scratch[2] = value;
+        gte_ldv0((s16 *)scratch);
+        gte_rtps();
+        gte_stsxy(&p);
+    }
     /* Taking y through an s32 keeps the sign extension in the load, which is
        what makes it lh rather than the lhu the x read gets. */
     y = p.y;
