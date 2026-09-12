@@ -18,6 +18,11 @@ Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
 Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
 SD_SetVoiceEnvelopeFromTone = 0x8004A6F8; // type:func
 SD_ResetVoiceEnvelope = 0x8004A764; // type:func
+Movie_StopStream = 0x8005BB7C; // type:func
+Movie_DecodeAndPresentFrame = 0x8005BE3C; // type:func
+Movie_WaitAndDecodeFrame = 0x8005BFC8; // type:func
+Movie_StepPlayback = 0x8005C530; // type:func
+Movie_MoveDisplayImage = 0x8005C568; // type:func
 
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
