@@ -126,10 +126,11 @@ The unique-object labels classify against the current function inventory as:
 | Inventory result | Count | Interpretation |
 |---|---:|---|
 | Existing names agreeing | 428 | Independent names corroborated by the pinned catalogue |
-| Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
-| New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
-| Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
-| Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
+| Existing names differing | 0 | Every unique catalogue disagreement has an explicit local resolution |
+| New names for `func_XXXXXXXX` rows | 0 | Every Psy-Q function start proposed by this catalogue is named |
+| Catalogue conflicts resolved locally | 9 | Eight byte-identical name conflicts plus the deliberate `entrypoint` spelling |
+| Addresses claimed under several names | 0 | Every collision has a checked local tiebreak |
+| Ambiguous address-named starts | 0 | No unresolved multi-name collision lands on an address-based Psy-Q inventory name |
 | Psy-Q inventory rows still address-named | 11 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
 | Address-named rows inside a unique object match | 6 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 5 | No unique catalogue object currently covers the function start |
@@ -142,14 +143,16 @@ inventory and can change when function boundaries do. Matcher debugging must
 compare the same pinned catalogue against the same inventory rather than
 treating any future count change as a matcher failure.
 
-All eight byte-ambiguous addresses retain non-address local inventory names:
-`PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, `CdMix`, `CdControlB`,
-`GsGetActiveBuff`, `GsDrawOt`, and `GsSetRefView2`. This bucket is not a
-resolution registry: the signature tool refuses to choose between
-byte-identical catalogue labels and merely reports that renaming is not
-actionable. In particular, the bytes do not adjudicate `CdMix` versus `DsMix`
-or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
-naming-policy questions rather than signature matches.
+`config/slus_01411/psyq_signature_resolutions.json` makes every exception
+machine-checkable. It pins the exact catalogue content hash, the complete set
+of names proposed at each conflicted address, the selected inventory name, and
+the local evidence that breaks the byte tie. A changed catalogue, stale
+proposal set, unused resolution, or inventory rename now fails the sweep
+instead of quietly reopening an ambiguity. This covers `PCread`, `SpuWrite`,
+`CdReadyCallback_8007A840`, `CdMix`, `CdControlB`, `GsGetActiveBuff`,
+`GsDrawOt`, `GsSetRefView2`, and the repository-standard `entrypoint` spelling.
+The naming-policy entries retain established project aliases but do not claim
+that identical bytes resolve original-library identity.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
 named. The inventory still has 11 `sdk_asm` rows named `func_XXXXXXXX`.
@@ -170,7 +173,7 @@ against that library alone by giving the tool a directory holding only the
 
     mkdir tmp/sig-ds47 && cp <checkout>/470/LIBDS.LIB.json tmp/sig-ds47/
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
-        --signatures tmp/sig-ds47 --report
+        --signatures tmp/sig-ds47 --psyq-version 4.7 --report
 
 To emit semantic-map rows from that exception without labelling them as 4.6:
 
@@ -183,11 +186,11 @@ payload exactly once. That yields 31 new names from `0x8007A9AC` to
 `DsSync`, `DsReady` and `DsQueueLen`, and the library's internal `DS_*`
 state helpers, `_DsPacket2`, `parcpy` and `rescpy`. The 4.6 catalogue
 proposes none of these addresses, which is consistent with the executable
-carrying the patched library rather than the 4.6 one. The 14 labels that land
-on already-named LIBDS functions all agree. The two that differ are the
-existing `CdMix`/`DsMix` and `CdReadyCallback_8007A840`/`DsSetDebug`
-conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
-`DsControl` and `DsControlB`.
+carrying the patched library rather than the 4.6 one. The current cross-check
+has 45 agreeing inventory names and no new names, unresolved disagreements, or
+unresolved ambiguities. Its three local resolutions preserve
+`CdReadyCallback_8007A840`, `CdMix`, and `CdControlB` where the patched LIBDS
+bytes alone propose a different or non-unique export.
 
 The patched `DSSYS_2.OBJ` queue prefix is also now named through independent
 version evidence. Psy-Q 4.0, the PsyZ object reconstruction, and two Resident

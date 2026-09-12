@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "catalogues": {
+    "4.6": {
+      "sha256": "81c20bb6e67db52fe39a1b26bbaf7700a4aad1f6849433642f53df9641b22b81",
+      "resolutions": [
+        {
+          "address": "0x800129D8",
+          "catalogue_names": [
+            "__SN_ENTRY_POINT"
+          ],
+          "selected_name": "entrypoint",
+          "evidence": "Repository entry symbol for the exact executable start address."
+        },
+        {
+          "address": "0x80073758",
+          "catalogue_names": [
+            "PCread",
+            "PCwrite"
+          ],
+          "selected_name": "PCread",
+          "evidence": "Calls _SN_read; matching callers consume returned bytes from a destination buffer."
+        },
+        {
+          "address": "0x80077150",
+          "catalogue_names": [
+            "SpuRead",
+            "SpuWrite"
+          ],
+          "selected_name": "SpuWrite",
+          "evidence": "Calls _spu_Fw; matching callers submit source buffers after selecting an SPU destination."
+        },
+        {
+          "address": "0x8007A840",
+          "catalogue_names": [
+            "CdReadCallback",
+            "CdReadMode",
+            "CdReadyCallback",
+            "CdSetDebug",
+            "CdSyncCallback",
+            "DsSetDebug"
+          ],
+          "selected_name": "CdReadyCallback_8007A840",
+          "evidence": "Replaces the callback slot invoked by CD_ready; address suffix distinguishes the second live copy."
+        },
+        {
+          "address": "0x8007CDC0",
+          "catalogue_names": [
+            "CdMix",
+            "DsMix"
+          ],
+          "selected_name": "CdMix",
+          "evidence": "Matching callers pass the canonical libcd CdlATV volume packet."
+        },
+        {
+          "address": "0x8007E7F0",
+          "catalogue_names": [
+            "DsControl",
+            "DsControlB"
+          ],
+          "selected_name": "CdControlB",
+          "evidence": "Three-argument command blocks on completion; matching callers use the canonical libcd contract."
+        },
+        {
+          "address": "0x80085320",
+          "catalogue_names": [
+            "GsGetActiveBuff",
+            "SsUtGetReverbType"
+          ],
+          "selected_name": "GsGetActiveBuff",
+          "evidence": "Reads the display-buffer index written by GsSwapDispBuff and consumed by graphics callers."
+        },
+        {
+          "address": "0x80085D80",
+          "catalogue_names": [
+            "GsDrawOt",
+            "GsDrawOtIO"
+          ],
+          "selected_name": "GsDrawOt",
+          "evidence": "Loads GsOT.tag at offset 0x10 and calls DrawOTag."
+        },
+        {
+          "address": "0x8008AD50",
+          "catalogue_names": [
+            "GsSetRefView2",
+            "GsSetRefViewUnit"
+          ],
+          "selected_name": "GsSetRefView2",
+          "evidence": "Matching callers pass the canonical 32-byte GsRVIEW2 reference-view record."
+        }
+      ]
+    },
+    "4.7": {
+      "sha256": "408a2bfdaa7c3e925864d55ad41a16e83bb1bfb50bc1486e26de29bb5c991475",
+      "resolutions": [
+        {
+          "address": "0x8007A840",
+          "catalogue_names": [
+            "DsSetDebug"
+          ],
+          "selected_name": "CdReadyCallback_8007A840",
+          "evidence": "The live callback-slot behavior overrides the patched LIBDS byte collision."
+        },
+        {
+          "address": "0x8007CDC0",
+          "catalogue_names": [
+            "DsMix"
+          ],
+          "selected_name": "CdMix",
+          "evidence": "Matching callers pass the canonical libcd CdlATV volume packet."
+        },
+        {
+          "address": "0x8007E7F0",
+          "catalogue_names": [
+            "DsControl",
+            "DsControlB"
+          ],
+          "selected_name": "CdControlB",
+          "evidence": "Three-argument command blocks on completion; matching callers use the canonical libcd contract."
+        }
+      ]
+    }
+  }
+}

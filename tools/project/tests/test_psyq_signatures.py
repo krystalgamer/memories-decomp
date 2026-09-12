@@ -11,9 +11,11 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 from psyq_signatures import (
     SignatureError,
+    catalogue_sha256,
     classify,
     evidence,
     find_matches,
+    load_resolutions,
     parse_signature,
     report_coverage,
     scan,
@@ -97,6 +99,52 @@ class PsyqSignatureTests(unittest.TestCase):
             SignatureError, "no JSON signature files"
         ):
             scan(self.signatures, 0x80010000, b"")
+
+    def test_resolution_ledger_pins_catalogue_and_validates_entries(self) -> None:
+        root = self.signatures / "repository"
+        catalogue = root / "catalogue"
+        config = root / "config/slus_01411"
+        catalogue.mkdir(parents=True)
+        config.mkdir(parents=True)
+        (catalogue / "LIBTEST.LIB.json").write_text(
+            "[]", encoding="utf-8"
+        )
+        document = {
+            "schema": 1,
+            "catalogues": {
+                "4.6": {
+                    "sha256": catalogue_sha256(catalogue),
+                    "resolutions": [
+                        {
+                            "address": "0x80010000",
+                            "catalogue_names": ["AliasA", "AliasB"],
+                            "selected_name": "AliasA",
+                            "evidence": "Call graph.",
+                        }
+                    ],
+                }
+            },
+        }
+        (config / "psyq_signature_resolutions.json").write_text(
+            json.dumps(document), encoding="utf-8"
+        )
+
+        self.assertEqual(
+            load_resolutions(root, catalogue, "4.6"),
+            {
+                0x80010000: {
+                    "catalogue_names": ["AliasA", "AliasB"],
+                    "selected_name": "AliasA",
+                    "evidence": "Call graph.",
+                }
+            },
+        )
+
+        (catalogue / "LIBTEST.LIB.json").write_text(
+            "[ ]", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(SignatureError, "catalogue hash differs"):
+            load_resolutions(root, catalogue, "4.6")
 
     def test_scan_reports_catalogue_path_for_invalid_json(self) -> None:
         (self.signatures / "LIBTEST.LIB.json").write_text(
@@ -509,6 +557,63 @@ class PsyqSignatureTests(unittest.TestCase):
             "0x80010010,0x20,func_80010010,"
             "LIBA/A.OBJ;LIBB/B.OBJ\n",
         )
+
+    def test_classify_applies_and_checks_local_resolutions(self) -> None:
+        proposals = {
+            0x80010000: {
+                "AliasA": ["LIBA/SHARED.OBJ+0x0"],
+                "AliasB": ["LIBB/SHARED.OBJ+0x0"],
+            }
+        }
+        inventory = {
+            0x80010000: {
+                "name": "LocalName",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            }
+        }
+        resolutions = {
+            0x80010000: {
+                "catalogue_names": ["AliasA", "AliasB"],
+                "selected_name": "LocalName",
+                "evidence": "Call graph.",
+            }
+        }
+
+        result = classify(proposals, inventory, resolutions=resolutions)
+
+        self.assertEqual(
+            result["resolved"],
+            [
+                (
+                    0x80010000,
+                    "LocalName",
+                    ["AliasA", "AliasB"],
+                    "Call graph.",
+                )
+            ],
+        )
+        self.assertEqual(result["ambiguous"], [])
+
+        resolutions[0x80010000]["catalogue_names"] = ["AliasA"]
+        with self.assertRaisesRegex(
+            SignatureError, "resolution catalogue names differ"
+        ):
+            classify(proposals, inventory, resolutions=resolutions)
+
+    def test_classify_rejects_unused_resolution(self) -> None:
+        resolutions = {
+            0x80010000: {
+                "catalogue_names": ["AliasA"],
+                "selected_name": "AliasA",
+                "evidence": "Call graph.",
+            }
+        }
+
+        with self.assertRaisesRegex(
+            SignatureError, "resolutions have no catalogue proposal"
+        ):
+            classify({}, {}, resolutions=resolutions)
 
 
 if __name__ == "__main__":
