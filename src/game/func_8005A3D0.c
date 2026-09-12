@@ -3,7 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "model.h"
+#include "model_parent_search.h"
 
 s32 func_8005A3D0(ModelSlot *model, void *parent)
 {

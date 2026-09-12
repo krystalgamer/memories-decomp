@@ -970,7 +970,7 @@ address,size,name,status,module,notes
 0x8005A188,0x6C,func_8005A188,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8005A1F4,0xEC,func_8005A1F4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A2E0,0xF0,func_8005A2E0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x8005A3D0,0x98,func_8005A3D0,matching_c,game,"Pure-C reclassification match: function-wide cached count and structured outer do/while recover natural nested-search register allocation without ten pins. Uses canonical ModelSlot/GsCOORDUNIT parent links; exact152-byte text under gcc_2_8_1_g8_split, preserving historical evidence (issue #5)."
+0x8005A3D0,0x98,func_8005A3D0,matching_c,game,"Exact ordinary-C parent/backlink search; valid count lifetime and structured outer loop preserve152bytes. Shared model_parent_search.h retains measured definition and caller pointer views, with no source-local API declaration."
 0x8005A468,0x5C,func_8005A468,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A4C4,0x78,func_8005A4C4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005A53C,0xDC,func_8005A53C,matching_c,game,Post-terminal pure-C match; disabling GCC first-pass instruction scheduling reproduces the retail register and branch schedule exactly.

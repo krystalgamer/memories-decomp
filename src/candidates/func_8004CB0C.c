@@ -24,9 +24,10 @@
 #include "../game/model_primitive_handler.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_packet_handlers.h"
+#define MODEL_PARENT_SEARCH_COORD_VIEW
+#include "../game/model_parent_search.h"
 
 extern s32 func_8004D134(s32, GsTYPEUNIT *, void *, s32 *, s32 *);
-extern s32 func_8005A3D0(u8 *, GsCOORDUNIT *);
 
 void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
 {
