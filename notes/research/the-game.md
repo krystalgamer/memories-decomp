@@ -920,7 +920,7 @@ result monster; if the required materials are missing, the ritual card is
 consumed without a summon.
 
 The
-[`Duel_CheckRitual`](../../src/candidates/func_8002C7E8.c) source checks the recipe
+[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) source checks the recipe
 against three **distinct occupied monster-row records** on the acting side.
 It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
 face-down or defence-position bits. Face-down matching tributes are therefore
