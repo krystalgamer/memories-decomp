@@ -17,10 +17,10 @@ void Fade_Update(FadeTransitionState *p)
     s32 tgt;
     s32 delta;
 
-    if ((gFade_State.flags & 0x80) == 0) {
+    if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
         return;
     }
-    if ((D_8009B141 & 0x80) == 0) {
+    if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
         func_80015CFC();
     }
     delta = p->step * *(volatile s32 *)&D_8009B0D8;
@@ -30,9 +30,11 @@ void Fade_Update(FadeTransitionState *p)
         goto step;
     }
     f = gFade_State.flags;
-    gFade_State.flags = f & 0x7F;
+    gFade_State.flags = f & ~FADE_FLAG_ACTIVE;
     if (lvl == 0xFF) {
-        gFade_State.flags = f & 0x79;
+        gFade_State.flags =
+            f & ~(FADE_FLAG_ACTIVE | FADE_FLAG_KEEP_OVERLAY |
+                  FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
         func_80015CFC();
         D_8009B140 = 0;
         D_8009B145 = 0;
@@ -44,11 +46,11 @@ void Fade_Update(FadeTransitionState *p)
         return;
     }
     f = gFade_State.flags;
-    if (f & 2) {
-        if ((f & 4) == 0) {
+    if (f & FADE_FLAG_KEEP_OVERLAY) {
+        if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
             return;
         }
-        D_8009B141 = 0x80;
+        D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
     } else {
         func_80015D0C();
     }
@@ -56,21 +58,21 @@ void Fade_Update(FadeTransitionState *p)
     D_8009B143 = D_8009B14B;
     D_8009B142 = D_8009B14A;
     g = gFade_State.flags;
-    if ((g & 0x10) == 0) {
+    if ((g & FADE_FLAG_TINTED) == 0) {
         return;
     }
-    if ((g & 0x20) == 0) {
+    if ((g & FADE_FLAG_RESTORE_TINT_AFTER_BLACK) == 0) {
         return;
     }
-    gFade_State.flags = g & 0xDF;
+    gFade_State.flags = g & ~FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
     D_8009B144 = p->tint_r;
     D_8009B143 = p->tint_g;
     D_8009B142 = p->tint_b;
     func_80015CFC();
-    gFade_State.flags = gFade_State.flags | 0x80;
+    gFade_State.flags = gFade_State.flags | FADE_FLAG_ACTIVE;
     return;
 step:
-    if (gFade_State.flags & 1) {
+    if (gFade_State.flags & FADE_FLAG_BANDED) {
         Fade_StepBands();
         return;
     }

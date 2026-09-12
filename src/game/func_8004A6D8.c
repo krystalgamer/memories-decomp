@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "func_8004A6D8.h"
 #include "sound.h"
-#include "../unmatched.h"
 
 void func_8004A6D8(void)
 {

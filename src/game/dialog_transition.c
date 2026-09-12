@@ -2,7 +2,6 @@
 #include "../types.h"
 #include "../unmatched.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_api.h"
 
@@ -15,8 +14,9 @@
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
-void func_8003D518(u8 *state)
+void func_8003D518(MenuRecord *record)
 {
+#define state ((u8 *)record)
     DisplayObject *object;
     s32 flags;
 
@@ -48,17 +48,19 @@ void func_8003D518(u8 *state)
             object->field_48.h.field_4A = 64;
         }
     }
+#undef state
 }
 
-void func_8003D614(u8 *state)
+void func_8003D614(MenuRecord *record)
 {
+#define state ((u8 *)record)
     DisplayObject *object;
     DuelEffectChannel *entry;
 
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object = *(DisplayObject **)state;
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0x400;
     }
     entry = &D_800EB0F8[state[0x1A]];
@@ -69,7 +71,7 @@ void func_8003D614(u8 *state)
             func_8004036C(object);
             *(void **)state = 0;
         } else {
-            func_80043230(
+            Widget_SlideSine(
                 (DisplayObjectPosition *)object,
                 0x20,
                 -0x40,
@@ -93,10 +95,12 @@ void func_8003D614(u8 *state)
     }
     if (!*(void **)state && !*(void **)(state + 4))
         D_8009B3C1 = 0;
+#undef state
 }
 
-void func_8003D74C(u8 *o)
+void func_8003D74C(MenuRecord *record)
 {
+#define o ((u8 *)record)
     DisplayObject *p;
     DuelEffectChannel *r;
     s32 f;
@@ -123,7 +127,7 @@ void func_8003D74C(u8 *o)
         func_80042918(p);
         func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         *(DisplayObject **)o = p;
-        func_80043178((DisplayObjectSnapshot *)p);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)p);
         a = D_8009B3C7;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
@@ -161,7 +165,7 @@ void func_8003D74C(u8 *o)
             p->field_60 = 0;
             p->field_30.h.field_32 = 0x50;
         } else {
-            func_80043230((DisplayObjectPosition *)p, 0x20, 0x50, (s16)v);
+            Widget_SlideSine((DisplayObjectPosition *)p, 0x20, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
@@ -178,4 +182,5 @@ void func_8003D74C(u8 *o)
             D_8009B3C1 = g | 0x40;
         }
     }
+#undef o
 }

@@ -386,7 +386,7 @@ proof of the original author's translation-unit boundaries.
 `MainMenu_UpdateValueSetup` (`0x801812B4`) updates the two-value/shared-option
 editor, not merely the LP fields. `MainMenu_StartValueSetup`,
 `MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` share declarations
-with the resident `func_8002DC38` caller.
+with the resident `Main_RunTwoPlayerDuelSetup` caller.
 
 | Result | Meaning | Resident behavior |
 |---:|---|---|
@@ -643,7 +643,8 @@ remaining C file needs it.
 ## Value-setup translation unit
 
 `value_setup.c` is the whole value-setup screen: the three lifecycle entry
-points `func_8002DC38.c` calls and the four helpers that only they and each
+points `main_run_two_player_duel_setup.c` calls and the four helpers that only
+they and each
 other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 `gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
 
@@ -754,7 +755,7 @@ there are no independent local declarations to drift.
 
 `MainMenu_DrawCardTypeIcon` (`0x80184344`) draws the small 16 by 16 marker
 for a card. It reads the
-card's packed stat word from `D_801D4244` at `id - 1`, takes the type from
+card's packed stat word from `gDuel_adwCardStats` at `id - 1`, takes the type from
 bits 26-30, and builds a 40-byte textured quad — length 9, GPU code `0x2C`,
 grey `0x80`, texture page `0xB`, `u` `0`-`0x10` and `v` `0xC8`-`0xD8` — which
 it submits through `GsSortPoly`.

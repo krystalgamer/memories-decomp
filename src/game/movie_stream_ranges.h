@@ -17,4 +17,7 @@ typedef struct {
 /* src/game/movie_stream_ranges.c owns the table at 0x8009151C. */
 extern MovieStreamRange gMovie_aStreamRanges[MOVIE_STREAM_COUNT];
 
+/* Base LBA added to the cumulative stream sector counts. */
+extern s32 D_800E9EB4;
+
 #endif

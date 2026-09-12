@@ -273,9 +273,10 @@ visibility or a complete scratch-buffer layout follows from these writes.
 
 The value editor's shared option has a confirmed resident consumer, even
 though its visible caption remains unassigned. Matching
-[`func_800175A0`](../src/game/duel_state_init.c) first clears byte `+0x1F`
-of both `D_800E9FF0` side records. These are `0x20`-byte records, not the
-`0x1C`-byte card records described above:
+[`func_800175A0`](../src/game/duel_state_init.c) first clears
+`DuelSideState.card_view_mode` at byte `+0x1F` of both `D_800E9FF0` side
+records. These are `0x20`-byte records, not the `0x1C`-byte card records
+described above:
 
 | Side | Record base | View-state byte |
 |---:|---|---|
@@ -292,7 +293,7 @@ cleared. Do not collapse these branches into a universal two-player copy.
 The initializer points `D_8009B1C8` at the active side record; the matching
 [turn-switch helper](../src/game/func_800208D4.c) refreshes that pointer
 when changing sides. Matching
-[`func_80018004`](../src/game/func_80018004.c) reads its `+0x1F` byte
+[`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
 
 | Active-side value | Post-construction operation |

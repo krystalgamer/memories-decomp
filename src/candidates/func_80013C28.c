@@ -11,6 +11,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
 #include "../game/file_transfer.h"
+#include "../game/func_80013C28.h"
 
 void func_80013C28(s32 arg)
 {

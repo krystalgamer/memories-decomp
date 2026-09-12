@@ -57,10 +57,10 @@ order:
 | 10 | `Main_RunPasswordMenu` [`0x8002D684`] | the Password shop |
 | 11 | `Main_RunOptionsMenu` [`0x8002D6C8`] | Options |
 | 12 | `Main_RunGameOver` [`0x8002D730`] | campaign loss |
-| 13 | `func_8002D7C4` | an eight-byte empty retail stub |
+| 13 | `Main_RunUnusedDeveloperMode` [`0x8002D7C4`] | an eight-byte empty developer-mode stub |
 | 14 | `Main_RunTrade` [`0x8002D7CC`] | Trade and the shared two-save flow |
 | 15 | `Main_RunCredits` [`0x8002DA1C`] | the ending |
-| 16 | `func_8002DC38` | 2P Duel starting-LP setup |
+| 16 | `Main_RunTwoPlayerDuelSetup` [`0x8002DC38`] | 2P Duel starting-LP setup |
 
 These are the repository's accepted semantic names, backed by the dispatcher
 and local function evidence. The older `*Loop` labels imported from a
@@ -246,7 +246,7 @@ on whether a game is loaded. The main-menu module's eleven entry objects and
 live cursor confirm the entry/result IDs: 00 New Game, 01 Load, 02 2P Duel,
 03 Trade, 04 Option, 05 Campaign, 06 Free Duel, 07 Build Deck, 08 Library,
 09 Password and 0A Save. The forced value 0B opens the Debug Menu, but is not
-an ordinary table slot: resident `func_8002D458` accepts normal results only
+an ordinary table slot: resident `Main_ApplyMenuSelection` accepts normal results only
 when they are below `0x0B`.
 
 Static resident code establishes the hidden Debug Menu's input layout, but not
@@ -1215,27 +1215,29 @@ per-side record at `0x800E9FF0 + side * 0x20`: the counters are bytes at
 +1…+9 and +0x18, the LP the halfword at +0x14 — the player's `0x800EA004`
 cited everywhere — so "cards used" is the byte at `0x800EA008`, which is
 exactly the address a long-dismissed GameShark code labels "cards used by
-you"]. At the end [`Duel_CalcRankScore` (`0x80021598`)] each side's calculated
-score starts at **50**. The signed byte at that side's record +0 is added
-directly as the way-the-duel-ended adjustment, and each counter is run
+you"]. In C, the first 13 bytes are the typed `DuelRankStatistics rank`
+subrecord, while the draw cursor remains at `DuelSideState.deck_draw_cursor`.
+At the end [`Duel_CalcRankScore` (`0x80021598`)] each side's calculated score
+starts at **50**. The signed `rank.result_adjustment` byte at record +0 is
+added directly as the way-the-duel-ended adjustment, and each counter is run
 through one row of a **ten-row table** [`Duel_CalcRankScoreChange`
 (`0x80021558`); the table is 200 bytes at `0x801798A8`, loaded from the
 per-duelist disc block and identical for all 39 duelists]: a row is five
 (threshold, value) pairs walked upward, and the first threshold above the
 counter supplies the value added to the score. The rows, measured:
 
-| row | counter (record offset) | value by count | category |
-|---|---|---|---|
-| 0 | +0x01 | 0–4: +12 · 5–8: +8 · 9–28: 0 · 29–32: −8 · 33+: −12 | **turns** taken |
-| 1 | +0x02 | 0–1: +4 · 2–3: +2 · 4–9: 0 · 10–19: −2 · 20+: −4 | **effective attacks** (attacks that destroyed an attack-position monster and dealt damage) |
-| 2 | +0x03 | 0–1: 0 · 2–5: −10 · 6–9: −20 · 10–14: −30 · 15+: −40 | **defensive wins** (your defender survived an attack) |
-| 3 | +0x04 | 0: 0 · 1–10: −2 · 11–20: −4 · 21–30: −6 · 31+: −8 | **face-down plays** |
-| 4 | +0x05 | 0: +2 · 1–3: −4 · 4–6: −8 · 7–9: −12 · 10+: −16 | **pure magic** cards used |
-| 5 | +0x06 | 0: +2 · 1–2: −8 · 3–4: −16 · 5–6: −24 · 7+: −32 | **traps** triggered |
-| 6 | +0x18 | 0–8: +15 · 9–12: +12 · 13–32: 0 · 33–36: −5 · 37+: −7 | **cards used** |
-| 7 | +0x14 (halfword) | 0–99: −7 · 100–999: −5 · 1000–6999: 0 · 7000–7999: +4 · 8000: +6 | **remaining LP** |
-| 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
-| 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
+| row | record offset | C member | value by count | category |
+|---|---|---|---|---|
+| 0 | +0x01 | `rank.turns_taken` | 0–4: +12 · 5–8: +8 · 9–28: 0 · 29–32: −8 · 33+: −12 | **turns** taken |
+| 1 | +0x02 | `rank.effective_attacks` | 0–1: +4 · 2–3: +2 · 4–9: 0 · 10–19: −2 · 20+: −4 | **effective attacks** (attacks that destroyed an attack-position monster and dealt damage) |
+| 2 | +0x03 | `rank.defensive_wins` | 0–1: 0 · 2–5: −10 · 6–9: −20 · 10–14: −30 · 15+: −40 | **defensive wins** (your defender survived an attack) |
+| 3 | +0x04 | `rank.face_down_plays` | 0: 0 · 1–10: −2 · 11–20: −4 · 21–30: −6 · 31+: −8 | **face-down plays** |
+| 4 | +0x05 | `rank.pure_magic_used` | 0: +2 · 1–3: −4 · 4–6: −8 · 7–9: −12 · 10+: −16 | **pure magic** cards used |
+| 5 | +0x06 | `rank.traps_triggered` | 0: +2 · 1–2: −8 · 3–4: −16 · 5–6: −24 · 7+: −32 | **traps** triggered |
+| 6 | +0x18 | `deck_draw_cursor` | 0–8: +15 · 9–12: +12 · 13–32: 0 · 33–36: −5 · 37+: −7 | **cards used** |
+| 7 | +0x14 (halfword) | `life_points` | 0–99: −7 · 100–999: −5 · 1000–6999: 0 · 7000–7999: +4 · 8000: +6 | **remaining LP** |
+| 8 | +0x08 | `rank.fusions_initiated` | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
+| 9 | +0x09 | `rank.equips_used` | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
 `+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
@@ -1323,8 +1325,9 @@ fallback, after the trap card has already been removed. A lookup result or
 an early disappearance alone does not establish that the score byte changed.
 This is not an audit of every other trap/effect route or a new runtime trace.
 
-**What "cards used" counts.** Row 6 reads the side record's draw cursor at
-`+0x18`, not a counter that waits for a card to be played.
+**What "cards used" counts.** Row 6 reads the side record's
+`deck_draw_cursor` at `+0x18`, not a counter that waits for a card to be
+played.
 Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) selects the active
 side record, compacts its retained hand indices, rebuilds those card records,
 and requests `HAND_SIZE - n` new cards, where `n` is the number retained.
@@ -1343,9 +1346,10 @@ byte to `DUEL_RANK_RULE_CARDS_USED`. This pins the normal draw/refill
 accounting, not an unperformed runtime trace or a complete audit of every
 effect that could touch the record.
 
-`Duel_DrawLifePointsAndDeckCounts` also reads `+0x18`, through a signed-byte
-view, to display `DECK_SIZE - draw_cursor` for each side. The remaining-card
-readouts retain their two-digit format and existing side/colour order.
+`Duel_DrawLifePointsAndDeckCounts` also reads `deck_draw_cursor`, through a
+signed-byte view, to display `DECK_SIZE - deck_draw_cursor` for each side.
+The remaining-card readouts retain their two-digit format and existing
+side/colour order.
 The calculation is not clamped or redefined as cards played; its neighboring
 LP readouts still use the interpolated display value at `+0x12`.
 
@@ -1941,7 +1945,7 @@ continues in Free Duel with every campaign duelist available.
 >   `table.tbl` decodes `0x00`–`0x5B`); `0xF0`–`0xFF` are control codes
 >   dispatched through a 16-entry table [`0x80090F18`, `TextBox_BuildStep`]:
 >   `F8 op` selects the 47-entry secondary table [`0x80090EAC`] whose op `0x19` is
->   `func_80038AB0`, **unlock duelist** (sets `0x1F + id` and `0x6E0 + id`);
+>   `Text_UnlockDuelist`, which sets `0x1F + id` and `0x6E0 + id`;
 >   `F9 u16` is the **flag** code
 >   [`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c):
 >   bit 14 selects a write; otherwise the command consumes a second u16 and a
@@ -2199,7 +2203,8 @@ writes. On the active player's turn, Select opens
 The setup chooses starting LP separately for both sides. Each defaults to
 8000, and pad 1 or pad 2 adjusts its own value to `1` or a multiple of 500
 from 500 through 8000. Matching
-[`func_8002DC38`](../../src/game/func_8002DC38.c) initializes the values,
+[`Main_RunTwoPlayerDuelSetup`](../../src/game/main_run_two_player_duel_setup.c)
+initializes the values,
 and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/value_setup.c)
 (`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
 `func_800175A0` copies those selections into both the authoritative and
@@ -2226,13 +2231,14 @@ The host's initialization branch also resets both LP values to 8000.
 The shared option's caption and complete visibility behavior remain unproved, but
 its resident handoff is established. When both `D_8009B360[0]` and
 `gDuel_bOpponentID` are negative, duel initialization copies that low byte
-to byte `+0x1F` of both `0x20`-byte side records. Known card-object and
-card-text consumers read the active side's copy. This mode byte is not
-itself an image-resource index; see the
+to `DuelSideState.card_view_mode` at `+0x1F` of both `0x20`-byte side
+records. Known card-object and card-text consumers read the active side's
+copy. This mode byte is not itself an image-resource index; see the
 [conditional view-mode handoff](../duel-card-record.md#per-side-view-mode-handoff).
 See the [full editor contract](../../src/overlays/main_menu/README.md#value-setup-input-and-write-back).
 
-[`func_8002DC38` hosts the starting-LP screen; `Main_RunTrade` `0x8002D7CC`
+[`Main_RunTwoPlayerDuelSetup` hosts the starting-LP screen;
+`Main_RunTrade` `0x8002D7CC`
 hosts the two-save flow shared with Trade; scene texts `2PDUEL`,
 `PvP Duel Screen`.]
 

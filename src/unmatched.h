@@ -644,10 +644,6 @@ void func_80041068(void);
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 
-/* Rebuilds the voice tables. func_80049BAC.c calls it right after
- * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
-void func_8004A518(void);
-
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request
  * is in flight.
@@ -663,8 +659,5 @@ void func_8004A518(void);
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
-
-/* An AI script opcode, installed by ai_script_commands.c's table. */
-void AiScript_CountCards(void);
 
 #endif
