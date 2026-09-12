@@ -36,7 +36,8 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * they hand to GsSortSprite and friends, so every bit the game sets there is
  * read by libgs, and the names are libgs.h's:
  *
- *   0x01000000 / 0x02000000  colour mode; the texture-page step of 1, 2 or 4
+ *   DISPLAY_OBJECT_ATTRIBUTE_8BPP / DISPLAY_OBJECT_ATTRIBUTE_16BPP
+ *                            colour mode; the texture-page step of 1, 2 or 4
  *                            a strip wrap applies is 4bpp, 8bpp and 16bpp
  *   0x04000000  GsPERS       perspective
  *   0x08000000  GsROTOFF     rotation off -- which is why the renderers only
@@ -47,12 +48,9 @@ typedef void (*DisplayObjectCallback)(u8 *);
  *   0x40000000  GsALON       semi-transparency on
  *   0x80000000  GsDOFF       display off
  *
- * That is what the recurring composites mean: 0x50000000 is GsALON | GsAONE,
- * additive blending, which is what sparkles and afterimages want; 0x60000000
- * is GsALON | GsATWO, subtractive, which is what a fade-to-black overlay
- * wants. The `& 0x8FFFFFFF` masks clear the rate and GsALON together and keep
- * GsDOFF -- "turn semi-transparency off" -- and `& 0xF7FFFFFF` clears
- * GsROTOFF, "turn rotation on". */
+ * That is what the recurring composites mean: GsALON | GsAONE is additive
+ * blending, which is what sparkles and afterimages want; GsALON | GsATWO is
+ * subtractive, which is what a fade-to-black overlay wants. */
 typedef struct DisplayObject {
     s16 previous;                  /* 0x00 */
     s16 next;                      /* 0x02 */
@@ -161,7 +159,7 @@ typedef struct DisplayObject {
 
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
-       out of it -- the same saved-position reading func_80043178.h's
+       out of it -- the same saved-position reading DisplayObject_SavePosition.h's
        DisplayObjectSnapshot gives the pair. 0x34 itself has no half user
        yet and keeps the offset for a name. */
     union {
@@ -190,7 +188,7 @@ typedef struct DisplayObject {
        the three views that already name these halves outside this header:
        DisplayObjectVelocity in display_object_helpers.c calls 0x36, 0x38 and
        0x3A velocity_x, velocity_y and velocity_z and adds them to 0x30/0x32
-       every frame, while DisplayObjectSnapshot in func_80043178.h and
+       every frame, while DisplayObjectSnapshot in DisplayObject_SavePosition.h and
        DisplayObjectPosition in display_object_interpolation.h read the same
        0x36/0x38 pair as a saved position that eases into the live one.
        display_object_helpers.h sets out at length why neither of those
@@ -338,7 +336,7 @@ typedef struct DisplayObject {
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        func_8003DA40.c sets -0x400 and adds 0x20; mem_card_dialog_runtime.c
-       steps it by 0x40 and passes it to func_80043230, which takes it as
+       steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
        `phase` for an rsin ease; display_object_property_transitions.c calls
        it `speed` in one function and `step` in the other. Four callers, four
        words, one range -- so it keeps the offset for a name, on the same

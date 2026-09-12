@@ -18,13 +18,14 @@
  * FileTransferDescriptor's own comment calls the VRAM position pair the
  * phase-2 paths write there.
  *
- * The two `*(s32 *)&p->mode = 0x800;` stores in phases 1 and 2 are spelled
- * that way deliberately. Written as the plain `p->mode = 0x800;` the member's
- * own type invites, GCC cross-jumps the two phases' tails into one shared
+ * The two `*(s32 *)&p->phase_size = FILE_SECTOR_SIZE;` stores in phases 1 and
+ * 2 are spelled that way deliberately. Written as the plain assignment,
+ * GCC cross-jumps the two phases' tails into one shared
  * block and the executable comes out eight bytes short; retail keeps them
  * duplicated. Only that one statement does it -- `done`, `value_08` and
  * `value_0C` all convert plainly in the same tails, and phase 0's
- * `p->mode = 0x18000;` is fine because the larger constant needs its own
+ * `p->phase_size = 48 * FILE_SECTOR_SIZE;` is fine because the larger
+ * constant needs its own
  * lui/ori either way. */
 void func_8003A01C(FileTransferDescriptor *descriptor, s32 mode);
 

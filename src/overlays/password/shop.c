@@ -76,7 +76,7 @@ void Password_RefreshDigitDisplay(void)
     boxes = D_800EB0F8;
     boxes[2].field_5A = 0x10;
     boxes[2].field_5B = 0x10;
-    func_80039A14((u8 *)&boxes[2]);
+    func_80039A14((struct DuelEffectChannel *)&boxes[2]);
 }
 
 void Password_RefreshStarchipDisplay(void)
@@ -89,7 +89,7 @@ void Password_RefreshStarchipDisplay(void)
     boxes = D_800EB0F8;
     boxes[3].field_5A = 0x10;
     boxes[3].field_5B = 0x10;
-    func_80039A14((u8 *)&boxes[3]);
+    func_80039A14((struct DuelEffectChannel *)&boxes[3]);
 }
 
 DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
@@ -100,7 +100,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     object = TextBox_Create(0, message_id, 0x98, 0x98, 0xA0, 0x40);
     object->field_53 = 1;
     if (flags & 0xF) {
-        func_80039A14((u8 *)object);
+        func_80039A14((struct DuelEffectChannel *)object);
     }
     if (flags & 0x80) {
         object->flags_34 |= 8;
@@ -274,4 +274,3 @@ s32 Password_LookupCardID(void)
         index++;
     }
 }
-

@@ -1,11 +1,11 @@
 #ifndef MEMORIES_DECOMP_BUILD_DECK_PANE_INPUT_H
 #define MEMORIES_DECOMP_BUILD_DECK_PANE_INPUT_H
 
-#include "../types.h"
+#include "build_deck_transition_state.h"
 
 /* The two input steps of the Build Deck step table D_80090DF8
- * (duel_transition_step_table.c). Both take the BuildDeckTransitionState
- * as the table's u8 * and cast it on entry.
+ * (duel_transition_step_table.c). Both receive the shared transition state;
+ * their bodies retain a byte-pointer alias for offset-heavy workspace access.
  *
  * func_800336F0 is step 2, the chest pane. Its confirm moves the highlighted
  * card into the deck: BuildDeck_AddCard adds it and func_80031F7C takes one
@@ -20,7 +20,7 @@
  * In both, TRIANGLE opens the card viewer on the highlighted card, and
  * CANCEL enters exit step 4 (func_800339D0) with next_state recording which
  * of the two to come back to. */
-void func_8003353C(u8 *p);
-void func_800336F0(u8 *p);
+void func_8003353C(BuildDeckTransitionState *state);
+void func_800336F0(BuildDeckTransitionState *state);
 
 #endif

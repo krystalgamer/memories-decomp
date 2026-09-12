@@ -18,7 +18,7 @@ The shared `FadeTransitionState` layout is:
 | `0x03` | `pad_03` | 1 | no exact C field access establishes a role |
 | `0x04` | `level` | 1 | byte loads/stores throughout the family; current fade brightness in `Fade_DrawOverlay` |
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
-| `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
+| `0x06` | `flags` | 1 | byte bit tests/writes named by `FADE_FLAG_*` in `fade_constants.h` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
 | `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
@@ -177,32 +177,33 @@ direction.
 
 ### What the extra bits do
 
-Flag `0x02` is already covered by the submission table above: it makes the
-tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
+`FADE_FLAG_KEEP_OVERLAY` (`0x02`) is already covered by the submission table
+above: it makes the tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
 instead of the fixed `4`. That is what lets other objects sort in front of
 the cover, and `Script_OpShowImage` is the clearest use -- it creates its
 full-screen image object and only then calls `0x80015C84`, the non-blocking
 `Fade_InitOut` + `\|= 2` wrapper.
 
-Flag `0x04` is only read in `Fade_Update`, at the point where the level
-reaches zero:
+`FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE` (`0x04`) is only read in
+`Fade_Update`, at the point where the level reaches zero:
 
 ```c
 f = gFade_State.flags;
-if (f & 2) {
-    if ((f & 4) == 0) {
+if (f & FADE_FLAG_KEEP_OVERLAY) {
+    if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
         return;          /* leave D_8009B141 alone */
     }
-    D_8009B141 = 0x80;   /* high bit: preserved by the entry check */
+    D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
 } else {
     func_80015D0C();     /* D_8009B141 = 0 */
 }
 ```
 
-So within the `0x02` path, `0x04` decides whether completion latches the
-control byte to `0x80` or leaves it untouched. The high bit matters because
-the entry check at `0x80015340..0x80015358` preserves a control byte whose
-high bit is set rather than forcing it to `1`.
+So within the keep-overlay path, the secondary-ordering-table flag decides
+whether completion latches the control byte to its high-bit form or leaves it
+untouched. The high bit matters because the entry check at
+`0x80015340..0x80015358` preserves that form rather than forcing it to
+`FADE_ORDERING_TABLE_ACTIVE`.
 
 ### Why the ten are still unnamed
 
@@ -231,10 +232,10 @@ context before assigning fixed timings or screen-specific meanings.
 **before** testing whether to draw. Its condition uses the updated state:
 
 ```c
-(flags & 0x80) || (D_8009B141 != 0 && level != 0xFF)
+(flags & FADE_FLAG_ACTIVE) || (D_8009B141 != 0 && level != 0xFF)
 ```
 
-| Active flag `0x80` | `D_8009B141` | `level` | Submits boxes |
+| `FADE_FLAG_ACTIVE` | `D_8009B141` | `level` | Submits boxes |
 |---|---|---|---|
 | set | any | any | yes |
 | clear | zero | any | no |

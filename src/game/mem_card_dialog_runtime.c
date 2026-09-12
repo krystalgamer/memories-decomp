@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
 #include "display_object_api.h"
@@ -191,7 +190,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     s32 value;
 
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_60;
@@ -210,11 +209,13 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     }
     object->field_60 = value;
 
-    func_80043230((DisplayObjectPosition *)object, arg1, arg2, value);
+    Widget_SlideSine((DisplayObjectPosition *)object, arg1, arg2, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-            (u8 *)D_800EB0F8 + saved_index * 100,
+            (DuelEffectChannel *)(
+                (u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
+            ),
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }
@@ -290,7 +291,7 @@ void MemCardDialog_Update(void)
                 p->flags_34 = p->flags_34 | 0x1008;
                 return;
             }
-            func_80039A14((u8 *)p);
+            func_80039A14(p);
             goto b14;
         }
         func_80039794();

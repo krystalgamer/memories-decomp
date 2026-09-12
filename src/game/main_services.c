@@ -25,7 +25,7 @@
    func_800134B4.c; the pump and the reset share the D_800E9DB0 slots and
    D_8009B0B8. */
 
-extern s32 runtime_gp;
+s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
 extern s32 D_8009B0A4;
 extern s32 D_8009B0B0;
 extern s32 D_8009B0BC;
@@ -71,4 +71,3 @@ void func_8001306C(void) {
     func_80014A5C(0);
     func_800136D4();
 }
-

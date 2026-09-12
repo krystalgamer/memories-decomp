@@ -10,13 +10,14 @@
 #include "../../game/model_scene_setup.h"
 #include "../../game/display_object_api.h"
 #include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 #include "../../game/sound.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/input.h"
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
-#include "../../game/func_80043178.h"
 #include "../../game/display_object_interpolation.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
@@ -28,7 +29,6 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
-extern void func_800857C0(int);
 extern u8 D_800E9ECE;
 extern u8 D_800E9ECF;
 extern u8 D_8009B26C;
@@ -78,7 +78,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
     object = TextBox_Create(
         0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
     );
-    func_80039A60(object);
+    func_80039A60((struct DuelEffectChannel *)object);
     return object;
 }
 
@@ -128,7 +128,7 @@ void CampaignMap_ResetCamera(void)
     camera->view.rz = 0;
     camera->view.super = 0;
     camera->projection = 0x12C;
-    func_800857C0(0x12C);
+    GsSetProjection(0x12C);
     *(s32 *)(matrix + 0x0C) = 0;
     camera->field_06 = 0;
     *(s32 *)(matrix + 0x10) = 0;
@@ -354,7 +354,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         marker = D_801695C8;
         D_801695EC = flags | 0x80;
         if (marker != 0) {
-            func_80043178(marker);
+            DisplayObject_SavePosition(marker);
             marker->f96 = 0;
         }
         D_801695D4 = gCampaignMap_MoveState;
@@ -395,7 +395,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         if (marker->f96 < 2048) {
             quotient = 2048 / gCampaignMap_MoveState;
             marker->f96 += quotient;
-            func_8004318C(
+            DisplayObject_InterpolatePositionCosine(
                 (DisplayObjectPosition *)marker,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location

@@ -25,7 +25,7 @@ described below.
 | `0x06` | `camera_field_00` | `s16` | Immediate setup writes `ViewState.field_00`; the tween computes its signed delta. No additional physical meaning is assigned to that channel. |
 | `0x08` | `view_x` | `s16` | Both camera paths use it for `view.vrx`. |
 | `0x0A` | `view_z` | `s16` | Both camera paths use it for `view.vrz`. |
-| `0x0C` | `f12` | `s16` | Marker creation passes X to `func_800428A8`; the transition passes it to `func_8004318C` and eventually copies it into the marker's X halfword. |
+| `0x0C` | `f12` | `s16` | Marker creation passes X to `func_800428A8`; the transition passes it to `DisplayObject_InterpolatePositionCosine` and eventually copies it into the marker's X halfword. |
 | `0x0E` | `f14` | `s16` | The same paths use it as marker Y. Existing member spellings are retained. |
 | `0x10` | `confirm_destination` | `u8` | The ready confirm path returns this nonzero destination, otherwise returns the current location with bit `0x8000` set. |
 | `0x11` | `pad_11` | `u8` | No live access identified; preserved, not interpreted. |

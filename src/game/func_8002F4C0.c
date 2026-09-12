@@ -42,12 +42,12 @@ void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
             d->h = 0x10;
         } while (0);
         d->value_08 = v0;
-        d->value_0C = v0 + 0x800;
+        d->value_0C = v0 + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         m2 = 0xFFDCFFFF;
-        d->mode = 0x800;
+        d->phase_size = FILE_SECTOR_SIZE;
         t1 = D_8009B0F4;
         v1 = D_8009B118;
         D_8009B0F4 = t1 & m2;
@@ -66,7 +66,7 @@ void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
         d->value_0C = (s32)D_801AF000;
         d->value_08 = (s32)D_801AF000;
         t2 = D_8009B0F4;
-        d->mode = 0x800;
+        d->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4 = t2 & m2;
 join:
         d->done = one;

@@ -12,6 +12,7 @@
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"
 #include "campaign_scene_package.h"
+#include "color_constants.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -53,17 +54,16 @@ void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y)
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
-   byte. The record is a MenuRecord, the element type of D_800EB010;
-   display_effect_step_table.c hands this callback a u8 *, so the parameter
-   stays that and the record is taken through a local.
+   byte. The record is a MenuRecord, the element type of D_800EB010 and the
+   callback argument type stored by D_80090F68.
 
    Every use goes through that local, including the two calls that want a
    u8 * again. That is not tidiness: leaving `p` live alongside `r` makes
    GCC 2.8.1 hold both in callee-saved registers, which grows the frame by
    eight bytes and the function with it. One name, one register. */
-void func_8003A990(u8 *p)
+void func_8003A990(MenuRecord *p)
 {
-    MenuRecord *r = (MenuRecord *)p;
+    MenuRecord *r = p;
     s32 d;
     s32 t;
     s32 c;
@@ -289,8 +289,9 @@ void func_8003AD6C(MenuRecord *p)
     func_8003A920((DisplayPositionGroup *)p->grid[3], x, y);
 }
 
-void func_8003B054(u8 *p)
+void func_8003B054(MenuRecord *record)
 {
+#define p ((u8 *)record)
     DisplayObject *o;
     DisplayObject *o2;
     s32 id;
@@ -318,7 +319,8 @@ void func_8003B054(u8 *p)
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
             *(u16 *)&o->field_44.h.field_46 = 0;
             o->field_0C = 0;
-            o->attribute |= 0x51000000;
+            o->attribute |=
+                GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             func_80042918(o);
             func_800428EC((u8 *)o, -8);
             *(DisplayObject **)p = o;
@@ -328,7 +330,8 @@ void func_8003B054(u8 *p)
         *(u16 *)&o->field_48.h.field_4A = 0;
         o2 = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, 0x200, 0xFD);
-        o2->attribute = (o2->attribute | 0x61000000) & ~GsROTOFF;
+        o2->attribute = (o2->attribute |
+            GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;
         *(u16 *)&o2->field_48.h.field_4A = 0;
         func_80042918(o2);
@@ -344,7 +347,7 @@ void func_8003B054(u8 *p)
     }
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
-        o->field_0C = 0x808080;
+        o->field_0C = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.h.field_46 = 0x1000;
         func_8004036C(o2);
         *(DisplayObject **)(p + 4) = 0;
@@ -369,4 +372,5 @@ void func_8003B054(u8 *p)
     q = *(u8 *)&o->field_0C << 5;
     *(u16 *)&o2->field_44.h.field_44 = q;
     *(u16 *)&o->field_44.h.field_44 = q;
+#undef p
 }

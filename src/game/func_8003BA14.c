@@ -56,14 +56,14 @@ m0:
     w = D_8009B0F4;
     n = 0x10000;
     do {
-        *(s32 *)&object->mode = k;
+        *(s32 *)&object->phase_size = k;
         D_8009B0F4 = w | n;
         object->done = 2;
         d = D_8009B118;
         object->h = 0x10;
     } while (0);
     object->value_08 = d;
-    object->value_0C = d + 0x800;
+    object->value_0C = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
@@ -77,14 +77,14 @@ m1:
     D_8009B0F4 = w2 | 0x10000;
     object->done = 2;
     d2 = D_8009B118;
-    *(s32 *)&object->mode = 0x8000;
+    *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
     object->value_08 = d2;
-    object->value_0C = d2 + 0x800;
+    object->value_0C = d2 + FILE_SECTOR_SIZE;
     return;
 
 m2:
     m = 0xFFDCFFFF;
-    *(s32 *)&object->mode = 0x800;
+    *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
     x = D_8009B0F4 & m;
     y = (u8 *)D_8009B118;
     goto tail;
@@ -100,7 +100,7 @@ m3:
     object->h = 4;
     LoadImage2((RECT *)object, (u32 *)k);
     m = 0xFFDCFFFF;
-    *(s32 *)&object->mode = 0x7800;
+    *(s32 *)&object->phase_size = 15 * FILE_SECTOR_SIZE;
     x = D_8009B0F4 & m;
     y = D_800101D8;
 

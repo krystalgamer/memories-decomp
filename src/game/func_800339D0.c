@@ -37,9 +37,9 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
  * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
  * cleared. */
-void func_800339D0(u8 *state)
+void func_800339D0(BuildDeckTransitionState *record)
 {
-    BuildDeckTransitionState *workspace = (BuildDeckTransitionState *)state;
+    BuildDeckTransitionState *workspace = record;
     u8 *box;
     u8 *src;
     u8 *dst;
@@ -48,13 +48,13 @@ void func_800339D0(u8 *state)
     s32 mode;
     s32 i;
 
-    if (func_80032B38((BuildDeckTransitionState *)state) == 0) {
+    if (func_80032B38(workspace) == 0) {
         SD_SEPlayFull(8);
         if (func_80033998() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
             mode = D_8009B2F8 & 0x80;
-            ((BuildDeckTransitionState *)state)->state |= 0x4000;
+            workspace->state |= 0x4000;
             if (mode) {
                 ((u8 *)TextBox_CreateFlagged(
                     0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
@@ -143,7 +143,7 @@ s32 func_80033BE8(void)
     first[0xC] = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        D_80090DF8[D_8009B2FC->state & 0x3F]((u8 *)D_8009B2FC);
+        D_80090DF8[D_8009B2FC->state & 0x3F](D_8009B2FC);
     }
 
     return D_8009B2FC->state;

@@ -13,6 +13,42 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
+### Six-state card-move presentation
+
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
+
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
+
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
+
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
+
 ### Ai_GetHandSize without a mixed small-data profile
 
 `Ai_GetHandSize` (`0x80070710`, 40 bytes) matches at
@@ -475,7 +511,8 @@ correct 25 of 25 under `gcc_2_8_1_g0_split`. The second read reappears, but as
 `lui`/`lbu` pair above is still not reproduced. Instruction count parity is
 therefore recovered while the residual stays.
 
-The same lever settles the count on `func_8002DDFC` (`0x8002DDFC`), where the
+The same lever settles the count on `ScriptImage_TransferCallback`
+(`0x8002DDFC`), where the
 target performs two independent read-modify-write sequences on `D_8009B0F4`:
 
 ```
@@ -2286,7 +2323,7 @@ is the same padding trap recorded above for `no_sched2`.
 |---|---|
 | `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
-| `D_800908A0` | Array of signed 16-bit coordinate pairs |
+| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_screen_tables.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
 Observed `gDuel_adwCardStats` property fields include:
@@ -2400,15 +2437,15 @@ object model through two related parent/child constructors.
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |
 | `func_8002ABB4` | `0x70`-byte object clone/initialization wrapper |
-| `func_8002DF2C` | Three archive layouts selected by high byte; packed decimal index calculation |
-| `func_8002E060` | Object creation wrapper with signed mode byte |
+| `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
+| `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
 | `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
 | `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
 | `func_8003D614` | Two-slot controller and `0x64`-byte object records |
-| `func_80043230` | G0 pointer-rooted queue/object state |
+| `Widget_SlideSine` | G0 pointer-rooted queue/object state |
 | `func_80044DC0` | Signed 16-bit argument, four-byte stack packet, and byte-order selection |
 | `func_80049010` | Shared sequence-state cleanup |
 | `func_800497E0` | Transfer ID validation, clamped read length, and accumulated byte count |
@@ -4404,8 +4441,9 @@ The screen is cheap. Over a function's splat asm, flag it when either appears:
 What does **not** disqualify a function is `lui $sN, %hi(X)` and
 `addiu $sN, $sN, %lo(X)` on the same register separated by other instructions.
 That is the coalesced form, it is what `_split` produces once the two halves
-belong to one pseudo, and `func_8002DC38` needed exactly it -- there the split
-profile was the difference between 79/45 and 78/7. So the flag is on the
+belong to one pseudo, and `Main_RunTwoPlayerDuelSetup` needed exactly it -- there the split
+profile was the difference between 79/45 and 78/7 for
+`Main_RunTwoPlayerDuelSetup`. So the flag is on the
 *register mismatch*, not on the separation.
 
 Running all four screens over the resident queue leaves 84 of 140 unmatched
@@ -5671,7 +5709,8 @@ in `$v1` where the build used `$v0`; pinning it closed the window at once.
 So in a differing window that contains a load, compare the load's destination
 register before permuting anything.
 
-The inverse reading is also useful. On `func_8002E128` (0x8002E128), whose
+The inverse reading is also useful. On `ScriptImage_RebuildObjects`
+(`0x8002E128`), whose
 residual looks like the same class, every pin is *worse* than no pin: naming
 the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
@@ -6936,7 +6975,7 @@ in the caller that produces it.
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
-    func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
+    Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
@@ -7295,7 +7334,7 @@ is:
 If none does, the two declarations never meet. A plain declaration can go in
 the header for the small-data group, the divergent files keep their own, and
 no guarded arm is needed. fade.h does this for D_8009B141, and mem_card.h for
-D_8009B3D4, whose `.data` declarer func_8002D458.c does not include it.
+D_8009B3D4, whose `.data` declarer main_apply_menu_selection.c does not include it.
 
 If any does, the header needs a guarded pair and every file in that group has
 to select its arm. That is a different size of change, and it drags in every
@@ -7304,7 +7343,8 @@ consumer rather than the ones being tidied.
 Both mistakes have been made in this campaign:
 
   Too cautious   D_8009B3D4 was excluded from mem_card.h because
-                 func_8002D458.c named it with a .data attribute. That file
+                 main_apply_menu_selection.c named it with a .data attribute.
+                 That file
                  does not include mem_card.h, so there was nothing to
                  collide with and the exclusion cost a round.
 
@@ -7398,28 +7438,26 @@ the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
 
-## func_80045054: decoded output measurement without register pins
+## func_800466C8: output-transition pointer refreshes
 
-The 192-byte routine at `0x80045054` matches all 48 instructions under the
-existing uniform `gcc_2_8_1_g0` profile. It uses the existing
-`G_SDVALUE_VOLATILE` pointer view and `SDValue` decoded-buffer, pointer-table,
-and flag members. The unnamed selector and accumulator fields remain local
-byte-offset accesses into that same state; no new shared layout or API is
-introduced.
+The 84-byte callback at `0x800466C8` matches under the existing uniform
+`gcc_2_8_1_g8` profile without register bindings, inline assembly, or literal
+global addresses. It keeps the shared `SDValue` layout and the existing
+`void(void)` callback contract installed by `SD_InitState`.
 
-Three source properties replace the historical eight register bindings and
-compiler barrier. The volatile pointer view retains the snapshot-to-state
-handoff; removing it loses one instruction. Returning the level directly on
-the unmuted path gives the required return-register allocation. Finally, the
-single-iteration level-read scope keeps the signed high-halfword read before
-the flag read; flattening it exchanges the two words at `+0x90` and `+0x94`.
-No additional volatile field reads are needed.
+The existing `G_SDVALUE_VOLATILE` view supplies the initial pointer read, the
+conditional refresh after writes to `+0x1588` and `+0x1584`, and the final
+pointer capture before the `+0x0512` store and flag update. It replaces the
+retired candidate's two memory barriers; no new declaration view is needed.
 
-The routine preserves the selected CD half, all 256 signed sample squares,
-the unsigned eight-bit shift of each square, both accumulator initializations
-and final publications, and the low-two-bit output gate. The signed-high-word
-reads and existing `s32(void)` contract remain unchanged.
+The two source-level exit paths intentionally repeat the final stores. GCC
+merges their machine-code tail while allocating the state pointer to `$v1`
+and the flag-update pointer to `$a0`. Factoring the source into one shared
+tail still produces 84 bytes, but exchanges those registers at ten instruction
+positions. Giving each branch its own flag-pointer local produces the same
+ten-word mismatch. The accepted source keeps one function-local flag pointer
+and both exit paths.
 
-The historical canonical match and six-entry refinement series ending in
-deferral are retained. A post-terminal record identifies the pointer view,
-return path, and load-order scope as the new discriminator.
+The historical canonical match and six inline-refinement rows remain intact.
+The new `post_terminal_resolution` record identifies the pointer view and
+source-level exit structure as the discriminator beyond that deferred series.

@@ -42,8 +42,21 @@ described the storage; they were a way of steering the addressing form. The
 constants in `file_transfer.h` are already its bits:
 `FILE_TRANSFER_STATE_PRIMARY_ACTIVE` (`0x10`),
 `FILE_TRANSFER_STATE_SECONDARY_PENDING` (`0x20`),
+`FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED` (`0x40`),
+`FILE_TRANSFER_STATE_COMMAND_BUSY` (`0x400`),
+`FILE_TRANSFER_STATE_POSITION_QUERY_BUSY` (`0x800`),
+`FILE_TRANSFER_STATE_POSITION_QUERY_PENDING` (`0x1000`),
 `FILE_TRANSFER_FLAG_SECTOR_RANGE` (`0x80000`) and the composite
 `FILE_TRANSFER_REQUEST_BLOCKED_MASK` (`0x02000030`).
+
+The four arbitration names follow complete producer/consumer paths.
+`File_RequestAsyncTransfer` raises the request lock before touching the primary
+descriptor, and `func_800144B8` refuses to promote the secondary request while
+that lock survives. Every successful `DsCommand`/`DsPacket` submission in the
+resident stepper raises command-busy, and every corresponding completion
+callback clears it. `func_80014308` raises position-query-pending after the
+preceding packet completes; `func_8001455C` then issues `DsCommand(0x10)` and
+raises position-query-busy, which `func_80014390` clears on completion.
 
 `volatile` is part of the type, not decoration. Dropping it from the plain
 declaration builds a 0x1D0668-byte executable; dropping it from the absolute
@@ -103,8 +116,8 @@ and the full executable still matched:
 an inline assembly block that spells `%hi`/`%lo` itself. That is not a C
 declaration site and is unchanged.
 
-Naming the word, and naming its bits beyond the four already named, is not
-attempted here. `0x100`, `0x400`, `0x800`, `0x1000`, `0x10000`, `0x20000`,
+Naming the word, and naming the remaining bits, is not attempted here.
+`0x100`, `0x10000`, `0x20000`,
 `0x100000`, `0x200000`, `0x400000`, `0x800000`, `0x2000000`, `0x40000000` and
 bit 31 all have live consumers, and several are only ever cleared as part of
 a composite mask (`0xFFDCFFFF`, `0xFFDDFFFF`, `0x230000`), so a single

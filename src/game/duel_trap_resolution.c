@@ -25,7 +25,6 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     DUEL_ACID_TRAP_HOLE_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
     DUEL_WIDESPREAD_RUIN_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
 };
-extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");
 
 s32 func_8001F0D0(u8 *p) {
     s32 i;
@@ -66,7 +65,7 @@ s32 func_8001F0D0(u8 *p) {
     n = 0;
     i = n;
     tbl2 = D_800907D8;
-    rec2 = D_801A7AD8_raw;
+    rec2 = (u8 *)D_801A7AD8;
     b2 = D_8015C424;
     off2 = 0x18000;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -125,7 +124,7 @@ s32 func_8001F0D0(u8 *p) {
     }
     i = 0;
     tbl3 = D_800907D8;
-    rec3 = D_801A7AD8_raw;
+    rec3 = (u8 *)D_801A7AD8;
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {

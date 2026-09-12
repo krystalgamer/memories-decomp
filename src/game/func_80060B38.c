@@ -5,6 +5,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "card_constants.h"
+#include "color_constants.h"
 #include "text_constants.h"
 #include "duel_card.h"
 #include "func_80060B38.h"
@@ -37,7 +38,7 @@ void func_80060B38(DisplayObject *obj, GsOT *ot) {
     pri = *(s16 *)&obj->field_14;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;
-    *(u32 *)&sp->r = 0x808080;
+    *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)&sp->w = 0x100010;
     sp->x = obj->field_30.h.field_30 + 0x22;
     sp->y = obj->field_30.h.field_32 - 0x18;
@@ -46,7 +47,7 @@ void func_80060B38(DisplayObject *obj, GsOT *ot) {
     do {
         *(u32 *)&sp->r = 0x202020;
         if (i == obj->field_69) {
-            *(u32 *)&sp->r = 0x808080;
+            *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
         }
         sp->u = (tbl[0] & 0xF) * 8 - 0x80;
         sp->v = tbl[0] & 0xF0;
@@ -75,9 +76,9 @@ void func_80060B38(DisplayObject *obj, GsOT *ot) {
                 if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                     sp->x = obj->field_30.h.field_30 + 0x24;
-                    *(u32 *)&sp->r = 0x808080;
+                    *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
                     if (*entries & 0x8000) {
-                        *(u32 *)&sp->r = 0x404040;
+                        *(u32 *)&sp->r = COLOR_RGB24_DIM_GREY;
                     }
                     Text_EncodeDecimalDigits(
                         (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) *
