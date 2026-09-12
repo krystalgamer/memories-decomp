@@ -11,10 +11,6 @@
  * then starts the next cursor move before updating scroll. */
 void func_8002A788(u8 *state);
 
-/* Absolute-address byte views used by this handler's cancel path. */
-extern u8 D_8009B269[];
-extern u8 D_8009B26C[];
-
 /* The card id under the library grid cursor, computed from
  * gCardGrid_bCursorRow and gCardGrid_bCursorColumn.
  *

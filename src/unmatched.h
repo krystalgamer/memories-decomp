@@ -660,9 +660,6 @@ s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
 
-/* An AI script opcode, installed by ai_script_commands.c's table. */
-void AiScript_CountCards(void);
-
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation
  * differences: scalar small-data access, array/address access, explicit

@@ -13,9 +13,6 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
-/* The definition's own return type; ai_card_ranges.c widens it. */
-s8 Ai_GetHandSize(void);
-
 void AiScript_FindEquipTarget(void)
 {
     s32 owner = gAiScript_aMemory[AiScript_ReadByte()];
