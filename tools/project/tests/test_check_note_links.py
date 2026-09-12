@@ -113,7 +113,8 @@ class CheckNoteLinksTests(unittest.TestCase):
             notes.mkdir()
             research.mkdir()
             (notes / "a.md").write_text(
-                "`src/hirata/H_mctrl1.c`\n",
+                "`src/hirata/H_mctrl1.c` and "
+                "`tools/vendor/maspsx/fixture.yaml`\n",
                 encoding="utf-8",
             )
             (research / "snapshot.md").write_text(
