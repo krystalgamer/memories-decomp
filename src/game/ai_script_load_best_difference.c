@@ -1,0 +1,15 @@
+#include "../../src/types.h"
+
+#define GAI_BEST_DIFFERENCE_SCALAR
+#include "../../src/game/ai.h"
+
+#include "../../src/game/ai_script_read_byte.h"
+#include "../../src/game/ai_script_commands.h"
+
+void AiScript_LoadBestDifference(void)
+{
+    s32 index = AiScript_ReadByte();
+    s32 *values = gAiScript_aMemory;
+
+    values[index] = gAi_wBestDifference;
+}
