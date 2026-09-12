@@ -383,14 +383,22 @@ extern u8 D_800A5768[];
  * same was already true of D_8009B0C1 above, whose volatile view in
  * main_init.c was dropped the same way.
  *
- * Their neighbour D_8009B0A0 is deliberately NOT here: graphics_frame.c
- * defines it `u8 D_8009B0A0[4]` while src/candidates/func_80013154.c both
- * declares it a scalar and assigns `D_8009B0A0 = 2`. Array and scalar are
- * two faithful views of one address, so neither spelling can absorb the
- * other and that declaration stays local. */
+ * Their neighbour D_8009B0A0 begins a four-byte state block. The defining
+ * frame unit addresses the block as an array, while func_80013154 writes the
+ * first three bytes as ordered volatile scalars. The selector keeps both
+ * measured views at the owner instead of leaving private declarations in the
+ * startup source. */
 extern u8 D_8009B0AD;
 extern u8 D_8009B0D0;
 extern u8 D_8009B0A8;
+
+#ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
+extern volatile u8 D_8009B0A0;
+extern volatile u8 D_8009B0A1;
+extern volatile u8 D_8009B0A2;
+#else
+extern u8 D_8009B0A0[4];
+#endif
 
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);
