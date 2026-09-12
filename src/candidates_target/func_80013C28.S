@@ -281,7 +281,7 @@ glabel func_80013C28
     /* 47F0 80013FF0 6CDC010C */  jal        SpuSetTransferStartAddr
     /* 47F4 80013FF4 00000000 */   nop
     /* 47F8 80013FF8 21200002 */  addu       $a0, $s0, $zero
-    /* 47FC 80013FFC 54DC010C */  jal        func_80077150
+    /* 47FC 80013FFC 54DC010C */  jal        SpuWrite
     /* 4800 80014000 21282002 */   addu      $a1, $s1, $zero
     /* 4804 80014004 1000908F */  lw         $s0, %gp_rel(D_8009AF18)($gp)
     /* 4808 80014008 00000000 */  nop

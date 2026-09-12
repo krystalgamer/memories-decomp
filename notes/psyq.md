@@ -199,25 +199,23 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
-Two further identifications are confirmed but deliberately not applied. Both
-are blocked by the same thing: the only consumer calls the function with an
-arity the Psy-Q header contradicts, so adopting the name would put a source
-file's own prototype in conflict with `libgte.h`, and deciding which of the two
-is right is prototype work rather than a rename.
+Two further identifications have unique signatures but caller ABIs that
+contradict the canonical Psy-Q header. They are applied through address-qualified
+aliases in `libgte_abi_variants.h`, preserving the observed calls without
+weakening or changing `libgte.h`.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates (formerly `display_object_projection.c`) include `libgte.h` and call it with **four** arguments where the header declares three, and the fourth argument is present in the retail call. |
-| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) includes `libgte.h` and calls it with **one** pointer where the header declares three `long`s. |
-
-Both keep their `func_XXXXXXXX` names until that is settled.
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates call the address-qualified `RotAverageNclip3_nom_80089CF0` alias with the four vectors present in retail, while `libgte.h` keeps the canonical three-vector declaration. |
+| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) calls the address-qualified `NormalClip_800879A0` alias with the one pointer present in retail, while `libgte.h` keeps the canonical three-`long` declaration. |
 
 The *parameter types* are a separate question from the name, and for
 `0x80089CF0` they are settled: the two candidates that replaced
 `display_object_projection.c` spell their local prototype
-`extern s32 func_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
-taking the three the header gives and repeating it for the fourth. Adopting the types does not commit the tree to the name or to the
-arity, and it retires four private structs that were describing `SVECTOR` a
+`long RotAverageNclip3_nom_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
+taking the three the header gives and repeating it for the fourth. This keeps
+the independently confirmed name while documenting the unresolved arity
+difference, and it retires four private structs that described `SVECTOR` a
 field at a time.
 
 ## CRT startup routines
@@ -232,6 +230,27 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 | `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `D_8009AF10`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
 | `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
 | `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
+
+The adjacent 36-byte startup metadata block is now C-owned by
+[`src/psyq/startup_data.c`](../src/psyq/startup_data.c), rather than emitted by
+the generated `initialized_data_800906e0` assembly blob. It defines the guard
+word at `D_800906E0`, the word at `D_800906E4`, and the seven-word record at
+`D_800906E8`. The record contains the entrypoint address, resident text size,
+initialized-data start and size, BSS start and size. Three record fields are
+symbol-derived addresses; the leading record word and three size fields are
+literals. The compiled object's `.data` relocation table is:
+
+```text
+OFFSET    TYPE       VALUE
+0000000c  R_MIPS_32  entrypoint
+00000014  R_MIPS_32  D_800906E0
+0000001c  R_MIPS_32  D_8009B4A8
+```
+
+`initialized_data_start` is the C macro for `D_800906E0`, so the middle
+relocation names that symbol directly. There is no fourth relocated data word;
+the zero at record offset `+0x00` is a literal null value. The complete
+executable remains byte-identical.
 
 The comparison
 [symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposed

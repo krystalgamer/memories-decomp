@@ -49,6 +49,27 @@ deliberately fall through, state 3 owns the position-choice dialog, and the
 later states transfer the card record and apply the deferred stat adjustment.
 These transitions are recovered behavior, not newly added handling.
 
+### Ai_GetHandSize without a mixed small-data profile
+
+`Ai_GetHandSize` (`0x80070710`, 40 bytes) matches at
+`gcc_2_8_1_g8_split`, with both GCC and MASPSX using `-G8`. The former mixed
+profile is unnecessary when the opponent selector has its evidenced absolute
+addressing declaration: `s8 gDuel_bOpponentID` with `section(".data")`.
+This declaration already appears in the duel setup and result code; the AI
+consumer now takes it from the existing opponent-data header.
+
+The split-address compiler materializes the large nine-byte-record table,
+but leaves the scalar selector load in macro form. MASPSX recognizes its
+explicit section and expands that load absolutely, reusing `a0` for its
+high half exactly as retail does. Plain scalar G8 emits a GP-relative load;
+G0 split materializes the selector separately and changes allocation.
+No register pins, inline assembly, local externs, or compiler-profile changes
+are needed.
+
+The shared `ai.h` declaration retains the existing return-width distinction:
+the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
+selects `s32` to preserve its two call sites without extra sign extension.
+
 ### Sound command filtering without register pins
 
 `func_80046294` (`0x80046294`) now matches all 151 instructions and the

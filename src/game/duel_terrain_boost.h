@@ -53,6 +53,9 @@
    c_symbols.ld also defines gDuel_bTerrainCodegenAlias at the same 0x8009B364
    so Duel_GetTerrainBoost can materialize the one byte's address twice in
    one function, which retail does and a single name cannot reproduce. */
+#ifdef DUEL_TERRAIN_SCALAR_IN_DATA
+extern u8 gDuel_bTerrain __attribute__((section(".data")));
+#endif
 
 /* Attack modifier in CARD_STAT_SCALE units, one row per monster card type and
    one column per terrain. Duel_GetTerrainBoost rejects cardType >=

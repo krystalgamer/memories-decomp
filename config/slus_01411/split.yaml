@@ -134,7 +134,7 @@ segments:
     vram: 0x800906E0
     align: 4
     subsegments:
-      - [0x80ee0, data, initialized_data_800906e0]
+      - [0x80ee0, .data, psyq/startup_data]
       - [0x80f04, .data, game/file_names]
       - [0x80fac, .data, game/duel_field_layout]
       - [0x810a0, .data, game/duel_screen_tables]

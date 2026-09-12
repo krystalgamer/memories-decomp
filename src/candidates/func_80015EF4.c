@@ -17,6 +17,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgte_abi_variants.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../game/screen_projection.h"
@@ -27,8 +28,6 @@ typedef struct {
     u8 pad_04[0x14];
     s8 f18;
 } Holder;
-
-extern s32 func_800879A0(void *);
 
 void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
 {
@@ -129,7 +128,7 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     c = m[0x5D];
     prim[0x19] = c;
     prim[0xD] = c;
-    if (func_800879A0(prim) <= 0) {
+    if (NormalClip_800879A0(prim) <= 0) {
         prim[0x24] = 0x38;
         prim[0xC] = 0x38;
         prim[0x19] = 0x80;
