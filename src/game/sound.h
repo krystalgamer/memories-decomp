@@ -697,7 +697,7 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void func_80047480(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
-   SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+   SD_SequenceTimerCallback (src/game/func_8004B734.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
