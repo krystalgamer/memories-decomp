@@ -37,6 +37,26 @@ followed by one post-terminal resolution with this source evidence.
 
 ### Data placement and address formation
 
+`func_80030998` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
+selecting true-width DATA scalars for the active mode and campaign scene
+index. The array spellings leave ten differing words; changing only the mode
+leaves three and changing only the scene index leaves nine. Selecting both
+restores the `$at` store expansions and the shared editor-value register
+allocation without mixed thresholds or a pinned local. The primary campaign
+display pointer independently requires its DATA view for the absolute load
+and store.
+
+The scene index's final store is `sb`, not `sh`: the reference's missing
+`D_8009B27A` is the canonical byte `gCampaignSceneIndex`. `Main_RunCampaign`
+now selects the same existing DATA spelling through the shared header
+instead of redeclaring it locally. The debug selector, format strings,
+dialog object and effect-entry byte at `+0x18` use shared declarations.
+The diagnostic's original format at `0x80010288` is retained, as are the
+message-preview cleanup, editor toggle and campaign transition.
+
+The canonical rows and six terminal refinement records are unchanged;
+one post-terminal resolution records the declaration and layout evidence.
+
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
 - Large arrays and structures referenced with `%hi`/`%lo` pairs require G0
   declarations or declarations whose size exceeds the small-data limit.

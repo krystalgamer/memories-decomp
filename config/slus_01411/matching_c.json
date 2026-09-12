@@ -1735,6 +1735,12 @@
       "source": "src/game/duel_interface_setup.c"
     },
     {
+      "address": "0x80030998",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x278",
+      "source": "src/game/func_80030998.c"
+    },
+    {
       "address": "0x80030C10",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",

@@ -44,17 +44,29 @@ typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
  * the u8 gCampaignSceneIndex, which widens the same way to either type -- so
  * the header states the definition's own width.
  *
- * func_80030998 also reaches this function, but through a hand-written
- * relocation in inline assembly rather than a C call, so no declaration
- * governs that site. */
+ * func_80030998 also passes a constant zero through this declaration. */
 void Campaign_LoadScenePackage(s16 arg0);
 void Campaign_LoadScenePackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
 
 /* The scene package's primary display object. Campaign_LoadScenePackage
- * creates it, func_8002F630 hides and restores it around the duel-result
- * screen, and the inline-assembly event driver updates the same slot. */
+ * creates it and func_8002F630 hides and restores it around the duel-result
+ * screen. func_80030998 selects the DATA view for its absolute load/store. */
+#ifdef CAMPAIGN_PRIMARY_OBJECT_IN_DATA
+extern DisplayObject *D_8009B2A0 __attribute__((section(".data")));
+#else
 extern DisplayObject *D_8009B2A0;
+#endif
+
+/* Byte scene index; the frontend editor's absolute store must not become
+ * GP-relative under the uniform G8 profile. */
+#ifdef CAMPAIGN_SCENE_INDEX_IN_DATA
+extern u8 gCampaignSceneIndex __attribute__((section(".data")));
+#elif defined(CAMPAIGN_SCENE_INDEX_AS_ARRAY)
+extern u8 gCampaignSceneIndex[];
+#else
+extern u8 gCampaignSceneIndex;
+#endif
 
 #endif

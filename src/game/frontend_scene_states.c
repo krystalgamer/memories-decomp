@@ -19,8 +19,8 @@
    steps of the same state machine: the flags byte D_8009B2EB carries bit 0x80
    for "already entered", so the first call does the setup and each later call
    polls for completion and clears the byte on the way out. The two are
-   contiguous and are the whole gcc_2_8_1_g8 run between func_80030998, which
-   is generated assembly, and the next state, func_80030D5C, now a candidate
+   contiguous and are the whole gcc_2_8_1_g8 run between the separately
+   compiled func_80030998 and the next state, func_80030D5C, now a candidate
    in src/candidates/func_80030D5C.c. The states after it are in
    func_80030E30.c. */
 
@@ -69,4 +69,3 @@ void func_80030CB0(void)
         }
     }
 }
-
