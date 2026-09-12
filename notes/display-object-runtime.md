@@ -89,7 +89,7 @@ for that separate function and explicitly convert its returned word to
 | Caller | Source |
 |---|---|
 | `Dialog_OpenChoice` | `duel_effect_state_callbacks.c` |
-| `Dialog_UpdateChoice` | `src/candidates/func_800371A8.c` |
+| `Dialog_UpdateChoice` | `src/game/dialog_update_choice.c` |
 | `func_80018150` | `duel_card_object_helpers.c` |
 | `func_8002E3FC` | `func_8002E3FC.c` |
 
