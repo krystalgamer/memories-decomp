@@ -18,10 +18,10 @@
 /* The resident system layer's per-frame service pump. It is the first of
    four contiguous functions that are the only run in the region built with
    gcc_2_8_1_g8_split - their neighbours on both sides use other profiles.
-   The next two, the boot-time graphics and input start-up that installs the
-   pump and the pad-driven screen-offset adjustment loop, are now candidates
-   in src/candidates/func_80013154.c and src/candidates/func_80013360.c. The
-   last, the reset of the callback registry the pump walks, is in
+   The next two are the boot-time graphics and input start-up that installs
+   the pump, in func_80013154.c, and the pad-driven screen-offset adjustment
+   loop in src/candidates/func_80013360.c. The last, the reset of the callback
+   registry the pump walks, is in
    func_800134B4.c; the pump and the reset share the D_800E9DB0 slots and
    D_8009B0B8. */
 

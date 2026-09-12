@@ -51,7 +51,7 @@ extern u8 D_8009B141;
  * family, and the start-up block in func_80013154 -- so the family
  * header holds the declaration.
  *
- * func_80013154 (src/candidates/func_80013154.c) takes the arm below and it
+ * func_80013154 (func_80013154.c) takes the arm below and it
  * is a codegen input on that unit: retail stores the six D_8009B14x bytes
  * there through `lui $at` / `sb %lo(...)`, i.e. outside small data, and in
  * source order, which is what `.data` and `volatile` give. The three fade
