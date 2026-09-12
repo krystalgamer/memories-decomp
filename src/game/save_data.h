@@ -199,6 +199,9 @@ extern u8 D_801D1200[];
  * unit used to declare it `u8 [16]` and the overlay paths `u8 []`. */
 extern u8 D_801B125A[];
 extern s32 gSaveDataSequence;
+#ifdef GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
+extern u8 gCampaignSceneIndex[9];
+#endif
 #ifndef SAVE_DATA_DECLARE_MASK_STATE_LOCALLY
 extern u32 gSaveData_dwMaskStateLow;
 extern u32 gSaveData_dwMaskStateHigh;

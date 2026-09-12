@@ -380,34 +380,17 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x8002CEE8",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_8002CEE8.c",
-      "target": "src/candidates_target/func_8002CEE8.S",
-      "candidate_build_sha256": "04234b76c8b0ddddfd600dcb5f3d7b706af0458e49938e5e774a0df401fb04b8",
-      "target_bytes_sha256": "9bf4d2345cceb2e4f78065364a9964f231c72a577ab7b537b956ad353220a87c",
-      "canonical_contract_sha256": "77ac82eef406c4653d59dbe4a1ef870532ba16a62a4d1461c8e9a1270d7b7b64",
-      "canonical_contracts": {
-        "D_8009B16C": "3eed94a5d5a3e805d6f6489a28e1e94414f468cb1cb40653f08479f81303f5f4",
-        "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
-        "D_8009B2F8": "1be6661392155f8d8d0750535bac477c82d3422216fd7144d43a75b2bf0f736b",
-        "D_8009B370": "29105db77c15927307e8ab72742fb4c0f34d4b3f7a3d65f344ddd5ca2fcc992d",
-        "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDuel_bOpponentID": "5716d28707618798b40ed15c5bdd5e0f644f30b5bad85a6a4c3519357ac091b4"
-      }
-    },
-    {
       "address": "0x8002D370",
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_8002D370.c",
       "target": "src/candidates_target/func_8002D370.S",
       "candidate_build_sha256": "123252609b5fb4516eacd2a39233098d3d12c0f02a608e039c92b158fed91d36",
       "target_bytes_sha256": "a568b72e0e891b333b89ddc2dd48ab4a4cd1794181f1f91c1d1165e9440ac806",
-      "canonical_contract_sha256": "cfd13597bec844db353be3ebbda8a19da87930f6e0c21438e157d290adffedd0",
+      "canonical_contract_sha256": "68ee8c614030bb4386ce47d244a4bf4bdd21091b8d7f9092ecfa70c331bf5ba9",
       "canonical_contracts": {
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
-        "D_8009B2F8": "1be6661392155f8d8d0750535bac477c82d3422216fd7144d43a75b2bf0f736b"
+        "D_8009B2F8": "2e21e4641b138382bcf860ef0f76a7646c50e56cdc75cd53020f99a27cf8833f"
       }
     },
     {
@@ -456,13 +439,13 @@
       "target": "src/candidates_target/func_8002EE94.S",
       "candidate_build_sha256": "7c4b8416757b3d7cd63005cfe6d1991414f8d3c9aca5eb7cb8bf0d92b4677f6f",
       "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "af66bae55f634c40cb9a84b3e0957873a68c4936c198ededbaafa30a7a233668",
+      "canonical_contract_sha256": "8c125f3bd0c0bb59c5f81eeaf259f49c0c286cf771d6fd6d5c1eb7777f666132",
       "canonical_contracts": {
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
         "D_8009B34C": "04051825cb2f95204c6d95694b44932038eb5ddbc52e7d484dfb3af995f1b162",
         "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
-        "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
+        "gCampaignSceneIndex": "8b72871724913029ef265fda51b1223dcbe20246fef7b255116b17fc3fbf05f1",
         "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8",
         "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
       }
