@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_80023D08.c.
- */
 #include "../types.h"
 #include "../game/duel_side_state.h"
 #include "../game/sound.h"
@@ -16,14 +10,12 @@
 #define FUNC_8002348C_AMBIENT_SOURCE
 #include "../game/duel_field_display_objects.h"
 
-extern s16 D_800907AC[2][2][4];
-
 void func_80023D08(GridCursor *o, s32 dir) {
     DuelFieldCursorObject *d;
     s32 pos;
     s32 shift;
     s32 index;
-    register s32 q asm("$2");
+    s32 q;
 
     d = o->object;
     if (o->flags & 0x80) {
@@ -82,9 +74,8 @@ void func_80023D08(GridCursor *o, s32 dir) {
         d->moving = 0;
         d->target_x = D_80090800[D_8009B1D5][index].x;
         D_8009B162 = 0x40;
-        q = ((d->target_x - d->x) << shift) / shift;
         d->target_y = d->y;
-        d->step_x = q;
+        d->step_x = ((d->target_x - d->x) << shift) / shift;
         o->flags |= 0x80;
     }
 }

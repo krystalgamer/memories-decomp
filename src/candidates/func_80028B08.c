@@ -6,6 +6,7 @@
 #include "../game/display_object.h"
 #include "../game/card_preview_callbacks.h"
 #include "../game/sprite_primitive.h"
+#include "../game/card_constants.h"
 
 typedef struct {
     u8 field_0;
@@ -130,13 +131,13 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         PRM->cxcy.h.cy = white;
 
         i = rec->field_32 + rec->field_36;
-        if (i >= 10000) {
-            i = 9999;
+        if (i > CARD_STAT_MAX) {
+            i = CARD_STAT_MAX;
         }
         Text_EncodeDecimalDigits(i, 4, buf1);
         i = rec->field_34 + rec->field_38;
-        if (i >= 10000) {
-            i = 9999;
+        if (i > CARD_STAT_MAX) {
+            i = CARD_STAT_MAX;
         }
         Text_EncodeDecimalDigits(i, 4, buf2);
 
