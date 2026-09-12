@@ -15,16 +15,13 @@
 #include "../types.h"
 #include "../game/model.h"
 #include "../game/model_graphics_state.h"
+#include "../game/model_update_view_metrics.h"
+#include "../game/camera_view.h"
 #include "../psyq/libgte.h"
 
 typedef struct {
     s32 v[2];
 } Pair;
-
-extern s32 D_800F56F0[];
-extern s16 D_8009B47A;
-
-extern void Model_UpdateViewMetrics(s32);
 
 s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
 {
@@ -45,8 +42,8 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     s32 ref;
     s32 v;
 
-    ox = rcos(D_8009B47A + 0x800) * min_extent / 4096;
-    oz = rsin(D_8009B47A + 0x800) * min_extent / 4096;
+    ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
+    oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
 
     v = (s16)D_800F2C40[0].field_DC8[3] / 2;
     if (v < min_extent) {
@@ -93,15 +90,15 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     t.v[1] = v;
     e2 = t;
 
-    ref = D_800F56F0[0] + ox;
+    ref = D_800F56F0.vpx + ox;
     t.v[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[0];
     t.v[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[0];
     dx = t;
-    ref = D_800F56F0[1];
+    ref = D_800F56F0.vpy;
     t.v[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[1];
     t.v[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[1];
     dy = t;
-    ref = D_800F56F0[2] + oz;
+    ref = D_800F56F0.vpz + oz;
     t.v[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[2];
     t.v[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[2];
     dz = t;
@@ -181,10 +178,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                 pz = -pz;
             }
             {
-                s32 ax = D_800F56F0[3];
-                s32 az = D_800F56F0[2];
-                s32 bx = D_800F56F0[5];
-                s32 cx = D_800F56F0[0];
+                s32 ax = D_800F56F0.vrx;
+                s32 az = D_800F56F0.vpz;
+                s32 bx = D_800F56F0.vrz;
+                s32 cx = D_800F56F0.vpx;
                 s32 ux = bx - az;
                 s32 uz = cx - ax;
                 s32 cross = ax * az - cx * bx;
@@ -205,8 +202,8 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                     D_8009AF98 = D_8009AF98 - 1;
                 }
             }
-            D_800F56F0[0] = D_800F56F0[0] + px;
-            D_800F56F0[2] = D_800F56F0[2] + pz;
+            D_800F56F0.vpx = D_800F56F0.vpx + px;
+            D_800F56F0.vpz = D_800F56F0.vpz + pz;
         }
     }
 

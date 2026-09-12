@@ -1445,12 +1445,8 @@
       "target": "src/candidates_target/func_80051350.S",
       "candidate_build_sha256": "b25ed79800d6116f2613b5f49b3f56c5704fbf6176b5de9b22c378fad068c80b",
       "target_bytes_sha256": "9ac7225576d72290cc3f3612a72695629c1998db5db165ea7d4e85d57324d596",
-      "canonical_contract_sha256": "f51e470fb87698d262118fcd3a7807f30d37fc7ca2d9e542ad143a621a01bc18",
-      "canonical_contracts": {
-        "D_8009B47A": "ce6d475fea4a29d10d39c5f602aa4c7795bd0ee695e199e0be855443997928e8",
-        "D_800F56F0": "0162abd57bf45169587699029dbd0e32878f6a3c8ccd3f5413af4f4b9a97a5b2",
-        "Model_UpdateViewMetrics": "b019c34ece8b6a9fd462ee823ec6f046804017f92bb954583cb794392a4b6f3b"
-      }
+      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
+      "canonical_contracts": {}
     },
     {
       "address": "0x800528AC",
