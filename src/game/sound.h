@@ -791,6 +791,10 @@ void func_80049C40(void);
 void func_80049CB0(void);
 #endif
 void SD_SetOutputType(s16);
+/* Restores cached levels for active low-channel secondary objects and sets
+ * the playback state at +0x7E2 to 1, bracketed by the +0x500 guard. */
+void func_80049DD8(void);
+
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
  * 2. SD_UpdateFades (src/candidates/func_80045C98.c) passes the same value
