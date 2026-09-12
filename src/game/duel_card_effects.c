@@ -160,7 +160,6 @@ apply:
 
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
-extern u8 D_801A7AD8_bytes[] asm("D_801A7AD8");
 
 void func_8002538C(void) {
     DuelEffectRequest *p;
@@ -210,7 +209,7 @@ done:
 
     tb = D_800907D8;
     sp = &D_8009B1AE;
-    rb = D_801A7AD8_bytes;
+    rb = (u8 *)D_801A7AD8;
     goto head;
 
 arm:
@@ -238,7 +237,7 @@ head:
     }
 
 hit:
-    e = D_801A7AD8_bytes + D_800907D8[
+    e = (u8 *)D_801A7AD8 + D_800907D8[
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ] * DUEL_CARD_RECORD_SIZE;
     p = func_8002C68C(0xB);
@@ -355,7 +354,7 @@ void func_800257A0(void) {
         while (1) {
             p = (DuelCardRecord *)(D_800907D8[
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-            ] * DUEL_CARD_RECORD_SIZE + D_801A7AD8_bytes);
+            ] * DUEL_CARD_RECORD_SIZE + (u8 *)D_801A7AD8);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
                 ((u8 *)p->object)[0x68] == 0) {
                 func_80024954(p);
