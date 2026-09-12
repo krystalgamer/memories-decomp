@@ -751,7 +751,7 @@ s32 SD_GetSequenceStatus(void);
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
    the return width and the narrower one is right to: SD_UpdateRuntime
-   (src/candidates/func_80045F3C.c) compares
+   (src/game/sd_update_runtime.c) compares
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
