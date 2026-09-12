@@ -109,6 +109,55 @@ extern u8 *alias asm("real_symbol");
                 ["CanonicalName"],
             )
 
+    def test_contract_key_survives_owning_header_migration(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            (root / "state.h").write_text(
+                "extern s16 value;\n",
+                encoding="utf-8",
+            )
+            source_local = root / "source_local.c"
+            header_owned = root / "header_owned.c"
+            no_longer_used = root / "no_longer_used.c"
+            source_local.write_text(
+                "extern s16 value;\ns16 read_value(void) { return value; }\n",
+                encoding="utf-8",
+            )
+            header_owned.write_text(
+                '#include "state.h"\ns16 read_value(void) { return value; }\n',
+                encoding="utf-8",
+            )
+            no_longer_used.write_text(
+                '#include "state.h"\ns16 read_value(void) { return 0; }\n',
+                encoding="utf-8",
+            )
+            configured = {"value": "a" * 64}
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source_local,
+                    source_local.read_text(),
+                    configured,
+                ),
+                ["value"],
+            )
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    header_owned,
+                    header_owned.read_text(),
+                    configured,
+                ),
+                ["value"],
+            )
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    no_longer_used,
+                    no_longer_used.read_text(),
+                    configured,
+                ),
+                [],
+            )
+
     def test_contract_hash_is_deterministic(self) -> None:
         declarations = {
             "alpha": [("b.h", "extern s32 alpha;")],

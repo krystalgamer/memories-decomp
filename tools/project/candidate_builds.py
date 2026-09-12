@@ -265,9 +265,20 @@ def declaration_identifier(statement: str) -> str:
     )
 
 
-def candidate_contract_symbols(source: Path, text: str) -> list[str]:
+def candidate_contract_symbols(
+    source: Path,
+    text: str,
+    configured_contracts: object = None,
+) -> list[str]:
+    """Symbols whose canonical declarations are part of a candidate contract.
+
+    Header asm aliases are discovered from the candidate's include graph.
+    Existing contract keys also remain tracked when a source-local extern
+    moves into an owning header, provided the source still uses that symbol.
+    """
     symbols = set(candidate_extern_symbols(text))
-    identifiers = set(re.findall(r"\b[A-Za-z_]\w*\b", text))
+    source_without_comments = strip_c_comments(text)
+    identifiers = set(re.findall(r"\b[A-Za-z_]\w*\b", source_without_comments))
     pending = [source]
     visited: set[Path] = set()
     while pending:
@@ -287,6 +298,13 @@ def candidate_contract_symbols(source: Path, text: str) -> list[str]:
                 continue
             if declaration_identifier(statement) in identifiers:
                 symbols.add(extern_symbol(statement))
+    if isinstance(configured_contracts, dict):
+        for symbol in configured_contracts:
+            if (
+                isinstance(symbol, str)
+                and symbol in identifiers
+            ):
+                symbols.add(symbol)
     return sorted(symbols)
 
 
@@ -614,6 +632,7 @@ def load_candidates(
         source_symbols[(module, address)] = candidate_contract_symbols(
             source,
             source_text,
+            item.get("canonical_contracts"),
         )
 
     declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}
