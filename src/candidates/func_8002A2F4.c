@@ -42,5 +42,5 @@ void func_8002A2F4(u8 *p)
     if (*(p + (n << 2) + 0x56) & 1) {
         D_8009B320 = 4;
     }
-    func_80039A60((u8 *)&D_800EB15C);
+    func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 }

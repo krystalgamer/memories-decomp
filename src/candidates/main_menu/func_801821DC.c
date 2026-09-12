@@ -27,12 +27,6 @@
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
 
-typedef struct { u32 words[256]; } Block1024;
-
-typedef struct {
-    u32 words[4];
-} Block16;
-
 extern s32 D_80180000[];
 extern MainMenuState D_801A8000[];
 extern CardCountEntry D_80185144[];
@@ -75,17 +69,17 @@ s32 MainMenu_UpdateTradeScreen(void)
     u8 *clearFlags;
     u8 *from;
     u8 *to;
-    Block16 *base;
-    Block16 *source;
-    Block16 *save_source;
-    Block16 *destination;
-    Block16 *save_destination;
-    Block16 *end;
+    MainMenuTradeBlock16 *base;
+    MainMenuTradeBlock16 *source;
+    MainMenuTradeBlock16 *save_source;
+    MainMenuTradeBlock16 *destination;
+    MainMenuTradeBlock16 *save_destination;
+    MainMenuTradeBlock16 *end;
     /* Preserve the second restore copy's addresses across the first walk. */
-    register Block16 *source2 __asm__("$6");
-    Block16 *backup_source2;
-    register Block16 *destination2 __asm__("$5");
-    Block16 *backup_destination2;
+    register MainMenuTradeBlock16 *source2 __asm__("$6");
+    MainMenuTradeBlock16 *backup_source2;
+    register MainMenuTradeBlock16 *destination2 __asm__("$5");
+    MainMenuTradeBlock16 *backup_destination2;
     CardCountEntry *card0;
     CardCountEntry *card1;
 
@@ -104,7 +98,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             goto out;
         }
         if (result == 1) {
-            destination = (Block16 *)D_801D1200;
+            destination = (MainMenuTradeBlock16 *)D_801D1200;
             destination2 = destination + 256;
             source2 = destination + 360;
             source = destination + 104;
@@ -145,17 +139,19 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
 
     if (D_80185CD0 != 0) {
-        base = (Block16 *)D_801D1200;
+        base = (MainMenuTradeBlock16 *)D_801D1200;
         backup_source2 = base + 256;
         backup_destination2 = base + 360;
         save_destination = base + 104;
         save_source = base;
         counts[0] = (u8 *)(base + 109);
         counts[1] = (u8 *)(base + 365);
-        *(Block1024 *)save_destination = *(Block1024 *)save_source;
+        *(MainMenuTradeBlock1024 *)save_destination =
+            *(MainMenuTradeBlock1024 *)save_source;
         save_source = backup_destination2;
         save_destination = backup_source2;
-        *(Block1024 *)save_source = *(Block1024 *)save_destination;
+        *(MainMenuTradeBlock1024 *)save_source =
+            *(MainMenuTradeBlock1024 *)save_destination;
         for (i = 0; i < 2; i++) {
             for (j = 0; j < D_80185C9C[i][0]; j++) {
                 id = D_80185C9C[i][j + 1] - 1;

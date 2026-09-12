@@ -12,9 +12,9 @@
  * byte, the only one matched C reads directly.
  *
  * graphics_frame.c needs the absolute-address declaration arm below. Its
- * retail stores use %hi/%lo and its view of D_8009AFA3 is non-volatile, while
- * func_80058E1C needs the volatile small-data view to preserve two loads. The
- * C owner remains volatile and in .sdata either way. */
+ * retail stores use %hi/%lo and its view of D_8009AFA3 is non-volatile.
+ * func_80058E1C also uses a non-volatile view, but keeps two explicit source
+ * reads. The C owner remains volatile and in .sdata for the default view. */
 /* Pointer to the active 0xB2-byte model record. Model_SetSlotProperties
  * selects it from D_80091008; model view/update code reads fields through it. */
 extern u8 *D_8009AF88;
@@ -47,6 +47,10 @@ extern u8 D_8009AFA1;
 extern u8 D_8009AFA2 __attribute__((section(".data")));
 extern u8 D_8009AFA3 __attribute__((section(".data")));
 extern u8 D_8009AFA4 __attribute__((section(".data")));
+#elif defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
+extern u8 D_8009AFA2;
+extern u8 D_8009AFA3;
+extern u8 D_8009AFA4;
 #else
 extern u8 D_8009AFA2;
 extern volatile u8 D_8009AFA3;

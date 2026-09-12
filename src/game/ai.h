@@ -96,6 +96,15 @@ typedef struct {
  * duplicate to be folded into the struct. */
 extern u8 D_800EAE90;
 
+/* The preceding selection byte is written by func_8007368C from an AI
+ * register. The presentation sequence reads bit 0 after updating the card
+ * flags; the byte-array view preserves that access ordering. */
+#ifdef D_800EAE8F_IS_ARRAY
+extern u8 D_800EAE8F[];
+#else
+extern u8 D_800EAE8F;
+#endif
+
 /* AiScript_LoadBestAttacker reads the byte recorded by
    AiScript_FindBestAttack before copying it into the VM register file. */
 extern u8 gAi_bBestAttacker;

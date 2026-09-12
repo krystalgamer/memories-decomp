@@ -103,7 +103,7 @@ void func_80057544(FileTransferDescriptor *object, s32 mode) {
 void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;
-    u8 *dst;
+    ModelSlot *dst;
     u8 *src;
 
     switch (mode) {
@@ -201,17 +201,17 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 10:
-        dst = (u8 *)D_800F2C40;
+        dst = D_800F2C40;
         src = D_801DD000;
-        func_8005B620((s32 *)(dst + 0xBF8), (const s32 *)src, 0x40);
-        *(ModelSlotCF8BlockWords *)(dst + 0xCF8) =
+        func_8005B620((s32 *)dst->sound_entries, (const s32 *)src, 0x40);
+        *(ModelSlotCF8BlockWords *)&dst->field_CF8 =
             *(ModelSlotCF8BlockWords *)(src + 0x100);
-        *(s32 *)(dst + 0xD08) = -1;
-        *(s32 *)(dst + 0xD0C) = -1;
-        *(s32 *)(dst + 0xD10) = -1;
-        *(s16 *)(dst + 0xCF8) = 0;
-        *(s16 *)(dst + 0xCFA) = 0;
-        dst[0xE14] = 1;
+        *(s32 *)&dst->field_CF8.field_0C[2] = -1;
+        *(s32 *)&dst->field_CF8.field_0C[4] = -1;
+        *(s32 *)&dst->field_CF8.field_0C[6] = -1;
+        *(s16 *)&dst->field_CF8.field_00[0] = 0;
+        *(s16 *)&dst->field_CF8.field_00[2] = 0;
+        dst->field_E14 = 1;
         break;
     }
 }

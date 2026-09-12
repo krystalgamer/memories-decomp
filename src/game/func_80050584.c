@@ -1,5 +1,9 @@
 #include "../types.h"
 #include "../unmatched.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
 #include "file_transfer.h"
@@ -8,21 +12,21 @@
 #include "model_cleanup.h"
 
 void func_80050584(s32 arg0) {
-    u8 *p;
-    u8 *b;
-    u8 *b0;
-    u8 *q;
-    u8 *r;
-    u8 *s;
+    ModelSlot *p;
+    ModelSlot *b;
+    ModelSlot *b0;
+    ModelSlot *q;
+    GsCOORDUNIT *r;
+    ModelSlot *s;
     s32 v;
     s32 t;
     s32 a;
     s32 m1;
 
-    b0 = (u8 *)D_800F2C40;
-    p = b0 + arg0 * MODEL_SLOT_SIZE;
-    if (p[0xE1F] == 0) {
-        if (p[0xE14] == 0xFF) {
+    b0 = D_800F2C40;
+    p = b0 + arg0;
+    if (p->field_E1F == 0) {
+        if (p->field_E14 == 0xFF) {
             if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                  D_8009B134_abs) == 0) {
                 do {
@@ -39,30 +43,30 @@ void func_80050584(s32 arg0) {
             func_80056828(arg0);
         }
 
-        b = (u8 *)D_800F2C40;
-        if ((b + arg0 * MODEL_SLOT_SIZE)[0xE1F] != 0) {
-            q = b + (arg0 ^ 1) * MODEL_SLOT_SIZE;
+        b = D_800F2C40;
+        if ((b + arg0)->field_E1F != 0) {
+            q = b + (arg0 ^ 1);
             a = MODEL_ANGLE_QUARTER_TURN;
-            if (q[0xE1F] != 0) {
-                r = *(u8 **)(q + 0xD18);
-                if (r != (u8 *)0) {
-                    t = *(s16 *)(r + 0x46) + MODEL_ANGLE_QUARTER_TURN;
+            if (q->field_E1F != 0) {
+                r = q->field_D18;
+                if (r != (GsCOORDUNIT *)0) {
+                    t = r->rot.vy + MODEL_ANGLE_QUARTER_TURN;
                     a = t / MODEL_ANGLE_FULL_TURN;
                     a = t - a * MODEL_ANGLE_FULL_TURN;
                 }
             }
-            s = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
-            if (*(s32 *)(s + 0xD18) != 0) {
-                *(s16 *)(*(s32 *)(s + 0xD18) + 0x44) = 0;
-                *(s16 *)(*(s32 *)(s + 0xD18) + 0x46) = a;
-                *(s16 *)(*(s32 *)(s + 0xD18) + 0x48) = 0;
-                *(s32 *)(*(s32 *)(s + 0xD18) + 0x18) = 0;
-                *(s32 *)(*(s32 *)(s + 0xD18) + 0x1C) = 0;
-                *(s32 *)(*(s32 *)(s + 0xD18) + 0x20) = 0;
+            s = D_800F2C40 + arg0;
+            if (s->field_D18 != (GsCOORDUNIT *)0) {
+                s->field_D18->rot.vx = 0;
+                s->field_D18->rot.vy = a;
+                s->field_D18->rot.vz = 0;
+                s->field_D18->matrix.t[0] = 0;
+                s->field_D18->matrix.t[1] = 0;
+                s->field_D18->matrix.t[2] = 0;
             }
-            func_8005922C(*(struct _GsCOORDUNIT **)(s + 0xD18), 0);
+            func_8005922C(s->field_D18, 0);
             func_80059DD8(arg0);
-            s[0xE15] = 0;
+            s->field_E15 = 0;
         }
     }
 }
