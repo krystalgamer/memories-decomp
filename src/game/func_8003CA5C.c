@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/game_over.c.
- */
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #include "../types.h"
 #include "../game/display_object_config.h"
@@ -19,14 +13,11 @@
 #include "../game/game_over.h"
 #include "../unmatched.h"
 
-/* The retail tail load uses an absolute, self-clobbering v1 address lifetime. */
-
 s32 func_8003CA5C(void)
 {
     DisplayObject *p;
     DisplayObjectVelocity *motion;
     s16 value;
-    register u32 tail_bits __asm__("$3");
 
     p = (DisplayObject *)D_8009B378;
     motion = (DisplayObjectVelocity *)p;
@@ -54,23 +45,10 @@ s32 func_8003CA5C(void)
             break;
         }
     }
-    {
-        s32 result = 1;
-
-        if (gFade_State.flags & FADE_FLAG_ACTIVE) {
-            return result;
-        }
-
-        tail_bits = gInput_wPad1Pressed;
-        if (tail_bits & (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) {
-            result = 0;
-            /* Distinct exits preserve the retail branch-and-delay-slot shape. */
-            if (D_8009B378 != 0) {
-                return result;
-            } else {
-                return result;
-            }
-        }
-        return result;
+    if (!(gFade_State.flags & FADE_FLAG_ACTIVE) &&
+        (gInput_wPad1Pressed &
+         (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK))) {
+        return 0;
     }
+    return 1;
 }
