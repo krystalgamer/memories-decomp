@@ -1951,6 +1951,12 @@
       "source": "src/game/card_list_sort.c"
     },
     {
+      "address": "0x800330BC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x444",
+      "source": "src/game/func_800330BC.c"
+    },
+    {
       "address": "0x80033500",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",

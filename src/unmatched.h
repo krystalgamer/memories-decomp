@@ -640,8 +640,6 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * The return value is a handled flag: build_deck_pane_input.c, the only
  * consumer, tests it against zero at both call sites and does no more work
  * when it is set. */
-s32 func_800330BC(struct CardList *list);
-
 /* One frame of choice-cursor input on a dialog's text-box record. Returns 1
  * when the repeat pad held a direction or R1 -- whether or not the cursor
  * actually moved, because a clamped edge still counts as handled and returns
