@@ -10,10 +10,6 @@
 #include "../psyq/libgs.h"
 #include "../game/gpu_packets.h"
 
-/* The packet buffer every helper here writes through: a cursor into the
- * frame's scratch packet area, advanced past each packet as it is linked. */
-extern u32 *D_800FE240 __attribute__((section(".data")));
-
 /* The mask-write variant of func_8005B260. Copies one GPU primitive into the
  * packet buffer at D_800FE240 and links it into an ordering table, but brackets
  * the primitive with a 0xE6 pair that turns mask-bit drawing on before it and

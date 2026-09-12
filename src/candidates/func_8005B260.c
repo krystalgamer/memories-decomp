@@ -10,10 +10,6 @@
 #include "../psyq/libgs.h"
 #include "../game/gpu_packets.h"
 
-/* The packet buffer every helper here writes through: a cursor into the
- * frame's scratch packet area, advanced past each packet as it is linked. */
-extern u32 *D_800FE240 __attribute__((section(".data")));
-
 /* Copies one GPU primitive into the packet buffer at D_800FE240 and links it
  * into an ordering table. The packet is laid out as the primitive's own tag,
  * then a 0xE1 draw-mode word carrying the semi-transparency rate from the low
@@ -51,4 +47,3 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     addPrim(&table->org[idx & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 2);
 }
-
