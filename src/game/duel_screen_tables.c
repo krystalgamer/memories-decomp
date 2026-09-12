@@ -16,8 +16,12 @@
    and debug screen because their exact code generation depends on halfword
    pointer arithmetic.
 
-   D_80090918 has no reader in tracked C and no shape anything supports. It
-   is transcribed as bytes and left unnamed.
+   D_80090918 supplies the five Exodia card poses consumed by the retained
+   func_80018FEC candidate. Each card ID from 0x11 through 0x15 selects a
+   record, whose first byte chooses one of the five shared display-object work
+   slots and whose remaining bytes become object x/y after removing the
+   candidate's 0x1A/0x1E coordinate biases. The trailing byte preserves the
+   table's 16-byte extent before D_80090928.
 
    D_80090928 and D_80090960 are the duel-result sprite tables, for a real
    opponent and for none. The outro already declared both as
@@ -56,10 +60,15 @@ DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT] = {
     { -140, 161 },
 };
 
-/* No reader in tracked C. */
-u8 D_80090918[] = {
-    0x03, 0x68, 0xCE, 0x02, 0xD8, 0xCE, 0x04, 0x45,
-    0x62, 0x01, 0xFB, 0x62, 0x00, 0xA0, 0x20, 0x00,
+DuelExodiaCardPoseTable D_80090918 = {
+    {
+        { 3, 104, 206 },
+        { 2, 216, 206 },
+        { 4, 69, 98 },
+        { 1, 251, 98 },
+        { 0, 160, 32 },
+    },
+    0,
 };
 
 DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT] = {
