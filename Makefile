@@ -152,7 +152,6 @@ check-metadata:
 	@$(PYTHON) tools/project/candidate_human_bundles.py --check
 	@$(PYTHON) tools/project/candidate_builds.py --check
 	@$(PYTHON) tools/project/translation_unit_headers.py
-	@$(PYTHON) tools/project/matching_source_contracts.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
 	@$(PYTHON) tools/project/c_type_definitions.py
 

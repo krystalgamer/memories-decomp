@@ -108,6 +108,9 @@ jobs:
           tools/environments/python/bin/python -m unittest discover \
             -s tools/project/tests -p 'test_*.py' -v
 
+      - name: Verify matching source contracts
+        run: make check-matching-source-contracts
+
       - name: Perform clean matching build
         run: |
           make clean
