@@ -407,6 +407,16 @@ typedef char DuelEffectObject_size_must_be_0x1C[
     sizeof(DuelEffectObject) == 0x1C ? 1 : -1
 ];
 
+#define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
+#define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
+
+/* The dialog request consumed by func_80028310, its two-stage latch, and the
+ * active handler index captured by DuelEffect_UpdateState. These are separate
+ * scalar symbols: the gaps between them remain unmodeled. */
+extern u16 D_8009B244;
+extern u8 D_8009B248;
+extern u8 D_8009B24A;
+
 /* The pending duel-effect request. DuelEffect_UpdateState reads it each
  * tick: zero is idle; otherwise the low bits are the effect id, which it
  * copies into D_8009B24A and then marks with 0x80 as started; func_800283F4

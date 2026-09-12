@@ -53,7 +53,7 @@ void func_800339D0(BuildDeckTransitionState *record)
         if (func_80033998() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
-            mode = D_8009B2F8 & 0x80;
+            mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
             workspace->state |= 0x4000;
             if (mode) {
                 ((u8 *)TextBox_CreateFlagged(
@@ -80,7 +80,8 @@ void func_800339D0(BuildDeckTransitionState *record)
         box = (u8 *)D_800EB0F8;
         if ((*(u32 *)(box + 0x34) & 0x2008) == 0x2000) {
             TextBox_Destroy(box);
-            if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {
+            if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
+                gDialog_bChoice != 0) {
                 workspace->state &= 0xBFFF;
             } else {
                 workspace->state = workspace->next_state;
