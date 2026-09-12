@@ -3691,6 +3691,12 @@
       "source": "src/game/mem_card_set_io_result_error_cb.c"
     },
     {
+      "address": "0x80044D34",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x14",
+      "source": "src/game/mem_card_set_io_result_new_card_cb.c"
+    },
+    {
       "address": "0x80044D48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
@@ -5561,6 +5567,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
       "source": "src/game/ai_script_load_terrain.c"
+    },
+    {
+      "address": "0x80071424",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_opponent_id.c"
     },
     {
       "address": "0x8007149C",

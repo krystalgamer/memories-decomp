@@ -21,4 +21,8 @@ typedef char AiOpponentData_size_must_be_9[
 
 extern AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT];
 
+#ifdef GDUEL_OPPONENT_ID_SCALAR
+extern s8 gDuel_bOpponentID;
+#endif
+
 #endif
