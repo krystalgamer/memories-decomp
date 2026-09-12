@@ -19,4 +19,11 @@ typedef enum {
 
 void Main_ApplyMenuSelection(MainMenuSelection selection);
 
+/* Cleared by boot initialization and the new-game selection. */
+#ifdef D_8009B0D1_IS_VOLATILE
+extern volatile u8 D_8009B0D1;
+#else
+extern u8 D_8009B0D1 __attribute__((section(".data")));
+#endif
+
 #endif

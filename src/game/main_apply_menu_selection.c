@@ -9,7 +9,6 @@ extern u8 D_8009B26C;
 extern s16 gCampaignSavedSceneIndex[];
 extern u8 gCampaignSceneIndex __attribute__((section(".data")));
 extern u8 D_8009B3D4 __attribute__((section(".data")));
-extern u8 D_8009B0D1 __attribute__((section(".data")));
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
 void func_8016AA6C(void);
