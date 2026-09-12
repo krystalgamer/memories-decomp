@@ -3620,9 +3620,9 @@
     },
     {
       "address": "0x80043178",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/func_80043178.c"
+      "source": "src/game/display_object_interpolation.c"
     },
     {
       "address": "0x8004318C",
