@@ -587,10 +587,11 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Three spellings of this one declaration live below, and they are codegen
- * inputs rather than style. Five translation units need one of them:
- * func_800464F0.c takes the aggregate arm, func_80049138.c the volatile one,
- * and func_80047788.c, func_80045514.c and func_80046294.c the .data one.
+/* Three alternative spellings of this declaration are codegen inputs:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c, func_800466C8.c
+ * and func_80045054.c take the volatile arm;
+ * func_80047788.c, func_80045514.c and func_80046294.c
+ * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -599,6 +600,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
+ *   func_800466C8 also refreshes it after its conditional output setup and
+ *   captures it again before clearing the output flag.
+ *   func_80045054 uses four staged pointer reads around decoded-buffer
+ *   selection, accumulation, and result publication.
  *
  *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
  *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
@@ -707,13 +712,14 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
-   func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
-   which rebuilds the voice tables. func_8004A43C refreshes one secondary
+   func_80049BAC.c calls the reset right before func_8004A518, which rebuilds
+   the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
+void func_8004A518(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
@@ -787,6 +793,10 @@ void func_800498F8(void);
 void func_80049C40(void);
 void func_80049CB0(void);
 #endif
+/* Mutes active low-channel secondary objects, then sets the playback state
+ * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
+void func_80049CF8(void);
+
 void SD_SetOutputType(s16);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is

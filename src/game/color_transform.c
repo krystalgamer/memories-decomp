@@ -176,15 +176,6 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
            (color & COLOR_BGR555_STP_MASK);
 }
 
-/* These names bind to the definitions above while preserving the caller-side
- * contracts that produce the retail allocation in the final two functions. */
-extern void func_8005A98C_void(
-    HsvT *out, u8 r, u8 g, u8 b, u8 lim
-) asm("func_8005A98C");
-extern void func_8005ABA0_wide(
-    Color *out, s32 h, u32 s, u32 v, s32 lim
-) asm("func_8005ABA0");
-
 s32 func_8005B054(s32 value, u32 a, u32 b)
 {
     Color color;

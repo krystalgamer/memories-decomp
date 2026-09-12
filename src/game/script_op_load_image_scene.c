@@ -6,8 +6,8 @@
 #include "graphics_frame.h"
 #include "script_state.h"
 #include "script_image_objects.h"
-#include "func_8002E128.h"
-#include "func_8002E470.h"
+#include "script_image_rebuild.h"
+#include "script_op_load_image_scene.h"
 
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
@@ -16,7 +16,7 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 
-void func_8002E470(void)
+void Script_OpLoadImageScene(void)
 {
     u8 *script;
     u8 *next;
@@ -27,7 +27,7 @@ void func_8002E470(void)
     if (func_8002E3B4() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        func_8002E00C((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
         script = D_8009B290;
         next = script + 2;
         D_8009B290 = next;
@@ -41,14 +41,14 @@ void func_8002E470(void)
             D_8009B290 = script + 6;
             gGraphics_sViewportY = script[4] | (next2[1] << 8);
         }
-        func_8002DF2C((u8 *)D_800EAE98, D_8009B270);
+        ScriptImage_RequestTransfer((u8 *)D_800EAE98, D_8009B270);
     }
     flags = D_8009B27C;
     if ((flags & 0x800) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
             D_8009B27C = flags | 0x800;
-            func_8002E128((u8 *)D_800EAE98, -1);
+            ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1);
             Fade_StartIn();
         }
     } else {

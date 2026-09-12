@@ -12,28 +12,15 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "model.h"
+#define FUNC_800603DC_RETURNS_HANDLER
+#include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "../unmatched.h"
-
-extern s32 (*func_800603DC())();
 
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
-
-void func_80069E44(void);
-void func_80069F94(void);
-void func_8006A0E8(void);
-void func_8006A268(void);
-void func_8006A3F0(void);
-void func_8006A540(void);
-void func_8006A694(void);
-void func_8006A814(void);
-void func_8006A99C(void);
-void func_8006AAFC(void);
-void func_8006AC88(void);
-void func_8006ADE8(void);
 
 s32 func_8005FC1C(s32 arg0) {
     ModelHandlerRegistryEntry *e;

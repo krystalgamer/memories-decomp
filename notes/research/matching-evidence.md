@@ -511,7 +511,8 @@ correct 25 of 25 under `gcc_2_8_1_g0_split`. The second read reappears, but as
 `lui`/`lbu` pair above is still not reproduced. Instruction count parity is
 therefore recovered while the residual stays.
 
-The same lever settles the count on `func_8002DDFC` (`0x8002DDFC`), where the
+The same lever settles the count on `ScriptImage_TransferCallback`
+(`0x8002DDFC`), where the
 target performs two independent read-modify-write sequences on `D_8009B0F4`:
 
 ```
@@ -2436,8 +2437,8 @@ object model through two related parent/child constructors.
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |
 | `func_8002ABB4` | `0x70`-byte object clone/initialization wrapper |
-| `func_8002DF2C` | Three archive layouts selected by high byte; packed decimal index calculation |
-| `func_8002E060` | Object creation wrapper with signed mode byte |
+| `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
+| `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
 | `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
@@ -5708,7 +5709,8 @@ in `$v1` where the build used `$v0`; pinning it closed the window at once.
 So in a differing window that contains a load, compare the load's destination
 register before permuting anything.
 
-The inverse reading is also useful. On `func_8002E128` (0x8002E128), whose
+The inverse reading is also useful. On `ScriptImage_RebuildObjects`
+(`0x8002E128`), whose
 residual looks like the same class, every pin is *worse* than no pin: naming
 the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
@@ -7435,3 +7437,27 @@ a finding to record next to the object it points into -- both of these went into
 the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
+
+## func_800466C8: output-transition pointer refreshes
+
+The 84-byte callback at `0x800466C8` matches under the existing uniform
+`gcc_2_8_1_g8` profile without register bindings, inline assembly, or literal
+global addresses. It keeps the shared `SDValue` layout and the existing
+`void(void)` callback contract installed by `SD_InitState`.
+
+The existing `G_SDVALUE_VOLATILE` view supplies the initial pointer read, the
+conditional refresh after writes to `+0x1588` and `+0x1584`, and the final
+pointer capture before the `+0x0512` store and flag update. It replaces the
+retired candidate's two memory barriers; no new declaration view is needed.
+
+The two source-level exit paths intentionally repeat the final stores. GCC
+merges their machine-code tail while allocating the state pointer to `$v1`
+and the flag-update pointer to `$a0`. Factoring the source into one shared
+tail still produces 84 bytes, but exchanges those registers at ten instruction
+positions. Giving each branch its own flag-pointer local produces the same
+ten-word mismatch. The accepted source keeps one function-local flag pointer
+and both exit paths.
+
+The historical canonical match and six inline-refinement rows remain intact.
+The new `post_terminal_resolution` record identifies the pointer view and
+source-level exit structure as the discriminator beyond that deferred series.
