@@ -12,6 +12,11 @@ from pathlib import Path
 from pathlib import PurePosixPath
 
 from workspace import WorkspaceError, require_workspace_root
+from record_external_attempt import (
+    ExternalAttemptError,
+    latest_successes,
+    previous_match_addresses,
+)
 
 
 class AuditError(RuntimeError):
@@ -54,6 +59,7 @@ EXTERNAL_MODES = {
     "inline_refinement",
     "collaborator_match",
     "post_terminal_resolution",
+    "reclassification_match",
 }
 COLLABORATOR_REFERENCE_SETS = (
     "ygofm-decomp-unchiga",
@@ -64,6 +70,7 @@ EXTERNAL_MODE_LIMITS = {
     "inline_refinement": MAX_FUNCTION_ATTEMPTS,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
+    "reclassification_match": 1,
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
@@ -385,6 +392,10 @@ def audit_attempts(root: Path) -> None:
         for address, result in inline_latest.items()
         if result == "deferred"
     }
+    try:
+        previous_matches = previous_match_addresses(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
     for row in external_attempts:
         mode = row["mode"]
         address = parse_integer(row["address"], "external attempt address")
@@ -456,7 +467,10 @@ def audit_attempts(root: Path) -> None:
                 if mode == "collaborator_match"
                 else row["reference_path"] == original
                 or collaborator
-                or (mode == "post_terminal_resolution" and evidence)
+                or (
+                    mode in {"post_terminal_resolution", "reclassification_match"}
+                    and evidence
+                )
             )
             if not valid_reference:
                 raise AuditError(
@@ -479,6 +493,16 @@ def audit_attempts(root: Path) -> None:
             if row["result"] != "matched":
                 raise AuditError(
                     f"{address:#010x}: post-terminal resolution must be matched"
+                )
+        if mode == "reclassification_match":
+            if address not in previous_matches:
+                raise AuditError(
+                    f"{address:#010x}: reclassification match lacks prior "
+                    "matched non-refinement external evidence"
+                )
+            if row["result"] != "matched":
+                raise AuditError(
+                    f"{address:#010x}: reclassification match must be matched"
                 )
         external_by_key.setdefault((mode, address), []).append(row)
 
@@ -510,15 +534,11 @@ def audit_attempts(root: Path) -> None:
                     f"{address:#010x}: final external attempt is not deferred"
                 )
 
-    latest_success_by_address: dict[int, dict[str, str]] = {}
-    for row in external_attempts:
-        if row["result"] == "matched":
-            address = parse_integer(
-                row["address"], "external matched address"
-            )
-            latest_success_by_address[address] = row
-
-    for address, row in latest_success_by_address.items():
+    try:
+        selected_successes = latest_successes(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
+    for address, row in selected_successes.items():
         mode = row["mode"]
         if address not in matching_addresses:
             raise AuditError(

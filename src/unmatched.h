@@ -587,10 +587,6 @@ struct CardList;
 struct DuelEffectChannel;
 struct DuelRitualResult;
 
-/* Fills the file position table. Its one caller is the boot-time start-up
- * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
-void File_SetPositionTable(void);
-
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
@@ -633,8 +629,6 @@ void func_80024E58(void);
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
  * overlay's shop.c calls it too. */
-FileTransferDescriptor *func_80029164(s32 slot, s32 value);
-
 void func_8002A2F4(u8 *state);
 
 /* Returns the u16 result card id widened to s32. Declaring a narrow return at
@@ -652,8 +646,6 @@ void Script_UpdateViewportTween(void);
 /* Entry 5 of the frontend step table D_80090D84 (frontend_step_tables.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
-void func_800307B8(void);
-
 /* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
 void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
 
@@ -689,20 +681,12 @@ s32 func_800330BC(struct CardList *list);
  * slots. */
 void Dialog_UpdateChoice(struct DuelEffectChannel *object);
 
-/* D_80090EAC entry: the fade command. Bit 6 of its operand sets D_8009B140 from
- * the D_8009AF74 pair, bit 5 sets it to 4, and bit 4 starts a fade -- white
- * through Fade_InitOutColor when bit 0 is set. The bits are tested in that
- * order and are not exclusive. */
-void func_800388D8(u8 *object);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
  * wide by 0x3C high. Both are reached only through that table. */
 void func_80040DD8(void);
 void func_80041068(void);
-
-void func_80047480(void);
 
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int

@@ -34,10 +34,10 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 
 # (caller, callee, include that provides the callee's declaration)
 PAIRS = [
-    ("src/candidates/func_800283F4.c", "func_80029164", '#include "../unmatched.h"'),
+    ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
     ("src/candidates/func_8004A2F8.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
     ("src/candidates/func_8004B734.c", "func_8004AAFC", '#include "../game/sound.h"'),
-    ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../unmatched.h"'),
+    ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_80049BAC.c", "func_8004A518", '#include "../unmatched.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../game/sound.h"'),

@@ -49,6 +49,7 @@ IDENTIFIER = re.compile(r"^[A-Za-z_]\w*$")
 ASM_ALIAS = re.compile(
     r'\basm\s*\(\s*"(?P<name>[A-Za-z_]\w*)"\s*\)'
 )
+LOCAL_INCLUDE = re.compile(r'^\s*#\s*include\s+"(?P<path>[^"]+)"', re.MULTILINE)
 EXCLUDED_HEADER_DIRECTORIES = {
     "candidates",
     "candidates_target",
@@ -237,6 +238,55 @@ def candidate_extern_symbols(text: str) -> list[str]:
         for statement in top_level_statements(text)
         if statement.startswith("extern ")
     }
+    return sorted(symbols)
+
+
+def declaration_identifier(statement: str) -> str:
+    declaration = re.split(r"\basm\s*\(", statement, maxsplit=1)[0].rstrip()
+    pointer = re.search(
+        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*\)",
+        declaration,
+    )
+    if pointer is not None:
+        return pointer.group("name")
+    function = re.search(
+        r"\b(?P<name>[A-Za-z_]\w*)\s*\(",
+        declaration,
+    )
+    if function is not None:
+        return function.group("name")
+    declaration = declaration.rstrip(";").rstrip()
+    declaration = re.sub(r"(?:\[[^\]]*\]\s*)+$", "", declaration)
+    name = re.search(r"(?P<name>[A-Za-z_]\w*)\s*$", declaration)
+    if name is not None:
+        return name.group("name")
+    raise CandidateBuildError(
+        f"cannot find declaration identifier in: {statement}"
+    )
+
+
+def candidate_contract_symbols(source: Path, text: str) -> list[str]:
+    symbols = set(candidate_extern_symbols(text))
+    identifiers = set(re.findall(r"\b[A-Za-z_]\w*\b", text))
+    pending = [source]
+    visited: set[Path] = set()
+    while pending:
+        path = pending.pop()
+        if path in visited:
+            continue
+        visited.add(path)
+        contents = path.read_text(encoding="utf-8", errors="surrogateescape")
+        for match in LOCAL_INCLUDE.finditer(contents):
+            included = (path.parent / match.group("path")).resolve()
+            if included.is_relative_to(ROOT) and included.is_file():
+                pending.append(included)
+        if path == source:
+            continue
+        for statement in top_level_statements(contents):
+            if not statement.startswith("extern ") or ASM_ALIAS.search(statement) is None:
+                continue
+            if declaration_identifier(statement) in identifiers:
+                symbols.add(extern_symbol(statement))
     return sorted(symbols)
 
 
@@ -561,7 +611,10 @@ def load_candidates(
         )
         source_text = source.read_text(encoding="utf-8")
         source_texts[(module, address)] = source_text
-        source_symbols[(module, address)] = candidate_extern_symbols(source_text)
+        source_symbols[(module, address)] = candidate_contract_symbols(
+            source,
+            source_text,
+        )
 
     declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}
     for module in {key[0] for key in source_symbols}:

@@ -1,17 +1,8 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/file_set_position_table.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g2_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G2). Under gcc_2_8_1_g0, a single threshold,
- * it is 65 instructions against the target's 64, opcode distance 1. The
- * source below is the match, unchanged apart from its include paths. */
 #include "../types.h"
-#include "../game/file_names.h"
-#include "../unmatched.h"
-#include "../game/file_transfer.h"
-
-extern u8 D_800E9DF0[];
-extern u8 D_8009B0E0;
-extern u8 D_80010038[4];
+#include "../psyq/stdio.h"
+#include "file_names.h"
+#define D_8009B10C_IN_DATA
+#include "file_transfer.h"
 
 void File_SetPositionTable(void)
 {
@@ -35,18 +26,18 @@ void File_SetPositionTable(void)
     *(s32 *)(state + 8) = 0x180018;
     *(s32 *)(state + 0x10) = 0xFC0230;
 
-    for (i = 0, position = gFile_anLba, name = gFile_apszName;;) {
+    i = 0;
+    position = gFile_anLba;
+    name = gFile_apszName;
+    while (i < FILE_POSITION_TABLE_CAPACITY) {
         current = *name;
         if (current == (u8 *)0) {
             break;
         }
         File_GetPosition(position, (const char *)current);
-        printf(D_80010038, current, *position);
+        printf((const char *)D_80010038, current, *position);
         position++;
         name++;
         i++;
-        if (i >= FILE_POSITION_TABLE_CAPACITY) {
-            break;
-        }
     }
 }

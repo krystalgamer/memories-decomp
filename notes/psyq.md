@@ -199,25 +199,23 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
-Two further identifications are confirmed but deliberately not applied. Both
-are blocked by the same thing: the only consumer calls the function with an
-arity the Psy-Q header contradicts, so adopting the name would put a source
-file's own prototype in conflict with `libgte.h`, and deciding which of the two
-is right is prototype work rather than a rename.
+Two further identifications have unique signatures but caller ABIs that
+contradict the canonical Psy-Q header. They are applied through address-qualified
+aliases in `libgte_abi_variants.h`, preserving the observed calls without
+weakening or changing `libgte.h`.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates (formerly `display_object_projection.c`) include `libgte.h` and call it with **four** arguments where the header declares three, and the fourth argument is present in the retail call. |
-| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) includes `libgte.h` and calls it with **one** pointer where the header declares three `long`s. |
-
-Both keep their `func_XXXXXXXX` names until that is settled.
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates call the address-qualified `RotAverageNclip3_nom_80089CF0` alias with the four vectors present in retail, while `libgte.h` keeps the canonical three-vector declaration. |
+| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) calls the address-qualified `NormalClip_800879A0` alias with the one pointer present in retail, while `libgte.h` keeps the canonical three-`long` declaration. |
 
 The *parameter types* are a separate question from the name, and for
 `0x80089CF0` they are settled: the two candidates that replaced
 `display_object_projection.c` spell their local prototype
-`extern s32 func_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
-taking the three the header gives and repeating it for the fourth. Adopting the types does not commit the tree to the name or to the
-arity, and it retires four private structs that were describing `SVECTOR` a
+`long RotAverageNclip3_nom_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
+taking the three the header gives and repeating it for the fourth. This keeps
+the independently confirmed name while documenting the unresolved arity
+difference, and it retires four private structs that described `SVECTOR` a
 field at a time.
 
 ## CRT startup routines
