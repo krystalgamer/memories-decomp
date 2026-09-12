@@ -14,8 +14,8 @@
  * It picks between them on D_8009B2F0 and indexes the winner with
  * `D_8009B2EB & 0x1F`. Both are written here rather than resolved out of the
  * blob at 0x80090BA8 because every entry is a function this tree already
- * names. All but two of the twenty-three are matching C: func_80030998 is
- * generated assembly and func_80030D5C is a candidate
+ * names. All but one of the twenty-three are matching C:
+ * func_80030D5C is a candidate
  * (src/candidates/func_80030D5C.c).
  *
  * The two are adjacent and that is load bearing. D_80090D7C holds only two

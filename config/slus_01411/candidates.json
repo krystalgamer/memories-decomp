@@ -454,13 +454,13 @@
       "target": "src/candidates_target/func_8002CEE8.S",
       "candidate_build_sha256": "04234b76c8b0ddddfd600dcb5f3d7b706af0458e49938e5e774a0df401fb04b8",
       "target_bytes_sha256": "9bf4d2345cceb2e4f78065364a9964f231c72a577ab7b537b956ad353220a87c",
-      "canonical_contract_sha256": "9a92c377c8b18517f8263f512b2410d52f8206c9d0970d55d91bfb73b4d12e08",
+      "canonical_contract_sha256": "c51af5fa7d33d2492c88a4e46b040c624c96182658e07fd8ff1ee1ed2fece6a3",
       "canonical_contracts": {
         "D_8009B16C": "3eed94a5d5a3e805d6f6489a28e1e94414f468cb1cb40653f08479f81303f5f4",
         "D_8009B26C": "0ff72eda3f037347a48d396cdb46e8ed8d3cebb2d9c371759dc38fbbf88996b7",
         "D_8009B2F8": "1be6661392155f8d8d0750535bac477c82d3422216fd7144d43a75b2bf0f736b",
         "D_8009B370": "29105db77c15927307e8ab72742fb4c0f34d4b3f7a3d65f344ddd5ca2fcc992d",
-        "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
+        "gCampaignSceneIndex": "c2c49f17333fc9133103f828b150f7dfbad10b5362b284719130064287da6550",
         "gDuel_bOpponentID": "5716d28707618798b40ed15c5bdd5e0f644f30b5bad85a6a4c3519357ac091b4"
       }
     },
@@ -524,13 +524,13 @@
       "target": "src/candidates_target/func_8002EE94.S",
       "candidate_build_sha256": "5c4a71c391a1291896189b1b10f3673ca34fbe3287bf55b5b0e070490d2728e0",
       "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "bc0d70c71971ce30a7dbdc8d0aecc8e5001bb9d96278077ee39772beeba12460",
+      "canonical_contract_sha256": "ceafa9fc66f3a650f7d8c377c86ae2889c31afd010ae63b22673435d07e2294b",
       "canonical_contracts": {
         "D_8009B269": "8705b1cc7398b0743dc23aad91a55b8849babd9c2570a1247350e2d580a0f229",
         "D_8009B26C": "0ff72eda3f037347a48d396cdb46e8ed8d3cebb2d9c371759dc38fbbf88996b7",
         "D_8009B34C": "04051825cb2f95204c6d95694b44932038eb5ddbc52e7d484dfb3af995f1b162",
         "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
-        "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
+        "gCampaignSceneIndex": "c2c49f17333fc9133103f828b150f7dfbad10b5362b284719130064287da6550",
         "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8",
         "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
       }
