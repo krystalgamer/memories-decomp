@@ -1,27 +1,26 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
- * source rebuilt the target byte for byte, but only by
- * pinning 3 variables to hard registers and 3 inline asm statements, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/duel_scene_update.c.
- */
 #define D_8009B260_IN_DATA
+#define GDIALOG_CHOICE_SIZED
 #include "../types.h"
-#include "../game/duel_side_state.h"
-#include "../game/input.h"
-#include "../game/duel_check_quit_input.h"
-#include "../game/text_box_lifecycle.h"
-#include "../game/sound.h"
-#include "../game/func_80039794.h"
-#include "../game/duel_scene_callbacks.h"
-#include "../game/duel_scene_state.h"
-#include "../game/duel_scene_update.h"
-#include "../game/duel_effect.h"
-#include "../game/duel_effect_request.h"
-#include "../game/func_8002C6C8.h"
+#include "duel_side_state.h"
+#include "input.h"
+#include "duel_check_quit_input.h"
+#include "text_box_lifecycle.h"
+#include "sound.h"
+#include "func_80039794.h"
+#include "duel_scene_callbacks.h"
+#include "duel_scene_state.h"
+#include "duel_scene_update.h"
+#include "duel_effect.h"
+#include "duel_effect_request.h"
+#include "func_8002C6C8.h"
 #include "../unmatched.h"
-#include "../game/duel_magic_effect_dispatch.h"
+#include "duel_magic_effect_dispatch.h"
+#include "dialog_choice.h"
 
-extern s8 gDialog_bChoice[9];
+/* One frame of the duel scene. It services the quit dialog when
+ * gDuel_bQuitDialogState is live -- creating the box on the first frame and
+ * tearing it down once its 0x2000 flag clears -- and otherwise dispatches the
+ * current scene step through the D_80090998 callback table. */
 void func_80024200(void)
 {
     u8 value;
@@ -52,14 +51,10 @@ void func_80024200(void)
                 func_80039794();
             } while (window->field_30 == 0);
         } else {
-            register DuelEffectChannel *cleanup __asm__("$4");
+            DuelEffectChannel *cleanup;
 
             func_80039794();
-            __asm__(
-                "lui $2,%%hi(D_800EB224)\n\t"
-                "addiu %0,$2,%%lo(D_800EB224)"
-                : "=r"(cleanup)
-            );
+            cleanup = (DuelEffectChannel *)D_800EB224;
             if (cleanup->flags_34 & 0x2000) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
@@ -69,12 +64,11 @@ void func_80024200(void)
             }
         }
     } else {
-        register void (**callbacks)(void) __asm__("$3");
-        register u16 index __asm__("$2");
+        void (**callbacks)(void);
+        u16 index;
 
-        __asm__("lui %0,%%hi(D_80090998)" : "=r"(callbacks));
+        callbacks = D_80090998;
         index = D_8009B23A;
-        __asm__("addiu %0,%0,%%lo(D_80090998)" : "+r"(callbacks));
         callbacks[index & DUEL_SCENE_PHASE_MASK]();
         if (!(D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED)) {
             D_8009B174 = 0;

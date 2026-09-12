@@ -214,18 +214,6 @@
       }
     },
     {
-      "address": "0x80024200",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_80024200.c",
-      "target": "src/candidates_target/func_80024200.S",
-      "candidate_build_sha256": "8dd516ca2d45d78ffa627ade72aea71207bc72cbf836f7b1f5305d52612879e3",
-      "target_bytes_sha256": "8968b795514e7f364869e714f6e2d987c0e51ff4dec0ba3a6916c0684d6b8a70",
-      "canonical_contract_sha256": "80f952f789902ff629c2d263661a87aabd050658aa59061f567e74d81a9eb5e0",
-      "canonical_contracts": {
-        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8"
-      }
-    },
-    {
       "address": "0x80024E58",
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_80024E58.c",
@@ -456,14 +444,14 @@
       "target": "src/candidates_target/func_8002EE94.S",
       "candidate_build_sha256": "7c4b8416757b3d7cd63005cfe6d1991414f8d3c9aca5eb7cb8bf0d92b4677f6f",
       "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "af66bae55f634c40cb9a84b3e0957873a68c4936c198ededbaafa30a7a233668",
+      "canonical_contract_sha256": "aebb76d934cfd3d6998b9fea610bde50f3010e5d30fba9770d347e19854905b4",
       "canonical_contracts": {
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
         "D_8009B34C": "04051825cb2f95204c6d95694b44932038eb5ddbc52e7d484dfb3af995f1b162",
         "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
         "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8",
+        "gDialog_bChoice": "fd60e24c816450ea6a56fc121073fd6c6d7fc72208058c788acb6b4f25936b50",
         "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
       }
     },
@@ -543,11 +531,11 @@
       "target": "src/candidates_target/func_8003E854.S",
       "candidate_build_sha256": "8f00d32fba744fc83c24bc92866ab334b64138ba67ab392dc27257d0ff8d967b",
       "target_bytes_sha256": "845f1943b687f48e9474437c1ebefeed8672fff3f5870c7edf6010ea884d4bad",
-      "canonical_contract_sha256": "9114a2ede6a3158b6c273e2472e4b4947e73af2fe2484acf4840ba20f249dd5c",
+      "canonical_contract_sha256": "5781956a22409f790e89bb46656951f78c3c7283be76a1bbe239be3a1b6db818",
       "canonical_contracts": {
         "D_8009AF70": "955eb1782ce7b6389a84dc8e5e082096456a19891a689af0b7a6351774bb8b9b",
         "MemCardDialog_SetMessage": "46dac8c0b9d4b1da246ca55b7ba7b5cc99c13ee5d0a547222b064581dbb87139",
-        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8"
+        "gDialog_bChoice": "fd60e24c816450ea6a56fc121073fd6c6d7fc72208058c788acb6b4f25936b50"
       }
     },
     {
@@ -1141,9 +1129,9 @@
       "target": "src/candidates_target/main_menu/func_801821DC.S",
       "candidate_build_sha256": "09e3f369cbdd49c0278288a20c8d4df2f4531c1e33a3b4c07d44b2337f10a12f",
       "target_bytes_sha256": "fedef0a9b0c2c9d2e7622a6f2fc6a12a901e93607e4ac5f80718aa7ea7338c45",
-      "canonical_contract_sha256": "2131951a68264f32768edc194132795e14cb462f39caa982df4173631a3cccb8",
+      "canonical_contract_sha256": "6f557404bc12c81bbabb8f97f8e18f389901387eca209aa0dce5750717028b0c",
       "canonical_contracts": {
-        "D_800EB224": "40f0d856a3f7041f1eba1893e6dca5bf9c7da3f8ba49c6b4ac081f941d4b2da1",
+        "D_800EB224": "9f18b2b3440787f5d7d93ff7ccde752caa5d9b3ab46566ae1564e496f172282b",
         "D_80180000": "0e2975a21b8f06914eb2a37149edcc6d9f843b66ca0d606e0a0256ceb57542f0",
         "D_80185144": "5b8368a0bfa5f79714df23289af39b3095799179792773356e495261c8a39533",
         "D_80185C8C": "3606a14981e31a020ac0f24b82c198a555d54dd1779ca6adb829f7f23dade98f",

@@ -20,15 +20,13 @@
  * section attribute. It does not include this header, so the two never meet
  * and no guarded arm is needed; if it ever does, that is what would go here.
  *
- * NOT HERE, ON PURPOSE
+ * WAS NOT HERE, AND NOW IS
  *
- * gDialog_bChoice, the selected index these two are read against, is declared
- * eleven times in four different ways: plain s8, s8 with a .data section
- * attribute, u8 in dialog_read_choice_input.c, and
- * `s8 [9]` in src/candidates/func_80024200.c. The section attribute alone
- * would need a guarded arm, and the array spelling has to be understood
- * before any of it can be shared. It is a bigger question than these two and
- * wants its own change.
+ * gDialog_bChoice used to be listed here as deliberately left out: declared
+ * eleven times in four ways, with the array spelling unexplained. It is no
+ * longer left out -- all three spellings are arms below, the last of them
+ * added for func_80024200, which was the one source still declaring it
+ * privately.
  */
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoiceCount;
@@ -39,8 +37,9 @@ extern s8 gDialog_bChoiceCount;
  * now been measured.
  *
  * Five sources spell it `s8` with a .data section attribute and one spells it
- * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data,
- * and none of those six includes this header. The card-move presentation
+ * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data.
+ * The `[9]` source now includes this header and selects the arm by name;
+ * the five .data ones still do not. The card-move presentation
  * also needs an absolute load and selects GDIALOG_CHOICE_IN_DATA here.
  *
  * Of the five that reach it from small data, four spelled it s8 and
@@ -49,7 +48,16 @@ extern s8 gDialog_bChoiceCount;
  * assigning straight into a u8 local, so the load's signedness does not
  * survive. Taking s8 there builds byte for byte.
  */
-#ifdef GDIALOG_CHOICE_IN_DATA
+/* The sixth spelling is the array one, and it is a codegen input like the
+ * section attribute above rather than a claim about the object. Nine bytes
+ * clears the -G8 threshold, so the reference is not small data and the
+ * assembler expands it; the unit that needs it reads only [0], which is the
+ * same byte the scalar arms name. func_80024200 is its one consumer and
+ * selects GDIALOG_CHOICE_SIZED; the two arms below are untouched for the
+ * five sources that use them. */
+#ifdef GDIALOG_CHOICE_SIZED
+extern s8 gDialog_bChoice[9];
+#elif defined(GDIALOG_CHOICE_IN_DATA)
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 #else
 extern s8 gDialog_bChoice;
