@@ -121,7 +121,7 @@ functions:
 |---|---|---|
 | Life-point digit width | `0x80016F14`, `0x80016F98` | `Duel_DrawLifePointsAndDeckCounts` |
 | Alternate starting player | `0x80017AF2` | `func_800179F4` |
-| Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `func_8001BD88` |
+| Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `DuelScene_UpdateHandActions` |
 | Bypass life-point limit behavior | `0x800251A4` | `func_800250C8` |
 | Hide triangle text | `0x800284D8` | `DuelEffect_UpdateCardViewerState` |
 | Hide triangle image | `0x8002946C` | `func_800291E0` |
@@ -167,7 +167,7 @@ following code. FM-Online's labels describe the observed combined effect of
 disabling these sites, not interchangeable function identities.
 
 The three automatic-rotation patches suppress one complete retail action in
-`func_8001BD88`. The branch is eligible when the packed card type is below
+`DuelScene_UpdateHandActions`. The branch is eligible when the packed card type is below
 `0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
 the current object is zero. Retail then writes `0x10` to the object's halfword
 at offset `0x60`, writes a value with bit `0x20` asserted to `D_8009B174`, and

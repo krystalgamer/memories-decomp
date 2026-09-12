@@ -42,9 +42,9 @@ void func_80019608(void)
     s32 fld;
 
     p = D_800E9EF0[0];
-    flags = D_8009B23A;
+    flags = gDuel_wSceneStateFlags;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
+        gDuel_wSceneStateFlags = flags | 0xC000;
         slot = &D_801A7AD8[p->field_6A];
         value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
@@ -163,7 +163,7 @@ void func_80019608(void)
             DuelEffect_StartCardEffect((s16)D_8009B150, 1);
             return;
         }
-        D_8009B23A = 5;
+        gDuel_wSceneStateFlags = 5;
         return;
     }
 }

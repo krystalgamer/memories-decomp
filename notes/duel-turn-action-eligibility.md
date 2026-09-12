@@ -31,12 +31,12 @@ p->flags = DUEL_CARD_FLAG_OCCUPIED;
 This assignment replaces the complete flag halfword. In particular, a newly
 constructed record starts with `DUEL_CARD_FLAG_USED_THIS_TURN` clear.
 
-The ordinary hand-play path in `func_8001BD88` hands control to scene state 7
+The ordinary hand-play path in `DuelScene_UpdateHandActions` hands control to scene state 7
 (`func_80019D18`). That state calls `Duel_SetupCardRecord` at `0x8001A610`.
 The following placement presentation and stat-display work does not add
 `0x4000` to the card-record flag halfword. The visible `0x4000` operations in
 that state are operations on the separate global scene word
-`D_8009B23A`; the later card-record store at `0x8001B098` clears
+`gDuel_wSceneStateFlags`; the later card-record store at `0x8001B098` clears
 `DUEL_CARD_FLAG_FACE_DOWN` and does not set the used bit.
 
 The result is an occupied field record whose per-turn action bit is still
@@ -72,7 +72,7 @@ This makes `0x4000` a turn-local action latch:
 
 ## Attack selection
 
-The human field-action loop is scene state 5 (`func_8001D670`). Its monster
+The human field-action loop is scene state 5 (`DuelScene_UpdateFieldActions`). Its monster
 attack branch loads a 32-bit word beginning at record offset `+0x14`, so the
 high half is `DuelCardRecord.flags`, and applies:
 

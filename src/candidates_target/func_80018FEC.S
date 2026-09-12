@@ -10,7 +10,7 @@
 nonmatching func_80018FEC, 0x460
 
 glabel func_80018FEC
-    /* 97EC 80018FEC 32038597 */  lhu        $a1, %gp_rel(D_8009B23A)($gp)
+    /* 97EC 80018FEC 32038597 */  lhu        $a1, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 97F0 80018FF0 E8FFBD27 */  addiu      $sp, $sp, -0x18
     /* 97F4 80018FF4 1400BFAF */  sw         $ra, 0x14($sp)
     /* 97F8 80018FF8 0080A230 */  andi       $v0, $a1, 0x8000
@@ -30,7 +30,7 @@ glabel func_80018FEC
     /* 9830 80019030 0C03868F */  lw         $a2, %gp_rel(D_8009B214)($gp)
     /* 9834 80019034 CD028393 */  lbu        $v1, %gp_rel(D_8009B1D5)($gp)
     /* 9838 80019038 10000524 */  addiu      $a1, $zero, 0x10
-    /* 983C 8001903C 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 983C 8001903C 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9840 80019040 C0100300 */  sll        $v0, $v1, 3
     /* 9844 80019044 23104300 */  subu       $v0, $v0, $v1
     /* 9848 80019048 00110200 */  sll        $v0, $v0, 4
@@ -99,14 +99,14 @@ glabel func_80018FEC
     /* 9940 80019140 0400648C */  lw         $a0, 0x4($v1)
     /* 9944 80019144 DB00010C */  jal        func_8004036C
     /* 9948 80019148 00000000 */   nop
-    /* 994C 8001914C 32038397 */  lhu        $v1, %gp_rel(D_8009B23A)($gp)
+    /* 994C 8001914C 32038397 */  lhu        $v1, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9950 80019150 08000224 */  addiu      $v0, $zero, 0x8
     /* 9954 80019154 5A0282A7 */  sh         $v0, %gp_rel(D_8009B162)($gp)
     /* 9958 80019158 C80280A7 */  sh         $zero, %gp_rel(D_8009B1D0)($gp)
     /* 995C 8001915C B10280A3 */  sb         $zero, %gp_rel(D_8009B1B9)($gp)
     /* 9960 80019160 740280AF */  sw         $zero, %gp_rel(D_8009B17C)($gp)
     /* 9964 80019164 00406334 */  ori        $v1, $v1, 0x4000
-    /* 9968 80019168 320383A7 */  sh         $v1, %gp_rel(D_8009B23A)($gp)
+    /* 9968 80019168 320383A7 */  sh         $v1, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 996C 8001916C 2157000C */  jal        func_80015C84
     /* 9970 80019170 00000000 */   nop
     /* 9974 80019174 02000424 */  addiu      $a0, $zero, 0x2
@@ -128,7 +128,7 @@ glabel func_80018FEC
     /* 99B0 800191B0 01004230 */  andi       $v0, $v0, 0x1
     /* 99B4 800191B4 A1004014 */  bnez       $v0, .L8001943C
     /* 99B8 800191B8 FFBFA230 */   andi      $v0, $a1, 0xBFFF
-    /* 99BC 800191BC 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 99BC 800191BC 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 99C0 800191C0 B10280A3 */  sb         $zero, %gp_rel(D_8009B1B9)($gp)
     /* 99C4 800191C4 C80280A7 */  sh         $zero, %gp_rel(D_8009B1D0)($gp)
     /* 99C8 800191C8 0F650008 */  j          .L8001943C
@@ -148,10 +148,10 @@ glabel func_80018FEC
     /* 99FC 800191FC 01000424 */   addiu     $a0, $zero, 0x1
     /* 9A00 80019200 07004014 */  bnez       $v0, .L80019220
     /* 9A04 80019204 00000000 */   nop
-    /* 9A08 80019208 32038297 */  lhu        $v0, %gp_rel(D_8009B23A)($gp)
+    /* 9A08 80019208 32038297 */  lhu        $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9A0C 8001920C 00000000 */  nop
     /* 9A10 80019210 00204234 */  ori        $v0, $v0, 0x2000
-    /* 9A14 80019214 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 9A14 80019214 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9A18 80019218 0F650008 */  j          .L8001943C
     /* 9A1C 8001921C 00000000 */   nop
   .L80019220:
@@ -195,7 +195,7 @@ glabel func_80018FEC
     /* 9AB0 800192B0 04000224 */   addiu     $v0, $zero, 0x4
     /* 9AB4 800192B4 FFDFA230 */  andi       $v0, $a1, 0xDFFF
     /* 9AB8 800192B8 00104234 */  ori        $v0, $v0, 0x1000
-    /* 9ABC 800192BC 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 9ABC 800192BC 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9AC0 800192C0 81B1000C */  jal        func_8002C604
     /* 9AC4 800192C4 13000424 */   addiu     $a0, $zero, 0x13
     /* 9AC8 800192C8 21804000 */  addu       $s0, $v0, $zero
@@ -252,7 +252,7 @@ glabel func_80018FEC
     /* 9B8C 8001938C 00000000 */  nop
     /* 9B90 80019390 2A004010 */  beqz       $v0, .L8001943C
     /* 9B94 80019394 FFEFA230 */   andi      $v0, $a1, 0xEFFF
-    /* 9B98 80019398 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 9B98 80019398 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9B9C 8001939C B8FF000C */  jal        SD_SEPlayFull
     /* 9BA0 800193A0 1D000424 */   addiu     $a0, $zero, 0x1D
     /* 9BA4 800193A4 A3B1000C */  jal        func_8002C68C

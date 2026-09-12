@@ -55,7 +55,7 @@ The complete retail `0x1800`-byte phase is identical in all seven packages:
 SHA-256: d8bf4e5b8d135721ac2e2a45e45ca8c6b1d9d3ade9e5c9dbb668130f127e2fac
 ```
 
-This is a live script buffer: `func_8001D670` passes its base `0x801A9800`
+This is a live script buffer: `DuelScene_UpdateFieldActions` passes its base `0x801A9800`
 to `AiScript_Init` at the call at `0x8001D7D8`. That establishes the block's
 retail consumer, not the meaning of each byte after the drops tool rewrites it.
 
@@ -471,7 +471,7 @@ return 1;
 
 The caller at `0x80018FC4` keeps duel state `4` when the check returns zero
 and changes it to state `0xE` when the check succeeds. The duel-scene
-dispatcher uses the low state nibble to index `D_80090998`; slot `0xE` is
+dispatcher uses the low state nibble to index `gDuel_apfnSceneStateHandler`; slot `0xE` is
 `func_80018FEC`. That callback repositions five display objects by the Exodia
 piece IDs, then records the current side in `gDuel_bWinnerSide` and writes
 `0x28` (`+40`) to its duel-end score field before leaving for the result path.

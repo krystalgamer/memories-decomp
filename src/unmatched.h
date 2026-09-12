@@ -185,8 +185,8 @@ extern s32 D_8009B118;
  * entries above, it is safe precisely because there are no call sites for it
  * to be wrong at, and it is what has to change if a caller is ever matched
  * and passes an argument. */
-void func_8001BD88(void);
-void func_8001D670(void);
+void DuelScene_UpdateHandActions(void);
+void DuelScene_UpdateFieldActions(void);
 void func_80019D18(void);
 void func_8001F55C(void);
 void func_80018FEC(void);
@@ -262,8 +262,9 @@ void func_80056828(s32);
  *
  * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
- * D_8009B23A has moved to its owner, duel_scene_state.h. */
+ * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
 extern u16 D_8009B162;   /* nine declarers  */
+extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
 /* Nothing in the tree calls this one. Both consumers only take its address,
  * to install it in a display object's +0x4C slot: dialog_transition.c stores
@@ -312,10 +313,10 @@ int func_80067220();
  * MemCard* calls are issued against.
  *
  * D_8009B3EB and D_8009B174 have larger gaps to the next name -- two bytes
- * and eight -- but those are upper bounds rather than sizes, the way
- * D_8009B23A's was. Nothing is named inside either gap, and no consumer of
- * either reads past the byte, so the u8 all five consumers agree on is what
- * is declared and the bytes above stay unclaimed.
+ * and eight -- but those are upper bounds rather than sizes, like the gap
+ * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
+ * consumer of either reads past the byte, so the u8 all five consumers agree
+ * on is what is declared and the bytes above stay unclaimed.
  *
  * Both of the latter two are packed state bytes rather than plain counters,
  * which is why the byte width matters to every reader: D_8009B3EB is switched
@@ -341,8 +342,8 @@ extern u8 D_8009B174;   /* five declarers */
  * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
  * two bytes with gDuel_wEffectCardID immediately after it.
  *
- * D_8009B3F4 has a larger gap than its width and is treated the way
- * D_8009B23A was, as an upper bound rather than a size. Nothing is named
+ * D_8009B3F4 has a larger gap than its width and is treated as an upper
+ * bound rather than a size. Nothing is named
  * inside that gap and no consumer reads past the declared width, so the
  * agreed type is what is declared and the bytes above stay unclaimed.
  *

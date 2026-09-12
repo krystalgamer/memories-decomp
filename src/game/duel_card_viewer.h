@@ -46,7 +46,7 @@ extern u16 gDuel_wViewerCardID;
  * direction: retail loads a2 from this byte at 0x800284D8 and the later call
  * adds 0x0E.
  *
- * func_8001BD88 and func_8001D670 also write it and are still assembly. */
+ * DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions also write it and are still assembly. */
 extern DisplayObject *gDuel_pCardViewerBackground;
 extern u8 gDuel_bCardViewerYOffset;
 extern DisplayObject *gDuel_pCardViewerCard;

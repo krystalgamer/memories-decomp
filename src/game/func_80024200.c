@@ -68,10 +68,10 @@ void func_80024200(void)
         void (**callbacks)(void);
         u16 index;
 
-        callbacks = D_80090998;
-        index = D_8009B23A;
+        callbacks = gDuel_apfnSceneStateHandler;
+        index = gDuel_wSceneStateFlags;
         callbacks[index & DUEL_SCENE_PHASE_MASK]();
-        if (!(D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED)) {
+        if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
             D_8009B174 = 0;
         }
     }
