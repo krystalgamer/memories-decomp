@@ -64,4 +64,7 @@ void func_80038498(u8 *object);
  * again when its one-byte operand is non-zero. Register-pinned. */
 void func_800384E4(u8 *object);
 
+/* D_80090EAC entry: applies fade control bits from one stream byte. */
+void func_800388D8(u8 *object);
+
 #endif
