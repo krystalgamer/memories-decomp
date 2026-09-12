@@ -27,6 +27,6 @@ DisplayObject *func_80019564(DisplayObjectConfigView *source)
     object->field_1A = 0x62;
     object->field_48.h.field_4A = 0x62;
     func_80042918(object);
-    object->attribute |= 0x02000000;
+    object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     return object;
 }

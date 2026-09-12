@@ -239,6 +239,15 @@ extern u16 D_8009B098;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* Graphics_BeginFrame publishes the active buffer index in this byte.
+ * GPU readback and Script_OpShowImage reach it absolutely rather than
+ * through the small-data base. */
+#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
+extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
+#else
+extern u8 gGraphics_bActiveBuffer;
+#endif
+
 /* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
  * draw environment unsized, and retain startup's volatile byte stores.
  * See notes/graphics-frame-environments.md for the address/field evidence. */
@@ -278,7 +287,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
 extern RECT D_800E9D70[2];
 
 /* The tint colour, three consecutive bytes with the components in address
- * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
+ * order blue, green, red. func_8005B8A0 and Movie_StopStream pass them straight
  * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
  * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
  * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.

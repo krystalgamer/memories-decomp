@@ -420,7 +420,7 @@ The converse is the useful half, because it is what makes candidates cheap to
 pick. Four conversions since have been byte-exact on the first build:
 
     func_80037C74      DuelEffectChannel, five fields, no globals
-    func_8004318C      DisplayObjectPosition, four fields, no globals
+    DisplayObject_InterpolatePositionCosine DisplayObjectPosition, four fields, no globals
     Dialog_OpenChoice  DuelEffectChannel, five fields, no globals
     func_8003A1EC      MenuRecord, three fields, TWO globals
 

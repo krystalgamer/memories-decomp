@@ -16,8 +16,8 @@
 #include "../unmatched.h"
 #include "build_deck_pane_input.h"
 
-void func_8003353C(u8 *p) {
-    BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;
+void func_8003353C(BuildDeckTransitionState *state) {
+#define p ((u8 *)state)
     u8 *e;
     s32 r;
 
@@ -67,11 +67,12 @@ void func_8003353C(u8 *p) {
         }
         SD_SEPlayFull(9);
     }
+#undef p
 }
 
-void func_800336F0(u8 *p)
+void func_800336F0(BuildDeckTransitionState *state)
 {
-    BuildDeckTransitionState *state = (BuildDeckTransitionState *)p;
+#define p ((u8 *)state)
     u8 *e;
     u8 *q;
     s32 r;
@@ -131,4 +132,5 @@ void func_800336F0(u8 *p)
     }
 
     SD_SEPlayFull(9);
+#undef p
 }

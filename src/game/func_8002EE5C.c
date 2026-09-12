@@ -13,7 +13,6 @@
 #include "func_80039794.h"
 #include "func_8003B6AC.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "script_state.h"
 #include "main_services.h"

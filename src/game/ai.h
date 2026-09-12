@@ -96,6 +96,15 @@ typedef struct {
  * duplicate to be folded into the struct. */
 extern u8 D_800EAE90;
 
+/* The preceding selection byte is written by func_8007368C from an AI
+ * register. The presentation sequence reads bit 0 after updating the card
+ * flags; the byte-array view preserves that access ordering. */
+#ifdef D_800EAE8F_IS_ARRAY
+extern u8 D_800EAE8F[];
+#else
+extern u8 D_800EAE8F;
+#endif
+
 /* AiScript_LoadBestAttacker reads the byte recorded by
    AiScript_FindBestAttack before copying it into the VM register file. */
 extern u8 gAi_bBestAttacker;
@@ -198,6 +207,13 @@ extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 
 s32 Ai_IsCardInSets(s32 mode, s32 index);
+/* The range callers need the widened declaration to avoid an extra pair of
+ * sign-extension instructions at each call; the definition returns s8. */
+#ifdef AI_GET_HAND_SIZE_RETURNS_S32
+s32 Ai_GetHandSize(void);
+#else
+s8 Ai_GetHandSize(void);
+#endif
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high);
 void Ai_GetCardRange(s32 kind, s32 *low, s32 *high);
 /* The singular pair, next to the plural above and defined in the same unit:

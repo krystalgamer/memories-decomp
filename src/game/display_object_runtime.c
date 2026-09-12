@@ -39,19 +39,19 @@ void func_80041340(void)
    gcc_2_8_1_g8_split. Together with the contiguous frame renderer above,
    this is the complete matching run between unmatched display-object code. */
 
-s32 func_8004141C(DisplayObjectStreamState *object)
+s32 func_8004141C(DisplayObjectStreamState *object, const u8 *data)
 {
     object->field_5A = 0;
     return -1;
 }
 
-s32 func_80041428(DisplayObjectStreamState *object)
+s32 func_80041428(DisplayObjectStreamState *object, const u8 *data)
 {
     object->field_58 = 0;
     return 1;
 }
 
-s32 func_80041434(void)
+s32 func_80041434(DisplayObjectStreamState *object, const u8 *data)
 {
     return 1;
 }
@@ -71,8 +71,10 @@ s32 func_80041464(DisplayObjectStreamState *object, const u8 *data)
     return 1;
 }
 
-int func_8004149C(u8 *p, u8 *t)
+s32 func_8004149C(DisplayObjectStreamState *object, const u8 *data)
 {
+#define p ((u8 *)object)
+#define t ((u8 *)data)
     int i = rand() % t[0];
     unsigned hi, lo, base;
 
@@ -83,10 +85,14 @@ int func_8004149C(u8 *p, u8 *t)
     *(u16 *)(p + 0x58) = 0;
     *(unsigned *)(p + 0x50) = base + ((hi << 8) | lo);
     return 1;
+#undef t
+#undef p
 }
 
-int func_80041534(u8 *object, u8 *data)
+s32 func_80041534(DisplayObjectStreamState *record, const u8 *operands)
 {
+#define object ((u8 *)record)
+#define data ((u8 *)operands)
     int high;
     int low;
     *(u32 *)(object + 4) |= GsROTOFF;
@@ -97,4 +103,6 @@ int func_80041534(u8 *object, u8 *data)
     *(u32 *)(object + 0x50) += 4;
     *(short *)(object + 0x48) = high | low;
     return 1;
+#undef data
+#undef object
 }

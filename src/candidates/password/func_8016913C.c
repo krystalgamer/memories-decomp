@@ -22,7 +22,6 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/func_80039794.h"
 #include "../../game/func_8003B6AC.h"
-#include "../../game/func_80043178.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
@@ -72,13 +71,7 @@ void NameEntry_UpdateKeyboard(void)
     s32 gy;
     s32 d;
     /* Keep this coordinate pair in a0/a1, leaving the global's high half in a2. */
-    register union {
-        u64 all;
-        struct {
-            s32 col;
-            s32 stride;
-        } parts;
-    } coords __asm__("$4");
+    register PasswordGlyphCoordinates coords __asm__("$4");
 
     w = D_8016D404;
     if ((D_8016D4D4 & 0x4000) != 0) {
@@ -137,10 +130,10 @@ tail47:
     SD_SEPlayFull(47);
     obj = (u8 *)&D_8016AB38[0][0];
     row = (s8)D_8016D402;
-    coords.parts.col = (s8)D_8016D401;
+    coords.parts.column = (s8)D_8016D401;
     coords.parts.stride = row * 15;
-    col = coords.parts.col;
-    work = *(s8 *)((coords.parts.col + coords.parts.stride) + (s32)obj);
+    col = coords.parts.column;
+    work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
     walkCol = col;
     while (work < 0) {
         walkCol = walkCol + work;

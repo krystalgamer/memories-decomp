@@ -6,6 +6,10 @@
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
+#define FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED 0x40
+#define FILE_TRANSFER_STATE_COMMAND_BUSY 0x400
+#define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
+#define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
@@ -59,10 +63,9 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     s32
 );
 FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
-/* The command-completion callbacks the runtime installs through DsCommand
- * and DsPacket: each re-issues its command on event 5 and clears the busy
- * bit on event 2. func_80014220 is a candidate since #3859
- * (src/candidates/func_80014220.c). */
+/* The four command-completion callbacks the runtime installs through
+ * DsCommand and DsPacket: each re-issues its command on event 5 and clears
+ * the busy bit on event 2. */
 void func_800140A0(u8 event);
 void func_80014134(u8 event);
 void func_800141A8(u8 event);
@@ -113,10 +116,16 @@ void func_80014FA4(void);
  *
  * Every File_* entry point and every CD/DS sector callback tests or updates
  * it, and the FILE_TRANSFER_STATE_*, FILE_TRANSFER_FLAG_SECTOR_RANGE and
- * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits. It is
- * only ever read and written whole, and only ever through bit masks. Nothing
- * indexes it, so the `D_8009B0F4[0]` spellings this header replaces were an
- * addressing device rather than evidence of an array.
+ * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits.
+ * FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED blocks secondary promotion while
+ * File_RequestAsyncTransfer initializes the primary request. The command-busy
+ * bit is raised after a successful DsCommand/DsPacket submission and cleared
+ * by its completion callback. The position-query pair gates DsCommand 0x10:
+ * func_80014308 raises pending, func_8001455C submits it and raises busy, and
+ * func_80014390 clears busy. The word is only ever read and written whole,
+ * and only ever through bit masks. Nothing indexes it, so the
+ * `D_8009B0F4[0]` spellings this header replaces were an addressing device
+ * rather than evidence of an array.
  *
  * `volatile` is load-bearing on both names, measured rather than assumed:
  * dropping it from the plain name builds a 0x1D0668-byte executable and
@@ -242,15 +251,8 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * func_80014294.c and by func_80014220, a candidate since #3859
- * (src/candidates/func_80014220.c).
- *
- * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: func_80014220 stores to it from
- * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
- * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
- * -G8, so this declaration keeps that true; a `.data` arm here would break
- * that store rather than merely change a load. */
+ * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and
+ * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.

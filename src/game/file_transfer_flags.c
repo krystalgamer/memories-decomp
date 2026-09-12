@@ -13,7 +13,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 {
     FileTransferDescriptor *result;
 
-    D_8009B0F4 |= 0x40;
+    D_8009B0F4 |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
     if (D_8009B10C == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) != 0) {
@@ -114,21 +114,21 @@ FileTransferDescriptor *File_RequestSecondaryAsyncTransfer(
 }
 
 /* The phase stepper for the same descriptor the requests above hand out: it
-   counts phase_remaining down by 0x800 a call and, on reaching zero, clears
-   mode and fires the phase_callback that file_stream.c installed, passing it
-   the post-incremented result. It is the only reader of that callback field.
-   The reload of phase_remaining from the just-cleared mode is retail's, not a
-   transcription slip. */
+   counts phase_remaining down by one sector a call and, on reaching zero,
+   clears phase_size and fires the phase_callback that file_stream.c installed,
+   passing it the post-incremented result. It is the only reader of that
+   callback field. The reload of phase_remaining from the just-cleared
+   phase_size is retail's, not a transcription slip. */
 void func_8001513C(FileTransferDescriptor *object)
 {
-    object->phase_remaining -= 0x800;
+    object->phase_remaining -= FILE_SECTOR_SIZE;
     if (object->phase_remaining <= 0) {
-        object->mode = 0;
+        object->phase_size = 0;
         if (object->phase_callback != 0) {
             s32 count = object->result++;
 
             object->phase_callback(object, count);
         }
-        object->phase_remaining = object->mode;
+        object->phase_remaining = object->phase_size;
     }
 }

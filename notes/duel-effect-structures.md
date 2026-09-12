@@ -44,6 +44,16 @@ typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
 
+The public text-box build/wait pair and `TextBox_SetPos` now also take
+`DuelEffectChannel *`. Typed producers such as `TextBox_Create` and
+`DuelEffect_CreateChannel` pass their results directly. A few exact-code
+consumers retain raw byte cursors internally and cast only at the call
+boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
+typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
+helper `func_80039AD4` takes `DuelEffectChannel *`, while preserving its two
+raw byte accesses inside `field_10`; this removes the incompatible-pointer
+calls from both fade callbacks without claiming names for those bytes.
+
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
 `DuelEffectEntry` has size `0x1C`, and `D_800EB288` is declared as 620
@@ -74,6 +84,17 @@ corroborate these accesses but do not determine the shared types.
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
 from `field_18 % 10` after resolving the entry through the channel's
 `gDuelEffect_awEntryRangeBoundaries` range index.
+
+The complete `D_80090F68` display-effect step table now carries
+`void (*)(MenuRecord *)`, matching `DisplayEffect_ProcessMenuRecords`, which
+selects its callback from a `D_800EB010` record. The easing callback, portrait
+callback, three dialog transitions and dialog-channel transition expose that
+type directly. The lifecycle and VRAM callbacks retain explicit table casts
+because the two repeated lifecycle slots and the single VRAM slot expose
+narrower public views of the same storage.
+Handlers whose accepted bodies depend on byte arithmetic keep those
+expressions through preprocessor aliases rather than introducing a second
+live pointer that could change GCC 2.8.1 register allocation.
 
 `DuelEffect_PlaySoundCommand` is now exact C in the effect-handler dispatch
 family. It consumes one 16-bit script value, uses the high bit to select the

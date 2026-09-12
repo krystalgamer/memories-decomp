@@ -58,13 +58,13 @@ void func_8002F630(void) {
         if (D_8009B2A0 != 0) {
             D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        func_8002E00C((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
         four = 4;
         o = func_800400AC(func_8004002C(), 2);
         func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
         func_800428EC((u8 *)o, 1);
         o->flags |= 0x28;
-        o->attribute |= 0x1000000;
+        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         D_800EAE98[0] = o;
         o = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
@@ -97,7 +97,7 @@ void func_8002F630(void) {
             D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8004036C(D_8009B280);
-        func_8002E00C((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
         D_8009B27C = 0;
     }
 }

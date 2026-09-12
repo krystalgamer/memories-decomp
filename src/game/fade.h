@@ -2,6 +2,7 @@
 #define YUGIOH_GAME_FADE_H
 
 #include "../ygo_types.h"
+#include "fade_constants.h"
 
 #define FADE_BAND_HEIGHT 8
 #define FADE_SCREEN_WIDTH 320

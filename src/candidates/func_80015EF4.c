@@ -23,13 +23,12 @@
 #include "../game/screen_projection.h"
 #include "../game/ordering_tables.h"
 
-typedef struct {
-    void *model;
-    u8 pad_04[0x14];
-    s8 f18;
-} Holder;
-
-void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
+void func_80015EF4(
+    DuelCardRenderHolder *holder,
+    u8 *prim,
+    u8 *sprite,
+    GsOT *ot
+)
 {
     u8 *m;
     s32 t;
@@ -64,7 +63,7 @@ void func_80015EF4(Holder *holder, u8 *prim, u8 *sprite, GsOT *ot)
     y = m[0x21] << 4;
     rot[0].vy = y;
     rot[0].vz = m[0x22] << 4;
-    if (holder->f18 >= 0xF) {
+    if (holder->field_18 >= 0xF) {
         rot[0].vy = (m[0x21] << 4) + 0x800;
     }
     lm->t[0] = *(s16 *)(m + 0x30);

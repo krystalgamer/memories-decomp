@@ -21,25 +21,26 @@
    The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
    bytes 0xA..0x27 are 30 per-band levels. Fade_Update updates the state
-   before the draw gate: active flag 0x80, or a nonzero D_8009B141 with
+   before the draw gate: FADE_FLAG_ACTIVE, or a nonzero D_8009B141 with
    level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
    Rendering reuses a GsBOXF-compatible descriptor in PS1 scratchpad RAM
    at 0x1F8003C0. GsSortBoxFill builds the GPU packet from it:
 
-     - flag bit 0 set: 30 stacked bands, each 320x8, stepping y by 8 for
+     - FADE_FLAG_BANDED: 30 stacked bands, each 320x8, stepping y by 8 for
        240 lines total -- one band per level byte at 0xA+i, each shaded
        0xFF - level. This is the banded/wipe variant.
      - without band mode, the tail submits one 320x240 box at (0,0).
-       After the bands it returns unless flag 0x02 is set; that combined
+       After the bands it returns unless FADE_FLAG_KEEP_OVERLAY is set; that combined
        path reaches the tail with height 8 and y=240, not a full-screen
        box. The tail shades by 0xFF - level[4].
-       If flag 0x10 is set the attribute switches to 0x50000000 and the
+       If FADE_FLAG_TINTED is set the attribute switches to 0x50000000 and the
        three channels are shaded independently by colour[n] - level[4],
        clamped at 0, giving a tinted rather than grey fade.
 
-   Bands always submit at depth 4. The tail also uses 4 unless flag 0x02
-   is set, when it uses D_8009B140 (falling back to 0x3F when that is zero).
+   Bands always submit at depth 4. The tail also uses 4 unless
+   FADE_FLAG_KEEP_OVERLAY is set, when it uses D_8009B140 (falling back to
+   0x3F when that is zero).
 
    Shape notes for anyone re-deriving this: the GsBOXF descriptor's 0x04 and
    0x08 words are each written whole (x+y and w+h together), while y and h
@@ -68,14 +69,15 @@ void Fade_DrawOverlay(void) {
     rec = D_800E9EC8_arr;
     Fade_Update((FadeTransitionState *)rec);
     flags = rec[6];
-    if ((flags & 0x80) || (D_8009B141 != 0 && rec[4] != 0xFF)) {
+    if ((flags & FADE_FLAG_ACTIVE) ||
+        (D_8009B141 != 0 && rec[4] != 0xFF)) {
         p = FADEBOX;
         p->attribute = GsALON | GsATWO;
         *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
         *(u32 *)&p->x = 0;
         ot = D_800E9D94[0];
 
-        if (flags & 1) {
+        if (flags & FADE_FLAG_BANDED) {
             FADEBOX_H(p) = FADE_BAND_HEIGHT;
             for (i = 0; i < FADE_BAND_COUNT; i++) {
                 u8 *lvl = rec + i;
@@ -86,13 +88,13 @@ void Fade_DrawOverlay(void) {
                 GsSortBoxFill(p, ot, 4);
                 FADEBOX_Y(p) = FADEBOX_Y(p) + FADE_BAND_HEIGHT;
             }
-            if (!(gFade_State.flags & 2)) {
+            if (!(gFade_State.flags & FADE_FLAG_KEEP_OVERLAY)) {
                 return;
             }
         }
 
         depth = 4;
-        if (gFade_State.flags & 2) {
+        if (gFade_State.flags & FADE_FLAG_KEEP_OVERLAY) {
             depth = D_8009B140;
             if (depth == 0) {
                 depth = 0x3F;
@@ -103,7 +105,7 @@ void Fade_DrawOverlay(void) {
         p->b = (u8) shade;
         p->g = (u8) shade;
         p->r = (u8) shade;
-        if (gFade_State.flags & 0x10) {
+        if (gFade_State.flags & FADE_FLAG_TINTED) {
             p->attribute = GsALON | GsAONE;
             tint = rec[0] - rec[4];
             if (tint < 0) tint = 0;
@@ -151,7 +153,7 @@ void func_8001572C(void)
         value = 0xFFFFFF;
         state = &gFade_State;
         *(s32 *)state = value;
-        state->flags = 0x90;
+        state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED;
         state->step = 0xC;
         D_8009B14C = 1;
         D_8009B144 = 1;
@@ -167,8 +169,8 @@ void Fade_InitIn(void)
     FadeTransitionState *state = &gFade_State;
 
     state->target_level = 0xFF;
-    state->flags = 0x80;
-    D_8009B141 &= 0x7F;
+    state->flags = FADE_FLAG_ACTIVE;
+    D_8009B141 &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
     state->field_08 = 0;
     func_800156B8(state->level);
     state->step = 0xC;
@@ -182,7 +184,7 @@ void Fade_StartIn(void)
     Fade_InitIn();
     state = &gFade_State;
     state->step = 8;
-    state->flags |= 1;
+    state->flags |= FADE_FLAG_BANDED;
     func_8001572C();
 }
 
@@ -196,7 +198,8 @@ void Fade_InitInColor(int color)
     *(s32 *)&gFade_State = color;
     Fade_InitIn();
     state = &gFade_State;
-    state->flags |= 0x30;
+    state->flags |=
+        FADE_FLAG_TINTED | FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
     func_8001572C();
 }
 
@@ -209,7 +212,8 @@ void func_80015870(void)
         color = 0xFFFFFF;
         state = &gFade_State;
         *(s32 *)state = color;
-        state->flags = 0xB0;
+        state->flags = FADE_FLAG_ACTIVE | FADE_FLAG_TINTED |
+                       FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
         state->step = 0xC;
         D_8009B14A = 0xFF;
         D_8009B14B = 0xFF;
@@ -223,7 +227,7 @@ void Fade_InitOut(void)
 
     state->field_08 = 0xFF;
     state->target_level = 0;
-    state->flags = 0x80;
+    state->flags = FADE_FLAG_ACTIVE;
     func_800156B8(state->level);
     state->step = 0xC;
     func_80015870();
@@ -236,7 +240,7 @@ void Fade_StartOut(void)
     Fade_InitOut();
     state = &gFade_State;
     state->step = 8;
-    state->flags |= 1;
+    state->flags |= FADE_FLAG_BANDED;
     func_80015870();
 }
 
@@ -250,7 +254,8 @@ void Fade_InitOutColor(int color)
     *(s32 *)&gFade_State = color;
     Fade_InitOut();
     state = &gFade_State;
-    state->flags |= 0x30;
+    state->flags |=
+        FADE_FLAG_TINTED | FADE_FLAG_RESTORE_TINT_AFTER_BLACK;
     func_80015870();
 }
 
@@ -260,7 +265,7 @@ void Fade_Wait(void)
 
     do {
         func_80012D4C();
-    } while (state->flags & 0x80);
+    } while (state->flags & FADE_FLAG_ACTIVE);
 }
 
 void Fade_WaitInitIn(void)
@@ -287,7 +292,7 @@ void func_80015A50(void)
 
     Fade_InitIn();
     state = &gFade_State;
-    state->flags |= 2;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY;
     func_8001572C();
     Fade_Wait();
 }
@@ -298,7 +303,8 @@ void func_80015A94(void)
 
     Fade_InitIn();
     state = &gFade_State;
-    state->flags |= 6;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY |
+                    FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
     func_8001572C();
     Fade_Wait();
 }
@@ -327,7 +333,7 @@ void func_80015B50(void)
 
     Fade_InitOut();
     state = &gFade_State;
-    state->flags |= 2;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY;
     func_80015870();
     Fade_Wait();
 }
@@ -338,7 +344,8 @@ void func_80015B94(void)
 
     Fade_InitOut();
     state = &gFade_State;
-    state->flags |= 6;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY |
+                    FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
     func_80015870();
     Fade_Wait();
 }
@@ -348,7 +355,7 @@ void Fade_SetTargetLevel(s32 value, s32 flags)
     FadeTransitionState *state = &gFade_State;
 
     state->target_level = value;
-    state->flags = flags | 0x80;
+    state->flags = flags | FADE_FLAG_ACTIVE;
 }
 
 void Fade_SetLevel(s32 value)
@@ -357,7 +364,7 @@ void Fade_SetLevel(s32 value)
 
     state->level = value;
     state->target_level = value;
-    state->flags = 0x80;
+    state->flags = FADE_FLAG_ACTIVE;
 }
 
 void func_80015C0C(void)
@@ -366,7 +373,7 @@ void func_80015C0C(void)
 
     Fade_InitIn();
     state = &gFade_State;
-    state->flags |= 2;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY;
     func_8001572C();
 }
 
@@ -376,7 +383,8 @@ void func_80015C48(void)
 
     Fade_InitIn();
     state = &gFade_State;
-    state->flags |= 6;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY |
+                    FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
     func_8001572C();
 }
 
@@ -386,7 +394,7 @@ void func_80015C84(void)
 
     Fade_InitOut();
     state = &gFade_State;
-    state->flags |= 2;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY;
     func_80015870();
 }
 
@@ -396,13 +404,14 @@ void func_80015CC0(void)
 
     Fade_InitOut();
     state = &gFade_State;
-    state->flags |= 6;
+    state->flags |= FADE_FLAG_KEEP_OVERLAY |
+                    FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE;
     func_80015870();
 }
 
 void func_80015CFC(void)
 {
-    D_8009B141 = 1;
+    D_8009B141 = FADE_ORDERING_TABLE_ACTIVE;
 }
 
 void func_80015D0C(void)

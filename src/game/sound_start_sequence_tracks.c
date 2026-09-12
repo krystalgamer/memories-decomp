@@ -1,3 +1,29 @@
+/*
+ * SD_StartSequenceTracks: counter lifetime and count snapshot
+ *
+ * The 208-byte sequence initializer at `0x8004C77C` matches all 52 instructions
+ * under the existing uniform `gcc_2_8_1_g0` profile, using the shared
+ * `SDSecondaryState` and `SDSequenceTrack` layouts. It removes all six register
+ * bindings and the count barrier without introducing a new compiler profile,
+ * declaration view, or literal global address.
+ *
+ * The single-iteration counter initialization preserves the retail `$s1`
+ * counter and `$s2` byte-offset allocation. Flattening that scope exchanges the
+ * registers in six words. The separate count-read scope keeps the bound load
+ * before the counter increment; omitting both scopes leaves seven differences.
+ * Array indexing and loop-local declarations alone do not change the exchanged
+ * allocation.
+ *
+ * The function retains the initial flag resets and header read, track-position
+ * save, variable-length delta read, four byte resets, pending-delta and halfword
+ * stores, conditional scaling, and state/count reload on each iteration.
+ * The definition remains `s32(void)`. Both existing void-returning playback call
+ * views, including the state-argument view and the no-argument alias, stay
+ * unchanged in `sound_sequence_timing.h`.
+ *
+ * The canonical match and six-row refinement series ending in deferral remain
+ * intact. One post-terminal result records the newly verified source scopes.
+ */
 #include "../types.h"
 #include "sound.h"
 #include "sound_sequence_reader.h"

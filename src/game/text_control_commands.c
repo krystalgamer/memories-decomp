@@ -28,20 +28,23 @@
    the secondary-table object commands and above by the text-box layout
    helpers func_80039140 and func_800391E4. */
 
-void Text_DispatchSecondaryCommand(u8 *arg0)
+void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
+#define arg0 ((u8 *)object)
     u8 **pp = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
     u8 *p = *pp;
     s32 op = *p;
 
     *pp = p + 1;
-    D_80090EAC[op](arg0);
+    D_80090EAC[op](object);
+#undef arg0
 }
 
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=func_80036D3C(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
 
-void Text_HandleChoiceCommand(u8 *p)
+void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
+#define p ((u8 *)object)
     s32 t;
     s32 u;
     s32 w;
@@ -79,6 +82,7 @@ void Text_HandleChoiceCommand(u8 *p)
         D_8009B340 = func_80037CE0;
         *(u16 *)(p + 0x34) = v | 0x1000;
     }
+#undef p
 }
 
 void Text_StartPageWait(DuelEffectChannel *value)
@@ -126,8 +130,9 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
     arg0->stream_58++;
 }
 
-void Text_NewLine(u8 *object)
+void Text_NewLine(DuelEffectChannel *record)
 {
+#define object ((u8 *)record)
     object[0x56]++;
     *(u16 *)(object + 0x38) = 0x1000;
     if (func_80037C74((DuelEffectChannel *)object)) {
@@ -137,10 +142,12 @@ void Text_NewLine(u8 *object)
     if (D_8009B340) {
         D_8009B340(object);
     }
+#undef object
 }
 
-void Text_EndStream(u8 *object)
+void Text_EndStream(DuelEffectChannel *record)
 {
+#define object ((u8 *)record)
     u16 flags;
 
     object[0x58]--;
@@ -150,6 +157,7 @@ void Text_EndStream(u8 *object)
         flags |= 0x2000;
         *(u16 *)(object + 0x34) = flags;
     }
+#undef object
 }
 
 /* Effect-script command handler: reads a command id and a flag byte from the

@@ -18,7 +18,7 @@ typedef struct {
  * three 8.8 fraction bytes at 0x62, and a per-frame delta triple at 0x36.
  *
  * 0x36/0x38 is read two ways across the tree, and this is the second of them.
- * func_80043178.h's DisplayObjectSnapshot and display_object_interpolation.h's
+ * DisplayObject_SavePosition.h's DisplayObjectSnapshot and display_object_interpolation.h's
  * DisplayObjectPosition both treat the pair as a *saved* or *source* position
  * that eases into the live pair at 0x30/0x32. Here the same halfwords are
  * added to the position every frame, which is only meaningful as a velocity.

@@ -37,7 +37,7 @@ void func_80038A44(DuelEffectChannel *object)
         (value & 0xFFFF);
 }
 
-void func_80038AB0(DuelEffectChannel *object)
+void Text_UnlockDuelist(DuelEffectChannel *object)
 {
     s16 duelist_id;
     u32 value;
@@ -56,7 +56,7 @@ void func_80038AB0(DuelEffectChannel *object)
     }
 }
 
-void func_80038B08(DuelEffectChannel *object)
+void Text_CloseChoice(DuelEffectChannel *object)
 {
     func_8004036C(object->field_30);
     object->field_30 = 0;

@@ -242,13 +242,11 @@ what places them in this unit rather than beside the handlers they name.
 assembly users of `D_800F2C40`; those sets change whenever another function
 is integrated and are not duplicated here.
 
-Six additional matching-C functions include `model.h` but retain raw
+Five additional matching-C functions include `model.h` but retain raw
 model-base views:
 
 - `func_8004D914` uses `MODEL_SLOT_SIZE` while preserving explicit accesses
   across a large display-list construction path.
-- `func_80050584` uses the shared slot, angle, and card-count constants while
-  preserving raw offsets through its random model-selection path.
 - `func_8005611C` clears and initializes one `0xE20`-byte slot through
   explicit offsets while preserving its accepted compiler schedule.
 - `func_80056250` uses `MODEL_SLOT_SIZE` while keeping the duel-side layout
@@ -258,6 +256,15 @@ model-base views:
 - `Model_HasInsufficientBufferSpace` includes `model.h` for
   `MODEL_SLOT_SIZE`, but retains a byte-array extern so its `+0xE00` size load
   keeps the accepted address construction.
+
+`func_80050584` now uses `ModelSlot` and `GsCOORDUNIT` for both model slots
+and their placement units. Its repeated `field_D18` member expressions are
+intentional: GCC 2.8.1 must reload the coordinate pointer before each rotation
+and translation store to preserve the retail schedule. The case-10 staging
+path in `file_transfer_steps.c` likewise reaches the sound-entry run,
+`field_CF8` block, and `field_E14` through the shared slot layout; the three
+word stores inside `field_CF8` retain width-preserving casts across adjacent
+halfword members.
 
 Two typed pure-C functions retain raw local byte views:
 

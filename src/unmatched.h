@@ -14,13 +14,13 @@
  * WHAT GOES HERE
  *
  * A function or global whose status in config/slus_01411/functions.csv is
- * unmatched_asm, once its consumers are known to agree. There are 205 such
- * functions today. Sixty-nine have their declarations here. One hundred
+ * unmatched_asm, once its consumers are known to agree. There are 203 such
+ * functions today. Sixty-nine have their declarations here. Ninety-nine
  * are build-integrated candidates that keep theirs in the header of the unit
  * they came from: src/candidates/ still gives each of them a defining C
  * translation unit, so that header is a home in the sense this one is not
- * (see the #3859 sections at the end). Four remain local at seven sites, and
- * all four are the deliberate disagreements listed below rather than
+ * (see the #3859 sections at the end). Three remain local at five sites, and
+ * all three are the deliberate disagreements listed below rather than
  * duplication waiting to be moved. The remaining thirty-two have no
  * executable reference from matching C, so this header does not invent
  * signatures for them.
@@ -59,9 +59,6 @@
  *                   one and now builds a SpritePrim, like the other two
  *                   sprite callers, so only the two real arms remain.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
- *   Ai_GetHandSize  s32 (void) in ai_card_ranges.c, whose code needs the
- *                   widened return, and the definition's s8 (void) in
- *                   ai_fusion.c
  *
  * Where a consumer declares no parameters and calls with none, the argument
  * register is not empty. It holds the CALLER'S OWN incoming parameter, still
@@ -231,7 +228,6 @@ extern s32 D_8009B118;
 void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
-void func_8001B170(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
@@ -551,22 +547,6 @@ int func_800695A4();
 int func_8006988C();
 int func_80069B40();
 
-/* A function #3859 moved back to generated assembly that has nowhere else
- * to be declared. The other pin and inline-asm functions it moved became
- * build-integrated candidates and keep their declarations in the header of
- * the unit they came from, because src/candidates/ still gives them a
- * defining C translation unit and the contract check accepts that home for a
- * candidate. The mixed -G share that follows took the other accepted home.
- *
- * func_800291E0 builds the display objects for slot `index` of the
- * D_800EA0E8 effect-resource records and returns the first of them. Its
- * source was only ever the target's own words in an asm block, so there is no
- * candidate, and u8 * is what its three callers agreed on rather than a
- * recovered type; func_800283F4.c casts the result to DisplayObject *, which
- * is the closest thing to evidence there is. The password overlay's shop.c
- * casts it to PasswordCardPreviewView *, a fourth view of the same object. */
-u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
-
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
  * small-data thresholds disagree, or only with register pins #3867 left
@@ -579,9 +559,10 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
  * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 and func_8004A6F8 have no
- * caller in C and get no declaration. Ai_GetHandSize is one of the deliberate
- * disagreements listed at the top. */
+ * contract fingerprint records. func_80048768 has no caller in C and gets no
+ * declaration; SD_SetVoiceEnvelopeFromTone is the named sound operation and
+ * stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
+ * return declarations live in ai.h. */
 
 struct CardList;
 struct DuelEffectChannel;
@@ -651,12 +632,6 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
- * slots. */
-void Dialog_UpdateChoice(struct DuelEffectChannel *object);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
@@ -668,10 +643,6 @@ void func_80041068(void);
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
-
-/* Rebuilds the voice tables. func_80049BAC.c calls it right after
- * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
-void func_8004A518(void);
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request
@@ -688,8 +659,5 @@ void func_8004A518(void);
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
-
-/* An AI script opcode, installed by ai_script_commands.c's table. */
-void AiScript_CountCards(void);
 
 #endif
