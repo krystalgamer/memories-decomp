@@ -13,24 +13,41 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
-### Derive paired cursors inside the loop: `func_80022FF0`
+### Six-state card-move presentation
 
-The parent-link routine at `0x80022FF0` matches all 160 bytes with the existing
-uniform `gcc_2_8_1_g8` profile, without its historical five register pins.
-Passing `parent` and `clear` directly, rather than copying the arguments into
-locals, first removes the saved-register displacement. Maintaining two
-independent 12-byte cursors still exchanges `$s0` and `$s1` at nine instructions.
-Deriving the second object pointer at `entry + 4` inside each iteration lets
-ordinary loop strength reduction allocate both cursors as retail does.
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
 
-The remaining two-word discriminator is the increment order:
-`entry++, slot++` gives retail's second-cursor increment before its slot
-increment. Reversing those source increments swaps instructions at `+0x6C`
-and `+0x70`. The source configures the base object first, then both objects in
-each of five entries, through `func_80022F98`; it always clears `parent->base`
-and only clears the two entry pointers when requested.
-The canonical history and six terminal refinement rows remain unchanged;
-one post-terminal resolution records the newly verified source structure.
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
+
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
+
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
 
 ### Ai_GetHandSize without a mixed small-data profile
 

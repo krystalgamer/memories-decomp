@@ -75,7 +75,7 @@ glabel func_8004A518
     /* 3AE08 8004A608 0C0062A0 */  sb         $v0, 0xC($v1)
     /* 3AE0C 8004A60C 1A0074A4 */  sh         $s4, 0x1A($v1)
     /* 3AE10 8004A610 1C0074A4 */  sh         $s4, 0x1C($v1)
-    /* 3AE14 8004A614 D929010C */  jal        func_8004A764
+    /* 3AE14 8004A614 D929010C */  jal        SD_ResetVoiceEnvelope
     /* 3AE18 8004A618 1E0060A4 */   sh        $zero, 0x1E($v1)
     /* 3AE1C 8004A61C 21200000 */  addu       $a0, $zero, $zero
     /* 3AE20 8004A620 04007326 */  addiu      $s3, $s3, 0x4

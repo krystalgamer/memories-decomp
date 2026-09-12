@@ -16,7 +16,8 @@ void func_80031E5C(u8 *record);
  * not in the chest list at all, so the entry whose id matches is marked
  * visible and the list is re-sorted; from a non-zero count below
  * CARD_CHEST_QUANTITY_MAX only the two numbers move. At the maximum it does
- * nothing, not even the total. */
+ * nothing, not even the total. The matched visibility-byte write is volatile
+ * so the post-search pointer adjustment is not folded into its store offset. */
 void func_80031EE4(u8 *base, s32 index);
 
 /* Two updates to the build-deck screen's per-card counts, both taking the

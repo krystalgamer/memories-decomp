@@ -6,27 +6,15 @@
 #include "../game/display_object.h"
 #include "../game/sprite_primitive.h"
 #include "../game/card_constants.h"
+#include "../ygo_types.h"
 
-typedef struct {
-    u8 field_0;
-    u8 field_1;
-    u8 field_2;
-    u8 field_3;
-    u8 field_4;
-    u8 field_5;
-    u8 field_6;
-    u8 field_7;
-    u16 field_8;
-    u8 field_A;
-    u8 field_B;
-} Ctx;
-
-typedef struct {
-    u32 field_0;
-    u32 field_4;
-} Extra;
-
-extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
+extern void func_80042188(
+    SpritePrim *,
+    Func80028B08Ctx *,
+    s32,
+    s32,
+    Func80028B08Extra *
+);
 
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
@@ -39,9 +27,9 @@ extern void func_80042188(SpritePrim *, Ctx *, s32, s32, Extra *);
 void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
     u8 buf2[5];
-    Extra *EXT;
+    Func80028B08Extra *EXT;
     SpritePrim *PRM;
-    Ctx *CTX;
+    Func80028B08Ctx *CTX;
     DisplayObject *win;
     DuelEffectResourceRecord *rec;
     s32 arg;
@@ -62,9 +50,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     if ((flags & 0x40) == 0) {
         return;
     }
-    CTX = (Ctx *)0x1F800344;
+    CTX = (Func80028B08Ctx *)0x1F800344;
     PRM = (SpritePrim *)0x1F800320;
-    EXT = (Extra *)0x1F800398;
+    EXT = (Func80028B08Extra *)0x1F800398;
     arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
         obj->field_20.word = win->field_20.word;
