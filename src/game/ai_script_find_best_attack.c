@@ -1,4 +1,5 @@
 #include "../types.h"
+#define AI_BEST_DIFFERENCE_AS_ARRAY
 #include "ai.h"
 #include "ai_constants.h"
 #include "duel_calc_guardian_star_matchup.h"
@@ -10,13 +11,11 @@
    with gAi_bBestAttacker at +2 -- and nothing here indexes above [0]. This
    unit compiles at -G8, where a two-byte scalar would be placed in small data
    and addressed %gp_rel; declaring it an array is what keeps it on %hi/%lo.
-   AiScript_LoadBestDifference (now src/candidates/func_8007164C.c) compiles
-   at -G0 and so spells the same symbol a plain scalar. Both objects relocate
+   AiScript_LoadBestDifference compiles at -G0 and takes the scalar arm in
+   ai.h. Both objects relocate
    HI16/LO16, which makes the two look like drift, but that agreement is two
    correct levers rather than one declaration that could serve both. See
    notes/build.md. */
-extern u16 gAi_wBestDifference[];
-
 void AiScript_FindBestAttack(void) {
     u8 *t;
     u8 *r;
