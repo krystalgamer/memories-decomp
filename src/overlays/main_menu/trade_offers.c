@@ -1,4 +1,5 @@
 #include "../../types.h"
+#define MAIN_MENU_TRADE_READY_AS_SCALAR
 #include "trade_helpers.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
@@ -25,9 +26,6 @@
    MainMenu_DrawThreeDigitNumber for every offered card, the offer delta calls
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
    D_80185C9C is read by the draw and written through by the delta. */
-
-extern u16 D_80185C9C[][11];
-extern u8 D_80185CC8;
 
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {

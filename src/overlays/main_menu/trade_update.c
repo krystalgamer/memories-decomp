@@ -21,12 +21,6 @@
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
 
-extern MainMenuPair D_80185C8C[];
-extern u16 D_80185C9C[2][11];
-extern u8 D_80185CC8[2];
-extern u8 D_80185CCA[2];
-extern u8 D_80185CCC[2];
-
 void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
@@ -80,4 +74,3 @@ void MainMenu_InitTradeScreen(void)
     D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;
     D_8009B0C0 = 1;
 }
-
