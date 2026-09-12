@@ -164,7 +164,7 @@
       "target": "src/candidates_target/func_80018FEC.S",
       "candidate_build_sha256": "6a763097bd0d7ac2f08bb07e484ab5190dbf3adae3b70cc9be536cb09ef656b2",
       "target_bytes_sha256": "f839accb5fc927d77e04cb72f2fd5d0ee0d43b3c711a9d345905ad1b648f6bf8",
-      "canonical_contract_sha256": "0cf2f69cd183a2828aeb77390d794e2449437ab8a2a6d5f63834e12d1f917361",
+      "canonical_contract_sha256": "bf1ce3f0f29ae300a25fcef9db78ed6eabc04f64fe6a19ad82a4ac912febdd7c",
       "canonical_contracts": {
         "D_80090918": "c74bc727ce49847bc6b12c96e28bad26df908aa19361e68fc73e2e35e49e3c19",
         "D_8009B162": "31937783a4244fcbe24da5c7ff740671b5eb9d675376209c2ecf601a97ea8b51",
