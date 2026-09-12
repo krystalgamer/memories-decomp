@@ -13,27 +13,41 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
-### Keep the staging pair absolute: `Main_RunCredits`
+### Six-state card-move presentation
 
-The 540-byte runner at `0x8002DA1C` matches under the existing uniform
-`gcc_2_8_1_g8_split` profile. Its six terminal refinement attempts failed
-to link because an eight-byte scalar view of `D_801D5608` selected
-out-of-range GP-relative relocations. The existing incomplete
-`TextStagingValues` array and its `pair` member keep both staging stores
-absolute without a new alias, profile, or inflated declaration.
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
 
-The source uses the shared save-state layout and reads `duelist_code` as
-`u32` for the target's unsigned modulo-five sequence. The secret-number
-table, memory-card operations, text-box lifecycle and model-scene calls use
-their existing canonical declarations. The frame-delay byte selects the
-existing DATA view; the active-mode byte remains scalar and GP-relative
-through the guarded mode-state header pattern proposed in #3855.
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
 
-The shared completion-initialization label, save retry, secret-number
-display and credits-scene phases retain their original branch order and
-one-time flags. No register pins, inline assembly or local externs remain.
-The canonical history and six-row terminal refinement history are preserved,
-followed by one post-terminal resolution with this source evidence.
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
+
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
 
 ### Ai_GetHandSize without a mixed small-data profile
 
@@ -90,26 +104,6 @@ view; the second arm tests the command word at byte offset 0x90. Keeping these
 byte-based expressions matters to GCC's allocation and operand ordering.
 
 ### Data placement and address formation
-
-`func_80030998` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
-selecting true-width DATA scalars for the active mode and campaign scene
-index. The array spellings leave ten differing words; changing only the mode
-leaves three and changing only the scene index leaves nine. Selecting both
-restores the `$at` store expansions and the shared editor-value register
-allocation without mixed thresholds or a pinned local. The primary campaign
-display pointer independently requires its DATA view for the absolute load
-and store.
-
-The scene index's final store is `sb`, not `sh`: the reference's missing
-`D_8009B27A` is the canonical byte `gCampaignSceneIndex`. `Main_RunCampaign`
-now selects the same existing DATA spelling through the shared header
-instead of redeclaring it locally. The debug selector, format strings,
-dialog object and effect-entry byte at `+0x18` use shared declarations.
-The diagnostic's original format at `0x80010288` is retained, as are the
-message-preview cleanup, editor toggle and campaign transition.
-
-The canonical rows and six terminal refinement records are unchanged;
-one post-terminal resolution records the declaration and layout evidence.
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
 - Large arrays and structures referenced with `%hi`/`%lo` pairs require G0

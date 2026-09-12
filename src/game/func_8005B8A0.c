@@ -78,7 +78,7 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         D_8009B06C = D_8009B06C - 4;
     }
     func_8005C62C((s32)&D_8009B49C);
-    r = func_8005BFC8(0);
+    r = Movie_WaitAndDecodeFrame(0);
     if (r != 0) {
         return r;
     }

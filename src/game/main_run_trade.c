@@ -41,7 +41,7 @@ void Main_RunTrade(void)
         D_8009B26E = 1;
         box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
         box->field_59 = 0x10;
-        func_80039A14((u8 *)box);
+        func_80039A14(box);
         obj = func_800400AC(func_8004002C(), 2);
         func_800404CC(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;
@@ -68,7 +68,7 @@ void Main_RunTrade(void)
         obj->field_60 = y;
         func_80043230((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
         TextBox_SetPos(
-            (u8 *)box,
+            box,
             *(s16 *)&obj->field_30.h.field_30 + 0x18,
             *(s16 *)&obj->field_30.h.field_32 + 0x20
         );
