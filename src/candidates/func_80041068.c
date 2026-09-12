@@ -11,11 +11,10 @@
 #include "../game/display_object_projection.h"
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
+#include "../game/display_object_list_renderers.h"
 #include "../unmatched.h"
 
 #include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* The POLY_GT4 sibling for the list rooted at D_800EFE38[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second
@@ -108,7 +107,7 @@ void func_80041068(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (((u8 *)e)[0x72] != 0) {
@@ -123,7 +122,7 @@ void func_80041068(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                    func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }

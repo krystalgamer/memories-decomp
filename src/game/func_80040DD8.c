@@ -1,21 +1,15 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/display_object_list_renderers.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0, a single threshold,
- * it is 164 of 164 instructions with 12 differing, opcode distance 0. The
- * source below is the match, unchanged apart from its include paths. */
+#define GGRAPHICS_VIEWPORT_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "../game/graphics_frame.h"
-#include "../game/display_object_projection.h"
-#include "../game/display_object.h"
-#include "../game/display_object_layout.h"
+#include "graphics_frame.h"
+#include "display_object_projection.h"
+#include "display_object.h"
+#include "display_object_layout.h"
+#include "display_object_list_renderers.h"
 #include "../unmatched.h"
 
-#include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
+#include "ordering_tables.h"
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
@@ -123,7 +117,7 @@ void func_80040DD8(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -139,7 +133,7 @@ void func_80040DD8(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                    func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }
