@@ -31,4 +31,10 @@ extern s8 gDuel_bOpponentID[9];
 extern s8 gDuel_bOpponentID;
 #endif
 
+#ifdef AI_GET_HAND_SIZE_RETURNS_S32
+s32 Ai_GetHandSize(void);
+#else
+s8 Ai_GetHandSize(void);
+#endif
+
 #endif

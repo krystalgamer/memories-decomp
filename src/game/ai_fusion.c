@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_get_base_card_stat.h"
 #include "ai.h"
+#include "ai_opponent_data.h"
 #include "ai_constants.h"
 #include "card_constants.h"
 #include "duel_check_ritual.h"
@@ -10,9 +11,6 @@
 #include "duel_card_checks.h"
 #include "duel_grid.h"
 #include "../unmatched.h"
-
-/* The definition's own return type; ai_card_ranges.c widens it. */
-s8 Ai_GetHandSize(void);
 
 extern u8 D_800EAE88[];
 

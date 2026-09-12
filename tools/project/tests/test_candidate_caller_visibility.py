@@ -42,6 +42,8 @@ PAIRS = [
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../game/sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
+    ("src/game/ai_card_ranges.c", "Ai_GetHandSize", '#include "ai_opponent_data.h"'),
+    ("src/game/ai_fusion.c", "Ai_GetHandSize", '#include "ai_opponent_data.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
 ]
