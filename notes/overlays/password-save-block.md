@@ -152,7 +152,7 @@ use the same bank and request encoding.
 The matching
 [`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) and the
 candidate
-[`Library_UpdateCardUsedFlag`](../../src/candidates/func_8002CCE4.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
 access that same bank. Let `m` be the selected MSB-first mask:
 
 | Request | Test result | Update action |
@@ -166,7 +166,7 @@ with low ID bits zero returns `0x80`, whereas one with low bits seven returns
 the tester and a clear operation for the updater; it is not a stored flag bit.
 
 The event-script handler
-[`func_8002E918`](../../src/candidates/func_8002E918.c) and text handler
+[`func_8002E918`](../../src/game/func_8002E918.c) and text handler
 [`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c)
 interprets
 `CAMPAIGN_FLAG_COMMAND_WRITE` (`0x4000`) before calling either helper.

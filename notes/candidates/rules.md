@@ -48,7 +48,7 @@ there the entries appear only as their filenames, which are addresses. Run
 ## Human-facing bundles
 
 Every remaining note-based resident candidate has a generated directory under
-[`for_humans/`](for_humans/README.md). It carries the exact self-contained C
+`for_humans/`. It carries the exact self-contained C
 block, the target spimdisasm assembly, and the complete named compiler-profile
 options. Run `make candidate-bundles` after changing a candidate and commit the
 corresponding bundle changes. In particular, any PR that edits a candidate's

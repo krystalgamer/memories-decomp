@@ -94,7 +94,7 @@ select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
 not write: an ordinary query returns zero or the selected mask, not always
 `1`. Adding modifier `0x8000` instead tests for a clear bit and returns
 normalized `0` or `1`.
-[`Library_UpdateCardUsedFlag`](../../src/candidates/func_8002CCE4.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
 sets the bit by default and clears it with that modifier.
 
 The script and text handlers use `0x4000` to select a write rather than a
