@@ -18,8 +18,8 @@
  * the low four bits of that state word.
  *
  * It is written here rather than resolved out of the blob at 0x800908A0
- * because every entry is a function this tree already names: seven are
- * matching C and eight are still generated assembly. The unmatched ones are
+ * because every entry is a function this tree already names. Matching
+ * callbacks use their subsystem headers. The unmatched ones are
  * declared in unmatched.h rather than here: this file only takes their
  * addresses, but that is the same thing the entries already in that header
  * do, so a local declaration would just be a second place for them to be

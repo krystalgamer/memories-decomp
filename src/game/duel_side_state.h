@@ -79,6 +79,11 @@ extern volatile u8 D_8009B1D5;
 extern u8 D_8009B1D5;
 #endif
 
+/* Destination slot and signed stat adjustment used by the card-move
+ * presentation sequence. Both are reached through small data. */
+extern u8 D_8009B19C;
+extern s16 D_8009B154;
+
 extern DuelSideState D_800E9FF0[DUEL_SIDE_COUNT];
 /* Always &D_800E9FF0[D_8009B1D5]: four translation units assign it exactly
  * that on a turn change. */
@@ -190,12 +195,13 @@ extern u16 D_8009B236;
  * duel_terrain_boost.h says of the `[8]` on gDuel_bTerrain, such a size
  * is a threshold, not a length.
  *
- * Retail also reaches this address indexed by the side selector in
- * functions not yet in C (lui/addiu, addu with D_8009B1D5, lb -- e.g.
- * func_8001B170.s:19-23); what that says about the object's extent is
- * not established. This declaration claims one byte because that is all
- * the four C units touch. */
-#ifdef D_8009B360_IN_DATA
+ * func_8001B170 indexes the two adjacent identities by the 0/1 side
+ * selector: D_8009B360 and gDuel_bOpponentID at the following byte.
+ * Its array view describes those two bytes without changing the scalar
+ * view used by the existing setup code. */
+#ifdef D_8009B360_AS_SIDE_ARRAY
+extern s8 D_8009B360[DUEL_SIDE_COUNT] __attribute__((section(".data")));
+#elif defined(D_8009B360_IN_DATA)
 extern s8 D_8009B360 __attribute__((section(".data")));
 #else
 extern s8 D_8009B360;

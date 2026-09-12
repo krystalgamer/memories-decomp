@@ -278,9 +278,9 @@
       "target": "src/candidates_target/func_80024200.S",
       "candidate_build_sha256": "8dd516ca2d45d78ffa627ade72aea71207bc72cbf836f7b1f5305d52612879e3",
       "target_bytes_sha256": "8968b795514e7f364869e714f6e2d987c0e51ff4dec0ba3a6916c0684d6b8a70",
-      "canonical_contract_sha256": "22c6058b753e2079e088b4001eeb7bc9ac48561ed98143a6f80fa21050b4410d",
+      "canonical_contract_sha256": "80f952f789902ff629c2d263661a87aabd050658aa59061f567e74d81a9eb5e0",
       "canonical_contracts": {
-        "gDialog_bChoice": "b9115f57e8b9813a9f665d73bd1655e483a2fda4d719daa14dbf36d33c61924c"
+        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8"
       }
     },
     {
@@ -554,14 +554,14 @@
       "target": "src/candidates_target/func_8002EE94.S",
       "candidate_build_sha256": "5c4a71c391a1291896189b1b10f3673ca34fbe3287bf55b5b0e070490d2728e0",
       "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "45b0a70c55e14aaa1ecc1e100dd109b33f96bb67bf7c43f787f7f1e2c3f0c90b",
+      "canonical_contract_sha256": "db2fc661721fe1fd6e01cce3aa5ca7bed19adb49c4b4b4dc845577da925ffa83",
       "canonical_contracts": {
         "D_8009B269": "c886201242ab637e8583593c50c83bdfad300db510f3b1ea86c42e6a202a1990",
         "D_8009B26C": "361116d513ca1ee0d940c9f286d0dd45bc0e496ac7b9d2a8cbcc0889fc7ba173",
         "D_8009B34C": "04051825cb2f95204c6d95694b44932038eb5ddbc52e7d484dfb3af995f1b162",
         "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
         "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDialog_bChoice": "b9115f57e8b9813a9f665d73bd1655e483a2fda4d719daa14dbf36d33c61924c",
+        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8",
         "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
       }
     },
@@ -701,11 +701,11 @@
       "target": "src/candidates_target/func_8003E854.S",
       "candidate_build_sha256": "8f00d32fba744fc83c24bc92866ab334b64138ba67ab392dc27257d0ff8d967b",
       "target_bytes_sha256": "845f1943b687f48e9474437c1ebefeed8672fff3f5870c7edf6010ea884d4bad",
-      "canonical_contract_sha256": "af7928db421129323f4e23eef125031488bbb198a6db4dce1aa08b02c29fd39b",
+      "canonical_contract_sha256": "9114a2ede6a3158b6c273e2472e4b4947e73af2fe2484acf4840ba20f249dd5c",
       "canonical_contracts": {
         "D_8009AF70": "955eb1782ce7b6389a84dc8e5e082096456a19891a689af0b7a6351774bb8b9b",
         "MemCardDialog_SetMessage": "46dac8c0b9d4b1da246ca55b7ba7b5cc99c13ee5d0a547222b064581dbb87139",
-        "gDialog_bChoice": "b9115f57e8b9813a9f665d73bd1655e483a2fda4d719daa14dbf36d33c61924c"
+        "gDialog_bChoice": "eb130fa9ce83ae9017a3abcb544e094f41c0054e5bc8034bf67c38c0e4582ac8"
       }
     },
     {

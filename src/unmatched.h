@@ -228,7 +228,6 @@ extern s32 D_8009B118;
 void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
-void func_8001B170(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
