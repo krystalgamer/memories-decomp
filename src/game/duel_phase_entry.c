@@ -9,6 +9,7 @@
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_side_state.h"
+#include "duel_scene_state.h"
 #include "duel_phase_entry.h"
 #include "func_8001825C.h"
 #include "view_state.h"
@@ -49,10 +50,10 @@ void func_8001825C(void)
     u16 flags;
     s8 n;
 
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         rec = D_801A7B64;
-        for (i = 5; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
+        for (i = HAND_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
@@ -164,8 +165,8 @@ void func_80018608(void)
     s32 stat2;
 
     w = (u16 *)&D_800F2848;
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         Duel_RequestCombinedDeckData();
         D_800F2848.field_00 = 0x4B0;
         w[2] = 0x358;
@@ -239,7 +240,7 @@ void func_80018608(void)
     }
     case 5:
         Duel_ClearHandSlots();
-        D_8009B1EC = 5;
+        D_8009B1EC = HAND_SIZE;
         D_8009B23A = 3;
         ((DuelSelectionSideView *)(D_800E9F10 +
             D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = D_800EA030;
@@ -272,8 +273,8 @@ void func_8001898C(void) {
     u16 flags;
     s8 c;
 
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         *(u16 *)&D_8009B21C->field_40.h.field_40 =
             (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
