@@ -1,3 +1,4 @@
+#define D_8009B2F8_AS_UNSIZED_ARRAY
 #include "../types.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
@@ -6,6 +7,7 @@
 #include "../game/save_data.h"
 #include "../game/main_frame.h"
 #include "../game/main_init_free_duel_menu.h"
+#include "../game/main_mode_state.h"
 #include "../game/main_services.h"
 #include "../game/main_modes.h"
 #include "../game/fade.h"
@@ -13,8 +15,6 @@
 #include "../unmatched.h"
 
 u8 D_8009B26C;
-extern u8 D_8009B269;
-extern unsigned char D_8009B2F8[];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 

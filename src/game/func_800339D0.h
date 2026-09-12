@@ -18,4 +18,10 @@ void func_800339D0(BuildDeckTransitionState *record);
  * it reads zero. */
 s32 func_80033BE8(void);
 
+/* Bit 7 selects the wide duel presentation. Main_RunBuildDeckMenu uses the
+ * measured incomplete-array view to keep the byte outside small data. */
+#ifdef D_8009B2F8_AS_UNSIZED_ARRAY
+extern u8 D_8009B2F8[];
+#endif
+
 #endif
