@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -43,6 +43,7 @@ help:
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
 		'  check-translation-unit-headers  Reject foreign prototypes in built C sources' \
+		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
 		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  candidate-index  Regenerate the stored-candidate index' \
 		'  check-candidate-index  Verify the stored-candidate index is current' \
@@ -156,6 +157,9 @@ check-metadata:
 
 check-translation-unit-headers:
 	@$(PYTHON) tools/project/translation_unit_headers.py
+
+check-matching-source-contracts:
+	@$(PYTHON) tools/project/matching_source_contracts.py
 
 check-unmatched-contracts:
 	@$(PYTHON) tools/project/unmatched_contracts.py
@@ -272,6 +276,7 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/classify_functions.py
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
 	@$(PYTHON) tools/project/translation_unit_headers.py
+	@$(PYTHON) tools/project/matching_source_contracts.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
 	@$(PYTHON) tools/project/audit_repository.py
 

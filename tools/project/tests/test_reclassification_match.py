@@ -40,7 +40,13 @@ class ReclassificationMatchTests(unittest.TestCase):
             "profile": "new_profile", "candidate_source": "tmp/new.c",
             "candidate_sha256": "2" * 64, "summary": "New discriminator: pure C.",
         }
-        self.profiles = {"old_profile": {}, "new_profile": {}}
+        self.profiles = {
+            name: {
+                "compiler_flags": ["-G8"],
+                "maspsx_flags": ["-G8"],
+            }
+            for name in ("old_profile", "new_profile")
+        }
 
     def validate(self, rows: list[dict[str, str]], integrated: bool = False) -> None:
         function = {**self.function, "status": "matching_c" if integrated else "unmatched_asm"}
@@ -143,6 +149,7 @@ class ReclassificationMatchTests(unittest.TestCase):
             root = Path(temporary)
             config = root / "config/slus_01411"
             config.mkdir(parents=True)
+            (config / "overlays").mkdir()
             candidate = root / "tmp/probe/candidate.c"
             candidate.parent.mkdir(parents=True)
             source = '#include "../../src/types.h"\nvoid func_80012345(void) {}\n'
@@ -166,6 +173,8 @@ class ReclassificationMatchTests(unittest.TestCase):
             (config / "compiler_profiles.json").write_text(
                 json.dumps({"schema": 1, "profiles": self.profiles})
             )
+            for name in ("symbols.txt", "c_symbols.ld", "link_symbols.ld"):
+                (config / name).write_text("")
             arguments = [
                 "record_external_attempt.py", "0x80012345",
                 "--mode", "reclassification_match", "--profile", "new_profile",
@@ -234,6 +243,7 @@ class ReclassificationMatchTests(unittest.TestCase):
             ]
             with (
                 patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(integrate_verified_match, "preprocess_source", return_value=source),
                 patch.object(sys, "argv", arguments),
                 contextlib.redirect_stdout(io.StringIO()),
             ):
@@ -287,6 +297,11 @@ class ReclassificationMatchTests(unittest.TestCase):
             ]
             with (
                 patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(
+                    integrate_verified_match,
+                    "preprocess_source",
+                    return_value=refined_source,
+                ),
                 patch.object(sys, "argv", arguments),
                 contextlib.redirect_stdout(io.StringIO()),
             ):
