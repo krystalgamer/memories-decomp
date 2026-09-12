@@ -317,10 +317,17 @@ extern u8 D_8009B144;
    results have to be able to go negative.
 
    Files that reach these through `__attribute__((section(".data")))`, or as an
-   unsized or [4] array, are deliberately not converted -- those spellings
+   unsized or [4] array, select the guarded view below because those spellings
    change how the address is materialised, not just how the value reads. */
+#ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
+extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
+#endif
 
 /* The double-buffered graphics work area. Graphics_BeginFrame picks the half
  * for the frame it is starting and publishes it:
