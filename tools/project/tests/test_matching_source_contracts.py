@@ -23,6 +23,20 @@ class MatchingSourceContractTests(unittest.TestCase):
             ["contains a hard-register variable"],
         )
 
+    def test_register_binding_text_in_adjacent_literals_is_accepted(self) -> None:
+        source = 'const char *s = "register int r asm(" ")";\n'
+        self.assertEqual(source_violations(source, set()), [])
+
+    def test_initializer_assembly_is_not_removed_as_a_register_pin(self) -> None:
+        source = (
+            'void f(void) { const char *a = "register", '
+            '*b = ({ asm("nop"); "x"; }); }\n'
+        )
+        self.assertEqual(
+            source_violations(source, set()),
+            ["contains statement-level assembly or an untracked assembler alias"],
+        )
+
     def test_statement_assembly_is_rejected(self) -> None:
         source = 'void f(void) { asm("nop"); }\n'
         self.assertEqual(

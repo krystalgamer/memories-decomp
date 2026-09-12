@@ -10,9 +10,8 @@ from pathlib import Path
 from typing import Any
 
 from integrate_verified_match import (
+    contains_register_pin,
     IntegrationError,
-    REGISTER_AGGREGATE_PIN_PATTERN,
-    REGISTER_PIN_PATTERN,
     load_tracked_symbol_names,
     preprocess_source,
     profile_g_value,
@@ -30,10 +29,7 @@ class MatchingSourceContractError(RuntimeError):
 def source_violations(source: str, tracked_symbol_names: set[str]) -> list[str]:
     text = strip_c_comments(source)
     violations: list[str] = []
-    if (
-        REGISTER_AGGREGATE_PIN_PATTERN.search(text) is not None
-        or REGISTER_PIN_PATTERN.search(text) is not None
-    ):
+    if contains_register_pin(text):
         violations.append("contains a hard-register variable")
     if uses_asm_extension(
         source,

@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 from pathlib import PurePosixPath
 
+from integrate_verified_match import uses_asm_extension
 from workspace import WorkspaceError, require_workspace_root
 import record_external_attempt
 from record_external_attempt import ExternalAttemptError, latest_successes
@@ -42,10 +43,6 @@ MAX_FUNCTION_ATTEMPTS = 6
 EXTERNAL_ATTEMPT_FIELDS = record_external_attempt.FIELDS
 EXTERNAL_MODES = record_external_attempt.MODES
 EXTERNAL_MODE_LIMITS = record_external_attempt.MODE_MAX_ATTEMPTS
-ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
-REGISTER_PIN_PATTERN = re.compile(
-    r"\bregister\b[^;=]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
-)
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
 
 
@@ -403,7 +400,7 @@ def audit_attempts(root: Path) -> None:
                 f"{address:#010x}: current source does not define "
                 f"{function_names[address]}"
             )
-        if ASM_PATTERN.search(REGISTER_PIN_PATTERN.sub("", body)):
+        if uses_asm_extension(body, allow_register_pins=True):
             raise AuditError(
                 f"{address:#010x}: successful external source still uses GCC asm"
             )

@@ -22,13 +22,13 @@ class IntegrationError(RuntimeError):
 
 
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
-REGISTER_PIN_PATTERN = re.compile(
-    r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+REGISTER_PIN_CODE_PATTERN = re.compile(
+    r"\bregister\b[^;=]*?\b(?:asm|__asm|__asm__)\s*\(\s*\)"
 )
-REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
+REGISTER_AGGREGATE_PIN_CODE_PATTERN = re.compile(
     r"\bregister\s+(?:struct|union)\s*"
     r"\{(?:[^{}]|\{[^{}]*\})*\}\s*[A-Za-z_][A-Za-z0-9_]*\s*"
-    r"(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
+    r"(?:asm|__asm|__asm__)\s*\(\s*\)"
 )
 SYMBOL_ALIAS_PATTERN = re.compile(
     r"(?P<declaration>\bextern\b[^;]*?)\b(?:asm|__asm|__asm__)"
@@ -140,6 +140,37 @@ def mask_c_literals(source: str) -> str:
                 state = "code"
         index += 1
     return "".join(result)
+
+
+def register_pin_spans(source: str) -> list[tuple[int, int]]:
+    code = mask_c_literals(source)
+    spans = [
+        match.span()
+        for pattern in (
+            REGISTER_AGGREGATE_PIN_CODE_PATTERN,
+            REGISTER_PIN_CODE_PATTERN,
+        )
+        for match in pattern.finditer(code)
+    ]
+    spans.sort()
+    return [
+        span
+        for index, span in enumerate(spans)
+        if index == 0 or span[0] >= spans[index - 1][1]
+    ]
+
+
+def contains_register_pin(source: str) -> bool:
+    return bool(register_pin_spans(strip_c_comments(source)))
+
+
+def mask_spans(source: str, spans: list[tuple[int, int]]) -> str:
+    output = list(source)
+    for start, end in spans:
+        for index in range(start, end):
+            if output[index] != "\n":
+                output[index] = " "
+    return "".join(output)
 
 
 def profile_g_value(flags: Any, description: str) -> int:
@@ -289,21 +320,24 @@ def uses_asm_extension(
     Statement-level inline assembly is always rejected.
     """
     text = strip_c_comments(source)
+    code = mask_c_literals(text)
     if allow_register_pins:
-        text = REGISTER_AGGREGATE_PIN_PATTERN.sub("register", text)
-        text = REGISTER_PIN_PATTERN.sub("register", text)
+        code = mask_spans(code, register_pin_spans(text))
     if allow_symbol_aliases:
         allowed = tracked_symbol_names or set()
-        text = SYMBOL_ALIAS_PATTERN.sub(
-            lambda match: (
-                "extern;"
-                if declared_symbol(match.group("declaration")) is not None
+        alias_spans = []
+        for match in SYMBOL_ALIAS_PATTERN.finditer(text):
+            declaration = code[
+                match.start("declaration"):match.end("declaration")
+            ]
+            if (
+                declared_symbol(declaration) is not None
                 and match.group("symbol") in allowed
-                else match.group(0)
-            ),
-            text,
-        )
-    return ASM_PATTERN.search(mask_c_literals(text)) is not None
+                and ASM_PATTERN.search(code[match.start():match.end()]) is not None
+            ):
+                alias_spans.append(match.span())
+        code = mask_spans(code, alias_spans)
+    return ASM_PATTERN.search(code) is not None
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -517,9 +551,7 @@ def main() -> int:
         source_text = source_bytes.decode("utf-8")
         tracked_symbol_names = load_tracked_symbol_names(root)
         source_without_comments = strip_c_comments(source_text)
-        if REGISTER_AGGREGATE_PIN_PATTERN.search(
-            source_without_comments
-        ) or REGISTER_PIN_PATTERN.search(source_without_comments):
+        if contains_register_pin(source_without_comments):
             raise IntegrationError(
                 f"{address:#010x}: matching C cannot contain hard-register variables"
             )
@@ -535,9 +567,7 @@ def main() -> int:
             )
         preprocessed_text = preprocess_source(root, source, profile)
         preprocessed_without_comments = strip_c_comments(preprocessed_text)
-        if REGISTER_AGGREGATE_PIN_PATTERN.search(
-            preprocessed_without_comments
-        ) or REGISTER_PIN_PATTERN.search(preprocessed_without_comments):
+        if contains_register_pin(preprocessed_without_comments):
             raise IntegrationError(
                 f"{address:#010x}: expanded matching C cannot contain "
                 "hard-register variables"
