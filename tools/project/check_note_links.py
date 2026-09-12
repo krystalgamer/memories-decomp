@@ -137,7 +137,6 @@ def reference_definitions(lines: list[str]) -> tuple[dict[str, str], set[int]]:
             parsed is None
             and not match.group("rest").strip()
             and index + 1 < len(lines)
-            and lines[index + 1][:1].isspace()
         ):
             parsed = parse_destination(lines[index + 1])
             if parsed is not None:

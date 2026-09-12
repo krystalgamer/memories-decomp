@@ -210,7 +210,7 @@ class CheckNoteLinksTests(unittest.TestCase):
             [("../src/missing.c", "does not exist")],
         )
 
-    def test_reference_destinations_continue_on_indented_line(self) -> None:
+    def test_reference_destinations_continue_on_next_line(self) -> None:
         with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
@@ -219,17 +219,19 @@ class CheckNoteLinksTests(unittest.TestCase):
             source.mkdir()
             (source / "file.c").write_text("void f(void) {}\n", encoding="utf-8")
             (notes / "a.md").write_text(
-                "[existing][source] and [missing][absent]\n"
+                "[existing][source] and [missing][absent] and [angle][angled]\n"
                 "[source]:\n"
                 "    ../src/file.c\n"
                 "[absent]:\n"
-                "    ../src/missing.c\n",
+                "../src/missing.c\n"
+                "[angled]:\n"
+                "<../src/file.c>\n",
                 encoding="utf-8",
             )
 
             _, reference_count, problems = check_note_links(root)
 
-        self.assertEqual(reference_count, 2)
+        self.assertEqual(reference_count, 3)
         self.assertEqual(
             [(problem.target, problem.reason) for problem in problems],
             [("../src/missing.c", "does not exist")],
