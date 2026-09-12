@@ -18,18 +18,20 @@
  * corrected: nothing here shows the game produces such an index, and widening
  * the array would change the bytes.
  *
- * The entries are the display effect lifecycle handlers, including two that
- * share func_80039FF8. */
+ * The table and dispatcher use MenuRecord *, matching the arena they walk.
+ * The two lifecycle entries and two VRAM entries retain casts because those
+ * handlers deliberately expose narrower layout views of the same record.
+ * The entries include two that share func_80039FF8. */
 
-void (*D_80090F68[])(u8 *) = {
-    (void (*)(u8 *))func_80039FF8,
-    (void (*)(u8 *))func_80039FF8,
-    (void (*)(u8 *))func_8003A560,
+void (*D_80090F68[])(MenuRecord *) = {
+    (void (*)(MenuRecord *))func_80039FF8,
+    (void (*)(MenuRecord *))func_80039FF8,
+    (void (*)(MenuRecord *))func_8003A560,
     func_8003A990,
-    (void (*)(u8 *))func_8003AD6C,
+    func_8003AD6C,
     func_8003B054,
-    (void (*)(u8 *))func_8003AC48,
-    (void (*)(u8 *))func_8003AAE4,
+    func_8003AC48,
+    func_8003AAE4,
     func_8003DA40,
     func_8003D74C,
     func_8003D614,
