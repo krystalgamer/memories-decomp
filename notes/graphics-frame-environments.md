@@ -44,11 +44,10 @@ all existing scalar/array and tentative-definition forms in other consumers.
 No linker identities, storage definitions, compiler profiles, SDK bodies,
 register constraints or grouped translation-unit boundaries change.
 
-The resident candidates currently contain no direct environment/tint consumer;
-all 19 candidate fingerprints must still pass because this shared header has
-transitive users. Pending source-move PR #3904 must carry the startup's two
-selector macros and five typed stores to `src/candidates/func_80013154.c`,
-with `graphics_frame.h` visible before use. The shortened
+The remaining resident candidates contain no direct environment/tint consumer;
+their fingerprints must still pass because this shared header has transitive
+users. The startup's two selector macros and five typed stores now live in
+`src/game/func_80013154.c`, with `graphics_frame.h` visible before use. The shortened
 `movie_frame_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array

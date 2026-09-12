@@ -384,7 +384,7 @@ extern u8 D_800A5768[];
  * main_init.c was dropped the same way.
  *
  * Their neighbour D_8009B0A0 is deliberately NOT here: graphics_frame.c
- * defines it `u8 D_8009B0A0[4]` while src/candidates/func_80013154.c both
+ * defines it `u8 D_8009B0A0[4]` while func_80013154.c both
  * declares it a scalar and assigns `D_8009B0A0 = 2`. Array and scalar are
  * two faithful views of one address, so neither spelling can absorb the
  * other and that declaration stays local. */

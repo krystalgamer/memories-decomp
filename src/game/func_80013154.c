@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/main_services.c.
- */
 #define D_8009B0A3_IS_VOLATILE_SCALAR
 #define D_8009B142_IN_DATA_VOLATILE
 #define GRAPHICS_DRAW_ENV_IS_VOLATILE
@@ -19,25 +13,18 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/rand.h"
-#include "../game/fade.h"
+#include "fade.h"
 #include "../unmatched.h"
-#include "../game/file_transfer.h"
-#include "../game/func_800136D4.h"
-#include "../game/func_80041340.h"
-#include "../game/graphics_constants.h"
-#include "../game/graphics_frame.h"
-#include "../game/main_frame.h"
+#include "file_transfer.h"
+#include "func_800136D4.h"
+#include "func_80041340.h"
+#include "graphics_constants.h"
+#include "graphics_frame.h"
+#include "main_frame.h"
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
-#include "../game/input.h"
-#include "../game/rand_constants.h"
-#include "../game/main_services.h"
-
-/* The resident system layer: the per-frame service pump, the boot-time
-   graphics and input start-up that installs it, the pad-driven screen-offset
-   adjustment loop, and the reset of the callback registry the pump walks.
-   The four are contiguous and are the only run in the region built with
-   gcc_2_8_1_g8_split - their neighbours on both sides use other profiles -
-   and the pump and the reset share the D_800E9DB0 slots and D_8009B0B8. */
+#include "input.h"
+#include "rand_constants.h"
+#include "main_services.h"
 
 /* The init block is a run of byte stores to distinct globals; its volatile
    views (including the shared header arms) keep the emitted order the source
@@ -67,12 +54,7 @@ void func_80013154(u8 *base)
     s32 k;
     s32 off;
     s32 six;
-    /* Retail copies the count into $v1 for the two byte stores. As a
-       plain local the copy is folded away, since cse rates a narrowing
-       subreg of the count cheaper than a fresh pseudo; only a hard
-       register the user names is cheaper still. Set once, so it is
-       launched right before its stores like the neighbouring constants. */
-    register u8 count __asm__("$3");
+    u16 count;
 
     ResetGraph(0);
     GsInitGraph(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);

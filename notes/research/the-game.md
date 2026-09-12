@@ -208,7 +208,7 @@ only populated stream-range entry plays frames 1 through 303 from the first
 3080 sectors of copy 0; no range selects the later copies.
 
 **Startup seeding.** The [`Main_Init`](../../src/candidates/func_80012B50.c) candidate
-calls the [`func_80013154`](../../src/candidates/func_80013154.c) candidate, whose
+calls [`func_80013154`](../../src/game/func_80013154.c), whose
 graphics/input initialization ends with `srand(0x56)`. After that helper
 returns and `Sound_InitFrontend` runs, `Main_Init` calls
 `srand(0x55555555)`. The two seed values and this call order are code-backed.

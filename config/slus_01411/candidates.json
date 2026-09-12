@@ -17,20 +17,6 @@
       }
     },
     {
-      "address": "0x80013154",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_80013154.c",
-      "target": "src/candidates_target/func_80013154.S",
-      "candidate_build_sha256": "e497449713d997163198d0f1278726183c8d9afbbc03ba6c1537b770ab6388f1",
-      "target_bytes_sha256": "a735f082caff0487cdad5f3b8269ad7c7bf546673ba51c682aa0583695eb90ad",
-      "canonical_contract_sha256": "860e1c31a574eaa32bbe7b8e70687c664f98ce74caef1c592453b97dd673ace3",
-      "canonical_contracts": {
-        "D_8009B0A0": "ab9fa3bc9636252268a4bc155f093460474ef85ead60fda587501dc8b4658bdf",
-        "D_8009B0A1": "ed2f3a831af2a056241eb199d595a97bbd7cf524c3633913134cf06fcdcd7db7",
-        "D_8009B0A2": "17df52563910c4f985a9eaa8a9b7146ef99fd16364fbce20236798ba35b65342"
-      }
-    },
-    {
       "address": "0x80013360",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80013360.c",
