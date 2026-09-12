@@ -70,6 +70,62 @@ class CheckNoteLinksTests(unittest.TestCase):
         self.assertEqual(link_count, 1)
         self.assertEqual(problems, [])
 
+    def test_check_accepts_root_relative_paths_in_code_spans(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            source = root / "src/game"
+            notes.mkdir()
+            source.mkdir(parents=True)
+            (source / "file.c").write_text("void f(void) {}\n", encoding="utf-8")
+            (notes / "a.md").write_text(
+                "`src/game/file.c` and `src/game/file.c:12-14`\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 2)
+        self.assertEqual(problems, [])
+
+    def test_check_reports_missing_code_span_path(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            notes.mkdir()
+            (notes / "a.md").write_text(
+                "`src/candidates/missing.c`\n",
+                encoding="utf-8",
+            )
+
+            _, _, problems = check_note_links(root)
+
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [("src/candidates/missing.c", "does not exist")],
+        )
+
+    def test_check_ignores_external_reference_tree_paths(self) -> None:
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            research = notes / "research"
+            notes.mkdir()
+            research.mkdir()
+            (notes / "a.md").write_text(
+                "`src/hirata/H_mctrl1.c`\n",
+                encoding="utf-8",
+            )
+            (research / "snapshot.md").write_text(
+                "`tools/upstream_generator.py`\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 0)
+        self.assertEqual(problems, [])
+
 
 if __name__ == "__main__":
     unittest.main()
