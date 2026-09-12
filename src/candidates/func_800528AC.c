@@ -45,7 +45,7 @@ extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
 
 static __inline__ ModelTintRequest *make_table_base(void)
 {
-    register union { u64 d; struct { u32 lo; u32 hi; } w; } wide asm("$2");
+    register Pair64 wide asm("$2");
     register volatile u32 addr asm("$2");
     addr = (u32)D_800F2B50;
     wide.w.lo = addr;
@@ -182,4 +182,3 @@ tail:
 
 #include "../psyq/stdarg.h"
 #include "../game/model.h"
-

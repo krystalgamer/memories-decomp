@@ -1909,6 +1909,12 @@
       "source": "src/game/build_deck_card_counts.c"
     },
     {
+      "address": "0x80031EE4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x98",
+      "source": "src/game/func_80031EE4.c"
+    },
+    {
       "address": "0x80031F7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
@@ -3715,6 +3721,12 @@
       "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
+      "address": "0x80044D34",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x14",
+      "source": "src/game/mem_card_set_io_result_new_card_cb.c"
+    },
+    {
       "address": "0x80044D48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
@@ -4288,7 +4300,7 @@
       "address": "0x8004A6F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/func_8004A6F8.c"
+      "source": "src/game/sound_voice_envelope.c"
     },
     {
       "address": "0x8004A764",
@@ -5116,7 +5128,7 @@
       "address": "0x8005C4F0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/file_exists.c"
+      "source": "src/game/file_cd_helpers.c"
     },
     {
       "address": "0x8005C530",

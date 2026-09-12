@@ -99,7 +99,7 @@ void func_8004A518(void) {
             *(s16 *)(base + off + 0x1A) = k40;
             *(s16 *)(base + off + 0x1C) = k40;
             *(s16 *)(base + off + 0x1E) = 0;
-            func_8004A764(i);
+            SD_ResetVoiceEnvelope(i);
             SpuSetKey(SPU_OFF, key);
             tbl++;
             off += SD_SECONDARY_OBJECT_SIZE;
