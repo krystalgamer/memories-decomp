@@ -43,7 +43,7 @@ void func_800260D0(void) {
     s32 x;
     s32 timer;
     s32 step;
-    register u8 *grid __asm__("$4");
+    u8 *grid;
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = -1;
@@ -63,10 +63,13 @@ void func_800260D0(void) {
         /* This step walks the grid flat, with the side folded into base_slot
            below, while func_80025F3C above uses the two-dimensional view the
            unit's DUEL_FIELD_GRID_2D declaration gives. The cast is the one
-           place the two spellings meet. */
-        grid = (u8 *)D_800907D8;
-        base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
-                    DUEL_FIELD_SIDE_ZONE_COUNT;
+           place the two spellings meet. The single-pass loop preserves the
+           retail grid and side register allocation under GCC 2.8.1. */
+        do {
+            grid = (u8 *)D_800907D8;
+            base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
+                        DUEL_FIELD_SIDE_ZONE_COUNT;
+        } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &D_801A7AD8[card];
         object = (DuelEffectObject *)func_8002C604(8);
