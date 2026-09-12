@@ -380,23 +380,6 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x8002CEE8",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_8002CEE8.c",
-      "target": "src/candidates_target/func_8002CEE8.S",
-      "candidate_build_sha256": "04234b76c8b0ddddfd600dcb5f3d7b706af0458e49938e5e774a0df401fb04b8",
-      "target_bytes_sha256": "9bf4d2345cceb2e4f78065364a9964f231c72a577ab7b537b956ad353220a87c",
-      "canonical_contract_sha256": "77ac82eef406c4653d59dbe4a1ef870532ba16a62a4d1461c8e9a1270d7b7b64",
-      "canonical_contracts": {
-        "D_8009B16C": "3eed94a5d5a3e805d6f6489a28e1e94414f468cb1cb40653f08479f81303f5f4",
-        "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
-        "D_8009B2F8": "1be6661392155f8d8d0750535bac477c82d3422216fd7144d43a75b2bf0f736b",
-        "D_8009B370": "29105db77c15927307e8ab72742fb4c0f34d4b3f7a3d65f344ddd5ca2fcc992d",
-        "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDuel_bOpponentID": "5716d28707618798b40ed15c5bdd5e0f644f30b5bad85a6a4c3519357ac091b4"
-      }
-    },
-    {
       "address": "0x8002D370",
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_8002D370.c",

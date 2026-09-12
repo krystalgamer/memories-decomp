@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
- * source rebuilt the target byte for byte, but only by
- * 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/main_run_duel_and_library.c.
- */
 #define D_8009B0C0_IN_DATA
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
@@ -26,7 +20,7 @@
 #include "../game/duel_side_state.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
+u8 D_8009B26C;
 extern u8 D_8009B2F8[9];
 extern s8 gDuel_bOpponentID[9];
 extern u8 gCampaignSceneIndex[9];
@@ -88,7 +82,6 @@ void Main_RunDuel(void)
         func_80012D84(4);
         File_WaitForTransfers();
         next = D_8009B368;
-        __asm__ volatile("nop");
         D_8009B26C = next;
         if (D_8009B26C == state)
             gCampaignSceneIndex[0] = table[D_8009B362 * 2];
