@@ -67,8 +67,8 @@ typedef struct DuelEffectChannel {
     /* The display object this record owns, stored as a pointer.
      *
      * Every consumer already asserted that: func_800391E4.c and
-     * func_8002EE94 (now a candidate) cast it to DisplayObject *,
-     * card_list_text_boxes.c reaches ->flags through it, func_8002EE94 also
+     * Script_OpSavePrompt (now a candidate) cast it to DisplayObject *,
+     * card_list_text_boxes.c reaches ->flags through it, Script_OpSavePrompt also
      * takes the DisplayObjectSnapshot view, and Dialog_UpdateChoice read it
      * through `*(u8 **)&`. The s32 spelling made every one of those a cast. */
     struct DisplayObject *field_28;
@@ -215,7 +215,7 @@ extern DuelEffectChannel D_800EB15C;
  * word and test
  * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
  * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
- * func_8002EE94 (src/candidates/func_8002EE94.c) reads the low halfword
+ * Script_OpSavePrompt (src/candidates/func_8002EE94.c) reads the low halfword
  * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
  * the slot-0 text flags. Both units also matched when the read was spelled
  * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name

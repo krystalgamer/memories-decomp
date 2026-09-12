@@ -19,12 +19,12 @@
  * 5 * 0x14. Our matching tree reads exactly those two words at +0x14 and
  * +0x28 in byte-exact functions.
  *
- * unk00 holds a display object: func_8002F630 creates one and stores it into
+ * unk00 holds a display object: Script_OpDuelResult creates one and stores it into
  * records 0, 1 and 2, and func_8002FED8 reads records 0 and 1 back. It is
  * left s32 here on purpose -- typing it is a second claim on top of the
  * layout, and the struct those files call `Object` is itself a private view.
  *
- * func_8002F630.c keeps its own `extern Object *D_800EAE98[]` and does not
+ * script_op_duel_result.c keeps its own `extern Object *D_800EAE98[]` and does not
  * take this declaration. Writing its three stores as
  * ((Object **)D_800EAE98)[0], [5] and [10] is the same arithmetic against
  * the same offsets, and it builds to the right size and differs from byte

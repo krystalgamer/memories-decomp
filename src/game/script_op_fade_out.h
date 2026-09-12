@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002F440_H
-#define MEMORIES_DECOMP_FUNC_8002F440_H
+#ifndef MEMORIES_DECOMP_SCRIPT_OP_FADE_OUT_H
+#define MEMORIES_DECOMP_SCRIPT_OP_FADE_OUT_H
 
 #include "../types.h"
 
@@ -7,6 +7,6 @@
  * when set, become the fade step in D_800E9ECF; bit 7 keeps the command busy
  * until D_800E9ECE's own bit 7 clears, which is how the script waits for the
  * fade rather than only starting it. */
-void func_8002F440(void);
+void Script_OpFadeOut(void);
 
 #endif

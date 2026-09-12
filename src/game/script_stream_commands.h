@@ -12,11 +12,11 @@
  * SD_SEPlayFull rather than SD_BGMPlay, and bit 7 keeps the command busy for
  * another tick instead of clearing D_8009B27C.
  *
- * func_8002EDB0 fades the BGM out, with the low seven bits as the step and zero
- * meaning the default, and carries the same bit 7. func_8002EE20 is the script
+ * Script_OpFadeBgm fades the BGM out, with the low seven bits as the step and
+ * zero meaning the default, and carries the same bit 7. Script_OpJump is the script
  * jump: it takes a 16-bit offset and repoints D_8009B290 into D_801A8000. */
 void Script_OpSound(void);
-void func_8002EDB0(void);
-void func_8002EE20(void);
+void Script_OpFadeBgm(void);
+void Script_OpJump(void);
 
 #endif

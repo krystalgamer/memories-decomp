@@ -17,10 +17,10 @@
 #include "script_state.h"
 #include "main_services.h"
 #include "../unmatched.h"
-#include "func_8002EE94.h"
+#include "script_op_save_prompt.h"
 #include "duel_effect_mark_object_if_active.h"
 
-int func_8002EE5C(void)
+int Duel_IsPlayerDeckComplete(void)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
     int i = 0;
@@ -34,4 +34,3 @@ int func_8002EE5C(void)
     }
     return 1;
 }
-

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002F630_H
-#define MEMORIES_DECOMP_FUNC_8002F630_H
+#ifndef MEMORIES_DECOMP_SCRIPT_OP_DUEL_RESULT_H
+#define MEMORIES_DECOMP_SCRIPT_OP_DUEL_RESULT_H
 
 #include "../types.h"
 
@@ -8,6 +8,6 @@
  * completion callback, and on the first pass -- once the transfer and fade flags
  * are clear -- builds the banner, the two 0x140-wide panels and the fill object
  * kept in D_8009B280, then starts the music. */
-void func_8002F630(void);
+void Script_OpDuelResult(void);
 
 #endif

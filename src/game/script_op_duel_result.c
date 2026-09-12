@@ -14,7 +14,7 @@
 #include "script_image_objects.h"
 #include "sound_output.h"
 #include "../unmatched.h"
-#include "func_8002F630.h"
+#include "script_op_duel_result.h"
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
 
@@ -28,7 +28,7 @@ extern DisplayObject *D_800EAE98[];
    object kept in D_8009B280, then starts the music. On later passes it
    waits for the fade, releases the fill object and the panel list, and
    clears the phase flag. */
-void func_8002F630(void) {
+void Script_OpDuelResult(void) {
     u8 *p;
     DisplayObject *o;
     DisplayObject *q;
