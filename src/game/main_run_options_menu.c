@@ -5,6 +5,8 @@
 #include "main_services.h"
 #include "options.h"
 #include "sound.h"
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 u8 D_8009B26C;
 
