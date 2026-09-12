@@ -45,6 +45,9 @@
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
 #include "../game/display_object_work_slots.h"
+#define D_8009B269_AS_SCALAR_DATA
+#define D_8009B26C_AS_SCALAR_DATA
+#include "../game/duel_effect_allocate_request.h"
 #include "../unmatched.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
