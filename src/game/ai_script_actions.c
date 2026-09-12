@@ -2,8 +2,10 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
-extern u8 D_800EAE88[];
-extern u8 D_800EAE8E[];
+#define D_800EAE88_AS_BYTES
+#define D_800EAE88_VISIBLE
+#include "../unmatched.h"
+
 void AiScript_PlayFaceUp(void)
 {
     s32 *memory = gAiScript_aMemory;

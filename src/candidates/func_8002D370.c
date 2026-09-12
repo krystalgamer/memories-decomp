@@ -16,11 +16,10 @@
 #include "../game/main_modes.h"
 #include "../game/fade.h"
 #include "../game/sound.h"
+#define D_8009B26C_AS_SCALAR
+#define D_8009B2F8_AS_ARRAY
 #include "../unmatched.h"
 
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
-extern unsigned char D_8009B2F8[];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 

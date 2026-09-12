@@ -5,6 +5,7 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 #include "model_slot_properties.h"
+#include "../unmatched.h"
 
 /* &D_800F2C40[0].field_DB0. The interior alias keeps the retail address
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */

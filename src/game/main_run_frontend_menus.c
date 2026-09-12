@@ -14,8 +14,7 @@
 #include "sound.h"
 #include "main_services.h"
 #include "options.h"
-
-extern u8 D_8009B26C;
-extern u8 D_8009B269;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 void Main_RunMenu(void){unsigned char f=D_8009B26C;int r;if((f&0x40)==0){D_8009B26C=f|0x40;File_RequestMainMenuPackage();File_WaitForTransfers();func_80039E9C();MainMenu_InitFrontendMenu(D_8009B268,D_8009B26D);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();Main_ApplyMenuSelection(r);D_8009B269=8;}}

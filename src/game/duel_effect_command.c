@@ -8,6 +8,7 @@
 #include "func_80036D70.h"
 #include "func_80036D3C.h"
 #include "duel_effect_command.h"
+#include "../unmatched.h"
 
 /* Entries 0 through 12 of the secondary text-command table D_80090EAC,
    the handlers the F8 escape reaches, together with func_80038024, the

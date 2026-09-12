@@ -3,8 +3,7 @@
 #include "../types.h"
 #include "main_services.h"
 #include "func_8002FA28.h"
-
-extern u8 D_8009B26C[];
+#include "../unmatched.h"
 
 void func_8002FA28(void)
 {

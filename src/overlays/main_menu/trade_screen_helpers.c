@@ -4,6 +4,7 @@
 #include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
 #include "../../game/gpu_packets.h"
+#define MAIN_MENU_TRADE_SCROLL_AS_WORDS
 #include "trade_helpers.h"
 #include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
@@ -90,8 +91,6 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.y3 = 0xF0;
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
-
-extern u16 D_80185C8C[][2];
 
 void MainMenu_RebuildTradeInventoryRows(s32 side)
 {

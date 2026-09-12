@@ -15,6 +15,10 @@ from typing import Any
 
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
+# Validation reads only tracked metadata. Resolve the repository from this file
+# so metadata CI can run without the ignored retail executable.
+ROOT = Path(__file__).resolve().parents[2]
+
 
 class ExternalAttemptError(RuntimeError):
     pass
@@ -597,7 +601,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
-        root = require_workspace_root()
+        root = ROOT if args.check else require_workspace_root()
         functions_path = resolve_within(
             root, "config/slus_01411/functions.csv", must_exist=True
         )

@@ -21,11 +21,10 @@
 #include "sound.h"
 #define FUNC_80049120_IGNORES_OBJECT
 #include "sound_sequence_state.h"
+#include "../unmatched.h"
 
-extern signed char D_8009B32C;
-extern s16 D_8009B322;
 extern u8 D_8009B335;
-extern u16 D_8009B348[2];
+
 extern u16 gGraphics_uViewportX[] asm("gGraphics_sViewportX");
 extern u16 gGraphics_uViewportY[] asm("gGraphics_sViewportY");
 

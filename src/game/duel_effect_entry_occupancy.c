@@ -1,9 +1,8 @@
 #include "../types.h"
 #include "duel_effect.h"
 #include "duel_effect_entry_occupancy.h"
+#include "../unmatched.h"
 
-extern u8 D_8009B324;
-extern u8 D_8009B325;
 void func_80035CA8(int value)
 {
     int index;

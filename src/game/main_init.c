@@ -13,7 +13,7 @@
  */
 #define GRAPHICS_WORK_AREA_IS_VOLATILE
 #define D_8009B0D1_IS_VOLATILE
-#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define D_8009B269_AS_SCALAR_DATA
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
@@ -27,7 +27,6 @@
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
 #include "main_init.h"
-#include "main_mode_state.h"
 #include "duel_side_state.h"
 #include "display_object_api.h"
 #include "sound.h"

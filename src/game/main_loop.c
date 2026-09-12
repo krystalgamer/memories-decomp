@@ -5,8 +5,9 @@
 #include "main_debug.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
-extern u8 D_8009B26C;
 void Main_Loop(void) {
     func_8002CDE8();
     for (;;) {

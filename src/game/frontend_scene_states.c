@@ -24,8 +24,6 @@
    frontend_scene_state_80030d5c.c. The states after it are in
    func_80030E30.c. */
 
-extern u8 D_8009B26C[];
-
 void func_80030C10(void)
 {
     u8 flags = D_8009B2EB;

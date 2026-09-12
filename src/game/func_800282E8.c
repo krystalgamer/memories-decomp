@@ -1,7 +1,6 @@
 #include "../types.h"
 #include "func_800282E8.h"
-
-extern u8 D_8009B248;
+#include "../unmatched.h"
 
 int func_800282E8(void)
 {

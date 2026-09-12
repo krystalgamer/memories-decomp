@@ -5443,6 +5443,12 @@
       "source": "src/game/func_8005CEF0.c"
     },
     {
+      "address": "0x8005D378",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x61C",
+      "source": "src/game/model_interpolate_transform.c"
+    },
+    {
       "address": "0x8005D994",
       "profile": "gcc_2_8_1_g8",
       "size": "0x210",
@@ -5915,6 +5921,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
       "source": "src/game/ai_script_load_best_attacker.c"
+    },
+    {
+      "address": "0x800716C4",
+      "profile": "gcc_2_8_1_g0_split_no_sched1",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_best_target.c"
     },
     {
       "address": "0x80071700",

@@ -79,6 +79,7 @@ def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) ->
             os.devnull,
             "-Wimplicit-function-declaration",
             f"-I{include_dir}",
+            f"-I{REPOSITORY / 'src'}",
             *flags,
             str(path),
         ],
@@ -139,11 +140,24 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 (REPOSITORY / "tmp").mkdir(exist_ok=True)
                 scratch = Path(tempfile.mkdtemp(dir=REPOSITORY / "tmp"))
                 try:
-                    # Nested so the probe's own relative includes cannot
-                    # resolve beside it; -I points them at the real directory.
+                    # Nested so ordinary relative includes still resolve
+                    # through -I, while this probe can supply a shadow owner
+                    # with only the selected prototype removed.
                     probe = scratch / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
-                    probe.write_text(text.replace(include + "\n", "", 1), encoding="utf-8")
+                    include_path = re.search(r'"([^"]+)"', include)
+                    self.assertIsNotNone(include_path)
+                    shadow = (probe.parent / include_path.group(1)).resolve()
+                    shadow.parent.mkdir(parents=True, exist_ok=True)
+                    without_callee, count = re.subn(
+                        rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$",
+                        "",
+                        declarations,
+                        count=1,
+                    )
+                    self.assertEqual(count, 1)
+                    shadow.write_text(without_callee, encoding="utf-8")
+                    probe.write_text(text, encoding="utf-8")
                     found = implicit_calls(
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
