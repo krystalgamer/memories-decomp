@@ -5551,6 +5551,12 @@
       "source": "src/game/ai_script_query_commands.c"
     },
     {
+      "address": "0x80071424",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_opponent_id.c"
+    },
+    {
       "address": "0x80071460",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
