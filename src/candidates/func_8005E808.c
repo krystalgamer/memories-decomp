@@ -25,8 +25,7 @@
 #include "../game/func_80058DD8.h"
 #include "../game/func_8005EBF4.h"
 #include "../game/model_transfer_state.h"
-
-extern u8 *D_8009B074;
+#include "../game/model_transfer_flags.h"
 
 /* Recomputes a model's audible radius. The magnitude of the s16 at +0x20 sets
    the base radius at +0x22, capped at 0x4000, and when that field is negative
