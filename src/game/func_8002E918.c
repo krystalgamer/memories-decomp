@@ -3,7 +3,7 @@
 #include "script_state.h"
 #include "script_flag_commands.h"
 
-void func_8002E918(void)
+void Script_OpStoryFlag(void)
 {
     u8 *cursor = D_8009B290;
     u8 *next = cursor + 2;

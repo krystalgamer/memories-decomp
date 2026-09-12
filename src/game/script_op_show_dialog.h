@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8002E5AC_H
-#define MEMORIES_DECOMP_FUNC_8002E5AC_H
+#ifndef MEMORIES_DECOMP_SCRIPT_OP_SHOW_DIALOG_H
+#define MEMORIES_DECOMP_SCRIPT_OP_SHOW_DIALOG_H
 
 #include "../types.h"
 
@@ -9,7 +9,7 @@
  * instead raises 0x4000 in D_8009B27C and CLEARS that 0x8 bit, reading the
  * box's flags word through a volatile view so the two writes are not merged.
  * The busy word is then latched into D_8009B28C, which this unit defines. */
-void func_8002E5AC(void);
+void Script_OpShowDialog(void);
 
 /* The latched busy word. This unit owns the definition; script_run_tick.c
  * clears it, tests it, and copies it back into D_8009B27C, and spelled its

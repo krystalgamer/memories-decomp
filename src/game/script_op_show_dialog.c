@@ -4,7 +4,7 @@
 #include "func_8003B6AC.h"
 #include "text_box_lifecycle.h"
 #include "script_state.h"
-#include "func_8002E5AC.h"
+#include "script_op_show_dialog.h"
 #include "duel_effect_mark_object_if_active.h"
 
 /* Defined rather than declared: the assembler only resolves a small
@@ -14,7 +14,7 @@
    so no storage is allocated here. */
 u16 D_8009B28C;
 
-void func_8002E5AC(void)
+void Script_OpShowDialog(void)
 {
     u8 *script;
     DuelEffectChannel *box;

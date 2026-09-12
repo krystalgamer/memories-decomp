@@ -376,7 +376,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * The func_8002EE94 candidate also clears it, spelled with a .data section
+ * The Script_OpSavePrompt candidate also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
 extern u8 D_8009B34C __attribute__((section(".data")));
@@ -583,7 +583,7 @@ void func_8002A2F4(u8 *state);
  *
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
- * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
+ * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking

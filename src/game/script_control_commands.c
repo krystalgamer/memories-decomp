@@ -5,19 +5,19 @@
 #define D_8009B269_AS_ARRAY
 #include "../unmatched.h"
 
-void func_8002F930(void)
+void Script_OpGameOver(void)
 {
     D_8009B26C[0] = 12;
     D_8009B269[0] = 12;
 }
 
-void func_8002F94C(void)
+void Script_OpCredits(void)
 {
     D_8009B26C[0] = 15;
     D_8009B269[0] = 15;
 }
 
-void func_8002F968(void)
+void Script_OpWait(void)
 {
     if (func_8002E3B4() == 0) {
         u8 *p = D_8009B290;

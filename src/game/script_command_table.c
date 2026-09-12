@@ -1,15 +1,15 @@
 #include "../types.h"
 #include "script_command_table.h"
 #include "script_op_load_image_scene.h"
-#include "func_8002E5AC.h"
-#include "func_8002E6B8.h"
+#include "script_op_show_dialog.h"
+#include "script_op_stage_image.h"
 #include "func_8002EB48.h"
-#include "func_8002EB78.h"
-#include "func_8002EE94.h"
-#include "func_8002F440.h"
-#include "func_8002F630.h"
-#include "func_8002F9D4.h"
-#include "func_8002FA28.h"
+#include "script_op_show_menu.h"
+#include "script_op_save_prompt.h"
+#include "script_op_fade_out.h"
+#include "script_op_duel_result.h"
+#include "script_op_jump_if_deck_incomplete.h"
+#include "script_op_return_to_menu.h"
 #include "script_command_busy.h"
 #include "script_control_commands.h"
 #include "script_flag_commands.h"
@@ -29,25 +29,25 @@
 ScriptCommandHandler D_80090C50[] = {
     func_8002E3DC,
     Script_OpLoadImageScene,
-    func_8002E5AC,
-    func_8002E918,
-    func_8002E6B8,
+    Script_OpShowDialog,
+    Script_OpStoryFlag,
+    Script_OpStageImage,
     Script_OpShowImage,
     Script_OpViewportTween,
     Script_UpdateViewportTween,
     func_8002EB48,
-    func_8002EB78,
+    Script_OpShowMenu,
     Script_OpSound,
-    func_8002EDB0,
-    func_8002EE20,
-    func_8002EE94,
+    Script_OpFadeBgm,
+    Script_OpJump,
+    Script_OpSavePrompt,
     func_8002F430,
     func_8002F438,
-    func_8002F440,
-    func_8002F630,
-    func_8002F930,
-    func_8002F94C,
-    func_8002F968,
-    func_8002F9D4,
-    func_8002FA28,
+    Script_OpFadeOut,
+    Script_OpDuelResult,
+    Script_OpGameOver,
+    Script_OpCredits,
+    Script_OpWait,
+    Script_OpJumpIfDeckIncomplete,
+    Script_OpReturnToMenu,
 };

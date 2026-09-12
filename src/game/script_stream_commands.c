@@ -51,7 +51,7 @@ void Script_OpSound(void)
     D_8009B27C = 0;
 }
 
-void func_8002EDB0(void)
+void Script_OpFadeBgm(void)
 {
     if (func_8002E3B4() == 0) {
         u8 *stream = D_8009B290;
@@ -74,7 +74,7 @@ void func_8002EDB0(void)
     D_8009B27C = 0;
 }
 
-void func_8002EE20(void)
+void Script_OpJump(void)
 {
     u8 *source = D_8009B290;
     u32 offset;
