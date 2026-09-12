@@ -11,7 +11,7 @@
 
 #define ATTR(p) (*(SpuVoiceAttr *)((u8 *)(p) + 0x4C0))
 
-void func_8004A6F8(s32 index, u8 *tone)
+void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone)
 {
     u8 *p = (u8 *)D_8009B458;
 
@@ -24,7 +24,7 @@ void func_8004A6F8(s32 index, u8 *tone)
     SpuSetVoiceAttr(&ATTR(p));
 }
 
-void func_8004A764(s32 index)
+void SD_ResetVoiceEnvelope(s32 index)
 {
     u8 *p = (u8 *)D_8009B458;
     ATTR(p).voice = D_80011434[index];

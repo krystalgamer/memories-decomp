@@ -1,4 +1,6 @@
 kind,address,name,confidence,evidence,notes
+function,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,high,"matching body; SpuVoiceAttr fields and mask; caller-provided tone offsets +0x20/+0x22/+0x24","Copies ADSR1, ADSR2, and attack mode from a tone record into the selected SPU voice attribute and submits it with SpuSetVoiceAttr."
+function,0x8004A764,SD_ResetVoiceEnvelope,high,"matching body; SpuVoiceAttr fields and mask; func_8004A518 initialization caller","Installs zero/default ADSR fields for one voice during sound-driver initialization immediately before the caller turns that voice off."
 function,0x800877B0,SetRotMatrix,confirmed,Unique exact Psy-Q 4.6 LIBGTE.LIB/MTX_09.OBJ signature; libgte.h; func_80041F90 caller,Loads the rotation matrix into GTE control registers 0-4; the 48-byte signature has no wildcards and matches only executable offset 0x77FB0.
 function,0x800879A0,NormalClip,confirmed,Unique exact Psy-Q 4.6 LIBGTE.LIB/SMP_05.OBJ signature,Caller retains the observed one-pointer ABI through NormalClip_800879A0 because the canonical header declares three packed coordinates.
 function,0x80089CF0,RotAverageNclip3_nom,confirmed,Unique exact Psy-Q 4.6 LIBGTE.LIB/NOM_7.OBJ signature,Callers retain the observed four-SVECTOR ABI through RotAverageNclip3_nom_80089CF0 because the canonical header declares three vectors.

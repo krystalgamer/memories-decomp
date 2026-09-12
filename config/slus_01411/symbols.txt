@@ -16,6 +16,8 @@ Duel_CalcCardStats = 0x800170C8; // type:func
 Duel_ClearHandSlots = 0x800176D0; // type:func
 Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
 Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
+SD_SetVoiceEnvelopeFromTone = 0x8004A6F8; // type:func
+SD_ResetVoiceEnvelope = 0x8004A764; // type:func
 
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
