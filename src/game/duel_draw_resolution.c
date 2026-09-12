@@ -79,11 +79,12 @@ void func_80018DB4(void) {
         }
         D_8009B1ED = 8;
         b = D_8009B1EC - 1;
+        /* Raw offset spelling preserves the matching draw-loop schedule. */
         c = (u8 *)D_8009B1C8;
         D_8009B1EC = b;
         if (*(s8 *)(c + 0x18) >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
-            *(s8 *)&D_800E9FF0[gDuel_bWinnerSide] =
+            D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
             D_8009B23A = 0xC;
             return;

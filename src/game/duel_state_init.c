@@ -36,14 +36,14 @@ void func_800175A0(void) {
             r[0x1A] = -1;
         }
         q = (u8 *)e;
-        e->field_18 = 0;
+        e->deck_draw_cursor = 0;
         t = sp[k];
         e->displayed_life_points = 0;
         e->field_19 = 0;
         e->life_points.signed_value = t;
         e->max_life_points = t;
-        e->field_1F = 0;
-        for (m = 0; m < 13; m++) {
+        e->card_view_mode = 0;
+        for (m = 0; m < sizeof(DuelRankStatistics); m++) {
             *q = 0;
             q++;
         }
@@ -51,8 +51,8 @@ void func_800175A0(void) {
 
     if (D_8009B360 < 0) {
         if (gDuel_bOpponentID < 0) {
-            D_800E9FF0[1].field_1F = *(u8 *)&D_8009B230;
-            D_800E9FF0[0].field_1F = *(u8 *)&D_8009B230;
+            D_800E9FF0[1].card_view_mode = *(u8 *)&D_8009B230;
+            D_800E9FF0[0].card_view_mode = *(u8 *)&D_8009B230;
         } else {
             D_800EA02F[0] = -1;
         }
