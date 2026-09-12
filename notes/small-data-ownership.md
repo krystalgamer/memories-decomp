@@ -194,6 +194,11 @@ C consumer. It does contain a pointer — the word at `+0x10` reads
 `0x800E9E60` — so it is a record rather than scratch, but nothing in C
 describes it.
 
+The ordinary initialized-data region has the same ownership model. Its former
+36-byte leading blob at `0x800906E0` is now `psyq/startup_data.c`, leaving the
+large `0x80091958` range as the only generated `.data` blob after the mapped
+tables and file-name records.
+
 ## A mislabelled `pad`
 
 `split.yaml` marks `0x8009AF2E` as `pad`, but `D_8009AF2E` is a live variable:

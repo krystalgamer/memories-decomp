@@ -1,9 +1,6 @@
 #include "../types.h"
+#define AI_GET_HAND_SIZE_RETURNS_S32
 #include "ai.h"
-
-/* Ai_GetHandSize returns s8, but this unit needs the widened return: the
- * definition's type here adds four sign-extension instructions. */
-s32 Ai_GetHandSize(void);
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {

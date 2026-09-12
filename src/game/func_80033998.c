@@ -6,9 +6,9 @@
 int func_80033998(void)
 {
     int index;
-    u8 *entry = (u8 *)D_8009B2FC + 0x2D50;
-    for (index = 0; index < DECK_SIZE; index++, entry += 0x10) {
-        if (entry[0xD] == 0) {
+    CardEntry *entry = D_8009B2FC->lists[1].entries;
+    for (index = 0; index < DECK_SIZE; index++, entry++) {
+        if (entry->flags == 0) {
             return 1;
         }
     }

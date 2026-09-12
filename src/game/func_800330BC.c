@@ -1,18 +1,14 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_800330BC.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 273 of 273 instructions with 6
- * differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
-#define GINPUT_PAD1_HELD_IS_VOLATILE
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+/* The two explicit volatile .data input views retain absolute pad loads under
+ * the uniform -G8 compiler/assembler profile used by the surrounding card
+ * list sort code. */
+#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "../types.h"
-#include "../unmatched.h"
-#include "../game/card_type_icon_table.h"
-#include "../game/card_list_text_boxes.h"
-#include "../game/card_list_sort.h"
-#include "../game/input.h"
-#include "../game/sound.h"
+#include "card_type_icon_table.h"
+#include "card_list_text_boxes.h"
+#include "card_list_sort.h"
+#include "input.h"
+#include "sound.h"
 
 /* Card-list cursor and page input handler.
 
