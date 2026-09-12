@@ -707,13 +707,14 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
-   func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
-   which rebuilds the voice tables. func_8004A43C refreshes one secondary
+   func_80049BAC.c calls the reset right before func_8004A518, which rebuilds
+   the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
+void func_8004A518(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
