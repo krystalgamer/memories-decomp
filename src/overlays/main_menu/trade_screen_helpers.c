@@ -30,7 +30,7 @@ void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
     u32 palette;
     s32 cardType;
 
-    cardType = (D_801D4244[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
+    cardType = (gDuel_adwCardStats[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
                 CARD_STAT_TYPE_MASK;
     if (cardType != CARD_TYPE_MAGIC && cardType != CARD_TYPE_EQUIP) {
         if (cardType != CARD_TYPE_TRAP) {

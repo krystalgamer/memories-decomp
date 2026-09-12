@@ -4441,6 +4441,12 @@
       "source": "src/game/func_8004A43C.c"
     },
     {
+      "address": "0x8004A518",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1C0",
+      "source": "src/game/sound_voice_setup.c"
+    },
+    {
       "address": "0x8004A6D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",
@@ -5855,6 +5861,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x208",
       "source": "src/game/ai_script_find_defense_stopper.c"
+    },
+    {
+      "address": "0x80071EB8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/game/ai_script_count_cards.c"
     },
     {
       "address": "0x80071FC8",

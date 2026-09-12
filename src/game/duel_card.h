@@ -91,6 +91,21 @@ extern s32 gDuel_adwCardStats[];
 /* Level and attribute nibbles, indexed directly by the one-based card id. */
 extern u8 gDuel_abCardLevelAttr[];
 
+/* Signed name sort key, indexed by the same card id minus one: an ordering
+ * over the card names that callers compare instead of the name text.
+ * BuildDeck_CompareCard and func_80032BD4 in card_list_sort.c read it only as
+ * the tie-break, when the two items' primary keys are equal. main_menu's
+ * comparators read the same table for their whole ordering and substitute
+ * 0x7FFFFFFF for id 0, which is where the empty slot sorting last comes from
+ * -- that is those comparators' rule, not this table's.
+ *
+ * Declared here beside gDuel_adwCardStats because the two are read at the
+ * same index by the callers that use both. It used to be a file-local
+ * `extern s16 gCard_asNameSortKey[];` in card_list_sort.c -- a file that
+ * already included this header for its twin -- and a second, address-named
+ * declaration in src/overlays/main_menu/card_tables.h. */
+extern s16 gCard_asNameSortKey[];
+
 /* Effective attack and defense packed into one word: defense in the high
  * half, attack in the low half. Never narrow the return type -- callers
  * select a half with `>> 16` or a 16-bit mask. */
