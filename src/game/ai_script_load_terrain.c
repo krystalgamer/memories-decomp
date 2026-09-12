@@ -1,10 +1,10 @@
-#include "../../src/types.h"
-#include "../../src/game/ai.h"
-#include "../../src/game/ai_script_read_byte.h"
-#include "../../src/game/ai_script_commands.h"
+#include "../types.h"
+#include "ai.h"
+#include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 #define GDUEL_TERRAIN_SCALAR
-#include "../../src/game/duel_terrain_boost.h"
+#include "duel_terrain_boost.h"
 
 void AiScript_LoadTerrain(void)
 {
