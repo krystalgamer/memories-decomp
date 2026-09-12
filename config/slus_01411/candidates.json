@@ -494,14 +494,14 @@
       "target": "src/candidates_target/func_8002CEE8.S",
       "candidate_build_sha256": "04234b76c8b0ddddfd600dcb5f3d7b706af0458e49938e5e774a0df401fb04b8",
       "target_bytes_sha256": "9bf4d2345cceb2e4f78065364a9964f231c72a577ab7b537b956ad353220a87c",
-      "canonical_contract_sha256": "af65b0e889b60bfd3bc0696c814d1d1501d5221fbdc7517bea08e8ddda3514e1",
+      "canonical_contract_sha256": "6de6c4be53290ab6b3af1a02e21cd96ef97a3165b9162e3f3a818337fe7ea9ac",
       "canonical_contracts": {
         "D_8009B16C": "3eed94a5d5a3e805d6f6489a28e1e94414f468cb1cb40653f08479f81303f5f4",
         "D_8009B26C": "361116d513ca1ee0d940c9f286d0dd45bc0e496ac7b9d2a8cbcc0889fc7ba173",
         "D_8009B2F8": "1be6661392155f8d8d0750535bac477c82d3422216fd7144d43a75b2bf0f736b",
         "D_8009B370": "29105db77c15927307e8ab72742fb4c0f34d4b3f7a3d65f344ddd5ca2fcc992d",
         "gCampaignSceneIndex": "ace3f8b69facecda0d281be7938435532c391d44e06c5e0779a3beed56c84a2c",
-        "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec"
+        "gDuel_bOpponentID": "97a4150faa1c88a73da99bac6fd349f5cff1f827784d296253a0f445739b000b"
       }
     },
     {
@@ -1422,21 +1422,9 @@
       "target": "src/candidates_target/func_80070710.S",
       "candidate_build_sha256": "bf763c4ed90668406d45bccbc8dcf11020363df0c895b8b8120099fe08a25a82",
       "target_bytes_sha256": "75bae9dc9fb17928c2fb55a3a69117482c63297ac3eed61bf4fb4b4fffc65ed8",
-      "canonical_contract_sha256": "d048f8802e852560936a0f7f8dc07200a4f9529b49cd6bdae3c04f1e49ea7775",
+      "canonical_contract_sha256": "c2abef7cc3f957098c9195776cfa127a32fc277a1e2f3c59d0f1427eaa489fe8",
       "canonical_contracts": {
-        "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec"
-      }
-    },
-    {
-      "address": "0x80071424",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80071424.c",
-      "target": "src/candidates_target/func_80071424.S",
-      "candidate_build_sha256": "5c640b97b76c7acf0a8ee6db63740f537c0ade229f25cc1d0fb62e762ee6908f",
-      "target_bytes_sha256": "03f457bd06a2d1dc0aeb02ceec8066142ac9534c9f5590f7cf1087f50a432635",
-      "canonical_contract_sha256": "d048f8802e852560936a0f7f8dc07200a4f9529b49cd6bdae3c04f1e49ea7775",
-      "canonical_contracts": {
-        "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec"
+        "gDuel_bOpponentID": "97a4150faa1c88a73da99bac6fd349f5cff1f827784d296253a0f445739b000b"
       }
     },
     {
