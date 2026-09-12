@@ -1014,9 +1014,9 @@
       "target": "src/candidates_target/func_8004ADE8.S",
       "candidate_build_sha256": "64750977e2f1edbf00db7bb7613a2002d62f2bbf55dd6eddb2a3da2882677291",
       "target_bytes_sha256": "39df5b732bbe17ad475ca0773afe2c2e98cd6de67dcc8dc09e2b465f03eb880b",
-      "canonical_contract_sha256": "c13bbec3dbc26778057808a00969fd9f0cc3d90416cbbb04f4170d9815fa94fd",
+      "canonical_contract_sha256": "396f769d6db1687574043978316316c81d309b90fbfeab77b195992e3a7fa389",
       "canonical_contracts": {
-        "D_8009B458": "ea1e47149726719312c39b570f65f0800e6e4f41d8307bcd6e61330a897eef52",
+        "D_8009B458": "c8e9c74e6319bc68fec640a81df9c4d3c59c438504e283e2ab3a6527f9a075eb",
         "SD_CalcPitchBend": "558922b8815e6adda7689c7e3ec1d13288621755ed8d9c857173aa1fdebed8e2",
         "func_8004A854": "144480af92354259f0e3ace7407aa052c1c13dee2e43877908028947ae09eec4",
         "func_8004A940": "3d765ce0d2f3f5f9fa21e2889f4cdc7e4b21df6e311f17e84054849468e745a1"
