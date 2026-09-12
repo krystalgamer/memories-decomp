@@ -11,8 +11,11 @@
 #include "../game/display_object_projection.h"
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
+#define FUNC_80042188_RAW_ATTRIBUTE_VIEW
 #include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
 #include "../unmatched.h"
+#undef func_80042188
 
 #include "../game/ordering_tables.h"
 
@@ -107,7 +110,7 @@ void func_80041068(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
+                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (((u8 *)e)[0x72] != 0) {
@@ -122,7 +125,7 @@ void func_80041068(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
+                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }
