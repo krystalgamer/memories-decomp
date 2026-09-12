@@ -2833,6 +2833,12 @@
       "source": "src/game/input_pads.c"
     },
     {
+      "address": "0x8003CDF8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x50",
+      "source": "src/game/input_backup_pad1_and_use_pad2.c"
+    },
+    {
       "address": "0x8003CE48",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
