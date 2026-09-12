@@ -49,10 +49,10 @@ void func_80017DB4(DuelCardDisplayObject *object)
     if ((*(s32 *)&card->terrain_modifier & 0xA0000000) != 0xA0000000) {
         return;
     }
-    if (D_8009B1C8->field_1F != 0) {
+    if (D_8009B1C8->card_view_mode != 0) {
         object->field_67 = ((DuelCardDisplayData *)card->data)->field_04 + 1;
     }
-    if (D_8009B1C8->field_1F < 0) {
+    if (D_8009B1C8->card_view_mode < 0) {
         object->field_67 = 0xFF;
     }
 }

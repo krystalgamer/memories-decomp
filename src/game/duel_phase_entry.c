@@ -17,6 +17,7 @@
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_deck_card.h"
+#include "duel_rank.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
@@ -88,7 +89,8 @@ void func_8001825C(void)
                 D_8009B1F0[i] = obj;
             }
         }
-        if (D_8009B1C8->field_00 == 0x28) {
+        if (D_8009B1C8->rank.result_adjustment ==
+            DUEL_RANK_ADJUST_EXODIA_WIN) {
             D_8009B23A |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
                 rec = &D_801A7AD8[D_800907D8[
@@ -294,7 +296,7 @@ void func_8001898C(void) {
                 D_8009B1F0[D_8009B1D5] = 0;
             }
         }
-        ((u8 *)D_8009B1C8)[1]++;
+        D_8009B1C8->rank.turns_taken++;
         rec = D_801A7AD8;
         for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;

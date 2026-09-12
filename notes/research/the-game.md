@@ -1215,27 +1215,29 @@ per-side record at `0x800E9FF0 + side * 0x20`: the counters are bytes at
 +1…+9 and +0x18, the LP the halfword at +0x14 — the player's `0x800EA004`
 cited everywhere — so "cards used" is the byte at `0x800EA008`, which is
 exactly the address a long-dismissed GameShark code labels "cards used by
-you"]. At the end [`Duel_CalcRankScore` (`0x80021598`)] each side's calculated
-score starts at **50**. The signed byte at that side's record +0 is added
-directly as the way-the-duel-ended adjustment, and each counter is run
+you"]. In C, the first 13 bytes are the typed `DuelRankStatistics rank`
+subrecord, while the draw cursor remains at `DuelSideState.deck_draw_cursor`.
+At the end [`Duel_CalcRankScore` (`0x80021598`)] each side's calculated score
+starts at **50**. The signed `rank.result_adjustment` byte at record +0 is
+added directly as the way-the-duel-ended adjustment, and each counter is run
 through one row of a **ten-row table** [`Duel_CalcRankScoreChange`
 (`0x80021558`); the table is 200 bytes at `0x801798A8`, loaded from the
 per-duelist disc block and identical for all 39 duelists]: a row is five
 (threshold, value) pairs walked upward, and the first threshold above the
 counter supplies the value added to the score. The rows, measured:
 
-| row | counter (record offset) | value by count | category |
-|---|---|---|---|
-| 0 | +0x01 | 0–4: +12 · 5–8: +8 · 9–28: 0 · 29–32: −8 · 33+: −12 | **turns** taken |
-| 1 | +0x02 | 0–1: +4 · 2–3: +2 · 4–9: 0 · 10–19: −2 · 20+: −4 | **effective attacks** (attacks that destroyed an attack-position monster and dealt damage) |
-| 2 | +0x03 | 0–1: 0 · 2–5: −10 · 6–9: −20 · 10–14: −30 · 15+: −40 | **defensive wins** (your defender survived an attack) |
-| 3 | +0x04 | 0: 0 · 1–10: −2 · 11–20: −4 · 21–30: −6 · 31+: −8 | **face-down plays** |
-| 4 | +0x05 | 0: +2 · 1–3: −4 · 4–6: −8 · 7–9: −12 · 10+: −16 | **pure magic** cards used |
-| 5 | +0x06 | 0: +2 · 1–2: −8 · 3–4: −16 · 5–6: −24 · 7+: −32 | **traps** triggered |
-| 6 | +0x18 | 0–8: +15 · 9–12: +12 · 13–32: 0 · 33–36: −5 · 37+: −7 | **cards used** |
-| 7 | +0x14 (halfword) | 0–99: −7 · 100–999: −5 · 1000–6999: 0 · 7000–7999: +4 · 8000: +6 | **remaining LP** |
-| 8 | +0x08 | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
-| 9 | +0x09 | same as row 8 | **EQUIP MAGIC** — valid equips used |
+| row | record offset | C member | value by count | category |
+|---|---|---|---|---|
+| 0 | +0x01 | `rank.turns_taken` | 0–4: +12 · 5–8: +8 · 9–28: 0 · 29–32: −8 · 33+: −12 | **turns** taken |
+| 1 | +0x02 | `rank.effective_attacks` | 0–1: +4 · 2–3: +2 · 4–9: 0 · 10–19: −2 · 20+: −4 | **effective attacks** (attacks that destroyed an attack-position monster and dealt damage) |
+| 2 | +0x03 | `rank.defensive_wins` | 0–1: 0 · 2–5: −10 · 6–9: −20 · 10–14: −30 · 15+: −40 | **defensive wins** (your defender survived an attack) |
+| 3 | +0x04 | `rank.face_down_plays` | 0: 0 · 1–10: −2 · 11–20: −4 · 21–30: −6 · 31+: −8 | **face-down plays** |
+| 4 | +0x05 | `rank.pure_magic_used` | 0: +2 · 1–3: −4 · 4–6: −8 · 7–9: −12 · 10+: −16 | **pure magic** cards used |
+| 5 | +0x06 | `rank.traps_triggered` | 0: +2 · 1–2: −8 · 3–4: −16 · 5–6: −24 · 7+: −32 | **traps** triggered |
+| 6 | +0x18 | `deck_draw_cursor` | 0–8: +15 · 9–12: +12 · 13–32: 0 · 33–36: −5 · 37+: −7 | **cards used** |
+| 7 | +0x14 (halfword) | `life_points` | 0–99: −7 · 100–999: −5 · 1000–6999: 0 · 7000–7999: +4 · 8000: +6 | **remaining LP** |
+| 8 | +0x08 | `rank.fusions_initiated` | 0: +4 · 1–4: 0 · 5–9: −4 · 10–14: −8 · 15+: −12 | **INITIATE FUSION** — successful fusions initiated from the hand |
+| 9 | +0x09 | `rank.equips_used` | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
 `+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
@@ -1323,8 +1325,9 @@ fallback, after the trap card has already been removed. A lookup result or
 an early disappearance alone does not establish that the score byte changed.
 This is not an audit of every other trap/effect route or a new runtime trace.
 
-**What "cards used" counts.** Row 6 reads the side record's draw cursor at
-`+0x18`, not a counter that waits for a card to be played.
+**What "cards used" counts.** Row 6 reads the side record's
+`deck_draw_cursor` at `+0x18`, not a counter that waits for a card to be
+played.
 Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) selects the active
 side record, compacts its retained hand indices, rebuilds those card records,
 and requests `HAND_SIZE - n` new cards, where `n` is the number retained.
@@ -1343,9 +1346,10 @@ byte to `DUEL_RANK_RULE_CARDS_USED`. This pins the normal draw/refill
 accounting, not an unperformed runtime trace or a complete audit of every
 effect that could touch the record.
 
-`Duel_DrawLifePointsAndDeckCounts` also reads `+0x18`, through a signed-byte
-view, to display `DECK_SIZE - draw_cursor` for each side. The remaining-card
-readouts retain their two-digit format and existing side/colour order.
+`Duel_DrawLifePointsAndDeckCounts` also reads `deck_draw_cursor`, through a
+signed-byte view, to display `DECK_SIZE - deck_draw_cursor` for each side.
+The remaining-card readouts retain their two-digit format and existing
+side/colour order.
 The calculation is not clamped or redefined as cards played; its neighboring
 LP readouts still use the interpolated display value at `+0x12`.
 
@@ -2226,9 +2230,9 @@ The host's initialization branch also resets both LP values to 8000.
 The shared option's caption and complete visibility behavior remain unproved, but
 its resident handoff is established. When both `D_8009B360[0]` and
 `gDuel_bOpponentID` are negative, duel initialization copies that low byte
-to byte `+0x1F` of both `0x20`-byte side records. Known card-object and
-card-text consumers read the active side's copy. This mode byte is not
-itself an image-resource index; see the
+to `DuelSideState.card_view_mode` at `+0x1F` of both `0x20`-byte side
+records. Known card-object and card-text consumers read the active side's
+copy. This mode byte is not itself an image-resource index; see the
 [conditional view-mode handoff](../duel-card-record.md#per-side-view-mode-handoff).
 See the [full editor contract](../../src/overlays/main_menu/README.md#value-setup-input-and-write-back).
 

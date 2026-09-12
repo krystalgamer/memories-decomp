@@ -66,7 +66,8 @@ void func_80019608(void)
         D_8009B150 = *(u16 *)&slot->card_id;
         func_80029164(0, arg);
         if (p->field_68 == CARD_TYPE_MAGIC) {
-            D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
+            D_8009B1C8->rank.pure_magic_used =
+                D_8009B1C8->rank.pure_magic_used + 1;
         }
         func_80024914(slot);
         D_8009B174 = 1;

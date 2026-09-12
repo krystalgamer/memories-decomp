@@ -29,8 +29,8 @@
    grey shade (0x808080) vs the dim shade (0x404040); the other side always
    gets the opposite shade. Each side draws two digit groups (4-digit then
    2-digit) offset from the display object arg0->field_50 points at. The values
-   are displayed LP from field12 and DECK_SIZE minus the signed draw cursor
-   in field18 of the corresponding D_800E9FF0 entry. */
+   are displayed LP and DECK_SIZE minus the signed deck_draw_cursor of the
+   corresponding D_800E9FF0 entry. */
 
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
@@ -69,7 +69,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0) {
     func_80016D2C(
         pos,
         (GsSPRITE *)scratch,
-        DECK_SIZE - D_800E9FF0[1].field_18,
+        DECK_SIZE - D_800E9FF0[1].deck_draw_cursor,
         2
     );
 
@@ -92,7 +92,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0) {
     func_80016D2C(
         pos,
         (GsSPRITE *)scratch,
-        DECK_SIZE - D_800E9FF0[0].field_18,
+        DECK_SIZE - D_800E9FF0[0].deck_draw_cursor,
         2
     );
 }
