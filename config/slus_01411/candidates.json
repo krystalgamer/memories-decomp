@@ -796,7 +796,7 @@
       "target": "src/candidates_target/func_8004ADE8.S",
       "candidate_build_sha256": "64750977e2f1edbf00db7bb7613a2002d62f2bbf55dd6eddb2a3da2882677291",
       "target_bytes_sha256": "39df5b732bbe17ad475ca0773afe2c2e98cd6de67dcc8dc09e2b465f03eb880b",
-      "canonical_contract_sha256": "32d76fd9d5780a2f3f93d67f3b9e3621cf1e6ac11f6cbbd6112aa8653cfc28e5",
+      "canonical_contract_sha256": "61f4d8f012c4a1ca42f1006b09699f87666e5035e6e21512a1b06f82018c8619",
       "canonical_contracts": {
         "D_8009B458": "c8e9c74e6319bc68fec640a81df9c4d3c59c438504e283e2ab3a6527f9a075eb",
         "SD_CalcPitchBend": "558922b8815e6adda7689c7e3ec1d13288621755ed8d9c857173aa1fdebed8e2",
