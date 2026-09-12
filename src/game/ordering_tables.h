@@ -6,8 +6,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
-/* Graphics_BeginFrame publishes four descriptors at buffer + 0x5110,
- * stepping sizeof(GsOT) == 0x14, and clears each through GsClearOt.
+/* Graphics_BeginFrame publishes the four typed descriptors in the active
+ * GraphicsFrameBuffer and clears each through GsClearOt.
  * Renderers select one with DisplayObject.ot_index; the main-menu overlay
  * and duel-effect requests use the same pointers. */
 extern GsOT *D_800E9D90[4];

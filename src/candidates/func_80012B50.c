@@ -7,6 +7,7 @@
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
+#define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
 #include "../types.h"
 #include "../unmatched.h"
 #include "../game/duel_side_state.h"
@@ -35,7 +36,6 @@
 #include "../game/movie_playback_control.h"
 
 extern volatile u8 D_8009B0D1;
-extern void *volatile D_8009B0B4;
 extern u8 D_8009B269 __attribute__((section(".data")));
 extern void __main(void);
 
@@ -43,7 +43,7 @@ s32 Main_Init(void)
 {
     s32 r;
     s32 t;
-    register void *p __asm__("$4");
+    register GraphicsFrameBuffer *p __asm__("$4");
 
     __main();
     EnterCriticalSection();
@@ -54,7 +54,7 @@ s32 Main_Init(void)
     SetMem(2);
     SetDispMask(0);
     func_80015D0C();
-    p = D_8009B4A8;
+    p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
     D_8009B0C8 = 0;
     D_8009B0C0 = 0;
@@ -66,7 +66,7 @@ s32 Main_Init(void)
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;
     *(u8 *)&D_8009B230 = 1;
-    D_8009B0B4 = p;
+    gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
     func_80013154();
     func_800403F0();

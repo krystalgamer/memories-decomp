@@ -26,6 +26,7 @@
 #include "../game/func_80041340.h"
 #include "../game/graphics_constants.h"
 #include "../game/graphics_frame.h"
+#include "../game/graphics_frame_buffer.h"
 #include "../game/main_frame.h"
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "../game/input.h"
@@ -54,18 +55,17 @@ extern volatile u8 D_8009B0A2;
 /* Graphics and input start-up, called from Main_Init with the work area
  * in $a0. Resets the GPU, sets up a 320x240 display and the display
  * buffers, then initialises the frame flags and the six 0x8009B14x bytes
- * and the drawing environment at D_800FE048. The work area holds two
- * 0x5160-byte frame buffers; each gets its four ordering tables at
- * +0x5110 (lengths 2, 6, 0xC and 6 with their table bases at +0, +0x10,
- * +0x110 and +0x4110) cleared from the last to the first. The screen
+ * and the drawing environment at D_800FE048. The work area holds two typed
+ * GraphicsFrameBuffer records; each gets four ordering tables (lengths 2, 6,
+ * 0xC and 6 with their tag bases at +0, +0x10, +0x110 and +0x4110) cleared
+ * from the last to the first. The screen
  * block at D_800FE0A8 is copied to gGraphics_DispEnv, the GTE and the 3D
  * wrappers are initialised with a 300 projection, then the pads, the memory
  * card, the file position table and the random seed. */
-void func_80013154(u8 *base)
+void func_80013154(GraphicsFrameBuffer *base)
 {
-    u8 *buf;
+    GraphicsFrameBuffer *buf;
     s32 k;
-    s32 off;
     s32 six;
     /* Retail copies the count into $v1 for the two byte stores. As a
        plain local the copy is folded away, since cse rates a narrowing
@@ -104,23 +104,24 @@ void func_80013154(u8 *base)
        delay slot; the entry then falls through it. */
 next:
     k = 3;
-    off = 0x514C;
-    *(s32 *)(buf + 0x5110) = 2;
-    *(u8 **)(buf + 0x5128) = buf + 0x10;
-    *(s32 *)(buf + 0x5138) = 0xC;
-    *(u8 **)(buf + 0x513C) = buf + 0x110;
-    *(u8 **)(buf + 0x5114) = buf;
-    *(s32 *)(buf + 0x5124) = six;
-    *(s32 *)(buf + 0x514C) = six;
-    *(u8 **)(buf + 0x5150) = buf + 0x4110;
+    buf->ordering_tables[0].length = 2;
+    buf->ordering_tables[1].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x10);
+    buf->ordering_tables[2].length = 0xC;
+    buf->ordering_tables[2].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x110);
+    buf->ordering_tables[0].org = (GsOT_TAG *)buf->ordering_table_tags;
+    buf->ordering_tables[1].length = six;
+    buf->ordering_tables[3].length = six;
+    buf->ordering_tables[3].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x4110);
     do {
-        GsClearOt(0, k, (GsOT *)(buf + off));
-        off -= 0x14;
+        GsClearOt(0, k, &buf->ordering_tables[k]);
         k--;
     } while (k >= 0);
-    buf += 0x5160;
+    buf++;
     /* Signed compare: retail uses slt, so the pointers compare as s32. */
-    if ((s32)buf < (s32)(base + 0xA2C0)) {
+    if ((s32)buf < (s32)(base + 2)) {
         goto next;
     }
     gGraphics_DispEnv = D_800FE0A8;

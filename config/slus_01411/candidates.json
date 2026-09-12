@@ -6,11 +6,10 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80012B50.c",
       "target": "src/candidates_target/func_80012B50.S",
-      "candidate_build_sha256": "2f993be157efba4ee01031583688cb279b5cde14e54a2dd0c1b72c5ccccc81ea",
+      "candidate_build_sha256": "fbae9fec8f17d4b4a98be753f50280d85a97e02f052754e883ce734939b0dd96",
       "target_bytes_sha256": "c1e975c6ffc06e66847e80e1b41520b74bd631a3a9ad22abcc4dbef472516c21",
-      "canonical_contract_sha256": "8810925293b168051ac53d54185c72dffe88f7b412ff8abb39108d0d557f190a",
+      "canonical_contract_sha256": "d3cb4ea64a03f3d88eb76de2b9c424c4718d0af33a824d4f7ef57d0798704917",
       "canonical_contracts": {
-        "D_8009B0B4": "be9618002daf4c63a1e92354ef765e1b418b24fd435d786c43083339c968c68a",
         "D_8009B0D1": "403b59eb06bc22d291f5c6e2189bc5b0a95d4c74e8200ce4f913d0b9aa1b934b",
         "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "__main": "fec3281173553c80fb98e0b8e7963cc248f709d99c02ebd8c709cfe010ffef45"
