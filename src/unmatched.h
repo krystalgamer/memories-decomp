@@ -35,9 +35,6 @@
  * are declared incompatibly on purpose, because the declaration is what makes
  * the caller's code generation match:
  *
- *   func_8004CB0C   void (s32, s32, s32, s32) in the Model_LoadMonsterMerge
- *                   candidate, src/candidates/func_80056504.c, and
- *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
@@ -55,8 +52,8 @@
  *   - model_slot_setup.c calls func_8004CB0C the same way, and that one
  *     cannot be fixed. The callee reads $a0, $a1, $a2 and $a3, but this site
  *     sets only $a0. The other three are whatever the register file happened
- *     to hold, so there is no expression to write for them. Its `void (void)`
- *     declaration stays, and is not a mistake.
+ *     to hold, so there is no expression to write for them. Its guarded
+ *     `void (void)` header arm stays, and is not a mistake.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local
@@ -624,22 +621,6 @@ void func_80042188(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
-
-/* Starts the asynchronous transfer that fills one model slot with a monster
- * merge record, and records the slot's display properties while the request
- * is in flight.
- *
- * Bit 0x80 of slot is a flag rather than part of the index. A negative model
- * id reuses the id already in the slot, and each of p2 to p5 follows the same
- * "negative means leave alone" convention.
- *
- * Returns zero once a transfer has been requested and one when the model id
- * has no record to request. Both callers discard it. The candidate source
- * carries the full account of which slots load from which file, and of the
- * three model-id ranges that have no record. */
-s32 Model_LoadMonsterMerge(
-    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
-);
 
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation

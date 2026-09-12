@@ -580,4 +580,8 @@ extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
 
+s32 Model_LoadMonsterMerge(
+    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
+);
+
 #endif

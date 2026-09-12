@@ -22,8 +22,6 @@
    pass switches on that same +0xE16 (0x3E is one of its three cases), reads
    +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
 
-void func_8004CB0C(void);
-
 void func_8005611C(s32 arg0)
 {
     ModelSlot *p;
