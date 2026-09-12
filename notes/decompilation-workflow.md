@@ -420,7 +420,7 @@ The converse is the useful half, because it is what makes candidates cheap to
 pick. Four conversions since have been byte-exact on the first build:
 
     func_80037C74      DuelEffectChannel, five fields, no globals
-    func_8004318C      DisplayObjectPosition, four fields, no globals
+    DisplayObject_InterpolatePositionCosine DisplayObjectPosition, four fields, no globals
     Dialog_OpenChoice  DuelEffectChannel, five fields, no globals
     func_8003A1EC      MenuRecord, three fields, TWO globals
 
@@ -520,6 +520,14 @@ still spell them as retail needs.
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
 the tree, and a name-based scan of C text mis-reads several real constructs.
+`make check-translation-unit-headers` parses top-level statements in every
+built resident and overlay source, permits forwards for functions defined in
+that same translation unit, delegates unmatched assembly declarations to
+`unmatched_contracts.py`, and rejects every other function prototype. Known
+external entry points and address-qualified SDK copies live in
+`src/external_funcs.h`; subsystem-owned and caller-specific aliases stay in
+their owning headers.
+
 Each of these produced a wrong answer during the header-collection campaign
 before the source was read:
 

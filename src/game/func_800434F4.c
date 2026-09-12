@@ -45,18 +45,18 @@ m0:
     w = D_8009B0F4;
     m = 0x10000;
     do {
-        p->mode = m;
+        p->phase_size = m;
         D_8009B0F4 = w | m;
         p->done = 2;
         d = D_8009B118;
         p->h = 0x10;
     } while (0);
     p->value_08 = d;
-    p->value_0C = d + 0x800;
+    p->value_0C = d + FILE_SECTOR_SIZE;
     return;
 
 m1:
-    p->mode = 0x800;
+    p->phase_size = FILE_SECTOR_SIZE;
     D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF;
     p->value_0C = D_8009B118;
     p->value_08 = D_8009B118;

@@ -159,7 +159,7 @@ typedef struct DisplayObject {
 
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
-       out of it -- the same saved-position reading func_80043178.h's
+       out of it -- the same saved-position reading DisplayObject_SavePosition.h's
        DisplayObjectSnapshot gives the pair. 0x34 itself has no half user
        yet and keeps the offset for a name. */
     union {
@@ -188,7 +188,7 @@ typedef struct DisplayObject {
        the three views that already name these halves outside this header:
        DisplayObjectVelocity in display_object_helpers.c calls 0x36, 0x38 and
        0x3A velocity_x, velocity_y and velocity_z and adds them to 0x30/0x32
-       every frame, while DisplayObjectSnapshot in func_80043178.h and
+       every frame, while DisplayObjectSnapshot in DisplayObject_SavePosition.h and
        DisplayObjectPosition in display_object_interpolation.h read the same
        0x36/0x38 pair as a saved position that eases into the live one.
        display_object_helpers.h sets out at length why neither of those
@@ -336,7 +336,7 @@ typedef struct DisplayObject {
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        func_8003DA40.c sets -0x400 and adds 0x20; mem_card_dialog_runtime.c
-       steps it by 0x40 and passes it to func_80043230, which takes it as
+       steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
        `phase` for an rsin ease; display_object_property_transitions.c calls
        it `speed` in one function and `step` in the other. Four callers, four
        words, one range -- so it keeps the offset for a name, on the same

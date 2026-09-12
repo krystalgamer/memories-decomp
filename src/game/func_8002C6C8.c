@@ -4,12 +4,13 @@
 #include "func_8002C6C8.h"
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"
+#include "../external_funcs.h"
 
 /* Clears D_8009B260's bit 0x1, then walks the eight D_800EAD88 requests.
-   For each request whose flags contain 0x80: raises D_8009B260's bit 0 unless
-   flags also contain 0x20; clears D_8009B261; if bit 0x40 is not set yet,
-   sets it and resets field_1A to -1; copies D_800E9D90[1]/[2] into
-   field_0C/field_08, stashes the request at D_8009B264, and calls
+   For each active request: raises D_8009B260's bit 0 unless the request is
+   nonblocking; clears D_8009B261; if the request is not initialized yet,
+   marks it initialized and resets field_1A to -1; copies D_800E9D90[1]/[2]
+   into field_0C/field_08, stashes the request at D_8009B264, and calls
    func_801462B0(id, the ORIGINAL field_1A read before the possible reset,
    buffer, request). It then restores the geometry state and clears flags
    when D_8009B261 ends up 1. Returns D_8009B260's bit 0.
@@ -19,9 +20,6 @@
    instead of the target's plain signed halfword load. */
 extern u8 D_8009B261;
 extern DuelEffectRequest *D_8009B264;
-extern void func_801462B0(
-    s16 a0, s16 a1, s32 a2, DuelEffectRequest *a3
-);
 
 s32 func_8002C6C8(void) {
     DuelEffectRequest *rec;
@@ -32,18 +30,19 @@ s32 func_8002C6C8(void) {
     rec = &D_800EAD88[0];
     for (i = DUEL_EFFECT_REQUEST_COUNT; i != 0; i--) {
         u8 flags1 = rec->flags;
-        if (flags1 & 0x80) {
+        if (flags1 & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) {
             u8 flags2;
             s32 savedF1A;
 
-            if (!(flags1 & 0x20)) {
+            if (!(flags1 & DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING)) {
                 D_8009B260 = D_8009B260 | 1;
             }
             D_8009B261 = 0;
             flags2 = rec->flags;
             savedF1A = rec->field_1A;
-            if (!(flags2 & 0x40)) {
-                rec->flags = flags2 | 0x40;
+            if (!(flags2 & DUEL_EFFECT_REQUEST_FLAG_INITIALIZED)) {
+                rec->flags =
+                    flags2 | DUEL_EFFECT_REQUEST_FLAG_INITIALIZED;
                 rec->field_1A = -1;
             }
             rec->field_0C = (s32)D_800E9D90[1];

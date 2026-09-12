@@ -76,9 +76,11 @@ shade pair whose *active* sibling is `0x808080`, selected per side by
 object and a sparkle are not one side of a two-sided status readout. Adopting
 the name would import a shade-family relationship that does not exist here.
 
-If the shared grey is worth naming, it needs a neutral display-layer constant
-rather than the duel one. That is a design decision, not a mechanical
-substitution, and it is deliberately left open.
+The shared grey is now named `COLOR_RGB24_DIM_GREY` in
+`src/game/color_constants.h`, alongside the active/neutral
+`COLOR_RGB24_NEUTRAL_GREY`. The duel names remain as subsystem aliases rather
+than owning the values, so unrelated display objects can use the neutral
+colour vocabulary without importing duel semantics.
 
 ### The common bit values are unusable by value alone
 
@@ -97,11 +99,7 @@ reducing it.
 The mechanically safe overlay substitutions are exhausted. What remains is
 genuine semantic work, in rough value order:
 
-1. **A decision** on whether a neutral shared constant for the `0x404040` grey
-   is wanted, and where it should live. All three sites are display-layer
-   colour writes, so a constant is defensible; the duel one is not the right
-   one to reuse.
-2. The composite `0x28` writes remain raw. The `0x20` bit's **provenance and
+1. The composite `0x28` writes remain raw. The `0x20` bit's **provenance and
    consumer are now both established**, but the consumer is unmatched
    assembly, so a name would rest on disassembly rather than build-verified C.
 

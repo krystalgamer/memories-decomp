@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "color_constants.h"
 
 void func_80031784(u8 *record, s32 arg1, u8 *data, s32 selected)
 {
@@ -14,7 +15,7 @@ void func_80031784(u8 *record, s32 arg1, u8 *data, s32 selected)
     do {
         *(s32 *)(record + 20) = 0x202020;
         if ((cursor[0] & 15) == selected)
-            *(s32 *)(record + 20) = 0x808080;
+            *(s32 *)(record + 20) = COLOR_RGB24_NEUTRAL_GREY;
         i++;
         record[14] = ((data[0] & 15) << 3) - 128;
         record[15] = data[0] & 240;

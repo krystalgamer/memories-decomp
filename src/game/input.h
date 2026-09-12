@@ -67,20 +67,25 @@ extern u32 gInput_dwPendingHeld;
  *   _SIZED_VOLATILE -- eight bytes it does not have, and volatile. That
  *                     leaves small data only where the assembler's -G sits
  *                     below the compiler's. Its consumers are
- *                     src/candidates/func_800307B8.c, which records that it
+ *                     src/game/func_800307B8.c, which records that it
  *                     was byte-exact under gcc_2_8_1_cc_g8_as_g4_split and
  *                     is 117 instructions against the target's 120 at
  *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
  *                     which is under the same profile and reads all six
  *                     pad names this way. A third consumer since
  *                     2026-09-12, src/candidates/main_menu/func_801821DC.c,
- *                     is the exception to the sentence above: it assembles
- *                     at -G0, where nothing is small data at either
- *                     threshold, so the eight bytes reach nothing and the
- *                     arm is there only because it is the volatile arm that
- *                     can be indexed.
+ *                     joined the same day by
+ *                     src/overlays/main_menu/value_setup.c, is the
+ *                     exception to the sentence above. The candidate
+ *                     assembles at -G0, where nothing is small data at
+ *                     either threshold, so the eight bytes reach nothing;
+ *                     value_setup.c is a module source rather than a
+ *                     candidate, and what says the size reached nothing
+ *                     there is the module hash, unchanged across the
+ *                     change. For both, the arm is here only because it is
+ *                     the volatile arm that can be indexed.
  *
- * A `[5]` arm used to sit beside that one, for src/candidates/func_80017034.c
+ * A `[5]` arm used to sit beside that one, for src/game/func_80017034.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
  * data at a single -G8 threshold, and the split flag decides only whose
  * %hi/%lo pair the reference becomes, so nothing separated the two
@@ -116,7 +121,10 @@ extern u16 gInput_wPad1Pressed;
  * unit's own header records the mechanism. Since 2026-09-12 it has a second
  * consumer, src/candidates/main_menu/func_801821DC.c, which reads [0] and
  * [1]; that one assembles at -G0, where the declared size reaches nothing,
- * so the arm is doing no work for it beyond naming the symbol. */
+ * so the arm is doing no work for it beyond naming the symbol. The scalar
+ * _IS_VOLATILE arm below has its own new consumer the same day,
+ * src/candidates/password/func_8016A37C.c, which reads this symbol as a
+ * plain volatile halfword and spelled it D_8009B3A4 until then. */
 #ifdef GINPUT_PAD1_HELD_SIZED_VOLATILE
 extern volatile u16 gInput_wPad1Held[4];
 #elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)
@@ -175,14 +183,17 @@ extern u16 gInput_wPad1RepeatBackup;
  * not an interaction between them.
  *
  * That measurement is about the pad-2 NAME, and it does not reach the name
- * used for the pad-1 element. The candidate above spelled it D_8009B394,
- * D_8009B398 and D_8009B3A4 in three private declarations until 2026-09-12;
- * it now takes the _SIZED_VOLATILE arms here and reads the same `[0]` and
- * `[1]`. Same symbol, same displacement, same relocation -- and measured:
- * every instruction in its object is unchanged, and the only difference the
- * disassembly shows is which name the thirty-six relocations carry. Its
- * profile assembles at -G0, so the arm's declared size cannot reach it; the
- * object has no gp-relative relocation either way.
+ * used for the pad-1 element. Both units above spelled that name D_8009B394,
+ * D_8009B398 and D_8009B3A4 in private declarations until 2026-09-12; both
+ * now take the _SIZED_VOLATILE arms here and read the same `[0]` and `[1]`.
+ * Same symbol, same displacement, same relocation, and measured on each: the
+ * candidate's object keeps every instruction, with the only disassembly
+ * difference being which name its relocations carry, and value_setup.c is a
+ * module source, so its check is the module itself -- main_menu still hashes
+ * 34e9421eb10dc3ff97f8810e4f595045d4847b2b54760e9895eb83266008bc97 and still
+ * reports overlay match. The candidate assembles at -G0, where the arm's
+ * declared size can reach nothing; for value_setup.c the size is inside the
+ * module build and the module hash is what says it changed nothing.
  *
  * The reason is addressing, not naming. `X[1]` is one materialization of the
  * pad-1 symbol plus a displacement; the pad-2 name is its own relocation.

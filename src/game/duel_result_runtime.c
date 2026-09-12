@@ -26,6 +26,7 @@
 #include "sound_output.h"
 #include "fade.h"
 #include "duel_side_state.h"
+#include "ai_opponent_data.h"
 #include "duel_package.h"
 #include "duel_screen_tables.h"
 #include "duel_result_outro.h"
@@ -143,8 +144,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
         state 0xD.  */
 
 extern u16 D_8009B1E0;
-
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 
 void func_80020F4C(void)
 {

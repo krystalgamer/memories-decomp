@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* The two text-render state setters. func_80035668 publishes the render flags
- * word and resets the colour to 0x808080; func_80035680 installs the sorted
- * entry list and raises bit 2 of the same flags word.
+ * word and stores 0x808080 in the unverified companion global; func_80035680
+ * installs the sorted entry list and raises bit 2 of the same flags word.
  *
  * The parameter is u32 in both definitions -- func_80035680 casts it straight to
  * a SortedEntry * -- and the two files that reached func_80035668 spelled it

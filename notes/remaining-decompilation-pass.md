@@ -37,7 +37,8 @@ function.
 
 ### Newly exposed callback
 
-`func_8002DDFC` received six ordinary GCC 2.8.1 G0 variants using local
+`ScriptImage_TransferCallback` (`0x8002DDFC`) received six ordinary GCC 2.8.1
+G0 variants using local
 assembly, GMS pseudocode, and explicit target-order labels. The closest source
 is 300/304 bytes but its event-1 branch target is four instructions early.
 The function is terminally deferred and remains exact assembly.

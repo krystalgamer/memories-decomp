@@ -23,7 +23,7 @@
 #include "../psyq/rand.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
-#include "../game/func_8002D458.h"
+#include "../game/main_menu_selection.h"
 #include "../game/func_80035A64.h"
 #include "../game/main_run_boot_sequence.h"
 #include "../game/func_80043BCC.h"
@@ -89,7 +89,7 @@ s32 Main_Init(void)
         File_RequestMainMenuPackage();
         File_WaitForTransfers();
     }
-    func_8002D458(func_80043BCC());
+    Main_ApplyMenuSelection(func_80043BCC());
     D_8009B269 = 8;
     Main_Loop();
     return 0;

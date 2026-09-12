@@ -12,7 +12,6 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/func_80039794.h"
 #include "../../game/func_8003B6AC.h"
-#include "../../game/func_80043178.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
@@ -83,7 +82,7 @@ void NameEntry_UpdateDialog(void)
             func_800428EC(caret, 19);
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             box->field_2C = caret;
-            func_80043178(caret);
+            DisplayObject_SavePosition(caret);
             caret->slide = -1024;
             D_8016D400 |= 2;
             return;
@@ -94,7 +93,7 @@ void NameEntry_UpdateDialog(void)
             pos = caret->slide;
             if (pos >= 0) {
                 caret->slide = pos - 85;
-                func_80043230((DisplayObjectPosition *)caret, 16, 248,
+                Widget_SlideSine((DisplayObjectPosition *)caret, 16, 248,
                               (s16)(pos - 85));
                 if (caret->slide < 0) {
                     caret->x = 16;
@@ -107,7 +106,7 @@ void NameEntry_UpdateDialog(void)
                 }
             } else {
                 caret->slide = pos + 85;
-                func_80043230((DisplayObjectPosition *)caret, 16, 176,
+                Widget_SlideSine((DisplayObjectPosition *)caret, 16, 176,
                               (s16)(pos + 85));
                 if (caret->slide >= 0) {
                     caret->x = 16;
@@ -137,7 +136,7 @@ void NameEntry_UpdateDialog(void)
         if ((D_8016D400 & 0x20) != 0) {
             D_8016D4D2 = 0;
         }
-        func_80043178(caret);
+        DisplayObject_SavePosition(caret);
         fe = D_8016D400;
         caret->slide = 1024;
         D_8016D400 = fe | 2;

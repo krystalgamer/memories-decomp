@@ -31,8 +31,8 @@ s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
-            statsA = D_801D4244[idA - 1];
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
             if (((statsA >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -56,8 +56,8 @@ s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
             hiA = 0x80000001;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
-            statsB = D_801D4244[idB - 1];
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
             if (((statsB >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -133,8 +133,8 @@ s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
-            statsA = D_801D4244[idA - 1];
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
             if (((statsA >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -150,8 +150,8 @@ s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
             atkA = 0x80000001;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
-            statsB = D_801D4244[idB - 1];
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
             if (((statsB >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -219,8 +219,8 @@ s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
-            statsA = D_801D4244[idA - 1];
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
             if (((statsA >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -236,8 +236,8 @@ s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
             defA = 0x80000001;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
-            statsB = D_801D4244[idB - 1];
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
             if (((statsB >> CARD_STAT_TYPE_SHIFT) &
                  CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
@@ -301,16 +301,16 @@ s32 MainMenu_CompareCardsByType(s16 *a, s16 *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
-            typeA = (D_801D4244[idA - 1] >> CARD_STAT_TYPE_SHIFT) &
+            keyA = gCard_asNameSortKey[idA - 1];
+            typeA = (gDuel_adwCardStats[idA - 1] >> CARD_STAT_TYPE_SHIFT) &
                     CARD_STAT_TYPE_MASK;
         } else {
             typeA = 0x7FFFFFFF;
             keyA = 0x7FFFFFFF;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
-            typeB = (D_801D4244[idB - 1] >> CARD_STAT_TYPE_SHIFT) &
+            keyB = gCard_asNameSortKey[idB - 1];
+            typeB = (gDuel_adwCardStats[idB - 1] >> CARD_STAT_TYPE_SHIFT) &
                     CARD_STAT_TYPE_MASK;
         } else {
             typeB = 0x7FFFFFFF;

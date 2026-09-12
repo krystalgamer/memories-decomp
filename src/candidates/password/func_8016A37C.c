@@ -12,6 +12,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../game/input.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object_api.h"
@@ -58,7 +59,6 @@ extern u8 D_800EA0E8[];
 extern u16 D_8016D4DC;
 extern u32 D_8016D438;
 extern u32 D_801A8000[];
-extern volatile u16 D_8009B3A4;
 extern u8 D_8009B269;
 extern u8 D_8009B26C;
 
@@ -87,8 +87,8 @@ void Password_UpdateShopScreen(void)
     state = D_8016D424 & 0x1F;
     switch (state) {
     case 0:
-        if ((D_8009B3A4 & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-            if ((D_8009B3A4 & PAD_DIRECTION_RIGHT) != 0) {
+        if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
                 index = gPassword_nDigitIndex + 1;
                 gPassword_nDigitIndex = index;
                 if (index >= 8) {

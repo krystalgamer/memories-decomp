@@ -145,14 +145,14 @@ extern s16 D_8009B22A;
  * so this is the plain declaration. Initial value not read. */
 extern u8 *D_8009B22C;
 
-/* The halfword func_8002DC38 passes, as `(u8 *)&D_8009B230`, to
+/* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
  * MainMenu_StartValueSetup's `toggle` parameter (entrypoints.h declares
  * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
  * D_8009B360 and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
  * D_800E9FF0 records; Main_Init stores 1 into it. Every retail access is a
  * byte or an address (lbu func_800175A0.s:65, sb func_80012B50.s:39, the
- * lui/addiu pair func_8002DC38.s:14-15), so the listings do not say how
+ * lui/addiu pair at 0x8002DC60), so the listings do not say how
  * wide the object is; two of the three units declare the u16 and reach the
  * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
  * option as the low byte of this wider view, so that is the declaration
@@ -161,7 +161,7 @@ extern u8 *D_8009B22C;
  * Initial value not read.
  *
  * duel_state_init.c reaches it gp-relative and takes the plain halfword;
- * func_8002DC38.c and src/candidates/func_80012B50.c reach it through
+ * main_run_two_player_duel_setup.c and src/candidates/func_80012B50.c reach it through
  * %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
 extern u16 D_8009B230 __attribute__((section(".data")));
@@ -169,7 +169,7 @@ extern u16 D_8009B230 __attribute__((section(".data")));
 extern u16 D_8009B230;
 #endif
 
-/* The two halfwords func_8002DC38 stores DUEL_STARTING_LIFE_POINTS into
+/* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
  * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
  * as `first` and `second`, both declared `u16 *` in entrypoints.h -- that
  * signature is
@@ -180,8 +180,7 @@ extern u16 D_8009B230;
  * unit touches them. Initial value not read.
  *
  * duel_state_init.c reaches both gp-relative and takes the plain
- * declarations; func_8002DC38.c reaches both through %hi/%lo
- * (func_8002DC38.s:10-13 for the addresses, 19-22 for the stores) and
+ * declarations; main_run_two_player_duel_setup.c reaches both through %hi/%lo
  * defines the two .data arms, one control each. */
 #ifdef D_8009B234_IN_DATA
 extern u16 D_8009B234 __attribute__((section(".data")));
@@ -259,7 +258,8 @@ extern u8 D_8009B362;
 
 /* A byte Main_RunDuel reads into a local after File_WaitForTransfers and,
  * past its nop barrier, copies into D_8009B26C. Four functions store it:
- * func_80030F40 stores 0 (then calls func_80024DC8), func_8002DC38 stores
+ * func_80030F40 stores 0 (then calls func_80024DC8),
+ * Main_RunTwoPlayerDuelSetup stores
  * 8 when MainMenu_UpdateValueSetup returned 1, Text_StartCampaignDuel
  * stores 2 at the end of its setup, and the free_duel overlay's
  * FreeDuel_UpdateScreen stores 6 after its func_80024DC8 call. Every
@@ -267,7 +267,7 @@ extern u8 D_8009B362;
  * it. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so func_80030E30.c, func_8002DC38.c and
+ * so func_80030E30.c, main_run_two_player_duel_setup.c and
  * src/candidates/func_8002CEE8.c -- units that reach other symbols through
  * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
  * overlay's screen_runtime.c compile with nothing in small data and take
@@ -293,9 +293,12 @@ extern u8 D_8009B368;
  * src/candidates/func_800179F4.c and src/candidates/func_8002CEE8.c reach
  * other symbols through $gp, so they define the .data arm below;
  * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
- * small data and take the plain byte. src/candidates/func_80018FEC.c keeps
- * its own .data declaration: it does not include this header and its object
- * is fingerprinted in candidates.json. */
+ * small data and take the plain byte. src/candidates/func_80018FEC.c also
+ * defines the .data arm. It used to carry a private copy of this exact
+ * declaration and not include this header at all; it now includes it and
+ * selects the same arm, with its candidates.json fingerprint unchanged by
+ * the move. Which of the two reasons above puts it on this arm is not
+ * re-derived here -- the spelling it already had is what is preserved. */
 #ifdef D_8009B369_IN_DATA
 extern u8 D_8009B369 __attribute__((section(".data")));
 #else

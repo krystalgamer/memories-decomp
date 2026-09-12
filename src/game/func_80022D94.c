@@ -2,7 +2,6 @@
 #include "view_state.h"
 #include "func_80022D94.h"
 
-extern s16 D_8009B204;
 void func_80022D94(int frames,int x,int z,int y,int value)
 {
  s16 oldX=D_800F2848.field_00;int dx=((x-oldX)<<16)/frames;

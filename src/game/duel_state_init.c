@@ -1,13 +1,13 @@
 #define D_8009B360_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
+#include "ai_opponent_data.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 #include "duel_card.h"
 
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 extern s8 D_800EA02F[];
 
 void func_800175A0(void) {
