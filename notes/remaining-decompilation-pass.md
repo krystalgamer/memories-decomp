@@ -393,6 +393,14 @@ storage class of `D_800FE240`. Declaring it as a direct `s32` scalar forced to
 while avoiding the G8 small-data relocation overflow. The function matches
 200/200 bytes with exact relocations.
 
+The cursor contract is now centralized in `gpu_packets.h`. The three packet
+builders use its default `u32 *` view, while the capacity query selects the
+guarded integer-address view above. The two forms retain the same forced
+`.data` storage class. `GRAPHICS_PACKET_BUFFER_SIZE` also replaces the decimal
+140000 stride in `Graphics_BeginFrame` and the equivalent hexadecimal
+`0x222E0` capacity in the query, recording that both calculations describe
+one active packet-buffer half.
+
 The predicate accounts for the current model-data heap pointer, bank base,
 loaded-bank count, and the selected model slot's `0xE00` size field; it returns
 true when less than `0x401` bytes would remain.

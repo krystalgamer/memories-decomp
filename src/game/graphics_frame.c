@@ -103,7 +103,9 @@ void Graphics_BeginFrame(void)
     src = (s32)D_8009B0A0;
     i = 3;
     gGraphics_bActiveBuffer = idx;
-    arg = &D_800A5768[gGraphics_bActiveBuffer * 140000];
+    arg = &D_800A5768[
+        gGraphics_bActiveBuffer * GRAPHICS_PACKET_BUFFER_SIZE
+    ];
     D_8009AFA2 = idx;
     D_8009B0B4 = &D_8009B4A8[gGraphics_bActiveBuffer * 20832];
     func_800862C0(arg);
