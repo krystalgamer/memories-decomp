@@ -12,7 +12,7 @@
 #include "../psyq/setjmp.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
-#include "../game/func_8002D458.h"
+#include "../game/main_menu_selection.h"
 #include "../game/func_8003C2B4.h"
 #include "../game/game_over.h"
 #include "../game/main_modes.h"
@@ -40,4 +40,3 @@ void Main_RunNameEntry(void)
         D_8009B26C = value;
     }
 }
-

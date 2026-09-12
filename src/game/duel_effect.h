@@ -203,7 +203,7 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
  * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
  * base instruction disappears (free_duel_functions.csv,
  * notes/overlays/matching-patterns.md). Neither of those measures the name
- * against `&D_800EB0F8[1]` -- func_8002DC38.c passes that form directly and
+ * against `&D_800EB0F8[1]` -- Main_RunTwoPlayerDuelSetup passes that form directly and
  * matches -- so what is established is that the four files using this name
  * match as written; whether they would also match through the array index
  * is not measured. */

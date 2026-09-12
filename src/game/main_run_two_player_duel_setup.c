@@ -8,6 +8,7 @@
 #include "duel_effect.h"
 #include "card_constants.h"
 #include "fade.h"
+#include "main_modes.h"
 #include "text_box_lifecycle.h"
 #include "../overlays/main_menu/entrypoints.h"
 #include "sound.h"
@@ -20,7 +21,7 @@
 u8 D_8009B26C;
 extern u8 D_8009B269;
 
-void func_8002DC38(void)
+void Main_RunTwoPlayerDuelSetup(void)
 {
     s32 result;
 

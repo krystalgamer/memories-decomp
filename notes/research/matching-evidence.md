@@ -4440,8 +4440,9 @@ The screen is cheap. Over a function's splat asm, flag it when either appears:
 What does **not** disqualify a function is `lui $sN, %hi(X)` and
 `addiu $sN, $sN, %lo(X)` on the same register separated by other instructions.
 That is the coalesced form, it is what `_split` produces once the two halves
-belong to one pseudo, and `func_8002DC38` needed exactly it -- there the split
-profile was the difference between 79/45 and 78/7. So the flag is on the
+belong to one pseudo, and `Main_RunTwoPlayerDuelSetup` needed exactly it -- there the split
+profile was the difference between 79/45 and 78/7 for
+`Main_RunTwoPlayerDuelSetup`. So the flag is on the
 *register mismatch*, not on the separation.
 
 Running all four screens over the resident queue leaves 84 of 140 unmatched
@@ -7331,7 +7332,7 @@ is:
 If none does, the two declarations never meet. A plain declaration can go in
 the header for the small-data group, the divergent files keep their own, and
 no guarded arm is needed. fade.h does this for D_8009B141, and mem_card.h for
-D_8009B3D4, whose `.data` declarer func_8002D458.c does not include it.
+D_8009B3D4, whose `.data` declarer main_apply_menu_selection.c does not include it.
 
 If any does, the header needs a guarded pair and every file in that group has
 to select its arm. That is a different size of change, and it drags in every
@@ -7340,7 +7341,8 @@ consumer rather than the ones being tidied.
 Both mistakes have been made in this campaign:
 
   Too cautious   D_8009B3D4 was excluded from mem_card.h because
-                 func_8002D458.c named it with a .data attribute. That file
+                 main_apply_menu_selection.c named it with a .data attribute.
+                 That file
                  does not include mem_card.h, so there was nothing to
                  collide with and the exclusion cost a round.
 
