@@ -1,4 +1,5 @@
 #define D_8009B260_IN_DATA
+#define GDIALOG_CHOICE_SIZED
 #include "../types.h"
 #include "duel_side_state.h"
 #include "input.h"
@@ -14,8 +15,7 @@
 #include "func_8002C6C8.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
-
-extern s8 gDialog_bChoice[9];
+#include "dialog_choice.h"
 
 /* One frame of the duel scene. It services the quit dialog when
  * gDuel_bQuitDialogState is live -- creating the box on the first frame and
