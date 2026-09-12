@@ -1,0 +1,63 @@
+PCSX-Redux Lua Console 
+LuaJIT 2.1.1785598229 
+JIT: ON SSE3 SSE4.1 BMI2 fold cse dce fwd dse narrow loop abc sink fuse 
+Shader compiled: program ID = 7 
+Shader compiled: program ID = 10 
+build_deck_card_grid_cursor: armed; perform Down, Up, R1, L1, pane switch, return 
+build_deck_card_grid_cursor: sample 1 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 1 settled; perform the next isolated input 
+build_deck_card_grid_cursor: sample 2 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 2 settled; perform the next isolated input 
+build_deck_card_grid_cursor: sample 3 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 3 settled; perform the next isolated input 
+build_deck_card_grid_cursor: no input captured yet; perform the documented sequence 
+build_deck_card_grid_cursor: sample 4 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 4 settled; perform the next isolated input 
+build_deck_card_grid_cursor: sample 5 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 5 settled; perform the next isolated input 
+build_deck_card_grid_cursor: sample 6 captured; release it and wait for settlement 
+build_deck_card_grid_cursor: sample 6 settled; perform the next isolated input 
+ 
+==== USER CONTEXT ==== 
+ 
+I entered "Build Deck" through the "Main Menu" and the first pane that I see is CHEST (aka Trunk). Then I injected the script and executed the suggested key strokes. I'll describe each sample now:
+
+
+- Down: Cursor was on the first row was was empty and moved down to another empty row
+- Up: Cursor went back to the first row
+- R1: it moved down a bunch of rows to another empty row, the save was brand new so I had no cards on my Chest(trunk)
+- L1: went back up
+- Right: switch panes to the Deck pane and placed the cursor on the first card which is "Skull Servant" card ID 24
+- Left: Went back to the Chest pane where the cursor was previously
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: build_deck_card_grid_cursor 
+status: captured six inputs followed by quiet time 
+summary: samples=6 local_control_changed=true grid_coordinates_changed=false selected_card_global_changed=true final_pane=0 final_first=0 final_cursor=0 final_card=1 
+baseline frame=000000 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_start=01 frame=000185 held=0x4000 repeat=0x4000 pressed=0x4000 
+sample_pre=01 frame=000185 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=1 active_index=1 active_card=2 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_post=01 frame=000215 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=1 active_index=1 active_card=2 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_end=01 frame=000215 reason=state stable after release pane=0->0 viewport_x=0->0 first=0->0 first_target=0->0 cursor=1->1 active_card=2->2 library_column=0->0 library_row=0->0 selected_global=8->8 mode=7->7 
+sample_start=02 frame=000318 held=0x1000 repeat=0x1000 pressed=0x1000 
+sample_pre=02 frame=000318 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_post=02 frame=000348 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_end=02 frame=000348 reason=state stable after release pane=0->0 viewport_x=0->0 first=0->0 first_target=0->0 cursor=0->0 active_card=1->1 library_column=0->0 library_row=0->0 selected_global=8->8 mode=7->7 
+sample_start=03 frame=000536 held=0x0008 repeat=0x0008 pressed=0x0008 
+sample_pre=03 frame=000536 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=1 first_target=8 rows=722 cursor=0 active_index=1 active_card=2 active_flags=0x00 library_column=0 library_row=0 selected_global=9 
+sample_post=03 frame=000566 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=8 first_target=8 rows=722 cursor=0 active_index=8 active_card=9 active_flags=0x00 library_column=0 library_row=0 selected_global=16 
+sample_end=03 frame=000566 reason=state stable after release pane=0->0 viewport_x=0->0 first=1->8 first_target=8->8 cursor=0->0 active_card=2->9 library_column=0->0 library_row=0->0 selected_global=9->16 mode=7->7 
+sample_start=04 frame=000949 held=0x0004 repeat=0x0004 pressed=0x0004 
+sample_pre=04 frame=000949 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=7 first_target=0 rows=722 cursor=0 active_index=7 active_card=8 active_flags=0x00 library_column=0 library_row=0 selected_global=15 
+sample_post=04 frame=000979 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x000B pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_end=04 frame=000979 reason=state stable after release pane=0->0 viewport_x=0->0 first=7->0 first_target=0->0 cursor=0->0 active_card=8->1 library_column=0->0 library_row=0->0 selected_global=15->8 mode=7->7 
+sample_start=05 frame=001244 held=0x2000 repeat=0x2000 pressed=0x2000 
+sample_pre=05 frame=001244 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x0001 next_state=0x0003 pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_post=05 frame=001274 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8003 next_state=0x0003 pane=1 viewport_x=320 first=0 first_target=0 rows=40 cursor=0 active_index=0 active_card=24 active_flags=0x01 library_column=0 library_row=0 selected_global=8 
+sample_end=05 frame=001274 reason=state stable after release pane=0->1 viewport_x=0->320 first=0->0 first_target=0->0 cursor=0->0 active_card=1->24 library_column=0->0 library_row=0->0 selected_global=8->8 mode=7->7 
+sample_start=06 frame=001393 held=0x8000 repeat=0x8000 pressed=0x8000 
+sample_pre=06 frame=001393 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x0001 next_state=0x0002 pane=1 viewport_x=320 first=0 first_target=0 rows=40 cursor=0 active_index=0 active_card=24 active_flags=0x01 library_column=0 library_row=0 selected_global=8 
+sample_post=06 frame=001423 mode_raw=0xC7 mode=7 root=0x80100000 root_state=0x8002 next_state=0x0002 pane=0 viewport_x=0 first=0 first_target=0 rows=722 cursor=0 active_index=0 active_card=1 active_flags=0x00 library_column=0 library_row=0 selected_global=8 
+sample_end=06 frame=001423 reason=state stable after release pane=1->0 viewport_x=320->0 first=0->0 first_target=0->0 cursor=0->0 active_card=24->1 library_column=0->0 library_row=0->0 selected_global=8->8 mode=7->7 

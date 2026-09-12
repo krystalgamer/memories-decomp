@@ -1,0 +1,24 @@
+==== USER CONTEXT ==== 
+ 
+On my first turn I played "Skull Servant" ID 24. On my first duel board slot. Since it's the first turn I cannot attack. I tried many times until the trace window expired and printed this. No LP was changed.
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_new_monster_attack 
+status: placement observation window completed without full evidence 
+summary: watched_index=5 card_id=24 placement_used=false used_transition=false opponent_lp_drop=false turn_changed=false 
+ 
+--- snapshot: entered one-player duel --- 
+  frame=1 duel_frame=0 mode=0xC3 active_side=0 opponent_id=39 opponent_lp=8000 
+change=01 frame=147 duel_frame=146 active_side=0 record=0 card_id=24->24 flags=0x8000->0x9000 
+change=02 frame=314 duel_frame=313 active_side=0 record=5 card_id=0->24 flags=0x0000->0x9000 
+placement frame=314 duel_frame=313 record=5 address=0x801A7B64 card_id=24 flags=0x9000 occupied=true used_0x4000=false opponent_lp=8000 
+ 
+--- snapshot: new player field record --- 
+  frame=314 duel_frame=313 mode=0xC3 active_side=0 opponent_id=39 opponent_lp=8000 
+  watched record=5 address=0x801A7B64 card_id=24 flags=0x9000 occupied=true used_0x4000=false 
+change=03 frame=357 duel_frame=356 active_side=0 record=5 card_id=24->24 flags=0x9000->0x9400 
+ 
+--- snapshot: final --- 
+  frame=3914 duel_frame=3913 mode=0xC3 active_side=0 opponent_id=39 opponent_lp=8000 
+  watched record=5 address=0x801A7B64 card_id=24 flags=0x9400 occupied=true used_0x4000=false 

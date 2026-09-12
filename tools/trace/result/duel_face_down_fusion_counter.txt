@@ -1,0 +1,24 @@
+==== USER CONTEXT ==== 
+ 
+First of all, you cannot place a fused card face-down. Only face-up.
+
+The first card I placed faced down was "Yormungarde" ID 566. My opponent "Duel Master K" ID 39 then played a face-down magic card. On my turn I fuse "Dharma Cannon" ID 544 with "Masked Clown" ID 182 which results in "Cyber Soldier" ID 413. The resulted fusion cannot be placed faced-down only face-up! I place it next to my face-down card and end my turn. The trace is printed here.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: duel_face_down_fusion_counter 
+status: captured single-card and multi-card face-down turns 
+summary: completed_turns=2 changes=4 mode=3 active_side=1 opponent_id=39 
+turn_start=1(single_face_down_control) frame=000001 active_side=0 turns=0 face_down=0 fusions=0 equips=0 draw_cursor=5 
+change=01 turn=1 frame=000292 active_side=0 turns=0 face_down=1 fusions=0 equips=0 draw_cursor=5 
+turn_end=1(single_face_down_control) frame=000654 active_side=1 turns=0 face_down=1 fusions=0 equips=0 draw_cursor=5 
+turn_delta=1(single_face_down_control) turns=0 face_down=1 fusions=0 equips=0 draw_cursor=0 
+turn_start=2(multi_card_fusion_face_down) frame=001018 active_side=0 turns=0 face_down=1 fusions=0 equips=0 draw_cursor=5 
+change=02 turn=2 frame=001019 active_side=0 turns=1 face_down=1 fusions=0 equips=0 draw_cursor=5 
+change=03 turn=2 frame=001037 active_side=0 turns=1 face_down=1 fusions=0 equips=0 draw_cursor=6 
+change=04 turn=2 frame=004602 active_side=0 turns=1 face_down=1 fusions=1 equips=0 draw_cursor=6 
+turn_end=2(multi_card_fusion_face_down) frame=005553 active_side=1 turns=1 face_down=1 fusions=1 equips=0 draw_cursor=6 
+turn_delta=2(multi_card_fusion_face_down) turns=1 face_down=0 fusions=1 equips=0 draw_cursor=1 
+ 
+--- end of trace, copy everything above into tools/trace/result/duel_face_down_fusion_counter.txt --- 
