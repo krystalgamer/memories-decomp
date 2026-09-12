@@ -178,7 +178,7 @@ address,size,name,status,module,notes
 0x8002348C,0x58,func_8002348C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800234E4,0xDC,func_800234E4,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800235C0,0x748,func_800235C0,unmatched_asm,game,
-0x80023D08,0x2B4,func_80023D08,matching_c,game,"Exact pure-C match with gcc_2_8_1_g8_split. Keeping the vertical glide quotient in q across the D_8009B162 write preserves retail's reload and scheduling, while assigning the horizontal quotient directly to step_x gives its division result the natural $v0 allocation without a hard-register pin."
+0x80023D08,0x2B4,func_80023D08,matching_c,game,"Moves the duel field cursor vertically or horizontally, updating its target position and signed per-frame glide step. An s16 quotient naturally preserves the retail division-result allocation without register pins."
 0x80023FBC,0xA4,func_80023FBC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x80024060,0x28,func_80024060,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024088,0x28,func_80024088,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

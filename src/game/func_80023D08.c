@@ -15,7 +15,7 @@ void func_80023D08(GridCursor *o, s32 dir) {
     s32 pos;
     s32 shift;
     s32 index;
-    s32 q;
+    s16 q;
 
     d = o->object;
     if (o->flags & 0x80) {
