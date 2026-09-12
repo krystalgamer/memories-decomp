@@ -648,8 +648,6 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-s32 Dialog_ReadChoiceInput(u8 *record);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
