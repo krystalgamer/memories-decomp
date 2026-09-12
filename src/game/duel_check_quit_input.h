@@ -48,6 +48,10 @@ extern u8 gDuel_bQuitDialogState;
  *
  * The byte-2 use is worth knowing about before anyone widens this: the address
  * carries more than the flags word these two functions see. */
+#ifdef D_8009B16C_AS_ABSOLUTE_ARRAY
+extern u16 D_8009B16C[9];
+#else
 extern u16 D_8009B16C;
+#endif
 
 #endif

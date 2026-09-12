@@ -18,4 +18,9 @@ void func_800339D0(BuildDeckTransitionState *record);
  * it reads zero. */
 s32 func_80033BE8(void);
 
+/* Bit 7 selects the wide duel presentation. */
+#ifdef D_8009B2F8_AS_ABSOLUTE_ARRAY
+extern u8 D_8009B2F8[9];
+#endif
+
 #endif

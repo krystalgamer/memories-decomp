@@ -191,6 +191,9 @@ extern u8 D_801D1200[];
  * unit used to declare it `u8 [16]` and the overlay paths `u8 []`. */
 extern u8 D_801B125A[];
 extern s32 gSaveDataSequence;
+#ifdef GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
+extern u8 gCampaignSceneIndex[9];
+#endif
 /* The two words of the save-data mask state. save_data_payload.c used to
  * declare these itself, behind a SAVE_DATA_DECLARE_MASK_STATE_LOCALLY guard
  * that suppressed the pair here, with the reason recorded in that file:
