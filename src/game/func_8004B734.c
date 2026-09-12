@@ -46,7 +46,11 @@ long SD_SequenceTimerCallback(void)
         }
     }
     {
-        register u8 *final asm("$2") = D_8009B458_bytes;
+        u8 *final;
+        /* Keep the final state base register-backed under GCC 2.8.1. */
+        do {
+            final = D_8009B458_bytes;
+        } while (i == 0 && i != 0);
         final[0x501] = 0;
     }
     return 0;
