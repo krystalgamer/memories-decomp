@@ -217,10 +217,11 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
  * write it under gMemCard_szSaveFileName.
  *
- * Its one caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
+ * Its earlier C caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
  * reached it with no declaration in scope at
  * all before this, so neither the argument list nor the void return was being
- * checked against the definition. */
+ * checked against the definition. Main_RunCredits uses this same declaration
+ * when requesting the completion save. */
 void SaveData_RequestWrite(void);
 
 /* The load side of the same pair, both reached from the main-menu overlay's
