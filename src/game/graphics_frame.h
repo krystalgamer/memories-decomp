@@ -239,6 +239,15 @@ extern u16 D_8009B098;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* Graphics_BeginFrame publishes the active buffer index in this byte.
+ * GPU readback and Script_OpShowImage reach it absolutely rather than
+ * through the small-data base. */
+#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
+extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
+#else
+extern u8 gGraphics_bActiveBuffer;
+#endif
+
 /* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
  * draw environment unsized, and retain startup's volatile byte stores.
  * See notes/graphics-frame-environments.md for the address/field evidence. */
