@@ -1,27 +1,23 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/dialog_update_choice.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g1_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G1). Under gcc_2_8_1_g8, a single threshold,
- * it is 108 instructions against the target's 109, opcode distance 1. The
- * source below is the match, unchanged apart from its include paths. */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "../game/dialog_highlight_choice.h"
-#include "../game/display_object.h"
-#include "../game/display_object_api.h"
-#include "../game/input.h"
-#include "../game/sound.h"
-#include "../game/display_object_helpers.h"
+#include "dialog_highlight_choice.h"
+#include "display_object.h"
+#include "display_object_api.h"
+#define GINPUT_PAD1_PRESSED_IN_DATA
+#include "input.h"
+#include "sound.h"
+#include "display_object_helpers.h"
 #include "../unmatched.h"
-#include "../game/dialog_choice.h"
-#include "../game/dialog_read_choice_input.h"
-#include "../game/dialog_choice_state.h"
-#include "../game/duel_effect.h"
-#include "../game/widget_update_pulse_colour.h"
+#include "dialog_choice.h"
+#include "dialog_read_choice_input.h"
+#include "dialog_choice_state.h"
+#include "duel_effect.h"
+#include "widget_update_pulse_colour.h"
 
-void Dialog_UpdateChoice(DuelEffectChannel *p) {
+void Dialog_UpdateChoice(DuelEffectChannel *p)
+{
     DisplayObject *e;
     s32 f;
     s32 g;

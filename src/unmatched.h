@@ -648,11 +648,7 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
- * slots. */
-void Dialog_UpdateChoice(struct DuelEffectChannel *object);
+s32 Dialog_ReadChoiceInput(u8 *record);
 
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at

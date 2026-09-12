@@ -23,4 +23,6 @@
  * caller stores it into a void * slot. */
 u8 *Dialog_OpenChoice(DuelEffectChannel *record);
 
+void Dialog_UpdateChoice(DuelEffectChannel *record);
+
 #endif
