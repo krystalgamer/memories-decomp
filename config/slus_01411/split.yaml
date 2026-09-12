@@ -90,6 +90,8 @@ segments:
       - [0xCEC, rodata, initial_data_1e2]
       - [0xCF0, .rodata, game/save_data_transfer_runtime]
       - [0xD20, rodata, initial_data_1e3]
+      - [0xEC0, .rodata, game/func_80046294]
+      - [0xF84, rodata, initial_data_1e6]
       - [0x100C, .rodata, game/func_80046A08]
       - [0x1034, rodata, initial_data_1e4]
       - [0x1F84, .rodata, game/file_transfer_steps]
