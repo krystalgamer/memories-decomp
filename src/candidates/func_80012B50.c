@@ -8,6 +8,7 @@
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
 #include "../types.h"
+#define D_8009B269_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "../game/duel_side_state.h"
 #include "../game/display_object_api.h"
@@ -36,7 +37,7 @@
 
 extern volatile u8 D_8009B0D1;
 extern void *volatile D_8009B0B4;
-extern u8 D_8009B269 __attribute__((section(".data")));
+
 extern void __main(void);
 
 s32 Main_Init(void)

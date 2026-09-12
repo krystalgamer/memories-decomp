@@ -25,8 +25,6 @@
    trade operations through D_80090F9C; all paths share the dialog flags,
    result words, active channel, and request outcome. */
 
-extern u32 D_8009B3E0;
-
 void MemCardDialog_StepSave(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {

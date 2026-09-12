@@ -4,10 +4,10 @@
 #include "func_80058434.h"
 #include "../psyq/libgte.h"
 #include "model.h"
+#include "../unmatched.h"
 
 /* &D_800F56F0.vrx. Keep the interior symbol so the object retains the retail
  * relocation target while the canonical GsRVIEW2 owns the surrounding view. */
-extern s32 D_800F56FC[];
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {

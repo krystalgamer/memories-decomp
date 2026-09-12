@@ -13,7 +13,7 @@
  * table, memory-card operations, text-box lifecycle and model-scene calls use
  * their existing canonical declarations. The frame-delay byte selects the
  * existing DATA view; the active-mode byte remains scalar and GP-relative
- * through the guarded mode-state header pattern proposed in #3855.
+ * through the canonical scalar view selected in unmatched.h.
  *
  * The shared completion-initialization label, save retry, secret-number
  * display and credits-scene phases retain their original branch order and
@@ -22,10 +22,10 @@
  * followed by one post-terminal resolution with this source evidence.
  */
 #define D_8009B0C0_IN_DATA
+#define D_8009B26C_AS_SCALAR
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "main_modes.h"
-#include "main_mode_state.h"
 #include "save_data.h"
 #include "campaign_flags.h"
 #include "credits_secret_numbers.h"

@@ -5,12 +5,6 @@
 #include "sound.h"
 #include "sound_output.h"
 
-extern u8 D_800107A8[];
-extern u8 D_800107DC[];
-extern u8 D_800107F4[];
-extern u8 D_801E27F8 __attribute__((section(".data")));
-extern u8 D_801E8FF8 __attribute__((section(".data")));
-
 /* MATCH 2026-09-06, first-day function from the m2c draft (248 instructions,
  * the sound bank loader state machine: SE header, SE groups, then the CD and
  * SMF mixer-out banks with their "VolInf" signature checks). Jump table on

@@ -36,9 +36,6 @@
    candidate since #3859 (src/candidates/password/func_8016913C.c); the
    dialog and completion handling after it are in name_entry_dialog.c. */
 
-extern u8 D_8016D403;
-extern u8 D_8016D4D0;
-
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;

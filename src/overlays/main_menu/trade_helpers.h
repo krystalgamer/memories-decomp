@@ -40,11 +40,20 @@ typedef struct {
     u16 target;
 } MainMenuPair;
 
+#ifdef MAIN_MENU_TRADE_SCROLL_AS_WORDS
+extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
+#define D_80185C8C D_80185C8C_words
+#else
+extern MainMenuPair D_80185C8C[];
+#endif
+
 /* The six card comparators the inventory sort chooses between, copied out of
    D_80180000[1] as one block. */
 typedef struct {
     int (*entries[6])();
 } MainMenuComparators;
+
+extern s32 D_80180000[];
 
 /* One entry of D_801A8000, the per-side inventory row state. Only the leading
    display-object pointer is named; the rest is carried so the stride is
@@ -112,6 +121,18 @@ extern u8 D_80185CCE;
 extern u8 D_80185CCF;
 extern u8 D_80185CD0;
 extern u8 D_80185CD1;
+
+/* Per-side Trade interaction state. The offer table carries a count followed
+ * by ten card ids. D_80185CC8 needs a scalar view only in the offer drawing
+ * unit; the update paths index both players. */
+extern u16 D_80185C9C[2][11];
+#ifdef MAIN_MENU_TRADE_READY_AS_SCALAR
+extern u8 D_80185CC8;
+#else
+extern u8 D_80185CC8[2];
+#endif
+extern u8 D_80185CCA[2];
+extern u8 D_80185CCC[2];
 
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
  * (ygo_types.h) records. Three sources reach it and all three already include

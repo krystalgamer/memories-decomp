@@ -9,8 +9,7 @@
 #include "mem_card_io_result_callbacks.h"
 #include "io_event_helpers.h"
 #include "mem_card.h"
-
-extern u8 D_80010538[];
+#include "../unmatched.h"
 
 void MemCard_ClearIOEvents(long *handles)
 {

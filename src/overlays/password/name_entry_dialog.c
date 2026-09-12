@@ -34,7 +34,6 @@
    ownership in this lifecycle. */
 
 extern DuelEffectChannel D_800EB1C0;
-extern u8 D_8016D41C;
 
 void NameEntry_UpdateDialog(void)
 {

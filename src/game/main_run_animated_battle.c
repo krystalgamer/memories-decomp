@@ -7,6 +7,7 @@
 #include "fade.h"
 #include "sound.h"
 #include "main_modes.h"
+#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
 #include "model_cleanup.h"
 #include "model_scene_setup.h"
@@ -17,7 +18,6 @@
    the load-delay nop before the first read of it below. c_symbols.ld overrides
    this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
-extern u8 D_8009B269;
 extern AnimatedBattleModelProperties D_800EF658[];
 
 void Main_RunAnimatedBattle(void)

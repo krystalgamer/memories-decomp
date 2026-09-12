@@ -1,0 +1,9 @@
+==== USER CONTEXT ====
+
+With the emulator in CPU interpreter mode. I loaded the game and injected the script when it was in the main menu. I started a "New Game", input a duelist code and moved on. Watched the Heishin cutscene. As soon during the dialog with Simon I was offered to "Run Away" I did and then returned immediately to the palace. There Simon talked with me again and offered a Duel which I accepted. I stopped this once the duel started because nothing else was printed on the trace.
+
+ 
+==== TRACE RESULT ===== 
+campaign_opening_scene_ids: breakpoint installed 
+campaign_opening_scene_ids: armed; start New Game without resetting the console 
+campaign_opening_scene_ids: no opening-scene lookups observed; confirm interpreter CPU and continue through New Game 
