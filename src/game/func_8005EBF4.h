@@ -10,6 +10,22 @@ typedef struct {
     u8 bytes[0x28];
 } Key;
 
+/* Timing/state tail used by func_8005E808; Key stays opaque to the evaluator. */
+#ifdef MODEL_KEYFRAME_TIMING_VIEW
+typedef struct {
+    u8 pad_00[0x20];
+    s16 field_20;
+    u16 field_22;
+    s16 field_24;
+    u8 field_26;
+    u8 pad_27;
+} ModelKeyframeTimingView;
+
+typedef char ModelKeyframeTimingView_size_must_be_0x28[
+    sizeof(ModelKeyframeTimingView) == 0x28 ? 1 : -1
+];
+#endif
+
 /* The ring itself, ten records, declared here because the evaluator and
  * dispatcher share it and this is where Key lives. Two facts bound it at
  * ten: the next named object, D_800F5918 (c_symbols.ld:396, model.h:541-542),
@@ -37,6 +53,10 @@ typedef struct {
 } Coeff;
 
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out);
+
+/* Computes the duration/bound at +0x22 from the signed control at +0x20
+ * and the key's two endpoint channels. Preserves the caller's byte view. */
+void func_8005E808(u8 *key);
 
 /* Seeds the pose the evaluator above starts from. Declared here because the
    two live in one translation unit. */
