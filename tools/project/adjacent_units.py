@@ -19,9 +19,21 @@ Two things gate such a merge, and both are mechanical:
   * the meaning. Adjacency alone is not a reason. The strongest evidence that
     two sources are one unit is a header that already declares every function
     of both, which happens whenever a unit was split by #3859 and one of its
-    members has since been re-matched. The opposite case is just as useful: a
-    source whose functions are declared in some *other* unit's header is one
-    the address neighbour has no claim on, whatever the layout says.
+    members has since been re-matched.
+
+The other direction is weaker than it first looks, and the verdict name says
+so. A source whose functions are declared in a header that is not its own is
+worth reading before merging -- func_800134B4.c abuts view_state_orbit.c and
+its own file comment says it belongs with the per-frame service pump in
+main_services.c -- but the same flag fires on a source that simply has no
+header of its own and is declared in its subsystem's. Eight of today's nine
+OTHER-HEADER rows are that second shape, and #4131 merged one of them
+(func_8004A6F8.c into sound_voice_envelope.c) on its merits. So OTHER-HEADER
+means "read the headers first", not "do not merge". Which of the two shapes a
+row is cannot be told apart mechanically here: the headers that gave the
+strongest JOIN evidence -- duel_effect_command.h, sound_voice_selection.h,
+mem_card_io_result_callbacks.h -- each span several sources too, precisely
+because their unit is split, so "spans many sources" separates nothing.
 
 This prints those verdicts. It checks nothing and fails nothing; it is a
 worklist, and the meaning call at the end of it is a human one.
@@ -43,7 +55,7 @@ INVENTORY = ROOT / "config/slus_01411/functions.csv"
 
 JOIN = "JOIN"
 PROFILE = "PROFILE"
-ELSEWHERE = "HEADER-ELSEWHERE"
+ELSEWHERE = "OTHER-HEADER"
 ONLY = "ADJACENT-ONLY"
 
 
@@ -74,9 +86,13 @@ CONTROLS = (
     # A source's own header naming only itself is no evidence either way.
     ({"g0"}, {"g0"}, {"a.h"}, {"b.h"}, "a.h", "b.h", ONLY),
     ({"g0"}, {"g0"}, set(), set(), "a.h", "b.h", ONLY),
-    # A foreign header outranks the neighbour, on either side.
+    # A header that is not the source's own is flagged for reading, on either
+    # side. It is not a refusal: the same shape covers a source that has no
+    # header of its own and is declared in its subsystem's.
     ({"g0"}, {"g0"}, {"main_services.h"}, set(), "a.h", "b.h", ELSEWHERE),
-    ({"g0"}, {"g0"}, set(), {"fade.h"}, "a.h", "b.h", ELSEWHERE),
+    ({"g0"}, {"g0"}, set(), {"sound.h"}, "a.h", "b.h", ELSEWHERE),
+    # A source declared in both its own header and another still counts.
+    ({"g0"}, {"g0"}, {"a.h", "sound.h"}, set(), "a.h", "b.h", ELSEWHERE),
     # The profile gate comes first: a shared header does not skip it.
     ({"g0"}, {"g8"}, {"u.h"}, {"u.h"}, "a.h", "b.h", PROFILE),
     # A source recorded at two profiles cannot absorb anything either.
