@@ -587,10 +587,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Three spellings of this one declaration live below, and they are codegen
- * inputs rather than style. Six translation units need one of them:
- * func_800464F0.c takes the aggregate arm; func_80049138.c and func_800466C8.c
- * take the volatile arm; func_80047788.c, func_80045514.c and func_80046294.c
+/* Three alternative spellings of this declaration are codegen inputs:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c, func_800466C8.c
+ * and func_80045054.c take the volatile arm;
+ * func_80047788.c, func_80045514.c and func_80046294.c
  * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
@@ -602,6 +602,8 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   first read and the reloads disappear.
  *   func_800466C8 also refreshes it after its conditional output setup and
  *   captures it again before clearing the output flag.
+ *   func_80045054 uses four staged pointer reads around decoded-buffer
+ *   selection, accumulation, and result publication.
  *
  *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
  *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
