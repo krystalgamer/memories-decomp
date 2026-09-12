@@ -21,7 +21,6 @@
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 
-
 void Script_OpShowImage(void) {
     DisplayObject *rec;
     u16 flags;
