@@ -1,10 +1,3 @@
-#define D_8009B268_IN_DATA
-#define D_8009B26D_IN_DATA
-#define D_8009B36A_IN_DATA
-#define D_8009B254_IN_DATA
-#define D_8009B368_IN_DATA
-#define D_8009B3EA_IN_DATA
-#define D_8009B3ED_IN_DATA
 #include "../types.h"
 #include "../game/mem_card.h"
 #include "../game/frontend_debug_tables.h"
@@ -59,4 +52,3 @@ void func_80030D5C(void)
         }
     }
 }
-
