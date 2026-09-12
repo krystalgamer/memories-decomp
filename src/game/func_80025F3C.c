@@ -1,5 +1,6 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
+#include "func_8002C604.h"
 #include "../unmatched.h"
 #include "duel_grid.h"
 #include "duel_effect_request.h"
