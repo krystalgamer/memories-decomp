@@ -94,7 +94,11 @@ typedef struct {
  * symbol's own small-data addressing is what those functions match on. This
  * declaration is therefore a deliberate alias of AiSelection.random, not a
  * duplicate to be folded into the struct. */
+#ifdef AI_RANDOM_AS_ARRAY
+extern u8 D_800EAE90[];
+#else
 extern u8 D_800EAE90;
+#endif
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
