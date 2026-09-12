@@ -688,11 +688,6 @@ extern s16 D_8009B1A0;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-#ifdef D_8009B204_AS_UNSIGNED
-extern u16 D_8009B204;
-#else
-extern s16 D_8009B204;
-#endif
 extern u16 D_8009B244;
 extern u8 D_8009B248;
 extern u8 D_8009B24A;
@@ -726,11 +721,6 @@ extern s16 D_8009B322;
 extern u8 D_8009B324;
 extern u8 D_8009B325;
 extern s8 D_8009B32C;
-#ifdef D_8009B344_IN_DATA
-extern u8 D_8009B344 __attribute__((section(".data")));
-#else
-extern u8 D_8009B344;
-#endif
 extern u16 D_8009B348[2];
 #ifdef D_8009B370_AS_BYTE_ARRAY
 extern u8 D_8009B370[];
@@ -778,11 +768,8 @@ extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 #endif
 
 extern u8 D_800EAE8E[];
-extern u8 D_800EAE8F;
 extern u8 D_800EF6E0[];
 extern s16 D_800F2B22;
-extern u8 D_800F39B0[];
-extern u8 D_800F39F0[];
 extern s32 D_800F56FC[];
 extern u8 D_800F5750[];
 #ifdef D_80177EA4_VISIBLE

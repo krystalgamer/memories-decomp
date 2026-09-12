@@ -6,6 +6,7 @@
  */
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
+#define GINPUT_PAD1_HELD_IS_VOLATILE
 #define TEXT_STAGING_STARCHIPS_ALIAS
 #include "../../types.h"
 #include "../../ygo_types.h"
