@@ -108,6 +108,7 @@ extern u8 D_800EAE8F;
 /* AiScript_LoadBestAttacker reads the byte recorded by
    AiScript_FindBestAttack before copying it into the VM register file. */
 extern u8 gAi_bBestAttacker;
+extern u8 gAi_bBestTarget;
 
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1

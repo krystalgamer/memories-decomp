@@ -5833,6 +5833,12 @@
       "source": "src/game/ai_script_load_best_attacker.c"
     },
     {
+      "address": "0x800716C4",
+      "profile": "gcc_2_8_1_g0_split_no_sched1",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_best_target.c"
+    },
+    {
       "address": "0x80071700",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x224",
