@@ -1,15 +1,11 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_80032184.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0, a single threshold, it is 105 of 105 instructions with 4
- * differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "../game/file_transfer.h"
+#include "duel_reward_setup.h"
+#include "file_transfer.h"
+#define D_8009B118_IN_DATA
 #include "../unmatched.h"
-#include "../game/graphics_frame.h"
+#include "graphics_frame.h"
 #include "../ygo_types.h"
 
 void func_80032184(FileTransferDescriptor *p, s32 mode) {
@@ -49,10 +45,10 @@ m0:
     *(s16 *)((u8 *)p + 0x30) = 0x300;
     *(s16 *)((u8 *)p + 0x32) = 0x100;
     *(s16 *)((u8 *)p + 4) = 0x40;
-    t0 = D_8009B0F4;
+    t0 = D_8009B0F4_abs;
     *(s16 *)((u8 *)p + 6) = 0x10;
-    D_8009B0F4 = t0 & m;
-    D_8009B0F4 = D_8009B0F4 | 0x10000;
+    D_8009B0F4_abs = t0 & m;
+    D_8009B0F4_abs = D_8009B0F4_abs | 0x10000;
     p->done = 2;
     v = D_8009B118;
     w = 0x20000;
@@ -66,13 +62,13 @@ m1:
     m = 0xFFDDFFFF;
     *(s16 *)((u8 *)p + 0x30) = 0x340;
     *(s16 *)((u8 *)p + 4) = 0x40;
-    t1 = D_8009B0F4;
+    t1 = D_8009B0F4_abs;
     *(s16 *)((u8 *)p + 6) = 0x10;
-    D_8009B0F4 = t1 & m;
-    u = D_8009B0F4;
+    D_8009B0F4_abs = t1 & m;
+    u = D_8009B0F4_abs;
     n = 0x10000;
     *(s16 *)((u8 *)p + 0x32) = 0;
-    D_8009B0F4 = u | n;
+    D_8009B0F4_abs = u | n;
     p->done = 2;
     v = D_8009B118;
     w = 0x4000;
@@ -85,7 +81,7 @@ m1:
 m2:
     m2v = 0xFFDCFFFF;
     *(s32 *)&p->mode = 0x2000;
-    D_8009B0F4 = D_8009B0F4 & m2v;
+    D_8009B0F4_abs = D_8009B0F4_abs & m2v;
     p->value_0C = D_8009B118;
     p->value_08 = D_8009B118;
     p->done = 1;
