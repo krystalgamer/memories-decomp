@@ -1129,9 +1129,9 @@
       "target": "src/candidates_target/main_menu/func_801821DC.S",
       "candidate_build_sha256": "09e3f369cbdd49c0278288a20c8d4df2f4531c1e33a3b4c07d44b2337f10a12f",
       "target_bytes_sha256": "fedef0a9b0c2c9d2e7622a6f2fc6a12a901e93607e4ac5f80718aa7ea7338c45",
-      "canonical_contract_sha256": "2131951a68264f32768edc194132795e14cb462f39caa982df4173631a3cccb8",
+      "canonical_contract_sha256": "6f557404bc12c81bbabb8f97f8e18f389901387eca209aa0dce5750717028b0c",
       "canonical_contracts": {
-        "D_800EB224": "40f0d856a3f7041f1eba1893e6dca5bf9c7da3f8ba49c6b4ac081f941d4b2da1",
+        "D_800EB224": "9f18b2b3440787f5d7d93ff7ccde752caa5d9b3ab46566ae1564e496f172282b",
         "D_80180000": "0e2975a21b8f06914eb2a37149edcc6d9f843b66ca0d606e0a0256ceb57542f0",
         "D_80185144": "5b8368a0bfa5f79714df23289af39b3095799179792773356e495261c8a39533",
         "D_80185C8C": "3606a14981e31a020ac0f24b82c198a555d54dd1779ca6adb829f7f23dade98f",
