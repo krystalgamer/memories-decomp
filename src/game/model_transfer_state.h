@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_TRANSFER_STATE_H
 
 #include "../types.h"
+#include "model_effect_key.h"
 
 /* One row of the eight-byte transfer request table func_8005FB30 walks: the
    model id it is asked to stage and the state it reports back. The four
@@ -19,6 +20,6 @@ typedef char ModelTransferItem_size_must_be_8[
 void func_8005FAE4(void);
 s32 func_8005FB08(void);
 s32 func_8005FB14(void);
-void func_8005FB30(u8 *data);
+void func_8005FB30(Key *key);
 
 #endif
