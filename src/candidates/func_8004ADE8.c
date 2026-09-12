@@ -22,9 +22,9 @@
 #define SDSECONDARYSTATE_AS_BYTES
 #define SDSECONDARYSTATE_RELOAD_ALIAS
 #include "../game/sound.h"
+#include "../game/sound_secondary_object_selection.h"
 
 extern s32 func_8004A854(s32);
-extern s32 func_8004A940(s32, s32);
 #include "../game/func_80049FB4.h"
 #include "../game/sound_spatialize_object.h"
 #include "../game/sound_spatialization.h"
