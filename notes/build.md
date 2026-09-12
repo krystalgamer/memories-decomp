@@ -899,13 +899,13 @@ offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 
 The check above rejects a symbol when its objects disagree. The tempting
 converse -- that agreeing relocations clear a symbol for centralizing -- is
-false, and `gAi_wBestDifference` is the counter-example. Two files declare it,
-they disagree about the spelling, and yet both objects relocate it the same
-way:
+false, and `gAi_wBestDifference` is the counter-example. Two translation units
+select different declaration arms from `ai.h`, yet both objects relocate it
+the same way:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/candidates/func_8007164C.c` (was `ai_script_load_best_values.c`) | `extern unsigned short gAi_wBestDifference` | `gcc_2_8_1_g0` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `ai_script_load_best_difference.c` | `extern u16 gAi_wBestDifference` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 | `ai_script_find_best_attack.c` | `extern u16 gAi_wBestDifference[]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The object is two bytes and holds exactly one `u16`: `gAi_bBestAttacker` is the
@@ -914,9 +914,9 @@ So the array brackets describe no more storage than the scalar does, and by the
 size and index tests alone the two spellings look like drift worth collapsing.
 
 They are not. Read the profiles against the table above and each spelling is
-the one its own translation unit needs. `src/candidates/func_8007164C.c` compiles
-at `-G0`, where nothing is placed in small data and a plain scalar already gets
-`lui %hi` + `%lo`; it needs no lever. `ai_script_find_best_attack.c` compiles at
+the one its own translation unit needs. `ai_script_load_best_difference.c`
+compiles at `-G0`, where nothing is placed in small data and a plain scalar
+already gets `lui %hi` + `%lo`; it needs no lever. `ai_script_find_best_attack.c` compiles at
 `-G8`, where a two-byte scalar would be placed in small data and addressed
 `%gp_rel`; the brackets are what push it back out. The agreement in the last
 column is the *result* of two different levers pulled correctly, not evidence
