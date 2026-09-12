@@ -72,6 +72,24 @@ class CandidateFingerprintTests(unittest.TestCase):
 
 
 class CandidateContractTests(unittest.TestCase):
+    def test_note_only_candidates_are_detected(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            resident = root / "notes/candidates"
+            overlay = root / "notes/overlays/candidates/for_humans"
+            resident.mkdir(parents=True)
+            overlay.mkdir(parents=True)
+            (resident / "func_80012345.md").write_text("candidate", encoding="utf-8")
+            (overlay / "func_80123456").mkdir()
+
+            self.assertEqual(
+                candidate_builds.note_candidate_paths(root),
+                [
+                    "notes/candidates/func_80012345.md",
+                    "notes/overlays/candidates/for_humans/func_80123456",
+                ],
+            )
+
     def test_extern_parser_handles_supported_forms(self) -> None:
         text = r'''
 /* extern void fake_comment(void); */
