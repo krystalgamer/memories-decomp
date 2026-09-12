@@ -61,7 +61,8 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
-    ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/game/func_80040DD8.c", "func_80042188", '#include "display_object_packet_submit.h"'),
+    ("src/game/func_80041068.c", "func_80042188", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
     ("src/game/func_80050584.c", "func_80056828", '#include "model_load_step.h"'),
@@ -75,7 +76,6 @@ PAIRS = [
 
 PACKET_SUBMIT_CANDIDATES = (
     "src/candidates/func_80028B08.c",
-    "src/candidates/func_80041068.c",
 )
 
 
