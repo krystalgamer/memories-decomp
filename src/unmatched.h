@@ -120,10 +120,6 @@ void func_8004CB0C(void);
 void func_8004CB0C(s32, s32, s32, s32);
 #endif
 
-/* Two consumers, identical spelling in both: func_80049138.c and
- * sound_init.c. */
-void func_80046294(void);
-
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */

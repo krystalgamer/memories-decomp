@@ -298,19 +298,11 @@ def load_exceptions(
 # while handwritten_asm is admitted a group at a time as it is moved.
 CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
 CENTRAL_VARIANT_COUNTS = {
-    "Ai_GetHandSize": 2,
     "func_80013C28": 2,
     "func_80042188": 3,
     "func_8004CB0C": 2,
 }
 CENTRAL_VARIANT_BLOCKS = {
-    "Ai_GetHandSize": (
-        "#ifdef AI_GET_HAND_SIZE_WIDE_RETURN",
-        "s32 Ai_GetHandSize(void);",
-        "#else",
-        "s8 Ai_GetHandSize(void);",
-        "#endif",
-    ),
     "func_80013C28": (
         "#ifdef FUNC_80013C28_CALLBACK_VIEW",
         "void func_80013C28(u8, u8 *, u32 *);",
@@ -320,9 +312,7 @@ CENTRAL_VARIANT_BLOCKS = {
     ),
     "func_80042188": (
         "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW",
-        "struct Func80028B08Ctx;",
-        "struct Func80028B08Extra;",
-        "void func_80042188( SpritePrim *, struct Func80028B08Ctx *, s32, s32, struct Func80028B08Extra * );",
+        "void func_80042188( SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra * );",
         "#elif defined(FUNC_80042188_SPRITE_VIEW)",
         "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);",
         "#else",

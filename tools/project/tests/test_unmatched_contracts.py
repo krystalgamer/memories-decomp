@@ -109,11 +109,9 @@ class UnmatchedContractTests(unittest.TestCase):
     def func_80042188_variant(self) -> str:
         return (
             "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW\n"
-            "struct Func80028B08Ctx;\n"
-            "struct Func80028B08Extra;\n"
             "void func_80042188(\n"
-            "    SpritePrim *, struct Func80028B08Ctx *, s32, s32,\n"
-            "    struct Func80028B08Extra *\n"
+            "    SpritePrim *, Func80028B08Ctx *, s32, s32,\n"
+            "    Func80028B08Extra *\n"
             ");\n"
             "#elif defined(FUNC_80042188_SPRITE_VIEW)\n"
             "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);\n"
