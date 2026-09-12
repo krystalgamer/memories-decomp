@@ -7376,3 +7376,24 @@ a finding to record next to the object it points into -- both of these went into
 the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
+
+## func_80047864: voice-slot attribute initialization order
+
+The 136-byte routine at `0x80047864` matches all 34 instructions with the
+existing uniform `gcc_2_8_1_g0` profile. It uses the incoming index directly
+and the shared `SDValue` voice-volume and gain arrays, replacing five register
+bindings, byte-cursor accesses, and an explicit assembly move. Its
+`void(s32)` contract and `SpuSetVoiceAttr` call are unchanged.
+
+Initializing the attribute-mask field at `+0x3C8` before the voice-mask field
+at `+0x3C4` in C gives GCC the required register allocation. GCC schedules the
+resulting machine stores in retail order, with the voice-mask store first.
+Reversing those source assignments changes five instruction words. A split
+profile alone leaves two wrong high-address register words, so the accepted
+source does not add a compiler profile or change the global declaration.
+
+The conditional voice-mask shift, both unsigned fixed-point volume products,
+their eight-bit shifts and halfword stores, and the final SDK attribute
+publication remain intact. The original six-row canonical history and
+six-row refinement history ending in deferral are preserved, with one new
+post-terminal resolution for the source-order discriminator.
