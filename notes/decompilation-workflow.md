@@ -595,10 +595,11 @@ must have a canonical header declaration; genuinely homeless data lives in
 explicit `.data` spellings are selected through guarded arms there rather than
 redeclared in a C file. `make check-unmatched-contracts` scans both source
 families and reports the number of remaining headerless names and sites; both
-must stay zero. The candidate contract hashes are regenerated after a move,
-because removing a candidate-local `extern` intentionally removes that symbol
-from the candidate's local declaration fingerprint even when its object bytes
-remain identical.
+must stay zero. Moving a declaration must not remove a live candidate
+dependency from enforcement: retained configured keys keep included-header
+contracts in the fingerprint after a candidate-local `extern` is centralized.
+Regenerate hashes only after preserving that coverage and measuring the new
+canonical owner.
 
 ### An arity mismatch is measured, not assumed, in either direction
 

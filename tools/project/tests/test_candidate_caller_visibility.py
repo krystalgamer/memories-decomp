@@ -141,8 +141,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 scratch = Path(tempfile.mkdtemp(dir=REPOSITORY / "tmp"))
                 try:
                     # Nested so ordinary relative includes still resolve
-                    # through -I, while this probe can supply a shadow
-                    # unmatched.h with only the selected prototype removed.
+                    # through -I, while this probe can supply a shadow owner
+                    # with only the selected prototype removed.
                     probe = scratch / "a/b/c" / Path(source).name
                     probe.parent.mkdir(parents=True)
                     include_path = re.search(r'"([^"]+)"', include)
@@ -152,7 +152,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     without_callee, count = re.subn(
                         rf"(?m)^[^\n]*\b{callee}\s*\([^;]*;\s*$",
                         "",
-                        unmatched,
+                        declarations,
                         count=1,
                     )
                     self.assertEqual(count, 1)
