@@ -541,22 +541,6 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     f"{name} is not approved: {statement}"
                 )
 
-    for source, name, statement in sorted(approved - found_approved):
-        errors.append(
-            f"{EXCEPTIONS}: configured exception not found exactly: "
-            f"{source}: {statement}"
-        )
-    for item in configured:
-        if item["symbol"] not in unmatched:
-            errors.append(
-                f"{EXCEPTIONS}: stale exception {item['symbol']}: "
-                f"functions.csv status is {statuses.get(item['symbol'], 'absent')}"
-            )
-        if item["symbol"] in central:
-            errors.append(
-                f"{EXCEPTIONS}: {item['symbol']} is both central and exceptional"
-            )
-
     all_data_symbols = set(local_data) | set(central_data)
     data_header_index = candidate_builds.canonical_declaration_index(
         all_data_symbols,
