@@ -5599,6 +5599,12 @@
       "source": "src/game/ai_script_find_defense_stopper.c"
     },
     {
+      "address": "0x80071EB8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/game/ai_script_count_cards.c"
+    },
+    {
       "address": "0x80071FC8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x184",
