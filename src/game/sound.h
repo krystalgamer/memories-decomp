@@ -588,9 +588,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 
 #ifndef SDVALUE_CUSTOM_EXTERN
 /* Three spellings of this one declaration live below, and they are codegen
- * inputs rather than style. Five translation units need one of them:
- * func_800464F0.c takes the aggregate arm, func_80049138.c the volatile one,
- * and func_80047788.c, func_80045514.c and func_80046294.c the .data one.
+ * inputs rather than style. Six translation units need one of them:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c and func_800466C8.c
+ * take the volatile arm; func_80047788.c, func_80045514.c and func_80046294.c
+ * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -599,6 +600,8 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
+ *   func_800466C8 also refreshes it after its conditional output setup and
+ *   captures it again before clearing the output flag.
  *
  *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
  *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,

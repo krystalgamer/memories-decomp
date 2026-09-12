@@ -7376,3 +7376,27 @@ a finding to record next to the object it points into -- both of these went into
 the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
+
+## func_800466C8: output-transition pointer refreshes
+
+The 84-byte callback at `0x800466C8` matches under the existing uniform
+`gcc_2_8_1_g8` profile without register bindings, inline assembly, or literal
+global addresses. It keeps the shared `SDValue` layout and the existing
+`void(void)` callback contract installed by `SD_InitState`.
+
+The existing `G_SDVALUE_VOLATILE` view supplies the initial pointer read, the
+conditional refresh after writes to `+0x1588` and `+0x1584`, and the final
+pointer capture before the `+0x0512` store and flag update. It replaces the
+retired candidate's two memory barriers; no new declaration view is needed.
+
+The two source-level exit paths intentionally repeat the final stores. GCC
+merges their machine-code tail while allocating the state pointer to `$v1`
+and the flag-update pointer to `$a0`. Factoring the source into one shared
+tail still produces 84 bytes, but exchanges those registers at ten instruction
+positions. Giving each branch its own flag-pointer local produces the same
+ten-word mismatch. The accepted source keeps one function-local flag pointer
+and both exit paths.
+
+The historical canonical match and six inline-refinement rows remain intact.
+The new `post_terminal_resolution` record identifies the pointer view and
+source-level exit structure as the discriminator beyond that deferred series.

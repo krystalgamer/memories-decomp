@@ -990,16 +990,6 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x800466C8",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_800466C8.c",
-      "target": "src/candidates_target/func_800466C8.S",
-      "candidate_build_sha256": "eb911ac2f388821b746c3aa1a0e32c6b050a517d222366afd2f3bc5110a392f7",
-      "target_bytes_sha256": "455a8389cf303d2a1a12d42d54fda5edf7eac7c336a8ad2dd21a217b4407929a",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
-    },
-    {
       "address": "0x800472A8",
       "profile": "gcc_2_8_1_g8",
       "source": "src/candidates/func_800472A8.c",
