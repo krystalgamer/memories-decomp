@@ -692,8 +692,6 @@ s32 func_800330BC(struct CardList *list);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-s32 Dialog_ReadChoiceInput(u8 *record);
-
 /* The per-frame half of Dialog_OpenChoice's state: that builds the choice
  * list once, and this runs it, reading the cursor input and repainting the
  * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
