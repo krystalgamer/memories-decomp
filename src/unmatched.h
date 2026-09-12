@@ -339,7 +339,7 @@ extern u8 D_8009B174;   /* five declarers */
  * Three are pinned exactly, with the next name sitting at precisely the end
  * of the declared width, so no element can hide inside them: D_8009B3C2 and
  * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
- * two bytes with D_8009B1D2 immediately after it.
+ * two bytes with gDuel_wEffectCardID immediately after it.
  *
  * D_8009B3F4 has a larger gap than its width and is treated the way
  * D_8009B23A was, as an upper bound rather than a size. Nothing is named

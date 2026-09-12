@@ -365,12 +365,14 @@ their zero-based table indices are:
 | `651`-`700` | `50`-`99` |
 | `721` | `100` |
 
-Exact matching C in `func_80026BA4` enforces those three ranges and performs
+Exact matching C in `DuelEffect_StartCardEffect` enforces those three ranges
+and performs
 the index conversion. The source names the two block starts and common
 `DUEL_EFFECT_CARD_BLOCK_SIZE`, with Dark Magic Ritual's ID and final index
 kept explicit. These remain fixed card-ID ranges, not a runtime card-type
 test; IDs outside them still leave the effect state untouched.
-`func_80026B34` runs only while `DUEL_CARD_EFFECT_FLAG_ACTIVE` (`0x8000`)
+`DuelEffect_UpdateCardEffect` runs only while
+`DUEL_CARD_EFFECT_FLAG_ACTIVE` (`0x8000`)
 is set. It reads the table byte and multiplies it by
 `DUEL_CARD_EFFECT_HANDLERS_PER_GROUP` (`2`); the
 `DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER` (`0x4000`) selector adds one to choose
@@ -643,7 +645,8 @@ reflected-damage routing without assigning a semantic name to that state
 halfword.
 
 Both handlers use the same resident presentation sequencer when bit `0x20` of
-`D_8009B220` is set. Newly matching `func_8001F364` waits for the preceding
+`gDuel_wCardEffectFlags` is set. Newly matching `func_8001F364` waits for the
+preceding
 screen effect, starts a first `func_80022D94` phase, and arms a 20-frame
 counter. When that counter expires it copies the selected card object's
 `+0x30`, `+0x32`, and `+0x34` values into a newly allocated type-8 effect

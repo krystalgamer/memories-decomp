@@ -15,6 +15,6 @@ void DuelEffect_StartSwords(void)
         object->field_1A = 1;
         SD_SEPlayFull(2);
     } else {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }

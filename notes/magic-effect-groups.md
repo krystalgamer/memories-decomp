@@ -1,10 +1,12 @@
 # Magic-effect group dispatch
 
-The card-use runtime does not interpret card text. `func_80026BA4` maps the
-selected card ID into the 104-entry effect-ID range, and `func_80026B34` uses
+The card-use runtime does not interpret card text.
+`DuelEffect_StartCardEffect` maps the selected card ID into the 104-entry
+effect-ID range, and `DuelEffect_UpdateCardEffect` uses
 `gDuelEffect_abGroupByEffectId` to select one of fifteen two-handler slots in
 `gDuelEffect_apfnGroupHandler`. Group 14 is allocated but unused by every
-effect ID in the table.
+effect ID in the table. The complete producer/dispatcher state is documented
+in [`card-effect-dispatch.md`](card-effect-dispatch.md).
 
 The card membership already documented in
 [`research/the-game.md`](research/the-game.md) and the handlers' complete
@@ -12,7 +14,7 @@ field, life-point, ritual, and presentation behavior establish these names:
 
 | Group | Cards | Application handler |
 | ---: | --- | --- |
-| 0 | equips, traps, and effect IDs without play-time work | `func_80024E4C` |
+| 0 | equips, traps, and effect IDs without play-time work | `DuelEffect_ClearCardEffect` |
 | 1 | six terrain cards | `DuelEffect_ApplyTerrain` |
 | 2 | five LP recovery cards | `DuelEffect_ApplyLifePointRecovery` |
 | 3 | five direct-damage cards | `DuelEffect_ApplyDirectDamage` |
