@@ -5,6 +5,7 @@
  * target's 116, opcode distance 3. The source below is the match, unchanged
  * apart from its include paths. */
 #include "../types.h"
+#include "../game/func_8002C604.h"
 #include "../game/func_800179F4.h"
 #include "../game/duel_terrain_boost.h"
 #include "../game/duel_side_state.h"
