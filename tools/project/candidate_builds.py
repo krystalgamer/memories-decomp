@@ -46,6 +46,10 @@ RELOCATION = re.compile(
     r"(?P<kind>R_MIPS_\S+)\s+(?P<value>\S+)\s*$"
 )
 IDENTIFIER = re.compile(r"^[A-Za-z_]\w*$")
+# IDENTIFIER above is anchored and is a full-match test; this one is for
+# scanning a source, and the two must not be confused -- findall on the
+# anchored pattern returns nothing and would retain nothing, silently.
+SOURCE_IDENTIFIERS = re.compile(r"\b[A-Za-z_]\w*\b")
 ASM_ALIAS = re.compile(
     r'\basm\s*\(\s*"(?P<name>[A-Za-z_]\w*)"\s*\)'
 )
@@ -288,6 +292,33 @@ def candidate_contract_symbols(source: Path, text: str) -> list[str]:
             if declaration_identifier(statement) in identifiers:
                 symbols.add(extern_symbol(statement))
     return sorted(symbols)
+
+
+def retained_contract_symbols(
+    recorded: object,
+    own_symbols: list[str],
+    source_text: str,
+) -> list[str]:
+    """Recorded contract keys the source no longer declares but still uses.
+
+    Centralising a declaration into a header is what #2501 asks for, and the
+    dependency survives the move: the source still names the symbol and a
+    header still declares it. Dropping the key would take the header's
+    declaration out from under this gate, so it is kept and hashed against
+    that declaration -- change the header and the hash moves.
+
+    Only *recorded* keys survive this way. A new contract is still built from
+    the source's own extern statements, so a candidate whose metadata lists
+    nothing extra is unaffected.
+    """
+    if not isinstance(recorded, dict):
+        return []
+    referenced = set(SOURCE_IDENTIFIERS.findall(source_text))
+    return sorted(
+        symbol
+        for symbol in set(recorded) - set(own_symbols)
+        if symbol in referenced
+    )
 
 
 def canonical_declaration_index(
@@ -592,6 +623,7 @@ def load_candidates(
     configured_targets: set[str] = set()
     source_texts: dict[tuple[str | None, int], str] = {}
     source_symbols: dict[tuple[str | None, int], list[str]] = {}
+    retained_symbols: dict[tuple[str | None, int], list[str]] = {}
 
     for item in items:
         if not isinstance(item, dict):
@@ -615,12 +647,27 @@ def load_candidates(
             source,
             source_text,
         )
+        # A key the metadata already records is not dropped just because the
+        # source stopped declaring the symbol itself. Centralising a
+        # declaration into a header is exactly the move #2501 asks for, and
+        # the dependency is still live: the source still names the symbol and
+        # a header still declares it. Keeping the key keeps the header's
+        # declaration under the same hash, so a change to it still trips this
+        # gate. Only recorded keys survive this way -- a new contract is still
+        # built from the source's own extern statements -- so a candidate
+        # whose metadata lists nothing extra is unaffected.
+        retained_symbols[(module, address)] = retained_contract_symbols(
+            item.get("canonical_contracts"),
+            source_symbols[(module, address)],
+            source_text,
+        )
 
     declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}
     for module in {key[0] for key in source_symbols}:
         module_symbols = {
             symbol
-            for key, symbols in source_symbols.items()
+            for table in (source_symbols, retained_symbols)
+            for key, symbols in table.items()
             if key[0] == module
             for symbol in symbols
         }
@@ -691,14 +738,17 @@ def load_candidates(
         if not isinstance(target_hash, str) or SHA256.fullmatch(target_hash) is None:
             raise CandidateBuildError(f"{address:#010x}: invalid target byte hash")
 
-        contracts = canonical_contract_hashes(
-            source_symbols[(module, address)],
-            declaration_indices[module],
+        index = declaration_indices[module]
+        symbols = sorted(
+            set(source_symbols[(module, address)])
+            | {
+                symbol
+                for symbol in retained_symbols.get((module, address), ())
+                if index.get(symbol)
+            }
         )
-        contract_sites = canonical_contract_sites(
-            source_symbols[(module, address)],
-            declaration_indices[module],
-        )
+        contracts = canonical_contract_hashes(symbols, index)
+        contract_sites = canonical_contract_sites(symbols, index)
         contract_hash = canonical_contract_hash(contracts)
         configured_contract_hash = item.get("canonical_contract_sha256")
         configured_contracts = item.get("canonical_contracts")

@@ -226,6 +226,90 @@ extern u8 *alias asm("real_symbol");
             (root / "value.h").unlink(missing_ok=True)
             root.rmdir()
 
+    def test_recorded_key_survives_centralisation_and_tracks_the_header(
+        self,
+    ) -> None:
+        """A declaration moved into a header keeps its coverage.
+
+        This is the regression for the contract's own blind spot: before the
+        retention rule, moving `extern s16 value;` out of a candidate and into
+        a header dropped `value` from the contract entirely, which took the
+        header's declaration out from under the gate. The key has to survive
+        AND its hash has to still move when that declaration changes.
+        """
+        root = REPOSITORY / "tmp/test-candidate-contract-retained"
+        root.mkdir(parents=True, exist_ok=True)
+        try:
+            # the source no longer declares it, but still uses it
+            source = "#include \"value.h\"\n\nvoid f(void) { value = 1; }\n"
+            own = candidate_builds.candidate_extern_symbols(source)
+            self.assertEqual(own, [])
+
+            recorded = {"value": "whatever-the-old-hash-was"}
+            retained = candidate_builds.retained_contract_symbols(
+                recorded, own, source
+            )
+            self.assertEqual(retained, ["value"])
+
+            (root / "value.h").write_text("extern s16 value;\n", encoding="utf-8")
+            index = candidate_builds.canonical_declaration_index(
+                set(retained), root
+            )
+            self.assertEqual(
+                candidate_builds.canonical_contract_sites(retained, index),
+                {"value": ["value.h"]},
+            )
+            first = candidate_builds.canonical_contract_hashes(retained, index)
+
+            # the declaration changes -> the retained key's hash must move
+            (root / "value.h").write_text("extern s32 value;\n", encoding="utf-8")
+            second = candidate_builds.canonical_contract_hashes(
+                retained,
+                candidate_builds.canonical_declaration_index(set(retained), root),
+            )
+            self.assertEqual(
+                candidate_builds.canonical_contract_difference(first, second),
+                ([], [], ["value"]),
+            )
+        finally:
+            for path in sorted(root.rglob("*"), reverse=True):
+                path.unlink() if path.is_file() else path.rmdir()
+            root.rmdir()
+
+    def test_retention_is_scoped_to_recorded_and_used_symbols(self) -> None:
+        """The rule must not widen the contract, which is why it is scoped.
+
+        Tracking every symbol a source references and a header declares was
+        measured and changes all 115 candidate contracts. These three cases are
+        what keep it from doing that.
+        """
+        source = "void f(void) { used = 1; }\n"
+        # not recorded -> not retained, however used it is
+        self.assertEqual(
+            candidate_builds.retained_contract_symbols({}, [], source), []
+        )
+        # recorded but no longer named by the source -> not retained
+        self.assertEqual(
+            candidate_builds.retained_contract_symbols(
+                {"gone": "h"}, [], source
+            ),
+            [],
+        )
+        # still declared by the source itself -> already a key, not a retention
+        self.assertEqual(
+            candidate_builds.retained_contract_symbols(
+                {"used": "h"}, ["used"], source
+            ),
+            [],
+        )
+        # recorded, dropped from the source, still used -> retained
+        self.assertEqual(
+            candidate_builds.retained_contract_symbols(
+                {"used": "h"}, [], source
+            ),
+            ["used"],
+        )
+
     def test_header_index_ignores_comments_and_function_bodies(self) -> None:
         root = REPOSITORY / "tmp/test-candidate-contract-headers"
         root.mkdir(parents=True, exist_ok=True)
