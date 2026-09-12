@@ -293,9 +293,12 @@ extern u8 D_8009B368;
  * src/candidates/func_800179F4.c and src/candidates/func_8002CEE8.c reach
  * other symbols through $gp, so they define the .data arm below;
  * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
- * small data and take the plain byte. src/candidates/func_80018FEC.c keeps
- * its own .data declaration: it does not include this header and its object
- * is fingerprinted in candidates.json. */
+ * small data and take the plain byte. src/candidates/func_80018FEC.c also
+ * defines the .data arm. It used to carry a private copy of this exact
+ * declaration and not include this header at all; it now includes it and
+ * selects the same arm, with its candidates.json fingerprint unchanged by
+ * the move. Which of the two reasons above puts it on this arm is not
+ * re-derived here -- the spelling it already had is what is preserved. */
 #ifdef D_8009B369_IN_DATA
 extern u8 D_8009B369 __attribute__((section(".data")));
 #else
