@@ -18,6 +18,8 @@
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_scene_state.h"
+#include "../game/duel_selection_layout.h"
+#include "../game/duel_screen_tables.h"
 #include "../game/rand_get_interval.h"
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
@@ -27,22 +29,15 @@
 #include "../game/model_scene_states.h"
 #include "../psyq/rand.h"
 
-extern u16 D_8009B23A;
-extern u16 D_8009B162;
-extern u16 D_8009B1D0;
 extern u8 D_8009B1B9;
 extern u8 D_8009B1D5;
 extern u8 gDuel_bWinnerSide;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
-extern DuelCardPickCursor *D_8009B1B4;
 extern u8 *D_8009B17C;
 
-extern u8 D_80090918[];
-extern u8 D_800E9F10[];
 extern s32 D_800E9F04[];
 extern u8 D_800E9FF0[];
-extern u8 D_800EA030[];
 extern u8 D_800E9ECF[];
 extern u8 D_8009B260[];
 extern u16 D_800EF658[];
@@ -104,7 +99,7 @@ void func_80018FEC(void)
         obj[0x6C] = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
-        rec = D_800EA030;
+        rec = (u8 *)D_800EA030;
 next_obj:
         obj = *(u8 **)rec;
         g = (DuelCardReplayRecordBlock *)(obj[0x6A] * sizeof(DuelCardRecord) +
