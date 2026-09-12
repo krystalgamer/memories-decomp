@@ -89,7 +89,8 @@ void func_80020D4C(DisplayObject *arg0) {
                                    arg0->field_68, arg0->field_69, 0x11, 9,
                                    D_801AF000);
             slot->field_40.h.field_40 = (u16)arg0->field_40.h.field_40 + 0x80;
-            slot->flags |= 0x28;
+            slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                           DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             slot->attribute |= (GsALON | GsAONE);
             func_800428EC((u8 *)slot, (u8)arg0->field_16 - 1);
             slot->field_60 = 8;
@@ -257,7 +258,8 @@ void func_80020F4C(void)
                         obj->field_40.h.field_40 =
                             (u16)obj->field_40.h.field_40 + 0x10;
                     }
-                    obj->flags |= 0x28;
+                    obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                                  DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
                     obj->attribute |= (GsALON | GsAONE);
                     obj->field_48.h.field_48 = spec->tag;
                     obj->field_48.h.field_4A = 0x18;

@@ -241,7 +241,8 @@ void Password_InitShopScreen(void)
         func_80042918(o);
         func_800428EC(o, 8);
         *(PasswordCursorUpdate *)(o + 36) = hook;
-        *(u16 *)(o + 8) |= 0x28;
+        *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                           DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         *slot = o;
         i++;
         slot++;

@@ -42,7 +42,10 @@ s32 func_80020988(void) {
            the 0x60 stores were reverted separately to confirm both groups are
            needed; neither alone restores the match. Reads convert normally --
            it is only stores standing next to a branch that get hoisted. */
-        *(u16 *)((u8 *)q + 8) = *(u16 *)((u8 *)q + 8) | 0x28;
+        *(u16 *)((u8 *)q + 8) =
+            *(u16 *)((u8 *)q + 8) |
+            DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         D_8009B188 = q;
 
         q = func_800400AC(func_8004002C(), 2);
@@ -54,7 +57,10 @@ s32 func_80020988(void) {
         );
         func_80042918(q);
         func_800428EC((u8 *)q, 0xA);
-        *(u16 *)((u8 *)q + 8) = *(u16 *)((u8 *)q + 8) | 0x28;
+        *(u16 *)((u8 *)q + 8) =
+            *(u16 *)((u8 *)q + 8) |
+            DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         D_8009B18C = q;
         return 0;
     }

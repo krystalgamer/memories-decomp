@@ -123,7 +123,8 @@ void func_8003D74C(MenuRecord *record)
         *(DisplayObject **)(o + 4) = p;
         p = func_800400AC(func_8004002C(), 2);
         func_800404CC(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
-        p->flags = p->flags | 0x28;
+        p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(p);
         func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         *(DisplayObject **)o = p;

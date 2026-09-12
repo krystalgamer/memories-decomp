@@ -194,10 +194,11 @@ void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
     object[0x5F] = color >> 8;
     *(u16 *)(object + 0x40) = texture & 0x3F0;
     *(u16 *)(object + 0x42) = (texture & 0xF) + 0xF0;
-    flags = *(u16 *)(object + 8) & 0xFFDF;
+    flags = *(u16 *)(object + 8) & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     *(u16 *)(object + 8) = flags;
     if (texture & 0x8000) {
-        *(u16 *)(object + 8) = flags | 0x20;
+        *(u16 *)(object + 8) =
+            flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     }
     return object;
 }

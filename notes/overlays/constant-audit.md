@@ -96,12 +96,16 @@ reducing it.
 
 ## Remaining scope
 
-The mechanically safe overlay substitutions are exhausted. What remains is
-genuine semantic work, in rough value order:
+The mechanically safe overlay substitutions are exhausted. The former final
+display-layer value is resolved below.
 
-1. The composite `0x28` writes remain raw. The `0x20` bit's **provenance and
-   consumer are now both established**, but the consumer is unmatched
-   assembly, so a name would rest on disassembly rather than build-verified C.
+## Texture-cell offset flag
+
+The former composite `0x28` writes are now expressed as
+`DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+DISPLAY_OBJECT_FLAG_SCREEN_SPACE`. The `0x20` bit's provenance and consumer
+are both established; the consumer remains unmatched assembly, so the name
+rests on disassembly plus the matching producer and callers.
 
    An earlier version of this entry also listed `0x48` as blocked. That was
    wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no
@@ -113,10 +117,11 @@ genuine semantic work, in rough value order:
    again only when the texture argument has bit `0x8000`:
 
    ```c
-   flags = *(u16 *)(object + 8) & 0xFFDF;
+   flags = *(u16 *)(object + 8) & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
    *(u16 *)(object + 8) = flags;
    if (texture & 0x8000) {
-       *(u16 *)(object + 8) = flags | 0x20;
+       *(u16 *)(object + 8) =
+           flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
    }
    ```
 
@@ -149,13 +154,9 @@ genuine semantic work, in rough value order:
    then forces it back on. Those callers are therefore opting into the cell
    offset for objects whose texture argument did not request it.
 
-   A name is now supportable on producer-and-consumer evidence, which is the
-   standard the rest of this note applies. It is deliberately **not** minted
-   here, for two reasons worth stating rather than glossing: the consumer is
-   still unmatched assembly, so the reading rests on disassembly rather than
-   on compiled C; and naming the bit means touching the remaining composite
-   `0x28` sites across two overlay modules, which is a source change and
-   belongs in its own reviewable PR rather than in a note.
+   The name follows that producer-and-consumer evidence. The source sweep is
+   deliberately restricted to confirmed writes of the display-object flag
+   word; unrelated numeric `0x20` and `0x28` values remain untouched.
 
    What the bit is **not**: it is not a visibility or draw-order control, and
    it does not select a texture page. The page and clut come from `+0x40` and
@@ -163,9 +164,10 @@ genuine semantic work, in rough value order:
 
 ### Closed since this note was written
 
-- **Display-object flag bits** — done. The renderable (`0x40`) and
-  screen-space (`0x8`) bits at object offset `+8` are named against
-  `display_object_layout.h`. `free_duel/screen_runtime.c` formerly declared
+- **Display-object flag bits** — done. The renderable (`0x40`), screen-space
+  (`0x08`), and texture-cell offset (`0x20`) bits at object offset `+8` are
+  named against `display_object_layout.h`; confirmed `0x28` writes use the
+  latter two names. `free_duel/screen_runtime.c` formerly declared
   `u32 flags; u16 attr;` after a four-byte pad, so naming by member name
   rather than offset would have been backwards. It now uses the shared
   `DisplayObject`: `attribute` is the word at `+4` and `flags` the halfword

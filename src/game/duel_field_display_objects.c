@@ -52,7 +52,9 @@ void func_800234E4(DuelFieldDisplaySource *source)
     }
     object->position.h.field_28 = position->x;
     object->position.h.field_2A = position->y;
-    object->flags = object->flags | 0x28;
+    object->flags = object->flags |
+                    DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     object->update = (DisplayObjectCallback)func_80015D18;
     source->object = object;
 }
