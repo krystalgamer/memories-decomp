@@ -118,9 +118,11 @@ extern DuelFieldEffectObject
  * stores 0 before its slot loop and its argument on a hit, and its own
  * comment says what a hit and a miss leave; func_8001F0D0 stores `sel +
  * DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one arm and `v` under its `hit:` label;
- * func_800250C8 and func_8002525C test it against 0. func_8001F55C, still
+ * DuelEffect_ApplyLifePointRecovery and DuelEffect_ApplyDirectDamage test it
+ * against 0. func_8001F55C, still
  * assembly, stores 0 once and loads it eight times. Every retail load is lh
- * (func_800250C8.s:37, func_8002525C.s:24, and the eight in
+ * (DuelEffect_ApplyLifePointRecovery, DuelEffect_ApplyDirectDamage, and the
+ * eight in
  * func_8001F55C.s), so the halfword is signed; the stores are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
  * plain declaration for duel_card_effects.c, duel_trap_resolution.c and

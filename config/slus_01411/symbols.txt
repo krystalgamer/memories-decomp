@@ -499,9 +499,22 @@ Widget_UpdatePulseColour = 0x80037110; // type:func
 
 // Semantic names
 DuelEffect_ProcessEntries = 0x80039D64; // type:func
-DuelEffect_UpdateFieldMarker = 0x800255FC; // type:func
+DuelEffect_ApplyTerrain = 0x80024E58; // type:func
+DuelEffect_ApplyLifePointRecovery = 0x800250C8; // type:func
+DuelEffect_ApplyDirectDamage = 0x8002525C; // type:func
+DuelEffect_ApplyMonsterRemoval = 0x8002538C; // type:func
+DuelEffect_ApplyStopDefense = 0x800255FC; // type:func
+DuelEffect_ApplyBoardDestruction = 0x800257A0; // type:func
+DuelEffect_ApplyRaigeki = 0x8002596C; // type:func
+DuelEffect_UpdateRevealCard = 0x80025B28; // type:func
+DuelEffect_ApplyDarkPiercingLight = 0x80025BEC; // type:func
+DuelEffect_ApplyStatPenalty = 0x80025D30; // type:func
 DuelEffect_StartSwords = 0x80025EE0; // type:func
 DuelEffect_ApplySwords = 0x80025F3C; // type:func
+DuelEffect_ApplyCursebreaker = 0x800260D0; // type:func
+DuelEffect_StartRitual = 0x8002622C; // type:func
+DuelEffect_ApplyRitual = 0x800262D4; // type:func
+DuelEffect_ApplyHarpiesFeatherDuster = 0x80026A3C; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func

@@ -37,7 +37,7 @@ extern u8 gDuel_bTerrain[8];
  * D_8009B0F4_abs / D_8009B134_abs sized arms).
  */
 
-void func_80024E58(void) {
+void DuelEffect_ApplyTerrain(void) {
     u8 *p;
     u8 *r;
     u8 *q;

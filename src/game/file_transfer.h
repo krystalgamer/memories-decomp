@@ -179,7 +179,7 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
  * store; File_ActivateTransfer ORs in bit 0; the two readers outside this
  * family test bit 0x4000, the transfer-complete flag. Same two forms as
  * D_8009B0F4 above: five units reach it gp-relative, and two --
- * func_80037B40 and func_800257A0 -- read it through a %hi/%lo pair into
+ * func_80037B40 and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
  * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
  * which is the bare form; they take the _abs name. Measured per unit: with
  * either of the two on the plain name the executable links 8 bytes short

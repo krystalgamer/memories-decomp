@@ -1096,7 +1096,7 @@
       "address": "0x8002622C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA8",
-      "source": "src/game/func_8002622C.c"
+      "source": "src/game/duel_ritual_effect.c"
     },
     {
       "address": "0x80026A3C",
