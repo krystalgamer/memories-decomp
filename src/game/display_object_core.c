@@ -12,6 +12,9 @@
 #include "graphics_frame.h"
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
+#define FUNC_80042188_SPRITE_VIEW
+#include "../unmatched.h"
+#undef FUNC_80042188_SPRITE_VIEW
 
 extern u8 tail_data_start[];
 
@@ -253,8 +256,6 @@ extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
 #define gGraphics_sViewportX gGraphics_sViewportX_data
 #define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s16 D_800EFE3A[];
-
-void func_80042188(SpritePrim *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in

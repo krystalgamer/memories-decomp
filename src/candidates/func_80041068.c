@@ -15,8 +15,6 @@
 
 #include "../game/ordering_tables.h"
 
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
-
 /* The POLY_GT4 sibling for the list rooted at D_800EFE38[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second
  * submission, gated on the byte at 0x72 two bytes past the record, rewrites

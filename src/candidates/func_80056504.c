@@ -16,8 +16,6 @@
 extern u8 D_800114F8[];
 extern u8 gFile_szModelMrgPath[];
 
-extern void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
-
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request is
  * in flight.
