@@ -100,7 +100,7 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->field_6B = ((u8 *)arg0->data)[2];
     p->out_x = arg1;
     p->out_y = arg2;
-    p->attribute |= 0x1000000;
+    p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     p->field_10 = func_80016778;
     func_80042918((DisplayObject *)p);
     p->field_4C = func_80016D04;
