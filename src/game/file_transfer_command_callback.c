@@ -6,10 +6,7 @@
 #include "../game/file_transfer.h"
 #include "../unmatched.h"
 
-/* The asynchronous disc-transfer runtime: command-completion callbacks,
-   secondary-to-primary activation, transfer advancement and request dispatch.
-   The thirteen functions are contiguous and communicate through the shared
-   descriptors, request slots and D_8009B0F4 state word. */
+/* Disc command-completion callback: retry event 5 and finish event 2. */
 
 void func_80014220(s32 event)
 {

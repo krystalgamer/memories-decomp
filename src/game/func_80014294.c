@@ -11,8 +11,8 @@
    advancement and request dispatch. The nine functions are contiguous and
    communicate through the shared descriptors, request slots and D_8009B0F4
    state word. The first three callbacks are in file_transfer_runtime.c, and
-   func_80014220 between the two runs is a candidate since #3859
-   (src/candidates/func_80014220.c). */
+   func_80014220 between the two runs is in
+   file_transfer_command_callback.c. */
 
 extern void func_80014B30_callback(void) asm("func_80014B30");
 extern s32 CdPosToInt_8007E710(s32);

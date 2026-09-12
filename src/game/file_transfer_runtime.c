@@ -8,9 +8,9 @@
 
 /* The first three command-completion callbacks of the asynchronous
    disc-transfer runtime. Each re-issues its command on event 5 and clears the
-   busy bit in D_8009B0F4 on event 2. func_80014220, the next callback, is a
-   candidate since #3859 (src/candidates/func_80014220.c), and the rest of the
-   runtime is in func_80014294.c. */
+   busy bit in D_8009B0F4 on event 2. The next callback, func_80014220, is in
+   file_transfer_command_callback.c, and the rest of the runtime is in
+   func_80014294.c. */
 
 extern void func_80013C28(u8, u8 *, u32 *);
 

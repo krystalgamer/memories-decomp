@@ -65,8 +65,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
 /* The command-completion callbacks the runtime installs through DsCommand
  * and DsPacket: each re-issues its command on event 5 and clears the busy
- * bit on event 2. func_80014220 is a candidate since #3859
- * (src/candidates/func_80014220.c). */
+ * bit on event 2. func_80014220 is owned by
+ * file_transfer_command_callback.c. */
 void func_800140A0(u8 event);
 void func_80014134(u8 event);
 void func_800141A8(u8 event);
@@ -252,15 +252,14 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * func_80014294.c and by func_80014220, a candidate since #3859
- * (src/candidates/func_80014220.c).
+ * func_80014294.c and by func_80014220 in
+ * file_transfer_command_callback.c.
  *
  * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: func_80014220 stores to it from
- * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
- * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
- * -G8, so this declaration keeps that true; a `.data` arm here would break
- * that store rather than merely change a load. */
+ * also has to stay small-data eligible: func_80014220's pure-C halfword store
+ * compiles to `sh` with a `%gp_rel(D_8009B100)` address. A two-byte scalar is
+ * eligible under -G8, so a `.data` arm here would change that store rather
+ * than merely change a load. */
 extern volatile u16 D_8009B100;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
