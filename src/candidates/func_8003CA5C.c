@@ -57,7 +57,7 @@ s32 func_8003CA5C(void)
     {
         s32 result = 1;
 
-        if (gFade_State.flags & 0x80) {
+        if (gFade_State.flags & FADE_FLAG_ACTIVE) {
             return result;
         }
 

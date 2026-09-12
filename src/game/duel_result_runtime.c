@@ -315,7 +315,7 @@ void func_80020F4C(void)
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
         }
-        if ((gFade_State.flags & 0x80) == 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             D_8009B23A = 0xD;
         }
         break;
