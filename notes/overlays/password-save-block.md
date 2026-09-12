@@ -166,7 +166,7 @@ with low ID bits zero returns `0x80`, whereas one with low bits seven returns
 the tester and a clear operation for the updater; it is not a stored flag bit.
 
 The event-script handler
-[`func_8002E918`](../../src/candidates/func_8002E918.c) and text handler
+[`func_8002E918`](../../src/game/func_8002E918.c) and text handler
 [`Text_HandleCampaignFlagCommand`](../../src/game/text_control_commands.c)
 interprets
 `CAMPAIGN_FLAG_COMMAND_WRITE` (`0x4000`) before calling either helper.
