@@ -4663,6 +4663,12 @@
       "source": "src/game/sound_sequence_timing.c"
     },
     {
+      "address": "0x8004C77C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xD0",
+      "source": "src/game/sound_start_sequence_tracks.c"
+    },
+    {
       "address": "0x8004C84C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x7C",
