@@ -362,7 +362,7 @@ address,size,name,status,module,notes
 0x80030998,0x278,func_80030998,unmatched_asm,game,"Reclassified from matching_c (#3859): src/game/func_80030998.c was the target's instruction words transcribed into top-level asm (.word and .reloc), with no C for this function, so there is no candidate to keep. Previously: 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80030C10,0xA0,func_80030C10,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030CB0,0xAC,func_80030CB0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030D5C,0xD4,func_80030D5C,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80030D5C.c with target src/candidates_target/func_80030D5C.S; profile gcc_2_8_1_g8. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 1 variable to hard registers and 1 inline asm statement, so it does not stand as a decompilation. Previously: 5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80030D5C,0xD4,func_80030D5C,matching_c,game,Pure C exact match using the tracked absolute transfer-state alias instead of a pinned inline load.
 0x80030E30,0x4C,func_80030E30,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030E7C,0x4C,func_80030E7C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030EC8,0x78,func_80030EC8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
