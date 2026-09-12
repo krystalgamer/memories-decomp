@@ -2,9 +2,11 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_card_layout.h"
+#include "duel_effect_request.h"
 #include "duel_grid.h"
 #include "sound.h"
 #include "view_state.h"
@@ -140,9 +142,6 @@ s32 func_8001F0D0(u8 *p) {
     return 0;
 }
 
-u8 *func_8002C68C(s32 arg0);
-void func_80024954(DuelCardRecord *arg0);
-
 /* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
  * starts the first screen effect and arms the 0x14-frame counter; mode 1
  * copies the selected card's position into a type-8 effect object, updates
@@ -204,7 +203,7 @@ m1:
         D_8009B1B8 * sizeof(DuelCardRecord) +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = g->record.object;
-    e = func_8002C68C(8);
+    e = (u8 *)func_8002C68C(8);
     *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;
