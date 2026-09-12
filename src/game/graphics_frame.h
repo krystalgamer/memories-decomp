@@ -6,7 +6,7 @@
 #include "../psyq/libgpu.h"
 
 /* The per-frame step multiplier. graphics_frame.c sets it to D_8009B0C1 + 1
- * once a frame and Main_Init (src/candidates/func_80012B50.c) seeds it at 1;
+ * once a frame and Main_Init (main_init.c) seeds it at 1;
  * every other consumer scales a motion delta by it, which is why a dropped
  * frame moves things twice as far.
  *
@@ -74,7 +74,7 @@ extern s32 D_8009B0D8;
  * the unit, and each is justified by a control build of that unit on the
  * plain arm (the PR that added this block records the five results):
  *
- *   _IS_VOLATILE -- graphics_frame.c and src/candidates/func_80012B50.c
+ *   _IS_VOLATILE -- graphics_frame.c and main_init.c
  *   _IN_DATA     -- src/candidates/func_800283F4.c,
  *                   main_run_animated_battle.c and
  *                   main_run_duel_and_library.c, all at -G8: out of small
@@ -177,7 +177,7 @@ extern volatile s32 D_8009B0CC;
  * (still assembly) reads it too. Sign is not visible in any use (& 0x3F,
  * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
  *
- * main_frame.c and src/candidates/func_80012B50.c reach it gp-relative and
+ * main_frame.c and main_init.c reach it gp-relative and
  * take the volatile form below; every other retail site is a lui/lw pair.
  * volatile is measured (notes/research/matching-evidence.md:479-490):
  * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
@@ -201,7 +201,7 @@ extern volatile s32 D_8009B09C;
  * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
  * and is not established.
  *
- * main_frame.c and src/candidates/func_80012B50.c reach it gp-relative and
+ * main_frame.c and main_init.c reach it gp-relative and
  * take the volatile form below; SaveData_ApplyRuntimeState stores through
  * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
  * while reaching another symbol through $gp, so save_data_payload.c, which
@@ -223,7 +223,7 @@ extern volatile s32 D_8009B0C4;
  * only store to it.
  *
  * graphics_frame.c defines it (gp-relative in the target);
- * src/candidates/func_80012B50.c and src/candidates/func_80013360.c reach it
+ * main_init.c and src/candidates/func_80013360.c reach it
  * gp-relative and take the plain form.
  * main_init.c used to declare it volatile with the rest of its init block;
  * on this symbol the plain form builds byte-identical (measured by the PR
@@ -350,6 +350,14 @@ extern s16 gGraphics_sViewportY;
  * Left unsized, which is what both declarers already said; the stride is the
  * measurement here, not the total. */
 extern u8 D_8009B4A8[];
+
+/* Main_Init publishes the initial work area before graphics setup. Frame
+ * rendering subsequently selects and uses the active half of that buffer. */
+#ifdef GRAPHICS_WORK_AREA_IS_VOLATILE
+extern u8 *volatile D_8009B0B4;
+#else
+extern u8 *D_8009B0B4;
+#endif
 
 /* The other half of that pair, the one the comment above refers to:
  *
