@@ -1,14 +1,12 @@
 #include "../types.h"
 #include "duel_effect_state_latch.h"
 
-extern u8 gDuel_bEffectHandlerFlags;
-
 int DuelEffect_MarkStateInitialized(void)
 {
     unsigned char value = gDuel_bEffectHandlerFlags;
 
-    if (!(value & 0x80)) {
-        gDuel_bEffectHandlerFlags = value | 0x80;
+    if (!(value & DUEL_EFFECT_DIALOG_FLAG_CREATED)) {
+        gDuel_bEffectHandlerFlags = value | DUEL_EFFECT_DIALOG_FLAG_CREATED;
         return 0;
     }
     return 1;

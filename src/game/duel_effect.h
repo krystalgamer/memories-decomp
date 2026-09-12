@@ -255,6 +255,17 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 
 #define DUEL_EFFECT_STATE_FLAG_COMPLETE 0x40
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
+#define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
+
+/* Legacy aliases for the dialog request, handler flags, and active handler
+ * index. Candidate contracts still use these address-based names. */
+extern u16 D_8009B244;
+extern u8 D_8009B248;
+extern u8 D_8009B24A;
+
+extern u8 gDuel_bEffectHandlerFlags;
+extern u8 gDuel_bActiveEffectState;
 
 /* The pending duel-effect request. DuelEffect_UpdateState reads it each
  * tick: zero is idle; otherwise the low bits are the effect id, which it
