@@ -1,3 +1,4 @@
+#define FUNC_80042188_RAW_ATTRIBUTE_VIEW
 /* Reclassified from matching_c (#3859). This was part of
  * src/game/display_object_list_renderers.c, byte-exact only under
  * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
@@ -12,7 +13,9 @@
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
 #include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
 #include "../unmatched.h"
+#undef func_80042188
 
 #include "../game/ordering_tables.h"
 
@@ -122,7 +125,7 @@ void func_80040DD8(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
+                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -138,7 +141,7 @@ void func_80040DD8(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
+                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }

@@ -1,3 +1,4 @@
+#define FUNC_80042188_CARD_LIST_VIEW
 #include "../types.h"
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/display_object_projection.h"
@@ -6,8 +7,12 @@
 #include "../game/display_object.h"
 #include "../game/sprite_primitive.h"
 #include "../game/card_constants.h"
+#include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
+#include "../unmatched.h"
+#undef func_80042188
 
-typedef struct {
+typedef struct Func80028B08Ctx {
     u8 field_0;
     u8 field_1;
     u8 field_2;
@@ -21,7 +26,7 @@ typedef struct {
     u8 field_B;
 } Ctx;
 
-typedef struct {
+typedef struct Func80028B08Extra {
     u32 field_0;
     u32 field_4;
 } Extra;

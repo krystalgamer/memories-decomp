@@ -43,22 +43,6 @@
  *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
- *   func_80042188   first parameter spelled s32 and SpritePrim *.
- *                   Measured, and it is not a spelling difference: the high
- *                   half of the fourth argument selects a six-entry jump
- *                   table, and the arms disagree about what the first
- *                   argument is. The sprite arms pass it straight to
- *                   GsSortFastSprite/GsSortFlipSprite/GsSortSprite, where it
- *                   is a GsSPRITE *; the four-vertex arm never dereferences
- *                   it and only tests `and $s2, 0x4000000`, which is the
- *                   `v | 0x4000000` the func_80040DD8 and func_80041068
- *                   candidates build. Since #3859 moved those two out of
- *                   matching C, only the sprite arms remain there.
- *                   One flat prototype would have to be wrong for one caller
- *                   or the other, so it stays out until the arms are split.
- *                   The u8 * spelling is gone: func_80016784.c held the last
- *                   one and now builds a SpritePrim, like the other two
- *                   sprite callers, so only the two real arms remain.
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
  *
  * Where a consumer declares no parameters and calls with none, the argument
@@ -655,9 +639,8 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * slots. */
 void Dialog_UpdateChoice(struct DuelEffectChannel *object);
 
-void func_80042188(
-    SpritePrim *arg0, void *arg1, s32 arg2, s32 arg3, void *arg4
-);
+void func_80042188(SpritePrim *primitive, u8 *context, s32 ordering_table,
+                   s32 mode, u8 *extra);
 
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
