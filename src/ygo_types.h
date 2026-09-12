@@ -718,6 +718,11 @@ typedef struct {
     u32 hi;
 } Pair;
 
+typedef union {
+    u64 d;
+    Pair w;
+} Pair64;
+
 typedef char Pair_size_must_be_8[
     sizeof(Pair) == 8 ? 1 : -1
 ];

@@ -23,8 +23,12 @@ struct Tagged {
 enum {
     VALUE = 1
 };
+void f(void) { typedef int BlockLocal; BlockLocal value; }
+static struct Qualified {
+    int value;
+} qualified;
 """
-        self.assertEqual(c_type_definitions.type_definition_lines(text), [2, 5, 8])
+        self.assertEqual(c_type_definitions.type_definition_lines(text), [2, 5, 8, 11, 12])
 
     def test_ignores_comments_literals_and_declarations(self) -> None:
         text = """

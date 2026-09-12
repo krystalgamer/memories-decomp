@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TYPE_DEFINITION = re.compile(
-    r"(?m)^[ \t]*(?:typedef\b|(?:struct|union|enum)\s+(?:[A-Za-z_]\w*\s*)?\{)"
+    r"\b(?:typedef|(?:struct|union|enum)\s+(?:[A-Za-z_]\w*\s*)?\{)"
 )
 
 
@@ -23,7 +23,12 @@ def mask_comments_and_literals(text: str) -> str:
 
 def type_definition_lines(text: str) -> list[int]:
     masked = mask_comments_and_literals(text)
-    return [masked.count("\n", 0, match.start()) + 1 for match in TYPE_DEFINITION.finditer(masked)]
+    return list(
+        dict.fromkeys(
+            masked.count("\n", 0, match.start()) + 1
+            for match in TYPE_DEFINITION.finditer(masked)
+        )
+    )
 
 
 def main() -> int:
