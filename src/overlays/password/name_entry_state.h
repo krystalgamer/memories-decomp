@@ -51,6 +51,27 @@ extern u8 *D_8016D43C;
 extern s8 D_8016D401;
 extern s8 D_8016D42C;
 extern u16 D_8016D4D2;
+
+/* Four more of the same family, each with exactly one reader or writer in
+ * the image and each declared privately until now.
+ *
+ *   D_8016D403  Cleared to 0 by the name-entry reset in
+ *               name_entry_runtime.c. Nothing else touches it.
+ *   D_8016D41C  Cleared to 0 by the dialog teardown in
+ *               name_entry_dialog.c. Nothing else touches it.
+ *   D_8016D4D0  Set to 2 by the same reset in name_entry_runtime.c.
+ *   D_8016D4D4  A flag word, and the only one of the four with more than a
+ *               single site: func_8016913C tests 0x4000, clears it with
+ *               `&= 0xBFFF` and raises it again with `|= 0x4000`.
+ *
+ * The first three were ALSO declared in the func_8016913C candidate, which
+ * never named them anywhere else -- dead declarations rather than a second
+ * opinion, and deleted with this change along with that unit's equally
+ * unused `extern DuelEffectChannel D_800EB1C0;`. */
+extern u8 D_8016D403;
+extern u8 D_8016D41C;
+extern u8 D_8016D4D0;
+extern u16 D_8016D4D4;
 extern u8 *D_8016D418;
 
 /* The selection frame the keyboard moves. NameEntry_Init positions it and
