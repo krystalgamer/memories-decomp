@@ -4,14 +4,23 @@
 #define D_8009B368_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
+#define D_8009B16C_AS_ABSOLUTE_ARRAY
+#define D_8009B2F8_AS_ABSOLUTE_ARRAY
+#define D_8009B370_AS_ABSOLUTE_ARRAY
+#define GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
+#define GDUEL_BOPPONENT_ID_AS_ABSOLUTE_ARRAY
 #include "../types.h"
+#include "../game/ai_opponent_data.h"
+#include "../game/duel_check_quit_input.h"
 #include "../game/func_800179F4.h"
+#include "../game/func_80024DC8.h"
 #include "../game/graphics_frame.h"
 #include "../game/func_800339D0.h"
 #include "../game/save_data.h"
 #include "../game/main_frame.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
+#include "../game/main_modes.h"
 #include "../game/main_reset_frontend_runtime.h"
 #include "../game/main_services.h"
 #include "../game/sound.h"
@@ -25,9 +34,6 @@
 #define D_8009B370_AS_BYTE_ARRAY
 #include "../unmatched.h"
 
-extern s8 gDuel_bOpponentID[9];
-
-extern u16 D_8009B16C[9];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 #include "../game/main_mode_state.h"
