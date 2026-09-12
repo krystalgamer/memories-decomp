@@ -1,0 +1,55 @@
+==== USER CONTEXT ==== 
+ 
+First of all, I'll describe the debug menu. It's a black screen with two columns of options. The first column has the following options: 3D, Campaign, DUEL, Detail, Sound, BustUp, 3D MAP, DeckEdit, FreeDUEL, TITLE. The second column has the following: NAME, Password (in blue color), MOVIE, Load, Save, Trade, Option, LOSE (in red color), HIRATA's (in yellow) and EXIT.
+
+When pressing Select we go to another two column debug menu but only with one single option on the top corner "2PDUEL", all others are empty but the cursor we move can still hover them. The cursor is a green rectangle.
+
+I'll now describe the movement I did. The cursor starts on the left column on the first spot "3D". I then walked it down pressing D-pad down, until I reached the last entry "TITLE". Then I pressed D-pad right and it moved to the right column and selected "Exit". I then walked up this column by pressing D-pad up until I reached "NAME". Then I pressed D-pad left to back to the starting point "3D" and pressed Select. It switched the screen to the one with "2PDUEL" and repeated the exact same process.
+
+I didn't go into any of the entries. Full trace was printed once I walked all positions.
+ 
+==== TRACE RESULT ===== 
+ 
+script: debug_menu_entry_labels 
+status: captured all 40 selector/cursor contexts 
+summary: contexts=40 selector_0=20 selector_1=20 mode=0 selector=1 cursor=10 action=0 
+context=01 frame=000000 selector_raw=0x00 selector=0 cursor=00 dispatch_index=01 table=0x80090D84 target=0x80030FA0 repeat=0x0000 pressed=0x0000 
+context=02 frame=000607 selector_raw=0x00 selector=0 cursor=01 dispatch_index=02 table=0x80090D84 target=0x80030998 repeat=0x4000 pressed=0x4000 
+context=03 frame=000741 selector_raw=0x00 selector=0 cursor=02 dispatch_index=03 table=0x80090D84 target=0x80030F40 repeat=0x4000 pressed=0x4000 
+context=04 frame=000802 selector_raw=0x00 selector=0 cursor=03 dispatch_index=04 table=0x80090D84 target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=05 frame=000873 selector_raw=0x00 selector=0 cursor=04 dispatch_index=05 table=0x80090D84 target=0x800307B8 repeat=0x4000 pressed=0x4000 
+context=06 frame=000926 selector_raw=0x00 selector=0 cursor=05 dispatch_index=06 table=0x80090D84 target=0x80031354 repeat=0x4000 pressed=0x4000 
+context=07 frame=000969 selector_raw=0x00 selector=0 cursor=06 dispatch_index=07 table=0x80090D84 target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=08 frame=001043 selector_raw=0x00 selector=0 cursor=07 dispatch_index=08 table=0x80090D84 target=0x80030F80 repeat=0x4000 pressed=0x4000 
+context=09 frame=001080 selector_raw=0x00 selector=0 cursor=08 dispatch_index=09 table=0x80090D84 target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=10 frame=001112 selector_raw=0x00 selector=0 cursor=09 dispatch_index=10 table=0x80090D84 target=0x80030CB0 repeat=0x4000 pressed=0x4000 
+context=11 frame=001152 selector_raw=0x00 selector=0 cursor=19 dispatch_index=20 table=0x80090D84 target=0x80030FD0 repeat=0x2000 pressed=0x2000 
+context=12 frame=001196 selector_raw=0x00 selector=0 cursor=18 dispatch_index=19 table=0x80090D84 target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=13 frame=001278 selector_raw=0x00 selector=0 cursor=17 dispatch_index=18 table=0x80090D84 target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=14 frame=001331 selector_raw=0x00 selector=0 cursor=16 dispatch_index=17 table=0x80090D84 target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=15 frame=001385 selector_raw=0x00 selector=0 cursor=15 dispatch_index=16 table=0x80090D84 target=0x80030EC8 repeat=0x1000 pressed=0x1000 
+context=16 frame=001435 selector_raw=0x00 selector=0 cursor=14 dispatch_index=15 table=0x80090D84 target=0x80030E7C repeat=0x1000 pressed=0x1000 
+context=17 frame=001480 selector_raw=0x00 selector=0 cursor=13 dispatch_index=14 table=0x80090D84 target=0x80030E30 repeat=0x1000 pressed=0x1000 
+context=18 frame=001534 selector_raw=0x00 selector=0 cursor=12 dispatch_index=13 table=0x80090D84 target=0x80030D5C repeat=0x1000 pressed=0x1000 
+context=19 frame=001584 selector_raw=0x00 selector=0 cursor=11 dispatch_index=12 table=0x80090D84 target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=20 frame=001629 selector_raw=0x00 selector=0 cursor=10 dispatch_index=11 table=0x80090D84 target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=21 frame=001881 selector_raw=0x01 selector=1 cursor=00 dispatch_index=01 table=0x80090D7C target=0x80031000 repeat=0x0100 pressed=0x0100 
+context=22 frame=002028 selector_raw=0x01 selector=1 cursor=01 dispatch_index=02 table=0x80090D7C target=0x80031078 repeat=0x4000 pressed=0x4000 
+context=23 frame=002090 selector_raw=0x01 selector=1 cursor=02 dispatch_index=03 table=0x80090D7C target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=24 frame=002143 selector_raw=0x01 selector=1 cursor=03 dispatch_index=04 table=0x80090D7C target=0x80030998 repeat=0x4000 pressed=0x4000 
+context=25 frame=002192 selector_raw=0x01 selector=1 cursor=04 dispatch_index=05 table=0x80090D7C target=0x80030F40 repeat=0x4000 pressed=0x4000 
+context=26 frame=002232 selector_raw=0x01 selector=1 cursor=05 dispatch_index=06 table=0x80090D7C target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=27 frame=002273 selector_raw=0x01 selector=1 cursor=06 dispatch_index=07 table=0x80090D7C target=0x800307B8 repeat=0x4000 pressed=0x4000 
+context=28 frame=002307 selector_raw=0x01 selector=1 cursor=07 dispatch_index=08 table=0x80090D7C target=0x80031354 repeat=0x4000 pressed=0x4000 
+context=29 frame=002340 selector_raw=0x01 selector=1 cursor=08 dispatch_index=09 table=0x80090D7C target=0x80030FA0 repeat=0x4000 pressed=0x4000 
+context=30 frame=002370 selector_raw=0x01 selector=1 cursor=09 dispatch_index=10 table=0x80090D7C target=0x80030F80 repeat=0x4000 pressed=0x4000 
+context=31 frame=002656 selector_raw=0x01 selector=1 cursor=19 dispatch_index=20 table=0x80090D7C target=0x80030FA0 repeat=0x2000 pressed=0x2000 
+context=32 frame=002705 selector_raw=0x01 selector=1 cursor=18 dispatch_index=19 table=0x80090D7C target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=33 frame=002738 selector_raw=0x01 selector=1 cursor=17 dispatch_index=18 table=0x80090D7C target=0x80030EC8 repeat=0x1000 pressed=0x1000 
+context=34 frame=002766 selector_raw=0x01 selector=1 cursor=16 dispatch_index=17 table=0x80090D7C target=0x80030E7C repeat=0x1000 pressed=0x1000 
+context=35 frame=002789 selector_raw=0x01 selector=1 cursor=15 dispatch_index=16 table=0x80090D7C target=0x80030E30 repeat=0x1000 pressed=0x1000 
+context=36 frame=002812 selector_raw=0x01 selector=1 cursor=14 dispatch_index=15 table=0x80090D7C target=0x80030D5C repeat=0x1000 pressed=0x1000 
+context=37 frame=002835 selector_raw=0x01 selector=1 cursor=13 dispatch_index=14 table=0x80090D7C target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=38 frame=002855 selector_raw=0x01 selector=1 cursor=12 dispatch_index=13 table=0x80090D7C target=0x80030FA0 repeat=0x1000 pressed=0x1000 
+context=39 frame=002874 selector_raw=0x01 selector=1 cursor=11 dispatch_index=12 table=0x80090D7C target=0x80030CB0 repeat=0x1000 pressed=0x1000 
+context=40 frame=002895 selector_raw=0x01 selector=1 cursor=10 dispatch_index=11 table=0x80090D7C target=0x80030FA0 repeat=0x1000 pressed=0x1000 
