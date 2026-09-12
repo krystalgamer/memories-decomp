@@ -12,12 +12,6 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[2]
 NOTES = ROOT / "notes"
 
-LINK = re.compile(
-    r"\[[^\]]*\]\("
-    r"(?P<target><[^>]+>|[^)\s]+)"
-    r"(?:\s+(?:\"[^\"]*\"|'[^']*'|\([^)]*\)))?"
-    r"\)"
-)
 INLINE_PATH = re.compile(
     r"`(?P<target>"
     r"(?:config|notes|src|tools)/"
@@ -26,6 +20,12 @@ INLINE_PATH = re.compile(
     r")(?::[0-9][^`]*)?`"
 )
 UNTRACKED_PATH_PREFIXES = ("src/hirata/", "tools/vendor/")
+REFERENCE_DEFINITION = re.compile(
+    r"^[ \t]{0,3}\[(?P<label>[^\]]+)\]:[ \t]*(?P<rest>.*)$"
+)
+REFERENCE_USAGE = re.compile(
+    r"!?\[(?P<text>[^\]]+)\](?:\[(?P<label>[^\]]*)\])?"
+)
 
 
 @dataclass(frozen=True)
@@ -38,10 +38,112 @@ class Problem:
 
 def local_target(raw: str) -> str | None:
     target = raw[1:-1] if raw.startswith("<") and raw.endswith(">") else raw
+    target = re.sub(r"\\([\\`*{}\[\]()#+\-.!_>])", r"\1", target)
     parsed = urlsplit(target)
     if parsed.scheme or parsed.netloc or not parsed.path:
         return None
     return unquote(parsed.path)
+
+
+def normalize_label(label: str) -> str:
+    return " ".join(label.split()).casefold()
+
+
+def parse_destination(text: str, start: int = 0) -> tuple[str, int] | None:
+    while start < len(text) and text[start].isspace():
+        start += 1
+    if start >= len(text):
+        return None
+    if text[start] == "<":
+        index = start + 1
+        while index < len(text):
+            if text[index] == "\\" and index + 1 < len(text):
+                index += 2
+                continue
+            if text[index] == ">":
+                return text[start : index + 1], index + 1
+            index += 1
+        return None
+
+    index = start
+    depth = 0
+    while index < len(text):
+        char = text[index]
+        if char == "\\" and index + 1 < len(text):
+            index += 2
+            continue
+        if char == "(":
+            depth += 1
+        elif char == ")":
+            if depth == 0:
+                break
+            depth -= 1
+        elif char.isspace() and depth == 0:
+            break
+        index += 1
+    if index == start or depth != 0:
+        return None
+    return text[start:index], index
+
+
+def inline_targets(line: str) -> list[tuple[int, int, str]]:
+    targets: list[tuple[int, int, str]] = []
+    search_from = 0
+    while True:
+        marker = line.find("](", search_from)
+        if marker < 0:
+            return targets
+        parsed = parse_destination(line, marker + 2)
+        if parsed is None:
+            search_from = marker + 2
+            continue
+        target, end = parsed
+        cursor = end
+        quote = ""
+        depth = 0
+        while cursor < len(line):
+            char = line[cursor]
+            if char == "\\" and cursor + 1 < len(line):
+                cursor += 2
+                continue
+            if quote:
+                if char == quote:
+                    quote = ""
+            elif char in "\"'":
+                quote = char
+            elif char == "(":
+                depth += 1
+            elif char == ")":
+                if depth == 0:
+                    targets.append((marker, cursor + 1, target))
+                    search_from = cursor + 1
+                    break
+                depth -= 1
+            cursor += 1
+        else:
+            search_from = marker + 2
+
+
+def resolve_target(
+    root: Path,
+    note: Path,
+    line_number: int,
+    target: str,
+    *,
+    root_relative: bool,
+) -> Problem | None:
+    base = root if root_relative else note.parent
+    resolved = (base / target).resolve()
+    try:
+        relative = resolved.relative_to(root)
+    except ValueError:
+        return Problem(note, line_number, target, "escapes repository")
+    normalized = relative.as_posix()
+    if root_relative and normalized.startswith(UNTRACKED_PATH_PREFIXES):
+        return None
+    if not resolved.exists():
+        return Problem(note, line_number, target, "does not exist")
+    return None
 
 
 def check_note_links(root: Path = ROOT) -> tuple[int, int, list[Problem]]:
@@ -52,34 +154,76 @@ def check_note_links(root: Path = ROOT) -> tuple[int, int, list[Problem]]:
     for note in note_paths:
         text = note.read_text(encoding="utf-8")
         check_inline_paths = (root / "notes/research") not in note.parents
-        for line_number, line in enumerate(text.splitlines(), 1):
-            for match in LINK.finditer(line):
-                target = local_target(match.group("target"))
+        lines = text.splitlines()
+        definitions: dict[str, str] = {}
+        definition_lines: set[int] = set()
+        for line_number, line in enumerate(lines, 1):
+            match = REFERENCE_DEFINITION.match(line)
+            if match is None:
+                continue
+            parsed = parse_destination(match.group("rest"))
+            if parsed is None:
+                continue
+            definitions[normalize_label(match.group("label"))] = parsed[0]
+            definition_lines.add(line_number)
+
+        for line_number, line in enumerate(lines, 1):
+            inline_spans = inline_targets(line)
+            for _, _, raw_target in inline_spans:
+                target = local_target(raw_target)
                 if target is None:
                     continue
                 references += 1
-                resolved = (note.parent / target).resolve()
-                try:
-                    resolved.relative_to(root)
-                except ValueError:
-                    problems.append(
-                        Problem(note, line_number, target, "escapes repository")
+                problem = resolve_target(
+                    root, note, line_number, target, root_relative=False
+                )
+                if problem is not None:
+                    problems.append(problem)
+
+            if line_number not in definition_lines:
+                for match in REFERENCE_USAGE.finditer(line):
+                    if any(
+                        start <= match.start() < end
+                        for start, end, _ in inline_spans
+                    ):
+                        continue
+                    explicit_label = match.group("label")
+                    if explicit_label is None and match.end() < len(line):
+                        if line[match.end()] == "(":
+                            continue
+                    label = (
+                        explicit_label
+                        if explicit_label not in (None, "")
+                        else match.group("text")
                     )
-                    continue
-                if not resolved.exists():
-                    problems.append(Problem(note, line_number, target, "does not exist"))
+                    raw_target = definitions.get(normalize_label(label))
+                    if raw_target is None:
+                        continue
+                    target = local_target(raw_target)
+                    if target is None:
+                        continue
+                    references += 1
+                    problem = resolve_target(
+                        root, note, line_number, target, root_relative=False
+                    )
+                    if problem is not None:
+                        problems.append(problem)
 
             if not check_inline_paths:
                 continue
             for match in INLINE_PATH.finditer(line):
                 target = match.group("target")
-                if target.startswith(UNTRACKED_PATH_PREFIXES):
-                    continue
+                problem = resolve_target(
+                    root, note, line_number, target, root_relative=True
+                )
+                if problem is None:
+                    resolved = (root / target).resolve()
+                    normalized = resolved.relative_to(root).as_posix()
+                    if normalized.startswith(UNTRACKED_PATH_PREFIXES):
+                        continue
                 references += 1
-                if not (root / target).exists():
-                    problems.append(
-                        Problem(note, line_number, target, "does not exist")
-                    )
+                if problem is not None:
+                    problems.append(problem)
 
     return len(note_paths), references, problems
 
