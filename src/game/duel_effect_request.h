@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_REQUEST_H
 
 #include "../types.h"
+#include "duel_effect_allocate_request.h"
 
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
@@ -120,7 +121,6 @@ extern u8 gDuel_bEffectRequestStatus;
  * returns it, or 0 when the pool is full. */
 DuelEffectRequest *DuelEffect_CreateRequest(s32 id);
 DuelEffectRequest *DuelEffect_FindFreeRequest(void);
-u8 *DuelEffect_AllocateRequest(s32 id);
 s32 DuelEffect_UpdateRequests(void);
 
 /* The pool those requests live in: the eight records this header already
