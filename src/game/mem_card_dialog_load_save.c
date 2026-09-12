@@ -113,7 +113,8 @@ void MemCardDialog_UpdateLoad(void)
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
             MemCardDialog_SetMessage(0xD5, 0);
             MemCardReadFile(D_8009B3F9, (char *)D_800EFE18,
-                            (unsigned long *)D_8009B3D0, D_8009B3C4,
+                            (unsigned long *)gMemCard_pPrimaryTransferCursor,
+                            D_8009B3C4,
                             D_8009B3C2);
         io_pending:
             gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
@@ -122,7 +123,7 @@ void MemCardDialog_UpdateLoad(void)
         switch (D_8009B3F4) {
         case 0:
             D_8009B3EB = 7;
-            if (SaveData_ValidateIntegrity((u8 *)D_8009B3D0) != 0) {
+            if (SaveData_ValidateIntegrity(gMemCard_pPrimaryTransferCursor) != 0) {
                 break;
             }
             D_8009B3EB = 4;

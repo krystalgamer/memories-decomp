@@ -400,7 +400,8 @@ When the trade screen in the `main_menu` overlay has moved the traded card
 counts between the two saves, it calls `SaveData_RequestTradeWrite`
 (`0x8003FE14`). That call stamps the primary and secondary integrity records
 of both slots at `0x801D1880` and `0x801D2880`, records the second slot in
-`D_8009B3E0`, and issues step `4`. `MemCardDialog_UpdateTradeSave`
+`gMemCard_pSecondaryTransferCursor`, and issues step `4`.
+`MemCardDialog_UpdateTradeSave`
 (`0x8003EED0`) first re-reads the save on each card and refuses unless each
 still has the duelist code that was loaded from it, trying the duplicate state
 copy at `+0x680` once before it gives up. Then it writes the two `0x400`-byte

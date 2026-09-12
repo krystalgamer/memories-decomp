@@ -16,7 +16,8 @@
  * requires a full deck in both saves and converts both player names.
  *
  * SaveData_RequestTradeWrite stamps integrity over both slots of the pair at
- * D_801D1880, records the second slot in D_8009B3E0, and starts dialog step 4
+ * D_801D1880, records the second slot in
+ * gMemCard_pSecondaryTransferCursor, and starts dialog step 4
  * to write them back. MainMenu_UpdateTradeScreen (now a build-integrated candidate,
  * src/candidates/main_menu/func_801821DC.c) calls it once, after moving the
  * traded card counts. */

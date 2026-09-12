@@ -392,11 +392,10 @@ extern u8 D_8009B174;   /* five declarers */
  * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
  * two bytes with D_8009B1D2 immediately after it.
  *
- * Two have a larger gap than their width and are treated the way D_8009B23A
- * was, as an upper bound rather than a size: D_8009B3D0's next name is eight
- * bytes on and D_8009B3F4's is five. Nothing is named inside either gap and
- * no consumer reads past the declared width, so the agreed type is what is
- * declared and the bytes above stay unclaimed.
+ * D_8009B3F4 has a larger gap than its width and is treated the way
+ * D_8009B23A was, as an upper bound rather than a size. Nothing is named
+ * inside that gap and no consumer reads past the declared width, so the
+ * agreed type is what is declared and the bytes above stay unclaimed.
  *
  * The first four are memory card state, shared by the create, load, save and
  * dialog paths together with mem_card_dialog_runtime.c. D_8009B1D0 is
@@ -404,7 +403,6 @@ extern u8 D_8009B174;   /* five declarers */
  * passed the same checks, not because it is part of that group. */
 extern u16 D_8009B3C2;   /* four declarers */
 extern u16 D_8009B3C4;   /* four declarers */
-extern u32 D_8009B3D0;   /* four declarers */
 extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
