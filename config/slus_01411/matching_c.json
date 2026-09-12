@@ -1624,7 +1624,7 @@
       "address": "0x8002E128",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x248",
-      "source": "src/game/func_8002E128.c"
+      "source": "src/game/script_image_rebuild.c"
     },
     {
       "address": "0x8002E370",
@@ -1654,7 +1654,7 @@
       "address": "0x8002E470",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13C",
-      "source": "src/game/func_8002E470.c"
+      "source": "src/game/script_op_load_image_scene.c"
     },
     {
       "address": "0x8002E5AC",

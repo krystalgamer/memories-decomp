@@ -511,7 +511,8 @@ correct 25 of 25 under `gcc_2_8_1_g0_split`. The second read reappears, but as
 `lui`/`lbu` pair above is still not reproduced. Instruction count parity is
 therefore recovered while the residual stays.
 
-The same lever settles the count on `func_8002DDFC` (`0x8002DDFC`), where the
+The same lever settles the count on `ScriptImage_TransferCallback`
+(`0x8002DDFC`), where the
 target performs two independent read-modify-write sequences on `D_8009B0F4`:
 
 ```
@@ -2436,8 +2437,8 @@ object model through two related parent/child constructors.
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |
 | `func_8002ABB4` | `0x70`-byte object clone/initialization wrapper |
-| `func_8002DF2C` | Three archive layouts selected by high byte; packed decimal index calculation |
-| `func_8002E060` | Object creation wrapper with signed mode byte |
+| `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
+| `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
 | `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
@@ -5708,7 +5709,8 @@ in `$v1` where the build used `$v0`; pinning it closed the window at once.
 So in a differing window that contains a load, compare the load's destination
 register before permuting anything.
 
-The inverse reading is also useful. On `func_8002E128` (0x8002E128), whose
+The inverse reading is also useful. On `ScriptImage_RebuildObjects`
+(`0x8002E128`), whose
 residual looks like the same class, every pin is *worse* than no pin: naming
 the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
