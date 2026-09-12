@@ -564,15 +564,32 @@ def target_words(candidate: Candidate) -> bytes:
 
 
 def note_candidate_paths(root: Path) -> list[str]:
-    return sorted(
-        path.relative_to(root).as_posix()
-        for directory in (
-            root / "notes/candidates",
-            root / "notes/overlays/candidates",
+    candidates: set[Path] = set()
+    for directory in (
+        root / "notes/candidates",
+        root / "notes/overlays/candidates",
+    ):
+        if not directory.exists():
+            continue
+        candidates.update(directory.rglob("func_*.md"))
+        candidates.update(
+            path
+            for path in directory.rglob("func_*")
+            if path.parent.name == "for_humans"
         )
-        for pattern in ("func_*.md", "for_humans/func_*")
-        for path in directory.glob(pattern)
-    )
+    return sorted(path.relative_to(root).as_posix() for path in candidates)
+
+
+def candidate_code_paths(root: Path) -> tuple[set[str], set[str]]:
+    sources = {
+        path.relative_to(root).as_posix()
+        for path in (root / "src/candidates").rglob("func_*.c")
+    }
+    targets = {
+        path.relative_to(root).as_posix()
+        for path in (root / "src/candidates_target").rglob("func_*.S")
+    }
+    return sources, targets
 
 
 def load_candidates(
@@ -756,16 +773,7 @@ def load_candidates(
 
         candidates.append(candidate)
 
-    actual_sources = {
-        path.relative_to(ROOT).as_posix()
-        for pattern in ("func_*.c", "*/func_*.c")
-        for path in SOURCE_DIRECTORY.glob(pattern)
-    }
-    actual_targets = {
-        path.relative_to(ROOT).as_posix()
-        for pattern in ("func_*.S", "*/func_*.S")
-        for path in TARGET_DIRECTORY.glob(pattern)
-    }
+    actual_sources, actual_targets = candidate_code_paths(ROOT)
     if actual_sources != configured_sources:
         raise CandidateBuildError(
             "candidate sources differ: "
