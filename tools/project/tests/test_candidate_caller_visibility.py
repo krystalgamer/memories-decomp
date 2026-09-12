@@ -10,9 +10,10 @@ back to implicit declarations.
 
 Each pair below is compiled with its recorded profile's front-end flags and
 -Wimplicit-function-declaration, and must report no implicit declaration of
-the callee. The negative control removes a caller's unmatched.h include while
-the global prototype stays in place, and requires the compiler to report the
-implicit call, so this test fails for exactly the regression it guards.
+the callee. The negative control removes a caller's declaration-providing
+include while the prototype stays in its owning header, and requires the
+compiler to report the implicit call, so this test fails for exactly the
+regression it guards.
 """
 
 from __future__ import annotations
@@ -34,10 +35,10 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 
 # (caller, callee, include that provides the callee's declaration)
 PAIRS = [
-    ("src/candidates/func_800283F4.c", "func_80029164", '#include "../unmatched.h"'),
+    ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
     ("src/candidates/func_8004A2F8.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
     ("src/candidates/func_8004B734.c", "func_8004AAFC", '#include "../game/sound.h"'),
-    ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../unmatched.h"'),
+    ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_80049BAC.c", "func_8004A518", '#include "../unmatched.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../game/sound.h"'),
@@ -113,11 +114,21 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         # The regression the review reproduced: func_80049BAC.c without its
         # unmatched.h include, with func_8004A518's prototype still there.
         unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
+        resource_setup = (
+            REPOSITORY / "src/game/duel_effect_resource_setup.h"
+        ).read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
-            if "unmatched.h" not in include:
+            if "unmatched.h" in include:
+                declarations = unmatched
+            elif callee == "func_80029164":
+                declarations = resource_setup
+            else:
                 continue
             with self.subTest(source=source, callee=callee):
-                self.assertRegex(unmatched, rf"(?m)^(?![ \t]*/?\*)[^\n]*\b{callee}\s*\(")
+                self.assertRegex(
+                    declarations,
+                    rf"(?m)^(?![ \t]*/?\*)[^\n]*\b{callee}\s*\(",
+                )
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
                 self.assertIn(include + "\n", text)
                 (REPOSITORY / "tmp").mkdir(exist_ok=True)

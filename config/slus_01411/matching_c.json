@@ -1213,6 +1213,12 @@
       "source": "src/game/func_80029108.c"
     },
     {
+      "address": "0x80029164",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x7C",
+      "source": "src/game/func_80029164.c"
+    },
+    {
       "address": "0x80029528",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
