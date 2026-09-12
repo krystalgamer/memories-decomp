@@ -13,13 +13,14 @@
 #include "../overlays/main_menu/entrypoints.h"
 #include "sound.h"
 #include "text_box_runtime.h"
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the store of D_8009B269 into it. c_symbols.ld
    overrides this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
-extern u8 D_8009B269;
 
 void Main_RunTwoPlayerDuelSetup(void)
 {

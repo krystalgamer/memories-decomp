@@ -26,10 +26,6 @@
    D_8009B0B8. */
 
 s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
-extern s32 D_8009B0A4;
-extern s32 D_8009B0B0;
-extern s32 D_8009B0BC;
-extern s32 D_8009B0D4;
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If

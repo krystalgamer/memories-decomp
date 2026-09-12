@@ -8,8 +8,6 @@
 #include "../unmatched.h"
 #include "async_state_poll.h"
 
-extern u8 D_8009B26C[];
-
 void func_80031000(void)
 {
     u8 flags = D_8009B2EB;

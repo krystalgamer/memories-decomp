@@ -2,8 +2,9 @@
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_field_equip_search.h"
-
-extern u8 D_800EAE88[];
+#define D_800EAE88_AS_BYTES
+#define D_800EAE88_VISIBLE
+#include "../unmatched.h"
 
 s32 func_80027060(void) {
     DuelCardRecord *sp10[6];

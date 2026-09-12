@@ -27,8 +27,6 @@
    between the matching func_80030D5C in
    frontend_scene_state_80030d5c.c and func_80030FA0. */
 
-extern u8 D_8009B26C[];
-
 void func_80030E30(void)
 {
     u8 flags = D_8009B2EB;

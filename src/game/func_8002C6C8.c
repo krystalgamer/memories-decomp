@@ -5,6 +5,8 @@
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"
 #include "../external_funcs.h"
+#define D_8009B264_VISIBLE
+#include "../unmatched.h"
 
 /* Clears D_8009B260's bit 0x1, then walks the eight D_800EAD88 requests.
    For each active request: raises D_8009B260's bit 0 unless the request is
@@ -18,9 +20,6 @@
    savedF1A must be s32, not the field's true s16 type -- declaring it s16
    makes gcc emit an unsigned reload + manual sign-extend at the call site
    instead of the target's plain signed halfword load. */
-extern u8 D_8009B261;
-extern DuelEffectRequest *D_8009B264;
-
 s32 func_8002C6C8(void) {
     DuelEffectRequest *rec;
     s32 i;

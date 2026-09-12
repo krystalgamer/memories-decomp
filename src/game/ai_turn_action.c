@@ -10,6 +10,9 @@
 #include "duel_card_checks.h"
 #include "duel_card_selection.h"
 #include "duel_battle_stats.h"
+#define D_800EAE88_AS_SELECTION_AND_BYTES
+#define D_800EAE88_VISIBLE
+#include "../unmatched.h"
 
 /* The AI's turn-action run: spell and fusion searches feed the action pick
    through D_800EAE88, followed by the occupied and face-up field-target
@@ -20,8 +23,6 @@
    record; the other two write single bytes, so the byte view below is the
    same object under an alias and each function keeps the spelling its own
    match needs. */
-extern AiSelection D_800EAE88;
-extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
 
 /* The spell search reads the record's slot byte signed; DuelCardRecord spells
    the same byte unsigned, so it keeps its own view of the collected entries

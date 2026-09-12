@@ -26,6 +26,8 @@
 #include "../game/text_box_lifecycle.h"
 #include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
+#define D_8009B344_IN_DATA
+#include "../unmatched.h"
 
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {

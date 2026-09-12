@@ -6,11 +6,8 @@
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "input.h"
-
-extern u8 D_8009B152;
-extern DisplayObject *D_8009B188;
-extern DisplayObject *D_8009B18C;
-extern DisplayObject *D_8009B1CC;
+#define D_8009B_DISPLAY_OBJECTS_VISIBLE
+#include "../unmatched.h"
 
 s32 func_80020988(void) {
     DisplayObject *q;

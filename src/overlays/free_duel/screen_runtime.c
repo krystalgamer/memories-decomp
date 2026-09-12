@@ -1,5 +1,6 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
+#define D_8009B26C_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -50,9 +51,6 @@
    sparkle updater's call passes no argument, so taking the normal
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */
-
-extern u8 D_8009B269;
-extern u8 D_8009B26C;
 
 void FreeDuel_UpdateScrollbar(void)
 {

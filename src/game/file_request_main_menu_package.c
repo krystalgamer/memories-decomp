@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "file_transfer.h"
+#include "../unmatched.h"
 
-extern u8 gFile_szSuMrgPath[];
 void File_RequestMainMenuPackage(void)
 {
     File_RequestAsyncTransfer(

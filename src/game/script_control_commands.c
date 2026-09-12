@@ -2,9 +2,8 @@
 #include "script_command_busy.h"
 #include "script_state.h"
 #include "script_control_commands.h"
-
-extern u8 D_8009B269[];
-extern u8 D_8009B26C[];
+#define D_8009B269_AS_ARRAY
+#include "../unmatched.h"
 
 void func_8002F930(void)
 {
