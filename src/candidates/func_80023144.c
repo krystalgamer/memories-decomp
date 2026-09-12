@@ -7,6 +7,7 @@
 #define D_8009B34E_IN_DATA
 #define D_8009B355_IN_DATA
 #define D_8009B320_IN_DATA
+#define D_8009B344_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
 #include "../types.h"
 #include "../game/card_constants.h"
@@ -25,8 +26,6 @@
 #include "../game/text_box_lifecycle.h"
 #include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
-
-extern u8 D_8009B344 __attribute__((section(".data")));
 
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
@@ -73,7 +72,8 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
                 D_8009B34E = 3;
             }
             value = index >= DUEL_CARD_SIDE_RECORD_COUNT;
-            if (value == D_8009B1D5 && D_8009B1C8->field_1F == 0) {
+            if (value == D_8009B1D5 &&
+                D_8009B1C8->card_view_mode == 0) {
                 D_8009B34E = two;
             }
         } else {

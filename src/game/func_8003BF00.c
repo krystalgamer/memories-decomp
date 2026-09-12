@@ -13,7 +13,7 @@
 void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
-        object->mode = 0x3000;
+        object->phase_size = 6 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->value_0C = (u32)D_800101D8;
         object->value_08 = (u32)D_800101D8;
@@ -22,7 +22,7 @@ void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
 
     case 1:
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->mode = 0x43000;
+        object->phase_size = 134 * FILE_SECTOR_SIZE;
         object->value_0C = (s32)D_80010000;
         object->value_08 = (s32)D_80010000;
         object->done = 1;
@@ -31,7 +31,7 @@ void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
     case 2:
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
@@ -44,13 +44,13 @@ void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
         object->done = 2;
-        object->mode = 0x8000;
+        object->phase_size = 16 * FILE_SECTOR_SIZE;
         object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + 0x800;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
         break;
 
     case 4:
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;

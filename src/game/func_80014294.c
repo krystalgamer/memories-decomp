@@ -3,6 +3,7 @@
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
 
@@ -10,14 +11,10 @@
    command-completion callbacks, secondary-to-primary activation, transfer
    advancement and request dispatch. The nine functions are contiguous and
    communicate through the shared descriptors, request slots and D_8009B0F4
-   state word. The first three callbacks are in file_transfer_runtime.c, and
-   func_80014220 between the two runs is a candidate since #3859
-   (src/candidates/func_80014220.c). */
+   state word. The first four callbacks are in file_transfer_runtime.c. */
 
 extern void func_80014B30_callback(void) asm("func_80014B30");
-extern s32 CdPosToInt_8007E710(s32);
 extern u16 D_8009B0EC;
-extern void CdIntToPos_8007E600(s32, void *);
 
 void func_80014294(u8 event)
 {
@@ -49,7 +46,7 @@ void func_80014390(u8 event, s32 arg1)
 
     if (event == 2) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
-        value = CdPosToInt_8007E710(arg1);
+        value = CdPosToInt_8007E710((const CdlLOC *)arg1);
         if (value > 0)
             *destination = value;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
@@ -142,7 +139,9 @@ set_state3:
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 4:
-            CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+            CdIntToPos_8007E600(
+                *(s32 *)(p + 0x24), (CdlLOC *)D_8009B104
+            );
             if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
                 return;
             }
@@ -197,7 +196,7 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+    CdIntToPos_8007E600(*(s32 *)(p + 0x24), (CdlLOC *)D_8009B104);
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
@@ -264,8 +263,9 @@ void func_80014A5C(s32 arg0)
    func_80057544 and func_80057728: func_80014C40 below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
-   fields the other two do -- the value_08/value_0C source window, mode, the
-   word at field_30 and done -- which is what its old private record named
+   fields the other two do -- the value_08/value_0C source window,
+   phase_size, the word at field_30 and done -- which is what its old private
+   record named
    value_8, value_c, value_1c, value_30 and mode_46. */
 void func_80014B30(FileTransferDescriptor *object, s32 mode)
 {
@@ -298,7 +298,7 @@ full:
     object->value_0C = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;
     value = shared->field_14;
-    object->mode = value;
+    object->phase_size = value;
     goto fix;
 reduced:
     if (shared->field_18 == 0)
@@ -309,10 +309,10 @@ reduced:
     object->value_08 = position;
     object->done = 1;
     value = shared->field_18;
-    object->mode = value;
+    object->phase_size = value;
 fix:
     if (value < 0)
-        object->mode = -(value << FILE_SECTOR_SHIFT);
+        object->phase_size = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
     callback = D_8009B128;

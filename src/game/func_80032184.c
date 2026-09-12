@@ -52,7 +52,7 @@ m0:
     p->done = 2;
     v = D_8009B118;
     w = 0x20000;
-    *(s32 *)&p->mode = w;
+    *(s32 *)&p->phase_size = w;
     p->value_08 = v;
     v += 0x800;
     p->value_0C = v;
@@ -72,7 +72,7 @@ m1:
     p->done = 2;
     v = D_8009B118;
     w = 0x4000;
-    *(s32 *)&p->mode = w;
+    *(s32 *)&p->phase_size = w;
     p->value_08 = v;
     v += 0x800;
     p->value_0C = v;
@@ -80,7 +80,7 @@ m1:
 
 m2:
     m2v = 0xFFDCFFFF;
-    *(s32 *)&p->mode = 0x2000;
+    *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
     D_8009B0F4_abs = D_8009B0F4_abs & m2v;
     p->value_0C = D_8009B118;
     p->value_08 = D_8009B118;

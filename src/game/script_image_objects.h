@@ -16,7 +16,8 @@ typedef struct {
 } ScriptImageEntry;
 
 /* Transfer callback for one script image. The loader supplies its
- * FileTransferDescriptor and advances `mode` through the setup phases. */
+ * FileTransferDescriptor and advances the callback stage through the setup
+ * phases. */
 void func_8002DDFC(FileTransferDescriptor *transfer, s32 mode);
 
 /* Starts the async read of one script image. `value` is packed BCD: the low

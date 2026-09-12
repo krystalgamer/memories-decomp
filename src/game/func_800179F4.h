@@ -18,4 +18,10 @@ void func_800179F4(void);
 extern DisplayObject *D_8009B214;
 extern DisplayObject *D_8009B21C;
 
+/* Save-data windows selected while the duel scene starts. The no-opponent
+ * path points them at the two 0x1000-byte halves of D_801D1200; the normal
+ * path uses the buffers returned by the duel package transfer. */
+extern u8 *D_8009B1D8;
+extern u8 *D_8009B1DC;
+
 #endif

@@ -12,6 +12,7 @@
 #include "display_object_config.h"
 #include "display_effect_lifecycle.h"
 #include "campaign_scene_package.h"
+#include "color_constants.h"
 #include "graphics_frame.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -346,7 +347,7 @@ void func_8003B054(u8 *p)
     }
     if (o->field_60 <= 0) {
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
-        o->field_0C = 0x808080;
+        o->field_0C = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.h.field_46 = 0x1000;
         func_8004036C(o2);
         *(DisplayObject **)(p + 4) = 0;

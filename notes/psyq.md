@@ -663,11 +663,12 @@ definition remains in the resident SDK assembly.
 
 The same catalogue's 32-byte `GS_106.OBJ` projection-wrapper pattern is
 **not unique**: it matches nine locations, including unrelated `CdFlush`
-and `MemCardEnd` wrappers. `func_800857C0` is the one that forwards its
-argument to `SetGeomScreen`, consistent with the camera callers and the
-external `GsSetProjection` label, but the generic pattern alone does not
-justify that name. It remains address-named pending separate review of the
-callee-based identification; no other wrapper is relabeled from this pattern.
+and `MemCardEnd` wrappers. The callee resolves the ambiguity at `0x800857C0`:
+the wrapper forwards its argument directly to confirmed `SetGeomScreen`,
+matching the external `GsSetProjection` label and the resident camera callers,
+which pass the projection distance stored in their view state. Those callers
+now use the canonical `libgs.h` declaration. No other wrapper is relabeled from
+the generic pattern alone.
 
 The root-counter identities are supported by the resident implementations, not
 only by their order in an external symbol list. `SetRCnt`, `GetRCnt`, and

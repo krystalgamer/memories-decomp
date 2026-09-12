@@ -7,6 +7,7 @@
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
+#include "fade_constants.h"
 #include "ordering_tables.h"
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"
@@ -89,7 +90,7 @@ void Graphics_BeginFrame(void)
         if (D_8009B141 != 0) {
             GsSortOt((GsOT *)(D_8009B0B4 + 0x5124),
                      (GsOT *)(D_8009B0B4 + 0x5110));
-            if ((D_8009B141 & 0x80) == 0) {
+            if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
                 GsSortOt((GsOT *)(D_8009B0B4 + 0x5138),
                          (GsOT *)(D_8009B0B4 + 0x5110));
                 GsSortOt((GsOT *)(D_8009B0B4 + 0x514C),

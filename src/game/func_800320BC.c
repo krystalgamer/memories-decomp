@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/build_deck_card_counts.c.
- */
 #include "../types.h"
 #include "../game/build_deck_card_counts.h"
 #include "../game/card_constants.h"
@@ -29,9 +23,8 @@
 void BuildDeck_AddCard(s32 arg0, s32 arg1)
 {
     s32 *record;
-    /* Keep one induction pointer instead of folding accesses around entry-2. */
-    register s16 *entry asm("$6");
-    register s32 index asm("$4") = 0;
+    s16 *entry;
+    s32 index = 0;
     {
         s32 *base = gDuel_adwCardStats;
         s32 record_index = arg1 - 1;

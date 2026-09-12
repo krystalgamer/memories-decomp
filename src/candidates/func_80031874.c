@@ -23,6 +23,7 @@
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/card_type_icon_table.h"
 #include "../game/build_deck_transition_state.h"
+#include "../game/color_constants.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
@@ -55,7 +56,7 @@ void func_80031874(u8 *obj, s32 ot)
     y = *(s16 *)(obj + 0x32);
     *(s16 *)(tag + 0xC) = 0xB;
     *(s16 *)(spr + 0xC) = 0xB;
-    *(u32 *)(spr + 0x14) = 0x808080;
+    *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)(spr + 8) = 0x80008;
     *(u32 *)(tag + 8) = 0x100010;
     vy = gGraphics_sViewportY;
@@ -84,10 +85,10 @@ void func_80031874(u8 *obj, s32 ot)
         *(s16 *)(spr + 4) = x + 4;
         *(s16 *)(spr + 6) = ry;
         if (row[5] != 0) {
-            *(u32 *)(spr + 0x14) = 0x808080;
+            *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
             value = *(s16 *)(row - 4);
             if (row[5] & 0x80) {
-                *(u32 *)(spr + 0x14) = 0x404040;
+                *(u32 *)(spr + 0x14) = COLOR_RGB24_DIM_GREY;
             }
             if (idx != 0) {
                 *(s16 *)(spr + 4) = x + 0x11;
@@ -147,7 +148,7 @@ emit:
                 *(s16 *)(spr + 4) = x + 0x122;
                 Text_EncodeDecimalDigits(v, n, text);
                 func_800316F0(spr, ot, text, n);
-                *(u32 *)(spr + 0x14) = 0x808080;
+                *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
                 *(u16 *)(spr + 6) = *(u16 *)(spr + 6) - 8;
             }
         }
