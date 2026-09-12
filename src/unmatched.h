@@ -599,8 +599,6 @@ void File_SetPositionTable(void);
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-void func_800164FC(void);
-
 /* Builds the unique card id list for the combined deck and starts the fetch
  * for it.
  *
