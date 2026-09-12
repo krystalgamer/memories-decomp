@@ -29,7 +29,7 @@ address,size,name,status,module,notes
 0x800140A0,0x94,func_800140A0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. It now begins the contiguous asynchronous file-transfer runtime.
 0x80014134,0x74,func_80014134,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800141A8,0x78,func_800141A8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80014220,0x74,func_80014220,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80014220.c with target src/candidates_target/func_80014220.S; profile gcc_2_8_1_g8_split. Reclassified from matching_c (#3859): the source was byte-exact only by 1 inline asm statement, so it does not stand as a decompilation. Previously: 5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split."
+0x80014220,0x74,func_80014220,matching_c,game,Pure-C exact match: assigning the masked callback event directly to D_8009B100 preserves the retail $a0 halfword store without inline assembly.
 0x80014294,0x74,func_80014294,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80014308,0x88,func_80014308,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80014390,0x4C,func_80014390,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
