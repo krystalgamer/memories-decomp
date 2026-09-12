@@ -152,7 +152,7 @@ use the same bank and request encoding.
 The matching
 [`Campaign_TestStoryFlag`](../../src/game/campaign_test_story_flag.c) and the
 candidate
-[`Library_UpdateCardUsedFlag`](../../src/candidates/func_8002CCE4.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
 access that same bank. Let `m` be the selected MSB-first mask:
 
 | Request | Test result | Update action |
