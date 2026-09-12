@@ -85,6 +85,13 @@ typedef struct {
     s8 field_0B;    /* 0x0B */
 } AiSelection;
 
+/* Most users that address all twelve bytes retain the structured view above.
+ * The field/equip search writes individual selection bytes and requires the
+ * original incomplete-array declaration to preserve its measured addressing. */
+#ifdef AI_SELECTION_RAW_BYTE_VIEW
+extern u8 D_800EAE88[];
+#endif
+
 /* Byte 0x08 of that same selection -- AiSelection.random above -- also carries
  * its own address-based symbol. func_80073448 and func_80073458 set and clear
  * it, and func_80071510 copies it into gAiScript_aMemory. Those three reach it

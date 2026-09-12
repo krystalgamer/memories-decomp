@@ -1,11 +1,12 @@
 #include "../types.h"
+#define AI_SELECTION_RAW_BYTE_VIEW
+#include "ai.h"
+#undef AI_SELECTION_RAW_BYTE_VIEW
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_field_equip_search.h"
 #include "duel_card_checks.h"
-
-extern u8 D_800EAE88[];
 
 s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
                                     s32 arg2)
