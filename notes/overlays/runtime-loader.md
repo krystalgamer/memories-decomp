@@ -195,6 +195,14 @@ completion alias `D_800E9EA7[0]` addresses the same byte of the primary
 descriptor. The stream initializer and range-request setup consume that same
 type rather than re-deriving local partial structures.
 
+The `+0x1C` member is `phase_size`, paired with `phase_remaining` at `+0x28`.
+`File_InitTransferDescriptor` initializes it from `total_bytes`, phase
+callbacks replace it with the byte count for the asset region they just
+selected, and `func_8001513C` subtracts one `FILE_SECTOR_SIZE` per step before
+reloading `phase_remaining = phase_size` after the callback. The callback
+families therefore express their fixed sizes as sector counts rather than as
+unexplained hexadecimal byte literals.
+
 Type-free constants in `file_constants.h` name the status-flags, state, and
 substate byte offsets (`+0x2C`, `+0x46`, and `+0x47`), with assertions against
 the shared descriptor. Its legacy `done` member is the transfer-state byte,
