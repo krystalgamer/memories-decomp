@@ -1,20 +1,15 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_800307B8.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g4_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G4). Under
- * gcc_2_8_1_g8, a single threshold, it is 117 instructions against the
- * target's 120, opcode distance 3. The source below is the match, unchanged
- * apart from its include paths. */
-#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
+#define GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
 #define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #include "../types.h"
-#include "../game/frontend_debug_tables.h"
-#include "../game/display_object_brightness.h"
-#include "../game/duel_interface_setup.h"
-#include "../game/file_transfer.h"
-#include "../game/input.h"
-#include "../game/sound.h"
-#include "../game/sound_pending_entries.h"
-#include "../game/sound_voice_selection.h"
+#include "frontend_debug_tables.h"
+#include "frontend_step_tables.h"
+#include "display_object_brightness.h"
+#include "duel_interface_setup.h"
+#include "file_transfer.h"
+#include "input.h"
+#include "sound.h"
+#include "sound_pending_entries.h"
+#include "sound_voice_selection.h"
 #include "../unmatched.h"
 
 void func_800307B8(void)

@@ -185,8 +185,8 @@ void func_80032C48(CardList *list)
             row->key = -1;
             if (row->field_0D != 0) {
                 row->key = 0x100;
-                if (*((u8 *)D_8009B2FC + row->card_id + 0x606A) != 0) {
-                    row->key = *((u8 *)D_8009B2FC + row->card_id + 0x606A);
+                if (D_8009B2FC->card_sort_rank[row->card_id] != 0) {
+                    row->key = D_8009B2FC->card_sort_rank[row->card_id];
                 }
             }
         }

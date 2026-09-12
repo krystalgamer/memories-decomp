@@ -1,17 +1,10 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/script_update_viewport_tween.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g4_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G4). Under gcc_2_8_1_g8, a single threshold,
- * it is 73 instructions against the target's 79, opcode distance 6. The
- * source below is the match, unchanged apart from its include paths. */
+#define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 #include "../types.h"
-#include "../game/graphics_frame.h"
-#include "../game/script_state.h"
+#include "graphics_frame.h"
+#include "script_state.h"
 #include "../unmatched.h"
-#include "../game/script_command_busy.h"
-
-extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX");
-extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY");
+#include "script_command_busy.h"
+#include "script_flag_commands.h"
 
 /* Two-axis smooth scroll stepper: on the first frame derives the per-frame
  * 16.16 deltas from the distance to the target over the remaining frame

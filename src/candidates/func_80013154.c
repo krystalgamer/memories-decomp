@@ -21,6 +21,7 @@
 #include "../psyq/rand.h"
 #include "../game/fade.h"
 #include "../unmatched.h"
+#include "../game/file_transfer.h"
 #include "../game/func_800136D4.h"
 #include "../game/func_80041340.h"
 #include "../game/graphics_constants.h"
@@ -132,4 +133,3 @@ next:
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
 }
-

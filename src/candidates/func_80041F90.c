@@ -6,6 +6,7 @@
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgte_abi_variants.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/inline_c.h"
@@ -14,10 +15,9 @@
 
 /* RotAverageNclip3_nom at 0x80089CF0. libgte.h declares it
    `void RotAverageNclip3_nom(SVECTOR *, SVECTOR *, SVECTOR *)`; retail calls
-   it with a fourth pointer and reads the result, so it keeps its address name
-   and this local prototype until that arity is settled (notes/psyq.md). The
-   parameter types are the header's. */
-extern s32 func_80089CF0(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3);
+   it with a fourth pointer and reads the result, so the address-qualified ABI
+   alias preserves the retail call without changing the canonical declaration
+   (notes/psyq.md). */
 
 s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *out) {
     MATRIX *mtx = (MATRIX *)0x1F8002D0;
@@ -63,7 +63,7 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
         v318->vz = 0;
         v310->vz = 0;
         v308->vz = 0;
-        func_80089CF0(v308, v310, v318, v318);
+        RotAverageNclip3_nom_80089CF0(v308, v310, v318, v318);
 
         otzp = &otz;
         gte_stopz(otzp);
@@ -86,7 +86,8 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
                 mtx->m[2][2] = -mtx->m[2][2];
                 SetRotMatrix(mtx);
 
-                func_80089CF0(v308, v310, (SVECTOR *)0x1F800318, v318);
+                RotAverageNclip3_nom_80089CF0(
+                    v308, v310, (SVECTOR *)0x1F800318, v318);
 
                 otzp = &otz;
                 gte_stopz(otzp);

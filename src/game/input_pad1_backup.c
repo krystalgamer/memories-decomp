@@ -1,6 +1,3 @@
-#define GINPUT_PAD2_HELD_IS_VOLATILE
-#define GINPUT_PAD2_PRESSED_IS_VOLATILE
-#define GINPUT_PAD2_REPEAT_IS_VOLATILE
 #include "../types.h"
 #include "input.h"
 
@@ -26,5 +23,17 @@ void Input_BackupPad1AndUsePad2(void)
     value = gInput_wPad2Pressed;
     gInput_wPad1Pressed = value;
     value = gInput_wPad2Repeat;
+    gInput_wPad1Repeat = value;
+}
+
+void Input_RestorePad1FromBackup(void)
+{
+    u16 value;
+
+    value = gInput_wPad1HeldBackup;
+    gInput_wPad1Held = value;
+    value = gInput_wPad1PressedBackup;
+    gInput_wPad1Pressed = value;
+    value = gInput_wPad1RepeatBackup;
     gInput_wPad1Repeat = value;
 }

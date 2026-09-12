@@ -139,19 +139,19 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
     fade_done:
         if (D_80184598 < 0) {
-            ent2 = D_80184560;
+            ent2 = (u8 *)D_80184560;
             ent2[0xE] = 0x80;
             ent2[0xD] = 0x80;
             ent2[0xC] = 0x80;
             *(u16 *)(ent2 + 8) |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_80184560[0x6C] = 0x3C;
-            *(s16 *)(D_80184560 + 0x36) = 0;
+            D_80184560->field_6C = 0x3C;
+            D_80184560->field_34.h.field_36 = 0;
         }
         D_80184598 = 0;
         goto ret_m1;
     }
 
-    entry = D_80184560;
+    entry = (u8 *)D_80184560;
     if (entry != 0 &&
         (*(u16 *)(entry + 8) & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
         if (entry[0x6C] != 0) {
@@ -161,26 +161,26 @@ s32 MainMenu_UpdateFrontendMenu(void)
             entry[0xE] = lvl;
             entry[0xD] = lvl;
             entry[0xC] = lvl;
-            entry = D_80184560;
+            entry = (u8 *)D_80184560;
             chr = entry[0xC];
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
                     entry[0x6C] = 0x3C;
                 }
-                ent5 = D_80184560;
+                ent5 = (u8 *)D_80184560;
                 neg = *(s16 *)(ent5 + 0x60);
                 *(s16 *)(ent5 + 0x60) = -neg;
             }
         }
         if ((gInput_wPad1Pressed & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
-            ent3 = D_80184560;
+            ent3 = (u8 *)D_80184560;
             *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
             D_80184598 = 1;
             goto ret_m1;
         }
-        ent6 = D_80184560;
+        ent6 = (u8 *)D_80184560;
         acc = *(u16 *)(ent6 + 0x36) + (u16)D_8009B0D8;
         *(s16 *)(ent6 + 0x36) = acc;
         if ((s16)acc >= 0xBB8) {
