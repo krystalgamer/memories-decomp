@@ -155,6 +155,9 @@ class UnmatchedContractTests(unittest.TestCase):
         wrappers = (
             ("#if 0\n", ""),
             ("#if (0)\n", ""),
+            ("#if(0)\n", ""),
+            ("# if 0\n", ""),
+            ("#if \\\n(0)\n", ""),
             ("#if 0\n", "#elif 0\n"),
             ("#if 1\n", "#elif 1\n"),
         )
@@ -172,6 +175,20 @@ class UnmatchedContractTests(unittest.TestCase):
                         for error in self.errors()
                     )
                 )
+
+    def test_include_guard_else_arm_cannot_hold_central_variant_block(self) -> None:
+        self.configure_func_80042188_variant(
+            "#ifndef MEMORIES_DECOMP_UNMATCHED_H\n"
+            "#else\n"
+            + self.func_80042188_variant()
+            + "#endif\n"
+        )
+        self.assertTrue(
+            any(
+                "extra enclosing preprocessor arm" in error
+                for error in self.errors()
+            )
+        )
 
     def test_header_guard_may_enclose_central_variant_block(self) -> None:
         self.configure_func_80042188_variant(

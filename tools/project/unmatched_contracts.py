@@ -342,7 +342,12 @@ CENTRAL_VARIANT_BLOCKS = {
 def canonical_source_lines(source: str) -> list[str]:
     result: list[str] = []
     statement: list[str] = []
-    for line in candidate_builds.strip_c_comments(source).splitlines():
+    source = re.sub(
+        r"\\\r?\n",
+        "",
+        candidate_builds.strip_c_comments(source),
+    )
+    for line in source.splitlines():
         stripped = line.strip()
         if not stripped:
             continue
@@ -361,12 +366,30 @@ def canonical_source_lines(source: str) -> list[str]:
     return result
 
 
-def enclosing_conditionals(lines: list[str], stop: int) -> list[str]:
-    conditionals: list[str] = []
+DIRECTIVE = re.compile(
+    r"^#\s*(?P<kind>if|ifdef|ifndef|elif|else|endif)\b(?P<argument>.*)$"
+)
+
+
+def enclosing_conditionals(
+    lines: list[str], stop: int
+) -> list[tuple[str, str, str]]:
+    conditionals: list[tuple[str, str, str]] = []
     for line in lines[:stop]:
-        if line.startswith(("#if ", "#ifdef ", "#ifndef ")):
-            conditionals.append(line)
-        elif line.startswith("#endif") and conditionals:
+        match = DIRECTIVE.match(line)
+        if match is None:
+            continue
+        kind = match.group("kind")
+        argument = match.group("argument").strip()
+        if kind in {"if", "ifdef", "ifndef"}:
+            conditionals.append((kind, argument, "initial"))
+        elif kind == "elif" and conditionals:
+            opening_kind, opening_argument, _ = conditionals[-1]
+            conditionals[-1] = (opening_kind, opening_argument, "elif")
+        elif kind == "else" and conditionals:
+            opening_kind, opening_argument, _ = conditionals[-1]
+            conditionals[-1] = (opening_kind, opening_argument, "else")
+        elif kind == "endif" and conditionals:
             conditionals.pop()
     return conditionals
 
@@ -390,7 +413,7 @@ def validate_variant_block(
     conditionals = enclosing_conditionals(lines, starts[0])
     if conditionals not in (
         [],
-        ["#ifndef MEMORIES_DECOMP_UNMATCHED_H"],
+        [("ifndef", "MEMORIES_DECOMP_UNMATCHED_H", "initial")],
     ):
         return (
             f"{UNMATCHED_HEADER}: conditional declaration {name} must not be "
