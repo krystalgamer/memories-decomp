@@ -52,14 +52,23 @@ class ReclassificationAttemptTests(unittest.TestCase):
             status="unmatched_asm",
         )
 
-    def test_previous_post_terminal_match_is_required(self) -> None:
-        with self.assertRaisesRegex(attempts.ExternalAttemptError, "previous post-terminal"):
+    def test_previous_external_match_is_required(self) -> None:
+        with self.assertRaisesRegex(attempts.ExternalAttemptError, "lacks prior"):
             self.validate([self.row("reclassification_match")])
+
+    def test_prior_reference_success_is_supported(self) -> None:
+        reference = self.row(
+            "reference_match",
+            reference_path="tmp/references/ygofm-decomp/src/func_80070710.c",
+            reference_sha256="b" * 64,
+        )
+        for status in ("matching_c", "unmatched_asm"):
+            self.validate([reference, self.row("reclassification_match")], status)
 
     def test_nonmatching_reclassification_cannot_be_recorded(self) -> None:
         for result in ("nonmatch", "deferred"):
             with self.subTest(result=result):
-                with self.assertRaisesRegex(attempts.ExternalAttemptError, "matched result"):
+                with self.assertRaisesRegex(attempts.ExternalAttemptError, "must be matched"):
                     self.validate([
                         self.row("post_terminal_resolution"),
                         self.row("reclassification_match", result=result),
@@ -95,7 +104,7 @@ class ReclassificationAttemptTests(unittest.TestCase):
         rows = attempts.sort_rows([reference, current, original])
         self.validate(rows)
         self.assertIs(
-            audit_repository.latest_external_successes(rows)[self.address], current
+            attempts.latest_successes(rows)[self.address], current
         )
 
     def test_reclassification_selection_is_independent_of_row_order(self) -> None:
@@ -105,7 +114,7 @@ class ReclassificationAttemptTests(unittest.TestCase):
         for rows in permutations([original, reference, current]):
             with self.subTest(modes=[row["mode"] for row in rows]):
                 self.assertIs(
-                    audit_repository.latest_external_successes(list(rows))[self.address],
+                    attempts.latest_successes(list(rows))[self.address],
                     current,
                 )
 
@@ -113,7 +122,7 @@ class ReclassificationAttemptTests(unittest.TestCase):
         original = self.row("post_terminal_resolution")
         reference = self.row("reference_match")
         self.assertIs(
-            audit_repository.latest_external_successes([original, reference])[self.address],
+            attempts.latest_successes([original, reference])[self.address],
             reference,
         )
 
@@ -121,7 +130,7 @@ class ReclassificationAttemptTests(unittest.TestCase):
         original = self.row("post_terminal_resolution")
         unsuccessful = self.row("reclassification_match", result="nonmatch")
         self.assertIs(
-            audit_repository.latest_external_successes([original, unsuccessful])[self.address],
+            attempts.latest_successes([original, unsuccessful])[self.address],
             original,
         )
 

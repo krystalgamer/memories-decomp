@@ -263,12 +263,18 @@ extern char D_8009B104[1];
  * File_SetPositionTable installs File_WaitForTransfers and
  * File_InitTransferState clears it; File_RequestAsyncTransfer and
  * File_TryRequestAsyncTransfer call it when it is set, else check the
- * blocked mask. Retail: sw %lo through $at in File_SetPositionTable (the
- * as -G2 profile, where a four-byte object is non-small whatever its type),
- * gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
+ * blocked mask. Retail: sw %lo through $at in File_SetPositionTable, selected
+ * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
  * asm("D_8009B10C") alias of this type; the pointer is what every use
  * assigns and calls. */
+#ifdef D_8009B10C_IN_DATA
+extern void (*D_8009B10C)(void) __attribute__((section(".data")));
+#else
 extern void (*D_8009B10C)(void);
+#endif
+extern u8 D_8009B0E0;
+extern u8 D_800E9DF0[];
+void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
  * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both

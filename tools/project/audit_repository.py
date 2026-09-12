@@ -12,6 +12,11 @@ from pathlib import Path
 from pathlib import PurePosixPath
 
 from workspace import WorkspaceError, require_workspace_root
+from record_external_attempt import (
+    ExternalAttemptError,
+    latest_successes,
+    previous_match_addresses,
+)
 
 
 class AuditError(RuntimeError):
@@ -271,26 +276,6 @@ def function_body(source_text: str, name: str) -> str | None:
     return None
 
 
-def latest_external_successes(
-    rows: list[dict[str, str]],
-) -> dict[int, dict[str, str]]:
-    selected: dict[int, dict[str, str]] = {}
-    for row in rows:
-        if row["result"] == "matched":
-            address = parse_integer(row["address"], "external matched address")
-            previous = selected.get(address)
-            # Mode-sorted rows are not chronological: the follow-up supersedes
-            # historical reference successes even when those sort after it.
-            if (
-                previous is not None
-                and previous["mode"] == "reclassification_match"
-                and row["mode"] != "reclassification_match"
-            ):
-                continue
-            selected[address] = row
-    return selected
-
-
 def audit_attempts(root: Path) -> None:
     functions_path = root / "config/slus_01411/functions.csv"
     attempts_path = root / "config/slus_01411/attempts.csv"
@@ -392,12 +377,6 @@ def audit_attempts(root: Path) -> None:
 
     external_by_key: dict[tuple[str, int], list[dict[str, str]]] = {}
     external_matches: set[int] = set()
-    previously_resolved = {
-        parse_integer(row["address"], "external attempt address")
-        for row in external_attempts
-        if row["mode"] == "post_terminal_resolution"
-        and row["result"] == "matched"
-    }
     inline_latest: dict[int, str] = {}
     for row in external_attempts:
         if row["mode"] == "inline_refinement":
@@ -413,6 +392,10 @@ def audit_attempts(root: Path) -> None:
         for address, result in inline_latest.items()
         if result == "deferred"
     }
+    try:
+        previous_matches = previous_match_addresses(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
     for row in external_attempts:
         mode = row["mode"]
         address = parse_integer(row["address"], "external attempt address")
@@ -484,7 +467,10 @@ def audit_attempts(root: Path) -> None:
                 if mode == "collaborator_match"
                 else row["reference_path"] == original
                 or collaborator
-                or (mode == "post_terminal_resolution" and evidence)
+                or (
+                    mode in {"post_terminal_resolution", "reclassification_match"}
+                    and evidence
+                )
             )
             if not valid_reference:
                 raise AuditError(
@@ -509,10 +495,14 @@ def audit_attempts(root: Path) -> None:
                     f"{address:#010x}: post-terminal resolution must be matched"
                 )
         if mode == "reclassification_match":
-            if address not in previously_resolved or row["result"] != "matched":
+            if address not in previous_matches:
                 raise AuditError(
-                    f"{address:#010x}: reclassification match requires a "
-                    "previous post-terminal match and a matched result"
+                    f"{address:#010x}: reclassification match lacks prior "
+                    "matched non-refinement external evidence"
+                )
+            if row["result"] != "matched":
+                raise AuditError(
+                    f"{address:#010x}: reclassification match must be matched"
                 )
         external_by_key.setdefault((mode, address), []).append(row)
 
@@ -544,9 +534,11 @@ def audit_attempts(root: Path) -> None:
                     f"{address:#010x}: final external attempt is not deferred"
                 )
 
-    latest_success_by_address = latest_external_successes(external_attempts)
-
-    for address, row in latest_success_by_address.items():
+    try:
+        selected_successes = latest_successes(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
+    for address, row in selected_successes.items():
         mode = row["mode"]
         if address not in matching_addresses:
             raise AuditError(

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
@@ -86,6 +87,27 @@ extern u8 *alias asm("real_symbol");
             candidate_builds.candidate_extern_symbols(text),
             ["callback", "data", "hook", "real_symbol", "value"],
         )
+
+    def test_contract_symbols_follow_used_header_asm_aliases(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            header = root / "aliases.h"
+            source = root / "candidate.c"
+            header.write_text(
+                'extern long LocalName(void *) asm("CanonicalName");\n'
+                'extern long UnusedName(void *) asm("UnusedCanonical");\n',
+                encoding="utf-8",
+            )
+            source.write_text(
+                '#include "aliases.h"\n'
+                "long candidate(void *value) { return LocalName(value); }\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(source, source.read_text()),
+                ["CanonicalName"],
+            )
 
     def test_contract_hash_is_deterministic(self) -> None:
         declarations = {

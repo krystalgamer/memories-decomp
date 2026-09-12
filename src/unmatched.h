@@ -584,10 +584,6 @@ struct CardList;
 struct DuelEffectChannel;
 struct DuelRitualResult;
 
-/* Fills the file position table. Its one caller is the boot-time start-up
- * func_80013154, a candidate since #3859 (src/candidates/func_80013154.c). */
-void File_SetPositionTable(void);
-
 /* The duel screen's per-frame view callback. It reads D_800F2848, programs
  * the geometry engine from its projection field -- SetGeomScreen,
  * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
@@ -681,12 +677,6 @@ s32 func_800330BC(struct CardList *list);
  * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
  * slots. */
 void Dialog_UpdateChoice(struct DuelEffectChannel *object);
-
-/* D_80090EAC entry: the fade command. Bit 6 of its operand sets D_8009B140 from
- * the D_8009AF74 pair, bit 5 sets it to 4, and bit 4 starts a fade -- white
- * through Fade_InitOutColor when bit 0 is set. The bits are tested in that
- * order and are not exclusive. */
-void func_800388D8(u8 *object);
 
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
