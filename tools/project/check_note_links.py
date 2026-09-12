@@ -124,6 +124,29 @@ def inline_targets(line: str) -> list[tuple[int, int, str]]:
             search_from = marker + 2
 
 
+def reference_definitions(lines: list[str]) -> tuple[dict[str, str], set[int]]:
+    definitions: dict[str, str] = {}
+    definition_lines: set[int] = set()
+    for index, line in enumerate(lines):
+        match = REFERENCE_DEFINITION.match(line)
+        if match is None:
+            continue
+        definition_lines.add(index + 1)
+        parsed = parse_destination(match.group("rest"))
+        if (
+            parsed is None
+            and not match.group("rest").strip()
+            and index + 1 < len(lines)
+            and lines[index + 1][:1].isspace()
+        ):
+            parsed = parse_destination(lines[index + 1])
+            if parsed is not None:
+                definition_lines.add(index + 2)
+        if parsed is not None:
+            definitions.setdefault(normalize_label(match.group("label")), parsed[0])
+    return definitions, definition_lines
+
+
 def resolve_target(
     root: Path,
     note: Path,
@@ -155,17 +178,7 @@ def check_note_links(root: Path = ROOT) -> tuple[int, int, list[Problem]]:
         text = note.read_text(encoding="utf-8")
         check_inline_paths = (root / "notes/research") not in note.parents
         lines = text.splitlines()
-        definitions: dict[str, str] = {}
-        definition_lines: set[int] = set()
-        for line_number, line in enumerate(lines, 1):
-            match = REFERENCE_DEFINITION.match(line)
-            if match is None:
-                continue
-            parsed = parse_destination(match.group("rest"))
-            if parsed is None:
-                continue
-            definitions[normalize_label(match.group("label"))] = parsed[0]
-            definition_lines.add(line_number)
+        definitions, definition_lines = reference_definitions(lines)
 
         for line_number, line in enumerate(lines, 1):
             inline_spans = inline_targets(line)

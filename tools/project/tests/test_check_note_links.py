@@ -181,6 +181,60 @@ class CheckNoteLinksTests(unittest.TestCase):
             [("../src/missing.c", "does not exist")],
         )
 
+    def test_reference_definitions_use_first_normalized_label(self) -> None:
+        with local_temporary_directory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            source = root / "src"
+            notes.mkdir()
+            source.mkdir()
+            (source / "file.c").write_text("void f(void) {}\n", encoding="utf-8")
+            (notes / "first-missing.md").write_text(
+                "[x][ref]\n"
+                "[ref]: ../src/missing.c\n"
+                "[ REF ]: ../src/file.c\n",
+                encoding="utf-8",
+            )
+            (notes / "first-existing.md").write_text(
+                "[x][ref]\n"
+                "[ref]: ../src/file.c\n"
+                "[ REF ]: ../src/missing.c\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 2)
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [("../src/missing.c", "does not exist")],
+        )
+
+    def test_reference_destinations_continue_on_indented_line(self) -> None:
+        with local_temporary_directory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            source = root / "src"
+            notes.mkdir()
+            source.mkdir()
+            (source / "file.c").write_text("void f(void) {}\n", encoding="utf-8")
+            (notes / "a.md").write_text(
+                "[existing][source] and [missing][absent]\n"
+                "[source]:\n"
+                "    ../src/file.c\n"
+                "[absent]:\n"
+                "    ../src/missing.c\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 2)
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [("../src/missing.c", "does not exist")],
+        )
+
     def test_parenthesized_and_escaped_destinations_are_not_truncated(self) -> None:
         with local_temporary_directory() as directory:
             root = Path(directory)
