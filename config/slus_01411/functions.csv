@@ -941,7 +941,7 @@ address,size,name,status,module,notes
 0x80059590,0x38,func_80059590,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800595C8,0xD4,func_800595C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005969C,0x64,func_8005969C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0. Its g0 and g0_split objects are byte-identical; grouped with the velocity update it directly starts.
-0x80059700,0xC8,func_80059700,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80059700.c with target src/candidates_target/func_80059700.S; profile gcc_2_8_1_g0_split. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: Exact post-terminal pure-C match; initializing the accepted a1 velocity pin from the incoming sign replaces an empty assembly liveness launder."
+0x80059700,0xC8,func_80059700,matching_c,game,Updates one model slot state from the input sign and dispatches the derived signed velocity. Branch-local assignments naturally preserve the retail a2-to-a1 dataflow without register pins.
 0x800597C8,0xC4,func_800597C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005988C,0x58,func_8005988C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800598E4,0x24,func_800598E4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
