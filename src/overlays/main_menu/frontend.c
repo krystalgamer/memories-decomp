@@ -46,7 +46,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         func_800428A8(object, 0, 0, 5, 0, 0, 0x1A, 1, D_801AF800);
         D_80184558->attribute |= 0x1000000;
         D_80184558->flags |= 0x28;
-        func_800428EC(D_80184558, 0);
+        func_800428EC((u8 *)D_80184558, 0);
     }
 
     object = func_800400AC(func_8004002C(), 2);
@@ -55,7 +55,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         func_800428A8(object, 0, 8, 5, 0, 2, 0x1A, 1, D_801AF800);
         D_8018455C->attribute |= 0x1000000;
         D_8018455C->flags |= 0x28;
-        func_800428EC(D_8018455C, 1);
+        func_800428EC((u8 *)D_8018455C, 1);
     }
 
     object = func_800400AC(func_8004002C(), 2);
@@ -86,9 +86,9 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             entry->flags =
                 (entry->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            func_80040410(entry, value);
+            func_80040410((DisplayObjectConfig *)entry, value);
             func_80042918(entry);
-            gMain_apMenuEntries[i] = entry;
+            gMain_apMenuEntries[i] = (u8 *)entry;
         } else {
             gMain_apMenuEntries[i] = 0;
         }
