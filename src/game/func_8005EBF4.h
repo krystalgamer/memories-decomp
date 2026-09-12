@@ -38,6 +38,10 @@ typedef struct {
 
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out);
 
+/* Computes the duration/bound at +0x22 from the signed control at +0x20
+ * and the key's two endpoint channels. Preserves the caller's byte view. */
+void func_8005E808(u8 *key);
+
 /* Seeds the pose the evaluator above starts from. Declared here because the
    two live in one translation unit. */
 void func_8005F070(s32 enabled);
