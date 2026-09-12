@@ -15,6 +15,7 @@
 #include "view_state.h"
 #include "display_object.h"
 #include "duel_card_display_state.h"
+#include "func_8002C604.h"
 #include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "debug_effect_screen.h"

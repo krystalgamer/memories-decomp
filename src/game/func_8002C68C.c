@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "duel_effect_request.h"
-#include "../unmatched.h"
+#include "func_8002C604.h"
 
 /* Hands out one request: func_8002C604 allocates it for the caller's effect
  * id, and bit 7 of the pool's status byte records that one is out. The id

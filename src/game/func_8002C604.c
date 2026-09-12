@@ -1,15 +1,10 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_8002C604.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g0_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G0). Under
- * gcc_2_8_1_g0_split, a single threshold, it is 34 of 34 instructions with
- * 3 differing, opcode distance 0. The source below is the match, unchanged
- * apart from its include paths. */
 #include "../types.h"
-#include "../game/duel_effect_object_pool.h"
-#include "../unmatched.h"
-#include "../game/ordering_tables.h"
+#include "duel_effect_object_pool.h"
+#include "func_8002C604.h"
+#include "ordering_tables.h"
 
-#include "../game/high_memory_addresses.h"
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 /* Allocates a request entry through func_8002C5CC and fills it: flag byte
  * 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at +0x14,

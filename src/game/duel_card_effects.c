@@ -9,6 +9,7 @@
 #include "card_constants.h"
 #include "duel_action_lock.h"
 #include "duel_effect_request.h"
+#include "func_8002C604.h"
 #include "duel_monster_removal_rules.h"
 #include "sound.h"
 #include "duel_card_layout.h"

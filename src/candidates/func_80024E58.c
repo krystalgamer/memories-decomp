@@ -9,6 +9,7 @@
 #include "../game/duel_terrain_boost.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_effect_request.h"
+#include "../game/func_8002C604.h"
 #include "../game/duel_action_lock.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_layout.h"
