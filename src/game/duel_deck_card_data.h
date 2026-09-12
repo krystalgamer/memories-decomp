@@ -3,8 +3,10 @@
 
 #include "../types.h"
 
-/* Fills gDuel_aDeckCardRecords once the transfer Duel_RequestCombinedDeckData
- * (unmatched.h) starts has landed.
+void Duel_RequestCombinedDeckData(void);
+
+/* Fills gDuel_aDeckCardRecords once the transfer
+ * Duel_RequestCombinedDeckData starts has landed.
  *
  * For each of the combined deck's entries it takes the id and the flag byte
  * from their two tables, records the entry's own index twice, and then finds
@@ -15,7 +17,7 @@
  * match, with no end test, so it assumes every combined-deck id is present in
  * the list Duel_RequestCombinedDeckData built. That is a property of the pair
  * rather than of this function alone. The two shared one unit until #3859
- * moved the request to src/candidates/func_80024734.c. */
+ * moved the request out of the original grouped unit. */
 void Duel_PopulateCombinedDeckData(void);
 
 #endif
