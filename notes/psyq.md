@@ -231,6 +231,27 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 | `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
 | `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
 
+The adjacent 36-byte startup metadata block is now C-owned by
+[`src/psyq/startup_data.c`](../src/psyq/startup_data.c), rather than emitted by
+the generated `initialized_data_800906e0` assembly blob. It defines the guard
+word at `D_800906E0`, the word at `D_800906E4`, and the seven-word record at
+`D_800906E8`. The record contains the entrypoint address, resident text size,
+initialized-data start and size, BSS start and size. Three record fields are
+symbol-derived addresses; the leading record word and three size fields are
+literals. The compiled object's `.data` relocation table is:
+
+```text
+OFFSET    TYPE       VALUE
+0000000c  R_MIPS_32  entrypoint
+00000014  R_MIPS_32  D_800906E0
+0000001c  R_MIPS_32  D_8009B4A8
+```
+
+`initialized_data_start` is the C macro for `D_800906E0`, so the middle
+relocation names that symbol directly. There is no fourth relocated data word;
+the zero at record offset `+0x00` is a literal null value. The complete
+executable remains byte-identical.
+
 The comparison
 [symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposed
 `__SN_ENTRY_POINT`, `__main`, and `__do_global_dtors` for these addresses, and
