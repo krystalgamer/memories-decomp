@@ -10,8 +10,6 @@
 #include "../game/model_slot_state_updates.h"
 #include "../game/func_80057AF4.h"
 
-extern ModelSlot D_800F2C40[];
-
 void func_80057AF4(s32 index, s32 anim, s32 flag) {
     register ModelSlot *m asm("$17");
     register s32 off asm("$2");
