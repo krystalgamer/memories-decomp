@@ -8,7 +8,7 @@
  * the left. On the first frame it fixes the target x at its current output x
  * minus 0x140, takes its step from the phase value it was given (0x400 /
  * field_60), and starts the phase at -0x400. Each frame then eases it through
- * func_80043230. When the phase reaches zero it snaps to the target and
+ * Widget_SlideSine. When the phase reaches zero it snaps to the target and
  * clears its update hook and field_6C. duel_draw_resolution.c installs it by
  * address. */
 void func_80018C34(DisplayObject *o);

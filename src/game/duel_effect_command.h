@@ -8,8 +8,10 @@
  * byte, resolves a card id -- gDuel_wSelectedCardID or one taken from the
  * stream -- and appends the requested field to the object's text.
  *
- * The body is register-pinned on the current stream pointer; the note in the
- * source explains which pair local-alloc otherwise swaps. */
+ * The stream-slot offset first lives in `text`; a block-scoped stream pointer
+ * advances from the object base and is then coalesced back into `text`. That
+ * lifetime split preserves the retail allocation without hard-register
+ * bindings. */
 void func_80037DA4(u8 *object);
 
 /* The shared step every handler in this unit runs: it raises bit 0x80 of the

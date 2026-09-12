@@ -1,7 +1,8 @@
 #include "../types.h"
 #include "scene_image_overlay_tables.h"
 
-/* Initialized data at 0x80090BA8 and 0x80090C00, read only by func_8002E128
+/* Initialized data at 0x80090BA8 and 0x80090C00, read only by
+   ScriptImage_RebuildObjects
    when it rebuilds a scene-script image record's display objects. Both were
    part of a generated blob until now (#2602).
 

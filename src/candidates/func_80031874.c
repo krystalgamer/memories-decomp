@@ -23,6 +23,7 @@
 #include "../game/text_encode_decimal_digits.h"
 #include "../game/card_type_icon_table.h"
 #include "../game/build_deck_transition_state.h"
+#include "../game/color_constants.h"
 
 extern s16 gGraphics_sViewportX __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY __attribute__((section(".data")));
@@ -55,7 +56,7 @@ void func_80031874(u8 *obj, s32 ot)
     y = *(s16 *)(obj + 0x32);
     *(s16 *)(tag + 0xC) = 0xB;
     *(s16 *)(spr + 0xC) = 0xB;
-    *(u32 *)(spr + 0x14) = 0x808080;
+    *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)(spr + 8) = 0x80008;
     *(u32 *)(tag + 8) = 0x100010;
     vy = gGraphics_sViewportY;
@@ -66,7 +67,7 @@ void func_80031874(u8 *obj, s32 ot)
     *(u32 *)(tag + 0) = tex;
     *(u32 *)(spr + 0) = tex;
     idx = obj[0x67];
-    rec = (u8 *)D_8009B2FC + (idx * 0x2D4C + 4);
+    rec = (u8 *)&D_8009B2FC->lists[idx];
     row = rec + *(s16 *)(rec + 0x2D3C) * 16;
     if (idx == 0) {
         *(s16 *)(tag + 4) = x + 0x88;
@@ -84,10 +85,10 @@ void func_80031874(u8 *obj, s32 ot)
         *(s16 *)(spr + 4) = x + 4;
         *(s16 *)(spr + 6) = ry;
         if (row[5] != 0) {
-            *(u32 *)(spr + 0x14) = 0x808080;
+            *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
             value = *(s16 *)(row - 4);
             if (row[5] & 0x80) {
-                *(u32 *)(spr + 0x14) = 0x404040;
+                *(u32 *)(spr + 0x14) = COLOR_RGB24_DIM_GREY;
             }
             if (idx != 0) {
                 *(s16 *)(spr + 4) = x + 0x11;
@@ -96,7 +97,7 @@ void func_80031874(u8 *obj, s32 ot)
                 );
                 func_800316F0(spr, ot, text, 2);
                 *(u16 *)(spr + 4) = *(u16 *)(spr + 4) + 4;
-            } else if (*((u8 *)D_8009B2FC + value + 0x606A) != 0) {
+            } else if (D_8009B2FC->card_sort_rank[value] != 0) {
                 spr[0xF] = 0x68;
                 *(s16 *)(spr + 8) = 0x18;
                 spr[0xE] = 0xE8;
@@ -128,10 +129,10 @@ void func_80031874(u8 *obj, s32 ot)
                 *(s16 *)(spr + 4) = x + 0x107;
                 *(u16 *)(spr + 6) = *(u16 *)(spr + 6) + 8;
                 Text_EncodeDecimalDigits(
-                    *((u8 *)D_8009B2FC + value + 0x5D97), n, text
+                    D_8009B2FC->chest_card_quantities[value], n, text
                 );
                 func_800316F0(spr, ot, text, n);
-                v = *((u8 *)D_8009B2FC + value + 0x5AC4);
+                v = D_8009B2FC->deck_card_quantities[value];
                 if (v < 3) {
                     if ((u32)(value - 0x11) < 5) {
                         if (v == 0) {
@@ -147,7 +148,7 @@ emit:
                 *(s16 *)(spr + 4) = x + 0x122;
                 Text_EncodeDecimalDigits(v, n, text);
                 func_800316F0(spr, ot, text, n);
-                *(u32 *)(spr + 0x14) = 0x808080;
+                *(u32 *)(spr + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
                 *(u16 *)(spr + 6) = *(u16 *)(spr + 6) - 8;
             }
         }

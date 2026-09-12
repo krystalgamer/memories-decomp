@@ -115,7 +115,7 @@ typedef struct DuelEffectChannel {
        as a word index rather than an offset: every reader scales it by four.
        TextBox_BuildStep advances the selected pointer past each opcode it
        consumes, and duel_effect_object_commands.c and
-       func_80038334.c reach the same slot the same way. Signed
+       duel_effect_command.c reach the same slot the same way. Signed
        because all three read it through an s8. */
     s8 stream_58;
     u8 field_59;
@@ -125,7 +125,7 @@ typedef struct DuelEffectChannel {
     u16 range_count_5E;
     u8 field_60;
     u8 field_61;
-    /* Written by func_80037DA4 (with a type value), func_80038B08 and
+    /* Written by func_80037DA4 (with a type value), Text_CloseChoice and
        duel_effect_entry_control.c, and read back by func_80036C14.
        Named rather than described: the writes and the read prove a
        byte is here, not what it carries. */
@@ -203,7 +203,7 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
  * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
  * base instruction disappears (free_duel_functions.csv,
  * notes/overlays/matching-patterns.md). Neither of those measures the name
- * against `&D_800EB0F8[1]` -- func_8002DC38.c passes that form directly and
+ * against `&D_800EB0F8[1]` -- Main_RunTwoPlayerDuelSetup passes that form directly and
  * matches -- so what is established is that the four files using this name
  * match as written; whether they would also match through the array index
  * is not measured. */
@@ -229,6 +229,18 @@ extern u32 D_800EB12C __attribute__((section(".data")));
 extern u32 D_800EB12C;
 #endif
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
+
+/* The selected card's guardian-star text id. func_80023144 stores guardian
+ * star 1 or 2 plus 0x17 while it prepares the field-card display, and
+ * func_80038070 forwards the byte to the shared text-command renderer.
+ * Every access is sb or lbu. Retail addresses the candidate writer through
+ * $at, while the matching reader is gp-relative, so the writer selects the
+ * .data declaration and the reader takes the plain declaration. */
+#ifdef D_8009B344_IN_DATA
+extern u8 D_8009B344 __attribute__((section(".data")));
+#else
+extern u8 D_8009B344;
+#endif
 
 /* The field-card text selector. func_80023144 clears it on entry, sets 1
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a

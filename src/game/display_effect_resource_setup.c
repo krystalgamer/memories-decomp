@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_effect_lifecycle.h"
+#include "color_constants.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -47,7 +48,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
     }
 
     {
-        m = 0x41000000;
+        m = GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         p = func_800400AC(func_8004002C(), 2);
         func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
@@ -76,7 +77,8 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
                           h, tb);
             func_80042918(p);
             func_800428EC((u8 *)p, f | 1);
-            p->attribute = p->attribute | 0x41000000;
+            p->attribute =
+                p->attribute | GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
             p = (DisplayObject *)0;
@@ -102,7 +104,7 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
                 *(u32 *)(e + 4) = *(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE);
                 *(u32 *)(e + 4) = *(u32 *)(e + 4) | GsALON;
                 func_800428EC(e, c);
-                *(u32 *)(e + 0xC) = 0x808080;
+                *(u32 *)(e + 0xC) = COLOR_RGB24_NEUTRAL_GREY;
                 *(u16 *)(e + 0x42) -= 1;
             }
         }

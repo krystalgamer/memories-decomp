@@ -239,6 +239,15 @@ extern u16 D_8009B098;
 
 extern DISPENV gGraphics_DispEnv;
 
+/* Graphics_BeginFrame publishes the active buffer index in this byte.
+ * GPU readback and Script_OpShowImage reach it absolutely rather than
+ * through the small-data base. */
+#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
+extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
+#else
+extern u8 gGraphics_bActiveBuffer;
+#endif
+
 /* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
  * draw environment unsized, and retain startup's volatile byte stores.
  * See notes/graphics-frame-environments.md for the address/field evidence. */
@@ -278,7 +287,7 @@ typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
 extern RECT D_800E9D70[2];
 
 /* The tint colour, three consecutive bytes with the components in address
- * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
+ * order blue, green, red. func_8005B8A0 and Movie_StopStream pass them straight
  * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
  * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
  * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.
@@ -317,10 +326,17 @@ extern u8 D_8009B144;
    results have to be able to go negative.
 
    Files that reach these through `__attribute__((section(".data")))`, or as an
-   unsized or [4] array, are deliberately not converted -- those spellings
+   unsized or [4] array, select the guarded view below because those spellings
    change how the address is materialised, not just how the value reads. */
+#ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
+extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
+#endif
 
 /* The double-buffered graphics work area. Graphics_BeginFrame picks the half
  * for the frame it is starting and publishes it:

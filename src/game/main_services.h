@@ -52,6 +52,9 @@ extern jmp_buf D_800E9DC0;
  * func_800134B4.c clears alongside them; only it and main_services.c use it. */
 extern void (*D_8009B0B8)(void);
 
+/* The signed per-frame watchdog owned and initialized by main_services.c. */
+extern s32 runtime_gp;
+
 /* A one-byte state value func_80013154 sets alongside D_8009B0A0 to
  * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
  * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the
@@ -86,11 +89,11 @@ extern u8 D_8009B0A3[];
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, D_8009B26D),
    whose parameters are (unused, menu): D_8009B26D is the menu id --
-   func_8002D458 stores its mode argument, func_8002EE94 and func_8002FA28
+   Main_ApplyMenuSelection stores its selection argument, func_8002EE94 and func_8002FA28
    store 5, func_80030CB0 round-trips it through gDebug_nSceneOrSoundID,
    Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
-   request and 0 in three of func_8002D458's arms. Both are bytes, read lbu.
-   func_8002D458.c and main_run_frontend_menus.c reach them through $gp;
+   request and 0 in three of Main_ApplyMenuSelection's arms. Both are bytes, read lbu.
+   main_apply_menu_selection.c and main_run_frontend_menus.c reach them through $gp;
    src/candidates/func_8002EE94.c, func_8002FA28.c and frontend_scene_states.c
    address them with %hi/%lo, outside small data, and define the .data arms. */
 #ifdef D_8009B268_IN_DATA

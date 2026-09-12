@@ -588,9 +588,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 
 #ifndef SDVALUE_CUSTOM_EXTERN
 /* Three spellings of this one declaration live below, and they are codegen
- * inputs rather than style. Five translation units need one of them:
- * func_800464F0.c takes the aggregate arm, func_80049138.c the volatile one,
- * and func_80047788.c, func_80045514.c and func_80046294.c the .data one.
+ * inputs rather than style. Six translation units need one of them:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c and func_800466C8.c
+ * take the volatile arm; func_80047788.c, func_80045514.c and func_80046294.c
+ * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -599,6 +600,8 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
+ *   func_800466C8 also refreshes it after its conditional output setup and
+ *   captures it again before clearing the output flag.
  *
  *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
  *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
@@ -644,11 +647,8 @@ extern u8 *D_8009B458;
 extern SDSecondaryState *D_8009B458;
 #endif
 
-/* Separate compiler identities retain the timer's byte store and the
- * candidate's measured root reload; both resolve to the same linker word. */
-#ifdef SDSECONDARYSTATE_BYTE_ALIAS
-extern u8 *D_8009B458_bytes asm("D_8009B458");
-#endif
+/* A separate compiler identity retains the candidate's measured root reload;
+ * it resolves to the same linker word. */
 #ifdef SDSECONDARYSTATE_RELOAD_ALIAS
 extern u8 *D_8009B458_r asm("D_8009B458");
 #endif
@@ -664,8 +664,7 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * with sound_voice_envelope.c on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
  * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; sound_voice_envelope.c and the func_8004A6F8 candidate define
- * it.
+ * qualifier; sound_voice_envelope.c defines it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
@@ -673,8 +672,10 @@ extern const s32 D_80011434[20];
 extern s32 D_80011434[20];
 #endif
 
+/* Copies a tone record's ADSR fields into one SPU voice. */
+void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone);
 /* Resets one SPU voice's envelope through the shared attribute block. */
-void func_8004A764(s32 index);
+void SD_ResetVoiceEnvelope(s32 index);
 
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
@@ -696,7 +697,7 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void func_80047480(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
-   SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+   SD_SequenceTimerCallback (sd_sequence_timer_callback.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
@@ -709,13 +710,14 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
-   func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
-   which rebuilds the voice tables. func_8004A43C refreshes one secondary
+   func_80049BAC.c calls the reset right before func_8004A518, which rebuilds
+   the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
+void func_8004A518(void);
 void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 

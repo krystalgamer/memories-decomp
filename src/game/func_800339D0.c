@@ -37,23 +37,24 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
  * +0x2D54 whose byte 9 is set, func_80032370 runs and the state word is
  * cleared. */
-void func_800339D0(u8 *state)
+void func_800339D0(BuildDeckTransitionState *record)
 {
+    BuildDeckTransitionState *workspace = record;
     u8 *box;
     u8 *src;
     u8 *dst;
     u16 *slot;
-    u8 *entry;
+    CardEntry *entry;
     s32 mode;
     s32 i;
 
-    if (func_80032B38((BuildDeckTransitionState *)state) == 0) {
+    if (func_80032B38(workspace) == 0) {
         SD_SEPlayFull(8);
         if (func_80033998() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
             mode = D_8009B2F8 & 0x80;
-            ((BuildDeckTransitionState *)state)->state |= 0x4000;
+            workspace->state |= 0x4000;
             if (mode) {
                 ((u8 *)TextBox_CreateFlagged(
                     0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
@@ -71,8 +72,8 @@ void func_800339D0(u8 *state)
     }
     /* Computed before the branch: it is only used on the copy path, so it
        crosses no call, and reorg lifts it into the branch delay slot. */
-    src = state + 0x5D98;
-    if (((BuildDeckTransitionState *)state)->state & 0x4000) {
+    src = &workspace->chest_card_quantities[CARD_ID_FIRST];
+    if (workspace->state & 0x4000) {
         func_80039794();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
@@ -80,10 +81,9 @@ void func_800339D0(u8 *state)
         if ((*(u32 *)(box + 0x34) & 0x2008) == 0x2000) {
             TextBox_Destroy(box);
             if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {
-                ((BuildDeckTransitionState *)state)->state &= 0xBFFF;
+                workspace->state &= 0xBFFF;
             } else {
-                ((BuildDeckTransitionState *)state)->state =
-                    ((BuildDeckTransitionState *)state)->next_state;
+                workspace->state = workspace->next_state;
                 Fade_SetTargetLevel(0xFF, 2);
             }
         }
@@ -92,23 +92,23 @@ void func_800339D0(u8 *state)
            time; that is what ranks the counter and the pointers into
            retail's argument registers. */
         i = 0;
-        dst = *(u8 **)state + DECK_SIZE * sizeof(u16);
+        dst = (u8 *)(workspace->deck_cards + DECK_SIZE);
         for (; i < CARD_COUNT; i++) {
             *dst++ = *src++;
         }
-        slot = *(u16 **)state;
+        slot = workspace->deck_cards;
         i = 0;
-        entry = state + 0x2D54;
+        entry = workspace->lists[1].entries;
         for (; i < DECK_SIZE; i++) {
             *slot = 0;
-            if (entry[9] != 0) {
-                *slot = *(u16 *)entry;
+            if (entry->flags != 0) {
+                *slot = entry->id;
             }
             slot++;
-            entry += 0x10;
+            entry++;
         }
         func_80032370();
-        ((BuildDeckTransitionState *)state)->state = 0;
+        workspace->state = 0;
     }
 }
 
@@ -143,7 +143,7 @@ s32 func_80033BE8(void)
     first[0xC] = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        D_80090DF8[D_8009B2FC->state & 0x3F]((u8 *)D_8009B2FC);
+        D_80090DF8[D_8009B2FC->state & 0x3F](D_8009B2FC);
     }
 
     return D_8009B2FC->state;

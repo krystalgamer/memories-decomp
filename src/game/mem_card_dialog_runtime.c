@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
 #include "display_object_api.h"
@@ -191,7 +190,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     s32 value;
 
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_60;
@@ -210,11 +209,13 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     }
     object->field_60 = value;
 
-    func_80043230((DisplayObjectPosition *)object, arg1, arg2, value);
+    Widget_SlideSine((DisplayObjectPosition *)object, arg1, arg2, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-            (u8 *)D_800EB0F8 + saved_index * 100,
+            (DuelEffectChannel *)(
+                (u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
+            ),
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }
@@ -226,7 +227,7 @@ void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
     DuelEffectChannel *p = D_800EB0F8;
-    u8 *o;
+    DisplayObject *o;
 
     D_8009B3EE = 0;
 
@@ -240,9 +241,9 @@ void MemCardDialog_CreateObject(void)
 
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
-    *(u16 *)(o + 8) |= 0x28;
-    func_80042918((DisplayObject *)o);
-    func_800428EC(o, 0xF);
+    o->flags |= 0x28;
+    func_80042918(o);
+    func_800428EC((u8 *)o, 0xF);
     D_8009B3D8 = o;
 }
 
@@ -256,16 +257,16 @@ void MemCardDialog_Update(void)
 
     f = gMemCard_wDialogFlags;
     if ((f & MEM_CARD_DIALOG_FLAG_CLOSING) != 0) {
-        if (D_8009B3D8 == (u8 *)0) {
+        if (D_8009B3D8 == 0) {
             gMemCard_wDialogFlags = 0;
             return;
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
+                D_8009B3D8, 0x20, 0x100, D_8009B3EE
             ) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
-            D_8009B3D8 = (u8 *)0;
+            D_8009B3D8 = 0;
         }
         return;
     }
@@ -290,7 +291,7 @@ void MemCardDialog_Update(void)
                 p->flags_34 = p->flags_34 | 0x1008;
                 return;
             }
-            func_80039A14((u8 *)p);
+            func_80039A14(p);
             goto b14;
         }
         func_80039794();
@@ -315,11 +316,11 @@ void MemCardDialog_Update(void)
             MemCardStart();
             D_8009B3EF = 2;
             MemCardDialog_CreateObject();
-            *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
+            D_8009B3D8->field_60 = -0x400;
             return;
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x50, -1
+                D_8009B3D8, 0x20, 0x50, -1
             ) == 0) {
             gMemCard_wDialogFlags =
                 gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
@@ -344,7 +345,7 @@ void MemCardDialog_Update(void)
 b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
-    *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
+    D_8009B3D8->field_60 = 0x400;
     MemCardStop();
 }
 

@@ -23,7 +23,6 @@
 #include "../game/func_80039794.h"
 #include "../game/func_8003B6AC.h"
 #include "../game/display_object.h"
-#include "../game/func_80043178.h"
 #include "../game/display_object_interpolation.h"
 #include "../game/script_state.h"
 #include "../game/main_services.h"
@@ -105,7 +104,7 @@ void func_8002EE94(void)
         do {
             func_80039794();
         } while (box->field_30 == 0);
-        func_80043178((DisplayObjectSnapshot *)box->field_28);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)box->field_28);
         slot = box->field_28;
         next = D_8009B27C | 0x6000;
         slot->field_60 = -0x400;
@@ -164,7 +163,7 @@ void func_8002EE94(void)
     if ((flags & 0x1000) != 0) {
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
-            func_80043178((DisplayObjectSnapshot *)obj);
+            DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
             *(s16 *)&box->field_28->field_60 = 0x400;
         }
         step = *(u16 *)&obj->field_60 - 0x40;
@@ -174,8 +173,9 @@ void func_8002EE94(void)
             D_8009B27C = 0;
             return;
         }
-        func_80043230((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
+        Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
+        TextBox_SetPos((struct DuelEffectChannel *)box,
+                       *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);
         return;
     }
@@ -191,11 +191,13 @@ void func_8002EE94(void)
                directly above it convert to member access and match; converting
                this one as well costs sixteen bytes. Same field, same function,
                and the two spellings are not interchangeable here. */
-            TextBox_SetPos((u8 *)box, ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
+            TextBox_SetPos((struct DuelEffectChannel *)box,
+                           ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
             return;
         }
-        func_80043230((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos((u8 *)box, *(s16 *)&obj->field_30.h.field_30,
+        Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
+        TextBox_SetPos((struct DuelEffectChannel *)box,
+                       *(s16 *)&obj->field_30.h.field_30,
                *(s16 *)&obj->field_30.h.field_32);
         return;
     }

@@ -117,7 +117,7 @@ extern u8 D_8009B3EF;
 /* The retry gate shared by the create and load state machines: both test it
  * against zero before starting, and the create path clears it.
  *
- * #3084 excluded this symbol on the grounds that func_8002D458.c also names
+ * #3084 excluded this symbol on the grounds that main_apply_menu_selection.c also names
  * it and so it was not family-local. That was over-cautious: that source
  * spells it with a .data section attribute, which is the absolute-addressing
  * group rather than a different type, and it does not include this header, so
@@ -214,7 +214,7 @@ extern u8 D_8009B3C0;
  */
 extern u8 D_8009B3EE;
 extern u8 D_8009B3C6;
-extern u8 *D_8009B3D8;
+extern struct DisplayObject *D_8009B3D8;
 extern u8 D_8009B3DC;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;

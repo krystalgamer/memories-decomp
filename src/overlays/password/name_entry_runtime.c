@@ -2,6 +2,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "../../game/color_constants.h"
 #include "../../game/input.h"
 #include "../../game/display_object_config.h"
 #include "../../game/text_constants.h"
@@ -12,7 +13,6 @@
 #include "../../game/text_box_runtime.h"
 #include "../../game/func_80039794.h"
 #include "../../game/func_8003B6AC.h"
-#include "../../game/func_80043178.h"
 #include "../../game/gpu_packets.h"
 #include "../../game/sound.h"
 #include "../../game/save_data.h"
@@ -47,7 +47,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
     object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
     object->field_5A = 0x14;
     object->field_5B = 0x12;
-    func_80039A14((u8 *)object);
+    func_80039A14((struct DuelEffectChannel *)object);
 }
 
 void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
@@ -136,12 +136,12 @@ void NameEntry_Init(void)
     boxes = D_800EB0F8;
     boxes[3].field_5A = 16;
     boxes[3].field_5B = 16;
-    func_80039A14((u8 *)&boxes[3]);
+    func_80039A14((struct DuelEffectChannel *)&boxes[3]);
     func_8003B6AC(0, 1);
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->field_5A = 20;
     sprite->field_5B = 18;
-    func_80039A14(sprite);
+    func_80039A14((struct DuelEffectChannel *)sprite);
     D_8016D4D0 = 2;
     NameEntry_BuildKeyboardTextBox(2);
     D_8016D426 = 0;
@@ -169,7 +169,7 @@ void NameEntry_Init(void)
     D_8016D43C = obj;
     obj = func_800400AC(func_8004002C(), 3);
     func_80040510((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
-    *(s32 *)(obj + 0xC) = 0x404040;
+    *(s32 *)(obj + 0xC) = COLOR_RGB24_DIM_GREY;
     *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x1000000;
     func_8004293C(obj);
     D_8016D4D2 = 244;
@@ -489,4 +489,3 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     SD_SEPlayFull(0xC);
     return 1;
 }
-

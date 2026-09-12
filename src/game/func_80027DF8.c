@@ -120,7 +120,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     {
         DuelDeckCardRecord *rp;
 
-        i = D_800E9FF0[who].field_18;
+        i = D_800E9FF0[who].deck_draw_cursor;
         rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;

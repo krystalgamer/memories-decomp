@@ -12,6 +12,12 @@
  * header comment describes a successful pick as being "published in
  * gDuel_wViewerCardID along with the event code 0x14 and state 2".
  *
+ * A third writer since 2026-09-12: the Trade screen updater,
+ * src/candidates/main_menu/func_801821DC.c, stores each pane's card id at
+ * two sites. That unit spelled the address D_8009B246 in a private
+ * declaration of the same type until then; nothing about its object changed
+ * when it took this name, only which name its two relocations carry.
+ *
  * func_800283F4 (src/candidates/func_800283F4.c) is the consumer. It hands
  * the id to func_80029164 to bring
  * the card's record in, and copies it into gDuel_wSelectedCardID for the

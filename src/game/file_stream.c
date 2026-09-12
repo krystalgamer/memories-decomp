@@ -1,11 +1,10 @@
 #include "../types.h"
 #include "file_constants.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../unmatched.h"
-
-extern s32 CdPosToInt_8007E710(const CdlLOC *);
 
 void File_InitTransferState(s32 value)
 {
@@ -75,14 +74,14 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     transfer->done = 1;
     transfer->substate = 0;
     transfer->buffer_index = 0;
-    transfer->mode = 0;
+    transfer->phase_size = 0;
     transfer->phase_callback = callback;
     transfer->result = field_40;
     if (length) {
         if (flags & 0x1000000) {
             transfer->direct_destination = length;
         } else {
-            transfer->mode = transfer->total_bytes;
+            transfer->phase_size = transfer->total_bytes;
             if (length < 0) {
                 transfer->done = 1;
                 transfer->value_0C = length;

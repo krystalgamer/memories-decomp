@@ -16,7 +16,8 @@ void func_80031E5C(u8 *record);
  * not in the chest list at all, so the entry whose id matches is marked
  * visible and the list is re-sorted; from a non-zero count below
  * CARD_CHEST_QUANTITY_MAX only the two numbers move. At the maximum it does
- * nothing, not even the total. */
+ * nothing, not even the total. The matched visibility-byte write is volatile
+ * so the post-search pointer adjustment is not folded into its store offset. */
 void func_80031EE4(u8 *base, s32 index);
 
 /* Two updates to the build-deck screen's per-card counts, both taking the
@@ -40,8 +41,9 @@ void func_8003201C(u8 *state);
  *
  * `base` is s32 rather than a pointer because that is what the definition
  * takes: the screen record is reached by adding constants to it, never
- * dereferenced as a struct, and the arithmetic sits under a $a0 register pin.
- * Its one caller holds the same record as u8 * and casts. */
+ * dereferenced as a struct. Its one caller holds the same record as u8 * and
+ * casts. The no-strength-reduction profile keeps the ordinary induction
+ * pointer in the retail register without a hard-register pin. */
 void BuildDeck_AddCard(s32 base, s32 card_id);
 
 #endif

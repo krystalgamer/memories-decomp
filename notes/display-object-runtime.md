@@ -286,7 +286,7 @@ them:
 
 | Bit | libgs.h | Meaning |
 |---|---|---|
-| `0x01000000` / `0x02000000` | — | colour mode; the page step of 1, 2, 4 is 4bpp, 8bpp, 16bpp |
+| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` / `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | `0x01000000` / `0x02000000` | colour mode; the page step of 1, 2, 4 is 4bpp, 8bpp, 16bpp |
 | `0x04000000` | `GsPERS` | perspective |
 | `0x08000000` | `GsROTOFF` | rotation off |
 | `0x10000000` | `GsAONE` | semi-transparency rate, bit 0 |
@@ -299,21 +299,23 @@ unchanged from the object.
 
 | Bit | Effect | Established by |
 |---|---|---|
-| `0x01000000` | Texture-page step of `2` per wrap | `func_800408D0` |
-| `0x02000000` | Texture-page step of `4`, taking precedence | `func_800408D0` |
+| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `func_800408D0` |
+| `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `func_800408D0` |
 | `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/candidates/func_80041F90.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
 
 The step values are the texture-page advance applied when a strip's `u`
-coordinate wraps past `0x100`, so `0x01000000` and `0x02000000` are the colour
-depth: 1, 2 and 4 pages correspond to 4bpp, 8bpp and 16bpp. `func_800408D0`
-already describes them as "the depth bits of the tag"; what is new here is the
-connection to the overlay writes.
+coordinate wraps past `0x100`, so `DISPLAY_OBJECT_ATTRIBUTE_8BPP` and
+`DISPLAY_OBJECT_ATTRIBUTE_16BPP` are the colour depth: 1, 2 and 4 pages
+correspond to 4bpp, 8bpp and 16bpp. `func_800408D0` already describes them as
+"the depth bits of the tag"; what is new here is the connection to the overlay
+writes.
 
 Read against that table, the overlay writes become legible:
 
-- `FreeDuel_Init` and `MainMenu_InitFrontend` set `0x01000000` on grid and menu
-  entries — selecting the 8bpp page step.
+- `FreeDuel_Init` and `MainMenu_InitFrontend` set
+  `DISPLAY_OBJECT_ATTRIBUTE_8BPP` on grid and menu entries — selecting the
+  8bpp page step.
 - `FreeDuel_Init` clears `0x08000000` on the cursor, opting it into the
   size/offset path.
 - `FreeDuel_UpdateSparkle` sets `0x50000000` and

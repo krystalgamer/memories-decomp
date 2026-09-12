@@ -20,8 +20,8 @@
    for "already entered", so the first call does the setup and each later call
    polls for completion and clears the byte on the way out. The two are
    contiguous and are the whole gcc_2_8_1_g8 run between func_80030998, which
-   is generated assembly, and the next state, func_80030D5C, now a candidate
-   in src/candidates/func_80030D5C.c. The states after it are in
+   is generated assembly, and the matching func_80030D5C in
+   frontend_scene_state_80030d5c.c. The states after it are in
    func_80030E30.c. */
 
 extern u8 D_8009B26C[];
@@ -69,4 +69,3 @@ void func_80030CB0(void)
         }
     }
 }
-

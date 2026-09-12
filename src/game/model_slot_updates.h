@@ -5,7 +5,7 @@
 #include "model.h"
 
 /* The two per-slot update steps model_slot_setup.c and
- * func_80059700 (src/candidates/func_80059700.c) drive. func_8005A468 sets
+ * func_80059700 (src/game/func_80059700.c) drive. func_8005A468 sets
  * the playback speed of every part's GsSEQ in one slot; func_8005A4C4 takes
  * the slot record itself rather than its index, which is why the two do not
  * share a parameter shape. */

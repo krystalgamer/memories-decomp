@@ -24,7 +24,7 @@ function.
 
 | Address | Result |
 |---|---|
-| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while the retired legacy compiler changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`. |
+| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while the retired legacy compiler changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`; it now shares `file_cd_helpers.c` with the two immediately following file/display wrappers. |
 | `0x8003CE74` | The original pure-C campaign stopped one commutative operand-order word from retail. Explicit register roles later preserved that ordering. #3859 re-measured those roles as inert, and the current `SaveData_NextMaskWord` C matches without them under `gcc_2_8_1_g8`. |
 
 ### Preserved partial histories
@@ -37,7 +37,8 @@ function.
 
 ### Newly exposed callback
 
-`func_8002DDFC` received six ordinary GCC 2.8.1 G0 variants using local
+`ScriptImage_TransferCallback` (`0x8002DDFC`) received six ordinary GCC 2.8.1
+G0 variants using local
 assembly, GMS pseudocode, and explicit target-order labels. The closest source
 is 300/304 bytes but its event-1 branch target is four instructions early.
 The function is terminally deferred and remains exact assembly.

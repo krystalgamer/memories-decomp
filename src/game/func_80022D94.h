@@ -14,6 +14,15 @@
  * spelling is the original author's rather than evidence. */
 void func_80022D94(s32 frames, s32 x, s32 z, s32 y, s32 value);
 
+/* Remaining frames in the view tween. The producer treats the count as
+ * signed; func_800179F4 only clears the same 16-bit slot and uses an unsigned
+ * view. Both compile to the same gp-relative halfword access. */
+#ifdef D_8009B204_UNSIGNED
+extern u16 D_8009B204;
+#else
+extern s16 D_8009B204;
+#endif
+
 /* State consumed by unmatched func_800235C0 to advance the tween.
  *
  * The four target halfwords are X, Z, heading and view rotation. The four

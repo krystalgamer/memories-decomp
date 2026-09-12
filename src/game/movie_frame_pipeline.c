@@ -18,7 +18,7 @@
    func_8005B85C. The third stage, func_8005C1F4, comes next and is now a
    candidate in src/candidates/func_8005C1F4.c. */
 
-s32 func_8005BB7C(s32 arg0) {
+s32 Movie_StopStream(s32 arg0) {
     RECT rect;
     u8 buf[0x3C0];
     s32 i;
@@ -35,7 +35,7 @@ s32 func_8005BB7C(s32 arg0) {
     while (CdControlB(9, 0, 0) == 0) {
     }
     if (D_8009B061 != 0 || arg0 != 0) {
-        func_8005C568(0, 0x100);
+        Movie_MoveDisplayImage(0, 0x100);
     }
     if (D_8009B060 != 0) {
         i = 0;
@@ -103,7 +103,7 @@ s32 func_8005BB7C(s32 arg0) {
  * D_8009B060, vertically in 240. The ring slots are 0xE000 apart from
  * +0x1B000 for the coded data and 0x2D00 apart from +0x37000 for the decoded
  * output. Returns non-zero once the stream is done. */
-s32 func_8005BE3C(void) {
+s32 Movie_DecodeAndPresentFrame(void) {
     DRAWENV env;
     s32 fade;
     s32 result;
@@ -160,7 +160,7 @@ s32 func_8005BE3C(void) {
     DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00),
               out->strip.w * out->strip.h / 2);
 
-    result = func_8005BFC8(1);
+    result = Movie_WaitAndDecodeFrame(1);
     if (result != 0) {
         return result;
     }
@@ -180,7 +180,7 @@ s32 func_8005BE3C(void) {
  * rect at D_8009B498 + 0x42424 takes the header's width (three halves of it
  * in the 640-wide mode chosen by D_8009B060), height and column count.
  * Returns non-zero once the stream is done. */
-s32 func_8005BFC8(s32 resync) {
+s32 Movie_WaitAndDecodeFrame(s32 resync) {
     u32 *ring;
     StHEADER *hdr;
     s32 timeouts;
@@ -280,4 +280,3 @@ s32 func_8005BFC8(s32 resync) {
     StFreeRing(base);
     return 0;
 }
-

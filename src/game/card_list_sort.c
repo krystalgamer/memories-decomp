@@ -11,8 +11,6 @@
    The comparators were recorded at gcc_2_8_1_g0_split and compile to an
    identical object at the sort's gcc_2_8_1_g8_split. */
 
-extern s16 gCard_asNameSortKey[];
-
 s32 BuildDeck_CompareCard(
     CardListSortItem *arg0,
     CardListSortItem *arg1
@@ -185,8 +183,8 @@ void func_80032C48(CardList *list)
             row->key = -1;
             if (row->field_0D != 0) {
                 row->key = 0x100;
-                if (*((u8 *)D_8009B2FC + row->card_id + 0x606A) != 0) {
-                    row->key = *((u8 *)D_8009B2FC + row->card_id + 0x606A);
+                if (D_8009B2FC->card_sort_rank[row->card_id] != 0) {
+                    row->key = D_8009B2FC->card_sort_rank[row->card_id];
                 }
             }
         }
