@@ -1,7 +1,7 @@
-#include "../../src/types.h"
-#include "../../src/game/ai.h"
-#include "../../src/game/ai_script_read_byte.h"
-#include "../../src/game/ai_script_commands.h"
+#include "../types.h"
+#include "ai.h"
+#include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 void func_80071510(void)
 {
