@@ -120,6 +120,20 @@ PARSER_CONTROLS = (
     ("void Beta(void);  // Alpha(void);\n", {"Beta"}, True),
     # A definition without a preceding prototype declares nothing to include.
     ("void Alpha(void)\n{\n    Beta();\n}\n", {"Alpha"}, False),
+    # A definition BEFORE a real prototype must not swallow it. Blanking only
+    # the braces leaves `static void Helper(void)` unterminated and the
+    # prototype pattern runs straight through `Alpha(void);`.
+    ("static void Helper(void) {}\nvoid Alpha(void);\n", {"Alpha"}, True),
+    ("static void Helper(void) {}\nvoid Alpha(void);\n", {"Helper"}, False),
+    # ...and the same with the definition AFTER the prototype.
+    ("void Alpha(void);\nstatic void Helper(void) {}\n", {"Alpha"}, True),
+    ("void Alpha(void);\nstatic void Helper(void) {}\n", {"Helper"}, False),
+    # A body with nested braces still ends where its own outermost one does.
+    ("static void Helper(void) { if (x) { y(); } }\nvoid Alpha(void);\n",
+     {"Alpha"}, True),
+    # Two definitions in a row, then a prototype.
+    ("static void A1(void) {}\nstatic void A2(void) {}\nvoid Alpha(void);\n",
+     {"Alpha"}, True),
 )
 
 
@@ -187,18 +201,40 @@ def _drop_directives(text: str) -> str:
 
 
 def _file_scope(text: str) -> str:
-    """Everything inside braces out, so a call in an inline body cannot read as
-    a declaration. C has no calls at file scope, so what is left is safe."""
-    out, depth = [], 0
-    for char in text:
+    """Definitions out, whole: the declarator that introduces a body as well as
+    the body itself.
+
+    Blanking only the braces is not enough and the failure is quiet. Left with
+
+        static void Helper(void)
+        void Alpha(void);
+
+    the declarator has no terminator, so a prototype pattern starting at
+    `Helper` runs its parenthesised part through `Alpha(void` -- it reports
+    Helper, which the header does not offer to anyone, and loses Alpha, which
+    it does. Removing from the start of the statement through the matching
+    brace leaves `void Alpha(void);` and nothing else.
+    """
+    out = list(text)
+    depth = 0
+    inicio = 0          # onde comeca a declaracao/statement corrente
+    apagar = []
+    for i, char in enumerate(text):
+        if depth == 0 and char in ";}":
+            inicio = i + 1
         if char == "{":
+            if depth == 0:
+                abertura = inicio
             depth += 1
-            out.append(" ")
         elif char == "}":
             depth = max(0, depth - 1)
-            out.append(" ")
-        else:
-            out.append(char if depth == 0 else (" " if char != "\n" else "\n"))
+            if depth == 0:
+                apagar.append((abertura, i + 1))
+                inicio = i + 1
+    for a, b in apagar:
+        for i in range(a, b):
+            if out[i] != "\n":
+                out[i] = " "
     return "".join(out)
 
 
