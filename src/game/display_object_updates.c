@@ -9,6 +9,7 @@
 #include "display_object_packet_submit.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
+#include "display_object_packet_submit.h"
 #include "display_object_updates.h"
 
 #include "ordering_tables.h"
