@@ -1,16 +1,10 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/dialog_read_choice_input.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g1_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G1). Under gcc_2_8_1_g0_split, a single
- * threshold, it is 63 instructions against the target's 65, opcode distance
- * 8. The source below is the match, unchanged apart from its include paths. */
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "../types.h"
-#include "../game/dialog_highlight_choice.h"
-#include "../game/input.h"
-#include "../game/sound.h"
-#include "../game/dialog_choice.h"
-#include "../unmatched.h"
+#include "dialog_highlight_choice.h"
+#include "input.h"
+#include "sound.h"
+#include "dialog_choice.h"
+#include "dialog_read_choice_input.h"
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled

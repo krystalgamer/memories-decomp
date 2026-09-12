@@ -1,5 +1,6 @@
 #define D_8009B260_IN_DATA
 #include "../types.h"
+#include "func_8002C604.h"
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
 #include "func_80025028.h"

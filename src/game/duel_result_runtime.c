@@ -12,6 +12,7 @@
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "duel_card_display_state.h"
+#include "duel_scene_state.h"
 #include "duel_check_ritual.h"
 #include "../psyq/rand.h"
 #include "display_object_motion.h"
@@ -161,8 +162,8 @@ void func_80020F4C(void)
     slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
 
     v = D_8009B23A;
-    if ((v & 0x8000) == 0) {
-        D_8009B23A = v | 0x8000;
+    if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A = v | DUEL_SCENE_FLAG_INITIALIZED;
         SD_BGMFadeOut();
         id = gDuel_bWinnerSide;
         D_8009B362 = 0;

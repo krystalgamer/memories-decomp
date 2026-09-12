@@ -12,6 +12,7 @@
 #include "../game/duel_card.h"
 #include "../game/duel_card_record_lifecycle.h"
 #include "../game/duel_side_state.h"
+#include "../game/duel_scene_state.h"
 #include "../game/display_object_layout.h"
 #include "../game/display_object_api.h"
 #include "../game/display_object_helpers.h"
@@ -58,8 +59,8 @@ void func_80019608(void)
 
     p = D_800E9EF0[0];
     flags = D_8009B23A;
-    if ((flags & 0x8000) == 0) {
-        D_8009B23A = flags | 0xC000;
+    if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
         slot = &D_801A7AD8[p->field_6A];
         arg = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;

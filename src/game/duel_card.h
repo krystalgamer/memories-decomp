@@ -67,8 +67,8 @@ extern DuelCardRecord D_801A7AD8[];
  * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
  * &D_801A7AD8[5]. duel_card_object_queries.c already said so in its own
  * words -- "the records this file walks from it are the same 0x1C card
- * records the function above walks from D_801A7AD8". Both of its functions
- * are now candidates (src/candidates/func_8002C938.c and func_8002C9B4.c).
+ * records the function above walks from D_801A7AD8". func_8002C938 now
+ * matches in src/game/func_8002C938.c; func_8002C9B4 remains a candidate.
  *
  * The second name is load bearing and is not an inference here:
  * func_8002C9B4 reaches it from an asm block as
@@ -80,6 +80,8 @@ extern DuelCardRecord D_801A7AD8[];
  * an offset from D_801A7AD8 would change what that block relocates against.
  */
 extern DuelCardRecord D_801A7B64[];
+
+void func_8002C938(u32 *output, s32 alternate);
 
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
