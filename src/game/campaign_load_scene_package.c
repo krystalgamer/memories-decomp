@@ -1,3 +1,5 @@
+#define gGraphics_sViewportX_IN_DATA
+#define gGraphics_sViewportY_IN_DATA
 #include "../types.h"
 #include "display_object.h"
 #include "scene_script.h"
@@ -10,12 +12,6 @@
 #include "../psyq/libgpu.h"
 #include "func_8002E3FC.h"
 
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 

@@ -1,4 +1,6 @@
 #define D_8009B118_IN_DATA
+#define gGraphics_sViewportX_IN_DATA
+#define gGraphics_sViewportY_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -139,13 +141,6 @@ void Library_MarkOwnedCards(void)
         q++;
     } while (i < DECK_SIZE);
 }
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 
 void func_8002BFCC(void) {
     s16 *q;

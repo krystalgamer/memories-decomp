@@ -5,6 +5,8 @@
  * rather than counted as a decompilation. It was src/game/library_runtime.c.
  */
 #define D_8009B118_IN_DATA
+#define gGraphics_sViewportX_IN_DATA
+#define gGraphics_sViewportY_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -174,11 +176,4 @@ void func_8002BAB4(void)
 }
 
 #define gStageRect (D_800E9D70[0])
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 

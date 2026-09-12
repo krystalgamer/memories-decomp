@@ -326,16 +326,30 @@ extern u8 D_8009B144;
    results have to be able to go negative.
 
    Files that reach these through `__attribute__((section(".data")))`, or as an
-   unsized or [4] array, select the guarded view below because those spellings
-   change how the address is materialised, not just how the value reads. */
+   unsized or [4] array, select a guarded view below because those spellings
+   change how the address is materialised, not just how the value reads.
+
+   Two such views exist and they are not interchangeable.
+   GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA is the sized unsigned pair the
+   tween reads under its own names. The per-symbol arms under it keep the
+   signed scalar and only move it out of small data, which is what the seven
+   units that used to declare it privately need. */
 #ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
 #else
+#ifdef gGraphics_sViewportX_IN_DATA
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+#else
 extern s16 gGraphics_sViewportX;
+#endif
+#ifdef gGraphics_sViewportY_IN_DATA
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+#else
 extern s16 gGraphics_sViewportY;
+#endif
 #endif
 
 /* The double-buffered graphics work area. Graphics_BeginFrame picks the half

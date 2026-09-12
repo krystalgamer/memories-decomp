@@ -1,5 +1,7 @@
 #define D_8009B145_IN_DATA
 #define GRAPHICS_ACTIVE_BUFFER_IN_DATA
+#define gGraphics_sViewportX_IN_DATA
+#define gGraphics_sViewportY_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -18,13 +20,6 @@
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;
