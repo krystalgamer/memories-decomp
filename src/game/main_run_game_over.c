@@ -5,8 +5,8 @@
 #include "main_modes.h"
 #include "main_services.h"
 #include "sound.h"
-
-extern u8 D_8009B269;
+#define D_8009B26C_AS_SCALAR
+#include "../unmatched.h"
 
 u8 D_8009B26C;
 
