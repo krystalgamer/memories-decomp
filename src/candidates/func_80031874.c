@@ -16,6 +16,8 @@
  * expressions preserve the current shape. Residual setup differences are
  * opening-load and scratchpad-pointer materialization order.
  */
+#define gGraphics_sViewportX_IN_DATA
+#define gGraphics_sViewportY_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -24,9 +26,7 @@
 #include "../game/card_type_icon_table.h"
 #include "../game/build_deck_transition_state.h"
 #include "../game/color_constants.h"
-
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+#include "../game/graphics_frame.h"
 
 extern void func_800316F0(u8 *, s32, u8 *, s32);
 extern void func_80031784(u8 *, s32, u8 *, s32);
