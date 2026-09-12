@@ -702,6 +702,7 @@ void func_80047480(void);
    that are inactive or out of channel range. */
 void func_8004C84C(void);
 void func_8004AAFC(void);
+void func_8004A518(void);
 
 /* The parser passes a third word that this routine intentionally ignores. */
 void func_8004B374(s32 channel, s32 value, s32 unused);
@@ -709,7 +710,7 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
-   func_80049BAC.c calls the reset right before func_8004A518 (unmatched.h),
+   func_80049BAC.c calls the reset right before func_8004A518,
    which rebuilds the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It

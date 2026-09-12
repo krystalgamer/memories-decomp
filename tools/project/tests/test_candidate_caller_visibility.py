@@ -38,9 +38,9 @@ PAIRS = [
     ("src/candidates/func_8004A2F8.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
     ("src/candidates/func_8004B734.c", "func_8004AAFC", '#include "../game/sound.h"'),
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
-    ("src/game/func_80049BAC.c", "func_8004A518", '#include "../unmatched.h"'),
+    ("src/game/func_80049BAC.c", "func_8004A518", '#include "sound.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
-    ("src/candidates/func_8004A518.c", "func_8004A764", '#include "../game/sound.h"'),
+    ("src/game/func_8004A518.c", "func_8004A764", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
     ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
@@ -110,8 +110,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 self.assertNotIn(callee, found)
 
     def test_lost_include_is_caught_while_the_prototype_still_exists(self) -> None:
-        # The regression the review reproduced: func_80049BAC.c without its
-        # unmatched.h include, with func_8004A518's prototype still there.
+        # For unmatched.h-backed pairs, removing the include must expose the
+        # implicit call while the global prototype still exists.
         unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
             if "unmatched.h" not in include:
