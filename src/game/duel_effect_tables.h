@@ -10,6 +10,8 @@
 
 typedef void (*DuelEffectHandler)(void);
 
+void func_80024E58(void);
+
 /* The dispatch tables src/game/duel_effect_tables.c owns at 0x80090A5C.
 
    func_80026B34 turns the active card effect id into a group through

@@ -1,40 +1,32 @@
-/* Reclassified from matching_c (#3859). This was src/game/func_80024E58.c,
- * byte-exact only under gcc_2_8_1_cc_g8_as_g4_split, whose compiler and
- * assembler disagree about small data (GCC -G8, MASPSX -G4). Under
- * gcc_2_8_1_g8, a single threshold, it is 113 instructions against the
- * target's 116, opcode distance 3. The source below is the match, unchanged
- * apart from its include paths. */
 #include "../types.h"
-#include "../game/func_8002C604.h"
-#include "../game/func_800179F4.h"
-#include "../game/duel_terrain_boost.h"
-#include "../game/duel_side_state.h"
-#include "../game/duel_effect_request.h"
-#include "../game/duel_action_lock.h"
-#include "../game/duel_card.h"
-#include "../game/duel_card_layout.h"
-#include "../game/duel_package.h"
-#include "../game/file_transfer.h"
-#include "../game/sound.h"
-#include "../game/display_object_config.h"
+#include "func_8002C604.h"
+#include "func_800179F4.h"
+#define GDUEL_TERRAIN_IN_DATA_ARRAY8
+#include "duel_terrain_boost.h"
+#include "duel_side_state.h"
+#include "duel_effect_request.h"
+#include "duel_action_lock.h"
+#include "duel_card.h"
+#include "duel_card_layout.h"
+#include "duel_package.h"
+#include "file_transfer.h"
+#include "sound.h"
+#include "display_object_config.h"
+#include "duel_effect_tables.h"
 #include "../unmatched.h"
 
-/* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
- * profile compiles at -G8 but assembles at -G4, so the array needs a size
- * the assembler can see to be above 4. Measured: an incomplete [] here
- * costs 4 bytes of text, though it is exact in func_8001798C.c, which
- * assembles at -G8. See duel_terrain_boost.h for all five spellings. */
-extern u8 gDuel_bTerrain[8];
-
-/* MATCH (2026-09-05), from a park at 2 differences. The last two were the
+/* One byte at 0x8009B364; the 8 is a code-generation threshold, not a length.
+ * Historically, an incomplete array view increased this function's text by
+ * 4 bytes. See duel_terrain_boost.h for the uniform -G8 declaration contract. */
+/* The last two residual differences were the
  * `n = v & 0xFF` that gcc sank into the jal's delay slot where retail keeps
  * the andi before the call and puts `n - 1` in the slot. The mask is not a
  * mask: it is the READ-BACK of the byte global just stored, and the
  * decrement belongs to the same expression -- `n = gDuel_bTerrain[0] - 1;`
  * before the call. Written as the read-back and the decrement in two
  * statements it is 4, as `v & 0xFF` with the decrement before the call 3.
- * Flags: default compiler, as -G4 (gDuel_bTerrain sized out of small data, the
- * D_8009B0F4_abs / D_8009B134_abs sized arms).
+ * The terrain declaration and D_8009B0F4_abs / D_8009B134_abs keep those
+ * globals out of small data.
  */
 
 void func_80024E58(void) {

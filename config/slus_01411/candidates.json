@@ -148,13 +148,13 @@
       "target": "src/candidates_target/func_800179F4.S",
       "candidate_build_sha256": "7488a41b329e992b8f9f6690d9b642d8dfc0b9086d815ee2bd83d076f62595b6",
       "target_bytes_sha256": "27c484605e8d3ac4025b18b0ecf4bb46f03ec24521c41b42728cb2ba51de2574",
-      "canonical_contract_sha256": "23cf2dce2d5efea943c66c3b16cd49b4a598c752a811baaf09ce291ca4404f14",
+      "canonical_contract_sha256": "01ebc0efc6de11f106aced0985bbd4b19ad27b20b7c6dbfb5080eb7f6aa5767c",
       "canonical_contracts": {
         "D_8009B1D8": "044c1bf63d7d230756918853e07545ef928833003a2f6db55a30b5bfa1eb85ad",
         "D_8009B1DC": "bcd88c1cf363496f085631d4ea6ad2b43bfbe84c497e702fa31395480c41a383",
         "D_8009B204": "16b5484737e7a55c360883042b4e29e8a4d896fd3e4268cd5af35d3f0d59fbbe",
         "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec",
-        "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
+        "gDuel_bTerrain": "e34b0d622d9542f846c0ef13e82fcbad7eb15194825c13f3ba5b8c120f8e1eeb"
       }
     },
     {
@@ -281,18 +281,6 @@
       "canonical_contract_sha256": "22c6058b753e2079e088b4001eeb7bc9ac48561ed98143a6f80fa21050b4410d",
       "canonical_contracts": {
         "gDialog_bChoice": "b9115f57e8b9813a9f665d73bd1655e483a2fda4d719daa14dbf36d33c61924c"
-      }
-    },
-    {
-      "address": "0x80024E58",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_80024E58.c",
-      "target": "src/candidates_target/func_80024E58.S",
-      "candidate_build_sha256": "3b3a37649fc1063b4ba8c55b20c260a229a9602d2c2b6f1964bd449bb83aba06",
-      "target_bytes_sha256": "01196d0d6dcdaeccb1d46ce0e85e6d7c62514b2bbd4a1c3bb646a6226ce83fc7",
-      "canonical_contract_sha256": "d87424f79a07ff399f041d9569038875140453442ecca7565d6c09876b9a939c",
-      "canonical_contracts": {
-        "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
       }
     },
     {

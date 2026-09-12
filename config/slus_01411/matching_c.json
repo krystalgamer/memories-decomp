@@ -1015,6 +1015,12 @@
       "source": "src/game/duel_action_lock.c"
     },
     {
+      "address": "0x80024E58",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1D0",
+      "source": "src/game/func_80024E58.c"
+    },
+    {
       "address": "0x80025028",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
