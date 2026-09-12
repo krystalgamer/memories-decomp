@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "ygo_types.h"
+#include "game/sprite_primitive.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -654,12 +655,9 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * slots. */
 void Dialog_UpdateChoice(struct DuelEffectChannel *object);
 
-/* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
- * rather than only running callbacks. func_80040DD8 takes the list at
- * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12
- * wide by 0x3C high. Both are reached only through that table. */
-void func_80040DD8(void);
-void func_80041068(void);
+void func_80042188(
+    SpritePrim *arg0, void *arg1, s32 arg2, s32 arg3, void *arg4
+);
 
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int

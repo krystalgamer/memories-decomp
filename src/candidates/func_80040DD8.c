@@ -11,11 +11,10 @@
 #include "../game/display_object_projection.h"
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
+#include "../game/display_object_list_renderers.h"
 #include "../unmatched.h"
 
 #include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
@@ -123,7 +122,7 @@ void func_80040DD8(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                               e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -139,7 +138,7 @@ void func_80040DD8(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
+                    func_80042188((SpritePrim *)v, (u8 *)g, (s32)tb[e->ot_index],
                                   e->field_14 | bit, h);
                 }
             }
