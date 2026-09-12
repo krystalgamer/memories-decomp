@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_list_renderer_table.h"
 #include "display_object_layout.h"
+#include "display_object_list_renderers.h"
 #include "../unmatched.h"
 #include "display_object_updates.h"
 #include "func_80040588.h"

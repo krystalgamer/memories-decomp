@@ -1,21 +1,18 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/display_object_list_renderers.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0, a single threshold,
- * it is 182 of 182 instructions with 12 differing, opcode distance 0. The
- * source below is the match, unchanged apart from its include paths. */
+#define FUNC_80042188_RAW_ATTRIBUTE_VIEW
+#define GGRAPHICS_VIEWPORT_IN_DATA
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "../game/graphics_frame.h"
-#include "../game/display_object_projection.h"
-#include "../game/display_object.h"
-#include "../game/display_object_layout.h"
+#include "graphics_frame.h"
+#include "display_object_projection.h"
+#include "display_object.h"
+#include "display_object_layout.h"
+#include "display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
 #include "../unmatched.h"
+#undef func_80042188
 
-#include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
+#include "ordering_tables.h"
 
 /* The POLY_GT4 sibling for the list rooted at D_800EFE38[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second

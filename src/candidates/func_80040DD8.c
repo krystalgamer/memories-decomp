@@ -1,3 +1,4 @@
+#define FUNC_80042188_RAW_ATTRIBUTE_VIEW
 /* Reclassified from matching_c (#3859). This was part of
  * src/game/display_object_list_renderers.c, byte-exact only under
  * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
@@ -11,11 +12,12 @@
 #include "../game/display_object_projection.h"
 #include "../game/display_object.h"
 #include "../game/display_object_layout.h"
+#include "../game/display_object_list_renderers.h"
+#define func_80042188 func_80042188_default_view
 #include "../unmatched.h"
+#undef func_80042188
 
 #include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag

@@ -28,6 +28,7 @@ TARGET_DIRECTORY = ROOT / "src/candidates_target"
 BUILD_DIRECTORY = ROOT / "tmp/candidate-build"
 TARGET_ELF = ROOT / "tmp/project-build/SLUS_014.11.elf"
 OVERLAY_INVENTORY_DIRECTORY = ROOT / "config/slus_01411/overlays"
+HEADER_FUNCTION_CONTRACTS = {"func_80042188"}
 
 FUNCTION = re.compile(
     r"^nonmatching\s+(?P<name>\S+),\s+0x(?P<size>[0-9A-Fa-f]+)$"
@@ -265,7 +266,18 @@ def declaration_identifier(statement: str) -> str:
     )
 
 
-def candidate_contract_symbols(source: Path, text: str) -> list[str]:
+def candidate_contract_symbols(
+    source: Path,
+    text: str,
+    unmatched_functions: set[str] | None = None,
+    header_function_contracts: set[str] | None = None,
+) -> list[str]:
+    unmatched_functions = unmatched_functions or set()
+    header_function_contracts = (
+        HEADER_FUNCTION_CONTRACTS
+        if header_function_contracts is None
+        else header_function_contracts
+    )
     symbols = set(candidate_extern_symbols(text))
     identifiers = set(re.findall(r"\b[A-Za-z_]\w*\b", text))
     pending = [source]
@@ -283,10 +295,20 @@ def candidate_contract_symbols(source: Path, text: str) -> list[str]:
         if path == source:
             continue
         for statement in top_level_statements(contents):
-            if not statement.startswith("extern ") or ASM_ALIAS.search(statement) is None:
+            try:
+                identifier = declaration_identifier(statement)
+            except CandidateBuildError:
                 continue
-            if declaration_identifier(statement) in identifiers:
+            if identifier not in identifiers:
+                continue
+            if statement.startswith("extern ") and ASM_ALIAS.search(statement) is not None:
                 symbols.add(extern_symbol(statement))
+            elif (
+                identifier in unmatched_functions
+                and identifier in header_function_contracts
+                and "(" in statement
+            ):
+                symbols.add(identifier)
     return sorted(symbols)
 
 
@@ -606,6 +628,13 @@ def load_candidates(
                 f"invalid candidate address {address_value}"
             ) from error
         module = candidate_module(item)
+        if module not in inventories:
+            inventories[module] = load_inventory(module)
+        unmatched_functions = {
+            row["name"]
+            for row in inventories[module].values()
+            if row["status"] == "unmatched_asm"
+        }
         source = configured_path(
             item.get("source"), candidate_directory(SOURCE_DIRECTORY, module), ".c"
         )
@@ -614,6 +643,7 @@ def load_candidates(
         source_symbols[(module, address)] = candidate_contract_symbols(
             source,
             source_text,
+            unmatched_functions,
         )
 
     declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}

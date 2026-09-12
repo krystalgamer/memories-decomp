@@ -321,9 +321,12 @@ extern u8 D_8009B144;
    change how the address is materialised, not just how the value reads. */
 #ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
+   __attribute__((section(".data")));
 extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
+   __attribute__((section(".data")));
+#elif defined(GGRAPHICS_VIEWPORT_IN_DATA)
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 #else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
