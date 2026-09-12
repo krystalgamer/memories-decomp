@@ -793,6 +793,10 @@ void func_800498F8(void);
 void func_80049C40(void);
 void func_80049CB0(void);
 #endif
+/* Mutes active low-channel secondary objects, then sets the playback state
+ * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
+void func_80049CF8(void);
+
 void SD_SetOutputType(s16);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is

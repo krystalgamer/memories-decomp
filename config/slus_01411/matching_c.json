@@ -4423,6 +4423,12 @@
       "source": "src/game/func_80049BAC.c"
     },
     {
+      "address": "0x80049CF8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE0",
+      "source": "src/game/func_80049CF8.c"
+    },
+    {
       "address": "0x80049EC8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x48",
