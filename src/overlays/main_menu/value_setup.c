@@ -4,6 +4,8 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../unmatched.h"
+#define GINPUT_PAD1_REPEAT_SIZED_VOLATILE
+#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../../game/input.h"
 #include "../../game/card_constants.h"
 #include "../../game/display_object_api.h"
@@ -73,8 +75,6 @@ extern DisplayObject *D_801845A4;
 extern DisplayObject *D_801845B0[];
 extern DisplayObject *D_801845B8;
 extern u8 D_801845BE;
-extern volatile u16 D_8009B394[];
-extern volatile u16 D_8009B398[];
 void MainMenu_StartValueWidgetTween(s32 index, s32 value);
 void MainMenu_DrawValueSetup(void);
 s32 MainMenu_CountDecimalDigits(s32 value);
@@ -180,11 +180,11 @@ s32 MainMenu_UpdateValueSetup(void)
     }
 
     if (busyA == 0 && busyB == 0) {
-        if ((D_8009B398[0] & PAD_BUTTON_CANCEL) || (D_8009B398[1] & PAD_BUTTON_CANCEL)) {
+        if ((gInput_wPad1Pressed[0] & PAD_BUTTON_CANCEL) || (gInput_wPad1Pressed[1] & PAD_BUTTON_CANCEL)) {
             SD_SEPlay(8, 0xFF, 0);
             return -1;
         }
-        if ((D_8009B398[0] & PAD_BUTTON_START) || (D_8009B398[1] & PAD_BUTTON_START)) {
+        if ((gInput_wPad1Pressed[0] & PAD_BUTTON_START) || (gInput_wPad1Pressed[1] & PAD_BUTTON_START)) {
             SD_SEPlay(7, 0xFF, 0);
             return 1;
         }
@@ -192,9 +192,9 @@ s32 MainMenu_UpdateValueSetup(void)
 
     if (busyA == 0) {
         if (D_801845BC[0] < 2) {
-            if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
+            if (gInput_wPad1Repeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
-                if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
+                if (gInput_wPad1Repeat[0] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
                     D_801845BC[2] = 1;
@@ -203,14 +203,14 @@ s32 MainMenu_UpdateValueSetup(void)
                 if (D_801845BC[1] < 2) {
                     D_801845BC[1] = D_801845BC[2];
                 }
-            } else if (D_8009B394[0] & PAD_DIRECTION_DOWN) {
+            } else if (gInput_wPad1Repeat[0] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(0, 2);
             }
         } else {
-            if (D_8009B394[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
+            if (gInput_wPad1Repeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[0].value;
                 SD_SEPlay(6, 0xFF, 0);
-                if (D_8009B394[0] & PAD_DIRECTION_LEFT) {
+                if (gInput_wPad1Repeat[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
                                 : 1;
@@ -224,7 +224,7 @@ s32 MainMenu_UpdateValueSetup(void)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[0].value = value;
-            } else if (D_8009B394[0] & PAD_DIRECTION_UP) {
+            } else if (gInput_wPad1Repeat[0] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(0, D_801845BC[2]);
             }
         }
@@ -232,9 +232,9 @@ s32 MainMenu_UpdateValueSetup(void)
 
     if (busyB == 0) {
         if (D_801845BC[1] < 2) {
-            if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
+            if (gInput_wPad1Repeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 SD_SEPlay(6, 0xFF, 0);
-                if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
+                if (gInput_wPad1Repeat[1] & PAD_DIRECTION_LEFT) {
                     D_801845BC[2] = 0;
                 } else {
                     D_801845BC[2] = 1;
@@ -243,14 +243,14 @@ s32 MainMenu_UpdateValueSetup(void)
                 if (D_801845BC[0] < 2) {
                     D_801845BC[0] = D_801845BC[2];
                 }
-            } else if (D_8009B394[1] & PAD_DIRECTION_DOWN) {
+            } else if (gInput_wPad1Repeat[1] & PAD_DIRECTION_DOWN) {
                 MainMenu_StartValueWidgetTween(1, 2);
             }
         } else {
-            if (D_8009B394[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
+            if (gInput_wPad1Repeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = D_801845C0[1].value;
                 SD_SEPlay(6, 0xFF, 0);
-                if (D_8009B394[1] & PAD_DIRECTION_LEFT) {
+                if (gInput_wPad1Repeat[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
                                 : 1;
@@ -264,7 +264,7 @@ s32 MainMenu_UpdateValueSetup(void)
                       : DUEL_STARTING_LIFE_POINTS;
                 }
                 D_801845C0[1].value = value;
-            } else if (D_8009B394[1] & PAD_DIRECTION_UP) {
+            } else if (gInput_wPad1Repeat[1] & PAD_DIRECTION_UP) {
                 MainMenu_StartValueWidgetTween(1, D_801845BC[2]);
             }
         }
