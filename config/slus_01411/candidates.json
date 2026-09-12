@@ -1078,9 +1078,9 @@
       "target": "src/candidates_target/password/func_8016A37C.S",
       "candidate_build_sha256": "bae00fe708a54923f911bddd035743268d89c91d46711093782049308653da73",
       "target_bytes_sha256": "6bb305c70fa3860cd34f7b6be673f4292e42ddda123b3b21162b75f6de1e3b2c",
-      "canonical_contract_sha256": "e8053c6bdf4f437dfd17bae7773f53cc12fca670219ff92bbd8a5946e4c2cf9a",
+      "canonical_contract_sha256": "27adf416a0d9a7da5da243cdfcc1330b7e829d1ca99dad2fd8e0286371f0d9d6",
       "canonical_contracts": {
-        "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
+        "D_8009B269": "2a7112ffe6d15adfb28b2e3374f193331b7600e89c25942a6b0d6e0738934608",
         "D_8009B26C": "76953d97e0a1ec17ec33a08bee274ccec1ebe841cbf8bd702d32ef33eb2d5cf1",
         "D_800EA0E8": "3ce26582e8d2566e405eb13b1f4fcef9f8922c9320d0a0efd71b79c82e9b33ce",
         "D_8016D430": "e04ba8dd8c16c205c37d8df7dbd41be7c49c3203db3317422f401d1ea7ace6dc",
