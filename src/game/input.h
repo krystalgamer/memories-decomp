@@ -133,6 +133,19 @@ extern volatile u16 gInput_wPad1Repeat;
 extern u16 gInput_wPad1Repeat;
 #endif
 
+/* Saved pad-1 masks used by the temporary pad-2 swap. The restore path needs
+ * volatile reads; the backup path owns COMMON definitions for exact load-delay
+ * scheduling. */
+#ifdef GINPUT_PAD1_BACKUPS_ARE_VOLATILE
+extern volatile u16 gInput_wPad1HeldBackup;
+extern volatile u16 gInput_wPad1PressedBackup;
+extern volatile u16 gInput_wPad1RepeatBackup;
+#else
+extern u16 gInput_wPad1HeldBackup;
+extern u16 gInput_wPad1PressedBackup;
+extern u16 gInput_wPad1RepeatBackup;
+#endif
+
 /* The pad-2 trio. Each of these sits two bytes above its pad-1 twin --
  * Repeat at 0x8009B394/0x396, Pressed at 0x398/0x39A, Held at 0x3A4/0x3A6 --
  * so every name in this family is one element of a two-element, pad-indexed

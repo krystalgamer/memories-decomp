@@ -99,10 +99,6 @@
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
 
-/* Two consumers, identical spelling in both: func_80049138.c and
- * sound_init.c. */
-void func_80046294(void);
-
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */
@@ -696,8 +692,6 @@ s32 func_800330BC(struct CardList *list);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-s32 Dialog_ReadChoiceInput(u8 *record);
-
 /* The per-frame half of Dialog_OpenChoice's state: that builds the choice
  * list once, and this runs it, reading the cursor input and repainting the
  * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
@@ -728,14 +722,7 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
  * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
 void func_8004A518(void);
 
-/* The definition in src/candidates/func_8004B374.c takes two parameters.
- * sound_sequence_parser.c, the one caller, passes a third, and that call
- * is what this spells. */
-void func_8004B374(s32 channel, s32 value, s32 unused);
-
 void func_8004B854(void);
-
-s32 SD_FindMidiTrackChunk(s32 offset);
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request

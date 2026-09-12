@@ -682,6 +682,7 @@ s32 SD_EnqueueCommand(SDCommand *);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 void SD_BGMPlay(u32);
+void func_80046294(void);
 void SD_SEPlayFull(u32);
 /* Three arguments, and no result. Its three callers spelled the id s32, u32
    and u16, and the last spelled the other two u8 and s8 -- all three collapse
@@ -700,6 +701,9 @@ void func_8003FFB4(u32);
    that are inactive or out of channel range. */
 void func_8004C84C(void);
 void func_8004AAFC(void);
+
+/* The parser passes a third word that this routine intentionally ignores. */
+void func_8004B374(s32 channel, s32 value, s32 unused);
 
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds

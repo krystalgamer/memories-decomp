@@ -5,10 +5,10 @@
 
 /* D_80090998 entry 6, the card-use presentation sequence. Reached when
  * func_80024200 (src/candidates/func_80024200.c) dispatches on
- * `D_8009B23A & 0xF`, and it hands control
+ * `D_8009B23A & DUEL_SCENE_PHASE_MASK`, and it hands control
  * back by writing 5 into that word.
  *
- * On entry, while bit 0x8000 of D_8009B23A is clear, it latches the selected
+ * On entry, while DUEL_SCENE_FLAG_INITIALIZED of D_8009B23A is clear, it latches the selected
  * slot's card id -- D_801A7AD8[object->field_6A] -- into D_8009B150, starts
  * func_80029164's resource request, bumps D_8009B1C8->field_05 for a
  * CARD_TYPE_MAGIC card, and seeds D_8009B174 with 1.

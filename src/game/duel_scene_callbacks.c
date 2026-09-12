@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_scene_callbacks.h"
+#include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "debug_effect_screen.h"
 #include "duel_draw_resolution.h"
@@ -13,7 +14,7 @@
  *
  * func_80024200 (src/candidates/func_80024200.c) materializes this address
  * itself and
- * calls `callbacks[D_8009B23A & 0xF]()`, so the table is reached only through
+ * calls `callbacks[D_8009B23A & DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through
  * the low four bits of that state word.
  *
  * It is written here rather than resolved out of the blob at 0x800908A0
