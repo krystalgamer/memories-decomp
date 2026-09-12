@@ -15,8 +15,8 @@ void func_80031354(void)
 {
     u8 flags = D_8009B2EB;
 
-    if (!(flags & 0x80)) {
-        D_8009B2EB = flags | 0x80;
+    if (!(flags & FRONTEND_STEP_FLAG_ENTERED)) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B2DE = 0;
         Campaign_LoadScenePackage(0);
     }

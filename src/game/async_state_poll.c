@@ -15,8 +15,8 @@ void func_80031000(void)
     u8 flags = D_8009B2EB;
     s32 result;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B3ED = 0;
         D_8009B3EA = 0;
     }
