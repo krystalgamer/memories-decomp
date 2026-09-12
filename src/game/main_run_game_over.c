@@ -2,6 +2,7 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "game_over.h"
+#include "main_modes.h"
 #include "main_services.h"
 #include "sound.h"
 
