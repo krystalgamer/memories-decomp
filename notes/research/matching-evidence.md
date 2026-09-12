@@ -13,6 +13,28 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
+### Keep the staging pair absolute: `Main_RunCredits`
+
+The 540-byte runner at `0x8002DA1C` matches under the existing uniform
+`gcc_2_8_1_g8_split` profile. Its six terminal refinement attempts failed
+to link because an eight-byte scalar view of `D_801D5608` selected
+out-of-range GP-relative relocations. The existing incomplete
+`TextStagingValues` array and its `pair` member keep both staging stores
+absolute without a new alias, profile, or inflated declaration.
+
+The source uses the shared save-state layout and reads `duelist_code` as
+`u32` for the target's unsigned modulo-five sequence. The secret-number
+table, memory-card operations, text-box lifecycle and model-scene calls use
+their existing canonical declarations. The frame-delay byte selects the
+existing DATA view; the active-mode byte remains scalar and GP-relative
+through the guarded mode-state header pattern proposed in #3855.
+
+The shared completion-initialization label, save retry, secret-number
+display and credits-scene phases retain their original branch order and
+one-time flags. No register pins, inline assembly or local externs remain.
+The canonical history and six-row terminal refinement history are preserved,
+followed by one post-terminal resolution with this source evidence.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
