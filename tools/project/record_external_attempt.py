@@ -55,6 +55,10 @@ MODE_MAX_ATTEMPTS = {
     "reclassification_match": 1,
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+REFINEMENT_PARENT_PREFIX = "Reclassification parent: "
+REFINEMENT_PARENT_PATTERN = re.compile(
+    r"^Reclassification parent: ([0-9a-f]{64}); "
+)
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
 COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
 REGISTER_PIN_PATTERN = re.compile(
@@ -188,18 +192,56 @@ def previous_match_addresses(rows: list[dict[str, str]]) -> set[int]:
     return {
         parse_address(row["address"])
         for row in rows
-        if row["result"] == "matched" and row["mode"] != "reclassification_match"
+        if row["result"] == "matched"
+        and row["mode"] not in {"reclassification_match", "inline_refinement"}
     }
+
+
+def refinement_parent(row: dict[str, str]) -> str | None:
+    summary = row["summary"]
+    if not summary.startswith(REFINEMENT_PARENT_PREFIX):
+        return None
+    match = REFINEMENT_PARENT_PATTERN.match(summary)
+    if match is None or row["mode"] != "inline_refinement":
+        raise ExternalAttemptError(
+            f"{row['address']}: invalid reclassification parent marker"
+        )
+    return match.group(1)
 
 
 def latest_successes(
     rows: list[dict[str, str]],
 ) -> dict[int, dict[str, str]]:
-    reclassified = {
-        parse_address(row["address"])
-        for row in rows
-        if row["mode"] == "reclassification_match" and row["result"] == "matched"
-    }
+    reclassified: dict[int, dict[str, str]] = {}
+    for row in rows:
+        if row["mode"] == "reclassification_match" and row["result"] == "matched":
+            address = parse_address(row["address"])
+            if address in reclassified:
+                raise ExternalAttemptError(
+                    f"{address:#010x}: multiple reclassification successes"
+                )
+            reclassified[address] = row
+    for row in rows:
+        address = parse_address(row["address"])
+        parent_hash = refinement_parent(row)
+        replacement = reclassified.get(address)
+        if parent_hash is not None and (
+            replacement is None
+            or replacement["candidate_sha256"] != parent_hash
+        ):
+            raise ExternalAttemptError(
+                f"{address:#010x}: reclassification parent does not match evidence"
+            )
+        if (
+            replacement is not None
+            and row["mode"] == "inline_refinement"
+            and row["result"] == "matched"
+            and parent_hash is None
+        ):
+            raise ExternalAttemptError(
+                f"{address:#010x}: ambiguous inline-refinement/reclassification "
+                "history; an unlinked successful refinement cannot be superseded"
+            )
     priority = {"reclassification_match": 1, "inline_refinement": 2}
     successes: dict[int, dict[str, str]] = {}
     for row in rows:
@@ -399,7 +441,7 @@ def validate_rows(
             if address not in previous_matches:
                 raise ExternalAttemptError(
                     f"{address:#010x}: reclassification match lacks prior "
-                    "matched external evidence"
+                    "matched non-refinement external evidence"
                 )
             if row["result"] != "matched":
                 raise ExternalAttemptError(
@@ -441,6 +483,8 @@ def validate_rows(
                     f"{address:#010x}: sixth external attempt must be deferred"
                 )
 
+    latest_successes(rows)
+
 
 def sort_key(row: dict[str, str]) -> tuple[int, str, int]:
     return (
@@ -461,7 +505,8 @@ def sort_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     Reclassification matches preserve an earlier accepted source's evidence.
     Consumers selecting successful evidence use latest_successes so the
     reclassification record wins regardless of its position among old modes.
-    A later inline refinement of the promoted function still takes precedence.
+    A later inline refinement must name its reclassification parent's source
+    hash. Unlinked successful inline histories are ambiguous and rejected.
 
     Note also that "last row for an address" no longer means "most recent
     event". Under the previous chronological order it did, and a new
@@ -573,6 +618,19 @@ def main() -> int:
         )
         profiles = load_profiles(profiles_path)
         rows = load_rows(ledger_path)
+        if args.mode == "reclassification_match" and args.address and not args.check:
+            address = parse_address(args.address)
+            if any(
+                row["mode"] == "inline_refinement"
+                and row["result"] == "matched"
+                and parse_address(row["address"]) == address
+                for row in rows
+            ):
+                raise ExternalAttemptError(
+                    f"{address:#010x}: cannot reclassify a successful "
+                    "inline-refinement history; preserve it and keep the "
+                    "new candidate under tmp/"
+                )
         validate_rows(
             rows,
             functions,
@@ -631,7 +689,7 @@ def main() -> int:
             if address not in previous_match_addresses(rows):
                 raise ExternalAttemptError(
                     f"{address:#010x}: reclassification lacks prior "
-                    "matched external evidence"
+                    "matched non-refinement external evidence"
                 )
         else:
             resolution_addresses = terminal_resolution_addresses(
@@ -733,6 +791,20 @@ def main() -> int:
             )
 
         summary = args.summary
+        if args.mode == "inline_refinement":
+            replacement = next(
+                (
+                    row for row in rows
+                    if row["mode"] == "reclassification_match"
+                    and parse_address(row["address"]) == address
+                ),
+                None,
+            )
+            if replacement is not None:
+                summary = (
+                    f"{REFINEMENT_PARENT_PREFIX}"
+                    f"{replacement['candidate_sha256']}; {summary}"
+                )
         if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             summary = (
                 f"New discriminator: {args.new_discriminator}; "

@@ -12,7 +12,11 @@ from pathlib import Path
 from pathlib import PurePosixPath
 
 from workspace import WorkspaceError, require_workspace_root
-from record_external_attempt import latest_successes
+from record_external_attempt import (
+    ExternalAttemptError,
+    latest_successes,
+    previous_match_addresses,
+)
 
 
 class AuditError(RuntimeError):
@@ -388,11 +392,10 @@ def audit_attempts(root: Path) -> None:
         for address, result in inline_latest.items()
         if result == "deferred"
     }
-    previous_matches = {
-        parse_integer(row["address"], "external attempt address")
-        for row in external_attempts
-        if row["result"] == "matched" and row["mode"] != "reclassification_match"
-    }
+    try:
+        previous_matches = previous_match_addresses(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
     for row in external_attempts:
         mode = row["mode"]
         address = parse_integer(row["address"], "external attempt address")
@@ -495,7 +498,7 @@ def audit_attempts(root: Path) -> None:
             if address not in previous_matches:
                 raise AuditError(
                     f"{address:#010x}: reclassification match lacks prior "
-                    "matched external evidence"
+                    "matched non-refinement external evidence"
                 )
             if row["result"] != "matched":
                 raise AuditError(
@@ -531,7 +534,11 @@ def audit_attempts(root: Path) -> None:
                     f"{address:#010x}: final external attempt is not deferred"
                 )
 
-    for address, row in latest_successes(external_attempts).items():
+    try:
+        selected_successes = latest_successes(external_attempts)
+    except ExternalAttemptError as error:
+        raise AuditError(str(error)) from error
+    for address, row in selected_successes.items():
         mode = row["mode"]
         if address not in matching_addresses:
             raise AuditError(

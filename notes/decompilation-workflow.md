@@ -215,11 +215,25 @@ If a function already has a successful external record but was later
 reclassified to unmatched assembly, preserve that historical record. Record the
 new exact source with `--mode reclassification_match --new-discriminator "..."`
 and promote it with `integrate_verified_match.py --evidence-source reclassification`.
-This mode requires prior successful external evidence and an unmatched function
-at recording time. It adds one new success rather than rewriting the old source
-hash or reopening its terminal history. The audit selects the reclassification
-record independently of ledger ordering; a subsequent successful
-`inline_refinement` of the promoted function can supersede it in turn.
+This mode requires prior successful non-refinement external evidence and an
+unmatched function at recording time. It adds one new success rather than
+rewriting the old source hash or reopening its terminal history.
+
+An existing successful `inline_refinement` cannot currently be reclassified
+through this mode. That history is explicitly unsupported: preserve its rows
+and keep the new candidate under `tmp/`, rather than guessing chronology from
+the ledger's address/mode sort order. Recorder validation, integration and audit
+reject a reclassification combined with an unlinked successful refinement.
+
+A subsequent `inline_refinement` of a promoted reclassification can supersede
+it, subject to the existing closed-history and attempt-limit rules. The recorder
+automatically prefixes its summary with
+`Reclassification parent: <replacement-candidate-sha256>; `, binding the new
+refinement to the exact replacement at the same address. Consumers validate that
+link before selecting it, independently of ledger order. Missing, malformed,
+or incorrect parent links are rejected instead of letting mode priority choose
+an older source. The integrator also rejects explicitly requested evidence that
+the linked refinement has already superseded. No historical rows need editing.
 
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler

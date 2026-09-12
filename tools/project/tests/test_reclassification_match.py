@@ -82,10 +82,59 @@ class ReclassificationMatchTests(unittest.TestCase):
         )
 
     def test_later_inline_refinement_can_supersede_reclassification(self) -> None:
-        refinement = {**self.current, "mode": "inline_refinement"}
+        refinement = {
+            **self.current, "mode": "inline_refinement",
+            "candidate_sha256": "3" * 64,
+            "summary": f"{recorder.REFINEMENT_PARENT_PREFIX}{'2' * 64}; Improved.",
+        }
         self.validate([self.prior, self.current, refinement], integrated=True)
         for rows in itertools.permutations([self.prior, self.current, refinement]):
             self.assertIs(recorder.latest_successes(list(rows))[self.address], refinement)
+
+    def test_earlier_inline_success_is_rejected_in_every_order(self) -> None:
+        earlier = {**self.prior, "mode": "inline_refinement"}
+        for rows in itertools.permutations([self.prior, earlier, self.current]):
+            with self.assertRaisesRegex(recorder.ExternalAttemptError, "ambiguous"):
+                recorder.latest_successes(list(rows))
+            with self.assertRaisesRegex(recorder.ExternalAttemptError, "ambiguous"):
+                self.validate(list(rows), integrated=True)
+
+    def test_later_marker_does_not_hide_an_ambiguous_earlier_success(self) -> None:
+        earlier = {**self.prior, "mode": "inline_refinement"}
+        later = {
+            **self.current, "mode": "inline_refinement", "attempt": "2",
+            "summary": f"{recorder.REFINEMENT_PARENT_PREFIX}{'2' * 64}; Later.",
+        }
+        for rows in itertools.permutations([self.prior, earlier, self.current, later]):
+            with self.assertRaisesRegex(recorder.ExternalAttemptError, "ambiguous"):
+                recorder.latest_successes(list(rows))
+
+    def test_refinement_parent_must_exist_and_match(self) -> None:
+        for parent in ("3" * 64, "not-a-hash"):
+            refinement = {
+                **self.current, "mode": "inline_refinement",
+                "summary": f"{recorder.REFINEMENT_PARENT_PREFIX}{parent}; Later.",
+            }
+            with self.assertRaisesRegex(recorder.ExternalAttemptError, "parent"):
+                self.validate([self.prior, self.current, refinement], integrated=True)
+        orphan = {
+            **self.current, "mode": "inline_refinement",
+            "summary": f"{recorder.REFINEMENT_PARENT_PREFIX}{'2' * 64}; Later.",
+        }
+        with self.assertRaisesRegex(recorder.ExternalAttemptError, "parent"):
+            recorder.latest_successes([self.prior, orphan])
+        with self.assertRaisesRegex(recorder.ExternalAttemptError, "lacks prior"):
+            self.validate([self.current, orphan], integrated=True)
+
+    def test_unsuccessful_linked_refinement_keeps_the_replacement(self) -> None:
+        refinement = {
+            **self.current, "mode": "inline_refinement", "result": "nonmatch",
+            "candidate_sha256": "3" * 64,
+            "summary": f"{recorder.REFINEMENT_PARENT_PREFIX}{'2' * 64}; Nonmatch.",
+        }
+        self.validate([self.prior, self.current, refinement], integrated=True)
+        for rows in itertools.permutations([self.prior, self.current, refinement]):
+            self.assertIs(recorder.latest_successes(list(rows))[self.address], self.current)
 
     def test_record_integrate_and_audit_preserve_old_evidence(self) -> None:
         with tempfile.TemporaryDirectory(
@@ -125,6 +174,20 @@ class ReclassificationMatchTests(unittest.TestCase):
                 "--summary", "Exact replacement.",
             ]
             original_ledger = (config / "external_attempts.csv").read_bytes()
+            earlier = {**self.prior, "mode": "inline_refinement"}
+            write_csv("external_attempts.csv", recorder.FIELDS, [self.prior, earlier])
+            unsupported_ledger = (config / "external_attempts.csv").read_bytes()
+            with (
+                patch.object(recorder, "require_workspace_root", return_value=root),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stderr(io.StringIO()) as errors,
+            ):
+                self.assertEqual(recorder.main(), 1)
+                self.assertIn("cannot reclassify a successful", errors.getvalue())
+            self.assertEqual(
+                (config / "external_attempts.csv").read_bytes(), unsupported_ledger
+            )
+            write_csv("external_attempts.csv", recorder.FIELDS, [self.prior])
             missing_discriminator = arguments.copy()
             index = missing_discriminator.index("--new-discriminator")
             del missing_discriminator[index:index + 2]
@@ -178,6 +241,59 @@ class ReclassificationMatchTests(unittest.TestCase):
             self.assertEqual((root / "src/game/func_80012345.c").read_text(), source)
             for ordered in (rows, list(reversed(rows))):
                 write_csv("external_attempts.csv", recorder.FIELDS, ordered)
+                audit_repository.audit_attempts(root)
+
+            for ordered in itertools.permutations([*rows, earlier]):
+                write_csv("external_attempts.csv", recorder.FIELDS, list(ordered))
+                with self.assertRaisesRegex(integrate_verified_match.IntegrationError, "ambiguous"):
+                    integrate_verified_match.require_matched_attempt(
+                        ledger, self.address, mode="reclassification_match"
+                    )
+                with self.assertRaisesRegex(audit_repository.AuditError, "ambiguous"):
+                    audit_repository.audit_attempts(root)
+            write_csv("external_attempts.csv", recorder.FIELDS, rows)
+
+            refined = candidate.with_name("refined.c")
+            refined_source = source + "/* A later exact source refinement. */\n"
+            refined.write_text(refined_source)
+            arguments = [
+                "record_external_attempt.py", "0x80012345",
+                "--mode", "inline_refinement", "--profile", "new_profile",
+                "--candidate", "tmp/probe/refined.c", "--result", "matched",
+                "--summary", "Later exact refinement.",
+            ]
+            with (
+                patch.object(recorder, "require_workspace_root", return_value=root),
+                patch.object(recorder, "preprocess_candidate", return_value=refined_source),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(recorder.main(), 0)
+            refined_rows = recorder.load_rows(ledger)
+            refinement = next(row for row in refined_rows if row["mode"] == "inline_refinement")
+            self.assertEqual(recorder.refinement_parent(refinement), rows[1]["candidate_sha256"])
+            self.assertIn(self.prior, refined_rows)
+            self.assertIn(rows[1], refined_rows)
+            with self.assertRaisesRegex(integrate_verified_match.IntegrationError, "superseded"):
+                integrate_verified_match.require_matched_attempt(
+                    ledger, self.address, mode="reclassification_match"
+                )
+            arguments = [
+                "integrate_verified_match.py", "0x80012345",
+                "--source", "tmp/probe/refined.c",
+                "--destination", "src/game/func_80012345.c",
+                "--profile", "new_profile", "--evidence-source", "refinement",
+                "--replace-existing", "--note", "Later pure-C refinement.",
+            ]
+            with (
+                patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(sys, "argv", arguments),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(integrate_verified_match.main(), 0)
+            self.assertEqual((root / "src/game/func_80012345.c").read_text(), refined_source)
+            for ordered in itertools.permutations(refined_rows):
+                write_csv("external_attempts.csv", recorder.FIELDS, list(ordered))
                 audit_repository.audit_attempts(root)
 
 
