@@ -64,7 +64,9 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                     entry->field_08, 0x17, 0x100, D_801AF000
                 );
                 func_800428EC(object, 5);
-                *(u16 *)(object + 8) |= 0x28;
+                *(u16 *)(object + 8) |=
+                    DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
                 D_801695F8[i] = object;
             }
         }
@@ -222,7 +224,8 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         0x17, 0x100, D_801AF000
     );
     func_800428EC(object, 0xA);
-    *(u16 *)(object + 8) |= 0x28;
+    *(u16 *)(object + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     entry = table + index;
     *(u16 *)(object + 0x30) = (u16)entry->f12;
     *(u16 *)(object + 0x32) = (u16)entry->f14;
@@ -263,7 +266,9 @@ void CampaignMap_SetLocation(s32 index)
     func_80035668(0);
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
-    *(u16 *)(obj + 8) = *(u16 *)(obj + 8) | 0x28;
+    *(u16 *)(obj + 8) =
+        *(u16 *)(obj + 8) | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = func_800400AC(func_8004002C(), 6);
     *(s16 *)(obj + 0x30) = 160;
     *(s16 *)(obj + 0x32) = 144;

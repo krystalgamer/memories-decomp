@@ -265,12 +265,14 @@ done:
     func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
     func_800428EC((u8 *)obj, -10);
     obj->attribute |= 0x1000000;
-    obj->flags |= 0x28;
+    obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                  DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
     ((u8 *)&obj->field_5E)[1] = 128;
     func_800428EC((u8 *)obj, 15);
-    obj->flags |= 0x28;
+    obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                  DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     gFreeDuel_pThumbWidget = obj;
     obj = FreeDuel_SpawnSparkle();
     gFreeDuel_pCursorWidget = obj;

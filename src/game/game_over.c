@@ -26,7 +26,8 @@ void func_8003C950(void)
     *(u8 *)&object->field_5E = 128;
     func_800428EC((u8 *)object, 4);
     object->field_6C = 0;
-    object->flags |= 40;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
     D_8009B378 = (s32)object;
     SD_BGMPlay(0x7300);

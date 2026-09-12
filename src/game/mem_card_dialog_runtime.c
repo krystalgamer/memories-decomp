@@ -241,7 +241,8 @@ void MemCardDialog_CreateObject(void)
 
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
-    o->flags |= 0x28;
+    o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_80042918(o);
     func_800428EC((u8 *)o, 0xF);
     D_8009B3D8 = o;

@@ -63,7 +63,8 @@ void func_8002F630(void) {
         o = func_800400AC(func_8004002C(), 2);
         func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
         func_800428EC((u8 *)o, 1);
-        o->flags |= 0x28;
+        o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         D_800EAE98[0] = o;
         o = func_800400AC(func_8004002C(), 1);

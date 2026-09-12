@@ -12,6 +12,7 @@ constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_LIST_COUNT` is 7,
 `DISPLAY_OBJECT_FLAG_CLIP_TEST` is `0x04`,
 `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is `0x08`,
+`DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` is `0x20`,
 `DISPLAY_OBJECT_FLAG_RENDERABLE` is `0x40`,
 `DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
@@ -36,6 +37,12 @@ Both return the first slot whose `+0x08` flags do not contain
 slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
 `DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
 and update passes require both bits before submitting visible content.
+
+`func_80040468` controls `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` from bit
+`0x8000` of its texture argument. The sprite builder at `0x8004158C` consumes
+that flag by adding the packed per-cell U/V nibble offsets to the object's base
+texture coordinates. Callers that set the composite former literal `0x28`
+therefore request both that cell offset and screen-space rendering.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
