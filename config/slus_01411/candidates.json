@@ -162,13 +162,13 @@
       "target": "src/candidates_target/func_800179F4.S",
       "candidate_build_sha256": "7488a41b329e992b8f9f6690d9b642d8dfc0b9086d815ee2bd83d076f62595b6",
       "target_bytes_sha256": "27c484605e8d3ac4025b18b0ecf4bb46f03ec24521c41b42728cb2ba51de2574",
-      "canonical_contract_sha256": "82ba68071999dd73c385e7ac931969566d733c05e5a858c3f1e67364c5037845",
+      "canonical_contract_sha256": "23cf2dce2d5efea943c66c3b16cd49b4a598c752a811baaf09ce291ca4404f14",
       "canonical_contracts": {
         "D_8009B1D8": "044c1bf63d7d230756918853e07545ef928833003a2f6db55a30b5bfa1eb85ad",
         "D_8009B1DC": "bcd88c1cf363496f085631d4ea6ad2b43bfbe84c497e702fa31395480c41a383",
         "D_8009B204": "16b5484737e7a55c360883042b4e29e8a4d896fd3e4268cd5af35d3f0d59fbbe",
         "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec",
-        "gDuel_bTerrain": "999d597180fbbf8f1dd714e0725ebd80279b049404641f60e32b6c40272aa238"
+        "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
       }
     },
     {
@@ -314,9 +314,9 @@
       "target": "src/candidates_target/func_80024E58.S",
       "candidate_build_sha256": "3b3a37649fc1063b4ba8c55b20c260a229a9602d2c2b6f1964bd449bb83aba06",
       "target_bytes_sha256": "01196d0d6dcdaeccb1d46ce0e85e6d7c62514b2bbd4a1c3bb646a6226ce83fc7",
-      "canonical_contract_sha256": "cef4aedd1b596dca1c21d361ba98e4a849517164933614596e2bd01c34558a5e",
+      "canonical_contract_sha256": "d87424f79a07ff399f041d9569038875140453442ecca7565d6c09876b9a939c",
       "canonical_contracts": {
-        "gDuel_bTerrain": "999d597180fbbf8f1dd714e0725ebd80279b049404641f60e32b6c40272aa238"
+        "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
       }
     },
     {
@@ -1488,18 +1488,6 @@
       "canonical_contract_sha256": "d048f8802e852560936a0f7f8dc07200a4f9529b49cd6bdae3c04f1e49ea7775",
       "canonical_contracts": {
         "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec"
-      }
-    },
-    {
-      "address": "0x80071460",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80071460.c",
-      "target": "src/candidates_target/func_80071460.S",
-      "candidate_build_sha256": "6e3881bb65521c920ecd27fdb004a597eb967ad7ceea1b813ca9bd9449299f1e",
-      "target_bytes_sha256": "ccd17979dea922eb1b7dc4da365b6ecf0861b4f18d0619ab1ec3324dd64feeaf",
-      "canonical_contract_sha256": "cef4aedd1b596dca1c21d361ba98e4a849517164933614596e2bd01c34558a5e",
-      "canonical_contracts": {
-        "gDuel_bTerrain": "999d597180fbbf8f1dd714e0725ebd80279b049404641f60e32b6c40272aa238"
       }
     },
     {
