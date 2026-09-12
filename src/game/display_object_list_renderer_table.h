@@ -11,4 +11,7 @@
  * list heads in display_object.h and DisplayObject_ResetPool's loop. */
 extern void (*D_80090FB0[DISPLAY_OBJECT_LIST_COUNT])(void);
 
+/* Renders the untextured Gouraud-quad list in D_80090FB0 slot 4. */
+void func_80040DD8(void);
+
 #endif

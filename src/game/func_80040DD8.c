@@ -1,21 +1,18 @@
-/* Reclassified from matching_c (#3859). This was part of
- * src/game/display_object_list_renderers.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0). Under gcc_2_8_1_g0, a single threshold,
- * it is 164 of 164 instructions with 12 differing, opcode distance 0. The
- * source below is the match, unchanged apart from its include paths. */
+/* The explicit viewport .data view keeps both offsets absolute under the
+ * uniform -G8 compiler/assembler profile used by this renderer. */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "../game/graphics_frame.h"
-#include "../game/display_object_projection.h"
-#include "../game/display_object.h"
-#include "../game/display_object_layout.h"
-#include "../unmatched.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
+#include "graphics_frame.h"
+#include "display_object_projection.h"
+#include "display_object.h"
+#include "display_object_layout.h"
+#include "display_object_list_renderer_table.h"
+#define DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
+#include "display_object_packet_submit.h"
 
-#include "../game/ordering_tables.h"
-
-extern void func_80042188(s32 arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4);
+#include "ordering_tables.h"
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag

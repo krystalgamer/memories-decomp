@@ -24,10 +24,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPOSITORY / "tools/project"))
+import candidate_builds
+
 CONFIG = REPOSITORY / "config/slus_01411"
 COMPILER = "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 IMPLICIT = re.compile(r"implicit declaration of function `([^']+)'")
@@ -51,7 +55,14 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
 ]
+
+PACKET_SUBMIT_CANDIDATES = (
+    "src/candidates/func_80028B08.c",
+    "src/candidates/func_80041068.c",
+)
 
 
 def profiles_by_source() -> dict[str, str]:
@@ -162,6 +173,54 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
+
+    def test_lost_packet_submit_header_is_caught(self) -> None:
+        for source, callee, include in PAIRS:
+            if "display_object_packet_submit.h" not in include:
+                continue
+            with self.subTest(source=source):
+                text = (REPOSITORY / source).read_text(encoding="utf-8")
+                self.assertIn(include + "\n", text)
+                with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+                    probe = Path(directory) / "a/b/c" / Path(source).name
+                    probe.parent.mkdir(parents=True)
+                    probe.write_text(
+                        text.replace(include + "\n", "", 1),
+                        encoding="utf-8",
+                    )
+                    found = implicit_calls(
+                        probe, self.profile(source), (REPOSITORY / source).parent
+                    )
+                self.assertIn(callee, found)
+
+    def test_packet_submit_contract_tracks_declaration_changes(self) -> None:
+        entries = {
+            entry["source"]: entry
+            for entry in json.loads(
+                (CONFIG / "candidates.json").read_text(encoding="utf-8")
+            )["candidates"]
+        }
+        index = candidate_builds.canonical_declaration_index({"func_80042188"})
+        declarations = index["func_80042188"]
+        expected = candidate_builds.canonical_symbol_contract_hash(
+            "func_80042188", declarations
+        )
+
+        for source in PACKET_SUBMIT_CANDIDATES:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    entries[source]["canonical_contracts"]["func_80042188"],
+                    expected,
+                )
+
+        changed = [
+            (path, statement.replace("s32 mode", "u32 mode", 1))
+            for path, statement in declarations
+        ]
+        changed_hash = candidate_builds.canonical_symbol_contract_hash(
+            "func_80042188", changed
+        )
+        self.assertNotEqual(expected, changed_hash)
 
 
 if __name__ == "__main__":
