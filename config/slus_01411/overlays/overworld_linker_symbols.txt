@@ -3,3 +3,5 @@ SD_BGMPlay = 0x8003FF08;
 D_800E9DB0 = 0x800E9DB0;
 TextBox_Create = 0x80035BE4;
 GsSetProjection = 0x800857C0;
+DisplayObject_SavePosition = 0x80043178;
+DisplayObject_InterpolatePositionCosine = 0x8004318C;
