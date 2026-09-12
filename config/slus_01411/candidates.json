@@ -6,12 +6,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80012B50.c",
       "target": "src/candidates_target/func_80012B50.S",
-      "candidate_build_sha256": "fbae9fec8f17d4b4a98be753f50280d85a97e02f052754e883ce734939b0dd96",
+      "candidate_build_sha256": "f5322086816e37b67e331728929a1273dd00266a473117632970e1fd92c2115e",
       "target_bytes_sha256": "c1e975c6ffc06e66847e80e1b41520b74bd631a3a9ad22abcc4dbef472516c21",
-      "canonical_contract_sha256": "be486c207c7e3577aa8cfe95779350ac0127b980dcea868e15c259459b6ee4fc",
+      "canonical_contract_sha256": "ae0a0a40f3af1df2ac018ae618e3011e2f452ddc70f3197f05ddf3416b11193c",
       "canonical_contracts": {
         "D_8009B0D1": "403b59eb06bc22d291f5c6e2189bc5b0a95d4c74e8200ce4f913d0b9aa1b934b",
-        "D_8009B269": "c886201242ab637e8583593c50c83bdfad300db510f3b1ea86c42e6a202a1990",
+        "D_8009B269": "f19a90458e57817920e65968105f3fb5ef882d9e2892468d7f1cf0db38863e60",
         "__main": "fec3281173553c80fb98e0b8e7963cc248f709d99c02ebd8c709cfe010ffef45",
         "gGraphics_pActiveFrameBuffer": "e12900db01e6fbbedf71ffb8379ba375b24b1cc9afdc2cf485ba87b01188fdf5"
       }
