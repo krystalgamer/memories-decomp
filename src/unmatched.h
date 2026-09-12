@@ -136,6 +136,7 @@ void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
                                        defines it with the same u8 * */
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
+void func_8002A788(u8 *);           /* library_runtime.c */
 
 /* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
 void func_800262D4(void);

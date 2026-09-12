@@ -39,9 +39,8 @@
    callback, the pass that marks every owned card in the screen's state, and
    func_8002BFCC, the entry that sets the screen up, installs that callback
    and hands control to the dispatcher. The per-frame dispatcher just before
-   this run, func_8002BAB4, is now a candidate in
-   src/candidates/func_8002BAB4.c; the two trivial state handlers it calls
-   for states 0 and 3 are in library_runtime.c.
+   this run, func_8002BAB4, lives in library_runtime.c; its two trivial state
+   handlers for states 0 and 3 live there too.
 
    The owned-card pass was recorded at gcc_2_8_1_g0_split. It compiles to an
    identical object at gcc_2_8_1_g8_split, which the entry needs, so the
