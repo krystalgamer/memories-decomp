@@ -34,7 +34,7 @@
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define W(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-void func_800218F0(void)
+void DuelScene_UpdateResultRewards(void)
 {
     DisplayObject *object;
     s32 score;

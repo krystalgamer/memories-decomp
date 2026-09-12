@@ -15,26 +15,60 @@ The table order is:
 
 | Index | Callback |
 | ---: | --- |
-| 0 | `func_80022618` |
-| 1 | `func_80018608` |
-| 2 | `func_8001898C` |
-| 3 | `func_80018DB4` |
+| 0 | `DuelScene_UpdateEffectPreview` |
+| 1 | `DuelScene_UpdateStartup` |
+| 2 | `DuelScene_UpdateDrawPhase` |
+| 3 | `DuelScene_UpdateDrawResolution` |
 | 4 | `DuelScene_UpdateHandActions` |
 | 5 | `DuelScene_UpdateFieldActions` |
-| 6 | `func_80019608` |
-| 7 | `func_80019D18` |
+| 6 | `DuelScene_UpdateCardUse` |
+| 7 | `DuelScene_UpdateCardPlacement` |
 | 8 | `func_8001B170` |
-| 9 | `func_8001F55C` |
-| 10 | `func_800208D4` |
-| 11 | `func_8001825C` |
-| 12 | `func_80020F4C` |
-| 13 | `func_800218F0` |
-| 14 | `func_80018FEC` |
+| 9 | `DuelScene_UpdateBattle` |
+| 10 | `DuelScene_UpdateTurnSwitch` |
+| 11 | `DuelScene_UpdateResume` |
+| 12 | `DuelScene_UpdateResultOutro` |
+| 13 | `DuelScene_UpdateResultRewards` |
+| 14 | `DuelScene_UpdateExodiaResult` |
 
 The mask permits index 15, but the initialized table has only fifteen entries.
 The following initialized word belongs to the terrain-boost table. No recovered
 producer establishes that index 15 is reachable, so the declaration remains
 unsized rather than asserting a sixteenth callback.
+
+## Scene lifecycle
+
+The opening sequence is represented by three matching handlers.
+`DuelScene_UpdateStartup` loads the duel resources, starts the music, builds
+the two rank baselines, clears the hand slots and advances to draw resolution.
+`DuelScene_UpdateDrawPhase` reconstructs the active hand and stages its drawn
+card. `DuelScene_UpdateDrawResolution` completes that draw, handles deck
+exhaustion and Exodia detection, and chooses the next scene.
+
+The action controllers hand presentation work to four larger generated
+assembly states. `DuelScene_UpdateCardUse` owns the selected-card zoom and both
+card-effect phases. `DuelScene_UpdateCardPlacement` owns ordinary field
+placement. `DuelScene_UpdateBattle` sequences the attack, damage and aftermath.
+`DuelScene_UpdateTurnSwitch` then animates the side change, flips the active
+side, repoints its state records and returns to draw entry.
+
+`DuelScene_UpdateResume` restores every occupied card object and side indicator
+after an interrupted presentation, then replays field effects or starts the
+music before fading back in. Index 0 is the separate developer
+`DuelScene_UpdateEffectPreview` state rather than part of the normal duel
+opening.
+
+The result path is explicit. `DuelScene_UpdateResultOutro` streams the outro,
+spawns the seven winning-side sprites and advances to index 13.
+`DuelScene_UpdateResultRewards` constructs the three result pages, derives the
+POW/TEC rank, and awards the starchips and selected card drop. Exodia instead
+uses index 14, `DuelScene_UpdateExodiaResult`, for its five-stage piece and
+sparkle presentation before the result handoff.
+
+Index 8 remains `func_8001B170`. Its body is clearly a six-step selected-card
+UI/action state, but the available evidence does not distinguish a sufficiently
+specific role from neighboring placement and card-use states. It remains
+address-named rather than turning that uncertainty into a durable API.
 
 ## Human action controllers
 

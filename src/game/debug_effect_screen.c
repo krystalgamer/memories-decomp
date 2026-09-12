@@ -205,7 +205,7 @@ void func_800222F4(void) {
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on D_8009AF2A. */
-void func_80022618(void) {
+void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
     func_800222F4();

@@ -42,7 +42,8 @@ typedef struct {
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a D_801A7AD8 record index. The shape is not a guess --
- * func_800179F4 (src/candidates/func_800179F4.c) and func_800208D4.c both
+ * func_800179F4 (src/candidates/func_800179F4.c) and
+ * duel_scene_turn_switch.c both
  * build a per-side cursor as
  * D_800907D8 + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *

@@ -17,14 +17,14 @@
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
-#include "func_80019608.h"
+#include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
 
 /* The COMMON definition preserves the GP-relative store and its load delay.
    The linker resolves it to the existing global without allocating storage. */
 u16 D_8009B150;
 
-void func_80019608(void)
+void DuelScene_UpdateCardUse(void)
 {
     DisplayObject *p;
     DuelCardRecord *slot;

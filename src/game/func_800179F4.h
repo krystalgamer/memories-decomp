@@ -7,7 +7,7 @@
 
    func_800179F4 allocates both from func_800400AC and hands each to
    func_80042918, whose parameter is DisplayObject *, which is what #3176
-   established and what func_80020F4C's source already declared. The
+   established and what DuelScene_UpdateResultOutro's source already declared. The
    other three consumers spelled them u8 *; they are declared once here
    instead.
 

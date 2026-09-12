@@ -24,7 +24,7 @@
  * they are not named here. Two callers disagree about them and both are
  * right for their own id: DuelEffect_StartSwords (id 0x12) writes 0xA0/0x78
  * into +0x00 and +0x02, the centre of a 320x240 screen, while
- * func_8001825C (id 0xB) and duel_trap_resolution.c (id 8) copy a card
+ * DuelScene_UpdateResume (id 0xB) and duel_trap_resolution.c (id 8) copy a card
  * record's +0x30/+0x32/+0x34 triple straight into all three, and
  * DuelEffect_ApplyHarpiesFeatherDuster (id 0x17) reads +0x04 back as a y
  * coordinate. Naming the pair
@@ -79,7 +79,7 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
- * (func_80018FEC, func_80019D18, func_8001F55C, DuelEffect_ApplyRitual) still
+ * (DuelScene_UpdateExodiaResult, DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle, DuelEffect_ApplyRitual) still
  * assembly. */
 extern u8 *D_8009B17C;
 
@@ -99,15 +99,17 @@ extern u8 *D_8009B17C;
  * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
  * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
  * in func_80024200, DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty,
- * DuelEffect_ApplyDarkPiercingLight and func_80018FEC. The matching
- * func_80024200.c, duel_card_effects.c, and the func_80018FEC candidate define
- * the .data arm below for that. func_8002C68C.c takes the plain arm.
+ * DuelEffect_ApplyDarkPiercingLight and DuelScene_UpdateExodiaResult. The
+ * matching func_80024200.c, duel_card_effects.c, and the Exodia-result
+ * candidate define the .data arm below for that. func_8002C68C.c takes the
+ * plain arm.
  *
  * This paragraph named duel_scene_update.c until 2026-09-12. That was true
  * when it was written: duel_scene_update.c defined the arm from #3231 until
  * the coordinator moved through a candidate and then returned to matching C.
  *
- * What the arm buys func_80018FEC is measured rather than assumed: retail
+ * What the arm buys DuelScene_UpdateExodiaResult is measured rather than
+ * assumed: retail
  * leaves the delay slot before that unit's D_8009B260 test empty, and the
  * bare form this arm produces is one pseudo-instruction to the delay-slot
  * filler, so there is nothing for it to hoist into the slot. The unsized

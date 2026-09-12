@@ -118,7 +118,7 @@ payload role. The full negative evidence is recorded in
 
 ### End-of-duel results package
 
-Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,
+Resident `DuelScene_UpdateResultOutro` requests 34 WA sectors beginning at sector `0x1DAB`,
 which is archive range `0xED5800-0xEE6800`. Matching callback
 `func_80020BE4` accounts for the complete package:
 

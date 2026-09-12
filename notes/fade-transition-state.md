@@ -334,7 +334,7 @@ below for exact addressing.
 
 ## Exact-code exceptions
 
-The remaining assembly exception documented here is `func_800218F0`, which
+The remaining assembly exception documented here is `DuelScene_UpdateResultRewards`, which
 reads `flags`, writes `level`, and calls the band fill during its larger
 assembly-only flow.
 
