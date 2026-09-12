@@ -7376,3 +7376,30 @@ a finding to record next to the object it points into -- both of these went into
 the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
+
+## func_800496C4: transfer initialization without register pins
+
+The 152-byte function at `0x800496C4` matches under the existing uniform
+`gcc_2_8_1_g0` profile using `SDSecondaryState` and `SDSecondaryTransfer` from
+`sound.h`. The shared `s32(u8 *, s16, s32)` contract is unchanged. No new
+declaration view, compiler profile, inline assembly, or literal global address
+is needed.
+
+The zero value is initialized in a single-iteration scope, then the existing
+signed-halfword argument is captured into a word local before the first
+`D_8009B458` load. This replaces both hard-register bindings. Flattening the
+zero initialization loses one instruction; moving the argument capture before
+that scope exchanges three prologue words; initializing the state pointer at
+declaration moves its absolute load too early. The inherited eight-byte local
+frame remains: retail adjusts `$sp` on entry and exit but never accesses it.
+
+The first state's consumed-byte count is cleared before the conditional
+inactive-state rejection. The function then reloads the state pointer, clears
+the transfer status, and populates the input pointer, header-derived byte
+counts, two control bytes, and the final pointer-valued field in retail order.
+The input remains a byte pointer because this match does not establish a new
+shared input-header type.
+
+All 38 target instructions agree with retail. The original canonical match
+and six-entry inline-refinement series ending in deferral remain intact; a new
+`post_terminal_resolution` row records the initialization-order discriminator.
