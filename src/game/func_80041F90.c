@@ -6,10 +6,6 @@
 #include "../game/display_object.h"
 #include "../game/display_object_projection.h"
 
-/* RotAverageNclip3_nom at 0x80089CF0. The return type differs from libgte.h,
-   so it keeps its address name and this local prototype (notes/psyq.md). */
-extern s32 func_80089CF0(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2);
-
 s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *out) {
     MATRIX *mtx = (MATRIX *)0x1F8002D0;
     SVECTOR *v308 = (SVECTOR *)0x1F800308;
@@ -54,7 +50,7 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
         v318->vz = 0;
         v310->vz = 0;
         v308->vz = 0;
-        func_80089CF0(v308, v310, v318);
+        RotAverageNclip3_nom(v308, v310, v318);
 
         otzp = &otz;
         gte_stopz(otzp);
@@ -77,7 +73,7 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
                 mtx->m[2][2] = -mtx->m[2][2];
                 SetRotMatrix(mtx);
 
-                func_80089CF0(v308, v310, (SVECTOR *)0x1F800318);
+                RotAverageNclip3_nom(v308, v310, (SVECTOR *)0x1F800318);
 
                 otzp = &otz;
                 gte_stopz(otzp);
