@@ -5,6 +5,16 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+int File_Exists(int first, int second)
+{
+    DslFILE *result = DsSearchFile((DslFILE *)second, (char *)first);
+
+    if (result == 0 || result == (DslFILE *)-1) {
+        return -1;
+    }
+    return 0;
+}
+
 int func_8005C530(void)
 {
     int result = func_8005BE3C();

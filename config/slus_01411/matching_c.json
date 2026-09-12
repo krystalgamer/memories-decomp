@@ -4282,7 +4282,7 @@
       "address": "0x8004A6F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/func_8004A6F8.c"
+      "source": "src/game/sound_voice_envelope.c"
     },
     {
       "address": "0x8004A764",
@@ -5110,7 +5110,7 @@
       "address": "0x8005C4F0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x40",
-      "source": "src/game/file_exists.c"
+      "source": "src/game/file_cd_helpers.c"
     },
     {
       "address": "0x8005C530",
