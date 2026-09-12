@@ -279,7 +279,7 @@
       "target": "src/candidates_target/func_800283F4.S",
       "candidate_build_sha256": "e4a4ea1a7a60a9bffeb948dd3729dd09798d33ca19eb3e70081ec087a0cc167e",
       "target_bytes_sha256": "191b87b8e0c76c75d48fdc5d2424a092de52e53d72d52aea73557b3db53a7df1",
-      "canonical_contract_sha256": "f7ef203423787696d3167238f00238476e3dd0fd70ea38acf09d37501fdecb48",
+      "canonical_contract_sha256": "c55410368060cfb55c0bf6bbe516b0d1b950ac30f9448ef2ec63319a6c906ce0",
       "canonical_contracts": {
         "D_8009B240": "2f493901be5e38e6509b86fe5191666577ec9c58244816142e7adabf7dbc8550",
         "D_8009B248": "d118e88af3d165cbebbda18a704bc90b82d50cc6e266488224fb7a7743d1afc7",
