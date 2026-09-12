@@ -2,6 +2,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
+#include "../../game/color_constants.h"
 #include "../../game/input.h"
 #include "../../game/display_object_config.h"
 #include "../../game/text_constants.h"
@@ -169,7 +170,7 @@ void NameEntry_Init(void)
     D_8016D43C = obj;
     obj = func_800400AC(func_8004002C(), 3);
     func_80040510((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
-    *(s32 *)(obj + 0xC) = 0x404040;
+    *(s32 *)(obj + 0xC) = COLOR_RGB24_DIM_GREY;
     *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x1000000;
     func_8004293C(obj);
     D_8016D4D2 = 244;

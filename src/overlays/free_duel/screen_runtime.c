@@ -8,6 +8,7 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/display_object.h"
 #include "../../game/input.h"
+#include "../../game/color_constants.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/text_box_runtime.h"
 #include "../../game/text_staging.h"
@@ -309,7 +310,7 @@ void FreeDuel_UpdateSparkle(void)
             if (!(obj->field_6C & 0x80)) {
                 obj->field_6C |= 0x80;
                 obj->field_60 = 16;
-                obj->field_0C = 0x404040;
+                obj->field_0C = COLOR_RGB24_DIM_GREY;
                 obj->attribute |= (GsALON | GsAONE);
             }
             level = ((u8 *)&obj->field_0C)[0] - 4;

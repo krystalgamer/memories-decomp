@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_effect_lifecycle.h"
+#include "color_constants.h"
 #include "display_object.h"
 #include "display_object_api.h"
 #include "display_object_layout.h"
@@ -102,7 +103,7 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
                 *(u32 *)(e + 4) = *(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE);
                 *(u32 *)(e + 4) = *(u32 *)(e + 4) | GsALON;
                 func_800428EC(e, c);
-                *(u32 *)(e + 0xC) = 0x808080;
+                *(u32 *)(e + 0xC) = COLOR_RGB24_NEUTRAL_GREY;
                 *(u16 *)(e + 0x42) -= 1;
             }
         }
