@@ -6,6 +6,10 @@
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
+#define FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED 0x40
+#define FILE_TRANSFER_STATE_COMMAND_BUSY 0x400
+#define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
+#define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
@@ -113,10 +117,16 @@ void func_80014FA4(void);
  *
  * Every File_* entry point and every CD/DS sector callback tests or updates
  * it, and the FILE_TRANSFER_STATE_*, FILE_TRANSFER_FLAG_SECTOR_RANGE and
- * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits. It is
- * only ever read and written whole, and only ever through bit masks. Nothing
- * indexes it, so the `D_8009B0F4[0]` spellings this header replaces were an
- * addressing device rather than evidence of an array.
+ * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits.
+ * FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED blocks secondary promotion while
+ * File_RequestAsyncTransfer initializes the primary request. The command-busy
+ * bit is raised after a successful DsCommand/DsPacket submission and cleared
+ * by its completion callback. The position-query pair gates DsCommand 0x10:
+ * func_80014308 raises pending, func_8001455C submits it and raises busy, and
+ * func_80014390 clears busy. The word is only ever read and written whole,
+ * and only ever through bit masks. Nothing indexes it, so the
+ * `D_8009B0F4[0]` spellings this header replaces were an addressing device
+ * rather than evidence of an array.
  *
  * `volatile` is load-bearing on both names, measured rather than assumed:
  * dropping it from the plain name builds a 0x1D0668-byte executable and
@@ -263,12 +273,18 @@ extern char D_8009B104[1];
  * File_SetPositionTable installs File_WaitForTransfers and
  * File_InitTransferState clears it; File_RequestAsyncTransfer and
  * File_TryRequestAsyncTransfer call it when it is set, else check the
- * blocked mask. Retail: sw %lo through $at in File_SetPositionTable (the
- * as -G2 profile, where a four-byte object is non-small whatever its type),
- * gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
+ * blocked mask. Retail: sw %lo through $at in File_SetPositionTable, selected
+ * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
  * asm("D_8009B10C") alias of this type; the pointer is what every use
  * assigns and calls. */
+#ifdef D_8009B10C_IN_DATA
+extern void (*D_8009B10C)(void) __attribute__((section(".data")));
+#else
 extern void (*D_8009B10C)(void);
+#endif
+extern u8 D_8009B0E0;
+extern u8 D_800E9DF0[];
+void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
  * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both

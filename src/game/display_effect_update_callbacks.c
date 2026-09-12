@@ -318,7 +318,8 @@ void func_8003B054(u8 *p)
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
             *(u16 *)&o->field_44.h.field_46 = 0;
             o->field_0C = 0;
-            o->attribute |= 0x51000000;
+            o->attribute |=
+                GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             func_80042918(o);
             func_800428EC((u8 *)o, -8);
             *(DisplayObject **)p = o;
@@ -328,7 +329,8 @@ void func_8003B054(u8 *p)
         *(u16 *)&o->field_48.h.field_4A = 0;
         o2 = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, 0x200, 0xFD);
-        o2->attribute = (o2->attribute | 0x61000000) & ~GsROTOFF;
+        o2->attribute = (o2->attribute |
+            GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;
         *(u16 *)&o2->field_48.h.field_4A = 0;
         func_80042918(o2);

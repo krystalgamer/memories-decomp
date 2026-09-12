@@ -4,12 +4,9 @@
 #include "duel_effect.h"
 #include "text_box_runtime.h"
 
-/* Moves a text box and the objects it owns. The record is a
- * DuelEffectChannel, but its callers reach it by byte arithmetic on
- * D_800EB0F8 and pass a u8 *, so the parameter keeps that spelling and each
- * access casts it. A typed local would be tidier and costs the match: the
- * extra copy makes the prologue save s1 before s0. */
-void TextBox_SetPos(u8 *record, s32 x, s32 y)
+/* The repeated casts preserve the accepted expression shape. Introducing a
+ * typed local changes the prologue register saves under GCC 2.8.1. */
+void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
 {
     DisplayObject *object;
 
@@ -40,7 +37,7 @@ void TextBox_SetPos(u8 *record, s32 x, s32 y)
     }
 }
 
-void func_80039A14(u8 *object)
+void func_80039A14(DuelEffectChannel *object)
 {
     ((DuelEffectChannel *)object)->flags_34 |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
@@ -49,7 +46,7 @@ void func_80039A14(u8 *object)
                TEXT_BOX_FLAG_DONE));
 }
 
-void func_80039A60(u8 *object)
+void func_80039A60(DuelEffectChannel *object)
 {
     ((DuelEffectChannel *)object)->flags_34 |= 0xA00;
     do {

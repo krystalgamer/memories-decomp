@@ -32,7 +32,7 @@ Verified channel fields used by matching C include:
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `src/candidates/func_80038334.c` |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_command.c` |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
@@ -43,6 +43,16 @@ the record through `TextBoxStateCallback`, now declared
 typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
+
+The public text-box build/wait pair and `TextBox_SetPos` now also take
+`DuelEffectChannel *`. Typed producers such as `TextBox_Create` and
+`DuelEffect_CreateChannel` pass their results directly. A few exact-code
+consumers retain raw byte cursors internally and cast only at the call
+boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
+typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
+helper `func_80039AD4` takes `DuelEffectChannel *`, while preserving its two
+raw byte accesses inside `field_10`; this removes the incompatible-pointer
+calls from both fade callbacks without claiming names for those bytes.
 
 ## `D_800EB288`: 620 `0x1C`-byte entries
 

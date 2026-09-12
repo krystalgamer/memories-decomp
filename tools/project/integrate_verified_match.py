@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from function_inventory import FIELDS, load_inventory
+from record_external_attempt import ExternalAttemptError, latest_successes
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -122,16 +123,27 @@ def require_matched_attempt(
         reader = csv.DictReader(handle)
         if mode is not None and tuple(reader.fieldnames or ()) != EXTERNAL_FIELDS:
             raise IntegrationError(f"{path}: unexpected external CSV fields")
-        rows = [
+        address_rows = [
             row
             for row in reader
             if parse_address(row["address"]) == address
-            and (mode is None or row.get("mode") == mode)
         ]
+        rows = [row for row in address_rows if mode is None or row.get("mode") == mode]
     if not rows or rows[-1]["result"] != "matched":
         raise IntegrationError(
             f"{address:#010x}: latest recorded attempt is not matched"
         )
+    if mode is not None and any(
+        row["mode"] == "reclassification_match" for row in address_rows
+    ):
+        try:
+            selected = latest_successes(address_rows).get(address)
+        except ExternalAttemptError as error:
+            raise IntegrationError(str(error)) from error
+        if selected != rows[-1]:
+            raise IntegrationError(
+                f"{address:#010x}: requested evidence has been superseded"
+            )
     return rows[-1]
 
 
@@ -186,6 +198,7 @@ def parse_args() -> argparse.Namespace:
             "refinement",
             "collaborator",
             "post-terminal",
+            "reclassification",
         ),
         default="canonical",
         help="ledger containing the terminal matched result",
@@ -282,7 +295,11 @@ def main() -> int:
                         else (
                             "collaborator_match"
                             if args.evidence_source == "collaborator"
-                            else "post_terminal_resolution"
+                            else (
+                                "reclassification_match"
+                                if args.evidence_source == "reclassification"
+                                else "post_terminal_resolution"
+                            )
                         )
                     )
                 ),

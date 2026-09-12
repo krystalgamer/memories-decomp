@@ -13,7 +13,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 {
     FileTransferDescriptor *result;
 
-    D_8009B0F4 |= 0x40;
+    D_8009B0F4 |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;
     if (D_8009B10C == 0) {
         if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134) != 0) {

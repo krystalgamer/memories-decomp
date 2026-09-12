@@ -37,7 +37,7 @@ extern s32 D_800F5D44 __attribute__((section(".data")));
  * rect at +0x42420 the next strip is queued with DecDCTout; otherwise
  * D_8009B062 marks the frame complete.
  *
- * func_8005BE3C is the sibling to read for the conventions here: a fresh
+ * Movie_DecodeAndPresentFrame is the sibling to read for the conventions here: a fresh
  * pointer local is assigned D_8009B498 + 0x40000 for each group of accesses
  * rather than one being shared, which is what makes CSE collapse the repeated
  * global read into a register copy while still rebuilding the address
@@ -99,4 +99,3 @@ void func_8005C1F4(void) {
         D_8009B062 = 1;
     }
 }
-

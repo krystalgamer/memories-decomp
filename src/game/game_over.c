@@ -20,7 +20,7 @@ void func_8003C950(void)
         (DisplayObjectConfigView *)object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 0, 16, 0, 240
     );
-    object->attribute |= 0x1000000;
+    object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
     *(u8 *)&object->field_5E = 128;
@@ -33,4 +33,3 @@ void func_8003C950(void)
     Fade_StartIn();
     gFade_State.step = 2;
 }
-

@@ -46,9 +46,9 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
 
     tag = e->attribute;
     p->attribute = tag;
-    if (tag & 0x2000000) {  /* 16bpp */
+    if (tag & DISPLAY_OBJECT_ATTRIBUTE_16BPP) {
         step = 4;
-    } else if (tag & 0x1000000) {  /* 8bpp */
+    } else if (tag & DISPLAY_OBJECT_ATTRIBUTE_8BPP) {
         step = 2;
     }
     p->tpage = e->field_66;

@@ -88,6 +88,9 @@ void func_8002C938(u32 *output, s32 alternate);
  * type and CARD_STAT_VALUE_MASK for the stat value. */
 extern s32 gDuel_adwCardStats[];
 
+/* Level and attribute nibbles, indexed directly by the one-based card id. */
+extern u8 gDuel_abCardLevelAttr[];
+
 /* Effective attack and defense packed into one word: defense in the high
  * half, attack in the low half. Never narrow the return type -- callers
  * select a half with `>> 16` or a 16-bit mask. */

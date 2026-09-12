@@ -199,25 +199,23 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
-Two further identifications are confirmed but deliberately not applied. Both
-are blocked by the same thing: the only consumer calls the function with an
-arity the Psy-Q header contradicts, so adopting the name would put a source
-file's own prototype in conflict with `libgte.h`, and deciding which of the two
-is right is prototype work rather than a rename.
+Two further identifications have unique signatures but caller ABIs that
+contradict the canonical Psy-Q header. They are applied through address-qualified
+aliases in `libgte_abi_variants.h`, preserving the observed calls without
+weakening or changing `libgte.h`.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates (formerly `display_object_projection.c`) include `libgte.h` and call it with **four** arguments where the header declares three, and the fourth argument is present in the retail call. |
-| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) includes `libgte.h` and calls it with **one** pointer where the header declares three `long`s. |
-
-Both keep their `func_XXXXXXXX` names until that is settled.
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates call the address-qualified `RotAverageNclip3_nom_80089CF0` alias with the four vectors present in retail, while `libgte.h` keeps the canonical three-vector declaration. |
+| `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) calls the address-qualified `NormalClip_800879A0` alias with the one pointer present in retail, while `libgte.h` keeps the canonical three-`long` declaration. |
 
 The *parameter types* are a separate question from the name, and for
 `0x80089CF0` they are settled: the two candidates that replaced
 `display_object_projection.c` spell their local prototype
-`extern s32 func_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
-taking the three the header gives and repeating it for the fourth. Adopting the types does not commit the tree to the name or to the
-arity, and it retires four private structs that were describing `SVECTOR` a
+`long RotAverageNclip3_nom_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
+taking the three the header gives and repeating it for the fourth. This keeps
+the independently confirmed name while documenting the unresolved arity
+difference, and it retires four private structs that described `SVECTOR` a
 field at a time.
 
 ## CRT startup routines
@@ -232,6 +230,27 @@ The PS-X EXE header and [memory map](memory-map.md) place the entry point at
 | `0x800129D8` | `entrypoint` | `0xA0` | Clears `[bss_start, bss_end)` as words, derives the stack from the word at `D_8009AF10`, records two startup memory values at `D_800906E4` and `D_800906E8`, initializes `$gp` and `$fp`, calls `Main_Init`, and executes a `break` instruction if that call returns. |
 | `0x80012A78` | `__main` | `0x70` | Returns immediately when the guard word at `0x800906E0` is already nonzero. Otherwise it sets the guard to one and contains a forward callback-table walk beginning at `D_80010000`; the linked callback count is zero in this executable. |
 | `0x80012AE8` | `__do_global_dtors` | `0x68` | Returns when the same guard word is zero and otherwise contains the paired callback-table walk beginning at `D_80010000`; its linked callback count is also zero. |
+
+The adjacent 36-byte startup metadata block is now C-owned by
+[`src/psyq/startup_data.c`](../src/psyq/startup_data.c), rather than emitted by
+the generated `initialized_data_800906e0` assembly blob. It defines the guard
+word at `D_800906E0`, the word at `D_800906E4`, and the seven-word record at
+`D_800906E8`. The record contains the entrypoint address, resident text size,
+initialized-data start and size, BSS start and size. Three record fields are
+symbol-derived addresses; the leading record word and three size fields are
+literals. The compiled object's `.data` relocation table is:
+
+```text
+OFFSET    TYPE       VALUE
+0000000c  R_MIPS_32  entrypoint
+00000014  R_MIPS_32  D_800906E0
+0000001c  R_MIPS_32  D_8009B4A8
+```
+
+`initialized_data_start` is the C macro for `D_800906E0`, so the middle
+relocation names that symbol directly. There is no fourth relocated data word;
+the zero at record offset `+0x00` is a literal null value. The complete
+executable remains byte-identical.
 
 The comparison
 [symbol catalogue](research/Unchiga_Symbols/known_functions.md) proposed
@@ -455,7 +474,7 @@ Every row below is now an applied project symbol.
 | `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
 | `0x800851E8` | `GsSortClear` | Applied Psy-Q 4.6 identity at offset `0x418` of the same `LIBGS.LIB/GS_001.OBJ` object. |
-| `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `func_8005BB7C` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
+| `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `Movie_StopStream` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
 | `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |
 | `0x80085440` | `GsSetDrawBuffClip` | Applied from the unique 128-byte `LIBGS.LIB/GS_003.OBJ` signature; installs the clip rectangle through `PutDrawEnv`. |
 | `0x800854C0` | `GsInitVcount` | Applied from the unique 64-byte `LIBGS.LIB/GS_007.OBJ` signature; programs root counter 1 with `SetRCnt` and `StartRCnt`. `Main_Init` calls it through the canonical `libgs.h` declaration during graphics start-up. |
@@ -1032,7 +1051,8 @@ SPU-audio streaming interface.
 movie work area. The SDK type contains 34,816 `u16` entries, or `0x11000`
 bytes. Matching `func_8005B8A0` builds the VLC table at `D_8009B498` and then
 starts the CD stream ring exactly at `D_8009B498+0x11000`; matching
-`func_8005BFC8` passes that same base as the table argument to `DecDCTvlc2`.
+`Movie_WaitAndDecodeFrame` passes that same base as the table argument to
+`DecDCTvlc2`.
 This proves the table prefix, not an SDK identity for the full allocation:
 later offsets hold the CD ring, alternating coded and decoded frame slots,
 and rectangle state, so the shared work-area pointer remains byte-oriented.
@@ -1537,17 +1557,17 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_pads.c`; the real prototypes preserve the exact build. |
-| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in `file_stream.c` and `func_8005BFC8` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; `func_8005C62C.c` retains an integer parameter and converts it to `u8 *` at the two `CdControlB` calls and to `DslLOC *` at the `DsRead2` boundary. |
+| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in `file_stream.c` and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; `func_8005C62C.c` retains an integer parameter and converts it to `u8 *` at the two `CdControlB` calls and to `DslLOC *` at the `DsRead2` boundary. |
 | `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists`, now the candidate `src/candidates/func_8005C4F0.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
-| Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `func_8005BFC8` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
-| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across `func_8005B8A0.c` and `func_8005BFC8` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
+| Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
+| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across `func_8005B8A0.c` and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
 | Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_driver.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; the free-space and name consumers deliberately retain byte-oriented 40-byte views. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c), and `func_80057544`/`func_800577B0` in [`file_transfer_steps.c`](../src/game/file_transfer_steps.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
 | Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `duel_card_stat_display.c`, `func_80031784.c`, and `fade_runtime.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
-| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `func_8005BE3C` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
+| Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `func_800592AC.c` and the `func_800580D4` candidate (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `func_80052D2C.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and the `func_80041E7C`/`func_80041F90` candidates (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
