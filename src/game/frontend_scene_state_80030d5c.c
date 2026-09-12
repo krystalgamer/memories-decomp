@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers and 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/frontend_scene_states.c.
- */
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
 #define D_8009B36A_IN_DATA
@@ -48,15 +42,7 @@ void func_80030D5C(void)
         u8 flags = D_8009B2EB;
 
         if (flags & 0x40) {
-            register u32 word asm("$2");
-
-            __asm__ volatile(
-                "lui $2,%%hi(D_8009B0F4)\n\t"
-                "lw $2,%%lo(D_8009B0F4)($2)"
-                : "=r"(word)
-                :
-                : "memory"
-            );
+            u32 word = D_8009B0F4_abs;
             if ((word & 0x02000000) == 0)
                 D_8009B2EB = flags & 0xBF;
         } else {
