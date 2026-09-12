@@ -201,7 +201,7 @@ next_obj:
     D_800EF658[0] = 0x309;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
-    D_800E9FF0[(u8)side].field_00 = 0x28;
+    D_800E9FF0[(u8)side].rank.result_adjustment = 0x28;
     other = (u8 *)&D_800E9FF0[D_8009B1D5 ^ 1];
     *(u16 *)(other + 0x14) = 0;
     *(u16 *)(other + 0x12) = 0;
