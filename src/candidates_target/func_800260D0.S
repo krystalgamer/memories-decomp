@@ -93,7 +93,7 @@ glabel DuelEffect_ApplyCursebreaker
     /* 16A0C 8002620C 86980008 */  j          .L80026218
     /* 16A10 80026210 1A0002A6 */   sh        $v0, 0x1A($s0)
   .L80026214:
-    /* 16A14 80026214 180380A7 */  sh         $zero, %gp_rel(D_8009B220)($gp)
+    /* 16A14 80026214 180380A7 */  sh         $zero, %gp_rel(gDuel_wCardEffectFlags)($gp)
   .L80026218:
     /* 16A18 80026218 1800BF8F */  lw         $ra, 0x18($sp)
     /* 16A1C 8002621C 1400B18F */  lw         $s1, 0x14($sp)

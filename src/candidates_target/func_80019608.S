@@ -172,7 +172,7 @@ glabel func_80019608
     /* A068 80019868 00000000 */   nop
   .L8001986C:
     /* A06C 8001986C 48028487 */  lh         $a0, %gp_rel(D_8009B150)($gp)
-    /* A070 80019870 E99A000C */  jal        func_80026BA4
+    /* A070 80019870 E99A000C */  jal        DuelEffect_StartCardEffect
     /* A074 80019874 21280000 */   addu      $a1, $zero, $zero
     /* A078 80019878 03000224 */  addiu      $v0, $zero, 0x3
     /* A07C 8001987C 6C0282A3 */  sb         $v0, %gp_rel(D_8009B174)($gp)
@@ -266,7 +266,7 @@ glabel func_80019608
     /* A1CC 800199CC 48028487 */  lh         $a0, %gp_rel(D_8009B150)($gp)
     /* A1D0 800199D0 8000C234 */  ori        $v0, $a2, 0x80
     /* A1D4 800199D4 6C0282A3 */  sb         $v0, %gp_rel(D_8009B174)($gp)
-    /* A1D8 800199D8 E99A000C */  jal        func_80026BA4
+    /* A1D8 800199D8 E99A000C */  jal        DuelEffect_StartCardEffect
     /* A1DC 800199DC 01000524 */   addiu     $a1, $zero, 0x1
     /* A1E0 800199E0 7B660008 */  j          .L800199EC
     /* A1E4 800199E4 00000000 */   nop

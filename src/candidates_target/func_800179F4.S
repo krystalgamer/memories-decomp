@@ -52,7 +52,7 @@ glabel func_800179F4
     /* 8290 80017A90 5A0280A7 */  sh         $zero, %gp_rel(D_8009B162)($gp)
     /* 8294 80017A94 CC0280A3 */  sb         $zero, %gp_rel(D_8009B1D4)($gp)
     /* 8298 80017A98 FC0280A7 */  sh         $zero, %gp_rel(D_8009B204)($gp)
-    /* 829C 80017A9C 180380A7 */  sh         $zero, %gp_rel(D_8009B220)($gp)
+    /* 829C 80017A9C 180380A7 */  sh         $zero, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 82A0 80017AA0 640280A7 */  sh         $zero, %gp_rel(D_8009B16C)($gp)
     /* 82A4 80017AA4 6C0280A3 */  sb         $zero, %gp_rel(D_8009B174)($gp)
     /* 82A8 80017AA8 1E005010 */  beq        $v0, $s0, .L80017B24

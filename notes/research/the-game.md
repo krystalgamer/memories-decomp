@@ -798,9 +798,10 @@ branch, not a new runtime trace or an audit of every combination/AI path.
 The game does not read the card's text; it reads its **number**. The card-use
 presentation sequence
 [`func_80019608`](../../src/candidates/func_80019608.c) hands the id to a guard
-[`func_80026BA4`] that accepts
+[`DuelEffect_StartCardEffect`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
-[`func_80026B34`] looks that index up in a 104-byte table [`0x80090AD4`] to
+[`DuelEffect_UpdateCardEffect`] looks that index up in a 104-byte table
+[`0x80090AD4`] to
 get an **effect group**, 0–13, and calls the group's handler pair from a
 30-entry table [`0x80090A5C`]. So every spell is one of fourteen behaviours,
 and which cards share a behaviour is data:
@@ -1309,7 +1310,8 @@ that object byte from the card's packed type field, using
 `DUEL_RANK_RULE_PURE_MAGIC` (row 4).
 
 This write precedes this handler's calls to
-[`func_80026BA4`](../../src/game/duel_magic_effect_dispatch.c) at `0x80019870` and
+[`DuelEffect_StartCardEffect`](../../src/game/duel_magic_effect_dispatch.c) at
+`0x80019870` and
 `0x800199D8`, which request the effect phases. It therefore records a
 type-qualified entry into this use sequence, not evidence that the effect
 finished or changed a target. This corroborates the normal handler's

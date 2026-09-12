@@ -24,7 +24,7 @@ glabel DuelEffect_ApplyTerrain
     /* 15684 80024E84 00000000 */  nop
     /* 15688 80024E88 01004224 */  addiu      $v0, $v0, 0x1
     /* 1568C 80024E8C 0A0062A0 */  sb         $v0, 0xA($v1)
-    /* 15690 80024E90 CA028293 */  lbu        $v0, %gp_rel(D_8009B1D2)($gp)
+    /* 15690 80024E90 CA028293 */  lbu        $v0, %gp_rel(gDuel_wEffectCardID)($gp)
     /* 15694 80024E94 00000000 */  nop
     /* 15698 80024E98 B7FF4224 */  addiu      $v0, $v0, -0x49
     /* 1569C 80024E9C 0A80013C */  lui        $at, %hi(gDuel_bTerrain)
@@ -39,7 +39,7 @@ glabel DuelEffect_ApplyTerrain
     /* 156C0 80024EC0 04940008 */  j          .L80025010
     /* 156C4 80024EC4 00000000 */   nop
   .L80024EC8:
-    /* 156C8 80024EC8 18038797 */  lhu        $a3, %gp_rel(D_8009B220)($gp)
+    /* 156C8 80024EC8 18038797 */  lhu        $a3, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 156CC 80024ECC 00000000 */  nop
     /* 156D0 80024ED0 4000E230 */  andi       $v0, $a3, 0x40
     /* 156D4 80024ED4 1C004014 */  bnez       $v0, .L80024F48
@@ -57,7 +57,7 @@ glabel DuelEffect_ApplyTerrain
     /* 15704 80024F04 0A80033C */  lui        $v1, %hi(gDuel_bTerrain)
     /* 15708 80024F08 64B36390 */  lbu        $v1, %lo(gDuel_bTerrain)($v1)
     /* 1570C 80024F0C 10000724 */  addiu      $a3, $zero, 0x10
-    /* 15710 80024F10 180382A7 */  sh         $v0, %gp_rel(D_8009B220)($gp)
+    /* 15710 80024F10 180382A7 */  sh         $v0, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 15714 80024F14 1000A0AF */  sw         $zero, 0x10($sp)
     /* 15718 80024F18 1400A0AF */  sw         $zero, 0x14($sp)
     /* 1571C 80024F1C 1800A6AF */  sw         $a2, 0x18($sp)
@@ -89,10 +89,10 @@ glabel DuelEffect_ApplyTerrain
     /* 15780 80024F80 7402838F */  lw         $v1, %gp_rel(D_8009B17C)($gp)
     /* 15784 80024F84 0401010C */  jal        func_80040410
     /* 15788 80024F88 1A0062A4 */   sh        $v0, 0x1A($v1)
-    /* 1578C 80024F8C 18038297 */  lhu        $v0, %gp_rel(D_8009B220)($gp)
+    /* 1578C 80024F8C 18038297 */  lhu        $v0, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 15790 80024F90 00000000 */  nop
     /* 15794 80024F94 20004234 */  ori        $v0, $v0, 0x20
-    /* 15798 80024F98 180382A7 */  sh         $v0, %gp_rel(D_8009B220)($gp)
+    /* 15798 80024F98 180382A7 */  sh         $v0, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 1579C 80024F9C 04940008 */  j          .L80025010
     /* 157A0 80024FA0 00000000 */   nop
   .L80024FA4:
@@ -124,7 +124,7 @@ glabel DuelEffect_ApplyTerrain
     /* 15800 80025000 1E00422A */  slti       $v0, $s2, 0x1E
     /* 15804 80025004 F1FF4014 */  bnez       $v0, .L80024FCC
     /* 15808 80025008 1C003126 */   addiu     $s1, $s1, 0x1C
-    /* 1580C 8002500C 180380A7 */  sh         $zero, %gp_rel(D_8009B220)($gp)
+    /* 1580C 8002500C 180380A7 */  sh         $zero, %gp_rel(gDuel_wCardEffectFlags)($gp)
   .L80025010:
     /* 15810 80025010 2C00BF8F */  lw         $ra, 0x2C($sp)
     /* 15814 80025014 2800B28F */  lw         $s2, 0x28($sp)

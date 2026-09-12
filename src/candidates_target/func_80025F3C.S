@@ -40,7 +40,7 @@ glabel DuelEffect_ApplySwords
     /* 167A8 80025FA8 30980008 */  j          .L800260C0
     /* 167AC 80025FAC 00000000 */   nop
   .L80025FB0:
-    /* 167B0 80025FB0 18038397 */  lhu        $v1, %gp_rel(D_8009B220)($gp)
+    /* 167B0 80025FB0 18038397 */  lhu        $v1, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 167B4 80025FB4 00000000 */  nop
     /* 167B8 80025FB8 40006230 */  andi       $v0, $v1, 0x40
     /* 167BC 80025FBC 2D004014 */  bnez       $v0, .L80026074
@@ -51,7 +51,7 @@ glabel DuelEffect_ApplySwords
     /* 167D0 80025FD0 00000000 */  nop
     /* 167D4 80025FD4 3A004010 */  beqz       $v0, .L800260C0
     /* 167D8 80025FD8 40006234 */   ori       $v0, $v1, 0x40
-    /* 167DC 80025FDC 180382A7 */  sh         $v0, %gp_rel(D_8009B220)($gp)
+    /* 167DC 80025FDC 180382A7 */  sh         $v0, %gp_rel(gDuel_wCardEffectFlags)($gp)
     /* 167E0 80025FE0 05000424 */  addiu      $a0, $zero, 0x5
     /* 167E4 80025FE4 0980023C */  lui        $v0, %hi(D_800907D8)
     /* 167E8 80025FE8 D8074924 */  addiu      $t1, $v0, %lo(D_800907D8)
@@ -110,7 +110,7 @@ glabel DuelEffect_ApplySwords
     /* 168B0 800260B0 21186200 */  addu       $v1, $v1, $v0
     /* 168B4 800260B4 04000224 */  addiu      $v0, $zero, 0x4
     /* 168B8 800260B8 190062A0 */  sb         $v0, 0x19($v1)
-    /* 168BC 800260BC 180380A7 */  sh         $zero, %gp_rel(D_8009B220)($gp)
+    /* 168BC 800260BC 180380A7 */  sh         $zero, %gp_rel(gDuel_wCardEffectFlags)($gp)
   .L800260C0:
     /* 168C0 800260C0 1000BF8F */  lw         $ra, 0x10($sp)
     /* 168C4 800260C4 00000000 */  nop

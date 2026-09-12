@@ -38,7 +38,7 @@ void func_80024200(void)
         }
         D_8009B260 = value & 0x7F;
     }
-    if (func_80026B34() != 0 || DuelEffect_UpdateState() != 0) {
+    if (DuelEffect_UpdateCardEffect() != 0 || DuelEffect_UpdateState() != 0) {
         return;
     }
     value = gDuel_bQuitDialogState;
