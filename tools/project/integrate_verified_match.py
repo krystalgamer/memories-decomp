@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -21,7 +22,6 @@ class IntegrationError(RuntimeError):
 
 
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
-COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
 REGISTER_PIN_PATTERN = re.compile(
     r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
 )
@@ -31,8 +31,8 @@ REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
     r"(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
 )
 SYMBOL_ALIAS_PATTERN = re.compile(
-    r"\bextern\b[^;]*?\b(?:asm|__asm|__asm__)"
-    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)"
+    r"(?P<declaration>\bextern\b[^;]*?)\b(?:asm|__asm|__asm__)"
+    r"\s*\(\s*\"(?P<symbol>(?:\\.|[^\"\\])*)\"\s*\)"
     r"(?:\s*__attribute__\s*\(\([^;]*?\)\))*\s*;"
 )
 SYMBOL_DEFINITION_PATTERN = re.compile(
@@ -55,6 +55,154 @@ EXTERNAL_FIELDS = (
     "result",
     "summary",
 )
+G_FLAG = re.compile(r"^-G(?P<value>\d+)$")
+
+
+def splice_c_lines(source: str) -> str:
+    return re.sub(r"\\\r?\n", "", source)
+
+
+def strip_c_comments(source: str) -> str:
+    source = splice_c_lines(source)
+    result: list[str] = []
+    index = 0
+    state = "code"
+    while index < len(source):
+        char = source[index]
+        following = source[index + 1] if index + 1 < len(source) else ""
+        if state == "code":
+            if char == "/" and following == "/":
+                result.extend((" ", " "))
+                index += 2
+                state = "line_comment"
+                continue
+            if char == "/" and following == "*":
+                result.extend((" ", " "))
+                index += 2
+                state = "block_comment"
+                continue
+            result.append(char)
+            if char == '"':
+                state = "string"
+            elif char == "'":
+                state = "character"
+        elif state == "line_comment":
+            if char == "\n":
+                result.append(char)
+                state = "code"
+            else:
+                result.append(" ")
+        elif state == "block_comment":
+            if char == "*" and following == "/":
+                result.extend((" ", " "))
+                index += 2
+                state = "code"
+                continue
+            result.append("\n" if char == "\n" else " ")
+        else:
+            result.append(char)
+            if char == "\\" and following:
+                result.append(following)
+                index += 2
+                continue
+            if (state == "string" and char == '"') or (
+                state == "character" and char == "'"
+            ):
+                state = "code"
+        index += 1
+    return "".join(result)
+
+
+def mask_c_literals(source: str) -> str:
+    result: list[str] = []
+    index = 0
+    state = "code"
+    while index < len(source):
+        char = source[index]
+        if state == "code":
+            if char == '"':
+                result.append(" ")
+                state = "string"
+            elif char == "'":
+                result.append(" ")
+                state = "character"
+            else:
+                result.append(char)
+        else:
+            if char == "\\" and index + 1 < len(source):
+                result.extend((" ", " "))
+                index += 2
+                continue
+            result.append("\n" if char == "\n" else " ")
+            if (state == "string" and char == '"') or (
+                state == "character" and char == "'"
+            ):
+                state = "code"
+        index += 1
+    return "".join(result)
+
+
+def profile_g_value(flags: Any, description: str) -> int:
+    if not isinstance(flags, list) or not all(isinstance(flag, str) for flag in flags):
+        raise IntegrationError(f"{description}: expected a string list")
+    values: list[int] = []
+    for index, flag in enumerate(flags):
+        match = G_FLAG.fullmatch(flag)
+        if match is not None:
+            values.append(int(match.group("value")))
+        elif flag == "-G":
+            if index + 1 >= len(flags) or not flags[index + 1].isdigit():
+                raise IntegrationError(
+                    f"{description}: -G must be followed by a non-negative integer"
+                )
+            values.append(int(flags[index + 1]))
+    if len(values) != 1:
+        raise IntegrationError(
+            f"{description}: expected exactly one -G value, found {len(values)}"
+        )
+    return values[0]
+
+
+def validate_effective_profile(profile: Any, profile_name: str) -> None:
+    if not isinstance(profile, dict):
+        raise IntegrationError(f"invalid compiler profile: {profile_name}")
+    compiler_g = profile_g_value(
+        profile.get("compiler_flags"), f"{profile_name} compiler_flags"
+    )
+    maspsx_g = profile_g_value(
+        profile.get("maspsx_flags"), f"{profile_name} maspsx_flags"
+    )
+    if compiler_g != maspsx_g:
+        raise IntegrationError(
+            f"profile {profile_name} mixes compiler -G{compiler_g} "
+            f"with MASPSX -G{maspsx_g}"
+        )
+
+
+def preprocess_source(root: Path, source: Path, profile: Any) -> str:
+    if not isinstance(profile, dict):
+        raise IntegrationError("invalid compiler profile")
+    compiler_value = profile.get("compiler")
+    flags = profile.get("compiler_flags")
+    if (
+        not isinstance(compiler_value, str)
+        or not isinstance(flags, list)
+        or not all(isinstance(flag, str) for flag in flags)
+    ):
+        raise IntegrationError("invalid compiler profile")
+    compiler = resolve_within(root, compiler_value, must_exist=True)
+    result = subprocess.run(
+        [str(compiler), "-E", "-P", *flags, str(source)],
+        cwd=root,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if result.returncode:
+        details = " ".join(result.stderr.split())
+        raise IntegrationError(f"source preprocessing failed: {details[:500]}")
+    return result.stdout
 
 
 def parse_address(value: str) -> int:
@@ -73,6 +221,12 @@ def sha256(path: Path) -> str:
 
 
 def declared_symbol(declaration: str) -> str | None:
+    declaration = re.sub(
+        r"\b(?:asm|__asm|__asm__)\s*\(\s*\"(?:\\.|[^\"\\])*\"\s*\)",
+        "",
+        declaration,
+        flags=re.DOTALL,
+    )
     declaration = re.sub(
         r"\b__attribute__\s*\(\((?:[^()]|\([^()]*\))*\)\)",
         "",
@@ -114,7 +268,7 @@ def load_tracked_symbol_names(root: Path) -> set[str]:
             source = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
-        text = COMMENT_PATTERN.sub("", source)
+        text = strip_c_comments(source)
         for declaration in re.findall(r"\bextern\b([^;]+);", text, re.DOTALL):
             name = declared_symbol(declaration)
             if name is not None:
@@ -134,7 +288,7 @@ def uses_asm_extension(
     Register pins and extern symbol aliases can be permitted independently.
     Statement-level inline assembly is always rejected.
     """
-    text = COMMENT_PATTERN.sub("", source)
+    text = strip_c_comments(source)
     if allow_register_pins:
         text = REGISTER_AGGREGATE_PIN_PATTERN.sub("register", text)
         text = REGISTER_PIN_PATTERN.sub("register", text)
@@ -143,12 +297,13 @@ def uses_asm_extension(
         text = SYMBOL_ALIAS_PATTERN.sub(
             lambda match: (
                 "extern;"
-                if match.group("symbol") in allowed
+                if declared_symbol(match.group("declaration")) is not None
+                and match.group("symbol") in allowed
                 else match.group(0)
             ),
             text,
         )
-    return ASM_PATTERN.search(text) is not None
+    return ASM_PATTERN.search(mask_c_literals(text)) is not None
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -334,6 +489,8 @@ def main() -> int:
         profiles = load_json(profiles_path).get("profiles")
         if not isinstance(profiles, dict) or args.profile not in profiles:
             raise IntegrationError(f"unknown compiler profile: {args.profile}")
+        profile = profiles[args.profile]
+        validate_effective_profile(profile, args.profile)
 
         functions = load_inventory(functions_path)
         matches = [
@@ -359,7 +516,7 @@ def main() -> int:
         source_bytes = source.read_bytes()
         source_text = source_bytes.decode("utf-8")
         tracked_symbol_names = load_tracked_symbol_names(root)
-        source_without_comments = COMMENT_PATTERN.sub("", source_text)
+        source_without_comments = strip_c_comments(source_text)
         if REGISTER_AGGREGATE_PIN_PATTERN.search(
             source_without_comments
         ) or REGISTER_PIN_PATTERN.search(source_without_comments):
@@ -375,6 +532,25 @@ def main() -> int:
             raise IntegrationError(
                 f"{address:#010x}: matching C contains statement-level GCC asm "
                 "or an assembler alias that is not a tracked symbol"
+            )
+        preprocessed_text = preprocess_source(root, source, profile)
+        preprocessed_without_comments = strip_c_comments(preprocessed_text)
+        if REGISTER_AGGREGATE_PIN_PATTERN.search(
+            preprocessed_without_comments
+        ) or REGISTER_PIN_PATTERN.search(preprocessed_without_comments):
+            raise IntegrationError(
+                f"{address:#010x}: expanded matching C cannot contain "
+                "hard-register variables"
+            )
+        if uses_asm_extension(
+            preprocessed_text,
+            allow_register_pins=True,
+            allow_symbol_aliases=True,
+            tracked_symbol_names=tracked_symbol_names,
+        ):
+            raise IntegrationError(
+                f"{address:#010x}: expanded matching C contains statement-level "
+                "GCC asm or an assembler alias that is not a tracked symbol"
             )
         if external_evidence is not None:
             evidence_source = resolve_within(

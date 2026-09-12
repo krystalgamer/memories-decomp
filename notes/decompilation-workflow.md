@@ -245,7 +245,11 @@ These flags are evidence-ledger allowances only. Promotion to matching C rejects
 hard-register variables and statement-level assembly, permits only tracked
 symbol aliases, and rejects profiles whose GCC and MASPSX `-G` values differ.
 `make check-matching-source-contracts` enforces the same contract across every
-resident and overlay matching manifest.
+resident and overlay matching manifest. All three paths scan C literals and
+comments without regex boundary loss, apply line splicing before token checks,
+and inspect the compiler's preprocessed output so assembly introduced by an
+active included macro cannot bypass the source-only gate. Unused assembly
+macros are not expanded and therefore do not cause false failures.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

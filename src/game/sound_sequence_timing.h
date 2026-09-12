@@ -21,7 +21,7 @@ void SD_ScaleSequenceDelta(SDSequenceTrack *entry);
  * The older void-returning views remain for callers that still select them. */
 #ifdef SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
 void SD_StartSequenceTracks(SDSecondaryState *state);
-void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
+extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 #else
 s32 SD_StartSequenceTracks(void);
 #endif

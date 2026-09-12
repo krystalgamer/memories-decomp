@@ -7,13 +7,18 @@ import csv
 import hashlib
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 from pathlib import PurePosixPath
 from typing import Any
 
 from workspace import WorkspaceError, require_workspace_root, resolve_within
+from integrate_verified_match import (
+    IntegrationError,
+    load_tracked_symbol_names,
+    preprocess_source,
+    uses_asm_extension,
+)
 
 
 class ExternalAttemptError(RuntimeError):
@@ -59,28 +64,6 @@ REFINEMENT_PARENT_PREFIX = "Reclassification parent: "
 REFINEMENT_PARENT_PATTERN = re.compile(
     r"^Reclassification parent: ([0-9a-f]{64}); "
 )
-ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
-COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
-REGISTER_PIN_PATTERN = re.compile(
-    r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
-)
-REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
-    r"\bregister\s+(?:struct|union)\s*"
-    r"\{(?:[^{}]|\{[^{}]*\})*\}\s*[A-Za-z_][A-Za-z0-9_]*\s*"
-    r"(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
-)
-SYMBOL_ALIAS_PATTERN = re.compile(
-    r"\bextern\b[^;]*?\b(?:asm|__asm|__asm__)"
-    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)\s*;"
-)
-SYMBOL_DEFINITION_PATTERN = re.compile(
-    r"^\s*([A-Za-z_.$][A-Za-z0-9_.$]*)\s*=", re.MULTILINE
-)
-TRACKED_SYMBOL_PATHS = (
-    "config/slus_01411/symbols.txt",
-    "config/slus_01411/c_symbols.ld",
-    "config/slus_01411/link_symbols.ld",
-)
 
 
 def parse_address(value: str) -> int:
@@ -99,44 +82,6 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
-
-
-def load_tracked_symbol_names(root: Path) -> set[str]:
-    names: set[str] = set()
-    for relative in TRACKED_SYMBOL_PATHS:
-        path = resolve_within(root, relative, must_exist=True)
-        names.update(SYMBOL_DEFINITION_PATTERN.findall(path.read_text()))
-    return names
-
-
-def uses_asm_extension(
-    source: str,
-    *,
-    allow_register_pins: bool = False,
-    allow_symbol_aliases: bool = False,
-    tracked_symbol_names: set[str] | None = None,
-) -> bool:
-    """Report use of a GCC asm extension.
-
-    By default any asm extension is rejected, keeping these ledgers pure C.
-    Register pins and extern symbol aliases can be permitted independently.
-    Statement-level inline assembly is always rejected.
-    """
-    text = COMMENT_PATTERN.sub("", source)
-    if allow_register_pins:
-        text = REGISTER_AGGREGATE_PIN_PATTERN.sub("register", text)
-        text = REGISTER_PIN_PATTERN.sub("register", text)
-    if allow_symbol_aliases:
-        allowed = tracked_symbol_names or set()
-        text = SYMBOL_ALIAS_PATTERN.sub(
-            lambda match: (
-                "extern;"
-                if match.group("symbol") in allowed
-                else match.group(0)
-            ),
-            text,
-        )
-    return ASM_PATTERN.search(text) is not None
 
 
 def load_json(path: Path) -> Any:
@@ -305,36 +250,6 @@ def expected_reference_path(
             and path.suffix == ".c"
         )
     return True
-
-
-def preprocess_candidate(
-    root: Path,
-    candidate: Path,
-    profile: dict[str, Any],
-) -> str:
-    compiler_value = profile.get("compiler")
-    flags = profile.get("compiler_flags")
-    if (
-        not isinstance(compiler_value, str)
-        or not isinstance(flags, list)
-        or not all(isinstance(flag, str) for flag in flags)
-    ):
-        raise ExternalAttemptError("invalid compiler profile")
-    compiler = resolve_within(root, compiler_value, must_exist=True)
-    result = subprocess.run(
-        [str(compiler), "-E", "-P", *flags, str(candidate)],
-        cwd=root,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-    if result.returncode:
-        details = " ".join(result.stderr.split())
-        raise ExternalAttemptError(
-            f"candidate preprocessing failed: {details[:500]}"
-        )
-    return result.stdout
 
 
 def load_rows(path: Path) -> list[dict[str, str]]:
@@ -711,9 +626,12 @@ def main() -> int:
                 "candidate source must be beneath tmp/"
             ) from error
         source_text = candidate.read_text(encoding="utf-8")
-        preprocessed_text = preprocess_candidate(
-            root, candidate, profiles[args.profile]
-        )
+        try:
+            preprocessed_text = preprocess_source(
+                root, candidate, profiles[args.profile]
+            )
+        except IntegrationError as error:
+            raise ExternalAttemptError(str(error)) from error
         tracked_symbol_names = (
             load_tracked_symbol_names(root)
             if args.allow_symbol_aliases
