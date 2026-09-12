@@ -1,0 +1,14 @@
+==== USER CONTEXT ==== 
+ 
+Went to the Forest Shrine and was met by the "Forest Mage" ID 23. He challenged me to a duel (mandatory) and as soon the screen started to fade the trace was printed.
+Upon entering the duel he has the terrain set by default to "Forest".
+
+No cheats or debug options used.
+
+==== TRACE RESULT ===== 
+ 
+script: campaign_duel_home_terrain 
+status: captured target duel through sixty stable frames 
+summary: target_found=true skipped_campaign_duels=0 ignored_non_campaign_duels=0 changed_after_entry=false 
+entry frame=004729 scene_index=0x21 opponent_id=23 terrain=1(Forest) D_8009B36A=0x7210 D_8009B370=0x008E D_8009B372=0x008F D_8009B374=0x72A0 
+stable_window_end frame=004789 scene_index=0x21 opponent_id=23 terrain=1(Forest) D_8009B36A=0x7210 D_8009B370=0x008E D_8009B372=0x008F D_8009B374=0x72A0 
