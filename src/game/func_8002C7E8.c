@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../game/duel_check_ritual.h"
+#define D_8009B1D5_IN_DATA
 #include "../game/duel_side_state.h"
 #include "../game/duel_card.h"
 #include "../game/card_constants.h"

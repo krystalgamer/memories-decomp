@@ -1466,7 +1466,7 @@
     },
     {
       "address": "0x8002C7E8",
-      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x150",
       "source": "src/game/func_8002C7E8.c"
     },

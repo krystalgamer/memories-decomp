@@ -90,6 +90,8 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
 extern u8 D_8009B1D5[];
 #elif defined(D_8009B1D5_IS_VOLATILE)
 extern volatile u8 D_8009B1D5;
+#elif defined(D_8009B1D5_IN_DATA)
+extern u8 D_8009B1D5 __attribute__((section(".data")));
 #else
 extern u8 D_8009B1D5;
 #endif
