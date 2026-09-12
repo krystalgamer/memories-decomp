@@ -39,10 +39,9 @@ void func_8003201C(u8 *state);
  * re-sorts the list through func_80032C48 and refreshes the pane, and returns
  * -- so a full deck of DECK_SIZE entries is a silent no-op.
  *
- * `base` is s32 rather than a pointer because that is what the definition
- * takes: the screen record is reached by adding constants to it, never
- * dereferenced as a struct, and the arithmetic sits under a $a0 register pin.
- * Its one caller holds the same record as u8 * and casts. */
-void BuildDeck_AddCard(s32 base, s32 card_id);
+ * The state pointer is retained across sorting and recounting. This pointer
+ * contract and the no-strength-reduction profile preserve the slot-pointer
+ * form and natural register allocation without the former bindings. */
+void BuildDeck_AddCard(u8 *base, s32 card_id);
 
 #endif

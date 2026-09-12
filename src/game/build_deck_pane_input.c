@@ -122,7 +122,7 @@ void func_800336F0(u8 *p)
             q[0x5D97] != 0 &&
             q[0x5AC4] < DECK_CARD_COPY_LIMIT) {
             SD_SEPlayFull(7);
-            BuildDeck_AddCard((s32)p, r);
+            BuildDeck_AddCard(p, r);
             func_80031F7C(p, r);
             func_80031E5C(p);
             func_80031574(r, 3, 0x18, 0x11C, 0xC);
