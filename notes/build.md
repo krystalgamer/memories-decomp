@@ -354,9 +354,9 @@ region is centred; the word stored there is a separate variable that happens
 to live at the base.
 
 The naming follows the first role, and that is load bearing outside the game
-sources: `candidate_pin_audit.py` and `audit_unchiga_candidates.py` both look
-the symbol up by name to recover the base, `global_usage.py` special-cases it
-beside the `_start`/`_end` boundary markers, and the GPREL16 reach test in
+sources: `audit_unchiga_candidates.py` looks the symbol up by name to recover
+the base, `global_usage.py` special-cases it beside the `_start`/`_end`
+boundary markers, and the GPREL16 reach test in
 `notes/research/matching-evidence.md` is expressed as ±32 KB around it. So
 `runtime_gp` should not be renamed to describe the counter, and the counter is
 not drift to be cleaned up either.
@@ -739,6 +739,15 @@ outside `src/candidates/` and `src/overlays/`, and rejects one that is declared
 both there and in `unmatched.h`. Either place is one declaration site; both
 would be two. Local declarations of a candidate still need an exception like
 any other unmatched function.
+
+There is no separate note-only candidate store. Every preserved resident or
+overlay candidate has source under `src/candidates/`, retail assembly under
+`src/candidates_target/`, and profile, object, target, and declaration-contract
+fingerprints in `config/slus_01411/candidates.json`. The normal resident and
+overlay builds compile those candidates without mapping their objects into the
+image. `make check-metadata` rejects any `func_*.md` or generated candidate
+bundle reintroduced under `notes/candidates/` or
+`notes/overlays/candidates/`, so a candidate cannot bypass build validation.
 
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
 matching C, and all resident headers. A symbol centralized in `unmatched.h`

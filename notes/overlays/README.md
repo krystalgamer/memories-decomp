@@ -997,19 +997,18 @@ it, and it is worth recording as evidence even when you do not adopt it. A
 lever that leaves its own axis untouched is inert, and that is worth recording
 too, because it removes a hypothesis permanently.
 
-## Keep a near-miss candidate instead of rebuilding it
+## Keep a near-miss candidate in the build
 
-Candidate sources live in `tmp/`, which is not tracked, so they disappear when
-a session ends and the next run rebuilds them from the prose in the function's
-inventory row. That has happened at least six times, three of them on
-`func_80168CDC`, and it costs several minutes and can drift from the state the
-row describes.
+Temporary candidate sources disappear when a session ends and can drift from
+the state their inventory rows describe. Once a candidate is worth preserving,
+put its exact source under `src/candidates/<module>/`, its retail target under
+`src/candidates_target/<module>/`, and its profile and fingerprints in
+`config/slus_01411/candidates.json`.
 
-`notes/overlays/candidates/` is the durable copy, one file per function. Put a candidate there once
-it is close enough that the next run would otherwise rebuild it, store the
-exact source rather than a tidied version, and re-verify it with
-`overlay_diff.py` before trusting it. The inventory row still holds the
-findings; the file holds only code.
+`make match-overlays` compiles every integrated overlay candidate even though
+the candidate object is not mapped into the module. The stored object and
+canonical-contract fingerprints therefore fail as soon as a symbol,
+declaration, profile, or source detail drifts.
 
 ## Decode a divide's magic constant instead of guessing the divisor
 
@@ -1061,14 +1060,11 @@ responding: it answers "is the content right yet" separately from "is it in the
 right place", and those are different questions that the standard metrics
 conflate.
 
-`tools/project/overlay_blind_audit.py` runs it over every `func_*.md`
-candidate under [`notes/overlays/candidates/`](candidates/) at once and
-prints the immediates each side actually chose, with the zeroed relocations
-filtered out. That is worth doing periodically rather than only on the
-function being worked. In a recorded five-candidate run it reported
-`func_8016913C` writing `+0x76` and `+0x78` where the target writes `+0x5E`
-and `+0x60` -- a struct whose padding was twenty-four bytes too long, which
-had survived several passes because both headline metrics were blind to it.
+The same register-blind comparison remains useful as a local probe under
+`tmp/`. In a recorded five-candidate run it reported `func_8016913C` writing
+`+0x76` and `+0x78` where the target writes `+0x5E` and `+0x60` -- a struct
+whose padding was twenty-four bytes too long, which had survived several
+passes because both headline metrics were blind to it.
 
 ## A register-form shift means the count is not a constant
 
