@@ -32,7 +32,6 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
-extern void func_800857C0(int);
 extern u8 D_8009B27A;
 
 void CampaignMap_ClearLocationObjects(void)
