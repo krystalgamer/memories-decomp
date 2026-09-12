@@ -238,8 +238,20 @@ The adjacent 36-byte startup metadata block is now C-owned by
 the generated `initialized_data_800906e0` assembly blob. It defines the guard
 word at `D_800906E0`, the word at `D_800906E4`, and the seven-word record at
 `D_800906E8`. The record contains the entrypoint address, resident text size,
-initialized-data start and size, BSS start and size. Its four address fields
-produce the same relocations as the extracted data, and the complete
+initialized-data start and size, BSS start and size. Three record fields are
+symbol-derived addresses; the leading record word and three size fields are
+literals. The compiled object's `.data` relocation table is:
+
+```text
+OFFSET    TYPE       VALUE
+0000000c  R_MIPS_32  entrypoint
+00000014  R_MIPS_32  D_800906E0
+0000001c  R_MIPS_32  D_8009B4A8
+```
+
+`initialized_data_start` is the C macro for `D_800906E0`, so the middle
+relocation names that symbol directly. There is no fourth relocated data word;
+the zero at record offset `+0x00` is a literal null value. The complete
 executable remains byte-identical.
 
 The comparison
