@@ -34,6 +34,8 @@
 #define D_8009B370_AS_BYTE_ARRAY
 #include "../unmatched.h"
 
+u8 D_8009B26C;
+
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
 #include "../game/main_mode_state.h"
