@@ -598,8 +598,6 @@ struct DuelRitualResult;
 /* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
  * gDuel_bTerrain back after storing it and decrements in the same
  * expression. */
-void func_80024E58(void);
-
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
  * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,

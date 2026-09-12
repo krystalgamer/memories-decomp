@@ -12,6 +12,10 @@
     (DUEL_TERRAIN_STAT_ADJUSTMENT / CARD_STAT_SCALE)
 #define DUEL_TERRAIN_PENALTY_UNIT (-DUEL_TERRAIN_BOOST_UNIT)
 
+#ifdef GDUEL_TERRAIN_IN_DATA_ARRAY8
+extern u8 gDuel_bTerrain[8] __attribute__((section(".data")));
+#endif
+
 /* gDuel_bTerrain is a SINGLE BYTE at 0x8009B364. symbols.txt puts
    gFreeDuel_bReturnFlags at 0x8009B365, so there is no room for a second
    element, and every reader in the tree uses index 0 or reads it as a scalar.
@@ -39,11 +43,8 @@
          main_run_animated_battle.c
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
-     func_80024E58 was the one that needed a NUMBER. Its profile compiled at
-     -G8 but assembled at -G4 (gcc_2_8_1_cc_g8_as_g4_split), so the array had
-     to have a size the assembler could see to be above 4:
-             extern u8 gDuel_bTerrain[8];
-     #3859 moved it to src/candidates/func_80024E58.c for that profile.
+     func_80024E58 needs a sized .data array view, selected by the guarded
+     declaration above, so the uniform -G8 profile keeps the symbol absolute.
 
    That last one is why the forms are not interchangeable. Measured: relaxing
    func_80024E58's [8] to an incomplete [] cost 4 bytes of text, while the
