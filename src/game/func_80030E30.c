@@ -21,9 +21,9 @@
 /* The later frontend scene states, in address order. They are steps of the
    same state machine as func_80030C10 and func_80030CB0 in
    frontend_scene_states.c; the first three here use its flags byte
-   D_8009B2EB, which carries bit 0x80 for "already entered", so the first call
-   does the setup and each later call polls for completion and clears the byte
-   on the way out. The five are contiguous and are the whole gcc_2_8_1_g8 run
+   D_8009B2EB, which carries FRONTEND_STEP_FLAG_ENTERED, so the first call does
+   the setup and each later call polls for completion and clears the byte on
+   the way out. The five are contiguous and are the whole gcc_2_8_1_g8 run
    between the matching func_80030D5C in
    frontend_scene_state_80030d5c.c and func_80030FA0. */
 
@@ -33,8 +33,8 @@ void func_80030E30(void)
 {
     u8 flags = D_8009B2EB;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B254 = 3;
     }
     if (DuelEffect_UpdateState() == 0) {
@@ -46,8 +46,8 @@ void func_80030E7C(void)
 {
     u8 flags = D_8009B2EB;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B254 = 4;
     }
     if (DuelEffect_UpdateState() == 0) {
@@ -60,8 +60,8 @@ void func_80030EC8(void)
     u8 flags = D_8009B2EB;
     int result;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B3ED = 0;
         D_8009B3EA = 0;
     }

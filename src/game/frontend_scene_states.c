@@ -16,9 +16,9 @@
 #include "frontend_scene_states.h"
 
 /* The first two of the frontend's scene states, in address order. Both are
-   steps of the same state machine: the flags byte D_8009B2EB carries bit 0x80
-   for "already entered", so the first call does the setup and each later call
-   polls for completion and clears the byte on the way out. The two are
+   steps of the same state machine: the flags byte D_8009B2EB carries
+   FRONTEND_STEP_FLAG_ENTERED, so the first call does the setup and each later
+   call polls for completion and clears the byte on the way out. The two are
    contiguous and are the whole gcc_2_8_1_g8 run between func_80030998, which
    is generated assembly, and the matching func_80030D5C in
    frontend_scene_state_80030d5c.c. The states after it are in
@@ -31,8 +31,8 @@ void func_80030C10(void)
     u8 flags = D_8009B2EB;
     int result;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B2E8;
         func_80030250(D_80090D0C, 0x14, 0, 0, 0xC, 2, 1);
     }
@@ -53,8 +53,8 @@ void func_80030CB0(void)
     u8 flags = D_8009B2EB;
     int result;
 
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         gDebug_nSceneOrSoundID = D_8009B26D;
         func_80030250(D_80090D28, 0x15, 0, 0, 0x12, 2, 1);
     }

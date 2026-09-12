@@ -6,6 +6,10 @@
 
 enum { FRONTEND_DEBUG_ROW_COUNT = 3 };
 
+#define FRONTEND_STEP_INDEX_MASK 0x1F
+#define FRONTEND_STEP_FLAG_ASYNC_PENDING 0x40
+#define FRONTEND_STEP_FLAG_ENTERED 0x80
+
 typedef s8 FrontendDebugColumns[FRONTEND_DEBUG_ROW_COUNT];
 typedef u8 FrontendDebugDigitCounts[FRONTEND_DEBUG_ROW_COUNT];
 typedef struct {

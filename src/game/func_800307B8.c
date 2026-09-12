@@ -2,6 +2,7 @@
 #define FRONTEND_DEBUG_SOUND_ROW_VIEW
 #include "../types.h"
 #include "frontend_debug_tables.h"
+#include "frontend_debug_state.h"
 #include "frontend_step_tables.h"
 #include "display_object_brightness.h"
 #include "duel_interface_setup.h"
@@ -19,8 +20,8 @@ void func_800307B8(void)
     s32 result;
 
     flags = D_8009B2EB;
-    if ((flags & 0x80) == 0) {
-        D_8009B2EB = flags | 0x80;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         count = 3;
         func_80030090();
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID[0];

@@ -28,9 +28,9 @@ void func_80031084(void) {
     i = 0;
     if (e != 0) {
         if (D_8009B2F0 != 0) {
-            D_80090D7C[e & 0x1F]();
+            D_80090D7C[e & FRONTEND_STEP_INDEX_MASK]();
         } else {
-            D_80090D84[e & 0x1F]();
+            D_80090D84[e & FRONTEND_STEP_INDEX_MASK]();
         }
         return;
     }
