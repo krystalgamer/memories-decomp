@@ -456,6 +456,21 @@ extern int sdk_call(int value);
             (["added"], ["removed"], ["changed"]),
         )
 
+    def test_configured_used_contract_survives_header_centralization(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { D_800FE240[0] = 0; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    ["D_800FE240", "D_800FE244"],
+                ),
+                ["D_800FE240"],
+            )
+
     def test_contract_validation_reports_changed_dependencies(self) -> None:
         digest = "a" * 64
         with self.assertRaisesRegex(
