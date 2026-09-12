@@ -2,6 +2,8 @@
 #define MEMORIES_DECOMP_DUEL_CARD_VIEWER_H
 
 #include "../types.h"
+#include "display_object.h"
+#include "duel_effect.h"
 
 /* The card id the viewer screen is currently showing.
  *
@@ -34,9 +36,10 @@ extern u16 gDuel_wViewerCardID;
  * open the viewer, and
  * DuelEffect_UpdateCardViewerState is the consumer:
  *
- *     adj = D_8009B24B;
+ *     adj = gDuel_bCardViewerYOffset;
  *     obj->field_30.h.field_32 += adj;
- *     func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+ *     func_800404CC((u8 *)obj, 0x148,
+ *                  gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
  *
  * so it lands on a display object's y and on the third argument of a draw
  * call. notes/fm-online.md documents that second site from the other
@@ -44,6 +47,9 @@ extern u16 gDuel_wViewerCardID;
  * adds 0x0E.
  *
  * func_8001BD88 and func_8001D670 also write it and are still assembly. */
-extern u8 D_8009B24B;
+extern DisplayObject *gDuel_pCardViewerBackground;
+extern u8 gDuel_bCardViewerYOffset;
+extern DisplayObject *gDuel_pCardViewerCard;
+extern DuelEffectChannel *gDuel_pCardViewerTextBox;
 
 #endif

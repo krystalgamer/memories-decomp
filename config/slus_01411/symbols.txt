@@ -73,8 +73,13 @@ gDuel_apSwordsEffectObjects = 0x8009B1F0;
 gDuel_sCardEffectIndex = 0x8009B1A8;
 gDuel_wEffectCardID = 0x8009B1D2;
 gDuel_wCardEffectFlags = 0x8009B220;
+gDuel_pCardViewerBackground = 0x8009B240;
+gDuel_wEffectDialogTextID = 0x8009B244;
 gDuel_bEffectHandlerFlags = 0x8009B248;
 gDuel_bActiveEffectState = 0x8009B24A;
+gDuel_bCardViewerYOffset = 0x8009B24B;
+gDuel_pCardViewerCard = 0x8009B24C;
+gDuel_pCardViewerTextBox = 0x8009B250;
 gDuel_bEffectState = 0x8009B254;
 
 // Semantic names
