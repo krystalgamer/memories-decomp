@@ -264,8 +264,11 @@
       "target": "src/candidates_target/func_800279BC.S",
       "candidate_build_sha256": "97c1d5a5e42e3aa64bd443fa792e8d77a0d01b8fb5f0ab9b5afee34262683581",
       "target_bytes_sha256": "1ed0f0dfe1f5f4789c75bb80409302f1ef045844cad283c4f7670323dcec7767",
-      "canonical_contract_sha256": "4abf39651e18742e4474114571570decb7a702d25e6da51703734fca6663de70",
+      "canonical_contract_sha256": "99ee68adc6887827a59bde2562954747972cdd1af7d1124105265e52c7fa9cf3",
       "canonical_contracts": {
+        "D_800907D8": "5f4843cfcf7eee45899cddb0a99df93d2dfa66741d364fd706eeeac064586db6",
+        "D_8009B1C8": "cb2023a8b8441e61d8eaea81c06cd6d4d8b0b78abe10a20bcf14995174c5dfb0",
+        "D_8009B1D5": "f014bfb17391eccc347445f9dd3cd05ecff2bc4c9e3b16647785e3c9f2e3df9f",
         "D_800EAE88": "aeca9fcf3772be39140341b7190a64276a76ebe5d16fa43889ad0ff9b84168b6"
       }
     },
