@@ -18,7 +18,7 @@ extern u8 D_80090D68[0x14];
 
 /* func_80030FA0 reads it as the index into D_80090D68 (`s32 i =
    D_8009B2F1;` at func_80030FA0.c:11, `v = p[i];` at :15); func_800300C8
-   reads it as `s32 index = D_8009B2F1;` (src/candidates/func_800300C8.c:20).
+   reads it as `s32 index = D_8009B2F1;` (src/game/func_800300C8.c).
    func_80031084
    is the only C writer: it adds 0xA when the sum is below 0x14
    (func_80031084.c:44-46), subtracts 0xA when the difference is not negative
