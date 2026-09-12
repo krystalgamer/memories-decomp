@@ -1117,6 +1117,12 @@
       "source": "src/game/func_80025EE0.c"
     },
     {
+      "address": "0x80025F3C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x194",
+      "source": "src/game/duel_field_effect_steps.c"
+    },
+    {
       "address": "0x800260D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x15C",
