@@ -12,6 +12,7 @@
 #include "duel_deck_card.h"
 #include "duel_rank.h"
 #include "sound.h"
+#include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "func_80018004.h"
 #include "func_80018C34.h"
@@ -65,13 +66,13 @@ void func_80018DB4(void) {
     s32 off;
     s32 y;
 
-    v = D_8009B23A;
+    v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A = v | DUEL_SCENE_FLAG_INITIALIZED;
+        gDuel_wSceneStateFlags = v | DUEL_SCENE_FLAG_INITIALIZED;
         D_8009B1ED = 1;
     }
 
-    if ((D_8009B23A & 0x4000) == 0) {
+    if ((gDuel_wSceneStateFlags & 0x4000) == 0) {
         t = D_8009B1ED - 1;
         D_8009B1ED = t;
         if ((s8)t > 0) {
@@ -86,7 +87,7 @@ void func_80018DB4(void) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
             D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
-            D_8009B23A = 0xC;
+            gDuel_wSceneStateFlags = 0xC;
             return;
         }
         i = HAND_SIZE - 1 - (s8)b;
@@ -115,14 +116,14 @@ void func_80018DB4(void) {
         n = *(u8 *)((u8 *)D_8009B1C8 + 0x18);
         *(u8 *)((u8 *)D_8009B1C8 + 0x18) = n + 1;
         if (*(s8 *)&D_8009B1EC == 0) {
-            D_8009B23A = D_8009B23A | 0x4000;
+            gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         }
         SD_SEPlayFull(0xA);
     } else {
         if (func_80042B40(1) == 0) {
-            D_8009B23A = 4;
+            gDuel_wSceneStateFlags = 4;
             if (Duel_HasAllExodiaPieces() != 0) {
-                D_8009B23A = 0xE;
+                gDuel_wSceneStateFlags = 0xE;
             }
         }
     }

@@ -14,8 +14,9 @@
  *
  * func_80024200 (src/candidates/func_80024200.c) materializes this address
  * itself and
- * calls `callbacks[D_8009B23A & DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through
- * the low four bits of that state word.
+ * calls `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
+ * DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through the
+ * low four bits of that state word.
  *
  * It is written here rather than resolved out of the blob at 0x800908A0
  * because every entry is a function this tree already names. Matching
@@ -31,13 +32,13 @@
  * the game ever produces index 15, and widening the array would change the
  * bytes. */
 
-void (*D_80090998[])(void) = {
+void (*gDuel_apfnSceneStateHandler[])(void) = {
     func_80022618,
     func_80018608,
     func_8001898C,
     func_80018DB4,
-    func_8001BD88,
-    func_8001D670,
+    DuelScene_UpdateHandActions,
+    DuelScene_UpdateFieldActions,
     func_80019608,
     func_80019D18,
     func_8001B170,

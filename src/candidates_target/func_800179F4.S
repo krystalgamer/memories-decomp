@@ -45,7 +45,7 @@ glabel func_800179F4
     /* 8274 80017A74 FFFF0224 */  addiu      $v0, $zero, -0x1
     /* 8278 80017A78 300382A3 */  sb         $v0, %gp_rel(D_8009B238)($gp)
     /* 827C 80017A7C 0B000224 */  addiu      $v0, $zero, 0xB
-    /* 8280 80017A80 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 8280 80017A80 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 8284 80017A84 0A80023C */  lui        $v0, %hi(D_8009B369)
     /* 8288 80017A88 69B34290 */  lbu        $v0, %lo(D_8009B369)($v0)
     /* 828C 80017A8C 5C0280A3 */  sb         $zero, %gp_rel(gDuel_bQuitDialogState)($gp)
@@ -75,7 +75,7 @@ glabel func_800179F4
     /* 82EC 80017AEC 1800A2AF */   sw        $v0, 0x18($sp)
   .L80017AF0:
     /* 82F0 80017AF0 CD0280A3 */  sb         $zero, %gp_rel(D_8009B1D5)($gp)
-    /* 82F4 80017AF4 320390A7 */  sh         $s0, %gp_rel(D_8009B23A)($gp)
+    /* 82F4 80017AF4 320390A7 */  sh         $s0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 82F8 80017AF8 E35D000C */  jal        func_8001778C
     /* 82FC 80017AFC 00000000 */   nop
     /* 8300 80017B00 C25D000C */  jal        func_80017708

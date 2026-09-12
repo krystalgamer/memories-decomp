@@ -416,7 +416,7 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
  * Retail reaches it through $gp in DuelEffect_UpdateState,
  * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
- * through %hi/%lo everywhere else, including func_8001BD88 and func_8001D670
+ * through %hi/%lo everywhere else, including DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions
  * (still assembly). func_80030E30.c, main_run_campaign.c and
  * duel_update_card_pick_cursor.c define the .data arm below for that;
  * build_deck_pane_input.c, src/candidates/func_800283F4.c,

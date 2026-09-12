@@ -11,7 +11,7 @@ nonmatching func_80019608, 0x400
 
 glabel func_80019608
     /* 9E08 80019608 D8FFBD27 */  addiu      $sp, $sp, -0x28
-    /* 9E0C 8001960C 32038397 */  lhu        $v1, %gp_rel(D_8009B23A)($gp)
+    /* 9E0C 8001960C 32038397 */  lhu        $v1, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9E10 80019610 0F80023C */  lui        $v0, %hi(D_800E9EF0)
     /* 9E14 80019614 1C00B3AF */  sw         $s3, 0x1C($sp)
     /* 9E18 80019618 F09E538C */  lw         $s3, %lo(D_800E9EF0)($v0)
@@ -22,7 +22,7 @@ glabel func_80019608
     /* 9E2C 8001962C 1F004014 */  bnez       $v0, .L800196AC
     /* 9E30 80019630 1000B0AF */   sw        $s0, 0x10($sp)
     /* 9E34 80019634 00C06234 */  ori        $v0, $v1, 0xC000
-    /* 9E38 80019638 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* 9E38 80019638 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
     /* 9E3C 8001963C 6A006292 */  lbu        $v0, 0x6A($s3)
     /* 9E40 80019640 00000000 */  nop
     /* 9E44 80019644 C0180200 */  sll        $v1, $v0, 3
@@ -271,7 +271,7 @@ glabel func_80019608
     /* A1E0 800199E0 7B660008 */  j          .L800199EC
     /* A1E4 800199E4 00000000 */   nop
   .L800199E8:
-    /* A1E8 800199E8 320382A7 */  sh         $v0, %gp_rel(D_8009B23A)($gp)
+    /* A1E8 800199E8 320382A7 */  sh         $v0, %gp_rel(gDuel_wSceneStateFlags)($gp)
   .L800199EC:
     /* A1EC 800199EC 2000BF8F */  lw         $ra, 0x20($sp)
     /* A1F0 800199F0 1C00B38F */  lw         $s3, 0x1C($sp)

@@ -16,7 +16,7 @@
 #include "display_object_api.h"
 #include "../unmatched.h"
 
-/* Private helper of the duel action controller, func_8001BD88: selection-side
+/* Private helper of the duel action controller, DuelScene_UpdateHandActions: selection-side
    setup in its state-3 paths. The helper after it, which executes the
    AI-script hand/field selection in state 0, is func_8001BAF0, now a
    candidate in src/candidates/func_8001BAF0.c. */

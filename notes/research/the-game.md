@@ -697,7 +697,7 @@ Move the cursor over the hand; **up** on the d-pad raises a card and gives it
 a number (1, 2, 3…) — the order in which the raised cards will be combined.
 For an ordinary single-card play, leave the cards unnumbered and confirm the
 cursor card. A numbered combination needs at least two cards: the normal
-hand-input branch of `func_8001BD88` accepts Cross or Square (`pressed &
+hand-input branch of `DuelScene_UpdateHandActions` accepts Cross or Square (`pressed &
 0xC0`) but does not advance if the raised-card count is exactly `1`
 [`0x8001C824..0x8001C860`]. One numbered card must first be unmarked or joined
 by another. Multiple numbered cards are **combined in order** (§5.4).
@@ -774,7 +774,7 @@ normal unnumbered hand path, confirming a face-up Magic card enters its
 **use sequence directly**. Setting it face down follows the field-placement
 route instead; that route is not a prerequisite for every magic use.
 
-The hand handler `func_8001BD88` is still unmatched assembly. Its branch at
+The hand handler `DuelScene_UpdateHandActions` is still unmatched assembly. Its branch at
 `0x8001CD38..0x8001CDA8` requires a packed card type of at least `20`,
 excludes types `21` (Trap) and `23` (Equip), and requires the hand object's
 orientation byte `+0x21` to be zero (face-up). Among the defined retail types,
@@ -786,8 +786,8 @@ The retail jump-table entry at `0x80010158` sends that substate to
 `0x8001D1C4`. After its `D_8009B162` gate clears, the code at
 `0x8001D214..0x8001D218` selects **duel state 6**.
 The [`func_80024200`](../../src/candidates/func_80024200.c) candidate dispatches
-through `D_80090998[D_8009B23A & DUEL_SCENE_PHASE_MASK]`; the retail entry at
-`0x800909B0`
+through `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
+DUEL_SCENE_PHASE_MASK]`; the retail entry at `0x800909B0`
 maps state 6 to [`func_80019608`](../../src/candidates/func_80019608.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
@@ -1093,7 +1093,7 @@ Matching
 [`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c)
 requires card IDs `0x11..0x15` in the current hand. On its post-draw branch,
 `func_80018DB4` runs that check after `func_80042B40(1)` returns zero; a
-successful check sets `D_8009B23A = 0xE`. This is a gated transition, not
+successful check sets `gDuel_wSceneStateFlags = 0xE`. This is a gated transition, not
 evidence that every action tests all win conditions or that presentation
 finishes in the same frame.
 
@@ -1258,7 +1258,7 @@ counter supplies the value added to the score. The rows, measured:
 `+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
 record to the current side, `D_8009B1D5`, and increments that byte in its
 draw-entry initialization branch, guarded by
-`D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED`.
+`gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED`.
 The increment precedes the used-card flag reset and hand reconstruction,
 including the refill request. Later calls while that flag remains set only
 poll for the message state to finish; they do not increment the counter.
@@ -1271,7 +1271,7 @@ not a shared count of completed two-side rounds; the evidence does not
 establish every possible writer to the byte or add a runtime observation.
 
 **The normal single-card "face-down plays" increment.** In resident
-`func_8001BD88` (still unmatched assembly), the commit block at
+`DuelScene_UpdateHandActions` (still unmatched assembly), the commit block at
 `0x8001D080..0x8001D0C0` increments the current side's statistics byte
 `+0x04` through `D_8009B1C8` only when the hand-selection record's `+0x15`
 is zero and the selected hand object's `+0x21` is nonzero.
@@ -1297,8 +1297,8 @@ static code evidence, not a new controlled trace.
 [`func_80019608`](../../src/candidates/func_80019608.c) increments the current
 side's byte `+0x05` in its initialization
 branch, before the later effect requests. `DUEL_SCENE_FLAG_INITIALIZED` in
-`D_8009B23A` guards that branch: after it is set, subsequent polling calls skip
-this increment. At `0x80019674..0x80019698`, the writer requires the
+`gDuel_wSceneStateFlags` guards that branch: after it is set, subsequent polling calls
+skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
@@ -1385,7 +1385,7 @@ resolution paths write the following byte into the selected winner's
 
 | Resolution path | Stored byte | Signed score contribution | Code evidence |
 |---|---:|---:|---|
-| LP reaches zero | `0x02` | `+2` | `func_8001D670` tests both sides' LP at `0x8001D6C8..0x8001D6E4`, selects the winner, and stores `2` at record +0 at `0x8001D71C`. |
+| LP reaches zero | `0x02` | `+2` | `DuelScene_UpdateFieldActions` tests both sides' LP at `0x8001D6C8..0x8001D6E4`, selects the winner, and stores `2` at record +0 at `0x8001D71C`. |
 | Draw exhaustion | `0xD8` | `-40` | Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
 | Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `func_80018FEC` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
 
@@ -1630,7 +1630,7 @@ establish the later memory-card persistence policy of every two-save flow.
 value `1`; the player-win control began with that stale `1` after a previous
 loss, changed to `0` when the opponent's LP reached zero, and retained `0`
 as the result proceeded. This establishes single-player side polarity.
-The `0x2000` bit observed at `D_8009B23A` marks the result's departure fade:
+The `0x2000` bit observed at `gDuel_wSceneStateFlags` marks the result's departure fade:
 `0x80021E54..0x80021E5C` sets it before `Fade_StartOut`. The later
 credit/return block sets a **different** `0x2000` bit in `D_8009B16C` at
 `0x80021E8C..0x80021E98`. The traced fade marker is not by itself proof of
@@ -2376,7 +2376,7 @@ unchanged:
 | `+0x65800` | 0x10000 | VRAM (640, 256) | the field picture — the only chunk that differs between the seven terrains |
 
 The second script block is live, not padding or an unread copy:
-`func_8001D670` passes `0x801A9800` directly to `AiScript_Init` at
+`DuelScene_UpdateFieldActions` passes `0x801A9800` directly to `AiScript_Init` at
 `0x8001D7D8`. That establishes the buffer's consumer, but not the meaning of
 each byte within it.
 

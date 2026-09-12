@@ -43,6 +43,7 @@
 #include "../game/text_render_state.h"
 #include "../game/func_800178BC.h"
 #include "../game/trig_constants.h"
+#include "../game/duel_scene_state.h"
 
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
@@ -86,7 +87,7 @@ void func_800179F4(void)
         DUEL_TERRAIN_PACKAGE_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
     D_8009B238 = -1;
-    D_8009B23A = 11;
+    gDuel_wSceneStateFlags = 11;
     gDuel_bQuitDialogState = 0;
     D_8009B162 = 0;
     D_8009B1D4 = 0;
@@ -105,7 +106,7 @@ void func_800179F4(void)
             );
         }
         D_8009B1D5 = 0;
-        D_8009B23A = 1;
+        gDuel_wSceneStateFlags = 1;
         func_8001778C();
         func_80017708();
         func_800175A0();
@@ -192,4 +193,3 @@ void func_800179F4(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-
