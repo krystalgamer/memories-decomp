@@ -1073,8 +1073,10 @@
       "target": "src/candidates_target/func_8005E808.S",
       "candidate_build_sha256": "9c79d44b0ed88f865be955a48e119a302f207534b4054580be2e30f595de3ded",
       "target_bytes_sha256": "f039893454bb8c1c8b4adb8f06ebc1abea42ae323768a139f88816bc1d656caa",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
+      "canonical_contract_sha256": "a8ecdc54ef7695658cdd222bd68dbb69153510a186dd035f2f4f5997a37301ee",
+      "canonical_contracts": {
+        "D_8009B074": "2b86b5774c3170523d09e36a7031e5b2ef546589476dc321cb1fe39b8c45fca2"
+      }
     },
     {
       "address": "0x80060E70",
