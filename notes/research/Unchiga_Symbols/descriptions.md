@@ -263,6 +263,8 @@ on the suspects side until proven.)
 | 0x80035B7C | `TextBox_Destroy` | Closes a box: releases its glyph list and frees the box, highlight and shadow widgets. |
 | 0x80039934 | `TextBox_SetPos` | Moves a box and its three widgets to a new position. |
 | 0x800393B0 | `TextBox_BuildStep` | The typewriter: on the first call resolves the string and allocates the widgets; every call emits one glyph sprite; sets the done bit at the terminator. |
+| 0x80043178 | `DisplayObject_SavePosition` | Copies a display object's live output x/y pair into the saved source pair used by both interpolation helpers. |
+| 0x8004318C | `DisplayObject_InterpolatePositionCosine` | Eases the saved source position toward a target through their midpoint using the caller's cosine phase. |
 | 0x80043230 | `Widget_SlideSine` | Slides a widget between a stored origin and a target along a sine of the given step; dialogs use it to enter and leave. |
 | 0x8003BC40 | `Text_SjisToGlyphCodes` | Converts a Shift-JIS u16 string into glyph codes (0xF0xx for high indices), 0xFF-terminated, so dynamic text can be typed by the machine. |
 

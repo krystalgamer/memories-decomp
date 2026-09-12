@@ -26,7 +26,7 @@ void func_8003A01C(FileTransferDescriptor *p, s32 mode)
         n = p->position;
         p->field_30.h.field_32 = 0x100;
         p->w = 0x40;
-        p->mode = 0x18000;
+        p->phase_size = 48 * FILE_SECTOR_SIZE;
         p->h = 0x10;
         v_0 &= m;
         D_8009B0F4 = v_0;
@@ -37,12 +37,12 @@ void func_8003A01C(FileTransferDescriptor *p, s32 mode)
         b = D_8009B118;
         p->field_30.h.counter = 0x340 - n * 192;
         p->value_08 = b;
-        p->value_0C = b + 0x800;
+        p->value_0C = b + FILE_SECTOR_SIZE;
         break;
 
     case 1:
         m2 = 0xFFDCFFFF;
-        *(s32 *)&p->mode = 0x800;
+        *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         v_1 = D_8009B0F4;
         t = D_8009B118;
         v_1 &= m2;
@@ -61,7 +61,7 @@ void func_8003A01C(FileTransferDescriptor *p, s32 mode)
         p->y = k * 2 + 0xF0;
         LoadImage2((RECT *)p, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        *(s32 *)&p->mode = 0x800;
+        *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         v_2 = D_8009B0F4;
         t = (s32)p->callback_data;
         v_2 &= m2;

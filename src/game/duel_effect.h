@@ -230,6 +230,18 @@ extern u32 D_800EB12C;
 #endif
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
 
+/* The selected card's guardian-star text id. func_80023144 stores guardian
+ * star 1 or 2 plus 0x17 while it prepares the field-card display, and
+ * func_80038070 forwards the byte to the shared text-command renderer.
+ * Every access is sb or lbu. Retail addresses the candidate writer through
+ * $at, while the matching reader is gp-relative, so the writer selects the
+ * .data declaration and the reader takes the plain declaration. */
+#ifdef D_8009B344_IN_DATA
+extern u8 D_8009B344 __attribute__((section(".data")));
+#else
+extern u8 D_8009B344;
+#endif
+
 /* The field-card text selector. func_80023144 clears it on entry, sets 1
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a
  * record in its side's second row (index within the side at or past

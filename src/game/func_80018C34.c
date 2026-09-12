@@ -1,5 +1,4 @@
 #include "../types.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object.h"
 #include "display_object_api.h"
@@ -11,10 +10,10 @@ void func_80018C34(DisplayObject *o)
     if (!func_80042B98((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2C = 0x400 / o->field_60;
         o->position.h.field_28 = o->field_30.h.field_30 - 0x140;
-        func_80043178((DisplayObjectSnapshot *)o);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
         o->field_60 = -0x400;
     }
-    func_80043230((DisplayObjectPosition *)o, (s16)o->position.h.field_28,
+    Widget_SlideSine((DisplayObjectPosition *)o, (s16)o->position.h.field_28,
                   (s16)o->field_30.h.field_32, o->field_60);
     o->field_60 += o->field_2C.h.field_2C;
     if (o->field_60 >= 0) {

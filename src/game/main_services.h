@@ -52,6 +52,9 @@ extern jmp_buf D_800E9DC0;
  * func_800134B4.c clears alongside them; only it and main_services.c use it. */
 extern void (*D_8009B0B8)(void);
 
+/* The signed per-frame watchdog owned and initialized by main_services.c. */
+extern s32 runtime_gp;
+
 /* A one-byte state value func_80013154 sets alongside D_8009B0A0 to
  * D_8009B0A2, and that the two menu runners set to 10 or 6 through index 0.
  * c_symbols.ld names D_8009B0A4 one byte on, so no spelling here claims the

@@ -7,7 +7,7 @@
  *
  * It writes the fixed distance, angle and projection values, clears the
  * rotation and the three coordinate fields, pushes the projection distance
- * into the GTE through func_800857C0, and finishes with func_8001352C.
+ * into the GTE through GsSetProjection, and finishes with func_8001352C.
  *
  * func_800178BC (src/candidates/func_800178BC.c) is the only consumer and
  * calls this first: its own header

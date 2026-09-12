@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0 this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/sound_runtime.c.
- */
 #define FUNC_80049F50_RETURNS_S16
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
@@ -51,18 +45,14 @@ void SD_UpdateFades(void) {
 
         v = g_SDValue->field_0044;
         if (v) {
-            register u16 p1 asm("$2") =
-                (u16)(v * (g_SDValue->field_1580 + 1));
-
-            v = p1 >> 8;
+            v *= g_SDValue->field_1580 + 1;
+            v >>= 8;
         } else {
             v = 0;
         }
         if (v) {
-            register u16 p2 asm("$2") =
-                (u16)(v * (g_SDValue->field_1586 + 1));
-
-            v = p2 >> 8;
+            v *= g_SDValue->field_1586 + 1;
+            v >>= 8;
         } else {
             v = 0;
         }
@@ -85,4 +75,3 @@ void SD_UpdateFades(void) {
         func_80044DC0(y);
     }
 }
-

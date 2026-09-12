@@ -644,11 +644,8 @@ extern u8 *D_8009B458;
 extern SDSecondaryState *D_8009B458;
 #endif
 
-/* Separate compiler identities retain the timer's byte store and the
- * candidate's measured root reload; both resolve to the same linker word. */
-#ifdef SDSECONDARYSTATE_BYTE_ALIAS
-extern u8 *D_8009B458_bytes asm("D_8009B458");
-#endif
+/* A separate compiler identity retains the candidate's measured root reload;
+ * it resolves to the same linker word. */
 #ifdef SDSECONDARYSTATE_RELOAD_ALIAS
 extern u8 *D_8009B458_r asm("D_8009B458");
 #endif
@@ -697,7 +694,7 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void func_80047480(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
-   SD_SequenceTimerCallback (src/candidates/func_8004B734.c) and
+   SD_SequenceTimerCallback (sd_sequence_timer_callback.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */

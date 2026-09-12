@@ -28,7 +28,6 @@
 #include "../game/display_object_helpers.h"
 #include "../game/func_800291E0.h"
 #include "../game/duel_effect_resource_setup.h"
-#include "../game/func_80043178.h"
 #include "../game/display_object_interpolation.h"
 #include "../game/file_transfer.h"
 #include "../game/text_box_runtime.h"
@@ -89,7 +88,7 @@ void func_800283F4(void)
         obj->field_20.b.field_21 = 0x80;
         obj->field_30.h.field_32 += adj;
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        func_80043178((DisplayObjectSnapshot *)obj);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
         obj->field_60 = slide;
         func_80042918(obj);
         func_800428EC((u8 *)obj, 0x14);
@@ -100,7 +99,7 @@ void func_800283F4(void)
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);
         func_800428EC((u8 *)obj, 0x14);
-        func_80043178((DisplayObjectSnapshot *)obj);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
         obj->field_60 = slide;
         D_8009B240 = obj;
         D_8009B250 = 0;
@@ -138,7 +137,7 @@ void func_800283F4(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (state & 0x10) {
-                func_80043230((DisplayObjectPosition *)obj, 0x148, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine((DisplayObjectPosition *)obj, 0x148, *(s16 *)&obj->field_30.h.field_32, speed);
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
@@ -146,7 +145,7 @@ void func_800283F4(void)
                     obj->field_60 = 0;
                 }
             } else {
-                func_80043230((DisplayObjectPosition *)obj, 0x94, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine((DisplayObjectPosition *)obj, 0x94, *(s16 *)&obj->field_30.h.field_32, speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
@@ -164,7 +163,7 @@ void func_800283F4(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (D_8009B248 & 0x10) {
-                func_80043230((DisplayObjectPosition *)obj, -0x8C, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine((DisplayObjectPosition *)obj, -0x8C, *(s16 *)&obj->field_30.h.field_32, speed);
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
@@ -172,7 +171,7 @@ void func_800283F4(void)
                     obj->field_60 = 0;
                 }
             } else {
-                func_80043230((DisplayObjectPosition *)obj, 2, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine((DisplayObjectPosition *)obj, 2, *(s16 *)&obj->field_30.h.field_32, speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
@@ -234,10 +233,10 @@ void func_800283F4(void)
     }
 press:
     slide = 0x400;
-    func_80043178((DisplayObjectSnapshot *)D_8009B240);
+    DisplayObject_SavePosition((DisplayObjectSnapshot *)D_8009B240);
     next_obj = D_8009B24C;
     D_8009B240->field_60 = slide;
-    func_80043178((DisplayObjectSnapshot *)next_obj);
+    DisplayObject_SavePosition((DisplayObjectSnapshot *)next_obj);
     D_8009B24C->field_60 = slide;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);

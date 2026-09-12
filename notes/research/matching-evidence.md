@@ -2444,7 +2444,7 @@ object model through two related parent/child constructors.
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
 | `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
 | `func_8003D614` | Two-slot controller and `0x64`-byte object records |
-| `func_80043230` | G0 pointer-rooted queue/object state |
+| `Widget_SlideSine` | G0 pointer-rooted queue/object state |
 | `func_80044DC0` | Signed 16-bit argument, four-byte stack packet, and byte-order selection |
 | `func_80049010` | Shared sequence-state cleanup |
 | `func_800497E0` | Transfer ID validation, clamped read length, and accumulated byte count |
@@ -6972,7 +6972,7 @@ in the caller that produces it.
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
-    func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
+    Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).

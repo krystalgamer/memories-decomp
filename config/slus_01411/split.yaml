@@ -168,7 +168,7 @@ segments:
       - [0x81ee0, .data, game/ai_script_commands]
       - [0x81ff0, .data, game/ai_opponent_data]
       - [0x82158, data, initialized_data_80091958]
-      - [0x8b708, sdata, initialized_data_8009af08]
+      - [0x8b708, .sdata, game/main_services]
       - [0x8b70c, .sdata, game/main_frame]
       - [0x8b70d, pad]
       - [0x8b710, .sdata, game/data_8009af10]

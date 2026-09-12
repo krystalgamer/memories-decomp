@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "../psyq/stdio.h"
+#include "color_constants.h"
 #include "file_names.h"
 #define D_8009B10C_IN_DATA
 #include "file_transfer.h"
@@ -21,7 +22,7 @@ void File_SetPositionTable(void)
     *(s16 *)(state + 0xC) = 0xB;
     *(s32 *)D_800E9DF0 = 0x8000000;
     D_8009B0E0 = 0;
-    *(s32 *)(state + 0x14) = 0x808080;
+    *(s32 *)(state + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
     *(u16 *)(state + 0xE) = 0xA000;
     *(s32 *)(state + 8) = 0x180018;
     *(s32 *)(state + 0x10) = 0xFC0230;

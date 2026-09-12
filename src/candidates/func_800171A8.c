@@ -36,12 +36,12 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
         d->done = 2;
-        d->mode = 0x20000;
+        d->phase_size = 64 * FILE_SECTOR_SIZE;
         d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + 0x800);
+        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         break;
     case 1:
-        d->mode = 0x2000;
+        d->phase_size = 4 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_8009B118;
         d->done = 1;
@@ -53,24 +53,24 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         D_800E9D70[0].h = 0x10;
         LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118);
         d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
-        d->mode = 0x2800;
+        d->phase_size = 5 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 3:
         d->value_08 = d->value_0C = (u32)gDuel_aFusionTable;
-        d->mode = 0x10000;
+        d->phase_size = 32 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 4:
         d->value_08 = d->value_0C = (u32)gDuel_awRitualData;
-        d->mode = 0x800;
+        d->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 5:
-        d->mode = 0x1000;
+        d->phase_size = 2 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_8009B118;
         d->done = 1;
@@ -89,20 +89,20 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         goto image_stage;
     case 7:
         mask = 0xFFDCFFFF;
-        d->mode = 0x16000;
+        d->phase_size = 44 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= mask;
         d->value_08 = d->value_0C = (u32)D_800101DC;
         d->done = 1;
         break;
     case 8:
         d->value_08 = d->value_0C = (u32)D_801A8000;
-        d->mode = 0x1800;
+        d->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
     case 9:
         d->value_08 = d->value_0C = (u32)D_801A9800;
-        d->mode = 0x1800;
+        d->phase_size = 3 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
@@ -116,12 +116,12 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->field_30.h.field_32 = 0;
         D_8009B0F4_abs = flags | 0x10000;
         d->done = 2;
-        d->mode = 0x4000;
+        d->phase_size = 8 * FILE_SECTOR_SIZE;
         d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + 0x800);
+        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         break;
     case 11:
-        d->mode = 0x2800;
+        d->phase_size = 5 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->value_08 = d->value_0C = (u32)D_80010000;
         d->done = 1;
@@ -139,13 +139,13 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 
             D_8009B0F4_abs = flags;
             mask = 0x10000;
-            d->mode = mask;
+            d->phase_size = mask;
             D_8009B0F4_abs |= mask;
             d->done = 2;
             d->h = 0x10;
             image_ptr = D_8009B118;
             d->value_08 = (u32)image_ptr;
-            d->value_0C = (u32)(image_ptr + 0x800);
+            d->value_0C = (u32)(image_ptr + FILE_SECTOR_SIZE);
             break;
         }
     }
