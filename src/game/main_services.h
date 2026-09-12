@@ -63,8 +63,8 @@ extern s32 runtime_gp;
  * Two arms, because the consumers split on addressing form. func_80013154
  * writes the byte from small data, which is what a scalar reaches at -G8:
  *     sb         $v1, %gp_rel(D_8009B0A3)($gp)
- * (src/candidates_target/func_80013154.S:65), and that arm is the volatile
- * one. Main_RunDuel and Main_RunCampaignMap write it through index 0 and
+ * (the store at 0x80013224), and that arm is the volatile one. Main_RunDuel
+ * and Main_RunCampaignMap write it through index 0 and
  * both want the absolute form, which an array of unknown size reaches at
  * the same -G8:
  *     lui        $at, %hi(D_8009B0A3)
