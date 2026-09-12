@@ -12,6 +12,10 @@
     (DUEL_TERRAIN_STAT_ADJUSTMENT / CARD_STAT_SCALE)
 #define DUEL_TERRAIN_PENALTY_UNIT (-DUEL_TERRAIN_BOOST_UNIT)
 
+#ifdef GDUEL_TERRAIN_SCALAR
+extern u8 gDuel_bTerrain;
+#endif
+
 /* gDuel_bTerrain is a SINGLE BYTE at 0x8009B364. symbols.txt puts
    gFreeDuel_bReturnFlags at 0x8009B365, so there is no room for a second
    element, and every reader in the tree uses index 0 or reads it as a scalar.
