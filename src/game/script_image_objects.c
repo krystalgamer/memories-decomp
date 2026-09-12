@@ -105,7 +105,7 @@ void func_8002E060(u8 *owner, s32 size, s32 mode)
         *(u32 *)(object + 4) |= (GsALON | GsAONE);
     } else {
         *(s16 *)(owner + 4) = 0;
-        *(u32 *)(object + 4) |= 0x01000000;
+        *(u32 *)(object + 4) |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     }
     *(void **)owner = object;
 }
