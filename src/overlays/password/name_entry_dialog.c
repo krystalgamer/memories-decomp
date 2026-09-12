@@ -67,7 +67,7 @@ void NameEntry_UpdateDialog(void)
             id = D_8016D4D2;
             if ((id & 0x8000) == 0) {
                 if ((id & 0x4000) == 0) {
-                    func_80039A14((u8 *)box);
+                    func_80039A14((struct DuelEffectChannel *)box);
                     D_8009B34D = 0;
                 }
                 box->field_30 = Dialog_OpenChoice(box);
@@ -116,7 +116,7 @@ void NameEntry_UpdateDialog(void)
                     D_8016D400 = fc & 0xFD;
                 }
             }
-            TextBox_SetPos((u8 *)box, caret->x, caret->y);
+            TextBox_SetPos((struct DuelEffectChannel *)box, caret->x, caret->y);
             return;
         }
         if ((D_8016D4D2 & 0x8000) == 0) {
@@ -167,7 +167,7 @@ void NameEntry_UpdateDialog(void)
         panel = D_800EB0F8;
         panel[3].field_5A = 16;
         panel[3].field_5B = 16;
-        func_80039A60((u8 *)&panel[3]);
+        func_80039A60((struct DuelEffectChannel *)&panel[3]);
         NameEntry_AdjustLength(1, 6);
         return;
     }

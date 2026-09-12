@@ -104,7 +104,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
             (s16)base->state.duelist_records[index].result.losses;
     }
     TextBox_Create(0, param, 16, 204, 288, 16);
-    func_80039A60(panel);
+    func_80039A60((struct DuelEffectChannel *)panel);
 }
 
 DisplayObject *FreeDuel_SpawnSparkle(void)

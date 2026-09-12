@@ -47,8 +47,8 @@ typedef char LibraryMotionState_size_must_be_0x48[
 
 #undef LIBRARY_MOTION_STATE_OFFSET
 
-/* The record itself, as the two units that walk it typed spell it: both
- * func_80029590 and func_8002A3CC open with
+/* The record itself, as its typed consumers spell it: func_80029590,
+ * func_8002A3CC and func_8002A4A8 open with
  * `LibraryMotionState *state = &D_800EA1E8;` and work through the fields whose
  * offsets are asserted above.
  *
@@ -85,10 +85,11 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * That byte view is not folded in on purpose. Whether the mode byte is a field
  * of this record or a separate object sharing its first bytes is not
  * established, and a typed declaration reaching those two files would assert
- * that it is. func_8002A4A8, generated assembly again, reaches the address
- * through a relocation, and two further accessors are still assembly. */
+ * that it is. func_8002A4A8 shares this typed motion view, while two further
+ * accessors are still assembly. */
 extern LibraryMotionState D_800EA1E8;
 
 s32 func_8002A3CC(void);
+void func_8002A4A8(s32 column, s32 row, s32 frames);
 
 #endif

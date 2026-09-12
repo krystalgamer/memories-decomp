@@ -1,4 +1,5 @@
 #define D_8009B145_IN_DATA
+#define GRAPHICS_ACTIVE_BUFFER_IN_DATA
 #include "../types.h"
 #include "display_object_config.h"
 #include "scene_script.h"
@@ -18,8 +19,6 @@
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 
-extern s32 gGraphics_bActiveBuffer __attribute__((section(".data")));
-#define gGraphics_bActiveBuffer (*(u8 *)&gGraphics_bActiveBuffer)
 extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
@@ -35,7 +34,7 @@ void Script_OpShowImage(void) {
     u32 mask;
 
     ret = func_8002E3B4();
-    mask = 0x2000000;
+    mask = DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     if (ret == 0) {
         D_800E9D70[0].x = 0;
         D_800E9D70[0].y = 0;
@@ -53,7 +52,7 @@ void Script_OpShowImage(void) {
     if ((masked | D_8009B134_abs) != 0) {
         return;
     }
-    if (gFade_State.flags & 0x80) {
+    if (gFade_State.flags & FADE_FLAG_ACTIVE) {
         return;
     }
 
@@ -64,7 +63,7 @@ void Script_OpShowImage(void) {
         func_80040510((DisplayObjectConfigView *)rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
-        rec->attribute |= 0x2000000;
+        rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
         func_8002E00C((ScriptImageEntry *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;

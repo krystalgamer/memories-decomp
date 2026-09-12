@@ -19,13 +19,13 @@ void func_8002DDFC(FileTransferDescriptor *obj, s32 mode)
         D_8009B0F4 &= 0xFFDDFFFF;
         D_8009B0F4 |= 0x10000;
         obj->done = 2;
-        obj->mode = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
+        obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
         obj->value_08 = D_8009B118;
         obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
         break;
 
     case 1:
-        obj->mode = FILE_SECTOR_SIZE;
+        obj->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         obj->value_0C = D_8009B118;
         obj->value_08 = D_8009B118;
@@ -105,7 +105,7 @@ void func_8002E060(u8 *owner, s32 size, s32 mode)
         *(u32 *)(object + 4) |= (GsALON | GsAONE);
     } else {
         *(s16 *)(owner + 4) = 0;
-        *(u32 *)(object + 4) |= 0x01000000;
+        *(u32 *)(object + 4) |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     }
     *(void **)owner = object;
 }

@@ -6,13 +6,11 @@
    blob (#2602). Three tables, contiguous, so one translation unit.
 
    D_80090FEC is the display-object stream handler table. func_80041C8C
-   dispatches table[op ^ 0xFF] for opcodes from 0xF0 up and declares it as
-   s32 (*[])(u8 *, u8 *). Only func_8004149C and func_80041534 actually have
-   that signature. func_80041434 takes no arguments, func_8004141C and
-   func_80041428 take one, and four of the seven name a
-   DisplayObjectStreamState * or a const u8 * where the table says u8 *. The
-   five that disagree are cast at the entry. Nothing would catch a wrong
-   prototype here, because every call goes through the table.
+   dispatches table[op ^ 0xFF] for opcodes from 0xF0 up. All seven callbacks
+   receive the shared DisplayObjectStreamState and operand cursor, including
+   the reset and no-op entries that do not need both arguments. This keeps the
+   interpreter boundary checked instead of hiding five prototype differences
+   behind table casts.
 
    D_80091008 is the 0xB2-byte record table Model_LoadMonsterMerge
    describes and func_80052D2C.c indexes as
@@ -23,12 +21,12 @@
    four rows of four halfwords holding +/-0x0B50 in both axes with a
    trailing +/-0x1000, which is the four corners of a square. Written in
    that shape and left unnamed. */
-s32 (*D_80090FEC[])(u8 *, u8 *) = {
-    (s32 (*)(u8 *, u8 *))func_8004141C,
-    (s32 (*)(u8 *, u8 *))func_80041428,
-    (s32 (*)(u8 *, u8 *))func_80041434,
-    (s32 (*)(u8 *, u8 *))func_8004143C,
-    (s32 (*)(u8 *, u8 *))func_80041464,
+s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
+    func_8004141C,
+    func_80041428,
+    func_80041434,
+    func_8004143C,
+    func_80041464,
     func_8004149C,
     func_80041534,
 };

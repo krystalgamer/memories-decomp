@@ -52,7 +52,7 @@ void func_8002E470(void)
             Fade_StartIn();
         }
     } else {
-        if ((gFade_State.flags & 0x80) == 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             D_8009B27C = 0;
         }
     }

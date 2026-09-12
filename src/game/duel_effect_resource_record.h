@@ -25,7 +25,8 @@ typedef struct {
     /* func_80029164 stores into this one, and the store is
      * `sh $a1, 0x30($v0)` at 80029184, which does not discriminate the sign.
      * u16 follows the `*(u16 *)(record + 0x30)` cast that source carried when
-     * the field was named, and is that spelling rather than a measurement. */
+     * the field was named. func_800291E0 explicitly takes a signed view for
+     * its one-based card index, matching that constructor's lh. */
     u16 field_30;
     /* func_80028B08 reads seven fields between 0x32 and 0x3C off a record of
      * this array, and src/candidates_target/func_80028B08.S gives each of

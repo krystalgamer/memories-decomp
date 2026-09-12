@@ -2322,7 +2322,7 @@ is the same padding trap recorded above for `no_sched2`.
 |---|---|
 | `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
-| `D_800908A0` | Array of signed 16-bit coordinate pairs |
+| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_screen_tables.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
 Observed `gDuel_adwCardStats` property fields include:

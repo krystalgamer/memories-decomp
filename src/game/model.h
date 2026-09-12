@@ -542,15 +542,21 @@ extern ModelEffectCoefficient D_80091570[];
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
 
-/* A second name for the inside of those slots: 0x800F3A10 is 0xDD0 past
- * D_800F2C40, and this header already names that offset and asserts it --
- * `u16 field_DD0[4]`, with MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0. So
- * D_800F3A10 is D_800F2C40[0].field_DD0, and because both consumers step it
- * by the slot stride
+/* Interior names for fields of slot zero. Their types come from the asserted
+ * ModelSlot layout above; consumers still step their addresses by
+ * MODEL_SLOT_SIZE when selecting another slot, so none of these declarations
+ * claims that same-named fields from adjacent slots are contiguous arrays.
  *
- *     entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
+ * 0x800F3938 = D_800F2C40[0].field_CF8
+ * 0x800F39B0 = D_800F2C40[0].field_D70
+ * 0x800F39F0 = D_800F2C40[0].field_DB0
+ * 0x800F3A10 = D_800F2C40[0].field_DD0
  *
- * it is that field of slot `index`. model_distance_queries.c reads
+ * For example, the field_DD0 consumers use the equivalent byte-stride form
+ *
+ *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
+ *
+ * to reach that field of slot `index`. model_distance_queries.c reads
  * `*(u16 *)(entry + 0)`, `+ 2` and `+ 4` and differences them against
  * D_800F56F0 before SquareRoot0, so the first three halfwords are a position.
  *
@@ -559,7 +565,10 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
  * change which symbol their relocations name. Unlike the selection-table case
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */
-extern u8 D_800F3A10[];
+extern ModelSlotCF8Block D_800F3938;
+extern ModelSlotLightEntry D_800F39B0[3];
+extern ModelSlotS32Quad D_800F39F0;
+extern u16 D_800F3A10[];
 #endif
 #ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
 extern ModelCameraMove D_800F2B20;

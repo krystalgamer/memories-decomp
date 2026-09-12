@@ -13,15 +13,15 @@ void func_8003C120(FileTransferDescriptor *object, s32 mode)
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4 &= 0xFFDDFFFF;
-        object->mode = 0x10000;
+        object->phase_size = 32 * FILE_SECTOR_SIZE;
         D_8009B0F4 |= 0x10000;
         object->done = 2;
         object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + 0x800;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
         break;
 
     case 1:
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;
@@ -36,7 +36,7 @@ void func_8003C120(FileTransferDescriptor *object, s32 mode)
         LoadImage2((RECT *)object, (u32 *)D_8009B118);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         object->done = 1;
         break;
@@ -44,7 +44,7 @@ void func_8003C120(FileTransferDescriptor *object, s32 mode)
     case 3:
         object->value_0C = 0x80140000;
         object->value_08 = 0x80140000;
-        object->mode = 0x8000;
+        object->phase_size = 16 * FILE_SECTOR_SIZE;
         D_8009B0F4 &= 0xFFDCFFFF;
         object->done = 1;
         break;

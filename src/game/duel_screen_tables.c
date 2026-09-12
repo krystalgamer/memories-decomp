@@ -1,3 +1,4 @@
+#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
 #include "../types.h"
 #include "duel_result_outro.h"
 #include "duel_screen_tables.h"
@@ -10,54 +11,64 @@
    pairs form a five-column grid at x = -140, -70, 0, 70 and 140.
    debug_effect_screen.c also reads the pair at index 0xC/0xD on its own.
 
-   It stays u16 because its u16 readers declare it that way. The coordinates
-   are signed, so the values are written as hex rather than as decimals the
-   declaration would misrepresent.
+   The owning source records those signed pairs as DuelFieldPosition entries.
+   The shared header preserves a flat u16 view for the projection candidate
+   and debug screen because their exact code generation depends on halfword
+   pointer arithmetic.
 
-   D_80090918 has no reader in tracked C and no shape anything supports. It
-   is transcribed as bytes and left unnamed.
+   D_80090918 supplies the five Exodia card poses consumed by the retained
+   func_80018FEC candidate. Each card ID from 0x11 through 0x15 selects a
+   record, whose first byte chooses one of the five shared display-object work
+   slots and whose remaining bytes become object x/y after removing the
+   candidate's 0x1A/0x1E coordinate biases. The trailing byte preserves the
+   table's 16-byte extent before D_80090928.
 
    D_80090928 and D_80090960 are the duel-result sprite tables, for a real
    opponent and for none. The outro already declared both as
    DuelResultSpriteSpec[][DUEL_RESULT_SPRITE_COUNT], and the extracted sizes
    agree: two winning sides by seven sprites by a four-byte spec. */
-u16 D_800908A0[] = {
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0xFF74, 0xFFA1,
-    0xFFBA, 0xFFA1,
-    0x0000, 0xFFA1,
-    0x0046, 0xFFA1,
-    0x008C, 0xFFA1,
-    0xFF74, 0xFF5F,
-    0xFFBA, 0xFF5F,
-    0x0000, 0xFF5F,
-    0x0046, 0xFF5F,
-    0x008C, 0xFF5F,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x0000, 0x0000,
-    0x008C, 0x005F,
-    0x0046, 0x005F,
-    0x0000, 0x005F,
-    0xFFBA, 0x005F,
-    0xFF74, 0x005F,
-    0x008C, 0x00A1,
-    0x0046, 0x00A1,
-    0x0000, 0x00A1,
-    0xFFBA, 0x00A1,
-    0xFF74, 0x00A1,
+DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT] = {
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { -140, -95 },
+    { -70, -95 },
+    { 0, -95 },
+    { 70, -95 },
+    { 140, -95 },
+    { -140, -161 },
+    { -70, -161 },
+    { 0, -161 },
+    { 70, -161 },
+    { 140, -161 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 140, 95 },
+    { 70, 95 },
+    { 0, 95 },
+    { -70, 95 },
+    { -140, 95 },
+    { 140, 161 },
+    { 70, 161 },
+    { 0, 161 },
+    { -70, 161 },
+    { -140, 161 },
 };
 
-/* No reader in tracked C. */
-u8 D_80090918[] = {
-    0x03, 0x68, 0xCE, 0x02, 0xD8, 0xCE, 0x04, 0x45,
-    0x62, 0x01, 0xFB, 0x62, 0x00, 0xA0, 0x20, 0x00,
+DuelExodiaCardPoseTable D_80090918 = {
+    {
+        { 3, 104, 206 },
+        { 2, 216, 206 },
+        { 4, 69, 98 },
+        { 1, 251, 98 },
+        { 0, 160, 32 },
+    },
+    0,
 };
 
 DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT] = {

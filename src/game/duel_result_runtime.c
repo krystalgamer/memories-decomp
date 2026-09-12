@@ -316,7 +316,7 @@ void func_80020F4C(void)
         if ((flags & 0x80) == 0) {
             D_8009B174 = flags | 0x80;
         }
-        if ((gFade_State.flags & 0x80) == 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             D_8009B23A = 0xD;
         }
         break;
@@ -395,51 +395,53 @@ void Duel_CalcRankScore(void) {
     p->page_text_ids[0] = 0x44;
     p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
     p->page_text_ids[2] = 0x45;
-    if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_EXODIA_WIN) {
+    if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
+        DUEL_RANK_ADJUST_EXODIA_WIN) {
         p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_EXODIA;
     }
-    if (D_800E9FF0[gDuel_bWinnerSide].field_00 == DUEL_RANK_ADJUST_DECK_OUT_WIN) {
+    if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
+        DUEL_RANK_ADJUST_DECK_OUT_WIN) {
         p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
     }
 
     p->side_scores[1] = DUEL_RANK_SCORE_INITIAL;
     p->side_scores[0] = DUEL_RANK_SCORE_INITIAL;
     for (i = 0; i < DUEL_SIDE_COUNT; i++, e++, q++) {
-        p->side_scores[i] += e->field_00;
-        v = e->field_18; q[0 * DUEL_SIDE_COUNT] = v;
+        p->side_scores[i] += e->rank.result_adjustment;
+        v = e->deck_draw_cursor; q[0 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_CARDS_USED, v);
         v = e->life_points.signed_value; q[1 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_REMAINING_LP, v);
         q[2 * DUEL_SIDE_COUNT] = e->field_0E;
-        q[3 * DUEL_SIDE_COUNT] = e->field_0B;
-        v = e->field_02; q[4 * DUEL_SIDE_COUNT] = v;
+        q[3 * DUEL_SIDE_COUNT] = e->rank.field_0B;
+        v = e->rank.effective_attacks; q[4 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_EFFECTIVE_ATTACKS, v);
         q[5 * DUEL_SIDE_COUNT] = e->field_10;
-        q[6 * DUEL_SIDE_COUNT] = e->field_0C;
-        v = e->field_03; q[7 * DUEL_SIDE_COUNT] = v;
+        q[6 * DUEL_SIDE_COUNT] = e->rank.field_0C;
+        v = e->rank.defensive_wins; q[7 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_DEFENSIVE_WINS, v);
-        q[8 * DUEL_SIDE_COUNT] = e->field_07;
-        v = e->field_04; q[9 * DUEL_SIDE_COUNT] = v;
+        q[8 * DUEL_SIDE_COUNT] = e->rank.field_07;
+        v = e->rank.face_down_plays; q[9 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_FACE_DOWN_PLAYS, v);
-        v = e->field_08; q[10 * DUEL_SIDE_COUNT] = v;
+        v = e->rank.fusions_initiated; q[10 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_INITIATE_FUSION, v);
-        v = e->field_09; q[11 * DUEL_SIDE_COUNT] = v;
+        v = e->rank.equips_used; q[11 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_EQUIP_MAGIC, v);
-        q[12 * DUEL_SIDE_COUNT] = e->field_0A;
-        v = e->field_05; q[13 * DUEL_SIDE_COUNT] = v;
+        q[12 * DUEL_SIDE_COUNT] = e->rank.field_0A;
+        v = e->rank.pure_magic_used; q[13 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_PURE_MAGIC, v);
-        v = e->field_06; q[14 * DUEL_SIDE_COUNT] = v;
+        v = e->rank.traps_triggered; q[14 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TRAPS_TRIGGERED, v);
-        v = e->field_01; q[15 * DUEL_SIDE_COUNT] = v;
+        v = e->rank.turns_taken; q[15 * DUEL_SIDE_COUNT] = v;
         p->side_scores[i] +=
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }

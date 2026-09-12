@@ -544,22 +544,6 @@ int func_800695A4();
 int func_8006988C();
 int func_80069B40();
 
-/* A function #3859 moved back to generated assembly that has nowhere else
- * to be declared. The other pin and inline-asm functions it moved became
- * build-integrated candidates and keep their declarations in the header of
- * the unit they came from, because src/candidates/ still gives them a
- * defining C translation unit and the contract check accepts that home for a
- * candidate. The mixed -G share that follows took the other accepted home.
- *
- * func_800291E0 builds the display objects for slot `index` of the
- * D_800EA0E8 effect-resource records and returns the first of them. Its
- * source was only ever the target's own words in an asm block, so there is no
- * candidate, and u8 * is what its three callers agreed on rather than a
- * recovered type; func_800283F4.c casts the result to DisplayObject *, which
- * is the closest thing to evidence there is. The password overlay's shop.c
- * casts it to PasswordCardPreviewView *, a fourth view of the same object. */
-u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
-
 /* Also reclassified from matching_c by #3859: the mixed -G share. Each of
  * these matched only under a compiler profile whose GCC and MASPSX
  * small-data thresholds disagree, or only with register pins #3867 left
@@ -645,12 +629,6 @@ s32 Duel_CheckRitual(struct DuelRitualResult *out, s32 ritual_id);
  * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* The per-frame half of Dialog_OpenChoice's state: that builds the choice
- * list once, and this runs it, reading the cursor input and repainting the
- * entries. text_box_state_callbacks.c installs it in two adjacent D_80090E64
- * slots. */
-void Dialog_UpdateChoice(struct DuelEffectChannel *object);
-
 /* Two entries of D_80090FB0, the pair that builds packets in the scratchpad
  * rather than only running callbacks. func_80040DD8 takes the list at
  * D_800EFE38[4] and is 8 wide; func_80041068 takes D_800EFE38[5] and is 12

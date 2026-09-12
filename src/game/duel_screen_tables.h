@@ -2,7 +2,22 @@
 #define MEMORIES_DECOMP_DUEL_SCREEN_TABLES_H
 
 #include "../types.h"
+#include "duel_grid.h"
 #include "duel_result_outro.h"
+
+#define DUEL_SCREEN_CARD_POSITION_COUNT 30
+#define DUEL_EXODIA_CARD_POSE_COUNT 5
+
+typedef struct {
+    u8 work_slot;
+    u8 biased_x;
+    u8 biased_y;
+} DuelExodiaCardPose;
+
+typedef struct {
+    DuelExodiaCardPose poses[DUEL_EXODIA_CARD_POSE_COUNT];
+    u8 padding;
+} DuelExodiaCardPoseTable;
 
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
@@ -12,8 +27,12 @@
    through inline assembly); duel_card_record_lifecycle.c keeps its own
    DuelFieldPosition view of the same table, because func_80024D34 loads the
    pair with lh. */
+#ifdef DUEL_SCREEN_TABLES_TYPED_POSITIONS
+extern DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT];
+#else
 extern u16 D_800908A0[];
-extern u8 D_80090918[];
+#endif
+extern DuelExodiaCardPoseTable D_80090918;
 extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];
 extern DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT];
 

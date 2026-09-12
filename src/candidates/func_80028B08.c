@@ -4,6 +4,7 @@
 #include "../game/duel_effect_resource_record.h"
 #include "../psyq/libgs.h"
 #include "../game/display_object.h"
+#include "../game/card_preview_callbacks.h"
 #include "../game/sprite_primitive.h"
 #include "../game/card_constants.h"
 #include "../ygo_types.h"

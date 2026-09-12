@@ -764,6 +764,7 @@ GsSetLsMatrix = 0x800855D0; // type:func
 GsSetLightMatrix = 0x80085600; // type:func
 GsDefDispBuff = 0x800856A0; // type:func
 GsInit3D = 0x80085740; // type:func
+GsSetProjection = 0x800857C0; // type:func
 GsSetFlatLight = 0x800857E0; // type:func
 GsSetAmbient = 0x80085D50; // type:func
 GsDrawOt = 0x80085D80; // type:func

@@ -3,6 +3,7 @@
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
+#include "file_cd_helpers.h"
 #include "file_transfer.h"
 #include "../unmatched.h"
 
@@ -15,9 +16,7 @@
    (src/candidates/func_80014220.c). */
 
 extern void func_80014B30_callback(void) asm("func_80014B30");
-extern s32 CdPosToInt_8007E710(s32);
 extern u16 D_8009B0EC;
-extern void CdIntToPos_8007E600(s32, void *);
 
 void func_80014294(u8 event)
 {
@@ -26,7 +25,7 @@ void func_80014294(u8 event)
         DsCommand(0xD, (u8 *)D_8009B11C, (DslCB)func_80014294, -1);
     } else if (event == 2) {
         D_8009B100 = 4;
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -37,8 +36,8 @@ void func_80014308(u8 event)
         DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);
     } else if (event == 2) {
         D_8009B100 = 5;
-        D_8009B0F4 |= 0x1000;
-        D_8009B0F4 &= ~0x400;
+        D_8009B0F4 |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
 
@@ -49,10 +48,10 @@ void func_80014390(u8 event, s32 arg1)
 
     if (event == 2) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
-        value = CdPosToInt_8007E710(arg1);
+        value = CdPosToInt_8007E710((const CdlLOC *)arg1);
         if (value > 0)
             *destination = value;
-        D_8009B0F4 &= ~0x800;
+        D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
     }
 }
 
@@ -69,7 +68,7 @@ void File_ActivateTransfer(void)
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-void func_800144B8(void){D_8009B0F4&=0x60;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&0x40)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))func_80015010();D_8009B134=v;}}else D_8009B134=0;}
+void func_800144B8(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))func_80015010();D_8009B134=v;}}else D_8009B134=0;}
 
 void func_8001455C(void)
 {
@@ -82,14 +81,15 @@ void func_8001455C(void)
     s32 m;
 
     p = (u8 *)&gFile_PrimaryTransferDescriptor;
-    if (D_8009B0F4 & 0x1000) {
-        if (!(D_8009B0F4 & 0x800)) {
+    if (D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
+        if (!(D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
             if (DsCommand(0x10, 0, (DslCB)func_80014390, 0) > 0) {
-                D_8009B0F4 = D_8009B0F4 | 0x800;
+                D_8009B0F4 =
+                    D_8009B0F4 | FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
             }
         }
     }
-    if (D_8009B0F4 & 0x400) {
+    if (D_8009B0F4 & FILE_TRANSFER_STATE_COMMAND_BUSY) {
         return;
     }
     if (D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) {
@@ -116,7 +116,7 @@ void func_8001455C(void)
             if (DsCommand(9, 0, (DslCB)func_80014220, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | 0x400;
+            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             cb = D_8009B120;
             goto call_back;
         case 2:
@@ -138,14 +138,16 @@ set_state3:
             if (DsCommand(0xD, (u8 *)(q - 1), (DslCB)func_80014294, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | 0x400;
+            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 4:
-            CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+            CdIntToPos_8007E600(
+                *(s32 *)(p + 0x24), (CdlLOC *)D_8009B104
+            );
             if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | 0x400;
+            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 5:
             D_8009B100 = 6;
@@ -181,7 +183,7 @@ call_back:
             if (DsCommand(9, 0, (DslCB)func_800141A8, -1) <= 0) {
                 return;
             }
-            D_8009B0F4 = D_8009B0F4 | 0x400;
+            D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
             return;
         case 1:
             DsEndReadySystem();
@@ -196,7 +198,7 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(*(s32 *)(p + 0x24), D_8009B104);
+    CdIntToPos_8007E600(*(s32 *)(p + 0x24), (CdlLOC *)D_8009B104);
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
@@ -226,7 +228,7 @@ call_back:
         if (DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1) == 0) {
             return;
         }
-        D_8009B0F4 = D_8009B0F4 | 0x400;
+        D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
     D_8009B0F4 = D_8009B0F4 | 0x180;
 }
@@ -263,8 +265,9 @@ void func_80014A5C(s32 arg0)
    func_80057544 and func_80057728: func_80014C40 below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
-   fields the other two do -- the value_08/value_0C source window, mode, the
-   word at field_30 and done -- which is what its old private record named
+   fields the other two do -- the value_08/value_0C source window,
+   phase_size, the word at field_30 and done -- which is what its old private
+   record named
    value_8, value_c, value_1c, value_30 and mode_46. */
 void func_80014B30(FileTransferDescriptor *object, s32 mode)
 {
@@ -297,7 +300,7 @@ full:
     object->value_0C = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;
     value = shared->field_14;
-    object->mode = value;
+    object->phase_size = value;
     goto fix;
 reduced:
     if (shared->field_18 == 0)
@@ -308,10 +311,10 @@ reduced:
     object->value_08 = position;
     object->done = 1;
     value = shared->field_18;
-    object->mode = value;
+    object->phase_size = value;
 fix:
     if (value < 0)
-        object->mode = -(value << FILE_SECTOR_SHIFT);
+        object->phase_size = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
     callback = D_8009B128;
