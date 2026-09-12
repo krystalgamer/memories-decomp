@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800179F4.c.
- */
 #define D_8009B369_IN_DATA
 #include "../types.h"
 #include "../game/duel_shuffle_both_decks.h"
@@ -64,13 +58,7 @@ void func_800179F4(void)
     s32 value;
     s32 side;
     DuelEffectResourceRecord *pane;
-    /* Two allocation pins. The map-entry pointer wants $v1 so the load of
-       D_8009B21C fills its own delay slot with the callback address's addiu
-       rather than the next %hi; the pool base wants $a0 so the %hi of
-       D_801D1200 is completed in place instead of through $v0. Releasing them
-       costs five and two differing words. */
-    register u8 *pool __asm__("$4");
-    register u8 *prev __asm__("$3");
+    u8 *prev;
     s8 *pid;
 
     pid = &gDuel_bOpponentID;
@@ -173,12 +161,10 @@ void func_800179F4(void)
         D_8009B1D8 = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                pool = D_801D1200;
-                p = pool;
-                q = pool + 0x1000;
-                D_8009B1D8 = p;
-                D_8009B1DC = q;
-                goto shuffle;
+                D_8009B1D8 = D_801D1200;
+                D_8009B1DC = D_801D1200 + 0x1000;
+                Duel_ShuffleBothDecks(D_801D1200, D_801D1200 + 0x1000);
+                return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
             D_8009B1D8 = p;
@@ -192,4 +178,3 @@ void func_800179F4(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-
