@@ -1571,7 +1571,7 @@ address,size,name,status,module,notes
 0x80085600,0x94,GsSetLightMatrix,sdk_asm,psyq/sdk,Identified by the unique 160-byte Psy-Q 4.6 LIBGS.LIB/MATRIX5.OBJ signature; brackets MulMatrix with PushMatrix and PopMatrix before SetLightMatrix.
 0x800856A0,0x98,GsDefDispBuff,sdk_asm,psyq/sdk,Identified by the unique 160-byte Psy-Q 4.6 LIBGS.LIB/GS_103.OBJ signature; seeds both display buffers and calls GsSetDrawBuffOffset and GsSetDrawBuffClip. Matching graphics and movie start-up paths pass screen rectangles to it.
 0x80085740,0x74,GsInit3D,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/GS_104.OBJ signature; calls GsSetDrawBuffOffset. func_80013154 calls it with no arguments during start-up.
-0x800857C0,0x20,func_800857C0,sdk_asm,psyq/sdk,
+0x800857C0,0x20,GsSetProjection,sdk_asm,psyq/sdk,Identified by the Psy-Q 4.6 LIBGS.LIB/GS_106.OBJ label plus the exact wrapper call to SetGeomScreen; resident camera setup callers pass their stored projection distance through the canonical libgs.h interface.
 0x800857E0,0x4B8,GsSetFlatLight,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_107.OBJ signature and matching three-light setup.
 0x80085C98,0x64,func_80085C98,sdk_asm,psyq/sdk,
 0x80085CFC,0x4C,func_80085CFC,sdk_asm,psyq/sdk,
