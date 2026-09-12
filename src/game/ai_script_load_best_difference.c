@@ -1,10 +1,10 @@
-#include "../../src/types.h"
+#include "../types.h"
 
 #define GAI_BEST_DIFFERENCE_SCALAR
-#include "../../src/game/ai.h"
+#include "ai.h"
 
-#include "../../src/game/ai_script_read_byte.h"
-#include "../../src/game/ai_script_commands.h"
+#include "ai_script_read_byte.h"
+#include "ai_script_commands.h"
 
 void AiScript_LoadBestDifference(void)
 {
