@@ -42,8 +42,8 @@ void func_8001B170(void)
     s32 slot;
 
     object = D_800E9EF0[0];
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        gDuel_wSceneStateFlags |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         if (gDuel_wSceneStateFlags & 0x4000) {
             goto state_four;
         }
