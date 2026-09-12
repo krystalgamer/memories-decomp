@@ -265,9 +265,14 @@ def declaration_identifier(statement: str) -> str:
     )
 
 
-def candidate_contract_symbols(source: Path, text: str) -> list[str]:
+def candidate_contract_symbols(
+    source: Path,
+    text: str,
+    retained_symbols: Iterable[str] = (),
+) -> list[str]:
     symbols = set(candidate_extern_symbols(text))
     identifiers = set(re.findall(r"\b[A-Za-z_]\w*\b", text))
+    symbols.update(set(retained_symbols) & identifiers)
     pending = [source]
     visited: set[Path] = set()
     while pending:
@@ -611,9 +616,16 @@ def load_candidates(
         )
         source_text = source.read_text(encoding="utf-8")
         source_texts[(module, address)] = source_text
+        configured_contracts = item.get("canonical_contracts")
+        retained_symbols = (
+            configured_contracts.keys()
+            if isinstance(configured_contracts, dict)
+            else ()
+        )
         source_symbols[(module, address)] = candidate_contract_symbols(
             source,
             source_text,
+            retained_symbols,
         )
 
     declaration_indices: dict[str | None, dict[str, list[tuple[str, str]]]] = {}

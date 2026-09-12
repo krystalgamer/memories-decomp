@@ -2377,6 +2377,12 @@
       "source": "src/game/text_stream_commands.c"
     },
     {
+      "address": "0x80037DA4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x280",
+      "source": "src/game/duel_effect_command.c"
+    },
+    {
       "address": "0x80038024",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
