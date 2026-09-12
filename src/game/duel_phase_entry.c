@@ -112,7 +112,7 @@ void func_8001825C(void)
              D_8009B134_abs) != 0) {
             return;
         }
-        if ((gFade_State.flags & 0x80) != 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) != 0) {
             return;
         }
         D_8009B23A |= 0x4000;

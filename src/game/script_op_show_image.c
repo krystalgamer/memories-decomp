@@ -53,7 +53,7 @@ void Script_OpShowImage(void) {
     if ((masked | D_8009B134_abs) != 0) {
         return;
     }
-    if (gFade_State.flags & 0x80) {
+    if (gFade_State.flags & FADE_FLAG_ACTIVE) {
         return;
     }
 
