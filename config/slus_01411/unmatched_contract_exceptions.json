@@ -30,18 +30,6 @@
       "source": "src/game/model_slot_setup.c",
       "declaration": "void func_8004CB0C(void);",
       "reason": "This caller preserves only its incoming a0 and cannot express the other live argument registers."
-    },
-    {
-      "symbol": "Ai_GetHandSize",
-      "source": "src/game/ai_card_ranges.c",
-      "declaration": "s32 Ai_GetHandSize(void);",
-      "reason": "The widened s32 return is load-bearing here; the definition's s8 adds four sign-extension instructions."
-    },
-    {
-      "symbol": "Ai_GetHandSize",
-      "source": "src/game/ai_fusion.c",
-      "declaration": "s8 Ai_GetHandSize(void);",
-      "reason": "This caller takes the definition's s8 return, which ai_card_ranges.c cannot share."
     }
   ]
 }

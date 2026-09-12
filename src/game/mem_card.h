@@ -214,7 +214,7 @@ extern u8 D_8009B3C0;
  */
 extern u8 D_8009B3EE;
 extern u8 D_8009B3C6;
-extern u8 *D_8009B3D8;
+extern struct DisplayObject *D_8009B3D8;
 extern u8 D_8009B3DC;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;

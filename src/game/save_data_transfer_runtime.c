@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "data_transfer_request.h"
 #include "card_constants.h"
+#include "display_object.h"
 #include "display_object_api.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
@@ -91,13 +92,13 @@ s32 SaveData_UpdateLoadPair(void)
             D_8009B3EA |= 0x80;
             MemCardDialog_CreateObject();
             a = D_8009B3EE;
-            *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
+            D_8009B3D8->field_60 = -0x400;
             o = TextBox_Create(a, 0xC2, 0x20, 0x50, 0x100, 0x30);
             o->field_59 = 0x10;
             func_80039A14(o);
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
+                D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
             D_8009B3EA = 1;
         }
         return 0;
@@ -105,19 +106,19 @@ s32 SaveData_UpdateLoadPair(void)
         if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) {
             SD_SEPlayFull(8);
             D_8009B3EA = 0x82;
-            *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
+            D_8009B3D8->field_60 = 0x400;
         } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
             SD_SEPlayFull(7);
             D_8009B3EA = 2;
-            *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
+            D_8009B3D8->field_60 = 0x400;
         }
         return 0;
     case 2:
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
+                D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
-            D_8009B3D8 = (u8 *)0;
+            D_8009B3D8 = 0;
             if ((D_8009B3EA & 0x80) == 0) {
                 D_8009B3EA = 3;
                 MemCardDialog_Request(
@@ -165,7 +166,7 @@ s32 SaveData_UpdateLoadPair(void)
             MemCardDialog_CreateObject();
             a = D_8009B3EE;
             b = D_8009B3C0;
-            *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
+            D_8009B3D8->field_60 = -0x400;
             o = TextBox_CreateFlagged(a, b, 0x20, 0x50, 0x100, 0x30, 0x1008);
             o->field_59 = 0x10;
             do {
@@ -174,7 +175,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         if (D_8009B3EA & 0x40) {
             if (MemCardDialog_StepSlide(
-                    (DisplayObject *)D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
+                    D_8009B3D8, 0x20, 0x50, D_8009B3EE) == 0) {
                 D_8009B3EA &= 0xBF;
             }
             return 0;
@@ -188,13 +189,13 @@ s32 SaveData_UpdateLoadPair(void)
     case 0xB:
         if ((D_8009B3EA & 0x80) == 0) {
             D_8009B3EA |= 0x80;
-            *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
+            D_8009B3D8->field_60 = 0x400;
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
+                D_8009B3D8, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
             func_8004036C(D_8009B3D8);
-            D_8009B3D8 = (u8 *)0;
+            D_8009B3D8 = 0;
             return 2;
         }
         return 0;
