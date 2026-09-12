@@ -1516,7 +1516,7 @@
       "address": "0x8002D458",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
-      "source": "src/game/func_8002D458.c"
+      "source": "src/game/main_apply_menu_selection.c"
     },
     {
       "address": "0x8002D588",
@@ -1534,7 +1534,7 @@
       "address": "0x8002D7C4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
-      "source": "src/game/func_8002D7C4.c"
+      "source": "src/game/main_run_unused_developer_mode.c"
     },
     {
       "address": "0x8002D7CC",
@@ -1546,7 +1546,7 @@
       "address": "0x8002DC38",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x13C",
-      "source": "src/game/func_8002DC38.c"
+      "source": "src/game/main_run_two_player_duel_setup.c"
     },
     {
       "address": "0x8002DD74",

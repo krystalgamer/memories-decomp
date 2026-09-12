@@ -66,7 +66,7 @@ these helpers are not limited to Library flags or to story-only storage.
 | 0x8002D62C | `Main_RunNameEntry` | Mode tick for the name-entry screen: registers its input handler on first call, then polls the entry module until the name is committed. |
 | 0x8002D6C8 | `Main_RunOptionsMenu` | Mode tick for the OPTION screen — live-confirmed ambient. Sibling of `Main_RunNameEntry`; calls `Options_Init` once, then polls `Options_Update`. |
 | 0x8002D730 | `Main_RunGameOver` | Mode tick for the game-over screen; registers its handler and polls, same family shape. |
-| 0x8002D7C4 | `Main_RunHirata` | An empty function in the retail build — the compiled-out developer mode slot, named for the Konami programmer whose source path (`src\hirata\`) survives in the binary's debug strings. |
+| 0x8002D7C4 | `Main_RunUnusedDeveloperMode` | An empty function in the retail build — the compiled-out developer mode slot. The external `Main_RunHirata` label and surviving `src\hirata\` debug paths establish its provenance; the accepted local name states behavior without retaining a personal name. |
 | 0x8002DA1C | `Main_RunCredits` | Mode tick for the credits roll (loop-family pattern; body not yet studied in detail). |
 
 **Local reconciliation (2026-09-08):** the `0x8002D180` row is retained as

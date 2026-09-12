@@ -86,11 +86,11 @@ extern u8 D_8009B0A3[];
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, D_8009B26D),
    whose parameters are (unused, menu): D_8009B26D is the menu id --
-   func_8002D458 stores its mode argument, func_8002EE94 and func_8002FA28
+   Main_ApplyMenuSelection stores its selection argument, func_8002EE94 and func_8002FA28
    store 5, func_80030CB0 round-trips it through gDebug_nSceneOrSoundID,
    Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
-   request and 0 in three of func_8002D458's arms. Both are bytes, read lbu.
-   func_8002D458.c and main_run_frontend_menus.c reach them through $gp;
+   request and 0 in three of Main_ApplyMenuSelection's arms. Both are bytes, read lbu.
+   main_apply_menu_selection.c and main_run_frontend_menus.c reach them through $gp;
    src/candidates/func_8002EE94.c, func_8002FA28.c and frontend_scene_states.c
    address them with %hi/%lo, outside small data, and define the .data arms. */
 #ifdef D_8009B268_IN_DATA
