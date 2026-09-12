@@ -5,17 +5,20 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 import sys
 from pathlib import Path
 from typing import Any
 
 from integrate_verified_match import (
-    COMMENT_PATTERN,
+    IntegrationError,
     REGISTER_AGGREGATE_PIN_PATTERN,
     REGISTER_PIN_PATTERN,
     load_tracked_symbol_names,
+    preprocess_source,
+    profile_g_value,
+    strip_c_comments,
     uses_asm_extension,
+    validate_effective_profile,
 )
 from workspace import WorkspaceError, resolve_within
 
@@ -24,32 +27,8 @@ class MatchingSourceContractError(RuntimeError):
     pass
 
 
-G_FLAG = re.compile(r"^-G(?P<value>\d+)$")
-
-
-def profile_g_value(flags: Any, description: str) -> int:
-    if not isinstance(flags, list) or not all(isinstance(flag, str) for flag in flags):
-        raise MatchingSourceContractError(f"{description}: expected a string list")
-    values: list[int] = []
-    for index, flag in enumerate(flags):
-        match = G_FLAG.fullmatch(flag)
-        if match is not None:
-            values.append(int(match.group("value")))
-        elif flag == "-G":
-            if index + 1 >= len(flags) or not flags[index + 1].isdigit():
-                raise MatchingSourceContractError(
-                    f"{description}: -G must be followed by a non-negative integer"
-                )
-            values.append(int(flags[index + 1]))
-    if len(values) != 1:
-        raise MatchingSourceContractError(
-            f"{description}: expected exactly one -G value, found {len(values)}"
-        )
-    return values[0]
-
-
 def source_violations(source: str, tracked_symbol_names: set[str]) -> list[str]:
-    text = COMMENT_PATTERN.sub("", source)
+    text = strip_c_comments(source)
     violations: list[str] = []
     if (
         REGISTER_AGGREGATE_PIN_PATTERN.search(text) is not None
@@ -123,22 +102,9 @@ def audit(root: Path) -> list[str]:
                 problems.append(f"{label}: unknown profile {profile_name}")
                 continue
             try:
-                compiler_g = profile_g_value(
-                    profile.get("compiler_flags"),
-                    f"{profile_name} compiler_flags",
-                )
-                maspsx_g = profile_g_value(
-                    profile.get("maspsx_flags"),
-                    f"{profile_name} maspsx_flags",
-                )
-            except MatchingSourceContractError as error:
+                validate_effective_profile(profile, profile_name)
+            except IntegrationError as error:
                 problems.append(f"{label}: {error}")
-            else:
-                if compiler_g != maspsx_g:
-                    problems.append(
-                        f"{label}: profile {profile_name} mixes "
-                        f"compiler -G{compiler_g} with MASPSX -G{maspsx_g}"
-                    )
 
             source_key = (source_name, profile_name)
             if source_key in checked_sources:
@@ -147,10 +113,15 @@ def audit(root: Path) -> list[str]:
             try:
                 source_path = resolve_within(root, source_name, must_exist=True)
                 source = source_path.read_text(encoding="utf-8")
-            except (WorkspaceError, OSError, UnicodeError) as error:
+                preprocessed = preprocess_source(root, source_path, profile)
+            except (IntegrationError, WorkspaceError, OSError, UnicodeError) as error:
                 problems.append(f"{label}: {error}")
                 continue
-            for violation in source_violations(source, tracked_symbol_names):
+            violations = source_violations(source, tracked_symbol_names)
+            for violation in source_violations(preprocessed, tracked_symbol_names):
+                if violation not in violations:
+                    violations.append(violation)
+            for violation in violations:
                 problems.append(f"{source_name}: {violation}")
 
     if not problems:
