@@ -109,6 +109,15 @@ class TranslationUnitHeaderTests(unittest.TestCase):
             [],
         )
 
+    def test_function_like_array_bound_is_not_a_prototype(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "extern char layout_agrees[FIELD_AGREES(value) ? 1 : -1];\n"
+                "void func_local(void) {}\n"
+            ),
+            [],
+        )
+
     def test_function_returning_function_pointer_is_rejected(self) -> None:
         problems = self.problems(
             "extern s32 (*func_foreign())();\n"

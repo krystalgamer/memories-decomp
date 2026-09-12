@@ -182,6 +182,19 @@ def split_declarators(statement: str) -> list[str]:
     return [part for part in parts if part]
 
 
+def mask_bracket_contents(text: str) -> str:
+    output = list(text)
+    depth = 0
+    for index, char in enumerate(text):
+        if char == "[":
+            depth += 1
+        elif char == "]" and depth:
+            depth -= 1
+        elif depth:
+            output[index] = " "
+    return "".join(output)
+
+
 def declaration_names(statement: str) -> list[tuple[str, str | None]]:
     if statement.startswith("typedef "):
         return []
@@ -190,7 +203,7 @@ def declaration_names(statement: str) -> list[tuple[str, str | None]]:
         if "=" in declarator:
             continue
         declarator_without_pointer_objects = FUNCTION_POINTER_OBJECT.sub(
-            " ", declarator
+            " ", mask_bracket_contents(declarator)
         )
         name = next(
             (
