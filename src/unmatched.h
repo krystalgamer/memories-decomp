@@ -702,8 +702,6 @@ void func_800388D8(u8 *object);
 void func_80040DD8(void);
 void func_80041068(void);
 
-void func_80047480(void);
-
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
