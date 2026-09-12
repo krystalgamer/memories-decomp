@@ -24,7 +24,7 @@ Verified channel fields used by matching C include:
 | Offset | Shared field | Evidence |
 |---:|---|---|
 | `0x28`, `0x2C` | `field_28`, `field_2C` | cleared across four entries by `func_80035A64` |
-| `0x30` | `field_30` | pointer-sized assignment in `func_80028310`; cleared by `func_80035A64` |
+| `0x30` | `field_30` | pointer-sized assignment in `DuelEffect_UpdateDialogState`; cleared by `func_80035A64` |
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
@@ -98,10 +98,12 @@ Six pure-C functions now use the shared declaration:
 
 Matching `DuelEffect_UpdateState` defines the global dispatcher lifecycle.
 State zero is inactive. On the first update of a nonzero state, the function
-copies its value to the callback index, sets bit `0x80` as the initialized
-latch, clears the companion state byte, and reports active. A later bit
-`0x40` cancels and clears the state; otherwise the latched index dispatches
-through `gDuelEffect_apfnStateHandler`.
+copies its value to `gDuel_bActiveEffectState`, sets bit `0x80` in
+`gDuel_bEffectState` as the initialized latch, clears
+`gDuel_bEffectHandlerFlags`, and reports active. A later bit `0x40` completes
+and clears the state; otherwise the latched index dispatches through
+`gDuelEffect_apfnStateHandler`. The complete five-slot contract is documented
+in [`duel-effect-state-runtime.md`](duel-effect-state-runtime.md).
 
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared

@@ -73,6 +73,9 @@ gDuel_apSwordsEffectObjects = 0x8009B1F0;
 gDuel_sCardEffectIndex = 0x8009B1A8;
 gDuel_wEffectCardID = 0x8009B1D2;
 gDuel_wCardEffectFlags = 0x8009B220;
+gDuel_bEffectHandlerFlags = 0x8009B248;
+gDuel_bActiveEffectState = 0x8009B24A;
+gDuel_bEffectState = 0x8009B254;
 
 // Semantic names
 Main_Init = 0x80012B50; // type:func
@@ -521,6 +524,9 @@ DuelEffect_ApplyRitual = 0x800262D4; // type:func
 DuelEffect_ApplyHarpiesFeatherDuster = 0x80026A3C; // type:func
 DuelEffect_UpdateCardEffect = 0x80026B34; // type:func
 DuelEffect_StartCardEffect = 0x80026BA4; // type:func
+DuelEffect_MarkStateInitialized = 0x800282E8; // type:func
+DuelEffect_UpdateDialogState = 0x80028310; // type:func
+DuelEffect_UpdateCardViewerState = 0x800283F4; // type:func
 SD_CompareBytes = 0x8004BAA0; // type:func
 SD_ReadSequenceByte = 0x8004BAE4; // type:func
 SD_ReadVariableLengthValue = 0x8004BB34; // type:func

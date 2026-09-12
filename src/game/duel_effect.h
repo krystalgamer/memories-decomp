@@ -295,7 +295,7 @@ extern u8 D_8009B320;
  * list entry's id (card_list_text_boxes.c:19); func_80023144 stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `D_8009B34E = 1;` (src/candidates/func_80023144.c:46);
- * func_800283F4 stores `id = gDuel_wViewerCardID;` (its candidate, :111);
+ * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
  * func_8002A2F4 stores func_8002A6B8's result
  * (src/candidates/func_8002A2F4.c:27) and then, under `if (n != 0)`, stores
  * 0 when func_80029EB0's result `r` (:33) has `(r & 0x80) == 0` (:35-36);
@@ -311,10 +311,10 @@ extern u8 D_8009B320;
  * D_8009B33A at +2.
  *
  * Those five loads are %gp_rel and every C writer's sh goes through $at
- * (func_80031CD4.s:20-21, func_80023144.s:36-37, func_800283F4.s:102-103,
+ * (func_80031CD4.s:20-21, func_80023144.s:36-37, DuelEffect_UpdateCardViewerState.s:102-103,
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the three
  * units whose profiles are -G8 at both the compiler and maspsx --
- * the src/candidates/ files for func_80023144, func_800283F4 and
+ * the src/candidates/ files for func_80023144, DuelEffect_UpdateCardViewerState and
  * func_80060E70 -- define the .data arm, and card_list_text_boxes.c, whose
  * unit assembles at -G0, takes the plain declaration, as the func_8002A2F4
  * candidate does.
@@ -396,28 +396,36 @@ typedef char DuelEffectObject_size_must_be_0x1C[
     sizeof(DuelEffectObject) == 0x1C ? 1 : -1
 ];
 
+#define DUEL_EFFECT_STATE_CARD_VIEWER 2
+#define DUEL_EFFECT_STATE_NOOP_3 3
+#define DUEL_EFFECT_STATE_NOOP_4 4
+
+#define DUEL_EFFECT_STATE_FLAG_COMPLETE 0x40
+#define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+
 /* The pending duel-effect request. DuelEffect_UpdateState reads it each
  * tick: zero is idle; otherwise the low bits are the effect id, which it
- * copies into D_8009B24A and then marks with 0x80 as started; func_800283F4
- * and func_80028310 raise 0x40 when the effect is finished, and the next
- * tick clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
+ * copies into gDuel_bActiveEffectState and then marks with 0x80 as started.
+ * State handlers raise 0x40 when the effect is finished, and the next tick
+ * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
  * src/candidates/main_menu/func_801821DC.c), 3 and 4 by func_80030E30.c,
  * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
- * Retail reaches it through $gp in func_8002892C, func_800283F4 and
- * func_80028310, and through %hi/%lo everywhere else, including
- * func_8001BD88 and func_8001D670 (still assembly). func_80030E30.c,
- * main_run_campaign.c and duel_update_card_pick_cursor.c define the .data
- * arm below for that; build_deck_pane_input.c, src/candidates/func_800283F4.c,
- * func_80028310.c, main_reset_frontend_runtime.c and the build-integrated
- * MainMenu_UpdateTradeScreen candidate take the plain arm. */
-#ifdef D_8009B254_IN_DATA
-extern u8 D_8009B254 __attribute__((section(".data")));
+ * Retail reaches it through $gp in DuelEffect_UpdateState,
+ * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
+ * through %hi/%lo everywhere else, including func_8001BD88 and func_8001D670
+ * (still assembly). func_80030E30.c, main_run_campaign.c and
+ * duel_update_card_pick_cursor.c define the .data arm below for that;
+ * build_deck_pane_input.c, src/candidates/func_800283F4.c,
+ * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and the
+ * build-integrated MainMenu_UpdateTradeScreen candidate take the plain arm. */
+#ifdef GDUEL_BEFFECTSTATE_IN_DATA
+extern u8 gDuel_bEffectState __attribute__((section(".data")));
 #else
-extern u8 D_8009B254;
+extern u8 gDuel_bEffectState;
 #endif
 
 s32 DuelEffect_UpdateState(void);

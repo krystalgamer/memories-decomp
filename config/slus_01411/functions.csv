@@ -234,11 +234,11 @@ address,size,name,status,module,notes
 0x80028220,0x40,func_80028220,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80028260,0x1C,func_80028260,matching_c,game,High-bit conditional adjustment matched first variant.
 0x8002827C,0x6C,func_8002827C,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x800282E8,0x28,func_800282E8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80028310,0xDC,func_80028310,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x800282E8,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Test-and-sets the active effect handler's one-time initialization bit.
+0x80028310,0xDC,DuelEffect_UpdateDialogState,matching_c,game,Runs effect-state slots 0 and 1 through text completion and optional choice confirmation.
 0x800283EC,0x8,func_800283EC,matching_c,game,Empty function matched exactly.
-0x800283F4,0x538,func_800283F4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_800283F4.c with target src/candidates_target/func_800283F4.S; profile gcc_2_8_1_g8_split. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: Exact duel card-zoom overlay; staging channel 3 through the existing u16 flags lifetime reproduces both retail delay slots."
-0x8002892C,0x80,DuelEffect_UpdateState,matching_c,game,"Post-terminal pure-C match; inferred target relocations omit two raw GP-relative D_8009B24A accesses, but linked bytes and full executable match exactly."
+0x800283F4,0x538,DuelEffect_UpdateCardViewerState,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_800283F4.c with target src/candidates_target/func_800283F4.S; profile gcc_2_8_1_g8_split. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 2 variables to hard registers, so it does not stand as a decompilation. Previously: Exact duel card-zoom overlay; staging channel 3 through the existing u16 flags lifetime reproduces both retail delay slots."
+0x8002892C,0x80,DuelEffect_UpdateState,matching_c,game,"Post-terminal pure-C match; inferred target relocations omit two raw GP-relative gDuel_bActiveEffectState accesses, but linked bytes and full executable match exactly."
 0x800289AC,0x8,func_800289AC,matching_c,game,Empty function matched exactly.
 0x800289B4,0x8,func_800289B4,matching_c,game,Empty function matched exactly.
 0x800289BC,0x14C,func_800289BC,matching_c,game,Exact collaborator match: transfer-rectangle setup reproduces linked bytes and relocations under GCC G0 no-split.

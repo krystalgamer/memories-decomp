@@ -247,7 +247,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         if (card0->id != 0) {
             gDuel_wViewerCardID = card0->id;
             D_8009B24B = 20;
-            D_8009B254 = 2;
+            gDuel_bEffectState = 2;
         }
         goto check_scroll0;
     }
@@ -388,7 +388,7 @@ player1:
         if (card1->id != 0) {
             gDuel_wViewerCardID = card1->id;
             D_8009B24B = 20;
-            D_8009B254 = 2;
+            gDuel_bEffectState = 2;
         }
         goto check_scroll1;
     }

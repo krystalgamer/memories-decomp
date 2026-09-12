@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_800282E8.h"
+#include "duel_effect_state_latch.h"
 #include "graphics_frame.h"
 #include "func_80029574.h"
 #include "input.h"
@@ -23,24 +23,24 @@
 #include "duel_card.h"
 #include "duel_effect_resource_record.h"
 #include "card_constants.h"
-#include "func_800283F4.h"
+#include "duel_effect_card_viewer_state.h"
 
-extern u8 D_8009B248;
-extern u8 D_8009B24A;
+extern u8 gDuel_bEffectHandlerFlags;
+extern u8 gDuel_bActiveEffectState;
 
 s32 DuelEffect_UpdateState(void) {
-    u8 v = D_8009B254;
+    u8 v = gDuel_bEffectState;
     if (v == 0) return 0;
-    if ((v & 0x80) == 0) {
-        D_8009B24A = v;
-        D_8009B254 = v | 0x80;
-        D_8009B248 = 0;
+    if ((v & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        gDuel_bActiveEffectState = v;
+        gDuel_bEffectState = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        gDuel_bEffectHandlerFlags = 0;
         return 1;
     }
-    if (v & 0x40) {
-        D_8009B254 = 0;
+    if (v & DUEL_EFFECT_STATE_FLAG_COMPLETE) {
+        gDuel_bEffectState = 0;
         return 0;
     }
-    gDuelEffect_apfnStateHandler[D_8009B24A]();
+    gDuelEffect_apfnStateHandler[gDuel_bActiveEffectState]();
     return 1;
 }

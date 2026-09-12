@@ -1,4 +1,4 @@
-#define D_8009B254_IN_DATA
+#define GDUEL_BEFFECTSTATE_IN_DATA
 #include "../types.h"
 #include "scene_script.h"
 #include "duel_effect.h"
@@ -16,7 +16,7 @@ void Main_RunCampaign(void) {
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
         Campaign_LoadScenePackage(gCampaignSceneIndex);
-        D_8009B254 = 0;
+        gDuel_bEffectState = 0;
         return;
     }
 

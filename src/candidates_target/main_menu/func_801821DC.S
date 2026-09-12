@@ -444,10 +444,10 @@ glabel MainMenu_UpdateTradeScreen
     /* 281C 8018281C 0A80033C */  lui        $v1, %hi(D_8009B24B)
     /* 2820 80182820 14000224 */  addiu      $v0, $zero, 0x14
     /* 2824 80182824 4BB262A0 */  sb         $v0, %lo(D_8009B24B)($v1)
-    /* 2828 80182828 0A80033C */  lui        $v1, %hi(D_8009B254)
+    /* 2828 80182828 0A80033C */  lui        $v1, %hi(gDuel_bEffectState)
     /* 282C 8018282C 02000224 */  addiu      $v0, $zero, 0x2
     /* 2830 80182830 160B0608 */  j          .L80182C58
-    /* 2834 80182834 54B262A0 */   sb        $v0, %lo(D_8009B254)($v1)
+    /* 2834 80182834 54B262A0 */   sb        $v0, %lo(gDuel_bEffectState)($v1)
   .L80182838:
     /* 2838 80182838 94B30296 */  lhu        $v0, %lo(D_8009B394)($s0)
     /* 283C 8018283C 00000000 */  nop
@@ -840,10 +840,10 @@ glabel MainMenu_UpdateTradeScreen
     /* 2DBC 80182DBC 0A80033C */  lui        $v1, %hi(D_8009B24B)
     /* 2DC0 80182DC0 14000224 */  addiu      $v0, $zero, 0x14
     /* 2DC4 80182DC4 4BB262A0 */  sb         $v0, %lo(D_8009B24B)($v1)
-    /* 2DC8 80182DC8 0A80033C */  lui        $v1, %hi(D_8009B254)
+    /* 2DC8 80182DC8 0A80033C */  lui        $v1, %hi(gDuel_bEffectState)
     /* 2DCC 80182DCC 02000224 */  addiu      $v0, $zero, 0x2
     /* 2DD0 80182DD0 840C0608 */  j          .L80183210
-    /* 2DD4 80182DD4 54B262A0 */   sb        $v0, %lo(D_8009B254)($v1)
+    /* 2DD4 80182DD4 54B262A0 */   sb        $v0, %lo(gDuel_bEffectState)($v1)
   .L80182DD8:
     /* 2DD8 80182DD8 94B35124 */  addiu      $s1, $v0, %lo(D_8009B394)
     /* 2DDC 80182DDC 02002296 */  lhu        $v0, 0x2($s1)
