@@ -491,7 +491,9 @@ struct FileTransferDescriptor {
     volatile s32 total_bytes;
     s32 file_bytes;
     u8 *loader_argument;
-    u32 mode;
+    /* Total byte count for the current callback-programmed transfer phase.
+       func_8001513C copies it back into phase_remaining after each callback. */
+    u32 phase_size;
     FileTransferCallback phase_callback;
     s32 absolute_lba;
     s32 phase_remaining;
@@ -540,8 +542,8 @@ typedef char FileTransferDescriptor_value_08_offset_must_be_0x08[
 typedef char FileTransferDescriptor_total_bytes_offset_must_be_0x10[
     YGO_TYPE_OFFSET(FileTransferDescriptor, total_bytes) == 0x10 ? 1 : -1
 ];
-typedef char FileTransferDescriptor_mode_offset_must_be_0x1C[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, mode) == 0x1C ? 1 : -1
+typedef char FileTransferDescriptor_phase_size_offset_must_be_0x1C[
+    YGO_TYPE_OFFSET(FileTransferDescriptor, phase_size) == 0x1C ? 1 : -1
 ];
 typedef char FileTransferDescriptor_phase_callback_offset_must_be_0x20[
     YGO_TYPE_OFFSET(FileTransferDescriptor, phase_callback) == 0x20 ? 1 : -1

@@ -264,8 +264,9 @@ void func_80014A5C(s32 arg0)
    func_80057544 and func_80057728: func_80014C40 below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
-   fields the other two do -- the value_08/value_0C source window, mode, the
-   word at field_30 and done -- which is what its old private record named
+   fields the other two do -- the value_08/value_0C source window,
+   phase_size, the word at field_30 and done -- which is what its old private
+   record named
    value_8, value_c, value_1c, value_30 and mode_46. */
 void func_80014B30(FileTransferDescriptor *object, s32 mode)
 {
@@ -298,7 +299,7 @@ full:
     object->value_0C = base + FILE_SECTOR_SIZE;
     object->field_30.word = shared->field_0C;
     value = shared->field_14;
-    object->mode = value;
+    object->phase_size = value;
     goto fix;
 reduced:
     if (shared->field_18 == 0)
@@ -309,10 +310,10 @@ reduced:
     object->value_08 = position;
     object->done = 1;
     value = shared->field_18;
-    object->mode = value;
+    object->phase_size = value;
 fix:
     if (value < 0)
-        object->mode = -(value << FILE_SECTOR_SHIFT);
+        object->phase_size = -(value << FILE_SECTOR_SHIFT);
     return;
 tail:
     callback = D_8009B128;
