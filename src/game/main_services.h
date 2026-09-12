@@ -114,7 +114,8 @@ extern u8 D_8009B26D;
 #ifdef FUNC_80013154_NO_ARGS
 void func_80013154(void);
 #else
-void func_80013154(u8 *base);
+struct GraphicsFrameBuffer;
+void func_80013154(struct GraphicsFrameBuffer *base);
 #endif
 void func_80013360(void);
 
