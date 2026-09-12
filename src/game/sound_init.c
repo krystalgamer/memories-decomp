@@ -9,8 +9,6 @@
 #include "sound_transfer_lifecycle.h"
 #include "../unmatched.h"
 
-extern void func_80074E60(void);
-
 void func_80049200(s32 value)
 {
     func_80049230((s16)value, g_SDValue->field_164B);

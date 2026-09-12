@@ -587,10 +587,11 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Three spellings of this one declaration live below, and they are codegen
- * inputs rather than style. Five translation units need one of them:
- * func_800464F0.c takes the aggregate arm, func_80049138.c the volatile one,
- * and func_80047788.c, func_80045514.c and func_80046294.c the .data one.
+/* Three alternative spellings of this declaration are codegen inputs:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c, func_800466C8.c
+ * and func_80045054.c take the volatile arm;
+ * func_80047788.c, func_80045514.c and func_80046294.c
+ * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -599,6 +600,10 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
+ *   func_800466C8 also refreshes it after its conditional output setup and
+ *   captures it again before clearing the output flag.
+ *   func_80045054 uses four staged pointer reads around decoded-buffer
+ *   selection, accumulation, and result publication.
  *
  *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
  *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
@@ -788,6 +793,10 @@ void func_800498F8(void);
 void func_80049C40(void);
 void func_80049CB0(void);
 #endif
+/* Mutes active low-channel secondary objects, then sets the playback state
+ * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
+void func_80049CF8(void);
+
 void SD_SetOutputType(s16);
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is

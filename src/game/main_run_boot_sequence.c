@@ -15,10 +15,9 @@
 #include "display_object_helpers.h"
 #include "main_reset_frontend_runtime.h"
 #include "sound_voice_selection.h"
+#include "../external_funcs.h"
 #include "../unmatched.h"
 
-extern void func_801680F4(void);
-extern int func_80168160(int);
 void Main_RunBootSequence(s32 mode)
 {
     register u8 *object;

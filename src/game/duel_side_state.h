@@ -88,6 +88,8 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
  * and duel_grid.h describe. Thirty-nine private declarations before this. */
 #ifdef D_8009B1D5_IS_AGGREGATE
 extern u8 D_8009B1D5[];
+#elif defined(D_8009B1D5_IS_ABSOLUTE_SCALAR)
+extern u8 D_8009B1D5 __attribute__((section(".data")));
 #elif defined(D_8009B1D5_IS_VOLATILE)
 extern volatile u8 D_8009B1D5;
 #else

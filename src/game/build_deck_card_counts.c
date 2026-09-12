@@ -17,7 +17,7 @@
 
    Compiles to an identical object at gcc_2_8_1_g0_split. Bounded below by
    the card-list text boxes, which need gcc_2_8_1_g0, and above by
-   func_80031EE4, now a candidate in src/candidates/func_80031EE4.c. */
+   func_80031EE4, in src/game/func_80031EE4.c. */
 
 void func_80031E5C(u8 *arg0) {
     u8 *p;

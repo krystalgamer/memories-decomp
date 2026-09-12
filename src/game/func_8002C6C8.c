@@ -4,6 +4,7 @@
 #include "func_8002C6C8.h"
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"
+#include "../external_funcs.h"
 
 /* Clears D_8009B260's bit 0x1, then walks the eight D_800EAD88 requests.
    For each active request: raises D_8009B260's bit 0 unless the request is
@@ -19,9 +20,6 @@
    instead of the target's plain signed halfword load. */
 extern u8 D_8009B261;
 extern DuelEffectRequest *D_8009B264;
-extern void func_801462B0(
-    s16 a0, s16 a1, s32 a2, DuelEffectRequest *a3
-);
 
 s32 func_8002C6C8(void) {
     DuelEffectRequest *rec;
