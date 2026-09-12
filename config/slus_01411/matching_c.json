@@ -4327,6 +4327,12 @@
       "source": "src/game/sound_secondary_commands.c"
     },
     {
+      "address": "0x8004B854",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xBC",
+      "source": "src/game/func_8004B854.c"
+    },
+    {
       "address": "0x8004B910",
       "profile": "gcc_2_8_1_g0",
       "size": "0x80",
