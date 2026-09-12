@@ -809,7 +809,7 @@ address,size,name,status,module,notes
 0x800498F8,0x28,func_800498F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049920,0x144,func_80049920,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
 0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80049AF4,0xB8,func_80049AF4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80049AF4.c with target src/candidates_target/func_80049AF4.S; profile gcc_2_8_1_g0. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 1 variable to hard registers, so it does not stand as a decompilation. Previously: Exact post-terminal match from corrected register-role evidence; one s1 literal pin, no statement-level assembly."
+0x80049AF4,0xB8,func_80049AF4,matching_c,game,"Pure-C reclassification match: u8 shared literal plus unsigned halfword mode normalization reproduce register allocation without a pin. Uses canonical no-argument sequence-start API; guard, rewind and mode updates remain exact. 184-byte text/relocations under gcc_2_8_1_g0; old evidence preserved (issue #5)."
 0x80049BAC,0x94,func_80049BAC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,func_80049C40,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CB0,0x48,func_80049CB0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
