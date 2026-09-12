@@ -17,7 +17,7 @@
  * Both delay-slot residuals this comment used to record are closed, and they
  * were a coupled pair. Taking duel_effect_request.h's .data arm gives the
  * bare form, which is one pseudo-instruction to the delay-slot filler, so the
- * slot before the D_8009B260 test stays the nop retail has; writing
+ * slot before the gDuel_bEffectRequestStatus test stays the nop retail has; writing
  * D_8009B17C = fx before the +0x8000 store lets that store sink into the
  * following jump's slot, where retail has it. Each alone breaks the length in
  * the opposite direction -- the arm alone is 281 instructions and the store
@@ -28,12 +28,11 @@
  * addiu and ori forms of a constant load as li, and a census read off that
  * text reports three differences the encodings do not have.
  */
-#define D_8009B260_IN_DATA
+#define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_effect_request.h"
 #include "../game/duel_card_pick_cursor.h"
@@ -57,7 +56,6 @@ extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
 
 extern s32 D_800E9F04[];
-
 extern u16 D_800EF658[];
 extern u8 D_8009B369 __attribute__((section(".data")));
 
@@ -148,7 +146,7 @@ next_obj:
     }
     if (flags & 0x4000) {
         if (flags & 0x2000) {
-            if ((D_8009B260 & 1) != 0) {
+            if ((gDuel_bEffectRequestStatus & 1) != 0) {
                 return;
             }
             D_8009B23A = flags & 0xBFFF;
@@ -166,7 +164,7 @@ next_obj:
                 return;
             }
         }
-        fx = func_8002C604(0x13);
+        fx = DuelEffect_AllocateRequest(0x13);
         D_8009B17C = fx;
         *(u16 *)(fx + 0) = (rand() & 0xFF) + 0x20;
         r = Rand_GetInterval(0xB0);
@@ -185,7 +183,7 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = func_8002C604(0x13);
+            fx = DuelEffect_AllocateRequest(0x13);
             *(u16 *)(fx + 0) = 0xA0;
             *(u16 *)(fx + 2) = 0x78;
             D_8009B17C = fx;
@@ -193,7 +191,7 @@ next_obj:
             return;
         }
         D_8009B1D0 = 4;
-        fx = func_8002C604(0);
+        fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         *(u16 *)(fx + 0) = (*slot)->field_30.h.field_30 + 0x1A;
@@ -210,7 +208,7 @@ next_obj:
         }
         D_8009B23A = flags & 0xEFFF;
         SD_SEPlayFull(0x1D);
-        func_8002C68C(0x18);
+        DuelEffect_CreateRequest(0x18);
         func_8003FF88(0x8021);
         return;
     }

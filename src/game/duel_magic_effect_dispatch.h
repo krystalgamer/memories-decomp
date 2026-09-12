@@ -11,7 +11,7 @@
  * of the group's two handlers when
  * DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER is set, and calls it -- then returns
  * gDuel_wCardEffectFlags. A caller therefore reads "still running" directly
- * from the flags word the handler just updated. Candidate func_80024200 tests
+ * from the flags word the handler just updated. Candidate DuelScene_Update tests
  * it exactly that way.
  *
  * DuelEffect_StartCardEffect maps the presented card ID to the effect ID the

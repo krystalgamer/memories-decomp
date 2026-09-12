@@ -1,7 +1,6 @@
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../unmatched.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_effect_request.h"
@@ -62,7 +61,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &D_801A7AD8[card];
-        object = (DuelEffectObject *)func_8002C604(8);
+        object = (DuelEffectObject *)DuelEffect_AllocateRequest(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
         object->field_1A = 3;

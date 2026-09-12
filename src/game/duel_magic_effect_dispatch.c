@@ -18,7 +18,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
     int i;
 
     if (!DuelEffect_MarkInitialized()) {
-        DuelEffectRequest *object = func_8002C68C(0x17);
+        DuelEffectRequest *object = DuelEffect_CreateRequest(0x17);
         int side = D_8009B1D5 ^ 1;
 
         object->field_04 = D_80090800[side][0].y;
