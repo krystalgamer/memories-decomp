@@ -385,7 +385,7 @@
       "target": "src/candidates_target/func_80029EC4.S",
       "candidate_build_sha256": "2baf5b10292ffe7bd9ef78c91f6e53bf95bdf0e61ece654a3f5a024df41d0a0b",
       "target_bytes_sha256": "b8c9760e28ee8b889f83a579cc04961219206a3d76af9671624b96497eaacc11",
-      "canonical_contract_sha256": "9561f19d7cbfc0fb0e43b9fec8f3d7431a562bf2a7d4ac66dbc72f4ab81518af",
+      "canonical_contract_sha256": "1c25a60a5aba9e4c9669ada3b02669fe5d9c1bb7e273f0f872a74773b057a842",
       "canonical_contracts": {
         "D_8009B09C": "ec07dfb6151ec26a682eb7cbadee16bea1528262ae3b8086fb09d00fdc8cd91e",
         "D_800E9D9C": "e87f4068632a7b9c643f3e8852eec77084de50ad3f4c8bc81f3897478692e0de",
@@ -393,8 +393,8 @@
         "GsSortFastSprite": "1623c6dc39bab9987c6b352cc82cefd1a59b284b5da3157da3438a039c53168a",
         "GsSortGLine": "dc1f37221c373bfe5f8ec7c33505f249ea40070ce5ed52d770c76e4867fcaf9f",
         "func_80029EB0": "1fa420d05f6d35890e29718ef8302bd4207f739c899acd200ac2246b8a676ee0",
-        "gGraphics_sViewportX": "10f07dc7a732cf00987406b808721be0477a5a00033d83187ca79506c600327c",
-        "gGraphics_sViewportY": "f6cd11def0b8366e608c3930181faa207fa3bb78bbc9e65c92692ca9092af146"
+        "gGraphics_sViewportX": "2b771e65ff13b722ea5c275b4cd3fae30c7d787f576d9f3ddb97e6d1b23dc3ed",
+        "gGraphics_sViewportY": "d6eda5b54300f8099e986a80e959d408155b79d9e3ddfb1b365739f30c63ec29"
       }
     },
     {
@@ -439,12 +439,12 @@
       "target": "src/candidates_target/func_8002BAB4.S",
       "candidate_build_sha256": "aed2407650bec3583f2159f6e5b366ba47390661138eb5b6cdcd223f41271946",
       "target_bytes_sha256": "af55b6b7e91127d6259a64cdeed80d07a0829829a3ad9fdaa5ef629c1b7df629",
-      "canonical_contract_sha256": "a03a2d1a6afa7ed0fd318c659bf1ea43be086a61cbcfb9ecc49622dc4bc9d93a",
+      "canonical_contract_sha256": "9eedaee88e87704e4b0642bb7253ba3c7b769d278ba813b033c823e1d1fbd130",
       "canonical_contracts": {
         "D_80181002": "734aaf99436e3078054506ffefa76f4adf0b1225e9ea8ed1446c620cc10256fc",
         "D_80181012": "91a38bb9ad5879b3e0ffe9676b0c19e6042ef553efc0f00b196470c5db8808e0",
-        "gGraphics_sViewportX": "10f07dc7a732cf00987406b808721be0477a5a00033d83187ca79506c600327c",
-        "gGraphics_sViewportY": "f6cd11def0b8366e608c3930181faa207fa3bb78bbc9e65c92692ca9092af146"
+        "gGraphics_sViewportX": "2b771e65ff13b722ea5c275b4cd3fae30c7d787f576d9f3ddb97e6d1b23dc3ed",
+        "gGraphics_sViewportY": "d6eda5b54300f8099e986a80e959d408155b79d9e3ddfb1b365739f30c63ec29"
       }
     },
     {
@@ -548,19 +548,6 @@
       }
     },
     {
-      "address": "0x8002EA0C",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_8002EA0C.c",
-      "target": "src/candidates_target/func_8002EA0C.S",
-      "candidate_build_sha256": "d64343c56bc017e152ff8caa92e0d30bc65aa1dca6f5656d972499a149f397ba",
-      "target_bytes_sha256": "e1220fc73d7735b43a07ba01d15423e1a43f109beeff80aa37ebab8adcf31718",
-      "canonical_contract_sha256": "2f8a070d1977517572bc1d9276b35ff08e8f885c769fed07e599602c77b7cd7f",
-      "canonical_contracts": {
-        "gGraphics_sViewportX": "10f07dc7a732cf00987406b808721be0477a5a00033d83187ca79506c600327c",
-        "gGraphics_sViewportY": "f6cd11def0b8366e608c3930181faa207fa3bb78bbc9e65c92692ca9092af146"
-      }
-    },
-    {
       "address": "0x8002EE94",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8002EE94.c",
@@ -625,13 +612,13 @@
       "target": "src/candidates_target/func_80031874.S",
       "candidate_build_sha256": "8ab5556c09cf842ae4584e1997edc68b14ab944b408e0a99e59a4c4d48cefa4a",
       "target_bytes_sha256": "910bef3829bf5637714de01765c2a100a2b7b738b0ed55648a565a9fafffeeb8",
-      "canonical_contract_sha256": "1b704a2e343631bbefd47bc0f652e33c0089a75adbb99fb309571116a140ae93",
+      "canonical_contract_sha256": "1f7d906388e32640bceddbc2caa7ee489722a231868b5ca42c8fb916bfdac159",
       "canonical_contracts": {
         "Text_EncodeDecimalNoPadding": "b2d1bfb56ec185f0e2c4b7b96169ed54e316b8306059150e5ce2b671c2d58498",
         "func_800316F0": "950179527f02487d72aee78f6d148c4fd8c5b0f70f2c33da7f79041154d8e9ff",
         "func_80031784": "413c68a6a449ee2a314f89c476e0a738db717edd02156b31adfe3c6ea1382115",
-        "gGraphics_sViewportX": "10f07dc7a732cf00987406b808721be0477a5a00033d83187ca79506c600327c",
-        "gGraphics_sViewportY": "f6cd11def0b8366e608c3930181faa207fa3bb78bbc9e65c92692ca9092af146"
+        "gGraphics_sViewportX": "2b771e65ff13b722ea5c275b4cd3fae30c7d787f576d9f3ddb97e6d1b23dc3ed",
+        "gGraphics_sViewportY": "d6eda5b54300f8099e986a80e959d408155b79d9e3ddfb1b365739f30c63ec29"
       }
     },
     {
