@@ -690,7 +690,6 @@ extern u8 D_800E9ECF;
 extern u8 D_800E9ECF[];
 #endif
 extern s8 D_800EA02F[];
-extern u8 D_800EB224[];
 
 #ifdef D_800EAE88_VISIBLE
 #ifdef D_800EAE88_AS_BYTES
