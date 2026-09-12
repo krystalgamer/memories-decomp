@@ -32,7 +32,7 @@ This assignment replaces the complete flag halfword. In particular, a newly
 constructed record starts with `DUEL_CARD_FLAG_USED_THIS_TURN` clear.
 
 The ordinary hand-play path in `DuelScene_UpdateHandActions` hands control to scene state 7
-(`func_80019D18`). That state calls `Duel_SetupCardRecord` at `0x8001A610`.
+(`DuelScene_UpdateCardPlacement`). That state calls `Duel_SetupCardRecord` at `0x8001A610`.
 The following placement presentation and stat-display work does not add
 `0x4000` to the card-record flag halfword. The visible `0x4000` operations in
 that state are operations on the separate global scene word
@@ -45,7 +45,7 @@ marker that the attack selector interprets as summoning sickness.
 
 ### Battle sets used
 
-Scene state 9 (`func_8001F55C`) marks the attacker by ORing
+Scene state 9 (`DuelScene_UpdateBattle`) marks the attacker by ORing
 `DUEL_CARD_FLAG_USED_THIS_TURN` into its record flags. The two battle routes
 perform the equivalent write at `0x800200B4` and `0x80020698`. The latter
 route immediately refreshes the card object's visible flags with
@@ -58,7 +58,7 @@ to the field-action filters.
 
 ### The next draw phase clears used
 
-Matching `func_8001898C` in
+Matching `DuelScene_UpdateDrawPhase` in
 [`duel_phase_entry.c`](../src/game/duel_phase_entry.c) scans all 30 field
 records at the next draw-phase entry. It clears
 `DUEL_CARD_FLAG_USED_THIS_TURN` on occupied records while preserving their

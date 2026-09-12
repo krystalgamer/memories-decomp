@@ -12,7 +12,7 @@
 #include "duel_side_state.h"
 #include "duel_scene_state.h"
 #include "duel_phase_entry.h"
-#include "func_8001825C.h"
+#include "duel_scene_resume.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
@@ -41,7 +41,7 @@ extern s8 D_8009B208[8];
    latch and rebuild active duel-card and side state around fade or transfer
    gates. */
 
-void func_8001825C(void)
+void DuelScene_UpdateResume(void)
 {
     DuelCardRecord *rec;
     u8 *obj;
@@ -158,7 +158,7 @@ void func_8001825C(void)
     SD_SEPlayFull(0x1F);
 }
 
-void func_80018608(void)
+void DuelScene_UpdateStartup(void)
 {
     u16 *w;
     u8 *r1;
@@ -263,7 +263,7 @@ void func_80018608(void)
    a fixed x and a 0x3C-spaced y, and the number of empty slots is stored
    for the draw. Later calls only clear the phase flag once the message
    state has returned to zero. */
-void func_8001898C(void) {
+void DuelScene_UpdateDrawPhase(void) {
     u8 hand[HAND_SIZE];
     DuelCardRecord *rec;
     u8 *fl;

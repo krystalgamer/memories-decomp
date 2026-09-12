@@ -236,7 +236,7 @@ extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
  * DUEL_FIELD_ROW_SIZE) and 0 again for a flagged first-row one;
  * func_800610E0 stores its mode argument into it before building a text
  * box; func_800389D8 adds twice its value to the word the object's +0x58
- * index selects; and func_800218F0 (still assembly) stores it twice.
+ * index selects; and DuelScene_UpdateResultRewards (still assembly) stores it twice.
  * notes/duel-card-record.md calls it a text-selector override. Values
  * 0..3, every access sb or lbu.
  *
@@ -302,7 +302,7 @@ extern u8 D_8009B320;
  * func_80060E70 stores `id` (in its candidate). func_80037DA4 reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Four functions still in assembly also store it:
- * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
+ * func_8001B170.s:140-141, DuelScene_UpdateResultRewards.s:202-203 and :235-236,
  * DuelEffect_ApplyRitual assembly:379-380, func_8002ACA4.s:311-312.
  *
  * s16 because func_80037DA4, the only function that loads it, declared it s16

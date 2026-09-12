@@ -2,7 +2,7 @@
 
 `display_object_work_slots.h` supplies the single declaration of
 `D_800E9EF0` to three matching resident translation units and the retained
-`func_80018FEC` candidate. It is an incomplete array of `DisplayObject *`,
+`DuelScene_UpdateExodiaResult` candidate. It is an incomplete array of `DisplayObject *`,
 not a new allocation or an object pool. The linker address and assembly-owned
 storage remain unchanged. No new semantic symbol name is assigned.
 
@@ -10,10 +10,10 @@ storage remain unchanged. No new semantic symbol name is assigned.
 
 | Consumer | Evidence for the contract |
 |---|---|
-| `func_80019608` | Reads slots 0 and 1 as display objects, installs objects returned by `func_800291E0` and `func_80019564`, modifies their render attributes, flags, scale halves and colour word, and releases both with `func_8004036C`. |
+| `DuelScene_UpdateCardUse` | Reads slots 0 and 1 as display objects, installs objects returned by `func_800291E0` and `func_80019564`, modifies their render attributes, flags, scale halves and colour word, and releases both with `func_8004036C`. |
 | `Main_RunTrade` | Stores the object returned by `func_800400AC` in slot 0, animates that same object, then releases it and clears the slot. The former `gTradeObj` macro was only a cast of the table's first word, not a distinct symbol. |
 | `func_8002CB50` | Copies exactly five words starting at this address and appends a zero word to the destination. It does not allocate or release the objects. |
-| Retained `func_80018FEC` | Stages five card display objects using the three-byte pose records at `D_80090918`, then indexes the slots to read each object's `+0x30/+0x32` position for a sparkle effect. |
+| Retained `DuelScene_UpdateExodiaResult` | Stages five card display objects using the three-byte pose records at `D_80090918`, then indexes the slots to read each object's `+0x30/+0x32` position for a sparkle effect. |
 
 The five-slot count describes this shared work window, not the length of the
 display-object pool. The candidate's initialization and sparkle loop both

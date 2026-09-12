@@ -139,7 +139,7 @@ currently enter function interiors, and one enters location-table data:
 | `0x8004EB9C` | `func_8004EB00 + 0x9C`, not the current story-flag tester |
 | `0x80065B24` | `func_80065928 + 0x1FC`, not an established sound API |
 | `0x80066574` | `func_80066564 + 0x10` |
-| `0x80021EA4` | `func_800218F0 + 0x5B4` |
+| `0x80021EA4` | `DuelScene_UpdateResultRewards + 0x5B4` |
 | `0x80065BFC` | `func_80065BCC + 0x30` |
 | `0x800158C8` | `Fade_InitOut + 0x10` |
 

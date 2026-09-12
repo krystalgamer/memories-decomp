@@ -57,7 +57,7 @@ extern s32 func_80042B40(s32);
 extern void func_8002C68C(s32);
 extern void func_8003FF88(s32);
 
-void func_80018FEC(void)
+void DuelScene_UpdateExodiaResult(void)
 {
     u16 flags;
     u8 *obj;

@@ -119,11 +119,11 @@ extern DuelFieldEffectObject
  * comment says what a hit and a miss leave; func_8001F0D0 stores `sel +
  * DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one arm and `v` under its `hit:` label;
  * DuelEffect_ApplyLifePointRecovery and DuelEffect_ApplyDirectDamage test it
- * against 0. func_8001F55C, still
+ * against 0. DuelScene_UpdateBattle, still
  * assembly, stores 0 once and loads it eight times. Every retail load is lh
  * (DuelEffect_ApplyLifePointRecovery, DuelEffect_ApplyDirectDamage, and the
  * eight in
- * func_8001F55C.s), so the halfword is signed; the stores are sh and cannot
+ * DuelScene_UpdateBattle.s), so the halfword is signed; the stores are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
  * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
  * func_80025028.c alike, and the `u16` one of them used to write was the
@@ -133,13 +133,13 @@ extern s16 D_8009B22A;
 /* Assigned in two units and read by no C statement: func_800179F4 writes
  * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];`
  * (src/candidates/func_800179F4.c:136-137) and
- * func_800208D4 writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
- * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (func_800208D4.c:9); no other listing
+ * DuelScene_UpdateTurnSwitch writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
  * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
- * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); func_800208D4.c used to
+ * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); duel_scene_turn_switch.c used to
  * write `void *` for the same address, and no prototype takes &D_8009B22C.
- * Both stores are gp-relative sw (func_800179F4.s:128, func_800208D4.s:46),
+ * Both stores are gp-relative sw (func_800179F4.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */
 extern u8 *D_8009B22C;
 
@@ -230,20 +230,20 @@ extern u8 gDuel_bWinnerSide;
 
 /* The outro's own copy of the winning side, and the only one of these that
  * carries a "not set" state. func_800179F4 clears it to -1 when the duel
- * starts, func_80020F4C writes the winner alongside D_8009B362 when the
+ * starts, DuelScene_UpdateResultOutro writes the winner alongside D_8009B362 when the
  * result sequence begins, and duel_scene_update.c reads it as an override:
  * it takes D_8009B1D5 and replaces it with this value only when the test
  * `D_8009B238 >= 0` passes. That signed test is why it is s8 and not u8 --
  * the sentinel is the whole point of the field. */
 extern s8 D_8009B238;
 
-/* The duel's outcome as a plain 0/1 byte. func_80020F4C sets it in the
+/* The duel's outcome as a plain 0/1 byte. DuelScene_UpdateResultOutro sets it in the
  * same statement group as D_8009B238: 0 when gDuel_bWinnerSide is 0, 1
  * otherwise. Main_RunDuel indexes its two campaign continuations with it
  * (`table[D_8009B362 * 2]`), and the free_duel overlay's FreeDuel_Init
  * steps from the wins halfword to the losses halfword of the duelist
  * record when it is 1. Every retail access is a byte: sb through $at in
- * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
+ * DuelScene_UpdateResultOutro and lui/lbu in Main_RunDuel, both in units that reach
  * other symbols through $gp, so duel_result_runtime.c and
  * src/candidates/func_8002CEE8.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
@@ -281,8 +281,8 @@ extern u8 D_8009B368;
 /* A byte the duel setup clears and func_800179F4 tests against 1.
  * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
- * of that setup; func_80018FEC (a tracked candidate) stores 1;
- * func_8001F55C (still assembly) stores it too. func_800179F4 skips two
+ * of that setup; DuelScene_UpdateExodiaResult (a tracked candidate) stores 1;
+ * DuelScene_UpdateBattle (still assembly) stores it too. func_800179F4 skips two
  * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
  * lbu and every declarer said u8. Initial value not read.
@@ -300,7 +300,7 @@ extern u8 D_8009B369 __attribute__((section(".data")));
 extern u8 D_8009B369;
 #endif
 
-/* The halfword the duel hands to SD_BGMPlay: func_8001825C and func_80018608
+/* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
  * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).

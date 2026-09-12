@@ -11,7 +11,7 @@ void func_80020EE8(DuelCardDisplayObject *object);
 
 /* One row entry of the duel-result sprite tables D_80090928 (a real opponent)
    and D_80090960 (none). Each table is indexed by the winning side and then
-   by sprite, DUEL_RESULT_SPRITE_COUNT of them, and func_80020F4C spends the
+   by sprite, DUEL_RESULT_SPRITE_COUNT of them, and DuelScene_UpdateResultOutro spends the
    whole entry in one call: `x` and `y` are the spawn position it hands
    func_800428A8, `kind` is that call's part selector and doubles as the
    "this slot is used" test, and `tag` goes to the object's field_48. */
@@ -22,7 +22,7 @@ typedef struct {
     u8 tag;
 } DuelResultSpriteSpec;
 
-/* One slot of the table func_80020F4C keeps in the gDuel_awRitualData scratch
+/* One slot of the table DuelScene_UpdateResultOutro keeps in the gDuel_awRitualData scratch
    while the outro runs: the object it spawned for that sprite, so step 3 can
    retarget every one of them. Only the pointer is reached; the rest of the
    0xC-byte stride is what the scratch already holds. */
@@ -42,6 +42,6 @@ typedef char DuelResultSpriteSlot_size_must_be_0xC[
  * of the winning side's sprite table -- D_80090928 with a real opponent,
  * D_80090960 without -- keeps them in the gDuel_awRitualData scratch as
  * DuelResultSpriteSlot entries, and retargets all of them on its third step. */
-void func_80020F4C(void);
+void DuelScene_UpdateResultOutro(void);
 
 #endif

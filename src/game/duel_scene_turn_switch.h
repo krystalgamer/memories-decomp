@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_800208D4_H
-#define MEMORIES_DECOMP_FUNC_800208D4_H
+#ifndef MEMORIES_DECOMP_DUEL_SCENE_TURN_SWITCH_H
+#define MEMORIES_DECOMP_DUEL_SCENE_TURN_SWITCH_H
 
 #include "../types.h"
 
@@ -8,6 +8,6 @@
  * D_8009B1D5 -- and sets the D_8009B162 timer to 0x10; when that timer reaches
  * zero it flips D_8009B1D5, repoints D_8009B1C8 and D_8009B22C at the new
  * acting side, and hands the scene to phase 2. */
-void func_800208D4(void);
+void DuelScene_UpdateTurnSwitch(void);
 
 #endif

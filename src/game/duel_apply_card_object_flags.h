@@ -13,8 +13,8 @@
  * The thing a prototype cannot say is why every caller calls it: the object
  * carries no state of its own here, so a caller that has just changed the
  * record's flags must call this or the object keeps showing the old ones.
- * All four do exactly that -- func_8001898C after clearing
- * DUEL_CARD_FLAG_USED_THIS_TURN on every occupied record, func_8001825C
+ * All four do exactly that -- DuelScene_UpdateDrawPhase after clearing
+ * DUEL_CARD_FLAG_USED_THIS_TURN on every occupied record, DuelScene_UpdateResume
  * after restoring two ranges of records it re-set up,
  * DuelEffect_UpdateRevealCard after
  * clearing the field-effect bits, and func_800229F4 in the shared reset block

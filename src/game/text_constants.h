@@ -33,8 +33,8 @@ extern u16 D_801D5800[];
  * matched with it u16, and retail loads it lhu, gp-relative
  * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
  * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
- * func_800218F0, still assembly, stores a halfword to it through $at
- * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
+ * DuelScene_UpdateResultRewards, still assembly, stores a halfword to it through $at
+ * (DuelScene_UpdateResultRewards.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The two units used to declare it u16 and s16. */
 extern u16 D_8009B32E;
 

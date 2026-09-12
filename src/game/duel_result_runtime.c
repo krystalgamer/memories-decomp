@@ -48,7 +48,7 @@
 
    The duel-result outro and the two update callbacks it hangs on its
    confetti: func_80020D4C orbits a sprite around its spawn point,
-   func_80020EE8 sends it flying off, and func_80020F4C is the outro
+   func_80020EE8 sends it flying off, and DuelScene_UpdateResultOutro is the outro
    sequence that spawns the sprites on the first and retargets them at the
    second. The three sources were recorded at gcc_2_8_1_g8_no_split,
    gcc_2_8_1_g8 and gcc_2_8_1_g8_split, and each compiles to an identical
@@ -147,7 +147,7 @@ extern u16 D_8009B1E0;
 
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
 
-void func_80020F4C(void)
+void DuelScene_UpdateResultOutro(void)
 {
     DuelResultSpriteSlot *slots;
     DisplayObject *obj;

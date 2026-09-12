@@ -48,9 +48,9 @@ extern u8 D_800E9F10[];
 extern u8 D_800E9F48[];
 
 /* Assigned from both bases above. Assigned by three C functions and loaded
- * by two: func_80018608 assigns `D_800E9F10 + D_8009B1D5 *
+ * by two: DuelScene_UpdateStartup assigns `D_800E9F10 + D_8009B1D5 *
  * DUEL_SELECTION_SIDE_SIZE` and stores 0xAE at +0xC (duel_phase_entry.c:
- * 69-70); func_8001898C assigns the same from `side` and stores `base` at
+ * 69-70); DuelScene_UpdateDrawPhase assigns the same from `side` and stores `base` at
  * +8 (:154-156), then assigns it again and stores 0xAE at +0xC (:206-207);
  * func_8001B938 assigns `D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`
  * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
@@ -58,11 +58,11 @@ extern u8 D_800E9F48[];
  * (:59) and +0xF (:68), loading it back for each; func_80017034 loads it
  * directly as a DuelCardPickCursor (src/game/func_80017034.c). Six
  * functions still in assembly, none with a profile in matching_c.json, also
- * store or load it: func_80018FEC.s:31 and :87, func_80019D18.s:32,
+ * store or load it: DuelScene_UpdateExodiaResult.s:31 and :87, DuelScene_UpdateCardPlacement.s:32,
  * DuelScene_UpdateHandActions (stores :35, :106, :720, :1140, :1369, :1394;
  * loads :92, :501, :507, :1150, :1227), DuelScene_UpdateFieldActions
  * (stores :56, :613, :753, :1409,
- * :1439; load :1412), func_8001F55C.s (stores :93, :183; load :96) and
+ * :1439; load :1412), DuelScene_UpdateBattle.s (stores :93, :183; load :96) and
  * func_800235C0.s:7.
  *
  * DuelCardPickCursor * because that view does cover every store. This
@@ -77,7 +77,7 @@ extern u8 D_800E9F48[];
  * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
  * the record a pointer member there would raise its alignment to 4 and
  * its size to 0x1C, which the asserted 0x1A forbids. Every access in the binary is a %gp_rel lw or sw
- * (func_80017034.s:6, func_80018608.s:94, func_8001898C.s:38 and :164,
+ * (func_80017034.s:6, DuelScene_UpdateStartup.s:94, DuelScene_UpdateDrawPhase.s:38 and :164,
  * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
  * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
  * Initial value not read. */
