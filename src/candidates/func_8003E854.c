@@ -227,7 +227,7 @@ void MemCardDialog_UpdateSave(void)
         }
         if ((gMemCard_wDialogFlags & 0x100) == 0) {
             D_8009B3C4 = 0;
-            D_8009B3D0 -= SAVE_DATA_HEADER_SIZE;
+            gMemCard_pPrimaryTransferCursor -= SAVE_DATA_HEADER_SIZE;
             D_8009B3C2 += SAVE_DATA_HEADER_SIZE;
         }
         D_8009B3EB = 8;
@@ -254,7 +254,7 @@ void MemCardDialog_UpdateSave(void)
                     goto message_cf;
                 }
                 if (SaveData_MatchesDuelistAndCurrentSequence(
-                        (SaveDataState *)D_8009B3D0,
+                        (SaveDataState *)gMemCard_pPrimaryTransferCursor,
                         (SaveDataState *)gLibrary_aCardArtRecord) != 0) {
                     goto message_cf;
                 }
@@ -288,7 +288,8 @@ void MemCardDialog_UpdateSave(void)
             D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
             MemCardDialog_SetMessage_wide(0xD6, 0);
             MemCardWriteFile(0, (char *)D_800EFE18,
-                             (unsigned long *)D_8009B3D0, D_8009B3C4,
+                             (unsigned long *)gMemCard_pPrimaryTransferCursor,
+                             D_8009B3C4,
                              D_8009B3C2);
         io_pending:
             gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
@@ -332,4 +333,3 @@ void MemCardDialog_UpdateSave(void)
         break;
     }
 }
-
