@@ -6,6 +6,9 @@
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
 #define DUEL_EFFECT_REQUEST_COUNT 8
+#define DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING 0x20
+#define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
+#define DUEL_EFFECT_REQUEST_FLAG_ACTIVE 0x80
 
 /* The record func_8002C68C hands a duel effect handler.
  *
