@@ -667,9 +667,6 @@ void Script_UpdateViewportTween(void);
  * the selected sound effect or BGM, and stops all sound on START. */
 void func_800307B8(void);
 
-/* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
-void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
-
 /* One step of the card list's cursor and paging input.
  *
  * It first places the scroll box, deriving a y position from the combined

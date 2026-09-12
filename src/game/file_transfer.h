@@ -86,6 +86,8 @@ void Main_LoadBootPackageStage(
 );
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
+/* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
+void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
 
 /* Another wrapper of the same shape as the four above: it asks for sector
    0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
