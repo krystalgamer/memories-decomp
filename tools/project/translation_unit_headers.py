@@ -19,6 +19,9 @@ FUNCTION_NAME = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 FUNCTION_POINTER_OBJECT = re.compile(
     r"\(\s*\*\s*[A-Za-z_]\w*(?:\s*\[[^]]*\])*\s*\)\s*\([^)]*\)"
 )
+CONDITIONAL_DIRECTIVE = re.compile(
+    r"^\s*#\s*(?P<directive>if|ifdef|ifndef|elif|else|endif)\b"
+)
 IGNORED_NAMES = frozenset(
     {
         "asm",
@@ -227,13 +230,25 @@ def mask_non_code(source: str) -> str:
     masked = "".join(output)
     lines = masked.splitlines(keepends=True)
     directive = False
+    conditional_depth = 0
     for index, line in enumerate(lines):
+        opening = False
+        closing = False
+        if not directive:
+            match = CONDITIONAL_DIRECTIVE.match(line)
+            if match is not None:
+                opening = match.group("directive") in {"if", "ifdef", "ifndef"}
+                closing = match.group("directive") == "endif"
         if not directive and line.lstrip().startswith("#"):
             directive = True
-        if directive:
+        if directive or conditional_depth:
             continuation = line.rstrip("\r\n").endswith("\\")
             lines[index] = "".join("\n" if char == "\n" else " " for char in line)
             directive = continuation
+        if closing and conditional_depth:
+            conditional_depth -= 1
+        if opening:
+            conditional_depth += 1
     return "".join(lines)
 
 

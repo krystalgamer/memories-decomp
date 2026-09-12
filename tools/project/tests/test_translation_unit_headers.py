@@ -219,6 +219,40 @@ class TranslationUnitHeaderTests(unittest.TestCase):
             any("overlay unmatched function declaration" in p for p in problems)
         )
 
+    def test_inactive_definition_does_not_claim_overlay_unmatched_function(self) -> None:
+        self.write(
+            "config/slus_01411/overlays/example_functions.csv",
+            "address,size,name,status,module,notes\n"
+            "0x80160000,0x10,func_overlay_unmatched,unmatched_asm,overlay/example,\n"
+            "0x80160010,0x10,func_overlay_local,matching_c,overlay/example,\n",
+        )
+        self.write(
+            "config/slus_01411/overlays/example_matching_c.json",
+            json.dumps(
+                {
+                    "functions": [
+                        {
+                            "address": "0x80160010",
+                            "source": "src/overlays/example.c",
+                            "profile": "test",
+                        }
+                    ]
+                }
+            ),
+        )
+        self.write(
+            "src/overlays/example.c",
+            "void func_overlay_unmatched(void);\n"
+            "#if 0\n"
+            "void func_overlay_unmatched(void) {}\n"
+            "#endif\n"
+            "void func_overlay_local(void) { func_overlay_unmatched(); }\n",
+        )
+        problems = translation_unit_headers.audit(self.root)[0]
+        self.assertTrue(
+            any("overlay unmatched function declaration" in p for p in problems)
+        )
+
     def test_assembler_alias_declaration_is_rejected(self) -> None:
         problems = self.problems(
             'extern void alias(void) asm("func_foreign");\n'
