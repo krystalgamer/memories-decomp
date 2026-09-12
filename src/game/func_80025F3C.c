@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/duel_field_effect_steps.c.
- */
 /* Two steps of the same field-wide duel effect machinery. Both latch their
  * first frame through DuelEffect_MarkInitialized, both drive their phase
  * through D_8009B220, and both walk the acting side's grid D_800907D8 by
@@ -29,13 +23,13 @@ void func_80025F3C(void)
     DuelFieldEffectObject *object;
     DuelCardRecord *entry;
     int slot;
-    register int side __asm__("$3");
+    int side;
+
     if (DuelEffect_MarkInitialized() == 0) {
         object = (DuelFieldEffectObject *)func_8002C604(0x15);
-        side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
-        D_8009B1F0[side] = (u8 *)object;
-        object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
+        D_8009B1F0[D_8009B1D5 ^ 1] = (u8 *)object;
+        object->flags |= 0x20;
         object->x = 0xA0;
         object->y = 0x78;
         side = D_8009B1D5 ^ 1;
@@ -49,9 +43,11 @@ void func_80025F3C(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
+                DuelFieldEffectObject *current;
+
                 entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
-                if ((*(u32 *)&entry->terrain_modifier & 0x90000000) == 0x90000000) {
-                    register DuelFieldEffectObject *current __asm__("$2");
+                if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
+                    0x90000000) {
                     current = (DuelFieldEffectObject *)entry->object;
                     current->callback = func_80025B28;
                     current->active = 1;
