@@ -96,6 +96,10 @@ typedef struct {
  * duplicate to be folded into the struct. */
 extern u8 D_800EAE90;
 
+#ifdef GAI_BEST_TARGET_SCALAR
+extern u8 gAi_bBestTarget;
+#endif
+
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
