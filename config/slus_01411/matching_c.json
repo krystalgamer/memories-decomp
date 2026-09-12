@@ -5383,6 +5383,12 @@
       "source": "src/game/func_8005CEF0.c"
     },
     {
+      "address": "0x8005D378",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x61C",
+      "source": "src/game/model_interpolate_transform.c"
+    },
+    {
       "address": "0x8005D994",
       "profile": "gcc_2_8_1_g8",
       "size": "0x210",
