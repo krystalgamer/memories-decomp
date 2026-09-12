@@ -1,17 +1,10 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/duel_check_ritual.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0), and with 1 variable pinned to hard
- * registers. Under gcc_2_8_1_g0, a single threshold, it is 84 of 84
- * instructions with 8 differing, opcode distance 0. The source below is the
- * match, unchanged apart from its include paths. */
 #include "../types.h"
-#include "../game/duel_check_ritual.h"
-#include "../game/duel_side_state.h"
-#include "../game/duel_card.h"
-#include "../game/card_constants.h"
-#include "../game/duel_card_layout.h"
-#include "../game/duel_grid.h"
+#include "duel_check_ritual.h"
+#include "duel_side_state.h"
+#include "duel_card.h"
+#include "card_constants.h"
+#include "duel_card_layout.h"
+#include "duel_grid.h"
 
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
 {
@@ -20,7 +13,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     DuelCardRecord *card;
     DuelCardRecord **first;
     DuelCardRecord **dst;
-    register DuelCardRecord **w __asm__("$3");
+    DuelCardRecord **w;
     DuelCardRecord *c;
     u16 *p;
     u16 *q;
@@ -61,7 +54,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     q = p;
     for (j = 0; j < DUEL_RITUAL_TRIBUTE_COUNT; j++) {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-            card = first[i];
+            card = (c = first[i]);
             if (card != 0 && *(s16 *)&card->card_id == q[0]) {
                 goto matched;
             }
