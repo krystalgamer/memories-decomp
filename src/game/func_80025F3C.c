@@ -12,11 +12,12 @@
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"
 
-/* The first of the two field-wide effect steps. It latches its first frame
- * through DuelEffect_MarkInitialized, requests the type-0x15 effect object and
- * parks it at the screen centre, then on the following pass sweeps the acting
- * side's second grid row and hands every record carrying both high modifier
- * bits to func_80025B28. */
+/* The first of the two field-wide effect steps described in
+ * duel_field_effect_steps.h. It latches its first frame through
+ * DuelEffect_MarkInitialized, requests the type-0x15 effect object and parks
+ * it at the screen centre, then on the following pass sweeps the acting side's
+ * slots DUEL_FIELD_ROW_SIZE..DUEL_FIELD_SIDE_ZONE_COUNT-1 and hands every
+ * record carrying both high modifier bits to func_80025B28. */
 void func_80025F3C(void)
 {
     DuelFieldEffectObject *object;
