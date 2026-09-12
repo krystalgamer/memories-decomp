@@ -5818,7 +5818,7 @@
       "address": "0x80071510",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/func_80071510.c"
+      "source": "src/game/ai_script_load_selection_random.c"
     },
     {
       "address": "0x8007154C",

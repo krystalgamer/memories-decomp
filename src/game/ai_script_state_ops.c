@@ -130,12 +130,12 @@ void AiScript_ClearTypes(void)
     } while (i >= 0);
 }
 
-void func_80073448(void)
+void AiScript_SetSelectionRandom(void)
 {
     D_800EAE90 = 1;
 }
 
-void func_80073458(void)
+void AiScript_ClearSelectionRandom(void)
 {
     D_800EAE90 = 0;
 }
