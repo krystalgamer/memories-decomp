@@ -13,6 +13,26 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
+### Keep one column snapshot: `func_8002A4A8`
+
+The 440-byte library-cursor motion setup matches under the existing uniform
+`gcc_2_8_1_g8_split` profile with no register pins or inline assembly.
+The shared `LibraryMotionState` already supplies the complete offsets and
+signed integer/unsigned fractional halves missing from the terminal
+incomplete-type attempts. The reference's two column copies leave the
+unpinned entry move after the unchanged-cell guard, changing ten instruction
+positions. Keeping one column snapshot through that guard and the Y-coordinate
+calculation restores retail's initial move into `$t1` without pinning it.
+
+The same signed `delta` is assigned and shifted in place for both 16.16
+velocity divisions. The unsigned fractional fields preserve the positive
+`0x8000` constant and its `ori` instruction with the ordinary supported
+profile; no additional assembler flags are needed. Same-cell requests return
+without altering an active animation. Otherwise, the original frame count,
+target coordinates, half-pixel initial fractions and active flag are retained.
+The historical canonical rows and six-row terminal refinement history remain
+intact, followed by one post-terminal resolution with the new source evidence.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
