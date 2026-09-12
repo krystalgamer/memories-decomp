@@ -568,7 +568,6 @@ extern DisplayObject *D_8009B18C;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-extern u8 D_8009B248;
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
 extern DuelEffectRequest *D_8009B264;

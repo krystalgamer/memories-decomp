@@ -4,8 +4,7 @@
 #include "duel_effect_mode_7.h"
 #include "main_mode_state.h"
 #include "build_deck_transition_state.h"
-
-extern u8 D_8009B2F8;
+#include "../unmatched.h"
 
 void func_80033C90(void)
 {
