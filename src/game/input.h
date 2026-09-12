@@ -83,9 +83,12 @@ extern u32 gInput_dwPendingHeld;
  *
  * An independent matching decompilation of this binary carries the same
  * address behind eight declarations, chosen per function, which is where this
- * list came from. Its sized arms are `[4]`, volatile and not, and it has no
- * `[5]`. */
-#ifdef GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+ * list came from. Its sized arms are `[4]`, volatile and not, including the
+ * .data view used by func_800307B8, and it has no `[5]`. */
+#ifdef GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Pressed[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Pressed __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_PRESSED_IN_DATA)
 extern u16 gInput_wPad1Pressed __attribute__((section(".data")));
