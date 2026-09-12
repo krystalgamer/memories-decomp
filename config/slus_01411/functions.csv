@@ -265,7 +265,7 @@ address,size,name,status,module,notes
 0x8002ACA4,0xDFC,func_8002ACA4,unmatched_asm,game,
 0x8002BAA0,0xC,func_8002BAA0,matching_c,game,Byte store of one matched first variant.
 0x8002BAAC,0x8,func_8002BAAC,matching_c,game,Empty pointer-parameter function matched first variant.
-0x8002BAB4,0x258,func_8002BAB4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_8002BAB4.c with target src/candidates_target/func_8002BAB4.S; profile gcc_2_8_1_g8_split. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 1 variable to hard registers, so it does not stand as a decompilation. Previously: Library screen state dispatcher; matched post-terminal under the split profile with the overlay halfwords out of small data, a two-statement mode byte, the slot result reused for the view distance, a pinned absolute-value temporary, a volatile re-read, a fresh pointer for the join-block update and a two-quad copy"
+0x8002BAB4,0x258,func_8002BAB4,matching_c,game,Pure-C uniform-profile match; splitting the absolute-value quotient and increment lets GCC allocate the retail result register without a hard-register binding.
 0x8002BD0C,0x230,func_8002BD0C,matching_c,game,"Exact match with gcc_2_8_1_g8_split; Library package phase callback, owns jtbl_80010208."
 0x8002BF3C,0x90,Library_MarkOwnedCards,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002BFCC,0x434,func_8002BFCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
