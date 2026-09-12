@@ -1,60 +1,49 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800179F4.c.
- */
 #define D_8009B369_IN_DATA
+#define D_8009B204_UNSIGNED
+#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "../types.h"
-#include "../game/duel_shuffle_both_decks.h"
-#include "../game/duel_draw_status_numbers.h"
-#include "../game/card_constants.h"
-#include "../game/duel_card.h"
-#include "../game/duel_display.h"
-#include "../game/duel_card_display_state.h"
-#include "../game/save_data.h"
-#include "../game/duel_grid.h"
-#include "../game/duel_card_pick_cursor.h"
-#include "../game/duel_selection_layout.h"
-#include "../game/duel_hand.h"
-#include "../game/main_frame.h"
-#include "../game/duel_side_state.h"
-#include "../game/duel_shuffle_deck.h"
-#include "../game/duel_check_quit_input.h"
-#include "../game/display_object_api.h"
-#include "../game/display_object_layout.h"
-#include "../game/duel_package.h"
-#include "../game/file_transfer.h"
-#include "../game/duel_load_package_stage.h"
-#include "../game/display_object_helpers.h"
-#include "../game/view_state.h"
-#include "../game/main_services.h"
-#include "../game/duel_effect_resource_record.h"
-#include "../game/sound_pending_entries.h"
-#include "../game/sound_voice_selection.h"
-#include "../game/duel_action_lock.h"
-#include "../game/func_80016D04.h"
-#include "../game/func_80016778.h"
+#include "duel_shuffle_both_decks.h"
+#include "duel_draw_status_numbers.h"
+#include "card_constants.h"
+#include "duel_card.h"
+#include "duel_display.h"
+#include "duel_card_display_state.h"
+#include "save_data.h"
+#include "duel_grid.h"
+#include "duel_card_pick_cursor.h"
+#include "duel_selection_layout.h"
+#include "duel_hand.h"
+#include "main_frame.h"
+#include "duel_side_state.h"
+#include "duel_shuffle_deck.h"
+#include "duel_check_quit_input.h"
+#include "display_object_api.h"
+#include "display_object_layout.h"
+#include "duel_package.h"
+#include "file_transfer.h"
+#include "duel_load_package_stage.h"
+#include "display_object_helpers.h"
+#include "view_state.h"
+#include "main_services.h"
+#include "duel_effect_resource_record.h"
+#include "sound_pending_entries.h"
+#include "sound_voice_selection.h"
+#include "duel_action_lock.h"
+#include "func_80016D04.h"
+#include "func_80016778.h"
 #include "../unmatched.h"
-#include "../game/func_800179F4.h"
-#include "../game/func_8001755C.h"
-#include "../game/duel_effect_object_pool.h"
-#include "../game/func_80029574.h"
-#include "../game/text_render_state.h"
-#include "../game/func_800178BC.h"
-#include "../game/trig_constants.h"
+#include "func_800179F4.h"
+#include "func_8001755C.h"
+#include "duel_effect_object_pool.h"
+#include "func_80029574.h"
+#include "text_render_state.h"
+#include "func_800178BC.h"
+#include "trig_constants.h"
+#include "duel_terrain_boost.h"
+#include "func_80022D94.h"
+#include "ai_opponent_data.h"
 
-extern u8 gDuel_bTerrain __attribute__((section(".data")));
-extern s8 gDuel_bOpponentID __attribute__((section(".data")));
-
-extern u16 D_8009B204;
-extern u8 *D_8009B1D8;
-extern u8 *D_8009B1DC;
-
-/* Duel scene entry followed by the card display-object helper chain. The
-   entry initializes the active side, card records and display resources;
-   func_80018004 immediately after this run calls the factory below, which
-   applies both display-state helpers before returning the object. */
+/* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
 void func_800179F4(void)
 {
@@ -64,13 +53,7 @@ void func_800179F4(void)
     s32 value;
     s32 side;
     DuelEffectResourceRecord *pane;
-    /* Two allocation pins. The map-entry pointer wants $v1 so the load of
-       D_8009B21C fills its own delay slot with the callback address's addiu
-       rather than the next %hi; the pool base wants $a0 so the %hi of
-       D_801D1200 is completed in place instead of through $v0. Releasing them
-       costs five and two differing words. */
-    register u8 *pool __asm__("$4");
-    register u8 *prev __asm__("$3");
+    u8 *prev;
     s8 *pid;
 
     pid = &gDuel_bOpponentID;
@@ -173,12 +156,10 @@ void func_800179F4(void)
         D_8009B1D8 = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                pool = D_801D1200;
-                p = pool;
-                q = pool + 0x1000;
-                D_8009B1D8 = p;
-                D_8009B1DC = q;
-                goto shuffle;
+                D_8009B1D8 = D_801D1200;
+                D_8009B1DC = D_801D1200 + 0x1000;
+                Duel_ShuffleBothDecks(D_801D1200, D_801D1200 + 0x1000);
+                return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
             D_8009B1D8 = p;
@@ -192,4 +173,3 @@ void func_800179F4(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
-
