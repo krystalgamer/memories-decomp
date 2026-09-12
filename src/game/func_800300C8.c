@@ -1,15 +1,9 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800300C8.c.
- */
 #include "../types.h"
-#include "../game/display_object.h"
-#include "../game/func_800300C8.h"
-#include "../game/duel_effect.h"
-#include "../game/frontend_debug_tables.h"
-#include "../game/frontend_debug_state.h"
+#include "display_object.h"
+#include "func_800300C8.h"
+#include "duel_effect.h"
+#include "frontend_debug_tables.h"
+#include "frontend_debug_state.h"
 
 void func_800300C8(void)
 {
@@ -21,15 +15,7 @@ void func_800300C8(void)
     s32 third;
 
     if (index >= 10) {
-        register s32 raw_spacing asm("$2") =
-            (s32)((u32)(u16)source->spacing << 16);
-        register s32 half_spacing asm("$3") = raw_spacing >> 16;
-
-        raw_spacing = (s32)((u32)raw_spacing >> 31);
-        half_spacing += raw_spacing;
-        half_spacing >>= 1;
-        first -= 16;
-        first += half_spacing;
+        first += source->spacing / 2 - 16;
     }
     target->field_38.h.field_38 = first;
     target->position.h.field_28 = first;
