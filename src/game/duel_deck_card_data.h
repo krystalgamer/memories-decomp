@@ -3,6 +3,20 @@
 
 #include "../types.h"
 
+/* Builds the unique card id list for the combined deck and starts the fetch
+ * for it.
+ *
+ * It copies the combined deck ids down into the sort buffer, sorts them with
+ * qsort through Util_CompareS16, then walks the sorted run writing each id
+ * that differs from the previous one into a second buffer, so the result is
+ * the deck's ids deduplicated and in order, closed with a sentinel. It then
+ * asks File_TryRequestAsyncTransfer for the block spanning the first id to
+ * the last, with Duel_StepCardDataTransfer as the step callback, and records
+ * the returned transfer's state with the primary-active bit set.
+ *
+ * The dedupe relies on the sort: it compares only against the previous
+ * element, so it removes runs of equal ids rather than duplicates in
+ * general. Duel_PopulateCombinedDeckData depends on that. */
 void Duel_RequestCombinedDeckData(void);
 
 /* Fills gDuel_aDeckCardRecords once the transfer Duel_RequestCombinedDeckData
