@@ -148,12 +148,12 @@
       "target": "src/candidates_target/func_800179F4.S",
       "candidate_build_sha256": "7488a41b329e992b8f9f6690d9b642d8dfc0b9086d815ee2bd83d076f62595b6",
       "target_bytes_sha256": "27c484605e8d3ac4025b18b0ecf4bb46f03ec24521c41b42728cb2ba51de2574",
-      "canonical_contract_sha256": "23cf2dce2d5efea943c66c3b16cd49b4a598c752a811baaf09ce291ca4404f14",
+      "canonical_contract_sha256": "64b1504adf9e73298239567228d91c0dc1184f3815e3d009a5578b13d1a4ff0b",
       "canonical_contracts": {
         "D_8009B1D8": "044c1bf63d7d230756918853e07545ef928833003a2f6db55a30b5bfa1eb85ad",
         "D_8009B1DC": "bcd88c1cf363496f085631d4ea6ad2b43bfbe84c497e702fa31395480c41a383",
         "D_8009B204": "16b5484737e7a55c360883042b4e29e8a4d896fd3e4268cd5af35d3f0d59fbbe",
-        "gDuel_bOpponentID": "17b9c017ddebbeb0f138a35101a734f9ba6d8e96fb7f24abe249e6ac3610afec",
+        "gDuel_bOpponentID": "97a4150faa1c88a73da99bac6fd349f5cff1f827784d296253a0f445739b000b",
         "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
       }
     },
