@@ -109,6 +109,11 @@ extern u8 D_800EAE8F;
    AiScript_FindBestAttack before copying it into the VM register file. */
 extern u8 gAi_bBestAttacker;
 
+/* This object is one u16. Keeping the declaration as an array prevents -G8
+   users from selecting a small-data relocation; -G0 users generate the same
+   absolute load for element zero. */
+extern u16 gAi_wBestDifference[];
+
 typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
