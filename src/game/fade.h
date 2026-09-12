@@ -25,11 +25,12 @@ extern u8 D_8009B145;
 /* The fade depth byte and the fade-active flag. Five of the fade family reach
  * both through $gp (small data) and take the plain arms below.
  *
- * func_800339D0.c and src/candidates/func_800283F4.c address D_8009B140
- * with %hi/%lo instead, outside small data, so they take the .data arm the
- * same way script_op_show_image.c takes one for D_8009B145. Both set it from
- * D_8009AF74[1] (display_object_helpers.h) and take that table's .data
- * arm for the same reason.
+ * func_800339D0.c, src/candidates/func_800283F4.c and
+ * duel_effect_fade_command.c address D_8009B140 with %hi/%lo instead,
+ * outside small data, so they take the .data arm the same way
+ * script_op_show_image.c takes one for D_8009B145. All three set it from
+ * D_8009AF74[1] (display_object_helpers.h) and take that table's .data arm
+ * for the same reason.
  *
  * D_8009B141 needs no second arm here: graphics_frame.c does spell it
  * `.data`, but it does not include this header, so the two never meet. If it
