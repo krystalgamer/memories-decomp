@@ -1,8 +1,10 @@
 #include "../types.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
-#include "func_8002D458.h"
+#include "main_menu_selection.h"
+#include "main_modes.h"
 #include "main_services.h"
+#include "../external_funcs.h"
 
 extern u8 D_8009B26C;
 extern s16 gCampaignSavedSceneIndex[];
@@ -11,55 +13,53 @@ extern u8 D_8009B3D4 __attribute__((section(".data")));
 extern u8 D_8009B0D1 __attribute__((section(".data")));
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
-void func_8016AA6C(void);
-
-void func_8002D458(s32 mode)
+void Main_ApplyMenuSelection(MainMenuSelection selection)
 {
     D_8009B268 = 1;
-    D_8009B26D = mode;
+    D_8009B26D = selection;
 
-    switch (mode) {
-    case 0:
+    switch (selection) {
+    case MAIN_MENU_SELECTION_NEW_GAME:
         File_RequestNameEntryPackage();
         func_8016AA6C();
         gCampaignSavedSceneIndex[0] = 0x30;
         gCampaignSceneIndex = 0x30;
         D_8009B3D4 = 1;
         D_8009B0D1 = 0;
-        D_8009B26C = 2;
+        D_8009B26C = MAIN_MODE_CAMPAIGN;
         break;
-    case 2:
-        D_8009B26C = 0x10;
+    case MAIN_MENU_SELECTION_TWO_PLAYER_DUEL:
+        D_8009B26C = MAIN_MODE_TWO_PLAYER_DUEL_SETUP;
         break;
-    case 3:
-        D_8009B26C = 0xE;
+    case MAIN_MENU_SELECTION_TRADE:
+        D_8009B26C = MAIN_MODE_TRADE;
         break;
-    case 8:
-        D_8009B26C = 4;
+    case MAIN_MENU_SELECTION_LIBRARY:
+        D_8009B26C = MAIN_MODE_LIBRARY;
         break;
-    case 5:
+    case MAIN_MENU_SELECTION_CAMPAIGN:
         gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
-        D_8009B26C = 2;
+        D_8009B26C = MAIN_MODE_CAMPAIGN;
         break;
-    case 6:
+    case MAIN_MENU_SELECTION_FREE_DUEL:
         gFreeDuel_bReturnFlags = 0;
-        D_8009B26C = 6;
+        D_8009B26C = MAIN_MODE_FREE_DUEL;
         break;
-    case 7:
+    case MAIN_MENU_SELECTION_BUILD_DECK:
         func_80033C90();
         D_8009B268 = 0;
         break;
-    case 4:
-        D_8009B26C = 0xB;
+    case MAIN_MENU_SELECTION_OPTIONS:
+        D_8009B26C = MAIN_MODE_OPTIONS;
         D_8009B268 = 0;
         break;
-    case 9:
-        D_8009B26C = 0xA;
+    case MAIN_MENU_SELECTION_PASSWORD:
+        D_8009B26C = MAIN_MODE_PASSWORD;
         D_8009B268 = 0;
         break;
-    case 10:
+    case MAIN_MENU_SELECTION_SAVE:
     default:
-        D_8009B26C = 0;
+        D_8009B26C = MAIN_MODE_DEBUG;
         break;
     }
 }

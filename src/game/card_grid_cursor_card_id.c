@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8 this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_8002A788.c.
- */
 #include "../types.h"
 #include "../game/card_constants.h"
 #include "../game/card_grid.h"
@@ -21,7 +15,7 @@ s32 func_8002A6B8(void)
     s32 column;
     s32 column_tens;
     s8 column_ones;
-    register s32 result asm("$2");
+    s32 result;
 
     index += row_ones * CARD_GRID_SECTION_SIDE_LENGTH;
 
@@ -34,9 +28,8 @@ s32 func_8002A6B8(void)
     column_ones =
         (s8)(column - column_tens * CARD_GRID_SECTION_SIDE_LENGTH);
     index = base + column_ones;
-    result = 0;
-    if (index < CARD_ID_END) {
-        result = index;
+    if (index >= CARD_ID_END) {
+        return 0;
     }
-    return result;
+    return index;
 }

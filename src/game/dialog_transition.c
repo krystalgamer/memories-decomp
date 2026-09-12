@@ -14,8 +14,9 @@
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
-void func_8003D518(u8 *state)
+void func_8003D518(MenuRecord *record)
 {
+#define state ((u8 *)record)
     DisplayObject *object;
     s32 flags;
 
@@ -47,10 +48,12 @@ void func_8003D518(u8 *state)
             object->field_48.h.field_4A = 64;
         }
     }
+#undef state
 }
 
-void func_8003D614(u8 *state)
+void func_8003D614(MenuRecord *record)
 {
+#define state ((u8 *)record)
     DisplayObject *object;
     DuelEffectChannel *entry;
 
@@ -92,10 +95,12 @@ void func_8003D614(u8 *state)
     }
     if (!*(void **)state && !*(void **)(state + 4))
         D_8009B3C1 = 0;
+#undef state
 }
 
-void func_8003D74C(u8 *o)
+void func_8003D74C(MenuRecord *record)
 {
+#define o ((u8 *)record)
     DisplayObject *p;
     DuelEffectChannel *r;
     s32 f;
@@ -177,4 +182,5 @@ void func_8003D74C(u8 *o)
             D_8009B3C1 = g | 0x40;
         }
     }
+#undef o
 }

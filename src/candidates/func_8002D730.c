@@ -12,7 +12,7 @@
 #include "../psyq/setjmp.h"
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
-#include "../game/func_8002D458.h"
+#include "../game/main_menu_selection.h"
 #include "../game/func_8003C2B4.h"
 #include "../game/game_over.h"
 #include "../game/main_modes.h"
@@ -25,4 +25,3 @@ extern u8 D_8009B26C;
 extern u8 D_8009B269;
 
 void Main_RunGameOver(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8003C498();func_8003C950();}if(func_8003CA5C()==0){unsigned char v;SD_BGMFadeOut();Fade_WaitOut();v=D_8009B269;__asm__ volatile("nop");D_8009B26C=v;if(v){D_8009B268=1;D_8009B26D=0;D_8009B26C=8;longjmp(D_800E9DC0,1);}}}
-

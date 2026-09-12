@@ -10,8 +10,9 @@
 #include "duel_effect_create_channel.h"
 #include "func_8003DA40.h"
 
-void func_8003DA40(u8 *p)
+void func_8003DA40(MenuRecord *record)
 {
+#define p ((u8 *)record)
     DisplayObject *e;
     u8 *q;
     s32 f;
@@ -65,4 +66,5 @@ void func_8003DA40(u8 *p)
                        *(s16 *)&e->field_30.h.field_30,
                        *(s16 *)&e->field_30.h.field_32);
     }
+#undef p
 }

@@ -12,14 +12,13 @@
 #define MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 #include "model_graphics_state.h"
 #include "movie_playback_control.h"
+#include "../external_funcs.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the store below. c_symbols.ld overrides this
    common symbol, so no storage is allocated here. */
 u8 D_8009B0C1;
-
-extern void func_800862C0(void *);
 
 /* gp-relative in the target, so this unit defines them */
 u8 D_8009B0A8;

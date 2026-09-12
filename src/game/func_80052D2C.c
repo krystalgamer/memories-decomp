@@ -32,7 +32,6 @@
 
 extern ModelBytes8 D_8009B478_p asm("D_8009B478");
 extern ModelBytes8 D_8009B480;
-
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
    D_800F2B50, model slots, and the D_8009AFxx scene-control state. The
