@@ -3,6 +3,7 @@
 
 long SD_SequenceTimerCallback(void);
 
+void func_8004B854(void);
 void func_8004B910(void);
 void func_8004B990(void);
 void func_8004B9E0(void);

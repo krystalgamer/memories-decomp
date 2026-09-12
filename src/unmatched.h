@@ -711,8 +711,6 @@ void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
  * SD_ResetSequenceTracks, and func_8004A6D8 is a one-call wrapper for it. */
 void func_8004A518(void);
 
-void func_8004B854(void);
-
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request
  * is in flight.
