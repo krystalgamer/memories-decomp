@@ -24,7 +24,7 @@ function.
 
 | Address | Result |
 |---|---|
-| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while the retired legacy compiler changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`. |
+| `0x8005C4F0` | The original pure-C campaign stopped two register-allocation words away under GCC 2.8.1, while the retired legacy compiler changed a branch displacement. A later register-local reconstruction produced the current exact `File_Exists` C under `gcc_2_8_1_g0`; it now shares `file_cd_helpers.c` with the two immediately following file/display wrappers. |
 | `0x8003CE74` | The original pure-C campaign stopped one commutative operand-order word from retail. Explicit register roles later preserved that ordering. #3859 re-measured those roles as inert, and the current `SaveData_NextMaskWord` C matches without them under `gcc_2_8_1_g8`. |
 
 ### Preserved partial histories

@@ -35,7 +35,7 @@ void Script_OpShowImage(void) {
     u32 mask;
 
     ret = func_8002E3B4();
-    mask = 0x2000000;
+    mask = DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     if (ret == 0) {
         D_800E9D70[0].x = 0;
         D_800E9D70[0].y = 0;
@@ -64,7 +64,7 @@ void Script_OpShowImage(void) {
         func_80040510((DisplayObjectConfigView *)rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
-        rec->attribute |= 0x2000000;
+        rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
         func_8002E00C((ScriptImageEntry *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;

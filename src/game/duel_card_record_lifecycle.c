@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "card_constants.h"
 #include "display_object_api.h"
+#include "display_object_layout.h"
 #include "duel_card.h"
 #include "duel_card_data_transfer.h"
 #include "duel_card_layout.h"
@@ -189,7 +190,7 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->field_34 = y;
     obj->field_67 = 0;
     obj->field_69 = 0;
-    obj->attribute = obj->attribute | 0x1000000;
+    obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];
     obj->field_10 = (void *)func_80016778;

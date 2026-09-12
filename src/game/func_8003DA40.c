@@ -36,7 +36,9 @@ void func_8003DA40(u8 *p)
         do {
             func_80039794();
         } while (*(s32 *)(q + 0x30) == 0);
-        TextBox_SetPos(q, *(s16 *)&e->field_30.h.field_30, *(s16 *)&e->field_30.h.field_32);
+        TextBox_SetPos((DuelEffectChannel *)q,
+                       *(s16 *)&e->field_30.h.field_30,
+                       *(s16 *)&e->field_30.h.field_32);
     }
 
     e = *(DisplayObject **)p;
@@ -60,6 +62,8 @@ void func_8003DA40(u8 *p)
         } else {
             func_80043230((DisplayObjectPosition *)e, 0x20, 0x50, (s16)v);
         }
-        TextBox_SetPos(q, *(s16 *)&e->field_30.h.field_30, *(s16 *)&e->field_30.h.field_32);
+        TextBox_SetPos((DuelEffectChannel *)q,
+                       *(s16 *)&e->field_30.h.field_30,
+                       *(s16 *)&e->field_30.h.field_32);
     }
 }

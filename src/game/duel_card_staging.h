@@ -22,8 +22,10 @@ typedef struct {
     DuelDeckCardRecord record;
 } DuelStagedDeckRecordBlock;
 
+/* The thirty field records end exactly where the staged deck begins. */
 typedef struct {
-    u8 pad_00000[0x4B9FC];
+    u8 pad_00000[0x4B6B4];
+    DuelCardRecord field_cards[DUEL_CARD_RECORD_COUNT];
     DuelDeckCardRecord cards[COMBINED_DECK_SIZE];
 } DuelCardStagingDeckView;
 
@@ -39,6 +41,14 @@ typedef char DuelStagedDeckRecordBlock_record_offset_must_be_0x39FC[
 typedef char DuelCardStagingDeckView_cards_offset_must_be_0x4B9FC[
     DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, cards) ==
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET + 0x39FC ? 1 : -1
+];
+typedef char DuelCardStagingDeckView_field_cards_offset_must_be_0x4B6B4[
+    DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, field_cards) ==
+        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET + 0x36B4 ? 1 : -1
+];
+typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
+    sizeof(DuelCardStagingDeckView) ==
+        0x4B9FC + COMBINED_DECK_SIZE * sizeof(DuelDeckCardRecord) ? 1 : -1
 ];
 #undef DUEL_CARD_STAGING_OFFSET
 

@@ -26,7 +26,7 @@ void TextBox_BuildStep(struct DuelEffectChannel *object);
  * the reader fixes the type. */
 extern s16 D_8009B35A;
 void func_80039140(struct DuelEffectChannel *record);
-void TextBox_SetPos(u8 *record, s32 x, s32 y);
+void TextBox_SetPos(struct DuelEffectChannel *record, s32 x, s32 y);
 
 /* Builds the display objects a record draws through, and is reached only from
  * TextBox_BuildStep above. It creates the object at +0x28 on first use, then
@@ -42,7 +42,7 @@ void func_800391E4(struct DuelEffectChannel *record);
 
 /* Requests a build and pumps the text box until it reports done. The two
    entry points differ only in the flag word they set first. */
-void func_80039A14(u8 *object);
-void func_80039A60(u8 *object);
+void func_80039A14(struct DuelEffectChannel *object);
+void func_80039A60(struct DuelEffectChannel *object);
 
 #endif

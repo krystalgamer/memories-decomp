@@ -25,4 +25,7 @@ s32 func_80032BD4(CardListSortItem *left, CardListSortItem *right);
  * because it reads the key word at +0 that the text-box side never touches. */
 void func_80032C48(CardList *list);
 
+/* Handles scrolling, page changes and sort selection for one card list. */
+s32 func_800330BC(CardList *list);
+
 #endif

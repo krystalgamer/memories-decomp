@@ -7,8 +7,6 @@
 #include "model_slot_support.h"
 #include "../unmatched.h"
 
-extern u8 D_800F39B0[];
-
 void *func_80058F20(s32 index, s32 slot)
 {
     ModelSlot *entry = &D_800F2C40[index];
@@ -114,7 +112,7 @@ unsigned char *func_800591C0(unsigned int index, unsigned int slot)
     if (slot >= 3) {
         slot = 0;
     }
-    entry = D_800F39B0 + index * MODEL_SLOT_SIZE;
+    entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 
     return entry + slot * sizeof(ModelSlotLightEntry);
 }

@@ -36,7 +36,8 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * they hand to GsSortSprite and friends, so every bit the game sets there is
  * read by libgs, and the names are libgs.h's:
  *
- *   0x01000000 / 0x02000000  colour mode; the texture-page step of 1, 2 or 4
+ *   DISPLAY_OBJECT_ATTRIBUTE_8BPP / DISPLAY_OBJECT_ATTRIBUTE_16BPP
+ *                            colour mode; the texture-page step of 1, 2 or 4
  *                            a strip wrap applies is 4bpp, 8bpp and 16bpp
  *   0x04000000  GsPERS       perspective
  *   0x08000000  GsROTOFF     rotation off -- which is why the renderers only
@@ -47,12 +48,9 @@ typedef void (*DisplayObjectCallback)(u8 *);
  *   0x40000000  GsALON       semi-transparency on
  *   0x80000000  GsDOFF       display off
  *
- * That is what the recurring composites mean: 0x50000000 is GsALON | GsAONE,
- * additive blending, which is what sparkles and afterimages want; 0x60000000
- * is GsALON | GsATWO, subtractive, which is what a fade-to-black overlay
- * wants. The `& 0x8FFFFFFF` masks clear the rate and GsALON together and keep
- * GsDOFF -- "turn semi-transparency off" -- and `& 0xF7FFFFFF` clears
- * GsROTOFF, "turn rotation on". */
+ * That is what the recurring composites mean: GsALON | GsAONE is additive
+ * blending, which is what sparkles and afterimages want; GsALON | GsATWO is
+ * subtractive, which is what a fade-to-black overlay wants. */
 typedef struct DisplayObject {
     s16 previous;                  /* 0x00 */
     s16 next;                      /* 0x02 */

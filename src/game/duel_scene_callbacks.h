@@ -11,4 +11,7 @@
  * call site does not. */
 extern void (*D_80090998[])(void);
 
+/* Card-move presentation, position choice, and deferred stat adjustment. */
+void func_8001B170(void);
+
 #endif

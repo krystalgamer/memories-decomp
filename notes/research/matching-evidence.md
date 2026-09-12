@@ -13,6 +13,63 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
+### Six-state card-move presentation
+
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
+
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
+
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
+
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
+
+### Ai_GetHandSize without a mixed small-data profile
+
+`Ai_GetHandSize` (`0x80070710`, 40 bytes) matches at
+`gcc_2_8_1_g8_split`, with both GCC and MASPSX using `-G8`. The former mixed
+profile is unnecessary when the opponent selector has its evidenced absolute
+addressing declaration: `s8 gDuel_bOpponentID` with `section(".data")`.
+This declaration already appears in the duel setup and result code; the AI
+consumer now takes it from the existing opponent-data header.
+
+The split-address compiler materializes the large nine-byte-record table,
+but leaves the scalar selector load in macro form. MASPSX recognizes its
+explicit section and expands that load absolutely, reusing `a0` for its
+high half exactly as retail does. Plain scalar G8 emits a GP-relative load;
+G0 split materializes the selector separately and changes allocation.
+No register pins, inline assembly, local externs, or compiler-profile changes
+are needed.
+
+The shared `ai.h` declaration retains the existing return-width distinction:
+the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
+selects `s32` to preserve its two call sites without extra sign extension.
+
 ### Sound command filtering without register pins
 
 `func_80046294` (`0x80046294`) now matches all 151 instructions and the
@@ -2265,7 +2322,7 @@ is the same padding trap recorded above for `no_sched2`.
 |---|---|
 | `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
-| `D_800908A0` | Array of signed 16-bit coordinate pairs |
+| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_screen_tables.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
 Observed `gDuel_adwCardStats` property fields include:

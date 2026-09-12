@@ -5,18 +5,7 @@
 #include "../psyq/libhmd.h"
 #include "../game/model.h"
 #include "../game/model_packet_handlers.h"
-
-typedef struct {
-    s16 x;
-    s16 y;
-    s16 z;
-    u16 rx;
-    u16 ry;
-    u16 rz;
-    s16 sx;
-    s16 sy;
-    s16 sz;
-} AnimSample;
+#include "../ygo_types.h"
 
 /*
  * Current best under gcc_2_8_1_g8_split: 396 instructions against 391,
@@ -59,16 +48,16 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx)
     node = (GsCOORDUNIT *)(*(u32 *)((u8 *)ctx + ((track->rewrite_idx >> 24) << 2) + 0x14)
                         + ((track->rewrite_idx & 0xFFFFFF) << 2));
 
-    node->matrix.t[0] = (((AnimSample *)slot[1])->x * t + ((AnimSample *)slot[2])->x * rest) / dur;
-    node->matrix.t[1] = (((AnimSample *)slot[1])->y * t + ((AnimSample *)slot[2])->y * rest) / dur;
-    node->matrix.t[2] = (((AnimSample *)slot[1])->z * t + ((AnimSample *)slot[2])->z * rest) / dur;
+    node->matrix.t[0] = (((ModelAnimationSample *)slot[1])->x * t + ((ModelAnimationSample *)slot[2])->x * rest) / dur;
+    node->matrix.t[1] = (((ModelAnimationSample *)slot[1])->y * t + ((ModelAnimationSample *)slot[2])->y * rest) / dur;
+    node->matrix.t[2] = (((ModelAnimationSample *)slot[1])->z * t + ((ModelAnimationSample *)slot[2])->z * rest) / dur;
 
-    rx = ((AnimSample *)slot[2])->rx;
-    ry = ((AnimSample *)slot[2])->ry;
-    rz = ((AnimSample *)slot[2])->rz;
-    a = ((AnimSample *)slot[1])->rx;
-    b = ((AnimSample *)slot[1])->ry;
-    c = ((AnimSample *)slot[1])->rz;
+    rx = ((ModelAnimationSample *)slot[2])->rotation_x;
+    ry = ((ModelAnimationSample *)slot[2])->rotation_y;
+    rz = ((ModelAnimationSample *)slot[2])->rotation_z;
+    a = ((ModelAnimationSample *)slot[1])->rotation_x;
+    b = ((ModelAnimationSample *)slot[1])->rotation_y;
+    c = ((ModelAnimationSample *)slot[1])->rotation_z;
 
     if (dur == 0x10) {
         s32 d;
@@ -145,9 +134,9 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx)
     out = &node->rot.vx;
     RotMatrixYXZ_gte((SVECTOR *)out, &node->matrix);
 
-    scale[0] = (((AnimSample *)slot[1])->sx * t + ((AnimSample *)slot[2])->sx * rest2) / dur;
-    scale[1] = (((AnimSample *)slot[1])->sy * t + ((AnimSample *)slot[2])->sy * rest2) / dur;
-    scale[2] = (((AnimSample *)slot[1])->sz * t + ((AnimSample *)slot[2])->sz * rest2) / dur;
+    scale[0] = (((ModelAnimationSample *)slot[1])->scale_x * t + ((ModelAnimationSample *)slot[2])->scale_x * rest2) / dur;
+    scale[1] = (((ModelAnimationSample *)slot[1])->scale_y * t + ((ModelAnimationSample *)slot[2])->scale_y * rest2) / dur;
+    scale[2] = (((ModelAnimationSample *)slot[1])->scale_z * t + ((ModelAnimationSample *)slot[2])->scale_z * rest2) / dur;
     ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
     node->flg = 0;

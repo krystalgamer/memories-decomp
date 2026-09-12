@@ -6,6 +6,10 @@
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
+#define FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED 0x40
+#define FILE_TRANSFER_STATE_COMMAND_BUSY 0x400
+#define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
+#define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
@@ -113,10 +117,16 @@ void func_80014FA4(void);
  *
  * Every File_* entry point and every CD/DS sector callback tests or updates
  * it, and the FILE_TRANSFER_STATE_*, FILE_TRANSFER_FLAG_SECTOR_RANGE and
- * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits. It is
- * only ever read and written whole, and only ever through bit masks. Nothing
- * indexes it, so the `D_8009B0F4[0]` spellings this header replaces were an
- * addressing device rather than evidence of an array.
+ * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits.
+ * FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED blocks secondary promotion while
+ * File_RequestAsyncTransfer initializes the primary request. The command-busy
+ * bit is raised after a successful DsCommand/DsPacket submission and cleared
+ * by its completion callback. The position-query pair gates DsCommand 0x10:
+ * func_80014308 raises pending, func_8001455C submits it and raises busy, and
+ * func_80014390 clears busy. The word is only ever read and written whole,
+ * and only ever through bit masks. Nothing indexes it, so the
+ * `D_8009B0F4[0]` spellings this header replaces were an addressing device
+ * rather than evidence of an array.
  *
  * `volatile` is load-bearing on both names, measured rather than assumed:
  * dropping it from the plain name builds a 0x1D0668-byte executable and

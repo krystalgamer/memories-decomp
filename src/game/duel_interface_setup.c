@@ -22,7 +22,7 @@ void func_80030198(void)
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
     text_box->field_5A = 16;
     text_box->field_5B = 16;
-    func_80039A14((u8 *)text_box);
+    func_80039A14(text_box);
     object = func_800400AC(func_8004002C(), 4);
     D_8009B2E4 = object;
     func_800427DC(object, 0);

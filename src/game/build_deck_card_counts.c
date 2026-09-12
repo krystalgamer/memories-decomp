@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "build_deck_card_counts.h"
+#include "build_deck_transition_state.h"
 #include "card_constants.h"
 #include "card_list_sort.h"
 #include "display_object_layout.h"
@@ -20,10 +21,11 @@
 
 void func_80031E5C(u8 *arg0) {
     u8 *p;
-    D_801D5608[0].build_deck.chest = *(u32 *)(arg0 + 0x5A9C);
-    D_801D5608[0].build_deck.deck = *(u32 *)(arg0 + 0x5AA0);
+    D_801D5608[0].build_deck.chest =
+        ((BuildDeckTransitionState *)arg0)->chest_total;
+    D_801D5608[0].build_deck.deck =
+        ((BuildDeckTransitionState *)arg0)->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
-    func_80039A14(p);
+    func_80039A14((struct DuelEffectChannel *)p);
     *(u16 *)(*(u8 **)(p + 0x28) + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
-
