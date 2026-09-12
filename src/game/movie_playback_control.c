@@ -21,7 +21,7 @@ void func_8003594C(s32 arg0)
 
 void func_800359B0(void)
 {
-    if (func_8005C530() == 0) {
+    if (Movie_StepPlayback() == 0) {
         u8 value = D_8009B318;
 
         if ((value & 0x40) ||

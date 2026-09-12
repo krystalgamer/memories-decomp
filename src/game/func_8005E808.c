@@ -1,3 +1,34 @@
+/*
+ * Semantic absolute value and keyframe bounds: `func_8005E808`
+ *
+ * The 1004-byte keyframe routine matches all 251 instruction words under the
+ * existing uniform `gcc_2_8_1_g8_split` profile. Its 0x28-byte timing view
+ * shares the existing `Key` allocation size without replacing the opaque
+ * keyframe layout used by the evaluator. The +0x22 field is consumed as a
+ * duration denominator by `model_effect_state.c`; the retired candidate's
+ * "audible radius" description was not the established contract.
+ *
+ * Two `__builtin_abs` calls are load-bearing. They use the same semantic
+ * intrinsic as matching `duel_draw_status_numbers.c` and `func_80058624.c`.
+ * The compiler emits its `abs` pseudo-instruction, rather than a hand-written
+ * conditional whose scheduled delay slot duplicates a multiply. Both operands
+ * come from signed halfwords promoted to s32, including -32768, so their
+ * magnitudes fit the result type.
+ *
+ * Case-local distance temporaries and per-case bound checks preserve the
+ * multiply/result registers and let the bound loads fill their original
+ * slots. Pose traversal is indexed from `D_800F5768`, and the path counter is
+ * initialized to one before its byte offset is reset. With those source
+ * dependencies recovered, ordinary G8 remains five address words away, while
+ * the existing split profile materializes the common pose base exactly.
+ *
+ * The global active-key guard remains separate from the input key, and the
+ * initial threshold still tests the input magnitude against 0x4000, not a
+ * replacement `min(scale, 0x4000)` expression. All six canonical attempts are
+ * preserved; one post-terminal resolution records this result. No register
+ * pins, source-level inline assembly, symbol aliases, or new profile is used.
+ */
+#define MODEL_KEYFRAME_TIMING_VIEW
 #include "../types.h"
 #include "camera_view.h"
 #include "model_copy_slot_u16_values.h"
@@ -5,20 +36,6 @@
 #include "func_8005EBF4.h"
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
-
-/* Timing/state tail of the shared 0x28-byte keyframe record. */
-typedef struct {
-    u8 pad_00[0x20];
-    s16 field_20;
-    u16 field_22;
-    s16 field_24;
-    u8 field_26;
-    u8 pad_27;
-} ModelKeyframeTimingView;
-
-typedef char ModelKeyframeTimingView_size_must_be_0x28[
-    sizeof(ModelKeyframeTimingView) == 0x28 ? 1 : -1
-];
 
 void func_8005E808(u8 *p)
 {

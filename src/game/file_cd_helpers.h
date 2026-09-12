@@ -4,7 +4,7 @@
 #include "../types.h"
 
 s32 File_Exists(s32 first, s32 second);
-s32 func_8005C530(void);
-s32 func_8005C568(s32 first, s32 second);
+s32 Movie_StepPlayback(void);
+s32 Movie_MoveDisplayImage(s32 first, s32 second);
 
 #endif

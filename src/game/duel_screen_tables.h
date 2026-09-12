@@ -17,4 +17,7 @@ extern u8 D_80090918[];
 extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];
 extern DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT];
 
+/* Projects one slot-coordinate pair and returns the signed screen X. */
+s16 func_8001B0CC(s32 index);
+
 #endif

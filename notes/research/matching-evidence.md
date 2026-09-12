@@ -13,34 +13,41 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
-### Semantic absolute value and keyframe bounds: `func_8005E808`
+### Six-state card-move presentation
 
-The 1004-byte keyframe routine matches all 251 instruction words under the
-existing uniform `gcc_2_8_1_g8_split` profile. Its local 0x28-byte timing view
-shares the existing `Key` allocation size without replacing the opaque
-keyframe layout used by the evaluator. The +0x22 field is consumed as a
-duration denominator by `model_effect_state.c`; the retired candidate's
-"audible radius" description was not the established contract.
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
 
-Two `__builtin_abs` calls are load-bearing. They use the same semantic
-intrinsic as matching `duel_draw_status_numbers.c` and `func_80058624.c`.
-The compiler emits its `abs` pseudo-instruction, rather than a hand-written
-conditional whose scheduled delay slot duplicates a multiply. Both operands
-come from signed halfwords promoted to s32, including -32768, so their
-magnitudes fit the result type.
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
 
-Case-local distance temporaries and per-case bound checks preserve the
-multiply/result registers and let the bound loads fill their original
-slots. Pose traversal is indexed from `D_800F5768`, and the path counter is
-initialized to one before its byte offset is reset. With those source
-dependencies recovered, ordinary G8 remains five address words away, while
-the existing split profile materializes the common pose base exactly.
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
 
-The global active-key guard remains separate from the input key, and the
-initial threshold still tests the input magnitude against 0x4000, not a
-replacement `min(scale, 0x4000)` expression. All six canonical attempts are
-preserved; one post-terminal resolution records this result. No register
-pins, source-level inline assembly, symbol aliases, or new profile is used.
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
 
 ### Ai_GetHandSize without a mixed small-data profile
 

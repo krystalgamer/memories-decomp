@@ -225,7 +225,6 @@ extern s32 D_8009B118;
 void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
-void func_8001B170(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
@@ -573,9 +572,10 @@ u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
  * forward-declared here, so its declaration stays in sound.h for the one
  * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
  * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 and func_8004A6F8 have no
- * caller in C and get no declaration. Ai_GetHandSize
- * is now matching C; its caller-specific return declarations live in ai.h. */
+ * contract fingerprint records. func_80048768 has no caller in C and gets no
+ * declaration; SD_SetVoiceEnvelopeFromTone is the named sound operation and
+ * stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
+ * return declarations live in ai.h. */
 
 struct CardList;
 struct DuelEffectChannel;

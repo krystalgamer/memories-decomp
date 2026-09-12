@@ -26,7 +26,7 @@ Startup (`func_80013154`) already copies this value into the typed
 | `0x1A` | `g0` | `D_8009B143`; 1 at startup |
 | `0x1B` | `b0` | `D_8009B142`; 1 at startup |
 
-The existing movie stop path (`func_8005BB7C`) independently confirms the
+The existing movie stop path (`Movie_StopStream`) independently confirms the
 red/green/blue order through `ClearImage`. It now takes its existing absolute
 tint declarations from `graphics_frame.h` instead of repeating them privately.
 Five offset assertions and the SDK `DRAWENV`/`DISPENV` size assertions protect
@@ -49,7 +49,7 @@ all 19 candidate fingerprints must still pass because this shared header has
 transitive users. Pending source-move PR #3904 must carry the startup's two
 selector macros and five typed stores to `src/candidates/func_80013154.c`,
 with `graphics_frame.h` visible before use. The shortened
-`movie_frame_pipeline.c` still owns `func_8005BB7C` and must retain
+`movie_frame_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array
 declaration or erase the volatile startup view while moving these bodies.
