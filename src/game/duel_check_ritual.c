@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_check_ritual.h"
+#define D_8009B1D5_IS_ABSOLUTE_SCALAR
 #include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
