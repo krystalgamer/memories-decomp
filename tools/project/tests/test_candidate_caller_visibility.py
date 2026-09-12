@@ -51,6 +51,7 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/candidates/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
 ]
 
 
@@ -66,7 +67,10 @@ def profiles_by_source() -> dict[str, str]:
     return result
 
 
-def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
+def implicit_calls(
+    path: Path, profile: dict[str, object], include_dir: Path,
+    *, warnings_as_errors: bool = False,
+) -> set[str]:
     flags = [str(f) for f in profile["compiler_flags"] if FRONT_END_FLAG.match(str(f))]  # type: ignore[index]
     completed = subprocess.run(
         [
@@ -77,6 +81,7 @@ def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) ->
             "-o",
             os.devnull,
             "-Wimplicit-function-declaration",
+            *(["-Werror"] if warnings_as_errors else []),
             f"-I{include_dir}",
             *flags,
             str(path),
@@ -162,6 +167,58 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
+
+    def test_parent_search_caller_needs_owning_header(self) -> None:
+        source = "src/candidates/func_8004CB0C.c"
+        include = '#include "../game/model_parent_search.h"\n'
+        text = (REPOSITORY / source).read_text(encoding="utf-8")
+        self.assertIn(include, text)
+        self.assertNotRegex(text, r"extern[^\n]*\bfunc_8005A3D0\b")
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "a/b/c/caller.c"
+            path.parent.mkdir(parents=True)
+            path.write_text(text.replace(include, "", 1), encoding="utf-8")
+            found = implicit_calls(
+                path, self.profile(source), (REPOSITORY / source).parent
+            )
+        self.assertIn("func_8005A3D0", found)
+
+    def test_parent_search_preserves_both_pointer_views(self) -> None:
+        definition = "src/game/func_8005A3D0.c"
+        self.assertIn(
+            '#include "model_parent_search.h"',
+            (REPOSITORY / definition).read_text(encoding="utf-8"),
+        )
+        views = [
+            ("", "ModelSlot *, void *"),
+            ("#define MODEL_PARENT_SEARCH_COORD_VIEW\n", "u8 *, GsCOORDUNIT *"),
+        ]
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "view.c"
+            for selected, (macro, _) in enumerate(views):
+                for expected, (_, parameters) in enumerate(views):
+                    with self.subTest(selected=selected, expected=expected):
+                        path.write_text(
+                            macro + '#include "model_parent_search.h"\n'
+                            + f"s32 (*view)({parameters}) = func_8005A3D0;\n",
+                            encoding="utf-8",
+                        )
+                        if selected == expected:
+                            self.assertEqual(
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                ),
+                                set(),
+                            )
+                        else:
+                            with self.assertRaisesRegex(AssertionError, "incompatible"):
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                )
 
 
 if __name__ == "__main__":
