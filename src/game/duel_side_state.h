@@ -201,6 +201,10 @@ extern s8 D_8009B360 __attribute__((section(".data")));
 extern s8 D_8009B360;
 #endif
 
+#ifdef DUEL_OPPONENT_ID_IN_DATA
+extern s8 gDuel_bOpponentID __attribute__((section(".data")));
+#endif
+
 /* Which side won, and therefore which of the two records above the result
  * code applies to. duel_draw_resolution.c sets it as `D_8009B1D5 ^ 1`, the
  * side that is not the one the selector documented above points at, and both
