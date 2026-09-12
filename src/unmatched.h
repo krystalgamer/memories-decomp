@@ -722,12 +722,6 @@ extern u16 D_8009B3CC;
 extern u8 D_8009B3CF;
 extern u8 D_8009B3DD;
 
-#ifdef D_8009B3E0_AS_POINTER
-extern void *D_8009B3E0;
-#else
-extern u32 D_8009B3E0;
-#endif
-
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;
 extern s16 D_8009B488[MODEL_SLOT_COUNT];

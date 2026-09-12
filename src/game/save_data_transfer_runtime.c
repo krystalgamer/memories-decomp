@@ -16,7 +16,6 @@
 #include "two_player_save_setup.h"
 #include "text_staging.h"
 #include "util_memory.h"
-#define D_8009B3E0_AS_POINTER
 #include "../unmatched.h"
 
 extern u8 D_801D2200[];
