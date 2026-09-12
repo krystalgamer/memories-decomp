@@ -16,5 +16,6 @@
  * Script_UpdateViewportTween for the following ticks. */
 void func_8002E918(void);
 void Script_OpViewportTween(void);
+void Script_UpdateViewportTween(void);
 
 #endif
