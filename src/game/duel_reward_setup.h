@@ -7,6 +7,8 @@
 /* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
 void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
 
+extern s16 gDuel_awRecentCardDrops[];
+
 /* Queues the reward table transfer: one async read of 0x4C sectors from
  * 0x2189 with func_80032184 as the completion callback, then waits for it.
  * main_run_trade.c is the only consumer. */
@@ -18,10 +20,8 @@ void func_80032328(void);
  * entries to the front, zeroing each slot it moves out of, so the table ends
  * up densely packed with the order preserved.
  *
- * The unit reaches the table through an inline block that materialises its
- * address into a pinned register rather than by naming it directly, and both
- * loops run on pinned registers. That spelling is load bearing, so the
- * definition is not to be tidied into ordinary C without a measurement.
+ * The split compiler profile naturally keeps the table address and loop
+ * cursors in the retail registers when the table is named directly.
  *
  * func_800339D0.c is the only consumer. Both names stay address-based: the
  * two passes are legible, but what makes a drop recent, and what the record
