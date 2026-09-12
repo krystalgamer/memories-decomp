@@ -386,7 +386,7 @@ proof of the original author's translation-unit boundaries.
 `MainMenu_UpdateValueSetup` (`0x801812B4`) updates the two-value/shared-option
 editor, not merely the LP fields. `MainMenu_StartValueSetup`,
 `MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` share declarations
-with the resident `func_8002DC38` caller.
+with the resident `Main_RunTwoPlayerDuelSetup` caller.
 
 | Result | Meaning | Resident behavior |
 |---:|---|---|
@@ -643,7 +643,8 @@ remaining C file needs it.
 ## Value-setup translation unit
 
 `value_setup.c` is the whole value-setup screen: the three lifecycle entry
-points `func_8002DC38.c` calls and the four helpers that only they and each
+points `main_run_two_player_duel_setup.c` calls and the four helpers that only
+they and each
 other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 `gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
 

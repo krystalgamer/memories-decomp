@@ -6,7 +6,7 @@
 #include "../psyq/setjmp.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "func_8002D458.h"
+#include "main_menu_selection.h"
 #include "func_8003C2B4.h"
 #include "game_over.h"
 #include "main_modes.h"
@@ -28,4 +28,3 @@ void Main_RunPasswordMenu(void)
     }
     Password_UpdateShopScreen();
 }
-

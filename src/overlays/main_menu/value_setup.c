@@ -16,7 +16,8 @@
 #include "entrypoints.h"
 #include "ordering_tables.h"
 
-/* The value-setup screen: the three lifecycle entry points func_8002DC38.c
+/* The value-setup screen: the three lifecycle entry points
+   main_run_two_player_duel_setup.c
    calls - start, update per tick, finish - and the four helpers that only
    they and each other reach.
 
