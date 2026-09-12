@@ -2,6 +2,7 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
+#include "func_8002C604.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "func_800291E0.h"
