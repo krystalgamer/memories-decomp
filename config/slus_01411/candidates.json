@@ -1650,18 +1650,6 @@
       }
     },
     {
-      "address": "0x80071688",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80071688.c",
-      "target": "src/candidates_target/func_80071688.S",
-      "candidate_build_sha256": "41f82034ee8e7296c05bf7a3e81b4d46b33d0e8e92c972fac71440e27ff58e0c",
-      "target_bytes_sha256": "a1bce4f403715efebfdaf78db4211b1c768d082d68496b314adb714d72bed633",
-      "canonical_contract_sha256": "54a7644eeafbd54cb4e143fd5f8ae67d3fdf337e7a5f4e525bd8c9418f071869",
-      "canonical_contracts": {
-        "gAi_bBestAttacker": "c9082f1118fd482a8b23dcd5b19cf4cfc671a9b3dd5d475d9ab2eaeffcfbecbb"
-      }
-    },
-    {
       "address": "0x800716C4",
       "profile": "gcc_2_8_1_g0",
       "source": "src/candidates/func_800716C4.c",
