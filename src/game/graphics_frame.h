@@ -333,6 +333,9 @@ extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
     __attribute__((section(".data")));
 extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
     __attribute__((section(".data")));
+#elif defined(GRAPHICS_VIEWPORT_IN_DATA)
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
 #else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
