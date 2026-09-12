@@ -66,7 +66,7 @@ void func_80031874(u8 *obj, s32 ot)
     *(u32 *)(tag + 0) = tex;
     *(u32 *)(spr + 0) = tex;
     idx = obj[0x67];
-    rec = (u8 *)D_8009B2FC + (idx * 0x2D4C + 4);
+    rec = (u8 *)&D_8009B2FC->lists[idx];
     row = rec + *(s16 *)(rec + 0x2D3C) * 16;
     if (idx == 0) {
         *(s16 *)(tag + 4) = x + 0x88;
@@ -96,7 +96,7 @@ void func_80031874(u8 *obj, s32 ot)
                 );
                 func_800316F0(spr, ot, text, 2);
                 *(u16 *)(spr + 4) = *(u16 *)(spr + 4) + 4;
-            } else if (*((u8 *)D_8009B2FC + value + 0x606A) != 0) {
+            } else if (D_8009B2FC->card_sort_rank[value] != 0) {
                 spr[0xF] = 0x68;
                 *(s16 *)(spr + 8) = 0x18;
                 spr[0xE] = 0xE8;
@@ -128,10 +128,10 @@ void func_80031874(u8 *obj, s32 ot)
                 *(s16 *)(spr + 4) = x + 0x107;
                 *(u16 *)(spr + 6) = *(u16 *)(spr + 6) + 8;
                 Text_EncodeDecimalDigits(
-                    *((u8 *)D_8009B2FC + value + 0x5D97), n, text
+                    D_8009B2FC->chest_card_quantities[value], n, text
                 );
                 func_800316F0(spr, ot, text, n);
-                v = *((u8 *)D_8009B2FC + value + 0x5AC4);
+                v = D_8009B2FC->deck_card_quantities[value];
                 if (v < 3) {
                     if ((u32)(value - 0x11) < 5) {
                         if (v == 0) {
