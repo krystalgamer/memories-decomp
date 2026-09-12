@@ -20,10 +20,9 @@
    the only run in the region built with gcc_2_8_1_g8_split - their
    neighbours on both sides use other profiles. The pump, func_8001306C, is
    in main_services.c and shares the D_800E9DB0 slots and D_8009B0B8 with this
-   reset. The two between them, the boot-time graphics and input start-up
-   that installs the pump and the pad-driven screen-offset adjustment loop,
-   are now candidates in src/candidates/func_80013154.c and
-   src/candidates/func_80013360.c. */
+   reset. Of the two between them, the boot-time graphics and input start-up
+   that installs the pump is now restored to main_services.c; the pad-driven
+   screen-offset adjustment loop remains in src/candidates/func_80013360.c. */
 
 /* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
 void func_800134B4(void) {

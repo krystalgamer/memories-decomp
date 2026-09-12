@@ -42,13 +42,8 @@
    and the D_8016D400 state block; the leading display-object helper and the
    following shop display unit have no proven ownership in this lifecycle. */
 
-extern u16 D_8016D4D4;
 extern s8 D_8016AB38[][15];
 extern u8 D_8016ABC0[][2];
-extern u8 D_8016D403;
-extern u8 D_8016D4D0;
-extern DuelEffectChannel D_800EB1C0;
-extern u8 D_8016D41C;
 
 void NameEntry_UpdateKeyboard(void)
 {

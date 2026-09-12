@@ -1,35 +1,27 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split_comm this
- * source rebuilt the target byte for byte, but only by
- * pinning 3 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_80019608.c.
- */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "../game/card_constants.h"
-#include "../game/duel_card.h"
-#include "../game/duel_card_record_lifecycle.h"
-#include "../game/duel_side_state.h"
-#include "../game/duel_scene_state.h"
-#include "../game/display_object_layout.h"
-#include "../game/display_object_api.h"
-#include "../game/display_object_helpers.h"
-#include "../game/file_transfer.h"
-#include "../game/func_8001944C.h"
-#include "../game/func_80019564.h"
-#include "../game/duel_magic_effect_dispatch.h"
-#include "../game/func_800291E0.h"
-#include "../game/duel_effect_resource_setup.h"
+#include "card_constants.h"
+#include "duel_card.h"
+#include "duel_card_record_lifecycle.h"
+#include "duel_side_state.h"
+#include "duel_scene_state.h"
+#include "display_object_layout.h"
+#include "display_object_api.h"
+#include "display_object_helpers.h"
+#include "file_transfer.h"
+#include "func_8001944C.h"
+#include "func_80019564.h"
+#include "duel_magic_effect_dispatch.h"
+#include "func_800291E0.h"
+#include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
-#include "../game/func_80019608.h"
-#include "../game/display_object_work_slots.h"
+#include "func_80019608.h"
+#include "display_object_work_slots.h"
 
-/* Defined rather than declared: the assembler only resolves a small global
-   gp-relative when the translation unit defines it, and that is what gives the
-   store below the retail load-delay nop. c_symbols.ld overrides the common
-   symbol, so no storage is allocated here. */
+/* The COMMON definition preserves the GP-relative store and its load delay.
+   The linker resolves it to the existing global without allocating storage. */
 u16 D_8009B150;
 
 void func_80019608(void)
@@ -46,25 +38,17 @@ void func_80019608(void)
     s32 v1;
     s32 v2;
     s32 v3;
-    s32 arg;
-    /* The resize branch below is the one place where no source shape reaches
-       retail's allocation: unpinned, the field read and the offset value share
-       a register and the two independent values in the fade-out do not. The
-       matched siblings func_8001944C.c and func_80037DA4 use the same
-       device.  v4 and v5 share $5 because their live ranges are disjoint,
-       which is what retail does. */
-    register s32 fld __asm__("$3");
-    register s32 v4 __asm__("$5");
-    register s32 v5 __asm__("$5");
+    s32 value;
+    s32 fld;
 
     p = D_800E9EF0[0];
     flags = D_8009B23A;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
         slot = &D_801A7AD8[p->field_6A];
-        arg = slot->card_id;
+        value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
-        func_80029164(0, arg);
+        func_80029164(0, value);
         if (p->field_68 == CARD_TYPE_MAGIC) {
             D_8009B1C8->rank.pure_magic_used =
                 D_8009B1C8->rank.pure_magic_used + 1;
@@ -152,20 +136,21 @@ void func_80019608(void)
         }
         q0 = D_800E9EF0[0];
         fld = q0->field_44.h.field_44;
-        v4 = fld + 0x80;
+        value = fld + 0x80;
         q1 = D_800E9EF0[1];
-        *(u16 *)&q1->field_44.h.field_46 = v4;
-        *(u16 *)&q1->field_44.h.field_44 = v4;
-        *(u16 *)&q0->field_44.h.field_46 = v4;
-        *(u16 *)&q0->field_44.h.field_44 = v4;
-        v5 = *(u8 *)&D_800E9EF0[0]->field_0C - 4;
-        if (v5 < 0) {
-            v5 = 0;
+        *(u16 *)&q1->field_44.h.field_46 = value;
+        *(u16 *)&q1->field_44.h.field_44 = value;
+        *(u16 *)&q0->field_44.h.field_46 = value;
+        *(u16 *)&q0->field_44.h.field_44 = value;
+        value = *(u8 *)&D_800E9EF0[0]->field_0C;
+        value -= 4;
+        if (value < 0) {
+            value = 0;
         }
-        v5 = v5 | ((v5 << 16) | (v5 << 8));
-        D_800E9EF0[0]->field_0C = v5;
-        D_800E9EF0[1]->field_0C = v5;
-        if (v5 != 0) {
+        value = value | ((value << 16) | (value << 8));
+        D_800E9EF0[0]->field_0C = value;
+        D_800E9EF0[1]->field_0C = value;
+        if (value != 0) {
             return;
         }
         func_8004036C(D_800E9EF0[0]);

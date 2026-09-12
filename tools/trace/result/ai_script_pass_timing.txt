@@ -1,0 +1,11 @@
+==== USER CONTEXT ====
+
+I have my emulator using CPU interpreter. On "Free Duel" against "Duel Master K", on the first turn before I end my turn I inject the script and as soon it said it finished intalling the breakpoints I ended my turn.
+
+Opponent played and nothing happened, after it switched back to me the second trace line printed saying "no AI pass seen".
+
+
+==== TRACE RESULT =====
+
+ai_script_pass_timing: four breakpoints installed; wait for an opponent turn 
+ai_script_pass_timing: no AI pass seen; confirm interpreter CPU and opponent turn 

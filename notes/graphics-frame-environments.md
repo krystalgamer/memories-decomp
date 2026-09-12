@@ -46,9 +46,9 @@ register constraints or grouped translation-unit boundaries change.
 
 The resident candidates currently contain no direct environment/tint consumer;
 all 19 candidate fingerprints must still pass because this shared header has
-transitive users. Pending source-move PR #3904 must carry the startup's two
-selector macros and five typed stores to `src/candidates/func_80013154.c`,
-with `graphics_frame.h` visible before use. The shortened
+transitive users. The completed source move carries the startup's two selector
+macros and five typed stores in `src/game/main_services.c`, with
+`graphics_frame.h` visible before use. The shortened
 `movie_frame_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array
