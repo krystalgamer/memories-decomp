@@ -4,6 +4,13 @@ import unittest
 
 from check_note_links import check_note_links, local_target
 
+LOCAL_TMP = Path(__file__).resolve().parents[3] / "tmp"
+LOCAL_TMP.mkdir(exist_ok=True)
+
+
+def local_temporary_directory() -> TemporaryDirectory:
+    return TemporaryDirectory(dir=LOCAL_TMP)
+
 
 class CheckNoteLinksTests(unittest.TestCase):
     def test_local_target_ignores_external_and_anchor_links(self) -> None:
@@ -16,7 +23,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         self.assertEqual(local_target("<other-note.md#section>"), "other-note.md")
 
     def test_check_accepts_existing_links_and_images(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             source = root / "src"
@@ -35,7 +42,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         self.assertEqual(problems, [])
 
     def test_check_reports_missing_and_escaping_paths(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             notes.mkdir()
@@ -55,7 +62,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         )
 
     def test_check_accepts_optional_link_titles(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             notes.mkdir()
@@ -71,7 +78,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         self.assertEqual(problems, [])
 
     def test_check_accepts_root_relative_paths_in_code_spans(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             source = root / "src/game"
@@ -89,7 +96,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         self.assertEqual(problems, [])
 
     def test_check_reports_missing_code_span_path(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             notes.mkdir()
@@ -106,7 +113,7 @@ class CheckNoteLinksTests(unittest.TestCase):
         )
 
     def test_check_ignores_external_reference_tree_paths(self) -> None:
-        with TemporaryDirectory() as directory:
+        with local_temporary_directory() as directory:
             root = Path(directory)
             notes = root / "notes"
             research = notes / "research"
@@ -126,6 +133,76 @@ class CheckNoteLinksTests(unittest.TestCase):
 
         self.assertEqual(reference_count, 0)
         self.assertEqual(problems, [])
+
+    def test_inline_paths_normalize_before_scope_and_exemption_checks(self) -> None:
+        with local_temporary_directory() as directory:
+            parent = Path(directory)
+            root = parent / "root"
+            notes = root / "notes"
+            notes.mkdir(parents=True)
+            (parent / "outside.md").write_text("# Outside\n", encoding="utf-8")
+            (notes / "a.md").write_text(
+                "`src/../../outside.md`\n"
+                "`tools/vendor/../../src/missing.c`\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 2)
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [
+                ("src/../../outside.md", "escapes repository"),
+                ("tools/vendor/../../src/missing.c", "does not exist"),
+            ],
+        )
+
+    def test_reference_style_links_resolve_definitions(self) -> None:
+        with local_temporary_directory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            source = root / "src"
+            notes.mkdir()
+            source.mkdir()
+            (source / "file.c").write_text("void f(void) {}\n", encoding="utf-8")
+            (notes / "a.md").write_text(
+                "[existing][source] and [missing][absent]\n"
+                "[source]: ../src/file.c\n"
+                "[absent]: ../src/missing.c\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 2)
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [("../src/missing.c", "does not exist")],
+        )
+
+    def test_parenthesized_and_escaped_destinations_are_not_truncated(self) -> None:
+        with local_temporary_directory() as directory:
+            root = Path(directory)
+            notes = root / "notes"
+            source = root / "src"
+            notes.mkdir()
+            source.mkdir()
+            (source / "a(b).c").write_text("void f(void) {}\n", encoding="utf-8")
+            (notes / "a.md").write_text(
+                "[balanced](../src/a(b).c)\n"
+                "[escaped](../src/a\\(b\\).c)\n"
+                "[missing](../src/missing(x).c)\n",
+                encoding="utf-8",
+            )
+
+            _, reference_count, problems = check_note_links(root)
+
+        self.assertEqual(reference_count, 3)
+        self.assertEqual(
+            [(problem.target, problem.reason) for problem in problems],
+            [("../src/missing(x).c", "does not exist")],
+        )
 
 
 if __name__ == "__main__":
