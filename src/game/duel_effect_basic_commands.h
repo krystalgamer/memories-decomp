@@ -16,6 +16,6 @@
 void func_80038888(void);
 void func_80038890(void);
 void func_80038898(DuelEffectChannel *object);
-void func_800388D8(u8 *object);
+void func_800388D8(DuelEffectChannel *object);
 
 #endif
