@@ -255,7 +255,6 @@ void func_80051A48(void);
 void func_8005DBA4(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 s32 func_800534B8(void);
-void func_8005C7BC(void);
 void func_8004158C(u8 *, s32, s32);
 
 /* Three caller-visible contracts that were outside the central inventory.
