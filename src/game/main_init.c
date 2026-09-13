@@ -32,7 +32,6 @@
 #include "func_80043BCC.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
-#define FUNC_80013154_NO_ARGS
 #include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
@@ -68,7 +67,7 @@ s32 Main_Init(void)
     *(u8 *)&D_8009B230 = 1;
     gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
-    func_80013154();
+    func_80013154(p);
     func_800403F0();
     func_800151B0();
     func_800134B4();
