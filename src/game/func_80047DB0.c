@@ -7,10 +7,9 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 
-void func_80047DB0(s32 arg)
+void func_80047DB0(s32 value)
 {
-    u16 key = arg;
-    s32 value = arg;
+    u16 key = value;
     s32 bits;
     s32 bit;
     s32 mask;
