@@ -7,7 +7,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "../game/model.h"
+#include "../game/model_parent_search.h"
 
 /* ModelSlot.entries is the base of the MODEL_SLOT_DATA_ENTRY_SIZE-stride run
    model.h describes, and that stride is sizeof(GsCOORDUNIT). The word this
