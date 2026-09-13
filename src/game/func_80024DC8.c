@@ -1,8 +1,10 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "func_80024DC8.h"
 #include "duel_side_state.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 extern s8 gDuel_bOpponentID;
 extern u8 gDuel_bTerrain;

@@ -1,3 +1,5 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/overworld/campaign_map.h"
@@ -10,10 +12,10 @@
 #include "main_modes.h"
 #include "fade.h"
 #include "sound.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
 
 #include "high_memory_addresses.h"
+#include "main_mode_state.h"
 
 void Main_RunFreeDuelMenu(void) {
     unsigned char flags = D_8009B26C;

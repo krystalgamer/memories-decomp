@@ -1,4 +1,6 @@
 #define D_8009B254_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "scene_script.h"
 #include "duel_effect.h"
@@ -6,8 +8,8 @@
 #include "script_run_tick.h"
 #include "sound.h"
 #include "campaign_scene_package.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 void Main_RunCampaign(void) {
     u8 flags = D_8009B26C;

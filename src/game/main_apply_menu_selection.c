@@ -1,3 +1,5 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
@@ -5,8 +7,8 @@
 #include "main_modes.h"
 #include "main_services.h"
 #include "../external_funcs.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 extern s16 gCampaignSavedSceneIndex[];
 

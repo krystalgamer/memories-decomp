@@ -375,8 +375,8 @@ extern u8 D_8009B34C;
  * These declarations are copied from the unanimous local spellings they
  * replace. Bounds are retained only where consumers already agreed on them;
  * unsized arrays remain address/range views rather than guessed object sizes.
- * D_8009B26E is deliberately separate from D_8009B26C: the latter still has
- * incompatible scalar, array, and absolute-address views across its users. */
+ * D_8009B26E is deliberately separate from the guarded frontend mode
+ * bytes owned by main_mode_state.h. */
 extern u8 D_80010074[];
 extern u8 D_80010090[];
 extern u8 D_800100A8[];
@@ -613,21 +613,7 @@ extern u8 D_8009B261;
 extern DuelEffectRequest *D_8009B264;
 #endif
 
-#ifdef D_8009B269_AS_SCALAR_DATA
-extern u8 D_8009B269 __attribute__((section(".data")));
-#elif defined(D_8009B269_AS_ARRAY)
-extern u8 D_8009B269[];
-#else
-extern u8 D_8009B269;
-#endif
-
-#ifdef D_8009B26C_AS_SCALAR_DATA
-extern u8 D_8009B26C __attribute__((section(".data")));
-#elif defined(D_8009B26C_AS_SCALAR)
-extern u8 D_8009B26C;
-#else
-extern u8 D_8009B26C[];
-#endif
+#include "game/main_mode_state.h"
 
 #ifdef D_8009B2F8_AS_ARRAY
 extern u8 D_8009B2F8[];

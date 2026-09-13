@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define D_8009B26C_AS_SCALAR
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -32,6 +33,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "free_duel.h"
+#include "../../game/main_mode_state.h"
 
 /* The Free Duel opponent-select screen in executable order: cursor layout,
    display-object and portrait initialization, sparkle upkeep, input and

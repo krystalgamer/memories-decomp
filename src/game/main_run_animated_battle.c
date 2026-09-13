@@ -1,5 +1,7 @@
 #define D_8009B0C0_IN_DATA
 #define DUEL_TERRAIN_SCALAR_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "graphics_frame.h"
 #include "model_scene_states.h"
@@ -7,11 +9,11 @@
 #include "fade.h"
 #include "sound.h"
 #include "main_modes.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
 #include "model_cleanup.h"
 #include "model_scene_setup.h"
 #include "duel_terrain_boost.h"
+#include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies

@@ -8,6 +8,8 @@
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
 #define SAVE_DATA_WORKSPACE_AS_HALFWORDS
+#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "../game/card_constants.h"
 #include "../game/data_transfer_request.h"
@@ -27,13 +29,12 @@
 #include "../game/script_state.h"
 #include "../game/main_services.h"
 #define D_8009B34C_IN_DATA
-#define D_8009B269_AS_SCALAR_DATA
-#define D_8009B26C_AS_SCALAR_DATA
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
 #include "../game/dialog_read_choice_input.h"
 #include "../game/script_op_save_prompt.h"
 #include "../game/duel_effect_mark_object_if_active.h"
+#include "../game/main_mode_state.h"
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 extern s8 gDialog_bChoiceCount __attribute__((section(".data")));

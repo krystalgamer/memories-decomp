@@ -19,9 +19,10 @@
  * The canonical rows and six terminal refinement records are unchanged;
  * one post-terminal resolution records the declaration and layout evidence.
  */
-#define D_8009B26C_AS_SCALAR_DATA
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #define CAMPAIGN_PRIMARY_OBJECT_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "input.h"
@@ -41,6 +42,7 @@
 #include "func_8002E3FC.h"
 #include "../unmatched.h"
 #include "func_80030998.h"
+#include "main_mode_state.h"
 
 void func_80030998(void)
 {

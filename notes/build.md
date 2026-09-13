@@ -775,6 +775,43 @@ its result-screen consumer, so it lives in `campaign_scene_package.h`.
 interpretations with no narrower owner, so its raw byte-array contract is
 genuinely homeless and lives in `unmatched.h`.
 
+`D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is
+the next/base frontend mode; mode runners copy it into the second when they
+exit. The second combines the active mode with lifecycle flags 0x20, 0x40 and
+0x80. The current 38 resident/candidate/overlay consumers use plain byte
+scalars, incomplete arrays, and scalars forced into `.data`.
+`main_mode_state.h` is their single declaration owner, with independent
+selectors for each byte; `unmatched.h` forwards to it without repeating the
+declarations. Defaults deliberately preserve the current contract: scalar
+NEXT and array ACTIVE. In particular, selecting only NEXT's `.data` view
+must not introduce an ACTIVE scalar into `Main_Init`.
+
+Current consumers select both measured views explicitly. Legacy
+`D_8009B269_*` and `D_8009B26C_*` selectors still work through either header,
+including the historical `.data` precedence. The dedicated header's
+`MAIN_MODE_STATE_ACTIVE_AS_SCALAR` is required for the active scalar view;
+`MAIN_MODE_STATE_ACTIVE_AS_ARRAY` explicitly selects its default.
+
+Eight tentative definitions remain in seven current mode-runner units:
+animated battle, build-deck, game-over, name-entry, options, trade, and
+two-player setup. Trade retains both bytes. These are codegen inputs under
+their named profiles; `c_symbols.ld` supplies the final addresses, so their
+COMMON symbols allocate no additional storage. The retired
+`func_8002D458.c`/`func_8002DC38.c` paths are not restored, nor are the retired
+matching versions of the current `func_800283F4` and `func_8002EE94`
+candidates. The current candidate registry retains its object/target
+fingerprints and dependency keys; only the affected declaration-owner
+hashes change.
+
+`test_main_mode_state.py` checks all nine independent semantic and legacy
+view combinations through both headers and include orders, mixed selector
+namespaces, all 38 actual preprocessed consumers, and all eight tentative
+definitions. Native probes compile the selected declarations, rather than
+mistaking unrelated full-host SDK front-end errors for contract regressions.
+An intentionally wrong ACTIVE scalar default must fail the typed array
+probe. Candidate dependency checks continue to bind the five affected
+current candidates to this single owner.
+
 #### A neighbour can refute a size, never establish one
 
 Both directions come up, and only one of them is sound.

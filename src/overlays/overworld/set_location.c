@@ -1,7 +1,8 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define D_8009B26C_AS_SCALAR
 #define D_800E9ECE_AS_SCALAR
 #define D_800E9ECF_AS_SCALAR
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_state.h"
@@ -32,6 +33,7 @@
 #include "../../game/text_box_lifecycle.h"
 
 #include "../../game/high_memory_addresses.h"
+#include "../../game/main_mode_state.h"
 extern u8 D_8009B27A;
 
 void CampaignMap_ClearLocationObjects(void)

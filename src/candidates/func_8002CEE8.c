@@ -8,6 +8,8 @@
 #define D_8009B362_IN_DATA
 #define D_8009B369_IN_DATA
 #define D_8009B368_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../game/func_800179F4.h"
 #include "../game/graphics_frame.h"
@@ -24,7 +26,6 @@
 #include "../game/library_runtime.h"
 #include "../game/duel_scene_update.h"
 #include "../game/duel_side_state.h"
-#define D_8009B26C_AS_SCALAR
 #define D_8009B2F8_AS_ARRAY
 #define GCAMPAIGN_SCENE_INDEX_AS_ARRAY
 #define D_8009B370_AS_BYTE_ARRAY
@@ -35,6 +36,7 @@ extern s8 gDuel_bOpponentID[9];
 extern u16 D_8009B16C[9];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "../game/high_memory_addresses.h"
+#include "../game/main_mode_state.h"
 
 void Main_RunDuel(void)
 {

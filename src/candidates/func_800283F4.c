@@ -10,6 +10,8 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "../game/func_800282E8.h"
 #include "../game/graphics_frame.h"
@@ -35,8 +37,8 @@
 #include "../game/duel_effect_resource_record.h"
 #include "../game/card_constants.h"
 #include "../game/func_800283F4.h"
-#define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
+#include "../game/main_mode_state.h"
 
 extern DisplayObject *D_8009B240;
 

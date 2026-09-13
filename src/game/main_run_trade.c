@@ -1,5 +1,7 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
@@ -17,6 +19,7 @@
 #include "main_modes.h"
 #include "duel_reward_setup.h"
 #include "display_object_work_slots.h"
+#include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, which is the form the

@@ -25,8 +25,8 @@
 #define FUNC_8002A6B8_STATE_ARGUMENT
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
-#define D_8009B269_AS_ARRAY
-#define D_8009B26C_AS_ARRAY
+#define MAIN_MODE_STATE_NEXT_AS_ARRAY
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "../unmatched.h"
 #include "input.h"
@@ -35,6 +35,7 @@
 #include "func_80029EB0.h"
 #include "func_8002A660.h"
 #include "func_8002A788.h"
+#include "main_mode_state.h"
 
 void func_8002A788(u8 *state)
 {

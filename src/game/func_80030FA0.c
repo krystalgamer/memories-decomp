@@ -1,9 +1,11 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
 #include "func_80030FA0.h"
-#define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 

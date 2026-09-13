@@ -88,17 +88,31 @@ extern u8 *D_8009B17C;
  * NONBLOCKING excludes long-running field effects from the pool's blocking
  * status while still dispatching them normally.
  *
- * The request pool's status byte below is separate. func_8002C68C raises bit
- * 7 when it hands out a request and func_8002C598 clears the byte;
- * func_8002C6C8 clears bit 0, raises it again while walking blocking records
- * and returns it; func_80024200 drops bit 7 unless bit 0 is set;
- * func_8002596C, func_80025D30 and func_80025BEC test bit 0. Read lbu
- * everywhere and one byte wide (c_symbols.ld names D_8009B261 next). Retail
- * reaches it through $gp in func_8002C6C8, func_8002C68C and func_8002C598,
- * and through %hi/%lo in func_80024200, func_8002596C, func_80025D30,
- * func_80025BEC and func_80018FEC (still assembly); duel_scene_update.c and
- * duel_card_effects.c define the .data arm below for that. func_8002C68C.c
- * takes the plain arm. */
+ * The request pool's status byte below is separate. func_8002C68C raises
+ * bit 7 when it hands out a request and func_8002C598 clears the byte;
+ * func_8002C6C8 clears bit 0, raises it again while walking the records
+ * and returns it;
+ * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
+ * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
+ * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
+ * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
+ * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
+ * func_80018FEC (still assembly); duel_card_effects.c,
+ * src/candidates/func_80024200.c and src/candidates/func_80018FEC.c define
+ * the .data arm below for that. func_8002C68C.c takes the plain arm.
+ *
+ * This paragraph named duel_scene_update.c until 2026-09-12. That was true
+ * when it was written: duel_scene_update.c defined the arm from #3231 until
+ * 73dd62177 moved the code that needed it to src/candidates/func_80024200.c,
+ * which is where the definition is now. The file still includes this header
+ * and no longer defines the guard.
+ *
+ * What the arm buys func_80018FEC is measured rather than assumed: retail
+ * leaves the delay slot before that unit's D_8009B260 test empty, and the
+ * bare form this arm produces is one pseudo-instruction to the delay-slot
+ * filler, so there is nothing for it to hoist into the slot. The unsized
+ * array the unit declared privately gives cc1psx's own splittable pair
+ * instead, and the lui half lands in the slot. */
 #ifdef D_8009B260_IN_DATA
 extern u8 D_8009B260 __attribute__((section(".data")));
 #else
