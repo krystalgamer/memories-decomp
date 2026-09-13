@@ -68,3 +68,34 @@ void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
     addPrim(&ot->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 3);
 }
+
+void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
+{
+    u32 *s;
+    u32 draw_mode;
+    u32 mask_on;
+    s32 len;
+    s32 i;
+    s32 index;
+    u32 *dst;
+
+    draw_mode = 0xE1000200;
+    mask_on = 0xE6000001;
+    s = src;
+    index = idx;
+    len = ((P_TAG *)s)->len;
+    D_800FE240[0] = *s++;
+    D_800FE240[1] = ((flags & 3) << 5) | draw_mode;
+    D_800FE240[2] = mask_on;
+    dst = D_800FE240 + 3;
+    for (i = len - 1; i != -1; i--) {
+        *dst++ = *s++;
+    }
+    *(D_800FE240 + len + 3) = 0xE6000000;
+    setlen(D_800FE240, len + 3);
+    if (flags >= 0) {
+        ((u8 *)D_800FE240)[0xF] |= 2;
+    }
+    addPrim(&ot->org[index & 0xFFFF], D_800FE240);
+    D_800FE240 = D_800FE240 + (len + 4);
+}
