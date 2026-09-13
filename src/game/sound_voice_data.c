@@ -194,3 +194,50 @@ void func_80048D08(s32 side, u32 *src)
 
 #include "sound_init.h"
 
+/* Sound driver initialisation after the SPU is up: enables reverb in studio-A
+ * mode at full depth, clears and seeds the driver's level and track fields,
+ * points the music track at its buffer at 0x801EA800 with an empty header,
+ * and finishes through func_80049594, func_80049600 and func_80049544.
+ * sd_init_state.c calls it once. */
+void func_80048F14(void)
+{
+    SpuReverbAttr packet;
+    /* g_SDValue is reloaded three times, as retail does. The first load gets
+       its own pointer so each lives only as long as its stores, and the
+       0x157C store is written through an s16 view so that all four -1 stores
+       share one constant. */
+    SDValue *a;
+    SDValue *b;
+    SDValue *c;
+
+    SpuReserveReverbWorkArea(SPU_ON);
+    SpuSetReverb(SPU_ON);
+    packet.mask = SPU_REV_MODE | SPU_REV_DEPTHL | SPU_REV_DEPTHR;
+    packet.mode = SPU_REV_MODE_STUDIO_A;
+    packet.depth.left = 0x7FFF;
+    packet.depth.right = 0x7FFF;
+    SpuSetReverbModeParam(&packet);
+    b = g_SDValue;
+    b->field_1586 = 0;
+    b->field_1588 = 0;
+    b->field_158A = 0;
+    a = g_SDValue;
+    a->field_1580 = 0xFF;
+    a->field_1584 = 0xFF;
+    c = g_SDValue;
+    a->field_1582 = 0;
+    c->field_1578 = -1;
+    c->field_157A = -1;
+    *(s16 *)((u8 *)c + 0x157C) = -1;
+    c->field_157E = -1;
+    c->music_track = (u16 *)0x801EA800;
+    c->field_1560 = (u8 *)0x801E2000;
+    c->music_track[0] = 0xFFFF;
+    c->music_track[1] = 0;
+    *(s32 *)&c->music_track[2] = 0;
+    *(s32 *)&c->music_track[4] = 0;
+    *(s32 *)&c->music_track[6] = 0x40000;
+    func_80049594(2);
+    func_80049600(0x14);
+    func_80049544();
+}
