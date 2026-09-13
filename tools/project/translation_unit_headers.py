@@ -222,6 +222,34 @@ def declaration_names(statement: str) -> list[tuple[str, str | None]]:
     return result
 
 
+def is_old_style_definition_prefix(statement: str, name: str) -> bool:
+    match = re.search(
+        rf"\b{re.escape(name)}\s*\((?P<parameters>[^()]*)\)"
+        r"\s*(?P<declaration>[^;]+);$",
+        statement,
+    )
+    if match is None:
+        return False
+    parameters = [
+        parameter.strip()
+        for parameter in match.group("parameters").split(",")
+        if parameter.strip()
+    ]
+    if not parameters or any(
+        re.fullmatch(r"[A-Za-z_]\w*", parameter) is None
+        for parameter in parameters
+    ):
+        return False
+    declared_name = re.search(
+        r"(?P<name>[A-Za-z_]\w*)\s*(?:\[[^]]*\])?\s*$",
+        match.group("declaration"),
+    )
+    return (
+        declared_name is not None
+        and declared_name.group("name") in parameters
+    )
+
+
 def mask_non_code(source: str) -> str:
     text = candidate_builds.strip_c_comments(source)
     output = list(text)
@@ -331,6 +359,8 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         definitions = definition_names(source)
         for statement in declaration_statements(source):
             for name, alias in declaration_names(statement):
+                if is_old_style_definition_prefix(statement, name):
+                    continue
                 declaration_count += 1
                 symbols = {name}
                 if alias is not None:

@@ -181,6 +181,33 @@ class TranslationUnitHeaderTests(unittest.TestCase):
             )
         )
 
+    def test_old_style_definition_parameters_are_not_forwards(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "void func_local(value)\n"
+                "    u16 value;\n"
+                "{\n"
+                "}\n"
+            ),
+            [],
+        )
+
+    def test_forward_before_old_style_definition_is_still_rejected(self) -> None:
+        problems = self.problems(
+            "void func_local(void);\n"
+            "void func_local(value)\n"
+            "    u16 value;\n"
+            "{\n"
+            "}\n"
+        )
+        self.assertTrue(
+            any(
+                "same-unit function declaration func_local belongs in "
+                "src/game/example.h" in problem
+                for problem in problems
+            )
+        )
+
     def test_each_function_in_multiple_declarators_is_checked(self) -> None:
         problems = self.problems(
             "void func_local(void), func_foreign(void);\n"
