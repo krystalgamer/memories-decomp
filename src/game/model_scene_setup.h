@@ -2,6 +2,13 @@
 #define MEMORIES_DECOMP_MODEL_SCENE_SETUP_H
 
 #include "../types.h"
+#include "model.h"
+
+/* Last selected model IDs (including slot 2's stage) and the two model flags
+ * mirrored by Model_SetSlotProperties and edited by func_800534B8. */
+extern s16 D_8009B488[MODEL_SLOT_COUNT];
+extern u8 D_8009B48E[2];
+extern u8 D_8009B490[2];
 
 /* Resets the model scene: clears the two counters at D_8009AF8E/D_8009AF90 and
  * the packed state words, and rebuilds the coordinate unit. Three units call it

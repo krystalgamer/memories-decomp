@@ -235,10 +235,9 @@ void func_80034830(void);
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
  * restated. func_8004158C has since matched and is declared by
- * func_8004158C.h. */
+ * func_8004158C.h. func_800534B8 is now owned by model_debug_controller.h. */
 void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
-s32 func_800534B8(void);
 void func_8005C7BC(void);
 
 /* Three caller-visible contracts that were outside the central inventory.
@@ -390,8 +389,6 @@ extern u8 D_8009B26E;
 extern u16 D_8009B33A;
 extern s32 D_8009B378;
 extern s32 D_8009B3BC;
-extern u8 D_8009B48E[2];
-extern u8 D_8009B490[2];
 extern u16 D_800F5678[];
 extern s16 D_800EFE3C;
 
@@ -629,7 +626,6 @@ extern u16 D_8009B374;
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;
-extern s16 D_8009B488[MODEL_SLOT_COUNT];
 #endif
 #ifdef D_800E9ECE_AS_SCALAR
 extern u8 D_800E9ECE;
