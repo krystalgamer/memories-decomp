@@ -3499,6 +3499,12 @@
       "source": "src/game/display_object_updates.c"
     },
     {
+      "address": "0x80040DD8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x290",
+      "source": "src/game/func_80040DD8.c"
+    },
+    {
       "address": "0x80041340",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
@@ -5915,6 +5921,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
       "source": "src/game/ai_script_combo.c"
+    },
+    {
+      "address": "0x8007164C",
+      "profile": "gcc_2_8_1_g0_split_no_sched1",
+      "size": "0x3C",
+      "source": "src/game/ai_script_load_best_difference.c"
     },
     {
       "address": "0x80071688",

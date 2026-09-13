@@ -5,7 +5,7 @@
 `D_8009B0F4` is the resident loader's request-and-state word. It is the most
 widely shared global in the tree: 51 translation units declare and use it,
 against 37 for the next-busiest address. One more, `func_80030D5C` (then in
-`frontend_scene_states.c`, now `src/candidates/func_80030D5C.c`), reaches it
+`frontend_scene_states.c`, now `src/game/frontend_scene_state_80030d5c.c`), reaches it
 from inline assembly without declaring it.
 
 Before this pass every one of those 51 units declared the word for itself, and
@@ -112,7 +112,7 @@ and the full executable still matched:
 
 ### What is left
 
-`func_80030D5C` (now `src/candidates/func_80030D5C.c`) reaches the word from
+`func_80030D5C` (now `src/game/frontend_scene_state_80030d5c.c`) reaches the word from
 an inline assembly block that spells `%hi`/`%lo` itself. That is not a C
 declaration site and is unchanged.
 

@@ -173,7 +173,7 @@ size.
 
 ## SPU decoded data, reverb, and shutdown
 
-`func_80045054` (a candidate since #3859, src/candidates/func_80045054.c) imports the real `libspu.h` interface and calls:
+`func_80045054` (`src/game/func_80045054.c`) imports the real `libspu.h` interface and calls:
 
 ```c
 SpuReadDecodedData(
@@ -755,7 +755,7 @@ the major top-level offsets.
 
 The adjacent envelope setters `SD_SetVoiceEnvelopeFromTone` (`0x8004A6F8`) and
 `SD_ResetVoiceEnvelope` (`0x8004A764`) are again one
-`src/game/sound_voice_envelope.c` unit after post-terminal refinements removed
+[`sound_voice_envelope.c`](../src/game/sound_voice_envelope.c) unit after post-terminal refinements removed
 their hard-register and inline-assembly dependency. They use the same
 `SpuVoiceAttr` block at `+0x4C0`: the first copies ADSR values from the
 caller's tone record, while the second sets the initialization defaults before

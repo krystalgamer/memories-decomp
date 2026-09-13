@@ -46,7 +46,7 @@ matched bodies — tracked in suspects.md, not here, until 100%.)
 
 **Local reconciliation (2026-09-08):** the `0x8002CCE4` row above is retained
 as upstream evidence, but its byte-toggle/notify description does not match
-the current [candidate source](../../../src/candidates/func_8002CCE4.c).
+the current [matching source](../../../src/game/library_update_card_used_flag.c).
 The helper sets or clears one bit in the shared save flag bank at
 `0x801D0618`; modifier `0x8000` selects clear, and there is no notification
 call. The tester at `0x8002CCA8` normally returns the selected mask or zero,
