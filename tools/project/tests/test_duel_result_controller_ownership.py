@@ -83,13 +83,13 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
     def test_controller_owner_and_reward_widths(self) -> None:
         header = '#include "duel_result_display.h"\n#include "duel_rewards.h"\n'
         for declaration in (
-            "void (*controller)(void) = func_800218F0;",
+            "void (*controller)(void) = DuelScene_UpdateResultRewards;",
             "s32 (*drop)(s32) = Duel_SelectCardDrop;",
             "void (*award)(s32) = Duel_AwardCard;",
         ):
             self.probe(header + declaration, accepted=True)
         for declaration in (
-            "s32 (*controller)(void) = func_800218F0;",
+            "s32 (*controller)(void) = DuelScene_UpdateResultRewards;",
             "s16 (*drop)(s32) = Duel_SelectCardDrop;",
             "void (*award)(s16) = Duel_AwardCard;",
         ):
@@ -98,11 +98,11 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
                 diagnostic="incompatible pointer|incompatible-pointer",
             )
         self.probe(
-            header + "void call(void) { func_800218F0(1); }",
+            header + "void call(void) { DuelScene_UpdateResultRewards(1); }",
             accepted=False, diagnostic="too many arguments",
         )
         self.probe(
-            "void (*controller)(void) = func_800218F0;",
+            "void (*controller)(void) = DuelScene_UpdateResultRewards;",
             accepted=False, diagnostic="undeclared",
         )
 
@@ -142,13 +142,13 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             '#include "display_asset_banks.h"\n'
             '#include "duel_scene_state.h"\n'
             "s32 *drop = D_801D56A8;\nu8 *assets = D_801AF000;\n"
-            "u16 *state = &D_8009B23A;",
+            "u16 *state = &gDuel_wSceneStateFlags;",
             accepted=True,
         )
         for header, declaration in (
             ("text_staging.h", "s16 *drop = D_801D56A8;"),
             ("display_asset_banks.h", "u32 *assets = D_801AF000;"),
-            ("duel_scene_state.h", "u32 *state = &D_8009B23A;"),
+            ("duel_scene_state.h", "u32 *state = &gDuel_wSceneStateFlags;"),
         ):
             self.probe(
                 f'#include "{header}"\n' + declaration, accepted=False,
@@ -269,7 +269,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         symbol = "D_8009B23A"
         declarations = canonical_declaration_index({symbol})[symbol]
         self.assertEqual(
-            declarations, [("game/duel_scene_state.h", "extern u16 D_8009B23A;")],
+            declarations, [("unmatched.h", "extern u16 D_8009B23A;")],
         )
         entries = json.loads(
             (ROOT / "config/slus_01411/candidates.json").read_text()
@@ -307,8 +307,8 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
                 self.assertEqual(compiled.returncode, 0, compiled.stderr)
         unmatched = (ROOT / "src/unmatched.h").read_text()
         for declaration in (
-            "extern u16 D_8009B23A;", "extern u8 D_801AF000[];",
-            "void func_800218F0(void);",
+            "extern u8 D_801AF000[];",
+            "void DuelScene_UpdateResultRewards(void);",
         ):
             self.assertNotIn(declaration, unmatched)
 

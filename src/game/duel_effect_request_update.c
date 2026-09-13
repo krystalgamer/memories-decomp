@@ -19,12 +19,6 @@
    savedF1A must be s32, not the field's true s16 type -- declaring it s16
    makes gcc emit an unsigned reload + manual sign-extend at the call site
    instead of the target's plain signed halfword load. */
-extern u8 D_8009B261;
-extern DuelEffectRequest *D_8009B264;
-extern void func_801462B0(
-    s16 a0, s16 a1, s32 a2, DuelEffectRequest *a3
-);
-
 s32 DuelEffect_UpdateRequests(void) {
     DuelEffectRequest *rec;
     s32 i;

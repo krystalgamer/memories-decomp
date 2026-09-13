@@ -189,9 +189,7 @@ void DuelScene_UpdateHandActions(void);
 void DuelScene_UpdateFieldActions(void);
 void DuelScene_UpdateCardPlacement(void);
 void DuelScene_UpdateBattle(void);
-void DuelScene_UpdateResultRewards(void);
 void DuelScene_UpdateExodiaResult(void);
-void func_80056D7C(void);
 void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
@@ -607,9 +605,7 @@ extern DisplayObject *D_8009B18C;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-extern u16 D_8009B244;
 extern u8 D_8009B248;
-extern u8 D_8009B24A;
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
 extern DuelEffectRequest *D_8009B264;

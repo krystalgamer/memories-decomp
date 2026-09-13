@@ -75,7 +75,7 @@
       "target": "src/candidates_target/func_80018FEC.S",
       "candidate_build_sha256": "5c3b86ad7ba3c926178e36d4a504a9d017d34fe340fbd47295071ed45474e39f",
       "target_bytes_sha256": "f839accb5fc927d77e04cb72f2fd5d0ee0d43b3c711a9d345905ad1b648f6bf8",
-      "canonical_contract_sha256": "bf1ce3f0f29ae300a25fcef9db78ed6eabc04f64fe6a19ad82a4ac912febdd7c",
+      "canonical_contract_sha256": "8d044a6cf01c43a657ef92883e5cac89c784f661791c67387bb4c1bfd96d7745",
       "canonical_contracts": {
         "D_80090918": "c74bc727ce49847bc6b12c96e28bad26df908aa19361e68fc73e2e35e49e3c19",
         "D_8009B162": "31937783a4244fcbe24da5c7ff740671b5eb9d675376209c2ecf601a97ea8b51",
@@ -87,8 +87,8 @@
         "D_8009B214": "2463f580e5f578ad222467ddd85858753602a6431c28ad312e3520a5c550034b",
         "D_8009B21C": "0051befd17509fde6fb74fc51e78cd6a81f932d8c3498282957c749f48b01240",
         "D_8009B23A": "11af64fe9c894b42b7e5bc8afaafe78710739c45feece440551251bc560d7912",
-        "D_8009B269": "c886201242ab637e8583593c50c83bdfad300db510f3b1ea86c42e6a202a1990",
-        "D_8009B26C": "361116d513ca1ee0d940c9f286d0dd45bc0e496ac7b9d2a8cbcc0889fc7ba173",
+        "D_8009B269": "2b5536c677eba8a4deacb0244841cbf2bbea5f6f1bc97071fd809519b841aae2",
+        "D_8009B26C": "4920d9857fc5dfd84de01c22458411438c946bcb38fcaefdd6a28c58f14b8393",
         "D_8009B369": "6e803257c7f998856e40c8b71f8eabe95b64257a893f961575b0e4ebe7b401f5",
         "D_800E9ECF": "a0b0d6529a2f470e684525c4d986f7cee4044d51ee82186db9bf89a07a2e0d7d",
         "D_800E9F04": "e6188a97141f47c41adf1b6dccfe4b80a7ba9f0cbb98e01493a0daba518d2ae5",
@@ -136,7 +136,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800283F4.c",
       "target": "src/candidates_target/func_800283F4.S",
-      "candidate_build_sha256": "da07d5ce9a5368ab7c2fa661a9d4165cb9d2b7f3135e4f8614bd11c069db50d6",
+      "candidate_build_sha256": "b7dad2eecd0087d418f639619b1d65c0e8ec2cf533f12e2b9bbfb71f04487b3e",
       "target_bytes_sha256": "191b87b8e0c76c75d48fdc5d2424a092de52e53d72d52aea73557b3db53a7df1",
       "canonical_contract_sha256": "70cb961871bc8eaf08c2da103a594eb2f37f7c1b332a91f696769106bcf94184",
       "canonical_contracts": {
