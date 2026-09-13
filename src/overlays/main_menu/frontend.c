@@ -14,7 +14,6 @@
 #include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
-#include "entrypoints.h"
 #include "frontend.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"

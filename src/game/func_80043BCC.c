@@ -4,7 +4,7 @@
 #define D_8009B142_IN_DATA
 #include "graphics_frame.h"
 #include "duel_effect.h"
-#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "func_80043BCC.h"

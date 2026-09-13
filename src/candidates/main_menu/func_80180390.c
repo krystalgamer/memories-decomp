@@ -21,7 +21,6 @@
 #include "../../game/display_object.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
-#include "../../overlays/main_menu/entrypoints.h"
 #include "../../overlays/main_menu/frontend.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"

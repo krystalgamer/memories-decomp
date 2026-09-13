@@ -60,6 +60,10 @@ extern u8 D_8018459B;
 extern u8 D_8018459C;
 extern u8 D_8018459D;
 
+/* Resident callers must load the main-menu image before using these entries. */
+void MainMenu_InitFrontendMenu(s32 unused, s32 menu);
+s32 MainMenu_UpdateFrontendMenu(void);
+void MainMenu_DestroyFrontendMenu(void);
 void MainMenu_StartFrontendEntryTransition(s32 mode);
 void MainMenu_DrawFrontendBackground(void);
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source);

@@ -1,7 +1,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/main_menu/frontend.h"
 #include "../overlays/password/name_entry_keyboard.h"
 #include "../overlays/password/shop.h"
 #include "../psyq/rand.h"

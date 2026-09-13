@@ -11,7 +11,7 @@
 #include "duel_effect.h"
 #include "display_object_core.h"
 #include "text_box_lifecycle.h"
-#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/main_menu/trade_helpers.h"
 #include "fade.h"
 #include "sound.h"
 #include "display_object_helpers.h"
