@@ -23,11 +23,14 @@ and trailing module data:
 |---:|---:|---|
 | `0x0000-0x00B4` | `0x80168000-0x801680B4` | Module tables and strings |
 | `0x00B4-0x5400` | `0x801680B4-0x8016D400` | MIPS text |
-| `0x5400-0x7800` | `0x8016D400-0x8016F800` | Module data |
+| `0x5400-0x5590` | `0x8016D400-0x8016D590` | C-owned screen state |
+| `0x5590-0x7800` | `0x8016D590-0x8016F800` | Remaining raw module data |
 
 The first function prologue begins at `0x801680B4`. The trailing boundary is
-required by references to `D_8016D400` and contains the confirmed
-`gPassword_abDigits` symbol at `0x8016D410`.
+required by references to `D_8016D400`. The first `0x190` bytes are one
+consumer-backed `PasswordModuleState`; linker aliases retain the historical
+interior symbol names used by generated assembly while the C object owns the
+storage.
 
 Both Egypt overworld variants share one layout shape. They are separate
 modules because the resident loader picks the second package when campaign
@@ -111,6 +114,14 @@ Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
 `module_rodata.c`. The typed `D_80180004` comparator table replaces the old
 `D_80180000[1]` reach across the section boundary and emits six checked
 function relocations in retail order.
+
+Password also owns `0x8016D400-0x8016D590` as one zero-initialized
+`PasswordModuleState`. The single object avoids treating sparse interior labels
+as object extents: for example, `D_8016D440` is a four-pointer array and
+`D_8016D4DC` is a halfword even though the next generated labels are much
+farther away. `password_linker_symbols.txt` defines those historical names as
+offset aliases from `gPassword_ModuleState`; the object exports one
+section-defined owner with an exact `0x190`-byte `.data` section.
 
 Both overworld variants also compile the live location table from
 `overworld/location_table.c`: sixteen typed 66-byte records at

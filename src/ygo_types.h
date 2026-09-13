@@ -636,6 +636,75 @@ typedef SelectionFrame NameEntrySelectionFrameView;
 typedef char SelectionFrame_size_must_be_0x62[
     sizeof(SelectionFrame) == 0x62 ? 1 : -1
 ];
+
+/* Known prefixes of the password shop's preview and digit-cursor objects. */
+typedef struct {
+    u8 pad0[0x8];
+    u16 flags;
+    u8 pad0A[0x17];
+    u8 phase;
+    u8 pad22[0x10];
+    u16 y;
+} PasswordCardPreviewView;
+
+typedef void (*PasswordCursorUpdate)(u8 *object);
+
+typedef struct {
+    u8 pad00[0x8];
+    u16 flags;
+    u8 pad0A[0x0E];
+    s16 target_x;
+    s16 target_y;
+    u8 pad1C[0x14];
+    s16 x;
+    s16 y;
+    u8 pad34[0x2C];
+    s16 timer;
+    u8 pad62[0x7];
+    u8 kind;
+    u8 pad6A[0x2];
+    u8 updateFlags;
+} PasswordCursorView;
+
+typedef struct {
+    u8 flags;
+    s8 keyboardColumn;
+    u8 keyboardRow;
+    u8 resetState;
+    SelectionFrame *selectionFrame;
+    u8 glyphSequence;
+    u8 unknown409[7];
+    u8 digits[8];
+    u8 *nameBuffer;
+    u8 dialogState;
+    u8 unknown41D[3];
+    PasswordCursorView *digitCursor;
+    u16 displayedStarchips;
+    u8 savedKeyboardRow;
+    u8 unknown427;
+    s32 digitIndex;
+    s8 caretIndex;
+    u8 unknown42D[3];
+    u8 *cardCache;
+    s16 cursorTargetX;
+    s16 cursorTargetY;
+    u32 cardPrice;
+    u8 *lengthObject;
+    u8 *digitDecorations[4];
+    u8 unknown450[0x80];
+    u8 resetMode;
+    u8 unknown4D1;
+    u16 dialogId;
+    u16 keyboardFlags;
+    u16 unknown4D6;
+    PasswordCardPreviewView *cardPreview;
+    u16 cardId;
+    u8 unknown4DE[0xB2];
+} PasswordModuleState;
+
+typedef char PasswordModuleState_size_must_be_0x190[
+    sizeof(PasswordModuleState) == 0x190 ? 1 : -1
+];
 typedef char SelectionFrame_priority_offset_must_be_0x14[
     YGO_TYPE_OFFSET(SelectionFrame, priority) == 0x14 ? 1 : -1
 ];

@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
+#include "module_state.h"
 
 /* State shared by the name-entry screen's lifecycle functions.
  *
@@ -39,19 +40,8 @@
  * spellings. The setup path only stored zero, 244, or one pointer and never
  * constrained those types; the runtime's old `u16 *` view of D_8016D418 cast
  * to s32 before arithmetic and did not use its pointee type. The merged source
- * therefore keeps the evidence-backed declarations below.
+ * therefore keeps the evidence-backed declarations in module_state.h.
  */
-extern u8 D_8016D400;
-extern u8 D_8016D402;
-extern u8 D_8016D408;
-extern u8 D_8016D426;
-extern s16 D_8016D434;
-extern s16 D_8016D436;
-extern u8 *D_8016D43C;
-extern s8 D_8016D401;
-extern s8 D_8016D42C;
-extern u16 D_8016D4D2;
-
 /* Four more of the same family, each with exactly one reader or writer in
  * the image and each declared privately until now.
  *
@@ -66,14 +56,8 @@ extern u16 D_8016D4D2;
  *
  * The first three were ALSO declared in the func_8016913C candidate, which
  * never named them anywhere else -- dead declarations rather than a second
- * opinion, and deleted with this change along with that unit's equally
- * unused `extern DuelEffectChannel D_800EB1C0;`. */
-extern u8 D_8016D403;
-extern u8 D_8016D41C;
-extern u8 D_8016D4D0;
-extern u16 D_8016D4D4;
-extern u8 *D_8016D418;
-
+ * opinion, and were deleted along with that unit's equally unused
+ * `extern DuelEffectChannel D_800EB1C0;`. */
 /* The selection frame the keyboard moves. NameEntry_Init positions it and
  * installs the drawing callback described by name_entry_frame.h; the fields
  * combine the drawing fields with the ones the keyboard tween needs.
@@ -86,7 +70,4 @@ extern u8 *D_8016D418;
  * The drawing callback additionally constrains priority and height.
  * ygo_types.h defines the combined SelectionFrame; the observed prefix is
  * not a claim about the complete display-object allocation. */
-
-extern SelectionFrame *D_8016D404;
-
 #endif
