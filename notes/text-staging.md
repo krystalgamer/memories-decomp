@@ -21,7 +21,7 @@ Every named scalar in the resident views remains `s32`.
 | `func_80060E70` | `+0`, `+4` | Each two-halfword input row supplies its card ID and count before its text box is built. Uses `card.card_id` and `.count`; retains the separate direct-symbol store and cached destination pointer. |
 | `func_80031E5C` in `build_deck_card_counts.c` | `+0`, `+4` | Copies screen words `+0x5A9C` and `+0x5AA0` before text `0xE`. The same TU's chest-return/deck-add paths update the respective totals. Uses `build_deck.chest` and `.deck`. |
 | `func_8002BFCC` in `library_runtime.c` | `+0` | Counts the set per-card library story flags. Uses `library_count`, not a card ID interpretation. |
-| `MemCardDialog_UpdateSave` in `mem_card_dialog_load_save.c` | `+0`, `+4` | Stages `MEM_CARD_BLOCK_COUNT - free_blocks` and the required block count before message `0xDB`. Uses `blocks.used` and `.needed`. |
+| `MemCardDialog_UpdateSave` in standalone `mem_card_dialog_update_save.c` | `+0`, `+4` | Stages the used and required block counts before message `0xDB`. Uses `blocks.used` and `.needed`; the free-block result shares its working-value lifetime with the mutually exclusive state-10 message ID. The four-function load TU is unchanged. |
 | `SaveData_UpdateDuelLoad` in `save_data_transfer_runtime.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
@@ -59,17 +59,18 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- Three build-integrated candidates reference this family, not one:
-  `src/candidates/func_8002A2F4.c`, `func_8003E854.c` and
-  `password/func_8016A37C.c`; two more consumers are now matched,
+- Two build-integrated candidates reference this family:
+  `src/candidates/func_8002A2F4.c` and
+  `password/func_8016A37C.c`; the standalone save consumer is now matched in
+  `src/game/mem_card_dialog_update_save.c`, alongside
   `func_80023144` in `src/game/duel_field_display_objects.c` and
   `func_80060E70` in `src/game/func_80060E70.c`. The filter is
-  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and each of the three
-  includes `src/game/text_staging.h` and declares nothing privately, so the
+  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and both remaining candidates
+  include `src/game/text_staging.h` and declare nothing privately, so the
   password producer is one example of the population rather than the whole of
-  it. The distinction that holds is the contract one. The probe over all 171
-  entries of `config/slus_01411/candidates.json`, four of which carry a
-  `module` and are the overlay candidates, finds neither `D_801D5608` nor
+  it. The distinction that holds is the contract one. The historical probe over
+  171 entries of `config/slus_01411/candidates.json`, four of which carried a
+  `module` and were overlay candidates, found neither `D_801D5608` nor
   `D_801D5608_starchips` in any entry's canonical contracts, so no entry
   declares either symbol privately; that file does not move when this header
   changes. The password candidate keeps its recorded build and target
