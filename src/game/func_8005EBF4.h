@@ -8,7 +8,8 @@
    requested endpoints, func_8005FB30 resolves them into the following pair,
    and func_8005E808 maintains the trailing radius state. */
 
-/* Timing/state tail used by func_8005E808; Key stays opaque to the evaluator. */
+/* Timing/state view used by func_8005E808 to preserve its measured field
+   accesses while sharing Key's established allocation layout. */
 #ifdef MODEL_KEYFRAME_TIMING_VIEW
 typedef struct {
     u8 pad_00[0x20];
