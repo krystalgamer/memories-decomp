@@ -61,6 +61,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/free_duel/screen_runtime]
-      - [0x1030, data, overlays/free_duel/data]
+      - [0x1030, .data, overlays/free_duel/module_state]
+      - [0x10A8, data, overlays/free_duel/data]
 
   - [0x2800]

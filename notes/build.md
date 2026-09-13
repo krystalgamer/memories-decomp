@@ -1209,23 +1209,31 @@ the worked dual-name case where one file uses the array view and the scalar
 neighbour both ways. Any ownership of that tail has to preserve both
 spellings.
 
-`free_duel` is the smallest by label count and looks like the obvious first
-target. It is not, and the reasons generalise:
+`free_duel` is the smallest by label count, and its named prefix is now
+C-owned. Consumer widths, rather than generated label extents, establish:
 
-- Its five names are already semantic -- `gFreeDuel_abGridAvailable`,
-  `gFreeDuel_pThumbWidget`, `gFreeDuel_apSparklePool`,
-  `gFreeDuel_pCursorWidget`, `gFreeDuel_bScreenFlags` -- and three are already
-  declared in `free_duel.h`. So the naming work is done and only the
-  definition is missing.
-- But `gFreeDuel_pThumbWidget` spans **eight bytes** under one label, while
-  `screen_runtime.c` reaches it through `asm("gFreeDuel_pThumbWidget")`
-  aliases typed as a four-byte pointer -- twice over, once as
-  `FreeDuelWidget *` and once as `u8 *`. The label extent and the C view
-  disagree about the object's size, and both alias spellings are the
-  deliberate kind the small-data notes describe.
-- The named symbols stop at `0x801690A8`, and the blob does not: the words
-  after `gFreeDuel_bScreenFlags` are non-zero and uncharacterised. Owning the
-  named prefix would still leave most of the range behind.
+- `gFreeDuel_abGridAvailable`: 40 bytes at `0x80169030`;
+- `gFreeDuel_pThumbWidget`: one pointer at `0x80169058`, followed by one
+  still-unknown word;
+- `gFreeDuel_apSparklePool`: 16 pointers at `0x80169060`;
+- `gFreeDuel_pCursorWidget`: one pointer at `0x801690A0`;
+- `gFreeDuel_bScreenFlags`: the low byte of four-byte storage at
+  `0x801690A4`.
+
+Those objects and the accounted unknown/padding bytes fill exactly
+`0x80169030-0x801690A8`, so `module_state.c` can own one exact `0x78`-byte
+`.data` section without adopting any false label extent. The screen-flags
+header exposes a byte view over its four-byte storage because old GCC aligns a
+following byte array to four bytes; spelling the padding as a second object
+would shift the raw tail.
+
+The remainder starts at `0x801690A8`, not at the end of the last generated
+label. It is 5,976 bytes and is not homogeneous data: disassembly identifies
+four internally connected MIPS routines from `0x80169138` through
+`0x80169B8C`, preceded by an orphan control-flow fragment, followed by zero
+padding and opaque asset bytes from `0x80169C04`. They have no known entry
+from the live Free Duel screen. The range stays raw until its load/ownership
+contract is established; it must not be represented as one invented array.
 
 #### Why the overlay blobs resist carving
 
@@ -1252,9 +1260,9 @@ unmatched assembly retains the historical labels through linker aliases from
 `gPassword_ModuleState`, while matching C keeps its original symbol
 relocations and instruction bytes.
 
-That is the same shape as `free_duel`'s `gFreeDuel_pThumbWidget`, eight bytes
-of label against a four-byte pointer in two `asm()` aliases. One instance
-looked like a quirk of that symbol; three make it the rule.
+That is the same shape the Free Duel prefix had before consumer widths split
+the thumb pointer from its following unknown word. One instance looked like a
+quirk; the repeated sparse-label pattern makes it the rule.
 
 The screening consequence is worth stating plainly. For resident `.sdata` a
 uniformly word-sized run was sufficient evidence to carve, and it worked
@@ -1262,8 +1270,8 @@ first try. For overlay data it is **not** sufficient: a run can be uniformly
 word-sized, entirely zero, and still unsafe, because the size the label
 implies may be unrelated to the object. The extra check is to find a
 consumer's declared size and require it to agree with the label extent, or
-else to account for the unnamed remainder explicitly. None of the candidates
-examined here passes that check.
+else to account for the unnamed remainder explicitly. Free Duel's prefix now passes that check because every byte through `0x10A8`
+is accounted for separately. The password candidates still do not.
 
 Two method corrections, because each cost me a wrong number in this same
 survey.
