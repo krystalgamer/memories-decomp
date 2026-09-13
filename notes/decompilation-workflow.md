@@ -586,9 +586,15 @@ adds two more of its own:
   three textually identical spellings of one GTE result, in three files, for
   one address.
 
-The rule the campaign settled on: the scan produces candidates, and reading the
-source decides them. Every one of these was caught by reading, and none by the
-tool contradicting itself.
+  Large game-owned records follow the same ownership rule even when they have
+  only one current definition. `DuelEffectChannel` therefore lives beside its
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  channel counts, state flags, storage declarations, and the duel-effect API.
+  The measured size and member-offset assertions move with the record.
+
+  The rule the campaign settled on: the scan produces candidates, and reading the
+  source decides them. Every one of these was caught by reading, and none by the
+  tool contradicting itself.
 
 Single ownership applies to unique records too, not only duplicated shapes.
 The text/script pass moved `TextStreamOwner`, `EffectObject`,
