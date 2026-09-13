@@ -147,17 +147,15 @@ void Text_NewLine(DuelEffectChannel *record)
 
 void Text_EndStream(DuelEffectChannel *record)
 {
-#define object ((u8 *)record)
     u16 flags;
 
-    object[0x58]--;
-    if (*(s8 *)(object + 0x58) < 0) {
-        flags = *(u16 *)(object + 0x34);
+    record->stream_58--;
+    if (record->stream_58 < 0) {
+        flags = record->flags_34;
         D_8009B350 = 1;
         flags |= 0x2000;
-        *(u16 *)(object + 0x34) = flags;
+        record->flags_34 = flags;
     }
-#undef object
 }
 
 /* Effect-script command handler: reads a command id and a flag byte from the
