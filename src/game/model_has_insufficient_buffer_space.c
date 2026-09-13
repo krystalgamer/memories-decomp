@@ -21,7 +21,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     if (type < 0) {
         type = func_80059520(index)[3];
     }
-    size = *(u16 *)&record->pad_E00[0];
+    size = record->field_E00;
     if (type == 5) {
         room -= size * 2;
     } else {
