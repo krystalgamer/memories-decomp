@@ -12,16 +12,13 @@ void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
  * main_run_trade.c is the only consumer. */
 void func_80032328(void);
 
+extern s16 gDuel_awRecentCardDrops[];
+
 /* Compacts gDuel_awRecentCardDrops in two passes. The first walks the table
  * backwards and clears any entry whose referenced record byte, read from the
  * region 0x56C below the table, is zero. The second moves the surviving
  * entries to the front, zeroing each slot it moves out of, so the table ends
  * up densely packed with the order preserved.
- *
- * The unit reaches the table through an inline block that materialises its
- * address into a pinned register rather than by naming it directly, and both
- * loops run on pinned registers. That spelling is load bearing, so the
- * definition is not to be tidied into ordinary C without a measurement.
  *
  * func_800339D0.c is the only consumer. Both names stay address-based: the
  * two passes are legible, but what makes a drop recent, and what the record
