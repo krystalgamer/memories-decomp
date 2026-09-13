@@ -3625,6 +3625,12 @@
       "source": "src/game/display_object_runtime.c"
     },
     {
+      "address": "0x8004158C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x700",
+      "source": "src/game/func_8004158C.c"
+    },
+    {
       "address": "0x80041C8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

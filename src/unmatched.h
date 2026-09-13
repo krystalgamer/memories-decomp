@@ -243,7 +243,8 @@ void func_80034830(void);
  * mistake this batch nearly shipped: func_800534B8 returns s32,
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
- * restated. */
+ * restated. func_8004158C has since matched and is declared by
+ * func_8004158C.h. */
 void func_8004DE24(void);
 void func_8004EB00(void);
 void func_8004FE2C(void);
@@ -253,7 +254,6 @@ void func_8005DBA4(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 s32 func_800534B8(void);
 void func_8005C7BC(void);
-void func_8004158C(u8 *, s32, s32);
 
 /* Three caller-visible contracts that were outside the central inventory.
  *
