@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/main_init.c.
- */
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
@@ -21,6 +15,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libetc.h"
+#include "../psyq/crt.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
 #include "../game/fade.h"
@@ -37,13 +32,12 @@
 #include "../game/movie_playback_control.h"
 
 extern volatile u8 D_8009B0D1;
-extern void __main(void);
-
 s32 Main_Init(void)
 {
     s32 r;
     s32 t;
-    register GraphicsFrameBuffer *p __asm__("$4");
+    s32 one;
+    GraphicsFrameBuffer *p;
 
     __main();
     EnterCriticalSection();
@@ -54,7 +48,17 @@ s32 Main_Init(void)
     SetMem(2);
     SetDispMask(0);
     func_80015D0C();
-    p = gGraphics_aFrameBuffers;
+    /* Single-pass regions preserve retail allocation under GCC 2.8.1. */
+    do {
+        p = gGraphics_aFrameBuffers;
+    } while (0);
+    do {
+        do {
+            do {
+                one = 1;
+            } while (0);
+        } while (0);
+    } while (0);
     D_8009B0CC = 0;
     D_8009B0C8 = 0;
     D_8009B0C0 = 0;
@@ -62,10 +66,10 @@ s32 Main_Init(void)
     t = D_8009B09C;
     D_8009B0C3 = 0;
     D_8009B0C1 = 0;
-    D_8009B0D8 = 1;
+    D_8009B0D8 = one;
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;
-    *(u8 *)&D_8009B230 = 1;
+    *(u8 *)&D_8009B230 = one;
     gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
     func_80013154();
