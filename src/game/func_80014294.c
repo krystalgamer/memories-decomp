@@ -374,8 +374,11 @@ s32 func_80014C40(FileRequestSlot *p, u8 *q) {
         t = -m;
         r = D_801D4200_raw;
         *(FileRequestSlot *)(r + 0x20) = *p;
-        /* The post-copy reload's scalar view preserves GCC's allocation. */
-        m = *(s32 *)((u8 *)p + 4);
+        /* The post-copy reload goes through the member's address as u32:
+           a plain p->field_04 (or an s32 cast, which fold turns back into
+           one) exchanges the request pointer's and sector-offset local's
+           allocation and changes 24 words. */
+        m = *(u32 *)&p->field_04;
         D_8009B0F4 =
             D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;

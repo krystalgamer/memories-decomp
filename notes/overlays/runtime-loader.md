@@ -117,13 +117,14 @@ four-byte alignment retain the existing word copies:
 | `+0x1E/+0x1F` | `u8 field_1E/field_1F` | Sound writes filter bytes; dispatcher passes them to `File_RequestSecondaryRangeTransfer` in `1F, 1E` order |
 
 Nine dispatcher reads use the shared fields rather than raw offsets. The
-post-copy `+4` reload intentionally remains
-`*(s32 *)((u8 *)p + 4)`: changing just that access to `p->field_04` exchanges
-the request pointer's and sector-offset local's `s1/s2` allocation under the
-recorded GCC 2.8.1/MASPSX 2.81 profile. The instruction count and copy widths
-stay equal, but the first differing byte is at resident `0x80014C44`.
-Retaining that scalar view makes the typed API and other nine accesses exact;
-no new pin, scheduling barrier or compiler-profile change is needed.
+post-copy `+4` reload is spelled `*(u32 *)&p->field_04`: a plain
+`p->field_04` exchanges the request pointer's and sector-offset local's
+`s1/s2` allocation under the recorded GCC 2.8.1/MASPSX 2.81 profile. The
+instruction count and copy widths stay equal, but the first differing byte is
+at resident `0x80014C44`. The address-of read stays a scalar reference only
+because `u32` differs from the member's `s32`; `*(s32 *)&p->field_04` is
+folded back into the member read and differs the same way. No pin,
+scheduling barrier or compiler-profile change is needed.
 The result remains the original `s32` status-or-descriptor value, including
 the null-request polling operation.
 
