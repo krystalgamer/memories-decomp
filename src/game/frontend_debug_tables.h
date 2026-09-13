@@ -5,9 +5,9 @@
 
 /* The six frontend debug HUD format strings and the scene index table,
    declared here so the source that defines them and the four that read
-   them cannot drift apart. D_80090CDC and D_80090CF4 are declared too,
-   although their only reader, func_80030998, is generated assembly rather
-   than C, so that the header describes the whole range. */
+   them cannot drift apart. func_80030998 reads D_80090CDC and D_80090CF4
+   when switching between its message and campaign editors. */
+extern const char D_80010288[];
 extern u8 D_80090CB4[0x28];
 extern u8 D_80090CDC[0x18];
 extern u8 D_80090CF4[0x18];

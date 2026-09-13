@@ -19,8 +19,8 @@
    steps of the same state machine: the flags byte D_8009B2EB carries
    FRONTEND_STEP_FLAG_ENTERED, so the first call does the setup and each later
    call polls for completion and clears the byte on the way out. The two are
-   contiguous and are the whole gcc_2_8_1_g8 run between func_80030998, which
-   is generated assembly, and the matching func_80030D5C in
+   contiguous and are the whole gcc_2_8_1_g8 run between the separately
+   compiled func_80030998 and the matching func_80030D5C in
    frontend_scene_state_80030d5c.c. The states after it are in
    func_80030E30.c. */
 
