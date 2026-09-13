@@ -40,7 +40,7 @@ void (*D_80090EAC[])(DuelEffectChannel *) = {
     func_80038094,
     func_800384E4,
     Text_StartCampaignDuel,
-    (void (*)(DuelEffectChannel *))func_80038690,
+    func_80038690,
     func_800386B8,
     DuelEffect_PlaySoundCommand,
     (void (*)(DuelEffectChannel *))func_80038800,
