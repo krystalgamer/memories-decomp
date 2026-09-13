@@ -6763,8 +6763,8 @@ Two cautions. `libgs.h` does not parse on its own: it needs `libgte.h` and
 them further down will fail if the new `libgs.h` include goes above it. And
 not every 32-bit write to a `+4` field is an attribute: `0x1000000` (bit 24)
 and `0x2000000` (bit 25) have no name in `libgs.h`, and
-`file_set_position_table.c`'s `*(s32 *)D_800E9DF0 = 0x8000000` is not a
-display object at all.
+`file_set_position_table.c`'s `D_800E9DF0.attribute = 0x8000000` writes a
+standalone sprite record, not a display object.
 
 ## A narrower parameter type is not free at the call site, but a wider one is
 

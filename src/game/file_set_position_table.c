@@ -11,21 +11,21 @@ void File_SetPositionTable(void)
     u8 **name;
     u8 *current;
     s32 i;
-    u8 *state;
+    SpritePrim *state;
 
     File_InitTransferState((s32)gLibrary_aCardArtRecord);
 
     D_8009B10C = File_WaitForTransfers;
-    state = D_800E9DF0;
-    *(s16 *)(state + 4) = 0x120;
-    *(s16 *)(state + 6) = 0xD0;
-    *(s16 *)(state + 0xC) = 0xB;
-    *(s32 *)D_800E9DF0 = 0x8000000;
+    state = &D_800E9DF0;
+    state->xy.h.x = 0x120;
+    state->xy.h.y = 0xD0;
+    state->tpage = 0xB;
+    D_800E9DF0.attribute = 0x8000000;
     D_8009B0E0 = 0;
-    *(s32 *)(state + 0x14) = COLOR_RGB24_NEUTRAL_GREY;
-    *(u16 *)(state + 0xE) = 0xA000;
-    *(s32 *)(state + 8) = 0x180018;
-    *(s32 *)(state + 0x10) = 0xFC0230;
+    state->rgb = COLOR_RGB24_NEUTRAL_GREY;
+    state->uv.word = 0xA000;
+    state->extent.word = 0x180018;
+    state->cxcy.word = 0xFC0230;
 
     i = 0;
     position = gFile_anLba;

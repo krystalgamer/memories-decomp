@@ -272,7 +272,11 @@ extern void (*D_8009B10C)(void) __attribute__((section(".data")));
 extern void (*D_8009B10C)(void);
 #endif
 extern u8 D_8009B0E0;
-extern u8 D_800E9DF0[];
+/* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
+ * 24x24 at (0x120, 0xD0), tpage 0xB, uv (0x00, 0xA0), clut (0x230, 0xFC),
+ * neutral grey, attribute 0x08000000 (libgs's GsROTOFF). It was a u8[] reached
+ * through offset casts; no other C source names it. */
+extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
