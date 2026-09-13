@@ -331,9 +331,9 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     return slot;
 }
 
-void func_80038498(u8 *arg0)
+void func_80038498(DuelEffectChannel *object)
 {
-    u8 **slot = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
+    u8 **slot = &((u8 **)object)[object->stream_58];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
@@ -343,7 +343,7 @@ void func_80038498(u8 *arg0)
     if (v & 0x80) {
         w = gText_abColorSlots[v & 0xF];
     }
-    arg0[0x54] = w;
+    object->field_54 = w;
 }
 
 void func_800384E4(u8*object){register u8*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;*(u16*)(obj+0x34)&=0xEFFF;stream=&((u8**)obj)[*(s8*)(obj+0x58)];current=*stream;value=*current;current++;*stream=current;if(value)*(u16*)(obj+0x34)|=0x1000;}

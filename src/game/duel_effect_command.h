@@ -60,7 +60,7 @@ u32 *func_800383DC(DuelEffectChannel *channel);
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
  * being used directly, so a palette entry and a literal colour share one
  * opcode. */
-void func_80038498(u8 *object);
+void func_80038498(DuelEffectChannel *object);
 
 /* D_80090EAC entry: clears bit 0x1000 of the object's 0x34 flags and sets it
  * again when its one-byte operand is non-zero. Register-pinned. */
