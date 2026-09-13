@@ -4969,6 +4969,12 @@
       "source": "src/game/model_load_monster_merge.c"
     },
     {
+      "address": "0x80056D7C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x7C8",
+      "source": "src/game/model_texture_transfer.c"
+    },
+    {
       "address": "0x80057544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",

@@ -174,10 +174,10 @@ extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8009B118;
 #endif
 
-/* Nine more that nobody calls, found by re-measuring the note above rather
- * than by a scan. Every one is installed as data -- seven into the duel scene
- * callback table, func_80056D7C as a transfer completion callback, and
- * func_80029EC4 into D_800E9DB0[3] (library_runtime.c:318) -- and none is
+/* Address-only declarations found by re-measuring the note above rather
+ * than by a scan. Every one is installed as data -- into the duel scene
+ * callback table or, for func_80029EC4, D_800E9DB0[3]
+ * (library_runtime.c:318) -- and none is
  * invoked from C.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
@@ -198,7 +198,6 @@ void func_80019D18(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
-void func_80056D7C(void);
 void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.

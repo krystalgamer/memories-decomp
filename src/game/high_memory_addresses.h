@@ -19,6 +19,7 @@ extern u8 *D_80010000;
 
 /* Independently labeled transfer destinations. Do not substitute offsets
  * from D_80010000: the labels are part of each consumer's relocation input. */
+extern u8 *D_80010004 __attribute__((section(".data")));
 extern s32 D_80010008 __attribute__((section(".data")));
 /* Primary control-module bases; the callable entry is four bytes into each. */
 extern u8 *D_8001000C __attribute__((section(".data")));

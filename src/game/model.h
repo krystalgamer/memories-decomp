@@ -583,5 +583,6 @@ extern ModelHandlerRegistryEntry
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
 );
+void func_80059284(s32 index, s32 value);
 
 #endif
