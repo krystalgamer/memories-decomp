@@ -3490,10 +3490,10 @@ must be measured.
   `duel_effect_state_callbacks.c` grew with every use routed through the
   local, and the matching form at that stage was the inline
   `((DuelEffectChannel *)object)->state_51`. Those callbacks and
-  `TextBoxStateCallback` are now fully typed; the experiment remains evidence
-  that the two spellings must be measured per function. The failure mode was
-  a link error -- `section .initialized_data VMA ... overlaps section .text`
-  -- not a hash mismatch.
+  `TextBoxStateCallback` are now fully typed, with the callback type owned by
+  `ygo_types.h`; the experiment remains evidence that the two spellings must
+  be measured per function. The failure mode was a link error -- `section
+  .initialized_data VMA ... overlaps section .text` -- not a hash mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one

@@ -354,6 +354,59 @@ typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
 ];
 
+#define TEXT_STREAM_SLOT_COUNT 22
+
+/* Narrow text-command view: twenty-two stream pointers place the signed
+ * selector at the measured 0x58 offset. */
+typedef struct {
+    u8 *streams[TEXT_STREAM_SLOT_COUNT];
+    s8 stream_index;
+} TextStreamOwner;
+
+/* Display-effect command view. Its depth selector follows twenty stream
+ * pointers and the command state bytes at the same measured 0x58 offset. */
+typedef struct {
+    u8 *streams[20];
+    u8 unk50;
+    u8 state;
+    u8 pad52[6];
+    s8 depth;
+} EffectObject;
+
+/* One 0x14-byte scene-script slot at D_800EAE98. */
+typedef struct {
+    s32 unk00;
+    s16 unk04;
+    s16 unk06;
+    s32 unk08;
+    s32 unk0C;
+    s32 unk10;
+} SceneScriptSlot;
+
+/* Script image slot prefix: the owned display object and its image id. */
+typedef struct {
+    void *pointer;
+    s16 value;
+    u8 pad_06[14];
+} ScriptImageEntry;
+
+struct DuelEffectChannel;
+typedef void (*SceneScriptRecordCallback)(void *, s32);
+typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
+
+typedef char TextStreamOwner_stream_index_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(TextStreamOwner, stream_index) == 0x58 ? 1 : -1
+];
+typedef char EffectObject_depth_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(EffectObject, depth) == 0x58 ? 1 : -1
+];
+typedef char SceneScriptSlot_size_must_be_0x14[
+    sizeof(SceneScriptSlot) == 0x14 ? 1 : -1
+];
+typedef char ScriptImageEntry_size_must_be_0x14[
+    sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
+];
+
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
 
 /* The installed callback selects scale versus destination XY at 0x44/0x46.

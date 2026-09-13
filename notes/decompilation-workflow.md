@@ -590,6 +590,13 @@ The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
 
+Single ownership applies to unique records too, not only duplicated shapes.
+The text/script pass moved `TextStreamOwner`, `EffectObject`,
+`SceneScriptSlot`, `ScriptImageEntry`, `SceneScriptRecordCallback`, and
+`TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
+domain headers still own constants, globals, and function declarations; the
+shared type file owns the measured layouts and offset assertions.
+
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
 must have a canonical header declaration; genuinely homeless data lives in
