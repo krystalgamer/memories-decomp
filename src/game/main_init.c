@@ -2,7 +2,7 @@
  * Main_Init at 0x80012B50 matches all 388 bytes under the existing uniform
  * gcc_2_8_1_g8_split profile. The historical pointer pin hid a missing
  * argument: func_80013154 consumes the graphics work-area base in a0.
- * Passing that base through its canonical u8 * prototype retains the
+ * Passing that base through its canonical work-area prototype retains the
  * pointer across the volatile initialization stores and recovers every
  * instruction without a register binding or no-argument ABI view.
  *
@@ -11,12 +11,12 @@
  * historical attempts are retained; the explicit-argument result is
  * recorded separately as reclassification evidence.
  */
-#define GRAPHICS_WORK_AREA_IS_VOLATILE
 #define D_8009B0D1_IS_VOLATILE
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
+#define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
 #include "../types.h"
 #include "../unmatched.h"
 #include "../psyq/gcc_runtime.h"
@@ -49,7 +49,7 @@ s32 Main_Init(void)
 {
     s32 r;
     s32 t;
-    u8 *p;
+    GraphicsFrameBuffer *p;
 
     __main();
     EnterCriticalSection();
@@ -60,7 +60,7 @@ s32 Main_Init(void)
     SetMem(2);
     SetDispMask(0);
     func_80015D0C();
-    p = D_8009B4A8;
+    p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
     D_8009B0C8 = 0;
     D_8009B0C0 = 0;
@@ -72,7 +72,7 @@ s32 Main_Init(void)
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;
     *(u8 *)&D_8009B230 = 1;
-    D_8009B0B4 = p;
+    gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
     func_80013154(p);
     func_800403F0();

@@ -9,6 +9,7 @@
 #include "model_slot_row_tables.h"
 #include "model_slot_support.h"
 #include "model_slot_updates.h"
+#include "model_slot_setup.h"
 
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The

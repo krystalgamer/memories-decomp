@@ -182,9 +182,12 @@ without losing the walk's continuation.
 `src/game/ordering_tables.h` owns the resident/overlay contract for
 `D_800E9D90`: four `GsOT *` slots, not four ordering-table descriptors and
 not texture IDs. The producer is `Graphics_BeginFrame` in `graphics_frame.c`.
-It selects the active `0x5160`-byte buffer, walks descriptor offsets
-`0x514C`, `0x5138`, `0x5124`, `0x5110`, publishes their addresses into slots
-3 through 0, writes each descriptor's `length`, and calls `GsClearOt`.
+It selects `gGraphics_pActiveFrameBuffer` from the typed
+`gGraphics_aFrameBuffers` array, walks its four `ordering_tables` descriptors
+from index 3 through 0, publishes their addresses into slots, writes each
+descriptor's `length`, and calls `GsClearOt`. The asserted `0x5160`-byte
+layout is owned by `src/game/graphics_frame_buffer.h`: `0x5110` bytes of tag
+storage followed by four `GsOT` descriptors.
 The header asserts the SDK descriptor's `0x14` size and the pointer array's
 `0x10` size. No private SDK type is needed.
 

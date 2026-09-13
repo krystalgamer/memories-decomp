@@ -110,7 +110,8 @@ extern u8 D_8009B26D;
 
 /* Main_Init passes the graphics work-area base that this initializer uses
  * for both frame buffers and their ordering tables. */
-void func_80013154(u8 *base);
+struct GraphicsFrameBuffer;
+void func_80013154(struct GraphicsFrameBuffer *base);
 void func_80013360(void);
 
 /* The pump itself, and the call that empties the registry. func_8001306C

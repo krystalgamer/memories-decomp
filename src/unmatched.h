@@ -31,9 +31,8 @@
  *
  * WHAT DOES NOT GO HERE, AND WHY THIS FILLS UP SLOWLY
  *
- * A local declaration is not always duplication. Several of these functions
- * are declared incompatibly on purpose, because the declaration is what makes
- * the caller's code generation match:
+ * Several functions need incompatible declarations because the caller-visible
+ * type is what makes code generation match. Those variants still belong here:
  *
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
@@ -48,12 +47,6 @@
  *     still held its own `index`. Writing that argument explicitly costs
  *     nothing, because the register already holds the value, so the true
  *     one-parameter signature is used there now.
- *
- *   - model_slot_setup.c calls func_8004CB0C the same way, and that one
- *     cannot be fixed. The callee reads $a0, $a1, $a2 and $a3, but this site
- *     sets only $a0. The other three are whatever the register file happened
- *     to hold, so there is no expression to write for them. Its guarded
- *     `void (void)` header arm stays, and is not a mistake.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local
@@ -74,6 +67,14 @@
  * access survives, or an asm() alias keeping GCC from holding an address
  * across a call -- note the exception beside the declaration so it is not
  * quietly "fixed" later. */
+
+/* Load-bearing caller views that cannot share one flat prototype. Consumers
+ * select the declaration they measured before including this header. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
 
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
@@ -607,12 +608,6 @@ void func_8002A2F4(u8 *state);
 /* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
  * display-object list 5. It is reached only through that table. */
 void func_80041068(void);
-
-/* The four-vertex renderers pass a raw display attribute as func_80042188's
- * first argument. This central view records that ABI for unmatched-contract
- * checking; display_object_packet_submit.h preserves its separately measured
- * SpritePrim * caller view behind an explicit selector. */
-void func_80042188(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
 
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int

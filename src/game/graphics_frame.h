@@ -341,25 +341,33 @@ extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
 #endif
 
-/* The double-buffered graphics work area. Graphics_BeginFrame picks the half
- * for the frame it is starting and publishes it:
- *
- *     D_8009B0B4 = &D_8009B4A8[gGraphics_bActiveBuffer * 20832];
- *
- * so the buffer is 20832 bytes per half, selected by the same index that
- * chooses D_800A5768's half a few lines above it. Main_Init takes the base
- * while it brings the loader block up.
- *
- * Left unsized, which is what both declarers already said; the stride is the
- * measurement here, not the total. */
-extern u8 D_8009B4A8[];
+/* One half of the double-buffered graphics work area. The first 0x5110 bytes
+ * hold the ordering-table tags; four SDK descriptors occupy the final 0x50
+ * bytes. func_80013154 initializes their tag bases to offsets 0, 0x10, 0x110
+ * and 0x4110, and Graphics_BeginFrame publishes the descriptor addresses.
+ * The complete layout lives in graphics_frame_buffer.h; this header keeps a
+ * forward declaration so unrelated frame-state consumers do not inherit the
+ * full LIBGS interface.
+ */
+typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
 
-/* Main_Init publishes the initial work area before graphics setup. Frame
- * rendering subsequently selects and uses the active half of that buffer. */
-#ifdef GRAPHICS_WORK_AREA_IS_VOLATILE
-extern u8 *volatile D_8009B0B4;
+/* Graphics_BeginFrame picks the half for the frame it is starting and
+ * publishes it:
+ *
+ *     gGraphics_pActiveFrameBuffer =
+ *         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
+ *
+ * The asserted 0x5160 size is the 20832-byte stride selected by the same index
+ * that chooses D_800A5768's half a few lines above it. Main_Init takes the
+ * array base while it brings the loader block up. The number of buffers stays
+ * unsized because only the two-buffer startup loop establishes it.
+ */
+extern GraphicsFrameBuffer gGraphics_aFrameBuffers[];
+
+#ifdef GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
+extern GraphicsFrameBuffer *volatile gGraphics_pActiveFrameBuffer;
 #else
-extern u8 *D_8009B0B4;
+extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
 #endif
 
 /* The other half of that pair, the one the comment above refers to:
