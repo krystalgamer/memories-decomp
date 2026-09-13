@@ -4258,7 +4258,7 @@
       "address": "0x80047864",
       "profile": "gcc_2_8_1_g0",
       "size": "0x88",
-      "source": "src/game/func_80047864.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x800478EC",
@@ -4312,19 +4312,19 @@
       "address": "0x80047DB0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x114",
-      "source": "src/game/func_80047DB0.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047EC4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x74",
-      "source": "src/game/sd_key_off_voice_slots.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047F38",
       "profile": "gcc_2_8_1_g0",
       "size": "0x74",
-      "source": "src/game/sd_key_off_voice_slots.c"
+      "source": "src/game/sound_voice_selection.c"
     },
     {
       "address": "0x80047FAC",
