@@ -58,7 +58,7 @@ extern DuelEffectChannel D_800EB15C;
  * word and test
  * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
  * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
- * Script_OpSavePrompt (src/candidates/func_8002EE94.c) reads the low halfword
+ * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
  * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
  * the slot-0 text flags. Both units also matched when the read was spelled
  * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name

@@ -218,24 +218,6 @@
       }
     },
     {
-      "address": "0x8002EE94",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8002EE94.c",
-      "target": "src/candidates_target/func_8002EE94.S",
-      "candidate_build_sha256": "18d96b15c1792f017fb4e4bedd42d9488712394753da602e071ace2d8c044edb",
-      "target_bytes_sha256": "3315612e13551113f8164c21e0c9ab590e569b655d3e94af0474fb5f994f24cc",
-      "canonical_contract_sha256": "58da8598085a2dfb540d023e2680e8aa7cfea6a20970990cea898abfd9a1dfd8",
-      "canonical_contracts": {
-        "D_8009B269": "8705b1cc7398b0743dc23aad91a55b8849babd9c2570a1247350e2d580a0f229",
-        "D_8009B26C": "0ff72eda3f037347a48d396cdb46e8ed8d3cebb2d9c371759dc38fbbf88996b7",
-        "D_8009B34C": "18b9a3d7a8fd701c51c343252561e6f5123986ce80bf102cd400d5b60ed5f3c1",
-        "DuelEffect_HasActiveEntry": "941a8af1e1d4882fb8b7bec8d61b22e851037d118969afe45fb67d009ff0bb80",
-        "gCampaignSceneIndex": "6f3c6213a66447b4977846114689b888a51f18554dcedb49aa7221426777bdf9",
-        "gDialog_bChoice": "fd60e24c816450ea6a56fc121073fd6c6d7fc72208058c788acb6b4f25936b50",
-        "gDialog_bChoiceCount": "856924a2268bfed06d70ae87fc92006c07cbbdc45f36e830ffbf1c4d9876dd97"
-      }
-    },
-    {
       "address": "0x80030294",
       "profile": "gcc_2_8_1_cc_g8_as_g4_split",
       "source": "src/candidates/func_80030294.c",

@@ -450,7 +450,7 @@ typedef struct DuelEffectChannel {
     DuelEffectEntry *entry_end_20;
     DuelEffectEntry *entry_head_24;
     /* Every consumer proves this is a DisplayObject pointer:
-       func_800391E4 and the func_8002EE94 candidate cast it, card-list text
+       func_800391E4 and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
        through a pointer cast. */
     struct DisplayObject *field_28;

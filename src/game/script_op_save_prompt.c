@@ -1,56 +1,63 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_8002EE94.c.
- */
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define GDIALOG_CHOICE_IN_DATA
+#define GDIALOG_CHOICE_COUNT_IN_DATA
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
 #define SAVE_DATA_WORKSPACE_AS_HALFWORDS
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
-#include "../game/card_constants.h"
-#include "../game/data_transfer_request.h"
-#include "../game/duel_effect_mode_7.h"
-#include "../game/input.h"
-#include "../game/save_data.h"
-#include "../game/script_command_busy.h"
+#include "card_constants.h"
+#include "data_transfer_request.h"
+#include "duel_effect_mode_7.h"
+#include "input.h"
+#include "save_data.h"
+#include "script_command_busy.h"
 
-#include "../game/duel_effect.h"
-#include "../game/text_box_lifecycle.h"
-#include "../game/sound.h"
-#include "../game/text_box_runtime.h"
-#include "../game/func_80039794.h"
-#include "../game/func_8003B6AC.h"
-#include "../game/display_object.h"
-#include "../game/display_object_interpolation.h"
-#include "../game/script_state.h"
-#include "../game/main_services.h"
+#include "duel_effect.h"
+#include "text_box_lifecycle.h"
+#include "sound.h"
+#include "text_box_runtime.h"
+#include "func_80039794.h"
+#include "func_8003B6AC.h"
+#include "display_object.h"
+#include "display_object_interpolation.h"
+#include "script_state.h"
+#include "main_services.h"
 #define D_8009B34C_IN_DATA
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../unmatched.h"
-#include "../game/dialog_read_choice_input.h"
-#include "../game/script_op_save_prompt.h"
-#include "../game/duel_effect_mark_object_if_active.h"
-#include "../game/main_mode_state.h"
+#include "dialog_read_choice_input.h"
+#include "script_op_save_prompt.h"
+#include "duel_effect_mark_object_if_active.h"
+#include "duel_effect_entry_control.h"
+#include "dialog_choice.h"
+#include "main_mode_state.h"
 
-extern s8 gDialog_bChoice __attribute__((section(".data")));
-extern s8 gDialog_bChoiceCount __attribute__((section(".data")));
-extern s32 DuelEffect_HasActiveEntry(DuelEffectChannel *);
-
+/* Save-prompt dialog step for the campaign script.
+ *
+ * On entry it reads the prompt's text id and scene index from the script
+ * stream and opens the prompt box. Afterwards it drives the memory-card
+ * dialog, the confirm and cancel boxes and the slide-in/out of the prompt,
+ * and finally applies the choice read from the pad.
+ *
+ * Two allocation levers are load-bearing. The choice handling at the end
+ * sits in a one-pass do/while: GCC weights the box pointer's references by
+ * that loop depth, so the box takes $s0 and its display object $s1, as
+ * retail has them. `value` carries both the text id and the prompt's Y
+ * coordinate, so it spans blocks and the stream's low byte keeps its own
+ * register instead of being tied to the id. */
 void Script_OpSavePrompt(void)
 {
     DuelEffectChannel *box;
-    register DisplayObject *obj __asm__("$17");
+    DisplayObject *obj;
     u8 *p;
     u8 *p2;
     DisplayObject *slot;
     DuelEffectChannel *chan;
     DuelEffectChannel *prompt;
-    s32 id;
-    register s32 lo __asm__("$8");
+    s32 value;
+    s32 lo;
     s32 choice;
     s32 step;
     u16 flags;
@@ -62,12 +69,12 @@ void Script_OpSavePrompt(void)
         gDialog_bChoice = -1;
         D_8009B290 = p2;
         lo = p[0];
-        id = lo | (p[1] << 8);
+        value = lo | (p[1] << 8);
         D_8009B290 = p + 4;
         D_8009B2A6 = p[2] | (p2[1] << 8);
         func_8003B6AC(0, 2);
         DuelEffect_MarkObjectIfActive(
-            TextBox_Create(0, id, 0x10, 0xB0, 0x120, 0x30));
+            TextBox_Create(0, value, 0x10, 0xB0, 0x120, 0x30));
         return;
     }
 
@@ -192,8 +199,9 @@ void Script_OpSavePrompt(void)
                directly above it convert to member access and match; converting
                this one as well costs sixteen bytes. Same field, same function,
                and the two spellings are not interchangeable here. */
+            value = ((s16 *)obj)[0x19];
             TextBox_SetPos((struct DuelEffectChannel *)box,
-                           ((s16 *)obj)[0x18], ((s16 *)obj)[0x19]);
+                           ((s16 *)obj)[0x18], value);
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
@@ -203,36 +211,38 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    if (Dialog_ReadChoiceInput((u8 *)box) != 0) {
-        return;
-    }
-    if ((gInput_wPad1Pressed & 0xC0) == 0) {
-        return;
-    }
-    D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
-              sizeof(s16)] = D_8009B2A6;
-    choice = gDialog_bChoice;
-    switch (choice) {
-    case 0:
-        SD_SEPlayFull(7);
+    do {
+        if (Dialog_ReadChoiceInput((u8 *)box) != 0) {
+            return;
+        }
+        if ((gInput_wPad1Pressed & 0xC0) == 0) {
+            return;
+        }
         D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
                   sizeof(s16)] = D_8009B2A6;
-        SaveData_RequestWrite();
-        D_8009B27C |= 0x80;
-        break;
-    case 1:
-        SD_SEPlayFull(7);
-        func_80033C90();
-        D_8009B269 = 2;
-        gCampaignSceneIndex = (u8)D_8009B2A6;
-        break;
-    case 2:
-        SD_SEPlayFull(7);
-        D_8009B27C |= 0x400;
-        break;
-    case 3:
-        SD_SEPlayFull(8);
-        D_8009B27C |= 0x1000;
-        break;
-    }
+        choice = gDialog_bChoice;
+        switch (choice) {
+        case 0:
+            SD_SEPlayFull(7);
+            D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
+                      sizeof(s16)] = D_8009B2A6;
+            SaveData_RequestWrite();
+            D_8009B27C |= 0x80;
+            break;
+        case 1:
+            SD_SEPlayFull(7);
+            func_80033C90();
+            D_8009B269 = 2;
+            gCampaignSceneIndex = (u8)D_8009B2A6;
+            break;
+        case 2:
+            SD_SEPlayFull(7);
+            D_8009B27C |= 0x400;
+            break;
+        case 3:
+            SD_SEPlayFull(8);
+            D_8009B27C |= 0x1000;
+            break;
+        }
+    } while (0);
 }

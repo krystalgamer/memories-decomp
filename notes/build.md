@@ -1162,7 +1162,7 @@ units define it -- `main_run_two_player_duel_setup.c`, `main_run_trade.c` and
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `frontend_scene_states.c` and
-`func_8002EE94` (now `src/candidates/func_8002EE94.c`) behind a
+[`Script_OpSavePrompt`](../src/game/script_op_save_prompt.c) behind a
 `D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
 a lever and could never be a real array -- and `frontend_scene_states.c`

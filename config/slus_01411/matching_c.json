@@ -1885,6 +1885,12 @@
       "source": "src/game/duel_is_player_deck_complete.c"
     },
     {
+      "address": "0x8002EE94",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x59C",
+      "source": "src/game/script_op_save_prompt.c"
+    },
+    {
       "address": "0x8002F430",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",

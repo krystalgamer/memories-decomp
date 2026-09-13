@@ -348,7 +348,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * The Script_OpSavePrompt candidate also clears it, spelled with a .data section
+ * Script_OpSavePrompt also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
 extern u8 D_8009B34C __attribute__((section(".data")));
@@ -537,7 +537,7 @@ struct DuelRitualResult;
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
- * (src/candidates/func_8002EE94.c) holds the same object as
+ * (script_op_save_prompt.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
