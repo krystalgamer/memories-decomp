@@ -6,6 +6,7 @@
  * The full reconstruction matches all 1,880 text bytes and the 17-entry
  * signed-phase table with the uniform GCC 2.8.1 G8 split-address profile.
  * The byte block-move view preserves the original unaligned eight-byte copy.
+ * The timing callback is sequenced before the final live scale-byte read.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -23,6 +24,7 @@
 #include "high_memory_addresses.h"
 #include "fade.h"
 #include "sound.h"
+#include "sound_output.h"
 #include "../unmatched.h"
 
 #define MODEL_HANDLER_OFFSET_ABSOLUTE
@@ -209,7 +211,8 @@ check_ready:
         break;
     case 15: {
         s32 remaining = slot->field_750[slot->field_BF5].max << 4;
-        remaining -= slot->field_E0D * func_80058E1C();
+        s32 timing = func_80058E1C();
+        remaining -= slot->field_E0D * timing;
         if (slot->field_E06 >= remaining) {
             func_80059700(0, 0);
         }
