@@ -522,19 +522,6 @@ struct DuelRitualResult;
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-/* Starts the async read of one card's effect artwork into slot `slot` of the
- * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
- * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,
- * seven sectors long, so a card's art is seven sectors and the table begins
- * one card's worth past the card data.
- *
- * It hands back the transfer descriptor it started, with `slot` already
- * stored in the descriptor's callback_data for func_800289BC to pick up, and
- * it has published the descriptor's status through D_8009B0F4 with
- * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
- * which is why they can: the descriptor is reachable without it. The password
- * overlay's shop.c calls it too. */
-void func_8002A2F4(u8 *state);
 
 /* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
  * hands the scene over to. On its first frame it derives the per-frame 16.16
