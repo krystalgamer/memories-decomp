@@ -35,7 +35,7 @@ WITNESS = r"""
 #include "src/types.h"
 #include "src/game/duel_card_stat_display.h"
 #include "src/game/display_object_config.h"
-#include "src/game/display_object_api.h"
+#include "src/game/display_object_core.h"
 #include "src/game/display_object_helpers.h"
 #include "src/game/duel_card.h"
 
