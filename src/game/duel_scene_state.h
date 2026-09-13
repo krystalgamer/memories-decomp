@@ -8,6 +8,6 @@
 
 /* Scene phase and update flags. All measured accesses use this halfword;
  * the gap up to D_8009B244 is not evidence of a wider object. */
-extern u16 D_8009B23A;
+extern u16 gDuel_wSceneStateFlags;
 
 #endif

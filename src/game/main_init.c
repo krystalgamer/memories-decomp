@@ -73,7 +73,7 @@ s32 Main_Init(void)
     func_800403F0();
     func_800151B0();
     func_800134B4();
-    func_80035A58();
+    Movie_ResetPlaybackState();
     func_80035A64();
     func_8003B5C8();
     SD_InitState(D_800E9EC0[0]);

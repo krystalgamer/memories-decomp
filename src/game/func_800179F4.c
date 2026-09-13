@@ -70,12 +70,12 @@ void func_800179F4(void)
         DUEL_TERRAIN_PACKAGE_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
     D_8009B238 = -1;
-    D_8009B23A = 11;
+    gDuel_wSceneStateFlags = 11;
     gDuel_bQuitDialogState = 0;
     D_8009B162 = 0;
     D_8009B1D4 = 0;
     D_8009B204 = 0;
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
     D_8009B16C = 0;
     D_8009B174 = 0;
     if (D_8009B369 != 1) {
@@ -89,7 +89,7 @@ void func_800179F4(void)
             );
         }
         D_8009B1D5 = 0;
-        D_8009B23A = 1;
+        gDuel_wSceneStateFlags = 1;
         func_8001778C();
         func_80017708();
         func_800175A0();
@@ -102,7 +102,7 @@ void func_800179F4(void)
     func_8001352C();
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
-    func_8002C598();
+    DuelEffect_ResetRequestPool();
     func_80029574(0);
     pane->src_x = 0;
     pane->src_y = 256;

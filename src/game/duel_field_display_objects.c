@@ -127,7 +127,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
         TextStagingValues *dst = D_801D5608;
 
         style += 4;
-        rank = D_800E9FF0[D_8009B1D5 ^ 1].field_19;
+        rank = D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {
@@ -154,7 +154,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
             side = side ^ 1;
         }
         dst = D_801D5608;
-        rank = D_800E9FF0[side].field_19;
+        rank = D_800E9FF0[side].swords_turns_remaining;
         dst->card_stats.rank = rank;
         if (rank != 0) {
             if (rank < 0 || rank > 3) {

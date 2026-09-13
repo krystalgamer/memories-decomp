@@ -38,7 +38,7 @@ void func_800359B0(void)
     }
 }
 
-void func_80035A58(void)
+void Movie_ResetPlaybackState(void)
 {
     D_8009B318 = 0;
 }

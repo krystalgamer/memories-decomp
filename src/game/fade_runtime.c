@@ -409,7 +409,7 @@ void func_80015CC0(void)
     func_80015870();
 }
 
-void func_80015CFC(void)
+void Fade_EnableOrderingTables(void)
 {
     D_8009B141 = FADE_ORDERING_TABLE_ACTIVE;
 }

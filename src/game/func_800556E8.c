@@ -31,7 +31,7 @@ void func_800556E8(s32 index) {
     if (m->field_E1F == 0) {
         return;
     }
-    if (*(u32 *)((u8 *)m + 0xDD8) != 0) {
+    if (m->field_DD8 != 0) {
         anim = m->field_BF5;
         length = m->field_750[anim].max << 4;
         speed = m->field_E0D * func_80058E1C();
@@ -72,21 +72,21 @@ void func_800556E8(s32 index) {
                 }
             }
         }
-        if (((u8 *)m)[0xE10] == 0) {
+        if (m->field_E10 == 0) {
             if (m->field_E16 == 0x3E ? m->field_E06 >= length : m->field_E06 == 0) {
                 if (m->field_DC0[7] == 6) {
-                    ((u8 *)m)[0xBF4] = 2;
+                    m->field_BF4 = 2;
                 }
-                if (((u8 *)m)[0xBF4] != ((u8 *)m)[0xBF6]) {
-                    func_800597C8(index, ((u8 *)m)[0xBF4], 0);
-                    ((u8 *)m)[0xBF6] = ((u8 *)m)[0xBF4];
-                    if (((u8 *)m)[0xE0F] != 0) {
+                if (m->field_BF4 != m->field_BF6) {
+                    func_800597C8(index, m->field_BF4, 0);
+                    m->field_BF6 = m->field_BF4;
+                    if (m->field_E0F != 0) {
                         func_80057AF4(index, 0, 0);
                     }
                     if (m->field_DC0[7] == 6) {
-                        func_8005F714(-1, index + 2, *(u16 *)((u8 *)m + 0x8B0));
+                        func_8005F714(-1, index + 2, m->field_750[2].max);
                         m->field_DC0[7] = 0;
-                        ((u8 *)m)[0xBF4] = 1;
+                        m->field_BF4 = 1;
                     }
                 }
             }

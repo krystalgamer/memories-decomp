@@ -42,22 +42,24 @@ typedef struct {
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a D_801A7AD8 record index. The shape is not a guess --
- * func_800179F4 (src/candidates/func_800179F4.c) and func_800208D4.c both
+ * func_800179F4 (src/candidates/func_800179F4.c) and
+ * duel_scene_turn_switch.c both
  * build a per-side cursor as
  * D_800907D8 + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
 #ifdef DUEL_FIELD_GRID_2D
-/* duel_card_effects.c and func_80025F3C (src/candidates/func_80025F3C.c)
+/* duel_card_effects.c and DuelEffect_ApplySwords
+ * (src/candidates/func_80025F3C.c)
  * index it [side][slot]. That is not a spelling preference: rewriting either
  * of them to the flat index the other sixteen files use builds to the right
  * size and differs from byte 0x80025CA2.
  *
- * func_80025F3C shared duel_field_effect_steps.c with func_800260D0 (now
- * func_800260D0.c), which walks the grid flat, so that unit
- * defined DUEL_FIELD_GRID_2D for the [side][slot] user and cast at the flat
- * one. Both candidates keep that. */
+ * DuelEffect_ApplySwords previously shared duel_field_effect_steps.c with
+ * func_800260D0 (now src/game/func_800260D0.c), which walks the grid flat,
+ * so that unit defined DUEL_FIELD_GRID_2D for the [side][slot] user and cast
+ * at the flat one. Both sources keep that distinction. */
 extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 #else
 extern u8 D_800907D8[];

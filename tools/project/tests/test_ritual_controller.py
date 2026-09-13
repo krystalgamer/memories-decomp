@@ -38,7 +38,7 @@ _start:
 
 # The source's include prefix supplies the same owner views to the fixture.
 WITNESS = r"""
-void func_800262D4(void);
+void DuelEffect_ApplyRitual(void);
 #define R8(p, n) (((u8 *)(p))[n])
 #define R16(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define RS16(p, n) (*(s16 *)((u8 *)(p) + (n)))
@@ -46,8 +46,8 @@ void func_800262D4(void);
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 DisplayObject *D_8009B1C0;
-s16 D_8009B1A0, D_8009B1D2, D_8009B20C[2];
-u16 D_8009B210, D_8009B220;
+s16 D_8009B1A0, gDuel_wEffectCardID, D_8009B20C[2];
+u16 D_8009B210, gDuel_wCardEffectFlags;
 u8 *D_8009B17C;
 u8 D_8009B19C, D_8009B1D5;
 s8 D_8009B360[2];
@@ -115,7 +115,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 id)
 }
 
 void func_80019CC8(void *id) { event(3, (s32)id, 0, 0, 0); }
-u8 *func_8002C604(s32 id) { event(4, id, 0, 0, 0); return request; }
+u8 *DuelEffect_AllocateRequest(s32 id) { event(4, id, 0, 0, 0); return request; }
 void func_8003FF88(u32 id) { event(5, id, 0, 0, 0); }
 void func_80024914(DuelCardRecord *card)
 {
@@ -240,8 +240,8 @@ static void setup(s32 state)
     for (i = 0; i < 3; i++) D_800E9EF0.slots[i + 2] = &tributes[i];
     D_800E9EF0.ritual.result.field_0C = 0x11223344;
     D_8009B17C = request; D_8009B1C0 = &main_object;
-    D_8009B1A0 = 321; D_8009B1D2 = -123;
-    D_8009B210 = state; D_8009B220 = 0xA55A;
+    D_8009B1A0 = 321; gDuel_wEffectCardID = -123;
+    D_8009B210 = state; gDuel_wCardEffectFlags = 0xA55A;
     D_8009B20C[0] = 0x1234; D_8009B20C[1] = 0;
     D_8009B19C = 7; D_8009B1D5 = 0;
     D_8009B360[0] = D_8009B360[1] = -1;
@@ -264,7 +264,7 @@ static void setup(s32 state)
     saved_readback = 0;
 }
 
-static void run(void) { executions++; func_800262D4(); }
+static void run(void) { executions++; DuelEffect_ApplyRitual(); }
 
 static s32 valid(void)
 {
@@ -279,20 +279,20 @@ static s32 initialization(void)
     s32 i, j;
     for (i = 0; i < 4; i++) for (j = 0; j < 2; j++) {
         setup(0xF5); initialized = 0;
-        ritual_result = results[i]; D_8009B1D2 = arguments[j];
+        ritual_result = results[i]; gDuel_wEffectCardID = arguments[j];
         run();
         CHECK(valid() && events[1].kind == 2 && events[1].a == arguments[j], 10);
         CHECK(D_8009B1A0 == (s16)results[i] && D_800E9EF0.ritual.result.field_0C == 0 &&
               D_800E9EF0.slots[2] == &tributes[0] && D_800E9EF0.slots[3] == &tributes[1] &&
               D_800E9EF0.slots[4] == &tributes[2], 11);
         if (i == 0 || i == 3) {
-            CHECK(count == 2 && D_8009B220 == 0 && D_8009B210 == 0xF5, 12);
+            CHECK(count == 2 && gDuel_wCardEffectFlags == 0 && D_8009B210 == 0xF5, 12);
         } else {
             CHECK(count == 5 && events[2].kind == 3 && events[2].a == results[i] &&
                   events[3].kind == 4 && events[3].a == 22 &&
                   events[4].kind == 5 && events[4].a == 0x8022, 13);
             CHECK(D_8009B17C == request && D_8009B210 == 0 &&
-                  RS16(request, 0x1A) == arguments[j] && D_8009B220 == 0xA55A, 14);
+                  RS16(request, 0x1A) == arguments[j] && gDuel_wCardEffectFlags == 0xA55A, 14);
         }
     }
     return 0;
@@ -305,7 +305,7 @@ static s32 request_ready(void)
     for (i = 0; i < 3; i++) {
         setup(0xA0); R8(request, 0x1D) = ready[i]; D_8009B19C = 3;
         run();
-        CHECK(valid() && count == (i ? 4 : 1) && D_8009B220 == 0xA55A, 20);
+        CHECK(valid() && count == (i ? 4 : 1) && gDuel_wCardEffectFlags == 0xA55A, 20);
         CHECK(D_8009B210 == (i ? 1 : 0xA0) && D_8009B19C == (i ? 7 : 3), 21);
         if (i) CHECK(events[1].kind == 6 && events[1].a == 2 &&
                      events[2].kind == 6 && events[2].a == 7 &&
@@ -516,20 +516,20 @@ static s32 slide_and_default(void)
           events[2].kind == 25 && events[2].a == 3 &&
           events[2].b == -123 && events[2].c == -24 && events[2].d == -1024 &&
           RS16(&card_object, 0x60) == -982 && D_8009B210 == 0x85 &&
-          D_8009B220 == 0xA55A, 100);
+          gDuel_wCardEffectFlags == 0xA55A, 100);
     for (i = 0; i < 8; i++) {
         setup(0x85); R16(&card_object, 0x60) = phases[i]; run();
         CHECK(valid() && count == 2 && events[1].kind == 25 &&
               events[1].b == -123 && events[1].c == -24 &&
               events[1].d == (s16)phases[i] &&
               RS16(&card_object, 0x60) == next[i], 101);
-        CHECK(D_8009B220 == (next[i] >= 0 ? 0 : 0xA55A) &&
+        CHECK(gDuel_wCardEffectFlags == (next[i] >= 0 ? 0 : 0xA55A) &&
               RS16(&card_object, 0x32) == (next[i] >= 0 ? -24 : 0), 102);
     }
     for (i = 6; i < 16; i++) {
         setup(0xA0 | i); run();
         CHECK(valid() && count == 1 && D_8009B210 == (0xA0 | i) &&
-              D_8009B220 == 0xA55A, 103);
+              gDuel_wCardEffectFlags == 0xA55A, 103);
     }
     return 0;
 }
@@ -547,7 +547,7 @@ static s32 helper_reloads(void)
     setup(0xC4); mutation = 4; gInput_wPad1Pressed = 0x40; run();
     CHECK(valid() && D_8009B210 == 0x1E4, 113);
     setup(0x85); mutation = 5; R16(&card_object, 0x60) = 0x8000; run();
-    CHECK(valid() && R16(&card_object, 0x60) == 26 && D_8009B220 == 0, 114);
+    CHECK(valid() && R16(&card_object, 0x60) == 26 && gDuel_wCardEffectFlags == 0, 114);
     return 0;
 }
 
@@ -580,7 +580,7 @@ int main(int argc, char **argv)
 
 
 def include_prefix(path: Path) -> str:
-    text = path.read_text().split("void func_800262D4(void)", 1)[0]
+    text = path.read_text().split("void DuelEffect_ApplyRitual(void)", 1)[0]
     return re.sub(
         r'^#include "([^"]+)"',
         lambda match: '#include "' + str((path.parent / match[1]).resolve()) + '"',

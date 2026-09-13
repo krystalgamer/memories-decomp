@@ -40,7 +40,7 @@ remains a prefix of the persisted block, not a replacement allocation:
 
 | State offset | Workspace offset | Observed view and evidence |
 |---|---|---|
-| `0x000` | `0x200` | Forty `u16` deck IDs; starter-deck generation writes them and `func_8002C4DC` scans them. |
+| `0x000` | `0x200` | Forty `u16` deck IDs; starter-deck generation writes them and `Duel_FindPlayerDeckCard` scans them. |
 | `0x050` | `0x250` | 722 `u8` card quantities; `library_runtime.c` walks `gLibrary_abCardChest`, and `func_8002C518` reads the same bytes as `card_quantities[id - 1]`. Its Library caller supplies IDs 1 through 722. |
 | `0x334` | `0x534` | Signed 32-bit duelist code; the name-entry writer now uses the same field as save validation. |
 | `0x40C` | `0x60C` | Twelve SJIS name bytes; the name-entry checksum now uses the field, while `name_entry_runtime.c` retains the `gSaveData_aPlayerNameSjis` label. |

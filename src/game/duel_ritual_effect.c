@@ -4,17 +4,17 @@
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "file_transfer.h"
-#include "func_8002622C.h"
+#include "duel_ritual_effect.h"
 #include "sound.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
-void func_8002622C(void)
+void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
-        D_8009B1A0 = Duel_CheckRitual(0, D_8009B1D2);
+        D_8009B1A0 = Duel_CheckRitual(0, gDuel_wEffectCardID);
         if (D_8009B1A0) {
-            DuelEffectRequest *request = func_8002C68C(0x12);
+            DuelEffectRequest *request = DuelEffect_CreateRequest(0x12);
 
             request->field_00 = 0xA0;
             request->field_02 = 0x78;
@@ -26,6 +26,6 @@ void func_8002622C(void)
         (D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
         D_8009B134_abs
     )) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }

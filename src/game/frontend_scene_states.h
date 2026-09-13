@@ -13,8 +13,8 @@
 void func_80030C10(void);
 void func_80030CB0(void); /* 10 */
 void func_80030D5C(void); /* 13 */
-void func_80030E30(void); /* 14: runs the duel effect state with D_8009B254 = 3 */
-void func_80030E7C(void); /* 15: the same with D_8009B254 = 4 */
+void func_80030E30(void); /* 14: runs the duel effect state with gDuel_bEffectState = 3 */
+void func_80030E7C(void); /* 15: the same with gDuel_bEffectState = 4 */
 void func_80030EC8(void); /* 16: polls func_8003FCD8, then selects mode 14 */
 void func_80030F40(void); /* 3: arms a duel through func_80024DC8 */
 void func_80030F80(void); /* 8: calls func_80033C90 */

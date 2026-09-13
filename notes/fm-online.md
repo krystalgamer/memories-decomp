@@ -121,9 +121,9 @@ functions:
 |---|---|---|
 | Life-point digit width | `0x80016F14`, `0x80016F98` | `Duel_DrawLifePointsAndDeckCounts` |
 | Alternate starting player | `0x80017AF2` | `func_800179F4` |
-| Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `func_8001BD88` |
+| Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `DuelScene_UpdateHandActions` |
 | Bypass life-point limit behavior | `0x800251A4` | `func_800250C8` |
-| Hide triangle text | `0x800284D8` | `func_800283F4` |
+| Hide triangle text | `0x800284D8` | `DuelEffect_UpdateCardViewerState` |
 | Hide triangle image | `0x8002946C` | `func_800291E0` |
 | Guardian-star sound/cursor | `0x800370E4`, `0x800370EC`, `0x800371D0`, `0x8003725C` | `Dialog_ReadChoiceInput` (`0x8003700C`), `Dialog_UpdateChoice` (`0x800371A8`) |
 | Guardian-star symbols | `0x80037FF4` | `func_80037DA4` |
@@ -138,7 +138,8 @@ flag: card faces, triangle preview, guardian-star cursor, symbols, text, sound,
 and automatic card rotation are separate presentation paths.
 
 The two triangle patches are argument-setup switches rather than draw-call
-switches. At `0x800284D8`, retail loads `a2` from `D_8009B24B`; the delay slot
+switches. At `0x800284D8`, retail loads `a2` from
+`gDuel_bCardViewerYOffset`; the delay slot
 of the later `func_800404CC` call then adds `0x0E`. At `0x8002946C`, retail
 loads the constant `4` into `a2` before another `func_800404CC` call.
 FM-Online's enable values (`0x93860343` and `0x24060004`) are those original
@@ -166,7 +167,7 @@ following code. FM-Online's labels describe the observed combined effect of
 disabling these sites, not interchangeable function identities.
 
 The three automatic-rotation patches suppress one complete retail action in
-`func_8001BD88`. The branch is eligible when the packed card type is below
+`DuelScene_UpdateHandActions`. The branch is eligible when the packed card type is below
 `0x14` (a monster) or exactly `0x15` (Trap), and runs only when byte `0x21` of
 the current object is zero. Retail then writes `0x10` to the object's halfword
 at offset `0x60`, writes a value with bit `0x20` asserted to `D_8009B174`, and

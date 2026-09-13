@@ -203,7 +203,7 @@ m1:
         D_8009B1B8 * sizeof(DuelCardRecord) +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = g->record.object;
-    e = (u8 *)func_8002C68C(8);
+    e = DuelEffect_CreateRequest(8);
     *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;

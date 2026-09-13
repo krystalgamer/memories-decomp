@@ -42,9 +42,9 @@ void func_8001B170(void)
     s32 slot;
 
     object = D_800E9EF0[0];
-    if (!(D_8009B23A & 0x8000)) {
-        D_8009B23A |= 0x8000;
-        if (D_8009B23A & 0x4000) {
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
+        if (gDuel_wSceneStateFlags & 0x4000) {
             goto state_four;
         }
         if (D_8009B360[D_8009B1D5] >= 0 &&
@@ -164,7 +164,7 @@ state_four:
             D_8009B174 = 6;
             break;
         }
-        D_8009B23A = 5;
+        gDuel_wSceneStateFlags = 5;
         break;
     case 6:
         if (!(D_8009B174 & 0x80)) {
@@ -175,7 +175,7 @@ state_four:
             if (func_8001F364()) {
                 break;
             }
-            request = func_8002C68C(0xD);
+            request = DuelEffect_CreateRequest(0xD);
             request->field_00 = object->field_30.h.field_30;
             request->field_02 = object->field_30.h.field_32;
             z = object->field_34.h.field_34;
@@ -186,7 +186,7 @@ state_four:
             break;
         }
         slot = object->field_6A;
-        D_8009B23A = 5;
+        gDuel_wSceneStateFlags = 5;
         card = &D_801A7AD8[slot];
         card->stat_modifier -= D_8009B154 * 2;
         break;

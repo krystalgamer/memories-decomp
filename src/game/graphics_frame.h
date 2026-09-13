@@ -36,10 +36,11 @@
  *
  * movie_playback_control.h describes what it means: func_8003594C sets bit
  * 0x80 when a movie starts, func_800359B0 sets 0x40 once the stream has been
- * asked to stop and clears 0x80 when it has, and func_80035A58 clears the
- * byte. graphics_frame.c reads bit 0x80 in the frame loop, which is why it is
- * declared here -- this is the header all three consumers already include,
- * and func_80043BCC.c does not include movie_playback_control.h at all.
+ * asked to stop and clears 0x80 when it has, and Movie_ResetPlaybackState
+ * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
+ * why it is declared here -- this is the header all three consumers already
+ * include, and func_80043BCC.c does not include movie_playback_control.h at
+ * all.
  *
  * Two arms, for the same reason D_8009B0D8 below has them. Every consumer is
  * in the -G8 family, where a byte-sized global is reached %gp_rel by default.

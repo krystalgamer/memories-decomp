@@ -1,4 +1,4 @@
-#define D_8009B260_IN_DATA
+#define gDuel_bEffectRequestStatus_IN_DATA
 #define GDIALOG_CHOICE_SIZED
 #include "../types.h"
 #include "duel_side_state.h"
@@ -12,7 +12,6 @@
 #include "duel_scene_update.h"
 #include "duel_effect.h"
 #include "duel_effect_request.h"
-#include "func_8002C6C8.h"
 #include "duel_field_display_objects.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
@@ -21,8 +20,8 @@
 /* One frame of the duel scene. It services the quit dialog when
  * gDuel_bQuitDialogState is live -- creating the box on the first frame and
  * tearing it down once its 0x2000 flag clears -- and otherwise dispatches the
- * current scene step through the D_80090998 callback table. */
-void func_80024200(void)
+ * current scene step through the scene callback table. */
+void DuelScene_Update(void)
 {
     u8 value;
     DuelEffectChannel *window;
@@ -30,15 +29,16 @@ void func_80024200(void)
     if (D_8009B162 != 0) {
         func_800235C0();
     }
-    func_8002C6C8();
-    value = D_8009B260;
-    if (value & 0x80) {
-        if (value & 1) {
+    DuelEffect_UpdateRequests();
+    value = gDuel_bEffectRequestStatus;
+    if (value & DUEL_EFFECT_REQUEST_STATUS_ACTIVE) {
+        if (value & DUEL_EFFECT_REQUEST_STATUS_BLOCKING) {
             return;
         }
-        D_8009B260 = value & 0x7F;
+        gDuel_bEffectRequestStatus =
+            value & ~DUEL_EFFECT_REQUEST_STATUS_ACTIVE;
     }
-    if (func_80026B34() != 0 || DuelEffect_UpdateState() != 0) {
+    if (DuelEffect_UpdateCardEffect() != 0 || DuelEffect_UpdateState() != 0) {
         return;
     }
     value = gDuel_bQuitDialogState;
@@ -68,10 +68,10 @@ void func_80024200(void)
         void (**callbacks)(void);
         u16 index;
 
-        callbacks = D_80090998;
-        index = D_8009B23A;
+        callbacks = gDuel_apfnSceneStateHandler;
+        index = gDuel_wSceneStateFlags;
         callbacks[index & DUEL_SCENE_PHASE_MASK]();
-        if (!(D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED)) {
+        if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
             D_8009B174 = 0;
         }
     }

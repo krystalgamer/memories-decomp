@@ -2,6 +2,6 @@
 #define MEMORIES_DECOMP_SOUND_BUFFER_INIT_H
 
 void func_80044D48(void);
-void func_80044DA0(void);
+void SD_ResetCdPan(void);
 
 #endif

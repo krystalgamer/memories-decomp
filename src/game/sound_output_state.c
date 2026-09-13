@@ -158,7 +158,7 @@ s32 func_80045208(u16 arg0, s32 unused)
                     req.field_000C = (s32)second;
                     req.field_0008 = kind;
                     SD_EnqueueCommand(&req);
-                    func_80044DA0();
+                    SD_ResetCdPan();
                 }
                 g_SDValue->flags_0040 = (g_SDValue->flags_0040 | 1) & 0xFFFB;
                 return 1;

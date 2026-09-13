@@ -3,13 +3,13 @@
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
 
-int func_8002C4DC(int value)
+int Duel_FindPlayerDeckCard(int card_id)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
     int i = 0;
 
     while (i < DECK_SIZE) {
-        if (*entry == value) {
+        if (*entry == card_id) {
             return i;
         }
         i++;
@@ -26,7 +26,7 @@ int func_8002C518(int a0)
     flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
         a0 - CARD_ID_FIRST] != 0) ? 1 : -1;
     if (flag < 0) {
-        return func_8002C4DC(a0);
+        return Duel_FindPlayerDeckCard(a0);
     }
     return 1;
 }

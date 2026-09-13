@@ -60,12 +60,13 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * Duel_CalcRankScore takes it into a local before working through the same
  * record.
  *
- * The sole writer, func_800218F0, points it at gDuel_awRitualData's reused
+ * The sole writer, DuelScene_UpdateResultRewards, points it at
+ * gDuel_awRitualData's reused
  * image-backed storage. The guarded view in duel_check_ritual.h covers this
  * complete record; it is not a pointer to a short recipe allocation. */
 extern DuelResultDisplayState *D_8009B1E8;
 
 /* Duel-result and rewards UI controller installed by the scene table. */
-void func_800218F0(void);
+void DuelScene_UpdateResultRewards(void);
 
 #endif

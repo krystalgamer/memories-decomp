@@ -2,11 +2,11 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
-#include "func_8002C604.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
+#include "duel_effect_request.h"
 #include "main_frame.h"
 #include "display_object_api.h"
 #include "duel_card.h"
@@ -19,6 +19,7 @@
 #include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "duel_screen_tables.h"
+#include "duel_scene_state.h"
 #include "debug_effect_screen.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
@@ -114,12 +115,12 @@ void func_800220B8(void) {
 }
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
-   first call it initialises the D_8009B23A mode flags and the cursor state.
+   first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
    With the rebuild flag set it releases the two spawned objects and
    recreates the display for the current page (a message box, one or two
    card objects from D_801A7B80). Otherwise SELECT cycles the page (0..3),
    left/right toggles which coordinate the up/down repeat adjusts, and CROSS
-   places a new object through func_8002C604 at a page-dependent position. */
+   places a new object through DuelEffect_AllocateRequest at a page-dependent position. */
 void func_800222F4(void) {
     DisplayObject *obj;
     u8 *p;
@@ -127,8 +128,8 @@ void func_800222F4(void) {
     if (gInput_wPad1Held & PAD_BUTTON_START) {
         func_800220B8();
     }
-    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
+    if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        gDuel_wSceneStateFlags |= 0xC000;
         D_8009B16C[2] = 0;
         D_8009AF2E = 0;
         D_8009AF2A = 0;
@@ -136,8 +137,8 @@ void func_800222F4(void) {
         D_8009B184 = 0;
         D_8009B180 = 0;
     }
-    if (D_8009B23A & 0x4000) {
-        D_8009B23A &= 0xBFFF;
+    if (gDuel_wSceneStateFlags & 0x4000) {
+        gDuel_wSceneStateFlags &= 0xBFFF;
         func_80029528(0);
         func_8004036C(D_8009B180);
         func_8004036C(D_8009B184);
@@ -164,7 +165,7 @@ void func_800222F4(void) {
             break;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
-        D_8009B23A |= 0x4000;
+        gDuel_wSceneStateFlags |= 0x4000;
         D_8009AF2E++;
         if (D_8009AF2E >= 4) {
             D_8009AF2E = 0;
@@ -177,7 +178,7 @@ void func_800222F4(void) {
             D_8009AF2C[D_8009AF2A] -= 2;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
-        p = func_8002C604(D_8009AF2C[0]);
+        p = DuelEffect_AllocateRequest(D_8009AF2C[0]);
         D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
         *(s16 *)(p + 0x1A) = D_8009AF2D;
         switch (D_8009AF2E) {
@@ -204,7 +205,7 @@ void func_800222F4(void) {
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on D_8009AF2A. */
-void func_80022618(void) {
+void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
     func_800222F4();
