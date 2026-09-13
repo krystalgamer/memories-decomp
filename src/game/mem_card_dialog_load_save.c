@@ -11,8 +11,8 @@
 
 /* The load half of the memory-card dialog's operations: the message helper,
    the load state machine and the two load step callbacks D_80090F9C selects.
-   The save state machine that followed, MemCardDialog_UpdateSave, is a
-   candidate since #3859 (src/candidates/func_8003E854.c); its step callback
+   The save state machine that followed, MemCardDialog_UpdateSave, is in
+   mem_card_dialog_update_save.c; its step callback
    is in mem_card_dialog_runtime.c. */
 
 /* The two stores below are deliberate: retail writes the masked value and

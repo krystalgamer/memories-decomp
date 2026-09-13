@@ -37,6 +37,9 @@ extern struct DIRENTRY *gMemCard_pDirEntries;
 extern struct DIRENTRY gMemCard_aDirEntries[];
 extern s32 gMemCard_nDirEntries;
 extern s32 gMemCard_nFreeBlocks;
+/* Separate wildcard strings used by the save dialog and directory loader.
+ * Keep their incomplete-array addressing views and distinct linker objects. */
+extern u8 D_8009AF70[];
 extern u8 D_8009AF7C[];
 
 #endif

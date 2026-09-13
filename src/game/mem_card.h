@@ -67,9 +67,13 @@ extern u8 gMemCard_szSaveFileName[];
 extern u8 D_800EFE18[];
 
 /* The definition and ordinary callers use the measured byte/halfword
- * contract. The save machine takes a private wide same-symbol view to retain
- * its state-10 register-to-argument move. */
+ * contract. The save machine selects the wide caller view to preserve its
+ * state-10 register-to-argument move without a private declaration. */
+#ifdef MEM_CARD_DIALOG_MESSAGE_WIDE
+void MemCardDialog_SetMessage(s32 value, s32 bits);
+#else
 void MemCardDialog_SetMessage(u8 value, u16 bits);
+#endif
 
 /* The memory-card dialog's flag word.
  *
