@@ -235,10 +235,11 @@ Matching sound initialization selects transfer mode zero with
 `SpuSetTransferMode(0)`. The secondary transfer path then calls
 `SpuSetTransferStartAddr` with either the configured SPU RAM base or that base
 plus `bytes_consumed` before advancing a transfer window. The status wrapper
-at `0x800498BC` forwards caller value zero as
-`SpuIsTransferCompleted(0)` and every nonzero value as
-`SpuIsTransferCompleted(1)`; local evidence does not assign stronger names to
-those two modes.
+`SD_VabTransCompleted` (`0x800498BC`) forwards caller value zero as
+`SpuIsTransferCompleted(SPU_TRANSFER_PEEK)` and every nonzero value as
+`SpuIsTransferCompleted(SPU_TRANSFER_WAIT)`, the poll-or-block contract of
+libsnd's `SsVabTransCompleted`. Nothing in the executable or the overlay
+archives calls it.
 
 Voice setup uses `SpuSetVoiceAttr` through two layout-compatible local views:
 the main driver submits the attribute block rooted at `g_SDValue+0x3C4`, while

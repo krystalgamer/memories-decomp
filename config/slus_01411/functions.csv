@@ -805,7 +805,7 @@ address,size,name,status,module,notes
 0x800496C4,0x98,SD_VabOpenHead,matching_c,game,Opens a pBAV header and records its header and body sizes and SPU destination. Exact 38-instruction ordinary C under uniform G0. Scoped zero initialization followed by signed-halfword argument capture and the first state load replaces both register pins. Uses shared secondary-state/transfer layouts; preserves the eight-byte frame and existing signature. See notes/research/matching-evidence.md.
 0x8004975C,0x84,func_8004975C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800497E0,0xDC,func_800497E0,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
-0x800498BC,0x3C,func_800498BC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x800498BC,0x3C,SD_VabTransCompleted,matching_c,game,Polls or waits for the SPU body transfer. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800498F8,0x28,func_800498F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049920,0x144,func_80049920,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
 0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

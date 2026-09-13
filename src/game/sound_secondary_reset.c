@@ -2,9 +2,9 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
-s16 func_800498BC(s16 arg0)
+s16 SD_VabTransCompleted(s16 wait)
 {
-    if (arg0 == 0)
+    if (wait == 0)
         return SpuIsTransferCompleted(SPU_TRANSFER_PEEK);
     return SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 }

@@ -326,6 +326,7 @@ SD_SEStop = 0x80047DB0; // type:func
 SD_Init = 0x800492D8; // type:func
 SD_SESetVolume = 0x80048920; // type:func
 SD_Term = 0x80049694; // type:func
+SD_VabTransCompleted = 0x800498BC; // type:func
 gFile_szModelMrgPath = 0x80011580;
 gFile_szSuMrgPath = 0x800117C8;
 gFile_apszName = 0x8009078C;
