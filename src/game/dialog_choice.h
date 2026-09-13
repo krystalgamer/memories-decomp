@@ -80,13 +80,14 @@ extern s8 gDialog_bChoice;
  * cast is the lever that keeps retail's signed load, so it stays exactly
  * where it is rather than being resolved into the declaration.
  *
- * Two of its arms have no writer. The function tests 0x40 -- taking the
- * choice index from the low three bits and clearing the flag -- and 0x80,
- * but notes/global-usage lists Dialog_UpdateChoice and
- * Text_HandleChoiceCommand as the only accessors of this address in the
- * image, assembly included, and between them they store only 0, 1 and
- * `g & 0xBF`. Recorded as an observation about the code, not a claim about
- * intent. */
+ * Dialog_UpdateChoice tests DIALOG_CHOICE_INPUT_CONFIRMED before taking the
+ * choice index from the low three bits, and treats
+ * DIALOG_CHOICE_INPUT_CANCELLED as completion without selecting an index.
+ * The confirm/cancel meanings are also established by the live choice-input
+ * trace recorded in notes/research/Unchiga_Symbols/findings.md. */
+#define DIALOG_CHOICE_INPUT_CONFIRMED 0x40
+#define DIALOG_CHOICE_INPUT_CANCELLED 0x80
+
 extern u8 gDialog_bInputState;
 
 #endif
