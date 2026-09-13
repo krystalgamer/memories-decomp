@@ -1,16 +1,10 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0 this
- * source rebuilt the target byte for byte, but only by
- * pinning 4 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/sound_output_state.c.
- */
 #include "../types.h"
 #include "../psyq/libspu.h"
 
-#include "../game/sound.h"
-#include "../game/sound_output_state.h"
+#include "sound.h"
+#include "sound_output_state.h"
 
-#include "../game/sound_buffer_init.h"
+#include "sound_buffer_init.h"
 
 void func_80045334(s32 arg0)
 {
@@ -19,9 +13,10 @@ void func_80045334(s32 arg0)
     SDValue *b;
     SDValue *c;
     s32 value;
-    register s32 code asm("$19");
-    register u8 **table asm("$2");
-    register s32 kind asm("$18");
+    u16 code;
+    u8 **table;
+    s32 kind;
+    u8 *second;
 
     a = g_SDValue;
     code = arg0;
@@ -40,13 +35,16 @@ void func_80045334(s32 arg0)
     *(s16 *)((u8 *)a + 0x534) = arg0;
     switch (value) {
     case 0x8000:
-        code = arg0 + value;
+        value = arg0 + value;
+        code = value;
         table = *(u8 ***)((u8 *)a + 0x51C);
+        second = (u8 *)table + 8;
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
         table = *(u8 ***)((u8 *)a + 0x518);
+        second = (u8 *)table + 8;
         kind = 0x60;
         break;
     default:
@@ -54,14 +52,14 @@ void func_80045334(s32 arg0)
         kind = 0x70;
         b = g_SDValue;
         table = *(u8 ***)((u8 *)b + 0x520);
+        second = (u8 *)table + 8;
         break;
     }
     {
-        register s32 first asm("$16");
-        u8 *const second = (u8 *)table + 8;
+        s32 first;
 
         /* The equivalent paths preserve retail's request-store order. */
-        first = table ? (s32)*table : (s32)*table;
+        first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
 
         func_800464F0();
         req.command = 0x21;
