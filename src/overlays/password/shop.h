@@ -25,9 +25,20 @@
  * This paragraph used to say it was not, and to give three conflicting
  * spellings as the reason; the declaration was added later and the
  * paragraph was left behind, so the header asserted the opposite of what it
- * did. `shop.c` owns the cursor helpers and initializer, and the stored
- * updater candidate includes this header too, so every password-shop user
- * consumes the shared declarations from module_state.h. */
+ * did. `shop.c` owns the cursor helpers, the initializer and the updater,
+ * so every password-shop user consumes the shared view. */
+
+/* The password shop's view of the 0x801A8000 staging buffer: while this
+ * screen runs it holds two words per card, the first being the card's price
+ * in starchips. card_list_rows.h explains why each subsystem keeps its own
+ * declaration of this address. */
+extern u32 D_801A8000[];
+
+/* D_801A8008 is the password table Password_LookupCardID searches, and
+ * D_801B1245 is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
+extern s32 D_801A8008[];
+extern u8 D_801B1245[];
+
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);

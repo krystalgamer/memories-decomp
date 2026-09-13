@@ -1,7 +1,6 @@
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define TEXT_STAGING_STARCHIPS_ALIAS
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
@@ -32,6 +31,7 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"
+#include "../../game/duel_effect_resource_record.h"
 #include "../../unmatched.h"
 #include "../../game/main_mode_state.h"
 
@@ -46,10 +46,6 @@
 
    NameEntry_BuildStarterDeck, which follows this run in the image, is not
    part of it: its caller is name_entry_main.c, not the shop. */
-
-extern s32 D_801A8008[];
-extern u8 D_801B1245[];
-extern u8 D_800EA0E8[];
 
 void Password_RefreshDigitDisplay(void)
 {
@@ -85,7 +81,7 @@ void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
 
-    D_801D5608_starchips = gLibrary_dwStarchips;
+    D_801D5608[0].starchips = gLibrary_dwStarchips;
     func_8003B6AC(3, 1);
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
     boxes = D_800EB0F8;
@@ -209,7 +205,7 @@ void Password_InitShopScreen(void)
     Password_RefreshDigitDisplay();
     Password_RefreshStarchipDisplay();
     Password_CreateMessageBox(226, 1);
-    D_8016D430 = D_800EA0E8;
+    D_8016D430 = (u8 *)D_800EA0E8;
     func_80029574(0);
     cardCache = D_8016D430;
     *(s16 *)(cardCache + 40) = 320;
