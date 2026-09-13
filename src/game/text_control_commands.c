@@ -30,14 +30,12 @@
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-#define arg0 ((u8 *)object)
-    u8 **pp = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
+    u8 **pp = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *p = *pp;
     s32 op = *p;
 
     *pp = p + 1;
     D_80090EAC[op](object);
-#undef arg0
 }
 
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=func_80036D3C(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
