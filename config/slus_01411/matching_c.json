@@ -4000,37 +4000,37 @@
       "address": "0x80045054",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC0",
-      "source": "src/game/func_80045054.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045114",
       "profile": "gcc_2_8_1_g0",
       "size": "0xCC",
-      "source": "src/game/func_80045114.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x800451E0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x28",
-      "source": "src/game/func_80045114.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045208",
       "profile": "gcc_2_8_1_g0",
       "size": "0x12C",
-      "source": "src/game/func_80045208.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x80045334",
       "profile": "gcc_2_8_1_g0",
       "size": "0x118",
-      "source": "src/game/func_80045334.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004544C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/sd_clear_busy_flag.c"
+      "source": "src/game/sound_output_state.c"
     },
     {
       "address": "0x8004545C",

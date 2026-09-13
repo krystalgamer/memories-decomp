@@ -173,7 +173,8 @@ size.
 
 ## SPU decoded data, reverb, and shutdown
 
-`func_80045054` (`src/game/func_80045054.c`) imports the real `libspu.h` interface and calls:
+`func_80045054` (grouped in `src/game/sound_output_state.c`) imports the real
+`libspu.h` interface and calls:
 
 ```c
 SpuReadDecodedData(
@@ -303,7 +304,7 @@ what the cast applies to:
   `sd_init_state.c`, and one of the twelve is passed as a call argument
   rather than dereferenced);
 - a base local assigned `(u8 *)g_SDValue` (five, three of them in
-  `func_80045054.c`);
+  `sound_output_state.c`, all within `func_80045054`);
 - a cast on a member's value (one, `func_80047DB0.c:30`).
 
 This note records a code-generation rationale for exactly one of the

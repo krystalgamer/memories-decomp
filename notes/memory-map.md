@@ -135,7 +135,7 @@ can do. Two more instances are confirmed:
 - `duel_result_runtime.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
-- `func_80045054` (`src/game/func_80045054.c`) reads `state + 0x40` where `state` is `g_SDValue`.
+- `func_80045054` (`src/game/sound_output_state.c`) reads `state + 0x40` where `state` is `g_SDValue`.
   `g_SDValue` is at `0x8009B45C` and `D_8009B49C` is `0x40` later, so that
   name lies **inside** the `g_SDValue` record rather than beside it.
 
