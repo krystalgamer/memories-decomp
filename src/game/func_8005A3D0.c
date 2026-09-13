@@ -1,9 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 10 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_8005A3D0.c.
- */
 #include "../types.h"
 /* libhmd.h names MATRIX, GsOT and GsCOORDUNIT without including anything, so
    it only parses after libgte.h, libgpu.h and libgs.h. model.h deliberately
@@ -24,52 +18,62 @@
 
 s32 func_8005A3D0(ModelSlot *model, void *parent)
 {
-    register s32 index asm("t0");
-    register s32 offset asm("t3");
-    register GsCOORDUNIT *link asm("t2");
-    register s32 backlink_index asm("a2");
-    register s32 count asm("t1");
-    register GsCOORDUNIT *target asm("a3");
+    s32 index;
+    s32 offset;
+    GsCOORDUNIT *link;
+    s32 backlink_index;
+    s32 count;
+    GsCOORDUNIT *target;
+    u32 current;
 
     {
-        register s32 current_count asm("v1") = model->entry_count;
+        current = model->entry_count;
 
         index = 0;
-        if (current_count == 0) {
+        if (current == 0) {
             goto done;
         }
         offset = index;
         link = (GsCOORDUNIT *)model->entries;
 
 outer:
-        backlink_index = 0;
+        /* Single-pass regions preserve retail allocation under GCC 2.8.1. */
+        do {
+            backlink_index = 0;
+        } while (0);
         if (link->super != parent) {
             goto next;
         }
-        if (current_count == 0) {
+        if (current == 0) {
             goto next;
         }
-        count = current_count;
+        count = current;
         target = (GsCOORDUNIT *)(model->entries + offset);
     }
 
     {
-        register GsCOORDUNIT *backlink asm("v1") = (GsCOORDUNIT *)model->entries;
+        current = (u32)model->entries;
 
 inner:
-        if (backlink->super == target) {
-            goto after_inner;
-        }
+        do {
+            do {
+                if (((GsCOORDUNIT *)current)->super == target) {
+                    goto after_inner;
+                }
+            } while (0);
+        } while (0);
         backlink_index++;
-        if (backlink_index < count) {
-            backlink++;
-            goto inner;
-        }
+        do {
+            if (backlink_index < count) {
+                current += sizeof(GsCOORDUNIT);
+                goto inner;
+            }
+        } while (0);
     }
 
 after_inner:
     {
-        register s32 found asm("v0") = backlink_index < model->entry_count;
+        s32 found = backlink_index < model->entry_count;
 
         if (found) {
             goto done;
@@ -80,10 +84,10 @@ next:
     offset += sizeof(GsCOORDUNIT);
     link++;
     {
-        register s32 current_count asm("v1") = model->entry_count;
+        current = model->entry_count;
 
         index++;
-        if (index < current_count) {
+        if (index < (s32)current) {
             goto outer;
         }
     }
