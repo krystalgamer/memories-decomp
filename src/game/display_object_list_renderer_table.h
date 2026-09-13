@@ -14,4 +14,8 @@ extern void (*D_80090FB0[DISPLAY_OBJECT_LIST_COUNT])(void);
 /* Renders the untextured Gouraud-quad list in D_80090FB0 slot 4. */
 void func_80040DD8(void);
 
+/* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
+ * display-object list 5. It is reached only through that table. */
+void func_80041068(void);
+
 #endif

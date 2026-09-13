@@ -568,10 +568,6 @@ void func_8002A2F4(u8 *state);
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
- * display-object list 5. It is reached only through that table. */
-void func_80041068(void);
-
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
