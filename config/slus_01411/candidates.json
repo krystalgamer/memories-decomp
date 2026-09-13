@@ -6,14 +6,14 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80012B50.c",
       "target": "src/candidates_target/func_80012B50.S",
-      "candidate_build_sha256": "2f993be157efba4ee01031583688cb279b5cde14e54a2dd0c1b72c5ccccc81ea",
+      "candidate_build_sha256": "f5322086816e37b67e331728929a1273dd00266a473117632970e1fd92c2115e",
       "target_bytes_sha256": "c1e975c6ffc06e66847e80e1b41520b74bd631a3a9ad22abcc4dbef472516c21",
-      "canonical_contract_sha256": "e328a3a4752b5464bd049804db7d023e7bd728239eae454c51c1ec02e59643fc",
+      "canonical_contract_sha256": "0063e7704cf1b35f71192c182f59ad6f7ae0608225589d6ff8c6e9b029d56539",
       "canonical_contracts": {
-        "D_8009B0B4": "be9618002daf4c63a1e92354ef765e1b418b24fd435d786c43083339c968c68a",
         "D_8009B0D1": "403b59eb06bc22d291f5c6e2189bc5b0a95d4c74e8200ce4f913d0b9aa1b934b",
         "D_8009B269": "2b5536c677eba8a4deacb0244841cbf2bbea5f6f1bc97071fd809519b841aae2",
-        "__main": "fec3281173553c80fb98e0b8e7963cc248f709d99c02ebd8c709cfe010ffef45"
+        "__main": "fec3281173553c80fb98e0b8e7963cc248f709d99c02ebd8c709cfe010ffef45",
+        "gGraphics_pActiveFrameBuffer": "e12900db01e6fbbedf71ffb8379ba375b24b1cc9afdc2cf485ba87b01188fdf5"
       }
     },
     {
@@ -261,9 +261,9 @@
       "target": "src/candidates_target/func_80028B08.S",
       "candidate_build_sha256": "6612d6f7624bcc07f04179ae8cba4bedbf04bb64baba0f44b864e2a4b8103bfe",
       "target_bytes_sha256": "fb38e3e28d6d26eaccec138ff5de546f183df0ce2012b07f1513827e2ddc5503",
-      "canonical_contract_sha256": "90aa6233da459080370cedab21a78abb8538b40efcbf2d86cf7371752db1fd28",
+      "canonical_contract_sha256": "76edcd37ee8fd2745bef0fd97d2b36f347b8fc63f6e47ff7f6924812549a1d84",
       "canonical_contracts": {
-        "func_80042188": "4214166091f6cdbdf59e9882334b97148adca8287727db73553cee1921805d1a"
+        "func_80042188": "40a95f5930e4f49f51459bcec12d0418f0b3ff9707cd20586a386bafafc83986"
       }
     },
     {
@@ -367,19 +367,6 @@
       }
     },
     {
-      "address": "0x8002D6C8",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_8002D6C8.c",
-      "target": "src/candidates_target/func_8002D6C8.S",
-      "candidate_build_sha256": "a7276e57f0c663068f0cfe4c2ff1c8315d62f56ffdb477409550df58e4f5fa25",
-      "target_bytes_sha256": "f080abab7e211039abc8153374851b8ac85951d29f723448c706952369701ccf",
-      "canonical_contract_sha256": "fd1449125c4cf26f3d5d6ac57d36d53b91f4a91e6f32bc9827fda54c799ab607",
-      "canonical_contracts": {
-        "D_8009B269": "2b5536c677eba8a4deacb0244841cbf2bbea5f6f1bc97071fd809519b841aae2",
-        "D_8009B26C": "4920d9857fc5dfd84de01c22458411438c946bcb38fcaefdd6a28c58f14b8393"
-      }
-    },
-    {
       "address": "0x8002EE94",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8002EE94.c",
@@ -478,9 +465,9 @@
       "target": "src/candidates_target/func_80041068.S",
       "candidate_build_sha256": "ac47500f707db561f61a5dc70b3ed00b4d5f762088208ca2366d54f7491882c8",
       "target_bytes_sha256": "7cf71a998952d8c570b363ee11f9fc256ab4776b4fa000bf6a4cd13a1b28dde3",
-      "canonical_contract_sha256": "90aa6233da459080370cedab21a78abb8538b40efcbf2d86cf7371752db1fd28",
+      "canonical_contract_sha256": "76edcd37ee8fd2745bef0fd97d2b36f347b8fc63f6e47ff7f6924812549a1d84",
       "canonical_contracts": {
-        "func_80042188": "4214166091f6cdbdf59e9882334b97148adca8287727db73553cee1921805d1a"
+        "func_80042188": "40a95f5930e4f49f51459bcec12d0418f0b3ff9707cd20586a386bafafc83986"
       }
     },
     {
@@ -524,16 +511,6 @@
       "target": "src/candidates_target/func_80044838.S",
       "candidate_build_sha256": "8010fefb876cda29939b5b2de1b548079feb31af5e506379d8002ae451360397",
       "target_bytes_sha256": "f7dbf5119b8fa43c8fb497096168a09003486449726e545f8c6497f2753a5bcc",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
-    },
-    {
-      "address": "0x80045208",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80045208.c",
-      "target": "src/candidates_target/func_80045208.S",
-      "candidate_build_sha256": "9713797fb049952e87049738e9bc12dcf6fe2b7b1aa4254c3e2727486fe15ca9",
-      "target_bytes_sha256": "abe9b90d8f9c0d868991ae2de6a995e30b74b82b3365c059f970d6c4b5e64a0e",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
     },

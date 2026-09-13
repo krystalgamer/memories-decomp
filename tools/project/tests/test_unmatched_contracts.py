@@ -126,7 +126,7 @@ class UnmatchedContractTests(unittest.TestCase):
                 for error in self.errors())
         )
 
-    def test_exact_local_exception_is_accepted(self) -> None:
+    def test_local_exception_is_rejected_in_favour_of_guarded_header(self) -> None:
         declaration = "void func_test(s32 value);"
         self.write(
             "src/game/caller.c",
@@ -143,9 +143,13 @@ class UnmatchedContractTests(unittest.TestCase):
             ]
         )
 
-        self.assertEqual(self.errors(), [])
+        errors = self.errors()
+        self.assertTrue(any("exceptions are no longer supported" in error
+                            for error in errors))
+        self.assertTrue(any("local declaration of unmatched function func_test"
+                            in error for error in errors))
 
-    def test_exception_declaration_drift_is_actionable(self) -> None:
+    def test_local_exception_drift_remains_actionable(self) -> None:
         self.write(
             "src/game/caller.c",
             "void func_test(u32 value);\nvoid caller(void) { func_test(1); }\n",
@@ -162,8 +166,10 @@ class UnmatchedContractTests(unittest.TestCase):
         )
 
         errors = self.errors()
-        self.assertTrue(any("is not approved" in error for error in errors))
-        self.assertTrue(any("not found exactly" in error for error in errors))
+        self.assertTrue(any("exceptions are no longer supported" in error
+                            for error in errors))
+        self.assertTrue(any("local declaration of unmatched function func_test"
+                            in error for error in errors))
 
     def test_stale_central_declaration_is_rejected(self) -> None:
         self.write_inventory("func_test", "matching_c")
@@ -411,6 +417,38 @@ extern s32 data;
             self.errors(),
         )
 
+    def test_shared_abi_dispatcher_may_own_an_unmatched_function(self) -> None:
+        self.write_inventory("func_80042188", "unmatched_asm")
+        self.write(
+            "src/game/display_object_packet_submit.h",
+            "void func_80042188(s32 value);\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "display_object_packet_submit.h"\n'
+            "void caller(void) { func_80042188(1); }\n",
+        )
+
+        self.assertEqual(self.errors(), [])
+
+    def test_model_slot_header_may_own_an_unmatched_function(self) -> None:
+        self.write_inventory("func_8004CB0C", "unmatched_asm")
+        self.write(
+            "src/game/model_slot_setup.h",
+            "#ifdef MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS\n"
+            "void func_8004CB0C(s32, s32, s32, s32);\n"
+            "#else\n"
+            "void func_8004CB0C(void);\n"
+            "#endif\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "model_slot_setup.h"\n'
+            "void caller(void) { func_8004CB0C(); }\n",
+        )
+
+        self.assertEqual(self.errors(), [])
+
     def test_candidate_cannot_be_declared_centrally_and_in_a_header(
         self,
     ) -> None:
@@ -420,7 +458,7 @@ extern s32 data;
         self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
 
         self.assertIn(
-            "src/unmatched.h: candidate func_test is also declared by "
+            "src/unmatched.h: func_test is also declared by "
             "resident headers ['src/game/test.h']",
             self.errors(),
         )
