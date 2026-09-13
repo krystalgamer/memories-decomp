@@ -18,7 +18,8 @@ extern DisplayObject *gFreeDuel_apSparklePool[
 ];
 extern DisplayObject *gFreeDuel_pCursorWidget;
 
-extern u32 gFreeDuel_dwScreenFlagsStorage asm("gFreeDuel_bScreenFlags");
-#define gFreeDuel_bScreenFlags (*(u8 *)&gFreeDuel_dwScreenFlagsStorage)
+/* The linker symbol names the live low byte; module_state.c owns its complete
+ * four-byte initialized storage so the following raw tail keeps its offset. */
+extern u8 gFreeDuel_bScreenFlags;
 
 #endif
