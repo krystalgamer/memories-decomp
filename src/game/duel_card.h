@@ -74,7 +74,11 @@ void func_8002C938(u32 *output, s32 alternate);
 /* Writes a zero-terminated list of occupied cards' object addresses.
  * Negative selectors scan both sides. Other selectors scan a side-dependent
  * row: 0..20 match the object's 0x68 byte, and 21+ require at least that
- * attack value from the low half of Duel_CalcCardStats. */
+ * attack value from the low half of Duel_CalcCardStats.
+ * The caller must provide at least 21 u32 words for a negative selector
+ * (20 addresses plus the terminator), or six words otherwise (five plus the
+ * terminator). There is no capacity argument and no tracked caller currently
+ * establishes a concrete output allocation. */
 void func_8002C9B4(u32 *output, s32 selector);
 
 /* Packed per-card attribute word, indexed by card id minus one. Callers

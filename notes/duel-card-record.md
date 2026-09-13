@@ -12,12 +12,12 @@ their guessed declarations were not copied.
 The staging-buffer contract below extends that evidence to the existing
 base-relative views of the same records, without claiming a new allocation.
 
-`notes/global-usage.csv` is the authority for the current matching-C and
-assembly user counts; filter it on global address `0x801A7AD8`. The
+The generated `notes/global-usage.csv` snapshot lists matching-C and
+assembly users; filter it on global address `0x801A7AD8`. The
 typed-migration inventory below separately records which matching sources
-have adopted the shared declaration. `func_8002C9B4` is an additional
-matching C source whose address formation names `D_801A7AD8` only inside an
-inline-assembly string, so it does not appear in the generated report.
+have adopted the shared declaration. `func_8002C9B4` now uses the shared
+typed C declarations directly, including the `D_801A7B64` interior alias.
+The generated report may predate a promotion until it is regenerated.
 
 ## Shared staging-buffer views (`D_8015C424`)
 
@@ -320,7 +320,7 @@ is inferred here, and no new runtime trace is claimed.
 
 ## Typed migration snapshot
 
-The following pure-C report users include `duel_card.h` and use its typed
+The following matching C sources include `duel_card.h` and use its typed
 extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
@@ -332,7 +332,8 @@ extern:
 `DuelEffect_ApplyHarpiesFeatherDuster`,
 `func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
-`func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
+`func_8002778C`, `func_800278A0`, `func_80027DF8`, `func_8002C938`, and
+`func_8002C9B4`.
 
 Raw local views retained for exact code generation:
 
@@ -361,9 +362,18 @@ Any matching-C report user not listed in the typed inventory above still
 retains a local or raw record view. Derive that changing set from
 `notes/global-usage.csv` rather than duplicating it here.
 
-`func_8002C9B4` remains wholly unchanged because its `D_801A7AD8` address
-formation is inline assembly. Its local record view and the interior
-`D_801A7B64` alias are therefore deliberately not migrated.
+`func_8002C9B4` replaces the former inline-assembly implementation with
+matching C and the shared `DuelCardRecord` view. Its negative-selector path
+retains `D_801A7B64` for the original two-side traversal and relocation;
+this is an interior view of the existing table, not another allocation.
+
+The output is a zero-terminated list of object addresses in `u32` words.
+A negative selector can append two occupied cards per iteration across ten
+field zones, so the maximum is **21 words including the terminator**.
+Other selectors inspect one five-card row, so their maximum is **six words
+including the terminator**. The function has no capacity argument. No tracked
+caller is currently present, so these bounds specify required worst-case
+capacity, not a verified size for an existing caller's allocation.
 
 ## Current assembly users
 
