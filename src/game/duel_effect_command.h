@@ -12,7 +12,7 @@
  * advances from the object base and is then coalesced back into `text`. That
  * lifetime split preserves the retail allocation without hard-register
  * bindings. */
-void func_80037DA4(u8 *object);
+void func_80037DA4(DuelEffectChannel *object);
 
 /* The shared step every handler in this unit runs: it raises bit 0x80 of the
  * halfword at 0x34, calls func_80036C14 with the value it was given, lowers

@@ -24,7 +24,7 @@
    the primary handlers Text_ExtendGlyphCode and Text_SetStateFromStream in
    text_stream_commands.c. */
 
-void func_80037DA4(u8 *object)
+void func_80037DA4(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
@@ -36,11 +36,11 @@ void func_80037DA4(u8 *object)
     u8 *current;
     u8 **slot;
 
-    text = (u8 *)(s32)*(s8 *)(object + 0x58);
-    object[0x62] = 0;
+    text = (u8 *)(s32)object->stream_58;
+    object->field_62 = 0;
     text = (u8 *)((u32)text * 4);
     {
-        u8 *stream = object;
+        u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
@@ -50,7 +50,7 @@ void func_80037DA4(u8 *object)
     }
     n = 0;
     if (op & 0x10) {
-        object[0x54] = D_8009B320;
+        object->field_54 = D_8009B320;
         return;
     }
     if (op & 0x20) {
@@ -72,7 +72,7 @@ void func_80037DA4(u8 *object)
             type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             id += 0x17;
             if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
-                object[0x62] = type;
+                object->field_62 = type;
             }
             break;
         case 2:
@@ -90,7 +90,7 @@ void func_80037DA4(u8 *object)
         }
         id += 0x8300;
     }
-    object[0x58]++;
+    object->stream_58++;
     n = id;
     if (id > 0xCFFF) {
         text = (u8 *)((u32)D_801C0000 & 0xFFFF0000) +
@@ -105,16 +105,16 @@ void func_80037DA4(u8 *object)
         text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
     }
 store:
-    slot = &((u8 **)object)[*(s8 *)(object + 0x58)];
+    slot = &((u8 **)object)[object->stream_58];
     *slot = text;
     return;
 plain:
-    *(u16 *)(object + 0x34) |= 0x80;
+    object->flags_34 |= 0x80;
     if ((u8)n == 0) {
-        func_80036C14((DuelEffectChannel *)object, id);
+        func_80036C14(object, id);
     }
-    *(u16 *)(object + 0x34) &= 0xFF7F;
-    *(u16 *)(object + 0x38) += 0x10;
+    object->flags_34 &= 0xFF7F;
+    object->field_38 += 0x10;
 }
 
 void func_80038024(DuelEffectChannel *object, s32 value)
