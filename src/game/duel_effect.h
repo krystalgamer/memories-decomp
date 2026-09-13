@@ -10,7 +10,11 @@
 #define DUEL_EVENT_SCRIPT_FLAG_STARTED 0x8000
 #define TEXT_BOX_FLAG_BUILD_REQUESTED 0x800
 #define TEXT_BOX_FLAG_DONE 0x2000
+#define TEXT_BOX_FLAG_BUILD_ACTIVE 0x4000
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_STATE_INDEX_MASK 0x1F
+#define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
+#define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
 /* One text/effect entry, 0x1C bytes, the element type of D_800EB288. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
