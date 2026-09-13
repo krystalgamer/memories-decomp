@@ -299,6 +299,18 @@ def definition_names(source: str) -> set[str]:
     return definitions
 
 
+def declaration_statements(source: str) -> list[str]:
+    text = re.sub(r"\\\r?\n", "", source)
+    text = candidate_builds.strip_c_comments(text)
+    lines = text.splitlines(keepends=True)
+    for index, line in enumerate(lines):
+        if line.lstrip().startswith("#"):
+            lines[index] = "".join(
+                "\n" if char == "\n" else " " for char in line
+            )
+    return candidate_builds.top_level_statements("".join(lines))
+
+
 def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory_statuses(root)
     owners = matching_owners(root)
@@ -317,7 +329,7 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             problems.append(f"{path.relative_to(root)}: {error}")
             continue
         definitions = definition_names(source)
-        for statement in candidate_builds.top_level_statements(source):
+        for statement in declaration_statements(source):
             for name, alias in declaration_names(statement):
                 declaration_count += 1
                 symbols = {name}

@@ -145,6 +145,42 @@ class TranslationUnitHeaderTests(unittest.TestCase):
         )
         self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))
 
+    def test_spliced_unused_macro_matches_single_line_form(self) -> None:
+        for source in (
+            "#define UNUSED() void func_local(void);\n"
+            "void func_local(void) {}\n",
+            "#define UNUSED() \\\n"
+            " void func_local(void);\n"
+            "void func_local(void) {}\n",
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(self.problems(source), [])
+
+    def test_spliced_line_comment_matches_single_line_form(self) -> None:
+        for source in (
+            "// documentation void func_local(void);\n"
+            "void func_local(void) {}\n",
+            "// documentation \\\n"
+            "void func_local(void);\n"
+            "void func_local(void) {}\n",
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(self.problems(source), [])
+
+    def test_spliced_active_forward_is_still_rejected(self) -> None:
+        problems = self.problems(
+            "void func_\\\n"
+            "local(void);\n"
+            "void func_local(void) {}\n"
+        )
+        self.assertTrue(
+            any(
+                "same-unit function declaration func_local belongs in "
+                "src/game/example.h" in problem
+                for problem in problems
+            )
+        )
+
     def test_each_function_in_multiple_declarators_is_checked(self) -> None:
         problems = self.problems(
             "void func_local(void), func_foreign(void);\n"
