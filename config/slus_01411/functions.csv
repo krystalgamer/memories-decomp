@@ -742,7 +742,7 @@ address,size,name,status,module,notes
 0x80047008,0x14,func_80047008,matching_c,game,2 pre-policy variants: exact -G8; -G0 used absolute global access
 0x8004701C,0x20,func_8004701C,matching_c,game,4 pre-policy variants: exact -G8; -G0 used absolute global access
 0x8004703C,0x14,func_8004703C,matching_c,game,2 pre-policy variants: exact -G8; -G0 used absolute global access
-0x80047050,0x60,func_80047050,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80047050,0x60,SD_VSync,matching_c,game,"Sound driver per-VBlank entry, called only from Main_VBlankCB: VSync-driven sequencer tick when field_0509 is set, SD_UpdateRuntime, then the bank loader while flags_0040 bit 0x08 is set. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x800470B0,0x90,func_800470B0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047140,0x90,func_80047140,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800471D0,0xA8,func_800471D0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

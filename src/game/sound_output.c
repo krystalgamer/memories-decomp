@@ -111,7 +111,7 @@ s32 func_8004703C(void)
     return (s16)g_SDValue->flags_0040;
 }
 
-void func_80047050(void)
+void SD_VSync(void)
 {
     if (D_8009B458->field_0509)
         func_800495A4();

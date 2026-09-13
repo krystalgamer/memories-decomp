@@ -122,7 +122,7 @@ extern u8 D_8009B0C1;
 
 /* A byte Main_VBlankCB stores 1 into after bumping D_8009B09C and
  * D_8009B0C4 and before bumping D_8009B0C8, and stores 0 into as the last
- * statement of its D_8009AF0C == 0 block, after func_80047050 has run.
+ * statement of its D_8009AF0C == 0 block, after SD_VSync has run.
  * Main_Init zeroes it in its init block. No C unit reads it, and neither
  * of the two resident listings that name it loads it. Initial value not
  * read.

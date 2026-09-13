@@ -13,7 +13,7 @@
  * observed use masks the result, so the two spellings agree in practice --
  * but only one of them matches the definition. */
 s32 func_8004703C(void);
-void func_80047050(void);
+void SD_VSync(void);
 void func_800470B0(s32 first, s32 second, s32 third, s32 fourth);
 void func_800471D0(s32, s32, s32, s32, s32, s32);
 void func_800472A8(s32 arg0);

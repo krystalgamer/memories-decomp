@@ -6,7 +6,7 @@
 #include "main_services.h"
 
 /* Small data at 0x8009AF0C: prevents a nested VBlank callback from calling
-   func_80047050 while the previous call is still running. */
+   SD_VSync while the previous call is still running. */
 u8 D_8009AF0C __attribute__((section(".sdata"))) = 0;
 
 void Main_VBlankCB(void)
@@ -19,7 +19,7 @@ void Main_VBlankCB(void)
 
     if (D_8009AF0C == 0) {
         D_8009AF0C = 1;
-        func_80047050();
+        SD_VSync();
         D_8009AF0C = 0;
         D_8009B0C3 = 0;
     }

@@ -727,7 +727,7 @@ above.
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
-| `0x0509` | `u8` | `field_0509` | `func_8004695C`, `func_80047050`, and `SD_SequenceTimerCallback` set/test it. |
+| `0x0509` | `u8` | `field_0509` | `func_8004695C` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
