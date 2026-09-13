@@ -249,9 +249,8 @@ static __inline__ u32 read_operand(DuelEffectChannel *object)
     return value;
 }
 
-void func_800382A8(u8 *argument)
+void func_800382A8(DuelEffectChannel *object)
 {
-    DuelEffectChannel *object = (DuelEffectChannel *)argument;
     u32 value;
 
     object->flags_34 &= 0xFEFF;

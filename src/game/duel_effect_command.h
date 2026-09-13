@@ -41,7 +41,7 @@ void func_80038148(DuelEffectChannel *object);
  * bit 0x100 of the object's 0x34 flags, which it clears first either way. The
  * stream read is inlined so the payload and channel retain independent
  * local lifetimes without register bindings. */
-void func_800382A8(u8 *object);
+void func_800382A8(DuelEffectChannel *object);
 
 void func_80038334(DuelEffectChannel *object);
 void func_80038388(DuelEffectChannel *object);
