@@ -42,7 +42,7 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 PAIRS = [
     ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
     ("src/game/sound_secondary_object_volumes.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
-    ("src/game/sd_sequence_timer_callback.c", "func_8004AAFC", '#include "sound.h"'),
+    ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_8004A6D8.c", "func_8004A518", '#include "sound.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),

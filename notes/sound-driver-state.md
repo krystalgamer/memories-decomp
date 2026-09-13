@@ -751,6 +751,13 @@ that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
 declarations and `kernel.h` constants; the remaining unnamed counter-control
 wrappers retain their address-based identities.
 
+The callback now follows the three contiguous secondary command handlers in
+`src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
+`0x8004B854` translation unit after its pure-C promotion. The command handlers
+update the channel/object state that the interrupt callback advances and
+periodically maintains; the different-profile event setup at `func_8004B854`
+fixes the upper boundary.
+
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and
 the major top-level offsets.
