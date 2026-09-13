@@ -37,7 +37,7 @@
 #include "text_box_lifecycle.h"
 #include "func_80039794.h"
 #include "input_is_pad1_confirm_pressed.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "func_8003B6AC.h"
 #include "func_8002E3FC.h"
 #include "../unmatched.h"
