@@ -27,7 +27,8 @@
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
+#include "display_object_config.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
