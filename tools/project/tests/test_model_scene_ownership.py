@@ -290,7 +290,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         )
         elf = self.scratch / "storage.elf"
         linked = self.run_command([
-            str(tool(REPOSITORY, "ld")), "-T", str(script), "-o", str(elf), str(obj),
+            str(tool(REPOSITORY, "ld")), "-EL", "-T", str(script), "-o", str(elf), str(obj),
         ])
         self.assertEqual(linked.returncode, 0, linked.stderr)
         names = self.run_command([str(tool(REPOSITORY, "nm")), "-n", str(elf)])
@@ -317,7 +317,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
             ".sdata 0x8009AF88 : { *(.sdata) } }\n"
         )
         result = self.run_command([
-            str(tool(REPOSITORY, "ld")), "-T", str(script),
+            str(tool(REPOSITORY, "ld")), "-EL", "-T", str(script),
             "-o", str(self.scratch / "missing-alias.elf"), str(owner), str(consumer),
         ])
         self.assertNotEqual(result.returncode, 0, result.stderr)
