@@ -15,7 +15,7 @@
  *   gDialog_bChoiceCount    How many are offered; read into an s32 and set to
  *                           4 and 7 at different prompts.
  *
- * func_8002EE94 (src/candidates/func_8002EE94.c) also clears
+ * Script_OpSavePrompt (src/candidates/func_8002EE94.c) also clears
  * gDialog_bChoiceCount, spelled with a .data
  * section attribute. It does not include this header, so the two never meet
  * and no guarded arm is needed; if it ever does, that is what would go here.

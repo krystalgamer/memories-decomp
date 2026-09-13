@@ -35,7 +35,7 @@ CONSUMERS = (
     "src/game/func_80024DC8.c",
     "src/game/func_8002A788.c",
     "src/game/func_8002EB48.c",
-    "src/game/func_8002FA28.c",
+    "src/game/script_op_return_to_menu.c",
     "src/game/func_80030998.c",
     "src/game/func_80030E30.c",
     "src/game/func_80030FA0.c",
@@ -76,7 +76,7 @@ ACTIVE_ARRAY = {
     "src/game/async_state_poll.c", "src/game/duel_effect_basic_commands.c",
     "src/game/duel_effect_mode_7.c", "src/game/frontend_scene_states.c",
     "src/game/func_8002A788.c", "src/game/func_8002EB48.c",
-    "src/game/func_8002FA28.c", "src/game/func_80030E30.c",
+    "src/game/script_op_return_to_menu.c", "src/game/func_80030E30.c",
     "src/game/main_init.c", "src/game/script_control_commands.c",
 }
 COMMON_ACTIVE = {

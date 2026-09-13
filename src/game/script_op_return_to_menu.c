@@ -4,11 +4,11 @@
 #define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "main_services.h"
-#include "func_8002FA28.h"
+#include "script_op_return_to_menu.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
-void func_8002FA28(void)
+void Script_OpReturnToMenu(void)
 {
     D_8009B268 = 1;
     D_8009B26D = 5;

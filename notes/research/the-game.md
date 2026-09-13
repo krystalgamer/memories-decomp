@@ -1931,7 +1931,7 @@ continues in Free Duel with every campaign duelist available.
 >   `Script_RunTick` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,
 >   2 = run dialogue N, 3 = flag (set/clear, or "if flag, jump")
->   [`func_8002E918`], 8 = go to map location N, 12 = jump, 18 = game over,
+>   `Script_OpStoryFlag`, 8 = go to map location N, 12 = jump, 18 = game over,
 >   19 = credits, 21 = "if the deck is not 40 cards, jump" (the deck check),
 >   22 = title. Almost every event is "picture, dialogue, then map / game
 >   over": the event script is the campaign's dispatcher, and it tests flags
