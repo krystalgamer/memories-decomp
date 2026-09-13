@@ -1,3 +1,6 @@
+#define FUNC_80018004_AMBIENT_POSITION_ARGS
+#define D_800EAE88_VISIBLE
+#define D_800EAE88_AS_BYTES
 #include "../types.h"
 #include "duel_deck_card.h"
 #include "duel_card_staging.h"
@@ -16,10 +19,9 @@
 #include "display_object_api.h"
 #include "../unmatched.h"
 
-/* Private helper of the duel action controller, func_8001BD88: selection-side
-   setup in its state-3 paths. The helper after it, which executes the
-   AI-script hand/field selection in state 0, is func_8001BAF0, now a
-   candidate in src/candidates/func_8001BAF0.c. */
+/* Private helpers of the same duel action controller, func_8001BD88:
+   selection-side setup in its state-3 paths followed by execution of the
+   AI-script hand/field selection in state 0. */
 
 void func_8001B938(u8 *p) {
     DisplayObject *r;
@@ -73,3 +75,93 @@ void func_8001B938(u8 *p) {
     D_8009B162 = 3;
 }
 
+/* The deck records sit 0x31E0 bytes below the active-card table, and retail
+   forms their base from that table's address rather than from a label of its
+   own. */
+#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
+    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
+
+/* Executes the AI selection prepared in D_800EAE88: clears selected hand
+ * slots, swaps chosen active-card deck records into those slots, respawns the
+ * hand objects, and publishes the resulting hand indices.
+ *
+ * The slot search is a goto loop inside a one-pass do/while, and the order
+ * and card-record bases are added as integers: those forms keep the retail
+ * loop-invariant placement, operand order and register roles. */
+void func_8001BAF0(void)
+{
+    s8 sel[HAND_SIZE];
+    DuelDeckCardRecord tmp;
+    DuelDeckCardRecord *rec;
+    DuelDeckCardRecord *other;
+    DuelCardDisplayObject *spawned;
+    DuelHandSlot *slot;
+    DuelCardRecord *records;
+    AiActiveCard *card;
+    u8 *order;
+    s32 i;
+    s32 j;
+    s32 v;
+    s32 id;
+    s32 k;
+
+    for (i = 0; i < HAND_SIZE; i++) {
+        sel[i] = D_8009B1C8->hand[i];
+    }
+    for (i = 0; i < HAND_SIZE; i++) {
+        v = D_800EAE88[i];
+        if (v == 0) {
+            break;
+        }
+        if (v < 0x10) {
+            sel[v - 0xB] = -1;
+        }
+    }
+    for (i = 0; i < HAND_SIZE; i++) {
+        v = D_800EAE88[i];
+        if (v == 0) {
+            return;
+        }
+        if (v >= 0x10) {
+            do {
+                j = 0;
+                order = D_800907CC;
+                records = D_801A7AD8;
+                slot = D_800EA030;
+            search:
+                if (sel[j] >= 0) {
+                    card = &gDuel_aActiveCards[v];
+                    rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
+                    other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
+                            card->deck_index;
+                    v = (s8)rec->index_02;
+                    rec->index_02 = other->index_02;
+                    other->index_02 = v;
+                    tmp = *rec;
+                    *rec = *other;
+                    *other = tmp;
+                    k = D_8009B1D5 * HAND_SIZE;
+                    id = *(u8 *)((j + k) + (s32)order);
+                    spawned = (DuelCardDisplayObject *)slot->object;
+                    Duel_SetupCardRecord(id, (s8)rec->index_02);
+                    slot->object = (u8 *)func_80018004(
+                        (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
+                                           (s32)records),
+                        spawned->out_x, spawned->out_y);
+                    func_8004036C(spawned);
+                    D_8009B1C8->hand[j] = rec->index_02;
+                    D_800EAE88[i] = j + 0xB;
+                    sel[j] = -1;
+                    continue;
+                }
+                j++;
+                slot++;
+                if (j < HAND_SIZE) {
+                    goto search;
+                }
+            } while (0);
+        }
+    }
+}
+
+#undef DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS

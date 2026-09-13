@@ -18,11 +18,11 @@
 #include "../game/func_800556E8.h"
 #include "../game/gpu_packets.h"
 #include "../game/ordering_tables.h"
+#include "../game/library_runtime.h"
 
 extern void func_80029684(s32, s32, s16 *, s32 *, s32, s32);
 extern void func_800297DC(s32, s32, s16 *, s32 *, s32, s32);
 
-extern s16 D_800EA1E8[];
 extern u8 D_80181000[];
 
 void func_80029934(void)
@@ -73,11 +73,11 @@ void func_80029934(void)
         prim[0xD] = t;
         prim[0xC] = t;
         *(s32 *)(prim + 0x14) = *(s32 *)(prim + 0xC);
-        { s16 *t1 = D_800EA1E8; ctl[2] = rcos(angle) * t1[8] / 4096; }
+        { s16 *t1 = (s16 *)D_800EA1E8; ctl[2] = rcos(angle) * t1[8] / 4096; }
         if (ctl[2] == 0) {
             break;
         }
-        { s16 *t1 = D_800EA1E8; ctl[3] = rsin(angle) * t1[8] / 4096; }
+        { s16 *t1 = (s16 *)D_800EA1E8; ctl[3] = rsin(angle) * t1[8] / 4096; }
         vec3[2] = vec2[2] = vec1[2] = vec[2] = (u16)ctl[3] + (u16)par[2];
         func_80029684((s32)prim, arg, vec, ctl, par[0], ctl[2]);
         func_80029684((s32)prim, arg, vec, ctl, par[0], -ctl[2]);
@@ -108,7 +108,7 @@ void func_80029934(void)
     vec[1] = 0;
     vec[5] = 0;
     do {
-        step = D_800EA1E8[8] + 0x80;
+        step = ((s16 *)D_800EA1E8)[8] + 0x80;
         vec[0] = (u16)par[0] + step * rcos(angle) / 4096;
         vec[4] = (u16)par[0] + step * rcos(angle + 0x80) / 4096;
         vec[2] = (u16)par[2] + step * rsin(angle) / 4096;

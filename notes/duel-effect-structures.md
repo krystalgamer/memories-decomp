@@ -38,7 +38,8 @@ Verified channel fields used by matching C include:
 
 Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
-the record through `TextBoxStateCallback`, now declared
+the record through `TextBoxStateCallback`, defined with the other game-owned
+text/script value types in `ygo_types.h` and declared
 `void (*)(DuelEffectChannel *)`; all eighteen entries of `D_80090E64` have
 typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take

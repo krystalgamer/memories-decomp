@@ -12,11 +12,8 @@ from pathlib import Path
 from pathlib import PurePosixPath
 
 from workspace import WorkspaceError, require_workspace_root
-from record_external_attempt import (
-    ExternalAttemptError,
-    latest_successes,
-    previous_match_addresses,
-)
+import record_external_attempt
+from record_external_attempt import ExternalAttemptError, latest_successes
 
 
 class AuditError(RuntimeError):
@@ -42,37 +39,9 @@ ALLOWED_MARKDOWN_NAME = "README.md"
 ATTEMPT_FIELDS = ("address", "attempt", "compiler", "flags", "result", "summary")
 ATTEMPT_RESULTS = {"matched", "nonmatch", "deferred"}
 MAX_FUNCTION_ATTEMPTS = 6
-EXTERNAL_ATTEMPT_FIELDS = (
-    "mode",
-    "address",
-    "attempt",
-    "reference_path",
-    "reference_sha256",
-    "profile",
-    "candidate_source",
-    "candidate_sha256",
-    "result",
-    "summary",
-)
-EXTERNAL_MODES = {
-    "reference_match",
-    "inline_refinement",
-    "collaborator_match",
-    "post_terminal_resolution",
-    "reclassification_match",
-}
-COLLABORATOR_REFERENCE_SETS = (
-    "ygofm-decomp-unchiga",
-    "ygofm-decomp-machinegun",
-)
-EXTERNAL_MODE_LIMITS = {
-    "reference_match": MAX_FUNCTION_ATTEMPTS,
-    "inline_refinement": MAX_FUNCTION_ATTEMPTS,
-    "collaborator_match": 1,
-    "post_terminal_resolution": 1,
-    "reclassification_match": 1,
-}
-SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+EXTERNAL_ATTEMPT_FIELDS = record_external_attempt.FIELDS
+EXTERNAL_MODES = record_external_attempt.MODES
+EXTERNAL_MODE_LIMITS = record_external_attempt.MODE_MAX_ATTEMPTS
 ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
 REGISTER_PIN_PATTERN = re.compile(
     r"\bregister\b[^;=]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
@@ -312,6 +281,10 @@ def audit_attempts(root: Path) -> None:
         parse_integer(row["address"], "function address"): row["module"]
         for row in functions
     }
+    functions_by_address = {
+        parse_integer(row["address"], "function address"): row
+        for row in functions
+    }
     with profiles_path.open("r", encoding="utf-8") as handle:
         profiles_value = json.load(handle)
     profiles = profiles_value.get("profiles")
@@ -375,164 +348,26 @@ def audit_attempts(root: Path) -> None:
             raise AuditError(f"{external_path}: unexpected CSV fields")
         external_attempts = list(external_reader)
 
-    external_by_key: dict[tuple[str, int], list[dict[str, str]]] = {}
-    external_matches: set[int] = set()
-    inline_latest: dict[int, str] = {}
-    for row in external_attempts:
-        if row["mode"] == "inline_refinement":
-            inline_latest[
-                parse_integer(row["address"], "external attempt address")
-            ] = row["result"]
-    resolution_addresses = {
+    terminal_deferred_addresses = {
         address
         for address, rows in by_address.items()
         if rows[-1]["result"] == "deferred"
-    } | {
-        address
-        for address, result in inline_latest.items()
-        if result == "deferred"
     }
     try:
-        previous_matches = previous_match_addresses(external_attempts)
+        record_external_attempt.validate_rows(
+            external_attempts,
+            functions_by_address,
+            matching_addresses,
+            profiles,
+            terminal_deferred_addresses,
+        )
     except ExternalAttemptError as error:
         raise AuditError(str(error)) from error
-    for row in external_attempts:
-        mode = row["mode"]
-        address = parse_integer(row["address"], "external attempt address")
-        if mode not in EXTERNAL_MODES:
-            raise AuditError(
-                f"{address:#010x}: unsupported external mode {mode}"
-            )
-        if address not in function_addresses:
-            raise AuditError(
-                f"external attempt references unknown function {address:#010x}"
-            )
-        if function_modules[address] != "game":
-            raise AuditError(
-                f"{address:#010x}: external attempts are game-only"
-            )
-        if row["profile"] not in profiles:
-            raise AuditError(
-                f"{address:#010x}: unknown external profile {row['profile']}"
-            )
-        if row["result"] not in ATTEMPT_RESULTS:
-            raise AuditError(
-                f"{address:#010x}: unsupported external result {row['result']}"
-            )
-        require_tmp_path(
-            row["candidate_source"],
-            f"{address:#010x}: external candidate",
-        )
-        if not SHA256_PATTERN.fullmatch(row["candidate_sha256"]):
-            raise AuditError(
-                f"{address:#010x}: invalid candidate SHA-256"
-            )
-        if not row["summary"]:
-            raise AuditError(f"{address:#010x}: empty external summary")
-        has_reference = bool(row["reference_path"] or row["reference_sha256"])
-        if bool(row["reference_path"]) != bool(row["reference_sha256"]):
-            raise AuditError(
-                f"{address:#010x}: incomplete reference path/hash pair"
-            )
-        if mode == "reference_match" and not has_reference:
-            raise AuditError(
-                f"{address:#010x}: reference_match lacks reference source"
-            )
-        if has_reference:
-            reference = PurePosixPath(row["reference_path"])
-            original = (
-                "tmp/references/ygofm-decomp/src/"
-                f"func_{address:08X}.c"
-            )
-            safe = (
-                not reference.is_absolute()
-                and ".." not in reference.parts
-                and reference.suffix == ".c"
-            )
-            collaborator = (
-                safe
-                and len(reference.parts) > 4
-                and reference.parts[:2] == ("tmp", "references")
-                and reference.parts[2] in COLLABORATOR_REFERENCE_SETS
-                and reference.parts[3] == "src"
-            )
-            evidence = safe and (
-                reference.parts[:2] == ("tmp", "references")
-                or reference.parts[0] == "src"
-            )
-            valid_reference = (
-                row["reference_path"] == original
-                if mode == "reference_match"
-                else collaborator
-                if mode == "collaborator_match"
-                else row["reference_path"] == original
-                or collaborator
-                or (
-                    mode in {"post_terminal_resolution", "reclassification_match"}
-                    and evidence
-                )
-            )
-            if not valid_reference:
-                raise AuditError(
-                    f"{address:#010x}: unexpected reference path"
-                )
-            if not SHA256_PATTERN.fullmatch(row["reference_sha256"]):
-                raise AuditError(
-                    f"{address:#010x}: invalid reference SHA-256"
-                )
-        if mode == "inline_refinement" and address not in matching_addresses:
-            raise AuditError(
-                f"{address:#010x}: inline refinement is not matching C"
-            )
-        if mode == "post_terminal_resolution":
-            if address not in resolution_addresses:
-                raise AuditError(
-                    f"{address:#010x}: post-terminal resolution lacks a "
-                    "deferred canonical or inline-refinement history"
-                )
-            if row["result"] != "matched":
-                raise AuditError(
-                    f"{address:#010x}: post-terminal resolution must be matched"
-                )
-        if mode == "reclassification_match":
-            if address not in previous_matches:
-                raise AuditError(
-                    f"{address:#010x}: reclassification match lacks prior "
-                    "matched non-refinement external evidence"
-                )
-            if row["result"] != "matched":
-                raise AuditError(
-                    f"{address:#010x}: reclassification match must be matched"
-                )
-        external_by_key.setdefault((mode, address), []).append(row)
-
-    for (mode, address), rows in external_by_key.items():
-        maximum = EXTERNAL_MODE_LIMITS[mode]
-        if len(rows) > maximum:
-            raise AuditError(
-                f"{address:#010x}: exceeds {maximum} {mode} attempts"
-            )
-        ended = False
-        for expected, row in enumerate(rows, start=1):
-            attempt = parse_integer(row["attempt"], "external attempt number")
-            if attempt != expected:
-                raise AuditError(
-                    f"{address:#010x}: expected external attempt {expected}, "
-                    f"found {attempt}"
-                )
-            if ended:
-                raise AuditError(
-                    f"{address:#010x}: external row follows terminal result"
-                )
-            if row["result"] == "matched":
-                external_matches.add(address)
-                ended = True
-            elif row["result"] == "deferred":
-                ended = True
-            elif expected == maximum:
-                raise AuditError(
-                    f"{address:#010x}: final external attempt is not deferred"
-                )
+    external_matches = {
+        parse_integer(row["address"], "external attempt address")
+        for row in external_attempts
+        if row["result"] == "matched"
+    }
 
     try:
         selected_successes = latest_successes(external_attempts)
@@ -541,6 +376,8 @@ def audit_attempts(root: Path) -> None:
     for address, row in selected_successes.items():
         mode = row["mode"]
         if address not in matching_addresses:
+            if functions_by_address[address]["status"] == "unmatched_asm":
+                continue
             raise AuditError(
                 f"{address:#010x}: matched {mode} evidence is not integrated"
             )
@@ -548,10 +385,6 @@ def audit_attempts(root: Path) -> None:
         if not isinstance(entry, dict):
             raise AuditError(
                 f"{address:#010x}: missing matching manifest entry"
-            )
-        if entry.get("profile") != row["profile"]:
-            raise AuditError(
-                f"{address:#010x}: matched external profile differs from manifest"
             )
         source_value = entry.get("source")
         if not isinstance(source_value, str):

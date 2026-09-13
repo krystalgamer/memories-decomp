@@ -111,13 +111,17 @@ Two consequences for the data work:
 
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
-is using. `func_8001B938.c` reached the deck records like this (in
-`func_8001BAF0`, now `src/candidates/func_8001BAF0.c`):
+is using. `func_8001B938.c` reaches the deck records like this (in
+`func_8001BAF0`):
 
 ```c
-base = (u8 *)gDuel_aActiveCards;
-deck = base - 0x31E0;
+#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
+    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
 ```
+
+Retail builds that base from the active-card address itself, as
+`addiu $fp, $t0, -0x31E0` after loading `gDuel_aActiveCards`, so the pure-C
+match keeps the offset rather than naming `gDuel_aDeckCardRecords`.
 
 `symbols.txt` puts `gDuel_aActiveCards` at `0x801AB000` and
 `gDuel_aDeckCardRecords` at `0x801A7E20`, which differ by exactly `0x31E0`. So

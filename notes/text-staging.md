@@ -59,11 +59,12 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- Four build-integrated candidates reference this family, not one:
-  `src/candidates/func_8002A2F4.c`, `func_8003E854.c`, `func_80060E70.c` and
-  `password/func_8016A37C.c`; a fifth consumer, `func_80023144`, is now
-  matched in `src/game/duel_field_display_objects.c`. The filter is
-  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and each of the four
+- Three build-integrated candidates reference this family, not one:
+  `src/candidates/func_8002A2F4.c`, `func_8003E854.c` and
+  `password/func_8016A37C.c`; two more consumers are now matched,
+  `func_80023144` in `src/game/duel_field_display_objects.c` and
+  `func_80060E70` in `src/game/func_80060E70.c`. The filter is
+  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and each of the three
   includes `src/game/text_staging.h` and declares nothing privately, so the
   password producer is one example of the population rather than the whole of
   it. The distinction that holds is the contract one. The probe over all 171

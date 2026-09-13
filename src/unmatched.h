@@ -34,8 +34,6 @@
  * Several functions need incompatible declarations because the caller-visible
  * type is what makes code generation match. Those variants still belong here:
  *
- *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
- *                   void (s32) elsewhere
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
  *
  * Where a consumer declares no parameters and calls with none, the argument
@@ -70,12 +68,6 @@
 
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
-#ifdef FUNC_80013C28_CALLBACK_VIEW
-void func_80013C28(u8, u8 *, u32 *);
-#else
-void func_80013C28(s32);
-#endif
-
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
  * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */

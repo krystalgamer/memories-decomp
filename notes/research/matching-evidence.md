@@ -3490,10 +3490,10 @@ must be measured.
   `duel_effect_state_callbacks.c` grew with every use routed through the
   local, and the matching form at that stage was the inline
   `((DuelEffectChannel *)object)->state_51`. Those callbacks and
-  `TextBoxStateCallback` are now fully typed; the experiment remains evidence
-  that the two spellings must be measured per function. The failure mode was
-  a link error -- `section .initialized_data VMA ... overlaps section .text`
-  -- not a hash mismatch.
+  `TextBoxStateCallback` are now fully typed, with the callback type owned by
+  `ygo_types.h`; the experiment remains evidence that the two spellings must
+  be measured per function. The failure mode was a link error -- `section
+  .initialized_data VMA ... overlaps section .text` -- not a hash mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
@@ -4725,7 +4725,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c` (now `src/candidates/func_80060E70.c`).
+--allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to `src/candidates/`, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required

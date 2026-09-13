@@ -212,6 +212,7 @@ class ReclassificationMatchTests(unittest.TestCase):
                 self.assertIn("requires unmatched assembly", errors.getvalue())
             self.assertEqual((config / "external_attempts.csv").read_bytes(), original_ledger)
             write_csv("functions.csv", tuple(self.function), [self.function])
+            audit_repository.audit_attempts(root)
 
             with (
                 patch.object(recorder, "require_workspace_root", return_value=root),
@@ -242,6 +243,36 @@ class ReclassificationMatchTests(unittest.TestCase):
             for ordered in (rows, list(reversed(rows))):
                 write_csv("external_attempts.csv", recorder.FIELDS, ordered)
                 audit_repository.audit_attempts(root)
+
+            retired_rows = [
+                {
+                    **row,
+                    "profile": (
+                        "gcc_2_7_2_g8"
+                        if row["mode"] == "post_terminal_resolution"
+                        else row["profile"]
+                    ),
+                }
+                for row in rows
+            ]
+            write_csv("external_attempts.csv", recorder.FIELDS, retired_rows)
+            audit_repository.audit_attempts(root)
+            write_csv("external_attempts.csv", recorder.FIELDS, rows)
+
+            profile_changed_rows = [
+                {
+                    **row,
+                    "profile": (
+                        "old_profile"
+                        if row["mode"] == "reclassification_match"
+                        else row["profile"]
+                    ),
+                }
+                for row in rows
+            ]
+            write_csv("external_attempts.csv", recorder.FIELDS, profile_changed_rows)
+            audit_repository.audit_attempts(root)
+            write_csv("external_attempts.csv", recorder.FIELDS, rows)
 
             for ordered in itertools.permutations([*rows, earlier]):
                 write_csv("external_attempts.csv", recorder.FIELDS, list(ordered))
