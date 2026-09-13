@@ -10,6 +10,7 @@
             "__SN_ENTRY_POINT"
           ],
           "selected_name": "entrypoint",
+          "basis": "naming_policy",
           "evidence": "Repository entry symbol for the exact executable start address."
         },
         {
@@ -19,6 +20,7 @@
             "PCwrite"
           ],
           "selected_name": "PCread",
+          "basis": "evidence",
           "evidence": "Calls _SN_read; matching callers consume returned bytes from a destination buffer."
         },
         {
@@ -28,6 +30,7 @@
             "SpuWrite"
           ],
           "selected_name": "SpuWrite",
+          "basis": "evidence",
           "evidence": "Calls _spu_Fw; matching callers submit source buffers after selecting an SPU destination."
         },
         {
@@ -41,6 +44,7 @@
             "DsSetDebug"
           ],
           "selected_name": "CdReadyCallback_8007A840",
+          "basis": "evidence",
           "evidence": "Replaces the callback slot invoked by CD_ready; address suffix distinguishes the second live copy."
         },
         {
@@ -50,7 +54,8 @@
             "DsMix"
           ],
           "selected_name": "CdMix",
-          "evidence": "Matching callers pass the canonical libcd CdlATV volume packet."
+          "basis": "naming_policy",
+          "evidence": "Retained project alias. Callers pass a four-byte packet compatible with both CdlATV and DslATV, and the permitted catalogue signatures do not distinguish CdMix from DsMix."
         },
         {
           "address": "0x8007E7F0",
@@ -59,6 +64,7 @@
             "DsControlB"
           ],
           "selected_name": "CdControlB",
+          "basis": "evidence",
           "evidence": "Three-argument command blocks on completion; matching callers use the canonical libcd contract."
         },
         {
@@ -68,6 +74,7 @@
             "SsUtGetReverbType"
           ],
           "selected_name": "GsGetActiveBuff",
+          "basis": "evidence",
           "evidence": "Reads the display-buffer index written by GsSwapDispBuff and consumed by graphics callers."
         },
         {
@@ -77,6 +84,7 @@
             "GsDrawOtIO"
           ],
           "selected_name": "GsDrawOt",
+          "basis": "evidence",
           "evidence": "Loads GsOT.tag at offset 0x10 and calls DrawOTag."
         },
         {
@@ -86,7 +94,8 @@
             "GsSetRefViewUnit"
           ],
           "selected_name": "GsSetRefView2",
-          "evidence": "Matching callers pass the canonical 32-byte GsRVIEW2 reference-view record."
+          "basis": "naming_policy",
+          "evidence": "Retained project alias. GsRVIEW2 and GsRVIEWUNIT share the 32-byte layout, and the GS_131 and RVWUNIT catalogue signatures are identical, so callers do not distinguish GsSetRefView2 from GsSetRefViewUnit."
         }
       ]
     },
@@ -99,6 +108,7 @@
             "DsSetDebug"
           ],
           "selected_name": "CdReadyCallback_8007A840",
+          "basis": "evidence",
           "evidence": "The live callback-slot behavior overrides the patched LIBDS byte collision."
         },
         {
@@ -107,7 +117,8 @@
             "DsMix"
           ],
           "selected_name": "CdMix",
-          "evidence": "Matching callers pass the canonical libcd CdlATV volume packet."
+          "basis": "naming_policy",
+          "evidence": "Retained project alias. Callers pass a four-byte packet compatible with both CdlATV and DslATV, and the permitted catalogue signatures do not distinguish CdMix from DsMix."
         },
         {
           "address": "0x8007E7F0",
@@ -116,6 +127,7 @@
             "DsControlB"
           ],
           "selected_name": "CdControlB",
+          "basis": "evidence",
           "evidence": "Three-argument command blocks on completion; matching callers use the canonical libcd contract."
         }
       ]

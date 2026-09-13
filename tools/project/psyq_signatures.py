@@ -39,10 +39,14 @@ each of them was violated by something in the corpus:
    address without an explicit local resolution. Small routines are duplicated
    verbatim across libraries - `0x8007A840` is claimed by six objects across
    LIBCD and LIBDS - so `psyq_signature_resolutions.json` pins the complete
-   proposal set, chosen inventory name, and call-graph or data-flow tiebreak.
+   proposal set, chosen inventory name, and whether the choice is supported by
+   call-graph/data-flow evidence or retained as repository naming policy.
 
 The report also states how many proposals agree with names the inventory
-already carries. That number is the reason to trust the rest: it is the tool
+already carries. These proposal totals are computed only after objects that
+match multiple payload locations have been discarded and labels have been
+restricted to preserved function starts; they are not whole-inventory naming
+coverage. That number is the reason to trust the rest: it is the tool
 checking itself against work done independently and by hand, and a drop in it
 means the matcher broke, not that the corpus is wrong.
 
@@ -105,6 +109,8 @@ def load_resolution_entries(
 ) -> tuple[str, dict[int, dict[str, object]]]:
     path = resolve_within(root, RESOLUTIONS_JSON, must_exist=True)
     document = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(document, dict):
+        raise SignatureError(f"{RESOLUTIONS_JSON}: document is not an object")
     if document.get("schema") != 1:
         raise SignatureError(f"{RESOLUTIONS_JSON}: unsupported schema")
     catalogues = document.get("catalogues")
@@ -148,10 +154,18 @@ def load_resolution_entries(
                 f"{context} catalogue_names must be sorted unique names"
             )
         selected_name = entry.get("selected_name")
+        basis = entry.get("basis")
         evidence_text = entry.get("evidence")
         if not isinstance(selected_name, str) or not selected_name:
             raise SignatureError(f"{context} has invalid selected_name")
-        if not isinstance(evidence_text, str) or not evidence_text:
+        if not isinstance(basis, str) or basis not in {
+            "evidence",
+            "naming_policy",
+        }:
+            raise SignatureError(
+                f"{context} basis must be evidence or naming_policy"
+            )
+        if not isinstance(evidence_text, str) or not evidence_text.strip():
             raise SignatureError(f"{context} has invalid evidence")
         if address in resolutions:
             raise SignatureError(
@@ -160,6 +174,7 @@ def load_resolution_entries(
         resolutions[address] = {
             "catalogue_names": names,
             "selected_name": selected_name,
+            "basis": basis,
             "evidence": evidence_text,
         }
     return expected_hash, resolutions
@@ -506,6 +521,7 @@ def classify(
                     address,
                     row["name"],
                     catalogue_names,
+                    resolution["basis"],
                     resolution["evidence"],
                 )
             )
@@ -603,7 +619,16 @@ def report(scanned: dict, result: dict) -> None:
     print(f"names already in the inventory, agreeing : {len(result['agreed'])}")
     print(f"names already in the inventory, differing: {len(result['disagreed'])}")
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
-    print(f"catalogue conflicts resolved locally     : {len(result['resolved'])}")
+    evidence_count = sum(
+        basis == "evidence"
+        for _address, _selected, _names, basis, _text in result["resolved"]
+    )
+    naming_count = sum(
+        basis == "naming_policy"
+        for _address, _selected, _names, basis, _text in result["resolved"]
+    )
+    print(f"catalogue conflicts resolved by evidence : {evidence_count}")
+    print(f"catalogue names retained by policy       : {naming_count}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
     print(
         "ambiguous addresses with local inventory names: "
@@ -635,10 +660,10 @@ def report(scanned: dict, result: dict) -> None:
     if result["resolved"]:
         print()
         print("resolved catalogue conflicts:")
-        for address, selected, names, evidence_text in result["resolved"]:
+        for address, selected, names, basis, evidence_text in result["resolved"]:
             print(
                 f"  {address:#010x} {selected} over {', '.join(names)}: "
-                f"{evidence_text}"
+                f"[{basis}] {evidence_text}"
             )
     if result["ambiguous_locally_named"]:
         print()

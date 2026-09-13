@@ -123,13 +123,20 @@ the current sweep reports:
 
 The unique-object labels classify against the current function inventory as:
 
+These proposal counts begin only after discarding objects whose masked payload
+matches several locations and labels that do not land on preserved function
+starts. They therefore do not measure complete SDK naming coverage: 119 of the
+600 SDK functions remain address-named, and the zero in the "new names" row
+means only that this filtered unique-proposal set offers no additional names.
+
 | Inventory result | Count | Interpretation |
 |---|---:|---|
 | Existing names agreeing | 428 | Independent names corroborated by the pinned catalogue |
 | Existing names differing | 0 | Every unique catalogue disagreement has an explicit local resolution |
-| New names for `func_XXXXXXXX` rows | 0 | Every Psy-Q function start proposed by this catalogue is named |
-| Catalogue conflicts resolved locally | 9 | Eight byte-identical name conflicts plus the deliberate `entrypoint` spelling |
-| Addresses claimed under several names | 0 | Every collision has a checked local tiebreak |
+| New names for `func_XXXXXXXX` rows | 0 | Every function start in the filtered unique-proposal set is already named |
+| Catalogue conflicts resolved by evidence | 6 | Call graph or data flow distinguishes the selected identity |
+| Catalogue names retained by policy | 3 | `entrypoint`, `CdMix`, and `GsSetRefView2` remain project spellings without claiming the bytes distinguish every catalogue alias |
+| Addresses claimed under several names | 0 | Every collision has an explicit evidence or naming-policy resolution |
 | Ambiguous address-named starts | 0 | No unresolved multi-name collision lands on an address-based Psy-Q inventory name |
 | Psy-Q inventory rows still address-named | 11 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
 | Address-named rows inside a unique object match | 6 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
@@ -146,14 +153,12 @@ treating any future count change as a matcher failure.
 `config/slus_01411/psyq_signature_resolutions.json` makes every exception
 machine-checkable. It pins the exact catalogue content hash, the complete set
 of names proposed at each conflicted address, the selected inventory name, and
-the local evidence that breaks the byte tie. A changed catalogue, stale
-proposal set, unused resolution, or inventory rename now fails the sweep
-instead of quietly reopening an ambiguity. This covers `PCread`, `SpuWrite`,
+whether local evidence breaks the byte tie or the project merely retains an
+existing naming policy. A changed catalogue, stale proposal set, unused
+resolution, inventory rename, or missing basis now fails the sweep instead of
+quietly reopening an ambiguity. This covers `PCread`, `SpuWrite`,
 `CdReadyCallback_8007A840`, `CdMix`, `CdControlB`, `GsGetActiveBuff`,
 `GsDrawOt`, `GsSetRefView2`, and the repository-standard `entrypoint` spelling.
-The naming-policy entries retain established project aliases but do not claim
-that identical bytes resolve original-library identity.
-
 The zero new signature proposals does **not** mean every Psy-Q routine is
 named. The inventory still has 11 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
@@ -164,6 +169,10 @@ The `--coverage-report` split narrows that work: 6 already sit inside 4
 uniquely matched object ranges, while 5 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
+
+The `CdMix` and `GsSetRefView2` records explicitly leave original-library
+identity unresolved: equal packet/view layouts and identical permitted
+catalogue signatures do not discriminate their alternative exports.
 
 ### Patched LIBDS cross-reference
 
@@ -187,10 +196,13 @@ payload exactly once. That yields 31 new names from `0x8007A9AC` to
 state helpers, `_DsPacket2`, `parcpy` and `rescpy`. The 4.6 catalogue
 proposes none of these addresses, which is consistent with the executable
 carrying the patched library rather than the 4.6 one. The current cross-check
-has 45 agreeing inventory names and no new names, unresolved disagreements, or
-unresolved ambiguities. Its three local resolutions preserve
+has 45 agreeing inventory names and no new names or unrecorded disagreements.
+Its three explicit resolutions preserve
 `CdReadyCallback_8007A840`, `CdMix`, and `CdControlB` where the patched LIBDS
-bytes alone propose a different or non-unique export.
+bytes alone propose a different or non-unique export. The callback and control
+identities have behavioral evidence; `CdMix` is a retained project alias
+because the four-byte CdlATV/DslATV views and permitted signatures are
+indistinguishable.
 
 The patched `DSSYS_2.OBJ` queue prefix is also now named through independent
 version evidence. Psy-Q 4.0, the PsyZ object reconstruction, and two Resident
@@ -662,7 +674,7 @@ Every row below is now an applied project symbol.
 | `0x80089E40` | `GsU_02000000` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000000.OBJ` signature. Matching `func_800603DC` returns the canonical handler for the exact primitive type word `0x02000000`. |
 | `0x80089ED0` | `GsU_02000001` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000001.OBJ` signature. Matching `func_800603DC` returns the canonical handler for the exact primitive type word `0x02000001`. |
 | `0x8008A4A0` | `GsGetLwUnit` | Applied at offset zero of the unique exact Psy-Q 4.6 `LIBHMD.LIB/LWUNIT.OBJ` signature. Canonical `libhmd.h` takes a `GsCOORDUNIT *` and output `MATRIX *`; matching `model_slot_properties.c` uses those types before `GsSetLsMatrix`, while `func_800580D4` and `func_80059B90` pass the same 0x50-byte unit and 32-byte output through local byte views. |
-| `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008AD50` | `GsSetRefView2` | Retained project alias; matching model paths install a shared 32-byte reference-view record, but GsRVIEW2/GsRVIEWUNIT layouts and the GS_131/RVWUNIT masked signatures are identical, so original export identity remains unresolved. |
 | `0x8008B120` | `scale_view_param` | Private helper shared by the byte-identical `GS_131.OBJ`/`RVWUNIT.OBJ` variants. PsyZ names it in both objects, independent maps preserve its first-helper position, and recovered HMD SDK source contains the same static view-parameter scaler. |
 | `0x8008B20C` | `select_max_param` | Private helper named by both PsyZ object reconstructions and independent maps; it selects the dominant scaled view parameter between `scale_view_param` and `len_param`. |
 | `0x8008B2D4` | `len_param` | Private final helper named by PsyZ and independent maps; its compact body computes the parameter length used by the reference-view setup. |

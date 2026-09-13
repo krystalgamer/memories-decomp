@@ -1408,7 +1408,7 @@ address,size,name,status,module,notes
 0x8007CD14,0x10,DS_system_active,sdk_asm,psyq/sdk,
 0x8007CD24,0x48,parcpy,sdk_asm,psyq/sdk,
 0x8007CD6C,0x48,rescpy,sdk_asm,psyq/sdk,
-0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Identified from the libcd.h CdlATV contract, both matching game callers, notes/psyq.md, and the Unchiga symbol map; the same SDK entry may also be exported as DsMix."
+0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Retained project alias: callers use a four-byte packet compatible with both CdlATV and DslATV; identical permitted signatures do not resolve CdMix versus DsMix."
 0x8007CDE0,0x130,DsRead,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007CF10,0x34,DS_read_cbsync,sdk_asm,psyq/sdk,"Private DSREAD command-completion callback; the name and position immediately after DsRead are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, while the exact 4.6 body starts the ready system on completion event 2."
 0x8007CF44,0x178,DS_read_cbready,sdk_asm,psyq/sdk,"Private DSREAD ready callback; the name and order are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, and the exact 4.6 body advances the read transfer and dispatches its completion callback."
@@ -1670,7 +1670,7 @@ address,size,name,status,module,notes
 0x8008A4A0,0x2B8,GsGetLwUnit,sdk_asm,psyq/sdk,
 0x8008A760,0x2C8,GsGetLsUnit,sdk_asm,psyq/sdk,
 0x8008AA30,0x314,GsGetLwsUnit,sdk_asm,psyq/sdk,
-0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_131.OBJ signature and matching camera-state callers.
+0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Retained project alias: callers use the shared 32-byte view layout; identical GS_131/RVWUNIT signatures do not resolve GsSetRefView2 versus GsSetRefViewUnit.
 0x8008B120,0xEC,scale_view_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT view scaler; PsyZ names it in both object variants, independent Psy-Q-derived maps preserve its first-helper position, and recovered HMD SDK source contains the same static helper."
 0x8008B20C,0xC8,select_max_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT parameter selector; PsyZ names it in both object variants and independent maps preserve its ordering between scale_view_param and len_param."
 0x8008B2D4,0x1C,len_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT vector-length helper; PsyZ and independent maps preserve its final-helper position immediately after select_max_param."
