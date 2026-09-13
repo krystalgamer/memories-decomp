@@ -3,8 +3,7 @@
 
 #include "../types.h"
 
-/* func_8004A940, which #3859 moved out of this unit into
- * src/candidates/func_8004A940.c, still calls it. */
 s32 func_8004A8E4(s32 index, s32 value);
+s32 func_8004A940(s32 value, s32 variant);
 
 #endif

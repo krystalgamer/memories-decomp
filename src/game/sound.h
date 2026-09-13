@@ -588,8 +588,9 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 
 #ifndef SDVALUE_CUSTOM_EXTERN
 /* Three alternative spellings of this declaration are codegen inputs:
- * func_800464F0.c takes the aggregate arm; func_80049138.c, func_800466C8.c
- * and func_80045054.c take the volatile arm;
+ * func_800464F0.c takes the aggregate arm; func_80049138.c and func_800466C8.c
+ * take the volatile arm; sound_output_state.c keeps the
+ * same measured view for func_80045054 through a same-symbol local alias;
  * func_80047788.c, func_80045514.c and func_80046294.c
  * take the .data arm.
  *

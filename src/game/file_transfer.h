@@ -11,30 +11,16 @@
 #define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
 #define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
-#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
    func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
+/* The asm-labelled byte views below are opted into by their only consumer,
+   func_80014294.c, so other units carry no asm label. */
+#ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
-
-/* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: File_ActivateTransfer overwrites the primary descriptor with the
-   secondary one.
-
-   This is a block-move spelling, not a second description of the record --
-   the element type is what sets the alignment and therefore the move width,
-   so it is deliberately `s32` and deliberately not interchangeable with
-   FileTransferDescriptor itself, which contains halfword members. The assert
-   below is what ties the two together. */
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} FileTransferDescriptorWords;
-
-typedef char FileTransferDescriptorWords_size_must_match_descriptor[
-    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
+#endif
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -217,10 +203,10 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * File_SetPositionTable hands its address to File_InitTransferState
  * (src/candidates/func_800136E4.c:24), which stores it into D_8009B118
  * (file_stream.c:15). The two memory-card dialogs also reach it, always by
- * address: MemCardDialog_UpdateSave (src/candidates/func_8003E854.c)
+ * address: MemCardDialog_UpdateSave (mem_card_dialog_load_save.c)
  * and MemCardDialog_UpdateTradeSave (mem_card_dialog_runtime.c) pass it
  * to MemCardReadFile as the destination of a read whose last argument is 0x480,
- * and compare it as a SaveDataState in src/candidates/func_8003E854.c and
+ * and compare it as a SaveDataState in mem_card_dialog_load_save.c and
  * mem_card_dialog_runtime.c. Every retail access is an address-take
  * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
  * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
@@ -255,10 +241,12 @@ extern s32 D_8009B138;
 /* The filter command uses both pointer decay and a small-data byte alias.
    The historical [1] bound is an addressing form, not the buffer extent. */
 extern char D_8009B11C[1];
+#ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_8009B11C_byte asm("D_8009B11C");
+#endif
 
 /* The CD callback's state word, switched on and advanced by
- * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and
+ * func_80013C28.c and func_80014294.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
@@ -312,7 +300,7 @@ extern void (*D_8009B120)(void);
 extern s32 D_8009B130;
 
 /* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_runtime.c spelled both `extern volatile` while
+ * owned: func_80014294.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
@@ -353,13 +341,13 @@ extern volatile u16 D_8009B124;
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_transfer_runtime.c
+ * declarers spelling it FileTransferDescriptor while func_80014294.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting the callback use in file_transfer_runtime.c alone, changing
+ * Converting the callback use in func_80014294.c alone, changing
  * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written

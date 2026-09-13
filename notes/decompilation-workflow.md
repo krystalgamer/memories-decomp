@@ -237,9 +237,21 @@ the linked refinement has already superseded. No historical rows need editing.
 
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
-name exactly matches a symbol in the tracked linker tables; arbitrary
-expressions such as `Symbol+0` and unknown names remain rejected. The
-allowances are independent and neither permits statement-level inline assembly.
+name exactly matches a symbol in the tracked linker tables, function
+inventories, or canonical headers; arbitrary expressions such as `Symbol+0`
+and unknown names remain rejected. The allowances are independent and neither
+permits statement-level inline assembly.
+These flags are evidence-ledger allowances only. Promotion to matching C rejects
+hard-register variables and statement-level assembly, permits only tracked
+symbol aliases, and rejects profiles whose GCC and MASPSX `-G` values differ.
+`make check-matching-source-contracts` enforces the same contract across every
+resident and overlay matching manifest. All three paths scan C literals and
+comments without regex boundary loss, apply line splicing before token checks,
+and inspect the compiler's preprocessed output so assembly introduced by an
+active included macro cannot bypass the source-only gate. Unused assembly
+macros are not expanded and therefore do not cause false failures. Run this
+target after installing the matching compiler; the toolchain-backed CI build
+runs it separately from the toolchain-free metadata job.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
@@ -586,9 +598,15 @@ adds two more of its own:
   three textually identical spellings of one GTE result, in three files, for
   one address.
 
-The rule the campaign settled on: the scan produces candidates, and reading the
-source decides them. Every one of these was caught by reading, and none by the
-tool contradicting itself.
+  Large game-owned records follow the same ownership rule even when they have
+  only one current definition. `DuelEffectChannel` therefore lives beside its
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  channel counts, state flags, storage declarations, and the duel-effect API.
+  The measured size and member-offset assertions move with the record.
+
+  The rule the campaign settled on: the scan produces candidates, and reading the
+  source decides them. Every one of these was caught by reading, and none by the
+  tool contradicting itself.
 
 Single ownership applies to unique records too, not only duplicated shapes.
 The text/script pass moved `TextStreamOwner`, `EffectObject`,
@@ -596,6 +614,14 @@ The text/script pass moved `TextStreamOwner`, `EffectObject`,
 `TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
 domain headers still own constants, globals, and function declarations; the
 shared type file owns the measured layouts and offset assertions.
+
+The same ownership rule applies even when a record has only one current
+definition. Game-owned values that cross subsystem boundaries belong in
+`ygo_types.h`, while their domain headers retain constants, functions, and
+globals. The file loader's aligned descriptor-copy view, model transfer rows,
+movie stream ranges, and persistent duel-result rows follow that split. Their
+size and offset assertions move with the types, including the assertion that
+the word-copy view remains exactly the size of `FileTransferDescriptor`.
 
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
@@ -662,7 +688,7 @@ spelling is decoration, and it lands on both sides.
 `extern volatile` declarations argued the volatile held an init block in
 source order, and dropping them built byte-identical.
 
-`file_transfer_runtime.c` is the same shape and the opposite answer. It
+`func_80014294.c` is the same shape and the opposite answer. It
 declares
 
     extern volatile u16 D_8009B124;
