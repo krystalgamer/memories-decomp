@@ -10,6 +10,7 @@
 #include "func_80043BCC.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
+#include "movie_playback_control.h"
 #include "text_box_lifecycle.h"
 
 s32 func_80043BCC(void) {
@@ -29,7 +30,7 @@ s32 func_80043BCC(void) {
                 if ((f & 0x80) == 0) {
                     D_8009B428 = f | 0x80;
                     Main_ResetFrontendRuntime();
-                    func_8003594C(0);
+                    Movie_Play(0);
                     D_8009B142 = 0xFF;
                     D_8009B143 = 0xFF;
                     D_8009B144 = 0xFF;

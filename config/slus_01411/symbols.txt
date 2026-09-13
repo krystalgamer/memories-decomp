@@ -18,6 +18,7 @@ Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
 Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
 SD_SetVoiceEnvelopeFromTone = 0x8004A6F8; // type:func
 SD_ResetVoiceEnvelope = 0x8004A764; // type:func
+Movie_Play = 0x8003594C; // type:func
 Movie_StopStream = 0x8005BB7C; // type:func
 Movie_DecodeAndPresentFrame = 0x8005BE3C; // type:func
 Movie_ResetPlaybackState = 0x80035A58; // type:func

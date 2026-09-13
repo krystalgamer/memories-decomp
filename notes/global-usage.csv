@@ -912,7 +912,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8002FB78,Campaign_LoadScenePackageStage,matching_c,game,C,src/game/campaign_load_scene_package_stage.c,read_write,32,D_8009B0F4 = v_0; | D_8009B0F4 = v_1; | (+8 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80030D5C,func_80030D5C,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_02155c.s,read,32,"lui $v0, %hi(D_8009B0F4) | lw $v0, %lo(D_8009B0F4)($v0)"
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80032184,func_80032184,matching_c,game,C,src/game/func_80032184.c,read_write,32,D_8009B0F4 = D_8009B0F4 & m2v; | D_8009B0F4 = D_8009B0F4 | 0x10000; | (+6 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003594C,func_8003594C,matching_c,game,C,src/game/movie_playback_control.c,read_write,32,D_8009B0F4_abs |= 0x2000000;
+0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003594C,Movie_Play,matching_c,game,C,src/game/movie_playback_control.c,read_write,32,D_8009B0F4_abs |= 0x2000000;
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,32,D_8009B0F4_abs = D_8009B0F4_abs & 0xFDFFFFFF;
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003798C,func_8003798C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,32,if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80037B40,func_80037B40,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,32,if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
@@ -1768,7 +1768,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B314,D_8009B314,D_8009B314,0x800355C8,func_800355C8,matching_c,game,C,src/game/sorted_entry_relink.c,read_write,32,D_8009B314 = 0; | u32 count = D_8009B314;
 0x8009B314,D_8009B314,D_8009B314,0x80035680,func_80035680,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B314 = 0;
 0x8009B318,D_8009B318,D_8009B318,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,if ((D_8009B318 & 0x80) != 0) { | if ((D_8009B318 & 0x80) == 0) {
-0x8009B318,D_8009B318,D_8009B318,0x8003594C,func_8003594C,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0x80;
+0x8009B318,D_8009B318,D_8009B318,0x8003594C,Movie_Play,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0x80;
 0x8009B318,D_8009B318,D_8009B318,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,8,D_8009B318 &= 0x7F; | D_8009B318 = value | 0x40; | (+1 more)
 0x8009B318,D_8009B318,D_8009B318,0x80035A58,func_80035A58,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0;
 0x8009B318,D_8009B318,D_8009B318,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read,8,g = D_8009B318;

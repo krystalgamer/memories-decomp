@@ -97,7 +97,7 @@ void func_80030D5C(void)
                 if (result < 0)
                     D_8009B2EB = 0;
                 else {
-                    func_8003594C(gDebug_nSceneOrSoundID);
+                    Movie_Play(gDebug_nSceneOrSoundID);
                     D_8009B2EB |= FRONTEND_STEP_FLAG_ASYNC_PENDING;
                 }
             }

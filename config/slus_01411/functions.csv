@@ -418,7 +418,7 @@ address,size,name,status,module,notes
 0x800357E8,0xB8,Text_EncodeDecimalDigits,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800358A0,0x5C,Text_EncodeDecimalNoPadding,matching_c,game,Post-terminal pure-C match; unconditional scan decrement reproduces the retail backward-branch delay slot.
 0x800358FC,0x50,Rand_GetInterval,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8003594C,0x64,func_8003594C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x8003594C,0x64,Movie_Play,matching_c,game,"Starts non-blocking playback of one MOVIE.STR entry: waits for file transfers, sets the CD mix to 0xFF, raises D_8009B318 bit 0x80 and D_8009B0F4 bit 0x02000000, then requests the whole stream through func_8005C388. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
 0x800359B0,0xA8,func_800359B0,matching_c,game,Reference structure independently verified; aggregate globals and a same-address status alias preserve exact retail address materialization and scheduling.
 0x80035A58,0xC,Movie_ResetPlaybackState,matching_c,game,"Clears the movie playback-control byte D_8009B318 (0x80 playing, 0x40 skip latched); Main_Init calls it once at boot. First -O2 -G8 global-byte assignment candidate matched."
 0x80035A64,0x54,func_80035A64,matching_c,game,"Pure-C exact match: moving the loop decrement into the condition keeps all four channel-reset stores ahead of it, eliminating both compiler barriers while preserving the retail schedule."
