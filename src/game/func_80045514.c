@@ -203,7 +203,7 @@ void func_80045514(void)
         if (g_SDValue->field_157A != 0) {
             u8 *list = (u8 *)g_SDValue->music_track;
 
-            g_SDValue->field_157A = func_800496C4(list + 0x50, 0,
+            g_SDValue->field_157A = SD_VabOpenHead(list + 0x50, 0,
                                              *(s32 *)(list + 0xC));
             if ((s16)g_SDValue->field_157A != 0) {
                 g_SDValue->field_007C = 0;
