@@ -6220,13 +6220,13 @@
       "address": "0x8007149C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/game/ai_script_load_deck_size.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x80071510",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_selection_random.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x8007154C",
@@ -6280,13 +6280,13 @@
       "address": "0x80071CB0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x208",
-      "source": "src/game/ai_script_find_defense_stopper.c"
+      "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80071EB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/game/ai_script_count_cards.c"
+      "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80071FC8",
