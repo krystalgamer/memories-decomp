@@ -36,18 +36,17 @@ extern u8 gDuel_bQuitDialogState;
  * starts, in the same run of assignments that clears the quit state, and
  * raises 0x1000 there for its own reason.
  *
- * Only those two units take this plain u16 spelling, and the declaration lives
- * here rather than in duel_side_state.h for a checked reason:
- * Main_RunDuel (src/game/main_run_duel.c) reads the word as
- * `u16 D_8009B16C[9]`, which is
- * the oversized-array form of the absolute addressing the .data attribute also
- * produces, and that file does include duel_side_state.h. It does not include
- * this header, and neither does debug_effect_screen.c, which takes a third
- * view -- `u8 D_8009B16C[4]`, touching byte 2 rather than the halfword at 0.
- * So the spellings never meet here and no guarded arm is needed.
+ * Main_RunDuel takes the .data arm because its G8 build reaches the word
+ * absolutely. The other two users take the plain scalar. debug_effect_screen.c
+ * retains a private byte view because it touches byte 2 rather than this
+ * halfword at offset 0.
  *
  * The byte-2 use is worth knowing about before anyone widens this: the address
  * carries more than the flags word these two functions see. */
+#ifdef D_8009B16C_IN_DATA
+extern u16 D_8009B16C __attribute__((section(".data")));
+#else
 extern u16 D_8009B16C;
+#endif
 
 #endif

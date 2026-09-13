@@ -10,6 +10,7 @@
 #include "main_frame.h"
 #include "fade.h"
 #include "file_transfer.h"
+#include "main_modes.h"
 #include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "sound.h"
@@ -18,6 +19,9 @@
 #include "library_runtime.h"
 #include "duel_scene_update.h"
 #include "duel_side_state.h"
+#include "ai_opponent_data.h"
+#define D_8009B16C_IN_DATA
+#include "duel_check_quit_input.h"
 #define D_8009B26C_AS_SCALAR
 #define D_8009B2F8_AS_ARRAY
 #define GCAMPAIGN_SCENE_INDEX_AS_ARRAY
@@ -28,9 +32,6 @@
  * c_symbols.ld supplies the retail storage address. */
 u8 D_8009B26C;
 
-extern s8 gDuel_bOpponentID[9];
-
-extern u16 D_8009B16C[9];
 #define HIGH_MEMORY_ADDRESSES_MODEL_PREFIX
 #include "high_memory_addresses.h"
 
@@ -42,7 +43,7 @@ void Main_RunDuel(void)
     if (!(value & 0x40)) {
         D_8009B26C = value | 0x40;
         D_8009B26E = 1;
-        if (!D_8009B369 && gDuel_bOpponentID[0] >= 0)
+        if (!D_8009B369 && gDuel_bOpponentID >= 0)
             D_8009B26E = 0;
         D_8009B0A3[0] = 10;
         return;
@@ -70,7 +71,7 @@ void Main_RunDuel(void)
             func_800179F4();
         } else {
             func_80024388();
-            if (D_8009B16C[0] & 0x2000)
+            if (D_8009B16C & 0x2000)
                 D_8009B26E = 2;
         }
         break;
