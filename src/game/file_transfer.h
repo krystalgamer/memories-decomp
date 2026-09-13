@@ -16,7 +16,11 @@
    func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
+/* The asm-labelled byte views below are opted into by their only consumer,
+   func_80014294.c, so other units carry no asm label. */
+#ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
+#endif
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -237,7 +241,9 @@ extern s32 D_8009B138;
 /* The filter command uses both pointer decay and a small-data byte alias.
    The historical [1] bound is an addressing form, not the buffer extent. */
 extern char D_8009B11C[1];
+#ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_8009B11C_byte asm("D_8009B11C");
+#endif
 
 /* The CD callback's state word, switched on and advanced by
  * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and

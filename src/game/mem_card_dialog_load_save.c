@@ -1,3 +1,4 @@
+#define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
 #include "../psyq/libmcrd.h"
 #include "duel_effect.h"
@@ -7,6 +8,7 @@
 #include "mem_card_directory.h"
 #include "save_data.h"
 #include "text_staging.h"
+#include "dialog_choice.h"
 #include "../unmatched.h"
 
 /* The load half of the memory-card dialog's operations: the message helper,
@@ -16,21 +18,17 @@
 
 /* The two stores below are deliberate: retail writes the masked value and
    then the value with the new bits set. Without volatile the first store is
-   dead and GCC drops it, so this unit reaches the word under a second linker
-   name rather than forcing volatile on every reader in mem_card.h. */
-extern volatile u16 gMemCard_wDialogFlags_v asm("gMemCard_wDialogFlags");
-
-extern s8 gDialog_bChoice __attribute__((section(".data")));
-
+   dead and GCC drops it, so this function reaches the word through a volatile
+   lvalue rather than forcing volatile on every reader in mem_card.h. */
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
-    u16 flags = gMemCard_wDialogFlags_v;
+    u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
 
     bits |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
     D_8009B3C6 = value;
     flags &= 0xFF87;
-    gMemCard_wDialogFlags_v = flags;
-    gMemCard_wDialogFlags_v = flags | bits;
+    *(volatile u16 *)&gMemCard_wDialogFlags = flags;
+    *(volatile u16 *)&gMemCard_wDialogFlags = flags | bits;
 }
 
 /* Memory-card load dialog state machine.

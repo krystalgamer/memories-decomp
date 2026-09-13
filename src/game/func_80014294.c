@@ -1,3 +1,4 @@
+#define FILE_TRANSFER_BYTE_VIEWS
 #include "../types.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
