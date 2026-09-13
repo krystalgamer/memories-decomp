@@ -1325,7 +1325,7 @@ The remaining overlay data work is in the bulk blobs, not the headers:
 | overlay | raw blob | bytes |
 |---|---|---:|
 | `main_menu` | `0x4558-0x8000` | 15016 |
-| `password` | `0x5400-0x7800` | 9216 |
+| `password` | `0x5590-0x7800` | 8816 |
 | `free_duel` | `0x1030-0x2800` | 6096 |
 | `overworld_before_coup` | `0x2274-0x3000` | 3468 |
 | `overworld_after_coup` | `0x2274-0x3000` | 3468 |
