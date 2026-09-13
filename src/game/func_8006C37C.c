@@ -39,7 +39,6 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     s32 s;
     s32 otz;
     SVECTOR *pt;
-    s16 d8;
     s32 c0;
     s32 c1;
     s32 c2;
@@ -169,19 +168,8 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     } else {
         s = e->scale + step;
         e->scale = s;
-        if (s >= 0) {
-            d8 = *(s16 *)(t + 8);
-            if (d8 >= s) {
-                goto done;
-            }
-            s = d8;
-        } else {
-            s = 0;
-        }
-        /* The shared store stays out of the preceding jump's delay slot only
-           when it is volatile. */
-        *(volatile s32 *)&e->scale = s;
-    done:;
+        s = s < 0 ? 0 : (s > *(s16 *)(t + 8) ? *(s16 *)(t + 8) : s);
+        e->scale = s;
     }
     return (e->level < 1) * 2;
 }
