@@ -108,10 +108,10 @@ void func_8004293C(DisplayObject *object)
 
 int func_80042960(DisplayObject *object)
 {
-    /* Read as void (*)(void) and called with no argument on purpose:
-       the slot's declared type takes a u8 *, but the ambient argument
-       register is what retail passes. See #2887. */
-    void (*callback)(void) = *(void (**)(void))((u8 *)object + 0x24);
+    /* Called as void (*)(void), with no argument, on purpose: the slot's
+       declared type takes a u8 *, but the ambient argument register is what
+       retail passes. See #2887. */
+    void (*callback)(void) = (void (*)(void))object->update;
 
     if (callback != 0)
         callback();
