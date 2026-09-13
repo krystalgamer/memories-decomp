@@ -74,8 +74,9 @@ typedef char TextStagingValues_invalid_side_offset_must_be_0x40[
  * Written through the members, the retail SHA-256 and all five overlay
  * images are unchanged.
  *
- * The password producer writes the overlapping `starchips` member directly;
- * `library_count` at offset 0 remains the resident library view. */
+ * The starchip balance is the union's `starchips` member, the same word at
+ * offset 0 as `library_count`. Password_RefreshStarchipDisplay stages it
+ * through that member, so no separate linker alias remains. */
 extern TextStagingValues D_801D5608[];
 
 /* The result controller stages its sign-extended dropped-card id at this
