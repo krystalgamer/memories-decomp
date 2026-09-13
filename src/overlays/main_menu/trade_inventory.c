@@ -33,7 +33,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     s32 id;
 
     mode = D_80185CCC[slot];
-    comparators = *(MainMenuComparators *)&D_80180000[1];
+    comparators = D_80180004;
 
     if (force != 0 || mode == 0) {
         row = D_801D1200 + slot * 0x1000;

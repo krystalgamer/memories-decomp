@@ -77,12 +77,12 @@ extern s32 D_8009B0D8;
  *   _IS_VOLATILE -- graphics_frame.c and src/candidates/func_80012B50.c
  *   _IN_DATA     -- src/candidates/func_800283F4.c,
  *                   main_run_animated_battle.c and
- *                   main_run_duel_and_library.c, all at -G8: out of small
+ *                   main_run_duel_and_library.c and main_run_credits.c,
+ *                   all at -G8: out of small
  *                   data at the compiler, with its true width
  *
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
- * plain byte. Main_RunCredits is not converted: it is generated assembly
- * again and declares nothing. */
+ * plain byte. */
 #ifdef D_8009B0C0_IN_DATA
 extern u8 D_8009B0C0 __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IS_VOLATILE)

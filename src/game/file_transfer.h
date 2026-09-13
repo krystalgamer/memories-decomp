@@ -11,30 +11,12 @@
 #define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
 #define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
-#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
    func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
 extern u8 D_801D4200_raw[] asm("D_801D4200");
-
-/* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: File_ActivateTransfer overwrites the primary descriptor with the
-   secondary one.
-
-   This is a block-move spelling, not a second description of the record --
-   the element type is what sets the alignment and therefore the move width,
-   so it is deliberately `s32` and deliberately not interchangeable with
-   FileTransferDescriptor itself, which contains halfword members. The assert
-   below is what ties the two together. */
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} FileTransferDescriptorWords;
-
-typedef char FileTransferDescriptorWords_size_must_match_descriptor[
-    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -70,6 +52,13 @@ void func_800140A0(u8 event);
 void func_80014134(u8 event);
 void func_800141A8(u8 event);
 void func_80014220(s32 event);
+/* DsStartReadySystem supplies all three callback arguments; the implementation
+   consumes only the low byte of the first word. Preserve both measured views. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
 void func_8001455C(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
@@ -133,7 +122,7 @@ void func_80014FA4(void);
  * retail 0x1D0800.
  *
  * Two names, one word. The retail image reaches this address both ways. The
- * loader unit still held as assembly in `text_004428.s` uses
+ * ready-sector callback in `func_80013C28.c` uses
  * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
  * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
  * produce both inside a -G8 translation unit, because the form follows from
@@ -232,7 +221,7 @@ extern u8 D_801DD000[];
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 /* The initialized .sdata pointer targets the primary descriptor. The sector
-   candidate reads the record at byte offsets and used to select a `u8 *`
+   callback reads the record at byte offsets and used to select a `u8 *`
    declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
    site instead, and its object is byte for byte unchanged by that -- a
    pointer is one word either way, so the declared target type reaches no
@@ -251,7 +240,7 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and
+ * func_80013C28.c and func_80014294.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
@@ -305,7 +294,7 @@ extern void (*D_8009B120)(void);
 extern s32 D_8009B130;
 
 /* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_runtime.c spelled both `extern volatile` while
+ * owned: func_80014294.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
@@ -346,13 +335,13 @@ extern volatile u16 D_8009B124;
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_transfer_runtime.c
+ * declarers spelling it FileTransferDescriptor while func_80014294.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting the callback use in file_transfer_runtime.c alone, changing
+ * Converting the callback use in func_80014294.c alone, changing
  * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written

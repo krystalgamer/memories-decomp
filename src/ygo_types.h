@@ -29,6 +29,107 @@ typedef char CardCountEntry_size_must_be_4[
     sizeof(CardCountEntry) == 4 ? 1 : -1
 ];
 
+/* Unpacked colour channels used by the tint pipeline. Most callers keep the
+ * BGR555 0..31 range; the inverse transform may clamp a channel to 0xFF. */
+typedef struct {
+    u8 r;
+    u8 g;
+    u8 b;
+} Color;
+
+/* Fixed-point hue plus the pipeline's lightness/saturation pair. The retained
+ * HsvT name is historical; the conversion branches use HSL lightness rules. */
+typedef struct {
+    s32 h;
+    u16 s;
+    u16 v;
+} HsvT;
+
+/* SXY2 as returned by the GTE. x remains unsigned to preserve lhu consumers;
+ * y is signed because projection sites bias it through signed arithmetic. */
+typedef struct {
+    u16 x;
+    s16 y;
+} ProjectedPair;
+
+typedef struct {
+    s16 x;
+    s16 y;
+} ScreenPair;
+
+/* Word/halfword views required by sprite builders that copy paired fields
+ * with one load or store while other paths update their individual halves. */
+typedef union {
+    s32 word;
+    struct {
+        u16 x;
+        u16 y;
+    } h;
+} SpritePos;
+
+typedef union {
+    u16 word;
+    struct {
+        u8 lo;
+        u8 hi;
+    } b;
+} SpriteHalf;
+
+typedef struct {
+    u32 attribute;
+    SpritePos xy;
+    union {
+        u32 word;
+        struct {
+            SpriteHalf w;
+            u16 h;
+        } wh;
+    } extent;
+    u16 tpage;
+    SpriteHalf uv;
+    union {
+        u32 word;
+        struct {
+            u16 cx;
+            u16 cy;
+        } h;
+    } cxcy;
+    u32 rgb;
+    SpritePos mxmy;
+    u32 scale;
+    s32 rotate;
+} SpritePrim;
+
+/* Scratchpad clip result at 0x1F800378. */
+typedef struct {
+    u32 unk0;
+    u32 flag;
+    u8 pad8[0x18];
+    u8 out[4];
+} ClipState;
+
+typedef char Color_size_must_be_3[
+    sizeof(Color) == 3 ? 1 : -1
+];
+typedef char HsvT_size_must_be_8[
+    sizeof(HsvT) == 8 ? 1 : -1
+];
+typedef char ProjectedPair_size_must_be_4[
+    sizeof(ProjectedPair) == 4 ? 1 : -1
+];
+typedef char ScreenPair_size_must_be_4[
+    sizeof(ScreenPair) == 4 ? 1 : -1
+];
+typedef char SpritePrim_size_must_be_0x24[
+    sizeof(SpritePrim) == 0x24 ? 1 : -1
+];
+typedef char SpritePrim_cy_must_be_at_0x12[
+    (u32)&(((SpritePrim *)0)->cxcy.h.cy) == 0x12 ? 1 : -1
+];
+typedef char ClipState_size_must_be_0x24[
+    sizeof(ClipState) == 0x24 ? 1 : -1
+];
+
 typedef u8 *(*ModelHandler)(u8 **);
 typedef void (*ScriptCommandHandler)(void);
 
@@ -251,6 +352,193 @@ typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
 ];
 typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
+];
+
+#define TEXT_STREAM_SLOT_COUNT 22
+
+/* Narrow text-command view: twenty-two stream pointers place the signed
+ * selector at the measured 0x58 offset. */
+typedef struct {
+    u8 *streams[TEXT_STREAM_SLOT_COUNT];
+    s8 stream_index;
+} TextStreamOwner;
+
+/* Display-effect command view. Its depth selector follows twenty stream
+ * pointers and the command state bytes at the same measured 0x58 offset. */
+typedef struct {
+    u8 *streams[20];
+    u8 unk50;
+    u8 state;
+    u8 pad52[6];
+    s8 depth;
+} EffectObject;
+
+/* One 0x14-byte scene-script slot at D_800EAE98. */
+typedef struct {
+    s32 unk00;
+    s16 unk04;
+    s16 unk06;
+    s32 unk08;
+    s32 unk0C;
+    s32 unk10;
+} SceneScriptSlot;
+
+/* Script image slot prefix: the owned display object and its image id. */
+typedef struct {
+    void *pointer;
+    s16 value;
+    u8 pad_06[14];
+} ScriptImageEntry;
+
+struct DuelEffectChannel;
+typedef void (*SceneScriptRecordCallback)(void *, s32);
+typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
+
+typedef char TextStreamOwner_stream_index_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(TextStreamOwner, stream_index) == 0x58 ? 1 : -1
+];
+typedef char EffectObject_depth_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(EffectObject, depth) == 0x58 ? 1 : -1
+];
+typedef char SceneScriptSlot_size_must_be_0x14[
+    sizeof(SceneScriptSlot) == 0x14 ? 1 : -1
+];
+typedef char ScriptImageEntry_size_must_be_0x14[
+    sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
+];
+
+struct DisplayObject;
+
+/* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
+   decoded string the record is playing back (TextBox_BuildStep stores it
+   there), and 0x20/0x24 bracket the record's slice of D_800EB288:
+   TextBox_BuildStep seeds both with &D_800EB288[range_start_5C],
+   DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
+typedef struct DuelEffectChannel {
+    u8 *text_00;
+    /* The fade callbacks in D_80090EAC reach this block. They are reached as
+       bytes at 0x04-0x0A, as halfwords at 0x0C and 0x0E, and as single bytes
+       at 0x13-0x15; 0x04 is additionally written as one word (0 and
+       0x80808080), which those sites spell as a width over field_04 rather
+       than a separate member.
+
+       0x13 is the byte DisplayObjectFade_MarkInitialized tests and sets, and
+       the one carrying DISPLAY_OBJECT_FADE_FLAG_*. The rest keep field_NN:
+       0x04-0x07 and 0x08-0x0A are each written as a run of equal bytes stepped
+       together, which says component groups without saying which component
+       is which. */
+    u8 field_04;
+    u8 field_05;
+    u8 field_06;
+    u8 field_07;
+    u8 field_08;
+    u8 field_09;
+    u8 field_0A;
+    u8 pad_0B;
+    u16 field_0C;
+    u16 field_0E;
+    u8 pad_10[3];
+    u8 field_13;
+    u8 field_14;
+    u8 field_15;
+    u8 pad_16[10];
+    DuelEffectEntry *entry_end_20;
+    DuelEffectEntry *entry_head_24;
+    /* Every consumer proves this is a DisplayObject pointer:
+       func_800391E4 and the func_8002EE94 candidate cast it, card-list text
+       reaches ->flags through it, and Dialog_UpdateChoice used to read it
+       through a pointer cast. */
+    struct DisplayObject *field_28;
+    /* The second owned display object has the same evidence: producers store
+       the object they just built and consumers release it through
+       func_8004036C. Integer-looking field_2C writes elsewhere belong to the
+       unrelated DuelEffectResourceRecord. */
+    struct DisplayObject *field_2C;
+    void *field_30;
+    u16 flags_34;
+    u16 field_36;
+    u16 field_38;
+    u16 field_3A;
+    s16 field_3C;
+    s16 field_3E;
+    s16 field_40;
+    s16 field_42;
+    u8 pad_44[0x0D];
+    /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
+       0x80 is an initialization latch set by every callback on entry. */
+    u8 state_51;
+    /* Reloaded from field_53, decremented once per call, and used to return
+       while the countdown remains nonzero. */
+    u8 delay_52;
+    u8 field_53;
+    u8 field_54;
+    u8 pad_55;
+    u8 field_56;
+    u8 index_57;
+    /* Which leading pointer word is the live byte stream. Every reader scales
+       it by four; it is signed because all three consumers read it as s8. */
+    s8 stream_58;
+    u8 field_59;
+    u8 field_5A;
+    u8 field_5B;
+    u16 range_start_5C;
+    u16 range_count_5E;
+    u8 field_60;
+    u8 field_61;
+    /* Written with a type value by func_80037DA4, Text_CloseChoice, and
+       duel_effect_entry_control.c, then read by func_80036C14. The byte's
+       meaning remains unresolved. */
+    u8 field_62;
+    u8 pad_63;
+} DuelEffectChannel;
+
+typedef char DuelEffectChannel_size_must_be_0x64[
+    sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
+];
+typedef char DuelEffectChannel_entry_end_20_offset_must_be_0x20[
+    YGO_TYPE_OFFSET(DuelEffectChannel, entry_end_20) == 0x20 ? 1 : -1
+];
+typedef char DuelEffectChannel_entry_head_24_offset_must_be_0x24[
+    YGO_TYPE_OFFSET(DuelEffectChannel, entry_head_24) == 0x24 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_28_offset_must_be_0x28[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_28) == 0x28 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_2C_offset_must_be_0x2C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_2C) == 0x2C ? 1 : -1
+];
+typedef char DuelEffectChannel_field_30_offset_must_be_0x30[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_30) == 0x30 ? 1 : -1
+];
+typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
+    YGO_TYPE_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_3C) == 0x3C ? 1 : -1
+];
+typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
+    YGO_TYPE_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_53_offset_must_be_0x53[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_53) == 0x53 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_56_offset_must_be_0x56[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_56) == 0x56 ? 1 : -1
+];
+typedef char DuelEffectChannel_index_57_offset_must_be_0x57[
+    YGO_TYPE_OFFSET(DuelEffectChannel, index_57) == 0x57 ? 1 : -1
+];
+typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1
+];
+typedef char DuelEffectChannel_field_5A_offset_must_be_0x5A[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_5A) == 0x5A ? 1 : -1
+];
+typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
+    YGO_TYPE_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1
+];
+typedef char DuelEffectChannel_field_61_offset_must_be_0x61[
+    YGO_TYPE_OFFSET(DuelEffectChannel, field_61) == 0x61 ? 1 : -1
 ];
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
@@ -570,6 +858,19 @@ typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
     YGO_TYPE_OFFSET(FileTransferDescriptor, substate) == 0x47 ? 1 : -1
 ];
 
+#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
+
+/* File_ActivateTransfer copies a whole descriptor through aligned words.
+   This is the block-move view of FileTransferDescriptor, not a second record
+   description; the element type is what selects the copy width. */
+typedef struct {
+    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
+} FileTransferDescriptorWords;
+
+typedef char FileTransferDescriptorWords_size_must_match_descriptor[
+    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
+];
+
 /* Sound's staged command and the loader's two request slots are the same
    record: func_80045514 passes it to func_80014C40 for a 0x20-byte copy. */
 typedef struct {
@@ -614,6 +915,55 @@ typedef char FileRequestSlot_field_1E_offset_must_be_0x1E[
 ];
 typedef char FileRequestSlot_field_1F_offset_must_be_0x1F[
     YGO_TYPE_OFFSET(FileRequestSlot, field_1F) == 0x1F ? 1 : -1
+];
+
+/* One row of the eight-byte transfer request table func_8005FB30 walks: the
+   model id it is asked to stage and the state it reports back. */
+typedef struct {
+    s16 id;
+    u8 pad_02[4];
+    s16 state;
+} ModelTransferItem;
+
+typedef char ModelTransferItem_size_must_be_8[
+    sizeof(ModelTransferItem) == 8 ? 1 : -1
+];
+typedef char ModelTransferItem_id_offset_must_be_0[
+    YGO_TYPE_OFFSET(ModelTransferItem, id) == 0 ? 1 : -1
+];
+typedef char ModelTransferItem_state_offset_must_be_6[
+    YGO_TYPE_OFFSET(ModelTransferItem, state) == 6 ? 1 : -1
+];
+
+/* One movie-stream entry. sector_count advances to the next stream and a
+   nonzero end_frame overrides the caller's frame limit. */
+typedef struct {
+    u16 sector_count;
+    u16 end_frame;
+} MovieStreamRange;
+
+typedef char MovieStreamRange_size_must_be_4[
+    sizeof(MovieStreamRange) == 4 ? 1 : -1
+];
+typedef char MovieStreamRange_end_frame_offset_must_be_2[
+    YGO_TYPE_OFFSET(MovieStreamRange, end_frame) == 2 ? 1 : -1
+];
+
+/* The updater selects the duel outcome with a halfword cursor; the text
+   producer reads the same two counters with signed extension. */
+typedef union {
+    struct {
+        u16 wins;
+        u16 losses;
+    } result;
+    u16 counts[2];
+} SaveDataDuelistRecord;
+
+typedef char SaveDataDuelistRecord_size_must_be_4[
+    sizeof(SaveDataDuelistRecord) == FREE_DUEL_GRID_RECORD_SIZE ? 1 : -1
+];
+typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
+    YGO_TYPE_OFFSET(SaveDataDuelistRecord, result.losses) == sizeof(u16) ? 1 : -1
 ];
 #undef YGO_TYPE_OFFSET
 
@@ -713,8 +1063,8 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  * through that header's union member `pair`, not through a guarded extern
  * view of its own; only the separate starchip alias is still guarded. Pair
  * remains the overlays' view, not a claim that the staging area always holds
- * this shape. Main_RunCredits reached it through explicit relocations and is
- * generated assembly again (#3859). */
+ * this shape. Main_RunCredits uses it for the two four-digit secret-number
+ * components while preserving the same absolute-address staging accesses. */
 typedef struct {
     u32 lo;
     u32 hi;

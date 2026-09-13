@@ -35,6 +35,15 @@ D_80169614 = 0x80169614; // defined:True
 gCampaignMap_LocationPrev = 0x80169618;
 CampaignMap_PickAlternateExit = 0x801697D0; // type:func
 CampaignMap_UpdateAlternateLocation = 0x80169A9C; // type:func
+D_8016A274 = 0x8016A274;
+D_8016A278 = 0x8016A278;
+D_8016A288 = 0x8016A288;
+D_8016A29C = 0x8016A29C;
+D_8016A2B8 = 0x8016A2B8;
+D_8016A2BC = 0x8016A2BC;
+D_8016A2BD = 0x8016A2BD;
+D_8016A2C8 = 0x8016A2C8;
+D_8016A2C9 = 0x8016A2C9;
 
 gInput_wPad1Pressed = 0x8009B398;
 gInput_wPad1Held = 0x8009B3A4;

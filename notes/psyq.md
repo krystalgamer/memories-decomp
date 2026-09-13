@@ -168,7 +168,7 @@ conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
 `DsControl` and `DsControlB`.
 
 Four game sources already called three of these by address. `file_stream.c`
-and `main_run_boot_sequence.c` call `DsInit`, and `file_transfer_runtime.c`
+and `main_run_boot_sequence.c` call `DsInit`, and `func_80013C28.c`
 issues every loader command through `DsCommand` and
 `DsPacket`. Their private prototypes are gone in favour of `libds.h`, with
 `DslLOC *` and `DslCB` casts at the call sites. The build stays byte-identical.
@@ -928,7 +928,8 @@ imports justify their specific API and field uses; a local render or model
 record still requires field-level and resident-call evidence before migration
 to an SDK type.
 
-`func_8005B260` (a candidate since #3859) exercises the shared packet ABI directly. It reads
+`func_8005B260` exercises the shared packet ABI directly. Its pure-C
+reclassification match under `gcc_2_8_1_g8` reads
 the source primitive's `P_TAG.len`, copies that tag and payload into the
 packet work buffer, inserts one `0xE1` draw-mode word, changes the copied
 length to `len + 1`, and advances the buffer by the resulting `len + 2` total

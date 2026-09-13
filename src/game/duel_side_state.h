@@ -202,7 +202,7 @@ extern u16 D_8009B236;
  * negative, the latter together with D_8009B1D5 == 0 and a non-negative
  * gDuel_bOpponentID. Every retail access is lb or sb and none is
  * gp-relative, so the -G0 units (func_80024DC8.c,
- * src/candidates/func_80038530.c) take the plain scalar and the -G8 units
+ * text_start_campaign_duel.c) take the plain scalar and the -G8 units
  * (duel_state_init.c, func_80019CC8.c) take _IN_DATA, out of small data at
  * the compiler with the byte's true width; the two _IN_DATA arms are each
  * justified by a control build recorded in the PR that added this block. The

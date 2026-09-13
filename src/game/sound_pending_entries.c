@@ -24,3 +24,20 @@ void func_8004763C(void) {
     g_SDValue->field_0438 =
         g_SDValue->field_0448->field_0004 + 0x1010;
 }
+
+/* Imports one pending-input block: each live key is bound to the next free
+   note index at f440, its note record is copied into f444's table and the
+   copy's +6 field is advanced by rate / 16. */
+void func_800476B4(SDSeqBlock *input, u32 rate) {
+    s32 i;
+
+    for (i = 0; i < input->count; i++) {
+        if (input->keys[i] != SD_PENDING_ENTRY_NONE) {
+            g_SDValue->field_043C[input->keys[i]] = g_SDValue->field_0440;
+            g_SDValue->field_0444[g_SDValue->field_0440] = input->data[i];
+            g_SDValue->field_0444[g_SDValue->field_0440].field_0006 +=
+                rate >> 4;
+            g_SDValue->field_0440++;
+        }
+    }
+}

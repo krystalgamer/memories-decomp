@@ -3490,10 +3490,10 @@ must be measured.
   `duel_effect_state_callbacks.c` grew with every use routed through the
   local, and the matching form at that stage was the inline
   `((DuelEffectChannel *)object)->state_51`. Those callbacks and
-  `TextBoxStateCallback` are now fully typed; the experiment remains evidence
-  that the two spellings must be measured per function. The failure mode was
-  a link error -- `section .initialized_data VMA ... overlaps section .text`
-  -- not a hash mismatch.
+  `TextBoxStateCallback` are now fully typed, with the callback type owned by
+  `ygo_types.h`; the experiment remains evidence that the two spellings must
+  be measured per function. The failure mode was a link error -- `section
+  .initialized_data VMA ... overlaps section .text` -- not a hash mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
@@ -4725,7 +4725,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c` (now `src/candidates/func_80060E70.c`).
+--allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to `src/candidates/`, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
@@ -5735,6 +5735,15 @@ written out as its own statements, because GCC's `% 4` expansion exposes only
 one of its three values to naming; written out, all three are nameable and
 three pins place them.
 
+The pins were then shown to be unnecessary (#5). The residual was never in the
+modulo itself. The block after it summed two separately loaded halfwords into
+a pinned local and stored the sum back. Writing that as one in-place
+`strip.x += strip.w` and comparing through the record changes the allocation
+of the whole block, and GCC's own `% 4` expansion then lands all three values
+in retail's registers, with no pin, no written-out operator and no named
+addend. So a residual that sits in one statement can be decided by the
+statement after it.
+
 Two negative results from the same function are worth as much:
 
 - *Availability is not the lever.* It was tempting to conclude that `slot + 1`
@@ -6730,7 +6739,8 @@ adjacent members as one word.**
   `0x08` words whole -- x together with y, w together with h -- so those two
   accesses cast the address of the first halfword to `u32 *`. The individual
   y and h updates retain their measured unsigned and signed halfword views.
-- `func_80040588.c`'s `SpritePrim` is `GsSPRITE` field for field, but its
+- `func_80040588.c`'s shared `SpritePrim` in `ygo_types.h` is `GsSPRITE`
+  field for field, but its
   position and size words each span two `GsSPRITE` halves. There is no store
   to cast, so the local struct has to keep its union-shaped members and the
   swap is a codegen change, not a rename.

@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SAVE_DATA_H
 #define MEMORIES_DECOMP_SAVE_DATA_H
 
-#include "../types.h"
+#include "../ygo_types.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
 
@@ -56,16 +56,6 @@
 #define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
-/* The updater selects the outcome with a halfword cursor; the text producer
- * reads the same two counters with signed extension. */
-typedef union {
-    struct {
-        u16 wins;
-        u16 losses;
-    } result;
-    u16 counts[2];
-} SaveDataDuelistRecord;
-
 /* Observed prefix, not the full 0x680-byte persistent state allocation. */
 typedef struct {
     u16 player_deck[DECK_SIZE];
@@ -105,12 +95,6 @@ typedef struct {
     SaveDataState state;
 } SaveDataWorkspace;
 
-typedef char SaveDataDuelistRecord_size_must_be_4[
-    sizeof(SaveDataDuelistRecord) == FREE_DUEL_GRID_RECORD_SIZE ? 1 : -1
-];
-typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
-    (u32)&(((SaveDataDuelistRecord *)0)->result.losses) == sizeof(u16) ? 1 : -1
-];
 typedef char SaveDataState_card_quantities_offset_must_be_0x50[
     (u32)&(((SaveDataState *)0)->card_quantities) ==
         SAVE_DATA_CARD_QUANTITIES_OFFSET ? 1 : -1
@@ -224,10 +208,11 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
  * write it under gMemCard_szSaveFileName.
  *
- * Its one caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
+ * Its earlier C caller, func_8002EE94 (now src/candidates/func_8002EE94.c),
  * reached it with no declaration in scope at
  * all before this, so neither the argument list nor the void return was being
- * checked against the definition. */
+ * checked against the definition. Main_RunCredits uses this same declaration
+ * when requesting the completion save. */
 void SaveData_RequestWrite(void);
 
 /* The load side of the same pair, both reached from the main-menu overlay's

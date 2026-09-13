@@ -1257,73 +1257,49 @@ rather than to celebrate.
 
 #### What the overlay data side actually consists of
 
-The resident `.sdata` work is nearly finished, so the remaining half of the
-data question is the overlays, and it had never been enumerated. Each of the
-five carries exactly two raw data subsegments: a four-byte `module_header` at
-offset 0, and one bulk blob.
+The resident `.sdata` work is nearly finished, and every overlay module header
+is now C-owned through its `<overlay>_data_c.json` manifest. The values look
+like module identifiers: `main_menu` is `0x0F`, `free_duel` is `0x13`,
+`overworld` is `0x14`, and `password` is `0x15`. The two overworld variants
+share one source and value. Nothing reads these words, so they keep
+address-based names rather than claiming module-ID semantics.
 
-| overlay | module header | blob | blob bytes |
-| --- | ---: | --- | ---: |
-| `main_menu` | `0x0F` | `0x4558`-`0x8000` | 15016 |
-| `password` | `0x15` | `0x5400`-`0x7800` | 9216 |
-| `free_duel` | `0x13` | `0x1030`-`0x2800` | 6096 |
-| `overworld_before_coup` | `0x14` | `0x1E54`-`0x3000` | 4524 |
-| `overworld_after_coup` | `0x14` | `0x1E54`-`0x3000` | 4524 |
+`main_menu` originally appeared to be the exception. Its Trade inventory
+source declared `D_80180000[]` and read element 1 as a six-entry comparator
+table. That crossed the four-byte `.data` header boundary into the adjacent
+`.rodata`, making a C definition of the header look impossible.
 
-The header word looks like a module identifier. The values are small and
-distinct, and the two overworld variants share `0x14`, which is what two
-states of one module should look like rather than what five unrelated
-constants would. That is suggestive and not conclusive: nothing in the tree
-reads the word, so there is no access to confirm the meaning against, and it
-keeps its address-based name.
+The generated layout already supplied the missing distinction:
+`D_80180000` is the header word and `D_80180004` is the comparator table.
+They now have separate typed owners:
 
-#### Four of the five headers are unreferenced; the fifth is not a header
+| Range | C owner | Contract |
+|---|---|---|
+| `0x80180000-0x80180004` | `module_header.c` | One `u32` initialized to `0x0F`. |
+| `0x80180004-0x8018001C` | `module_rodata.c` | `MainMenuComparators`, six function pointers in retail order. |
 
-Searching both `src/overlays/` and the generated assembly, nothing at all
-reads the header word in `free_duel`, `password`, or either overworld
-module.
+`MainMenu_RefreshTradeInventory` copies `D_80180004` directly instead of
+forming an array that spans two sections. The compiled `.rodata` object is
+exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
+`MainMenu_CompareCardsByName`, `MainMenu_CompareCardsByMaxStat`,
+`MainMenu_CompareCardsByAttack`, `MainMenu_CompareCardsByDefense`,
+`MainMenu_CompareCardsByType`, and `MainMenu_CompareCardsByCount`. The
+comparator definitions include their shared owning header, so the table cannot
+silently drift from their signatures.
 
-`main_menu` is different, and it is the interesting case.
-`trade_inventory.c` declares
+The remaining overlay data work is in the bulk blobs, not the headers:
 
-```c
-extern s32 D_80180000[];
-```
+| overlay | raw blob | bytes |
+|---|---|---:|
+| `main_menu` | `0x4558-0x8000` | 15016 |
+| `password` | `0x5400-0x7800` | 9216 |
+| `free_duel` | `0x1030-0x2800` | 6096 |
+| `overworld_before_coup` | `0x2274-0x3000` | 3468 |
+| `overworld_after_coup` | `0x2274-0x3000` | 3468 |
 
-and reads `*(MainMenuComparators *)&D_80180000[1]`, which `trade_helpers.h`
-describes as the six card comparators copied out as one block. Element `[1]`
-is offset 4, which is not in the header segment at all -- it is the start of
-`module_rodata`. So that declaration is not a view of the header word. It
-names the overlay's base address and reaches through it into the section
-that follows.
-
-That is the different-views case again, in its most far-reaching form: the
-two spellings do not merely disagree about a type, they disagree about where
-the object ends. A four-byte definition of `D_80180000` and a consumer
-indexing past it into another segment cannot both be the same object, so
-`main_menu`'s header is not a carve candidate even though it looks identical
-to the other four.
-
-#### The overlay data side is blocked on tooling, not on evidence
-
-The four unreferenced headers would otherwise be straightforward. The layout
-already allows it: `module_header` is its own segment and the generated
-linker script pulls `(.data)` from exactly one object into it, so a C unit
-could take that place the way the resident carves take theirs.
-
-What is missing is the manifest. `overlay_build.py` reads only the
-`functions` list out of `config/slus_01411/overlays/<name>_matching_c.json`,
-where every entry is keyed by address and size, and there is no overlay
-counterpart to `data_c.json` anywhere in the configuration. The resident
-build grew one; the overlay build never did.
-
-So the overlay half of the data work is not blocked by ownership, by
-byte-exactness, or by any of the label-extent problems that held up the
-resident side. It is blocked by there being no way to declare a data-only C
-unit to an overlay build. That is a bounded piece of tooling work, and it is
-the thing to do before any overlay data is converted -- including the bulk
-blobs above, which are far larger than the headers and would need the same
-manifest to land anywhere.
+Those ranges still require symbol extents and consumer-backed types before
+they can be split into C. The data-only overlay manifest and build path are no
+longer blockers.
 
 ## Exact baseline build
 
@@ -1470,6 +1446,9 @@ reapplies ownership classifications, and checks:
 - Tracked Markdown documentation is under `notes/`, except for per-directory
   `README.md` files and repository guidance at
   `.github/copilot-instructions.md`.
+- Canonical and external attempt histories satisfy the same validation
+  contracts used by their dedicated ledger tools, including historical
+  retired-profile provenance and reclassified matches.
 - The worktree is clean after deterministic regeneration.
 
 ## Cleanup
