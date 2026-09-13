@@ -4096,7 +4096,7 @@
       "address": "0x80044E90",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
-      "source": "src/game/func_80044E90.c"
+      "source": "src/game/sd_set_cd_pan.c"
     },
     {
       "address": "0x80044F58",

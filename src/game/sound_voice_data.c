@@ -44,7 +44,7 @@ void func_80048A28(id, value, word)
 
     if (id & 0x8000) {
         g_SDValue->cd_volume = value;
-        func_80044E90((s16)word);
+        SD_SetCdPan((s16)word);
         return;
     }
     if ((id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
