@@ -43,10 +43,10 @@ void *TextBox_CreateFlagged(
     s32 flags
 )
 {
-    u8 *result;
+    DuelEffectChannel *result;
 
     TextBox_SetRect(index, x, y, width, height);
-    result = (u8 *)DuelEffect_InitEntry(index, string_id, 0);
-    *(u16 *)(result + 0x34) |= flags;
+    result = DuelEffect_InitEntry(index, string_id, 0);
+    result->flags_34 |= flags;
     return result;
 }
