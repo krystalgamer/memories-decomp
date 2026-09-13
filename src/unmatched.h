@@ -101,9 +101,6 @@ void func_800540B4(s32);
  * place, not only the ones that had already drifted: a declaration with one
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
-void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
-                                       source src/candidates/func_8005E808.c
-                                       defines it with the same u8 * */
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
 

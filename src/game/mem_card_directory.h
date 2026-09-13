@@ -38,5 +38,9 @@ extern struct DIRENTRY gMemCard_aDirEntries[];
 extern s32 gMemCard_nDirEntries;
 extern s32 gMemCard_nFreeBlocks;
 extern u8 D_8009AF7C[];
+/* The same "*" pattern as a separate four-byte object, which
+ * MemCardDialog_UpdateSave hands to MemCardGetDirentry. Declared unsized so
+ * the -G8 save machine materialises its address with %hi/%lo, as retail does. */
+extern u8 D_8009AF70[];
 
 #endif

@@ -24,9 +24,8 @@
 #include "../game/card_type_icon_table.h"
 #include "../game/build_deck_transition_state.h"
 #include "../game/color_constants.h"
-
-extern s16 gGraphics_sViewportX __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+#define GRAPHICS_VIEWPORT_IN_DATA
+#include "../game/graphics_frame.h"
 
 extern void func_800316F0(u8 *, s32, u8 *, s32);
 extern void func_80031784(u8 *, s32, u8 *, s32);

@@ -66,10 +66,11 @@ extern u8 gMemCard_szSaveFileName[];
  * nothing reads or writes through a bound, so no size is asserted here. */
 extern u8 D_800EFE18[];
 
-/* The definition and ordinary callers use the measured byte/halfword
- * contract. The save machine takes a private wide same-symbol view to retain
- * its state-10 register-to-argument move. */
-void MemCardDialog_SetMessage(u8 value, u16 bits);
+/* Takes full words. The body only stores the low byte of `value` and ors
+ * `bits` into the flag halfword, so every constant caller builds the same
+ * either way; MemCardDialog_UpdateSave is the caller that tells them apart, as
+ * it passes a free-block count retail hands over without masking. */
+void MemCardDialog_SetMessage(s32 value, s32 bits);
 
 /* The memory-card dialog's flag word.
  *

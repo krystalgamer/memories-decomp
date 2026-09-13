@@ -7,17 +7,11 @@
 #include "display_object_projection.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "display_object_updates.h"
 
 #include "ordering_tables.h"
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 
 /* Submits one display object as a sprite in vertical strips of up to 64
    pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
