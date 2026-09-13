@@ -70,6 +70,13 @@ void func_800140A0(u8 event);
 void func_80014134(u8 event);
 void func_800141A8(u8 event);
 void func_80014220(s32 event);
+/* DsStartReadySystem supplies all three callback arguments; the implementation
+   consumes only the low byte of the first word. Preserve both measured views. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
 void func_8001455C(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
@@ -133,7 +140,7 @@ void func_80014FA4(void);
  * retail 0x1D0800.
  *
  * Two names, one word. The retail image reaches this address both ways. The
- * loader unit still held as assembly in `text_004428.s` uses
+ * ready-sector callback in `func_80013C28.c` uses
  * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
  * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
  * produce both inside a -G8 translation unit, because the form follows from
@@ -232,7 +239,7 @@ extern u8 D_801DD000[];
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 /* The initialized .sdata pointer targets the primary descriptor. The sector
-   candidate reads the record at byte offsets and used to select a `u8 *`
+   callback reads the record at byte offsets and used to select a `u8 *`
    declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
    site instead, and its object is byte for byte unchanged by that -- a
    pointer is one word either way, so the declared target type reaches no

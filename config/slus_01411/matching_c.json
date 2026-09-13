@@ -127,6 +127,12 @@
       "source": "src/game/file_transfer_setup.c"
     },
     {
+      "address": "0x80013C28",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x478",
+      "source": "src/game/func_80013C28.c"
+    },
+    {
       "address": "0x800140A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
