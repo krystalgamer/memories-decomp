@@ -102,6 +102,7 @@ segments:
     vram: 0x8016A274
     align: 4
     subsegments:
-      - [0x2274, data, overlays/overworld_after_coup/data]
+      - [0x2274, .data, overlays/overworld/alternate_state]
+      - [0x22C8, data, overlays/overworld_after_coup/data]
 
   - [0x3000]

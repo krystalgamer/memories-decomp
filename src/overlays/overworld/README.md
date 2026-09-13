@@ -188,8 +188,10 @@ both verified images, with SHA-256
 The alternate table at `0x1E54-0x2274` is identical to the active table at
 `0x11A8-0x15C8`, and to both variant copies, with SHA-256
 `0259a2516466fd98262c69a1f4da03d22fec71b9f4e125adea7925fe35220c12`.
-The following state bytes through `0x22C9` are initially zero in both.
-Variant differences start afterward. Identical local bytes do not prove
+The following bytes at `0x2274-0x22C7` are now a shared C-owned alternate
+controller state record. `D_8016A2C8` and `D_8016A2C9` remain at the aligned
+start of the generated raw tail; both are initially zero in both variants.
+Variant differences start at `0x22CA`. Identical local bytes do not prove
 identical usable runtime behavior when raw callees and external state remain
 unresolved.
 

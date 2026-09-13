@@ -7,12 +7,6 @@ extern u8 D_800C4D82;
 extern u8 D_8011464E;
 extern u8 D_8011464F;
 extern u16 D_8011C410;
-extern AlternateObject *D_8016A278;
-extern AlternateObject *D_8016A288;
-extern u8 D_8016A29C;
-extern u8 D_8016A2BD;
-extern u8 D_8016A2C8;
-extern u8 D_8016A2C9;
 
 void CampaignMap_UpdateAlternateLocation(void)
 {

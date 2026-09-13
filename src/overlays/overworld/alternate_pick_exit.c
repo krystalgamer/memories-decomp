@@ -2,7 +2,6 @@
 #include "alternate_location.h"
 
 extern u16 D_800C4E74;
-extern s32 D_8016A2B8;
 
 s32 CampaignMap_PickAlternateExit(void)
 {
