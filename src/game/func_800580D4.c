@@ -29,6 +29,11 @@ static __inline__ void setup_rotation(
     RotMatrixZXY(&unit->rot, &unit->matrix);
 }
 
+static __inline__ void build_work_matrix(SVECTOR *rotation, MATRIX *work)
+{
+    RotMatrix_gte(rotation, work);
+}
+
 void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
 {
     GsCOORDUNIT unit;
@@ -68,12 +73,8 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
 
     setup_rotation(&sv90, &sv88, MODEL_ANGLE_FULL_TURN, arg3);
 
-    RotMatrix_gte(&sv88, &work);
-    /* GCC defines alloca(0) as sp + 0x10 here; this rematerializes &work. */
-    MulMatrix(
-        &arg3->matrix,
-        (MATRIX *)((u8 *)__builtin_alloca(0) + 0x88)
-    );
+    build_work_matrix(&sv88, &work);
+    MulMatrix(&arg3->matrix, &work);
 
     arg3->matrix.t[2] = 0;
     arg3->matrix.t[1] = 0;
