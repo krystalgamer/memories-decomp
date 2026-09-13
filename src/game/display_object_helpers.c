@@ -77,7 +77,7 @@ void func_800428A8(
     void *resource
 )
 {
-    *(void **)((u8 *)object + 0x54) = resource;
+    ((DisplayObjectResource *)object)->resource = resource;
     func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
