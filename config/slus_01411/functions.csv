@@ -1117,7 +1117,7 @@ address,size,name,status,module,notes
 0x8006C2FC,0x10,func_8006C2FC,matching_c,game,1 pre-policy variants: Three byte stores through the output pointer matched including the return delay slot.
 0x8006C30C,0x24,func_8006C30C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C330,0x4C,func_8006C330,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8006C37C,0x9FC,func_8006C37C,unmatched_asm,game,
+0x8006C37C,0x9FC,func_8006C37C,matching_c,game,Draws the 67-point disc effect from the D_800114E8 handler table; pure C under gcc_2_8_1_g8_split
 0x8006CD78,0x243C,func_8006CD78,unmatched_asm,game,
 0x8006F1B4,0x13D8,func_8006F1B4,unmatched_asm,game,
 0x8007058C,0x20,AiScript_ReadByte,matching_c,game,Pure-C inline refinement matched the full executable.
