@@ -16,9 +16,10 @@ profile difference is not a real boundary.
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
 | `func_8005B0B4` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
 
-The local source calls the intermediate type `HsvT`, but the formulas are
-HSL, not HSV. This note uses the mathematical field roles while leaving the
-code-generation-sensitive local declarations unchanged.
+The shared game type remains named `HsvT`, but the formulas are HSL, not HSV.
+`Color` and `HsvT` are defined once in `src/ygo_types.h`; `color.h` now owns
+only this translation unit's function interfaces and constants. Moving the
+unchanged layouts does not alter the code-generation-sensitive arithmetic.
 
 ## Fixed-point HSL representation
 

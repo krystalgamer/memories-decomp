@@ -37,7 +37,9 @@ story flag `0x47` is set, and their images differ:
 |---:|---:|---|
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
 | `0x0004-0x1E54` | `0x80168004-0x80169E54` | MIPS text |
-| `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Module data |
+| `0x1E54-0x2274` | `0x80169E54-0x8016A274` | Alternate location table |
+| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | Alternate controller state |
+| `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining raw module data |
 
 The `0x1E54` boundary is the word after the final `jr $ra` and its delay slot,
 which is identical in both variants.
