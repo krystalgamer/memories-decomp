@@ -127,7 +127,6 @@ void func_800540B4(s32);
  * place, not only the ones that had already drifted: a declaration with one
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
-void func_80045514(void);           /* sound_runtime.c */
 void func_800559D4(s32);            /* model_scene_states.c */
 void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
                                        source src/candidates/func_8005E808.c
@@ -556,9 +555,9 @@ int func_80069B40();
  * not both.
  * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
- * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
- * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 has no caller in C; its matching
+ * caller, the func_8004AAFC candidate. func_800476B4 takes SDSeqBlock and
+ * lives in sound_pending_entries.h for the func_80045514 caller.
+ * func_80048768 has no caller in C; its matching
  * definition uses sound_voice_pan.h. SD_SetVoiceEnvelopeFromTone is the named
  * sound operation and stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
  * return declarations live in ai.h. */

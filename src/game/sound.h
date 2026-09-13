@@ -682,8 +682,13 @@ void SD_ResetVoiceEnvelope(s32 index);
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
 s32 SD_EnqueueCommand(SDCommand *);
+/* Scans queued commands [1, count) for 0x20, 0x11, or 0x24. The command
+ * pump masks the result to a byte; the definition returns a full s32. */
+s32 func_80045484(void);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
+/* Advances the active sound command from SD_UpdateRuntime. */
+void func_80045514(void);
 void SD_BGMPlay(u32);
 void func_80046294(void);
 void SD_SEPlayFull(u32);
@@ -753,6 +758,11 @@ s32 func_80049138(s16 arg0, s32 arg1);
    The 3 is the value func_80049F50 promotes into the secondary path's state
    byte, as the note further down records. */
 s32 SD_GetSequenceStatus(void);
+
+/* Stages a tagged secondary sequence if no sequence is already staged.
+ * The definition uses void * for the input and returns a full s32 status;
+ * the command pump stores that status into its signed halfword field. */
+s32 func_80049A64(void *input, s16 value);
 
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
