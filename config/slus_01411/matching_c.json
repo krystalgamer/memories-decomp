@@ -6001,6 +6001,12 @@
       "source": "src/game/triangle_subdivision.c"
     },
     {
+      "address": "0x8006C37C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9FC",
+      "source": "src/game/func_8006C37C.c"
+    },
+    {
       "address": "0x8007058C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x20",

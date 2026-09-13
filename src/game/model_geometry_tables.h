@@ -3,9 +3,9 @@
 
 #include "../types.h"
 
-/* Four tables read only by func_8006AF74 and func_8006CD78, both still
-   assembly. Declared here so that when either is decompiled it takes the
-   declaration from one place rather than writing its own. */
+/* Shared model-effect presets. The ring renderer's twelve-byte RingSettings
+ * view covers D_80091604's six initialized halfwords; the other table
+ * consumers remain assembly. Keep their existing element/addressing views. */
 extern u32 D_800915E8[];
 extern u16 D_80091604[];
 extern u16 D_80091610[];

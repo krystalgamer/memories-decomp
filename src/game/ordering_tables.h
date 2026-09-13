@@ -29,6 +29,12 @@ extern GsOT *D_800E9D98;
 #endif
 extern GsOT *D_800E9D9C;
 
+/* Address-named 16-byte SDK import, not a recovered game implementation.
+ * Its four instructions load the pointer at D_800E9D98. Model effects use
+ * the returned address as GsOT *; keep their void * caller view without
+ * reinstating the withdrawn GsGetWorkBase identification. */
+void *func_80058F10(void);
+
 typedef char OrderingTable_descriptor_size_must_be_0x14[
     sizeof(GsOT) == 0x14 ? 1 : -1
 ];

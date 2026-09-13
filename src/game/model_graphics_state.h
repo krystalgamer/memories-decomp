@@ -38,6 +38,8 @@ extern s8 D_8009AF9A;
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
 extern u8 D_8009AFA0;
+/* The matching getter returns this unsigned byte widened to a full word. */
+s32 func_80058DCC(void);
 extern u8 D_8009AFA1;
 
 /* Active graphics buffer, bounded frame step, and frame-step override. */

@@ -111,6 +111,8 @@ segments:
       - [0x1FC8, rodata, initial_data_1f]
       - [0x1FD8, .rodata, game/main_menu_load_package_stage]
       - [0x1FEC, rodata, initial_data_1d]
+      - [0x207C, .rodata, game/func_8006C37C]
+      - [0x208C, rodata, initial_data_208c]
       - [0x214C, .rodata, game/ai_card_ranges]
       - [0x2194, .rodata, game/ai_script_calc_card_power]
       - [0x21A8, rodata, initial_data_2]

@@ -4,11 +4,11 @@
 /* Initialized data at 0x800915E8 through 0x800916E0, previously a generated
    blob (#2602).
 
-   Nothing in tracked C reads any of these. Their readers are func_8006AF74
-   and func_8006CD78, both still unmatched assembly and both module=game, so
-   this is game data whose consumers cannot yet describe it.
+   func_8006C37C reads D_80091604 as the twelve-byte RingSettings view
+   documented in model_ring_effect.h. The other readers, func_8006AF74
+   and func_8006CD78, remain unmatched game-owned assembly.
 
-   That is the limit of what is known, so no shape is invented. D_800915E8's
+   The remaining shapes are not inferred. D_800915E8's
    first four words carry 0xA0 in each occupied byte lane and D_800916D4 is
    two 0x404040FF words and one 0x000000FF, which is what a colour looks
    like; the rest are left flat. D_80091610's ninety-eight halfwords have no

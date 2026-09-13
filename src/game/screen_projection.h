@@ -16,4 +16,7 @@
  * both build at gcc_2_8_1_g0. */
 extern MATRIX D_800FE148;
 
+/* Existing object-pointer getter; its definition returns &D_800FE148. */
+void *func_80059220(void);
+
 #endif
