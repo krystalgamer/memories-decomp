@@ -143,11 +143,14 @@ extern u16 gInput_wPad1Held;
  * the _SIZED_VOLATILE one is func_80030294.c's and, since 2026-09-12,
  * src/candidates/main_menu/func_801821DC.c's. It still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree
- * uses would be a guess, not a lever. */
+ * uses would be a guess, not a lever. The result controller's _IN_DATA
+ * arm is a nonvolatile absolute halfword, distinct from the volatile arm. */
 #ifdef GINPUT_PAD1_REPEAT_SIZED_VOLATILE
 extern volatile u16 gInput_wPad1Repeat[4];
 #elif defined(GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_REPEAT_IN_DATA)
+extern u16 gInput_wPad1Repeat __attribute__((section(".data")));
 #elif defined(GINPUT_PAD1_REPEAT_IS_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat;
 #else

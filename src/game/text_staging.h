@@ -76,6 +76,14 @@ typedef char TextStagingValues_invalid_side_offset_must_be_0x40[
  * offset 0 is the same word, but its consumer is not touched here. */
 extern TextStagingValues D_801D5608[];
 
+/* The result controller stages its sign-extended dropped-card id at this
+ * separate word, not inside the 0x80-byte view above. Only element zero
+ * is measured. The incomplete s32 array retains the retail split absolute
+ * store; a scalar .data declaration instead selects an $at store.
+ * The image backs at least four bytes at 0x801D56A8, before the colour
+ * slots at 0x801D5708. No total allocation size is inferred from that gap. */
+extern s32 D_801D56A8[];
+
 #ifdef TEXT_STAGING_STARCHIPS_ALIAS
 extern s32 D_801D5608_starchips asm("D_801D5608");
 #endif

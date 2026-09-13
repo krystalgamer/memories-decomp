@@ -33,10 +33,15 @@ extern u16 D_801D5800[];
  * matched with it u16, and retail loads it lhu, gp-relative
  * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
  * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
- * func_800218F0, still assembly, stores a halfword to it through $at
+ * func_800218F0 stores a halfword to it through $at
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
- * The two units used to declare it u16 and s16. */
+ * The result controller selects the absolute arm for that store; the
+ * existing readers keep the plain GP-relative declaration. */
+#ifdef TEXT_STRING_ID_IN_DATA
+extern u16 D_8009B32E __attribute__((section(".data")));
+#else
 extern u16 D_8009B32E;
+#endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
  * func_80038498 reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets

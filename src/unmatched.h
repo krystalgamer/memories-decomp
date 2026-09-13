@@ -105,13 +105,11 @@ void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
 
 /* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
-void func_800262D4(void);
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
  * none of them read through it. func_80020D4C sized it [16], but nothing
  * takes its sizeof, so the bound was decorative. */
-extern u8 D_801AF000[];
 
 /* Six consumers use this second buffer base with the same unsized-byte-array
  * spelling: three resident transfer paths and three main-menu display paths.
@@ -174,10 +172,10 @@ extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8009B118;
 #endif
 
-/* Nine more that nobody calls, found by re-measuring the note above rather
- * than by a scan. Every one is installed as data -- seven into the duel scene
- * callback table, func_80056D7C as a transfer completion callback, and
- * func_80029EC4 into D_800E9DB0[3] (library_runtime.c:318) -- and none is
+/* Address-only declarations found by re-measuring the note above rather
+ * than by a scan. Every one is installed as data -- into the duel scene
+ * callback table or, for func_80029EC4, D_800E9DB0[3]
+ * (library_runtime.c:318) -- and none is
  * invoked from C.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
@@ -196,9 +194,7 @@ void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
 void func_8001F55C(void);
-void func_800218F0(void);
 void func_80018FEC(void);
-void func_80056D7C(void);
 void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
@@ -243,16 +239,13 @@ void func_80034830(void);
  * mistake this batch nearly shipped: func_800534B8 returns s32,
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
- * restated. */
+ * restated. func_8004158C has since matched and is declared by
+ * func_8004158C.h. */
 void func_8004DE24(void);
 void func_8004EB00(void);
-void func_8004FE2C(void);
-void func_800507D0(void);
 void func_80051A48(void);
-void func_8005DBA4(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 s32 func_800534B8(void);
-void func_8004158C(u8 *, s32, s32);
 
 /* Three caller-visible contracts that were outside the central inventory.
  *
@@ -268,18 +261,13 @@ void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
 void func_80056828(s32);
 
-/* Two more undefined globals, each declared identically by every consumer
- * and only ever read or written as a scalar, so none of them has a
- * per-consumer addressing form to preserve.
+/* This undefined global is declared identically by every consumer and
+ * only ever read or written as a scalar.
  *
  * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
- * D_8009B23A's next name, D_8009B244, is ten bytes on, so that gap is an
- * upper bound rather than the size; nothing is named inside it and no
- * consumer reads past the halfword, so the u16 every consumer agrees on is
- * what is declared here and the bytes above it stay unclaimed. */
+ * D_8009B23A has moved to its owner, duel_scene_state.h. */
 extern u16 D_8009B162;   /* nine declarers  */
-extern u16 D_8009B23A;   /* eight declarers */
 
 /* Nothing in the tree calls this one. Both consumers only take its address,
  * to install it in a display object's +0x4C slot: dialog_transition.c stores
@@ -541,10 +529,6 @@ struct DuelRitualResult;
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-/* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
- * gDuel_bTerrain back after storing it and decrements in the same
- * expression. */
-void func_80024E58(void);
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
@@ -621,7 +605,6 @@ extern u8 D_8009B152;
 extern DisplayObject *D_8009B188;
 extern DisplayObject *D_8009B18C;
 #endif
-extern s16 D_8009B1A0;
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;

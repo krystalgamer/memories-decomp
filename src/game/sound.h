@@ -705,7 +705,7 @@ void func_8003FF88(u32);
 void func_8003FFB4(u32);
 void func_80047480(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
-   SD_SequenceTimerCallback (sd_sequence_timer_callback.c) and
+   SD_SequenceTimerCallback (sound_secondary_commands.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
    counts down each active secondary object's field_001E and clears entries
    that are inactive or out of channel range. */
@@ -718,8 +718,8 @@ void func_8004B374(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; func_80046A08 dispatches on g_SDValue->field_003C.
-   func_80049BAC.c calls the reset right before func_8004A518, which rebuilds
-   the voice tables. func_8004A43C refreshes one secondary
+   sound_secondary_playback.c calls the reset right before func_8004A518,
+   which rebuilds the voice tables. func_8004A43C refreshes one secondary
    object's pitch; it has been a candidate since #3859
    (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
    stays here rather than in unmatched.h because it takes an
@@ -731,7 +731,7 @@ void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *D_8009B458,
    clamping to 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
-   is zero or out of range. func_80048F14 (src/candidates/func_80048F14.c)
+   is zero or out of range. func_80048F14 (src/game/sound_voice_data.c)
    is the only caller, passes the
    constant 0x14, and discards the result; its local extern spelled this
    `void func_80049600(s32)`, disagreeing with the definition on both the
@@ -768,7 +768,7 @@ s32 func_80049A64(void *input, s16 value);
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
    the return width and the narrower one is right to: SD_UpdateRuntime
-   (src/game/sd_update_runtime.c) compares
+   (src/game/sound_runtime.c) compares
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
@@ -815,7 +815,7 @@ void func_80049DD8(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
- * 2. SD_UpdateFades (src/candidates/func_80045C98.c) passes the same value
+ * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
  * takes. It is not the only caller -- func_80045514.c calls it with two
  * literal zeros, and used to declare it as an s32 pair of its own. */

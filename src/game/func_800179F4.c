@@ -2,6 +2,7 @@
 #define D_8009B204_UNSIGNED
 #define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "../types.h"
+#include "duel_scene_state.h"
 #include "duel_shuffle_both_decks.h"
 #include "duel_draw_status_numbers.h"
 #include "card_constants.h"

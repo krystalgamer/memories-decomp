@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_asset_banks.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"

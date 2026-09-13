@@ -1,5 +1,6 @@
 #define DUEL_CARD_STAGING_DECK_VIEW
 #include "../types.h"
+#include "duel_scene_state.h"
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE8F_IS_ARRAY
 #define GDIALOG_CHOICE_IN_DATA

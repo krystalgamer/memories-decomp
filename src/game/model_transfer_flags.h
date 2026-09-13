@@ -41,8 +41,8 @@
  * address of D_800F5788 (func_8005F91C) or zero (func_8005FAE4). So it is a
  * pointer, and the two s32 spellings were casts around one. func_8005EBF4
  * walks it as bytes and func_8005F91C stores `(u8 *)D_800F5788`, so u8 *
- * is what the uses claim; func_8005E808 shares this declaration, while
- * func_8005DBA4 is still assembly. Every retail access is gp-relative, so no
+ * is what the uses claim; func_8005E808 and func_8005DBA4 share this
+ * declaration. Every retail access is gp-relative, so no
  * unit needs an arm.
  */
 extern u8 *D_8009B074;

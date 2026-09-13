@@ -22,6 +22,8 @@
 #define TWO_PLAYER_SAVE_TRANSFER_SIZE 0x400
 #define SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET 0x5DC
 #define SAVE_DATA_OUTPUT_TYPE_OFFSET 0x5DE
+#define SAVE_DATA_DUEL_WINS_OFFSET 0x518
+#define SAVE_DATA_DUEL_LOSSES_OFFSET 0x51A
 #define SAVE_DATA_STARCHIPS_OFFSET 0x5E0
 #define SAVE_DATA_STARCHIP_MAX 999999
 
@@ -75,7 +77,8 @@ typedef struct {
     u8 campaign_flags[
         (CAMPAIGN_FLAG_ID_MASK + 1) >> CAMPAIGN_FLAG_BYTE_SHIFT
     ];
-    u8 pad_518[4];
+    u16 duel_wins;
+    u16 duel_losses;
     SaveDataDuelistRecord duelist_records[FREE_DUEL_GRID_ENTRY_COUNT];
     u8 pad_5BC[
         SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
@@ -109,6 +112,11 @@ typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
 ];
 typedef char SaveDataState_duelist_records_offset_must_be_0x51C[
     (u32)&(((SaveDataState *)0)->duelist_records) == 0x51C ? 1 : -1
+];
+typedef char SaveDataState_duel_totals_offsets_must_match[
+    (u32)&(((SaveDataState *)0)->duel_wins) == SAVE_DATA_DUEL_WINS_OFFSET &&
+    (u32)&(((SaveDataState *)0)->duel_losses) == SAVE_DATA_DUEL_LOSSES_OFFSET
+        ? 1 : -1
 ];
 typedef char SaveDataState_campaign_scene_index_offset_must_be_0x5DC[
     (u32)&(((SaveDataState *)0)->campaign_scene_index) ==

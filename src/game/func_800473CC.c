@@ -7,6 +7,7 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
+#define SOUND_INIT_S16_VIEW
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"

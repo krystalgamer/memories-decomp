@@ -12,9 +12,7 @@
  * own width, which is what the matched bytes do: functions.csv records these
  * as the "straight unsigned-halfword G8 setter" and "straight unsigned-byte G8
  * setter", each matching with its GPREL16 relocation.
- *
- * func_80059AEC has no caller in matched C yet; it is declared here because
- * this is the unit's header, not because a consumer needs it today. */
+ * The intro controller calls func_80059AEC before reading its live phase. */
 void func_80059AE0(s32 value);
 void func_80059AEC(s32 value);
 
