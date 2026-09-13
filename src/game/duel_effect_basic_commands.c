@@ -13,9 +13,9 @@ void func_80038890(void)
 {
 }
 
-void func_80038898(u8 *object)
+void func_80038898(DuelEffectChannel *object)
 {
-    u8 **stream = &((u8 **)object)[*(s8 *)(object + 0x58)];
+    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 value = *(*stream)++;
     D_8009B26C[0] = 5;
     D_8009B363[0] = value;

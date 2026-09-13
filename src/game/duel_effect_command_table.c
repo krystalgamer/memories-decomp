@@ -46,7 +46,7 @@ void (*D_80090EAC[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))func_80038800,
     (void (*)(DuelEffectChannel *))func_80038888,
     (void (*)(DuelEffectChannel *))func_80038890,
-    (void (*)(DuelEffectChannel *))func_80038898,
+    func_80038898,
     (void (*)(DuelEffectChannel *))func_800388D8,
     func_800389C4,
     func_800389D8,
