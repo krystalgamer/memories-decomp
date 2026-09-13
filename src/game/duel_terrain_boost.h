@@ -32,8 +32,9 @@
      -G8 profiles would make a one-byte object small data and address it
      %gp_rel, so a TU that needs the absolute form must push the symbol out of
      small data. An array of unknown or large size does that:
-         func_8001798C.c        (gcc_2_8_1_g8)         extern u8 gDuel_bTerrain[];
-         duel_card_record_lifecycle.c (gcc_2_8_1_g8_split) extern u8 gDuel_bTerrain[];
+         func_8001798C.c        (gcc_2_8_1_g8)
+         duel_card_record_lifecycle.c (gcc_2_8_1_g8_split)
+             DUEL_TERRAIN_AS_ARRAY
 
      ...or section(".data") does it while keeping the scalar, which is what
      buys the assembler macro form these functions need:
@@ -56,7 +57,9 @@
    c_symbols.ld also defines gDuel_bTerrainCodegenAlias at the same 0x8009B364
    so Duel_GetTerrainBoost can materialize the one byte's address twice in
    one function, which retail does and a single name cannot reproduce. */
-#ifdef DUEL_TERRAIN_SCALAR_IN_DATA
+#ifdef DUEL_TERRAIN_AS_ARRAY
+extern u8 gDuel_bTerrain[];
+#elif defined(DUEL_TERRAIN_SCALAR_IN_DATA)
 extern u8 gDuel_bTerrain __attribute__((section(".data")));
 #endif
 
