@@ -248,7 +248,7 @@ extern s8 D_8009B238;
  * record when it is 1. Every retail access is a byte: sb through $at in
  * func_80020F4C and lui/lbu in Main_RunDuel, both in units that reach
  * other symbols through $gp, so duel_result_runtime.c and
- * src/candidates/func_8002CEE8.c define the .data arm below;
+ * src/game/main_run_duel.c define the .data arm below;
  * free_duel/screen_runtime.c (-G0) takes the plain byte. The `u8 [9]`
  * main_run_duel_and_library.c used to declare reached the same form; as the
  * note on D_8009B360 says, such a size is a threshold, not a length. */
@@ -270,7 +270,7 @@ extern u8 D_8009B362;
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
  * so func_80030E30.c, main_run_two_player_duel_setup.c and
- * src/candidates/func_8002CEE8.c -- units that reach other symbols through
+ * src/game/main_run_duel.c -- units that reach other symbols through
  * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
  * overlay's screen_runtime.c compile with nothing in small data and take
  * the plain byte. The `u8 [9]` and `u8 []` two of them used to declare
@@ -292,7 +292,7 @@ extern u8 D_8009B368;
  * lbu and every declarer said u8. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp.
- * src/candidates/func_800179F4.c and src/candidates/func_8002CEE8.c reach
+ * src/candidates/func_800179F4.c and src/game/main_run_duel.c reach
  * other symbols through $gp, so they define the .data arm below;
  * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
  * small data and take the plain byte. src/candidates/func_80018FEC.c also

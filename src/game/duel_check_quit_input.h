@@ -38,7 +38,7 @@ extern u8 gDuel_bQuitDialogState;
  *
  * Only those two units take this plain u16 spelling, and the declaration lives
  * here rather than in duel_side_state.h for a checked reason:
- * Main_RunDuel (src/candidates/func_8002CEE8.c) reads the word as
+ * Main_RunDuel (src/game/main_run_duel.c) reads the word as
  * `u16 D_8009B16C[9]`, which is
  * the oversized-array form of the absolute addressing the .data attribute also
  * produces, and that file does include duel_side_state.h. It does not include
