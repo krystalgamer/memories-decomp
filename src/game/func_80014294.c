@@ -12,7 +12,8 @@
    command-completion callbacks, secondary-to-primary activation, transfer
    advancement and request dispatch. The nine functions are contiguous and
    communicate through the shared descriptors, request slots and D_8009B0F4
-   state word. The first four callbacks are in file_transfer_runtime.c. */
+   state word. The ready-sector callback and first four command callbacks are
+   grouped in func_80013C28.c. */
 
 extern u16 D_8009B0EC;
 

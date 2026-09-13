@@ -51,6 +51,10 @@ volatile u32 D_8009B0F4;
 u32 *D_8009B0F8;
 u8 D_8009B114;
 s32 D_8009B138;
+s32 D_8009B130;
+volatile u16 D_8009B100;
+char D_8009B104[1];
+FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
 static FileTransferDescriptor descriptor, alternate;
 static u32 input[2048], buffers[2][1024];
@@ -91,6 +95,38 @@ int CdGetSector(void *destination, int words)
 }
 
 void DsEndReadySystem(void) { event(2); }
+
+int DsPacket(u8 mode, DslLOC *pos, u8 command, DslCB callback, int count)
+{
+    (void)mode;
+    (void)pos;
+    (void)command;
+    (void)callback;
+    (void)count;
+    return 0;
+}
+
+int DsCommand(u8 command, u8 *parameter, DslCB callback, int count)
+{
+    (void)command;
+    (void)parameter;
+    (void)callback;
+    (void)count;
+    return 0;
+}
+
+int DsReadySystemMode(int mode)
+{
+    (void)mode;
+    return 0;
+}
+
+int DsStartReadySystem(DslRCB callback, int count)
+{
+    (void)callback;
+    (void)count;
+    return 0;
+}
 
 CdlCB CdReadyCallback(CdlCB callback)
 {
@@ -465,16 +501,8 @@ class CdReadyHeaderTests(unittest.TestCase):
                 self.assertNotEqual(result.returncode, 0, result.stderr)
                 self.assertIn("implicit declaration of function `func_80013C28'", result.stderr)
 
-    def test_actual_definition_and_runtime_use_compatible_owners(self):
-        for path in (SOURCE, REPOSITORY / "src/game/file_transfer_runtime.c"):
-            with self.subTest(source=path.name):
-                result = self.compile(f'#include "{path.relative_to(REPOSITORY)}"\n')
-                self.assertEqual(result.returncode, 0, result.stderr)
-        # The runtime must restore the macro after importing the callback view.
-        result = self.compile(
-            '#include "src/game/file_transfer_runtime.c"\n'
-            '#ifdef FUNC_80013C28_CALLBACK_VIEW\n#error leaked callback view\n#endif\n'
-        )
+    def test_grouped_definition_and_runtime_use_the_owner_view(self):
+        result = self.compile(f'#include "{SOURCE.relative_to(REPOSITORY)}"\n')
         self.assertEqual(result.returncode, 0, result.stderr)
 
 

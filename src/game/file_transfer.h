@@ -240,7 +240,7 @@ extern char D_8009B11C[1];
 extern u8 D_8009B11C_byte asm("D_8009B11C");
 
 /* The CD callback's state word, switched on and advanced by
- * file_transfer_runtime.c and func_80014294.c. It remains a volatile u16 and
+ * func_80013C28.c and func_80014294.c. It remains a volatile u16 and
  * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
@@ -294,7 +294,7 @@ extern void (*D_8009B120)(void);
 extern s32 D_8009B130;
 
 /* The two stream-side busy words, and the last of this family that no header
- * owned: file_transfer_runtime.c spelled both `extern volatile` while
+ * owned: func_80014294.c spelled both `extern volatile` while
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
@@ -335,13 +335,13 @@ extern volatile u16 D_8009B124;
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_transfer_runtime.c
+ * declarers spelling it FileTransferDescriptor while func_80014294.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting the callback use in file_transfer_runtime.c alone, changing
+ * Converting the callback use in func_80014294.c alone, changing
  * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written

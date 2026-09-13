@@ -138,7 +138,7 @@ The remaining request/sector state declarations are owned by two headers:
 | `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 
 This removes twelve private global declarations and one private prototype
-across `file_transfer_runtime.c`, `sd_init_state.c` and the two candidates.
+across `func_80013C28.c`, `sd_init_state.c` and the two candidates.
 The existing `data_8009af10.c` owner already includes `file_transfer.h`, so
 its initialized `.sdata` pointer definition is now checked against the shared
 declaration without changing its relocation or storage. No other storage is
