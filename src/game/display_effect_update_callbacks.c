@@ -291,7 +291,6 @@ void func_8003AD6C(MenuRecord *p)
 
 void func_8003B054(MenuRecord *record)
 {
-#define p ((u8 *)record)
     DisplayObject *o;
     DisplayObject *o2;
     s32 id;
@@ -299,15 +298,17 @@ void func_8003B054(MenuRecord *record)
     s32 c;
     s32 q;
 
-    if (func_80039F1C((DisplayEffectState *)p) == 0) {
-        if (*(s16 *)(p + 0x40) != 0) {
-            o = *(DisplayObject **)p;
+    /* A portrait record keeps its two display objects in the first two
+       words of grid, as integers like the rest of that array. */
+    if (func_80039F1C((DisplayEffectState *)record) == 0) {
+        if (record->field_40 != 0) {
+            o = (DisplayObject *)record->grid[0][0];
             *(u16 *)&o->field_60 = 0;
         } else {
-            id = *(s8 *)(p + 0x30);
+            id = record->field_30;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = func_800400AC(func_8004002C(), 1);
-            func_80040510((DisplayObjectConfigView *)o, *(s16 *)(p + 0x34), *(s16 *)(p + 0x36), 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
+            func_80040510((DisplayObjectConfigView *)o, (s16)record->field_34, (s16)record->field_36, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
             *(u8 *)&o->field_5C =
                 (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
@@ -323,7 +324,7 @@ void func_8003B054(MenuRecord *record)
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             func_80042918(o);
             func_800428EC((u8 *)o, -8);
-            *(DisplayObject **)p = o;
+            record->grid[0][0] = (s32)o;
             *(u16 *)&o->field_60 = 0x14;
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
@@ -336,11 +337,11 @@ void func_8003B054(MenuRecord *record)
         *(u16 *)&o2->field_48.h.field_4A = 0;
         func_80042918(o2);
         func_800428EC((u8 *)o2, -9);
-        *(DisplayObject **)(p + 4) = o2;
+        record->grid[0][1] = (s32)o2;
     }
-    o = *(DisplayObject **)p;
-    o2 = *(DisplayObject **)(p + 4);
-    if (*(s16 *)(p + 0x40) != 0) {
+    o = (DisplayObject *)record->grid[0][0];
+    o2 = (DisplayObject *)record->grid[0][1];
+    if (record->field_40 != 0) {
         *(u16 *)&o->field_60 += (u16)D_8009B0D8;
     } else {
         *(u16 *)&o->field_60 -= (u16)D_8009B0D8;
@@ -350,13 +351,13 @@ void func_8003B054(MenuRecord *record)
         o->field_0C = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.h.field_46 = 0x1000;
         func_8004036C(o2);
-        *(DisplayObject **)(p + 4) = 0;
+        record->grid[0][1] = 0;
         goto clear;
     }
     if (o->field_60 >= 0x14) {
-        func_80039FD4(p);
+        func_80039FD4((u8 *)record);
     clear:
-        p[0x33] = 0;
+        record->display_effect_step = 0;
         return;
     }
     c = -0x80 - o->field_60 * 6;
@@ -372,5 +373,4 @@ void func_8003B054(MenuRecord *record)
     q = *(u8 *)&o->field_0C << 5;
     *(u16 *)&o2->field_44.h.field_44 = q;
     *(u16 *)&o->field_44.h.field_44 = q;
-#undef p
 }
