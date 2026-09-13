@@ -5335,6 +5335,12 @@
       "source": "src/game/color_transform.c"
     },
     {
+      "address": "0x8005B260",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x10C",
+      "source": "src/game/gpu_packets.c"
+    },
+    {
       "address": "0x8005B36C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x16C",

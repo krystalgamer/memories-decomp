@@ -928,7 +928,8 @@ imports justify their specific API and field uses; a local render or model
 record still requires field-level and resident-call evidence before migration
 to an SDK type.
 
-`func_8005B260` (a candidate since #3859) exercises the shared packet ABI directly. It reads
+`func_8005B260` exercises the shared packet ABI directly. Its pure-C
+reclassification match under `gcc_2_8_1_g8` reads
 the source primitive's `P_TAG.len`, copies that tag and payload into the
 packet work buffer, inserts one `0xE1` draw-mode word, changes the copied
 length to `len + 1`, and advances the buffer by the resulting `len + 2` total
