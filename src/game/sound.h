@@ -768,7 +768,7 @@ s32 func_80049A64(void *input, s16 value);
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
    the return width and the narrower one is right to: SD_UpdateRuntime
-   (src/game/sd_update_runtime.c) compares
+   (src/game/sound_runtime.c) compares
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
@@ -815,7 +815,7 @@ void func_80049DD8(void);
 
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
- * 2. SD_UpdateFades (src/candidates/func_80045C98.c) passes the same value
+ * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
  * twice; it declared this itself before, in the same s16 pair the definition
  * takes. It is not the only caller -- func_80045514.c calls it with two
  * literal zeros, and used to declare it as an s32 pair of its own. */

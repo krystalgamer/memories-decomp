@@ -150,7 +150,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
         )
 
     def test_runtime_caller_uses_sound_owner_not_unmatched(self) -> None:
-        path = REPOSITORY / "src/game/sd_update_runtime.c"
+        path = REPOSITORY / "src/game/sound_runtime.c"
         self.assertIn('#include "sound.h"', path.read_text(encoding="utf-8"))
         unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
         self.assertNotRegex(unmatched, r"\bfunc_80045514\s*\(")
