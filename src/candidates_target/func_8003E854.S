@@ -264,12 +264,12 @@ glabel MemCardDialog_UpdateSave
     /* 2F404 8003EC04 00014230 */  andi       $v0, $v0, 0x100
     /* 2F408 8003EC08 57004014 */  bnez       $v0, .L8003ED68
     /* 2F40C 8003EC0C 08000224 */   addiu     $v0, $zero, 0x8
-    /* 2F410 8003EC10 C804828F */  lw         $v0, %gp_rel(D_8009B3D0)($gp)
+    /* 2F410 8003EC10 C804828F */  lw         $v0, %gp_rel(gMemCard_pPrimaryTransferCursor)($gp)
     /* 2F414 8003EC14 BA048397 */  lhu        $v1, %gp_rel(D_8009B3C2)($gp)
     /* 2F418 8003EC18 BC0480A7 */  sh         $zero, %gp_rel(D_8009B3C4)($gp)
     /* 2F41C 8003EC1C 00FE4224 */  addiu      $v0, $v0, -0x200
     /* 2F420 8003EC20 00026324 */  addiu      $v1, $v1, 0x200
-    /* 2F424 8003EC24 C80482AF */  sw         $v0, %gp_rel(D_8009B3D0)($gp)
+    /* 2F424 8003EC24 C80482AF */  sw         $v0, %gp_rel(gMemCard_pPrimaryTransferCursor)($gp)
     /* 2F428 8003EC28 BA0483A7 */  sh         $v1, %gp_rel(D_8009B3C2)($gp)
     /* 2F42C 8003EC2C 5AFB0008 */  j          .L8003ED68
     /* 2F430 8003EC30 08000224 */   addiu     $v0, $zero, 0x8
@@ -310,7 +310,7 @@ glabel MemCardDialog_UpdateSave
     /* 2F4B4 8003ECB4 00000000 */  nop
     /* 2F4B8 8003ECB8 20004014 */  bnez       $v0, .L8003ED3C
     /* 2F4BC 8003ECBC CF000424 */   addiu     $a0, $zero, 0xCF
-    /* 2F4C0 8003ECC0 C804848F */  lw         $a0, %gp_rel(D_8009B3D0)($gp)
+    /* 2F4C0 8003ECC0 C804848F */  lw         $a0, %gp_rel(gMemCard_pPrimaryTransferCursor)($gp)
     /* 2F4C4 8003ECC4 1E80023C */  lui        $v0, %hi(gLibrary_aCardArtRecord)
     /* 2F4C8 8003ECC8 00C05024 */  addiu      $s0, $v0, %lo(gLibrary_aCardArtRecord)
     /* 2F4CC 8003ECCC AEF4000C */  jal        SaveData_MatchesDuelistAndCurrentSequence
@@ -371,7 +371,7 @@ glabel MemCardDialog_UpdateSave
     /* 2F58C 8003ED8C 21280000 */   addu      $a1, $zero, $zero
     /* 2F590 8003ED90 21200000 */  addu       $a0, $zero, $zero
     /* 2F594 8003ED94 0F80053C */  lui        $a1, %hi(D_800EFE18)
-    /* 2F598 8003ED98 C804868F */  lw         $a2, %gp_rel(D_8009B3D0)($gp)
+    /* 2F598 8003ED98 C804868F */  lw         $a2, %gp_rel(gMemCard_pPrimaryTransferCursor)($gp)
     /* 2F59C 8003ED9C BC048797 */  lhu        $a3, %gp_rel(D_8009B3C4)($gp)
     /* 2F5A0 8003EDA0 BA048297 */  lhu        $v0, %gp_rel(D_8009B3C2)($gp)
     /* 2F5A4 8003EDA4 18FEA524 */  addiu      $a1, $a1, %lo(D_800EFE18)

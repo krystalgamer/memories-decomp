@@ -1597,10 +1597,22 @@
       "source": "src/game/main_run_frontend_menus.c"
     },
     {
+      "address": "0x8002D62C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x58",
+      "source": "src/game/main_run_name_entry.c"
+    },
+    {
       "address": "0x8002D684",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
       "source": "src/game/main_run_password_menu.c"
+    },
+    {
+      "address": "0x8002D730",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x94",
+      "source": "src/game/main_run_game_over.c"
     },
     {
       "address": "0x8002D7C4",
@@ -3967,6 +3979,12 @@
       "source": "src/game/func_80045484.c"
     },
     {
+      "address": "0x80045514",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6D4",
+      "source": "src/game/func_80045514.c"
+    },
+    {
       "address": "0x80045BE8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB0",
@@ -4835,6 +4853,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
       "source": "src/game/model_slot_setup.c"
+    },
+    {
+      "address": "0x80056504",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x324",
+      "source": "src/game/model_load_monster_merge.c"
     },
     {
       "address": "0x80057544",

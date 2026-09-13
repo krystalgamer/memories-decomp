@@ -1174,10 +1174,10 @@ single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
 shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
-`func_80030FD0.c` returns through `longjmp(..., 2)`. `Main_Init` is matching
-C in `src/game/main_init.c`; `Main_RunGameOver` remains a candidate in
-`src/candidates/func_8002D730.c`. `func_80030FD0.c` is the other matching
-user. The imported `longjmp`
+`func_80030FD0.c` returns through `longjmp(..., 2)`. All three are matching C:
+`Main_Init` in `src/game/main_init.c`, `Main_RunGameOver` in
+`src/game/main_run_game_over.c`, and `func_80030FD0` in
+`src/game/func_80030FD0.c`. The imported `longjmp`
 prototype has no compiler attribute, so `func_80030FD0` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the
 `jal longjmp` / `li $a1, 2` pair and has no normal epilogue after the call.

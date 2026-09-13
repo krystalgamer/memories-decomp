@@ -32,4 +32,7 @@ void func_80045334(s32 code);
    SD_ArmBusyCallback. */
 void SD_ClearBusyFlag(void);
 
+/* Sets the busy flag and installs SD_ClearBusyFlag as the completion callback. */
+void SD_ArmBusyCallback(void);
+
 #endif

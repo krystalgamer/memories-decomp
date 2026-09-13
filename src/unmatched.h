@@ -35,9 +35,6 @@
  * are declared incompatibly on purpose, because the declaration is what makes
  * the caller's code generation match:
  *
- *   func_8004CB0C   void (s32, s32, s32, s32) in the Model_LoadMonsterMerge
- *                   candidate, src/candidates/func_80056504.c, and
- *                   void (void) in model_slot_setup.c
  *   func_80013C28   void (u8, u8 *, u32 *) in file_transfer_runtime.c,
  *                   void (s32) elsewhere
  *   SD_SEPlay       (u32, s32, s32), (s32, s32, s32) and (u16, u8, s8)
@@ -55,8 +52,8 @@
  *   - model_slot_setup.c calls func_8004CB0C the same way, and that one
  *     cannot be fixed. The callee reads $a0, $a1, $a2 and $a3, but this site
  *     sets only $a0. The other three are whatever the register file happened
- *     to hold, so there is no expression to write for them. Its `void (void)`
- *     declaration stays, and is not a mistake.
+ *     to hold, so there is no expression to write for them. Its guarded
+ *     `void (void)` header arm stays, and is not a mistake.
  *
  * So a symbol only moves here once every consumer's spelling is accounted
  * for, and a consumer that cannot state its arguments keeps its local
@@ -111,7 +108,6 @@ void func_800540B4(s32);
  * place, not only the ones that had already drifted: a declaration with one
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
-void func_80045514(void);           /* sound_runtime.c */
 void func_800559D4(s32);            /* model_scene_states.c */
 void func_8005E808(u8 *);           /* model_effect_state.c, and the candidate
                                        source src/candidates/func_8005E808.c
@@ -373,11 +369,10 @@ extern u8 D_8009B174;   /* five declarers */
  * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
  * two bytes with D_8009B1D2 immediately after it.
  *
- * Two have a larger gap than their width and are treated the way D_8009B23A
- * was, as an upper bound rather than a size: D_8009B3D0's next name is eight
- * bytes on and D_8009B3F4's is five. Nothing is named inside either gap and
- * no consumer reads past the declared width, so the agreed type is what is
- * declared and the bytes above stay unclaimed.
+ * D_8009B3F4 has a larger gap than its width and is treated the way
+ * D_8009B23A was, as an upper bound rather than a size. Nothing is named
+ * inside that gap and no consumer reads past the declared width, so the
+ * agreed type is what is declared and the bytes above stay unclaimed.
  *
  * The first four are memory card state, shared by the create, load, save and
  * dialog paths together with mem_card_dialog_runtime.c. D_8009B1D0 is
@@ -385,7 +380,6 @@ extern u8 D_8009B174;   /* five declarers */
  * passed the same checks, not because it is part of that group. */
 extern u16 D_8009B3C2;   /* four declarers */
 extern u16 D_8009B3C4;   /* four declarers */
-extern u32 D_8009B3D0;   /* four declarers */
 extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
@@ -540,9 +534,9 @@ int func_80069B40();
  * not both.
  * func_8004A43C takes sound.h's SDSecondaryObject, which cannot be
  * forward-declared here, so its declaration stays in sound.h for the one
- * caller, the func_8004AAFC candidate. func_800476B4's one caller, the
- * func_80045514 candidate, declares it with an explicit extern that the
- * contract fingerprint records. func_80048768 has no caller in C; its matching
+ * caller, the func_8004AAFC candidate. func_800476B4 takes SDSeqBlock and
+ * lives in sound_pending_entries.h for the func_80045514 caller.
+ * func_80048768 has no caller in C; its matching
  * definition uses sound_voice_pan.h. SD_SetVoiceEnvelopeFromTone is the named
  * sound operation and stays in sound.h. Ai_GetHandSize is now matching C; its caller-specific
  * return declarations live in ai.h. */
@@ -625,22 +619,6 @@ void func_80042188(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 
-/* Starts the asynchronous transfer that fills one model slot with a monster
- * merge record, and records the slot's display properties while the request
- * is in flight.
- *
- * Bit 0x80 of slot is a flag rather than part of the index. A negative model
- * id reuses the id already in the slot, and each of p2 to p5 follows the same
- * "negative means leave alone" convention.
- *
- * Returns zero once a transfer has been requested and one when the model id
- * has no record to request. Both callers discard it. The candidate source
- * carries the full account of which slots load from which file, and of the
- * three model-id ranges that have no record. */
-s32 Model_LoadMonsterMerge(
-    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
-);
-
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation
  * differences: scalar small-data access, array/address access, explicit
@@ -710,12 +688,6 @@ extern u16 D_8009B374;
 extern u16 D_8009B3CC;
 extern u8 D_8009B3CF;
 extern u8 D_8009B3DD;
-
-#ifdef D_8009B3E0_AS_POINTER
-extern void *D_8009B3E0;
-#else
-extern u32 D_8009B3E0;
-#endif
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;

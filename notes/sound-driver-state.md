@@ -802,6 +802,36 @@ on multicharacter-literal byte order. The tag check is not full format
 validation; its existing state guard, comparison order, and failure path
 remain unchanged.
 
+### Command-state pump and indexed sequence header
+
+`func_80045514` owns the 82-entry dispatch table at `0x80010578`:
+`split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
+`src/game/func_80045514.c`. The remaining prefix of `initial_data_1e3`
+and the following `func_80046294` table retain their existing owners.
+
+The command pump keeps the target's cached-versus-reloaded state pointers.
+In particular, it reads packed command words and transfer offsets before
+request writes that could otherwise change a later read. The shared word
+temporaries span commands 33 and 36; the state temporary also serves command
+72. Their in-place mask, offset-add, and high-bit updates preserve the
+separate transfer-call tails without register bindings.
+
+Command 72's sequence header has a count at `+2`, a payload size at `+0xC`,
+and a payload beginning at `+0x50`. Its sixteen index records occupy
+`+0x10..+0x50`, with a **four-byte stride**; this reader consumes only each
+record's low halfword. `sound_command_index.h` owns `CommandIndexTable`,
+which bounds all 32 halfwords and asserts the header size and table offset. It does not use
+the historical one-element `SoundIndexList.indices` view or silently treat
+the records as a packed two-byte index array.
+
+The promoted caller takes its declarations from sound-owned headers.
+`func_80045484` retains its explicit byte mask, and `func_80049A64` retains
+the signed-halfword store and test after the canonical word-sized result.
+`SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
+`func_80049AF4` caller view while its definition keeps the one-argument
+view. Native compiler controls check these declarations and reject
+incompatible views.
+
 ### Migration status and exact-code exceptions
 
 Every matching-C user outside the GCC inline-assembly exceptions below now

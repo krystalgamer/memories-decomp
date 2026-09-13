@@ -1,11 +1,4 @@
 {
   "schema": 1,
-  "exceptions": [
-    {
-      "symbol": "func_8004CB0C",
-      "source": "src/game/model_slot_setup.c",
-      "declaration": "void func_8004CB0C(void);",
-      "reason": "This caller preserves only its incoming a0 and cannot express the other live argument registers."
-    }
-  ]
+  "exceptions": []
 }
