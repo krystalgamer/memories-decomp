@@ -3,7 +3,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "file_transfer.h"
 #include "input.h"

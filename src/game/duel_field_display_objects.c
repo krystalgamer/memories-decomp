@@ -8,7 +8,7 @@
 #include "duel_side_state.h"
 #include "duel_grid.h"
 #include "ai.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_projection.h"
 
 #include "duel_card.h"

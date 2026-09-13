@@ -17,7 +17,7 @@
 #include "../unmatched.h"
 #include "func_80018004.h"
 #include "func_80018C34.h"
-#include "display_object_api.h"
+#include "display_object_helpers.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
 

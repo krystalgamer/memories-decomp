@@ -11,7 +11,6 @@
 #include "duel_effect_tables.h"
 #include "text_box_lifecycle.h"
 #include "sound.h"
-#include "display_object_api.h"
 #include "display_object.h"
 #include "display_object_helpers.h"
 #include "func_800291E0.h"

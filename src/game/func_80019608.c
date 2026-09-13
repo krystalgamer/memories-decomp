@@ -8,7 +8,7 @@
 #include "duel_side_state.h"
 #include "duel_scene_state.h"
 #include "display_object_layout.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "func_8001944C.h"

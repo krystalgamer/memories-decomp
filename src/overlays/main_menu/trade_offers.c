@@ -5,7 +5,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "entrypoints.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/main_services.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"

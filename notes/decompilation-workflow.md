@@ -623,6 +623,13 @@ movie stream ranges, and persistent duel-result rows follow that split. Their
 size and offset assertions move with the types, including the assertion that
 the word-copy view remains exactly the size of `FileTransferDescriptor`.
 
+An API-shaped header still is not an owner when it combines unrelated
+translation units. The old `display_object_api.h` mixed eight functions from
+`display_object_core.c` with `func_80042B40` from
+`display_object_helpers.c`. Those declarations now live in
+`display_object_core.h` and `display_object_helpers.h`, and callers include
+only the owner or owners they use.
+
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
 must have a canonical header declaration; genuinely homeless data lives in

@@ -2,7 +2,7 @@
 #include "duel_effect_init_entry.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_box_lifecycle.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "text_box_set_rect.h"
 
 void TextBox_Destroy(void *record_ptr)

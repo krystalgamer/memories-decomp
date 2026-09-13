@@ -2,7 +2,7 @@
 #include "display_object_config.h"
 #include "rand_get_interval.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "fade.h"
 #include "graphics_constants.h"
 #include "input.h"

@@ -18,7 +18,6 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../game/input.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/display_object_api.h"
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/display_object_config.h"

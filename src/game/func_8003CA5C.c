@@ -3,7 +3,6 @@
 #include "display_object_config.h"
 #include "rand_get_interval.h"
 #include "display_object.h"
-#include "display_object_api.h"
 #include "fade.h"
 #include "input.h"
 #include "display_object_helpers.h"

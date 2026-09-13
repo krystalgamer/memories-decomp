@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
 
 u8 *func_801680B4(s32 x, s32 y)

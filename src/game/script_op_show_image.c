@@ -6,7 +6,7 @@
 #include "script_command_busy.h"
 #include "fade.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"

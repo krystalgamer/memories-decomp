@@ -8,7 +8,7 @@
 #define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
 #include "../../game/input.h"
 #include "../../game/card_constants.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/main_services.h"

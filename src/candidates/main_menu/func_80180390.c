@@ -19,7 +19,6 @@
 #include "../../unmatched.h"
 #include "../../game/input.h"
 #include "../../game/display_object.h"
-#include "../../game/display_object_api.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
 #include "../../overlays/main_menu/entrypoints.h"

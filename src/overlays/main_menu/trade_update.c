@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/graphics_frame.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
 #include "../../game/two_player_save_setup.h"

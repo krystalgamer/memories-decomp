@@ -18,7 +18,7 @@
 #include "duel_side_state.h"
 #include "duel_shuffle_deck.h"
 #include "duel_check_quit_input.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"

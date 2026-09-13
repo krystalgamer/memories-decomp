@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "func_80060B38.h"
 #include "card_list_rows.h"

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object_config.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "duel_card.h"
 #include "card_constants.h"

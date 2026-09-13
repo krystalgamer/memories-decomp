@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "display_object_config.h"

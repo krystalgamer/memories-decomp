@@ -45,6 +45,8 @@
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
 #include "../game/display_object_work_slots.h"
+#include "../game/display_object_core.h"
+#include "../game/display_object_helpers.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../game/duel_effect_allocate_request.h"
@@ -62,10 +64,8 @@ extern s32 D_800E9F04[];
 extern u16 D_800EF658[];
 extern u8 D_8009B369 __attribute__((section(".data")));
 
-extern void func_8004036C(u8 *);
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);
-extern s32 func_80042B40(s32);
 extern void func_8003FF88(s32);
 
 void DuelScene_UpdateExodiaResult(void)

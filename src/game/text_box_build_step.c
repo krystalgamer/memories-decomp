@@ -9,7 +9,7 @@
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "text_box_runtime.h"
 #include "func_80036C14.h"
 #include "menu_record_reset.h"

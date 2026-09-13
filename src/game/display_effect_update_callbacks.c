@@ -19,7 +19,7 @@
 #include "../psyq/libgs.h"
 #include "func_8003A440.h"
 #include "func_8003A1EC.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "display_object_position.h"
 #include "menu_record.h"

@@ -10,7 +10,7 @@
 #include "../../game/save_data_update_trade_load.h"
 #include "../../unmatched.h"
 #include "../../game/input.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
 #include "../../psyq/libgte.h"
 #include "entrypoints.h"
