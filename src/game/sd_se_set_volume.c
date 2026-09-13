@@ -6,7 +6,7 @@
 #include "sound_voice_constants.h"
 #include "sound_voice_selection.h"
 
-void func_80048920(s32 arg0, s32 arg1)
+void SD_SESetVolume(s32 arg0, s32 arg1)
 {
     s32 lo;
     s32 hi;
