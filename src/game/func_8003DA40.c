@@ -25,7 +25,8 @@ void func_8003DA40(MenuRecord *record)
         D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = func_800400AC(func_8004002C(), 2);
         func_800404CC(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
-        e->flags = e->flags | 0x28;
+        e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(e);
         func_800428EC((u8 *)e, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         *(s32 *)p = (s32)e;

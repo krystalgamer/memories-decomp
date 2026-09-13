@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "units": [
+    {
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/main_menu/module_header.c"
+    },
+    {
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/main_menu/module_rodata.c"
+    }
+  ]
+}

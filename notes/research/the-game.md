@@ -94,7 +94,7 @@ select the flag; byte `id >> 3` uses mask `0x80 >> (id & 7)`.
 not write: an ordinary query returns zero or the selected mask, not always
 `1`. Adding modifier `0x8000` instead tests for a clear bit and returns
 normalized `0` or `1`.
-[`Library_UpdateCardUsedFlag`](../../src/candidates/func_8002CCE4.c)
+[`Library_UpdateCardUsedFlag`](../../src/game/library_update_card_used_flag.c)
 sets the bit by default and clears it with that modifier.
 
 The script and text handlers use `0x4000` to select a write rather than a
@@ -787,7 +787,7 @@ The retail jump-table entry at `0x80010158` sends that substate to
 The [`func_80024200`](../../src/candidates/func_80024200.c) candidate dispatches
 through `D_80090998[D_8009B23A & DUEL_SCENE_PHASE_MASK]`; the retail entry at
 `0x800909B0`
-maps state 6 to [`func_80019608`](../../src/candidates/func_80019608.c).
+maps state 6 to [`func_80019608`](../../src/game/func_80019608.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
 zero-frame execution or guaranteed effect success: timing, transfer, and
@@ -796,7 +796,7 @@ branch, not a new runtime trace or an audit of every combination/AI path.
 
 The game does not read the card's text; it reads its **number**. The card-use
 presentation sequence
-[`func_80019608`](../../src/candidates/func_80019608.c) hands the id to a guard
+[`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
 [`func_80026BA4`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
 [`func_80026B34`] looks that index up in a 104-byte table [`0x80090AD4`] to
@@ -920,7 +920,7 @@ result monster; if the required materials are missing, the ritual card is
 consumed without a summon.
 
 The
-[`Duel_CheckRitual`](../../src/candidates/func_8002C7E8.c) source checks the recipe
+[`Duel_CheckRitual`](../../src/game/duel_check_ritual.c) source checks the recipe
 against three **distinct occupied monster-row records** on the acting side.
 It tests `DUEL_CARD_FLAG_OCCUPIED` and the required card IDs, not the
 face-down or defence-position bits. Face-down matching tributes are therefore
@@ -1278,8 +1278,8 @@ bypass this particular increment; this does not establish their complete
 accounting, every other writer, or the effect of later card flips. It is
 static code evidence, not a new controlled trace.
 
-**When "pure magic" advances.** The candidate
-[`func_80019608`](../../src/candidates/func_80019608.c) increments the current
+**When "pure magic" advances.** The matching
+[`func_80019608`](../../src/game/func_80019608.c) increments the current
 side's byte `+0x05` in its initialization
 branch, before the later effect requests. `DUEL_SCENE_FLAG_INITIALIZED` in
 `D_8009B23A` guards that branch: after it is set, subsequent polling calls skip

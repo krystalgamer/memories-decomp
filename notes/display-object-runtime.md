@@ -12,6 +12,7 @@ constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_LIST_COUNT` is 7,
 `DISPLAY_OBJECT_FLAG_CLIP_TEST` is `0x04`,
 `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is `0x08`,
+`DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` is `0x20`,
 `DISPLAY_OBJECT_FLAG_RENDERABLE` is `0x40`,
 `DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
@@ -36,6 +37,12 @@ Both return the first slot whose `+0x08` flags do not contain
 slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
 `DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
 and update passes require both bits before submitting visible content.
+
+`func_80040468` controls `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` from bit
+`0x8000` of its texture argument. The sprite builder at `0x8004158C` consumes
+that flag by adding the packed per-cell U/V nibble offsets to the object's base
+texture coordinates. Callers that set the composite former literal `0x28`
+therefore request both that cell offset and screen-space rendering.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
@@ -89,7 +96,7 @@ for that separate function and explicitly convert its returned word to
 | Caller | Source |
 |---|---|
 | `Dialog_OpenChoice` | `duel_effect_state_callbacks.c` |
-| `Dialog_UpdateChoice` | `src/candidates/func_800371A8.c` |
+| `Dialog_UpdateChoice` | `src/game/dialog_update_choice.c` |
 | `func_80018150` | `duel_card_object_helpers.c` |
 | `func_8002E3FC` | `func_8002E3FC.c` |
 
@@ -182,9 +189,12 @@ without losing the walk's continuation.
 `src/game/ordering_tables.h` owns the resident/overlay contract for
 `D_800E9D90`: four `GsOT *` slots, not four ordering-table descriptors and
 not texture IDs. The producer is `Graphics_BeginFrame` in `graphics_frame.c`.
-It selects the active `0x5160`-byte buffer, walks descriptor offsets
-`0x514C`, `0x5138`, `0x5124`, `0x5110`, publishes their addresses into slots
-3 through 0, writes each descriptor's `length`, and calls `GsClearOt`.
+It selects `gGraphics_pActiveFrameBuffer` from the typed
+`gGraphics_aFrameBuffers` array, walks its four `ordering_tables` descriptors
+from index 3 through 0, publishes their addresses into slots, writes each
+descriptor's `length`, and calls `GsClearOt`. The asserted `0x5160`-byte
+layout is owned by `src/game/graphics_frame_buffer.h`: `0x5110` bytes of tag
+storage followed by four `GsOT` descriptors.
 The header asserts the SDK descriptor's `0x14` size and the pointer array's
 `0x10` size. No private SDK type is needed.
 

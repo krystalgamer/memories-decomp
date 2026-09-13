@@ -24,6 +24,10 @@ CANDIDATES = Path("config/slus_01411/candidates.json")
 # Headers a build-integrated candidate may not take its declaration from:
 # the candidate trees themselves, and the overlays resident code cannot see.
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
+SHARED_OWNER_HEADERS = {
+    "func_80042188": "src/game/display_object_packet_submit.h",
+    "func_8004CB0C": "src/game/model_slot_setup.h",
+}
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 DECLARATION_KEYWORDS = {"__attribute__", "asm"}
@@ -297,6 +301,101 @@ def load_exceptions(
 # has nowhere else to go; only unmatched_asm is *required* to be centralized,
 # while handwritten_asm is admitted a group at a time as it is moved.
 CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
+CENTRAL_VARIANT_COUNTS = {
+    "func_80013C28": 2,
+}
+CENTRAL_VARIANT_BLOCKS = {
+    "func_80013C28": (
+        "#ifdef FUNC_80013C28_CALLBACK_VIEW",
+        "void func_80013C28(u8, u8 *, u32 *);",
+        "#else",
+        "void func_80013C28(s32);",
+        "#endif",
+    ),
+}
+
+
+def canonical_source_lines(source: str) -> list[str]:
+    result: list[str] = []
+    statement: list[str] = []
+    source = re.sub(
+        r"\\\r?\n",
+        "",
+        candidate_builds.strip_c_comments(source),
+    )
+    for line in source.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith("#"):
+            if statement:
+                result.append(" ".join(" ".join(statement).split()))
+                statement = []
+            result.append(" ".join(stripped.split()))
+            continue
+        statement.append(stripped)
+        if ";" in stripped:
+            result.append(" ".join(" ".join(statement).split()))
+            statement = []
+    if statement:
+        result.append(" ".join(" ".join(statement).split()))
+    return result
+
+
+DIRECTIVE = re.compile(
+    r"^#\s*(?P<kind>if|ifdef|ifndef|elif|else|endif)\b(?P<argument>.*)$"
+)
+
+
+def enclosing_conditionals(
+    lines: list[str], stop: int
+) -> list[tuple[str, str, str]]:
+    conditionals: list[tuple[str, str, str]] = []
+    for line in lines[:stop]:
+        match = DIRECTIVE.match(line)
+        if match is None:
+            continue
+        kind = match.group("kind")
+        argument = match.group("argument").strip()
+        if kind in {"if", "ifdef", "ifndef"}:
+            conditionals.append((kind, argument, "initial"))
+        elif kind == "elif" and conditionals:
+            opening_kind, opening_argument, _ = conditionals[-1]
+            conditionals[-1] = (opening_kind, opening_argument, "elif")
+        elif kind == "else" and conditionals:
+            opening_kind, opening_argument, _ = conditionals[-1]
+            conditionals[-1] = (opening_kind, opening_argument, "else")
+        elif kind == "endif" and conditionals:
+            conditionals.pop()
+    return conditionals
+
+
+def validate_variant_block(
+    source: str,
+    name: str,
+    expected: tuple[str, ...],
+) -> str | None:
+    lines = canonical_source_lines(source)
+    starts = [
+        index
+        for index in range(len(lines) - len(expected) + 1)
+        if tuple(lines[index:index + len(expected)]) == expected
+    ]
+    if len(starts) != 1:
+        return (
+            f"{UNMATCHED_HEADER}: conditional declaration {name} must use "
+            f"the approved selector and ABI arms"
+        )
+    conditionals = enclosing_conditionals(lines, starts[0])
+    if conditionals not in (
+        [],
+        [("ifndef", "MEMORIES_DECOMP_UNMATCHED_H", "initial")],
+    ):
+        return (
+            f"{UNMATCHED_HEADER}: conditional declaration {name} must not be "
+            "inside an extra enclosing preprocessor arm"
+        )
+    return None
 
 
 def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
@@ -306,7 +405,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     }
     errors: list[str] = []
 
-    central_pairs = declarations(read_text(root / UNMATCHED_HEADER))
+    central_source = read_text(root / UNMATCHED_HEADER)
+    central_pairs = declarations(central_source)
     central = defaultdict(list)
     for name, statement in central_pairs:
         central[name].append(statement)
@@ -317,35 +417,54 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"functions.csv status is {status or 'absent'}"
             )
     for name, statements in central.items():
-        if len(statements) > 1:
+        if len(statements) > 1 and name not in CENTRAL_VARIANT_COUNTS:
             errors.append(
                 f"{UNMATCHED_HEADER}: duplicate declarations for {name}: "
                 f"{statements}"
             )
+        expected_variants = CENTRAL_VARIANT_COUNTS.get(name)
+        if expected_variants is not None and len(statements) != expected_variants:
+            errors.append(
+                f"{UNMATCHED_HEADER}: conditional declaration {name} must "
+                f"have exactly {expected_variants} arms: {statements}"
+            )
+        expected_block = CENTRAL_VARIANT_BLOCKS.get(name)
+        if expected_block is not None:
+            error = validate_variant_block(central_source, name, expected_block)
+            if error is not None:
+                errors.append(error)
 
-    # A build-integrated candidate still has a defining C translation unit,
-    # src/candidates/, so the header of the unit it came from remains a home
-    # for its declaration; unmatched.h is for functions with no such unit.
-    # Either place is accepted, but only one of them, and only one header.
-    homes = home_header_declarations(root, candidate_names(root) & unmatched)
+    # Candidate interfaces may retain their former resident header. A shared
+    # ABI dispatcher may also own an unmatched callee when its caller variants
+    # are the interface itself rather than unrelated local declarations.
+    candidates = candidate_names(root) & unmatched
+    shared_owners = set(SHARED_OWNER_HEADERS) & unmatched
+    homes = home_header_declarations(root, candidates | shared_owners)
     for name, headers in sorted(homes.items()):
         if name in central:
             errors.append(
-                f"{UNMATCHED_HEADER}: candidate {name} is also declared by "
+                f"{UNMATCHED_HEADER}: {name} is also declared by "
                 f"resident headers {sorted(headers)}"
             )
-        if len(headers) > 1:
+        if name in SHARED_OWNER_HEADERS:
+            expected = SHARED_OWNER_HEADERS[name]
+            if headers != {expected}:
+                errors.append(
+                    f"{name} must be declared only by {expected}: "
+                    f"{sorted(headers)}"
+                )
+        elif len(headers) > 1:
             errors.append(
                 f"candidate {name} is declared by several resident headers: "
                 f"{sorted(headers)}"
             )
 
     configured = load_exceptions(root)
-    approved = {
-        (item["source"], item["symbol"], item["declaration"])
-        for item in configured
-    }
-    found_approved: set[tuple[str, str, str]] = set()
+    if configured:
+        errors.append(
+            f"{EXCEPTIONS}: local unmatched-function exceptions are no longer "
+            "supported; use guarded declarations in src/unmatched.h"
+        )
     local_sites: list[tuple[str, str, str]] = []
     referenced_sites: list[tuple[str, str]] = []
     linker = linker_symbols(root)
@@ -369,25 +488,20 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         source_declarations = [
             pair for pair in declarations(text) if pair[0] in unmatched
         ]
-        source_approved: set[str] = set()
         for name, statement in source_declarations:
             key = (relative, name, statement)
             local_sites.append(key)
-            if key in approved:
-                found_approved.add(key)
-                source_approved.add(name)
-            else:
-                errors.append(
-                    f"{relative}: local declaration of unmatched function "
-                    f"{name} is not approved: {statement}"
-                )
+            errors.append(
+                f"{relative}: local declaration of unmatched function "
+                f"{name} is forbidden; use a guarded declaration in "
+                f"{UNMATCHED_HEADER}: {statement}"
+            )
         for name in sorted(
             executable_references(text, unmatched, source_declarations)
         ):
             referenced_sites.append((relative, name))
             if (
                 name not in central
-                and name not in source_approved
                 and name not in homes
             ):
                 errors.append(
@@ -420,22 +534,6 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     f"{relative}: local declaration of central unmatched data "
                     f"{name} is not approved: {statement}"
                 )
-
-    for source, name, statement in sorted(approved - found_approved):
-        errors.append(
-            f"{EXCEPTIONS}: configured exception not found exactly: "
-            f"{source}: {statement}"
-        )
-    for item in configured:
-        if item["symbol"] not in unmatched:
-            errors.append(
-                f"{EXCEPTIONS}: stale exception {item['symbol']}: "
-                f"functions.csv status is {statuses.get(item['symbol'], 'absent')}"
-            )
-        if item["symbol"] in central:
-            errors.append(
-                f"{EXCEPTIONS}: {item['symbol']} is both central and exceptional"
-            )
 
     all_data_symbols = set(local_data) | set(central_data)
     data_header_index = candidate_builds.canonical_declaration_index(
@@ -500,8 +598,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         "unmatched": len(unmatched),
         "central": len(central),
         "candidate_homes": len(homes),
-        "exception_names": len({item["symbol"] for item in configured}),
-        "exception_sites": len(configured),
+        "exception_names": 0,
+        "exception_sites": 0,
         "referenced_names": len({name for _, name in referenced_sites}),
         "referenced_sites": len(referenced_sites),
         "local_sites": len(local_sites),

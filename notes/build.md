@@ -866,7 +866,7 @@ them agree.
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
 | `src/candidates/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `src/candidates/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/game/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
 | `src/candidates/func_8002CEE8.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
@@ -895,43 +895,35 @@ cleanup target, and the reads confirm the split is meaningful rather than
 accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
 offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 
-#### Agreeing relocations do not mean interchangeable declarations
+#### Agreeing relocations still need a source-expression check
 
-The check above rejects a symbol when its objects disagree. The tempting
-converse -- that agreeing relocations clear a symbol for centralizing -- is
-false, and `gAi_wBestDifference` is the counter-example. Two files declare it,
-they disagree about the spelling, and yet both objects relocate it the same
-way:
+The check above rejects a symbol when its objects disagree. An earlier
+experiment with `gAi_wBestDifference` appeared to show the converse was also
+unsafe: changing the G8 use from an array to a scalar moved the two-byte symbol
+into small data. That result was real, but the conclusion drawn from it was too
+broad. The completed loader now shows that one shared array declaration works
+for both translation units when each use spells the element access explicitly:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/candidates/func_8007164C.c` (was `ai_script_load_best_values.c`) | `extern unsigned short gAi_wBestDifference` | `gcc_2_8_1_g0` | `R_MIPS_HI16` + `R_MIPS_LO16` |
-| `ai_script_find_best_attack.c` | `extern u16 gAi_wBestDifference[]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/ai_script_load_best_difference.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g0_split_no_sched1` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/ai_script_find_best_attack.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
-The object is two bytes and holds exactly one `u16`: `gAi_bBestAttacker` is the
-next name, at `+2`, with `gAi_bBestTarget` at `+3`. Nothing indexes above `[0]`.
-So the array brackets describe no more storage than the scalar does, and by the
-size and index tests alone the two spellings look like drift worth collapsing.
+The object is still exactly one `u16`: `gAi_bBestAttacker` is the next name at
+`+2`, followed by `gAi_bBestTarget` at `+3`, and neither source indexes above
+`[0]`. The array spelling therefore remains an addressing lever rather than a
+storage-size claim. It keeps the G8 best-attack source out of small data, while
+the G0 loader naturally emits the same absolute relocation pair. In the loader,
+the `[0]` expression also preserves the measured unsigned-halfword load; its
+explicit byte-scaled destination index supplies the separate scheduling lever
+needed for the exact 60-byte function.
 
-They are not. Read the profiles against the table above and each spelling is
-the one its own translation unit needs. `src/candidates/func_8007164C.c` compiles
-at `-G0`, where nothing is placed in small data and a plain scalar already gets
-`lui %hi` + `%lo`; it needs no lever. `ai_script_find_best_attack.c` compiles at
-`-G8`, where a two-byte scalar would be placed in small data and addressed
-`%gp_rel`; the brackets are what push it back out. The agreement in the last
-column is the *result* of two different levers pulled correctly, not evidence
-that one declaration could serve both. Unify them on the scalar and the `-G8`
-consumer goes `%gp_rel`; unify them on the array and the `-G0` consumer changes
-the expression it reads for no reason.
-
-The order the checks are applied therefore matters. Disagreeing relocations
-reject a symbol outright, but agreeing relocations only mean the profiles have
-not yet been consulted: when the consumers compile under *different* `-G`
-settings, agreement is the expected outcome of correct code and says nothing
-about interchangeability. Compare profiles before reading the relocations as a
-clearance. A symbol like this one belongs in a shared header only behind the
-same kind of guarded arms `input.h` and `sound.h` already use -- never as one
-flat declaration.
+The historical scalar experiment is useful because it proves that relocation,
+profile, declaration, and expression must be checked together. It does not
+prove that differing profiles require guarded declarations. Here, the current
+native builds establish the opposite: the flat shared `u16[]` declaration in
+`ai.h` is correct for both profiles, and both current sources retain their exact
+retail text and absolute relocations.
 
 #### A header may declare what its own source defines
 
@@ -1265,73 +1257,49 @@ rather than to celebrate.
 
 #### What the overlay data side actually consists of
 
-The resident `.sdata` work is nearly finished, so the remaining half of the
-data question is the overlays, and it had never been enumerated. Each of the
-five carries exactly two raw data subsegments: a four-byte `module_header` at
-offset 0, and one bulk blob.
+The resident `.sdata` work is nearly finished, and every overlay module header
+is now C-owned through its `<overlay>_data_c.json` manifest. The values look
+like module identifiers: `main_menu` is `0x0F`, `free_duel` is `0x13`,
+`overworld` is `0x14`, and `password` is `0x15`. The two overworld variants
+share one source and value. Nothing reads these words, so they keep
+address-based names rather than claiming module-ID semantics.
 
-| overlay | module header | blob | blob bytes |
-| --- | ---: | --- | ---: |
-| `main_menu` | `0x0F` | `0x4558`-`0x8000` | 15016 |
-| `password` | `0x15` | `0x5400`-`0x7800` | 9216 |
-| `free_duel` | `0x13` | `0x1030`-`0x2800` | 6096 |
-| `overworld_before_coup` | `0x14` | `0x1E54`-`0x3000` | 4524 |
-| `overworld_after_coup` | `0x14` | `0x1E54`-`0x3000` | 4524 |
+`main_menu` originally appeared to be the exception. Its Trade inventory
+source declared `D_80180000[]` and read element 1 as a six-entry comparator
+table. That crossed the four-byte `.data` header boundary into the adjacent
+`.rodata`, making a C definition of the header look impossible.
 
-The header word looks like a module identifier. The values are small and
-distinct, and the two overworld variants share `0x14`, which is what two
-states of one module should look like rather than what five unrelated
-constants would. That is suggestive and not conclusive: nothing in the tree
-reads the word, so there is no access to confirm the meaning against, and it
-keeps its address-based name.
+The generated layout already supplied the missing distinction:
+`D_80180000` is the header word and `D_80180004` is the comparator table.
+They now have separate typed owners:
 
-#### Four of the five headers are unreferenced; the fifth is not a header
+| Range | C owner | Contract |
+|---|---|---|
+| `0x80180000-0x80180004` | `module_header.c` | One `u32` initialized to `0x0F`. |
+| `0x80180004-0x8018001C` | `module_rodata.c` | `MainMenuComparators`, six function pointers in retail order. |
 
-Searching both `src/overlays/` and the generated assembly, nothing at all
-reads the header word in `free_duel`, `password`, or either overworld
-module.
+`MainMenu_RefreshTradeInventory` copies `D_80180004` directly instead of
+forming an array that spans two sections. The compiled `.rodata` object is
+exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
+`MainMenu_CompareCardsByName`, `MainMenu_CompareCardsByMaxStat`,
+`MainMenu_CompareCardsByAttack`, `MainMenu_CompareCardsByDefense`,
+`MainMenu_CompareCardsByType`, and `MainMenu_CompareCardsByCount`. The
+comparator definitions include their shared owning header, so the table cannot
+silently drift from their signatures.
 
-`main_menu` is different, and it is the interesting case.
-`trade_inventory.c` declares
+The remaining overlay data work is in the bulk blobs, not the headers:
 
-```c
-extern s32 D_80180000[];
-```
+| overlay | raw blob | bytes |
+|---|---|---:|
+| `main_menu` | `0x4558-0x8000` | 15016 |
+| `password` | `0x5400-0x7800` | 9216 |
+| `free_duel` | `0x1030-0x2800` | 6096 |
+| `overworld_before_coup` | `0x2274-0x3000` | 3468 |
+| `overworld_after_coup` | `0x2274-0x3000` | 3468 |
 
-and reads `*(MainMenuComparators *)&D_80180000[1]`, which `trade_helpers.h`
-describes as the six card comparators copied out as one block. Element `[1]`
-is offset 4, which is not in the header segment at all -- it is the start of
-`module_rodata`. So that declaration is not a view of the header word. It
-names the overlay's base address and reaches through it into the section
-that follows.
-
-That is the different-views case again, in its most far-reaching form: the
-two spellings do not merely disagree about a type, they disagree about where
-the object ends. A four-byte definition of `D_80180000` and a consumer
-indexing past it into another segment cannot both be the same object, so
-`main_menu`'s header is not a carve candidate even though it looks identical
-to the other four.
-
-#### The overlay data side is blocked on tooling, not on evidence
-
-The four unreferenced headers would otherwise be straightforward. The layout
-already allows it: `module_header` is its own segment and the generated
-linker script pulls `(.data)` from exactly one object into it, so a C unit
-could take that place the way the resident carves take theirs.
-
-What is missing is the manifest. `overlay_build.py` reads only the
-`functions` list out of `config/slus_01411/overlays/<name>_matching_c.json`,
-where every entry is keyed by address and size, and there is no overlay
-counterpart to `data_c.json` anywhere in the configuration. The resident
-build grew one; the overlay build never did.
-
-So the overlay half of the data work is not blocked by ownership, by
-byte-exactness, or by any of the label-extent problems that held up the
-resident side. It is blocked by there being no way to declare a data-only C
-unit to an overlay build. That is a bounded piece of tooling work, and it is
-the thing to do before any overlay data is converted -- including the bulk
-blobs above, which are far larger than the headers and would need the same
-manifest to land anywhere.
+Those ranges still require symbol extents and consumer-backed types before
+they can be split into C. The data-only overlay manifest and build path are no
+longer blockers.
 
 ## Exact baseline build
 

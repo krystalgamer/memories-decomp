@@ -3,6 +3,12 @@
 
 #include "../types.h"
 
+#ifdef MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
+#else
+void func_8004CB0C(void);
+#endif
+
 /* One model slot's reset, the initializer half of this unit: it zeroes the
  * slot's first 0x388 words through func_8005B5FC and then writes the
  * defaults -- MODEL_FIXED_HALF at +0xDA0/+0xDA4/+0xDA8, MODEL_FIXED_ONE at

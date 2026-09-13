@@ -928,7 +928,8 @@ imports justify their specific API and field uses; a local render or model
 record still requires field-level and resident-call evidence before migration
 to an SDK type.
 
-`func_8005B260` (a candidate since #3859) exercises the shared packet ABI directly. It reads
+`func_8005B260` exercises the shared packet ABI directly. Its pure-C
+reclassification match under `gcc_2_8_1_g8` reads
 the source primitive's `P_TAG.len`, copies that tag and payload into the
 packet work buffer, inserts one `0xE1` draw-mode word, changes the copied
 length to `len + 1`, and advances the buffer by the resulting `len + 2` total
@@ -1174,10 +1175,10 @@ single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
 shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
-`func_80030FD0.c` returns through `longjmp(..., 2)`. The first two are now
-candidates (`src/candidates/func_80012B50.c` and
-`src/candidates/func_8002D730.c`), so `func_80030FD0.c` is the one matching
-user. The imported `longjmp`
+`func_80030FD0.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
+candidate in `src/candidates/func_80012B50.c`, while `Main_RunGameOver` now
+matches from `src/game/main_run_game_over.c`; `func_80030FD0.c` is the other
+matching user. The imported `longjmp`
 prototype has no compiler attribute, so `func_80030FD0` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the
 `jal longjmp` / `li $a1, 2` pair and has no normal epilogue after the call.
@@ -1219,7 +1220,7 @@ parsers plus `labs`. `qsort.h` retains the original `int (*)()` comparator
 prototype; changing a matching caller to a modern fully prototyped callback
 can change argument setup. Exactly three matching sources call qsort through
 it:
-`src/candidates/func_80024734.c` sorts `COMBINED_DECK_SIZE` two-byte card ids through
+[`duel_request_combined_deck_data.c`](../src/game/duel_request_combined_deck_data.c) sorts `COMBINED_DECK_SIZE` two-byte card ids through
 `Util_CompareS16` before compacting duplicates; `card_list_sort.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; and the main-menu overlay's
@@ -1558,10 +1559,10 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_pads.c`; the real prototypes preserve the exact build. |
-| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in `file_stream.c` and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; `func_8005C62C.c` retains an integer parameter and converts it to `u8 *` at the two `CdControlB` calls and to `DslLOC *` at the `DsRead2` boundary. |
-| `DslFILE` in `src/psyq/libds.h` | Ds file-search result | Migration complete in `src/game/file_stream.c` and `File_Exists`, now the candidate `src/candidates/func_8005C4F0.c`; the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
+| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in [`file_stream.c`](../src/game/file_stream.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; [`func_8005C62C.c`](../src/game/func_8005C62C.c) retains an integer parameter and converts it to `u8 *` at the two `CdControlB` calls and to `DslLOC *` at the `DsRead2` boundary. |
+| `DslFILE` in [`libds.h`](../src/psyq/libds.h) | Ds file-search result | Migration complete in [`file_stream.c`](../src/game/file_stream.c) and `File_Exists` in [`file_cd_helpers.c`](../src/game/file_cd_helpers.c); the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
-| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across `func_8005B8A0.c` and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
+| Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across [`func_8005B8A0.c`](../src/game/func_8005B8A0.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |
 | Local 40-byte memory-card directory buffers | `DIRENTRY` in `kernel.h`; `firstfile` / `nextfile` in `libapi.h` | Migration complete in `mem_card_driver.c`: its size guard ties the SDK record to `MEM_CARD_DIRECTORY_ENTRY_SIZE`, and `DIRENTRY *` stepping drives enumeration; the free-space and name consumers deliberately retain byte-oriented 40-byte views. |
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c), and `func_80057544`/`func_800577B0` in [`file_transfer_steps.c`](../src/game/file_transfer_steps.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
@@ -1572,7 +1573,7 @@ The existing C sources expose several useful starting points:
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
 | Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `func_800592AC.c` and the `func_800580D4` candidate (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `func_80052D2C.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and the `func_80041E7C`/`func_80041F90` candidates (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
-| Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `func_80045054` (now `src/candidates/func_80045054.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
+| Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `func_80045054` (now `src/game/func_80045054.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in the candidates `func_8004A43C` and `SD_SetVoiceVolume` (formerly in `sound_voice_setup.c` and `sound_voice_volume.c`), and in `func_80047864`, `func_80049CF8` and `func_80049DD8` (formerly in `sound_voice_selection.c` and `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `func_8004671C.c`: `func_8004671C` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |
 | Memory-card I/O event lifecycle | `OpenEvent` / `EnableEvent` / `CloseEvent`, `SwCARD` / `HwCARD`, and `EvSp*` / `EvMdINTR` constants | Migration complete in `mem_card_driver.c`: the eight `long` handles remain game-owned storage while the callbacks, constants, and prototypes come from `libapi.h`. |

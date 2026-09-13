@@ -16,6 +16,7 @@
 #include "func_80041340.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
+#include "graphics_frame_buffer.h"
 #include "main_frame.h"
 #include "input.h"
 #include "rand_constants.h"
@@ -75,11 +76,10 @@ void func_8001306C(void) {
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */
-void func_80013154(u8 *base)
+void func_80013154(GraphicsFrameBuffer *base)
 {
-    u8 *buf;
+    GraphicsFrameBuffer *buf;
     s32 k;
-    s32 off;
     s32 six;
     u16 count;
 
@@ -109,22 +109,23 @@ void func_80013154(u8 *base)
     D_8009B0A3 = count;
 next:
     k = 3;
-    off = 0x514C;
-    *(s32 *)(buf + 0x5110) = 2;
-    *(u8 **)(buf + 0x5128) = buf + 0x10;
-    *(s32 *)(buf + 0x5138) = 0xC;
-    *(u8 **)(buf + 0x513C) = buf + 0x110;
-    *(u8 **)(buf + 0x5114) = buf;
-    *(s32 *)(buf + 0x5124) = six;
-    *(s32 *)(buf + 0x514C) = six;
-    *(u8 **)(buf + 0x5150) = buf + 0x4110;
+    buf->ordering_tables[0].length = 2;
+    buf->ordering_tables[1].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x10);
+    buf->ordering_tables[2].length = 0xC;
+    buf->ordering_tables[2].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x110);
+    buf->ordering_tables[0].org = (GsOT_TAG *)buf->ordering_table_tags;
+    buf->ordering_tables[1].length = six;
+    buf->ordering_tables[3].length = six;
+    buf->ordering_tables[3].org =
+        (GsOT_TAG *)(buf->ordering_table_tags + 0x4110);
     do {
-        GsClearOt(0, k, (GsOT *)(buf + off));
-        off -= 0x14;
+        GsClearOt(0, k, &buf->ordering_tables[k]);
         k--;
     } while (k >= 0);
-    buf += 0x5160;
-    if ((s32)buf < (s32)(base + 0xA2C0)) {
+    buf++;
+    if ((s32)buf < (s32)(base + 2)) {
         goto next;
     }
     gGraphics_DispEnv = D_800FE0A8;

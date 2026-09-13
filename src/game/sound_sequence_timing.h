@@ -14,6 +14,16 @@
 int SD_OpenSequenceTrack(SDSequenceTrack *entry);
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry);
 
+/* Starts the staged secondary sequence, using the low byte of start to choose
+ * its playback state. The definition consumes only start. The command pump
+ * also sets $a1 to 1 in retail, so it selects the same ambient-argument arm
+ * as the other secondary steps in sound.h, before including either header. */
+#ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
+void func_80049AF4(s32 start, s32 ambient);
+#else
+void func_80049AF4(s32 start);
+#endif
+
 /* The definition returns s32 and takes no arguments. Secondary playback has
  * two retail register setups: one leaves the state pointer in $a0 and the
  * other leaves $a0 untouched. func_80049AF4 uses the canonical no-argument

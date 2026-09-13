@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../psyq/rand.h"
 #include "../../game/card_constants.h"
+#include "card_comparators.h"
 #include "card_tables.h"
 
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)

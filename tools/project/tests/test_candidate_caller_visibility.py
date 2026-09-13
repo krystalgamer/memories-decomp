@@ -25,10 +25,14 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPOSITORY / "tools/project"))
+import candidate_builds
+
 CONFIG = REPOSITORY / "config/slus_01411"
 COMPILER = "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 IMPLICIT = re.compile(r"implicit declaration of function `([^']+)'")
@@ -52,7 +56,15 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/func_8005C388.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
+    ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/candidates/func_80056828.c", "func_8004CB0C", '#include "../game/model_slot_setup.h"'),
 ]
+
+PACKET_SUBMIT_CANDIDATES = (
+    "src/candidates/func_80028B08.c",
+    "src/candidates/func_80041068.c",
+)
 
 
 def profiles_by_source() -> dict[str, str]:
@@ -67,7 +79,11 @@ def profiles_by_source() -> dict[str, str]:
     return result
 
 
-def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
+def compiler_diagnostics(
+    path: Path,
+    profile: dict[str, object],
+    include_dir: Path,
+) -> str:
     flags = [str(f) for f in profile["compiler_flags"] if FRONT_END_FLAG.match(str(f))]  # type: ignore[index]
     completed = subprocess.run(
         [
@@ -90,7 +106,11 @@ def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) ->
     )
     if completed.returncode != 0:
         raise AssertionError(f"{path} does not compile:\n{completed.stderr}")
-    return set(IMPLICIT.findall(completed.stderr))
+    return completed.stderr
+
+
+def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
+    return set(IMPLICIT.findall(compiler_diagnostics(path, profile, include_dir)))
 
 
 @unittest.skipUnless((REPOSITORY / COMPILER).is_file(), "needs the GCC 2.8.1 toolchain")
@@ -186,6 +206,123 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     )
                 self.assertIn(callee, found)
 
+    def test_lost_shared_owner_header_is_caught(self) -> None:
+        for source, callee, include in PAIRS:
+            if not any(
+                owner in include
+                for owner in (
+                    "display_object_packet_submit.h",
+                    "model_slot_setup.h",
+                )
+            ):
+                continue
+            with self.subTest(source=source):
+                text = (REPOSITORY / source).read_text(encoding="utf-8")
+                self.assertIn(include + "\n", text)
+                with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+                    probe = Path(directory) / "a/b/c" / Path(source).name
+                    probe.parent.mkdir(parents=True)
+                    probe.write_text(
+                        text.replace(include + "\n", "", 1),
+                        encoding="utf-8",
+                    )
+                    found = implicit_calls(
+                        probe, self.profile(source), (REPOSITORY / source).parent
+                    )
+                self.assertIn(callee, found)
+
+    def test_packet_submit_contract_tracks_declaration_changes(self) -> None:
+        entries = {
+            entry["source"]: entry
+            for entry in json.loads(
+                (CONFIG / "candidates.json").read_text(encoding="utf-8")
+            )["candidates"]
+        }
+        index = candidate_builds.canonical_declaration_index({"func_80042188"})
+        declarations = index["func_80042188"]
+        expected = candidate_builds.canonical_symbol_contract_hash(
+            "func_80042188", declarations
+        )
+
+        for source in PACKET_SUBMIT_CANDIDATES:
+            with self.subTest(source=source):
+                self.assertEqual(
+                    entries[source]["canonical_contracts"]["func_80042188"],
+                    expected,
+                )
+
+        changed = [
+            (path, statement.replace("s32 mode", "u32 mode", 1))
+            for path, statement in declarations
+        ]
+        changed_hash = candidate_builds.canonical_symbol_contract_hash(
+            "func_80042188", changed
+        )
+        self.assertNotEqual(expected, changed_hash)
+
+    def test_model_dispatch_contract_tracks_shared_owner_views(self) -> None:
+        entry = next(
+            candidate
+            for candidate in json.loads(
+                (CONFIG / "candidates.json").read_text(encoding="utf-8")
+            )["candidates"]
+            if candidate["address"] == "0x80056828"
+        )
+        declarations = candidate_builds.canonical_declaration_index(
+            {"func_8004CB0C"}
+        )["func_8004CB0C"]
+        self.assertEqual(
+            {statement for _, statement in declarations},
+            {
+                "void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);",
+                "void func_8004CB0C(void);",
+            },
+        )
+        expected = candidate_builds.canonical_symbol_contract_hash(
+            "func_8004CB0C", declarations
+        )
+        self.assertEqual(entry["canonical_contracts"]["func_8004CB0C"], expected)
+
+        changed = [
+            (path, statement.replace("s32 arg3", "u32 arg3", 1))
+            for path, statement in declarations
+        ]
+        changed_hash = candidate_builds.canonical_symbol_contract_hash(
+            "func_8004CB0C", changed
+        )
+        self.assertNotEqual(expected, changed_hash)
+
+    def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
+        source = "src/candidates/func_80028B08.c"
+        path = REPOSITORY / source
+        profile = self.profile(source)
+        original = path.read_text(encoding="utf-8")
+        call = "func_80042188(PRM, CTX, arg1, arg, EXT);"
+        swapped = "func_80042188(PRM, EXT, arg1, arg, CTX);"
+        self.assertIn(call, original)
+        base_diagnostics = compiler_diagnostics(path, profile, path.parent)
+        self.assertNotRegex(
+            base_diagnostics,
+            r"passing arg [25] of `func_80042188' from incompatible pointer type",
+        )
+
+        (REPOSITORY / "tmp").mkdir(exist_ok=True)
+        scratch = Path(tempfile.mkdtemp(dir=REPOSITORY / "tmp"))
+        try:
+            probe = scratch / "a/b/c" / path.name
+            probe.parent.mkdir(parents=True)
+            probe.write_text(original.replace(call, swapped, 1), encoding="utf-8")
+            diagnostics = compiler_diagnostics(probe, profile, path.parent)
+        finally:
+            shutil.rmtree(scratch, ignore_errors=True)
+        self.assertRegex(
+            diagnostics,
+            r"passing arg 2 of `func_80042188' from incompatible pointer type",
+        )
+        self.assertRegex(
+            diagnostics,
+            r"passing arg 5 of `func_80042188' from incompatible pointer type",
+        )
 
 if __name__ == "__main__":
     unittest.main()
