@@ -108,6 +108,14 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             diagnostic="undeclared",
         )
 
+    def test_normal_pair_has_a_self_contained_owner(self) -> None:
+        self.probe(
+            '#include "model_background.h"\n'
+            "typedef char normal_pair_size[sizeof(BackgroundNormals) == 16 ? 1 : -1];\n"
+            "SVECTOR *second_normal(BackgroundNormals *pair) { return &pair->values[1]; }",
+            accepted=True,
+        )
+
     def test_sdk_calls_enforce_real_argument_counts(self) -> None:
         self.probe(
             SDK + "void (*color)(SVECTOR *, CVECTOR *, CVECTOR *) = NormalColorCol;\n"

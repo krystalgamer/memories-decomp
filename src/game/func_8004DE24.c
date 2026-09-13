@@ -13,10 +13,6 @@
 
 #define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
 
-typedef struct {
-    SVECTOR values[2];
-} BackgroundNormals;
-
 void func_8004DE24(void)
 {
     CVECTOR colors[5] = {

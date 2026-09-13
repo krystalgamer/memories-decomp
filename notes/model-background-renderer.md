@@ -55,7 +55,8 @@ arbitrary corrupt records, null pointers, or oversized table lengths are safe.
 
 The source uses actual ILP32 SDK types: five `CVECTOR` colours, eight
 `SVECTOR` vertices, one `GsSPRITE`, three `POLY_G4` packets, four `long`
-projection outputs, and the two-normal wrapper. The 20-byte automatic colour
+projection outputs, and the `BackgroundNormals` wrapper owned by
+`src/game/model_background.h`. The 20-byte automatic colour
 initializer precedes a function-local 16-byte static normal initializer, then
 the automatic aggregate copy. Keeping that sequence preserves the private
 36-byte data region and the retail stack frame. A direct automatic normal
