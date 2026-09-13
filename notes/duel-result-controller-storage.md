@@ -50,3 +50,15 @@ The final scratch source is normalized with
 `centralize_basic_types.update_source` using its intended `src/game` path
 before the exact probe and terminal evidence. Header migration does not
 permit reordering the load-bearing viewport, flag, or colour writes.
+
+## Existing candidate contract migration
+
+The canonical contract hash includes both the declaration text and its owning
+header path. Moving the unchanged `extern u16 D_8009B23A;` from `unmatched.h`
+to `game/duel_scene_state.h` therefore changes its contract identity without
+changing its type, qualifiers, addressing, or ABI. Candidate `0x80018FEC`
+already includes the new owner and is the only configured candidate whose
+contract references this declaration. Its per-symbol hash and aggregate
+contract hash are updated together; its source hash and object/target
+fingerprints are unchanged. The strict contract validator and that candidate's
+existing fingerprint gate remain enabled.

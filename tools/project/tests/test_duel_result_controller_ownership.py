@@ -259,6 +259,33 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
                     address + size, current["vram"] + end - current["start"],
                 )
 
+    def test_existing_candidate_records_the_unchanged_scene_state_contract(self) -> None:
+        from candidate_builds import (
+            canonical_contract_hash,
+            canonical_declaration_index,
+            canonical_symbol_contract_hash,
+        )
+
+        symbol = "D_8009B23A"
+        declarations = canonical_declaration_index({symbol})[symbol]
+        self.assertEqual(
+            declarations, [("game/duel_scene_state.h", "extern u16 D_8009B23A;")],
+        )
+        entries = json.loads(
+            (ROOT / "config/slus_01411/candidates.json").read_text()
+        )["candidates"]
+        candidate = next(
+            entry for entry in entries if int(entry["address"], 0) == 0x80018FEC
+            and entry.get("module") is None
+        )
+        contracts = candidate["canonical_contracts"]
+        self.assertEqual(
+            contracts[symbol], canonical_symbol_contract_hash(symbol, declarations),
+        )
+        self.assertEqual(
+            candidate["canonical_contract_sha256"], canonical_contract_hash(contracts),
+        )
+
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:
         names = (
