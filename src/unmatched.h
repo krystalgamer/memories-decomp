@@ -251,13 +251,11 @@ void func_8005C7BC(void);
  * parameters are the caller's measured view and remain distinct from the
  * narrower internal types in the build-integrated candidate.
  *
- * func_80015EF4 and func_80056828 were called implicitly. The former takes the
+ * func_80015EF4 was called implicitly. It takes the
  * caller's record and scratch buffers; void * preserves the record boundary
- * without importing a subsystem type into this root header. The latter takes
- * the model player/slot index already passed by its sole caller. */
+ * without importing a subsystem type into this root header. */
 void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
-void func_80056828(s32);
 
 /* This undefined global is declared identically by every consumer and
  * only ever read or written as a scalar.

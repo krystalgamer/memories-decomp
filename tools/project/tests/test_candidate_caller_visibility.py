@@ -57,7 +57,9 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
     ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
-    ("src/candidates/func_80056828.c", "func_8004CB0C", '#include "../game/model_slot_setup.h"'),
+    ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
+    ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
+    ("src/game/func_80050584.c", "func_80056828", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
@@ -226,6 +228,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 for owner in (
                     "display_object_packet_submit.h",
                     "model_slot_setup.h",
+                    "model_load_step.h",
                     "duel_field_display_objects.h",
                     "duel_card_object_helpers.h",
                 )
@@ -275,14 +278,21 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )
         self.assertNotEqual(expected, changed_hash)
 
-    def test_model_dispatch_contract_tracks_shared_owner_views(self) -> None:
+    def test_model_dispatch_uses_shared_owner_view_after_promotion(self) -> None:
+        candidates = json.loads(
+            (CONFIG / "candidates.json").read_text(encoding="utf-8")
+        )["candidates"]
+        self.assertFalse(any(candidate["address"] == "0x80056828" for candidate in candidates))
         entry = next(
             candidate
             for candidate in json.loads(
-                (CONFIG / "candidates.json").read_text(encoding="utf-8")
-            )["candidates"]
+                (CONFIG / "matching_c.json").read_text(encoding="utf-8")
+            )["functions"]
             if candidate["address"] == "0x80056828"
         )
+        source = "src/game/model_load_step.c"
+        self.assertEqual(entry["source"], source)
+        self.assertEqual(entry["profile"], "gcc_2_8_1_g8_split")
         declarations = candidate_builds.canonical_declaration_index(
             {"func_8004CB0C"}
         )["func_8004CB0C"]
@@ -296,7 +306,16 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         expected = candidate_builds.canonical_symbol_contract_hash(
             "func_8004CB0C", declarations
         )
-        self.assertEqual(entry["canonical_contracts"]["func_8004CB0C"], expected)
+        path = REPOSITORY / source
+        text = path.read_text(encoding="utf-8")
+        selector = "#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS\n"
+        self.assertEqual(text.count(selector), 1)
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            probe = Path(directory) / "a/b/c" / path.name
+            probe.parent.mkdir(parents=True)
+            probe.write_text(text.replace(selector, "", 1), encoding="utf-8")
+            with self.assertRaisesRegex(AssertionError, "too many arguments to function"):
+                compiler_diagnostics(probe, self.profile(source), path.parent)
 
         changed = [
             (path, statement.replace("s32 arg3", "u32 arg3", 1))
