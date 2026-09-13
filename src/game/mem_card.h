@@ -17,6 +17,9 @@
 #define MEM_CARD_DIALOG_FLAG_OPENED 0x4000
 #define MEM_CARD_DIALOG_FLAG_ACTIVE 0x8000
 
+/* Polls the low-level request and publishes its request code and result. */
+s32 func_80044838(s32 once, s32 *out_request, s32 *out_result);
+
 /* The result of the card's asynchronous IO, set from the callbacks
  * mem_card_io_result_callbacks.h declares and polled by the request state
  * machines. MemCard_BeginRequest resets it to -1 before starting a request.

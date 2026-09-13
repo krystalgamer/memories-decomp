@@ -21,4 +21,13 @@
  *   12  MemCard_ReqWriteSector    _card_write of one 128-byte sector */
 s32 MemCard_BeginRequest(s32 chan, s32 request);
 
+/* The driver retains word-valued filename/buffer addresses. File offsets and
+ * lengths are bytes; raw requests take a sector number and create takes blocks. */
+s32 MemCard_ReqLoadDirectory(s32 channel);
+s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
+
 #endif

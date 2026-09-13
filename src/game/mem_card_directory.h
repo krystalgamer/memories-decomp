@@ -31,12 +31,20 @@ s32 MemCard_FindEntry(u8 *name, struct DIRENTRY *entry, s32 count);
 s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
                      s32 *out_count);
 s32 MemCard_DoLoadDirectory(void);
+s32 MemCard_FindLoadedEntry(u8 *name);
 
-/* Current directory-entry buffer and the number of records loaded into it. */
+/* Current directory-entry buffer and counts. The legacy dialog uses split
+ * absolute accesses; the driver retains its default small-data view. */
+#ifdef MEM_CARD_DIRECTORY_ABSOLUTE
+extern struct DIRENTRY *gMemCard_pDirEntries __attribute__((section(".data")));
+extern s32 gMemCard_nDirEntries __attribute__((section(".data")));
+extern s32 gMemCard_nFreeBlocks __attribute__((section(".data")));
+#else
 extern struct DIRENTRY *gMemCard_pDirEntries;
-extern struct DIRENTRY gMemCard_aDirEntries[];
 extern s32 gMemCard_nDirEntries;
 extern s32 gMemCard_nFreeBlocks;
+#endif
+extern struct DIRENTRY gMemCard_aDirEntries[];
 extern u8 D_8009AF7C[];
 /* The same "*" pattern as a separate four-byte object, which
  * MemCardDialog_UpdateSave hands to MemCardGetDirentry. Declared unsized so
