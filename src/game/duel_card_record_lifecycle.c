@@ -12,6 +12,8 @@
 #include "duel_deck_card.h"
 #include "duel_deck_card_data.h"
 #include "duel_grid.h"
+#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
+#include "duel_screen_tables.h"
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
 #include "util_memory.h"
@@ -171,8 +173,6 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
 
     return (u8 *)p;
 }
-
-extern DuelFieldPosition D_800908A0[];
 
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
