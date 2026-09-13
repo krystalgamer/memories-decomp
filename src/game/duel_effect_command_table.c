@@ -38,7 +38,7 @@ void (*D_80090EAC[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))func_800383DC,
     (void (*)(DuelEffectChannel *))func_80038498,
     func_80038094,
-    (void (*)(DuelEffectChannel *))func_800384E4,
+    func_800384E4,
     Text_StartCampaignDuel,
     (void (*)(DuelEffectChannel *))func_80038690,
     func_800386B8,

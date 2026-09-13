@@ -346,4 +346,4 @@ void func_80038498(u8 *arg0)
     arg0[0x54] = w;
 }
 
-void func_800384E4(u8*object){register u8*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;*(u16*)(obj+0x34)&=0xEFFF;stream=&((u8**)obj)[*(s8*)(obj+0x58)];current=*stream;value=*current;current++;*stream=current;if(value)*(u16*)(obj+0x34)|=0x1000;}
+void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8**)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}
