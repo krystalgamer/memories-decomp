@@ -21,7 +21,7 @@ u8 func_8003B7E0(TextStreamOwner *object);
  * 0x58. */
 void func_80037CE0(volatile u8 *object);
 void Text_ExtendGlyphCode(u8 *object);
-void Text_SetStateFromStream(u8 *object);
+void Text_SetStateFromStream(DuelEffectChannel *object);
 
 /* Writes func_80036D3C's result into the low halfword of the same word those
  * two advance: it indexes the words at the front of the object by the signed

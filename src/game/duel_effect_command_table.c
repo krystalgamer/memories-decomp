@@ -60,7 +60,7 @@ void (*D_80090EAC[])(DuelEffectChannel *) = {
     (void (*)(DuelEffectChannel *))Text_ExtendGlyphCode,
     (void (*)(DuelEffectChannel *))Text_ExtendGlyphCode,
     (void (*)(DuelEffectChannel *))Text_HandleDisplayEffectCommand,
-    (void (*)(DuelEffectChannel *))Text_SetStateFromStream,
+    Text_SetStateFromStream,
     Text_DispatchSecondaryCommand,
     Text_HandleCampaignFlagCommand,
     Text_StartPageWait,
