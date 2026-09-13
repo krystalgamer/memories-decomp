@@ -44,7 +44,6 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
-#define p ((u8 *)object)
     s32 t;
     s32 u;
     s32 w;
@@ -53,17 +52,17 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 d;
 
     D_8009B350 = 1;
-    t = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     d = 0xF;
     if (c & 8) {
-        u = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+        u = *((TextStreamOwner *)object)->streams[object->stream_58]++;
         t = u;
         d = t;
     }
     if (c & 0x80) {
-        *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += gDialog_bChoice * 2;
-        Text_SetCursorOffset((DuelEffectChannel *)p);
+        ((TextStreamOwner *)object)->streams[object->stream_58] += gDialog_bChoice * 2;
+        Text_SetCursorOffset(object);
     } else {
         gDialog_bChoiceCount = 7;
         gDialog_bChoiceCount = c & gDialog_bChoiceCount;
@@ -75,14 +74,13 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         if (w != 0) {
             gDialog_bInputState = 1;
         }
-        func_80035CA8(p[0x57]);
-        DuelEffect_ClearMatchingMarker(p[0x57]);
-        v = *(u16 *)(p + 0x34);
-        p[0x56] = 0;
+        func_80035CA8(object->index_57);
+        DuelEffect_ClearMatchingMarker(object->index_57);
+        v = object->flags_34;
+        object->field_56 = 0;
         D_8009B340 = func_80037CE0;
-        *(u16 *)(p + 0x34) = v | 0x1000;
+        object->flags_34 = v | 0x1000;
     }
-#undef p
 }
 
 void Text_StartPageWait(DuelEffectChannel *value)
