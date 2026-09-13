@@ -40,7 +40,13 @@ class ReclassificationMatchTests(unittest.TestCase):
             "profile": "new_profile", "candidate_source": "tmp/new.c",
             "candidate_sha256": "2" * 64, "summary": "New discriminator: pure C.",
         }
-        self.profiles = {"old_profile": {}, "new_profile": {}}
+        self.profiles = {
+            name: {
+                "compiler_flags": ["-G8"],
+                "maspsx_flags": ["-G8"],
+            }
+            for name in ("old_profile", "new_profile")
+        }
 
     def validate(self, rows: list[dict[str, str]], integrated: bool = False) -> None:
         function = {**self.function, "status": "matching_c" if integrated else "unmatched_asm"}
@@ -143,6 +149,7 @@ class ReclassificationMatchTests(unittest.TestCase):
             root = Path(temporary)
             config = root / "config/slus_01411"
             config.mkdir(parents=True)
+            (config / "overlays").mkdir()
             candidate = root / "tmp/probe/candidate.c"
             candidate.parent.mkdir(parents=True)
             source = '#include "../../src/types.h"\nvoid func_80012345(void) {}\n'
@@ -166,6 +173,8 @@ class ReclassificationMatchTests(unittest.TestCase):
             (config / "compiler_profiles.json").write_text(
                 json.dumps({"schema": 1, "profiles": self.profiles})
             )
+            for name in ("symbols.txt", "c_symbols.ld", "link_symbols.ld"):
+                (config / name).write_text("")
             arguments = [
                 "record_external_attempt.py", "0x80012345",
                 "--mode", "reclassification_match", "--profile", "new_profile",
@@ -212,6 +221,7 @@ class ReclassificationMatchTests(unittest.TestCase):
                 self.assertIn("requires unmatched assembly", errors.getvalue())
             self.assertEqual((config / "external_attempts.csv").read_bytes(), original_ledger)
             write_csv("functions.csv", tuple(self.function), [self.function])
+            audit_repository.audit_attempts(root)
 
             with (
                 patch.object(recorder, "require_workspace_root", return_value=root),
@@ -234,6 +244,7 @@ class ReclassificationMatchTests(unittest.TestCase):
             ]
             with (
                 patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(integrate_verified_match, "preprocess_source", return_value=source),
                 patch.object(sys, "argv", arguments),
                 contextlib.redirect_stdout(io.StringIO()),
             ):
@@ -242,6 +253,36 @@ class ReclassificationMatchTests(unittest.TestCase):
             for ordered in (rows, list(reversed(rows))):
                 write_csv("external_attempts.csv", recorder.FIELDS, ordered)
                 audit_repository.audit_attempts(root)
+
+            retired_rows = [
+                {
+                    **row,
+                    "profile": (
+                        "gcc_2_7_2_g8"
+                        if row["mode"] == "post_terminal_resolution"
+                        else row["profile"]
+                    ),
+                }
+                for row in rows
+            ]
+            write_csv("external_attempts.csv", recorder.FIELDS, retired_rows)
+            audit_repository.audit_attempts(root)
+            write_csv("external_attempts.csv", recorder.FIELDS, rows)
+
+            profile_changed_rows = [
+                {
+                    **row,
+                    "profile": (
+                        "old_profile"
+                        if row["mode"] == "reclassification_match"
+                        else row["profile"]
+                    ),
+                }
+                for row in rows
+            ]
+            write_csv("external_attempts.csv", recorder.FIELDS, profile_changed_rows)
+            audit_repository.audit_attempts(root)
+            write_csv("external_attempts.csv", recorder.FIELDS, rows)
 
             for ordered in itertools.permutations([*rows, earlier]):
                 write_csv("external_attempts.csv", recorder.FIELDS, list(ordered))
@@ -287,6 +328,11 @@ class ReclassificationMatchTests(unittest.TestCase):
             ]
             with (
                 patch.object(integrate_verified_match, "require_workspace_root", return_value=root),
+                patch.object(
+                    integrate_verified_match,
+                    "preprocess_source",
+                    return_value=refined_source,
+                ),
                 patch.object(sys, "argv", arguments),
                 contextlib.redirect_stdout(io.StringIO()),
             ):

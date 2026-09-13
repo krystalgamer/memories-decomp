@@ -127,6 +127,12 @@
       "source": "src/game/file_transfer_setup.c"
     },
     {
+      "address": "0x80013C28",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x478",
+      "source": "src/game/func_80013C28.c"
+    },
+    {
       "address": "0x800140A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
@@ -724,6 +730,12 @@
       "address": "0x8001B938",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
+      "source": "src/game/func_8001B938.c"
+    },
+    {
+      "address": "0x8001BAF0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x258",
       "source": "src/game/func_8001B938.c"
     },
     {
@@ -2035,6 +2047,12 @@
       "source": "src/game/func_800313E8.c"
     },
     {
+      "address": "0x80031574",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x17C",
+      "source": "src/game/duel_card_type_icon.c"
+    },
+    {
       "address": "0x800316F0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x94",
@@ -2615,6 +2633,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
       "source": "src/game/duel_effect_command.c"
+    },
+    {
+      "address": "0x80038530",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x160",
+      "source": "src/game/text_start_campaign_duel.c"
     },
     {
       "address": "0x80038690",
@@ -4945,6 +4969,12 @@
       "source": "src/game/file_transfer_steps.c"
     },
     {
+      "address": "0x80057AF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x32C",
+      "source": "src/game/func_80057AF4.c"
+    },
+    {
       "address": "0x80057E20",
       "profile": "gcc_2_8_1_g8",
       "size": "0x118",
@@ -5771,6 +5801,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x338",
       "source": "src/game/func_80060B38.c"
+    },
+    {
+      "address": "0x80060E70",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x198",
+      "source": "src/game/func_80060E70.c"
     },
     {
       "address": "0x80061008",

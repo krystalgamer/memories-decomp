@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SCENE_SCRIPT_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 
 /* The scene script's slot table at D_800EAE98.
  *
@@ -30,23 +31,11 @@
  * the same offsets, and it builds to the right size and differs from byte
  * 0x8002F780, inside that function. Reverting that one file and nothing else
  * restores the match, so the pointer-array declaration is load-bearing there
- * rather than a stray spelling.
+ * rather than a stray spelling. SceneScriptSlot's measured layout is defined
+ * once in ygo_types.h.
  */
-typedef struct {
-    s32 unk00;
-    s16 unk04;
-    s16 unk06;
-    s32 unk08;
-    s32 unk0C;
-    s32 unk10;
-} SceneScriptSlot;
-
 #define SCENE_SCRIPT_SLOT_SIZE 0x14
 #define SCENE_SCRIPT_SLOT_COUNT 5
-
-typedef char SceneScriptSlot_size_must_be_0x14[
-    sizeof(SceneScriptSlot) == SCENE_SCRIPT_SLOT_SIZE ? 1 : -1
-];
 
 /* Unsized: a declared size is a -G input for this toolchain, and no consumer
  * needs the bound. The count is above, with what it was derived from.

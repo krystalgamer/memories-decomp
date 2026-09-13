@@ -70,7 +70,11 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
  * SHA-256 is unchanged. The alias introduces no second linker symbol:
  * objdump -t on the exporter's object lists one undefined D_8015C424. */
 extern u8 D_8015C424[];
+/* Only the typed consumers opt into the alias, so units that never read the
+ * deck view carry no asm label. */
+#ifdef DUEL_CARD_STAGING_DECK_VIEW
 extern DuelCardStagingDeckView D_8015C424_cards asm("D_8015C424");
+#endif
 
 extern u16 gDuel_awCombinedDeckCardIds[];
 extern u16 gDuel_awUniqueDeckCardIds[];

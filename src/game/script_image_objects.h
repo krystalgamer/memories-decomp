@@ -9,13 +9,8 @@
  * releases them: a display-object pointer and the image id that filled it.
  * This is not the whole slot table -- the same function writes the mode
  * halfword at +0x3C, past these three entries -- and the callers hold their
- * own wider views under their own names. */
-typedef struct {
-    void *pointer;
-    s16 value;
-    u8 pad_06[14];
-} ScriptImageEntry;
-
+ * own wider views under their own names. The shared ScriptImageEntry layout
+ * is defined in ygo_types.h. */
 /* Transfer callback for one script image. The loader supplies its
  * FileTransferDescriptor and advances the callback stage through the setup
  * phases. */

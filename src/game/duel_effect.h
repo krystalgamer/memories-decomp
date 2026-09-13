@@ -311,7 +311,7 @@ extern u8 D_8009B320;
  * func_8002A2F4 stores func_8002A6B8's result
  * (src/candidates/func_8002A2F4.c:27) and then, under `if (n != 0)`, stores
  * 0 when func_80029EB0's result `r` (:33) has `(r & 0x80) == 0` (:35-36);
- * func_80060E70 stores `id` (in its candidate). func_80037DA4 reads it,
+ * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Four functions still in assembly also store it:
  * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
@@ -326,8 +326,8 @@ extern u8 D_8009B320;
  * (func_80031CD4.s:20-21, func_80023144.s:36-37, func_800283F4.s:102-103,
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the three
  * units whose profiles are -G8 at both the compiler and maspsx --
- * the src/candidates/ files for func_80023144, func_800283F4 and
- * func_80060E70 -- define the .data arm, and card_list_text_boxes.c, whose
+ * duel_field_display_objects.c (func_80023144), func_80060E70.c and the
+ * func_800283F4 candidate -- define the .data arm, and card_list_text_boxes.c, whose
  * unit assembles at -G0, takes the plain declaration, as the func_8002A2F4
  * candidate does.
  * Initial value not read. */
