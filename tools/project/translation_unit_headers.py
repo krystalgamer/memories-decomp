@@ -328,11 +328,23 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     for symbol in symbols
                 ):
                     same_unit_count += 1
+                    problems.append(
+                        f"{path.relative_to(root)}: same-unit function "
+                        f"declaration {name} belongs in "
+                        f"{path.with_suffix('.h').relative_to(root)}: "
+                        f"{statement}"
+                    )
                     continue
                 if not any(
                     (unit.module, symbol) in owners for symbol in symbols
                 ) and any(symbol in definitions for symbol in symbols):
                     same_unit_count += 1
+                    problems.append(
+                        f"{path.relative_to(root)}: same-unit function "
+                        f"declaration {name} belongs in "
+                        f"{path.with_suffix('.h').relative_to(root)}: "
+                        f"{statement}"
+                    )
                     continue
                 if statuses.get((unit.module, name)) == "unmatched_asm":
                     if unit.module == "resident":
@@ -373,7 +385,7 @@ def main() -> int:
         return 1
     print(
         "translation-unit headers: OK "
-        f"({stats['sources']} sources, {stats['same_unit']} same-unit forwards, "
+        f"({stats['sources']} sources, {stats['same_unit']} local forwards, "
         f"{stats['unmatched']} unmatched declarations delegated)"
     )
     return 0

@@ -66,13 +66,17 @@ class TranslationUnitHeaderTests(unittest.TestCase):
         self.write("src/game/example.c", source)
         return translation_unit_headers.audit(self.root)[0]
 
-    def test_same_unit_forward_is_accepted(self) -> None:
-        self.assertEqual(
-            self.problems(
-                "void func_local(void);\n"
-                "void func_local(void) {}\n"
-            ),
-            [],
+    def test_same_unit_forward_is_rejected(self) -> None:
+        problems = self.problems(
+            "void func_local(void);\n"
+            "void func_local(void) {}\n"
+        )
+        self.assertTrue(
+            any(
+                "same-unit function declaration func_local belongs in "
+                "src/game/example.h" in problem
+                for problem in problems
+            )
         )
 
     def test_foreign_matching_declaration_is_rejected(self) -> None:
@@ -188,13 +192,17 @@ class TranslationUnitHeaderTests(unittest.TestCase):
         )
         self.assertTrue(any("func_foreign belongs in a header" in p for p in problems))
 
-    def test_alias_of_same_unit_definition_is_accepted(self) -> None:
-        self.assertEqual(
-            self.problems(
-                'void local_alias(void) asm("func_local");\n'
-                "void func_local(void) {}\n"
-            ),
-            [],
+    def test_alias_of_same_unit_definition_is_rejected(self) -> None:
+        problems = self.problems(
+            'void local_alias(void) asm("func_local");\n'
+            "void func_local(void) {}\n"
+        )
+        self.assertTrue(
+            any(
+                "same-unit function declaration local_alias belongs in "
+                "src/game/example.h" in problem
+                for problem in problems
+            )
         )
 
     def test_overlay_unmatched_declaration_is_not_delegated(self) -> None:
