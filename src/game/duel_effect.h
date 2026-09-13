@@ -266,14 +266,14 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c), 3 and 4 by func_80030E30.c,
+ * src/candidates/main_menu/func_801821DC.c), 3 and 4 by frontend_scene_states.c,
  * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
  * Retail reaches it through $gp in DuelEffect_UpdateState,
  * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
  * through %hi/%lo everywhere else, including DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions
- * (still assembly). func_80030E30.c, main_run_campaign.c and
+ * (still assembly). frontend_scene_states.c, main_run_campaign.c and
  * duel_update_card_pick_cursor.c define the .data arm below for that;
  * build_deck_pane_input.c, src/candidates/func_800283F4.c,
  * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and the

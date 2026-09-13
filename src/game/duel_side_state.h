@@ -267,7 +267,7 @@ extern u8 D_8009B362;
  * it. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so func_80030E30.c, main_run_two_player_duel_setup.c and
+ * so frontend_scene_states.c, main_run_two_player_duel_setup.c and
  * src/game/main_run_duel.c -- units that reach other symbols through
  * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
  * overlay's screen_runtime.c compile with nothing in small data and take
@@ -310,7 +310,7 @@ extern u8 D_8009B369;
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
- * so duel_phase_entry.c and func_80030E30.c define
+ * so duel_phase_entry.c and frontend_scene_states.c define
  * the .data arm below; func_80024DC8.c and src/candidates/func_80038530.c
  * compile with nothing in small data and take the plain arm. */
 #ifdef D_8009B36A_IN_DATA

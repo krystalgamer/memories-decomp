@@ -2038,37 +2038,37 @@
       "address": "0x80030D5C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD4",
-      "source": "src/game/frontend_scene_state_80030d5c.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030E30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030E7C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030EC8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030F40",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030FA0",
@@ -2164,13 +2164,13 @@
       "address": "0x80031EE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/game/func_80031EE4.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x80031F7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/game/func_80031F7C.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x8003201C",

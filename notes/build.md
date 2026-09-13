@@ -1118,11 +1118,11 @@ given consumer needs. `D_8009B26C` is the case that separates those two
 claims, and it is worth writing down because it looks like an obvious
 centralization target and is not one.
 
-Eight sources declare it identically as `extern u8 D_8009B26C[]` and write
-`D_8009B26C[0]`: `frontend_scene_states.c`, `func_80030E30.c`,
+Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
+`D_8009B26C[0]`: `frontend_scene_states.c`,
 `duel_effect_basic_commands.c`, `duel_effect_mode_7.c`, `func_8002FA28.c`,
 `func_8002EB48.c`, `script_control_commands.c` and `async_state_poll.c`
-(`func_80030E30.c` was split out of `frontend_scene_states.c`). Eight identical
+(`func_80030E30.c` has been restored to `frontend_scene_states.c`). Seven identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
 
