@@ -1,8 +1,8 @@
 /*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/main_init.c.
+ * Reclassified from matching_c (#3859). The original candidate required a
+ * hard-register pin under gcc_2_8_1_g8_split. Disabling sched1 lets GCC keep
+ * the framebuffer address ahead of the volatile initialization stores
+ * without source-level register control.
  */
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
@@ -11,39 +11,39 @@
 #include "../types.h"
 #define D_8009B269_AS_SCALAR_DATA
 #include "../unmatched.h"
-#include "../game/duel_side_state.h"
-#include "../game/display_object_api.h"
-#include "../game/sound.h"
-#include "../game/func_8003B5C8.h"
-#include "../game/graphics_frame.h"
-#include "../game/main_frame.h"
+#include "duel_side_state.h"
+#include "display_object_api.h"
+#include "sound.h"
+#include "func_8003B5C8.h"
+#include "graphics_frame.h"
+#include "main_frame.h"
 #include "../psyq/libapi.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libetc.h"
+#include "../psyq/crt.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
-#include "../game/fade.h"
-#include "../game/file_transfer.h"
-#include "../game/main_menu_selection.h"
-#include "../game/func_80035A64.h"
-#include "../game/main_run_boot_sequence.h"
-#include "../game/func_80043BCC.h"
-#include "../game/main_loop.h"
-#include "../game/main_reset_frontend_runtime.h"
+#include "fade.h"
+#include "file_transfer.h"
+#include "main_menu_selection.h"
+#include "func_80035A64.h"
+#include "main_run_boot_sequence.h"
+#include "func_80043BCC.h"
+#include "main_loop.h"
+#include "main_reset_frontend_runtime.h"
 #define FUNC_80013154_NO_ARGS
-#include "../game/main_services.h"
-#include "../game/rand_constants.h"
-#include "../game/movie_playback_control.h"
+#include "main_services.h"
+#include "rand_constants.h"
+#include "movie_playback_control.h"
 
 extern volatile u8 D_8009B0D1;
-extern void __main(void);
 
 s32 Main_Init(void)
 {
     s32 r;
     s32 t;
-    register GraphicsFrameBuffer *p __asm__("$4");
+    register GraphicsFrameBuffer *p;
 
     __main();
     EnterCriticalSection();

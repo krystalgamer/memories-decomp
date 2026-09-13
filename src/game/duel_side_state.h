@@ -158,12 +158,12 @@ extern u8 *D_8009B22C;
  * wide the object is; two of the three units declare the u16 and reach the
  * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
  * option as the low byte of this wider view, so that is the declaration
- * kept here and Main_Init (src/candidates/func_80012B50.c) now writes the
+ * kept here and Main_Init (src/game/main_init.c) now writes the
  * byte through the same cast.
  * Initial value not read.
  *
  * duel_state_init.c reaches it gp-relative and takes the plain halfword;
- * main_run_two_player_duel_setup.c and src/candidates/func_80012B50.c reach it through
+ * main_run_two_player_duel_setup.c and src/game/main_init.c reach it through
  * %hi/%lo and define the .data arm. */
 #ifdef D_8009B230_IN_DATA
 extern u16 D_8009B230 __attribute__((section(".data")));

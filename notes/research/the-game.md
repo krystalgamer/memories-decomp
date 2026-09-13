@@ -207,7 +207,7 @@ observations; these are not new emulator measurements.
 only populated stream-range entry plays frames 1 through 303 from the first
 3080 sectors of copy 0; no range selects the later copies.
 
-**Startup seeding.** The [`Main_Init`](../../src/candidates/func_80012B50.c) candidate
+**Startup seeding.** The [`Main_Init`](../../src/game/main_init.c) implementation
 calls [`func_80013154`](../../src/game/main_services.c), whose
 graphics/input initialization ends with `srand(0x56)`. After that helper
 returns and `Sound_InitFrontend` runs, `Main_Init` calls

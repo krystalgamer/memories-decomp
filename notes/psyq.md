@@ -1176,7 +1176,7 @@ Three functions use it. `Main_Init` establishes the
 shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
 `func_80030FD0.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
-candidate in `src/candidates/func_80012B50.c`, while `Main_RunGameOver` now
+implementation in `src/game/main_init.c`, while `Main_RunGameOver` now
 matches from `src/game/main_run_game_over.c`; `func_80030FD0.c` is the other
 matching user. The imported `longjmp`
 prototype has no compiler attribute, so `func_80030FD0` repeats the compatible
