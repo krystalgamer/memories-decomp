@@ -1254,9 +1254,10 @@ The `memory.h` consumer inventory is complete at seven matching sources.
 and auxiliary block. The six `memset` consumers are `func_800592AC.c`,
 `func_8005D994.c`, `model_distance_queries.c`, `func_80059B90.c`,
 `model_effect_state.c`, and `func_80052D2C.c`. The former
-`model_update_view_metrics.c` user, `func_800580D4`, is now
-`src/game/func_800580D4.c`, and the call `model_scene_setup.c` held
-went to `func_80052D2C.c` with the functions split out of it. Across those
+`model_update_view_metrics.c` user, `func_800580D4`, now shares that
+translation unit with `Model_UpdateViewMetrics`, and the call
+`model_scene_setup.c` held went to `func_80052D2C.c` with the functions split
+out of it. Across those
 files the calls clear vector-sized work records or the four-pointer
 control-point array before later fields are filled.
 
