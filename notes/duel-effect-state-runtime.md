@@ -53,5 +53,6 @@ specific and stay unnamed.
 The card-viewer implementation remains a candidate because exact code
 generation requires two pinned registers. Its address-based source filename
 and the `D_8009B240`, `D_8009B248`, `D_8009B24C`, and `D_8009B250`
-declarations are retained as lexical candidate contracts; the linked function
-and generated assembly use the semantic runtime names.
+declaration views are retained as lexical candidate contracts through their
+owning headers; the linked function and generated assembly use the semantic
+runtime names.

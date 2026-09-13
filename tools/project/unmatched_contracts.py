@@ -593,6 +593,12 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         for name in local_data
         if not data_header_index.get(name)
     }
+    for name in sorted(headerless_data):
+        for source, statement in sorted(local_data[name]):
+            errors.append(
+                f"{source}: local declaration of unmatched data {name} "
+                f"has no owner header: {statement}"
+            )
 
     stats = {
         "unmatched": len(unmatched),

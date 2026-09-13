@@ -384,7 +384,7 @@ extern s32 data;
                 for error in self.errors())
         )
 
-    def test_headerless_data_is_reported_without_guessing_a_contract(self) -> None:
+    def test_headerless_data_is_rejected_without_guessing_a_contract(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
         self.write(
             "src/game/caller.c",
@@ -393,9 +393,29 @@ extern s32 data;
 
         errors, stats = unmatched_contracts.validate(self.root)
 
-        self.assertEqual(errors, [])
+        self.assertIn(
+            "src/game/caller.c: local declaration of unmatched data data "
+            "has no owner header: extern s32 data;",
+            errors,
+        )
         self.assertEqual(stats["headerless_data"], 1)
         self.assertEqual(stats["headerless_data_sites"], 1)
+
+    def test_local_data_with_owner_header_is_allowed(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/game/data.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, stats = unmatched_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(stats["headerless_data"], 0)
+        self.assertEqual(stats["headerless_data_sites"], 0)
 
     def test_candidate_may_keep_its_resident_header_declaration(self) -> None:
         self.write_candidate()
