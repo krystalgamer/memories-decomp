@@ -2,7 +2,7 @@
 
 #include "fade.h"
 
-void func_800151B0(void)
+void Fade_Init(void)
 {
     FadeTransitionState *state = &gFade_State;
 
