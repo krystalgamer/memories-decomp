@@ -111,7 +111,7 @@ void DuelEffect_UpdateCardViewerState(void)
         stats = gDuel_adwCardStats;
         chan = D_800EB0F8;
         for (; i < 3; i++, chan++) {
-            if ((chan->flags_34 & 0x8000) == 0) {
+            if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
                 id = gDuel_wViewerCardID;
                 gDuel_wSelectedCardID = id;
                 kind = 3;

@@ -147,7 +147,7 @@ void func_8003D74C(MenuRecord *record)
     r = &D_800EB0F8[((u8 *)record)[0x1A]];
     if ((f & 0x40) != 0) {
         func_80039794();
-        if ((r->flags_34 & 0x2000) != 0) {
+        if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
             D_8009B3C1 = D_8009B3C1 | 0x20;
             if (gDialog_bChoice == 0) {
                 DuelEffect_CreateChannel(0x80D4, 0);
