@@ -51,6 +51,14 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
  * match as written; whether they would also match through the array index
  * is not measured. */
 extern DuelEffectChannel D_800EB15C;
+/* Channel 3 at D_800EB0F8 + 0x12C, retained because func_80024200 names the
+ * interior address directly in its relocation. The main-menu trade candidate
+ * keeps its byte-array view through the selector below. */
+#ifdef D_800EB224_AS_BYTES
+extern u8 D_800EB224[];
+#else
+extern DuelEffectChannel D_800EB224;
+#endif
 /* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
  * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
  * (script_run_tick.c:23) and Password_UpdateShopScreen (now a stored

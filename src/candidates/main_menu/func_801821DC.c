@@ -23,6 +23,7 @@
 #include "../../game/display_object_config.h"
 #include "../../game/data_transfer_request.h"
 #include "../../game/duel_card_viewer.h"
+#define D_800EB224_AS_BYTES
 #include "../../game/duel_effect.h"
 #include "../../game/sound.h"
 #include "../../game/input.h"

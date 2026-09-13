@@ -4,7 +4,7 @@
 #include "../types.h"
 
 /* D_80090998 entry 6, the card-use presentation sequence. Reached when
- * func_80024200 (src/candidates/func_80024200.c) dispatches on
+ * func_80024200 (src/game/func_80024200.c) dispatches on
  * `D_8009B23A & DUEL_SCENE_PHASE_MASK`, and it hands control
  * back by writing 5 into that word.
  *

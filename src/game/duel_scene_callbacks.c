@@ -13,7 +13,7 @@
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *
- * func_80024200 (src/candidates/func_80024200.c) materializes this address
+ * func_80024200 (src/game/func_80024200.c) materializes this address
  * itself and
  * calls `callbacks[D_8009B23A & DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through
  * the low four bits of that state word.

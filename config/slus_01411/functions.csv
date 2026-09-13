@@ -183,7 +183,7 @@ address,size,name,status,module,notes
 0x80024060,0x28,func_80024060,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80024088,0x28,func_80024088,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800240B0,0x150,Duel_UpdateCardPickCursor,matching_c,game,Unchiga pure-C structure independently verified with split addresses; exact linked bytes. Three isolated absolute-address stores preserve target register allocation.
-0x80024200,0x188,func_80024200,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80024200.c with target src/candidates_target/func_80024200.S; profile gcc_2_8_1_g8. Reclassified from matching_c (#3859): the source was byte-exact only by pinning 3 variables to hard registers and 3 inline asm statements, so it does not stand as a decompilation. Previously: 6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
+0x80024200,0x188,func_80024200,matching_c,game,"Pure-C post-terminal resolution: owned D_800EB224 and D_80090998 declarations replace three inline assembly fragments, and the split profile naturally preserves the retail pointer/index allocation. Exact 392-byte text and relocations with no register pins or inline assembly."
 0x80024388,0x6C,func_80024388,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800243F4,0x1AC,Duel_ShuffleDeck,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800245A0,0x4C,Duel_ShuffleBothDecks,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

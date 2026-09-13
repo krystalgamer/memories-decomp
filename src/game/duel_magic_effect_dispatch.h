@@ -10,7 +10,7 @@
  * picks the second of the group's two handlers when
  * DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER is set, and calls it -- then returns
  * D_8009B220, so a caller reads "still running" straight out of the flags word
- * the handler just updated. func_80024200 (src/candidates/func_80024200.c)
+ * the handler just updated. func_80024200 (src/game/func_80024200.c)
  * tests it exactly that way.
  *
  * func_80026BA4 maps the presented card ID to the effect ID the dispatcher
