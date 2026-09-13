@@ -169,7 +169,7 @@ void func_80042188(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra)
                 uv[1] = *(u32 *)&((POLY_FT4 *)packet)->u1;
                 uv[2] = *(u32 *)&((POLY_FT4 *)packet)->u2;
                 uv[3] = *(u32 *)&((POLY_FT4 *)packet)->u3;
-                D_800FE240 = (u8 *)DivideFT4(v, v1, v2, v3,
+                D_800FE240 = (u32 *)DivideFT4(v, v1, v2, v3,
                                              uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
                                              (CVECTOR *)rgbc, (POLY_FT4 *)D_800FE240,
                                              (u32 *)((GsOT *)ot)->org + pri, divp);

@@ -15,11 +15,6 @@ typedef struct {
     s32 divisions;
 } DisplayObjectPacketOrigin;
 
-/* The libgs packet cursor (libgs.h's GsOUT_PACKET_P). DivideFT4 writes the
- * subdivided quads from it and returns the new cursor. Declared .data so a
- * -G8 unit addresses it absolutely, the way retail does. */
-extern u8 *D_800FE240 __attribute__((section(".data")));
-
 /* The packet dispatcher receives a sprite pointer in the sprite renderers,
  * while the Gouraud-quad renderers pass the display object's raw attribute
  * word. The card-list renderer also preserves its named scratchpad records
