@@ -227,6 +227,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 for owner in (
                     "display_object_packet_submit.h",
                     "model_slot_setup.h",
+                    "duel_field_display_objects.h",
+                    "duel_card_object_helpers.h",
                 )
             ):
                 continue
