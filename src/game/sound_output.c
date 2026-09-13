@@ -8,6 +8,9 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
+#define SOUND_INIT_S16_VIEW
+#include "sound_init.h"
+
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
    the next read. */
