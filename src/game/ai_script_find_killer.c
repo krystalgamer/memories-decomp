@@ -8,18 +8,19 @@
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
 
-/* -fno-strength-reduce, fourth user. The record walk reads at +0, +2, +6
- * and +9 and gcc builds a SECOND giv biased at +2 because most of the reads
- * are there; that costs a callee-saved register and four frame instructions
- * (78 differences, +4 length). Retail has one cursor with plain
- * displacements. No source spelling removes the anchor -- an index form, a
- * struct cursor, dropping the named compare value and inlining the base
- * were all tried -- because the bias is the reducer's, not the source's. */
+/* -fno-strength-reduce, fourth user. The record walk reads card_id, attack,
+ * flags and guardian_star (+0, +2, +6, +9) and gcc builds a SECOND giv
+ * biased at +2 because most of the reads are there; that costs a
+ * callee-saved register and four frame instructions (78 differences, +4
+ * length). Retail has one cursor with plain displacements. No source
+ * spelling removes the anchor -- an index form, the AiActiveCard cursor
+ * used here, dropping the named compare value and inlining the base were
+ * all tried -- because the bias is the reducer's, not the source's. */
 
 void AiScript_FindKiller(void) {
-    u8 *base;
-    u8 *c;
-    u8 *ref;
+    AiActiveCard *base;
+    AiActiveCard *c;
+    AiActiveCard *ref;
     s32 a;
     s32 m;
     s32 w;
@@ -35,25 +36,25 @@ void AiScript_FindKiller(void) {
     k = 0;
     w = AiScript_ReadByte();
     i = 1;
-    base = (u8 *)gDuel_aActiveCards;
-    c = base + AI_ACTIVE_CARD_RECORD_SIZE;
-    ref = base + a * AI_ACTIVE_CARD_RECORD_SIZE;
+    base = gDuel_aActiveCards;
+    c = &base[AI_SLOT_OWN_MONSTER_FIRST];
+    ref = base + a;
 
-    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++, c += AI_ACTIVE_CARD_RECORD_SIZE) {
-        if (*(s16 *)c == 0) {
+    for (; i < DUEL_FIELD_ROW_SIZE + 1; i++, c++) {
+        if (c->card_id == 0) {
             continue;
         }
-        if ((*(u16 *)(c + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+        if ((c->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
         if (m == 0) {
-            d = *(s16 *)(c + 2) - *(s16 *)(ref + 2);
+            d = c->attack - ref->attack;
         } else {
-            d = *(s16 *)(c + 2) - *(s16 *)(ref + 4);
+            d = c->attack - ref->defense;
         }
-        d = d + Duel_CalcGuardianStarMatchup(*(s8 *)(c + 9), *(s8 *)(ref + 9));
+        d = d + Duel_CalcGuardianStarMatchup(c->guardian_star, ref->guardian_star);
         if (d > 0) {
-            t = *(s16 *)(c + 2);
+            t = c->attack;
             if (t < best) {
                 best = t;
                 k = i;
