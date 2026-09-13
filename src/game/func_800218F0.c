@@ -159,7 +159,7 @@ side_result:
                 D_8009B23A |= 0x2000;
                 Fade_StartOut();
                 D_800E9EC8_arr[4] = 255;
-                func_800156B8(255);
+                Fade_FillBandLevels(255);
             } else {
                 u8 *save = D_8009B1D8[gDuel_bWinnerSide];
                 D_8009B16C |= 0x2000;

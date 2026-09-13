@@ -164,7 +164,7 @@ void Fade_StartOut(void)
     event(15, 0, 0, 0, 0, 0);
     if (mutation == 5) D_8009B23A |= 0x80;
 }
-void func_800156B8(s32 level)
+void Fade_FillBandLevels(s32 level)
 {
     event(16, 0, level, D_800E9EC8_arr[4], 0, 0);
 }

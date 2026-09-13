@@ -21,7 +21,7 @@ The shared `FadeTransitionState` layout is:
 | `0x06` | `flags` | 1 | byte bit tests/writes named by `FADE_FLAG_*` in `fade_constants.h` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
 | `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
-| `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
+| `0x0A` | `band_levels[30]` | 30 | `Fade_FillBandLevels` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
 `D_800E9EF0`, the next linker symbol, is exactly `0x28` bytes after
@@ -29,7 +29,7 @@ The end of `band_levels` gives a minimum record size of `0x28`.
 the total size and every modeled field offset.
 
 Target assembly across `func_800151B0`, `Fade_StepBands`,
-`Fade_Update`, `Fade_DrawOverlay`, `func_800156B8`, the setup functions, and
+`Fade_Update`, `Fade_DrawOverlay`, `Fade_FillBandLevels`, the setup functions, and
 the flag-setting wrappers establishes the access widths and offsets. GMS
 corroborates the same byte labels, the halfword at `0x08`, and the 30-byte
 span, but its generated scalar and function types are treated as guesses.
@@ -312,7 +312,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 Matching pure-C users migrated to this shared header include:
 
 - `func_800151B0`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
-  `func_800156B8`, `func_800156DC`;
+  `Fade_FillBandLevels`, `func_800156DC`;
 - `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
@@ -352,7 +352,7 @@ competing declarations:
   final level store instead of the small-data form. Its byte definitions
   for `D_8009B142`, `D_8009B143`, and `D_8009B144` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
-- `func_800156B8` casts the typed base to a byte pointer and keeps
+- `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
   `addu` operand order and does not match.
 - `func_8001572C`, `Fade_InitInColor`, `func_80015870`, and

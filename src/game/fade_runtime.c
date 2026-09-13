@@ -121,13 +121,13 @@ void Fade_DrawOverlay(void) {
     }
 }
 
-void func_800156B8(s32 arg0)
+void Fade_FillBandLevels(s32 level)
 {
     u8 *p = (u8 *)&gFade_State;
     s32 i;
 
-    for (i = 0x1D; i >= 0; i--) {
-        *(p + i + 0xA) = arg0;
+    for (i = FADE_BAND_COUNT - 1; i >= 0; i--) {
+        *(p + i + 0xA) = level;
     }
 }
 
@@ -172,7 +172,7 @@ void Fade_InitIn(void)
     state->flags = FADE_FLAG_ACTIVE;
     D_8009B141 &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
     state->field_08 = 0;
-    func_800156B8(state->level);
+    Fade_FillBandLevels(state->level);
     state->step = 0xC;
     func_8001572C();
 }
@@ -228,7 +228,7 @@ void Fade_InitOut(void)
     state->field_08 = 0xFF;
     state->target_level = 0;
     state->flags = FADE_FLAG_ACTIVE;
-    func_800156B8(state->level);
+    Fade_FillBandLevels(state->level);
     state->step = 0xC;
     func_80015870();
 }
