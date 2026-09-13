@@ -11,6 +11,7 @@
 #include "func_80039794.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_transition.h"
+#include "func_80042C08.h"
 
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
