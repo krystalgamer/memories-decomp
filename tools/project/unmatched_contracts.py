@@ -26,6 +26,7 @@ CANDIDATES = Path("config/slus_01411/candidates.json")
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
 SHARED_OWNER_HEADERS = {
     "func_80042188": "src/game/display_object_packet_submit.h",
+    "func_8004CB0C": "src/game/model_slot_setup.h",
 }
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
@@ -302,7 +303,6 @@ def load_exceptions(
 CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
 CENTRAL_VARIANT_COUNTS = {
     "func_80013C28": 2,
-    "func_8004CB0C": 2,
 }
 CENTRAL_VARIANT_BLOCKS = {
     "func_80013C28": (
@@ -310,13 +310,6 @@ CENTRAL_VARIANT_BLOCKS = {
         "void func_80013C28(u8, u8 *, u32 *);",
         "#else",
         "void func_80013C28(s32);",
-        "#endif",
-    ),
-    "func_8004CB0C": (
-        "#ifdef FUNC_8004CB0C_NO_ARGUMENTS",
-        "void func_8004CB0C(void);",
-        "#else",
-        "void func_8004CB0C(s32, s32, s32, s32);",
         "#endif",
     ),
 }

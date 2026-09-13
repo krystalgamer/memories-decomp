@@ -58,6 +58,7 @@ PAIRS = [
     ("src/game/func_8005C388.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
     ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/candidates/func_80056828.c", "func_8004CB0C", '#include "../game/model_slot_setup.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (
@@ -205,9 +206,15 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     )
                 self.assertIn(callee, found)
 
-    def test_lost_packet_submit_header_is_caught(self) -> None:
+    def test_lost_shared_owner_header_is_caught(self) -> None:
         for source, callee, include in PAIRS:
-            if "display_object_packet_submit.h" not in include:
+            if not any(
+                owner in include
+                for owner in (
+                    "display_object_packet_submit.h",
+                    "model_slot_setup.h",
+                )
+            ):
                 continue
             with self.subTest(source=source):
                 text = (REPOSITORY / source).read_text(encoding="utf-8")
@@ -253,7 +260,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )
         self.assertNotEqual(expected, changed_hash)
 
-    def test_model_dispatch_contract_tracks_both_slot_setup_views(self) -> None:
+    def test_model_dispatch_contract_tracks_shared_owner_views(self) -> None:
         entry = next(
             candidate
             for candidate in json.loads(
