@@ -212,6 +212,17 @@ typedef struct {
     u8 field_164B;
 } SDValue;
 
+/* func_800464F0 drops a queued command by copying the next 0x30-byte record
+   down over it. With all sixteen entries queued, the copy for the last one
+   reads the record-sized span at state+0x380, past `commands` but still
+   inside SDValue (pad0380 and the start of voice_attr). This view of the
+   same state spans the queue plus that one trailing record, so the read
+   stays inside a declared array. The assertions below pin it to SDValue. */
+typedef struct {
+    u8 pad0000[SD_COMMAND_QUEUE_BYTE_OFFSET];
+    SDCommand c[SD_COMMAND_QUEUE_COUNT + 1];
+} SDCommandShiftView;
+
 typedef struct {
     u8 program;
     u8 pan;
@@ -378,6 +389,13 @@ typedef char SDValueLink_size_must_be_0x08[
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
+];
+typedef char SDCommandShiftView_queue_must_overlay_commands[
+    SD_STATE_OFFSET(SDCommandShiftView, c) ==
+        SD_STATE_OFFSET(SDValue, commands) ? 1 : -1
+];
+typedef char SDCommandShiftView_must_fit_inside_SDValue[
+    sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
 ];
 typedef char SDValue_lookup_bank_size_must_match_stride[
     sizeof(((SDValue *)0)->field_044C[0]) ==

@@ -21,7 +21,8 @@ void func_800464F0(void)
         case 0x24:
         case 0x29:
         case 0x2B:
-            g_SDValue[0]->commands.c[i] = g_SDValue[0]->commands.c[i + 1];
+            g_SDValue[0]->commands.c[i] =
+                ((SDCommandShiftView *)g_SDValue[0])->c[i + 1];
             g_SDValue[0]->command_count--;
             break;
         default:
