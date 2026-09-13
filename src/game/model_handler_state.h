@@ -23,7 +23,13 @@ extern char D_8009AFF4[];
 #else
 extern char D_8009AFF4[8];
 #endif
+/* The unknown-bound view selects the intro controller's split absolute
+ * addressing; the definition remains the same two .sdata words. */
+#ifdef MODEL_HANDLER_OFFSET_ABSOLUTE
+extern u32 D_8009AFFC[];
+#else
 extern u32 D_8009AFFC[2];
+#endif
 extern u32 D_8009B004;
 extern u32 D_8009B008;
 extern char D_8009B00C[8];

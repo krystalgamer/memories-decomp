@@ -246,7 +246,6 @@ void func_80034830(void);
  * restated. */
 void func_8004DE24(void);
 void func_8004EB00(void);
-void func_8004FE2C(void);
 void func_800507D0(void);
 void func_80051A48(void);
 void func_8005DBA4(void);
