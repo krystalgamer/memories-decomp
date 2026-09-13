@@ -61,6 +61,9 @@ PAIRS = [
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
+    ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
+    ("src/game/func_80031874.c", "func_800316F0", '#include "duel_card_stat_display.h"'),
+    ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (
@@ -228,6 +231,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "model_slot_setup.h",
                     "duel_field_display_objects.h",
                     "duel_card_object_helpers.h",
+                    "func_80031784.h",
+                    "duel_card_stat_display.h",
+                    "text_encode_decimal_no_padding.h",
                 )
             ):
                 continue
