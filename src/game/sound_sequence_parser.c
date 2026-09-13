@@ -130,7 +130,7 @@ void SD_AdvanceSequencePosition(s32 *value, s32 amount)
     *value += amount;
 }
 
-void SD_IgnoreSequenceEvent(void)
+void SD_IgnoreSequenceEvent(u8 status)
 {
 }
 

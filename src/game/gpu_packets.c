@@ -4,10 +4,6 @@
 #include "../psyq/libgs.h"
 #include "gpu_packets.h"
 
-/* The packet buffer these helpers write through: a cursor into the
- * frame's scratch packet area, advanced past each packet as it is linked. */
-extern u32 *D_800FE240 __attribute__((section(".data")));
-
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;

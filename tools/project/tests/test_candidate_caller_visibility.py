@@ -42,14 +42,14 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 PAIRS = [
     ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
     ("src/game/sound_secondary_object_volumes.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
-    ("src/game/sd_sequence_timer_callback.c", "func_8004AAFC", '#include "sound.h"'),
+    ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_8004A6D8.c", "func_8004A518", '#include "sound.h"'),
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
-    ("src/candidates/func_80024E58.c", "SD_SEPlayFull", '#include "../game/sound.h"'),
-    ("src/candidates/func_80024E58.c", "func_80040410", '#include "../game/display_object_config.h"'),
+    ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
+    ("src/game/func_80024E58.c", "func_80040410", '#include "display_object_config.h"'),
     ("src/game/file_stream.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/func_80014294.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/func_80014294.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
@@ -59,6 +59,7 @@ PAIRS = [
     ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
     ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
     ("src/candidates/func_80056828.c", "func_8004CB0C", '#include "../game/model_slot_setup.h"'),
+    ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (
@@ -83,6 +84,8 @@ def compiler_diagnostics(
     path: Path,
     profile: dict[str, object],
     include_dir: Path,
+    *,
+    warnings_as_errors: bool = False,
 ) -> str:
     flags = [str(f) for f in profile["compiler_flags"] if FRONT_END_FLAG.match(str(f))]  # type: ignore[index]
     completed = subprocess.run(
@@ -94,6 +97,7 @@ def compiler_diagnostics(
             "-o",
             os.devnull,
             "-Wimplicit-function-declaration",
+            *(["-Werror"] if warnings_as_errors else []),
             f"-I{include_dir}",
             f"-I{REPOSITORY / 'src'}",
             *flags,
@@ -109,8 +113,16 @@ def compiler_diagnostics(
     return completed.stderr
 
 
-def implicit_calls(path: Path, profile: dict[str, object], include_dir: Path) -> set[str]:
-    return set(IMPLICIT.findall(compiler_diagnostics(path, profile, include_dir)))
+def implicit_calls(
+    path: Path,
+    profile: dict[str, object],
+    include_dir: Path,
+    *,
+    warnings_as_errors: bool = False,
+) -> set[str]:
+    return set(IMPLICIT.findall(compiler_diagnostics(
+        path, profile, include_dir, warnings_as_errors=warnings_as_errors,
+    )))
 
 
 @unittest.skipUnless((REPOSITORY / COMPILER).is_file(), "needs the GCC 2.8.1 toolchain")
@@ -323,6 +335,59 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             diagnostics,
             r"passing arg 5 of `func_80042188' from incompatible pointer type",
         )
+
+    def test_parent_search_caller_needs_owning_header(self) -> None:
+        source = "src/game/func_8004CB0C.c"
+        include = '#include "../game/model_parent_search.h"\n'
+        text = (REPOSITORY / source).read_text(encoding="utf-8")
+        self.assertIn(include, text)
+        self.assertNotRegex(text, r"extern[^\n]*\bfunc_8005A3D0\b")
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "a/b/c/caller.c"
+            path.parent.mkdir(parents=True)
+            path.write_text(text.replace(include, "", 1), encoding="utf-8")
+            found = implicit_calls(
+                path, self.profile(source), (REPOSITORY / source).parent
+            )
+        self.assertIn("func_8005A3D0", found)
+
+    def test_parent_search_preserves_both_pointer_views(self) -> None:
+        definition = "src/game/func_8005A3D0.c"
+        self.assertIn(
+            '#include "model_parent_search.h"',
+            (REPOSITORY / definition).read_text(encoding="utf-8"),
+        )
+        views = [
+            ("", "ModelSlot *, void *"),
+            ("#define MODEL_PARENT_SEARCH_COORD_VIEW\n", "u8 *, GsCOORDUNIT *"),
+        ]
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
+            path = Path(temporary) / "view.c"
+            for selected, (macro, _) in enumerate(views):
+                for expected, (_, parameters) in enumerate(views):
+                    with self.subTest(selected=selected, expected=expected):
+                        path.write_text(
+                            macro + '#include "model_parent_search.h"\n'
+                            + f"s32 (*view)({parameters}) = func_8005A3D0;\n",
+                            encoding="utf-8",
+                        )
+                        if selected == expected:
+                            self.assertEqual(
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                ),
+                                set(),
+                            )
+                        else:
+                            with self.assertRaisesRegex(AssertionError, "incompatible"):
+                                implicit_calls(
+                                    path, self.profile(definition),
+                                    REPOSITORY / "src/game",
+                                    warnings_as_errors=True,
+                                )
+
 
 if __name__ == "__main__":
     unittest.main()
