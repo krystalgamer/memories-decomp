@@ -1,17 +1,3 @@
-/*
- * Initializes one model/secondary-driver channel rooted at D_800F2C40.
- * Current best under gcc_2_8_1_g0: 394/394 instructions, opcode multiset
- * distance 0, and 14 differing words with no hard register assignments.
- *
- * The source has the complete reset, command scan, event dispatch, coordinate
- * linking, free-record selection, and retry shape. A function-scope fallback
- * handler and separate retry cursor reduce the residue without pins.
- *
- * Residual: four words in the D_800E9D98/D_800E9D9C address loads, eight in
- * retry-scan allocation, and two in the final stack-value reload order.
- * Original ASPSX reproduces MASPSX's symbolic-load expansion, so the remaining
- * work is source ownership and lifetime rather than assembler normalization.
- */
 #include "../types.h"
 #include "../game/ordering_tables.h"
 #include "../game/high_memory_addresses.h"
@@ -24,15 +10,24 @@
 #include "../game/model_primitive_handler.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_packet_handlers.h"
+#define MODEL_PARENT_SEARCH_COORD_VIEW
+#include "../game/model_parent_search.h"
+#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+#include "../game/model_slot_setup.h"
 
-extern s32 func_8004D134(s32, GsTYPEUNIT *, void *, s32 *, s32 *);
-extern s32 func_8005A3D0(u8 *, GsCOORDUNIT *);
+/* Initializes one model channel rooted at D_800F2C40[index]: resets its
+   state, maps the HMD block, scans every unit's type records into the
+   handlers, links the coordinate slots, and picks the first coordinate
+   whose parent is not claimed by a live unit.
 
-void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
+   The event, link and retry scans are goto loops. GCC 2.8.1 weights a
+   register's references by loop nesting, and only these loop forms give
+   the 0x1F800000 scratch base, the shared slot cursor, the command cursor
+   and the channel index the retail callee-saved registers. */
+void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
 {
     u8 *base;
     u8 *slot;
-    u8 *search_slot;
     u8 *cursor;
     GsOT *table;
     GsTYPEUNIT ev;
@@ -55,19 +50,19 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     handler = (s32)GsU_00000000;
     base = (u8 *)&D_800F2C40[index];
     slot = base;
-    cursor = arg1;
+    cursor = (u8 *)hmd;
     if (index < 2) {
-        table = D_800E9D98;
+        table = D_800E9D90[2];
     } else {
-        table = D_800E9D9C;
+        table = D_800E9D90[3];
     }
     count = 0;
     acc = 0;
     base[0xE13] = 0;
     base[0xE12] = 0;
-    if (arg3 >= 0) {
-        base[0xE11] = arg3 & 0x7F;
-        if (arg3 & 0x80) {
+    if (flags >= 0) {
+        base[0xE11] = flags & 0x7F;
+        if (flags & 0x80) {
             base[0xDC7] = 5;
         } else {
             base[0xDC7] = 0;
@@ -127,14 +122,14 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     base[0xE15] = 0;
     base[0xE1E] = 0;
     base[0xE1F] = 0;
-    if (arg1 == 0) {
+    if (hmd == 0) {
         base[0xE1D] = 0;
         base[0xE14] = 0xFF;
         return;
     }
-    GsMapUnit((u32 *)arg1);
+    GsMapUnit((u32 *)hmd);
     cursor += 0xC;
-    func_8004D58C(index, arg1);
+    func_8004D58C(index, (u8 *)hmd);
     base[0xE1A] = *cursor;
     cursor += 4;
     if ((u8)base[0xE1A] >= 0x3D) {
@@ -150,18 +145,14 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
             if (cmd != 0) {
                 GsScanUnit((u32 *)cmd, 0, 0, 0);
             evloop:
-                if (GsScanUnit(0, &ev, table, (u32 *)0x1F800000) == 0) {
-                    goto evdone;
-                }
-                {
-                    void *scratch;
+                if (GsScanUnit(0, &ev, table, (u32 *)0x1F800000) != 0) {
+                    u8 *scratch;
 
                     tag = (u32)ev.type >> 24;
-                    scratch = (void *)0x1F800000;
+                    scratch = (u8 *)0x1F800000;
                     if (ev.type == 0) {
                         goto evloop;
                     }
-                    {
                     if (tag < 2) {
                         goto masktest;
                     }
@@ -175,35 +166,33 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
                 masktest:
                     if (ev.type & 0x800000) {
                         *(GsCOORDUNIT **)(base + 0xD14) =
-                            GsMapCoordUnit((u32 *)arg1, (u32 *)ev.ptr);
+                            GsMapCoordUnit((u32 *)hmd, (u32 *)ev.ptr);
                         ev.type &= 0xFF7FFFFF;
                     }
                 dispatch:
                     switch (tag) {
                     case 0:
-                        *(u16 *)(base + 0xE04) += func_8004D134(index, &ev, scratch, &acc, &count);
+                        *(u16 *)(base + 0xE04) += func_8004D134(
+                            index, (u16 *)&ev, scratch, &acc, &count);
                         func_8006086C((ModelHandlerObject *)&ev);
                         break;
                     case 1:
-                        *(u16 *)(base + 0xE04) += func_8004D134(index, &ev, scratch, 0, &count);
+                        *(u16 *)(base + 0xE04) += func_8004D134(
+                            index, (u16 *)&ev, scratch, 0, &count);
                         func_80060AEC((ModelHandlerObject *)&ev);
                         break;
                     case 2:
-                        func_80060220(index, (u8 *)&ev, (u8 *)scratch);
+                        func_80060220(index, (u8 *)&ev, scratch);
                         break;
                     case 3:
                         func_8005C6A0((s32 *)&ev, base);
                         break;
                     default:
-                    {
                         *ev.ptr = handler;
                         break;
                     }
-                    }
-                    }
                     goto evloop;
                 }
-            evdone: ;
             }
             i++;
             slot += 8;
@@ -215,15 +204,17 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
     *(s16 *)(base + 0xE02) = acc + i;
     if (i < base[0xE1A] - 1) {
         off = 0;
-        do {
-            base[0xE17]++;
-            if (*(s32 *)(slot + 4) != 0) {
-                *(s32 *)slot = *(s32 *)(base + 0xD14) + off;
-            }
-            off += 0x50;
-            i++;
-            slot += 8;
-        } while (i < base[0xE1A] - 1);
+    link:
+        base[0xE17]++;
+        if (*(s32 *)(slot + 4) != 0) {
+            *(s32 *)slot = *(s32 *)(base + 0xD14) + off;
+        }
+        off += 0x50;
+        i++;
+        slot += 8;
+        if (i < base[0xE1A] - 1) {
+            goto link;
+        }
     }
     scan = *(GsCOORDUNIT **)(base + 0xD14);
     if (scan != 0) {
@@ -241,36 +232,40 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         }
         cur = *(GsCOORDUNIT **)(base + 0xD14) + base[0xE19];
         *(GsCOORDUNIT **)(base + 0xD1C) = cur;
-        for (;;) {
-            search_slot = base;
-            loaded_limit = base[0xE1A];
-            i = 0;
-            if (loaded_limit != 0) {
-                sentinel = -1;
-                limit = loaded_limit;
-                do {
-                    if (((GsUNIT *)search_slot)->coord != 0 &&
-                        ((GsUNIT *)search_slot)->primtop != 0) {
-                        if (*((GsUNIT *)search_slot)->primtop != sentinel ||
-                            *(((GsUNIT *)search_slot)->primtop + 2) != 0) {
-                            if (((GsUNIT *)search_slot)->coord->super == cur) {
-                                break;
-                            }
-                        }
+    retry:
+        slot = base;
+        loaded_limit = base[0xE1A];
+        i = 0;
+        if (loaded_limit != 0) {
+            sentinel = -1;
+            limit = loaded_limit;
+        claimed:
+            if (((GsUNIT *)slot)->coord != 0 &&
+                ((GsUNIT *)slot)->primtop != 0) {
+                if (*((GsUNIT *)slot)->primtop != sentinel ||
+                    *(((GsUNIT *)slot)->primtop + 2) != 0) {
+                    if (((GsUNIT *)slot)->coord->super == cur) {
+                        goto scanned;
                     }
-                    i++;
-                    search_slot += 8;
-                } while (i < limit);
-                if (i < base[0xE1A]) {
-                    break;
                 }
             }
-            next = func_8005A3D0(base, cur);
-            if (!(next < base[0xE17])) {
-                break;
+            i++;
+            slot += 8;
+            if (i < limit) {
+                goto claimed;
             }
-            cur = *(GsCOORDUNIT **)(base + 0xD14) + next;
+        scanned:
+            if (i < base[0xE1A]) {
+                goto found;
+            }
         }
+        next = func_8005A3D0(base, cur);
+        if (!(next < base[0xE17])) {
+            goto found;
+        }
+        cur = *(GsCOORDUNIT **)(base + 0xD14) + next;
+        goto retry;
+    found:
         rec = cur->super;
         if (rec != *(GsCOORDUNIT **)(base + 0xD18)) {
             *(GsCOORDUNIT **)(base + 0xD1C) = rec;
@@ -280,6 +275,6 @@ void func_8004CB0C(s32 index, u8 *arg1, s32 arg2, s32 arg3)
         }
     }
     if (*(s32 *)(base + 0xDE0) == 0) {
-        *(s32 *)(base + 0xDE0) = arg2 + (s32)arg1;
+        *(s32 *)(base + 0xDE0) = hmd + size;
     }
 }

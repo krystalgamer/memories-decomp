@@ -517,6 +517,12 @@
       "source": "src/game/func_80017130.c"
     },
     {
+      "address": "0x800171A8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3B4",
+      "source": "src/game/duel_load_package_stage.c"
+    },
+    {
       "address": "0x8001755C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
@@ -923,6 +929,18 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
       "source": "src/game/func_80022FF0.c"
+    },
+    {
+      "address": "0x80023090",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xB4",
+      "source": "src/game/duel_field_display_objects.c"
+    },
+    {
+      "address": "0x80023144",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x348",
+      "source": "src/game/duel_field_display_objects.c"
     },
     {
       "address": "0x8002348C",
@@ -2081,6 +2099,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x48",
       "source": "src/game/duel_reward_setup.c"
+    },
+    {
+      "address": "0x80032370",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x88",
+      "source": "src/game/duel_reward_compaction.c"
     },
     {
       "address": "0x80032B38",
@@ -4195,6 +4219,12 @@
       "source": "src/game/sound_pending_entries.c"
     },
     {
+      "address": "0x800476B4",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0xD4",
+      "source": "src/game/sound_pending_entries.c"
+    },
+    {
       "address": "0x80047788",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
@@ -4537,6 +4567,12 @@
       "source": "src/game/func_80049EC8.c"
     },
     {
+      "address": "0x80049FB4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x148",
+      "source": "src/game/func_80049FB4.c"
+    },
+    {
       "address": "0x8004A0FC",
       "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
       "size": "0x180",
@@ -4775,6 +4811,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x50",
       "source": "src/game/sd_sequence_tracks.c"
+    },
+    {
+      "address": "0x8004CB0C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x628",
+      "source": "src/game/func_8004CB0C.c"
     },
     {
       "address": "0x8004D75C",
@@ -5434,6 +5476,12 @@
       "address": "0x8005BFC8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x22C",
+      "source": "src/game/movie_frame_pipeline.c"
+    },
+    {
+      "address": "0x8005C1F4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x180",
       "source": "src/game/movie_frame_pipeline.c"
     },
     {
