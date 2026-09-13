@@ -21,6 +21,44 @@
 #include "text_box_runtime.h"
 #include "text_staging.h"
 
+s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
+{
+    u8 *grid = D_800907D8;
+    DuelCardRecord *records;
+    s32 page;
+    s32 offset_a;
+    s32 row_b;
+    s32 index_a;
+    s32 index_b;
+    s32 slot_a;
+    s32 slot_b;
+    s32 side;
+    s32 order;
+
+    row_b = cursor_b->row;
+    index_a = cursor_a->row * DUEL_FIELD_ROW_SIZE + cursor_a->col;
+    side = D_8009B1D5;
+    page = side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    slot_a = grid[index_a + page];
+    offset_a = slot_a * sizeof(DuelCardRecord);
+    records = D_801A7AD8;
+    index_b = row_b * DUEL_FIELD_ROW_SIZE + cursor_b->col;
+    slot_b = grid[index_b + page];
+
+    order = Duel_CalcGuardianStarBonus(
+        (DuelCardRecord *)((u8 *)records + offset_a),
+        &records[slot_b]
+    );
+
+    if (order == 0) {
+        return 4;
+    }
+    if (order < 0) {
+        return 1;
+    }
+    return 6;
+}
+
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
     DuelCardRecord *record = &D_801A7AD8[index];
