@@ -76,7 +76,7 @@ extern u8 D_800907D8[];
  * Left unsized for the same reason as the grid, and because both consumers
  * want the flat view: duel_draw_resolution.c reads
  * D_800907CC[i + D_8009B1D5 * HAND_SIZE] and func_8001BAF0
- * (src/candidates/func_8001BAF0.c) takes the base pointer. */
+ * (func_8001B938.c) takes the base pointer. */
 extern u8 D_800907CC[];
 
 /* The screen position of every field slot, defined with initialisers in
