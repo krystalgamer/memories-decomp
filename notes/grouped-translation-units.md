@@ -29,10 +29,12 @@ but it does not automatically rename a source file owned by multiple
 functions.
 
 Historical external-candidate hashes remain provenance for the source tested
-at integration time. The repository audit checks that the current pure-C
-translation unit defines the expected symbol with the accepted profile; the
-full executable hash remains the authority after later semantic renames or
-source grouping.
+at integration time. The repository audit validates those rows through the
+same ledger contract as `make external-attempts`, then checks that the current
+pure-C translation unit still defines the expected symbol. Its manifest
+profile may legitimately differ after several individually matched functions
+are combined under one group profile; the full executable hash remains the
+authority after later semantic renames or source grouping.
 
 ## Initial groups
 
