@@ -724,6 +724,19 @@ typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
     YGO_TYPE_OFFSET(FileTransferDescriptor, substate) == 0x47 ? 1 : -1
 ];
 
+#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
+
+/* File_ActivateTransfer copies a whole descriptor through aligned words.
+   This is the block-move view of FileTransferDescriptor, not a second record
+   description; the element type is what selects the copy width. */
+typedef struct {
+    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
+} FileTransferDescriptorWords;
+
+typedef char FileTransferDescriptorWords_size_must_match_descriptor[
+    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
+];
+
 /* Sound's staged command and the loader's two request slots are the same
    record: func_80045514 passes it to func_80014C40 for a 0x20-byte copy. */
 typedef struct {
@@ -768,6 +781,55 @@ typedef char FileRequestSlot_field_1E_offset_must_be_0x1E[
 ];
 typedef char FileRequestSlot_field_1F_offset_must_be_0x1F[
     YGO_TYPE_OFFSET(FileRequestSlot, field_1F) == 0x1F ? 1 : -1
+];
+
+/* One row of the eight-byte transfer request table func_8005FB30 walks: the
+   model id it is asked to stage and the state it reports back. */
+typedef struct {
+    s16 id;
+    u8 pad_02[4];
+    s16 state;
+} ModelTransferItem;
+
+typedef char ModelTransferItem_size_must_be_8[
+    sizeof(ModelTransferItem) == 8 ? 1 : -1
+];
+typedef char ModelTransferItem_id_offset_must_be_0[
+    YGO_TYPE_OFFSET(ModelTransferItem, id) == 0 ? 1 : -1
+];
+typedef char ModelTransferItem_state_offset_must_be_6[
+    YGO_TYPE_OFFSET(ModelTransferItem, state) == 6 ? 1 : -1
+];
+
+/* One movie-stream entry. sector_count advances to the next stream and a
+   nonzero end_frame overrides the caller's frame limit. */
+typedef struct {
+    u16 sector_count;
+    u16 end_frame;
+} MovieStreamRange;
+
+typedef char MovieStreamRange_size_must_be_4[
+    sizeof(MovieStreamRange) == 4 ? 1 : -1
+];
+typedef char MovieStreamRange_end_frame_offset_must_be_2[
+    YGO_TYPE_OFFSET(MovieStreamRange, end_frame) == 2 ? 1 : -1
+];
+
+/* The updater selects the duel outcome with a halfword cursor; the text
+   producer reads the same two counters with signed extension. */
+typedef union {
+    struct {
+        u16 wins;
+        u16 losses;
+    } result;
+    u16 counts[2];
+} SaveDataDuelistRecord;
+
+typedef char SaveDataDuelistRecord_size_must_be_4[
+    sizeof(SaveDataDuelistRecord) == FREE_DUEL_GRID_RECORD_SIZE ? 1 : -1
+];
+typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
+    YGO_TYPE_OFFSET(SaveDataDuelistRecord, result.losses) == sizeof(u16) ? 1 : -1
 ];
 #undef YGO_TYPE_OFFSET
 

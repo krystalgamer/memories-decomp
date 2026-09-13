@@ -597,6 +597,14 @@ The text/script pass moved `TextStreamOwner`, `EffectObject`,
 domain headers still own constants, globals, and function declarations; the
 shared type file owns the measured layouts and offset assertions.
 
+The same ownership rule applies even when a record has only one current
+definition. Game-owned values that cross subsystem boundaries belong in
+`ygo_types.h`, while their domain headers retain constants, functions, and
+globals. The file loader's aligned descriptor-copy view, model transfer rows,
+movie stream ranges, and persistent duel-result rows follow that split. Their
+size and offset assertions move with the types, including the assertion that
+the word-copy view remains exactly the size of `FileTransferDescriptor`.
+
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
 must have a canonical header declaration; genuinely homeless data lives in
