@@ -14,14 +14,23 @@
  * without replacing the stored one. That is the running-status convention a
  * MIDI-style stream uses to omit repeated status bytes.
  *
- * The definition pins several locals to named registers. That spelling is
- * load bearing and should not be relaxed into ordinary locals without a
- * measurement.
+ * A status whose table entry below is nonzero is a channel event: it takes
+ * that many data bytes (the first is the held byte itself under running
+ * status) and goes to SD_DispatchSequenceChannelEvent. Otherwise a meta or
+ * SysEx status goes to its handler and anything else to
+ * SD_IgnoreSequenceEvent.
  *
  * It sits in its own header rather than in sound.h because the sequence
  * reader family is spelled that way: SD_ReadSequenceByte lives in
  * sound_sequence_reader.h, and the two big-endian readers and
  * SD_ReadSequenceHeader in sound_sequence_parser.h. */
 s32 SD_ReadSequenceEvent(SDSequenceTrack *arg0);
+
+/* Data-byte count per status high nibble, sixteen words read out of the
+ * retail image: 0 for 0x0-0x7 and 0xF, 2 for 0x8-0xB (note off/on,
+ * polyphonic pressure, control change) and 0xE (pitch bend), 1 for 0xC-0xD
+ * (program change, channel pressure). SD_ReadSequenceEvent is its only
+ * reader. */
+extern s32 D_80011484[16];
 
 #endif
