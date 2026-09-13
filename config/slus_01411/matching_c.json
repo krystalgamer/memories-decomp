@@ -5104,7 +5104,7 @@
       "address": "0x800580D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
-      "source": "src/game/func_800580D4.c"
+      "source": "src/game/model_update_view_metrics.c"
     },
     {
       "address": "0x800582C0",
@@ -5644,13 +5644,13 @@
       "address": "0x8005C374",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
-      "source": "src/game/func_8005C374.c"
+      "source": "src/game/movie_frame_pipeline.c"
     },
     {
       "address": "0x8005C388",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
-      "source": "src/game/func_8005C388.c"
+      "source": "src/game/movie_stream_requests.c"
     },
     {
       "address": "0x8005C464",
