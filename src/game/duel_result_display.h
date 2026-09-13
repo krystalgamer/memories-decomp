@@ -55,14 +55,17 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * belongs beside the layout above because that layout is the whole of what
  * this header knows about it.
  *
- * Both C users only read the pointer: Duel_ShowResultPage walks it as
+ * The display helpers read the pointer: Duel_ShowResultPage walks it as
  * `D_8009B1E8->root` and `D_8009B1E8->page_text_ids[page]`, and
  * Duel_CalcRankScore takes it into a local before working through the same
  * record.
  *
- * Nothing in matched C sets it. The one writer, func_800218F0, is still
- * assembly and reaches the word with lw and sw, so where the pointer comes
- * from is not established here -- only what it points at. */
+ * The sole writer, func_800218F0, points it at gDuel_awRitualData's reused
+ * image-backed storage. The guarded view in duel_check_ritual.h covers this
+ * complete record; it is not a pointer to a short recipe allocation. */
 extern DuelResultDisplayState *D_8009B1E8;
+
+/* Duel-result and rewards UI controller installed by the scene table. */
+void func_800218F0(void);
 
 #endif

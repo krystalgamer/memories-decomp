@@ -104,8 +104,8 @@ display-layer value is resolved below.
 The former composite `0x28` writes are now expressed as
 `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
 DISPLAY_OBJECT_FLAG_SCREEN_SPACE`. The `0x20` bit's provenance and consumer
-are both established; the consumer remains unmatched assembly, so the name
-rests on disassembly plus the matching producer and callers.
+are both established, and both are now matching C: the consumer is
+`func_8004158C` in `src/game/func_8004158C.c`.
 
    An earlier version of this entry also listed `0x48` as blocked. That was
    wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no
@@ -132,19 +132,21 @@ rests on disassembly plus the matching producer and callers.
    `DISPLAY_OBJECT_RENDERABLE_MASK`, `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` and
    `DISPLAY_OBJECT_FLAG_CLIP_TEST`.
 
-   The single reader is `func_8004158C`, the unmatched `0x700`-byte sprite
-   builder called from `func_80040814.c`. At `0x800416F0` it loads the flag
-   word and branches on the bit. The packet's texture coordinates have just
-   been initialised from the object's `+0x40` and `+0x42` — the tpage and clut
-   halves the configurator wrote from the same `texture` argument. When the
-   bit is set, it adds a further cell offset taken from the byte at `+3` of
-   the record pointed to by object `+0x4C`:
+   The single reader is `func_8004158C`, the `0x700`-byte sprite-sheet
+   renderer called from `func_80040814.c`. At `0x800416F0` it loads the flag
+   word and branches on the bit. Its working clut position has just been
+   initialised from the object's `+0x40` and `+0x42`, the halves the
+   configurator wrote from the same `texture` argument and the ones
+   `func_80040588` copies into a sprite's `cx`/`cy`. When the bit is set, it
+   adds a further offset taken from the byte at `+3` of the sprite sheet
+   pointed to by object `+0x4C`:
 
-   - the low nibble, shifted left by 4, is added to the U coordinate;
-   - the high nibble is added to the V coordinate.
+   - the low nibble, shifted left by 4, is added to the clut x;
+   - the high nibble is added to the clut y.
 
-   So the bit selects whether that extra per-cell `(U, V)` displacement is
-   applied on top of the base texture coordinates. It is one packed nibble
+   The matched definition stores the results at sprite `+0x10` and `+0x12`,
+   GsSPRITE's `cx` and `cy`, so the bit selects whether that extra clut
+   displacement is applied on top of the base one. It is one packed nibble
    pair, not two independent fields.
 
    Worth recording alongside that: the overlay `|= 0x28` writes are **not**

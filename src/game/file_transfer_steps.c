@@ -1,9 +1,11 @@
+#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #define D_8009B118_IN_DATA
 #include "../types.h"
 #include "model_word_memory.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 #include "model.h"
 #include "../unmatched.h"
 #include "file_transfer_steps.h"
@@ -26,8 +28,6 @@
 
 extern u8 D_801DD800[];
 extern u8 D_800F5694[];
-
-extern u8 D_801A8000[];
 
 void func_80057544(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;

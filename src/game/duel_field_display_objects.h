@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "display_parent_links.h"
 #include "duel_grid.h"
 
 /* One field-grid source record, as func_80023144, func_8002348C and
@@ -23,14 +24,23 @@
  *
  * The byte pair at 0x0F/0x10 is also GridCursor's col/row view of the same
  * backing record. func_80023D08 relies on that overlap when it leaves the
- * cursor in $a0 for func_8002348C's settling-move call. */
+ * cursor in $a0 for func_8002348C's settling-move call.
+ *
+ * func_800235C0 reads the rest: the DisplayLinkEntry array at 0x08 (the
+ * same member display_parent_links.h's DisplayParent view names entries,
+ * which func_800235C0 passes to func_80022FF0), the halfword at 0x0C it
+ * stores as the panel's y, and the byte at 0x13 it applies with
+ * func_80040410. */
 typedef struct {
     DisplayObject *field_00;
     DisplayObject *object;
-    u8 pad_08[7];
+    DisplayLinkEntry *entries;
+    s16 field_0C;
+    u8 pad_0E[1];
     s8 x;
     s8 y;
-    u8 pad_11[3];
+    u8 pad_11[2];
+    u8 field_13;
     u8 field_14;
     u8 pad_15[1];
     s8 field_16;
@@ -70,5 +80,12 @@ void func_8002348C(DuelFieldDisplaySource *source);
 /* Builds the field-card text box for card record `index`; defined in
  * duel_field_display_objects.c and called by func_8002348C there. */
 void func_80023144(DuelFieldDisplaySource *source, s32 index);
+
+/* Steps the field-card panel for the D_8009B162 request flags: on the first
+ * frame it starts the camera tween and the panel's slide in or out, then it
+ * advances the cursor, the panel and the camera, and clears the flags once
+ * nothing is moving. Returns nonzero while the step is still in progress;
+ * its one caller ignores the result. */
+s32 func_800235C0(void);
 
 #endif

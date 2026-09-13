@@ -13,6 +13,7 @@
 #include "duel_effect.h"
 #include "duel_effect_request.h"
 #include "func_8002C6C8.h"
+#include "duel_field_display_objects.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
 #include "dialog_choice.h"

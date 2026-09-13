@@ -74,16 +74,16 @@ void func_8005DBA4(void)
         D_8009B079 = 0;
         D_8009B07A = -1;
     }
-    if (*(u16 *)(D_8009B074 + 0x22) != 0x4000) {
-        u8 *previous = D_8009B074;
+    if (*(u16 *)((u8 *)D_8009B074 + 0x22) != 0x4000) {
+        u8 *previous = (u8 *)D_8009B074;
         s32 step = func_80058E1C();
         s32 elapsed;
-        if (*(u16 *)(D_8009B074 + 0x24) + step <
-            *(u16 *)(D_8009B074 + 0x22)) {
+        if (*(u16 *)((u8 *)D_8009B074 + 0x24) + step <
+            *(u16 *)((u8 *)D_8009B074 + 0x22)) {
             step = func_80058E1C();
-            elapsed = *(u16 *)(D_8009B074 + 0x24) + step;
+            elapsed = *(u16 *)((u8 *)D_8009B074 + 0x24) + step;
         } else {
-            elapsed = *(u16 *)(D_8009B074 + 0x22);
+            elapsed = *(u16 *)((u8 *)D_8009B074 + 0x22);
         }
         *(u16 *)(previous + 0x24) = elapsed;
     }
@@ -93,7 +93,7 @@ void func_8005DBA4(void)
     pose = (s16 *)D_800F5768;
     offset = 0;
     do {
-        u8 *key = D_8009B074;
+        u8 *key = (u8 *)D_8009B074;
         s16 *record = (s16 *)(key + offset);
         if (record[3] == 0) {
             goto next_channel;
@@ -110,7 +110,7 @@ void func_8005DBA4(void)
             }
             Model_CopySlotU16Values(slot, (u16 *)position);
             {
-                s16 *relative = (s16 *)(D_8009B074 + offset);
+                s16 *relative = (s16 *)((u8 *)D_8009B074 + offset);
                 position[0] += (u16)relative[0];
                 position[1] += (u16)relative[1];
                 position[2] += (u16)relative[2];
@@ -150,7 +150,7 @@ void func_8005DBA4(void)
             }
             Model_CopySlotU16Values(slot, (u16 *)target);
             {
-                s16 *following = (s16 *)(D_8009B074 + offset);
+                s16 *following = (s16 *)((u8 *)D_8009B074 + offset);
                 delta[0] = target[0] - (u16)following[8];
                 delta[1] = target[1] - (u16)following[9];
                 delta[2] = target[2] - (u16)following[10];
@@ -199,7 +199,8 @@ void func_8005DBA4(void)
                     (*output)[1] += delta[1];
                     (*output)[2] += delta[2];
                     {
-                        s16 *committed = (s16 *)(D_8009B074 + offset);
+                        s16 *committed =
+                            (s16 *)((u8 *)D_8009B074 + offset);
                         committed[8] += (u16)delta[0];
                         committed[9] += (u16)delta[1];
                         committed[10] += (u16)delta[2];
@@ -257,7 +258,7 @@ next_channel:
         viewpoints = output;
         do {
             s32 elapsed;
-            u8 *key = D_8009B074;
+            u8 *key = (u8 *)D_8009B074;
             s16 *record = (s16 *)(key + channel * 8);
             if (record[3] == 4) {
                 s32 duration = (elapsed = *(u16 *)(key + 0x24),
@@ -296,27 +297,27 @@ next_channel:
             output++;
         } while (channel < 2);
     }
-    if (!active && *(u16 *)(D_8009B074 + 0x22) == 0x4000) {
+    if (!active && *(u16 *)((u8 *)D_8009B074 + 0x22) == 0x4000) {
         D_8009B074 = 0;
         D_8009B078 = 0;
         return;
     }
-    if (*(u16 *)(D_8009B074 + 0x24) >=
-        *(u16 *)(D_8009B074 + 0x22)) {
+    if (*(u16 *)((u8 *)D_8009B074 + 0x24) >=
+        *(u16 *)((u8 *)D_8009B074 + 0x22)) {
         func_8005F070(0);
-        D_8009B074 += 0x28;
-        if ((Key *)D_8009B074 - D_800F5788 >= D_8009B078) {
+        D_8009B074++;
+        if (D_8009B074 - D_800F5788 >= D_8009B078) {
             if (D_8009B078 >= 2) {
-                D_8009B074 = (u8 *)D_800F5788;
-                D_8009B074[0x26] = 0;
+                D_8009B074 = D_800F5788;
+                D_8009B074->ready = 0;
             } else {
                 D_8009B074 = 0;
                 D_8009B078 = 0;
             }
         }
         if (D_8009B074) {
-            func_8005E808(D_8009B074);
-            if (*(s16 *)(D_8009B074 + 0x20) == 0) {
+            func_8005E808((u8 *)D_8009B074);
+            if (*(s16 *)((u8 *)D_8009B074 + 0x20) == 0) {
                 func_8005DBA4();
             }
         }

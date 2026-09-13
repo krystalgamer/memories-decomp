@@ -226,7 +226,7 @@ extern u8 D_8009B3C1;
  * as `DuelEffect_CreateChannel((a & 1) | 0xD0, 0)`, so it selects the channel
  * flavour; the other seven bits have no reader in matched code.
  *
- * Plain, with no .data arm: the one remaining assembly reader, func_8003DC1C,
+ * Plain, with no .data arm: the low-level card controller, func_8003DC1C,
  * reaches it as `lbu %gp_rel(D_8009B3C7)($gp)`, so retail addresses it through
  * $gp like the small-data neighbours here. */
 extern u8 D_8009B3C7;

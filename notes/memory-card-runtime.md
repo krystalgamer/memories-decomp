@@ -221,7 +221,7 @@ handle set, `_card_clear` against the alternate set using channel byte
 resetting the shared result before every stage and waiting for a nonnegative
 event result after each one. It does not reinterpret those three results.
 
-Six of the seven wrappers have one caller, the unmatched `func_8003DC1C`, and
+Six of the seven wrappers have one caller, the `func_8003DC1C` controller, and
 its arguments agree with the table: it issues `MemCard_ReqLoadDirectory`
 straight after `MemCard_Init` and `MemCard_InitIOEvents`, reads `0x1E00` bytes
 at offset `0x200` of `gMemCard_szSaveFileName` into `0x80200000`, writes a
@@ -234,6 +234,13 @@ number it passes is the directory entry's word at `+0x20`, the Psy-Q
 `DIRENTRY.head` field, divided by `64`. `MemCard_ReqCardInfo` is the seventh:
 nothing in the executable or the `DATA` files calls it or stores its address,
 so its name rests on its body and on the code-`1` branch alone.
+
+The controller's bounded workspace, absolute directory view, frame backing,
+and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
+[memory-card-work-controller.md](memory-card-work-controller.md). The request
+prototypes live in `mem_card.h`; event initialization remains in
+`io_event_helpers.h`. Existing driver bodies and poll-candidate code are
+unchanged.
 
 ## Directory enumeration
 

@@ -42,7 +42,7 @@
  * bearing rather than decorative: without them these objects would be placed
  * in .sbss and leave .sdata entirely. */
 
-u8 *D_8009B074 __attribute__((section(".sdata"))) = 0;
+Key *D_8009B074 __attribute__((section(".sdata"))) = 0;
 u8 D_8009B078 __attribute__((section(".sdata"))) = 0;
 u8 D_8009B079 __attribute__((section(".sdata"))) = 0;
 s8 D_8009B07A __attribute__((section(".sdata"))) = -1;

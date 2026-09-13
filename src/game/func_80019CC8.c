@@ -2,6 +2,7 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "campaign_flags.h"
+#include "duel_ritual_controller.h"
 
 extern s8 gDuel_bOpponentID[9];
 
