@@ -73,20 +73,17 @@ s32 func_80041464(DisplayObjectStreamState *object, const u8 *data)
 
 s32 func_8004149C(DisplayObjectStreamState *object, const u8 *data)
 {
-#define p ((u8 *)object)
-#define t ((u8 *)data)
-    int i = rand() % t[0];
-    unsigned hi, lo, base;
+    int i = rand() % data[0];
+    unsigned hi, lo;
+    u8 *base;
 
-    t += i * 2 + 1;
-    hi = t[1];
-    lo = t[0];
-    base = *(unsigned *)(p + 0x54);
-    *(u16 *)(p + 0x58) = 0;
-    *(unsigned *)(p + 0x50) = base + ((hi << 8) | lo);
+    data += i * 2 + 1;
+    hi = data[1];
+    lo = data[0];
+    base = object->base;
+    object->field_58 = 0;
+    object->current = base + ((hi << 8) | lo);
     return 1;
-#undef t
-#undef p
 }
 
 s32 func_80041534(DisplayObjectStreamState *record, const u8 *operands)
