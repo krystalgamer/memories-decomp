@@ -534,8 +534,6 @@ struct DuelRitualResult;
  * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
  * which is why they can: the descriptor is reachable without it. The password
  * overlay's shop.c calls it too. */
-void func_8002A2F4(u8 *state);
-
 /* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
  * hands the scene over to. On its first frame it derives the per-frame 16.16
  * deltas from the distance to the target over the remaining frame count, then

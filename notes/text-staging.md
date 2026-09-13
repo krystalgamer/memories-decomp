@@ -60,7 +60,7 @@ explains why these are not persistent ATK/DEF globals.
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
 - Two build-integrated candidates reference this family, not one:
-  `src/candidates/func_8002A2F4.c` and `password/func_8016A37C.c`; three
+  `src/game/func_8002A2F4.c` and `password/func_8016A37C.c`; three
   more consumers are now matched, `func_80023144` in
   `src/game/duel_field_display_objects.c`, `func_80060E70` in
   `src/game/func_80060E70.c` and `MemCardDialog_UpdateSave` in
