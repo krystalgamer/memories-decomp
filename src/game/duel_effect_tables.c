@@ -3,6 +3,7 @@
 #include "duel_effect_noop_handlers.h"
 #include "duel_effect_tables.h"
 #include "func_8002622C.h"
+#include "duel_ritual_controller.h"
 #include "duel_action_lock.h"
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"

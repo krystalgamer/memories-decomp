@@ -105,7 +105,6 @@ void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
 
 /* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
-void func_800262D4(void);
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
@@ -622,7 +621,6 @@ extern u8 D_8009B152;
 extern DisplayObject *D_8009B188;
 extern DisplayObject *D_8009B18C;
 #endif
-extern s16 D_8009B1A0;
 #ifdef D_8009B_DISPLAY_OBJECTS_VISIBLE
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;

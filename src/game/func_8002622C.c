@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_check_ritual.h"
+#include "duel_ritual_controller.h"
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "file_transfer.h"

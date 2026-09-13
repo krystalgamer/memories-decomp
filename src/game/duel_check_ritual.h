@@ -11,6 +11,13 @@ typedef struct DuelRitualResult {
     s32 field_0C;
 } DuelRitualResult;
 
+typedef char DuelRitualResult_size_must_be_0x10[
+    sizeof(DuelRitualResult) == 0x10 ? 1 : -1
+];
+typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
+    (u32)&((DuelRitualResult *)0)->field_0C == 0x0C ? 1 : -1
+];
+
 /* The recipe table that Duel_CheckRitual walks.
  * Duel_LoadPackageStage's case 4 fills it, handing the address to a transfer
  * as both value_08 and value_0C with mode 0x800, the same way its case 3 fills
