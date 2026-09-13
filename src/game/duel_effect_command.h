@@ -34,7 +34,7 @@ void func_80038110(DuelEffectChannel *object);
  * comes through func_80036D70 as a pointer, the width from the low nibble of the
  * next stream byte, and Text_EncodeDecimalDigits does the conversion into a
  * local buffer before the glyphs are appended. */
-void func_80038148(u8 *object);
+void func_80038148(DuelEffectChannel *object);
 
 /* D_80090EAC entry: sets the object's glyph cell size from a one-byte operand --
  * 8 by 8 for 1, 8 by 12 for 2, unchanged otherwise -- and mirrors case 1 into

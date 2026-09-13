@@ -165,7 +165,7 @@ void func_80038110(DuelEffectChannel *object)
     object->field_38 += value;
 }
 
-void func_80038148(u8 *p)
+void func_80038148(DuelEffectChannel *object)
 {
     u8 buf[8];
     u8 *e;
@@ -178,8 +178,8 @@ void func_80038148(u8 *p)
     s32 h;
     s32 w;
 
-    r = func_80036D70(p);
-    t = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+    r = func_80036D70((u8 *)object);
+    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
 
@@ -190,12 +190,12 @@ void func_80038148(u8 *p)
             goto skip;
         }
         h = *(u16 *)&D_800EAFF8[0];
-        e = p + 0x44;
+        e = object->text_44;
         goto write;
     }
 
     if (c < 2) {
-        e = p + 0x44;
+        e = object->text_44;
         goto write;
     }
 
@@ -213,7 +213,7 @@ void func_80038148(u8 *p)
     }
 
 skip:
-    e = p + 0x44;
+    e = object->text_44;
 
 write:
     i = (c & 0xF) - 1;
@@ -234,8 +234,8 @@ write:
     } while (i >= 0);
 
     *e = TEXT_STRING_TERMINATOR;
-    p[0x58] = p[0x58] + 1;
-    *(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)) = p + 0x44;
+    object->stream_58++;
+    ((TextStreamOwner *)object)->streams[object->stream_58] = object->text_44;
 }
 
 /* Inlining keeps the stream value and channel in independent live ranges. */
