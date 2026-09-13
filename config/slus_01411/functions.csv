@@ -271,7 +271,7 @@ address,size,name,status,module,notes
 0x8002BFCC,0x434,func_8002BFCC,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8002C400,0x84,func_8002C400,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002C484,0x58,func_8002C484,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8002C4DC,0x3C,func_8002C4DC,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x8002C4DC,0x3C,Duel_FindPlayerDeckCard,matching_c,game,"Returns the first gDuel_awPlayerDeck slot holding a card id, or -1 when none of the 40 entries does. 4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split."
 0x8002C518,0x48,func_8002C518,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x8002C560,0x8,func_8002C560,matching_c,game,Empty function matched exactly.
 0x8002C568,0x8,func_8002C568,matching_c,game,Empty function matched exactly.
