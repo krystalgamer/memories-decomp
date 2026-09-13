@@ -138,6 +138,7 @@ SD_BGMFadeOut = 0x8003FF34; // type:func
 SD_BGMFadeOutWithStep = 0x8003FF58; // type:func
 SD_StopAll = 0x8003FFFC; // type:func
 SD_KeyOffVoiceSlots = 0x80047EC4; // type:func
+SD_KeyOffVoice = 0x80047C70; // type:func
 SD_SpatializeSecondaryObject = 0x8004A0FC; // type:func
 SD_SetVoiceVolume = 0x8004A27C; // type:func
 SD_UpdateSecondaryObjectVolumes = 0x8004A2F8; // type:func

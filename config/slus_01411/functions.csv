@@ -765,7 +765,7 @@ address,size,name,status,module,notes
 0x80047B68,0x4C,func_80047B68,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047BB4,0x9C,func_80047BB4,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047C50,0x20,func_80047C50,matching_c,game,Pure-C post-terminal resolution: a u16 result local preserves the input in v0 and defers narrowing to the return delay slot. Exact 32-byte function with gcc_2_8_1_g0; no register pins or inline assembly. Replaces the reclassified pinned candidate (issue #5).
-0x80047C70,0x54,func_80047C70,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80047C70,0x54,SD_KeyOffVoice,matching_c,game,Keys off one SPU voice and polls its key status up to 256 times. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047CC4,0xEC,func_80047CC4,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047DB0,0x114,SD_SEStop,matching_c,game,"Stops every voice playing a sound-effect id, or the CD channel for 0x8000 ids. Pure-C exact match: declaring the 16-bit key before the preserved full-width argument reproduces the retail a0/a1 live ranges without hard-register pins."
 0x80047EC4,0x74,SD_KeyOffVoiceSlots,matching_c,game,Keys off the four dedicated SPU voice slots and polls their status for at most 24 iterations; exact full-executable match with gcc_2_8_1_g0.
