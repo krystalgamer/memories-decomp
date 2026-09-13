@@ -17,6 +17,17 @@
 #define MEM_CARD_DIALOG_FLAG_OPENED 0x4000
 #define MEM_CARD_DIALOG_FLAG_ACTIVE 0x8000
 
+/* Low-level request producer ABI: file names and buffers are integer
+ * addresses, while offset/size are full words at the call boundary.
+ * These are distinct from the LIBMCRD MemCardReadFile/WriteFile API. */
+s32 MemCard_ReqLoadDirectory(s32 channel);
+s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
+s32 func_80044838(s32 mode, s32 *request, s32 *result);
+
 /* The result of the card's asynchronous IO, set from the callbacks
  * mem_card_io_result_callbacks.h declares and polled by the request state
  * machines. MemCard_BeginRequest resets it to -1 before starting a request.

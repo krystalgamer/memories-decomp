@@ -979,6 +979,12 @@
       "source": "src/game/duel_field_display_objects.c"
     },
     {
+      "address": "0x800235C0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x748",
+      "source": "src/game/duel_field_display_objects.c"
+    },
+    {
       "address": "0x80023D08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
@@ -3299,6 +3305,12 @@
       "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1DC",
       "source": "src/game/func_8003DA40.c"
+    },
+    {
+      "address": "0x8003DC1C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x850",
+      "source": "src/game/func_8003DC1C.c"
     },
     {
       "address": "0x8003E46C",

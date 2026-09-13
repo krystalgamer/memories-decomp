@@ -60,6 +60,8 @@ PAIRS = [
     ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
     ("src/candidates/func_80056828.c", "func_8004CB0C", '#include "../game/model_slot_setup.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
+    ("src/candidates/func_80024200.c", "func_800235C0", '#include "../game/duel_field_display_objects.h"'),
+    ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (
@@ -225,6 +227,8 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 for owner in (
                     "display_object_packet_submit.h",
                     "model_slot_setup.h",
+                    "duel_field_display_objects.h",
+                    "duel_card_object_helpers.h",
                 )
             ):
                 continue

@@ -1,13 +1,14 @@
+#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 #include "../unmatched.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 
 #include "high_memory_addresses.h"
-extern u8 D_801A8000[];
 
 void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 {
