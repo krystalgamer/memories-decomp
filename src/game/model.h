@@ -260,10 +260,14 @@ typedef struct {
     s16 slot;
 } ModelCameraLeg;
 
-/* `flags` bit 0 marks the eye as slot-driven and bit 1 the target;
+/* `flags` bit 0 selects eye interpolation and bit 1 target interpolation;
+ * either endpoint may use explicit coordinates instead of a model slot.
  * `duration` is twice the absolute duration the caller asked for, clamped to
- * 0xFFFF. field_02, field_04 and field_06 are the easing counters
- * func_80052694 walks. */
+ * 0xFFFF. func_80051A48 tracks paired-slot X/Y and end-slot X/Y/Z by at most
+ * 30 per update. The 0xFFFF sentinel skips elapsed advancement, not tracking
+ * or interpolation. func_80052694 adjusts field_04 using field_06 as its
+ * baseline; func_80051A48 uses field_04 for orbit yaw and decrements field_02
+ * in follow mode. */
 typedef struct {
     u8 mode;
     u8 flags;

@@ -240,7 +240,6 @@ void func_80034830(void);
  * func_8004158C.h. */
 void func_8004DE24(void);
 void func_8004EB00(void);
-void func_80051A48(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 s32 func_800534B8(void);
 void func_8005C7BC(void);
