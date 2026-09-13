@@ -875,7 +875,7 @@ address,size,name,status,module,notes
 0x8004E7B0,0x1F0,func_8004E7B0,matching_c,game,Exact pin-free 496-byte model view follower: direct signed angle differences and semantic absolute-value predicate recover initial allocation. Retains the historical nine COMMON names bound to existing data/layout owners and the uniform G8 split COMMON profile; no instruction assembly.
 0x8004E9A0,0x160,func_8004E9A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8004EB00,0x132C,func_8004EB00,unmatched_asm,game,
-0x8004FE2C,0x758,func_8004FE2C,unmatched_asm,game,
+0x8004FE2C,0x758,func_8004FE2C,matching_c,game,"Pure C under uniform G8 split: an unknown-bound view of the D_8009AFFC template, a .rodata split row for the jump table, and step-15 operand order recover 1880 bytes without pins or inline assembly."
 0x80050584,0x24C,func_80050584,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800507D0,0x754,func_800507D0,unmatched_asm,game,
 0x80050F24,0x148,func_80050F24,matching_c,game,"Model slot cue request: scales the field_750 duration by 2/3, clamps it to 60, and lets the 0xCF8 block override it"

@@ -23,7 +23,14 @@ extern char D_8009AFF4[];
 #else
 extern char D_8009AFF4[8];
 #endif
+/* func_8004FE2C copies these eight bytes as one block. Through the sized
+ * declaration that unit builds four bytes short; the unknown-bound view
+ * changes no storage extent. */
+#ifdef MODEL_HANDLER_TEMPLATE_AS_ARRAY
+extern u32 D_8009AFFC[];
+#else
 extern u32 D_8009AFFC[2];
+#endif
 extern u32 D_8009B004;
 extern u32 D_8009B008;
 extern char D_8009B00C[8];

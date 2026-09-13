@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "camera_view.h"
 #include "func_8004E9A0.h"
+#include "func_8004FE2C.h"
 #include "func_800528AC.h"
 #include "func_800556E8.h"
 #include "func_8005A53C.h"
