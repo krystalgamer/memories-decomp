@@ -11,30 +11,12 @@
 #define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
 #define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
-#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
    func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
 extern u8 D_801D4200_raw[] asm("D_801D4200");
-
-/* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: File_ActivateTransfer overwrites the primary descriptor with the
-   secondary one.
-
-   This is a block-move spelling, not a second description of the record --
-   the element type is what sets the alignment and therefore the move width,
-   so it is deliberately `s32` and deliberately not interchangeable with
-   FileTransferDescriptor itself, which contains halfword members. The assert
-   below is what ties the two together. */
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} FileTransferDescriptorWords;
-
-typedef char FileTransferDescriptorWords_size_must_match_descriptor[
-    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *

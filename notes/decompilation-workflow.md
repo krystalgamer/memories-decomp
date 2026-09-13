@@ -598,9 +598,15 @@ adds two more of its own:
   three textually identical spellings of one GTE result, in three files, for
   one address.
 
-The rule the campaign settled on: the scan produces candidates, and reading the
-source decides them. Every one of these was caught by reading, and none by the
-tool contradicting itself.
+  Large game-owned records follow the same ownership rule even when they have
+  only one current definition. `DuelEffectChannel` therefore lives beside its
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  channel counts, state flags, storage declarations, and the duel-effect API.
+  The measured size and member-offset assertions move with the record.
+
+  The rule the campaign settled on: the scan produces candidates, and reading the
+  source decides them. Every one of these was caught by reading, and none by the
+  tool contradicting itself.
 
 Single ownership applies to unique records too, not only duplicated shapes.
 The text/script pass moved `TextStreamOwner`, `EffectObject`,
@@ -608,6 +614,14 @@ The text/script pass moved `TextStreamOwner`, `EffectObject`,
 `TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
 domain headers still own constants, globals, and function declarations; the
 shared type file owns the measured layouts and offset assertions.
+
+The same ownership rule applies even when a record has only one current
+definition. Game-owned values that cross subsystem boundaries belong in
+`ygo_types.h`, while their domain headers retain constants, functions, and
+globals. The file loader's aligned descriptor-copy view, model transfer rows,
+movie stream ranges, and persistent duel-result rows follow that split. Their
+size and offset assertions move with the types, including the assertion that
+the word-copy view remains exactly the size of `FileTransferDescriptor`.
 
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
