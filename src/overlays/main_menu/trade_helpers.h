@@ -4,6 +4,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
+#include "module_rodata.h"
 
 /* One entry of D_801845EC, the two Trade card-display slots.
    MainMenu_InitTradeScreen's `i < 2` loop stores the func_800400AC result,
@@ -46,14 +47,6 @@ extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 #else
 extern MainMenuPair D_80185C8C[];
 #endif
-
-/* The six card comparators the inventory sort chooses between, copied out of
-   D_80180000[1] as one block. */
-typedef struct {
-    int (*entries[6])();
-} MainMenuComparators;
-
-extern s32 D_80180000[];
 
 /* One entry of D_801A8000, the per-side inventory row state. Only the leading
    display-object pointer is named; the rest is carried so the stride is
