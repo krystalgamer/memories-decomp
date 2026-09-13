@@ -72,15 +72,14 @@ void func_800144B8(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_
 
 void func_8001455C(void)
 {
-    u8 *p;
+    FileTransferDescriptor *p;
     void (*cb)(void);
     void (*cb2)(void);
     u8 *q;
-    void (*step)(u8 *, s32);
     s32 n;
     s32 m;
 
-    p = (u8 *)&gFile_PrimaryTransferDescriptor;
+    p = &gFile_PrimaryTransferDescriptor;
     if (D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_PENDING) {
         if (!(D_8009B0F4 & FILE_TRANSFER_STATE_POSITION_QUERY_BUSY)) {
             if (DsCommand(0x10, 0, (DslCB)func_80014390, 0) > 0) {
@@ -105,7 +104,7 @@ void func_8001455C(void)
             if (D_8009B112 & 2) {
                 D_8009B112 = D_8009B112 & 0xFFFE;
             } else {
-                *(s32 *)(p + 0x30) = 0;
+                p->field_30.word = 0;
             }
         }
         switch (D_8009B100) {
@@ -133,8 +132,10 @@ set_state3:
         case 3:
             D_8009B112 = D_8009B112 | 0x1000;
             q = &D_8009B11C_byte + 1;
-            *q = p[0x38];
-            q[-1] = p[0x39];
+            /* In sector-range mode the word at 0x38 carries the
+               CdlSetfilter channel (low byte) and file (next byte). */
+            *q = ((u8 *)&p->callback_data)[0];
+            q[-1] = ((u8 *)&p->callback_data)[1];
             if (DsCommand(0xD, (u8 *)(q - 1), (DslCB)func_80014294, -1) <= 0) {
                 return;
             }
@@ -142,7 +143,7 @@ set_state3:
             return;
         case 4:
             CdIntToPos_8007E600(
-                *(s32 *)(p + 0x24), (CdlLOC *)D_8009B104
+                p->absolute_lba, (CdlLOC *)D_8009B104
             );
             if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
                 return;
@@ -161,7 +162,7 @@ set_state3:
         case 6:
             D_8009B0EC = D_8009B0EC - 1;
             if ((s16)D_8009B0EC > 0) {
-                if (*(s32 *)(p + 0x30) < *(s32 *)(p + 0x34)) {
+                if ((s32)p->field_30.word < p->direct_destination) {
                     return;
                 }
             }
@@ -175,8 +176,8 @@ call_back:
         }
         return;
     }
-    if (p[FILE_TRANSFER_DESCRIPTOR_STATE_BYTE_OFFSET] == 5) {
-        switch (p[FILE_TRANSFER_DESCRIPTOR_SUBSTATE_BYTE_OFFSET]) {
+    if (p->done == 5) {
+        switch (p->substate) {
         case 0:
             DsEndReadySystem();
             CdReadyCallback(0);
@@ -198,7 +199,7 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(*(s32 *)(p + 0x24), (CdlLOC *)D_8009B104);
+    CdIntToPos_8007E600(p->absolute_lba, (CdlLOC *)D_8009B104);
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
@@ -211,11 +212,10 @@ call_back:
     }
     if (!(D_8009B0F4 & 0x800000)) {
         D_8009B0F4 = D_8009B0F4 | 0x800000;
-        step = *(void (**)(u8 *, s32))(p + 0x20);
-        if (step != 0) {
-            step(p, (*(s32 *)(p + 0x40))++);
+        if (p->phase_callback != 0) {
+            p->phase_callback(p, p->result++);
         }
-        *(s32 *)(p + 0x28) = *(s32 *)(p + 0x1C);
+        p->phase_remaining = p->phase_size;
         return;
     }
     if (D_8009B0F4 & 0x400000) {
