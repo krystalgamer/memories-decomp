@@ -16,6 +16,7 @@
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
 #include "display_object.h"
+#include "display_object_core.h"
 #include "../unmatched.h"
 
 /* Private helpers of the same duel action controller,
