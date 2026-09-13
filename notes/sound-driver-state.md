@@ -306,7 +306,7 @@ what the cast applies to:
 - a base local assigned `(u8 *)g_SDValue` (five, three of them in
   `sound_output_state.c`, all within `func_80045054`);
 - a cast on a member's value (one, `sound_voice_selection.c`, in
-  `func_80047DB0`).
+  `SD_SEStop`).
 
 This note records a code-generation rationale for exactly one of the
 eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
