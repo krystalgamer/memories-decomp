@@ -121,17 +121,19 @@ void func_800179F4(void)
     obj = func_800400AC(func_8004002C(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     func_80042918(obj);
-    /* Both of this function's flag merges keep u8 * arithmetic instead of
-       obj->flags, and the spelling is load-bearing rather than untidy.
+    /* Both of this function's flag merges go through the member's address
+       as s16 instead of obj->flags, and the spelling is load-bearing rather
+       than untidy.
 
        Writing obj->flags lets GCC 2.8.1 schedule the sh into the delay slot
        of the following jal and drop the nops around it, which shortens the
-       executable by sixteen bytes. Taking the member's address instead,
-       *(u16 *)&obj->flags, fails identically, so the barrier is the pointer
-       arithmetic on u8 * and not the cast. Each site was measured on its own:
+       executable by sixteen bytes. *(u16 *)&obj->flags fails identically,
+       because fold turns an address-of cast to the member's own type back
+       into the member access; the s16 cast differs from the u16 member, so
+       it stays a non-struct store. Each site was measured on its own:
        leaving only the second as member access still loses twelve bytes, and
        the first accounts for the other four. */
-    *(u16 *)((u8 *)obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
     D_8009B214 = obj;
     obj = func_800400AC(func_8004002C(), 2);
@@ -139,7 +141,7 @@ void func_800179F4(void)
         obj, 280, 32, 4, side, 0, 11, 748
     );
     func_80042918(obj);
-    *(u16 *)((u8 *)obj + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (D_8009B1D5 != 0) {
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
