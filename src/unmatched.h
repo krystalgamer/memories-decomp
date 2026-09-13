@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "ygo_types.h"
+#include "game/text_start_campaign_duel.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -654,14 +655,6 @@ extern u8 D_8009B269[];
 extern u8 D_8009B269;
 #endif
 
-#ifdef D_8009B26C_AS_SCALAR_DATA
-extern u8 D_8009B26C __attribute__((section(".data")));
-#elif defined(D_8009B26C_AS_SCALAR)
-extern u8 D_8009B26C;
-#else
-extern u8 D_8009B26C[];
-#endif
-
 #ifdef D_8009B2F8_AS_ARRAY
 extern u8 D_8009B2F8[];
 #else
@@ -672,13 +665,6 @@ extern u8 D_8009B324;
 extern u8 D_8009B325;
 extern s8 D_8009B32C;
 extern u16 D_8009B348[2];
-#ifdef D_8009B370_AS_BYTE_ARRAY
-extern u8 D_8009B370[];
-#else
-extern u16 D_8009B370;
-#endif
-extern u16 D_8009B372;
-extern u16 D_8009B374;
 extern u16 D_8009B3CC;
 extern u8 D_8009B3CF;
 extern u8 D_8009B3DD;

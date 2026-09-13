@@ -11,7 +11,29 @@
  * 0x26, 0x72A0 otherwise), and hands the scene to mode 3.
  *
  * It also resets D_8009B360 to -1 before any of that, which is what makes the
- * duel's own state read as unset. Register-pinned throughout. */
+ * duel's own state read as unset. */
+#ifdef TEXT_START_CAMPAIGN_DUEL_DECLARE_STATE
+extern u8 gDuel_bOpponentID;
+extern u8 gDuel_bTerrain;
+#endif
+
+#ifdef D_8009B26C_AS_SCALAR_DATA
+extern u8 D_8009B26C __attribute__((section(".data")));
+#elif defined(D_8009B26C_AS_SCALAR) || \
+    defined(TEXT_START_CAMPAIGN_DUEL_DECLARE_STATE)
+extern u8 D_8009B26C;
+#else
+extern u8 D_8009B26C[];
+#endif
+
+#ifdef D_8009B370_AS_BYTE_ARRAY
+extern u8 D_8009B370[];
+#else
+extern u16 D_8009B370;
+#endif
+extern u16 D_8009B372;
+extern u16 D_8009B374;
+
 void Text_StartCampaignDuel(DuelEffectChannel *object);
 
 #endif
