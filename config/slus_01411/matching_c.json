@@ -889,6 +889,12 @@
       "source": "src/game/duel_result_runtime.c"
     },
     {
+      "address": "0x800218F0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x7C8",
+      "source": "src/game/func_800218F0.c"
+    },
+    {
       "address": "0x800220B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x23C",

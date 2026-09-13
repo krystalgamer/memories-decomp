@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "display_asset_banks.h"
 
 typedef struct {
     u8 pad_00[0x54];

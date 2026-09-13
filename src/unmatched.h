@@ -111,7 +111,6 @@ void func_800262D4(void);
  * either passes it to func_800428A8 or stores it into an object field, and
  * none of them read through it. func_80020D4C sized it [16], but nothing
  * takes its sizeof, so the bound was decorative. */
-extern u8 D_801AF000[];
 
 /* Six consumers use this second buffer base with the same unsized-byte-array
  * spelling: three resident transfer paths and three main-menu display paths.
@@ -196,7 +195,6 @@ void func_8001BD88(void);
 void func_8001D670(void);
 void func_80019D18(void);
 void func_8001F55C(void);
-void func_800218F0(void);
 void func_80018FEC(void);
 void func_80029EC4(void);
 
@@ -268,18 +266,13 @@ void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
 void func_80056828(s32);
 
-/* Two more undefined globals, each declared identically by every consumer
- * and only ever read or written as a scalar, so none of them has a
- * per-consumer addressing form to preserve.
+/* This undefined global is declared identically by every consumer and
+ * only ever read or written as a scalar.
  *
  * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
- * D_8009B23A's next name, D_8009B244, is ten bytes on, so that gap is an
- * upper bound rather than the size; nothing is named inside it and no
- * consumer reads past the halfword, so the u16 every consumer agrees on is
- * what is declared here and the bytes above it stay unclaimed. */
+ * D_8009B23A has moved to its owner, duel_scene_state.h. */
 extern u16 D_8009B162;   /* nine declarers  */
-extern u16 D_8009B23A;   /* eight declarers */
 
 /* Nothing in the tree calls this one. Both consumers only take its address,
  * to install it in a display object's +0x4C slot: dialog_transition.c stores

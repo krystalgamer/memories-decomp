@@ -24,8 +24,15 @@ typedef struct DuelRitualResult {
  * why the array stays unsized here -- the two consumers disagree about the
  * element type, and only the halfword view belongs to this header.
  *
- * func_800218F0 also takes its address and is still assembly. */
+ * func_800218F0 reuses the same backing for a complete 0x40-byte result
+ * display record, after recipe processing has ended. Its guarded view
+ * below describes that bounded record, not a new allocation. */
+#ifdef DUEL_RITUAL_DATA_RESULT_VIEW
+#include "duel_result_display.h"
+extern DuelResultDisplayState gDuel_awRitualData;
+#else
 extern u16 gDuel_awRitualData[];
+#endif
 
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 
