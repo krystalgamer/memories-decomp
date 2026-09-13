@@ -31,14 +31,28 @@ module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
 
+## Name-entry type contracts
+
+The name-entry interface headers import their records and callback type from
+`src/ygo_types.h`. The drawing and keyboard-tween views of `D_8016D404` are
+one `SelectionFrame` contract; `NameEntrySelectionFrameView` preserves the
+drawing API's spelling as an alias. The glyph sprite, dialog panel, source
+text node and starter-pool records keep their distinct meanings and layouts.
+See [the contract evidence](../../../notes/overlays/name-entry-type-contracts.md)
+for consumer agreement, layout assertions and the drawing alias's wider
+observed prefix. No screen function bodies or callback signatures change.
+
 ## Password-shop lifecycle translation unit
 
-[`shop.c`](shop.c) is the whole password shop screen: ten functions in
-executable order from `Password_RefreshDigitDisplay` at `0x80169C30` through
-`Password_UpdateShopScreen` at `0x8016A37C`. One
-`gcc_2_8_1_g0_split` C subsegment at module offset `0x1C30` covers the full
-`0xD00`-byte text extent through `0x8016A930`; the same source owns its rodata
-block at module `+0x7C`.
+The password shop screen is ten functions in executable order, from
+`Password_RefreshDigitDisplay` at `0x80169C30` through
+`Password_UpdateShopScreen` at `0x8016A37C`, ending at `0x8016A930`.
+[`shop.c`](shop.c) holds the first nine as one `gcc_2_8_1_g0_split` C
+subsegment at module offset `0x1C30`. The updater matched only through a
+pinned register, so since #3859 it is a build-integrated candidate
+(`src/candidates/password/func_8016A37C.c`): its text is generated
+assembly at `0x237C`, and its jump table, the rodata block at module `+0x7C`,
+is a blob again.
 
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three
@@ -102,7 +116,7 @@ or real-time duration is inferred from the phase byte.
 
 As everywhere in this module, one compiler profile covers the whole overlay,
 so a profile change does not mark this boundary. The two externally reached
-functions are the pair `main_run_frontend_menus.c` calls: init once and update
+functions are the pair `main_run_password_menu.c` calls: init once and update
 per tick. Every other function in the table is called or installed by that
 pair.
 
@@ -188,7 +202,8 @@ payment begins in state 3. The award helper caps ordinary chest quantity at
 250 and records the card in the recent-card list; this updater has no separate
 chest-cap refusal. Payment uses the first word of the card's eight-byte
 cost/password record and subtracts from both unsigned remaining cost and
-`gLibrary_dwStarchips` (`D_801D0000[504]`, address `0x801D07E0`).
+`gLibrary_dwStarchips` (`SaveDataState.starchips` at `+0x5E0`, address
+`0x801D07E0`).
 
 For current remaining cost `c`, the deduction starts at 1. Successive
 thresholds replace it with `c/10` at 10, `c/20` at 100, `c/30` at 1000,
@@ -223,12 +238,16 @@ unmatched module text begins there. The source also retains
 
 ## Name-entry lifecycle translation unit
 
-`name_entry_runtime.c` contains the complete matched name-entry pipeline:
-fourteen functions in executable order from `NameEntry_BuildKeyboardTextBox`
-at `0x80168138` through `NameEntry_PollCompletion` at `0x80169C08`. One
-`gcc_2_8_1_g0_split` C subsegment at module offset `0x138` covers the full
-`0x1AF8`-byte text extent through `0x80169C30`, and the same source owns the
-glyph atlas rodata at module offset `0x4`.
+The name-entry pipeline is fourteen functions in executable order from
+`NameEntry_BuildKeyboardTextBox` at `0x80168138` through
+`NameEntry_PollCompletion` at `0x80169C08`, ending at `0x80169C30`, all
+`gcc_2_8_1_g0_split`. `name_entry_runtime.c` holds the first eleven as the C
+subsegment at module offset `0x138` and owns the glyph atlas rodata at module
+offset `0x4`. `NameEntry_UpdateKeyboard` matched only through pinned
+registers and an asm statement, so since #3859 it is a build-integrated candidate
+(`src/candidates/password/func_8016913C.c`) assembled from generated
+assembly at `0x113C`; the last two are
+[`name_entry_dialog.c`](name_entry_dialog.c) at `0x1734`.
 
 The two external doors are the lifecycle pair: `NameEntry_Init` builds the
 screen once, while `NameEntry_PollCompletion` advances it each frame and
@@ -333,10 +352,13 @@ level; a union here would assert a relationship that has not been shown.
 
 ## Name-entry keyboard and dialog runtime
 
-The last four functions in `name_entry_runtime.c` are the per-frame update
-path: the completion entry point, the dialog state machine behind it, the
-keyboard handler that machine drives, and the caret helper both of them use.
-They occupy `0x8016909C..0x80169C30`.
+The last four functions of the pipeline are the per-frame update path: the
+completion entry point, the dialog state machine behind it, the keyboard
+handler that machine drives, and the caret helper both of them use. They
+occupy `0x8016909C..0x80169C30`. The caret helper ends
+`name_entry_runtime.c`, the keyboard handler is a build-integrated candidate since
+#3859, and the dialog machine and the completion entry point are
+`name_entry_dialog.c`.
 
 | Address | Function |
 |---|---|
@@ -371,7 +393,7 @@ contains the caret callback it installs.
 
 The two callers of `NameEntry_PollCompletion` are
 [`name_entry_main.c`](name_entry_main.c) in this overlay and the resident
-`main_run_frontend_menus.c`; both take it through
+`Main_RunNameEntry` (`src/candidates/func_8002D62C.c`); both take it through
 [`name_entry_keyboard.h`](name_entry_keyboard.h) or their own extern, and
 neither reaches past it.
 

@@ -41,7 +41,7 @@ void func_8003C4E0(s32 arg0) {
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
     TextBox_Create(1,0xEF,0x18,0x38,0x120,0x100);
-    func_80039A14((u8 *)&D_800EB15C);
+    func_80039A14(&D_800EB15C);
 }
 
 void Options_UpdateLayout(s32 selection) {
@@ -90,7 +90,7 @@ void Options_UpdateLayout(s32 selection) {
    load-early/store-late around the intervening `ori`). */
 
 void Options_Init(void) {
-    register DisplayObject *obj asm("s1");
+    DisplayObject *obj;
     s32 s0;
     s32 s2;
 
@@ -101,7 +101,8 @@ void Options_Init(void) {
     gOptions_bState = 1;
     {
         s8 flag408 = gSD_bOutputType;
-        obj->flags |= 0x28;
+        obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         gOptions_bOutputType = flag408;
         if (flag408 < 0) {
             gOptions_bOutputType = 0;
@@ -114,7 +115,8 @@ void Options_Init(void) {
     s0 = 0xB;
     func_800404CC(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
     D_8009B388 = obj;
-    obj->flags |= 0x28;
+    obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                  DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     obj = func_800400AC(func_8004002C(), 1);
     func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);

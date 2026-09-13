@@ -27,8 +27,10 @@ s32 SD_ReadSequenceHeader(void);
 void SD_AdvanceSequencePosition(s32 *value, s32 amount);
 
 /* The default arm of SD_ReadSequenceEvent: an event the driver does not
-   handle is consumed and nothing happens. The body is empty. */
-void SD_IgnoreSequenceEvent(void);
+   handle is consumed and nothing happens. The body is empty, but the caller
+   passes the unhandled status byte: retail zero-extends it into $a0 before
+   the call, and that argument decides the caller's register allocation. */
+void SD_IgnoreSequenceEvent(u8 status);
 
 /* Meta events. `arg1` is the meta type byte the reader has already fetched;
    end-of-track and tempo are handled, the rest are skipped by length. */

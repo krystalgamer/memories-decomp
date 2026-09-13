@@ -1,5 +1,5 @@
 #include "../types.h"
-#define AI_HAND_SIZE_RETURNS_S32
+#define AI_GET_HAND_SIZE_RETURNS_S32
 #include "ai.h"
 
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)

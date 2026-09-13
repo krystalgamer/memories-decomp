@@ -13,22 +13,22 @@
 /* The slot data entries at ModelSlot.entries, the record field_D18 points at
  * and the block func_800580D4 builds on the stack are all one type: libhmd's
  * GsCOORDUNIT. These pin every offset the game still reaches by hand. */
-typedef char ModelSlotDataEntry_must_be_a_GsCOORDUNIT[
+extern char ModelSlotDataEntry_must_be_a_GsCOORDUNIT[
     sizeof(GsCOORDUNIT) == MODEL_SLOT_DATA_ENTRY_SIZE ? 1 : -1
 ];
-typedef char GsCOORDUNIT_matrix_offset_must_be_0x4[
+extern char GsCOORDUNIT_matrix_offset_must_be_0x4[
     MODEL_UNIT_OFFSET(matrix) == 0x4 ? 1 : -1
 ];
-typedef char GsCOORDUNIT_matrix_t_offset_must_be_0x18[
+extern char GsCOORDUNIT_matrix_t_offset_must_be_0x18[
     MODEL_UNIT_OFFSET(matrix.t) == 0x18 ? 1 : -1
 ];
-typedef char GsCOORDUNIT_workm_offset_must_be_0x24[
+extern char GsCOORDUNIT_workm_offset_must_be_0x24[
     MODEL_UNIT_OFFSET(workm) == 0x24 ? 1 : -1
 ];
-typedef char GsCOORDUNIT_rot_offset_must_be_0x44[
+extern char GsCOORDUNIT_rot_offset_must_be_0x44[
     MODEL_UNIT_OFFSET(rot) == 0x44 ? 1 : -1
 ];
-typedef char GsCOORDUNIT_super_offset_must_be_0x4C[
+extern char GsCOORDUNIT_super_offset_must_be_0x4C[
     MODEL_UNIT_OFFSET(super) == 0x4C ? 1 : -1
 ];
 
@@ -38,10 +38,10 @@ typedef char GsCOORDUNIT_super_offset_must_be_0x4C[
  * header does not need the libhmd chain. Every field agrees. */
 #define MODEL_SEQ_AGREES(member) \
     ((u32)&(((ModelSlotPart *)0)->member) == (u32)&(((GsSEQ *)0)->member))
-typedef char ModelSlotPart_must_be_a_GsSEQ[
+extern char ModelSlotPart_must_be_a_GsSEQ[
     sizeof(ModelSlotPart) == sizeof(GsSEQ) ? 1 : -1
 ];
-typedef char ModelSlotPart_seq_fields_must_agree[
+extern char ModelSlotPart_seq_fields_must_agree[
     MODEL_SEQ_AGREES(rewrite_idx) && MODEL_SEQ_AGREES(size) &&
     MODEL_SEQ_AGREES(num) && MODEL_SEQ_AGREES(ii) &&
     MODEL_SEQ_AGREES(aframe) && MODEL_SEQ_AGREES(sid) &&

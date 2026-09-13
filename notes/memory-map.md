@@ -79,19 +79,21 @@ tree at once:
 
 | Reached as | Where | Declared |
 | --- | --- | --- |
-| `D_800E9D90[1]` | `frontend.c` and two more | `GsOT *D_800E9D90[]` |
+| `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
-| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c` | `GsOT *D_800E9D90[]` |
-| `D_800E9D98` | `display_projection.c` | `void *D_800E9D98[]` |
+| `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c`, `func_8004CB0C.c` | `GsOT *D_800E9D90[]` |
+| `D_800E9D98` | `src/candidates/func_80015DFC.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
-`func_8004CB0C` loads the third word as `lui %hi(D_800E9D98)` /
-`lw %lo(D_800E9D98)`, not as a displacement off `D_800E9D90`. A file that
+`func_8004CB0C` loads the third word with its own `lui %hi(D_800E9D98)` /
+`lw %lo(D_800E9D98)` pair. Its matching C spells that word `D_800E9D90[2]`:
+under `-G8 -msplit-addresses` the sized array keeps the high half in a
+separate register, and the linked bytes are the same. A file that
 reaches the word by its own name and a file that reaches it as an element of
 the array are both reproducing what retail did, which is why eleven files
 declare this storage six different ways and none of them is simply wrong.
 
-`fade_overlay.c` is the case that shows the overlap can be wider than one
+`fade_runtime.c` is the case that shows the overlap can be wider than one
 word: it declares `s32 D_800E9D94[4]` and reads `[0]`, a view that nominally
 spans `D_800E9D98` and beyond.
 
@@ -109,12 +111,17 @@ Two consequences for the data work:
 
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
-is using. `func_8001B938.c` reached the deck records like this:
+is using. `func_8001B938.c` reaches the deck records like this (in
+`func_8001BAF0`):
 
 ```c
-base = (u8 *)gDuel_aActiveCards;
-deck = base - 0x31E0;
+#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
+    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
 ```
+
+Retail builds that base from the active-card address itself, as
+`addiu $fp, $t0, -0x31E0` after loading `gDuel_aActiveCards`, so the pure-C
+match keeps the offset rather than naming `gDuel_aDeckCardRecords`.
 
 `symbols.txt` puts `gDuel_aActiveCards` at `0x801AB000` and
 `gDuel_aDeckCardRecords` at `0x801A7E20`, which differ by exactly `0x31E0`. So
@@ -125,10 +132,10 @@ type. Grepping for the destination's name finds nothing.
 Subtracting addresses is therefore a cheap identity test that no name search
 can do. Two more instances are confirmed:
 
-- `duel_rewards.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
+- `duel_result_runtime.c` builds `gDuel_awPlayerDeck + 0x5BC` in `Duel_AwardCard`,
   and `0x801D07BC - 0x801D0200` is exactly `0x5BC`, so that destination is
   `gDuel_awRecentCardDrops`.
-- `sound_output_state.c` reads `state + 0x40` where `state` is `g_SDValue`.
+- `func_80045054` (`src/game/sound_output_state.c`) reads `state + 0x40` where `state` is `g_SDValue`.
   `g_SDValue` is at `0x8009B45C` and `D_8009B49C` is `0x40` later, so that
   name lies **inside** the `g_SDValue` record rather than beside it.
 

@@ -1,10 +1,11 @@
 #define GINPUT_PAD1_HELD_IN_DATA
 #define GINPUT_PAD1_PRESSED_IN_DATA
+#define SCRIPT_STATE_COMMAND_IN_DATA
 #include "../types.h"
 #include "func_80037C74.h"
 #include "input.h"
 #include "duel_effect.h"
-#include "duel_effect_interaction_states.h"
+#include "duel_effect_state_callbacks.h"
 #include "duel_effect_entry_control.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_constants.h"
@@ -13,6 +14,7 @@
 #include "func_80036C14.h"
 #include "menu_record_reset.h"
 #include "script_command_table.h"
+#include "script_state.h"
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
@@ -25,7 +27,6 @@ extern void (*D_80090F18[])(u8 *);
    common symbol, so no storage is allocated here.  volatile is what keeps the
    read-back after the store, which retail issues at every use. */
 volatile u16 D_8009B33A;
-extern u16 D_8009B27C __attribute__((section(".data")));
 
 void TextBox_BuildStep(DuelEffectChannel *object)
 {
@@ -98,7 +99,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         return;
     }
     if ((object->flags_34 & 0x1C00) == 0) {
-        if ((gInput_wPad1Held & 0x80) || (gInput_wPad1Pressed & 0xC0)) {
+        if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) ||
+            (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK)) {
             func_800373C8(object, 0, 0);
             object->delay_52 = 1;
             object->flags_34 = object->flags_34 | 0x400;

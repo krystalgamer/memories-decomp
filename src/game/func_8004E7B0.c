@@ -1,10 +1,12 @@
 #include "../types.h"
 #include "model.h"
 #include "model_graphics_state.h"
+#include "func_8004E7B0.h"
 
-/* These tentative definitions are a codegen input: changing them to extern
- * shortens this function by four bytes. model_graphics_state.c supplies the
- * strong .sdata definitions, so the common symbols allocate no storage. */
+/* These historical COMMON definitions retain the post-mfhi delay slot.
+ * The graphics state binds to its strong .sdata owner and the snapshot
+ * names to existing image/layout symbols; they add no replacement storage.
+ * The named profile's --use-comm-section spelling is load-bearing. */
 u8 *D_8009AF88;
 s16 D_8009AF8E;
 s16 D_8009AF90;
@@ -16,33 +18,26 @@ ModelBytes8 D_8009B480;
 s16 D_8009B482;
 s16 D_8009B484;
 
+/*
+ * Direct signed angle differences and the semantic absolute-value predicate
+ * recover the initial loads and branch-delay copy without register bindings.
+ * Each difference is between signed halfwords, so abs cannot receive INT_MIN.
+ * All 496 bytes match with the existing uniform G8 split COMMON profile.
+ */
 void func_8004E7B0(s32 force)
 {
-    register s32 dy asm("$5");
+    s32 dy;
     s32 dz;
-    register s32 t asm("$2");
+    s32 t;
     s32 a;
     s32 b;
     s32 u;
     s32 r;
     s32 m;
-    register s32 previous_pitch asm("$2");
-    s32 previous_yaw;
-    register s32 current_pitch asm("$4");
 
-    dy = D_8009B47A;
-    previous_yaw = D_8009B482;
-    current_pitch = D_8009B47C;
-    previous_pitch = D_8009B484;
-    current_pitch = current_pitch - previous_pitch;
-    previous_yaw = dy - previous_yaw;
-    dy = previous_yaw;
-    dz = current_pitch;
-    t = dy;
-    if (dy < 0) {
-        t = -t;
-    }
-    if (t >= 0x801) {
+    dy = D_8009B47A - D_8009B482;
+    dz = D_8009B47C - D_8009B484;
+    if (__builtin_abs(dy) >= 0x801) {
         if (dy > 0) {
             dy -= MODEL_ANGLE_FULL_TURN;
         } else {

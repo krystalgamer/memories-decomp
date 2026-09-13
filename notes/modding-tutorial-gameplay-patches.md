@@ -327,7 +327,9 @@ card's cost, displays the affordability result, and on confirmation calls
 The patch therefore removes only the one-purchase-per-password gate. It does
 not make purchases free or deliver cards through a separate path.
 
-The complete matching `Password_UpdateShopScreen` now makes the sequence
+The byte-exact `Password_UpdateShopScreen` source (a build-integrated candidate since
+#3859, [`src/candidates/password/func_8016A37C.c`](../src/candidates/password/func_8016A37C.c),
+because its match depends on a pinned register) makes the sequence
 explicit: state 2 selects the price-dependent message and delegates choice
 handling to the dialog program; choice zero sets the used flag and awards
 the card, then state 3 incrementally debits RAM starchips. There is no second
@@ -454,7 +456,7 @@ for (card_id = EXODIA_FIRST_CARD_ID;
      card_id++) {
     for (i = 0; i < HAND_SIZE; i++) {
         if (buf[i] >= 0 &&
-            D_8015C424.cards[buf[i]].id == card_id) {
+            D_8015C424_cards.cards[buf[i]].id == card_id) {
             buf[i] = -1;
             goto found;
         }
@@ -528,7 +530,7 @@ Opponent IDs below `39` call the shuffle helper with `(player_deck, NULL)`.
 Duel Master K is opponent `39`, so the retail comparison fails and the
 fallthrough changes the call to `(player_deck, player_deck)`. The matching C
 for
-[`Duel_ShuffleBothDecks`](../src/game/duel_shuffle_both_decks.c) passes those
+[`Duel_ShuffleBothDecks`](../src/game/duel_shuffle_deck.c) passes those
 two arguments independently to the player and CPU
 [`Duel_ShuffleDeck`](../src/game/duel_shuffle_deck.c) calls. Exact matching
 `Duel_ShuffleDeck` confirms that a null source generates `DECK_SIZE` cards

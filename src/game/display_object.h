@@ -13,17 +13,18 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * D_800EFE48[v].previous, and func_80040814 walks the list through next.
  */
 /* The union of the four private views this record had: display_object.h's
- * own (previous/next/flags/update), display_slot_lifecycle.c's DisplaySlot
+ * own (previous/next/flags/update), display_object_core.c's DisplaySlot
  * (the richest), display_projection.c's ProjectionEntry (+0x28) and
- * func_80040588.c's local DisplayObject (+0x17, +0x30, +0x3C, +0x5C). Every
+ * display_object_core.c's renderer view (+0x17, +0x30, +0x3C, +0x5C). Every
  * offset they share agrees; each named a different subset.
  *
- * That exception is now resolved. func_80040588.c and func_800408D0.c used
- * to keep private copies because they reach a u8 at +0x22 and a pair of u16
- * at +0x3C/+0x3E, which fall inside the words display_slot_lifecycle.c
- * stores with single word writes. Splitting those words outright would have
- * turned an sw into an sh; carrying each as a union of both widths does not,
- * so the word writes keep their sw and both renderers now take this record.
+ * That exception is now resolved. display_object_core.c and
+ * display_object_updates.c used to keep private copies because they reach a
+ * u8 at +0x22 and a pair of u16 at +0x3C/+0x3E, which fall inside the words
+ * display_object_core.c stores with single word writes. Splitting those
+ * words outright would have turned an sw into an sh; carrying each as a
+ * union of both widths does not, so the word writes keep their sw and both
+ * renderers now take this record.
  *
  * The same device now covers 0x40 and 0x48, the two words
  * display_object_config.h's separate halfword view names that were still
@@ -35,7 +36,8 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * they hand to GsSortSprite and friends, so every bit the game sets there is
  * read by libgs, and the names are libgs.h's:
  *
- *   0x01000000 / 0x02000000  colour mode; the texture-page step of 1, 2 or 4
+ *   DISPLAY_OBJECT_ATTRIBUTE_8BPP / DISPLAY_OBJECT_ATTRIBUTE_16BPP
+ *                            colour mode; the texture-page step of 1, 2 or 4
  *                            a strip wrap applies is 4bpp, 8bpp and 16bpp
  *   0x04000000  GsPERS       perspective
  *   0x08000000  GsROTOFF     rotation off -- which is why the renderers only
@@ -46,12 +48,9 @@ typedef void (*DisplayObjectCallback)(u8 *);
  *   0x40000000  GsALON       semi-transparency on
  *   0x80000000  GsDOFF       display off
  *
- * That is what the recurring composites mean: 0x50000000 is GsALON | GsAONE,
- * additive blending, which is what sparkles and afterimages want; 0x60000000
- * is GsALON | GsATWO, subtractive, which is what a fade-to-black overlay
- * wants. The `& 0x8FFFFFFF` masks clear the rate and GsALON together and keep
- * GsDOFF -- "turn semi-transparency off" -- and `& 0xF7FFFFFF` clears
- * GsROTOFF, "turn rotation on". */
+ * That is what the recurring composites mean: GsALON | GsAONE is additive
+ * blending, which is what sparkles and afterimages want; GsALON | GsATWO is
+ * subtractive, which is what a fade-to-black overlay wants. */
 typedef struct DisplayObject {
     s16 previous;                  /* 0x00 */
     s16 next;                      /* 0x02 */
@@ -62,23 +61,23 @@ typedef struct DisplayObject {
     u32 field_0C;                  /* 0x0C */
     u32 field_10;                  /* 0x10 */
     /* DuelStatusPosition called this priority before it was retired into
-       this record, and for its own consumer that is right: func_80016D2C.c
+       this record, and for its own consumer that is right: func_80016D2C
        passes it to GsSortFastSprite as the ordering-table depth, and
-       display_slot_lifecycle.c seeds it from D_8009AF74[ot_index].
+       display_object_core.c seeds it from D_8009AF74[ot_index].
 
        The name is not taken, because four other consumers treat it as a bit
-       field rather than a depth: duel_field_effect_transition.c adds D_8009B1D0 << 14,
-       duel_field_effect_steps.c adds step * 0x3000, and func_80040588.c or's
+       field rather than a depth: duel_card_effects.c adds D_8009B1D0 << 14,
+       func_800260D0.c adds step * 0x3000, and display_object_core.c or's
        it with 0x10000, 0xF0000 and 0x30000 into a mode word. Taking one
        consumer's reading for the shared record is the mistake 0x6A avoids. */
     u16 field_14;                  /* 0x14 */
     s8 field_16;                   /* 0x16 */
-    /* An ordering-table index, not a texture index. func_80016D2C.c uses it
-       to pick D_800E9D90[ot_index], casts that element to GsOT * and hands it
-       to GsSortFastSprite as the ordering table; func_80040588.c indexes the
+    /* An ordering-table index, not a texture index. func_80016D2C uses it
+       to pick D_800E9D90[ot_index], a GsOT * element, and hands it
+       to GsSortFastSprite as the ordering table; display_object_core.c indexes the
        same array -- its local tb is assigned D_800E9D90 -- and passes the
-       element to func_80042188; and three overlay files declare the array as
-       GsOT *D_800E9D90[]. display_object_helpers.h's D_8009AF74[4] is a
+       element to func_80042188. ordering_tables.h shares the four-pointer
+       array with the overlays. display_object_helpers.h's D_8009AF74[4] is a
        parallel per-layer table indexed by the same byte, which agrees.
 
        It was tex_index until DuelStatusPosition was retired into this record;
@@ -89,7 +88,7 @@ typedef struct DisplayObject {
     u16 field_1C;                  /* 0x1C */
     s16 field_1E;                  /* 0x1E */
     /* 0x20 is reached both as a word and as the byte at +0x22. Both are
-       retail's: display_slot_lifecycle.c clears the whole word with one sw,
+       retail's: display_object_core.c clears the whole word with one sw,
        and the two sprite renderers read only the byte. Neither view is a
        superset, so the record carries both rather than choosing. */
     /* The byte at 0x21 is inside the halfword at 0x20, so it gets a third
@@ -151,16 +150,30 @@ typedef struct DisplayObject {
         } h;
         s32 word;
     } field_30;                    /* 0x30 */
-    /* The second of those six words. No union: every user takes it whole.
-       display_object_helpers.c zeroes it, both renderers copy it into a
-       primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
-       write colour constants into it. */
-    u32 field_34;                  /* 0x34 */
+    /* The second of those six words, and read both ways like its
+       neighbours.
+
+       Whole: display_object_helpers.c zeroes it, both renderers copy it into
+       a primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       write colour constants into it.
+
+       Halves: the value-setup screen's widget tween in the main_menu overlay
+       saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
+       out of it -- the same saved-position reading DisplayObject_SavePosition.h's
+       DisplayObjectSnapshot gives the pair. 0x34 itself has no half user
+       yet and keeps the offset for a name. */
+    union {
+        u32 word;
+        struct {
+            s16 field_34;
+            s16 field_36;
+        } h;
+    } field_34;                    /* 0x34 */
     /* Read both ways, and by the same device as its neighbours.
 
        Whole: display_object_helpers.c writes 0x00808080 here as the third of
        six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68 -- and
-       display_object_list_renderers.c copies it into a primitive's colour
+       func_80040DD8 and func_80041068 copy it into a primitive's colour
        word.
 
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
@@ -175,7 +188,7 @@ typedef struct DisplayObject {
        the three views that already name these halves outside this header:
        DisplayObjectVelocity in display_object_helpers.c calls 0x36, 0x38 and
        0x3A velocity_x, velocity_y and velocity_z and adds them to 0x30/0x32
-       every frame, while DisplayObjectSnapshot in func_80043178.h and
+       every frame, while DisplayObjectSnapshot in DisplayObject_SavePosition.h and
        DisplayObjectPosition in display_object_interpolation.h read the same
        0x36/0x38 pair as a saved position that eases into the live one.
        display_object_helpers.h sets out at length why neither of those
@@ -204,7 +217,7 @@ typedef struct DisplayObject {
     } field_3C;                    /* 0x3C */
     /* 0x40 and 0x48 are the last two words display_object_config.h's separate
        halfword view covers, and they are read both ways for the same reason
-       0x3C is: display_slot_lifecycle.c clears each with one sw and the two
+       0x3C is: display_object_core.c clears each with one sw and the two
        sprite emitters copy each as a word, while func_80040510 and the dialog
        and duel layout code write the halves. The view calls 0x48/0x4A
        half_height_2/half_width_2; the halves are left field_-named here, as
@@ -230,7 +243,7 @@ typedef struct DisplayObject {
        The sprite emitters read the same word as a scale instead:
        func_80040588 and func_800408D0 assign it to sprite_primitive.h's u32
        `scale`, and display_object_transition.c animates the two halves from a
-       0x1000 base, with that file and display_slot_lifecycle.c resetting the
+       0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
 
        An earlier revision of this comment, from #2985, gave only the second
@@ -261,14 +274,14 @@ typedef struct DisplayObject {
        display_object_helpers.c zeroes in one run.
 
        For a gouraud-rendered object it is a vertex colour:
-       display_object_list_renderers.c copies it into a primitive's colour
+       func_80040DD8 and func_80041068 copy it into a primitive's colour
        word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
        0xA0A0A0.
 
        For others it holds a second callback: display_object_updates.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       func_800179F4.c and func_8002ABB4.c each store a function's address
-       here.
+       src/candidates/func_800179F4.c and func_8002ABB4.c each store a
+       function's address here.
 
        Neither reading governs, so the offset is the name. s32 is the spelling
        that serves both: the callback writers in this file already cast the
@@ -279,16 +292,17 @@ typedef struct DisplayObject {
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
 
-       func_800179F4.c stores a pointer to another display object here and
-       Duel_DrawLifePointsAndDeckCounts loads it back. func_80042824 in
-       display_object_helpers.c writes the colour 0x00808080, as the fourth of
-       six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68. That is
+       src/candidates/func_800179F4.c stores a pointer to another display
+       object here and Duel_DrawLifePointsAndDeckCounts loads it back.
+       func_80042824 in display_object_helpers.c writes the colour 0x00808080,
+       as the fourth of six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50,
+       0x5C, 0x68. That is
        a different run from the stride-8 one described at 0x4C, and the two
        agree only at 0x2C and 0x44, which is why neither run's reading can be
-       pushed onto the whole tail. func_80041534.c advances it by 4;
+       pushed onto the whole tail. func_80041534 advances it by 4;
        func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
        reading DisplayObjectStreamState spells as `current`; and
-       display_object_list_renderers.c copies it into a primitive word.
+       func_80040DD8 and func_80041068 copy it into a primitive word.
 
        s32 serves all of them: a word load and store do not distinguish
        signedness, and the pointer writers cast, as they already do at 0x4C. */
@@ -296,10 +310,10 @@ typedef struct DisplayObject {
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
        user the comment above lists, and the two callers that reach the word
-       by name spell it .word: func_800179F4.c, which stores another object's
-       address here, and Duel_DrawLifePointsAndDeckCounts, which loads that
-       address back. Those two are why the word view is s32 rather than
-       unsigned. */
+       by name spell it .word: src/candidates/func_800179F4.c, which stores
+       another object's address here, and Duel_DrawLifePointsAndDeckCounts,
+       which loads that address back. Those two are why the word view is s32
+       rather than unsigned. */
     union {
         s32 word;
         struct {
@@ -322,7 +336,7 @@ typedef struct DisplayObject {
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        func_8003DA40.c sets -0x400 and adds 0x20; mem_card_dialog_runtime.c
-       steps it by 0x40 and passes it to func_80043230, which takes it as
+       steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
        `phase` for an rsin ease; display_object_property_transitions.c calls
        it `speed` in one function and `step` in the other. Four callers, four
        words, one range -- so it keeps the offset for a name, on the same
@@ -356,10 +370,13 @@ typedef struct DisplayObject {
     u8 field_69;                   /* 0x69 */
     /* func_8001D518.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.
-       That is the only evidence for it, so it takes the offset for a name and
-       0x6B stays padding. */
+       That is the only evidence for it, so it takes the offset for a name. */
     u8 field_6A;                   /* 0x6A */
-    u8 pad_6B[1];                  /* 0x6B */
+    /* The value-setup widgets in the main_menu overlay keep their own index
+       here: MainMenu_StartValueWidgetTween stores it and the tween callback
+       reads it back to pick the value its target tracks and the D_801845BC
+       byte it settles into. One object kind, so the offset is the name. */
+    u8 field_6B;                   /* 0x6B */
     u8 field_6C;                   /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;
@@ -373,7 +390,7 @@ typedef struct DisplayObject {
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
    D_800F2848 begins. There is no room for a larger record.
 
-   Yet func_80041068 in display_object_list_renderers.c walks this pool
+   Yet func_80041068 walks this pool
    with that stride and then tests e[0x72] as a flag, reading a second
    vertex set from 0x58, 0x64, 0x68 and 0x6C when it is set; and
    func_80042824 in display_object_helpers.c writes object[0x72]. Both
@@ -401,8 +418,8 @@ typedef struct DisplayObject {
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
    That is the same device func_80016784.c uses for its 0x0C colour word, and
-   it is how display_object_list_renderers.c now names every offset it
-   touches except 0x72. */
+   it is how the func_80040DD8 and func_80041068 candidates name every
+   offset they touch except 0x72. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 
@@ -465,11 +482,12 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  *
  * DisplayObject_ResetPool advances one pointer into each and writes -1 through
  * both for DISPLAY_OBJECT_LIST_COUNT iterations, which is what fixes this
- * length, and display_slot_lifecycle.c stores into it by list key. The element
+ * length, and display_object_core.c stores into it by list key. The element
  * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
  * the reset walk uses an s16 *.
  *
- * func_800402A0.c reached it through a u8 * and scaled by two by hand. It now
+ * func_800402A0 in display_object_core.c reached it through a u8 * and
+ * scaled by two by hand. It now
  * takes this declaration and casts at the use site, which is the form it
  * already uses one line earlier for D_800EFE38. */
 extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
@@ -493,8 +511,8 @@ extern DisplayObject D_800F0548[
  *
  * Every retail access is gp-relative (lhu/addiu/sh in func_8004020C.s:4-8
  * and func_800400AC.s:16-20, sh $zero in func_80040390.s:10-11), so the
- * plain halfword serves display_slot_lifecycle.c and
- * display_object_reset_pool.c alike. */
+ * plain halfword serves both the per-slot and whole-pool paths in
+ * display_object_core.c. */
 extern u16 D_8009B410;
 extern u16 D_8009B412;
 
@@ -508,9 +526,9 @@ extern u16 D_8009B412;
  *
  * Declared here because this header owns both halves of its contract: the
  * DisplayObject it takes, and the DisplayObjectCallback typedef that
- * func_80020F4C.c casts it to when installing it. That file held the only
- * declaration and does not call the function itself, so the cast is the whole
- * use -- the declaration has to match for the address to be taken.
+ * func_80020F4C casts it to when installing it. func_80020F4C's old file held
+ * the only declaration and did not call the function itself, so the cast was
+ * the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
  * slot; func_80042BC0 in display_object_lifecycle.h is a sibling by role but

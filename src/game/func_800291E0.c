@@ -1,267 +1,173 @@
+/*
+ * Preserve the constructor's return: `func_800291E0`
+ *
+ * The paired preview-object constructor at `0x800291E0` matches all 840 bytes
+ * on the existing uniform `gcc_2_8_1_g8_split` profile using `DisplayObject`
+ * and `DuelEffectResourceRecord`. The historical refinement attempts stopped
+ * at incomplete-type errors; the complete shared layouts already supply every
+ * field needed here, with explicit signed views of the resource halfwords.
+ *
+ * The comparison source declares a void return and inserts empty assembly
+ * barriers around the final pointer publication. Retail instead leaves the
+ * primary object in `$v0`, and the existing debug/viewer/shop callers consume
+ * that pointer. An ordinary `return (u8 *)object` gives the required final move,
+ * stores and reload without any of those barriers. The primary object is the
+ * second allocation, published at resource offset zero and linked from the
+ * secondary object at offset four.
+ *
+ * The reference's claim that its second argument is dead is also incorrect:
+ * the default path uses it as X before reusing that local for a setup value.
+ * Negative X/Y inputs still select the packed-stat fallback coordinates, while
+ * types `0x14` through `0x17` retain their special setup paths. Shared callback
+ * declarations and the canonical level/attribute table replace local externs.
+ * The canonical history and six-row terminal refinement history remain intact,
+ * followed by one post-terminal resolution for this pure-C reconstruction.
+ */
 #include "../types.h"
+#include "display_object.h"
 #include "display_object_api.h"
+#include "display_object_config.h"
+#include "display_object_helpers.h"
 #include "duel_effect_resource_record.h"
+#include "duel_card.h"
 #include "func_800291E0.h"
+#include "card_preview_callbacks.h"
 
-/* The definition below is an asm block, so nothing else in this file spells
-   `func_800291E0(`. generate_build_config.py looks for exactly that to accept a
-   file as defining its grouped symbols, so this re-declaration stays -- and it
-   is not a drift risk, because the header's prototype is visible here too and
-   the compiler checks the two against each other. */
-u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
-
-__asm__(
-    ".set noreorder\n"
-    ".globl func_800291E0\n"
-    ".ent func_800291E0\n"
-    "func_800291E0:\n"
-    ".word 0x27BDFFC0\n"
-    ".word 0xAFB00028\n"
-    ".word 0x00808021\n"
-    ".word 0xAFB30034\n"
-    ".word 0x00A09821\n"
-    ".word 0xAFB40038\n"
-    ".word 0x00C0A021\n"
-    ".word 0x00101980\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, D_800EA0E8\n"
-    ".word 0x24420000\n"
-    ".reloc .-4, R_MIPS_LO16, D_800EA0E8\n"
-    ".word 0xAFB20030\n"
-    ".word 0x00629021\n"
-    ".word 0xAFBF003C\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8004002C\n"
-    ".word 0xAFB1002C\n"
-    ".word 0x00402021\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800400AC\n"
-    ".word 0x24050006\n"
-    ".word 0x00408821\n"
-    ".word 0x02202021\n"
-    ".word 0x24020060\n"
-    ".word 0x00002821\n"
-    ".word 0xAFA20010\n"
-    ".word 0xAFA00014\n"
-    ".word 0xAFA00018\n"
-    ".word 0x96430028\n"
-    ".word 0x9642002A\n"
-    ".word 0x00031C00\n"
-    ".word 0x00031D83\n"
-    ".word 0x00021400\n"
-    ".word 0x00021603\n"
-    ".word 0x00021100\n"
-    ".word 0x00621821\n"
-    ".word 0xAFA3001C\n"
-    ".word 0x8642002C\n"
-    ".word 0x00A03021\n"
-    ".word 0xAFA20020\n"
-    ".word 0x8642002E\n"
-    ".word 0x24070066\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80040510\n"
-    ".word 0xAFA20024\n"
-    ".word 0x3C03001F\n"
-    ".word 0x3C020010\n"
-    ".word 0x34420038\n"
-    ".word 0xAE22003C\n"
-    ".word 0x34029E00\n"
-    ".word 0xA622005E\n"
-    ".word 0x8E220004\n"
-    ".word 0x34630048\n"
-    ".word 0xAE230030\n"
-    ".word 0x3C030100\n"
-    ".word 0x00431025\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuel_adwCardStats\n"
-    ".word 0xAE220004\n"
-    ".word 0x86440030\n"
-    ".word 0x24630000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuel_adwCardStats\n"
-    ".word 0x2482FFFF\n"
-    ".word 0x00021080\n"
-    ".word 0x00431021\n"
-    ".word 0x8C420000\n"
-    ".word 0xA2300067\n"
-    ".word 0x00021683\n"
-    ".word 0x3050001F\n"
-    ".word 0x24020015\n"
-    ".word 0x12020019\n"
-    ".word 0xA2300068\n"
-    ".word 0x2A020016\n"
-    ".word 0x10400005\n"
-    ".word 0x24020014\n"
-    ".word 0x12020011\n"
-    ".word 0x24020048\n"
-    ".word 0x08000060\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0xA6220030\n"
-    ".word 0x24020016\n"
-    ".word 0x12020005\n"
-    ".word 0x24020017\n"
-    ".word 0x12020006\n"
-    ".word 0x24020048\n"
-    ".word 0x08000060\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0xA6220030\n"
-    ".word 0x24130103\n"
-    ".word 0x0800008B\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x24100001\n"
-    ".word 0x9222005F\n"
-    ".word 0x00000000\n"
-    ".word 0x24420020\n"
-    ".word 0xA222005F\n"
-    ".word 0x24130101\n"
-    ".word 0x0800008B\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x24100001\n"
-    ".word 0x24130102\n"
-    ".word 0x9222005F\n"
-    ".word 0x24100001\n"
-    ".word 0x24420010\n"
-    ".word 0x0800008B\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0xA222005F\n"
-    ".word 0x2402009E\n"
-    ".word 0xA6220032\n"
-    ".word 0x240200CE\n"
-    ".word 0xA222005F\n"
-    ".word 0x24020018\n"
-    ".word 0xA622003C\n"
-    ".word 0x2402000C\n"
-    ".word 0xA622003E\n"
-    ".word 0x00131400\n"
-    ".word 0x0441000D\n"
-    ".word 0xA6530032\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuel_adwCardStats\n"
-    ".word 0x24630000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuel_adwCardStats\n"
-    ".word 0x2482FFFF\n"
-    ".word 0x00021080\n"
-    ".word 0x00431021\n"
-    ".word 0x8C430000\n"
-    ".word 0x00000000\n"
-    ".word 0x306301FF\n"
-    ".word 0x00031080\n"
-    ".word 0x00431021\n"
-    ".word 0x00021040\n"
-    ".word 0xA6420032\n"
-    ".word 0x00141400\n"
-    ".word 0x0441000E\n"
-    ".word 0xA6540034\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuel_adwCardStats\n"
-    ".word 0x24630000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuel_adwCardStats\n"
-    ".word 0x2482FFFF\n"
-    ".word 0x00021080\n"
-    ".word 0x00431021\n"
-    ".word 0x8C430000\n"
-    ".word 0x00000000\n"
-    ".word 0x00031A43\n"
-    ".word 0x306301FF\n"
-    ".word 0x00031080\n"
-    ".word 0x00431021\n"
-    ".word 0x00021040\n"
-    ".word 0xA6420034\n"
-    ".word 0x24130100\n"
-    ".word 0x00008021\n"
-    ".word 0xA6400038\n"
-    ".word 0xA6400036\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuel_abCardLevelAttr\n"
-    ".word 0x24630000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuel_abCardLevelAttr\n"
-    ".word 0x00831821\n"
-    ".word 0x90620000\n"
-    ".word 0x00000000\n"
-    ".word 0x00021102\n"
-    ".word 0xA242003B\n"
-    ".word 0x90620000\n"
-    ".word 0x02202021\n"
-    ".word 0xA240003C\n"
-    ".word 0x3042000F\n"
-    ".word 0xA242003A\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, func_80028B08\n"
-    ".word 0x24420000\n"
-    ".reloc .-4, R_MIPS_LO16, func_80028B08\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80042918\n"
-    ".word 0xAE22004C\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8004002C\n"
-    ".word 0xAE510004\n"
-    ".word 0x00402021\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800400AC\n"
-    ".word 0x24050002\n"
-    ".word 0x00408821\n"
-    ".word 0x02202021\n"
-    ".word 0x24050002\n"
-    ".word 0x24060004\n"
-    ".word 0x24070001\n"
-    ".word 0x2402001C\n"
-    ".word 0xAFA20018\n"
-    ".word 0x26620008\n"
-    ".word 0xAFA00010\n"
-    ".word 0xAFB00014\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800404CC\n"
-    ".word 0xAFA2001C\n"
-    ".word 0x02202021\n"
-    ".word 0x24020046\n"
-    ".word 0xA6220018\n"
-    ".word 0xA6220048\n"
-    ".word 0x24020062\n"
-    ".word 0xA622001A\n"
-    ".word 0xA622004A\n"
-    ".word 0x8E220004\n"
-    ".word 0x96230008\n"
-    ".word 0x3C050100\n"
-    ".word 0xA230006A\n"
-    ".word 0x00451025\n"
-    ".word 0x34630008\n"
-    ".word 0xAE220004\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80042918\n"
-    ".word 0xA6230008\n"
-    ".word 0x02202021\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800428EC\n"
-    ".word 0x2405FFFF\n"
-    ".word 0x8E430004\n"
-    ".word 0x24020003\n"
-    ".word 0xA0620065\n"
-    ".word 0xA2220065\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, func_80029108\n"
-    ".word 0x24420000\n"
-    ".reloc .-4, R_MIPS_LO16, func_80029108\n"
-    ".word 0xAE220010\n"
-    ".word 0x8E430004\n"
-    ".word 0x02201021\n"
-    ".word 0xAE420000\n"
-    ".word 0xAC620054\n"
-    ".word 0x8FBF003C\n"
-    ".word 0x8FB40038\n"
-    ".word 0x8FB30034\n"
-    ".word 0x8FB20030\n"
-    ".word 0x8FB1002C\n"
-    ".word 0x8FB00028\n"
-    ".word 0x03E00008\n"
-    ".word 0x27BD0040\n"
-    ".end func_800291E0\n"
-);
-
-void func_80029528(s32 index)
+u8 *func_800291E0(s32 index, s32 x, s32 y)
 {
-    DuelEffectResourceRecord *entry = &D_800EA0E8[index];
+    DuelEffectResourceRecord *entry;
+    DisplayObject *object;
+    s32 variant;
+    s32 setup;
+    s32 card_id;
+    u8 byte_value;
 
-    func_8004036C(entry->object_00);
-    func_8004036C(entry->object_04);
-    entry->object_04 = 0;
-    entry->object_00 = 0;
+    setup = x;
+    entry = &D_800EA0E8[index];
+
+    object = func_800400AC(func_8004002C(), 6);
+    func_80040510((DisplayObjectConfigView *)object, 0, 0, 0x66, 0x60, 0, 0,
+        ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
+        (s16)entry->field_2C, (s16)entry->field_2E);
+
+    object->field_30.word = 0x001F0048;
+    object->field_3C.word = 0x00100038;
+    object->field_5E = 0x9E00;
+    object->attribute |= 0x01000000;
+
+    card_id = (s16)entry->field_30;
+    variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
+    object->field_67 = index;
+    object->field_68 = (u8)variant;
+
+    if (variant == 0x15) {
+        goto disp_15;
+    }
+    if (variant >= 0x16) {
+        goto disp_ge16;
+    }
+    if (variant == 0x14) {
+        goto disp_14;
+    }
+    object->field_30.h.field_30 = 0x48;
+    goto path_a;
+
+disp_ge16:
+    if (variant == 0x16) {
+        goto disp_16;
+    }
+    if (variant == 0x17) {
+        goto disp_17;
+    }
+    object->field_30.h.field_30 = 0x48;
+    goto path_a;
+
+disp_16:
+    setup = 0x103;
+    variant = 1;
+    goto shared_tail;
+
+disp_17:
+    byte_value = ((u8 *)&object->field_5E)[1];
+    byte_value = (u8)(byte_value + 0x20);
+    ((u8 *)&object->field_5E)[1] = byte_value;
+    /* fallthrough */
+disp_14:
+    setup = 0x101;
+    variant = 1;
+    goto shared_tail;
+
+disp_15:
+    setup = 0x102;
+    byte_value = ((u8 *)&object->field_5E)[1];
+    variant = 1;
+    byte_value = (u8)(byte_value + 0x10);
+    ((u8 *)&object->field_5E)[1] = byte_value;
+    goto shared_tail;
+
+path_a:
+    object->field_30.h.field_32 = 0x9E;
+    ((u8 *)&object->field_5E)[1] = 0xCE;
+    object->field_3C.h.field_3C = 0x18;
+    object->field_3C.h.field_3E = 0xC;
+
+    {
+        s16 x_value = setup;
+        entry->field_32 = x_value;
+        if (x_value < 0) {
+            entry->field_32 =
+                (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
+        }
+    }
+    {
+        s16 y_value = y;
+        entry->field_34 = y_value;
+        if (y_value < 0) {
+            entry->field_34 =
+                (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
+        }
+    }
+    setup = 0x100;
+    variant = 0;
+    entry->field_38 = 0;
+    entry->field_36 = 0;
+
+shared_tail:
+    entry->field_3B = (u8)(gDuel_abCardLevelAttr[card_id] >> 4);
+    entry->field_3A = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
+    entry->field_3C = 0;
+
+    object->field_4C = (s32)func_80028B08;
+    func_80042918(object);
+
+    entry->object_04 = object;
+
+    object = func_800400AC(func_8004002C(), 2);
+    func_800404CC(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
+
+    object->field_18 = 0x46;
+    object->field_48.h.field_48 = 0x46;
+    object->field_1A = 0x62;
+    object->field_48.h.field_4A = 0x62;
+    object->field_6A = (u8)variant;
+    object->attribute |= 0x01000000;
+    object->flags |= 8;
+
+    func_80042918(object);
+    func_800428EC((u8 *)object, -1);
+
+    ((DisplayObject *)entry->object_04)->field_65 = 3;
+    object->field_65 = 3;
+    object->field_10 = (u32)func_80029108;
+
+    {
+        DisplayObject *secondary = entry->object_04;
+        DisplayObject *primary;
+
+        primary = object;
+
+        entry->object_00 = primary;
+        secondary->field_54 = primary;
+    }
+    return (u8 *)object;
 }

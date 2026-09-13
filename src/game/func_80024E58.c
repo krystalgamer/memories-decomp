@@ -1,34 +1,28 @@
+/* The unit compiles at -G8 like its neighbours, and retail reaches the
+ * terrain byte absolutely, so it takes duel_terrain_boost.h's .data scalar
+ * rather than the small-data declaration. */
+#define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "../types.h"
+#include "func_8002C604.h"
 #include "func_800179F4.h"
 #include "duel_terrain_boost.h"
 #include "duel_side_state.h"
-#include "func_8002C604.h"
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "duel_card.h"
 #include "duel_card_layout.h"
 #include "duel_package.h"
 #include "file_transfer.h"
+#include "sound.h"
+#include "display_object_config.h"
+#include "../unmatched.h"
 #include "func_80024E58.h"
 
-/* One byte at 0x8009B364; the 8 is a threshold, not a length. This TU's
- * profile compiles at -G8 but assembles at -G4, so the array needs a size
- * the assembler can see to be above 4. Measured: an incomplete [] here
- * costs 4 bytes of text, though it is exact in func_8001798C.c, which
- * assembles at -G8. See duel_terrain_boost.h for all five spellings. */
-extern u8 gDuel_bTerrain[8];
-
-/* MATCH (2026-09-05), from a park at 2 differences. The last two were the
- * `n = v & 0xFF` that gcc sank into the jal's delay slot where retail keeps
- * the andi before the call and puts `n - 1` in the slot. The mask is not a
- * mask: it is the READ-BACK of the byte global just stored, and the
- * decrement belongs to the same expression -- `n = gDuel_bTerrain[0] - 1;`
- * before the call. Written as the read-back and the decrement in two
- * statements it is 4, as `v & 0xFF` with the decrement before the call 3.
- * Flags: default compiler, as -G4 (gDuel_bTerrain sized out of small data, the
- * D_8009B0F4_abs / D_8009B134_abs sized arms).
- */
-
+/* The last two differences of the original match were the `n = v & 0xFF`
+ * that gcc sank into the jal's delay slot where retail keeps the andi before
+ * the call and puts `n - 1` in the slot. The mask is not a mask: it is the
+ * read-back of the byte global just stored, and the decrement belongs to the
+ * same expression -- `n = gDuel_bTerrain - 1;` before the call. */
 void func_80024E58(void) {
     u8 *p;
     u8 *r;
@@ -39,14 +33,14 @@ void func_80024E58(void) {
     s32 f;
     s32 v;
     s32 b;
-    u8 *a;
+    DisplayObjectConfig *a;
 
     if (DuelEffect_MarkInitialized() == 0) {
         r = (u8 *)D_8009B1C8;
         r[0xA] = r[0xA] + 1;
         v = *(u8 *)&D_8009B1D2 - 0x49;
-        gDuel_bTerrain[0] = v;
-        n = gDuel_bTerrain[0] - 1;
+        gDuel_bTerrain = v;
+        n = gDuel_bTerrain - 1;
         e = func_8002C604(0xA);
         D_8009B17C = e;
         *(s16 *)(e + 0x1A) = n;
@@ -61,7 +55,7 @@ void func_80024E58(void) {
             D_8009B220 = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
-                gDuel_bTerrain[0] * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
+                gDuel_bTerrain * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
                     DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR,
                 DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
                 (FileTransferCallback)0, 0, 0x1000280);
@@ -72,8 +66,8 @@ void func_80024E58(void) {
     if ((f & 0x20) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
-            a = (u8 *)D_8009B214;
-            b = gDuel_bTerrain[0];
+            a = (DisplayObjectConfig *)D_8009B214;
+            b = gDuel_bTerrain;
             *(s16 *)(D_8009B17C + 0x1A) = -2;
             func_80040410(a, b);
             D_8009B220 = D_8009B220 | 0x20;
@@ -81,7 +75,7 @@ void func_80024E58(void) {
         return;
     }
 
-    if ((D_8009B17C[0x1C] & 0x80) != 0) {
+    if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
         return;
     }
 

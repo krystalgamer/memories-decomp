@@ -1,10 +1,11 @@
 #include "../types.h"
 #include "display_object.h"
-#include "func_80043178.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
 #include "display_object_api.h"
 #include "../psyq/libmcrd.h"
+#include "../psyq/strings.h"
+#include "data_transfer_request.h"
 #include "duel_effect.h"
 #include "mem_card.h"
 #include "save_data.h"
@@ -15,15 +16,27 @@
 #include "func_80039794.h"
 #include "../unmatched.h"
 #include "duel_effect_mark_object_if_active.h"
+#include "mem_card_dialog_load_save.h"
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
 
-/* The trade write-back operation followed by the modal runtime that drives
-   the operation table. MemCardDialog_Update dispatches
-   MemCardDialog_UpdateTradeSave through D_80090F9C, and both sides share the
-   dialog flags, result words, active channel, and request outcome. */
+/* The save/empty callbacks, trade write-back operation, and modal runtime that
+   drives the operation table. MemCardDialog_Update dispatches the save and
+   trade operations through D_80090F9C; all paths share the dialog flags,
+   result words, active channel, and request outcome. */
 
-extern u32 D_8009B3E0;
+void MemCardDialog_StepSave(void)
+{
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        D_8009B3EB = 0;
+    }
+    MemCardDialog_UpdateSave();
+}
+
+void MemCardDialog_StepNone(void)
+{
+}
 
 void MemCardDialog_UpdateTradeSave(void)
 {
@@ -100,9 +113,9 @@ void MemCardDialog_UpdateTradeSave(void)
                 break;
             }
         }
-        record = (u8 *)D_8009B3D0;
+        record = gMemCard_pPrimaryTransferCursor;
         if (D_8009B3F9 != 0) {
-            record = (u8 *)D_8009B3E0;
+            record = gMemCard_pSecondaryTransferCursor;
         }
         if (SaveData_HasSameDuelistCode(
                 (SaveDataState *)record,
@@ -138,10 +151,12 @@ void MemCardDialog_UpdateTradeSave(void)
         D_8009B3EB &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
         if (D_8009B3F9 != 0) {
             MemCardWriteFile(D_8009B3F9, (char *)D_800EFE18,
-                             (unsigned long *)D_8009B3E0, D_8009B3C4, 0x80);
+                             (unsigned long *)gMemCard_pSecondaryTransferCursor,
+                             D_8009B3C4, 0x80);
         } else {
             MemCardWriteFile(D_8009B3F9, (char *)D_800EFE18,
-                             (unsigned long *)D_8009B3D0, D_8009B3C4, 0x80);
+                             (unsigned long *)gMemCard_pPrimaryTransferCursor,
+                             D_8009B3C4, 0x80);
         }
     io_pending:
         gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
@@ -154,8 +169,8 @@ void MemCardDialog_UpdateTradeSave(void)
         D_8009B3EB |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
         D_8009B3F9 ^= 0x10;
         if (D_8009B3F9 == 0) {
-            D_8009B3D0 += 0x80;
-            D_8009B3E0 += 0x80;
+            gMemCard_pPrimaryTransferCursor += 0x80;
+            gMemCard_pSecondaryTransferCursor += 0x80;
             D_8009B3C4 += 0x80;
             D_8009B3C2 -= 0x80;
             if (D_8009B3C2 == 0) {
@@ -175,7 +190,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     s32 value;
 
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
-        func_80043178((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
     }
 
     value = object->field_60;
@@ -194,11 +209,13 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     }
     object->field_60 = value;
 
-    func_80043230((DisplayObjectPosition *)object, arg1, arg2, value);
+    Widget_SlideSine((DisplayObjectPosition *)object, arg1, arg2, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-            (u8 *)D_800EB0F8 + saved_index * 100,
+            (DuelEffectChannel *)(
+                (u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
+            ),
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }
@@ -206,13 +223,11 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     return object->field_6C;
 }
 
-extern u8 D_800EB0F8_raw[] asm("D_800EB0F8");
-
 void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
     DuelEffectChannel *p = D_800EB0F8;
-    u8 *o;
+    DisplayObject *o;
 
     D_8009B3EE = 0;
 
@@ -226,10 +241,11 @@ void MemCardDialog_CreateObject(void)
 
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
-    *(u16 *)(o + 8) |= 0x28;
-    func_80042918((DisplayObject *)o);
-    func_800428EC(o, 0xF);
-    D_8009B3D8 = o;
+    o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_80042918(o);
+    func_800428EC((u8 *)o, 0xF);
+    gMemCard_pDialogObject = o;
 }
 
 void MemCardDialog_Update(void)
@@ -242,16 +258,16 @@ void MemCardDialog_Update(void)
 
     f = gMemCard_wDialogFlags;
     if ((f & MEM_CARD_DIALOG_FLAG_CLOSING) != 0) {
-        if (D_8009B3D8 == (u8 *)0) {
+        if (gMemCard_pDialogObject == (DisplayObject *)0) {
             gMemCard_wDialogFlags = 0;
             return;
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x100, D_8009B3EE
+                gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE
             ) == 0) {
-            TextBox_Destroy(D_800EB0F8_raw + D_8009B3EE * 100);
-            func_8004036C(D_8009B3D8);
-            D_8009B3D8 = (u8 *)0;
+            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
+            func_8004036C(gMemCard_pDialogObject);
+            gMemCard_pDialogObject = (DisplayObject *)0;
         }
         return;
     }
@@ -276,11 +292,11 @@ void MemCardDialog_Update(void)
                 p->flags_34 = p->flags_34 | 0x1008;
                 return;
             }
-            func_80039A14((u8 *)p);
+            func_80039A14(p);
             goto b14;
         }
         func_80039794();
-        p = (DuelEffectChannel *)(D_800EB0F8_raw + D_8009B3EE * 100);
+        p = &D_800EB0F8[D_8009B3EE];
         if ((*(s32 *)&p->flags_34 & 0x2008) != 0x2000) {
             return;
         }
@@ -301,11 +317,11 @@ void MemCardDialog_Update(void)
             MemCardStart();
             D_8009B3EF = 2;
             MemCardDialog_CreateObject();
-            *(s16 *)(D_8009B3D8 + 0x60) = -0x400;
+            gMemCard_pDialogObject->field_60 = -0x400;
             return;
         }
         if (MemCardDialog_StepSlide(
-                (DisplayObject *)D_8009B3D8, 0x20, 0x50, -1
+                gMemCard_pDialogObject, 0x20, 0x50, -1
             ) == 0) {
             gMemCard_wDialogFlags =
                 gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_OPENED;
@@ -330,6 +346,34 @@ void MemCardDialog_Update(void)
 b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
-    *(s16 *)(D_8009B3D8 + 0x60) = 0x400;
+    gMemCard_pDialogObject->field_60 = 0x400;
     MemCardStop();
+}
+
+int MemCardDialog_Poll(void)
+{
+    MemCardDialog_Update();
+    if (gMemCard_wDialogFlags != 0) {
+        return 0;
+    }
+    return D_8009B3EF;
+}
+
+void MemCardDialog_Start(s32 step)
+{
+    gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
+    D_8009B3DE = step;
+    D_8009B3C1 = 0;
+}
+
+void MemCardDialog_Request(void *buf, s32 size, u8 *name, s32 step)
+{
+    strcpy(D_800EFE18, name);
+    D_8009B3F9 = 0;
+    D_8009B3C2 = size;
+    D_8009B3C4 = 0x200;
+    D_8009B3DC =
+        (size + MEM_CARD_BLOCK_SIZE - 1) / MEM_CARD_BLOCK_SIZE;
+    gMemCard_pPrimaryTransferCursor = buf;
+    MemCardDialog_Start(step);
 }

@@ -1,16 +1,11 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "../psyq/libetc.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "model_image_copy_frames.h"
 #include "model_graphics_state.h"
 #include "func_8004E9A0.h"
-
-extern short D_8009B468;
-extern short D_8009B46A;
-extern short D_8009B46C;
-extern short D_8009B46E;
-extern u8 D_800F569F[];
 
 void func_8004E9A0(void) {
     s32 k;

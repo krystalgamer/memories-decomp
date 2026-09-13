@@ -28,21 +28,32 @@ Verified channel fields used by matching C include:
 | `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `func_80035A64` |
 | `0x36`-`0x3A` | `field_36`, `field_38`, `field_3A` | halfword initialization in `DuelEffect_InitEntry` |
 | `0x3C`-`0x42` | `field_3C`-`field_42` | four halfword writes in `TextBox_SetRect` |
-| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; every callback in `duel_effect_state_callbacks.c` and `dialog_choice_state.c` latches `0x80` and writes a new state |
+| `0x51` | `state_51` | low five bits dispatch `D_80090E64` in `TextBox_BuildStep`; the contiguous callbacks in `duel_effect_state_callbacks.c` latch `0x80` and write a new state |
 | `0x52` | `delay_52` | reloaded from `field_53` in `TextBox_BuildStep` and from `0xFF` in `func_80037B40`, decremented once per tick, gating the rest of the tick while nonzero |
 | `0x53`-`0x5B` | byte fields and `index_57` | initialization sequence in `DuelEffect_InitEntry` |
 | `0x56` | `field_56` | cleared by `TextBox_BuildStep`; keeps the offset for a name, as the other files reaching `0x56` do so on other records |
-| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, `duel_effect_object_commands.c` and `duel_effect_stream_fields.c` |
+| `0x58` | `stream_58` | signed word index selecting which of the leading pointer words is the live byte stream; scaled by four in `TextBox_BuildStep`, [`duel_effect_object_commands.c`](../src/game/duel_effect_object_commands.c), and [`duel_effect_command.c`](../src/game/duel_effect_command.c) |
 | `0x5C`, `0x5E` | `range_start_5C`, `range_count_5E` | adjacent `gDuelEffect_awEntryRangeBoundaries` bounds |
 | `0x61` | `field_61` | byte clear in `DuelEffect_InitEntry` |
 
 Matching C users across the duel-effect and text-box paths include the shared
 header and use `DuelEffectChannel`. In particular, `TextBox_BuildStep` passes
-the record through `TextBoxStateCallback`, now declared
+the record through `TextBoxStateCallback`, defined with the other game-owned
+text/script value types in `ygo_types.h` and declared
 `void (*)(DuelEffectChannel *)`; all eighteen entries of `D_80090E64` have
 typed parameters and the table requires no function-pointer casts. The casts
 that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
+
+The public text-box build/wait pair and `TextBox_SetPos` now also take
+`DuelEffectChannel *`. Typed producers such as `TextBox_Create` and
+`DuelEffect_CreateChannel` pass their results directly. A few exact-code
+consumers retain raw byte cursors internally and cast only at the call
+boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
+typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
+helper `func_80039AD4` takes `DuelEffectChannel *`, while preserving its two
+raw byte accesses inside `field_10`; this removes the incompatible-pointer
+calls from both fade callbacks without claiming names for those bytes.
 
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
@@ -75,6 +86,17 @@ corroborate these accesses but do not determine the shared types.
 from `field_18 % 10` after resolving the entry through the channel's
 `gDuelEffect_awEntryRangeBoundaries` range index.
 
+The complete `D_80090F68` display-effect step table now carries
+`void (*)(MenuRecord *)`, matching `DisplayEffect_ProcessMenuRecords`, which
+selects its callback from a `D_800EB010` record. The easing callback, portrait
+callback, three dialog transitions and dialog-channel transition expose that
+type directly. The lifecycle and VRAM callbacks retain explicit table casts
+because the two repeated lifecycle slots and the single VRAM slot expose
+narrower public views of the same storage.
+Handlers whose accepted bodies depend on byte arithmetic keep those
+expressions through preprocessor aliases rather than introducing a second
+live pointer that could change GCC 2.8.1 register allocation.
+
 `DuelEffect_PlaySoundCommand` is now exact C in the effect-handler dispatch
 family. It consumes one 16-bit script value, uses the high bit to select the
 flagged sound path, and arms effect state `0x11` with a follow-up value.
@@ -96,8 +118,8 @@ through `gDuelEffect_apfnStateHandler`.
 That dispatcher byte is separate from `D_8009B3C1`. In the later callback
 state family, `DUEL_EFFECT_STATE_FLAG_INITIALIZED` (`0x80`) is the shared
 one-shot entry latch. The matching callbacks in `dialog_transition.c`,
-`func_8003DA40.c`, `mem_card_dialog_load_steps.c`, and
-`mem_card_dialog_save_steps.c` test and set it before their first-frame object or
+`func_8003DA40.c` and the load/save callbacks in
+`mem_card_dialog_load_save.c` test and set it before their first-frame object or
 companion-state setup, so subsequent frames skip that initialization. This is
 a state-machine flag, not the unrelated `0x80` bit in
 `DuelEffectEntry.flags_11`.

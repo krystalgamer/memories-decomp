@@ -17,17 +17,17 @@
 #include "../psyq/libspu.h"
 #include "../game/sound_sequence_constants.h"
 
-extern u8 *D_8009B458;
-extern s32 D_80011434[];
 /* Second name for the same symbol: retail re-reads the pointer here rather
    than reusing the base it just stored through. */
-extern u8 *D_8009B458_r asm("D_8009B458");
+#define SDSECONDARYSTATE_AS_BYTES
+#define SDSECONDARYSTATE_RELOAD_ALIAS
+#include "../game/sound.h"
+#include "../game/sound_secondary_object_selection.h"
 
 extern s32 func_8004A854(s32);
-extern s32 func_8004A940(s32, s32);
-extern void SD_SpatializeSecondaryObject(u8 *, u8 *);
-extern s32 SD_CalcPitchBend(u8 *, s32);
 #include "../game/func_80049FB4.h"
+#include "../game/sound_spatialize_object.h"
+#include "../game/sound_spatialization.h"
 
 void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
 {
@@ -152,22 +152,25 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[0xD] = 1;
         obj[0x10] = tone[0xD];
         obj[6] = level;
-        obj[8] = prog[1];
-        obj[0xA] = prog[4];
-        obj[9] = tone[2];
-        obj[0xE] = velocity;
+        ((SDSecondaryObject *)obj)->field_0008 = prog[1];
+        ((SDSecondaryObject *)obj)->field_000A = prog[4];
+        ((SDSecondaryObject *)obj)->field_0009 = tone[2];
+        ((SDSecondaryObject *)obj)->field_000E = velocity;
         *(u16 *)(obj + 0x1E) = 0xFFFF;
-        obj[0xB] = tone[3];
-        SD_SpatializeSecondaryObject(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180,
-                      D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE);
+        ((SDSecondaryObject *)obj)->field_000B = tone[3];
+        SD_SpatializeSecondaryObject(
+            (SDSecondaryObject *)(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180),
+            (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
         *(s16 *)(D_8009B458 + 0x4C8) =
-            (*(u16 *)(obj + 0x14) * *(u16 *)(D_8009B458 + 0x514)) >> 7;
+            (((SDSecondaryObject *)obj)->level_left *
+             *(u16 *)(D_8009B458 + 0x514)) >> 7;
         *(s16 *)(D_8009B458 + 0x4CA) =
-            (*(u16 *)(obj + 0x16) * *(u16 *)(D_8009B458 + 0x516)) >> 7;
+            (((SDSecondaryObject *)obj)->level_right *
+             *(u16 *)(D_8009B458 + 0x516)) >> 7;
         obj[5] = level;
         *(s16 *)(obj + 0x1A) = -1;
         *(s16 *)(obj + 0x1C) = rec[7];
-        pitch = SD_CalcPitchBend(obj, rec[7]) + obj[6] * 128;
+        pitch = SD_CalcPitchBend((SDSecondaryObject *)obj, rec[7]) + obj[6] * 128;
         *(s16 *)(D_8009B458 + 0x4D4) =
             func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));

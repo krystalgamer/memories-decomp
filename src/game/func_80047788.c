@@ -1,9 +1,10 @@
+#define G_SDVALUE_IN_DATA
 #include "../types.h"
 #include "func_80047788.h"
 #include "sound.h"
 #include "sound_output.h"
 
-extern SDValue *g_SDValue __attribute__((section(".data")));
+#define SD_VALUE_LINK_BLOCK_SIZE 0x800
 
 void func_80047788(s32 arg0)
 {
@@ -17,7 +18,8 @@ void func_80047788(s32 arg0)
 
     a = g_SDValue;
     step = (s32)(*(u16 *)((u8 *)a + 2) << 3);
-    step = (step + 0x7FF) / 0x800;
+    step = (step + SD_VALUE_LINK_BLOCK_SIZE - 1) /
+           SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;
     off = (arg0 & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
     entry = (SDValueLink *)(off + (s32)a->field_0448);

@@ -32,8 +32,9 @@ each of them was violated by something in the corpus:
 3. The label must not be an IDA placeholder (`text_1F0`, `loc_24`). Roughly
    half of all labels are placeholders and carry no information; adopting them
    would replace one meaningless name with another.
-4. The address must be a function start in the inventory. A label in the
-   middle of a function is a branch target, not a symbol.
+4. The address must be a preserved Psy-Q function start in the inventory. A
+   label in the middle of a function is a branch target, and a label on a
+   game-owned function is a byte collision rather than an SDK identity.
 5. No other library object may propose a *different* name for the same
    address. Small routines are duplicated verbatim across libraries -
    `0x8007A840` is claimed by six objects across LIBCD and LIBDS - so a
@@ -74,6 +75,7 @@ PLACEHOLDER = re.compile(
     r"|qword|off|asc|stru|flt|dbl|jpt|def)_[0-9A-Fa-f]+$"
 )
 MINIMUM_ANCHOR = 4
+SIGNATURE_BYTE = re.compile(r"^[0-9A-Fa-f]{2}$")
 
 
 def load_payload(root: Path) -> tuple[int, bytes]:
@@ -94,14 +96,32 @@ def load_inventory(root: Path) -> dict[int, dict[str, str]]:
         return {int(row["address"], 16): row for row in csv.DictReader(handle)}
 
 
+def validate_catalogue_scope(signatures: Path, psyq_version: str) -> None:
+    if psyq_version != "4.7":
+        return
+    paths = sorted(path.name for path in signatures.glob("*.json"))
+    if paths != ["LIBDS.LIB.json"]:
+        raise SignatureError(
+            f"{signatures}: Psy-Q 4.7 is permitted only for a directory "
+            "containing exactly LIBDS.LIB.json"
+        )
+
+
 def parse_signature(text: str) -> tuple[bytes, bytes]:
     pattern = bytearray()
     mask = bytearray()
-    for token in text.split():
+    tokens = text.split()
+    if not tokens:
+        raise SignatureError("signature is empty")
+    for index, token in enumerate(tokens):
         if token == "??":
             pattern.append(0)
             mask.append(0)
         else:
+            if not SIGNATURE_BYTE.fullmatch(token):
+                raise SignatureError(
+                    f"token {index} {token!r} is not ?? or two hexadecimal digits"
+                )
             pattern.append(int(token, 16))
             mask.append(0xFF)
     return bytes(pattern), bytes(mask)
@@ -148,16 +168,102 @@ def find_matches(payload: bytes, pattern: bytes, mask: bytes) -> list[int] | Non
     return matches
 
 
+def signature_entry_fields(
+    path: Path, index: int, entry: dict
+) -> tuple[str, str, list[tuple[str, int]]]:
+    entry_name = entry.get("name")
+    if not isinstance(entry_name, str):
+        raise SignatureError(
+            f"{path}: entry {index} name is not a string"
+        )
+    if not entry_name.strip():
+        raise SignatureError(f"{path}: entry {index} name is empty")
+    signature = entry["sig"]
+    if not isinstance(signature, str):
+        raise SignatureError(
+            f"{path}: entry {index} sig is not a string"
+        )
+    labels = entry.get("labels", [])
+    if not isinstance(labels, list):
+        raise SignatureError(
+            f"{path}: entry {index} labels is not an array"
+        )
+
+    validated_labels: list[tuple[str, int]] = []
+    for label_index, label in enumerate(labels):
+        if not isinstance(label, dict):
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} is not an object"
+            )
+        name = label.get("name")
+        if not isinstance(name, str):
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} "
+                "name is not a string"
+            )
+        if not name.strip():
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} name is empty"
+            )
+        offset = label.get("offset")
+        if type(offset) is not int:
+            raise SignatureError(
+                f"{path}: entry {index} label {label_index} "
+                "offset is not an integer"
+            )
+        validated_labels.append((name, offset))
+    return entry_name, signature, validated_labels
+
+
 def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
     """address -> {name: [providers]}, plus counts for the report."""
     proposals: dict[int, dict[str, list[str]]] = {}
     unique = multiple = absent = unanchored = 0
-    for path in sorted(signatures.glob("*.json")):
+    paths = sorted(signatures.glob("*.json"))
+    if not paths:
+        raise SignatureError(f"{signatures}: no JSON signature files")
+
+    signature_entries = 0
+    for path in paths:
         library = path.name[: -len(".json")]
-        for entry in json.loads(path.read_text(encoding="utf-8")):
+        try:
+            entries = json.loads(path.read_text(encoding="utf-8"))
+        except UnicodeDecodeError as error:
+            raise SignatureError(
+                f"{path}: invalid UTF-8 at byte {error.start}: "
+                f"{error.reason}"
+            ) from error
+        except json.JSONDecodeError as error:
+            raise SignatureError(
+                f"{path}: invalid JSON at line {error.lineno}, "
+                f"column {error.colno}: {error.msg}"
+            ) from error
+        if not isinstance(entries, list):
+            raise SignatureError(f"{path}: expected a JSON array")
+        for index, entry in enumerate(entries):
+            if not isinstance(entry, dict):
+                raise SignatureError(
+                    f"{path}: entry {index} is not a JSON object"
+                )
             if "sig" not in entry:
                 continue
-            pattern, mask = parse_signature(entry["sig"])
+            signature_entries += 1
+            entry_name, signature, labels = signature_entry_fields(
+                path, index, entry
+            )
+            try:
+                pattern, mask = parse_signature(signature)
+            except SignatureError as error:
+                raise SignatureError(
+                    f"{path}: entry {index} sig: {error}"
+                ) from error
+            for label_index, (_name, offset) in enumerate(labels):
+                if offset < 0 or offset >= len(pattern):
+                    raise SignatureError(
+                        f"{path}: entry {index} label {label_index} "
+                        f"offset {offset} is outside the "
+                        f"{len(pattern)}-byte signature"
+                    )
             matches = find_matches(payload, pattern, mask)
             if matches is None:
                 unanchored += 1
@@ -169,14 +275,14 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
                 multiple += 1
                 continue
             unique += 1
-            for label in entry.get("labels", []):
-                name = label["name"]
+            for name, offset in labels:
                 if PLACEHOLDER.match(name):
                     continue
-                offset = label["offset"]
-                provider = f"{library}/{entry['name']}+{offset:#x}"
+                provider = f"{library}/{entry_name}+{offset:#x}"
                 address = load_address + matches[0] + offset
                 proposals.setdefault(address, {}).setdefault(name, []).append(provider)
+    if signature_entries == 0:
+        raise SignatureError(f"{signatures}: no signature entries")
     return {
         "proposals": proposals,
         "unique": unique,
@@ -187,7 +293,8 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
 
 
 def classify(proposals: dict, inventory: dict) -> dict:
-    ambiguous, agreed, disagreed, new, off_start = [], [], [], [], 0
+    ambiguous, agreed, disagreed, new = [], [], [], []
+    outside_psyq, off_start = [], 0
     for address in sorted(proposals):
         names = proposals[address]
         if len(names) > 1:
@@ -197,6 +304,21 @@ def classify(proposals: dict, inventory: dict) -> dict:
         row = inventory.get(address)
         if row is None:
             off_start += 1
+            continue
+        if (
+            row.get("status") != "sdk_asm"
+            or not row.get("module", "").startswith("psyq/")
+        ):
+            outside_psyq.append(
+                (
+                    address,
+                    name,
+                    row["name"],
+                    row.get("status", ""),
+                    row.get("module", ""),
+                    sorted(names[name]),
+                )
+            )
             continue
         if row["name"] == name:
             agreed.append((address, name))
@@ -209,19 +331,20 @@ def classify(proposals: dict, inventory: dict) -> dict:
         "disagreed": disagreed,
         "new": new,
         "ambiguous": ambiguous,
+        "outside_psyq": outside_psyq,
         "off_start": off_start,
     }
 
 
-def evidence(providers: list[str]) -> str:
+def evidence(providers: list[str], psyq_version: str = "4.6") -> str:
     origin, _, offset = providers[0].rpartition("+")
     return (
-        f"Unique exact Psy-Q 4.6 {origin} signature, label at object offset "
-        f"{offset}; the object matches the payload once"
+        f"Unique exact Psy-Q {psyq_version} {origin} signature, label at "
+        f"object offset {offset}; the object matches the payload once"
     )
 
 
-def emit_map(result: dict) -> None:
+def emit_map(result: dict, psyq_version: str = "4.6") -> None:
     writer = csv.writer(sys.stdout, lineterminator="\n")
     for address, name, row, providers in result["new"]:
         writer.writerow(
@@ -230,7 +353,7 @@ def emit_map(result: dict) -> None:
                 f"0x{address:08X}",
                 name,
                 "confirmed",
-                evidence(providers),
+                evidence(providers, psyq_version),
                 "",
             ]
         )
@@ -246,6 +369,7 @@ def report(scanned: dict, result: dict) -> None:
     print(f"names already in the inventory, differing: {len(result['disagreed'])}")
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
+    print(f"labels on non-Psy-Q function starts      : {len(result['outside_psyq'])}")
     print(f"labels away from a function start        : {result['off_start']}")
     if result["disagreed"]:
         print()
@@ -257,6 +381,15 @@ def report(scanned: dict, result: dict) -> None:
         print("ambiguous, left alone:")
         for address, names in result["ambiguous"]:
             print(f"  {address:#010x} {', '.join(names)}")
+    if result["outside_psyq"]:
+        print()
+        print("non-Psy-Q function starts, left alone:")
+        for item in result["outside_psyq"]:
+            address, name, current, status, module, providers = item
+            print(
+                f"  {address:#010x} corpus {name} / inventory {current} "
+                f"({status}, {module}) [{providers[0]}]"
+            )
     if result["new"]:
         print()
         print("new:")
@@ -272,6 +405,12 @@ def parse_args() -> argparse.Namespace:
         "--signatures",
         required=True,
         help="directory of lab313ru psx_psyq_signatures JSON files (460)",
+    )
+    parser.add_argument(
+        "--psyq-version",
+        choices=("4.6", "4.7"),
+        default="4.6",
+        help="catalogue version written into --emit-map evidence",
     )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--report", action="store_true")
@@ -290,12 +429,13 @@ def main() -> int:
         signatures = Path(args.signatures).expanduser()
         if not signatures.is_dir():
             raise SignatureError(f"not a directory: {signatures}")
+        validate_catalogue_scope(signatures, args.psyq_version)
         load_address, payload = load_payload(root)
         inventory = load_inventory(root)
         scanned = scan(signatures, load_address, payload)
         result = classify(scanned["proposals"], inventory)
         if args.emit_map:
-            emit_map(result)
+            emit_map(result, args.psyq_version)
         else:
             report(scanned, result)
         return 0

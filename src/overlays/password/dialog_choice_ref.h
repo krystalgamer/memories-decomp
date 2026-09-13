@@ -5,9 +5,10 @@
 
 /* The resident dialog choice index, as this overlay has to spell it.
  *
- * shop.c tests it against 0 after a prompt and name_entry_runtime.c clears it
- * before raising one and tests it afterwards, so both read it as the option
- * the player settled on.
+ * Password_UpdateShopScreen (now a build-integrated candidate,
+ * src/candidates/password/func_8016A37C.c) tests it against 0 after a
+ * prompt and name_entry_dialog.c clears it before raising one and tests it
+ * afterwards, so both read it as the option the player settled on.
  *
  * The address-based name is kept on purpose. 0x8009B34D is the byte the
  * resident tree declares as gDialog_bChoice -- symbols.txt has

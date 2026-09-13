@@ -12,50 +12,45 @@
  * later jump slot with the effect-record store. The multiset and instruction
  * count are identical; the difference is placement, not missing operations.
  */
-#include "../types.h"
-#include "../game/duel_card_pick_cursor.h"
-#include "../game/duel_card_layout.h"
+#define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#include "../types.h"
+#include "../game/func_8002C604.h"
+#include "../game/duel_side_state.h"
+#include "../game/duel_card_pick_cursor.h"
+#include "../game/duel_card_layout.h"
+#include "../game/duel_card_staging.h"
+#include "../game/duel_scene_state.h"
+#include "../game/duel_selection_layout.h"
+#include "../game/duel_screen_tables.h"
+#include "../game/rand_get_interval.h"
+#include "../game/fade.h"
+#include "../game/display_object_motion.h"
+#include "../game/display_object_work_slots.h"
+#include "../unmatched.h"
+#include "../game/sound_output.h"
+#include "../game/model_scene_states.h"
+#include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
 
-extern u16 D_8009B23A;
-extern u16 D_8009B162;
-extern u16 D_8009B1D0;
 extern u8 D_8009B1B9;
-extern u8 D_8009B1D5;
-extern u8 gDuel_bWinnerSide;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
-extern DuelCardPickCursor *D_8009B1B4;
 extern u8 *D_8009B17C;
 
-extern u8 D_8015C424[];
-extern u8 D_80090918[];
-extern u8 *D_800E9EF0[];
-extern u8 D_800E9F10[];
 extern s32 D_800E9F04[];
-extern u8 D_800E9FF0[];
-extern u8 D_800EA030[];
-extern u8 D_800E9ECF[];
+
 extern u8 D_8009B260[];
 extern u16 D_800EF658[];
 extern u8 D_8009B369 __attribute__((section(".data")));
 
-extern void func_8001EC70(void);
 extern void func_8004036C(u8 *);
-extern void func_80015C84(void);
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);
 extern s32 func_80042B40(s32);
-extern u8 *func_8002C604(s32);
-extern s32 rand(void);
-extern s32 Rand_GetInterval(s32);
 extern void func_8002C68C(s32);
 extern void func_8003FF88(s32);
-extern void func_800156DC(void);
-extern void func_800472A8(s32);
-extern void func_80059C18(s32);
 
 void func_80018FEC(void)
 {
@@ -71,26 +66,26 @@ void func_80018FEC(void)
     s32 t14;
     u8 *cards;
     u8 *poses;
-    u8 **objs;
+    DisplayObject **objs;
     register void (*fn)(void) __asm__("$2");
     s32 fnv;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     s32 py;
     s32 t;
     s32 k;
-    u8 **slot;
+    DisplayObject **slot;
     s8 side;
     u8 *other;
 
     flags = D_8009B23A;
-    if ((flags & 0x8000) == 0) {
+    if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = D_8015C424;
-        poses = D_80090918;
-        fn = func_8001EC70;
+        poses = (u8 *)&D_80090918;
+        fn = (void (*)(void))func_8001EC70;
         fnv = (s32)fn;
         objs = D_800E9EF0;
-        D_8009B23A = flags | 0x8000;
+        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = D_8009B214;
         D_8009B1B4 = (DuelCardPickCursor *)&D_800E9F10[D_8009B1D5 * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;
@@ -104,11 +99,12 @@ void func_80018FEC(void)
         obj[0x6C] = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
-        rec = D_800EA030;
+        rec = (u8 *)D_800EA030;
 next_obj:
         obj = *(u8 **)rec;
-        g = (u8 *)(obj[0x6A] * DUEL_CARD_RECORD_SIZE + (u32)cards + 0x48000);
-        anim = *(s16 *)(g + 0x36C0) - 0x11;
+        g = (DuelCardReplayRecordBlock *)(obj[0x6A] * sizeof(DuelCardRecord) +
+            (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        anim = g->record.card_id - 0x11;
         pose = (u8 *)(anim * 3 + (u32)poses);
         *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
         py = pose[2];
@@ -116,11 +112,11 @@ next_obj:
         obj[0x6C] = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(s16 *)(obj + 0x2A) = py - 0x1E;
-        objs[pose[0]] = obj;
+        objs[pose[0]] = (DisplayObject *)obj;
         *(u8 **)rec = 0;
         i++;
         rec += 0xC;
-        if (i < 5) {
+        if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             goto next_obj;
         }
         D_800E9F04[0] = 0;
@@ -172,7 +168,7 @@ next_obj:
         if ((s16)t > 0) {
             return;
         }
-        if ((s8)D_8009B1B9 >= 5) {
+        if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
             fx = func_8002C604(0x13);
             *(u16 *)(fx + 0) = 0xA0;
@@ -185,8 +181,8 @@ next_obj:
         fx = func_8002C604(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
-        *(u16 *)(fx + 0) = *(u16 *)(*slot + 0x30) + 0x1A;
-        *(u16 *)(fx + 2) = *(u16 *)(*slot + 0x32) + 0x1E;
+        *(u16 *)(fx + 0) = (*slot)->field_30.h.field_30 + 0x1A;
+        *(u16 *)(fx + 2) = (*slot)->field_30.h.field_32 + 0x1E;
         *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + ((k << 12) + 0xA000);
         *(u16 *)(fx + 0x1A) = 9;
         SD_SEPlayFull(0x17);
@@ -207,8 +203,8 @@ next_obj:
     D_800EF658[0] = 0x309;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
-    D_800E9FF0[(u8)side * 0x20] = 0x28;
-    other = &D_800E9FF0[(D_8009B1D5 ^ 1) * 0x20];
+    D_800E9FF0[(u8)side].rank.result_adjustment = 0x28;
+    other = (u8 *)&D_800E9FF0[D_8009B1D5 ^ 1];
     *(u16 *)(other + 0x14) = 0;
     *(u16 *)(other + 0x12) = 0;
     func_800472A8(0x7310);

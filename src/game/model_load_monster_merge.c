@@ -1,16 +1,13 @@
 #include "../types.h"
+#include "../unmatched.h"
 #include "model_record_tables.h"
 #include "sound.h"
 #include "model.h"
+#include "file_names.h"
 #include "file_transfer.h"
-#include "../unmatched.h"
 #include "file_transfer_steps.h"
-#include "model_load_monster_merge.h"
-
-extern u8 D_800114F8[];
-extern u8 gFile_szModelMrgPath[];
-
-void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
+#define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
+#include "model_slot_setup.h"
 
 /* Starts the asynchronous transfer that fills one model slot with a monster
  * merge record, and records the slot's display properties while the request is
@@ -58,7 +55,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             transfer = File_TryRequestAsyncTransfer(
                 1, D_800114F8, 0x3B4, 0x113, func_800577B0, 0, 0
             );
-            D_8009B0F4 = transfer->status_flags
+            D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             D_800F2C40[slot].field_E14 = 0;
             return 0;
@@ -96,7 +93,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
             }
             transfer->callback_data = (void *)slot;
             transfer->position = D_800F2C40[slot].field_DFE;
-            D_8009B0F4 = transfer->status_flags
+            D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             D_800F2C40[slot].field_E14 = 0;
         }
@@ -113,7 +110,7 @@ found:
         transfer = File_TryRequestAsyncTransfer(
             1, D_800114F8, model * 0x74 + 0x88, 0x74, func_80057544, 0, 0
         );
-        D_8009B0F4 = transfer->status_flags
+        D_8009B0F4_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
         D_800F2C40[slot].field_E14 = 0;
     }

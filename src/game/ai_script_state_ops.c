@@ -6,6 +6,9 @@
 #include "ai_script_read_byte.h"
 #include "ai_script_read_short.h"
 #include "duel_card_layout.h"
+#define D_800EAE88_AS_BYTES
+#define D_800EAE88_VISIBLE
+#include "../unmatched.h"
 
 /* The AI script VM's state opcodes, eleven former sources in address order:
    the combo-stack pushes, the hand and field no-ops, the card and type set
@@ -18,8 +21,6 @@
    to an identical object at gcc_2_8_1_g0_split. Bounded below by
    AiScript_FindBestAttack (gcc_2_8_1_g8_split_no_strength_reduce) and above
    by AiScript_Print (gcc_2_8_1_g8). */
-
-extern u8 D_800EAE88[];
 
 void AiScript_PushComboCard(void)
 {
@@ -204,7 +205,6 @@ void AiScript_Add(void)
     values[output] = values[left] + values[right];
 }
 
-extern u8 D_800EAE8F;
 void func_8007368C(void)
 {
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];

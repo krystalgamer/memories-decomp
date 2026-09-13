@@ -5,6 +5,13 @@
 
 void func_80049200(s32 value);
 void func_80049230(s32 value, s32 data);
+/* func_800473CC passes the second argument as s16, which the caller-side
+ * sign extension depends on. That consumer defines SOUND_INIT_S16_VIEW; every
+ * other unit sees only the word prototype above and no assembler label. */
+#ifdef SOUND_INIT_S16_VIEW
+extern void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
+#endif
+void func_80074E60(void);
 void SD_Init(void);
 void func_80049308(void);
 void func_80049394(void *entry);

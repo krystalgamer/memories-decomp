@@ -8,16 +8,15 @@
 #include "display_object_layout.h"
 #include "../unmatched.h"
 #include "campaign_scene_package.h"
-
-extern u16 D_8009B2DE;
-extern DisplayObject *D_8009B2E4;
+#include "frontend_debug_state.h"
+#include "func_80031354.h"
 
 void func_80031354(void)
 {
     u8 flags = D_8009B2EB;
 
-    if (!(flags & 0x80)) {
-        D_8009B2EB = flags | 0x80;
+    if (!(flags & FRONTEND_STEP_FLAG_ENTERED)) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         D_8009B2DE = 0;
         Campaign_LoadScenePackage(0);
     }

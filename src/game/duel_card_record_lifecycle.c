@@ -3,25 +3,71 @@
 #include "../psyq/libgpu.h"
 #include "card_constants.h"
 #include "display_object_api.h"
+#include "display_object_layout.h"
 #include "duel_card.h"
+#include "duel_card_data_transfer.h"
 #include "duel_card_layout.h"
 #include "duel_card_record_lifecycle.h"
+#include "duel_card_staging.h"
 #include "duel_deck_card.h"
+#include "duel_deck_card_data.h"
 #include "duel_grid.h"
+#define DUEL_SCREEN_TABLES_TYPED_POSITIONS
+#include "duel_screen_tables.h"
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
+#include "util_memory.h"
+#define D_80177EA4_VISIBLE
+#include "../unmatched.h"
 
-/* One duel card record's lifecycle, in address order: releasing it
-   (func_80024914 drops the display object and the occupied flag,
-   func_80024954 then clears every flag), the terrain boost its setup needs,
-   Duel_SetupCardRecord, which fills the record from the deck card data and
-   uploads its art and name strip, and the card-type icon object that
-   func_80024D34 creates and hangs on the record it has just set up.
+/* The combined-deck producer and one duel card record's lifecycle, in address
+   order. Duel_PopulateCombinedDeckData builds the deck records and copied card
+   image blocks that Duel_SetupCardRecord consumes. The remaining functions
+   release/reset a record, derive its terrain boost, fill it from that deck
+   data, upload its art and name strip, and create/attach the card-type icon.
 
    The four former sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g8_split
    and gcc_2_8_1_g0_split. Every member compiles to an identical object at
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
+
+void Duel_PopulateCombinedDeckData(void)
+{
+    u8 *dst = D_8018C2D8;
+    DuelDeckCardRecord *rec = gDuel_aDeckCardRecords;
+    u8 *q;
+    u8 *src;
+    u8 *r;
+    u16 *p;
+    s32 i;
+    s32 id;
+    s32 w;
+    u16 v;
+
+    for (i = 0; i < COMBINED_DECK_SIZE; i++) {
+        q = D_8015C424 + i * 2;
+        v = *(u16 *)(q + DUEL_COMBINED_DECK_CARD_IDS_OFFSET);
+        rec->id = v;
+        id = (s16)v;
+        r = D_8015C424 + i;
+        rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+        rec->index_02 = i;
+        rec->data_block_index = i;
+
+        src = D_8015C424;
+        p = gDuel_awUniqueDeckCardIds;
+    search:
+        w = *p;
+        p++;
+        if (w != id) {
+            src += DUEL_CARD_DATA_BLOCK_SIZE;
+            goto search;
+        }
+        Util_CopyWords(dst, src, DUEL_CARD_DATA_BLOCK_SIZE);
+        dst += DUEL_CARD_DATA_BLOCK_SIZE;
+        rec++;
+    }
+}
 
 void func_80024914(DuelCardRecord *object)
 {
@@ -40,7 +86,6 @@ void func_80024954(DuelCardRecord *object)
 
 extern u8 gDuel_bTerrain[];
 /* Same byte, distinct compiler identity: keep both address materializations. */
-extern u8 gDuel_bTerrainCodegenAlias[];
 
 s32 Duel_GetTerrainBoost(s32 cardType)
 {
@@ -53,11 +98,8 @@ s32 Duel_GetTerrainBoost(s32 cardType)
     return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
 }
 
-extern u8 D_8015C424[];
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
-extern RECT D_80177EA4[];
-extern u8 D_8018C7D8[];
 
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;
@@ -65,7 +107,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     RECT *r;
     u8 *tb;
     RECT *base;
-    u8 *g;
+    DuelStagedDeckRecordBlock *g;
     s32 idx;
     s32 m;
     s32 off;
@@ -88,13 +130,14 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
         b = (b & 0x7F) + DECK_SIZE;
     }
 
-    n = b * 6;
+    n = b * sizeof(DuelDeckCardRecord);
     tb = D_8015C424;
     p->data = (u8 *)gDuel_aDeckCardRecords + n;
     p->table_index = idx;
 
-    g = tb + n + 0x48000;
-    v = *(u16 *)(g + 0x39FC);
+    g = (DuelStagedDeckRecordBlock *)(
+        tb + n + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+    v = *(u16 *)&g->record.id;
     p->card_id = v;
     p->attack =
         (gDuel_adwCardStats[(s16)v - 1] & CARD_STAT_VALUE_MASK) *
@@ -131,10 +174,6 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     return (u8 *)p;
 }
 
-#define DUEL_CARD_ICON_REPLAY_BASE_OFFSET 0x48000
-
-extern DuelFieldPosition D_800908A0[];
-
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
 DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
@@ -150,7 +189,7 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     obj->field_34 = y;
     obj->field_67 = 0;
     obj->field_69 = 0;
-    obj->attribute = obj->attribute | 0x1000000;
+    obj->attribute = obj->attribute | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
 
     desc = gDuel_adwCardStats[cardId - 1];
     obj->field_10 = (void *)func_80016778;
@@ -204,7 +243,7 @@ void func_80024D34(s32 a, s32 b)
     }
     tb = D_8015C424;
     replay = (DuelCardReplayRecordBlock *)(
-        tb + idx * sizeof(DuelCardRecord) + DUEL_CARD_ICON_REPLAY_BASE_OFFSET
+        tb + idx * sizeof(DuelCardRecord) + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
     );
     obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);

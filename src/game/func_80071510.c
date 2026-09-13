@@ -2,13 +2,11 @@
 #include "ai.h"
 #include "ai_script_read_byte.h"
 #include "ai_script_commands.h"
+
 void func_80071510(void)
 {
-    int index = AiScript_ReadByte();
-    register int *values asm("$4") = gAiScript_aMemory;
-    register unsigned int value asm("$3");
+    s32 index = AiScript_ReadByte();
+    s32 *values = gAiScript_aMemory;
 
-    asm("" : "+r"(values));
-    value = D_800EAE90;
-    values[index] = value;
+    values[index] = D_800EAE90;
 }

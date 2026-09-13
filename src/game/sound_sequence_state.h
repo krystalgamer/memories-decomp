@@ -5,7 +5,7 @@
 
 /* The two sequence-state setters. Both write g_SDValue's field_1582 and
  * field_1584 from their arguments, and their bodies are identical -- retail
- * has two symbols for the same two stores, and sound_output.c calls one on
+ * has two symbols for the same two stores, and func_800473CC.c calls one on
  * each side of a branch. They are declared separately here because they are
  * separate symbols, not because anything distinguishes them yet. */
 void func_800490F0(s16 value, u8 flag);

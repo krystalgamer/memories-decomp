@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_CONTROL_COMMANDS_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "duel_effect.h"
 
 /* D_80090EAC entry, and the dispatcher for the whole table: it reads one byte
@@ -9,7 +10,7 @@
  * D_80090EAC[byte] with the same object -- so an entry can chain into another,
  * and the table's bound is a property of the script data rather than of any
  * call site. */
-void Text_DispatchSecondaryCommand(u8 *object);
+void Text_DispatchSecondaryCommand(DuelEffectChannel *object);
 
 /* D_80090EAC entry: sets up a dialog choice. It reads a control byte, and a
  * second one when bit 3 is set, then either advances the object's stream cursor
@@ -17,7 +18,7 @@ void Text_DispatchSecondaryCommand(u8 *object);
  * publishes a new choice -- count from the low three bits, style from the high
  * nibble, enabled mask from the second byte -- and puts the dialog input state
  * at 1 when that byte's bit 7 is set. Always raises D_8009B350. */
-void Text_HandleChoiceCommand(u8 *object);
+void Text_HandleChoiceCommand(DuelEffectChannel *object);
 
 /* Two D_80090EAC entries. Text_StartPageWait puts the object into wait state
  * 4 and raises D_8009B350, which is how a command hands the frame back.
@@ -39,8 +40,8 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object);
  * so the following commands read from the new stream. */
 void Text_PushStreamOffset(DuelEffectChannel *object);
 
-void Text_NewLine(u8 *object);
-void Text_EndStream(u8 *object);
+void Text_NewLine(DuelEffectChannel *object);
+void Text_EndStream(DuelEffectChannel *object);
 
 /* D_80090EAC entry: the effect-script command. It reads a command id and a flag
  * byte from the object's current stream, finds the display effect record for
@@ -49,16 +50,9 @@ void Text_EndStream(u8 *object);
  * running one (bits 5 and 6), or starts it in the slot bit 0 names, putting the
  * object into the matching wait state.
  *
- * The parameter is this unit's own view of the object, moved here from the
- * source because a prototype needs its type. The table's entry type is
- * `void (*)(u8 *)`, so the entry casts. */
-typedef struct {
-    u8 *streams[20];
-    u8 unk50;
-    u8 state;
-    u8 pad52[6];
-    s8 depth;
-} EffectObject;
+ * The parameter uses the narrow shared EffectObject view in ygo_types.h. The
+ * table uses the wider DuelEffectChannel view, so this entry retains an
+ * explicit cast. */
 
 void Text_HandleDisplayEffectCommand(EffectObject *object);
 

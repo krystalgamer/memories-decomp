@@ -16,10 +16,11 @@
  *
  * The dedupe relies on the sort: it compares only against the previous
  * element, so it removes runs of equal ids rather than duplicates in
- * general. */
+ * general. Duel_PopulateCombinedDeckData depends on that. */
 void Duel_RequestCombinedDeckData(void);
 
-/* Fills gDuel_aDeckCardRecords once the transfer above has landed.
+/* Fills gDuel_aDeckCardRecords once the transfer Duel_RequestCombinedDeckData
+ * starts has landed.
  *
  * For each of the combined deck's entries it takes the id and the flag byte
  * from their two tables, records the entry's own index twice, and then finds
@@ -29,10 +30,7 @@ void Duel_RequestCombinedDeckData(void);
  * That search is unbounded: it walks the unique id list until it finds a
  * match, with no end test, so it assumes every combined-deck id is present in
  * the list Duel_RequestCombinedDeckData built. That is a property of the pair
- * rather than of this function alone, which is why both belong to one unit.
- *
- * Both names are semantic and were already in place; this header only gives
- * them a home. */
+ * rather than of this function alone. */
 void Duel_PopulateCombinedDeckData(void);
 
 #endif

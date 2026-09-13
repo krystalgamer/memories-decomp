@@ -1,6 +1,8 @@
 #define D_8009B0C0_IN_DATA
+#define DUEL_TERRAIN_SCALAR_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-#include "main_mode_state.h"
 #include "graphics_frame.h"
 #include "model_scene_states.h"
 #include "../psyq/libgte.h"
@@ -10,13 +12,14 @@
 #include "../unmatched.h"
 #include "model_cleanup.h"
 #include "model_scene_setup.h"
+#include "duel_terrain_boost.h"
+#include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the first read of it below. c_symbols.ld overrides
    this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
-extern u8 gDuel_bTerrain __attribute__((section(".data")));
 extern AnimatedBattleModelProperties D_800EF658[];
 
 void Main_RunAnimatedBattle(void)

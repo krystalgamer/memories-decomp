@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "display_object.h"
+#include "display_asset_banks.h"
 
 typedef struct {
     u8 pad_00[0x54];
@@ -18,7 +19,7 @@ typedef struct {
  * three 8.8 fraction bytes at 0x62, and a per-frame delta triple at 0x36.
  *
  * 0x36/0x38 is read two ways across the tree, and this is the second of them.
- * func_80043178.h's DisplayObjectSnapshot and display_object_interpolation.h's
+ * DisplayObject_SavePosition.h's DisplayObjectSnapshot and display_object_interpolation.h's
  * DisplayObjectPosition both treat the pair as a *saved* or *source* position
  * that eases into the live pair at 0x30/0x32. Here the same halfwords are
  * added to the position every frame, which is only meaningful as a velocity.
@@ -53,10 +54,11 @@ typedef struct {
    [1], func_8004293C sets 3 and reads [3], func_800400AC reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, func_800339D0.c,
-   func_8003DA40.c, func_800388D8.c, func_800283F4.c and
+   func_8003DA40.c, func_800388D8.c,
+   src/candidates/func_800283F4.c and
    DuelEffect_CreateChannel) take the low byte of [1] through %hi/%lo,
    outside small data; dialog_transition.c, func_800339D0.c, func_8003DA40.c
-   and func_800283F4.c define the arm below for that. */
+   and src/candidates/func_800283F4.c define the arm below for that. */
 #ifdef D_8009AF74_IN_DATA
 extern volatile u16 D_8009AF74[4] __attribute__((section(".data")));
 #else

@@ -2,12 +2,15 @@
 
 ## Scope and evidence policy
 
-This phase structures only `D_801A7AD8`, the duel/card table at
+The initial phase structured `D_801A7AD8`, the duel/card table at
 `0x801A7AD8`. Primary evidence is the verified North American
 `game/SLUS_014.11` target disassembly, exact-matching C users in `src/game`,
 and the final byte-for-byte build comparison. GMS, the Unchiga tree, and the
 old reference tree were used only to corroborate offsets and access widths;
 their guessed declarations were not copied.
+
+The staging-buffer contract below extends that evidence to the existing
+base-relative views of the same records, without claiming a new allocation.
 
 `notes/global-usage.csv` is the authority for the current matching-C and
 assembly user counts; filter it on global address `0x801A7AD8`. The
@@ -15,6 +18,73 @@ typed-migration inventory below separately records which matching sources
 have adopted the shared declaration. `func_8002C9B4` is an additional
 matching C source whose address formation names `D_801A7AD8` only inside an
 inline-assembly string, so it does not appear in the generated report.
+
+## Shared staging-buffer views (`D_8015C424`)
+
+`src/game/duel_card_staging.h` owns the declarations of `D_8015C424`,
+`gDuel_awCombinedDeckCardIds`, and `gDuel_awUniqueDeckCardIds`. The staging
+base is not exclusively a card database: `Duel_RequestCombinedDeckData`
+passes it through the file-transfer descriptor's integer `position` field,
+`Duel_PopulateCombinedDeckData` copies card-image blocks from it, trap
+resolution uses scratch slots, and `func_8001944C` uses the base for GPU
+readback. The default declaration therefore remains an incomplete byte
+array. No size or single lifetime is asserted for that raw buffer.
+
+The typed views are established by address arithmetic and producers, not by
+the base symbol's name:
+
+| Staging-relative offset | Absolute address | Evidence-backed view |
+| --- | --- | --- |
+| `0x48000 + 0x36B4` | `0x801A7AD8` | `DuelCardRecord`: the same field-card table declared in `duel_card.h` |
+| `0x48000 + 0x39FC` | `0x801A7E20` | `DuelDeckCardRecord`: `gDuel_aDeckCardRecords`, filled by `Duel_PopulateCombinedDeckData` for `COMBINED_DECK_SIZE` (`80`) entries |
+| `0x1BC68` | `0x8017808C` | `gDuel_awCombinedDeckCardIds`, the sort source |
+| `0x1BD0C` | `0x80178130` | `gDuel_awUniqueDeckCardIds`, the deduplicated list and transfer callback data |
+
+`DuelCardReplayRecordBlock` retains its padded offset view, now shared by
+card lifecycle, draw resolution, phase entry, AI selection setup, trap
+presentation, and the integrated `func_80018FEC` candidate.
+`DuelStagedDeckRecordBlock` provides the corresponding small-displacement
+deck-record view for `Duel_SetupCardRecord`. These views preserve the
+historical high-base materialization followed by a small field displacement;
+replacing them with a direct interior-symbol reference would change the
+relocation identity.
+
+The old Exodia-only six-byte record is removed. Its `type` at `+2` was not
+read as a type by either consumer: the producer writes the deck index there.
+Both Exodia detection and the AI exporter now use `DuelDeckCardRecord` in
+`DuelCardStagingDeckView`, with the actual 80-record extent rather than an
+indexed one-element placeholder. Compile-time assertions check all six-byte
+record fields and the three staging-view offsets.
+
+Every C consumer of this family uses the shared header: eight matching
+resident translation units and `src/candidates/func_80018FEC.c`. This removes
+12 private declaration sites (including the candidate and the draw unit's
+same-symbol alias). The matching-resident headerless inventory decreases
+from 109 names / 205 sites to 106 / 194 on the Tick388 base.
+
+The following boundaries remain deliberate:
+
+- Both typed-view consumers share one declaration: `D_8015C424_cards`, an
+  `asm("D_8015C424")` alias beside the byte view, with no guard on either.
+  The AI exporter used to take a second declaration of the same type under
+  the base name; the alias reproduces its addressing at `gcc_2_8_1_g0_split`
+  as well, so both guards are gone. It still introduces no new linker
+  symbol -- `objdump -t` on the exporter's object lists one undefined
+  `D_8015C424`.
+- Deck ID reads in setup remain unsigned, while the draw path still reads
+  `index_02` as signed. Typed fields do not normalize load widths or signs.
+- Byte offsets for image blocks, GPU pixels, ID staging lists and trap
+  scratch remain byte views. They are not fields of the field-card record.
+- No tentative definitions, C storage ownership, compiler profiles, register
+  pins, integer ABI boundaries, or grouped function ordering change.
+
+The candidate's `+0x36C0` load now names `record.card_id`, retaining its
+index-first address arithmetic. Its object fingerprint remains
+`5b8db9b3dbaf377624bf31a2890b934f9fff263f86a4f6db4db586c8d30d6615`.
+Only the removed private `D_8015C424` dependency and its aggregate contract
+hash change in `candidates.json`, following the
+[candidate contract rules](candidates/rules.md). All 19 candidate
+fingerprints and the complete resident executable remain unchanged.
 
 ## Conservative shared layout
 
@@ -171,7 +241,9 @@ request path, not by itself evidence for every button or visibility mode.
 The constructor clears `D_8009B34E` and `D_8009B355` on entry. For an
 occupied record it captures the card ID in `gDuel_wSelectedCardID`. Only
 the occupied-monster branch (packed type below `20`) writes
-`D_801D5608[0]` and `[1]`: they receive the ATK and DEF returned by
+the words at `D_801D5608 + 0` and `+4`, now expressed as
+`D_801D5608[0].card_stats.attack` and `.defense` through
+[`text_staging.h`](../src/game/text_staging.h): they receive the ATK and DEF returned by
 `Duel_CalcCardStats`. No opponent-dependent guardian adjustment is added
 to these two assignments.
 
@@ -201,9 +273,10 @@ visibility or a complete scratch-buffer layout follows from these writes.
 
 The value editor's shared option has a confirmed resident consumer, even
 though its visible caption remains unassigned. Matching
-[`func_800175A0`](../src/game/duel_state_init.c) first clears byte `+0x1F`
-of both `D_800E9FF0` side records. These are `0x20`-byte records, not the
-`0x1C`-byte card records described above:
+[`func_800175A0`](../src/game/duel_state_init.c) first clears
+`DuelSideState.card_view_mode` at byte `+0x1F` of both `D_800E9FF0` side
+records. These are `0x20`-byte records, not the `0x1C`-byte card records
+described above:
 
 | Side | Record base | View-state byte |
 |---:|---|---|
@@ -220,7 +293,7 @@ cleared. Do not collapse these branches into a universal two-player copy.
 The initializer points `D_8009B1C8` at the active side record; the matching
 [turn-switch helper](../src/game/func_800208D4.c) refreshes that pointer
 when changing sides. Matching
-[`func_80018004`](../src/game/func_80018004.c) reads its `+0x1F` byte
+[`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
 
 | Active-side value | Post-construction operation |

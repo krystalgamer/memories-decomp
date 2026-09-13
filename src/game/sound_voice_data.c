@@ -4,32 +4,55 @@
 #include "sound_mix.h"
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
+#include "sound_voice_data.h"
 
-void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
+/* Sets the level and pan of every live voice playing one sound id. Bit
+ * 0x8000 in `id` sets the CD volume instead; an id carrying the lookup tag is
+ * first translated through the bank table at field_044C and field_043C.
+ * `word` is a signed pan offset: left and right get 0x80 minus and plus it,
+ * each only when it stays inside the byte range.
+ *
+ * Three spellings are load bearing, each measured against the retail words:
+ *
+ * - The definition is old style with u16/u8/u16 parameters. The callers and
+ *   sound_voice_data.h still see three words, which old-style promotion keeps
+ *   compatible, but inside the function GCC keeps each incoming register and
+ *   a narrowed copy apart. That is retail's shape: the early tests read
+ *   $a0/$a2 and the voice loop reads the copies in $s2/$s3/$s7.
+ * - The voice loop is a goto loop: retail recomputes i * 2 every pass, which
+ *   loop.c would have strength-reduced in a structured loop. The one-iteration
+ *   do/while around the voice_value store is the only loop weighting left.
+ *   It doubles that reference in flow's count, and without it `value` sinks
+ *   below right/left/leftOk in global-alloc priority and the $s3..$s7 roles
+ *   rotate.
+ * - Each level product goes through one local that first holds the note
+ *   volume. That gives the pseudo register uses on both sides of the mult,
+ *   so it is allocated $v0 (lbu/mult/mflo $v0) instead of LO plus a reload. */
+void func_80048A28(id, value, word)
+    u16 id;
+    u8 value;
+    u16 word;
 {
-    register s32 i __asm__("$16");
+    s32 i;
     s32 pan;
-    register s32 id __asm__("$18") = arg0;
-    s32 a1v = arg1;
     s32 right;
     s32 left;
     s32 leftOk;
-    register s32 a2v __asm__("$23") = arg2;
     s32 lo;
     s32 hi;
-    register s32 ff __asm__("$4");
+    s32 ff;
 
-    if (arg0 & 0x8000) {
-        g_SDValue->cd_volume = a1v & 0xFF;
-        func_80044E90((s16)arg2);
+    if (id & 0x8000) {
+        g_SDValue->cd_volume = value;
+        func_80044E90((s16)word);
         return;
     }
-    if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+    if ((id & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         SDValue *a = g_SDValue;
         u16 v;
 
-        lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
-        hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
+        lo = (id & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
+        hi = id & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         v = *(u16 *)((u8 *)a + (lo + hi) + SD_VOICE_LOOKUP_BYTE_OFFSET);
         ff = SD_PENDING_ENTRY_NONE;
@@ -42,11 +65,12 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
         }
     }
     i = 0;
-    leftOk = (u16)(arg2 - 1) < 0x80;
-    pan = (s16)arg2;
+    leftOk = (u16)(word - 1) < 0x80;
+    pan = (s16)word;
     left = 0x80 - pan;
     right = pan + 0x80;
-    do {
+loop:
+    {
         s16 local;
         SDValue *b;
         u16 vid;
@@ -55,26 +79,33 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2)
         b = g_SDValue;
         vid = b->voice_ids[i];
         if (vid == (id & 0xFFFF) && local != 0) {
-            b->voice_value[i] = a1v;
+            do {
+                b->voice_value[i] = value;
+            } while (0);
             if (pan != 0) {
                 if (leftOk) {
                     SDValue *c = g_SDValue;
-                    register s32 prod __asm__("$2");
+                    s32 v;
 
-                    prod = c->field_0444[vid].volume * left;
-                    c->voice_volume_left[i] = prod;
+                    v = c->field_0444[vid].volume;
+                    v *= left;
+                    c->voice_volume_left[i] = v;
                 }
-                if ((u16)(a2v + 0x80) < 0x80) {
+                if ((u16)(word + 0x80) < 0x80) {
                     SDValue *d = g_SDValue;
-                    register s32 prod __asm__("$2");
+                    s32 v;
 
-                    prod = d->field_0444[vid].volume * right;
-                    d->voice_volume_right[i] = prod;
+                    v = d->field_0444[vid].volume;
+                    v *= right;
+                    d->voice_volume_right[i] = v;
                 }
             }
             func_80047864(i);
         }
-    } while (++i < SD_VOICE_SLOT_COUNT);
+    }
+    if (++i < SD_VOICE_SLOT_COUNT) {
+        goto loop;
+    }
 }
 
 void func_80048C0C(u16 value, u8 enabled)
@@ -162,24 +193,22 @@ void func_80048D08(s32 side, u32 *src)
 }
 
 #include "sound_init.h"
-#include "sound_voice_data.h"
 
+/* Sound driver initialisation after the SPU is up: enables reverb in studio-A
+ * mode at full depth, clears and seeds the driver's level and track fields,
+ * points the music track at its buffer at 0x801EA800 with an empty header,
+ * and finishes through func_80049594, func_80049600 and func_80049544.
+ * sd_init_state.c calls it once. */
 void func_80048F14(void)
 {
     SpuReverbAttr packet;
-    /* Pinned: the first g_SDValue load's delay slot is what decides this
-       function. Unpinned, GCC fills it with the 0xFF constant, which extends
-       that value's live range across the three stores and pushes this pointer
-       to $a2, shifting $v0/$a2/$a1 throughout. Pinning the pointer restores
-       retail's fill, `lui $a0, 0x801E`. */
-    register SDValue *a __asm__("$2");
+    /* g_SDValue is reloaded three times, as retail does. The first load gets
+       its own pointer so each lives only as long as its stores, and the
+       0x157C store is written through an s16 view so that all four -1 stores
+       share one constant. */
+    SDValue *a;
+    SDValue *b;
     SDValue *c;
-    u16 *base;
-    u16 *r1;
-    u16 *r2;
-    u16 *r3;
-    u16 *r4;
-    u16 *r5;
 
     SpuReserveReverbWorkArea(SPU_ON);
     SpuSetReverb(SPU_ON);
@@ -188,32 +217,26 @@ void func_80048F14(void)
     packet.depth.left = 0x7FFF;
     packet.depth.right = 0x7FFF;
     SpuSetReverbModeParam(&packet);
+    b = g_SDValue;
+    b->field_1586 = 0;
+    b->field_1588 = 0;
+    b->field_158A = 0;
     a = g_SDValue;
-    a->field_1586 = 0;
-    a->field_1588 = 0;
-    ((u8 *)a)[0x158A] = 0;
-    a = g_SDValue;
-    *(s16 *)((u8 *)a + 0x1580) = 0xFF;
+    a->field_1580 = 0xFF;
     a->field_1584 = 0xFF;
     c = g_SDValue;
     a->field_1582 = 0;
-    base = (u16 *)0x801EA800;
-    c->music_track = base;
-    c->field_1560 = (u8 *)0x801E2000;
     c->field_1578 = -1;
     c->field_157A = -1;
     *(s16 *)((u8 *)c + 0x157C) = -1;
     c->field_157E = -1;
-    r1 = c->music_track;
-    *r1 = 0xFFFF;
-    r2 = c->music_track;
-    *(s16 *)((u8 *)r2 + 2) = 0;
-    r3 = c->music_track;
-    *(s32 *)((u8 *)r3 + 4) = 0;
-    r4 = c->music_track;
-    *(s32 *)((u8 *)r4 + 8) = 0;
-    r5 = c->music_track;
-    *(s32 *)((u8 *)r5 + 0xC) = 0x40000;
+    c->music_track = (u16 *)0x801EA800;
+    c->field_1560 = (u8 *)0x801E2000;
+    c->music_track[0] = 0xFFFF;
+    c->music_track[1] = 0;
+    *(s32 *)&c->music_track[2] = 0;
+    *(s32 *)&c->music_track[4] = 0;
+    *(s32 *)&c->music_track[6] = 0x40000;
     func_80049594(2);
     func_80049600(0x14);
     func_80049544();

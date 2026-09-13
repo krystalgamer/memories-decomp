@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_CHECKERBOARD_BACKGROUND_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 
 /* The scrolling checkerboard backdrop: one empty entry point and the tiler
  * that fills the screen with alternating cells.
@@ -40,6 +43,6 @@ typedef struct {
 } CheckerboardSprite;
 
 void func_8003D32C(void);
-void func_8003D334(CheckerboardState *state, void *ordering_table);
+void func_8003D334(CheckerboardState *state, GsOT *ordering_table);
 
 #endif

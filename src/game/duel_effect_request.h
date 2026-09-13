@@ -6,12 +6,15 @@
 #define DUEL_EFFECT_REQUEST_OFFSET(member) \
     ((u32)&(((DuelEffectRequest *)0)->member))
 #define DUEL_EFFECT_REQUEST_COUNT 8
+#define DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING 0x20
+#define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
+#define DUEL_EFFECT_REQUEST_FLAG_ACTIVE 0x80
 
 /* The record func_8002C68C hands a duel effect handler.
  *
- * func_8002C604.c is where the layout comes from: it takes a free entry from
- * func_8002C5CC and fills every field below, so each one is a store in a
- * matched function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
+ * func_8002C604 is where the layout comes from: it takes a free entry from
+ * func_8002C5CC and fills every field below, so each one is a store in the
+ * function rather than a guess. It zeroes +0x00, +0x02, +0x04 and
  * +0x12, writes 8 at +0x10, the effect id at +0x18, zero at +0x1A, the shared
  * buffer D_80010000 + 0x3800 at +0x14, two words copied out of D_800E9D90 at
  * +0x08 and +0x0C, 0x80 at +0x1C and zero at +0x1D.
@@ -69,8 +72,8 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * the entry func_8002C604 hands them on their first call, under the
  * DuelEffect_MarkInitialized guard; DuelEffect_UpdateFieldMarker stores each
  * marker it allocates. They read +0x1C and +0x1D from it afterwards, and
- * func_80024E58 writes +0x1A; duel_field_effect_steps.c and
- * duel_field_effect_transition.c read +0x1D through their own display-object
+ * func_80024E58 writes +0x1A; src/candidates/func_80025F3C.c and
+ * duel_card_effects.c read +0x1D through their own display-object
  * views and cast at the global. u8 * is func_8002C604's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
@@ -78,20 +81,24 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * assembly. */
 extern u8 *D_8009B17C;
 
-/* The request pool's status byte. func_8002C68C raises bit 7 when it hands
- * out a request and func_8002C598 clears the byte; func_8002C6C8 clears
- * bit 0, raises it again while walking the records and returns it;
- * func_80024200 drops bit 7 unless bit 0 is set; func_8002596C,
- * func_80025D30 and func_80025BEC test bit 0. Read lbu everywhere and one
- * byte wide (c_symbols.ld names D_8009B261 next). Retail reaches it through
- * $gp in func_8002C6C8, func_8002C68C and func_8002C598, and through %hi/%lo
- * in func_80024200, func_8002596C, func_80025D30, func_80025BEC and
- * func_80018FEC (still assembly); duel_scene_update.c, func_8002596C.c,
- * duel_field_effect_transition.c defines the .data arm
- * below for that.
- * func_8002C68C.c keeps its own data extern because it cannot include this
- * header (see the note under func_8002C68C). Its func_8002C604 call now uses
- * the guarded ambient-id declaration in func_8002C604.h. */
+/* Request flags are a complete lifecycle contract. func_8002C604 raises
+ * ACTIVE when it allocates an entry and func_8002C5CC uses that bit to find
+ * a free one. func_8002C6C8 raises INITIALIZED immediately before the first
+ * handler call and clears the whole byte when the handler reports completion.
+ * NONBLOCKING excludes long-running field effects from the pool's blocking
+ * status while still dispatching them normally.
+ *
+ * The request pool's status byte below is separate. func_8002C68C raises bit
+ * 7 when it hands out a request and func_8002C598 clears the byte;
+ * func_8002C6C8 clears bit 0, raises it again while walking blocking records
+ * and returns it; func_80024200 drops bit 7 unless bit 0 is set;
+ * func_8002596C, func_80025D30 and func_80025BEC test bit 0. Read lbu
+ * everywhere and one byte wide (c_symbols.ld names D_8009B261 next). Retail
+ * reaches it through $gp in func_8002C6C8, func_8002C68C and func_8002C598,
+ * and through %hi/%lo in func_80024200, func_8002596C, func_80025D30,
+ * func_80025BEC and func_80018FEC (still assembly); duel_scene_update.c and
+ * duel_card_effects.c define the .data arm below for that. func_8002C68C.c
+ * takes the plain arm. */
 #ifdef D_8009B260_IN_DATA
 extern u8 D_8009B260 __attribute__((section(".data")));
 #else
@@ -99,13 +106,7 @@ extern u8 D_8009B260;
 #endif
 
 /* Allocates a request for the given effect id, marks D_8009B260 and returns
- * it, or 0 when the pool is full.
- *
- * func_8002C68C.c deliberately does not include this header: the image's own
- * definition takes no argument and returns void *, and the id every caller
- * passes reaches func_8002C604 in $a0 through that prototype-free call. This
- * is the declaration the callers need; the definition keeps the one the
- * instructions have. */
+ * it, or 0 when the pool is full. */
 DuelEffectRequest *func_8002C68C(s32 id);
 
 /* The pool those requests live in: the eight records this header already

@@ -25,53 +25,19 @@ void func_8004763C(void) {
         g_SDValue->field_0448->field_0004 + 0x1010;
 }
 
-void func_800476B4(SDSeqBlock *arg0, u32 arg1)
-{
-    register s32 i asm("$7");
-    u8 *base = (u8 *)arg0;
+/* Imports one pending-input block: each live key is bound to the next free
+   note index at f440, its note record is copied into f444's table and the
+   copy's +6 field is advanced by rate / 16. */
+void func_800476B4(SDSeqBlock *input, u32 rate) {
+    s32 i;
 
-    i = 0;
-    if (*(s32 *)base > 0) {
-        u8 *payload;
-        register u8 *id_cursor asm("$6");
-        u32 rate;
-        register s32 sentinel asm("$11");
-
-        sentinel = SD_PENDING_ENTRY_NONE;
-        rate = arg1 >> 4;
-        payload = base;
-        id_cursor = base;
-
-        do {
-            u16 id = *(u16 *)(id_cursor + SD_PENDING_INPUT_IDS_BYTE_OFFSET);
-
-            if (id != sentinel) {
-                register SDValue *state asm("$5") = g_SDValue;
-
-                state->field_043C[id] = state->field_0440;
-
-                {
-                    u16 slot = state->field_0440;
-                    SDNote *entries = state->field_0444;
-                    register SDNote *dst asm("$2") =
-                        (SDNote *)(slot * SD_NOTE_RECORD_SIZE + (s32)entries);
-                    register SDNote *updated asm("$3");
-                    register SDValue *state2 asm("$4") = state;
-
-                    __builtin_memcpy(dst,
-                                     payload + SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET,
-                                     SD_NOTE_RECORD_SIZE);
-                    updated = (SDNote *)
-                        (state2->field_0440 * SD_NOTE_RECORD_SIZE +
-                         (s32)state2->field_0444);
-                    updated->field_0006 += rate;
-                    state2->field_0440++;
-                }
-            }
-
-            payload += SD_NOTE_RECORD_SIZE;
-            id_cursor += SD_PENDING_INPUT_ID_ENTRY_SIZE;
-            i++;
-        } while (i < *(s32 *)base);
+    for (i = 0; i < input->count; i++) {
+        if (input->keys[i] != SD_PENDING_ENTRY_NONE) {
+            g_SDValue->field_043C[input->keys[i]] = g_SDValue->field_0440;
+            g_SDValue->field_0444[g_SDValue->field_0440] = input->data[i];
+            g_SDValue->field_0444[g_SDValue->field_0440].field_0006 +=
+                rate >> 4;
+            g_SDValue->field_0440++;
+        }
     }
 }

@@ -1,21 +1,20 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
 #define D_80011434_IS_CONST
+#define D_8009B458_IN_DATA
 #include "sound.h"
-#include "sound_voice_envelope.h"
 
 /* The voice-attribute block lives in the 0x40-byte hole at +0x4C0, which is
    exactly sizeof(SpuVoiceAttr) and pins a_mode/adsr1/adsr2 to the offsets the
-   target stores through. `const` on the table keeps it out of small data so
-   its address is materialised rather than reached through $gp. */
+   target stores through. The table and state-pointer declaration arms keep
+   their addresses out of small data. */
 
 #define ATTR(p) (*(SpuVoiceAttr *)((u8 *)(p) + 0x4C0))
 
-/* The supplied tone record is not a Psy-Q VagAtr, so its fields stay byte
-   offsets until something names them. */
-void func_8004A6F8(s32 index, u8 *tone)
+void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone)
 {
     u8 *p = (u8 *)D_8009B458;
+
     ATTR(p).mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
     ATTR(p).voice = D_80011434[index];
@@ -25,7 +24,7 @@ void func_8004A6F8(s32 index, u8 *tone)
     SpuSetVoiceAttr(&ATTR(p));
 }
 
-void func_8004A764(s32 index)
+void SD_ResetVoiceEnvelope(s32 index)
 {
     u8 *p = (u8 *)D_8009B458;
     ATTR(p).voice = D_80011434[index];

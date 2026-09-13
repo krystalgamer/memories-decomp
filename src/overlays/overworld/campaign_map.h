@@ -2,60 +2,36 @@
 #define MEMORIES_DECOMP_OVERLAYS_OVERWORLD_CAMPAIGN_MAP_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
+#include "location_table.h"
+#include "live_state.h"
 
 /* The campaign map's shared state.
  *
- * Eight sources in this directory work on the same map: a table of location
- * records, the location the player is standing on, the one they came from,
- * and the state of the move between them. None of the four is defined in C,
- * so this header is a declaration point rather than an owner.
- *
- * gCampaignMap_aLocationTable used to live in src/unmatched.h, which said it
- * belonged there only because "there is no subsystem header to put it in" and
- * that it should move if an overworld map header were ever written. This is
- * that header, so it has moved.
+ * The live helpers in set_location.c work on the same map: a table of
+ * location records, the location the player is standing on, the one they
+ * came from, and the state of the move between them. location_table.h and
+ * live_state.h own the C table and aligned state-prefix declarations.
  */
 
-/* Location records, 66 bytes each; consumers index it with an explicit
- * stride rather than a typed element, which is load-bearing under -G8. */
-extern u8 gCampaignMap_aLocationTable[];
-
-extern u8 gCampaignMap_Location;
+/* The live table's camera targets, marker coordinates and four exits share
+ * one 66-byte record. ygo_types.h owns the layout; the separate alternate
+ * table in alternate_location.h is not an alias of this one. Field evidence
+ * and signed-copy details are in notes/overlays/campaign-map-records.md. */
+/* These two bytes remain in the raw word at 0x80169618; its high halfword is
+ * 0x0043 and must not be absorbed as zero-fill padding. */
 extern u8 gCampaignMap_LocationPrev;
-extern s32 gCampaignMap_MoveState;
+extern u8 D_80169619;
 
 /* Two flag bytes the location machinery shares.
  *
  *   D_801695EC  Read into a local, OR'd with 0x80, 0x60 and 0x40 at different
- *               points, and written back. Three sources agree it is a u8.
+ *               points, and written back through a u8.
  *   D_8016960D  Tested whole, then for 0x80, set to 1 on entry and cleared.
  *
- * NOT HERE, ON PURPOSE
- *
- * set_location.c keeps two same-symbol views of D_801695F8: `s32 []` for the
- * setter's zero-only stores and `u8 *[]` for object creation and release.
- * They do not carry equal weight, so the element question is answerable from
- * what they do:
- *
- *   The object view is constrained. It passes an element straight to
- *   func_8004036C, whose display_object_api.h prototype takes `void *object`,
- *   and stores the object func_800400AC returned back into the same slot. The
- *   elements are display-object pointers there.
- *
- *   The word view abstains. Its only use is `D_801695F8_words[i] = 0`, and a
- *   zero store is valid for either element type, so nothing about the spelling
- *   survives into the generated code.
- *
- * That is the same shape as the abstention this tree has recorded before --
- * dialog_choice.h notes that dialog_read_choice_input.c's u8 spelling of
- * gDialog_bChoice was an abstention because every use assigned straight into a
- * u8 local. So the pointer reading is the constrained one and the s32 spelling
- * is not evidence against it.
- *
- * Both declarations stay local because the two spellings are matching
- * levers, not a shared interface. */
-extern u8 D_801695EC;
-extern u8 D_8016960D;
+ * live_state.h declares them once. It also owns D_801695F8's four pointer
+ * slots. The former integer view only cleared slots, while creation/release
+ * constrained them to object pointers; one pointer array preserves both. */
 
 /* The two display objects the map keeps between frames. Member names are the
  * decimal byte offset.
@@ -73,22 +49,6 @@ extern u8 D_8016960D;
  * through the globals is a named member, so the struct remains the wider view;
  * byte locals stay local and cast at the global. alternate_location.h:63-66
  * spells the same f8/f48/f50 for the mechanical copy it describes. */
-typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[38];
-    s16 f48;
-    s16 f50;
-    u8 pad52[20];
-    u16 f72;
-    u16 f74;
-    u8 pad76[20];
-    s16 f96;
-} MapObject;
-
-extern MapObject *D_801695C8;
-extern MapObject *D_801695D8;
-
 void CampaignMap_SetLocation(s32 index);
 void CampaignMap_UpdateLocation(void);
 /* Resident entry alias used before this overlay is linked into its slot. */

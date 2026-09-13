@@ -1,5 +1,6 @@
 #define D_8009B118_IN_DATA
 #include "../types.h"
+#include "display_asset_banks.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #define D_800101D8_IN_DATA
@@ -7,7 +8,8 @@
 #include "func_8003B808.h"
 #include "../unmatched.h"
 
-extern s32 D_80010000 __attribute__((section(".data")));
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 void func_8003B808(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
@@ -19,13 +21,13 @@ void func_8003B808(FileTransferDescriptor *object, s32 mode) {
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
         object->done = 2;
-        object->mode = 0x10000;
+        object->phase_size = 32 * FILE_SECTOR_SIZE;
         object->value_08 = D_8009B118;
-        object->value_0C = D_8009B118 + 0x800;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
         break;
 
     case 1:
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->value_0C = D_8009B118;
         object->value_08 = D_8009B118;
@@ -40,21 +42,21 @@ void func_8003B808(FileTransferDescriptor *object, s32 mode) {
         LoadImage2((RECT *)object, (u32 *)D_8009B118);
         object->value_0C = (s32)D_801AF000;
         object->value_08 = (s32)D_801AF000;
-        object->mode = 0x800;
+        object->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->done = 1;
         break;
 
     case 3:
         D_8009B0F4_abs &= 0xFFDCFFFF;
-        object->mode = 0x18000;
-        object->value_0C = D_80010000;
-        object->value_08 = D_80010000;
+        object->phase_size = 48 * FILE_SECTOR_SIZE;
+        object->value_0C = (s32)D_80010000;
+        object->value_08 = (s32)D_80010000;
         object->done = 1;
         break;
 
     case 4:
-        object->mode = 0x2800;
+        object->phase_size = 5 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         object->value_0C = (u32)D_800101D8;
         object->value_08 = (u32)D_800101D8;

@@ -1,0 +1,37 @@
+==== USER CONTEXT ====
+
+With the emulator with Interpreter CPU mode and a blank save loaded I loaded the campaign. At this stage of the story the overworld is confined to the "Metropolis" only.
+Upon going back to the campaign, i'm sent into the "Card Shop" so I hit the "Leave Shop" to go the overworld (before the coup) and my cursor is on the right bottom corner on the "Card Shop".
+
+I've then hit the following keys for each sample:
+
+- Hold Left: cursor moved to the left to the "Town Plaza" and then to the "Duel Ground". With nowhere to move I released the key.
+- Hold Right: cursor moved to the right to the "Town Plaza" and then to the "Card Shop". With nowhere to move I released the key.
+- Hold Up: cursor moved up to the "Shrine". With nowhere to move I released the key.
+- Hold Down: cursor moved up to the "Card Shop". With nowhere to move I released the key.
+- Hold R1: nothing happened just printed that sample 4 started with mask 0x4000
+- Hold L1: nothing happened just printed that sample 4 started with mask 0x0008
+
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: campaign_map_camera_input 
+status: no active-tick hit; select interpreter CPU and rerun on the visible campaign map 
+summary: frames=1800 move_hits=0 active_tick_hits=0 input_samples=5 move_rows=0 routine_observed=false active_tick_observed=false 
+overlay_signatures: move=0x27BDFFE8 expected=0x27BDFFE8 active_tick=0x27BDFFE0 expected=0x27BDFFE0 
+input_start=01 frame=000322 mode=5 held=0x8000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_post=01 frame=000610 mode=5 held=0x0000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_delta=01 frame=000610 reason=released field_00=0 angle=0 field_04=0 vrx=0 vrz=0 
+input_start=02 frame=000814 mode=5 held=0x2000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_post=02 frame=000924 mode=5 held=0x0000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_delta=02 frame=000924 reason=released field_00=0 angle=0 field_04=0 vrx=0 vrz=0 
+input_start=03 frame=001104 mode=5 held=0x1000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_post=03 frame=001338 mode=5 held=0x0000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_delta=03 frame=001338 reason=released field_00=0 angle=0 field_04=0 vrx=0 vrz=0 
+input_start=04 frame=001476 mode=5 held=0x4000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_post=04 frame=001712 mode=5 held=0x0000 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_delta=04 frame=001712 reason=released field_00=0 angle=0 field_04=0 vrx=0 vrz=0 
+input_start=05 frame=001800 mode=5 held=0x0008 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_post=05 frame=001800 mode=5 held=0x0008 field_00=809 angle=2043 field_04=400 vrx=492 vrz=-548 
+input_delta=05 frame=001800 reason=trace_end field_00=0 angle=0 field_04=0 vrx=0 vrz=0 

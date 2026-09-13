@@ -28,18 +28,23 @@ extern u16 D_801C0000[];
 extern u16 D_801D5800[];
 
 /* 0x8009B32E, the string id func_800383DC resolves through the three banks
- * above (func_800383DC.c:7 reads it into `a2`). It is two bytes: D_8009B330
+ * above (duel_effect_command.c:270 reads it into `a2`). It is two bytes: D_8009B330
  * (duel_effect.h:368) starts at +2. The one loader in C, func_800383DC,
  * matched with it u16, and retail loads it lhu, gp-relative
  * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
  * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
- * func_800218F0, still assembly, stores a halfword to it through $at
+ * func_800218F0 stores a halfword to it through $at
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
- * The two units used to declare it u16 and s16. */
+ * The result controller selects the absolute arm for that store; the
+ * existing readers keep the plain GP-relative declaration. */
+#ifdef TEXT_STRING_ID_IN_DATA
+extern u16 D_8009B32E __attribute__((section(".data")));
+#else
 extern u16 D_8009B32E;
+#endif
 
 /* The text colour slots, indexed by the low nibble of a colour command:
- * func_80038498.c reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
+ * func_80038498 reads `gText_abColorSlots[v & 0xF]`. func_800611D0.c sets
  * the first three to 4 and clears one chosen by its argument, and
  * func_8003C4E0 in options_screen.c walks the table from its base.
  *
@@ -56,8 +61,8 @@ extern u8 gText_abColorSlots[];
  * code; TextBox_BuildStep (text_box_build_step.c) reads the whole word at a
  * script byte's index and masks it with 0x8FF0FFFF. Those two read it
  * through this declaration, the u32 spelling both already used.
- * func_80039794.c reads bits 0-2 of the high halfword through its own TblEnt
- * view of the same entries and keeps that view; func_8003B5C8.c reaches
+ * func_80039794.c takes this declaration too and casts it to its TblEnt view
+ * to read bits 0-2 of each high halfword; func_8003B5C8.c reaches
  * entry 1 under its own name, D_801D9004, with a const that its note
  * explains. 0x174 bytes to D_801D9174, 93 entries; the first word is zero in
  * the image, no C unit writes the table, and the filler was not read. Retail
@@ -69,11 +74,11 @@ extern u32 D_801D9000[];
  * says what with: each of the ten Shift-JIS digit keys is looked up in the
  * table at D_801D9004 and the 1-based match index is written here.
  * password/shop.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
- * turn an entered digit into a glyph, and func_80038148.c reads element 0 and
+ * turn an entered digit into a glyph, and func_80038148 reads element 0 and
  * one chosen by a buffer byte.
  *
  * The incomplete-array spelling all three consumers already used is kept, and
- * for the usual reason: nothing here fixes the length. func_80038148.c writes
+ * for the usual reason: nothing here fixes the length. func_80038148 writes
  * its reads as `*(u16 *)&D_800EAFF8[i]` even though the elements are already
  * u16; that cast is left exactly where it is, since a redundant-looking cast
  * in matched code is the kind of thing that turns out to be load bearing.

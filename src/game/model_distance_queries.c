@@ -17,7 +17,7 @@ s32 func_8005A1F4(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
+    u8 *entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
 
     memset(&difference, 0, 8);
     difference.vx = D_800F56F0[0] - *(u16 *)(entry + 0);
@@ -33,7 +33,7 @@ s32 func_8005A2E0(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u8 *entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
+    u8 *entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
 
     memset(&difference, 0, 8);
     difference.vx = D_800F56F0[6] - *(u16 *)(entry + 0);

@@ -9,23 +9,10 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../game/display_object.h"
+#include "../game/gpu_packets.h"
 
-typedef struct {
-    u8 pad0[0x14];
-    s16 unk14;
-    u8 pad16[0x30 - 0x16];
-    s16 unk30;
-    s16 unk32;
-    u8 pad34[0x44 - 0x34];
-    s16 unk44;
-    s16 unk46;
-    s16 unk48;
-    s16 unk4A;
-} Obj;
-
-extern void func_8005B260(POLY_G4 *, s32, u16, s32);
-
-void func_80042C08(Obj *object, s32 arg1)
+void func_80042C08(DisplayObject *object, s32 arg1)
 {
     s32 *r = (s32 *)0x1F800000;
     s32 *sc = (s32 *)0x1F800010;
@@ -46,13 +33,13 @@ void func_80042C08(Obj *object, s32 arg1)
     s32 h0;
     s32 h1;
 
-    sc[0] = object->unk44;
-    sc[1] = object->unk46;
-    u14 = object->unk14;
-    cx = object->unk30;
-    cy = object->unk32;
-    x48 = object->unk48;
-    x4A = object->unk4A;
+    sc[0] = object->field_44.h.field_44;
+    sc[1] = object->field_44.h.field_46;
+    u14 = (s16)object->field_14;
+    cx = (s16)object->field_30.h.field_30;
+    cy = (s16)object->field_30.h.field_32;
+    x48 = object->field_48.h.field_48;
+    x4A = object->field_48.h.field_4A;
 
     for (i = 0; i < 4; i++) {
         *(u32 *)&poly[i].r0 = 0;
@@ -166,7 +153,7 @@ void func_80042C08(Obj *object, s32 arg1)
         q4->y3 = h1;
 
         for (j = 0; j < 8; j++) {
-            func_8005B260(&poly[j], arg1, u14, 2);
+            func_8005B260((u32 *)&poly[j], (GsOT *)arg1, (u16)u14, 2);
             *(s32 *)&poly[j].x0 = *(s32 *)&poly[j].x2;
             *(s32 *)&poly[j].x1 = *(s32 *)&poly[j].x3;
         }

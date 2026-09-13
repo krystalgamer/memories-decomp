@@ -48,7 +48,7 @@ there the entries appear only as their filenames, which are addresses. Run
 ## Human-facing bundles
 
 Every remaining note-based resident candidate has a generated directory under
-[`for_humans/`](for_humans/README.md). It carries the exact self-contained C
+`for_humans/`. It carries the exact self-contained C
 block, the target spimdisasm assembly, and the complete named compiler-profile
 options. Run `make candidate-bundles` after changing a candidate and commit the
 corresponding bundle changes. In particular, any PR that edits a candidate's
@@ -85,3 +85,29 @@ merge-order rule as `notes/global-usage.csv`: after rebasing across any
 canonical-header change, regenerate and review them even when Git reports no
 textual conflict. Resident candidates intentionally exclude `src/overlays/`
 from their declaration index because they cannot include overlay headers.
+An overlay candidate (an entry with a `"module"`, in `src/candidates/<module>/`)
+indexes its own module's headers as well and no other module's; see
+`notes/overlays/candidates/rules.md`.
+
+## Reclassified from matching C
+
+Some build-integrated candidates were never near misses. #3859 moved every
+resident function whose byte-exact source depended on a pinned register
+(`register T x asm("$N")`) or on inline assembly out of `matching_c`, because
+that source does not stand as a decompilation. Each of those candidates is
+the exact source that used to match, devices included, with a header comment
+naming the device and the file it came from; its `functions.csv` row starts
+"Build-integrated candidate ... Reclassified from matching_c (#3859)". The
+open problem for such a candidate is removing the device, not closing a
+distance, so the stored source is a byte-exact starting point rather than a
+measurement to improve on.
+
+They keep their declarations in the header of the unit they came from.
+`make check-unmatched-contracts` accepts that for a candidate, because
+`src/candidates/` still gives it a defining C translation unit; see
+`notes/build.md`.
+
+Five functions whose "C" was only the target's words in a top-level `asm`
+block (`func_800291E0`, `func_8002A4A8`, `func_8002A788`, `func_80030998` and
+`Main_RunCredits`) had no C to keep and went straight back to generated
+assembly.

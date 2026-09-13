@@ -52,7 +52,7 @@ segments:
     vram: 0x80168000
     align: 4
     subsegments:
-      - [0x0, data, overlays/free_duel/module_header]
+      - [0x0, .data, overlays/free_duel/module_header]
 
   - name: module
     type: code

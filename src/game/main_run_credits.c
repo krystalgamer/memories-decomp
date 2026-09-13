@@ -1,187 +1,138 @@
+/*
+ * Keep the staging pair absolute: `Main_RunCredits`
+ *
+ * The 540-byte runner at `0x8002DA1C` matches under the existing uniform
+ * `gcc_2_8_1_g8_split` profile. Its six terminal refinement attempts failed
+ * to link because an eight-byte scalar view of `D_801D5608` selected
+ * out-of-range GP-relative relocations. The existing incomplete
+ * `TextStagingValues` array and its `pair` member keep both staging stores
+ * absolute without a new alias, profile, or inflated declaration.
+ *
+ * The source uses the shared save-state layout and reads `duelist_code` as
+ * `u32` for the target's unsigned modulo-five sequence. The secret-number
+ * table, memory-card operations, text-box lifecycle and model-scene calls use
+ * their existing canonical declarations. The frame-delay byte selects the
+ * existing DATA view; the active-mode byte remains scalar and GP-relative
+ * through the canonical scalar view selected in unmatched.h.
+ *
+ * The shared completion-initialization label, save retry, secret-number
+ * display and credits-scene phases retain their original branch order and
+ * one-time flags. No register pins, inline assembly or local externs remain.
+ * The canonical history and six-row terminal refinement history are preserved,
+ * followed by one post-terminal resolution with this source evidence.
+ */
+#define D_8009B0C0_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "main_modes.h"
 #include "save_data.h"
+#include "campaign_flags.h"
+#include "credits_secret_numbers.h"
+#include "text_staging.h"
+#include "text_box_lifecycle.h"
+#include "duel_effect.h"
 #include "fade.h"
+#include "data_transfer_request.h"
+#include "func_80039794.h"
+#include "graphics_frame.h"
+#include "model_scene_setup.h"
+#include "model_scene_states.h"
+#include "model_cleanup.h"
+#include "../unmatched.h"
+#include "main_mode_state.h"
 
-__asm__(
-    ".set noreorder\n"
-    ".globl Main_RunCredits\n"
-    ".ent Main_RunCredits\n"
-    "Main_RunCredits:\n"
-    ".word 0x27BDFFD0\n"
-    ".word 0x240400A0\n"
-    ".word 0x24050078\n"
-    ".word 0xAFBF0028\n"
-    ".word 0xAFB10024\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, SetGeomOffset\n"
-    ".word 0xAFB00020\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, SetGeomScreen\n"
-    ".word 0x2404012C\n"
-    ".word 0x93830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26C\n"
-    ".word 0x00000000\n"
-    ".word 0x30620040\n"
-    ".word 0x14400013\n"
-    ".word 0x34620040\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26C\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, Fade_InitIn\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuel_awPlayerDeck\n"
-    ".word 0x24510000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuel_awPlayerDeck\n"
-    ".word 0x24020030\n"
-    ".word 0xA62205DC\n"
-    ".word 0x24100020\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, Library_UpdateCardUsedFlag\n"
-    ".word 0x36048000\n"
-    ".word 0x26100001\n"
-    ".word 0x2A020120\n"
-    ".word 0x1440FFFB\n"
-    ".word 0x00000000\n"
-    ".word 0x922203DE\n"
-    ".word 0xA3800000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x34420003\n"
-    ".word 0xA22203DE\n"
-    ".word 0x93860000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x24100001\n"
-    ".word 0x30C3000F\n"
-    ".word 0x1070001B\n"
-    ".word 0x28620002\n"
-    ".word 0x10400005\n"
-    ".word 0x00000000\n"
-    ".word 0x10600008\n"
-    ".word 0x30C20080\n"
-    ".word 0x08000082\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x24020002\n"
-    ".word 0x10620044\n"
-    ".word 0x30C20080\n"
-    ".word 0x08000082\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x14400004\n"
-    ".word 0x34C20080\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, SaveData_RequestWrite\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, MemCardDialog_Poll\n"
-    ".word 0x00000000\n"
-    ".word 0x00403021\n"
-    ".word 0x10C00049\n"
-    ".word 0x24020002\n"
-    ".word 0x10C2FFD7\n"
-    ".word 0x3C02801D\n"
-    ".word 0xA3900000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x08000082\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x30C20080\n"
-    ".word 0x14400021\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, D_801D0534\n"
-    ".word 0x8C430000\n"
-    ".reloc .-4, R_MIPS_LO16, D_801D0534\n"
-    ".word 0x3C02CCCC\n"
-    ".word 0x3442CCCD\n"
-    ".word 0x00620019\n"
-    ".word 0x00002021\n"
-    ".word 0x24050023\n"
-    ".word 0x24070070\n"
-    ".word 0x34C20080\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x00004010\n"
-    ".word 0x00083082\n"
-    ".word 0x00061080\n"
-    ".word 0x00461021\n"
-    ".word 0x00623023\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gCredits_awSecretNumbers\n"
-    ".word 0x24420000\n"
-    ".reloc .-4, R_MIPS_LO16, gCredits_awSecretNumbers\n"
-    ".word 0x00061880\n"
-    ".word 0x00621821\n"
-    ".word 0x94620000\n"
-    ".word 0x3C060000\n"
-    ".reloc .-4, R_MIPS_HI16, D_801D5608\n"
-    ".word 0xACC20000\n"
-    ".reloc .-4, R_MIPS_LO16, D_801D5608\n"
-    ".word 0x94630002\n"
-    ".word 0x24020120\n"
-    ".word 0xAFA20010\n"
-    ".word 0x24020020\n"
-    ".word 0xAFA20014\n"
-    ".word 0x24020008\n"
-    ".word 0x24C60000\n"
-    ".reloc .-4, R_MIPS_LO16, D_801D5608\n"
-    ".word 0xAFA20018\n"
-    ".word 0xACC30004\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, TextBox_CreateFlagged\n"
-    ".word 0x24060010\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80039794\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, D_800EB0F8\n"
-    ".word 0x24440000\n"
-    ".reloc .-4, R_MIPS_LO16, D_800EB0F8\n"
-    ".word 0x94820034\n"
-    ".word 0x00000000\n"
-    ".word 0x30420008\n"
-    ".word 0x14400018\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, TextBox_Destroy\n"
-    ".word 0x00000000\n"
-    ".word 0x24020002\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x08000082\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x1440000C\n"
-    ".word 0x34C20080\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B26E\n"
-    ".word 0x3C010000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B0C0\n"
-    ".word 0xA0300000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B0C0\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800530C4\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800533D8\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80059C9C\n"
-    ".word 0x00000000\n"
-    ".word 0x08000082\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80059CD0\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80059CE4\n"
-    ".word 0x00000000\n"
-    ".word 0x8FBF0028\n"
-    ".word 0x8FB10024\n"
-    ".word 0x8FB00020\n"
-    ".word 0x03E00008\n"
-    ".word 0x27BD0030\n"
-    ".end Main_RunCredits\n"
-);
+void Main_RunCredits(void)
+{
+    u8 *save_state;
+    u8 *textbox;
+    u16 *number;
+    u16 *table;
+    s32 one;
+    s32 flag;
+    s32 mode;
+    s32 state;
+    s32 phase;
+
+    SetGeomOffset(0xA0, 0x78);
+    SetGeomScreen(0x12C);
+
+    mode = D_8009B26C;
+    if ((mode & 0x40) == 0) {
+        D_8009B26C = mode | 0x40;
+        Fade_InitIn();
+    initialize_completion:
+        save_state = (u8 *)gDuel_awPlayerDeck;
+        *(s16 *)(save_state + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) = 0x30;
+        for (flag = 0x20; flag < 0x120; flag++) {
+            Library_UpdateCardUsedFlag(flag | 0x8000);
+        }
+        D_8009B26E = 0;
+        save_state[0x3DE] = save_state[0x3DE] | 3;
+    }
+
+    state = D_8009B26E;
+    one = 1;
+    phase = state & 0xF;
+
+    if (phase == one) {
+        goto show_secret_number;
+    }
+    if (phase < 2) {
+        if (phase == 0) {
+            goto save_completion;
+        }
+        return;
+    }
+    if (phase == 2) {
+        goto run_credits_scene;
+    }
+    return;
+
+save_completion:
+    if ((state & 0x80) == 0) {
+        D_8009B26E = state | 0x80;
+        SaveData_RequestWrite();
+    }
+    state = MemCardDialog_Poll();
+    if (state == 0) {
+        return;
+    }
+    if (state == 2) {
+        goto initialize_completion;
+    }
+    D_8009B26E = one;
+    return;
+
+show_secret_number:
+    if ((state & 0x80) == 0) {
+        D_8009B26E = state | 0x80;
+        state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
+            CREDITS_SECRET_NUMBER_COUNT;
+        table = (u16 *)gCredits_awSecretNumbers;
+        number = &table[state * 2];
+        D_801D5608[0].pair.lo = number[0];
+        D_801D5608[0].pair.hi = number[1];
+        TextBox_CreateFlagged(0, 0x23, 0x10, 0x70, 0x120, 0x20, 8);
+    }
+    func_80039794();
+    textbox = (u8 *)D_800EB0F8;
+    if ((*(u16 *)(textbox + 0x34) & 8) == 0) {
+        TextBox_Destroy(textbox);
+        D_8009B26E = 2;
+    }
+    return;
+
+run_credits_scene:
+    if ((state & 0x80) == 0) {
+        D_8009B26E = state | 0x80;
+        D_8009B0C0 = one;
+        func_800530C4();
+        func_800533D8();
+        func_80059C9C();
+        return;
+    }
+    func_80059CD0();
+    func_80059CE4();
+}

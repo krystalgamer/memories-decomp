@@ -5,13 +5,14 @@
 #include "dialog_highlight_choice.h"
 #include "display_object.h"
 #include "display_object_api.h"
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "../unmatched.h"
 #include "dialog_choice.h"
-#include "dialog_choice_state.h"
 #include "dialog_read_choice_input.h"
+#include "dialog_choice_state.h"
 #include "duel_effect.h"
 #include "widget_update_pulse_colour.h"
 
@@ -31,7 +32,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         p->field_30 = e;
         *(s32 *)&e->field_54 = 0x2000;
         e->field_4C = 0x2000;
-        e->field_34 = 0x2000;
+        e->field_34.word = 0x2000;
         e->field_2C.word = 0x2000;
         e->field_44.word = 0xC000;
         e->field_3C.word = 0xC000;

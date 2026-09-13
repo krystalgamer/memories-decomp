@@ -5,10 +5,10 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 #include "model_slot_properties.h"
+#include "../unmatched.h"
 
 /* &D_800F2C40[0].field_DB0. The interior alias keeps the retail address
  * construction; MODEL_SLOT_SIZE preserves the stride between slots. */
-extern u8 D_800F39F0[];
 
 /* RotTrans types the last three: the vertex run reached through the slot's
    part chain is SVECTOR, `out` is the VECTOR it projects into, and the local
@@ -43,7 +43,9 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 
 ModelSlotS32Quad *func_8005949C(s32 index)
 {
-    return (ModelSlotS32Quad *)(D_800F39F0 + index * MODEL_SLOT_SIZE);
+    return (ModelSlotS32Quad *)(
+        (u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
+    );
 }
 
 void func_800594C0(s32 index, ModelSlotS32Quad *source)
@@ -84,4 +86,28 @@ void func_80059590(
     entry->field_DC0[0] = first;
     entry->field_DC0[1] = second;
     entry->field_DC0[2] = third;
+}
+
+void func_800595C8(s32 index, s32 x, s32 y, s32 z)
+{
+    ModelSlot *record = &D_800F2C40[index];
+
+    x = x < MODEL_FIXED_NEGATIVE_ONE
+            ? MODEL_FIXED_NEGATIVE_ONE
+            : (x > MODEL_FIXED_THREE ? MODEL_FIXED_THREE : x);
+    record->field_DA0[0] = x;
+    y = y < MODEL_FIXED_NEGATIVE_ONE
+            ? MODEL_FIXED_NEGATIVE_ONE
+            : (y > MODEL_FIXED_THREE ? MODEL_FIXED_THREE : y);
+    record->field_DA0[1] = y;
+    z = z < MODEL_FIXED_NEGATIVE_ONE
+            ? MODEL_FIXED_NEGATIVE_ONE
+            : (z > MODEL_FIXED_THREE ? MODEL_FIXED_THREE : z);
+    record->field_DA0[2] = z;
+    if (record->field_E11 != 4) {
+        if (x == MODEL_FIXED_HALF && y == x && z == y)
+            record->field_E11 = 0;
+        else
+            record->field_E11 = 3;
+    }
 }

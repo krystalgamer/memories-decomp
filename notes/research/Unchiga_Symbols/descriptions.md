@@ -66,7 +66,7 @@ these helpers are not limited to Library flags or to story-only storage.
 | 0x8002D62C | `Main_RunNameEntry` | Mode tick for the name-entry screen: registers its input handler on first call, then polls the entry module until the name is committed. |
 | 0x8002D6C8 | `Main_RunOptionsMenu` | Mode tick for the OPTION screen — live-confirmed ambient. Sibling of `Main_RunNameEntry`; calls `Options_Init` once, then polls `Options_Update`. |
 | 0x8002D730 | `Main_RunGameOver` | Mode tick for the game-over screen; registers its handler and polls, same family shape. |
-| 0x8002D7C4 | `Main_RunHirata` | An empty function in the retail build — the compiled-out developer mode slot, named for the Konami programmer whose source path (`src\hirata\`) survives in the binary's debug strings. |
+| 0x8002D7C4 | `Main_RunUnusedDeveloperMode` | An empty function in the retail build — the compiled-out developer mode slot. The external `Main_RunHirata` label and surviving `src\hirata\` debug paths establish its provenance; the accepted local name states behavior without retaining a personal name. |
 | 0x8002DA1C | `Main_RunCredits` | Mode tick for the credits roll (loop-family pattern; body not yet studied in detail). |
 
 **Local reconciliation (2026-09-08):** the `0x8002D180` row is retained as
@@ -263,6 +263,8 @@ on the suspects side until proven.)
 | 0x80035B7C | `TextBox_Destroy` | Closes a box: releases its glyph list and frees the box, highlight and shadow widgets. |
 | 0x80039934 | `TextBox_SetPos` | Moves a box and its three widgets to a new position. |
 | 0x800393B0 | `TextBox_BuildStep` | The typewriter: on the first call resolves the string and allocates the widgets; every call emits one glyph sprite; sets the done bit at the terminator. |
+| 0x80043178 | `DisplayObject_SavePosition` | Copies a display object's live output x/y pair into the saved source pair used by both interpolation helpers. |
+| 0x8004318C | `DisplayObject_InterpolatePositionCosine` | Eases the saved source position toward a target through their midpoint using the caller's cosine phase. |
 | 0x80043230 | `Widget_SlideSine` | Slides a widget between a stored origin and a target along a sine of the given step; dialogs use it to enter and leave. |
 | 0x8003BC40 | `Text_SjisToGlyphCodes` | Converts a Shift-JIS u16 string into glyph codes (0xF0xx for high indices), 0xFF-terminated, so dynamic text can be typed by the machine. |
 

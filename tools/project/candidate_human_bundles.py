@@ -388,11 +388,15 @@ def check_bundles(
     profiles: dict[str, dict[str, object]],
 ) -> None:
     expected_directories = {candidate.key for candidate in candidates}
-    actual_directories = {
-        path.name
-        for path in BUNDLE_DIRECTORY.iterdir()
-        if path.is_dir() and path.name.startswith("func_")
-    }
+    actual_directories = (
+        {
+            path.name
+            for path in BUNDLE_DIRECTORY.iterdir()
+            if path.is_dir() and path.name.startswith("func_")
+        }
+        if BUNDLE_DIRECTORY.is_dir()
+        else set()
+    )
     if actual_directories != expected_directories:
         raise BundleError(
             "bundle directories differ: "

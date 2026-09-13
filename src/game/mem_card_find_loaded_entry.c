@@ -6,5 +6,5 @@
  * branches on its sign. */
 void MemCard_FindLoadedEntry(u8 *name)
 {
-    MemCard_FindEntry(name, D_8009B444, D_8009B440);
+    MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);
 }

@@ -15,7 +15,8 @@
  *   gDialog_bChoiceCount    How many are offered; read into an s32 and set to
  *                           4 and 7 at different prompts.
  *
- * func_8002EE94.c also clears gDialog_bChoiceCount, spelled with a .data
+ * func_8002EE94 (src/candidates/func_8002EE94.c) also clears
+ * gDialog_bChoiceCount, spelled with a .data
  * section attribute. It does not include this header, so the two never meet
  * and no guarded arm is needed; if it ever does, that is what would go here.
  *
@@ -23,10 +24,11 @@
  *
  * gDialog_bChoice, the selected index these two are read against, is declared
  * eleven times in four different ways: plain s8, s8 with a .data section
- * attribute, u8 in dialog_read_choice_input.c, and `s8 [9]` in
- * duel_scene_update.c. The section attribute alone would need a guarded arm,
- * and the array spelling has to be understood before any of it can be shared.
- * It is a bigger question than these two and wants its own change.
+ * attribute, u8 in dialog_read_choice_input.c, and
+ * `s8 [9]` in src/candidates/func_80024200.c. The section attribute alone
+ * would need a guarded arm, and the array spelling has to be understood
+ * before any of it can be shared. It is a bigger question than these two and
+ * wants its own change.
  */
 extern u8 gDialog_bChoiceEnabled;
 extern s8 gDialog_bChoiceCount;
@@ -38,16 +40,20 @@ extern s8 gDialog_bChoiceCount;
  *
  * Five sources spell it `s8` with a .data section attribute and one spells it
  * `s8 [9]`; both of those are the lever that keeps it out of -G8 small data,
- * and none of those six includes this header, so they never meet the
- * declaration below and no guarded arm is needed here.
+ * and none of those six includes this header. The card-move presentation
+ * also needs an absolute load and selects GDIALOG_CHOICE_IN_DATA here.
  *
  * Of the five that reach it from small data, four spelled it s8 and
- * dialog_read_choice_input.c spelled it u8. That was an abstention rather
+ * dialog_read_choice_input.c uses a u8 local. That was an abstention rather
  * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
  * assigning straight into a u8 local, so the load's signedness does not
  * survive. Taking s8 there builds byte for byte.
  */
+#ifdef GDIALOG_CHOICE_IN_DATA
+extern s8 gDialog_bChoice __attribute__((section(".data")));
+#else
 extern s8 gDialog_bChoice;
+#endif
 
 /* The prompt's input state, the third member of that same shared set.
  * Text_HandleChoiceCommand arms it when the command arrives -- 1 if the

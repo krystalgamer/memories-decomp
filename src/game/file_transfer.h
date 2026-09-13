@@ -6,50 +6,21 @@
 
 #define FILE_TRANSFER_STATE_PRIMARY_ACTIVE 0x10
 #define FILE_TRANSFER_STATE_SECONDARY_PENDING 0x20
+#define FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED 0x40
+#define FILE_TRANSFER_STATE_COMMAND_BUSY 0x400
+#define FILE_TRANSFER_STATE_POSITION_QUERY_BUSY 0x800
+#define FILE_TRANSFER_STATE_POSITION_QUERY_PENDING 0x1000
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
-#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
 
-/* One entry of the two-slot request table at D_801D4200.
-
-   func_80014C40 stages the caller's request into slot 1 with a whole-record
-   copy, file_cd_transfer.c's func_800141A8 promotes slot 1 into slot 0 the
-   same way once the drive is ready, and func_80014B30 then programs the
-   transfer descriptor out of slot 0. Two independent 0x20-byte copies at that
-   stride are what fix the size; func_80014B30 names the four words.
-
-   func_80014C40 reads the same record before it copies it, still as `u8 *`,
-   and evidences four more offsets that way: words at 0x00 and 0x04, a
-   halfword at 0x1C and bytes at 0x1E and 0x1F. Those stay padding here
-   because nothing reaches them through the type yet. */
-typedef struct {
-    u8 pad_00[0xC];
-    s32 field_0C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    u8 pad_1C[4];
-} FileRequestSlot;
-
-typedef char FileRequestSlot_size_must_be_0x20[
-    sizeof(FileRequestSlot) == 0x20 ? 1 : -1
-];
-
-/* A FileTransferDescriptor's worth of words, for the one place that copies a
-   whole descriptor: func_800141A8 overwrites the primary descriptor with the
-   secondary one.
-
-   This is a block-move spelling, not a second description of the record --
-   the element type is what sets the alignment and therefore the move width,
-   so it is deliberately `s32` and deliberately not interchangeable with
-   FileTransferDescriptor itself, which contains halfword members. The assert
-   below is what ties the two together. */
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} FileTransferDescriptorWords;
-
-typedef char FileTransferDescriptorWords_size_must_match_descriptor[
-    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
-];
+/* File_ActivateTransfer promotes request slot 1 into slot 0, and
+   func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
+   views used by the callback and whole-record copies, respectively. */
+extern FileRequestSlot D_801D4200;
+/* The asm-labelled byte views below are opted into by their only consumer,
+   func_80014294.c, so other units carry no asm label. */
+#ifdef FILE_TRANSFER_BYTE_VIEWS
+extern u8 D_801D4200_raw[] asm("D_801D4200");
+#endif
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *
@@ -78,10 +49,26 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     s32
 );
 FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
+/* The four command-completion callbacks the runtime installs through
+ * DsCommand and DsPacket: each re-issues its command on event 5 and clears
+ * the busy bit on event 2. */
+void func_800140A0(u8 event);
+void func_80014134(u8 event);
+void func_800141A8(u8 event);
+void func_80014220(s32 event);
+/* DsStartReadySystem supplies all three callback arguments; the implementation
+   consumes only the low byte of the first word. Preserve both measured views. */
+#ifdef FUNC_80013C28_CALLBACK_VIEW
+void func_80013C28(u8, u8 *, u32 *);
+#else
+void func_80013C28(s32);
+#endif
 void func_8001455C(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
-s32 func_80014C40(u8 *request, u8 *source);
+/* The sound producer passes FileRequestSlot directly; null polls the pending
+   state. The result retains its historical status-or-descriptor integer ABI. */
+s32 func_80014C40(FileRequestSlot *request, u8 *source);
 void File_ActivateTransfer(void);
 void File_WaitForTransfers(void);
 void File_RequestMainMenuPackage(void);
@@ -122,10 +109,16 @@ void func_80014FA4(void);
  *
  * Every File_* entry point and every CD/DS sector callback tests or updates
  * it, and the FILE_TRANSFER_STATE_*, FILE_TRANSFER_FLAG_SECTOR_RANGE and
- * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits. It is
- * only ever read and written whole, and only ever through bit masks. Nothing
- * indexes it, so the `D_8009B0F4[0]` spellings this header replaces were an
- * addressing device rather than evidence of an array.
+ * FILE_TRANSFER_REQUEST_BLOCKED_MASK bits declared above are its bits.
+ * FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED blocks secondary promotion while
+ * File_RequestAsyncTransfer initializes the primary request. The command-busy
+ * bit is raised after a successful DsCommand/DsPacket submission and cleared
+ * by its completion callback. The position-query pair gates DsCommand 0x10:
+ * func_80014308 raises pending, func_8001455C submits it and raises busy, and
+ * func_80014390 clears busy. The word is only ever read and written whole,
+ * and only ever through bit masks. Nothing indexes it, so the
+ * `D_8009B0F4[0]` spellings this header replaces were an addressing device
+ * rather than evidence of an array.
  *
  * `volatile` is load-bearing on both names, measured rather than assumed:
  * dropping it from the plain name builds a 0x1D0668-byte executable and
@@ -133,7 +126,7 @@ void func_80014FA4(void);
  * retail 0x1D0800.
  *
  * Two names, one word. The retail image reaches this address both ways. The
- * loader unit still held as assembly in `text_004428.s` uses
+ * ready-sector callback in `func_80013C28.c` uses
  * `%gp_rel(D_8009B0F4)($gp)` seven times, while six other generated assembly
  * files use `lui %hi` / `%lo` fifty-nine times. One declaration cannot
  * produce both inside a -G8 translation unit, because the form follows from
@@ -208,12 +201,12 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
 
 /* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
  * File_SetPositionTable hands its address to File_InitTransferState
- * (file_set_position_table.c:18), which stores it into D_8009B118
+ * (src/candidates/func_800136E4.c:24), which stores it into D_8009B118
  * (file_stream.c:15). The two memory-card dialogs also reach it, always by
- * address: MemCardDialog_UpdateSave (mem_card_create_state.c:210 and :237)
+ * address: MemCardDialog_UpdateSave (mem_card_dialog_load_save.c)
  * and MemCardDialog_UpdateTradeSave (mem_card_dialog_runtime.c) pass it
  * to MemCardReadFile as the destination of a read whose last argument is 0x480,
- * and compare it as a SaveDataState at mem_card_create_state.c:228 and
+ * and compare it as a SaveDataState in mem_card_dialog_load_save.c and
  * mem_card_dialog_runtime.c. Every retail access is an address-take
  * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
  * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
@@ -226,20 +219,37 @@ extern u8 gLibrary_aCardArtRecord[];
  * Every C consumer treats it as an unsized byte buffer, either publishing its
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
 extern u8 D_801DD000[];
+/* The palette staged immediately after the model's first image payload. */
+extern u8 D_801DE000[];
 
 /* The primary transfer descriptor. Four sources in this family reach it as a
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
-/* The CD callback's state word, switched on by file_transfer_control.c and
- * advanced by the callbacks in file_cd_transfer.c.
- *
- * Both declarers already spell it `volatile u16` and it stays that way. It
- * also has to stay small-data eligible: file_cd_transfer.c stores to it from
- * inline assembly written as `sh $4, %gp_rel(D_8009B100)($28)`, which names
- * the symbol and assumes $gp addressing. A two-byte scalar is eligible under
- * -G8, so this declaration keeps that true; a `.data` arm here would break
- * that store rather than merely change a load. */
+/* The initialized .sdata pointer targets the primary descriptor. The sector
+   callback reads the record at byte offsets and used to select a `u8 *`
+   declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
+   site instead, and its object is byte for byte unchanged by that -- a
+   pointer is one word either way, so the declared target type reaches no
+   instruction. */
+extern FileTransferDescriptor *D_8009AF18;
+extern u32 *D_8009B0F8;
+
+/* func_800140A0 resets these counters before the ready-system callback,
+   func_80013C28, increments them. Neither view is volatile or forced .data. */
+extern u8 D_8009B114;
+extern s32 D_8009B138;
+
+/* The filter command uses both pointer decay and a small-data byte alias.
+   The historical [1] bound is an addressing form, not the buffer extent. */
+extern char D_8009B11C[1];
+#ifdef FILE_TRANSFER_BYTE_VIEWS
+extern u8 D_8009B11C_byte asm("D_8009B11C");
+#endif
+
+/* The CD callback's state word, switched on and advanced by
+ * func_80013C28.c and func_80014294.c. It remains a volatile u16 and
+ * small-data eligible so the callbacks use the retail halfword accesses. */
 extern volatile u16 D_8009B100;
 
 /* The CD position buffer handed to DsPacket and CdIntToPos_8007E600.
@@ -252,12 +262,18 @@ extern char D_8009B104[1];
  * File_SetPositionTable installs File_WaitForTransfers and
  * File_InitTransferState clears it; File_RequestAsyncTransfer and
  * File_TryRequestAsyncTransfer call it when it is set, else check the
- * blocked mask. Retail: sw %lo through $at in File_SetPositionTable (the
- * as -G2 profile, where a four-byte object is non-small whatever its type),
- * gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
+ * blocked mask. Retail: sw %lo through $at in File_SetPositionTable, selected
+ * by the .data arm below, and gp-relative sw and two lw elsewhere. One TU held a u32 view beside an
  * asm("D_8009B10C") alias of this type; the pointer is what every use
  * assigns and calls. */
+#ifdef D_8009B10C_IN_DATA
+extern void (*D_8009B10C)(void) __attribute__((section(".data")));
+#else
 extern void (*D_8009B10C)(void);
+#endif
+extern u8 D_8009B0E0;
+extern u8 D_800E9DF0[];
+void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
  * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both
@@ -285,22 +301,63 @@ extern void (*D_8009B120)(void);
 /* A counter the CD and stream paths bump at each step they complete. */
 extern s32 D_8009B130;
 
+/* The two stream-side busy words, and the last of this family that no header
+ * owned: func_80014294.c spelled both `extern volatile` while
+ * file_stream.c spelled both plain, and neither declaration was shared.
+ *
+ * The qualifier is not decoration on the runtime's side, and the reason is
+ * instruction scheduling rather than anything being discarded. func_80014A5C
+ * stores one word and then immediately tests the other:
+ *
+ *     D_8009B124 = 1;
+ *     if (D_8009B0E8 != 0) {
+ *         return;
+ *     }
+ *
+ * With `volatile` the load of D_8009B0E8 cannot move above the store to
+ * D_8009B124, so the load-delay slot in front of the branch has nothing to
+ * fill it and the assembler leaves a nop:
+ *
+ *     sh    v0,0(gp)        # D_8009B124 = 1
+ *     lw    v0,0(gp)        # D_8009B0E8
+ *     nop
+ *     bnez  v0,...
+ *
+ * Without it the load hoists above the store and fills that slot itself, the
+ * nop goes, and the function ends four bytes earlier -- which is the whole of
+ * the size difference, 0x1d07fc against 0x1d0800. The same pinning is already
+ * recorded for D_8009B0F4 in notes/decompilation-workflow.md; it is the
+ * ordinary consequence of a volatile access sitting between a store and a
+ * dependent load.
+ *
+ * It is decoration on the other side, which is what lets one declaration
+ * serve both. file_stream.c only clears the pair once each inside
+ * File_InitTransferState, with no dependent load to hoist, so taking the
+ * volatile view costs it nothing and the build is byte for byte. The stronger
+ * spelling absorbs the weaker one here, and the guarded two-arm form input.h
+ * and sound.h use is not needed.
+ */
+extern volatile s32 D_8009B0E8;
+extern volatile u16 D_8009B124;
+
 /* The descriptor File_ActivateTransfer copies into the primary one.
  *
  * This was deliberately absent until now, on the grounds that four of five
- * declarers spelling it FileTransferDescriptor while file_cd_transfer.c
+ * declarers spelling it FileTransferDescriptor while func_80014294.c
  * spelled it `u8 []` was a majority rather than evidence: that file also
  * reaches the loader words through inline assembly, so its spelling might
  * have been load-bearing. The note asked for a measurement rather than a
  * vote, so here is one.
  *
- * Converting file_cd_transfer.c alone, changing nothing else, builds the
+ * Converting the callback use in func_80014294.c alone, changing
+ * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
  * the one access it guarded -- a whole-record copy written
  * `*(FileTransferDescriptorWords *)gFile_SecondaryTransferDescriptor` --
  * becomes `*(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor`,
  * which is the form that
- * file already used on the line above for the primary descriptor. */
+ * file already used on the line above for the primary descriptor. That copy
+ * is File_ActivateTransfer, now in func_80014294.c. */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 #endif

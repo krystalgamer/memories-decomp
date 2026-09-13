@@ -95,7 +95,29 @@ typedef struct {
     u8 field_007D;
     u8 field_007E;
     u8 pad007F;
-    SDCommand commands[SD_COMMAND_QUEUE_COUNT];
+    /* The queue is read two ways and this union records both, which is the
+       idiom display_object.h already uses eleven times.  Every dispatcher
+       that acts on one command takes `c` and reads a named member.
+       func_80046294 walks the queue with a byte cursor it also uses as the
+       source offset of a 0x30-byte copy, and takes `b`.
+
+       `b` is not decoration.  That unit kept a private struct for the whole
+       pointee until 2026-09-11, and notes/sound-driver-state.md recorded
+       six eliminations with no positive result.  What settles it is a pair
+       of measurements rather than a seventh elimination.  Spelled
+       `((u8 *)X)[j]` the object is the same whether X is the private
+       struct's byte array or this member, and spelled
+       `((SDCommand *)((u8 *)X + j))->command` it is again the same for
+       both -- so the pointee type never was the difference.  Through this
+       member the three reachable spellings -- those two and `X[i].command`
+       -- give three different objects and none of them the original,
+       because the original load is an ARRAY_REF of a `u8` member and a
+       cast is not one.  `b` is that member, and the object is
+       byte-identical. */
+    union {
+        SDCommand c[SD_COMMAND_QUEUE_COUNT];
+        u8 b[SD_COMMAND_QUEUE_COUNT * 0x30];
+    } commands;
     u8 pad0380[4];
     /* The staged SpuVoiceAttr the driver keys voices on with. func_8004803C
        fills in the live half per sound effect -- `voice` as the key bitmask,
@@ -129,7 +151,8 @@ typedef struct {
     SDNote *field_0444;
     SDValueLink *field_0448;
     u16 field_044C[SD_VOICE_LOOKUP_BANK_COUNT][SD_VOICE_LOOKUP_BANK_ENTRY_COUNT];
-    u8 pad04CC[0x510 - SD_VOICE_LOOKUP_END_BYTE_OFFSET];
+    s32 field_04CC;
+    u8 pad04D0[0x510 - (SD_VOICE_LOOKUP_END_BYTE_OFFSET + 4)];
     s16 cd_volume;
     s16 field_0512;
     u8 channel_volume[2];
@@ -138,9 +161,15 @@ typedef struct {
        "VolInf" signature checks out: the bank itself and the two records
        that follow it. */
     u8 *bank_0518[3];
-    u8 pad0524[0xF];
+    u8 pad0524[4];
+    u32 field_0528;
+    u32 field_052C;
+    u8 field_0530;
+    u8 field_0531;
+    u8 field_0532;
     u8 mix_multiplier;
-    u8 pad0534[8];
+    u16 field_0534;
+    u8 pad0536[6];
     u8 buffer_053C[4][0x200];
     u8 pad0D3C[0x800];
     u8 *buffer_ptrs_153C[4];
@@ -150,7 +179,7 @@ typedef struct {
     u8 pad1568[0x10];
     s16 field_1578;
     s16 field_157A;
-    u8 pad157C[2];
+    u16 field_157C;
     s16 field_157E;
     s16 field_1580;
     s16 field_1582;
@@ -169,7 +198,13 @@ typedef struct {
     s16 field_15F4;
     u8 pad15F6[0x22];
     u8 busy;
-    u8 pad1619[0x30];
+    /* Three 0x10-byte buffers, not one 0x30 region: func_80045514 passes
+       each of the three separately to func_80014C40, selected by
+       field_005C[0] & 0xF0 -- bits 4 to 7, the high nibble of the low
+       byte -- with cases 0x10, 0x20 and 0x40. */
+    u8 field_1619[0x10];
+    u8 field_1629[0x10];
+    u8 field_1639[0x10];
     /* The two "VolInf" trailer bytes, one per mixer-out bank; func_80046A08
        latches each into field_0042 / field_0044 as it loads them. */
     u8 field_1649;
@@ -422,6 +457,20 @@ typedef char SDSecondaryObject_size_must_be_0x28[
 typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
     SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
+typedef char SDSecondaryObject_gain_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, field_0008) == 0x08 &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_0009) == 0x09 &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_000E) == 0x0E ? 1 : -1
+];
+typedef char SDSecondaryObject_pan_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, field_000A) == 0x0A &&
+    SD_STATE_OFFSET(SDSecondaryObject, field_000B) == 0x0B &&
+    SD_STATE_OFFSET(SDSecondaryObject, pan) == 0x0C ? 1 : -1
+];
+typedef char SDSecondaryObject_level_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryObject, level_left) == 0x14 &&
+    SD_STATE_OFFSET(SDSecondaryObject, level_right) == 0x16 ? 1 : -1
+];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
 ];
@@ -479,6 +528,18 @@ typedef char SDSecondaryState_objects_offset_must_be_0x180[
 typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
     SD_STATE_OFFSET(SDSecondaryState, transfer) == 0x4A4 ? 1 : -1
 ];
+typedef char SDSecondaryState_transfer_gain_pan_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, transfer.field_0018) == 0x4BC &&
+    SD_STATE_OFFSET(SDSecondaryState, transfer.field_001B) == 0x4BF ? 1 : -1
+];
+typedef char SDSecondaryState_spatial_level_offsets_must_match[
+    SD_STATE_OFFSET(SDSecondaryState, field_0512) == 0x512 &&
+    SD_STATE_OFFSET(SDSecondaryState, field_07E4) == 0x7E4 &&
+    SD_STATE_OFFSET(SDSecondaryState, field_07E6) == 0x7E6 ? 1 : -1
+];
+typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
+    SD_STATE_OFFSET(SDSecondaryState, field_0815) == 0x815 ? 1 : -1
+];
 typedef char SDSecondaryState_flag_0500_offset_must_be_0x500[
     SD_STATE_OFFSET(SDSecondaryState, flag_0500) == 0x500 ? 1 : -1
 ];
@@ -526,8 +587,12 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
 #undef SD_STATE_OFFSET
 
 #ifndef SDVALUE_CUSTOM_EXTERN
-/* Two translation units need a different spelling of this one declaration,
- * and both are codegen inputs rather than style:
+/* Three alternative spellings of this declaration are codegen inputs:
+ * func_800464F0.c takes the aggregate arm; func_80049138.c and func_800466C8.c
+ * take the volatile arm; sound_output_state.c keeps the
+ * same measured view for func_80045054 through a same-symbol local alias;
+ * func_80047788.c, func_80045514.c and func_80046294.c
+ * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
  *   cc1psx emits the lui %hi / lw %lo pair instead of one gp-relative load.
@@ -536,9 +601,36 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   G_SDVALUE_VOLATILE -- func_80049138 reads the pointer three times and
  *   retail reloads it each time; without the qualifier gcc commons the
  *   first read and the reloads disappear.
+ *   func_800466C8 also refreshes it after its conditional output setup and
+ *   captures it again before clearing the output flag.
+ *   func_80045054 uses four staged pointer reads around decoded-buffer
+ *   selection, accumulation, and result publication.
  *
- * Everything else takes the plain declaration. */
-#ifdef G_SDVALUE_AGGREGATE
+ *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
+ *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
+ *   %lo at 0x80047788, again into $v1 at 0x80047804 and into $a0 at
+ *   0x80047828. Placing the symbol in .data takes it out of small data at
+ *   the compiler, with its real type and no assembler -G change. The unit
+ *   used to spell this as a second extern of its own beside this header's,
+ *   which is the same declaration twice; deleting that extern without this
+ *   arm builds `rebuilt executable is 0x1d07f4 bytes, expected 0x1d0800`,
+ *   twelve bytes and three instructions short, so the attribute is the
+ *   mechanism and not decoration. func_80045514.c and func_80046294.c took
+ *   this same arm when their own private externs were deleted, and each was
+ *   measured byte-identical with it; whether either would also build without
+ *   it was not measured.
+ *
+ * Everything else takes the plain declaration -- except
+ * sd_arm_busy_callback.c, which defines SDVALUE_CUSTOM_EXTERN to suppress
+ * this block and reaches the pointer as an absolute address instead. Its
+ * object shows what that buys: `lui v1, 0x800a` / `lw v1, -19364(v1)` for
+ * 0x8009B45C with NO relocation, where the SD_ClearBusyFlag two
+ * instructions later carries R_MIPS_HI16 and R_MIPS_LO16. The reason given
+ * there is that the absolute spelling is load-bearing in that unit; that
+ * claim lives in a comment in that file and is not re-measured here. */
+#ifdef G_SDVALUE_IN_DATA
+extern SDValue *g_SDValue __attribute__((section(".data")));
+#elif defined(G_SDVALUE_AGGREGATE)
 extern SDValue *g_SDValue[];
 #elif defined(G_SDVALUE_VOLATILE)
 extern SDValue *volatile g_SDValue;
@@ -547,8 +639,21 @@ extern SDValue *g_SDValue;
 #endif
 #endif
 
-#ifndef SDSECONDARYSTATE_CUSTOM_EXTERN
+/* Voice setup units keep the pointer outside small data for their absolute
+ * loads. The note-start candidate retains byte-based addressing; other
+ * resident consumers use the shared layout. */
+#ifdef D_8009B458_IN_DATA
+extern SDSecondaryState *D_8009B458 __attribute__((section(".data")));
+#elif defined(SDSECONDARYSTATE_AS_BYTES)
+extern u8 *D_8009B458;
+#else
 extern SDSecondaryState *D_8009B458;
+#endif
+
+/* A separate compiler identity retains the candidate's measured root reload;
+ * it resolves to the same linker word. */
+#ifdef SDSECONDARYSTATE_RELOAD_ALIAS
+extern u8 *D_8009B458_r asm("D_8009B458");
 #endif
 
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words
@@ -559,9 +664,10 @@ extern SDSecondaryState *D_8009B458;
  * both of which take a voice mask.
  *
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
- * with sound_voice_envelope.c on the plain declaration that unit compiles to
- * 204 bytes of text instead of 200 and the executable stops linking, because
- * .initialized_data then overlaps .text.  Nothing else needs the qualifier.
+ * with sound_voice_envelope.c on the plain declaration that unit compiled to
+ * 204 bytes of text instead of 200 and the executable stopped linking,
+ * because .initialized_data then overlapped .text. Nothing else needs the
+ * qualifier; sound_voice_envelope.c defines it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
@@ -569,12 +675,23 @@ extern const s32 D_80011434[20];
 extern s32 D_80011434[20];
 #endif
 
+/* Copies a tone record's ADSR fields into one SPU voice. */
+void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone);
+/* Resets one SPU voice's envelope through the shared attribute block. */
+void SD_ResetVoiceEnvelope(s32 index);
+
 void Sound_InitFrontend(void);
 void SD_InitState(u8);
 s32 SD_EnqueueCommand(SDCommand *);
+/* Scans queued commands [1, count) for 0x20, 0x11, or 0x24. The command
+ * pump masks the result to a byte; the definition returns a full s32. */
+s32 func_80045484(void);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
+/* Advances the active sound command from SD_UpdateRuntime. */
+void func_80045514(void);
 void SD_BGMPlay(u32);
+void func_80046294(void);
 void SD_SEPlayFull(u32);
 /* Three arguments, and no result. Its three callers spelled the id s32, u32
    and u16, and the last spelled the other two u8 and s8 -- all three collapse
@@ -584,35 +701,38 @@ void SD_SEPlayFull(u32);
 void SD_SEPlay(s32 id, s32 volume, s32 pan);
 void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
-/* Three arguments, and no result: sound_spatialization.c already declared it
-   this way and matched, while two other files carried `extern int
-   SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
-void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
-/* Two per-frame sweeps over the runtime state at D_8009B458, called together
-   by sound_secondary_commands.c and sound_sequence_runtime.c. func_8004AAFC
-   walks the 0x28-byte voice records and issues the key-off masks;
-   func_8004C84C counts down each active secondary object's field_001E and
-   clears entries that are inactive or out of channel range. Both took the
-   same spelling in each caller before this. */
-void func_8004AAFC(void);
+void func_80047480(void);
+/* A per-frame sweep over the runtime state at D_8009B458, called by
+   SD_SequenceTimerCallback (sound_secondary_commands.c) and
+   sound_sequence_runtime.c together with func_8004AAFC. It
+   counts down each active secondary object's field_001E and clears entries
+   that are inactive or out of channel range. */
 void func_8004C84C(void);
+void func_8004AAFC(void);
 
-/* Four more runtime entry points that were each reached through a local
+/* The parser passes a third word that this routine intentionally ignores. */
+void func_8004B374(s32 channel, s32 value, s32 unused);
+
+/* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
-   its position; func_8004A43C refreshes one secondary object's pitch;
-   func_8004A518 rebuilds the voice tables; func_80046A08 dispatches on
-   g_SDValue->field_003C. sound_secondary_playback.c calls the reset and
-   rebuild functions back to back. */
+   its position; func_80046A08 dispatches on g_SDValue->field_003C.
+   sound_secondary_playback.c calls the reset right before func_8004A518,
+   which rebuilds the voice tables. func_8004A43C refreshes one secondary
+   object's pitch; it has been a candidate since #3859
+   (src/candidates/func_8004A43C.c), and its one caller is func_8004AAFC. It
+   stays here rather than in unmatched.h because it takes an
+   SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
-void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_8004A518(void);
+void func_8004A43C(SDSecondaryObject *object, s32 force);
 void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *D_8009B458,
    clamping to 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
-   is zero or out of range. sound_voice_data.c is the only caller, passes the
+   is zero or out of range. func_80048F14 (src/game/sound_voice_data.c)
+   is the only caller, passes the
    constant 0x14, and discards the result; its local extern spelled this
    `void func_80049600(s32)`, disagreeing with the definition on both the
    return type and the parameter's signedness. */
@@ -633,16 +753,22 @@ s32 func_80049138(s16 arg0, s32 arg1);
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.
    It walks the track records from D_8009B458 for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
-   every track has ended. sound_secondary_playback.c is the only caller and
+   every track has ended. func_80049EC8.c is the only caller and
    its local extern already agreed with this.
 
    The 3 is the value func_80049F50 promotes into the secondary path's state
    byte, as the note further down records. */
 s32 SD_GetSequenceStatus(void);
 
+/* Stages a tagged secondary sequence if no sequence is already staged.
+ * The definition uses void * for the input and returns a full s32 status;
+ * the command pump stores that status into its signed halfword field. */
+s32 func_80049A64(void *input, s16 value);
+
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
-   the return width and the narrower one is right to: sound_runtime.c compares
+   the return width and the narrower one is right to: SD_UpdateRuntime
+   (src/game/sound_runtime.c) compares
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
@@ -678,11 +804,21 @@ void func_800498F8(void);
 void func_80049C40(void);
 void func_80049CB0(void);
 #endif
+/* Mutes active low-channel secondary objects, then sets the playback state
+ * at +0x7E2 to 4. The +0x500 guard brackets the voice updates. */
+void func_80049CF8(void);
+
 void SD_SetOutputType(s16);
+/* Restores cached levels for active low-channel secondary objects and sets
+ * the playback state at +0x7E2 to 1, bracketed by the +0x500 guard. */
+void func_80049DD8(void);
+
 /* Stores the secondary path's two volume halfwords into the 0x0514 and 0x0516
  * fields of *D_8009B458 and refreshes the object volumes unless field_07E2 is
- * 2. sound_runtime.c is the only caller and passes the same value twice; it
- * declared this itself before, in the same s16 pair the definition takes. */
+ * 2. SD_UpdateFades (src/game/sound_runtime.c) passes the same value
+ * twice; it declared this itself before, in the same s16 pair the definition
+ * takes. It is not the only caller -- func_80045514.c calls it with two
+ * literal zeros, and used to declare it as an s32 pair of its own. */
 void func_80049F10(s16 first, s16 second);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);

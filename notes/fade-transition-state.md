@@ -18,7 +18,7 @@ The shared `FadeTransitionState` layout is:
 | `0x03` | `pad_03` | 1 | no exact C field access establishes a role |
 | `0x04` | `level` | 1 | byte loads/stores throughout the family; current fade brightness in `Fade_DrawOverlay` |
 | `0x05` | `target_level` | 1 | byte comparison and initialization in the transition setup paths |
-| `0x06` | `flags` | 1 | byte bit tests/writes for `0x01`, `0x02`, `0x04`, `0x10`, `0x20`, and `0x80` |
+| `0x06` | `flags` | 1 | byte bit tests/writes named by `FADE_FLAG_*` in `fade_constants.h` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
 | `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
 | `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
@@ -40,7 +40,7 @@ declarations were used.
 
 ## Band-ramp mechanics
 
-The matching [`Fade_StepBands`](../src/game/fade_step_bands.c) establishes
+The [`Fade_StepBands`](../src/game/fade_step_bands.c) source establishes
 **high-confidence static semantics** for `field_08` in band mode: it is a
 signed sweep head, not another byte brightness value. The shared declaration
 remains `u16` to preserve the existing exact C; the walker explicitly casts
@@ -70,7 +70,7 @@ the middle pair for decreasing levels. With the unsigned, nonnegative
 does not clear the active flag; transition completion remains the separate
 responsibility of `Fade_Update`.
 
-[`Fade_DrawOverlay`](../src/game/fade_overlay.c) draws array index `i`
+[`Fade_DrawOverlay`](../src/game/fade_runtime.c) draws array index `i`
 at `y = i * 8` with height 8 and intensity `0xFF - band_levels[i]`.
 Thus indices 14/15 are the two center bands and 0/29 are the top/bottom
 bands. The **eight-pixel band height is not a fixed eight-unit ramp step**.
@@ -128,24 +128,24 @@ rather than inferred from a caller's name:
 
 | Setup path | Initial head / target | Default setup |
 |---|---|---|
-| `Fade_InitIn` in [`fade_overlay.c`](../src/game/fade_overlay.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
-| `Fade_InitOut` in [`fade_out.c`](../src/game/fade_out.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitIn` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_InitOut` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 
 `Fade_StartIn` and `Fade_StartOut` call those initializers, then request
 step `8` and flag `0x01` (band mode). However, both call a color helper
 **after** that request. When `D_8009B145` is nonzero,
-[`func_8001572C`](../src/game/fade_overlay.c) replaces the flags with `0x90`,
-while [`func_80015870`](../src/game/fade_overlay.c) replaces them with `0xB0`.
+[`func_8001572C`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
+while [`func_80015870`](../src/game/fade_runtime.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
 replacing the entire flag byte. The wrappers therefore do not unconditionally
 start an eight-unit banded transition.
 
-## The wrapper family in `fade_control.c`
+## Blocking and nonblocking wrapper family
 
-`fade_control.c` opens with `Fade_InitOutColor` and the blocking `Fade_Wait`,
-and the rest of it is seventeen thin wrappers over the setup paths above. They
-vary along three axes, and reading them as a grid is what makes the unnamed
-ones tractable:
+Within [`fade_runtime.c`](../src/game/fade_runtime.c), `Fade_InitOutColor` and
+the blocking `Fade_Wait` begin the wrapper/control layer. Eighteen contiguous
+functions follow over the setup paths above. They vary along three axes, and
+reading them as a grid is what makes the unnamed ones tractable:
 
 - which initializer runs -- `Fade_Init*` (default step `0x0C`, no band mode)
   or `Fade_Start*` (band mode requested, then possibly replaced by the colour
@@ -177,32 +177,33 @@ direction.
 
 ### What the extra bits do
 
-Flag `0x02` is already covered by the submission table above: it makes the
-tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
+`FADE_FLAG_KEEP_OVERLAY` (`0x02`) is already covered by the submission table
+above: it makes the tail box take its depth from `D_8009B140` (or `0x3F` when that is zero)
 instead of the fixed `4`. That is what lets other objects sort in front of
 the cover, and `Script_OpShowImage` is the clearest use -- it creates its
 full-screen image object and only then calls `0x80015C84`, the non-blocking
 `Fade_InitOut` + `\|= 2` wrapper.
 
-Flag `0x04` is only read in `fade_update.c`, at the point where the level
-reaches zero:
+`FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE` (`0x04`) is only read in
+`Fade_Update`, at the point where the level reaches zero:
 
 ```c
 f = gFade_State.flags;
-if (f & 2) {
-    if ((f & 4) == 0) {
+if (f & FADE_FLAG_KEEP_OVERLAY) {
+    if ((f & FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE) == 0) {
         return;          /* leave D_8009B141 alone */
     }
-    D_8009B141 = 0x80;   /* high bit: preserved by the entry check */
+    D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
 } else {
     func_80015D0C();     /* D_8009B141 = 0 */
 }
 ```
 
-So within the `0x02` path, `0x04` decides whether completion latches the
-control byte to `0x80` or leaves it untouched. The high bit matters because
-the entry check at `0x80015340..0x80015358` preserves a control byte whose
-high bit is set rather than forcing it to `1`.
+So within the keep-overlay path, the secondary-ordering-table flag decides
+whether completion latches the control byte to its high-bit form or leaves it
+untouched. The high bit matters because the entry check at
+`0x80015340..0x80015358` preserves that form rather than forcing it to
+`FADE_ORDERING_TABLE_ACTIVE`.
 
 ### Why the ten are still unnamed
 
@@ -227,14 +228,14 @@ context before assigning fixed timings or screen-specific meanings.
 
 ## Draw eligibility and box submission
 
-[`Fade_DrawOverlay`](../src/game/fade_overlay.c) calls `Fade_Update`
+[`Fade_DrawOverlay`](../src/game/fade_runtime.c) calls `Fade_Update`
 **before** testing whether to draw. Its condition uses the updated state:
 
 ```c
-(flags & 0x80) || (D_8009B141 != 0 && level != 0xFF)
+(flags & FADE_FLAG_ACTIVE) || (D_8009B141 != 0 && level != 0xFF)
 ```
 
-| Active flag `0x80` | `D_8009B141` | `level` | Submits boxes |
+| `FADE_FLAG_ACTIVE` | `D_8009B141` | `level` | Submits boxes |
 |---|---|---|---|
 | set | any | any | yes |
 | clear | zero | any | no |
@@ -248,7 +249,7 @@ therefore supplies zero color, not a general "fully faded" or "finished"
 sentinel. Completion is based on the current level reaching its target,
 which need not be `0xFF`.
 
-The matching [`Fade_Update`](../src/game/fade_update.c) confirms that this
+The [`Fade_Update`](../src/game/fade_update.c) source confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears

@@ -3,7 +3,26 @@
 
 #include "../ygo_types.h"
 
-#define MAIN_MODE_COUNT 17
+typedef enum {
+    MAIN_MODE_DEBUG = 0,
+    MAIN_MODE_ANIMATED_BATTLE = 1,
+    MAIN_MODE_CAMPAIGN = 2,
+    MAIN_MODE_DUEL = 3,
+    MAIN_MODE_LIBRARY = 4,
+    MAIN_MODE_CAMPAIGN_MAP = 5,
+    MAIN_MODE_FREE_DUEL = 6,
+    MAIN_MODE_BUILD_DECK = 7,
+    MAIN_MODE_MENU = 8,
+    MAIN_MODE_NAME_ENTRY = 9,
+    MAIN_MODE_PASSWORD = 10,
+    MAIN_MODE_OPTIONS = 11,
+    MAIN_MODE_GAME_OVER = 12,
+    MAIN_MODE_UNUSED_DEVELOPER = 13,
+    MAIN_MODE_TRADE = 14,
+    MAIN_MODE_CREDITS = 15,
+    MAIN_MODE_TWO_PLAYER_DUEL_SETUP = 16,
+    MAIN_MODE_COUNT
+} MainMode;
 
 typedef void (*MainModeRunner)(void);
 
@@ -37,10 +56,10 @@ void Main_RunNameEntry(void);
 void Main_RunPasswordMenu(void);
 void Main_RunOptionsMenu(void);
 void Main_RunGameOver(void);
-void func_8002D7C4(void);
+void Main_RunUnusedDeveloperMode(void);
 void Main_RunTrade(void);
 void Main_RunCredits(void);
-void func_8002DC38(void);
+void Main_RunTwoPlayerDuelSetup(void);
 
 extern MainModeRunner gMain_apfnModeRunner[MAIN_MODE_COUNT];
 

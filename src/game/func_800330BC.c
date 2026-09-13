@@ -1,7 +1,9 @@
-#define GINPUT_PAD1_HELD_IS_VOLATILE
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+/* The two explicit volatile .data input views retain absolute pad loads under
+ * the uniform -G8 compiler/assembler profile used by the surrounding card
+ * list sort code. */
+#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "../types.h"
-#include "func_800330BC.h"
 #include "card_type_icon_table.h"
 #include "card_list_text_boxes.h"
 #include "card_list_sort.h"

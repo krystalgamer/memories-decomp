@@ -6,16 +6,6 @@
 #include "duel_grid.h"
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
-/* The brackets are a lever, not a size. The object is one u16 -- two bytes,
-   with gAi_bBestAttacker at +2 -- and nothing here indexes above [0]. This
-   unit compiles at -G8, where a two-byte scalar would be placed in small data
-   and addressed %gp_rel; declaring it an array is what keeps it on %hi/%lo.
-   ai_script_load_best_values.c compiles at -G0 and so spells the same symbol
-   a plain scalar. Both objects relocate HI16/LO16, which makes the two look
-   like drift, but that agreement is two correct levers rather than one
-   declaration that could serve both. See notes/build.md. */
-extern u16 gAi_wBestDifference[];
-
 void AiScript_FindBestAttack(void) {
     u8 *t;
     u8 *r;
@@ -42,9 +32,10 @@ void AiScript_FindBestAttack(void) {
             continue;
         }
 
-        for (j = 0x38,
+        for (j = AI_SLOT_OPPONENT_MONSTER_FIRST,
              e = t + (AI_ACTIVE_CARD_RECORD_SIZE + AI_ACTIVE_CARD_SIDE_BYTE_STRIDE);
-             j < 0x3D; j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
+             j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
+             j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
             if (*(s16 *)e == 0) {
                 continue;
             }

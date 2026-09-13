@@ -1,9 +1,12 @@
+#define DUEL_CARD_STAGING_DECK_VIEW
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #include "../types.h"
+#include "duel_card_staging.h"
 #include "duel_draw_resolution.h"
 #include "duel_card.h"
 #include "duel_grid.h"
 #include "duel_side_state.h"
+#include "duel_scene_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_card_layout.h"
@@ -16,7 +19,6 @@
 #include "display_object_api.h"
 
 extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
-extern ExodiaCardDatabase D_8015C424_cards asm("D_8015C424");
 
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
@@ -48,12 +50,11 @@ s32 Duel_HasAllExodiaPieces(void) {
 }
 
 extern u8 D_8009B1ED;
-extern u8 D_8015C424[];
 
 void func_80018DB4(void) {
     u8 *p;
     u8 *c;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     u8 *base;
     s32 i;
     s32 k;
@@ -66,8 +67,8 @@ void func_80018DB4(void) {
     s32 y;
 
     v = D_8009B23A;
-    if ((v & 0x8000) == 0) {
-        D_8009B23A = v | 0x8000;
+    if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A = v | DUEL_SCENE_FLAG_INITIALIZED;
         D_8009B1ED = 1;
     }
 
@@ -79,11 +80,12 @@ void func_80018DB4(void) {
         }
         D_8009B1ED = 8;
         b = D_8009B1EC - 1;
+        /* Raw offset spelling preserves the matching draw-loop schedule. */
         c = (u8 *)D_8009B1C8;
         D_8009B1EC = b;
         if (*(s8 *)(c + 0x18) >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
-            *(s8 *)&D_800E9FF0[gDuel_bWinnerSide] =
+            D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
             D_8009B23A = 0xC;
             return;
@@ -106,8 +108,10 @@ void func_80018DB4(void) {
         *(s32 *)(p + 0x24) = (s32)func_80018C34;
         D_800EA030[i].object = p;
         base = D_8015C424;
-        g = base + p[0x6A] * DUEL_CARD_RECORD_SIZE + 0x48000;
-        y = *(s8 *)(*(s32 *)(g + 0x36B8) + 2);
+        g = (DuelCardReplayRecordBlock *)(base +
+            p[0x6A] * sizeof(DuelCardRecord) +
+            DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        y = *(s8 *)&((DuelDeckCardRecord *)g->record.data)->index_02;
         *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = y;
         n = *(u8 *)((u8 *)D_8009B1C8 + 0x18);
         *(u8 *)((u8 *)D_8009B1C8 + 0x18) = n + 1;

@@ -2,11 +2,12 @@
 #include "model_record_tables.h"
 #include "func_80041C8C.h"
 
-void func_80041C8C(u8 *ctx)
+void func_80041C8C(DisplayObjectStreamState *object)
 {
+#define ctx ((u8 *)object)
     u8 *p;
     s32 op;
-    s32 (**table)(u8 *, u8 *);
+    s32 (**table)(DisplayObjectStreamState *, const u8 *);
     s32 value;
 
     p = (u8 *)(*(s32 *)(ctx + 0x50) + *(u16 *)(ctx + 0x58));
@@ -16,7 +17,7 @@ void func_80041C8C(u8 *ctx)
     if (op >= 0xF0) {
         table = D_80090FEC;
         do {
-            if (table[op ^ 0xFF](ctx, p) == -1) {
+            if (table[op ^ 0xFF](object, p) == -1) {
                 return;
             }
             p = (u8 *)(*(s32 *)(ctx + 0x50) + *(u16 *)(ctx + 0x58));
@@ -29,4 +30,5 @@ void func_80041C8C(u8 *ctx)
     value = (p[1] << 8) | p[0];
     *(s32 *)(ctx + 0x4C) = *(s32 *)(ctx + 0x54) + value;
     *(u16 *)(ctx + 0x58) = *(u16 *)(ctx + 0x58) + 3;
+#undef ctx
 }

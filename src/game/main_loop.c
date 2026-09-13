@@ -1,11 +1,14 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-#include "main_mode_state.h"
 #include "main_frame.h"
 #include "fade.h"
 #include "main_modes.h"
 #include "main_debug.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
+#include "../unmatched.h"
+#include "main_mode_state.h"
 
 void Main_Loop(void) {
     func_8002CDE8();

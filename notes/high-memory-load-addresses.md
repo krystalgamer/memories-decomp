@@ -41,8 +41,8 @@ SU destination.
 
 ## MODEL record phase map
 
-Matching
-[`Model_LoadMonsterMerge`](../src/game/model_load_monster_merge.c) requests
+The
+[`Model_LoadMonsterMerge`](../src/game/model_load_monster_merge.c) source requests
 one `0x114`-sector record from `MODEL.MRG` and installs `func_80056D7C` as its
 phase callback. The callback has seventeen stage entries. Sixteen consume
 bytes and the last finalizes the staged model metadata.
@@ -110,6 +110,12 @@ The last three words are a separate SU cohort:
   `0x80010034`, whose value `0x80185CD4` lies inside that module, to
   `func_80049394`.
 
+The matching `func_800507D0` uses the owning declarations in
+`high_memory_addresses.h`. Its three fixed imports are declared by
+`model_scene_imports.h` as measured caller views for this SU sector range;
+they are not declarations for the main-menu package that reuses the same
+virtual addresses, nor recovered implementation signatures for that overlay.
+
 An interior module pointer is not an arena base. Its presence at the end of
 the contiguous words is decisive counter-evidence to a uniform
 `gMain_apLoadArena` array.
@@ -126,3 +132,66 @@ The following are supported:
 The proposed `gMain_apLoadArena` name is rejected. The block is not owned only
 by the main frontend, not every element is a load destination, and retail
 consumers do not establish one common element type or indexing contract.
+
+## Shared C contracts
+
+[`high_memory_addresses.h`](../src/game/high_memory_addresses.h) now owns
+all nine address constants named by current C consumers. It replaces 23
+private declarations across 14 matching resident translation units, the
+shared overworld translation unit, and two integrated resident candidates.
+The five other labels in the fourteen-word block have no individually named
+C consumers; no speculative declarations or storage definitions are added
+for them. Three of those words are read through the prefix view below.
+
+The scalar `D_80010000` contract is `u8 *`: the word contains a payload
+address, not the first bytes of a payload. Its consumers reuse that address
+for portrait records, effect scratch, model data and a movie VLC buffer, so
+no more specific pointed-to record type is valid across those lifetimes.
+The old signed-word and `void *` spellings converge on this pointer type;
+casts remain at the transfer descriptor's integer fields and other existing
+integer ABI boundaries.
+
+| Header arm | Consumers | Addressing retained |
+|---|---|---|
+| Default pointer | `Campaign_LoadScenePackageStage`, `func_8002C604`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
+| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `func_8003B808`, `func_8003BF00`, `func_8005B8A0` | Forced `.data` declaration, not a storage definition |
+| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `func_8001755C`, `main_run_duel_and_library.c`, `main_run_selection_menus.c`, candidate `func_80056828` | `D_80010000`-relative array addressing |
+
+The indexed arm takes `HighMemoryModelAddressPrefix` from
+[`ygo_types.h`](../src/ygo_types.h). This is only the first five address
+words: `payload_bases[3]` at `+0x00` and `primary_modules[2]` at `+0x0C`,
+with asserted size `0x14` and module offset `0x0C`. Both cohorts contain
+byte pointers, but their roles remain distinct. The module entry is still
+reached by adding four bytes; its function signature is not inferred here.
+Three resident loads and five candidate loads now use these cohort fields.
+
+Only element zero of the incomplete prefix array is used. It is an
+addressing view, not evidence of repeated prefix records or the extent of
+the fourteen-word allocation. `func_8001755C` formerly used a complete
+three-word signed array; both that 12-byte declaration and the new
+incomplete view avoid small-data classification under its named profile.
+The other indexed consumers already used incomplete arrays. Measurement
+confirms that the pointer conversion and prefix fields preserve their
+instructions and relocations.
+
+The independently named `D_80010008`, `D_80010014`, `D_80010018` and
+`D_8001002C` transfer destinations retain signed-word `.data` declarations.
+The initializer's `D_8001001C`, `D_80010020`, `D_80010024` and
+`D_80010028` data arguments are signed-word `.data` declarations too: the
+matching `func_8004CB0C` is built under `gcc_2_8_1_g8_split`, and a
+small-data view would turn its four absolute loads gp-relative. Reaching
+one of these through a field of `D_80010000` would change its relocation
+identity, even when the eventual runtime address is the same.
+
+Candidate `func_80056828` keeps its existing base-relative relocations;
+they are not rewritten to the retail assembly's individual labels. It
+consumes the shared header, so its reviewed schema-2 dependency metadata
+removes only the superseded private-extern entries, and its object
+fingerprint remains
+`9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b`.
+It is not promoted or claimed to match retail. The matching
+`func_8004CB0C` keeps its four independently labeled data loads.
+
+The remaining constants, Psy-Q CRT's zero-count callback walks, generated
+data, function grouping, compiler profiles and existing register assignments
+are unchanged. This contract consolidation does not map the storage to C.

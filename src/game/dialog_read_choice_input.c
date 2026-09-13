@@ -1,4 +1,4 @@
-#define GINPUT_PAD1_REPEAT_IS_VOLATILE
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "../types.h"
 #include "dialog_highlight_choice.h"
 #include "input.h"

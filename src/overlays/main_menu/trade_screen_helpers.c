@@ -4,10 +4,12 @@
 #include "../../psyq/libgs.h"
 #include "../../game/card_constants.h"
 #include "../../game/gpu_packets.h"
+#define MAIN_MENU_TRADE_SCROLL_AS_WORDS
 #include "trade_helpers.h"
 #include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
 #include "card_tables.h"
+#include "ordering_tables.h"
 
 /* Three Trade screen helpers: the card-type icon (0x80184344) and the column
    dimming overlay (0x80184454) that the offer draw calls for each entry, and
@@ -23,15 +25,13 @@
    trade_helpers.h, and the row rebuild walks D_801845FC and D_801845E0, the
    same trade inventory and display handle the offer group writes. */
 
-extern GsOT *D_800E9D94;
-
 void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 {
     POLY_FT4 sprite;
     u32 palette;
     s32 cardType;
 
-    cardType = (D_801D4244[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
+    cardType = (gDuel_adwCardStats[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
                 CARD_STAT_TYPE_MASK;
     if (cardType != CARD_TYPE_MAGIC && cardType != CARD_TYPE_EQUIP) {
         if (cardType != CARD_TYPE_TRAP) {
@@ -91,8 +91,6 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.y3 = 0xF0;
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
-
-extern u16 D_80185C8C[][2];
 
 void MainMenu_RebuildTradeInventoryRows(s32 side)
 {

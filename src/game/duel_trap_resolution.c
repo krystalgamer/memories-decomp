@@ -2,13 +2,17 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "duel_card_record_lifecycle.h"
+#include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_card_layout.h"
+#include "duel_effect_request.h"
 #include "duel_grid.h"
 #include "sound.h"
 #include "view_state.h"
 #include "func_80022D94.h"
 #include "../unmatched.h"
+#include "duel_trap_resolution.h"
 
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
    from House of Adhesive Tape through Widespread Ruin, which func_8001F0D0
@@ -23,8 +27,6 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     DUEL_ACID_TRAP_HOLE_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
     DUEL_WIDESPREAD_RUIN_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
 };
-extern u8 D_8015C424[];
-extern u8 D_801A7AD8_raw[] asm("D_801A7AD8");
 
 s32 func_8001F0D0(u8 *p) {
     s32 i;
@@ -65,7 +67,7 @@ s32 func_8001F0D0(u8 *p) {
     n = 0;
     i = n;
     tbl2 = D_800907D8;
-    rec2 = D_801A7AD8_raw;
+    rec2 = (u8 *)D_801A7AD8;
     b2 = D_8015C424;
     off2 = 0x18000;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -124,7 +126,7 @@ s32 func_8001F0D0(u8 *p) {
     }
     i = 0;
     tbl3 = D_800907D8;
-    rec3 = D_801A7AD8_raw;
+    rec3 = (u8 *)D_801A7AD8;
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -140,9 +142,6 @@ s32 func_8001F0D0(u8 *p) {
     return 0;
 }
 
-u8 *func_8002C68C(s32 arg0);
-void func_80024954(DuelCardRecord *arg0);
-
 /* Four-state presentation sequencer on the D_8009B210 mode byte: mode 0
  * starts the first screen effect and arms the 0x14-frame counter; mode 1
  * copies the selected card's position into a type-8 effect object, updates
@@ -151,7 +150,7 @@ void func_80024954(DuelCardRecord *arg0);
  * side's state byte at +6 and completes. Returns 1 while busy. */
 s32 func_8001F364(void) {
     u8 *e;
-    u8 *g;
+    DuelCardReplayRecordBlock *g;
     u8 *p;
     u8 *q;
     u8 *r;
@@ -200,9 +199,11 @@ m1:
     D_8009B1D0 = t;
     if ((s16)t <= 0) {
     r = D_8015C424;
-    g = r + D_8009B1B8 * 0x1C + 0x48000;
-    p = *(u8 **)(g + 0x36B4);
-    e = func_8002C68C(8);
+    g = (DuelCardReplayRecordBlock *)(r +
+        D_8009B1B8 * sizeof(DuelCardRecord) +
+        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+    p = g->record.object;
+    e = (u8 *)func_8002C68C(8);
     *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;

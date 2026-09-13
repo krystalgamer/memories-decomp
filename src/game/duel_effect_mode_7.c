@@ -1,9 +1,9 @@
-#include "../types.h"
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
-#include "main_mode_state.h"
+#include "../types.h"
 #include "duel_effect_mode_7.h"
-
-extern u8 D_8009B2F8;
+#include "../unmatched.h"
+#include "main_mode_state.h"
 
 void func_80033C90(void)
 {

@@ -70,15 +70,17 @@ All three sites write a colour field — two through `*(u32 *)&obj->r` and
 positively display-layer colour writes.
 
 That is precisely why the duel constant does not fit.
-`duel_draw_status_numbers.c` documents `0x404040` as the *dim* member of a
+`Duel_DrawLifePointsAndDeckCounts` (`src/game/duel_draw_status_numbers.c`) documents `0x404040` as the *dim* member of a
 shade pair whose *active* sibling is `0x808080`, selected per side by
 `D_8009B1D5`. The overlay sites take part in no such pairing: a name-entry
 object and a sparkle are not one side of a two-sided status readout. Adopting
 the name would import a shade-family relationship that does not exist here.
 
-If the shared grey is worth naming, it needs a neutral display-layer constant
-rather than the duel one. That is a design decision, not a mechanical
-substitution, and it is deliberately left open.
+The shared grey is now named `COLOR_RGB24_DIM_GREY` in
+`src/game/color_constants.h`, alongside the active/neutral
+`COLOR_RGB24_NEUTRAL_GREY`. The duel names remain as subsystem aliases rather
+than owning the values, so unrelated display objects can use the neutral
+colour vocabulary without importing duel semantics.
 
 ### The common bit values are unusable by value alone
 
@@ -94,16 +96,16 @@ reducing it.
 
 ## Remaining scope
 
-The mechanically safe overlay substitutions are exhausted. What remains is
-genuine semantic work, in rough value order:
+The mechanically safe overlay substitutions are exhausted. The former final
+display-layer value is resolved below.
 
-1. **A decision** on whether a neutral shared constant for the `0x404040` grey
-   is wanted, and where it should live. All three sites are display-layer
-   colour writes, so a constant is defensible; the duel one is not the right
-   one to reuse.
-2. The composite `0x28` writes remain raw. The `0x20` bit's **provenance and
-   consumer are now both established**, but the consumer is unmatched
-   assembly, so a name would rest on disassembly rather than build-verified C.
+## Texture-cell offset flag
+
+The former composite `0x28` writes are now expressed as
+`DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+DISPLAY_OBJECT_FLAG_SCREEN_SPACE`. The `0x20` bit's provenance and consumer
+are both established, and both are now matching C: the consumer is
+`func_8004158C` in `src/game/func_8004158C.c`.
 
    An earlier version of this entry also listed `0x48` as blocked. That was
    wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no
@@ -115,33 +117,36 @@ genuine semantic work, in rough value order:
    again only when the texture argument has bit `0x8000`:
 
    ```c
-   flags = *(u16 *)(object + 8) & 0xFFDF;
+   flags = *(u16 *)(object + 8) & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
    *(u16 *)(object + 8) = flags;
    if (texture & 0x8000) {
-       *(u16 *)(object + 8) = flags | 0x20;
+       *(u16 *)(object + 8) =
+           flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
    }
    ```
 
    So the bit is texture-derived. **Its consumer is now identified too**, in
    generated assembly rather than in tracked C, which is why an earlier pass
    over `src/` alone concluded there was no reader. No tracked renderer tests
-   it: `display_object_list_renderers.c` and `func_80040588.c` check only
+   it: `display_object_list_renderers.c` and `display_object_core.c` check only
    `DISPLAY_OBJECT_RENDERABLE_MASK`, `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` and
    `DISPLAY_OBJECT_FLAG_CLIP_TEST`.
 
-   The single reader is `func_8004158C`, the unmatched `0x700`-byte sprite
-   builder called from `func_80040814.c`. At `0x800416F0` it loads the flag
-   word and branches on the bit. The packet's texture coordinates have just
-   been initialised from the object's `+0x40` and `+0x42` — the tpage and clut
-   halves the configurator wrote from the same `texture` argument. When the
-   bit is set, it adds a further cell offset taken from the byte at `+3` of
-   the record pointed to by object `+0x4C`:
+   The single reader is `func_8004158C`, the `0x700`-byte sprite-sheet
+   renderer called from `func_80040814.c`. At `0x800416F0` it loads the flag
+   word and branches on the bit. Its working clut position has just been
+   initialised from the object's `+0x40` and `+0x42`, the halves the
+   configurator wrote from the same `texture` argument and the ones
+   `func_80040588` copies into a sprite's `cx`/`cy`. When the bit is set, it
+   adds a further offset taken from the byte at `+3` of the sprite sheet
+   pointed to by object `+0x4C`:
 
-   - the low nibble, shifted left by 4, is added to the U coordinate;
-   - the high nibble is added to the V coordinate.
+   - the low nibble, shifted left by 4, is added to the clut x;
+   - the high nibble is added to the clut y.
 
-   So the bit selects whether that extra per-cell `(U, V)` displacement is
-   applied on top of the base texture coordinates. It is one packed nibble
+   The matched definition stores the results at sprite `+0x10` and `+0x12`,
+   GsSPRITE's `cx` and `cy`, so the bit selects whether that extra clut
+   displacement is applied on top of the base one. It is one packed nibble
    pair, not two independent fields.
 
    Worth recording alongside that: the overlay `|= 0x28` writes are **not**
@@ -151,13 +156,9 @@ genuine semantic work, in rough value order:
    then forces it back on. Those callers are therefore opting into the cell
    offset for objects whose texture argument did not request it.
 
-   A name is now supportable on producer-and-consumer evidence, which is the
-   standard the rest of this note applies. It is deliberately **not** minted
-   here, for two reasons worth stating rather than glossing: the consumer is
-   still unmatched assembly, so the reading rests on disassembly rather than
-   on compiled C; and naming the bit means touching the remaining composite
-   `0x28` sites across two overlay modules, which is a source change and
-   belongs in its own reviewable PR rather than in a note.
+   The name follows that producer-and-consumer evidence. The source sweep is
+   deliberately restricted to confirmed writes of the display-object flag
+   word; unrelated numeric `0x20` and `0x28` values remain untouched.
 
    What the bit is **not**: it is not a visibility or draw-order control, and
    it does not select a texture page. The page and clut come from `+0x40` and
@@ -165,12 +166,14 @@ genuine semantic work, in rough value order:
 
 ### Closed since this note was written
 
-- **Display-object flag bits** — done. The renderable (`0x40`) and
-  screen-space (`0x8`) bits at object offset `+8` are named against
-  `display_object_layout.h`. Worth recording that `free_duel/screen_runtime.c` declares
-  `u32 flags; u16 attr;` after a four-byte pad, so its member named `flags` is
-  the unrelated 32-bit word at `+4` and `attr` is the real flag word; naming by
-  member name rather than offset would have been backwards.
+- **Display-object flag bits** — done. The renderable (`0x40`), screen-space
+  (`0x08`), and texture-cell offset (`0x20`) bits at object offset `+8` are
+  named against `display_object_layout.h`; confirmed `0x28` writes use the
+  latter two names. `free_duel/screen_runtime.c` formerly declared
+  `u32 flags; u16 attr;` after a four-byte pad, so naming by member name
+  rather than offset would have been backwards. It now uses the shared
+  `DisplayObject`: `attribute` is the word at `+4` and `flags` the halfword
+  at `+8`, preserving the same accesses.
 - **Screen-extent literals `0x140`/`0xF0`** — closed as *not* nameable. All
   eight call sites of the text-box builder `TextBox_Create` (`0x80035BE4`)
   take `(slot, textId, x, y, w, h)`, and the trailing pair is a per-call box

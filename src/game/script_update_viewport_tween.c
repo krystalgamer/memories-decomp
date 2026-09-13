@@ -1,16 +1,10 @@
+#define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
 #include "script_state.h"
-#include "script_update_viewport_tween.h"
+#include "../unmatched.h"
 #include "script_command_busy.h"
-
-extern s32 D_8009B284;
-extern s32 D_8009B288;
-extern s32 D_8009B294;
-extern s32 D_8009B298;
-
-extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX");
-extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY");
+#include "script_flag_commands.h"
 
 /* Two-axis smooth scroll stepper: on the first frame derives the per-frame
  * 16.16 deltas from the distance to the target over the remaining frame

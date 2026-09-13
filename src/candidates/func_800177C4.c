@@ -1,0 +1,80 @@
+/*
+ * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split_no_strength_reduce this
+ * source rebuilt the target byte for byte, but only by
+ * pinning 1 variable to hard registers and 1 inline asm statement, so it is kept here as a candidate
+ * rather than counted as a decompilation. It was src/game/func_800177C4.c.
+ */
+#include "../types.h"
+#include "../game/duel_side_state.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../game/duel_card.h"
+#include "../game/screen_projection.h"
+#include "../game/view_state.h"
+#include "../game/duel_screen_tables.h"
+
+extern ScreenPair D_800EA070[];
+
+/* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
+   iteration, and writes the biased screen pairs to D_800EA070. Same scratchpad
+   and rtps as display_projection.c; the per-iteration form of func_80015DFC.
+
+   The setup after the three calls is written out one statement at a time, in
+   the order the target materialises it, because sched1 otherwise emits the two
+   table addresses ahead of the counter and the scratchpad address. */
+void func_800177C4(void)
+{
+    ProjectedPair p;
+    /* $t0 rather than $t1: with both this and pp allocated from the same class
+       the allocator otherwise swaps them, and every scratchpad access differs. */
+    register u8 *pad asm("$8");
+    ProjectedPair *pp;
+    ScreenPair *out;
+    u16 *src;
+    s32 i;
+
+    SetGeomScreen(D_800F2848.projection);
+    SetGeomOffset(0xA0, 0x6C);
+    GsSetLsMatrix(&D_800FE148);
+    pad = (u8 *)0x1F8003E0;
+    i = 0;
+    pp = &p;
+    out = D_800EA070;
+    src = D_800908A0;
+    do {
+        s32 y;
+
+        __asm__ volatile(
+            "lhu $2, 0(%2)\n"
+            "sh $0, 2(%1)\n"
+            "sh $2, 0(%1)\n"
+            "lhu $2, 2(%2)\n"
+            "nop\n"
+            "sh $2, 4(%1)\n"
+            "lwc2 $0, 0(%1)\n"
+            "lwc2 $1, 4(%1)\n"
+            "nop\n"
+            "nop\n"
+            ".word 0x4A180001\n" /* rtps */
+            "swc2 $14, 0(%3)\n"
+            : "=m"(p) : "r"(pad), "r"(src), "r"(pp) : "$2"
+        );
+        out->x = p.x - 0x1A;
+        y = p.y;
+        out->y = y - 0x1E;
+        if (D_8009B1D5 != 0) {
+            if (i < DUEL_CARD_SIDE_RECORD_COUNT) {
+                out->y = y - 0x1D;
+            }
+        } else {
+            if (i >= DUEL_CARD_SIDE_RECORD_COUNT) {
+                out->y = y - 0x1D;
+            }
+        }
+        out++;
+        src += 2;
+        i++;
+    } while (i < DUEL_CARD_RECORD_COUNT);
+    SetGeomOffset(0, 0);
+}

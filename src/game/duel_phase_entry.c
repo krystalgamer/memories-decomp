@@ -1,20 +1,23 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define D_8009B36A_IN_DATA
 #include "../types.h"
+#include "func_8002C604.h"
 #include "func_800179F4.h"
 #include "display_object.h"
 #include "duel_card.h"
 #include "duel_card_object_helpers.h"
 #include "duel_effect_request.h"
-#include "func_8002C604.h"
 #include "duel_card_record_lifecycle.h"
+#include "duel_card_staging.h"
 #include "duel_side_state.h"
+#include "duel_scene_state.h"
 #include "duel_phase_entry.h"
 #include "func_8001825C.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_hand.h"
 #include "duel_deck_card.h"
+#include "duel_rank.h"
 #include "fade.h"
 #include "file_transfer.h"
 #include "duel_selection_layout.h"
@@ -29,7 +32,6 @@
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
-extern u8 D_8015C424[];
 
 /* Three contiguous entries from the D_80090998 duel-phase callback table:
    resume/replay reconstruction, initial deck and selection setup, and draw
@@ -42,7 +44,7 @@ void func_8001825C(void)
     DuelCardRecord *rec;
     u8 *obj;
     u8 *q;
-    register u8 *b asm("$3");
+    u8 *b;
     DisplayObject *card;
     s32 i;
     s32 keep;
@@ -50,10 +52,10 @@ void func_8001825C(void)
     u16 flags;
     s8 n;
 
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         rec = D_801A7B64;
-        for (i = 5; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
+        for (i = HAND_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 keep = flags & 0x7A00;
@@ -87,7 +89,8 @@ void func_8001825C(void)
                 D_8009B1F0[i] = obj;
             }
         }
-        if (D_8009B1C8->field_00 == 0x28) {
+        if (D_8009B1C8->rank.result_adjustment ==
+            DUEL_RANK_ADJUST_EXODIA_WIN) {
             D_8009B23A |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
                 rec = &D_801A7AD8[D_800907D8[
@@ -111,7 +114,7 @@ void func_8001825C(void)
              D_8009B134_abs) != 0) {
             return;
         }
-        if ((gFade_State.flags & 0x80) != 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) != 0) {
             return;
         }
         D_8009B23A |= 0x4000;
@@ -134,10 +137,13 @@ void func_8001825C(void)
         }
     }
     {
-        register s32 replay_offset asm("$5") = 0x48000;
+        s32 replay_offset = DUEL_CARD_STAGING_REPLAY_BASE_OFFSET;
+        DuelCardReplayRecordBlock *replay;
+
         b = D_8015C424;
-        card = *(DisplayObject **)(b + D_8009B208[n] * DUEL_CARD_RECORD_SIZE +
-                                  replay_offset + 0x36B4);
+        replay = (DuelCardReplayRecordBlock *)(b +
+            D_8009B208[n] * sizeof(DuelCardRecord) + replay_offset);
+        card = replay->record.object;
     }
     func_8001352C();
     obj = (u8 *)func_8002C68C(0xB);
@@ -162,8 +168,8 @@ void func_80018608(void)
     s32 stat2;
 
     w = (u16 *)&D_800F2848;
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         Duel_RequestCombinedDeckData();
         D_800F2848.field_00 = 0x4B0;
         w[2] = 0x358;
@@ -200,7 +206,7 @@ void func_80018608(void)
         }
         break;
     case 4: {
-        register u32 mask asm("$2") = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
+        u32 mask = FILE_TRANSFER_REQUEST_BLOCKED_MASK;
 
         if (((D_8009B0F4_abs & mask) |
              D_8009B134_abs) != 0) {
@@ -237,7 +243,7 @@ void func_80018608(void)
     }
     case 5:
         Duel_ClearHandSlots();
-        D_8009B1EC = 5;
+        D_8009B1EC = HAND_SIZE;
         D_8009B23A = 3;
         ((DuelSelectionSideView *)(D_800E9F10 +
             D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = D_800EA030;
@@ -270,8 +276,8 @@ void func_8001898C(void) {
     u16 flags;
     s8 c;
 
-    if ((D_8009B23A & 0x8000) == 0) {
-        D_8009B23A |= 0x8000;
+    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
         *(u16 *)&D_8009B21C->field_40.h.field_40 =
             (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
@@ -290,7 +296,7 @@ void func_8001898C(void) {
                 D_8009B1F0[D_8009B1D5] = 0;
             }
         }
-        ((u8 *)D_8009B1C8)[1]++;
+        D_8009B1C8->rank.turns_taken++;
         rec = D_801A7AD8;
         for (i = 0; i < DUEL_CARD_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;

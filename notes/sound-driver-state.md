@@ -173,7 +173,8 @@ size.
 
 ## SPU decoded data, reverb, and shutdown
 
-Matching `func_80045054` now imports the real `libspu.h` interface and calls:
+`func_80045054` (grouped in `src/game/sound_output_state.c`) imports the real
+`libspu.h` interface and calls:
 
 ```c
 SpuReadDecodedData(
@@ -294,31 +295,199 @@ An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the
 four-voice tables, late control fields, and the music-track pointer.
 
-Two accesses deliberately retain an explicit byte-pointer expression:
+Eighteen accesses in nine files retain an explicit byte-pointer expression
+(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`), nine of them in resident
+sources and nine in build-integrated candidates. Three forms, counted by
+what the cast applies to:
 
-- `func_80047FAC` indexes the four voice IDs as
-  `((u8 *)g_SDValue + index * 2 + 0x404)` because direct structure-array
-  indexing changes GCC's address calculation and adds three instructions.
+- a cast on the pointer combined with an offset or index (twelve; six in
+  `sd_init_state.c`, and one of the twelve is passed as a call argument
+  rather than dereferenced);
+- a base local assigned `(u8 *)g_SDValue` (five, three of them in
+  `sound_output_state.c`, all within `func_80045054`);
+- a cast on a member's value (one, `sound_voice_selection.c`, in
+  `func_80047DB0`).
+
+This note records a code-generation rationale for exactly one of the
+eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
+layout of `SpuDecodedData` rather than for its spelling, and the rest are
+undocumented here. Of the three exceptions the note documents, only
+`func_800493F8` is still a byte-pointer access at all:
+
 - `func_800493F8` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because the direct member assignment changes
-  register allocation.
+  register allocation. It is `src/game/sound_init.c:86`, and the source
+  carries the measurement in a comment above the store.
+- `func_80047FAC` was documented as indexing the four voice IDs as
+  `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
+  `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
+  sound-effect voice slots (#2740)") replaced it with
+  `g_SDValue->voice_ids[s0]` -- `src/game/sound_effect_voices.c:26`, and
+  the function matches. Only the description is stale; the three-instruction
+  cost it claimed was not re-measured against the current source.
 
-Both files include `sound.h`; the raw expressions are exact-code-generation
-views of fields whose offsets and types are defined by `SDValue`.
+`func_800493F8`'s expression is an exact-code-generation view of a field
+whose offset and type are defined by `SDValue`. The rest are byte-pointer
+arithmetic over the same layout, with no reason for the spelling recorded
+here.
 
-All pure-C `g_SDValue` users now include `sound.h`. Nine additional functions
-use the shared command queue, buffer pointers, voice arrays, flags, and late
-control fields directly.
+All 26 resident `.c` files that name `g_SDValue` include `sound.h`, and so
+do all 22 build-integrated candidate `.c` files naming it. None of them
+declares the pointer itself any more. **No candidate defines a private struct for the *pointee* any
+more either.** `func_80046294.c` and `func_80045514.c` were the last two and
+both went on 2026-09-11; what removed each is recorded in its own paragraph
+below, and the two answers are different.
 
-`func_80049138` is the third deliberate raw-view exception. The global pointer
-is volatile in that routine, and typed member expressions change its repeated
-load/register schedule. It suppresses the default extern declaration from
-`sound.h`, redeclares the pointer as `u8 * volatile`, and retains the verified
-offset expressions while still using the shared header as the layout source.
+`func_80045514.c` was the larger of the two and the note above calls it the
+only exception left. Its private `SD` named 36 offsets. An exact pairing
+against `SDValue`, taken by compiling the header and reading `offsetof`
+rather than by matching names, put them in three buckets: 19 offsets the
+canonical already named, 6 covered by `field_005C[8]`, and 11 that fell
+inside five padding regions -- `pad04CC`, `pad0524`, `pad0534`, `pad157C`
+and `pad1619`.
 
-Functions containing GCC inline assembly remain unchanged. Migrating their
-declarations is deferred until the inline assembly itself can be replaced with
-matching C.
+The 6 looked like the hard bucket and were not. Rewriting them as array
+indices moves the object, and the bisection says why: the array form alone
+is byte-identical, and the *signedness* alone reproduces the whole move --
+`u32` where the unit reads signed. The cast at the use closes it, the same
+answer `display_object_updates.c` already gives for a signed read of a
+canonical `u16`.
+
+Sharing an offset is not sharing a type, and the 19 are one group only in
+the first sense: 14 of them also agree with the canonical in C type and
+five do not. Those five are four different questions rather than four more
+of the 6.
+
+  * **0x50**, private `s32` against canonical `u32`, *is* the 6's question
+    and takes the 6's answer -- `(s32)` at each read.
+  * **0x54**, private `u16` against canonical `u32`, is a narrowing rather
+    than a signedness change. The unit reads it once, and the `(u16)` sits
+    at that read.
+  * **0x58 and 0x1564** are pointer views. The canonical spells 0x58 `u32`
+    and 0x1564 `u16 *music_track`; this unit reaches the first as `u8 *`
+    and the second as both `u8 *` and `List *`. The cast is at the use, so
+    the canonical declaration and this unit's readings are both kept.
+  * **0x1588**, private `u16` against canonical `s16`, takes no treatment
+    at all, and that is why it is not in the list above. The unit only ever
+    *stores* this halfword. The sixteen bits written are the same under
+    either declaration, and there is no read here whose signedness could
+    differ.
+
+The 11 are a header addition, and the evidence behind each width is of
+three different kinds -- which is worth saying plainly, because "it has a
+use in this unit" flattens them into one.
+
+  * **Five are read here**: `field_04CC`, `field_0528`, `field_052C`,
+    `field_0530` and `field_0531`. The read's own width is the evidence.
+  * **Three are only written**: `field_0532 = b >> 31`,
+    `field_0534 = 0xFFFF` and `field_157C = field_004E`. What the width
+    rests on is the store and the private declaration this unit already
+    carried, not a measured read.
+  * **Three are passed by address**: 0x1619, 0x1629 and 0x1639. They are
+    worth naming separately rather than as one 0x30 region, because the
+    unit hands each of the three to `func_80014C40` on its own, selected by
+    `field_005C[0] & 0xF0`. Three distinct call arguments 0x10 apart fix
+    where each buffer *starts*; the 0x10 extent is the private
+    declaration's, carried across, and is not proved here.
+
+As historical context, the sentence this replaces -- "All pure-C
+`g_SDValue` users now include `sound.h`" -- was written on 2026-09-02, and
+both of the candidates that broke it were built in afterwards,
+`func_80046294` on the 9th (#2992) and `func_80045514` on the 10th
+(#3359). Nine additional functions use the shared command queue,
+buffer pointers, voice arrays, flags, and late control fields directly.
+
+`func_80046294` took the header's declaration back but kept a private
+struct for the pointee, and the reason was a measurement rather than a
+preference. That is **resolved as of 2026-09-11**; the eliminations below
+are kept because they are what made the answer findable, and the answer is
+the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
+`FUNC_80049F50_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
+selected, so that the unit declares none of those three symbols itself, the
+candidate's object is byte-identical. Pointing the same reads at `SDValue`
+instead is not: the object changes. What that is not caused by was measured
+one at a time. Every offset the unit reads -- `flags_0040` at 0x40,
+`command_count` at 0x4C, `field_007C` and `field_007D`, `field_157E`, and
+`commands` at 0x80 -- asserts at the offset the private struct places it, and
+the three halfword widths assert equal. Padding the private struct out to
+`SDValue`'s 0x164C changes nothing. Giving the private struct alignment 4,
+by writing its leading `u8 pad00[0x40]` as `u32 pad00[0x10]`, changes
+nothing either. And two spellings of the byte view over the command queue
+give the same moved object as each other, which is this project's own tell
+for a wrong axis.
+
+A word-typed member in a region the unit never reads changes nothing
+either. Writing `u8 pad4E[0x7C - 0x4E]` as `u8 pad4E_b[2];` followed by
+`u32 pad4E_w[11];` -- bytes first, so the word array lands on its own
+alignment at 0x50 and every later field keeps its offset -- leaves the
+object byte-identical as well.
+
+That last control has to state its field order, and the reason is that the
+first version of it got the order wrong. Written the other way round, with
+the word array first at 0x4E, natural alignment inserts two bytes before it
+and everything after moves: `f7C` to 0x7E, `entries` to 0x82, `f157E` to
+0x1580, and the struct from 0x1580 to 0x1584. That spelling does produce a
+different object, and a paragraph here briefly said so as evidence that
+unread member types matter. It was not evidence of that at all -- it moved
+five live fields. The claim is withdrawn.
+
+What settles it is seven assertions compiled by the target compiler rather
+than a byte count: `f7C` at 0x7C, `f7D` at 0x7D, `entries` at 0x80,
+`f157E` at 0x157E, `flags` at 0x40, `command_count` at 0x4C, and
+`sizeof` 0x1580. All seven hold under the bytes-first spelling. Under the
+words-first spelling five of them fail to compile, which is what makes them
+a test rather than a formality.
+
+Six eliminations and no positive result, and the seventh measurement is
+what answered it -- by asking a different question. Every elimination above
+varies the private struct while holding the *access* fixed. Holding the
+access fixed the other way round, and varying the struct, is one build
+each:
+
+| access spelled | over the private struct | over `SDValue` |
+| --- | --- | --- |
+| `((u8 *)X)[j]` | `0bd53f65...` | `0bd53f65...` |
+| `((SDCommand *)((u8 *)X + j))->command` | `c9c3f84b...` | `c9c3f84b...` |
+| `X[i].command` | `6d0bf0da...` | `778a511e...` |
+
+The first two rows are byte-identical across the two structs, so **the
+pointee type never was the difference**. The paragraph above that reads two
+agreeing byte-view spellings as "this project's own tell for a wrong axis"
+had the inference backwards: the axis is the access, the two spellings
+agreed because both are casts, and a third and fourth spelling of the same
+access give two further distinct objects.
+
+What the original load is, and what no cast reproduces, is an `ARRAY_REF`
+of a `u8` member -- `p->entries[j]` on the private struct's byte array.
+`SDValue` had no such member at 0x80, because it declares the queue as
+`SDCommand commands[16]`. Giving it one does it: `commands` is now a union
+of `c` (the typed array every dispatcher uses) and `b` (the byte view this
+unit uses), which is the idiom `display_object.h` already uses eleven
+times, and `p->commands.b[j]` builds `8d64e380...` -- the object the private
+struct produced. Both private types are gone from that unit: `SoundEntry`,
+its 0x30-byte copy record, is `SDCommand` and was neutral on its own before
+any of this, and `SoundState` is `SDValue`. The `SOUND_STATE` macro that
+cast the header's pointer to the private shadow is gone with them.
+
+The eliminations were not wasted -- they are what left the access as the
+only variable -- but the general lesson is cheaper than six of them: when a
+type substitution moves an object, vary the ACCESS with the type held
+fixed before varying the type any further.
+
+`func_80049138` is a third deliberate exception and is no longer a raw
+view. The global pointer is volatile in that routine, which the unit
+selects by defining `G_SDVALUE_VOLATILE` -- an arm of `sound.h`'s own
+declaration chain rather than a suppression of it -- and `sound.h` carries
+the measurement. Its accesses are typed members (`p->music_track`,
+`q->flags_0040`, `q->field_1560`); the `u8 * volatile` redeclaration and
+the offset expressions this note described were removed by `98f79757`
+("Take every g_SDValue declaration from sound.h (#2610)") and `548c78cb`
+("Reach the sound driver's state block through SDValue, not byte offsets
+(#2500) (#2759)").
+
+Existing GCC constraints remain unchanged by layout migrations. The secondary
+spatialization contract below also covers callers containing constraints,
+without changing or adding those devices.
 
 The contiguous initialization block at `0x80049200-0x800495EC` now builds as
 `src/game/sound_init.c`. It preserves the explicit raw music-pointer write in
@@ -433,6 +602,63 @@ selectable endpoint. These constants do not replace the pitch-bend center,
 the primary voice's signed-pan domain, or the gain/velocity normalization
 fields that happen to contain similar values.
 
+### Shared secondary spatialization contract
+
+`sound_spatialize_object.h` now declares both parameters with the existing
+`SDSecondaryObject` and `SDSecondaryRecord` types from `sound.h`.
+`SD_SpatializeSecondaryObject` at `0x8004A0FC` uses those members throughout,
+including typed `SDSecondaryState` root reads. The two matching callers
+(`SD_UpdateSecondaryObjectVolumes` and `func_8004B49C`) and retained
+`func_8004ADE8` candidate consume the same prototype. Their original byte-stride
+argument calculations remain where needed; the parameter ABI is still two
+32-bit pointers.
+
+The layout evidence predates this conversion: the controller writer stores
+channel pan, volume and expression, while the note-start candidate fills
+object `+0x08/+0x09` from program/tone gain bytes and `+0x0A/+0x0B` from
+program/tone pan bytes, then stores velocity at `+0x0E`. The candidate now
+uses the shared object members for those five stores and the two result
+loads. The kernel writes pan at `+0x0C` and unsigned levels at `+0x14/+0x16`;
+the caller forwards those levels to `SD_SetVoiceVolume`. Existing
+offset-based names remain: this does not assign stronger VAB or transfer
+semantics to the partial layouts.
+
+Six additional compile-time checks cover fourteen offsets: the object
+gain/pan/result members, state `transfer.field_0018` at `+0x4BC`,
+`transfer.field_001B` at `+0x4BF`, the halfwords at `+0x512/+0x7E4/+0x7E6`,
+and the override byte at `+0x815`. Existing checks cover the channel members,
+object count, array bases, strides and complete state extent.
+The kernel explicitly converts `field_0512` to `u16`, preserving its unsigned
+retail load despite the shared signed storage view. The `+0x7E4/+0x7E6`
+loads stay signed, and both volatile reads of object `field_000E` remain
+separate. Root reloads, arithmetic order, shifts and truncating stores are
+unchanged.
+
+The remaining private `D_8009B458` declarations now live in `sound.h`.
+Residents use the ordinary typed pointer; `SDSECONDARYSTATE_AS_BYTES` keeps
+the candidate's original byte pointer. The opt-in
+`SDSECONDARYSTATE_BYTE_ALIAS` and `SDSECONDARYSTATE_RELOAD_ALIAS` arms preserve
+the existing timer byte-store and candidate root-reload compiler identities.
+Both aliases still resolve to `D_8009B458`; no new alias, storage definition,
+linker assignment or volatile global is introduced. The candidate also uses
+the existing twenty-entry `D_80011434` contract instead of its private
+incomplete declaration. Only those two obsolete private-extern dependencies
+are removed from its metadata; all nineteen candidate object fingerprints,
+targets and profiles remain unchanged, and the note-start candidate is still
+a near miss.
+
+The volume sweep retains four raw reads: two channel-index byte reads at
+state-plus-byte-stride `+0x183`, and the unsigned result pair at
+`+0x194/+0x196`. Its root, object-count reads and channel argument are typed.
+Under the recorded `gcc_2_8_1_g0` profile, object-array pointer expressions
+added eight bytes; indexing with the loop counter added sixteen; a
+field-relative channel cursor added four. Keeping that channel cursor raw
+but making the result loads field-relative restored size yet reversed the
+two source registers of an address addition at `0x8004A36C`. The accepted
+read expressions preserve both instruction bytes and the existing induction
+variables/constraints. The kernel itself needs no raw offset access and
+still uses its recorded `gcc_2_8_1_g0_no_cse_follow_jumps` profile.
+
 The same header names the event codes consumed by `SD_ReadSequenceEvent`,
 `SD_DispatchSequenceChannelEvent`, and `SD_HandleSequenceMetaEvent`. A status-present bit, a message-type mask,
 and a channel mask have separate roles even when their values match an event
@@ -525,16 +751,26 @@ that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
 declarations and `kernel.h` constants; the remaining unnamed counter-control
 wrappers retain their address-based identities.
 
+The callback now follows the three contiguous secondary command handlers in
+`src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
+`0x8004B854` translation unit after its pure-C promotion. The command handlers
+update the channel/object state that the interrupt callback advances and
+periodically maintains; the different-profile event setup at `func_8004B854`
+fixes the upper boundary.
+
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and
 the major top-level offsets.
 
-The adjacent envelope setters `func_8004A6F8` and `func_8004A764` share
-`src/game/sound_voice_envelope.c`. They use the same `SpuVoiceAttr` block at
-`+0x4C0`: one fills ADSR values from the caller's tone record, while the other
-sets the existing defaults. Their original definition order and common
-`gcc_2_8_1_cc_g8_as_g0_split` profile are preserved, as is the `const` table
-declaration needed for the original address materialization.
+The adjacent envelope setters `SD_SetVoiceEnvelopeFromTone` (`0x8004A6F8`) and
+`SD_ResetVoiceEnvelope` (`0x8004A764`) are again one
+[`sound_voice_envelope.c`](../src/game/sound_voice_envelope.c) unit after post-terminal refinements removed
+their hard-register and inline-assembly dependency. They use the same
+`SpuVoiceAttr` block at `+0x4C0`: the first copies ADSR values from the
+caller's tone record, while the second sets the initialization defaults before
+the caller turns the voice off. Both now match as pure C at
+`gcc_2_8_1_g8_split`, with the `const` table declaration still preserving the
+original address materialization.
 
 ### Transfer-window state and results
 
@@ -574,6 +810,44 @@ These constants preserve the original word comparisons rather than relying
 on multicharacter-literal byte order. The tag check is not full format
 validation; its existing state guard, comparison order, and failure path
 remain unchanged.
+
+### Command-state pump and indexed sequence header
+
+`func_80045514` owns the 82-entry dispatch table at `0x80010578`:
+`split.yaml` assigns its `0x148` bytes at file offsets `0xD78..0xEC0` to
+`src/game/func_80045514.c`. The remaining prefix of `initial_data_1e3`
+and the following `func_80046294` table retain their existing owners.
+
+The command pump keeps the target's cached-versus-reloaded state pointers.
+In particular, it reads packed command words and transfer offsets before
+request writes that could otherwise change a later read. The shared word
+temporaries span commands 33 and 36; the state temporary also serves command
+72. Their in-place mask, offset-add, and high-bit updates preserve the
+separate transfer-call tails without register bindings.
+
+Command 72's sequence header has a count at `+2`, a payload size at `+0xC`,
+and a payload beginning at `+0x50`. Its sixteen index records occupy
+`+0x10..+0x50`, with a **four-byte stride**; this reader consumes only each
+record's low halfword. `sound_command_index.h` owns `CommandIndexTable`,
+which bounds all 32 halfwords and asserts the header size and table offset. It does not use
+the historical one-element `SoundIndexList.indices` view or silently treat
+the records as a packed two-byte index array.
+
+The promoted caller takes its declarations from sound-owned headers.
+`func_80045484` retains its explicit byte mask, and `func_80049A64` retains
+the signed-halfword store and test after the canonical word-sized result.
+`SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
+`func_80049AF4` caller view while its definition keeps the one-argument
+view. Native compiler controls check these declarations and reject
+incompatible views.
+
+The complete five-function secondary playback lifecycle now builds from
+`src/game/sound_secondary_playback.c`, covering `0x80049A64` through
+`0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
+`func_80049AF4` calls the canonical `SD_StartSequenceTracks(void)`, while
+`func_80049BAC` uses a narrow same-symbol no-argument alias matching its
+original translation unit. The adjacent functions on both sides require
+`gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
 
 ### Migration status and exact-code exceptions
 

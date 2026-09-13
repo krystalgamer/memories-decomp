@@ -7,9 +7,12 @@
 #define DISPLAY_PARENT_OFFSET(member) \
     ((u32)&(((DisplayParent *)0)->member))
 
+/* func_80022FF0 passes both objects of each entry to func_80022F98;
+ * func_800235C0 positions the first and frees both with func_8004036C. */
 typedef struct DisplayLinkEntry {
     DisplayObject *object;
-    u8 pad_04[8];
+    DisplayObject *field_04;
+    u8 pad_08[4];
 } DisplayLinkEntry;
 
 typedef struct DisplayParent {

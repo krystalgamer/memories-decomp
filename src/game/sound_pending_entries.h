@@ -33,6 +33,6 @@ typedef char SDSeqBlock_data_must_match_input_offset[
 ];
 
 void func_8004763C(void);
-void func_800476B4(SDSeqBlock *arg0, u32 arg1);
+void func_800476B4(SDSeqBlock *input, u32 rate);
 
 #endif

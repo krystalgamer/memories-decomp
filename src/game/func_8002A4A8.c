@@ -1,126 +1,70 @@
+/*
+ * Keep one row snapshot: `func_8002A4A8`
+ *
+ * The 440-byte library-cursor motion setup matches under the existing uniform
+ * `gcc_2_8_1_g8_split` profile with no register pins or inline assembly.
+ * The shared `LibraryMotionState` already supplies the complete offsets and
+ * signed integer/unsigned fractional halves missing from the terminal
+ * incomplete-type attempts. The reference's two copies of its `col` argument leave the
+ * unpinned entry move after the unchanged-cell guard, changing ten instruction
+ * positions. Keeping one row snapshot through that guard and the Y-coordinate
+ * calculation restores retail's initial move into `$t1` without pinning it.
+ * The reference's argument names are reversed relative to the confirmed grid
+ * symbols: the first argument drives X/`gCardGrid_bCursorColumn`, and the second
+ * drives Y/`gCardGrid_bCursorRow`. The matching source uses those existing
+ * `card_grid.h` declarations, without adding duplicate address-named globals.
+ *
+ * The same signed `delta` is assigned and shifted in place for both 16.16
+ * velocity divisions. The unsigned fractional fields preserve the positive
+ * `0x8000` constant and its `ori` instruction with the ordinary supported
+ * profile; no additional assembler flags are needed. Same-cell requests return
+ * without altering an active animation. Otherwise, the original frame count,
+ * target coordinates, half-pixel initial fractions and active flag are retained.
+ * The historical canonical rows and six-row terminal refinement history remain
+ * intact, followed by one post-terminal resolution with the new source evidence.
+ */
 #include "../types.h"
+#include "card_grid.h"
+#include "func_8002A3CC.h"
 
-__asm__(
-    ".set noreorder\n"
-    ".globl func_8002A4A8\n"
-    ".ent func_8002A4A8\n"
-    "func_8002A4A8:\n"
-    ".word 0x00A04821\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, D_800EA1E8\n"
-    ".word 0x83830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorColumn\n"
-    ".word 0x00000000\n"
-    ".word 0x14830005\n"
-    ".word 0x24480000\n"
-    ".reloc .-4, R_MIPS_LO16, D_800EA1E8\n"
-    ".word 0x83820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorRow\n"
-    ".word 0x00000000\n"
-    ".word 0x11220063\n"
-    ".word 0x00000000\n"
-    ".word 0x2882000A\n"
-    ".word 0xA3840000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorColumn\n"
-    ".word 0xA3890000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorRow\n"
-    ".word 0x14400011\n"
-    ".word 0xA1060016\n"
-    ".word 0x3C026666\n"
-    ".word 0x34426667\n"
-    ".word 0x00820018\n"
-    ".word 0x000417C3\n"
-    ".word 0x00005010\n"
-    ".word 0x000A1883\n"
-    ".word 0x00621823\n"
-    ".word 0x00031080\n"
-    ".word 0x00431021\n"
-    ".word 0x00021040\n"
-    ".word 0x00821023\n"
-    ".word 0x000218C0\n"
-    ".word 0x00621823\n"
-    ".word 0x00031840\n"
-    ".word 0x0800002E\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x246700AE\n"
-    ".word 0x3C026666\n"
-    ".word 0x34426667\n"
-    ".word 0x00820018\n"
-    ".word 0x000417C3\n"
-    ".word 0x00005010\n"
-    ".word 0x000A1883\n"
-    ".word 0x00621823\n"
-    ".word 0x00031080\n"
-    ".word 0x00431021\n"
-    ".word 0x00021040\n"
-    ".word 0x00821023\n"
-    ".word 0x000218C0\n"
-    ".word 0x00621823\n"
-    ".word 0x00031840\n"
-    ".word 0x2467000E\n"
-    ".word 0x00071400\n"
-    ".word 0x85030008\n"
-    ".word 0x00021403\n"
-    ".word 0x00431023\n"
-    ".word 0x00021400\n"
-    ".word 0x0046001A\n"
-    ".word 0x14C00002\n"
-    ".word 0x00000000\n"
-    ".word 0x0007000D\n"
-    ".word 0x2401FFFF\n"
-    ".word 0x14C10004\n"
-    ".word 0x3C018000\n"
-    ".word 0x14410002\n"
-    ".word 0x00000000\n"
-    ".word 0x0006000D\n"
-    ".word 0x00002812\n"
-    ".word 0x3C026666\n"
-    ".word 0x34426667\n"
-    ".word 0x01220018\n"
-    ".word 0x00001010\n"
-    ".word 0x00022083\n"
-    ".word 0x000917C3\n"
-    ".word 0x00822023\n"
-    ".word 0x00041840\n"
-    ".word 0x00641821\n"
-    ".word 0x00031880\n"
-    ".word 0x00641823\n"
-    ".word 0x000318C0\n"
-    ".word 0x00641821\n"
-    ".word 0x00031840\n"
-    ".word 0x00041080\n"
-    ".word 0x00441021\n"
-    ".word 0x00021040\n"
-    ".word 0x01221023\n"
-    ".word 0x00021100\n"
-    ".word 0x00621821\n"
-    ".word 0x2463000E\n"
-    ".word 0x00031400\n"
-    ".word 0x8504000A\n"
-    ".word 0x00021403\n"
-    ".word 0x00441023\n"
-    ".word 0x00021400\n"
-    ".word 0x0046001A\n"
-    ".word 0x14C00002\n"
-    ".word 0x00000000\n"
-    ".word 0x0007000D\n"
-    ".word 0x2401FFFF\n"
-    ".word 0x14C10004\n"
-    ".word 0x3C018000\n"
-    ".word 0x14410002\n"
-    ".word 0x00000000\n"
-    ".word 0x0006000D\n"
-    ".word 0x00002012\n"
-    ".word 0xA5070012\n"
-    ".word 0xA5030014\n"
-    ".word 0x34028000\n"
-    ".word 0xA502000E\n"
-    ".word 0xA502000C\n"
-    ".word 0x24020001\n"
-    ".word 0xA1020017\n"
-    ".word 0xAD050018\n"
-    ".word 0xAD04001C\n"
-    ".word 0x03E00008\n"
-    ".word 0x00000000\n"
-    ".end func_8002A4A8\n"
-);
+void func_8002A4A8(s32 column, s32 row, s32 frames)
+{
+    s32 target_row = row;
+    LibraryMotionState *state = &D_800EA1E8;
+    s32 x;
+    s32 delta;
+
+    if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
+        return;
+    }
+    gCardGrid_bCursorColumn = column;
+    gCardGrid_bCursorRow = target_row;
+    state->frames = frames;
+    if (column >= 10) {
+        x = (column % 10) * 14 + 0xAE;
+    } else {
+        x = (column % 10) * 14 + 0xE;
+    }
+    {
+        s32 velocity_x;
+        s32 velocity_y;
+        s32 bank = target_row / 10;
+        s32 y;
+
+        delta = (s16)x - state->x;
+        delta <<= 16;
+        velocity_x = delta / frames;
+        y = bank * 178 + (target_row % 10) * 16 + 0xE;
+        delta = (s16)y - state->y;
+        delta <<= 16;
+        velocity_y = delta / frames;
+        state->rest_x = (s16)x;
+        state->rest_y = (s16)y;
+        state->y_fraction = 0x8000;
+        state->x_fraction = 0x8000;
+        delta = 1;
+        state->active = delta;
+        state->velocity_x = velocity_x;
+        state->velocity_y = velocity_y;
+    }
+}

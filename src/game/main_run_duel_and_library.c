@@ -1,10 +1,7 @@
-#define D_8009B0A3_SIZED_ARRAY
 #define D_8009B0C0_IN_DATA
-#define D_8009B362_IN_DATA
-#define D_8009B369_IN_DATA
-#define D_8009B368_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-#include "main_mode_state.h"
 #include "func_800179F4.h"
 #include "graphics_frame.h"
 #include "func_800339D0.h"
@@ -22,73 +19,7 @@
 #include "duel_side_state.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B2F8[9];
-extern s8 gDuel_bOpponentID[9];
-extern u8 gCampaignSceneIndex[9];
-extern u8 D_8009B370[9];
-extern u16 D_8009B16C[9];
-extern u32 D_80010000[];
-
-void Main_RunDuel(void)
-{
-    u8 value = D_8009B26C;
-    int state;
-
-    if (!(value & 0x40)) {
-        D_8009B26C = value | 0x40;
-        D_8009B26E = 1;
-        if (!D_8009B369 && gDuel_bOpponentID[0] >= 0)
-            D_8009B26E = 0;
-        D_8009B0A3[0] = 10;
-        return;
-    }
-
-    value = D_8009B26E;
-    state = value & 0xF;
-    switch (state) {
-    case 0:
-        if (!(value & 0x80)) {
-            D_8009B26E = value | 0x80;
-            D_8009B2F8[0] = 0x80;
-            func_800323F8(D_80010000[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
-            Fade_WaitIn();
-        } else if (func_80033BE8() == 0) {
-            SD_BGMFadeOut();
-            Fade_WaitOut();
-            Main_ResetFrontendRuntime();
-            D_8009B26E = 1;
-        }
-        break;
-    case 1:
-        if (!(value & 0x80)) {
-            D_8009B26E = value | 0x80;
-            func_800179F4();
-        } else {
-            func_80024388();
-            if (D_8009B16C[0] & 0x2000)
-                D_8009B26E = 2;
-        }
-        break;
-    case 2:
-    {
-        u8 *table = D_8009B370;
-        u8 next;
-
-        Fade_WaitOut();
-        SD_BGMFadeOut();
-        func_80047AD0(2);
-        func_800134B4();
-        D_8009B0A3[0] = 6;
-        func_80012D84(4);
-        File_WaitForTransfers();
-        next = D_8009B368;
-        __asm__ volatile("nop");
-        D_8009B26C = next;
-        if (D_8009B26C == state)
-            gCampaignSceneIndex[0] = table[D_8009B362 * 2];
-        break;
-    }
-    }
-}
+#include "high_memory_addresses.h"
+#include "main_mode_state.h"
 
 void Main_RunLibraryMenu(void){unsigned char f=D_8009B26C;if((f&0x40)==0){D_8009B26C=f|0x40;func_8002BFCC();Fade_WaitIn();}else{func_8002BAB4();if((D_8009B26C&0x40)==0){D_8009B0C0=0;SD_BGMFadeOut();Fade_WaitOut();func_800134B4();func_8004763C();func_80047AD0(2);func_80012D84(4);File_WaitForTransfers();}}}

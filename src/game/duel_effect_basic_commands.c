@@ -1,8 +1,9 @@
-#include "../types.h"
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
-#include "main_mode_state.h"
+#include "../types.h"
 #include "../unmatched.h"
 #include "duel_effect_basic_commands.h"
+#include "main_mode_state.h"
 
 void func_80038888(void)
 {

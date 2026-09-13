@@ -270,7 +270,7 @@ glabel func_80015EF4
     /* 6AEC 800162EC 5D000292 */  lbu        $v0, 0x5D($s0)
     /* 6AF0 800162F0 00000000 */  nop
     /* 6AF4 800162F4 190022A2 */  sb         $v0, 0x19($s1)
-    /* 6AF8 800162F8 681E020C */  jal        func_800879A0
+    /* 6AF8 800162F8 681E020C */  jal        NormalClip
     /* 6AFC 800162FC 0D0022A2 */   sb        $v0, 0xD($s1)
     /* 6B00 80016300 0700401C */  bgtz       $v0, .L80016320
     /* 6B04 80016304 21202002 */   addu      $a0, $s1, $zero

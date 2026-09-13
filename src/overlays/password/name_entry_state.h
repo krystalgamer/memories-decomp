@@ -2,13 +2,17 @@
 #define MEMORIES_DECOMP_PASSWORD_NAME_ENTRY_STATE_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 
 /* State shared by the name-entry screen's lifecycle functions.
  *
  * name_entry_frame.h and name_entry_keyboard.h already cover this screen's
  * drawing prefix and its keyboard entry points; neither is a home for the
- * screen's data. The fourteen-function name_entry_runtime.c pipeline uses
- * this header as the single view of that state.
+ * screen's data. The fourteen-function name-entry pipeline uses this header
+ * as the single view of that state: eleven functions in
+ * name_entry_runtime.c, two in name_entry_dialog.c, and
+ * NameEntry_UpdateKeyboard, now a build-integrated candidate
+ * (src/candidates/password/func_8016913C.c).
  *
  * What the uses show, without renaming anything:
  *
@@ -47,34 +51,41 @@ extern u8 *D_8016D43C;
 extern s8 D_8016D401;
 extern s8 D_8016D42C;
 extern u16 D_8016D4D2;
+
+/* Four more of the same family, each with exactly one reader or writer in
+ * the image and each declared privately until now.
+ *
+ *   D_8016D403  Cleared to 0 by the name-entry reset in
+ *               name_entry_runtime.c. Nothing else touches it.
+ *   D_8016D41C  Cleared to 0 by the dialog teardown in
+ *               name_entry_dialog.c. Nothing else touches it.
+ *   D_8016D4D0  Set to 2 by the same reset in name_entry_runtime.c.
+ *   D_8016D4D4  A flag word, and the only one of the four with more than a
+ *               single site: func_8016913C tests 0x4000, clears it with
+ *               `&= 0xBFFF` and raises it again with `|= 0x4000`.
+ *
+ * The first three were ALSO declared in the func_8016913C candidate, which
+ * never named them anywhere else -- dead declarations rather than a second
+ * opinion, and deleted with this change along with that unit's equally
+ * unused `extern DuelEffectChannel D_800EB1C0;`. */
+extern u8 D_8016D403;
+extern u8 D_8016D41C;
+extern u8 D_8016D4D0;
+extern u16 D_8016D4D4;
 extern u8 *D_8016D418;
 
 /* The selection frame the keyboard moves. NameEntry_Init positions it and
  * installs the drawing callback described by name_entry_frame.h; the fields
- * extend that drawing prefix with the ones the keyboard tween needs, and
- * +0x30/+0x32 and +0x3C agree with NameEntrySelectionFrameView where the two
- * views overlap.
+ * combine the drawing fields with the ones the keyboard tween needs.
+ * NameEntrySelectionFrameView is an alias of this same central contract.
  *
  * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
  * pointer func_800400AC returned, then stores that pointer here with a cast.
  * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and timer
  * and writes stepX and stepY. NameEntry_SpawnGlyphSprite reads x and y.
- * Every offset those functions reach is a member here or falls inside
- * pad_3E, so this remains the superset view. */
-typedef struct {
-    u8 pad_00[0x30];
-    s16 x;           /* 0x30 */
-    s16 y;           /* 0x32 */
-    u8 pad_34[0x2];
-    s16 stepX;       /* 0x36, signed 8.8 per update */
-    s16 stepY;       /* 0x38 */
-    u8 pad_3A[0x2];
-    u16 width;       /* 0x3C */
-    u8 pad_3E[0x20];
-    u8 widthBonus;   /* 0x5E, 20 for the wide finish control, else 0 */
-    u8 pad_5F;
-    s16 timer;       /* 0x60, eight updates of the move tween */
-} SelectionFrame;
+ * The drawing callback additionally constrains priority and height.
+ * ygo_types.h defines the combined SelectionFrame; the observed prefix is
+ * not a claim about the complete display-object allocation. */
 
 extern SelectionFrame *D_8016D404;
 

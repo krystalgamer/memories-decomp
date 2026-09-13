@@ -1,6 +1,4 @@
-#define FUNC_8004B374_CALL_WITH_UNUSED_ARG
 #include "../types.h"
-#include "func_8004B374.h"
 #include "sound.h"
 #include "sound_secondary_commands.h"
 #include "sound_sequence_parser.h"
@@ -132,7 +130,7 @@ void SD_AdvanceSequencePosition(s32 *value, s32 amount)
     *value += amount;
 }
 
-void SD_IgnoreSequenceEvent(void)
+void SD_IgnoreSequenceEvent(u8 status)
 {
 }
 

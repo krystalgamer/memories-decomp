@@ -7,13 +7,16 @@ import csv
 import hashlib
 import json
 import re
-import subprocess
 import sys
 from pathlib import Path
 from pathlib import PurePosixPath
 from typing import Any
 
 from workspace import WorkspaceError, require_workspace_root, resolve_within
+
+# Validation reads only tracked metadata. Resolve the repository from this file
+# so metadata CI can run without the ignored retail executable.
+ROOT = Path(__file__).resolve().parents[2]
 
 
 class ExternalAttemptError(RuntimeError):
@@ -37,6 +40,7 @@ MODES = {
     "inline_refinement",
     "collaborator_match",
     "post_terminal_resolution",
+    "reclassification_match",
 }
 RESULTS = {"matched", "nonmatch", "deferred"}
 TERMINAL_RESULTS = {"matched", "deferred"}
@@ -51,29 +55,12 @@ MODE_MAX_ATTEMPTS = {
     "inline_refinement": MAX_ATTEMPTS,
     "collaborator_match": 1,
     "post_terminal_resolution": 1,
+    "reclassification_match": 1,
 }
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
-ASM_PATTERN = re.compile(r"\b(?:asm|__asm|__asm__)\b")
-COMMENT_PATTERN = re.compile(r"/\*.*?\*/|//[^\n]*", re.DOTALL)
-REGISTER_PIN_PATTERN = re.compile(
-    r"\bregister\b[^;]*?\b(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
-)
-REGISTER_AGGREGATE_PIN_PATTERN = re.compile(
-    r"\bregister\s+(?:struct|union)\s*"
-    r"\{(?:[^{}]|\{[^{}]*\})*\}\s*[A-Za-z_][A-Za-z0-9_]*\s*"
-    r"(?:asm|__asm|__asm__)\s*\(\s*\"[^\"]*\"\s*\)"
-)
-SYMBOL_ALIAS_PATTERN = re.compile(
-    r"\bextern\b[^;]*?\b(?:asm|__asm|__asm__)"
-    r"\s*\(\s*\"(?P<symbol>[^\"]*)\"\s*\)\s*;"
-)
-SYMBOL_DEFINITION_PATTERN = re.compile(
-    r"^\s*([A-Za-z_.$][A-Za-z0-9_.$]*)\s*=", re.MULTILINE
-)
-TRACKED_SYMBOL_PATHS = (
-    "config/slus_01411/symbols.txt",
-    "config/slus_01411/c_symbols.ld",
-    "config/slus_01411/link_symbols.ld",
+REFINEMENT_PARENT_PREFIX = "Reclassification parent: "
+REFINEMENT_PARENT_PATTERN = re.compile(
+    r"^Reclassification parent: ([0-9a-f]{64}); "
 )
 
 
@@ -95,42 +82,15 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
-def load_tracked_symbol_names(root: Path) -> set[str]:
-    names: set[str] = set()
-    for relative in TRACKED_SYMBOL_PATHS:
-        path = resolve_within(root, relative, must_exist=True)
-        names.update(SYMBOL_DEFINITION_PATTERN.findall(path.read_text()))
-    return names
+def preprocess_candidate(
+    root: Path, candidate: Path, profile: dict[str, Any]
+) -> str:
+    from integrate_verified_match import IntegrationError, preprocess_source
 
-
-def uses_asm_extension(
-    source: str,
-    *,
-    allow_register_pins: bool = False,
-    allow_symbol_aliases: bool = False,
-    tracked_symbol_names: set[str] | None = None,
-) -> bool:
-    """Report use of a GCC asm extension.
-
-    By default any asm extension is rejected, keeping these ledgers pure C.
-    Register pins and extern symbol aliases can be permitted independently.
-    Statement-level inline assembly is always rejected.
-    """
-    text = COMMENT_PATTERN.sub("", source)
-    if allow_register_pins:
-        text = REGISTER_AGGREGATE_PIN_PATTERN.sub("register", text)
-        text = REGISTER_PIN_PATTERN.sub("register", text)
-    if allow_symbol_aliases:
-        allowed = tracked_symbol_names or set()
-        text = SYMBOL_ALIAS_PATTERN.sub(
-            lambda match: (
-                "extern;"
-                if match.group("symbol") in allowed
-                else match.group(0)
-            ),
-            text,
-        )
-    return ASM_PATTERN.search(text) is not None
+    try:
+        return preprocess_source(root, candidate, profile)
+    except IntegrationError as error:
+        raise ExternalAttemptError(str(error)) from error
 
 
 def load_json(path: Path) -> Any:
@@ -182,6 +142,76 @@ def terminal_resolution_addresses(
     }
 
 
+def previous_match_addresses(rows: list[dict[str, str]]) -> set[int]:
+    return {
+        parse_address(row["address"])
+        for row in rows
+        if row["result"] == "matched"
+        and row["mode"] not in {"reclassification_match", "inline_refinement"}
+    }
+
+
+def refinement_parent(row: dict[str, str]) -> str | None:
+    summary = row["summary"]
+    if not summary.startswith(REFINEMENT_PARENT_PREFIX):
+        return None
+    match = REFINEMENT_PARENT_PATTERN.match(summary)
+    if match is None or row["mode"] != "inline_refinement":
+        raise ExternalAttemptError(
+            f"{row['address']}: invalid reclassification parent marker"
+        )
+    return match.group(1)
+
+
+def latest_successes(
+    rows: list[dict[str, str]],
+) -> dict[int, dict[str, str]]:
+    reclassified: dict[int, dict[str, str]] = {}
+    for row in rows:
+        if row["mode"] == "reclassification_match" and row["result"] == "matched":
+            address = parse_address(row["address"])
+            if address in reclassified:
+                raise ExternalAttemptError(
+                    f"{address:#010x}: multiple reclassification successes"
+                )
+            reclassified[address] = row
+    for row in rows:
+        address = parse_address(row["address"])
+        parent_hash = refinement_parent(row)
+        replacement = reclassified.get(address)
+        if parent_hash is not None and (
+            replacement is None
+            or replacement["candidate_sha256"] != parent_hash
+        ):
+            raise ExternalAttemptError(
+                f"{address:#010x}: reclassification parent does not match evidence"
+            )
+        if (
+            replacement is not None
+            and row["mode"] == "inline_refinement"
+            and row["result"] == "matched"
+            and parent_hash is None
+        ):
+            raise ExternalAttemptError(
+                f"{address:#010x}: ambiguous inline-refinement/reclassification "
+                "history; an unlinked successful refinement cannot be superseded"
+            )
+    priority = {"reclassification_match": 1, "inline_refinement": 2}
+    successes: dict[int, dict[str, str]] = {}
+    for row in rows:
+        if row["result"] != "matched":
+            continue
+        address = parse_address(row["address"])
+        previous = successes.get(address)
+        if (
+            previous is None
+            or address not in reclassified
+            or priority.get(row["mode"], 0) >= priority.get(previous["mode"], 0)
+        ):
+            successes[address] = row
+    return successes
+
+
 def load_profiles(path: Path) -> dict[str, dict[str, Any]]:
     value = load_json(path)
     profiles = value.get("profiles") if isinstance(value, dict) else None
@@ -231,36 +261,6 @@ def expected_reference_path(
     return True
 
 
-def preprocess_candidate(
-    root: Path,
-    candidate: Path,
-    profile: dict[str, Any],
-) -> str:
-    compiler_value = profile.get("compiler")
-    flags = profile.get("compiler_flags")
-    if (
-        not isinstance(compiler_value, str)
-        or not isinstance(flags, list)
-        or not all(isinstance(flag, str) for flag in flags)
-    ):
-        raise ExternalAttemptError("invalid compiler profile")
-    compiler = resolve_within(root, compiler_value, must_exist=True)
-    result = subprocess.run(
-        [str(compiler), "-E", "-P", *flags, str(candidate)],
-        cwd=root,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        check=False,
-    )
-    if result.returncode:
-        details = " ".join(result.stderr.split())
-        raise ExternalAttemptError(
-            f"candidate preprocessing failed: {details[:500]}"
-        )
-    return result.stdout
-
-
 def load_rows(path: Path) -> list[dict[str, str]]:
     with path.open("r", encoding="utf-8", newline="") as handle:
         reader = csv.DictReader(handle)
@@ -280,6 +280,7 @@ def validate_rows(
         rows,
         terminal_deferred_addresses,
     )
+    previous_matches = previous_match_addresses(rows)
     grouped: dict[tuple[str, int], list[dict[str, str]]] = {}
     for row in rows:
         mode = row["mode"]
@@ -340,7 +341,13 @@ def validate_rows(
                 raise ExternalAttemptError(
                     f"{address:#010x}: invalid reference SHA-256"
                 )
-        if mode == "inline_refinement" and address not in matching_addresses:
+        # A function that matched only through pinned registers or inline asm
+        # goes back to assembly (#3859). Its refinement history is what showed
+        # the device was needed, so the rows stay, but none of them can be a
+        # match. Recording a new refinement still requires matching C.
+        if mode == "inline_refinement" and address not in matching_addresses and (
+            function["status"] != "unmatched_asm" or row["result"] == "matched"
+        ):
             raise ExternalAttemptError(
                 f"{address:#010x}: inline refinement requires matching C"
             )
@@ -353,6 +360,16 @@ def validate_rows(
             if row["result"] != "matched":
                 raise ExternalAttemptError(
                     f"{address:#010x}: post-terminal resolution must be matched"
+                )
+        if mode == "reclassification_match":
+            if address not in previous_matches:
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match lacks prior "
+                    "matched non-refinement external evidence"
+                )
+            if row["result"] != "matched":
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification match must be matched"
                 )
         grouped.setdefault((mode, address), []).append(row)
 
@@ -390,6 +407,8 @@ def validate_rows(
                     f"{address:#010x}: sixth external attempt must be deferred"
                 )
 
+    latest_successes(rows)
+
 
 def sort_key(row: dict[str, str]) -> tuple[int, str, int]:
     return (
@@ -407,12 +426,11 @@ def sort_rows(rows: list[dict[str, str]]) -> list[dict[str, str]]:
     information. Sorting by address means two concurrent matches touch
     different parts of the file instead of both appending to the tail.
 
-    This ordering is safe for the existing consumers because a `matched` row is
-    unique per address: `audit_repository.py` selects the latest success by
-    address alone, without filtering on mode, and only a filter that keeps at
-    most one row per key can be insensitive to order. Recording a second
-    `matched` row for one address, under any mode, would break that and would
-    silently change which row `make audit` validates.
+    Reclassification matches preserve an earlier accepted source's evidence.
+    Consumers selecting successful evidence use latest_successes so the
+    reclassification record wins regardless of its position among old modes.
+    A later inline refinement must name its reclassification parent's source
+    hash. Unlinked successful inline histories are ambiguous and rejected.
 
     Note also that "last row for an address" no longer means "most recent
     event". Under the previous chronological order it did, and a new
@@ -460,7 +478,7 @@ def parse_args() -> argparse.Namespace:
         "--new-discriminator",
         help=(
             "new source, compiler, structure, runtime, or layout evidence; "
-            "required for post_terminal_resolution"
+            "required for post_terminal_resolution and reclassification_match"
         ),
     )
     parser.add_argument(
@@ -485,7 +503,7 @@ def parse_args() -> argparse.Namespace:
         "--allow-symbol-aliases",
         action="store_true",
         help=(
-            "accept extern C aliases of symbols in the tracked linker tables; "
+            "accept extern C aliases of tracked linker, inventory, or header symbols; "
             "statement-level inline assembly is still rejected"
         ),
     )
@@ -503,7 +521,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
-        root = require_workspace_root()
+        root = ROOT if args.check else require_workspace_root()
         functions_path = resolve_within(
             root, "config/slus_01411/functions.csv", must_exist=True
         )
@@ -524,6 +542,19 @@ def main() -> int:
         )
         profiles = load_profiles(profiles_path)
         rows = load_rows(ledger_path)
+        if args.mode == "reclassification_match" and args.address and not args.check:
+            address = parse_address(args.address)
+            if any(
+                row["mode"] == "inline_refinement"
+                and row["result"] == "matched"
+                and parse_address(row["address"]) == address
+                for row in rows
+            ):
+                raise ExternalAttemptError(
+                    f"{address:#010x}: cannot reclassify a successful "
+                    "inline-refinement history; preserve it and keep the "
+                    "new candidate under tmp/"
+                )
         validate_rows(
             rows,
             functions,
@@ -544,7 +575,7 @@ def main() -> int:
             "result": args.result,
             "summary": args.summary,
         }
-        if args.mode == "post_terminal_resolution":
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             required["new-discriminator"] = args.new_discriminator
         missing = [key for key, value in required.items() if not value]
         if missing:
@@ -574,6 +605,16 @@ def main() -> int:
                 raise ExternalAttemptError(
                     f"{address:#010x}: inline refinement requires matching C"
                 )
+        elif args.mode == "reclassification_match":
+            if function["status"] != "unmatched_asm":
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification requires unmatched assembly"
+                )
+            if address not in previous_match_addresses(rows):
+                raise ExternalAttemptError(
+                    f"{address:#010x}: reclassification lacks prior "
+                    "matched non-refinement external evidence"
+                )
         else:
             resolution_addresses = terminal_resolution_addresses(
                 rows,
@@ -584,6 +625,11 @@ def main() -> int:
                     f"{address:#010x}: post-terminal resolution requires a "
                     "deferred canonical or inline-refinement history"
                 )
+
+        from integrate_verified_match import (
+            load_tracked_symbol_names,
+            uses_asm_extension,
+        )
 
         candidate = resolve_within(root, args.candidate, must_exist=True)
         temporary_root = resolve_within(root, "tmp", must_exist=True)
@@ -674,7 +720,21 @@ def main() -> int:
             )
 
         summary = args.summary
-        if args.mode == "post_terminal_resolution":
+        if args.mode == "inline_refinement":
+            replacement = next(
+                (
+                    row for row in rows
+                    if row["mode"] == "reclassification_match"
+                    and parse_address(row["address"]) == address
+                ),
+                None,
+            )
+            if replacement is not None:
+                summary = (
+                    f"{REFINEMENT_PARENT_PREFIX}"
+                    f"{replacement['candidate_sha256']}; {summary}"
+                )
+        if args.mode in {"post_terminal_resolution", "reclassification_match"}:
             summary = (
                 f"New discriminator: {args.new_discriminator}; "
                 f"exact result: {args.summary}"

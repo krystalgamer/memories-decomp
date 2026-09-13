@@ -5,8 +5,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
+import subprocess
 import sys
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 from typing import Any
 
 from build_baseline import (
@@ -19,6 +21,7 @@ from build_baseline import (
     run,
     tool,
 )
+from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -60,49 +63,6 @@ def module_paths(
     return name, module_root, target, config, built_elf, built_binary
 
 
-def matching_c_segments(root: Path, module: dict[str, Any]) -> list[dict[str, str]]:
-    name = module_field(module, "name")
-    relative_path = f"config/slus_01411/overlays/{name}_matching_c.json"
-    path = root / relative_path
-    if not path.is_file():
-        return []
-    with path.open("r", encoding="utf-8") as handle:
-        manifest = json.load(handle)
-    functions = manifest.get("functions")
-    if manifest.get("schema") != 1 or not isinstance(functions, list):
-        raise OverlayBuildError(f"invalid overlay C manifest: {relative_path}")
-
-    segments: list[dict[str, str]] = []
-    sources: set[str] = set()
-    for entry in functions:
-        if not isinstance(entry, dict):
-            raise OverlayBuildError(f"{relative_path}: entries must be objects")
-        source = entry.get("source")
-        profile = entry.get("profile")
-        if (
-            not isinstance(source, str)
-            or not source.startswith("src/overlays/")
-            or not source.endswith(".c")
-            or ".." in PurePosixPath(source).parts
-        ):
-            raise OverlayBuildError(
-                f"{relative_path}: source must be a C file under src/overlays/"
-            )
-        if not isinstance(profile, str) or not profile:
-            raise OverlayBuildError(f"{relative_path}: {source} has no profile")
-        if source in sources:
-            continue
-        sources.add(source)
-        segments.append(
-            {
-                "source": source,
-                "profile": profile,
-                "object": str(PurePosixPath(source).with_suffix(".o")),
-            }
-        )
-    return segments
-
-
 def compile_sources(
     root: Path, module_root: Path, segments: list[dict[str, str]]
 ) -> list[Path]:
@@ -127,18 +87,16 @@ def compile_sources(
 
 
 def assemble_sources(root: Path, module_root: Path) -> list[Path]:
+    asm_directory = resolve_within(
+        root, module_root.relative_to(root) / "asm"
+    )
+    sources = sorted(asm_directory.rglob("*.s"))
+    if not sources:
+        return []
     assembler = tool(root, "as")
     include_directory = resolve_within(
         root, module_root.relative_to(root) / "include", must_exist=True
     )
-    asm_directory = resolve_within(
-        root, module_root.relative_to(root) / "asm", must_exist=True
-    )
-    sources = sorted(asm_directory.rglob("*.s"))
-    if not sources:
-        raise OverlayBuildError(
-            f"no generated assembly below {asm_directory.relative_to(root)}"
-        )
 
     objects: list[Path] = []
     for source in sources:
@@ -171,16 +129,82 @@ def assemble_sources(root: Path, module_root: Path) -> list[Path]:
     return objects
 
 
+def object_symbols(root: Path, path: Path) -> dict[str, str]:
+    result = subprocess.run(
+        [str(tool(root, "objdump")), "-t", str(path)],
+        cwd=root, capture_output=True, text=True, check=False,
+    )
+    if result.returncode != 0:
+        raise OverlayBuildError(
+            f"cannot inspect symbols in {path.relative_to(root)}: "
+            + result.stderr.strip()
+        )
+    if "SYMBOL TABLE:" not in result.stdout:
+        raise OverlayBuildError(f"missing symbol table in {path.relative_to(root)}")
+    symbols: dict[str, str] = {}
+    for line in result.stdout.split("SYMBOL TABLE:", 1)[1].splitlines():
+        if not line.strip():
+            continue
+        match = re.fullmatch(
+            r"[0-9a-fA-F]+ (.{7}) (\S+)\s+[0-9a-fA-F]+ (.*)", line
+        )
+        if match is None:
+            raise OverlayBuildError(
+                f"invalid symbol record in {path.relative_to(root)}: {line}"
+            )
+        flags, section, name = match.groups()
+        if "g" in flags or "w" in flags or section == "*COM*":
+            if not name:
+                raise OverlayBuildError(
+                    f"unnamed global symbol in {path.relative_to(root)}"
+                )
+            symbols[name] = section
+    return symbols
+
+
+def verify_data_symbols(root: Path, objects: list[Path], elf: Path) -> None:
+    """A hash can match while an absolute alias overrides a C definition."""
+    if not objects:
+        return
+    linked = object_symbols(root, elf)
+    data_sections = {".data", ".rodata", ".sdata", ".sbss", ".bss", "*COM*"}
+    owners: dict[str, Path] = {}
+    for obj in objects:
+        for name, section in object_symbols(root, obj).items():
+            if section not in data_sections and not any(
+                section.startswith(prefix + ".")
+                for prefix in data_sections if not prefix.startswith("*")
+            ):
+                continue
+            if name in owners:
+                raise OverlayBuildError(
+                    f"duplicate C data definition {name}: "
+                    f"{owners[name].relative_to(root)}, {obj.relative_to(root)}"
+                )
+            owners[name] = obj
+            final_section = linked.get(name)
+            if final_section is None or final_section.startswith("*"):
+                raise OverlayBuildError(
+                    f"{elf.relative_to(root)}: C data symbol {name} from "
+                    f"{obj.relative_to(root)} is not section-defined "
+                    f"({final_section or 'missing'}); remove overriding linker "
+                    "assignments and mark owned Splat symbols defined"
+                )
+
+
 def build_module(root: Path, module: dict[str, Any]) -> None:
     name, module_root, _target, config, built_elf, built_binary = module_paths(
         root, module
     )
+    segments = c_segments(root, config)
     splat = resolve_within(
         root, "tools/environments/python/bin/splat", must_exist=True
     )
     run(root, [str(splat), "split", str(config)])
-    compile_sources(root, module_root, matching_c_segments(root, module))
-    assemble_sources(root, module_root)
+    c_objects = compile_sources(root, module_root, segments)
+    asm_objects = assemble_sources(root, module_root)
+    if not c_objects and not asm_objects:
+        raise OverlayBuildError(f"{name}: no C or generated assembly objects")
 
     linker = tool(root, "ld")
     linker_script = resolve_within(
@@ -217,6 +241,12 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
             "-o",
             str(built_elf),
         ],
+    )
+    verify_data_symbols(
+        root,
+        [obj for segment, obj in zip(segments, c_objects)
+         if segment["kind"] == "data"],
+        built_elf,
     )
 
     objcopy = tool(root, "objcopy")
@@ -267,6 +297,7 @@ def main() -> int:
                 verify_module(root, module)
     except (
         OverlayBuildError,
+        OverlaySourceError,
         BuildError,
         WorkspaceError,
         OSError,

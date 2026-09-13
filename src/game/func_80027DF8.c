@@ -1,13 +1,12 @@
+#define DUEL_CARD_STAGING_DECK_VIEW
 #include "../types.h"
+#include "duel_card_staging.h"
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_card_display_state.h"
 #include "duel_deck_card.h"
-#include "duel_draw_resolution.h"
 #include "func_80027DF8.h"
-
-extern ExodiaCardDatabase D_8015C424;
 
 void func_80027DF8(AiActiveCard *out, s32 who) {
     DuelCardRecord *base;
@@ -97,7 +96,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
                 s32 *p;
                 s32 id;
 
-                id = D_8015C424.cards[n].id;
+                id = D_8015C424_cards.cards[n].id;
                 out->card_id = id;
                 tbl = gDuel_adwCardStats;
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);
@@ -122,7 +121,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
     {
         DuelDeckCardRecord *rp;
 
-        i = D_800E9FF0[who].field_18;
+        i = D_800E9FF0[who].deck_draw_cursor;
         rp = &gDuel_aDeckCardRecords[i + who * DECK_SIZE];
         if (i < DECK_SIZE) {
             s32 *tbl;

@@ -10,10 +10,10 @@ void func_80048920(s32 arg0, s32 arg1)
 {
     s32 lo;
     s32 hi;
-    register s32 i __asm__("$16");
-    register s32 a1v __asm__("$17") = arg1;
-    register s32 idm __asm__("$18");
-    register s32 id __asm__("$6");
+    s32 i;
+    u8 a1v = arg1;
+    s32 idm;
+    u16 id;
     s32 ff;
 
     id = arg0;

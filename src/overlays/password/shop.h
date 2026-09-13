@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/duel_effect.h"
+#include "../../game/save_data.h"
 
 /* Known prefix of the preview's control object, not its full allocation. */
 typedef struct {
@@ -46,8 +47,10 @@ extern PasswordCursorView *gPassword_pDigitCursorWidget;
 
 extern PasswordCardPreviewView *D_8016D4D8;
 
-/* Shop/password-entry state. Every password-shop function now lives in
- * shop.c and uses these shared declarations.
+/* Shop/password-entry state. Every password-shop function lives in shop.c
+ * and uses these shared declarations, except Password_UpdateShopScreen, now
+ * a build-integrated candidate (src/candidates/password/func_8016A37C.c) that
+ * includes this header.
  *
  *   gPassword_abDigits     The eight entered digits.
  *   gPassword_nDigitIndex  Which of them the cursor is on.
@@ -57,21 +60,12 @@ extern PasswordCardPreviewView *D_8016D4D8;
  * This paragraph used to say it was not, and to give three conflicting
  * spellings as the reason; the declaration was added later and the
  * paragraph was left behind, so the header asserted the opposite of what it
- * did. `shop.c` now owns the cursor helpers, initializer and updater together,
- * so every password-shop user consumes the shared view. */
+ * did. `shop.c` owns the cursor helpers and initializer, and the stored
+ * updater candidate includes this header too, so every password-shop user
+ * consumes the shared view. */
 extern u8 gPassword_abDigits[];
 extern s32 gPassword_nDigitIndex;
 extern u16 D_8016D424;
-
-/* 0x801D07E0, named gLibrary_dwStarchips in config/slus_01411/symbols.txt:62.
- * Password_RefreshStarchipDisplay copies it into the scalar D_801D5608 alias.
- * Password_UpdateShopScreen compares it with the selected card price and
- * reaches it again as `pool[504]` after `pool = D_801D0000`, a load and store
- * at +2016 that this declaration leaves alone. Nothing pins the sign: the
- * copy and subtraction are the same either way, and the compare is unsigned
- * because its other operand is u32. u32 here follows the other `dw` names in
- * the tree's headers. */
-extern u32 gLibrary_dwStarchips;
 
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */

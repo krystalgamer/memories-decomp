@@ -21,8 +21,9 @@ generally follow one shape — an explicit section attribute and an initializer:
 u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
-Two small blobs remain, at `0x8009AF08` and `0x8009AF2A`. The former
-`0x8009AF6C` blob is now split around three C-owned interior ranges: a 28-byte
+One small blob remains, at `0x8009AF2A`. The former `0x8009AF08` watchdog
+word is now owned by `main_services.c`, and the former
+`0x8009AF6C` blob is split around three C-owned interior ranges: a 28-byte
 head at `0x8009AF6C`, model/graphics state at `0x8009AF88`, model primitive
 templates at `0x8009AFAC`, model handler state at `0x8009AFE4`, and a 40-byte
 tail at `0x8009B058`.
@@ -135,8 +136,8 @@ and the unnamed continuation values remain local to
 `frontend_debug_constants.c`. The resulting `.sdata` section is exactly 16
 bytes with two-byte alignment, and the complete executable matches.
 
-`D_8009AF44` and `D_8009AF46` remain relocation targets in the raw-word
-`func_80030998.c`; `D_8009AF4C` remains the start of the eight-byte mask block
+`D_8009AF44` and `D_8009AF46` remain relocation targets in `func_80030998`,
+which is generated assembly again; `D_8009AF4C` remains the start of the eight-byte mask block
 read by unmatched `func_80030294`.
 
 ## `0x8009AF88` is one C-owned model/graphics state block
@@ -144,12 +145,16 @@ read by unmatched `func_80030294`.
 The 36 bytes from `D_8009AF88` through the unnamed continuation at
 `0x8009AFAB` are now emitted by `model_graphics_state.c`. They combine the
 active model-record pointer, model view/scene state, graphics buffer/frame
-state, and six trailing bytes reached by unmatched model code.
+state, and the trailing model-scene fields.
 
-The exact layout needs separate scalar objects rather than a struct because
-assembly names eighteen interior addresses independently. Explicit `.sdata`
-attributes keep zero-valued objects out of `.sbss`; private continuation
-scalars preserve the unnamed bytes. The resulting object has:
+Independently addressed scalar fields retain their symbols and explicit
+`.sdata` placement. The four bytes at `0x8009AFA4..0x8009AFA7` now have one
+real `u8 D_8009AFA4[4]` owner: the frame-step override, an unclassified byte,
+the byte named `D_8009AFA6`, and the active-slot index used by matching
+`func_800507D0`. The latter is not padding. `link_symbols.ld` preserves
+`D_8009AFA6 = D_8009AFA4 + 2` as an interior identity, not a second allocation.
+The halfwords at A8/AA remain separate and outside this four-byte extent.
+The resulting object still has:
 
 ```text
 .sdata  size=00000024  align=2**2
@@ -159,9 +164,12 @@ scalars preserve the unnamed bytes. The resulting object has:
 Every public symbol lands at its retail offset, and the linked payload matches
 the original 36 bytes.
 
-Two compiler views are deliberately retained. `graphics_frame.c` needs
+Existing scalar compiler views are deliberately retained. `graphics_frame.c` needs
 absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
 `func_80058E1C` needs the volatile small-data view of `D_8009AFA3`.
+`MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
+the owner and scene consumer; it cannot be combined with the absolute frame
+view. Scalar readers and writers still address the first byte.
 `func_8004E7B0` also keeps tentative common definitions of `D_8009AF88`,
 `D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens its text by
 four bytes. The data-only unit remains the strong definition, so those commons
@@ -187,12 +195,18 @@ All twenty public symbols land at their extracted offsets. Splitting the
 original blob at `D_8009B058` leaves the unrelated 40-byte tail in generated
 assembly rather than assigning it to the model-handler owner.
 
-## The remaining unowned blob
+## The runtime watchdog word
 
-`0x8009AF08`, 28 bytes, names no symbols at all in `c_symbols.ld` and has no
-C consumer. It does contain a pointer — the word at `+0x10` reads
-`0x800E9E60` — so it is a record rather than scratch, but nothing in C
-describes it.
+The four-byte extracted blob at `0x8009AF08` is `runtime_gp`, the watchdog
+counter read, decremented, and reset to `0x3C` only by `main_services.c`.
+That unit now defines the word in `.sdata`, preserving its `%gp_rel` accesses
+and its position before `main_frame`'s small data. The generated blob is no
+longer needed.
+
+The ordinary initialized-data region has the same ownership model. Its former
+36-byte leading blob at `0x800906E0` is now `psyq/startup_data.c`, leaving the
+large `0x80091958` range as the only generated `.data` blob after the mapped
+tables and file-name records.
 
 ## A mislabelled `pad`
 

@@ -8,6 +8,8 @@
 #define DUEL_FIELD_SIDE_ZONE_COUNT 10
 #define DUEL_FIELD_SIDE_GRID_SLOT_COUNT 20
 
+extern s16 D_800907AC[DUEL_SIDE_COUNT][2][4];
+
 /* Screen coordinates, signed: func_80023D08 subtracts these to derive a
  * cursor step and the result must be able to go negative. */
 typedef struct {
@@ -28,11 +30,10 @@ typedef struct {
  *
  * This describes only those two bytes. duel_card_pick_cursor.h holds a
  * longer view of the same record, DuelCardPickCursor, reaching 0x19.
- * They stay separate because this narrow view is what func_80017034
- * casts to, not because they disagree: they name col and row at the
- * same 0x0F and 0x10, which duel_card_pick_cursor.h states as well.
- * The earlier wording here claimed the two do not overlap in what they
- * name, and that was simply wrong. */
+ * Both views name col and row at the same 0x0F and 0x10, which
+ * duel_card_pick_cursor.h states as well. func_80017034 uses the wider
+ * DuelCardPickCursor directly; this narrow view remains available to
+ * readers that only need the coordinates. */
 typedef struct {
     u8 pad_00[0xF];
     s8 col;
@@ -41,20 +42,22 @@ typedef struct {
 
 /* The field grid: DUEL_SIDE_COUNT blocks of DUEL_FIELD_SIDE_GRID_SLOT_COUNT
  * bytes, each byte a D_801A7AD8 record index. The shape is not a guess --
- * func_800179F4.c and func_800208D4.c both build a per-side cursor as
+ * func_800179F4 (src/candidates/func_800179F4.c) and func_800208D4.c both
+ * build a per-side cursor as
  * D_800907D8 + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT.
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
 #ifdef DUEL_FIELD_GRID_2D
-/* duel_field_effect_transition.c and duel_field_effect_steps.c's first
- * function index it [side][slot]. That is not a spelling preference:
- * rewriting either of them to the flat index the other sixteen files use
- * builds to the right size and differs from byte 0x80025CA2.
+/* duel_card_effects.c and func_80025F3C (src/candidates/func_80025F3C.c)
+ * index it [side][slot]. That is not a spelling preference: rewriting either
+ * of them to the flat index the other sixteen files use builds to the right
+ * size and differs from byte 0x80025CA2.
  *
- * duel_field_effect_steps.c is the one unit that needs both views -- its
- * second function walks the grid flat -- so it defines DUEL_FIELD_GRID_2D
- * for the [side][slot] user and casts at the flat one. */
+ * func_80025F3C shared duel_field_effect_steps.c with func_800260D0 (now
+ * func_800260D0.c), which walks the grid flat, so that unit
+ * defined DUEL_FIELD_GRID_2D for the [side][slot] user and cast at the flat
+ * one. Both candidates keep that. */
 extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 #else
 extern u8 D_800907D8[];
@@ -72,8 +75,8 @@ extern u8 D_800907D8[];
  *
  * Left unsized for the same reason as the grid, and because both consumers
  * want the flat view: duel_draw_resolution.c reads
- * D_800907CC[i + D_8009B1D5 * HAND_SIZE] and func_8001B938.c takes the base
- * pointer. */
+ * D_800907CC[i + D_8009B1D5 * HAND_SIZE] and func_8001BAF0
+ * (func_8001B938.c) takes the base pointer. */
 extern u8 D_800907CC[];
 
 /* The screen position of every field slot, defined with initialisers in

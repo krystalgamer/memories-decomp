@@ -1,13 +1,14 @@
+#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 #include "../unmatched.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 
-extern s32 D_80010000;
-extern u8 D_801A8000[];
+#include "high_memory_addresses.h"
 
 void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 {
@@ -35,12 +36,12 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         D_8009B0F4 = w;
         p->done = 2;
         t = (p->value_08 = D_8009B118);
-        *(s32 *)&p->mode = 0x8000;
-        p->value_0C = t + 0x800;
+        *(s32 *)&p->phase_size = 16 * FILE_SECTOR_SIZE;
+        p->value_0C = t + FILE_SECTOR_SIZE;
         break;
 
     case 1:
-        *(s32 *)&p->mode = 0x800;
+        *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
         m = 0xFFDCFFFF;
         v_1 = D_8009B0F4;
         t = D_8009B118;
@@ -69,10 +70,10 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         break;
 
     case 3:
-        *(s32 *)&p->mode = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
+        *(s32 *)&p->phase_size = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
         v_3 = D_8009B0F4;
-        t = D_80010000;
+        t = (s32)D_80010000;
         v_3 &= m;
         D_8009B0F4 = v_3;
         p->value_0C = t;

@@ -5,8 +5,10 @@
 
 typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 
-/* Frontend screen state, all of it owned by frontend.c. None of these is
- * defined in C.
+/* Frontend screen state, all of it owned by the front-end functions in
+ * frontend.c and frontend_background.c and by MainMenu_UpdateFrontendMenu
+ * (now a build-integrated candidate, src/candidates/main_menu/func_80180390.c). None
+ * of these is defined in C.
  *
  * What the uses show, without renaming anything:
  *
@@ -39,14 +41,13 @@ typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
  * spelling was harmless rather than right, because the file that used it only
  * ever wrote 0.
  *
- * D_80184558/5C/60 are here for the same reason: they were u8 * in two sources
- * and void * in a third, and one unit can hold only one spelling. u8 * wins on
- * use -- two of the three sources index them by byte offset, while the third
- * only passes them to a void * parameter.
+ * D_80184558/5C/60 are the three singleton display objects allocated by
+ * MainMenu_InitFrontendMenu. Their matching and candidate consumers use the
+ * shared DisplayObject fields rather than deriving the layout again.
  */
-extern u8 *D_80184558;
-extern u8 *D_8018455C;
-extern u8 *D_80184560;
+extern struct DisplayObject *D_80184558;
+extern struct DisplayObject *D_8018455C;
+extern struct DisplayObject *D_80184560;
 extern s8 D_80184598;
 extern u8 gMain_bMenuID;
 extern u8 *gMain_apMenuEntries[];

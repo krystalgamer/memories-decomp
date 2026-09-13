@@ -3,9 +3,14 @@
 
 #include "../types.h"
 
+/* Per-slot preparation and the scene update called by func_80059CE4. */
+void func_80050584(s32 index);
+void func_800507D0(void);
+
 /* The animated-battle scene's small state machine. func_80059C18 arms a
    scene, func_80059C24 and func_80059C9C start the two phases, and the two
    predicates report when each has finished. */
+void func_8004FE2C(void);
 void func_80059C18(s32 value);
 void func_80059C24(void);
 s32 func_80059C88(void);

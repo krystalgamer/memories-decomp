@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import sys
+import tempfile
 import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
@@ -86,6 +87,70 @@ extern u8 *alias asm("real_symbol");
             candidate_builds.candidate_extern_symbols(text),
             ["callback", "data", "hook", "real_symbol", "value"],
         )
+
+    def test_contract_symbols_follow_used_header_asm_aliases(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            header = root / "aliases.h"
+            source = root / "candidate.c"
+            header.write_text(
+                'extern long LocalName(void *) asm("CanonicalName");\n'
+                'extern long UnusedName(void *) asm("UnusedCanonical");\n',
+                encoding="utf-8",
+            )
+            source.write_text(
+                '#include "aliases.h"\n'
+                "long candidate(void *value) { return LocalName(value); }\n",
+                encoding="utf-8",
+            )
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(source, source.read_text()),
+                ["CanonicalName"],
+            )
+
+    def test_contract_symbols_keep_explicitly_tracked_header_owners(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            header = root / "owner.h"
+            header.write_text(
+                "extern unsigned char HeaderOwnedData;\n",
+                encoding="utf-8",
+            )
+            source = root / "candidate.c"
+            source.write_text(
+                '#include "owner.h"\n'
+                "unsigned char candidate(void) { return HeaderOwnedData; }\n",
+                encoding="utf-8",
+            )
+
+            symbols = candidate_builds.candidate_contract_symbols(
+                source,
+                source.read_text(),
+                ["HeaderOwnedData"],
+            )
+            first = candidate_builds.canonical_contract_hashes(
+                symbols,
+                candidate_builds.canonical_declaration_index(
+                    set(symbols),
+                    root,
+                ),
+            )
+
+            header.write_text(
+                "extern unsigned long HeaderOwnedData;\n",
+                encoding="utf-8",
+            )
+            changed = candidate_builds.canonical_contract_hashes(
+                symbols,
+                candidate_builds.canonical_declaration_index(
+                    set(symbols),
+                    root,
+                ),
+            )
+
+            self.assertEqual(symbols, ["HeaderOwnedData"])
+            self.assertNotEqual(first, changed)
 
     def test_contract_hash_is_deterministic(self) -> None:
         declarations = {
@@ -293,6 +358,64 @@ extern int sdk_call(int value);
             (root / "overlays").rmdir()
             root.rmdir()
 
+    def test_overlay_header_index_sees_only_its_own_module(self) -> None:
+        root = REPOSITORY / "tmp/test-candidate-contract-overlay-module"
+        for directory in ("game", "overlays/password", "overlays/main_menu"):
+            (root / directory).mkdir(parents=True, exist_ok=True)
+        try:
+            (root / "game/state.h").write_text(
+                "extern s16 value;\n", encoding="utf-8"
+            )
+            (root / "overlays/password/state.h").write_text(
+                "extern s32 value;\n", encoding="utf-8"
+            )
+            (root / "overlays/main_menu/state.h").write_text(
+                "extern u8 value;\n", encoding="utf-8"
+            )
+
+            index = candidate_builds.canonical_declaration_index(
+                {"value"}, root, overlay_module="password"
+            )
+
+            self.assertEqual(
+                index["value"],
+                [
+                    ("game/state.h", "extern s16 value;"),
+                    ("overlays/password/state.h", "extern s32 value;"),
+                ],
+            )
+        finally:
+            for path in (
+                "game/state.h",
+                "overlays/password/state.h",
+                "overlays/main_menu/state.h",
+            ):
+                (root / path).unlink(missing_ok=True)
+            for directory in (
+                "overlays/password",
+                "overlays/main_menu",
+                "overlays",
+                "game",
+            ):
+                (root / directory).rmdir()
+            root.rmdir()
+
+    def test_candidate_module_is_optional_and_checked(self) -> None:
+        self.assertIsNone(candidate_builds.candidate_module({}))
+        self.assertEqual(
+            candidate_builds.candidate_module({"module": "password"}),
+            "password",
+        )
+        with self.assertRaises(candidate_builds.CandidateBuildError):
+            candidate_builds.candidate_module({"module": "../game"})
+        self.assertEqual(
+            candidate_builds.candidate_directory(Path("/x"), "password"),
+            Path("/x/password"),
+        )
+        self.assertEqual(
+            candidate_builds.candidate_directory(Path("/x"), None), Path("/x")
+        )
+
     def test_header_index_orders_paths_deterministically(self) -> None:
         root = REPOSITORY / "tmp/test-candidate-contract-order"
         root.mkdir(parents=True, exist_ok=True)
@@ -352,6 +475,41 @@ extern int sdk_call(int value);
             ),
             (["added"], ["removed"], ["changed"]),
         )
+
+    def test_configured_used_contract_survives_header_centralization(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { gGraphics_pActiveFrameBuffer = p; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    [
+                        "gGraphics_pActiveFrameBuffer",
+                        "gGraphics_aFrameBuffers",
+                    ],
+                ),
+                ["gGraphics_pActiveFrameBuffer"],
+            )
+
+    def test_model_configured_used_contract_survives_header_centralization(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { D_8009B074 = p; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    ["D_8009B074", "D_8009B078"],
+                ),
+                ["D_8009B074"],
+            )
 
     def test_contract_validation_reports_changed_dependencies(self) -> None:
         digest = "a" * 64

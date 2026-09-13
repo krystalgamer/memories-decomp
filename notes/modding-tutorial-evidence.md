@@ -116,7 +116,8 @@ value at `+0x14`, then clamps it to the `+0x16` value. The display counter at
 The constant is used only when `gDuel_bOpponentID >= 0`, the ordinary duel
 path. The negative-opponent-ID path is the 2P Duel setup: menu result `2`
 dispatches to
-[`func_8002DC38`](../src/game/func_8002DC38.c), which initializes
+[`Main_RunTwoPlayerDuelSetup`](../src/game/main_run_two_player_duel_setup.c),
+which initializes
 `D_8009B234` and `D_8009B236` with `DUEL_STARTING_LIFE_POINTS` and passes
 both addresses to `MainMenu_StartValueSetup` at `0x80180FD8`. Its matching
 input handler
@@ -504,7 +505,7 @@ the three row-`241` singleton objects, so those remain identified by ownership
 rather than appearance.
 
 The resident startup request in `func_80013154` and movie entry/exit requests
-in `func_8005B8A0` and `func_8005BB7C` use the same `320 x 240` dimensions
+in `func_8005B8A0` and `Movie_StopStream` use the same `320 x 240` dimensions
 with `GsInitGraph` or `GsInitGraph2`. `graphics_constants.h` names those
 arguments as `GRAPHICS_DEFAULT_WIDTH` and `GRAPHICS_DEFAULT_HEIGHT`.
 These are requested display dimensions, not buffer-placement coordinates:

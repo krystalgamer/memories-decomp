@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../psyq/rand.h"
+#include "card_comparators.h"
 #include "card_tables.h"
 
 s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
@@ -21,13 +22,13 @@ s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
+            keyA = gCard_asNameSortKey[idA - 1];
         } else {
             keyA = 0x7FFFFFFF;
             idA = 0x7FFFFFFF;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
+            keyB = gCard_asNameSortKey[idB - 1];
         } else {
             keyB = 0x7FFFFFFF;
             idB = 0x7FFFFFFF;
@@ -73,14 +74,14 @@ s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
         }
     } else {
         if (idA != 0) {
-            keyA = D_801D4D8E[idA - 1];
+            keyA = gCard_asNameSortKey[idA - 1];
             countKeyA = a->count;
         } else {
             keyA = 0x7FFFFFFF;
             countKeyA = 0x80000001;
         }
         if (idB != 0) {
-            keyB = D_801D4D8E[idB - 1];
+            keyB = gCard_asNameSortKey[idB - 1];
             countKeyB = b->count;
         } else {
             keyB = 0x7FFFFFFF;

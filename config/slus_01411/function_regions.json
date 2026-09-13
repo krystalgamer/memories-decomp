@@ -14,15 +14,15 @@
       "start": "0x80012B50",
       "end": "0x80058F10",
       "module": "game",
-      "evidence": "Game and engine code, bounded by the startup transfer and the embedded LIBGS work-base getter."
+      "evidence": "Game and engine code, bounded by the startup transfer and the embedded SDK getter at 0x80058F10."
     },
     {
-      "name": "embedded-libgs-work-base-getter",
+      "name": "embedded-sdk-getter",
       "start": "0x80058F10",
       "end": "0x80058F20",
       "module": "psyq/sdk",
       "status": "sdk_asm",
-      "evidence": "Canonical GsGetWorkBase body and PACKET pointer contract, independently identified by the GMS and Unchiga IDBs."
+      "evidence": "Sixteen bytes of SDK assembly embedded in the game span. The GsGetWorkBase identification was withdrawn as a misidentification; the region boundary itself is unaffected."
     },
     {
       "name": "game-after-libgs-getter",

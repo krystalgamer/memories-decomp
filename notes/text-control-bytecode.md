@@ -10,6 +10,14 @@ through the sixteen function pointers beginning at `D_80090F18`.
 table `D_80090EAC`. This fixes the mapping without inferring it from text
 alignment: F0 selects entry 27, F1 entry 28, through FF entry 42.
 
+The complete secondary table now uses
+`void (*)(DuelEffectChannel *)`, matching the record that
+`TextBox_BuildStep` and `Text_DispatchSecondaryCommand` pass through it.
+Control handlers that operate directly on the shared channel expose that
+parameter type. Entries retaining narrower raw or command-specific views use
+explicit table casts; those casts document alternate source views without
+weakening the dispatch contract back to `u8 *`.
+
 ## Primary control table
 
 | Byte | Following data | Matching handler | Effect |

@@ -1,16 +1,15 @@
 #include "../types.h"
+#include "display_object_work_slots.h"
 
-extern int D_800E9EF0[];
-
-void func_8002CB50(int *destination)
+void func_8002CB50(s32 *destination)
 {
-    int i;
-    int *source;
+    s32 i;
+    DisplayObject **source;
 
     i = 0;
     source = D_800E9EF0;
-    while (i < 5) {
-        *destination++ = *source++;
+    while (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
+        *destination++ = (s32)*source++;
         i++;
     }
     *destination = 0;

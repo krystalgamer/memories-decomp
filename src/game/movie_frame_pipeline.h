@@ -8,15 +8,14 @@
 
 /* The movie frame pipeline's entry points.
  *
- * func_8005BB7C and func_8005BFC8 both return a status their callers are
- * free to ignore, and both did: one caller declared func_8005BB7C as
- * returning void, and func_8005BFC8 was called with no declaration at all.
+ * Movie_StopStream and Movie_WaitAndDecodeFrame both return a status their
+ * callers are free to ignore, and both did before this shared header.
  *
  * func_8005C1F4 is installed as a Psy-Q decoder timeout callback through
  * DecDCToutCallback, so its exact void(void) shape is load bearing. */
-s32 func_8005BB7C(s32 arg0);
-s32 func_8005BE3C(void);
-s32 func_8005BFC8(s32 resync);
+s32 Movie_StopStream(s32 arg0);
+s32 Movie_DecodeAndPresentFrame(void);
+s32 Movie_WaitAndDecodeFrame(s32 resync);
 void func_8005C1F4(void);
 void func_8005C374(s32 first, s32 second, s32 third);
 
@@ -62,6 +61,13 @@ extern u32 D_8009B070;
 extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));
+
+/* The pending-interrupt word func_8005C1F4 tests, and clears after calling
+ * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
+ * -G8 a plain declaration would land in sdata and both accesses would come out
+ * gp-relative; retail reaches it through lui %hi / %lo, which the .data
+ * section attribute keeps. func_8005C1F4 is its only C consumer. */
+extern s32 D_800F5D44 __attribute__((section(".data")));
 
 /* The movie work area lives at D_8009B498 + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed

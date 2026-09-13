@@ -3,7 +3,13 @@
 #include "trig_constants.h"
 #include "display_object_interpolation.h"
 
-void func_8004318C(
+void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
+{
+    object->field_36 = object->field_30;
+    object->field_38 = object->field_32;
+}
+
+void DisplayObject_InterpolatePositionCosine(
     DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3
 )
 {
@@ -16,7 +22,7 @@ void func_8004318C(
     object->out_y = y + (object->y - y) * scale2 / ONE;
 }
 
-void func_80043230(
+void Widget_SlideSine(
     DisplayObjectPosition *object,
     int target_x,
     int target_y,

@@ -4,13 +4,15 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
+#include "module_rodata.h"
 
 /* One entry of D_801845EC, the two Trade card-display slots.
    MainMenu_InitTradeScreen's `i < 2` loop stores the func_800400AC result,
-   or 0, into `.object` and 0 into `.unk4` (trade_update.c:70-81);
+   or 0, into `.object` and 0 into `.unk4` (trade_update.c:54-65);
    MainMenu_DrawTradeOffersAndHighlights reads `[0].object` and
-   `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen stores
-   `->y` through `[0].object` and `[1].object` (trade_update.c:569, :572).
+   `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen (now a
+   build-integrated candidate, src/candidates/main_menu/func_801821DC.c) stores
+   `->y` through `[0].object` and `[1].object`.
    The two readers used to declare the symbol `u8 *[]`, read at [0] and
    [2], and `MainMenuWidget *`, with entry 1's pointer declared on its own
    as D_801845F4 (+8); the 8-byte stride reconciled those views, and spelled
@@ -39,11 +41,12 @@ typedef struct {
     u16 target;
 } MainMenuPair;
 
-/* The six card comparators the inventory sort chooses between, copied out of
-   D_80180000[1] as one block. */
-typedef struct {
-    int (*entries[6])();
-} MainMenuComparators;
+#ifdef MAIN_MENU_TRADE_SCROLL_AS_WORDS
+extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
+#define D_80185C8C D_80185C8C_words
+#else
+extern MainMenuPair D_80185C8C[];
+#endif
 
 /* One entry of D_801A8000, the per-side inventory row state. Only the leading
    display-object pointer is named; the rest is carried so the stride is
@@ -67,12 +70,13 @@ typedef struct {
 /* The two Trade display handles, D_801845DC and D_801845E0 -- the pair
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
  * releases and clears. MainMenu_InitTradeScreen stores a func_800400AC
- * result into each (trade_update.c:52-53, :60-61), ORs 0x28 into +8
- * (:56, :64) and passes it to func_800428EC (:57, :65);
+ * result into each (trade_update.c:37, :45), ORs 0x28 into +8
+ * (:40, :48) and passes it to func_800428EC (:41, :49);
  * MainMenu_ReleaseTradeDisplayHandles passes each to func_8004036C and
- * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen reads
- * D_801845E0->frame (trade_update.c:145) and passes D_801845E0 to
- * func_80040410 (:576); MainMenu_RebuildTradeInventoryRows reads ->frame
+ * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen (now a
+ * build-integrated candidate, src/candidates/main_menu/func_801821DC.c) reads
+ * D_801845E0->frame and passes D_801845E0 to
+ * func_80040410; MainMenu_RebuildTradeInventoryRows reads ->frame
  * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
  * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
  * read `frame`. `frame` is a member of that view and +8 falls inside its
@@ -111,19 +115,32 @@ extern u8 D_80185CCF;
 extern u8 D_80185CD0;
 extern u8 D_80185CD1;
 
+/* Per-side Trade interaction state. The offer table carries a count followed
+ * by ten card ids. D_80185CC8 needs a scalar view only in the offer drawing
+ * unit; the update paths index both players. */
+extern u16 D_80185C9C[2][11];
+#ifdef MAIN_MENU_TRADE_READY_AS_SCALAR
+extern u8 D_80185CC8;
+#else
+extern u8 D_80185CC8[2];
+#endif
+extern u8 D_80185CCA[2];
+extern u8 D_80185CCC[2];
+
 /* The per-side working card table, two rows of CARD_COUNT CardCountEntry
  * (ygo_types.h) records. Three sources reach it and all three already include
  * this header. The two-dimensional shape is the one that matched
- * MainMenu_RefreshTradeInventory (trade_update.c stores
+ * MainMenu_RefreshTradeInventory (trade_inventory.c stores
  * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
  * row for 0x8018338C records why), and the other two sources reach the same
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
  * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`
- * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen indexes
- * `[0][...]` (trade_update.c:281). Row 1 is also named on its own as
- * D_80185144 (trade_update.c:27, :422; +0xB48 = CARD_COUNT * 4), which keeps
- * its private declaration. Two rows end at D_80185C8C, +0x1690. */
+ * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen (now a stored
+ * candidate, src/candidates/main_menu/func_801821DC.c) indexes
+ * `[0][...]`. Row 1 is also named on its own as D_80185144 in that
+ * candidate (+0xB48 = CARD_COUNT * 4), which keeps its private declaration.
+ * Two rows end at D_80185C8C, +0x1690. */
 extern CardCountEntry D_801845FC[][CARD_COUNT];
 
 #endif

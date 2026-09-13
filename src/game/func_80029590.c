@@ -16,7 +16,7 @@ void func_80029590(void)
                       0, 3, i, 25, 262);
         if (i & 1)
             *(s16 *)&object->field_30.h.field_30 = 168;
-        object->attribute |= 0x1000000;
+        object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_8004293C(object);
         func_800428EC((u8 *)object, 0);

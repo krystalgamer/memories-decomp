@@ -3,6 +3,8 @@
 
 #include "../../types.h"
 
+#define ALTERNATE_LOCATION_COUNT 16
+
 /* Alternate-state copy with unresolved raw callees, not live map entrypoints.
 
    The types below are deliberately named for this family and are not shared
@@ -66,23 +68,60 @@ typedef struct {
     u16 f50;
 } AlternateObject;
 
+typedef struct {
+    u32 unknown0;
+    AlternateObject *marker;
+    u8 unknown08[0x0C];
+    AlternateObject *blinkObject;
+    u8 unknown18[0x10];
+    u8 rebuildPending;
+    u8 unknown29[0x1B];
+    s32 transitionTicks;
+    u8 location;
+    u8 transitionFlags;
+    u8 unknown4A[0x0A];
+} __attribute__((packed)) AlternateLocationState;
+
+typedef char AlternateLocationState_size_must_be_0x54[
+    sizeof(AlternateLocationState) == 0x54 ? 1 : -1
+];
+
 /* The three symbols both sources share. The comments above already name two
  * of them while describing the layouts, so the declarations belong here too.
  *
- *   D_80169E54   The alternate location table, indexed by D_8016A2BC at a
- *                66-byte stride, which is the AlternateLocation above.
+ *   D_80169E54   The sixteen-record table defined by alternate_location.c,
+ *                indexed by D_8016A2BC at the 66-byte stride above.
  *   D_8016A2BC   The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
  *   D_800C4E68   A pad or status word, tested for 0x4, 0x20 and 0xC0.
  *
- * D_8016A278 and D_8016A288, the two AlternateObject pointers the comment
- * above describes, stay in alternate_location_tick.c: only that source
- * declares them, so there is nothing to de-duplicate yet. */
-extern AlternateLocation D_80169E54[];
+ * The adjacent controller state declarations are centralized here with their
+ * C-owned enclosing record. */
+extern AlternateLocation D_80169E54[ALTERNATE_LOCATION_COUNT];
+extern AlternateLocationState gCampaignMap_AlternateState;
+extern AlternateObject *D_8016A278;
+extern AlternateObject *D_8016A288;
+extern u8 D_8016A29C;
+extern s32 D_8016A2B8;
 extern u8 D_8016A2BC;
+extern u8 D_8016A2BD;
+extern u8 D_8016A2C8;
+extern u8 D_8016A2C9;
 extern u16 D_800C4E68;
 
 s32 CampaignMap_PickAlternateExit(void);
 void CampaignMap_UpdateAlternateLocation(void);
+s32 func_80169230(void);
+void func_801680E4(s32);
+void func_801682D0(s32);
+AlternateObject *func_80168A48(s32);
+void func_80066574(AlternateObject *);
+void func_80168624(void);
+void func_80021EA4(void);
+void func_80168040(void);
+void func_80065BFC(s32);
+void func_800158C8(void);
+s32 func_8004EB9C(s32);
+void func_80065B24(s32);
 
 #endif

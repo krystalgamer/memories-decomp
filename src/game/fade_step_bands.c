@@ -1,6 +1,6 @@
+#define D_8009B0D8_IN_DATA
 #include "../types.h"
 #include "graphics_frame.h"
-
 #include "fade.h"
 
 /* Refills 15 mirrored band pairs using the configured step. Increasing
@@ -18,7 +18,7 @@ void Fade_StepBands(void)
     s32 acc;
 
     if (state->level < state->target_level) {
-        acc = (s16) state->field_08;
+        acc = (s16)state->field_08;
         for (i = FADE_BAND_COUNT / 2 - 1; i >= 0; i--) {
             acc = acc - step;
             level = acc;
@@ -31,9 +31,10 @@ void Fade_StepBands(void)
             state->band_levels[i] = level;
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
-        state->field_08 = state->field_08 + step * D_8009B0D8;
+        state->field_08 =
+            state->field_08 + step * *(volatile s32 *)&D_8009B0D8;
     } else {
-        acc = (s16) state->field_08;
+        acc = (s16)state->field_08;
         for (i = 0; i < FADE_BAND_COUNT / 2; i++) {
             acc = acc + step;
             level = acc;
@@ -46,7 +47,8 @@ void Fade_StepBands(void)
             state->band_levels[i] = level;
             state->band_levels[FADE_BAND_COUNT - 1 - i] = level;
         }
-        state->field_08 = state->field_08 - step * D_8009B0D8;
+        state->field_08 =
+            state->field_08 - step * *(volatile s32 *)&D_8009B0D8;
     }
     if (level == state->target_level) {
         state->level = level;

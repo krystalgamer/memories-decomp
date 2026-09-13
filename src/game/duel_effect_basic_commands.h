@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Three D_80090EAC entries. func_80038898 reads one byte from the object's
+/* Four D_80090EAC entries. func_80038898 reads one byte from the object's
  * current stream into D_8009B363 and puts the scene mode at 5.
  *
  * func_80038888 and func_80038890 take NO argument at all -- they are defined
@@ -15,5 +15,6 @@
 void func_80038888(void);
 void func_80038890(void);
 void func_80038898(u8 *object);
+void func_800388D8(u8 *object);
 
 #endif

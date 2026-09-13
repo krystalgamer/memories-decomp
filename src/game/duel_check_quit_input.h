@@ -12,17 +12,19 @@ s32 Duel_CheckQuitInput(void);
  *
  *   0x01  a quit was requested -- Duel_CheckQuitInput stores 1 when Select is
  *         pressed and gDuel_bOpponentID[0] is negative.
- *   0x80  the dialog is already up. func_80024200 in duel_scene_update.c is
- *         the consumer: on a nonzero value with 0x80 clear it sets that bit,
- *         plays SE 0x30 and raises the box through TextBox_CreateFlagged;
+ *   0x80  the dialog is already up. func_80024200
+ *         (src/candidates/func_80024200.c) is the consumer: on a nonzero
+ *         value with 0x80 clear it sets that bit, plays SE 0x30 and raises
+ *         the box through TextBox_CreateFlagged;
  *         with 0x80 set it waits for the box, destroys it, and clears the
  *         byte back to 0.
  *
  * func_800179F4 clears it when a duel starts, in the same run of assignments
  * that resets the rest of the duel state.
  *
- * These three are the only accessors in the image, assembly included, and all
- * three are matching C. */
+ * These three are the only accessors in the image, assembly included.
+ * Duel_CheckQuitInput is matching C; the other two are candidates under
+ * src/candidates/. */
 extern u8 gDuel_bQuitDialogState;
 
 /* The duel outcome flags the quit flow reports into, as the two small-data
@@ -36,7 +38,8 @@ extern u8 gDuel_bQuitDialogState;
  *
  * Only those two units take this plain u16 spelling, and the declaration lives
  * here rather than in duel_side_state.h for a checked reason:
- * main_run_duel_and_library.c reads the word as `u16 D_8009B16C[9]`, which is
+ * Main_RunDuel (src/candidates/func_8002CEE8.c) reads the word as
+ * `u16 D_8009B16C[9]`, which is
  * the oversized-array form of the absolute addressing the .data attribute also
  * produces, and that file does include duel_side_state.h. It does not include
  * this header, and neither does debug_effect_screen.c, which takes a third

@@ -1,9 +1,7 @@
 #ifndef YUGIOH_GAME_DUEL_EFFECT_H
 #define YUGIOH_GAME_DUEL_EFFECT_H
 
-#include "../types.h"
-
-#define DUEL_EFFECT_OFFSET(type, member) ((u32)&(((type *)0)->member))
+#include "../ygo_types.h"
 
 #define DUEL_EFFECT_CHANNEL_COUNT 4
 #define DUEL_EFFECT_ENTRY_COUNT 620
@@ -22,188 +20,9 @@
    entry's Shift-JIS glyph code, and the 0x0C pair is its local pixel
    position, which TextBox_GetGlyphAt searches to find the node under a
    coordinate. */
-typedef struct {
-    u16 code_00;
-    u16 pad_02;
-    s32 field_04;
-    s32 field_08;
-    s16 x_0C;
-    s16 y_0E;
-    u8 field_10;
-    u8 flags_11;
-    u8 field_12;
-    u8 field_13;
-    u8 pad_14;
-    u8 field_15;
-    /* func_80036C14 writes 0x16 on its 0x100 path and 0x17 on its
-       0x80 path, and nothing in the resident tree reads either. Two
-       writes in exclusive branches say bytes live here and nothing
-       about what they carry. */
-    u8 field_16;
-    u8 field_17;
-    u8 field_18;
-    u8 pad_19[3];
-} DuelEffectEntry;
-
-/* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
-   decoded string the record is playing back (TextBox_BuildStep stores it there),
-   and 0x20/0x24 bracket the record's slice of D_800EB288: TextBox_BuildStep seeds
-   both with &D_800EB288[range_start_5C], DuelEffect_ProcessEntries walks from
-   0x24 and moves 0x20 as it compacts. */
-struct DisplayObject;
-
-typedef struct DuelEffectChannel {
-    u8 *text_00;
-    u8 pad_04[0x1C];
-    DuelEffectEntry *entry_end_20;
-    DuelEffectEntry *entry_head_24;
-    /* The display object this record owns, stored as a pointer.
-     *
-     * Every consumer already asserted that: func_800391E4.c and
-     * func_8002EE94.c cast it to DisplayObject *, card_list_text_boxes.c
-     * reaches ->flags through it, func_8002EE94.c also takes the
-     * DisplayObjectSnapshot view of it, and dialog_update_choice.c read it
-     * through `*(u8 **)&`. The s32 spelling made every one of those a cast. */
-    struct DisplayObject *field_28;
-    /* The second display object this record owns, on the same evidence as
-     * field_28 above: func_800391E4.c releases it through func_8004036C and
-     * then stores a DisplayObject * into it, func_800610E0.c and
-     * func_800611D0.c both store the object they just built, and
-     * text_box_build_step.c releases it the same way. Every other site
-     * assigns 0.
-     *
-     * The s32 spelling survived field_28's retype because
-     * `b->field_2C = 0x200` in func_8002BFCC looked like an integer use of
-     * this field. It is not: that b is a DuelEffectResourceRecord *, which
-     * has its own field_2C at its own offset. func_800179F4.c's
-     * `pane->field_2C = 0` is that same other record. */
-    struct DisplayObject *field_2C;
-    void *field_30;
-    u16 flags_34;
-    u16 field_36;
-    u16 field_38;
-    u16 field_3A;
-    s16 field_3C;
-    s16 field_3E;
-    s16 field_40;
-    s16 field_42;
-    u8 pad_44[0x0D];
-    /* The record's state byte. TextBox_BuildStep dispatches on its low five
-       bits through D_80090E64, and 0x80 is a latch every one of those
-       callbacks sets on entry: dialog_choice_state.c, dialog_update_choice.c
-       and duel_effect_state_callbacks.c all open with the same
-       `if ((state & 0x80) == 0) state |= 0x80;` and then write a new state
-       number into it. */
-    u8 state_51;
-    /* A per-tick countdown. TextBox_BuildStep reloads it from field_53,
-       decrements it once per call and returns while it is still nonzero;
-       func_80037B40.c does the same with 0xFF as its reload. */
-    u8 delay_52;
-    u8 field_53;
-    u8 field_54;
-    u8 pad_55;
-    u8 field_56;
-    u8 index_57;
-    /* Which of the record's leading pointer words is the live byte stream,
-       as a word index rather than an offset: every reader scales it by four.
-       TextBox_BuildStep advances the selected pointer past each opcode it
-       consumes, and duel_effect_object_commands.c and
-       duel_effect_stream_fields.c reach the same slot the same way. Signed
-       because all three read it through an s8. */
-    s8 stream_58;
-    u8 field_59;
-    u8 field_5A;
-    u8 field_5B;
-    u16 range_start_5C;
-    u16 range_count_5E;
-    u8 field_60;
-    u8 field_61;
-    /* Written by func_80037DA4 (with a type value), func_80038B08 and
-       duel_effect_entry_control.c, and read back by func_80036C14.
-       Named rather than described: the writes and the read prove a
-       byte is here, not what it carries. */
-    u8 field_62;
-    u8 pad_63;
-} DuelEffectChannel;
-
-typedef char DuelEffectChannel_size_must_be_0x64[
-    sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
-];
-typedef char DuelEffectChannel_entry_end_20_offset_must_be_0x20[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, entry_end_20) == 0x20 ? 1 : -1
-];
-typedef char DuelEffectChannel_entry_head_24_offset_must_be_0x24[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, entry_head_24) == 0x24 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_28_offset_must_be_0x28[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_28) == 0x28 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_30_offset_must_be_0x30[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_30) == 0x30 ? 1 : -1
-];
-typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_3C_offset_must_be_0x3C[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_3C) == 0x3C ? 1 : -1
-];
-typedef char DuelEffectChannel_state_51_offset_must_be_0x51[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, state_51) == 0x51 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_56_offset_must_be_0x56[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_56) == 0x56 ? 1 : -1
-];
-typedef char DuelEffectChannel_stream_58_offset_must_be_0x58[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, stream_58) == 0x58 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_53_offset_must_be_0x53[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_53) == 0x53 ? 1 : -1
-];
-typedef char DuelEffectChannel_index_57_offset_must_be_0x57[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, index_57) == 0x57 ? 1 : -1
-];
-typedef char DuelEffectChannel_field_5A_offset_must_be_0x5A[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_5A) == 0x5A ? 1 : -1
-];
-typedef char DuelEffectChannel_range_start_5C_offset_must_be_0x5C[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, range_start_5C) == 0x5C ? 1 : -1
-];
-typedef char DuelEffectChannel_field_61_offset_must_be_0x61[
-    DUEL_EFFECT_OFFSET(DuelEffectChannel, field_61) == 0x61 ? 1 : -1
-];
-
-typedef char DuelEffectEntry_size_must_be_0x1C[
-    sizeof(DuelEffectEntry) == 0x1C ? 1 : -1
-];
-typedef char DuelEffectEntry_must_be_four_byte_aligned[
-    sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
-];
-typedef char DuelEffectEntry_code_00_offset_must_be_0[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, code_00) == 0 ? 1 : -1
-];
-typedef char DuelEffectEntry_x_0C_offset_must_be_0x0C[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, x_0C) == 0x0C ? 1 : -1
-];
-typedef char DuelEffectEntry_field_10_offset_must_be_0x10[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_10) == 0x10 ? 1 : -1
-];
-typedef char DuelEffectEntry_flags_11_offset_must_be_0x11[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, flags_11) == 0x11 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_12_offset_must_be_0x12[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_12) == 0x12 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_13_offset_must_be_0x13[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_13) == 0x13 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_15) == 0x15 ? 1 : -1
-];
-typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
-    DUEL_EFFECT_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
-];
-
-#undef DUEL_EFFECT_OFFSET
+/* DuelEffectEntry is defined in ygo_types.h. func_80036C14 writes 0x16 on
+   its 0x100 path and 0x17 on its 0x80 path, with no resident readers; those
+   fields therefore retain offset names in the central definition. */
 
 /* The entry occupancy table: one byte per DUEL_EFFECT_OCCUPANCY_COUNT entry,
  * declared with that bound because both consumers already wrote it and the
@@ -227,20 +46,21 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
  * `D_800EB15C + 0x34` inline folds the offset into the relocation and the
  * base instruction disappears (free_duel_functions.csv,
  * notes/overlays/matching-patterns.md). Neither of those measures the name
- * against `&D_800EB0F8[1]` -- func_8002DC38.c passes that form directly and
+ * against `&D_800EB0F8[1]` -- Main_RunTwoPlayerDuelSetup passes that form directly and
  * matches -- so what is established is that the four files using this name
  * match as written; whether they would also match through the array index
  * is not measured. */
 extern DuelEffectChannel D_800EB15C;
 /* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
  * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
- * (script_run_tick.c:23) and Password_UpdateShopScreen
- * (src/overlays/password/shop.c:305) each load it as a word and test
+ * (script_run_tick.c:23) and Password_UpdateShopScreen (now a stored
+ * candidate, src/candidates/password/func_8016A37C.c) each load it as a
+ * word and test
  * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
  * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
- * func_8002EE94.c:162 reads the low halfword as `D_800EB0F8[0].flags_34`,
- * and password README.md:146-147 calls the word the slot-0 text flags.
- * Both units also match when the read is spelled
+ * func_8002EE94 (src/candidates/func_8002EE94.c) reads the low halfword
+ * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
+ * the slot-0 text flags. Both units also matched when the read was spelled
  * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name
  * is kept for the listings, the notes and the generated symbol lists that
  * carry it, not for codegen. The two units used to declare it `s32 []` and
@@ -252,6 +72,18 @@ extern u32 D_800EB12C __attribute__((section(".data")));
 extern u32 D_800EB12C;
 #endif
 extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
+
+/* The selected card's guardian-star text id. func_80023144 stores guardian
+ * star 1 or 2 plus 0x17 while it prepares the field-card display, and
+ * func_80038070 forwards the byte to the shared text-command renderer.
+ * Every access is sb or lbu. Retail addresses the candidate writer through
+ * $at, while the matching reader is gp-relative, so the writer selects the
+ * .data declaration and the reader takes the plain declaration. */
+#ifdef D_8009B344_IN_DATA
+extern u8 D_8009B344 __attribute__((section(".data")));
+#else
+extern u8 D_8009B344;
+#endif
 
 /* The field-card text selector. func_80023144 clears it on entry, sets 1
  * for an occupied record, 2 or 3 (3 when the record is face-down) for a
@@ -291,22 +123,23 @@ extern u8 D_8009B355;
  * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
  * func_8002A2F4 stores the byte at +0x54 of the object
  * TextBox_Create returned (`o` is u8 *) and then 4 when
- * `*(p + (n << 2) + 0x56) & 1` (func_8002A2F4.c:37-41); func_80037DA4
- * stores it into `object[0x54]` when the opcode byte has bit 0x10
- * (func_80037DA4.c:35-38). notes/duel-card-record.md:173-176 glosses the
- * three results. No unit defines it; the address comes from the generated
- * tmp/splat/undefined_syms_auto.txt, and the nearest named symbol above it
- * is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt or in
- * c_symbols.ld).
+ * `*(p + (n << 2) + 0x56) & 1` (src/candidates/func_8002A2F4.c:41-44);
+ * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
+ * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
+ * glosses the three results. No unit defines it; the address comes from the
+ * generated tmp/splat/undefined_syms_auto.txt, and the nearest named symbol
+ * above it is D_8009B322, at +2 (nothing is named at +1 there, in symbols.txt
+ * or in c_symbols.ld).
  *
- * u8 because the one unit that loads it, func_80037DA4.c, already declared
+ * u8 because the one function that loads it, func_80037DA4, already declared
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in func_80023144 (func_80023144.s:162-163,
  * gcc_2_8_1_g8_split), so duel_field_display_objects.c defines the .data
- * arm; func_8002A2F4.c's unit assembles at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
- * compiler -G8, maspsx -G0), so its plain declaration is expanded through
- * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49); and
- * func_80037DA4.c takes the plain byte. Initial value not read. */
+ * arm; func_8002A2F4's unit assembled at -G0 (gcc_2_8_1_cc_g8_as_g0_split:
+ * compiler -G8, maspsx -G0), so its plain declaration was expanded through
+ * $at by the assembler either way (func_8002A2F4.s:39-40, :48-49) -- #3859
+ * moved it to src/candidates/ for exactly that profile; and func_80037DA4's
+ * candidate takes the plain byte. Initial value not read. */
 #ifdef D_8009B320_IN_DATA
 extern u8 D_8009B320 __attribute__((section(".data")));
 #else
@@ -316,18 +149,18 @@ extern u8 D_8009B320;
 /* Stored by five C functions and read by one. func_80031CD4 stores the
  * list entry's id (card_list_text_boxes.c:19); func_80023144 stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
- * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c:77);
- * func_800283F4 stores `id = gDuel_wViewerCardID;` (func_800283F4.c:108);
- * func_8002A2F4 stores func_8002A6B8's result (func_8002A2F4.c:23) and
- * then, under `if (n != 0)`, stores 0 when func_80029EB0's result `r` (:29)
- * has `(r & 0x80) == 0` (:32); func_80060E70 stores `id`
- * (func_80060E70.c:54). func_80037DA4 reads it, plain and as the index in
- * `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]` (func_80037DA4.c:38, :40,
- * :46, :50, :60). Four functions still in assembly also store it:
+ * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
+ * func_800283F4 stores `id = gDuel_wViewerCardID;` (its candidate, :111);
+ * func_8002A2F4 stores func_8002A6B8's result
+ * (src/candidates/func_8002A2F4.c:27) and then, under `if (n != 0)`, stores
+ * 0 when func_80029EB0's result `r` (:33) has `(r & 0x80) == 0` (:35-36);
+ * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
+ * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
+ * (in its candidate). Four functions still in assembly also store it:
  * func_8001B170.s:140-141, func_800218F0.s:202-203 and :235-236,
  * func_800262D4.s:379-380, func_8002ACA4.s:311-312.
  *
- * s16 because func_80037DA4.c, the only unit that loads it, declared it s16
+ * s16 because func_80037DA4, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
  * :87). Two bytes at 0x8009B338 (symbols.txt:27), bounded above by
  * D_8009B33A at +2.
@@ -336,9 +169,10 @@ extern u8 D_8009B320;
  * (func_80031CD4.s:20-21, func_80023144.s:36-37, func_800283F4.s:102-103,
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the three
  * units whose profiles are -G8 at both the compiler and maspsx --
- * duel_field_display_objects.c, func_800283F4.c and func_80060E70.c --
- * define the .data arm, and card_list_text_boxes.c and func_8002A2F4.c,
- * whose units assemble at -G0, take the plain declaration.
+ * duel_field_display_objects.c (func_80023144), func_80060E70.c and the
+ * func_800283F4 candidate -- define the .data arm, and card_list_text_boxes.c, whose
+ * unit assembles at -G0, takes the plain declaration, as the func_8002A2F4
+ * candidate does.
  * Initial value not read. */
 #ifdef GDUEL_WSELECTEDCARDID_IN_DATA
 extern s16 gDuel_wSelectedCardID __attribute__((section(".data")));
@@ -392,7 +226,7 @@ extern u8 D_8009B3C1;
  * as `DuelEffect_CreateChannel((a & 1) | 0xD0, 0)`, so it selects the channel
  * flavour; the other seven bits have no reader in matched code.
  *
- * Plain, with no .data arm: the one remaining assembly reader, func_8003DC1C,
+ * Plain, with no .data arm: the low-level card controller, func_8003DC1C,
  * reaches it as `lbu %gp_rel(D_8009B3C7)($gp)`, so retail addresses it through
  * $gp like the small-data neighbours here. */
 extern u8 D_8009B3C7;
@@ -422,16 +256,18 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * and func_80028310 raise 0x40 when the effect is finished, and the next
  * tick clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
- * trade_update.c, 3 and 4 by frontend_scene_states.c, and cleared by
+ * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
+ * src/candidates/main_menu/func_801821DC.c), 3 and 4 by func_80030E30.c,
+ * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
  * Retail reaches it through $gp in func_8002892C, func_800283F4 and
  * func_80028310, and through %hi/%lo everywhere else, including
- * func_8001BD88 and func_8001D670 (still assembly). frontend_scene_states.c,
+ * func_8001BD88 and func_8001D670 (still assembly). func_80030E30.c,
  * main_run_campaign.c and duel_update_card_pick_cursor.c define the .data
- * arm below for that; build_deck_pane_input.c, func_800283F4.c,
- * func_80028310.c, main_reset_frontend_runtime.c and trade_update.c take the
- * plain arm. */
+ * arm below for that; build_deck_pane_input.c, src/candidates/func_800283F4.c,
+ * func_80028310.c, main_reset_frontend_runtime.c and the build-integrated
+ * MainMenu_UpdateTradeScreen candidate take the plain arm. */
 #ifdef D_8009B254_IN_DATA
 extern u8 D_8009B254 __attribute__((section(".data")));
 #else

@@ -67,10 +67,11 @@ extern DuelCardRecord D_801A7AD8[];
  * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
  * &D_801A7AD8[5]. duel_card_object_queries.c already said so in its own
  * words -- "the records this file walks from it are the same 0x1C card
- * records the function above walks from D_801A7AD8".
+ * records the function above walks from D_801A7AD8". func_8002C938 now
+ * matches in src/game/func_8002C938.c; func_8002C9B4 remains a candidate.
  *
  * The second name is load bearing and is not an inference here:
- * duel_card_object_queries.c reaches it from an asm block as
+ * func_8002C9B4 reaches it from an asm block as
  *
  *     lui $2,%hi(D_801A7B64)
  *     addiu %0,$2,%lo(D_801A7B64)
@@ -80,10 +81,30 @@ extern DuelCardRecord D_801A7AD8[];
  */
 extern DuelCardRecord D_801A7B64[];
 
+void func_8002C938(u32 *output, s32 alternate);
+
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
  * type and CARD_STAT_VALUE_MASK for the stat value. */
 extern s32 gDuel_adwCardStats[];
+
+/* Level and attribute nibbles, indexed directly by the one-based card id. */
+extern u8 gDuel_abCardLevelAttr[];
+
+/* Signed name sort key, indexed by the same card id minus one: an ordering
+ * over the card names that callers compare instead of the name text.
+ * BuildDeck_CompareCard and func_80032BD4 in card_list_sort.c read it only as
+ * the tie-break, when the two items' primary keys are equal. main_menu's
+ * comparators read the same table for their whole ordering and substitute
+ * 0x7FFFFFFF for id 0, which is where the empty slot sorting last comes from
+ * -- that is those comparators' rule, not this table's.
+ *
+ * Declared here beside gDuel_adwCardStats because the two are read at the
+ * same index by the callers that use both. It used to be a file-local
+ * `extern s16 gCard_asNameSortKey[];` in card_list_sort.c -- a file that
+ * already included this header for its twin -- and a second, address-named
+ * declaration in src/overlays/main_menu/card_tables.h. */
+extern s16 gCard_asNameSortKey[];
 
 /* Effective attack and defense packed into one word: defense in the high
  * half, attack in the low half. Never narrow the return type -- callers
@@ -98,5 +119,16 @@ s32 Duel_CalcGuardianStarBonus(DuelCardRecord *left, DuelCardRecord *right);
  * the defense half plus the same bonus. */
 s32 Duel_CalcBattleAttack(DuelCardRecord *card, DuelCardRecord *opponent);
 s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
+
+/* Clears three fields in every entry of the D_801A7AD8 card record table:
+ * the word at +0x00, the word at +0x04 and the halfword at +0x16, which are
+ * `object`, `data` and `flags` in the record above. It walks all
+ * DUEL_CARD_RECORD_COUNT entries and touches nothing else, so it resets the
+ * records rather than freeing or reinitialising them.
+ *
+ * Declared here because this header owns everything the walk is written in
+ * terms of: D_801A7AD8 and DuelCardRecord above, and
+ * DUEL_CARD_RECORD_COUNT from the duel_card_layout.h it includes. */
+void func_8001778C(void);
 
 #endif

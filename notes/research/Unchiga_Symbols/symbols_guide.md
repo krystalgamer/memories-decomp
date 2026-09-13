@@ -351,6 +351,7 @@ The original row is preserved rather than silently rewritten.
 | symbol | address | description |
 |---|---|---|
 | `Duel_CalcRankScore` | 0x80021598 | Scores how you dueled — the number behind the S/A/B… POW/TEC grade. |
+| `Duel_ShowResultPage` | 0x80021480 | Switches among the three result pages, toggles their child objects, and creates the page-specific text. |
 | `Duel_CalcRankScoreChange` | 0x80021558 | Scores one statistic against the `gDuel_awRankScoreChange` thresholds. |
 | `gDuel_anRankScore / gDuel_awRankScoreChange` | 0x80179A04 / 98A8 | The running score and the per-deed point table. |
 | `Duel_SelectCardDrop` | 0x80021810 | Rolls your reward card — a weighted draw (threshold 1–2048) over a 722-entry pool row. |
@@ -364,7 +365,7 @@ The original row is preserved rather than silently rewritten.
 |---|---|---|
 | `Main_RunGameOver` | 0x8002D730 | The game-over screen's mode tick. |
 | `Main_RunCredits` | 0x8002DA1C | The credits roll's mode tick. |
-| `Main_RunHirata` | 0x8002D7C4 | Empty in retail — a compiled-out developer mode, named for the Konami programmer whose source path survives in the debug strings. |
+| `Main_RunUnusedDeveloperMode` | 0x8002D7C4 | Empty in retail — a compiled-out developer mode. External evidence calls it `Main_RunHirata`; the accepted local name records its behavior instead. |
 
 
 ## Debug leftovers

@@ -2,6 +2,7 @@
 #include "display_object.h"
 #include "scene_script.h"
 #include "file_transfer.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "menu_record_reset.h"
 #include "script_state.h"
@@ -10,13 +11,8 @@
 #include "../psyq/libgpu.h"
 #include "func_8002E3FC.h"
 
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
-extern s32 D_80010000 __attribute__((section(".data")));
+#define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
+#include "high_memory_addresses.h"
 
 /* Loads the fixed scene presentation/event package. The argument initializes
  * D_8009B2A4 for the event driver; it does not select a different disc page.

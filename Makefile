@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes review-deferred siblings external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -42,6 +42,8 @@ help:
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
 		'  check-metadata Verify tracked manifests and CSV tables only' \
+		'  check-translation-unit-headers  Reject foreign prototypes in built C sources' \
+		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
 		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  candidate-index  Regenerate the stored-candidate index' \
 		'  check-candidate-index  Verify the stored-candidate index is current' \
@@ -58,6 +60,7 @@ help:
 		'  candidates     List smallest zero-attempt game functions' \
 		'  review-deferred  List terminal histories for hypothesis review' \
 		'  siblings       Find exact-C functions with similar instruction shapes' \
+		'  adjacent-units  List sources adjacent in the image but still apart (#39)' \
 		'  external-attempts  Validate external-reference/refinement attempts' \
 		'  basic-types    Verify all C sources use src/types.h' \
 		'  global-usage   Regenerate tracked game-global usage reports' \
@@ -66,6 +69,7 @@ help:
 		'  check-progress Verify that the README progress snapshot is current' \
 		'  check-candidate-headlines  Verify candidate notes and inventory rows state the same figures' \
 		'  check-notes    Verify grouped translation-unit notes match the build config' \
+		'  check-note-links  Verify local paths referenced from notes exist' \
 		'  disc-files     Extract the tracked DATA files from the disc image' \
 		'  disc-layout    Regenerate the tracked ISO9660 LBA manifest' \
 		'  verify-disc    Verify BIN/CUE layout and extracted file contents' \
@@ -148,13 +152,23 @@ check-metadata:
 	@$(PYTHON) tools/project/candidate_files.py --check
 	@$(PYTHON) tools/project/candidate_human_bundles.py --check
 	@$(PYTHON) tools/project/candidate_builds.py --check
+	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/c_type_definitions.py
+	@$(PYTHON) tools/project/check_note_links.py
+
+check-translation-unit-headers:
+	@$(PYTHON) tools/project/translation_unit_headers.py
+
+check-matching-source-contracts:
+	@$(PYTHON) tools/project/matching_source_contracts.py
 
 check-unmatched-contracts:
 	@$(PYTHON) tools/project/unmatched_contracts.py
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
+	@$(PYTHON) tools/project/candidate_builds.py --overlays
 
 match-overlays: build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify
@@ -207,7 +221,11 @@ review-deferred: workspace
 siblings: verify-inputs
 	@$(PYTHON) tools/project/find_siblings.py $(SIBLING_ARGS)
 
-external-attempts: workspace
+adjacent-units: workspace
+	@$(PYTHON) tools/project/adjacent_units.py --self-test
+	@$(PYTHON) tools/project/adjacent_units.py $(ARGS)
+
+external-attempts:
 	@$(PYTHON) tools/project/record_external_attempt.py --check
 
 basic-types:
@@ -228,6 +246,9 @@ check-progress: split
 check-notes:
 	@$(PYTHON) tools/project/check_notes.py --self-test
 	@$(PYTHON) tools/project/check_notes.py
+
+check-note-links:
+	@$(PYTHON) tools/project/check_note_links.py
 
 check-candidate-headlines:
 	@$(PYTHON) tools/project/check_candidate_headlines.py --self-test
@@ -259,7 +280,10 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/function_inventory.py
 	@$(PYTHON) tools/project/classify_functions.py
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
+	@$(PYTHON) tools/project/translation_unit_headers.py
+	@$(PYTHON) tools/project/matching_source_contracts.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/check_note_links.py
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace

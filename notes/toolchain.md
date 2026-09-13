@@ -77,6 +77,14 @@ Compiler assembly is normalized with:
 maspsx --aspsx-version=2.81 --expand-div -G8
 ```
 
+`gcc_2_8_1_g8_no_sched1` adds only `-fno-schedule-insns` to the base G8
+profile, leaving post-allocation scheduling and both G8 thresholds unchanged.
+`Text_ExtendGlyphCode` (`0x80037D2C`) uses it to preserve the selector-load
+then glyph-code-load order without register pins or assembly barriers.
+Its glyph-code accesses are volatile so the completed code is published before
+the existing volatile completion flag. This is a measured match for that
+function, not evidence that every game object disabled first-pass scheduling.
+
 `make compiler-281` builds a native host executable; on a 64-bit host without
 32-bit multilib headers and libraries, that produces a 64-bit compiler.
 `make compiler-281-prebuilt` instead installs a POSIX shell wrapper and a
@@ -89,6 +97,15 @@ compiler selection still requires comparison with genuine Psy-Q 4.6 tools.
 `AiScript_Print` (`0x800736C4`) is the first confirmed match: GCC 2.8.1 with
 the explicit flags above and maspsx emits its exact 64-byte instruction
 sequence, and the complete PS-X EXE retains the target SHA-256.
+
+`gcc_2_8_1_g0_split_no_cse_follow_jumps` adds only
+`-fno-cse-follow-jumps` to the existing G0 split-address profile.
+`func_80059700` uses it to retain the positive-magnitude copies across its
+state dispatch without register pins. Split addressing alone removes those
+copies; the no-CSE-follow-jumps profile without split addressing keeps them
+but changes the address/register setup. Both compiler and assembler remain
+at G0. This is a measured requirement for that source, not a project-wide
+compiler rule.
 
 ## Original CC1PSX default options
 
@@ -141,7 +158,10 @@ results. Its installer, profiles, host patch, and assembly filter are gone.
 
 GCC 2.8.1 with MASPSX 2.81 is the only compiler pipeline. A future candidate
 that genuinely needs a different cohort must reintroduce it deliberately with
-evidence, not resurrect the retired profiles.
+evidence, not resurrect the retired profiles. Historical attempt rows may
+still name the removed `gcc_2_7_2_g0` and `gcc_2_7_2_g8` profiles as immutable
+campaign provenance; validators accept those names but cannot select them for
+new work.
 
 ## Address conversion
 

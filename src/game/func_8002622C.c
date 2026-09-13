@@ -1,12 +1,13 @@
 #include "../types.h"
 #include "duel_check_ritual.h"
+#include "duel_ritual_controller.h"
 #include "duel_effect_request.h"
 #include "duel_action_lock.h"
 #include "file_transfer.h"
 #include "func_8002622C.h"
 #include "sound.h"
 #include "duel_effect_resource_setup.h"
-extern s16 D_8009B1A0;
+#include "../unmatched.h"
 
 void func_8002622C(void)
 {

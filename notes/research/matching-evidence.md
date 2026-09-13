@@ -13,6 +13,96 @@ before they become shared C types.
 
 ## GCC 2.8.1 code-generation patterns
 
+### Six-state card-move presentation
+
+`func_8001B170` (`0x8001B170`, 1552 bytes) matches all 388 instructions and
+the six-word table at `0x80010130` under ordinary `gcc_2_8_1_g8_split`.
+The source contains no local extern declarations, fixed registers, or inline
+assembly statements. It uses the existing staging header's tracked-symbol
+alias, not an instruction-generating assembly extension.
+
+The reconstruction was checked against all 388 retail instruction words
+before using the reference assembly as control-flow evidence. The old
+six-attempt GMS reconstruction remains historical; the inventory's previous
+"Not yet attempted" note was stale.
+
+The first complete shared-type reconstruction was 381 instructions, with
+359 target instructions aligned on opcode and registers. The remaining
+differences were resolved by concrete data views and evaluation order:
+
+| Change | Result |
+| --- | --- |
+| Name the thirty field records before the staging view's deck records | Restores the separate 0x48000 base and small member displacement |
+| Read the AI selection byte through its array view | Keeps that read after the card-flag update |
+| Publish the replacement object through the work slot before taking the local view | Restores the pointer handoff's load and copy |
+| Read the final slot before publishing state 5, and stage the third effect payload before its modifier store | Restores the final access ordering |
+| Use the existing signed position view for negative Y values | Replaces the two unsigned ORI encodings with retail's signed ADDIU encodings |
+
+The field-record view begins at staging offset 0x4B6B4 and spans exactly
+`DUEL_CARD_RECORD_COUNT * sizeof(DuelCardRecord)` bytes to the existing deck
+view at 0x4B9FC. Static assertions preserve both offsets. The side-ID array
+view spans the adjacent signed bytes D_8009B360 and gDuel_bOpponentID; the
+existing scalar view remains unchanged for other consumers.
+
+The initial 0x4000 guard selects state 4 before returning. States 1 and 2
+deliberately fall through, state 3 owns the position-choice dialog, and the
+later states transfer the card record and apply the deferred stat adjustment.
+These transitions are recovered behavior, not newly added handling.
+
+### Ai_GetHandSize without a mixed small-data profile
+
+`Ai_GetHandSize` (`0x80070710`, 40 bytes) matches at
+`gcc_2_8_1_g8_split`, with both GCC and MASPSX using `-G8`. The former mixed
+profile is unnecessary when the opponent selector has its evidenced absolute
+addressing declaration: `s8 gDuel_bOpponentID` with `section(".data")`.
+This declaration already appears in the duel setup and result code; the AI
+consumer now takes it from the existing opponent-data header.
+
+The split-address compiler materializes the large nine-byte-record table,
+but leaves the scalar selector load in macro form. MASPSX recognizes its
+explicit section and expands that load absolutely, reusing `a0` for its
+high half exactly as retail does. Plain scalar G8 emits a GP-relative load;
+G0 split materializes the selector separately and changes allocation.
+No register pins, inline assembly, local externs, or compiler-profile changes
+are needed.
+
+The shared `ai.h` declaration retains the existing return-width distinction:
+the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
+selects `s32` to preserve its two call sites without extra sign extension.
+
+### Sound command filtering without register pins
+
+`func_80046294` (`0x80046294`) now matches all 151 instructions and the
+196-byte region at `0x800106C0`, including both switch tables and their
+alignment. It uses ordinary `gcc_2_8_1_g8_split` and the existing
+`G_SDVALUE_IN_DATA` declaration in `sound.h`: no register pins, inline
+assembly, mixed small-data threshold, local extern, or new profile is needed.
+Earlier candidate/pin measurements below remain historical evidence.
+
+The byte-cursor control flow was corroborated by the user-provided
+`tmp/references/ygofm-decomp-machinegun/parked/func_80046294.c`; its path and
+hash are recorded with the post-terminal result. The source takes its actual
+`SDCommand` layout and callback declarations from the resident headers.
+
+| Controlled change | Linked instruction differences |
+| --- | --- |
+| Pin-free typed-state candidate with derived offsets | 23 |
+| Disable first instruction scheduling in a named experimental profile | 15 |
+| Byte cursor, shared decrement label, explicitly maintained offsets | 4 |
+| Derive offsets as `i * 48` and `(i + 1) * 48` inside the loop | 0 |
+| Flatten the `do { i = 0; } while (0)` initialization scope | 9 |
+
+The byte-cursor form recovers the different copy-pointer lifetimes in the
+two switch arms. Natural offset induction lets GCC hoist the switch-table
+address before its synthesized offset initializers. The initialization scope
+must remain: flattening it exchanges the loop-index and next-offset register
+roles. The experimental profiles were not retained.
+
+Both copies retain their 0x30-byte `SDCommand` assignment. The count is
+decremented through its unsigned halfword view, then tested through its signed
+view; the second arm tests the command word at byte offset 0x90. Keeping these
+byte-based expressions matters to GCC's allocation and operand ordering.
+
 ### Data placement and address formation
 
 - `%gp_rel` byte and halfword globals require a `gcc_2_8_1_g8` profile.
@@ -421,7 +511,8 @@ correct 25 of 25 under `gcc_2_8_1_g0_split`. The second read reappears, but as
 `lui`/`lbu` pair above is still not reproduced. Instruction count parity is
 therefore recovered while the residual stays.
 
-The same lever settles the count on `func_8002DDFC` (`0x8002DDFC`), where the
+The same lever settles the count on `ScriptImage_TransferCallback`
+(`0x8002DDFC`), where the
 target performs two independent read-modify-write sequences on `D_8009B0F4`:
 
 ```
@@ -2232,7 +2323,7 @@ is the same padding trap recorded above for `no_sched2`.
 |---|---|
 | `D_800F2848` | Signed 16-bit transform angles/parameters at `+0`, `+2`, and `+4`; object is larger than eight bytes |
 | `gDuel_adwCardStats` | 32-bit card/property table indexed by signed 16-bit ID minus one |
-| `D_800908A0` | Array of signed 16-bit coordinate pairs |
+| `D_800908A0` | Thirty `DuelFieldPosition` signed coordinate pairs. `duel_screen_tables.c` owns that typed shape; the shared header retains a conditional flat-`u16` view for exact-codegen consumers that advance one halfword at a time. |
 | `D_801A7AD8` | `0x1C`-byte entries: pointer/value at `+0`, signed ID at `+0xC`, unsigned flags at `+0x16` |
 
 Observed `gDuel_adwCardStats` property fields include:
@@ -2341,20 +2432,20 @@ object model through two related parent/child constructors.
 | `File_InitTransferDescriptor` | Transfer-descriptor constructor and stack argument order |
 | `func_8001306C` | Nullable callback array, GP-relative callback, pacing counters, and 60-tick countdown |
 | `Duel_CalcGuardianStarBonus` | Signed card ID indexing and conditional guardian-star extraction before the matchup bonus |
-| `func_80021480` | Ten-child object iteration and bit `0x40` state updates |
+| `Duel_ShowResultPage` | Ten-child object iteration and bit `0x40` state updates |
 | `func_80019BD0` | Animation object field widths and callback layout |
 | `func_8001B7AC` | `0x0C`-byte global entry selection and child linkage |
 | `func_80028310` | G8 state transition with child creation and cleanup |
 | `func_8002ABB4` | `0x70`-byte object clone/initialization wrapper |
-| `func_8002DF2C` | Three archive layouts selected by high byte; packed decimal index calculation |
-| `func_8002E060` | Object creation wrapper with signed mode byte |
+| `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
+| `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
 | `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
 | `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
 | `func_8003D614` | Two-slot controller and `0x64`-byte object records |
-| `func_80043230` | G0 pointer-rooted queue/object state |
+| `Widget_SlideSine` | G0 pointer-rooted queue/object state |
 | `func_80044DC0` | Signed 16-bit argument, four-byte stack packet, and byte-order selection |
 | `func_80049010` | Shared sequence-state cleanup |
 | `func_800497E0` | Transfer ID validation, clamped read length, and accumulated byte count |
@@ -3399,10 +3490,10 @@ must be measured.
   `duel_effect_state_callbacks.c` grew with every use routed through the
   local, and the matching form at that stage was the inline
   `((DuelEffectChannel *)object)->state_51`. Those callbacks and
-  `TextBoxStateCallback` are now fully typed; the experiment remains evidence
-  that the two spellings must be measured per function. The failure mode was
-  a link error -- `section .initialized_data VMA ... overlaps section .text`
-  -- not a hash mismatch.
+  `TextBoxStateCallback` are now fully typed, with the callback type owned by
+  `ygo_types.h`; the experiment remains evidence that the two spellings must
+  be measured per function. The failure mode was a link error -- `section
+  .initialized_data VMA ... overlaps section .text` -- not a hash mismatch.
 
 - **The barrier can be a volatile pointer rather than a global, and then it
   is per-file rather than per-record.** `func_800580D4` writes one
@@ -4350,8 +4441,9 @@ The screen is cheap. Over a function's splat asm, flag it when either appears:
 What does **not** disqualify a function is `lui $sN, %hi(X)` and
 `addiu $sN, $sN, %lo(X)` on the same register separated by other instructions.
 That is the coalesced form, it is what `_split` produces once the two halves
-belong to one pseudo, and `func_8002DC38` needed exactly it -- there the split
-profile was the difference between 79/45 and 78/7. So the flag is on the
+belong to one pseudo, and `Main_RunTwoPlayerDuelSetup` needed exactly it -- there the split
+profile was the difference between 79/45 and 78/7 for
+`Main_RunTwoPlayerDuelSetup`. So the flag is on the
 *register mismatch*, not on the separation.
 
 Running all four screens over the resident queue leaves 84 of 140 unmatched
@@ -4633,7 +4725,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c`.
+--allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to `src/candidates/`, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
@@ -5617,7 +5709,8 @@ in `$v1` where the build used `$v0`; pinning it closed the window at once.
 So in a differing window that contains a load, compare the load's destination
 register before permuting anything.
 
-The inverse reading is also useful. On `func_8002E128` (0x8002E128), whose
+The inverse reading is also useful. On `ScriptImage_RebuildObjects`
+(`0x8002E128`), whose
 residual looks like the same class, every pin is *worse* than no pin: naming
 the product and table base and pinning them to retail's registers measures 16
 against 13, either pin alone 14, a pinned constant 19. Pins making things worse
@@ -5641,6 +5734,15 @@ correctly without naming it at all. Finishing the job then needed the operator
 written out as its own statements, because GCC's `% 4` expansion exposes only
 one of its three values to naming; written out, all three are nameable and
 three pins place them.
+
+The pins were then shown to be unnecessary (#5). The residual was never in the
+modulo itself. The block after it summed two separately loaded halfwords into
+a pinned local and stored the sum back. Writing that as one in-place
+`strip.x += strip.w` and comparing through the record changes the allocation
+of the whole block, and GCC's own `% 4` expansion then lands all three values
+in retail's registers, with no pin, no written-out operator and no named
+addend. So a residual that sits in one statement can be decided by the
+statement after it.
 
 Two negative results from the same function are worth as much:
 
@@ -6299,7 +6401,7 @@ MASPSX has no option for it either; its whole flag set was checked.
 
 **The transfers are fine and only the commands are affected.** `lwc2`, `swc2`,
 `mtc2`, `mfc2`, `cfc2` and `ctc2` are real mnemonics, which is why
-`gte_stopz` works in `display_object_projection.c` — the only GTE use in
+`gte_stopz` works in `display_object_projection.c` (now the candidates `func_80041E7C.c` and `func_80041F90.c`) — the only GTE use in
 accepted C, and a transfer. Reading that file as proof that "GTE works from C"
 is the trap here.
 
@@ -6633,11 +6735,12 @@ Issue #16 asks for the SDK's runtime structures instead of redefined ones, and
 layout equality is not sufficient. The test is **whether anything writes two
 adjacent members as one word.**
 
-- `fade_overlay.c` uses `GsBOXF` directly. Retail writes the `0x04` and
+- `fade_runtime.c` uses `GsBOXF` directly. Retail writes the `0x04` and
   `0x08` words whole -- x together with y, w together with h -- so those two
   accesses cast the address of the first halfword to `u32 *`. The individual
   y and h updates retain their measured unsigned and signed halfword views.
-- `func_80040588.c`'s `SpritePrim` is `GsSPRITE` field for field, but its
+- `func_80040588.c`'s shared `SpritePrim` in `ygo_types.h` is `GsSPRITE`
+  field for field, but its
   position and size words each span two `GsSPRITE` halves. There is no store
   to cast, so the local struct has to keep its union-shaped members and the
   swap is a codegen change, not a rename.
@@ -6676,7 +6779,8 @@ some call sites but not others. Measured one file at a time:
 - `func_80029108.c` passes a local whose value is either the constant 2 or an
   `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
   emits nothing extra; the build stays byte-exact.
-- `func_8003B378.c` passes `n`, whose range the compiler cannot prove. The
+- `display_effect_process_menu_records.c` passes `n` from `func_8003B378`,
+  whose range the compiler cannot prove. The
   build breaks at VRAM `0x8003B484`, where the expected `addu` (`0x21`)
   becomes `andi $a1, $a1, 0xFF`. The truncation the prototype now demands is
   emitted at the call, not inside the callee.
@@ -6700,7 +6804,8 @@ as the safe class to unify, and its docstring warns only about array against
 scalar. That boundary is in the wrong place: an *incomplete* array and a
 *complete* small one are also different addressing decisions.
 
-`D_8015C410` was declared `extern s8 D_8015C410[]` in `func_8003A560.c` and
+`D_8015C410` was declared `extern s8 D_8015C410[]` in the
+`func_8003A560` implementation now in `display_effect_resource_setup.c` and
 `extern s8 D_8015C410[5]` in `menu_record_reset.c`. Adopting the bounded
 spelling in the first file does not merely add information. Five bytes is
 under the `-G8` threshold, so once the type is complete GCC treats the symbol
@@ -6774,7 +6879,8 @@ mine got two of those three wrong and concluded the class was empty.
 ## A caller may pass an argument the matched callee does not take
 
 `func_80049C40` is matched, exactly, with `gcc_2_8_1_g0`, and its definition in
-`sound_secondary_playback.c` is:
+`sound_secondary_playback.c` (temporarily split into `func_80049BAC.c` after
+#3859, then restored as a grouped unit) is:
 
     void func_80049C40(void)
 
@@ -6880,7 +6986,7 @@ in the caller that produces it.
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
-    func_80043230          def 4 (display_object_interpolation.c)  <-  decl 3 in mem_card_dialog_runtime.c
+    Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
@@ -6935,7 +7041,7 @@ about a return type nobody uses, so only reading the definition finds these.
 is checked. No diagnostic exists for this one at all.
 
 **A narrower return that is load-bearing.** `func_80049F50` is defined `s32` in
-`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c`, where the
+`sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `func_80049EC8.c` and `src/candidates/func_80045F3C.c`), where the
 result is compared:
 
     if (... func_80049F50() != 1)
@@ -7061,7 +7167,7 @@ Twelve globals in the tree are declared with two spellings that differ only in
 signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
 pair measured, and the answer is not the one the shape of the problem suggests.
 
-Two sources use them. `func_8002A788.c` declares them `s8` and reads them
+Two sources use them. `func_8002A788.c` (now `src/candidates/func_8002A6B8.c`, with `func_8002A788` itself generated assembly again) declares them `s8` and reads them
 straight into an `s32`. `func_8002BFCC.c` declares them `u8` and writes
 `(s8)gCardGrid_bCursorColumn` at each use. Editing only `func_8002BFCC.c` and
 leaving the other alone -- it carries hand-written
@@ -7105,8 +7211,8 @@ Following the `gCardGrid_*` measurement above, three more of the twelve
 signedness conflicts resolve. Each is a different shape, and the shape is what
 predicts the answer.
 
-    D_8009B079   func_8005F91C.c u8, model_transfer_state.c s8
-                 Both declarers only ever WRITE it, and only constants:
+    D_8009B079   former model-effect-state source u8, former transfer-state
+                 source s8. Both declarers only ever WRITE it, and only constants:
                  `= 1` and `= 0`. Nothing reads its sign, so no load is
                  generated that could differ. Both the mixed spelling the
                  tree had and a unified u8 match.
@@ -7239,7 +7345,7 @@ is:
 If none does, the two declarations never meet. A plain declaration can go in
 the header for the small-data group, the divergent files keep their own, and
 no guarded arm is needed. fade.h does this for D_8009B141, and mem_card.h for
-D_8009B3D4, whose `.data` declarer func_8002D458.c does not include it.
+D_8009B3D4, whose `.data` declarer main_apply_menu_selection.c does not include it.
 
 If any does, the header needs a guarded pair and every file in that group has
 to select its arm. That is a different size of change, and it drags in every
@@ -7248,7 +7354,8 @@ consumer rather than the ones being tidied.
 Both mistakes have been made in this campaign:
 
   Too cautious   D_8009B3D4 was excluded from mem_card.h because
-                 func_8002D458.c named it with a .data attribute. That file
+                 main_apply_menu_selection.c named it with a .data attribute.
+                 That file
                  does not include mem_card.h, so there was nothing to
                  collide with and the exclusion cost a round.
 
@@ -7270,7 +7377,7 @@ narrowing parameter changes what the caller has to do to the argument register,
 and that can be load bearing.
 
 Measured, it is not load bearing here, and the reason generalises. Every call
-site passes a small literal -- `(object, 3, 0)` in dialog_choice_state.c,
+site passes a small literal -- `(object, 3, 0)` in duel_effect_state_callbacks.c,
 `(object, 2, 0)` inside the defining unit and `(object, 0, 0)` in
 text_box_build_step.c. A literal that already fits in the narrower type is
 materialised by the same `li` whichever way the parameter is declared, so there
@@ -7341,3 +7448,27 @@ a finding to record next to the object it points into -- both of these went into
 the header that already declares the parent -- and not as duplication to fold
 away. The header is also the right place to say so, because "this is just A plus
 a constant" is exactly the cleanup the next pass will attempt.
+
+## func_800466C8: output-transition pointer refreshes
+
+The 84-byte callback at `0x800466C8` matches under the existing uniform
+`gcc_2_8_1_g8` profile without register bindings, inline assembly, or literal
+global addresses. It keeps the shared `SDValue` layout and the existing
+`void(void)` callback contract installed by `SD_InitState`.
+
+The existing `G_SDVALUE_VOLATILE` view supplies the initial pointer read, the
+conditional refresh after writes to `+0x1588` and `+0x1584`, and the final
+pointer capture before the `+0x0512` store and flag update. It replaces the
+retired candidate's two memory barriers; no new declaration view is needed.
+
+The two source-level exit paths intentionally repeat the final stores. GCC
+merges their machine-code tail while allocating the state pointer to `$v1`
+and the flag-update pointer to `$a0`. Factoring the source into one shared
+tail still produces 84 bytes, but exchanges those registers at ten instruction
+positions. Giving each branch its own flag-pointer local produces the same
+ten-word mismatch. The accepted source keeps one function-local flag pointer
+and both exit paths.
+
+The historical canonical match and six inline-refinement rows remain intact.
+The new `post_terminal_resolution` record identifies the pointer view and
+source-level exit structure as the discriminator beyond that deferred series.

@@ -1,12 +1,19 @@
+/*
+ * Reclassified from matching_c (#3859). The original candidate required a
+ * hard-register pin under gcc_2_8_1_g8_split. Disabling sched1 lets GCC keep
+ * the framebuffer address ahead of the volatile initialization stores
+ * without source-level register control.
+ */
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
+#define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
 #define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
-#include "main_mode_state.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
-#include "display_object_config.h"
+#include "display_object_api.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
 #include "graphics_frame.h"
@@ -15,30 +22,29 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libetc.h"
+#include "../psyq/crt.h"
 #include "../psyq/setjmp.h"
 #include "../psyq/rand.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "func_8002D458.h"
+#include "main_menu_selection.h"
 #include "func_80035A64.h"
 #include "main_run_boot_sequence.h"
 #include "func_80043BCC.h"
 #include "main_loop.h"
 #include "main_reset_frontend_runtime.h"
-#define FUNC_80013154_NO_ARGS
 #include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
+#include "main_mode_state.h"
 
 extern volatile u8 D_8009B0D1;
-extern void *volatile D_8009B0B4;
-extern void __main(void);
 
 s32 Main_Init(void)
 {
     s32 r;
     s32 t;
-    register void *p __asm__("$4");
+    register GraphicsFrameBuffer *p;
 
     __main();
     EnterCriticalSection();
@@ -49,7 +55,7 @@ s32 Main_Init(void)
     SetMem(2);
     SetDispMask(0);
     func_80015D0C();
-    p = D_8009B4A8;
+    p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
     D_8009B0C8 = 0;
     D_8009B0C0 = 0;
@@ -61,9 +67,9 @@ s32 Main_Init(void)
     D_8009B098 = 0x5000;
     D_8009B0D1 = 0;
     *(u8 *)&D_8009B230 = 1;
-    D_8009B0B4 = p;
+    gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
-    func_80013154();
+    func_80013154(p);
     func_800403F0();
     func_800151B0();
     func_800134B4();
@@ -84,7 +90,7 @@ s32 Main_Init(void)
         File_RequestMainMenuPackage();
         File_WaitForTransfers();
     }
-    func_8002D458(func_80043BCC());
+    Main_ApplyMenuSelection(func_80043BCC());
     D_8009B269 = 8;
     Main_Loop();
     return 0;

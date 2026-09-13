@@ -1,3 +1,4 @@
+#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "sound.h"

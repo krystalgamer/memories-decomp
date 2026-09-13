@@ -9,7 +9,7 @@ The exact assembly split currently contains 1,795 resident functions covering
 |---|---:|---:|---:|---|
 | Startup | `0x800129D8-0x80012B50` | 3 | 376 (`0x178`) | PsyQ/GCC CRT startup |
 | Game and engine, first span | `0x80012B50-0x80058F10` | 917 | 287,680 (`0x463C0`) | Game-owned working region |
-| Embedded LIBGS getter | `0x80058F10-0x80058F20` | 1 | 16 (`0x10`) | PsyQ `GsGetWorkBase` |
+| Embedded SDK getter | `0x80058F10-0x80058F20` | 1 | 16 (`0x10`) | SDK assembly, identity withdrawn |
 | Game and engine, second span | `0x80058F20-0x80073704` | 278 | 108,516 (`0x1A7E4`) | Game-owned working region |
 | SDK and runtime | `0x80073704-0x800906D4` | 596 | 116,956 (`0x1C8DC`) | PsyQ/SN libraries and handwritten runtime |
 
@@ -31,8 +31,10 @@ The startup range:
 
 ### Game to SDK
 
-The canonical four-instruction `GsGetWorkBase` at `0x80058F10` is an embedded
-PsyQ exception inside the broader game-code address span. Game-owned code
+The four-instruction SDK getter at `0x80058F10` is an embedded PsyQ
+exception inside the broader game-code address span. It was previously
+recorded as `GsGetWorkBase`; that identification was withdrawn as a
+misidentification, so the function keeps its address-based name. Game-owned code
 resumes at `0x80058F20`, so `function_regions.json` records the getter as its
 own region rather than assigning the complete `0x80012B50-0x80073704` range
 to the game.

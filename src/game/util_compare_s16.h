@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* Three-way comparator over two signed halfwords, returning 0, 1 or -1. Its
- * only consumer is duel_deck_card_data.c, which hands it to qsort to order
- * the combined deck's card ids.
+ * only consumer is the retained `func_80024734` candidate, which hands it to
+ * qsort to order the combined deck's card ids.
  *
  * The prototype is spelled exactly as the definition writes it, const and
  * all. The local declaration it replaces dropped the const and named the

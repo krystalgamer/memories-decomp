@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_FADE_CALLBACKS_H
 
 #include "../types.h"
+#include "duel_effect.h"
 
 /* The last four entries of the duel effect command table D_80090EAC
  * (duel_effect_command_table.c), in table order: func_80039BE0,
@@ -22,8 +23,8 @@
  *
  * The last two end by releasing the record's occupancy slot through
  * func_80039AD4. */
-void func_80039AFC(u8 *record);
-void func_80039BE0(u8 *record);
-void func_80039C94(u8 *record);
+void func_80039AFC(DuelEffectChannel *record);
+void func_80039BE0(DuelEffectChannel *record);
+void func_80039C94(DuelEffectChannel *record);
 
 #endif

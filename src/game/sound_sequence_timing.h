@@ -14,15 +14,26 @@
 int SD_OpenSequenceTrack(SDSequenceTrack *entry);
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry);
 
-/* The definition returns s32 and takes no arguments. The secondary playback
- * unit has two distinct retail call sequences to the same symbol: one sets
- * $a0 to the state pointer and one leaves $a0 untouched. Both caller views
- * remain void-returning so ignored-result allocation stays unchanged. */
+/* Starts the staged secondary sequence, using the low byte of start to choose
+ * its playback state. The definition consumes only start. The command pump
+ * also sets $a1 to 1 in retail, so it selects the same ambient-argument arm
+ * as the other secondary steps in sound.h, before including either header. */
+#ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
+void func_80049AF4(s32 start, s32 ambient);
+#else
+void func_80049AF4(s32 start);
+#endif
+
+/* The definition returns s32 and takes no arguments. Secondary playback has
+ * two retail register setups: one leaves the state pointer in $a0 and the
+ * other leaves $a0 untouched. func_80049AF4 uses the canonical no-argument
+ * declaration; its preceding state writes already reproduce the first setup.
+ * The older void-returning views remain for callers that still select them. */
 #ifdef SD_START_SEQUENCE_TRACKS_PLAYBACK_CALLS
 void SD_StartSequenceTracks(SDSecondaryState *state);
-void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 #else
 s32 SD_StartSequenceTracks(void);
 #endif
+extern void SD_StartSequenceTracks_no_arg(void) asm("SD_StartSequenceTracks");
 
 #endif

@@ -6,6 +6,7 @@
 #include "duel_card.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_side_state.h"
+#include "duel_scene_state.h"
 #include "display_object_layout.h"
 #include "display_object_api.h"
 #include "display_object_helpers.h"
@@ -17,31 +18,18 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 #include "func_80019608.h"
+#include "display_object_work_slots.h"
 
-/* Declared three ways across the tree, and all three agree on what it
-   holds: this file walks [0] and [1] as display objects, and
-   main_run_trade.c reaches [0] through (*(DisplayObject **)D_800E9EF0).
-   func_8002CB50.c spells it int [] only to bulk-copy five words out of
-   it, which is a copier's view rather than a third opinion.
-
-   Unifying it on DisplayObject *[] is blocked on where the single
-   declaration would live: the only header this file and
-   main_run_trade.c share is display_object_api.h, which eighteen
-   overlay files include, so it is cross-module and out of scope. Left
-   as-is rather than moved somewhere it does not belong. */
-extern u8 *D_800E9EF0[];
-/* Defined rather than declared: the assembler only resolves a small global
-   gp-relative when the translation unit defines it, and that is what gives the
-   store below the retail load-delay nop. c_symbols.ld overrides the common
-   symbol, so no storage is allocated here. */
+/* The COMMON definition preserves the GP-relative store and its load delay.
+   The linker resolves it to the existing global without allocating storage. */
 u16 D_8009B150;
 
 void func_80019608(void)
 {
     DisplayObject *p;
     DuelCardRecord *slot;
-    u8 *q0;
-    u8 *q1;
+    DisplayObject *q0;
+    DisplayObject *q1;
     u8 state;
     u16 flags;
     u16 f2;
@@ -50,27 +38,20 @@ void func_80019608(void)
     s32 v1;
     s32 v2;
     s32 v3;
-    s32 arg;
-    /* The resize branch below is the one place where no source shape reaches
-       retail's allocation: unpinned, the field read and the offset value share
-       a register and the two independent values in the fade-out do not. The
-       matched siblings func_8001944C.c and func_80037DA4.c use the same
-       device.  v4 and v5 share $5 because their live ranges are disjoint,
-       which is what retail does. */
-    register s32 fld __asm__("$3");
-    register s32 v4 __asm__("$5");
-    register s32 v5 __asm__("$5");
+    s32 value;
+    s32 fld;
 
-    p = (DisplayObject *)D_800E9EF0[0];
+    p = D_800E9EF0[0];
     flags = D_8009B23A;
-    if ((flags & 0x8000) == 0) {
-        D_8009B23A = flags | 0xC000;
+    if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
         slot = &D_801A7AD8[p->field_6A];
-        arg = slot->card_id;
+        value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
-        func_80029164(0, arg);
+        func_80029164(0, value);
         if (p->field_68 == CARD_TYPE_MAGIC) {
-            D_8009B1C8->field_05 = D_8009B1C8->field_05 + 1;
+            D_8009B1C8->rank.pure_magic_used =
+                D_8009B1C8->rank.pure_magic_used + 1;
         }
         func_80024914(slot);
         D_8009B174 = 1;
@@ -94,7 +75,7 @@ void func_80019608(void)
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            D_800E9EF0[1] = (u8 *)p;
+            D_800E9EF0[1] = p;
             return;
         }
         if ((state & 0x40) == 0) {
@@ -107,11 +88,10 @@ void func_80019608(void)
             func_8004036C(p);
             q1 = D_800E9EF0[1];
             D_800E9EF0[0] = 0;
-            *(u16 *)(q1 + 8) =
-                *(u16 *)(q1 + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
+            q1->flags = q1->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
             return;
         }
-        p = (DisplayObject *)D_800E9EF0[1];
+        p = D_800E9EF0[1];
         if ((state & 0x20) == 0) {
             v2 = p->field_20.b.field_21 + 6;
             p->field_20.b.field_21 = v2;
@@ -139,37 +119,38 @@ void func_80019608(void)
         return;
     case 3:
         if ((state & 0x80) == 0) {
-            p = (DisplayObject *)D_800E9EF0[1];
+            p = D_800E9EF0[1];
             D_8009B174 = state | 0x80;
             func_8001944C((DisplayObject *)p);
             D_800E9EF0[0] =
-                (u8 *)func_80019564((DisplayObjectConfigView *)p);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) | (GsALON | GsAONE);
-            *(u32 *)(D_800E9EF0[0] + 4) = *(u32 *)(D_800E9EF0[0] + 4) & ~GsROTOFF;
+                func_80019564((DisplayObjectConfigView *)p);
+            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute | (GsALON | GsAONE);
+            D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute & ~GsROTOFF;
             D_800E9EF0[1] =
-                (u8 *)func_80019564((DisplayObjectConfigView *)p);
-            func_800428EC(D_800E9EF0[1], -1);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) | (GsALON | GsATWO);
-            *(u32 *)(D_800E9EF0[1] + 4) = *(u32 *)(D_800E9EF0[1] + 4) & ~GsROTOFF;
+                func_80019564((DisplayObjectConfigView *)p);
+            func_800428EC((u8 *)D_800E9EF0[1], -1);
+            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
+            D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;
             func_80029528(0);
             return;
         }
         q0 = D_800E9EF0[0];
-        fld = *(s16 *)(q0 + 0x44);
-        v4 = fld + 0x80;
+        fld = q0->field_44.h.field_44;
+        value = fld + 0x80;
         q1 = D_800E9EF0[1];
-        *(u16 *)(q1 + 0x46) = v4;
-        *(u16 *)(q1 + 0x44) = v4;
-        *(u16 *)(q0 + 0x46) = v4;
-        *(u16 *)(q0 + 0x44) = v4;
-        v5 = D_800E9EF0[0][0xC] - 4;
-        if (v5 < 0) {
-            v5 = 0;
+        *(u16 *)&q1->field_44.h.field_46 = value;
+        *(u16 *)&q1->field_44.h.field_44 = value;
+        *(u16 *)&q0->field_44.h.field_46 = value;
+        *(u16 *)&q0->field_44.h.field_44 = value;
+        value = *(u8 *)&D_800E9EF0[0]->field_0C;
+        value -= 4;
+        if (value < 0) {
+            value = 0;
         }
-        v5 = v5 | ((v5 << 16) | (v5 << 8));
-        *(u32 *)(D_800E9EF0[0] + 0xC) = v5;
-        *(u32 *)(D_800E9EF0[1] + 0xC) = v5;
-        if (v5 != 0) {
+        value = value | ((value << 16) | (value << 8));
+        D_800E9EF0[0]->field_0C = value;
+        D_800E9EF0[1]->field_0C = value;
+        if (value != 0) {
             return;
         }
         func_8004036C(D_800E9EF0[0]);

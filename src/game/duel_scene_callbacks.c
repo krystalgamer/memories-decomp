@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_scene_callbacks.h"
+#include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "debug_effect_screen.h"
 #include "duel_draw_resolution.h"
@@ -7,17 +8,19 @@
 #include "func_8001825C.h"
 #include "func_80019608.h"
 #include "func_800208D4.h"
-#include "func_80020F4C.h"
+#include "duel_result_outro.h"
+#include "duel_result_display.h"
 
 /* Initialized data at 0x80090998: the duel scene's phase callback table.
  *
- * func_80024200 in duel_scene_update.c materializes this address itself and
- * calls `callbacks[D_8009B23A & 0xF]()`, so the table is reached only through
+ * func_80024200 (src/candidates/func_80024200.c) materializes this address
+ * itself and
+ * calls `callbacks[D_8009B23A & DUEL_SCENE_PHASE_MASK]()`, so the table is reached only through
  * the low four bits of that state word.
  *
  * It is written here rather than resolved out of the blob at 0x800908A0
- * because every entry is a function this tree already names: seven are
- * matching C and eight are still generated assembly. The unmatched ones are
+ * because every entry is a function this tree already names. Matching
+ * callbacks use their subsystem headers. The unmatched ones are
  * declared in unmatched.h rather than here: this file only takes their
  * addresses, but that is the same thing the entries already in that header
  * do, so a local declaration would just be a second place for them to be

@@ -11,13 +11,13 @@
 #include "func_80039794.h"
 #include "text_box_runtime.h"
 #include "dialog_choice_state.h"
+#include "text_constants.h"
 
 /* The retail body walks two pointers over the same four records: the record
  * base it hands to the per-record calls, and a second cursor parked on the
  * record's 0x30 pair, so the choice object and its flags are reached at
  * displacements 0 and 4. Folding the cursor into the base costs a register and
  * four instructions, so the view stays. */
-extern TblEnt D_801D9000[];
 extern u8 D_8009B356;
 
 void func_80039794(void)
@@ -36,7 +36,7 @@ void func_80039794(void)
     p = D_800EB0F8;
     n = 4;
     reset_value = -1;
-    table = D_801D9000;
+    table = (TblEnt *)D_801D9000;
     q = (ChoiceView *)&p->field_30;
     do {
         if (q->flags & 0x8000) {
@@ -66,7 +66,7 @@ reset:
                 }
             } else {
                 if (q->flags & 8) {
-                    if (gInput_wPad1Pressed & 0xC0) {
+                    if (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) {
                         q->flags &= 0xFFF7;
                         func_8004036C(q->obj);
                         q->obj = 0;

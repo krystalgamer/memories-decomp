@@ -1,27 +1,27 @@
 #include "../types.h"
+#include "color_constants.h"
 #include "model_slot_setup.h"
 #include "func_8004D914.h"
+#include "func_800582C0.h"
 #include "model_word_memory.h"
 #include "model.h"
 #include "model_init_light_triplet.h"
 #include "model_slot_row_tables.h"
 #include "model_slot_support.h"
 #include "model_slot_updates.h"
+#include "model_slot_setup.h"
 
 /* One model slot's setup: the reset that gives it its defaults (0x8005611C)
    and the per-frame duel-side layout pass that reads them (0x80056250). The
    two are contiguous -- 0x8005611C is 0x134 bytes and ends exactly at
-   0x80056250 -- and are bounded above by model_load_monster_merge.c at a
-   different profile.
+   0x80056250 -- and are bounded above by Model_LoadMonsterMerge, which is
+   assembly again.
 
    They are one initializer and its consumer. The reset writes the mode byte
-   at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the halfword at
-   +0xE0A as 0x1000 and the busy byte at +0xE1F as 0; the layout pass switches
-   on that same +0xE16 (0x3E is one of its three cases), reads +0xE0C, +0xE0D
-   and +0xE0A back, and sets +0xE1F to 1. */
-
-void func_8004CB0C(void);
-void func_800582C0(s32 arg0, s32 arg1, s32 arg2);
+   at +0xE16 as 0x3E, the pair at +0xE0C/+0xE0D as 7 and 8, the colour scale
+   at +0xE0A as COLOR_FIXED_ONE and the busy byte at +0xE1F as 0; the layout
+   pass switches on that same +0xE16 (0x3E is one of its three cases), reads
+   +0xE0C, +0xE0D and +0xE0A back, and sets +0xE1F to 1. */
 
 void func_8005611C(s32 arg0)
 {
@@ -46,7 +46,7 @@ void func_8005611C(s32 arg0)
     p->field_E0D = 8;
     p->field_E14 = 0xFF;
     p->field_DC0[3] = 0;
-    *(s16 *)&p->field_E0A = 0x1000;
+    *(s16 *)&p->field_E0A = COLOR_FIXED_ONE;
     p->field_E1D = 0;
     p->field_DFE = arg0;
     p->field_DFF = 0;

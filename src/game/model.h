@@ -52,7 +52,8 @@ typedef struct {
  *
  *   ii / aframe  func_80057AF4 stores a command index into ii, and
  *                func_80056250 clears both to 0xFFFF when it rearms a part
- *   sid / speed  model_scene_setup.c and model_slot_state_updates.c switch
+ *   sid / speed  src/candidates/func_800528AC.c and
+ *                model_slot_state_updates.c switch
  *                a part's sequence through sid; func_8005A468 sets speed
  *                for every part, and the rearm resets it to 0x10
  *   rframe..ti   func_8004DC38 seeks a part by writing the frames left,
@@ -123,7 +124,8 @@ typedef struct {
 } ModelSlotCF8BlockWords;
 
 /* Eight bytes moved as a block. Three units spelled this by hand over three
-   different records: func_8004E7B0 and model_scene_setup.c over the view
+   different records: func_8004E7B0 and model_scene_setup.c (that code is
+   now in func_80052D2C.c) over the view
    snapshot pair D_8009B478/D_8009B480, which they had typed two different
    ways for the same two symbols, and model_slot_support.c over the halfword
    quad at ModelSlot.field_DC8.
@@ -198,7 +200,8 @@ typedef struct {
     u16 field_E02;
     u8 pad_E04[2];
     u16 field_E06;
-    /* model_slot_row_tables.c's reset clears this halfword beside
+    /* The row-table reset, func_8004D58C (src/candidates/func_8004D58C.c),
+     * clears this halfword beside
      * field_E06, which is what says it is a field rather than the
      * padding this record carried here. */
     u16 field_E08;
@@ -227,7 +230,7 @@ typedef struct {
     u8 field_E1B;
     u8 pad_E1C;
     /* func_8005611C clears this byte and
-     * model_load_monster_merge.c writes its transfer flags here,
+     * Model_LoadMonsterMerge writes its transfer flags here,
      * reaching it as pad_E1C[1] and noting in a comment that this
      * record still covered it with padding. */
     u8 field_E1D;
@@ -539,15 +542,21 @@ extern ModelEffectCoefficient D_80091570[];
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
 
-/* A second name for the inside of those slots: 0x800F3A10 is 0xDD0 past
- * D_800F2C40, and this header already names that offset and asserts it --
- * `u16 field_DD0[4]`, with MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0. So
- * D_800F3A10 is D_800F2C40[0].field_DD0, and because both consumers step it
- * by the slot stride
+/* Interior names for fields of slot zero. Their types come from the asserted
+ * ModelSlot layout above; consumers still step their addresses by
+ * MODEL_SLOT_SIZE when selecting another slot, so none of these declarations
+ * claims that same-named fields from adjacent slots are contiguous arrays.
  *
- *     entry = D_800F3A10 + index * MODEL_SLOT_SIZE;
+ * 0x800F3938 = D_800F2C40[0].field_CF8
+ * 0x800F39B0 = D_800F2C40[0].field_D70
+ * 0x800F39F0 = D_800F2C40[0].field_DB0
+ * 0x800F3A10 = D_800F2C40[0].field_DD0
  *
- * it is that field of slot `index`. model_distance_queries.c reads
+ * For example, the field_DD0 consumers use the equivalent byte-stride form
+ *
+ *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
+ *
+ * to reach that field of slot `index`. model_distance_queries.c reads
  * `*(u16 *)(entry + 0)`, `+ 2` and `+ 4` and differences them against
  * D_800F56F0 before SquareRoot0, so the first three halfwords are a position.
  *
@@ -556,7 +565,10 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
  * change which symbol their relocations name. Unlike the selection-table case
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */
-extern u8 D_800F3A10[];
+extern ModelSlotCF8Block D_800F3938;
+extern ModelSlotLightEntry D_800F39B0[3];
+extern ModelSlotS32Quad D_800F39F0;
+extern u16 D_800F3A10[];
 #endif
 #ifndef MODEL_CAMERA_MOVE_CUSTOM_EXTERN
 extern ModelCameraMove D_800F2B20;
@@ -567,5 +579,10 @@ extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
 
 extern ModelHandlerRegistryEntry
     D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
+
+s32 Model_LoadMonsterMerge(
+    s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
+);
+void func_80059284(s32 index, s32 value);
 
 #endif

@@ -10,50 +10,75 @@ void func_8004503C(s16 value, u8 flag, s32 unused)
     g_SDValue->field_0049 = flag;
 }
 
+#include "sound_buffer_init.h"
+
+/*
+ * func_80045054: decoded output measurement without register pins
+ *
+ * The 192-byte routine matches all 48 instructions under the unit's
+ * gcc_2_8_1_g0 profile. The same-symbol alias below retains its measured
+ * volatile pointer view while the surrounding functions keep sound.h's
+ * ordinary declaration.
+ *
+ * Three source properties replace the historical eight register bindings and
+ * compiler barrier. The volatile pointer view retains the snapshot-to-state
+ * handoff; removing it loses one instruction. Returning the level directly on
+ * the unmuted path gives the required return-register allocation. Finally, the
+ * single-iteration level-read scope keeps the signed high-halfword read before
+ * the flag read; flattening it exchanges the two words at +0x90 and +0x94.
+ *
+ * The routine preserves the selected CD half, all 256 signed sample squares,
+ * the unsigned eight-bit shift of each square, both accumulator
+ * initializations and final publications, and the low-two-bit output gate.
+ */
+extern SDValue *volatile g_SDValue_output_level asm("g_SDValue");
+
 s32 func_80045054(void)
 {
-    int select = SpuReadDecodedData(
-        (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
-        SPU_CDONLY
+    s32 select = SpuReadDecodedData(
+        (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
     );
-    register u8 *choice_state asm("$3") = (u8 *)g_SDValue;
-    register short *values asm("$4");
-    register int i asm("$6");
-    register u8 *loaded asm("$2");
-    register u8 *state asm("$5");
+    SDValue *choice_state = g_SDValue_output_level;
+    s16 *values;
+    s32 i;
+    SDValue *loaded;
+    SDValue *state;
 
-    *(int *)(choice_state + 0x538) = select;
-    if (select == SPU_DECODED_FIRSTHALF)
-        values = *(short **)(choice_state + 0x153C);
-    else
-        values = *(short **)(choice_state + 0x1540);
-    loaded = (u8 *)g_SDValue;
-    asm volatile("" : "+r"(loaded));
+    *(s32 *)((u8 *)choice_state + 0x538) = select;
+    if (select == SPU_DECODED_FIRSTHALF) {
+        values = (s16 *)choice_state->buffer_ptrs_153C[0];
+    } else {
+        values = (s16 *)choice_state->buffer_ptrs_153C[1];
+    }
+    loaded = g_SDValue_output_level;
     i = 0;
     state = loaded;
-    *(int *)(state + 0x154C) = 0;
-    *(int *)(state + 0x1550) = 0;
+    *(s32 *)((u8 *)state + 0x154C) = 0;
+    *(s32 *)((u8 *)state + 0x1550) = 0;
     do {
-        int value = *values;
-        unsigned int square = value * value;
-        *(unsigned int *)(state + 0x154C) += square >> 8;
+        s32 value = *values;
+        u32 square = value * value;
+        *(u32 *)((u8 *)state + 0x154C) += square >> 8;
         i++;
         values++;
     } while (i < SD_MIX_SAMPLE_COUNT);
     {
-        register int result asm("$2");
-        register int flags asm("$3");
-        register int other asm("$4");
-        state = (u8 *)g_SDValue;
-        result = *(short *)(state + 0x154E);
-        flags = *(u16 *)(state + 0x40);
-        other = *(short *)(state + 0x1552);
+        s32 result;
+        s32 flags;
+        s32 other;
+        state = g_SDValue_output_level;
+        do {
+            result = *(s16 *)((u8 *)state + 0x154E);
+        } while (0);
+        flags = state->flags_0040;
+        other = *(s16 *)((u8 *)state + 0x1552);
         flags &= 3;
-        *(int *)(state + 0x154C) = result;
-        *(int *)(state + 0x1550) = other;
-        if (flags)
-            result = 0;
-        return result;
+        *(s32 *)((u8 *)state + 0x154C) = result;
+        *(s32 *)((u8 *)state + 0x1550) = other;
+        if (!flags) {
+            return result;
+        }
+        return 0;
     }
 }
 
@@ -65,13 +90,13 @@ void func_80045114(void)
     if ((state->flags_004A & 0x80) == 0)
         return;
     count = state->command_count;
-    if (state->commands[count].command == 0x11)
+    if (state->commands.c[count].command == 0x11)
         return;
     if (count > 0) {
-        if (state->commands[count - 1].command == 0x11)
+        if (state->commands.c[count - 1].command == 0x11)
             return;
         if (count >= 2) {
-            if (state->commands[count - 2].command == 0x11)
+            if (state->commands.c[count - 2].command == 0x11)
                 return;
         }
     }
@@ -88,14 +113,13 @@ s16 func_800451E0(u16 value, s32 unused)
     return func_80045208(value, 0x80);
 }
 
-#include "sound_buffer_init.h"
-
 s32 func_80045208(u16 arg0, s32 unused)
 {
     SDValue *a = g_SDValue;
     u16 code = arg0;
-    register u8 **table asm("$2");
+    u8 **table;
     s32 kind;
+    u8 *second;
     SDCommand req;
 
     if (a->flags_004A & 0x80) {
@@ -106,24 +130,26 @@ s32 func_80045208(u16 arg0, s32 unused)
                 case 0x8000:
                     code = arg0 + 0x8000;
                     table = *(u8 ***)((u8 *)a + 0x51C);
+                    second = (u8 *)table + 8;
                     kind = 0x50;
                     break;
                 case 0x9000:
                     code = arg0 + 0x7000;
                     table = *(u8 ***)((u8 *)a + 0x518);
+                    second = (u8 *)table + 8;
                     kind = 0x60;
                     break;
                 default:
                     code = code + 0x6000;
                     kind = 0x70;
                     table = *(u8 ***)((u8 *)g_SDValue + 0x520);
+                    second = (u8 *)table + 8;
                     break;
                 }
                 {
-                    register s32 first asm("$16");
-                    register u8 *const second asm("$17") = (u8 *)table + 8;
+                    s32 first;
 
-                    first = table ? (s32)*table : (s32)*table;
+                    first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
 
                     func_800464F0();
                     req.command = 0x24;
@@ -149,9 +175,10 @@ void func_80045334(s32 arg0)
     SDValue *b;
     SDValue *c;
     s32 value;
-    register s32 code asm("$19");
-    register u8 **table asm("$2");
-    register s32 kind asm("$18");
+    u16 code;
+    u8 **table;
+    s32 kind;
+    u8 *second;
 
     a = g_SDValue;
     code = arg0;
@@ -170,13 +197,16 @@ void func_80045334(s32 arg0)
     *(s16 *)((u8 *)a + 0x534) = arg0;
     switch (value) {
     case 0x8000:
-        code = arg0 + value;
+        value = arg0 + value;
+        code = value;
         table = *(u8 ***)((u8 *)a + 0x51C);
+        second = (u8 *)table + 8;
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
         table = *(u8 ***)((u8 *)a + 0x518);
+        second = (u8 *)table + 8;
         kind = 0x60;
         break;
     default:
@@ -184,14 +214,14 @@ void func_80045334(s32 arg0)
         kind = 0x70;
         b = g_SDValue;
         table = *(u8 ***)((u8 *)b + 0x520);
+        second = (u8 *)table + 8;
         break;
     }
     {
-        register s32 first asm("$16");
-        u8 *const second = (u8 *)table + 8;
+        s32 first;
 
         /* The equivalent paths preserve retail's request-store order. */
-        first = table ? (s32)*table : (s32)*table;
+        first = table ? (second ? (s32)*table : (s32)*table) : (s32)*table;
 
         func_800464F0();
         req.command = 0x21;

@@ -62,7 +62,7 @@ void func_8004044C(
  * offsets the canonical record held as 32-bit words: 0x30, 0x3C, 0x40 and
  * 0x48, plus a pair of bytes inside the halfword at 0x5C. The note here used
  * to say that splitting those words would change how existing users store
- * them -- display_slot_lifecycle.c zeroes field_40 and field_48 with single
+ * them -- display_object_core.c zeroes field_40 and field_48 with single
  * word stores, which would become pairs of halfword stores -- and that the
  * build would stop being byte-identical.
  *
@@ -71,8 +71,8 @@ void func_8004044C(
  * 0x3C, now covers 0x40 and 0x48 as well, so every offset this view exists to
  * name is reachable through the canonical record at both widths: the word
  * writes keep their sw through `.word` and the narrow users take `.h`.
- * Measured -- display_slot_lifecycle.c, func_80040588.c and func_800408D0.c
- * all still build byte-identically.
+ * Measured -- display_object_core.c and
+ * display_object_updates.c all still build byte-identically.
  *
  * What keeps this view alive is no longer the layout but the signature below:
  * func_80040510 and its callers pass the record as this type, and several of
@@ -103,8 +103,6 @@ typedef struct {
     u8 pad_5E[0x08];
     u8 field_66;
 } DisplayObjectConfigView;
-
-void func_800403F0(void);
 
 /* Writes the three glyph-selector bytes at 0x67..0x69 plus the colour and
  * texture fields, and returns the object. Every caller discards the result,

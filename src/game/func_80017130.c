@@ -1,8 +1,10 @@
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "func_80017130.h"
 #include "view_state.h"
 
-extern void func_800857C0(int);
 void func_80017130(void)
 {
     ViewState *s = &D_800F2848;
@@ -19,7 +21,7 @@ void func_80017130(void)
     s->view.rz = 0;
     s->view.super = 0;
     s->projection = 0x12C;
-    func_800857C0(0x12C);
+    GsSetProjection(0x12C);
     words[3] = 0;
     s->field_06 = 0;
     words[4] = 0;

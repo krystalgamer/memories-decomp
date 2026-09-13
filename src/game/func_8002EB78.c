@@ -6,11 +6,10 @@
 #include "menu_record_reset.h"
 #include "script_state.h"
 #include "func_8002EB78.h"
-extern u8 *D_8009B274;
 
 void func_8002EB78(void)
 {
-    u8 *o;
+    MenuRecord *o;
     s32 first;
     s32 flags;
     s32 bit;
@@ -20,26 +19,26 @@ void func_8002EB78(void)
         flags = *D_8009B290++;
         bit = flags & 0x80;
 
-        o = (u8 *)D_800EB010 + ((bit >> 7) * sizeof(MenuRecord));
+        o = &D_800EB010[bit >> 7];
         D_8009B274 = o;
 
-        if (*(s8 *)(o + 0x30) >= 0) {
+        if (o->field_30 >= 0) {
             func_80039FD4((u8 *)o);
         }
         func_80039E9C();
         func_80039F44((DisplayEffectState *)o);
 
-        o[0x31] = flags & 15;
-        o[0x30] = first;
-        o[0x3C] = bit >> 7;
-        o[0x33] = 2;
+        o->field_31 = flags & 15;
+        o->field_30 = first;
+        o->field_3C = bit >> 7;
+        o->display_effect_step = 2;
         if (bit) {
-            *(s16 *)(o + 0x34) = 0xD8;
+            o->field_34 = 0xD8;
         }
     }
 
     DisplayEffect_ProcessMenuRecords(0);
-    if (D_8009B274[0x33] == 0) {
+    if (D_8009B274->display_effect_step == 0) {
         D_8009B27C = 0;
     }
 }

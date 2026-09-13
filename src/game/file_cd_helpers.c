@@ -7,34 +7,25 @@
 
 int File_Exists(int first, int second)
 {
-    register int result asm("$3") =
-        (int)DsSearchFile((DslFILE *)second, (char *)first);
-    register int output asm("$2") = -1;
+    DslFILE *result = DsSearchFile((DslFILE *)second, (char *)first);
 
-    if (result == 0) {
-        goto negative;
+    if (result == 0 || result == (DslFILE *)-1) {
+        return -1;
     }
-    if (result != output) {
-        output = 0;
-        goto done;
-    }
-negative:
-    output = -1;
-done:
-    return output;
+    return 0;
 }
 
-int func_8005C530(void)
+int Movie_StepPlayback(void)
 {
-    int result = func_8005BE3C();
+    int result = Movie_DecodeAndPresentFrame();
 
     if (result != 0) {
-        func_8005BB7C(0);
+        Movie_StopStream(0);
     }
     return result;
 }
 
-int func_8005C568(int first, int second)
+int Movie_MoveDisplayImage(int first, int second)
 {
     DISPENV local;
 

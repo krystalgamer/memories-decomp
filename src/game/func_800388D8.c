@@ -1,7 +1,9 @@
+#define D_8009B140_IN_DATA
+#define D_8009AF74_IN_DATA
 #include "../types.h"
 #include "fade.h"
 #include "display_object_helpers.h"
-#include "func_800388D8.h"
+#include "duel_effect_basic_commands.h"
 
 void func_800388D8(u8 *arg0)
 {

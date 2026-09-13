@@ -17,7 +17,7 @@ typedef struct {
 
 /* The card list itself: CARD_ID_END rows, then the scroll offset the slot is
  * measured from and the list kind that picks the box template. */
-typedef struct {
+typedef struct CardList {
     CardEntry entries[CARD_ID_END];
     u8 pad_2D30[4];
     /* The two text boxes the input handler moves. Both are display records

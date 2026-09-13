@@ -7,8 +7,10 @@
 #include "display_object_api.h"
 #include "display_object_helpers.h"
 #include "display_object.h"
+#include "duel_card_stat_display.h"
 
-/* The update callback duel_card_stat_display.c installs: a card's stat panel
+/* The update callback func_80031574 (duel_card_type_icon.c)
+   installs: a card's stat panel
    scales up over eight frames, then flies to its target at 0x18/0x1A, waits,
    and scales back down before releasing itself. field_6C carries the phase --
    0x40 while it grows, 0x20 while it shrinks, neither while it travels.

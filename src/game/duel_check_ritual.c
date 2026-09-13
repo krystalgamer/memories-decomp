@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "duel_check_ritual.h"
+#define D_8009B1D5_IS_ABSOLUTE_SCALAR
 #include "duel_side_state.h"
 #include "duel_card.h"
 #include "card_constants.h"
@@ -13,7 +14,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     DuelCardRecord *card;
     DuelCardRecord **first;
     DuelCardRecord **dst;
-    register DuelCardRecord **w __asm__("$3");
+    DuelCardRecord **w;
     DuelCardRecord *c;
     u16 *p;
     u16 *q;
@@ -54,7 +55,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     q = p;
     for (j = 0; j < DUEL_RITUAL_TRIBUTE_COUNT; j++) {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-            card = first[i];
+            card = (c = first[i]);
             if (card != 0 && *(s16 *)&card->card_id == q[0]) {
                 goto matched;
             }

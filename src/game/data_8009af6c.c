@@ -1,4 +1,6 @@
 #include "../types.h"
+#include "mem_card_work.h"
+#include "mem_card_directory.h"
 
 /* The .sdata window at 0x8009AF6C, carved as one unit because its objects
  * tile it exactly with no gaps: 4 + 4 + 8 + 4 + 8 = 28 bytes, which is
@@ -33,7 +35,7 @@
  * to a print routine. */
 char D_8009AF6C[4] __attribute__((section(".sdata"))) = "%s\n";
 
-/* Read by mem_card_create_state.c. */
+/* Read by MemCardDialog_UpdateSave (mem_card_dialog_load_save.c). */
 u8 D_8009AF70[4] __attribute__((section(".sdata"))) = "*";
 
 /* Indexed by a display object's ot_index. Declared in
@@ -53,7 +55,7 @@ volatile u16 D_8009AF74[4] __attribute__((section(".sdata"))) = {
  * stays separate here. */
 u8 D_8009AF7C[4] __attribute__((section(".sdata"))) = "*";
 
-/* The MIDI track chunk tag. sound_sequence_marker_scan.c compares against it
+/* The MIDI track chunk tag. SD_FindMidiTrackChunk compares against it
  * while walking a sequence, which is what the tag means in a standard MIDI
  * file: the four bytes that introduce each track. */
 u8 D_8009AF80[8] __attribute__((section(".sdata"))) = "MTrk";

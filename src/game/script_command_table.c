@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "script_command_table.h"
-#include "func_8002E470.h"
+#include "script_op_load_image_scene.h"
 #include "func_8002E5AC.h"
 #include "func_8002E6B8.h"
 #include "func_8002EB48.h"
@@ -16,7 +16,7 @@
 #include "script_noop_commands.h"
 #include "script_op_show_image.h"
 #include "script_stream_commands.h"
-#include "script_update_viewport_tween.h"
+#include "../unmatched.h"
 
 /* Initialized data at 0x80090C50: the 23 scene-script command handlers.
  *
@@ -28,7 +28,7 @@
 
 ScriptCommandHandler D_80090C50[] = {
     func_8002E3DC,
-    func_8002E470,
+    Script_OpLoadImageScene,
     func_8002E5AC,
     func_8002E918,
     func_8002E6B8,

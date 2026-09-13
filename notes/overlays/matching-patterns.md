@@ -15,7 +15,11 @@ inline assembly statement. The accepted source and a fully relocated image
 comparison decide whether a reconstruction matches.
 
 All game-owned functions in the five configured overlays had matching C by
-#2180. Historical residuals below are not a current work queue; consult the
+#2180. #3859 returned four of them, whose matches depended on pinned registers
+or inline asm, to build-integrated candidates in [`candidates/`](candidates/):
+`MainMenu_UpdateFrontendMenu`, `MainMenu_UpdateTradeScreen`,
+`NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
+Historical residuals below are not a current work queue; consult the
 per-module inventories and matching manifests before treating an old
 candidate as unfinished work.
 
@@ -225,6 +229,14 @@ Two consequences follow, and either can be the visible symptom:
 
 The second is easy to misread as a register-allocation mystery. It is not:
 it follows from which pseudo dies at the add.
+
+The byte-array expressions above record the original probe. The live table
+is now `MapLocation[]`; keeping the same separate `table` and `record` locals
+matches with `record = table + gCampaignMap_Location`. Complete typed record
+and exit accesses also reproduce the spawning and selection loops without
+their former explicit byte-stride expressions. See
+[`campaign-map-records.md`](campaign-map-records.md) for the shared field
+evidence and the two measured typed-source probes.
 
 ## An offset inside the relocation means the symbol was indexed directly
 
@@ -902,8 +914,9 @@ solve by inserting work. One scalar candidate had seven relocated register
 differences; another introduced a redundant loop-entry copy between the
 initial and loop-hoisted `HIGH` pseudos for the column global.
 
-The matching source in
-[`name_entry_runtime.c`](../../src/overlays/password/name_entry_runtime.c) groups the
+The source that matched, now a build-integrated candidate in
+[`src/candidates/password/func_8016913C.c`](../../src/candidates/password/func_8016913C.c) because the match
+depended on pinned registers (#3859), groups the
 initial column and row stride in a named register union at `$4`. Its `u64`
 member gives GCC a DI register pair, while the two `s32` fields are the
 values actually assigned and read. On `gcc_2_8_1_g0_split`, both address

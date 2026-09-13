@@ -17,8 +17,8 @@ MainModeRunner gMain_apfnModeRunner[MAIN_MODE_COUNT] = {
     Main_RunPasswordMenu,
     Main_RunOptionsMenu,
     Main_RunGameOver,
-    func_8002D7C4,
+    Main_RunUnusedDeveloperMode,
     Main_RunTrade,
     Main_RunCredits,
-    func_8002DC38,
+    Main_RunTwoPlayerDuelSetup,
 };

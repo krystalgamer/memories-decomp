@@ -13,6 +13,7 @@ typedef struct {
 
 extern DuelDropTable gDuel_awSaPowCardDrops[];
 
+void Duel_ShowResultPage(s32 page);
 void Duel_CalcRankScore(void);
 s32 Duel_SelectCardDrop(s32 pool_index);
 void Duel_AwardCard(s32 card_id);

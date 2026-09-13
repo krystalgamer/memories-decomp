@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "display_object.h"
 #include "sound.h"
-#include "func_8002A2F4.h"
+#include "../unmatched.h"
 #include "func_8002A3CC.h"
 
 s32 func_8002A3CC(void)

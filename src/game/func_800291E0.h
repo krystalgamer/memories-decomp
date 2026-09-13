@@ -3,14 +3,11 @@
 
 #include "../types.h"
 
-/* Builds the display objects for slot `index` of the D_800EA0E8
- * effect-resource records and returns the first of them. Its body is still the
- * target's own words -- func_800291E0.c holds it as an asm block -- so u8 * is
- * what its three callers agreed on rather than a recovered type;
- * func_800283F4.c casts the result to DisplayObject *, which is the closest
- * thing to evidence there is. The password overlay's shop.c casts it to
- * PasswordCardPreviewView *, a fourth view of the same object. */
-u8 *func_800291E0(s32 index, s32 arg1, s32 arg2);
+/* Builds the paired objects in one effect-resource slot and returns its
+ * primary object, allocated second. Negative default-path coordinates are
+ * derived from the packed card-stat word; special card types keep their
+ * preset setup. The byte-pointer return preserves the existing caller views. */
+u8 *func_800291E0(s32 index, s32 x, s32 y);
 
 /* Releases both display-object words of one record through func_8004036C and
  * zeroes them. */

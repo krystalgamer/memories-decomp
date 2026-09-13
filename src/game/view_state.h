@@ -9,7 +9,8 @@
 /* The view state at D_800F2848. Three files used to declare three DIFFERENT
    structs for these same bytes -- `State { u16 a..h; char rest[0x20]; }` in
    func_80017130.c, `Obj { s16 f0, f2, f4; u8 pad[8]; s16 fE; }` in
-   func_800178BC.c and `State { s16 x, y, z; char p6[0x1E]; int value; }` in
+   func_800178BC.c (now src/candidates/func_800178BC.c) and
+   `State { s16 x, y, z; char p6[0x1E]; int value; }` in
    func_80022D94.c -- which is exactly the re-definition issue #2501 is about.
    They agree on the layout and disagree on the names and on where the record
    ends; this is the union of what they touch.
@@ -92,15 +93,5 @@ extern ViewState D_800F2848;
 
 void func_8001352C(void);
 
-/* The duel screen's per-frame view callback. It reads D_800F2848 above,
- * programs the geometry engine from its projection field -- SetGeomScreen,
- * SetGeomOffset, SetFarColor and SetFogNearFar -- and then walks the field
- * records.
- *
- * func_800179F4.c installs it rather than calling it, as `D_800E9DB0[3] =
- * func_800164FC;` (func_800179F4.c:149), so the declaration has to match the
- * definition exactly for the address to be taken. That file held the only
- * declaration. */
-void func_800164FC(void);
 
 #endif

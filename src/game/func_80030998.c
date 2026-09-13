@@ -1,236 +1,114 @@
+/*
+ * `func_80030998` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
+ * selecting true-width DATA scalars for the active mode and campaign scene
+ * index. The array spellings leave ten differing words; changing only the mode
+ * leaves three and changing only the scene index leaves nine. Selecting both
+ * restores the `$at` store expansions and the shared editor-value register
+ * allocation without mixed thresholds or a pinned local. The primary campaign
+ * display pointer independently requires its DATA view for the absolute load
+ * and store.
+ *
+ * The scene index's final store is `sb`, not `sh`: the reference's missing
+ * `D_8009B27A` is the canonical byte `gCampaignSceneIndex`. `Main_RunCampaign`
+ * now selects the same existing DATA spelling through unmatched.h
+ * instead of redeclaring it locally. The debug selector, format strings,
+ * dialog object and effect-entry byte at `+0x18` use shared declarations.
+ * The diagnostic's original format at `0x80010288` is retained, as are the
+ * message-preview cleanup, editor toggle and campaign transition.
+ *
+ * The canonical rows and six terminal refinement records are unchanged;
+ * one post-terminal resolution records the declaration and layout evidence.
+ */
+#define GINPUT_PAD1_PRESSED_IS_AGGREGATE
+#define CAMPAIGN_PRIMARY_OBJECT_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
+#include "../psyq/stdio.h"
+#include "input.h"
+#include "frontend_debug_state.h"
+#include "frontend_debug_constants.h"
+#include "frontend_debug_tables.h"
+#include "display_object_brightness.h"
+#include "duel_interface_setup.h"
+#include "campaign_scene_package.h"
+#include "duel_effect_entry_ranges.h"
+#include "dialog_choice_state.h"
+#include "text_box_lifecycle.h"
+#include "func_80039794.h"
+#include "input_is_pad1_confirm_pressed.h"
+#include "display_object_api.h"
+#include "func_8003B6AC.h"
+#include "func_8002E3FC.h"
+#include "../unmatched.h"
+#include "func_80030998.h"
+#include "main_mode_state.h"
 
-__asm__(
-    ".set noreorder\n"
-    ".globl func_80030998\n"
-    ".ent func_80030998\n"
-    "func_80030998:\n"
-    ".word 0x93830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x27BDFFD8\n"
-    ".word 0xAFBF0024\n"
-    ".word 0x30620080\n"
-    ".word 0x1440000A\n"
-    ".word 0xAFB00020\n"
-    ".word 0x34620080\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80030090\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, Campaign_LoadScenePackage\n"
-    ".word 0x00002021\n"
-    ".word 0xA3800000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"
-    ".word 0x08000019\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Pressed\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Pressed\n"
-    ".word 0x00000000\n"
-    ".word 0x30420100\n"
-    ".word 0x10400020\n"
-    ".word 0x00000000\n"
-    ".word 0x93820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"
-    ".word 0x00000000\n"
-    ".word 0x38420001\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"
-    ".word 0x93820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"
-    ".word 0x00000000\n"
-    ".word 0x1440000B\n"
-    ".word 0x3C040000\n"
-    ".reloc .-4, R_MIPS_HI16, D_80090CF4\n"
-    ".word 0x3C040000\n"
-    ".reloc .-4, R_MIPS_HI16, D_80090CDC\n"
-    ".word 0x24840000\n"
-    ".reloc .-4, R_MIPS_LO16, D_80090CDC\n"
-    ".word 0x24050012\n"
-    ".word 0x00003021\n"
-    ".word 0x00C03821\n"
-    ".word 0x97830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009AF44\n"
-    ".word 0x24020002\n"
-    ".word 0xAFA20010\n"
-    ".word 0x0800002E\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x24020003\n"
-    ".word 0x24840000\n"
-    ".reloc .-4, R_MIPS_LO16, D_80090CF4\n"
-    ".word 0x24050012\n"
-    ".word 0x00003021\n"
-    ".word 0x00C03821\n"
-    ".word 0x97830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009AF46\n"
-    ".word 0x24020002\n"
-    ".word 0xAFA20010\n"
-    ".word 0xAFA20014\n"
-    ".word 0x24020001\n"
-    ".word 0xAFA20018\n"
-    ".word 0xA7830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gDebug_nSceneOrSoundID\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80030250\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80030294\n"
-    ".word 0x00000000\n"
-    ".word 0x93870000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x00401821\n"
-    ".word 0x30E20040\n"
-    ".word 0x10400028\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80039794\n"
-    ".word 0x00000000\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, D_800EB0F8\n"
-    ".word 0x93820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x00000000\n"
-    ".word 0x30420020\n"
-    ".word 0x1440000E\n"
-    ".word 0x24700000\n"
-    ".reloc .-4, R_MIPS_LO16, D_800EB0F8\n"
-    ".word 0x96020034\n"
-    ".word 0x00000000\n"
-    ".word 0x30422000\n"
-    ".word 0x10400053\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, Dialog_OpenChoice\n"
-    ".word 0x02002021\n"
-    ".word 0x93830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0xAE020030\n"
-    ".word 0x34630020\n"
-    ".word 0xA3830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x0800009A\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, Input_IsPad1ConfirmPressed\n"
-    ".word 0x00000000\n"
-    ".word 0x10400047\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, TextBox_Destroy\n"
-    ".word 0x02002021\n"
-    ".word 0x3C040000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B2A0\n"
-    ".word 0x8C840000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B2A0\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8004036C\n"
-    ".word 0x00000000\n"
-    ".word 0x93820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x93830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EA\n"
-    ".word 0x3042009F\n"
-    ".word 0x306300FE\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0xA3830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EA\n"
-    ".word 0x0800009A\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x10600037\n"
-    ".word 0x00000000\n"
-    ".word 0x04610006\n"
-    ".word 0x00000000\n"
-    ".word 0xA3800000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_800300AC\n"
-    ".word 0x00000000\n"
-    ".word 0x0800009A\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x93820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2BC\n"
-    ".word 0x00000000\n"
-    ".word 0x14400026\n"
-    ".word 0x24020002\n"
-    ".word 0x00002021\n"
-    ".word 0x97860000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gDebug_nSceneOrSoundID\n"
-    ".word 0x93830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EA\n"
-    ".word 0x34E20040\n"
-    ".word 0xA3820000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EB\n"
-    ".word 0x34630001\n"
-    ".word 0xA7860000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009AF44\n"
-    ".word 0xA3830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009B2EA\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8003B6AC\n"
-    ".word 0x24050002\n"
-    ".word 0x3C030000\n"
-    ".reloc .-4, R_MIPS_HI16, D_800EB288\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gDuelEffect_awEntryRangeBoundaries\n"
-    ".word 0x94440000\n"
-    ".reloc .-4, R_MIPS_LO16, gDuelEffect_awEntryRangeBoundaries\n"
-    ".word 0x24630000\n"
-    ".reloc .-4, R_MIPS_LO16, D_800EB288\n"
-    ".word 0x000410C0\n"
-    ".word 0x00441023\n"
-    ".word 0x00021080\n"
-    ".word 0x00431021\n"
-    ".word 0x3C040000\n"
-    ".reloc .-4, R_MIPS_HI16, D_80010288\n"
-    ".word 0x90450018\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, printf\n"
-    ".word 0x24840000\n"
-    ".reloc .-4, R_MIPS_LO16, D_80010288\n"
-    ".word 0x00002021\n"
-    ".word 0x24060010\n"
-    ".word 0x240700B0\n"
-    ".word 0x97850000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009AF44\n"
-    ".word 0x24020120\n"
-    ".word 0xAFA20010\n"
-    ".word 0x24020030\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, TextBox_Create\n"
-    ".word 0xAFA20014\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002E3FC\n"
-    ".word 0x00000000\n"
-    ".word 0x3C010000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B2A0\n"
-    ".word 0xAC220000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B2A0\n"
-    ".word 0x0800009A\n"
-    ".reloc .-4, R_MIPS_26, .text\n"
-    ".word 0x00000000\n"
-    ".word 0x97830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gDebug_nSceneOrSoundID\n"
-    ".word 0x3C010000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B26C\n"
-    ".word 0xA0220000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B26C\n"
-    ".word 0xA7830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, D_8009AF46\n"
-    ".word 0x3C010000\n"
-    ".reloc .-4, R_MIPS_HI16, gCampaignSceneIndex\n"
-    ".word 0xA0230000\n"
-    ".reloc .-4, R_MIPS_LO16, gCampaignSceneIndex\n"
-    ".word 0x8FBF0024\n"
-    ".word 0x8FB00020\n"
-    ".word 0x03E00008\n"
-    ".word 0x27BD0028\n"
-    ".end func_80030998\n"
-);
+void func_80030998(void)
+{
+    u8 *textbox;
+    s32 result;
+    s32 flags;
+    u16 selection;
+
+    if ((D_8009B2EB & 0x80) == 0) {
+        D_8009B2EB = D_8009B2EB | 0x80;
+        func_80030090();
+        Campaign_LoadScenePackage(0);
+        D_8009B2BC = 0;
+        goto select_editor;
+    }
+    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) != 0) {
+        D_8009B2BC = D_8009B2BC ^ 1;
+    select_editor:
+        if (D_8009B2BC == 0) {
+            selection = D_8009AF44;
+            gDebug_nSceneOrSoundID = selection;
+            func_80030250(D_80090CDC, 0x12, 0, 0, 2, 3, 1);
+        } else {
+            selection = D_8009AF46;
+            gDebug_nSceneOrSoundID = selection;
+            func_80030250(D_80090CF4, 0x12, 0, 0, 2, 2, 1);
+        }
+    }
+
+    result = func_80030294();
+    flags = D_8009B2EB;
+    if ((flags & 0x40) != 0) {
+        func_80039794();
+        textbox = (u8 *)D_800EB0F8;
+        if ((D_8009B2EB & 0x20) == 0) {
+            if ((*(u16 *)(textbox + 0x34) & TEXT_BOX_FLAG_DONE) != 0) {
+                ((DuelEffectChannel *)textbox)->field_30 =
+                    Dialog_OpenChoice((DuelEffectChannel *)textbox);
+                D_8009B2EB = D_8009B2EB | 0x20;
+            }
+        } else if (Input_IsPad1ConfirmPressed() != 0) {
+            TextBox_Destroy(textbox);
+            func_8004036C(D_8009B2A0);
+            D_8009B2EB = D_8009B2EB & 0x9F;
+            D_8009B2EA = D_8009B2EA & 0xFE;
+        }
+    } else if (result != 0) {
+        if (result < 0) {
+            D_8009B2EB = 0;
+            func_800300AC();
+            return;
+        }
+        if (D_8009B2BC == 0) {
+            D_8009B2EB = flags | 0x40;
+            D_8009AF44 = gDebug_nSceneOrSoundID;
+            D_8009B2EA = D_8009B2EA | 1;
+            func_8003B6AC(0, 2);
+            printf(D_80010288,
+                   D_800EB288[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
+            TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, 0x30);
+            D_8009B2A0 = func_8002E3FC();
+            return;
+        }
+        selection = gDebug_nSceneOrSoundID;
+        D_8009B26C = 2;
+        D_8009AF46 = selection;
+        gCampaignSceneIndex = selection;
+    }
+}

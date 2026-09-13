@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "display_object_config.h"
 #include "display_object.h"
+#include "card_preview_callbacks.h"
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "func_80041D60.h"
 

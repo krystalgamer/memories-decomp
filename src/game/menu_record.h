@@ -55,7 +55,7 @@ typedef struct {
     u8 field_3B;
     /* Written by func_8002EB78 and Text_HandleDisplayEffectCommand and read by
        display_effect_update_callbacks.c and
-       duel_effect_interaction_states.c. Four sites prove a byte is
+       duel_effect_state_callbacks.c. Four sites prove a byte is
        here; none of them says what it carries. */
     u8 field_3C;
     u8 pad_3D;
@@ -97,8 +97,23 @@ typedef struct {
 typedef char MenuRecord_size_must_be_0x4C[
     sizeof(MenuRecord) == 0x4C ? 1 : -1
 ];
+typedef char MenuRecord_field_30_must_be_at_0x30[
+    MENU_RECORD_OFFSET(field_30) == 0x30 ? 1 : -1
+];
+typedef char MenuRecord_field_31_must_be_at_0x31[
+    MENU_RECORD_OFFSET(field_31) == 0x31 ? 1 : -1
+];
+typedef char MenuRecord_display_effect_step_must_be_at_0x33[
+    MENU_RECORD_OFFSET(display_effect_step) == 0x33 ? 1 : -1
+];
+typedef char MenuRecord_field_34_must_be_at_0x34[
+    MENU_RECORD_OFFSET(field_34) == 0x34 ? 1 : -1
+];
 typedef char MenuRecord_field_36_must_be_at_0x36[
     MENU_RECORD_OFFSET(field_36) == 0x36 ? 1 : -1
+];
+typedef char MenuRecord_field_3C_must_be_at_0x3C[
+    MENU_RECORD_OFFSET(field_3C) == 0x3C ? 1 : -1
 ];
 typedef char MenuRecord_field_40_must_be_at_0x40[
     MENU_RECORD_OFFSET(field_40) == 0x40 ? 1 : -1
@@ -112,6 +127,10 @@ typedef char MenuRecord_field_4A_must_be_at_0x4A[
 #define MENU_RECORD_COUNT 3
 
 extern MenuRecord D_800EB010[];
+
+/* func_8002EB78 selects element 0 or 1 from D_800EB010 using operand bit
+ * 7, arms it, then polls its display_effect_step on subsequent ticks. */
+extern MenuRecord *D_8009B274;
 
 /* The effect record Text_HandleDisplayEffectCommand last armed: it stores an element of
    D_800EB010 here at three sites, and that is the whole of its provenance.

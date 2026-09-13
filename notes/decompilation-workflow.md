@@ -211,11 +211,47 @@ The recorder prefixes the durable summary with the new discriminator. Omitting
 it is rejected, so later sessions cannot see a post-terminal success without
 the evidence that justified reopening the hypothesis.
 
+If a function already has a successful external record but was later
+reclassified to unmatched assembly, preserve that historical record. Record the
+new exact source with `--mode reclassification_match --new-discriminator "..."`
+and promote it with `integrate_verified_match.py --evidence-source reclassification`.
+This mode requires prior successful non-refinement external evidence and an
+unmatched function at recording time. It adds one new success rather than
+rewriting the old source hash or reopening its terminal history.
+
+An existing successful `inline_refinement` cannot currently be reclassified
+through this mode. That history is explicitly unsupported: preserve its rows
+and keep the new candidate under `tmp/`, rather than guessing chronology from
+the ledger's address/mode sort order. Recorder validation, integration and audit
+reject a reclassification combined with an unlinked successful refinement.
+
+A subsequent `inline_refinement` of a promoted reclassification can supersede
+it, subject to the existing closed-history and attempt-limit rules. The recorder
+automatically prefixes its summary with
+`Reclassification parent: <replacement-candidate-sha256>; `, binding the new
+refinement to the exact replacement at the same address. Consumers validate that
+link before selecting it, independently of ledger order. Missing, malformed,
+or incorrect parent links are rejected instead of letting mode priority choose
+an older source. The integrator also rejects explicitly requested evidence that
+the linked refinement has already superseded. No historical rows need editing.
+
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
-name exactly matches a symbol in the tracked linker tables; arbitrary
-expressions such as `Symbol+0` and unknown names remain rejected. The
-allowances are independent and neither permits statement-level inline assembly.
+name exactly matches a symbol in the tracked linker tables, function
+inventories, or canonical headers; arbitrary expressions such as `Symbol+0`
+and unknown names remain rejected. The allowances are independent and neither
+permits statement-level inline assembly.
+These flags are evidence-ledger allowances only. Promotion to matching C rejects
+hard-register variables and statement-level assembly, permits only tracked
+symbol aliases, and rejects profiles whose GCC and MASPSX `-G` values differ.
+`make check-matching-source-contracts` enforces the same contract across every
+resident and overlay matching manifest. All three paths scan C literals and
+comments without regex boundary loss, apply line splicing before token checks,
+and inspect the compiler's preprocessed output so assembly introduced by an
+active included macro cannot bypass the source-only gate. Unused assembly
+macros are not expanded and therefore do not cause false failures. Run this
+target after installing the matching compiler; the toolchain-backed CI build
+runs it separately from the toolchain-free metadata job.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
@@ -396,7 +432,7 @@ The converse is the useful half, because it is what makes candidates cheap to
 pick. Four conversions since have been byte-exact on the first build:
 
     func_80037C74      DuelEffectChannel, five fields, no globals
-    func_8004318C      DisplayObjectPosition, four fields, no globals
+    DisplayObject_InterpolatePositionCosine DisplayObjectPosition, four fields, no globals
     Dialog_OpenChoice  DuelEffectChannel, five fields, no globals
     func_8003A1EC      MenuRecord, three fields, TWO globals
 
@@ -410,6 +446,56 @@ Select on stores through the byte pointer, not on the presence of globals. A
 function that only reads through its parameter is safe however many globals
 it touches, and a function that stores through it needs the measurement even
 if it touches one.
+
+#### The alias rule is the last filter, not the first
+
+Scanning the tree for `*(T *)(base + off)` finds about a thousand sites, and
+the store filter above cuts far less of that than it looks like it should.
+Working through one batch of read-only candidates, every one was rejected
+before the alias question came up, each for a different reason. They are worth
+knowing because a scan reports all of them as clean:
+
+- **The file already says the conversion was tried.**
+  `ai_script_find_killer.c` opens by recording that it is a
+  `-fno-strength-reduce` user, that the walk's reads at +0, +2, +6 and +9 make
+  gcc build a second induction variable biased at +2, and that "an index form,
+  a struct cursor, dropping the named compare value and inlining the base were
+  all tried". The bias belongs to the reducer, not the spelling.
+
+- **The base is a second symbol for storage another symbol already names.**
+  `D_800F3A10` is `D_800F2C40[0].field_DD0` and `D_800F56FC` is
+  `&D_800F56F0.vrx`; both headers keep the interior symbol deliberately,
+  because the matched sites reach the field through it and spelling it as an
+  offset from the enclosing object changes which symbol their relocations
+  name.
+
+- **The width or signedness of the read does not match the named field.**
+  `sound_runtime.c` reads `*(u16 *)(e + 8)` where `SDCommand.field_0008` is
+  `s32`, and `e[2]` where `field_0002` is `s16`. Each such site needs a
+  `*(u16 *)&...` device to keep its `lhu`, so the conversion buys spelling and
+  pays noise.
+
+- **The arithmetic is the function's logic.** In `func_80058434` the base is
+  either `&D_800F56F0` or its interior `vrx` symbol depending on a sign, and
+  the destination is `base ± 0xC`; the pointer arithmetic is how the function
+  swaps which triple is source and which is destination.
+
+- **The stores are in a form the scan did not match.**
+  `display_effect_update_callbacks.c` stores with `*(DisplayObject **)p = o`
+  and `p[0x33] = 0`, and `library_runtime.c` uses `*(u16 *)(p + 2) += 0xC`.
+  A store detector has to cover `*(T **)base =`, `base[i] =` and `+=`, or it
+  will hand back store-through-pointer functions as read-only ones.
+
+What survives is narrow and worth stating positively: the conversion is a good
+bet when the base is a byte pointer taken to a global that already has a named
+type, and every offset read matches a field of that type in both width and
+signedness. `func_80058624` is the worked example. It read
+`D_800F56F0.vpx` by name and then took `p = (u8 *)&D_800F56F0` to read +8,
++0xC and +0x14 of the same object; `D_800F56F0` is a `GsRVIEW2`, so those are
+`vpz`, `vrx` and `vrz`, and naming them was byte-exact on the first build.
+A file that reaches a named global through an anonymous pointer is the shape
+to look for, and `camera_view.h` records that ten files once did exactly that
+to this one object.
 
 ### Name the record in one change, reach it in another
 
@@ -446,6 +532,14 @@ still spell them as retail needs.
 
 Collecting duplicated `extern` declarations into headers is driven by scanning
 the tree, and a name-based scan of C text mis-reads several real constructs.
+`make check-translation-unit-headers` parses top-level statements in every
+built resident and overlay source, permits forwards for functions defined in
+that same translation unit, delegates unmatched assembly declarations to
+`unmatched_contracts.py`, and rejects every other function prototype. Known
+external entry points and address-qualified SDK copies live in
+`src/external_funcs.h`; subsystem-owned and caller-specific aliases stay in
+their owning headers.
+
 Each of these produced a wrong answer during the header-collection campaign
 before the source was read:
 
@@ -480,9 +574,178 @@ before the source was read:
   a `return D_8009B3EF;` matches a declaration pattern whose type position
   accepts `return`.
 
-The rule the campaign settled on: the scan produces candidates, and reading the
-source decides them. Every one of these was caught by reading, and none by the
-tool contradicting itself.
+A scan for duplicated *type definitions* rather than duplicated declarations
+adds two more of its own:
+
+- **The SDK headers repeat layouts on purpose.** `src/psyq` defines many
+  structures that are byte-identical to a sibling under another name --
+  `CdlLOC` and `DslLOC`, `SndVolume2` and `SpuVolume`, and the whole `SPRT_*`,
+  `TILE_*`, `DR_*` and `GsADIV_*` families. That repetition is the published
+  interface, so a layout scan has to exclude `src/psyq` before its output means
+  anything.
+
+- **An identical layout is not an identical record.** `DuelFieldPosition` in
+  `duel_grid.h` and `ScreenPair` in `ygo_types.h` are both
+  `{ s16 x; s16 y; }` and describe unrelated memory: the duel cursor, and one
+  entry of the projected slot table `D_800EA070`. Merging them would assert a
+  relationship that does not exist. The reverse error is available too --
+  `ProjectedPair` sits beside `ScreenPair` and differs only in
+  that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
+  normalises widths to compare shapes reports them as one record and hides the
+  single distinction the header exists to record. Duplication worth collecting
+  looks like what `screen_projection.h` originally collected before the two
+  proven projection values moved to their single owner in `ygo_types.h`:
+  three textually identical spellings of one GTE result, in three files, for
+  one address.
+
+  Large game-owned records follow the same ownership rule even when they have
+  only one current definition. `DuelEffectChannel` therefore lives beside its
+  `DuelEffectEntry` element type in `ygo_types.h`, while `duel_effect.h` retains
+  channel counts, state flags, storage declarations, and the duel-effect API.
+  The measured size and member-offset assertions move with the record.
+
+  The rule the campaign settled on: the scan produces candidates, and reading the
+  source decides them. Every one of these was caught by reading, and none by the
+  tool contradicting itself.
+
+Single ownership applies to unique records too, not only duplicated shapes.
+The text/script pass moved `TextStreamOwner`, `EffectObject`,
+`SceneScriptSlot`, `ScriptImageEntry`, `SceneScriptRecordCallback`, and
+`TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
+domain headers still own constants, globals, and function declarations; the
+shared type file owns the measured layouts and offset assertions.
+
+The same ownership rule applies even when a record has only one current
+definition. Game-owned values that cross subsystem boundaries belong in
+`ygo_types.h`, while their domain headers retain constants, functions, and
+globals. The file loader's aligned descriptor-copy view, model transfer rows,
+movie stream ranges, and persistent duel-result rows follow that split. Their
+size and offset assertions move with the types, including the assertion that
+the word-copy view remains exactly the size of `FileTransferDescriptor`.
+
+The unmatched-data pass now gives the scan a hard end condition. Every
+linker-resolved data declaration used by built resident C or a stored candidate
+must have a canonical header declaration; genuinely homeless data lives in
+`src/unmatched.h`. Caller-specific scalar, array, pointer, signedness, and
+explicit `.data` spellings are selected through guarded arms there rather than
+redeclared in a C file. `make check-unmatched-contracts` scans both source
+families and reports the number of remaining headerless names and sites; both
+must stay zero. Moving a declaration must not remove a live candidate
+dependency from enforcement: retained configured keys keep included-header
+contracts in the fingerprint after a candidate-local `extern` is centralized.
+Regenerate hashes only after preserving that coverage and measuring the new
+canonical owner.
+
+### An arity mismatch is measured, not assumed, in either direction
+
+When a declaration and its definition disagree about how many arguments there
+are, the two directions are not symmetric and neither is decided by looking.
+
+A caller that sets FEWER argument registers than the callee reads is
+repairable exactly when the values the callee reads can be named at the call
+site. `src/unmatched.h` records both outcomes for this one direction.
+
+`func_8004CB0C` is the case that cannot be repaired. `model_slot_setup.c`
+calls it with no arguments while the callee reads `$a0` through `$a3`, and
+only `$a0` is set, so the rest are whatever the register file happened to
+hold. There is no expression to write for them, and its `void (void)`
+declaration stays.
+
+`func_800540B4` is the same direction and the opposite outcome. A site that
+declared no parameters took the definition's true one-parameter signature,
+because `$a0` already held the value the caller would have written, so naming
+it cost nothing. The missing argument was recoverable, and once it is named
+the mismatch is gone.
+
+So the direction does not decide this one either. What decides it is whether
+the incoming values can be expressed at the call site: `func_8004CB0C`'s three
+extra registers cannot be, and `func_800540B4`'s single one already was.
+
+A caller that passes MORE than the callee reads is the case that looks equally
+unfixable and is not. duel_card_effects.c declared `s32 func_8001F364(s32)`
+and called it with a flag at both sites; the definition takes void and never
+looks at the register. Dropping the argument and the parameter is
+byte-identical, so the declaration follows the definition. The instinct that
+retail sets $a0 because the declaration says to was wrong here.
+
+One more in the same family, also recorded in unmatched.h: func_80013C28
+keeps two incompatible spellings on purpose.
+
+So: an arity mismatch is a measurement, not a reading. Try the definition's
+signature at the call sites and build. It costs one build and settles which
+of the two directions this instance is.
+
+### A volatile that merely differs can still be the whole match
+
+`notes/build.md` sorts a declaration that disagrees with its definition into
+three cases: one that agrees is inert and belongs in the owning header, one
+that merely differs may still be inert and is worth a build to find out, and
+one that encodes a different view of the address cannot be centralized at all.
+The middle case is an invitation to measure, not a presumption that the
+spelling is decoration, and it lands on both sides.
+
+`main_services.c` is the published example of it being decoration: three
+`extern volatile` declarations argued the volatile held an init block in
+source order, and dropping them built byte-identical.
+
+`func_80014294.c` is the same shape and the opposite answer. It
+declares
+
+    extern volatile u16 D_8009B124;
+    extern volatile s32 D_8009B0E8;
+
+where `file_stream.c` declares both without the qualifier, and no header owns
+either symbol though `file_transfer.h` already owns the rest of that family.
+Dropping the two qualifiers does not merely change the encoding; the
+executable comes out four bytes short and fails on size alone. The cause is
+scheduling, not elimination. `func_80014A5C` stores one word and then tests
+the other:
+
+    D_8009B124 = 1;
+    if (D_8009B0E8 != 0) {
+        return;
+    }
+
+With `volatile` the load of `D_8009B0E8` cannot move above the store to
+`D_8009B124`, so the load-delay slot in front of the branch has nothing to
+fill it:
+
+    sh    v0,0(gp)        # D_8009B124 = 1
+    lw    v0,0(gp)        # D_8009B0E8
+    nop
+    bnez  v0,...
+
+Without the qualifier the load hoists above the store and fills that slot
+itself, the nop goes, and the function ends four bytes earlier. That is the
+same pinning the `Campaign_LoadScenePackageStage` case above describes for
+`D_8009B0F4`, reached from the other direction: there a byte pointer pinned a
+global load after some stores, here a volatile store pins a later load after
+itself.
+
+An earlier draft of this section explained the four bytes as a dead store
+being dropped, reading the guard as two writes in a row. That was wrong, and
+worth recording as a way to get this wrong: the `D_8009B124 = 0` arm of the
+guard returns immediately, so there is no path on which a following store
+overwrites it. The size difference was real and the mechanism invented; the
+disassembly is what settled it.
+
+The obvious conclusion from that is the guarded two-arm form `input.h` and
+`sound.h` use, one arm per spelling. It is also wrong, and it took a second
+build to find out. `file_stream.c` clears the pair once each inside
+`File_InitTransferState` and does nothing else with them, so giving *it* the
+volatile view costs nothing: one flat `extern volatile` declaration in
+`file_transfer.h` serves both files and builds byte for byte.
+
+So a qualifier that one side needs does not by itself force two arms. Ask
+which side the difference is load-bearing on, and then whether the other side
+is merely indifferent rather than opposed. Two arms are for two genuine
+views; a strong spelling and an indifferent one are a single declaration.
+
+The rule to carry: a qualifier difference is worth one build in either
+direction, and the build is the whole of the evidence. Neither "it is only a
+qualifier" nor "the qualifier must be there for a reason" survives contact
+with the two cases above -- and neither does the assumption that a real
+difference has to be centralized as two arms.
 
 ## Compiler experiments
 

@@ -2,6 +2,10 @@
   "schema": 1,
   "units": [
     {
+      "source": "src/psyq/startup_data.c",
+      "profile": "gcc_2_8_1_g0"
+    },
+    {
       "source": "src/game/file_names.c",
       "profile": "gcc_2_8_1_g0"
     },
@@ -139,6 +143,10 @@
     },
     {
       "source": "src/game/model_handler_state.c",
+      "profile": "gcc_2_8_1_g8"
+    },
+    {
+      "source": "src/game/main_menu_load_rect.c",
       "profile": "gcc_2_8_1_g8"
     },
     {

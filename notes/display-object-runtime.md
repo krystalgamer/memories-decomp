@@ -12,6 +12,7 @@ constants: `DISPLAY_OBJECT_RECORD_SIZE` is `0x70`,
 `DISPLAY_OBJECT_LIST_COUNT` is 7,
 `DISPLAY_OBJECT_FLAG_CLIP_TEST` is `0x04`,
 `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` is `0x08`,
+`DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` is `0x20`,
 `DISPLAY_OBJECT_FLAG_RENDERABLE` is `0x40`,
 `DISPLAY_OBJECT_FLAG_ALLOCATED` is `0x80`, and
 `DISPLAY_OBJECT_RENDERABLE_MASK` is `0xC0`. The header deliberately defines
@@ -37,6 +38,12 @@ slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
 `DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
 and update passes require both bits before submitting visible content.
 
+`func_80040468` controls `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` from bit
+`0x8000` of its texture argument. The sprite builder at `0x8004158C` consumes
+that flag by adding the packed per-cell U/V nibble offsets to the object's base
+texture coordinates. Callers that set the composite former literal `0x28`
+therefore request both that cell offset and screen-space rendering.
+
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
 that key at `+0x1E`, and fills the companion `D_800F2878` entry when the list
@@ -54,11 +61,12 @@ s32 func_8004002C(void);
 void *func_800400AC(s32 index, s32 key);
 ```
 
-The defining `display_slot_lifecycle.c` and every current C caller include
+The defining `display_object_core.c` and every current C caller include
 this header. The migration removes 48 local getter declarations and 53 local
 allocator declarations, including old-style unspecified-argument spellings.
-Assembly-only word/relocation references in `func_800291E0.c` are not C
-declaration sites and remain unchanged.
+Assembly-only word/relocation references in `func_800291E0` (generated
+assembly again; its old `func_800291E0.c` was a `.word` transcription) are not
+C declaration sites and remain unchanged.
 
 The getter returns an **integer slot index**, 16-95, or signed `-1` when
 none is available. It does not reserve or mark the slot; another scan before
@@ -87,8 +95,8 @@ for that separate function and explicitly convert its returned word to
 
 | Caller | Source |
 |---|---|
-| `Dialog_OpenChoice` | `dialog_choice_state.c` |
-| `Dialog_UpdateChoice` | `dialog_update_choice.c` |
+| `Dialog_OpenChoice` | `duel_effect_state_callbacks.c` |
+| `Dialog_UpdateChoice` | `src/game/dialog_update_choice.c` |
 | `func_80018150` | `duel_card_object_helpers.c` |
 | `func_8002E3FC` | `func_8002E3FC.c` |
 
@@ -109,7 +117,7 @@ void func_800404CC(
 );
 ```
 
-The defining `display_object_config.c` and all 21 C caller units use this
+The defining `display_object_core.c` and all 21 C caller units use this
 contract, including the formerly implicit calls in `func_8002BFCC`.
 All 20 local configurator declarations are removed; this is not a
 callers-only or partially shared signature.
@@ -176,6 +184,60 @@ without losing the walk's continuation.
 
 ## Packet-building siblings
 
+### Active ordering-table contracts
+
+`src/game/ordering_tables.h` owns the resident/overlay contract for
+`D_800E9D90`: four `GsOT *` slots, not four ordering-table descriptors and
+not texture IDs. The producer is `Graphics_BeginFrame` in `graphics_frame.c`.
+It selects `gGraphics_pActiveFrameBuffer` from the typed
+`gGraphics_aFrameBuffers` array, walks its four `ordering_tables` descriptors
+from index 3 through 0, publishes their addresses into slots, writes each
+descriptor's `length`, and calls `GsClearOt`. The asserted `0x5160`-byte
+layout is owned by `src/game/graphics_frame_buffer.h`: `0x5110` bytes of tag
+storage followed by four `GsOT` descriptors.
+The header asserts the SDK descriptor's `0x14` size and the pointer array's
+`0x10` size. No private SDK type is needed.
+
+The consumer evidence agrees across translation units:
+
+- `func_80016D2C` passes the slot selected by `DisplayObject.ot_index`
+  directly to `GsSortFastSprite`. The display-list renderers and update
+  callbacks select through that same byte at `+0x17`; their local cursors
+  now carry `GsOT **`, with explicit word conversions only at existing
+  integer-parameter/callback boundaries.
+- `func_8002C604` copies slots 2 and 1 into request words `+0x08` and
+  `+0x0C`, and `func_8002C6C8` refreshes those same words before dispatch.
+  The initializer now indexes pointers rather than reading byte offsets
+  from a locally declared `u8[]`. The request's existing word fields and
+  dispatch ABI are not changed.
+- Main-menu frontend/value drawing sorts into slot 2 and trade drawing
+  into slot 1. Its `ordering_tables.h` forwards to the resident declaration,
+  rather than maintaining a separate overlay-only type.
+
+`D_800E9D94`, `D_800E9D98`, and `D_800E9D9C` are interior relocation
+symbols for slots 1, 2, and 3. Fade draws through the first; display
+projection passes the second to `func_80016784`; the `func_8004CB0C`
+candidate selects the second/third, and `func_80029934` loads the third.
+The latter target's load at `0x80029998`, and the model target's loads at
+`0x8004CB78`/`0x8004CB88`, explicitly address those interior words.
+They remain distinct symbol references rather than becoming base-plus-index
+expressions. `ORDERING_TABLE_SLOT1_ARRAY` preserves fade's oversized
+four-element declaration, and `ORDERING_TABLE_SLOT2_ARRAY` preserves
+projection's unsized declaration: these are absolute-addressing views under
+`-G8`, not claims about independent storage extent. The `-G0` overlay and
+candidate readers retain scalar views.
+
+All ten matching resident consumers, the four main-menu consumers, and the
+three integrated candidates now obtain this family from the shared header.
+The candidate metadata drops only the four replaced local-extern dependencies;
+all 19 candidate byte fingerprints remain unchanged. No GTE bodies, compiler
+profiles, tentative definitions, or storage mappings change. The data remains
+generated storage, so this is a declaration/type campaign for #2874/#2500,
+not a C-data-definition conversion for #2602. Matching-resident headerless
+inventory falls from 109 names/206 sites to 106 names/196 sites.
+
+### Gouraud packet builders
+
 `func_80040DD8` and `func_80041068` share the same high-level path:
 
 1. Walk the slot list with `DISPLAY_OBJECT_RECORD_SIZE` and run each `+0x24`
@@ -226,7 +288,7 @@ with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
 `rotate` at `+0x20`, and both renderers hand it to `func_80042188`, whose
 first three dispatch cases pass it straight to `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite` — all of which take a `GsSPRITE *`.
-`fade_overlay.c` had already reached the same conclusion for its own
+`fade_runtime.c` had already reached the same conclusion for its own
 `GsBOXF`-shaped descriptor and called the word an "SDK attribute".
 
 So every bit the overlays set is read by libgs, and `libgs.h` already names
@@ -234,7 +296,7 @@ them:
 
 | Bit | libgs.h | Meaning |
 |---|---|---|
-| `0x01000000` / `0x02000000` | — | colour mode; the page step of 1, 2, 4 is 4bpp, 8bpp, 16bpp |
+| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` / `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | `0x01000000` / `0x02000000` | colour mode; the page step of 1, 2, 4 is 4bpp, 8bpp, 16bpp |
 | `0x04000000` | `GsPERS` | perspective |
 | `0x08000000` | `GsROTOFF` | rotation off |
 | `0x10000000` | `GsAONE` | semi-transparency rate, bit 0 |
@@ -247,27 +309,31 @@ unchanged from the object.
 
 | Bit | Effect | Established by |
 |---|---|---|
-| `0x01000000` | Texture-page step of `2` per wrap | `func_800408D0` |
-| `0x02000000` | Texture-page step of `4`, taking precedence | `func_800408D0` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `display_object_projection.c`, and is copied into the clip state as `c->flag` | both renderers |
+| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `func_800408D0` |
+| `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `func_800408D0` |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/candidates/func_80041F90.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
 
 The step values are the texture-page advance applied when a strip's `u`
-coordinate wraps past `0x100`, so `0x01000000` and `0x02000000` are the colour
-depth: 1, 2 and 4 pages correspond to 4bpp, 8bpp and 16bpp. `func_800408D0`
-already describes them as "the depth bits of the tag"; what is new here is the
-connection to the overlay writes.
+coordinate wraps past `0x100`, so `DISPLAY_OBJECT_ATTRIBUTE_8BPP` and
+`DISPLAY_OBJECT_ATTRIBUTE_16BPP` are the colour depth: 1, 2 and 4 pages
+correspond to 4bpp, 8bpp and 16bpp. `func_800408D0` already describes them as
+"the depth bits of the tag"; what is new here is the connection to the overlay
+writes.
 
 Read against that table, the overlay writes become legible:
 
-- `FreeDuel_Init` and `MainMenu_InitFrontend` set `0x01000000` on grid and menu
-  entries — selecting the 8bpp page step.
+- `FreeDuel_Init` and `MainMenu_InitFrontend` set
+  `DISPLAY_OBJECT_ATTRIBUTE_8BPP` on grid and menu entries — selecting the
+  8bpp page step.
 - `FreeDuel_Init` clears `0x08000000` on the cursor, opting it into the
   size/offset path.
 - `FreeDuel_UpdateSparkle` sets `0x50000000` and
   `MainMenu_SpawnFrontendEntryAfterimage` sets `0x51000000`, both of which
   include `0x40000000` — so sparkles and afterimages are drawn
-  semi-transparent, which matches what those effects are.
+  semi-transparent, which matches what those effects are. The Free Duel
+  allocator, 16-entry pool and updater now all carry `DisplayObject *`
+  directly; the updater writes this composite through `attribute`.
 
 ### The composites, and what the masks are doing
 
@@ -321,10 +387,10 @@ of the fourth argument.
 | `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
-| `display_object_list_renderers.c`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
-| `display_object_list_renderers.c`, list key `5` | `5` | the same |
+| `func_80040DD8`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
+| `func_80041068`, list key `5` | `5` | the same |
 
-Cases `0`, `1` and `2` pass it straight into `GsSortFastSprite`,
+Cases `1`, `2` and `3` pass it straight into `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`
 and `5` are only ever reached from the two list renderers, which read the
 object's attribute word into `v` and set `0x04000000` — `GsPERS` — on it when
@@ -348,9 +414,15 @@ perspective arm under the same circumstances. Whether that overlap is
 deliberate is not something the code states.
 
 The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
-is a word that means a `GsSPRITE *` in cases `0`-`2` and an attribute in cases
-`4`-`5`, which is why the inventory row's caution was right and why the
-reading should still come from a matched definition rather than a header.
+is a word that means a `GsSPRITE *` in cases `1`-`3` and an attribute in cases
+`4`-`5`, which is why the inventory row's caution was right.
+
+The matched definition in `src/game/display_object_packet_submit.c` confirms
+it. It takes the header's default `SpritePrim *` view. Cases `1`-`3` cast the
+argument to `GsSPRITE *`. Cases `4` and `5` test `(u32)sprite & 0x04000000`
+before projecting the prepared quad, and test bit 30 before routing it through
+`func_8005B260`. Case `0` returns, and every case from `6` up builds a
+`POLY_FT4` from the sprite's fields.
 
 ## Two-phase display-object fades
 

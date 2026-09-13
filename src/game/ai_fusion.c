@@ -9,8 +9,9 @@
 #include "ai_script_commands.h"
 #include "duel_card_checks.h"
 #include "duel_grid.h"
-
-extern u8 D_800EAE88[];
+#define D_800EAE88_AS_BYTES
+#define D_800EAE88_VISIBLE
+#include "../unmatched.h"
 
 void AiScript_FindEquipTarget(void)
 {

@@ -6,21 +6,29 @@
 #include "../psyq/libgpu.h"
 
 /* The per-frame step multiplier. graphics_frame.c sets it to D_8009B0C1 + 1
- * once a frame and main_init.c seeds it at 1; every other consumer scales a
- * motion delta by it, which is why a dropped frame moves things twice as far.
+ * once a frame and Main_Init (src/game/main_init.c) seeds it at 1;
+ * every other consumer scales a motion delta by it, which is why a dropped
+ * frame moves things twice as far.
  *
- * It is read at three widths across the tree and the width is a codegen
- * input, not a style choice, so the arms:
+ * It is one four-byte value, and the three widths seen in the listings come
+ * from the use sites rather than the declaration. The resident listings carry
+ * eighteen accesses across twelve functions, every one of them at offset
+ * zero: thirteen word, three halfword, two byte, with func_80012DB4 in two of
+ * those groups. That census is the resident one; the main_menu overlay adds a
+ * nineteenth access, a halfword read at offset zero --
+ * `lhu $a0, %lo(D_8009B0D8)($v0)` at
+ * src/candidates_target/main_menu/func_80180390.S:217.
+ * gcc 2.8.1 picks the narrow load itself -- `(u8)` and `(u16)` on an
+ * int global emit lbu and lhu against the same symbol -- so a narrow read is
+ * written as a cast at the site, not as a declaration.
  *
- *   _IS_HALFWORD -- read into halfword arithmetic (lhu, not lw)
- *   _IS_VOLATILE -- main_init.c seeds it and must not have the store folded
- *   _IN_DATA     -- out of small data at the compiler, with its true width
- *                   at that call site
+ * The two arms left select addressing and ordering, which a cast cannot:
  *
- * display_object_fade_callbacks.c needs the plain and the volatile spelling
- * in one translation unit, which no single arm can give, so it keeps its
- * asm("D_8009B0D8") alias -- a second name for one symbol, not a duplicate
- * declaration. */
+ *   _IS_VOLATILE -- Main_Init seeds it and must not have the store folded;
+ *                   display_object_fade_callbacks.c takes it for the whole
+ *                   unit, and its three plain reads build the same under it
+ *   _IN_DATA     -- out of small data at the compiler */
+
 /* The movie playback state byte, shared by three files that disagree about
  * how to reach it.
  *
@@ -44,9 +52,7 @@ extern u8 D_8009B318;
 #endif
 
 #ifdef D_8009B0D8_IN_DATA
-extern u8 D_8009B0D8 __attribute__((section(".data")));
-#elif defined(D_8009B0D8_IS_HALFWORD)
-extern u16 D_8009B0D8;
+extern s32 D_8009B0D8 __attribute__((section(".data")));
 #elif defined(D_8009B0D8_IS_VOLATILE)
 extern volatile s32 D_8009B0D8;
 #else
@@ -56,10 +62,11 @@ extern s32 D_8009B0D8;
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle and
- * src/overlays/main_menu/trade_update.c sets it to 1, func_800283F4.c:73
- * sets it to `flags - 2`, and Main_Init, Main_ResetFrontendRuntime,
- * Main_RunLibraryMenu and func_800283F4.c:203 set it to 0. Every retail
- * access is a byte store or load.
+ * src/overlays/main_menu/trade_update.c sets it to 1,
+ * src/candidates/func_800283F4.c:77 sets it to `flags - 2`, and Main_Init,
+ * Main_ResetFrontendRuntime, Main_RunLibraryMenu and
+ * src/candidates/func_800283F4.c:207 set it to 0. Every retail access is a
+ * byte store or load.
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
  * re-reads it each iteration); every other retail site is a bare store
@@ -67,14 +74,15 @@ extern s32 D_8009B0D8;
  * the unit, and each is justified by a control build of that unit on the
  * plain arm (the PR that added this block records the five results):
  *
- *   _IS_VOLATILE -- graphics_frame.c and main_init.c
- *   _IN_DATA     -- func_800283F4.c, main_run_animated_battle.c and
- *                   main_run_duel_and_library.c, all at -G8: out of small
+ *   _IS_VOLATILE -- graphics_frame.c and src/game/main_init.c
+ *   _IN_DATA     -- src/candidates/func_800283F4.c,
+ *                   main_run_animated_battle.c and
+ *                   main_run_duel_and_library.c and main_run_credits.c,
+ *                   all at -G8: out of small
  *                   data at the compiler, with its true width
  *
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
- * plain byte. main_run_credits.c is not converted: it reaches the symbol
- * only through two .reloc lines in inline asm and declares nothing. */
+ * plain byte. */
 #ifdef D_8009B0C0_IN_DATA
 extern u8 D_8009B0C0 __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IS_VOLATILE)
@@ -148,7 +156,7 @@ extern volatile s32 D_8009B0C8;
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
  * zeroes it, func_80037A58 and func_80020D4C test its bit 0 and the free_duel
  * overlay's screen_runtime.c reads its low seven bits. Retail reaches it
- * gp-relative in main_init.c and graphics_frame.c and through a lui/lw pair
+ * gp-relative in Main_Init and graphics_frame.c and through a lui/lw pair
  * in the other two, which is the .data arm. volatile is measured: without
  * it Main_Init's zeroing store sinks below the volatile D_8009B0C8 store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
@@ -169,11 +177,11 @@ extern volatile s32 D_8009B0CC;
  * (still assembly) reads it too. Sign is not visible in any use (& 0x3F,
  * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
  *
- * main_frame.c and main_init.c reach it gp-relative and take the volatile
- * form below; every other retail site is a lui/lw pair. volatile is
- * measured (notes/research/matching-evidence.md:479-490): Main_Init zeroes
- * it and immediately re-reads it, and without volatile GCC forwards the
- * stored zero and the function is one instruction short.
+ * main_frame.c and src/game/main_init.c reach it gp-relative and
+ * take the volatile form below; every other retail site is a lui/lw pair.
+ * volatile is measured (notes/research/matching-evidence.md:479-490):
+ * Main_Init zeroes it and immediately re-reads it, and without volatile GCC
+ * forwards the stored zero and the function is one instruction short.
  * func_800339D0.c (-G8) defines the .data arm;
  * widget_update_pulse_colour.c (-G0) and the password overlay's
  * name_entry_main.c take the plain form. */
@@ -193,11 +201,11 @@ extern volatile s32 D_8009B09C;
  * local, a u32 field in and out), so s32 follows D_8009B09C and D_8009B0C8
  * and is not established.
  *
- * main_frame.c and main_init.c reach it gp-relative and take the volatile
- * form below; SaveData_ApplyRuntimeState stores through $at (lui/sw) and
- * SaveData_BuildPayload loads through a lui/lw pair, each while reaching
- * another symbol through $gp, so save_data_payload.c, which holds both,
- * defines the .data arm. */
+ * main_frame.c and src/game/main_init.c reach it gp-relative and
+ * take the volatile form below; SaveData_ApplyRuntimeState stores through
+ * $at (lui/sw) and SaveData_BuildPayload loads through a lui/lw pair, each
+ * while reaching another symbol through $gp, so save_data_payload.c, which
+ * holds both, defines the .data arm. */
 #ifdef D_8009B0C4_IN_DATA
 extern s32 D_8009B0C4 __attribute__((section(".data")));
 #else
@@ -210,12 +218,13 @@ extern volatile s32 D_8009B0C4;
  * clears it with & 0xDFFF when Start is pressed; Main_Init stores 0x5000;
  * Main_RunBootSequence zeroes it twice. Nothing in C reads 0x4000 or 0x1000.
  * Initial value not read. u16 follows the definition in graphics_frame.c
- * and every retail load, which is lhu; main_init.c and
+ * and every retail load, which is lhu; Main_Init and
  * main_run_boot_sequence.c
  * only store to it.
  *
- * graphics_frame.c defines it (gp-relative in the target); main_init.c
- * and main_services.c reach it gp-relative and take the plain form.
+ * graphics_frame.c defines it (gp-relative in the target);
+ * src/game/main_init.c and src/candidates/func_80013360.c reach it
+ * gp-relative and take the plain form.
  * main_init.c used to declare it volatile with the rest of its init block;
  * on this symbol the plain form builds byte-identical (measured by the PR
  * that added this block). Main_RunBootSequence stores through $at (lui/sh) in
@@ -229,6 +238,38 @@ extern u16 D_8009B098;
 #endif
 
 extern DISPENV gGraphics_DispEnv;
+
+/* Graphics_BeginFrame publishes the active buffer index in this byte.
+ * GPU readback and Script_OpShowImage reach it absolutely rather than
+ * through the small-data base. */
+#ifdef GRAPHICS_ACTIVE_BUFFER_IN_DATA
+extern u8 gGraphics_bActiveBuffer __attribute__((section(".data")));
+#else
+extern u8 gGraphics_bActiveBuffer;
+#endif
+
+/* SDK environment addresses passed to PutDrawEnv / PutDispEnv. Keep the
+ * draw environment unsized, and retain startup's volatile byte stores.
+ * See notes/graphics-frame-environments.md for the address/field evidence. */
+#ifdef GRAPHICS_DRAW_ENV_IS_VOLATILE
+extern volatile DRAWENV D_800FE048[];
+#else
+extern DRAWENV D_800FE048[];
+#endif
+extern DISPENV D_800FE0A8;
+
+typedef char GraphicsDrawEnvSize[sizeof(DRAWENV) == 0x5C ? 1 : -1];
+typedef char GraphicsDrawEnvDitherOffset[
+    (u32)&((DRAWENV *)0)->dtd == 0x16 ? 1 : -1];
+typedef char GraphicsDrawEnvClearOffset[
+    (u32)&((DRAWENV *)0)->isbg == 0x18 ? 1 : -1];
+typedef char GraphicsDrawEnvRedOffset[
+    (u32)&((DRAWENV *)0)->r0 == 0x19 ? 1 : -1];
+typedef char GraphicsDrawEnvGreenOffset[
+    (u32)&((DRAWENV *)0)->g0 == 0x1A ? 1 : -1];
+typedef char GraphicsDrawEnvBlueOffset[
+    (u32)&((DRAWENV *)0)->b0 == 0x1B ? 1 : -1];
+typedef char GraphicsDispEnvSize[sizeof(DISPENV) == 0x14 ? 1 : -1];
 
 /* Two scratch rectangles for the VRAM transfers. Every user fills x, y, w, h
  * and hands the address to LoadImage2, StoreImage2 or MoveImage in the same
@@ -246,21 +287,27 @@ extern DISPENV gGraphics_DispEnv;
 extern RECT D_800E9D70[2];
 
 /* The tint colour, three consecutive bytes with the components in address
- * order blue, green, red.  func_8005B8A0 and func_8005BB7C pass them straight
+ * order blue, green, red. func_8005B8A0 and Movie_StopStream pass them straight
  * to ClearImage(RECT *, u8 r, u8 g, u8 b) as r = D_8009B144, g = D_8009B143,
  * b = D_8009B142, which is what fixes the roles; graphics_frame.c copies the
- * same three into the display list at 0x19/0x1A/0x1B.
+ * same three into DRAWENV.r0/g0/b0 at 0x19/0x1A/0x1B.
  *
- * func_80015310.c is not converted, and its functions.csv row says why: the
- * three are DEFINED rather than declared there so the assembler resolves them
+ * Fade_Update defines the three rather than declaring them, and its
+ * functions.csv row says why: as definitions the assembler resolves them
  * gp-relative and supplies the three load-delay nops in the tint copy.  That
- * file still builds byte-identical with the declaration below visible ahead
- * of its definition, which is the only claim made here about the two.
+ * function's translation unit includes this header, so it builds
+ * byte-identical with the declaration below visible ahead of its definition,
+ * which is the only claim made here about the two.
  *
- *   _IN_DATA      -- out of small data at the compiler
- *   _IS_AGGREGATE -- unsized array, read as [0]
+ *   _IN_DATA_VOLATILE -- startup's ordered, absolute-address byte stores
+ *   _IN_DATA          -- out of small data at the compiler
+ *   _IS_AGGREGATE     -- unsized array, read as [0]
  */
-#ifdef D_8009B142_IN_DATA
+#ifdef D_8009B142_IN_DATA_VOLATILE
+extern volatile u8 D_8009B142 __attribute__((section(".data")));
+extern volatile u8 D_8009B143 __attribute__((section(".data")));
+extern volatile u8 D_8009B144 __attribute__((section(".data")));
+#elif defined(D_8009B142_IN_DATA)
 extern u8 D_8009B142 __attribute__((section(".data")));
 extern u8 D_8009B143 __attribute__((section(".data")));
 extern u8 D_8009B144 __attribute__((section(".data")));
@@ -279,23 +326,49 @@ extern u8 D_8009B144;
    results have to be able to go negative.
 
    Files that reach these through `__attribute__((section(".data")))`, or as an
-   unsized or [4] array, are deliberately not converted -- those spellings
+   unsized or [4] array, select the guarded view below because those spellings
    change how the address is materialised, not just how the value reads. */
+#ifdef GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
+extern u16 gGraphics_uViewportX[4] asm("gGraphics_sViewportX")
+    __attribute__((section(".data")));
+extern u16 gGraphics_uViewportY[4] asm("gGraphics_sViewportY")
+    __attribute__((section(".data")));
+#elif defined(GRAPHICS_VIEWPORT_IN_DATA)
+extern s16 gGraphics_sViewportX __attribute__((section(".data")));
+extern s16 gGraphics_sViewportY __attribute__((section(".data")));
+#else
 extern s16 gGraphics_sViewportX;
 extern s16 gGraphics_sViewportY;
+#endif
 
-/* The double-buffered graphics work area. Graphics_BeginFrame picks the half
- * for the frame it is starting and publishes it:
+/* One half of the double-buffered graphics work area. The first 0x5110 bytes
+ * hold the ordering-table tags; four SDK descriptors occupy the final 0x50
+ * bytes. func_80013154 initializes their tag bases to offsets 0, 0x10, 0x110
+ * and 0x4110, and Graphics_BeginFrame publishes the descriptor addresses.
+ * The complete layout lives in graphics_frame_buffer.h; this header keeps a
+ * forward declaration so unrelated frame-state consumers do not inherit the
+ * full LIBGS interface.
+ */
+typedef struct GraphicsFrameBuffer GraphicsFrameBuffer;
+
+/* Graphics_BeginFrame picks the half for the frame it is starting and
+ * publishes it:
  *
- *     D_8009B0B4 = &D_8009B4A8[gGraphics_bActiveBuffer * 20832];
+ *     gGraphics_pActiveFrameBuffer =
+ *         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
  *
- * so the buffer is 20832 bytes per half, selected by the same index that
- * chooses D_800A5768's half a few lines above it. Main_Init takes the base
- * while it brings the loader block up.
- *
- * Left unsized, which is what both declarers already said; the stride is the
- * measurement here, not the total. */
-extern u8 D_8009B4A8[];
+ * The asserted 0x5160 size is the 20832-byte stride selected by the same index
+ * that chooses D_800A5768's half a few lines above it. Main_Init takes the
+ * array base while it brings the loader block up. The number of buffers stays
+ * unsized because only the two-buffer startup loop establishes it.
+ */
+extern GraphicsFrameBuffer gGraphics_aFrameBuffers[];
+
+#ifdef GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
+extern GraphicsFrameBuffer *volatile gGraphics_pActiveFrameBuffer;
+#else
+extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
+#endif
 
 /* The other half of that pair, the one the comment above refers to:
  *
@@ -329,14 +402,22 @@ extern u8 D_800A5768[];
  * same was already true of D_8009B0C1 above, whose volatile view in
  * main_init.c was dropped the same way.
  *
- * Their neighbour D_8009B0A0 is deliberately NOT here: graphics_frame.c
- * defines it `u8 D_8009B0A0[4]` while main_services.c both declares it a
- * scalar and assigns `D_8009B0A0 = 2`. Array and scalar are two faithful
- * views of one address, so neither spelling can absorb the other and that
- * declaration stays local. */
+ * Their neighbour D_8009B0A0 begins a four-byte state block. The defining
+ * frame unit addresses the block as an array, while func_80013154 writes the
+ * first three bytes as ordered volatile scalars. The selector keeps both
+ * measured views at the owner instead of leaving private declarations in the
+ * startup source. */
 extern u8 D_8009B0AD;
 extern u8 D_8009B0D0;
 extern u8 D_8009B0A8;
+
+#ifdef GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
+extern volatile u8 D_8009B0A0;
+extern volatile u8 D_8009B0A1;
+extern volatile u8 D_8009B0A2;
+#else
+extern u8 D_8009B0A0[4];
+#endif
 
 void Graphics_SyncFrame(void);
 void Graphics_BeginFrame(void);

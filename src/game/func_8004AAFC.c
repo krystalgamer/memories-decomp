@@ -1,4 +1,5 @@
 #define FUNC_8004A7C0_CALL_WITH_UNUSED_ARG
+#define D_8009B458_IN_DATA
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "func_8004A7C0.h"

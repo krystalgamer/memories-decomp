@@ -3,12 +3,14 @@
 #include "func_80049010.h"
 #include "sound.h"
 
-/* Same *g_SDValue struct as set_8009b45c_1582_1584.c/clear_8009b45c_busy.c.
-   If the 0x157E slot is active, notifies func_80049C40() (and clears the
-   0x80 flag bit) if that flag was set, resets the slot via
-   reset_slot_7E0_if_active(), and marks it inactive. Separately, if the
-   0x157A counter has run out, clears it via clear_8009b458_4A4_if_set()
-   and resets 0x157A/0x1578. Always zeroes 0x1586/0x1588. */
+/* Retires the driver's two pending requests, in the same *g_SDValue struct
+   whose field_1582/field_1584 func_800490F0 and func_80049108 write.
+
+   If the 0x157E slot is active, it notifies func_80049C40 with that slot when
+   the 0x80 flag bit is set (clearing the bit), releases the slot through
+   func_80049CB0, and marks it inactive. Separately, if the 0x157A counter has
+   run out, it stops the sequence through func_800498F8 and resets
+   0x157A/0x1578. Always zeroes 0x1586/0x1588. */
 
 void func_80049010(void) {
     if (g_SDValue->field_157E != -1) {

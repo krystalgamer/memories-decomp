@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_FUNC_80041C8C_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "display_object.h"
 
 /* The stream dispatcher consumes only ctx. func_80041D60 nevertheless emits
@@ -13,7 +14,7 @@ void func_80041C8C(
     DisplayObject *ctx, s32 script, s32 attribute, DisplayObject *ctx_again
 );
 #else
-void func_80041C8C(u8 *ctx);
+void func_80041C8C(DisplayObjectStreamState *object);
 #endif
 
 #endif

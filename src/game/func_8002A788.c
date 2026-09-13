@@ -1,231 +1,129 @@
+/*
+ * Preserve the post-stepper argument: `func_8002A788`
+ *
+ * The 568-byte library navigation handler matches under the existing uniform
+ * `gcc_2_8_1_g8` profile using the canonical signed card-grid positions and
+ * the existing input header's pressed DATA and held DATA_VOLATILE views.
+ * Replacing the held-input view with nonvolatile DATA shrinks the function to
+ * 484 bytes; each tested direction path must retain retail's input reloads.
+ *
+ * The call to `func_8002A6B8` explicitly restores the state pointer in `$a0`
+ * after the motion stepper. Its card-id definition does not consume that value,
+ * but using its normal no-argument prototype replaces this restore at `+0x3C`
+ * with a nop. `FUNC_8002A6B8_STATE_ARGUMENT` selects the argument-taking call
+ * view only for this handler; the definition and earlier no-argument callers
+ * retain their existing view. No dead expression, register pin, inline assembly
+ * or new profile is needed.
+ *
+ * The handler preserves selection/cancel returns, ten-row jumps, bounded
+ * single-cell movement, fourfold wrap duration and the final scroll update.
+ * Its mode-byte copy uses unsized absolute-address byte declarations in the
+ * handler's shared header. The original canonical rows and six-row terminal
+ * refinement history remain unchanged; a post-terminal resolution records the
+ * new call-view and source evidence.
+ */
+#define FUNC_8002A6B8_STATE_ARGUMENT
+#define GINPUT_PAD1_PRESSED_IN_DATA
+#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
+#define MAIN_MODE_STATE_NEXT_AS_ARRAY
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
-#include "card_constants.h"
+#include "../unmatched.h"
+#include "input.h"
 #include "card_grid.h"
+#include "func_8002A3CC.h"
+#include "func_80029EB0.h"
+#include "func_8002A660.h"
 #include "func_8002A788.h"
+#include "main_mode_state.h"
 
-s32 func_8002A6B8(void)
+void func_8002A788(u8 *state)
 {
-    s32 row = gCardGrid_bCursorRow;
-    s32 row_tens = row / CARD_GRID_SECTION_SIDE_LENGTH;
-    s8 row_tens_byte = (s8)row_tens;
-    s32 index = row_tens_byte * CARD_GRID_SECTION_ROW_CARD_COUNT;
-    s8 row_ones =
-        (s8)(row - row_tens * CARD_GRID_SECTION_SIDE_LENGTH);
-    s32 base;
+    s32 card_id;
     s32 column;
-    s32 column_tens;
-    s8 column_ones;
-    register s32 result asm("$2");
+    s32 row;
+    s32 frames;
+    s32 distance;
 
-    index += row_ones * CARD_GRID_SECTION_SIDE_LENGTH;
-
-    column = gCardGrid_bCursorColumn;
-    if (column >= CARD_GRID_SECTION_SIDE_LENGTH) {
-        index += CARD_GRID_SECTION_CARD_COUNT;
+    if (func_8002A3CC() == 0) {
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
+            card_id = func_8002A6B8(state);
+            if ((func_80029EB0(state, card_id) & 0x80) != 0) {
+                *(s16 *)(state + 6) = card_id;
+                state[0] = 2;
+                return;
+            }
+        }
+        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+            D_8009B26C[0] = D_8009B269[0];
+            return;
+        }
+        if ((gInput_wPad1Held & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
+            column = gCardGrid_bCursorColumn;
+            row = gCardGrid_bCursorRow;
+            frames = 6;
+            if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) != 0) {
+                frames = 2;
+            }
+            if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
+                if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
+                    row += 0xA;
+                    if (row >= 0x28) {
+                        row = 0x27;
+                    }
+                } else {
+                    row -= 0xA;
+                    if (row < 0) {
+                        row = 0;
+                    }
+                }
+                distance = row - gCardGrid_bCursorRow;
+                if (distance >= 0) {
+                    frames = distance * 2;
+                } else {
+                    frames = (gCardGrid_bCursorRow - row) * 2;
+                }
+            } else {
+                if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+                    if ((gInput_wPad1Held & PAD_DIRECTION_RIGHT) != 0) {
+                        column += 1;
+                        if (column >= 0x14) {
+                            column = 0x13;
+                            if (row < 0x27) {
+                                column = 0;
+                                row += 1;
+                                goto wrap_delay;
+                            }
+                        }
+                    } else {
+                        column -= 1;
+                        if (column < 0) {
+                            column = 0;
+                            if (row != 0) {
+                                column = 0x13;
+                                row -= 1;
+wrap_delay:
+                                frames *= 4;
+                            }
+                        }
+                    }
+                }
+                if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+                    if ((gInput_wPad1Held & PAD_DIRECTION_DOWN) != 0) {
+                        row += 1;
+                        if (row >= 0x28) {
+                            row = 0x27;
+                        }
+                    } else {
+                        row -= 1;
+                        if (row < 0) {
+                            row = 0;
+                        }
+                    }
+                }
+            }
+            func_8002A4A8(column, row, frames);
+        }
     }
-    base = index + 1;
-    column_tens = column / CARD_GRID_SECTION_SIDE_LENGTH;
-    column_ones =
-        (s8)(column - column_tens * CARD_GRID_SECTION_SIDE_LENGTH);
-    index = base + column_ones;
-    result = 0;
-    if (index < CARD_ID_END) {
-        result = index;
-    }
-    return result;
+    func_8002A660(state);
 }
-
-/* The build's grouped-symbol check looks for the text `func_8002A788(` in the
-   source that owns the address, and this unit implements the function as the
-   asm block below, whose only mention of it is a .reloc operand. This
-   redeclaration is what marks the definition for that check; it repeats the
-   header's prototype so the two cannot drift. */
-void func_8002A788(u8 *state);
-
-__asm__(
-    ".set noreorder\n"
-    ".globl func_8002A788\n"
-    ".ent func_8002A788\n"
-    "func_8002A788:\n"
-    ".word 0x27BDFFE0\n"
-    ".word 0xAFB10014\n"
-    ".word 0x00808821\n"
-    ".word 0xAFBF0018\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002A3CC\n"
-    ".word 0xAFB00010\n"
-    ".word 0x14400080\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Pressed\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Pressed\n"
-    ".word 0x00000000\n"
-    ".word 0x30420040\n"
-    ".word 0x1040000D\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002A6B8\n"
-    ".word 0x02202021\n"
-    ".word 0x02202021\n"
-    ".word 0x00408021\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_80029EB0\n"
-    ".word 0x02002821\n"
-    ".word 0x30420080\n"
-    ".word 0x10400004\n"
-    ".word 0x24020002\n"
-    ".word 0xA6300006\n"
-    ".word 0x08000089\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0xA2220000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Pressed\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Pressed\n"
-    ".word 0x00000000\n"
-    ".word 0x30420020\n"
-    ".word 0x10400007\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B269\n"
-    ".word 0x90420000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B269\n"
-    ".word 0x3C010000\n"
-    ".reloc .-4, R_MIPS_HI16, D_8009B26C\n"
-    ".word 0xA0220000\n"
-    ".reloc .-4, R_MIPS_LO16, D_8009B26C\n"
-    ".word 0x08000089\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x3042F00C\n"
-    ".word 0x1040005C\n"
-    ".word 0x00000000\n"
-    ".word 0x83840000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorColumn\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x83850000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorRow\n"
-    ".word 0x30420080\n"
-    ".word 0x10400002\n"
-    ".word 0x24060006\n"
-    ".word 0x24060002\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x3042000C\n"
-    ".word 0x10400019\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x30420008\n"
-    ".word 0x10400007\n"
-    ".word 0x00000000\n"
-    ".word 0x24A5000A\n"
-    ".word 0x28A20028\n"
-    ".word 0x14400007\n"
-    ".word 0x00000000\n"
-    ".word 0x0800004A\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0x24050027\n"
-    ".word 0x24A5FFF6\n"
-    ".word 0x04A10002\n"
-    ".word 0x00000000\n"
-    ".word 0x00002821\n"
-    ".word 0x83830000\n"
-    ".reloc .-4, R_MIPS_GPREL16, gCardGrid_bCursorRow\n"
-    ".word 0x00000000\n"
-    ".word 0x00A31023\n"
-    ".word 0x04410037\n"
-    ".word 0x00023040\n"
-    ".word 0x00651023\n"
-    ".word 0x08000085\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0x00023040\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x3042A000\n"
-    ".word 0x10400018\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x30422000\n"
-    ".word 0x1040000A\n"
-    ".word 0x00000000\n"
-    ".word 0x24840001\n"
-    ".word 0x28820014\n"
-    ".word 0x1440000E\n"
-    ".word 0x28A20027\n"
-    ".word 0x1040000C\n"
-    ".word 0x24040013\n"
-    ".word 0x00002021\n"
-    ".word 0x0800006E\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0x24A50001\n"
-    ".word 0x2484FFFF\n"
-    ".word 0x04810006\n"
-    ".word 0x00000000\n"
-    ".word 0x10A00004\n"
-    ".word 0x00002021\n"
-    ".word 0x24040013\n"
-    ".word 0x24A5FFFF\n"
-    ".word 0x00063080\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x30425000\n"
-    ".word 0x10400011\n"
-    ".word 0x00000000\n"
-    ".word 0x3C020000\n"
-    ".reloc .-4, R_MIPS_HI16, gInput_wPad1Held\n"
-    ".word 0x94420000\n"
-    ".reloc .-4, R_MIPS_LO16, gInput_wPad1Held\n"
-    ".word 0x00000000\n"
-    ".word 0x30424000\n"
-    ".word 0x10400007\n"
-    ".word 0x00000000\n"
-    ".word 0x24A50001\n"
-    ".word 0x28A20028\n"
-    ".word 0x14400007\n"
-    ".word 0x00000000\n"
-    ".word 0x08000085\n"
-    ".reloc .-4, R_MIPS_26, func_8002A788\n"
-    ".word 0x24050027\n"
-    ".word 0x24A5FFFF\n"
-    ".word 0x04A10002\n"
-    ".word 0x00000000\n"
-    ".word 0x00002821\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002A4A8\n"
-    ".word 0x00000000\n"
-    ".word 0x0C000000\n"
-    ".reloc .-4, R_MIPS_26, func_8002A660\n"
-    ".word 0x02202021\n"
-    ".word 0x8FBF0018\n"
-    ".word 0x8FB10014\n"
-    ".word 0x8FB00010\n"
-    ".word 0x03E00008\n"
-    ".word 0x27BD0020\n"
-    ".end func_8002A788\n"
-);
