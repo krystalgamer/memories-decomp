@@ -35,6 +35,7 @@ s32 func_80026C0C(s32 arg0)
 s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
                                     s32 arg2)
 {
+    /* Retail keeps the result count in t0 and the five-entry index in a3. */
     s32 count = 0;
     s32 i = 0;
     s32 d = D_8009B1D5;
