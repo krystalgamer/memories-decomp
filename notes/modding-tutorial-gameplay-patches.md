@@ -328,9 +328,8 @@ card's cost, displays the affordability result, and on confirmation calls
 The patch therefore removes only the one-purchase-per-password gate. It does
 not make purchases free or deliver cards through a separate path.
 
-The byte-exact `Password_UpdateShopScreen` source (a build-integrated candidate since
-#3859, [`src/candidates/password/func_8016A37C.c`](../src/candidates/password/func_8016A37C.c),
-because its match depends on a pinned register) makes the sequence
+The byte-exact `Password_UpdateShopScreen` source, in
+[`src/overlays/password/shop.c`](../src/overlays/password/shop.c), makes the sequence
 explicit: state 2 selects the price-dependent message and delegates choice
 handling to the dialog program; choice zero sets the used flag and awards
 the card, then state 3 incrementally debits RAM starchips. There is no second

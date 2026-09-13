@@ -5,8 +5,7 @@
 
 /* The resident dialog choice index, as this overlay has to spell it.
  *
- * Password_UpdateShopScreen (now a build-integrated candidate,
- * src/candidates/password/func_8016A37C.c) tests it against 0 after a
+ * Password_UpdateShopScreen (shop.c) tests it against 0 after a
  * prompt and name_entry_dialog.c clears it before raising one and tests it
  * afterwards, so both read it as the option the player settled on.
  *

@@ -62,12 +62,11 @@ storage owners.
 The password shop screen is ten functions in executable order, from
 `Password_RefreshDigitDisplay` at `0x80169C30` through
 `Password_UpdateShopScreen` at `0x8016A37C`, ending at `0x8016A930`.
-[`shop.c`](shop.c) holds the first nine as one `gcc_2_8_1_g0_split` C
-subsegment at module offset `0x1C30`. The updater matched only through a
-pinned register, so since #3859 it is a build-integrated candidate
-(`src/candidates/password/func_8016A37C.c`): its text is generated
-assembly at `0x237C`, and its jump table, the rodata block at module `+0x7C`,
-is a blob again.
+[`shop.c`](shop.c) holds all ten as one `gcc_2_8_1_g0_split` C
+subsegment at module offset `0x1C30`, and owns the updater's jump table, the
+rodata block at module `+0x7C`. #3859 had returned the updater to a
+build-integrated candidate because its match pinned a register; it is pure C
+again (#5).
 
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three

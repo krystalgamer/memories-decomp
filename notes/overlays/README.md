@@ -347,11 +347,10 @@ jr    $v0
 Its five words sit at module offset `0x7C`–`0x90`, immediately after
 `func_80168CDC`'s initialiser. This was another contribution inside the old
 combined blob. #2158 replaced both that contribution and the function's
-complete `0x237C`–`0x2930` text region with C. Since #3859 returned the
-function to a build-integrated candidate
-([`src/candidates/password/func_8016A37C.c`](../../src/candidates/password/func_8016A37C.c)), the layout
-assigns the table to `overlays/password/rodata_7C` as `rodata` and the text
-to `overlays/password/text_237C` as `asm`.
+complete `0x237C`–`0x2930` text region with C. #3859 returned the function
+to a build-integrated candidate, and the layout gave the table to a `rodata`
+blob and the text to an `asm` subsegment. Now that it is pure C again (#5),
+[`shop.c`](../../src/overlays/password/shop.c) owns both once more.
 
 ### What the "module header" actually is
 

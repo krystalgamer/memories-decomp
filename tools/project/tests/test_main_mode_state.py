@@ -26,7 +26,7 @@ CONSUMERS = (
     "src/candidates/func_80018FEC.c",
     "src/candidates/func_800283F4.c",
     "src/game/script_op_save_prompt.c",
-    "src/candidates/password/func_8016A37C.c",
+    "src/overlays/password/shop.c",
     "src/game/debug_menu_two_player_entry.c",
     "src/game/duel_effect_basic_commands.c",
     "src/game/duel_effect_mode_7.c",

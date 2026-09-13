@@ -59,8 +59,8 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectChannel D_800EB15C;
 /* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
  * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
- * (script_run_tick.c:23) and Password_UpdateShopScreen (now a stored
- * candidate, src/candidates/password/func_8016A37C.c) each load it as a
+ * (script_run_tick.c:23) and Password_UpdateShopScreen
+ * (overlays/password/shop.c) each load it as a
  * word and test it through TEXT_BOX_COMPLETION_MASK against
  * TEXT_BOX_FLAG_DONE; retail loads it lui/lw (func_8002FA54.s:15-16).
  * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
