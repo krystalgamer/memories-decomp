@@ -24,9 +24,8 @@
  * read-back of the byte global just stored, and the decrement belongs to the
  * same expression -- `n = gDuel_bTerrain - 1;` before the call. */
 void DuelEffect_ApplyTerrain(void) {
-    u8 *p;
-    u8 *r;
-    u8 *q;
+    DuelSideState *r;
+    DuelCardRecord *q;
     u8 *e;
     s32 i;
     s32 n;
@@ -36,14 +35,14 @@ void DuelEffect_ApplyTerrain(void) {
     DisplayObjectConfig *a;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        r = (u8 *)D_8009B1C8;
-        r[0xA] = r[0xA] + 1;
+        r = D_8009B1C8;
+        r->rank.field_0A = r->rank.field_0A + 1;
         v = *(u8 *)&gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain = v;
         n = gDuel_bTerrain - 1;
         e = DuelEffect_AllocateRequest(0xA);
         D_8009B17C = e;
-        *(s16 *)(e + 0x1A) = n;
+        ((DuelEffectRequest *)e)->field_1A = n;
         SD_SEPlayFull(0x13);
         return;
     }
@@ -51,7 +50,7 @@ void DuelEffect_ApplyTerrain(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) == 0) {
-        if (D_8009B17C[0x1D] != 0) {
+        if (((DuelEffectRequest *)D_8009B17C)->field_1D != 0) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
@@ -68,27 +67,26 @@ void DuelEffect_ApplyTerrain(void) {
              D_8009B134_abs) == 0) {
             a = (DisplayObjectConfig *)D_8009B214;
             b = gDuel_bTerrain;
-            *(s16 *)(D_8009B17C + 0x1A) = -2;
+            ((DuelEffectRequest *)D_8009B17C)->field_1A = -2;
             func_80040410(a, b);
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }
         return;
     }
 
-    if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
+    if ((((DuelEffectRequest *)D_8009B17C)->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
         return;
     }
 
-    q = (u8 *)D_801A7AD8;
+    q = D_801A7AD8;
     i = 0;
-    p = q + 0x14;
     do {
-        if ((*(u16 *)(p + 2) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            *(s16 *)(p + 0) = Duel_GetTerrainBoost((*(u8 **)q)[0x68]);
+        if ((q->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            q->terrain_modifier =
+                Duel_GetTerrainBoost(((DisplayObject *)q->object)->field_68);
         }
         i++;
-        p += DUEL_CARD_RECORD_SIZE;
-        q += DUEL_CARD_RECORD_SIZE;
+        q++;
     } while (i < DUEL_CARD_RECORD_COUNT);
 
     gDuel_wCardEffectFlags = 0;
