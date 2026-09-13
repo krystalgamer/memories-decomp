@@ -8,6 +8,7 @@
 #include "func_8005A53C.h"
 #include "model.h"
 #include "model_cleanup.h"
+#include "model_control.h"
 #include "model_graphics_state.h"
 #include "model_handler_registry.h"
 #include "model_scene_states.h"

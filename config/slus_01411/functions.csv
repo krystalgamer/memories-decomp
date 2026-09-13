@@ -892,7 +892,7 @@ address,size,name,status,module,notes
 0x800534B8,0xBFC,func_800534B8,unmatched_asm,game,
 0x800540B4,0x1634,func_800540B4,unmatched_asm,game,
 0x800556E8,0x2EC,func_800556E8,matching_c,game,"OR-condition handoff with a limit local, mirrored clamps with separate temporaries, guarded do-while part loop"
-0x800559D4,0x748,func_800559D4,unmatched_asm,game,
+0x800559D4,0x748,func_800559D4,matching_c,game,"Exact 1864-byte C controller plus 24-byte switch table with uniform G8 split: scoped address captures, signed cursors and separate phase values preserve module callbacks, animation transitions and sound gating. Verified field/helper contracts; historical attempts retained."
 0x8005611C,0x134,func_8005611C,matching_c,game,"Exact post-terminal match from updated collaborator source: named 0x1000 stores, loop cursor, and stored-one lifetime reproduce linked bytes and relocations."
 0x80056250,0x2B4,func_80056250,matching_c,game,Exact linked bytes with gcc_2_8_1_g8_split from the ygofm reference; per-block base locals and the chained limit assignment are load-bearing.
 0x80056504,0x324,Model_LoadMonsterMerge,matching_c,game,"Exact under gcc_2_8_1_g8_split after using the established .data view D_8009B0F4_abs for the transfer-state stores; pure C with no asm or asm-register bindings. Reconstructed from the sibling slot-property writer Model_SetSlotProperties and the File_TryRequestAsyncTransfer idiom in duel_deck_card_data.c."

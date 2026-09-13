@@ -7,6 +7,7 @@
  * same ninth saved register.
  */
 #include "../types.h"
+#include "../game/model_control.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
