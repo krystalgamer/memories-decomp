@@ -27,6 +27,13 @@ extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 
+/* func_800507D0 passes these absolute word loads to argument 7 of
+ * File_RequestAsyncTransfer and to func_80049394(void *), respectively.
+ * The former requests SU.MRG sectors [1223, 1239); the latter is a data
+ * argument, not an overlay entry point. */
+extern s32 D_80010030 __attribute__((section(".data")));
+extern void *D_80010034 __attribute__((section(".data")));
+
 /* Staging base selected by duel package stage 7. */
 extern u8 *D_800101DC __attribute__((section(".data")));
 
