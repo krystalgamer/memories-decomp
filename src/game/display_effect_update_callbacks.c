@@ -204,7 +204,7 @@ void func_8003AC48(MenuRecord *p)
 void func_8003AD6C(MenuRecord *p)
 {
     s32 dd[2];
-    u8 *r;
+    DisplayObject *r;
     s32 a;
     s32 b;
     s32 d;
@@ -218,9 +218,9 @@ void func_8003AD6C(MenuRecord *p)
 
     if (func_80039F1C((DisplayEffectState *)p) == 0) {
         p->field_32 |= 0x10;
-        r = *(u8 **)&p->grid[0][0];
-        a = r[0x67];
-        b = *(s8 *)(r + 0x16);
+        r = (DisplayObject *)p->grid[0][0];
+        a = r->field_67;
+        b = r->field_16;
         func_80039F90((void **)p->grid[0]);
         func_8003A1EC(p, (u8 **)p->grid[0], p->field_31);
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
@@ -238,7 +238,7 @@ void func_8003AD6C(MenuRecord *p)
     if (n <= 0) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
-                      *(s8 *)(*(u8 **)&p->grid[0][0] + 0x16));
+                      ((DisplayObject *)p->grid[0][0])->field_16);
         func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         func_80039F90((void **)p->grid[1]);
