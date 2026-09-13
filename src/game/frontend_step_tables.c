@@ -12,7 +12,8 @@
  * dispatches through.
  *
  * It picks between them on D_8009B2F0 and indexes the winner with
- * `D_8009B2EB & 0x1F`. Both are written here rather than resolved out of the
+ * `D_8009B2EB & FRONTEND_STEP_INDEX_MASK`. Both are written here rather than
+ * resolved out of the
  * blob at 0x80090BA8 because every entry is a function this tree already
  * names. All but one of the twenty-three are matching C: func_80030998 is
  * generated assembly, while func_80030D5C is owned by

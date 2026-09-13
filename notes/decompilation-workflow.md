@@ -573,16 +573,18 @@ adds two more of its own:
   anything.
 
 - **An identical layout is not an identical record.** `DuelFieldPosition` in
-  `duel_grid.h` and `ScreenPair` in `screen_projection.h` are both
+  `duel_grid.h` and `ScreenPair` in `ygo_types.h` are both
   `{ s16 x; s16 y; }` and describe unrelated memory: the duel cursor, and one
   entry of the projected slot table `D_800EA070`. Merging them would assert a
   relationship that does not exist. The reverse error is available too --
-  `ProjectedPair` sits in the same header as `ScreenPair` and differs only in
+  `ProjectedPair` sits beside `ScreenPair` and differs only in
   that its `x` is `u16` where `ScreenPair`'s is `s16`, so a scan that
   normalises widths to compare shapes reports them as one record and hides the
   single distinction the header exists to record. Duplication worth collecting
-  looks like what `screen_projection.h` actually collected: three textually
-  identical spellings of one GTE result, in three files, for one address.
+  looks like what `screen_projection.h` originally collected before the two
+  proven projection values moved to their single owner in `ygo_types.h`:
+  three textually identical spellings of one GTE result, in three files, for
+  one address.
 
 The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the

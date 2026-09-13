@@ -15,4 +15,9 @@
  * assigns it to D_8009B458->voice_attr.pitch and calls SpuSetVoiceAttr. */
 s32 func_80049FB4(s32 note_high, s32 note_low, s32 base, s32 offset);
 
+/* Twelve semitone rows of 128 fine-tune steps: the SPU pitch word for each
+ * semitone of the base octave. func_80049FB4 indexes it by the difference's
+ * semitone and the fine step, then shifts by the octave. */
+extern u16 D_80010834[12][128];
+
 #endif

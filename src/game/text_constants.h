@@ -56,8 +56,8 @@ extern u8 gText_abColorSlots[];
  * code; TextBox_BuildStep (text_box_build_step.c) reads the whole word at a
  * script byte's index and masks it with 0x8FF0FFFF. Those two read it
  * through this declaration, the u32 spelling both already used.
- * func_80039794.c reads bits 0-2 of the high halfword through its own TblEnt
- * view of the same entries and keeps that view; func_8003B5C8.c reaches
+ * func_80039794.c takes this declaration too and casts it to its TblEnt view
+ * to read bits 0-2 of each high halfword; func_8003B5C8.c reaches
  * entry 1 under its own name, D_801D9004, with a const that its note
  * explains. 0x174 bytes to D_801D9174, 93 entries; the first word is zero in
  * the image, no C unit writes the table, and the filler was not read. Retail
