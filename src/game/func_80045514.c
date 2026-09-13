@@ -238,7 +238,7 @@ void func_80045514(void)
                                              entry_state->field_157A);
             if ((s16)g_SDValue->field_157E == 0) {
                 g_SDValue->field_157C = g_SDValue->field_004E;
-                func_80049AF4(1, 1);
+                SD_PlaySequence(1, 1);
                 {
                     SDValue *sd = g_SDValue;
                     sd->field_158A = 0xFF;

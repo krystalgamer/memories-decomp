@@ -837,14 +837,14 @@ The promoted caller takes its declarations from sound-owned headers.
 `func_80045484` retains its explicit byte mask, and `func_80049A64` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
-`func_80049AF4` caller view while its definition keeps the one-argument
+`SD_PlaySequence` caller view while its definition keeps the one-argument
 view. Native compiler controls check these declarations and reject
 incompatible views.
 
 The complete five-function secondary playback lifecycle now builds from
 `src/game/sound_secondary_playback.c`, covering `0x80049A64` through
 `0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
-`func_80049AF4` calls the canonical `SD_StartSequenceTracks(void)`, while
+`SD_PlaySequence` calls the canonical `SD_StartSequenceTracks(void)`, while
 `func_80049BAC` uses a narrow same-symbol no-argument alias matching its
 original translation unit. The adjacent functions on both sides require
 `gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
