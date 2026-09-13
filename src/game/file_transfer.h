@@ -199,10 +199,10 @@ extern u32 D_8009B134_abs __attribute__((section(".data")));
  * File_SetPositionTable hands its address to File_InitTransferState
  * (src/candidates/func_800136E4.c:24), which stores it into D_8009B118
  * (file_stream.c:15). The two memory-card dialogs also reach it, always by
- * address: MemCardDialog_UpdateSave (src/candidates/func_8003E854.c)
+ * address: MemCardDialog_UpdateSave (mem_card_dialog_load_save.c)
  * and MemCardDialog_UpdateTradeSave (mem_card_dialog_runtime.c) pass it
  * to MemCardReadFile as the destination of a read whose last argument is 0x480,
- * and compare it as a SaveDataState in src/candidates/func_8003E854.c and
+ * and compare it as a SaveDataState in mem_card_dialog_load_save.c and
  * mem_card_dialog_runtime.c. Every retail access is an address-take
  * (func_800136E4.s:5-6, func_8003E854.s:289-290 and :319-320,
  * func_8003EED0.s:127-128, :155 and :158), so the listings say nothing
