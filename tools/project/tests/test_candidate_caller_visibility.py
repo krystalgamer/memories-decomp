@@ -237,6 +237,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 owner in include
                 for owner in (
                     "display_object_packet_submit.h",
+                    "func_8002A2F4.h",
                     "model_slot_setup.h",
                     "model_load_step.h",
                     "duel_field_display_objects.h",
