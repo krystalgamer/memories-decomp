@@ -5641,6 +5641,12 @@
       "source": "src/game/func_8005D994.c"
     },
     {
+      "address": "0x8005DBA4",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0xC64",
+      "source": "src/game/model_keyframe_update.c"
+    },
+    {
       "address": "0x8005E808",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3EC",

@@ -36,8 +36,8 @@ typedef char ModelKeyframeTimingView_size_must_be_0x28[
  * +0x20, +0x22 and +0x24, a byte at +0x26 (:51-66), and stores the ring's
  * address into D_8009B074. func_8005EBF4 forms Key pointers from the ring and
  * derives each channel pointer as `(u8 *)key + k * 8`.
- * func_8005DBA4, still assembly, forms the address at func_8005DBA4.s:34,
- * :38-40 and :807-809. The evaluator used to declare it `Key []` and
+ * func_8005DBA4 walks and wraps the same ring in model_keyframe_update.c.
+ * The evaluator used to declare it `Key []` and
  * func_8005F91C used a local `u8 []` declaration. */
 extern Key D_800F5788[10];
 
