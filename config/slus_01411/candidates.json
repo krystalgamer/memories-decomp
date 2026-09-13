@@ -144,18 +144,6 @@
       }
     },
     {
-      "address": "0x80024E58",
-      "profile": "gcc_2_8_1_g8",
-      "source": "src/candidates/func_80024E58.c",
-      "target": "src/candidates_target/func_80024E58.S",
-      "candidate_build_sha256": "3b3a37649fc1063b4ba8c55b20c260a229a9602d2c2b6f1964bd449bb83aba06",
-      "target_bytes_sha256": "01196d0d6dcdaeccb1d46ce0e85e6d7c62514b2bbd4a1c3bb646a6226ce83fc7",
-      "canonical_contract_sha256": "d87424f79a07ff399f041d9569038875140453442ecca7565d6c09876b9a939c",
-      "canonical_contracts": {
-        "gDuel_bTerrain": "cbd773a9bb367f4c16e8f72355bc9261f2b751c63fc3b03ac8814036f1e7bd41"
-      }
-    },
-    {
       "address": "0x80025F3C",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80025F3C.c",
@@ -440,16 +428,6 @@
       "canonical_contracts": {}
     },
     {
-      "address": "0x80048A28",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80048A28.c",
-      "target": "src/candidates_target/func_80048A28.S",
-      "candidate_build_sha256": "d11d7f60e5c8ada4a9be1239d134da07055eb08e172cf798c40a60a676077c31",
-      "target_bytes_sha256": "019d4445cf52e1692105ffeceab0d79b3ec6f652fd2b9727e31b830d3826e965",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
-    },
-    {
       "address": "0x80048F14",
       "profile": "gcc_2_8_1_g0",
       "source": "src/candidates/func_80048F14.c",
@@ -495,34 +473,12 @@
       }
     },
     {
-      "address": "0x8004C420",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8004C420.c",
-      "target": "src/candidates_target/func_8004C420.S",
-      "candidate_build_sha256": "e4a63268d84506fd50c44771bce68eea59b7bbcbdf7be3c5c87f21b51289c746",
-      "target_bytes_sha256": "f5c1c4b4df77ac48d6e3f526cf47d1fba868bec5d183109a2feb61d9c6b3fa53",
-      "canonical_contract_sha256": "4991d84b3c63289601d69550d4f00b27578f86a8d9a47379df46f837b296dfd2",
-      "canonical_contracts": {
-        "D_80011484": "8551a6830b106390b163a76d3869852cb97582da01014b4f9f2859f23a3f6a92"
-      }
-    },
-    {
       "address": "0x8004D134",
       "profile": "gcc_2_8_1_g0",
       "source": "src/candidates/func_8004D134.c",
       "target": "src/candidates_target/func_8004D134.S",
       "candidate_build_sha256": "9fb6c91b4edd5acac9cac544ea1bf1445eb1f9d4844c643f7199ef08bc503f40",
       "target_bytes_sha256": "89773dca85f6302599363783ab7dd25b29a4736f6001296352704da758132b19",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
-    },
-    {
-      "address": "0x8004D58C",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_8004D58C.c",
-      "target": "src/candidates_target/func_8004D58C.S",
-      "candidate_build_sha256": "fe99aa4dd1785fb269482c56105e1113588f6e37c6d6d7722f1f6749967926ad",
-      "target_bytes_sha256": "3be48ca5fb7b33d852cf04bc34220ad8105194faa0410658ad6a412ae242cd0c",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
     },
@@ -578,16 +534,6 @@
       "target": "src/candidates_target/func_80058938.S",
       "candidate_build_sha256": "f6f8d5a97f6190097f1f2e58b8f599bf85465736939cf177fceddd8bfa2621d0",
       "target_bytes_sha256": "06a20ee96bcb428d39c4527ecba506ddd486dff8266093349841aba08a23e4e3",
-      "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
-      "canonical_contracts": {}
-    },
-    {
-      "address": "0x8005A3D0",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8005A3D0.c",
-      "target": "src/candidates_target/func_8005A3D0.S",
-      "candidate_build_sha256": "c03a169160a17f532464058905ead1ba1b68ddef3d76f7fc733612854d6b27a0",
-      "target_bytes_sha256": "b5fa8b075c0919811b6a4f84a1440c6528708bde17912c15ccd1ec3736c2dead",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
     },

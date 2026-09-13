@@ -145,12 +145,16 @@ read by unmatched `func_80030294`.
 The 36 bytes from `D_8009AF88` through the unnamed continuation at
 `0x8009AFAB` are now emitted by `model_graphics_state.c`. They combine the
 active model-record pointer, model view/scene state, graphics buffer/frame
-state, and six trailing bytes reached by unmatched model code.
+state, and the trailing model-scene fields.
 
-The exact layout needs separate scalar objects rather than a struct because
-assembly names eighteen interior addresses independently. Explicit `.sdata`
-attributes keep zero-valued objects out of `.sbss`; private continuation
-scalars preserve the unnamed bytes. The resulting object has:
+Independently addressed scalar fields retain their symbols and explicit
+`.sdata` placement. The four bytes at `0x8009AFA4..0x8009AFA7` now have one
+real `u8 D_8009AFA4[4]` owner: the frame-step override, an unclassified byte,
+the byte named `D_8009AFA6`, and the active-slot index used by matching
+`func_800507D0`. The latter is not padding. `link_symbols.ld` preserves
+`D_8009AFA6 = D_8009AFA4 + 2` as an interior identity, not a second allocation.
+The halfwords at A8/AA remain separate and outside this four-byte extent.
+The resulting object still has:
 
 ```text
 .sdata  size=00000024  align=2**2
@@ -160,9 +164,12 @@ scalars preserve the unnamed bytes. The resulting object has:
 Every public symbol lands at its retail offset, and the linked payload matches
 the original 36 bytes.
 
-Two compiler views are deliberately retained. `graphics_frame.c` needs
+Existing scalar compiler views are deliberately retained. `graphics_frame.c` needs
 absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
 `func_80058E1C` needs the volatile small-data view of `D_8009AFA3`.
+`MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
+the owner and scene consumer; it cannot be combined with the absolute frame
+view. Scalar readers and writers still address the first byte.
 `func_8004E7B0` also keeps tentative common definitions of `D_8009AF88`,
 `D_8009AF8E`, and `D_8009AF90`: changing them to extern shortens its text by
 four bytes. The data-only unit remains the strong definition, so those commons

@@ -174,10 +174,10 @@ extern s32 D_8009B118 __attribute__((section(".data")));
 extern s32 D_8009B118;
 #endif
 
-/* Nine more that nobody calls, found by re-measuring the note above rather
- * than by a scan. Every one is installed as data -- seven into the duel scene
- * callback table, func_80056D7C as a transfer completion callback, and
- * func_80029EC4 into D_800E9DB0[3] (library_runtime.c:318) -- and none is
+/* Address-only declarations found by re-measuring the note above rather
+ * than by a scan. Every one is installed as data -- into the duel scene
+ * callback table or, for func_80029EC4, D_800E9DB0[3]
+ * (library_runtime.c:318) -- and none is
  * invoked from C.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
@@ -198,7 +198,6 @@ void func_80019D18(void);
 void func_8001F55C(void);
 void func_800218F0(void);
 void func_80018FEC(void);
-void func_80056D7C(void);
 void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
@@ -227,17 +226,17 @@ extern u8 D_8009B363[];
 void func_80033DB0(void);
 void func_80034830(void);
 
-/* Nine unmatched_asm functions, each with a single consumer that declared
+/* Eight unmatched_asm functions, each with a single consumer that declared
  * it locally. Moved together rather than one per change: this header is a
  * serialisation point, and separate PRs for separate symbols conflict with
  * each other without making any of them easier to check.
  *
- * All nine clear the bar this header sets. Each has one spelling across the
+ * All eight clear the bar this header sets. Each has one spelling across the
  * tree, so there is no disagreement to resolve first. None is declared with
  * an empty parameter list, so none is a call site relying on whatever the
  * argument register happened to hold. None has an overlay consumer.
  *
- * Six are void (void), called with no arguments against a no-argument
+ * Five are void (void), called with no arguments against a no-argument
  * declaration, so declaration and call already agree. The other three are
  * not, and are worth naming because assuming otherwise is exactly the
  * mistake this batch nearly shipped: func_800534B8 returns s32,
@@ -246,7 +245,6 @@ void func_80034830(void);
  * restated. */
 void func_8004DE24(void);
 void func_8004EB00(void);
-void func_800507D0(void);
 void func_80051A48(void);
 void func_8005DBA4(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
@@ -541,10 +539,6 @@ struct DuelRitualResult;
  * func_800179F4 installs it rather than calling it, as `D_800E9DB0[3] =
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
-/* gDuelEffect_apfnGroupHandler entry: the terrain effect step. It reads
- * gDuel_bTerrain back after storing it and decrements in the same
- * expression. */
-void func_80024E58(void);
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of

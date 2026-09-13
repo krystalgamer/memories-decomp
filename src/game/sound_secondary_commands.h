@@ -17,8 +17,9 @@
  * The u8 widths come from the definitions and suit the data: these are
  * sequence bytes, and the reader hands them straight through.
  *
- * SD_SequenceTimerCallback lives in sd_sequence_timer_callback.c and is
- * declared in sound_event_runtime.h, rather than this command header. */
+ * The contiguous SD_SequenceTimerCallback is declared in
+ * sound_event_runtime.h because it is installed through the SDK event ABI,
+ * rather than dispatched as a sequence command. */
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2);
 void func_8004B6E8(u8 index, s32 value);
 void func_8004B70C(u8 index, s32 unused, s32 value);

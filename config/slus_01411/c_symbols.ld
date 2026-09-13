@@ -3,6 +3,7 @@
 /* Conditional runtime imports; the definitions live in the password image. */
 /* Conditional runtime imports; the function definitions live in main_menu. */
 D_80010000 = 0x80010000;
+D_80010004 = 0x80010004;
 D_80010074 = 0x80010074;
 D_80010090 = 0x80010090;
 D_800100A8 = 0x800100A8;

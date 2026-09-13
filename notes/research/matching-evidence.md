@@ -6879,7 +6879,8 @@ mine got two of those three wrong and concluded the class was empty.
 ## A caller may pass an argument the matched callee does not take
 
 `func_80049C40` is matched, exactly, with `gcc_2_8_1_g0`, and its definition in
-`sound_secondary_playback.c` (now `func_80049BAC.c`) is:
+`sound_secondary_playback.c` (temporarily split into `func_80049BAC.c` after
+#3859, then restored as a grouped unit) is:
 
     void func_80049C40(void)
 

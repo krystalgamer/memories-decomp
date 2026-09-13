@@ -219,6 +219,8 @@ extern u8 gLibrary_aCardArtRecord[];
  * Every C consumer treats it as an unsized byte buffer, either publishing its
  * address through a FileTransferDescriptor or passing it to LoadImage2. */
 extern u8 D_801DD000[];
+/* The palette staged immediately after the model's first image payload. */
+extern u8 D_801DE000[];
 
 /* The primary transfer descriptor. Four sources in this family reach it as a
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */

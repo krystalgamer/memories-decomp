@@ -390,7 +390,7 @@ of the fourth argument.
 | `func_80040DD8`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
 | `func_80041068`, list key `5` | `5` | the same |
 
-Cases `0`, `1` and `2` pass it straight into `GsSortFastSprite`,
+Cases `1`, `2` and `3` pass it straight into `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`
 and `5` are only ever reached from the two list renderers, which read the
 object's attribute word into `v` and set `0x04000000` — `GsPERS` — on it when
@@ -414,9 +414,15 @@ perspective arm under the same circumstances. Whether that overlap is
 deliberate is not something the code states.
 
 The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
-is a word that means a `GsSPRITE *` in cases `0`-`2` and an attribute in cases
-`4`-`5`, which is why the inventory row's caution was right and why the
-reading should still come from a matched definition rather than a header.
+is a word that means a `GsSPRITE *` in cases `1`-`3` and an attribute in cases
+`4`-`5`, which is why the inventory row's caution was right.
+
+The matched definition in `src/game/display_object_packet_submit.c` confirms
+it. It takes the header's default `SpritePrim *` view. Cases `1`-`3` cast the
+argument to `GsSPRITE *`. Cases `4` and `5` test `(u32)sprite & 0x04000000`
+before projecting the prepared quad, and test bit 30 before routing it through
+`func_8005B260`. Case `0` returns, and every case from `6` up builds a
+`POLY_FT4` from the sprite's fields.
 
 ## Two-phase display-object fades
 

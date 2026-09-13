@@ -110,6 +110,12 @@ The last three words are a separate SU cohort:
   `0x80010034`, whose value `0x80185CD4` lies inside that module, to
   `func_80049394`.
 
+The matching `func_800507D0` uses the owning declarations in
+`high_memory_addresses.h`. Its three fixed imports are declared by
+`model_scene_imports.h` as measured caller views for this SU sector range;
+they are not declarations for the main-menu package that reuses the same
+virtual addresses, nor recovered implementation signatures for that overlay.
+
 An interior module pointer is not an arena base. Its presence at the end of
 the contiguous words is decisive counter-evidence to a uniform
 `gMain_apLoadArena` array.
