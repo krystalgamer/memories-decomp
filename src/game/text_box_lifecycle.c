@@ -7,17 +7,17 @@
 
 void TextBox_Destroy(void *record_ptr)
 {
-    u8 *record = record_ptr;
+    DuelEffectChannel *record = record_ptr;
 
-    func_80035CA8(record[0x57]);
-    DuelEffect_ClearMatchingMarker(record[0x57]);
-    *(u16 *)(record + 0x34) = 0;
-    func_8004036C(*(void **)(record + 0x30));
-    func_8004036C(*(void **)(record + 0x2C));
-    func_8004036C(*(void **)(record + 0x28));
-    *(void **)(record + 0x30) = 0;
-    *(void **)(record + 0x2C) = 0;
-    *(void **)(record + 0x28) = 0;
+    func_80035CA8(record->index_57);
+    DuelEffect_ClearMatchingMarker(record->index_57);
+    record->flags_34 = 0;
+    func_8004036C(record->field_30);
+    func_8004036C(record->field_2C);
+    func_8004036C(record->field_28);
+    record->field_30 = 0;
+    record->field_2C = 0;
+    record->field_28 = 0;
 }
 
 void *TextBox_Create(
