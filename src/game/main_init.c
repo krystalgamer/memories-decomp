@@ -26,7 +26,6 @@
 #include "../game/func_80043BCC.h"
 #include "../game/main_loop.h"
 #include "../game/main_reset_frontend_runtime.h"
-#define FUNC_80013154_NO_ARGS
 #include "../game/main_services.h"
 #include "../game/rand_constants.h"
 #include "../game/movie_playback_control.h"
@@ -72,7 +71,7 @@ s32 Main_Init(void)
     *(u8 *)&D_8009B230 = one;
     gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
-    func_80013154();
+    func_80013154(p);
     func_800403F0();
     func_800151B0();
     func_800134B4();
