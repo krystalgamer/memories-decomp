@@ -5735,6 +5735,15 @@ written out as its own statements, because GCC's `% 4` expansion exposes only
 one of its three values to naming; written out, all three are nameable and
 three pins place them.
 
+The pins were then shown to be unnecessary (#5). The residual was never in the
+modulo itself. The block after it summed two separately loaded halfwords into
+a pinned local and stored the sum back. Writing that as one in-place
+`strip.x += strip.w` and comparing through the record changes the allocation
+of the whole block, and GCC's own `% 4` expansion then lands all three values
+in retail's registers, with no pin, no written-out operator and no named
+addend. So a residual that sits in one statement can be decided by the
+statement after it.
+
 Two negative results from the same function are worth as much:
 
 - *Availability is not the lever.* It was tempting to conclude that `slot + 1`
