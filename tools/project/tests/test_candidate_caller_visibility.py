@@ -71,6 +71,8 @@ PAIRS = [
     ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
     ("src/game/func_80031874.c", "func_800316F0", '#include "duel_card_stat_display.h"'),
     ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
+    ("src/game/func_8002A3CC.c", "func_8002A2F4", '#include "func_8002A2F4.h"'),
+    ("src/game/func_8002BD0C.c", "func_8002A2F4", '#include "func_8002A2F4.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (

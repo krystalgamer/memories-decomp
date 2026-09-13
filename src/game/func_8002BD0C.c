@@ -17,6 +17,7 @@
 #include "../unmatched.h"
 #include "func_80057AF4.h"
 #include "func_8002A788.h"
+#include "func_8002A2F4.h"
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
