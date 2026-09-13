@@ -3,18 +3,12 @@
 #include "script_command_busy.h"
 #include "fade.h"
 #include "file_transfer.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "script_state.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
 #include "script_op_load_image_scene.h"
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 
 void Script_OpLoadImageScene(void)
 {

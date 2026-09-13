@@ -9,6 +9,7 @@
 #include "display_object_layout.h"
 #include "display_object_projection.h"
 #include "func_80040588.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "ordering_tables.h"
 #include "sprite_primitive.h"
@@ -247,12 +248,6 @@ DisplayObjectConfigView *func_80040510(
     return object;
 }
 
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 extern s16 D_800EFE3A[];
 
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
