@@ -4,6 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
+#include "../psyq/sdk_internal.h"
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"

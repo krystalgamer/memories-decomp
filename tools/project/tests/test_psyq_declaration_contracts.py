@@ -79,6 +79,111 @@ class PsyqDeclarationContractTests(unittest.TestCase):
 
         self.assertEqual(errors, [])
 
+    def test_object_macro_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define SDK_NAME SdkCall\n"
+            "extern int SDK_NAME(int mode);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_function_macro_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define SDK_DECL(name) extern int name(int mode)\n"
+            "SDK_DECL(SdkCall);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_spliced_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "extern int Sdk\\\n"
+            "Call(int mode);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_local_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "int call(void) {\n"
+            "    extern int SdkCall(int mode);\n"
+            "    return SdkCall(0);\n"
+            "}\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_inactive_declaration_is_ignored(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#if 0\n"
+            "extern int SdkCall(int mode);\n"
+            "#endif\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+
+    def test_link_alias_uses_sdk_identity(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            'extern long LocalName(void *) asm("SdkCall");\n',
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_link_alias_is_valid_in_psyq_owner(self) -> None:
+        (self.root / "src/psyq/libtest.h").write_text(
+            'extern long LocalName(void *) asm("SdkCall");\n',
+            encoding="utf-8",
+        )
+
+        errors, stats = psyq_declaration_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+        self.assertEqual(stats["header_symbols"], 1)
+
+    def test_reachable_non_psyq_header_is_checked(self) -> None:
+        (self.root / "src/legacy_sdk_bridge.h").write_text(
+            "extern int SdkCall(int mode);\n",
+            encoding="utf-8",
+        )
+        (self.root / "src/game/test.c").write_text(
+            '#include "../legacy_sdk_bridge.h"\n',
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(
+            any("src/legacy_sdk_bridge.h" in error for error in errors)
+        )
+
+    def test_unreachable_non_psyq_header_is_out_of_scope(self) -> None:
+        (self.root / "src/legacy_sdk_bridge.h").write_text(
+            "extern int SdkCall(int mode);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+
 
 if __name__ == "__main__":
     unittest.main()

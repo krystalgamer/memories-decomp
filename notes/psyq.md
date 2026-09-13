@@ -59,13 +59,18 @@ address-qualified copies and caller views that deliberately differ from a
 manual's canonical prototype. Game, candidate, and overlay files consume those
 headers; they do not privately redeclare functions classified as `sdk_asm`.
 `make check-psyq-declarations` enforces that boundary against the function
-inventory, and `make check-metadata` runs it on every pull request.
+inventory, and `make check-metadata` runs it on every pull request. The gate
+applies C backslash-newline splicing before comment and conditional handling,
+expands declaration macros, inspects block-local `extern` declarations, and
+resolves explicit `asm` aliases to their SDK link identity. It follows local
+includes from consumer sources so declaration-bearing shared headers outside
+the usual game/candidate/overlay directories cannot bypass ownership, while
+unused headers remain out of scope.
 
-The current inventory has 600 CRT/SDK functions. Psy-Q headers expose 332 named
+The current inventory has 600 CRT/SDK functions. Psy-Q headers expose 333 named
 entries used or otherwise established by the project; the remaining internal
 assembly functions do not receive speculative prototypes merely to increase
-coverage. The last six declarations outside the Psy-Q tree were moved to these
-owners:
+coverage. Declarations moved from outside the Psy-Q tree use these owners:
 
 | Header | Interface | Why it is not just the manual prototype |
 |---|---|---|
@@ -74,6 +79,7 @@ owners:
 | [`libgs_abi_variants.h`](../src/psyq/libgs_abi_variants.h) | `GsSortFastSprite`, `GsSortGLine` | The `func_80029EC4` candidate preserves byte-oriented scratchpad pointers and a word-sized ordering-table handle. The canonical typed interfaces remain in `libgs.h`. |
 | [`libgte_abi_variants.h`](../src/psyq/libgte_abi_variants.h) | `NormalClip_800879A0`, `RotAverageNclip3_nom_80089CF0` | Address-qualified aliases preserve locally observed arities while `libgte.h` retains the canonical declarations. |
 | [`libspu_internal.h`](../src/psyq/libspu_internal.h) | `func_80074E60` | Unidentified 32-byte LIBSPU entry immediately preceding the confirmed `_SpuInit`; the address-based name avoids inventing semantics. |
+| [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_800862C0` | Unidentified SDK entry used by the graphics frame setup. Its address-based name and existing pointer ABI are retained without assigning a library or return meaning. |
 
 Moving a declaration does not authorize normalizing its types. Candidate
 contract hashes include the declaration source and spelling, so ownership
