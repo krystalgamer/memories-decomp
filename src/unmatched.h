@@ -3,7 +3,6 @@
 
 #include "types.h"
 #include "ygo_types.h"
-#include "game/sprite_primitive.h"
 
 /* Declarations for functions and data that are still generated assembly.
  *
@@ -84,16 +83,6 @@
 void func_80013C28(u8, u8 *, u32 *);
 #else
 void func_80013C28(s32);
-#endif
-
-#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW
-void func_80042188(
-    SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra *
-);
-#elif defined(FUNC_80042188_SPRITE_VIEW)
-void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);
-#else
-void func_80042188(s32, u8 *, s32, s32, u8 *);
 #endif
 
 #ifdef FUNC_8004CB0C_NO_ARGUMENTS
@@ -634,12 +623,6 @@ void func_8002A2F4(u8 *state);
 /* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
  * display-object list 5. It is reached only through that table. */
 void func_80041068(void);
-
-/* The four-vertex renderers pass a raw display attribute as func_80042188's
- * first argument. This central view records that ABI for unmatched-contract
- * checking; display_object_packet_submit.h preserves its separately measured
- * SpritePrim * caller view behind an explicit selector. */
-void func_80042188(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
 
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int

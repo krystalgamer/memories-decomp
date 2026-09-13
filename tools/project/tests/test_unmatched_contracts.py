@@ -106,107 +106,6 @@ class UnmatchedContractTests(unittest.TestCase):
 
         self.assertEqual(self.errors(), [])
 
-    def func_80042188_variant(self) -> str:
-        return (
-            "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW\n"
-            "void func_80042188(\n"
-            "    SpritePrim *, Func80028B08Ctx *, s32, s32,\n"
-            "    Func80028B08Extra *\n"
-            ");\n"
-            "#elif defined(FUNC_80042188_SPRITE_VIEW)\n"
-            "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);\n"
-            "#else\n"
-            "void func_80042188(s32, u8 *, s32, s32, u8 *);\n"
-            "#endif\n"
-        )
-
-    def configure_func_80042188_variant(self, declaration: str) -> None:
-        self.write_inventory("func_80042188", "unmatched_asm")
-        self.write("src/unmatched.h", declaration)
-        self.write(
-            "src/game/caller.c",
-            "#include \"../unmatched.h\"\n"
-            "void caller(void) { func_80042188(0, 0, 0, 0, 0); }\n",
-        )
-
-    def test_approved_central_variant_abis_are_required(self) -> None:
-        self.configure_func_80042188_variant(
-            "void func_80042188();\n"
-            "void func_80042188();\n"
-            "void func_80042188();\n"
-        )
-        self.assertTrue(
-            any("approved selector and ABI arms" in error for error in self.errors())
-        )
-
-    def test_repeated_central_variant_arm_is_rejected(self) -> None:
-        declaration = self.func_80042188_variant().replace(
-            "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);",
-            "void func_80042188(s32, u8 *, s32, s32, u8 *);",
-        )
-        self.configure_func_80042188_variant(declaration)
-        self.assertTrue(
-            any("approved selector and ABI arms" in error for error in self.errors())
-        )
-
-    def test_inactive_central_variant_block_is_rejected(self) -> None:
-        wrappers = (
-            ("#if 0\n", ""),
-            ("#if (0)\n", ""),
-            ("#if(0)\n", ""),
-            ("# if 0\n", ""),
-            ("#if \\\n(0)\n", ""),
-            ("#if 0\n", "#elif 0\n"),
-            ("#if 1\n", "#elif 1\n"),
-        )
-        for opening, selected_arm in wrappers:
-            with self.subTest(opening=opening, selected_arm=selected_arm):
-                self.configure_func_80042188_variant(
-                    opening
-                    + selected_arm
-                    + self.func_80042188_variant()
-                    + "#endif\n"
-                )
-                self.assertTrue(
-                    any(
-                        "extra enclosing preprocessor arm" in error
-                        for error in self.errors()
-                    )
-                )
-
-    def test_include_guard_else_arm_cannot_hold_central_variant_block(self) -> None:
-        self.configure_func_80042188_variant(
-            "#ifndef MEMORIES_DECOMP_UNMATCHED_H\n"
-            "#else\n"
-            + self.func_80042188_variant()
-            + "#endif\n"
-        )
-        self.assertTrue(
-            any(
-                "extra enclosing preprocessor arm" in error
-                for error in self.errors()
-            )
-        )
-
-    def test_header_guard_may_enclose_central_variant_block(self) -> None:
-        self.configure_func_80042188_variant(
-            "#ifndef MEMORIES_DECOMP_UNMATCHED_H\n"
-            "#define MEMORIES_DECOMP_UNMATCHED_H\n"
-            + self.func_80042188_variant()
-            + "#endif\n"
-        )
-        self.assertEqual(self.errors(), [])
-
-    def test_misselected_central_variant_arm_is_rejected(self) -> None:
-        declaration = self.func_80042188_variant().replace(
-            "FUNC_80042188_SPRITE_VIEW",
-            "FUNC_80042188_WRONG_VIEW",
-        )
-        self.configure_func_80042188_variant(declaration)
-        self.assertTrue(
-            any("approved selector and ABI arms" in error for error in self.errors())
-        )
-
     def test_implicit_reference_requires_central_declaration(self) -> None:
         self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
 
@@ -518,6 +417,20 @@ extern s32 data;
             self.errors(),
         )
 
+    def test_shared_abi_dispatcher_may_own_an_unmatched_function(self) -> None:
+        self.write_inventory("func_80042188", "unmatched_asm")
+        self.write(
+            "src/game/display_object_packet_submit.h",
+            "void func_80042188(s32 value);\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "display_object_packet_submit.h"\n'
+            "void caller(void) { func_80042188(1); }\n",
+        )
+
+        self.assertEqual(self.errors(), [])
+
     def test_candidate_cannot_be_declared_centrally_and_in_a_header(
         self,
     ) -> None:
@@ -527,7 +440,7 @@ extern s32 data;
         self.write("src/game/caller.c", "void caller(void) { func_test(1); }\n")
 
         self.assertIn(
-            "src/unmatched.h: candidate func_test is also declared by "
+            "src/unmatched.h: func_test is also declared by "
             "resident headers ['src/game/test.h']",
             self.errors(),
         )

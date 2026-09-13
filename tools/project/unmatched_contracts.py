@@ -24,6 +24,9 @@ CANDIDATES = Path("config/slus_01411/candidates.json")
 # Headers a build-integrated candidate may not take its declaration from:
 # the candidate trees themselves, and the overlays resident code cannot see.
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
+SHARED_OWNER_HEADERS = {
+    "func_80042188": "src/game/display_object_packet_submit.h",
+}
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 FUNCTION_DECLARATION = re.compile(r"\b(?P<name>[A-Za-z_]\w*)\s*\(")
 DECLARATION_KEYWORDS = {"__attribute__", "asm"}
@@ -299,7 +302,6 @@ def load_exceptions(
 CENTRALIZABLE_STATUSES = frozenset({"unmatched_asm", "handwritten_asm"})
 CENTRAL_VARIANT_COUNTS = {
     "func_80013C28": 2,
-    "func_80042188": 3,
     "func_8004CB0C": 2,
 }
 CENTRAL_VARIANT_BLOCKS = {
@@ -308,15 +310,6 @@ CENTRAL_VARIANT_BLOCKS = {
         "void func_80013C28(u8, u8 *, u32 *);",
         "#else",
         "void func_80013C28(s32);",
-        "#endif",
-    ),
-    "func_80042188": (
-        "#ifdef FUNC_80042188_CANDIDATE_SPRITE_VIEW",
-        "void func_80042188( SpritePrim *, Func80028B08Ctx *, s32, s32, Func80028B08Extra * );",
-        "#elif defined(FUNC_80042188_SPRITE_VIEW)",
-        "void func_80042188(SpritePrim *, u8 *, s32, s32, u8 *);",
-        "#else",
-        "void func_80042188(s32, u8 *, s32, s32, u8 *);",
         "#endif",
     ),
     "func_8004CB0C": (
@@ -448,18 +441,26 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             if error is not None:
                 errors.append(error)
 
-    # A build-integrated candidate still has a defining C translation unit,
-    # src/candidates/, so the header of the unit it came from remains a home
-    # for its declaration; unmatched.h is for functions with no such unit.
-    # Either place is accepted, but only one of them, and only one header.
-    homes = home_header_declarations(root, candidate_names(root) & unmatched)
+    # Candidate interfaces may retain their former resident header. A shared
+    # ABI dispatcher may also own an unmatched callee when its caller variants
+    # are the interface itself rather than unrelated local declarations.
+    candidates = candidate_names(root) & unmatched
+    shared_owners = set(SHARED_OWNER_HEADERS) & unmatched
+    homes = home_header_declarations(root, candidates | shared_owners)
     for name, headers in sorted(homes.items()):
         if name in central:
             errors.append(
-                f"{UNMATCHED_HEADER}: candidate {name} is also declared by "
+                f"{UNMATCHED_HEADER}: {name} is also declared by "
                 f"resident headers {sorted(headers)}"
             )
-        if len(headers) > 1:
+        if name in SHARED_OWNER_HEADERS:
+            expected = SHARED_OWNER_HEADERS[name]
+            if headers != {expected}:
+                errors.append(
+                    f"{name} must be declared only by {expected}: "
+                    f"{sorted(headers)}"
+                )
+        elif len(headers) > 1:
             errors.append(
                 f"candidate {name} is declared by several resident headers: "
                 f"{sorted(headers)}"
