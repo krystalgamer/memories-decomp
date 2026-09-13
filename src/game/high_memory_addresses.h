@@ -28,10 +28,11 @@ extern s32 D_80010018 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
- * Keep the initializer candidate's signed-word ABI view. */
-extern s32 D_8001001C;
-extern s32 D_80010020;
-extern s32 D_80010024;
-extern s32 D_80010028;
+ * func_8004CB0C reads each as an absolute word under -G8, so like the
+ * destinations above they carry .data rather than a small-data view. */
+extern s32 D_8001001C __attribute__((section(".data")));
+extern s32 D_80010020 __attribute__((section(".data")));
+extern s32 D_80010024 __attribute__((section(".data")));
+extern s32 D_80010028 __attribute__((section(".data")));
 
 #endif
