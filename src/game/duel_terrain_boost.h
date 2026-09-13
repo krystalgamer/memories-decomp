@@ -35,21 +35,22 @@
          duel_card_record_lifecycle.c (gcc_2_8_1_g8_split) extern u8 gDuel_bTerrain[];
 
      ...or section(".data") does it while keeping the scalar, which is what
-     buys the assembler macro form those two functions need:
+     buys the assembler macro form these functions need:
          src/candidates/func_800179F4.c (gcc_2_8_1_g8_split),
-         main_run_animated_battle.c
+         main_run_animated_battle.c, func_80024E58.c (gcc_2_8_1_g8_split)
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
-     func_80024E58 was the one that needed a NUMBER. Its profile compiled at
-     -G8 but assembled at -G4 (gcc_2_8_1_cc_g8_as_g4_split), so the array had
-     to have a size the assembler could see to be above 4:
-             extern u8 gDuel_bTerrain[8];
-     #3859 moved it to src/candidates/func_80024E58.c for that profile.
+     func_80024E58 once needed a NUMBER instead. It matched under a profile
+     that compiled at -G8 but assembled at -G4 (gcc_2_8_1_cc_g8_as_g4_split),
+     so the array had to have a size the assembler could see to be above 4,
+     `extern u8 gDuel_bTerrain[8];`, and #3859 moved it to the candidates for
+     that profile. Under uniform gcc_2_8_1_g8_split the .data scalar gives the
+     same code, so it uses the arm below.
 
-   That last one is why the forms are not interchangeable. Measured: relaxing
-   func_80024E58's [8] to an incomplete [] cost 4 bytes of text, while the
-   same relaxation in func_8001798C.c is exact. The 8 is a threshold, not a
-   length; no spelling here claims the object has more than one byte.
+   The forms are still not interchangeable. Under that mixed profile,
+   relaxing the [8] to an incomplete [] cost 4 bytes of text, while the same
+   relaxation in func_8001798C.c is exact. No spelling here claims the object
+   has more than one byte.
 
    c_symbols.ld also defines gDuel_bTerrainCodegenAlias at the same 0x8009B364
    so Duel_GetTerrainBoost can materialize the one byte's address twice in
