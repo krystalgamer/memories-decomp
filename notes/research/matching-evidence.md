@@ -4725,7 +4725,7 @@ register declarations; there is no statement-level inline assembly.
 
 Recorded the post-terminal resolution with `record_external_attempt.py`, then
 used `integrate_verified_match.py --evidence-source post-terminal
---allow-register-pins` to integrate `src/game/func_80060E70.c` (now `src/candidates/func_80060E70.c`).
+--allow-register-pins` to integrate `src/game/func_80060E70.c`. #3859 later moved it to `src/candidates/`, and #5 brought it back as pure C.
 The only integration adjustment is the relative include of `src/types.h`.
 `func_80039A14` and `TextBox_Create` were checked against the current inventory
 and need no callee renames. The promoted candidate entry was removed as required
