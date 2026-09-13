@@ -24,7 +24,6 @@
 #include "../game/sound.h"
 #include "../game/sound_secondary_object_selection.h"
 
-extern s32 func_8004A854(s32);
 #include "../game/func_80049FB4.h"
 #include "../game/sound_spatialize_object.h"
 #include "../game/sound_spatialization.h"
