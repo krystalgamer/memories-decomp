@@ -992,7 +992,7 @@ For the ordinary battle outcomes, use those compared values:
   its identity and stars are revealed.
 
 The field-card text path prepares a separate **pre-matchup stat payload**.
-The [`func_80023144`](../../src/candidates/func_80023144.c) candidate writes ATK and
+[`func_80023144`](../../src/game/duel_field_display_objects.c) writes ATK and
 DEF from `Duel_CalcCardStats` into the first two words at `D_801D5608` only
 for an occupied monster record. An opponent-dependent guardian adjustment
 is not added to those assignments; one request variant obtains a separate

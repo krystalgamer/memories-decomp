@@ -170,20 +170,21 @@ instructions and relocations.
 
 The independently named `D_80010008`, `D_80010014`, `D_80010018` and
 `D_8001002C` transfer destinations retain signed-word `.data` declarations.
-The initializer candidate's `D_8001001C`, `D_80010020`, `D_80010024` and
-`D_80010028` data arguments retain plain signed-word declarations. Reaching
+The initializer's `D_8001001C`, `D_80010020`, `D_80010024` and
+`D_80010028` data arguments are signed-word `.data` declarations too: the
+matching `func_8004CB0C` is built under `gcc_2_8_1_g8_split`, and a
+small-data view would turn its four absolute loads gp-relative. Reaching
 one of these through a field of `D_80010000` would change its relocation
 identity, even when the eventual runtime address is the same.
 
 Candidate `func_80056828` keeps its existing base-relative relocations;
-they are not rewritten to the retail assembly's individual labels.
-Candidate `func_8004CB0C` keeps its four independently labeled data loads.
-Both consume the shared header, so their reviewed schema-2 dependency
-metadata removes only the five superseded private-extern entries. Their
-object fingerprints remain respectively
-`9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b`
-and `8a7cb6cbdeb962db3fc43fd2d667c10a2c1da30a83671a995122c4b6f750d625`.
-Neither candidate is promoted or claimed to match retail.
+they are not rewritten to the retail assembly's individual labels. It
+consumes the shared header, so its reviewed schema-2 dependency metadata
+removes only the superseded private-extern entries, and its object
+fingerprint remains
+`9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b`.
+It is not promoted or claimed to match retail. The matching
+`func_8004CB0C` keeps its four independently labeled data loads.
 
 The remaining constants, Psy-Q CRT's zero-count callback walks, generated
 data, function grouping, compiler profiles and existing register assignments

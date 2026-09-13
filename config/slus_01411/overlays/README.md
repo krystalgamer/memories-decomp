@@ -37,7 +37,9 @@ story flag `0x47` is set, and their images differ:
 |---:|---:|---|
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
 | `0x0004-0x1E54` | `0x80168004-0x80169E54` | MIPS text |
-| `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Module data |
+| `0x1E54-0x2274` | `0x80169E54-0x8016A274` | Alternate location table |
+| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | Alternate controller state |
+| `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining raw module data |
 
 The `0x1E54` boundary is the word after the final `jr $ra` and its delay slot,
 which is identical in both variants.
@@ -98,13 +100,17 @@ header. For small data that needs `%gp_rel`, keep definitions in the owning
 code TU and explicitly map its `.sdata`/`.sbss`. Always inspect the resulting
 object sections and linker script and require a complete module match.
 
-The first C-owned range is only the four-byte word at `0x80168000` in Free
-Duel (`0x13`), password (`0x15`) and both overworld variants (`0x14`).
-The variants compile the same `overworld/module_header.c` independently.
-These retain the address-based `D_80168000` spelling: the values suggest a
-module identifier but do not establish its semantics. There are no current
-C consumers or linker assignments to retire for these words. Their owning
-headers declare the exact four-byte object.
+Every overlay's first C-owned range is its four-byte header word: `0x13` in
+Free Duel, `0x15` in password, `0x14` in both overworld variants, and `0x0F`
+in main menu. The overworld variants compile the same
+`overworld/module_header.c` independently. These retain address-based
+spellings: the values suggest module identifiers but do not establish their
+semantics. Their owning headers declare the exact four-byte objects.
+
+Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
+`module_rodata.c`. The typed `D_80180004` comparator table replaces the old
+`D_80180000[1]` reach across the section boundary and emits six checked
+function relocations in retail order.
 
 Both overworld variants also compile the live location table from
 `overworld/location_table.c`: sixteen typed 66-byte records at

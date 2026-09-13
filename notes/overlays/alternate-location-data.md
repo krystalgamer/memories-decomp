@@ -16,12 +16,16 @@ nor its existing `-O0` profile changes.
 | File range | Runtime range | Owner |
 |---|---|---|
 | `0x1E54-0x2274` | `0x80169E54-0x8016A274` | Sixteen C records, `16 * 66 = 1056 = 0x420` bytes |
-| `0x2274-0x3000` | `0x8016A274-0x8016B000` | Remaining generated data blob |
+| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | C-owned alternate controller state |
+| `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining generated data blob |
 
-The split does not claim the following four bytes or the object-pointer
-state beginning at `D_8016A278`. All following state, arrays and padding
-remain in the raw blob. The new table segment selects only the C object's
-`.data`; it does not rely on an absolute assignment overriding the symbol.
+The state prefix is one packed `0x54`-byte record. It includes the two
+`AlternateObject` pointers, rebuild-pending byte, transition duration,
+location and transition flags used by the matching alternate controller.
+Historical names remain offset aliases for matching code. The two following
+bytes, `D_8016A2C8` and `D_8016A2C9`, are consumer-backed state too, but stay
+with the raw tail because Splat's generated data object preserves this
+non-word boundary only when it starts at aligned `0x22C8`.
 
 Both verified module slices have SHA-256
 `0259a2516466fd98262c69a1f4da03d22fec71b9f4e125adea7925fe35220c12`.
@@ -66,4 +70,5 @@ This does **not** resolve the alternate controller's separate call into the
 live table at `func_80169230`. That target and the other raw callees remain
 unchanged, as documented in
 [`campaign-map-records.md`](campaign-map-records.md). Moving table storage
-into C is not evidence for relabeling those calls as live entrypoints.
+and the adjacent state prefix into C is not evidence for relabeling those
+calls as live entrypoints.

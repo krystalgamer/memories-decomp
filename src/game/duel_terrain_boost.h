@@ -23,9 +23,10 @@
 
      -G0 profiles (gcc_2_8_1_g0) put nothing in small data, so a plain scalar
      already gets lui %hi / %lo and needs no help:
-         func_80024DC8.c, src/candidates/func_80071460.c,
-         src/candidates/func_80038530.c
+         func_80024DC8.c, src/candidates/func_80071460.c
              extern u8 gDuel_bTerrain;            (also spelled unsigned char)
+     text_start_campaign_duel.c uses the existing DATA scalar view instead;
+     under its G0 profile this retains the same absolute accesses.
 
      -G8 profiles would make a one-byte object small data and address it
      %gp_rel, so a TU that needs the absolute form must push the symbol out of

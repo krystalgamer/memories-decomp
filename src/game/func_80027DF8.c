@@ -1,3 +1,4 @@
+#define DUEL_CARD_STAGING_DECK_VIEW
 #include "../types.h"
 #include "duel_card_staging.h"
 #include "duel_side_state.h"

@@ -11,6 +11,7 @@
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"
 #include "file_transfer.h"
+#define GGRAPHICS_VIEWPORT_SIZED_UNSIGNED_IN_DATA
 #include "graphics_frame.h"
 #include "input.h"
 #include "display_effect_lifecycle.h"
@@ -24,9 +25,6 @@
 #include "../unmatched.h"
 
 extern u8 D_8009B335;
-
-extern u16 gGraphics_uViewportX[] asm("gGraphics_sViewportX");
-extern u16 gGraphics_uViewportY[] asm("gGraphics_sViewportY");
 
 void func_800374A8(DuelEffectChannel *object)
 {
@@ -53,7 +51,8 @@ u8 *Dialog_OpenChoice(DuelEffectChannel *record)
         11,
         0x20C
     );
-    *(u16 *)(cursor + 8) |= 0x28;
+    *(u16 *)(cursor + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_80042918((DisplayObject *)cursor);
     func_800428EC(cursor, (s8)(record->field_59 + 1));
     return cursor;

@@ -3,9 +3,8 @@
 #include "../psyq/libds.h"
 #include "../psyq/libspu.h"
 #include "file_constants.h"
-#include "file_transfer.h"
 #define FUNC_80013C28_CALLBACK_VIEW
-#include "../unmatched.h"
+#include "file_transfer.h"
 #undef FUNC_80013C28_CALLBACK_VIEW
 
 /* The first four command-completion callbacks of the asynchronous

@@ -29,6 +29,107 @@ typedef char CardCountEntry_size_must_be_4[
     sizeof(CardCountEntry) == 4 ? 1 : -1
 ];
 
+/* Unpacked colour channels used by the tint pipeline. Most callers keep the
+ * BGR555 0..31 range; the inverse transform may clamp a channel to 0xFF. */
+typedef struct {
+    u8 r;
+    u8 g;
+    u8 b;
+} Color;
+
+/* Fixed-point hue plus the pipeline's lightness/saturation pair. The retained
+ * HsvT name is historical; the conversion branches use HSL lightness rules. */
+typedef struct {
+    s32 h;
+    u16 s;
+    u16 v;
+} HsvT;
+
+/* SXY2 as returned by the GTE. x remains unsigned to preserve lhu consumers;
+ * y is signed because projection sites bias it through signed arithmetic. */
+typedef struct {
+    u16 x;
+    s16 y;
+} ProjectedPair;
+
+typedef struct {
+    s16 x;
+    s16 y;
+} ScreenPair;
+
+/* Word/halfword views required by sprite builders that copy paired fields
+ * with one load or store while other paths update their individual halves. */
+typedef union {
+    s32 word;
+    struct {
+        u16 x;
+        u16 y;
+    } h;
+} SpritePos;
+
+typedef union {
+    u16 word;
+    struct {
+        u8 lo;
+        u8 hi;
+    } b;
+} SpriteHalf;
+
+typedef struct {
+    u32 attribute;
+    SpritePos xy;
+    union {
+        u32 word;
+        struct {
+            SpriteHalf w;
+            u16 h;
+        } wh;
+    } extent;
+    u16 tpage;
+    SpriteHalf uv;
+    union {
+        u32 word;
+        struct {
+            u16 cx;
+            u16 cy;
+        } h;
+    } cxcy;
+    u32 rgb;
+    SpritePos mxmy;
+    u32 scale;
+    s32 rotate;
+} SpritePrim;
+
+/* Scratchpad clip result at 0x1F800378. */
+typedef struct {
+    u32 unk0;
+    u32 flag;
+    u8 pad8[0x18];
+    u8 out[4];
+} ClipState;
+
+typedef char Color_size_must_be_3[
+    sizeof(Color) == 3 ? 1 : -1
+];
+typedef char HsvT_size_must_be_8[
+    sizeof(HsvT) == 8 ? 1 : -1
+];
+typedef char ProjectedPair_size_must_be_4[
+    sizeof(ProjectedPair) == 4 ? 1 : -1
+];
+typedef char ScreenPair_size_must_be_4[
+    sizeof(ScreenPair) == 4 ? 1 : -1
+];
+typedef char SpritePrim_size_must_be_0x24[
+    sizeof(SpritePrim) == 0x24 ? 1 : -1
+];
+typedef char SpritePrim_cy_must_be_at_0x12[
+    (u32)&(((SpritePrim *)0)->cxcy.h.cy) == 0x12 ? 1 : -1
+];
+typedef char ClipState_size_must_be_0x24[
+    sizeof(ClipState) == 0x24 ? 1 : -1
+];
+
 typedef u8 *(*ModelHandler)(u8 **);
 typedef void (*ScriptCommandHandler)(void);
 
@@ -251,6 +352,59 @@ typedef char DuelEffectEntry_field_15_offset_must_be_0x15[
 ];
 typedef char DuelEffectEntry_field_18_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, field_18) == 0x18 ? 1 : -1
+];
+
+#define TEXT_STREAM_SLOT_COUNT 22
+
+/* Narrow text-command view: twenty-two stream pointers place the signed
+ * selector at the measured 0x58 offset. */
+typedef struct {
+    u8 *streams[TEXT_STREAM_SLOT_COUNT];
+    s8 stream_index;
+} TextStreamOwner;
+
+/* Display-effect command view. Its depth selector follows twenty stream
+ * pointers and the command state bytes at the same measured 0x58 offset. */
+typedef struct {
+    u8 *streams[20];
+    u8 unk50;
+    u8 state;
+    u8 pad52[6];
+    s8 depth;
+} EffectObject;
+
+/* One 0x14-byte scene-script slot at D_800EAE98. */
+typedef struct {
+    s32 unk00;
+    s16 unk04;
+    s16 unk06;
+    s32 unk08;
+    s32 unk0C;
+    s32 unk10;
+} SceneScriptSlot;
+
+/* Script image slot prefix: the owned display object and its image id. */
+typedef struct {
+    void *pointer;
+    s16 value;
+    u8 pad_06[14];
+} ScriptImageEntry;
+
+struct DuelEffectChannel;
+typedef void (*SceneScriptRecordCallback)(void *, s32);
+typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
+
+typedef char TextStreamOwner_stream_index_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(TextStreamOwner, stream_index) == 0x58 ? 1 : -1
+];
+typedef char EffectObject_depth_offset_must_be_0x58[
+    YGO_TYPE_OFFSET(EffectObject, depth) == 0x58 ? 1 : -1
+];
+typedef char SceneScriptSlot_size_must_be_0x14[
+    sizeof(SceneScriptSlot) == 0x14 ? 1 : -1
+];
+typedef char ScriptImageEntry_size_must_be_0x14[
+    sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
 ];
 
 typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
@@ -713,8 +867,8 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  * through that header's union member `pair`, not through a guarded extern
  * view of its own; only the separate starchip alias is still guarded. Pair
  * remains the overlays' view, not a claim that the staging area always holds
- * this shape. Main_RunCredits reached it through explicit relocations and is
- * generated assembly again (#3859). */
+ * this shape. Main_RunCredits uses it for the two four-digit secret-number
+ * components while preserving the same absolute-address staging accesses. */
 typedef struct {
     u32 lo;
     u32 hi;

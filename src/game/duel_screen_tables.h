@@ -24,9 +24,9 @@ typedef struct {
    read them cannot drift apart. D_800908A0 is read as u16 halfwords by
    debug_effect_screen.c, src/candidates/func_800177C4.c and
    src/candidates/func_8001B0CC.c (the last
-   through inline assembly); duel_card_record_lifecycle.c keeps its own
-   DuelFieldPosition view of the same table, because func_80024D34 loads the
-   pair with lh. */
+   through inline assembly). The DuelFieldPosition arm is selected by the
+   defining unit and by duel_card_record_lifecycle.c, whose func_80024D34
+   loads the pair with lh. */
 #ifdef DUEL_SCREEN_TABLES_TYPED_POSITIONS
 extern DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT];
 #else

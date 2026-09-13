@@ -45,7 +45,8 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     if (object != 0) {
         func_800428A8(object, 0, 0, 5, 0, 0, 0x1A, 1, D_801AF800);
         D_80184558->attribute |= 0x1000000;
-        D_80184558->flags |= 0x28;
+        D_80184558->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_80184558, 0);
     }
 
@@ -54,7 +55,8 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     if (object != 0) {
         func_800428A8(object, 0, 8, 5, 0, 2, 0x1A, 1, D_801AF800);
         D_8018455C->attribute |= 0x1000000;
-        D_8018455C->flags |= 0x28;
+        D_8018455C->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_8018455C, 1);
     }
 
@@ -63,7 +65,8 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     if (object != 0) {
         func_800428A8(object, 0, 8, 5, 0, 1, 0x1A, 1, D_801AF800);
         D_80184560->attribute |= 0x1000000;
-        D_80184560->flags |= 0x28;
+        D_80184560->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(D_80184560);
         third = D_80184560;
         third->field_6C = 0x3C;

@@ -11,7 +11,8 @@
  * 0x26, 0x72A0 otherwise), and hands the scene to mode 3.
  *
  * It also resets D_8009B360 to -1 before any of that, which is what makes the
- * duel's own state read as unset. Register-pinned throughout. */
+ * duel's own state read as unset. Each byte read uses independent local
+ * slot/cursor/value lifetimes; no register bindings are needed. */
 void Text_StartCampaignDuel(DuelEffectChannel *object);
 
 #endif

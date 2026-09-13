@@ -1,6 +1,7 @@
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../psyq/rand.h"
+#include "card_comparators.h"
 #include "card_tables.h"
 
 s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)

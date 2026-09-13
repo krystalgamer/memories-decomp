@@ -1,38 +1,35 @@
-/*
- * DsStartReadySystem sector callback. Current best: 283 of 286 target
- * instructions, opcode multiset distance 3. GCC coalesces one mode-1
- * descriptor copy and two callback reloads; preserve the copy-loop and
- * callback-block shapes while refining it.
- */
 #include "../types.h"
 #include "../psyq/libcd.h"
 #include "../psyq/libds.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
-#include "../game/file_transfer.h"
-#include "../unmatched.h"
+#include "file_transfer.h"
 
 void func_80013C28(s32 arg)
 {
     s32 event;
+    s32 remaining;
+    u8 *transfer;
     u8 *p;
     u8 *q;
     u8 *r;
+    u8 *image;
+    u8 *counter;
     u8 *t;
     u8 *dst;
-    u8 *w;
     u32 *src;
+    u32 word;
     s32 i;
     s32 n;
-    s32 seq;
+    s32 image_y;
 
     event = arg & 0xFF;
     D_8009B114++;
     if (event != 1) {
         return;
     }
-    D_8009B138++;
+    D_8009B138 = (s32)((u32)D_8009B138 + 1);
     p = (u8 *)D_8009AF18;
     switch (p[0x46]) {
     case 1:
@@ -40,31 +37,32 @@ void func_80013C28(s32 arg)
             if ((D_8009B0F4 & 0x40000000) == 0) {
                 CdGetSector(*(void **)(p + 8), 0x200);
             } else {
+                i = 0;
                 t = p;
                 src = D_8009B0F8;
-                i = 0;
                 do {
-                    *(u32 *)(*(u8 **)(t + 8) + i * 4) = *src;
+                    word = src[i];
+                    *(u32 *)(*(u8 **)(t + 8) + i * 4) = word;
                     i++;
-                    src++;
                 } while (i < 0x200);
             }
-            *(s32 *)((u8 *)D_8009AF18 + 8) += 0x800;
+            *(u32 *)((u8 *)D_8009AF18 + 8) += 0x800;
         }
+        transfer = (u8 *)D_8009AF18;
+        remaining = *(s32 *)(transfer + 0x10);
         D_8009B0F8 += 0x200;
-        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
-        if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
+        remaining = (s32)((u32)remaining - 0x800);
+        *(s32 *)(transfer + 0x10) = remaining;
+        if (remaining <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
         q = (u8 *)D_8009AF18;
-        *(s32 *)(q + 0x28) -= 0x800;
+        *(s32 *)(q + 0x28) = (s32)((u32)*(s32 *)(q + 0x28) - 0x800);
         if (*(s32 *)(q + 0x28) <= 0) {
             *(s32 *)(q + 0x1C) = 0;
             if (*(s32 *)(q + 0x20) != 0) {
-                seq = *(s32 *)(q + 0x40);
-                *(s32 *)(q + 0x40) = seq + 1;
-                (*(void (**)(u8 *, s32))(q + 0x20))(q, seq);
+                (*(void (**)(u8 *, s32))(q + 0x20))(q, (*(u32 *)(q + 0x40))++);
             }
             *(s32 *)(q + 0x28) = *(s32 *)(q + 0x1C);
         }
@@ -73,44 +71,39 @@ void func_80013C28(s32 arg)
         }
         return;
     case 2:
-        dst = *(u8 **)(p + 8 + (*(u16 *)(p + 0x44) & 1) * 4);
+        dst = *(u8 **)((u32)p + ((*(u16 *)(p + 0x44) & 1) << 2) + 8);
         if ((D_8009B0F4 & 0x40000000) == 0) {
             CdGetSector(dst, 0x200);
         } else {
-            w = dst;
             src = D_8009B0F8;
-            i = 0;
-            do {
-                *(u32 *)w = *src;
-                src++;
-                i++;
-                w += 4;
-            } while (i < 0x200);
+            for (i = 0; i < 512; ++i) {
+                ((u32 *)dst)[i] = src[i];
+            }
             D_8009B0F8 += 0x200;
         }
-        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
+        *(s32 *)((u8 *)D_8009AF18 + 0x10) = (s32)((u32)*(s32 *)((u8 *)D_8009AF18 + 0x10) - 0x800);
         if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        r = (u8 *)D_8009AF18;
-        *(u16 *)(r + 0) = *(u16 *)(r + 0x30);
-        *(u16 *)(r + 2) = *(u16 *)(r + 0x32);
+        image = (u8 *)D_8009AF18;
+        *(u16 *)(image + 0) = *(u16 *)(image + 0x30);
+        *(u16 *)(image + 2) = *(u16 *)(image + 0x32);
         while (LoadImage2((RECT *)(u8 *)D_8009AF18, (u32 *)dst)) {
         }
         if ((D_8009B0F4 & 0x20000) != 0) {
             *(u16 *)((u8 *)D_8009AF18 + 0x30) += 0x40;
         } else {
             r = (u8 *)D_8009AF18;
-            n = *(u16 *)(r + 0x32) + 0x10;
-            *(u16 *)(r + 0x32) = n;
-            if ((n & 0xFF) == 0) {
-                *(u16 *)(r + 0x32) = (n ^ 0x100) & 0x100;
+            image_y = *(u16 *)(r + 0x32) + 0x10;
+            *(u16 *)(r + 0x32) = image_y;
+            if ((image_y & 0xFF) == 0) {
+                *(u16 *)(r + 0x32) = (image_y ^ 0x100) & 0x100;
                 *(u16 *)(r + 0x30) += 0x40;
             }
         }
         q = (u8 *)D_8009AF18;
-        *(s32 *)(q + 0x28) -= 0x800;
+        *(s32 *)(q + 0x28) = (s32)((u32)*(s32 *)(q + 0x28) - 0x800);
         if (*(s32 *)(q + 0x28) > 0) {
             goto counter;
         }
@@ -124,18 +117,13 @@ void func_80013C28(s32 arg)
         if ((D_8009B0F4 & 0x40000000) == 0) {
             CdGetSector(dst, n / 4);
         } else {
-            w = dst;
             src = D_8009B0F8;
-            i = 0;
-            while (i < n / 4) {
-                i++;
-                *(u32 *)w = *src;
-                src++;
-                w += 4;
+            for (i = 0; i < n / 4; ++i) {
+                ((u32 *)dst)[i] = src[i];
             }
             D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n);
         }
-        *(s32 *)((u8 *)D_8009AF18 + 0x10) -= 0x800;
+        *(s32 *)((u8 *)D_8009AF18 + 0x10) = (s32)((u32)*(s32 *)((u8 *)D_8009AF18 + 0x10) - 0x800);
         if (*(s32 *)((u8 *)D_8009AF18 + 0x10) <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
@@ -143,23 +131,21 @@ void func_80013C28(s32 arg)
         SpuSetTransferStartAddr(*(u32 *)((u8 *)D_8009AF18 + 0x30));
         SpuWrite(dst, (u32)n);
         q = (u8 *)D_8009AF18;
-        *(s32 *)(q + 0x30) += n;
-        *(s32 *)(q + 0x28) -= 0x800;
+        *(u32 *)(q + 0x30) += (u32)n;
+        *(s32 *)(q + 0x28) = (s32)((u32)*(s32 *)(q + 0x28) - 0x800);
         if (*(s32 *)(q + 0x28) > 0) {
             goto counter;
         }
     step:
         *(s32 *)(q + 0x1C) = 0;
         if (*(s32 *)(q + 0x20) != 0) {
-            seq = *(s32 *)(q + 0x40);
-            *(s32 *)(q + 0x40) = seq + 1;
-            (*(void (**)(u8 *, s32))(q + 0x20))(q, seq);
+            (*(void (**)(u8 *, s32))(q + 0x20))(q, (*(u32 *)(q + 0x40))++);
         }
         *(s32 *)(q + 0x28) = *(s32 *)(q + 0x1C);
     counter:
-        r = (u8 *)D_8009AF18;
-        *(u16 *)(r + 0x44) = *(u16 *)(r + 0x44) + 1;
-        if (*(s32 *)(r + 0x10) > 0) {
+        counter = (u8 *)D_8009AF18;
+        *(u16 *)(counter + 0x44) = *(u16 *)(counter + 0x44) + 1;
+        if (*(s32 *)(counter + 0x10) > 0) {
             return;
         }
     clear:
