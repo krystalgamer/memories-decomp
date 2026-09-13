@@ -74,18 +74,18 @@ void func_8005DBA4(void)
         D_8009B079 = 0;
         D_8009B07A = -1;
     }
-    if (*(u16 *)((u8 *)D_8009B074 + 0x22) != 0x4000) {
-        u8 *previous = (u8 *)D_8009B074;
+    if (D_8009B074->duration != 0x4000) {
+        Key *previous = D_8009B074;
         s32 step = func_80058E1C();
         s32 elapsed;
-        if (*(u16 *)((u8 *)D_8009B074 + 0x24) + step <
-            *(u16 *)((u8 *)D_8009B074 + 0x22)) {
+        if (D_8009B074->progress + step <
+            D_8009B074->duration) {
             step = func_80058E1C();
-            elapsed = *(u16 *)((u8 *)D_8009B074 + 0x24) + step;
+            elapsed = D_8009B074->progress + step;
         } else {
-            elapsed = *(u16 *)((u8 *)D_8009B074 + 0x22);
+            elapsed = D_8009B074->duration;
         }
-        *(u16 *)(previous + 0x24) = elapsed;
+        previous->progress = elapsed;
     }
     channel = 0;
     interpolated = evaluated;
@@ -102,8 +102,8 @@ void func_8005DBA4(void)
         case 0x80:
         case 0x81: {
             s32 slot = (s16)((u16)record[3] & 0xFF7F);
-            s32 elapsed = *(u16 *)(key + 0x24);
-            s32 duration = *(u16 *)(key + 0x22);
+            s32 elapsed = ((Key *)key)->progress;
+            s32 duration = ((Key *)key)->duration;
             s32 remaining;
             if (func_80058DD8(slot) != 1) {
                 break;
@@ -129,7 +129,7 @@ void func_8005DBA4(void)
             s16 *component;
             s32 **destination;
             func_8005EBF4((Key *)key, channel,
-                *(u16 *)(key + 0x24), 0, interpolated);
+                ((Key *)key)->progress, 0, interpolated);
             j = 0;
             destination = output;
             component = interpolated;
@@ -224,7 +224,7 @@ void func_8005DBA4(void)
             s32 first;
             s32 second;
             persistent++;
-            if (*(u16 *)(key + 0x24) >= *(u16 *)(key + 0x22)) {
+            if (((Key *)key)->progress >= ((Key *)key)->duration) {
                 (*output)[0] = pose[0];
                 (*output)[2] = pose[2];
                 break;
@@ -261,8 +261,8 @@ next_channel:
             u8 *key = (u8 *)D_8009B074;
             s16 *record = (s16 *)(key + channel * 8);
             if (record[3] == 4) {
-                s32 duration = (elapsed = *(u16 *)(key + 0x24),
-                    *(u16 *)(key + 0x22));
+                s32 duration = (elapsed = ((Key *)key)->progress,
+                    ((Key *)key)->duration);
                 s32 yaw_step = record[1] * elapsed / duration;
                 s32 pitch_step = record[2] * elapsed / duration;
                 s32 radius = orbit_pose[8];
@@ -297,13 +297,13 @@ next_channel:
             output++;
         } while (channel < 2);
     }
-    if (!active && *(u16 *)((u8 *)D_8009B074 + 0x22) == 0x4000) {
+    if (!active && D_8009B074->duration == 0x4000) {
         D_8009B074 = 0;
         D_8009B078 = 0;
         return;
     }
-    if (*(u16 *)((u8 *)D_8009B074 + 0x24) >=
-        *(u16 *)((u8 *)D_8009B074 + 0x22)) {
+    if (D_8009B074->progress >=
+        D_8009B074->duration) {
         func_8005F070(0);
         D_8009B074++;
         if (D_8009B074 - D_800F5788 >= D_8009B078) {
@@ -317,7 +317,7 @@ next_channel:
         }
         if (D_8009B074) {
             func_8005E808((u8 *)D_8009B074);
-            if (*(s16 *)((u8 *)D_8009B074 + 0x20) == 0) {
+            if (D_8009B074->magnitude == 0) {
                 func_8005DBA4();
             }
         }
