@@ -217,7 +217,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
             ("src/game/sd_arm_busy_callback.c", "sound_output_state.h"),
             ("src/game/func_80045484.c", "sound.h"),
             ("src/game/sound_secondary_playback.c", "sound.h"),
-            ("src/game/func_80049AF4.c", "sound_sequence_timing.h"),
+            ("src/game/sound_secondary_playback.c", "sound_sequence_timing.h"),
         ):
             with self.subTest(source=source):
                 path = REPOSITORY / source

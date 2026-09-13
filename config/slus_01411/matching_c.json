@@ -4540,25 +4540,25 @@
       "address": "0x80049AF4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB8",
-      "source": "src/game/func_80049AF4.c"
+      "source": "src/game/sound_secondary_playback.c"
     },
     {
       "address": "0x80049BAC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x94",
-      "source": "src/game/func_80049BAC.c"
+      "source": "src/game/sound_secondary_playback.c"
     },
     {
       "address": "0x80049C40",
       "profile": "gcc_2_8_1_g0",
       "size": "0x70",
-      "source": "src/game/func_80049BAC.c"
+      "source": "src/game/sound_secondary_playback.c"
     },
     {
       "address": "0x80049CB0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x48",
-      "source": "src/game/func_80049BAC.c"
+      "source": "src/game/sound_secondary_playback.c"
     },
     {
       "address": "0x80049CF8",

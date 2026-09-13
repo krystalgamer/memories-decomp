@@ -834,6 +834,14 @@ the signed-halfword store and test after the canonical word-sized result.
 view. Native compiler controls check these declarations and reject
 incompatible views.
 
+The complete five-function secondary playback lifecycle now builds from
+`src/game/sound_secondary_playback.c`, covering `0x80049A64` through
+`0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
+`func_80049AF4` calls the canonical `SD_StartSequenceTracks(void)`, while
+`func_80049BAC` uses a narrow same-symbol no-argument alias matching its
+original translation unit. The adjacent functions on both sides require
+`gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
+
 ### Migration status and exact-code exceptions
 
 Every matching-C user outside the GCC inline-assembly exceptions below now
