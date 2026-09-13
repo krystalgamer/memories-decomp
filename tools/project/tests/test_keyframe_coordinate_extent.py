@@ -128,7 +128,7 @@ static ModelSlot D_800F2C40[2] = {
     {{0x8000, 0xFFFF, 0, 0x2468}}
 };
 SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
-u8 *D_8009B074;
+Key *D_8009B074;
 static unsigned copies;
 static unsigned roots;
 """
@@ -153,7 +153,7 @@ int func_80058DD8(int slot)
     return slot >= 0 && slot < 2;
 }
 
-void func_8005FB30(u8 *data)
+void func_8005FB30(Key *data)
 {
     (void)data;
 }
@@ -174,18 +174,18 @@ long SquareRoot0(long value)
 
 int main(void)
 {
-    ModelKeyframeTimingView key = {0};
+    Key key = {0};
     const s16 channels[2][4] = {
         {1, 1, 1, 0x80},
         {0, 0, 0, 0x81}
     };
-    copy_bytes(key.pad_00, channels, sizeof(channels));
-    key.field_20 = -1;
-    D_8009B074 = (u8 *)&key;
+    copy_bytes(&key, channels, sizeof(channels));
+    key.magnitude = -1;
+    D_8009B074 = &key;
     D_800F5768[1].vx = -1;
     func_8005E808((u8 *)&key);
-    if (copies != 2 || roots != 2 || key.field_26 != 1) return 12;
-    if (key.field_22 != 2 || key.field_24 != 0) return 13;
+    if (copies != 2 || roots != 2 || key.ready != 1) return 12;
+    if (key.radius != 2 || key.progress != 0) return 13;
     {
         static const char message[] =
             "two four-halfword copies; signed coordinate arithmetic preserved\n";

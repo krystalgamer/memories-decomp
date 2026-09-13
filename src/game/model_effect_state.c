@@ -111,16 +111,18 @@ void func_8005F070(s32 enabled)
     *(u16 *)&D_800F5768[2].vy = *(u16 *)(right + 2);
     *(u16 *)&D_800F5768[2].vz = *(u16 *)(right + 4);
     if (enabled != 0) {
-        u8 *table = D_8009B074;
-        if (table != (u8 *)0) {
+        Key *key = D_8009B074;
+        if (key != (Key *)0) {
             s32 i = 0;
             s32 offset = 16;
-            u8 *entry = table;
+            u8 *entry = (u8 *)key;
             for (; i < 2; offset += 8, i++, entry += 8) {
                 s32 kind = *(s16 *)(entry + 6);
                 if (kind < 4) {
                     if (kind >= 2)
-                        Model_CopySlotU16Values(*(s16 *)entry, (u16 *)(table + offset));
+                        Model_CopySlotU16Values(
+                            *(s16 *)entry, (u16 *)((u8 *)key + offset)
+                        );
                 }
             }
         }
@@ -332,7 +334,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
         D_8009B07A++;
         flag = flag > 0;
     }
-    func_8005F91C(flag, (u8 *)x, (u8 *)y, c);
+    func_8005F91C(flag, x, y, c);
 }
 
 void func_8005F7B0(s32 value, s32 arg)
@@ -354,7 +356,9 @@ void func_8005F7B0(s32 value, s32 arg)
         D_8009B07A = next + 1;
         flag = flag > 0;
     }
-    func_8005F91C(flag, (u8 *)&d, (u8 *)&d, arg);
+    func_8005F91C(
+        flag, (ModelEffectEndpoint *)&d, (ModelEffectEndpoint *)&d, arg
+    );
 }
 
 void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
@@ -379,7 +383,12 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
     }
 
     do {
-        func_8005F91C(flag, (u8 *)p1, (u8 *)p2, arg3);
+        func_8005F91C(
+            flag,
+            (ModelEffectEndpoint *)p1,
+            (ModelEffectEndpoint *)p2,
+            arg3
+        );
 
         if (p1 != 0) {
             p1 = (u8 *)p1 + 8;
@@ -405,7 +414,12 @@ cont:
     } while (count != 0);
 }
 
-void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3)
+void func_8005F91C(
+    s32 arg0,
+    ModelEffectEndpoint *arg1,
+    ModelEffectEndpoint *arg2,
+    s32 arg3
+)
 {
     u8 *p;
     u8 *q;
@@ -435,9 +449,10 @@ void func_8005F91C(s32 arg0, u8 *arg1, u8 *arg2, s32 arg3)
 
 m0:
     func_80059EBC(-1);
-    D_8009B074 = (u8 *)D_800F5788;
+    D_8009B074 = D_800F5788;
     D_8009B078 = 0;
-    if (arg1 == (u8 *)0 && arg2 == (u8 *)0 &&
+    if (arg1 == (ModelEffectEndpoint *)0 &&
+        arg2 == (ModelEffectEndpoint *)0 &&
         (arg3 == 0 || arg3 == 0x4000)) {
         return;
     }
@@ -446,24 +461,24 @@ m0:
 
 m1:
     if (D_8009B078 < 0xA) {
-        r = (u8 *)&D_800F5788[D_8009B078];
-        if (arg1 != (u8 *)0) {
-            *(ModelEffectEndpoint *)r = *(ModelEffectEndpoint *)arg1;
+        Key *key = &D_800F5788[D_8009B078];
+        r = (u8 *)key;
+        if (arg1 != (ModelEffectEndpoint *)0) {
+            key->requested[0] = *arg1;
         } else {
-            *(u16 *)(r + 6) = 0;
+            key->requested[0].kind = 0;
         }
-        if (arg2 != (u8 *)0) {
-            *(ModelEffectEndpoint *)(r + 8) =
-                *(ModelEffectEndpoint *)arg2;
-            r[0x26] = 0;
+        if (arg2 != (ModelEffectEndpoint *)0) {
+            key->requested[1] = *arg2;
+            key->ready = 0;
         } else {
-            *(u16 *)(r + 0xE) = 0;
-            r[0x26] = 0;
+            key->requested[1].kind = 0;
+            key->ready = 0;
         }
         n = D_8009B078;
-        *(s16 *)(r + 0x20) = arg3;
-        *(s16 *)(r + 0x22) = 0;
-        *(s16 *)(r + 0x24) = 0;
+        key->magnitude = arg3;
+        key->radius = 0;
+        key->progress = 0;
         D_8009B078 = n + 1;
     }
     return;
@@ -504,12 +519,13 @@ int func_8005FB14(void)
     return value;
 }
 
-void func_8005FB30(u8 *data)
+void func_8005FB30(Key *key)
 {
+    u8 *data = (u8 *)key;
     int i;
 
     if (!data) {
-        data = D_8009B074;
+        data = (u8 *)D_8009B074;
     }
     if (!data) {
         return;

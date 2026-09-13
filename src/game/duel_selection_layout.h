@@ -47,7 +47,7 @@ extern u8 D_800E9F10[];
 extern u8 D_800E9F48[];
 
 /* Assigned from both bases above. Assigned by three C functions and loaded
- * by two: func_80018608 assigns `D_800E9F10 + D_8009B1D5 *
+ * by three: func_80018608 assigns `D_800E9F10 + D_8009B1D5 *
  * DUEL_SELECTION_SIDE_SIZE` and stores 0xAE at +0xC (duel_phase_entry.c:
  * 69-70); func_8001898C assigns the same from `side` and stores `base` at
  * +8 (:154-156), then assigns it again and stores 0xAE at +0xC (:206-207);
@@ -55,13 +55,14 @@ extern u8 D_800E9F48[];
  * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
  * +0x19 (func_8001B938.c:37-42), +0x11 and +0x12 again (:53-54), +0x10
  * (:59) and +0xF (:68), loading it back for each; func_80017034 loads it
- * directly as a DuelCardPickCursor (src/game/func_80017034.c). Six
+ * directly as a DuelCardPickCursor (src/game/func_80017034.c); and
+ * func_800235C0 loads it into the DuelFieldDisplaySource view that
+ * duel_field_display_objects.c already casts the same record to. Five
  * functions still in assembly, none with a profile in matching_c.json, also
  * store or load it: func_80018FEC.s:31 and :87, func_80019D18.s:32,
  * func_8001BD88.s (stores :35, :106, :720, :1140, :1369, :1394; loads :92,
  * :501, :507, :1150, :1227), func_8001D670.s (stores :56, :613, :753, :1409,
- * :1439; load :1412), func_8001F55C.s (stores :93, :183; load :96) and
- * func_800235C0.s:7.
+ * :1439; load :1412) and func_8001F55C.s (stores :93, :183; load :96).
  *
  * DuelCardPickCursor * because that view does cover every store. This
  * note used to say the byte view was the only one that fits, on the

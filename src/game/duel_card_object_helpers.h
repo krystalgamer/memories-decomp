@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_CARD_OBJECT_HELPERS_H
 
 #include "../types.h"
+#include "display_object.h"
 
 /* The two fields func_800181EC reads out of a card's display object: the
    flag byte at 0x22 and the type byte at 0x68. It is a view of those two
@@ -19,5 +20,11 @@ typedef struct {
    call site stores the result straight into a 16-bit field, so the narrowing
    they were describing happens at the store rather than at the return. */
 s32 func_800181EC(CardObject *object);
+
+/* Allocates a type 2 display object, passes arg0/arg1 to func_800404CC as
+   its x/y, and marks it screen space. Defined in
+   duel_card_object_helpers.c; func_800235C0 creates the field-card panel
+   through it. */
+DisplayObject *func_80018150(int arg0, int arg1);
 
 #endif

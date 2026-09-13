@@ -18,6 +18,7 @@
 #include "../game/duel_effect.h"
 #include "../game/duel_effect_request.h"
 #include "../game/func_8002C6C8.h"
+#include "../game/duel_field_display_objects.h"
 #include "../unmatched.h"
 #include "../game/duel_magic_effect_dispatch.h"
 

@@ -78,9 +78,6 @@ s32 func_80030294(void);
  * equivalent unsigned int and int spellings. */
 void func_800323F8(u32, void *, s32, s32);
 
-/* One consumer, duel_scene_update.c, which calls it without arguments. */
-void func_800235C0(void);
-
 /* Three consumers, identical spelling in all three: model_scene_setup.c,
  * model_scene_states.c and model_slot_support.c. The last of those is the site
  * described above, which used to declare no parameters; once it was given the

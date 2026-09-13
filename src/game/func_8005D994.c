@@ -87,5 +87,7 @@ void func_8005D994(
         D_8009B07A = D_8009B07A + 1;
         first = x > 0;
     }
-    func_8005F91C(first, (u8 *)b, (u8 *)a, arg5);
+    func_8005F91C(
+        first, (ModelEffectEndpoint *)b, (ModelEffectEndpoint *)a, arg5
+    );
 }
