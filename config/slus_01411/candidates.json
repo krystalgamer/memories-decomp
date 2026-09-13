@@ -69,20 +69,6 @@
       }
     },
     {
-      "address": "0x800171A8",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_800171A8.c",
-      "target": "src/candidates_target/func_800171A8.S",
-      "candidate_build_sha256": "730344762b1af74a2c6a603107718ac0f0ace7e69d816c1a15895a46f01f3940",
-      "target_bytes_sha256": "30be331a177c2f6940a645da24cd16a2a5efc8793d3d527eeeabe3f96a3a4fd9",
-      "canonical_contract_sha256": "e59a314d872eb45defa5da64bd847121abe6b241e641a53097107ccbecd77c3f",
-      "canonical_contracts": {
-        "D_800101DC": "b57ebe1a6bcfa4bcc627df5a0faceadd6ac8914654c9c31088592458072f5fa2",
-        "D_801A8000": "52b252c25127a4c256cc50736acd06a6f0ddff3d63f6cd459f415c1fb568e347",
-        "D_801A9800": "a3f33292d036aa051700421c5a74cd7c9b6325a895979d2f0e87700affe0387c"
-      }
-    },
-    {
       "address": "0x800177C4",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "source": "src/candidates/func_800177C4.c",
@@ -176,18 +162,6 @@
       "target_bytes_sha256": "52f5fe6fb9e037f4b4d6e8169503d686305356e41ebae1977402837406ddcf5f",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
-    },
-    {
-      "address": "0x80023144",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_80023144.c",
-      "target": "src/candidates_target/func_80023144.S",
-      "candidate_build_sha256": "48ce63f37efcaa055b7653ae0486e5613c8bdc5efe0fbea10d50bddddb75033b",
-      "target_bytes_sha256": "ec3351f081f64190e3088b655dcc3da84a1d88e2cfc1bd6922c5b102cd53ae5c",
-      "canonical_contract_sha256": "c1ab254105af12ecedc7faf409087a932e606ef998e8dcd5e3202b4b4ee5ae7a",
-      "canonical_contracts": {
-        "D_8009B344": "baa33ecb6768c46796569a7e53f769348b836b820dce707b9a514985fdd4809a"
-      }
     },
     {
       "address": "0x80024200",
@@ -809,7 +783,7 @@
       "target": "src/candidates_target/main_menu/func_801821DC.S",
       "candidate_build_sha256": "09e3f369cbdd49c0278288a20c8d4df2f4531c1e33a3b4c07d44b2337f10a12f",
       "target_bytes_sha256": "fedef0a9b0c2c9d2e7622a6f2fc6a12a901e93607e4ac5f80718aa7ea7338c45",
-      "canonical_contract_sha256": "51a22efb3db502c420af717cd8aa24bd2bb9dd1df6afa3e542e35214f4cf9787",
+      "canonical_contract_sha256": "8316efd4abf769d894c05e6ca72edec65ca03284c02cae058d06e04ada5a27ef",
       "canonical_contracts": {
         "D_800EB224": "709c9a9a6592bdff2bdf31695cc21fbda50b01fdcd79a92d9c654c3ad6261a6f",
         "D_80185144": "5b8368a0bfa5f79714df23289af39b3095799179792773356e495261c8a39533",
@@ -819,7 +793,7 @@
         "D_80185CCA": "e7e2d56fde0106f97aca5e0000fb33253b09d3b067920c5b48c89d1ab4541d1b",
         "D_80185CCB": "6c63d3d380d93ed2d5b72227c8eaa43262d69116961827cbd6d47361a2ebb168",
         "D_80185CCC": "0779a78b92b708a6faa7a2d9b0f1f38a59a2ee9d8dfd7cecbf05e992c0087776",
-        "D_801A8000": "52b252c25127a4c256cc50736acd06a6f0ddff3d63f6cd459f415c1fb568e347"
+        "D_801A8000": "090c1c20cc650e57ed92505f749bcaccd16e040e3820612363f618454263a722"
       }
     },
     {
@@ -845,7 +819,7 @@
       "target": "src/candidates_target/password/func_8016A37C.S",
       "candidate_build_sha256": "bae00fe708a54923f911bddd035743268d89c91d46711093782049308653da73",
       "target_bytes_sha256": "6bb305c70fa3860cd34f7b6be673f4292e42ddda123b3b21162b75f6de1e3b2c",
-      "canonical_contract_sha256": "54b707b667f1bfb6c35ef69c095b09970c945fc461065c1a4635e8562d30d28b",
+      "canonical_contract_sha256": "3e6402a153fcac0b6e66497d74084f2d150fb963c744ade7f4741f1b5f179bf1",
       "canonical_contracts": {
         "D_8009B269": "2b5536c677eba8a4deacb0244841cbf2bbea5f6f1bc97071fd809519b841aae2",
         "D_8009B26C": "4920d9857fc5dfd84de01c22458411438c946bcb38fcaefdd6a28c58f14b8393",
@@ -854,7 +828,7 @@
         "D_8016D438": "d91768d125adce2239a7efdc3b3238de41bda16a29b95392a57ea3a02f49f75e",
         "D_8016D440": "5912e21694045c9c06ed887eb53df0e288dd9ab134907b07a883e32d7a2b4ae2",
         "D_8016D4DC": "d90add64549ca0a8df5c6972e15ba89de6eae90d5a89e7adcf5c41176967b9ba",
-        "D_801A8000": "52b252c25127a4c256cc50736acd06a6f0ddff3d63f6cd459f415c1fb568e347",
+        "D_801A8000": "090c1c20cc650e57ed92505f749bcaccd16e040e3820612363f618454263a722",
         "D_801A8008": "afb3702306fe269985f444a6c2faef90eb609e2c3570948c3f6dcdba69730297",
         "D_801B1245": "a915c1a3f8427daac600b380f8304412a76e68f524b981548a785e2d26f236ed"
       }

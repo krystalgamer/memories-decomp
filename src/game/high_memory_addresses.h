@@ -27,6 +27,9 @@ extern s32 D_80010014 __attribute__((section(".data")));
 extern s32 D_80010018 __attribute__((section(".data")));
 extern s32 D_8001002C __attribute__((section(".data")));
 
+/* Staging base selected by duel package stage 7. */
+extern u8 *D_800101DC __attribute__((section(".data")));
+
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
  * Keep the initializer candidate's signed-word ABI view. */
 extern s32 D_8001001C;

@@ -36,7 +36,7 @@ extern u8 D_800E9F10[];
  *     D_8009B1B4 = D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
  *
  * which is the same cursor assignment the D_800E9F10 callers make, just from
- * two records further in. func_80023144 (src/candidates/func_80023144.c)
+ * two records further in. func_80023144 (duel_field_display_objects.c)
  * passes the same expression to func_80023090.
  *
  * The overlap is retail's, not an artefact of the port, and the two names
