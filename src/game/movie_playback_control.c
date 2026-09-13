@@ -30,7 +30,7 @@ void func_800359B0(void)
             D_8009B144[0] = 1;
             D_8009B143[0] = 1;
             D_8009B142[0] = 1;
-            func_8005C5C4();
+            Movie_StartFadeOut();
         }
     } else {
         D_8009B0F4_abs = D_8009B0F4_abs & 0xFDFFFFFF;
