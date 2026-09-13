@@ -475,7 +475,7 @@ void MemCardDialog_UpdateSave(void)
         if ((gMemCard_wDialogFlags & 0x100) == 0) {
             message = 0xD1;
             D_8009B3D4 = 0;
-            gSaveDataSequence++;
+            gSaveDataSequence = (s32)((u32)gSaveDataSequence + 1);
         }
         MemCardDialog_SetMessage(message, 0x18);
         break;
