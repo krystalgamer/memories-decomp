@@ -1084,7 +1084,10 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
 typedef struct {
     u8 pad_00[4];
     u32 flags;
-    u8 pad_08[0x48];
+    u8 pad_08[0x44];
+    /* func_80041C8C points this at the current opcode's operand target:
+       base plus the little-endian halfword that follows the opcode. */
+    u8 *field_4C;
     u8 *current;
     u8 *base;
     s16 field_58;
@@ -1093,6 +1096,9 @@ typedef struct {
 
 typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_4C_offset_must_be_0x4C[
+    (u32)&((DisplayObjectStreamState *)0)->field_4C == 0x4C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
     (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1
