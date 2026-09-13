@@ -97,7 +97,7 @@ void func_80015C0C(void);
 void func_80015C48(void);
 void func_80015C84();
 void func_80015CC0(void);
-void func_80015CFC(void);
+void Fade_EnableOrderingTables(void);
 void func_80015D0C(void);
 
 #endif

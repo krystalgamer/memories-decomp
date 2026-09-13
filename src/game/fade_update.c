@@ -21,7 +21,7 @@ void Fade_Update(FadeTransitionState *p)
         return;
     }
     if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
-        func_80015CFC();
+        Fade_EnableOrderingTables();
     }
     delta = p->step * *(volatile s32 *)&D_8009B0D8;
     lvl = p->level;
@@ -35,7 +35,7 @@ void Fade_Update(FadeTransitionState *p)
         gFade_State.flags =
             f & ~(FADE_FLAG_ACTIVE | FADE_FLAG_KEEP_OVERLAY |
                   FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
-        func_80015CFC();
+        Fade_EnableOrderingTables();
         D_8009B140 = 0;
         D_8009B145 = 0;
         D_8009B144 = D_8009B14C;
@@ -68,7 +68,7 @@ void Fade_Update(FadeTransitionState *p)
     D_8009B144 = p->tint_r;
     D_8009B143 = p->tint_g;
     D_8009B142 = p->tint_b;
-    func_80015CFC();
+    Fade_EnableOrderingTables();
     gFade_State.flags = gFade_State.flags | FADE_FLAG_ACTIVE;
     return;
 step:
