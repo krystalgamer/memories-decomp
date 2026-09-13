@@ -11,18 +11,19 @@
    it, and emits a four-vertex gouraud line and then a flat one through
    func_8005B260. The record is the canonical DisplayObject.
 
-   Two of its reads keep the byte pointer, and that is measured. The four
-   SVECTORs and the packet this function fills live in scratchpad and are
-   written through pointers of their own; a read of the object that sits
+   Two of its reads stay non-struct references, and that is measured. The
+   four SVECTORs and the packet this function fills live in scratchpad and
+   are written through pointers of their own; a read of the object that sits
    between those stores can be floated across them once it is a struct
-   reference, and the target does not float these two. 0x32 grows the
-   function past its segment and 0x3E changes its code outright, while their
-   neighbours 0x30 and 0x3C convert with no change at all. So those two stay
-   spelled off `bytes`, and the comment on each says why. Everything else the
-   function touches is an ordinary member read. */
+   reference, and the target does not float these two. As member reads,
+   0x32 grows the function past its segment and 0x3E changes its code
+   outright, while their neighbours 0x30 and 0x3C convert with no change at
+   all. Those two are read through the member's address as s16 and
+   converted back to u16: fold would turn a u16 cast, the members' own
+   type, back into the member read. Everything else the function touches
+   is an ordinary member read. */
 void func_8002A9C0(DisplayObject *o, s32 arg1)
 {
-    u8 *bytes = (u8 *)o;
     s32 sp28;
     s32 sp2C;
     u8 *q;
@@ -74,11 +75,11 @@ void func_8002A9C0(DisplayObject *o, s32 arg1)
     *(s16 *)(b0 + 8) = v;
 
     /* 0x32: see the note above -- as a member read this grows .text. */
-    w = *(u16 *)(bytes + 0x32) - *(u16 *)(r + 2);
+    w = (u16)*(s16 *)&o->field_30.h.field_32 - *(u16 *)(r + 2);
     *(s16 *)(b1 + 2) = w;
     *(s16 *)(b0 + 2) = w;
     /* 0x3E: likewise, and here the code changes rather than the size. */
-    e = *(u16 *)(bytes + 0x3E);
+    e = (u16)*(s16 *)&o->field_3C.h.field_3E;
     *(s16 *)(b3 + 4) = 0;
     *(s16 *)(b2 + 4) = 0;
     *(s16 *)(b1 + 4) = 0;
