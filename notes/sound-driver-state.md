@@ -305,7 +305,8 @@ what the cast applies to:
   rather than dereferenced);
 - a base local assigned `(u8 *)g_SDValue` (five, three of them in
   `sound_output_state.c`, all within `func_80045054`);
-- a cast on a member's value (one, `func_80047DB0.c:30`).
+- a cast on a member's value (one, `sound_voice_selection.c`, in
+  `func_80047DB0`).
 
 This note records a code-generation rationale for exactly one of the
 eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
@@ -750,6 +751,13 @@ that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
 declarations and `kernel.h` constants; the remaining unnamed counter-control
 wrappers retain their address-based identities.
 
+The callback now follows the three contiguous secondary command handlers in
+`src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
+`0x8004B854` translation unit after its pure-C promotion. The command handlers
+update the channel/object state that the interrupt callback advances and
+periodically maintains; the different-profile event setup at `func_8004B854`
+fixes the upper boundary.
+
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and
 the major top-level offsets.
@@ -832,6 +840,14 @@ the signed-halfword store and test after the canonical word-sized result.
 `func_80049AF4` caller view while its definition keeps the one-argument
 view. Native compiler controls check these declarations and reject
 incompatible views.
+
+The complete five-function secondary playback lifecycle now builds from
+`src/game/sound_secondary_playback.c`, covering `0x80049A64` through
+`0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
+`func_80049AF4` calls the canonical `SD_StartSequenceTracks(void)`, while
+`func_80049BAC` uses a narrow same-symbol no-argument alias matching its
+original translation unit. The adjacent functions on both sides require
+`gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
 
 ### Migration status and exact-code exceptions
 

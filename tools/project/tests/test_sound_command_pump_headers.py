@@ -150,7 +150,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
         )
 
     def test_runtime_caller_uses_sound_owner_not_unmatched(self) -> None:
-        path = REPOSITORY / "src/game/sd_update_runtime.c"
+        path = REPOSITORY / "src/game/sound_runtime.c"
         self.assertIn('#include "sound.h"', path.read_text(encoding="utf-8"))
         unmatched = (REPOSITORY / "src/unmatched.h").read_text(encoding="utf-8")
         self.assertNotRegex(unmatched, r"\bfunc_80045514\s*\(")
@@ -217,7 +217,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
             ("src/game/sd_arm_busy_callback.c", "sound_output_state.h"),
             ("src/game/func_80045484.c", "sound.h"),
             ("src/game/sound_secondary_playback.c", "sound.h"),
-            ("src/game/func_80049AF4.c", "sound_sequence_timing.h"),
+            ("src/game/sound_secondary_playback.c", "sound_sequence_timing.h"),
         ):
             with self.subTest(source=source):
                 path = REPOSITORY / source

@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_record_tables.h"
+#define MODEL_GRAPHICS_STATE_SCENE_BYTES
 #include "model_graphics_state.h"
 
 u8 *D_8009AF88 __attribute__((section(".sdata"))) = D_80091008;
@@ -19,10 +20,7 @@ u8 D_8009AFA0 __attribute__((section(".sdata"))) = 0;
 u8 D_8009AFA1 __attribute__((section(".sdata"))) = 0;
 u8 D_8009AFA2 __attribute__((section(".sdata"))) = 0;
 volatile u8 D_8009AFA3 __attribute__((section(".sdata"))) = 0;
-u8 D_8009AFA4 __attribute__((section(".sdata"))) = 1;
-static u8 sModelGraphicsState_PadA5 __attribute__((section(".sdata"))) = 0;
-u8 D_8009AFA6 __attribute__((section(".sdata"))) = 0;
-static u8 sModelGraphicsState_PadA7 __attribute__((section(".sdata"))) = 0;
+u8 D_8009AFA4[4] __attribute__((section(".sdata"))) = {1, 0, 0, 0};
 static u16 sModelGraphicsState_ValueA8
     __attribute__((section(".sdata"))) = 1;
 static u16 sModelGraphicsState_PadAA

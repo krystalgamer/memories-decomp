@@ -7,9 +7,7 @@
  *
  * The model scene owns the pointer and model state through D_8009AFA1.
  * Graphics_BeginFrame and Graphics_SyncFrame publish the active buffer and
- * bounded frame step in D_8009AFA2-D_8009AFA4. The final six bytes are still
- * reached as a byte range by unmatched model code; D_8009AFA6 names its first
- * byte, the only one matched C reads directly.
+ * bounded frame step in D_8009AFA2-D_8009AFA4.
  *
  * graphics_frame.c needs the absolute-address declaration arm below. Its
  * retail stores use %hi/%lo and its view of D_8009AFA3 is non-volatile.
@@ -46,14 +44,30 @@ extern u8 D_8009AFA1;
 #ifdef MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE
 extern u8 D_8009AFA2 __attribute__((section(".data")));
 extern u8 D_8009AFA3 __attribute__((section(".data")));
-extern u8 D_8009AFA4 __attribute__((section(".data")));
 #elif defined(MODEL_GRAPHICS_STATE_CLAMP_NONVOLATILE)
 extern u8 D_8009AFA2;
 extern u8 D_8009AFA3;
-extern u8 D_8009AFA4;
 #else
 extern u8 D_8009AFA2;
 extern volatile u8 D_8009AFA3;
+#endif
+
+/* A4-A7 have real four-byte backing in model_graphics_state.c: frame-step
+ * override, unclassified byte, D_8009AFA6, and the scene's active slot (0/1).
+ * func_800507D0 reaches the last byte with a GP-relative A4 + 3 relocation;
+ * it must not index past a scalar declaration. The owner and this consumer
+ * select the bounded array. Existing consumers retain the first-byte scalar
+ * view (and Graphics_BeginFrame's absolute addressing).
+ * D_8009AFA6 is the linker identity of byte 2, not a second allocation.
+ * The following halfwords at A8/AA are outside this four-byte object. */
+#if defined(MODEL_GRAPHICS_STATE_SCENE_BYTES)
+#if defined(MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE)
+#error scene byte view requires GP-relative addressing
+#endif
+extern u8 D_8009AFA4[4];
+#elif defined(MODEL_GRAPHICS_STATE_FRAME_ABSOLUTE)
+extern u8 D_8009AFA4 __attribute__((section(".data")));
+#else
 extern u8 D_8009AFA4;
 #endif
 

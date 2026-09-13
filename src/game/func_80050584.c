@@ -10,6 +10,7 @@
 #include "model.h"
 #include "func_8005922C.h"
 #include "model_cleanup.h"
+#include "model_scene_states.h"
 
 void func_80050584(s32 arg0) {
     ModelSlot *p;

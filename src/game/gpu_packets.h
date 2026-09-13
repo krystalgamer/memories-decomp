@@ -6,6 +6,12 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 
+/* The packet cursor these helpers write through: a cursor into the frame's
+ * scratch packet area, advanced past each packet as it is linked. It is
+ * libgs.h's GsOUT_PACKET_P, and DivideFT4 also returns the advanced cursor.
+ * Declared .data so -G8 units address it absolutely, as retail does. */
+extern u32 *D_800FE240 __attribute__((section(".data")));
+
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags);
 

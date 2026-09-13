@@ -5,6 +5,7 @@
 #include "func_80058DD8.h"
 #include "camera_view.h"
 #include "file_transfer.h"
+#define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "library_runtime.h"
 #include "model_copy_slot_u16_values.h"
@@ -139,13 +140,6 @@ void Library_MarkOwnedCards(void)
         q++;
     } while (i < DECK_SIZE);
 }
-
-extern s16 gGraphics_sViewportX_data asm("gGraphics_sViewportX")
-    __attribute__((section(".data")));
-extern s16 gGraphics_sViewportY_data asm("gGraphics_sViewportY")
-    __attribute__((section(".data")));
-#define gGraphics_sViewportX gGraphics_sViewportX_data
-#define gGraphics_sViewportY gGraphics_sViewportY_data
 
 void func_8002BFCC(void) {
     s16 *q;

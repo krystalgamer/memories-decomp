@@ -999,6 +999,13 @@ extern  "C" {
 	PACKET *GsTMDfastTF4MFG(TMD_P_TF4 *op, VERT *vp, VERT *np, PACKET *pk,
 						int n, int shift, GsOT *ot, u32 *scratch);
 
+	/* LIBGTE's textured-quad subdivider. libgte.h keeps its copy in a
+	   commented-out block because it names libgpu's POLY_FT4; this header
+	   already depends on libgpu.h and libgte.h, so it can declare it. */
+	POLY_FT4 *DivideFT4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3,
+			u32 *uv0, u32 *uv1, u32 *uv2, u32 *uv3,
+			CVECTOR *rgbc, POLY_FT4 *s, u32 *ot, DIVPOLYGON4 *divp);
+
 #if defined(_LANGUAGE_C_PLUS_PLUS)||defined(__cplusplus)||defined(c_plusplus)
 }
 #endif
