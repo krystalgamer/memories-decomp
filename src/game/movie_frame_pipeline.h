@@ -62,6 +62,13 @@ extern s16 D_800FE0CC __attribute__((section(".data")));
 extern u16 D_800FE0D0 __attribute__((section(".data")));
 extern s32 D_800FE0D4 __attribute__((section(".data")));
 
+/* The pending-interrupt word func_8005C1F4 tests, and clears after calling
+ * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
+ * -G8 a plain declaration would land in sdata and both accesses would come out
+ * gp-relative; retail reaches it through lui %hi / %lo, which the .data
+ * section attribute keeps. func_8005C1F4 is its only C consumer. */
+extern s32 D_800F5D44 __attribute__((section(".data")));
+
 /* The movie work area lives at D_8009B498 + 0x40000. Only its tail
  * is reached by name here. LoadImage is handed
  * D_8009B498 + 0x42400 + idx * 8 with idx kept in 0..3 by an

@@ -213,7 +213,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
 
     def test_definitions_include_compatible_owners(self) -> None:
         for source, header in (
-            ("src/candidates/func_800476B4.c", "../game/sound_pending_entries.h"),
+            ("src/game/sound_pending_entries.c", "sound_pending_entries.h"),
             ("src/game/sd_arm_busy_callback.c", "sound_output_state.h"),
             ("src/game/func_80045484.c", "sound.h"),
             ("src/game/sound_secondary_playback.c", "sound.h"),

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_TEXT_CONTROL_COMMANDS_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "duel_effect.h"
 
 /* D_80090EAC entry, and the dispatcher for the whole table: it reads one byte
@@ -49,16 +50,9 @@ void Text_EndStream(DuelEffectChannel *object);
  * running one (bits 5 and 6), or starts it in the slot bit 0 names, putting the
  * object into the matching wait state.
  *
- * The parameter is this unit's own view of the object, moved here from the
- * source because a prototype needs its type. The table uses the shared
- * DuelEffectChannel view, so this entry retains an explicit cast. */
-typedef struct {
-    u8 *streams[20];
-    u8 unk50;
-    u8 state;
-    u8 pad52[6];
-    s8 depth;
-} EffectObject;
+ * The parameter uses the narrow shared EffectObject view in ygo_types.h. The
+ * table uses the wider DuelEffectChannel view, so this entry retains an
+ * explicit cast. */
 
 void Text_HandleDisplayEffectCommand(EffectObject *object);
 

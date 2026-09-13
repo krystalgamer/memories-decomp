@@ -2,7 +2,12 @@
 #define MEMORIES_DECOMP_DUEL_REWARD_SETUP_H
 
 #include "../types.h"
+#include "card_constants.h"
 #include "file_transfer.h"
+
+/* 0x801D07BC, 0x56C bytes above gLibrary_abCardChest (0x801D0250). */
+extern s16 gDuel_awRecentCardDrops[DUEL_RECENT_CARD_DROP_COUNT];
+#define DUEL_RECENT_DROPS_CHEST_DISTANCE 0x56C
 
 /* Four-phase callback for the 0x2189, 0x4C-sector duel reward request. */
 void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
@@ -18,10 +23,9 @@ void func_80032328(void);
  * entries to the front, zeroing each slot it moves out of, so the table ends
  * up densely packed with the order preserved.
  *
- * The unit reaches the table through an inline block that materialises its
- * address into a pinned register rather than by naming it directly, and both
- * loops run on pinned registers. That spelling is load bearing, so the
- * definition is not to be tidied into ordinary C without a measurement.
+ * The ordinary C uses the split-address compiler profile for the initial
+ * table address. Its reverse cursor is an integer address, so the final
+ * decrement does not form a pointer before the array.
  *
  * func_800339D0.c is the only consumer. Both names stay address-based: the
  * two passes are legible, but what makes a drop recent, and what the record

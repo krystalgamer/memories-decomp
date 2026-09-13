@@ -237,9 +237,21 @@ the linked refinement has already superseded. No historical rows need editing.
 
 Use `--allow-register-pins` for measured hard-register declarations.
 `--allow-symbol-aliases` permits a second C declaration only when its assembler
-name exactly matches a symbol in the tracked linker tables; arbitrary
-expressions such as `Symbol+0` and unknown names remain rejected. The
-allowances are independent and neither permits statement-level inline assembly.
+name exactly matches a symbol in the tracked linker tables, function
+inventories, or canonical headers; arbitrary expressions such as `Symbol+0`
+and unknown names remain rejected. The allowances are independent and neither
+permits statement-level inline assembly.
+These flags are evidence-ledger allowances only. Promotion to matching C rejects
+hard-register variables and statement-level assembly, permits only tracked
+symbol aliases, and rejects profiles whose GCC and MASPSX `-G` values differ.
+`make check-matching-source-contracts` enforces the same contract across every
+resident and overlay matching manifest. All three paths scan C literals and
+comments without regex boundary loss, apply line splicing before token checks,
+and inspect the compiler's preprocessed output so assembly introduced by an
+active included macro cannot bypass the source-only gate. Unused assembly
+macros are not expanded and therefore do not cause false failures. Run this
+target after installing the matching compiler; the toolchain-backed CI build
+runs it separately from the toolchain-free metadata job.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:
@@ -589,6 +601,13 @@ adds two more of its own:
 The rule the campaign settled on: the scan produces candidates, and reading the
 source decides them. Every one of these was caught by reading, and none by the
 tool contradicting itself.
+
+Single ownership applies to unique records too, not only duplicated shapes.
+The text/script pass moved `TextStreamOwner`, `EffectObject`,
+`SceneScriptSlot`, `ScriptImageEntry`, `SceneScriptRecordCallback`, and
+`TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
+domain headers still own constants, globals, and function declarations; the
+shared type file owns the measured layouts and offset assertions.
 
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate

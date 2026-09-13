@@ -158,7 +158,10 @@ results. Its installer, profiles, host patch, and assembly filter are gone.
 
 GCC 2.8.1 with MASPSX 2.81 is the only compiler pipeline. A future candidate
 that genuinely needs a different cohort must reintroduce it deliberately with
-evidence, not resurrect the retired profiles.
+evidence, not resurrect the retired profiles. Historical attempt rows may
+still name the removed `gcc_2_7_2_g0` and `gcc_2_7_2_g8` profiles as immutable
+campaign provenance; validators accept those names but cannot select them for
+new work.
 
 ## Address conversion
 

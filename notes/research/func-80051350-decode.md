@@ -33,7 +33,7 @@ profile, and fingerprint metadata are the current candidate artifacts.
 | `D_8009B47A` | `%gp_rel` halfword |
 
 `D_800F2C40` is the `0xE20`-stride record array already declared by the
-[`func_8004CB0C` candidate](../../src/candidates/func_8004CB0C.c) and matching
+matching [`func_8004CB0C`](../../src/game/func_8004CB0C.c) and
 `func_8004D75C` in
 [`model_slot_row_tables.c`](../../src/game/model_slot_row_tables.c). The
 offsets here confirm the stride and say which records are used: `0xDC8` and

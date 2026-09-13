@@ -13,10 +13,8 @@
 #include "sound_mix.h"
 
 /* The start of the movie player, in image order: the stop path that tears the
-   stream down and repaints the screen, then two of the three stages that
-   decode and present one frame. The three are contiguous and follow
-   func_8005B85C. The third stage, func_8005C1F4, comes next and is now a
-   candidate in src/candidates/func_8005C1F4.c. */
+   stream down and repaints the screen, then the three stages that decode and
+   present one frame. The four are contiguous and follow func_8005B85C. */
 
 s32 Movie_StopStream(s32 arg0) {
     RECT rect;
@@ -279,4 +277,46 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
     *(u16 *)&rects->strip.h = header->height;
     StFreeRing(base);
     return 0;
+}
+
+/* Feeds the MDEC one strip of the current movie frame. The strip header at
+ * D_8009B498 + 0x42428 is copied into the ring slot for D_8009B067, that slot
+ * and the matching decoded-output buffer go to LoadImage, the slot index
+ * advances modulo four, and the accumulated strip height at +0x42428 grows by
+ * the strip's own height. While the accumulation is still short of the frame
+ * rect at +0x42420 the next strip is queued with DecDCTout; otherwise
+ * D_8009B062 marks the frame complete.
+ *
+ * Writing dst off D_8009B498 with its own +0x40000, rather than off src, is
+ * what keeps retail's two separate additions of that constant. The strip
+ * height is accumulated in place (strip.x += strip.w) and compared through the
+ * record: that single read-modify-write is what lets GCC's own expansion of
+ * the % 4 above it take retail's registers. */
+void func_8005C1F4(void) {
+    u8 *src;
+    u8 *dst;
+    s32 idx;
+    MovieWorkArea *out;
+
+    if (D_8009B060 != 0) {
+        if (D_800F5D44 != 0) {
+            StCdInterrupt();
+            D_800F5D44 = 0;
+        }
+    }
+    dst = D_8009B498 + D_8009B067 * 8 + 0x40000;
+    src = D_8009B498 + 0x40000;
+    *(RECT *)(dst + 0x2400) = *(RECT *)(src + 0x2428);
+    idx = D_8009B067;
+    LoadImage((RECT *)(D_8009B498 + 0x42400 + idx * 8),
+              (u32 *)(D_8009B498 + 0x37000 + idx * 0x2D00));
+    D_8009B067 = (D_8009B067 + 1) % 4;
+    out = (MovieWorkArea *)(D_8009B498 + 0x40000);
+    out->strip.x += out->strip.w;
+    if (out->strip.x < out->frame.x + out->frame.w) {
+        DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00),
+                  out->strip.w * out->strip.h / 2);
+    } else {
+        D_8009B062 = 1;
+    }
 }

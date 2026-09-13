@@ -1446,6 +1446,9 @@ reapplies ownership classifications, and checks:
 - Tracked Markdown documentation is under `notes/`, except for per-directory
   `README.md` files and repository guidance at
   `.github/copilot-instructions.md`.
+- Canonical and external attempt histories satisfy the same validation
+  contracts used by their dedicated ledger tools, including historical
+  retired-profile provenance and reclassified matches.
 - The worktree is clean after deterministic regeneration.
 
 ## Cleanup
