@@ -213,7 +213,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 self.assertIn(callee, found)
 
     def test_lost_cd_header_is_caught_while_sdk_types_remain_visible(self) -> None:
-        header = (REPOSITORY / "src/game/file_cd_helpers.h").read_text(encoding="utf-8")
+        header = (
+            REPOSITORY / "src/psyq/libcd_abi_variants.h"
+        ).read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
             if "file_cd_helpers.h" not in include:
                 continue
