@@ -2,7 +2,17 @@
 #define MEMORIES_DECOMP_FUNC_80016784_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "display_object.h"
+#include "display_object_packet_submit.h"
+
+/* The scratch record at 0x1F8003E0. func_80041F90 projects into its head
+   and func_80042188 reads that head back as the packet origin;
+   func_80016784 keeps the card's screen position in the word after it. */
+typedef struct {
+    DisplayObjectPacketOrigin origin;
+    SpritePos pos;
+} CardFrameScratch;
 
 /* Draws one duel card's frame from its display object.
  *
