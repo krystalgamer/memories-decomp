@@ -7,6 +7,7 @@
 #include "func_800556E8.h"
 #include "func_8005A53C.h"
 #include "model.h"
+#include "model_background.h"
 #include "model_cleanup.h"
 #include "model_control.h"
 #include "model_graphics_state.h"

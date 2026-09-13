@@ -238,7 +238,6 @@ void func_80034830(void);
  * Each prototype below is copied from the consumer that had it, not
  * restated. func_8004158C has since matched and is declared by
  * func_8004158C.h. */
-void func_8004DE24(void);
 void func_8004EB00(void);
 void func_80051A48(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
