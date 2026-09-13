@@ -10,5 +10,6 @@
 void MemCard_ClearIOEvents(long *handles);
 s32 MemCard_WaitIOEvent(long *handles, s32 once);
 void MemCard_Init(long val);
+void MemCard_InitIOEvents(void);
 
 #endif

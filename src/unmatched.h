@@ -648,9 +648,6 @@ extern u16 D_8009B370;
 #endif
 extern u16 D_8009B372;
 extern u16 D_8009B374;
-extern u16 D_8009B3CC;
-extern u8 D_8009B3CF;
-extern u8 D_8009B3DD;
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;

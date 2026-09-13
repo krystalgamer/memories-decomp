@@ -584,7 +584,7 @@ address,size,name,status,module,notes
 0x8003D614,0x138,func_8003D614,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003D74C,0x2F4,func_8003D74C,matching_c,game,Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference; two globals declared into .data by attribute for the bare form beside gp-relative bytes.
 0x8003DA40,0x1DC,func_8003DA40,matching_c,game,Matched from updated collaborator source: aggregate D_8009AF76 preserves the retail absolute byte-load address pair.
-0x8003DC1C,0x850,func_8003DC1C,unmatched_asm,game,
+0x8003DC1C,0x850,func_8003DC1C,matching_c,game,"Complete pure-C legacy memory-card controller reconstructed from retail assembly. Independent request bodies, canonical directory indexing, shared flag work, and equivalent signed sector rounding reproduce all 2128 text bytes plus both switch tables (92-byte rodata span). Measured owners cover the work records, fixed sector frame, request APIs, and legacy lookup return-register view. No pins or executable assembly."
 0x8003E46C,0x24,MemCardDialog_SetMessage,matching_c,game,Variant 1 merged two flag stores and was four bytes short; volatile flags plus a local value preserved the intermediate store. Its g8 and g8_split objects are byte-identical; grouped with the load/save machines that consume it.
 0x8003E490,0x344,MemCardDialog_UpdateLoad,matching_c,game,Memory-card load dialog state machine; exact linked bytes with gcc_2_8_1_g8_split. D_801D5648 declared as an unsized array to keep it out of small data and preserve the materialised %hi base.
 0x8003E7D4,0x38,MemCardDialog_StepLoad,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8. The two-callback object is byte-identical under g8_split.
