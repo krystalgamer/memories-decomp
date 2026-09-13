@@ -226,12 +226,10 @@ extern u8 D_801DE000[];
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
-/* The initialized .sdata pointer targets the primary descriptor. The sector
-   callback reads the record at byte offsets and used to select a `u8 *`
-   declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
-   site instead, and its object is byte for byte unchanged by that -- a
-   pointer is one word either way, so the declared target type reaches no
-   instruction. */
+/* The initialized .sdata pointer targets the primary descriptor, which may
+   be switched by a phase callback. The sector callback reads it through
+   the FileTransferDescriptor members; only its image-phase buffer select is
+   still an address sum (see func_80013C28.c). */
 extern FileTransferDescriptor *D_8009AF18;
 extern u32 *D_8009B0F8;
 
