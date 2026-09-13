@@ -132,17 +132,15 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
 
 void Text_NewLine(DuelEffectChannel *record)
 {
-#define object ((u8 *)record)
-    object[0x56]++;
-    *(u16 *)(object + 0x38) = 0x1000;
-    if (func_80037C74((DuelEffectChannel *)object)) {
-        object[0x51] = 4;
+    record->field_56++;
+    record->field_38 = 0x1000;
+    if (func_80037C74(record)) {
+        record->state_51 = 4;
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340(object);
+        D_8009B340((volatile u8 *)record);
     }
-#undef object
 }
 
 void Text_EndStream(DuelEffectChannel *record)
