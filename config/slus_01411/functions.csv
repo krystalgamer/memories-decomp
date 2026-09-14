@@ -1511,7 +1511,7 @@ address,size,name,status,module,notes
 0x80081FC0,0x144,MoveImage2,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBGPU.LIB/SYS.OBJ MoveImage2.
 0x80082104,0xFC,DrawOTag2,sdk_asm,psyq/sdk,Identified at offset 0x2DB4 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
 0x80082200,0x28,_GPU_ResetCallback,sdk_asm,psyq/sdk,Identified at offset 0x2EB0 of the unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ signature.
-0x80082228,0x24,func_80082228,sdk_asm,psyq/sdk,
+0x80082228,0x24,memset_80082228,sdk_asm,psyq/sdk,Identified as SYS.OBJ's private memset from the recovered Psy-Q assembly and exact byte-fill body; address suffix distinguishes it from the linked libc memset.
 0x80082250,0x24,GPU_cw,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/C73.OBJ signature.
 0x80082274,0x10,GetVideoMode,sdk_asm,psyq/sdk,
 0x80082290,0x94,BreakDraw,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/BREAK.OBJ signature.
@@ -1584,7 +1584,7 @@ address,size,name,status,module,notes
 0x800860B0,0x4C,gte_init,sdk_asm,psyq/sdk,"Identified by the unique 80-byte Psy-Q 4.6 LIBGS.LIB/GS_121.OBJ signature; calls InitGeom, SetFarColor(0, 0, 0) and SetGeomOffset(0, 0) and clears the two halfwords at 0x800FE0BC. Internal LIBGS helper, lower case in the library."
 0x80086100,0xE4,GsGetTimInfo,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_122.OBJ signature and matching texture parser.
 0x800861F0,0xC8,Gssub_make_matrix,sdk_asm,psyq/sdk,Identified by the unique 208-byte Psy-Q 4.6 LIBGS.LIB/GS_123.OBJ signature. Internal LIBGS helper.
-0x800862C0,0xC,func_800862C0,sdk_asm,psyq/sdk,
+0x800862C0,0xC,GsSetWorkBase,sdk_asm,psyq/sdk,Identified by the canonical libgs API and exact wrapper body storing its pointer argument into the LIBGS packet work-base global D_800FE240.
 0x800862D0,0x2C8,GsGetLs,sdk_asm,psyq/sdk,Identified by the unique 720-byte Psy-Q 4.6 LIBGS.LIB/GS_134.OBJ signature; walks a coordinate hierarchy through GsMulCoord2 and GsMulCoord3 to build the local-screen matrix.
 0x800865A0,0x80,GsMulCoord2,sdk_asm,psyq/sdk,"Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX8.OBJ signature; combines two coordinate frames with MulMatrix2 and ApplyMatrixLV, then adds the translation components."
 0x80086620,0x80,GsMulCoord3,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/MATRIX9.OBJ signature; the GsMulCoord2 body using MulMatrix and ApplyMatrixLV.
@@ -1648,7 +1648,7 @@ address,size,name,status,module,notes
 0x80089910,0x8C,func_80089910,sdk_asm,psyq/sdk,
 0x800899A0,0x174,ratan2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGTE.LIB/RATAN.OBJ signature and matching angle callers.
 0x80089B20,0xAC,_patch_gte,sdk_asm,psyq/sdk,
-0x80089BCC,0x30,func_80089BCC,sdk_asm,psyq/sdk,
+0x80089BCC,0x30,_gte_patch_text,sdk_asm,psyq/sdk,Identified as the private PATCHGTE handler from the recovered Psy-Q symbol and the exact exception-frame save/restore body installed by _patch_gte.
 0x80089C00,0xC,SetDQA,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_14.OBJ signature; writes GTE control register 27 and SetFogNearFar calls it.
 0x80089C10,0xC,SetDQB,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBGTE.LIB/REG03_15.OBJ signature; writes GTE control register 28 and SetFogNearFar calls it in the instruction after SetDQA.
 0x80089C20,0x20,NormalColorCol,sdk_asm,psyq/sdk,"Identified by the unique 32-byte Psy-Q 4.6 LIBGTE.LIB/SMP_7.OBJ signature at pinned catalogue revision e9e46e7e133ef275a79bfce650924f98edb086bc. The pattern has no wildcards, matches exactly once at SLUS file offset 0x7A420 (resident 0x80089C20), exactly covers the inventory extent, and labels NormalColorCol at offset zero. The canonical libgte.h declaration and independent Unchiga catalogue agree. Keep SDK assembly ownership."
@@ -1754,7 +1754,7 @@ address,size,name,status,module,notes
 0x8008E390,0x34,memcpy,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMCPY.OBJ signature.
 0x8008E3D0,0x30,memset,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/MEMSET.OBJ signature and matching model-vector initialization calls.
 0x8008E400,0x150,qsort,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC/LIBC2 QSORT.OBJ signature and matching sort callers.
-0x8008E550,0x3C,func_8008E550,sdk_asm,psyq/sdk,
+0x8008E550,0x3C,qsexc,sdk_asm,psyq/sdk,Identified as qsort's private exchange helper by every call from qsort and its exact size-byte swap loop.
 0x8008E590,0x30,rand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime implementation using the standard 0x41C64E6D/0x3039 recurrence and 15-bit return.
 0x8008E5C0,0xC,srand,sdk_asm,psyq/sdk,Confirmed Psy-Q C runtime seed setter; directly stores its argument to gRand_dwSeed.
 0x8008E5D0,0xA4,strcat,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBC2.LIB/STRCAT.OBJ signature.

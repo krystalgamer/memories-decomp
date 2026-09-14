@@ -108,7 +108,7 @@ void Graphics_BeginFrame(void)
     D_8009AFA2 = idx;
     gGraphics_pActiveFrameBuffer =
         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
-    func_800862C0(arg);
+    GsSetWorkBase((PACKET *)arg);
     base = D_800E9D90;
     slot = base + 3;
     do {

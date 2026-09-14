@@ -130,9 +130,9 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain locally established inventory names; the signature sweep reports them separately rather than presenting them as unresolved |
 | Ambiguous addresses still unresolved | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name |
-| Psy-Q inventory rows still address-named | 102 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 78 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
-| Address-named rows outside unique object matches | 24 | No unique catalogue object currently covers the function start |
+| Psy-Q inventory rows still address-named | 98 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 75 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
@@ -483,6 +483,7 @@ Every row below is now an applied project symbol.
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
 | `0x80082104` | `DrawOTag2` | Applied at offset `0x2DB4` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x80082200` | `_GPU_ResetCallback` | Applied at offset `0x2EB0` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
+| `0x80082228` | `memset_80082228` | The recovered Psy-Q `SYS.ASM` marks the private routine after `_GPU_ResetCallback` as `memset`; its exact body fills `a2` bytes at `a0` with `a1`. The address suffix distinguishes it from the separately linked libc `memset`. |
 | `0x80082250` | `GPU_cw` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C73.OBJ` signature. |
 | `0x80082290` | `BreakDraw` | Applied at offset zero of the unique 544-byte Psy-Q 4.6 `LIBGPU.LIB/BREAK.OBJ` signature. |
 | `0x80082324` | `IsIdleGPU` | Applied Psy-Q 4.6 identity; matching upload and move paths poll mode `3` around GPU image operations. |
@@ -532,6 +533,7 @@ Every row below is now an applied project symbol.
 | `0x800860B0` | `gte_init` | Applied from the unique 80-byte `LIBGS.LIB/GS_121.OBJ` signature; calls `InitGeom`, `SetFarColor(0, 0, 0)` and `SetGeomOffset(0, 0)` and clears the two halfwords at `0x800FE0BC`. Internal LIBGS helper, lower case in the library. |
 | `0x80086100` | `GsGetTimInfo` | Applied Psy-Q 4.6 identity; `model_texture_upload.c` parses a TIM image header before uploading its pixel and CLUT rectangles. |
 | `0x800861F0` | `Gssub_make_matrix` | Applied from the unique 208-byte `LIBGS.LIB/GS_123.OBJ` signature. Internal LIBGS helper. |
+| `0x800862C0` | `GsSetWorkBase` | Canonical `libgs.h` API and exact three-instruction body: stores its pointer argument into `D_800FE240`, the LIBGS packet work-base cursor used throughout matching game C. |
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
@@ -565,6 +567,7 @@ Every row below is now an applied project symbol.
 | `0x80087AB0` | `RotAverage4` | Applied Psy-Q 4.6 identity; the matching duel renderer transforms four vertices and returns depth and flag outputs. |
 | `0x80089460` | `ReadSZfifo4` | Applied Psy-Q 4.6 identity from the unique 32-byte `LIBGTE.LIB/REG05.OBJ` signature; stores GTE data registers `16`-`19` through four pointers and the `DivideFT4` body at `0x80089260` calls it. |
 | `0x800899A0` | `ratan2` | Applied Psy-Q 4.6 identity; matching view and duel callers derive 4096-unit angles from coordinate deltas. |
+| `0x80089BCC` | `_gte_patch_text` | Private handler installed by `_patch_gte`; recovered Psy-Q declarations use this symbol and the handwritten body saves and restores the exception frame before returning. |
 | `0x80089C00` | `SetDQA` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_14.OBJ` signature; writes GTE control register `27` and `SetFogNearFar` calls it. |
 | `0x80089C10` | `SetDQB` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBGTE.LIB/REG03_15.OBJ` signature; writes GTE control register `28` and `SetFogNearFar` calls it in the instruction after `SetDQA`. |
 | `0x80089C20` | `NormalColorCol` | Applied from the unique 32-byte Psy-Q 4.6 `LIBGTE.LIB/SMP_7.OBJ` signature; the zero-wildcard pattern exactly covers the inventory function extent. |
@@ -645,6 +648,7 @@ Every row below is now an applied project symbol.
 | `0x8008E390` | `memcpy` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBC2.LIB/MEMCPY.OBJ` signature. |
 | `0x8008E3D0` | `memset` | Applied Psy-Q 4.6 identity from the unique 48-byte `LIBC2.LIB/MEMSET.OBJ` signature; matching model paths clear eight-byte vector records, and `func_8005EBF4` clears its four-pointer keyframe control-point array through the canonical `memory.h` declaration. |
 | `0x8008E400` | `qsort` | Applied Psy-Q 4.6 identity from the unique 400-byte `LIBC.LIB`/`LIBC2.LIB` `QSORT.OBJ` signature; matching callers sort resident and overlay record arrays. |
+| `0x8008E550` | `qsexc` | Private exchange helper called at every swap site in `qsort`; its complete body swaps exactly the requested number of bytes between two elements, matching the historical libc `qsexc` contract. |
 | `0x8008E590` | `rand` | Confirmed Psy-Q C runtime implementation: advances `gRand_dwSeed` with the standard `0x41C64E6D`/`0x3039` recurrence and returns bits 16–30, matching `RAND_MAX` 32767 in `rand.h`. |
 | `0x8008E5C0` | `srand` | Confirmed Psy-Q C runtime seed entry point; directly stores its argument in `gRand_dwSeed`. |
 | `0x8008E5D0` | `strcat` | Applied Psy-Q 4.6 identity from the unique 176-byte `LIBC2.LIB/STRCAT.OBJ` signature. |
