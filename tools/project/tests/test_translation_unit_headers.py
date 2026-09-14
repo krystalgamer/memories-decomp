@@ -80,13 +80,32 @@ class TranslationUnitHeaderTests(unittest.TestCase):
         )
 
     def test_private_static_same_unit_forward_is_allowed(self) -> None:
-        self.assertEqual(
-            self.problems(
-                "static void helper(void);\n"
-                "static void helper(void) {}\n"
-                "void func_local(void) { helper(); }\n"
-            ),
-            [],
+        for declaration in (
+            "static inline void helper(void);",
+            "inline static void helper(void);",
+        ):
+            with self.subTest(declaration=declaration):
+                self.assertEqual(
+                    self.problems(
+                        declaration + "\n"
+                        "static inline void helper(void) {}\n"
+                        "void func_local(void) { helper(); }\n"
+                    ),
+                    [],
+                )
+
+    def test_non_static_inline_same_unit_forward_is_rejected(self) -> None:
+        problems = self.problems(
+            "inline void helper(void);\n"
+            "inline void helper(void) {}\n"
+            "void func_local(void) { helper(); }\n"
+        )
+        self.assertTrue(
+            any(
+                "same-unit function declaration helper belongs in "
+                "src/game/example.h" in problem
+                for problem in problems
+            )
         )
 
     def test_static_declaration_without_definition_is_rejected(self) -> None:

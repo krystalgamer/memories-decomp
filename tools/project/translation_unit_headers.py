@@ -390,6 +390,11 @@ def declaration_statements(source: str) -> list[str]:
     return candidate_builds.top_level_statements("".join(lines))
 
 
+def has_static_specifier(statement: str, name: str) -> bool:
+    prefix, separator, _ = statement.partition(name)
+    return bool(separator and re.search(r"\bstatic\b", prefix))
+
+
 def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory_statuses(root)
     owners = matching_owners(root)
@@ -414,7 +419,7 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     continue
                 if (
                     alias is None
-                    and statement.startswith("static ")
+                    and has_static_specifier(statement, name)
                     and name in definitions
                 ):
                     continue
