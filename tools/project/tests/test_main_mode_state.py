@@ -191,7 +191,7 @@ class MainModeStateTests(unittest.TestCase):
                     self.assert_views(self.preprocess(path), (next_view, active_view))
 
     def test_current_successors_and_common_inputs(self):
-        self.assertEqual(len(CONSUMERS), 37)
+        self.assertEqual(len(CONSUMERS), 36)
         commons = 0
         for source in CONSUMERS:
             with self.subTest(source=source):
