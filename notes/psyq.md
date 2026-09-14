@@ -130,9 +130,9 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain locally established inventory names; the signature sweep reports them separately rather than presenting them as unresolved |
 | Ambiguous addresses still unresolved | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name |
-| Psy-Q inventory rows still address-named | 119 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 94 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
-| Address-named rows outside unique object matches | 25 | No unique catalogue object currently covers the function start |
+| Psy-Q inventory rows still address-named | 102 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 78 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Address-named rows outside unique object matches | 24 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
@@ -151,13 +151,13 @@ local call graphs, data ownership, or ABI evidence. This distinction prevents
 resolved collisions from being presented as unfinished signature work.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 119 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 102 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 94 already sit inside 26
-uniquely matched object ranges, while 25 are not covered by any unique 4.6
+The `--coverage-report` split narrows that work: 78 already sit inside 21
+uniquely matched object ranges, while 24 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
 
@@ -325,6 +325,9 @@ Every row below is now an applied project symbol.
 | `0x80073D8C` | `PAD_init` | Applied at offset `0x1C` of the same unique `LIBAPI.LIB/PAD.OBJ` signature. |
 | `0x80073E1C` | `InitPAD` | `Input_InitPads` passes two adjacent 34-byte receive buffers and their exact lengths. |
 | `0x80073EAC` | `StartPAD` | Called immediately after `InitPAD` to start the controller service before local input state is reset. |
+| `0x80073EDC` | `SetPatchPad` | The unique Psy-Q 4.6 `LIBAPI.LIB/PAD.OBJ` match places this immediately after `StartPAD`; its body installs `_Pad1` and `_IsVSync` through `SysDeqIntRP`/`SysEnqIntRP`, matching the recovered SDK implementation. |
+| `0x80073F54` | `_Pad1` | The first callback installed by `SetPatchPad`; it clears the controller receive-buffer halfword at offset `0xA` and performs the SDK delay loop. |
+| `0x80073FBC` | `_IsVSync` | The second callback installed by `SetPatchPad`; its two-word flag predicate matches the private PAD synchronization helper. |
 | `0x80074000` | `InitPAD2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A18.OBJ` signature. |
 | `0x80074010` | `StartPAD2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A19.OBJ` signature. |
 | `0x80074020` | `PAD_init2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A21.OBJ` signature. |
@@ -335,6 +338,7 @@ Every row below is now an applied project symbol.
 | `0x800740F0` | `FlushCache` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/C68.OBJ` signature. |
 | `0x80074100` | `_remove_ChgclrPAD` | Applied at offset zero of the unique `0x70`-byte Psy-Q 4.6 `LIBAPI.LIB/CHCLRPAD.OBJ` signature. |
 | `0x80074170` | `VSync` | Applied Psy-Q 4.6 identity; matching callers query frame timing for AI yielding and time-varying screen effects. |
+| `0x800742E8` | `v_wait` | Both calls come from `VSync`; the function waits for the VSync count with the SDK `max << 15` timeout, prints `VSync: timeout`, and disables clear-on-interrupt through `ChangeClearPAD`/`ChangeClearRCnt`. |
 | `0x80074380` | `ChangeClearRCnt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/L10.OBJ` signature. |
 | `0x80074390` | `ResetCallback` | Applied at offset zero of the unique 1,728-byte Psy-Q 4.6 `LIBETC.LIB/INTR.OBJ` signature. |
 | `0x800743C0` | `InterruptCallback` | Applied at offset `0x30` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
@@ -346,11 +350,25 @@ Every row below is now an applied project symbol.
 | `0x800744E4` | `CheckCallback` | Applied at offset `0x154` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
 | `0x800744F4` | `GetIntrMask` | Applied at offset `0x164` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
 | `0x8007450C` | `SetIntrMask` | Applied at offset `0x17C` of the same unique `LIBETC.LIB/INTR.OBJ` signature. |
+| `0x80074524` | `startIntr` | First private routine after the public wrappers in the unique 4.6 `INTR.OBJ`; initializes the interrupt environment and installs the VSync/DMA dispatchers, matching the recovered SDK routine. |
+| `0x800745FC` | `trapIntr` | Interrupt trap/dispatch loop in the unique 4.6 `INTR.OBJ`; acknowledges active lines, invokes registered handlers, diagnoses timeouts, and returns from the exception. |
+| `0x800747CC` | `setIntr` | Callback setter in the unique 4.6 `INTR.OBJ`; updates the handler and enabled masks while preserving the hardware mask and clear-on-interrupt behavior. |
+| `0x80074914` | `stopIntr` | Saves interrupt masks/state, disables dispatch, and resets the exception entry. |
+| `0x800749B4` | `restartIntr` | Restores the exception entry and the state saved by `stopIntr`. |
+| `0x80074A2C` | `memclr_80074A2C` | Private `INTR.OBJ` word-clear loop. The address suffix preserves a unique linked symbol for this static helper. |
 | `0x80074A58` | `_96_remove` | Applied at offset `0x8` of the unique 32-byte Psy-Q 4.6 `LIBAPI.LIB/C114.OBJ` signature. |
 | `0x80074A70` | `ReturnFromException` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A23.OBJ` signature. |
 | `0x80074A80` | `ResetEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A24.OBJ` signature. |
 | `0x80074A90` | `HookEntryInt` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A25.OBJ` signature. |
 | `0x80074AA0` | `startIntrVSync` | Applied at offset zero of the unique 288-byte Psy-Q 4.6 `LIBETC.LIB/INTR_VB.OBJ` signature. |
+| `0x80074AF8` | `trapIntrVSync` | Private VSync interrupt dispatcher: increments the VSync count and invokes each non-null callback in the eight-entry table. |
+| `0x80074B64` | `setIntrVSync` | Private callback-table setter returned by `startIntrVSync`; replaces one entry and returns its previous callback. |
+| `0x80074B90` | `memclr_80074B90` | Private `INTR_VB.OBJ` word-clear loop; address suffix distinguishes the linked static copy. |
+| `0x80074BC0` | `startIntrDMA` | Applied at offset zero of the unique 672-byte Psy-Q 4.6 `LIBETC.LIB/INTR_DMA.OBJ` signature. |
+| `0x80074C0C` | `trapIntrDMA` | Private DMA interrupt dispatcher: acknowledges active channels, invokes their callbacks, and reports DMA bus errors with channel MADR values. |
+| `0x80074D8C` | `setIntrDMA` | Private callback setter returned by `startIntrDMA`; updates the callback table and the corresponding DICR enable bit. |
+| `0x80074E38` | `memclr_80074E38` | Private `INTR_DMA.OBJ` word-clear loop; address suffix distinguishes the linked static copy. |
+| `0x80074E60` | `SpuInit` | Canonical `libspu.h` wrapper: its complete function body calls `_SpuInit(0)`. The pinned 4.6 `S_I.OBJ` bytes agree through the function extent; only catalogue trailing object padding is absent before the linked `_SpuInit`. |
 | `0x80074E80` | `_SpuInit` | Applied at offset zero of the unique 352-byte Psy-Q 4.6 `LIBSPU.LIB/S_INI.OBJ` signature. |
 | `0x80074F68` | `SpuStart` | Applied at offset `0xE8` of the same unique `LIBSPU.LIB/S_INI.OBJ` signature. |
 | `0x80074FE0` | `_spu_init` | Applied at offset zero of the unique 2,880-byte Psy-Q 4.6 `LIBSPU.LIB/SPU.OBJ` signature. |

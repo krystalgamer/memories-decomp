@@ -178,7 +178,7 @@ fixed instruction quota.
 The retail SDK `VSync` (`0x80074170`) explains why this is a query rather
 than a wait-for-VBlank call. Its mode-1 branch at `0x800741E4` goes to the
 return at `0x800742D0`, bypassing both calls to the wait helper
-`func_800742E8` and the saved-baseline update at `0x800742B4`. The returned
+`v_wait` and the saved-baseline update at `0x800742B4`. The returned
 value is `(stable_counter - D_80091998) & 0xFFFF`; the executable stores
 `0x1F801110` in the counter pointer `D_80091994`. The sampling loop requires
 two consecutive counter reads to agree.
