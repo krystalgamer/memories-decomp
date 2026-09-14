@@ -4,7 +4,7 @@
 #include "../psyq/libgs.h"
 #include "dialog_highlight_choice.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "input.h"
 #include "sound.h"

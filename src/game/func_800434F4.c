@@ -67,18 +67,20 @@ m2:
     do {
         hun = 0x100;
     } while (0);
-    /* These byte-pointer views preserve retail's store order around
-     * LoadImage2. */
-    *(s16 *)((u8 *)p + 2) = 0xF0;
+    /* The RECT halves are stored through the members' addresses as u16.
+     * A plain member store, or an s16 cast that fold turns back into one,
+     * is an in-struct reference and is reordered against the D_8009B118
+     * load; retail keeps these in source order around LoadImage2. */
+    *(u16 *)&p->y = 0xF0;
     e = D_8009B118;
-    *(s16 *)((u8 *)p + 0) = hun;
-    *(s16 *)((u8 *)p + 4) = hun;
-    *(s16 *)((u8 *)p + 6) = 4;
+    *(u16 *)&p->x = hun;
+    *(u16 *)&p->w = hun;
+    *(u16 *)&p->h = 4;
     LoadImage2((RECT *)p, (u32 *)e);
-    *(s32 *)((u8 *)p + 0xC) = (s32)D_801AF000;
-    *(s32 *)((u8 *)p + 8) = (s32)D_801AF000;
+    p->value_0C = (u32)D_801AF000;
+    p->value_08 = (u32)D_801AF000;
     x = D_8009B0F4;
-    *(s32 *)((u8 *)p + 0x1C) = 0x800;
+    p->phase_size = 0x800;
     D_8009B0F4 = x & 0xFFDCFFFF;
 
 tail:

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "../psyq/setjmp.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "fade.h"
 #include "func_80035A64.h"
 #include "main_services.h"

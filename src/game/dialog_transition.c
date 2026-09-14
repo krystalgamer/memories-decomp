@@ -3,7 +3,7 @@
 #include "../unmatched.h"
 #include "display_object.h"
 #include "display_object_interpolation.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 
 #include "duel_effect.h"
 #include "display_object_helpers.h"

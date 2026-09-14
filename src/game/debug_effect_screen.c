@@ -8,7 +8,7 @@
 #include "duel_effect_resource_setup.h"
 #include "duel_effect_request.h"
 #include "main_frame.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "duel_card.h"
 #include "file_transfer.h"
 #include "func_8001944C.h"

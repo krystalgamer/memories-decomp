@@ -1,7 +1,7 @@
 """Check command-pump owner declarations with the real GCC 2.8.1 frontend.
 
 These are declaration controls, not byte-match tests. In particular, both
-func_80049AF4 views must be prototypes, not permissive empty parameter lists.
+SD_PlaySequence views must be prototypes, not permissive empty parameter lists.
 """
 
 from __future__ import annotations
@@ -52,7 +52,7 @@ DECLARATIONS = [
     ),
     (
         "sound_sequence_timing.h",
-        "func_80049AF4",
+        "SD_PlaySequence",
         "void (*checked)(s32)",
         "void (*checked)(s32, s32)",
     ),
@@ -64,7 +64,7 @@ CALL_ARGUMENTS = {
     "SD_ArmBusyCallback": "",
     "func_80045484": "",
     "func_80049A64": "0, 0",
-    "func_80049AF4": "1",
+    "SD_PlaySequence": "1",
 }
 
 
@@ -171,12 +171,12 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
     def test_ambient_function_pointer(self) -> None:
         self.probe(
             AMBIENT + '#include "sound_sequence_timing.h"\n'
-            "void (*checked)(s32, s32) = func_80049AF4;\n",
+            "void (*checked)(s32, s32) = SD_PlaySequence;\n",
             accepted=True,
         )
         self.probe(
             AMBIENT + '#include "sound_sequence_timing.h"\n'
-            "void (*checked)(s32) = func_80049AF4;\n",
+            "void (*checked)(s32) = SD_PlaySequence;\n",
             accepted=False,
         )
 
@@ -186,7 +186,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                 with self.subTest(ambient=bool(prefix), arguments=arguments):
                     self.probe(
                         prefix + '#include "sound_sequence_timing.h"\n'
-                        f"void checked(void) {{ func_80049AF4({arguments}); }}\n",
+                        f"void checked(void) {{ SD_PlaySequence({arguments}); }}\n",
                         accepted=arguments == valid,
                     )
 

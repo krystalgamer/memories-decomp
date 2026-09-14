@@ -214,10 +214,10 @@ void func_80047CC4(s32 value)
     } while (tries < SD_VOICE_SLOT_COUNT);
 }
 
-void func_80047DB0(s32 arg)
+void SD_SEStop(s32 id)
 {
-    u16 key = arg;
-    s32 value = arg;
+    u16 key = id;
+    s32 value = id;
     s32 bits;
     s32 bit;
     s32 mask;

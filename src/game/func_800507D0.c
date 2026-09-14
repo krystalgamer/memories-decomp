@@ -29,7 +29,7 @@ void func_800507D0(void)
   u8 *fade_a;
   u8 *fade_b;
   s32 active_offset;
-  s32 *active_color;
+  u8 *active_color;
   s32 red_sample;
   s32 red_target;
   s32 green_sample;
@@ -47,8 +47,8 @@ void func_800507D0(void)
   s8 next_phase;
   s32 peer;
   s32 crossfade_offset;
-  s32 *outgoing_color;
-  s32 *incoming_color;
+  u8 *outgoing_color;
+  u8 *incoming_color;
   u32 peer_red;
   u32 peer_green;
   u32 peer_blue;
@@ -80,7 +80,7 @@ void func_800507D0(void)
       {
         if ( (((ModelSlot *)((u8 *)D_800F2C40 + (active_offset) * 4))->field_E15 & 3) == 0 )
         {
-          active_color = (s32 *)((ModelSlot *)((u8 *)D_800F2C40 + (active_offset) * 4))->field_DC0;
+          active_color = ((ModelSlot *)((u8 *)D_800F2C40 + (active_offset) * 4))->field_DC0;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -90,32 +90,32 @@ void func_800507D0(void)
           blue_target = rand() >> 8;
           blue_target %= 24;
           blue_target += 8;
-          red = *(u8 *)active_color;
+          red = active_color[0];
           if ( red != red_target )
           {
             if ( red >= red_target )
               next_red = red - 1;
             else
               next_red = red + 1;
-            *(u8 *)active_color = next_red;
+            active_color[0] = next_red;
           }
-          green = *((u8 *)active_color + 1);
+          green = active_color[1];
           if ( green != green_target )
           {
             if ( green >= green_target )
               next_green = green - 1;
             else
               next_green = green + 1;
-            *((u8 *)active_color + 1) = next_green;
+            active_color[1] = next_green;
           }
-          blue = *((u8 *)active_color + 2);
+          blue = active_color[2];
           if ( blue != blue_target )
           {
             if ( blue >= blue_target )
               next_blue = blue - 1;
             else
               next_blue = blue + 1;
-            *((u8 *)active_color + 2) = next_blue;
+            active_color[2] = next_blue;
           }
         }
         if ( !((u8 *)&D_8009B004)[1] )
@@ -179,24 +179,24 @@ void func_800507D0(void)
       crossfade_offset = 904 * (u8)ACTIVE_SLOT;
       if ( (((ModelSlot *)((u8 *)cross_base + (crossfade_offset) * 4))->field_E15 & 3) == 0 )
       {
-        outgoing_color = (s32 *)((ModelSlot *)((u8 *)D_800F2C40 + (crossfade_offset) * 4))->field_DC0;
-        incoming_color = (s32 *)((ModelSlot *)((u8 *)D_800F2C40 + (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4))->field_DC0;
-        if ( *(u8 *)outgoing_color )
-          --*(u8 *)outgoing_color;
-        if (*((u8 *)outgoing_color + 1))
-          --*((u8 *)outgoing_color + 1);
-        if (*((u8 *)outgoing_color + 2))
-          --*((u8 *)outgoing_color + 2);
-        peer_red = *(u8 *)incoming_color;
+        outgoing_color = ((ModelSlot *)((u8 *)D_800F2C40 + (crossfade_offset) * 4))->field_DC0;
+        incoming_color = ((ModelSlot *)((u8 *)D_800F2C40 + (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4))->field_DC0;
+        if ( outgoing_color[0] )
+          --outgoing_color[0];
+        if (outgoing_color[1])
+          --outgoing_color[1];
+        if (outgoing_color[2])
+          --outgoing_color[2];
+        peer_red = incoming_color[0];
         if ( peer_red < 8 )
-          *(u8 *)incoming_color = peer_red + 1;
-        peer_green = *((u8 *)incoming_color + 1);
+          incoming_color[0] = peer_red + 1;
+        peer_green = incoming_color[1];
         if ( peer_green < 8 )
-          *((u8 *)incoming_color + 1) = peer_green + 1;
-        peer_blue = *((u8 *)incoming_color + 2);
+          incoming_color[1] = peer_green + 1;
+        peer_blue = incoming_color[2];
         if ( peer_blue < 8 )
-          *((u8 *)incoming_color + 2) = peer_blue + 1;
-        if ( !*(u8 *)outgoing_color && !*((u8 *)outgoing_color + 1) && !*((u8 *)outgoing_color + 2) )
+          incoming_color[2] = peer_blue + 1;
+        if ( !outgoing_color[0] && !outgoing_color[1] && !outgoing_color[2] )
         {
           ((ModelSlot *)((u8 *)cross_base + (904 * (u8)ACTIVE_SLOT) * 4))->field_E1F = 0;
           D_8009AF9A = 0;

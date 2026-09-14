@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"

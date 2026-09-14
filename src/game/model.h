@@ -12,6 +12,7 @@
 #define MODEL_TINT_REQUEST_COUNT 10
 #define MODEL_SLOT_SOUND_ENTRY_COUNT 64
 #define MODEL_SLOT_PART_COUNT 58
+#define MODEL_SLOT_UNIT_COUNT 60
 #define MODEL_SLOT_ROW_COUNT 10
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
@@ -141,8 +142,7 @@ typedef struct {
 } ModelBytes8;
 
 typedef struct {
-    ModelSlotHeadEntry field_000[1];
-    u8 pad_008[0x1D8];
+    ModelSlotHeadEntry field_000[MODEL_SLOT_UNIT_COUNT];
     ModelSlotPart *field_1E0[MODEL_SLOT_PART_COUNT];
     /* The per-animation key table. func_8004D58C fills it with 0xFFFF at a
      * 0x74 stride over MODEL_SLOT_ROW_COUNT rows, func_8004D75C indexes it as
@@ -167,14 +167,17 @@ typedef struct {
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
      * chain; sources that reach through it include "../psyq/libhmd.h". */
     struct _GsCOORDUNIT *field_D18;
-    u8 pad_D1C[0x54];
+    /* The coordinate func_8004CB0C selects once the units are linked; see
+     * that function's header comment. */
+    struct _GsCOORDUNIT *field_D1C;
+    u8 pad_D20[0x50];
     ModelSlotLightEntry field_D70[3];
     s32 field_DA0[3];
     u8 pad_DAC[4];
     ModelSlotS32Quad field_DB0;
     u8 field_DC0[8];
     u16 field_DC8[4];
-    u16 field_DD0[4];
+    s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
      * func_8004D58C out of the two blocks it finds in the command chain.
      * func_80057AF4 reads field_DD8 as the base of 4-byte command records and
@@ -183,7 +186,10 @@ typedef struct {
     u8 *field_DDC;
     u8 *field_DE0;
     u8 *field_DE4;
-    u8 pad_DE8[8];
+    /* The module data words D_8001001C..D_80010028 func_8004CB0C copies in
+     * for slots 0 and 1 (see high_memory_addresses.h). */
+    s32 field_DE8;
+    s32 field_DEC;
     /* The two cursor limits func_80056250 derives, which this
      * unit's own header already describes as "the two cursor
      * limits at +0xDF0/+0xDF4": the first is field_DE0 plus the
@@ -195,10 +201,13 @@ typedef struct {
     u16 field_DFC;
     u8 field_DFE;
     u8 field_DFF;
-    u8 pad_E00[2];
+    /* func_8004CB0C stores the two totals func_8004D134 accumulates over its
+     * unit scan here and, plus one, in field_E02; field_E04 sums the calls'
+     * return values. */
+    u16 field_E00;
     /* Scaled by 4 into field_DF4 by func_80056250. */
     u16 field_E02;
-    u8 pad_E04[2];
+    u16 field_E04;
     u16 field_E06;
     /* The row-table reset, func_8004D58C (src/candidates/func_8004D58C.c),
      * clears this halfword beside
@@ -228,13 +237,13 @@ typedef struct {
     u8 field_E19;
     u8 field_E1A;
     u8 field_E1B;
-    u8 pad_E1C;
+    u8 field_E1C;
     /* func_8005611C clears this byte and
      * Model_LoadMonsterMerge writes its transfer flags here,
      * reaching it as pad_E1C[1] and noting in a comment that this
      * record still covered it with padding. */
     u8 field_E1D;
-    u8 pad_E1E;
+    u8 field_E1E;
     u8 field_E1F;
 } ModelSlot;
 
@@ -388,6 +397,9 @@ typedef char ModelSlot_entries_offset_must_be_0xD14[
 typedef char ModelSlot_field_D18_offset_must_be_0xD18[
     MODEL_OFFSET(ModelSlot, field_D18) == 0xD18 ? 1 : -1
 ];
+typedef char ModelSlot_field_D1C_offset_must_be_0xD1C[
+    MODEL_OFFSET(ModelSlot, field_D1C) == 0xD1C ? 1 : -1
+];
 typedef char ModelSlot_field_D70_offset_must_be_0xD70[
     MODEL_OFFSET(ModelSlot, field_D70) == 0xD70 ? 1 : -1
 ];
@@ -406,6 +418,12 @@ typedef char ModelSlot_field_DC8_offset_must_be_0xDC8[
 typedef char ModelSlot_field_DD0_offset_must_be_0xDD0[
     MODEL_OFFSET(ModelSlot, field_DD0) == 0xDD0 ? 1 : -1
 ];
+typedef char ModelSlot_field_DE8_offset_must_be_0xDE8[
+    MODEL_OFFSET(ModelSlot, field_DE8) == 0xDE8 ? 1 : -1
+];
+typedef char ModelSlot_field_DEC_offset_must_be_0xDEC[
+    MODEL_OFFSET(ModelSlot, field_DEC) == 0xDEC ? 1 : -1
+];
 typedef char ModelSlot_field_DF8_offset_must_be_0xDF8[
     MODEL_OFFSET(ModelSlot, field_DF8) == 0xDF8 ? 1 : -1
 ];
@@ -420,6 +438,12 @@ typedef char ModelSlot_field_DFE_offset_must_be_0xDFE[
 ];
 typedef char ModelSlot_field_DFF_offset_must_be_0xDFF[
     MODEL_OFFSET(ModelSlot, field_DFF) == 0xDFF ? 1 : -1
+];
+typedef char ModelSlot_field_E00_offset_must_be_0xE00[
+    MODEL_OFFSET(ModelSlot, field_E00) == 0xE00 ? 1 : -1
+];
+typedef char ModelSlot_field_E04_offset_must_be_0xE04[
+    MODEL_OFFSET(ModelSlot, field_E04) == 0xE04 ? 1 : -1
 ];
 typedef char ModelSlot_field_E06_offset_must_be_0xE06[
     MODEL_OFFSET(ModelSlot, field_E06) == 0xE06 ? 1 : -1
@@ -450,6 +474,12 @@ typedef char ModelSlot_field_E1A_offset_must_be_0xE1A[
 ];
 typedef char ModelSlot_field_E1B_offset_must_be_0xE1B[
     MODEL_OFFSET(ModelSlot, field_E1B) == 0xE1B ? 1 : -1
+];
+typedef char ModelSlot_field_E1C_offset_must_be_0xE1C[
+    MODEL_OFFSET(ModelSlot, field_E1C) == 0xE1C ? 1 : -1
+];
+typedef char ModelSlot_field_E1E_offset_must_be_0xE1E[
+    MODEL_OFFSET(ModelSlot, field_E1E) == 0xE1E ? 1 : -1
 ];
 typedef char ModelSlot_field_E1F_offset_must_be_0xE1F[
     MODEL_OFFSET(ModelSlot, field_E1F) == 0xE1F ? 1 : -1

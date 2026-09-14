@@ -93,7 +93,7 @@ m3:
     do {
         hun = 0x100;
     } while (0);
-    *(s16 *)((u8 *)object + 2) = 0xF0;
+    *(u16 *)&object->y = 0xF0;
     k = D_8009B118;
     object->x = hun;
     object->w = hun;

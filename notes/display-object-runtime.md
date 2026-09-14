@@ -53,7 +53,7 @@ an existing slot under another list key while preserving its flags.
 
 ## Shared index and allocation API
 
-[`display_object_api.h`](../src/game/display_object_api.h) is the sole C
+[`display_object_core.h`](../src/game/display_object_core.h) is the sole C
 declaration point for the general-use index scan and indexed allocator:
 
 ```c
@@ -67,6 +67,11 @@ allocator declarations, including old-style unspecified-argument spellings.
 Assembly-only word/relocation references in `func_800291E0` (generated
 assembly again; its old `func_800291E0.c` was a `.word` transcription) are not
 C declaration sites and remain unchanged.
+
+The former aggregate API header also declared `func_80042B40`, even though
+`display_object_helpers.c` defines it. Its declaration now lives in
+`display_object_helpers.h`; each caller includes only the core, helper, or both
+owners needed by the functions it uses.
 
 The getter returns an **integer slot index**, 16-95, or signed `-1` when
 none is available. It does not reserve or mark the slot; another scan before

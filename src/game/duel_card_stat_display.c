@@ -1,6 +1,5 @@
 #include "../types.h"
 #include "display_object_config.h"
-#include "display_object_api.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

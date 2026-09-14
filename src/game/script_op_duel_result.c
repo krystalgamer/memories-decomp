@@ -5,7 +5,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "fade.h"
 #include "display_object_helpers.h"
@@ -14,11 +14,10 @@
 #include "script_image_objects.h"
 #include "sound_output.h"
 #include "../unmatched.h"
+#include "scene_script.h"
 #include "script_op_duel_result.h"
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
-
-extern DisplayObject *D_800EAE98[];
 
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
@@ -66,15 +65,15 @@ void Script_OpDuelResult(void) {
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        D_800EAE98[0] = o;
+        D_800EAE98[0].unk00 = (s32)o;
         o = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC((u8 *)o, -1);
-        D_800EAE98[5] = o;
+        D_800EAE98[1].unk00 = (s32)o;
         o = func_800400AC(func_8004002C(), 1);
         func_80040510((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC((u8 *)o, -1);
-        D_800EAE98[10] = o;
+        D_800EAE98[2].unk00 = (s32)o;
         q = func_800400AC(func_8004002C(), four);
         func_800427DC(q, 0);
         color = 0xF00140;

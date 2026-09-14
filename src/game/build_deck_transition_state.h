@@ -66,8 +66,9 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
 /* Read by the Build Deck C units but stored only in assembly:
  * func_800323F8.s:37 writes $s6 and reloads it at :217. The pointer identifies
  * one complete workspace because that function advances it by 0x6344 at :216.
- * func_80031874.s reads it at :57, :136, :230 and :242. Both assembly units
- * are without a profile in matching_c.json. Every global access is a %gp_rel
+ * func_80031874.c reads it for lists[kind] and the three card-indexed byte
+ * tables; func_800323F8 is still without a profile in matching_c.json. Every
+ * global access is a %gp_rel
  * lw/sw (func_80032C48.s:258, func_80033998.s:4,
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
  * read.

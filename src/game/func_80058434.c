@@ -11,8 +11,8 @@
 
 void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
-    u8 *b;
-    u8 *t;
+    long *b;
+    long *t;
     s32 c;
     s32 sn;
     s32 r;
@@ -21,12 +21,14 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 z;
     s32 v;
 
+    /* b and t are the two long triples at the head of the reference view,
+       vpx..vpz and vrx..vrz: t is moved around b. */
     if (arg0 > 0) {
-        b = (u8 *)D_800F56FC;
-        t = b - 0xC;
+        b = (long *)D_800F56FC;
+        t = b - 3;
     } else {
-        b = (u8 *)&D_800F56F0;
-        t = b + 0xC;
+        b = &D_800F56F0.vpx;
+        t = b + 3;
     }
 
     if (*(s16 *)&D_8009B478 + arg3 >= 0xB) {
@@ -55,8 +57,8 @@ void func_80058434(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         sn = rsin(*(s16 *)&D_8009B47A);
         z = u * sn / MODEL_FIXED_ONE;
         u = u * c / MODEL_FIXED_ONE;
-        *(s32 *)(t + 0) = *(s32 *)(b + 0) + u * arg0;
-        *(s32 *)(t + 4) = *(s32 *)(b + 4) + w * arg0;
-        *(s32 *)(t + 8) = *(s32 *)(b + 8) + z * arg0;
+        t[0] = b[0] + u * arg0;
+        t[1] = b[1] + w * arg0;
+        t[2] = b[2] + z * arg0;
     }
 }

@@ -2,7 +2,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "input.h"
@@ -31,16 +31,19 @@ s32 func_80020988(void) {
         );
         func_80042918(q);
         func_800428EC((u8 *)q, 0xA);
-        /* This merge, the two below it and the two stores to 0x60 keep u8 *
-           arithmetic rather than becoming q->flags and q->field_60. The
-           spelling is load-bearing: as members, GCC 2.8.1 fills the following
+        /* This merge, the two below it and the first store to 0x60 go
+           through the members' addresses with the other signedness rather
+           than being plain q->flags and q->field_60 stores. The spelling is
+           load-bearing: as member stores, GCC 2.8.1 fills the following
            call's or branch's delay slot with the store and drops the nop,
-           which shortens the executable by twelve bytes. The flag merges and
-           the 0x60 stores were reverted separately to confirm both groups are
-           needed; neither alone restores the match. Reads convert normally --
-           it is only stores standing next to a branch that get hoisted. */
-        *(u16 *)((u8 *)q + 8) =
-            *(u16 *)((u8 *)q + 8) |
+           which shortens the executable by twelve bytes. The address-of form
+           only keeps them non-struct stores because the cast type differs
+           from the member's; with the same type fold turns it back into the
+           member store. The second 0x60 store can be a plain member store.
+           Reads convert normally -- it is only stores standing next to a
+           branch that get hoisted. */
+        *(s16 *)&q->flags =
+            *(s16 *)&q->flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         D_8009B188 = q;
@@ -54,8 +57,8 @@ s32 func_80020988(void) {
         );
         func_80042918(q);
         func_800428EC((u8 *)q, 0xA);
-        *(u16 *)((u8 *)q + 8) =
-            *(u16 *)((u8 *)q + 8) |
+        *(s16 *)&q->flags =
+            *(s16 *)&q->flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         D_8009B18C = q;
@@ -65,8 +68,8 @@ s32 func_80020988(void) {
     q = D_8009B1CC;
 
     if ((D_8009B152 & 0x40) != 0) {
-        *(u16 *)((u8 *)q + 8) =
-            *(u16 *)((u8 *)q + 8) | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+        *(s16 *)&q->flags =
+            *(s16 *)&q->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         v = q->field_20.b.field_21 + *(u8 *)&q->field_60;
         q->field_20.b.field_21 = v;
         w = v;
@@ -74,17 +77,17 @@ s32 func_80020988(void) {
             return 0;
         }
         if ((w & 0xFF) == 0) {
-            *(u16 *)((u8 *)q + 8) =
-                *(u16 *)((u8 *)q + 8) & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            *(s16 *)&q->flags =
+                *(s16 *)&q->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         do { D_8009B152 = D_8009B152 & 0xBF; } while (0);
         return 0;
     }
 
     if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-        *(s16 *)((u8 *)q + 0x60) = 0x10;
+        *(u16 *)&q->field_60 = 0x10;
         if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
-            *(s16 *)((u8 *)q + 0x60) = -0x10;
+            q->field_60 = -0x10;
         }
         D_8009B152 = D_8009B152 | 0x40;
         return 0;

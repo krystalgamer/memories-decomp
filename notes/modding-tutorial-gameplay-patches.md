@@ -269,8 +269,9 @@ The tutorial then installs two hooks:
 | `0x22418` | `0x80031C18` | Load the selected card's deck count and test it against `3` | Jump to `0x801CF248`, select a per-card limit, update the list-display comparison and its color constant, then resume at `0x80031C24` |
 | `0x24064` | `0x80033864` | Load the selected card's deck count before `sltiu $v0, $v0, 3` | Jump to `0x801CF364`, return the selected limit in `$a0`, and replace the fixed comparison with `sltu $v0, $v0, $a0` |
 
-The first hook lies in unmatched `func_80031874`; the second lies in the exact
-matching deck-add path `func_800336F0`.
+The first hook lies in `func_80031874`, the Build Deck list renderer matched in
+`src/game/func_80031874.c`; the second lies in the exact matching deck-add path
+`func_800336F0`.
 
 The injected lookup contains 26 little-endian halfword slots:
 

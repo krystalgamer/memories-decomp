@@ -12,22 +12,22 @@ void func_80046294(void)
     s32 offset;
     s32 next_offset;
     s32 command;
-    u8 *base;
+    SDValue *base;
 
-    base = STATE_BYTES;
+    base = g_SDValue;
     /* Flattening this initialization changes GCC 2.8.1's loop-register
      * allocation; the table and both byte offsets must remain independent. */
     do {
         i = 0;
     } while (0);
-    if (*(s16 *)(base + 0x4C) > 0) {
+    if (base->command_count > 0) {
         while (1) {
             offset = i * SD_COMMAND_RECORD_SIZE;
             next_offset = (i + 1) * SD_COMMAND_RECORD_SIZE;
-            if (*(s16 *)(base + 0x4C) == 0) {
+            if (base->command_count == 0) {
                 goto after;
             }
-            command = (base + offset)[SD_COMMAND_QUEUE_BYTE_OFFSET];
+            command = base->commands.b[offset];
             switch (command) {
             case 0x42:
             case 0x43:
@@ -44,15 +44,14 @@ void func_80046294(void)
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
 decrement:
-                *(u16 *)(STATE_BYTES + 0x4C) =
-                    *(u16 *)(STATE_BYTES + 0x4C) - 1;
+                g_SDValue->command_count = g_SDValue->command_count - 1;
                 goto test;
             default:
                 i++;
             }
 test:
-            base = STATE_BYTES;
-            if (i >= *(s16 *)(base + 0x4C)) {
+            base = g_SDValue;
+            if (i >= base->command_count) {
                 break;
             }
             if (i < 0) {
@@ -61,24 +60,23 @@ test:
         }
     }
 after:
-    switch (STATE_BYTES[0x7C]) {
+    switch (g_SDValue->field_007C) {
     case 0x42:
     case 0x43:
     case 0x45:
     case 0x46:
     case 0x48:
-        STATE_BYTES[0x7C] = 0;
-        STATE_BYTES[0x7D] = 0;
+        g_SDValue->field_007C = 0;
+        g_SDValue->field_007D = 0;
         break;
     }
 
-    if ((*(u16 *)(STATE_BYTES + 0x40) & 0x80) != 0) {
-        if (*(s16 *)(STATE_BYTES + 0x157E) != -1) {
+    if ((g_SDValue->flags_0040 & 0x80) != 0) {
+        if (g_SDValue->field_157E != -1) {
             if (func_80049F50() == 1) {
-                func_80049C40(*(s16 *)(STATE_BYTES + 0x157E));
+                func_80049C40(g_SDValue->field_157E);
             }
-            *(u16 *)(STATE_BYTES + 0x40) =
-                *(u16 *)(STATE_BYTES + 0x40) & 0xFF7F;
+            g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;
         }
     }
 }

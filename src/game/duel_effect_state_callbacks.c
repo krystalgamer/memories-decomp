@@ -6,7 +6,7 @@
 #include "func_80036D3C.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "duel_effect_entry_control.h"
 #include "file_constants.h"

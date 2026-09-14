@@ -1,5 +1,15 @@
 /*
- * func_800496C4: transfer initialization without register pins
+ * SD_VabOpenHead: opens a VAB header for the secondary sound bank
+ *
+ * `vab` points at a "pBAV" header; both callers pass music_track + 0x50,
+ * which is where every SD_BGM.DAT package keeps one. The header size is
+ * (ps << 9) + 0xA20: the 0x20-byte VabHdr, 128 0x10-byte ProgAtr records,
+ * ps * 16 0x20-byte VagAtr records and the 0x200-byte VAG offset table.
+ * fsize (+0x0C) minus that is the body size, and mvol (+0x18) and pan
+ * (+0x19) are kept beside them. `spu_addr` is where the body goes: the
+ * packages' own +0x0C word, which with the body size at +8 ends every one at
+ * SPU address 0x79020. func_8004975C and func_800497E0 later SpuWrite the
+ * body there. Asking for id -1 fails while the slot is still live.
  *
  * The 152-byte function at `0x800496C4` matches under the existing uniform
  * `gcc_2_8_1_g0` profile using `SDSecondaryState` and `SDSecondaryTransfer` from
@@ -17,10 +27,10 @@
  *
  * The first state's consumed-byte count is cleared before the conditional
  * inactive-state rejection. The function then reloads the state pointer, clears
- * the transfer status, and populates the input pointer, header-derived byte
+ * the transfer status, and populates the header pointer, header-derived byte
  * counts, two control bytes, and the final pointer-valued field in retail order.
- * The input remains a byte pointer because this match does not establish a new
- * shared input-header type.
+ * The header remains a byte pointer because this match does not establish a new
+ * shared VAB header type.
  *
  * All 38 target instructions agree with retail. The original canonical match
  * and six-entry inline-refinement series ending in deferral remain intact; a new
@@ -30,7 +40,7 @@
 #include "sound.h"
 #include "sound_transfer_lifecycle.h"
 
-s32 func_800496C4(u8 *input, s16 expected, s32 value)
+s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr)
 {
     /* Retail reserves eight stack bytes without accessing them. */
     volatile s32 pad[2];
@@ -43,7 +53,7 @@ s32 func_800496C4(u8 *input, s16 expected, s32 value)
     do {
         zero = 0;
     } while (0);
-    requested = expected;
+    requested = vab_id;
     initial = D_8009B458;
     initial->bytes_consumed = 0;
     if (requested == SD_TRANSFER_STATE_INACTIVE &&
@@ -53,11 +63,11 @@ s32 func_800496C4(u8 *input, s16 expected, s32 value)
     state = D_8009B458;
     state->transfer.field_0000 = zero;
     entry = &state->transfer;
-    entry->field_0004 = input;
-    entry->field_0008 = (*(u16 *)(input + 0x12) << 9) + 0xA20;
-    entry->field_0010 = *(s32 *)(input + 0x0C) - entry->field_0008;
-    entry->field_0018 = input[0x18];
-    entry->field_001B = input[0x19];
-    entry->field_0014 = (u8 *)value;
+    entry->field_0004 = vab;
+    entry->field_0008 = (*(u16 *)(vab + 0x12) << 9) + 0xA20;
+    entry->field_0010 = *(s32 *)(vab + 0x0C) - entry->field_0008;
+    entry->field_0018 = vab[0x18];
+    entry->field_001B = vab[0x19];
+    entry->field_0014 = (u8 *)spu_addr;
     return 0;
 }

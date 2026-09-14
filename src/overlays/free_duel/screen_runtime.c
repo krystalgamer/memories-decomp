@@ -23,7 +23,7 @@
 #include "../../game/save_data.h"
 #include "../../game/display_object_helpers.h"
 #define FUNC_8004036C_AMBIENT_OBJECT
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/func_80039794.h"
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "../../game/func_80041D60.h"
@@ -49,7 +49,7 @@
    pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **. The cursor
    and thumb use the same record; signed coordinate reads are explicit.
 
-   func_8004036C uses display_object_api.h's guarded `void (void)` arm. The
+   func_8004036C uses display_object_core.h's guarded `void (void)` arm. The
    sparkle updater's call passes no argument, so taking the normal
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */

@@ -13,7 +13,7 @@ extern FileRequestSlot *D_8009B460;
 
 void func_80049640(void);
 void SD_Term(void);
-s32 func_800496C4(u8 *input, s16 expected, s32 value);
+s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr);
 s32 func_8004975C(s32 value, s16 expected);
 
 #endif

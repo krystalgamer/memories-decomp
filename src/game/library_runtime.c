@@ -18,7 +18,6 @@
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "display_object_api.h"
 #include "card_grid.h"
 #include "display_object_layout.h"
 #include "func_8003B6AC.h"
@@ -55,7 +54,7 @@ void func_8002BAAC(u8 *value)
 void func_8002BAB4(void)
 {
     u8 *state;
-    u8 *model;
+    ViewState *model;
     s32 one;
     s32 r;
     s32 a;
@@ -65,7 +64,7 @@ void func_8002BAB4(void)
     s32 count;
     s32 mode;
     u8 *dst;
-    u8 *p;
+    ViewState *p;
 
     state = D_800EA1E8;
     one = 1;
@@ -80,7 +79,7 @@ void func_8002BAB4(void)
         break;
     case 2:
         func_8002ACA4(state);
-        model = (u8 *)&D_800F2848;
+        model = &D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {
             if (func_80058E68(0) != r) {
@@ -89,16 +88,16 @@ void func_8002BAB4(void)
                 a = r >= 0 ? r : -r;
                 step = a / 24;
                 step += 1;
-                cur = *(s32 *)(model + 0x20);
+                cur = model->view.vry;
                 if (D_80181012 < cur) {
-                    *(s32 *)(model + 0x20) = cur - step;
-                    cur = *(volatile s32 *)(model + 0x20);
+                    model->view.vry = cur - step;
+                    cur = *(volatile long *)&model->view.vry;
                 }
                 if (cur < D_80181012) {
-                    *(s32 *)(model + 0x20) = cur + step;
+                    model->view.vry = cur + step;
                 }
             } else {
-                r = *(s32 *)(model + 0x20);
+                r = model->view.vry;
                 target = D_80181002;
                 if (r != target) {
                     if (target < r) {
@@ -112,7 +111,7 @@ void func_8002BAB4(void)
                             r = target;
                         }
                     }
-                    *(s32 *)(model + 0x20) = r;
+                    model->view.vry = r;
                 }
                 count = *(s32 *)(state + 0x20) - 1;
                 *(s32 *)(state + 0x20) = count;
@@ -126,12 +125,12 @@ void func_8002BAB4(void)
                 }
             }
         }
-        p = (u8 *)&D_800F2848;
-        *(u16 *)(p + 2) += 0xC;
+        p = &D_800F2848;
+        p->angle += 0xC;
         func_8001352C();
         dst = func_800591FC();
-        ((LibraryViewQuad *)dst)[0] = *(LibraryViewQuad *)(model + 0x10);
-        ((LibraryViewQuad *)dst)[1] = *(LibraryViewQuad *)(model + 0x20);
+        ((LibraryViewQuad *)dst)[0] = *(LibraryViewQuad *)&model->view.vpx;
+        ((LibraryViewQuad *)dst)[1] = *(LibraryViewQuad *)&model->view.vry;
         Model_UpdateViewMetrics(0);
         break;
     case 3:

@@ -158,21 +158,15 @@ have_flags:
         if (arg3 != 0) {
             return;
         }
-        /* Byte-address reads retain the alias dependency needed by retail. */
         if (flags & 1) {
-            u8 *raw = (u8 *)p;
-
-            D_800F56F0.vpx = *(s16 *)(raw + 0x14);
-            D_800F56F0.vpy = *(s16 *)(raw + 0x16);
-            D_800F56F0.vpz = *(s16 *)(raw + 0x18);
+            D_800F56F0.vpx = p->eye.end_x;
+            D_800F56F0.vpy = p->eye.end_y;
+            D_800F56F0.vpz = p->eye.end_z;
         }
         if (p->flags & 2) {
-            s32 *q = (s32 *)&D_800F56F0;
-            u8 *raw = (u8 *)p;
-
-            q[3] = *(s16 *)(raw + 0x24);
-            q[4] = *(s16 *)(raw + 0x26);
-            q[5] = *(s16 *)(raw + 0x28);
+            D_800F56F0.vrx = p->target.end_x;
+            D_800F56F0.vry = p->target.end_y;
+            D_800F56F0.vrz = p->target.end_z;
         }
         if (p->flags & 3) {
             Model_UpdateViewMetrics(0);

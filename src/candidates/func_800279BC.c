@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../game/duel_grid.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_checks.h"
 #include "../game/duel_check_quit_input.h"
@@ -10,11 +11,6 @@
 #define D_800EAE88_VISIBLE
 #define D_800EAE88_AS_BYTES
 #include "../unmatched.h"
-
-extern u8 D_800907D8[];
-
-extern u8 D_8009B1D5;
-extern DuelSideState *D_8009B1C8;
 
 /* Current best under gcc_2_8_1_g8_split: 269/271 instructions, opcode
  * distance 8, and 176 differing positions.

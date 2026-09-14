@@ -86,10 +86,12 @@ typedef struct {
 } AiSelection;
 
 /* Byte 0x08 of that same selection -- AiSelection.random above -- also carries
- * its own address-based symbol. func_80073448 and func_80073458 set and clear
- * it, and func_80071510 copies it into gAiScript_aMemory. Those three reach it
- * as a standalone u8 rather than through the struct, and they must keep doing
- * so: the recorded attempts for func_80071510 fail to link with
+ * its own address-based symbol. AiScript_SetSelectionRandom and
+ * AiScript_ClearSelectionRandom set and clear it, and
+ * AiScript_LoadSelectionRandom copies it into gAiScript_aMemory. Those three
+ * reach it as a standalone u8 rather than through the struct, and they must
+ * keep doing so: the recorded attempts for AiScript_LoadSelectionRandom fail to
+ * link with
  * "relocation truncated to fit: R_MIPS_GPREL16 against `D_800EAE90'", so the
  * symbol's own small-data addressing is what those functions match on. This
  * declaration is therefore a deliberate alias of AiSelection.random, not a

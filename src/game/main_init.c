@@ -13,7 +13,7 @@
 #include "../types.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
 #include "graphics_frame.h"

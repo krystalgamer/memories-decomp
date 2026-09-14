@@ -20,7 +20,7 @@
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "card_grid.h"
 #include "display_object_layout.h"
 #include "func_8003B6AC.h"

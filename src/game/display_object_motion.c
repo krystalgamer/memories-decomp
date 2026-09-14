@@ -2,7 +2,6 @@
 #include "display_object_motion.h"
 #include "display_object_interpolation.h"
 #include "display_object.h"
-#include "display_object_api.h"
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "trig_constants.h"

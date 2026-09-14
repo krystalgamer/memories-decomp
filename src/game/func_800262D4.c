@@ -18,7 +18,7 @@
 #include "display_object_helpers.h"
 #include "display_object_interpolation.h"
 #include "display_object_motion.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "func_8001944C.h"
 #include "func_80019564.h"
 #include "func_800291E0.h"

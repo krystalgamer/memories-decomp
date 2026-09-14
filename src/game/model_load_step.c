@@ -177,7 +177,7 @@ void func_80056828(s32 index)
         break;
     case 11:
         if (slot->field_E1D == 0) {
-            slot->pad_E1E = 1;
+            slot->field_E1E = 1;
         }
         slot->field_E1F = 1;
         break;

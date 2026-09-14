@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "func_8002A3CC.h"

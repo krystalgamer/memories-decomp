@@ -11,14 +11,13 @@
 #include "duel_effect_request.h"
 #include "../unmatched.h"
 #include "duel_magic_effect_dispatch.h"
-
-extern s8 gDuel_bOpponentID[9];
+#include "ai_opponent_data.h"
 
 void DuelScene_UpdateWithSideInput(void)
 {
     int value = 0;
 
-    if (gDuel_bOpponentID[0] < 0) {
+    if (gDuel_bOpponentID < 0) {
         value = D_8009B1D5;
         if (D_8009B238 >= 0) {
             value = D_8009B238;

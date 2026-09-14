@@ -6,7 +6,7 @@
 #include "../../psyq/libgs.h"
 #include "../../game/input.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/display_object_config.h"

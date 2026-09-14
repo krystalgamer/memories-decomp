@@ -8,7 +8,6 @@
 #include "../game/duel_side_state.h"
 #include "../game/duel_card.h"
 #include "../game/duel_effect.h"
-#include "../game/display_object_api.h"
 #include "../game/sound.h"
 #include "../game/duel_card_effects.h"
 #include "../game/duel_field_effect_steps.h"

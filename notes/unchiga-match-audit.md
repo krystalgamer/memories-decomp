@@ -102,7 +102,7 @@ as `post_terminal_resolution`.
 | `0x800705AC` | `AiScript_ReadShort` | `inline_refinement` | `+0x2: 0f80023c != 0f80043c` |
 | `0x80070DA8` | `AiScript_Return` | `inline_refinement` | `+0x6: 0f80023c != 0f80033c` |
 | `0x80070F1C` | `AiScript_PlayFieldCard` | `collaborator_match` | `+0x0: d8ffbd27 != e0ffbd27` |
-| `0x80071510` | `func_80071510` | `inline_refinement` | `+0x12: 0f80043c != 0f80033c` |
+| `0x80071510` | `AiScript_LoadSelectionRandom` | `inline_refinement` | `+0x12: 0f80043c != 0f80033c` |
 | `0x8007164C` | `AiScript_LoadBestDifference` | `inline_refinement` | `+0x12: 0f80043c != 0f80033c` |
 | `0x80071688` | `AiScript_LoadBestAttacker` | `inline_refinement` | `+0x12: 0f80043c != 0f80033c` |
 | `0x800716C4` | `AiScript_LoadBestTarget` | `inline_refinement` | `+0x12: 0f80043c != 0f80033c` |

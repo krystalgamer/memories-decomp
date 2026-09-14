@@ -70,7 +70,7 @@ void func_800151B0(void);
 void Fade_StepBands(void);
 void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);
-void func_800156B8(s32);
+void Fade_FillBandLevels(s32);
 void func_800156DC(void);
 void func_8001572C(void);
 void Fade_InitIn(void);

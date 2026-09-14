@@ -27,7 +27,8 @@
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
+#include "display_object_config.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -159,7 +160,7 @@ side_result:
                 gDuel_wSceneStateFlags |= 0x2000;
                 Fade_StartOut();
                 D_800E9EC8_arr[4] = 255;
-                func_800156B8(255);
+                Fade_FillBandLevels(255);
             } else {
                 u8 *save = D_8009B1D8[gDuel_bWinnerSide];
                 D_8009B16C |= 0x2000;

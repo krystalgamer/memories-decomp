@@ -117,13 +117,14 @@ four-byte alignment retain the existing word copies:
 | `+0x1E/+0x1F` | `u8 field_1E/field_1F` | Sound writes filter bytes; dispatcher passes them to `File_RequestSecondaryRangeTransfer` in `1F, 1E` order |
 
 Nine dispatcher reads use the shared fields rather than raw offsets. The
-post-copy `+4` reload intentionally remains
-`*(s32 *)((u8 *)p + 4)`: changing just that access to `p->field_04` exchanges
-the request pointer's and sector-offset local's `s1/s2` allocation under the
-recorded GCC 2.8.1/MASPSX 2.81 profile. The instruction count and copy widths
-stay equal, but the first differing byte is at resident `0x80014C44`.
-Retaining that scalar view makes the typed API and other nine accesses exact;
-no new pin, scheduling barrier or compiler-profile change is needed.
+post-copy `+4` reload is spelled `*(u32 *)&p->field_04`: a plain
+`p->field_04` exchanges the request pointer's and sector-offset local's
+`s1/s2` allocation under the recorded GCC 2.8.1/MASPSX 2.81 profile. The
+instruction count and copy widths stay equal, but the first differing byte is
+at resident `0x80014C44`. The address-of read stays a scalar reference only
+because `u32` differs from the member's `s32`; `*(s32 *)&p->field_04` is
+folded back into the member read and differs the same way. No pin,
+scheduling barrier or compiler-profile change is needed.
 The result remains the original `s32` status-or-descriptor value, including
 the null-request polling operation.
 
@@ -132,7 +133,7 @@ The remaining request/sector state declarations are owned by two headers:
 | Owner | Symbols and retained views |
 |---|---|
 | `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
-| `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; the sector candidate writes its byte offsets as `(u8 *)D_8009AF18 + N` and its object is byte for byte unchanged by that, so the `FILE_TRANSFER_CURRENT_AS_BYTES` arm is gone |
+| `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `func_80013C28` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
 | `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `func_800140A0` and incremented by `func_80013C28` |
 | `file_transfer.h` | `D_8009B11C[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
 | `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
@@ -142,9 +143,9 @@ across `func_80013C28.c`, `sd_init_state.c` and the two candidates.
 The existing `data_8009af10.c` owner already includes `file_transfer.h`, so
 its initialized `.sdata` pointer definition is now checked against the shared
 declaration without changing its relocation or storage. No other storage is
-converted to C. The sector candidate keeps its signed/nonvolatile raw
-descriptor accesses; the shared descriptor has deliberate volatile fields,
-so its byte view is not silently replaced. Sound's unrelated local
+converted to C. The sector callback now uses the descriptor members;
+`total_bytes` is no longer declared volatile, since no reader depends on it
+and the callback's store of it fills a branch delay slot. Sound's unrelated local
 two-word `Pair` is called `SoundCommandPair` to avoid colliding with the
 text-staging type imported through the central type header.
 

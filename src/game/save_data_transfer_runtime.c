@@ -2,7 +2,7 @@
 #include "../types.h"
 #include "data_transfer_request.h"
 #include "card_constants.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "duel_effect.h"
 #include "func_80039794.h"
 #include "input.h"

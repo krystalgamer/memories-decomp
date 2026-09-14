@@ -5,7 +5,7 @@
 #include "display_effect_lifecycle.h"
 #include "color_constants.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_layout.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
@@ -91,34 +91,32 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
 
 void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 {
-    u8 *e;
+    DisplayObject *e;
     s8 c;
-    u32 *w;
     s32 i;
 
     if (arg1 == 0) {
         for (i = 2; i >= 0; i--) {
             c = (s8)arg2;
-            e = arg0[i];
+            e = (DisplayObject *)arg0[i];
             if (e != 0) {
-                *(u32 *)(e + 4) = *(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE);
-                *(u32 *)(e + 4) = *(u32 *)(e + 4) | GsALON;
-                func_800428EC(e, c);
-                *(u32 *)(e + 0xC) = COLOR_RGB24_NEUTRAL_GREY;
-                *(u16 *)(e + 0x42) -= 1;
+                e->attribute = e->attribute & ~(GsALON | GsATWO | GsAONE);
+                e->attribute = e->attribute | GsALON;
+                func_800428EC((u8 *)e, c);
+                e->field_0C = COLOR_RGB24_NEUTRAL_GREY;
+                e->field_40.h.field_42 -= 1;
             }
         }
     } else {
         for (i = 2; i >= 0; i--) {
-            e = arg0[i];
+            e = (DisplayObject *)arg0[i];
             if (e != 0) {
-                w = (u32 *)(e + 4);
-                *w = (*(u32 *)(e + 4) & ~(GsALON | GsATWO | GsAONE)) | arg1;
-                func_800428EC(e, (s8)arg2);
+                e->attribute = (e->attribute & ~(GsALON | GsATWO | GsAONE)) | arg1;
+                func_800428EC((u8 *)e, (s8)arg2);
                 if (arg1 == (GsALON | GsATWO)) {
-                    *(u16 *)(e + 0x42) = 0xFD;
+                    e->field_40.h.field_42 = 0xFD;
                 } else {
-                    *(u16 *)(e + 0x42) += 1;
+                    e->field_40.h.field_42 += 1;
                 }
             }
         }

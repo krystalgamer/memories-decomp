@@ -48,6 +48,11 @@ PAIRS = [
     ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
+    ("src/game/func_8001B938.c", "func_8004036C", '#include "display_object_core.h"'),
+    ("src/game/func_80030998.c", "func_8004036C", '#include "display_object_core.h"'),
+    ("src/game/func_800218F0.c", "func_800400AC", '#include "display_object_core.h"'),
+    ("src/game/func_800218F0.c", "func_800404CC", '#include "display_object_config.h"'),
+    ("src/game/func_800262D4.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
     ("src/game/func_80024E58.c", "func_80040410", '#include "display_object_config.h"'),
     ("src/game/file_stream.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
@@ -63,6 +68,9 @@ PAIRS = [
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
+    ("src/game/func_80031874.c", "func_80031784", '#include "func_80031784.h"'),
+    ("src/game/func_80031874.c", "func_800316F0", '#include "duel_card_stat_display.h"'),
+    ("src/game/func_80031874.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_no_padding.h"'),
 ]
 
 PACKET_SUBMIT_CANDIDATES = (
@@ -231,6 +239,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "model_load_step.h",
                     "duel_field_display_objects.h",
                     "duel_card_object_helpers.h",
+                    "func_80031784.h",
+                    "duel_card_stat_display.h",
+                    "text_encode_decimal_no_padding.h",
                 )
             ):
                 continue
@@ -373,42 +384,38 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             )
         self.assertIn("func_8005A3D0", found)
 
-    def test_parent_search_preserves_both_pointer_views(self) -> None:
+    def test_parent_search_has_one_pointer_view(self) -> None:
         definition = "src/game/func_8005A3D0.c"
         self.assertIn(
             '#include "model_parent_search.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),
         )
-        views = [
-            ("", "ModelSlot *, void *"),
-            ("#define MODEL_PARENT_SEARCH_COORD_VIEW\n", "u8 *, GsCOORDUNIT *"),
-        ]
+        views = [("ModelSlot *, void *", True), ("u8 *, GsCOORDUNIT *", False)]
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "view.c"
-            for selected, (macro, _) in enumerate(views):
-                for expected, (_, parameters) in enumerate(views):
-                    with self.subTest(selected=selected, expected=expected):
-                        path.write_text(
-                            macro + '#include "model_parent_search.h"\n'
-                            + f"s32 (*view)({parameters}) = func_8005A3D0;\n",
-                            encoding="utf-8",
+            for parameters, accepted in views:
+                with self.subTest(parameters=parameters):
+                    path.write_text(
+                        '#include "model_parent_search.h"\n'
+                        + f"s32 (*view)({parameters}) = func_8005A3D0;\n",
+                        encoding="utf-8",
+                    )
+                    if accepted:
+                        self.assertEqual(
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
+                            ),
+                            set(),
                         )
-                        if selected == expected:
-                            self.assertEqual(
-                                implicit_calls(
-                                    path, self.profile(definition),
-                                    REPOSITORY / "src/game",
-                                    warnings_as_errors=True,
-                                ),
-                                set(),
+                    else:
+                        with self.assertRaisesRegex(AssertionError, "incompatible"):
+                            implicit_calls(
+                                path, self.profile(definition),
+                                REPOSITORY / "src/game",
+                                warnings_as_errors=True,
                             )
-                        else:
-                            with self.assertRaisesRegex(AssertionError, "incompatible"):
-                                implicit_calls(
-                                    path, self.profile(definition),
-                                    REPOSITORY / "src/game",
-                                    warnings_as_errors=True,
-                                )
 
 
 if __name__ == "__main__":

@@ -7,9 +7,9 @@
 #include "ai_script_commands.h"
 #include "ai_script_read_byte.h"
 void AiScript_FindBestAttack(void) {
-    u8 *t;
-    u8 *r;
-    u8 *e;
+    AiActiveCard *t;
+    AiActiveCard *r;
+    AiActiveCard *e;
     s32 want;
     s32 out;
     s32 i;
@@ -20,26 +20,26 @@ void AiScript_FindBestAttack(void) {
     want = gAiScript_aMemory[AiScript_ReadByte()];
     out = AiScript_ReadByte();
     i = 1;
-    t = (u8 *)gDuel_aActiveCards;
-    r = t + AI_ACTIVE_CARD_RECORD_SIZE;
+    t = gDuel_aActiveCards;
+    r = &t[AI_SLOT_OWN_MONSTER_FIRST];
     gAiScript_State.attack_best_stat = 0;
 
     while (i < DUEL_FIELD_ROW_SIZE + 1) {
-        if (*(s16 *)r == 0) {
+        if (r->card_id == 0) {
             continue;
         }
-        if ((*(u16 *)(r + 6) & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
+        if ((r->flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
             continue;
         }
 
         for (j = AI_SLOT_OPPONENT_MONSTER_FIRST,
-             e = t + (AI_ACTIVE_CARD_RECORD_SIZE + AI_ACTIVE_CARD_SIDE_BYTE_STRIDE);
+             e = &t[AI_SLOT_OPPONENT_MONSTER_FIRST];
              j < AI_SLOT_OPPONENT_MONSTER_FIRST + AI_ACTIVE_CARD_ROW_SLOT_COUNT;
-             j++, e += AI_ACTIVE_CARD_RECORD_SIZE) {
-            if (*(s16 *)e == 0) {
+             j++, e++) {
+            if (e->card_id == 0) {
                 continue;
             }
-            f = *(u16 *)(e + 6);
+            f = e->flags;
             if ((f & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                 continue;
             }
@@ -51,8 +51,8 @@ void AiScript_FindBestAttack(void) {
                     continue;
                 }
             }
-            v = *(s16 *)(r + 2) - *(s16 *)(e + 2);
-            v += Duel_CalcGuardianStarMatchup(*(s8 *)(r + 9), *(s8 *)(e + 9));
+            v = r->attack - e->attack;
+            v += Duel_CalcGuardianStarMatchup(r->guardian_star, e->guardian_star);
             if (gAiScript_State.attack_best_stat < v) {
                 gAiScript_State.attack_best_stat = v;
                 gAiScript_State.attack_best_slot = i;

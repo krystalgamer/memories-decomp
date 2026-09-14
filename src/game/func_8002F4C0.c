@@ -29,13 +29,17 @@ void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
         do {
             n = 0x18000;
         } while (0);
-        *(s16 *)((u8 *)d + 0x30) = 0x1C0;
-        *(s16 *)((u8 *)d + 0x32) = 0x100;
+        /* Stored through the members' addresses with the other signedness
+           (and s32 for the u32 phase_size), so fold leaves them as non-struct
+           stores. Spelling any of the four as a member store changes 8 to 22
+           words of this case. */
+        *(s16 *)&d->field_30.h.counter = 0x1C0;
+        *(s16 *)&d->field_30.h.field_32 = 0x100;
         t0 = D_8009B0F4;
-        *(s16 *)((u8 *)d + 4) = 0x40;
+        *(u16 *)&d->w = 0x40;
         D_8009B0F4 = t0 & m;
         u0 = D_8009B0F4;
-        *(s32 *)((u8 *)d + 0x1C) = n;
+        *(s32 *)&d->phase_size = n;
         D_8009B0F4 = u0 | 0x10000;
         d->done = 2;
         v0 = D_8009B118;

@@ -26,7 +26,7 @@
 #include "../game/duel_effect_tables.h"
 #include "../game/text_box_lifecycle.h"
 #include "../game/sound.h"
-#include "../game/display_object_api.h"
+#include "../game/display_object_core.h"
 #include "../game/display_object.h"
 #include "../game/display_object_helpers.h"
 #include "../game/func_800291E0.h"

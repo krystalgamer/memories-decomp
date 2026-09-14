@@ -11,7 +11,7 @@
 #include "duel_side_state.h"
 #include "duel_card.h"
 #include "duel_effect.h"
-#include "display_object_api.h"
+#include "display_object_helpers.h"
 #include "sound.h"
 #include "duel_card_effects.h"
 #include "duel_field_effect_steps.h"

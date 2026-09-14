@@ -9,9 +9,9 @@
  * words at 0x2C, 0x34, 0x3C, 0x44, 0x4C and 0x54 -- the stride-8 run
  * display_object.h documents -- with the four dimmed to a quarter.
  *
- * Dialog_UpdateChoice is the only consumer and already spelled it this
- * way. The parameter is u8 * because the function reaches those offsets as
- * bytes rather than through a named record. */
+ * Dialog_UpdateChoice is the only consumer: it installs this as the
+ * object's DisplayObjectCallback, which is why the parameter is u8 *. The
+ * body views it as the DisplayObject it is and names those members. */
 void Widget_UpdatePulseColour(u8 *arg0);
 
 #endif
