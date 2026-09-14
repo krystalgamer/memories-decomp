@@ -45,6 +45,7 @@ is supported.
 The dedicated names are also consistent with their matching bodies: the sound
 entry edits and plays sound IDs, the campaign entry switches between message
 and campaign IDs, the duel and deck entries initialize those modes, the load,
-save, trade, and option entries poll their existing state machines, and EXIT
-fades and longjmps out. No stronger claim about hidden debug functionality is
-made.
+save, and trade entries poll their existing state machines, and EXIT fades and
+longjmps out. Option instead uses the generic mapped-mode handoff: it clears
+the return/debug state and publishes main mode 11. No stronger claim about
+hidden debug functionality is made.
