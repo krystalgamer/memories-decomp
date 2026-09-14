@@ -20,15 +20,15 @@ void func_80015D18(DisplayObject *object)
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&D_800FE148);
     {
-        u8 *scratch = (u8 *)0x1F8003E0;
-        u16 x = *(u16 *)((u8 *)object + 0x28);
+        SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
+        u16 x = object->position.h.field_28;
 
-        *(s16 *)(scratch + 2) = 0;
-        *(u16 *)scratch = x;
-        *(u16 *)(scratch + 4) = *(u16 *)((u8 *)object + 0x2A);
+        scratch->vy = 0;
+        scratch->vx = x;
+        scratch->vz = object->position.h.field_2A;
         gte_ldv0(scratch);
         gte_rtps();
-        gte_stsxy((u8 *)object + 0x30);
+        gte_stsxy(&object->field_30);
     }
     object->field_30.h.field_30 -= 0x20;
     object->field_30.h.field_32 -= 0x1E;
