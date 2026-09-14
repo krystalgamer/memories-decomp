@@ -21,7 +21,7 @@ typedef struct CardList {
     CardEntry entries[CARD_ID_END];
     u8 pad_2D30[4];
     /* The two text boxes the input handler moves. Both are display records
-       whose halfword at +0x32 is a y position: func_800330BC sets the
+       whose halfword at +0x32 is a y position: BuildDeck_UpdateCardListInput sets the
        cursor box to cursor * 22 + 0x2A and the scroll box to the thumb
        position it derives from `first`. func_800339D0.c pulses the
        scroll box's colour bytes at +0xC/+0xD/+0xE, which is what fixes them
@@ -29,7 +29,7 @@ typedef struct CardList {
     u8 *cursor_box;
     u8 *scroll_box;
     s16 first;
-    /* Where `first` is heading. func_800330BC never jumps the scroll: it
+    /* Where `first` is heading. BuildDeck_UpdateCardListInput never jumps the scroll: it
        writes the destination here and then steps `first` one row per call
        until the two agree, rebuilding the page each step. The list
        initializer at 0x800325FC zeroes this and `first` together. */
@@ -39,11 +39,11 @@ typedef struct CardList {
        different things and only one of them is written on the first of the
        two initializer paths:
 
-         - row_count bounds the scroll. func_800330BC clamps `first` to
+         - row_count bounds the scroll. BuildDeck_UpdateCardListInput clamps `first` to
            row_count - 8, the last offset that still fills the eight-row
            page, and card_list_sort.c's shuffle mode sorts row_count rows.
          - sort_row_count is the population the rest of card_list_sort.c
-           sorts, and the denominator func_800330BC divides the 152-pixel
+           sorts, and the denominator BuildDeck_UpdateCardListInput divides the 152-pixel
            thumb travel by.
 
        Nothing seen so far sets them to different values, so which one a
@@ -53,7 +53,7 @@ typedef struct CardList {
     s16 sort_row_count;
     u8 pad_2D44;
     /* The sort order card_list_sort.c switches on. It is not stored
-       directly: func_800330BC cycles sort_choice and then looks this up as
+       directly: BuildDeck_UpdateCardListInput cycles sort_choice and then looks this up as
        the low nibble of D_80090DD8[sort_choice * 2 + kind * 16 + 1]. */
     u8 sort_mode;
     /* Which entry of the sort menu is highlighted. SELECT and START step it,
@@ -61,7 +61,7 @@ typedef struct CardList {
     s8 sort_choice;
     u8 kind;
     /* The cursor row inside the visible page, which is why `first` above is
-       the scroll offset: the two are added to reach an entry. func_800330BC
+       the scroll offset: the two are added to reach an entry. BuildDeck_UpdateCardListInput
        clamps it to [0, 7] -- it resets to 7 on reaching 8 and to 0 on going
        below zero -- and multiplies it by 22 for the row's pixel position,
        and func_80031E04 builds the page eight rows at a time. */

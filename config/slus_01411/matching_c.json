@@ -2218,13 +2218,13 @@
       "address": "0x800330BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x444",
-      "source": "src/game/func_800330BC.c"
+      "source": "src/game/build_deck_card_list_input.c"
     },
     {
       "address": "0x80033500",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
-      "source": "src/game/func_80033500.c"
+      "source": "src/game/build_deck_active_card.c"
     },
     {
       "address": "0x8003353C",
@@ -2248,7 +2248,7 @@
       "address": "0x80033998",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
-      "source": "src/game/func_80033998.c"
+      "source": "src/game/build_deck_deck_capacity.c"
     },
     {
       "address": "0x800339D0",

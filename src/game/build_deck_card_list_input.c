@@ -26,7 +26,7 @@
      spelling so the base and slot pseudos land in the same registers.
 */
 
-s32 func_800330BC(CardList *list)
+s32 BuildDeck_UpdateCardListInput(CardList *list)
 {
     s32 row;
     s32 sel;

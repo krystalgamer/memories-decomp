@@ -143,7 +143,7 @@ operator corrects when needed.
 | # | address | what we proved | proposed name | status |
 |---|---|---|---|---|
 | F51 | list navigation mechanics | The chest list shows 8 rows. DOWN/UP move the highlight within the window; R1/L1 scroll a full page (+/-8); R2/L2 skip chunks of +/-50. All reversible, verified at 351 Yaranzo. | (facts) | CONFIRMED |
-| F52 | `gDuel_wSelectedCardID` in build deck | Here it tracks the BOTTOM VISIBLE row of the window (358 while the cursor sat on 351 at top; +8 per R1 page, +50 per R2 chunk, unchanged by in-window cursor moves). Same global, different role per screen: grid cursor in the library, window edge in the chest list. | (role note) | CONFIRMED |
+| F52 | `gDuel_wSelectedCardID` in build deck | Here it tracks the BOTTOM VISIBLE row of the window (358 while the cursor sat on 351 at top; +8 per R1 page, +50 per R2 chunk, unchanged by in-window cursor moves). The completed `build_deck_card_grid_cursor` trace independently reproduced the eight-row R1/L1 movement while `gCardGrid_bCursorColumn/Row` stayed unchanged. Same global, different role per screen: grid cursor in the library, window edge in the Build Deck lists. | (role note) | CONFIRMED |
 | F53 | `gCardGrid_bCursorColumn/Row` scope | The pair does NOT move during chest-list navigation — it belongs to card GRIDS (library-style), not lists. Scope question from F41 answered. | (scope answer) | CONFIRMED |
 | F54 | list cursor variable | Authoritative storage not pinned (render-side derivatives at 0x800A0609/0A, 0x800F073A, 0x8009B0B6 lag by a step; pointer hunt found only stack transients). Likely module-held. Open, alongside the sort-mode variable (F50). | (open) | HOLD |
 

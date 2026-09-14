@@ -26,8 +26,8 @@
 void (*D_80090DF8[])(BuildDeckTransitionState *) = {
     BuildDeck_UpdatePaneTransition,
     BuildDeck_UpdatePaneTransition,
-    func_800336F0,
-    func_8003353C,
+    BuildDeck_UpdateChestPaneInput,
+    BuildDeck_UpdateDeckPaneInput,
     func_800339D0,
 };
 

@@ -1,7 +1,7 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../types.h"
-#include "func_80033500.h"
+#include "build_deck_active_card.h"
 #include "func_80032B38.h"
 #include "card_list_sort.h"
 #include "card_list_text_boxes.h"
@@ -16,7 +16,7 @@
 #include "../unmatched.h"
 #include "build_deck_pane_input.h"
 
-void func_8003353C(BuildDeckTransitionState *state) {
+void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
 #define p ((u8 *)state)
     u8 *e;
     s32 r;
@@ -25,12 +25,12 @@ void func_8003353C(BuildDeckTransitionState *state) {
 
     func_80032B38(state);
 
-    if (func_800330BC((CardList *)e) != 0) {
+    if (BuildDeck_UpdateCardListInput((CardList *)e) != 0) {
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = func_80033500((CardList *)e);
+        r = BuildDeck_GetActiveCardID((CardList *)e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
             gDuel_wViewerCardID = r;
@@ -53,7 +53,7 @@ void func_8003353C(BuildDeckTransitionState *state) {
     }
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) != 0) {
-        r = func_80033500((CardList *)e);
+        r = BuildDeck_GetActiveCardID((CardList *)e);
         if (r != 0) {
             SD_SEPlayFull(7);
             *(e + 0xD - -((*(s16 *)(e + 0x2D3C) +
@@ -70,7 +70,7 @@ void func_8003353C(BuildDeckTransitionState *state) {
 #undef p
 }
 
-void func_800336F0(BuildDeckTransitionState *state)
+void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
 {
 #define p ((u8 *)state)
     u8 *e;
@@ -80,12 +80,12 @@ void func_800336F0(BuildDeckTransitionState *state)
 
     e = p + (state->pane_index * 0x2D4C + 4);
     func_80032B38(state);
-    if (func_800330BC((CardList *)e) != 0) {
+    if (BuildDeck_UpdateCardListInput((CardList *)e) != 0) {
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = func_80033500((CardList *)e);
+        r = BuildDeck_GetActiveCardID((CardList *)e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
             gDuel_wViewerCardID = r;
@@ -111,7 +111,7 @@ void func_800336F0(BuildDeckTransitionState *state)
         return;
     }
 
-    r = func_80033500((CardList *)e);
+    r = BuildDeck_GetActiveCardID((CardList *)e);
     c = 1;
     if ((u32)(r - EXODIA_FIRST_CARD_ID) < EXODIA_PIECE_COUNT) {
         c = (p + r)[0x5AC4] < c;

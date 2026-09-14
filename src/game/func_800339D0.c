@@ -16,7 +16,7 @@
 #include "duel_transition_step_table.h"
 #include "../psyq/rand.h"
 #include "duel_reward_setup.h"
-#include "func_80033998.h"
+#include "build_deck_deck_capacity.h"
 #include "../unmatched.h"
 
 /* Retail addresses these three with %hi/%lo under -G8, so they live outside
@@ -24,7 +24,7 @@
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
- * confirm sound plays and, if the deck is complete (func_80033998), bit 14 of
+ * confirm sound plays and, if the deck is complete (BuildDeck_HasOpenDeckSlot), bit 14 of
  * the state word at +0x633E is set, a confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
  * otherwise, which is then waited on until its +0x30 pointer is filled),
@@ -50,7 +50,7 @@ void func_800339D0(BuildDeckTransitionState *record)
 
     if (func_80032B38(workspace) == 0) {
         SD_SEPlayFull(8);
-        if (func_80033998() != 0) {
+        if (BuildDeck_HasOpenDeckSlot() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
             mode = D_8009B2F8 & 0x80;
@@ -130,7 +130,7 @@ s32 func_80033BE8(void)
         intensity = 0x3F - intensity;
     }
 
-    base = D_8009B2FC;
+    base = gBuildDeck_pState;
     color = intensity * 2 + 0x40;
     first = *(u8 **)((u8 *)base + 0x2D38);
     second = *(u8 **)((u8 *)base + 0x5A84);
@@ -143,8 +143,8 @@ s32 func_80033BE8(void)
     first[0xC] = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        D_80090DF8[D_8009B2FC->state & 0x3F](D_8009B2FC);
+        D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
     }
 
-    return D_8009B2FC->state;
+    return gBuildDeck_pState->state;
 }

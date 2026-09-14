@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "card_list_text_boxes.h"
-#include "func_80033500.h"
+#include "build_deck_active_card.h"
 
-s32 func_80033500(CardList *list)
+s32 BuildDeck_GetActiveCardID(CardList *list)
 {
     s32 index = list->first + list->cursor;
     CardEntry *entry = &list->entries[index];
