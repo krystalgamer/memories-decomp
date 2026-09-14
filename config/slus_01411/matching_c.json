@@ -5050,13 +5050,13 @@
       "address": "0x80050584",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24C",
-      "source": "src/game/func_80050584.c"
+      "source": "src/game/model_intro_controller.c"
     },
     {
       "address": "0x800507D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x754",
-      "source": "src/game/func_800507D0.c"
+      "source": "src/game/model_intro_controller.c"
     },
     {
       "address": "0x80050F24",
