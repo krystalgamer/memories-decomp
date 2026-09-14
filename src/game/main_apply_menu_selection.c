@@ -9,12 +9,13 @@
 #include "../external_funcs.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
+#define GFREEDUEL_BRETURNFLAGS_IN_DATA
+#include "../overlays/free_duel/free_duel.h"
 
 extern s16 gCampaignSavedSceneIndex[];
 
 extern u8 D_8009B3D4 __attribute__((section(".data")));
 extern u8 D_8009B0D1 __attribute__((section(".data")));
-extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
 void Main_ApplyMenuSelection(MainMenuSelection selection)
 {
