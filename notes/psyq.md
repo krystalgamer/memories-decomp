@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 91 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 68 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 66 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 43 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 91 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 66 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 68 already sit inside 17
+The `--coverage-report` split narrows that work: 43 already sit inside 16
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -462,6 +462,7 @@ Every row below is now an applied project symbol.
 | `0x8007F5D4` | `DrawSyncCallback` | Applied at offset `0x284` of the same unique `SYS.OBJ` signature. |
 | `0x8007F634` | `SetDispMask` | Applied at offset `0x2E4` of the same unique `SYS.OBJ` signature. |
 | `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
+| `0x8007F734` | `checkRECT` | Private `SYS.OBJ` rectangle validator identified by the exact `0x3E4` object offset and `0x11C` extent shared with the independently recovered Silent Hill Psy-Q map. |
 | `0x8007F850` | `ClearImage` | Applied at offset `0x500` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature; matching movie paths clear their display rectangles with the configured RGB triplet. |
 | `0x8007F8E0` | `ClearImage2` | Applied at offset `0x590` of the same unique `SYS.OBJ` signature. |
 | `0x8007F978` | `LoadImage` | Applied Psy-Q identity; `Duel_SetupCardRecord` uses the tracked `RECT *` / `u32 *` prototype for two image transfers. |
@@ -479,6 +480,30 @@ Every row below is now an applied project symbol.
 | `0x80080458` | `SetDrawArea` | Applied at offset `0x1108` of the same unique `SYS.OBJ` signature. |
 | `0x800804D8` | `SetDrawOffset` | Applied at offset `0x1188` of the same unique `SYS.OBJ` signature. |
 | `0x80080518` | `SetDrawEnv` | Applied at offset `0x11C8` of the same unique `SYS.OBJ` signature. |
+| `0x80080710` | `SetDrawEnv2` | Private draw-environment builder at the exact ordered `SYS.OBJ` boundary and `0x270` extent recovered independently in Silent Hill. |
+| `0x80080980` | `get_mode` | Private command-field getter; exact ordered boundary and `0x20` extent agree with the independent map. |
+| `0x800809A0` | `get_cs` | Private draw-command start builder; exact ordered boundary and `0x98` extent agree with the independent map. |
+| `0x80080A38` | `get_ce` | Private draw-command end builder; exact ordered boundary and `0x98` extent agree with the independent map. |
+| `0x80080AD0` | `get_ofs` | Private draw-offset getter; exact ordered boundary and `0x1C` extent agree with the independent map. |
+| `0x80080AEC` | `get_tw` | Private texture-window getter; exact ordered boundary and `0x80` extent agree with the independent map. |
+| `0x80080B6C` | `_status` | Private GPU status helper at the exact ordered `SYS.OBJ` boundary and `0x18` extent. |
+| `0x80080B84` | `_otc` | Private ordering-table clear runtime at the exact ordered boundary and `0xE0` extent. |
+| `0x80080C64` | `_clr` | Private image-clear command runtime at the exact ordered boundary and `0x230` extent. |
+| `0x80080E94` | `_dws` | Private DMA write-stream runtime at the exact ordered boundary and `0x23C` extent. |
+| `0x800810D0` | `_drs` | Private DMA read-stream runtime at the exact ordered boundary and `0x280` extent. |
+| `0x80081350` | `_ctl` | Private GPU control helper at the exact ordered boundary. |
+| `0x80081364` | `_getctl` | Private GPU control-state getter at the exact ordered boundary. |
+| `0x8008136C` | `_cwb` | Private command-word builder at the exact ordered boundary and `0x40` extent. |
+| `0x800813AC` | `_cwc` | Private command-word callback path at the exact ordered boundary and `0x48` extent. |
+| `0x800813F4` | `_param` | Private GPU parameter helper at the exact ordered boundary and `0x30` extent. |
+| `0x80081424` | `_addque` | Private queue insertion helper at the exact ordered boundary and `0x24` extent. |
+| `0x80081448` | `_addque2` | Private extended queue insertion runtime at the exact ordered boundary and `0x2B0` extent. |
+| `0x800816F8` | `_exeque` | Private queued-command executor at the exact ordered boundary and `0x260` extent. |
+| `0x80081958` | `_reset` | Private GPU queue/reset runtime; ordered placement between `_exeque` and `_sync` agrees with the independent map. |
+| `0x80081A94` | `_sync` | Private GPU synchronization runtime; ordered placement before the alarm helpers agrees with the independent map. |
+| `0x80081BD0` | `set_alarm` | Private timeout-alarm setter at the exact ordered boundary and `0x34` extent. |
+| `0x80081C04` | `get_alarm` | Private timeout-alarm query runtime at the exact ordered boundary and `0x144` extent. |
+| `0x80081D48` | `_version` | Private GPU version-reporting helper immediately before `LoadImage2`, matching the independent map and `0xA0` extent. |
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
 | `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
