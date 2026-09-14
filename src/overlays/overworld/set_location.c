@@ -125,7 +125,9 @@ void CampaignMap_UpdateView(void)
 void CampaignMap_ResetCamera(void)
 {
     ViewState *camera = &D_800F2848;
-    u8 *matrix = (u8 *)&D_800F2848 + 0x10;
+    /* A second pointer, to the view itself: storing the three reference
+       coordinates through camera->view instead drops an instruction. */
+    GsRVIEW2 *view = &D_800F2848.view;
 
     camera->field_00 = 0x6A4;
     camera->angle = 0x640;
@@ -135,11 +137,11 @@ void CampaignMap_ResetCamera(void)
     camera->view.super = 0;
     camera->projection = MODEL_DEFAULT_PROJECTION;
     GsSetProjection(MODEL_DEFAULT_PROJECTION);
-    *(s32 *)(matrix + 0x0C) = 0;
+    view->vrx = 0;
     camera->field_06 = 0;
-    *(s32 *)(matrix + 0x10) = 0;
+    view->vry = 0;
     camera->field_08 = 0;
-    *(s32 *)(matrix + 0x14) = 0;
+    view->vrz = 0;
     camera->field_0A = 0;
     func_8001352C();
 }
