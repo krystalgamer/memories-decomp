@@ -2,8 +2,8 @@
  * Library screen state 2 handler: opens the card view, runs the model and
  * text-box slide-in, rotates the model light with the view angle, and walks
  * the close sequence back to the grid. Current best under
- * gcc_2_8_1_g0_split: 892 instructions against 895 with an opcode census of
- * addiu -1, addu +2, lui -1, nop -3 (distance 7), with no hard register
+ * gcc_2_8_1_cc_g8_as_g0_split: 894 instructions against 895 with an opcode
+ * census of addiu -1, addu +2, nop -2 (distance 5), with no hard register
  * assignments and no inline assembly.
  *
  * Levers measured on this body:
@@ -15,15 +15,18 @@
  * - state 5 re-reads the pad through a volatile access;
  * - state 6 tests the fade byte as a named (s8) value;
  * - the entry block clears vrx/vry/vrz through a pointer to the view;
- * - each arm has its own names for its scratch values.
+ * - each arm has its own names for its scratch values;
+ * - the compiler runs at -G8 with a -G0 assembler, so D_8009B338 and
+ *   D_8009B0C0 are stored through $at as in retail, while D_800E9ECF keeps
+ *   its aggregate arm and a split %hi/%lo store;
+ * - the close path reads func_80040410's argument into a local before
+ *   clearing D_8009B0C0, and the 0x10 counter is re-read after its store.
  *
  * Residual: the target reloads the slide phase into the register it loaded
- * it from (two load-delay nops), materialises the case 5 pad address twice,
- * and stores D_8009B338/D_8009B0C0 through $at while this profile uses a
- * %hi/%lo pair for them.
+ * it from (two load-delay nops) and materialises the case 5 pad address
+ * twice; the addu +2 is not attributed yet.
  */
 #define D_800E9ECE_AS_SCALAR
-#define D_800E9ECF_AS_SCALAR
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -128,7 +131,7 @@ void func_8002ACA4(u8 *state)
         func_8001352C();
         func_80029164(0, H(state, 6));
         func_80015C84();
-        D_800E9ECF = 6;
+        D_800E9ECF[0] = 6;
         W(state, 0x50) = 0;
         return;
     }
@@ -359,9 +362,8 @@ void func_8002ACA4(u8 *state)
                     S(o, 0x32) = 4;
                 }
             }
-            v_b4 = H(state, 0x10) + 0x2A;
-            H(state, 0x10) = v_b4;
-            if ((s16)v_b4 >= 0x400) {
+            H(state, 0x10) = H(state, 0x10) + 0x2A;
+            if (S(state, 0x10) >= 0x400) {
                 H(state, 0x10) = 0x400;
                 if (!(D_800E9ECE & 0x80) && state[3] == 0) {
                     state[2] = 1;
@@ -402,8 +404,12 @@ void func_8002ACA4(u8 *state)
             if (!(D_800E9ECE & 0x80) && state[3] == 0) {
                 SD_KeyOffVoiceSlots();
                 D_800E9DB0[2] = 0;
-                D_8009B0C0 = 0;
-                func_80040410((void *)W(state, 0x50), 2);
+                {
+                    void *p = (void *)W(state, 0x50);
+
+                    D_8009B0C0 = 0;
+                    func_80040410(p, 2);
+                }
                 goto next;
             }
             break;
