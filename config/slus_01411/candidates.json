@@ -191,21 +191,6 @@
       }
     },
     {
-      "address": "0x80029934",
-      "profile": "gcc_2_8_1_g0",
-      "source": "src/candidates/func_80029934.c",
-      "target": "src/candidates_target/func_80029934.S",
-      "candidate_build_sha256": "2d21ed5b16e5f1366e3f4d88483b3e3606f783240dcd1d3d8eb40460cf8a8940",
-      "target_bytes_sha256": "8c871cdda48c38bc42c198ff8eddae0e12a42d80a5306082c726a44dcd6b6467",
-      "canonical_contract_sha256": "3ad5f9be9e89c437b3e2c4f111175fb05e2ce0ed1e45367457c0588e0b099a79",
-      "canonical_contracts": {
-        "D_800EA1E8": "0b90eff4f817316f1960d2f15efc2d2caadd4e7693ead42ac27a709c387aa7dc",
-        "D_80181000": "4e068a6eedbc9189895a2e04a210023c7576a772707f14c4a1c9e8912e199318",
-        "func_80029684": "5702952d4298310a4e1e19cbe7ee0b5eb99edf914c596e3fabe723d5cd2c6246",
-        "func_800297DC": "eea4b6f542439b773b6f5a34e417a2a70f78c8439be0c8b943e0b5a689482a6c"
-      }
-    },
-    {
       "address": "0x8002ACA4",
       "profile": "gcc_2_8_1_g0_split",
       "source": "src/candidates/func_8002ACA4.c",

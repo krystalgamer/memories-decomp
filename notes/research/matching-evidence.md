@@ -6384,6 +6384,13 @@ Two consequences worth carrying forward:
 
 ## No GTE command instruction can currently be emitted from C
 
+**Historical finding, with a narrow RTPS exception now implemented.**
+`normalize_psyq_rtps.py` and the named RTPS profiles translate the official
+RTPS marker for matching `func_80015D18` and `func_80029934`. The latter's
+[wireframe evidence](../library-wireframe.md) uses the same approved macro
+family without widening it. The following probe describes profiles without
+that filter; it is not a reason to exclude every RTPS-only function.
+
 The three functions #2390 reopened into the candidate queue — `func_80033DB0`,
 `func_80034830` and `func_80067220` — all need GTE *command* words. None of
 them is buildable as C today, and the reason is a pipeline gap rather than

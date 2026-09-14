@@ -241,9 +241,9 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
     sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
 ];
 
-/* Eight bytes copied as one unit. Three build-integrated candidates each
-   defined this shape locally and used it only as the source and destination
-   of a whole-struct assignment: func_80015EF4 copies four rotation corners,
+/* Eight bytes copied as one unit. The matching wireframe renderer and two
+   retained candidates use this shape as the source and destination of a
+   whole-struct assignment: func_80015EF4 copies four rotation corners,
    func_80029934 one parameter block out of D_80181000, and func_80030294 one
    mask block out of D_8009AF4C.
 
@@ -253,10 +253,10 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    gives alignment 1, so the assignment lowers to the unaligned move pair
    rather than to word loads. The three targets say so directly -- an eight-byte
    alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
-   src/candidates_target/ are exactly two pairs per source-level assignment:
-   func_80015EF4.S has 8 of each for its four copies, func_80029934.S and
-   func_80030294.S 2 of each for their one. A word-element spelling would not
-   reproduce them.
+   the retained targets and matching wireframe text are exactly two pairs per
+   source-level assignment: func_80015EF4.S has 8 of each for its four copies;
+   func_80029934 and func_80030294.S have 2 of each for their one. A word-element
+   spelling would not reproduce them.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it
    is; it is also the declared type of two defined objects, which is a claim

@@ -1648,18 +1648,20 @@ families also retain marker encodings. Register-transfer helpers such as
 `gte_stopz` instead contain ordinary COP2 assembly directly.
 
 Do not assume those command markers are already drop-in native PSX words.
-The [end-to-end probe](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
-shows the current GCC/MASPSX/GNU-as pipeline preserves the marker unchanged,
-silently producing the wrong object word. GNU as can encode the native
-operation through `cop2` immediates, as the generated assembly fallback does,
-but no tracked C-path translation currently connects those forms.
+The [historical end-to-end probe](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
+shows that profiles without a translation preserve the marker unchanged.
+The accepted `gcc_2_8_1_g8_split_psyq_rtps` profile now uses
+`tools/project/normalize_psyq_rtps.py` to translate only the RTPS marker to
+`0x4A180001`; `func_80015D18` uses that path. The
+`gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks` variant used by
+`func_80029934` changes only the named CSE option, not this translation.
 
-Until that bridge exists, a C candidate requiring one of the audited command
-words is blocked at the toolchain before source-shape refinement can be
-meaningful. COP2 transfers such as `lwc2`, `swc2`, `mtc2`, `mfc2`, `cfc2`,
-and `ctc2` remain directly expressible; the limitation is the command-marker
-family. The optional compiler-profile `assembly_filter` is a possible
-version-neutral bridge, not an implemented or accepted solution.
+This is not a general GTE allowance. Matching-source validation accepts only
+the exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions for these
+profiles, with no source-authored assembly or register bindings. Other command
+markers still need a separately reviewed bridge. COP2 transfers have native
+assembler encodings, but their use must also satisfy the applicable source
+policy. See [the wireframe match](library-wireframe.md) for the RTPS-only case.
 
 A matching C conversion must preserve the exact native encoding and
 scheduling. The classification correction neither changes these imported
