@@ -86,20 +86,16 @@ s32 func_8004149C(DisplayObjectStreamState *object, const u8 *data)
     return 1;
 }
 
-s32 func_80041534(DisplayObjectStreamState *record, const u8 *operands)
+s32 func_80041534(DisplayObjectStreamState *object, const u8 *data)
 {
-#define object ((u8 *)record)
-#define data ((u8 *)operands)
     int high;
     int low;
-    *(u32 *)(object + 4) |= GsROTOFF;
-    object[0x22] = data[0];
-    *(short *)(object + 0x4A) = (signed char)data[1];
+    object->flags |= GsROTOFF;
+    object->field_22 = data[0];
+    object->field_4A = (signed char)data[1];
     high = data[3] << 8;
     low = data[2];
-    *(u32 *)(object + 0x50) += 4;
-    *(short *)(object + 0x48) = high | low;
+    object->current += 4;
+    object->field_48 = high | low;
     return 1;
-#undef data
-#undef object
 }

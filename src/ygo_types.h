@@ -1085,7 +1085,14 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
 typedef struct {
     u8 pad_00[4];
     u32 flags;
-    u8 pad_08[0x44];
+    u8 pad_08[0x1A];
+    /* func_80041534 (opcode 0xF9) loads its first operand byte here. */
+    u8 field_22;
+    u8 pad_23[0x25];
+    /* func_80041534 stores its little-endian halfword operand in field_48
+       and its sign-extended second operand byte in field_4A. */
+    s16 field_48;
+    s16 field_4A;
     /* func_80041C8C points this at the current opcode's operand target:
        base plus the little-endian halfword that follows the opcode. */
     u8 *field_4C;
@@ -1097,6 +1104,15 @@ typedef struct {
 
 typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_22_offset_must_be_0x22[
+    (u32)&((DisplayObjectStreamState *)0)->field_22 == 0x22 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_48_offset_must_be_0x48[
+    (u32)&((DisplayObjectStreamState *)0)->field_48 == 0x48 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_4A_offset_must_be_0x4A[
+    (u32)&((DisplayObjectStreamState *)0)->field_4A == 0x4A ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_field_4C_offset_must_be_0x4C[
     (u32)&((DisplayObjectStreamState *)0)->field_4C == 0x4C ? 1 : -1
