@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 66 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 43 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 61 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 38 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 66 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 61 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 43 already sit inside 16
+The `--coverage-report` split narrows that work: 38 already sit inside 15
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -430,6 +430,11 @@ Every row below is now an applied project symbol.
 | `0x8007A840` | `CdReadyCallback_8007A840` | Applied confirmed identity for the setter that replaces and returns the callback invoked by internal `CD_ready`; address-qualified because `0x8007E860` is the second live copy. |
 | `0x8007A860`, `0x8007E8A0` | `CdDataCallback`, `CdDataCallback_8007E8A0` | Applied confirmed identities for byte-identical wrappers that install a callback on DMA channel `3`; the second copy is address-qualified because both are resident and live. |
 | `0x8007D3F0` | `DsSearchFile` | Receives a 24-byte file record and a path, then supplies disc-position data. |
+| `0x8007D6D0` | `_cmp` | Exact `DSFILE.OBJ` offset `0x2E0`; the complete reconstructed Psy-Q 4.6 translation unit shows the private 12-byte ISO name comparison used by `DsSearchFile`. |
+| `0x8007D6F0` | `DS_newmedia` | Exact object offset `0x300`; reconstructed code reads sector 16, validates `CD001`, and caches the ISO path table. |
+| `0x8007D9B4` | `DS_searchdir` | Exact object offset `0x5C4`; reconstructed code searches directory-cache entries by parent and name. |
+| `0x8007DA58` | `DS_cachefile` | Exact object offset `0x668`; reconstructed code reads one ISO directory and fills the resident `DslFILE` cache. |
+| `0x8007DCF4` | `ds_read` | Exact object offset `0x904`; reconstructed code wraps `DsRead` and `DsReadSync` for synchronous sector reads used by the two cache builders. |
 | `0x8007E350` | `CdFlush` | Applied confirmed identity for the no-argument wrapper around the CD library's internal state-reset routine. |
 | `0x8007E3D0` | `CdGetSector` | Applied confirmed identity for the resident CD-sector transfer interface. |
 | `0x8007E4F0` | `CdGetSector2` | Applied confirmed identity for the parallel two-argument sector-transfer wrapper using the library's second transfer path. |

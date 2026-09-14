@@ -1,4 +1,9 @@
 kind,address,name,confidence,evidence,notes
+function,0x8007D6D0,_cmp,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x2E0 and 0x20 extent after DsSearchFile","Private 12-byte ISO file-name comparison."
+function,0x8007D6F0,DS_newmedia,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x300 and 0x2C4 extent","Reads and validates the ISO primary volume and path table."
+function,0x8007D9B4,DS_searchdir,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x5C4 and 0xA4 extent","Searches the cached directory table."
+function,0x8007DA58,DS_cachefile,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x668 and 0x29C extent","Caches one ISO directory's file records."
+function,0x8007DCF4,ds_read,confirmed,"Complete reconstructed Psy-Q 4.6 DSFILE.OBJ unit; exact offset 0x904 and 0x5C extent","Synchronous sector-read helper."
 function,0x8007F734,checkRECT,confirmed,"Unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ range; exact offset and 0x11C extent match the independent Silent Hill Psy-Q map","Private rectangle validation helper used by image clearing."
 function,0x80080710,SetDrawEnv2,confirmed,"Unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ range; ordered boundary and 0x270 extent match the independent Silent Hill Psy-Q map","Private draw-environment builder."
 function,0x80080980,get_mode,confirmed,"Unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ range; ordered boundary and 0x20 extent match the independent Silent Hill Psy-Q map","Private GPU command-field getter."

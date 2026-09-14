@@ -1421,11 +1421,11 @@ address,size,name,status,module,notes
 0x8007D2F0,0xD4,DsRead2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/DSREAD2.OBJ signature and matching movie control caller.
 0x8007D3C4,0x20,func_8007D3C4,sdk_asm,psyq/sdk,
 0x8007D3F0,0x2E0,DsSearchFile,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBDS.LIB DsSearchFile.
-0x8007D6D0,0x20,func_8007D6D0,sdk_asm,psyq/sdk,
-0x8007D6F0,0x2C4,func_8007D6F0,sdk_asm,psyq/sdk,
-0x8007D9B4,0xA4,func_8007D9B4,sdk_asm,psyq/sdk,
-0x8007DA58,0x29C,func_8007DA58,sdk_asm,psyq/sdk,
-0x8007DCF4,0x5C,func_8007DCF4,sdk_asm,psyq/sdk,
+0x8007D6D0,0x20,_cmp,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x2E0 after DsSearchFile; compares the 12-byte ISO file-name key.
+0x8007D6F0,0x2C4,DS_newmedia,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x300; reads and validates the ISO primary volume and path table.
+0x8007D9B4,0xA4,DS_searchdir,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x5C4; searches the cached directory table.
+0x8007DA58,0x29C,DS_cachefile,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x668; populates the cached file table for one directory.
+0x8007DCF4,0x5C,ds_read,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x904; synchronous sector-read helper used by DS_newmedia and DS_cachefile.
 0x8007DD50,0x84,DsStartReadySystem,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer callback setup.
 0x8007DDD4,0x64,DsEndReadySystem,sdk_asm,psyq/sdk,Identified at offset 0x84 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature.
 0x8007DE38,0x14,DsReadySystemMode,sdk_asm,psyq/sdk,Identified at offset 0xE8 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer setup.
