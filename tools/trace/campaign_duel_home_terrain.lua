@@ -78,7 +78,7 @@ local function terrainName(value)
 end
 
 local function isTargetOpponent(value)
-    return (value >= 21 and value <= 30)
+    return (value >= 21 and value <= 30 and value ~= 23)
         or (value >= 35 and value <= 38)
 end
 
@@ -181,7 +181,7 @@ local function captureTransition()
             emit(snapshotText('skipped_campaign_duel', frames, snapshot))
         end
         print(string.format(
-            '%s: campaign opponent %d is outside target IDs 21-30 and 35-38',
+            '%s: campaign opponent %d is not an unresolved terrain target',
             SCRIPT_NAME,
             snapshot.opponent
         ))
