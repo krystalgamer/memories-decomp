@@ -163,7 +163,7 @@ extern s16 D_8009B1AE;
 
 void DuelEffect_ApplyMonsterRemoval(void) {
     DuelEffectRequest *p;
-    u8 *e;
+    DuelCardRecord *e;
     u8 *tb;
     u8 *cb;
     u8 *rb;
@@ -213,7 +213,7 @@ done:
     goto head;
 
 arm:
-    if ((Duel_CalcCardStats((DuelCardRecord *)e) & 0xFFFF) >=
+    if ((Duel_CalcCardStats(e) & 0xFFFF) >=
         D_8009B1AC) {
         goto hit;
     }
@@ -224,28 +224,28 @@ next:
     }
 head:
     ix = D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    e = (u8 *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
+    e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
         (s32)rb);
-    if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) == 0) {
+    if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
         goto next;
     }
     if ((gDuel_wCardEffectFlags & 1) != 0) {
         goto arm;
     }
-    if (*(u8 *)(*(s32 *)e + 0x68) != sp[-1]) {
+    if (((DisplayObject *)e->object)->field_68 != sp[-1]) {
         goto next;
     }
 
 hit:
-    e = (u8 *)D_801A7AD8 + D_800907D8[
+    e = (DuelCardRecord *)((u8 *)D_801A7AD8 + D_800907D8[
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-    ] * DUEL_CARD_RECORD_SIZE;
+    ] * DUEL_CARD_RECORD_SIZE);
     p = DuelEffect_CreateRequest(0xB);
-    p->field_00 = *(u16 *)(*(s32 *)e + 0x30);
-    p->field_02 = *(u16 *)(*(s32 *)e + 0x32);
-    p->field_04 = *(u16 *)(*(s32 *)e + 0x34);
-    p->field_1A = func_800181EC((CardObject *)*(u8 **)e);
-    func_80024954((DuelCardRecord *)e);
+    p->field_00 = ((DisplayObject *)e->object)->field_30.h.field_30;
+    p->field_02 = ((DisplayObject *)e->object)->field_30.h.field_32;
+    p->field_04 = *(u16 *)&((DisplayObject *)e->object)->field_34;
+    p->field_1A = func_800181EC((CardObject *)e->object);
+    func_80024954(e);
     SD_SEPlayFull(0x1F);
 }
 
