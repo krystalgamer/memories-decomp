@@ -125,7 +125,7 @@ The unique-object labels classify against the current function inventory as:
 
 These proposal counts begin only after discarding objects whose masked payload
 matches several locations and labels that do not land on preserved function
-starts. They therefore do not measure complete SDK naming coverage: 23 of the
+starts. They therefore do not measure complete SDK naming coverage: 11 of the
 591 SDK functions remain address-named, and the zero in the "new names" row
 means only that this filtered unique-proposal set offers no additional names.
 
