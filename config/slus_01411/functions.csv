@@ -1281,7 +1281,7 @@ address,size,name,status,module,notes
 0x80074E80,0xE8,_SpuInit,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/S_INI.OBJ signature.
 0x80074F68,0x70,SpuStart,sdk_asm,psyq/sdk,Identified at offset 0xE8 of the unique Psy-Q 4.6 LIBSPU.LIB/S_INI.OBJ signature.
 0x80074FE0,0x280,_spu_init,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
-0x80075260,0x1C0,func_80075260,sdk_asm,psyq/sdk,
+0x80075260,0x1C0,_spu_FwriteByIO,sdk_asm,psyq/sdk,"Private SPU programmed-I/O transfer helper; exact +0x280 offset in the recovered Silent Hill map matches this 4.6 object, while Psy-Q 4.0 symbols and multiple independent reconstructions preserve the name and register-transfer behavior."
 0x80075420,0xBC,_spu_FiDMA,sdk_asm,psyq/sdk,Identified at offset 0x440 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x800754DC,0xA8,_spu_Fr_,sdk_asm,psyq/sdk,Identified at offset 0x4FC of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075584,0x280,_spu_t,sdk_asm,psyq/sdk,Identified at offset 0x5A4 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
@@ -1291,8 +1291,8 @@ address,size,name,status,module,notes
 0x80075930,0xA4,_spu_FsetRXXa,sdk_asm,psyq/sdk,Identified at offset 0x950 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x800759D4,0x3C,_spu_FgetRXXa,sdk_asm,psyq/sdk,Identified at offset 0x9F4 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075A10,0x58,_spu_FsetPCR,sdk_asm,psyq/sdk,Identified at offset 0xA30 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
-0x80075A68,0x28,func_80075A68,sdk_asm,psyq/sdk,
-0x80075A90,0x28,func_80075A90,sdk_asm,psyq/sdk,
+0x80075A68,0x28,_spu_FsetDelayW,sdk_asm,psyq/sdk,"Private SPU write-delay helper; exact +0xA88 offset in the recovered Silent Hill map and independent maps, sources, and register behavior confirm the original name."
+0x80075A90,0x28,_spu_FsetDelayR,sdk_asm,psyq/sdk,"Private SPU read-delay helper; exact +0xAB0 offset in the recovered Silent Hill map and independent maps, sources, and sibling register behavior confirm the original name."
 0x80075AB8,0x5C,_spu_Fw1ts,sdk_asm,psyq/sdk,Identified at offset 0xAD8 of the unique Psy-Q 4.6 LIBSPU.LIB/SPU.OBJ signature.
 0x80075B20,0xC,DeliverEvent,sdk_asm,psyq/sdk,Identified by the unique 16-byte Psy-Q 4.6 LIBAPI.LIB/A07.OBJ signature.
 0x80075B30,0x24,_SpuDataCallback,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBSPU.LIB/S_DCB.OBJ signature.

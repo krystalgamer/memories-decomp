@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 39 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 16 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 36 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 13 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 39 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 36 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 16 already sit inside 10
+The `--coverage-report` split narrows that work: 13 already sit inside 9
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -373,6 +373,7 @@ Every row below is now an applied project symbol.
 | `0x80074E80` | `_SpuInit` | Applied at offset zero of the unique 352-byte Psy-Q 4.6 `LIBSPU.LIB/S_INI.OBJ` signature. |
 | `0x80074F68` | `SpuStart` | Applied at offset `0xE8` of the same unique `LIBSPU.LIB/S_INI.OBJ` signature. |
 | `0x80074FE0` | `_spu_init` | Applied at offset zero of the unique 2,880-byte Psy-Q 4.6 `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075260` | `_spu_FwriteByIO` | Private helper at exact object offset `0x280` in the recovered Silent Hill map. Psy-Q 4.0, PsyZ, Xenogears, Parasite Eve, and other independent maps/sources preserve the name and programmed-I/O SPU transfer behavior. |
 | `0x80075420` | `_spu_FiDMA` | Applied at offset `0x440` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x800754DC` | `_spu_Fr_` | Applied at offset `0x4FC` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x80075584` | `_spu_t` | Applied at offset `0x5A4` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
@@ -382,6 +383,8 @@ Every row below is now an applied project symbol.
 | `0x80075930` | `_spu_FsetRXXa` | Applied at offset `0x950` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x800759D4` | `_spu_FgetRXXa` | Applied at offset `0x9F4` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x80075A10` | `_spu_FsetPCR` | Applied at offset `0xA30` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
+| `0x80075A68` | `_spu_FsetDelayW` | Private helper at exact offset `0xA88` in the recovered Silent Hill map; independent maps and sources confirm its write-direction DMA timing register update. |
+| `0x80075A90` | `_spu_FsetDelayR` | Private sibling at exact offset `0xAB0`; independent maps and sources confirm its read-direction DMA timing register update. |
 | `0x80075AB8` | `_spu_Fw1ts` | Applied at offset `0xAD8` of the same unique `LIBSPU.LIB/SPU.OBJ` signature. |
 | `0x80075B20` | `DeliverEvent` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A07.OBJ` signature. |
 | `0x80075B30` | `_SpuDataCallback` | Applied from the unique 48-byte Psy-Q 4.6 `LIBSPU.LIB/S_DCB.OBJ` signature. |
