@@ -125,10 +125,56 @@ class PsyqDeclarationContractTests(unittest.TestCase):
 
         self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
 
+    def test_bare_local_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "int call(void) {\n"
+            "    void SdkCall(void);\n"
+            "    SdkCall();\n"
+            "    return 0;\n"
+            "}\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_macro_expanded_bare_local_declaration_is_rejected(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define SDK_NAME SdkCall\n"
+            "int call(void) {\n"
+            "    void SDK_NAME(void);\n"
+            "    SDK_NAME();\n"
+            "    return 0;\n"
+            "}\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
     def test_inactive_declaration_is_ignored(self) -> None:
         (self.root / "src/game/test.c").write_text(
             "#if 0\n"
             "extern int SdkCall(int mode);\n"
+            "#endif\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
+
+    def test_inactive_else_and_elif_declarations_are_ignored(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define ENABLED 1\n"
+            "#if ENABLED\n"
+            "void GameCall(void);\n"
+            "#elif 1\n"
+            "void SdkCall(void);\n"
+            "#else\n"
+            "void SdkCall(void);\n"
             "#endif\n",
             encoding="utf-8",
         )
@@ -146,6 +192,29 @@ class PsyqDeclarationContractTests(unittest.TestCase):
         errors, _ = psyq_declaration_contracts.validate(self.root)
 
         self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_macro_does_not_rewrite_link_alias_string(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define SdkCall GameCall\n"
+            'extern long LocalName(void *) asm("SdkCall");\n',
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
+
+    def test_undef_stops_macro_expansion(self) -> None:
+        (self.root / "src/game/test.c").write_text(
+            "#define SDK_NAME SdkCall\n"
+            "#undef SDK_NAME\n"
+            "void SDK_NAME(void);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertEqual(errors, [])
 
     def test_link_alias_is_valid_in_psyq_owner(self) -> None:
         (self.root / "src/psyq/libtest.h").write_text(
@@ -173,6 +242,21 @@ class PsyqDeclarationContractTests(unittest.TestCase):
         self.assertTrue(
             any("src/legacy_sdk_bridge.h" in error for error in errors)
         )
+
+    def test_reachable_header_macro_expands_in_consumer(self) -> None:
+        (self.root / "src/legacy_sdk_bridge.h").write_text(
+            "#define SDK_DECL(name) void name(void)\n",
+            encoding="utf-8",
+        )
+        (self.root / "src/game/test.c").write_text(
+            '#include "../legacy_sdk_bridge.h"\n'
+            "SDK_DECL(SdkCall);\n",
+            encoding="utf-8",
+        )
+
+        errors, _ = psyq_declaration_contracts.validate(self.root)
+
+        self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
 
     def test_unreachable_non_psyq_header_is_out_of_scope(self) -> None:
         (self.root / "src/legacy_sdk_bridge.h").write_text(

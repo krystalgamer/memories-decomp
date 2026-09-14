@@ -67,7 +67,7 @@ includes from consumer sources so declaration-bearing shared headers outside
 the usual game/candidate/overlay directories cannot bypass ownership, while
 unused headers remain out of scope.
 
-The current inventory has 600 CRT/SDK functions. Psy-Q headers expose 333 named
+The current inventory has 600 CRT/SDK functions. Psy-Q headers expose 335 named
 entries used or otherwise established by the project; the remaining internal
 assembly functions do not receive speculative prototypes merely to increase
 coverage. Declarations moved from outside the Psy-Q tree use these owners:
