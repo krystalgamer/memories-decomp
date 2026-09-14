@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 61 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 38 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 52 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 29 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 61 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 52 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 38 already sit inside 15
+The `--coverage-report` split narrows that work: 29 already sit inside 14
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -638,19 +638,19 @@ Every row below is now an applied project symbol.
 | `0x8008B850` | `McrdGetGlobalStructure` | Applied at offset `0x50` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008B85C` | `MemCardStart` | Applied at offset `0x5C` of the unique 6,352-byte Psy-Q 4.6 `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog setup starts the high-level card service. |
 | `0x8008B8CC` | `MemCardStop` | Applied at offset `0xCC` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog teardown stops the service. |
-| `0x8008B90C` | `MemCardExist` | Applied at offset `0x10C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008BC90` | `MemCardAccept` | Applied at offset `0x490` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008B90C` | `MemCardExist` | Applied at offset `0x10C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The Psy-Q 4.7 map places `MemCardAccept` next at offset `0x490`, proving the former `0x8008B974` inventory start was an interior label and the full extent is `0x384`. |
+| `0x8008BC90` | `MemCardAccept` | Applied at offset `0x490` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The next exported start remains `MemCardOpen` at offset `0x7A0`, proving the full `0x310` extent. |
 | `0x8008BFA0` | `MemCardOpen` | Applied at offset `0x7A0` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008C128` | `MemCardClose` | Applied at offset `0x928` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008C16C` | `MemCardReadData` | Applied at offset `0x96C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008C3D4` | `MemCardWriteData` | Applied at offset `0xBD4` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008C638` | `MemCardReadFile` | Applied at offset `0xE38` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008C858` | `MemCardWriteFile` | Applied at offset `0x1058` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008C16C` | `MemCardReadData` | Applied at offset `0x96C` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The version-stable next export at `0xBD4` proves the full `0x268` extent. |
+| `0x8008C3D4` | `MemCardWriteData` | Applied at offset `0xBD4` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The next export at `0xE38` proves the full `0x264` extent. |
+| `0x8008C638` | `MemCardReadFile` | Applied at offset `0xE38` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The next export at `0x1058` proves the full `0x220` extent. |
+| `0x8008C858` | `MemCardWriteFile` | Applied at offset `0x1058` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The next export at `0x1278` proves the full `0x220` extent. |
 | `0x8008CA78` | `MemCardGetDirentry` | Applied at offset `0x1278` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008CCD4` | `MemCardCallback` | Applied at offset `0x14D4` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
 | `0x8008CCE8` | `MemCardSync` | Applied at offset `0x14E8` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature; matching dialog code polls command and result words until completion. |
 | `0x8008CE04` | `MemCardCreateFile` | Applied at offset `0x1604` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
-| `0x8008CF00` | `MemCardFormat` | Applied at offset `0x1700` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. |
+| `0x8008CF00` | `MemCardFormat` | Applied at offset `0x1700` of the same unique `LIBMCRD.LIB/LIBMCRD.OBJ` signature. The Psy-Q 4.7 map has no further export before object offset `0x18D0`; the three former interior starts are control-flow labels within its full `0x1D0` extent. |
 | `0x8008D0D0` | `UserFuncInit` | Applied at offset zero of the unique 272-byte Psy-Q 4.6 `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
 | `0x8008D0E0` | `UserFuncOpen` | Applied at offset `0x10` of the same unique `LIBMCRD.LIB/USERFUNC.OBJ` signature. |
 | `0x8008D15C` | `UserFuncExecute` | Applied at offset `0x8C` of the same unique `LIBMCRD.LIB/USERFUNC.OBJ` signature. |

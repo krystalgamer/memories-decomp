@@ -1704,28 +1704,19 @@ address,size,name,status,module,notes
 0x8008B850,0xC,McrdGetGlobalStructure,sdk_asm,psyq/sdk,Identified at offset 0x50 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
 0x8008B85C,0x70,MemCardStart,sdk_asm,psyq/sdk,Identified at offset 0x5C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature and matching dialog lifecycle caller.
 0x8008B8CC,0x40,MemCardStop,sdk_asm,psyq/sdk,Identified at offset 0xCC of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature and matching dialog lifecycle caller.
-0x8008B90C,0x68,MemCardExist,sdk_asm,psyq/sdk,Identified at offset 0x10C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008B974,0x31C,func_8008B974,sdk_asm,psyq/sdk,
-0x8008BC90,0x68,MemCardAccept,sdk_asm,psyq/sdk,Identified at offset 0x490 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008BCF8,0x2A8,func_8008BCF8,sdk_asm,psyq/sdk,
+0x8008B90C,0x384,MemCardExist,sdk_asm,psyq/sdk,Identified at offset 0x10C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through the MemCardAccept start at object offset 0x490.
+0x8008BC90,0x310,MemCardAccept,sdk_asm,psyq/sdk,Identified at offset 0x490 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through the MemCardOpen start at object offset 0x7A0.
 0x8008BFA0,0x188,MemCardOpen,sdk_asm,psyq/sdk,Identified at offset 0x7A0 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
 0x8008C128,0x44,MemCardClose,sdk_asm,psyq/sdk,Identified at offset 0x928 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008C16C,0xB8,MemCardReadData,sdk_asm,psyq/sdk,Identified at offset 0x96C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008C224,0x1B0,func_8008C224,sdk_asm,psyq/sdk,
-0x8008C3D4,0xB8,MemCardWriteData,sdk_asm,psyq/sdk,Identified at offset 0xBD4 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008C48C,0x1AC,func_8008C48C,sdk_asm,psyq/sdk,
-0x8008C638,0x118,MemCardReadFile,sdk_asm,psyq/sdk,Identified at offset 0xE38 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008C750,0x108,func_8008C750,sdk_asm,psyq/sdk,
-0x8008C858,0x118,MemCardWriteFile,sdk_asm,psyq/sdk,Identified at offset 0x1058 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008C970,0x108,func_8008C970,sdk_asm,psyq/sdk,
+0x8008C16C,0x268,MemCardReadData,sdk_asm,psyq/sdk,Identified at offset 0x96C of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through object offset 0xBD4.
+0x8008C3D4,0x264,MemCardWriteData,sdk_asm,psyq/sdk,Identified at offset 0xBD4 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through object offset 0xE38.
+0x8008C638,0x220,MemCardReadFile,sdk_asm,psyq/sdk,Identified at offset 0xE38 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through object offset 0x1058.
+0x8008C858,0x220,MemCardWriteFile,sdk_asm,psyq/sdk,Identified at offset 0x1058 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms the full extent through object offset 0x1278.
 0x8008CA78,0x25C,MemCardGetDirentry,sdk_asm,psyq/sdk,Identified at offset 0x1278 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
 0x8008CCD4,0x14,MemCardCallback,sdk_asm,psyq/sdk,Identified at offset 0x14D4 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
 0x8008CCE8,0x11C,MemCardSync,sdk_asm,psyq/sdk,Identified at offset 0x14E8 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature and matching dialog synchronization caller.
 0x8008CE04,0xFC,MemCardCreateFile,sdk_asm,psyq/sdk,Identified at offset 0x1604 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008CF00,0x74,MemCardFormat,sdk_asm,psyq/sdk,Identified at offset 0x1700 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature.
-0x8008CF74,0x54,func_8008CF74,sdk_asm,psyq/sdk,
-0x8008CFC8,0xAC,func_8008CFC8,sdk_asm,psyq/sdk,
-0x8008D074,0x5C,func_8008D074,sdk_asm,psyq/sdk,
+0x8008CF00,0x1D0,MemCardFormat,sdk_asm,psyq/sdk,Identified at offset 0x1700 of the unique Psy-Q 4.6 LIBMCRD.LIB/LIBMCRD.OBJ signature; the Psy-Q 4.7 symbol map confirms that the three former interior starts are local labels and that the function covers the object tail through offset 0x18D0.
 0x8008D0D0,0x10,UserFuncInit,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
 0x8008D0E0,0x7C,UserFuncOpen,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
 0x8008D15C,0x6C,UserFuncExecute,sdk_asm,psyq/sdk,Identified at offset 0x8C of the unique Psy-Q 4.6 LIBMCRD.LIB/USERFUNC.OBJ signature.
