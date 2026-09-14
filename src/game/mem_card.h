@@ -57,7 +57,7 @@ extern s32 gMemCard_nIOResult;
  * The readers hand it back to _card_info, _card_clear and _card_load, and to
  * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and
  * reads it with lbu at ten sites, all gp-relative into $a0, five of the reads
- * in func_80044838, still assembly; so it is one unsigned byte, and the one
+ * in func_80044838; so it is one unsigned byte, and the one
  * char spelling was the writer's, where a store shows no sign. */
 extern u8 gMemCard_bChannel;
 
@@ -159,10 +159,10 @@ extern u8 gMemCard_bDirFlags;
  * (:120), four to the offset (:165, :182, :199, :216) and three to the size
  * (:167, :201, :233) -- and a store is `sb` or `sh` whichever sign the
  * declaration carries, so the signed views it used to select never reached an
- * instruction. The poll, src/candidates/func_80044838.c, is what reads them,
+ * instruction. The poll, src/game/func_80044838.c, is what reads them,
  * and its target listing fixes the widths and signs: eight `lbu` of the step,
  * three `lhu` of the offset and four of the size
- * (src/candidates_target/func_80044838.S).
+ * in its byte-matched resident body.
  * Size is bytes for file I/O but blocks for create; offset is bytes for file
  * I/O but a sector number for the raw-card requests. */
 extern u8 gMemCard_bRequestStep;
@@ -180,8 +180,9 @@ extern u8 D_8009B436;
  * and `gMemCard_bRetries = 0xA;`
  * (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
  * writer spelled it char, where a store shows no sign; the gMemCard_bChannel
- * comment above records the same split. Still in assembly: func_80044838.s
- * (lbu :137, :307; sb :75, :140, :211, :288, :310). gMemCard_bLoadStep is the
+ * comment above records the same split. func_80044838 reads the byte,
+ * decrements it with byte wrapping, and tests the signed result.
+ * gMemCard_bLoadStep is the
  * next symbol, at +1 (c_symbols.ld:272). Every access is `%gp_rel`; plain
  * declaration. */
 extern u8 gMemCard_bRetries;

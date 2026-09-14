@@ -185,11 +185,28 @@ returns its refusal unchanged; on success the wrapper stages its arguments in
 the shared request globals, starts `_card_info(chan)` against
 `gMemCard_aIOEventHandles`, and returns `1` without waiting.
 
-The poll at `0x80044838` is still assembly (the tracked candidate is
-`src/candidates/func_80044838.c`), but its dispatch fixes what each code does.
+The poll at `0x80044838` is matching C in `src/game/func_80044838.c`.
+Its dispatch fixes what each code does.
 It returns `-1` while the slot is idle and `0` while the request is still
-running; when it finishes it writes the code and the result through its two
-output pointers, puts `gMemCard_bRequest` back to `-1`, and returns `1`.
+running; when it finishes it writes the result first and then the request
+code through its two output pointers, puts `gMemCard_bRequest` back to `-1`,
+and returns `1`. This write order remains observable when the outputs alias.
+
+The BIOS open, seek, and transfer loops allow eleven calls: the first attempt
+plus ten retries. Creation rejects a free-block count plus requested size of
+16 or more with result `7`, rejects an existing name with `6`, and reports
+`2` when the creation retry byte is exhausted. Retry and timeout bytes wrap
+before their signed tests; the controller does not clamp them.
+
+The separate directory and transfer result lifetimes, explicit closes on
+both file-failure paths, and the shared create-loop initializer preserve
+the original instruction scheduling without register bindings or inline
+assembly. The controller contributes 1,180 text bytes and a 48-byte,
+twelve-entry request jump table. Its native ILP32 witness in
+`tools/project/tests/test_mem_card_io_controller.py` covers 973 cases at
+both optimization levels and rejects six behavioral mutations. The BIOS
+and file interfaces are stubbed: these checks exercise the controller,
+not memory-card hardware.
 
 | Code | Wrapper | Staged arguments | What the poll does |
 |---:|---|---|---|

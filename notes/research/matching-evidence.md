@@ -1509,8 +1509,14 @@ whether the assembler can prove a store is one gp-relative instruction - so the
 test is whether the candidate's gp-relative accesses actually differ from the
 target's. If they already agree, the declaration is not the problem, whatever
 sits next to them. `func_8002EE94`'s obstacle is store forwarding and
-`func_80044838` is nine instructions short of a structural match; neither is an
+`func_80044838` was nine instructions short of a structural match in this
+experiment; neither obstacle was an
 addressing fault.
+
+The later `func_80044838` resolution preserves these historical measurements.
+Scoped call results, explicit failure closes, and a shared-entry create retry
+loop reproduce its 295 instructions and twelve-word jump table without changing
+the global declarations; see [Memory-card Runtime Events](../memory-card-runtime.md).
 
 So: diagnose from the differing instructions, not from the declarations. A
 count of `extern` lines is not evidence, and a `nop` near a gp-relative store is
