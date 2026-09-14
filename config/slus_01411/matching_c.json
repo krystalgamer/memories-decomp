@@ -571,6 +571,12 @@
       "source": "src/game/duel_state_init.c"
     },
     {
+      "address": "0x800178BC",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
+      "size": "0xD0",
+      "source": "src/game/func_800178BC.c"
+    },
+    {
       "address": "0x8001798C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x68",
