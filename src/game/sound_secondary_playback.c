@@ -5,7 +5,7 @@
 #include "sound_sequence_timing.h"
 #include "../unmatched.h"
 
-int func_80049A64(void *input, short value)
+int SD_OpenSequence(void *input, short vab_id)
 {
     unsigned int tag;
     SDSecondaryState *state;
@@ -17,7 +17,7 @@ int func_80049A64(void *input, short value)
     state = D_8009B458;
     if (state->field_07E0 == -1) {
         state->field_07E8 = input;
-        state->field_07E0 = value;
+        state->field_07E0 = vab_id;
         state->field_07E2 = 2;
         state->flag_0500 = 0;
         return 0;

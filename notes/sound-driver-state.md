@@ -735,7 +735,7 @@ above.
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
 | `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
-| `0x07E8` | pointer | `field_07E8` | `func_80049A64` stores the sequence/stream input pointer. |
+| `0x07E8` | pointer | `field_07E8` | `SD_OpenSequence` stores the sequence/stream input pointer. |
 | `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `SD_ReadSequenceByte` and `SD_FindMidiTrackChunk` compare reader offsets against it. |
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
@@ -800,7 +800,7 @@ therefore comes from the local call graph rather than an imported name.
 
 ### Sequence-input header tags
 
-`func_80049A64` reads the input's first word and accepts these exact values
+`SD_OpenSequence` reads the input's first word and accepts these exact values
 before recording a pending sequence input:
 
 | Constant | Word value | Bytes on the little-endian target |
@@ -838,7 +838,7 @@ the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 
 The promoted caller takes its declarations from sound-owned headers.
-`func_80045484` retains its explicit byte mask, and `func_80049A64` retains
+`func_80045484` retains its explicit byte mask, and `SD_OpenSequence` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
 `SD_PlaySequence` caller view while its definition keeps the one-argument

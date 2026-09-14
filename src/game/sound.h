@@ -778,10 +778,12 @@ s32 func_80049138(s16 arg0, s32 arg1);
    byte, as the note further down records. */
 s32 SD_GetSequenceStatus(void);
 
-/* Stages a tagged secondary sequence if no sequence is already staged.
- * The definition uses void * for the input and returns a full s32 status;
- * the command pump stores that status into its signed halfword field. */
-s32 func_80049A64(void *input, s16 value);
+/* Opens a tagged secondary sequence against a VAB id if no sequence is
+ * already open, like libsnd's SsSeqOpen: 0 is the access number the stop and
+ * close steps are later handed, -1 a refusal. The definition uses void * for
+ * the input and returns a full s32 status; the command pump stores that
+ * status into its signed halfword field. */
+s32 SD_OpenSequence(void *input, s16 vab_id);
 
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about

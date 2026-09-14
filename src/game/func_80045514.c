@@ -233,7 +233,7 @@ void func_80045514(void)
                 g_SDValue->field_007C = 0;
                 return;
             }
-            g_SDValue->field_157E = func_80049A64(
+            g_SDValue->field_157E = SD_OpenSequence(
                 (u8 *)((u32)l->index_words[i * 2] * 16 + (u32)l),
                                              entry_state->field_157A);
             if ((s16)g_SDValue->field_157E == 0) {

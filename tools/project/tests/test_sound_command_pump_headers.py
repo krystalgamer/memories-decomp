@@ -46,7 +46,7 @@ DECLARATIONS = [
     ),
     (
         "sound.h",
-        "func_80049A64",
+        "SD_OpenSequence",
         "s32 (*checked)(void *, s16)",
         "s16 (*checked)(u8 *, s16)",
     ),
@@ -63,7 +63,7 @@ CALL_ARGUMENTS = {
     "func_800476B4": "0, 0",
     "SD_ArmBusyCallback": "",
     "func_80045484": "",
-    "func_80049A64": "0, 0",
+    "SD_OpenSequence": "0, 0",
     "SD_PlaySequence": "1",
 }
 
@@ -164,7 +164,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
         ):
             with self.subTest(declaration=declaration):
                 self.probe(
-                    f'#include "sound.h"\n{declaration} = func_80049A64;\n',
+                    f'#include "sound.h"\n{declaration} = SD_OpenSequence;\n',
                     accepted=False,
                 )
 
@@ -203,7 +203,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     "  func_800476B4((SDSeqBlock *)0, (u32)0);\n"
                     "  SD_ArmBusyCallback();\n"
                     "  (void)func_80045484();\n"
-                    "  (void)func_80049A64((u8 *)0, (s16)0);\n"
+                    "  (void)SD_OpenSequence((u8 *)0, (s16)0);\n"
                     f"  func_800498F8({arguments});\n"
                     f"  SD_StopSequence({arguments});\n"
                     f"  func_80049CB0({arguments});\n"

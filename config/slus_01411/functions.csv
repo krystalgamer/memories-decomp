@@ -808,7 +808,7 @@ address,size,name,status,module,notes
 0x800498BC,0x3C,SD_VabTransCompleted,matching_c,game,Polls or waits for the SPU body transfer. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800498F8,0x28,func_800498F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049920,0x144,func_80049920,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
-0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80049A64,0x90,SD_OpenSequence,matching_c,game,Opens a tagged sequence on the secondary path against a VAB id. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049AF4,0xB8,SD_PlaySequence,matching_c,game,"Starts the staged secondary sequence playing or paused. Pure-C reclassification match: u8 shared literal plus unsigned halfword mode normalization reproduce register allocation without a pin. Uses canonical no-argument sequence-start API; guard, rewind and mode updates remain exact. 184-byte text/relocations under gcc_2_8_1_g0; old evidence preserved (issue #5)."
 0x80049BAC,0x94,SD_PlaySequenceFastForward,matching_c,game,Starts the staged secondary sequence playing and fast-forwards it to a target read address. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,SD_StopSequence,matching_c,game,Stops the open secondary sequence and leaves it staged. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
