@@ -148,22 +148,23 @@ void MainMenu_DestroyFrontendMenu(void)
 }
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {
-    u8 *object;
+    DisplayObject *entry = (DisplayObject *)source;
+    DisplayObject *object;
 
     object = func_800400AC(func_8004002C(), 2);
     if (object != 0) {
-        func_800428A8(object, *(s16 *)(source + 0x30), *(s16 *)(source + 0x32), 0,
-                      0, source[0x69], 0x18, 0, D_801AF800);
-        *(s32 *)(object + 4) |= 0x51000000;
-        *(u16 *)(object + 8) |=
+        func_800428A8(object, (s16)entry->field_30.h.field_30,
+                      (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
+                      0x18, 0, D_801AF800);
+        object->attribute |= 0x51000000;
+        object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(object);
-        func_800428EC(object, (s8)(-source[0x60]));
-        *(MainMenuEntryEffectUpdate *)(object + 0x24) =
-            MainMenu_UpdateFrontendEntryAfterimage;
-        object[0xC] = source[0xC];
-        object[0xD] = source[0xD];
-        object[0xE] = source[0xE];
+        func_800428EC((u8 *)object, (s8)(-(u8)entry->field_60));
+        object->update = MainMenu_UpdateFrontendEntryAfterimage;
+        ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
+        ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];
+        ((u8 *)&object->field_0C)[2] = ((u8 *)&entry->field_0C)[2];
     }
 }
 
