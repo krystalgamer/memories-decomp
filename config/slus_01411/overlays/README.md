@@ -115,6 +115,15 @@ Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
 `D_80180000[1]` reach across the section boundary and emits six checked
 function relocations in retail order.
 
+Main menu also owns the complete loaded runtime-state prefix at
+`0x80184558-0x80185CD4`. `module_state.c` emits three consecutive typed
+objects for the frontend, value-setup, and Trade screens, including both
+722-card inventory rows. Their sizes and the consumer-supported nested
+strides are compile-time checked. `main_menu_linker_symbols.txt` preserves
+the historical interior names, including the overlapping array/scalar views
+at `D_801845BC`/`D_801845BE` and `D_80185CC8`/`D_80185CC9`. The remaining
+raw asset tail begins at module offset `0x5CD4`.
+
 Password also owns `0x8016D400-0x8016D590` as one zero-initialized
 `PasswordModuleState`. The single object avoids treating sparse interior labels
 as object extents: for example, `D_8016D440` is a four-pointer array and
@@ -159,9 +168,7 @@ names and addresses are retained from the research map, but there is only one
 build declaration for each name so C-owned `defined:True` markers cannot be
 undermined by a second, undefined declaration. The research export is unchanged.
 
-The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
-in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator
-block, reaching past the first word into `module_rodata`. Treating that
-declaration as a four-byte object would assert a false boundary. Other bulk
-module data remains assembly-owned pending evidence-backed object boundaries;
-these mappings do not complete issue #2602.
+The rest of the main-menu data remains assembly-owned. The prefix mapping
+stops before the first uncharacterised asset bytes rather than deriving their
+extent from the final state label, so this mapping advances but does not
+complete issue #2602.

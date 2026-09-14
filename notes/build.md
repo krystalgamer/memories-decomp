@@ -1187,14 +1187,13 @@ before, so here it is. Every overlay carries one unowned `data` subsegment:
 | overlay | labels | extent | items | non-zero |
 | --- | ---: | ---: | ---: | ---: |
 | `free_duel` | 5 | 6093 | 1554 | 1299 |
-| `main_menu` | 41 | 15016 | 11268 | 2053 |
+| `main_menu` | 1 | 9004 | 2251 | 681 |
 | `overworld_before_coup` | 11 | 4524 | 3940 | 3225 |
 | `overworld_after_coup` | 11 | 4524 | 3940 | 3038 |
 | `password` | 30 | 9213 | 2330 | 507 |
 
-That is roughly thirty-nine kilobytes still resolved at link time, and unlike
-the resident `.data` ranges none of it is vendor code's: overlays contain no
-Psy-Q library.
+These are the current raw tails. Unlike the resident `.data` ranges, none of
+this data is vendor code's: overlays contain no Psy-Q library.
 
 Two things in the table are worth reading rather than skimming. The two
 overworld blobs agree exactly on extent and label count but **not** on
@@ -1203,11 +1202,10 @@ pair sharing one layout and differing in values should look like, and is a
 reason to treat them as two jobs rather than one. And `free_duel` has only
 five labels across six kilobytes, so the vast majority of it is unnamed.
 
-`main_menu` also holds a hazard that is already on record elsewhere in these
-notes: `D_80185CC8` and `D_80185CC9` both sit in its blob, and that pair is
-the worked dual-name case where one file uses the array view and the scalar
-neighbour both ways. Any ownership of that tail has to preserve both
-spellings.
+`main_menu` previously held a hazard that is now accounted for:
+`D_80185CC8` and `D_80185CC9` are adjacent bytes inside
+`gMainMenu_TradeState`, while linker aliases preserve the array view and the
+scalar neighbour used by different consumers.
 
 `free_duel` is the smallest by label count, and its named prefix is now
 C-owned. Consumer widths, rather than generated label extents, establish:
@@ -1284,13 +1282,13 @@ content continues past the last named symbol -- for `free_duel` that reported
 from the first to the last emitted datum instead.
 
 Counting non-zero content by matching `.word` lines alone is worse, because
-it fails silently in the direction that looks like good news. These blobs are
-emitted mostly as `.byte` and `.short`: `main_menu` carries 9032 byte and
-1480 short directives against 756 words, so a word-only count reported it as
-entirely zero when 2053 of its 11268 items are non-zero. It read as the
-easiest range in the table and is nothing of the kind. Count every directive
-kind, and treat a suspiciously clean result as a reason to check the mix
-rather than to celebrate.
+it fails silently in the direction that looks like good news. In the original
+survey these blobs were emitted mostly as `.byte` and `.short`: `main_menu`
+carried 9032 byte and 1480 short directives against 756 words, so a word-only
+count reported it as entirely zero when 2053 of its 11268 items were non-zero.
+It read as the easiest range in the table and was nothing of the kind. Count
+every directive kind, and treat a suspiciously clean result as a reason to
+check the mix rather than to celebrate.
 
 #### What the overlay data side actually consists of
 
@@ -1324,20 +1322,27 @@ exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
 comparator definitions include their shared owning header, so the table cannot
 silently drift from their signatures.
 
-The following all-overlay inventory is retained as the historical campaign
-baseline. The Password and Free Duel rows have been corrected to their current
-raw tails after the consumer-backed state prefixes were carved:
+The remaining overlay data work is in the current raw tails:
 
 | overlay | raw blob | bytes |
 |---|---|---:|
-| `main_menu` | `0x4558-0x8000` | 15016 |
+| `main_menu` | `0x5CD4-0x8000` | 9004 |
 | `password` | `0x5590-0x7800` | 8816 |
 | `free_duel` | `0x10A8-0x2800` | 5976 |
 | `overworld_before_coup` | `0x2274-0x3000` | 3468 |
 | `overworld_after_coup` | `0x2274-0x3000` | 3468 |
 
-Those ranges still require symbol extents and consumer-backed types before
-they can be split into C. The data-only overlay manifest and build path are no
+The mapped main-menu prefix now covers `0x80184558-0x80185CD4`: three
+consecutive typed objects own frontend state, value-setup state, both
+722-card Trade inventory rows, scroll positions, offers, and interaction
+flags. Historical names remain linker aliases at their original offsets,
+including `D_801845BC[2]`/`D_801845BE`,
+`D_801845FC[1]`/`D_80185144`, and
+`D_80185CC8[1]`/`D_80185CC9`. The two nonzero loaded-image padding bytes at
+`0x8018459E-0x8018459F` are explicit rather than being silently zero-filled.
+
+The ranges in the table still require consumer-backed boundaries before they
+can be split further. The data-only overlay manifest and build path are no
 longer blockers.
 
 ## Exact baseline build
