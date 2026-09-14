@@ -174,6 +174,23 @@ class PsyqDeclarationContractTests(unittest.TestCase):
 
         self.assertTrue(any("Psy-Q function SdkCall" in error for error in errors))
 
+    def test_function_pointer_object_declarators_are_rejected(self) -> None:
+        for declaration in (
+            "void (*SdkCall)(void);\n",
+            "void (*SdkCall[2])(void);\n",
+        ):
+            with self.subTest(declaration=declaration):
+                (self.root / "src/game/test.c").write_text(
+                    declaration,
+                    encoding="utf-8",
+                )
+
+                errors, _ = psyq_declaration_contracts.validate(self.root)
+
+                self.assertTrue(
+                    any("Psy-Q function SdkCall" in error for error in errors)
+                )
+
     def test_typedef_function_declarator_is_rejected(self) -> None:
         (self.root / "src/game/test.c").write_text(
             "typedef void SdkFunction(void);\n"

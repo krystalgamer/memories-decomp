@@ -460,7 +460,11 @@ def declarations(text: str, sdk: set[str]) -> list[tuple[str, str]]:
             depth = parenthesis_depth(region, match.start())
             parenthesized = (
                 re.search(r"\(\s*\**\s*$", before) is not None
-                and re.match(r"\s*(?:\)|\()", after) is not None
+                and re.match(
+                    r"\s*(?:\[[^\]]*\]\s*)*(?:\)|\()",
+                    after,
+                )
+                is not None
             )
             later_declarator = (
                 depth == 0
