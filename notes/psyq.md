@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 42 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 19 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 39 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 16 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 42 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 39 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 19 already sit inside 11
+The `--coverage-report` split narrows that work: 16 already sit inside 10
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -621,6 +621,9 @@ Every row below is now an applied project symbol.
 | `0x80089ED0` | `GsU_02000001` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000001.OBJ` signature. Matching `func_800603DC` returns the canonical handler for the exact primitive type word `0x02000001`. |
 | `0x8008A4A0` | `GsGetLwUnit` | Applied at offset zero of the unique exact Psy-Q 4.6 `LIBHMD.LIB/LWUNIT.OBJ` signature. Canonical `libhmd.h` takes a `GsCOORDUNIT *` and output `MATRIX *`; matching `model_slot_properties.c` uses those types before `GsSetLsMatrix`, while `func_800580D4` and `func_80059B90` pass the same 0x50-byte unit and 32-byte output through local byte views. |
 | `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008B120` | `scale_view_param` | Private helper shared by the byte-identical `GS_131.OBJ`/`RVWUNIT.OBJ` variants. PsyZ names it in both objects, independent maps preserve its first-helper position, and recovered HMD SDK source contains the same static view-parameter scaler. |
+| `0x8008B20C` | `select_max_param` | Private helper named by both PsyZ object reconstructions and independent maps; it selects the dominant scaled view parameter between `scale_view_param` and `len_param`. |
+| `0x8008B2D4` | `len_param` | Private final helper named by PsyZ and independent maps; its compact body computes the parameter length used by the reference-view setup. |
 | `0x8008B2F0` | `TransposeMatrix` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBGTE.LIB/FGO_00.OBJ` signature; transposes the 3x3 halfword block and `GsSetRefView2` calls it. |
 | `0x8008B330` | `_card_info` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C171.OBJ` signature; matching memory-card request paths issue this BIOS operation before polling their event handles. |
 | `0x8008B340` | `_card_load` | Applied Psy-Q 4.6 identity from the unique 16-byte `LIBCARD.LIB/C172.OBJ` signature; matching memory-card request paths issue it before polling load completion. |

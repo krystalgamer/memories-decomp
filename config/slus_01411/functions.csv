@@ -1671,9 +1671,9 @@ address,size,name,status,module,notes
 0x8008A760,0x2C8,GsGetLsUnit,sdk_asm,psyq/sdk,
 0x8008AA30,0x314,GsGetLwsUnit,sdk_asm,psyq/sdk,
 0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_131.OBJ signature and matching camera-state callers.
-0x8008B120,0xEC,func_8008B120,sdk_asm,psyq/sdk,
-0x8008B20C,0xC8,func_8008B20C,sdk_asm,psyq/sdk,
-0x8008B2D4,0x1C,func_8008B2D4,sdk_asm,psyq/sdk,
+0x8008B120,0xEC,scale_view_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT view scaler; PsyZ names it in both object variants, independent Psy-Q-derived maps preserve its first-helper position, and recovered HMD SDK source contains the same static helper."
+0x8008B20C,0xC8,select_max_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT parameter selector; PsyZ names it in both object variants and independent maps preserve its ordering between scale_view_param and len_param."
+0x8008B2D4,0x1C,len_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT vector-length helper; PsyZ and independent maps preserve its final-helper position immediately after select_max_param."
 0x8008B2F0,0x40,TransposeMatrix,sdk_asm,psyq/sdk,Identified by the unique 64-byte Psy-Q 4.6 LIBGTE.LIB/FGO_00.OBJ signature; transposes the 3x3 halfword block and GsSetRefView2 calls it.
 0x8008B330,0xC,_card_info,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C171.OBJ signature and matching memory-card request callers.
 0x8008B340,0xC,_card_load,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCARD.LIB/C172.OBJ signature and matching memory-card request callers.
