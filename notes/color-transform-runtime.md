@@ -122,7 +122,9 @@ when higher flag bits are set.
 
 Matching `func_8001944C` has a separate readback path: `StoreImage2` reads a
 rectangle into `D_8015C424`, a loop sets `COLOR_BGR555_STP_MASK` on every
-halfword, selected halfwords are cleared, and `LoadImage2` uploads the block.
+halfword, twelve corner pixels are cleared to 0 (the three at each corner:
+(0, 0), (0, 1), (1, 0) and their mirrors at columns 138/139 and rows
+194/195), and `LoadImage2` uploads the block.
 `duel_display.h` names its width as `DUEL_CARD_READBACK_WIDTH_WORDS` (`140`)
 and height as `DUEL_CARD_READBACK_HEIGHT` (`196`). Their product,
 `DUEL_CARD_READBACK_WORD_COUNT`, is `0x6B30` halfwords (`0xD660` bytes).
