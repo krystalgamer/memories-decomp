@@ -3,6 +3,7 @@
 #define D_800E9ECF_AS_SCALAR
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
+#define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
 #include "camera_state.h"
@@ -36,7 +37,6 @@
 
 #include "../../game/high_memory_addresses.h"
 #include "../../game/main_mode_state.h"
-extern u8 D_8009B27A;
 
 void CampaignMap_ClearLocationObjects(void)
 {
@@ -538,7 +538,7 @@ void CampaignMap_UpdateLocation(void)
         func_8001352C();
         if ((D_800E9ECE & 0x80) == 0) {
             D_8009B26C = 2;
-            D_8009B27A = gCampaignMap_Location + 32;
+            gCampaignSceneIndex = gCampaignMap_Location + 32;
         }
         return;
     }
