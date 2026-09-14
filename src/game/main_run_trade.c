@@ -1,5 +1,7 @@
 #define GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "display_object_interpolation.h"
 #include "../psyq/libgte.h"
@@ -7,9 +9,9 @@
 #include "../psyq/libgs.h"
 #include "input.h"
 #include "duel_effect.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "text_box_lifecycle.h"
-#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/main_menu/trade_helpers.h"
 #include "fade.h"
 #include "sound.h"
 #include "display_object_helpers.h"
@@ -17,6 +19,7 @@
 #include "main_modes.h"
 #include "duel_reward_setup.h"
 #include "display_object_work_slots.h"
+#include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, which is the form the

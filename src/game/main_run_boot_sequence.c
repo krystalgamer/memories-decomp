@@ -3,7 +3,7 @@
 #include "graphics_frame.h"
 #include "display_object_transition.h"
 #include "main_frame.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libcd.h"

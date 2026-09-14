@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_DUEL_PHASE_ENTRY_H
 #define MEMORIES_DECOMP_DUEL_PHASE_ENTRY_H
 
-void func_80018608(void);
-void func_8001898C(void);
+void DuelScene_UpdateStartup(void);
+void DuelScene_UpdateDrawPhase(void);
 
 #endif

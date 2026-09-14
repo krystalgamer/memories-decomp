@@ -11,6 +11,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "model.h"
+#include "model_load_step.h"
 #include "model_graphics_state.h"
 #include "model_slot_properties.h"
 #include "model_slot_state_updates.h"

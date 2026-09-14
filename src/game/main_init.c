@@ -8,11 +8,12 @@
 #define D_8009B0C0_IS_VOLATILE
 #define D_8009B230_IN_DATA
 #define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
+#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
-#define D_8009B269_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "duel_side_state.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "sound.h"
 #include "func_8003B5C8.h"
 #include "graphics_frame.h"
@@ -35,6 +36,7 @@
 #include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"
+#include "main_mode_state.h"
 
 extern volatile u8 D_8009B0D1;
 
@@ -71,7 +73,7 @@ s32 Main_Init(void)
     func_800403F0();
     func_800151B0();
     func_800134B4();
-    func_80035A58();
+    Movie_ResetPlaybackState();
     func_80035A64();
     func_8003B5C8();
     SD_InitState(D_800E9EC0[0]);

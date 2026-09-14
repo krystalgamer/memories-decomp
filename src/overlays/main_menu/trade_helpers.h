@@ -86,6 +86,10 @@ typedef struct {
 extern MainMenuWidget *D_801845DC;
 extern MainMenuWidget *D_801845E0;
 
+/* Resident callers must load the main-menu image before using these entries. */
+void MainMenu_InitTradeScreen(void);
+s32 MainMenu_UpdateTradeScreen(void);
+void MainMenu_ReleaseTradeDisplayHandles(void);
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force);
 void MainMenu_DrawTradeOffersAndHighlights(void);
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value);

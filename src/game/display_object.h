@@ -504,7 +504,7 @@ extern DisplayObject D_800F0548[
  * ALLOCATED flag and before testing it, so it counts every allocation
  * request that reached a slot, initialised or not; func_8004020C bumps
  * D_8009B410 after reading the slot's previous and next links
- * (display_object_api.h calls it the unlink counter). DisplayObject_ResetPool
+ * (display_object_core.h calls it the unlink counter). DisplayObject_ResetPool
  * stores 0 into both beside its -1 fill of D_800EFE38 and D_800F2878.
  * Nothing else in C or in the resident listings touches either; both
  * reads are lhu, so u16. Initial value not read.
@@ -526,7 +526,7 @@ extern u16 D_8009B412;
  *
  * Declared here because this header owns both halves of its contract: the
  * DisplayObject it takes, and the DisplayObjectCallback typedef that
- * func_80020F4C casts it to when installing it. func_80020F4C's old file held
+ * DuelScene_UpdateResultOutro casts it to when installing it. DuelScene_UpdateResultOutro's old file held
  * the only declaration and did not call the function itself, so the cast was
  * the whole use -- the declaration has to match for the address to be taken.
  *

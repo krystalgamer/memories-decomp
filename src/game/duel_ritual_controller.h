@@ -23,6 +23,4 @@ extern u16 D_800EA128[DUEL_RITUAL_IMAGE_PREFIX_HALFWORDS];
  * not an object address to dereference. Its existing integer conversion is
  * retained; func_800262D4 passes (void *)(s32)D_8009B1A0. */
 void func_80019CC8(void *card_id);
-void func_800262D4(void);
-
 #endif

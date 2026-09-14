@@ -9,11 +9,16 @@
 #include "display_projection.h"
 #include "../unmatched.h"
 
+/* Primes the two scratchpad primitives func_80015EF4 draws every field card
+   with -- a POLY_FT4 at 0x1F800140 (len 9, code 0x2C, then 0x2E for
+   semi-transparency) and the texture fields of a POLY_GT4 at 0x1F800180 --
+   and hands each occupied card of both sides to it, or to func_80015DFC for
+   cards flagged 0x400. */
 void func_800164FC(void) {
     DuelCardRecord *e;
-    u8 *a;
-    u8 *p1;
-    u8 *p3;
+    DisplayObject *a;
+    POLY_FT4 *p1;
+    POLY_GT4 *p3;
     s32 *p4;
     s32 n;
     s32 h;
@@ -39,50 +44,50 @@ void func_800164FC(void) {
         }
 
         p4 = (s32 *)0x1F8000C0;
-        p1 = (u8 *)0x1F800140;
-        p3 = (u8 *)0x1F800180;
+        p1 = (POLY_FT4 *)0x1F800140;
+        p3 = (POLY_GT4 *)0x1F800180;
         c = DUEL_DISPLAY_COLOR_NORMAL;
         e = D_801A7B64;
         n = 0;
 
-        p1[3] = 9;
-        p1[7] = 0x2C;
-        p1[4] = 0xFF;
-        p1[5] = 0xFF;
-        p1[6] = 0xFF;
-        *(s16 *)(p1 + 0x16) = 0x5F;
+        setlen(p1, 9);
+        p1->code = 0x2C;
+        p1->r0 = 0xFF;
+        p1->g0 = 0xFF;
+        p1->b0 = 0xFF;
+        p1->tpage = 0x5F;
         f = 0x80;
-        *(s16 *)(p1 + 0xE) = 0x3C11;
+        p1->clut = 0x3C11;
     } while (0);
-    p1[0x24] = 0xAF;
-    p1[0x14] = 0xAF;
-    p1[0x25] = 0x37;
-    p1[0x1D] = 0x37;
-    p1[7] = 0x2E;
-    p1[0x1C] = f;
-    p1[0xC] = f;
-    p1[0x15] = 0;
-    p1[0xD] = 0;
-    *(s16 *)(p3 + 0x1A) = 0x9E;
-    *(s16 *)(p3 + 0xE) = 0x3C50;
-    p3[0x19] = f;
-    p3[0xD] = f;
-    p3[0x31] = 0xBC;
-    p3[0x25] = 0xBC;
+    p1->u3 = 0xAF;
+    p1->u1 = 0xAF;
+    p1->v3 = 0x37;
+    p1->v2 = 0x37;
+    p1->code = 0x2E;
+    p1->u2 = f;
+    p1->u0 = f;
+    p1->v1 = 0;
+    p1->v0 = 0;
+    p3->tpage = 0x9E;
+    p3->clut = 0x3C50;
+    p3->v1 = f;
+    p3->v0 = f;
+    p3->v3 = 0xBC;
+    p3->v2 = 0xBC;
     *p4 = c;
 
     do {
         h = e->flags;
         if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             a = e->object;
-            if (a != (u8 *)0) {
+            if (a != 0) {
                 if ((h & 0x400) != 0) {
                     func_80015DFC((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next;
                 }
-                *p4 = *(s32 *)(a + 0xC);
-                func_80015EF4(e, p3, p1, p4);
+                *p4 = a->field_0C;
+                func_80015EF4(e, (u8 *)p3, (u8 *)p1, p4);
             }
         }
         n++;
@@ -97,14 +102,14 @@ void func_800164FC(void) {
         h = e->flags;
         if ((h & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             a = e->object;
-            if (a != (u8 *)0) {
+            if (a != 0) {
                 if ((h & 0x400) != 0) {
                     func_80015DFC((DisplayProjectionTrackedObject *)e);
                     n++;
                     goto next2;
                 }
-                *p4 = *(s32 *)(a + 0xC);
-                func_80015EF4(e, p3, p1, p4);
+                *p4 = a->field_0C;
+                func_80015EF4(e, (u8 *)p3, (u8 *)p1, p4);
             }
         }
         n++;

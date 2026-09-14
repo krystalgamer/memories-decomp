@@ -463,7 +463,9 @@ typedef struct DuelEffectChannel {
     s16 field_3E;
     s16 field_40;
     s16 field_42;
-    u8 pad_44[0x0D];
+    /* The glyph buffer func_80038148 formats a decimal number into; it then
+       pushes the buffer as the channel's next stream. */
+    u8 text_44[0x0D];
     /* TextBox_BuildStep dispatches on the low five bits through D_80090E64.
        0x80 is an initialization latch set by every callback on entry. */
     u8 state_51;
@@ -776,7 +778,9 @@ struct FileTransferDescriptor {
     s16 h;
     u32 value_08;
     u32 value_0C;
-    volatile s32 total_bytes;
+    /* Not volatile: func_80013C28 stores it in a branch delay slot, and
+       a volatile member keeps that store out of the slot (+0x1C bytes). */
+    s32 total_bytes;
     s32 file_bytes;
     u8 *loader_argument;
     /* Total byte count for the current callback-programmed transfer phase.

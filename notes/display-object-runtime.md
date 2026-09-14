@@ -53,7 +53,7 @@ an existing slot under another list key while preserving its flags.
 
 ## Shared index and allocation API
 
-[`display_object_api.h`](../src/game/display_object_api.h) is the sole C
+[`display_object_core.h`](../src/game/display_object_core.h) is the sole C
 declaration point for the general-use index scan and indexed allocator:
 
 ```c
@@ -67,6 +67,11 @@ allocator declarations, including old-style unspecified-argument spellings.
 Assembly-only word/relocation references in `func_800291E0` (generated
 assembly again; its old `func_800291E0.c` was a `.word` transcription) are not
 C declaration sites and remain unchanged.
+
+The former aggregate API header also declared `func_80042B40`, even though
+`display_object_helpers.c` defines it. Its declaration now lives in
+`display_object_helpers.h`; each caller includes only the core, helper, or both
+owners needed by the functions it uses.
 
 The getter returns an **integer slot index**, 16-95, or signed `-1` when
 none is available. It does not reserve or mark the slot; another scan before
@@ -205,7 +210,7 @@ The consumer evidence agrees across translation units:
   callbacks select through that same byte at `+0x17`; their local cursors
   now carry `GsOT **`, with explicit word conversions only at existing
   integer-parameter/callback boundaries.
-- `func_8002C604` copies slots 2 and 1 into request words `+0x08` and
+- `DuelEffect_AllocateRequest` copies slots 2 and 1 into request words `+0x08` and
   `+0x0C`, and `func_8002C6C8` refreshes those same words before dispatch.
   The initializer now indexes pointers rather than reading byte offsets
   from a locally declared `u8[]`. The request's existing word fields and

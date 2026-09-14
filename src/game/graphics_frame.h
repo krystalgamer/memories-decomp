@@ -5,6 +5,8 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+#define GRAPHICS_PACKET_BUFFER_SIZE 140000
+
 /* The per-frame step multiplier. graphics_frame.c sets it to D_8009B0C1 + 1
  * once a frame and Main_Init (src/game/main_init.c) seeds it at 1;
  * every other consumer scales a motion delta by it, which is why a dropped
@@ -34,10 +36,11 @@
  *
  * movie_playback_control.h describes what it means: func_8003594C sets bit
  * 0x80 when a movie starts, func_800359B0 sets 0x40 once the stream has been
- * asked to stop and clears 0x80 when it has, and func_80035A58 clears the
- * byte. graphics_frame.c reads bit 0x80 in the frame loop, which is why it is
- * declared here -- this is the header all three consumers already include,
- * and func_80043BCC.c does not include movie_playback_control.h at all.
+ * asked to stop and clears 0x80 when it has, and Movie_ResetPlaybackState
+ * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
+ * why it is declared here -- this is the header all three consumers already
+ * include, and func_80043BCC.c does not include movie_playback_control.h at
+ * all.
  *
  * Two arms, for the same reason D_8009B0D8 below has them. Every consumer is
  * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
@@ -372,18 +375,20 @@ extern GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
 
 /* The other half of that pair, the one the comment above refers to:
  *
- *     arg = &D_800A5768[gGraphics_bActiveBuffer * 140000];
+ *     arg = &D_800A5768[
+ *         gGraphics_bActiveBuffer * GRAPHICS_PACKET_BUFFER_SIZE
+ *     ];
  *
  * Model_HasInsufficientBufferSpace says what the region is. It takes the
  * allocation pointer D_800FE240, subtracts this base to get the bytes used,
- * subtracts the current half (`D_8009AFA2 * 140000`, D_8009AFA2 being the copy
- * of the buffer index Graphics_BeginFrame stores next to it), and measures the
- * remainder against 0x222E0.
+ * subtracts the current half
+ * (`D_8009AFA2 * GRAPHICS_PACKET_BUFFER_SIZE`, D_8009AFA2 being the copy of
+ * the buffer index Graphics_BeginFrame stores next to it), and measures the
+ * remainder against the same capacity.
  *
- * 0x222E0 is 140000. The stride and the capacity are the same number, written
- * decimal where the half is selected and hex where the free space is checked,
- * so this is one 140000-byte buffer per half and the model data is
- * bump-allocated inside the active one.
+ * The stride and capacity are both `GRAPHICS_PACKET_BUFFER_SIZE`, so this is
+ * one 140000-byte buffer per half and the model data is bump-allocated inside
+ * the active one.
  *
  * Unsized for the same reason as its neighbour: the stride is measured, the
  * number of halves is not. */

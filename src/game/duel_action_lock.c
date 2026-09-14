@@ -3,16 +3,16 @@
 
 s32 DuelEffect_MarkInitialized(void)
 {
-    u16 value = D_8009B220;
+    u16 value = gDuel_wCardEffectFlags;
 
     if (!(value & 0x80)) {
-        D_8009B220 = value | 0x80;
+        gDuel_wCardEffectFlags = value | 0x80;
         return 0;
     }
     return 1;
 }
 
-void func_80024E4C(void)
+void DuelEffect_ClearCardEffect(void)
 {
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
 }

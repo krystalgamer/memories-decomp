@@ -19,7 +19,7 @@
 #include "../psyq/libgs.h"
 #include "func_8003A440.h"
 #include "func_8003A1EC.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "display_object_position.h"
 #include "menu_record.h"
@@ -104,7 +104,7 @@ void func_8003A990(MenuRecord *p)
 }
 
 void func_8003AAE4(MenuRecord *p) {
-    u8 *q;
+    DisplayObject *q;
     s32 *e;
     s32 *c;
     s32 a;
@@ -121,9 +121,9 @@ void func_8003AAE4(MenuRecord *p) {
         }
         func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
-        q = *(u8 **)&p->grid[0][0];
-        a = *(s8 *)(q + 0x16);
-        b = q[0x67];
+        q = (DisplayObject *)p->grid[0][0];
+        a = q->field_16;
+        b = q->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), a);
         e = p->grid[1];
         func_8003A1EC(p, (u8 **)e, b);
@@ -137,18 +137,18 @@ void func_8003AAE4(MenuRecord *p) {
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
-                      *(s8 *)(*(u8 **)&p->grid[0][0] + 0x16));
+                      ((DisplayObject *)p->grid[0][0])->field_16);
         func_80039F90((void **)p->grid[1]);
         p->field_32 &= 0xEF;
     } else {
         m = p->field_40;
         m |= (m << 8) | (m << 16);
         for (i = 2, c = &p->grid[0][2]; i >= 0; i--, c--) {
-            if (*(u8 **)c != 0) {
-                *(s32 *)(*(u8 **)c + 0xC) = m;
+            if (c[0] != 0) {
+                ((DisplayObject *)c[0])->field_0C = m;
             }
-            if (*(u8 **)(c + 3) != 0) {
-                *(s32 *)(*(u8 **)(c + 3) + 0xC) = m;
+            if (c[3] != 0) {
+                ((DisplayObject *)c[3])->field_0C = m;
             }
         }
     }
@@ -204,7 +204,7 @@ void func_8003AC48(MenuRecord *p)
 void func_8003AD6C(MenuRecord *p)
 {
     s32 dd[2];
-    u8 *r;
+    DisplayObject *r;
     s32 a;
     s32 b;
     s32 d;
@@ -218,9 +218,9 @@ void func_8003AD6C(MenuRecord *p)
 
     if (func_80039F1C((DisplayEffectState *)p) == 0) {
         p->field_32 |= 0x10;
-        r = *(u8 **)&p->grid[0][0];
-        a = r[0x67];
-        b = *(s8 *)(r + 0x16);
+        r = (DisplayObject *)p->grid[0][0];
+        a = r->field_67;
+        b = r->field_16;
         func_80039F90((void **)p->grid[0]);
         func_8003A1EC(p, (u8 **)p->grid[0], p->field_31);
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
@@ -238,7 +238,7 @@ void func_8003AD6C(MenuRecord *p)
     if (n <= 0) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
-                      *(s8 *)(*(u8 **)&p->grid[0][0] + 0x16));
+                      ((DisplayObject *)p->grid[0][0])->field_16);
         func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         func_80039F90((void **)p->grid[1]);

@@ -22,7 +22,8 @@
  * followed by one post-terminal resolution with this source evidence.
  */
 #define D_8009B0C0_IN_DATA
-#define D_8009B26C_AS_SCALAR
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "main_modes.h"
@@ -40,6 +41,7 @@
 #include "model_scene_states.h"
 #include "model_cleanup.h"
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 void Main_RunCredits(void)
 {

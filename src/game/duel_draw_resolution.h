@@ -8,6 +8,6 @@
  * satisfy two pieces. */
 s32 Duel_HasAllExodiaPieces(void);
 
-void func_80018DB4(void);
+void DuelScene_UpdateDrawResolution(void);
 
 #endif

@@ -52,8 +52,8 @@
    32-bit on this target, so nothing moves.
 
    func_8002BAB4 reads the same range as two sixteen-byte blocks,
-   `*(ViewQuad *)(model + 0x10)` and `*(ViewQuad *)(model + 0x20)`. That is
-   not a competing layout: a block copy of 0x10..0x2F says nothing about
+   `*(LibraryViewQuad *)&model->view.vpx` and `... &model->view.vry`. That
+   is not a competing layout: a block copy of 0x10..0x2F says nothing about
    where the members inside it begin, and it stays spelled as its own cast
    in that file.
 

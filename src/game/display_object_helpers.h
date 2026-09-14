@@ -65,6 +65,9 @@ extern volatile u16 D_8009AF74[4] __attribute__((section(".data")));
 extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
 #endif
 
+/* Returns the first allocated display object carrying the requested tag. */
+void *func_80042B40(s32 value);
+
 void func_800427DC(DisplayObject *object, int value);
 void func_80042824(DisplayObject *object, int value);
 void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *resource );

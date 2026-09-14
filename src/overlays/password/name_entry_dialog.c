@@ -5,7 +5,7 @@
 #include "../../game/input.h"
 #include "../../game/display_object_config.h"
 #include "../../game/text_constants.h"
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_helpers.h"

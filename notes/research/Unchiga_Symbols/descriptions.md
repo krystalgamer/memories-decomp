@@ -137,6 +137,7 @@ on the suspects side until proven.)
 | 0x80071424 | `AiScript_LoadOpponentID` | Opcode: stores `gDuel_bOpponentID` into `gAiScript_aMemory[idx]` — lets scripts branch per opponent. |
 | 0x80071460 | `AiScript_LoadTerrain` | Opcode: stores the current `gDuel_bTerrain` byte into `gAiScript_aMemory[idx]` — identical shape to `AiScript_LoadOpponentID`, different global. |
 | 0x8007149C | `AiScript_LoadDeckSize` | Opcode: counts the occupied entries (nonzero leading field) across a record range — the AI's remaining-cards count — into a VM slot. |
+| 0x80071510 | `AiScript_LoadSelectionRandom` | Opcode: copies the `AiSelection.random` byte into the `gAiScript_aMemory` slot selected by its stream operand. |
 | 0x8007154C | `AiScript_TestPinned` | Opcode: tests the flag byte at offset 0x19 of the duel-side record (the "pinned" state) and stores the result. |
 | 0x800715C4 | `AiScript_StartCombo` | Opcode: scans the 5-entry combo window in the VM state block (offset 0x38, shared with `AiScript_PushComboCard`) and writes the found entry — or a default — into `gAiScript_aMemory`. |
 | 0x8007164C | `AiScript_LoadBestDifference` | Opcode: copies the precomputed best-combo score from `gAi_wBestDifference` into a `gAiScript_aMemory` slot. |
@@ -180,6 +181,8 @@ on the suspects side until proven.)
 |---|---|---|
 | 0x800733A8 | `AiScript_AddType` | Opcode: inserts a type id into the script's TYPE set (scan-or-insert over the second set window). |
 | 0x80073420 | `AiScript_ClearTypes` | Opcode: clears the script's type set. |
+| 0x80073448 | `AiScript_SetSelectionRandom` | Opcode: sets the `AiSelection.random` byte that the AI action path also fills from `rand() & 1`. |
+| 0x80073458 | `AiScript_ClearSelectionRandom` | Opcode: clears that same selection byte. |
 | 0x80073464 | `AiScript_SetUnknownFlag` | Opcode: sets the flag byte at `0x800F5C7F` (inside `gAiScript_State`'s tail). Mechanism certain; what the flag gates is still unknown — hence the inherited "Unk". |
 | 0x80073474 | `AiScript_ClearUnknownFlag` | Opcode: clears that same flag byte. |
 | 0x80073480 | `AiScript_MoveCard` | Opcode: sets the scripted flag bit on an `gDuel_aActiveCards` entry — per the IDB reading, marking the card as moved/used this turn. |
@@ -244,7 +247,7 @@ on the suspects side until proven.)
 | 0x800158B8 | `Fade_InitOut` | Initializes head 255, target 0, in-flight flag, all 30 strips at the current level, and step 12. The final color helper installs white tint and flags 0xB0 when D_8009B145 is nonzero. |
 | 0x80015904 | `Fade_StartOut` | Calls `Fade_InitOut`, then requests step 8 and strip mode. Its final color-helper call overrides this with step 12 and non-strip flags 0xB0 when D_8009B145 is nonzero. |
 | 0x80015B00 | `Fade_WaitOut` | Calls `Fade_StartOut`, then pumps the four per-frame update functions until the in-flight bit drops. Blocking; the captured strip transitions took ~48 frames, not a fixed duration guaranteed by this wrapper. |
-| 0x8009B141 | `gFade_bOverlayOn` | Separate draw-control byte, written to 1/0 by func_80015CFC/func_80015D0C; its high bit also affects updater behavior. With no active fade, drawing still requires level != 255. Equal-255 completion leaves this byte at 1 without drawing, so it is not an unconditional black-screen latch. |
+| 0x8009B141 | `gFade_bOverlayOn` | Separate draw-control byte, written to 1/0 by `Fade_EnableOrderingTables` (0x80015CFC)/func_80015D0C; its high bit also affects updater behavior. With no active fade, drawing still requires level != 255. Equal-255 completion leaves this byte at 1 without drawing, so it is not an unconditional black-screen latch. |
 
 ## Batch: text-box / dialog machine (2026-09-02, live-traced on name entry, Linux seat)
 

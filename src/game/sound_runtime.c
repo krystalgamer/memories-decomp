@@ -212,8 +212,11 @@ void SD_UpdateRuntime(void)
     }
     off = 0;
     do {
-        /* Preserve base-plus-offset ordering; sound.h checks the queue offset. */
-        *(u8 *)((u8 *)loop_state + off + SD_COMMAND_QUEUE_BYTE_OFFSET) = e[0];
+        /* Base-plus-offset order matters here. The byte store indexes the
+           queue's byte view, whose ARRAY_REF keeps it; the block copy stays
+           a byte-address sum, because &commands.b[off] puts the offset
+           first. sound.h checks the queue offset. */
+        loop_state->commands.b[off] = e[0];
         *(SDCommand *)((u8 *)g_SDValue + off + SD_COMMAND_QUEUE_BYTE_OFFSET) =
             *(SDCommand *)e;
         off += 0x30;

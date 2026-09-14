@@ -83,12 +83,14 @@ class RitualControllerOwnershipTests(unittest.TestCase):
                     self.assertRegex(result.stderr, diagnostic)
 
     def test_function_owners_and_exact_argument_counts(self) -> None:
-        for symbol, pointer, wrong, call, bad_calls in (
-            ("func_800262D4", "void (*p)(void)", "s32 (*p)(void)", "", ("0",)),
-            ("func_80019CC8", "void (*p)(void *)", "void (*p)(s32)",
+        for symbol, owner_name, pointer, wrong, call, bad_calls in (
+            ("DuelEffect_ApplyRitual", "duel_ritual_effect.h",
+             "void (*p)(void)", "int (*p)(void)", "", ("0",)),
+            ("func_80019CC8", "duel_ritual_controller.h",
+             "void (*p)(void *)", "void (*p)(s32)",
              "(void *)(s32)-1", ("", "0, 0")),
         ):
-            owner = '#include "duel_ritual_controller.h"\n'
+            owner = f'#include "{owner_name}"\n'
             with self.subTest(symbol=symbol):
                 self.probe(owner + f"{pointer} = {symbol};\n", accepted=True)
                 self.probe(
@@ -227,9 +229,13 @@ class RitualControllerOwnershipTests(unittest.TestCase):
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_existing_definitions_and_callers_include_owners(self) -> None:
-        for name in ("func_80019CC8.c", "func_8002622C.c", "duel_effect_tables.c"):
+        for name, owner in (
+            ("func_80019CC8.c", "duel_ritual_controller.h"),
+            ("duel_ritual_effect.c", "duel_ritual_effect.h"),
+            ("duel_effect_tables.c", "duel_ritual_effect.h"),
+        ):
             path = ROOT / "src/game" / name
-            self.assertIn('#include "duel_ritual_controller.h"', path.read_text())
+            self.assertIn(f'#include "{owner}"', path.read_text())
             result = self.run_command([
                 str(GCC), "-S", "-O2", "-G8", "-Werror",
                 "-Wimplicit-function-declaration", str(path),
@@ -238,7 +244,7 @@ class RitualControllerOwnershipTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
         unmatched = (ROOT / "src/unmatched.h").read_text()
         self.assertNotIn("extern s16 D_8009B1A0;", unmatched)
-        self.assertNotIn("void func_800262D4(void);", unmatched)
+        self.assertNotIn("void DuelEffect_ApplyRitual(void);", unmatched)
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_absolute_and_gp_relocations_survive_owned_views(self) -> None:

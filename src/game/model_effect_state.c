@@ -98,23 +98,25 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
    the evaluator reads, which is why the two share a translation unit. */
 void func_8005F070(s32 enabled)
 {
-    u8 *left = func_800591FC();
-    u8 *right = func_80059208();
+    GsRVIEW2 *left = func_800591FC();
+    u16 *right = func_80059208();
 
-    *(u16 *)&D_800F5768[0].vx = *(u16 *)(left + 0);
-    *(u16 *)&D_800F5768[0].vy = *(u16 *)(left + 4);
-    *(u16 *)&D_800F5768[0].vz = *(u16 *)(left + 8);
-    *(u16 *)&D_800F5768[1].vx = *(u16 *)(left + 12);
-    *(u16 *)&D_800F5768[1].vy = *(u16 *)(left + 16);
-    *(u16 *)&D_800F5768[1].vz = *(u16 *)(left + 20);
-    *(u16 *)&D_800F5768[2].vx = *(u16 *)(right + 0);
-    *(u16 *)&D_800F5768[2].vy = *(u16 *)(right + 2);
-    *(u16 *)&D_800F5768[2].vz = *(u16 *)(right + 4);
+    D_800F5768[0].vx = left->vpx;
+    D_800F5768[0].vy = left->vpy;
+    D_800F5768[0].vz = left->vpz;
+    D_800F5768[1].vx = left->vrx;
+    D_800F5768[1].vy = left->vry;
+    D_800F5768[1].vz = left->vrz;
+    D_800F5768[2].vx = right[0];
+    D_800F5768[2].vy = right[1];
+    D_800F5768[2].vz = right[2];
     if (enabled != 0) {
         Key *key = D_8009B074;
         if (key != (Key *)0) {
             s32 i = 0;
             s32 offset = 16;
+            /* A byte cursor over key->requested: ModelEffectEndpoint is
+               packed, so reading its members costs byte loads (+0x30). */
             u8 *entry = (u8 *)key;
             for (; i < 2; offset += 8, i++, entry += 8) {
                 s32 kind = *(s16 *)(entry + 6);

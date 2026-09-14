@@ -1,10 +1,12 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "../overlays/password/name_entry_keyboard.h"
 #include "file_transfer.h"
 #include "main_modes.h"
 #include "main_services.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 u8 D_8009B26C;
 

@@ -47,7 +47,7 @@ Verified shared fields and partial arrays are:
 | `0xCF8` | `field_CF8[10]` | `func_80057E20` and `func_80059000` read bytes `+7`, `+8`, and `+9` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `func_80058F20`, `func_80058F74`, and `func_800593D0` |
 | `0xD18` | `field_D18` | `func_800592AC` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
-| `0xD70` | `field_D70[3]` | `Model_InitLightTriplet` writes three `0x10`-byte records |
+| `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `func_8004DE24` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
 | `0xDC0` | `field_DC0[8]` | byte writes in `func_80059590` and selection in `func_80059520` |

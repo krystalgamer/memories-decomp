@@ -12,8 +12,8 @@ s32 Duel_CheckQuitInput(void);
  *
  *   0x01  a quit was requested -- Duel_CheckQuitInput stores 1 when Select is
  *         pressed and gDuel_bOpponentID[0] is negative.
- *   0x80  the dialog is already up. func_80024200
- *         (src/candidates/func_80024200.c) is the consumer: on a nonzero
+ *   0x80  the dialog is already up. DuelScene_Update
+ *         (src/candidates/DuelScene_Update.c) is the consumer: on a nonzero
  *         value with 0x80 clear it sets that bit, plays SE 0x30 and raises
  *         the box through TextBox_CreateFlagged;
  *         with 0x80 set it waits for the box, destroys it, and clears the
@@ -30,7 +30,7 @@ extern u8 gDuel_bQuitDialogState;
 /* The duel outcome flags the quit flow reports into, as the two small-data
  * users spell it.
  *
- * func_80024200 raises 0x2000 here at the point it clears
+ * DuelScene_Update raises 0x2000 here at the point it clears
  * gDuel_bQuitDialogState above -- that is the quit result -- and Main_RunDuel
  * reads exactly that bit back. func_800179F4 clears the word when the duel
  * starts, in the same run of assignments that clears the quit state, and

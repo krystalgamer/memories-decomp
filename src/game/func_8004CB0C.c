@@ -10,7 +10,6 @@
 #include "../game/model_primitive_handler.h"
 #include "../game/model_handler_registry.h"
 #include "../game/model_packet_handlers.h"
-#define MODEL_PARENT_SEARCH_COORD_VIEW
 #include "../game/model_parent_search.h"
 #define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
 #include "../game/model_slot_setup.h"
@@ -26,8 +25,8 @@
    and the channel index the retail callee-saved registers. */
 void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
 {
-    u8 *base;
-    u8 *slot;
+    ModelSlot *base;
+    GsUNIT *slot;
     u8 *cursor;
     GsOT *table;
     GsTYPEUNIT ev;
@@ -48,8 +47,8 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
     s32 handler;
 
     handler = (s32)GsU_00000000;
-    base = (u8 *)&D_800F2C40[index];
-    slot = base;
+    base = &D_800F2C40[index];
+    slot = (GsUNIT *)base->field_000;
     cursor = (u8 *)hmd;
     if (index < 2) {
         table = D_800E9D90[2];
@@ -58,90 +57,90 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
     }
     count = 0;
     acc = 0;
-    base[0xE13] = 0;
-    base[0xE12] = 0;
+    base->field_E13 = 0;
+    base->field_E12 = 0;
     if (flags >= 0) {
-        base[0xE11] = flags & 0x7F;
+        base->field_E11 = flags & 0x7F;
         if (flags & 0x80) {
-            base[0xDC7] = 5;
+            base->field_DC0[7] = 5;
         } else {
-            base[0xDC7] = 0;
+            base->field_DC0[7] = 0;
         }
     }
-    base[0xDC6] = 0;
-    base[0xDC5] = 0;
-    base[0xDC4] = 0;
-    *(s16 *)(base + 0xDC8) = 0;
-    *(s16 *)(base + 0xDCA) = 0;
-    *(s16 *)(base + 0xDCC) = 0;
-    *(s16 *)(base + 0xDCE) = 0;
-    *(s16 *)(base + 0xDD0) = 0;
-    *(s16 *)(base + 0xDD6) = -0x15E;
-    *(s16 *)(base + 0xDD2) = -0x15E;
+    base->field_DC0[6] = 0;
+    base->field_DC0[5] = 0;
+    base->field_DC0[4] = 0;
+    base->field_DC8[0] = 0;
+    base->field_DC8[1] = 0;
+    base->field_DC8[2] = 0;
+    base->field_DC8[3] = 0;
+    base->field_DD0[0] = 0;
+    base->field_DD0[3] = -0x15E;
+    base->field_DD0[1] = -0x15E;
     switch (index) {
     default:
-        *(s16 *)(base + 0xDD4) = 0;
+        base->field_DD0[2] = 0;
         break;
     case 0:
-        *(s16 *)(base + 0xDD4) = 0x1C2;
+        base->field_DD0[2] = 0x1C2;
         break;
     case 1:
-        *(s16 *)(base + 0xDD4) = -0x1C2;
+        base->field_DD0[2] = -0x1C2;
         break;
     }
-    base[0xE0E] = 6;
-    base[0xE0F] = 0;
-    base[0xE10] = 0;
-    base[0xE17] = 0;
-    base[0xE18] = 0;
-    *(s32 *)(base + 0xD18) = 0;
-    *(s32 *)(base + 0xD14) = 0;
-    *(s32 *)(base + 0xD1C) = 0;
-    base[0xE19] = 0;
-    base[0xE1B] = 0;
-    base[0xE1C] = 0;
-    *(s32 *)(base + 0xDE8) = 0;
-    *(s32 *)(base + 0xDEC) = 0;
+    base->field_E0E = 6;
+    base->field_E0F = 0;
+    base->field_E10 = 0;
+    base->entry_count = 0;
+    base->field_E18 = 0;
+    base->field_D18 = 0;
+    base->entries = 0;
+    base->field_D1C = 0;
+    base->field_E19 = 0;
+    base->field_E1B = 0;
+    base->field_E1C = 0;
+    base->field_DE8 = 0;
+    base->field_DEC = 0;
     if (index < 2) {
         if (index != 0) {
-            *(s32 *)(base + 0xDE8) = D_80010020;
+            base->field_DE8 = D_80010020;
         } else {
-            *(s32 *)(base + 0xDE8) = D_8001001C;
+            base->field_DE8 = D_8001001C;
         }
         if (index != 0) {
-            *(s32 *)(base + 0xDEC) = D_80010028;
+            base->field_DEC = D_80010028;
         } else {
-            *(s32 *)(base + 0xDEC) = D_80010024;
+            base->field_DEC = D_80010024;
         }
     }
-    *(s32 *)(base + 0xDF0) = 0;
-    *(s16 *)(base + 0xE00) = 0;
-    *(s16 *)(base + 0xE02) = 0;
-    *(s16 *)(base + 0xE04) = 0;
-    *(s32 *)(base + 0xDF4) = 0;
-    base[0xE15] = 0;
-    base[0xE1E] = 0;
-    base[0xE1F] = 0;
+    base->field_DF0 = 0;
+    base->field_E00 = 0;
+    base->field_E02 = 0;
+    base->field_E04 = 0;
+    base->field_DF4 = 0;
+    base->field_E15 = 0;
+    base->field_E1E = 0;
+    base->field_E1F = 0;
     if (hmd == 0) {
-        base[0xE1D] = 0;
-        base[0xE14] = 0xFF;
+        base->field_E1D = 0;
+        base->field_E14 = 0xFF;
         return;
     }
     GsMapUnit((u32 *)hmd);
     cursor += 0xC;
     func_8004D58C(index, (u8 *)hmd);
-    base[0xE1A] = *cursor;
+    base->field_E1A = *cursor;
     cursor += 4;
-    if ((u8)base[0xE1A] >= 0x3D) {
-        base[0xE1A] = 0x3C;
+    if (base->field_E1A >= 0x3D) {
+        base->field_E1A = 0x3C;
     }
-    if (base[0xE1A] != 0) {
+    if (base->field_E1A != 0) {
         i = 0;
         do {
-            *(s32 *)slot = 0;
+            slot->coord = 0;
             cmd = *(s32 **)cursor;
             cursor += 4;
-            *(s32 **)(slot + 4) = cmd;
+            slot->primtop = (unsigned long *)cmd;
             if (cmd != 0) {
                 GsScanUnit((u32 *)cmd, 0, 0, 0);
             evloop:
@@ -165,19 +164,18 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
                     }
                 masktest:
                     if (ev.type & 0x800000) {
-                        *(GsCOORDUNIT **)(base + 0xD14) =
-                            GsMapCoordUnit((u32 *)hmd, (u32 *)ev.ptr);
+                        base->entries = (u8 *)GsMapCoordUnit((u32 *)hmd, (u32 *)ev.ptr);
                         ev.type &= 0xFF7FFFFF;
                     }
                 dispatch:
                     switch (tag) {
                     case 0:
-                        *(u16 *)(base + 0xE04) += func_8004D134(
+                        base->field_E04 += func_8004D134(
                             index, (u16 *)&ev, scratch, &acc, &count);
                         func_8006086C((ModelHandlerObject *)&ev);
                         break;
                     case 1:
-                        *(u16 *)(base + 0xE04) += func_8004D134(
+                        base->field_E04 += func_8004D134(
                             index, (u16 *)&ev, scratch, 0, &count);
                         func_80060AEC((ModelHandlerObject *)&ev);
                         break;
@@ -185,7 +183,7 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
                         func_80060220(index, (u8 *)&ev, scratch);
                         break;
                     case 3:
-                        func_8005C6A0((s32 *)&ev, base);
+                        func_8005C6A0((s32 *)&ev, (u8 *)base);
                         break;
                     default:
                         *ev.ptr = handler;
@@ -195,86 +193,84 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
                 }
             }
             i++;
-            slot += 8;
-        } while (i < base[0xE1A]);
+            slot++;
+        } while (i < base->field_E1A);
     }
-    slot = base + 8;
+    slot = (GsUNIT *)base->field_000 + 1;
     i = 1;
-    *(s16 *)(base + 0xE00) = count;
-    *(s16 *)(base + 0xE02) = acc + i;
-    if (i < base[0xE1A] - 1) {
+    base->field_E00 = count;
+    base->field_E02 = acc + i;
+    if (i < base->field_E1A - 1) {
         off = 0;
     link:
-        base[0xE17]++;
-        if (*(s32 *)(slot + 4) != 0) {
-            *(s32 *)slot = *(s32 *)(base + 0xD14) + off;
+        base->entry_count++;
+        if (slot->primtop != 0) {
+            slot->coord = (GsCOORDUNIT *)(base->entries + off);
         }
-        off += 0x50;
+        off += MODEL_SLOT_DATA_ENTRY_SIZE;
         i++;
-        slot += 8;
-        if (i < base[0xE1A] - 1) {
+        slot++;
+        if (i < base->field_E1A - 1) {
             goto link;
         }
     }
-    scan = *(GsCOORDUNIT **)(base + 0xD14);
+    scan = (GsCOORDUNIT *)base->entries;
     if (scan != 0) {
         i = 0;
         while (scan->super != 0) {
             scan++;
             i++;
         }
-        base[0xE18] = i;
-        q = *(GsCOORDUNIT **)(base + 0xD14) + i;
-        *(GsCOORDUNIT **)(base + 0xD18) = q;
-        base[0xE19] = func_8005A3D0(base, q);
-        if (!(base[0xE19] < base[0xE17])) {
-            base[0xE19] = base[0xE18];
+        base->field_E18 = i;
+        q = (GsCOORDUNIT *)base->entries + i;
+        base->field_D18 = q;
+        base->field_E19 = func_8005A3D0(base, q);
+        if (!(base->field_E19 < base->entry_count)) {
+            base->field_E19 = base->field_E18;
         }
-        cur = *(GsCOORDUNIT **)(base + 0xD14) + base[0xE19];
-        *(GsCOORDUNIT **)(base + 0xD1C) = cur;
+        cur = (GsCOORDUNIT *)base->entries + base->field_E19;
+        base->field_D1C = cur;
     retry:
-        slot = base;
-        loaded_limit = base[0xE1A];
+        slot = (GsUNIT *)base->field_000;
+        loaded_limit = base->field_E1A;
         i = 0;
         if (loaded_limit != 0) {
             sentinel = -1;
             limit = loaded_limit;
         claimed:
-            if (((GsUNIT *)slot)->coord != 0 &&
-                ((GsUNIT *)slot)->primtop != 0) {
-                if (*((GsUNIT *)slot)->primtop != sentinel ||
-                    *(((GsUNIT *)slot)->primtop + 2) != 0) {
-                    if (((GsUNIT *)slot)->coord->super == cur) {
+            if (slot->coord != 0 && slot->primtop != 0) {
+                if (*slot->primtop != sentinel || *(slot->primtop + 2) != 0) {
+                    if (slot->coord->super == cur) {
                         goto scanned;
                     }
                 }
             }
             i++;
-            slot += 8;
+            slot++;
             if (i < limit) {
                 goto claimed;
             }
         scanned:
-            if (i < base[0xE1A]) {
+            if (i < base->field_E1A) {
                 goto found;
             }
         }
         next = func_8005A3D0(base, cur);
-        if (!(next < base[0xE17])) {
+        if (!(next < base->entry_count)) {
             goto found;
         }
-        cur = *(GsCOORDUNIT **)(base + 0xD14) + next;
+        cur = (GsCOORDUNIT *)base->entries + next;
         goto retry;
     found:
         rec = cur->super;
-        if (rec != *(GsCOORDUNIT **)(base + 0xD18)) {
-            *(GsCOORDUNIT **)(base + 0xD1C) = rec;
+        if (rec != base->field_D18) {
+            base->field_D1C = rec;
             if (rec != 0) {
-                base[0xE19] = rec - *(GsCOORDUNIT **)(base + 0xD14);
+                base->field_E19 = rec - (GsCOORDUNIT *)base->entries;
             }
         }
     }
-    if (*(s32 *)(base + 0xDE0) == 0) {
-        *(s32 *)(base + 0xDE0) = hmd + size;
+    if (base->field_DE0 == 0) {
+        base->field_DE0 = (u8 *)(hmd + size);
     }
 }

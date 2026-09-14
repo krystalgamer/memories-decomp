@@ -1,5 +1,7 @@
 #define D_8009B3EA_IN_DATA
 #define D_8009B3ED_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "two_player_save_setup.h"
 #include "mem_card.h"
@@ -7,6 +9,7 @@
 #include "frontend_debug_state.h"
 #include "../unmatched.h"
 #include "async_state_poll.h"
+#include "main_mode_state.h"
 
 void func_80031000(void)
 {

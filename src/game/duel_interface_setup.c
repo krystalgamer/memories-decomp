@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "duel_interface_setup.h"
 #include "duel_effect.h"
 #include "fade.h"

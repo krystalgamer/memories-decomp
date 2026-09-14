@@ -5,9 +5,9 @@
 #include "display_object_helpers.h"
 #include "duel_effect_basic_commands.h"
 
-void func_800388D8(u8 *arg0)
+void func_800388D8(DuelEffectChannel *object)
 {
-    u8 **cursor = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
+    u8 **cursor = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *stream = *cursor;
     s32 command = *stream;
     s32 opcode;

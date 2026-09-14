@@ -1,14 +1,16 @@
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "text_start_campaign_duel.h"
 #include "duel_effect.h"
 #include "func_80036D3C.h"
 #include "duel_side_state.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
 
 #include "ai_opponent_data.h"
 #define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "duel_terrain_boost.h"
+#include "main_mode_state.h"
 
 /*
  * Each byte read owns its slot pointer, advancing cursor and unsigned value.

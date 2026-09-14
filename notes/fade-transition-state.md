@@ -21,7 +21,7 @@ The shared `FadeTransitionState` layout is:
 | `0x06` | `flags` | 1 | byte bit tests/writes named by `FADE_FLAG_*` in `fade_constants.h` |
 | `0x07` | `step` | 1 | setup values `8` and `0x0C`; `Fade_StepBands` uses this byte for both band spacing and the scaled head advance |
 | `0x08` | `field_08` | 2 | band-ramp head: `Fade_StepBands` starts its walk from `(s16)field_08`, then advances the stored halfword; setup initializes it to `0` or `0xFF` |
-| `0x0A` | `band_levels[30]` | 30 | `func_800156B8` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
+| `0x0A` | `band_levels[30]` | 30 | `Fade_FillBandLevels` fills offsets `0x0A..0x27`; the band loop in `Fade_DrawOverlay` renders those 30 entries |
 
 The end of `band_levels` gives a minimum record size of `0x28`.
 `D_800E9EF0`, the next linker symbol, is exactly `0x28` bytes after
@@ -29,7 +29,7 @@ The end of `band_levels` gives a minimum record size of `0x28`.
 the total size and every modeled field offset.
 
 Target assembly across `func_800151B0`, `Fade_StepBands`,
-`Fade_Update`, `Fade_DrawOverlay`, `func_800156B8`, the setup functions, and
+`Fade_Update`, `Fade_DrawOverlay`, `Fade_FillBandLevels`, the setup functions, and
 the flag-setting wrappers establishes the access widths and offsets. GMS
 corroborates the same byte labels, the halfword at `0x08`, and the 30-byte
 span, but its generated scalar and function types are treated as guesses.
@@ -170,10 +170,22 @@ reading them as a grid is what makes the unnamed ones tractable:
 | `0x80015C84` | -- | `Fade_InitOut` | no | `\|= 2`, then `func_80015870` |
 | `0x80015CC0` | -- | `Fade_InitOut` | no | `\|= 6`, then `func_80015870` |
 
-The two remaining wrappers are not fades at all: `0x80015CFC` writes
-`D_8009B141 = 1` and `0x80015D0C` writes `D_8009B141 = 0`. `Fade_Update`
-calls both, which is why the control byte is not a simple record of fade
-direction.
+The two remaining wrappers are not fades at all. They write the control
+byte `D_8009B141`, which
+[`Graphics_BeginFrame`](../src/game/graphics_frame.c) reads before it draws
+the finished frame:
+
+- nonzero: it links ordering tables 1, 2 and 3 into table 0, or only table 1
+  when `FADE_ORDERING_TABLE_HIDE_SECONDARY` is set, and calls `GsDrawOt` on
+  table 0. `Fade_DrawOverlay` sorts its boxes into table 1 (`D_800E9D94[0]`),
+  so a hidden-secondary frame still shows the fade cover.
+- zero: it skips `GsSortOt` and `GsDrawOt` entirely. That leaves only the
+  draw environment's background clear, whose colour the same function copies
+  from the latched fade tint `D_8009B142..D_8009B144`.
+
+`Fade_EnableOrderingTables` (`0x80015CFC`) writes `FADE_ORDERING_TABLE_ACTIVE`
+and `0x80015D0C` writes `0`. `Fade_Update` calls both, which is why the
+control byte is not a simple record of fade direction.
 
 ### What the extra bits do
 
@@ -253,7 +265,7 @@ The [`Fade_Update`](../src/game/fade_update.c) source confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
-the active flag and calls `func_80015CFC` to write `D_8009B141 = 1`; the
+the active flag and calls `Fade_EnableOrderingTables` to write `D_8009B141 = 1`; the
 renderer still submits nothing because the level is `0xFF`. Conversely, an
 equal-zero update entering with flags `0x80` calls `func_80015D0C` and leaves
 the control byte zero. Other zero-target flags can retain it or write
@@ -312,7 +324,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 Matching pure-C users migrated to this shared header include:
 
 - `func_800151B0`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
-  `func_800156B8`, `func_800156DC`;
+  `Fade_FillBandLevels`, `func_800156DC`;
 - `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
@@ -334,7 +346,7 @@ below for exact addressing.
 
 ## Exact-code exceptions
 
-The remaining assembly exception documented here is `func_800218F0`, which
+The remaining assembly exception documented here is `DuelScene_UpdateResultRewards`, which
 reads `flags`, writes `level`, and calls the band fill during its larger
 assembly-only flow.
 
@@ -352,7 +364,7 @@ competing declarations:
   final level store instead of the small-data form. Its byte definitions
   for `D_8009B142`, `D_8009B143`, and `D_8009B144` are assembler-addressing
   controls, not additional fields of `FadeTransitionState`.
-- `func_800156B8` casts the typed base to a byte pointer and keeps
+- `Fade_FillBandLevels` casts the typed base to a byte pointer and keeps
   `*(p + i + 0xA)`. The equivalent array-member expression changes the MIPS
   `addu` operand order and does not match.
 - `func_8001572C`, `Fade_InitInColor`, `func_80015870`, and

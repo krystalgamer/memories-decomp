@@ -3,7 +3,7 @@
 #include "mdec_sync.h"
 #include "movie_frame_pipeline.h"
 
-void func_8005C5C4(void)
+void Movie_StartFadeOut(void)
 {
     D_8009B064 = 1;
 }

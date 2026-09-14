@@ -16,6 +16,9 @@
  * both build at gcc_2_8_1_g0. */
 extern MATRIX D_800FE148;
 
+/* Returns &D_800FE148 through the definition's existing void * interface.
+ * The background renderer converts that object pointer to the SDK's
+ * MATRIX * parameter of GsSetLsMatrix; no alternate allocation is involved. */
 void *func_80059220(void);
 
 #endif

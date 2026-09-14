@@ -236,7 +236,7 @@ The second continuous wave promoted three more terminal functions:
 
 | Address | Semantic name | Resolution |
 |---|---|---|
-| `0x8002892C` | `DuelEffect_UpdateState` | The preserved pure-C candidate was already 128/128 byte-identical. Two symbolic `D_8009B24A` GPREL16 relocations correspond to raw `$gp+0x342` target accesses omitted by the relocation oracle; the complete executable confirms the match. |
+| `0x8002892C` | `DuelEffect_UpdateState` | The preserved pure-C candidate was already 128/128 byte-identical. Two symbolic `gDuel_bActiveEffectState` GPREL16 relocations correspond to raw `$gp+0x342` target accesses omitted by the relocation oracle; the complete executable confirms the match. |
 | `0x800356A0` | `Util_CopyWords` | Reproducing separate `case 1` and `case 2` bodies yields the retail switch layout. The self-contained locally typed source matches 168/168 bytes with no relocations. |
 | `0x80035748` | `Util_FillMemory` | The same duplicated-case source distinction yields a strict 160/160-byte match for the repeated-byte fill counterpart. |
 
@@ -394,6 +394,14 @@ storage class of `D_800FE240`. Declaring it as a direct `s32` scalar forced to
 while avoiding the G8 small-data relocation overflow. The function matches
 200/200 bytes with exact relocations.
 
+The cursor contract is now centralized in `gpu_packets.h`. The three packet
+builders use its default `u32 *` view, while the capacity query selects the
+guarded integer-address view above. The two forms retain the same forced
+`.data` storage class. `GRAPHICS_PACKET_BUFFER_SIZE` also replaces the decimal
+140000 stride in `Graphics_BeginFrame` and the equivalent hexadecimal
+`0x222E0` capacity in the query, recording that both calculations describe
+one active packet-buffer half.
+
 The predicate accounts for the current model-data heap pointer, bank base,
 loaded-bank count, and the selected model slot's `0xE00` size field; it returns
 true when less than `0x401` bytes would remain.
@@ -412,7 +420,7 @@ State after this one-function checkpoint:
 
 `Main_RunCampaign` (`0x8002CE64`) matched after correcting two absolute-address
 forms. `gCampaignSceneIndex` is declared as an absolute `.data` scalar so GCC loads it
-directly into `$a0`; the write-only `D_8009B254` clear uses the documented
+directly into `$a0`; the write-only `gDuel_bEffectState` clear uses the documented
 absolute C literal exception to preserve retail `$at` materialization. Linked
 text is byte-identical, and the complete executable remains the acceptance
 authority for the omitted literal-store relocation.

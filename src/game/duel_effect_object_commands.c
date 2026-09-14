@@ -2,7 +2,7 @@
 #include "func_80036D3C.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "duel_effect.h"
 #include "duel_effect_object_commands.h"
 

@@ -8,6 +8,8 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define TEXT_STAGING_STARCHIPS_ALIAS
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
@@ -16,7 +18,6 @@
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #include "../../game/input.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/display_object_api.h"
 #include "../../game/display_object_lifecycle.h"
 #include "../../game/display_object_layout.h"
 #include "../../game/display_object_config.h"
@@ -37,8 +38,8 @@
 #include "../../game/duel_effect_resource_setup.h"
 #include "../../game/text_box_lifecycle.h"
 #include "../../game/save_data.h"
-#define D_8009B26C_AS_SCALAR
 #include "../../unmatched.h"
+#include "../../game/main_mode_state.h"
 
 /* The password shop screen: its two resident entry points, the preview
    helper both of them call, and the password lookup the updater is the only

@@ -23,6 +23,12 @@ typedef char LibraryViewQuad_size_must_be_0x10[
  * it privately in the same words. */
 extern u8 D_800EA1E8[];
 
+/* Signed coordinate views in the Library overlay work area. The dispatcher
+ * compares the copied slot coordinate at 0x80181012 with its reference at
+ * 0x80181002 while converging the shared view state. */
+extern s16 D_80181002 __attribute__((section(".data")));
+extern s16 D_80181012 __attribute__((section(".data")));
+
 /* The dispatcher's handlers for states 0 and 3: the first sets the state
  * byte it is handed to 1, the second does nothing. */
 void func_8002BAA0(u8 *state);

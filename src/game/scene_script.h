@@ -20,19 +20,18 @@
  * 5 * 0x14. Our matching tree reads exactly those two words at +0x14 and
  * +0x28 in byte-exact functions.
  *
- * unk00 holds a display object: func_8002F630 creates one and stores it into
+ * unk00 holds a display object: Script_OpDuelResult creates one and stores it into
  * records 0, 1 and 2, and func_8002FED8 reads records 0 and 1 back. It is
  * left s32 here on purpose -- typing it is a second claim on top of the
  * layout, and the struct those files call `Object` is itself a private view.
  *
- * func_8002F630.c keeps its own `extern Object *D_800EAE98[]` and does not
- * take this declaration. Writing its three stores as
- * ((Object **)D_800EAE98)[0], [5] and [10] is the same arithmetic against
- * the same offsets, and it builds to the right size and differs from byte
- * 0x8002F780, inside that function. Reverting that one file and nothing else
- * restores the match, so the pointer-array declaration is load-bearing there
- * rather than a stray spelling. SceneScriptSlot's measured layout is defined
- * once in ygo_types.h.
+ * script_op_duel_result.c takes this declaration too. Its three stores are
+ * the first word of slots 0, 1 and 2, written D_800EAE98[i].unk00; that
+ * spelling builds the unit's .text, relocations and data sections identical
+ * to the pointer-array view it used to declare privately. (A cast of the
+ * table to `Object **` indexed [0], [5] and [10] was the spelling that
+ * differed from byte 0x8002F780.) SceneScriptSlot's measured layout is
+ * defined once in ygo_types.h.
  */
 #define SCENE_SCRIPT_SLOT_SIZE 0x14
 #define SCENE_SCRIPT_SLOT_COUNT 5

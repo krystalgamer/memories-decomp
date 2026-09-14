@@ -8,7 +8,7 @@
 #include "duel_side_state.h"
 #include "duel_scene_state.h"
 #include "display_object_layout.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "func_8001944C.h"
@@ -17,14 +17,14 @@
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
-#include "func_80019608.h"
+#include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
 
 /* The COMMON definition preserves the GP-relative store and its load delay.
    The linker resolves it to the existing global without allocating storage. */
 u16 D_8009B150;
 
-void func_80019608(void)
+void DuelScene_UpdateCardUse(void)
 {
     DisplayObject *p;
     DuelCardRecord *slot;
@@ -42,9 +42,9 @@ void func_80019608(void)
     s32 fld;
 
     p = D_800E9EF0[0];
-    flags = D_8009B23A;
+    flags = gDuel_wSceneStateFlags;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED | 0x4000;
+        gDuel_wSceneStateFlags = flags | 0xC000;
         slot = &D_801A7AD8[p->field_6A];
         value = slot->card_id;
         D_8009B150 = *(u16 *)&slot->card_id;
@@ -114,7 +114,7 @@ void func_80019608(void)
         D_8009B174 = 2;
         return;
     case 2:
-        func_80026BA4((s16)D_8009B150, 0);
+        DuelEffect_StartCardEffect((s16)D_8009B150, 0);
         D_8009B174 = 3;
         return;
     case 3:
@@ -160,10 +160,10 @@ void func_80019608(void)
     case 4:
         if ((state & 0x80) == 0) {
             D_8009B174 = state | 0x80;
-            func_80026BA4((s16)D_8009B150, 1);
+            DuelEffect_StartCardEffect((s16)D_8009B150, 1);
             return;
         }
-        D_8009B23A = 5;
+        gDuel_wSceneStateFlags = 5;
         return;
     }
 }

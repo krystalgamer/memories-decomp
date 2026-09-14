@@ -7,7 +7,7 @@ void func_80044D48(void)
 {
     SDValue *base;
 
-    func_80044DA0();
+    SD_ResetCdPan();
     func_80044DC0(255);
     base = g_SDValue;
     base->buffer_ptrs_153C[0] = base->buffer_053C[0];
@@ -17,7 +17,7 @@ void func_80044D48(void)
     base->buffer_ptrs_153C[3] = base->buffer_053C[3];
 }
 
-void func_80044DA0(void)
+void SD_ResetCdPan(void)
 {
     g_SDValue->channel_volume[0] = SD_CHANNEL_VOLUME_MAX;
     g_SDValue->channel_volume[1] = SD_CHANNEL_VOLUME_MAX;

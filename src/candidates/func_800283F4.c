@@ -2,7 +2,8 @@
  * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
  * source rebuilt the target byte for byte, but only by
  * pinning 2 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800283F4.c.
+ * rather than counted as a decompilation. It was
+ * src/game/func_800283F4.c.
  */
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
@@ -10,8 +11,10 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
 #define D_8009B0C0_IN_DATA
 #define GDUEL_WSELECTEDCARDID_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
-#include "../game/func_800282E8.h"
+#include "../game/duel_effect_state_latch.h"
 #include "../game/graphics_frame.h"
 #include "../game/func_80029574.h"
 #include "../game/input.h"
@@ -23,7 +26,7 @@
 #include "../game/duel_effect_tables.h"
 #include "../game/text_box_lifecycle.h"
 #include "../game/sound.h"
-#include "../game/display_object_api.h"
+#include "../game/display_object_core.h"
 #include "../game/display_object.h"
 #include "../game/display_object_helpers.h"
 #include "../game/func_800291E0.h"
@@ -34,16 +37,17 @@
 #include "../game/duel_card.h"
 #include "../game/duel_effect_resource_record.h"
 #include "../game/card_constants.h"
-#include "../game/func_800283F4.h"
+#include "../game/duel_effect_card_viewer_state.h"
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
+#include "../game/main_mode_state.h"
 
 extern DisplayObject *D_8009B240;
 
 extern DisplayObject *D_8009B24C;
 extern DuelEffectChannel *D_8009B250;
 
-void func_800283F4(void)
+void DuelEffect_UpdateCardViewerState(void)
 {
     /* Pinned: unpinned, gcc puts the slide value in $s1 and the object in
        $s0, the opposite of retail, which costs 56 positions. */
@@ -70,7 +74,7 @@ void func_800283F4(void)
     u8 closing;
     u8 state;
 
-    if (func_800282E8() == 0) {
+    if (DuelEffect_MarkStateInitialized() == 0) {
         channel = 3;
         slide = -0x400;
         flags = channel;
@@ -83,7 +87,7 @@ void func_800283F4(void)
         p[3].field_2E = 0xFF;
         func_80029164(3, (s16)gDuel_wViewerCardID);
         obj = (DisplayObject *)func_800291E0(3, -1, -1);
-        adj = D_8009B24B;
+        adj = gDuel_bCardViewerYOffset;
         *(s16 *)&obj->field_30.h.field_30 = -0x8C;
         obj->field_20.b.field_21 = 0x80;
         obj->field_30.h.field_32 += adj;
@@ -94,7 +98,7 @@ void func_800283F4(void)
         func_800428EC((u8 *)obj, 0x14);
         D_8009B24C = obj;
         obj = func_800400AC(func_8004002C(), 2);
-        func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+        func_800404CC((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
         obj->field_60 = slide;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);
@@ -205,7 +209,7 @@ void func_800283F4(void)
             TextBox_Destroy(dead_box);
         }
         D_8009B0C0 = 0;
-        D_8009B254 |= 0x40;
+        gDuel_bEffectState |= 0x40;
         return;
     }
 

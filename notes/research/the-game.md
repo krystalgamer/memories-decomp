@@ -616,7 +616,8 @@ full, in the order things happen.
   at zero, then `Duel_UpdateLifePointDisplay` counts it up toward the true
   value with larger steps while the gap is large. The next halfword at
   record `+0x16` is also initialized to 8000 and is the side's maximum LP:
-  `func_800250C8` caps recovery at it, while direct damage changes only the
+  `DuelEffect_ApplyLifePointRecovery` caps recovery at it, while direct damage
+  changes only the
   authoritative value at `+0x14`.
 * Each side's 40-card deck is shuffled and each draws five. Matching
   `Duel_ShuffleBothDecks` passes the player source to
@@ -654,7 +655,7 @@ cards). Together with the hands, these use one array of **30 records** at
 The retail field map at `D_800907D8` contains two 20-byte views of the
 field-record indices. In either view, the first five entries are the
 **other side's magic/trap row**, not the viewing side's own field.
-Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) independently
+Matching [`DuelScene_UpdateDrawPhase`](../../src/game/duel_phase_entry.c) independently
 places the five hand records at `side * DUEL_CARD_SIDE_RECORD_COUNT`,
 where the per-side record count is 15.
 
@@ -696,7 +697,7 @@ Move the cursor over the hand; **up** on the d-pad raises a card and gives it
 a number (1, 2, 3…) — the order in which the raised cards will be combined.
 For an ordinary single-card play, leave the cards unnumbered and confirm the
 cursor card. A numbered combination needs at least two cards: the normal
-hand-input branch of `func_8001BD88` accepts Cross or Square (`pressed &
+hand-input branch of `DuelScene_UpdateHandActions` accepts Cross or Square (`pressed &
 0xC0`) but does not advance if the raised-card count is exactly `1`
 [`0x8001C824..0x8001C860`]. One numbered card must first be unmarked or joined
 by another. Multiple numbered cards are **combined in order** (§5.4).
@@ -773,7 +774,7 @@ normal unnumbered hand path, confirming a face-up Magic card enters its
 **use sequence directly**. Setting it face down follows the field-placement
 route instead; that route is not a prerequisite for every magic use.
 
-The hand handler `func_8001BD88` is still unmatched assembly. Its branch at
+The hand handler `DuelScene_UpdateHandActions` is still unmatched assembly. Its branch at
 `0x8001CD38..0x8001CDA8` requires a packed card type of at least `20`,
 excludes types `21` (Trap) and `23` (Equip), and requires the hand object's
 orientation byte `+0x21` to be zero (face-up). Among the defined retail types,
@@ -784,10 +785,10 @@ this admits Magic (`20`) and Ritual (`22`). It stores the selected object in
 The retail jump-table entry at `0x80010158` sends that substate to
 `0x8001D1C4`. After its `D_8009B162` gate clears, the code at
 `0x8001D214..0x8001D218` selects **duel state 6**.
-The [`func_80024200`](../../src/candidates/func_80024200.c) candidate dispatches
-through `D_80090998[D_8009B23A & DUEL_SCENE_PHASE_MASK]`; the retail entry at
-`0x800909B0`
-maps state 6 to [`func_80019608`](../../src/game/func_80019608.c).
+The [`func_80024200`](../../src/game/func_80024200.c) dispatcher reads
+through `gDuel_apfnSceneStateHandler[gDuel_wSceneStateFlags &
+DUEL_SCENE_PHASE_MASK]`; the retail entry at `0x800909B0`
+maps state 6 to [`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c).
 That handler begins with the selected object and issues the later effect
 requests documented in §6.1. "Direct" describes this control-flow route, not
 zero-frame execution or guaranteed effect success: timing, transfer, and
@@ -796,13 +797,17 @@ branch, not a new runtime trace or an audit of every combination/AI path.
 
 The game does not read the card's text; it reads its **number**. The card-use
 presentation sequence
-[`func_80019608`](../../src/game/func_80019608.c) hands the id to a guard
-[`func_80026BA4`] that accepts
+[`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) hands the id to a guard
+[`DuelEffect_StartCardEffect`] that accepts
 301–350, 651–700 and 721, converts it to an index, and a per-tick dispatcher
-[`func_80026B34`] looks that index up in a 104-byte table [`0x80090AD4`] to
+[`DuelEffect_UpdateCardEffect`] looks that index up in a 104-byte table
+[`0x80090AD4`] to
 get an **effect group**, 0–13, and calls the group's handler pair from a
 30-entry table [`0x80090A5C`]. So every spell is one of fourteen behaviours,
 and which cards share a behaviour is data:
+
+The corresponding resident application symbols and their evidence boundaries
+are collected in [the magic-effect group dispatch contract](../magic-effect-groups.md).
 
 | group | cards | effect |
 |---|---|---|
@@ -821,7 +826,14 @@ and which cards share a behaviour is data:
 | 12 | all 24 rituals | validates the tributes and performs the summon (§5.7) |
 | 13 | Harpie's Feather Duster | destroys every magic/trap card the opponent has in play |
 
-Within group 2, matching `func_800250C8` subtracts
+Group 10 is now traced end to end in
+[the Swords of Revealing Light runtime contract](../swords-of-revealing-light.md).
+Its second handler installs an internal count of four on the opposing side;
+draw entry decrements before play, producing the three visible locked turns,
+and both the AI script test and normal attack-selection path consume the same
+per-side byte.
+
+Within group 2, matching `DuelEffect_ApplyLifePointRecovery` subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to map the five cards to
 recovery-table indices `0`-`4`. During presentation setup, finding
 `DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID` (`688`) shifts only the effect-object
@@ -829,7 +841,8 @@ index into `5`-`9` and returns before a table lookup. The later application
 phase recomputes `0`-`4`: the normal path adds and caps the recovery amount,
 while the alternate path subtracts it and floors LP at zero.
 
-Within group 9, matching `func_80025D30` identifies Spellbinding Circle with
+Within group 9, matching `DuelEffect_ApplyStatPenalty` identifies Spellbinding
+Circle with
 `DUEL_SPELLBINDING_CIRCLE_CARD_ID` (`349`) and subtracts one
 `DUEL_STAT_PENALTY_PER_LEVEL` (`500`) from each occupied target's
 `stat_modifier`; Shadow Spell uses two such levels (`1000`). The same signed
@@ -931,8 +944,10 @@ The checker returns the recipe's result ID when all three matches are found,
 or zero when the recipe/material search fails. It does not consume the field
 cards: it only removes matched pointers from a temporary candidate list and,
 when requested, exports the three records' object words. Matching
-[`func_8002622C`](../../src/game/func_8002622C.c) uses a query with no output
-buffer. The later execution routine `func_800262D4` (still unmatched assembly)
+[`DuelEffect_StartRitual`](../../src/game/duel_ritual_effect.c) uses a query
+with no
+output buffer. The later execution routine `DuelEffect_ApplyRitual` (still
+unmatched assembly)
 requests the output at `0x800262F8`, then calls
 [`func_80024914`](../../src/game/duel_card_record_lifecycle.c) for the three
 selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.
@@ -1077,22 +1092,22 @@ The normal draw-resolution path has a source-backed Exodia check.
 Matching
 [`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c)
 requires card IDs `0x11..0x15` in the current hand. On its post-draw branch,
-`func_80018DB4` runs that check after `func_80042B40(1)` returns zero; a
-successful check sets `D_8009B23A = 0xE`. This is a gated transition, not
+`DuelScene_UpdateDrawResolution` runs that check after `func_80042B40(1)` returns zero; a
+successful check sets `gDuel_wSceneStateFlags = 0xE`. This is a gated transition, not
 evidence that every action tests all win conditions or that presentation
 finishes in the same frame.
 
-The [duel dispatcher](../../src/candidates/func_80024200.c) and
+The [duel dispatcher](../../src/game/func_80024200.c) and
 [main loop](../../src/game/main_loop.c) use different tables. Their retail
 words connect the Exodia sequence to the animated-battle request:
 
 | Dispatch selection | Table word address | Target |
 |---|---|---|
-| Duel state `0xE` | `0x800909D0` | `func_80018FEC` (`0x80018FEC`) |
+| Duel state `0xE` | `0x800909D0` | `DuelScene_UpdateExodiaResult` (`0x80018FEC`) |
 | Main mode `1` | `0x80090B68` | `Main_RunAnimatedBattle` (`0x8002D180`) |
 | Main mode `3` | `0x80090B70` | `Main_RunDuel` (`0x8002CEE8`) |
 
-The still-unmatched `func_80018FEC` stages the five piece objects. Its later
+The still-unmatched `DuelScene_UpdateExodiaResult` stages the five piece objects. Its later
 handover stores `0x309` in the first halfword of `D_800EF658` at
 `0x800193D8`, records the acting side as `gDuel_bWinnerSide` at
 `0x800193EC`, writes the `+40` Exodia end adjustment at `0x800193F0`,
@@ -1240,10 +1255,10 @@ counter supplies the value added to the score. The rows, measured:
 | 9 | +0x09 | `rank.equips_used` | same as row 8 | **EQUIP MAGIC** — valid equips used |
 
 **When "turns" advances.** Row 0 reads the unsigned byte at the side record's
-`+0x01`. Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) binds the
+`+0x01`. Matching [`DuelScene_UpdateDrawPhase`](../../src/game/duel_phase_entry.c) binds the
 record to the current side, `D_8009B1D5`, and increments that byte in its
 draw-entry initialization branch, guarded by
-`D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED`.
+`gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED`.
 The increment precedes the used-card flag reset and hand reconstruction,
 including the refill request. Later calls while that flag remains set only
 poll for the message state to finish; they do not increment the counter.
@@ -1256,7 +1271,7 @@ not a shared count of completed two-side rounds; the evidence does not
 establish every possible writer to the byte or add a runtime observation.
 
 **The normal single-card "face-down plays" increment.** In resident
-`func_8001BD88` (still unmatched assembly), the commit block at
+`DuelScene_UpdateHandActions` (still unmatched assembly), the commit block at
 `0x8001D080..0x8001D0C0` increments the current side's statistics byte
 `+0x04` through `D_8009B1C8` only when the hand-selection record's `+0x15`
 is zero and the selected hand object's `+0x21` is nonzero.
@@ -1279,11 +1294,11 @@ accounting, every other writer, or the effect of later card flips. It is
 static code evidence, not a new controlled trace.
 
 **When "pure magic" advances.** The matching
-[`func_80019608`](../../src/game/func_80019608.c) increments the current
+[`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) increments the current
 side's byte `+0x05` in its initialization
 branch, before the later effect requests. `DUEL_SCENE_FLAG_INITIALIZED` in
-`D_8009B23A` guards that branch: after it is set, subsequent polling calls skip
-this increment. At `0x80019674..0x80019698`, the writer requires the
+`gDuel_wSceneStateFlags` guards that branch: after it is set, subsequent polling calls
+skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
@@ -1295,7 +1310,8 @@ that object byte from the card's packed type field, using
 `DUEL_RANK_RULE_PURE_MAGIC` (row 4).
 
 This write precedes this handler's calls to
-[`func_80026BA4`](../../src/game/duel_magic_effect_dispatch.c) at `0x80019870` and
+[`DuelEffect_StartCardEffect`](../../src/game/duel_magic_effect_dispatch.c) at
+`0x80019870` and
 `0x800199D8`, which request the effect phases. It therefore records a
 type-qualified entry into this use sequence, not evidence that the effect
 finished or changed a target. This corroborates the normal handler's
@@ -1312,7 +1328,7 @@ finishes does it increment statistic `+0x06` in
 `0x800E9FF0 + (D_8009B1D5 ^ 1) * 0x20` and return zero. The grid mapping
 in §5.1 identifies this as the selected trap's side, opposite the acting side.
 
-The normal battle caller, `func_8001F55C` (still unmatched assembly), calls
+The normal battle caller, `DuelScene_UpdateBattle` (still unmatched assembly), calls
 that sequencer while `D_8009B174 & 0x20` is set and clears the bit when the
 sequencer returns zero [`0x8001FA10..0x8001FA34`]. Completion is therefore
 consumed by the caller; the helper does not itself reset its mode.
@@ -1328,12 +1344,12 @@ This is not an audit of every other trap/effect route or a new runtime trace.
 **What "cards used" counts.** Row 6 reads the side record's
 `deck_draw_cursor` at `+0x18`, not a counter that waits for a card to be
 played.
-Matching [`func_8001898C`](../../src/game/duel_phase_entry.c) selects the active
+Matching [`DuelScene_UpdateDrawPhase`](../../src/game/duel_phase_entry.c) selects the active
 side record, compacts its retained hand indices, rebuilds those card records,
 and requests `HAND_SIZE - n` new cards, where `n` is the number retained.
 Its kept-card loop does not increment the draw cursor.
 
-Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) then tests
+Matching [`DuelScene_UpdateDrawResolution`](../../src/game/duel_draw_resolution.c) then tests
 that cursor against `DECK_SIZE` before each new draw. Below the limit it
 passes the cursor to
 [`Duel_SetupCardRecord`](../../src/game/duel_card_record_lifecycle.c), places the
@@ -1369,14 +1385,14 @@ resolution paths write the following byte into the selected winner's
 
 | Resolution path | Stored byte | Signed score contribution | Code evidence |
 |---|---:|---:|---|
-| LP reaches zero | `0x02` | `+2` | `func_8001D670` tests both sides' LP at `0x8001D6C8..0x8001D6E4`, selects the winner, and stores `2` at record +0 at `0x8001D71C`. |
-| Draw exhaustion | `0xD8` | `-40` | Matching [`func_80018DB4`](../../src/game/duel_draw_resolution.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
-| Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `func_80018FEC` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
+| LP reaches zero | `0x02` | `+2` | `DuelScene_UpdateFieldActions` tests both sides' LP at `0x8001D6C8..0x8001D6E4`, selects the winner, and stores `2` at record +0 at `0x8001D71C`. |
+| Draw exhaustion | `0xD8` | `-40` | Matching [`DuelScene_UpdateDrawResolution`](../../src/game/duel_draw_resolution.c) tests the active side's signed draw counter at +0x18 against `40`, selects the other side, and writes `-0x28` to its record +0. |
+| Exodia resolution | `0x28` | `+40` | The state-`0xE` handler `DuelScene_UpdateExodiaResult` selects the current side as winner and stores `0x28` at record +0 at `0x800193F0`. |
 
 `duel_rank.h` names the two special adjustments as
 `DUEL_RANK_ADJUST_EXODIA_WIN` (`40`) and `DUEL_RANK_ADJUST_DECK_OUT_WIN`
 (`-40`). They remain separate from `DECK_SIZE`, which names the draw-counter
-limit in `func_80018DB4` despite its equal magnitude. The deck-out writer
+limit in `DuelScene_UpdateDrawResolution` despite its equal magnitude. The deck-out writer
 still stores the negative adjustment through a signed byte, and the rank
 reader uses the same named values to select its message variants.
 
@@ -1418,7 +1434,7 @@ such as the average ATK factor.
 
 ### 6.2 The rank
 
-The score picks one of **ten ranks** [`func_800218F0`, right after the
+The score picks one of **ten ranks** [`DuelScene_UpdateResultRewards`, right after the
 score: a score below 50 sets the TEC flag and is mirrored as 99 − score;
 anything at 100 or above is clamped to 99; then (score − 50) / 10 selects the
 letter]:
@@ -1614,7 +1630,7 @@ establish the later memory-card persistence policy of every two-save flow.
 value `1`; the player-win control began with that stale `1` after a previous
 loss, changed to `0` when the opponent's LP reached zero, and retained `0`
 as the result proceeded. This establishes single-player side polarity.
-The `0x2000` bit observed at `D_8009B23A` marks the result's departure fade:
+The `0x2000` bit observed at `gDuel_wSceneStateFlags` marks the result's departure fade:
 `0x80021E54..0x80021E5C` sets it before `Fade_StartOut`. The later
 credit/return block sets a **different** `0x2000` bit in `D_8009B16C` at
 `0x80021E8C..0x80021E98`. The traced fade marker is not by itself proof of
@@ -1931,7 +1947,7 @@ continues in Free Duel with every campaign duelist available.
 >   `Script_RunTick` through a 23-opcode table [`0x80090C50`, opcode = byte &
 >   0x1F]. The opcodes that matter for the flow: 1 = show location picture,
 >   2 = run dialogue N, 3 = flag (set/clear, or "if flag, jump")
->   [`func_8002E918`], 8 = go to map location N, 12 = jump, 18 = game over,
+>   `Script_OpStoryFlag`, 8 = go to map location N, 12 = jump, 18 = game over,
 >   19 = credits, 21 = "if the deck is not 40 cards, jump" (the deck check),
 >   22 = title. Almost every event is "picture, dialogue, then map / game
 >   over": the event script is the campaign's dispatcher, and it tests flags
@@ -2362,7 +2378,7 @@ unchanged:
 | `+0x65800` | 0x10000 | VRAM (640, 256) | the field picture — the only chunk that differs between the seven terrains |
 
 The second script block is live, not padding or an unread copy:
-`func_8001D670` passes `0x801A9800` directly to `AiScript_Init` at
+`DuelScene_UpdateFieldActions` passes `0x801A9800` directly to `AiScript_Init` at
 `0x8001D7D8`. That establishes the buffer's consumer, but not the meaning of
 each byte within it.
 

@@ -19,9 +19,10 @@
  * The canonical rows and six terminal refinement records are unchanged;
  * one post-terminal resolution records the declaration and layout evidence.
  */
-#define D_8009B26C_AS_SCALAR_DATA
 #define GINPUT_PAD1_PRESSED_IS_AGGREGATE
 #define CAMPAIGN_PRIMARY_OBJECT_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "input.h"
@@ -36,11 +37,12 @@
 #include "text_box_lifecycle.h"
 #include "func_80039794.h"
 #include "input_is_pad1_confirm_pressed.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "func_8003B6AC.h"
 #include "func_8002E3FC.h"
 #include "../unmatched.h"
 #include "func_80030998.h"
+#include "main_mode_state.h"
 
 void func_80030998(void)
 {

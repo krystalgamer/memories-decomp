@@ -1,6 +1,5 @@
-#define D_8009B260_IN_DATA
+#define gDuel_bEffectRequestStatus_IN_DATA
 #include "../types.h"
-#include "func_8002C604.h"
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
 #include "func_80025028.h"
@@ -24,8 +23,8 @@
 #include "../unmatched.h"
 #include "duel_card_effects.h"
 
-/* Small data at 0x8009AF30, owned here: the recovery amounts func_800250C8
-   scales by 100 and the direct-damage amounts func_8002525C scales by 10,
+/* Small data at 0x8009AF30, owned here: the recovery handler scales the
+   first table by 100 and the direct-damage handler scales the second by 10,
    one entry per card in each family. */
 u8 gDuel_abLifePointRecoveryUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
     DUEL_MOOYAN_CURRY_RECOVERY / DUEL_LIFE_POINT_RECOVERY_SCALE,
@@ -46,30 +45,30 @@ u8 gDuel_abDirectDamageUnits[DUEL_LIFE_POINT_EFFECT_COUNT] = {
 /* Runs the table-driven LP change phases. Recovery values are scaled by 100,
    added to the selected side's life points, and capped at its maximum; the
    alternate path subtracts the same values and floors the result at zero. */
-void func_800250C8(void) {
+void DuelEffect_ApplyLifePointRecovery(void) {
     s32 s0;
     s32 s1;
     s32 flag;
     u16 v1;
     DuelEffectRequest *obj;
 
-    s0 = D_8009B1D2;
+    s0 = gDuel_wEffectCardID;
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
             s1 = s0 - (DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID -
                        DUEL_LIFE_POINT_EFFECT_COUNT);
         }
-        obj = func_8002C68C(5);
+        obj = DuelEffect_CreateRequest(5);
         obj->field_00 = 0xA0;
         obj->field_02 = 0x78;
         obj->field_1A = s1;
         SD_SEPlayFull(0x14);
         return;
     }
-    flag = D_8009B220;
+    flag = gDuel_wCardEffectFlags;
     if (!(flag & 0x40)) {
-        D_8009B220 = flag | 0x60;
+        gDuel_wCardEffectFlags = flag | 0x60;
         if (D_8009B22A == 0) {
             u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
             v1 = D_8009B1C8->life_points.unsigned_value +
@@ -85,10 +84,10 @@ void func_800250C8(void) {
         goto block_9;
     }
 block_9:
-    if (D_8009B220 & 0x20) {
+    if (gDuel_wCardEffectFlags & 0x20) {
         if (func_8001F364() == 0) {
-            D_8009B220 &= 0xFFDF;
-            obj = func_8002C68C(9);
+            gDuel_wCardEffectFlags &= 0xFFDF;
+            obj = DuelEffect_CreateRequest(9);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
             obj->field_1A = s1;
@@ -102,44 +101,44 @@ block_9:
             D_8009B1C8->life_points.unsigned_value = 0;
         }
 block_14:
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
 /* Applies one of the five direct-damage cards. The selected table value is
    scaled by 10 and taken off the target side's life points, clamped at zero. */
-void func_8002525C(void) {
+void DuelEffect_ApplyDirectDamage(void) {
     s32 unit;
     s32 flags;
     u16 remaining;
     DuelEffectRequest *obj;
     DuelSideState *p;
 
-    unit = D_8009B1D2 - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
+    unit = gDuel_wEffectCardID - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
         if (func_80025028(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
-        obj = func_8002C68C(6);
+        obj = DuelEffect_CreateRequest(6);
         obj->field_00 = 0xA0;
         obj->field_02 = 0x78;
         obj->field_1A = unit;
         SD_SEPlayFull(0x1C);
         return;
     }
-    flags = D_8009B220;
+    flags = gDuel_wCardEffectFlags;
     if (!(flags & 0x40)) {
-        D_8009B220 = flags | 0x60;
+        gDuel_wCardEffectFlags = flags | 0x60;
         if (D_8009B22A == 0) {
             p = &D_800E9FF0[D_8009B1D5 ^ 1];
             goto apply;
         }
         D_8009B210 = 0;
     }
-    if (D_8009B220 & 0x20) {
+    if (gDuel_wCardEffectFlags & 0x20) {
         if (func_8001F364() == 0) {
-            D_8009B220 &= 0xFFDF;
-            obj = func_8002C68C(7);
+            gDuel_wCardEffectFlags &= 0xFFDF;
+            obj = DuelEffect_CreateRequest(7);
             obj->field_00 = 0xA0;
             obj->field_02 = 0x78;
             obj->field_1A = unit;
@@ -155,14 +154,14 @@ apply:
         if ((s16) remaining < 0) {
             p->life_points.unsigned_value = 0;
         }
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
 extern s16 D_8009B1AC;
 extern s16 D_8009B1AE;
 
-void func_8002538C(void) {
+void DuelEffect_ApplyMonsterRemoval(void) {
     DuelEffectRequest *p;
     u8 *e;
     u8 *tb;
@@ -176,14 +175,14 @@ void func_8002538C(void) {
     s32 ix;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        p = func_8002C68C(0xF);
+        p = DuelEffect_CreateRequest(0xF);
         p->field_00 = 0;
         p->field_02 = 0;
         p->field_04 = 0;
         SD_SEPlayFull(0x22);
         i = 0;
         cb = gDuel_abMonsterRemovalRules;
-        x = D_8009B1D2;
+        x = gDuel_wEffectCardID;
         while (1) {
             if (*(u8 *)(i + (s32)cb) +
                     DUEL_MONSTER_REMOVAL_CARD_ID_BASE == x) {
@@ -199,12 +198,12 @@ void func_8002538C(void) {
         D_8009B1AC = m;
         if (n >= 0x15) {
             D_8009B1AC = n * CARD_STAT_SCALE;
-            D_8009B220 = D_8009B220 | 1;
+            gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 1;
         }
         D_8009B1AE = 5;
         return;
 done:
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
@@ -230,7 +229,7 @@ head:
     if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) == 0) {
         goto next;
     }
-    if ((D_8009B220 & 1) != 0) {
+    if ((gDuel_wCardEffectFlags & 1) != 0) {
         goto arm;
     }
     if (*(u8 *)(*(s32 *)e + 0x68) != sp[-1]) {
@@ -241,7 +240,7 @@ hit:
     e = (u8 *)D_801A7AD8 + D_800907D8[
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ] * DUEL_CARD_RECORD_SIZE;
-    p = func_8002C68C(0xB);
+    p = DuelEffect_CreateRequest(0xB);
     p->field_00 = *(u16 *)(*(s32 *)e + 0x30);
     p->field_02 = *(u16 *)(*(s32 *)e + 0x32);
     p->field_04 = *(u16 *)(*(s32 *)e + 0x34);
@@ -250,7 +249,7 @@ hit:
     SD_SEPlayFull(0x1F);
 }
 
-void DuelEffect_UpdateFieldMarker(void) {
+void DuelEffect_ApplyStopDefense(void) {
     DuelCardRecord *r;
     u8 *p;
     u8 *e;
@@ -265,7 +264,7 @@ void DuelEffect_UpdateFieldMarker(void) {
         D_8009B20C[1] = -1;
     }
 
-    f = D_8009B220;
+    f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
@@ -279,25 +278,25 @@ void DuelEffect_UpdateFieldMarker(void) {
                     func_80019BA0((DisplayObject *)r->object, 0xC0, 0, 6);
                     r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
-                D_8009B220 = D_8009B220 | 0x20;
+                gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
             }
         }
 
         if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
             return;
         }
-        D_8009B220 = D_8009B220 & 0xFF9F;
+        gDuel_wCardEffectFlags = gDuel_wCardEffectFlags & 0xFF9F;
         return;
     }
 
     v = *(u16 *)&D_8009B20C[1] + 1;
     D_8009B20C[1] = v;
     if ((s16)v >= DUEL_FIELD_ROW_SIZE) {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
-    p = func_8002C604(0xC);
+    p = DuelEffect_AllocateRequest(0xC);
     t = (u8 *)D_80090800;
     e = (
         (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -311,10 +310,10 @@ void DuelEffect_UpdateFieldMarker(void) {
     *(s16 *)(p + 4) = *(u16 *)(e + 2);
     SD_SEPlayFull(0x20);
 
-    D_8009B220 = D_8009B220 | 0x40;
+    gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
 }
 
-void func_800257A0(void) {
+void DuelEffect_ApplyBoardDestruction(void) {
     DuelEffectRequest *e;
     DuelCardRecord *p;
     DuelCardRecord *q;
@@ -327,18 +326,18 @@ void func_800257A0(void) {
         return;
     }
 
-    f = D_8009B220;
+    f = gDuel_wCardEffectFlags;
 
     if ((f & 0x20) == 0) {
         if ((D_8009B112_abs & 0x4000) == 0) {
             return;
         }
-        D_8009B220 = f | 0x20;
-        e = func_8002C68C(0x11);
-        if (D_8009B1D2 == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
-            g = D_8009B220;
+        gDuel_wCardEffectFlags = f | 0x20;
+        e = DuelEffect_CreateRequest(0x11);
+        if (gDuel_wEffectCardID == DUEL_DRAGON_CAPTURE_JAR_CARD_ID) {
+            g = gDuel_wCardEffectFlags;
             e->field_1A = 1;
-            D_8009B220 = g | 0x40;
+            gDuel_wCardEffectFlags = g | 0x40;
         }
         e->field_00 = 0;
         e->field_02 = 0;
@@ -382,10 +381,10 @@ void func_800257A0(void) {
         } while (i < DUEL_FIELD_SIDE_ZONE_COUNT);
     }
 
-    D_8009B220 = 0;
+    gDuel_wCardEffectFlags = 0;
 }
 
-void func_8002596C(void) {
+void DuelEffect_ApplyRaigeki(void) {
     u8 *p;
     u8 *e;
     u8 *r;
@@ -398,7 +397,7 @@ void func_8002596C(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
-        q = func_8002C604(0x10);
+        q = DuelEffect_AllocateRequest(0x10);
         t = (u8 *)D_80090800;
         e = (
             (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -415,8 +414,8 @@ void func_8002596C(void) {
         goto call;
     }
 
-    if ((D_8009B260 & 1) == 0) {
-        D_8009B220 = 0;
+    if ((gDuel_bEffectRequestStatus & 1) == 0) {
+        gDuel_wCardEffectFlags = 0;
         return;
     }
 
@@ -429,7 +428,7 @@ void func_8002596C(void) {
         v = *(u16 *)(r + 0x16) & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;
         if (v != 0) {
-            q = func_8002C604(0xB);
+            q = DuelEffect_AllocateRequest(0xB);
             *(s32 *)(q + 0x14) =
                 *(s32 *)(q + 0x14) + D_8009B20C[1] * 0x3000;
             *(s16 *)(q + 0) = *(u16 *)(*(u8 **)r + 0x30);
@@ -452,7 +451,7 @@ extern u8 D_800907D8_2d
     [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("D_800907D8");
 extern u8 D_800907D8_flat[] asm("D_800907D8");
 
-void func_80025B28(DuelFieldEffectObject *o)
+void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *o)
 {
     o->timer += DUEL_FIELD_EFFECT_TIMER_STEP;
     if (!(o->active & 0x80) &&
@@ -471,8 +470,8 @@ void func_80025B28(DuelFieldEffectObject *o)
 }
 
 /* Opens the duel-side effect prompt and, once acknowledged, hands every
-   occupied slot of the current side over to the func_80025B28 animation. */
-void func_80025BEC(void)
+   occupied slot to the shared reveal animation. */
+void DuelEffect_ApplyDarkPiercingLight(void)
 {
     DuelFieldEffectObject *object;
     DuelFieldEffectObject *target;
@@ -481,17 +480,17 @@ void func_80025BEC(void)
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelFieldEffectObject *)func_8002C604(0x13);
+        object = (DuelFieldEffectObject *)DuelEffect_AllocateRequest(0x13);
         object->x = 0xA0;
         D_8009B17C = (u8 *)object;
         object->y = 0x68;
         SD_SEPlayFull(0x13);
         return;
     }
-    flags = D_8009B220;
+    flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
         ((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
-        D_8009B220 = flags | 0x40;
+        gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
             record = &D_801A7AD8[D_800907D8_2d[D_8009B1D5][i]];
@@ -500,20 +499,20 @@ void func_80025BEC(void)
             if ((*(u32 *)&record->terrain_modifier & 0x90000000) ==
                 0x90000000) {
                 target = (DuelFieldEffectObject *)record->object;
-                target->callback = func_80025B28;
+                target->callback = DuelEffect_UpdateRevealCard;
                 target->active = 1;
             }
         }
     }
-    if ((D_8009B260 & 1) == 0 && func_80042B40(1) == 0) {
-        D_8009B220 = 0;
+    if ((gDuel_bEffectRequestStatus & 1) == 0 && func_80042B40(1) == 0) {
+        gDuel_wCardEffectFlags = 0;
     }
 }
 
 /* Companion field-wide stat-penalty sweep. It advances one occupied slot of
  * the acting side's second row per countdown, spawns the effect at that card,
  * and waits on the same request-completion state as the transition above. */
-void func_80025D30(void) {
+void DuelEffect_ApplyStatPenalty(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
     u8 *card;
@@ -525,9 +524,9 @@ void func_80025D30(void) {
         D_8009B1D0 = 0;
     }
 
-    if ((D_8009B220 & 0x40) != 0) {
-        if ((D_8009B260 & 1) == 0) {
-            D_8009B220 = 0;
+    if ((gDuel_wCardEffectFlags & 0x40) != 0) {
+        if ((gDuel_bEffectRequestStatus & 1) == 0) {
+            gDuel_wCardEffectFlags = 0;
         }
         return;
     }
@@ -544,12 +543,12 @@ void func_80025D30(void) {
     record = &D_801A7AD8[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = (u8 *)record->object;
-        object = (DuelEffectObject *)func_8002C604(0xD);
+        object = (DuelEffectObject *)DuelEffect_AllocateRequest(0xD);
         object->x = *(u16 *)(card + 0x30);
         object->y = *(u16 *)(card + 0x32);
         object->field_04 = *(u16 *)(card + 0x34);
         object->field_14 = object->field_14 + ((s16)D_8009B1D0 << 14);
-        if (D_8009B1D2 == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
+        if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
             record->stat_modifier =
                 record->stat_modifier - DUEL_STAT_PENALTY_PER_LEVEL;
@@ -565,6 +564,6 @@ void func_80025D30(void) {
 
     D_8009B1D0 = D_8009B1D0 + 1;
     if ((s16)D_8009B1D0 >= DUEL_FIELD_ROW_SIZE) {
-        D_8009B220 = D_8009B220 | 0x40;
+        gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
     }
 }

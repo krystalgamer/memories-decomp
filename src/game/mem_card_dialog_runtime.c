@@ -2,7 +2,7 @@
 #include "display_object.h"
 #include "display_object_interpolation.h"
 #include "display_object_lifecycle.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "../psyq/libmcrd.h"
 #include "../psyq/strings.h"
 #include "data_transfer_request.h"

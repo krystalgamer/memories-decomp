@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "duel_effect_resource_record.h"
 #include "func_800291E0.h"
 
