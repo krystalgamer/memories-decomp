@@ -5,7 +5,7 @@
  * the flash, the dust, the sparks and the smoke as quads through RotAverage4,
  * steps its phase and stage and fades every group. Current best under
  * gcc_2_8_1_g8_split: 2298 instructions against 2319 with opcode distance
- * 61 (20 surplus, 41 missing), with no hard register assignments and no
+ * 51 (15 surplus, 36 missing), with no hard register assignments and no
  * inline assembly.
  *
  * Levers measured on this body:
@@ -20,7 +20,12 @@
  * - the ring stop test is one || chain over the three absolute components,
  *   so the move block falls through and the stop block follows it;
  * - the spark frame is stepped without an s16 cast, which keeps retail's
- *   unsigned halfword load.
+ *   unsigned halfword load;
+ * - the sign is flipped as sign * -1, which keeps retail's sign extension
+ *   before the negation, and the last quad block reads the flipped sign
+ *   back instead of negating it again;
+ * - the third ring component's absolute value tests >= 0 first, which
+ *   drops a duplicated test and jump.
  *
  * The earlier 2321-instruction build was two faults cancelling: 28 surplus
  * instructions in the two quad loops against the 26-instruction shortfall
@@ -31,9 +36,10 @@
  * raising the surplus to 24-46), and the spark colour fades as ternary
  * stores (surplus 27-28).
  *
- * Residual: census addiu -12, addu -2, andi +2, beqz +2, bgez -1, bltz +1,
- * j +1, lbu +5, lh +2, lhu -7, lw +1, negu +3, nop -12, sll -3, slt -1,
- * slti +1, sltu +2, sra -3.
+ * Residual: census addiu -12, addu -2, andi +2, beqz +1, lbu +5, lh +2,
+ * lhu -7, lw +1, negu +2, nop -14, slt -1, sltu +2. Retail reaches the FT4
+ * and the vector sums through pointers; spelling that here spills a
+ * register (2301 instructions, surplus 19).
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -257,7 +263,7 @@ s32 func_8006CD78(void *data, s32 arg1)
                 ft4.b0 = e->colors[n6].b;
                 for (j = 0; j < 4; j++) {
                     d = j - 2;
-                    sign = -(s16)sign;
+                    sign = sign * -1;
                     s = (s16)sign * -1;
                     for (k = 0; k < 4; k++) {
                         for (l = 0, lo = -1, hi = 1; l < 4; l++, lo--, hi++) {
@@ -306,7 +312,7 @@ s32 func_8006CD78(void *data, s32 arg1)
                 }
                 if ((e->rings[n6].vx < 0 ? -e->rings[n6].vx : e->rings[n6].vx) >= 0x21 ||
                     (e->rings[n6].vy < 0 ? -e->rings[n6].vy : e->rings[n6].vy) >= 0x21 ||
-                    (e->rings[n6].vz < 0 ? -e->rings[n6].vz : e->rings[n6].vz) >= 0x21) {
+                    (e->rings[n6].vz >= 0 ? e->rings[n6].vz : -e->rings[n6].vz) >= 0x21) {
                     e->rings[n6].vx += e->ring_speed[n6].vx;
                     e->rings[n6].vy += e->ring_speed[n6].vy;
                     e->rings[n6].vz += e->ring_speed[n6].vz;
@@ -365,7 +371,7 @@ s32 func_8006CD78(void *data, s32 arg1)
         ft4.b0 = e->flash_b;
         for (j = 0; j < 4; j++) {
             d = j - 2;
-            sign = -(s16)sign;
+            sign = sign * -1;
             s = (s16)sign * -1;
             for (k = 0; k < 4; k++) {
                 for (l = 0, lo = -1, hi = 1; l < 4; l++, lo--, hi++) {
@@ -648,8 +654,8 @@ stage_test:
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
         for (n9 = 0; n9 < 4; n9++) {
-            sign = -(s16)sign;
-            q0.vx = -((-(s16)sign << 16) >> 9);
+            sign = sign * -1;
+            q0.vx = -((sign << 16) >> 9);
             q0.vy = n9 - 2 >= 0 ? -0x80 : 0x80;
             q0.vz = 0;
             q1.vx = 0;
