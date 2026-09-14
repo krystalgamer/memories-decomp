@@ -52,7 +52,7 @@ void Main_RunBootSequence(s32 mode)
     *(u16 *)(object + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8004365C(0, (DisplayObject *)object);
-    func_800438B8(4);
+    Main_HoldBootScreen(4);
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
         0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
@@ -74,7 +74,7 @@ void Main_RunBootSequence(s32 mode)
     func_80047AD0(2);
     func_80012D84(4);
     File_RequestMainMenuPackage();
-    func_800438B8(0xB4);
+    Main_HoldBootScreen(0xB4);
     Fade_WaitInitOut();
     Main_ResetFrontendRuntime();
 }

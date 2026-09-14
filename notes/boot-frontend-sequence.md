@@ -87,11 +87,15 @@ The known mode-zero flow is:
 1. clear the frontend phase byte;
 2. load the preceding 34-sector fixed package and wait;
 3. request the 54-sector boot package;
-4. initialize the fade and two persistent display objects;
+4. initialize the fade and the first boot image, and hold it for 4 frames
+   with `Main_HoldBootScreen`;
 5. initialize the debug font and flush the CD command state;
 6. call `func_801680F4` and poll `func_80168160(1)`;
-7. request the SU main-menu package;
-8. finish the transition and call `Main_ResetFrontendRuntime`.
+7. crossfade to the second boot image and request the SU main-menu package;
+8. hold that screen through `Main_HoldBootScreen(0xB4)`: 180 frames, never
+   less than the package load, and cut short by START or confirm once
+   loading is idle;
+9. finish the transition and call `Main_ResetFrontendRuntime`.
 
 `Main_Init` is the only resident caller found and always passes zero. The
 function retains a nonzero-mode branch that waits for the 54-sector package,
