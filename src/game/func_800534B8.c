@@ -8,6 +8,7 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #include "input.h"
 #include "model.h"
+#include "model_load_step.h"
 #include "model_graphics_state.h"
 #include "camera_view.h"
 #include "model_scene_setup.h"
