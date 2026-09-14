@@ -8,6 +8,7 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
+#include "display_object.h"
 
 /* The Build Deck screen's three contiguous count helpers. They refresh the
    count box, return a card to the chest, and remove a card from it. The unit
@@ -15,14 +16,14 @@
    func_8003201C. */
 
 void func_80031E5C(u8 *arg0) {
-    u8 *p;
+    DuelEffectChannel *p;
     D_801D5608[0].build_deck.chest =
         ((BuildDeckTransitionState *)arg0)->chest_total;
     D_801D5608[0].build_deck.deck =
         ((BuildDeckTransitionState *)arg0)->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
-    func_80039A14((struct DuelEffectChannel *)p);
-    *(u16 *)(*(u8 **)(p + 0x28) + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_80039A14(p);
+    p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
 void func_80031EE4(u8 *base, s32 index)
