@@ -243,7 +243,7 @@ void CampaignMap_SetLocation(s32 index)
     s32 i;
     s32 location;
     u8 *marker;
-    u8 *panel;
+    MapObject *panel;
     u16 flags;
     s32 colour[3];
 
@@ -270,20 +270,21 @@ void CampaignMap_SetLocation(s32 index)
     func_80035668(0);
     obj = func_800400AC(func_8004002C(), 2);
     func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
-    *(u16 *)(obj + 8) =
-        *(u16 *)(obj + 8) | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+    ((DisplayObject *)obj)->flags =
+        ((DisplayObject *)obj)->flags |
+        DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = func_800400AC(func_8004002C(), 6);
-    *(s16 *)(obj + 0x30) = 160;
-    *(s16 *)(obj + 0x32) = 144;
-    *(s16 *)(obj + 0x60) = 128;
-    *(s16 *)(obj + 0x48) = 32;
-    *(s16 *)(obj + 0x4A) = 192;
-    *(s16 *)(obj + 0x44) = 5120;
-    *(s16 *)(obj + 0x46) = 4096;
+    ((DisplayObject *)obj)->field_30.h.field_30 = 160;
+    ((DisplayObject *)obj)->field_30.h.field_32 = 144;
+    ((DisplayObject *)obj)->field_60 = 128;
+    ((DisplayObject *)obj)->field_48.h.field_48 = 32;
+    ((DisplayObject *)obj)->field_48.h.field_4A = 192;
+    ((DisplayObject *)obj)->field_44.h.field_44 = 5120;
+    ((DisplayObject *)obj)->field_44.h.field_46 = 4096;
     func_800428EC(obj, -10);
     location = gCampaignMap_Location;
-    *(void **)(obj + 0x4C) = func_80042C08;
+    ((DisplayObject *)obj)->field_4C = (s32)func_80042C08;
     D_801695D8 = (MapObject *)obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
@@ -291,10 +292,10 @@ void CampaignMap_SetLocation(s32 index)
     gCampaignMap_LocationPrev = gCampaignMap_Location;
     if ((u8)gCampaignMap_Location >= 10) {
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
-        panel = (u8 *)D_801695D8;
-        flags = *(u16 *)(panel + 8);
+        panel = D_801695D8;
+        flags = panel->f8;
         D_801695C8 = (MapObject *)marker;
-        *(u16 *)(panel + 8) = flags & 0xFFBF;
+        panel->f8 = flags & 0xFFBF;
     }
     track = 0x70A0;
     if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0) {
