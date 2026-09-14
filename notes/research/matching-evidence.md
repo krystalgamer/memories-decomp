@@ -4084,7 +4084,9 @@ offsets instead does not: the base stays in `$v1` and the argument is derived
 as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
 reach their exact instruction count with opcode distance 0, at 6, 8 and 9
 differing positions, and what is left in each is prologue scheduling. The
-stored candidates are in `notes/candidates/`.
+remaining `func_8004A27C` candidate is build-integrated at
+`src/candidates/func_8004A27C.c`; the two envelope helpers are exact in
+`src/game/sound_voice_envelope.c`.
 
 ### Emission order is not source order for a run of stores to one struct
 
@@ -4482,11 +4484,11 @@ looks redundant is the one that reproduces.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found on `func_80045208` and its twin `func_80045334`, whose entries are in
-`notes/candidates/`. Both reconstruct to the exact instruction count with the
-exact register assignment and stop on the same two positions: the order of
-three word stores into a stack request block, and therefore which of them the
-delay-slot filler steals for the following call.
+Found on `func_80045208` and its twin `func_80045334`, whose exact source is
+`src/game/sound_output_state.c`. Both reconstruct to the exact instruction
+count with the exact register assignment and stop on the same two positions:
+the order of three word stores into a stack request block, and therefore which
+of them the delay-slot filler steals for the following call.
 
 The rule is reproducible in a probe of ten lines:
 
@@ -4527,11 +4529,12 @@ diagnostic that tells you what the scheduler did, not as a profile to ship.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found while taking `func_80045208` from opcode distance 3 to 0; the entry is in
-`notes/candidates/`. It and its twin `func_80045334` both reconstruct to the
-exact instruction count with the exact register assignment and stop on the same
-two positions: the order of three word stores into a stack request block, and
-therefore which of them the delay-slot filler steals for the following call.
+Found while taking `func_80045208` from opcode distance 3 to 0; its exact source
+is `src/game/sound_output_state.c`. It and its twin `func_80045334` both
+reconstruct to the exact instruction count with the exact register assignment
+and stop on the same two positions: the order of three word stores into a stack
+request block, and therefore which of them the delay-slot filler steals for the
+following call.
 `func_80045334`'s entry already records that source statement order is not the
 input this order is computed from, over about 1800 variants. This is what it is
 computed from instead.

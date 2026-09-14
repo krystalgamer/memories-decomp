@@ -73,6 +73,13 @@ class CandidateFingerprintTests(unittest.TestCase):
 
 
 class CandidateContractTests(unittest.TestCase):
+    def test_missing_bundle_directory_is_valid_when_no_notes_remain(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            self.assertEqual(
+                candidate_builds.note_candidate_paths(Path(directory)),
+                [],
+            )
+
     def test_note_only_candidates_are_detected(self) -> None:
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             root = Path(directory)
