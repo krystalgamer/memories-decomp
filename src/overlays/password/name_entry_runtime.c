@@ -258,7 +258,7 @@ void NameEntry_UpdateGlyphFragment(u8 *object)
  * NameEntry_UpdateGlyphFragment, and retires the glyph itself. */
 void NameEntry_UpdateGlyphShatter(u8 *object)
 {
-    u8 *piece;
+    DisplayObject *piece;
     s32 dx;
     s32 dy;
 
@@ -267,18 +267,22 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
             for (dx = 0; dx < 0x10; dx += 4) {
                 piece = func_800400AC(func_8004002C(), 1);
                 if (piece != 0) {
+                    /* Scoped to the copy: a function-wide view costs
+                       GCC a second callee-saved register for the
+                       glyph. */
+                    DisplayObject *glyph = (DisplayObject *)object;
+
                     func_80040510((DisplayObjectConfigView *)piece,
-                                  *(s16 *)(object + 0x30) + dx,
-                                  *(s16 *)(object + 0x32) + dy,
+                                  (s16)glyph->field_30.h.field_30 + dx,
+                                  (s16)glyph->field_30.h.field_32 + dy,
                                   4, 4,
-                                  object[0x5C] + dx,
-                                  object[0x5D] + dy,
-                                  object[0x66],
-                                  *(u16 *)(object + 0x40),
-                                  *(u16 *)(object + 0x42));
-                    piece[0x6C] = 3;
-                    *(NameEntryGlyphUpdate *)(piece + 0x24) =
-                        NameEntry_UpdateGlyphFragment;
+                                  *(u8 *)&glyph->field_5C + dx,
+                                  ((u8 *)&glyph->field_5C)[1] + dy,
+                                  glyph->field_66,
+                                  (u16)glyph->field_40.h.field_40,
+                                  (u16)glyph->field_40.h.field_42);
+                    piece->field_6C = 3;
+                    piece->update = NameEntry_UpdateGlyphFragment;
                 }
             }
         }
