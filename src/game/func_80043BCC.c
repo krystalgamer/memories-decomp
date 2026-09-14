@@ -14,7 +14,6 @@
 #include "text_box_lifecycle.h"
 #include "sound.h"
 #include "main_frame.h"
-#include "movie_playback_control.h"
 
 s32 func_80043BCC(void) {
     s32 r;
