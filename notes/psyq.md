@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 98 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 75 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 91 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 68 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 98 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 91 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 75 already sit inside 18
+The `--coverage-report` split narrows that work: 68 already sit inside 17
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -679,6 +679,13 @@ Every row below is now an applied project symbol.
 | `0x8008FE10` | `DecDCToutSync` | Applied Psy-Q 4.6 identity at offset `0x230` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FE58` | `DecDCTinCallback` | Applied Psy-Q 4.6 identity at offset `0x278` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
 | `0x8008FE7C` | `DecDCToutCallback` | Applied Psy-Q 4.6 identity at offset `0x29C` of the unique 1,680-byte `LIBPRESS.LIB/LIBPRESS.OBJ` signature. |
+| `0x8008FEA0` | `MDEC_reset` | Stable Psy-Q 2.6/3.0 private label plus exact MDEC control-register and DMA-channel reset sequence; `DecDCTReset` calls it and mode zero reloads both decoder tables through `MDEC_in`. |
+| `0x8008FF90` | `MDEC_in` | Stable private label plus exact input DMA setup: waits through `MDEC_in_sync`, enables MDEC DMA priority, publishes the command and input buffer, and starts channel zero. |
+| `0x80090020` | `MDEC_out` | Stable private label plus exact output DMA setup: waits through `MDEC_out_sync`, publishes the destination and transfer size, and starts channel one. |
+| `0x800900AC` | `MDEC_in_sync` | Stable private label and exact bounded wait on MDEC status bit `0x20000000`, with timeout recovery and `-1` on exhaustion. |
+| `0x80090140` | `MDEC_out_sync` | Stable private label and exact bounded wait on output DMA bit `0x01000000`, with the same timeout recovery contract. |
+| `0x800901D4` | `MDEC_status` | Stable private label and exact six-instruction read of the MDEC status register. |
+| `0x800901EC` | `timeout_800901EC` | Reconstructed SDK implementations identify the shared private timeout path; both sync waits call its diagnostic and MDEC/DMA reset body. The address suffix avoids exporting the generic local name `timeout`. |
 | `0x80090270` | `DecDCTvlcSize2` | Applied Psy-Q 4.6 identity at offset zero of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
 | `0x800902A0` | `DecDCTvlc2` | Applied Psy-Q 4.6 identity at offset `0x30` of the unique 896-byte `LIBPRESS.LIB/VLC_C.OBJ` signature. |
 | `0x800905F0` | `DecDCTvlcBuild` | Applied Psy-Q 4.6 identity at offset zero of the unique 240-byte `LIBPRESS.LIB/BUILD.OBJ` signature. |
@@ -1108,14 +1115,16 @@ signatures:
 
 | Object | Resident signature range | Current naming boundary |
 |---|---:|---|
-| `LIBPRESS.LIB/LIBPRESS.OBJ` | `0x8008FBE0-0x80090270` (`0x690` bytes) | Nine API names are applied from `DecDCTReset` through `DecDCToutCallback`. Seven following function entries at `0x8008FEA0-0x800901EC` remain address-based; the final `0x8` bytes are zero alignment. |
+| `LIBPRESS.LIB/LIBPRESS.OBJ` | `0x8008FBE0-0x80090270` (`0x690` bytes) | Nine public API names are applied from `DecDCTReset` through `DecDCToutCallback`; the seven following private MDEC runtime functions are identified through stable older SDK labels, exact register/DMA behavior, and reconstructed implementations. The final `0x8` bytes are zero alignment. |
 | `LIBPRESS.LIB/VLC_C.OBJ` | `0x80090270-0x800905F0` (`0x380` bytes) | `DecDCTvlcSize2` and `DecDCTvlc2` occupy the range through `0x800905EC`; the final `0x4` bytes are zero alignment. |
 | `LIBPRESS.LIB/BUILD.OBJ` | `0x800905F0-0x800906E0` (`0xF0` bytes) | `DecDCTvlcBuild` occupies `0xE4` bytes; the final `0xC` bytes are the executable's text padding. |
 
-Exact object membership is not enough to name the seven remaining
-`LIBPRESS.OBJ` bodies. They may include additional public header interfaces
-and private helpers, so they retain address-based identities until an export
-offset, caller contract, or implementation signature distinguishes them.
+The private runtime identities are stronger than object membership alone.
+Psy-Q 2.6 and 3.0 label the same ordered roles `MDEC_reset`, `MDEC_in`,
+`MDEC_out`, `MDEC_in_sync`, `MDEC_out_sync`, and `MDEC_status`; reconstructed
+SDK implementations reproduce the retail register accesses and call graph.
+The final generic local `timeout` is address-qualified in the linked symbol
+table while retaining its recovered role.
 
 The resident movie setup path combines these layers: `func_8005B8A0` reaches
 the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence

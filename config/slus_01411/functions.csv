@@ -1784,13 +1784,13 @@ address,size,name,status,module,notes
 0x8008FE10,0x48,DecDCToutSync,sdk_asm,psyq/sdk,Identified at offset 0x230 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FE58,0x24,DecDCTinCallback,sdk_asm,psyq/sdk,Identified at offset 0x278 of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
 0x8008FE7C,0x24,DecDCToutCallback,sdk_asm,psyq/sdk,Identified at offset 0x29C of the unique Psy-Q 4.6 LIBPRESS.LIB/LIBPRESS.OBJ signature.
-0x8008FEA0,0xF0,func_8008FEA0,sdk_asm,psyq/sdk,
-0x8008FF90,0x90,func_8008FF90,sdk_asm,psyq/sdk,
-0x80090020,0x8C,func_80090020,sdk_asm,psyq/sdk,
-0x800900AC,0x94,func_800900AC,sdk_asm,psyq/sdk,
-0x80090140,0x94,func_80090140,sdk_asm,psyq/sdk,
-0x800901D4,0x18,func_800901D4,sdk_asm,psyq/sdk,
-0x800901EC,0x7C,func_800901EC,sdk_asm,psyq/sdk,
+0x8008FEA0,0xF0,MDEC_reset,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the exact MDEC control/DMA reset sequence used by DecDCTReset.
+0x8008FF90,0x90,MDEC_in,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the exact MDEC input DMA setup called by DecDCTin and MDEC_reset.
+0x80090020,0x8C,MDEC_out,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the exact MDEC output DMA setup called by DecDCTout.
+0x800900AC,0x94,MDEC_in_sync,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the bounded MDEC input-busy wait called by MDEC_in.
+0x80090140,0x94,MDEC_out_sync,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the bounded output-DMA wait called by MDEC_out.
+0x800901D4,0x18,MDEC_status,sdk_asm,psyq/sdk,Identified by stable Psy-Q 2.6/3.0 LIBPRESS internal labels and the exact read of the MDEC status register pointer.
+0x800901EC,0x7C,timeout_800901EC,sdk_asm,psyq/sdk,Identified as LIBPRESS's private timeout recovery by reconstructed SDK sources and the exact diagnostic/reset body called by both MDEC sync waits; address suffix avoids a generic global symbol.
 0x80090270,0x30,DecDCTvlcSize2,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBPRESS.LIB/VLC_C.OBJ signature.
 0x800902A0,0x34C,DecDCTvlc2,sdk_asm,psyq/sdk,Identified at offset 0x30 of the unique Psy-Q 4.6 LIBPRESS.LIB/VLC_C.OBJ signature.
 0x800905F0,0xE4,DecDCTvlcBuild,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBPRESS.LIB/BUILD.OBJ signature.

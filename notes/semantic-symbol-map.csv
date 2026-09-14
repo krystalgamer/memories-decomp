@@ -1,4 +1,11 @@
 kind,address,name,confidence,evidence,notes
+function,0x8008FEA0,MDEC_reset,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact MDEC control and DMA reset body called by DecDCTReset","Private LIBPRESS decoder reset runtime."
+function,0x8008FF90,MDEC_in,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact MDEC input DMA setup called by DecDCTin and MDEC_reset","Private LIBPRESS input submission runtime."
+function,0x80090020,MDEC_out,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact MDEC output DMA setup called by DecDCTout","Private LIBPRESS output submission runtime."
+function,0x800900AC,MDEC_in_sync,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact bounded input-busy wait and timeout call","Private LIBPRESS input synchronization runtime."
+function,0x80090140,MDEC_out_sync,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact bounded output-DMA wait and timeout call","Private LIBPRESS output synchronization runtime."
+function,0x800901D4,MDEC_status,confirmed,"Stable Psy-Q 2.6/3.0 LIBPRESS internal label; exact MDEC status-register read","Private LIBPRESS status helper."
+function,0x800901EC,timeout_800901EC,confirmed,"Reconstructed SDK implementations and exact shared diagnostic/reset body called by both MDEC sync waits","Address suffix distinguishes the generic private timeout symbol."
 function,0x80082228,memset_80082228,confirmed,"Unique Psy-Q 4.6 LIBGPU.LIB/SYS.OBJ match; recovered SYS.ASM memset label; exact byte-fill body","Address suffix distinguishes this private linked copy from libc memset."
 function,0x800862C0,GsSetWorkBase,confirmed,"Canonical libgs.h API; exact three-instruction body stores its pointer argument into D_800FE240","Sets the LIBGS packet work-base cursor."
 function,0x80089BCC,_gte_patch_text,confirmed,"Unique Psy-Q 4.6 LIBGTE.LIB/PATCHGTE.OBJ match; recovered private handler symbol; exact body installed by _patch_gte","Private GTE exception patch handler."
