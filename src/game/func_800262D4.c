@@ -77,6 +77,9 @@ void DuelEffect_ApplyRitual(void)
             D_8009B210 |= 0x80;
             object = (DisplayObject *)func_800291E0(1, -1, -1);
             object->field_30.h.field_30 = 90;
+            /* Negative constants go into these u16 halves through an s16
+               view here and below; stored as u16, GCC materialises the
+               zero-extended value (li 0xffde) where retail has li -34. */
             *(s16 *)&object->field_30.h.field_32 = -34;
             object->field_60 = 24;
             attribute = object->attribute;
