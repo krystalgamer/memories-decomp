@@ -153,7 +153,7 @@ local function onTextBoxBuild()
     local regs = PCSX.getRegisters()
     local object = normalize32(tonumber(regs.GPR.n.a0))
     if object < 0x80000000 or object > 0x801fffff then
-        error(string.format('text-box object out of RAM: 0x%08X', object))
+        error(string.format('text-box object out of RAM: 0x%08X', object), 0)
     end
     local id = u16(object + 0x36)
 

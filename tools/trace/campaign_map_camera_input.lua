@@ -21,7 +21,7 @@
 --   1. Enter the visible campaign location map, then open the PCSX-Redux
 --      debugger and select the interpreter CPU.
 --   2. Paste this script into Debug -> Lua editor and confirm that it reports
---      two installed breakpoints.
+--      three installed breakpoints.
 --   3. Try isolated holds of Left, Right, Up, Down, L1 and R1. Also try a
 --      direction with L2 or R2, and a direction while holding Cross. Release
 --      each combination before trying the next.
