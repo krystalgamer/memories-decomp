@@ -1,45 +1,27 @@
 /*
- * Current best under gcc_2_8_1_cc_g8_as_g4_split: 329/329 instructions and
- * opcode distance 0. Sized volatile pad globals stay small data to GCC at
- * -G8, while assembler -G4 bare-symbol loads rematerialize through each
- * destination register. The three local initialized tables produce 0x38
- * bytes of fingerprinted .rodata.
- *
- * The body follows levers measured one at a time on a parked copy of this
- * function in the ygofm tree:
- *  - each arm spells the row address as two assignments against one name,
- *    `r = (u8 *)&gDebug_nSceneOrSoundID; r = r + (s8)D_8009B2DC * 2;`;
- *  - the carry and division loops index the local tables directly, so GCC
- *    creates the stack-base givs inside the arm instead of in the entry block;
- *  - the entry arm's counter, the carry and the quotient each have their own
- *    name (`jj`, `cc`, `qq`); each alone measures as a regression, together
- *    they close the allocation;
- *  - the caret-clear block starts from the buffer address, with 0x20 named
- *    between the base and the counter;
- *  - `val = val + step; val = val & mask;` as two statements, and the masks
- *    table read as `db - -(e * 2)` for a base-first addu.
- *
- * Residual: in both arms the row-address sum emits the base
- * (`addiu $v1,$gp,%gp_rel(gDebug_nSceneOrSoundID)`) before the index shift,
- * and lands in $v1 where retail uses $v0.
+ * The union row view prevents GCC from coalescing the first computed row
+ * address with its symbol base. The address stays in v0 and is copied to the
+ * long-lived pointer, while the second arm's direct index keeps its one-use
+ * address in v0. Sized volatile .data views keep all six pad names absolute
+ * under the uniform G8 compiler and assembler profile.
  */
 #define FRONTEND_DEBUG_ROW_VIEWS
 #define D_8009AF4C_IS_AGGREGATE
-#define GINPUT_PAD1_HELD_SIZED_VOLATILE
-#define GINPUT_PAD2_HELD_SIZED_VOLATILE
-#define GINPUT_PAD1_PRESSED_SIZED_VOLATILE
-#define GINPUT_PAD2_PRESSED_SIZED_VOLATILE
-#define GINPUT_PAD1_REPEAT_SIZED_VOLATILE
-#define GINPUT_PAD2_REPEAT_SIZED_VOLATILE
+#define GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_PRESSED_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD1_REPEAT_SIZED_IN_DATA_VOLATILE
+#define GINPUT_PAD2_REPEAT_SIZED_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../ygo_types.h"
-#include "../game/debug_font_format_data.h"
-#include "../game/frontend_debug_state.h"
-#include "../game/frontend_debug_constants.h"
-#include "../game/input.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../unmatched.h"
+#include "debug_font_format_data.h"
+#include "frontend_debug_state.h"
+#include "frontend_debug_constants.h"
+#include "input.h"
 
 s32 func_80030294(void)
 {
@@ -56,6 +38,7 @@ s32 func_80030294(void)
     s32 k;
     u8 *z;
     u16 *p;
+    FrontendDebugRowPointer row;
     s32 val;
     s32 mask;
     u8 t2;
@@ -74,11 +57,10 @@ s32 func_80030294(void)
         D_8009B2EA = D_8009B2EA | 0x80;
         if ((D_8009B2EA & 0x40) != 0) {
             jj = (s8)t2 - 1;
-            r = (u8 *)&gDebug_nSceneOrSoundID;
-            r = r + (s8)D_8009B2DC * 2;
-            p = (u16 *)r;
-            val = *p;
-            *p = 0;
+            row.words = &((u16 *)&gDebug_nSceneOrSoundID)[(s8)D_8009B2DC];
+            val = *row.words;
+            *row.words = 0;
+            p = row.words;
             do {
                 k = a[jj];
                 qq = val / k;
@@ -104,11 +86,8 @@ s32 func_80030294(void)
         goto out;
     }
     if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x5000) != 0) {
-        r = (u8 *)&gDebug_nSceneOrSoundID;
-        r = r + (s8)D_8009B2DC * 2;
-        p = (u16 *)r;
         e = (s8)D_8009B2E9;
-        val = *p;
+        val = ((u16 *)&gDebug_nSceneOrSoundID)[(s8)D_8009B2DC];
         step = c[e];
         if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
             step = -step;

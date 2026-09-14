@@ -16,6 +16,13 @@ typedef struct {
     u16 row[FRONTEND_DEBUG_ROW_COUNT];
 } FrontendDebugValues;
 typedef u16 FrontendDebugSoundValues[2];
+typedef union {
+    u8 *bytes;
+    u16 *words;
+} FrontendDebugRowPointer;
+
+/* Edits the active frontend debug value and redraws its digit caret. */
+s32 func_80030294(void);
 
 /* The editor walks three adjacent rows; scalar producers retain their own
  * linker labels and small-data accesses. See notes/frontend-debug-state.md. */

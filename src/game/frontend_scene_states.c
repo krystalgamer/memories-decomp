@@ -9,6 +9,7 @@
 #define D_8009B3ED_IN_DATA
 #include "../types.h"
 #include "mem_card.h"
+#include "frontend_debug_state.h"
 #include "frontend_debug_tables.h"
 #include "duel_effect.h"
 #include "duel_side_state.h"
