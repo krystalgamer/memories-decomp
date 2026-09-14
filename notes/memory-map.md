@@ -82,7 +82,7 @@ tree at once:
 | `D_800E9D90[1]` | `frontend_background.c` and two more | `GsOT *D_800E9D90[]` |
 | `D_800E9D94` | `trade_screen_helpers.c` | `GsOT *D_800E9D94` |
 | `D_800E9D90[2]` | `value_setup.c`, `trade_offers.c`, `func_8004CB0C.c` | `GsOT *D_800E9D90[]` |
-| `D_800E9D98` | `src/candidates/func_80015DFC.c` | `void *D_800E9D98[]` |
+| `D_800E9D98` | `src/game/func_80015DFC.c` | `void *D_800E9D98[]` |
 
 The element names are not decompiler noise. Retail materializes them itself:
 `func_8004CB0C` loads the third word with its own `lui %hi(D_800E9D98)` /
