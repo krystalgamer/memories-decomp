@@ -21,6 +21,7 @@ DATA_EXCEPTIONS = Path(
 )
 LINKER_SYMBOLS = Path("config/slus_01411/c_symbols.ld")
 CANDIDATES = Path("config/slus_01411/candidates.json")
+COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 # Headers a build-integrated candidate may not take its declaration from:
 # the candidate trees themselves, and the overlays resident code cannot see.
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
@@ -96,6 +97,139 @@ def matching_sources(root: Path) -> list[Path]:
     data = json.loads(read_text(root / MATCHING_C))
     entries = data["functions"] if isinstance(data, dict) else data
     return sorted({root / entry["source"] for entry in entries})
+
+
+def source_profiles(root: Path) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = defaultdict(set)
+    matching = json.loads(read_text(root / MATCHING_C))
+    entries = matching["functions"] if isinstance(matching, dict) else matching
+    for entry in entries:
+        result[entry["source"]].add(entry.get("profile", "default"))
+    path = root / CANDIDATES
+    if path.is_file():
+        for entry in json.loads(read_text(path)).get("candidates", []):
+            source = entry.get("source")
+            if source:
+                result[source].add(entry.get("profile", "default"))
+    return result
+
+
+def profile_defines(root: Path) -> dict[str, set[str]]:
+    path = root / COMPILER_PROFILES
+    result = {"default": set()}
+    if not path.is_file():
+        return result
+    profiles = json.loads(read_text(path)).get("profiles", {})
+    for name, profile in profiles.items():
+        result[name] = {
+            flag[2:].split("=", 1)[0]
+            for flag in profile.get("compiler_flags", [])
+            if flag.startswith("-D") and len(flag) > 2
+        }
+    return result
+
+
+INCLUDE = re.compile(r'^\s*#\s*include\s+"(?P<path>[^"]+)"')
+CONDITIONAL = re.compile(
+    r"^\s*#\s*(?P<kind>if|ifdef|ifndef|elif|else|endif)\b"
+    r"(?P<argument>.*)$"
+)
+DEFINE = re.compile(r"^\s*#\s*define\s+(?P<name>[A-Za-z_]\w*)")
+UNDEF = re.compile(r"^\s*#\s*undef\s+(?P<name>[A-Za-z_]\w*)")
+
+
+def condition_enabled(argument: str, defines: set[str]) -> bool:
+    argument = argument.strip()
+    defined = re.fullmatch(r"defined\s*\(\s*([A-Za-z_]\w*)\s*\)", argument)
+    if defined is not None:
+        return defined.group(1) in defines
+    if argument.startswith("!"):
+        return not condition_enabled(argument[1:], defines)
+    if argument in {"", "0"}:
+        return False
+    if argument == "1":
+        return True
+    return argument in defines
+
+
+def active_header_source(
+    root: Path,
+    path: Path,
+    defines: set[str],
+    seen: set[Path] | None = None,
+) -> str:
+    if seen is None:
+        seen = set()
+    path = path.resolve()
+    if path in seen:
+        return ""
+    seen.add(path)
+    active = True
+    conditions: list[tuple[bool, bool]] = []
+    output: list[str] = []
+    for line in read_text(path).splitlines(keepends=True):
+        conditional = CONDITIONAL.match(line)
+        if conditional is not None:
+            kind = conditional.group("kind")
+            argument = conditional.group("argument").strip()
+            if kind in {"if", "ifdef", "ifndef"}:
+                parent = active
+                if kind == "ifdef":
+                    branch = argument in defines
+                elif kind == "ifndef":
+                    branch = argument not in defines
+                else:
+                    branch = condition_enabled(argument, defines)
+                conditions.append((parent, branch))
+                active = parent and branch
+            elif kind in {"elif", "else"} and conditions:
+                parent, branch_taken = conditions[-1]
+                branch = (
+                    not branch_taken
+                    if kind == "else"
+                    else not branch_taken and condition_enabled(argument, defines)
+                )
+                conditions[-1] = (parent, branch_taken or branch)
+                active = parent and branch
+            elif kind == "endif" and conditions:
+                parent, _ = conditions.pop()
+                active = parent
+            continue
+        define = DEFINE.match(line)
+        if define is not None:
+            if active:
+                defines.add(define.group("name"))
+            continue
+        undef = UNDEF.match(line)
+        if undef is not None:
+            if active:
+                defines.discard(undef.group("name"))
+            continue
+        include = INCLUDE.match(line)
+        if include is not None and active:
+            included = (path.parent / include.group("path")).resolve()
+            if (
+                included.is_relative_to((root / "src").resolve())
+                and included.is_file()
+                and included.suffix == ".h"
+            ):
+                output.append(active_header_source(root, included, defines, seen))
+            continue
+        if active and path.suffix == ".h":
+            output.append(line)
+    return "".join(output)
+
+
+def reachable_data_owners(
+    root: Path,
+    source: str,
+    profile: str,
+    linker: set[str],
+    defines_by_profile: dict[str, set[str]],
+) -> set[str]:
+    defines = set(defines_by_profile.get(profile, set()))
+    text = active_header_source(root, root / source, defines)
+    return {name for name, _ in extern_object_declarations(text, linker)}
 
 
 def linker_symbols(root: Path) -> set[str]:
@@ -468,6 +602,8 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     local_sites: list[tuple[str, str, str]] = []
     referenced_sites: list[tuple[str, str]] = []
     linker = linker_symbols(root)
+    profiles_by_source = source_profiles(root)
+    defines_by_profile = profile_defines(root)
     central_data_pairs = extern_object_declarations(
         read_text(root / UNMATCHED_HEADER),
     )
@@ -511,15 +647,15 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         for name, statement in extern_object_declarations(text, linker):
             key = (relative, name, statement)
             local_data[name].append((relative, statement))
-            if name not in central_data:
-                continue
             if key in data_approved:
                 data_found_approved.add(key)
-            else:
-                errors.append(
-                    f"{relative}: local declaration of central unmatched data "
-                    f"{name} is not approved: {statement}"
-                )
+                continue
+            if name not in central_data:
+                continue
+            errors.append(
+                f"{relative}: local declaration of central unmatched data "
+                f"{name} is not approved: {statement}"
+            )
 
     candidate_data_sites = 0
     for source in sorted((root / "src/candidates").rglob("*.c")):
@@ -529,6 +665,10 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         ):
             candidate_data_sites += 1
             local_data[name].append((relative, statement))
+            key = (relative, name, statement)
+            if key in data_approved:
+                data_found_approved.add(key)
+                continue
             if name in central_data:
                 errors.append(
                     f"{relative}: local declaration of central unmatched data "
@@ -582,23 +722,39 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"{DATA_EXCEPTIONS}: stale exception {item['symbol']}: "
                 f"absent from {LINKER_SYMBOLS}"
             )
-        if item["symbol"] not in central_data:
+        if not data_header_index.get(item["symbol"]):
             errors.append(
                 f"{DATA_EXCEPTIONS}: exception {item['symbol']} has no "
-                f"central declaration in {UNMATCHED_HEADER}"
+                "declaration in a resident owner header"
             )
 
-    headerless_data = {
-        name
-        for name in local_data
-        if not data_header_index.get(name)
-    }
-    for name in sorted(headerless_data):
+    missing_data_owners: dict[str, list[tuple[str, str, str]]] = defaultdict(list)
+    for name in sorted(local_data):
         for source, statement in sorted(local_data[name]):
-            errors.append(
-                f"{source}: local declaration of unmatched data {name} "
-                f"has no owner header: {statement}"
-            )
+            if (source, name, statement) in data_approved:
+                continue
+            profiles = profiles_by_source.get(source, {"default"})
+            for profile in sorted(profiles):
+                if name not in reachable_data_owners(
+                    root,
+                    source,
+                    profile,
+                    linker,
+                    defines_by_profile,
+                ):
+                    missing_data_owners[name].append((source, statement, profile))
+                    if profile == "default":
+                        errors.append(
+                            f"{source}: local declaration of unmatched data {name} "
+                            f"has no owner header: {statement}"
+                        )
+                    else:
+                        errors.append(
+                            f"{source}: local declaration of unmatched data {name} "
+                            f"has no reachable owner header under profile {profile}: "
+                            f"{statement}"
+                        )
+    headerless_data = set(missing_data_owners)
 
     stats = {
         "unmatched": len(unmatched),
@@ -615,7 +771,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         "candidate_data_sites": candidate_data_sites,
         "headerless_data": len(headerless_data),
         "headerless_data_sites": sum(
-            len(local_data[name]) for name in headerless_data
+            len(missing_data_owners[name]) for name in headerless_data
         ),
         "data_exception_names": len(
             {item["symbol"] for item in data_configured}
@@ -648,6 +804,8 @@ def main() -> int:
         f"{stats['central_data']} central data, "
         f"{stats['headerless_data']} headerless data/"
         f"{stats['headerless_data_sites']} sites, "
+        f"{stats['data_exception_names']} data exception names/"
+        f"{stats['data_exception_sites']} sites, "
         f"{stats['candidate_data_sites']} candidate sites)"
     )
     return 0
