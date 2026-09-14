@@ -26,7 +26,7 @@ int func_80049A64(void *input, short value)
     return -1;
 }
 
-void func_80049AF4(s32 arg0)
+void SD_PlaySequence(s32 arg0)
 {
     u8 one = 1;
 

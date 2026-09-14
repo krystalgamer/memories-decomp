@@ -52,7 +52,7 @@ to both a byte offset and an absolute disc LBA.
 byte-conversion shift as `FILE_SECTOR_SHIFT`. The descriptor setup and transfer
 control paths use them for sector-to-byte conversion and the one-sector gap
 between alternating buffer destinations. The named-file movie request
-`func_8005C464` also uses them to round the search result's byte size up to
+`Movie_StartFileStream` also uses them to round the search result's byte size up to
 a sector count before adding it to the file's starting sector. This is the
 logical payload size, not the disc image's 2,352-byte raw sector size.
 
@@ -118,7 +118,7 @@ payload role. The full negative evidence is recorded in
 
 ### End-of-duel results package
 
-Resident `func_80020F4C` requests 34 WA sectors beginning at sector `0x1DAB`,
+Resident `DuelScene_UpdateResultOutro` requests 34 WA sectors beginning at sector `0x1DAB`,
 which is archive range `0xED5800-0xEE6800`. Matching callback
 `func_80020BE4` accounts for the complete package:
 

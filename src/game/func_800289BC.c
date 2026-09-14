@@ -6,7 +6,7 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
-void func_800289BC(u8 *p, s32 mode)
+void func_800289BC(FileTransferDescriptor *object, s32 mode)
 {
     DuelEffectResourceRecord *e;
     RECT *rect;
@@ -14,15 +14,15 @@ void func_800289BC(u8 *p, s32 mode)
     s32 x;
 
     if (mode == 0) {
-        *(s32 *)(p + 0x1C) = 0x3800;
+        object->phase_size = 0x3800;
         D_8009B0F4 &= 0xFFDCFFFF;
-        *(s32 *)(p + 0xC) = D_8009B118;
-        *(s32 *)(p + 8) = D_8009B118;
-        p[0x46] = 1;
+        object->value_0C = D_8009B118;
+        object->value_08 = D_8009B118;
+        object->done = 1;
         return;
     }
 
-    e = &D_800EA0E8[*(s32 *)(p + 0x38)];
+    e = &D_800EA0E8[(s32)object->callback_data];
 
     rect = &e->rects[0];
     b = D_8009B118;

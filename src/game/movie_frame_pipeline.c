@@ -11,6 +11,7 @@
 #include "graphics_constants.h"
 #include "mdec_sync.h"
 #include "sound_mix.h"
+#include "../unmatched.h"
 
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then the three stages that decode and
@@ -319,4 +320,11 @@ void func_8005C1F4(void) {
     } else {
         D_8009B062 = 1;
     }
+}
+
+void func_8005C374(s32 first, s32 second, s32 third)
+{
+    D_8009B4A0 = first;
+    D_8009B4A1 = second;
+    D_8009B4A2 = third;
 }

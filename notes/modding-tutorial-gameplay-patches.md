@@ -55,7 +55,7 @@ The complete retail `0x1800`-byte phase is identical in all seven packages:
 SHA-256: d8bf4e5b8d135721ac2e2a45e45ca8c6b1d9d3ade9e5c9dbb668130f127e2fac
 ```
 
-This is a live script buffer: `func_8001D670` passes its base `0x801A9800`
+This is a live script buffer: `DuelScene_UpdateFieldActions` passes its base `0x801A9800`
 to `AiScript_Init` at the call at `0x8001D7D8`. That establishes the block's
 retail consumer, not the meaning of each byte after the drops tool rewrites it.
 
@@ -225,7 +225,7 @@ The tutorials identify two SLUS offsets in the deck editor:
 | `0x24020` | `0x80033820` | `01 00 03 24` | `addiu $v1, $zero, 1` | Exodia-piece copy limit |
 | `0x24070` | `0x80033870` | `03 00 42 2C` | `sltiu $v0, $v0, 3` | General per-card copy limit |
 
-Both instructions are in `func_800336F0`, whose exact matching C establishes
+Both instructions are in `BuildDeck_UpdateChestPaneInput`, whose exact matching C establishes
 the surrounding behavior. The function obtains the selected card ID in `r`
 and begins with a permitted-copy count of one:
 
@@ -269,8 +269,9 @@ The tutorial then installs two hooks:
 | `0x22418` | `0x80031C18` | Load the selected card's deck count and test it against `3` | Jump to `0x801CF248`, select a per-card limit, update the list-display comparison and its color constant, then resume at `0x80031C24` |
 | `0x24064` | `0x80033864` | Load the selected card's deck count before `sltiu $v0, $v0, 3` | Jump to `0x801CF364`, return the selected limit in `$a0`, and replace the fixed comparison with `sltu $v0, $v0, $a0` |
 
-The first hook lies in unmatched `func_80031874`; the second lies in the exact
-matching deck-add path `func_800336F0`.
+The first hook lies in `func_80031874`, the Build Deck list renderer matched in
+`src/game/func_80031874.c`; the second lies in the exact matching deck-add path
+`BuildDeck_UpdateChestPaneInput`.
 
 The injected lookup contains 26 little-endian halfword slots:
 
@@ -365,12 +366,14 @@ their zero-based table indices are:
 | `651`-`700` | `50`-`99` |
 | `721` | `100` |
 
-Exact matching C in `func_80026BA4` enforces those three ranges and performs
+Exact matching C in `DuelEffect_StartCardEffect` enforces those three ranges
+and performs
 the index conversion. The source names the two block starts and common
 `DUEL_EFFECT_CARD_BLOCK_SIZE`, with Dark Magic Ritual's ID and final index
 kept explicit. These remain fixed card-ID ranges, not a runtime card-type
 test; IDs outside them still leave the effect state untouched.
-`func_80026B34` runs only while `DUEL_CARD_EFFECT_FLAG_ACTIVE` (`0x8000`)
+`DuelEffect_UpdateCardEffect` runs only while
+`DUEL_CARD_EFFECT_FLAG_ACTIVE` (`0x8000`)
 is set. It reads the table byte and multiplies it by
 `DUEL_CARD_EFFECT_HANDLERS_PER_GROUP` (`2`); the
 `DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER` (`0x4000`) selector adds one to choose
@@ -469,8 +472,8 @@ return 1;
 
 The caller at `0x80018FC4` keeps duel state `4` when the check returns zero
 and changes it to state `0xE` when the check succeeds. The duel-scene
-dispatcher uses the low state nibble to index `D_80090998`; slot `0xE` is
-`func_80018FEC`. That callback repositions five display objects by the Exodia
+dispatcher uses the low state nibble to index `gDuel_apfnSceneStateHandler`; slot `0xE` is
+`DuelScene_UpdateExodiaResult`. That callback repositions five display objects by the Exodia
 piece IDs, then records the current side in `gDuel_bWinnerSide` and writes
 `0x28` (`+40`) to its duel-end score field before leaving for the result path.
 State `0xE` is therefore the `SUMMON Exodia` instant-win presentation.
@@ -492,7 +495,7 @@ retail card data, where zero denotes an empty card and valid IDs are
 - **Confirmed** that the two-byte patch makes the check return zero for normal
   retail card data.
 - **Confirmed** that caller state `0xE` is the Exodia summon/win presentation:
-  dispatch slot `0xE` runs `func_80018FEC`, stages the five piece objects, and
+  dispatch slot `0xE` runs `DuelScene_UpdateExodiaResult`, stages the five piece objects, and
   records the current side as the `+40` Exodia winner.
 
 ## Editable Duel Master K deck
@@ -643,7 +646,8 @@ reflected-damage routing without assigning a semantic name to that state
 halfword.
 
 Both handlers use the same resident presentation sequencer when bit `0x20` of
-`D_8009B220` is set. Newly matching `func_8001F364` waits for the preceding
+`gDuel_wCardEffectFlags` is set. Newly matching `func_8001F364` waits for the
+preceding
 screen effect, starts a first `func_80022D94` phase, and arms a 20-frame
 counter. When that counter expires it copies the selected card object's
 `+0x30`, `+0x32`, and `+0x34` values into a newly allocated type-8 effect

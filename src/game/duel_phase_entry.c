@@ -1,7 +1,6 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define D_8009B36A_IN_DATA
 #include "../types.h"
-#include "func_8002C604.h"
 #include "func_800179F4.h"
 #include "display_object.h"
 #include "duel_card.h"
@@ -12,9 +11,10 @@
 #include "duel_side_state.h"
 #include "duel_scene_state.h"
 #include "duel_phase_entry.h"
-#include "func_8001825C.h"
+#include "duel_scene_resume.h"
 #include "view_state.h"
 #include "card_constants.h"
+#include "duel_scene_state.h"
 #include "duel_hand.h"
 #include "duel_deck_card.h"
 #include "duel_rank.h"
@@ -29,17 +29,18 @@
 #include "func_80018004.h"
 #include "duel_apply_card_object_flags.h"
 #include "duel_deck_card_data.h"
+#include "duel_swords_effect.h"
 
 extern s8 D_8009B1B9;
 extern s8 D_8009B208[8];
 
-/* Three contiguous entries from the D_80090998 duel-phase callback table:
+/* Three contiguous entries from the gDuel_apfnSceneStateHandler duel-phase callback table:
    resume/replay reconstruction, initial deck and selection setup, and draw
-   phase hand reconstruction. All three use D_8009B23A as their first-call
+   phase hand reconstruction. All three use gDuel_wSceneStateFlags as their first-call
    latch and rebuild active duel-card and side state around fade or transfer
    gates. */
 
-void func_8001825C(void)
+void DuelScene_UpdateResume(void)
 {
     DuelCardRecord *rec;
     u8 *obj;
@@ -52,8 +53,8 @@ void func_8001825C(void)
     u16 flags;
     s8 n;
 
-    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
+    if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         rec = D_801A7B64;
         for (i = HAND_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++, rec++) {
             flags = rec->flags;
@@ -82,16 +83,17 @@ void func_8001825C(void)
         }
         func_8001352C();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
-            if (D_800E9FF0[i].field_19 != 0) {
-                obj = func_8002C604(0x15);
+            if (D_800E9FF0[i].swords_turns_remaining != 0) {
+                obj = DuelEffect_AllocateRequest(0x15);
                 *(u16 *)(obj + 0x1A) = i + 2;
                 obj[0x1C] |= 0x20;
-                D_8009B1F0[i] = obj;
+                gDuel_apSwordsEffectObjects[i] =
+                    (DuelFieldEffectObject *)obj;
             }
         }
         if (D_8009B1C8->rank.result_adjustment ==
             DUEL_RANK_ADJUST_EXODIA_WIN) {
-            D_8009B23A |= 0x2000;
+            gDuel_wSceneStateFlags |= 0x2000;
             for (i = 0; i < DUEL_FIELD_SIDE_ZONE_COUNT; i++) {
                 rec = &D_801A7AD8[D_800907D8[
                     i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
@@ -109,7 +111,7 @@ void func_8001825C(void)
         return;
     }
 
-    if ((D_8009B23A & 0x4000) == 0) {
+    if ((gDuel_wSceneStateFlags & 0x4000) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) != 0) {
             return;
@@ -117,10 +119,10 @@ void func_8001825C(void)
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) != 0) {
             return;
         }
-        D_8009B23A |= 0x4000;
+        gDuel_wSceneStateFlags |= 0x4000;
         D_8009B1B9 = 2;
-        if ((D_8009B23A & 0x2000) != 0) {
-            D_8009B23A = 0xC;
+        if ((gDuel_wSceneStateFlags & 0x2000) != 0) {
+            gDuel_wSceneStateFlags = 0xC;
         }
         return;
     }
@@ -129,7 +131,7 @@ void func_8001825C(void)
         n = D_8009B1B9 - 1;
         D_8009B1B9 = n;
         if (n < 0) {
-            D_8009B23A = 5;
+            gDuel_wSceneStateFlags = 5;
             return;
         }
         if (D_8009B208[n] >= 0) {
@@ -146,7 +148,7 @@ void func_8001825C(void)
         card = replay->record.object;
     }
     func_8001352C();
-    obj = (u8 *)func_8002C68C(0xB);
+    obj = (u8 *)DuelEffect_CreateRequest(0xB);
     *(u16 *)obj = card->field_30.h.field_30;
     *(u16 *)(obj + 2) = card->field_30.h.field_32;
     *(u16 *)(obj + 4) = *(u16 *)&card->field_34;
@@ -155,7 +157,7 @@ void func_8001825C(void)
     SD_SEPlayFull(0x1F);
 }
 
-void func_80018608(void)
+void DuelScene_UpdateStartup(void)
 {
     u16 *w;
     u8 *r1;
@@ -168,8 +170,8 @@ void func_80018608(void)
     s32 stat2;
 
     w = (u16 *)&D_800F2848;
-    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
+    if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Duel_RequestCombinedDeckData();
         D_800F2848.field_00 = 0x4B0;
         w[2] = 0x358;
@@ -244,7 +246,7 @@ void func_80018608(void)
     case 5:
         Duel_ClearHandSlots();
         D_8009B1EC = HAND_SIZE;
-        D_8009B23A = 3;
+        gDuel_wSceneStateFlags = 3;
         ((DuelSelectionSideView *)(D_800E9F10 +
             D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = D_800EA030;
         break;
@@ -253,14 +255,14 @@ void func_80018608(void)
 
 /* Draw phase entry. On its first call it sets the phase flag, points the
    side state and selection records at the current side, ticks down the
-   side's pending counter (releasing the pending object at D_8009B1F0 when
+   side's Swords counter (releasing its effect object when
    it reaches zero), resets the used flag on every card record, then
    rebuilds the hand: the five hand slot bytes are copied out and cleared,
    each valid one gets its card record set up and a hand object spawned at
    a fixed x and a 0x3C-spaced y, and the number of empty slots is stored
    for the draw. Later calls only clear the phase flag once the message
    state has returned to zero. */
-void func_8001898C(void) {
+void DuelScene_UpdateDrawPhase(void) {
     u8 hand[HAND_SIZE];
     DuelCardRecord *rec;
     u8 *fl;
@@ -276,8 +278,8 @@ void func_8001898C(void) {
     u16 flags;
     s8 c;
 
-    if ((D_8009B23A & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
-        D_8009B23A |= DUEL_SCENE_FLAG_INITIALIZED;
+    if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         *(u16 *)&D_8009B21C->field_40.h.field_40 =
             (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
@@ -287,13 +289,14 @@ void func_8001898C(void) {
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = D_800EA030;
         *(DuelHandSlot **)((u8 *)D_8009B1B4 + 8) = base;
-        if (*(s8 *)((u8 *)D_8009B1C8 + 0x19) != 0) {
-            c = ((u8 *)D_8009B1C8)[0x19] - 1;
-            ((u8 *)D_8009B1C8)[0x19] = c;
+        if (D_8009B1C8->swords_turns_remaining != 0) {
+            c = D_8009B1C8->swords_turns_remaining - 1;
+            D_8009B1C8->swords_turns_remaining = c;
             if (c <= 0) {
-                ((u8 *)D_8009B1C8)[0x19] = 0;
-                *(u16 *)(D_8009B1F0[D_8009B1D5] + 0x1A) = 0xFFFD - D_8009B1D5;
-                D_8009B1F0[D_8009B1D5] = 0;
+                D_8009B1C8->swords_turns_remaining = 0;
+                gDuel_apSwordsEffectObjects[D_8009B1D5]->field_1A =
+                    0xFFFD - D_8009B1D5;
+                gDuel_apSwordsEffectObjects[D_8009B1D5] = 0;
             }
         }
         D_8009B1C8->rank.turns_taken++;
@@ -340,6 +343,6 @@ void func_8001898C(void) {
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
         *(u16 *)&D_8009B1B4->field_0C = 0xAE;
     } else if (D_8009B162 == 0) {
-        D_8009B23A = 3;
+        gDuel_wSceneStateFlags = 3;
     }
 }

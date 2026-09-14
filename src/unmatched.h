@@ -78,9 +78,6 @@ s32 func_80030294(void);
  * equivalent unsigned int and int spellings. */
 void func_800323F8(u32, void *, s32, s32);
 
-/* One consumer, duel_scene_update.c, which calls it without arguments. */
-void func_800235C0(void);
-
 /* Three consumers, identical spelling in all three: model_scene_setup.c,
  * model_scene_states.c and model_slot_support.c. The last of those is the site
  * described above, which used to declare no parameters; once it was given the
@@ -103,8 +100,6 @@ void func_800540B4(s32);
  * file that used to declare it. */
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 void func_8002ACA4(u8 *);           /* library_runtime.c */
-
-/* One consumer, duel_effect_tables.c, as a DuelEffectHandler table entry. */
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to func_800428A8 or stores it into an object field, and
@@ -190,11 +185,11 @@ extern s32 D_8009B118;
  * entries above, it is safe precisely because there are no call sites for it
  * to be wrong at, and it is what has to change if a caller is ever matched
  * and passes an argument. */
-void func_8001BD88(void);
-void func_8001D670(void);
-void func_80019D18(void);
-void func_8001F55C(void);
-void func_80018FEC(void);
+void DuelScene_UpdateHandActions(void);
+void DuelScene_UpdateFieldActions(void);
+void DuelScene_UpdateCardPlacement(void);
+void DuelScene_UpdateBattle(void);
+void DuelScene_UpdateExodiaResult(void);
 void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
@@ -240,12 +235,9 @@ void func_80034830(void);
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
  * restated. func_8004158C has since matched and is declared by
- * func_8004158C.h. */
-void func_8004DE24(void);
+ * func_8004158C.h. func_800534B8 is now owned by model_debug_controller.h. */
 void func_8004EB00(void);
-void func_80051A48(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
-s32 func_800534B8(void);
 
 /* Three caller-visible contracts that were outside the central inventory.
  *
@@ -253,21 +245,20 @@ s32 func_800534B8(void);
  * parameters are the caller's measured view and remain distinct from the
  * narrower internal types in the build-integrated candidate.
  *
- * func_80015EF4 and func_80056828 were called implicitly. The former takes the
+ * func_80015EF4 was called implicitly. It takes the
  * caller's record and scratch buffers; void * preserves the record boundary
- * without importing a subsystem type into this root header. The latter takes
- * the model player/slot index already passed by its sole caller. */
+ * without importing a subsystem type into this root header. */
 void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
-void func_80056828(s32);
 
 /* This undefined global is declared identically by every consumer and
  * only ever read or written as a scalar.
  *
  * D_8009B162 is pinned by its neighbour: c_symbols.ld names D_8009B164
  * two bytes later, so it has no room for an element to carry its own name.
- * D_8009B23A has moved to its owner, duel_scene_state.h. */
+ * gDuel_wSceneStateFlags has moved to its owner, duel_scene_state.h. */
 extern u16 D_8009B162;   /* nine declarers  */
+extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
 /* Nothing in the tree calls this one. Both consumers only take its address,
  * to install it in a display object's +0x4C slot: dialog_transition.c stores
@@ -316,10 +307,10 @@ int func_80067220();
  * MemCard* calls are issued against.
  *
  * D_8009B3EB and D_8009B174 have larger gaps to the next name -- two bytes
- * and eight -- but those are upper bounds rather than sizes, the way
- * D_8009B23A's was. Nothing is named inside either gap, and no consumer of
- * either reads past the byte, so the u8 all five consumers agree on is what
- * is declared and the bytes above stay unclaimed.
+ * and eight -- but those are upper bounds rather than sizes, like the gap
+ * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
+ * consumer of either reads past the byte, so the u8 all five consumers agree
+ * on is what is declared and the bytes above stay unclaimed.
  *
  * Both of the latter two are packed state bytes rather than plain counters,
  * which is why the byte width matters to every reader: D_8009B3EB is switched
@@ -343,10 +334,10 @@ extern u8 D_8009B174;   /* five declarers */
  * Three are pinned exactly, with the next name sitting at precisely the end
  * of the declared width, so no element can hide inside them: D_8009B3C2 and
  * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
- * two bytes with D_8009B1D2 immediately after it.
+ * two bytes with gDuel_wEffectCardID immediately after it.
  *
- * D_8009B3F4 has a larger gap than its width and is treated the way
- * D_8009B23A was, as an upper bound rather than a size. Nothing is named
+ * D_8009B3F4 has a larger gap than its width and is treated as an upper
+ * bound rather than a size. Nothing is named
  * inside that gap and no consumer reads past the declared width, so the
  * agreed type is what is declared and the bytes above stay unclaimed.
  *
@@ -366,7 +357,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * The func_8002EE94 candidate also clears it, spelled with a .data section
+ * The Script_OpSavePrompt candidate also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
 extern u8 D_8009B34C __attribute__((section(".data")));
@@ -379,8 +370,8 @@ extern u8 D_8009B34C;
  * These declarations are copied from the unanimous local spellings they
  * replace. Bounds are retained only where consumers already agreed on them;
  * unsized arrays remain address/range views rather than guessed object sizes.
- * D_8009B26E is deliberately separate from D_8009B26C: the latter still has
- * incompatible scalar, array, and absolute-address views across its users. */
+ * D_8009B26E is deliberately separate from the guarded frontend mode
+ * bytes owned by main_mode_state.h. */
 extern u8 D_80010074[];
 extern u8 D_80010090[];
 extern u8 D_800100A8[];
@@ -397,8 +388,6 @@ extern u8 D_8009B26E;
 extern u16 D_8009B33A;
 extern s32 D_8009B378;
 extern s32 D_8009B3BC;
-extern u8 D_8009B48E[2];
-extern u8 D_8009B490[2];
 extern u16 D_800F5678[];
 extern s16 D_800EFE3C;
 
@@ -530,20 +519,6 @@ struct DuelRitualResult;
  * func_800164FC;` (src/candidates/func_800179F4.c:170), so the declaration
  * has to match the definition exactly for the address to be taken. */
 
-/* Starts the async read of one card's effect artwork into slot `slot` of the
- * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
- * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,
- * seven sectors long, so a card's art is seven sectors and the table begins
- * one card's worth past the card data.
- *
- * It hands back the transfer descriptor it started, with `slot` already
- * stored in the descriptor's callback_data for func_800289BC to pick up, and
- * it has published the descriptor's status through D_8009B0F4 with
- * FILE_TRANSFER_STATE_PRIMARY_ACTIVE set. Every caller ignores the value,
- * which is why they can: the descriptor is reachable without it. The password
- * overlay's shop.c calls it too. */
-void func_8002A2F4(u8 *state);
-
 /* D_80090C50 handler: the two-axis smooth scroll stepper Script_OpViewportTween
  * hands the scene over to. On its first frame it derives the per-frame 16.16
  * deltas from the distance to the target over the remaining frame count, then
@@ -573,13 +548,9 @@ void func_8002A2F4(u8 *state);
  *
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
- * `u8 *record` view in dialog_highlight_choice.h; func_8002EE94
+ * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
  * (src/candidates/func_8002EE94.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
- * display-object list 5. It is reached only through that table. */
-void func_80041068(void);
-
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
@@ -609,29 +580,13 @@ extern DisplayObject *D_8009B18C;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-extern u16 D_8009B244;
 extern u8 D_8009B248;
-extern u8 D_8009B24A;
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
 extern DuelEffectRequest *D_8009B264;
 #endif
 
-#ifdef D_8009B269_AS_SCALAR_DATA
-extern u8 D_8009B269 __attribute__((section(".data")));
-#elif defined(D_8009B269_AS_ARRAY)
-extern u8 D_8009B269[];
-#else
-extern u8 D_8009B269;
-#endif
-
-#ifdef D_8009B26C_AS_SCALAR_DATA
-extern u8 D_8009B26C __attribute__((section(".data")));
-#elif defined(D_8009B26C_AS_SCALAR)
-extern u8 D_8009B26C;
-#else
-extern u8 D_8009B26C[];
-#endif
+#include "game/main_mode_state.h"
 
 #ifdef D_8009B2F8_AS_ARRAY
 extern u8 D_8009B2F8[];
@@ -650,13 +605,9 @@ extern u16 D_8009B370;
 #endif
 extern u16 D_8009B372;
 extern u16 D_8009B374;
-extern u16 D_8009B3CC;
-extern u8 D_8009B3CF;
-extern u8 D_8009B3DD;
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;
-extern s16 D_8009B488[MODEL_SLOT_COUNT];
 #endif
 #ifdef D_800E9ECE_AS_SCALAR
 extern u8 D_800E9ECE;
@@ -669,7 +620,6 @@ extern u8 D_800E9ECF;
 extern u8 D_800E9ECF[];
 #endif
 extern s8 D_800EA02F[];
-extern u8 D_800EB224[];
 
 #ifdef D_800EAE88_VISIBLE
 #ifdef D_800EAE88_AS_BYTES

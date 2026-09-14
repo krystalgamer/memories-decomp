@@ -4,7 +4,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "sound.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 #include "display_object.h"
 #include "duel_card_stat_display.h"

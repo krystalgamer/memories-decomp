@@ -46,7 +46,7 @@ void func_80049308(void)
 
     if (state->field_157A != 0) {
         u8 *entry = (u8 *)state->music_track;
-        s32 result = func_800496C4(entry + 0x50, 0, *(s32 *)(entry + 0x0C));
+        s32 result = SD_VabOpenHead(entry + 0x50, 0, *(s32 *)(entry + 0x0C));
 
         g_SDValue->field_157A = result;
         if ((result << 16) != 0) {
@@ -78,10 +78,10 @@ void func_800493F8(void)
 
     func_80049010();
     entry = (u16 *)0x801EA800;
-    /* Deliberately not g_SDValue->music_track: the member store picks a
-       different register for the pointer and one byte of func_800493F8
-       changes. Measured. */
-    *(u16 **)((u8 *)g_SDValue + 0x1564) = entry;
+    /* Stored through the member's address as void **: a plain member store
+       (or a u16 ** cast, which fold turns back into one) picks a different
+       register for the pointer and changes seven words. Measured. */
+    *(void **)&g_SDValue->music_track = entry;
     entry[0] = 0xFFFF;
 }
 

@@ -153,9 +153,9 @@ integer ABI boundaries.
 
 | Header arm | Consumers | Addressing retained |
 |---|---|---|
-| Default pointer | `Campaign_LoadScenePackageStage`, `func_8002C604`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
-| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `func_8003B808`, `func_8003BF00`, `func_8005B8A0` | Forced `.data` declaration, not a storage definition |
-| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `func_8001755C`, `main_run_duel_and_library.c`, `main_run_selection_menus.c`, candidate `func_80056828` | `D_80010000`-relative array addressing |
+| Default pointer | `Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
+| `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `func_8003B808`, `func_8003BF00`, `func_8005B8A0`, `func_80056828` | Forced `.data` declaration, not a storage definition |
+| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `func_8001755C`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | `D_80010000`-relative array addressing |
 
 The indexed arm takes `HighMemoryModelAddressPrefix` from
 [`ygo_types.h`](../src/ygo_types.h). This is only the first five address
@@ -183,15 +183,16 @@ small-data view would turn its four absolute loads gp-relative. Reaching
 one of these through a field of `D_80010000` would change its relocation
 identity, even when the eventual runtime address is the same.
 
-Candidate `func_80056828` keeps its existing base-relative relocations;
-they are not rewritten to the retail assembly's individual labels. It
-consumes the shared header, so its reviewed schema-2 dependency metadata
-removes only the superseded private-extern entries, and its object
-fingerprint remains
-`9c4d76a2fa8a88514edc63839f9cacf472f6c03f1043c3006ae29f0d9923425b`.
-It is not promoted or claimed to match retail. The matching
-`func_8004CB0C` keeps its four independently labeled data loads.
+The earlier `func_80056828` candidate retained base-relative relocations
+under the indexed view; that consolidation was not a matching promotion.
+The complete pin-free reconstruction in `model_load_step.c` now selects
+the absolute scalar arm and uses the retail assembly's individually labeled
+payload and primary-module loads. Its obsolete candidate and target
+snapshot are retired only after exact text/table and full-image proof.
+The matching `func_8004CB0C` keeps its four independently labeled data loads.
 
-The remaining constants, Psy-Q CRT's zero-count callback walks, generated
+The original contract consolidation left the remaining constants, Psy-Q
+CRT's zero-count callback walks, generated
 data, function grouping, compiler profiles and existing register assignments
-are unchanged. This contract consolidation does not map the storage to C.
+unchanged. Neither that consolidation nor the dispatcher match maps this
+address-word storage to a new C allocation.

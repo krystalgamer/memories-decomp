@@ -11,9 +11,9 @@ s32 Duel_CheckQuitInput(void);
  * of what that function does. Two bits are established:
  *
  *   0x01  a quit was requested -- Duel_CheckQuitInput stores 1 when Select is
- *         pressed and gDuel_bOpponentID[0] is negative.
- *   0x80  the dialog is already up. func_80024200
- *         (src/candidates/func_80024200.c) is the consumer: on a nonzero
+ *         pressed and gDuel_bOpponentID is negative.
+ *   0x80  the dialog is already up. DuelScene_Update
+ *         (src/candidates/DuelScene_Update.c) is the consumer: on a nonzero
  *         value with 0x80 clear it sets that bit, plays SE 0x30 and raises
  *         the box through TextBox_CreateFlagged;
  *         with 0x80 set it waits for the box, destroys it, and clears the
@@ -30,24 +30,23 @@ extern u8 gDuel_bQuitDialogState;
 /* The duel outcome flags the quit flow reports into, as the two small-data
  * users spell it.
  *
- * func_80024200 raises 0x2000 here at the point it clears
+ * DuelScene_Update raises 0x2000 here at the point it clears
  * gDuel_bQuitDialogState above -- that is the quit result -- and Main_RunDuel
  * reads exactly that bit back. func_800179F4 clears the word when the duel
  * starts, in the same run of assignments that clears the quit state, and
  * raises 0x1000 there for its own reason.
  *
- * Only those two units take this plain u16 spelling, and the declaration lives
- * here rather than in duel_side_state.h for a checked reason:
- * Main_RunDuel (src/candidates/func_8002CEE8.c) reads the word as
- * `u16 D_8009B16C[9]`, which is
- * the oversized-array form of the absolute addressing the .data attribute also
- * produces, and that file does include duel_side_state.h. It does not include
- * this header, and neither does debug_effect_screen.c, which takes a third
- * view -- `u8 D_8009B16C[4]`, touching byte 2 rather than the halfword at 0.
- * So the spellings never meet here and no guarded arm is needed.
+ * Main_RunDuel takes the .data arm because its G8 build reaches the word
+ * absolutely. The other two users take the plain scalar. debug_effect_screen.c
+ * retains a private byte view because it touches byte 2 rather than this
+ * halfword at offset 0.
  *
  * The byte-2 use is worth knowing about before anyone widens this: the address
  * carries more than the flags word these two functions see. */
+#ifdef D_8009B16C_IN_DATA
+extern u16 D_8009B16C __attribute__((section(".data")));
+#else
 extern u16 D_8009B16C;
+#endif
 
 #endif

@@ -17,7 +17,7 @@
  * The parameter is now the record's own type. The five fields this function
  * reads -- field_3C, field_3E, field_40, field_42 and field_59 -- are all
  * declared in DuelEffectChannel at those offsets and at these widths, and
- * every caller, func_80028310.c included, holds a DuelEffectChannel *.
+ * every caller, duel_effect_dialog_state.c included, holds a DuelEffectChannel *.
  *
  * The return stays u8 *. It is a display object, not this record, and every
  * caller stores it into a void * slot. */

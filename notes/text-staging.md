@@ -59,16 +59,16 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- Two build-integrated candidates reference this family, not one:
-  `src/candidates/func_8002A2F4.c` and `password/func_8016A37C.c`; three
-  more consumers are now matched, `func_80023144` in
-  `src/game/duel_field_display_objects.c`, `func_80060E70` in
-  `src/game/func_80060E70.c` and `MemCardDialog_UpdateSave` in
-  `src/game/mem_card_dialog_load_save.c`. The filter is
-  `git grep -lw D_801D5608 -- 'src/candidates/**'`, and each of the two
-  includes `src/game/text_staging.h` and declares nothing privately, so the
-  password producer is one example of the population rather than the whole of
-  it. The distinction that holds is the contract one. The probe over all 171
+- One build-integrated candidate still references this family,
+  `password/func_8016A37C.c`; four more consumers are now matched,
+  `func_80023144` in `src/game/duel_field_display_objects.c`, `func_80060E70`
+  in `src/game/func_80060E70.c`, `MemCardDialog_UpdateSave` in
+  `src/game/mem_card_dialog_load_save.c` and `func_8002A2F4` in
+  `src/game/func_8002A2F4.c`. The filter is
+  `git grep -lw D_801D5608 -- 'src/candidates/**'`. The candidate includes
+  `src/game/text_staging.h` and declares nothing privately, like the matched
+  consumers, so the password producer is one example of the population rather
+  than the whole of it. The distinction that holds is the contract one. The probe over all 171
   entries of `config/slus_01411/candidates.json`, four of which carry a
   `module` and are the overlay candidates, finds neither `D_801D5608` nor
   `D_801D5608_starchips` in any entry's canonical contracts, so no entry

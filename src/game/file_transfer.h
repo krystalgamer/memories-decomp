@@ -171,7 +171,7 @@ extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
  * store; File_ActivateTransfer ORs in bit 0; the two readers outside this
  * family test bit 0x4000, the transfer-complete flag. Same two forms as
  * D_8009B0F4 above: five units reach it gp-relative, and two --
- * func_80037B40 and func_800257A0 -- read it through a %hi/%lo pair into
+ * func_80037B40 and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
  * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
  * which is the bare form; they take the _abs name. Measured per unit: with
  * either of the two on the plain name the executable links 8 bytes short
@@ -226,12 +226,10 @@ extern u8 D_801DE000[];
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;
 
-/* The initialized .sdata pointer targets the primary descriptor. The sector
-   callback reads the record at byte offsets and used to select a `u8 *`
-   declaration for it; the offsets are written `(u8 *)D_8009AF18 + N` at the
-   site instead, and its object is byte for byte unchanged by that -- a
-   pointer is one word either way, so the declared target type reaches no
-   instruction. */
+/* The initialized .sdata pointer targets the primary descriptor, which may
+   be switched by a phase callback. The sector callback reads it through
+   the FileTransferDescriptor members; only its image-phase buffer select is
+   still an address sum (see func_80013C28.c). */
 extern FileTransferDescriptor *D_8009AF18;
 extern u32 *D_8009B0F8;
 
@@ -272,7 +270,11 @@ extern void (*D_8009B10C)(void) __attribute__((section(".data")));
 extern void (*D_8009B10C)(void);
 #endif
 extern u8 D_8009B0E0;
-extern u8 D_800E9DF0[];
+/* A GsSPRITE-shaped record that File_SetPositionTable fills field by field:
+ * 24x24 at (0x120, 0xD0), tpage 0xB, uv (0x00, 0xA0), clut (0x230, 0xFC),
+ * neutral grey, attribute 0x08000000 (libgs's GsROTOFF). It was a u8[] reached
+ * through offset casts; no other C source names it. */
+extern SpritePrim D_800E9DF0;
 void File_SetPositionTable(void);
 
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState

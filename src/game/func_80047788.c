@@ -17,7 +17,7 @@ void func_80047788(s32 arg0)
     SDValueLink *entry;
 
     a = g_SDValue;
-    step = (s32)(*(u16 *)((u8 *)a + 2) << 3);
+    step = (s32)(a->field_0002 << 3);
     step = (step + SD_VALUE_LINK_BLOCK_SIZE - 1) /
            SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;

@@ -171,8 +171,10 @@ extern u16 gInput_wPad1RepeatBackup;
  * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
  *
  * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
- * the three with a .data consumer, so it is the only one with that arm; all
- * three have a _SIZED_VOLATILE arm, and all three of those are
+ * the three with a .data consumer, so it is the only one with that arm.
+ * func_800534B8 uses its true-width nonvolatile .data view, while selecting
+ * the established per-test volatile views for pad-1 pressed and repeat.
+ * All three have a _SIZED_VOLATILE arm, and all three of those are
  * src/candidates/func_80030294.c's.
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
@@ -215,6 +217,8 @@ extern u16 gInput_wPad2Held;
 extern volatile u16 gInput_wPad2Pressed[4];
 #elif defined(GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_PRESSED_IN_DATA)
+extern u16 gInput_wPad2Pressed __attribute__((section(".data")));
 #elif defined(GINPUT_PAD2_PRESSED_IS_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed;
 #else

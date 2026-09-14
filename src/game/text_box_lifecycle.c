@@ -2,22 +2,22 @@
 #include "duel_effect_init_entry.h"
 #include "duel_effect_entry_occupancy.h"
 #include "text_box_lifecycle.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "text_box_set_rect.h"
 
 void TextBox_Destroy(void *record_ptr)
 {
-    u8 *record = record_ptr;
+    DuelEffectChannel *record = record_ptr;
 
-    func_80035CA8(record[0x57]);
-    DuelEffect_ClearMatchingMarker(record[0x57]);
-    *(u16 *)(record + 0x34) = 0;
-    func_8004036C(*(void **)(record + 0x30));
-    func_8004036C(*(void **)(record + 0x2C));
-    func_8004036C(*(void **)(record + 0x28));
-    *(void **)(record + 0x30) = 0;
-    *(void **)(record + 0x2C) = 0;
-    *(void **)(record + 0x28) = 0;
+    func_80035CA8(record->index_57);
+    DuelEffect_ClearMatchingMarker(record->index_57);
+    record->flags_34 = 0;
+    func_8004036C(record->field_30);
+    func_8004036C(record->field_2C);
+    func_8004036C(record->field_28);
+    record->field_30 = 0;
+    record->field_2C = 0;
+    record->field_28 = 0;
 }
 
 void *TextBox_Create(
@@ -43,10 +43,10 @@ void *TextBox_CreateFlagged(
     s32 flags
 )
 {
-    u8 *result;
+    DuelEffectChannel *result;
 
     TextBox_SetRect(index, x, y, width, height);
-    result = (u8 *)DuelEffect_InitEntry(index, string_id, 0);
-    *(u16 *)(result + 0x34) |= flags;
+    result = DuelEffect_InitEntry(index, string_id, 0);
+    result->flags_34 |= flags;
     return result;
 }

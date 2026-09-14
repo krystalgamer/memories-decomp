@@ -8,6 +8,59 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
+s32 func_80026C0C(s32 arg0)
+{
+    s32 base;
+    s32 off;
+    u8 *p;
+    s32 i;
+
+    do {
+        base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0;
+        off = base << 3;
+        off -= base;
+        off <<= 2;
+        p = (u8 *)D_801A7AD8 + off;
+        for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+            off = *(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED;
+            if (off == 0) {
+                return D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
+            }
+            p += DUEL_CARD_RECORD_SIZE;
+        }
+    } while (0);
+    return -1;
+}
+
+s32 Duel_CollectFieldCardsBelowType(DuelCardRecord **out, s32 arg1,
+                                    s32 arg2)
+{
+    s32 count = 0;
+    s32 i = 0;
+    s32 d = D_8009B1D5;
+    s32 *t = gDuel_adwCardStats;
+    DuelCardRecord *r =
+        &D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
+    s32 k;
+
+    do {
+        if (r->flags & DUEL_CARD_FLAG_OCCUPIED) {
+            k = (s16)r->card_id;
+            k--;
+            if (((t[k] >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < arg2) {
+                *out++ = r;
+                count++;
+            }
+        }
+        i++;
+        r++;
+    } while (i < DUEL_FIELD_ROW_SIZE);
+
+    *out = 0;
+    return count;
+}
+
 s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
                                  s32 arg2) {
     s32 count = 0;

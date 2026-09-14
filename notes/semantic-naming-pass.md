@@ -157,22 +157,27 @@ left address-based.
 
 ## Deliberately deferred labels
 
-Eight GMS labels remain address-based because the available label is explicitly
+Five GMS labels remain address-based because the available label is explicitly
 uncertain, personal, or describes only an unknown flag:
 
 | Address | GMS label | Reason |
 |---|---|---|
 | `0x800218F0` | `u_maybe_endOfDuel` | The label itself is uncertain and the large routine needs caller/state analysis. |
 | `0x8002D7C4` | `hirataLoop` | Personal/opaque label with no stable behavior name. |
-| `0x80071510` | `ai_sub_80071510` | Loads an unidentified AI flag. |
-| `0x80073448` | `ai_sub_80073448` | Sets the same unidentified AI flag. |
-| `0x80073458` | `ai_sub_80073458` | Clears the same unidentified AI flag. |
 | `0x80073464` | `aiInstUnkOn` | Sets a second unidentified AI flag. |
 | `0x80073474` | `aiInstUnkOff` | Clears a second unidentified AI flag. |
 | `0x8007368C` | `ai_sub_8007368C` | Copies an operand into an unidentified AI output byte. |
 
 These should be named only after the consuming state or flag semantics are
 established.
+
+The former `0x80071510`, `0x80073448`, and `0x80073458` entries are no longer
+deferred. All three access byte `0x08` of the shared `AiSelection` record:
+`ai_turn_action.c` writes `rand() & 1` there while choosing an action, the two
+state opcodes set and clear it, and the load opcode copies it into the VM
+register selected by its stream operand. They are therefore named as the
+load/set/clear `SelectionRandom` family without assigning a narrower gameplay
+meaning to the consumer branches.
 
 ## Validation
 

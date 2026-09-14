@@ -34,7 +34,7 @@ void SD_InitState(u8 arg0)
     u32 *p;
     SDValue *st;
     SDValue *st2;
-    u8 *sec;
+    SDSecondaryState *sec;
     SDValue *q;
     s32 x;
     s32 y;
@@ -48,32 +48,32 @@ void SD_InitState(u8 arg0)
     } while (p <= (u32 *)0x801EA7FF);
     D_8009B0F0 = func_8004666C;
     D_8009B120 = func_800466C8;
-    *(SDInitBlk11 *)((u8 *)g_SDValue + 0x1619) = *(SDInitBlk11 *)D_80010784;
-    *(SDInitBlk10 *)((u8 *)g_SDValue + 0x1629) = *(SDInitBlk10 *)D_80010790;
-    *(SDInitBlk10 *)((u8 *)g_SDValue + 0x1639) = *(SDInitBlk10 *)D_8001079C;
+    *(SDInitBlk11 *)g_SDValue->field_1619 = *(SDInitBlk11 *)D_80010784;
+    *(SDInitBlk10 *)g_SDValue->field_1629 = *(SDInitBlk10 *)D_80010790;
+    *(SDInitBlk10 *)g_SDValue->field_1639 = *(SDInitBlk10 *)D_8001079C;
     g_SDValue->flags_004A = 3;
     if (arg0 != 0) {
         g_SDValue->flags_004A |= 0xF0;
     }
-    *((u8 *)g_SDValue + 0x1649) = 0xFF;
-    *((u8 *)g_SDValue + 0x164A) = 0xD2;
-    *((u8 *)g_SDValue + 0x164B) = 0xFF;
+    g_SDValue->field_1649 = 0xFF;
+    g_SDValue->field_164A = 0xD2;
+    g_SDValue->field_164B = 0xFF;
     st = g_SDValue;
-    x = *((u8 *)st + 0x1649);
-    y = *((u8 *)st + 0x164A);
+    x = st->field_1649;
+    y = st->field_164A;
     st->field_0049 = 0xFF;
     q = g_SDValue;
-    *(u16 *)((u8 *)st + 0x42) = x;
-    *(u16 *)((u8 *)st + 0x44) = y;
-    *((u8 *)q + 0x1584) = 0xFF;
+    st->mix_scale = x;
+    st->field_0044 = y;
+    q->field_1584 = 0xFF;
     func_800494F4((s32 *)0x801E1670);
     func_8004671C();
     func_80044D48();
     func_80048F14();
     SD_SetOutputType(0);
-    *((u8 *)D_8009B458 + 0x509) = 0;
-    sec = (u8 *)D_8009B458;
+    D_8009B458->field_0509 = 0;
+    sec = D_8009B458;
     st2 = g_SDValue;
-    *(void **)(sec + 0x50C) = func_800478EC;
+    sec->field_050C = func_800478EC;
     st2->flags_0040 = 0;
 }

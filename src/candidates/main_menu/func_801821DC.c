@@ -9,7 +9,6 @@
 #define GINPUT_PAD1_HELD_SIZED_VOLATILE
 #include "../../types.h"
 #include "../../game/graphics_frame.h"
-#include "../../game/display_object_api.h"
 #include "../../game/display_object_helpers.h"
 #include "../../game/main_services.h"
 #include "../../game/two_player_save_setup.h"
@@ -17,7 +16,6 @@
 #include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
-#include "../../overlays/main_menu/entrypoints.h"
 #define MAIN_MENU_TRADE_SCROLL_AS_WORDS
 #include "../../overlays/main_menu/trade_helpers.h"
 #include "../../game/display_object_config.h"
@@ -237,8 +235,8 @@ s32 MainMenu_UpdateTradeScreen(void)
     if ((gInput_wPad1Pressed[0] & 0x10) != 0) {
         if (card0->id != 0) {
             gDuel_wViewerCardID = card0->id;
-            D_8009B24B = 20;
-            D_8009B254 = 2;
+            gDuel_bCardViewerYOffset = 20;
+            gDuel_bEffectState = 2;
         }
         goto check_scroll0;
     }
@@ -378,8 +376,8 @@ player1:
     if ((gInput_wPad1Pressed[1] & 0x10) != 0) {
         if (card1->id != 0) {
             gDuel_wViewerCardID = card1->id;
-            D_8009B24B = 20;
-            D_8009B254 = 2;
+            gDuel_bCardViewerYOffset = 20;
+            gDuel_bEffectState = 2;
         }
         goto check_scroll1;
     }

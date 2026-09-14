@@ -9,7 +9,9 @@
  * pairs and mutable words are consumed by the neighbouring unmatched model
  * handlers, and the fixed-size strings are their diagnostic labels and
  * formatting fragments. Address-based names remain because the exact field
- * meanings are not yet established. */
+ * meanings are not yet established. The four-byte word D_8009B004 is defined
+ * with func_800534B8 so MASPSX can see its small-data extent; the surrounding
+ * prefix and diagnostic suffix retain their original separate storage. */
 extern u8 D_8009AFE4;
 extern u8 D_8009AFE5;
 extern u16 D_8009AFE6;
@@ -32,11 +34,21 @@ extern u32 D_8009AFFC[2];
 #endif
 extern u32 D_8009B004;
 extern u32 D_8009B008;
+#ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
+/* The debug controller uses absolute string addresses. Their definitions
+ * retain eight bytes each (four for B02C); no larger backing is implied. */
+extern char D_8009B00C[];
+extern char D_8009B014[];
+extern char D_8009B01C[];
+extern char D_8009B024[];
+extern char D_8009B02C[];
+#else
 extern char D_8009B00C[8];
 extern char D_8009B014[8];
 extern char D_8009B01C[8];
 extern char D_8009B024[8];
 extern char D_8009B02C[4];
+#endif
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 extern char D_8009B030[];
 extern char D_8009B038[];

@@ -760,7 +760,7 @@ The next batch demonstrates why the include intersection is evidence only
 after checking behavior. Twelve globals locally declared by
 `func_80022D94.c` also appeared in files including `view_state.h`, but their
 actual contract is narrower: the matching function publishes four targets,
-four 16.16 starting accumulators, and four per-frame deltas for unmatched
+four 16.16 starting accumulators, and four per-frame deltas for
 `func_800235C0` to advance. They therefore live with the producer in
 `func_80022D94.h`. The neighbouring frame count `D_8009B204` stays local:
 another writer declares it unsigned, so it is a separate divergent-contract
@@ -774,6 +774,43 @@ its result-screen consumer, so it lives in `campaign_scene_package.h`.
 `display_object.h`. `D_800E9EC0` has unrelated boot-sound and file-transfer
 interpretations with no narrower owner, so its raw byte-array contract is
 genuinely homeless and lives in `unmatched.h`.
+
+`D_8009B269` and `D_8009B26C` show the same rule at larger scale. The first is
+the next/base frontend mode; mode runners copy it into the second when they
+exit. The second combines the active mode with lifecycle flags 0x20, 0x40 and
+0x80. The current 38 resident/candidate/overlay consumers use plain byte
+scalars, incomplete arrays, and scalars forced into `.data`.
+`main_mode_state.h` is their single declaration owner, with independent
+selectors for each byte; `unmatched.h` forwards to it without repeating the
+declarations. Defaults deliberately preserve the current contract: scalar
+NEXT and array ACTIVE. In particular, selecting only NEXT's `.data` view
+must not introduce an ACTIVE scalar into `Main_Init`.
+
+Current consumers select both measured views explicitly. Legacy
+`D_8009B269_*` and `D_8009B26C_*` selectors still work through either header,
+including the historical `.data` precedence. The dedicated header's
+`MAIN_MODE_STATE_ACTIVE_AS_SCALAR` is required for the active scalar view;
+`MAIN_MODE_STATE_ACTIVE_AS_ARRAY` explicitly selects its default.
+
+Eight tentative definitions remain in seven current mode-runner units:
+animated battle, build-deck, game-over, name-entry, options, trade, and
+two-player setup. Trade retains both bytes. These are codegen inputs under
+their named profiles; `c_symbols.ld` supplies the final addresses, so their
+COMMON symbols allocate no additional storage. The retired
+`func_8002D458.c`/`func_8002DC38.c` paths are not restored, nor are the retired
+matching versions of the current `func_800283F4` and `func_8002EE94`
+candidates. The current candidate registry retains its object/target
+fingerprints and dependency keys; only the affected declaration-owner
+hashes change.
+
+`test_main_mode_state.py` checks all nine independent semantic and legacy
+view combinations through both headers and include orders, mixed selector
+namespaces, all 38 actual preprocessed consumers, and all eight tentative
+definitions. Native probes compile the selected declarations, rather than
+mistaking unrelated full-host SDK front-end errors for contract regressions.
+An intentionally wrong ACTIVE scalar default must fail the typed array
+probe. Candidate dependency checks continue to bind the five affected
+current candidates to this single owner.
 
 #### A neighbour can refute a size, never establish one
 
@@ -865,33 +902,27 @@ them agree.
 
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
-| `src/candidates/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/game/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `src/game/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
-| `src/candidates/func_8002CEE8.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/main_run_duel.c` | `extern u16 D_8009B16C` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
-The first, second and fourth rows were measured when those functions were
-matching C in `duel_scene_update.c`, `func_800179F4.c` and
-`main_run_duel_and_library.c`; they are candidates now and keep the same
-spellings.
+The scalar `.data` spelling lets Main_RunDuel describe the accessed halfword
+truthfully while retaining the required absolute relocation.
 
 Both translation units in the disagreement compile at `-G8`, so the profile is
-not what separates them; the declared size alone decides, by falling on one
-side or the other of the eight-byte small-data threshold. The `[9]` claims
-eighteen bytes for an eight-byte object, which reads like an error until the
-relocation shows it is doing the same job `options_init.c` once documented
-inline for `gSD_bOutputType` -- oversizing on purpose to force absolute addressing.
+not what separates them. Main_RunDuel's explicit `.data` placement supplies
+the absolute addressing without inventing an oversized array extent.
 
 The `[4]` is load bearing from the other direction, and this one was written
 down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data
 sized arrays for `D_8009B16C` and `D_8009AF2C`" as the discriminator that
 matched it under `gcc_2_8_1_g8_split`.
 
-That leaves no size to centralize on. Eight bytes is the true extent, but
-eight bytes is still small data, so adopting it would keep the four
-gp-relative consumers correct and break the fifth. Anything above it would
-move all five out of small data. The symbol is a genuine four-arm case, not a
-cleanup target, and the reads confirm the split is meaningful rather than
+That leaves no single unqualified declaration to centralize on: the scalar
+users require both small-data and absolute-address forms, while the byte-view
+consumer has a distinct access width. The symbol is a genuine multi-arm case,
+not a cleanup target, and the reads confirm the split is meaningful rather than
 accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
 offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 

@@ -1,5 +1,7 @@
 #define D_8009B268_IN_DATA
 #define D_8009B26D_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
 #include "../types.h"
 #include "mem_card.h"
 #include "frontend_debug_tables.h"
@@ -14,6 +16,7 @@
 #include "../unmatched.h"
 #include "main_services.h"
 #include "frontend_scene_states.h"
+#include "main_mode_state.h"
 
 /* The first two of the frontend's scene states, in address order. Both are
    steps of the same state machine: the flags byte D_8009B2EB carries

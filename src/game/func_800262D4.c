@@ -18,11 +18,11 @@
 #include "display_object_helpers.h"
 #include "display_object_interpolation.h"
 #include "display_object_motion.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "func_8001944C.h"
 #include "func_80019564.h"
 #include "func_800291E0.h"
-#include "func_8002C604.h"
+#include "duel_effect_allocate_request.h"
 #include "duel_effect.h"
 #include "text_box_lifecycle.h"
 #include "dialog_read_choice_input.h"
@@ -39,7 +39,7 @@
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define W(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-void func_800262D4(void)
+void DuelEffect_ApplyRitual(void)
 {
     DisplayObject *object;
     DuelCardRecord *card;
@@ -50,12 +50,12 @@ void func_800262D4(void)
 
     if (!DuelEffect_MarkInitialized()) {
         D_8009B1A0 = Duel_CheckRitual(
-            &D_800E9EF0.ritual.result, D_8009B1D2);
+            &D_800E9EF0.ritual.result, gDuel_wEffectCardID);
         if (D_8009B1A0) {
             func_80019CC8((void *)(s32)D_8009B1A0);
-            D_8009B17C = func_8002C604(22);
+            D_8009B17C = DuelEffect_AllocateRequest(22);
             D_8009B210 = 0;
-            H(D_8009B17C, 0x1A) = D_8009B1D2;
+            H(D_8009B17C, 0x1A) = gDuel_wEffectCardID;
             func_8003FF88(0x8022);
         } else {
             goto done;
@@ -253,7 +253,7 @@ state_five:
         if (phase >= 0) {
             S(object, 0x32) = -24;
 done:
-            D_8009B220 = 0;
+            gDuel_wCardEffectFlags = 0;
         }
         break;
     }

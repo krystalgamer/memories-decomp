@@ -49,7 +49,7 @@ typedef char DuelCardPickCursor_size_must_be_0x1A[
  * resets the duel, alongside D_8009B162, the countdown the 0x40 hold waits
  * on.
  *
- * func_8001BD88 is the third accessor and is still assembly; it reads and
+ * DuelScene_UpdateHandActions is the third accessor and is still assembly; it reads and
  * writes the byte gp-relative like everything else here. */
 extern u8 D_8009B1D4;
 

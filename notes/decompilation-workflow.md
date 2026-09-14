@@ -623,6 +623,19 @@ movie stream ranges, and persistent duel-result rows follow that split. Their
 size and offset assertions move with the types, including the assertion that
 the word-copy view remains exactly the size of `FileTransferDescriptor`.
 
+An API-shaped header still is not an owner when it combines unrelated
+translation units. The old `display_object_api.h` mixed eight functions from
+`display_object_core.c` with `func_80042B40` from
+`display_object_helpers.c`. Those declarations now live in
+`display_object_core.h` and `display_object_helpers.h`, and callers include
+only the owner or owners they use.
+
+Aggregate entrypoint headers are transitional, not permanent owners. Once a
+module subsystem has an evidence-bearing header, its externally callable
+lifecycle belongs there too: the main-menu frontend lifecycle is declared in
+`frontend.h`, and the Trade lifecycle in `trade_helpers.h`. Matching sources,
+resident callers, and stored candidates all include that owner directly.
+
 The unmatched-data pass now gives the scan a hard end condition. Every
 linker-resolved data declaration used by built resident C or a stored candidate
 must have a canonical header declaration; genuinely homeless data lives in

@@ -1,21 +1,40 @@
 /*
  * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
  * result handoff. Current best under gcc_2_8_1_g8_split: 280/280
- * instructions, opcode multiset distance 0, and 114 differing positions.
+ * instructions, opcode multiset distance 0, and 25 non-relocation word
+ * mismatches against src/candidates_target/func_80018FEC.S. Relocated words
+ * are excluded because this object is not linked: all 90 of them differ, and
+ * counting them gives 115 of 280, which measures the link step rather than
+ * the code. The "114 differing positions" this comment carried until
+ * 2026-09-12 came from an instrument that is not in the repository and could
+ * not be reproduced, so it is not restated; measured the way above, the state
+ * before this change is 84.
  *
  * The callback address remains pinned to preserve retail's
  * materialise-then-move sequence. Address hoists, index-first arithmetic, and
  * locals spanning intervening stores reproduce the rest of the allocation.
  *
- * Residual: two opposite delay-slot choices. This build fills the branch slot
- * before the D_8009B260 test where retail leaves a nop, while retail fills the
- * later jump slot with the effect-record store. The multiset and instruction
- * count are identical; the difference is placement, not missing operations.
+ * Both delay-slot residuals this comment used to record are closed, and they
+ * were a coupled pair. Taking duel_effect_request.h's .data arm gives the
+ * bare form, which is one pseudo-instruction to the delay-slot filler, so the
+ * slot before the gDuel_bEffectRequestStatus test stays the nop retail has; writing
+ * D_8009B17C = fx before the +0x8000 store lets that store sink into the
+ * following jump's slot, where retail has it. Each alone breaks the length in
+ * the opposite direction -- the arm alone is 281 instructions and the store
+ * order alone is 279 -- so neither reads as an improvement until both are
+ * applied. What is left is register allocation and constant spelling, not
+ * placement: the opcode multiset distance is 0, taken over the encoded opcode
+ * fields rather than over a disassembler's rendering. objdump prints both the
+ * addiu and ori forms of a constant load as li, and a census read off that
+ * text reports three differences the encodings do not have.
  */
+#define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
+#define MAIN_MODE_STATE_NEXT_IN_DATA
+#define MAIN_MODE_STATE_ACTIVE_IN_DATA
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../game/duel_side_state.h"
+#include "../game/duel_effect_request.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
@@ -26,32 +45,30 @@
 #include "../game/fade.h"
 #include "../game/display_object_motion.h"
 #include "../game/display_object_work_slots.h"
+#include "../game/display_object_core.h"
+#include "../game/display_object_helpers.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
+#include "../game/duel_effect_allocate_request.h"
 #include "../unmatched.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
 #include "../psyq/rand.h"
+#include "../game/main_mode_state.h"
 
 extern u8 D_8009B1B9;
 extern u8 *D_8009B214;
 extern u8 *D_8009B21C;
-extern u8 *D_8009B17C;
 
 extern s32 D_800E9F04[];
-
-extern u8 D_8009B260[];
 extern u16 D_800EF658[];
 extern u8 D_8009B369 __attribute__((section(".data")));
 
-extern void func_8004036C(u8 *);
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);
-extern s32 func_80042B40(s32);
-extern void func_8002C68C(s32);
 extern void func_8003FF88(s32);
 
-void func_80018FEC(void)
+void DuelScene_UpdateExodiaResult(void)
 {
     u16 flags;
     u8 *obj;
@@ -132,7 +149,7 @@ next_obj:
     }
     if (flags & 0x4000) {
         if (flags & 0x2000) {
-            if ((D_8009B260[0] & 1) != 0) {
+            if ((gDuel_bEffectRequestStatus & 1) != 0) {
                 return;
             }
             D_8009B23A = flags & 0xBFFF;
@@ -150,7 +167,7 @@ next_obj:
                 return;
             }
         }
-        fx = func_8002C604(0x13);
+        fx = DuelEffect_AllocateRequest(0x13);
         D_8009B17C = fx;
         *(u16 *)(fx + 0) = (rand() & 0xFF) + 0x20;
         r = Rand_GetInterval(0xB0);
@@ -169,15 +186,15 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = func_8002C604(0x13);
+            fx = DuelEffect_AllocateRequest(0x13);
             *(u16 *)(fx + 0) = 0xA0;
             *(u16 *)(fx + 2) = 0x78;
-            *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + 0x8000;
             D_8009B17C = fx;
+            *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + 0x8000;
             return;
         }
         D_8009B1D0 = 4;
-        fx = func_8002C604(0);
+        fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         *(u16 *)(fx + 0) = (*slot)->field_30.h.field_30 + 0x1A;
@@ -194,7 +211,7 @@ next_obj:
         }
         D_8009B23A = flags & 0xEFFF;
         SD_SEPlayFull(0x1D);
-        func_8002C68C(0x18);
+        DuelEffect_CreateRequest(0x18);
         func_8003FF88(0x8021);
         return;
     }

@@ -1,0 +1,210 @@
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
+#include "model.h"
+#include "model_background.h"
+#include "screen_projection.h"
+#include "model_graphics_state.h"
+#include "func_8004E7B0.h"
+#include "camera_view.h"
+#include "ordering_tables.h"
+
+#define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
+
+void func_8004DE24(void)
+{
+    CVECTOR colors[5] = {
+        {128, 128, 128, 0},
+        {96, 64, 64, 0},
+        {64, 42, 42, 0},
+        {32, 21, 21, 0},
+        {0, 0, 0, 0}
+    };
+    static const BackgroundNormals initial_normals = {
+        {{4096, 0, 0, 0}, {0, -4096, 0, 0}}
+    };
+    BackgroundNormals normals = initial_normals;
+    SVECTOR vertices[8];
+    GsSPRITE sprite;
+    POLY_G4 polygons[3];
+    long projection[4];
+    ModelSlot *slot = &D_800F2C40[2];
+    u8 vbase;
+    s32 height;
+    s32 ubase;
+    s16 y;
+    u16 pitch_bits;
+    s32 minimum_y;
+    s32 amount;
+    s32 phase;
+    s32 cosine;
+    s32 sine;
+    s32 first_depth;
+    s32 second_depth;
+
+    vbase = D_8009AF88[0xAC];
+    ubase = (H(0xAA) & 0x3F) << (2 - ((H(0xA8) >> 13) & 3));
+    height = slot->field_D18->matrix.t[1] + 300;
+    if (!slot->field_E1F)
+        return;
+    if (slot->field_DA0[0] == -4096 &&
+        slot->field_DA0[1] == -4096 && slot->field_DA0[2] == -4096)
+        return;
+    func_8004E7B0(0);
+    sprite.attribute = 0;
+    if (H(0xA8) & 0xE000)
+        sprite.attribute = 0x01000000;
+    GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
+    GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
+    GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
+    GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
+    GsSetLightMatrix(&D_800F56A0.matrix);
+    NormalColorCol(&normals.values[0], &colors[0], (CVECTOR *)&sprite.r);
+    sprite.tpage = ((H(0xA8) >> 6) & 0x180) |
+        ((H(0xAC) & 0x100) >> 4) | ((H(0xAA) & 0x3FF) >> 6) |
+        ((H(0xAC) & 0x200) << 2);
+    sprite.cx = H(0xAE);
+    sprite.cy = H(0xB0);
+    sprite.w = 64;
+    pitch_bits = *(u16 *)&D_8009AF90;
+    y = pitch_bits - 48;
+    sprite.u = ubase;
+    sprite.v = vbase;
+    sprite.h = 256;
+    sprite.y = y;
+    minimum_y = -(H(0xA8) & 0x1FFF);
+    if ((s16)pitch_bits >= minimum_y && y >= minimum_y) {
+        if (y > 0)
+            sprite.y = 0;
+        if (sprite.y < 0) {
+            sprite.v = __builtin_abs(sprite.y);
+            sprite.y = 0;
+        }
+        {
+            s32 end = sprite.y + 256;
+            s32 edge = (H(0xA8) & 0x1FFF) + (s16)pitch_bits;
+            s32 full_height;
+            s32 amount;
+            if (edge < 241) {
+                if (edge >= end)
+                    goto second_clip;
+            } else if (end < 241) {
+                goto second_clip;
+            }
+            full_height = sprite.h;
+            amount = sprite.y + full_height - ((H(0xA8) & 0x1FFF) + D_8009AF90);
+            sprite.h = full_height - (amount < full_height ? amount : full_height);
+        }
+second_clip:
+        {
+            s32 end = sprite.v + sprite.h;
+            s32 edge = H(0xA8) & 0x1FFF;
+            s32 full_height;
+            s32 amount;
+            if ((u32)edge < 241) {
+                if (edge < end)
+                    goto trim_texture;
+                goto tiles;
+            }
+            if (end < 241)
+                goto tiles;
+trim_texture:
+            full_height = sprite.h;
+            amount = sprite.v + full_height - (H(0xA8) & 0x1FFF);
+            sprite.h = full_height - (amount < full_height ? amount : full_height);
+        }
+tiles:
+        sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
+            160 * (u16)(H(0xA6) / 0x500u);
+        while (sprite.x < 320) {
+            if (sprite.x + sprite.w > 0)
+                GsSortFastSprite(&sprite, D_800E9D90[3],
+                    (u16)((1u << D_800E9D90[3]->length) - 1));
+            amount = (sprite.u + sprite.w) % (u16)(H(0xA6) / 10u);
+            sprite.x += sprite.w;
+            sprite.u = amount + ubase;
+        }
+    }
+    if (!(D_8009AF88[0xA1] & 1))
+        return;
+    NormalColorCol(&normals.values[1], &colors[1], (CVECTOR *)&polygons[0].r0);
+    NormalColorCol(&normals.values[1], &colors[1], (CVECTOR *)&polygons[0].r1);
+    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[0].r2);
+    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[0].r3);
+    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[1].r0);
+    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[1].r1);
+    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[1].r2);
+    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[1].r3);
+    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[2].r0);
+    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[2].r1);
+    NormalColorCol(&normals.values[1], &colors[4], (CVECTOR *)&polygons[2].r2);
+    NormalColorCol(&normals.values[1], &colors[4], (CVECTOR *)&polygons[2].r3);
+    setPolyG4(&polygons[0]);
+    setPolyG4(&polygons[1]);
+    setPolyG4(&polygons[2]);
+    vertices[0].vx = 1000;
+    vertices[2].vx = 1600;
+    vertices[4].vx = 2200;
+    vertices[0].vy = height;
+    vertices[0].vz = 0;
+    vertices[2].vy = height;
+    vertices[2].vz = 0;
+    vertices[4].vy = height;
+    vertices[4].vz = 0;
+    vertices[6].vx = 2800;
+    vertices[6].vy = height;
+    vertices[6].vz = 0;
+    vertices[1].vy = height;
+    vertices[3].vy = height;
+    vertices[5].vy = height;
+    vertices[7].vy = height;
+    GsSetLsMatrix(func_80059220());
+    phase = 256;
+    do {
+        cosine = rcos(phase);
+        sine = rsin(phase);
+        vertices[1].vx = 1000 * cosine / 4096;
+        vertices[1].vz = 1000 * sine / 4096;
+        vertices[3].vx = 1600 * cosine / 4096;
+        vertices[3].vz = 1600 * sine / 4096;
+        vertices[5].vx = 2200 * cosine / 4096;
+        vertices[5].vz = 2200 * sine / 4096;
+        vertices[7].vx = 2800 * cosine / 4096;
+        vertices[7].vz = 2800 * sine / 4096;
+        first_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
+            (long *)&polygons[0].x0, (long *)&polygons[0].x1,
+            (long *)&polygons[0].x2, (long *)&polygons[0].x3,
+            &projection[0], &projection[1]);
+        second_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
+            (long *)&polygons[2].x0, (long *)&polygons[2].x1,
+            (long *)&polygons[2].x2, (long *)&polygons[2].x3,
+            &projection[2], &projection[3]);
+        polygons[1].x0 = (u16)polygons[0].x2;
+        polygons[1].y0 = (u16)polygons[0].y2;
+        polygons[1].x1 = (u16)polygons[0].x3;
+        polygons[1].y1 = (u16)polygons[0].y3;
+        polygons[1].x2 = (u16)polygons[2].x0;
+        polygons[1].y2 = (u16)polygons[2].y0;
+        polygons[1].x3 = (u16)polygons[2].x1;
+        polygons[1].y3 = (u16)polygons[2].y1;
+        if (first_depth >= 0) {
+            GsSortPoly(&polygons[0], D_800E9D90[3],
+                (u16)((1u << D_800E9D90[3]->length) - 1));
+        } else if (second_depth < 0) {
+            goto advance;
+        }
+        GsSortPoly(&polygons[1], D_800E9D90[3],
+            (u16)((1u << D_800E9D90[3]->length) - 1));
+        if (second_depth >= 0)
+            GsSortPoly(&polygons[2], D_800E9D90[3],
+                (u16)((1u << D_800E9D90[3]->length) - 1));
+advance:
+        phase += 256;
+        vertices[0] = vertices[1];
+        vertices[2] = vertices[3];
+        vertices[4] = vertices[5];
+        vertices[6] = vertices[7];
+    } while (phase <= 4096);
+}

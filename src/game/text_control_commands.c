@@ -30,21 +30,18 @@
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-#define arg0 ((u8 *)object)
-    u8 **pp = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
+    u8 **pp = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *p = *pp;
     s32 op = *p;
 
     *pp = p + 1;
     D_80090EAC[op](object);
-#undef arg0
 }
 
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=func_80036D3C(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
-#define p ((u8 *)object)
     s32 t;
     s32 u;
     s32 w;
@@ -53,17 +50,17 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 d;
 
     D_8009B350 = 1;
-    t = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     d = 0xF;
     if (c & 8) {
-        u = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+        u = *((TextStreamOwner *)object)->streams[object->stream_58]++;
         t = u;
         d = t;
     }
     if (c & 0x80) {
-        *(s32 *)(p - -(*(s8 *)(p + 0x58) * 4)) += gDialog_bChoice * 2;
-        Text_SetCursorOffset((DuelEffectChannel *)p);
+        ((TextStreamOwner *)object)->streams[object->stream_58] += gDialog_bChoice * 2;
+        Text_SetCursorOffset(object);
     } else {
         gDialog_bChoiceCount = 7;
         gDialog_bChoiceCount = c & gDialog_bChoiceCount;
@@ -75,14 +72,13 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         if (w != 0) {
             gDialog_bInputState = 1;
         }
-        func_80035CA8(p[0x57]);
-        DuelEffect_ClearMatchingMarker(p[0x57]);
-        v = *(u16 *)(p + 0x34);
-        p[0x56] = 0;
+        func_80035CA8(object->index_57);
+        DuelEffect_ClearMatchingMarker(object->index_57);
+        v = object->flags_34;
+        object->field_56 = 0;
         D_8009B340 = func_80037CE0;
-        *(u16 *)(p + 0x34) = v | 0x1000;
+        object->flags_34 = v | 0x1000;
     }
-#undef p
 }
 
 void Text_StartPageWait(DuelEffectChannel *value)
@@ -132,32 +128,28 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
 
 void Text_NewLine(DuelEffectChannel *record)
 {
-#define object ((u8 *)record)
-    object[0x56]++;
-    *(u16 *)(object + 0x38) = 0x1000;
-    if (func_80037C74((DuelEffectChannel *)object)) {
-        object[0x51] = 4;
+    record->field_56++;
+    record->field_38 = 0x1000;
+    if (func_80037C74(record)) {
+        record->state_51 = 4;
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340(object);
+        D_8009B340((volatile u8 *)record);
     }
-#undef object
 }
 
 void Text_EndStream(DuelEffectChannel *record)
 {
-#define object ((u8 *)record)
     u16 flags;
 
-    object[0x58]--;
-    if (*(s8 *)(object + 0x58) < 0) {
-        flags = *(u16 *)(object + 0x34);
+    record->stream_58--;
+    if (record->stream_58 < 0) {
+        flags = record->flags_34;
         D_8009B350 = 1;
         flags |= 0x2000;
-        *(u16 *)(object + 0x34) = flags;
+        record->flags_34 = flags;
     }
-#undef object
 }
 
 /* Effect-script command handler: reads a command id and a flag byte from the

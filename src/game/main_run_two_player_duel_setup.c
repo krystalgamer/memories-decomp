@@ -2,6 +2,8 @@
 #define D_8009B230_IN_DATA
 #define D_8009B234_IN_DATA
 #define D_8009B236_IN_DATA
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "duel_side_state.h"
 #include "func_80024DC8.h"
@@ -13,8 +15,8 @@
 #include "../overlays/main_menu/entrypoints.h"
 #include "sound.h"
 #include "text_box_runtime.h"
-#define D_8009B26C_AS_SCALAR
 #include "../unmatched.h"
+#include "main_mode_state.h"
 
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies

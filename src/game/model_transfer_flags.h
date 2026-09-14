@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_TRANSFER_FLAGS_H
 
 #include "../types.h"
+#include "model_effect_key.h"
 
 /* Two independent flag bytes, D_8009B07B and D_8009B07C, each with a getter
  * and a setter.
@@ -45,7 +46,7 @@
  * declaration. Every retail access is gp-relative, so no
  * unit needs an arm.
  */
-extern u8 *D_8009B074;
+extern Key *D_8009B074;
 extern u8 D_8009B078;
 extern u8 D_8009B079;
 extern s8 D_8009B07A;

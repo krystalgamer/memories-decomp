@@ -306,7 +306,7 @@ what the cast applies to:
 - a base local assigned `(u8 *)g_SDValue` (five, three of them in
   `sound_output_state.c`, all within `func_80045054`);
 - a cast on a member's value (one, `sound_voice_selection.c`, in
-  `func_80047DB0`).
+  `SD_SEStop`).
 
 This note records a code-generation rationale for exactly one of the
 eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
@@ -722,12 +722,12 @@ above.
 |---|---:|---|---|
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
-| `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `func_800496C4`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
+| `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `SD_VabOpenHead`, `func_8004975C`, `func_800497E0`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
-| `0x0509` | `u8` | `field_0509` | `func_8004695C`, `func_80047050`, and `SD_SequenceTimerCallback` set/test it. |
+| `0x0509` | `u8` | `field_0509` | `func_8004695C` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
@@ -740,7 +740,7 @@ above.
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
 | `0x0804`, `0x0808`, `0x080C`, `0x0810` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | Initialization and update/output controls set/test these bytes. |
-| `0x0818` | `u32` | `bytes_consumed` | `func_800496C4` clears it and `func_800497E0` advances it across a transfer window. |
+| `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `func_800497E0` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
 
@@ -779,7 +779,7 @@ as its inactive marker. `func_80049434` initializes it and `func_800498F8`
 restores that marker. This is a software state marker, not a claim that a
 hardware DMA transfer has completed.
 
-`func_800496C4` checks for that marker when its caller requests an inactive
+`SD_VabOpenHead` checks for that marker when its caller requests an inactive
 window, then prepares the window with state zero. `func_8004975C` and
 `func_800497E0` retain their caller-supplied state comparisons. An operation
 failure is `SD_TRANSFER_ERROR` (`-1`), while `func_800497E0` returns
@@ -837,14 +837,14 @@ The promoted caller takes its declarations from sound-owned headers.
 `func_80045484` retains its explicit byte mask, and `func_80049A64` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
-`func_80049AF4` caller view while its definition keeps the one-argument
+`SD_PlaySequence` caller view while its definition keeps the one-argument
 view. Native compiler controls check these declarations and reject
 incompatible views.
 
 The complete five-function secondary playback lifecycle now builds from
 `src/game/sound_secondary_playback.c`, covering `0x80049A64` through
 `0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
-`func_80049AF4` calls the canonical `SD_StartSequenceTracks(void)`, while
+`SD_PlaySequence` calls the canonical `SD_StartSequenceTracks(void)`, while
 `func_80049BAC` uses a narrow same-symbol no-argument alias matching its
 original translation unit. The adjacent functions on both sides require
 `gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
@@ -863,7 +863,7 @@ keep their local raw declarations: `func_80049CF8`, `func_80049DD8`,
 Three migrated functions retain explicit raw indexing where the shared type
 cannot replace the exact source shape:
 
-- `func_800496C4` casts the shared state pointer to a byte view while
+- `SD_VabOpenHead` casts the shared state pointer to a byte view while
   initializing the transfer window and preserving its required register
   allocation.
 - `func_8004A7C0` calculates the `0x28`-byte object address explicitly.

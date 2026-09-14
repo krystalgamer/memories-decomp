@@ -103,16 +103,18 @@ void Model_InitLightTriplet(s32 index)
     slot->field_D70[2].field_0C[2] = MODEL_LIGHT_DIM_INTENSITY;
 }
 
-/* This is D_800F2C40[0].field_D70, but spelling the base that way materializes
+/* Returns flat light `light` of model slot `index`: func_800540B4 and
+   func_8004DE24 hand the three field_D70 records to GsSetFlatLight(0..2).
+   This is D_800F2C40[0].field_D70, but spelling the base that way materializes
    the 0xD70 offset and makes this function one instruction longer. */
-unsigned char *func_800591C0(unsigned int index, unsigned int slot)
+unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
 {
     register u8 *entry;
 
-    if (slot >= 3) {
-        slot = 0;
+    if (light >= 3) {
+        light = 0;
     }
     entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 
-    return entry + slot * sizeof(ModelSlotLightEntry);
+    return entry + light * sizeof(ModelSlotLightEntry);
 }

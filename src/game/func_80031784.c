@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "color_constants.h"
+#include "func_80031784.h"
 
 void func_80031784(u8 *record, s32 arg1, u8 *data, s32 selected)
 {

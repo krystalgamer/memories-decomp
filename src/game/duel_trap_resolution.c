@@ -2,6 +2,7 @@
 #include "duel_side_state.h"
 #include "card_constants.h"
 #include "duel_card.h"
+#include "display_object.h"
 #include "duel_card_record_lifecycle.h"
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
@@ -38,7 +39,7 @@ s32 func_8001F0D0(u8 *p) {
     u8 *b2;
     s32 off2;
     s32 h2;
-    u8 *e;
+    DuelCardRecord *e;
     s32 id;
     s32 sx;
     s32 sx2;
@@ -49,7 +50,7 @@ s32 func_8001F0D0(u8 *p) {
     u8 *q;
     u8 *tb;
     s32 v;
-    u8 *w;
+    DisplayObject *w;
     s32 off4;
     u8 *b4;
     s32 j2;
@@ -72,10 +73,10 @@ s32 func_8001F0D0(u8 *p) {
     off2 = 0x18000;
     h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        e = (u8 *)(*(u8 *)(i + h2 + (s32)tbl2) *
+        e = (DuelCardRecord *)(*(u8 *)(i + h2 + (s32)tbl2) *
             DUEL_CARD_RECORD_SIZE + (s32)rec2);
-        if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            id = *(u16 *)(e + 0xC);
+        if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            id = (u16)e->card_id;
             if ((u32)(id - DUEL_ATTACK_TRAP_FIRST_CARD_ID) <
                 DUEL_ATTACK_TRAP_COUNT) {
                 sx = (s16)id;
@@ -83,7 +84,8 @@ s32 func_8001F0D0(u8 *p) {
                 n++;
                 *(u16 *)(b2 + th * 2 + off2 + 0x3C68) = id;
                 sx2 = sx - 0x299;
-                *(u16 *)(b2 + sx2 * 2 + off2 + 0x3C68) = (*(u8 **)e)[0x6A];
+                *(u16 *)(b2 + sx2 * 2 + off2 + 0x3C68) =
+                    ((DisplayObject *)e->object)->field_6A;
             }
         }
     }
@@ -118,9 +120,9 @@ s32 func_8001F0D0(u8 *p) {
         }
         if (0) {
         hit:
-            w = *(u8 **)e;
+            w = e->object;
             D_8009B22A = v;
-            D_8009B1B8 = w[0x6A];
+            D_8009B1B8 = w->field_6A;
             return 1;
         }
     }
@@ -130,10 +132,10 @@ s32 func_8001F0D0(u8 *p) {
     h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        e = (u8 *)(*(u8 *)(i + h3 + (s32)tbl3) *
+        e = (DuelCardRecord *)(*(u8 *)(i + h3 + (s32)tbl3) *
             DUEL_CARD_RECORD_SIZE + (s32)rec3);
-        if ((*(u16 *)(e + 0x16) & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            v = *(s16 *)(e + 0xC);
+        if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            v = e->card_id;
             if (v == k) {
                 goto hit;
             }
@@ -203,7 +205,7 @@ m1:
         D_8009B1B8 * sizeof(DuelCardRecord) +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = g->record.object;
-    e = (u8 *)func_8002C68C(8);
+    e = DuelEffect_CreateRequest(8);
     *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
     *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
     q34 = p + 0x34;

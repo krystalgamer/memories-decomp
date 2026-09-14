@@ -669,7 +669,7 @@ class ModelKeyframeUpdateTests(unittest.TestCase):
                     ),
                     "late-elapsed-store": (
                         "*(u16 *)(previous + 0x24) = elapsed;",
-                        "*(u16 *)(D_8009B074 + 0x24) = elapsed;",
+                        "*(u16 *)((u8 *)D_8009B074 + 0x24) = elapsed;",
                     ),
                     "clamp-before-narrow": (
                         "delta[0] = value;",

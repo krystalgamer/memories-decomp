@@ -17,6 +17,17 @@
 #define MEM_CARD_DIALOG_FLAG_OPENED 0x4000
 #define MEM_CARD_DIALOG_FLAG_ACTIVE 0x8000
 
+/* Low-level request producer ABI: file names and buffers are integer
+ * addresses, while offset/size are full words at the call boundary.
+ * These are distinct from the LIBMCRD MemCardReadFile/WriteFile API. */
+s32 MemCard_ReqLoadDirectory(s32 channel);
+s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
+s32 func_80044838(s32 mode, s32 *request, s32 *result);
+
 /* The result of the card's asynchronous IO, set from the callbacks
  * mem_card_io_result_callbacks.h declares and polled by the request state
  * machines. MemCard_BeginRequest resets it to -1 before starting a request.
@@ -46,7 +57,7 @@ extern s32 gMemCard_nIOResult;
  * The readers hand it back to _card_info, _card_clear and _card_load, and to
  * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and
  * reads it with lbu at ten sites, all gp-relative into $a0, five of the reads
- * in func_80044838, still assembly; so it is one unsigned byte, and the one
+ * in func_80044838; so it is one unsigned byte, and the one
  * char spelling was the writer's, where a store shows no sign. */
 extern u8 gMemCard_bChannel;
 
@@ -148,10 +159,10 @@ extern u8 gMemCard_bDirFlags;
  * (:120), four to the offset (:165, :182, :199, :216) and three to the size
  * (:167, :201, :233) -- and a store is `sb` or `sh` whichever sign the
  * declaration carries, so the signed views it used to select never reached an
- * instruction. The poll, src/candidates/func_80044838.c, is what reads them,
+ * instruction. The poll, src/game/func_80044838.c, is what reads them,
  * and its target listing fixes the widths and signs: eight `lbu` of the step,
  * three `lhu` of the offset and four of the size
- * (src/candidates_target/func_80044838.S).
+ * in its byte-matched resident body.
  * Size is bytes for file I/O but blocks for create; offset is bytes for file
  * I/O but a sector number for the raw-card requests. */
 extern u8 gMemCard_bRequestStep;
@@ -169,8 +180,9 @@ extern u8 D_8009B436;
  * and `gMemCard_bRetries = 0xA;`
  * (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
  * writer spelled it char, where a store shows no sign; the gMemCard_bChannel
- * comment above records the same split. Still in assembly: func_80044838.s
- * (lbu :137, :307; sb :75, :140, :211, :288, :310). gMemCard_bLoadStep is the
+ * comment above records the same split. func_80044838 reads the byte,
+ * decrements it with byte wrapping, and tests the signed result.
+ * gMemCard_bLoadStep is the
  * next symbol, at +1 (c_symbols.ld:272). Every access is `%gp_rel`; plain
  * declaration. */
 extern u8 gMemCard_bRetries;

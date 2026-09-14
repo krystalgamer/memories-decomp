@@ -7,7 +7,7 @@
 #include "duel_effect.h"
 #include "duel_effect_process_entries.h"
 #include "sound.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "func_80039794.h"
 #include "text_box_runtime.h"
 #include "dialog_choice_state.h"

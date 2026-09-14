@@ -42,11 +42,11 @@ void func_80032184(FileTransferDescriptor *p, s32 mode) {
 
 m0:
     m = 0xFFDDFFFF;
-    *(s16 *)((u8 *)p + 0x30) = 0x300;
-    *(s16 *)((u8 *)p + 0x32) = 0x100;
-    *(s16 *)((u8 *)p + 4) = 0x40;
+    *(s16 *)&p->field_30.h.counter = 0x300;
+    *(s16 *)&p->field_30.h.field_32 = 0x100;
+    *(u16 *)&p->w = 0x40;
     t0 = D_8009B0F4_abs;
-    *(s16 *)((u8 *)p + 6) = 0x10;
+    *(u16 *)&p->h = 0x10;
     D_8009B0F4_abs = t0 & m;
     D_8009B0F4_abs = D_8009B0F4_abs | 0x10000;
     p->done = 2;
@@ -60,14 +60,14 @@ m0:
 
 m1:
     m = 0xFFDDFFFF;
-    *(s16 *)((u8 *)p + 0x30) = 0x340;
-    *(s16 *)((u8 *)p + 4) = 0x40;
+    *(s16 *)&p->field_30.h.counter = 0x340;
+    *(u16 *)&p->w = 0x40;
     t1 = D_8009B0F4_abs;
-    *(s16 *)((u8 *)p + 6) = 0x10;
+    *(u16 *)&p->h = 0x10;
     D_8009B0F4_abs = t1 & m;
     u = D_8009B0F4_abs;
     n = 0x10000;
-    *(s16 *)((u8 *)p + 0x32) = 0;
+    p->field_30.h.field_32 = 0;
     D_8009B0F4_abs = u | n;
     p->done = 2;
     v = D_8009B118;

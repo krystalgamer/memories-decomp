@@ -71,9 +71,9 @@ void func_8005E808(u8 *p)
         }
         k = t * 2;
     }
-    func_8005FB30((u8 *)state);
+    func_8005FB30((Key *)state);
     state->field_24 = 0;
-    if (D_8009B074[0x26] != 0) {
+    if (D_8009B074->ready != 0) {
         return;
     }
     state->field_26 = 1;

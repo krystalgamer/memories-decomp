@@ -1,7 +1,6 @@
 #define D_8009B1D5_IS_VOLATILE
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
-#include "../game/func_8002C604.h"
 #include "../unmatched.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_effect_request.h"
@@ -9,7 +8,6 @@
 #include "../game/duel_side_state.h"
 #include "../game/duel_card.h"
 #include "../game/duel_effect.h"
-#include "../game/display_object_api.h"
 #include "../game/sound.h"
 #include "../game/duel_card_effects.h"
 #include "../game/duel_field_effect_steps.h"
@@ -19,10 +17,10 @@
  * D_8009B20C[1]; every later entry advances it and spawns a type-8 effect
  * object over the next slot of the third grid row (slots 10..14 of the acting
  * side), offsetting the object's depth by the step so the objects stagger.
- * Steps past the fifth clear D_8009B220 and end the sweep. A card sitting in
+ * Steps past the fifth clear gDuel_wCardEffectFlags and end the sweep. A card sitting in
  * the swept slot with a negative stat modifier has it cleared and gets the
  * alternate object state 5. */
-void func_800260D0(void) {
+void DuelEffect_ApplyCursebreaker(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
     u8 *position;
@@ -51,7 +49,7 @@ void func_800260D0(void) {
     D_8009B20C[1] = next;
     if ((s16)next < DUEL_FIELD_ROW_SIZE) {
         /* This step walks the grid flat, with the side folded into base_slot
-           below, while sibling func_80025F3C uses the two-dimensional view
+           below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
            selected by DUEL_FIELD_GRID_2D. The cast is the one
            place the two spellings meet. The single-pass loop preserves the
            retail grid and side register allocation under GCC 2.8.1. */
@@ -62,7 +60,7 @@ void func_800260D0(void) {
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
         record = &D_801A7AD8[card];
-        object = (DuelEffectObject *)func_8002C604(8);
+        object = (DuelEffectObject *)DuelEffect_AllocateRequest(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
         object->field_1A = 3;
@@ -84,6 +82,6 @@ void func_800260D0(void) {
             }
         }
     } else {
-        D_8009B220 = 0;
+        gDuel_wCardEffectFlags = 0;
     }
 }

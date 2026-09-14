@@ -26,13 +26,13 @@ typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
  * zero id, so the loaded data is self-terminating.
  *
  * The same memory is also borrowed as scratch once the duel is over:
- * func_80020F4C casts it to DuelResultSpriteSlot * for the outro, which
+ * DuelScene_UpdateResultOutro casts it to DuelResultSpriteSlot * for the outro, which
  * duel_result_outro.h documents as "the gDuel_awRitualData scratch". That reuse is
  * why the array stays unsized here -- the two consumers disagree about the
  * element type, and only the halfword view belongs to this header.
  *
- * func_800218F0 reuses the same backing for a complete 0x40-byte result
- * display record, after recipe processing has ended. Its guarded view
+ * DuelScene_UpdateResultRewards reuses the same backing for a complete
+ * 0x40-byte result display record after recipe processing has ended. Its guarded view
  * below describes that bounded record, not a new allocation. */
 #ifdef DUEL_RITUAL_DATA_RESULT_VIEW
 #include "duel_result_display.h"

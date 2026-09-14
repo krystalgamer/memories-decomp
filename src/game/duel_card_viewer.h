@@ -2,6 +2,8 @@
 #define MEMORIES_DECOMP_DUEL_CARD_VIEWER_H
 
 #include "../types.h"
+#include "display_object.h"
+#include "duel_effect.h"
 
 /* The card id the viewer screen is currently showing.
  *
@@ -18,7 +20,7 @@
  * declaration of the same type until then; nothing about its object changed
  * when it took this name, only which name its two relocations carry.
  *
- * func_800283F4 (src/candidates/func_800283F4.c) is the consumer. It hands
+ * DuelEffect_UpdateCardViewerState (src/candidates/func_800283F4.c) is the consumer. It hands
  * the id to func_80029164 to bring
  * the card's record in, and copies it into gDuel_wSelectedCardID for the
  * effect channels.
@@ -32,18 +34,22 @@ extern u16 gDuel_wViewerCardID;
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
  * src/candidates/main_menu/func_801821DC.c) both store 20 (0x14) when they
  * open the viewer, and
- * func_800283F4 is the consumer:
+ * DuelEffect_UpdateCardViewerState is the consumer:
  *
- *     adj = D_8009B24B;
+ *     adj = gDuel_bCardViewerYOffset;
  *     obj->field_30.h.field_32 += adj;
- *     func_800404CC((u8 *)obj, 0x148, D_8009B24B + 0xE, 0, 2, 0, 0xD, 0x107);
+ *     func_800404CC((u8 *)obj, 0x148,
+ *                  gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
  *
  * so it lands on a display object's y and on the third argument of a draw
  * call. notes/fm-online.md documents that second site from the other
  * direction: retail loads a2 from this byte at 0x800284D8 and the later call
  * adds 0x0E.
  *
- * func_8001BD88 and func_8001D670 also write it and are still assembly. */
-extern u8 D_8009B24B;
+ * DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions also write it and are still assembly. */
+extern DisplayObject *gDuel_pCardViewerBackground;
+extern u8 gDuel_bCardViewerYOffset;
+extern DisplayObject *gDuel_pCardViewerCard;
+extern DuelEffectChannel *gDuel_pCardViewerTextBox;
 
 #endif

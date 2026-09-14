@@ -1,19 +1,17 @@
 #include "../types.h"
 #include "duel_effect_object_pool.h"
 #include "duel_effect_request.h"
-#include "func_8002C604.h"
 #include "ordering_tables.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-/* Allocates a request entry through func_8002C5CC and fills it: flag byte
- * DUEL_EFFECT_REQUEST_FLAG_ACTIVE, the id at +0x18, the buffer pointer
- * D_80010000 + 0x3800 at +0x14, two words copied from D_800E9D90, and the
- * zeroed fields. Returns the entry or 0 when none was free. */
-u8 *func_8002C604(s32 arg0)
-{
-    u8 *p = (u8 *)func_8002C5CC();
+/* Allocates a request entry through DuelEffect_FindFreeRequest and fills it: flag byte
+ * 0x80, the id at +0x18, the buffer pointer D_80010000 + 0x3800 at +0x14,
+ * two words copied from D_800E9D90, and the zeroed fields. Returns the entry
+ * or 0 when none was free. */
+u8 *DuelEffect_AllocateRequest(s32 arg0) {
+    DuelEffectRequest *p = DuelEffect_FindFreeRequest();
 
     if (p != 0) {
         u8 *q;
@@ -21,21 +19,21 @@ u8 *func_8002C604(s32 arg0)
         s32 b;
 
         q = D_80010000;
-        p[0x1C] = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
+        p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
         t = D_800E9D90;
-        *(s16 *)(p + 0x18) = arg0;
-        *(s16 *)(p + 0x1A) = 0;
-        p[0x1D] = 0;
-        *(s32 *)(p + 0x14) = (s32)(q + 0x3800);
-        *(s32 *)(p + 8) = (s32)t[2];
+        p->id = arg0;
+        p->field_1A = 0;
+        p->field_1D = 0;
+        p->buffer = q + 0x3800;
+        p->field_08 = (s32)t[2];
         b = (s32)t[1];
-        *(s16 *)(p + 0x10) = 8;
-        *(s16 *)p = 0;
-        *(s16 *)(p + 2) = 0;
-        *(s16 *)(p + 4) = 0;
-        *(s16 *)(p + 0x12) = 0;
-        *(s32 *)(p + 0xC) = b;
+        p->field_10 = 8;
+        p->field_00 = 0;
+        p->field_02 = 0;
+        p->field_04 = 0;
+        p->field_12 = 0;
+        p->field_0C = b;
     }
 
-    return p;
+    return (u8 *)p;
 }

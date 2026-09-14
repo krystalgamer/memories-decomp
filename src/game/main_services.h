@@ -74,7 +74,7 @@ extern s32 runtime_gp;
  * Main_RunCampaignMap.
  *
  * A third arm, `u8 D_8009B0A3[9]`, used to serve
- * src/candidates/func_8002CEE8.c. A bound the assembler can see is only
+ * src/game/main_run_duel.c. A bound the assembler can see is only
  * needed where its -G sits below the compiler's, which is what
  * duel_terrain_boost.h records for gDuel_bTerrain's [8] under
  * gcc_2_8_1_cc_g8_as_g4_split; both array consumers here are plain
@@ -89,12 +89,13 @@ extern u8 D_8009B0A3[];
 /* The pending frontend-menu request. Main_RunMenu hands the pair to the
    main_menu overlay as MainMenu_InitFrontendMenu(D_8009B268, D_8009B26D),
    whose parameters are (unused, menu): D_8009B26D is the menu id --
-   Main_ApplyMenuSelection stores its selection argument, func_8002EE94 and func_8002FA28
+   Main_ApplyMenuSelection stores its selection argument, Script_OpSavePrompt and
+   Script_OpReturnToMenu
    store 5, func_80030CB0 round-trips it through gDebug_nSceneOrSoundID,
    Main_RunGameOver stores 0 -- and D_8009B268 is stored 1 beside every
    request and 0 in three of Main_ApplyMenuSelection's arms. Both are bytes, read lbu.
    main_apply_menu_selection.c and main_run_frontend_menus.c reach them through $gp;
-   src/candidates/func_8002EE94.c, func_8002FA28.c and frontend_scene_states.c
+   src/candidates/func_8002EE94.c, script_op_return_to_menu.c and frontend_scene_states.c
    address them with %hi/%lo, outside small data, and define the .data arms. */
 #ifdef D_8009B268_IN_DATA
 extern u8 D_8009B268 __attribute__((section(".data")));
@@ -108,15 +109,8 @@ extern u8 D_8009B26D __attribute__((section(".data")));
 extern u8 D_8009B26D;
 #endif
 
-/* Main_Init's no-argument spelling is load-bearing even though its work-area
- * pointer is already in $a0; making the source argument explicit changes the
- * caller before the call. The definition sees the canonical pointer arm. */
-#ifdef FUNC_80013154_NO_ARGS
-void func_80013154(void);
-#else
 struct GraphicsFrameBuffer;
 void func_80013154(struct GraphicsFrameBuffer *base);
-#endif
 void func_80013360(void);
 
 /* The pump itself, and the call that empties the registry. func_8001306C

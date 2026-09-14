@@ -38,13 +38,13 @@ _start:
 
 WITNESS = r"""
 #include "src/game/save_data.h"
-void func_800218F0(void);
+void DuelScene_UpdateResultRewards(void);
 #define U16(p, n) (*(u16 *)((u8 *)(p) + (n)))
 #define U32(p, n) (*(u32 *)((u8 *)(p) + (n)))
 #define CHECK(c, n) do { if (!(c)) return (n); } while (0)
 
 ViewState D_800F2848;
-u16 D_8009B23A, D_8009B16C, D_8009B32E;
+u16 gDuel_wSceneStateFlags, D_8009B16C, D_8009B32E;
 s16 gGraphics_sViewportX, gGraphics_sViewportY;
 DuelResultDisplayState *D_8009B1E8;
 DuelResultDisplayState gDuel_awRitualData;
@@ -94,7 +94,7 @@ void func_8001352C(void)
 {
     event(1, 0, (u16)D_800F2848.angle, 0, 0, 0);
     if ((u16)D_800F2848.angle != expected_angle) error = 3;
-    if (mutation == 1) D_8009B23A = 0x8000;
+    if (mutation == 1) gDuel_wSceneStateFlags = 0x8000;
 }
 void func_80015C84(void) { event(2, 0, 0, 0, 0, 0); }
 void Fade_SetTargetLevel(s32 level, s32 speed)
@@ -162,9 +162,9 @@ void SD_SEPlayFull(u32 id)
 void Fade_StartOut(void)
 {
     event(15, 0, 0, 0, 0, 0);
-    if (mutation == 5) D_8009B23A |= 0x80;
+    if (mutation == 5) gDuel_wSceneStateFlags |= 0x80;
 }
-void func_800156B8(s32 level)
+void Fade_FillBandLevels(s32 level)
 {
     event(16, 0, level, D_800E9EC8_arr[4], 0, 0);
 }
@@ -191,7 +191,7 @@ static void setup(u16 flags)
     D_8009B1E8->starchip_prize = 0xA5;
     D_8009B1E8->dropped_card_id = -123;
     D_8009B1E8->page_index = 0;
-    D_8009B23A = flags; D_8009B16C = 0x12; D_8009B32E = 0x1234;
+    gDuel_wSceneStateFlags = flags; D_8009B16C = 0x12; D_8009B32E = 0x1234;
     gGraphics_sViewportX = 37; gGraphics_sViewportY = -43;
     D_8009B34E = 0xAA; D_8009B355 = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
@@ -205,7 +205,7 @@ static void setup(u16 flags)
     object_count = allocation_count = event_count = error = mutation = 0;
 }
 
-static void run(void) { executions++; func_800218F0(); }
+static void run(void) { executions++; DuelScene_UpdateResultRewards(); }
 
 static s32 valid(void)
 {
@@ -237,7 +237,7 @@ static s32 check_initial(s32 tier, s32 tec, s32 eligible, s32 label)
     s32 cursor = 5, id = 3, i, chips = eligible ? tier + 1 : 0;
     s32 pool = tier < 3 ? 1 : tec ? 2 : 0;
     DuelResultDisplayState *state = D_8009B1E8;
-    CHECK(valid() && D_8009B23A == 0x8012 && events[1].kind == 2 &&
+    CHECK(valid() && gDuel_wSceneStateFlags == 0x8012 && events[1].kind == 2 &&
           events[2].kind == 3 && events[2].a == 128 && events[2].b == 2 &&
           events[3].kind == 4 && events[3].a == (gDuel_bWinnerSide ? 0x72F1 : 0x72E1) &&
           events[4].kind == 5, 10);
@@ -332,7 +332,7 @@ static s32 camera_idle(void)
         setup(0x8012); D_800F2848.angle = angles[i]; expected_angle = next[i];
         run();
         CHECK(valid() && (u16)D_800F2848.angle == next[i] && event_count == 1 &&
-              D_8009B23A == 0x8012 && !object_count &&
+              gDuel_wSceneStateFlags == 0x8012 && !object_count &&
               gGraphics_sViewportX == 37 && gGraphics_sViewportY == -43, 30);
     }
     return 0;
@@ -353,7 +353,7 @@ static s32 pages(void)
         CHECK(valid() && (s8)D_8009B1E8->page_index == expected &&
               event_count == 3 && events[1].kind == 14 && events[1].a == 6 &&
               events[2].kind == 13 && events[2].a == expected &&
-              D_8009B23A == 0x8012, 40);
+              gDuel_wSceneStateFlags == 0x8012, 40);
     }
     return 0;
 }
@@ -366,7 +366,7 @@ static s32 confirm(void)
         setup(0x8012); gInput_wPad1Pressed = keys[i]; gInput_wPad1Repeat = 0x4000;
         run(); pressed = (keys[i] & 0x40) != 0;
         CHECK(valid() && event_count == (pressed ? 3 : 1) &&
-              D_8009B23A == (pressed ? 0xC012 : 0x8012), 50);
+              gDuel_wSceneStateFlags == (pressed ? 0xC012 : 0x8012), 50);
         if (pressed) CHECK(events[1].kind == 3 && events[1].a == 0 &&
                             events[1].b == 6 && events[2].kind == 14 && events[2].a == 48, 51);
     }
@@ -385,7 +385,7 @@ static s32 exit_handshake(void)
         if (missing) D_8009B1D8[0] = 0;
         D_8009B1E8->starchip_prize = 2;
         run();
-        CHECK(valid() && D_8009B23A == (armed || !fading ? 0xE012 : 0xC012), 60);
+        CHECK(valid() && gDuel_wSceneStateFlags == (armed || !fading ? 0xE012 : 0xC012), 60);
         if (fading) CHECK(event_count == 1 && D_8009B16C == 0x12 &&
                           D_800E9EC8_arr[4] == 7, 61);
         else if (!armed) CHECK(event_count == 3 && events[1].kind == 15 &&
@@ -443,7 +443,7 @@ static s32 helper_reloads(void)
 {
     s32 result, i;
     setup(0x12); mutation = 1; run();
-    CHECK(valid() && event_count == 1 && !object_count && D_8009B23A == 0x8000, 90);
+    CHECK(valid() && event_count == 1 && !object_count && gDuel_wSceneStateFlags == 0x8000, 90);
     setup(0x12); mutation = 2; run();
     CHECK(valid() && D_8009B1E8 == &alternate && alternate.root == &objects[2] &&
           alternate.rank_tier == 0 && alternate.starchip_prize == 1, 91);
@@ -455,7 +455,7 @@ static s32 helper_reloads(void)
     setup(0x8012); mutation = 4; gInput_wPad1Repeat = 0x2000; run();
     CHECK(valid() && event_count == 3 && events[2].kind == 13 && events[2].a == 2, 94);
     setup(0xC012); mutation = 5; run();
-    CHECK(valid() && D_8009B23A == 0xE092 && D_800E9EC8_arr[4] == 255 &&
+    CHECK(valid() && gDuel_wSceneStateFlags == 0xE092 && D_800E9EC8_arr[4] == 255 &&
           events[2].kind == 16 && events[2].a == 255, 95);
     return 0;
 }
@@ -510,7 +510,7 @@ class DuelResultControllerTests(unittest.TestCase):
         cls.addClassCleanup(temporary.cleanup)
         cls.directory = Path(temporary.name)
         cls.witness = cls.directory / "witness.c"
-        prefix = SOURCE.read_text().split("void func_800218F0(void)", 1)[0]
+        prefix = SOURCE.read_text().split("void DuelScene_UpdateResultRewards(void)", 1)[0]
         cls.witness.write_text(normalized(prefix, SOURCE.parent) + WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)

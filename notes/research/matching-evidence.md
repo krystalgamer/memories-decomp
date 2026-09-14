@@ -1509,8 +1509,14 @@ whether the assembler can prove a store is one gp-relative instruction - so the
 test is whether the candidate's gp-relative accesses actually differ from the
 target's. If they already agree, the declaration is not the problem, whatever
 sits next to them. `func_8002EE94`'s obstacle is store forwarding and
-`func_80044838` is nine instructions short of a structural match; neither is an
+`func_80044838` was nine instructions short of a structural match in this
+experiment; neither obstacle was an
 addressing fault.
+
+The later `func_80044838` resolution preserves these historical measurements.
+Scoped call results, explicit failure closes, and a shared-entry create retry
+loop reproduce its 295 instructions and twelve-word jump table without changing
+the global declarations; see [Memory-card Runtime Events](../memory-card-runtime.md).
 
 So: diagnose from the differing instructions, not from the declarations. A
 count of `extern` lines is not evidence, and a `nop` near a gp-relative store is
@@ -2546,7 +2552,7 @@ combine can still see the literal zero comparison.
 
 ## A canonicalising diff harness can invent differences as well as hide them
 
-While comparing `SD_SEPlay` (0x80048658) and `func_80047DB0`, both candidates
+While comparing `SD_SEPlay` (0x80048658) and `SD_SEStop` (0x80047DB0), both candidates
 appeared to materialise 0xFFFF with `addiu` where the target used `ori`. The
 apparent lesson was that the compared variable had to be widened. That
 conclusion was wrong, and the mechanism is worth recording.
@@ -2584,7 +2590,7 @@ keeps rising even as the body converges. That makes it unfit for choosing
 between profiles, because profiles differ precisely in where they insert and
 schedule instructions.
 
-Measured on `func_80047DB0`: ranked by positional diff, `gcc_2_8_1_g0_split`
+Measured on `SD_SEStop`: ranked by positional diff, `gcc_2_8_1_g0_split`
 looked clearly best at 53 against `gcc_2_8_1_g0` at 66. Ranked by the
 difference between the two opcode histograms, the order reverses, 12 against
 6. The positional count was selecting the wrong profile outright, and the
@@ -2612,7 +2618,7 @@ shift by that same constant occurs, GCC 2.8.1 will use the register as the
 shift amount rather than materialise the constant twice, emitting `sllv`
 where the target has `sll`.
 
-In `func_80047DB0` a bitmask local is initialised to 1 before a dispatch
+In `SD_SEStop` a bitmask local is initialised to 1 before a dispatch
 block, and a `<< 1` inside that block became `sllv v0,v0,s4` because `s4`
 already held 1. Moving the initialisation after the block, to just before the
 loop that actually consumes it, restored the constant `sll`.
@@ -2635,7 +2641,7 @@ and
 
 are not equivalent to the register allocator. The second form makes the
 default live before the branch, which is what produces a parameter copy in
-the entry block. In `func_80047DB0` switching to the second form removed two
+the entry block. In `SD_SEStop` switching to the second form removed two
 instruction-count differences and brought the candidate to within one
 instruction of the target, because retail initialises the match value from
 the argument before testing it and overwrites it only in the taken branch.
@@ -2659,7 +2665,7 @@ up the difference exactly.
 Measured on `func_8001944C`: the histogram reported 70 against 70, while the
 diff header reported `target=70 candidate=68`. The candidate was two
 instructions short and the metric said the lengths matched. Re-checking
-`func_80047DB0` after the fix moved it from "one `addu` allocated
+`SD_SEStop` after the fix moved it from "one `addu` allocated
 differently" to "one instruction missing", which is a different and more
 tractable problem: a missing instruction means the source is not asking for
 enough work, whereas a differently-allocated one means it is.
@@ -2868,7 +2874,7 @@ a call: one `sw` of a callee-saved register per value. Comparing that count
 against the candidate's turns a vague allocation complaint into a countable
 discrepancy.
 
-Measured on `func_80047DB0` (0x80047DB0, 69 instructions). Retail sets up a
+Measured on `SD_SEStop` (0x80047DB0, 69 instructions). Retail sets up a
 0x28 frame and saves `s0` through `s4`, five registers. The candidate set up
 0x30 and saved `s0` through `s5`, six. The extra `sw`/`lw` pair was the whole
 length difference, showing up in the histogram as `sw` 6 against 7 and `lw` 8
@@ -6763,8 +6769,8 @@ Two cautions. `libgs.h` does not parse on its own: it needs `libgte.h` and
 them further down will fail if the new `libgs.h` include goes above it. And
 not every 32-bit write to a `+4` field is an attribute: `0x1000000` (bit 24)
 and `0x2000000` (bit 25) have no name in `libgs.h`, and
-`file_set_position_table.c`'s `*(s32 *)D_800E9DF0 = 0x8000000` is not a
-display object at all.
+`file_set_position_table.c`'s `D_800E9DF0.attribute = 0x8000000` writes a
+standalone sprite record, not a display object.
 
 ## A narrower parameter type is not free at the call site, but a wider one is
 

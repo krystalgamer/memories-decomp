@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
 #include "text_box_runtime.h"

@@ -24,7 +24,7 @@
    the primary handlers Text_ExtendGlyphCode and Text_SetStateFromStream in
    text_stream_commands.c. */
 
-void func_80037DA4(u8 *object)
+void func_80037DA4(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
@@ -36,11 +36,11 @@ void func_80037DA4(u8 *object)
     u8 *current;
     u8 **slot;
 
-    text = (u8 *)(s32)*(s8 *)(object + 0x58);
-    object[0x62] = 0;
+    text = (u8 *)(s32)object->stream_58;
+    object->field_62 = 0;
     text = (u8 *)((u32)text * 4);
     {
-        u8 *stream = object;
+        u8 *stream = (u8 *)object;
 
         stream += (u32)text;
         text = stream;
@@ -50,7 +50,7 @@ void func_80037DA4(u8 *object)
     }
     n = 0;
     if (op & 0x10) {
-        object[0x54] = D_8009B320;
+        object->field_54 = D_8009B320;
         return;
     }
     if (op & 0x20) {
@@ -72,7 +72,7 @@ void func_80037DA4(u8 *object)
             type = (stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             id += 0x17;
             if ((u32)(type - CARD_TYPE_MAGIC) < CARD_NON_MONSTER_TYPE_COUNT) {
-                object[0x62] = type;
+                object->field_62 = type;
             }
             break;
         case 2:
@@ -90,7 +90,7 @@ void func_80037DA4(u8 *object)
         }
         id += 0x8300;
     }
-    object[0x58]++;
+    object->stream_58++;
     n = id;
     if (id > 0xCFFF) {
         text = (u8 *)((u32)D_801C0000 & 0xFFFF0000) +
@@ -105,16 +105,16 @@ void func_80037DA4(u8 *object)
         text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
     }
 store:
-    slot = &((u8 **)object)[*(s8 *)(object + 0x58)];
+    slot = &((u8 **)object)[object->stream_58];
     *slot = text;
     return;
 plain:
-    *(u16 *)(object + 0x34) |= 0x80;
+    object->flags_34 |= 0x80;
     if ((u8)n == 0) {
-        func_80036C14((DuelEffectChannel *)object, id);
+        func_80036C14(object, id);
     }
-    *(u16 *)(object + 0x34) &= 0xFF7F;
-    *(u16 *)(object + 0x38) += 0x10;
+    object->flags_34 &= 0xFF7F;
+    object->field_38 += 0x10;
 }
 
 void func_80038024(DuelEffectChannel *object, s32 value)
@@ -165,7 +165,7 @@ void func_80038110(DuelEffectChannel *object)
     object->field_38 += value;
 }
 
-void func_80038148(u8 *p)
+void func_80038148(DuelEffectChannel *object)
 {
     u8 buf[8];
     u8 *e;
@@ -178,8 +178,8 @@ void func_80038148(u8 *p)
     s32 h;
     s32 w;
 
-    r = func_80036D70(p);
-    t = *(*(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)))++;
+    r = func_80036D70((u8 *)object);
+    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
 
@@ -190,12 +190,12 @@ void func_80038148(u8 *p)
             goto skip;
         }
         h = *(u16 *)&D_800EAFF8[0];
-        e = p + 0x44;
+        e = object->text_44;
         goto write;
     }
 
     if (c < 2) {
-        e = p + 0x44;
+        e = object->text_44;
         goto write;
     }
 
@@ -213,7 +213,7 @@ void func_80038148(u8 *p)
     }
 
 skip:
-    e = p + 0x44;
+    e = object->text_44;
 
 write:
     i = (c & 0xF) - 1;
@@ -234,8 +234,8 @@ write:
     } while (i >= 0);
 
     *e = TEXT_STRING_TERMINATOR;
-    p[0x58] = p[0x58] + 1;
-    *(u8 **)(p - -(*(s8 *)(p + 0x58) * 4)) = p + 0x44;
+    object->stream_58++;
+    ((TextStreamOwner *)object)->streams[object->stream_58] = object->text_44;
 }
 
 /* Inlining keeps the stream value and channel in independent live ranges. */
@@ -249,9 +249,8 @@ static __inline__ u32 read_operand(DuelEffectChannel *object)
     return value;
 }
 
-void func_800382A8(u8 *argument)
+void func_800382A8(DuelEffectChannel *object)
 {
-    DuelEffectChannel *object = (DuelEffectChannel *)argument;
     u32 value;
 
     object->flags_34 &= 0xFEFF;
@@ -331,9 +330,9 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     return slot;
 }
 
-void func_80038498(u8 *arg0)
+void func_80038498(DuelEffectChannel *object)
 {
-    u8 **slot = (u8 **)(arg0 + *(s8 *)(arg0 + 0x58) * 4);
+    u8 **slot = &((u8 **)object)[object->stream_58];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
@@ -343,7 +342,7 @@ void func_80038498(u8 *arg0)
     if (v & 0x80) {
         w = gText_abColorSlots[v & 0xF];
     }
-    arg0[0x54] = w;
+    object->field_54 = w;
 }
 
-void func_800384E4(u8*object){register u8*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;*(u16*)(obj+0x34)&=0xEFFF;stream=&((u8**)obj)[*(s8*)(obj+0x58)];current=*stream;value=*current;current++;*stream=current;if(value)*(u16*)(obj+0x34)|=0x1000;}
+void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8**)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}

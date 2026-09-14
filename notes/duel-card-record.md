@@ -12,12 +12,12 @@ their guessed declarations were not copied.
 The staging-buffer contract below extends that evidence to the existing
 base-relative views of the same records, without claiming a new allocation.
 
-`notes/global-usage.csv` is the authority for the current matching-C and
-assembly user counts; filter it on global address `0x801A7AD8`. The
+The generated `notes/global-usage.csv` snapshot lists matching-C and
+assembly users; filter it on global address `0x801A7AD8`. The
 typed-migration inventory below separately records which matching sources
-have adopted the shared declaration. `func_8002C9B4` is an additional
-matching C source whose address formation names `D_801A7AD8` only inside an
-inline-assembly string, so it does not appear in the generated report.
+have adopted the shared declaration. `func_8002C9B4` now uses the shared
+typed C declarations directly, including the `D_801A7B64` interior alias.
+The generated report may predate a promotion until it is regenerated.
 
 ## Shared staging-buffer views (`D_8015C424`)
 
@@ -42,7 +42,7 @@ the base symbol's name:
 
 `DuelCardReplayRecordBlock` retains its padded offset view, now shared by
 card lifecycle, draw resolution, phase entry, AI selection setup, trap
-presentation, and the integrated `func_80018FEC` candidate.
+presentation, and the integrated `DuelScene_UpdateExodiaResult` candidate.
 `DuelStagedDeckRecordBlock` provides the corresponding small-displacement
 deck-record view for `Duel_SetupCardRecord`. These views preserve the
 historical high-base materialization followed by a small field displacement;
@@ -96,7 +96,7 @@ several functions use interior aliases or derived subranges.
 
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
-| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `func_80025F3C`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
+| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
 | `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
@@ -116,7 +116,7 @@ five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
 The encoded field-card slot paths in `func_80028260`,
-`Duel_SetupCardRecord`, `func_80024D34`, and `func_80018DB4` add
+`Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still
 passed through without that normalization or new bounds checks.
@@ -143,7 +143,7 @@ field records. The normal ritual execution routine removes the exported
 cards later; see the selection/removal distinction in
 [`the-game.md` §5.7](research/the-game.md#57-traps-and-rituals).
 
-The draw-phase entry `func_8001898C` scans `DUEL_CARD_RECORD_COUNT` (`30`)
+The draw-phase entry `DuelScene_UpdateDrawPhase` scans `DUEL_CARD_RECORD_COUNT` (`30`)
 records at `DUEL_CARD_RECORD_SIZE` (`0x1C`) strides to reset per-turn flags.
 That bound belongs to this record table, not to the separate
 `DUEL_FIELD_SIDE_GRID_SLOT_COUNT` layout. Occupied records retain their
@@ -222,7 +222,7 @@ if either card is in defence position, or `-1` if both are in attack
 position. This is a return convention, not a claim that edited values
 could never produce an arithmetic difference of `-1`.
 
-The retail battle sequencer `func_8001F55C` calls the comparison at
+The retail battle sequencer `DuelScene_UpdateBattle` calls the comparison at
 `0x8001FBFC`. Its negative-result path tests for a result below `-1` at
 `0x8001FD2C` before reaching the LP update at `0x8001FD5C`; a returned
 `-1` is not processed there as one point of LP damage. This corroborates
@@ -291,7 +291,7 @@ The remaining negative-opponent/nonnegative-`D_8009B360` case leaves both
 cleared. Do not collapse these branches into a universal two-player copy.
 
 The initializer points `D_8009B1C8` at the active side record; the matching
-[turn-switch helper](../src/game/func_800208D4.c) refreshes that pointer
+[turn-switch helper](../src/game/duel_scene_turn_switch.c) refreshes that pointer
 when changing sides. Matching
 [`func_80018004`](../src/game/func_80018004.c) reads `card_view_mode`
 through a signed view, after calling the base card-object constructor:
@@ -320,18 +320,20 @@ is inferred here, and no new runtime trace is claimed.
 
 ## Typed migration snapshot
 
-The following pure-C report users include `duel_card.h` and use its typed
+The following matching C sources include `duel_card.h` and use its typed
 extern:
 
 `func_8001778C`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `func_8001F364`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
-`DuelEffect_UpdateFieldMarker`, `func_80025B28`, `func_80025BEC`,
-`func_80025F3C`, `func_80026A3C`,
+`DuelEffect_ApplyStopDefense`, `DuelEffect_UpdateRevealCard`,
+`DuelEffect_ApplyDarkPiercingLight`, `DuelEffect_ApplySwords`,
+`DuelEffect_ApplyHarpiesFeatherDuster`,
 `func_80026C0C`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
-`func_8002778C`, `func_800278A0`, `func_80027DF8`, and `func_8002C938`.
+`func_8002778C`, `func_800278A0`, `func_80027DF8`, `func_8002C938`, and
+`func_8002C9B4`.
 
 Raw local views retained for exact code generation:
 
@@ -349,9 +351,9 @@ Raw local views retained for exact code generation:
 - `func_80017F04` uses the shared table declaration for its record-index
   calculation, but keeps the incoming record as a byte pointer so its
   field loads and pointer-difference expression preserve the accepted code.
-- `func_80025F3C` likewise keeps the target's 32-bit `+0x14` read for the
+- `DuelEffect_ApplySwords` likewise keeps the target's 32-bit `+0x14` read for the
   `0x90000000` state test.
-- `DuelEffect_UpdateFieldMarker` uses the shared record and flags, but keeps
+- `DuelEffect_ApplyStopDefense` uses the shared record and flags, but keeps
   the target's 32-bit `+0x14` read for its `0x88000000` state test.
 - `func_8002C938` keeps its explicit byte-address construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.
@@ -360,9 +362,18 @@ Any matching-C report user not listed in the typed inventory above still
 retains a local or raw record view. Derive that changing set from
 `notes/global-usage.csv` rather than duplicating it here.
 
-`func_8002C9B4` remains wholly unchanged because its `D_801A7AD8` address
-formation is inline assembly. Its local record view and the interior
-`D_801A7B64` alias are therefore deliberately not migrated.
+`func_8002C9B4` replaces the former inline-assembly implementation with
+matching C and the shared `DuelCardRecord` view. Its negative-selector path
+retains `D_801A7B64` for the original two-side traversal and relocation;
+this is an interior view of the existing table, not another allocation.
+
+The output is a zero-terminated list of object addresses in `u32` words.
+A negative selector can append two occupied cards per iteration across ten
+field zones, so the maximum is **21 words including the terminator**.
+Other selectors inspect one five-card row, so their maximum is **six words
+including the terminator**. The function has no capacity argument. No tracked
+caller is currently present, so these bounds specify required worst-case
+capacity, not a verified size for an existing caller's allocation.
 
 ## Current assembly users
 

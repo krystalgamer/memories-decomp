@@ -4,8 +4,8 @@
 #include "../types.h"
 
 /* State 1 of the library screen dispatcher, handed the same record the other
- * states take -- the dispatcher func_8002BAB4 (src/candidates/func_8002BAB4.c)
- * calls it for mode 1 alongside func_8002BAA0 and func_8002BAAC.
+ * states take -- func_8002BAB4 in library_runtime.c calls it for mode 1
+ * alongside func_8002BAA0 and func_8002BAAC.
  *
  * The handler waits for cursor motion, handles selection and cancellation,
  * then starts the next cursor move before updating scroll. */

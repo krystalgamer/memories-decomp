@@ -27,14 +27,15 @@
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
+#include "display_object_config.h"
 
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define W(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
-void func_800218F0(void)
+void DuelScene_UpdateResultRewards(void)
 {
     DisplayObject *object;
     s32 score;
@@ -49,8 +50,8 @@ void func_800218F0(void)
 
     D_800F2848.angle = (u16)D_800F2848.angle + 2;
     func_8001352C();
-    if (!(D_8009B23A & 0x8000)) {
-        D_8009B23A |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & 0x8000)) {
+        gDuel_wSceneStateFlags |= 0x8000;
         func_80015C84();
         Fade_SetTargetLevel(128, 2);
         D_8009B1E8 = &gDuel_awRitualData;
@@ -153,13 +154,13 @@ side_result:
         }
         goto show_page;
     }
-    if (D_8009B23A & 0x4000) {
+    if (gDuel_wSceneStateFlags & 0x4000) {
         if (!(D_800E9EC8_arr[6] & 0x80)) {
-            if (!(D_8009B23A & 0x2000)) {
-                D_8009B23A |= 0x2000;
+            if (!(gDuel_wSceneStateFlags & 0x2000)) {
+                gDuel_wSceneStateFlags |= 0x2000;
                 Fade_StartOut();
                 D_800E9EC8_arr[4] = 255;
-                func_800156B8(255);
+                Fade_FillBandLevels(255);
             } else {
                 u8 *save = D_8009B1D8[gDuel_bWinnerSide];
                 D_8009B16C |= 0x2000;
@@ -196,7 +197,7 @@ side_result:
 show_page:
         Duel_ShowResultPage((s8)D_8009B1E8->page_index);
     } else if (gInput_wPad1Pressed & 0x40) {
-        D_8009B23A |= 0x4000;
+        gDuel_wSceneStateFlags |= 0x4000;
         Fade_SetTargetLevel(0, 6);
         SD_SEPlayFull(0x30);
     }

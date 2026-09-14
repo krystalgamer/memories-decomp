@@ -1,6 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #define GINPUT_PAD1_HELD_IS_VOLATILE
-#define D_8009B26C_AS_SCALAR
+#define MAIN_MODE_STATE_NEXT_AS_SCALAR
+#define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../../unmatched.h"
@@ -22,7 +23,7 @@
 #include "../../game/save_data.h"
 #include "../../game/display_object_helpers.h"
 #define FUNC_8004036C_AMBIENT_OBJECT
-#include "../../game/display_object_api.h"
+#include "../../game/display_object_core.h"
 #include "../../game/func_80039794.h"
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "../../game/func_80041D60.h"
@@ -32,6 +33,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "free_duel.h"
+#include "../../game/main_mode_state.h"
 
 /* The Free Duel opponent-select screen in executable order: cursor layout,
    display-object and portrait initialization, sparkle upkeep, input and
@@ -47,7 +49,7 @@
    pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **. The cursor
    and thumb use the same record; signed coordinate reads are explicit.
 
-   func_8004036C uses display_object_api.h's guarded `void (void)` arm. The
+   func_8004036C uses display_object_core.h's guarded `void (void)` arm. The
    sparkle updater's call passes no argument, so taking the normal
    `void func_8004036C(void *)` declaration would make the compiler set up an
    argument retail does not. */

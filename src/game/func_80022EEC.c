@@ -2,7 +2,7 @@
 #include "duel_side_state.h"
 #include "duel_selection_layout.h"
 #include "func_80022EEC.h"
-#include "display_object_api.h"
+#include "display_object_core.h"
 
 void func_80022EEC(DisplayObject *object)
 {

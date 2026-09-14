@@ -1,13 +1,14 @@
+#define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "duel_load_package_stage.h"
 #include "../unmatched.h"
 #include "../ygo_types.h"
 #include "campaign_scene_package.h"
 
 #include "high_memory_addresses.h"
-extern u8 D_801A8000[];
 
 void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 {
@@ -23,14 +24,14 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     switch (stage) {
     case 0:
         *(s16 *)&p->field_30.h.counter = 0x340;
-        *(s16 *)((u8 *)p + 4) = 0x40;
+        *(u16 *)&p->w = 0x40;
         m = 0xFFDDFFFF;
         v_0 = D_8009B0F4;
-        *(s16 *)((u8 *)p + 6) = 0x10;
+        *(u16 *)&p->h = 0x10;
         v_0 &= m;
         D_8009B0F4 = v_0;
         w = D_8009B0F4;
-        *(s16 *)((u8 *)p + 0x32) = 0;
+        *(s16 *)&p->field_30.h.field_32 = 0;
         w |= 0x10000;
         D_8009B0F4 = w;
         p->done = 2;
@@ -58,11 +59,11 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->w = 0x100;
         p->h = 1;
         LoadImage2((RECT *)p, (u32 *)c);
-        *(s32 *)((u8 *)p + 0xC) = (s32)D_801A8000;
-        *(s32 *)((u8 *)p + 8) = (s32)D_801A8000;
+        *(s32 *)&p->value_0C = (s32)D_801A8000;
+        *(s32 *)&p->value_08 = (s32)D_801A8000;
         m = 0xFFDCFFFF;
         v_2 = D_8009B0F4;
-        *(s32 *)((u8 *)p + 0x1C) = 0x1000;
+        p->phase_size = 0x1000;
         v_2 &= m;
         D_8009B0F4 = v_2;
         p->done = 1;
