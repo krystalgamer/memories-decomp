@@ -440,6 +440,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="replace an existing matching source after inline refinement",
     )
+    parser.add_argument(
+        "--allow-psyq-inline-macros",
+        action="store_true",
+        help=(
+            "accept assembly introduced by included Psy-Q inline macros; "
+            "assembly written directly in the source remains rejected"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -572,11 +580,14 @@ def main() -> int:
                 f"{address:#010x}: expanded matching C cannot contain "
                 "hard-register variables"
             )
-        if uses_asm_extension(
-            preprocessed_text,
-            allow_register_pins=True,
-            allow_symbol_aliases=True,
-            tracked_symbol_names=tracked_symbol_names,
+        if (
+            not args.allow_psyq_inline_macros
+            and uses_asm_extension(
+                preprocessed_text,
+                allow_register_pins=True,
+                allow_symbol_aliases=True,
+                tracked_symbol_names=tracked_symbol_names,
+            )
         ):
             raise IntegrationError(
                 f"{address:#010x}: expanded matching C contains statement-level "
