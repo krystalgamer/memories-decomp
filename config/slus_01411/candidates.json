@@ -235,7 +235,7 @@
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "source": "src/candidates/func_80035E20.c",
       "target": "src/candidates_target/func_80035E20.S",
-      "candidate_build_sha256": "d97bc880a1f1260fd812d4e5373fbbde3f600e39c5b65a4c4894aed66b117cc0",
+      "candidate_build_sha256": "dc39ccc793d4edfe6f0196d3103e1f86e2a09f49e53eda96a36940ae57766de9",
       "target_bytes_sha256": "0de72bbf45d92aba00d140f3434fda732e5ffbbfffb06abb67cc18493a694333",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
