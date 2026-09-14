@@ -128,7 +128,7 @@ void func_80040BF8(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_800408D0(object, (s32)table[object->ot_index],
-                              *(s16 *)(data + 0x14));
+                              (s16)object->field_14);
             }
         } while (i >= 0);
     }
