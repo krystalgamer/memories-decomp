@@ -112,10 +112,10 @@
     },
     {
       "address": "0x8001F55C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "source": "src/candidates/func_8001F55C.c",
       "target": "src/candidates_target/func_8001F55C.S",
-      "candidate_build_sha256": "5d339ca77746261f236ebeb41260a92a5209be4c2ddf18516fc7dca2cb43e1f5",
+      "candidate_build_sha256": "8b9ed8c8a26f70e216950cef2d62d5ba4938c619f94a75b845c58187dd3e0a0d",
       "target_bytes_sha256": "63065ab7ad4422059374e74067512acf04d9b0b94fa1b937ac801bd8afc2dfdf",
       "canonical_contract_sha256": "1ca0975e2ae07ff82d2df24b0bb0e0cdfe43c6bff189a3fdcc8ce47b2f09457f",
       "canonical_contracts": {

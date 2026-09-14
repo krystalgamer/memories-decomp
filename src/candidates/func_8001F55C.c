@@ -1,8 +1,8 @@
 /*
  * Duel scene-state 9: sequences the attacker and defender presentation,
  * damage, and the post-battle state transitions. Current best under
- * gcc_2_8_1_g8_split: 1248 instructions against 1246, opcode distance 14
- * (8 surplus, 6 missing), with no hard register assignments and no inline
+ * gcc_2_8_1_g8_split_comm: 1244 instructions against 1246, opcode distance
+ * 10 (4 surplus, 6 missing), with no hard register assignments and no inline
  * assembly.
  *
  * Levers measured on this body, in the order they were found:
@@ -13,15 +13,21 @@
  *   are `(s16)life < 0` rather than a 0x8000 mask;
  * - case 1 reads D_8009B0F4/D_8009B134 through their _abs names and case 5
  *   reads D_8009B374 from .data, which is the %hi/%lo form retail uses;
- * - case 1 names the 0x48000 split offset, case 2 tests the saved flags
- *   byte after its entry block, case 8 names the flags byte, the signed
+ * - case 1 names the 0x48000 split offset, case 2 re-reads D_8009B174
+ *   after its entry block, case 8 names the flags byte, the signed
  *   slot index and the D_8009B1B0 base, and case 11 uses one record name
- *   with halfword cast stores so D_8009B17A is reloaded.
+ *   with halfword cast stores so D_8009B17A is reloaded;
+ * - D_8009B208 is a tentative definition, which supplies retail's
+ *   load-delay nops before its gp-relative stores; the _comm profile
+ *   keeps it common, where plain g8_split would allocate it in .sbss;
+ * - the two fade blocks name the side object before storing through it,
+ *   case 4's else branch reads D_8009B174 into flags, and the first
+ *   func_80019BA0 call reads byte 0x21 once.
  *
- * Residual: census addiu +1, addu -1, andi -1, beqz -1, bnez +1, lhu -2,
- * lui -1, lw +4, sll +2. Case 5 still orders its D_8009B208 stores and
- * the second D_8009B17A reload differently, and case 4 reads the D_800EA0E8
- * base once where retail materialises it on both arms.
+ * Residual: census addiu +1, andi -2, beqz -1, bnez +1, lhu -2, lui -1,
+ * sll +2. Case 11 still loads D_8009B178 and D_8009B170 together and keeps
+ * one D_8009B17A read, and case 4 reads the D_800EA0E8 base once where
+ * retail materialises it on both arms.
  */
 #define D_8009B369_IN_DATA
 #define D_8009B374_IN_DATA
@@ -74,7 +80,7 @@ extern u16 D_8009B17A;
 extern s16 D_8009B1A4[2];
 extern s8 D_8009B1B0[2];
 extern s8 D_8009B1B9;
-extern s8 D_8009B208[8];
+s8 D_8009B208[8];
 extern u8 D_8009B229;
 extern u8 D_800E9F64[];
 extern AnimatedBattleModelProperties D_800EF658[];
@@ -206,7 +212,11 @@ void DuelScene_UpdateBattle(void)
         if (!(flags & 0x80)) {
             o = D_800E9EF0[0];
             D_8009B174 = flags | 0x80;
-            func_80019BA0(o, o->field_20.b.field_21, o->field_20.b.field_21 + 0x40, 8);
+            {
+                s32 b21 = o->field_20.b.field_21;
+
+                func_80019BA0(o, b21, b21 + 0x40, 8);
+            }
             stats = Duel_CalcCardStats(&D_801A7AD8[o->field_6A]);
             made = func_800291E0(0, stats & 0xFFFF, stats >> 16);
             B(D_800EA0E8, 0x3C) |= 0x40;
@@ -240,12 +250,12 @@ void DuelScene_UpdateBattle(void)
                 D_800E9EF0[3] = (DisplayObject *)made;
             }
         }
-        if (flags & 0x20) {
+        if (D_8009B174 & 0x20) {
             if (func_8001F364() == 0) {
                 D_8009B174 &= 0xDF;
                 return;
             }
-        } else if (!(flags & 0x40)) {
+        } else if (!(D_8009B174 & 0x40)) {
             if (func_80042B40(1) == 0) {
                 D_800E9EF0[0]->flags &= 0xFFBF;
                 D_800E9EF0[2]->flags |= 0x40;
@@ -378,7 +388,8 @@ void DuelScene_UpdateBattle(void)
                 }
             }
         } else {
-            if (D_8009B174 & 0x20) {
+            flags = D_8009B174;
+            if (flags & 0x20) {
                 if (!(((DuelEffectRequest *)D_8009B17C)->flags & 0x80)) {
                     D_8009B174 &= 0xDF;
                 }
@@ -624,26 +635,28 @@ void DuelScene_UpdateBattle(void)
             o->position.h.field_2A = o->field_30.h.field_32;
         }
         if (!(D_8009B174 & 0x40)) {
-            if (D_800E9EF0[2] != 0) {
-                fade = D_800E9EF0[2]->field_0C - 8;
+            o = D_800E9EF0[2];
+            if (o != 0) {
+                fade = o->field_0C - 8;
                 if (fade <= 0) {
                     func_80029528(0);
                     D_800E9EF0[2] = 0;
                 } else {
-                    B(D_800E9EF0[2], 0xE) = fade;
-                    B(D_800E9EF0[2], 0xD) = fade;
-                    B(D_800E9EF0[2], 0xC) = fade;
+                    B(o, 0xE) = fade;
+                    B(o, 0xD) = fade;
+                    B(o, 0xC) = fade;
                 }
             }
-            if (D_800E9EF0[3] != 0) {
-                fade = D_800E9EF0[3]->field_0C - 8;
+            o = D_800E9EF0[3];
+            if (o != 0) {
+                fade = o->field_0C - 8;
                 if (fade <= 0) {
                     func_80029528(1);
                     D_800E9EF0[3] = 0;
                 } else {
-                    B(D_800E9EF0[3], 0xE) = fade;
-                    B(D_800E9EF0[3], 0xD) = fade;
-                    B(D_800E9EF0[3], 0xC) = fade;
+                    B(o, 0xE) = fade;
+                    B(o, 0xD) = fade;
+                    B(o, 0xC) = fade;
                 }
             }
             if (D_800E9EF0[2] == 0 && D_800E9EF0[3] == 0) {
