@@ -952,7 +952,7 @@
       "address": "0x80022FF0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
-      "source": "src/game/func_80022FF0.c"
+      "source": "src/game/display_parent_links.c"
     },
     {
       "address": "0x80023090",
@@ -1420,7 +1420,7 @@
       "address": "0x8002A4A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/func_8002A4A8.c"
+      "source": "src/game/func_8002A3CC.c"
     },
     {
       "address": "0x8002A660",
