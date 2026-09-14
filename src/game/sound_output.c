@@ -31,7 +31,7 @@ void func_80046DE8(void)
     q->field_0512 = 0;
     if (q->field_157E != -1) {
         if ((s16)func_80049F50() != 1) {
-            func_80049C40(g_SDValue->field_157E);
+            SD_StopSequence(g_SDValue->field_157E);
             g_SDValue->flags_0040 &= 0xFF7F;
         }
         func_80049CB0(g_SDValue->field_157E);

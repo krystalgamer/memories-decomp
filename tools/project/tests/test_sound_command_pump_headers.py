@@ -205,7 +205,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     "  (void)func_80045484();\n"
                     "  (void)func_80049A64((u8 *)0, (s16)0);\n"
                     f"  func_800498F8({arguments});\n"
-                    f"  func_80049C40({arguments});\n"
+                    f"  SD_StopSequence({arguments});\n"
                     f"  func_80049CB0({arguments});\n"
                     "}\n",
                     accepted=True,

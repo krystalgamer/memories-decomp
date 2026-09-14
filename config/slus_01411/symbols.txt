@@ -1308,6 +1308,7 @@ SD_StartSequenceTracks = 0x8004C77C; // type:func
 SD_GetSequenceStatus = 0x8004CABC; // type:func
 SD_PlaySequence = 0x80049AF4; // type:func
 SD_PlaySequenceFastForward = 0x80049BAC; // type:func
+SD_StopSequence = 0x80049C40; // type:func
 gDuelEffect_apfnGroupHandler = 0x80090A5C;
 gDuelEffect_abGroupByEffectId = 0x80090AD4;
 gDuelEffect_apfnStateHandler = 0x80090B3C;

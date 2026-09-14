@@ -790,18 +790,18 @@ s32 func_80049F50(void);
    notes/research/matching-evidence.md.
 
    func_800498F8's two callers pass a constant 0 and an s32 local, so its
-   ambient arm can state s32 exactly. func_80049C40's three callers all pass
+   ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
    the s16 field_157E, which default-promotes to s32, so its arm can too;
    func_80049CB0's two callers pass the same field and use the same promoted
    type. The defining units take the arm below and are still checked against
    their definitions. */
 #ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 void func_800498F8(s32 value);
-void func_80049C40(s32 value);
+void SD_StopSequence(s32 value);
 void func_80049CB0(s32 value);
 #else
 void func_800498F8(void);
-void func_80049C40(void);
+void SD_StopSequence(void);
 void func_80049CB0(void);
 #endif
 /* Mutes active low-channel secondary objects, then sets the playback state

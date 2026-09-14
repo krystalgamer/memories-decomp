@@ -77,7 +77,7 @@ void SD_PlaySequenceFastForward(s32 target)
     }
 }
 
-void func_80049C40(void)
+void SD_StopSequence(void)
 {
     SDSecondaryState *initial = D_8009B458;
 
