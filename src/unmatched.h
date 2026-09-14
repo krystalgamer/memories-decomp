@@ -396,13 +396,12 @@ extern u8 D_800E9EC0[];
  * shared it through a model_primitive_handler_entries.h that existed for no
  * other purpose. It folds in here.
  *
- * The reason that header could not simply be model_primitive_handler.h still
- * holds and is worth keeping written down: that header declares func_800603DC
- * as void *(u32), while model_handler_registry.c declares the same function
- * as `extern s32 (*func_800603DC())()` and uses it sixty-seven times. Those
- * spellings collide, so the registry cannot include model_primitive_handler.h
- * at all. This header does not declare func_800603DC, so both files can take
- * the entry points from here.
+ * They were first placed here because model_handler_registry.c could not
+ * include model_primitive_handler.h: the two spelled func_800603DC
+ * differently. That header now carries both spellings behind
+ * FUNC_800603DC_RETURNS_HANDLER, and the registry defines the guard and
+ * includes it. The entry points stay here because, like everything else in
+ * this header, they have no defining C translation unit.
  */
 void func_800612C0(void);
 void func_8006151C(void);
