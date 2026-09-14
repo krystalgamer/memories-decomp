@@ -19,7 +19,6 @@
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
 
-
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
    func_8002F4C0 as the completion callback, and on the first pass (once the
