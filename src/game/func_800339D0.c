@@ -24,8 +24,9 @@
 extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
- * confirm sound plays and, if the deck is complete (BuildDeck_HasOpenDeckSlot), bit 14 of
- * the state word at +0x633E is set, a confirmation box is created (the wide
+ * confirm sound plays and, if the deck has an open slot
+ * (BuildDeck_HasOpenDeckSlot), bit 14 of the state word at +0x633E is set, a
+ * confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
  * otherwise, which is then waited on until its +0x30 pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.

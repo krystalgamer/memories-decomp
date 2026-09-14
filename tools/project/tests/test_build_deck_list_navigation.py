@@ -60,6 +60,21 @@ class BuildDeckListNavigationTests(unittest.TestCase):
             table.index("BuildDeck_UpdateDeckPaneInput"),
         )
 
+    def test_exit_handler_treats_open_slot_as_incomplete_deck(self):
+        capacity = (ROOT / "src/game/build_deck_deck_capacity.c").read_text()
+        self.assertIn("if (entry->flags == 0) {\n            return 1;", capacity)
+
+        exit_handler = (ROOT / "src/game/func_800339D0.c").read_text()
+        open_slot_branch = exit_handler.index(
+            "if (BuildDeck_HasOpenDeckSlot() != 0) {"
+        )
+        confirmation_flag = exit_handler.index(
+            "workspace->state |= 0x4000;",
+            open_slot_branch,
+        )
+        self.assertLess(open_slot_branch, confirmation_flag)
+        self.assertIn("if the deck has an open slot", exit_handler)
+
 
 if __name__ == "__main__":
     unittest.main()
