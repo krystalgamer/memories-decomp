@@ -909,6 +909,7 @@ SetTile = 0x800829C0; // type:func
 SetDrawMode = 0x800829E0; // type:func
 OpenTIM = 0x80082A80; // type:func
 ReadTIM = 0x80082A90; // type:func
+ProduceTIM = 0x80082AF4; // type:func
 GsSortBoxFill = 0x80084240; // type:func
 GsSortFastSprite = 0x800849F0; // type:func
 GsInitGraph = 0x80084DD0; // type:func

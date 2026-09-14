@@ -1541,7 +1541,7 @@ address,size,name,status,module,notes
 0x800829E0,0x94,SetDrawMode,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGPU.LIB/P41.OBJ signature.
 0x80082A80,0x10,OpenTIM,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
 0x80082A90,0x64,ReadTIM,sdk_asm,psyq/sdk,Identified at offset 0x10 of the unique Psy-Q 4.6 LIBGPU.LIB/T00.OBJ signature.
-0x80082AF4,0x118,func_80082AF4,sdk_asm,psyq/sdk,
+0x80082AF4,0x118,ProduceTIM,sdk_asm,psyq/sdk,"Private T00.OBJ TIM parser identified from the complete recovered SDK source and exact +0x74 object position; validates the TIM ID, populates mode/CLUT/image fields, and returns the consumed word count to ReadTIM."
 0x80082C10,0xAC,Krom2RawAdd2,sdk_asm,psyq/sdk,
 0x80082CC0,0x52C,kanjitrans,sdk_asm,psyq/sdk,
 0x800831F0,0x848,GsSortBg,sdk_asm,psyq/sdk,

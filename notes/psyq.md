@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 36 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 13 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 35 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 12 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 36 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 35 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 13 already sit inside 9
+The `--coverage-report` split narrows that work: 12 already sit inside 8
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -547,6 +547,7 @@ Every row below is now an applied project symbol.
 | `0x800829E0` | `SetDrawMode` | Applied from the unique 148-byte Psy-Q 4.6 `LIBGPU.LIB/P41.OBJ` signature. |
 | `0x80082A80` | `OpenTIM` | Applied Psy-Q 4.6 identity at offset zero of the unique 400-byte `LIBGPU.LIB/T00.OBJ` signature. |
 | `0x80082A90` | `ReadTIM` | Applied Psy-Q 4.6 identity at offset `0x10` of the same unique `LIBGPU.LIB/T00.OBJ` signature. |
+| `0x80082AF4` | `ProduceTIM` | Private parser at exact object offset `0x74`, identified from the complete recovered `T00.C`: it validates TIM ID `0x10`, records mode and optional CLUT pointers, records image pointers, and returns the consumed word count used by `ReadTIM`. |
 | `0x80084240` | `GsSortBoxFill` | Applied Psy-Q 4.6 identity; the matching fade renderer submits strip or full-screen box fills to its ordering table. |
 | `0x80084320` | `GsSortPoly` | Applied from the unique complete 464-byte Psy-Q 4.6 `LIBGS.LIB/2D_PRIM.OBJ` signature. Main-menu background, decimal-digit, card-type-icon and starchip-bar callers use the canonical `libgs.h` declaration and `GsOT *` view. |
 | `0x800844F0` | `GsSortSprite` | Applied from the unique exact Psy-Q 4.6 `LIBGS.LIB/2D_SP0.OBJ` signature. Canonical `libgs.h` takes a `GsSPRITE *`, `GsOT *` and unsigned-short priority; `display_object.h` confirms the game-owned attribute word is copied into compatible sprite descriptors and interprets its bits with the LIBGS flag names. |
