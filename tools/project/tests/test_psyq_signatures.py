@@ -15,6 +15,7 @@ from psyq_signatures import (
     evidence,
     find_matches,
     parse_signature,
+    report_coverage,
     scan,
     validate_catalogue_scope,
 )
@@ -303,6 +304,16 @@ class PsyqSignatureTests(unittest.TestCase):
         self.assertEqual(result["absent"], 1)
         self.assertEqual(result["unanchored"], 1)
         self.assertEqual(
+            result["objects"],
+            [
+                {
+                    "provider": "LIBTEST.LIB/UNIQUE.OBJ",
+                    "start": 0x80010000,
+                    "end": 0x80010008,
+                }
+            ],
+        )
+        self.assertEqual(
             result["proposals"],
             {
                 0x80010000: {
@@ -370,7 +381,20 @@ class PsyqSignatureTests(unittest.TestCase):
             },
         }
 
-        result = classify(proposals, inventory)
+        objects = [
+            {
+                "provider": "LIB/NEW.OBJ",
+                "start": 0x80010010,
+                "end": 0x80010040,
+            },
+            {
+                "provider": "LIB/UNNAMED.OBJ",
+                "start": 0x80010060,
+                "end": 0x80010090,
+            },
+        ]
+
+        result = classify(proposals, inventory, objects)
 
         self.assertEqual(result["agreed"], [(0x80010000, "KnownName")])
         self.assertEqual(
@@ -388,6 +412,19 @@ class PsyqSignatureTests(unittest.TestCase):
                 )
             ],
         )
+        self.assertEqual(
+            [
+                (address, row["name"], providers)
+                for address, row, providers
+                in result["object_covered_inventory"]
+            ],
+            [
+                (0x80010010, "func_80010010", ["LIB/NEW.OBJ"]),
+                (0x80010030, "func_80010030", ["LIB/NEW.OBJ"]),
+                (0x80010060, "func_80010060", ["LIB/UNNAMED.OBJ"]),
+            ],
+        )
+        self.assertEqual(result["object_uncovered_inventory"], [])
         self.assertEqual(
             result["ambiguous"],
             [
@@ -439,6 +476,31 @@ class PsyqSignatureTests(unittest.TestCase):
                 (0x80010030, "func_80010030"),
                 (0x80010060, "func_80010060"),
             ],
+        )
+
+    def test_coverage_report_is_machine_readable(self) -> None:
+        result = {
+            "object_covered_inventory": [
+                (
+                    0x80010010,
+                    {"size": "0x20", "name": "func_80010010"},
+                    ["LIBA/A.OBJ", "LIBB/B.OBJ"],
+                )
+            ]
+        }
+
+        from contextlib import redirect_stdout
+        from io import StringIO
+
+        output = StringIO()
+        with redirect_stdout(output):
+            report_coverage(result)
+
+        self.assertEqual(
+            output.getvalue(),
+            "address,size,name,unique_signature_objects\n"
+            "0x80010010,0x20,func_80010010,"
+            "LIBA/A.OBJ;LIBB/B.OBJ\n",
         )
 
 

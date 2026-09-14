@@ -218,6 +218,7 @@ def signature_entry_fields(
 def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
     """address -> {name: [providers]}, plus counts for the report."""
     proposals: dict[int, dict[str, list[str]]] = {}
+    objects = []
     unique = multiple = absent = unanchored = 0
     paths = sorted(signatures.glob("*.json"))
     if not paths:
@@ -275,6 +276,14 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
                 multiple += 1
                 continue
             unique += 1
+            object_start = load_address + matches[0]
+            objects.append(
+                {
+                    "provider": f"{library}/{entry_name}",
+                    "start": object_start,
+                    "end": object_start + len(pattern),
+                }
+            )
             for name, offset in labels:
                 if PLACEHOLDER.match(name):
                     continue
@@ -289,10 +298,13 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
         "multiple": multiple,
         "absent": absent,
         "unanchored": unanchored,
+        "objects": objects,
     }
 
 
-def classify(proposals: dict, inventory: dict) -> dict:
+def classify(
+    proposals: dict, inventory: dict, objects: list[dict] | None = None
+) -> dict:
     ambiguous, agreed, disagreed, new = [], [], [], []
     ambiguous_named, ambiguous_unresolved = [], []
     outside_psyq, off_start = [], 0
@@ -352,6 +364,18 @@ def classify(proposals: dict, inventory: dict) -> dict:
             and row.get("name", "").startswith("func_")
         )
     ]
+    object_covered_inventory = []
+    object_uncovered_inventory = []
+    for address, row in address_named_inventory:
+        providers = sorted(
+            item["provider"]
+            for item in objects or []
+            if item["start"] <= address < item["end"]
+        )
+        if providers:
+            object_covered_inventory.append((address, row, providers))
+        else:
+            object_uncovered_inventory.append((address, row))
     return {
         "agreed": agreed,
         "disagreed": disagreed,
@@ -362,6 +386,8 @@ def classify(proposals: dict, inventory: dict) -> dict:
         "outside_psyq": outside_psyq,
         "off_start": off_start,
         "address_named_inventory": address_named_inventory,
+        "object_covered_inventory": object_covered_inventory,
+        "object_uncovered_inventory": object_uncovered_inventory,
     }
 
 
@@ -410,6 +436,14 @@ def report(scanned: dict, result: dict) -> None:
         "Psy-Q inventory rows still address-named : "
         f"{len(result['address_named_inventory'])}"
     )
+    print(
+        "  within unique matched library objects  : "
+        f"{len(result['object_covered_inventory'])}"
+    )
+    print(
+        "  outside unique matched library objects : "
+        f"{len(result['object_uncovered_inventory'])}"
+    )
     print(f"labels on non-Psy-Q function starts      : {len(result['outside_psyq'])}")
     print(f"labels away from a function start        : {result['off_start']}")
     if result["disagreed"]:
@@ -450,6 +484,20 @@ def report(scanned: dict, result: dict) -> None:
             print(f"  {address:#010x} {row['size']:>7} {name:<28} {providers[0]}")
 
 
+def report_coverage(result: dict) -> None:
+    writer = csv.writer(sys.stdout, lineterminator="\n")
+    writer.writerow(["address", "size", "name", "unique_signature_objects"])
+    for address, row, providers in result["object_covered_inventory"]:
+        writer.writerow(
+            [
+                f"0x{address:08X}",
+                row.get("size", ""),
+                row.get("name", ""),
+                ";".join(providers),
+            ]
+        )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Locate Psy-Q library functions in the retail image."
@@ -467,6 +515,14 @@ def parse_args() -> argparse.Namespace:
     )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--report", action="store_true")
+    mode.add_argument(
+        "--coverage-report",
+        action="store_true",
+        help=(
+            "write address-named Psy-Q rows that fall inside uniquely "
+            "matched library objects"
+        ),
+    )
     mode.add_argument(
         "--emit-map",
         action="store_true",
@@ -486,9 +542,11 @@ def main() -> int:
         load_address, payload = load_payload(root)
         inventory = load_inventory(root)
         scanned = scan(signatures, load_address, payload)
-        result = classify(scanned["proposals"], inventory)
+        result = classify(scanned["proposals"], inventory, scanned["objects"])
         if args.emit_map:
             emit_map(result, args.psyq_version)
+        elif args.coverage_report:
+            report_coverage(result)
         else:
             report(scanned, result)
         return 0

@@ -63,6 +63,17 @@ so the tool takes a path to it and fetches nothing:
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
         --signatures <checkout>/460 --report
 
+To inventory address-named Psy-Q starts that still fall inside a uniquely
+matched library object:
+
+    tools/environments/python/bin/python tools/project/psyq_signatures.py \
+        --signatures <checkout>/460 --coverage-report
+
+The coverage report is CSV with the function address, inventory size/name,
+and one or more matching library objects. It establishes object provenance,
+not an internal function name; overlapping byte-identical objects are all
+retained.
+
 `--emit-map` labels generated evidence as Psy-Q 4.6 by default. The permitted
 4.7 LIBDS cross-reference must pass `--psyq-version 4.7` when emitting rows;
 the option changes the evidence text, not signature matching. Selecting 4.7
@@ -120,6 +131,8 @@ The unique-object labels classify against the current function inventory as:
 | Addresses claimed under several names | 8 | All eight retain locally established inventory names; the signature sweep reports them separately rather than presenting them as unresolved |
 | Ambiguous addresses still unresolved | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name |
 | Psy-Q inventory rows still address-named | 119 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 94 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Address-named rows outside unique object matches | 25 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
@@ -143,6 +156,10 @@ They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
+The `--coverage-report` split narrows that work: 94 already sit inside 26
+uniquely matched object ranges, while 25 are not covered by any unique 4.6
+object match. The former can be researched within a known library object;
+neither category receives a guessed function name.
 
 ### Patched LIBDS cross-reference
 
