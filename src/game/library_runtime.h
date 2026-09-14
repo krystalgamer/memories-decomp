@@ -13,10 +13,11 @@ typedef char LibraryViewQuad_size_must_be_0x10[
 ];
 
 /* The Library state base. func_8002BAB4 dispatches on
- * `D_800EA1E8[0] & 0xF`; func_8002BFCC also needs this byte declaration while
- * reaching motion fields and storage beyond the typed record's known end.
+ * `D_800EA1E8[0] & 0xF`; func_8002BFCC also holds this byte declaration,
+ * casting it to ygo_types.h's LibraryMotionState for the motion fields and
+ * reaching storage beyond the typed record's known end as bytes.
  * func_8002A3CC.h documents that wider evidence and keeps the incompatible
- * LibraryMotionState declaration isolated.
+ * typed declaration of the symbol isolated.
  *
  * src/candidates/func_80029EC4.c is a third reader of this byte spelling: it
  * walks the table with func_80029EB0(D_800EA1E8, index) and had been declaring

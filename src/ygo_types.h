@@ -417,6 +417,48 @@ typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
 
 struct DisplayObject;
 
+/* The Library cursor's motion record at D_800EA1E8, 0x48 bytes. func_80029590,
+   func_8002A3CC and func_8002A4A8 reach it through the typed declaration in
+   game/func_8002A3CC.h, and func_8002BFCC through a cast of the byte view that
+   game/library_runtime.h declares at the same address. */
+typedef struct {
+    u8 pad_00[8];
+    s16 x;
+    s16 y;
+    u16 x_fraction;
+    u16 y_fraction;
+    u8 pad_10[2];
+    u16 rest_x;
+    u16 rest_y;
+    u8 frames;
+    u8 active;
+    s32 velocity_x;
+    s32 velocity_y;
+    u8 pad_20[4];
+    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
+       fills one per iteration. They were inside pad_20 until now; naming them
+       moves nothing, and render still begins at 0x44 immediately after the
+       last of them. */
+    struct DisplayObject *slots[8];
+    struct DisplayObject *render;
+} LibraryMotionState;
+
+typedef char LibraryMotionState_x_offset_must_be_0x8[
+    YGO_TYPE_OFFSET(LibraryMotionState, x) == 0x8 ? 1 : -1
+];
+typedef char LibraryMotionState_frames_offset_must_be_0x16[
+    YGO_TYPE_OFFSET(LibraryMotionState, frames) == 0x16 ? 1 : -1
+];
+typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
+];
+typedef char LibraryMotionState_render_offset_must_be_0x44[
+    YGO_TYPE_OFFSET(LibraryMotionState, render) == 0x44 ? 1 : -1
+];
+typedef char LibraryMotionState_size_must_be_0x48[
+    sizeof(LibraryMotionState) == 0x48 ? 1 : -1
+];
+
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
    there), and 0x20/0x24 bracket the record's slice of D_800EB288:
