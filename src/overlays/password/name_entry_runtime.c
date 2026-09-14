@@ -291,27 +291,31 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
  * snaps to the target and uninstalls itself. */
 void NameEntry_UpdateCaretTween(u8 *object)
 {
+    DisplayObject *o = (DisplayObject *)object;
     u8 flags;
     s16 remaining;
 
-    flags = object[0x6C];
+    flags = o->field_6C;
     if ((flags & 0x80) == 0) {
-        object[0x6C] = flags | 0x80;
-        DisplayObject_ResetVelocity(object);
-        *(s16 *)(object + 0x36) =
-            ((*(s16 *)(object + 0x44) - *(s16 *)(object + 0x30)) << 8) /
-            *(s16 *)(object + 0x60);
-        *(s16 *)(object + 0x38) =
-            ((*(s16 *)(object + 0x46) - *(s16 *)(object + 0x32)) << 8) /
-            *(s16 *)(object + 0x60);
+        o->field_6C = flags | 0x80;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)o);
+        o->field_34.h.field_36 =
+            ((o->field_44.h.field_44 - (s16)o->field_30.h.field_30) << 8) /
+            o->field_60;
+        o->field_38.h.field_38 =
+            ((o->field_44.h.field_46 - (s16)o->field_30.h.field_32) << 8) /
+            o->field_60;
     }
-    DisplayObject_StepPositionXY(object);
-    remaining = *(u16 *)(object + 0x60) - 1;
-    *(s16 *)(object + 0x60) = remaining;
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)o);
+    remaining = (u16)o->field_60 - 1;
+    o->field_60 = remaining;
     if (remaining <= 0) {
-        *(s32 *)(object + 0x24) = 0;
-        object[0x6C] = 0;
-        *(s32 *)(object + 0x30) = *(s32 *)(object + 0x44);
+        o->update = 0;
+        o->field_6C = 0;
+        /* Stored through the parameter rather than o. With every access
+           on o, GCC copies it into a second callee-saved register at the
+           first branch and the function grows by three instructions. */
+        ((DisplayObject *)object)->field_30.word = o->field_44.word;
     }
 }
 
