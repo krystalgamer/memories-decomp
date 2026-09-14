@@ -21,12 +21,11 @@ generally follow one shape — an explicit section attribute and an initializer:
 u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
 ```
 
-One small blob remains, at `0x8009AF2A`. The former `0x8009AF08` watchdog
-word is now owned by `main_services.c`, and the former
-`0x8009AF6C` blob is split around three C-owned interior ranges: a 28-byte
-head at `0x8009AF6C`, model/graphics state at `0x8009AF88`, model primitive
-templates at `0x8009AFAC`, model handler state at `0x8009AFE4`, and a 40-byte
-tail at `0x8009B058`.
+No game-owned small-data blob remains. The last one, at `0x8009AF2A`, is now
+the six-byte `gDebugEffect_abPreviewState` array in
+`debug_effect_screen.c`. The former `0x8009AF08` watchdog word is owned by
+`main_services.c`, and the former `0x8009AF6C` blob is fully split among
+addressed data owners through `ai_script_source_line_format.c`.
 
 ## The owning unit is predictable, not a guess
 
@@ -55,7 +54,7 @@ at `game/debug_effect_screen` produced a correct linker script — the object's
 
 So the ordering half of this work is not the obstacle.
 
-## Measured: GCC will not reproduce the interior padding
+## One packed object reproduces the interior padding
 
 The four bytes at `0x8009AF2A` are all zero in retail and lay out as:
 
@@ -65,7 +64,7 @@ The four bytes at `0x8009AF2A` are all zero in retail and lay out as:
 | `0x8009AF2B` | unnamed |
 | `0x8009AF2C` | `D_8009AF2C[2]`, two bytes |
 
-Writing that as the obvious C, with `aligned(2)` to produce the gap:
+Writing that as separate C objects, with `aligned(2)` to produce the gap:
 
 ```c
 u8 D_8009AF2A __attribute__((section(".sdata"))) = 0;
@@ -90,29 +89,36 @@ overlaps section .initialized_data VMA [800906e0,8009b093]
 ```
 
 `aligned(2)` does not narrow it, because the constraint is the section
-alignment rather than the object's. Any conversion of this blob has to
-reproduce a one-byte hole inside a four-byte-aligned small-data section, and
-the two-object spelling cannot.
+alignment rather than the object's. The successful spelling avoids a second
+object entirely:
 
-## `D_8009AF2D` has to stay a linker alias regardless
+```c
+u8 gDebugEffect_abPreviewState[6]
+    __attribute__((section(".sdata"))) = {0};
+```
 
-Independently of the alignment problem, one of these names cannot move into C
-at all. `D_8009AF2D` is the **second byte of** `D_8009AF2C`, and
-`debug_effect_screen.c` uses both spellings:
+Byte 0 is the axis selector, bytes 2 and 3 are the two coordinates, and byte 4
+is the preview page. Bytes 1 and 5 are explicit unused storage. The one array
+has no interior object alignment to satisfy, so GCC emits a six-byte `.sdata`
+section beginning exactly at `0x8009AF2A`.
+
+## Overlapping labels do not require overlapping C objects
+
+`D_8009AF2D` was the **second byte of** `D_8009AF2C`, and
+`debug_effect_screen.c` used both spellings:
 
 ```c
 D_8009AF2C[D_8009AF2A]++;                      /* index can be 1 */
 FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
 ```
 
-This is the same pattern `memory-map.md` records for `D_80185CC8[1]` against
-`D_80185CC9`, again inside a single file, so both spellings are faithful to
-retail and neither can replace the other. C has no way to define a symbol for
-the interior of an array — GCC's `alias` attribute is same-address only — so
-naming a byte inside an object is exactly what a linker script is for.
-
-A conversion here would at best be partial: C owning the bytes, with one
-assignment left behind in `c_symbols.ld`.
+Both spellings were faithful views, but they were not required ABI identities:
+this file was their only consumer. Replacing them together with
+`gDebugEffect_abPreviewState[2]` and `[3]` preserves the same `%gp_rel`
+displacements without asking C to define an interior alias. The same
+translation unit also replaces `D_8009AF2E` with element 4, which proves the
+two bytes formerly marked as `pad` contain one live byte followed by one
+unused byte.
 
 ## `0x8009AF44` is C-owned with scalar halfword packing
 
@@ -208,21 +214,10 @@ The ordinary initialized-data region has the same ownership model. Its former
 large `0x80091958` range as the only generated `.data` blob after the mapped
 tables and file-name records.
 
-## A mislabelled `pad`
-
-`split.yaml` marks `0x8009AF2E` as `pad`, but `D_8009AF2E` is a live variable:
-`debug_effect_screen.c` zeroes it, increments it, wraps it at 4 and switches
-on it twice. It resolves from `link_symbols.ld` rather than `c_symbols.ld`.
-
-The two bytes are genuinely padding as far as the *blob* is concerned, but the
-label reads as "nothing here", and something is.
-
 ## Where this leaves the work
 
-The predictable part is ordering: given a blob's address, the owning unit
-falls out of text order and can be confirmed against the set of consumers.
-
-The hard part is byte-level layout inside a small-data section. Until there
-is a spelling that reproduces a one-byte hole at four-byte section alignment,
-the `0x8009AF2A` blob stays as it is. The attempt is recorded here so the
-next person starts from the measurement rather than repeating it.
+The resident game-owned initialized and small-data windows are now C-owned.
+The only remaining ordinary initialized-data blob begins at `0x80091958`;
+the ownership census in `build.md` attributes its 274 referenced labels
+exclusively to Psy-Q SDK functions, so it is vendor data rather than unfinished
+game data.

@@ -300,39 +300,29 @@ the original bytes, and the build still matches.
 
 #### What is left, and why each piece resists ownership
 
-Forty of the forty-five extracted ranges in `initialized_data` are owned by a C
-source. The five that are not are not simply the ones nobody has got to yet;
-four of them have a specific structural obstacle, and it is worth writing down
-which, so the next attempt starts from the obstacle rather than rediscovering
-it.
+Every game-owned range in `initialized_data` is owned by a C source. The one
+remaining ordinary-data blob is the Psy-Q SDK range identified below; it is
+kept extracted because the project does not claim vendor source ownership.
 
 | Range | Section | Bytes | Labels | What blocks it |
 | --- | --- | --- | --- | --- |
-| `initialized_data_800906e0` | `.data` | 36 | 3 | leads with `initialized_data_start`, a layout boundary |
-| `initialized_data_80091958` | `.data` | 38320 | 274 | bulk; no single owner, split it first |
-| `initialized_data_8009af08` | `.sdata` | 28 | 6 | holds `_gp` itself, and a pointer; the pointer's window is now C-owned |
-| `initialized_data_8009af2a` | `.sdata` | 4 | 3 | overlapping symbols |
-| `initialized_data_8009af6c` | `.sdata` | 184 | 45 | scattered head and tail; two coherent interior runs are C-owned |
+| `initialized_data_80091958` | `.data` | 34736 | 274 | Psy-Q SDK-owned data; no game source owner |
 
-The four-byte range is the one worth reading closely, because it is the
-overlapping-symbol case in its smallest form. Splat emits three labels there:
-`D_8009AF2A` covering two bytes, then `D_8009AF2C` and `D_8009AF2D` covering
-one byte each. `debug_effect_screen.c` declares the middle one
-`extern u8 D_8009AF2C[2]`, so its array view deliberately spans the byte that
-`D_8009AF2D` names in its own right, and the same file also declares
-`extern u8 D_8009AF2D` and writes it as a scalar. One line uses both views at
-once:
+The former `0x8009AF2A` range was the overlapping-symbol case in its smallest
+form. Splat emitted three labels there: `D_8009AF2A`, `D_8009AF2C`, and the
+interior alias `D_8009AF2D`. The sole consumer used the middle label as a
+two-byte array and the last label as its second element:
 
 ```c
 FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
 ```
 
-That is the dual-name rule at a four-byte scale, and it is what stops a C
-definition from taking the range: a definition has to emit the labels, and
-these labels overlap. `D_8009AF2C[2]` and `D_8009AF2D` are both faithful to
-retail, one indexes the pair the up/down repeat adjusts while the other names
-the second element on its own, and neither is drift to be collapsed into the
-other.
+Separate definitions cannot reproduce that layout because GCC aligns the
+second object to offset 4. The successful owner is one six-byte array,
+`gDebugEffect_abPreviewState`: the old identities become elements 0, 2, and
+3, and the live page byte at `0x8009AF2E` becomes element 4. Because all views
+were private to `debug_effect_screen.c`, no external alias is lost. The object
+tiles the complete six-byte window and the linked executable remains exact.
 
 `initialized_data_8009af08` is blocked for a different reason: it opens with
 `runtime_gp`, which `symbols.txt` fixes at `0x8009AF08` and which the
@@ -366,7 +356,7 @@ file taking `0x8009AF08` would have to define a watchdog counter under a name
 three tools resolve as the GP base, which is a heavier commitment than the
 twenty-eight bytes suggest.
 
-#### Who actually owns the remaining bytes
+#### Who actually owned the extracted bytes
 
 The triage above asks what resists ownership. The prior question is who owns
 the bytes at all, and answering it for all five ranges at once changes the
@@ -380,9 +370,9 @@ it, and `functions.csv` records an owner for each of those functions --
 | --- | --- | ---: | ---: | ---: |
 | `initialized_data_800906e0` | `.data` | 12 | 8 | 0 |
 | `initialized_data_80091958` | `.data` | 34724 | 34692 | 0 |
-| `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
-| `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
-| `initialized_data_8009af6c` | `.sdata` | 184 | 0 | 184 |
+| former `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
+| former `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
+| former `initialized_data_8009af6c` | `.sdata` | 184 | 0 | 184 |
 
 The large `.data` range is not a game data blob at all. Its 274 labels are
 referenced by 246 distinct functions and **every one of them is
@@ -491,7 +481,7 @@ by subject sorts them immediately.
 | range | length | named objects | tiles? |
 | --- | ---: | --- | --- |
 | `0x8009AF10` | 16 | 4 + 4 + 4, then 4 unnamed | yes, with explicit padding |
-| `0x8009AF2A` | 6 | 2 + 1 + 1 | no: two bytes unnamed and unreachable |
+| `0x8009AF2A` | 6 | one packed 6-byte state array | yes |
 
 `0x8009AF10` converted. It holds two boot-time sizing constants read together
 by the code at `0x800129FC`, where they are subtracted from `bss_end`
@@ -511,10 +501,11 @@ This also settles a doubt recorded earlier, that a pointer relocation in
 address of `gFile_PrimaryTransferDescriptor` and links unchanged, as
 `D_8009AF88` already did.
 
-`0x8009AF2A` stays extracted, and now for a stated reason rather than a
-vague one: its three labels account for four of six bytes, so two bytes
-belong to no object and no consumer names them. That is a genuine failure of
-the tiling test rather than a judgement about coherence.
+`0x8009AF2A` also converted after changing the unit of ownership. Treating
+the old labels as separate objects left two bytes unnamed and forced GCC to
+align the second object to offset 4. Treating the complete window as one
+six-byte array tiles it exactly: the old labels become private element views,
+the live page byte is element 4, and the final byte is explicit unused storage.
 
 #### A splat label is not always an object
 
@@ -578,13 +569,13 @@ byte-exact. The failure is loud but indirect: the shortened function shifts
 every jump-table entry after it.
 
 **A `sdata` blob chunk stops at its last non-zero symbol.** Trailing zero
-bytes are padding to spimdisasm and it does not emit them, so a chunk is
-shorter than the range it covers and everything after it starts too early. The
-fix is a `pad` subsegment whose *address is where the emitted content actually
-ends*, not the nominal boundary: `initialized_data_8009af2a` covers six bytes
-but emits four, so `- [0x8b72e, pad]` before the next entry makes up the
-difference. A missing pad shows up as a two-byte shift in every `%gp_rel`
-reference after it, and the build's size check catches the rest.
+bytes are padding to spimdisasm and it does not emit them, so a chunk can be
+shorter than the range it covers and everything after it starts too early.
+Before the final carve, `initialized_data_8009af2a` covered six bytes but
+emitted four, so a `pad` subsegment at `0x8b72e` made up the difference.
+`gDebugEffect_abPreviewState[6]` now emits the whole range and removes that
+special case. A missing byte still shows up as a shifted `%gp_rel` reference,
+and the build's size check catches the rest.
 
 ### Which arguments a callee actually reads
 
