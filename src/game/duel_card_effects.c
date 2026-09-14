@@ -251,8 +251,8 @@ hit:
 
 void DuelEffect_ApplyStopDefense(void) {
     DuelCardRecord *r;
-    u8 *p;
-    u8 *e;
+    DuelEffectRequest *p;
+    DuelFieldPosition *e;
     u8 *t;
     s32 f;
     s32 c;
@@ -268,7 +268,7 @@ void DuelEffect_ApplyStopDefense(void) {
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
-            if (D_8009B17C[0x1D] != 0) {
+            if (((DuelEffectRequest *)D_8009B17C)->field_1D != 0) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = D_800907D8[D_8009B20C[1] + n];
@@ -282,7 +282,8 @@ void DuelEffect_ApplyStopDefense(void) {
             }
         }
 
-        if ((D_8009B17C[0x1C] & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
+        if ((((DuelEffectRequest *)D_8009B17C)->flags &
+             DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
             return;
         }
         gDuel_wCardEffectFlags = gDuel_wCardEffectFlags & 0xFF9F;
@@ -296,18 +297,18 @@ void DuelEffect_ApplyStopDefense(void) {
         return;
     }
 
-    p = DuelEffect_AllocateRequest(0xC);
+    p = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xC);
     t = (u8 *)D_80090800;
-    e = (
+    e = (DuelFieldPosition *)((
         (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
             sizeof(DuelFieldPosition) +
         D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
-    ) + t;
-    w = *(u16 *)(e + 0);
-    D_8009B17C = p;
-    *(s16 *)(p + 2) = 0;
-    *(s16 *)(p + 0) = w;
-    *(s16 *)(p + 4) = *(u16 *)(e + 2);
+    ) + t);
+    w = (u16)e->x;
+    D_8009B17C = (u8 *)p;
+    p->field_02 = 0;
+    p->field_00 = w;
+    p->field_04 = (u16)e->y;
     SD_SEPlayFull(0x20);
 
     gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
