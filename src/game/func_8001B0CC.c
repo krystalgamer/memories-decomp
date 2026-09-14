@@ -17,7 +17,7 @@ s16 func_8001B0CC(s32 index)
     /* The scaled index survives three calls and then becomes the table's byte
        offset, naturally retaining the retail callee-saved register. */
     register s32 coord = index;
-    s16 result;
+    ProjectedPair result;
 
     SetGeomScreen(D_800F2848.projection);
     coord = coord * 4;
@@ -39,5 +39,5 @@ s16 func_8001B0CC(s32 index)
         gte_stsxy(&result);
     }
     SetGeomOffset(0, 0);
-    return result;
+    return (s16)result.x;
 }
