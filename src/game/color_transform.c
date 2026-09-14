@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "color.h"
 
-HsvT *func_8005A98C(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
+HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
     u8 c[3];
     HsvT t;
     u8 x;
@@ -136,7 +136,7 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
     inverted = flags & COLOR_TINT_INVERT;
     sector = flags & COLOR_TINT_HUE_MASK;
     gray = ((u8)sector == COLOR_TINT_GRAYSCALE);
-    func_8005A98C(
+    Color_RgbToHsl(
         &hsv,
         color & COLOR_BGR555_CHANNEL_MASK,
         (color >> COLOR_BGR555_GREEN_SHIFT) & COLOR_BGR555_CHANNEL_MASK,
@@ -205,7 +205,7 @@ Color *func_8005B0B4(
     idx = flags & COLOR_TINT_HUE_MASK;
     flat = ((u8)idx == COLOR_TINT_GRAYSCALE);
 
-    func_8005A98C_void(&hsv, r, g, b, lim);
+    Color_RgbToHsl_void(&hsv, r, g, b, lim);
 
     if ((u8)idx < COLOR_TINT_KEEP_HUE) {
         k = idx;

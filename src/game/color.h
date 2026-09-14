@@ -5,15 +5,15 @@
 #include "../ygo_types.h"
 #include "color_constants.h"
 
-HsvT *func_8005A98C(HsvT *out, u8 r, u8 g, u8 b, u8 lim);
+HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim);
 Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim);
 
 /* Caller-side same-symbol views whose discarded returns and widened arguments
  * are code-generation sensitive. The public declarations above remain the
  * definitions' real types. */
-extern void func_8005A98C_void(
+extern void Color_RgbToHsl_void(
     HsvT *out, u8 r, u8 g, u8 b, u8 lim
-) asm("func_8005A98C");
+) asm("Color_RgbToHsl");
 extern void func_8005ABA0_wide(
     Color *out, s32 h, u32 s, u32 v, s32 lim
 ) asm("func_8005ABA0");

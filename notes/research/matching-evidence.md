@@ -4204,7 +4204,7 @@ choice several instructions away, not as a missing mask.
 
 A callee's return type is observable in the caller even when the value is
 thrown away. `func_8005B0B4` ends with `*out = c; return out;`, and with
-`func_8005A98C` declared `HsvT *` the closing three-byte struct copy comes out
+`Color_RgbToHsl` (`0x8005A98C`) declared `HsvT *` the closing three-byte struct copy comes out
 based on `$v0` where the target bases it on the parameter's own `$s6`.
 Declaring the same callee `void` -- the value is unused either way, and the
 emitted call is identical -- moves the copy back onto `$s6` and finishes the
@@ -4224,7 +4224,7 @@ and the instruction multiset is already exact, check the return types of
 everything the function calls before spending time on the tail itself.
 The five functions now share `color_transform.c`. `color.h` exposes the real
 definition signatures, while the final two callers use private alternate C
-identifiers bound to those same linker symbols with `asm("func_8005A98C")`
+identifiers bound to those same linker symbols with `asm("Color_RgbToHsl")`
 and `asm("func_8005ABA0")`. Those aliases retain the measured discarded-return
 and wide-argument views without conflicting declarations in one translation
 unit. They are second names for the same functions, not duplicate definitions.
