@@ -385,8 +385,8 @@ proof of the original author's translation-unit boundaries.
 
 `MainMenu_UpdateValueSetup` (`0x801812B4`) updates the two-value/shared-option
 editor, not merely the LP fields. `MainMenu_StartValueSetup`,
-`MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` share declarations
-with the resident `Main_RunTwoPlayerDuelSetup` caller.
+`MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` are declared in
+`value_setup.h`, shared with the resident `Main_RunTwoPlayerDuelSetup` caller.
 
 | Result | Meaning | Resident behavior |
 |---:|---|---|

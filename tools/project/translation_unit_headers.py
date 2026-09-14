@@ -21,6 +21,7 @@ FUNCTION_POINTER_OBJECT = re.compile(
 )
 CONDITIONAL_DIRECTIVE = re.compile(
     r"^\s*#\s*(?P<directive>if|ifdef|ifndef|elif|else|endif)\b"
+    r"(?P<argument>.*)$"
 )
 IGNORED_NAMES = frozenset(
     {
@@ -331,8 +332,58 @@ def declaration_statements(source: str) -> list[str]:
     text = re.sub(r"\\\r?\n", "", source)
     text = candidate_builds.strip_c_comments(text)
     lines = text.splitlines(keepends=True)
+    active: bool | None = True
+    conditions: list[tuple[bool | None, bool | None]] = []
     for index, line in enumerate(lines):
-        if line.lstrip().startswith("#"):
+        directive = CONDITIONAL_DIRECTIVE.match(line)
+        if directive is not None:
+            kind = directive.group("directive")
+            argument = directive.group("argument").strip()
+            if kind in {"if", "ifdef", "ifndef"}:
+                parent = active
+                condition = (
+                    argument != "0"
+                    if kind == "if" and argument in {"0", "1"}
+                    else None
+                )
+                current = (
+                    False
+                    if parent is False or condition is False
+                    else True
+                    if parent is True and condition is True
+                    else None
+                )
+                conditions.append((parent, condition))
+                active = current
+            elif kind in {"elif", "else"} and conditions:
+                parent, prior = conditions[-1]
+                condition = (
+                    True
+                    if kind == "else"
+                    else argument != "0"
+                    if argument in {"0", "1"}
+                    else None
+                )
+                current = (
+                    False
+                    if parent is False or prior is True or condition is False
+                    else True
+                    if parent is True and prior is False and condition is True
+                    else None
+                )
+                prior = (
+                    True
+                    if prior is True or condition is True
+                    else False
+                    if prior is False and condition is False
+                    else None
+                )
+                conditions[-1] = (parent, prior)
+                active = current
+            elif kind == "endif" and conditions:
+                parent, _ = conditions.pop()
+                active = parent
+        if line.lstrip().startswith("#") or active is False:
             lines[index] = "".join(
                 "\n" if char == "\n" else " " for char in line
             )
@@ -360,6 +411,12 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         for statement in declaration_statements(source):
             for name, alias in declaration_names(statement):
                 if is_old_style_definition_prefix(statement, name):
+                    continue
+                if (
+                    alias is None
+                    and statement.startswith("static ")
+                    and name in definitions
+                ):
                     continue
                 declaration_count += 1
                 symbols = {name}

@@ -79,6 +79,62 @@ class TranslationUnitHeaderTests(unittest.TestCase):
             )
         )
 
+    def test_private_static_same_unit_forward_is_allowed(self) -> None:
+        self.assertEqual(
+            self.problems(
+                "static void helper(void);\n"
+                "static void helper(void) {}\n"
+                "void func_local(void) { helper(); }\n"
+            ),
+            [],
+        )
+
+    def test_static_declaration_without_definition_is_rejected(self) -> None:
+        problems = self.problems(
+            "static void helper(void);\n"
+            "void func_local(void) { helper(); }\n"
+        )
+        self.assertTrue(any("helper belongs in a header" in p for p in problems))
+
+    def test_inactive_same_unit_forward_is_ignored(self) -> None:
+        for source in (
+            "#if 0\n"
+            "void func_local(void);\n"
+            "#endif\n"
+            "void func_local(void) {}\n",
+            "#if 0\n"
+            "#if 1\n"
+            "void func_local(void);\n"
+            "#endif\n"
+            "#endif\n"
+            "void func_local(void) {}\n",
+            "#if 1\n"
+            "#elif 0\n"
+            "void func_local(void);\n"
+            "#else\n"
+            "void func_local(void);\n"
+            "#endif\n"
+            "void func_local(void) {}\n",
+        ):
+            with self.subTest(source=source):
+                self.assertEqual(self.problems(source), [])
+
+    def test_active_conditional_same_unit_forward_is_rejected(self) -> None:
+        for condition in ("1", "defined(FEATURE)"):
+            with self.subTest(condition=condition):
+                problems = self.problems(
+                    f"#if {condition}\n"
+                    "void func_local(void);\n"
+                    "#endif\n"
+                    "void func_local(void) {}\n"
+                )
+                self.assertTrue(
+                    any(
+                        "same-unit function declaration func_local" in problem
+                        for problem in problems
+                    )
+                )
+
     def test_foreign_matching_declaration_is_rejected(self) -> None:
         problems = self.problems(
             "void func_foreign(void);\n"

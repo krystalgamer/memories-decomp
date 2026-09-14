@@ -146,7 +146,7 @@ extern s16 D_8009B22A;
 extern u8 *D_8009B22C;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
- * MainMenu_StartValueSetup's `toggle` parameter (entrypoints.h declares
+ * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
  * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
  * D_8009B360 and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
@@ -171,7 +171,7 @@ extern u16 D_8009B230;
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
  * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
- * as `first` and `second`, both declared `u16 *` in entrypoints.h -- that
+ * as `first` and `second`, both declared `u16 *` in value_setup.h -- that
  * signature is
  * what fixes the type, and func_800175A0's lhu of each
  * (func_800175A0.s:11-12) agrees. func_800175A0 copies them into `sp[0]`
