@@ -4,8 +4,8 @@
  * smoke particles from ccos/csin and rand(); otherwise it draws the rings,
  * the flash, the dust, the sparks and the smoke as quads through RotAverage4,
  * steps its phase and stage and fades every group. Current best under
- * gcc_2_8_1_g8_split: 2321 instructions against 2319 with opcode distance
- * 72 (37 surplus, 35 missing), with no hard register assignments and no
+ * gcc_2_8_1_g8_split: 2298 instructions against 2319 with opcode distance
+ * 61 (20 surplus, 41 missing), with no hard register assignments and no
  * inline assembly.
  *
  * Levers measured on this body:
@@ -13,13 +13,27 @@
  * - the paired colour tests read a word and mask it with 0xFFFF0000;
  * - every loop has its own counter name, so no counter is spilled;
  * - the dust and smoke frames are read with % 2 and / 2, which gives
- *   retail's halfword read at each use.
+ *   retail's halfword read at each use;
+ * - each quad's z term is -(radius >> 2) * (d < 0 ? x : y); the product is
+ *   distributed into both arms and the quarter radius is computed once
+ *   before the branch, as in retail;
+ * - the ring stop test is one || chain over the three absolute components,
+ *   so the move block falls through and the stop block follows it;
+ * - the spark frame is stepped without an s16 cast, which keeps retail's
+ *   unsigned halfword load.
  *
- * Residual: census addiu -12, addu -2, andi +2, beqz +2, bnez -1, lbu +5,
- * lh +3, lw +1, negu +11, nop -13, sll -3, slt -1, slti +3, sltu +2, sra -3,
- * srl +8. Retail computes each quarter-radius term once before its branch
- * and reloads the radius at every use; written that way the function is 26
- * instructions short.
+ * The earlier 2321-instruction build was two faults cancelling: 28 surplus
+ * instructions in the two quad loops against the 26-instruction shortfall
+ * elsewhere that this build still shows.
+ *
+ * Measured and not kept: named pointers for the vector sums and an FT4
+ * accessed through a pointer (both shorten the build but spill a register,
+ * raising the surplus to 24-46), and the spark colour fades as ternary
+ * stores (surplus 27-28).
+ *
+ * Residual: census addiu -12, addu -2, andi +2, beqz +2, bgez -1, bltz +1,
+ * j +1, lbu +5, lh +2, lhu -7, lw +1, negu +3, nop -12, sll -3, slt -1,
+ * slti +1, sltu +2, sra -3.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -249,32 +263,16 @@ s32 func_8006CD78(void *data, s32 arg1)
                         for (l = 0, lo = -1, hi = 1; l < 4; l++, lo--, hi++) {
                             q0.vy = 0;
                             q0.vx = s * -(e->radius >> 2) * (k + 1);
-                            if (d < 0) {
-                                q0.vz = -(e->radius >> 2) * lo;
-                            } else {
-                                q0.vz = -(e->radius >> 2) * hi;
-                            }
+                            q0.vz = -(e->radius >> 2) * (d < 0 ? lo : hi);
                             q1.vy = 0;
                             q1.vx = s * -(e->radius >> 2) * k;
-                            if (d < 0) {
-                                q1.vz = -(e->radius >> 2) * lo;
-                            } else {
-                                q1.vz = -(e->radius >> 2) * hi;
-                            }
+                            q1.vz = -(e->radius >> 2) * (d < 0 ? lo : hi);
                             q2.vy = 0;
                             q2.vx = s * -(e->radius >> 2) * (k + 1);
-                            if (d < 0) {
-                                q2.vz = -(e->radius >> 2) * -l;
-                            } else {
-                                q2.vz = -(e->radius >> 2) * l;
-                            }
+                            q2.vz = -(e->radius >> 2) * (d < 0 ? -l : l);
                             q3.vy = 0;
                             q3.vx = s * -(e->radius >> 2) * k;
-                            if (d < 0) {
-                                q3.vz = -(e->radius >> 2) * -l;
-                            } else {
-                                q3.vz = -(e->radius >> 2) * l;
-                            }
+                            q3.vz = -(e->radius >> 2) * (d < 0 ? -l : l);
                             q0.vx += e->rings[n6].vx;
                             q0.vy += e->rings[n6].vy;
                             q0.vz += e->rings[n6].vz;
@@ -306,37 +304,19 @@ s32 func_8006CD78(void *data, s32 arg1)
                         }
                     }
                 }
-                a = e->rings[n6].vx;
-                if (a < 0) {
-                    a = -a;
-                }
-                if (a < 0x21) {
-                    a = e->rings[n6].vy;
-                    if (a < 0) {
-                        a = -a;
-                    }
-                    if (a < 0x21) {
-                        a = e->rings[n6].vz;
-                        if (a < 0) {
-                            a = -a;
-                        }
-                        if (a >= 0x21) {
-                            goto move;
-                        }
-                        if (e->phase == 0) {
-                            e->phase = 1;
-                        }
-                        e->rings[n6].vx = 0;
-                        e->rings[n6].vy = 0;
-                        e->rings[n6].vz = 0;
-                    } else {
-                        goto move;
-                    }
-                } else {
-                move:
+                if ((e->rings[n6].vx < 0 ? -e->rings[n6].vx : e->rings[n6].vx) >= 0x21 ||
+                    (e->rings[n6].vy < 0 ? -e->rings[n6].vy : e->rings[n6].vy) >= 0x21 ||
+                    (e->rings[n6].vz < 0 ? -e->rings[n6].vz : e->rings[n6].vz) >= 0x21) {
                     e->rings[n6].vx += e->ring_speed[n6].vx;
                     e->rings[n6].vy += e->ring_speed[n6].vy;
                     e->rings[n6].vz += e->ring_speed[n6].vz;
+                } else {
+                    if (e->phase == 0) {
+                        e->phase = 1;
+                    }
+                    e->rings[n6].vx = 0;
+                    e->rings[n6].vy = 0;
+                    e->rings[n6].vz = 0;
                 }
                 if (e->phase == 0) {
                     a = e->colors[n6].r;
@@ -391,32 +371,16 @@ s32 func_8006CD78(void *data, s32 arg1)
                 for (l = 0, lo = -1, hi = 1; l < 4; l++, lo--, hi++) {
                     q0.vy = 0;
                     q0.vx = s * -(e->radius >> 2) * (k + 1);
-                    if (d < 0) {
-                        q0.vz = -(e->radius >> 2) * lo;
-                    } else {
-                        q0.vz = -(e->radius >> 2) * hi;
-                    }
+                    q0.vz = -(e->radius >> 2) * (d < 0 ? lo : hi);
                     q1.vy = 0;
                     q1.vx = s * -(e->radius >> 2) * k;
-                    if (d < 0) {
-                        q1.vz = -(e->radius >> 2) * lo;
-                    } else {
-                        q1.vz = -(e->radius >> 2) * hi;
-                    }
+                    q1.vz = -(e->radius >> 2) * (d < 0 ? lo : hi);
                     q2.vy = 0;
                     q2.vx = s * -(e->radius >> 2) * (k + 1);
-                    if (d < 0) {
-                        q2.vz = -(e->radius >> 2) * -l;
-                    } else {
-                        q2.vz = -(e->radius >> 2) * l;
-                    }
+                    q2.vz = -(e->radius >> 2) * (d < 0 ? -l : l);
                     q3.vy = 0;
                     q3.vx = s * -(e->radius >> 2) * k;
-                    if (d < 0) {
-                        q3.vz = -(e->radius >> 2) * -l;
-                    } else {
-                        q3.vz = -(e->radius >> 2) * l;
-                    }
+                    q3.vz = -(e->radius >> 2) * (d < 0 ? -l : l);
                     a = (3 - k) * 16;
                     b = (3 - l) * 16;
                     ft4.v0 = b;
@@ -609,7 +573,7 @@ s32 func_8006CD78(void *data, s32 arg1)
             if (otz >= 0 && flag >= 0) {
                 func_8005B260((u32 *)&ft4, ot, otz & 0xFFFF, 1);
             }
-            e->spark_frame[n8] = ((s16)e->spark_frame[n8] + 1) % 8;
+            e->spark_frame[n8] = (e->spark_frame[n8] + 1) % 8;
             if (e->stage < 2) {
                 a = e->spark_colors[n8].r + 0x1F;
                 if (e->spark_colors[n8].r >= 0x61) {
