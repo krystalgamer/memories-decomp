@@ -16,7 +16,6 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 void func_8003D518(MenuRecord *record)
 {
-#define state ((u8 *)record)
     DisplayObject *object;
     s32 flags;
 
@@ -30,10 +29,10 @@ void func_8003D518(MenuRecord *record)
         func_80042918(object);
         func_800428EC((u8 *)object, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         object->field_4C = (s32)func_80042C08;
-        *(DisplayObject **)(state + 4) = object;
+        record->grid[0][1] = (s32)object;
     }
     flags = D_8009B3C1;
-    object = *(DisplayObject **)(state + 4);
+    object = (DisplayObject *)record->grid[0][1];
     if (flags & 64) {
         D_8009B3C1 = 0;
     } else {
@@ -48,7 +47,6 @@ void func_8003D518(MenuRecord *record)
             object->field_48.h.field_4A = 64;
         }
     }
-#undef state
 }
 
 void func_8003D614(MenuRecord *record)
