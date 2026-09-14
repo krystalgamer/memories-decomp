@@ -49,7 +49,6 @@ CONSUMERS = (
     "src/game/main_run_duel_and_library.c",
     "src/game/main_run_free_duel_menu.c",
     "src/game/main_run_frontend_menus.c",
-    "src/game/main_run_game_over.c",
     "src/game/main_run_name_entry.c",
     "src/game/main_run_options_menu.c",
     "src/game/main_run_password_menu.c",
@@ -81,7 +80,7 @@ ACTIVE_ARRAY = {
 COMMON_ACTIVE = {
     "src/game/main_run_animated_battle.c", "src/game/main_run_build_deck_menu.c",
     "src/game/main_run_duel.c",
-    "src/game/main_run_game_over.c", "src/game/main_run_name_entry.c",
+    "src/game/main_run_name_entry.c",
     "src/game/main_run_options_menu.c", "src/game/main_run_trade.c",
     "src/game/main_run_two_player_duel_setup.c",
 }
@@ -210,7 +209,7 @@ class MainModeStateTests(unittest.TestCase):
                     common.append("D_8009B269")
                 commons += len(common)
                 self.assert_views(self.preprocess(path), expected, common)
-        self.assertEqual(commons, 9)
+        self.assertEqual(commons, 8)
 
     def test_one_owner_and_retained_candidate_keys(self):
         index = candidate_builds.canonical_declaration_index(set(SYMBOLS), ROOT / "src")

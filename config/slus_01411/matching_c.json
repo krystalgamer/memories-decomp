@@ -1720,7 +1720,7 @@
       "address": "0x8002D730",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/main_run_game_over.c"
+      "source": "src/game/main_run_options_menu.c"
     },
     {
       "address": "0x8002D7C4",
@@ -1834,7 +1834,7 @@
       "address": "0x8002E918",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/func_8002E918.c"
+      "source": "src/game/script_flag_commands.c"
     },
     {
       "address": "0x8002E9A0",
@@ -1846,7 +1846,7 @@
       "address": "0x8002EA0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13C",
-      "source": "src/game/script_update_viewport_tween.c"
+      "source": "src/game/script_flag_commands.c"
     },
     {
       "address": "0x8002EB48",
@@ -3214,7 +3214,7 @@
       "address": "0x8003CA5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/func_8003CA5C.c"
+      "source": "src/game/game_over.c"
     },
     {
       "address": "0x8003CB7C",
