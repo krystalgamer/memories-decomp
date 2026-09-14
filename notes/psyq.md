@@ -289,21 +289,19 @@ that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
 Two further identifications originally used address-qualified aliases in
-`libgte_abi_variants.h` to preserve candidate caller views. The projection
-clip helper now uses the canonical three-input declaration directly;
-retained candidates keep their existing views pending separate validation.
+`libgte_abi_variants.h` to preserve candidate caller views. Both projection
+helpers now use the canonical three-input declaration directly.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching [`func_80041E7C`](../src/game/func_80041E7C.c) uses the canonical three-vector declaration. The retained [`func_80041F90`](../src/candidates/func_80041F90.c) candidate still uses its four-pointer ABI alias; a residual pointer in `$a3` is not evidence of a fourth SDK input. |
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching [`func_80041E7C`](../src/game/func_80041E7C.c) and [`func_80041F90`](../src/game/func_80041F90.c) both use the canonical three-vector declaration. A residual pointer in `$a3` is not evidence of a fourth SDK input. |
 | `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) calls the address-qualified `NormalClip_800879A0` alias with the one pointer present in retail, while `libgte.h` keeps the canonical three-`long` declaration. |
 
 The verified 52-byte routine at `0x80089CF0` reads vector data through
 `$a0`, `$a1`, and `$a2`, never `$a3`. It executes RTPT, AVSZ3, and then NCLIP.
-Using its canonical three-input call removes the need for the projection
-helper's former `$a3` register binding and matches all 276 instruction bytes.
-The fourth pointer in the historical alias was unnecessary at this call site;
-the alias remains unchanged for other retained candidates.
+Using its canonical three-input call removes both projection helpers' former
+`$a3` register bindings and matches their retail instruction bytes. The fourth
+pointer in the historical alias was unnecessary, so the alias is retired.
 
 `func_80041E7C` reads GTE data register 24 through official `gte_stopz`, so its
 result is the signed NCLIP area in MAC0, not the depth in OTZ (register 7).
@@ -1195,9 +1193,9 @@ redefinition rather than a harmless compatibility choice. Selecting
 change register allocation and the emitted instruction schedule and therefore
 requires an exact-match check. Matching game C now uses `libgte.h` across
 camera, model, duel, display, image-transfer, and spatial-sound paths.
-Matching `src/game/func_80041E7C.c` and the retained
-`src/candidates/func_80041F90.c` include `inline_c.h` for `gte_stopz`.
-The matching helper uses `gcc_2_8_1_g8_psyq_stopz`: its compiler and MASPSX
+Matching `src/game/func_80041E7C.c` and `src/game/func_80041F90.c` include
+`inline_c.h` for `gte_stopz`. The matching helpers use
+`gcc_2_8_1_g8_psyq_stopz`: its compiler and MASPSX
 flags are identical to `gcc_2_8_1_g8`, with no assembly filter. The explicit
 `psyq_inline_macro: "stopz"` allowance accepts only the official volatile
 `swc2 $24` getter with its register operand and memory clobber. The existing
