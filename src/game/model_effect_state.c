@@ -189,7 +189,7 @@ s32 func_8005F1B8(s32 level, s32 value)
 
 void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
 {
-    u8 *r;
+    ModelEffectCoefficient *r;
     s32 v;
     s32 d;
     s32 t;
@@ -197,7 +197,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     s32 u;
     ModelEffectAdjustment sp18;
 
-    r = (u8 *)D_80091570 + arg1 * 8;
+    r = &D_80091570[arg1];
 
     if (D_8009B07B == 1) {
         if (D_8009B07C == 1) {
@@ -205,7 +205,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
         }
     }
 
-    v = (s16)*(u16 *)r;
+    v = r->field_00;
 
     if (arg0 < 2) {
         func_80059000(arg0, (s16 *)&sp18);
@@ -227,7 +227,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     }
 
     func_8005F3B8(
-        arg0, v, *(s16 *)(r + 2), *(s16 *)(r + 4), (SVECTOR *)arg2
+        arg0, v, r->angle, r->field_04, (SVECTOR *)arg2
     );
 }
 

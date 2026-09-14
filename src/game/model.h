@@ -540,8 +540,8 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 ];
 
 /* One entry of the eight-byte table at D_80091570.  Every access in the tree
- * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads the
- * same halfword through a byte cursor stepping 8, and func_8005A618 reads
+ * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads
+ * field_00, angle and field_04 of one record, and func_8005A618 reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
  * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,
  * where field_00 is a constant 700 and the second halfword steps in eighths
