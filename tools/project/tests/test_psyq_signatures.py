@@ -335,9 +335,13 @@ class PsyqSignatureTests(unittest.TestCase):
                 "NamedAliasA": ["LIBA/NAMED.OBJ+0x0"],
                 "NamedAliasB": ["LIBB/NAMED.OBJ+0x0"],
             },
-            0x80010040: {"OffStart": ["LIB/OFFSTART.OBJ+0x4"]},
+            0x80010040: {
+                "OffStartA": ["LIBA/OFFSTART.OBJ+0x4"],
+                "OffStartB": ["LIBB/OFFSTART.OBJ+0x4"],
+            },
             0x80010050: {
-                "GameCollision": ["LIB/GAME_COLLISION.OBJ+0x0"]
+                "GameCollisionA": ["LIBA/GAME_COLLISION.OBJ+0x0"],
+                "GameCollisionB": ["LIBB/GAME_COLLISION.OBJ+0x0"],
             },
         }
         inventory = {
@@ -433,7 +437,7 @@ class PsyqSignatureTests(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            result["ambiguous_named"],
+            result["ambiguous_locally_named"],
             [
                 (
                     0x80010034,
@@ -457,11 +461,14 @@ class PsyqSignatureTests(unittest.TestCase):
             [
                 (
                     0x80010050,
-                    "GameCollision",
+                    ["GameCollisionA", "GameCollisionB"],
                     "func_80010050",
                     "matching_c",
                     "game",
-                    ["LIB/GAME_COLLISION.OBJ+0x0"],
+                    [
+                        "LIBA/GAME_COLLISION.OBJ+0x0",
+                        "LIBB/GAME_COLLISION.OBJ+0x0",
+                    ],
                 )
             ],
         )

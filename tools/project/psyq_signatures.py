@@ -306,30 +306,10 @@ def classify(
     proposals: dict, inventory: dict, objects: list[dict] | None = None
 ) -> dict:
     ambiguous, agreed, disagreed, new = [], [], [], []
-    ambiguous_named, ambiguous_unresolved = [], []
+    ambiguous_locally_named, ambiguous_unresolved = [], []
     outside_psyq, off_start = [], 0
     for address in sorted(proposals):
         names = proposals[address]
-        if len(names) > 1:
-            sorted_names = sorted(names)
-            ambiguous.append((address, sorted_names))
-            row = inventory.get(address)
-            if (
-                row is not None
-                and row.get("status") == "sdk_asm"
-                and row.get("module", "").startswith("psyq/")
-                and not row.get("name", "").startswith("func_")
-            ):
-                ambiguous_named.append(
-                    (address, sorted_names, row["name"])
-                )
-            else:
-                current = None if row is None else row.get("name")
-                ambiguous_unresolved.append(
-                    (address, sorted_names, current)
-                )
-            continue
-        name = next(iter(names))
         row = inventory.get(address)
         if row is None:
             off_start += 1
@@ -341,14 +321,31 @@ def classify(
             outside_psyq.append(
                 (
                     address,
-                    name,
+                    sorted(names),
                     row["name"],
                     row.get("status", ""),
                     row.get("module", ""),
-                    sorted(names[name]),
+                    sorted(
+                        provider
+                        for providers in names.values()
+                        for provider in providers
+                    ),
                 )
             )
             continue
+        if len(names) > 1:
+            sorted_names = sorted(names)
+            ambiguous.append((address, sorted_names))
+            if not row.get("name", "").startswith("func_"):
+                ambiguous_locally_named.append(
+                    (address, sorted_names, row["name"])
+                )
+            else:
+                ambiguous_unresolved.append(
+                    (address, sorted_names, row.get("name"))
+                )
+            continue
+        name = next(iter(names))
         if row["name"] == name:
             agreed.append((address, name))
         elif row["name"].startswith("func_"):
@@ -381,7 +378,7 @@ def classify(
         "disagreed": disagreed,
         "new": new,
         "ambiguous": ambiguous,
-        "ambiguous_named": ambiguous_named,
+        "ambiguous_locally_named": ambiguous_locally_named,
         "ambiguous_unresolved": ambiguous_unresolved,
         "outside_psyq": outside_psyq,
         "off_start": off_start,
@@ -425,8 +422,8 @@ def report(scanned: dict, result: dict) -> None:
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
     print(
-        "ambiguous addresses already named locally: "
-        f"{len(result['ambiguous_named'])}"
+        "ambiguous addresses with local inventory names: "
+        f"{len(result['ambiguous_locally_named'])}"
     )
     print(
         "ambiguous addresses still unresolved     : "
@@ -451,10 +448,10 @@ def report(scanned: dict, result: dict) -> None:
         print("differing:")
         for address, name, current, providers in result["disagreed"]:
             print(f"  {address:#010x} corpus {name} / inventory {current} [{providers[0]}]")
-    if result["ambiguous_named"]:
+    if result["ambiguous_locally_named"]:
         print()
-        print("ambiguous signatures with local inventory names, left alone:")
-        for address, names, current in result["ambiguous_named"]:
+        print("ambiguous signatures with local inventory names, left unchanged:")
+        for address, names, current in result["ambiguous_locally_named"]:
             print(
                 f"  {address:#010x} inventory {current} / "
                 f"corpus {', '.join(names)}"
@@ -472,9 +469,10 @@ def report(scanned: dict, result: dict) -> None:
         print()
         print("non-Psy-Q function starts, left alone:")
         for item in result["outside_psyq"]:
-            address, name, current, status, module, providers = item
+            address, names, current, status, module, providers = item
             print(
-                f"  {address:#010x} corpus {name} / inventory {current} "
+                f"  {address:#010x} corpus {', '.join(names)} / "
+                f"inventory {current} "
                 f"({status}, {module}) [{providers[0]}]"
             )
     if result["new"]:

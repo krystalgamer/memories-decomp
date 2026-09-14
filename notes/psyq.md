@@ -128,8 +128,8 @@ The unique-object labels classify against the current function inventory as:
 | Existing names agreeing | 428 | Independent names corroborated by the pinned catalogue |
 | Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
-| Addresses claimed under several names | 8 | All eight retain locally established inventory names; the signature sweep reports them separately rather than presenting them as unresolved |
-| Ambiguous addresses still unresolved | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name |
+| Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
+| Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
 | Psy-Q inventory rows still address-named | 98 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
 | Address-named rows inside a unique object match | 75 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
@@ -142,22 +142,23 @@ inventory and can change when function boundaries do. Matcher debugging must
 compare the same pinned catalogue against the same inventory rather than
 treating any future count change as a matcher failure.
 
-All eight byte-ambiguous addresses have evidence beyond the signature:
+All eight byte-ambiguous addresses retain non-address local inventory names:
 `PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, `CdMix`, `CdControlB`,
-`GsGetActiveBuff`, `GsDrawOt`, and `GsSetRefView2`. The signature tool still
-refuses to choose between byte-identical catalogue labels, but now reports
-that these addresses already have non-address inventory names established by
-local call graphs, data ownership, or ABI evidence. This distinction prevents
-resolved collisions from being presented as unfinished signature work.
+`GsGetActiveBuff`, `GsDrawOt`, and `GsSetRefView2`. This bucket is not a
+resolution registry: the signature tool refuses to choose between
+byte-identical catalogue labels and merely reports that renaming is not
+actionable. In particular, the bytes do not adjudicate `CdMix` versus `DsMix`
+or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
+naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 102 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 98 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 78 already sit inside 21
-uniquely matched object ranges, while 24 are not covered by any unique 4.6
+The `--coverage-report` split narrows that work: 75 already sit inside 18
+uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
 
