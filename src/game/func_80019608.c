@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "duel_scene_card_placement.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"

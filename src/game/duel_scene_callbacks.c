@@ -7,6 +7,7 @@
 #include "duel_phase_entry.h"
 #include "duel_scene_resume.h"
 #include "duel_scene_card_use.h"
+#include "duel_scene_card_placement.h"
 #include "duel_scene_turn_switch.h"
 #include "duel_result_outro.h"
 #include "duel_result_display.h"

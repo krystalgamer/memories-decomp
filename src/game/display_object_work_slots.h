@@ -33,7 +33,10 @@ typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
 /* Shared scratch slots, not an owning object pool. Duel animation uses two,
  * the Exodia presentation uses five, and trade uses the first. Keep the
  * default incomplete array: Main_RunTrade needs split absolute addressing
- * at -G8. The ritual view below does not add a sixth pointer slot. */
+ * at -G8. Card placement additionally reaches the independent word at +0x14
+ * (D_800E9F04) as its sixth selection slot; see
+ * notes/card-placement-controller.md. The ritual view below does not change
+ * the five-slot count used by the other consumers. */
 #ifdef DISPLAY_OBJECT_WORK_RITUAL_VIEW
 #include "duel_check_ritual.h"
 

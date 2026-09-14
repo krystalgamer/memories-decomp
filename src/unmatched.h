@@ -187,7 +187,6 @@ extern s32 D_8009B118;
  * and passes an argument. */
 void DuelScene_UpdateHandActions(void);
 void DuelScene_UpdateFieldActions(void);
-void DuelScene_UpdateCardPlacement(void);
 void DuelScene_UpdateBattle(void);
 void DuelScene_UpdateExodiaResult(void);
 void func_80029EC4(void);
