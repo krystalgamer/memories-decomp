@@ -1340,8 +1340,8 @@ address,size,name,status,module,notes
 0x800785C0,0xB8,StGetNext,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_009.OBJ signature.
 0x80078680,0x1C,StSetMask,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_010.OBJ signature.
 0x800786A0,0x91C,StCdInterrupt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_011.OBJ signature.
-0x80078FBC,0x2C,func_80078FBC,sdk_asm,psyq/sdk,
-0x80078FE8,0x1A8,func_80078FE8,sdk_asm,psyq/sdk,
+0x80078FBC,0x2C,mem2mem,sdk_asm,psyq/sdk,"Private C_011 stream copy helper; exact +0x91C offset in all three recovered Silent Hill regional maps and independent PsyZ/SotN/Tomba reconstructions."
+0x80078FE8,0x1A8,dma_execute,sdk_asm,psyq/sdk,"Private C_011 stream DMA helper; exact +0x948 offset in all three recovered Silent Hill regional maps and independent PsyZ/SotN/Tomba reconstructions."
 0x80079190,0x564,func_80079190,sdk_asm,psyq/sdk,
 0x800796F4,0x280,CD_sync,sdk_asm,psyq/sdk,
 0x80079974,0x2C8,CD_ready,sdk_asm,psyq/sdk,
@@ -1419,7 +1419,7 @@ address,size,name,status,module,notes
 0x8007D234,0x9C,func_8007D234,sdk_asm,psyq/sdk,
 0x8007D2D0,0x1C,DsReadMode,sdk_asm,psyq/sdk,Identified at offset 0x4F0 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007D2F0,0xD4,DsRead2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/DSREAD2.OBJ signature and matching movie control caller.
-0x8007D3C4,0x20,func_8007D3C4,sdk_asm,psyq/sdk,
+0x8007D3C4,0x20,StCdInterrupt2,sdk_asm,psyq/sdk,"Private DSREAD2 stream interrupt helper; PsyZ reconstructs the two-function object and independent Resident Evil 2 maps preserve its position immediately after DsRead2."
 0x8007D3F0,0x2E0,DsSearchFile,sdk_asm,psyq/sdk,Identified by the imported Psy-Q 4.7 symbol list as LIBDS.LIB DsSearchFile.
 0x8007D6D0,0x20,_cmp,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x2E0 after DsSearchFile; compares the 12-byte ISO file-name key.
 0x8007D6F0,0x2C4,DS_newmedia,sdk_asm,psyq/sdk,Identified from the complete reconstructed Psy-Q 4.6 DSFILE.OBJ translation unit and exact offset 0x300; reads and validates the ISO primary volume and path table.
