@@ -3,8 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/display_object.h"
-
-#define FREE_DUEL_SPARKLE_POOL_CAPACITY 16
+#include "module_state.h"
 
 /* Shared state for the free-duel opponent-select screen.
  *
@@ -29,26 +28,11 @@ extern s8 gFreeDuel_bCursorRow;
 extern s8 gFreeDuel_bTargetColumn;
 extern s8 gFreeDuel_bTargetRow;
 
-/* One byte per grid cell, non-zero when the cell holds a selectable duelist. */
-extern u8 gFreeDuel_abGridAvailable[];
-
-extern u8 gFreeDuel_bScreenFlags;
-
 /* Why the screen ended. screen_runtime.c stores 0x40 and 0x80 at its two exit
  * points and reads the byte back on later passes -- 0x80 once and the whole
  * byte against 0 twice -- so the overlay records the reason and acts on it
  * next time round. The two resident writers only ever clear it. */
 extern u8 gFreeDuel_bReturnFlags;
-
-extern DisplayObject *gFreeDuel_apSparklePool[
-    FREE_DUEL_SPARKLE_POOL_CAPACITY
-];
-
-/* The two objects FreeDuel_Init stores here: the thumb it takes from
- * func_800400AC and the cursor from FreeDuel_SpawnSparkle. The cursor uses
- * the same allocation and layout as the sparkle trail it leaves behind. */
-extern DisplayObject *gFreeDuel_pCursorWidget;
-extern DisplayObject *gFreeDuel_pThumbWidget;
 
 /* Builds the duelist grid screen, uploading each available duelist's
  * portrait record from `src` to VRAM with LoadImage2 on the way.

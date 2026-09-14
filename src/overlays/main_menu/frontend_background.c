@@ -169,27 +169,30 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 
 void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
 {
+    DisplayObject *o = (DisplayObject *)object;
     s32 r;
     s32 g;
     s32 b;
 
-    if ((*(s32 *)(object + 0xC) & 0xFFFFFF) != 0) {
-        r = object[0xC] - 8;
+    if ((o->field_0C & 0xFFFFFF) != 0) {
+        r = ((u8 *)&o->field_0C)[0] - 8;
         if (r < 0) {
             r = 0;
         }
-        object[0xC] = r;
-        g = object[0xD] - 8;
+        ((u8 *)&o->field_0C)[0] = r;
+        g = ((u8 *)&o->field_0C)[1] - 8;
         if (g < 0) {
             g = 0;
         }
-        object[0xD] = g;
-        b = object[0xE] - 8;
+        ((u8 *)&o->field_0C)[1] = g;
+        b = ((u8 *)&o->field_0C)[2] - 8;
         if (b < 0) {
             b = 0;
         }
-        object[0xE] = b;
+        ((u8 *)&o->field_0C)[2] = b;
     } else {
+        /* The parameter, not o: passing o here makes the rebuilt module
+           four bytes longer than the target. */
         func_8004036C(object);
     }
 }

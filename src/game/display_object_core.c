@@ -208,8 +208,10 @@ void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
 void func_800404CC(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
-    *(s16 *)((u8 *)object + 0x30) = x;
-    *(s16 *)((u8 *)object + 0x32) = y;
+    DisplayObject *o = object;
+
+    o->field_30.h.field_30 = x;
+    o->field_30.h.field_32 = y;
     func_80040468(object, field_67, field_68, field_69, color, texture);
 }
 

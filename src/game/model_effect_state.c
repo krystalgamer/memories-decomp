@@ -479,7 +479,7 @@ m1:
         }
         n = D_8009B078;
         key->magnitude = arg3;
-        key->radius = 0;
+        key->duration = 0;
         key->progress = 0;
         D_8009B078 = n + 1;
     }

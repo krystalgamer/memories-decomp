@@ -188,10 +188,12 @@ class ProjectionClipHelperTests(unittest.TestCase):
             text = SOURCE.read_text()
             self.assertNotIn("libgte_abi_variants.h", text)
             self.assertIn("RotAverageNclip3_nom(v308, v310, v318);", text)
+            self.assertIn("SetGeomScreen(MODEL_DEFAULT_PROJECTION);", text)
+            self.assertIn("mtx->t[2] = MODEL_DEFAULT_PROJECTION;", text)
             if mutation:
                 edits = {
                     "angle-byte": ("(arg0 >> 4)", "(arg0 >> 8)"),
-                    "translation": ("mtx->t[2] = 0x12C;", "mtx->t[2] = 0;"),
+                    "translation": ("mtx->t[2] = MODEL_DEFAULT_PROJECTION;", "mtx->t[2] = 0;"),
                     "corner": ("v308[1].vx = 0x200;", "v308[1].vx = 0x100;"),
                     "output": ("arg3->f4 = 0;", "arg3->f4 = 1;"),
                     "depth-register": ("gte_stopz(p);", "gte_stotz(p);"),

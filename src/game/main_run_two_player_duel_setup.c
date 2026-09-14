@@ -12,7 +12,7 @@
 #include "fade.h"
 #include "main_modes.h"
 #include "text_box_lifecycle.h"
-#include "../overlays/main_menu/entrypoints.h"
+#include "../overlays/main_menu/value_setup.h"
 #include "sound.h"
 #include "text_box_runtime.h"
 #include "../unmatched.h"

@@ -65,7 +65,8 @@ void func_8004FE2C(void)
             if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
                 goto check_ready;
             }
-            Model_LoadMonsterMerge(0, 0x309, 0, 0, 0, 0, 4);
+            Model_LoadMonsterMerge(
+                0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
         } else {
             func_80056828(0);
         }

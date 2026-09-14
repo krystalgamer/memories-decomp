@@ -35,9 +35,11 @@ void func_80050584(s32 arg0) {
                     t = rand() >> 8;
                     v = t % CARD_COUNT;
                 } while (v < 0 || v >= CARD_COUNT ||
-                         (v >= 0x12C && v < 0x15E) ||
-                         (v >= 0x28A && v < 0x2BC) ||
-                         v == 0x2D0);
+                         (v >= MODEL_MRG_FIRST_GAP_START
+                          && v < MODEL_MRG_FIRST_GAP_END) ||
+                         (v >= MODEL_MRG_SECOND_GAP_START
+                          && v < MODEL_MRG_SECOND_GAP_END) ||
+                         v == MODEL_MRG_SINGLE_GAP_ID);
                 m1 = -1;
                 Model_LoadMonsterMerge(arg0 | 0x80, v, m1, m1, m1, m1, 0);
             }

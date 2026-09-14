@@ -4,13 +4,12 @@
 
 void func_80041C8C(DisplayObjectStreamState *object)
 {
-#define ctx ((u8 *)object)
     u8 *p;
     s32 op;
     s32 (**table)(DisplayObjectStreamState *, const u8 *);
     s32 value;
 
-    p = (u8 *)(*(s32 *)(ctx + 0x50) + *(u16 *)(ctx + 0x58));
+    p = object->current + (u16)object->field_58;
     op = *p;
     p++;
 
@@ -20,15 +19,14 @@ void func_80041C8C(DisplayObjectStreamState *object)
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;
             }
-            p = (u8 *)(*(s32 *)(ctx + 0x50) + *(u16 *)(ctx + 0x58));
+            p = object->current + (u16)object->field_58;
             op = *p;
             p++;
         } while (op >= 0xF0);
     }
 
-    *(u16 *)(ctx + 0x5A) = op;
+    object->field_5A = op;
     value = (p[1] << 8) | p[0];
-    *(s32 *)(ctx + 0x4C) = *(s32 *)(ctx + 0x54) + value;
-    *(u16 *)(ctx + 0x58) = *(u16 *)(ctx + 0x58) + 3;
-#undef ctx
+    object->field_4C = object->base + value;
+    object->field_58 += 3;
 }

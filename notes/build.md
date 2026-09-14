@@ -300,39 +300,29 @@ the original bytes, and the build still matches.
 
 #### What is left, and why each piece resists ownership
 
-Forty of the forty-five extracted ranges in `initialized_data` are owned by a C
-source. The five that are not are not simply the ones nobody has got to yet;
-four of them have a specific structural obstacle, and it is worth writing down
-which, so the next attempt starts from the obstacle rather than rediscovering
-it.
+Every game-owned range in `initialized_data` is owned by a C source. The one
+remaining ordinary-data blob is the Psy-Q SDK range identified below; it is
+kept extracted because the project does not claim vendor source ownership.
 
 | Range | Section | Bytes | Labels | What blocks it |
 | --- | --- | --- | --- | --- |
-| `initialized_data_800906e0` | `.data` | 36 | 3 | leads with `initialized_data_start`, a layout boundary |
-| `initialized_data_80091958` | `.data` | 38320 | 274 | bulk; no single owner, split it first |
-| `initialized_data_8009af08` | `.sdata` | 28 | 6 | holds `_gp` itself, and a pointer; the pointer's window is now C-owned |
-| `initialized_data_8009af2a` | `.sdata` | 4 | 3 | overlapping symbols |
-| `initialized_data_8009af6c` | `.sdata` | 184 | 45 | scattered head and tail; two coherent interior runs are C-owned |
+| `initialized_data_80091958` | `.data` | 38320 (`0x95B0`) | 274 | Psy-Q SDK-owned data; no game source owner |
 
-The four-byte range is the one worth reading closely, because it is the
-overlapping-symbol case in its smallest form. Splat emits three labels there:
-`D_8009AF2A` covering two bytes, then `D_8009AF2C` and `D_8009AF2D` covering
-one byte each. `debug_effect_screen.c` declares the middle one
-`extern u8 D_8009AF2C[2]`, so its array view deliberately spans the byte that
-`D_8009AF2D` names in its own right, and the same file also declares
-`extern u8 D_8009AF2D` and writes it as a scalar. One line uses both views at
-once:
+The former `0x8009AF2A` range was the overlapping-symbol case in its smallest
+form. Splat emitted three labels there: `D_8009AF2A`, `D_8009AF2C`, and the
+interior alias `D_8009AF2D`. The sole consumer used the middle label as a
+two-byte array and the last label as its second element:
 
 ```c
 FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
 ```
 
-That is the dual-name rule at a four-byte scale, and it is what stops a C
-definition from taking the range: a definition has to emit the labels, and
-these labels overlap. `D_8009AF2C[2]` and `D_8009AF2D` are both faithful to
-retail, one indexes the pair the up/down repeat adjusts while the other names
-the second element on its own, and neither is drift to be collapsed into the
-other.
+Separate definitions cannot reproduce that layout because GCC aligns the
+second object to offset 4. The successful owner is one six-byte array,
+`gDebugEffect_abPreviewState`: the old identities become elements 0, 2, and
+3, and the live page byte at `0x8009AF2E` becomes element 4. Because all views
+were private to `debug_effect_screen.c`, no external alias is lost. The object
+tiles the complete six-byte window and the linked executable remains exact.
 
 `initialized_data_8009af08` is blocked for a different reason: it opens with
 `runtime_gp`, which `symbols.txt` fixes at `0x8009AF08` and which the
@@ -366,7 +356,7 @@ file taking `0x8009AF08` would have to define a watchdog counter under a name
 three tools resolve as the GP base, which is a heavier commitment than the
 twenty-eight bytes suggest.
 
-#### Who actually owns the remaining bytes
+#### Who actually owned the extracted bytes
 
 The triage above asks what resists ownership. The prior question is who owns
 the bytes at all, and answering it for all five ranges at once changes the
@@ -376,22 +366,26 @@ Every label in each range can be attributed to the functions that reference
 it, and `functions.csv` records an owner for each of those functions --
 `game`, `psyq/sdk` or `psyq/crt`. Doing that across the whole set gives:
 
-| range | section | bytes | psyq | game |
+| range | section | complete bytes | referenced label extents | game |
 | --- | --- | ---: | ---: | ---: |
 | `initialized_data_800906e0` | `.data` | 12 | 8 | 0 |
-| `initialized_data_80091958` | `.data` | 34724 | 34692 | 0 |
-| `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
-| `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
-| `initialized_data_8009af6c` | `.sdata` | 184 | 0 | 184 |
+| `initialized_data_80091958` | `.data` | 38320 | 34724 | 0 |
+| former `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
+| former `initialized_data_8009af2a` | `.sdata` | 6 | 0 | 6 |
+| former `initialized_data_8009af6c` | `.sdata` | 184 | 0 | 184 |
 
-The large `.data` range is not a game data blob at all. Its 274 labels are
-referenced by 246 distinct functions and **every one of them is
-`psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`, `SpuSetReverbModeParam`,
-`StCdInterrupt`, `CD_cw`, `FntOpen` and their neighbours. The text range that
-reaches into it opens with `PCopen`, `InitHeap`, `_bu_init`, `OpenEvent`,
-`EnterCriticalSection` and the `open`/`read`/`write`/`close` wrappers. This is
-the Psy-Q library's own initialized data: SPU voice and reverb state, the CD
-streaming machinery, the font system, the heap and event tables.
+The large `.data` range is not a game data blob at all. Its complete measured
+extent is `0x8009AF08 - 0x80091958 = 0x95B0`, or 38,320 bytes. Label-to-label
+attribution covers 34,724 bytes; the remaining 3,596 bytes are unnamed gaps
+inside the same single generated SDK data subsegment, not a second unaccounted
+range. Its 274 labels are referenced by 246 distinct functions and **every one
+of them is `psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`,
+`SpuSetReverbModeParam`, `StCdInterrupt`, `CD_cw`, `FntOpen` and their
+neighbours. The text range that reaches into it opens with `PCopen`,
+`InitHeap`, `_bu_init`, `OpenEvent`, `EnterCriticalSection` and the
+`open`/`read`/`write`/`close` wrappers. This is the Psy-Q library's own
+initialized data: SPU voice and reverb state, the CD streaming machinery, the
+font system, the heap and event tables.
 
 That is a negative worth stating precisely rather than by implication. No file
 under `src/` mentions any of those 274 names -- not the game sources, not the
@@ -406,7 +400,7 @@ game translation unit that could honestly define it, and inventing one would
 assert authorship the image does not support.
 
 Netting the vendor bytes out, the genuine game-owned remainder across all
-five ranges is about **199 bytes, all of it `.sdata`** -- the seven bytes at
+five ranges was **198 bytes, all of it `.sdata`** -- the six bytes at
 `0x8009AF2A`, the remaining 184 at `0x8009AF6C`, and eight of the twenty at
 `0x8009AF08`. That is a very different target from thirty-four kilobytes, and
 it lands entirely in the section the `.data`-before-`.sdata` rule calls the
@@ -491,7 +485,7 @@ by subject sorts them immediately.
 | range | length | named objects | tiles? |
 | --- | ---: | --- | --- |
 | `0x8009AF10` | 16 | 4 + 4 + 4, then 4 unnamed | yes, with explicit padding |
-| `0x8009AF2A` | 6 | 2 + 1 + 1 | no: two bytes unnamed and unreachable |
+| `0x8009AF2A` | 6 | one packed 6-byte state array | yes |
 
 `0x8009AF10` converted. It holds two boot-time sizing constants read together
 by the code at `0x800129FC`, where they are subtracted from `bss_end`
@@ -511,10 +505,11 @@ This also settles a doubt recorded earlier, that a pointer relocation in
 address of `gFile_PrimaryTransferDescriptor` and links unchanged, as
 `D_8009AF88` already did.
 
-`0x8009AF2A` stays extracted, and now for a stated reason rather than a
-vague one: its three labels account for four of six bytes, so two bytes
-belong to no object and no consumer names them. That is a genuine failure of
-the tiling test rather than a judgement about coherence.
+`0x8009AF2A` also converted after changing the unit of ownership. Treating
+the old labels as separate objects left two bytes unnamed and forced GCC to
+align the second object to offset 4. Treating the complete window as one
+six-byte array tiles it exactly: the old labels become private element views,
+the live page byte is element 4, and the final byte is explicit unused storage.
 
 #### A splat label is not always an object
 
@@ -578,13 +573,13 @@ byte-exact. The failure is loud but indirect: the shortened function shifts
 every jump-table entry after it.
 
 **A `sdata` blob chunk stops at its last non-zero symbol.** Trailing zero
-bytes are padding to spimdisasm and it does not emit them, so a chunk is
-shorter than the range it covers and everything after it starts too early. The
-fix is a `pad` subsegment whose *address is where the emitted content actually
-ends*, not the nominal boundary: `initialized_data_8009af2a` covers six bytes
-but emits four, so `- [0x8b72e, pad]` before the next entry makes up the
-difference. A missing pad shows up as a two-byte shift in every `%gp_rel`
-reference after it, and the build's size check catches the rest.
+bytes are padding to spimdisasm and it does not emit them, so a chunk can be
+shorter than the range it covers and everything after it starts too early.
+Before the final carve, `initialized_data_8009af2a` covered six bytes but
+emitted four, so a `pad` subsegment at `0x8b72e` made up the difference.
+`gDebugEffect_abPreviewState[6]` now emits the whole range and removes that
+special case. A missing byte still shows up as a shifted `%gp_rel` reference,
+and the build's size check catches the rest.
 
 ### Which arguments a callee actually reads
 
@@ -1118,11 +1113,11 @@ given consumer needs. `D_8009B26C` is the case that separates those two
 claims, and it is worth writing down because it looks like an obvious
 centralization target and is not one.
 
-Eight sources declare it identically as `extern u8 D_8009B26C[]` and write
-`D_8009B26C[0]`: `frontend_scene_states.c`, `func_80030E30.c`,
+Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
+`D_8009B26C[0]`: `frontend_scene_states.c`,
 `duel_effect_basic_commands.c`, `duel_effect_mode_7.c`, `func_8002FA28.c`,
 `func_8002EB48.c`, `script_control_commands.c` and `async_state_poll.c`
-(`func_80030E30.c` was split out of `frontend_scene_states.c`). Eight identical
+(`func_80030E30.c` has been restored to `frontend_scene_states.c`). Seven identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
 
@@ -1209,23 +1204,31 @@ the worked dual-name case where one file uses the array view and the scalar
 neighbour both ways. Any ownership of that tail has to preserve both
 spellings.
 
-`free_duel` is the smallest by label count and looks like the obvious first
-target. It is not, and the reasons generalise:
+`free_duel` is the smallest by label count, and its named prefix is now
+C-owned. Consumer widths, rather than generated label extents, establish:
 
-- Its five names are already semantic -- `gFreeDuel_abGridAvailable`,
-  `gFreeDuel_pThumbWidget`, `gFreeDuel_apSparklePool`,
-  `gFreeDuel_pCursorWidget`, `gFreeDuel_bScreenFlags` -- and three are already
-  declared in `free_duel.h`. So the naming work is done and only the
-  definition is missing.
-- But `gFreeDuel_pThumbWidget` spans **eight bytes** under one label, while
-  `screen_runtime.c` reaches it through `asm("gFreeDuel_pThumbWidget")`
-  aliases typed as a four-byte pointer -- twice over, once as
-  `FreeDuelWidget *` and once as `u8 *`. The label extent and the C view
-  disagree about the object's size, and both alias spellings are the
-  deliberate kind the small-data notes describe.
-- The named symbols stop at `0x801690A8`, and the blob does not: the words
-  after `gFreeDuel_bScreenFlags` are non-zero and uncharacterised. Owning the
-  named prefix would still leave most of the range behind.
+- `gFreeDuel_abGridAvailable`: 40 bytes at `0x80169030`;
+- `gFreeDuel_pThumbWidget`: one pointer at `0x80169058`, followed by one
+  still-unknown word;
+- `gFreeDuel_apSparklePool`: 16 pointers at `0x80169060`;
+- `gFreeDuel_pCursorWidget`: one pointer at `0x801690A0`;
+- `gFreeDuel_bScreenFlags`: the low byte of four-byte storage at
+  `0x801690A4`.
+
+Those objects and the accounted unknown/padding bytes fill exactly
+`0x80169030-0x801690A8`, so `module_state.c` can own one exact `0x78`-byte
+`.data` section without adopting any false label extent. The screen-flags
+header exposes a byte view over its four-byte storage because old GCC aligns a
+following byte array to four bytes; spelling the padding as a second object
+would shift the raw tail.
+
+The remainder starts at `0x801690A8`, not at the end of the last generated
+label. It is 5,976 bytes and is not homogeneous data: disassembly identifies
+four internally connected MIPS routines from `0x80169138` through
+`0x80169B8C`, preceded by an orphan control-flow fragment, followed by zero
+padding and opaque asset bytes from `0x80169C04`. They have no known entry
+from the live Free Duel screen. The range stays raw until its load/ownership
+contract is established; it must not be represented as one invented array.
 
 #### Why the overlay blobs resist carving
 
@@ -1252,9 +1255,9 @@ unmatched assembly retains the historical labels through linker aliases from
 `gPassword_ModuleState`, while matching C keeps its original symbol
 relocations and instruction bytes.
 
-That is the same shape as `free_duel`'s `gFreeDuel_pThumbWidget`, eight bytes
-of label against a four-byte pointer in two `asm()` aliases. One instance
-looked like a quirk of that symbol; three make it the rule.
+That is the same shape the Free Duel prefix had before consumer widths split
+the thumb pointer from its following unknown word. One instance looked like a
+quirk; the repeated sparse-label pattern makes it the rule.
 
 The screening consequence is worth stating plainly. For resident `.sdata` a
 uniformly word-sized run was sufficient evidence to carve, and it worked
@@ -1262,8 +1265,10 @@ first try. For overlay data it is **not** sufficient: a run can be uniformly
 word-sized, entirely zero, and still unsafe, because the size the label
 implies may be unrelated to the object. The extra check is to find a
 consumer's declared size and require it to agree with the label extent, or
-else to account for the unnamed remainder explicitly. None of the candidates
-examined here passes that check.
+else to account for the unnamed remainder explicitly. Free Duel's prefix now
+passes that check because every byte through `0x10A8` is accounted for
+separately. Password's `0x190`-byte state likewise accounts for every byte
+through its current raw-tail start at `0x5590`.
 
 Two method corrections, because each cost me a wrong number in this same
 survey.
@@ -1314,13 +1319,15 @@ exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
 comparator definitions include their shared owning header, so the table cannot
 silently drift from their signatures.
 
-The remaining overlay data work is in the bulk blobs, not the headers:
+The following all-overlay inventory is retained as the historical campaign
+baseline. The Password and Free Duel rows have been corrected to their current
+raw tails after the consumer-backed state prefixes were carved:
 
 | overlay | raw blob | bytes |
 |---|---|---:|
 | `main_menu` | `0x4558-0x8000` | 15016 |
 | `password` | `0x5590-0x7800` | 8816 |
-| `free_duel` | `0x1030-0x2800` | 6096 |
+| `free_duel` | `0x10A8-0x2800` | 5976 |
 | `overworld_before_coup` | `0x2274-0x3000` | 3468 |
 | `overworld_after_coup` | `0x2274-0x3000` | 3468 |
 

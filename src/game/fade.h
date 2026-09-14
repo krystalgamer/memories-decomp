@@ -66,7 +66,7 @@ extern u8 D_8009B14B;
 extern u8 D_8009B14C;
 #endif
 
-void func_800151B0(void);
+void Fade_Init(void);
 void Fade_StepBands(void);
 void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);

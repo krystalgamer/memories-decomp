@@ -9,15 +9,10 @@
 #include "text_box_runtime.h"
 #include "text_staging.h"
 
-/* The Build Deck screen's count box refresh: it copies the two totals at
-   +0x5A9C and +0x5AA0 of the screen record into D_801D5608 and opens the
-   count text box. The screen's other card-count helpers follow it in the
-   image; func_80031F7C is in func_80031F7C.c and the rest are candidates
-   under src/candidates/.
-
-   Compiles to an identical object at gcc_2_8_1_g0_split. Bounded below by
-   the card-list text boxes, which need gcc_2_8_1_g0, and above by
-   func_80031EE4, in src/game/func_80031EE4.c. */
+/* The Build Deck screen's three contiguous count helpers. They refresh the
+   count box, return a card to the chest, and remove a card from it. The unit
+   is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
+   func_8003201C. */
 
 void func_80031E5C(u8 *arg0) {
     u8 *p;
@@ -28,4 +23,61 @@ void func_80031E5C(u8 *arg0) {
     p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
     func_80039A14((struct DuelEffectChannel *)p);
     *(u16 *)(*(u8 **)(p + 0x28) + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+}
+
+void func_80031EE4(u8 *base, s32 index)
+{
+    u8 *counts = base + index;
+    u32 raw = counts[0x5D97];
+    s32 count = raw & 255;
+
+    if (count == 0) {
+        CardListSortItem *entry = (CardListSortItem *)(base + 4);
+
+        (*(s32 *)(base + 0x5A9C))++;
+        counts[0x5D97]++;
+        do {
+            s32 id = entry->card_id;
+
+            entry++;
+            if (id == index)
+                break;
+        } while (1);
+        entry--;
+        /* Keep the post-search adjustment separate from the flag store. */
+        ((volatile CardListSortItem *)entry)->field_0D = 1;
+        func_80032C48((CardList *)(base + 4));
+    } else if (count != CARD_CHEST_QUANTITY_MAX) {
+        s32 next = raw + 1;
+
+        counts[0x5D97] = next;
+        (*(s32 *)(base + 0x5A9C))++;
+    }
+}
+
+void func_80031F7C(u8 *state, s32 id)
+{
+    s32 count = (state + id)[0x5D97];
+
+    if (count != 0) {
+        count--;
+        if (count == 0) {
+            u8 *record = state + 4;
+
+            while (1) {
+                if (*(s16 *)(record + 4) == id) {
+                    break;
+                }
+                record += 0x10;
+            }
+
+            record[0xD] = 0;
+            if ((state + id)[0x5D97] != 0) {
+                record[0xD] = 0x80;
+            }
+            func_80032C48((CardList *)(state + 4));
+        }
+        (state + id)[0x5D97] = count;
+        *(s32 *)(state + 0x5A9C) -= 1;
+    }
 }

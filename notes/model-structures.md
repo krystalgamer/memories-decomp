@@ -135,6 +135,29 @@ three property calls. The setter's writes, terrain input, and the wrapper's
 mode/audio changes rule out a read-only two-combatant contract; see
 [the game description](research/the-game.md#59-the-3-d-battle-and-the-poly-mode).
 
+The repeated values behind this path now have one owner in `model.h`.
+`MODEL_SPECIAL_BATTLE_ID` names `0x309` across the animated-battle runner,
+intro controller, model-control state machine, animation transition, and
+Exodia candidate. `MODEL_DEFAULT_PROJECTION` names the canonical `0x12C`
+projection installed by the resident, overworld, credits, and candidate
+camera setup paths.
+
+The ordinary monster MRG is indexed by card-derived model IDs ending at
+`MODEL_MRG_LAST_ID`. Its compacted record stream omits two 50-ID ranges and
+one single ID:
+
+| Constant range | Numeric range | Effect |
+|---|---:|---|
+| `[MODEL_MRG_FIRST_GAP_START, MODEL_MRG_FIRST_GAP_END)` | `[0x12C, 0x15E)` | No model-MRG entry; later IDs subtract `MODEL_MRG_GAP_SIZE`. Both ranges are end-exclusive. |
+| `[MODEL_MRG_SECOND_GAP_START, MODEL_MRG_SECOND_GAP_END)` | `[0x28A, 0x2BC)` | No model-MRG entry; later IDs subtract the same gap size. Both ranges are end-exclusive. |
+| `MODEL_MRG_SINGLE_GAP_ID` | `0x2D0` | No record; the final ordinary ID is compacted by one. |
+
+`Model_LoadMonsterMerge` and the random-model controller share these
+boundaries, preventing their validity checks from drifting apart. The same
+header owns the measured `0x114` model-MRG sector count, `0x74` auxiliary
+sector count, `0xB2`-byte auxiliary lookup stride, and the special battle
+file start sector/count used only for `MODEL_SPECIAL_BATTLE_ID`.
+
 ### Timed model-tint requests
 
 Matching `func_80058938` and `func_800528AC` establish a ten-entry request

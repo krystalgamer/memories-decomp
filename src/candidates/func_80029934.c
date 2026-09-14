@@ -51,7 +51,7 @@ void func_80029934(void)
 
     angle = 0;
     SetGeomOffset(0xD0, 0x60);
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     arg = (s32)D_800E9D9C;
     GsSetLsMatrix(&D_800FE148);
 

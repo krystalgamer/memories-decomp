@@ -2,6 +2,7 @@
 #include "../game/graphics_frame.h"
 #include "../game/library_runtime.h"
 #include "../game/func_80029EB0.h"
+#include "../game/card_constants.h"
 
 /* 0x800E9D9C is the second ordering-table pointer. ordering_tables.h declares
    it `GsOT *`; this unit reads it as a word, so the private spelling stays. */
@@ -31,7 +32,7 @@ extern void GsSortGLine(u8 *, s32, s32);
    0x1F800320. The first visible row comes from the viewport scroll divided by
    the 178-pixel row pitch; from there four rows of ten lines are walked, each
    line holding ten cells on the left at column 8 and, while the paired index
-   is still below 0x2D3, ten more on the right at column 0xA8. A cell is drawn
+   is still below CARD_ID_END, ten more on the right at column 0xA8. A cell is drawn
    only when func_80029EB0 reports bit 0x80, tinted 0x808080 or 0x404040 on
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
@@ -102,7 +103,7 @@ void func_80029EC4(void)
                         *(u16 *)(p + 0x10) = *(u16 *)(pj + 0x54);
                         GsSortFastSprite(p, ot, 2);
                     }
-                    if (k < 0x2D3) {
+                    if (k < CARD_ID_END) {
                         r = func_80029EB0(D_800EA1E8, k);
                         if (r & 0x80) {
                             *(u32 *)(p + 0x14) = white;

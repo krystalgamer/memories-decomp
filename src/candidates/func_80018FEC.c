@@ -53,6 +53,7 @@
 #include "../unmatched.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
+#include "../game/model.h"
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
 
@@ -216,7 +217,7 @@ next_obj:
         return;
     }
     func_800156DC();
-    D_800EF658[0] = 0x309;
+    D_800EF658[0] = MODEL_SPECIAL_BATTLE_ID;
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
     D_800E9FF0[(u8)side].rank.result_adjustment = 0x28;

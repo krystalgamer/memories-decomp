@@ -437,7 +437,12 @@ typedef struct DuelEffectChannel {
     u8 pad_0B;
     u16 field_0C;
     u16 field_0E;
-    u8 pad_10[3];
+    /* The object's slot in the D_800EAF08 occupancy table and the byte
+       beside it; func_80039AD4 clears D_800EAF08[field_10] and zeroes
+       field_11 when it releases the slot. */
+    u8 field_10;
+    u8 field_11;
+    u8 pad_12;
     u8 field_13;
     u8 field_14;
     u8 field_15;
@@ -1078,13 +1083,17 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
-/* Display-object script state shared by the five handlers at 0x8004141C.
+/* Display-object script state shared by the seven D_80090FEC handlers,
+   func_8004141C through func_80041534.
    The two pointers delimit the script buffer and the trailing halfwords are
    handler status fields. */
 typedef struct {
     u8 pad_00[4];
     u32 flags;
-    u8 pad_08[0x48];
+    u8 pad_08[0x44];
+    /* func_80041C8C points this at the current opcode's operand target:
+       base plus the little-endian halfword that follows the opcode. */
+    u8 *field_4C;
     u8 *current;
     u8 *base;
     s16 field_58;
@@ -1093,6 +1102,9 @@ typedef struct {
 
 typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_4C_offset_must_be_0x4C[
+    (u32)&((DisplayObjectStreamState *)0)->field_4C == 0x4C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
     (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1

@@ -19,6 +19,7 @@
 #include "graphics_frame_buffer.h"
 #include "main_frame.h"
 #include "input.h"
+#include "model.h"
 #include "rand_constants.h"
 #include "main_services.h"
 
@@ -132,7 +133,7 @@ next:
     InitGeom();
     GsInit3D();
     GsSetOrign(0, 0);
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     Input_InitPads();
     MemCardInit(1);
     File_SetPositionTable();

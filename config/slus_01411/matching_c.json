@@ -262,7 +262,7 @@
       "address": "0x800151B0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_800151B0.c"
+      "source": "src/game/fade_init.c"
     },
     {
       "address": "0x800151D8",
@@ -2050,37 +2050,37 @@
       "address": "0x80030D5C",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD4",
-      "source": "src/game/frontend_scene_state_80030d5c.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030E30",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030E7C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030EC8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030F40",
       "profile": "gcc_2_8_1_g8",
       "size": "0x40",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
-      "source": "src/game/func_80030E30.c"
+      "source": "src/game/frontend_scene_states.c"
     },
     {
       "address": "0x80030FA0",
@@ -2176,13 +2176,13 @@
       "address": "0x80031EE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/game/func_80031EE4.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x80031F7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/game/func_80031F7C.c"
+      "source": "src/game/build_deck_card_counts.c"
     },
     {
       "address": "0x8003201C",
@@ -3881,6 +3881,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
       "source": "src/game/display_object_helpers.c"
+    },
+    {
+      "address": "0x80042C08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x570",
+      "source": "src/game/func_80042C08.c"
     },
     {
       "address": "0x80043178",
@@ -6091,6 +6097,12 @@
       "source": "src/game/triangle_subdivision.c"
     },
     {
+      "address": "0x8006C37C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x9FC",
+      "source": "src/game/func_8006C37C.c"
+    },
+    {
       "address": "0x8007058C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x20",
@@ -6286,13 +6298,13 @@
       "address": "0x8007149C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/game/ai_script_load_deck_size.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x80071510",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_selection_random.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x8007154C",
@@ -6346,13 +6358,13 @@
       "address": "0x80071CB0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x208",
-      "source": "src/game/ai_script_find_defense_stopper.c"
+      "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80071EB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/game/ai_script_count_cards.c"
+      "source": "src/game/ai_script_find_card.c"
     },
     {
       "address": "0x80071FC8",

@@ -11,6 +11,7 @@
 #include "location_marker.h"
 #include "../../game/campaign_flags.h"
 #include "../../game/model_slot_setup.h"
+#include "../../game/model.h"
 #include "../../game/model_scene_setup.h"
 #include "../../game/display_object_core.h"
 #include "../../psyq/libgte.h"
@@ -23,6 +24,7 @@
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
 #include "../../game/display_object_interpolation.h"
+#include "../../game/func_80042C08.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
 #include "../../game/view_state.h"
@@ -131,8 +133,8 @@ void CampaignMap_ResetCamera(void)
     camera->field_0C = 0;
     camera->view.rz = 0;
     camera->view.super = 0;
-    camera->projection = 0x12C;
-    GsSetProjection(0x12C);
+    camera->projection = MODEL_DEFAULT_PROJECTION;
+    GsSetProjection(MODEL_DEFAULT_PROJECTION);
     *(s32 *)(matrix + 0x0C) = 0;
     camera->field_06 = 0;
     *(s32 *)(matrix + 0x10) = 0;

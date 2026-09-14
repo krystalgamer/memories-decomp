@@ -4,7 +4,7 @@
 
 void func_80039AD4(DuelEffectChannel *object)
 {
-    D_800EAF08[((u8 *)object)[0x10]] = 0;
-    ((u8 *)object)[0x11] = 0;
+    D_800EAF08[object->field_10] = 0;
+    object->field_11 = 0;
     D_8009B330 = 1;
 }

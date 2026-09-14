@@ -146,7 +146,7 @@ extern s16 D_8009B22A;
 extern u8 *D_8009B22C;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
- * MainMenu_StartValueSetup's `toggle` parameter (entrypoints.h declares
+ * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
  * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
  * D_8009B360 and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
@@ -171,7 +171,7 @@ extern u16 D_8009B230;
 
 /* The two halfwords Main_RunTwoPlayerDuelSetup stores DUEL_STARTING_LIFE_POINTS into
  * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
- * as `first` and `second`, both declared `u16 *` in entrypoints.h -- that
+ * as `first` and `second`, both declared `u16 *` in value_setup.h -- that
  * signature is
  * what fixes the type, and func_800175A0's lhu of each
  * (func_800175A0.s:11-12) agrees. func_800175A0 copies them into `sp[0]`
@@ -267,7 +267,7 @@ extern u8 D_8009B362;
  * it. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp,
- * so func_80030E30.c, main_run_two_player_duel_setup.c and
+ * so frontend_scene_states.c, main_run_two_player_duel_setup.c and
  * src/game/main_run_duel.c -- units that reach other symbols through
  * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
  * overlay's screen_runtime.c compile with nothing in small data and take
@@ -310,7 +310,7 @@ extern u8 D_8009B369;
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
- * so duel_phase_entry.c and func_80030E30.c define
+ * so duel_phase_entry.c and frontend_scene_states.c define
  * the .data arm below; func_80024DC8.c and src/candidates/func_80038530.c
  * compile with nothing in small data and take the plain arm. */
 #ifdef D_8009B36A_IN_DATA

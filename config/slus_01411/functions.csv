@@ -46,7 +46,7 @@ address,size,name,status,module,notes
 0x80015038,0x40,func_80015038,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015078,0xC4,File_RequestSecondaryAsyncTransfer,matching_c,game,Exact post-terminal pure-C match from volatile D_8009B0F4 declaration evidence; initializes the secondary D_800E9E18 descriptor and marks its active bit.
 0x8001513C,0x74,func_8001513C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x800151B0,0x28,func_800151B0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800151B0,0x28,Fade_Init,matching_c,game,"Boot-time reset of gFade_State from Main_Init: no transition active, level and target 0, step 8, white latch D_8009B145 cleared. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x800151D8,0x138,Fade_StepBands,matching_c,game,"Exact pure-C match: the existing .data declaration arm gives D_8009B0D8 its retail absolute addressing, while volatile-qualified reads preserve the two load positions under gcc_2_8_1_g8_split."
 0x80015310,0x1D4,Fade_Update,matching_c,game,"Exact pure-C match: D_8009B0D8 uses the existing .data declaration arm and a volatile-qualified read, reproducing the mixed-threshold instruction without a mixed compiler/assembler profile."
 0x800154E4,0x1D4,Fade_DrawOverlay,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
@@ -136,7 +136,7 @@ address,size,name,status,module,notes
 0x8001B938,0x1B8,func_8001B938,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8001BAF0,0x258,func_8001BAF0,matching_c,game,"Pure-C reclassification match for issue #5: a goto slot search inside a one-pass do/while, integer-added order and card-record bases, the deck base formed below gDuel_aActiveCards, and the dead selection value reused as the swap temporary give the retail loop placement and register roles. Exact 600-byte text and relocations under gcc_2_8_1_g8_split without register pins or inline assembly."
 0x8001BD48,0x40,Duel_CheckQuitInput,matching_c,game,Checks Select only in the two-player duel path and arms gDuel_bQuitDialogState when a player requests the QUIT DUEL dialog. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8001BD88,0x14B8,DuelScene_UpdateHandActions,unmatched_asm,game,"Duel scene-state 4: human hand navigation, inspection, card play, and transitions into placement or card-effect presentation."
+0x8001BD88,0x14B8,DuelScene_UpdateHandActions,unmatched_asm,game,"Duel scene-state 4: human hand navigation, inspection, card play, and transitions into placement or card-effect presentation. Build-integrated candidate in src/candidates/func_8001BD88.c with target src/candidates_target/func_8001BD88.S; profile gcc_2_8_1_g8_split, 1313 instructions against 1326, opcode distance 35, with no hard register assignments and no inline assembly. Key levers are the .data views of the pad words, card viewer bytes, effect state and AI selection flag, a volatile repeat word with per-site volatile pressed re-reads, separately materialised 0x48000 card-bank offsets, and the confirmation block placed in state 4. Residual: retail saves one more callee-saved register and keeps the selection table base in $s0; see the source comment and config/slus_01411/candidates.json."
 0x8001D240,0x104,func_8001D240,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8001D344,0x80,func_8001D344,matching_c,game,Exact post-terminal match from the three-channel nested clamp loop shape.
 0x8001D3C4,0x154,func_8001D3C4,matching_c,game,Pure-C inline refinement matched the full executable.
@@ -262,7 +262,7 @@ address,size,name,status,module,notes
 0x8002A788,0x238,func_8002A788,matching_c,game,"Pure C under uniform G8: shared state-argument call view, canonical signed grid positions, absolute volatile held-input reads and wrap-delay control flow recover 568 bytes without pins or inline assembly; historical attempts preserved."
 0x8002A9C0,0x1F4,func_8002A9C0,matching_c,game,Exact pure C from target-ordered scratchpad pointer initialization
 0x8002ABB4,0xF0,func_8002ABB4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8002ACA4,0xDFC,func_8002ACA4,unmatched_asm,game,
+0x8002ACA4,0xDFC,func_8002ACA4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_8002ACA4.c with target src/candidates_target/func_8002ACA4.S; profile gcc_2_8_1_g0_split, 892 instructions against 895, opcode distance 7, with no hard register assignments and no inline assembly. Library screen state 2: opens the card view, slides the model and text box in, rotates the model light with the view angle and walks the close sequence back to the grid. Key levers are the shared settle/slide/show tail of the two slide states, signed state-7 reads, the named (s8) fade test, the view pointer in the entry block and one name per arm. Residual: census addiu -1, addu +2, lui -1, nop -3; see the source comment and config/slus_01411/candidates.json."
 0x8002BAA0,0xC,func_8002BAA0,matching_c,game,Byte store of one matched first variant.
 0x8002BAAC,0x8,func_8002BAAC,matching_c,game,Empty pointer-parameter function matched first variant.
 0x8002BAB4,0x258,func_8002BAB4,matching_c,game,Pure-C uniform-profile match; splitting the absolute-value quotient and increment lets GCC allocate the retail result register without a hard-register binding.
@@ -418,7 +418,7 @@ address,size,name,status,module,notes
 0x800357E8,0xB8,Text_EncodeDecimalDigits,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800358A0,0x5C,Text_EncodeDecimalNoPadding,matching_c,game,Post-terminal pure-C match; unconditional scan decrement reproduces the retail backward-branch delay slot.
 0x800358FC,0x50,Rand_GetInterval,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8003594C,0x64,func_8003594C,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x8003594C,0x64,Movie_Play,matching_c,game,"Starts non-blocking playback of one MOVIE.STR entry: waits for file transfers, sets the CD mix to 0xFF, raises D_8009B318 bit 0x80 and D_8009B0F4 bit 0x02000000, then requests the whole stream through func_8005C388. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
 0x800359B0,0xA8,func_800359B0,matching_c,game,Reference structure independently verified; aggregate globals and a same-address status alias preserve exact retail address materialization and scheduling.
 0x80035A58,0xC,Movie_ResetPlaybackState,matching_c,game,"Clears the movie playback-control byte D_8009B318 (0x80 playing, 0x40 skip latched); Main_Init calls it once at boot. First -O2 -G8 global-byte assignment candidate matched."
 0x80035A64,0x54,func_80035A64,matching_c,game,"Pure-C exact match: moving the loop decrement into the condition keeps all four channel-reset stores ahead of it, eliminating both compiler barriers while preserving the retail schedule."
@@ -432,7 +432,7 @@ address,size,name,status,module,notes
 0x80035D10,0xA8,func_80035D10,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80035DB8,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80035DF4,0x2C,DuelEffect_ResetEntryMarkers,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80035E20,0xDAC,func_80035E20,unmatched_asm,game,
+0x80035E20,0xDAC,func_80035E20,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80035E20.c with target src/candidates_target/func_80035E20.S; profile gcc_2_8_1_g8_split_no_strength_reduce, 875 instructions against 875 with an empty opcode census, with no hard register assignments and no inline assembly. Residual: the target splits the lui/ori pair of one $s6 constant across 23 instructions and loads the +0x66 byte after a neighbouring store; see the source comment and config/slus_01411/candidates.json."
 0x80036BCC,0x48,func_80036BCC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80036C14,0x128,func_80036C14,matching_c,game,Exact post-terminal collaborator-derived match for the effect command builder using split-address generation.
 0x80036D3C,0x34,func_80036D3C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -673,7 +673,7 @@ address,size,name,status,module,notes
 0x80042B40,0x58,func_80042B40,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. The required split-profile pool query now sits between the generic helpers and lifecycle callbacks.
 0x80042B98,0x28,func_80042B98,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8. The two-function lifecycle object is byte-identical under g8_split.
 0x80042BC0,0x48,func_80042BC0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80042C08,0x570,func_80042C08,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80042C08.c with target src/candidates_target/func_80042C08.S; profile gcc_2_8_1_g8, 344/348 instructions, opcode distance 4. The scratchpad Gouraud-burst builder has 87 exact leading instructions, the retail 0x58 frame, all seven spill slots and every register role. Residual: one &poly[3] addiu, one &poly[5] saved-register copy and two nops. Five named quad pointers and two alternating load temporaries are required; pinning &poly[5] to $30 miscompiles. See the source comment."
+0x80042C08,0x570,func_80042C08,matching_c,game,"Elliptical spotlight mask callback installed in a display object's field_4C by dialog_transition.c and the overworld's set_location.c: eight scratchpad POLY_G4 quads, a black-to-white inner ring and a white outer ring, swept a sixteenth turn per pass and linked through func_8005B260. Pure-C match for issue #16 in src/game/func_80042C08.c under uniform gcc_2_8_1_g8_split (also byte-identical under gcc_2_8_1_g8); the vertex stores are chained assignments on one POLY_G4 base, which gives retail's per-chain value registers and its compiler-made quad address pseudos."
 0x80043178,0x14,DisplayObject_SavePosition,matching_c,game,Saves the live output x/y pair into the interpolation source pair; grouped with the two contiguous position interpolators at gcc_2_8_1_g0.
 0x8004318C,0xA4,DisplayObject_InterpolatePositionCosine,matching_c,game,Cosine interpolation from the saved position to the caller target through their midpoint; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80043230,0xF8,Widget_SlideSine,matching_c,game,Signed-phase sine slide used by dialog and widget enter/leave callbacks; external IDB identity agrees with the matching body and callers.
@@ -810,7 +810,7 @@ address,size,name,status,module,notes
 0x80049920,0x144,func_80049920,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
 0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049AF4,0xB8,SD_PlaySequence,matching_c,game,"Starts the staged secondary sequence playing or paused. Pure-C reclassification match: u8 shared literal plus unsigned halfword mode normalization reproduce register allocation without a pin. Uses canonical no-argument sequence-start API; guard, rewind and mode updates remain exact. 184-byte text/relocations under gcc_2_8_1_g0; old evidence preserved (issue #5)."
-0x80049BAC,0x94,func_80049BAC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80049BAC,0x94,SD_PlaySequenceFastForward,matching_c,game,Starts the staged secondary sequence playing and fast-forwards it to a target read address. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,func_80049C40,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CB0,0x48,func_80049CB0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CF8,0xE0,func_80049CF8,matching_c,game,Exact 56-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value prevents mask hoisting; counter and state/count scopes preserve allocation and load order. Shared state/SDK layouts and state-relative field offsets replace six pins and three assembly statements. Matching rationale is in the source comment.
@@ -880,7 +880,7 @@ address,size,name,status,module,notes
 0x800507D0,0x754,func_800507D0,matching_c,game,"Exact ordinary-C two-model scene update: state/tail layout, byte frame remainder, retained color/model-base lifetimes and in-place random remainders reproduce1876 instruction bytes plus44 private table bytes. Real A4-A7 backing and canonical caller/storage/import views preserve the observed ABI. Formatting-only policy refinement retains the original exact snapshot; no register pins or executable assembly."
 0x80050F24,0x148,func_80050F24,matching_c,game,"Model slot cue request: scales the field_750 duration by 2/3, clamps it to 60, and lets the 0xCF8 block override it"
 0x8005106C,0x2E4,func_8005106C,matching_c,game,"Per-frame model animation sound and debug tick: advances the animation counter, prints the current value when the slot is showing, and walks the slot's sound entries"
-0x80051350,0x6F8,func_80051350,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80051350.c with target src/candidates_target/func_80051350.S; profile gcc_2_8_1_g8_split, 450 instructions against 446, opcode distance 18, 350 differing positions, with no hard register assignments. The recursive separation step computes paired extents and projected distance, pushes D_800F56F0 when records overlap, and retries to depth three. Key levers are the complete vector block, inverted negation guard, scalar clamp temporary, and shared two-word Pair assignment. Residual: six surplus nops, five missing moves, and isolated scheduling/allocation differences; addressing matches. See the source comment, config/slus_01411/candidates.json, and notes/research/func-80051350-decode.md."
+0x80051350,0x6F8,func_80051350,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80051350.c with target src/candidates_target/func_80051350.S; profile gcc_2_8_1_g8_split, 444 instructions against 446, opcode distance 4, with no hard register assignments or inline assembly. The recursive separation step computes paired extents and projected distance, pushes D_800F56F0 when records overlap, and retries to depth three. Key levers are the complete vector block, inverted negation guard, scalar clamp temporary, shared two-word Pair assignment, the push sign test written sd < 0 first, moved borrowed as the value of the last clamp, and a volatile hits counter. Residual: in the moved != 0 dispatch moved sits in $fp with the opposite branch polarity where the target uses $s1, plus one missing register copy, one missing lw, one missing nop and one extra jump; addressing matches. See the source comment, config/slus_01411/candidates.json, and notes/research/func-80051350-decode.md."
 0x80051A48,0xAE0,func_80051A48,matching_c,game,Pure C camera move/follow controller; exact 2784-byte GCC 2.8.1/MASPSX 2.81 match with canonical camera/model/key ownership and retained fifth orbit argument. Bounded behavior and ownership witnesses accompany the promotion.
 0x80052528,0x16C,func_80052528,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80052694,0x218,func_80052694,matching_c,game,Matched from newer collaborator evidence with corrected pointer-object and halfword declaration shapes.
@@ -890,7 +890,7 @@ address,size,name,status,module,notes
 0x80053248,0x190,Model_SetSlotProperties,matching_c,game,"Variadic model-slot property setter. void Model_SetSlotProperties(s32 idx, ...) consumes five s32 properties for slots 0 and 1 but only one for slot 2. Negative properties leave the corresponding fields unchanged: the first writes ModelSlot.field_DF8 and D_8009B488[idx]; slots 0 and 1 also write field_DFA, field_DFC, field_DFE with D_8009B48E[idx] and field_DFF with D_8009B490[idx], the last two as booleans. The idx >= 2 arm instead points D_8009AF88 at D_80091008 + 0xB2 * D_800F5678[0]. Only indices 0 through 2 are supported by the slot array; there is no bounds check. Always sets D_8009AF94 to 15. High-confidence name from matching C and callers at 0x8002D180 and 0x800534B8; individual property meanings remain uncertain."
 0x800533D8,0xE0,func_800533D8,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800534B8,0xBFC,func_800534B8,matching_c,game,"Pure C model-debug load/input controller; exact 3068-byte match plus four-byte D_8009B004 backing, canonical model/input/SDK ownership and measured slot-property arity."
-0x800540B4,0x1634,func_800540B4,unmatched_asm,game,
+0x800540B4,0x1634,func_800540B4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_800540B4.c with target src/candidates_target/func_800540B4.S; profile gcc_2_8_1_g8_split, 1419 instructions against 1421, opcode distance 82, with no hard register assignments and no inline assembly. Per-slot model draw pass: ordering table and lights, colour fade into the shared primitive templates, unit sort, bounding volume, ground shadow fan and palette flash. Structural candidate: control flow, call sequence and store set are in place; register and stack-slot assignment are not. Key levers are the %hi/%lo ordering-table views, the unmasked fade-complete word compare, signed CF8 offset bytes and the GsCOORDUNIT pointer difference for the part index. See the source comment and config/slus_01411/candidates.json."
 0x800556E8,0x2EC,func_800556E8,matching_c,game,"OR-condition handoff with a limit local, mirrored clamps with separate temporaries, guarded do-while part loop"
 0x800559D4,0x748,func_800559D4,matching_c,game,"Exact 1864-byte C controller plus 24-byte switch table with uniform G8 split: scoped address captures, signed cursors and separate phase values preserve module callbacks, animation transitions and sound gating. Verified field/helper contracts; historical attempts retained."
 0x8005611C,0x134,func_8005611C,matching_c,game,"Exact post-terminal match from updated collaborator source: named 0x1000 stores, loop cursor, and stored-one lifetime reproduce linked bytes and relocations."
@@ -1002,7 +1002,7 @@ address,size,name,status,module,notes
 0x8005C530,0x38,Movie_StepPlayback,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0; decodes and presents one frame and tears the stream down when completion is reported.
 0x8005C568,0x5C,Movie_MoveDisplayImage,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0; waits for the GPU and moves the current display rectangle by the requested offset.
 0x8005C5C4,0x10,Movie_StartFadeOut,matching_c,game,"Sets D_8009B064 so the movie player fades the stream's CD audio out by 0x40 per frame and then reports completion; the START skip in func_800359B0 is the only caller. 1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation."
-0x8005C5D4,0x58,func_8005C5D4,matching_c,game,"Timeout wait on the D_8009B062 flag; counter starts at 0x800000 with the first decrement peeled before the loop, calls func_8008FBE0(1) if it expires, and clears the flag on every path."
+0x8005C5D4,0x58,Movie_WaitFrameDecoded,matching_c,game,"Waits for the DecDCTout callback to mark the movie frame decoded. Timeout wait on the D_8009B062 flag; counter starts at 0x800000 with the first decrement peeled before the loop, calls DecDCTReset(1) if it expires, and clears the flag on every path."
 0x8005C62C,0x64,func_8005C62C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8005C690,0x10,func_8005C690,matching_c,game,1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation.
 0x8005C6A0,0xC8,func_8005C6A0,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
@@ -1117,9 +1117,9 @@ address,size,name,status,module,notes
 0x8006C2FC,0x10,func_8006C2FC,matching_c,game,1 pre-policy variants: Three byte stores through the output pointer matched including the return delay slot.
 0x8006C30C,0x24,func_8006C30C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C330,0x4C,func_8006C330,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8006C37C,0x9FC,func_8006C37C,unmatched_asm,game,
+0x8006C37C,0x9FC,func_8006C37C,matching_c,game,Draws the 67-point disc effect from the D_800114E8 handler table; pure C under gcc_2_8_1_g8_split
 0x8006CD78,0x243C,func_8006CD78,unmatched_asm,game,
-0x8006F1B4,0x13D8,func_8006F1B4,unmatched_asm,game,
+0x8006F1B4,0x13D8,func_8006F1B4,unmatched_asm,game,"Spark-burst model effect, the fourth handler in D_800114E8. Build-integrated candidate in src/candidates/func_8006F1B4.c with target src/candidates_target/func_8006F1B4.S; profile gcc_2_8_1_g8_split, 1264 instructions against 1270, opcode distance 6, with no hard register assignments and no inline assembly. Its particle state type is ModelSparkEffect in src/game/model_spark_effect.h. Key levers are guarded do/while draw loops, byte-offset and cursor sums over the effect, packet pointers, per-arm colour fade stores and a halfword dust-frame read. Residual: census addu -6, register copies retail keeps and gcc folds; see the source comment and config/slus_01411/candidates.json."
 0x8007058C,0x20,AiScript_ReadByte,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800705AC,0x2C,AiScript_ReadShort,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800705D8,0x78,AiScript_Init,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
@@ -1227,7 +1227,7 @@ address,size,name,status,module,notes
 0x80073A54,0x34,StopRCnt,sdk_asm,psyq/sdk,Identified at offset 0x104 of the unique Psy-Q 4.6 LIBAPI.LIB/COUNTER.OBJ signature.
 0x80073A88,0x34,ResetRCnt,sdk_asm,psyq/sdk,Identified at offset 0x138 of the unique Psy-Q 4.6 LIBAPI.LIB/COUNTER.OBJ signature.
 0x80073AC0,0x19C,firstfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 firstfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
-0x80073C5C,0x100,func_80073C5C,sdk_asm,psyq/sdk,
+0x80073C5C,0x100,_first_patch,sdk_asm,psyq/sdk,"Private FIRST.OBJ one-shot device-handler patch; byte-for-byte identical 0x100-byte body and boundary in the independent NFS High Stakes reconstruction, whose recovered Psy-Q declaration and object source both preserve the _first_patch symbol."
 0x80073D60,0x1C,firstfile2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A66.OBJ signature.
 0x80073D7C,0x10,ReadInitPadFlag,sdk_asm,psyq/sdk,Identified at offset 0xC of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.
 0x80073D8C,0x90,PAD_init,sdk_asm,psyq/sdk,Identified at offset 0x1C of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.
@@ -1394,21 +1394,21 @@ address,size,name,status,module,notes
 0x8007BF50,0x10,DS_status,sdk_asm,psyq/sdk,
 0x8007BF60,0x10,DS_shell_open,sdk_asm,psyq/sdk,
 0x8007BF70,0x40,DS_cw_system,sdk_asm,psyq/sdk,
-0x8007BFB0,0x1D8,func_8007BFB0,sdk_asm,psyq/sdk,
-0x8007C188,0x2D0,func_8007C188,sdk_asm,psyq/sdk,
+0x8007BFB0,0x1D8,DS_cw_root,sdk_asm,psyq/sdk,"Private DSSYS_1 command root; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve the name/order, while the patched object shows it is the shared target of DS_cw and DS_cw_system."
+0x8007C188,0x2D0,DS_vsync_system,sdk_asm,psyq/sdk,"Private DSSYS_1 VSync runtime; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve the identity, and DS_init installs this exact address through VSyncCallbacks."
 0x8007C458,0x88,func_8007C458,sdk_asm,psyq/sdk,
-0x8007C4E0,0x110,func_8007C4E0,sdk_asm,psyq/sdk,
-0x8007C5F0,0x1E4,func_8007C5F0,sdk_asm,psyq/sdk,
-0x8007C7D4,0x288,func_8007C7D4,sdk_asm,psyq/sdk,
-0x8007CA5C,0xEC,func_8007CA5C,sdk_asm,psyq/sdk,
-0x8007CB48,0x94,func_8007CB48,sdk_asm,psyq/sdk,
-0x8007CBDC,0xB0,func_8007CBDC,sdk_asm,psyq/sdk,
+0x8007C4E0,0x110,DS_sync_system,sdk_asm,psyq/sdk,"Private DSSYS_1 synchronization dispatcher; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, with DS_init installing this address as the CD sync callback."
+0x8007C5F0,0x1E4,DS_sync_for_user,sdk_asm,psyq/sdk,"Private DSSYS_1 user-command synchronization path; stable position immediately after DS_sync_system in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, and selected first by the patched dispatcher."
+0x8007C7D4,0x288,DS_sync_for_system,sdk_asm,psyq/sdk,"Private DSSYS_1 system-command synchronization path; stable position between the user and void handlers in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007CA5C,0xEC,DS_sync_for_void,sdk_asm,psyq/sdk,"Private DSSYS_1 void-command synchronization path; stable position after the user/system handlers in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007CB48,0x94,DS_ready_system,sdk_asm,psyq/sdk,"Private DSSYS_1 ready-event dispatcher; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, with DS_init installing this exact address as the CD ready callback."
+0x8007CBDC,0xB0,DS_scan_result,sdk_asm,psyq/sdk,"Private DSSYS_1 result scanner; stable final pre-DS_stop identity in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, and shared by the patched sync/ready dispatchers before rescpy."
 0x8007CC8C,0x78,DS_stop,sdk_asm,psyq/sdk,
 0x8007CD04,0x10,DS_restart,sdk_asm,psyq/sdk,
 0x8007CD14,0x10,DS_system_active,sdk_asm,psyq/sdk,
 0x8007CD24,0x48,parcpy,sdk_asm,psyq/sdk,
 0x8007CD6C,0x48,rescpy,sdk_asm,psyq/sdk,
-0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Identified from the libcd.h CdlATV contract, both matching game callers, notes/psyq.md, and the Unchiga symbol map; the same SDK entry may also be exported as DsMix."
+0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Retained project alias: callers use a four-byte packet compatible with both CdlATV and DslATV; identical permitted signatures do not resolve CdMix versus DsMix."
 0x8007CDE0,0x130,DsRead,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007CF10,0x34,DS_read_cbsync,sdk_asm,psyq/sdk,"Private DSREAD command-completion callback; the name and position immediately after DsRead are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, while the exact 4.6 body starts the ready system on completion event 2."
 0x8007CF44,0x178,DS_read_cbready,sdk_asm,psyq/sdk,"Private DSREAD ready callback; the name and order are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, and the exact 4.6 body advances the read transfer and dispatches its completion callback."
@@ -1435,10 +1435,10 @@ address,size,name,status,module,notes
 0x8007E258,0x30,func_8007E258,sdk_asm,psyq/sdk,
 0x8007E288,0x10,ER_active,sdk_asm,psyq/sdk,
 0x8007E298,0x50,ER_clear,sdk_asm,psyq/sdk,
-0x8007E2F0,0x24,func_8007E2F0,sdk_asm,psyq/sdk,
-0x8007E320,0x24,func_8007E320,sdk_asm,psyq/sdk,
+0x8007E2F0,0x24,DS_sync,sdk_asm,psyq/sdk,"Private LIBDS wrapper preserved in the 4.6/4.7 D1_001.OBJ catalogues and the independent Unchiga map; passes mode 1 and the caller's result buffer directly to CD_sync."
+0x8007E320,0x24,DS_ready,sdk_asm,psyq/sdk,"Private LIBDS wrapper preserved in the 4.6/4.7 D1_002.OBJ catalogues; passes mode 1 and the caller's result buffer directly to CD_ready, distinguishing it from DS_sync."
 0x8007E350,0x20,CdFlush,sdk_asm,psyq/sdk,
-0x8007E370,0x20,func_8007E370,sdk_asm,psyq/sdk,
+0x8007E370,0x20,DsShellOpen,sdk_asm,psyq/sdk,"Public LIBDS wrapper preserved as D2_003.OBJ in the 4.6/4.7 catalogues; its sole call targets the confirmed private DS_shell_open state accessor."
 0x8007E390,0x38,DsFlush,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBDS.LIB/D2_005.OBJ signature.
 0x8007E3D0,0x20,CdGetSector,sdk_asm,psyq/sdk,
 0x8007E3F0,0x100,CD_getsector,sdk_asm,psyq/sdk,
@@ -1670,7 +1670,7 @@ address,size,name,status,module,notes
 0x8008A4A0,0x2B8,GsGetLwUnit,sdk_asm,psyq/sdk,
 0x8008A760,0x2C8,GsGetLsUnit,sdk_asm,psyq/sdk,
 0x8008AA30,0x314,GsGetLwsUnit,sdk_asm,psyq/sdk,
-0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_131.OBJ signature and matching camera-state callers.
+0x8008AD50,0x3D0,GsSetRefView2,sdk_asm,psyq/sdk,Retained project alias: callers use the shared 32-byte view layout; identical GS_131/RVWUNIT signatures do not resolve GsSetRefView2 versus GsSetRefViewUnit.
 0x8008B120,0xEC,scale_view_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT view scaler; PsyZ names it in both object variants, independent Psy-Q-derived maps preserve its first-helper position, and recovered HMD SDK source contains the same static helper."
 0x8008B20C,0xC8,select_max_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT parameter selector; PsyZ names it in both object variants and independent maps preserve its ordering between scale_view_param and len_param."
 0x8008B2D4,0x1C,len_param,sdk_asm,psyq/sdk,"Private GS_131/RVWUNIT vector-length helper; PsyZ and independent maps preserve its final-helper position immediately after select_max_param."

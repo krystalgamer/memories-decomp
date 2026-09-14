@@ -4,6 +4,7 @@
 #include "duel_side_state.h"
 #include "display_object.h"
 #include "display_projection.h"
+#include "model.h"
 #include "screen_projection.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -15,7 +16,7 @@
 
 void func_80015D18(DisplayObject *object)
 {
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     SetGeomOffset(0xA0, 0x6C);
     GsSetLsMatrix(&D_800FE148);
     {

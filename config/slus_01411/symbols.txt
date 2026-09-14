@@ -18,6 +18,7 @@ Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
 Duel_DrawLifePointsAndDeckCounts = 0x80016E70; // type:func
 SD_SetVoiceEnvelopeFromTone = 0x8004A6F8; // type:func
 SD_ResetVoiceEnvelope = 0x8004A764; // type:func
+Movie_Play = 0x8003594C; // type:func
 Movie_StopStream = 0x8005BB7C; // type:func
 Movie_DecodeAndPresentFrame = 0x8005BE3C; // type:func
 Movie_ResetPlaybackState = 0x80035A58; // type:func
@@ -26,6 +27,7 @@ Movie_StartFileStream = 0x8005C464; // type:func
 Movie_StepPlayback = 0x8005C530; // type:func
 Movie_MoveDisplayImage = 0x8005C568; // type:func
 Movie_StartFadeOut = 0x8005C5C4; // type:func
+Movie_WaitFrameDecoded = 0x8005C5D4; // type:func
 
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;
@@ -424,6 +426,7 @@ Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
 File_ActivateTransfer = 0x800143DC; // type:func
 
 // Semantic names
+Fade_Init = 0x800151B0; // type:func
 Fade_StepBands = 0x800151D8; // type:func
 Fade_Update = 0x80015310; // type:func
 Fade_DrawOverlay = 0x800154E4; // type:func
@@ -657,6 +660,7 @@ nextfile = 0x80073920; // type:func
 Krom2RawAdd = 0x80073930; // type:func
 ChangeClearPAD = 0x80073940; // type:func
 firstfile = 0x80073AC0; // type:func
+_first_patch = 0x80073C5C; // type:func
 firstfile2 = 0x80073D60; // type:func
 ReadInitPadFlag = 0x80073D7C; // type:func
 PAD_init = 0x80073D8C; // type:func
@@ -804,6 +808,14 @@ DS_lastread = 0x8007BF40; // type:func
 DS_status = 0x8007BF50; // type:func
 DS_shell_open = 0x8007BF60; // type:func
 DS_cw_system = 0x8007BF70; // type:func
+DS_cw_root = 0x8007BFB0; // type:func
+DS_vsync_system = 0x8007C188; // type:func
+DS_sync_system = 0x8007C4E0; // type:func
+DS_sync_for_user = 0x8007C5F0; // type:func
+DS_sync_for_system = 0x8007C7D4; // type:func
+DS_sync_for_void = 0x8007CA5C; // type:func
+DS_ready_system = 0x8007CB48; // type:func
+DS_scan_result = 0x8007CBDC; // type:func
 DS_stop = 0x8007CC8C; // type:func
 DS_restart = 0x8007CD04; // type:func
 DS_system_active = 0x8007CD14; // type:func
@@ -1108,7 +1120,10 @@ Model_SetSlotProperties = 0x80053248; // type:func
 
 // Semantic names
 CdDataCallback = 0x8007A860; // type:func
+DS_sync = 0x8007E2F0; // type:func
+DS_ready = 0x8007E320; // type:func
 CdFlush = 0x8007E350; // type:func
+DsShellOpen = 0x8007E370; // type:func
 CdGetSector = 0x8007E3D0; // type:func
 CdGetSector2 = 0x8007E4F0; // type:func
 CdControlB = 0x8007E7F0; // type:func
@@ -1295,6 +1310,7 @@ SD_ScaleSequenceDelta = 0x8004C5C8; // type:func
 SD_StartSequenceTracks = 0x8004C77C; // type:func
 SD_GetSequenceStatus = 0x8004CABC; // type:func
 SD_PlaySequence = 0x80049AF4; // type:func
+SD_PlaySequenceFastForward = 0x80049BAC; // type:func
 gDuelEffect_apfnGroupHandler = 0x80090A5C;
 gDuelEffect_abGroupByEffectId = 0x80090AD4;
 gDuelEffect_apfnStateHandler = 0x80090B3C;

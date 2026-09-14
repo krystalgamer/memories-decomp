@@ -135,9 +135,11 @@ were wide, and halfword source loads participate in promoted integer sums.
 Keeping `s32` inputs preserves those expressions without adding caller-side
 sign-extension or truncation. This does not clamp or validate coordinates.
 
-The opaque object parameter is viewed through byte-pointer casts only at
-the two existing stores. No new walking temporary, aggregate layout,
-null check, allocation or rendering submission is introduced. The
+The public parameter stays an opaque `void *`. Inside the function a local
+`DisplayObject *o` views it, and the two stores go through
+`o->field_30.h.field_30` and `o->field_30.h.field_32`. The unchanged
+`object` pointer is what gets forwarded to `func_80040468`. No new aggregate
+layout, null check, allocation or rendering submission is introduced. The
 delegate's existing selector-byte, packed-configuration and flag writes
 are unchanged; parameter names do not establish new artwork identities.
 

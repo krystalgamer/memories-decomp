@@ -71,7 +71,7 @@ s32 Main_Init(void)
     D_8009B0C4 = t;
     func_80013154(p);
     func_800403F0();
-    func_800151B0();
+    Fade_Init();
     func_800134B4();
     Movie_ResetPlaybackState();
     func_80035A64();

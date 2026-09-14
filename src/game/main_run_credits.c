@@ -37,6 +37,7 @@
 #include "data_transfer_request.h"
 #include "func_80039794.h"
 #include "graphics_frame.h"
+#include "model.h"
 #include "model_scene_setup.h"
 #include "model_scene_states.h"
 #include "model_cleanup.h"
@@ -56,7 +57,7 @@ void Main_RunCredits(void)
     s32 phase;
 
     SetGeomOffset(0xA0, 0x78);
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
     mode = D_8009B26C;
     if ((mode & 0x40) == 0) {
