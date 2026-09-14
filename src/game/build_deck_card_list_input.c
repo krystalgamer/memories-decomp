@@ -6,6 +6,7 @@
 #include "../types.h"
 #include "card_type_icon_table.h"
 #include "card_list_text_boxes.h"
+#include "display_object.h"
 #include "card_list_sort.h"
 #include "input.h"
 #include "sound.h"
@@ -39,7 +40,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
         row = (list->first + list->cursor + 1) * 152 /
               list->sort_row_count;
     }
-    *(s16 *)(list->scroll_box + 0x32) = row + 0x29;
+    list->scroll_box->field_30.h.field_32 = row + 0x29;
 
 top:
     if (list->first != list->first_target) {
@@ -81,7 +82,7 @@ top:
     finish:
         if (sel >= 0) {
             list->cursor = sel;
-            *(s16 *)(list->cursor_box + 0x32) = sel * 22 + 0x2A;
+            list->cursor_box->field_30.h.field_32 = sel * 22 + 0x2A;
             SD_SEPlayFull(6);
         }
         return 1;
@@ -133,7 +134,7 @@ top:
                 list->cursor = 0;
             }
         }
-        *(s16 *)(list->cursor_box + 0x32) =
+        list->cursor_box->field_30.h.field_32 =
             list->cursor * 22 + 0x2A;
         if (list->row_count - 8 < row) {
             return 1;
