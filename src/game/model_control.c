@@ -37,8 +37,8 @@ void func_800559D4(s32 index)
     ModelSlot *other;
     ModelControlHandler handler;
     ModelControlHandler primary_handler;
-    u8 *primary = *(u8 **)((u8 *)slot + 0xDE8);
-    u8 *secondary = *(u8 **)((u8 *)slot + 0xDEC);
+    u8 *primary = (u8 *)slot->field_DE8;
+    u8 *secondary = (u8 *)slot->field_DEC;
     u16 *own_stats;
     u16 *other_stats;
     u8 *stats_base;
@@ -54,7 +54,7 @@ void func_800559D4(s32 index)
     if (slot->field_E1F == 0) {
         return;
     }
-    primary_state = *(s32 *)((u8 *)slot + 0xD10);
+    primary_state = ((ModelControlCommandView *)slot)->commands[2];
     D_8009AFA0 = index;
     if (primary_state >= 0) {
         if (index != 0) {
