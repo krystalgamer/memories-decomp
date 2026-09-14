@@ -905,30 +905,24 @@ them agree.
 | `src/game/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `src/game/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
-| `src/game/main_run_duel.c` | `extern u16 D_8009B16C[9]` | 18 | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/main_run_duel.c` | `extern u16 D_8009B16C` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
-The first, second and fourth rows were measured when those functions were
-matching C in `duel_scene_update.c`, `func_800179F4.c` and
-`main_run_duel_and_library.c`; they are candidates now and keep the same
-spellings.
+The scalar `.data` spelling lets Main_RunDuel describe the accessed halfword
+truthfully while retaining the required absolute relocation.
 
 Both translation units in the disagreement compile at `-G8`, so the profile is
-not what separates them; the declared size alone decides, by falling on one
-side or the other of the eight-byte small-data threshold. The `[9]` claims
-eighteen bytes for an eight-byte object, which reads like an error until the
-relocation shows it is doing the same job `options_init.c` once documented
-inline for `gSD_bOutputType` -- oversizing on purpose to force absolute addressing.
+not what separates them. Main_RunDuel's explicit `.data` placement supplies
+the absolute addressing without inventing an oversized array extent.
 
 The `[4]` is load bearing from the other direction, and this one was written
 down: `func_800222F4`, which is `debug_effect_screen.c`, records "small-data
 sized arrays for `D_8009B16C` and `D_8009AF2C`" as the discriminator that
 matched it under `gcc_2_8_1_g8_split`.
 
-That leaves no size to centralize on. Eight bytes is the true extent, but
-eight bytes is still small data, so adopting it would keep the four
-gp-relative consumers correct and break the fifth. Anything above it would
-move all five out of small data. The symbol is a genuine four-arm case, not a
-cleanup target, and the reads confirm the split is meaningful rather than
+That leaves no single unqualified declaration to centralize on: the scalar
+users require both small-data and absolute-address forms, while the byte-view
+consumer has a distinct access width. The symbol is a genuine multi-arm case,
+not a cleanup target, and the reads confirm the split is meaningful rather than
 accidental: the `u16` consumers only ever test bits `0x1000` and `0x2000` at
 offset 0, while `debug_effect_screen.c` only ever touches byte 2.
 

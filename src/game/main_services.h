@@ -74,7 +74,7 @@ extern s32 runtime_gp;
  * Main_RunCampaignMap.
  *
  * A third arm, `u8 D_8009B0A3[9]`, used to serve
- * src/candidates/func_8002CEE8.c. A bound the assembler can see is only
+ * src/game/main_run_duel.c. A bound the assembler can see is only
  * needed where its -G sits below the compiler's, which is what
  * duel_terrain_boost.h records for gDuel_bTerrain's [8] under
  * gcc_2_8_1_cc_g8_as_g4_split; both array consumers here are plain

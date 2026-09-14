@@ -13,9 +13,8 @@ void func_800339D0(BuildDeckTransitionState *record);
  * triangle wave, dispatches D_80090DF8[D_8009B2FC->state & 0x3F] once
  * DuelEffect_UpdateState reports idle, and returns the state word. The exit
  * step above clears that word when it commits the deck, and both callers
- * (Main_RunBuildDeckMenu and Main_RunDuel, both now in src/candidates/)
- * leave the menu when
- * it reads zero. */
+ * (Main_RunBuildDeckMenu and Main_RunDuel) leave the menu when it reads zero.
+ */
 s32 func_80033BE8(void);
 
 #endif

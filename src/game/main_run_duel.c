@@ -4,11 +4,10 @@
 #define D_8009B368_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
-#define D_8009B16C_AS_ABSOLUTE_ARRAY
 #define D_8009B2F8_AS_ABSOLUTE_ARRAY
 #define D_8009B370_AS_ABSOLUTE_ARRAY
 #define GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
-#define GDUEL_BOPPONENT_ID_AS_ABSOLUTE_ARRAY
+#define D_8009B16C_IN_DATA
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
@@ -48,7 +47,7 @@ void Main_RunDuel(void)
     if (!(value & 0x40)) {
         D_8009B26C = value | 0x40;
         D_8009B26E = 1;
-        if (!D_8009B369 && gDuel_bOpponentID[0] >= 0)
+        if (!D_8009B369 && gDuel_bOpponentID >= 0)
             D_8009B26E = 0;
         D_8009B0A3[0] = 10;
         return;
@@ -76,7 +75,7 @@ void Main_RunDuel(void)
             func_800179F4();
         } else {
             DuelScene_UpdateWithSideInput();
-            if (D_8009B16C[0] & 0x2000)
+            if (D_8009B16C & 0x2000)
                 D_8009B26E = 2;
         }
         break;
