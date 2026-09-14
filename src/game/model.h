@@ -608,9 +608,9 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
  *
  *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
  *
- * to reach that field of slot `index`. model_distance_queries.c reads
- * `*(u16 *)(entry + 0)`, `+ 2` and `+ 4` and differences them against
- * D_800F56F0 before SquareRoot0, so the first three halfwords are a position.
+ * to reach that field of slot `index`. model_distance_queries.c reads the
+ * first three halfwords of it and differences them against D_800F56F0
+ * before SquareRoot0, so they are a position.
  *
  * The two names stay separate: all three matched sites reach the field
  * through this symbol, so writing it as an offset from D_800F2C40 would
