@@ -5,6 +5,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/display_object_core.h"
+#include "../../game/display_object.h"
 #include "../../game/main_services.h"
 #include "../../ygo_types.h"
 #include "../../game/card_constants.h"
@@ -28,35 +29,39 @@
 
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
-    u8 *volatile obj[2];
+    DisplayObject *volatile obj[2];
     s32 i;
 
-    obj[0] = D_801845EC[0].object;
-    obj[1] = D_801845EC[1].object;
+    obj[0] = (DisplayObject *)D_801845EC[0].object;
+    obj[1] = (DisplayObject *)D_801845EC[1].object;
 
     if (D_80185CC8 != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
-        obj[0][0xC] = obj[0][0xD] = obj[0][0xE] = 0x40;
-        *(s16 *)(obj[0] + 0x60) = 2;
+        ((u8 *)&obj[0]->field_0C)[0] = ((u8 *)&obj[0]->field_0C)[1] =
+            ((u8 *)&obj[0]->field_0C)[2] = 0x40;
+        obj[0]->field_60 = 2;
     } else {
-        obj[0][0xC] += obj[0][0x60];
-        obj[0][0xD] += obj[0][0x60];
-        obj[0][0xE] += obj[0][0x60];
-        if (obj[0][0xC] < 0x41 || (s8)obj[0][0xC] < 0) {
-            *(s16 *)(obj[0] + 0x60) *= -1;
+        ((u8 *)&obj[0]->field_0C)[0] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->field_0C)[1] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->field_0C)[2] += *(u8 *)&obj[0]->field_60;
+        if (((u8 *)&obj[0]->field_0C)[0] < 0x41 ||
+            (s8)((u8 *)&obj[0]->field_0C)[0] < 0) {
+            obj[0]->field_60 *= -1;
         }
     }
 
     if (D_80185CC9 != 0) {
         MainMenu_DrawTradeColumnOverlay(1);
-        obj[1][0xC] = obj[1][0xD] = obj[1][0xE] = 0x40;
-        *(s16 *)(obj[1] + 0x60) = 2;
+        ((u8 *)&obj[1]->field_0C)[0] = ((u8 *)&obj[1]->field_0C)[1] =
+            ((u8 *)&obj[1]->field_0C)[2] = 0x40;
+        obj[1]->field_60 = 2;
     } else {
-        obj[1][0xC] += obj[1][0x60];
-        obj[1][0xD] += obj[1][0x60];
-        obj[1][0xE] += obj[1][0x60];
-        if (obj[1][0xC] < 0x41 || (s8)obj[1][0xC] < 0) {
-            *(s16 *)(obj[1] + 0x60) *= -1;
+        ((u8 *)&obj[1]->field_0C)[0] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->field_0C)[1] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->field_0C)[2] += *(u8 *)&obj[1]->field_60;
+        if (((u8 *)&obj[1]->field_0C)[0] < 0x41 ||
+            (s8)((u8 *)&obj[1]->field_0C)[0] < 0) {
+            obj[1]->field_60 *= -1;
         }
     }
 
