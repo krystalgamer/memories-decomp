@@ -6,11 +6,13 @@
 --   0x501-0x506 as Simon Muran scenes, but those numeric mappings have not
 --   been measured while the corresponding text is visible.
 --
---   This trace records Text_LookupString calls in the 0x500-0x506 range
---   during a controlled New Game opening. Each unique context includes the
---   caller and main mode. Human context maps the reported ID to the visible
---   introduction, Simon dialogue, choice, duel lead-in, result, or other
---   screen without assuming the community label is correct.
+--   Campaign text boxes resolve their string IDs inline in TextBox_BuildStep;
+--   they do not call Text_LookupString. This trace records the text-box
+--   object's field_36 ID in the 0x500-0x506 range when TextBox_BuildStep
+--   begins. Each unique context includes the object, caller and main mode.
+--   Human context maps the reported ID to the visible introduction, Simon
+--   dialogue, choice, duel lead-in, result, or other screen without assuming
+--   the community label is correct.
 --
 -- HOW TO RUN
 --   1. Open PCSX-Redux at the initial menu with a clean retail executable and
@@ -36,8 +38,8 @@
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'campaign_opening_scene_ids'
-local TEXT_LOOKUP = 0x8003b744
-local TEXT_LOOKUP_ENTRY_WORD = 0x00a03021
+local TEXT_BOX_BUILD_STEP = 0x800393b0
+local TEXT_BOX_BUILD_STEP_ENTRY_WORD = 0x27bdffe0
 local MAIN_MODE = 0x8009b26c
 local FIRST_OPENING_ID = 0x500
 local LAST_OPENING_ID = 0x506
@@ -59,6 +61,10 @@ end
 
 local function u8(addr)
     return tonumber(ffi.cast('uint8_t*', mem + phys(addr))[0])
+end
+
+local function u16(addr)
+    return tonumber(ffi.cast('uint16_t*', mem + phys(addr))[0])
 end
 
 local function u32(addr)
@@ -123,7 +129,7 @@ local function finish(reason)
     print('')
     print('<confirm interpreter CPU, New Game route, entered name, and every')
     print(' choice; for each hit identify the exact visible text or screen and')
-    print(' whether it appeared before, during, or after the reported lookup>')
+    print(' whether it appeared before, during, or after the reported hit>')
     print('')
     print('==== TRACE RESULT =====')
     print('')
@@ -143,9 +149,13 @@ local function finish(reason)
           .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
-local function onLookup()
+local function onTextBoxBuild()
     local regs = PCSX.getRegisters()
-    local id = normalize32(tonumber(regs.GPR.n.a1))
+    local object = normalize32(tonumber(regs.GPR.n.a0))
+    if object < 0x80000000 or object > 0x801fffff then
+        error(string.format('text-box object out of RAM: 0x%08X', object))
+    end
+    local id = u16(object + 0x36)
 
     if id < FIRST_OPENING_ID or id > LAST_OPENING_ID then
         return
@@ -153,7 +163,13 @@ local function onLookup()
 
     local site = callSite(regs)
     local rawMode = u8(MAIN_MODE)
-    local key = string.format('%03X:%08X:%02X', id, site, rawMode)
+    local key = string.format(
+        '%03X:%08X:%08X:%02X',
+        id,
+        object,
+        site,
+        rawMode
+    )
     if seenContexts[key] then
         return
     end
@@ -172,11 +188,12 @@ local function onLookup()
     end
 
     emit(string.format(
-        'hit=%02d frame=%06d id=0x%03X callsite=0x%08X '
+        'hit=%02d frame=%06d id=0x%03X object=0x%08X callsite=0x%08X '
             .. 'mode_raw=0x%02X mode=%02d',
         hits,
         frames,
         id,
+        object,
         site,
         rawMode,
         mainMode()
@@ -210,7 +227,7 @@ local function poll()
         and frames >= NO_HIT_WARNING_FRAMES then
         noHitWarningPrinted = true
         print(SCRIPT_NAME
-            .. ': no opening-scene lookups observed; confirm interpreter CPU '
+            .. ': no opening text-box IDs observed; confirm interpreter CPU '
             .. 'and continue through New Game')
     end
 
@@ -222,28 +239,28 @@ local function poll()
         if hits > 0 then
             finish('timed out after a partial opening-scene trace')
         else
-            finish('timed out without an opening-scene lookup')
+            finish('timed out without an opening text-box ID')
         end
     end
 end
 
-if u32(TEXT_LOOKUP) ~= TEXT_LOOKUP_ENTRY_WORD then
+if u32(TEXT_BOX_BUILD_STEP) ~= TEXT_BOX_BUILD_STEP_ENTRY_WORD then
     print(string.format(
-        '%s: Text_LookupString signature mismatch at 0x%08X: 0x%08X',
+        '%s: TextBox_BuildStep signature mismatch at 0x%08X: 0x%08X',
         SCRIPT_NAME,
-        TEXT_LOOKUP,
-        u32(TEXT_LOOKUP)
+        TEXT_BOX_BUILD_STEP,
+        u32(TEXT_BOX_BUILD_STEP)
     ))
     return
 end
 
 breakpoint_campaign_opening_scene_ids = PCSX.addBreakpoint(
-    TEXT_LOOKUP,
+    TEXT_BOX_BUILD_STEP,
     'Exec',
     4,
-    'Trace campaign opening scene IDs',
+    'Trace campaign opening text-box IDs',
     function()
-        local ok, err = pcall(onLookup)
+        local ok, err = pcall(onTextBoxBuild)
         if not ok then
             callbackError = tostring(err)
         end
@@ -254,7 +271,6 @@ listener_campaign_opening_scene_ids_reset = PCSX.Events.createEventListener(
     'ExecutionFlow::Reset',
     function()
         local ok, err = pcall(function()
-            breakpoint_campaign_opening_scene_ids = nil
             finish('reset observed; rerun the script after reset')
         end)
         if not ok then
