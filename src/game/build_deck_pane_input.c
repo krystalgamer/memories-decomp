@@ -72,20 +72,18 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
 
 void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
 {
-#define p ((u8 *)state)
-    u8 *e;
-    u8 *q;
+    CardList *e;
     s32 r;
     u32 c;
 
-    e = p + (state->pane_index * 0x2D4C + 4);
+    e = &state->lists[state->pane_index];
     func_80032B38(state);
-    if (BuildDeck_UpdateCardListInput((CardList *)e) != 0) {
+    if (BuildDeck_UpdateCardListInput(e) != 0) {
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = BuildDeck_GetActiveCardID((CardList *)e);
+        r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
             gDuel_wViewerCardID = r;
@@ -111,26 +109,24 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         return;
     }
 
-    r = BuildDeck_GetActiveCardID((CardList *)e);
+    r = BuildDeck_GetActiveCardID(e);
     c = 1;
     if ((u32)(r - EXODIA_FIRST_CARD_ID) < EXODIA_PIECE_COUNT) {
-        c = (p + r)[0x5AC4] < c;
+        c = state->deck_card_quantities[r] < c;
     }
 
     if (r != 0 && c != 0) {
-        q = p + r;
-        if (*(s32 *)(p + 0x5AA0) < DECK_SIZE &&
-            q[0x5D97] != 0 &&
-            q[0x5AC4] < DECK_CARD_COPY_LIMIT) {
+        if (state->deck_total < DECK_SIZE &&
+            state->chest_card_quantities[r] != 0 &&
+            state->deck_card_quantities[r] < DECK_CARD_COPY_LIMIT) {
             SD_SEPlayFull(7);
-            BuildDeck_AddCard((s32)p, r);
-            func_80031F7C(p, r);
-            func_80031E5C(p);
+            BuildDeck_AddCard((s32)state, r);
+            func_80031F7C((u8 *)state, r);
+            func_80031E5C((u8 *)state);
             func_80031574(r, 3, 0x18, 0x11C, 0xC);
             return;
         }
     }
 
     SD_SEPlayFull(9);
-#undef p
 }
