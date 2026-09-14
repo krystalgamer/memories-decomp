@@ -1,20 +1,15 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split_no_strength_reduce this
- * source rebuilt the target byte for byte, but only by
- * pinning 1 variable to hard registers and 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800177C4.c.
- */
+/* Volatile scratchpad stores and source reloads preserve retail ordering
+ * around the official Psy-Q RTPS macros. */
 #include "../types.h"
-#include "../game/duel_side_state.h"
+#include "duel_side_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "../game/duel_card.h"
-#include "../game/screen_projection.h"
-#include "../game/view_state.h"
-#include "../game/duel_screen_tables.h"
-
-extern ScreenPair D_800EA070[];
+#include "../psyq/inline_c.h"
+#include "duel_card.h"
+#include "screen_projection.h"
+#include "view_state.h"
+#include "duel_screen_tables.h"
 
 /* Projects the thirty coordinate pairs in D_800908A0 through the GTE, one per
    iteration, and writes the biased screen pairs to D_800EA070. Same scratchpad
@@ -26,9 +21,7 @@ extern ScreenPair D_800EA070[];
 void func_800177C4(void)
 {
     ProjectedPair p;
-    /* $t0 rather than $t1: with both this and pp allocated from the same class
-       the allocator otherwise swaps them, and every scratchpad access differs. */
-    register u8 *pad asm("$8");
+    volatile u8 *pad;
     ProjectedPair *pp;
     ScreenPair *out;
     u16 *src;
@@ -45,21 +38,17 @@ void func_800177C4(void)
     do {
         s32 y;
 
-        __asm__ volatile(
-            "lhu $2, 0(%2)\n"
-            "sh $0, 2(%1)\n"
-            "sh $2, 0(%1)\n"
-            "lhu $2, 2(%2)\n"
-            "nop\n"
-            "sh $2, 4(%1)\n"
-            "lwc2 $0, 0(%1)\n"
-            "lwc2 $1, 4(%1)\n"
-            "nop\n"
-            "nop\n"
-            ".word 0x4A180001\n" /* rtps */
-            "swc2 $14, 0(%3)\n"
-            : "=m"(p) : "r"(pad), "r"(src), "r"(pp) : "$2"
-        );
+        {
+            u16 x = src[0];
+
+            *(volatile s16 *)(pad + 2) = 0;
+            *(volatile u16 *)pad = x;
+            x = *(volatile u16 *)(src + 1);
+            *(volatile u16 *)(pad + 4) = x;
+            gte_ldv0((u8 *)pad);
+            gte_rtps();
+            gte_stsxy(pp);
+        }
         out->x = p.x - 0x1A;
         y = p.y;
         out->y = y - 0x1E;
