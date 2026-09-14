@@ -256,8 +256,8 @@ The controller's bounded workspace, absolute directory view, frame backing,
 and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
 [memory-card-work-controller.md](memory-card-work-controller.md). The request
 prototypes live in `mem_card.h`; event initialization remains in
-`io_event_helpers.h`. Existing driver bodies and poll-candidate code are
-unchanged.
+`io_event_helpers.h`. The grouped driver remains separate from the matching
+request controller in `src/game/func_80044838.c`.
 
 ## Directory enumeration
 
@@ -279,11 +279,14 @@ own name and treats a zero count as the name being free.
 
 ### Shared request and directory contracts
 
-The matching producer in `mem_card_driver.c` and the retained poll candidate
-now consume the request declarations in `mem_card.h`, the directory API in
-`mem_card_directory.h`, and the existing event API in `io_event_helpers.h`.
-This removes eight driver-local globals and fourteen candidate-local globals,
-plus the candidate's three private function prototypes. These are identified
+The matching producer in `mem_card_driver.c` and matching controller in
+`src/game/func_80044838.c` consume the request declarations in `mem_card.h`,
+the directory API in `mem_card_directory.h`, and the existing event API in
+`io_event_helpers.h`.
+The earlier ownership migration removed eight driver-local globals and
+fourteen globals plus three function prototypes from the then-candidate
+controller. The matching source retains those owning-header contracts without
+private declarations. These are identified
 memory-card objects, so their owning headers, not `unmatched.h`, carry the
 contracts.
 
@@ -306,9 +309,9 @@ unsigned loads -- which feed the sector, seek, transfer-size and create-mode
 arguments -- are now the only declaration. `gMemCard_bRequest` is the row that
 did reach one: through the `u8` arm `gMemCard_bRequest = -1;` materialised
 255, where its target has `addiu $v1, $zero, -0x1` before the `sb`, so
-collapsing the guard also moved that candidate one instruction closer. The
+collapsing the guard moved the earlier candidate one instruction closer. The
 five `(s8)` casts the poll needed over the `u8` arm are redundant under `s8`,
-and the candidate object is byte for byte the same without them.
+and removing them preserved that candidate object's bytes at that stage.
 `gMemCard_pRequestBuf` stays an `s32` address, matching the request wrappers'
 integer buffer ABI. Event-handle elements stay `long`, and both asynchronous
 users select the existing volatile result arm. The poll's `D_8009B436`
@@ -336,12 +339,15 @@ not normalized. The low-level wildcard `D_8009AF7C` gains a shared declaration
 consumed by its `.sdata` owner, but keeps its four-byte definition and remains
 distinct from the high-level wildcard `D_8009AF70`.
 
-The poll consumes all seventeen formerly bypassed dependencies directly from
-headers. Its schema-2 private-extern dependency map is consequently empty,
-not disabled; the reviewed aggregate changes, but its object fingerprint
-remains `34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970`.
-No candidate target, profile, measured near-miss result, or assembly fallback
-changes.
+The matching controller consumes all seventeen formerly bypassed dependencies
+directly from headers. Before promotion, that migration emptied the candidate's
+schema-2 private-extern dependency map without disabling it and preserved its
+then-current object fingerprint
+`34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970`.
+That historical declaration-only step did not change the candidate target,
+profile, measured near miss, or assembly fallback. The subsequent matching
+promotion retired that candidate and its fallback; the earlier failed
+measurements remain historical evidence.
 
 ## Save payload staging
 
