@@ -57,27 +57,28 @@ void func_80031EE4(u8 *base, s32 index)
 
 void func_80031F7C(u8 *state, s32 id)
 {
-    s32 count = (state + id)[0x5D97];
+    s32 count = ((BuildDeckTransitionState *)state)->chest_card_quantities[id];
 
     if (count != 0) {
         count--;
         if (count == 0) {
-            u8 *record = state + 4;
+            CardEntry *record =
+                ((BuildDeckTransitionState *)state)->lists[0].entries;
 
             while (1) {
-                if (*(s16 *)(record + 4) == id) {
+                if ((s16)record->id == id) {
                     break;
                 }
-                record += 0x10;
+                record++;
             }
 
-            record[0xD] = 0;
-            if ((state + id)[0x5D97] != 0) {
-                record[0xD] = 0x80;
+            record->flags = 0;
+            if (((BuildDeckTransitionState *)state)->chest_card_quantities[id] != 0) {
+                record->flags = 0x80;
             }
-            func_80032C48((CardList *)(state + 4));
+            func_80032C48(&((BuildDeckTransitionState *)state)->lists[0]);
         }
-        (state + id)[0x5D97] = count;
-        *(s32 *)(state + 0x5A9C) -= 1;
+        ((BuildDeckTransitionState *)state)->chest_card_quantities[id] = count;
+        ((BuildDeckTransitionState *)state)->chest_total -= 1;
     }
 }
