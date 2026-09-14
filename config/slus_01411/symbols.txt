@@ -657,6 +657,7 @@ nextfile = 0x80073920; // type:func
 Krom2RawAdd = 0x80073930; // type:func
 ChangeClearPAD = 0x80073940; // type:func
 firstfile = 0x80073AC0; // type:func
+_first_patch = 0x80073C5C; // type:func
 firstfile2 = 0x80073D60; // type:func
 ReadInitPadFlag = 0x80073D7C; // type:func
 PAD_init = 0x80073D8C; // type:func

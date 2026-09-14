@@ -1227,7 +1227,7 @@ address,size,name,status,module,notes
 0x80073A54,0x34,StopRCnt,sdk_asm,psyq/sdk,Identified at offset 0x104 of the unique Psy-Q 4.6 LIBAPI.LIB/COUNTER.OBJ signature.
 0x80073A88,0x34,ResetRCnt,sdk_asm,psyq/sdk,Identified at offset 0x138 of the unique Psy-Q 4.6 LIBAPI.LIB/COUNTER.OBJ signature.
 0x80073AC0,0x19C,firstfile,sdk_asm,psyq/sdk,Identified as Psy-Q 4.6 firstfile by the libapi.h ABI; SDK symbol map; and matching directory caller.
-0x80073C5C,0x100,func_80073C5C,sdk_asm,psyq/sdk,
+0x80073C5C,0x100,_first_patch,sdk_asm,psyq/sdk,"Private FIRST.OBJ one-shot device-handler patch; byte-for-byte identical 0x100-byte body and boundary in the independent NFS High Stakes reconstruction, whose recovered Psy-Q declaration and object source both preserve the _first_patch symbol."
 0x80073D60,0x1C,firstfile2,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBAPI.LIB/A66.OBJ signature.
 0x80073D7C,0x10,ReadInitPadFlag,sdk_asm,psyq/sdk,Identified at offset 0xC of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.
 0x80073D8C,0x90,PAD_init,sdk_asm,psyq/sdk,Identified at offset 0x1C of the unique Psy-Q 4.6 LIBAPI.LIB/PAD.OBJ signature.

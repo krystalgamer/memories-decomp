@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 12 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 7 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 11 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 6 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 5 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 12 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 11 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 7 already sit inside 5
+The `--coverage-report` split narrows that work: 6 already sit inside 4
 uniquely matched object ranges, while 5 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -339,6 +339,7 @@ Every row below is now an applied project symbol.
 | `0x80073A54` | `StopRCnt` | Applied at offset `0x104` of the same unique counter signature; matching setup stops `RCntCNT2` before reconfiguration and both shutdown paths stop it again. |
 | `0x80073A88` | `ResetRCnt` | Applied at offset `0x138` of the same unique counter signature; the resident wrapper writes zero to the selected current-count register. |
 | `0x80073AC0` | `firstfile` | Applied Psy-Q 4.6 identity; receives a formatted device path and caller-owned directory record, returning that record on success. |
+| `0x80073C5C` | `_first_patch` | Private `FIRST.OBJ` helper at exact offset `0x19C`. The independently reconstructed NFS High Stakes Psy-Q object preserves the `_first_patch` declaration and a byte-for-byte identical `0x100`-byte body, including the BIOS device-table walk, restoration of the saved handler, and tail call through it. |
 | `0x80073D60` | `firstfile2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A66.OBJ` signature. |
 | `0x80073D7C` | `ReadInitPadFlag` | Applied at offset `0xC` of the unique 656-byte Psy-Q 4.6 `LIBAPI.LIB/PAD.OBJ` signature. |
 | `0x80073D8C` | `PAD_init` | Applied at offset `0x1C` of the same unique `LIBAPI.LIB/PAD.OBJ` signature. |
