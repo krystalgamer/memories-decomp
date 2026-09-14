@@ -320,6 +320,10 @@ class PsyqSignatureTests(unittest.TestCase):
                 "AliasA": ["LIBA/SHARED.OBJ+0x0"],
                 "AliasB": ["LIBB/SHARED.OBJ+0x0"],
             },
+            0x80010034: {
+                "NamedAliasA": ["LIBA/NAMED.OBJ+0x0"],
+                "NamedAliasB": ["LIBB/NAMED.OBJ+0x0"],
+            },
             0x80010040: {"OffStart": ["LIB/OFFSTART.OBJ+0x4"]},
             0x80010050: {
                 "GameCollision": ["LIB/GAME_COLLISION.OBJ+0x0"]
@@ -342,11 +346,27 @@ class PsyqSignatureTests(unittest.TestCase):
                 "status": "sdk_asm",
                 "module": "psyq/sdk",
             },
+            0x80010030: {
+                "name": "func_80010030",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            },
+            0x80010034: {
+                "name": "LocallyResolvedName",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            },
             0x80010050: {
                 "name": "func_80010050",
                 "size": "0x20",
                 "status": "matching_c",
                 "module": "game",
+            },
+            0x80010060: {
+                "name": "func_80010060",
+                "size": "0x30",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
             },
         }
 
@@ -369,7 +389,31 @@ class PsyqSignatureTests(unittest.TestCase):
             ],
         )
         self.assertEqual(
-            result["ambiguous"], [(0x80010030, ["AliasA", "AliasB"])]
+            result["ambiguous"],
+            [
+                (0x80010030, ["AliasA", "AliasB"]),
+                (0x80010034, ["NamedAliasA", "NamedAliasB"]),
+            ],
+        )
+        self.assertEqual(
+            result["ambiguous_named"],
+            [
+                (
+                    0x80010034,
+                    ["NamedAliasA", "NamedAliasB"],
+                    "LocallyResolvedName",
+                )
+            ],
+        )
+        self.assertEqual(
+            result["ambiguous_unresolved"],
+            [
+                (
+                    0x80010030,
+                    ["AliasA", "AliasB"],
+                    "func_80010030",
+                )
+            ],
         )
         self.assertEqual(
             result["outside_psyq"],
@@ -385,6 +429,17 @@ class PsyqSignatureTests(unittest.TestCase):
             ],
         )
         self.assertEqual(result["off_start"], 1)
+        self.assertEqual(
+            [
+                (address, row["name"])
+                for address, row in result["address_named_inventory"]
+            ],
+            [
+                (0x80010010, "func_80010010"),
+                (0x80010030, "func_80010030"),
+                (0x80010060, "func_80010060"),
+            ],
+        )
 
 
 if __name__ == "__main__":

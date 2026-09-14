@@ -294,11 +294,28 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
 
 def classify(proposals: dict, inventory: dict) -> dict:
     ambiguous, agreed, disagreed, new = [], [], [], []
+    ambiguous_named, ambiguous_unresolved = [], []
     outside_psyq, off_start = [], 0
     for address in sorted(proposals):
         names = proposals[address]
         if len(names) > 1:
-            ambiguous.append((address, sorted(names)))
+            sorted_names = sorted(names)
+            ambiguous.append((address, sorted_names))
+            row = inventory.get(address)
+            if (
+                row is not None
+                and row.get("status") == "sdk_asm"
+                and row.get("module", "").startswith("psyq/")
+                and not row.get("name", "").startswith("func_")
+            ):
+                ambiguous_named.append(
+                    (address, sorted_names, row["name"])
+                )
+            else:
+                current = None if row is None else row.get("name")
+                ambiguous_unresolved.append(
+                    (address, sorted_names, current)
+                )
             continue
         name = next(iter(names))
         row = inventory.get(address)
@@ -326,13 +343,25 @@ def classify(proposals: dict, inventory: dict) -> dict:
             new.append((address, name, row, sorted(names[name])))
         else:
             disagreed.append((address, name, row["name"], sorted(names[name])))
+    address_named_inventory = [
+        (address, row)
+        for address, row in sorted(inventory.items())
+        if (
+            row.get("status") == "sdk_asm"
+            and row.get("module", "").startswith("psyq/")
+            and row.get("name", "").startswith("func_")
+        )
+    ]
     return {
         "agreed": agreed,
         "disagreed": disagreed,
         "new": new,
         "ambiguous": ambiguous,
+        "ambiguous_named": ambiguous_named,
+        "ambiguous_unresolved": ambiguous_unresolved,
         "outside_psyq": outside_psyq,
         "off_start": off_start,
+        "address_named_inventory": address_named_inventory,
     }
 
 
@@ -369,6 +398,18 @@ def report(scanned: dict, result: dict) -> None:
     print(f"names already in the inventory, differing: {len(result['disagreed'])}")
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
+    print(
+        "ambiguous addresses already named locally: "
+        f"{len(result['ambiguous_named'])}"
+    )
+    print(
+        "ambiguous addresses still unresolved     : "
+        f"{len(result['ambiguous_unresolved'])}"
+    )
+    print(
+        "Psy-Q inventory rows still address-named : "
+        f"{len(result['address_named_inventory'])}"
+    )
     print(f"labels on non-Psy-Q function starts      : {len(result['outside_psyq'])}")
     print(f"labels away from a function start        : {result['off_start']}")
     if result["disagreed"]:
@@ -376,11 +417,23 @@ def report(scanned: dict, result: dict) -> None:
         print("differing:")
         for address, name, current, providers in result["disagreed"]:
             print(f"  {address:#010x} corpus {name} / inventory {current} [{providers[0]}]")
-    if result["ambiguous"]:
+    if result["ambiguous_named"]:
         print()
-        print("ambiguous, left alone:")
-        for address, names in result["ambiguous"]:
-            print(f"  {address:#010x} {', '.join(names)}")
+        print("ambiguous signatures with local inventory names, left alone:")
+        for address, names, current in result["ambiguous_named"]:
+            print(
+                f"  {address:#010x} inventory {current} / "
+                f"corpus {', '.join(names)}"
+            )
+    if result["ambiguous_unresolved"]:
+        print()
+        print("ambiguous and still unresolved:")
+        for address, names, current in result["ambiguous_unresolved"]:
+            current_text = "no function start" if current is None else current
+            print(
+                f"  {address:#010x} inventory {current_text} / "
+                f"corpus {', '.join(names)}"
+            )
     if result["outside_psyq"]:
         print()
         print("non-Psy-Q function starts, left alone:")

@@ -114,31 +114,35 @@ The unique-object labels classify against the current function inventory as:
 
 | Inventory result | Count | Interpretation |
 |---|---:|---|
-| Existing names agreeing | 426 | Independent names corroborated by the pinned catalogue |
+| Existing names agreeing | 428 | Independent names corroborated by the pinned catalogue |
 | Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
-| New names for `func_XXXXXXXX` rows | 2 | `NormalClip` and `RotAverageNclip3_nom`, both withheld because their observed call arities conflict with `libgte.h` |
-| Addresses claimed under several names | 8 | Four resolved only with local call-graph evidence and four still unresolved below |
+| New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
+| Addresses claimed under several names | 8 | All eight retain locally established inventory names; the signature sweep reports them separately rather than presenting them as unresolved |
+| Ambiguous addresses still unresolved | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name |
+| Psy-Q inventory rows still address-named | 119 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
-The 426 agreements are a regression checkpoint, not an immutable project
+The 428 agreements are a regression checkpoint, not an immutable project
 constant. The count rises as independently established names enter the
 inventory and can change when function boundaries do. Matcher debugging must
 compare the same pinned catalogue against the same inventory rather than
 treating any future count change as a matcher failure.
 
-The four byte-ambiguous addresses already resolved with evidence beyond the
-signature are `PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, and `GsDrawOt`.
-The signature tool correctly leaves them ambiguous; the local tiebreaks are
-recorded below. The four unresolved catalogue conflicts are small routines
-duplicated verbatim across libraries, so bytes alone cannot separate them:
+All eight byte-ambiguous addresses have evidence beyond the signature:
+`PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, `CdMix`, `CdControlB`,
+`GsGetActiveBuff`, `GsDrawOt`, and `GsSetRefView2`. The signature tool still
+refuses to choose between byte-identical catalogue labels, but now reports
+that these addresses already have non-address inventory names established by
+local call graphs, data ownership, or ABI evidence. This distinction prevents
+resolved collisions from being presented as unfinished signature work.
 
-| Address | Competing names |
-|---|---|
-| `0x8007CDC0` | `CdMix`, `DsMix` |
-| `0x8007E7F0` | `DsControl`, `DsControlB` (inventory keeps `CdControlB`) |
-| `0x80085320` | `GsGetActiveBuff` (applied), `SsUtGetReverbType` |
-| `0x8008AD50` | `GsSetRefView2` (applied), `GsSetRefViewUnit` |
+The zero new signature proposals does **not** mean every Psy-Q routine is
+named. The inventory still has 119 `sdk_asm` rows named `func_XXXXXXXX`.
+They are outside the catalogue's actionable exact-start labels: their
+objects may be absent, modified, matched more than once, or expose only IDA
+placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
+additional version-correct signatures rather than a less conservative match.
 
 ### Patched LIBDS cross-reference
 
