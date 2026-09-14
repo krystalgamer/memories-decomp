@@ -4,6 +4,7 @@
 #define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
 #include "duel_side_state.h"
+#include "duel_field_display_objects.h"
 #include "input.h"
 #include "duel_check_quit_input.h"
 #include "text_box_lifecycle.h"
