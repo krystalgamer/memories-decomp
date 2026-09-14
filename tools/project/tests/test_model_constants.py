@@ -16,8 +16,11 @@ class ModelConstantTests(unittest.TestCase):
             "#define MODEL_MRG_SECOND_GAP_START 0x28A",
             "#define MODEL_MRG_SECOND_GAP_END 0x2BC",
             "#define MODEL_MRG_SINGLE_GAP_ID 0x2D0",
-            "#define MODEL_MRG_RECORD_SIZE 0x114",
-            "#define MODEL_AUX_RECORD_SIZE 0x74",
+            "#define MODEL_MRG_SECTOR_COUNT 0x114",
+            "#define MODEL_SPECIAL_BATTLE_FILE_START_SECTOR 0x3B4",
+            "#define MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT 0x113",
+            "#define MODEL_AUX_SECTOR_COUNT 0x74",
+            "#define MODEL_AUX_FILE_START_SECTOR 0x88",
         ):
             self.assertIn(declaration, header)
 
@@ -33,6 +36,19 @@ class ModelConstantTests(unittest.TestCase):
         ):
             self.assertIn(constant, loader)
             self.assertIn(constant, randomizer)
+
+    def test_model_transfer_constants_keep_sector_units(self) -> None:
+        loader = (ROOT / "src/game/model_load_monster_merge.c").read_text()
+        for constant in (
+            "MODEL_MRG_SECTOR_COUNT",
+            "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR",
+            "MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT",
+            "MODEL_AUX_SECTOR_COUNT",
+            "MODEL_AUX_FILE_START_SECTOR",
+        ):
+            self.assertIn(constant, loader)
+        self.assertNotIn("MODEL_MRG_RECORD_SIZE", loader)
+        self.assertNotIn("MODEL_AUX_RECORD_SIZE", loader)
 
     def test_private_card_grid_bound_uses_card_id_end(self) -> None:
         candidate = (ROOT / "src/candidates/func_80029EC4.c").read_text()

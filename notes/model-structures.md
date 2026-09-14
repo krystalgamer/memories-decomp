@@ -148,15 +148,15 @@ one single ID:
 
 | Constant range | Numeric range | Effect |
 |---|---:|---|
-| `MODEL_MRG_FIRST_GAP_START..MODEL_MRG_FIRST_GAP_END` | `0x12C..0x15D` | No model-MRG record; later IDs subtract `MODEL_MRG_GAP_SIZE`. |
-| `MODEL_MRG_SECOND_GAP_START..MODEL_MRG_SECOND_GAP_END` | `0x28A..0x2BB` | No model-MRG record; later IDs subtract the same gap size. |
+| `[MODEL_MRG_FIRST_GAP_START, MODEL_MRG_FIRST_GAP_END)` | `[0x12C, 0x15E)` | No model-MRG entry; later IDs subtract `MODEL_MRG_GAP_SIZE`. Both ranges are end-exclusive. |
+| `[MODEL_MRG_SECOND_GAP_START, MODEL_MRG_SECOND_GAP_END)` | `[0x28A, 0x2BC)` | No model-MRG entry; later IDs subtract the same gap size. Both ranges are end-exclusive. |
 | `MODEL_MRG_SINGLE_GAP_ID` | `0x2D0` | No record; the final ordinary ID is compacted by one. |
 
 `Model_LoadMonsterMerge` and the random-model controller share these
 boundaries, preventing their validity checks from drifting apart. The same
-header owns the measured `0x114` model-MRG record size, `0x74` auxiliary
-record size, `0xB2` auxiliary lookup stride, and the special battle file
-window used only for `MODEL_SPECIAL_BATTLE_ID`.
+header owns the measured `0x114` model-MRG sector count, `0x74` auxiliary
+sector count, `0xB2`-byte auxiliary lookup stride, and the special battle
+file start sector/count used only for `MODEL_SPECIAL_BATTLE_ID`.
 
 ### Timed model-tint requests
 

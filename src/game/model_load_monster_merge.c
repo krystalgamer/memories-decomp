@@ -20,14 +20,14 @@
  * Model_SetSlotProperties does; the remaining properties follow the same
  * "negative means leave alone" convention it uses for +0xDFA to +0xDFF.
  *
- * Duel slots (0 and 1) load out of the model MRG.  Its records are 0x114 bytes
- * and are indexed by a compacted model id, so the three id ranges that have no
+ * Duel slots (0 and 1) load out of the model MRG. Each compacted model entry
+ * occupies MODEL_MRG_SECTOR_COUNT sectors, so the three id ranges that have no
  * record - MODEL_MRG_FIRST_GAP_START through the byte before
  * MODEL_MRG_FIRST_GAP_END, MODEL_MRG_SECOND_GAP_START through the byte before
  * MODEL_MRG_SECOND_GAP_END, and MODEL_MRG_SINGLE_GAP_ID - are rejected and
  * every id above such a gap is biased down by MODEL_MRG_GAP_SIZE.
  * MODEL_SPECIAL_BATTLE_ID is the one special case and comes from its own
- * file. Any other slot loads a MODEL_AUX_RECORD_SIZE-byte record selected
+ * file. Any other slot loads MODEL_AUX_SECTOR_COUNT sectors selected
  * through the MODEL_AUX_LOOKUP_RECORD_SIZE-byte table at D_80091008.
  *
  * Returns zero once a transfer has been requested and one when the model id
@@ -56,7 +56,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
-                1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_SECTOR,
+                1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
                 MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
                 func_800577B0, 0, 0
             );
@@ -83,8 +83,8 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
                 model -= MODEL_MRG_GAP_SIZE;
             }
             transfer = File_TryRequestAsyncTransfer(
-                2, gFile_szModelMrgPath, model * MODEL_MRG_RECORD_SIZE,
-                MODEL_MRG_RECORD_SIZE, func_80056D7C,
+                2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,
+                MODEL_MRG_SECTOR_COUNT, func_80056D7C,
                 0, 0
             );
             if (p2 >= 0) {
@@ -119,8 +119,8 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
 found:
         transfer = File_TryRequestAsyncTransfer(
             1, D_800114F8,
-            model * MODEL_AUX_RECORD_SIZE + MODEL_AUX_FILE_BASE_SECTOR,
-            MODEL_AUX_RECORD_SIZE, func_80057544, 0, 0
+            model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
+            MODEL_AUX_SECTOR_COUNT, func_80057544, 0, 0
         );
         D_8009B0F4_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
