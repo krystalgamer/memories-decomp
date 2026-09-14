@@ -306,7 +306,7 @@ kept extracted because the project does not claim vendor source ownership.
 
 | Range | Section | Bytes | Labels | What blocks it |
 | --- | --- | --- | --- | --- |
-| `initialized_data_80091958` | `.data` | 34736 | 274 | Psy-Q SDK-owned data; no game source owner |
+| `initialized_data_80091958` | `.data` | 38320 (`0x95B0`) | 274 | Psy-Q SDK-owned data; no game source owner |
 
 The former `0x8009AF2A` range was the overlapping-symbol case in its smallest
 form. Splat emitted three labels there: `D_8009AF2A`, `D_8009AF2C`, and the
@@ -366,22 +366,26 @@ Every label in each range can be attributed to the functions that reference
 it, and `functions.csv` records an owner for each of those functions --
 `game`, `psyq/sdk` or `psyq/crt`. Doing that across the whole set gives:
 
-| range | section | bytes | psyq | game |
+| range | section | complete bytes | referenced label extents | game |
 | --- | --- | ---: | ---: | ---: |
 | `initialized_data_800906e0` | `.data` | 12 | 8 | 0 |
-| `initialized_data_80091958` | `.data` | 34724 | 34692 | 0 |
+| `initialized_data_80091958` | `.data` | 38320 | 34724 | 0 |
 | former `initialized_data_8009af08` | `.sdata` | 20 | 8 | 8 |
-| former `initialized_data_8009af2a` | `.sdata` | 7 | 0 | 7 |
+| former `initialized_data_8009af2a` | `.sdata` | 6 | 0 | 6 |
 | former `initialized_data_8009af6c` | `.sdata` | 184 | 0 | 184 |
 
-The large `.data` range is not a game data blob at all. Its 274 labels are
-referenced by 246 distinct functions and **every one of them is
-`psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`, `SpuSetReverbModeParam`,
-`StCdInterrupt`, `CD_cw`, `FntOpen` and their neighbours. The text range that
-reaches into it opens with `PCopen`, `InitHeap`, `_bu_init`, `OpenEvent`,
-`EnterCriticalSection` and the `open`/`read`/`write`/`close` wrappers. This is
-the Psy-Q library's own initialized data: SPU voice and reverb state, the CD
-streaming machinery, the font system, the heap and event tables.
+The large `.data` range is not a game data blob at all. Its complete measured
+extent is `0x8009AF08 - 0x80091958 = 0x95B0`, or 38,320 bytes. Label-to-label
+attribution covers 34,724 bytes; the remaining 3,596 bytes are unnamed gaps
+inside the same single generated SDK data subsegment, not a second unaccounted
+range. Its 274 labels are referenced by 246 distinct functions and **every one
+of them is `psyq/sdk`** -- `_spu_init`, `_spu_setReverbAttr`,
+`SpuSetReverbModeParam`, `StCdInterrupt`, `CD_cw`, `FntOpen` and their
+neighbours. The text range that reaches into it opens with `PCopen`,
+`InitHeap`, `_bu_init`, `OpenEvent`, `EnterCriticalSection` and the
+`open`/`read`/`write`/`close` wrappers. This is the Psy-Q library's own
+initialized data: SPU voice and reverb state, the CD streaming machinery, the
+font system, the heap and event tables.
 
 That is a negative worth stating precisely rather than by implication. No file
 under `src/` mentions any of those 274 names -- not the game sources, not the
@@ -396,7 +400,7 @@ game translation unit that could honestly define it, and inventing one would
 assert authorship the image does not support.
 
 Netting the vendor bytes out, the genuine game-owned remainder across all
-five ranges is about **199 bytes, all of it `.sdata`** -- the seven bytes at
+five ranges was **198 bytes, all of it `.sdata`** -- the six bytes at
 `0x8009AF2A`, the remaining 184 at `0x8009AF6C`, and eight of the twenty at
 `0x8009AF08`. That is a very different target from thirty-four kilobytes, and
 it lands entirely in the section the `.data`-before-`.sdata` rule calls the

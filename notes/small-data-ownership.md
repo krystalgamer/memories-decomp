@@ -211,8 +211,10 @@ longer needed.
 
 The ordinary initialized-data region has the same ownership model. Its former
 36-byte leading blob at `0x800906E0` is now `psyq/startup_data.c`, leaving the
-large `0x80091958` range as the only generated `.data` blob after the mapped
-tables and file-name records.
+large `0x80091958-0x8009AF08` range as the only generated `.data` blob after
+the mapped tables and file-name records. Those exact adjacent split
+boundaries make it `0x95B0`, or 38,320 bytes; shorter label-span totals omit
+3,596 unnamed bytes inside the same Psy-Q SDK data subsegment.
 
 ## Where this leaves the work
 
