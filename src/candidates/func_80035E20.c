@@ -11,12 +11,13 @@
  *   the flag test, which is where retail has it, and they also let the
  *   scheduler split the 0x1F8000A0 constant's lui and ori the way retail
  *   does;
+ * - `b` is a u32: its width decides the operand order of the tpage `or`,
+ *   where seven spellings of the expression itself tied;
  * - the -fno-strength-reduce profile is the measured one: plain
  *   gcc_2_8_1_g8_split is 886 instructions.
  *
- * Residual: every opcode position matches; six rows differ in registers or
- * operand order. The tpage `or` takes its operands in the other order, and
- * after GsSetLsMatrix the target computes the three RotAverageNclip4 vector
+ * Residual: every opcode position matches; five rows differ in registers.
+ * After GsSetLsMatrix the target computes the three RotAverageNclip4 vector
  * addresses before materialising -8 and 8, where this source materialises the
  * constants first.
  */
@@ -51,7 +52,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     s32 cyv;
     s32 c;
     u8 f;
-    u8 b;
+    u32 b;
     s32 v78;
     s32 tt;
     s16 k8;
