@@ -704,7 +704,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B061,D_8009B061,D_8009B061,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B061 != 0 || arg0 != 0) {
 0x8009B062,D_8009B062,D_8009B062,0x8005BE3C,func_8005BE3C,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&D_8009B062 = 0;
 0x8009B062,D_8009B062,D_8009B062,0x8005C1F4,func_8005C1F4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_04c9f4.s,write,8,"sb $v0, %gp_rel(D_8009B062)($gp)"
-0x8009B062,D_8009B062,D_8009B062,0x8005C5D4,func_8005C5D4,matching_c,game,C,src/game/mdec_sync.c,read_write,8,D_8009B062 = 0; | if (D_8009B062 != 0) { | (+1 more)
+0x8009B062,D_8009B062,D_8009B062,0x8005C5D4,Movie_WaitFrameDecoded,matching_c,game,C,src/game/mdec_sync.c,read_write,8,D_8009B062 = 0; | if (D_8009B062 != 0) { | (+1 more)
 0x8009B063,D_8009B063,D_8009B063,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,8,D_8009B063 = 0;
 0x8009B063,D_8009B063,D_8009B063,0x8005BB7C,func_8005BB7C,matching_c,game,C,src/game/movie_frame_pipeline.c,address,8,*(volatile u8 *)&D_8009B063 = 1;
 0x8009B063,D_8009B063,D_8009B063,0x8005BE3C,func_8005BE3C,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,if (D_8009B063 != 0) {

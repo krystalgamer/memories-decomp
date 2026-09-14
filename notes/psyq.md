@@ -1191,7 +1191,7 @@ the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
 interfaces are interchangeable. Matching movie setup and teardown C now
 includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
-`StUnSetRing`. Matching `func_8005C5D4` includes `libpress.h` for the
+`StUnSetRing`. Matching `Movie_WaitFrameDecoded` includes `libpress.h` for the
 `DecDCTReset(1)` call used when its decode wait times out.
 
 The direct `libpress.h` consumer inventory is complete at three matching

@@ -26,6 +26,7 @@ Movie_StartFileStream = 0x8005C464; // type:func
 Movie_StepPlayback = 0x8005C530; // type:func
 Movie_MoveDisplayImage = 0x8005C568; // type:func
 Movie_StartFadeOut = 0x8005C5C4; // type:func
+Movie_WaitFrameDecoded = 0x8005C5D4; // type:func
 
 // Semantic names
 gDebug_nLastSoundID = 0x8009B2C4;

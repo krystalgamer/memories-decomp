@@ -163,7 +163,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
     if (result != 0) {
         return result;
     }
-    func_8005C5D4();
+    Movie_WaitFrameDecoded();
     return 0;
 }
 
