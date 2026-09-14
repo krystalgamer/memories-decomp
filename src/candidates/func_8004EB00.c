@@ -36,6 +36,8 @@
 #include "../game/sound_output.h"
 #include "../game/model_effect_state.h"
 #include "../game/model_effect_coefficients.h"
+#include "../game/func_8005A188.h"
+#include "../game/model_effect_wrapped_value.h"
 #include "../game/model_transfer_state.h"
 #include "../game/model_transfer_flags.h"
 #include "../game/func_80058E1C.h"
