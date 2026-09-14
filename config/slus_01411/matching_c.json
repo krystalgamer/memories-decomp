@@ -4453,6 +4453,12 @@
       "source": "src/game/sound_effect_voices.c"
     },
     {
+      "address": "0x800482B0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3A8",
+      "source": "src/game/func_800482B0.c"
+    },
+    {
       "address": "0x80048768",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1B8",

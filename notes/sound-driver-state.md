@@ -21,10 +21,12 @@ Konami type or field naming.
 | `0x004C` | `command_count` | Bounds the 16-entry command scan. |
 | `0x0080` | `commands[16]` | 16 records, each `0x30` bytes; command at `+0x00` and eight verified 32-bit argument/result slots at `+0x10`-`+0x2C`. |
 | `0x0404` | `voice_ids[4]` | Four 16-bit voice identifiers. |
+| `0x040C` | `field_040C[4]` | Per-slot byte selection values, assigned by `func_8004803C`; the allocator accepts an occupied slot when this value is no greater than the request's value. |
 | `0x0424` | `voice_value[4]` | Four per-voice byte values reduced by `voice_step`. |
 | `0x0428` | `voice_step[4]` | Four per-voice decrement values. |
 | `0x042C` | `voice_timer[4]` | Four 16-bit countdown timers. |
 | `0x0434` | `voice_active_mask` | One bit per voice entry. |
+| `0x0435` | `field_0435` | Four-slot rotating allocation cursor; fallback attempts increment and mask it even after selecting a voice. |
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
@@ -40,6 +42,36 @@ Konami type or field naming.
 
 The remaining named `field_XXXX` members have verified offsets and widths but
 insufficient semantic evidence for stronger names.
+
+## Sound-effect voice allocation
+
+`func_800482B0` owns a separate 936-byte matching translation unit. Its
+`sound_voice_allocator.h` declaration retains a full-width incoming ID and
+mode, signed halfword pitch and pan, and byte volume and selection value.
+The retained `SD_SEPlay` candidate consumes this declaration directly without
+changing its compiled-object fingerprint. `sound_voice_selection.h` owns the
+keyed-group query; `sound_effect_voices.h` owns the adjacent count/start unit.
+
+The allocator rejects missing low-16-bit index-table entries before handling
+bit `0x8000`. Otherwise it first selects the lowest keyed-group slot, then
+the requested occurrence of an ID with a nonzero envelope, then searches
+from the rotating cursor for a silent slot or an eligible occupied slot.
+Group/occurrence selection leaves the cursor at the selected slot; the
+fallback walks advance it after every attempted slot, including success.
+Envelope calls precede the ID reads and can change which state is observed.
+
+The saved ID is `u16`, independently of the original input's stop-bit test.
+A clear bit `0x8000` does not bound a full-width input below `0x10000`; the
+voice comparison must still use the low halfword. Sharing one scratch between
+the envelope and ID observations keeps the narrowing inside the loop.
+The signed halfword mode snapshot is masked through an unsigned view, and the
+occurrence limit is a byte. Together with the shared voice mask, these choices
+reproduce the register allocation under uniform `gcc_2_8_1_g8_split`.
+
+The ILP32 witness exercises 1,004 cases at O0 and O2 and rejects five semantic
+mutations. Its expected call/state observations were also compared with a
+bounded retail MIPS execution. These are scripted callee models with valid
+cursor and lookup storage, not SPU hardware or invalid-pointer emulation.
 
 `SD_BGMFadeOut` writes `-8` and mode `0` through the sequence-control wrapper.
 Live traces place that call in the same frame as every frontend screen

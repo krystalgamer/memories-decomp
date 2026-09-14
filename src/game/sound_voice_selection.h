@@ -13,5 +13,6 @@ s32 func_80047C50(s32 value);
 void func_80047C70(s32 value);
 void func_80047CC4(s32 value);
 void SD_SEStop(s32 id);
+s32 func_80047F38(u8 value);
 
 #endif

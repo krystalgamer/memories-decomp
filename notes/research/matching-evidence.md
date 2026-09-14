@@ -6688,6 +6688,16 @@ function from distance 4 back to 18. Dropping the cast is one instruction
 short locally and 14 opcodes better overall. Weigh a hoist against the
 register file, not against the instruction it saves.
 
+Those are historical measurements, not permission to omit the narrowing:
+bit `0x8000` being clear does not exclude higher ID bits. The subsequent
+`func_800482B0` match preserves a `u16` saved ID, shares an envelope/ID scratch
+to prevent hoisting, and uses a shared voice mask, halfword mode snapshot with
+unsigned masking, and byte occurrence limit. All 936 text bytes match under
+uniform `gcc_2_8_1_g8_split`, without register bindings or artificial volatility.
+The original six attempts remain intact and a post-terminal record supplies
+the new evidence. See [Sound Driver State](../sound-driver-state.md) for the
+selection contract and bounded witnesses.
+
 **Signedness of the compared value picks `sltu` over `slt`, and can carry a
 `multu` with it.** `func_8005E808`'s radius has to be `u32`: an `s32` gives
 `slt` and, in case 4, also drops the unsigned `multu` that the `/ 4096000`
@@ -6726,8 +6736,11 @@ so not every equivalent spelling has the same code-generation effect.
 The accepted source uses the shared `SDValue` type and existing callee
 prototype from `sound_output_state.h`. The one retained byte-based state
 lookup is measured: spelling it from `&a->field_044C` changes one word at
-`+0x68`, despite the same address and size. The wider local declaration of
-the unmatched `func_800482B0` call is unchanged from the existing candidate.
+`+0x68`, despite the same address and size. At this stage the
+`func_800482B0` call retained the candidate's wider declaration. The later
+allocator promotion moved that call to `sound_voice_allocator.h`; the retained
+`SD_SEPlay` candidate's object fingerprint is unchanged with the canonical
+narrow-argument prototype.
 Caller-side `SD_SEPlay` declarations remain profile-specific; this change
 does not unify them.
 

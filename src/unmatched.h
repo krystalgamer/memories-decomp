@@ -240,16 +240,10 @@ void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 void func_8005C7BC(void);
 
-/* Three caller-visible contracts that were outside the central inventory.
- *
- * func_800482B0 had one local declaration in SD_SEPlay. Its wider integer
- * parameters are the caller's measured view and remain distinct from the
- * narrower internal types in the build-integrated candidate.
- *
+/* func_800482B0 is now owned by sound_voice_allocator.h.
  * func_80015EF4 was called implicitly. It takes the
  * caller's record and scratch buffers; void * preserves the record boundary
  * without importing a subsystem type into this root header. */
-void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
 
 /* This undefined global is declared identically by every consumer and
