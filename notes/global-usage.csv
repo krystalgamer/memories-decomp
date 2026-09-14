@@ -3246,7 +3246,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801C0000,D_801C0000,D_801C0000,0x800383DC,func_800383DC,matching_c,game,C,src/game/func_80038388.c,read,16,D_801C0000[a2 - 0xD000]; | v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2]; | (+1 more)
 0x801C0000,D_801C0000,D_801C0000,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,16,D_801C0000[id - 0xD000]); | D_801C0000[id]); | (+1 more)
 0x801C0000,D_801C0000,D_801C0000,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801C0000[index - 0xD000]; | return ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[index]; | (+1 more)
-0x801D0000,D_801D0000,D_801D0000,0x8002C518,func_8002C518,matching_c,game,C,src/game/duel_deck_lookup.c,address,8,flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
+0x801D0000,D_801D0000,D_801D0000,0x8002C518,Library_CheckCardOwned,matching_c,game,C,src/game/duel_deck_lookup.c,address,8,flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
 0x801D0000,D_801D0000,D_801D0000,0x8002C570,func_8002C570,matching_c,game,C,src/game/duel_effect_object_pool.c,address,8,object = (u8 *)((u32)D_801D0000 + offset);
 0x801D0000,D_801D0000,D_801D0000,0x8002CCA8,Campaign_TestStoryFlag,matching_c,game,C,src/game/campaign_test_story_flag.c,address,8,s32 v = ((SaveDataWorkspace *)D_801D0000)->state.campaign_flags[i] & m;
 0x801D0000,D_801D0000,D_801D0000,0x8002CCE4,Library_UpdateCardUsedFlag,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01d4e4.s,address,,"addiu $v1, $v1, %lo(D_801D0000) | lui $v1, %hi(D_801D0000)"

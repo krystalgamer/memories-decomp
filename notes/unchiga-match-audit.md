@@ -29,7 +29,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x80024C1C` | `func_80024C1C` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x800250C8` | `func_800250C8` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x800278A0` | `func_800278A0` | `collaborator_match` | `gcc_2_8_1_g8_split` |
-| `0x8002C518` | `func_8002C518` | `inline_refinement` | `gcc_2_8_1_g8_split` |
+| `0x8002C518` | `Library_CheckCardOwned` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x8002C6C8` | `func_8002C6C8` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x8002CB80` | `Duel_CalcGuardianStarMatchup` | `inline_refinement` | `gcc_2_8_1_g8` |
 | `0x80036BCC` | `func_80036BCC` | `inline_refinement` | `gcc_2_8_1_g8_split` |

@@ -163,6 +163,7 @@ Util_CompareS16 = 0x80024704; // type:func
 Duel_GetTerrainBoost = 0x8002497C; // type:func
 Library_MarkOwnedCards = 0x8002BF3C; // type:func
 Duel_FindPlayerDeckCard = 0x8002C4DC; // type:func
+Library_CheckCardOwned = 0x8002C518; // type:func
 Duel_CheckRitual = 0x8002C7E8; // type:func
 Duel_CalcGuardianStarMatchup = 0x8002CB80; // type:func
 Duel_GetBaseCardStat = 0x8002CBF4; // type:func
