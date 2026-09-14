@@ -11,7 +11,7 @@ s32 func_8004143C(DisplayObjectStreamState *object, const u8 *data);
 s32 func_80041464(DisplayObjectStreamState *object, const u8 *data);
 
 /* Display-object stream opcode 0xFA, entry 5 of D_80090FEC
- * (model_record_tables.c). `t` holds a count byte followed by that many
+ * (model_record_tables.c). `data` holds a count byte followed by that many
  * little-endian halfword offsets. One is picked with rand(), and the stream
  * cursor at +0x50 is set to the stream base at +0x54 plus that offset, so the
  * opcode is a random jump. Also zeroes the halfword at +0x58. Returns 1. */
