@@ -67,7 +67,8 @@ void func_800559D4(s32 index)
         func_8005F198(0);
     }
     if (slot->field_E0E == 6) {
-        if (slot->field_BF5 == slot->field_DFE + 3 || slot->field_DF8 == 0x309) {
+        if (slot->field_BF5 == slot->field_DFE + 3
+            || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
             slot->field_E0E = 7;
         } else {
             slot->field_E0E = 2;
@@ -95,7 +96,8 @@ void func_800559D4(s32 index)
         slot->field_E0E = 8;
         slot->field_E08 = 0;
     }
-    if (slot->field_BF5 != slot->field_DFE + 3 && slot->field_DF8 != 0x309) {
+    if (slot->field_BF5 != slot->field_DFE + 3
+        && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
         s32 eligible = slot->field_E0E;
         if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
             return;

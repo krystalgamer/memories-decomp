@@ -22,10 +22,13 @@
  *
  * Duel slots (0 and 1) load out of the model MRG.  Its records are 0x114 bytes
  * and are indexed by a compacted model id, so the three id ranges that have no
- * record - 0x12C to 0x15D, 0x28A to 0x2BB and 0x2D0 - are rejected and every
- * id above such a gap is biased down by the gap's width.  Id 0x309 is the one
- * special case and comes from its own file.  Any other slot loads a 0x74-byte
- * record selected through the 0xB2-byte table at D_80091008.
+ * record - MODEL_MRG_FIRST_GAP_START through the byte before
+ * MODEL_MRG_FIRST_GAP_END, MODEL_MRG_SECOND_GAP_START through the byte before
+ * MODEL_MRG_SECOND_GAP_END, and MODEL_MRG_SINGLE_GAP_ID - are rejected and
+ * every id above such a gap is biased down by MODEL_MRG_GAP_SIZE.
+ * MODEL_SPECIAL_BATTLE_ID is the one special case and comes from its own
+ * file. Any other slot loads a MODEL_AUX_RECORD_SIZE-byte record selected
+ * through the MODEL_AUX_LOOKUP_RECORD_SIZE-byte table at D_80091008.
  *
  * Returns zero once a transfer has been requested and one when the model id
  * has no record to request. */
@@ -51,32 +54,37 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
     func_8004CB0C(slot, 0, 0, arg6);
     D_800F2C40[slot].field_E1D = flags;
     if (slot < 2) {
-        if (model == 0x309) {
+        if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
-                1, D_800114F8, 0x3B4, 0x113, func_800577B0, 0, 0
+                1, D_800114F8, MODEL_SPECIAL_BATTLE_FILE_SECTOR,
+                MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
+                func_800577B0, 0, 0
             );
             D_8009B0F4_abs = transfer->status_flags
                 | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
             D_800F2C40[slot].field_E14 = 0;
             return 0;
         }
-        if (model < 0 || model > 0x2D1
-            || (model >= 0x12C && model <= 0x15D)
-            || (model >= 0x28A && model <= 0x2BB)
-            || model == 0x2D0) {
+        if (model < 0 || model >= MODEL_MRG_ID_END
+            || (model >= MODEL_MRG_FIRST_GAP_START
+                && model < MODEL_MRG_FIRST_GAP_END)
+            || (model >= MODEL_MRG_SECOND_GAP_START
+                && model < MODEL_MRG_SECOND_GAP_END)
+            || model == MODEL_MRG_SINGLE_GAP_ID) {
             result++;
         } else {
-            if (model >= 0x2D1) {
+            if (model >= MODEL_MRG_LAST_ID) {
                 model--;
             }
-            if (model >= 0x2BC) {
-                model -= 0x32;
+            if (model >= MODEL_MRG_SECOND_GAP_END) {
+                model -= MODEL_MRG_GAP_SIZE;
             }
-            if (model >= 0x15E) {
-                model -= 0x32;
+            if (model >= MODEL_MRG_FIRST_GAP_END) {
+                model -= MODEL_MRG_GAP_SIZE;
             }
             transfer = File_TryRequestAsyncTransfer(
-                2, gFile_szModelMrgPath, model * 0x114, 0x114, func_80056D7C,
+                2, gFile_szModelMrgPath, model * MODEL_MRG_RECORD_SIZE,
+                MODEL_MRG_RECORD_SIZE, func_80056D7C,
                 0, 0
             );
             if (p2 >= 0) {
@@ -99,7 +107,9 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
         }
     } else {
         if (model >= 0 && model < 7) {
-            model = D_80091008[model * 0xB2 + 0xA0];
+            model = D_80091008[
+                model * MODEL_AUX_LOOKUP_RECORD_SIZE
+                + MODEL_AUX_LOOKUP_VALUE_OFFSET];
             if (model >= 0 && model < 7) {
                 goto found;
             }
@@ -108,7 +118,9 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 p2, s32 p3, s32 p4,
         goto done;
 found:
         transfer = File_TryRequestAsyncTransfer(
-            1, D_800114F8, model * 0x74 + 0x88, 0x74, func_80057544, 0, 0
+            1, D_800114F8,
+            model * MODEL_AUX_RECORD_SIZE + MODEL_AUX_FILE_BASE_SECTOR,
+            MODEL_AUX_RECORD_SIZE, func_80057544, 0, 0
         );
         D_8009B0F4_abs = transfer->status_flags
             | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
