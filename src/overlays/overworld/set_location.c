@@ -228,11 +228,12 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         0x17, 0x100, D_801AF000
     );
     func_800428EC(object, 0xA);
-    *(u16 *)(object + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
-                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    ((DisplayObject *)object)->flags |=
+        DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     entry = table + index;
-    *(u16 *)(object + 0x30) = (u16)entry->f12;
-    *(u16 *)(object + 0x32) = (u16)entry->f14;
+    ((DisplayObject *)object)->field_30.h.field_30 = (u16)entry->f12;
+    ((DisplayObject *)object)->field_30.h.field_32 = (u16)entry->f14;
     return object;
 }
 
