@@ -4,8 +4,8 @@
  * field path, moves the field cursor, opens the card viewer, picks the
  * attacker and its target, commits the fusion or sacrifice selection and
  * fades the field for the battle state. Current best under
- * gcc_2_8_1_g8_split: 1391 instructions against 1408 with opcode distance
- * 31 (7 surplus, 24 missing), with no hard register assignments and no
+ * gcc_2_8_1_g8_split_comm: 1397 instructions against 1408 with opcode distance
+ * 25 (7 surplus, 18 missing), with no hard register assignments and no
  * inline assembly.
  *
  * Levers measured on this body:
@@ -19,10 +19,16 @@
  * - the grid row and column bytes are read signed, the two package-stage
  *   bytes and the func_80017034 result are held in an int;
  * - state 8 reads the cursor object before its stores;
- * - the fade step reads the low byte of D_8009B300 through its .data view.
+ * - the fade step reads the low byte of D_8009B300 through its .data view;
+ * - D_8009B170/172/178/17A and D_8009B19C are tentative definitions, as in
+ *   fade_update.c, which supplies retail's load-delay nops in front of their
+ *   gp-relative stores, and each second store of a pair sits in its own
+ *   do { } while (0) so its load is not scheduled ahead of the first store;
+ *   the _comm profile keeps those definitions common, where plain g8_split
+ *   would allocate them in .sbss.
  *
  * Residual: census addiu -1, addu +1, beqz +2, bnez -2, j +1, jal -1,
- * lb -3, lbu +1, lhu -1, lui +1, lw -1, nop -7, ori -1, sh -1, sll -4,
+ * lb -3, lbu +1, lhu -1, lui +1, lw -1, nop -1, ori -1, sh -1, sll -4,
  * slti +1, subu -2. Retail keeps separate func_80017E3C calls for the
  * field-cursor and card-pick paths where this source shares one.
  */
@@ -75,10 +81,11 @@ extern u32 D_8009B300 __attribute__((section(".data")));
 #define BANK(i, o) (big = 0x48000, H(D_8015C424 + (i) * 0x1C + big, (o)))
 
 extern s8 D_8009B160;
-extern u16 D_8009B170;
-extern u16 D_8009B172;
-extern u16 D_8009B178;
-extern u16 D_8009B17A;
+u16 D_8009B170;
+u16 D_8009B172;
+u16 D_8009B178;
+u16 D_8009B17A;
+u8 D_8009B19C;
 extern s32 D_8009B1BC;
 extern u8 D_8009B1D6;
 extern u8 D_8009B1D7;
@@ -476,7 +483,9 @@ void DuelScene_UpdateFieldActions(void)
         other = D_800E9F10 + D_8009B1D5 * 0x70;
         card = &D_801A7AD8[D_800907D8[D_8009B1D5][SB(other, 0x48) * 5 + SB(other, 0x47)]];
         D_8009B178 = card->flags;
-        D_8009B170 = card->stat_modifier;
+        do {
+            D_8009B170 = card->stat_modifier;
+        } while (0);
         o = func_80017F04(card, S(card, 8), S(card, 0xA));
         func_800428EC(o, -0xA);
         D_800E9EF0[0] = (DisplayObject *)o;
@@ -485,7 +494,9 @@ void DuelScene_UpdateFieldActions(void)
         card = GRID_CARD(s);
         if (a == 0) {
             D_8009B17A = card->flags;
-            D_8009B172 = card->stat_modifier;
+            do {
+                D_8009B172 = card->stat_modifier;
+            } while (0);
             o = func_80017F04(card, S(card, 8), S(card, 0xA));
             D_800E9EF0[1] = (DisplayObject *)o;
             D_8009B19C = B(o, 0x6A);
