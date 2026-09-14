@@ -387,7 +387,12 @@ typedef struct {
 typedef struct {
     void *pointer;
     s16 value;
-    u8 pad_06[14];
+    u8 pad_06[10];
+    /* Set to 1 by ScriptImage_CreateObject and ScriptImage_RebuildObjects
+       whenever they build a display object into the slot; no matched code
+       reads it yet. */
+    u8 field_10;
+    u8 pad_11[3];
 } ScriptImageEntry;
 
 struct DuelEffectChannel;
@@ -405,6 +410,9 @@ typedef char SceneScriptSlot_size_must_be_0x14[
 ];
 typedef char ScriptImageEntry_size_must_be_0x14[
     sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
+];
+typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
+    YGO_TYPE_OFFSET(ScriptImageEntry, field_10) == 0x10 ? 1 : -1
 ];
 
 struct DisplayObject;

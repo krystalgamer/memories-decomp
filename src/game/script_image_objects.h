@@ -29,11 +29,13 @@ void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value);
  * next request treats the record as empty. */
 void ScriptImage_ReleaseObjects(ScriptImageEntry *entries);
 
-/* Builds one display object for a script image and stores it at `owner`, with
- * `size` the object's request size and `mode` selecting the blend arms: mode 2
- * takes GsALON | GsAONE and sets the record's +4 flag, anything else takes
- * 0x01000000 and clears it. ScriptImage_RebuildObjects is the only caller outside this
- * unit, and called it with no prototype at all before this header. */
+/* Builds one display object for a script image and stores it at `owner`, a
+ * ScriptImageEntry, with `size` the object's request size and `mode`
+ * selecting the blend arms: mode 2 takes GsALON | GsAONE and sets the entry's
+ * `value` halfword to 1, anything else takes 0x01000000 and clears it. It
+ * also sets the entry's field_10. ScriptImage_RebuildObjects is the only
+ * caller outside this unit, and called it with no prototype at all before
+ * this header. */
 void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode);
 
 #endif
