@@ -17,20 +17,19 @@
 #include "build_deck_pane_input.h"
 
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
-#define p ((u8 *)state)
-    u8 *e;
+    CardList *e;
     s32 r;
 
-    e = p + (state->pane_index * 0x2D4C + 4);
+    e = &state->lists[state->pane_index];
 
     func_80032B38(state);
 
-    if (BuildDeck_UpdateCardListInput((CardList *)e) != 0) {
+    if (BuildDeck_UpdateCardListInput(e) != 0) {
         return;
     }
 
     if ((gInput_wPad1Pressed & PAD_BUTTON_TRIANGLE) != 0) {
-        r = BuildDeck_GetActiveCardID((CardList *)e);
+        r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             gDuel_bCardViewerYOffset = 0x14;
             gDuel_wViewerCardID = r;
@@ -53,21 +52,19 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
     }
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) != 0) {
-        r = BuildDeck_GetActiveCardID((CardList *)e);
+        r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             SD_SEPlayFull(7);
-            *(e + 0xD - -((*(s16 *)(e + 0x2D3C) +
-                             *(s8 *)(e + 0x2D48)) * 0x10)) = 0;
-            func_80032C48((CardList *)(p + 0x2D50));
-            func_8003201C(p);
-            func_80031EE4(p, r);
-            func_80031E5C(p);
+            e->entries[e->first + e->cursor].flags = 0;
+            func_80032C48(&state->lists[1]);
+            func_8003201C((u8 *)state);
+            func_80031EE4((u8 *)state, r);
+            func_80031E5C((u8 *)state);
             func_80031574(r, 0x234, 0x16, 0x162, 0xA);
             return;
         }
         SD_SEPlayFull(9);
     }
-#undef p
 }
 
 void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
