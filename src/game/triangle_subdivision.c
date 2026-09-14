@@ -7,8 +7,8 @@
 
    The two subdividers are the same algorithm - split at the three edge
    midpoints, recurse four ways, write twelve vertices at the last depth -
-   and neither calls the other. They sit back to back in the image and the
-   unit is bounded by unmatched assembly on both sides.
+   and neither calls the other. They sit back to back in the image, between
+   func_8006AF74 and func_8006C37C, which are separate matching units.
 
    The manifest used to record func_8006BCA4 at gcc_2_8_1_g8 and the triplet
    run at gcc_2_8_1_g0, which read as a profile boundary between them. It is
