@@ -36,9 +36,11 @@ the same packed card-type bits. Raw address calculations use integer-valued
 byte constants rather than `sizeof`-derived strides, keeping their arithmetic
 types unchanged; no loop bound or clearing behavior changes.
 
-`AiScript_FindKiller` and `AiScript_FindBestAttack` retain raw halfword flag
-reads at `+0x06` while reusing the shared `DUEL_CARD_FLAG_*` masks. The latter's
-attacker filter excludes used-this-turn entries; its target filters separately
+`AiScript_FindKiller` and `AiScript_FindBestAttack` both walk `AiActiveCard`
+records and read the `+0x06` halfword as the typed `flags` member, tested
+against the shared `DUEL_CARD_FLAG_*` masks. `AiScript_FindKiller` skips empty
+and used-this-turn entries among the own monsters. `AiScript_FindBestAttack`'s
+attacker filter also excludes used-this-turn entries; its target filters separately
 exclude used and defense-position entries, and hide face-down targets for any
 nonzero scripted visibility value. That condition differs from the strongest/weakest
 searches' `hide_face_down == 1`; the predicates are not consolidated.
