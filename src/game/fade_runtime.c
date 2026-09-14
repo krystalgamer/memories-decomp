@@ -28,14 +28,14 @@
    at 0x1F8003C0. GsSortBoxFill builds the GPU packet from it:
 
      - FADE_FLAG_BANDED: 30 stacked bands, each 320x8, stepping y by 8 for
-       240 lines total -- one band per level byte at 0xA+i, each shaded
-       0xFF - level. This is the banded/wipe variant.
+       240 lines total -- one band per band_levels[i], each shaded
+       0xFF - that level. This is the banded/wipe variant.
      - without band mode, the tail submits one 320x240 box at (0,0).
        After the bands it returns unless FADE_FLAG_KEEP_OVERLAY is set; that combined
        path reaches the tail with height 8 and y=240, not a full-screen
-       box. The tail shades by 0xFF - level[4].
+       box. The tail shades by 0xFF - level.
        If FADE_FLAG_TINTED is set the attribute switches to 0x50000000 and the
-       three channels are shaded independently by colour[n] - level[4],
+       three channels are shaded independently by tint_r/g/b - level,
        clamped at 0, giving a tinted rather than grey fade.
 
    Bands always submit at depth 4. The tail also uses 4 unless
@@ -57,7 +57,7 @@
 
 void Fade_DrawOverlay(void) {
     GsBOXF *p;
-    u8 *rec;
+    FadeTransitionState *rec;
     GsOT *ot;
     s32 i;
     s32 band;
@@ -66,11 +66,11 @@ void Fade_DrawOverlay(void) {
     s32 depth;
     u8 flags;
 
-    rec = D_800E9EC8_arr;
-    Fade_Update((FadeTransitionState *)rec);
-    flags = rec[6];
+    rec = (FadeTransitionState *)D_800E9EC8_arr;
+    Fade_Update(rec);
+    flags = rec->flags;
     if ((flags & FADE_FLAG_ACTIVE) ||
-        (D_8009B141 != 0 && rec[4] != 0xFF)) {
+        (D_8009B141 != 0 && rec->level != 0xFF)) {
         p = FADEBOX;
         p->attribute = GsALON | GsATWO;
         *(u32 *)&p->w = (FADE_SCREEN_HEIGHT << 16) | FADE_SCREEN_WIDTH;
@@ -80,8 +80,7 @@ void Fade_DrawOverlay(void) {
         if (flags & FADE_FLAG_BANDED) {
             FADEBOX_H(p) = FADE_BAND_HEIGHT;
             for (i = 0; i < FADE_BAND_COUNT; i++) {
-                u8 *lvl = rec + i;
-                band = 0xFF - lvl[0xA];
+                band = 0xFF - rec->band_levels[i];
                 p->b = (u8) band;
                 p->g = (u8) band;
                 p->r = (u8) band;
@@ -107,13 +106,13 @@ void Fade_DrawOverlay(void) {
         p->r = (u8) shade;
         if (gFade_State.flags & FADE_FLAG_TINTED) {
             p->attribute = GsALON | GsAONE;
-            tint = rec[0] - rec[4];
+            tint = rec->tint_r - rec->level;
             if (tint < 0) tint = 0;
             p->r = (u8) tint;
-            tint = rec[1] - rec[4];
+            tint = rec->tint_g - rec->level;
             if (tint < 0) tint = 0;
             p->g = (u8) tint;
-            tint = rec[2] - rec[4];
+            tint = rec->tint_b - rec->level;
             if (tint < 0) tint = 0;
             p->b = (u8) tint;
         }
