@@ -61,7 +61,9 @@ typedef struct {
    inside that record's s32 at 0x30, which is the split display_object.h
    documents as the reason its own callers keep private copies. */
 typedef struct {
-    u8 pad0[0x32];
+    u8 pad0[8];
+    u16 flags;
+    u8 pad0A[0x28];
     s16 y;
     u8 pad34[0x35];
     u8 frame;
@@ -79,10 +81,10 @@ typedef struct {
  * func_80040410; MainMenu_RebuildTradeInventoryRows reads ->frame
  * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
  * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
- * read `frame`. `frame` is a member of that view and +8 falls inside its
- * pad0 (display_object_config.h:13 names the same halfword `flags` in
- * DisplayObjectConfig), so the widget view is the one kept here; the +8 and
- * func_800428EC sites cast to bytes. */
+ * read `frame`. `frame` is a member of that view, and so is the +8 halfword
+ * those two stores OR into, named `flags` as DisplayObjectConfig
+ * (display_object_config.h) names it, so the widget view is the one kept
+ * here; only the func_800428EC sites cast to bytes. */
 extern MainMenuWidget *D_801845DC;
 extern MainMenuWidget *D_801845E0;
 

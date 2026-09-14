@@ -3,8 +3,8 @@
  * the hand selection display, runs the scripted selection path, lets the
  * player move through the hand, flip and pick cards, and hands the chosen
  * cards to the placement state. Current best under gcc_2_8_1_g8_split:
- * 1313 instructions against 1326 with opcode distance 35 (11 surplus,
- * 24 missing), with no hard register assignments and no inline assembly.
+ * 1319 instructions against 1326 with opcode distance 25 (9 surplus,
+ * 16 missing), with no hard register assignments and no inline assembly.
  *
  * Levers measured on this body:
  * - the pad words, the card viewer bytes, the effect state and the AI
@@ -16,10 +16,15 @@
  *   AI target column by their own signedness, and the fade and target
  *   tests are signed byte tests;
  * - the card confirmation block sits in state 4 and the AI path reaches it
- *   by goto.
+ *   by goto;
+ * - the shared restore, cursor-reset and ritual-pick bodies sit at their
+ *   first use in retail's layout, and the other paths reach them by goto;
+ * - func_80017F04 takes its three-argument prototype;
+ * - when no hand slot carries the searched order, the collect loop sets its
+ *   counter past the end and stops, as retail does.
  *
- * Residual: census addiu -7, andi -1, beqz +1, bne -1, bnez -1, j -1,
- * lb -3, lh -2, lhu +1, lw -4, nop +4, sb -1, sh -1, sll +3, sra +2, sw -2.
+ * Residual: census addiu -5, andi -1, j -1, lb -3, lhu +1, lw -3, nop +3,
+ * sb -1, sh -1, sll +3, sra +2, sw -1.
  * Retail saves one more callee-saved register and keeps the selection
  * table base in $s0, and several slot and column reads are signed where
  * this source reads them unsigned.
@@ -34,7 +39,6 @@
 #define D_800EAE88_AS_BYTES
 #define FUNC_80024088_WIDE_DIRECTION
 #define DUEL_FIELD_GRID_2D
-#define FUNC_80017F04_AMBIENT_POSITION_ARGS
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "../game/duel_scene_state.h"
@@ -279,10 +283,7 @@ void DuelScene_UpdateHandActions(void)
                 kind = (gDuel_adwCardStats[CARD_ID(B(obj, 0x6A)) - 1] >> 0x1A) & 0x1F;
                 if (kind >= 0x14 && B(obj, 0x21) == 0 && kind != 0x17 && kind != 0x15) {
                     D_800E9EF0[0] = (DisplayObject *)obj;
-                ritual_pick:
-                    *(s8 *)((u8 *)D_8009B1C8 + 0x1A + (s8)B(side, 0xE)) = -1;
-                    D_8009B174 = 5;
-                    return;
+                    goto ritual_pick;
                 }
                 W(obj, 0x24) = (s32)func_8001EC70;
                 D_8009B20C[0] = (u16)D_8009B20C[0] | 0x5000;
@@ -301,7 +302,9 @@ void DuelScene_UpdateHandActions(void)
                     if (D_8009B20A < 0) {
                         D_8009B20A = D_800EAE8E[0] - 1;
                     }
-                    goto cursor_reset;
+                cursor_reset:
+                    D_8009B160 = -1;
+                    return;
                 }
                 if (func_80024088((void *)D_8009B1B4, D_8009B160) == 0) {
                     if (D_8009B1B4->col != D_8009B20A) {
@@ -315,9 +318,6 @@ void DuelScene_UpdateHandActions(void)
                 }
                 return;
             }
-        cursor_reset:
-            D_8009B160 = -1;
-            return;
         }
         break;
     case 1:
@@ -466,7 +466,16 @@ void DuelScene_UpdateHandActions(void)
                 v = D_8009B174 & 0x10;
                 D_8009B174 &= 0xDF;
                 if (v != 0) {
-                    goto restore;
+                restore:
+                    func_8004036C(D_8009B188);
+                    func_8004036C(D_8009B18C);
+                    D_8009B18C = 0;
+                    D_8009B188 = 0;
+                    W(obj, 0x28) = W(obj, 0x2C);
+                    DisplayObject_SavePosition((void *)obj);
+                    S(obj, 0x60) = 0;
+                    D_8009B174 |= 0x50;
+                    return;
                 }
             }
         } else {
@@ -501,19 +510,13 @@ void DuelScene_UpdateHandActions(void)
                     D_800E9EF0[0] = (DisplayObject *)obj;
                     D_8009B18C = 0;
                     D_8009B188 = 0;
-                    goto ritual_pick;
+                ritual_pick:
+                    *(s8 *)((u8 *)D_8009B1C8 + 0x1A + (s8)B(side, 0xE)) = -1;
+                    D_8009B174 = 5;
+                    return;
                 }
                 D_8009B174 |= 0x70;
-            restore:
-                func_8004036C(D_8009B188);
-                func_8004036C(D_8009B18C);
-                D_8009B18C = 0;
-                D_8009B188 = 0;
-                W(obj, 0x28) = W(obj, 0x2C);
-                DisplayObject_SavePosition((void *)obj);
-                S(obj, 0x60) = 0;
-                D_8009B174 |= 0x50;
-                return;
+                goto restore;
             }
         }
         break;
@@ -572,7 +575,7 @@ void DuelScene_UpdateHandActions(void)
                     if (card->flags & 0x8000) {
                         obj = card->object;
                         i = 1;
-                        D_800E9EF0[0] = (DisplayObject *)func_80017F04(card);
+                        D_800E9EF0[0] = (DisplayObject *)func_80017F04(card, S(card, 8), S(card, 0xA));
                         func_80024914(&D_801A7AD8[B(obj, 0x6A)]);
                         goto tally;
                     }
@@ -602,6 +605,9 @@ void DuelScene_UpdateHandActions(void)
                                     *slots = (DisplayObject *)h->object;
                                     break;
                                 }
+                            }
+                            if (n == 5) {
+                                j = 8;
                             }
                             j++;
                         } while (j < 6);

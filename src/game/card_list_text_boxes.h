@@ -23,9 +23,9 @@ typedef struct CardList {
     /* The two text boxes the input handler moves. Both are display objects
        whose field_30.h.field_32 is a y position: BuildDeck_UpdateCardListInput sets the
        cursor box to cursor * 22 + 0x2A and the scroll box to the thumb
-       position it derives from `first`. func_800339D0.c pulses the
-       scroll box's colour bytes at +0xC/+0xD/+0xE, which is what fixes them
-       as display records rather than rows of this list. */
+       position it derives from `first`. func_80033BE8 (func_800339D0.c)
+       pulses both lists' cursor boxes' colour bytes at +0xC/+0xD/+0xE, which
+       is what fixes them as display records rather than rows of this list. */
     struct DisplayObject *cursor_box;
     struct DisplayObject *scroll_box;
     s16 first;

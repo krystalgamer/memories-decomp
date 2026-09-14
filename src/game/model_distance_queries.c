@@ -17,12 +17,12 @@ s32 func_8005A1F4(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u8 *entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
+    u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 
     memset(&difference, 0, 8);
-    difference.vx = D_800F56F0[0] - *(u16 *)(entry + 0);
-    difference.vy = D_800F56F0[2] - *(u16 *)(entry + 2);
-    difference.vz = D_800F56F0[4] - *(u16 *)(entry + 4);
+    difference.vx = D_800F56F0[0] - entry[0];
+    difference.vy = D_800F56F0[2] - entry[1];
+    difference.vz = D_800F56F0[4] - entry[2];
     output = difference;
     return SquareRoot0(
         output.vx * output.vx + output.vy * output.vy + output.vz * output.vz
@@ -33,12 +33,12 @@ s32 func_8005A2E0(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u8 *entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
+    u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 
     memset(&difference, 0, 8);
-    difference.vx = D_800F56F0[6] - *(u16 *)(entry + 0);
-    difference.vy = D_800F56F0[8] - *(u16 *)(entry + 2);
-    difference.vz = D_800F56F0[10] - *(u16 *)(entry + 4);
+    difference.vx = D_800F56F0[6] - entry[0];
+    difference.vy = D_800F56F0[8] - entry[1];
+    difference.vz = D_800F56F0[10] - entry[2];
     output = difference;
     return SquareRoot0(
         output.vx * output.vx + output.vy * output.vy + output.vz * output.vz
