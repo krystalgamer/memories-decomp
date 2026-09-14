@@ -287,10 +287,14 @@ def _condition_value(
                     )
                 if operator == "*":
                     value *= right
-                elif operator == "/":
-                    value = int(value / right)
                 else:
-                    value %= right
+                    quotient = abs(value) // abs(right)
+                    if (value < 0) != (right < 0):
+                        quotient = -quotient
+                    if operator == "/":
+                        value = quotient
+                    else:
+                        value -= quotient * right
             return value
 
         def unary(self) -> int:

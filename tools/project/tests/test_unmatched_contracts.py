@@ -528,6 +528,12 @@ extern s32 data;
         self.assertTrue(unmatched_contracts.condition_enabled(
             "ALIAS == 4 && defined(FUNCTION) && !FUNCTION", macros
         ))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "(-3 % 2) == -1", macros
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "(-3 % 2) == 1", macros
+        ))
 
     def test_zero_valued_macro_does_not_activate_an_owner(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
