@@ -1270,8 +1270,10 @@ first try. For overlay data it is **not** sufficient: a run can be uniformly
 word-sized, entirely zero, and still unsafe, because the size the label
 implies may be unrelated to the object. The extra check is to find a
 consumer's declared size and require it to agree with the label extent, or
-else to account for the unnamed remainder explicitly. Free Duel's prefix now passes that check because every byte through `0x10A8`
-is accounted for separately. The password candidates still do not.
+else to account for the unnamed remainder explicitly. Free Duel's prefix now
+passes that check because every byte through `0x10A8` is accounted for
+separately. Password's `0x190`-byte state likewise accounts for every byte
+through its current raw-tail start at `0x5590`.
 
 Two method corrections, because each cost me a wrong number in this same
 survey.
@@ -1322,7 +1324,9 @@ exactly `0x18` bytes and carries six `R_MIPS_32` relocations, in order, to
 comparator definitions include their shared owning header, so the table cannot
 silently drift from their signatures.
 
-The remaining overlay data work is in the bulk blobs, not the headers:
+The following all-overlay inventory is retained as the historical campaign
+baseline. The Password and Free Duel rows have been corrected to their current
+raw tails after the consumer-backed state prefixes were carved:
 
 | overlay | raw blob | bytes |
 |---|---|---:|
