@@ -1,28 +1,21 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0 this
- * source rebuilt the target byte for byte, but only by
- * pinning 10 variables to hard registers, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/func_800464F0.c.
- */
 #define G_SDVALUE_AGGREGATE
 #include "../types.h"
-#include "../game/sound.h"
+#include "sound.h"
 
 #define SOUND_STATE ((SDValue *)g_SDValue[0])
 
 void func_800464F0(void)
 {
     SDValue *p;
-    register s32 i asm("a2");
-    register s32 j asm("a1");
-    register s32 k asm("a3");
+    s32 i;
+    s32 j;
+    s32 k;
     s32 tag;
-    register SDCommand *dst asm("v0");
-    register u8 *src_base asm("v1");
-    register SDCommand *src asm("a0");
-    register s32 c29 asm("t2");
-    register s32 c24 asm("t1");
-    register s32 c2b asm("t0");
+    SDCommand *dst;
+    SDCommand *src;
+    s32 c29;
+    s32 c24;
+    s32 c2b;
 
     p = SOUND_STATE;
     i = 0;
@@ -39,10 +32,7 @@ loop:
     if (p->command_count == 0) {
         goto tail_dispatch;
     }
-    /* The byte form, and the grouping, are both load-bearing: retail
-           adds the record base to the running byte offset in that order.
-           sound_runtime.c keeps the same shape over the same queue. */
-        tag = *(u8 *)((u8 *)p + j + SD_COMMAND_QUEUE_BYTE_OFFSET);
+    tag = *(u8 *)((u8 *)p + j + SD_COMMAND_QUEUE_BYTE_OFFSET);
     if (tag == c29) {
         goto match;
     }
@@ -52,8 +42,7 @@ loop:
     if (tag == c24) {
         goto match;
     }
-    k += 0x30;
-    goto advance;
+    goto no_match;
 
 high_range:
     if (tag != c2b) {
@@ -62,10 +51,9 @@ high_range:
 
 match:
     p = SOUND_STATE;
-    dst = (SDCommand *)((u8 *)p + j);
-    dst = (SDCommand *)((u8 *)dst + SD_COMMAND_QUEUE_BYTE_OFFSET);
-    src_base = (u8 *)p + k;
-    src = (SDCommand *)(src_base + SD_COMMAND_QUEUE_BYTE_OFFSET);
+    src = (SDCommand *)((u8 *)p + j);
+    dst = (SDCommand *)((u8 *)src + SD_COMMAND_QUEUE_BYTE_OFFSET);
+    src = (SDCommand *)((u8 *)p + k + SD_COMMAND_QUEUE_BYTE_OFFSET);
     *dst = *src;
     p = SOUND_STATE;
     p->command_count = (u16)p->command_count - 1;
@@ -89,7 +77,7 @@ tail_test:
 
 tail_dispatch:
     {
-        register SDValue *tail_p asm("v0") = SOUND_STATE;
+        SDValue *tail_p = SOUND_STATE;
         tag = tail_p->field_007C;
     }
     if (tag == 0x29) {
