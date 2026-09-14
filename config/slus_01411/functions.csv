@@ -1573,8 +1573,8 @@ address,size,name,status,module,notes
 0x80085740,0x74,GsInit3D,sdk_asm,psyq/sdk,Identified by the unique 128-byte Psy-Q 4.6 LIBGS.LIB/GS_104.OBJ signature; calls GsSetDrawBuffOffset. func_80013154 calls it with no arguments during start-up.
 0x800857C0,0x20,GsSetProjection,sdk_asm,psyq/sdk,Identified by the Psy-Q 4.6 LIBGS.LIB/GS_106.OBJ label plus the exact wrapper call to SetGeomScreen; resident camera setup callers pass their stored projection distance through the canonical libgs.h interface.
 0x800857E0,0x4B8,GsSetFlatLight,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/GS_107.OBJ signature and matching three-light setup.
-0x80085C98,0x64,func_80085C98,sdk_asm,psyq/sdk,
-0x80085CFC,0x4C,func_80085CFC,sdk_asm,psyq/sdk,
+0x80085C98,0x64,gte_set_lc,sdk_asm,psyq/sdk,"Private GS_107 light-matrix writer; exact offset 0x4B8 after GsSetFlatLight is preserved by all three recovered Silent Hill regional maps, while Psy-Q 4.0 and independent PsyZ maps preserve the name and ordering."
+0x80085CFC,0x4C,gte_read_lc,sdk_asm,psyq/sdk,"Private GS_107 light-matrix reader; exact offset 0x51C after GsSetFlatLight is preserved by all three recovered Silent Hill regional maps, while Psy-Q 4.0 and independent PsyZ maps preserve the name immediately after gte_set_lc."
 0x80085D50,0x28,GsSetAmbient,sdk_asm,psyq/sdk,Identified by the unique 48-byte Psy-Q 4.6 LIBGS.LIB/GS_110.OBJ signature; scales its three colour arguments by 1/16 and forwards them to SetBackColor.
 0x80085D80,0x24,GsDrawOt,sdk_asm,psyq/sdk,"The exact wrapper loads GsOT.tag at +0x10 and calls confirmed DrawOTag, resolving the byte-identical GsDrawOt/GsDrawOtIO signature conflict. Graphics_BeginFrame calls it through the canonical libgs.h interface."
 0x80085DB0,0x58,GsClearOt,sdk_asm,psyq/sdk,"Identified by the unique 96-byte Psy-Q 4.6 LIBGS.LIB/GS_113.OBJ signature; writes the offset and point halfwords into the GsOT, derives its tag pointer from org plus 4 << length, and calls ClearOTagR. func_80013154 already declares the matching (u16, u16, void *) prototype."

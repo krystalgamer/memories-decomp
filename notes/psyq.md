@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 44 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 21 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 42 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 19 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 44 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 42 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 21 already sit inside 12
+The `--coverage-report` split narrows that work: 19 already sit inside 11
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -564,6 +564,8 @@ Every row below is now an applied project symbol.
 | `0x800856A0` | `GsDefDispBuff` | Applied from the unique 160-byte `LIBGS.LIB/GS_103.OBJ` signature; seeds both display buffers and calls `GsSetDrawBuffOffset` and `GsSetDrawBuffClip`. Matching graphics and movie start-up paths pass screen rectangles to it. |
 | `0x80085740` | `GsInit3D` | Applied from the unique 128-byte `LIBGS.LIB/GS_104.OBJ` signature; calls `GsSetDrawBuffOffset`. `func_80013154` calls it with no arguments during start-up. |
 | `0x800857E0` | `GsSetFlatLight` | Applied Psy-Q 4.6 identity; the matching scene setup installs three directional light records. |
+| `0x80085C98` | `gte_set_lc` | Private `GS_107.OBJ` label at exact offset `0x4B8` in all three recovered Silent Hill regional maps; Psy-Q 4.0 and the independent PsyZ map preserve the same name and position before `gte_read_lc`. |
+| `0x80085CFC` | `gte_read_lc` | Private `GS_107.OBJ` label at exact offset `0x51C` in all three recovered Silent Hill regional maps; Psy-Q 4.0 and the independent PsyZ map preserve its ordering immediately after `gte_set_lc`. |
 | `0x80085D50` | `GsSetAmbient` | Applied from the unique 48-byte `LIBGS.LIB/GS_110.OBJ` signature; scales its three colour arguments by 1/16 and forwards them to `SetBackColor`. |
 | `0x80085DB0` | `GsClearOt` | Applied from the unique 96-byte `LIBGS.LIB/GS_113.OBJ` signature; writes the offset and point halfwords into the `GsOT`, derives its tag pointer from `org` plus `4 << length`, and calls `ClearOTagR`. `func_80013154` already declares the matching `(u16, u16, void *)` prototype. |
 | `0x80085E10` | `GsSortOt` | Applied from the unique 192-byte `LIBGS.LIB/GS_114.OBJ` signature; walks the source ordering table on the `0x00FFFFFF` address mask and links it into the destination `GsOT`. |
