@@ -32,7 +32,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     s32 flag;
     GsOT *ot;
     u8 step;
-    u8 *t;
+    Effect8006C37CParams *t;
     s32 i;
     s32 r;
     s32 v;
@@ -54,8 +54,8 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     step = func_80058E1C();
 
     if (arg1 >= 0) {
-        e->table = D_80091604;
-        t = (u8 *)e->table;
+        e->table = (Effect8006C37CParams *)D_80091604;
+        t = e->table;
         func_80057E20(func_80058DCC(), &adj);
         if (adj.y < adj.z) {
             v = adj.z;
@@ -76,7 +76,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
         w = u << 16;
         v = w >> 16;
         v = v * 5 / 4;
-        r = *(s16 *)(t + 4);
+        r = t->min_radius;
         if (v >= r) {
             r = 0x2BC;
             if (v < 0x2BD) {
@@ -106,13 +106,13 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
         e->b = (arg1 % 10 + 6) * 0x11;
         e->r = ((arg1 - arg1 % 100) / 100 + 6) * 0x11;
         e->g = ((arg1 % 100 - arg1 % 10) / 10 + 6) * 0x11;
-        e->level = *(s16 *)(t + 6);
+        e->level = t->full_level;
         e->scale = 0;
         e->frame = 0;
         return 0;
     }
 
-    t = (u8 *)e->table;
+    t = e->table;
     ot = func_80058F10();
     SetPolyG3(&g3);
     SetPolyG4(&g4);
@@ -122,7 +122,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
-    v = (e->scale << 12) / *(s16 *)(t + 8) + csin((e->frame & 3) << 10) / 16;
+    v = (e->scale << 12) / t->full_scale + csin((e->frame & 3) << 10) / 16;
     scale.vx = v;
     scale.vy = v;
     scale.vz = v;
@@ -132,15 +132,15 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    c0 = e->r * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
-    c1 = e->g * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
-    c2 = e->b * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
+    c0 = e->r * e->level / t->full_level * e->scale / t->full_scale;
+    c1 = e->g * e->level / t->full_level * e->scale / t->full_scale;
+    c2 = e->b * e->level / t->full_level * e->scale / t->full_scale;
     g3.r0 = c0;
     g3.g0 = c1;
     g3.b0 = c2;
-    c0 = t[0] * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
-    c1 = t[1] * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
-    c2 = t[2] * e->level / *(s16 *)(t + 6) * e->scale / *(s16 *)(t + 8);
+    c0 = t->r * e->level / t->full_level * e->scale / t->full_scale;
+    c1 = t->g * e->level / t->full_level * e->scale / t->full_scale;
+    c2 = t->b * e->level / t->full_level * e->scale / t->full_scale;
     g3.r1 = c0;
     g3.r2 = c0;
     g3.g1 = c1;
@@ -168,7 +168,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     } else {
         s = e->scale + step;
         e->scale = s;
-        s = s < 0 ? 0 : (s > *(s16 *)(t + 8) ? *(s16 *)(t + 8) : s);
+        s = s < 0 ? 0 : (s > t->full_scale ? t->full_scale : s);
         e->scale = s;
     }
     return (e->level < 1) * 2;
