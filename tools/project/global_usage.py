@@ -339,6 +339,34 @@ def matching_open_paren(
     return None
 
 
+def function_declarator_close(tokens: list[Token], brace_index: int) -> int | None:
+    """Return the `)` that ends the declarator of a body opened at `brace_index`.
+
+    Old-style definitions such as `void f(id) u16 id; {` declare their
+    parameters between the identifier list and the body.
+    """
+    before = brace_index - 1
+    if before < 0:
+        return None
+    if tokens[before].value == ")":
+        return before
+    if tokens[before].value != ";":
+        return None
+    for index in range(before - 1, -1, -1):
+        value = tokens[index].value
+        if value in {"{", "}", "="}:
+            return None
+        if value == ")" and IDENTIFIER_RE.fullmatch(tokens[index + 1].value):
+            open_paren = matching_open_paren(tokens, index)
+            if open_paren is None or not all(
+                token.value == "," or IDENTIFIER_RE.fullmatch(token.value)
+                for token in tokens[open_paren + 1 : index]
+            ):
+                return None
+            return index
+    return None
+
+
 def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
     cleaned = blank_non_code(text)
     tokens = tokenize(cleaned)
@@ -351,8 +379,8 @@ def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
             top_level_tokens.append(token)
             index += 1
             continue
-        close_paren = index - 1
-        if close_paren >= 0 and tokens[close_paren].value == ")":
+        close_paren = function_declarator_close(tokens, index)
+        if close_paren is not None:
             open_paren = matching_open_paren(tokens, close_paren)
             name_index = None if open_paren is None else open_paren - 1
             if (
@@ -374,9 +402,9 @@ def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
                     raise GlobalUsageError(
                         f"unbalanced function body for {tokens[name_index].value}"
                     )
-                while (
-                    top_level_tokens
-                    and top_level_tokens[-1].value not in {";", "}"}
+                while top_level_tokens and (
+                    top_level_tokens[-1].start > tokens[close_paren].start
+                    or top_level_tokens[-1].value not in {";", "}"}
                 ):
                     top_level_tokens.pop()
                 functions.append(

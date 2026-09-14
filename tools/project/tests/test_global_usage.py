@@ -335,6 +335,24 @@ class SharedDeclarationTests(unittest.TestCase):
         self.assertEqual(accesses, {"read", "write"})
         self.assertEqual(combined_access(accesses), "read_write")
 
+    def test_parses_old_style_definition(self) -> None:
+        functions, top_level = parse_c_functions(
+            "extern u8 D_8009B27C;\n"
+            "void test(id, value)\n"
+            "    u16 id;\n"
+            "    u8 value;\n"
+            "{\n"
+            "    D_8009B27C = value;\n"
+            "}\n"
+        )
+
+        self.assertEqual([function.name for function in functions], ["test"])
+        self.assertIn("D_8009B27C", [token.value for token in functions[0].tokens])
+        self.assertEqual(
+            [token.value for token in top_level],
+            ["extern", "u8", "D_8009B27C", ";"],
+        )
+
     def test_member_access_does_not_decay_global_array(self) -> None:
         functions, _ = parse_c_functions(
             "void test(void) { id = D_8015C424.cards[n].id; }\n"
