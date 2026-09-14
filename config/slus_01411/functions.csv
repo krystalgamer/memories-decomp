@@ -1394,15 +1394,15 @@ address,size,name,status,module,notes
 0x8007BF50,0x10,DS_status,sdk_asm,psyq/sdk,
 0x8007BF60,0x10,DS_shell_open,sdk_asm,psyq/sdk,
 0x8007BF70,0x40,DS_cw_system,sdk_asm,psyq/sdk,
-0x8007BFB0,0x1D8,func_8007BFB0,sdk_asm,psyq/sdk,
-0x8007C188,0x2D0,func_8007C188,sdk_asm,psyq/sdk,
+0x8007BFB0,0x1D8,DS_cw_root,sdk_asm,psyq/sdk,"Private DSSYS_1 command root; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve the name/order, while the patched object shows it is the shared target of DS_cw and DS_cw_system."
+0x8007C188,0x2D0,DS_vsync_system,sdk_asm,psyq/sdk,"Private DSSYS_1 VSync runtime; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve the identity, and DS_init installs this exact address through VSyncCallbacks."
 0x8007C458,0x88,func_8007C458,sdk_asm,psyq/sdk,
-0x8007C4E0,0x110,func_8007C4E0,sdk_asm,psyq/sdk,
-0x8007C5F0,0x1E4,func_8007C5F0,sdk_asm,psyq/sdk,
-0x8007C7D4,0x288,func_8007C7D4,sdk_asm,psyq/sdk,
-0x8007CA5C,0xEC,func_8007CA5C,sdk_asm,psyq/sdk,
-0x8007CB48,0x94,func_8007CB48,sdk_asm,psyq/sdk,
-0x8007CBDC,0xB0,func_8007CBDC,sdk_asm,psyq/sdk,
+0x8007C4E0,0x110,DS_sync_system,sdk_asm,psyq/sdk,"Private DSSYS_1 synchronization dispatcher; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, with DS_init installing this address as the CD sync callback."
+0x8007C5F0,0x1E4,DS_sync_for_user,sdk_asm,psyq/sdk,"Private DSSYS_1 user-command synchronization path; stable position immediately after DS_sync_system in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, and selected first by the patched dispatcher."
+0x8007C7D4,0x288,DS_sync_for_system,sdk_asm,psyq/sdk,"Private DSSYS_1 system-command synchronization path; stable position between the user and void handlers in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007CA5C,0xEC,DS_sync_for_void,sdk_asm,psyq/sdk,"Private DSSYS_1 void-command synchronization path; stable position after the user/system handlers in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007CB48,0x94,DS_ready_system,sdk_asm,psyq/sdk,"Private DSSYS_1 ready-event dispatcher; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, with DS_init installing this exact address as the CD ready callback."
+0x8007CBDC,0xB0,DS_scan_result,sdk_asm,psyq/sdk,"Private DSSYS_1 result scanner; stable final pre-DS_stop identity in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, and shared by the patched sync/ready dispatchers before rescpy."
 0x8007CC8C,0x78,DS_stop,sdk_asm,psyq/sdk,
 0x8007CD04,0x10,DS_restart,sdk_asm,psyq/sdk,
 0x8007CD14,0x10,DS_system_active,sdk_asm,psyq/sdk,
