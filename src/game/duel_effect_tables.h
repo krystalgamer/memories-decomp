@@ -30,7 +30,7 @@ typedef void (*DuelEffectHandler)(void);
    DuelEffect_UpdateCardEffect turns the active card effect id into a group
    through gDuelEffect_abGroupByEffectId and runs one of that group's two
    handlers depending on DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER. The first of
-   each pair is DuelEffect_ClearCardEffect for every group but three.
+   each pair is DuelEffect_ClearCardEffect for every group but groups 10 and 12.
    DuelEffect_UpdateState runs one of the five state handlers by the state
    index it latched. */
 extern DuelEffectHandler gDuelEffect_apfnGroupHandler
