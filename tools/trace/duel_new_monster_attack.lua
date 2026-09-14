@@ -12,14 +12,16 @@
 --   distinguished from a position change or another card action.
 --
 -- HOW TO RUN
---   1. Start an ordinary one-player duel and run this script before playing
---      a card on the first player turn. The player's field should be empty.
---   2. Play exactly one monster face-up in attack position. Do not fuse,
+--   1. Start an ordinary one-player duel, complete the opening player turn
+--      without placing a monster, and let the opponent finish its turn.
+--   2. Run this script at the start of the second player turn. The player's
+--      field and the opponent's field should both be empty.
+--   3. Play exactly one monster face-up in attack position. Do not fuse,
 --      equip it, change its position, or play another monster.
---   3. Immediately use that same monster for a direct attack while the
+--   4. Immediately use that same monster for a direct attack while the
 --      opponent's field is empty. Choose an attacker that will remain in play.
---      If the opponent already has a monster, restart from a clean first turn.
---   4. Wait for the script to finish, then copy the whole document into
+--      If the opponent has a monster, restart and repeat the setup.
+--   5. Wait for the script to finish, then copy the whole document into
 --      tools/trace/result/duel_new_monster_attack.txt and fill in the context.
 --
 --   If the game refuses the attack, leave the turn open until the observation
@@ -40,6 +42,7 @@ local DUEL_MODE = 3
 local ACTIVE_SIDE = 0x8009b1d5
 local OPPONENT_ID = 0x8009b361
 local OPPONENT_LP = 0x800ea024
+local PLAYER_TURNS_TAKEN = 0x800e9ff1
 local CARD_RECORDS = 0x801a7ad8
 local CARD_RECORD_SIZE = 0x1c
 local PLAYER_RECORD_COUNT = 15
@@ -119,6 +122,7 @@ local watchedIndex = nil
 local watchedCardID = nil
 local placementFrame = nil
 local placementUsed = nil
+local placementTurnCount = nil
 local placementOpponentLP = nil
 local lastOpponentLP = nil
 local usedTransition = false
@@ -171,10 +175,12 @@ local function finish(reason)
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
     print(string.format(
-        'summary: watched_index=%s card_id=%s placement_used=%s '
+        'summary: watched_index=%s card_id=%s player_turns=%s '
+            .. 'placement_used=%s '
             .. 'used_transition=%s opponent_lp_drop=%s turn_changed=%s',
         tostring(watchedIndex),
         tostring(watchedCardID),
+        tostring(placementTurnCount),
         tostring(placementUsed),
         tostring(usedTransition),
         tostring(opponentLPDrop),
@@ -241,6 +247,7 @@ local function recordPlayerChanges()
             watchedIndex = index
             watchedCardID = current.card_id
             placementFrame = frames
+            placementTurnCount = u8(PLAYER_TURNS_TAKEN)
             placementUsed =
                 hasFlag(current.flags, FLAG_USED_THIS_TURN)
             placementOpponentLP = u16(OPPONENT_LP)
@@ -252,6 +259,11 @@ local function recordPlayerChanges()
                 placementOpponentLP
             ))
             capture('new player field record')
+            if placementTurnCount <= 1 then
+                finish('monster was placed on the opening player turn; '
+                       .. 'rerun on the second or later player turn')
+                return true
+            end
             print(string.format(
                 '%s: watching record %d card %d; attack directly now',
                 SCRIPT_NAME,
@@ -307,6 +319,9 @@ local function poll()
 
     local activeSide = u8(ACTIVE_SIDE)
     local changed = recordPlayerChanges()
+    if done then
+        return
+    end
     local opponentLP = u16(OPPONENT_LP)
 
     if opponentLP ~= lastOpponentLP then

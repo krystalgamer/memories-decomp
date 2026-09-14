@@ -16,6 +16,7 @@ local MAIN_MODE = 0x8009b26c
 local ACTIVE_SIDE = 0x8009b1d5
 local OPPONENT_ID = 0x8009b361
 local OPPONENT_LP = 0x800ea024
+local PLAYER_TURNS_TAKEN = 0x800e9ff1
 local CARD_RECORDS = 0x801a7ad8
 local CARD_RECORD_SIZE = 0x1c
 local CARD_ID_OFFSET = 0x0c
@@ -23,7 +24,7 @@ local FLAGS_OFFSET = 0x16
 local FLAG_OCCUPIED = 0x8000
 local FLAG_USED_THIS_TURN = 0x4000
 
-local function capture(mode, side, opponent, opponentLP)
+local function capture(mode, side, opponent, opponentLP, playerTurns)
     local memory = ffi.new('uint8_t[?]', 0x200000)
     local events = {}
     local output = {}
@@ -67,6 +68,7 @@ local function capture(mode, side, opponent, opponentLP)
     set8(MAIN_MODE, mode or 3)
     set8(ACTIVE_SIDE, side or 0)
     set8(OPPONENT_ID, opponent or 1)
+    set8(PLAYER_TURNS_TAKEN, playerTurns or 2)
     set16(OPPONENT_LP, opponentLP or 8000)
     dofile(scriptPath)
 
@@ -99,6 +101,10 @@ local function capture(mode, side, opponent, opponentLP)
         set16(OPPONENT_LP, value)
     end
 
+    function result:playerTurns(value)
+        set8(PLAYER_TURNS_TAKEN, value)
+    end
+
     function result:record(index, cardID, flags)
         local base = CARD_RECORDS + index * CARD_RECORD_SIZE
         set16(base + CARD_ID_OFFSET, cardID)
@@ -124,7 +130,8 @@ assert(normal:has(
     'status: same-turn used-bit transition and opponent LP drop captured'
 ), 'the complete simulated evidence must end after stable quiet time')
 assert(normal:has(
-    'summary: watched_index=2 card_id=123 placement_used=false '
+    'summary: watched_index=2 card_id=123 player_turns=2 '
+        .. 'placement_used=false '
         .. 'used_transition=true opponent_lp_drop=true turn_changed=false'
 ), 'the successful summary must retain each independent observation')
 assert(normal:has('used_transition frame='),
@@ -157,6 +164,18 @@ assert(turnChanged:has(
 assert(turnChanged:has('turn_changed=true'),
        'the final summary must preserve the turn-change reason')
 
+local openingTurn = capture(3, 0, 1, 8000, 1)
+openingTurn:frames(1)
+openingTurn:record(3, 111, FLAG_OCCUPIED)
+openingTurn:frames(1)
+assert(openingTurn:has(
+    'status: monster was placed on the opening player turn; rerun on the '
+        .. 'second or later player turn'
+), 'the globally attack-disabled opening turn must be rejected explicitly')
+assert(openingTurn:has(
+    'watched_index=3 card_id=111 player_turns=1'
+), 'the rejected run must preserve its placement context')
+
 local removed = capture(3, 0, 1, 8000)
 removed:frames(1)
 removed:record(6, 321, FLAG_OCCUPIED)
@@ -180,7 +199,8 @@ assert(alreadyUsed:has(
     'status: placement observation window completed without full evidence'
 ), 'an already-used placement must not invent a used-bit transition')
 assert(alreadyUsed:has(
-    'placement_used=true used_transition=false opponent_lp_drop=true'
+    'player_turns=2 placement_used=true used_transition=false '
+        .. 'opponent_lp_drop=true'
 ), 'the incomplete evidence must remain explicit in the summary')
 
 local silent = capture(8, 0, 1, 8000)
@@ -199,4 +219,4 @@ assert(limited:has('status: maximum player-record change count reached'),
        'the record-change capture must stop at its output bound')
 
 print = hostPrint
-print('duel_new_monster_attack: all eight polling cases passed')
+print('duel_new_monster_attack: all nine polling cases passed')

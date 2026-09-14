@@ -12,8 +12,10 @@ local VM_ENTRY = 0x80070650
 local VM_DISPATCH = 0x800706a8
 local VM_TIMING_RETURN = 0x800706e0
 local VM_EXIT = 0x800706f0
+local SCRIPT_CURSOR = 0x800f5bf0
 local PREVIOUS_CURSOR = 0x800f5bf4
 local MAIN_MODE = 0x8009b26c
+local ACTIVE_SIDE = 0x8009b1d5
 local OPPONENT_ID = 0x8009b361
 local SCRIPT_BASE = 0x801a8000
 
@@ -50,6 +52,7 @@ local function capture(options)
     set32(VM_TIMING_RETURN, options.timingSignature or 0x284200f0)
     set32(VM_EXIT, options.exitSignature or 0x8fbf0024)
     set8(MAIN_MODE, 3)
+    set8(ACTIVE_SIDE, 0)
     set8(OPPONENT_ID, 21)
 
     print = function(...)
@@ -155,6 +158,15 @@ local function capture(options)
         set32(VM_ENTRY, value)
     end
 
+    function result:activeSide(value)
+        set8(ACTIVE_SIDE, value)
+    end
+
+    function result:cursors(script, previous)
+        set32(SCRIPT_CURSOR, script)
+        set32(PREVIOUS_CURSOR, previous)
+    end
+
     function result:disabled()
         for _, address in ipairs({
             VM_ENTRY, VM_DISPATCH, VM_TIMING_RETURN, VM_EXIT
@@ -238,14 +250,40 @@ assert(orphaned:has('orphan_exits=1'))
 
 local silent = capture()
 silent:frames(599)
-assert(not silent:has('no AI pass seen'))
+assert(not silent:has('no AI pass or opponent-turn control seen'))
 silent:frames(1)
-assert(silent:has('no AI pass seen'))
+assert(silent:has('no AI pass or opponent-turn control seen'))
 silent:frames(35400)
 assert(silent:has(
     'status: timed out before eight completed AI interpreter passes'
 ))
 assert(silent:disabled())
+
+local breakpointControlFailure = capture()
+breakpointControlFailure:activeSide(1)
+breakpointControlFailure:cursors(SCRIPT_BASE + 4, SCRIPT_BASE + 3)
+breakpointControlFailure:frames(600)
+assert(breakpointControlFailure:has(
+    'opponent/cursor control observed without an AI VM breakpoint'
+))
+breakpointControlFailure:frames(35400)
+assert(breakpointControlFailure:has(
+    'status: opponent turn and AI cursor activity observed without an AI VM '
+        .. 'execution breakpoint'
+))
+assert(breakpointControlFailure:has(
+    'opponent_frames=36000 cursor_changes=1 passes_started=0'
+))
+assert(breakpointControlFailure:has('cursor_change=01'))
+assert(breakpointControlFailure:disabled())
+
+local opponentWithoutCursor = capture()
+opponentWithoutCursor:activeSide(1)
+opponentWithoutCursor:frames(36000)
+assert(opponentWithoutCursor:has(
+    'status: opponent turn observed but AI script cursor did not change'
+))
+assert(opponentWithoutCursor:disabled())
 
 local wrongSignature = capture({entrySignature = 0x12345678})
 assert(wrongSignature:has(
@@ -278,4 +316,4 @@ assert(limited:has(',...'))
 assert(limited:disabled())
 
 print = hostPrint
-print('ai_script_pass_timing: all seven callback-replay cases passed')
+print('ai_script_pass_timing: all nine callback-replay cases passed')
