@@ -105,6 +105,9 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
     s32 offset;
+    /* The entries are display objects; gMain_apMenuEntries keeps its u8 *
+       declaration for its other users. */
+    DisplayObject **entries = (DisplayObject **)gMain_apMenuEntries;
 
     for (i = 0; i < 0xB; i++) {
         if (i & 1) {
@@ -112,16 +115,16 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
         } else {
             offset = -0xA0;
         }
-        if (gMain_apMenuEntries[i] != 0) {
+        if (entries[i] != 0) {
             if (mode != 0) {
-                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = 0xA0;
-                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = offset;
+                entries[i]->field_34.h.field_36 = 0xA0;
+                entries[i]->field_38.h.field_38 = offset;
             } else {
-                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = offset;
-                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = 0xA0;
+                entries[i]->field_34.h.field_36 = offset;
+                entries[i]->field_38.h.field_38 = 0xA0;
             }
-            *(s16 *)(gMain_apMenuEntries[i] + 0x30) = *(u16 *)(gMain_apMenuEntries[i] + 0x36);
-            *(s16 *)(gMain_apMenuEntries[i] + 0x60) = 0x10;
+            entries[i]->field_30.h.field_30 = entries[i]->field_34.h.field_36;
+            entries[i]->field_60 = 0x10;
         }
     }
     D_80184596 = mode;
