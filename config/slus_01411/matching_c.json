@@ -2026,13 +2026,13 @@
       "address": "0x800307B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E0",
-      "source": "src/game/func_800307B8.c"
+      "source": "src/game/debug_menu_sound_entry.c"
     },
     {
       "address": "0x80030998",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x278",
-      "source": "src/game/func_80030998.c"
+      "source": "src/game/debug_menu_campaign_entry.c"
     },
     {
       "address": "0x80030C10",
@@ -2086,31 +2086,31 @@
       "address": "0x80030FA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/func_80030FA0.c"
+      "source": "src/game/debug_menu_mapped_mode.c"
     },
     {
       "address": "0x80030FD0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x30",
-      "source": "src/game/func_80030FD0.c"
+      "source": "src/game/debug_menu_exit.c"
     },
     {
       "address": "0x80031000",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
-      "source": "src/game/async_state_poll.c"
+      "source": "src/game/debug_menu_two_player_entry.c"
     },
     {
       "address": "0x80031078",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
-      "source": "src/game/async_state_poll.c"
+      "source": "src/game/debug_menu_two_player_entry.c"
     },
     {
       "address": "0x80031084",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C8",
-      "source": "src/game/func_80031084.c"
+      "source": "src/game/debug_menu_update.c"
     },
     {
       "address": "0x8003134C",
@@ -2122,7 +2122,7 @@
       "address": "0x80031354",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/func_80031354.c"
+      "source": "src/game/debug_menu_bust_up_entry.c"
     },
     {
       "address": "0x800313E8",

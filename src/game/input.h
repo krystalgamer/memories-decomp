@@ -67,7 +67,7 @@ extern u32 gInput_dwPendingHeld;
  *   _SIZED_VOLATILE -- eight bytes it does not have, and volatile. That
  *                     leaves small data only where the assembler's -G sits
  *                     below the compiler's. Its consumers are
- *                     src/game/func_800307B8.c, which records that it
+ *                     src/game/debug_menu_sound_entry.c, which records that it
  *                     was byte-exact under gcc_2_8_1_cc_g8_as_g4_split and
  *                     is 117 instructions against the target's 120 at
  *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
@@ -95,7 +95,7 @@ extern u32 gInput_dwPendingHeld;
  * An independent matching decompilation of this binary carries the same
  * address behind eight declarations, chosen per function, which is where this
  * list came from. Its sized arms are `[4]`, volatile and not, including the
- * .data view used by func_800307B8, and it has no `[5]`. */
+ * .data view used by DebugMenu_UpdateSoundEntry, and it has no `[5]`. */
 #ifdef GINPUT_PAD1_PRESSED_SIZED_IN_DATA_VOLATILE
 extern volatile u16 gInput_wPad1Pressed[4]
     __attribute__((section(".data")));

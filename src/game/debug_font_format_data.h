@@ -17,7 +17,7 @@
  * DEBUG_FONT_FORMATS_AS_U8_ARRAYS guard was selecting: its `u8 []` arm and
  * this `char []` one differ only in the element type, which reaches no
  * instruction, and the tree builds byte for byte the same with one
- * declaration for both readers. func_80031084.c still carries the `#define`
+ * declaration for both readers. debug_menu_update.c still carries the `#define`
  * for the removed guard; that file is in an open pull request, so deleting
  * the now-inert line is left to a follow-up. */
 extern char D_8009AF54[];

@@ -8,10 +8,10 @@
 #include "file_transfer.h"
 #include "frontend_debug_state.h"
 #include "../unmatched.h"
-#include "async_state_poll.h"
+#include "debug_menu_two_player_entry.h"
 #include "main_mode_state.h"
 
-void func_80031000(void)
+void DebugMenu_UpdateTwoPlayerDuelEntry(void)
 {
     u8 flags = D_8009B2EB;
     s32 result;
@@ -32,7 +32,7 @@ void func_80031000(void)
     }
 }
 
-void func_80031078(void)
+void DebugMenu_ResetEntryState(void)
 {
     D_8009B2EB = 0;
 }

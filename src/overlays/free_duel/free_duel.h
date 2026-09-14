@@ -17,7 +17,7 @@
  * the overlay callers do not use. That is true, and it does not matter here:
  * the question is not whether a divergent spelling exists but whether any file
  * carrying it includes this header. main_apply_menu_selection.c and
- * func_80030FA0.c are
+ * debug_menu_mapped_mode.c are
  * the two .data declarers and neither includes free_duel.h -- they are
  * resident units and this header is overlay-local -- so the two spellings
  * never meet and the overlay can share the plain one below. fade.h does the

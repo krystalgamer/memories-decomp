@@ -5,8 +5,8 @@
 `D_8009B0F4` is the resident loader's request-and-state word. It is the most
 widely shared global in the tree: 51 translation units declare and use it,
 against 37 for the next-busiest address. At the time of this audit,
-`func_80030D5C` reached it from inline assembly without declaring it; that
-function is now matching C in
+`DebugMenu_UpdateMovieEntry` reached it from inline assembly without declaring
+it; that function is now matching C in
 [`frontend_scene_states.c`](../src/game/frontend_scene_states.c).
 
 Before this pass every one of those 51 units declared the word for itself, and
@@ -113,7 +113,7 @@ and the full executable still matched:
 
 ### What is left
 
-`func_80030D5C` has since been recovered as matching C and now uses the
+`DebugMenu_UpdateMovieEntry` has since been recovered as matching C and now uses the
 explicit absolute-address view in
 [`frontend_scene_states.c`](../src/game/frontend_scene_states.c). The original
 inline-assembly exception no longer remains.

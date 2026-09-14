@@ -9,9 +9,9 @@
 #include "../unmatched.h"
 #include "campaign_scene_package.h"
 #include "frontend_debug_state.h"
-#include "func_80031354.h"
+#include "debug_menu_bust_up_entry.h"
 
-void func_80031354(void)
+void DebugMenu_UpdateBustUpEntry(void)
 {
     u8 flags = D_8009B2EB;
 

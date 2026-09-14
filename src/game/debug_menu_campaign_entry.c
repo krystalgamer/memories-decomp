@@ -1,5 +1,5 @@
 /*
- * `func_80030998` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
+ * `DebugMenu_UpdateCampaignEntry` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
  * selecting true-width DATA scalars for the active mode and campaign scene
  * index. The array spellings leave ten differing words; changing only the mode
  * leaves three and changing only the scene index leaves nine. Selecting both
@@ -41,10 +41,10 @@
 #include "func_8003B6AC.h"
 #include "func_8002E3FC.h"
 #include "../unmatched.h"
-#include "func_80030998.h"
+#include "debug_menu_campaign_entry.h"
 #include "main_mode_state.h"
 
-void func_80030998(void)
+void DebugMenu_UpdateCampaignEntry(void)
 {
     u8 *textbox;
     s32 result;

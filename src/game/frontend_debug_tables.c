@@ -5,7 +5,7 @@
    blob (#2602).
 
    Six debug HUD format strings that func_80030250 prints, and the index
-   table func_80030FA0 walks. They are one translation unit because they are
+   table DebugMenu_EnterMappedMode walks. They are one translation unit because they are
    one contiguous range, not because they are one idea.
 
    Each string carries its explicit size. In the image every one is padded to
@@ -14,7 +14,7 @@
    padding, because GCC aligns a char array to one byte. The six would then
    pack tightly and move everything after them.
 
-   func_80030998 uses the shared declarations of D_80090CDC and D_80090CF4;
+   DebugMenu_UpdateCampaignEntry uses the shared declarations of D_80090CDC and D_80090CF4;
    their names retain the original R_MIPS_HI16/R_MIPS_LO16 relocations. */
 u8 D_80090CB4[0x28] = "          SE= %04X BGM=%03X XA= %03X\n";
 u8 D_80090CDC[0x18] = "          MSG = %03X\n";
@@ -23,8 +23,8 @@ u8 D_80090D0C[0x1C] = "             MAP = %02X\n";
 u8 D_80090D28[0x1C] = "             MENU = %02X\n";
 u8 D_80090D44[0x24] = "                          = %02X\n";
 
-/* Indexed by D_8009B2F1 in func_80030FA0. */
-u8 D_80090D68[0x14] = {
+/* Indexed by gDebugMenu_bCursor in DebugMenu_EnterMappedMode. */
+u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT] = {
     0x01, 0x02, 0x03, 0x04, 0x00, 0x00, 0x05, 0x00,
     0x06, 0x08, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00,
     0x0B, 0x0C, 0x0D, 0x00,

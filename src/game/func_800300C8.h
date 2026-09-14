@@ -24,7 +24,7 @@ struct LayoutSource {
  * LayoutTarget. It is gone: the record is a DisplayObject.
  *
  * That view was declined a merge on the grounds that no file read both its
- * region (from 0x28) and the u16 at 0x08 that func_80031354.c named with a
+ * region (from 0x28) and the u16 at 0x08 that debug_menu_bust_up_entry.c named with a
  * local LocalRecord of its own. #3388 retired that LocalRecord for
  * DisplayObject, which names both -- flags at 0x08, and the four position
  * unions whose halfword pairs are exactly the eight fields LayoutTarget

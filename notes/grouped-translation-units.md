@@ -127,7 +127,7 @@ authority after later semantic renames or source grouping.
 | `src/game/duel_card_state_helpers.c` | `gcc_2_8_1_g8` | Duel-card state export (`0x80028220`) and encoded slot normalization (`0x80028260`) |
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | Debug-mode setup wrapper (`0x8002CDE8`), `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
-| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | The complete eight-function frontend scene-state run from `func_80030C10` (`0x80030C10`) through `func_80030F80` (`0x80030F80`). The states share the frontend entered/pending byte and cover debug scene/sound selection, asynchronous scene activation, duel-effect setup, trade-load completion, duel transition setup, and return to the main menu. `func_80030D5C` was previously isolated after requiring inline assembly, then recovered as matching C; the unit is bounded by separately compiled `func_80030998` and `func_80030FA0`. |
+| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | The complete eight-function frontend scene-state run from `func_80030C10` (`0x80030C10`) through `DebugMenu_EnterDeckEditor` (`0x80030F80`). The states share the frontend entered/pending byte and cover debug scene/sound selection, asynchronous scene activation, duel-effect setup, trade-load completion, duel transition setup, and return to the main menu. `DebugMenu_UpdateMovieEntry` was previously isolated after requiring inline assembly, then recovered as matching C; the unit is bounded by separately compiled `DebugMenu_UpdateCampaignEntry` and `DebugMenu_EnterMappedMode`. |
 | `src/game/build_deck_card_counts.c` | `gcc_2_8_1_g0_split` | Three contiguous Build Deck count helpers from `func_80031E5C` (`0x80031E5C`) through `func_80031F7C` (`0x80031F7C`): count-box refresh, returning a card to the chest, and removing a card from it. All three share the screen record and card-list sorting contract; the unit is bounded below by the card-list text-box group and above by `func_8003201C`. |
 | `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
 | `src/game/options_screen.c` | `gcc_2_8_1_g8_split` | The options screen, five contiguous functions: its text-colour and text-box setup `func_8003C4E0` (`0x8003C4E0`), the cursor layout pass `Options_UpdateLayout` (`0x8003C568`), `Options_Init` (`0x8003C628`), which calls both, and the input handler (`0x8003C7A0`) and per-frame dispatcher (`0x8003C8CC`). The former sources were recorded at `gcc_2_8_1_g0_split`, `gcc_2_8_1_g8_split`, `gcc_2_8_1_cc_g8_as_g4_no_split` and `gcc_2_8_1_g8`, and every member compiles to an identical object at `gcc_2_8_1_g8_split`. Bounded below by `func_8003C498`, a package-transfer request, and above by `game_over.c` |
@@ -333,7 +333,7 @@ its byte size divided by four is the number of table entries.
 
 Five resident sources were an `__asm__` block of `.word` literals with
 explicit `.reloc` directives and no C statements outside it: `func_800291E0`,
-`func_8002A4A8`, `func_8002A788`, `func_80030998` and `Main_RunCredits`. They
+`func_8002A4A8`, `func_8002A788`, `DebugMenu_UpdateCampaignEntry` and `Main_RunCredits`. They
 were registered in `matching_c.json` with a compiler profile, but no C was
 compiled for them, so the profile was inert and the recorded match reflected
 literal bytes rather than codegen.
@@ -345,7 +345,7 @@ no longer reaches them and none of them needs excluding by name.
 
 What they still do is leave a hole. Each sits between two matched functions,
 and for three of the five those neighbours share a profile: `func_800291E0`
-between two at `gcc_2_8_1_g0`, `func_80030998` between two at
+between two at `gcc_2_8_1_g0`, `DebugMenu_UpdateCampaignEntry` between two at
 `gcc_2_8_1_g8`, and `Main_RunCredits` between two at
 `gcc_2_8_1_g8_split_comm`. Of those three, only in the last is the hole
 exactly the one function -- its size is `0x21C` and the gap between its

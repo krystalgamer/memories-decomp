@@ -355,26 +355,26 @@ address,size,name,status,module,notes
 0x80030090,0x1C,func_80030090,matching_c,game,"31 pre-policy variants: exact with -G0 -mgas -msplit-addresses; earlier variants used the wrong address temporary, GPREL access, repeated loads, or extra instructions/frame."
 0x800300AC,0x1C,func_800300AC,matching_c,game,6 pre-policy variants: exact with -G0 -mgas -msplit-addresses; non-matching variants used the wrong address temporary or GPREL access.
 0x800300C8,0xD0,func_800300C8,matching_c,game,Pure C match: direct signed spacing division gives GCC the retail v0/v1 allocation without register pins.
-0x80030198,0xB8,func_80030198,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030198,0xB8,DebugMenu_Init,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030250,0x44,func_80030250,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80030294,0x524,func_80030294,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80030294.c with target src/candidates_target/func_80030294.S; profile gcc_2_8_1_cc_g8_as_g4_split, 329/329 instructions, opcode distance 0. The debug value editor converts row values to packed BCD, handles decimal/hex edits and cursor motion, and redraws the caret. The profile is the finding: sized volatile pad globals remain small data to GCC at -G8, while the assembler's -G4 bare-symbol loads rematerialize through each destination register. Its three local initialized tables produce 0x38 bytes of fingerprinted .rodata. Residual: in both edit arms the row-address sum emits its base before the index shift and lands in $v1 where retail uses $v0. See the source comment."
-0x800307B8,0x1E0,func_800307B8,matching_c,game,Exact pure-C match: a sized volatile .data view keeps the pad aggregate absolute while adjacent debug state remains small under gcc_2_8_1_g8_split.
-0x80030998,0x278,func_80030998,matching_c,game,Pure C under uniform G8 split: true-width DATA mode/index/object views and canonical debug/text/campaign declarations recover 632 bytes without pins or inline assembly; historical attempts preserved.
+0x800307B8,0x1E0,DebugMenu_UpdateSoundEntry,matching_c,game,Exact pure-C match: a sized volatile .data view keeps the pad aggregate absolute while adjacent debug state remains small under gcc_2_8_1_g8_split.
+0x80030998,0x278,DebugMenu_UpdateCampaignEntry,matching_c,game,Pure C under uniform G8 split: true-width DATA mode/index/object views and canonical debug/text/campaign declarations recover 632 bytes without pins or inline assembly; historical attempts preserved.
 0x80030C10,0xA0,func_80030C10,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030CB0,0xAC,func_80030CB0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030D5C,0xD4,func_80030D5C,matching_c,game,"Pure-C exact match using the established D_8009B0F4_abs alias, which preserves the retail absolute load and $v0 allocation without inline assembly."
-0x80030E30,0x4C,func_80030E30,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030E7C,0x4C,func_80030E7C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030EC8,0x78,func_80030EC8,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030F40,0x40,func_80030F40,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80030F80,0x20,func_80030F80,matching_c,game,First -O2 -G8 call-wrapper candidate matched linked bytes and relocations.
-0x80030FA0,0x30,func_80030FA0,matching_c,game,"gFreeDuel_bReturnFlags and D_8009B26C are placed in .data so they leave G8 small data and their stores expand through lui $at, while the plain D_8009B2F1 and D_8009B2B2 stay gp-relative."
-0x80030FD0,0x30,func_80030FD0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80031000,0x78,func_80031000,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80031078,0xC,func_80031078,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
-0x80031084,0x2C8,func_80031084,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
+0x80030CB0,0xAC,DebugMenu_UpdateTitleEntry,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030D5C,0xD4,DebugMenu_UpdateMovieEntry,matching_c,game,"Pure-C exact match using the established D_8009B0F4_abs alias, which preserves the retail absolute load and $v0 allocation without inline assembly."
+0x80030E30,0x4C,DebugMenu_UpdateLoadEntry,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030E7C,0x4C,DebugMenu_UpdateSaveEntry,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030EC8,0x78,DebugMenu_UpdateTradeEntry,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030F40,0x40,DebugMenu_EnterDuel,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80030F80,0x20,DebugMenu_EnterDeckEditor,matching_c,game,First -O2 -G8 call-wrapper candidate matched linked bytes and relocations.
+0x80030FA0,0x30,DebugMenu_EnterMappedMode,matching_c,game,"gFreeDuel_bReturnFlags and D_8009B26C are placed in .data so they leave G8 small data and their stores expand through lui $at, while the plain gDebugMenu_bCursor and D_8009B2B2 stay gp-relative."
+0x80030FD0,0x30,DebugMenu_Exit,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80031000,0x78,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80031078,0xC,DebugMenu_ResetEntryState,matching_c,game,First -O2 -G8 global-byte assignment candidate matched.
+0x80031084,0x2C8,DebugMenu_Update,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8003134C,0x8,func_8003134C,matching_c,game,First empty-function candidate matched.
-0x80031354,0x94,func_80031354,matching_c,game,Post-terminal declaration/profile recovery; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80031354,0x94,DebugMenu_UpdateBustUpEntry,matching_c,game,Post-terminal declaration/profile recovery; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800313E8,0x18C,func_800313E8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80031574,0x17C,func_80031574,matching_c,game,"Exact pin-free 380-byte icon builder: restore the returned DisplayObject pointer, capture the stats base before index arithmetic, and preserve final independent flag-update scheduling. Canonical object fields and typed callback; uniform G0 split, no instruction assembly."
 0x800316F0,0x94,func_800316F0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.

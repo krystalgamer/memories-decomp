@@ -1,7 +1,7 @@
 entrypoint = 0x800129D8; // type:func size:0xA0
 __main = 0x80012A78; // type:func size:0x70
 ScriptImage_TransferCallback = 0x8002DDFC; // type:func
-func_80031000 = 0x80031000; // type:func
+DebugMenu_UpdateTwoPlayerDuelEntry = 0x80031000; // type:func
 text_end = 0x800906D4; // ignore:True
 runtime_gp = 0x8009AF08;
 bss_start = 0x8009B090;

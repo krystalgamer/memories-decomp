@@ -1019,7 +1019,7 @@ PLAIN = re.compile(r'\*/\s{2}(\S+)\s+(.*)')
 |---|---:|
 | `AiScript_CalcCardPower` | 0x18C |
 | `func_80012E5C` | 0x210 |
-| `func_80031084` | 0x2C8 |
+| `DebugMenu_Update` | 0x2C8 |
 | `func_8003A560` | 0x3C0 |
 | `func_80043BCC` | 0x17C |
 | `func_8001BD88` | 0x14B8 |
@@ -2446,7 +2446,7 @@ object model through two related parent/child constructors.
 | `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
 | `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
-| `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
+| `DebugMenu_UpdateMovieEntry` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
 | `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
