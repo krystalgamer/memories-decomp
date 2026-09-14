@@ -1,16 +1,33 @@
 /*
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
- * gcc_2_8_1_g8_split: 450 instructions against 446, opcode multiset distance
- * 18, and 350 differing positions, with no hard register assignments.
+ * gcc_2_8_1_g8_split: 444 instructions against 446 and opcode distance 4,
+ * with no hard register assignments and no inline assembly.
  *
  * The full vector block, inverted negation guard, reference-vector push, and
  * depth-three retry are present. A scalar clamp temporary feeding one shared
  * two-word ModelSeparationPair temporary reproduces the target assignments.
  *
- * Residual: six surplus nops, five missing moves, and isolated scheduling or
- * allocation differences in addiu, li, lw, sw, bgez, and j. Addressing already
- * matches. See notes/research/func-80051350-decode.md for the structural map.
+ * Measured levers on top of that shape:
+ *  - the sign test of the push is written `sd < 0` first, which gives the
+ *    target's bgez instead of bltz;
+ *  - the last clamp (record 1, field_DC8[2]) computes its value in `moved`
+ *    before `moved` is zeroed, which gives `moved` the long-lived register
+ *    and brings back four of the target's five register copies. Borrowing
+ *    `moved` for the clamp LIMIT instead also moves min_extent out of its
+ *    stack slot, and the target reloads that slot before every clamp;
+ *  - `hits` is volatile: the target keeps it in memory and reloads, adds and
+ *    stores it on each increment.
+ * Measured and inert: declaring the loop's locals at function scope, zeroing
+ * `moved` at the top of the function (a dead store), and either arm order of
+ * the `moved != 0` test, including a goto to an out-of-line increment.
+ *
+ * Residual: in the `moved != 0` dispatch `moved` sits in $fp where the target
+ * uses $s1 with the opposite branch polarity, and `mode` is reloaded from its
+ * stack slot. The census is one missing register copy, one missing lw, one
+ * missing nop and one extra jump; all eleven of the target's min_extent reloads
+ * from its stack slot are present. Addressing matches. See
+ * notes/research/func-80051350-decode.md for the structural map.
  */
 #include "../types.h"
 #include "../game/model.h"
@@ -32,7 +49,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     ModelSeparationPair dist;
     ModelSeparationPair t;
     s32 moved;
-    s32 hits;
+    volatile s32 hits;
     s32 i;
     s32 ox;
     s32 oz;
@@ -80,11 +97,11 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         v = min_extent;
     }
     t.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[2] / 2;
-    if (v < min_extent) {
-        v = min_extent;
+    moved = (s16)D_800F2C40[1].field_DC8[2] / 2;
+    if (moved < min_extent) {
+        moved = min_extent;
     }
-    t.values[1] = v;
+    t.values[1] = moved;
     e2 = t;
 
     ref = D_800F56F0.vpx + ox;
@@ -191,10 +208,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                     sd = ((cx + px) * ux + (az + pz) * uz + cross) / len;
                 }
                 if (D_8009AF98 == 0) {
-                    if (sd >= 0) {
-                        D_8009AF99 = 1;
-                    } else {
+                    if (sd < 0) {
                         D_8009AF99 = -1;
+                    } else {
+                        D_8009AF99 = 1;
                     }
                     D_8009AF98 = 0x1E;
                 } else if (D_8009AF98 < 0xFF) {
