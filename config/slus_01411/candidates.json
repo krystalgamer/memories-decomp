@@ -111,6 +111,31 @@
       }
     },
     {
+      "address": "0x8001F55C",
+      "profile": "gcc_2_8_1_g8_split",
+      "source": "src/candidates/func_8001F55C.c",
+      "target": "src/candidates_target/func_8001F55C.S",
+      "candidate_build_sha256": "5d339ca77746261f236ebeb41260a92a5209be4c2ddf18516fc7dca2cb43e1f5",
+      "target_bytes_sha256": "63065ab7ad4422059374e74067512acf04d9b0b94fa1b937ac801bd8afc2dfdf",
+      "canonical_contract_sha256": "1ca0975e2ae07ff82d2df24b0bb0e0cdfe43c6bff189a3fdcc8ce47b2f09457f",
+      "canonical_contracts": {
+        "D_8009B170": "7565b031c5844cf7a528e2029c04629e317c43a773e0cd53504c480ecf55ca17",
+        "D_8009B172": "d729fccb347bd65ef26bb39eeba9ddeb5c2ab709c7ea91aa19d0724bafe6876e",
+        "D_8009B178": "f0945f21b072d5d79c1a1da9d592337f6b78c879b96b479caca802843be50428",
+        "D_8009B17A": "695f5894bb56c8ab86df72bd6729049ee6800709437d24beb64e436704d9d566",
+        "D_8009B1A4": "85c5efc2be42d3339991bdd085624a02816a14e25a7bd851e53ee7b5951d2f88",
+        "D_8009B1B0": "115bc5e30005d7b5ffe819ae8d84748ea1953ac2e3c81468a065db7e4c4d938e",
+        "D_8009B1B9": "0ae591c9e8b31db123c02c558ae4b48dac0bc9929085aa831e40b99d09bc1647",
+        "D_8009B208": "20d99e0fe242bbbd704026816809b4dc2c8a3c8b72406a6c48ae7ab269d145b9",
+        "D_8009B229": "56bf3c777e12894967ae7001f047664c0a573062171250b364f9d07e27d68a90",
+        "D_8009B269": "8705b1cc7398b0743dc23aad91a55b8849babd9c2570a1247350e2d580a0f229",
+        "D_8009B26C": "0ff72eda3f037347a48d396cdb46e8ed8d3cebb2d9c371759dc38fbbf88996b7",
+        "D_8009B374": "10e3231cde7a51e6facb2d2bed98ce03e29eda4545ffd49f791a77b60309d955",
+        "D_800E9F64": "2a0a97cf2a68c1afab453c6437ec4b587bf934787d4f184fe13d3dab53ad9480",
+        "D_800EF658": "1af46f4be4fc56fef2a3cec6fd70aea76fbd1ab5314ef698901823d9e1252710"
+      }
+    },
+    {
       "address": "0x800279BC",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800279BC.c",

@@ -24,6 +24,7 @@ DECLARATION = re.compile(
 )
 CONSUMERS = (
     "src/candidates/func_80018FEC.c",
+    "src/candidates/func_8001F55C.c",
     "src/candidates/func_800283F4.c",
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
@@ -61,12 +62,14 @@ CONSUMERS = (
     "src/overlays/overworld/set_location.c",
 )
 NEXT_DATA = {
-    "src/candidates/func_80018FEC.c", "src/game/script_op_save_prompt.c",
+    "src/candidates/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/game/script_op_save_prompt.c",
     "src/game/main_init.c",
 }
 NEXT_ARRAY = {"src/game/func_8002A788.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
-    "src/candidates/func_80018FEC.c", "src/candidates/func_800283F4.c",
+    "src/candidates/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/candidates/func_800283F4.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_campaign_entry.c",
     "src/game/debug_menu_mapped_mode.c",
 }
@@ -191,7 +194,7 @@ class MainModeStateTests(unittest.TestCase):
                     self.assert_views(self.preprocess(path), (next_view, active_view))
 
     def test_current_successors_and_common_inputs(self):
-        self.assertEqual(len(CONSUMERS), 36)
+        self.assertEqual(len(CONSUMERS), 37)
         commons = 0
         for source in CONSUMERS:
             with self.subTest(source=source):

@@ -577,7 +577,13 @@ extern u8 D_8009B370[];
 extern u16 D_8009B370;
 #endif
 extern u16 D_8009B372;
+/* The DuelScene_UpdateBattle candidate reads it through a %hi/%lo pair into
+ * the load's own register, which is the .data form. */
+#ifdef D_8009B374_IN_DATA
+extern u16 D_8009B374 __attribute__((section(".data")));
+#else
 extern u16 D_8009B374;
+#endif
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;
