@@ -3,6 +3,7 @@
 #include "display_object_layout.h"
 #include "script_image_objects.h"
 #include "script_image_rebuild.h"
+#include "display_object.h"
 #include "scene_image_overlay_tables.h"
 
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
@@ -11,12 +12,14 @@
  *
  * Rebuilt from the m2c draft, 36 differences to 0, five levers, every one a
  * rule already in WORKFLOW:
- *   - +0x3C and p+4 are HALFWORDS. Stored through `s32` the CENSUS read
- *     `lw +1, sw +2, sh -2, lh -1`; the difference count pointed at neither.
+ *   - +0x3C and p+4 (slot 0's value) are HALFWORDS. Stored through `s32`
+ *     the CENSUS read `lw +1, sw +2, sh -2, lh -1`; the difference count
+ *     pointed at neither.
  *     36 -> 33, empty census.
  *   - `n` is REUSED for the decoded BCD index -- retail's `addu $s1,$v1,$v0`
  *     writes the index back into the argument's own register. 33 -> 22.
- *   - `p[0x10] = 1;` goes BELOW the two read-modify-writes. 22 -> 14. The
+ *   - the slot's field_10 store (then `p[0x10] = 1;`) goes BELOW the two
+ *     read-modify-writes. 22 -> 14. The
  *     August park said "above (22 -> 19)", measured before the `n` reuse.
  *   - the D_80090BA8 base local is assigned AFTER the else arm's index, not
  *     before (14 -> 9), and that index is `s32 k`, not `s16 k` (9 -> 5).
@@ -35,6 +38,11 @@
  * `u8 m` / `s16 m` / the flag read as `*(u8 *)(b + k*2)` (all 9), four
  * declaration orders, a named entry pointer (all 9), borrowing the other
  * arm's `t` (+2/145) or `o` (35).
+ *
+ * The record's three 0x14-byte image slots are ScriptImageEntry records,
+ * reached as ((ScriptImageEntry *)p)[0..2], and the object each one holds
+ * is a DisplayObject. The mode halfword at +0x3C lies past the three slots
+ * (script_image_objects.h) and stays a raw halfword.
  */
 
 void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
@@ -53,24 +61,30 @@ void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
         o = func_800400AC(func_8004002C(), 3);
         func_80040510(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
-        *(s32 *)(o + 4) |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        *(u16 *)(o + 8) &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        p[0x10] = 1;
-        *(s32 *)p = (s32)o;
+        ((DisplayObject *)o)->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        ((DisplayObject *)o)->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        ((ScriptImageEntry *)p)->field_10 = 1;
+        ((ScriptImageEntry *)p)->pointer = o;
         t = &D_80090C00[n * 6];
-        *(s16 *)(p + 4) = 0;
+        ((ScriptImageEntry *)p)->value = 0;
         if (t[0] & 1) {
-            ScriptImage_CreateObject(p + 0x14, 0x14, 1);
-            *(s16 *)(*(s32 *)(p + 0x14) + 0x30) = t[1];
-            *(s16 *)(*(s32 *)(p + 0x14) + 0x32) = t[2];
+            ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[1],
+                                     0x14, 1);
+            ((DisplayObject *)((ScriptImageEntry *)p)[1].pointer)
+                ->field_30.h.field_30 = t[1];
+            ((DisplayObject *)((ScriptImageEntry *)p)[1].pointer)
+                ->field_30.h.field_32 = t[2];
         }
         if (t[0] & 2) {
-            ScriptImage_CreateObject(p + 0x28, 0x16, 2);
-            *(s16 *)(*(s32 *)(p + 0x28) + 0x30) = t[3];
-            *(s16 *)(*(s32 *)(p + 0x28) + 0x32) = t[4];
-            *(s16 *)(p + 0x2C) = t[5];
+            ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[2],
+                                     0x16, 2);
+            ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)
+                ->field_30.h.field_30 = t[3];
+            ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)
+                ->field_30.h.field_32 = t[4];
+            ((ScriptImageEntry *)p)[2].value = t[5];
             if (t[0] & 0x80) {
-                *(u16 *)(*(s32 *)(p + 0x28) + 8) |=
+                ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
         }
@@ -81,15 +95,17 @@ void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
             b = D_80090BA8;
             n = b[k * 2];
             if (n & 1) {
-                ScriptImage_CreateObject(p + 0x14, 0x12, 1);
+                ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[1],
+                                         0x12, 1);
             }
             if (n & 2) {
-                ScriptImage_CreateObject(p + 0x28, 0x14, 2);
-                *(s16 *)(p + 0x2C) = b[k * 2 + 1];
+                ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[2],
+                                         0x14, 2);
+                ((ScriptImageEntry *)p)[2].value = b[k * 2 + 1];
             }
         } else {
-            *(s32 *)(p + 0x14) = 0;
-            *(s32 *)(p + 0x28) = 0;
+            ((ScriptImageEntry *)p)[1].pointer = 0;
+            ((ScriptImageEntry *)p)[2].pointer = 0;
         }
     }
 }
