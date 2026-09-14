@@ -635,9 +635,10 @@ full, in the order things happen.
   calls. See [the RNG contract](../rng.md#duel-start-shuffle-stream-consumption).
 * The **player always moves first** against the computer.
 * The terrain starts as **normal** unless the opponent is fought on a home
-  terrain: Sebek and Neku are fought on Yami (sourced); the five shrine
-  mages on their shrine's field and the finale on Yami (readings from the
-  guides' strategy notes, not stated outright). The terrain byte is also what
+  terrain: a controlled campaign-to-duel trace confirms Forest Mage on Forest,
+  and Sebek and Neku are fought on Yami (sourced). The other shrine fields and
+  the finale's Yami assignments remain readings from guide strategy notes.
+  The terrain byte is also what
   selects which of the seven disc copies of the duel data is loaded (§12)
   [`0x8009B364`].
 * A duel that is entered with an incomplete deck never starts (§4.1).
@@ -1288,10 +1289,13 @@ Thus this writer counts the selected single-card play's face-down
 orientation at commitment, rather than tallying all face-down field cards.
 Matching [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads
 the byte as unsigned, copies it to displayed-stat slot 9, and passes it to
-`DUEL_RANK_RULE_FACE_DOWN_PLAYS` (row 3). Numbered multi-card selections
-bypass this particular increment; this does not establish their complete
-accounting, every other writer, or the effect of later card flips. It is
-static code evidence, not a new controlled trace.
+`DUEL_RANK_RULE_FACE_DOWN_PLAYS` (row 3). Numbered multi-card selections bypass this particular increment. A completed
+two-turn controlled trace closes the fusion case: one ordinary face-down card
+advanced `face_down_plays` by one, while a successful two-card fusion advanced
+`fusions_initiated` by one and left `face_down_plays` unchanged. The fusion
+result was forced face-up by the interface; there is no face-down fusion
+placement for another writer to credit. This still does not establish every
+other writer or the effect of later card flips.
 
 **When "pure magic" advances.** The matching
 [`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) increments the current
@@ -1742,7 +1746,7 @@ available in Free Duel (§8), with two exceptions noted.
 | 20 | Teana 2nd | hidden Dueling Grounds | optional | |
 | 21 | Ocean Mage | Sea Shrine gate | forced (to enter) | home field Umi (reading) |
 | 22 | High Mage Secmeton | Sea Shrine | forced | returns the Millennium Necklace |
-| 23 | Forest Mage | Forest Shrine gate | forced | home field Forest (reading) |
+| 23 | Forest Mage | Forest Shrine gate | forced | home field Forest (controlled trace) |
 | 24 | High Mage Anubisius | Forest Shrine | forced | Millennium Key |
 | 25 | Mountain Mage | Mountain Shrine gate | forced | home field Mountain (reading) |
 | 26 | High Mage Atenza | Mountain Shrine | forced | Millennium Ring |
@@ -2519,8 +2523,9 @@ Not verified in code:
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
   patched-game observation establishes their complete user-visible effects;
-* the home terrains of the five shrines and the finale (only Sebek/Neku's
-  Yami is sourced);
+* the home terrains of the Sea, Mountain, Desert, and Meadow shrine pairs and
+  the finale (Forest Mage's Forest is controlled-trace confirmed; only
+  Sebek/Neku's Yami is otherwise sourced);
 * the byte-level formats of the two live AI script buffers and the structured
   but byte-unconsumed phase 11 payload in the duel blob.
 
