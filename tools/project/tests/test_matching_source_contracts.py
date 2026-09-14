@@ -7,6 +7,7 @@ from integrate_verified_match import (
     IntegrationError,
     declared_symbol,
     load_tracked_symbol_names,
+    uses_disallowed_psyq_rtps_asm,
     validate_effective_profile,
 )
 from matching_source_contracts import profile_g_value, source_violations
@@ -44,8 +45,15 @@ class MatchingSourceContractTests(unittest.TestCase):
             ["contains statement-level assembly or an untracked assembler alias"],
         )
 
-    def test_preprocessed_psyq_macro_assembly_can_be_allowed(self) -> None:
-        source = 'void f(void) { asm("nop"); }\n'
+    def test_preprocessed_psyq_rtps_macros_can_be_allowed(self) -> None:
+        source = (
+            '__asm__ volatile ( "lwc2 $0, 0( %0 );" '
+            '"lwc2 $1, 4( %0 )" : : "r"( scratch ) ) ;\n'
+            '__asm__ volatile ( "nop;" "nop;" '
+            '".word 0x0000007f" ) ;\n'
+            '__asm__ volatile ( "swc2 $14, 0( %0 )" '
+            ': : "r"( output ) : "memory" ) ;\n'
+        )
         self.assertEqual(
             source_violations(
                 source,
@@ -54,6 +62,29 @@ class MatchingSourceContractTests(unittest.TestCase):
             ),
             [],
         )
+
+    def test_unrelated_expanded_assembly_is_rejected_with_rtps(self) -> None:
+        source = (
+            '__asm__ volatile ( "nop;" "nop;" '
+            '".word 0x0000007f" ) ;\n'
+            'asm("nop");\n'
+        )
+        self.assertEqual(
+            source_violations(
+                source,
+                set(),
+                allow_psyq_inline_macros=True,
+            ),
+            ["contains statement-level assembly or an untracked assembler alias"],
+        )
+        self.assertTrue(uses_disallowed_psyq_rtps_asm(source))
+
+    def test_rtps_allowance_requires_the_placeholder(self) -> None:
+        source = (
+            '__asm__ volatile ( "lwc2 $0, 0( %0 );" '
+            '"lwc2 $1, 4( %0 )" : : "r"( scratch ) ) ;\n'
+        )
+        self.assertTrue(uses_disallowed_psyq_rtps_asm(source))
 
     def test_comment_markers_inside_literals_do_not_hide_assembly(self) -> None:
         source = 'void f(void) { const char *s = "//"; asm("nop"); }\n'

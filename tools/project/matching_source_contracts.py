@@ -17,6 +17,7 @@ from integrate_verified_match import (
     profile_g_value,
     strip_c_comments,
     uses_asm_extension,
+    uses_disallowed_psyq_rtps_asm,
     validate_effective_profile,
 )
 from workspace import WorkspaceError, resolve_within
@@ -37,8 +38,12 @@ def source_violations(
     if contains_register_pin(text):
         violations.append("contains a hard-register variable")
     if (
-        not allow_psyq_inline_macros
-        and uses_asm_extension(
+        uses_disallowed_psyq_rtps_asm(
+            source,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+        if allow_psyq_inline_macros
+        else uses_asm_extension(
             source,
             allow_register_pins=True,
             allow_symbol_aliases=True,

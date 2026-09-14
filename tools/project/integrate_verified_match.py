@@ -56,6 +56,17 @@ EXTERNAL_FIELDS = (
     "summary",
 )
 G_FLAG = re.compile(r"^-G(?P<value>\d+)$")
+PSYQ_RTPS_LOAD = re.compile(
+    r'__asm__ volatile \( "lwc2 \$0, 0\( %0 \);" '
+    r'"lwc2 \$1, 4\( %0 \)" : : "r"\( .+ \) \) ;'
+)
+PSYQ_RTPS_COMMAND = (
+    '__asm__ volatile ( "nop;" "nop;" ".word 0x0000007f" ) ;'
+)
+PSYQ_RTPS_STORE = re.compile(
+    r'__asm__ volatile \( "swc2 \$14, 0\( %0 \)" '
+    r': : "r"\( .+ \) : "memory" \) ;'
+)
 
 
 def splice_c_lines(source: str) -> str:
@@ -340,6 +351,39 @@ def uses_asm_extension(
     return ASM_PATTERN.search(code) is not None
 
 
+def uses_disallowed_psyq_rtps_asm(
+    source: str,
+    *,
+    tracked_symbol_names: set[str] | None = None,
+) -> bool:
+    """Allow only the exact official Psy-Q RTPS macro expansion."""
+    result: list[str] = []
+    saw_rtps = False
+    for line in splice_c_lines(source).splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        newline = line[len(content):]
+        normalized = re.sub(r"\s+", " ", content).strip()
+        allowed = (
+            PSYQ_RTPS_LOAD.fullmatch(normalized) is not None
+            or PSYQ_RTPS_STORE.fullmatch(normalized) is not None
+            or normalized == PSYQ_RTPS_COMMAND
+        )
+        if allowed:
+            saw_rtps |= normalized == PSYQ_RTPS_COMMAND
+            result.append(" " * len(content) + newline)
+        else:
+            result.append(line)
+    return (
+        not saw_rtps
+        or uses_asm_extension(
+            "".join(result),
+            allow_register_pins=True,
+            allow_symbol_aliases=True,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+    )
+
+
 def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = json.load(handle)
@@ -589,8 +633,12 @@ def main() -> int:
                 "hard-register variables"
             )
         if (
-            not args.allow_psyq_inline_macros
-            and uses_asm_extension(
+            uses_disallowed_psyq_rtps_asm(
+                preprocessed_text,
+                tracked_symbol_names=tracked_symbol_names,
+            )
+            if args.allow_psyq_inline_macros
+            else uses_asm_extension(
                 preprocessed_text,
                 allow_register_pins=True,
                 allow_symbol_aliases=True,
