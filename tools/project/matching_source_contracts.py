@@ -40,6 +40,8 @@ def source_violations(
     if (
         uses_disallowed_psyq_rtps_asm(
             source,
+            allow_register_pins=True,
+            allow_symbol_aliases=True,
             tracked_symbol_names=tracked_symbol_names,
         )
         if allow_psyq_inline_macros

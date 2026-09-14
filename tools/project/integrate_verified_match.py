@@ -354,6 +354,8 @@ def uses_asm_extension(
 def uses_disallowed_psyq_rtps_asm(
     source: str,
     *,
+    allow_register_pins: bool = False,
+    allow_symbol_aliases: bool = False,
     tracked_symbol_names: set[str] | None = None,
 ) -> bool:
     """Allow only the exact official Psy-Q RTPS macro expansion."""
@@ -377,8 +379,8 @@ def uses_disallowed_psyq_rtps_asm(
         not saw_rtps
         or uses_asm_extension(
             "".join(result),
-            allow_register_pins=True,
-            allow_symbol_aliases=True,
+            allow_register_pins=allow_register_pins,
+            allow_symbol_aliases=allow_symbol_aliases,
             tracked_symbol_names=tracked_symbol_names,
         )
     )
@@ -635,6 +637,8 @@ def main() -> int:
         if (
             uses_disallowed_psyq_rtps_asm(
                 preprocessed_text,
+                allow_register_pins=True,
+                allow_symbol_aliases=True,
                 tracked_symbol_names=tracked_symbol_names,
             )
             if args.allow_psyq_inline_macros
