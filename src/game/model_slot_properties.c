@@ -19,20 +19,22 @@ s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX sp10;
     long sp30[2];
-    u8 *p;
-    u8 *e;
-    u8 *q;
+    ModelSlot *p;
+    GsUNIT *e;
+    u32 *q;
     SVECTOR *base;
 
-    p = (u8 *)&D_800F2C40[arg0];
-    e = p + (arg1 + 1) * 8;
-    q = *(u8 **)(e + 4);
-    q = *(u8 **)(q + 4);
-    base = *(SVECTOR **)(q + 8);
+    p = &D_800F2C40[arg0];
+    /* The part's GsUNIT, reached as an integer sum: indexed as
+       &p->field_000[arg1 + 1], GCC folds the +8 into the load and drops
+       the instruction retail spends on it. */
+    e = (GsUNIT *)((s32)p->field_000 + (arg1 + 1) * (s32)sizeof(GsUNIT));
+    q = (u32 *)e->primtop[1];
+    base = (SVECTOR *)q[2];
 
     PushMatrix();
     GsGetLwUnit(
-        (GsCOORDUNIT *)(*(u8 **)(p + 0xD14) + arg1 * MODEL_SLOT_DATA_ENTRY_SIZE),
+        (GsCOORDUNIT *)p->entries + arg1,
         &sp10
     );
     GsSetLsMatrix(&sp10);
