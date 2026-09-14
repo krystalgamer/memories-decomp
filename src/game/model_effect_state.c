@@ -45,10 +45,10 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     memset(pts, 0, 16);
     pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
     for (i = 1; i < 3; i++) {
-        u8 *e;
+        s16 *e;
 
-        e = (u8 *)keys[i] + k * 8;
-        if (*(s16 *)(e + 6) != 1) {
+        e = (s16 *)((u8 *)keys[i] + k * 8);
+        if (e[3] != 1) {
             break;
         }
     }
@@ -67,15 +67,15 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 
         kp = &D_800F5788[(cur - D_800F5788 + D_8009B078 - 1) % D_8009B078];
         p = (s16 *)((u8 *)kp + k * 8);
-        if (*(s16 *)((u8 *)p + 6) == 1) {
+        if (p[3] == 1) {
             pts[0] = p;
         }
         i = 0;
     } else {
-        den = *(u16 *)((u8 *)keys[0] + 0x22);
+        den = keys[0]->duration;
         for (i = 1; i < 3; i++) {
             if (keys[i - 1] != keys[i]) {
-                den += *(u16 *)((u8 *)keys[i] + 0x22);
+                den += keys[i]->duration;
             }
         }
         i = 0;
