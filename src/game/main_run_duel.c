@@ -8,7 +8,6 @@
 #define D_8009B370_AS_ABSOLUTE_ARRAY
 #define GCAMPAIGN_SCENE_INDEX_AS_ABSOLUTE_ARRAY
 #define D_8009B16C_IN_DATA
-#define GDUEL_BOPPONENTID_AS_SIZED_ARRAY
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
