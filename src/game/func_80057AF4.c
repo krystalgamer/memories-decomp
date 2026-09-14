@@ -85,7 +85,8 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
             m->field_BF6 = m->field_BF4;
             func_80057AF4(index, 0, 0);
         }
-        if (anim == m->field_DFE + 3 || m->field_DF8 == 0x309) {
+        if (anim == m->field_DFE + 3
+            || m->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
             m->field_E0E = 7;
         }
         m->field_E0F = anim;

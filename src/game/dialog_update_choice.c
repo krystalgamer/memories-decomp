@@ -22,8 +22,8 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     s32 g;
     s32 m;
 
-    if ((p->state_51 & 0x80) == 0) {
-        p->state_51 = p->state_51 | 0x80;
+    if ((p->state_51 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        p->state_51 = p->state_51 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = func_800400AC((s32)func_8004006C(), 4);
         func_800427DC(e, 1);
         func_80042918(e);
@@ -49,13 +49,13 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     g = gDialog_bInputState;
 
     if (f != 0) {
-        if ((g & 0x40) != 0) {
+        if ((g & DIALOG_CHOICE_INPUT_CONFIRMED) != 0) {
             gDialog_bInputState = g & 0xBF;
             gDialog_bChoice = g & 7;
             Dialog_HighlightChoice((u8 *)p);
             return;
         }
-        if ((f & 0x80) == 0) {
+        if ((f & DIALOG_CHOICE_INPUT_CANCELLED) == 0) {
             return;
         }
         gDialog_bInputState = 0;

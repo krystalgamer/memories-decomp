@@ -4,7 +4,7 @@
 --   notes/fm-online.md records that the broader meaning of D_8009B3EA is
 --   unresolved. Matching func_8003F8D4 uses its low nibble as the shared
 --   two-save load/validation state, while func_8003FD14 sets raw state 0x0A
---   before checking both 40-card decks and func_80031000 enters main mode
+--   before checking both 40-card decks and DebugMenu_UpdateTwoPlayerDuelEntry enters main mode
 --   0x10 after a successful two-player load.
 --
 --   This trace maps each raw/low D_8009B3EA transition to visible two-player

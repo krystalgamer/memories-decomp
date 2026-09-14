@@ -247,8 +247,9 @@ extern s32 D_801D5648[];
  * D_8009B3ED: SaveData_UpdateTradeLoad and SaveData_UpdateDuelLoad in
  * save_data_transfer_runtime.c test bit 0x80
  * clear, set it and store
- * D_8009B3C0; func_80030EC8 (func_80030E30.c:66), func_80031000
- * (async_state_poll.c:19) and MainMenu_UpdateFrontendMenu (cases 3 and 2 of
+ * D_8009B3C0; DebugMenu_UpdateTradeEntry (frontend_scene_states.c),
+ * DebugMenu_UpdateTwoPlayerDuelEntry (debug_menu_two_player_entry.c:19) and
+ * MainMenu_UpdateFrontendMenu (cases 3 and 2 of
  * its gMain_bMenuID switch; now a build-integrated candidate,
  * src/candidates/main_menu/func_80180390.c) store 0.
  *
@@ -258,9 +259,11 @@ extern s32 D_801D5648[];
  * stores 10 in the same unit; the three functions above store 0.
  *
  * u8 because the grouped unit's former sources already declared it u8 and
- * matched, and the retail loads are lbu. Retail addressing: func_80030EC8
- * and func_80031000 store both through lui $at (func_80030EC8.s:11-14,
- * func_80031000.s:11-14), which is the .data arm; the other four units are
+ * matched, and the retail loads are lbu. Retail addressing:
+ * DebugMenu_UpdateTradeEntry and DebugMenu_UpdateTwoPlayerDuelEntry store
+ * both through lui $at (debug_menu_primary_entries.s:11-14,
+ * debug_menu_two_player_entry.s:11-14), which is the .data arm; the other
+ * four units are
  * gp-relative or, in the main_menu overlay, built at -G0, which is the
  * plain arm. Initial value not read. notes/fm-online.md:177-187 records the
  * D_8009B3EA store at 0x8003FAE8 and leaves its meaning unresolved. */

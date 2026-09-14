@@ -40,8 +40,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     void (**handlers)(u8 *);
 
     flags = object->flags_34;
-    if ((flags & 0x4000) == 0) {
-        flags |= 0x4000;
+    if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {
+        flags |= TEXT_BOX_FLAG_BUILD_ACTIVE;
         object->flags_34 = flags;
         if ((flags & 2) == 0) {
             func_80039E9C();
@@ -94,7 +94,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
     }
     if (object->state_51 != 0) {
-        D_80090E64[object->state_51 & 0x1F](object);
+        D_80090E64[object->state_51 & DUEL_EFFECT_STATE_INDEX_MASK](object);
         object->flags_34 = object->flags_34 & 0xFBFF;
         return;
     }
@@ -136,7 +136,7 @@ next_opcode:
     func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
     object->field_60 = object->field_60 + 1;
     if (object->field_61 != 0 && object->field_60 >= object->field_61) {
-        object->flags_34 = object->flags_34 | 0x2000;
+        object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
     object->field_38 = object->field_38 + object->field_5A;
 }

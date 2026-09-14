@@ -66,11 +66,11 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
     if (kind == 0) {
         header->x = x + 0x88;
         header->y = y + 0xF;
-        func_80031784((u8 *)header, (s32)ot, D_80090DD8, list->sort_mode);
+        func_80031784(header, (s32)ot, D_80090DD8, list->sort_mode);
     } else {
         header->x = x + 0x6A;
         header->y = y + 0xF;
-        func_80031784((u8 *)header, (s32)ot, &D_80090DD8[kind * 16],
+        func_80031784(header, (s32)ot, &D_80090DD8[kind * 16],
                       list->sort_mode);
     }
     i = 0;

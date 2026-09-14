@@ -14,9 +14,9 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
     p = arg0->entry_head_24;
     D_8009B330 = 0;
 
-    while (p->flags_11 & 0x80) {
+    while (p->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->field_13 != 0) {
-            D_80090F58[p->field_13 & 0x1F](p, arg0);
+            D_80090F58[p->field_13 & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](p, arg0);
         }
         p++;
     }
@@ -26,7 +26,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
         e = arg0->entry_end_20;
         s = q;
         while (s != e) {
-            if (s->flags_11 & 0x80) {
+            if (s->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
                 *q = *s;
                 q++;
             }

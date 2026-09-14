@@ -12,7 +12,6 @@
 void func_8001944C(DisplayObject *o)
 {
     u8 *buf;
-    u8 *q;
     u16 *p;
     s32 xoff;
 
@@ -40,19 +39,22 @@ void func_8001944C(DisplayObject *o)
         xoff--;
     } while (xoff != 0);
 
+    /* The loop above set the STP bit on every pixel; these clear twelve
+       corner pixels of the 140x196 readback back to 0 -- (0, 0), (0, 1),
+       (1, 0) and the matching three at each other corner -- which rounds
+       the card's corners. (0, 0) is the store through D_8015C424 below. */
     p = (u16 *)D_8015C424;
-    q = (u8 *)p + 0x8000;
-    *(u16 *)(q + 0x565C) = 0;
-    *(u16 *)(q + 0x565E) = 0;
-    *(u16 *)(q + 0x554A) = 0;
-    *(u16 *)(q + 0x5548) = 0;
-    *(u16 *)(q + 0x5546) = 0;
-    *(u16 *)(q + 0x5430) = 0;
-    *(u16 *)((u8 *)p + 0x22E) = 0;
-    *(u16 *)((u8 *)p + 0x118) = 0;
-    *(u16 *)((u8 *)p + 0x114) = 0;
-    *(u16 *)((u8 *)p + 0x116) = 0;
-    *(u16 *)((u8 *)p + 0x2) = 0;
+    p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 138] = 0;
+    p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
+    p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
+    p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 0] = 0;
+    p[194 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
+    p[194 * DUEL_CARD_READBACK_WIDTH_WORDS + 0] = 0;
+    p[1 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
+    p[1 * DUEL_CARD_READBACK_WIDTH_WORDS + 0] = 0;
+    p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 138] = 0;
+    p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
+    p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
 
     *(u16 *)D_8015C424 = 0;
     D_800E9D70[0].x = 0x140;

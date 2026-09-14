@@ -10,13 +10,13 @@
 #include "movie_stream_requests.h"
 #include "sound_mix.h"
 
-void func_8003594C(s32 arg0)
+void Movie_Play(s32 index)
 {
     File_WaitForTransfers();
     func_80044F58(0xFF);
     D_8009B318 = 0x80;
     D_8009B0F4_abs |= 0x2000000;
-    func_8005C388(arg0, 1, -1, 1, 0);
+    func_8005C388(index, 1, -1, 1, 0);
 }
 
 void func_800359B0(void)

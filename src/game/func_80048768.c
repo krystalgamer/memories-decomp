@@ -29,7 +29,7 @@ void func_80048768(s32 arg0, s32 arg1)
     key = arg0;
     pan2 = arg1;
     if (arg0 & 0x8000) {
-        func_80044E90((s16)arg1);
+        SD_SetCdPan((s16)arg1);
         return;
     }
     if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {

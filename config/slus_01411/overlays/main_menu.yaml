@@ -74,6 +74,7 @@ segments:
       - [0x3B2C, c, overlays/main_menu/trade_offers]
       - [0x416C, c, overlays/main_menu/card_name_count_comparators]
       - [0x4344, c, overlays/main_menu/trade_screen_helpers]
-      - [0x4558, data, overlays/main_menu/data]
+      - [0x4558, .data, overlays/main_menu/module_state]
+      - [0x5CD4, data, overlays/main_menu/data]
 
   - [0x8000]

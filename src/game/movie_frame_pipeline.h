@@ -26,7 +26,8 @@ void func_8005C374(s32 first, s32 second, s32 third);
  * The eight bytes are flags and small counters: D_8009B060 is set from
  * func_8005B8A0's argument and gated on, D_8009B064 is cleared on start,
  * set by Movie_StartFadeOut and read by the fade path, and D_8009B062 is the
- * one mdec_sync.c shares.
+ * frame-decoded latch that the DecDCTout callback func_8005C1F4 raises and
+ * mdec_sync.c's Movie_WaitFrameDecoded waits on and clears.
  * D_8009B068, D_8009B06C and D_8009B070 are the three words that follow.
  *
  * D_8009B498 is the VLC buffer -- func_8005B8A0 points it at D_80010000 and

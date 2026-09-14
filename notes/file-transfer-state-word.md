@@ -4,9 +4,10 @@
 
 `D_8009B0F4` is the resident loader's request-and-state word. It is the most
 widely shared global in the tree: 51 translation units declare and use it,
-against 37 for the next-busiest address. One more, `func_80030D5C` (then in
-`frontend_scene_states.c`, now `src/game/frontend_scene_state_80030d5c.c`), reaches it
-from inline assembly without declaring it.
+against 37 for the next-busiest address. At the time of this audit,
+`DebugMenu_UpdateMovieEntry` reached it from inline assembly without declaring
+it; that function is now matching C in
+[`frontend_scene_states.c`](../src/game/frontend_scene_states.c).
 
 Before this pass every one of those 51 units declared the word for itself, and
 the declarations did not agree. Fifteen distinct spellings were in use:
@@ -112,9 +113,10 @@ and the full executable still matched:
 
 ### What is left
 
-`func_80030D5C` (now `src/game/frontend_scene_state_80030d5c.c`) reaches the word from
-an inline assembly block that spells `%hi`/`%lo` itself. That is not a C
-declaration site and is unchanged.
+`DebugMenu_UpdateMovieEntry` has since been recovered as matching C and now uses the
+explicit absolute-address view in
+[`frontend_scene_states.c`](../src/game/frontend_scene_states.c). The original
+inline-assembly exception no longer remains.
 
 Naming the word, and naming the remaining bits, is not attempted here.
 `0x100`, `0x10000`, `0x20000`,

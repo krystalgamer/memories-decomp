@@ -26,6 +26,24 @@
 #define MODEL_ANGLE_HALF_TURN (MODEL_ANGLE_FULL_TURN / 2)
 #define MODEL_ANGLE_WRAP_THRESHOLD (MODEL_ANGLE_HALF_TURN + 1)
 #define MODEL_ANGLE_MASK (MODEL_ANGLE_FULL_TURN - 1)
+#define MODEL_DEFAULT_PROJECTION 0x12C
+#define MODEL_SPECIAL_BATTLE_ID 0x309
+#define MODEL_MRG_ID_END 0x2D2
+#define MODEL_MRG_LAST_ID (MODEL_MRG_ID_END - 1)
+#define MODEL_MRG_FIRST_GAP_START 0x12C
+#define MODEL_MRG_FIRST_GAP_END 0x15E
+#define MODEL_MRG_SECOND_GAP_START 0x28A
+#define MODEL_MRG_SECOND_GAP_END 0x2BC
+#define MODEL_MRG_SINGLE_GAP_ID 0x2D0
+#define MODEL_MRG_GAP_SIZE \
+    (MODEL_MRG_FIRST_GAP_END - MODEL_MRG_FIRST_GAP_START)
+#define MODEL_MRG_SECTOR_COUNT 0x114
+#define MODEL_SPECIAL_BATTLE_FILE_START_SECTOR 0x3B4
+#define MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT 0x113
+#define MODEL_AUX_SECTOR_COUNT 0x74
+#define MODEL_AUX_FILE_START_SECTOR 0x88
+#define MODEL_AUX_LOOKUP_RECORD_SIZE 0xB2
+#define MODEL_AUX_LOOKUP_VALUE_OFFSET 0xA0
 
 typedef struct {
     u32 field_00;
@@ -522,8 +540,8 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 ];
 
 /* One entry of the eight-byte table at D_80091570.  Every access in the tree
- * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads the
- * same halfword through a byte cursor stepping 8, and func_8005A618 reads
+ * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads
+ * field_00, angle and field_04 of one record, and func_8005A618 reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
  * first entries are 02BC / FE00 / FF00 / 0000 and 02BC / 0200 / FF00 / 0000,
  * where field_00 is a constant 700 and the second halfword steps in eighths
@@ -590,9 +608,9 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
  *
  *     entry = (u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE;
  *
- * to reach that field of slot `index`. model_distance_queries.c reads
- * `*(u16 *)(entry + 0)`, `+ 2` and `+ 4` and differences them against
- * D_800F56F0 before SquareRoot0, so the first three halfwords are a position.
+ * to reach that field of slot `index`. model_distance_queries.c reads the
+ * first three halfwords of it and differences them against D_800F56F0
+ * before SquareRoot0, so they are a position.
  *
  * The two names stay separate: all three matched sites reach the field
  * through this symbol, so writing it as an offset from D_800F2C40 would

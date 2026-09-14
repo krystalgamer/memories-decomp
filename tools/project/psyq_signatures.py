@@ -36,21 +36,30 @@ each of them was violated by something in the corpus:
    label in the middle of a function is a branch target, and a label on a
    game-owned function is a byte collision rather than an SDK identity.
 5. No other library object may propose a *different* name for the same
-   address. Small routines are duplicated verbatim across libraries -
-   `0x8007A840` is claimed by six objects across LIBCD and LIBDS - so a
-   multi-claimed address is genuinely undecidable from bytes alone and needs a
-   call-graph tiebreak instead.
+   address without an explicit local resolution. Small routines are duplicated
+   verbatim across libraries - `0x8007A840` is claimed by six objects across
+   LIBCD and LIBDS - so `psyq_signature_resolutions.json` pins the complete
+   proposal set, chosen inventory name, and whether the choice is supported by
+   call-graph/data-flow evidence or retained as repository naming policy.
 
 The report also states how many proposals agree with names the inventory
-already carries. That number is the reason to trust the rest: it is the tool
+already carries. These proposal totals are computed only after objects that
+match multiple payload locations have been discarded and labels have been
+restricted to preserved function starts; they are not whole-inventory naming
+coverage. That number is the reason to trust the rest: it is the tool
 checking itself against work done independently and by hand, and a drop in it
 means the matcher broke, not that the corpus is wrong.
+
+The resolution file also pins a digest of every JSON file in the selected
+catalogue. Reports therefore describe the reviewed catalogue revision rather
+than whatever files happen to occupy the supplied directory.
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import json
 import re
 import struct
@@ -66,7 +75,9 @@ class SignatureError(RuntimeError):
 
 EXECUTABLE = "game/SLUS_014.11"
 FUNCTIONS_CSV = "config/slus_01411/functions.csv"
+RESOLUTIONS_JSON = "config/slus_01411/psyq_signature_resolutions.json"
 HEADER_SIZE = 0x800
+ROOT = Path(__file__).resolve().parents[2]
 
 # `text_1F0`, `loc_24`, `dword_800E9D90` and friends: IDA's own naming for
 # something it could not identify, which is exactly what we are trying to fix.
@@ -76,6 +87,154 @@ PLACEHOLDER = re.compile(
 )
 MINIMUM_ANCHOR = 4
 SIGNATURE_BYTE = re.compile(r"^[0-9A-Fa-f]{2}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
+
+
+def catalogue_sha256(signatures: Path) -> str:
+    digest = hashlib.sha256(b"psyq-signature-catalogue-v1\0")
+    paths = sorted(signatures.glob("*.json"))
+    for path in paths:
+        name = path.name.encode("utf-8")
+        data = path.read_bytes()
+        digest.update(len(name).to_bytes(4, "big"))
+        digest.update(name)
+        digest.update(len(data).to_bytes(8, "big"))
+        digest.update(data)
+    return digest.hexdigest()
+
+
+def load_resolution_entries(
+    root: Path,
+    psyq_version: str,
+) -> tuple[str, dict[int, dict[str, object]]]:
+    path = resolve_within(root, RESOLUTIONS_JSON, must_exist=True)
+    document = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(document, dict):
+        raise SignatureError(f"{RESOLUTIONS_JSON}: document is not an object")
+    schema = document.get("schema")
+    if isinstance(schema, bool) or schema != 1:
+        raise SignatureError(f"{RESOLUTIONS_JSON}: unsupported schema")
+    catalogues = document.get("catalogues")
+    if not isinstance(catalogues, dict):
+        raise SignatureError(f"{RESOLUTIONS_JSON}: catalogues is not an object")
+    catalogue = catalogues.get(psyq_version)
+    if not isinstance(catalogue, dict):
+        raise SignatureError(
+            f"{RESOLUTIONS_JSON}: missing Psy-Q {psyq_version} catalogue"
+        )
+    expected_hash = catalogue.get("sha256")
+    if not isinstance(expected_hash, str) or not SHA256.fullmatch(expected_hash):
+        raise SignatureError(
+            f"{RESOLUTIONS_JSON}: Psy-Q {psyq_version} has invalid sha256"
+        )
+    entries = catalogue.get("resolutions")
+    if not isinstance(entries, list):
+        raise SignatureError(
+            f"{RESOLUTIONS_JSON}: Psy-Q {psyq_version} resolutions "
+            "is not an array"
+        )
+    resolutions: dict[int, dict[str, object]] = {}
+    for index, entry in enumerate(entries):
+        context = (
+            f"{RESOLUTIONS_JSON}: Psy-Q {psyq_version} resolution {index}"
+        )
+        if not isinstance(entry, dict):
+            raise SignatureError(f"{context} is not an object")
+        try:
+            address = int(entry["address"], 0)
+        except (KeyError, TypeError, ValueError) as error:
+            raise SignatureError(f"{context} has invalid address") from error
+        names = entry.get("catalogue_names")
+        if (
+            not isinstance(names, list)
+            or not names
+            or any(
+                not isinstance(name, str) or not name.strip()
+                for name in names
+            )
+            or names != sorted(set(names))
+        ):
+            raise SignatureError(
+                f"{context} catalogue_names must be sorted unique names"
+            )
+        selected_name = entry.get("selected_name")
+        basis = entry.get("basis")
+        evidence_text = entry.get("evidence")
+        if not isinstance(selected_name, str) or not selected_name:
+            raise SignatureError(f"{context} has invalid selected_name")
+        if not isinstance(basis, str) or basis not in {
+            "evidence",
+            "naming_policy",
+        }:
+            raise SignatureError(
+                f"{context} basis must be evidence or naming_policy"
+            )
+        if not isinstance(evidence_text, str) or not evidence_text.strip():
+            raise SignatureError(f"{context} has invalid evidence")
+        if address in resolutions:
+            raise SignatureError(
+                f"{context} duplicates address {address:#010x}"
+            )
+        resolutions[address] = {
+            "catalogue_names": names,
+            "selected_name": selected_name,
+            "basis": basis,
+            "evidence": evidence_text,
+        }
+    return expected_hash, resolutions
+
+
+def load_resolutions(
+    root: Path,
+    signatures: Path,
+    psyq_version: str,
+) -> dict[int, dict[str, object]]:
+    expected_hash, resolutions = load_resolution_entries(root, psyq_version)
+    actual_hash = catalogue_sha256(signatures)
+    if actual_hash != expected_hash:
+        raise SignatureError(
+            f"{signatures}: catalogue hash differs: {actual_hash}"
+        )
+    return resolutions
+
+
+def check_resolution_inventory(root: Path) -> int:
+    inventory = load_inventory(root)
+    count = 0
+    selected: dict[int, str] = {}
+    for psyq_version in ("4.6", "4.7"):
+        _catalogue_hash, resolutions = load_resolution_entries(
+            root, psyq_version
+        )
+        for address, resolution in resolutions.items():
+            row = inventory.get(address)
+            if row is None:
+                raise SignatureError(
+                    f"{address:#010x}: Psy-Q {psyq_version} resolution "
+                    "is not a function start"
+                )
+            if (
+                row.get("status") != "sdk_asm"
+                or not row.get("module", "").startswith("psyq/")
+            ):
+                raise SignatureError(
+                    f"{address:#010x}: Psy-Q {psyq_version} resolution "
+                    "is not an SDK function"
+                )
+            selected_name = resolution["selected_name"]
+            if row["name"] != selected_name:
+                raise SignatureError(
+                    f"{address:#010x}: Psy-Q {psyq_version} resolution "
+                    f"selects {selected_name} but inventory uses {row['name']}"
+                )
+            previous = selected.setdefault(address, selected_name)
+            if previous != selected_name:
+                raise SignatureError(
+                    f"{address:#010x}: catalogue versions select "
+                    f"different names: {previous}, {selected_name}"
+                )
+            count += 1
+    return count
 
 
 def load_payload(root: Path) -> tuple[int, bytes]:
@@ -303,21 +462,35 @@ def scan(signatures: Path, load_address: int, payload: bytes) -> dict:
 
 
 def classify(
-    proposals: dict, inventory: dict, objects: list[dict] | None = None
+    proposals: dict,
+    inventory: dict,
+    objects: list[dict] | None = None,
+    resolutions: dict[int, dict[str, object]] | None = None,
 ) -> dict:
     ambiguous, agreed, disagreed, new = [], [], [], []
     ambiguous_locally_named, ambiguous_unresolved = [], []
+    resolved = []
     outside_psyq, off_start = [], 0
+    unused_resolutions = set(resolutions or {})
     for address in sorted(proposals):
         names = proposals[address]
+        resolution = (resolutions or {}).get(address)
         row = inventory.get(address)
         if row is None:
+            if resolution is not None:
+                raise SignatureError(
+                    f"{address:#010x}: resolution is not a function start"
+                )
             off_start += 1
             continue
         if (
             row.get("status") != "sdk_asm"
             or not row.get("module", "").startswith("psyq/")
         ):
+            if resolution is not None:
+                raise SignatureError(
+                    f"{address:#010x}: resolution is not a Psy-Q function"
+                )
             outside_psyq.append(
                 (
                     address,
@@ -330,6 +503,30 @@ def classify(
                         for providers in names.values()
                         for provider in providers
                     ),
+                )
+            )
+            continue
+        if resolution is not None:
+            catalogue_names = sorted(names)
+            if resolution["catalogue_names"] != catalogue_names:
+                raise SignatureError(
+                    f"{address:#010x}: resolution catalogue names differ: "
+                    f"{catalogue_names}"
+                )
+            if resolution["selected_name"] != row["name"]:
+                raise SignatureError(
+                    f"{address:#010x}: resolution selects "
+                    f"{resolution['selected_name']} but inventory uses "
+                    f"{row['name']}"
+                )
+            unused_resolutions.remove(address)
+            resolved.append(
+                (
+                    address,
+                    row["name"],
+                    catalogue_names,
+                    resolution["basis"],
+                    resolution["evidence"],
                 )
             )
             continue
@@ -373,10 +570,16 @@ def classify(
             object_covered_inventory.append((address, row, providers))
         else:
             object_uncovered_inventory.append((address, row))
+    if unused_resolutions:
+        addresses = ", ".join(
+            f"{address:#010x}" for address in sorted(unused_resolutions)
+        )
+        raise SignatureError(f"resolutions have no catalogue proposal: {addresses}")
     return {
         "agreed": agreed,
         "disagreed": disagreed,
         "new": new,
+        "resolved": resolved,
         "ambiguous": ambiguous,
         "ambiguous_locally_named": ambiguous_locally_named,
         "ambiguous_unresolved": ambiguous_unresolved,
@@ -420,6 +623,16 @@ def report(scanned: dict, result: dict) -> None:
     print(f"names already in the inventory, agreeing : {len(result['agreed'])}")
     print(f"names already in the inventory, differing: {len(result['disagreed'])}")
     print(f"new names for func_XXXXXXXX rows         : {len(result['new'])}")
+    evidence_count = sum(
+        basis == "evidence"
+        for _address, _selected, _names, basis, _text in result["resolved"]
+    )
+    naming_count = sum(
+        basis == "naming_policy"
+        for _address, _selected, _names, basis, _text in result["resolved"]
+    )
+    print(f"catalogue conflicts resolved by evidence : {evidence_count}")
+    print(f"catalogue names retained by policy       : {naming_count}")
     print(f"addresses claimed under several names    : {len(result['ambiguous'])}")
     print(
         "ambiguous addresses with local inventory names: "
@@ -448,6 +661,14 @@ def report(scanned: dict, result: dict) -> None:
         print("differing:")
         for address, name, current, providers in result["disagreed"]:
             print(f"  {address:#010x} corpus {name} / inventory {current} [{providers[0]}]")
+    if result["resolved"]:
+        print()
+        print("resolved catalogue conflicts:")
+        for address, selected, names, basis, evidence_text in result["resolved"]:
+            print(
+                f"  {address:#010x} {selected} over {', '.join(names)}: "
+                f"[{basis}] {evidence_text}"
+            )
     if result["ambiguous_locally_named"]:
         print()
         print("ambiguous signatures with local inventory names, left unchanged:")
@@ -502,7 +723,6 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--signatures",
-        required=True,
         help="directory of lab313ru psx_psyq_signatures JSON files (460)",
     )
     parser.add_argument(
@@ -526,21 +746,38 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="write semantic-symbol-map.csv rows for the new names to stdout",
     )
+    mode.add_argument(
+        "--check-resolutions",
+        action="store_true",
+        help="validate tracked local resolutions without retail inputs",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     try:
+        if args.check_resolutions:
+            count = check_resolution_inventory(ROOT)
+            print(f"Psy-Q signature resolutions: OK ({count} entries)")
+            return 0
         root = require_workspace_root()
+        if not args.signatures:
+            raise SignatureError("--signatures is required for a signature sweep")
         signatures = Path(args.signatures).expanduser()
         if not signatures.is_dir():
             raise SignatureError(f"not a directory: {signatures}")
         validate_catalogue_scope(signatures, args.psyq_version)
         load_address, payload = load_payload(root)
         inventory = load_inventory(root)
+        resolutions = load_resolutions(root, signatures, args.psyq_version)
         scanned = scan(signatures, load_address, payload)
-        result = classify(scanned["proposals"], inventory, scanned["objects"])
+        result = classify(
+            scanned["proposals"],
+            inventory,
+            scanned["objects"],
+            resolutions,
+        )
         if args.emit_map:
             emit_map(result, args.psyq_version)
         elif args.coverage_report:

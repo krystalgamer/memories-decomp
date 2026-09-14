@@ -88,6 +88,27 @@ extern u8 *alias asm("real_symbol");
             ["callback", "data", "hook", "real_symbol", "value"],
         )
 
+    def test_extern_parser_handles_arrays_of_function_pointers(self) -> None:
+        self.assertEqual(
+            candidate_builds.extern_symbol(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.declaration_identifier(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.candidate_extern_symbols(
+                "extern s32 (*handlers[4])(s32, s32);\n"
+                "extern void (*grid[2][3])(void);\n"
+            ),
+            ["grid", "handlers"],
+        )
+
     def test_contract_symbols_follow_used_header_asm_aliases(self) -> None:
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             root = Path(directory)
@@ -529,6 +550,26 @@ extern int sdk_call(int value);
                     ],
                 ),
                 ["D_800FE240"],
+            )
+
+    def test_dialog_configured_used_contract_survives_header_centralization(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { D_8009B248 = value; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    [
+                        "D_8009B248",
+                        "D_8009B24A",
+                    ],
+                ),
+                ["D_8009B248"],
             )
 
     def test_contract_validation_reports_changed_dependencies(self) -> None:

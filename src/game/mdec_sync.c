@@ -8,7 +8,7 @@ void Movie_StartFadeOut(void)
     D_8009B064 = 1;
 }
 
-s32 func_8005C5D4(void)
+s32 Movie_WaitFrameDecoded(void)
 {
     s32 timeout = 0x800000;
     if (D_8009B062 == 0) {

@@ -18,15 +18,15 @@ int Duel_FindPlayerDeckCard(int card_id)
     return -1;
 }
 
-/* A set flag returns success immediately; otherwise use the card's deck index. */
-int func_8002C518(int a0)
+/* Any copy in the trunk returns 1 at once; otherwise the deck slot decides. */
+int Library_CheckCardOwned(int card_id)
 {
     int flag;
 
     flag = (((SaveDataWorkspace *)D_801D0000)->state.card_quantities[
-        a0 - CARD_ID_FIRST] != 0) ? 1 : -1;
+        card_id - CARD_ID_FIRST] != 0) ? 1 : -1;
     if (flag < 0) {
-        return Duel_FindPlayerDeckCard(a0);
+        return Duel_FindPlayerDeckCard(card_id);
     }
     return 1;
 }

@@ -208,8 +208,10 @@ void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
 void func_800404CC(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
-    *(s16 *)((u8 *)object + 0x30) = x;
-    *(s16 *)((u8 *)object + 0x32) = y;
+    DisplayObject *o = object;
+
+    o->field_30.h.field_30 = x;
+    o->field_30.h.field_32 = y;
     func_80040468(object, field_67, field_68, field_69, color, texture);
 }
 
@@ -256,12 +258,13 @@ extern s16 D_800EFE3A[];
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
    origin unless bit 3 is set, and submits it through func_80042188. With
    bit 2 the position first goes through the clip test in func_80041F90,
-   which may ask (D_8009B424) for the object to be run again, and the quad
-   at 0x1F800344 is set up as a 9-word semi-transparent packet instead. */
+   which may ask (D_8009B424) for the object to be run again, and the
+   POLY_FT4 at 0x1F800344 is set up as a 9-word semi-transparent packet
+   instead. */
 void func_80040588(void) {
     SpritePrim *p;
-    u8 *g;
-    u8 *h;
+    POLY_FT4 *g;
+    ClipState *h;
     DisplayObject *e;
     GsOT **tb;
     DisplayObjectCallback fn;
@@ -272,9 +275,9 @@ void func_80040588(void) {
 
     i = D_800EFE3A[0];
     if (i >= 0) {
-        g = (u8 *)0x1F800344;
+        g = (POLY_FT4 *)0x1F800344;
         p = (SpritePrim *)0x1F800320;
-        h = (u8 *)0x1F800378;
+        h = (ClipState *)0x1F800378;
         tb = D_800E9D90;
 
         do {
@@ -309,15 +312,15 @@ void func_80040588(void) {
                     D_8009B424 = 0;
                     if (func_80041F90(e, (s16)p->xy.h.x + (s16)e->field_18,
                                       (s16)p->xy.h.y + (s16)e->field_1A,
-                                      (struct ProjectionOut *)(h + 0x20)) <= 0) {
+                                      (struct ProjectionOut *)h->out) <= 0) {
                         break;
                     }
                     if (D_8009B424 != 0) {
                         continue;
                     }
-                    g[3] = 9;
-                    *(s32 *)(g + 4) = p->rgb;
-                    g[7] = 0x2C;
+                    setlen(g, 9);
+                    *(s32 *)&g->r0 = p->rgb;
+                    g->code = 0x2C;
                     if ((p->attribute & GsALON) != 0) {
                         SetSemiTrans(g, 1);
                     }
@@ -330,7 +333,7 @@ void func_80040588(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = e->field_14 | 0x30000;
                 }
-                func_80042188(p, g, (s32)ot, mode, h + 0x20);
+                func_80042188(p, (u8 *)g, (s32)ot, mode, h->out);
                 break;
             }
         } while (i >= 0);

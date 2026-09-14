@@ -3,66 +3,25 @@
 
 #include "../types.h"
 #include "display_object.h"
-
-#define LIBRARY_MOTION_STATE_OFFSET(member) \
-    ((u32)&(((LibraryMotionState *)0)->member))
-
-typedef struct {
-    u8 pad_00[8];
-    s16 x;
-    s16 y;
-    u16 x_fraction;
-    u16 y_fraction;
-    u8 pad_10[2];
-    u16 rest_x;
-    u16 rest_y;
-    u8 frames;
-    u8 active;
-    s32 velocity_x;
-    s32 velocity_y;
-    u8 pad_20[4];
-    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
-       fills one per iteration. They were inside pad_20 until now; naming them
-       moves nothing, and render still begins at 0x44 immediately after the
-       last of them. */
-    DisplayObject *slots[8];
-    DisplayObject *render;
-} LibraryMotionState;
-
-typedef char LibraryMotionState_x_offset_must_be_0x8[
-    LIBRARY_MOTION_STATE_OFFSET(x) == 0x8 ? 1 : -1
-];
-typedef char LibraryMotionState_frames_offset_must_be_0x16[
-    LIBRARY_MOTION_STATE_OFFSET(frames) == 0x16 ? 1 : -1
-];
-typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
-    LIBRARY_MOTION_STATE_OFFSET(velocity_x) == 0x18 ? 1 : -1
-];
-typedef char LibraryMotionState_render_offset_must_be_0x44[
-    LIBRARY_MOTION_STATE_OFFSET(render) == 0x44 ? 1 : -1
-];
-typedef char LibraryMotionState_size_must_be_0x48[
-    sizeof(LibraryMotionState) == 0x48 ? 1 : -1
-];
-
-#undef LIBRARY_MOTION_STATE_OFFSET
+#include "../ygo_types.h"
 
 /* The record itself, as its typed consumers spell it: func_80029590,
  * func_8002A3CC and func_8002A4A8 open with
- * `LibraryMotionState *state = &D_800EA1E8;` and work through the fields whose
- * offsets are asserted above.
+ * `LibraryMotionState *state = &D_800EA1E8;`. The type and its offset asserts
+ * live in ygo_types.h; only this typed declaration lives here.
  *
- * The same address is also read as `u8 D_800EA1E8[]` by func_8002BAB4
- * (src/game/library_runtime.c), which takes only the first byte and dispatches
- * the library screen state on its low nibble. That file still does not include
- * this header.
+ * The same address is also declared as `u8 D_800EA1E8[]` in library_runtime.h.
+ * func_8002BAB4 (src/game/library_runtime.c) reads only its first byte and
+ * dispatches the library screen state on the low nibble.
  *
- * func_8002BFCC was described here as doing the same, and that was wrong.
- * It reaches nine distinct offsets: the mode byte, x and y at 0x08 and 0x0A,
- * rest_x and rest_y at 0x12 and 0x14, render at 0x44, and then 0x48, 0x54
- * and a per-card sweep at 0x56 with a four-byte stride. The first six are
- * this record's own fields and it now spells them that way; the rest lie at
- * or past the asserted 0x48 size and stay byte reaches.
+ * func_8002BFCC (src/game/func_8002BD0C.c) reaches nine distinct offsets
+ * through that byte view: the mode byte, x and y at 0x08 and 0x0A, rest_x and
+ * rest_y at 0x12 and 0x14, render at 0x44, and then 0x48, 0x54 and a per-card
+ * sweep at 0x56 with a four-byte stride. It spells the five motion fields as
+ * LibraryMotionState members through a cast of its byte pointer, which builds
+ * byte-identical. The mode byte and everything at or past the asserted 0x48
+ * size stay byte reaches. It can name the type without including this header
+ * because the type is no longer defined beside this declaration.
  *
  * That it drives x, y, rest_x, rest_y and render is also evidence about the
  * open question below: those are this record's motion fields, not a mode
@@ -70,16 +29,6 @@ typedef char LibraryMotionState_size_must_be_0x48[
  * rather than something that merely starts at the same address. What follows
  * 0x48 is a separate question, and the stride-4 sweep at 0x56 is the first
  * thing recorded about it.
- *
- * Spelling those six as members is nevertheless blocked, and the reason is
- * the one this note already gave, now met head on. func_8002BFCC needs
- * func_8002BAB4's prototype and library_runtime.h declares
- * `u8 D_800EA1E8[]` beside it, so including this one as well gives
- * `conflicting types for D_800EA1E8`. An asm() alias does not help, because
- * LibraryMotionState is defined in the same header as the extern that
- * collides. The way out is to give the type its own header, separate from
- * the declaration -- which is what #2501 asks for anyway -- and that is a
- * larger change than the conversion it would unblock.
  *
  * That byte view is not folded in on purpose. Whether the mode byte is a field
  * of this record or a separate object sharing its first bytes is not

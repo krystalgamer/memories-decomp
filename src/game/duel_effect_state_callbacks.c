@@ -30,8 +30,8 @@ void func_800374A8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
-    if ((flags & 0x80) == 0) {
-        object->state_51 = flags | 0x80;
+    if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         func_800373C8(object, 3, 0);
         object->state_51 = 0x82;
     }
@@ -58,7 +58,7 @@ u8 *Dialog_OpenChoice(DuelEffectChannel *record)
     return cursor;
 }
 
-void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&0x80)==0){o->state_51=f|0x80;D_8009B32C=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){D_8009B32C--;if(D_8009B32C<0)D_8009B32C=0;}else D_8009B32C=10;if(D_8009B32C!=0&&!(gInput_wPad1Pressed[0]&PAD_BUTTON_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;func_8004036C(o->field_30);o->field_30=0;}}
+void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;D_8009B32C=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){D_8009B32C--;if(D_8009B32C<0)D_8009B32C=0;}else D_8009B32C=10;if(D_8009B32C!=0&&!(gInput_wPad1Pressed[0]&PAD_BUTTON_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;func_8004036C(o->field_30);o->field_30=0;}}
 
 void func_8003767C(DuelEffectChannel *state)
 {
@@ -116,8 +116,8 @@ void func_800377C8(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
     MenuRecord *p;
 
-    if (!(v & 0x80)) {
-        arg0->state_51 = v | 0x80;
+    if (!(v & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
+        arg0->state_51 = v | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
 
     p = D_8009B328;
@@ -171,8 +171,8 @@ void func_8003787C(DuelEffectChannel *object)
     MenuRecord *record;
 
     flags = object->state_51;
-    if (!(flags & 0x80)) {
-        object->state_51 = flags | 0x80;
+    if (!(flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
+        object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
     record = D_8009B328;
     if (record->display_effect_step == 0) {
@@ -185,8 +185,8 @@ void func_800378D8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
-    if ((flags & 0x80) == 0) {
-        object->state_51 = flags | 0x80;
+    if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
     }
     if (D_8009B328->display_effect_step == 0) {
         object->state_51 = 0;
@@ -234,8 +234,8 @@ void func_800379F8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
-    if ((flags & 0x80) == 0) {
-        object->state_51 = flags | 0x80;
+    if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         D_8009B322 = func_80036D3C(object);
     }
     D_8009B322--;
@@ -248,8 +248,8 @@ void func_80037A58(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
 
-    if ((flags & 0x80) == 0) {
-        object->state_51 = flags | 0x80;
+    if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         D_8009B322 = func_80036D3C(object);
         D_8009B348[0] = gGraphics_uViewportX[0];
         D_8009B348[1] = gGraphics_uViewportY[0];
@@ -276,8 +276,8 @@ void func_80037B40(DuelEffectChannel *object)
 {
     DuelEffectChannel *p = object;
 
-    if ((p->state_51 & 0x80) == 0) {
-        p->state_51 |= 0x80;
+    if ((p->state_51 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        p->state_51 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p->delay_52 = 0xFF;
         D_8009B335 = 0;
         if (D_8009B33C != 0) {

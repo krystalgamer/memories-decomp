@@ -23,14 +23,14 @@
 void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
-    u8 *entry;
+    DisplayObject *entry;
     s32 i;
 
     object = func_800400AC(func_8004002C(), 2);
     D_801845DC = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        *(u16 *)((u8 *)D_801845DC + 8) |=
+        D_801845DC->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845DC, -2);
@@ -40,7 +40,7 @@ void MainMenu_InitTradeScreen(void)
     D_801845E0 = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, -3, 0, 4, 4, 0xC, 0x208);
-        *(u16 *)((u8 *)D_801845E0 + 8) |=
+        D_801845E0->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845E0, -1);
@@ -52,12 +52,12 @@ void MainMenu_InitTradeScreen(void)
         entry = func_800400AC(func_8004002C(), 2);
         if (entry != 0) {
             func_800404CC(entry, i * 0xA0 + 0x1E, 0x24, 0, 4, 8, 0xC, 0x208);
-            *(u16 *)(entry + 8) |=
+            entry->flags |=
                 DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-            func_800428EC(entry, 0);
-            *(s16 *)(entry + 0x60) = -2;
-            D_801845EC[i].object = entry;
+            func_800428EC((u8 *)entry, 0);
+            entry->field_60 = -2;
+            D_801845EC[i].object = (u8 *)entry;
         } else {
             D_801845EC[i].object = 0;
         }

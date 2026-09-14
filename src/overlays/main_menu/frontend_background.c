@@ -105,6 +105,9 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
     s32 offset;
+    /* The entries are display objects; gMain_apMenuEntries keeps its u8 *
+       declaration for its other users. */
+    DisplayObject **entries = (DisplayObject **)gMain_apMenuEntries;
 
     for (i = 0; i < 0xB; i++) {
         if (i & 1) {
@@ -112,16 +115,16 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
         } else {
             offset = -0xA0;
         }
-        if (gMain_apMenuEntries[i] != 0) {
+        if (entries[i] != 0) {
             if (mode != 0) {
-                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = 0xA0;
-                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = offset;
+                entries[i]->field_34.h.field_36 = 0xA0;
+                entries[i]->field_38.h.field_38 = offset;
             } else {
-                *(s16 *)(gMain_apMenuEntries[i] + 0x36) = offset;
-                *(s16 *)(gMain_apMenuEntries[i] + 0x38) = 0xA0;
+                entries[i]->field_34.h.field_36 = offset;
+                entries[i]->field_38.h.field_38 = 0xA0;
             }
-            *(s16 *)(gMain_apMenuEntries[i] + 0x30) = *(u16 *)(gMain_apMenuEntries[i] + 0x36);
-            *(s16 *)(gMain_apMenuEntries[i] + 0x60) = 0x10;
+            entries[i]->field_30.h.field_30 = entries[i]->field_34.h.field_36;
+            entries[i]->field_60 = 0x10;
         }
     }
     D_80184596 = mode;
@@ -148,48 +151,52 @@ void MainMenu_DestroyFrontendMenu(void)
 }
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 {
-    u8 *object;
+    DisplayObject *entry = (DisplayObject *)source;
+    DisplayObject *object;
 
     object = func_800400AC(func_8004002C(), 2);
     if (object != 0) {
-        func_800428A8(object, *(s16 *)(source + 0x30), *(s16 *)(source + 0x32), 0,
-                      0, source[0x69], 0x18, 0, D_801AF800);
-        *(s32 *)(object + 4) |= 0x51000000;
-        *(u16 *)(object + 8) |=
+        func_800428A8(object, (s16)entry->field_30.h.field_30,
+                      (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
+                      0x18, 0, D_801AF800);
+        object->attribute |= 0x51000000;
+        object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(object);
-        func_800428EC(object, (s8)(-source[0x60]));
-        *(MainMenuEntryEffectUpdate *)(object + 0x24) =
-            MainMenu_UpdateFrontendEntryAfterimage;
-        object[0xC] = source[0xC];
-        object[0xD] = source[0xD];
-        object[0xE] = source[0xE];
+        func_800428EC((u8 *)object, (s8)(-(u8)entry->field_60));
+        object->update = MainMenu_UpdateFrontendEntryAfterimage;
+        ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
+        ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];
+        ((u8 *)&object->field_0C)[2] = ((u8 *)&entry->field_0C)[2];
     }
 }
 
 void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
 {
+    DisplayObject *o = (DisplayObject *)object;
     s32 r;
     s32 g;
     s32 b;
 
-    if ((*(s32 *)(object + 0xC) & 0xFFFFFF) != 0) {
-        r = object[0xC] - 8;
+    if ((o->field_0C & 0xFFFFFF) != 0) {
+        r = ((u8 *)&o->field_0C)[0] - 8;
         if (r < 0) {
             r = 0;
         }
-        object[0xC] = r;
-        g = object[0xD] - 8;
+        ((u8 *)&o->field_0C)[0] = r;
+        g = ((u8 *)&o->field_0C)[1] - 8;
         if (g < 0) {
             g = 0;
         }
-        object[0xD] = g;
-        b = object[0xE] - 8;
+        ((u8 *)&o->field_0C)[1] = g;
+        b = ((u8 *)&o->field_0C)[2] - 8;
         if (b < 0) {
             b = 0;
         }
-        object[0xE] = b;
+        ((u8 *)&o->field_0C)[2] = b;
     } else {
+        /* The parameter, not o: passing o here makes the rebuilt module
+           four bytes longer than the target. */
         func_8004036C(object);
     }
 }

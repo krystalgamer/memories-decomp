@@ -95,17 +95,20 @@ void ScriptImage_ReleaseObjects(ScriptImageEntry *entries)
 
 void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode)
 {
-    u8 *object = func_800400AC(func_8004002C(), 2);
+    ScriptImageEntry *entry = (ScriptImageEntry *)owner;
+    DisplayObject *object = func_800400AC(func_8004002C(), 2);
 
     func_800404CC(object, 0, 0, 2, 0, 0, size, mode);
-    func_800428EC(object, (s8)mode);
-    owner[0x10] = 1;
+    func_800428EC((u8 *)object, (s8)mode);
+    entry->field_10 = 1;
     if (mode == 2) {
-        *(s16 *)(owner + 4) = 1;
-        *(u32 *)(object + 4) |= (GsALON | GsAONE);
+        entry->value = 1;
+        object->attribute |= (GsALON | GsAONE);
     } else {
-        *(s16 *)(owner + 4) = 0;
-        *(u32 *)(object + 4) |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        entry->value = 0;
+        object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     }
-    *(void **)owner = object;
+    /* Through the parameter rather than entry: with every store on entry,
+       GCC keeps a second copy of the pointer and six instructions change. */
+    ((ScriptImageEntry *)owner)->pointer = object;
 }

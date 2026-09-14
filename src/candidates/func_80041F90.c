@@ -12,6 +12,7 @@
 #include "../psyq/inline_c.h"
 #include "../game/display_object.h"
 #include "../game/display_object_projection.h"
+#include "../game/model.h"
 
 /* RotAverageNclip3_nom at 0x80089CF0. libgte.h declares it
    `void RotAverageNclip3_nom(SVECTOR *, SVECTOR *, SVECTOR *)`; retail calls
@@ -29,7 +30,7 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
     out->f4 = obj->field_65;
 
     SetGeomOffset(arg1, arg2);
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
 
     v308->vx = (s16)(obj->field_20.b.field_20 * 0x10);
     v308->vy = (s16)(obj->field_20.b.field_21 * 0x10);
@@ -38,7 +39,7 @@ s32 func_80041F90(DisplayObject *obj, s32 arg1, s32 arg2, struct ProjectionOut *
 
     mtx->t[0] = 0;
     mtx->t[1] = 0;
-    mtx->t[2] = 0x12C;
+    mtx->t[2] = MODEL_DEFAULT_PROJECTION;
 
     if (!(obj->attribute & GsROTOFF)) {
         ((VECTOR *)v308)->vx = obj->field_44.h.field_44;

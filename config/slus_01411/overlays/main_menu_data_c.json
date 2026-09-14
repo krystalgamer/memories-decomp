@@ -8,6 +8,10 @@
     {
       "profile": "gcc_2_8_1_g0",
       "source": "src/overlays/main_menu/module_rodata.c"
+    },
+    {
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/main_menu/module_state.c"
     }
   ]
 }

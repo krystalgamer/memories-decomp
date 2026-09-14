@@ -218,7 +218,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
         )
 
     def test_existing_definition_and_caller_include_the_scene_owner(self) -> None:
-        for name in ("func_80050584.c", "model_scene_states.c"):
+        for name in ("model_intro_controller.c", "model_scene_states.c"):
             with self.subTest(source=name):
                 path = REPOSITORY / "src/game" / name
                 self.assertIn('#include "model_scene_states.h"', path.read_text())

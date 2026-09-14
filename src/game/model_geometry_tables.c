@@ -9,8 +9,9 @@
    durations. The four-byte element view remains the storage owner; the
    consumer describes the measured 28-byte record locally.
 
-   The other readers, func_8006C37C and func_8006CD78, remain assembly.
-   D_800916D4 is
+   func_8006C37C.c reads D_80091604 and is matching C too; func_8006CD78,
+   which reads D_80091610 and D_800916D4, is the only reader still in
+   assembly. D_800916D4 is
    two 0x404040FF words and one 0x000000FF, which is what a colour looks
    like; the rest are left flat. D_80091610's ninety-eight halfwords have no
    established row width -- ninety-eight is 2 x 7 x 7 and nothing chooses

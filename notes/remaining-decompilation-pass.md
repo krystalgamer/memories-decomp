@@ -603,7 +603,7 @@ State after this one-function checkpoint:
 
 ### Continuous wave 20
 
-`func_80031354` matched after combining the collaborator's corrected
+`DebugMenu_UpdateBustUpEntry` matched after combining the collaborator's corrected
 `D_8009B2DE` halfword declaration with `gcc_2_8_1_g8_split`. The non-split
 profile kept the far `D_800EB184` load as one compiler pseudo-instruction and
 left the preceding branch delay slot empty. Split-address compilation exposes

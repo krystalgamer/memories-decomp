@@ -41,8 +41,10 @@ local VM_TIMING_RETURN = 0x800706e0
 local VM_TIMING_RETURN_SIGNATURE = 0x284200f0
 local VM_EXIT = 0x800706f0
 local VM_EXIT_SIGNATURE = 0x8fbf0024
+local SCRIPT_CURSOR = 0x800f5bf0
 local PREVIOUS_CURSOR = 0x800f5bf4
 local MAIN_MODE = 0x8009b26c
+local ACTIVE_SIDE = 0x8009b1d5
 local OPPONENT_ID = 0x8009b361
 local RAM_BASE = 0x80000000
 local RAM_END = 0x80200000
@@ -51,6 +53,7 @@ local MAX_STARTED_PASSES = 16
 local MAX_SEQUENCE_COMMANDS = 64
 local MAX_QUERY_VALUES = 32
 local MAX_TOTAL_COMMANDS = 512
+local MAX_CURSOR_CHANGES = 32
 local NO_PASS_WARNING_FRAMES = 600
 local TIMEOUT_FRAMES = 36000
 
@@ -130,6 +133,10 @@ local totalCommands = 0
 local orphanDispatches = 0
 local orphanTimingQueries = 0
 local orphanExits = 0
+local opponentFrames = 0
+local cursorChanges = 0
+local lastScriptCursor = u32(SCRIPT_CURSOR)
+local lastPreviousCursor = u32(PREVIOUS_CURSOR)
 local activePass = nil
 local commandLimitReached = false
 local warningPrinted = false
@@ -238,11 +245,14 @@ local function finish(reason)
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
     print(string.format(
-        'summary: frames=%d passes_started=%d passes_completed=%d '
+        'summary: frames=%d opponent_frames=%d cursor_changes=%d '
+            .. 'passes_started=%d passes_completed=%d '
             .. 'incomplete_passes=%d commands=%d '
             .. 'orphan_dispatches=%d orphan_timing_queries=%d '
             .. 'orphan_exits=%d',
         frames,
+        opponentFrames,
+        cursorChanges,
         passesStarted,
         passesCompleted,
         incompletePasses,
@@ -415,15 +425,56 @@ local function poll()
         finish('maximum command count reached; partial trace follows')
         return
     end
+    if u8(ACTIVE_SIDE) == 1 then
+        opponentFrames = opponentFrames + 1
+    end
+    local scriptCursor = u32(SCRIPT_CURSOR)
+    local previousCursor = u32(PREVIOUS_CURSOR)
+    if scriptCursor ~= lastScriptCursor
+        or previousCursor ~= lastPreviousCursor then
+        cursorChanges = cursorChanges + 1
+        if cursorChanges <= MAX_CURSOR_CHANGES then
+            emit(string.format(
+                'cursor_change=%02d frame=%06d active_side=%d '
+                    .. 'script=0x%08X->0x%08X previous=0x%08X->0x%08X',
+                cursorChanges,
+                frames,
+                u8(ACTIVE_SIDE),
+                lastScriptCursor,
+                scriptCursor,
+                lastPreviousCursor,
+                previousCursor
+            ))
+        end
+        lastScriptCursor = scriptCursor
+        lastPreviousCursor = previousCursor
+    end
     if passesStarted == 0
         and not warningPrinted
         and frames >= NO_PASS_WARNING_FRAMES then
         warningPrinted = true
-        print(SCRIPT_NAME
-              .. ': no AI pass seen; confirm interpreter CPU and opponent turn')
+        if opponentFrames > 0 or cursorChanges > 0 then
+            print(SCRIPT_NAME
+                  .. ': opponent/cursor control observed without an AI VM '
+                  .. 'breakpoint; restart in interpreter CPU mode')
+        else
+            print(SCRIPT_NAME
+                  .. ': no AI pass or opponent-turn control seen; confirm '
+                  .. 'interpreter CPU and opponent turn')
+        end
     end
     if frames >= TIMEOUT_FRAMES then
-        finish('timed out before eight completed AI interpreter passes')
+        if passesStarted == 0
+            and opponentFrames > 0
+            and cursorChanges > 0 then
+            finish('opponent turn and AI cursor activity observed without '
+                   .. 'an AI VM execution breakpoint')
+        elseif passesStarted == 0 and opponentFrames > 0 then
+            finish('opponent turn observed but AI script cursor did not '
+                   .. 'change during capture')
+        else
+            finish('timed out before eight completed AI interpreter passes')
+        end
     end
 end
 

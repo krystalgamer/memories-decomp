@@ -12,6 +12,8 @@
 #include "mdec_sync.h"
 #include "sound_mix.h"
 #include "../unmatched.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libetc.h"
 
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then the three stages that decode and
@@ -163,7 +165,7 @@ s32 Movie_DecodeAndPresentFrame(void) {
     if (result != 0) {
         return result;
     }
-    func_8005C5D4();
+    Movie_WaitFrameDecoded();
     return 0;
 }
 

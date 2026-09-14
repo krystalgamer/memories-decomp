@@ -37,6 +37,7 @@
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 #include "main_mode_state.h"
+#include "../psyq/libgs.h"
 
 extern volatile u8 D_8009B0D1;
 
@@ -71,7 +72,7 @@ s32 Main_Init(void)
     D_8009B0C4 = t;
     func_80013154(p);
     func_800403F0();
-    func_800151B0();
+    Fade_Init();
     func_800134B4();
     Movie_ResetPlaybackState();
     func_80035A64();

@@ -40,11 +40,11 @@ typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
  *
  * Both callers declared the parameter s32 while the definition takes s16,
  * and nothing compared them: this unit had no header. Neither call is
- * affected -- func_80031354 passes a constant 0, and Main_RunCampaign passes
+ * affected -- DebugMenu_UpdateBustUpEntry passes a constant 0, and Main_RunCampaign passes
  * the u8 gCampaignSceneIndex, which widens the same way to either type -- so
  * the header states the definition's own width.
  *
- * func_80030998 also passes a constant zero through this declaration. */
+ * DebugMenu_UpdateCampaignEntry also passes a constant zero through this declaration. */
 void Campaign_LoadScenePackage(s16 arg0);
 void Campaign_LoadScenePackageStage(
     FileTransferDescriptor *descriptor, s32 stage
@@ -53,7 +53,7 @@ void Campaign_LoadScenePackageStage(
 /* The scene package's primary display object. Campaign_LoadScenePackage
  * creates it, Script_OpDuelResult hides and restores it around the duel-result
  * screen, and the inline-assembly event driver updates the same slot.
- * func_80030998 selects the DATA view for its absolute load/store. */
+ * DebugMenu_UpdateCampaignEntry selects the DATA view for its absolute load/store. */
 #ifdef CAMPAIGN_PRIMARY_OBJECT_IN_DATA
 extern DisplayObject *D_8009B2A0 __attribute__((section(".data")));
 #else

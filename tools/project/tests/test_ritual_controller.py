@@ -691,11 +691,12 @@ class RitualControllerTests(unittest.TestCase):
         self.mutant("1408 *", "1404 *", 5, range(60, 64))
 
     def test_wrong_tribute_slot_is_detected(self):
-        self.mutant("&D_801A7AD8[B(D_800E9EF0.slots[4], 0x6A)]",
-                    "&D_801A7AD8[B(D_800E9EF0.slots[3], 0x6A)]", 1, range(20, 23))
+        self.mutant("&D_801A7AD8[D_800E9EF0.slots[4]->field_6A]",
+                    "&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]", 1, range(20, 23))
 
     def test_wrong_slide_increment_is_detected(self):
-        self.mutant("H(object, 0x60) + 42", "H(object, 0x60) + 41", 9, range(100, 104))
+        self.mutant("(u16)object->field_60 + 42", "(u16)object->field_60 + 41", 9,
+                    range(100, 104))
 
 
 if __name__ == "__main__":

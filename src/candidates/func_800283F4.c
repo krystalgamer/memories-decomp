@@ -22,6 +22,7 @@
 
 #include "../game/display_object_layout.h"
 #include "../game/duel_effect.h"
+#define DUEL_CARD_VIEWER_ADDRESS_ALIASES
 #include "../game/duel_card_viewer.h"
 #include "../game/duel_effect_tables.h"
 #include "../game/text_box_lifecycle.h"
@@ -41,11 +42,6 @@
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../unmatched.h"
 #include "../game/main_mode_state.h"
-
-extern DisplayObject *D_8009B240;
-
-extern DisplayObject *D_8009B24C;
-extern DuelEffectChannel *D_8009B250;
 
 void DuelEffect_UpdateCardViewerState(void)
 {
@@ -111,7 +107,7 @@ void DuelEffect_UpdateCardViewerState(void)
         stats = gDuel_adwCardStats;
         chan = D_800EB0F8;
         for (; i < 3; i++, chan++) {
-            if ((chan->flags_34 & 0x8000) == 0) {
+            if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
                 id = gDuel_wViewerCardID;
                 gDuel_wSelectedCardID = id;
                 kind = 3;

@@ -419,8 +419,8 @@ The two wrappers differ in that message and in what they check afterwards:
 
 | Function | Message | After a good pair | Callers |
 |---|---:|---|---|
-| `SaveData_UpdateTradeLoad` (`0x8003FCD8`) | `0x29` | nothing more | main-menu item `3`; `func_80030EC8`, which then enters mode `14`, `Main_RunTrade` |
-| `SaveData_UpdateDuelLoad` (`0x8003FD14`) | `40`, `36` | all 40 deck slots nonzero in both saves, then both player names converted to glyph codes | main-menu item `2`; `func_80031000`, which then enters mode `16`, the two-player duel setup |
+| `SaveData_UpdateTradeLoad` (`0x8003FCD8`) | `0x29` | nothing more | main-menu item `3`; `DebugMenu_UpdateTradeEntry`, which then enters mode `14`, `Main_RunTrade` |
+| `SaveData_UpdateDuelLoad` (`0x8003FD14`) | `40`, `36` | all 40 deck slots nonzero in both saves, then both player names converted to glyph codes | main-menu item `2`; `DebugMenu_UpdateTwoPlayerDuelEntry`, which then enters mode `16`, the two-player duel setup |
 
 `SaveData_UpdateDuelLoad` sets its message before it calls
 `SaveData_UpdateTradeLoad`, whose one-shot latch then leaves it alone. That

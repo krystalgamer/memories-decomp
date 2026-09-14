@@ -241,9 +241,9 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
     sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
 ];
 
-/* Eight bytes copied as one unit. Three build-integrated candidates each
-   defined this shape locally and used it only as the source and destination
-   of a whole-struct assignment: func_80015EF4 copies four rotation corners,
+/* Eight bytes copied as one unit. The matching wireframe renderer and two
+   retained candidates use this shape as the source and destination of a
+   whole-struct assignment: func_80015EF4 copies four rotation corners,
    func_80029934 one parameter block out of D_80181000, and func_80030294 one
    mask block out of D_8009AF4C.
 
@@ -253,10 +253,10 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    gives alignment 1, so the assignment lowers to the unaligned move pair
    rather than to word loads. The three targets say so directly -- an eight-byte
    alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
-   src/candidates_target/ are exactly two pairs per source-level assignment:
-   func_80015EF4.S has 8 of each for its four copies, func_80029934.S and
-   func_80030294.S 2 of each for their one. A word-element spelling would not
-   reproduce them.
+   the retained targets and matching wireframe text are exactly two pairs per
+   source-level assignment: func_80015EF4.S has 8 of each for its four copies;
+   func_80029934 and func_80030294.S have 2 of each for their one. A word-element
+   spelling would not reproduce them.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it
    is; it is also the declared type of two defined objects, which is a claim
@@ -387,7 +387,12 @@ typedef struct {
 typedef struct {
     void *pointer;
     s16 value;
-    u8 pad_06[14];
+    u8 pad_06[10];
+    /* Set to 1 by ScriptImage_CreateObject and ScriptImage_RebuildObjects
+       whenever they build a display object into the slot; no matched code
+       reads it yet. */
+    u8 field_10;
+    u8 pad_11[3];
 } ScriptImageEntry;
 
 struct DuelEffectChannel;
@@ -406,8 +411,53 @@ typedef char SceneScriptSlot_size_must_be_0x14[
 typedef char ScriptImageEntry_size_must_be_0x14[
     sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
 ];
+typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
+    YGO_TYPE_OFFSET(ScriptImageEntry, field_10) == 0x10 ? 1 : -1
+];
 
 struct DisplayObject;
+
+/* The Library cursor's motion record at D_800EA1E8, 0x48 bytes. func_80029590,
+   func_8002A3CC and func_8002A4A8 reach it through the typed declaration in
+   game/func_8002A3CC.h, and func_8002BFCC through a cast of the byte view that
+   game/library_runtime.h declares at the same address. */
+typedef struct {
+    u8 pad_00[8];
+    s16 x;
+    s16 y;
+    u16 x_fraction;
+    u16 y_fraction;
+    u8 pad_10[2];
+    u16 rest_x;
+    u16 rest_y;
+    u8 frames;
+    u8 active;
+    s32 velocity_x;
+    s32 velocity_y;
+    u8 pad_20[4];
+    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
+       fills one per iteration. They were inside pad_20 until now; naming them
+       moves nothing, and render still begins at 0x44 immediately after the
+       last of them. */
+    struct DisplayObject *slots[8];
+    struct DisplayObject *render;
+} LibraryMotionState;
+
+typedef char LibraryMotionState_x_offset_must_be_0x8[
+    YGO_TYPE_OFFSET(LibraryMotionState, x) == 0x8 ? 1 : -1
+];
+typedef char LibraryMotionState_frames_offset_must_be_0x16[
+    YGO_TYPE_OFFSET(LibraryMotionState, frames) == 0x16 ? 1 : -1
+];
+typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
+];
+typedef char LibraryMotionState_render_offset_must_be_0x44[
+    YGO_TYPE_OFFSET(LibraryMotionState, render) == 0x44 ? 1 : -1
+];
+typedef char LibraryMotionState_size_must_be_0x48[
+    sizeof(LibraryMotionState) == 0x48 ? 1 : -1
+];
 
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
@@ -437,7 +487,12 @@ typedef struct DuelEffectChannel {
     u8 pad_0B;
     u16 field_0C;
     u16 field_0E;
-    u8 pad_10[3];
+    /* The object's slot in the D_800EAF08 occupancy table and the byte
+       beside it; func_80039AD4 clears D_800EAF08[field_10] and zeroes
+       field_11 when it releases the slot. */
+    u8 field_10;
+    u8 field_11;
+    u8 pad_12;
     u8 field_13;
     u8 field_14;
     u8 field_15;
@@ -445,7 +500,7 @@ typedef struct DuelEffectChannel {
     DuelEffectEntry *entry_end_20;
     DuelEffectEntry *entry_head_24;
     /* Every consumer proves this is a DisplayObject pointer:
-       func_800391E4 and the func_8002EE94 candidate cast it, card-list text
+       func_800391E4 and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
        through a pointer cast. */
     struct DisplayObject *field_28;
@@ -635,6 +690,75 @@ typedef SelectionFrame NameEntrySelectionFrameView;
 
 typedef char SelectionFrame_size_must_be_0x62[
     sizeof(SelectionFrame) == 0x62 ? 1 : -1
+];
+
+/* Known prefixes of the password shop's preview and digit-cursor objects. */
+typedef struct {
+    u8 pad0[0x8];
+    u16 flags;
+    u8 pad0A[0x17];
+    u8 phase;
+    u8 pad22[0x10];
+    u16 y;
+} PasswordCardPreviewView;
+
+typedef void (*PasswordCursorUpdate)(u8 *object);
+
+typedef struct {
+    u8 pad00[0x8];
+    u16 flags;
+    u8 pad0A[0x0E];
+    s16 target_x;
+    s16 target_y;
+    u8 pad1C[0x14];
+    s16 x;
+    s16 y;
+    u8 pad34[0x2C];
+    s16 timer;
+    u8 pad62[0x7];
+    u8 kind;
+    u8 pad6A[0x2];
+    u8 updateFlags;
+} PasswordCursorView;
+
+typedef struct {
+    u8 flags;
+    s8 keyboardColumn;
+    u8 keyboardRow;
+    u8 resetState;
+    SelectionFrame *selectionFrame;
+    u8 glyphSequence;
+    u8 unknown409[7];
+    u8 digits[8];
+    u8 *nameBuffer;
+    u8 dialogState;
+    u8 unknown41D[3];
+    PasswordCursorView *digitCursor;
+    u16 displayedStarchips;
+    u8 savedKeyboardRow;
+    u8 unknown427;
+    s32 digitIndex;
+    s8 caretIndex;
+    u8 unknown42D[3];
+    u8 *cardCache;
+    s16 cursorTargetX;
+    s16 cursorTargetY;
+    u32 cardPrice;
+    u8 *lengthObject;
+    u8 *digitDecorations[4];
+    u8 unknown450[0x80];
+    u8 resetMode;
+    u8 unknown4D1;
+    u16 dialogId;
+    u16 keyboardFlags;
+    u16 unknown4D6;
+    PasswordCardPreviewView *cardPreview;
+    u16 cardId;
+    u8 unknown4DE[0xB2];
+} PasswordModuleState;
+
+typedef char PasswordModuleState_size_must_be_0x190[
+    sizeof(PasswordModuleState) == 0x190 ? 1 : -1
 ];
 typedef char SelectionFrame_priority_offset_must_be_0x14[
     YGO_TYPE_OFFSET(SelectionFrame, priority) == 0x14 ? 1 : -1
@@ -1009,13 +1133,24 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
-/* Display-object script state shared by the five handlers at 0x8004141C.
+/* Display-object script state shared by the seven D_80090FEC handlers,
+   func_8004141C through func_80041534.
    The two pointers delimit the script buffer and the trailing halfwords are
    handler status fields. */
 typedef struct {
     u8 pad_00[4];
     u32 flags;
-    u8 pad_08[0x48];
+    u8 pad_08[0x1A];
+    /* func_80041534 (opcode 0xF9) loads its first operand byte here. */
+    u8 field_22;
+    u8 pad_23[0x25];
+    /* func_80041534 stores its little-endian halfword operand in field_48
+       and its sign-extended second operand byte in field_4A. */
+    s16 field_48;
+    s16 field_4A;
+    /* func_80041C8C points this at the current opcode's operand target:
+       base plus the little-endian halfword that follows the opcode. */
+    u8 *field_4C;
     u8 *current;
     u8 *base;
     s16 field_58;
@@ -1024,6 +1159,18 @@ typedef struct {
 
 typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_22_offset_must_be_0x22[
+    (u32)&((DisplayObjectStreamState *)0)->field_22 == 0x22 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_48_offset_must_be_0x48[
+    (u32)&((DisplayObjectStreamState *)0)->field_48 == 0x48 ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_4A_offset_must_be_0x4A[
+    (u32)&((DisplayObjectStreamState *)0)->field_4A == 0x4A ? 1 : -1
+];
+typedef char DisplayObjectStreamState_field_4C_offset_must_be_0x4C[
+    (u32)&((DisplayObjectStreamState *)0)->field_4C == 0x4C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
     (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1

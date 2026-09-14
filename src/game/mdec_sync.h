@@ -9,6 +9,10 @@
  * finished once it reaches zero, so a skip fades the audio out over four
  * frames instead of cutting it. */
 void Movie_StartFadeOut(void);
-s32 func_8005C5D4(void);
+/* Spins until D_8009B062, the latch func_8005C1F4 (the DecDCTout callback)
+ * sets once the last strip of the frame is uploaded, is raised. After a
+ * 0x800000 countdown it gives up and calls DecDCTReset(1). Either way it
+ * clears the latch and returns 0. */
+s32 Movie_WaitFrameDecoded(void);
 
 #endif

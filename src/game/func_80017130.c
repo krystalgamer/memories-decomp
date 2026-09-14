@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "func_80017130.h"
+#include "model.h"
 #include "view_state.h"
 
 void func_80017130(void)
@@ -20,8 +21,8 @@ void func_80017130(void)
     s->field_0C = 0;
     s->view.rz = 0;
     s->view.super = 0;
-    s->projection = 0x12C;
-    GsSetProjection(0x12C);
+    s->projection = MODEL_DEFAULT_PROJECTION;
+    GsSetProjection(MODEL_DEFAULT_PROJECTION);
     words[3] = 0;
     s->field_06 = 0;
     words[4] = 0;

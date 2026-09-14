@@ -185,7 +185,7 @@ int main(void)
     D_800F5768[1].vx = -1;
     func_8005E808((u8 *)&key);
     if (copies != 2 || roots != 2 || key.ready != 1) return 12;
-    if (key.radius != 2 || key.progress != 0) return 13;
+    if (key.duration != 2 || key.progress != 0) return 13;
     {
         static const char message[] =
             "two four-halfword copies; signed coordinate arithmetic preserved\n";

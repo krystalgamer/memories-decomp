@@ -8,6 +8,9 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
+#define SOUND_INIT_S16_VIEW
+#include "sound_init.h"
+
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
    the next read. */
@@ -95,7 +98,7 @@ void SD_SetOutputType(s16 value)
     }
 }
 
-s32 func_80047008(void)
+s32 SD_GetOutputType(void)
 {
     return g_SDValue->output_type;
 }
@@ -181,3 +184,69 @@ void func_80047278(u32 value)
     func_80047AD0(value & SD_COMMAND_VALUE_MASK);
 }
 
+void func_800472A8(s32 arg0)
+{
+    u16 saved = arg0;
+
+    if ((g_SDValue->flags_004A & 2) == 0)
+        return;
+
+    if (arg0 & 0x8000) {
+        func_80045334(saved & SD_COMMAND_VALUE_MASK);
+    } else {
+        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+
+        if (masked >= SD_BGM_COMMAND_BASE)
+            arg0 -= SD_BGM_COMMAND_BASE;
+        func_80049138((s16)arg0, 1);
+    }
+}
+
+void func_80047314(u32 value)
+{
+    func_8004733C(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
+}
+
+void func_8004733C(s32 arg0, s32 arg1)
+{
+    u16 saved = arg0;
+
+    if ((g_SDValue->flags_004A & 2) == 0)
+        return;
+
+    if (arg0 & 0x8000) {
+        func_800473CC(SD_BGM_COMMAND_BASE);
+        arg1 = (s16)arg1;
+        func_80045208(saved & SD_COMMAND_VALUE_MASK, arg1);
+    } else {
+        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+
+        if (masked >= SD_BGM_COMMAND_BASE)
+            arg0 -= SD_BGM_COMMAND_BASE;
+        arg1 = (s16)arg1;
+        func_80049230((s16)arg0, arg1);
+    }
+}
+
+void func_800473CC(u32 value)
+{
+    func_800473F0(value & SD_COMMAND_VALUE_MASK, -32);
+}
+
+void func_800473F0(u16 flags, s32 value)
+{
+    if ((flags & 0x8000) != 0)
+        func_80045114();
+    else
+        func_80049230_s16(-1, value);
+}
+
+void func_80047430(s32 value, s32 flag)
+{
+    func_80049108(value, flag);
+}
+
+void func_80047458(s32 value, s32 flag)
+{
+    func_800490F0(value, flag);
+}

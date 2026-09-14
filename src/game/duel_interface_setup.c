@@ -2,6 +2,7 @@
 #include "display_object_core.h"
 #include "duel_interface_setup.h"
 #include "duel_effect.h"
+#include "frontend_debug_tables.h"
 #include "fade.h"
 #include "func_800300C8.h"
 #include "func_8003B6AC.h"
@@ -10,14 +11,14 @@
 #include "text_box_runtime.h"
 #include "../unmatched.h"
 
-void func_80030198(void)
+void DebugMenu_Init(void)
 {
     DuelEffectChannel *text_box;
     DisplayObject *object;
 
     D_8009B2B2 = 0x80;
     D_8009B2EB = 0;
-    D_8009B2F0 = 0;
+    gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
     func_8003B6AC(1, 1);
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
     text_box->field_5A = 16;

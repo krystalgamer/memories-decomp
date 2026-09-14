@@ -31,7 +31,8 @@ extern s8 gDialog_bChoice __attribute__((section(".data")));
  * otherwise, which is then waited on until its +0x30 pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
- * read 0x2000 under the 0x2008 mask the box is destroyed and either bit 14
+ * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
+ * destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
  * from +0x6340 and Fade_SetTargetLevel(0xFF, 2) runs. Without bit 14 the CARD_COUNT
  * trunk bytes at +0x5D98 are copied after the DECK_SIZE halfwords of the
@@ -54,7 +55,7 @@ void func_800339D0(BuildDeckTransitionState *record)
         if (BuildDeck_HasOpenDeckSlot() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */
-            mode = D_8009B2F8 & 0x80;
+            mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
             workspace->state |= 0x4000;
             if (mode) {
                 ((u8 *)TextBox_CreateFlagged(
@@ -79,9 +80,11 @@ void func_800339D0(BuildDeckTransitionState *record)
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
         box = (u8 *)D_800EB0F8;
-        if ((*(u32 *)(box + 0x34) & 0x2008) == 0x2000) {
+        if ((*(u32 *)(box + 0x34) & TEXT_BOX_COMPLETION_MASK) ==
+            TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);
-            if (!(D_8009B2F8 & 0x80) && gDialog_bChoice != 0) {
+            if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
+                gDialog_bChoice != 0) {
                 workspace->state &= 0xBFFF;
             } else {
                 workspace->state = workspace->next_state;
@@ -121,8 +124,8 @@ s32 func_80033BE8(void)
     s32 intensity;
     s32 color;
     BuildDeckTransitionState *base;
-    u8 *first;
-    u8 *second;
+    DisplayObject *first;
+    DisplayObject *second;
 
     rand();
 
@@ -133,15 +136,15 @@ s32 func_80033BE8(void)
 
     base = gBuildDeck_pState;
     color = intensity * 2 + 0x40;
-    first = *(u8 **)((u8 *)base + 0x2D38);
-    second = *(u8 **)((u8 *)base + 0x5A84);
+    first = base->lists[0].cursor_box;
+    second = base->lists[1].cursor_box;
 
-    second[0xE] = color;
-    second[0xD] = color;
-    second[0xC] = color;
-    first[0xE] = color;
-    first[0xD] = color;
-    first[0xC] = color;
+    ((u8 *)&second->field_0C)[2] = color;
+    ((u8 *)&second->field_0C)[1] = color;
+    ((u8 *)&second->field_0C)[0] = color;
+    ((u8 *)&first->field_0C)[2] = color;
+    ((u8 *)&first->field_0C)[1] = color;
+    ((u8 *)&first->field_0C)[0] = color;
 
     if (DuelEffect_UpdateState() == 0) {
         D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);

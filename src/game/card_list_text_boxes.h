@@ -20,14 +20,14 @@ typedef struct {
 typedef struct CardList {
     CardEntry entries[CARD_ID_END];
     u8 pad_2D30[4];
-    /* The two text boxes the input handler moves. Both are display records
-       whose halfword at +0x32 is a y position: BuildDeck_UpdateCardListInput sets the
+    /* The two text boxes the input handler moves. Both are display objects
+       whose field_30.h.field_32 is a y position: BuildDeck_UpdateCardListInput sets the
        cursor box to cursor * 22 + 0x2A and the scroll box to the thumb
-       position it derives from `first`. func_800339D0.c pulses the
-       scroll box's colour bytes at +0xC/+0xD/+0xE, which is what fixes them
-       as display records rather than rows of this list. */
-    u8 *cursor_box;
-    u8 *scroll_box;
+       position it derives from `first`. func_80033BE8 (func_800339D0.c)
+       pulses both lists' cursor boxes' colour bytes at +0xC/+0xD/+0xE, which
+       is what fixes them as display records rather than rows of this list. */
+    struct DisplayObject *cursor_box;
+    struct DisplayObject *scroll_box;
     s16 first;
     /* Where `first` is heading. BuildDeck_UpdateCardListInput never jumps the scroll: it
        writes the destination here and then steps `first` one row per call

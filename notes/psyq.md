@@ -2,15 +2,15 @@
 
 ## Scope
 
-The resident executable contains 600 functions classified as Psy-Q CRT or SDK
+The resident executable contains 591 functions classified as Psy-Q CRT or SDK
 code:
 
 | Region | Address range | Functions | Bytes |
 |---|---:|---:|---:|
 | CRT startup | `0x800129D8-0x80012B50` | 3 | `0x178` |
 | Embedded LIBGS getter | `0x80058F10-0x80058F20` | 1 | `0x10` |
-| SDK and runtime | `0x80073704-0x800906D4` | 596 | `0x1C8DC` |
-| **Total** | | **600** | **`0x1CA64`** |
+| SDK and runtime | `0x80073704-0x800906D4` | 587 | `0x1C8DC` |
+| **Total** | | **591** | **`0x1CA64`** |
 
 These functions remain exact assembly and do not count toward game-code
 decompilation progress. The goal is to identify their original interfaces and
@@ -123,16 +123,24 @@ the current sweep reports:
 
 The unique-object labels classify against the current function inventory as:
 
+These proposal counts begin only after discarding objects whose masked payload
+matches several locations and labels that do not land on preserved function
+starts. They therefore do not measure complete SDK naming coverage: 11 of the
+591 SDK functions remain address-named, and the zero in the "new names" row
+means only that this filtered unique-proposal set offers no additional names.
+
 | Inventory result | Count | Interpretation |
 |---|---:|---|
 | Existing names agreeing | 428 | Independent names corroborated by the pinned catalogue |
-| Existing names differing | 1 | `__SN_ENTRY_POINT` versus the project's `entrypoint` at `0x800129D8`; this is a naming choice, not a provenance conflict |
-| New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
-| Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
-| Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 23 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 7 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
-| Address-named rows outside unique object matches | 16 | No unique catalogue object currently covers the function start |
+| Existing names differing | 0 | Every unique catalogue disagreement has an explicit local resolution |
+| New names for `func_XXXXXXXX` rows | 0 | Every function start in the filtered unique-proposal set is already named |
+| Catalogue conflicts resolved by evidence | 6 | Call graph or data flow distinguishes the selected identity |
+| Catalogue names retained by policy | 3 | `entrypoint`, `CdMix`, and `GsSetRefView2` remain project spellings without claiming the bytes distinguish every catalogue alias |
+| Addresses claimed under several names | 0 | Every collision has an explicit evidence or naming-policy resolution |
+| Ambiguous address-named starts | 0 | No unresolved multi-name collision lands on an address-based Psy-Q inventory name |
+| Psy-Q inventory rows still address-named | 11 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 6 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Address-named rows outside unique object matches | 5 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
@@ -142,25 +150,29 @@ inventory and can change when function boundaries do. Matcher debugging must
 compare the same pinned catalogue against the same inventory rather than
 treating any future count change as a matcher failure.
 
-All eight byte-ambiguous addresses retain non-address local inventory names:
-`PCread`, `SpuWrite`, `CdReadyCallback_8007A840`, `CdMix`, `CdControlB`,
-`GsGetActiveBuff`, `GsDrawOt`, and `GsSetRefView2`. This bucket is not a
-resolution registry: the signature tool refuses to choose between
-byte-identical catalogue labels and merely reports that renaming is not
-actionable. In particular, the bytes do not adjudicate `CdMix` versus `DsMix`
-or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
-naming-policy questions rather than signature matches.
-
+`config/slus_01411/psyq_signature_resolutions.json` makes every exception
+machine-checkable. It pins the exact catalogue content hash, the complete set
+of names proposed at each conflicted address, the selected inventory name, and
+whether local evidence breaks the byte tie or the project merely retains an
+existing naming policy. A changed catalogue, stale proposal set, unused
+resolution, inventory rename, or missing basis now fails the sweep instead of
+quietly reopening an ambiguity. This covers `PCread`, `SpuWrite`,
+`CdReadyCallback_8007A840`, `CdMix`, `CdControlB`, `GsGetActiveBuff`,
+`GsDrawOt`, `GsSetRefView2`, and the repository-standard `entrypoint` spelling.
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 23 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 11 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 7 already sit inside 5
-uniquely matched object ranges, while 16 are not covered by any unique 4.6
+The `--coverage-report` split narrows that work: 6 already sit inside 4
+uniquely matched object ranges, while 5 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
+
+The `CdMix` and `GsSetRefView2` records explicitly leave original-library
+identity unresolved: equal packet/view layouts and identical permitted
+catalogue signatures do not discriminate their alternative exports.
 
 ### Patched LIBDS cross-reference
 
@@ -170,7 +182,7 @@ against that library alone by giving the tool a directory holding only the
 
     mkdir tmp/sig-ds47 && cp <checkout>/470/LIBDS.LIB.json tmp/sig-ds47/
     tools/environments/python/bin/python tools/project/psyq_signatures.py \
-        --signatures tmp/sig-ds47 --report
+        --signatures tmp/sig-ds47 --psyq-version 4.7 --report
 
 To emit semantic-map rows from that exception without labelling them as 4.6:
 
@@ -183,11 +195,14 @@ payload exactly once. That yields 31 new names from `0x8007A9AC` to
 `DsSync`, `DsReady` and `DsQueueLen`, and the library's internal `DS_*`
 state helpers, `_DsPacket2`, `parcpy` and `rescpy`. The 4.6 catalogue
 proposes none of these addresses, which is consistent with the executable
-carrying the patched library rather than the 4.6 one. The 14 labels that land
-on already-named LIBDS functions all agree. The two that differ are the
-existing `CdMix`/`DsMix` and `CdReadyCallback_8007A840`/`DsSetDebug`
-conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
-`DsControl` and `DsControlB`.
+carrying the patched library rather than the 4.6 one. The current cross-check
+has 45 agreeing inventory names and no new names or unrecorded disagreements.
+Its three explicit resolutions preserve
+`CdReadyCallback_8007A840`, `CdMix`, and `CdControlB` where the patched LIBDS
+bytes alone propose a different or non-unique export. The callback and control
+identities have behavioral evidence; `CdMix` is a retained project alias
+because the four-byte CdlATV/DslATV views and permitted signatures are
+indistinguishable.
 
 The patched `DSSYS_2.OBJ` queue prefix is also now named through independent
 version evidence. Psy-Q 4.0, the PsyZ object reconstruction, and two Resident
@@ -196,6 +211,16 @@ Evil 2 maps agree on `CQ_clear_queue`, `CQ_delete_command`, `CQ_last_queue`,
 order. The permitted 4.7 object fixes the corresponding current boundaries
 around its added `DS_CQ_flush` entry and places `DsInit` immediately after the
 same seven-function queue core.
+
+The same older symbols and independent maps recover eight private identities
+inside the patched `DSSYS_1.OBJ`. Current behavior removes the sequence-only
+ambiguity: `DS_cw_root` is shared by `DS_cw` and `DS_cw_system`;
+`DS_vsync_system` is installed through `VSyncCallbacks`; `DS_sync_system` and
+`DS_ready_system` are installed as the CD sync and ready callbacks; and those
+dispatchers select `DS_sync_for_user`, `DS_sync_for_system`,
+`DS_sync_for_void`, and shared result copier `DS_scan_result`. The intervening
+new helper at `0x8007C458` retains its address name because no original symbol
+for that split boundary has been recovered.
 
 Four game sources already called three of these by address. `file_stream.c`
 and `main_run_boot_sequence.c` call `DsInit`, and `func_80013C28.c`
@@ -329,6 +354,7 @@ Every row below is now an applied project symbol.
 | `0x80073A54` | `StopRCnt` | Applied at offset `0x104` of the same unique counter signature; matching setup stops `RCntCNT2` before reconfiguration and both shutdown paths stop it again. |
 | `0x80073A88` | `ResetRCnt` | Applied at offset `0x138` of the same unique counter signature; the resident wrapper writes zero to the selected current-count register. |
 | `0x80073AC0` | `firstfile` | Applied Psy-Q 4.6 identity; receives a formatted device path and caller-owned directory record, returning that record on success. |
+| `0x80073C5C` | `_first_patch` | Private `FIRST.OBJ` helper at exact offset `0x19C`. The independently reconstructed NFS High Stakes Psy-Q object preserves the `_first_patch` declaration and a byte-for-byte identical `0x100`-byte body, including the BIOS device-table walk, restoration of the saved handler, and tail call through it. |
 | `0x80073D60` | `firstfile2` | Applied from the unique 16-byte Psy-Q 4.6 `LIBAPI.LIB/A66.OBJ` signature. |
 | `0x80073D7C` | `ReadInitPadFlag` | Applied at offset `0xC` of the unique 656-byte Psy-Q 4.6 `LIBAPI.LIB/PAD.OBJ` signature. |
 | `0x80073D8C` | `PAD_init` | Applied at offset `0x1C` of the same unique `LIBAPI.LIB/PAD.OBJ` signature. |
@@ -464,6 +490,14 @@ Every row below is now an applied project symbol.
 | `0x8007D2D0` | `DsReadMode` | Applied Psy-Q 4.6 identity at offset `0x4F0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
 | `0x8007D2F0` | `DsRead2` | Applied Psy-Q 4.6 identity from the unique 256-byte `LIBDS.LIB/DSREAD2.OBJ` signature; the matching movie control path retries this two-argument read. |
 | `0x8007D3C4` | `StCdInterrupt2` | Private second function in `DSREAD2.OBJ`, named by the PsyZ object reconstruction and independent Resident Evil 2 maps; its position immediately after `DsRead2` is stable across those sources. |
+| `0x8007BFB0` | `DS_cw_root` | Stable private name in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps; in the patched object both `DS_cw` and `DS_cw_system` call this shared command root. |
+| `0x8007C188` | `DS_vsync_system` | Stable private name in the same sources; patched `DS_init` installs this exact function through `VSyncCallbacks`, confirming its role independently of object order. |
+| `0x8007C4E0` | `DS_sync_system` | Stable private identity corroborated by patched `DS_init`, which stores this exact address as the CD sync callback before it dispatches the three synchronization paths. |
+| `0x8007C5F0` | `DS_sync_for_user` | Stable first synchronization path after `DS_sync_system` in the older symbols/maps and first handler selected by the patched dispatcher. |
+| `0x8007C7D4` | `DS_sync_for_system` | Stable middle synchronization path between the user and void handlers in the older symbols/maps and patched dispatcher. |
+| `0x8007CA5C` | `DS_sync_for_void` | Stable final synchronization path after the user/system handlers in the older symbols/maps and patched dispatcher. |
+| `0x8007CB48` | `DS_ready_system` | Stable private identity corroborated by patched `DS_init`, which stores this exact address as the CD ready callback. |
+| `0x8007CBDC` | `DS_scan_result` | Stable final helper before `DS_stop` in the older symbols/maps; both patched sync and ready dispatchers call it, and it forwards the selected result through `rescpy`. |
 | `0x8007E600` | `CdIntToPos_8007E600` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
 | `0x800781F0` | `CdPosToInt` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the packed-BCD position-to-sector conversion. |
 | `0x8007E710` | `CdPosToInt_8007E710` | Applied address-qualified identity for the second byte-identical resident copy used by matching game C. |
@@ -473,6 +507,9 @@ Every row below is now an applied project symbol.
 | `0x8007DE4C` | `ER_cbready` | Stable private name from Psy-Q 4.0 and two independent Resident Evil 2 maps. The added `DsReadySystemMode` entry accounts for the offset shift in 4.6, while the function remains the first private DSREADY callback after the public setup entries. |
 | `0x8007E128` | `ER_retry` | Stable private name and ordering between `ER_cbready` and `ER_cbsync` in the older SDK and independent maps; the exact 4.6 body implements the ready-system retry state. |
 | `0x8007E1E0` | `ER_cbsync` | Stable private name immediately after `ER_retry` in the older SDK and independent maps; the exact 4.6 body handles the corresponding sync-completion state. |
+| `0x8007E2F0` | `DS_sync` | Stable private `D1_001.OBJ` identity in the 4.6/4.7 catalogues and independent Unchiga map; the exact wrapper passes mode `1` and the caller's result buffer to confirmed `CD_sync`. |
+| `0x8007E320` | `DS_ready` | Stable private `D1_002.OBJ` identity in the 4.6/4.7 catalogues; the exact wrapper passes mode `1` and the caller's result buffer to confirmed `CD_ready`, distinguishing the otherwise similar wrappers by call target. |
+| `0x8007E370` | `DsShellOpen` | Public `D2_003.OBJ` identity in the 4.6/4.7 catalogues; the complete wrapper calls confirmed private `DS_shell_open` and directly returns its shell-open state. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
 | `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`; matching `func_8005C62C` uses the canonical `libcd.h` declaration for its set-location and physical-seek commands. |
@@ -637,7 +674,7 @@ Every row below is now an applied project symbol.
 | `0x80089E40` | `GsU_02000000` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000000.OBJ` signature. Matching `func_800603DC` returns the canonical handler for the exact primitive type word `0x02000000`. |
 | `0x80089ED0` | `GsU_02000001` | Applied from the unique exact Psy-Q 4.6 `LIBHMD.LIB/02000001.OBJ` signature. Matching `func_800603DC` returns the canonical handler for the exact primitive type word `0x02000001`. |
 | `0x8008A4A0` | `GsGetLwUnit` | Applied at offset zero of the unique exact Psy-Q 4.6 `LIBHMD.LIB/LWUNIT.OBJ` signature. Canonical `libhmd.h` takes a `GsCOORDUNIT *` and output `MATRIX *`; matching `model_slot_properties.c` uses those types before `GsSetLsMatrix`, while `func_800580D4` and `func_80059B90` pass the same 0x50-byte unit and 32-byte output through local byte views. |
-| `0x8008AD50` | `GsSetRefView2` | Applied Psy-Q 4.6 identity; matching model paths install the shared 32-byte reference-view record. |
+| `0x8008AD50` | `GsSetRefView2` | Retained project alias; matching model paths install a shared 32-byte reference-view record, but GsRVIEW2/GsRVIEWUNIT layouts and the GS_131/RVWUNIT masked signatures are identical, so original export identity remains unresolved. |
 | `0x8008B120` | `scale_view_param` | Private helper shared by the byte-identical `GS_131.OBJ`/`RVWUNIT.OBJ` variants. PsyZ names it in both objects, independent maps preserve its first-helper position, and recovered HMD SDK source contains the same static view-parameter scaler. |
 | `0x8008B20C` | `select_max_param` | Private helper named by both PsyZ object reconstructions and independent maps; it selects the dominant scaled view parameter between `scale_view_param` and `len_param`. |
 | `0x8008B2D4` | `len_param` | Private final helper named by PsyZ and independent maps; its compact body computes the parameter length used by the reference-view setup. |
@@ -1191,7 +1228,7 @@ the CD `St*` ring/stream calls and `DecDCTvlcBuild`. That call chain is evidence
 for cooperating APIs, not evidence that their similarly named stream
 interfaces are interchangeable. Matching movie setup and teardown C now
 includes `libcd.h` for `StSetRing`, `StClearRing`, `StSetStream`, and
-`StUnSetRing`. Matching `func_8005C5D4` includes `libpress.h` for the
+`StUnSetRing`. Matching `Movie_WaitFrameDecoded` includes `libpress.h` for the
 `DecDCTReset(1)` call used when its decode wait times out.
 
 The direct `libpress.h` consumer inventory is complete at three matching
@@ -1288,11 +1325,11 @@ single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
 shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
-`func_80030FD0.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
+`debug_menu_exit.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
 implementation in `src/game/main_init.c`, while `Main_RunGameOver` now
-matches from `src/game/main_run_game_over.c`; `func_80030FD0.c` is the other
+matches from `src/game/main_run_options_menu.c`; `debug_menu_exit.c` is the other
 matching user. The imported `longjmp`
-prototype has no compiler attribute, so `func_80030FD0` repeats the compatible
+prototype has no compiler attribute, so `DebugMenu_Exit` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the
 `jal longjmp` / `li $a1, 2` pair and has no normal epilogue after the call.
 `assert.h` expands a failed assertion to a formatted `printf` followed by
@@ -1349,7 +1386,7 @@ resident implementation is documented separately in [`rng.md`](rng.md).
 Matching resident C includes `rand.h` directly. The password/name-entry
 starter generator and module main, plus the five matching main-menu sort
 comparators, now use `rand.h` rather than duplicate the runtime declaration.
-Newly integrated `Duel_ShuffleDeck`, `func_80031084`, `func_80043BCC`, and
+Newly integrated `Duel_ShuffleDeck`, `DebugMenu_Update`, `func_80043BCC`, and
 `func_80050584` also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
@@ -1523,7 +1560,7 @@ This calculation precedes the saved-event merge and does not establish a
 frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
 truncation occurs before the threshold comparison.
 
-The game-side consumers `func_80020988` and `func_80031084` use the named
+The game-side consumers `func_80020988` and `DebugMenu_Update` use the named
 direction and button masks in `input.h` without merging their repeat and
 newly-pressed reads. The former accepts the confirm/cancel union but tests
 Cancel first when choosing its return value. The latter retains its separate
@@ -1648,18 +1685,20 @@ families also retain marker encodings. Register-transfer helpers such as
 `gte_stopz` instead contain ordinary COP2 assembly directly.
 
 Do not assume those command markers are already drop-in native PSX words.
-The [end-to-end probe](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
-shows the current GCC/MASPSX/GNU-as pipeline preserves the marker unchanged,
-silently producing the wrong object word. GNU as can encode the native
-operation through `cop2` immediates, as the generated assembly fallback does,
-but no tracked C-path translation currently connects those forms.
+The [historical end-to-end probe](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
+shows that profiles without a translation preserve the marker unchanged.
+The accepted `gcc_2_8_1_g8_split_psyq_rtps` profile now uses
+`tools/project/normalize_psyq_rtps.py` to translate only the RTPS marker to
+`0x4A180001`; `func_80015D18` uses that path. The
+`gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks` variant used by
+`func_80029934` changes only the named CSE option, not this translation.
 
-Until that bridge exists, a C candidate requiring one of the audited command
-words is blocked at the toolchain before source-shape refinement can be
-meaningful. COP2 transfers such as `lwc2`, `swc2`, `mtc2`, `mfc2`, `cfc2`,
-and `ctc2` remain directly expressible; the limitation is the command-marker
-family. The optional compiler-profile `assembly_filter` is a possible
-version-neutral bridge, not an implemented or accepted solution.
+This is not a general GTE allowance. Matching-source validation accepts only
+the exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions for these
+profiles, with no source-authored assembly or register bindings. Other command
+markers still need a separately reviewed bridge. COP2 transfers have native
+assembler encodings, but their use must also satisfy the applicable source
+policy. See [the wireframe match](library-wireframe.md) for the RTPS-only case.
 
 A matching C conversion must preserve the exact native encoding and
 scheduling. The classification correction neither changes these imported

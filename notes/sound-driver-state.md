@@ -267,10 +267,11 @@ Matching sound initialization selects transfer mode zero with
 `SpuSetTransferMode(0)`. The secondary transfer path then calls
 `SpuSetTransferStartAddr` with either the configured SPU RAM base or that base
 plus `bytes_consumed` before advancing a transfer window. The status wrapper
-at `0x800498BC` forwards caller value zero as
-`SpuIsTransferCompleted(0)` and every nonzero value as
-`SpuIsTransferCompleted(1)`; local evidence does not assign stronger names to
-those two modes.
+`SD_VabTransCompleted` (`0x800498BC`) forwards caller value zero as
+`SpuIsTransferCompleted(SPU_TRANSFER_PEEK)` and every nonzero value as
+`SpuIsTransferCompleted(SPU_TRANSFER_WAIT)`, the poll-or-block contract of
+libsnd's `SsVabTransCompleted`. Nothing in the executable or the overlay
+archives calls it.
 
 Voice setup uses `SpuSetVoiceAttr` through two layout-compatible local views:
 the main driver submits the attribute block rooted at `g_SDValue+0x3C4`, while
@@ -318,10 +319,11 @@ preserve GCC relocation shape. The shared header remains the layout reference,
 while exact executable matching decides whether a typed field access is safe
 for a particular function.
 
-The contiguous output/control block at `0x80046F58-0x80047278` now builds as
-`src/game/sound_output.c`. Its ten functions use `SDValue` and `SDCommand`
+The contiguous output/control block at `0x80046DE8-0x80047458` now builds as
+`src/game/sound_output.c`. Its eighteen functions use `SDValue` and `SDCommand`
 directly, including output-type reads/writes, driver flags, CD-volume reuse,
-and construction of three command variants.
+construction of three command variants, packed request dispatch, and
+sequence-state control.
 
 An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the
@@ -770,7 +772,9 @@ above.
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
-| `0x0804`, `0x0808`, `0x080C`, `0x0810` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
+| `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
+| `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `field_07DC + pos` reaches it. |
+| `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`field_07DC + pos`) here. Sound init clears it, and no matched code reads it. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | Initialization and update/output controls set/test these bytes. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `func_800497E0` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
@@ -877,9 +881,9 @@ The complete five-function secondary playback lifecycle now builds from
 `src/game/sound_secondary_playback.c`, covering `0x80049A64` through
 `0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
 `SD_PlaySequence` calls the canonical `SD_StartSequenceTracks(void)`, while
-`func_80049BAC` uses a narrow same-symbol no-argument alias matching its
-original translation unit. The adjacent functions on both sides require
-`gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
+`SD_PlaySequenceFastForward` uses a narrow same-symbol no-argument alias
+matching its original translation unit. The adjacent functions on both sides
+require `gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
 
 ### Migration status and exact-code exceptions
 

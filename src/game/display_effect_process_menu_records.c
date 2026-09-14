@@ -5,6 +5,7 @@
 #include "func_8003B378.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
+#include "display_object.h"
 #include "display_effect_step_table.h"
 
 void func_8003B378(MenuRecord *p, s32 n) {
@@ -19,15 +20,15 @@ void func_8003B378(MenuRecord *p, s32 n) {
         return;
     }
 
-    if (*(u8 **)&p->grid[0][1] != 0) {
+    if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
-            if (*(s16 *)(*(u8 **)&p->grid[0][1] + 0x5A) == 0) {
+            if (((DisplayObject *)p->grid[0][1])->field_5A == 0) {
                 *(s16 *)&p->field_3E =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->field_32 = p->field_32 & 0xFE;
                 func_80040410(
-                    (DisplayObjectConfig *)*(u8 **)&p->grid[0][1], 0);
+                    (DisplayObjectConfig *)p->grid[0][1], 0);
             }
         } else {
             v = p->field_3E - 1;
@@ -35,12 +36,12 @@ void func_8003B378(MenuRecord *p, s32 n) {
             if ((s16)v <= 0) {
                 p->field_32 = p->field_32 | 1;
                 func_80040410(
-                    (DisplayObjectConfig *)*(u8 **)&p->grid[0][1], 1);
+                    (DisplayObjectConfig *)p->grid[0][1], 1);
             }
         }
     }
 
-    if (*(u8 **)&p->grid[0][2] == 0) {
+    if (p->grid[0][2] == 0) {
         return;
     }
 
@@ -48,7 +49,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
     if ((g & 2) != 0) {
         c = p->field_3B - 1;
         p->field_3B = c;
-        if (*(s16 *)(*(u8 **)&p->grid[0][2] + 0x5A) != 0) {
+        if (((DisplayObject *)p->grid[0][2])->field_5A != 0) {
             return;
         }
         if ((s8)c > 0) {
@@ -68,7 +69,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
 
     p->field_3B = 6;
     p->field_3A = n;
-    func_80040410((DisplayObjectConfig *)*(u8 **)&p->grid[0][2], n);
+    func_80040410((DisplayObjectConfig *)p->grid[0][2], n);
     return;
 
 slow:
@@ -76,7 +77,7 @@ slow:
     if ((s8)p->field_3B < 6) {
         return;
     }
-    func_80040424((DisplayObjectConfig *)*(u8 **)&p->grid[0][2], 0);
+    func_80040424((DisplayObjectConfig *)p->grid[0][2], 0);
 }
 
 void DisplayEffect_ProcessMenuRecords(s32 value) {

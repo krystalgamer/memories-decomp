@@ -101,7 +101,7 @@ void func_80015010(void);
 void func_80015038(void);
 
 /* Raises the secondary-request word to 0x80 if anything is still in flight,
-   running func_80015038's guard first. The pad handler in func_800307B8
+   running func_80015038's guard first. The pad handler in DebugMenu_UpdateSoundEntry
    calls it to abandon the wait. */
 void func_80014FA4(void);
 

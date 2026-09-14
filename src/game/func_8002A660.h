@@ -14,15 +14,15 @@
  *
  * The record is the library motion state. Its one caller, func_8002BFCC,
  * passes D_800EA1E8 and writes that same halfword itself on the line before
- * the call -- `*(s16 *)(r + 0xA) = y` -- so the offset is that record's y,
- * which func_8002A3CC.h's LibraryMotionState names at exactly 0xA.
+ * the call -- `((LibraryMotionState *)r)->y = y` -- so the offset is that
+ * record's y, which ygo_types.h's LibraryMotionState names at exactly 0xA.
  *
  * The parameter stays u8 * rather than becoming LibraryMotionState *. That
- * caller reaches the same record through func_8002BAB4.h's `u8 D_800EA1E8[]`
- * byte view, and the typed view lives in func_8002A3CC.h; a file that
+ * caller holds the record through library_runtime.h's `u8 D_800EA1E8[]` byte
+ * view, while the typed declaration lives in func_8002A3CC.h; a file that
  * included both would have two declarations of the symbol. The two views are
- * kept apart on purpose, so this prototype takes the one its caller can
- * supply and records the identification here instead. */
+ * kept apart on purpose, so this prototype takes the pointer its caller
+ * already has and records the identification here instead. */
 void func_8002A660(u8 *record);
 
 #endif

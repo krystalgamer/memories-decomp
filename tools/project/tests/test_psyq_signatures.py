@@ -1,21 +1,29 @@
 from __future__ import annotations
 
+from contextlib import redirect_stderr, redirect_stdout
+import io
 import json
 from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 from psyq_signatures import (
     SignatureError,
+    catalogue_sha256,
     classify,
     evidence,
     find_matches,
+    load_resolutions,
+    load_resolution_entries,
+    main,
     parse_signature,
     report_coverage,
+    report,
     scan,
     validate_catalogue_scope,
 )
@@ -97,6 +105,183 @@ class PsyqSignatureTests(unittest.TestCase):
             SignatureError, "no JSON signature files"
         ):
             scan(self.signatures, 0x80010000, b"")
+
+    def test_resolution_ledger_pins_catalogue_and_validates_entries(self) -> None:
+        root = self.signatures / "repository"
+        catalogue = root / "catalogue"
+        config = root / "config/slus_01411"
+        catalogue.mkdir(parents=True)
+        config.mkdir(parents=True)
+        (catalogue / "LIBTEST.LIB.json").write_text(
+            "[]", encoding="utf-8"
+        )
+        document = {
+            "schema": 1,
+            "catalogues": {
+                "4.6": {
+                    "sha256": catalogue_sha256(catalogue),
+                    "resolutions": [
+                        {
+                            "address": "0x80010000",
+                            "catalogue_names": ["AliasA", "AliasB"],
+                            "selected_name": "AliasA",
+                            "basis": "evidence",
+                            "evidence": "Call graph.",
+                        }
+                    ],
+                }
+            },
+        }
+        (config / "psyq_signature_resolutions.json").write_text(
+            json.dumps(document), encoding="utf-8"
+        )
+
+        self.assertEqual(
+            load_resolutions(root, catalogue, "4.6"),
+            {
+                0x80010000: {
+                    "catalogue_names": ["AliasA", "AliasB"],
+                    "selected_name": "AliasA",
+                    "basis": "evidence",
+                    "evidence": "Call graph.",
+                }
+            },
+        )
+
+        (catalogue / "LIBTEST.LIB.json").write_text(
+            "[ ]", encoding="utf-8"
+        )
+        with self.assertRaisesRegex(SignatureError, "catalogue hash differs"):
+            load_resolutions(root, catalogue, "4.6")
+
+    def test_resolution_loader_rejects_malformed_policy_fields(self) -> None:
+        root = self.signatures / "repository"
+        config = root / "config/slus_01411"
+        config.mkdir(parents=True)
+        path = config / "psyq_signature_resolutions.json"
+
+        path.write_text("[]", encoding="utf-8")
+        with self.assertRaisesRegex(SignatureError, "document is not an object"):
+            load_resolution_entries(root, "4.6")
+
+        entry = {
+            "address": "0x80010000",
+            "catalogue_names": ["AliasA"],
+            "selected_name": "AliasA",
+            "basis": "evidence",
+            "evidence": "Call graph.",
+        }
+        document = {
+            "schema": 1,
+            "catalogues": {
+                "4.6": {
+                    "sha256": "0" * 64,
+                    "resolutions": [entry],
+                }
+            },
+        }
+        document["schema"] = True
+        path.write_text(json.dumps(document), encoding="utf-8")
+        with self.assertRaisesRegex(SignatureError, "unsupported schema"):
+            load_resolution_entries(root, "4.6")
+        document["schema"] = 1
+
+        entry["catalogue_names"] = [" \t"]
+        path.write_text(json.dumps(document), encoding="utf-8")
+        with self.assertRaisesRegex(
+            SignatureError, "catalogue_names must be sorted unique names"
+        ):
+            load_resolution_entries(root, "4.6")
+        entry["catalogue_names"] = ["AliasA"]
+
+        for field, value, message in (
+            ("basis", [], "basis must be evidence or naming_policy"),
+            ("evidence", " \t", "has invalid evidence"),
+        ):
+            with self.subTest(field=field):
+                entry[field] = value
+                path.write_text(json.dumps(document), encoding="utf-8")
+                with self.assertRaisesRegex(SignatureError, message):
+                    load_resolution_entries(root, "4.6")
+                entry[field] = (
+                    "evidence" if field == "basis" else "Call graph."
+                )
+
+    def test_check_resolutions_cli_reports_policy_errors_as_exit_two(self) -> None:
+        root = self.signatures / "repository"
+        config = root / "config/slus_01411"
+        config.mkdir(parents=True)
+        (config / "functions.csv").write_text(
+            "address,size,name,status,module,notes\n"
+            "0x80010000,0x20,AliasA,sdk_asm,psyq/sdk,\n",
+            encoding="utf-8",
+        )
+        path = config / "psyq_signature_resolutions.json"
+        valid_entry = {
+            "address": "0x80010000",
+            "catalogue_names": ["AliasA"],
+            "selected_name": "AliasA",
+            "basis": "evidence",
+            "evidence": "Call graph.",
+        }
+        valid_document = {
+            "schema": 1,
+            "catalogues": {
+                version: {
+                    "sha256": "0" * 64,
+                    "resolutions": [dict(valid_entry)],
+                }
+                for version in ("4.6", "4.7")
+            },
+        }
+        cases = (
+            ([], "document is not an object"),
+            (
+                {
+                    **valid_document,
+                    "catalogues": {
+                        **valid_document["catalogues"],
+                        "4.6": {
+                            **valid_document["catalogues"]["4.6"],
+                            "resolutions": [
+                                {**valid_entry, "basis": ["evidence"]}
+                            ],
+                        },
+                    },
+                },
+                "basis must be evidence or naming_policy",
+            ),
+            (
+                {
+                    **valid_document,
+                    "catalogues": {
+                        **valid_document["catalogues"],
+                        "4.6": {
+                            **valid_document["catalogues"]["4.6"],
+                            "resolutions": [
+                                {**valid_entry, "evidence": "   "}
+                            ],
+                        },
+                    },
+                },
+                "has invalid evidence",
+            ),
+        )
+        for document, message in cases:
+            with self.subTest(message=message):
+                path.write_text(json.dumps(document), encoding="utf-8")
+                stderr = io.StringIO()
+                with (
+                    patch("psyq_signatures.ROOT", root),
+                    patch.object(
+                        sys,
+                        "argv",
+                        ["psyq_signatures.py", "--check-resolutions"],
+                    ),
+                    redirect_stderr(stderr),
+                ):
+                    self.assertEqual(main(), 2)
+                self.assertIn(message, stderr.getvalue())
 
     def test_scan_reports_catalogue_path_for_invalid_json(self) -> None:
         (self.signatures / "LIBTEST.LIB.json").write_text(
@@ -509,6 +694,108 @@ class PsyqSignatureTests(unittest.TestCase):
             "0x80010010,0x20,func_80010010,"
             "LIBA/A.OBJ;LIBB/B.OBJ\n",
         )
+
+    def test_classify_applies_and_checks_local_resolutions(self) -> None:
+        proposals = {
+            0x80010000: {
+                "AliasA": ["LIBA/SHARED.OBJ+0x0"],
+                "AliasB": ["LIBB/SHARED.OBJ+0x0"],
+            }
+        }
+        inventory = {
+            0x80010000: {
+                "name": "LocalName",
+                "status": "sdk_asm",
+                "module": "psyq/sdk",
+            }
+        }
+        resolutions = {
+            0x80010000: {
+                "catalogue_names": ["AliasA", "AliasB"],
+                "selected_name": "LocalName",
+                "basis": "evidence",
+                "evidence": "Call graph.",
+            }
+        }
+
+        result = classify(proposals, inventory, resolutions=resolutions)
+
+        self.assertEqual(
+            result["resolved"],
+            [
+                (
+                    0x80010000,
+                    "LocalName",
+                    ["AliasA", "AliasB"],
+                    "evidence",
+                    "Call graph.",
+                )
+            ],
+        )
+        self.assertEqual(result["ambiguous"], [])
+
+        resolutions[0x80010000]["catalogue_names"] = ["AliasA"]
+        with self.assertRaisesRegex(
+            SignatureError, "resolution catalogue names differ"
+        ):
+            classify(proposals, inventory, resolutions=resolutions)
+
+    def test_report_distinguishes_evidence_from_naming_policy(self) -> None:
+        output = io.StringIO()
+        scanned = {
+            "unique": 2,
+            "multiple": 0,
+            "absent": 0,
+            "unanchored": 0,
+        }
+        result = {
+            "agreed": [],
+            "disagreed": [],
+            "new": [],
+            "resolved": [
+                (0x80010000, "AliasA", ["AliasA", "AliasB"], "evidence", "Call graph."),
+                (
+                    0x80010010,
+                    "AliasC",
+                    ["AliasC", "AliasD"],
+                    "naming_policy",
+                    "Retained project alias.",
+                ),
+            ],
+            "ambiguous": [],
+            "ambiguous_locally_named": [],
+            "ambiguous_unresolved": [],
+            "address_named_inventory": [],
+            "object_covered_inventory": [],
+            "object_uncovered_inventory": [],
+            "outside_psyq": [],
+            "off_start": 0,
+        }
+
+        with redirect_stdout(output):
+            report(scanned, result)
+
+        self.assertIn(
+            "catalogue conflicts resolved by evidence : 1", output.getvalue()
+        )
+        self.assertIn(
+            "catalogue names retained by policy       : 1", output.getvalue()
+        )
+
+    def test_classify_rejects_unused_resolution(self) -> None:
+        resolutions = {
+            0x80010000: {
+                "catalogue_names": ["AliasA"],
+                "selected_name": "AliasA",
+                "basis": "evidence",
+                "evidence": "Call graph.",
+            }
+        }
+
+        with self.assertRaisesRegex(
+            SignatureError, "resolutions have no catalogue proposal"
+        ):
+            classify({}, {}, resolutions=resolutions)
 
 
 if __name__ == "__main__":

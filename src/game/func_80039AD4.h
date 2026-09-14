@@ -6,8 +6,8 @@
 struct DuelEffectChannel;
 
 /* Releases a duel-effect object's occupancy slot: clears
- * D_800EAF08[object[0x10]] -- the byte the object's own +0x10 index owns --
- * zeroes its +0x11, and raises the D_8009B330 rebuild flag so the next pass
+ * D_800EAF08[object->field_10] -- the byte the object's own +0x10 index
+ * owns -- zeroes its field_11, and raises the D_8009B330 rebuild flag so the next pass
  * recompacts. The object is not freed here; only its claim on the occupancy
  * table is. Two fade callbacks, func_80039BE0 and func_80039C94, end by
  * calling it. */

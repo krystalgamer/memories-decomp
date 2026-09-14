@@ -9,7 +9,7 @@
 /* The view state at D_800F2848. Three files used to declare three DIFFERENT
    structs for these same bytes -- `State { u16 a..h; char rest[0x20]; }` in
    func_80017130.c, `Obj { s16 f0, f2, f4; u8 pad[8]; s16 fE; }` in
-   func_800178BC.c (now src/candidates/func_800178BC.c) and
+   func_800178BC.c and
    `State { s16 x, y, z; char p6[0x1E]; int value; }` in
    func_80022D94.c -- which is exactly the re-definition issue #2501 is about.
    They agree on the layout and disagree on the names and on where the record

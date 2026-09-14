@@ -43,8 +43,8 @@ void MemCardDialog_UpdateTradeSave(void)
     s32 files;
     u8 *record;
 
-    if ((D_8009B3C1 & 0x80) == 0) {
-        D_8009B3C1 |= 0x80;
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         MemCardDialog_SetMessage(0xC0, 0);
         D_8009B3EB = 0;
     }
@@ -232,7 +232,7 @@ void MemCardDialog_CreateObject(void)
     D_8009B3EE = 0;
 
     for (; i < DUEL_EFFECT_CHANNEL_COUNT; i++) {
-        if (!(p->flags_34 & 0x8000)) {
+        if (!(p->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE)) {
             D_8009B3EE = i;
             break;
         }
@@ -297,7 +297,8 @@ void MemCardDialog_Update(void)
         }
         func_80039794();
         p = &D_800EB0F8[D_8009B3EE];
-        if ((*(s32 *)&p->flags_34 & 0x2008) != 0x2000) {
+        if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
+            TEXT_BOX_FLAG_DONE) {
             return;
         }
     b14:

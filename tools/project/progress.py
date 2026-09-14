@@ -83,9 +83,57 @@ def describe_inventory_mismatch(
     return "; ".join(parts)
 
 
+def coalesce_sdk_fragments(
+    generated: list[Function], inventory: list[Function]
+) -> list[Function]:
+    """Prefer authoritative SDK extents over call-target split heuristics."""
+    sdk_by_address = {
+        function.address: function
+        for function in inventory
+        if function.status == "sdk_asm"
+    }
+    ordered = sorted(generated, key=lambda function: function.address)
+    coalesced: list[Function] = []
+    index = 0
+    while index < len(ordered):
+        first = ordered[index]
+        sdk = sdk_by_address.get(first.address)
+        if sdk is None or first.name != sdk.name:
+            coalesced.append(first)
+            index += 1
+            continue
+
+        end = sdk.address + sdk.size
+        cursor = sdk.address
+        next_index = index
+        while (
+            next_index < len(ordered)
+            and ordered[next_index].address < end
+            and ordered[next_index].address == cursor
+        ):
+            cursor += ordered[next_index].size
+            next_index += 1
+        if cursor != end:
+            coalesced.append(first)
+            index += 1
+            continue
+
+        coalesced.append(
+            Function(
+                address=sdk.address,
+                size=sdk.size,
+                name=sdk.name,
+                status="unmatched_asm",
+            )
+        )
+        index = next_index
+    return coalesced
+
+
 def validate_inventory(
     generated: list[Function], inventory: list[Function]
 ) -> None:
+    generated = coalesce_sdk_fragments(generated, inventory)
     generated_by_address = {function.address: function for function in generated}
     inventory_by_address = {function.address: function for function in inventory}
     if len(generated_by_address) != len(generated):
