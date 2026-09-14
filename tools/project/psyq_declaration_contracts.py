@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import ast
 import csv
 from pathlib import Path
 import re
@@ -75,6 +76,157 @@ def expand_outside_literals(text: str, transform) -> str:
     return "".join(output)
 
 
+def split_macro_arguments(text: str) -> list[str]:
+    if not text.strip():
+        return []
+    arguments: list[str] = []
+    start = 0
+    depth = 0
+    for index, char in enumerate(text):
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif char == "," and depth == 0:
+            arguments.append(text[start:index].strip())
+            start = index + 1
+    arguments.append(text[start:].strip())
+    return arguments
+
+
+def expand_function_macro(
+    text: str, name: str, parameters: list[str], replacement: str
+) -> str:
+    pattern = re.compile(rf"\b{re.escape(name)}\s*\(")
+    output: list[str] = []
+    start = 0
+    while True:
+        match = pattern.search(text, start)
+        if match is None:
+            output.append(text[start:])
+            return "".join(output)
+        depth = 1
+        index = match.end()
+        while index < len(text) and depth:
+            if text[index] == "(":
+                depth += 1
+            elif text[index] == ")":
+                depth -= 1
+            index += 1
+        if depth:
+            output.append(text[start:])
+            return "".join(output)
+        arguments = split_macro_arguments(text[match.end() : index - 1])
+        if len(arguments) != len(parameters):
+            output.append(text[start:index])
+            start = index
+            continue
+        expanded = replacement
+        for parameter, argument in zip(parameters, arguments):
+            expanded = re.sub(
+                rf"\b{re.escape(parameter)}\b",
+                lambda _match, value=argument: value,
+                expanded,
+            )
+        output.append(text[start : match.start()])
+        output.append(re.sub(r"\s*##\s*", "", expanded))
+        start = index
+
+
+def evaluate_integer_expression(
+    expression: str,
+    object_macros: dict[str, str],
+    function_macros: dict[str, tuple[list[str], str]],
+) -> bool:
+    expression = re.sub(
+        r"defined\s*(?:\(\s*([A-Za-z_]\w*)\s*\)|([A-Za-z_]\w*))",
+        lambda match: "1"
+        if (match.group(1) or match.group(2)) in object_macros
+        or (match.group(1) or match.group(2)) in function_macros
+        else "0",
+        expression,
+    )
+    for _ in range(20):
+        previous = expression
+        for name, replacement in object_macros.items():
+            expression = re.sub(
+                rf"\b{re.escape(name)}\b",
+                lambda _match, value=replacement or "1": value,
+                expression,
+            )
+        if expression == previous:
+            break
+    expression = re.sub(r"\b[A-Za-z_]\w*\b", "0", expression)
+    expression = expression.replace("&&", " and ").replace("||", " or ")
+    expression = re.sub(r"!(?!=)", " not ", expression)
+    try:
+        tree = ast.parse(expression.strip() or "0", mode="eval")
+    except SyntaxError:
+        return False
+
+    binary = {
+        ast.Add: lambda left, right: left + right,
+        ast.Sub: lambda left, right: left - right,
+        ast.Mult: lambda left, right: left * right,
+        ast.Div: lambda left, right: left // right if right else 0,
+        ast.FloorDiv: lambda left, right: left // right if right else 0,
+        ast.Mod: lambda left, right: left % right if right else 0,
+        ast.LShift: lambda left, right: left << right,
+        ast.RShift: lambda left, right: left >> right,
+        ast.BitOr: lambda left, right: left | right,
+        ast.BitAnd: lambda left, right: left & right,
+        ast.BitXor: lambda left, right: left ^ right,
+    }
+    comparisons = {
+        ast.Eq: lambda left, right: left == right,
+        ast.NotEq: lambda left, right: left != right,
+        ast.Lt: lambda left, right: left < right,
+        ast.LtE: lambda left, right: left <= right,
+        ast.Gt: lambda left, right: left > right,
+        ast.GtE: lambda left, right: left >= right,
+    }
+
+    def evaluate(node: ast.AST) -> int:
+        if isinstance(node, ast.Expression):
+            return evaluate(node.body)
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, bool)):
+            return int(node.value)
+        if isinstance(node, ast.UnaryOp):
+            value = evaluate(node.operand)
+            if isinstance(node.op, ast.Not):
+                return int(not value)
+            if isinstance(node.op, ast.Invert):
+                return ~value
+            if isinstance(node.op, ast.USub):
+                return -value
+            if isinstance(node.op, ast.UAdd):
+                return value
+        if isinstance(node, ast.BoolOp):
+            values = [evaluate(value) for value in node.values]
+            if isinstance(node.op, ast.And):
+                return int(all(values))
+            if isinstance(node.op, ast.Or):
+                return int(any(values))
+        if isinstance(node, ast.BinOp) and type(node.op) in binary:
+            return binary[type(node.op)](evaluate(node.left), evaluate(node.right))
+        if isinstance(node, ast.Compare):
+            left = evaluate(node.left)
+            for operator, comparator in zip(node.ops, node.comparators):
+                right = evaluate(comparator)
+                if type(operator) not in comparisons or not comparisons[
+                    type(operator)
+                ](left, right):
+                    return 0
+                left = right
+            return 1
+        raise ValueError
+
+    try:
+        return bool(evaluate(tree))
+    except (ValueError, ZeroDivisionError, OverflowError):
+        return False
+
+
 def active_source(text: str) -> str:
     text = re.sub(r"\\\r?\n", "", text)
     text = candidate_builds.strip_c_comments(text)
@@ -96,16 +248,11 @@ def active_source(text: str) -> str:
                 elif directive == "ifndef":
                     branch = argument not in object_macros and argument not in function_macros
                 else:
-                    expression = re.sub(
-                        r"defined\s*\(\s*([A-Za-z_]\w*)\s*\)",
-                        lambda match: "1"
-                        if match.group(1) in object_macros
-                        or match.group(1) in function_macros
-                        else "0",
+                    branch = evaluate_integer_expression(
                         argument,
+                        object_macros,
+                        function_macros,
                     )
-                    expression = object_macros.get(expression, expression)
-                    branch = expression.strip() not in {"", "0"}
                 conditions.append((parent, branch))
                 active = parent and branch
             elif directive in {"elif", "else"} and conditions:
@@ -113,8 +260,11 @@ def active_source(text: str) -> str:
                 if directive == "else":
                     branch = not branch_taken
                 else:
-                    expression = object_macros.get(argument, argument)
-                    branch = not branch_taken and expression.strip() not in {"", "0"}
+                    branch = not branch_taken and evaluate_integer_expression(
+                        argument,
+                        object_macros,
+                        function_macros,
+                    )
                 active = parent and branch
                 conditions[-1] = (parent, branch_taken or branch)
             elif directive == "endif" and conditions:
@@ -160,28 +310,14 @@ def active_source(text: str) -> str:
         for _ in range(10):
             previous = expanded
             for name, (parameters, replacement) in function_macros.items():
-                pattern = re.compile(rf"\b{re.escape(name)}\s*\((?P<args>[^()]*)\)")
-
-                def expand_function(match: re.Match[str]) -> str:
-                    arguments = [
-                        argument.strip()
-                        for argument in match.group("args").split(",")
-                    ]
-                    if len(arguments) != len(parameters):
-                        return match.group(0)
-                    result = replacement
-                    for parameter, argument in zip(parameters, arguments):
-                        result = re.sub(
-                            rf"\b{re.escape(parameter)}\b",
-                            argument,
-                            result,
-                        )
-                    return result
-
                 expanded = expand_outside_literals(
                     expanded,
-                    lambda segment, pattern=pattern: pattern.sub(
-                        expand_function, segment
+                    lambda segment, name=name, parameters=parameters,
+                    replacement=replacement: expand_function_macro(
+                        segment,
+                        name,
+                        parameters,
+                        replacement,
                     ),
                 )
             for name, replacement in object_macros.items():
@@ -198,7 +334,7 @@ def active_source(text: str) -> str:
     return "".join(output)
 
 
-def local_declaration_statements(text: str) -> list[str]:
+def declaration_statements(text: str) -> list[str]:
     statements: list[str] = []
     start = 0
     quote: str | None = None
@@ -221,38 +357,124 @@ def local_declaration_statements(text: str) -> list[str]:
         if char != ";":
             continue
         statement = candidate_builds.normalized_statement(text[start : index + 1])
-        is_control_statement = statement.startswith(
-            ("return ", "if ", "while ", "for ", "switch ")
-        )
-        if not is_control_statement and re.match(
-            r"^(?:extern\s+)?"
-            r"(?:(?:static|const|volatile|signed|unsigned|short|long)\s+|"
-            r"(?:struct|union|enum)\s+[A-Za-z_]\w*\s+|"
-            r"[A-Za-z_]\w*\s+)+"
-            r"\**\s*[A-Za-z_]\w*\s*\(",
-            statement,
-        ):
+        if statement:
             statements.append(statement)
         start = index + 1
     return statements
 
 
-def declarations(text: str) -> list[tuple[str, str]]:
+def declarator_region(statement: str) -> str:
+    depth = 0
+    for index, char in enumerate(statement):
+        if char in "([{":
+            depth += 1
+        elif char in ")]}":
+            depth -= 1
+        elif (
+            char == "="
+            and depth == 0
+            and (index == 0 or statement[index - 1] not in "!<>=")
+            and (index + 1 == len(statement) or statement[index + 1] != "=")
+        ):
+            return statement[:index]
+    return statement
+
+
+def parenthesis_depth(text: str, end: int) -> int:
+    depth = 0
+    for char in text[:end]:
+        if char in "([":
+            depth += 1
+        elif char in ")]":
+            depth -= 1
+    return depth
+
+
+def declarations(text: str, sdk: set[str]) -> list[tuple[str, str]]:
     text = active_source(text)
-    statements = candidate_builds.top_level_statements(text)
-    statements.extend(local_declaration_statements(text))
+    statements = declaration_statements(text)
+    sdk_pattern = re.compile(
+        r"\b(?:" + "|".join(re.escape(name) for name in sorted(sdk)) + r")\b"
+    )
+    typedef_names = set(
+        re.findall(
+            r"\btypedef\b[^;]*\b([A-Za-z_]\w*)\s*(?:\([^;]*\))?\s*;",
+            text,
+        )
+    )
+    declaration_prefixes = {
+        "auto",
+        "char",
+        "const",
+        "double",
+        "enum",
+        "extern",
+        "float",
+        "inline",
+        "int",
+        "long",
+        "register",
+        "short",
+        "signed",
+        "static",
+        "struct",
+        "typedef",
+        "union",
+        "unsigned",
+        "void",
+        "volatile",
+    }
     result: list[tuple[str, str]] = []
     seen: set[tuple[str, str]] = set()
     for statement in statements:
-        name = declaration_name(statement)
-        if name is None:
+        first = re.match(r"[A-Za-z_]\w*", statement.lstrip())
+        if first is None:
             continue
+        first_token = first.group(0)
+        looks_like_typed_declaration = (
+            first_token in declaration_prefixes
+            or first_token in typedef_names
+            or (
+                first_token
+                not in {"break", "case", "continue", "do", "for", "goto", "if",
+                        "return", "switch", "while"}
+                and re.match(
+                    r"^[A-Za-z_]\w*(?:\s+(?:\*+\s*)?|\s*\*+\s*)[A-Za-z_]",
+                    statement.lstrip(),
+                )
+                is not None
+            )
+        )
+        if not looks_like_typed_declaration:
+            continue
+        region = declarator_region(statement)
         alias = candidate_builds.ASM_ALIAS.search(statement)
-        identity = alias.group("name") if alias is not None else name
-        record = (identity, statement)
-        if record not in seen:
-            result.append(record)
-            seen.add(record)
+        identities = {alias.group("name")} if alias is not None else set()
+        primary = declaration_name(statement)
+        if primary in sdk and re.search(rf"\b{re.escape(primary)}\b", region):
+            identities.add(primary)
+        for match in sdk_pattern.finditer(region):
+            name = match.group(0)
+            before = region[: match.start()]
+            after = region[match.end() :]
+            depth = parenthesis_depth(region, match.start())
+            parenthesized = (
+                re.search(r"\(\s*\**\s*$", before) is not None
+                and re.match(r"\s*(?:\)|\()", after) is not None
+            )
+            later_declarator = (
+                depth == 0
+                and "," in before
+                and re.match(r"\s*\(", after) is not None
+            )
+            typedef_declarator = first_token in typedef_names and depth == 0
+            if parenthesized or later_declarator or typedef_declarator:
+                identities.add(name)
+        for identity in sorted(identities):
+            record = (identity, statement)
+            if record not in seen:
+                result.append(record)
+                seen.add(record)
     return result
 
 
@@ -324,14 +546,32 @@ def translation_unit_text(root: Path, path: Path) -> str:
     wanted = set(re.findall(r"\b[A-Za-z_]\w*\b", text))
     output: list[str] = []
     start = 0
+    active_consumer_macros: set[str] = set()
     for match in LOCAL_INCLUDE.finditer(text):
-        output.append(text[start : match.start()])
+        prefix = text[start : match.start()]
+        output.append(prefix)
+        for line in prefix.splitlines():
+            define = DEFINE.match(line)
+            undef = UNDEF.match(line)
+            if define is not None:
+                active_consumer_macros.add(define.group("name"))
+            elif undef is not None:
+                active_consumer_macros.discard(undef.group("name"))
         included = (path.parent / match.group("path")).resolve()
         if (
             included.is_relative_to((root / "src").resolve())
             and included.is_file()
             and included.suffix == ".h"
+            and not included.is_relative_to((root / PSYQ_ROOT).resolve())
         ):
+            included_text = included.read_text(
+                encoding="utf-8", errors="surrogateescape"
+            )
+            if any(
+                re.search(rf"\b{re.escape(name)}\b", included_text)
+                for name in active_consumer_macros
+            ):
+                output.append(included_text)
             directives = included_macro_directives(root, included)
             entries: list[tuple[str, str, str | None]] = []
             for line in directives.splitlines(keepends=True):
@@ -372,14 +612,16 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         if path.suffix != ".h":
             continue
         for name, _ in declarations(
-            path.read_text(encoding="utf-8", errors="surrogateescape")
+            path.read_text(encoding="utf-8", errors="surrogateescape"),
+            sdk,
         ):
             if name in sdk:
                 header_symbols.add(name)
 
     for path in consumer_files(root):
         for name, statement in declarations(
-            path.read_text(encoding="utf-8", errors="surrogateescape")
+            path.read_text(encoding="utf-8", errors="surrogateescape"),
+            sdk,
         ):
             if name not in sdk:
                 continue
@@ -394,7 +636,10 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         for path in source_files(root, relative):
             if path.suffix != ".c":
                 continue
-            for name, statement in declarations(translation_unit_text(root, path)):
+            for name, statement in declarations(
+                translation_unit_text(root, path),
+                sdk,
+            ):
                 if name not in sdk:
                     continue
                 error = (
