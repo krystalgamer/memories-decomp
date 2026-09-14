@@ -100,7 +100,6 @@ void func_8003D614(MenuRecord *record)
 
 void func_8003D74C(MenuRecord *record)
 {
-#define o ((u8 *)record)
     DisplayObject *p;
     DuelEffectChannel *r;
     s32 f;
@@ -120,14 +119,14 @@ void func_8003D74C(MenuRecord *record)
         func_80042918(p);
         func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         p->field_4C = (s32)func_80042C08;
-        *(DisplayObject **)(o + 4) = p;
+        record->grid[0][1] = (s32)p;
         p = func_800400AC(func_8004002C(), 2);
         func_800404CC(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(p);
         func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
-        *(DisplayObject **)o = p;
+        record->grid[0][0] = (s32)p;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)p);
         a = D_8009B3C7;
         p->field_60 = -0x400;
@@ -144,7 +143,9 @@ void func_8003D74C(MenuRecord *record)
         D_8009B3C1 = 0;
         return;
     }
-    r = &D_800EB0F8[o[0x1A]];
+    /* The dialog channel's index: the byte at 0x1A, inside grid's third
+       row, which MenuRecord does not name. */
+    r = &D_800EB0F8[((u8 *)record)[0x1A]];
     if ((f & 0x40) != 0) {
         func_80039794();
         if ((r->flags_34 & 0x2000) != 0) {
@@ -156,7 +157,7 @@ void func_8003D74C(MenuRecord *record)
         }
         return;
     }
-    p = *(DisplayObject **)o;
+    p = (DisplayObject *)record->grid[0][0];
     t = *(u16 *)&p->field_60;
     if (p->field_60 < 0) {
         v = t + 0x40;
@@ -171,17 +172,16 @@ void func_8003D74C(MenuRecord *record)
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
-    p = *(DisplayObject **)(o + 4);
+    p = (DisplayObject *)record->grid[0][1];
     p->field_48.h.field_4A = *(u16 *)&p->field_48.h.field_4A - 8;
     p->field_48.h.field_48 = *(u16 *)&p->field_48.h.field_48 - 8;
     if (p->field_48.h.field_48 <= 0) {
         p->field_48.h.field_48 = 0;
         p->field_48.h.field_4A = 0x40;
-        if ((*(DisplayObject **)o)->field_60 == 0) {
+        if (((DisplayObject *)record->grid[0][0])->field_60 == 0) {
             g = D_8009B3C1;
             r->flags_34 = r->flags_34 & 0xFFFB;
             D_8009B3C1 = g | 0x40;
         }
     }
-#undef o
 }
