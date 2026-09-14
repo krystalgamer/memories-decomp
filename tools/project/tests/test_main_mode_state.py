@@ -25,7 +25,6 @@ DECLARATION = re.compile(
 CONSUMERS = (
     "src/candidates/func_80018FEC.c",
     "src/candidates/func_800283F4.c",
-    "src/candidates/func_8002CEE8.c",
     "src/game/script_op_save_prompt.c",
     "src/candidates/password/func_8016A37C.c",
     "src/game/debug_menu_two_player_entry.c",
