@@ -476,6 +476,92 @@ extern s32 data;
                 in error for error in errors)
         )
 
+    def test_composite_inactive_guards_do_not_cover_local_data(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+        for condition in (
+            "!defined(DISABLED) && defined(ENABLED)",
+            "defined(ENABLED) || defined(FALLBACK)",
+            "(defined(ENABLED) && !defined(DISABLED))",
+        ):
+            with self.subTest(condition=condition):
+                self.write(
+                    "src/game/data.h",
+                    f"#if {condition}\nextern s32 data;\n#endif\n",
+                )
+                errors, _ = unmatched_contracts.validate(self.root)
+                self.assertTrue(
+                    any(
+                        "local declaration of unmatched data data has no owner header"
+                        in error
+                        for error in errors
+                    )
+                )
+
+    def test_condition_evaluator_handles_boolean_precedence_and_parentheses(self) -> None:
+        enabled = {"ENABLED"}
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "!defined(DISABLED) && defined(ENABLED)", enabled
+        ))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "defined(DISABLED) || (defined(ENABLED) && !defined(OTHER))",
+            enabled,
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "defined(DISABLED) || defined(OTHER) && defined(ENABLED)", enabled
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "(!defined(DISABLED) && defined(ENABLED)) == 0", enabled
+        ))
+        macros = {
+            "ZERO": "0",
+            "FOUR": "2 + 2",
+            "ALIAS": "FOUR",
+            "FUNCTION": None,
+        }
+        self.assertFalse(unmatched_contracts.condition_enabled("ZERO", macros))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "ALIAS == 4 && defined(FUNCTION) && !FUNCTION", macros
+        ))
+
+    def test_zero_valued_macro_does_not_activate_an_owner(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/data.h",
+            "#define ENABLED 0\n"
+            "#if ENABLED\n"
+            "extern s32 data;\n"
+            "#endif\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, _ = unmatched_contracts.validate(self.root)
+
+        self.assertTrue(
+            any(
+                "local declaration of unmatched data data has no owner header"
+                in error
+                for error in errors
+            )
+        )
+
+    def test_unsupported_condition_fails_closed(self) -> None:
+        with self.assertRaisesRegex(
+            unmatched_contracts.ContractError,
+            "unsupported preprocessor condition",
+        ):
+            unmatched_contracts.condition_enabled("ENABLED ? 1 : 0", {"ENABLED"})
+
     def test_every_compiler_profile_requires_an_active_owner(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
         self.write(

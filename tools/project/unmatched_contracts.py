@@ -114,18 +114,19 @@ def source_profiles(root: Path) -> dict[str, set[str]]:
     return result
 
 
-def profile_defines(root: Path) -> dict[str, set[str]]:
+def profile_defines(root: Path) -> dict[str, dict[str, str | None]]:
     path = root / COMPILER_PROFILES
-    result = {"default": set()}
+    result: dict[str, dict[str, str | None]] = {"default": {}}
     if not path.is_file():
         return result
     profiles = json.loads(read_text(path)).get("profiles", {})
     for name, profile in profiles.items():
-        result[name] = {
-            flag[2:].split("=", 1)[0]
-            for flag in profile.get("compiler_flags", [])
-            if flag.startswith("-D") and len(flag) > 2
-        }
+        result[name] = {}
+        for flag in profile.get("compiler_flags", []):
+            if not flag.startswith("-D") or len(flag) <= 2:
+                continue
+            macro, separator, value = flag[2:].partition("=")
+            result[name][macro] = value if separator else "1"
     return result
 
 
@@ -134,28 +135,239 @@ CONDITIONAL = re.compile(
     r"^\s*#\s*(?P<kind>if|ifdef|ifndef|elif|else|endif)\b"
     r"(?P<argument>.*)$"
 )
-DEFINE = re.compile(r"^\s*#\s*define\s+(?P<name>[A-Za-z_]\w*)")
+DEFINE = re.compile(
+    r"^\s*#\s*define\s+(?P<name>[A-Za-z_]\w*)"
+    r"(?P<parameters>\([^)]*\))?(?P<value>.*)$"
+)
 UNDEF = re.compile(r"^\s*#\s*undef\s+(?P<name>[A-Za-z_]\w*)")
+CONDITION_TOKEN = re.compile(
+    r"\s*(?:"
+    r"(?P<number>0[xX][0-9A-Fa-f]+|\d+)[uUlL]*|"
+    r"(?P<identifier>[A-Za-z_]\w*)|"
+    r"(?P<operator>\|\||&&|==|!=|<=|>=|<<|>>|[()!~+\-*/%<>&^|])"
+    r")"
+)
 
 
-def condition_enabled(argument: str, defines: set[str]) -> bool:
-    argument = argument.strip()
-    defined = re.fullmatch(r"defined\s*\(\s*([A-Za-z_]\w*)\s*\)", argument)
-    if defined is not None:
-        return defined.group(1) in defines
-    if argument.startswith("!"):
-        return not condition_enabled(argument[1:], defines)
-    if argument in {"", "0"}:
-        return False
-    if argument == "1":
-        return True
-    return argument in defines
+MacroDefinitions = set[str] | dict[str, str | None]
+
+
+def _condition_value(
+    argument: str,
+    defines: MacroDefinitions,
+    expanding: frozenset[str] = frozenset(),
+) -> int:
+    tokens: list[str] = []
+    position = 0
+    while position < len(argument):
+        match = CONDITION_TOKEN.match(argument, position)
+        if match is None:
+            if argument[position:].strip() == "":
+                break
+            raise ContractError(
+                f"unsupported preprocessor condition: {argument.strip()}"
+            )
+        tokens.append(
+            match.group("number")
+            or match.group("identifier")
+            or match.group("operator")
+        )
+        position = match.end()
+
+    class Parser:
+        def __init__(self) -> None:
+            self.position = 0
+
+        def take(self, token: str) -> bool:
+            if self.position < len(tokens) and tokens[self.position] == token:
+                self.position += 1
+                return True
+            return False
+
+        def expression(self) -> int:
+            value = self.logical_or()
+            if self.position != len(tokens):
+                raise ContractError(
+                    f"unsupported preprocessor condition: {argument.strip()}"
+                )
+            return value
+
+        def logical_or(self) -> int:
+            value = self.logical_and()
+            while self.take("||"):
+                right = self.logical_and()
+                value = int(bool(value) or bool(right))
+            return value
+
+        def logical_and(self) -> int:
+            value = self.bitwise_or()
+            while self.take("&&"):
+                right = self.bitwise_or()
+                value = int(bool(value) and bool(right))
+            return value
+
+        def bitwise_or(self) -> int:
+            value = self.bitwise_xor()
+            while self.take("|"):
+                value |= self.bitwise_xor()
+            return value
+
+        def bitwise_xor(self) -> int:
+            value = self.bitwise_and()
+            while self.take("^"):
+                value ^= self.bitwise_and()
+            return value
+
+        def bitwise_and(self) -> int:
+            value = self.equality()
+            while self.take("&"):
+                value &= self.equality()
+            return value
+
+        def equality(self) -> int:
+            value = self.relational()
+            while self.position < len(tokens) and tokens[self.position] in {
+                "==", "!=",
+            }:
+                operator = tokens[self.position]
+                self.position += 1
+                right = self.relational()
+                value = int(value == right) if operator == "==" else int(value != right)
+            return value
+
+        def relational(self) -> int:
+            value = self.shift()
+            while self.position < len(tokens) and tokens[self.position] in {
+                "<", "<=", ">", ">=",
+            }:
+                operator = tokens[self.position]
+                self.position += 1
+                right = self.shift()
+                value = int({
+                    "<": value < right,
+                    "<=": value <= right,
+                    ">": value > right,
+                    ">=": value >= right,
+                }[operator])
+            return value
+
+        def shift(self) -> int:
+            value = self.additive()
+            while self.position < len(tokens) and tokens[self.position] in {
+                "<<", ">>",
+            }:
+                operator = tokens[self.position]
+                self.position += 1
+                right = self.additive()
+                value = value << right if operator == "<<" else value >> right
+            return value
+
+        def additive(self) -> int:
+            value = self.multiply()
+            while self.position < len(tokens) and tokens[self.position] in {
+                "+", "-",
+            }:
+                operator = tokens[self.position]
+                self.position += 1
+                right = self.multiply()
+                value = value + right if operator == "+" else value - right
+            return value
+
+        def multiply(self) -> int:
+            value = self.unary()
+            while self.position < len(tokens) and tokens[self.position] in {
+                "*", "/", "%",
+            }:
+                operator = tokens[self.position]
+                self.position += 1
+                right = self.unary()
+                if right == 0 and operator in {"/", "%"}:
+                    raise ContractError(
+                        f"invalid preprocessor condition: {argument.strip()}"
+                    )
+                if operator == "*":
+                    value *= right
+                elif operator == "/":
+                    value = int(value / right)
+                else:
+                    value %= right
+            return value
+
+        def unary(self) -> int:
+            if self.take("!"):
+                return int(not self.unary())
+            if self.take("~"):
+                return ~self.unary()
+            if self.take("+"):
+                return self.unary()
+            if self.take("-"):
+                return -self.unary()
+            if self.take("defined"):
+                parenthesized = self.take("(")
+                if (
+                    self.position >= len(tokens)
+                    or not IDENTIFIER.fullmatch(tokens[self.position])
+                ):
+                    raise ContractError(
+                        f"invalid defined expression: {argument.strip()}"
+                    )
+                name = tokens[self.position]
+                self.position += 1
+                if parenthesized and not self.take(")"):
+                    raise ContractError(
+                        f"invalid defined expression: {argument.strip()}"
+                    )
+                return int(name in defines)
+            return self.primary()
+
+        def primary(self) -> int:
+            if self.take("("):
+                value = self.logical_or()
+                if not self.take(")"):
+                    raise ContractError(
+                        f"unbalanced preprocessor condition: {argument.strip()}"
+                    )
+                return value
+            if self.position >= len(tokens):
+                raise ContractError(
+                    f"incomplete preprocessor condition: {argument.strip()}"
+                )
+            token = tokens[self.position]
+            self.position += 1
+            if re.fullmatch(r"0[xX][0-9A-Fa-f]+|\d+", token):
+                return int(token, 0)
+            if IDENTIFIER.fullmatch(token):
+                if token not in defines:
+                    return 0
+                if isinstance(defines, set):
+                    return 1
+                value = defines[token]
+                if value is None:
+                    return 0
+                if token in expanding:
+                    raise ContractError(
+                        f"recursive macro in preprocessor condition: {token}"
+                    )
+                return _condition_value(
+                    value, defines, expanding | frozenset({token})
+                )
+            raise ContractError(
+                f"unsupported preprocessor condition: {argument.strip()}"
+            )
+
+    if not tokens:
+        return 0
+    return Parser().expression()
+
+
+def condition_enabled(argument: str, defines: MacroDefinitions) -> bool:
+    return bool(_condition_value(argument, defines))
 
 
 def active_header_source(
     root: Path,
     path: Path,
-    defines: set[str],
+    defines: dict[str, str | None],
     seen: set[Path] | None = None,
 ) -> str:
     if seen is None:
@@ -198,12 +410,16 @@ def active_header_source(
         define = DEFINE.match(line)
         if define is not None:
             if active:
-                defines.add(define.group("name"))
+                defines[define.group("name")] = (
+                    None
+                    if define.group("parameters") is not None
+                    else define.group("value").strip() or "1"
+                )
             continue
         undef = UNDEF.match(line)
         if undef is not None:
             if active:
-                defines.discard(undef.group("name"))
+                defines.pop(undef.group("name"), None)
             continue
         include = INCLUDE.match(line)
         if include is not None and active:
@@ -225,9 +441,9 @@ def reachable_data_owners(
     source: str,
     profile: str,
     linker: set[str],
-    defines_by_profile: dict[str, set[str]],
+    defines_by_profile: dict[str, dict[str, str | None]],
 ) -> set[str]:
-    defines = set(defines_by_profile.get(profile, set()))
+    defines = dict(defines_by_profile.get(profile, {}))
     text = active_header_source(root, root / source, defines)
     return {name for name, _ in extern_object_declarations(text, linker)}
 
