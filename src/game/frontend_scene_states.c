@@ -24,7 +24,8 @@
 #include "main_mode_state.h"
 
 /* The frontend's eight contiguous scene states, in address order. They are
-   the complete gcc_2_8_1_g8 run between func_80030998 and func_80030FA0.
+   the complete gcc_2_8_1_g8 run between DebugMenu_UpdateCampaignEntry and
+   DebugMenu_EnterMappedMode.
    D_8009B2EB carries the entered and asynchronous-pending state shared by the
    setup/polling steps. */
 
@@ -50,7 +51,7 @@ void func_80030C10(void)
     }
 }
 
-void func_80030CB0(void)
+void DebugMenu_UpdateTitleEntry(void)
 {
     u8 flags = D_8009B2EB;
     int result;
@@ -72,7 +73,7 @@ void func_80030CB0(void)
     }
 }
 
-void func_80030D5C(void)
+void DebugMenu_UpdateMovieEntry(void)
 {
     {
         u8 flags = D_8009B2EB;
@@ -105,7 +106,7 @@ void func_80030D5C(void)
     }
 }
 
-void func_80030E30(void)
+void DebugMenu_UpdateLoadEntry(void)
 {
     u8 flags = D_8009B2EB;
 
@@ -118,7 +119,7 @@ void func_80030E30(void)
     }
 }
 
-void func_80030E7C(void)
+void DebugMenu_UpdateSaveEntry(void)
 {
     u8 flags = D_8009B2EB;
 
@@ -131,7 +132,7 @@ void func_80030E7C(void)
     }
 }
 
-void func_80030EC8(void)
+void DebugMenu_UpdateTradeEntry(void)
 {
     u8 flags = D_8009B2EB;
     int result;
@@ -152,14 +153,14 @@ void func_80030EC8(void)
     }
 }
 
-void func_80030F40(void)
+void DebugMenu_EnterDuel(void)
 {
     D_8009B36A = 0x71D0;
     D_8009B368 = 0;
     func_80024DC8(-1, 1, 0x8000, 0x8000);
 }
 
-void func_80030F80(void)
+void DebugMenu_EnterDeckEditor(void)
 {
     func_80033C90();
 }

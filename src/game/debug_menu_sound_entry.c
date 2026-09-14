@@ -13,7 +13,7 @@
 #include "sound_voice_selection.h"
 #include "../unmatched.h"
 
-void func_800307B8(void)
+void DebugMenu_UpdateSoundEntry(void)
 {
     s32 flags;
     s32 count;

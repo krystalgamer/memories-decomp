@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80030FD0_H
-#define MEMORIES_DECOMP_FUNC_80030FD0_H
+#ifndef MEMORIES_DECOMP_DEBUG_MENU_EXIT_H
+#define MEMORIES_DECOMP_DEBUG_MENU_EXIT_H
 
 #include "../types.h"
 
@@ -10,6 +10,6 @@
  * caller. The definition's own comment records that the imported longjmp
  * prototype lacks noreturn and that retail emits no epilogue after the call,
  * which is why this is still spelled as an ordinary void function. */
-void func_80030FD0(void);
+void DebugMenu_Exit(void);
 
 #endif

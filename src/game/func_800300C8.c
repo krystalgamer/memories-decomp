@@ -10,7 +10,7 @@ void func_800300C8(void)
     struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
     s32 first = source->base;
     DisplayObject *target = D_8009B2E4;
-    s32 index = D_8009B2F1;
+    s32 index = gDebugMenu_bCursor;
     s32 second;
     s32 third;
 

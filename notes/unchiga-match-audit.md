@@ -29,7 +29,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x80024C1C` | `func_80024C1C` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x800250C8` | `func_800250C8` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x800278A0` | `func_800278A0` | `collaborator_match` | `gcc_2_8_1_g8_split` |
-| `0x8002C518` | `func_8002C518` | `inline_refinement` | `gcc_2_8_1_g8_split` |
+| `0x8002C518` | `Library_CheckCardOwned` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x8002C6C8` | `func_8002C6C8` | `collaborator_match` | `gcc_2_8_1_g8_split` |
 | `0x8002CB80` | `Duel_CalcGuardianStarMatchup` | `inline_refinement` | `gcc_2_8_1_g8` |
 | `0x80036BCC` | `func_80036BCC` | `inline_refinement` | `gcc_2_8_1_g8_split` |
@@ -82,7 +82,7 @@ as `post_terminal_resolution`.
 | `0x8002892C` | `DuelEffect_UpdateState` | `collaborator_match` | `+0xC: 18006010 != 19006010` |
 | `0x8002C938` | `func_8002C938` | `inline_refinement` | `+0x1D: c0180600 != c0100600` |
 | `0x8002E370` | `DuelEffect_MarkObjectIfActive` | `inline_refinement` | `+0x6: 0f80023c != 0f80033c` |
-| `0x80031354` | `func_80031354` | `collaborator_match` | `+0x38: 0c004014 != 0d004014` |
+| `0x80031354` | `DebugMenu_UpdateBustUpEntry` | `collaborator_match` | `+0x38: 0c004014 != 0d004014` |
 | `0x80033CC4` | `func_80033CC4` | `inline_refinement` | `+0x2: 0980023c != 0980033c` |
 | `0x80035CE4` | `DuelEffect_ResetOccupancy` | `inline_refinement` | `+0x2: 0f80023c != 0f80033c` |
 | `0x80035DB8` | `DuelEffect_ClearMatchingMarker` | `inline_refinement` | `+0xA: 0f80023c != 0f80033c` |

@@ -4,11 +4,11 @@
 #include "fade.h"
 #include "func_80035A64.h"
 #include "main_services.h"
-#include "func_80030FD0.h"
+#include "debug_menu_exit.h"
 
 /* The imported prototype lacks noreturn; retail has no epilogue after this call. */
 
-void func_80030FD0(void)
+void DebugMenu_Exit(void)
 {
     Fade_WaitInitOut();
     func_800403F0();

@@ -286,10 +286,11 @@ preserve GCC relocation shape. The shared header remains the layout reference,
 while exact executable matching decides whether a typed field access is safe
 for a particular function.
 
-The contiguous output/control block at `0x80046F58-0x80047278` now builds as
-`src/game/sound_output.c`. Its ten functions use `SDValue` and `SDCommand`
+The contiguous output/control block at `0x80046DE8-0x80047458` now builds as
+`src/game/sound_output.c`. Its eighteen functions use `SDValue` and `SDCommand`
 directly, including output-type reads/writes, driver flags, CD-volume reuse,
-and construction of three command variants.
+construction of three command variants, packed request dispatch, and
+sequence-state control.
 
 An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the

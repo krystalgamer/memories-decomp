@@ -69,7 +69,7 @@
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
- * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
+ * debug_menu_sound_entry.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */
 s32 func_80030294(void);
 
@@ -512,7 +512,7 @@ struct DuelRitualResult;
  * deltas from the distance to the target over the remaining frame count, then
  * advances both accumulators, publishes their high halves as the camera
  * position, and snaps to the target when the counter runs out. */
-/* Entry 5 of the frontend step table D_80090D84 (frontend_step_tables.c):
+/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
 /* One step of the card list's cursor and paging input.

@@ -150,7 +150,7 @@ construction path explicit without broadening either shared structure.
 Matching-C functions implemented with inline assembly remain unchanged:
 
 - `Main_RunCredits` references `D_800EB0F8`;
-- `func_80030998` references both globals through explicit relocations.
+- `DebugMenu_UpdateCampaignEntry` references both globals through explicit relocations.
 
 `DuelEffect_UpdateObjectLayout` is also matching C, but it retains a minimal
 local `EffectEntry` view and is not counted among the six shared-header users.

@@ -240,7 +240,7 @@ void func_8002BFCC(void) {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0].library_count += 1;
             *(u8 *)(r + n * 4 + 0x56) = 0x80;
-            if (func_8002C518(n) < 0) {
+            if (Library_CheckCardOwned(n) < 0) {
                 *(u8 *)(r + n * 4 + 0x56) |= 1;
             }
         }

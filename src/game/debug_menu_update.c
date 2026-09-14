@@ -4,7 +4,7 @@
 #define DEBUG_FONT_FORMATS_AS_U8_ARRAYS
 #include "debug_font_format_data.h"
 #include "duel_effect.h"
-#include "func_80031084.h"
+#include "debug_menu_update.h"
 #include "func_8003B6AC.h"
 #include "../psyq/rand.h"
 #include "input.h"
@@ -14,7 +14,7 @@
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
 
-void func_80031084(void) {
+void DebugMenu_Update(void) {
     DuelEffectChannel *boxes;
     s32 i;
     s8 d;
@@ -27,10 +27,10 @@ void func_80031084(void) {
     e = D_8009B2EB;
     i = 0;
     if (e != 0) {
-        if (D_8009B2F0 != 0) {
-            D_80090D7C[e & FRONTEND_STEP_INDEX_MASK]();
+        if (gDebugMenu_bPage != DEBUG_MENU_PAGE_PRIMARY) {
+            gDebugMenu_apfnAlternatePageSteps[e & FRONTEND_STEP_INDEX_MASK]();
         } else {
-            D_80090D84[e & FRONTEND_STEP_INDEX_MASK]();
+            gDebugMenu_apfnPrimaryPageSteps[e & FRONTEND_STEP_INDEX_MASK]();
         }
         return;
     }
@@ -40,53 +40,56 @@ void func_80031084(void) {
     if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_wPad1Repeat & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
             if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
-                if (D_8009B2F1 + 0xA < 0x14) {
-                    D_8009B2F1 = D_8009B2F1 + 0xA;
+                if (gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT <
+                    DEBUG_MENU_ENTRY_COUNT) {
+                    gDebugMenu_bCursor =
+                        gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT;
                 }
             } else {
-                if (D_8009B2F1 - 0xA >= 0) {
-                    D_8009B2F1 = D_8009B2F1 - 0xA;
+                if (gDebugMenu_bCursor - DEBUG_MENU_COLUMN_ENTRY_COUNT >= 0) {
+                    gDebugMenu_bCursor =
+                        gDebugMenu_bCursor - DEBUG_MENU_COLUMN_ENTRY_COUNT;
                 }
             }
         }
         if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
-            t = (u8)D_8009B2F1;
-            if (D_8009B2F1 >= 0xA) {
+            t = (u8)gDebugMenu_bCursor;
+            if (gDebugMenu_bCursor >= DEBUG_MENU_COLUMN_ENTRY_COUNT) {
                 d = t - 1;
-                D_8009B2F1 = d;
-                if (d < 0xA) {
-                    D_8009B2F1 = 0x13;
+                gDebugMenu_bCursor = d;
+                if (d < DEBUG_MENU_COLUMN_ENTRY_COUNT) {
+                    gDebugMenu_bCursor = DEBUG_MENU_ENTRY_EXIT;
                 }
             } else {
                 d = t - 1;
-                D_8009B2F1 = d;
+                gDebugMenu_bCursor = d;
                 if (d < 0) {
-                    D_8009B2F1 = 9;
+                    gDebugMenu_bCursor = DEBUG_MENU_ENTRY_TITLE;
                 }
             }
         }
         if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
-            t = (u8)D_8009B2F1;
-            if (D_8009B2F1 >= 0xA) {
+            t = (u8)gDebugMenu_bCursor;
+            if (gDebugMenu_bCursor >= DEBUG_MENU_COLUMN_ENTRY_COUNT) {
                 d = t + 1;
-                D_8009B2F1 = d;
-                if (d >= 0x14) {
-                    D_8009B2F1 = 0xA;
+                gDebugMenu_bCursor = d;
+                if (d >= DEBUG_MENU_ENTRY_COUNT) {
+                    gDebugMenu_bCursor = DEBUG_MENU_ENTRY_NAME;
                 }
             } else {
                 d = t + 1;
-                D_8009B2F1 = d;
-                if (d >= 0xA) {
-                    D_8009B2F1 = 0;
+                gDebugMenu_bCursor = d;
+                if (d >= DEBUG_MENU_COLUMN_ENTRY_COUNT) {
+                    gDebugMenu_bCursor = DEBUG_MENU_ENTRY_3D;
                 }
             }
         }
         func_800300C8();
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
-        k = 0x13;
-        if (D_8009B2F1 != k) {
-            D_8009B2F1 = k;
+        k = DEBUG_MENU_ENTRY_EXIT;
+        if (gDebugMenu_bCursor != k) {
+            gDebugMenu_bCursor = k;
             func_800300C8();
             return;
         }
@@ -96,8 +99,8 @@ void func_80031084(void) {
     if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
         one = 1;
         func_8003B6AC(one, one);
-        D_8009B2F0 = D_8009B2F0 ^ one;
-        TextBox_Create(1, D_8009B2F0 + 0xF, 0x10, 0x10, 0x120, 0xA0);
+        gDebugMenu_bPage = gDebugMenu_bPage ^ one;
+        TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0);
         /* The array base has to stay in a local: writing `&D_800EB0F8[1]`
          * directly folds the record offset into the address computation and
          * drops the `addiu` retail keeps for the call argument. */
@@ -108,6 +111,6 @@ void func_80031084(void) {
         return;
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) != 0) {
-        D_8009B2EB = D_8009B2F1 + 1;
+        D_8009B2EB = gDebugMenu_bCursor + 1;
     }
 }

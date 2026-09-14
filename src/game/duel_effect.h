@@ -39,7 +39,7 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
  * DuelEffectChannel in. It stays a second name because how this address is
  * spelled is a codegen input, and two matched functions record the shape:
- * func_80031084.c has to hold the array base in a local, since writing
+ * debug_menu_update.c has to hold the array base in a local, since writing
  * `&D_800EB0F8[1]` inline folds the record offset into the address and
  * drops the `addiu` retail keeps for the call argument; and
  * FreeDuel_UpdateScreen has to hold this symbol in a local, since writing
@@ -263,7 +263,8 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c), 3 and 4 by frontend_scene_states.c,
+ * src/candidates/main_menu/func_801821DC.c), 3 and 4 by
+ * frontend_scene_states.c,
  * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.

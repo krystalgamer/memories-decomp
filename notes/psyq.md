@@ -1336,11 +1336,11 @@ single-task form and carries no signal mask or host-thread context.
 Three functions use it. `Main_Init` establishes the
 shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
-`func_80030FD0.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
+`debug_menu_exit.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
 implementation in `src/game/main_init.c`, while `Main_RunGameOver` now
-matches from `src/game/main_run_game_over.c`; `func_80030FD0.c` is the other
+matches from `src/game/main_run_game_over.c`; `debug_menu_exit.c` is the other
 matching user. The imported `longjmp`
-prototype has no compiler attribute, so `func_80030FD0` repeats the compatible
+prototype has no compiler attribute, so `DebugMenu_Exit` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the
 `jal longjmp` / `li $a1, 2` pair and has no normal epilogue after the call.
 `assert.h` expands a failed assertion to a formatted `printf` followed by
@@ -1397,7 +1397,7 @@ resident implementation is documented separately in [`rng.md`](rng.md).
 Matching resident C includes `rand.h` directly. The password/name-entry
 starter generator and module main, plus the five matching main-menu sort
 comparators, now use `rand.h` rather than duplicate the runtime declaration.
-Newly integrated `Duel_ShuffleDeck`, `func_80031084`, `func_80043BCC`, and
+Newly integrated `Duel_ShuffleDeck`, `DebugMenu_Update`, `func_80043BCC`, and
 `func_80050584` also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
@@ -1571,7 +1571,7 @@ This calculation precedes the saved-event merge and does not establish a
 frame or millisecond interval: `D_8009B0D8` supplies the increment, and byte
 truncation occurs before the threshold comparison.
 
-The game-side consumers `func_80020988` and `func_80031084` use the named
+The game-side consumers `func_80020988` and `DebugMenu_Update` use the named
 direction and button masks in `input.h` without merging their repeat and
 newly-pressed reads. The former accepts the confirm/cancel union but tests
 Cancel first when choosing its return value. The latter retains its separate

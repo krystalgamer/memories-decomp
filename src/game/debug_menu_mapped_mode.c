@@ -3,16 +3,16 @@
 #include "../types.h"
 #include "frontend_debug_tables.h"
 #include "frontend_debug_state.h"
-#include "func_80030FA0.h"
+#include "debug_menu_mapped_mode.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
 extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
 
-void func_80030FA0(void)
+void DebugMenu_EnterMappedMode(void)
 {
-    u8 *p = D_80090D68;
-    s32 i = D_8009B2F1;
+    u8 *p = gDebugMenu_abMainModeByEntry;
+    s32 i = gDebugMenu_bCursor;
     u8 v;
 
     gFreeDuel_bReturnFlags = 0;

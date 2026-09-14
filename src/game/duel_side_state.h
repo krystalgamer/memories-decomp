@@ -258,7 +258,7 @@ extern u8 D_8009B362;
 
 /* A byte Main_RunDuel reads into a local after File_WaitForTransfers and,
  * past its nop barrier, copies into D_8009B26C. Four functions store it:
- * func_80030F40 stores 0 (then calls func_80024DC8),
+ * DebugMenu_EnterDuel stores 0 (then calls func_80024DC8),
  * Main_RunTwoPlayerDuelSetup stores
  * 8 when MainMenu_UpdateValueSetup returned 1, Text_StartCampaignDuel
  * stores 2 at the end of its setup, and the free_duel overlay's
@@ -269,9 +269,9 @@ extern u8 D_8009B362;
  * Retail reaches it through %hi/%lo at every site and never through $gp,
  * so frontend_scene_states.c, main_run_two_player_duel_setup.c and
  * src/game/main_run_duel.c -- units that reach other symbols through
- * $gp -- define the .data arm below; src/candidates/func_80038530.c and the
- * overlay's screen_runtime.c compile with nothing in small data and take
- * the plain byte. The `u8 [9]` and `u8 []` two of them used to declare
+ * $gp -- define the .data arm below; text_start_campaign_duel.c and the
+ * overlay's screen_runtime.c take the plain byte. The `u8 [9]` and `u8 []`
+ * two of them used to declare
  * were accessed only at [0]; as the notes on D_8009B360 and D_8009B362
  * say, such a size is a threshold, not a length. */
 #ifdef D_8009B368_IN_DATA
@@ -306,7 +306,7 @@ extern u8 D_8009B369;
 #endif
 
 /* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
- * read it for that call, func_80024DC8 stores 0x7270, func_80030F40 stores
+ * read it for that call, func_80024DC8 stores 0x7270, DebugMenu_EnterDuel stores
  * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,

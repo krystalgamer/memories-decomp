@@ -1116,34 +1116,34 @@ centralization target and is not one.
 Seven sources declare it identically as `extern u8 D_8009B26C[]` and write
 `D_8009B26C[0]`: `frontend_scene_states.c`,
 `duel_effect_basic_commands.c`, `duel_effect_mode_7.c`, `func_8002FA28.c`,
-`func_8002EB48.c`, `script_control_commands.c` and `async_state_poll.c`
-(`func_80030E30.c` has been restored to `frontend_scene_states.c`). Seven identical
+`func_8002EB48.c`, `script_control_commands.c` and
+`debug_menu_two_player_entry.c`. Seven identical
 declarations of one symbol, with no disagreement to resolve, is exactly the
 shape that has passed byte-exact elsewhere. It still cannot be centralized.
 
 Two facts block it.
 
 **Retail reaches the symbol both ways.** Three functions that are generated
-assembly again -- `Main_RunCredits`, `func_80030998` and `func_8002A788` --
+assembly again -- `Main_RunCredits`, `DebugMenu_UpdateCampaignEntry` and `func_8002A788` --
 do not agree about the relocation. Their former hand-assembled C files
 recorded it:
 
 ```
 main_run_credits.c:   .reloc .-4, R_MIPS_GPREL16, D_8009B26C
-func_80030998.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
+debug_menu_campaign_entry.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
                       .reloc .-4, R_MIPS_LO16,    D_8009B26C
 func_8002A788.c:      .reloc .-4, R_MIPS_HI16,    D_8009B26C
                       .reloc .-4, R_MIPS_LO16,    D_8009B26C
 ```
 
-`func_80030998` settles it from inside a single function: two instructions
+`DebugMenu_UpdateCampaignEntry` settles it from inside a single function: two instructions
 apart it takes `gDebug_nSceneOrSoundID` `GPREL16` and `D_8009B26C`
 `HI16`/`LO16`. So the absolute form is not that unit being uniformly outside
 small data; it is this symbol, at this site.
 
 **The profile does not choose the spelling.** All eight array-spelling
 consumers compile at `gcc_2_8_1_g8`. So does `main_debug.c`, which uses the
-plain scalar, as did the former `main_run_credits.c`, `func_80030998.c` and
+plain scalar, as did the former `main_run_credits.c`, `debug_menu_campaign_entry.c` and
 `func_8002A788.c`. Same compiler, same `-G8`, opposite spellings, both matching.
 `func_80024DC8.c` is the control: it is `-G0` and uses the scalar, where the
 table says no lever is needed because a plain scalar already gets `%hi/%lo`.

@@ -108,6 +108,6 @@ They keep their declarations in the header of the unit they came from.
 `notes/build.md`.
 
 Five functions whose "C" was only the target's words in a top-level `asm`
-block (`func_800291E0`, `func_8002A4A8`, `func_8002A788`, `func_80030998` and
+block (`func_800291E0`, `func_8002A4A8`, `func_8002A788`, `DebugMenu_UpdateCampaignEntry` and
 `Main_RunCredits`) had no C to keep and went straight back to generated
 assembly.
