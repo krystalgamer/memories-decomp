@@ -49,7 +49,12 @@ void SD_PlaySequence(s32 arg0)
     D_8009B458->flag_0500 = 0;
 }
 
-void func_80049BAC(s32 value)
+/* The play branch of SD_PlaySequence plus a fast-forward target in
+   field_080C. While that is nonzero, SD_ProcessSequenceTracks dispatches each
+   track's next event group on every tick instead of waiting out its delta
+   time, and clears it once a track's read address (field_07DC + pos) reaches
+   target. */
+void SD_PlaySequenceFastForward(s32 target)
 {
     SDSecondaryState *state;
 
@@ -66,7 +71,7 @@ void func_80049BAC(s32 value)
         first = D_8009B458;
         first->flag_0502 = 1;
         second = D_8009B458;
-        first->field_080C = value;
+        first->field_080C = target;
         second->field_07E2 = 1;
         second->flag_0500 = 0;
     }

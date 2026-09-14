@@ -810,7 +810,7 @@ address,size,name,status,module,notes
 0x80049920,0x144,func_80049920,matching_c,game,Exact pure-C match: the D_8009B458 .data declaration arm restores the retail absolute pointer loads while gcc_2_8_1_g8_split preserves allocation and scheduling.
 0x80049A64,0x90,func_80049A64,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049AF4,0xB8,SD_PlaySequence,matching_c,game,"Starts the staged secondary sequence playing or paused. Pure-C reclassification match: u8 shared literal plus unsigned halfword mode normalization reproduce register allocation without a pin. Uses canonical no-argument sequence-start API; guard, rewind and mode updates remain exact. 184-byte text/relocations under gcc_2_8_1_g0; old evidence preserved (issue #5)."
-0x80049BAC,0x94,func_80049BAC,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80049BAC,0x94,SD_PlaySequenceFastForward,matching_c,game,Starts the staged secondary sequence playing and fast-forwards it to a target read address. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,func_80049C40,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CB0,0x48,func_80049CB0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CF8,0xE0,func_80049CF8,matching_c,game,Exact 56-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value prevents mask hoisting; counter and state/count scopes preserve allocation and load order. Shared state/SDK layouts and state-relative field offsets replace six pins and three assembly statements. Matching rationale is in the source comment.
