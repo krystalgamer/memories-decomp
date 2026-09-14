@@ -14,18 +14,6 @@
       "reason": "Main-menu candidate requires its overlay state-array view; resident headers expose unrelated overlay-slot layouts at the same address."
     },
     {
-      "symbol": "D_800EA0E8",
-      "source": "src/candidates/password/func_8016A37C.c",
-      "declaration": "extern u8 D_800EA0E8[];",
-      "reason": "Password candidate intentionally retains the raw resource-byte view required by its measured codegen instead of the resident DuelEffectResourceRecord view."
-    },
-    {
-      "symbol": "D_801A8000",
-      "source": "src/candidates/password/func_8016A37C.c",
-      "declaration": "extern u32 D_801A8000[];",
-      "reason": "Password candidate requires its overlay word-array view; resident headers expose unrelated overlay-slot layouts at the same address."
-    },
-    {
       "symbol": "D_8009B16C",
       "source": "src/game/debug_effect_screen.c",
       "declaration": "extern u8 D_8009B16C[4];",
