@@ -16,6 +16,11 @@ each implicit declaration unless that exact source/function pair is recorded,
 with a measured reason, in config/slus_01411/implicit_declaration_exceptions.json.
 A recorded pair that no longer occurs is also an error, so the list cannot go
 stale.
+
+A source listed under more than one profile is compiled once per distinct
+profile. The flags decide what the preprocessor sees, so a call can be
+implicit under one profile's -D/-U set and declared under another's; checking
+only one of them would hide it.
 """
 
 from __future__ import annotations
@@ -43,19 +48,19 @@ class VisibilityError(RuntimeError):
     pass
 
 
-def sources(root: Path) -> dict[str, str]:
-    """Every compiled C source mapped to its profile."""
-    result: dict[str, str] = {}
+def sources(root: Path) -> list[tuple[str, str]]:
+    """Every distinct (compiled C source, profile) pair, sorted."""
+    result: set[tuple[str, str]] = set()
     manifests = [root / CONFIG / "matching_c.json"]
     manifests += sorted((root / CONFIG / "overlays").glob("*_matching_c.json"))
     for manifest in manifests:
         for entry in json.loads(manifest.read_text(encoding="utf-8"))["functions"]:
-            result[entry["source"]] = entry["profile"]
+            result.add((entry["source"], entry["profile"]))
     candidates = root / CONFIG / "candidates.json"
     if candidates.is_file():
         for entry in json.loads(candidates.read_text(encoding="utf-8"))["candidates"]:
-            result[entry["source"]] = entry["profile"]
-    return result
+            result.add((entry["source"], entry["profile"]))
+    return sorted(result)
 
 
 def compiler(root: Path, profiles: dict[str, dict[str, object]]) -> Path:
@@ -127,15 +132,17 @@ def validate(root: Path = ROOT, jobs: int | None = None) -> tuple[list[str], int
     gcc = compiler(root, profiles)
     units = sources(root)
     with ThreadPoolExecutor(max_workers=jobs or os.cpu_count() or 1) as pool:
-        found = dict(
-            zip(
+        results = list(
+            pool.map(
+                lambda item: implicit_calls(root, gcc, item[0], profiles[item[1]]),
                 units,
-                pool.map(
-                    lambda item: implicit_calls(root, gcc, item[0], profiles[item[1]]),
-                    units.items(),
-                ),
             )
         )
+    # A source's implicit calls are the union over every profile it builds
+    # under; exceptions stay keyed by source and function.
+    found: dict[str, set[str]] = {}
+    for (source, _profile), calls in zip(units, results):
+        found.setdefault(source, set()).update(calls)
     allowed = load_exceptions(root)
     errors: list[str] = []
     seen: set[tuple[str, str]] = set()
@@ -171,7 +178,7 @@ def main() -> int:
         print(f"error: {error}", file=sys.stderr)
     if errors:
         return 1
-    print(f"declaration visibility: OK ({checked} sources)")
+    print(f"declaration visibility: OK ({checked} source/profile builds)")
     return 0
 
 

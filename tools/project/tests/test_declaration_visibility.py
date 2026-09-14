@@ -149,6 +149,61 @@ class DeclarationVisibilityTests(unittest.TestCase):
             ],
         )
 
+    def test_each_profile_of_a_source_is_checked(self) -> None:
+        # One source, two profiles whose -D/-U sets differ. The call is
+        # implicit only when ENABLED is defined; keying the build by source
+        # alone would keep whichever profile came last and could miss it.
+        self.write(
+            "config/slus_01411/compiler_profiles.json",
+            json.dumps(
+                {
+                    "schema": 1,
+                    "profiles": {
+                        "on": {
+                            "compiler": COMPILER,
+                            "compiler_flags": ["-O2", "-G8", "-DENABLED"],
+                        },
+                        "off": {
+                            "compiler": COMPILER,
+                            "compiler_flags": ["-O2", "-G8", "-UENABLED"],
+                        },
+                    },
+                }
+            ),
+        )
+        self.write(
+            "src/game/caller.c",
+            "#ifdef ENABLED\nint caller(void) { return callee(1); }\n"
+            "#else\nint caller(void) { return 0; }\n#endif\n",
+        )
+        for order in (("on", "off"), ("off", "on")):
+            self.write(
+                "config/slus_01411/matching_c.json",
+                json.dumps(
+                    {
+                        "functions": [
+                            {
+                                "address": f"0x8001{i:04X}",
+                                "profile": profile,
+                                "source": "src/game/caller.c",
+                            }
+                            for i, profile in enumerate(order)
+                        ]
+                    }
+                ),
+            )
+
+            errors, checked = visibility.validate(self.root, jobs=1)
+
+            self.assertEqual(checked, 2)
+            self.assertEqual(
+                errors,
+                [
+                    "src/game/caller.c: calls callee through an implicit "
+                    "declaration; include the header that declares it"
+                ],
+            )
+
     def test_candidates_are_checked_too(self) -> None:
         self.write("src/game/clean.c", "int clean(void) { return 0; }\n")
         self.matching("src/game/clean.c")

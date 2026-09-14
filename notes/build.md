@@ -727,10 +727,11 @@ it. GCC 2.8.1 compiles a call with no visible declaration as `int f()`, and
 the executable and candidate fingerprints stay byte-exact, so a caller that
 loses sight of a prototype -- typically because the prototype moved to a
 header it does not include -- passes every ownership check.
-`make check-declaration-visibility` (run in the matching-build job) compiles
-every matching source and every candidate with
-`-Wimplicit-function-declaration` under its own profile and fails on any
-implicit call. The fix is the include of the header that owns the
+`make check-declaration-visibility` (run in the matching-build job and by
+`make audit`) compiles every matching source and every candidate with
+`-Wimplicit-function-declaration` under each profile it is built with, and
+fails on any implicit call. A source listed under two profiles is compiled
+under both, because their `-D`/`-U` flags can hide a call from one of them. The fix is the include of the header that owns the
 declaration. The current tree has no exceptions. If a future implicit call is
 proved load-bearing, it must be recorded with its measurement in the checker's
 exception manifest; a recorded site that no longer calls implicitly is an

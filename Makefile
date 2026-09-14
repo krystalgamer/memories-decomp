@@ -292,6 +292,7 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/matching_source_contracts.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/check_declaration_visibility.py
 	@$(PYTHON) tools/project/check_note_links.py
 	@$(PYTHON) tools/project/audit_repository.py
 
