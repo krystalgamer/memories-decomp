@@ -2,7 +2,7 @@
 #define D_8009B26D_IN_DATA
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_ARRAY
-#define D_8009B36A_IN_DATA
+#define GDUEL_WBGMID_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
 #define D_8009B368_IN_DATA
 #define D_8009B3EA_IN_DATA
@@ -155,7 +155,7 @@ void DebugMenu_UpdateTradeEntry(void)
 
 void DebugMenu_EnterDuel(void)
 {
-    D_8009B36A = 0x71D0;
+    gDuel_wBgmId = 0x71D0;
     D_8009B368 = 0;
     func_80024DC8(-1, 1, 0x8000, 0x8000);
 }

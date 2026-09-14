@@ -1,5 +1,5 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
-#define D_8009B36A_IN_DATA
+#define GDUEL_WBGMID_IN_DATA
 #include "../types.h"
 #include "func_800179F4.h"
 #include "display_object.h"
@@ -103,7 +103,7 @@ void DuelScene_UpdateResume(void)
         } else {
             if (D_800E9FF0[0].life_points.signed_value != 0 &&
                 D_800E9FF0[1].life_points.signed_value != 0) {
-                SD_BGMPlay(D_8009B36A);
+                SD_BGMPlay(gDuel_wBgmId);
             }
         }
         Fade_StartIn();
@@ -213,7 +213,7 @@ void DuelScene_UpdateStartup(void)
              D_8009B134_abs) != 0) {
             break;
         }
-        SD_BGMPlay(D_8009B36A);
+        SD_BGMPlay(gDuel_wBgmId);
         Duel_PopulateCombinedDeckData();
         atk = 0;
         def = 0;

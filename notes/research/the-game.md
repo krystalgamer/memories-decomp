@@ -1289,9 +1289,23 @@ orientation at commitment, rather than tallying all face-down field cards.
 Matching [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads
 the byte as unsigned, copies it to displayed-stat slot 9, and passes it to
 `DUEL_RANK_RULE_FACE_DOWN_PLAYS` (row 3). Numbered multi-card selections
-bypass this particular increment; this does not establish their complete
-accounting, every other writer, or the effect of later card flips. It is
-static code evidence, not a new controlled trace.
+bypass this particular increment.
+
+A controlled two-turn trace now closes the ordinary fusion ambiguity. The
+first turn placed one card face-down and changed `face_down_plays` from 0 to 1
+without changing `fusions_initiated`. The next player turn fused two cards
+successfully; `fusions_initiated` changed from 0 to 1 while
+`face_down_plays` stayed at 1. The user-facing placement flow does not offer a
+face-down orientation for a fusion result, so the earlier proposed
+"multi-card fusion placed face-down" case is not a legal action. The trace
+also separated draw-entry accounting: `turns_taken` and `deck_draw_cursor`
+advanced before the fusion, then only `fusions_initiated` changed when the
+fusion completed.
+
+For normal player actions, `face_down_plays` therefore counts single-card
+face-down commitments rather than all cards that finish face-down or all
+multi-card selections. This does not rule out an unusual scripted effect
+writing the byte directly, nor does a later card flip decrement it.
 
 **When "pure magic" advances.** The matching
 [`DuelScene_UpdateCardUse`](../../src/game/func_80019608.c) increments the current
@@ -1742,7 +1756,7 @@ available in Free Duel (§8), with two exceptions noted.
 | 20 | Teana 2nd | hidden Dueling Grounds | optional | |
 | 21 | Ocean Mage | Sea Shrine gate | forced (to enter) | home field Umi (reading) |
 | 22 | High Mage Secmeton | Sea Shrine | forced | returns the Millennium Necklace |
-| 23 | Forest Mage | Forest Shrine gate | forced | home field Forest (reading) |
+| 23 | Forest Mage | Forest Shrine gate | forced | home field Forest (controlled trace) |
 | 24 | High Mage Anubisius | Forest Shrine | forced | Millennium Key |
 | 25 | Mountain Mage | Mountain Shrine gate | forced | home field Mountain (reading) |
 | 26 | High Mage Atenza | Mountain Shrine | forced | Millennium Ring |
@@ -2519,8 +2533,8 @@ Not verified in code:
   codes. Their image and branch sites are now located in the WA startup
   phase (§12.2), and both force an existing branch unconditionally; no
   patched-game observation establishes their complete user-visible effects;
-* the home terrains of the five shrines and the finale (only Sebek/Neku's
-  Yami is sourced);
+* the remaining shrine and finale home terrains (Forest Mage's Forest and
+  Sebek/Neku's Yami are sourced);
 * the byte-level formats of the two live AI script buffers and the structured
   but byte-unconsumed phase 11 payload in the duel blob.
 

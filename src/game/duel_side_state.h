@@ -24,8 +24,9 @@ union DuelSideLifePoints {
 };
 
 /* The rank statistics stored at the front of each side record. The named
- * bytes are the counters consumed by Duel_CalcRankScore; unresolved display
- * rows retain their offsets. */
+ * bytes are the counters consumed by Duel_CalcRankScore; face_down_plays
+ * counts normal single-card face-down commitments, not fusion results.
+ * Unresolved display rows retain their offsets. */
 typedef struct {
     s8 result_adjustment;
     u8 turns_taken;
@@ -313,10 +314,10 @@ extern u8 D_8009B369;
  * so duel_phase_entry.c and frontend_scene_states.c define
  * the .data arm below; func_80024DC8.c and src/candidates/func_80038530.c
  * compile with nothing in small data and take the plain arm. */
-#ifdef D_8009B36A_IN_DATA
-extern u16 D_8009B36A __attribute__((section(".data")));
+#ifdef GDUEL_WBGMID_IN_DATA
+extern u16 gDuel_wBgmId __attribute__((section(".data")));
 #else
-extern u16 D_8009B36A;
+extern u16 gDuel_wBgmId;
 #endif
 
 /* Clears the per-duel state -- roughly thirty scalars, several of them

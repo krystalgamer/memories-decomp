@@ -42,7 +42,7 @@ GLOBAL_OFFSETS = {
     "gDuel_bTerrain": 0x104,
     "D_8009B368": 0x108,
     "D_8009B369": 0x109,
-    "D_8009B36A": 0x10A,
+    "gDuel_wBgmId": 0x10A,
     "D_8009B370": 0x110,
     "D_8009B372": 0x112,
     "D_8009B374": 0x114,
