@@ -95,7 +95,7 @@ void SD_SetOutputType(s16 value)
     }
 }
 
-s32 func_80047008(void)
+s32 SD_GetOutputType(void)
 {
     return g_SDValue->output_type;
 }
