@@ -1410,9 +1410,9 @@ address,size,name,status,module,notes
 0x8007CD6C,0x48,rescpy,sdk_asm,psyq/sdk,
 0x8007CDC0,0x20,CdMix,sdk_asm,psyq/sdk,"Identified from the libcd.h CdlATV contract, both matching game callers, notes/psyq.md, and the Unchiga symbol map; the same SDK entry may also be exported as DsMix."
 0x8007CDE0,0x130,DsRead,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
-0x8007CF10,0x34,func_8007CF10,sdk_asm,psyq/sdk,
-0x8007CF44,0x178,func_8007CF44,sdk_asm,psyq/sdk,
-0x8007D0BC,0xD4,func_8007D0BC,sdk_asm,psyq/sdk,
+0x8007CF10,0x34,DS_read_cbsync,sdk_asm,psyq/sdk,"Private DSREAD command-completion callback; the name and position immediately after DsRead are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, while the exact 4.6 body starts the ready system on completion event 2."
+0x8007CF44,0x178,DS_read_cbready,sdk_asm,psyq/sdk,"Private DSREAD ready callback; the name and order are stable in Psy-Q 4.0 and independent Resident Evil 2 maps, and the exact 4.6 body advances the read transfer and dispatches its completion callback."
+0x8007D0BC,0xD4,DS_read_cbdata,sdk_asm,psyq/sdk,"Private DSREAD data callback; Psy-Q 4.0 and independent Resident Evil 2 maps place it as the third private callback before DsReadSync, matching the exact 4.6 transfer-state update body."
 0x8007D190,0x70,DsReadSync,sdk_asm,psyq/sdk,Identified at offset 0x3B0 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007D200,0x14,DsReadCallback,sdk_asm,psyq/sdk,Identified at offset 0x420 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
 0x8007D214,0x20,DsReadBreak,sdk_asm,psyq/sdk,Identified at offset 0x434 of the unique Psy-Q 4.6 LIBDS.LIB/DSREAD.OBJ signature.
@@ -1429,9 +1429,9 @@ address,size,name,status,module,notes
 0x8007DD50,0x84,DsStartReadySystem,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer callback setup.
 0x8007DDD4,0x64,DsEndReadySystem,sdk_asm,psyq/sdk,Identified at offset 0x84 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature.
 0x8007DE38,0x14,DsReadySystemMode,sdk_asm,psyq/sdk,Identified at offset 0xE8 of the unique Psy-Q 4.6 LIBDS.LIB/DSREADY.OBJ signature and matching file-transfer setup.
-0x8007DE4C,0x2DC,func_8007DE4C,sdk_asm,psyq/sdk,
-0x8007E128,0xB8,func_8007E128,sdk_asm,psyq/sdk,
-0x8007E1E0,0x78,func_8007E1E0,sdk_asm,psyq/sdk,
+0x8007DE4C,0x2DC,ER_cbready,sdk_asm,psyq/sdk,"Private DSREADY ready callback; Psy-Q 4.0 and two independent Resident Evil 2 maps preserve the ER_cbready position after the public setup entries, with the 4.6 offset shifted by the added DsReadySystemMode export."
+0x8007E128,0xB8,ER_retry,sdk_asm,psyq/sdk,"Private DSREADY retry helper; Psy-Q 4.0 and independent Resident Evil 2 maps preserve its ordering between ER_cbready and ER_cbsync, matching the exact 4.6 retry-state body."
+0x8007E1E0,0x78,ER_cbsync,sdk_asm,psyq/sdk,"Private DSREADY sync callback; Psy-Q 4.0 and independent Resident Evil 2 maps preserve its ordering immediately after ER_retry, matching the exact 4.6 completion-state body."
 0x8007E258,0x30,func_8007E258,sdk_asm,psyq/sdk,
 0x8007E288,0x10,ER_active,sdk_asm,psyq/sdk,
 0x8007E298,0x50,ER_clear,sdk_asm,psyq/sdk,

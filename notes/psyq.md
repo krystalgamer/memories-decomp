@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 52 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 29 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 46 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 23 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 52 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 46 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 29 already sit inside 14
+The `--coverage-report` split narrows that work: 23 already sit inside 13
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -440,6 +440,9 @@ Every row below is now an applied project symbol.
 | `0x8007E4F0` | `CdGetSector2` | Applied confirmed identity for the parallel two-argument sector-transfer wrapper using the library's second transfer path. |
 | `0x8007A710` | `CdIntToPos` | Applied Psy-Q 4.6 LIBCD identity; canonical copy of the sector-to-packed-BCD position conversion. |
 | `0x8007CDE0` | `DsRead` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,296-byte `LIBDS.LIB/DSREAD.OBJ` signature. |
+| `0x8007CF10` | `DS_read_cbsync` | Stable private name from Psy-Q 4.0 and two independent Resident Evil 2 maps; it remains the first helper after `DsRead`, and the exact 4.6 body starts the ready system when the command-completion event is `2`. |
+| `0x8007CF44` | `DS_read_cbready` | Stable second private DSREAD callback from the same three maps; the exact 4.6 body advances the sector transfer and dispatches the saved completion callback. |
+| `0x8007D0BC` | `DS_read_cbdata` | Stable third private DSREAD callback before `DsReadSync` in the older SDK and both independent maps; the exact 4.6 body advances the transfer destination/count state and reports completion. |
 | `0x8007D190` | `DsReadSync` | Applied Psy-Q 4.6 identity at offset `0x3B0` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
 | `0x8007D200` | `DsReadCallback` | Applied Psy-Q 4.6 identity at offset `0x420` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
 | `0x8007D214` | `DsReadBreak` | Applied Psy-Q 4.6 identity at offset `0x434` of the same unique `LIBDS.LIB/DSREAD.OBJ` signature. |
@@ -451,6 +454,9 @@ Every row below is now an applied project symbol.
 | `0x8007DD50` | `DsStartReadySystem` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,440-byte `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path installs its ready callback with an unlimited count. |
 | `0x8007DDD4` | `DsEndReadySystem` | Applied Psy-Q 4.6 identity at offset `0x84` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; matching `func_8001455C` uses the canonical `libds.h` declaration in two ready-system teardown states. |
 | `0x8007DE38` | `DsReadySystemMode` | Applied Psy-Q 4.6 identity at offset `0xE8` of the same unique `LIBDS.LIB/DSREADY.OBJ` signature; the matching file-transfer path selects mode `1`. |
+| `0x8007DE4C` | `ER_cbready` | Stable private name from Psy-Q 4.0 and two independent Resident Evil 2 maps. The added `DsReadySystemMode` entry accounts for the offset shift in 4.6, while the function remains the first private DSREADY callback after the public setup entries. |
+| `0x8007E128` | `ER_retry` | Stable private name and ordering between `ER_cbready` and `ER_cbsync` in the older SDK and independent maps; the exact 4.6 body implements the ready-system retry state. |
+| `0x8007E1E0` | `ER_cbsync` | Stable private name immediately after `ER_retry` in the older SDK and independent maps; the exact 4.6 body handles the corresponding sync-completion state. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
 | `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`; matching `func_8005C62C` uses the canonical `libcd.h` declaration for its set-location and physical-seek commands. |
