@@ -533,6 +533,14 @@ def main() -> int:
             raise IntegrationError(f"unknown compiler profile: {args.profile}")
         profile = profiles[args.profile]
         validate_effective_profile(profile, args.profile)
+        if (
+            args.allow_psyq_inline_macros
+            and profile.get("allow_psyq_inline_macros") is not True
+        ):
+            raise IntegrationError(
+                "--allow-psyq-inline-macros requires a profile that explicitly "
+                "allows Psy-Q inline macros"
+            )
 
         functions = load_inventory(functions_path)
         matches = [

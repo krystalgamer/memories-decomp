@@ -26,16 +26,24 @@ class MatchingSourceContractError(RuntimeError):
     pass
 
 
-def source_violations(source: str, tracked_symbol_names: set[str]) -> list[str]:
+def source_violations(
+    source: str,
+    tracked_symbol_names: set[str],
+    *,
+    allow_psyq_inline_macros: bool = False,
+) -> list[str]:
     text = strip_c_comments(source)
     violations: list[str] = []
     if contains_register_pin(text):
         violations.append("contains a hard-register variable")
-    if uses_asm_extension(
-        source,
-        allow_register_pins=True,
-        allow_symbol_aliases=True,
-        tracked_symbol_names=tracked_symbol_names,
+    if (
+        not allow_psyq_inline_macros
+        and uses_asm_extension(
+            source,
+            allow_register_pins=True,
+            allow_symbol_aliases=True,
+            tracked_symbol_names=tracked_symbol_names,
+        )
     ):
         violations.append(
             "contains statement-level assembly or an untracked assembler alias"
@@ -101,6 +109,14 @@ def audit(root: Path) -> list[str]:
                 validate_effective_profile(profile, profile_name)
             except IntegrationError as error:
                 problems.append(f"{label}: {error}")
+            allow_psyq_inline_macros = profile.get(
+                "allow_psyq_inline_macros", False
+            )
+            if not isinstance(allow_psyq_inline_macros, bool):
+                problems.append(
+                    f"{label}: allow_psyq_inline_macros must be a boolean"
+                )
+                continue
 
             source_key = (source_name, profile_name)
             if source_key in checked_sources:
@@ -114,7 +130,11 @@ def audit(root: Path) -> list[str]:
                 problems.append(f"{label}: {error}")
                 continue
             violations = source_violations(source, tracked_symbol_names)
-            for violation in source_violations(preprocessed, tracked_symbol_names):
+            for violation in source_violations(
+                preprocessed,
+                tracked_symbol_names,
+                allow_psyq_inline_macros=allow_psyq_inline_macros,
+            ):
                 if violation not in violations:
                     violations.append(violation)
             for violation in violations:

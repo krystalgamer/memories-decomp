@@ -44,6 +44,17 @@ class MatchingSourceContractTests(unittest.TestCase):
             ["contains statement-level assembly or an untracked assembler alias"],
         )
 
+    def test_preprocessed_psyq_macro_assembly_can_be_allowed(self) -> None:
+        source = 'void f(void) { asm("nop"); }\n'
+        self.assertEqual(
+            source_violations(
+                source,
+                set(),
+                allow_psyq_inline_macros=True,
+            ),
+            [],
+        )
+
     def test_comment_markers_inside_literals_do_not_hide_assembly(self) -> None:
         source = 'void f(void) { const char *s = "//"; asm("nop"); }\n'
         self.assertEqual(
