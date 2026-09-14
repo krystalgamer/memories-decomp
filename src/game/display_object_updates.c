@@ -172,7 +172,7 @@ void func_80040D14(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 void (*secondary)(u8 *, s32) =
-                    *(void (**)(u8 *, s32))(data + 0x4C);
+                    (void (*)(u8 *, s32))object->field_4C;
 
                 if (secondary != 0) {
                     secondary(data, (s32)table[object->ot_index]);
