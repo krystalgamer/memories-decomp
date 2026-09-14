@@ -121,8 +121,8 @@ s32 func_80033BE8(void)
     s32 intensity;
     s32 color;
     BuildDeckTransitionState *base;
-    u8 *first;
-    u8 *second;
+    DisplayObject *first;
+    DisplayObject *second;
 
     rand();
 
@@ -133,15 +133,15 @@ s32 func_80033BE8(void)
 
     base = gBuildDeck_pState;
     color = intensity * 2 + 0x40;
-    first = *(u8 **)((u8 *)base + 0x2D38);
-    second = *(u8 **)((u8 *)base + 0x5A84);
+    first = base->lists[0].cursor_box;
+    second = base->lists[1].cursor_box;
 
-    second[0xE] = color;
-    second[0xD] = color;
-    second[0xC] = color;
-    first[0xE] = color;
-    first[0xD] = color;
-    first[0xC] = color;
+    ((u8 *)&second->field_0C)[2] = color;
+    ((u8 *)&second->field_0C)[1] = color;
+    ((u8 *)&second->field_0C)[0] = color;
+    ((u8 *)&first->field_0C)[2] = color;
+    ((u8 *)&first->field_0C)[1] = color;
+    ((u8 *)&first->field_0C)[0] = color;
 
     if (DuelEffect_UpdateState() == 0) {
         D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
