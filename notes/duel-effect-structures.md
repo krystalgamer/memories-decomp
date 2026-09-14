@@ -159,9 +159,9 @@ so its accepted source does not broaden the shared declaration.
 `D_800EB0F8` element it selects later (`flags_34`, `field_30`). The index it
 selects that element with is still the raw byte at `+0x1A` of its
 `MenuRecord`, which `dialog_transition.c` reads the same way.
-`func_8003D74C` is likewise matching C but keeps a raw byte view with the
-verified 100-byte channel stride while coordinating the duel-intro card
-reveal.
+`func_8003D74C`, which coordinates the duel-intro card reveal, likewise
+takes its channel as a `DuelEffectChannel *` and selects it by the same
+`+0x1A` byte.
 
 The changing assembly-user lists for `D_800EB0F8` and `D_800EB288` are not
 duplicated here. [`global-usage.csv`](global-usage.csv) is the generated
