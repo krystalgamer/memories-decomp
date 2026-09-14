@@ -1358,14 +1358,14 @@ address,size,name,status,module,notes
 0x8007A820,0x20,CdReady,sdk_asm,psyq/sdk,"Direct wrapper around internal CD_ready that preserves the canonical mode/result arguments; StCdInterrupt calls it with a result buffer and consumes the returned status."
 0x8007A840,0x14,CdReadyCallback_8007A840,sdk_asm,psyq/sdk,"Replaces and returns D_800934E4, the callback CD_ready invokes with status/result on its ready path. Address-qualified because the live 0x8007E860 copy already carries the canonical CdReadyCallback name."
 0x8007A860,0x24,CdDataCallback,sdk_asm,psyq/sdk,
-0x8007A890,0x30,func_8007A890,sdk_asm,psyq/sdk,
-0x8007A8C0,0xEC,func_8007A8C0,sdk_asm,psyq/sdk,
+0x8007A890,0x30,CQ_clear_queue,sdk_asm,psyq/sdk,"Private DSSYS_2 queue initializer; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve it as the first queue helper before CQ_delete_command."
+0x8007A8C0,0xEC,CQ_delete_command,sdk_asm,psyq/sdk,"Private DSSYS_2 queue deletion helper; Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps preserve its ordering before the later DS_CQ_flush insertion."
 0x8007A9AC,0x60,DS_CQ_flush,sdk_asm,psyq/sdk,
-0x8007AA0C,0x88,func_8007AA0C,sdk_asm,psyq/sdk,
-0x8007AA94,0x1F0,func_8007AA94,sdk_asm,psyq/sdk,
-0x8007AC84,0x70,func_8007AC84,sdk_asm,psyq/sdk,
-0x8007ACF4,0x224,func_8007ACF4,sdk_asm,psyq/sdk,
-0x8007AF18,0x8C,func_8007AF18,sdk_asm,psyq/sdk,
+0x8007AA0C,0x88,CQ_last_queue,sdk_asm,psyq/sdk,"Private DSSYS_2 queue-tail helper; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps, at the 4.7 text_17C start after DS_CQ_flush."
+0x8007AA94,0x1F0,CQ_error_flush,sdk_asm,psyq/sdk,"Private DSSYS_2 error-flush helper; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007AC84,0x70,CQ_execute,sdk_asm,psyq/sdk,"Private DSSYS_2 queue executor; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007ACF4,0x224,CQ_sync_system,sdk_asm,psyq/sdk,"Private DSSYS_2 queue synchronization runtime; stable name/order in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
+0x8007AF18,0x8C,CQ_add_result,sdk_asm,psyq/sdk,"Private DSSYS_2 result-queue helper; stable final pre-DsInit position in Psy-Q 4.0, PsyZ, and independent Resident Evil 2 maps."
 0x8007AFA4,0x144,DsInit,sdk_asm,psyq/sdk,
 0x8007B0E8,0x10C,DsReset,sdk_asm,psyq/sdk,
 0x8007B1F4,0x274,DsCommand,sdk_asm,psyq/sdk,

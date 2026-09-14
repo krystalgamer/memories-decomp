@@ -130,9 +130,9 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 30 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Psy-Q inventory rows still address-named | 23 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
 | Address-named rows inside a unique object match | 7 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
-| Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
+| Address-named rows outside unique object matches | 16 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
 
@@ -152,13 +152,13 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 30 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 23 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
 The `--coverage-report` split narrows that work: 7 already sit inside 5
-uniquely matched object ranges, while 23 are not covered by any unique 4.6
+uniquely matched object ranges, while 16 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
 
@@ -188,6 +188,14 @@ on already-named LIBDS functions all agree. The two that differ are the
 existing `CdMix`/`DsMix` and `CdReadyCallback_8007A840`/`DsSetDebug`
 conflicts, which stay as they are, and `0x8007E7F0` remains ambiguous between
 `DsControl` and `DsControlB`.
+
+The patched `DSSYS_2.OBJ` queue prefix is also now named through independent
+version evidence. Psy-Q 4.0, the PsyZ object reconstruction, and two Resident
+Evil 2 maps agree on `CQ_clear_queue`, `CQ_delete_command`, `CQ_last_queue`,
+`CQ_error_flush`, `CQ_execute`, `CQ_sync_system`, and `CQ_add_result` in that
+order. The permitted 4.7 object fixes the corresponding current boundaries
+around its added `DS_CQ_flush` entry and places `DsInit` immediately after the
+same seven-function queue core.
 
 Four game sources already called three of these by address. `file_stream.c`
 and `main_run_boot_sequence.c` call `DsInit`, and `func_80013C28.c`
