@@ -1108,7 +1108,10 @@ Model_SetSlotProperties = 0x80053248; // type:func
 
 // Semantic names
 CdDataCallback = 0x8007A860; // type:func
+DS_sync = 0x8007E2F0; // type:func
+DS_ready = 0x8007E320; // type:func
 CdFlush = 0x8007E350; // type:func
+DsShellOpen = 0x8007E370; // type:func
 CdGetSector = 0x8007E3D0; // type:func
 CdGetSector2 = 0x8007E4F0; // type:func
 CdControlB = 0x8007E7F0; // type:func
