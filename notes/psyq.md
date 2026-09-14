@@ -130,8 +130,8 @@ The unique-object labels classify against the current function inventory as:
 | New names for `func_XXXXXXXX` rows | 0 | Every unique signature proposal now agrees with an inventory name or is filtered by the ownership/start rules |
 | Addresses claimed under several names | 8 | All eight retain their local inventory names unchanged; this bucket records inventory state and does not resolve between byte-identical aliases |
 | Ambiguous address-named starts | 0 | No multi-name signature collision currently lands on an address-based Psy-Q inventory name awaiting identification |
-| Psy-Q inventory rows still address-named | 46 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
-| Address-named rows inside a unique object match | 23 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
+| Psy-Q inventory rows still address-named | 44 | The catalogue supplies no unique, non-placeholder label at those exact function starts; they still require other evidence |
+| Address-named rows inside a unique object match | 21 | Object provenance is established even though the internal label is absent or only an IDA placeholder |
 | Address-named rows outside unique object matches | 23 | No unique catalogue object currently covers the function start |
 | Labels on non-Psy-Q function starts | 0 | Rejected even when the game-owned inventory name still starts with `func_` |
 | Labels away from a function start | 4 | Ignored as interior labels rather than function identities |
@@ -152,12 +152,12 @@ or `GsSetRefView2` versus `GsSetRefViewUnit`; those retained aliases remain
 naming-policy questions rather than signature matches.
 
 The zero new signature proposals does **not** mean every Psy-Q routine is
-named. The inventory still has 46 `sdk_asm` rows named `func_XXXXXXXX`.
+named. The inventory still has 44 `sdk_asm` rows named `func_XXXXXXXX`.
 They are outside the catalogue's actionable exact-start labels: their
 objects may be absent, modified, matched more than once, or expose only IDA
 placeholder labels. Those rows need library maps, call-graph/ABI evidence, or
 additional version-correct signatures rather than a less conservative match.
-The `--coverage-report` split narrows that work: 23 already sit inside 13
+The `--coverage-report` split narrows that work: 21 already sit inside 12
 uniquely matched object ranges, while 23 are not covered by any unique 4.6
 object match. The former can be researched within a known library object;
 neither category receives a guessed function name.
@@ -549,7 +549,9 @@ Every row below is now an applied project symbol.
 | `0x800844F0` | `GsSortSprite` | Applied from the unique exact Psy-Q 4.6 `LIBGS.LIB/2D_SP0.OBJ` signature. Canonical `libgs.h` takes a `GsSPRITE *`, `GsOT *` and unsigned-short priority; `display_object.h` confirms the game-owned attribute word is copied into compatible sprite descriptors and interprets its bits with the LIBGS flag names. |
 | `0x800849F0` | `GsSortFastSprite` | Applied Psy-Q 4.6 identity; matching UI paths submit sprite records to an ordering table at the requested priority. |
 | `0x80084DD0` | `GsInitGraph` | Applied Psy-Q 4.6 identity at offset zero of the unique 1,360-byte `LIBGS.LIB/GS_001.OBJ` signature. |
+| `0x80084E44` | `gpu_init` | Private `GS_001.OBJ` label preserved at exact offset `0x74` by Psy-Q 4.0, all three recovered Silent Hill regional maps, and independent PsyZ and Parappa maps. |
 | `0x80084F60` | `GsInitGraph2` | Applied Psy-Q 4.6 identity at offset `0x190` of the same `LIBGS.LIB/GS_001.OBJ` object. |
+| `0x80084FC8` | `valiable_init` | Original SDK misspelling preserved at exact offset `0x1F8` by the same Psy-Q 4.0 and independent map evidence; the function occupies the private state-initialization slot between `GsInitGraph2` and `GsSortClear`. |
 | `0x800851E8` | `GsSortClear` | Applied Psy-Q 4.6 identity at offset `0x418` of the same `LIBGS.LIB/GS_001.OBJ` object. |
 | `0x80085320` | `GsGetActiveBuff` | Applied Psy-Q 4.6 identity. The 16-byte `LIBGS.LIB/GS_0021.OBJ` signature is shared with `LIBSND.LIB/UT_REV_2.OBJ` (`SsUtGetReverbType`); the body returns the halfword at `0x800FE0CC`, which `GsSwapDispBuff` writes and `GsSetDrawBuffOffset` reads, placing it in the LIBGS display-buffer block. Matching movie paths use the result as the active buffer index, and `func_8005B8A0` and `Movie_StopStream` write `D_800FE0CC` directly before calling `GsSwapDispBuff`. |
 | `0x80085330` | `GsSetDrawBuffOffset` | Applied from the unique 272-byte `LIBGS.LIB/GS_0022.OBJ` signature; calls `PutDrawEnv` and mirrors the offset into the GTE with `SetGeomOffset`. |

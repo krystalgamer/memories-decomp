@@ -1557,9 +1557,9 @@ address,size,name,status,module,notes
 0x800849F0,0x17C,GsSortFastSprite,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBGS.LIB/2D_SP1.OBJ signature and matching sprite-render callers.
 0x80084B70,0x258,GsSortFlipSprite,sdk_asm,psyq/sdk,
 0x80084DD0,0x74,GsInitGraph,sdk_asm,psyq/sdk,Identified at offset zero of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
-0x80084E44,0x11C,func_80084E44,sdk_asm,psyq/sdk,
+0x80084E44,0x11C,gpu_init,sdk_asm,psyq/sdk,"Private GS_001 graphics initializer; exact offset 0x74 after GsInitGraph is preserved by Psy-Q 4.0, all three recovered Silent Hill regional maps, and independent game maps."
 0x80084F60,0x68,GsInitGraph2,sdk_asm,psyq/sdk,Identified at offset 0x190 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
-0x80084FC8,0x220,func_80084FC8,sdk_asm,psyq/sdk,
+0x80084FC8,0x220,valiable_init,sdk_asm,psyq/sdk,"Private GS_001 state initializer; original SDK misspelling and exact offset 0x1F8 are preserved by Psy-Q 4.0, all three recovered Silent Hill regional maps, and independent game maps."
 0x800851E8,0x138,GsSortClear,sdk_asm,psyq/sdk,Identified at offset 0x418 of the unique Psy-Q 4.6 LIBGS.LIB/GS_001.OBJ signature.
 0x80085320,0x10,GsGetActiveBuff,sdk_asm,psyq/sdk,"Applied Psy-Q 4.6 identity. The 16-byte GS_0021.OBJ signature also matches LIBSND.LIB/UT_REV_2.OBJ (SsUtGetReverbType); the body reads the halfword at 0x800FE0CC, which GsSwapDispBuff writes and GsSetDrawBuffOffset reads, so it belongs to the LIBGS display-buffer block and not to LIBSND. Matching movie paths use the result as the active display buffer index and write 0x800FE0CC directly before calling GsSwapDispBuff."
 0x80085330,0x108,GsSetDrawBuffOffset,sdk_asm,psyq/sdk,Identified by the unique 272-byte Psy-Q 4.6 LIBGS.LIB/GS_0022.OBJ signature; calls PutDrawEnv and mirrors the offset into the GTE with SetGeomOffset.
