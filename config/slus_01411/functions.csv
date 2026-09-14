@@ -1342,7 +1342,7 @@ address,size,name,status,module,notes
 0x800786A0,0x91C,StCdInterrupt,sdk_asm,psyq/sdk,Identified by the unique Psy-Q 4.6 LIBCD.LIB/C_011.OBJ signature.
 0x80078FBC,0x2C,mem2mem,sdk_asm,psyq/sdk,"Private C_011 stream copy helper; exact +0x91C offset in all three recovered Silent Hill regional maps and independent PsyZ/SotN/Tomba reconstructions."
 0x80078FE8,0x1A8,dma_execute,sdk_asm,psyq/sdk,"Private C_011 stream DMA helper; exact +0x948 offset in all three recovered Silent Hill regional maps and independent PsyZ/SotN/Tomba reconstructions."
-0x80079190,0x564,func_80079190,sdk_asm,psyq/sdk,
+0x80079190,0x564,getintr,sdk_asm,psyq/sdk,"Private BIOS_1 interrupt dispatcher at object offset zero; named by PsyZ and recovered Silent Hill maps, with the exact body preceding CD_sync."
 0x800796F4,0x280,CD_sync,sdk_asm,psyq/sdk,
 0x80079974,0x2C8,CD_ready,sdk_asm,psyq/sdk,
 0x80079C3C,0x40C,CD_cw,sdk_asm,psyq/sdk,
@@ -1353,7 +1353,7 @@ address,size,name,status,module,notes
 0x8007A2E0,0x1E0,CD_init,sdk_asm,psyq/sdk,
 0x8007A4C0,0x168,CD_datasync,sdk_asm,psyq/sdk,
 0x8007A628,0xC,CD_set_test_parmnum,sdk_asm,psyq/sdk,
-0x8007A634,0xD8,func_8007A634,sdk_asm,psyq/sdk,
+0x8007A634,0xD8,callback_8007A634,sdk_asm,psyq/sdk,"Private BIOS_1 interrupt callback immediately after CD_set_test_parmnum; PsyZ and recovered Silent Hill maps preserve the local name callback. Address-qualified to avoid exporting a generic global symbol."
 0x8007A710,0x104,CdIntToPos,sdk_asm,psyq/sdk,Exact Psy-Q 4.6 LIBCD.LIB/S_002.OBJ signature match; canonical linked copy.
 0x8007A820,0x20,CdReady,sdk_asm,psyq/sdk,"Direct wrapper around internal CD_ready that preserves the canonical mode/result arguments; StCdInterrupt calls it with a result buffer and consumes the returned status."
 0x8007A840,0x14,CdReadyCallback_8007A840,sdk_asm,psyq/sdk,"Replaces and returns D_800934E4, the callback CD_ready invokes with status/result on its ready path. Address-qualified because the live 0x8007E860 copy already carries the canonical CdReadyCallback name."
