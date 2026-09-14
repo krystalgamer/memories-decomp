@@ -116,7 +116,7 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 
 void NameEntry_Init(void)
 {
-    u8 *obj;
+    DisplayObject *obj;
     DuelEffectChannel *boxes;
     DuelEffectChannel *sprite;
 
@@ -147,27 +147,27 @@ void NameEntry_Init(void)
     D_8016D42C = 0;
     obj = func_800400AC(func_8004002C(), 6);
     D_8016D434 = 22;
-    *(s16 *)(obj + 0x30) = 22;
+    obj->field_30.h.field_30 = 22;
     D_8016D436 = 24;
-    *(s16 *)(obj + 0x32) = 24;
-    *(s16 *)(obj + 0x3C) = 16;
-    *(s16 *)(obj + 0x3E) = 16;
+    obj->field_30.h.field_32 = 24;
+    obj->field_3C.h.field_3C = 16;
+    obj->field_3C.h.field_3E = 16;
     func_80042918(obj);
-    func_800428EC(obj, 10);
-    *(void **)(obj + 0x4C) = NameEntry_DrawSelectionFrame;
+    func_800428EC((u8 *)obj, 10);
+    obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
     obj = func_800400AC(func_8004002C(), 1);
     func_80040510((DisplayObjectConfigView *)obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
-    *(s16 *)(obj + 0x4A) = 13;
-    *(s16 *)(obj + 0x48) = 13;
-    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | GsALON;
+    obj->field_48.h.field_4A = 13;
+    obj->field_48.h.field_48 = 13;
+    obj->attribute = obj->attribute | GsALON;
     func_80042918(obj);
-    func_800428EC(obj, 10);
-    D_8016D43C = obj;
+    func_800428EC((u8 *)obj, 10);
+    D_8016D43C = (u8 *)obj;
     obj = func_800400AC(func_8004002C(), 3);
     func_80040510((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
-    *(s32 *)(obj + 0xC) = COLOR_RGB24_DIM_GREY;
-    *(s32 *)(obj + 4) = *(s32 *)(obj + 4) | 0x1000000;
+    obj->field_0C = COLOR_RGB24_DIM_GREY;
+    obj->attribute = obj->attribute | 0x1000000;
     func_8004293C(obj);
     D_8016D4D2 = 244;
     Fade_WaitIn();
