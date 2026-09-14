@@ -320,53 +320,63 @@ void NameEntry_UpdateCaretTween(u8 *object)
  * On arrival it looks the destination glyph up and shatters it. */
 void NameEntry_UpdateGlyphTransfer(u8 *w)
 {
-    u8 *o;
+    DisplayObject *g = (DisplayObject *)w;
+    DisplayObject *o;
     DuelEffectEntry *node;
     s32 n;
 
-    if ((w[0x6C] & 0x80) == 0) {
-        w[0x6C] |= 0x80;
-        DisplayObject_ResetVelocity(w);
-        *(s16 *)(w + 0x36) =
-            ((*(s16 *)(w + 0x44) - *(s16 *)(w + 0x30)) << 8) /
-            *(s16 *)(w + 0x60);
-        *(s16 *)(w + 0x38) =
-            ((*(s16 *)(w + 0x46) - *(s16 *)(w + 0x32)) << 8) /
-            *(s16 *)(w + 0x60);
+    if ((g->field_6C & 0x80) == 0) {
+        g->field_6C |= 0x80;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)g);
+        g->field_34.h.field_36 =
+            ((g->field_44.h.field_44 - (s16)g->field_30.h.field_30) << 8) /
+            g->field_60;
+        g->field_38.h.field_38 =
+            ((g->field_44.h.field_46 - (s16)g->field_30.h.field_32) << 8) /
+            g->field_60;
     }
-    if ((w[0x6C] & 0x40) != 0) {
-        n = *(u16 *)(w + 0x60) - 1;
-        *(s16 *)(w + 0x60) = n;
+    if ((g->field_6C & 0x40) != 0) {
+        n = (u16)g->field_60 - 1;
+        g->field_60 = n;
         if ((s16)n <= 0) {
-            func_8004036C(w);
+            func_8004036C(g);
         }
         return;
     }
-    DisplayObject_StepPositionXY(w);
-    n = *(u16 *)(w + 0x60) - 1;
-    *(s16 *)(w + 0x60) = n;
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)g);
+    n = (u16)g->field_60 - 1;
+    g->field_60 = n;
     if ((s16)n > 0) {
         o = func_800400AC(func_8004002C(), 1);
-        func_80040510((DisplayObjectConfigView *)o, *(s16 *)(w + 0x30), *(s16 *)(w + 0x32), 16, 16,
-                      w[0x5C], w[0x5D], w[0x66], *(u16 *)(w + 0x40),
-                      *(u16 *)(w + 0x42));
-        *(u32 *)(o + 0x0C) = 0x606060;
-        *(s16 *)(o + 0x60) = 6;
-        *(void **)(o + 0x24) = func_80042BC0;
-        *(u32 *)(o + 4) |= (GsALON | GsAONE);
+        func_80040510((DisplayObjectConfigView *)o,
+                      (s16)g->field_30.h.field_30, (s16)g->field_30.h.field_32,
+                      16, 16,
+                      *(u8 *)&g->field_5C, ((u8 *)&g->field_5C)[1],
+                      g->field_66,
+                      (u16)g->field_40.h.field_40, (u16)g->field_40.h.field_42);
+        o->field_0C = 0x606060;
+        o->field_60 = 6;
+        o->update = (DisplayObjectCallback)func_80042BC0;
+        o->attribute |= (GsALON | GsAONE);
         return;
     }
-    w[0x6C] |= 0x40;
-    *(u32 *)(w + 0x30) = *(u32 *)(w + 0x44);
+    g->field_6C |= 0x40;
+    /* A non-struct store, through the union's address. As g->field_30.word
+       GCC sinks it below the timer reload in the call that follows; the
+       target stores the position first. */
+    *(u32 *)&g->field_30 = g->field_44.word;
     /* Keep the timer reload inside the final argument; its expression
-       placement controls the retail argument-setup order. */
-    node = TextBox_GetGlyphAt(3, D_8016D42C << 4, (*(s16 *)(w + 0x60) = 2, 0));
+       placement controls the retail argument-setup order. It goes through
+       the parameter rather than g: with every access on g, GCC gives w and
+       g a callee-saved register each and the function grows by a move. */
+    node = TextBox_GetGlyphAt(3, D_8016D42C << 4,
+                              (((DisplayObject *)w)->field_60 = 2, 0));
     if (node == 0) {
         return;
     }
     o = NameEntry_SpawnGlyphSprite(3, node);
-    *(NameEntryGlyphUpdate *)(o + 0x24) = NameEntry_UpdateGlyphShatter;
-    o[0x6C] = 5;
+    o->update = NameEntry_UpdateGlyphShatter;
+    o->field_6C = 5;
 }
 
 /* Makes the sprite for one glyph node: maps the node's Shift-JIS code to a
