@@ -111,7 +111,8 @@ def load_resolution_entries(
     document = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(document, dict):
         raise SignatureError(f"{RESOLUTIONS_JSON}: document is not an object")
-    if document.get("schema") != 1:
+    schema = document.get("schema")
+    if isinstance(schema, bool) or schema != 1:
         raise SignatureError(f"{RESOLUTIONS_JSON}: unsupported schema")
     catalogues = document.get("catalogues")
     if not isinstance(catalogues, dict):
@@ -147,7 +148,10 @@ def load_resolution_entries(
         if (
             not isinstance(names, list)
             or not names
-            or any(not isinstance(name, str) or not name for name in names)
+            or any(
+                not isinstance(name, str) or not name.strip()
+                for name in names
+            )
             or names != sorted(set(names))
         ):
             raise SignatureError(

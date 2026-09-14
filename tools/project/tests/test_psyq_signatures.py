@@ -180,6 +180,20 @@ class PsyqSignatureTests(unittest.TestCase):
                 }
             },
         }
+        document["schema"] = True
+        path.write_text(json.dumps(document), encoding="utf-8")
+        with self.assertRaisesRegex(SignatureError, "unsupported schema"):
+            load_resolution_entries(root, "4.6")
+        document["schema"] = 1
+
+        entry["catalogue_names"] = [" \t"]
+        path.write_text(json.dumps(document), encoding="utf-8")
+        with self.assertRaisesRegex(
+            SignatureError, "catalogue_names must be sorted unique names"
+        ):
+            load_resolution_entries(root, "4.6")
+        entry["catalogue_names"] = ["AliasA"]
+
         for field, value, message in (
             ("basis", [], "basis must be evidence or naming_policy"),
             ("evidence", " \t", "has invalid evidence"),

@@ -2,15 +2,15 @@
 
 ## Scope
 
-The resident executable contains 600 functions classified as Psy-Q CRT or SDK
+The resident executable contains 591 functions classified as Psy-Q CRT or SDK
 code:
 
 | Region | Address range | Functions | Bytes |
 |---|---:|---:|---:|
 | CRT startup | `0x800129D8-0x80012B50` | 3 | `0x178` |
 | Embedded LIBGS getter | `0x80058F10-0x80058F20` | 1 | `0x10` |
-| SDK and runtime | `0x80073704-0x800906D4` | 596 | `0x1C8DC` |
-| **Total** | | **600** | **`0x1CA64`** |
+| SDK and runtime | `0x80073704-0x800906D4` | 587 | `0x1C8DC` |
+| **Total** | | **591** | **`0x1CA64`** |
 
 These functions remain exact assembly and do not count toward game-code
 decompilation progress. The goal is to identify their original interfaces and
@@ -125,8 +125,8 @@ The unique-object labels classify against the current function inventory as:
 
 These proposal counts begin only after discarding objects whose masked payload
 matches several locations and labels that do not land on preserved function
-starts. They therefore do not measure complete SDK naming coverage: 119 of the
-600 SDK functions remain address-named, and the zero in the "new names" row
+starts. They therefore do not measure complete SDK naming coverage: 23 of the
+591 SDK functions remain address-named, and the zero in the "new names" row
 means only that this filtered unique-proposal set offers no additional names.
 
 | Inventory result | Count | Interpretation |
