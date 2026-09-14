@@ -127,7 +127,7 @@ void func_800220B8(void) {
    places a new object through DuelEffect_AllocateRequest at a page-dependent position. */
 void func_800222F4(void) {
     DisplayObject *obj;
-    u8 *p;
+    DuelEffectRequest *p;
 
     if (gInput_wPad1Held & PAD_BUTTON_START) {
         func_800220B8();
@@ -155,8 +155,8 @@ void func_800222F4(void) {
             func_80029164(0, 1);
             File_WaitForTransfers();
             obj = (DisplayObject *)func_800291E0(0, -1, -1);
-            *(s16 *)&obj->field_30.h.field_30 = 0x5A;
-            *(s16 *)&obj->field_30.h.field_32 = 0x16;
+            obj->field_30.h.field_30 = 0x5A;
+            obj->field_30.h.field_32 = 0x16;
             func_80012D84(4);
             func_8001944C(obj);
             break;
@@ -182,26 +182,27 @@ void func_800222F4(void) {
             gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis] -= 2;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
-        p = DuelEffect_AllocateRequest(gDebugEffect_abCoordinates[0]);
+        p = (DuelEffectRequest *)DuelEffect_AllocateRequest(
+            gDebugEffect_abCoordinates[0]);
         D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
-        *(s16 *)(p + 0x1A) = gDebugEffect_abCoordinates[1];
+        p->field_1A = gDebugEffect_abCoordinates[1];
         switch (gDebugEffect_bPage) {
         case 0:
-            *(s16 *)(p + 0) = D_800908A0[0xC];
-            *(s16 *)(p + 2) = -0x18;
-            *(s16 *)(p + 4) = D_800908A0[0xD];
+            p->field_00 = D_800908A0[0xC];
+            p->field_02 = -0x18;
+            p->field_04 = D_800908A0[0xD];
             break;
         case 1:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x78;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x78;
             break;
         case 2:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x70;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x70;
             break;
         case 3:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x70;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x70;
             break;
         }
     }
