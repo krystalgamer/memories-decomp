@@ -235,21 +235,25 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
  * upward one, then thrown until it falls off the bottom of the screen. */
 void NameEntry_UpdateGlyphFragment(u8 *object)
 {
+    DisplayObject *o = (DisplayObject *)object;
     u8 flags;
 
-    flags = object[0x6C];
+    flags = o->field_6C;
     if ((flags & 0x80) == 0) {
-        object[0x6C] = flags | 0x80;
-        DisplayObject_ResetVelocity(object);
-        *(s16 *)(object + 0x36) = Rand_GetInterval(0x200) - 0x100;
-        *(s16 *)(object + 0x38) = -Rand_GetInterval(0x180);
+        o->field_6C = flags | 0x80;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)o);
+        o->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
+        o->field_38.h.field_38 = -Rand_GetInterval(0x180);
     }
-    *(s16 *)(object + 0x36) =
-        DisplayObject_StepTowardZero(*(s16 *)(object + 0x36), 8);
-    *(s16 *)(object + 0x38) =
-        DisplayObject_StepToward(*(s16 *)(object + 0x38), 0x800, 0x40);
-    DisplayObject_StepPositionXY(object);
-    if (*(s16 *)(object + 0x32) >= 0xF0) {
+    o->field_34.h.field_36 =
+        DisplayObject_StepTowardZero(o->field_34.h.field_36, 8);
+    o->field_38.h.field_38 =
+        DisplayObject_StepToward(o->field_38.h.field_38, 0x800, 0x40);
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)o);
+    if ((s16)o->field_30.h.field_32 >= 0xF0) {
+        /* The parameter, not o: with every use on o, GCC keeps a second
+           callee-saved copy of it and the function grows by three
+           instructions. */
         func_8004036C(object);
     }
 }
