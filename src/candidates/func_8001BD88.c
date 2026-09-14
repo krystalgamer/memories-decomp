@@ -33,6 +33,9 @@
 #define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
 #define GINPUT_PAD1_HELD_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
+#define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
+#define GDUEL_WVIEWERCARDID_IN_DATA
+#define D_800EAE90_IN_DATA
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE88_VISIBLE
@@ -72,10 +75,6 @@
 #include "../game/script_state.h"
 #include "../game/sound.h"
 #include "../unmatched.h"
-
-extern u8 gDuel_bCardViewerYOffset __attribute__((section(".data")));
-extern u16 gDuel_wViewerCardID __attribute__((section(".data")));
-extern u8 D_800EAE90 __attribute__((section(".data")));
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))

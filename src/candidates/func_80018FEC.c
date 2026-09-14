@@ -56,14 +56,12 @@
 #include "../game/model.h"
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
+#include "../game/func_800179F4.h"
 
 extern u8 D_8009B1B9;
-extern u8 *D_8009B214;
-extern u8 *D_8009B21C;
 
 extern s32 D_800E9F04[];
 extern u16 D_800EF658[];
-extern u8 D_8009B369 __attribute__((section(".data")));
 
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);
@@ -103,14 +101,14 @@ void DuelScene_UpdateExodiaResult(void)
         fnv = (s32)fn;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
-        obj = D_8009B214;
+        obj = (u8 *)D_8009B214;
         D_8009B1B4 = (DuelCardPickCursor *)&D_800E9F10[D_8009B1D5 * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;
         *(u16 *)(obj + 0x2C) = 0x10;
         obj[0x6C] = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
-        obj = D_8009B21C;
+        obj = (u8 *)D_8009B21C;
         *(s16 *)(obj + 0x28) = 0x180;
         *(u16 *)(obj + 0x2C) = 0x10;
         obj[0x6C] = 1;

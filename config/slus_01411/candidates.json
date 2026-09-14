@@ -113,7 +113,7 @@
       "target": "src/candidates_target/func_8001BD88.S",
       "candidate_build_sha256": "830006f8845d7c6b032e1b505c86dcec9ba9083fb534dbe8f1eedf3e9d3e51e6",
       "target_bytes_sha256": "62bdb7bf251ed0efd1c5060dfabf40c2ce783c315a21863bd86640162e8258b4",
-      "canonical_contract_sha256": "7f2ebed80100d513d0ea22f11f2743d78ddc0d6cdc7cd4f3b07c79cebc5e634f",
+      "canonical_contract_sha256": "f95cfa5434d42aaf8046e9da6bbf9359bed7c8bcb6f1c1eed4c6a842499c4b22",
       "canonical_contracts": {
         "D_8009B160": "ac6a29d056d147a8159b06c002b0fe5447a1e61e3c210ab6925cca30ebace916",
         "D_8009B19C": "f8812f9c2cdf1151ce6ea050a6f6ab1933bc8328316dc075e616b70d8a634969",
@@ -123,9 +123,9 @@
         "D_8009B20A": "1e7338bdbb30cca1f8498317014fa502cab961e59e6d7e6ad1bbaba70258ae25",
         "D_800E9F2C": "b58aa4b8dc7fd7be7c3efe27fbc3159178ee8a41b45b6aac4acb3ea2aa28f56a",
         "D_800EAE89": "e01c681988736fb165072348ffe4a82c5458b2b6e6e9cbd0b696c0882df796f0",
-        "D_800EAE90": "b9b89d4d9ee21b1cb93688c44b71b5df8a6eea53c66472bf2f74897ebc022b54",
-        "gDuel_bCardViewerYOffset": "9911452ee13e8964a3675602e8da66ef5cb0ca12eaad2545845552f04d0615d1",
-        "gDuel_wViewerCardID": "fa17ec4e579cefa232ee53f8727540641a4567c9d745f0f9a680157a2ce68a09"
+        "D_800EAE90": "1d2e998f4bfd761af5536ae21b6f1302688c3a799865c825352969f4014eee26",
+        "gDuel_bCardViewerYOffset": "119e78b26d2257ef42bb7df4fc0cf677ec05775467b60664f64a3b932560f578",
+        "gDuel_wViewerCardID": "3d168cdfbc3ce9bcbcc90c0b847272e8b9d2a7fef8880fa9a0ab64e7c33b5338"
       }
     },
     {

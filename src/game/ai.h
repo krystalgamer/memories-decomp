@@ -95,8 +95,15 @@ typedef struct {
  * "relocation truncated to fit: R_MIPS_GPREL16 against `D_800EAE90'", so the
  * symbol's own small-data addressing is what those functions match on. This
  * declaration is therefore a deliberate alias of AiSelection.random, not a
- * duplicate to be folded into the struct. */
+ * duplicate to be folded into the struct.
+ *
+ * The func_8001BD88 candidate reaches the same byte with %hi/%lo and defines
+ * D_800EAE90_IN_DATA to take the .data arm. */
+#ifdef D_800EAE90_IN_DATA
+extern u8 D_800EAE90 __attribute__((section(".data")));
+#else
 extern u8 D_800EAE90;
+#endif
 
 /* The preceding selection byte is written by func_8007368C from an AI
  * register. The presentation sequence reads bit 0 after updating the card
