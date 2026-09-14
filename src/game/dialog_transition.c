@@ -53,23 +53,24 @@ void func_8003D518(MenuRecord *record)
 
 void func_8003D614(MenuRecord *record)
 {
-#define state ((u8 *)record)
     DisplayObject *object;
     DuelEffectChannel *entry;
 
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-        object = *(DisplayObject **)state;
+        object = (DisplayObject *)record->grid[0][0];
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0x400;
     }
-    entry = &D_800EB0F8[state[0x1A]];
-    object = *(DisplayObject **)state;
+    /* The dialog channel's index: the byte at 0x1A, inside grid's third
+       row, which MenuRecord does not name. */
+    entry = &D_800EB0F8[((u8 *)record)[0x1A]];
+    object = (DisplayObject *)record->grid[0][0];
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
         if (object->field_60 <= 0) {
             func_8004036C(object);
-            *(void **)state = 0;
+            record->grid[0][0] = 0;
         } else {
             Widget_SlideSine(
                 (DisplayObjectPosition *)object,
@@ -84,18 +85,17 @@ void func_8003D614(MenuRecord *record)
             );
         }
     }
-    object = *(DisplayObject **)(state + 4);
+    object = (DisplayObject *)record->grid[0][1];
     if (object) {
         *(u16 *)&object->field_48.h.field_4A += 8;
         *(u16 *)&object->field_48.h.field_48 += 8;
         if (object->field_48.h.field_48 >= 0xC0) {
             func_8004036C(object);
-            *(void **)(state + 4) = 0;
+            record->grid[0][1] = 0;
         }
     }
-    if (!*(void **)state && !*(void **)(state + 4))
+    if (!record->grid[0][0] && !record->grid[0][1])
         D_8009B3C1 = 0;
-#undef state
 }
 
 void func_8003D74C(MenuRecord *record)
