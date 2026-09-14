@@ -24,16 +24,12 @@
 #include "ai_opponent_data.h"
 #include "duel_effect.h"
 #include "fade.h"
+#include "save_data.h"
 #include "input.h"
 #include "sound.h"
 #include "display_object_helpers.h"
 #include "display_object_core.h"
 #include "display_object_config.h"
-
-#define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
-#define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define B(p, o) (*((u8 *)(p) + (o)))
-#define W(p, o) (*(u32 *)((u8 *)(p) + (o)))
 
 void DuelScene_UpdateResultRewards(void)
 {
@@ -155,30 +151,41 @@ side_result:
         goto show_page;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        if (!(D_800E9EC8_arr[6] & 0x80)) {
+        if (!(((FadeTransitionState *)D_800E9EC8_arr)->flags & 0x80)) {
             if (!(gDuel_wSceneStateFlags & 0x2000)) {
                 gDuel_wSceneStateFlags |= 0x2000;
                 Fade_StartOut();
-                D_800E9EC8_arr[4] = 255;
+                ((FadeTransitionState *)D_800E9EC8_arr)->level = 255;
                 Fade_FillBandLevels(255);
             } else {
-                u8 *save = D_8009B1D8[gDuel_bWinnerSide];
+                /* Only the null test goes through `save`; the updates below
+                   index D_8009B1D8 again each time, as retail reloads the
+                   window pointer (106 differences through `save`). */
+                SaveDataState *save =
+                    (SaveDataState *)D_8009B1D8[gDuel_bWinnerSide];
                 D_8009B16C |= 0x2000;
                 if (save) {
                     if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
-                        W(D_8009B1D8[0], 0x5E0) += D_8009B1E8->starchip_prize;
-                        if (W(D_8009B1D8[0], 0x5E0) > 999999)
-                            W(D_8009B1D8[0], 0x5E0) = 999999;
+                        ((SaveDataState *)D_8009B1D8[0])->starchips +=
+                            D_8009B1E8->starchip_prize;
+                        if (((SaveDataState *)D_8009B1D8[0])->starchips > 999999)
+                            ((SaveDataState *)D_8009B1D8[0])->starchips = 999999;
                         Duel_AwardCard(D_8009B1E8->dropped_card_id);
                     } else {
-                        value = H(D_8009B1D8[gDuel_bWinnerSide], 0x518) + 1;
-                        H(D_8009B1D8[gDuel_bWinnerSide], 0x518) = value;
+                        value = ((SaveDataState *)
+                                 D_8009B1D8[gDuel_bWinnerSide])->duel_wins + 1;
+                        ((SaveDataState *)
+                         D_8009B1D8[gDuel_bWinnerSide])->duel_wins = value;
                         if (value >= 10000)
-                            H(D_8009B1D8[gDuel_bWinnerSide], 0x518) = 9999;
-                        value = H(D_8009B1D8[gDuel_bWinnerSide ^ 1], 0x51A) + 1;
-                        H(D_8009B1D8[gDuel_bWinnerSide ^ 1], 0x51A) = value;
+                            ((SaveDataState *)
+                             D_8009B1D8[gDuel_bWinnerSide])->duel_wins = 9999;
+                        value = ((SaveDataState *)
+                                 D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses + 1;
+                        ((SaveDataState *)
+                         D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses = value;
                         if (value >= 10000)
-                            H(D_8009B1D8[gDuel_bWinnerSide ^ 1], 0x51A) = 9999;
+                            ((SaveDataState *)
+                             D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses = 9999;
                     }
                 }
             }
