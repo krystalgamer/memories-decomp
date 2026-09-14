@@ -211,7 +211,7 @@ def extern_symbol(statement: str) -> str:
         maxsplit=1,
     )[0].rstrip()
     pointer = re.search(
-        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*\)",
+        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*\)",
         declaration,
     )
     if pointer is not None:
@@ -244,7 +244,7 @@ def candidate_extern_symbols(text: str) -> list[str]:
 def declaration_identifier(statement: str) -> str:
     declaration = re.split(r"\basm\s*\(", statement, maxsplit=1)[0].rstrip()
     pointer = re.search(
-        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*\)",
+        r"\(\s*\*\s*(?P<name>[A-Za-z_]\w*)\s*(?:\[[^\]]*\]\s*)*\)",
         declaration,
     )
     if pointer is not None:

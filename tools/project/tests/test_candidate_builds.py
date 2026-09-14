@@ -88,6 +88,27 @@ extern u8 *alias asm("real_symbol");
             ["callback", "data", "hook", "real_symbol", "value"],
         )
 
+    def test_extern_parser_handles_arrays_of_function_pointers(self) -> None:
+        self.assertEqual(
+            candidate_builds.extern_symbol(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.declaration_identifier(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.candidate_extern_symbols(
+                "extern s32 (*handlers[4])(s32, s32);\n"
+                "extern void (*grid[2][3])(void);\n"
+            ),
+            ["grid", "handlers"],
+        )
+
     def test_contract_symbols_follow_used_header_asm_aliases(self) -> None:
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
             root = Path(directory)
