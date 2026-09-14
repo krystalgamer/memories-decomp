@@ -154,9 +154,11 @@ Matching-C functions implemented with inline assembly remain unchanged:
 local `EffectEntry` view and is not counted among the six shared-header users.
 `DuelEffect_ProcessEntries` likewise remains on its local complete-record view
 so its accepted source does not broaden the shared declaration.
-`func_8003DA40` is now matching C as well, but retains a local `Rec64` channel
-view and byte-offset accesses, so it is not counted among the seven
-`DuelEffectChannel` users.
+`func_8003DA40` is matching C as well, and now takes its dialog channel as a
+`DuelEffectChannel *`, both the one `DuelEffect_CreateChannel` returns and the
+`D_800EB0F8` element it selects later (`flags_34`, `field_30`). The index it
+selects that element with is still the raw byte at `+0x1A` of its
+`MenuRecord`, which `dialog_transition.c` reads the same way.
 `func_8003D74C` is likewise matching C but keeps a raw byte view with the
 verified 100-byte channel stride while coordinating the duel-intro card
 reveal.
