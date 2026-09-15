@@ -36,6 +36,14 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
         self.assertEqual(self.functions["0x8003CA5C"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8003CA5C.c").exists())
 
+    def test_save_prompt_predicate_has_one_owner(self) -> None:
+        owner = "src/game/script_op_save_prompt.c"
+        self.assertEqual(self.functions["0x8002EE5C"]["source"], owner)
+        self.assertEqual(self.functions["0x8002EE94"]["source"], owner)
+        self.assertFalse(
+            (ROOT / "src/game/duel_is_player_deck_complete.c").exists()
+        )
+
     def test_grouped_functions_remain_in_image_order(self) -> None:
         groups = (
             (
@@ -53,6 +61,13 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
             (
                 "src/game/game_over.c",
                 ("void func_8003C950(", "s32 func_8003CA5C("),
+            ),
+            (
+                "src/game/script_op_save_prompt.c",
+                (
+                    "int Duel_IsPlayerDeckComplete(",
+                    "void Script_OpSavePrompt(",
+                ),
             ),
         )
         for source, names in groups:

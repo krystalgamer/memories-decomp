@@ -147,7 +147,7 @@ extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
 
 /* The head of the 0x680-byte persistent state block: SaveData_RequestWrite
  * copies SAVE_DATA_STATE_SIZE bytes starting here. Halfwords, as the name
- * says and as duel_deck_lookup.c, duel_is_player_deck_complete.c, func_8002BD0C.c
+ * says and as duel_deck_lookup.c, script_op_save_prompt.c, func_8002BD0C.c
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];

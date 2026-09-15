@@ -337,6 +337,12 @@ functions would reorder `.rodata` even if `.text` could still be made to fit.
 A subsegment size is also a free cross-check on a decompiled switch, since
 its byte size divided by four is the number of table entries.
 
+`Duel_IsPlayerDeckComplete` at `0x8002EE5C` directly precedes
+`Script_OpSavePrompt` at `0x8002EE94`. Both use
+`gcc_2_8_1_g8_split`, share `script_op_save_prompt.h`, and the prompt calls
+the predicate before opening its incomplete-deck warning. They now build once
+from `script_op_save_prompt.c` in that image order.
+
 ## Sources that cannot be grouped at all
 
 Five resident sources were an `__asm__` block of `.word` literals with
