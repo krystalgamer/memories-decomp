@@ -1478,11 +1478,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B254,gDuel_bEffectState,gDuel_bEffectState,0x8003353C,BuildDeck_UpdateDeckPaneInput,matching_c,game,C,src/game/build_deck_pane_input.c,write,8,gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
 0x8009B254,gDuel_bEffectState,gDuel_bEffectState,0x800336F0,BuildDeck_UpdateChestPaneInput,matching_c,game,C,src/game/build_deck_pane_input.c,write,8,gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,read_write,8,gCardGrid_bCursorColumn = column; | if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
-0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/card_grid_cursor_card_id.c,read,8,column = gCardGrid_bCursorColumn;
+0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/func_8002A788.c,read,8,column = gCardGrid_bCursorColumn;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,column = gCardGrid_bCursorColumn;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BD0C.c,read,8,c = gCardGrid_bCursorColumn;
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,read_write,8,gCardGrid_bCursorRow = target_row; | if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
-0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/card_grid_cursor_card_id.c,read,8,s32 row = gCardGrid_bCursorRow;
+0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/func_8002A788.c,read,8,s32 row = gCardGrid_bCursorRow;
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,distance = row - gCardGrid_bCursorRow; | frames = (gCardGrid_bCursorRow - row) * 2; | (+1 more)
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BD0C.c,read,8,k = gCardGrid_bCursorRow;
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,if ((gDuel_bEffectRequestStatus & 1) != 0) {
