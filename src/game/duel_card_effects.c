@@ -513,7 +513,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
 void DuelEffect_ApplyStatPenalty(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
-    u8 *card;
+    DisplayObject *card;
     s32 timer;
     s32 base_slot;
 
@@ -540,11 +540,11 @@ void DuelEffect_ApplyStatPenalty(void) {
                 DUEL_FIELD_ROW_SIZE;
     record = &D_801A7AD8[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-        card = (u8 *)record->object;
+        card = (DisplayObject *)record->object;
         object = (DuelEffectObject *)DuelEffect_AllocateRequest(0xD);
-        object->x = *(u16 *)(card + 0x30);
-        object->y = *(u16 *)(card + 0x32);
-        object->field_04 = *(u16 *)(card + 0x34);
+        object->x = card->field_30.h.field_30;
+        object->y = card->field_30.h.field_32;
+        object->field_04 = *(u16 *)&card->field_34;
         object->field_14 = object->field_14 + ((s16)D_8009B1D0 << 14);
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->field_1A = 2;
