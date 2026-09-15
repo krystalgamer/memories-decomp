@@ -2,18 +2,18 @@
  * Starts one secondary-driver note by walking Psy-Q VAB program/tone data,
  * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
  * keying on, and routing reverb. Current best under
- * gcc_2_8_1_cc_g8_as_g0: 355/355 instructions, opcode multiset distance 4,
- * and 145 differing words, with no register binding.
+ * gcc_2_8_1_cc_g8_as_g0: 355/355 instructions, opcode multiset distance 2,
+ * and 124 differing words, with no register binding.
  *
  * Unsigned key/tone indices, uncached driver-root loads, block-scoped reverb
  * masks, folded VAB indices, two allocation call sites, and one forced root
  * reload reproduce the current shape. The incoming channel keeps retail's
- * callee-saved register because its name is reused as the pitch shift count
- * after its last use, and tone[2] is read into tr ahead of the voice
- * attribute stores.
+ * callee-saved register because its name is reused after its last use, first
+ * for tone[3] and then as the pitch shift count. tone[2] is read into tr
+ * ahead of the voice attribute stores, and the key's lower bound is tested
+ * against the tone record's address expression.
  *
- * Residual: register choices, plus the same opcode census as before: one
- * missing addu, one missing sll and two extra nops.
+ * Residual: register choices, one extra nop and one missing sll.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
@@ -83,7 +83,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
     level = note & 0x7F;
     do {
         tone = &vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820];
-        if (key < tone[6]) {
+        if (key < (&vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820])[6]) {
             goto next;
         }
         if (tone[7] < key) {
@@ -160,7 +160,8 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         ((SDSecondaryObject *)obj)->field_0009 = tr;
         ((SDSecondaryObject *)obj)->field_000E = velocity;
         *(u16 *)(obj + 0x1E) = 0xFFFF;
-        ((SDSecondaryObject *)obj)->field_000B = tone[3];
+        channel = tone[3];
+        ((SDSecondaryObject *)obj)->field_000B = channel;
         SD_SpatializeSecondaryObject(
             (SDSecondaryObject *)(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180),
             (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
