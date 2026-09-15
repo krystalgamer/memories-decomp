@@ -2308,7 +2308,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read_write,,*((u8 *)g_SDValue + 0x1649) = 0xFF; | *((u8 *)g_SDValue + 0x164A) = 0xD2; | (+10 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046990,func_80046990,matching_c,game,C,src/game/sound_state_control.c,read,,g_SDValue->field_003C = 0; | g_SDValue->flags_0040 |= 0xA; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,read,,*(SDBankHeaderWords *)g_SDValue = | a2 = g_SDValue->field_0002; | (+19 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80046DE8,func_80046DE8,matching_c,game,C,src/game/sound_output.c,read,,((u8 *)g_SDValue)[0x7D] = 0; | *((u8 *)g_SDValue + i + 0x40C) = 0; | (+13 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80046DE8,func_80046DE8,matching_c,game,C,src/game/sound_output.c,read,,SD_StopSequence(g_SDValue->field_157E); | func_80049CB0(g_SDValue->field_157E); | (+13 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046FA0,SD_SetOutputType,matching_c,game,C,src/game/sound_output.c,read,,SDValue *state = g_SDValue; | func_80044DC0(g_SDValue->cd_volume);
 0x8009B45C,g_SDValue,g_SDValue,0x80047008,SD_GetOutputType,matching_c,game,C,src/game/sound_output.c,read,,return g_SDValue->output_type;
 0x8009B45C,g_SDValue,g_SDValue,0x8004701C,func_8004701C,matching_c,game,C,src/game/sound_output.c,read,,(g_SDValue->flags_004A & 0xF0) | value; | g_SDValue->flags_004A =
