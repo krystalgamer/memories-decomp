@@ -188,12 +188,12 @@ void func_80039794(void)
 {
     event(21, pumps, 0, 0, 0);
     if (R8(D_800EB0F8, 0x5A) != 8 || R8(D_800EB0F8, 0x5B) != 16) error = 8;
-    if (++pumps >= ready_after) D_800EB0F8[0].field_30 = card_data;
+    if (++pumps >= ready_after) D_800EB0F8[0].field_30 = &choice_object;
     if (pumps > 4) error = 9;
 }
-s32 Dialog_ReadChoiceInput(u8 *p)
+s32 Dialog_ReadChoiceInput(DuelEffectChannel *p)
 {
-    event(22, p == (u8 *)D_800EB0F8, 0, 0, 0);
+    event(22, p == D_800EB0F8, 0, 0, 0);
     if (mutation == 3) { gInput_wPad1Pressed = 0x80; gDialog_bChoice = -1; }
     return choice_result;
 }
@@ -456,7 +456,7 @@ static s32 text_readiness(void)
           choice_object.update == (DisplayObjectCallback)func_8001EC70, 80);
     for (is_busy = 0; is_busy < 2; is_busy++) for (ready = 0; ready < 2; ready++) {
         setup(0x84); busy = is_busy;
-        if (ready) D_800EB0F8[0].field_30 = card_data;
+        if (ready) D_800EB0F8[0].field_30 = &choice_object;
         run();
         CHECK(valid() && events[1].kind == 19 && events[1].a == 1, 81);
         if (is_busy) CHECK(count == 2 && gDuel_wSelectedCardID == -1 &&
