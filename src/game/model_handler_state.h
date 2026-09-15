@@ -11,9 +11,10 @@
  * formatting fragments. Address-based names remain because the exact field
  * meanings are not yet established. D_8009B004 is a four-byte debug-state
  * record: two independent state bytes and a height halfword that is updated
- * unsigned but consumed signed. It is defined with func_800534B8 so MASPSX
- * can see its small-data extent; the surrounding prefix and diagnostic suffix
- * retain their original separate storage. */
+ * unsigned but consumed signed. It is defined with
+ * ModelDebug_UpdateController so MASPSX can see its small-data extent; the
+ * surrounding prefix and diagnostic suffix retain their original separate
+ * storage. */
 extern u8 D_8009AFE4;
 extern u8 D_8009AFE5;
 extern u16 D_8009AFE6;

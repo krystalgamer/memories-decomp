@@ -176,10 +176,10 @@ extern u16 gInput_wPad1RepeatBackup;
  *
  * Only the arms some consumer needs. Matching func_80030294 uses the sized
  * volatile .data view for all three names. gInput_wPad2Pressed additionally
- * has true-width .data views; func_800534B8 uses the nonvolatile one while
- * selecting the established per-test volatile views for pad-1 pressed and
- * repeat. All three also retain the _SIZED_VOLATILE arm for other indexed
- * consumers.
+ * has true-width .data views; ModelDebug_UpdateController uses the nonvolatile
+ * one while selecting the established per-test volatile views for pad-1
+ * pressed and repeat. All three also retain the _SIZED_VOLATILE arm for other
+ * indexed consumers.
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
