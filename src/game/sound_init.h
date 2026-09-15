@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SOUND_INIT_H
 
 #include "../types.h"
+#include "../psyq/libspu_internal.h"
 
 void func_80049200(s32 value);
 void func_80049230(s32 value, s32 data);

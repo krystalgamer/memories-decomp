@@ -68,6 +68,60 @@ class SharedDeclarationTests(unittest.TestCase):
             "func_80010004:\n.word 0x00000001\n.end func_80010004",
         )
 
+    def test_isolates_old_style_function_from_grouped_source(self) -> None:
+        functions, top_level = parse_c_functions(
+            "extern s32 gBefore;\n"
+            "void OldStyle(first, second)\n"
+            "    u16 first;\n"
+            "    u8 second;\n"
+            "{\n"
+            "    gBefore = first + second;\n"
+            "}\n"
+            "void Modern(void) { gBefore = 2; }\n"
+        )
+
+        self.assertEqual([function.name for function in functions], [
+            "OldStyle", "Modern",
+        ])
+        self.assertEqual(
+            [token.value for token in functions[0].tokens],
+            ["gBefore", "=", "first", "+", "second", ";"],
+        )
+        self.assertNotIn("OldStyle", {token.value for token in top_level})
+        self.assertNotIn("first", {token.value for token in top_level})
+        self.assertIn("gBefore", {token.value for token in top_level})
+
+    def test_isolates_complete_grouped_sound_voice_source(self) -> None:
+        functions, _ = parse_c_functions(
+            (REPOSITORY / "src/game/sound_voice_data.c").read_text()
+        )
+
+        self.assertEqual(
+            [function.name for function in functions],
+            [
+                "func_80048A28",
+                "func_80048C0C",
+                "func_80048C70",
+                "func_80048D08",
+                "func_80048F14",
+            ],
+        )
+
+    def test_initializer_call_is_not_mistaken_for_old_style_function(self) -> None:
+        functions, top_level = parse_c_functions(
+            "s32 value = BuildValue();\n"
+            "s32 table[] = { 1, 2, 3 };\n"
+        )
+
+        self.assertEqual(functions, [])
+        self.assertEqual(
+            [token.value for token in top_level],
+            [
+                "s32", "value", "=", "BuildValue", "(", ")", ";",
+                "s32", "table", "[", "]", "=", "{", ",", ",", "}", ";",
+            ],
+        )
+
     def test_loads_direct_project_header_declarations(self) -> None:
         header = self.header.parent / "shared.h"
         header.write_text("extern s32 gSharedValues[];\n", encoding="utf-8")

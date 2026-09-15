@@ -31,6 +31,8 @@ typedef union {
         s32 invalid_side;
     } deck_validation;
     s32 library_count;
+    /* The starchip balance Password_RefreshStarchipDisplay stages. */
+    s32 starchips;
     s32 rank_rows[16][DUEL_SIDE_COUNT];
     Pair pair;
 } TextStagingValues;
@@ -72,8 +74,9 @@ typedef char TextStagingValues_invalid_side_offset_must_be_0x40[
  * Written through the members, the retail SHA-256 and all five overlay
  * images are unchanged.
  *
- * The starchip alias below is the one spelling left apart. `library_count` at
- * offset 0 is the same word, but its consumer is not touched here. */
+ * The starchip balance is the union's `starchips` member, the same word at
+ * offset 0 as `library_count`. Password_RefreshStarchipDisplay stages it
+ * through that member, so no separate linker alias remains. */
 extern TextStagingValues D_801D5608[];
 
 /* The result controller stages its sign-extended dropped-card id at this
@@ -83,9 +86,5 @@ extern TextStagingValues D_801D5608[];
  * The image backs at least four bytes at 0x801D56A8, before the colour
  * slots at 0x801D5708. No total allocation size is inferred from that gap. */
 extern s32 D_801D56A8[];
-
-#ifdef TEXT_STAGING_STARCHIPS_ALIAS
-extern s32 D_801D5608_starchips asm("D_801D5608");
-#endif
 
 #endif

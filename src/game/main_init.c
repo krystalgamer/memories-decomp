@@ -37,6 +37,7 @@
 #include "rand_constants.h"
 #include "movie_playback_control.h"
 #include "main_mode_state.h"
+#include "../psyq/libgs.h"
 
 extern volatile u8 D_8009B0D1;
 

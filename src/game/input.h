@@ -48,8 +48,8 @@ extern u32 gInput_dwDeferredRepeat;
 extern u32 gInput_dwDeferredPressed;
 extern u32 gInput_dwPendingHeld;
 
-/* gInput_wPad1Pressed is declared six different ways below, counting the
- * plain scalar; the other five are codegen inputs rather than style. A
+/* gInput_wPad1Pressed is declared seven different ways below, counting the
+ * plain scalar; the other six are codegen inputs rather than style. A
  * consumer states the spelling its own match needs before including this
  * header; everything else takes the plain scalar.
  *
@@ -64,26 +64,23 @@ extern u32 gInput_dwPendingHeld;
  *                     expands, rather than cc1psx's own %hi/%lo pair.
  *   _IS_AGGREGATE  -- an unsized array is not small data either, but gives
  *                     cc1psx's split pair instead of the bare symbol.
- *   _SIZED_VOLATILE -- eight bytes it does not have, and volatile. That
+ *   _SIZED_VOLATILE -- an indexed volatile four-halfword view. That
  *                     leaves small data only where the assembler's -G sits
- *                     below the compiler's. Its consumers are
- *                     src/game/debug_menu_sound_entry.c, which records that it
- *                     was byte-exact under gcc_2_8_1_cc_g8_as_g4_split and
- *                     is 117 instructions against the target's 120 at
- *                     gcc_2_8_1_g8, and src/candidates/func_80030294.c,
- *                     which is under the same profile and reads all six
- *                     pad names this way. A third consumer since
- *                     2026-09-12, src/candidates/main_menu/func_801821DC.c,
- *                     joined the same day by
- *                     src/overlays/main_menu/value_setup.c, is the
- *                     exception to the sentence above. The candidate
- *                     assembles at -G0, where nothing is small data at
- *                     either threshold, so the eight bytes reach nothing;
+ *                     below the compiler's. Its consumers include
+ *                     src/candidates/main_menu/func_801821DC.c and
+ *                     src/overlays/main_menu/value_setup.c. The main-menu
+ *                     candidate assembles at -G0, where nothing is small
+ *                     data at either threshold, so the eight bytes reach
+ *                     nothing;
  *                     value_setup.c is a module source rather than a
  *                     candidate, and what says the size reached nothing
  *                     there is the module hash, unchanged across the
  *                     change. For both, the arm is here only because it is
  *                     the volatile arm that can be indexed.
+ *   _SIZED_IN_DATA_VOLATILE -- the same indexed volatile view in .data.
+ *                     Matching func_80030294 selects it for all six pad
+ *                     names under uniform G8; DebugMenu_UpdateSoundEntry
+ *                     independently selects it for pad-1 pressed.
  *
  * A `[5]` arm used to sit beside that one, for src/game/func_80017034.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
@@ -116,16 +113,19 @@ extern u16 gInput_wPad1Pressed;
 /* gInput_wPad1Held: same arms as gInput_wPad1Pressed above, same reasons;
  * our matching tree carries this symbol (0x8009B3A4) behind an equivalent
  * set, with a note on each recording which function needed it. The
- * _SIZED_VOLATILE arm is src/candidates/func_80030294.c's, which reads this
- * name and the other five at [0] under gcc_2_8_1_cc_g8_as_g4_split; that
- * unit's own header records the mechanism. Since 2026-09-12 it has a second
- * consumer, src/candidates/main_menu/func_801821DC.c, which reads [0] and
+ * _SIZED_IN_DATA_VOLATILE arm is src/game/func_80030294.c's, which reads
+ * this name and the other five at [0] under uniform gcc_2_8_1_g8_split.
+ * The _SIZED_VOLATILE arm also has a consumer,
+ * src/candidates/main_menu/func_801821DC.c, which reads [0] and
  * [1]; that one assembles at -G0, where the declared size reaches nothing,
  * so the arm is doing no work for it beyond naming the symbol. The scalar
  * _IS_VOLATILE arm below has its own new consumer the same day,
- * src/candidates/password/func_8016A37C.c, which reads this symbol as a
- * plain volatile halfword and spelled it D_8009B3A4 until then. */
-#ifdef GINPUT_PAD1_HELD_SIZED_VOLATILE
+ * Password_UpdateShopScreen (overlays/password/shop.c), which reads this
+ * symbol as a plain volatile halfword and spelled it D_8009B3A4 until then. */
+#ifdef GINPUT_PAD1_HELD_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Held[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_HELD_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad1Held[4];
 #elif defined(GINPUT_PAD1_HELD_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Held __attribute__((section(".data")));
@@ -140,12 +140,16 @@ extern u16 gInput_wPad1Held;
 #endif
 
 /* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
- * the _SIZED_VOLATILE one is func_80030294.c's and, since 2026-09-12,
- * src/candidates/main_menu/func_801821DC.c's. It still has no aggregate
+ * The _SIZED_IN_DATA_VOLATILE one is func_80030294.c's. The
+ * _SIZED_VOLATILE one is src/candidates/main_menu/func_801821DC.c's. It
+ * still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree
  * uses would be a guess, not a lever. The result controller's _IN_DATA
  * arm is a nonvolatile absolute halfword, distinct from the volatile arm. */
-#ifdef GINPUT_PAD1_REPEAT_SIZED_VOLATILE
+#ifdef GINPUT_PAD1_REPEAT_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad1Repeat[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD1_REPEAT_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat[4];
 #elif defined(GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad1Repeat __attribute__((section(".data")));
@@ -170,12 +174,12 @@ extern u16 gInput_wPad1RepeatBackup;
  * pair. Input_ResetPads walks that pairing directly: it takes the address of
  * each pad-2 name and steps DOWN with --, INPUT_PAD_COUNT times.
  *
- * Only the arms some consumer needs. gInput_wPad2Pressed is the only one of
- * the three with a .data consumer, so it is the only one with that arm.
- * func_800534B8 uses its true-width nonvolatile .data view, while selecting
- * the established per-test volatile views for pad-1 pressed and repeat.
- * All three have a _SIZED_VOLATILE arm, and all three of those are
- * src/candidates/func_80030294.c's.
+ * Only the arms some consumer needs. Matching func_80030294 uses the sized
+ * volatile .data view for all three names. gInput_wPad2Pressed additionally
+ * has true-width .data views; func_800534B8 uses the nonvolatile one while
+ * selecting the established per-test volatile views for pad-1 pressed and
+ * repeat. All three also retain the _SIZED_VOLATILE arm for other indexed
+ * consumers.
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
@@ -205,7 +209,10 @@ extern u16 gInput_wPad1RepeatBackup;
  * Retail chose per site, so both spellings are faithful and neither can be
  * made to stand in for the other. Same shape as the overlaps recorded in
  * notes/memory-map.md and the main_menu README. */
-#ifdef GINPUT_PAD2_HELD_SIZED_VOLATILE
+#ifdef GINPUT_PAD2_HELD_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad2Held[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_HELD_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad2Held[4];
 #elif defined(GINPUT_PAD2_HELD_IS_VOLATILE)
 extern volatile u16 gInput_wPad2Held;
@@ -213,7 +220,10 @@ extern volatile u16 gInput_wPad2Held;
 extern u16 gInput_wPad2Held;
 #endif
 
-#ifdef GINPUT_PAD2_PRESSED_SIZED_VOLATILE
+#ifdef GINPUT_PAD2_PRESSED_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad2Pressed[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_PRESSED_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed[4];
 #elif defined(GINPUT_PAD2_PRESSED_IN_DATA_VOLATILE)
 extern volatile u16 gInput_wPad2Pressed __attribute__((section(".data")));
@@ -225,7 +235,10 @@ extern volatile u16 gInput_wPad2Pressed;
 extern u16 gInput_wPad2Pressed;
 #endif
 
-#ifdef GINPUT_PAD2_REPEAT_SIZED_VOLATILE
+#ifdef GINPUT_PAD2_REPEAT_SIZED_IN_DATA_VOLATILE
+extern volatile u16 gInput_wPad2Repeat[4]
+    __attribute__((section(".data")));
+#elif defined(GINPUT_PAD2_REPEAT_SIZED_VOLATILE)
 extern volatile u16 gInput_wPad2Repeat[4];
 #else
 extern u16 gInput_wPad2Repeat;

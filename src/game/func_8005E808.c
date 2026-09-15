@@ -45,10 +45,9 @@ void func_8005E808(u8 *p)
     s16 buf[10][3];
     u8 *e;
     u8 *q;
-    u8 *g;
+    SVECTOR *g;
     s32 i;
     s32 j;
-    s32 off;
     s32 a;
     s32 k;
     s32 sum;
@@ -57,7 +56,6 @@ void func_8005E808(u8 *p)
     s32 dy;
     s32 dz;
     s32 slot;
-    u8 *prev;
     u16 v;
 
     {
@@ -89,7 +87,7 @@ void func_8005E808(u8 *p)
     e = (u8 *)state;
     for (i = 0; i < 2; i++, e += 8) {
         q = e + 2;
-        g = (u8 *)&D_800F5768[i];
+        g = &D_800F5768[i];
         switch (*(s16 *)(q + 4)) {
         case 0x80:
         case 0x81:
@@ -103,9 +101,9 @@ void func_8005E808(u8 *p)
             pos[0] = pos[0] + *(u16 *)e;
             pos[1] = pos[1] + *(u16 *)q;
             pos[2] = pos[2] + *(u16 *)(q + 2);
-            dx = pos[0] - *(s16 *)g;
-            dy = pos[1] - *(s16 *)(g + 2);
-            dz = pos[2] - *(s16 *)(g + 4);
+            dx = pos[0] - g->vx;
+            dy = pos[1] - g->vy;
+            dz = pos[2] - g->vz;
             d = k * SquareRoot0(dx * dx + dy * dy + dz * dz) / 1000;
             if (state->field_22 < d) {
                 state->field_22 = d;
@@ -117,15 +115,11 @@ void func_8005E808(u8 *p)
             for (j = 0; j < 10; j++) {
                 func_8005EBF4((Key *)state, i, j, 0x1E, buf[j]);
             }
-            j = 1;
-            off = 0;
-            for (; j < 10; j++) {
-                prev = (u8 *)buf + off;
-                dx = *(s16 *)prev - buf[j][0];
-                dy = *(s16 *)(prev + 2) - buf[j][1];
-                dz = *(s16 *)(prev + 4) - buf[j][2];
+            for (j = 1; j < 10; j++) {
+                dx = buf[j - 1][0] - buf[j][0];
+                dy = buf[j - 1][1] - buf[j][1];
+                dz = buf[j - 1][2] - buf[j][2];
                 sum += SquareRoot0(dx * dx + dy * dy + dz * dz);
-                off += 6;
             }
             d = k * sum / 1000;
             if (state->field_22 < d) {

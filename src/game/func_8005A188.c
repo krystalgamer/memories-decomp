@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "func_8005A188.h"
 #include "model_transfer_flags.h"
 #include "model_graphics_state.h"
 

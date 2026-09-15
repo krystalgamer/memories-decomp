@@ -36,7 +36,7 @@ void Model_CopySlotU16Values(s32 idx, u16 *out) {
 void func_80059000(s32 index, s16 *output)
 {
     register ModelSlot *entry = &D_800F2C40[index];
-    register u8 *source = entry->field_CF8.field_00;
+    register u8 *source = entry->field_CF8.prefix.bytes.field_00;
     s32 value;
 
     *(ModelBytes8 *)output = *(ModelBytes8 *)entry->field_DC8;

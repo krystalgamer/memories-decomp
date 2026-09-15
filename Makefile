@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-signature-resolutions build-overlays match-overlays inventory classify-functions candidates candidate-index check-candidate-index candidate-bundles check-candidate-bundles check-candidate-bundle-builds candidate-builds check-candidate-builds candidate-contract-hashes check-candidate-headlines check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -46,11 +46,8 @@ help:
 		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
 		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  check-psyq-signature-resolutions  Verify local Psy-Q signature conflict decisions' \
-		'  candidate-index  Regenerate the stored-candidate index' \
-		'  check-candidate-index  Verify the stored-candidate index is current' \
-		'  candidate-bundles  Regenerate human-facing resident candidate bundles' \
-		'  check-candidate-bundles  Verify human-facing candidate bundles' \
-		'  check-candidate-bundle-builds  Compile every human candidate bundle' \
+		'  check-declaration-visibility  Reject calls that compile only through an implicit declaration' \
+		'  check-psyq-declarations  Require SDK declarations to come from src/psyq headers' \
 		'  candidate-builds  Run the normal build and validate tracked source candidates' \
 		'  check-candidate-builds  Verify tracked source-candidate metadata' \
 		'  candidate-contract-hashes  Print current canonical candidate contracts' \
@@ -68,7 +65,6 @@ help:
 		'  check-global-usage  Verify tracked game-global usage reports' \
 		'  progress       Update README and generate current progress metrics' \
 		'  check-progress Verify that the README progress snapshot is current' \
-		'  check-candidate-headlines  Verify candidate notes and inventory rows state the same figures' \
 		'  check-notes    Verify grouped translation-unit notes match the build config' \
 		'  check-note-links  Verify local paths referenced from notes exist' \
 		'  disc-files     Extract the tracked DATA files from the disc image' \
@@ -150,11 +146,10 @@ verify-overlays: workspace
 
 check-metadata:
 	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
-	@$(PYTHON) tools/project/candidate_files.py --check
-	@$(PYTHON) tools/project/candidate_human_bundles.py --check
 	@$(PYTHON) tools/project/candidate_builds.py --check
 	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/psyq_declaration_contracts.py
 	@$(PYTHON) tools/project/c_type_definitions.py
 	@$(PYTHON) tools/project/check_note_links.py
 	@$(PYTHON) tools/project/psyq_signatures.py --check-resolutions
@@ -170,6 +165,12 @@ check-unmatched-contracts:
 
 check-psyq-signature-resolutions:
 	@$(PYTHON) tools/project/psyq_signatures.py --check-resolutions
+
+check-psyq-declarations:
+	@$(PYTHON) tools/project/psyq_declaration_contracts.py
+
+check-declaration-visibility: check-build-tools
+	@$(PYTHON) tools/project/check_declaration_visibility.py
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build
@@ -196,21 +197,6 @@ classify-functions: inventory
 
 candidates: workspace
 	@$(PYTHON) tools/project/select_candidates.py $(CANDIDATE_ARGS)
-
-candidate-index: workspace
-	@$(PYTHON) tools/project/candidate_files.py
-
-check-candidate-index: workspace
-	@$(PYTHON) tools/project/candidate_files.py --check
-
-candidate-bundles: split
-	@$(PYTHON) tools/project/candidate_human_bundles.py
-
-check-candidate-bundles:
-	@$(PYTHON) tools/project/candidate_human_bundles.py --check
-
-check-candidate-bundle-builds: check-build-tools
-	@$(PYTHON) tools/project/candidate_human_bundles.py --compile-check
 
 candidate-builds: build
 
@@ -255,10 +241,6 @@ check-notes:
 check-note-links:
 	@$(PYTHON) tools/project/check_note_links.py
 
-check-candidate-headlines:
-	@$(PYTHON) tools/project/check_candidate_headlines.py --self-test
-	@$(PYTHON) tools/project/check_candidate_headlines.py
-
 check-data-symbols:
 	@$(PYTHON) tools/project/check_data_symbol_ownership.py --self-test
 	@$(PYTHON) tools/project/check_data_symbol_ownership.py
@@ -288,6 +270,7 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/matching_source_contracts.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
+	@$(PYTHON) tools/project/check_declaration_visibility.py
 	@$(PYTHON) tools/project/check_note_links.py
 	@$(PYTHON) tools/project/audit_repository.py
 

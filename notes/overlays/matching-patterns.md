@@ -10,15 +10,20 @@ not universal compiler rules or proof of the original author's declarations.
 The historical Trade identifiers `func_80184030` and `func_801844D8` now
 refer to `MainMenu_ApplyTradeOfferInventoryDelta` and
 `MainMenu_RebuildTradeInventoryRows`; their measured source constraints remain.
-Register bindings permitted by #5 can also reproduce a target without an
-inline assembly statement. The accepted source and a fully relocated image
-comparison decide whether a reconstruction matches.
+Historical register bindings could reproduce a target without an inline
+assembly statement, but those reconstructions were reclassified in #3859.
+Matching source must not rely on bindings or handwritten assembly; a fully
+relocated image comparison remains necessary.
 
 All game-owned functions in the five configured overlays had matching C by
 #2180. #3859 returned four of them, whose matches depended on pinned registers
-or inline asm, to build-integrated candidates in [`candidates/`](candidates/):
+or inline asm, to build-integrated candidates in
+[`src/candidates/`](../../src/candidates/):
 `MainMenu_UpdateFrontendMenu`, `MainMenu_UpdateTradeScreen`,
 `NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
+The frontend updater has since returned to matching C without bindings in
+[`frontend_update.c`](../../src/overlays/main_menu/frontend_update.c); the
+remaining three retain their candidate status.
 Historical residuals below are not a current work queue; consult the
 per-module inventories and matching manifests before treating an old
 candidate as unfinished work.

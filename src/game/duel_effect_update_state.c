@@ -23,9 +23,6 @@
 #include "card_constants.h"
 #include "duel_effect_card_viewer_state.h"
 
-extern u8 gDuel_bEffectHandlerFlags;
-extern u8 gDuel_bActiveEffectState;
-
 s32 DuelEffect_UpdateState(void) {
     u8 v = gDuel_bEffectState;
     if (v == 0) return 0;

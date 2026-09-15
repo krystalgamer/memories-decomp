@@ -5,6 +5,8 @@
 #include "card_constants.h"
 #include "card_list_text_boxes.h"
 
+#define BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG 0x80
+
 #define BUILD_DECK_TRANSITION_STATE_OFFSET(member) \
     ((u32)&(((BuildDeckTransitionState *)0)->member))
 

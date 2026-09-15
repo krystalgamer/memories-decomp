@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_effect_coefficients.h"
+#include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 
 s32 func_8005A618(s32 index)
@@ -12,7 +13,9 @@ s32 func_8005A618(s32 index)
 
     record = offset + (s32)&D_800F3938;
     coefficient = func_8005F1A4(
-        *(u8 *)(record + (((u8 *)&D_800F3938) + offset)[0x106] + 0xA) & 0x1F
+        ((ModelSlotCF8TailView *)record)->prefix.bytes.field_0A[
+            (((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET]
+        ] & 0x1F
     );
 
     value = coefficient->angle;

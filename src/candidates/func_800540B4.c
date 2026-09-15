@@ -4,8 +4,8 @@
  * the shared primitive templates at D_8009AFAC..D_8009AFE8, sorts every unit
  * of the slot, then updates the slot's bounding volume, draws the ground
  * shadow fan and runs the palette flash. Current best under
- * gcc_2_8_1_g8_split: 1419 instructions against 1421 with opcode distance 82
- * (40 surplus, 42 missing), with no hard register assignments and no inline
+ * gcc_2_8_1_g8_split: 1417 instructions against 1421 with opcode distance 62
+ * (29 surplus, 33 missing), with no hard register assignments and no inline
  * assembly. This is a structural candidate: the control flow, call sequence
  * and store set are in place, the register and stack-slot assignment is not.
  *
@@ -17,14 +17,18 @@
  * - the slot's +0xCFC..+0xCFE offsets are signed bytes;
  * - the part rewrite index is a GsCOORDUNIT pointer difference, which retail
  *   computes as an exact division rather than a reciprocal multiply;
- * - the first colour block's template switch keeps the m2c arm layout, and
- *   the light matrix normalisation counts down from 8.
+ * - both colour blocks' template switches take the default arm first,
+ *   assign the template word in each case and store it once, which brings
+ *   them close to retail's comparison chains;
+ * - the light matrix normalisation counts down from 8;
+ * - the six fade templates divide the colour bytes as s16 by 16, which
+ *   gives retail's signed shifts.
  *
  * Residual: the local frame is a single byte buffer indexed through SP();
  * retail keeps the CF8 block pointer in $s6 where this source spills it,
- * builds the template switches as comparison chains, clamps the shadow
- * vertices through named unsigned reloads, and computes the shadow's half
- * height before its loop.
+ * clamps the shadow vertices through named unsigned reloads, computes the
+ * shadow's half height before its loop, and keeps the part rewrite constant
+ * inside the unit loop where this source hoists it.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -166,25 +170,23 @@ void func_800540B4(s32 index)
             B(&D_8009AFE6, 0) = r;
             B(&D_8009AFE6, 1) = g;
             D_8009AFE8 = bl;
-            if (fl != 2) {
-                v = 0x400000;
-                switch (fl) {
-                case 4:
-                    v = 0x600000;
-                    goto set_d8;
-                case 5:
-                    v = 0x200000;
-                case 3:
-                    goto set_d8;
-                default:
-                    D_8009AFD8 = 0;
-                    break;
-                }
-            } else {
+            switch (fl) {
+            default:
+                D_8009AFD8 = 0;
+                goto d8_done;
+            case 4:
+                v = 0x600000;
+                break;
+            case 2:
+            case 5:
                 v = 0x200000;
-            set_d8:
-                D_8009AFD8 = v;
+                break;
+            case 3:
+                v = 0x400000;
+                break;
             }
+            D_8009AFD8 = v;
+            d8_done:
             if (fl == 5) {
                 D_8009AFDC = 0x3C200000;
             } else {
@@ -242,22 +244,22 @@ void func_800540B4(s32 index)
             B(&D_8009AFE6, 1) = g;
             D_8009AFE8 = bl;
             switch (fl) {
+            default:
+                D_8009AFD8 = 0;
+                goto d8b_done;
             case 4:
                 v = 0x600000;
-                goto set_d8b;
+                break;
             case 3:
                 v = 0x400000;
-                goto set_d8b;
+                break;
             case 2:
             case 5:
                 v = 0x200000;
-            set_d8b:
-                D_8009AFD8 = v;
-                break;
-            default:
-                D_8009AFD8 = 0;
                 break;
             }
+            D_8009AFD8 = v;
+            d8b_done:
             if (fl == 5) {
                 D_8009AFDC = 0x3C200000;
             } else {
@@ -571,12 +573,12 @@ void func_800540B4(s32 index)
                 B(SP(0x60), 4) = r;
                 B(SP(0x60), 5) = B(&D_8009AFE6, 1);
                 B(SP(0x60), 6) = D_8009AFE8;
-                B(SP(0x60), 0xC) = r / 16;
-                B(SP(0x60), 0xD) = B(&D_8009AFE6, 1) / 16;
-                B(SP(0x60), 0xE) = D_8009AFE8 / 16;
-                B(SP(0x60), 0x14) = r / 16;
-                B(SP(0x60), 0x15) = B(&D_8009AFE6, 1) / 16;
-                B(SP(0x60), 0x16) = D_8009AFE8 / 16;
+                B(SP(0x60), 0xC) = (s16)r / 16;
+                B(SP(0x60), 0xD) = (s16)B(&D_8009AFE6, 1) / 16;
+                B(SP(0x60), 0xE) = (s16)D_8009AFE8 / 16;
+                B(SP(0x60), 0x14) = (s16)r / 16;
+                B(SP(0x60), 0x15) = (s16)B(&D_8009AFE6, 1) / 16;
+                B(SP(0x60), 0x16) = (s16)D_8009AFE8 / 16;
                 GsSetLsMatrix((MATRIX *)func_80059220());
                 func_80057E20(index, (void *)SP(0x58));
                 half = 0x12C;

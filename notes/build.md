@@ -344,9 +344,9 @@ region is centred; the word stored there is a separate variable that happens
 to live at the base.
 
 The naming follows the first role, and that is load bearing outside the game
-sources: `candidate_pin_audit.py` and `audit_unchiga_candidates.py` both look
-the symbol up by name to recover the base, `global_usage.py` special-cases it
-beside the `_start`/`_end` boundary markers, and the GPREL16 reach test in
+sources: `audit_unchiga_candidates.py` looks the symbol up by name to recover
+the base, `global_usage.py` special-cases it beside the `_start`/`_end`
+boundary markers, and the GPREL16 reach test in
 `notes/research/matching-evidence.md` is expressed as ±32 KB around it. So
 `runtime_gp` should not be renamed to describe the counter, and the counter is
 not drift to be cleaned up either.
@@ -722,6 +722,21 @@ exact source and spelling appear in
 remain after a function becomes matching C. Unreferenced assembly functions
 do not receive guessed prototypes merely to fill the header.
 
+Ownership is only half of a declaration contract; the caller also has to see
+it. GCC 2.8.1 compiles a call with no visible declaration as `int f()`, and
+the executable and candidate fingerprints stay byte-exact, so a caller that
+loses sight of a prototype -- typically because the prototype moved to a
+header it does not include -- passes every ownership check.
+`make check-declaration-visibility` (run in the matching-build job and by
+`make audit`) compiles every matching source and every candidate with
+`-Wimplicit-function-declaration` under each profile it is built with, and
+fails on any implicit call. A source listed under two profiles is compiled
+under both, because their `-D`/`-U` flags can hide a call from one of them. The fix is the include of the header that owns the
+declaration. The current tree has no exceptions. If a future implicit call is
+proved load-bearing, it must be recorded with its measurement in the checker's
+exception manifest; a recorded site that no longer calls implicitly is an
+error, so that list cannot go stale.
+
 Build-integrated candidates are the one exception on the function side.
 `unmatched.h` exists because an assembly function has no defining C
 translation unit and so nowhere for a per-unit header to live. A candidate in
@@ -734,6 +749,15 @@ outside `src/candidates/` and `src/overlays/`, and rejects one that is declared
 both there and in `unmatched.h`. Either place is one declaration site; both
 would be two. Local declarations of a candidate still need an exception like
 any other unmatched function.
+
+There is no separate note-only candidate store. Every preserved resident or
+overlay candidate has source under `src/candidates/`, retail assembly under
+`src/candidates_target/`, and profile, object, target, and declaration-contract
+fingerprints in `config/slus_01411/candidates.json`. The normal resident and
+overlay builds compile those candidates without mapping their objects into the
+image. `make check-metadata` rejects any `func_*.md` or generated candidate
+bundle reintroduced under `notes/candidates/` or
+`notes/overlays/candidates/`, so a candidate cannot bypass build validation.
 
 For data, the check cross-references `c_symbols.ld`, every top-level extern in
 matching C, and all resident headers. A symbol centralized in `unmatched.h`
@@ -1162,7 +1186,7 @@ units define it -- `main_run_two_player_duel_setup.c`, `main_run_trade.c` and
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
 live in its own right, read and written by `frontend_scene_states.c` and
-`func_8002EE94` (now `src/candidates/func_8002EE94.c`) behind a
+[`Script_OpSavePrompt`](../src/game/script_op_save_prompt.c) behind a
 `D_8009B26D_IN_DATA` guard. `D_8009B26C` is a
 single byte with a named neighbour immediately above, so its array spelling is
 a lever and could never be a real array -- and `frontend_scene_states.c`

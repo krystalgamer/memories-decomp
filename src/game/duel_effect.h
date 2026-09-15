@@ -10,7 +10,13 @@
 #define DUEL_EVENT_SCRIPT_FLAG_STARTED 0x8000
 #define TEXT_BOX_FLAG_BUILD_REQUESTED 0x800
 #define TEXT_BOX_FLAG_DONE 0x2000
+#define TEXT_BOX_COMPLETION_MASK 0x2008
+#define TEXT_BOX_FLAG_BUILD_ACTIVE 0x4000
+#define DUEL_EFFECT_CHANNEL_FLAG_ACTIVE 0x8000
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_STATE_INDEX_MASK 0x1F
+#define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
+#define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
 /* One text/effect entry, 0x1C bytes, the element type of D_800EB288. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
@@ -53,12 +59,11 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 extern DuelEffectChannel D_800EB15C;
 /* D_800EB12C is the word at D_800EB0F8 + 0x34: the flags_34 (:82) and
  * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
- * (script_run_tick.c:23) and Password_UpdateShopScreen (now a stored
- * candidate, src/candidates/password/func_8016A37C.c) each load it as a
- * word and test
- * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
- * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
- * Script_OpSavePrompt (src/candidates/func_8002EE94.c) reads the low halfword
+ * (script_run_tick.c:23) and Password_UpdateShopScreen
+ * (overlays/password/shop.c) each load it as a
+ * word and test it through TEXT_BOX_COMPLETION_MASK against
+ * TEXT_BOX_FLAG_DONE; retail loads it lui/lw (func_8002FA54.s:15-16).
+ * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
  * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
  * the slot-0 text flags. Both units also matched when the read was spelled
  * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name
@@ -255,6 +260,18 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 
 #define DUEL_EFFECT_STATE_FLAG_COMPLETE 0x40
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
+#define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
+
+/* Legacy aliases for the dialog request, handler flags, and active handler
+ * index. func_800283F4's candidate contract uses D_8009B248; D_8009B244 and
+ * D_8009B24A remain layout aliases for other address-oriented consumers. */
+extern u16 D_8009B244;
+extern u8 D_8009B248;
+extern u8 D_8009B24A;
+
+extern u8 gDuel_bEffectHandlerFlags;
+extern u8 gDuel_bActiveEffectState;
 
 /* The pending duel-effect request. DuelEffect_UpdateState reads it each
  * tick: zero is idle; otherwise the low bits are the effect id, which it

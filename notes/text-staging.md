@@ -25,7 +25,7 @@ Every named scalar in the resident views remains `s32`.
 | `SaveData_UpdateDuelLoad` in `save_data_transfer_runtime.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
-| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer uses the existing signed scalar alias. Neither becomes a resident card/count interpretation. |
+| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer writes the union's `starchips` member. Neither becomes a resident card/count interpretation. |
 
 The union's `0x80` size comes from the rank producer's existing table, not an
 inferred allocation boundary. Assertions also cover the named members at
@@ -43,12 +43,10 @@ explains why these are not persistent ATK/DEF globals.
   compile at `gcc_2_8_1_g0_split`, whose `compiler_flags` and `maspsx_flags`
   in `config/slus_01411/compiler_profiles.json` both carry `-G0`. Written
   through the members, the resident SHA-256 and all five overlay images are
-  unchanged. `TEXT_STAGING_STARCHIPS_ALIAS` remains and exposes only the
-  password source's existing `D_801D5608_starchips` alias; its assembler
-  identity is still `D_801D5608`. The `#define` for it in
-  `src/candidates/password/func_8016A37C.c` is inert -- a word-bounded grep
-  finds the alias used only in `src/overlays/password/shop.c` -- and is left
-  in place because that consumer is in an open pull request.
+  unchanged. `TEXT_STAGING_STARCHIPS_ALIAS` and its `D_801D5608_starchips`
+  linker alias are gone too: `Password_RefreshStarchipDisplay` writes the
+  union's `starchips` member, which builds the same `-G0` store, so no unit
+  reaches `D_801D5608` through an `asm` label.
 - The default remains an incomplete array, preserving its small-data
   classification. No tentative definitions, `.data` attributes, pins, compiler
   profiles or grouped function order are added, removed or relocated.
@@ -59,22 +57,19 @@ explains why these are not persistent ATK/DEF globals.
 - `Main_RunCredits` remains an explicit-relocation assembly consumer. Its
   halfword inputs become two word stores, not a separate halfword output view.
   There is no C declaration to migrate.
-- One build-integrated candidate still references this family,
-  `password/func_8016A37C.c`; four more consumers are now matched,
+- No build-integrated candidate still references this family. Five consumers
+  are now matched:
   `func_80023144` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/func_80060E70.c`, `MemCardDialog_UpdateSave` in
   `src/game/mem_card_dialog_load_save.c` and `func_8002A2F4` in
-  `src/game/func_8002A2F4.c`. The filter is
-  `git grep -lw D_801D5608 -- 'src/candidates/**'`. The candidate includes
-  `src/game/text_staging.h` and declares nothing privately, like the matched
-  consumers, so the password producer is one example of the population rather
-  than the whole of it. The distinction that holds is the contract one. The probe over all 171
-  entries of `config/slus_01411/candidates.json`, four of which carry a
-  `module` and are the overlay candidates, finds neither `D_801D5608` nor
-  `D_801D5608_starchips` in any entry's canonical contracts, so no entry
-  declares either symbol privately; that file does not move when this header
-  changes. The password candidate keeps its recorded build and target
-  fingerprints and its other dependency contracts. The indirect text number
+  `src/game/func_8002A2F4.c`, plus `Password_UpdateShopScreen` in
+  `src/overlays/password/shop.c`. The filter is
+  `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds
+  is the contract one. The probe over all configured
+  entries of `config/slus_01411/candidates.json`, including the overlay
+  candidates that carry a `module`, finds `D_801D5608` in no entry's
+  canonical contracts, so no entry declares it privately; that file does not
+  move when this header changes. The indirect text number
   reader (`func_80038148` via `func_80036D70`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
   that general script operand.

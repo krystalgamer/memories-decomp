@@ -241,11 +241,13 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
     sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
 ];
 
-/* Eight bytes copied as one unit. Three build-integrated candidates each
-   defined this shape locally and used it only as the source and destination
-   of a whole-struct assignment: func_80015EF4 copies four rotation corners,
-   func_80029934 one parameter block out of D_80181000, and func_80030294 one
-   mask block out of D_8009AF4C.
+/* Eight bytes copied as one unit. Two retained candidates use this shape as
+   the source and destination of a whole-struct assignment: func_80015EF4
+   copies four rotation corners and func_80030294 one mask block out of
+   D_8009AF4C. The matching wireframe renderer func_80029934 used it for its
+   parameter block out of D_80181000 until that block was typed as the SVECTOR
+   it is. SVECTOR's alignment of 2 is still below a word, so its assignment
+   lowers to the same two unaligned move pairs.
 
    The element type is what this type is for, and it is load-bearing for the
    reason model.h:113-124 gives about ModelSlotCF8BlockWords -- the element
@@ -253,10 +255,10 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    gives alignment 1, so the assignment lowers to the unaligned move pair
    rather than to word loads. The three targets say so directly -- an eight-byte
    alignment-1 copy is two lwl/lwr and two swl/swr, and the counts in
-   src/candidates_target/ are exactly two pairs per source-level assignment:
-   func_80015EF4.S has 8 of each for its four copies, func_80029934.S and
-   func_80030294.S 2 of each for their one. A word-element spelling would not
-   reproduce them.
+   the retained targets and matching wireframe text are exactly two pairs per
+   source-level assignment: func_80015EF4.S has 8 of each for its four copies;
+   func_80029934 and func_80030294.S have 2 of each for their one. A word-element
+   spelling would not reproduce them; any element narrower than a word does.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it
    is; it is also the declared type of two defined objects, which is a claim
@@ -417,6 +419,50 @@ typedef char ScriptImageEntry_field_10_offset_must_be_0x10[
 
 struct DisplayObject;
 
+/* The Library cursor's motion record at D_800EA1E8, 0x48 bytes. func_80029590,
+   func_8002A3CC and func_8002A4A8 reach it through the typed declaration in
+   game/func_8002A3CC.h, and func_8002BFCC through a cast of the byte view that
+   game/library_runtime.h declares at the same address. func_80029934 reads
+   globe_radius through the typed declaration too; it scales the globe
+   wireframe's rings and its stripe circle. */
+typedef struct {
+    u8 pad_00[8];
+    s16 x;
+    s16 y;
+    u16 x_fraction;
+    u16 y_fraction;
+    s16 globe_radius;
+    u16 rest_x;
+    u16 rest_y;
+    u8 frames;
+    u8 active;
+    s32 velocity_x;
+    s32 velocity_y;
+    u8 pad_20[4];
+    /* Eight display object pointers, 0x24 through 0x40, which func_80029590
+       fills one per iteration. They were inside pad_20 until now; naming them
+       moves nothing, and render still begins at 0x44 immediately after the
+       last of them. */
+    struct DisplayObject *slots[8];
+    struct DisplayObject *render;
+} LibraryMotionState;
+
+typedef char LibraryMotionState_x_offset_must_be_0x8[
+    YGO_TYPE_OFFSET(LibraryMotionState, x) == 0x8 ? 1 : -1
+];
+typedef char LibraryMotionState_frames_offset_must_be_0x16[
+    YGO_TYPE_OFFSET(LibraryMotionState, frames) == 0x16 ? 1 : -1
+];
+typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
+    YGO_TYPE_OFFSET(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
+];
+typedef char LibraryMotionState_render_offset_must_be_0x44[
+    YGO_TYPE_OFFSET(LibraryMotionState, render) == 0x44 ? 1 : -1
+];
+typedef char LibraryMotionState_size_must_be_0x48[
+    sizeof(LibraryMotionState) == 0x48 ? 1 : -1
+];
+
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
    there), and 0x20/0x24 bracket the record's slice of D_800EB288:
@@ -458,7 +504,7 @@ typedef struct DuelEffectChannel {
     DuelEffectEntry *entry_end_20;
     DuelEffectEntry *entry_head_24;
     /* Every consumer proves this is a DisplayObject pointer:
-       func_800391E4 and the func_8002EE94 candidate cast it, card-list text
+       func_800391E4 and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it
        through a pointer cast. */
     struct DisplayObject *field_28;
@@ -1164,13 +1210,13 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
 /* Two words written together as a pair. free_duel/screen_runtime.c and
  * password/shop.c formerly defined this identically to view D_801D5608, and
  * each writes both members at once -- the low word from a table entry and the
- * high word from the index beside it. The password writer,
- * Password_UpdateShopScreen, is now a build-integrated candidate
- * (src/candidates/password/func_8016A37C.c).
+ * high word from the index beside it. The password writer is
+ * Password_UpdateShopScreen in password/shop.c.
  *
  * game/text_staging.h owns the declaration of D_801D5608. Pair is reached
  * through that header's union member `pair`, not through a guarded extern
- * view of its own; only the separate starchip alias is still guarded. Pair
+ * view of its own, and the password starchip count through its `starchips`
+ * member; no guarded alias of that storage remains. Pair
  * remains the overlays' view, not a claim that the staging area always holds
  * this shape. Main_RunCredits uses it for the two four-digit secret-number
  * components while preserving the same absolute-address staging accesses. */

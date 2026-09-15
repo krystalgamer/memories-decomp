@@ -212,7 +212,7 @@ void func_80045514(void)
         }
         if (g_SDValue->field_157E == 0) {
             if ((g_SDValue->flags_0040 & 0x80) != 0) {
-                func_80049C40(0);
+                SD_StopSequence(0);
                 func_80049F10(0, 0);
                 g_SDValue->field_1586 = 0;
                 g_SDValue->field_1588 = 0;
@@ -233,7 +233,7 @@ void func_80045514(void)
                 g_SDValue->field_007C = 0;
                 return;
             }
-            g_SDValue->field_157E = func_80049A64(
+            g_SDValue->field_157E = SD_OpenSequence(
                 (u8 *)((u32)l->index_words[i * 2] * 16 + (u32)l),
                                              entry_state->field_157A);
             if ((s16)g_SDValue->field_157E == 0) {

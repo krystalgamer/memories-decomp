@@ -650,6 +650,12 @@ contracts in the fingerprint after a candidate-local `extern` is centralized.
 Regenerate hashes only after preserving that coverage and measuring the new
 canonical owner.
 
+Magic-number replacement follows the same evidence threshold as naming. A
+repeated bit is promoted only when the record field and control flow establish
+one meaning. The duel text/effect pass names entry activity and handler masks,
+channel initialization and state dispatch, and text-box build/completion flags;
+unrelated uses of the same numeric values remain literals.
+
 ### An arity mismatch is measured, not assumed, in either direction
 
 When a declaration and its definition disagree about how many arguments there

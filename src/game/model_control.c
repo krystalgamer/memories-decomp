@@ -120,13 +120,17 @@ void func_800559D4(s32 index)
         other_record = other_offset + stat_base;
         if (other->field_DFF != 0) {
             {
-                u16 own_value = *(u16 *)own_record;
-                u16 other_value = *(u16 *)(other_record + 2);
+                u16 own_value =
+                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                u16 other_value =
+                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
                 selected = own_value > other_value ? 6 : 8;
             }
         } else {
-            u16 own_value = *(u16 *)own_record;
-            u16 other_value = *(u16 *)other_record;
+            u16 own_value =
+                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+            u16 other_value =
+                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
             selected = own_value > other_value ? 6 : 5;
             if (own_value == other_value) {
                 selected |= 0x80;
@@ -174,15 +178,19 @@ void func_800559D4(s32 index)
         offset = (index ^ 1) * MODEL_SLOT_SIZE;
         other_record = offset + (s32)&D_800F3938;
         amount = slot->field_E0D * (amount + 1);
-        if ((((u8 *)&D_800F3938) + offset)[0x107] != 0) {
+        if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
-                u32 own_value = *(u16 *)own_record;
-                u32 other_value = *(u16 *)(other_record + 2);
+                u32 own_value =
+                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                u32 other_value =
+                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
                 reaction = other_value < own_value ? 6 : 8;
             }
         } else {
-            u32 own_value = *(u16 *)own_record;
-            u32 other_value = *(u16 *)other_record;
+            u32 own_value =
+                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+            u32 other_value =
+                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
             reaction = other_value < own_value ? 6 : 5;
             if (own_value == other_value) {
                 reaction |= 0x80;
@@ -250,15 +258,24 @@ no_handler:
                 own_record = offset + (s32)&D_800F3938;
                 offset = (index ^ 1) * MODEL_SLOT_SIZE;
                 other_record = offset + (s32)&D_800F3938;
-                if ((((u8 *)&D_800F3938) + offset)[0x107] != 0) {
+                if ((((u8 *)&D_800F3938) +
+                     offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
-                        u32 own_value = *(u16 *)own_record;
-                        u32 other_value = *(u16 *)(other_record + 2);
+                        u32 own_value =
+                            ((ModelSlotCF8TailView *)own_record)->
+                                prefix.values.field_00;
+                        u32 other_value =
+                            ((ModelSlotCF8TailView *)other_record)->
+                                prefix.values.field_02;
                         fallback_action = other_value < own_value ? 6 : 8;
                     }
                 } else {
-                    u32 own_value = *(u16 *)own_record;
-                    u32 other_value = *(u16 *)other_record;
+                    u32 own_value =
+                        ((ModelSlotCF8TailView *)own_record)->
+                            prefix.values.field_00;
+                    u32 other_value =
+                        ((ModelSlotCF8TailView *)other_record)->
+                            prefix.values.field_00;
                     fallback_action = other_value < own_value ? 6 : 5;
                     if (own_value == other_value) {
                         fallback_action |= 0x80;

@@ -71,6 +71,13 @@ typedef char SDBankHeaderWords_size_must_be_8[
     sizeof(SDBankHeaderWords) == 8 ? 1 : -1
 ];
 
+/* An output-level accumulator: func_80045054 sums sample squares into the
+   word and reads back its signed high half (halves[1]) as the level. */
+typedef union {
+    u32 sum;
+    s16 halves[2];
+} SDLevelWord;
+
 typedef struct {
     u16 field_0000;
     u16 field_0002;
@@ -169,11 +176,14 @@ typedef struct {
     u8 field_0532;
     u8 mix_multiplier;
     u16 field_0534;
-    u8 pad0536[6];
+    u8 pad0536[2];
+    s32 decoded_half;
     u8 buffer_053C[4][0x200];
     u8 pad0D3C[0x800];
     u8 *buffer_ptrs_153C[4];
-    u8 pad154C[0x14];
+    SDLevelWord output_level;
+    SDLevelWord field_1550;
+    u8 pad1554[0xC];
     u8 *field_1560;
     u16 *music_track;
     u8 pad1568[0x10];
@@ -212,21 +222,34 @@ typedef struct {
     u8 field_164B;
 } SDValue;
 
+/* func_800464F0 drops a queued command by copying the next 0x30-byte record
+   down over it. With all sixteen entries queued, the copy for the last one
+   reads the record-sized span at state+0x380, past `commands` but still
+   inside SDValue (pad0380 and the start of voice_attr). This view of the
+   same state spans the queue plus that one trailing record, so the read
+   stays inside a declared array. The assertions below pin it to SDValue. */
+typedef struct {
+    u8 pad0000[SD_COMMAND_QUEUE_BYTE_OFFSET];
+    SDCommand c[SD_COMMAND_QUEUE_COUNT + 1];
+} SDCommandShiftView;
+
 typedef struct {
     u8 program;
     u8 pan;
     u8 pad0002;
     u8 volume;
-    u8 pad0004;
+    u8 field_0004;
     u8 expression;
     u8 field_0006;
     u8 pitch_bend_msb;
-    u8 pad0008[8];
+    s32 field_0008;
+    s32 field_000C;
     u8 field_0010;
     u8 parameter_selector;
     u8 control_mode;
     u8 control_value;
-    u8 pad0014[4];
+    s16 field_0014;
+    u8 pad0016[2];
 } SDSecondaryRecord;
 
 typedef struct {
@@ -257,7 +280,7 @@ typedef struct {
     u16 level_right;
     u8 pad0018[2];
     s16 cached_pitch_bend;
-    u8 pad001C[2];
+    s16 field_001C;
     u16 field_001E;
     u8 pad0020[8];
 } SDSecondaryObject;
@@ -301,7 +324,7 @@ typedef struct {
     u8 running_status_held;
     u8 running_status;
     u8 running_status_saved;
-    u8 pad002B;
+    u8 field_002B;
 } SDSequenceTrack;
 
 typedef struct {
@@ -379,6 +402,13 @@ typedef char SDValueLink_size_must_be_0x08[
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
 ];
+typedef char SDCommandShiftView_queue_must_overlay_commands[
+    SD_STATE_OFFSET(SDCommandShiftView, c) ==
+        SD_STATE_OFFSET(SDValue, commands) ? 1 : -1
+];
+typedef char SDCommandShiftView_must_fit_inside_SDValue[
+    sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
+];
 typedef char SDValue_lookup_bank_size_must_match_stride[
     sizeof(((SDValue *)0)->field_044C[0]) ==
         SD_VOICE_LOOKUP_BANK_BYTE_STRIDE ? 1 : -1
@@ -450,6 +480,13 @@ typedef char SDValue_field_15EC_offset_must_be_0x15EC[
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
     SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1
+];
+typedef char SDValue_decoded_half_offset_must_be_0x538[
+    SD_STATE_OFFSET(SDValue, decoded_half) == 0x538 ? 1 : -1
+];
+typedef char SDValue_output_level_offset_must_be_0x154C[
+    SD_STATE_OFFSET(SDValue, output_level) == 0x154C &&
+    SD_STATE_OFFSET(SDValue, field_1550) == 0x1550 ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
@@ -760,10 +797,12 @@ s32 func_80049138(s16 arg0, s32 arg1);
    byte, as the note further down records. */
 s32 SD_GetSequenceStatus(void);
 
-/* Stages a tagged secondary sequence if no sequence is already staged.
- * The definition uses void * for the input and returns a full s32 status;
- * the command pump stores that status into its signed halfword field. */
-s32 func_80049A64(void *input, s16 value);
+/* Opens a tagged secondary sequence against a VAB id if no sequence is
+ * already open, like libsnd's SsSeqOpen: 0 is the access number the stop and
+ * close steps are later handed, -1 a refusal. The definition uses void * for
+ * the input and returns a full s32 status; the command pump stores that
+ * status into its signed halfword field. */
+s32 SD_OpenSequence(void *input, s16 vab_id);
 
 /* func_80049F50 reports the secondary path's state byte, promoting a
    SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
@@ -790,18 +829,18 @@ s32 func_80049F50(void);
    notes/research/matching-evidence.md.
 
    func_800498F8's two callers pass a constant 0 and an s32 local, so its
-   ambient arm can state s32 exactly. func_80049C40's three callers all pass
+   ambient arm can state s32 exactly. SD_StopSequence's three callers all pass
    the s16 field_157E, which default-promotes to s32, so its arm can too;
    func_80049CB0's two callers pass the same field and use the same promoted
    type. The defining units take the arm below and are still checked against
    their definitions. */
 #ifdef SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 void func_800498F8(s32 value);
-void func_80049C40(s32 value);
+void SD_StopSequence(s32 value);
 void func_80049CB0(s32 value);
 #else
 void func_800498F8(void);
-void func_80049C40(void);
+void SD_StopSequence(void);
 void func_80049CB0(void);
 #endif
 /* Mutes active low-channel secondary objects, then sets the playback state

@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/sdk_internal.h"
 
 /* The packet cursor these helpers write through: a cursor into the frame's
  * scratch packet area, advanced past each packet as it is linked. It is
@@ -16,9 +17,6 @@ extern s32 D_800FE240 __attribute__((section(".data")));
 #else
 extern u32 *D_800FE240 __attribute__((section(".data")));
 #endif
-
-/* Current model ordering table, not the packet work cursor above. */
-GsOT *func_80058F10(void);
 
 /* Copies a primitive, adds draw mode, and links it into the ordering table. */
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags);

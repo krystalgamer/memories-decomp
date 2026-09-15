@@ -318,7 +318,7 @@ unchanged from the object.
 |---|---|---|
 | `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `func_800408D0` |
 | `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `func_800408D0` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/candidates/func_80041F90.c`), and is copied into the clip state as `c->flag` | both renderers |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/game/func_80041F90.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
 
 The step values are the texture-page advance applied when a strip's `u`

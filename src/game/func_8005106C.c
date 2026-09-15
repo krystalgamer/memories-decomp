@@ -35,8 +35,10 @@ void func_80050F24(s32 arg0)
         value = q->field_0C[p->field_DFE];
     }
     func_80059F18(1, -1, arg0 ^ 1, value);
-    func_8005F180(((q->field_0A[p->field_DFE] & 0x80) == 0) << 1);
-    if ((q->field_0A[p->field_DFE] & 0x40) != 0) {
+    func_8005F180(
+        ((q->prefix.bytes.field_0A[p->field_DFE] & 0x80) == 0) << 1
+    );
+    if ((q->prefix.bytes.field_0A[p->field_DFE] & 0x40) != 0) {
         func_8005F180(1);
     }
 }

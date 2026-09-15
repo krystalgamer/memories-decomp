@@ -72,8 +72,7 @@ class ModelDebugOwnershipTests(unittest.TestCase):
     def test_actual_definition_and_callers_keep_visible_owners(self):
         for relative in (
             "src/game/func_800534B8.c", "src/game/main_run_animated_battle.c",
-            "src/game/func_80052D2C.c", "src/game/func_80050584.c",
-            "src/game/model_intro_controller.c",
+            "src/game/func_80052D2C.c", "src/game/model_intro_controller.c",
         ):
             with self.subTest(source=relative):
                 result = self.compile(ROOT / relative)

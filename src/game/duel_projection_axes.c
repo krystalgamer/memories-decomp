@@ -2,6 +2,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "gpu_packets.h"
+#include "duel_projection_axes.h"
 
 /* The two axis sweeps of the globe wireframe, called from func_80029934 with
  * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
@@ -14,8 +15,7 @@
  *
  * The offsets these used to be spelled with -- dst[0]/dst[4]/dst[8] on an
  * s16 pointer and (long *)(arg0 + 8) style casts -- are the members of those
- * two SDK types, and func_80029934's candidate note in functions.csv already
- * identified both records.
+ * two SDK types. func_80029934 uses the same scratchpad records.
  */
 
 void func_80029684(

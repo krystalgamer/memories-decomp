@@ -130,12 +130,14 @@ extern u8 D_8009B3EF;
 /* The retry gate shared by the create and load state machines: both test it
  * against zero before starting, and the create path clears it.
  *
- * #3084 excluded this symbol on the grounds that main_apply_menu_selection.c also names
- * it and so it was not family-local. That was over-cautious: that source
- * spells it with a .data section attribute, which is the absolute-addressing
- * group rather than a different type, and it does not include this header, so
- * the two never meet. The same reasoning fade.h uses for D_8009B141. */
+ * main_apply_menu_selection.c sets it through %hi/%lo and defines
+ * D_8009B3D4_IN_DATA to take the .data arm below; the memory-card units keep
+ * the plain arm. fade.h does the same for D_8009B141. */
+#ifdef D_8009B3D4_IN_DATA
+extern u8 D_8009B3D4 __attribute__((section(".data")));
+#else
 extern u8 D_8009B3D4;
+#endif
 
 /* The IO event machinery's own two bytes.
  *

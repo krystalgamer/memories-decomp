@@ -8,7 +8,7 @@
    clamp"). Finally sets out->max to the largest of {x (if positive), y, z}. */
 void func_80057E20(s32 idx, ModelEffectAdjustment *out) {
     ModelSlot *rec = &D_800F2C40[idx];
-    u8 *thresh = rec->field_CF8.field_00;
+    u8 *thresh = rec->field_CF8.prefix.bytes.field_00;
 
     *out = *(ModelEffectAdjustment *)rec->field_DC8;
 

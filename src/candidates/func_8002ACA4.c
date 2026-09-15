@@ -49,6 +49,7 @@
 #include "../game/model_scene_setup.h"
 #include "../game/duel_effect_resource_setup.h"
 #include "../game/func_800291E0.h"
+#include "../game/func_80029934.h"
 #include "../game/model.h"
 #include "../game/model_load_step.h"
 #include "../game/func_80058DD8.h"
@@ -70,7 +71,6 @@
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 extern u8 *D_800EB24C;
-void func_80029934(void);
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light);
 DisplayObject *func_8002ABB4(DisplayObject *src, int add);
 

@@ -5,12 +5,21 @@
  * an empty opcode census, with no hard register assignments and no inline
  * assembly.
  *
- * Residual: two scheduling differences in the first 80 instructions. The
- * target emits the `ori $s6,$s6,0xA0` half of a constant 23 instructions
- * after its `lui`, in a load's delay slot, where this source keeps the pair
- * adjacent. It also loads the byte at +0x66 into $v0 after the neighbouring
- * store, where this source loads it into $a0 before. The -fno-strength-reduce
- * profile is the measured one: plain gcc_2_8_1_g8_split is 886 instructions.
+ * Levers measured on this body:
+ * - the tpage attribute flag is read into `w` before the byte at +0x66, and
+ *   that byte load is pinned in a do/while. Together they put the load after
+ *   the flag test, which is where retail has it, and they also let the
+ *   scheduler split the 0x1F8000A0 constant's lui and ori the way retail
+ *   does;
+ * - `b` is a u32: its width decides the operand order of the tpage `or`,
+ *   where seven spellings of the expression itself tied;
+ * - the -fno-strength-reduce profile is the measured one: plain
+ *   gcc_2_8_1_g8_split is 886 instructions.
+ *
+ * Residual: every opcode position matches; five rows differ in registers.
+ * After GsSetLsMatrix the target computes the three RotAverageNclip4 vector
+ * addresses before materialising -8 and 8, where this source materialises the
+ * constants first.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -43,7 +52,7 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     s32 cyv;
     s32 c;
     u8 f;
-    u8 b;
+    u32 b;
     s32 v78;
     s32 tt;
     s16 k8;
@@ -73,8 +82,11 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     ft4->clut = (obj->field_40.h.field_42 << 6) |
                 (((u16)obj->field_40.h.field_40 >> 4) & 0x3F);
     t = (obj->attribute >> 0x17) & 0x60;
-    b = obj->field_66;
-    if (obj->attribute & 0x01000000) {
+    w = obj->attribute & 0x01000000;
+    do {
+        b = obj->field_66;
+    } while (0);
+    if (w) {
         b |= 0x80;
     }
     ft4->tpage = t | b;

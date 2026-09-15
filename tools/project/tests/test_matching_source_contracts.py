@@ -86,6 +86,50 @@ class MatchingSourceContractTests(unittest.TestCase):
         )
         self.assertTrue(uses_disallowed_psyq_rtps_asm(source))
 
+    def test_stopz_requires_its_explicit_macro_family(self) -> None:
+        source = '__asm__ volatile ( "swc2 $24, 0( %0 )" : : "r"( p ) : "memory" ) ;\n'
+        self.assertTrue(source_violations(source, set()))
+        self.assertTrue(source_violations(source, set(), allow_psyq_inline_macros=True))
+        self.assertEqual(source_violations(
+            source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="stopz",
+        ), [])
+
+    def test_stopz_rejects_other_registers_and_assembly(self) -> None:
+        source = '__asm__ volatile ( "swc2 $24, 0( %0 )" : : "r"( p ) : "memory" ) ;\n'
+        alternatives = [
+            source.replace("$24", "$7"),
+            source.replace("$24", "$14"),
+            source.replace("volatile ", ""),
+            source.replace(': "memory"', ': "cc"'),
+            source.replace('"r"( p )', '"r"( p + 1 )'),
+            source + 'asm("nop");\n',
+            'asm("nop"); ' + source,
+            "",
+        ]
+        for candidate in alternatives:
+            with self.subTest(candidate=candidate):
+                self.assertTrue(source_violations(
+                    candidate, set(), allow_psyq_inline_macros=True, psyq_inline_macro="stopz",
+                ))
+
+    def test_stopz_does_not_allow_register_bindings(self) -> None:
+        source = (
+            'register int *p asm("$2");\n'
+            '__asm__ volatile ( "swc2 $24, 0( %0 )" : : "r"( p ) : "memory" ) ;\n'
+        )
+        self.assertIn("contains a hard-register variable", source_violations(
+            source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="stopz",
+        ))
+
+    def test_macro_profile_requires_known_explicit_allowance(self) -> None:
+        for family, enabled in (("other", True), ("stopz", False), (["stopz"], True)):
+            with self.subTest(family=family, enabled=enabled):
+                with self.assertRaises(IntegrationError):
+                    validate_effective_profile({
+                        "compiler_flags": ["-G8"], "maspsx_flags": ["-G8"],
+                        "psyq_inline_macro": family, "allow_psyq_inline_macros": enabled,
+                    }, "test")
+
     def test_comment_markers_inside_literals_do_not_hide_assembly(self) -> None:
         source = 'void f(void) { const char *s = "//"; asm("nop"); }\n'
         self.assertEqual(

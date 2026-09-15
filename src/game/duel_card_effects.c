@@ -22,6 +22,7 @@
 #include "func_80022D94.h"
 #include "../unmatched.h"
 #include "duel_card_effects.h"
+#include "display_object_helpers.h"
 
 /* Small data at 0x8009AF30, owned here: the recovery handler scales the
    first table by 100 and the direct-damage handler scales the second by 10,

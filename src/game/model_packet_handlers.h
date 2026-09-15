@@ -38,6 +38,10 @@ int func_8005CEF0(GsARGUNIT_ANIM *sp);
  * when the packet supplies an output record. Returns 1 for zero duration. */
 s32 func_8005D378(GsARGUNIT_ANIM *ctx);
 
+/* Advances the custom 0x03800000 sequence records and dispatches their
+ * interpolation callbacks. Returns the next primitive block. */
+u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx);
+
 /* Installs the packet handler for one model's animation stream.
  *
  * func_8005C768 maps a packet's type word to the routine that consumes it,

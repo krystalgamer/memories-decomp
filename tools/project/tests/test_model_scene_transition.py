@@ -18,7 +18,12 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_800507D0.c"
+SOURCE = REPOSITORY / "src/game/model_intro_controller.c"
+SOURCE_MARKER = (
+    '\n#include "../psyq/rand.h"\n'
+    '#include "model.h"\n'
+    "#define MODEL_GRAPHICS_STATE_SCENE_BYTES\n"
+)
 START = """
 .text
 .globl _start
@@ -566,6 +571,15 @@ int main(int argc, char **argv)
     "requires Linux x86 and a host compiler with ILP32 execution",
 )
 class ModelSceneTransitionTests(unittest.TestCase):
+    @staticmethod
+    def source_text() -> str:
+        text = SOURCE.read_text()
+        if text.count(SOURCE_MARKER) != 1:
+            raise AssertionError("model scene source boundary changed")
+        return '#include "../types.h"\n' + SOURCE_MARKER[1:] + text.split(
+            SOURCE_MARKER, 1
+        )[1]
+
     @classmethod
     def setUpClass(cls):
         if Path.cwd().resolve() != REPOSITORY:
@@ -578,8 +592,14 @@ class ModelSceneTransitionTests(unittest.TestCase):
         cls.witness.write_text(WITNESS)
         cls.startup = cls.directory / "start.S"
         cls.startup.write_text(START)
+        cls.source = cls.directory / "func_800507D0.c"
+        cls.source.write_text(re.sub(
+            r'^#include "([^"]+)"',
+            lambda match: '#include "' + str((SOURCE.parent / match[1]).resolve()) + '"',
+            cls.source_text(), flags=re.MULTILINE,
+        ))
         cls.binaries = {
-            optimization: cls.compile(SOURCE, optimization, "actual")
+            optimization: cls.compile(cls.source, optimization, "actual")
             for optimization in ("-O0", "-O2")
         }
 
@@ -636,7 +656,7 @@ class ModelSceneTransitionTests(unittest.TestCase):
         self.run_witness(8)
 
     def mutation(self, pattern: str, replacement: str, scenario: int, expected: range):
-        text = SOURCE.read_text()
+        text = self.source_text()
         # Protect each semantic edit with exactly one matching expression.
         # Captures avoid depending on the decompiler's temporary names.
         text, count = re.subn(pattern, replacement, text)

@@ -28,15 +28,17 @@ void func_80031E5C(u8 *arg0) {
 
 void func_80031EE4(u8 *base, s32 index)
 {
-    u8 *counts = base + index;
-    u32 raw = counts[0x5D97];
+    /* The state is cast at each use: through a BuildDeckTransitionState *
+       local the function grows by an instruction. */
+    u32 raw = ((BuildDeckTransitionState *)base)->chest_card_quantities[index];
     s32 count = raw & 255;
 
     if (count == 0) {
-        CardListSortItem *entry = (CardListSortItem *)(base + 4);
+        CardListSortItem *entry =
+            (CardListSortItem *)((BuildDeckTransitionState *)base)->lists[0].entries;
 
-        (*(s32 *)(base + 0x5A9C))++;
-        counts[0x5D97]++;
+        ((BuildDeckTransitionState *)base)->chest_total++;
+        ((BuildDeckTransitionState *)base)->chest_card_quantities[index]++;
         do {
             s32 id = entry->card_id;
 
@@ -47,38 +49,39 @@ void func_80031EE4(u8 *base, s32 index)
         entry--;
         /* Keep the post-search adjustment separate from the flag store. */
         ((volatile CardListSortItem *)entry)->field_0D = 1;
-        func_80032C48((CardList *)(base + 4));
+        func_80032C48(&((BuildDeckTransitionState *)base)->lists[0]);
     } else if (count != CARD_CHEST_QUANTITY_MAX) {
         s32 next = raw + 1;
 
-        counts[0x5D97] = next;
-        (*(s32 *)(base + 0x5A9C))++;
+        ((BuildDeckTransitionState *)base)->chest_card_quantities[index] = next;
+        ((BuildDeckTransitionState *)base)->chest_total++;
     }
 }
 
 void func_80031F7C(u8 *state, s32 id)
 {
-    s32 count = (state + id)[0x5D97];
+    s32 count = ((BuildDeckTransitionState *)state)->chest_card_quantities[id];
 
     if (count != 0) {
         count--;
         if (count == 0) {
-            u8 *record = state + 4;
+            CardEntry *record =
+                ((BuildDeckTransitionState *)state)->lists[0].entries;
 
             while (1) {
-                if (*(s16 *)(record + 4) == id) {
+                if ((s16)record->id == id) {
                     break;
                 }
-                record += 0x10;
+                record++;
             }
 
-            record[0xD] = 0;
-            if ((state + id)[0x5D97] != 0) {
-                record[0xD] = 0x80;
+            record->flags = 0;
+            if (((BuildDeckTransitionState *)state)->chest_card_quantities[id] != 0) {
+                record->flags = 0x80;
             }
-            func_80032C48((CardList *)(state + 4));
+            func_80032C48(&((BuildDeckTransitionState *)state)->lists[0]);
         }
-        (state + id)[0x5D97] = count;
-        *(s32 *)(state + 0x5A9C) -= 1;
+        ((BuildDeckTransitionState *)state)->chest_card_quantities[id] = count;
+        ((BuildDeckTransitionState *)state)->chest_total -= 1;
     }
 }

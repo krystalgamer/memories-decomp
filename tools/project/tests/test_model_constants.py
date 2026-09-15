@@ -26,7 +26,7 @@ class ModelConstantTests(unittest.TestCase):
 
     def test_mrg_consumers_share_gap_boundaries(self) -> None:
         loader = (ROOT / "src/game/model_load_monster_merge.c").read_text()
-        randomizer = (ROOT / "src/game/func_80050584.c").read_text()
+        randomizer = (ROOT / "src/game/model_intro_controller.c").read_text()
         for constant in (
             "MODEL_MRG_FIRST_GAP_START",
             "MODEL_MRG_FIRST_GAP_END",

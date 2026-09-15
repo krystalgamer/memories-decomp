@@ -124,7 +124,8 @@ void NameEntry_UpdateDialog(void)
             }
         } else {
             func_80039794();
-            if ((*(u32 *)&box->flags_34 & 0x2008) != 0x2000) {
+            if ((*(u32 *)&box->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
+                TEXT_BOX_FLAG_DONE) {
                 return;
             }
         }

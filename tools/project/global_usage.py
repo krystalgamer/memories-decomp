@@ -339,6 +339,65 @@ def matching_open_paren(
     return None
 
 
+def function_name_before_body(tokens: list[Token], brace_index: int) -> int | None:
+    close_paren = brace_index - 1
+    if close_paren >= 0 and tokens[close_paren].value == ")":
+        candidates = [close_paren]
+    else:
+        candidates = [
+            index
+            for index in range(brace_index - 1, -1, -1)
+            if tokens[index].value == ")"
+        ]
+    for close_paren in candidates:
+        open_paren = matching_open_paren(tokens, close_paren)
+        name_index = None if open_paren is None else open_paren - 1
+        if (
+            name_index is None
+            or name_index < 0
+            or not IDENTIFIER_RE.fullmatch(tokens[name_index].value)
+            or tokens[name_index].value
+            in {"if", "for", "while", "switch", "sizeof"}
+        ):
+            continue
+        if close_paren == brace_index - 1:
+            return name_index
+
+        parameters = [
+            token.value
+            for token in tokens[open_paren + 1 : close_paren]
+            if IDENTIFIER_RE.fullmatch(token.value)
+        ]
+        if (
+            not parameters
+            or any(
+                token.value not in {",", *parameters}
+                for token in tokens[open_paren + 1 : close_paren]
+            )
+        ):
+            continue
+        declarations = tokens[close_paren + 1 : brace_index]
+        if not declarations or declarations[-1].value != ";":
+            continue
+        statement: list[Token] = []
+        declared: set[str] = set()
+        valid = True
+        for token in declarations:
+            statement.append(token)
+            if token.value != ";":
+                continue
+            values = {item.value for item in statement}
+            names = values.intersection(parameters)
+            if not names or "=" in values or "{" in values or "}" in values:
+                valid = False
+                break
+            declared.update(names)
+            statement = []
+        if valid and not statement and declared == set(parameters):
+            return name_index
+    return None
+
+
 def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
     cleaned = blank_non_code(text)
     tokens = tokenize(cleaned)
@@ -351,42 +410,39 @@ def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
             top_level_tokens.append(token)
             index += 1
             continue
-        close_paren = index - 1
-        if close_paren >= 0 and tokens[close_paren].value == ")":
-            open_paren = matching_open_paren(tokens, close_paren)
-            name_index = None if open_paren is None else open_paren - 1
-            if (
-                name_index is not None
-                and name_index >= 0
-                and IDENTIFIER_RE.fullmatch(tokens[name_index].value)
-                and tokens[name_index].value
-                not in {"if", "for", "while", "switch", "sizeof"}
-            ):
-                depth = 1
-                end = index + 1
-                while end < len(tokens) and depth:
-                    if tokens[end].value == "{":
-                        depth += 1
-                    elif tokens[end].value == "}":
-                        depth -= 1
-                    end += 1
-                if depth:
-                    raise GlobalUsageError(
-                        f"unbalanced function body for {tokens[name_index].value}"
-                    )
-                while (
-                    top_level_tokens
-                    and top_level_tokens[-1].value not in {";", "}"}
-                ):
-                    top_level_tokens.pop()
-                functions.append(
-                    CFunction(
-                        name=tokens[name_index].value,
-                        tokens=tuple(tokens[index + 1 : end - 1]),
-                    )
+        name_index = function_name_before_body(tokens, index)
+        if name_index is not None:
+            depth = 1
+            end = index + 1
+            while end < len(tokens) and depth:
+                if tokens[end].value == "{":
+                    depth += 1
+                elif tokens[end].value == "}":
+                    depth -= 1
+                end += 1
+            if depth:
+                raise GlobalUsageError(
+                    f"unbalanced function body for {tokens[name_index].value}"
                 )
-                index = end
-                continue
+            header_start = name_index
+            while (
+                header_start
+                and tokens[header_start - 1].value not in {";", "}"}
+            ):
+                header_start -= 1
+            while (
+                top_level_tokens
+                and top_level_tokens[-1].start >= tokens[header_start].start
+            ):
+                top_level_tokens.pop()
+            functions.append(
+                CFunction(
+                    name=tokens[name_index].value,
+                    tokens=tuple(tokens[index + 1 : end - 1]),
+                )
+            )
+            index = end
+            continue
         depth = 1
         top_level_tokens.append(token)
         index += 1

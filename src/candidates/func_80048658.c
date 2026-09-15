@@ -8,6 +8,7 @@
 #include "../unmatched.h"
 #include "../game/sound_output_state.h"
 #include "../game/sound.h"
+#include "../game/sound_voice_allocator.h"
 
 void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
 {

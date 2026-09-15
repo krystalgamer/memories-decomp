@@ -3,6 +3,7 @@
 #include "display_object_lifecycle.h"
 #include "display_object_layout.h"
 #include "duel_card.h"
+#include "duel_scene_card_placement.h"
 
 void func_80019BD0(DisplayObject *o)
 {

@@ -68,11 +68,6 @@
 
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
-/* Two consumers. frontend_scene_states.c spelled the result `int` and
- * debug_menu_sound_entry.c spelled it `s32`; types.h defines s32 as signed int, so the
- * two agree and the difference was only spelling. */
-s32 func_80030294(void);
-
 /* Two consumers. main_run_duel_and_library.c spells the first and final
  * parameters with project aliases, while main_run_selection_menus.c uses the
  * equivalent unsigned int and int spellings. */
@@ -187,7 +182,6 @@ extern s32 D_8009B118;
  * and passes an argument. */
 void DuelScene_UpdateHandActions(void);
 void DuelScene_UpdateFieldActions(void);
-void DuelScene_UpdateCardPlacement(void);
 void DuelScene_UpdateBattle(void);
 void DuelScene_UpdateExodiaResult(void);
 void func_80029EC4(void);
@@ -238,18 +232,11 @@ void func_80034830(void);
  * func_8004158C.h. func_800534B8 is now owned by model_debug_controller.h. */
 void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
-void func_8005C7BC(void);
 
-/* Three caller-visible contracts that were outside the central inventory.
- *
- * func_800482B0 had one local declaration in SD_SEPlay. Its wider integer
- * parameters are the caller's measured view and remain distinct from the
- * narrower internal types in the build-integrated candidate.
- *
+/* func_800482B0 is now owned by sound_voice_allocator.h.
  * func_80015EF4 was called implicitly. It takes the
  * caller's record and scratch buffers; void * preserves the record boundary
  * without importing a subsystem type into this root header. */
-void func_800482B0(s32, s32, u8, s32, s32, s32);
 void func_80015EF4(void *, u8 *, u8 *, s32 *);
 
 /* This undefined global is declared identically by every consumer and
@@ -348,7 +335,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * The Script_OpSavePrompt candidate also clears it, spelled with a .data section
+ * Script_OpSavePrompt also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
 extern u8 D_8009B34C __attribute__((section(".data")));
@@ -396,13 +383,12 @@ extern u8 D_800E9EC0[];
  * shared it through a model_primitive_handler_entries.h that existed for no
  * other purpose. It folds in here.
  *
- * The reason that header could not simply be model_primitive_handler.h still
- * holds and is worth keeping written down: that header declares func_800603DC
- * as void *(u32), while model_handler_registry.c declares the same function
- * as `extern s32 (*func_800603DC())()` and uses it sixty-seven times. Those
- * spellings collide, so the registry cannot include model_primitive_handler.h
- * at all. This header does not declare func_800603DC, so both files can take
- * the entry points from here.
+ * They were first placed here because model_handler_registry.c could not
+ * include model_primitive_handler.h: the two spelled func_800603DC
+ * differently. That header now carries both spellings behind
+ * FUNC_800603DC_RETURNS_HANDLER, and the registry defines the guard and
+ * includes it. The entry points stay here because, like everything else in
+ * this header, they have no defining C translation unit.
  */
 void func_800612C0(void);
 void func_8006151C(void);
@@ -537,7 +523,7 @@ struct DuelRitualResult;
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
- * (src/candidates/func_8002EE94.c) holds the same object as
+ * (script_op_save_prompt.c) holds the same object as
  * DuelEffectChannel * and casts. */
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
@@ -568,7 +554,6 @@ extern DisplayObject *D_8009B18C;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-extern u8 D_8009B248;
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
 extern DuelEffectRequest *D_8009B264;

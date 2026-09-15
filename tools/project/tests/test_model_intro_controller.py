@@ -13,6 +13,11 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/model_intro_controller.c"
+SOURCE_MARKER = (
+    '\n#include "../unmatched.h"\n'
+    '#include "../psyq/libgte.h"\n'
+    '#include "../psyq/libgpu.h"\n'
+)
 SCRATCH = REPOSITORY / "tmp/astra/model-update-witness"
 START = r"""
 .text
@@ -602,6 +607,13 @@ int main(void)
     "requires a Linux x86 host compiler and ILP32 execution",
 )
 class ModelIntroControllerTests(unittest.TestCase):
+    @staticmethod
+    def source_text() -> str:
+        text = SOURCE.read_text()
+        if text.count(SOURCE_MARKER) != 1:
+            raise AssertionError("model intro source boundary changed")
+        return text.split(SOURCE_MARKER, 1)[0] + "\n"
+
     def build_and_run(
         self, optimization: str, mutation: str | None = None
     ) -> subprocess.CompletedProcess[str]:
@@ -610,9 +622,8 @@ class ModelIntroControllerTests(unittest.TestCase):
         SCRATCH.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="run-", dir=SCRATCH) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = self.source_text()
             if mutation is not None:
-                text = SOURCE.read_text()
                 replacements = {
                     "terminal-state": ("D_8009AF9A = -2;", "D_8009AF9A = -3;"),
                     "unsequenced-timing": (
@@ -624,15 +635,15 @@ class ModelIntroControllerTests(unittest.TestCase):
                 original, replacement = replacements[mutation]
                 self.assertEqual(text.count(original), 1)
                 text = text.replace(original, replacement)
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda match: '#include "' + str(
-                        (SOURCE.parent / match.group(1)).resolve()
-                    ) + '"',
-                    text, flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(text)
+            text = re.sub(
+                r'^#include "([^"]+)"',
+                lambda match: '#include "' + str(
+                    (SOURCE.parent / match.group(1)).resolve()
+                ) + '"',
+                text, flags=re.MULTILINE,
+            )
+            source = directory / "intro.c"
+            source.write_text(text)
             fixture = directory / "fixture.c"
             fixture.write_text(WITNESS)
             start = directory / "start.S"

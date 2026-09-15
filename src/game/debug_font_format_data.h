@@ -9,8 +9,8 @@
  * the definitions and an incomplete extern array is a compatible declaration
  * for them -- the defining unit consumes this header too.
  *
- * The array is left incomplete because every reader wants the %hi/%lo pair:
- * src/candidates_target/func_80030294.S loads both that way, and declaring
+ * The array is left incomplete because every reader wants the %hi/%lo pair.
+ * The retail func_80030294 target loads both that way, and declaring
  * `char [4]` here instead -- four bytes, which is small data at -G8 -- fails
  * the build with `error: rebuilt executable is 0x1d07f4 bytes, expected
  * 0x1d0800`. That measurement is what the removed

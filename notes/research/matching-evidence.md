@@ -4084,7 +4084,9 @@ offsets instead does not: the base stays in `$v1` and the argument is derived
 as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
 reach their exact instruction count with opcode distance 0, at 6, 8 and 9
 differing positions, and what is left in each is prologue scheduling. The
-stored candidates are in `notes/candidates/`.
+remaining `func_8004A27C` candidate is build-integrated at
+`src/candidates/func_8004A27C.c`; the two envelope helpers are exact in
+`src/game/sound_voice_envelope.c`.
 
 ### Emission order is not source order for a run of stores to one struct
 
@@ -4482,11 +4484,11 @@ looks redundant is the one that reproduces.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found on `func_80045208` and its twin `func_80045334`, whose entries are in
-`notes/candidates/`. Both reconstruct to the exact instruction count with the
-exact register assignment and stop on the same two positions: the order of
-three word stores into a stack request block, and therefore which of them the
-delay-slot filler steals for the following call.
+Found on `func_80045208` and its twin `func_80045334`, whose exact source is
+`src/game/sound_output_state.c`. Both reconstruct to the exact instruction
+count with the exact register assignment and stop on the same two positions:
+the order of three word stores into a stack request block, and therefore which
+of them the delay-slot filler steals for the following call.
 
 The rule is reproducible in a probe of ten lines:
 
@@ -4527,11 +4529,12 @@ diagnostic that tells you what the scheduler did, not as a profile to ship.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found while taking `func_80045208` from opcode distance 3 to 0; the entry is in
-`notes/candidates/`. It and its twin `func_80045334` both reconstruct to the
-exact instruction count with the exact register assignment and stop on the same
-two positions: the order of three word stores into a stack request block, and
-therefore which of them the delay-slot filler steals for the following call.
+Found while taking `func_80045208` from opcode distance 3 to 0; its exact source
+is `src/game/sound_output_state.c`. It and its twin `func_80045334` both
+reconstruct to the exact instruction count with the exact register assignment
+and stop on the same two positions: the order of three word stores into a stack
+request block, and therefore which of them the delay-slot filler steals for the
+following call.
 `func_80045334`'s entry already records that source statement order is not the
 input this order is computed from, over about 1800 variants. This is what it is
 computed from instead.
@@ -6384,6 +6387,13 @@ Two consequences worth carrying forward:
 
 ## No GTE command instruction can currently be emitted from C
 
+**Historical finding, with a narrow RTPS exception now implemented.**
+`normalize_psyq_rtps.py` and the named RTPS profiles translate the official
+RTPS marker for matching `func_80015D18` and `func_80029934`. The latter's
+[wireframe evidence](../library-wireframe.md) uses the same approved macro
+family without widening it. The following probe describes profiles without
+that filter; it is not a reason to exclude every RTPS-only function.
+
 The three functions #2390 reopened into the candidate queue — `func_80033DB0`,
 `func_80034830` and `func_80067220` — all need GTE *command* words. None of
 them is buildable as C today, and the reason is a pipeline gap rather than
@@ -6443,6 +6453,15 @@ Until then, treat a target containing any of the eight words above as blocked
 at the toolchain, not at the source. That is a different conclusion from the
 usual "the residual is N instructions": there is no candidate to refine,
 because the command cannot be spelled at all.
+
+`gcc_2_8_1_g8_split_psyq_gte` now bridges the three commands the HMD triangle
+driver needs. Its `tools/project/normalize_psyq_gte.py` filter rewrites the
+RTPS, NCDS and NCLIP markers to `4a180001`, `4ae80413` and `4b400006`, and
+fails on any other marker, so an untranslated command still cannot assemble
+silently. The `func_80033DB0` candidate builds under it at 672/672 with 18
+differing words, all one allocation swap. RTPT, NCCS, NCCT, AVSZ3 and AVSZ4
+remain untranslated, and matching-source validation still accepts only the
+RTPS and STOPZ macro families.
 ## objdump hides identical runs, and a text column can drift off its bytes
 
 Three earlier entries here record measurement bugs in the comparison itself -
@@ -6688,6 +6707,16 @@ function from distance 4 back to 18. Dropping the cast is one instruction
 short locally and 14 opcodes better overall. Weigh a hoist against the
 register file, not against the instruction it saves.
 
+Those are historical measurements, not permission to omit the narrowing:
+bit `0x8000` being clear does not exclude higher ID bits. The subsequent
+`func_800482B0` match preserves a `u16` saved ID, shares an envelope/ID scratch
+to prevent hoisting, and uses a shared voice mask, halfword mode snapshot with
+unsigned masking, and byte occurrence limit. All 936 text bytes match under
+uniform `gcc_2_8_1_g8_split`, without register bindings or artificial volatility.
+The original six attempts remain intact and a post-terminal record supplies
+the new evidence. See [Sound Driver State](../sound-driver-state.md) for the
+selection contract and bounded witnesses.
+
 **Signedness of the compared value picks `sltu` over `slt`, and can carry a
 `multu` with it.** `func_8005E808`'s radius has to be `u32`: an `s32` gives
 `slt` and, in case 4, also drops the unsigned `multu` that the `/ 4096000`
@@ -6726,8 +6755,11 @@ so not every equivalent spelling has the same code-generation effect.
 The accepted source uses the shared `SDValue` type and existing callee
 prototype from `sound_output_state.h`. The one retained byte-based state
 lookup is measured: spelling it from `&a->field_044C` changes one word at
-`+0x68`, despite the same address and size. The wider local declaration of
-the unmatched `func_800482B0` call is unchanged from the existing candidate.
+`+0x68`, despite the same address and size. At this stage the
+`func_800482B0` call retained the candidate's wider declaration. The later
+allocator promotion moved that call to `sound_voice_allocator.h`; the retained
+`SD_SEPlay` candidate's object fingerprint is unchanged with the canonical
+narrow-argument prototype.
 Caller-side `SD_SEPlay` declarations remain profile-specific; this change
 does not unify them.
 
