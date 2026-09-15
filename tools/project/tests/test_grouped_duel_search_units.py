@@ -28,6 +28,18 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         self.assertEqual(self.functions["0x8002C9B4"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002C9B4.c").exists())
 
+    def test_effect_request_pool_has_one_owner(self) -> None:
+        owner = "src/game/duel_effect_object_pool.c"
+        addresses = (
+            "0x8002C570",
+            "0x8002C598",
+            "0x8002C5CC",
+            "0x8002C604",
+        )
+        for address in addresses:
+            self.assertEqual(self.functions[address]["source"], owner)
+        self.assertFalse((ROOT / "src/game/func_8002C604.c").exists())
+
     def test_functions_remain_in_image_order(self) -> None:
         field_source = (ROOT / "src/game/duel_field_equip_search.c").read_text()
         field_names = (
@@ -44,6 +56,16 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
             object_source.index("void func_8002C938("),
             object_source.index("void func_8002C9B4("),
         )
+
+        pool_source = (ROOT / "src/game/duel_effect_object_pool.c").read_text()
+        pool_names = (
+            "int func_8002C570(",
+            "void DuelEffect_ResetRequestPool(",
+            "DuelEffectRequest *DuelEffect_FindFreeRequest(",
+            "u8 *DuelEffect_AllocateRequest(",
+        )
+        positions = [pool_source.index(name) for name in pool_names]
+        self.assertEqual(positions, sorted(positions))
 
 
 if __name__ == "__main__":
