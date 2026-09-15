@@ -36,7 +36,7 @@ void SD_Term(void)
  * fsize (+0x0C) minus that is the body size, and mvol (+0x18) and pan
  * (+0x19) are kept beside them. `spu_addr` is where the body goes: the
  * packages' own +0x0C word, which with the body size at +8 ends every one at
- * SPU address 0x79020. func_8004975C and func_800497E0 later SpuWrite the
+ * SPU address 0x79020. SD_VabTransBody and func_800497E0 later SpuWrite the
  * body there. Asking for id -1 fails while the slot is still live.
  *
  * The 152-byte function at `0x800496C4` matches under the existing uniform
@@ -96,7 +96,7 @@ s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr)
     return 0;
 }
 
-s32 func_8004975C(s32 value, s16 expected)
+s32 SD_VabTransBody(s32 value, s16 expected)
 {
     register int saved;
     SDSecondaryState *state = D_8009B458;
