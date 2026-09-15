@@ -180,7 +180,8 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
                         func_80060AEC((ModelHandlerObject *)&ev);
                         break;
                     case 2:
-                        func_80060220(index, (u8 *)&ev, scratch);
+                        Model_ProcessType2Unit(
+                            index, (ModelTypeUnit *)&ev, scratch);
                         break;
                     case 3:
                         func_8005C6A0((s32 *)&ev, (u8 *)base);
