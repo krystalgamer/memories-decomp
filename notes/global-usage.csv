@@ -2912,7 +2912,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007368C,func_8007368C,matching_c,game,C,src/game/ai_script_state_ops.c,address,32,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x8007058C,AiScript_ReadByte,matching_c,game,C,src/game/ai_script_vm.c,address,,register AiScriptState *stream = &gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705AC,AiScript_ReadShort,matching_c,game,C,src/game/ai_script_vm.c,read_write,,gAiScript_State.script_cursor += 2; | u8 *p = gAiScript_State.script_cursor;
-0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero(state, sizeof(gAiScript_State)); | u8 *state = (u8 *)&gAiScript_State;"
+0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,write,,"bzero(state, sizeof(gAiScript_State)); | gAiScript_State.script_base = arg0; | (+2 more)"
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070650,AiScript_Run,matching_c,game,C,src/game/ai_script_vm.c,read_write,,gAiScript_State.previous_cursor = gAiScript_State.script_cursor;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x80070870,Ai_IsCardInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,if (value == gAiScript_State.card_set[i])
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800708C4,Ai_IsTypeInSet,matching_c,game,C,src/game/ai_card_ranges.c,read,,if (value == gAiScript_State.type_set[i] -
