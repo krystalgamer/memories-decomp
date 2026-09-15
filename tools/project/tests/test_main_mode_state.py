@@ -23,7 +23,7 @@ DECLARATION = re.compile(
     r"(?P<data>__attribute__\s*\(\(\s*section\s*\(\s*\"\.data\"\s*\)\s*\)\))?\s*;"
 )
 CONSUMERS = (
-    "src/candidates/func_80018FEC.c",
+    "src/game/func_80018FEC.c",
     "src/candidates/func_8001F55C.c",
     "src/candidates/func_800283F4.c",
     "src/game/script_op_save_prompt.c",
@@ -62,13 +62,13 @@ CONSUMERS = (
     "src/overlays/overworld/set_location.c",
 )
 NEXT_DATA = {
-    "src/candidates/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
     "src/game/script_op_save_prompt.c",
     "src/game/main_init.c",
 }
 NEXT_ARRAY = {"src/game/func_8002A788.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
-    "src/candidates/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
     "src/candidates/func_800283F4.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_campaign_entry.c",
     "src/game/debug_menu_mapped_mode.c",
@@ -214,7 +214,7 @@ class MainModeStateTests(unittest.TestCase):
                 self.assert_views(self.preprocess(path), expected, common)
         self.assertEqual(commons, 8)
 
-    def test_one_owner_and_retained_candidate_keys(self):
+    def test_one_owner_and_current_candidate_keys(self):
         index = candidate_builds.canonical_declaration_index(set(SYMBOLS), ROOT / "src")
         for symbol in SYMBOLS:
             self.assertEqual({path for path, _ in index[symbol]}, {"game/main_mode_state.h"})
