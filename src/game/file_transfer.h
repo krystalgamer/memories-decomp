@@ -30,7 +30,7 @@ typedef char FileTransfer_default_image_must_fill_sector[
 
 void File_InitTransferState(s32);
 void File_GetPosition(s32 *, const char *);
-void func_80013940(
+void File_SetTransferLocation(
     FileTransferDescriptor *, s32 file_index, s32 sector_offset, s32 vertical
 );
 FileTransferDescriptor *File_RequestAsyncTransfer(

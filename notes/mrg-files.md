@@ -45,8 +45,8 @@ These constants are indices into `gFile_anLba`, not the disc LBAs themselves;
 the table remains populated by file lookup at runtime.
 
 Loader offsets and counts for the three MRG files are expressed in
-`0x800`-byte logical sectors. `func_80013940` converts a file-relative sector
-to both a byte offset and an absolute disc LBA.
+`0x800`-byte logical sectors. `File_SetTransferLocation` converts a
+file-relative sector to both a byte offset and an absolute disc LBA.
 
 `src/game/file_constants.h` names this unit as `FILE_SECTOR_SIZE` and its
 byte-conversion shift as `FILE_SECTOR_SHIFT`. The descriptor setup and transfer
