@@ -3,23 +3,20 @@
 #include "../game/library_runtime.h"
 #include "../game/func_80029EB0.h"
 #include "../game/card_constants.h"
+#include "../psyq/libgs.h"
 #include "../game/ordering_tables.h"
 
 /*
  * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
  * encoding distance 0. Compiled to an object and compared word for word with
- * the assembled target, 61 of 268 words differ, all placement and register
- * choices. Retail completes 0xF70130's ori only after reloading b,
- * materialises 0x8000000 before the first row store, and reloads b ahead of
- * the viewport read at the loop head. In the cursor tail it takes the
- * D_800EA1E8 address before the colour switch, loads 0xFF in the dispatch
- * branch's delay slot, and sets up the first GsSortGLine call's arguments
- * before the store that precedes it.
- *
- * The sprite, line and ordering-table values use their canonical Psy-Q and
- * game declarations. Packed word stores remain where the source initializes
- * adjacent SDK fields together; replacing them with separate field stores
- * changes the candidate.
+ * the assembled target, 49 of 268 words differ, all placement and register
+ * choices. Reusing the initial row-index work, spelling the signed cursor
+ * division explicitly, and holding the cursor attribute in the same work
+ * variable close the latest differences. The canonical GsGLINE, GsOT and SDK
+ * callback declarations and typed sprite fields emit the same bytes as
+ * the earlier private views.
+ * Remaining differences are the palette ori and row reload in the prologue,
+ * the primitive attribute load, and cursor coordinate register allocation.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -56,6 +53,7 @@ void func_80029EC4(void)
     u8 *tb;
     s32 e;
     s32 f;
+    s32 phase;
 
     p = (GsSPRITE *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
@@ -72,8 +70,8 @@ void func_80029EC4(void)
     p->x = 8;
     *(u32 *)&p->w = e;
     *(u32 *)&p->cx = f;
-    idx = b * 8;
-    p->y = idx * 178 + 8;
+    y = b * 8;
+    p->y = y * 178 + 8;
     p->cy = 0xF7;
     *(u16 *)&p->u = 0xF060;
     p->attribute = 0x8000000;
@@ -135,19 +133,24 @@ done:
     do {
         q = (GsGLINE *)0x1F800000;
     } while (0);
-    v = D_8009B09C;
-    q->attribute = 0x50000000;
+    v = D_8009B09C & 0x7F;
+    y = 0x50000000;
+    q->attribute = y;
     q->b0 = 0;
     q->g0 = 0;
     q->r0 = 0;
     q->b1 = 0;
     q->g1 = 0;
     q->r1 = 0;
-    v = v & 0x7F;
+    phase = v;
     do {
         t = D_800EA1E8;
     } while (0);
-    switch (v / 32) {
+    if (v < 0) {
+        phase = v + 31;
+    }
+    phase >>= 5;
+    switch (phase) {
     case 0:
         q->g0 = v * 8;
         break;
@@ -166,8 +169,8 @@ done:
     q->x1 = 0;
     q->x0 = *(u16 *)(t + 8) - gGraphics_sViewportX;
     y = (u16)*(u16 *)(t + 0xA) - (u16)gGraphics_sViewportY;
-    q->y0 = y;
     q->y1 = y;
+    q->y0 = y;
     GsSortGLine(q, ot, 1);
     q->x1 = 0x140;
     GsSortGLine(q, ot, 1);
