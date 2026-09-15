@@ -3,8 +3,8 @@
  * a non-negative mode it seeds 32 sparks, 32 flashes and 64 dust particles
  * from rand(); otherwise it draws the three particle groups as quads through
  * RotAverage4, fades their colours and respawns spent particles. Current best
- * under gcc_2_8_1_g8_split: 1264 instructions against 1270 with opcode
- * distance 6 (0 surplus, 6 missing), with no hard register assignments and
+ * under gcc_2_8_1_g8_split: 1269 instructions against 1270 with opcode
+ * distance 1 (0 surplus, 1 missing), with no hard register assignments and
  * no inline assembly.
  *
  * Levers measured on this body:
@@ -18,11 +18,14 @@
  * - the dust frame is read with % 2 and / 2, which is retail's halfword
  *   read, and its -0x10/0x10 bounds are named before the loop;
  * - the init loops use pointers derived from the particle cursor, and the
- *   burst sign is an int negated through (s16).
+ *   burst sign is an int negated through (s16);
+ * - in both draw loops the negated sign goes through otz, which is dead
+ *   until RotAverage4 assigns it, and is copied back;
+ * - the POLY_FT4 pointer is copied into pr for the spark loop's RotAverage4
+ *   arguments, into pq before the flash loop for every later use, and into
+ *   pc for the dust loop's func_8005B260 call.
  *
- * Residual: census addu -6. Retail keeps two copies of the sign into $s5,
- * adds the quad offset from $fp to $s6, and starts two particle cursors as
- * plain copies of $s6 where gcc biases them.
+ * Residual: census addu -1, and register choice.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -81,6 +84,9 @@ s32 func_8006F1B4(void *data, s32 arg1)
     u16 *fr;
     POLY_FT4 *pf;
     POLY_G4 *pg;
+    POLY_FT4 *pc;
+    POLY_FT4 *pq;
+    POLY_FT4 *pr;
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
@@ -193,7 +199,8 @@ s32 func_8006F1B4(void *data, s32 arg1)
             }
             sign = 1;
             for (j = 0, dir = -2; j < 4; j++, dir++) {
-                sign = -(s16)sign;
+                otz = -(s16)sign;
+                sign = otz;
                 q0.vx = -((sign << 16) >> 9);
                 q0.vy = dir >= 0 ? -0x80 : 0x80;
                 q0.vz = 0;
@@ -206,15 +213,16 @@ s32 func_8006F1B4(void *data, s32 arg1)
                 q3.vx = 0;
                 q3.vy = 0;
                 q3.vz = 0;
+                pr = pf;
                 v = (SVECTOR *)((u8 *)e + off);
                 for (k = 0; k < 4; k++) {
                     (&q0)[k].vx += v->vx;
                     (&q0)[k].vy += v->vy;
                     (&q0)[k].vz += v->vz;
                 }
-                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pf->x0,
-                                  (long *)&pf->x1, (long *)&pf->x2,
-                                  (long *)&pf->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pr->x0,
+                                  (long *)&pr->x1, (long *)&pr->x2,
+                                  (long *)&pr->x3, (long *)&p, (long *)&flag);
                 if (otz >= 0 && flag >= 0) {
                     func_8005B260((u32 *)pf, ot, otz & 0xFFFF, 1);
                 }
@@ -312,6 +320,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
     pf->v2 = 0x7F;
     pf->u3 = 0x7F;
     pf->v3 = 0x7F;
+    pq = pf;
     if (e->flash_count != 0) {
         i = 0;
         off = 0;
@@ -319,11 +328,12 @@ s32 func_8006F1B4(void *data, s32 arg1)
         do {
         if (p4[0x78E] != 0 || p4[0x78F] != 0 || p4[0x790] != 0) {
             sign = 1;
-            pf->r0 = p4[0x78E];
-            pf->g0 = p4[0x78F];
-            pf->b0 = p4[0x790];
+            pq->r0 = p4[0x78E];
+            pq->g0 = p4[0x78F];
+            pq->b0 = p4[0x790];
             for (j = 0, dir = -2; j < 4; j++, dir++) {
-                sign = -(s16)sign;
+                otz = -(s16)sign;
+                sign = otz;
                 q0.vx = -(s16)sign * 0x50;
                 q0.vy = dir >= 0 ? -0x50 : 0x50;
                 q0.vz = 0;
@@ -342,11 +352,11 @@ s32 func_8006F1B4(void *data, s32 arg1)
                     (&q0)[k].vy += v->vy;
                     (&q0)[k].vz += v->vz;
                 }
-                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pf->x0,
-                                  (long *)&pf->x1, (long *)&pf->x2,
-                                  (long *)&pf->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pq->x0,
+                                  (long *)&pq->x1, (long *)&pq->x2,
+                                  (long *)&pq->x3, (long *)&p, (long *)&flag);
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)pf, ot, otz & 0xFFFF, 1);
+                    func_8005B260((u32 *)pq, ot, otz & 0xFFFF, 1);
                 }
             }
             if (p4[0x78E] >= 0x20) {
@@ -415,20 +425,21 @@ s32 func_8006F1B4(void *data, s32 arg1)
         if (e->mode == 1) {
             lo16 = -0x10;
             hi16 = 0x10;
-            pf->r0 = e->dust_r;
-            pf->g0 = e->dust_g;
-            pf->b0 = e->dust_b;
+            pq->r0 = e->dust_r;
+            pc = pq;
+            pq->g0 = e->dust_g;
+            pq->b0 = e->dust_b;
             fr = (u16 *)e;
             p8 = (u8 *)e;
             for (; i < 64; i++) {
-                pf->u0 = (fr[0x340] % 2) << 5;
-                pf->v0 = (fr[0x340] / 2 << 5) + 0x40;
-                pf->u1 = ((fr[0x340] % 2) << 5) + 0x1F;
-                pf->v1 = (fr[0x340] / 2 << 5) + 0x40;
-                pf->u2 = (fr[0x340] % 2) << 5;
-                pf->v2 = (fr[0x340] / 2 << 5) + 0x5F;
-                pf->u3 = ((fr[0x340] % 2) << 5) + 0x1F;
-                pf->v3 = (fr[0x340] / 2 << 5) + 0x5F;
+                pq->u0 = (fr[0x340] % 2) << 5;
+                pq->v0 = (fr[0x340] / 2 << 5) + 0x40;
+                pq->u1 = ((fr[0x340] % 2) << 5) + 0x1F;
+                pq->v1 = (fr[0x340] / 2 << 5) + 0x40;
+                pq->u2 = (fr[0x340] % 2) << 5;
+                pq->v2 = (fr[0x340] / 2 << 5) + 0x5F;
+                pq->u3 = ((fr[0x340] % 2) << 5) + 0x1F;
+                pq->v3 = (fr[0x340] / 2 << 5) + 0x5F;
                 q0.vx = lo16;
                 q0.vy = lo16;
                 q0.vz = 0;
@@ -447,11 +458,11 @@ s32 func_8006F1B4(void *data, s32 arg1)
                     (&q0)[k].vy += v->vy;
                     (&q0)[k].vz += v->vz;
                 }
-                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pf->x0,
-                                  (long *)&pf->x1, (long *)&pf->x2,
-                                  (long *)&pf->x3, (long *)&p, (long *)&flag);
+                otz = RotAverage4(&q0, &q1, &q2, &q3, (long *)&pq->x0,
+                                  (long *)&pq->x1, (long *)&pq->x2,
+                                  (long *)&pq->x3, (long *)&p, (long *)&flag);
                 if (otz >= 0 && flag >= 0) {
-                    func_8005B260((u32 *)pf, ot, otz & 0xFFFF, 1);
+                    func_8005B260((u32 *)pc, ot, otz & 0xFFFF, 1);
                 }
                 w = (SVECTOR *)(p8 + 0x480);
                 v->vx += w->vx;
