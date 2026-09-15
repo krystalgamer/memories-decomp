@@ -2,6 +2,9 @@
 #define MEMORIES_DECOMP_DUEL_CARD_STAT_DISPLAY_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object.h"
 
 /* Spawns the little card-type icon for card `index` at (x, y): a 0x10 by 0x10
@@ -16,9 +19,11 @@ DisplayObject *func_80031574(s32 index, s32 x, s32 y, s32 arg3, s32 arg4);
 
 void func_800313E8(DisplayObject *object);
 
-/* Draws arg3 bytes of arg2, last byte first, as 8-pixel digit glyphs through
- * the GsSPRITE-shaped arg0, moving it 8 pixels right per byte. A byte that is
- * not a digit leaves a gap. */
-void func_800316F0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
+/* Draws `count` bytes of `digits`, last byte first, as 8-pixel digit glyphs
+ * through `sprite`, moving it 8 pixels right per byte. A byte that is not a
+ * digit leaves a gap. */
+void func_800316F0(
+    GsSPRITE *sprite, GsOT *ot, const u8 *digits, s32 count
+);
 
 #endif
