@@ -64,6 +64,7 @@ authority after later semantic renames or source grouping.
 | `src/game/duel_action_lock.c` | `gcc_2_8_1_g8` | `DuelEffect_MarkInitialized` (`0x80024E24`), which sets bit `0x80` and distinguishes first entry (`0`) from an already-active update (`1`), followed by the contiguous full-state reset (`0x80024E4C`) |
 | `src/game/duel_magic_effect_dispatch.c` | `gcc_2_8_1_g8_split` | Three contiguous magic-effect functions: the two-stage occupied-row clear handler (`0x80026A3C`), the effect-group dispatcher (`0x80026B34`), and the card-ID activation helper (`0x80026BA4`) that writes the exact effect ID, original card ID, and active/second-handler flags the dispatcher consumes. The activation helper is byte-identical under its historical `gcc_2_8_1_g8` profile and this unit's split-address profile; the following free-field-slot search starts a separate AI/field-selection subsystem |
 | `src/game/duel_field_equip_search.c` | `gcc_2_8_1_g8_split` | Four contiguous active-side field/equip search functions from the first-free-slot query `func_80026C0C` (`0x80026C0C`) through equip-pair selection `func_80026DC8` (`0x80026DC8`). The middle collectors scan five occupied card records below or equal to a requested type, terminate caller arrays with null, and feed the final equip search directly. All four share `D_801A7AD8`, `D_8009B1D5`, and `duel_field_equip_search.h`; the preceding magic-effect dispatcher and following trap search fix the unit boundaries. |
+| `src/game/duel_effect_resource_setup.c` | `gcc_2_8_1_g8_split` | The contiguous card-effect artwork setup pair: `func_80029164` (`0x80029164`) records the card ID and starts its seven-sector async transfer, then `func_800291E0` (`0x800291E0`) consumes the same `D_800EA0E8` slot to construct and link the two preview objects. `DuelEffect_UpdateCardViewerState` calls them consecutively for the same slot and card. The display-object callback below and resource release helper above both require `gcc_2_8_1_g0`, fixing the unit boundaries. |
 | `src/game/duel_projection_axes.c` | `gcc_2_8_1_g0` | Symmetric three-point projection helpers for the X components (`0x80029684`) and Z components (`0x800297DC`) of `SVECTOR` triplets; both retry `RotAverage3` at half span when the depth/control result is negative |
 | `src/game/library_runtime.c` | `gcc_2_8_1_g8_split` | 2 contiguous functions: `0x8002BAA0`, `0x8002BAAC`. What remains after #3859 moved `func_8002BAB4`, which matched only through pinned registers or inline asm, to `src/candidates/`. |
 | `src/game/func_8002A3CC.c` | `gcc_2_8_1_g8_split` | The contiguous Library cursor-motion pair: `func_8002A3CC` (`0x8002A3CC`) advances the shared 16.16 position and finishes the tween, while `func_8002A4A8` (`0x8002A4A8`) computes the next grid target and velocities in the same `LibraryMotionState`. The updater and setup share `D_800EA1E8`, and callers reach both through `func_8002A3CC.h`. |
@@ -356,7 +357,7 @@ argument register.
 the predicate before opening its incomplete-deck warning. They now build once
 from `script_op_save_prompt.c` in that image order.
 
-## Sources that cannot be grouped at all
+## Former literal-word sources
 
 Five resident sources were once an `__asm__` block of `.word` literals with
 explicit `.reloc` directives and no C statements outside it: `func_800291E0`,
@@ -365,23 +366,19 @@ were registered in `matching_c.json` with a compiler profile, but no C was
 compiled for them, so the profile was inert and the recorded match reflected
 literal bytes rather than codegen.
 
-#3859 reclassified all five to `unmatched_asm` and removed those sources.
-`func_8002A788` was subsequently recovered as pure matching C, named
-`Library_UpdateGridCursor`, and grouped with its preceding card-id lookup.
-The other four still illustrate the ungroupable-hole case.
+#3859 reclassified all five to `unmatched_asm` and removed the sources.
+Three have since returned as pure matching C: `func_800291E0` is grouped with
+`func_80029164` in `duel_effect_resource_setup.c`, `func_8002A4A8` is grouped
+with `func_8002A3CC`, and `func_8002A788` is named
+`Library_UpdateGridCursor` and grouped with its preceding card-id lookup in
+`library_grid_cursor.c`.
 
-Those remaining functions leave holes between matched functions. For three of
-the four, the neighbours share a profile: `func_800291E0`
-between two at `gcc_2_8_1_g0`, `DebugMenu_UpdateCampaignEntry` between two at
-`gcc_2_8_1_g8`, and `Main_RunCredits` between two at
-`gcc_2_8_1_g8_split_comm`. Of those three, only in the last is the hole
-exactly the one function -- its size is `0x21C` and the gap between its
-neighbours is `0x21C` -- so that run is blocked by this alone; the other two
-gaps are wider than the function, holding two and three unmatched functions
-respectively. `func_8002A4A8`'s gap is exactly its size as well, but its
-neighbours carry different profiles, so no run reached it anyway. Either way a
-run spanning one of them fails conditions 1 and 4 on the gap, which needs no
-special case.
+The remaining assembly functions still leave holes in otherwise nearby
+matched runs. `DebugMenu_UpdateCampaignEntry` sits between two G8 functions,
+and `Main_RunCredits` sits between two G8-split-comm functions. Only the latter
+hole is exactly one function, so it alone blocks a potentially contiguous run;
+the other gap also contains unmatched neighbours. Either way a run spanning
+one of them fails conditions 1 and 4, which needs no special case.
 
 This used to be contrasted with sources carrying a source-authored
 `.word 0x4A180001` for the GTE `rtps` encoding. `func_800177C4.c` is now

@@ -1,38 +1,36 @@
-/*
- * Preserve the constructor's return: `func_800291E0`
- *
- * The paired preview-object constructor at `0x800291E0` matches all 840 bytes
- * on the existing uniform `gcc_2_8_1_g8_split` profile using `DisplayObject`
- * and `DuelEffectResourceRecord`. The historical refinement attempts stopped
- * at incomplete-type errors; the complete shared layouts already supply every
- * field needed here, with explicit signed views of the resource halfwords.
- *
- * The comparison source declares a void return and inserts empty assembly
- * barriers around the final pointer publication. Retail instead leaves the
- * primary object in `$v0`, and the existing debug/viewer/shop callers consume
- * that pointer. An ordinary `return (u8 *)object` gives the required final move,
- * stores and reload without any of those barriers. The primary object is the
- * second allocation, published at resource offset zero and linked from the
- * secondary object at offset four.
- *
- * The reference's claim that its second argument is dead is also incorrect:
- * the default path uses it as X before reusing that local for a setup value.
- * Negative X/Y inputs still select the packed-stat fallback coordinates, while
- * types `0x14` through `0x17` retain their special setup paths. Shared callback
- * declarations and the canonical level/attribute table replace local externs.
- * The canonical history and six-row terminal refinement history remain intact,
- * followed by one post-terminal resolution for this pure-C reconstruction.
- */
 #include "../types.h"
+#include "card_constants.h"
+#include "file_transfer.h"
+#include "duel_effect_resource_record.h"
+#include "duel_effect_resource_setup.h"
 #include "display_object.h"
 #include "display_object_core.h"
 #include "display_object_config.h"
 #include "display_object_helpers.h"
-#include "duel_effect_resource_record.h"
 #include "duel_card.h"
 #include "func_800291E0.h"
 #include "card_preview_callbacks.h"
 
+FileTransferDescriptor *func_80029164(s32 slot, s32 value)
+{
+    FileTransferDescriptor *object;
+
+    D_800EA0E8[slot].field_30 = value;
+    object = File_TryRequestAsyncTransfer(
+        0, 0, (value - 1) * 7 + CARD_COUNT, 7, func_800289BC, 0, 0);
+    object->callback_data = (void *)slot;
+    *(u32 *)0x8009B0F4 =
+        object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+    return object;
+}
+
+/*
+ * Retail leaves the primary preview object in $v0 and callers consume that
+ * pointer. The second argument supplies the default-path X coordinate before
+ * the same local becomes a setup value; negative coordinates select the
+ * packed-stat fallback. The primary object is published at record offset zero
+ * and linked from the secondary object at offset four.
+ */
 u8 *func_800291E0(s32 index, s32 x, s32 y)
 {
     DuelEffectResourceRecord *entry;
