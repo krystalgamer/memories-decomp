@@ -68,7 +68,7 @@ void File_ActivateTransfer(void)
 
 void func_800144B8(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))func_80015010();D_8009B134=v;}}else D_8009B134=0;}
 
-void func_8001455C(void)
+void File_StepActiveTransfer(void)
 {
     FileTransferDescriptor *p;
     void (*cb)(void);
@@ -252,7 +252,7 @@ void func_80014A5C(s32 arg0)
             gFile_PrimaryTransferDescriptor.done = 5;
             gFile_PrimaryTransferDescriptor.substate = 0;
         }
-        func_8001455C();
+        File_StepActiveTransfer();
     } else {
         D_8009B134 = 0;
     }
