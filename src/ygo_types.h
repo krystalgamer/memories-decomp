@@ -1211,7 +1211,8 @@ typedef char DuelStatusDigitPacket_field_14_offset_must_be_0x14[
  *
  * game/text_staging.h owns the declaration of D_801D5608. Pair is reached
  * through that header's union member `pair`, not through a guarded extern
- * view of its own; only the separate starchip alias is still guarded. Pair
+ * view of its own, and the password starchip count through its `starchips`
+ * member; no guarded alias of that storage remains. Pair
  * remains the overlays' view, not a claim that the staging area always holds
  * this shape. Main_RunCredits uses it for the two four-digit secret-number
  * components while preserving the same absolute-address staging accesses. */

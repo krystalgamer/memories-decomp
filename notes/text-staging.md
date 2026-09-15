@@ -25,7 +25,7 @@ Every named scalar in the resident views remains `s32`.
 | `SaveData_UpdateDuelLoad` in `save_data_transfer_runtime.c` | `+0x40` | A zero card ID in the left/right loaded deck publishes 1/2 before returning to the dialog. Uses `deck_validation.invalid_side`; the preceding sixteen words have no meaning assigned by this view. |
 | `Duel_CalcRankScore` | `+0` through `+0x7C` | Writes sixteen rows of two side values through `D_801D5608[0].rank_rows`, keeping its side-first pointer walk and scoring order. |
 | `FreeDuel_PlaceCursor` | `+0`, `+4` | Copies the selected duelist's two record halfwords into the shared unsigned words through `D_801D5608[0].pair`. |
-| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer uses the existing signed scalar alias. Neither becomes a resident card/count interpretation. |
+| `Password_UpdateShopScreen` / `Password_RefreshStarchipDisplay` | `+0`, `+4` / `+0` | Message setup writes the table value and index through `D_801D5608[0].pair`; the starchip renderer writes the union's `starchips` member. Neither becomes a resident card/count interpretation. |
 
 The union's `0x80` size comes from the rank producer's existing table, not an
 inferred allocation boundary. Assertions also cover the named members at
@@ -66,12 +66,10 @@ explains why these are not persistent ATK/DEF globals.
   `src/overlays/password/shop.c`. The filter is
   `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds
   is the contract one. The probe over all configured
-  entries of `config/slus_01411/candidates.json`, four of which carry a
-  `module` and are the overlay candidates, finds neither `D_801D5608` nor
-  `D_801D5608_starchips` in any entry's canonical contracts, so no entry
-  declares either symbol privately; that file does not move when this header
-  changes. The password candidate keeps its recorded build and target
-  fingerprints and its other dependency contracts. The indirect text number
+  entries of `config/slus_01411/candidates.json`, including the overlay
+  candidates that carry a `module`, finds `D_801D5608` in no entry's
+  canonical contracts, so no entry declares it privately; that file does not
+  move when this header changes. The indirect text number
   reader (`func_80038148` via `func_80036D70`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
   that general script operand.

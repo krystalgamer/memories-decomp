@@ -13,9 +13,8 @@
  * union rather than a new claim, and the padding keeps every named field at
  * the offset its own function already used. */
 /* Shop/password-entry state. Every password-shop function lives in shop.c
- * and uses these shared declarations, except Password_UpdateShopScreen, now
- * a build-integrated candidate (src/candidates/password/func_8016A37C.c) that
- * includes this header.
+ * and uses these shared declarations, Password_UpdateShopScreen (0x8016A37C)
+ * included: it is matched there in C, and its former candidate is retired.
  *
  *   gPassword_abDigits     The eight entered digits.
  *   gPassword_nDigitIndex  Which of them the cursor is on.
