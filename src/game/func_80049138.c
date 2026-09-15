@@ -5,18 +5,8 @@
 
 #include "sound.h"
 #include "sound_output.h"
+#include "func_80049138.h"
 #include "../unmatched.h"
-
-typedef struct {
-    u8 field_00;
-    u8 field_01;
-    u16 field_02;
-    s32 field_04;
-} SDMusicTableEntry;
-
-typedef char SDMusicTableEntry_size_must_be_8[
-    sizeof(SDMusicTableEntry) == 8 ? 1 : -1
-];
 
 s32 func_80049138(s16 arg0, s32 arg1) {
     SDValue *p = g_SDValue;
