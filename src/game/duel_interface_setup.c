@@ -50,8 +50,8 @@ void func_80030250(
     D_8009B2B4 = field_B4;
     D_8009B2B5 = field_B5;
     D_8009B2B6 = field_B6;
-    D_8009B2E9 = 0;
-    D_8009B2DC = 0;
+    gDebug_bEditorDigit = 0;
+    gDebug_bEditorRow = 0;
     D_8009B2B8 = field_B8;
     D_8009B2C2 = field_C0;
     D_8009B2C1 = field_C0;

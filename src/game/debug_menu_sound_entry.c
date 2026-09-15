@@ -53,10 +53,10 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
 
-    switch (*(s8 *)&D_8009B2DC) {
+    switch (gDebug_bEditorRow) {
     case 0:
         gDebug_nLastSoundID[0] = gDebug_nSceneOrSoundID;
-        if (*(s8 *)&D_8009B2E9 == 3) {
+        if (gDebug_bEditorDigit == 3) {
             func_8004763C();
             func_80047AD0((u16)((s16)gDebug_nLastSoundID[0] >> 12));
             return;
