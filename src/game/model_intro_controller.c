@@ -364,8 +364,8 @@ void func_800507D0(void)
     case -1:
       File_RequestAsyncTransfer(1, D_800114F8, 1223, 16, 0, 0, D_80010030);
       File_WaitForTransfers();
-      ((u8 *)&D_8009B004)[1] = 0;
-      ((u8 *)&D_8009B004)[0] = 0;
+      D_8009B004.fields.field_01 = 0;
+      D_8009B004.fields.field_00 = 0;
       ACTIVE_SLOT = 0;
       D_800F2C40[0].field_E1F = 0;
       D_800F2C40[1].field_E1F = 0;
@@ -422,7 +422,7 @@ void func_800507D0(void)
             active_color[2] = next_blue;
           }
         }
-        if ( !((u8 *)&D_8009B004)[1] )
+        if ( !D_8009B004.fields.field_01 )
           func_80050584((u8)ACTIVE_SLOT ^ 1);
         lookup_base = D_800F2C40;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
@@ -450,7 +450,7 @@ void func_800507D0(void)
             }
             if ( animation < 0 )
             {
-              if ( ((u8 *)&D_8009B004)[1] )
+              if ( D_8009B004.fields.field_01 )
               {
                 next_phase = 2;
                 goto set_phase_and_tick;
@@ -553,18 +553,18 @@ store_phase:
       goto poll_module;
   }
 poll_module:
-      if ( ((u8 *)&D_8009B004)[0] )
+      if ( D_8009B004.fields.field_00 )
       {
         result = func_80180A24();
         if ( result )
         {
-          result = ((u8 *)&D_8009B004)[1];
-          if ( !((u8 *)&D_8009B004)[1] )
+          result = D_8009B004.fields.field_01;
+          if ( !D_8009B004.fields.field_01 )
           {
             result = (s16)func_8004703C();
             if ( (s16)result != 128 )
             {
-              ++((u8 *)&D_8009B004)[1];
+              ++D_8009B004.fields.field_01;
               D_8009AF9A = 2;
             }
           }
@@ -577,8 +577,8 @@ poll_module:
           result = (u8)D_800F2C40[0].field_E1F;
           if ( D_800F2C40[0].field_E1F )
           {
-            result = ((u8 *)&D_8009B004)[0] + 1;
-            ++((u8 *)&D_8009B004)[0];
+            result = D_8009B004.fields.field_00 + 1;
+            ++D_8009B004.fields.field_00;
           }
         }
       }

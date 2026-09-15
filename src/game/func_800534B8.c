@@ -18,7 +18,7 @@
 #include "file_transfer.h"
 #include "../psyq/rand.h"
 
-u32 D_8009B004 = 0;
+ModelDebugState D_8009B004 = {0};
 
 s32 func_800534B8(void)
 {
@@ -50,7 +50,9 @@ s32 func_800534B8(void)
             s32 height;
 
             stage += 2;
-            *(u16 *)((u8 *)&D_8009B004 + 2) = *(u16 *)(D_8009AF88 + 0xA4);
+            /* A typed store lets GCC move the stage-pointer load across it. */
+            *(u16 *)((u8 *)&D_8009B004 + 2) =
+                *(u16 *)(D_8009AF88 + 0xA4);
             height = *(s16 *)((u8 *)&D_8009B004 + 2);
             if (stage->field_D18) {
                 stage->field_D18->rot.vx = 0;
@@ -129,15 +131,15 @@ s32 func_800534B8(void)
     if (gInput_wPad1Held & 0x80) {
         if (gInput_wPad1Repeat & 0x5000) {
             if (gInput_wPad1Repeat & 0x1000)
-                ((u16 *)&D_8009B004)[1] -= 10;
+                D_8009B004.halfwords[1] -= 10;
             else
-                ((u16 *)&D_8009B004)[1] += 10;
+                D_8009B004.halfwords[1] += 10;
             if (D_800F2C40[2].field_E1F) {
                 ModelSlot *stage = D_800F2C40;
                 s32 height;
 
                 stage += 2;
-                height = ((s16 *)&D_8009B004)[1];
+                height = D_8009B004.fields.height;
                 if (stage->field_D18) {
                     stage->field_D18->rot.vx = 0;
                     stage->field_D18->rot.vy = 0;
@@ -193,7 +195,7 @@ s32 func_800534B8(void)
     FntPrint(normal);
     FntPrint(D_80011554, D_8009B48E[1], D_8009B490[1]);
     FntPrint(D_8009B02C);
-    FntPrint(D_80011564, (u16)D_8009B488[2], ((s16 *)&D_8009B004)[1]);
+    FntPrint(D_80011564, (u16)D_8009B488[2], D_8009B004.fields.height);
     if (reload) {
         File_WaitForTransfers();
         func_800533D8();

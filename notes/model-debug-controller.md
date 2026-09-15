@@ -40,8 +40,9 @@ not real arguments.
 ## Data ownership and matching
 
 The initialized, four-byte `D_8009B004` definition moves from the middle of
-the handler-state data unit into the controller. Its low half remains the
-existing scene-state bytes; no whole-word semantic rename is justified.
+the handler-state data unit into the controller. `ModelDebugState` records its
+two low scene-state bytes and the upper halfword's signed-height/unsigned-update
+views; no whole-word semantic rename is justified.
 The original small-data run is now three contiguous sections:
 
 | Address | Bytes | Owner |

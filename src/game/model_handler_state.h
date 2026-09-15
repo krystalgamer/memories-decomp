@@ -9,9 +9,11 @@
  * pairs and mutable words are consumed by the neighbouring unmatched model
  * handlers, and the fixed-size strings are their diagnostic labels and
  * formatting fragments. Address-based names remain because the exact field
- * meanings are not yet established. The four-byte word D_8009B004 is defined
- * with func_800534B8 so MASPSX can see its small-data extent; the surrounding
- * prefix and diagnostic suffix retain their original separate storage. */
+ * meanings are not yet established. D_8009B004 is a four-byte debug-state
+ * record: two independent state bytes and a height halfword that is updated
+ * unsigned but consumed signed. It is defined with func_800534B8 so MASPSX
+ * can see its small-data extent; the surrounding prefix and diagnostic suffix
+ * retain their original separate storage. */
 extern u8 D_8009AFE4;
 extern u8 D_8009AFE5;
 extern u16 D_8009AFE6;
@@ -32,7 +34,25 @@ extern u32 D_8009AFFC[];
 #else
 extern u32 D_8009AFFC[2];
 #endif
-extern u32 D_8009B004;
+typedef union {
+    u32 word;
+    u8 bytes[4];
+    u16 halfwords[2];
+    struct {
+        u8 field_00;
+        u8 field_01;
+        s16 height;
+    } fields;
+} ModelDebugState;
+
+typedef char ModelDebugState_size_must_be_4[
+    sizeof(ModelDebugState) == 4 ? 1 : -1
+];
+typedef char ModelDebugState_height_offset_must_be_2[
+    (u32)&((ModelDebugState *)0)->fields.height == 2 ? 1 : -1
+];
+
+extern ModelDebugState D_8009B004;
 extern u32 D_8009B008;
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 /* The debug controller uses absolute string addresses. Their definitions
