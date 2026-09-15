@@ -152,7 +152,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090800,D_80090800,D_80090800,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,address,,positions = (u8 *)D_80090800;
 0x80090800,D_80090800,D_80090800,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,,object->field_04 = D_80090800[side][0].y;
 0x800908A0,D_800908A0,D_800908A0,0x800177C4,func_800177C4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_007fc4.s,address,,"addiu $a3, $v0, %lo(D_800908A0) | lui $v0, %hi(D_800908A0)"
-0x800908A0,D_800908A0,D_800908A0,0x8001B0CC,func_8001B0CC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,address,,"addiu $v0, $v0, %lo(D_800908A0) | lui $v0, %hi(D_800908A0)"
+0x800908A0,D_800908A0,D_800908A0,0x8001B0CC,func_8001B0CC,matching_c,game,C,src/game/func_8001B0CC.c,address,16,u16 *source = (u16 *)((u8 *)D_800908A0 + coord);
 0x800908A0,D_800908A0,D_800908A0,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read,16,p->field_00 = D_800908A0[0xC]; | p->field_04 = D_800908A0[0xD];
 0x800908A0,D_800908A0,D_800908A0,0x80024D34,func_80024D34,matching_c,game,C,src/game/duel_card_record_lifecycle.c,read,,"D_800908A0[idx].y); | obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,"
 0x80090918,D_80090918,D_80090918,0x80018FEC,DuelScene_UpdateExodiaResult,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0097ec.s,address,,"addiu $t3, $v0, %lo(D_80090918) | lui $v0, %hi(D_80090918)"
@@ -2400,7 +2400,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D90,D_800E9D90,D_800E9D90,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,address,32,base = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80015EF4,func_80015EF4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0066f4.s,address,,"addiu $s0, $s0, %lo(D_800E9D90) | lui $s0, %hi(D_800E9D90)"
 0x800E9D90,D_800E9D90,D_800E9D90,0x80016D2C,func_80016D2C,matching_c,game,C,src/game/duel_draw_status_numbers.c,read,32,"D_800E9D90[style->ot_index],"
-0x800E9D90,D_800E9D90,D_800E9D90,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,32,arg = (s32)D_800E9D90[3];
+0x800E9D90,D_800E9D90,D_800E9D90,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,32,ot = D_800E9D90[3];
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C604,DuelEffect_AllocateRequest,matching_c,game,C,src/game/func_8002C604.c,address,32,t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,read,32,rec->field_08 = (s32)D_800E9D90[2]; | rec->field_0C = (s32)D_800E9D90[1];
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,address,32,tb = D_800E9D90;
@@ -2564,7 +2564,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BD0C.c,address,,b = &D_800EA0E8[0];
 0x800EA128,D_800EA128,D_800EA128,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,address,16,u16 *rects = D_800EA128;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029590,func_80029590,matching_c,game,C,src/game/func_80029590.c,address,,LibraryMotionState *state = &D_800EA1E8;
-0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,address,8,radius_state = (s16 *)D_800EA1E8; | { s16 *t1 = (s16 *)D_800EA1E8; ctl[2] = t1[8] * rcos(angle) / 4096; } | (+1 more)
+0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,,ctl[2] = D_800EA1E8.globe_radius * rcos(angle) / 4096; | ctl[3] = D_800EA1E8.globe_radius * rsin(angle) / 4096; | (+1 more)
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,address,,"addiu $a0, $a0, %lo(D_800EA1E8) | addiu $t0, $v0, %lo(D_800EA1E8) | (+4 more)"
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A3CC,func_8002A3CC,matching_c,game,C,src/game/func_8002A3CC.c,address,,LibraryMotionState *object = &D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,address,,LibraryMotionState *state = &D_800EA1E8;
@@ -2720,6 +2720,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2848,D_800F2848,D_800F2848,0x800178BC,func_800178BC,matching_c,game,C,src/game/func_800178BC.c,read_write,,D_800F2848.angle = D_8009AF20[0]; | D_800F2848.field_00 = 0x14E; | (+2 more)
 0x800F2848,D_800F2848,D_800F2848,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,write,,D_800F2848.angle =
 0x800F2848,D_800F2848,D_800F2848,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,read_write,,D_800F2848.field_00 -= 2; | D_800F2848.field_00 = 0x258; | (+2 more)
+0x800F2848,D_800F2848,D_800F2848,0x8001B0CC,func_8001B0CC,matching_c,game,C,src/game/func_8001B0CC.c,read,,SetGeomScreen(D_800F2848.projection);
 0x800F2848,D_800F2848,D_800F2848,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read,,"func_80022D94(0x10, 0x208, 0x200, D_800F2848.angle, | func_80022D94(0x10, 0x258, 0x100, D_800F2848.angle, 0);"
 0x800F2848,D_800F2848,D_800F2848,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,read_write,,D_800F2848.angle = (u16)D_800F2848.angle + 2;
 0x800F2848,D_800F2848,D_800F2848,0x800220B8,func_800220B8,matching_c,game,C,src/game/debug_effect_screen.c,read_write,,D_800F2848.field_00 = v; | b = &D_800F2848; | (+2 more)
@@ -2729,7 +2730,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2848,D_800F2848,D_800F2848,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/library_runtime.c,address,,model = &D_800F2848; | p = &D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,read,,SetGeomScreen(D_800F2848.projection);
 0x800F2856,D_800F2856,D_800F2856,0x800177C4,func_800177C4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_007fc4.s,read,16,"lh $a0, %lo(D_800F2856)($v0) | lui $v0, %hi(D_800F2856)"
-0x800F2856,D_800F2856,D_800F2856,0x8001B0CC,func_8001B0CC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,read,16,"lh $a0, %lo(D_800F2856)($v0) | lui $v0, %hi(D_800F2856)"
 0x800F2878,D_800F2878,D_800F2878,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_object_core.c,write,16,D_800F2878[key] = index;
 0x800F2878,D_800F2878,D_800F2878,0x800402A0,func_800402A0,matching_c,game,C,src/game/display_object_core.c,address,16,*(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
 0x800F2878,D_800F2878,D_800F2878,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
@@ -2820,8 +2820,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x80059DD8,func_80059DD8,matching_c,game,C,src/game/model_scene_states.c,address,,ModelSlot *base = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8005A468,func_8005A468,matching_c,game,C,src/game/model_slot_updates.c,address,,ModelSlot *rec = &D_800F2C40[arg0];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,address,,record = (ModelSlot *)((u8 *)D_800F2C40 + index * MODEL_SLOT_SIZE);
-0x800F3938,D_800F3938,D_800F3938,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,,do { own_record = offset + (s32)&D_800F3938; } while (0); | if ((((u8 *)&D_800F3938) + offset)[0x107] != 0) { | (+2 more)
-0x800F3938,D_800F3938,D_800F3938,0x8005A618,func_8005A618,matching_c,game,C,src/game/model_effect_wrapped_value.c,address,,*(u8 *)(record + (((u8 *)&D_800F3938) + offset)[0x106] + 0xA) & 0x1F | record = offset + (s32)&D_800F3938;
+0x800F3938,D_800F3938,D_800F3938,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,,do { own_record = offset + (s32)&D_800F3938; } while (0); | if ((((u8 *)&D_800F3938) + | (+3 more)
+0x800F3938,D_800F3938,D_800F3938,0x8005A618,func_8005A618,matching_c,game,C,src/game/model_effect_wrapped_value.c,address,,(((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET] | record = offset + (s32)&D_800F3938;
 0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
 0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,address,16,arg1 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE); | arg2 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
@@ -2841,7 +2841,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80051350,func_80051350,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_041b50.s,read,32,"addiu $a1, $a1, %lo(D_800F56F0) | addiu $t0, $t1, %lo(D_800F56F0) | (+4 more)"
 0x800F56F0,D_800F56F0,D_800F56F0,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,D_800F56F0.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) * | D_800F56F0.vpx = D_800F56F0.vpx + | (+20 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,,b = (u8 *)&D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F56F0.vpx = p->eye.end_x; | D_800F56F0.vpy = p->eye.end_y; | (+10 more)
+0x800F56F0,D_800F56F0,D_800F56F0,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F56F0.vpx = p->eye.end_x; | D_800F56F0.vpy = p->eye.end_y; | (+10 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F56F0.rz = 0; | D_800F56F0.super = 0; | (+8 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,D_800F56F0 = *(GsRVIEW2 *)m; | b = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &D_800F56F0.vpx;
@@ -2855,7 +2855,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = D_800F56F0;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,u8 *p = D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
-0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = (u8 *)&D_800F5768[i]; | if (D_800F5768[2].vx < *(s16 *)e) { | (+1 more)
+0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < *(s16 *)e) { | (+1 more)
 0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
 0x800F5768,D_800F5768,D_800F5768,0x8005F070,func_8005F070,matching_c,game,C,src/game/model_effect_state.c,write,,D_800F5768[0].vx = left->vpx; | D_800F5768[0].vy = left->vpy; | (+7 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,D_8009B074 = D_800F5788; | Key *key = D_800F5788; | (+1 more)
@@ -2962,7 +2962,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800FE148,D_800FE148,D_800FE148,0x80015EF4,func_80015EF4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0066f4.s,address,,"addiu $a0, $a0, %lo(D_800FE148) | lui $a0, %hi(D_800FE148)"
 0x800FE148,D_800FE148,D_800FE148,0x800177C4,func_800177C4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_007fc4.s,address,,"addiu $a0, $a0, %lo(D_800FE148) | lui $a0, %hi(D_800FE148)"
 0x800FE148,D_800FE148,D_800FE148,0x800178BC,func_800178BC,matching_c,game,C,src/game/func_800178BC.c,address,,GsSetLsMatrix(&D_800FE148);
-0x800FE148,D_800FE148,D_800FE148,0x8001B0CC,func_8001B0CC,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00a518.s,address,,"addiu $a0, $a0, %lo(D_800FE148) | lui $a0, %hi(D_800FE148)"
+0x800FE148,D_800FE148,D_800FE148,0x8001B0CC,func_8001B0CC,matching_c,game,C,src/game/func_8001B0CC.c,address,,GsSetLsMatrix(&D_800FE148);
 0x800FE148,D_800FE148,D_800FE148,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,address,,GsSetLsMatrix(&D_800FE148);
 0x800FE148,D_800FE148,D_800FE148,0x80059220,func_80059220,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800FE148;
 0x800FE240,D_800FE240,D_800FE240,0x80033DB0,func_80033DB0,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0245b0.s,write,32,"lui $at, %hi(D_800FE240) | sw $t5, %lo(D_800FE240)($at)"
