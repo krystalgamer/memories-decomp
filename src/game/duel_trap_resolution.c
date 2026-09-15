@@ -7,6 +7,7 @@
 #include "duel_card_staging.h"
 #include "duel_action_lock.h"
 #include "duel_card_layout.h"
+#include "duel_effect.h"
 #include "duel_effect_request.h"
 #include "duel_grid.h"
 #include "sound.h"
@@ -151,15 +152,15 @@ s32 func_8001F0D0(u8 *p) {
  * the second screen effect; mode 3 waits once more, advances the opposing
  * side's state byte at +6 and completes. Returns 1 while busy. */
 s32 func_8001F364(void) {
-    u8 *e;
+    DuelEffectObject *e;
     DuelCardReplayRecordBlock *g;
-    u8 *p;
+    DisplayObject *p;
     u8 *q;
     u8 *r;
     s32 one;
     s32 v;
     u16 t;
-    u8 *q34;
+    u16 *q34;
     u16 *d;
 
     if (D_8009B162 != 0) {
@@ -204,13 +205,13 @@ m1:
     g = (DuelCardReplayRecordBlock *)(r +
         D_8009B1B8 * sizeof(DuelCardRecord) +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
-    p = g->record.object;
-    e = DuelEffect_CreateRequest(8);
-    *(u16 *)(e + 0) = *(u16 *)(p + 0x30);
-    *(u16 *)(e + 2) = *(u16 *)(p + 0x32);
-    q34 = p + 0x34;
-    *(d = (u16 *)(e + 4)) = *(u16 *)q34;
-    func_80024954(&D_801A7AD8[p[0x6A]]);
+    p = (DisplayObject *)g->record.object;
+    e = (DuelEffectObject *)DuelEffect_CreateRequest(8);
+    e->x = p->field_30.h.field_30;
+    e->y = p->field_30.h.field_32;
+    q34 = (u16 *)&p->field_34.h.field_34;
+    *(d = &e->field_04) = *q34;
+    func_80024954(&D_801A7AD8[p->field_6A]);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
     }
