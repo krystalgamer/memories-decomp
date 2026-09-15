@@ -14,7 +14,7 @@
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
    the next read. */
-void func_80046DE8(void)
+void SD_ResetRuntime(void)
 {
     SDValue *p;
     SDValue *q;

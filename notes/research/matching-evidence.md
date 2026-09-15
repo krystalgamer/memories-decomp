@@ -3968,7 +3968,7 @@ Read it in that direction. A target that re-reads a global into `$v0` or `$v1`
 in block after block was written with a fresh local each time, and the fix is
 to declare one.
 
-`func_80046DE8` (`0x80046DE8`, 92 instructions) is the worked example. It reads
+`SD_ResetRuntime` (`0x80046DE8`, 92 instructions) is the worked example. It reads
 `g_SDValue` seven times. Written with a single `SDValue *state`, it reaches the
 exact 92 instructions with the exact opcode histogram and **78 of 92 positions
 differing**, because the pointer sits in `$a2` everywhere instead of `$v0`.
