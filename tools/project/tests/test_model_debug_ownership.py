@@ -118,6 +118,8 @@ class ModelDebugOwnershipTests(unittest.TestCase):
             "u8 *first = &D_8009B004.fields.field_00;\n"
             "s16 *height = &D_8009B004.fields.height;\n"
             "u16 *height_bits = &D_8009B004.halfwords[1];\n"
+            "u8 *display = &D_8009B008.display_enabled;\n"
+            "typedef char display_width[sizeof(D_8009B008) == 4 ? 1 : -1];\n"
             "typedef char normal[sizeof(D_8009B00C) == 8 ? 1 : -1];\n"
             "typedef char newline[sizeof(D_8009B02C) == 4 ? 1 : -1];\n"
         )

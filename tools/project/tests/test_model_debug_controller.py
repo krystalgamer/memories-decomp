@@ -241,7 +241,7 @@ static void reset(void)
         D_800F2C40[i].field_D18 = &units[i];
     }
     D_8009AF9A = 0; D_8009AFA1 = 0;
-    D_8009B004.word = 0x0123BEEF; D_8009B008 = 0xABCDEF01;
+    D_8009B004.word = 0x0123BEEF; D_8009B008.word = 0xABCDEF01;
     D_8009B488[0] = 123; D_8009B488[1] = 456; D_8009B488[2] = 0;
     D_8009B48E[0] = D_8009B48E[1] = 0;
     D_8009B490[0] = D_8009B490[1] = 0;
@@ -259,7 +259,7 @@ static s32 run(void)
     CHECK(equal(slot_storage, expected_slots, sizeof(slot_storage)));
     for (i = 0; i < 3; i++) CHECK(equal(&units[i], &original_units[i], sizeof(units[i])));
     CHECK((D_8009B004.word & 0xFFFF) == 0xBEEF);
-    CHECK((D_8009B008 & 0xFFFFFF00) == 0xABCDEF00);
+    CHECK((D_8009B008.word & 0xFFFFFF00) == 0xABCDEF00);
     CHECK(sample_cursor == sample_count);
     CHECK(display_cursor == 0 || display_cursor == 13);
     cases++;
@@ -310,12 +310,12 @@ int main(void)
     }
     reset(); D_800F2C40[2].field_E1F = 0; D_800F2C40[2].field_D18 = 0; complete_slot = 2;
     CHECK(run() == 0 && events[2][0] == PLACE && events[2][1] == 0);
-    reset(); D_8009B008 &= ~255u;
+    reset(); D_8009B008.word &= ~255u;
     CHECK(run() == 0 && print_count == 0);
     reset(); gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
-    CHECK(run() == 0 && (u8)D_8009B008 == 0 && print_count == 0);
-    reset(); D_8009B008 &= ~255u; gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
-    CHECK(run() == 0 && (u8)D_8009B008 == 1 && print_count == 13);
+    CHECK(run() == 0 && D_8009B008.display_enabled == 0 && print_count == 0);
+    reset(); D_8009B008.word &= ~255u; gInput_wPad1Held = 0x100; gInput_wPad2Pressed = 0x100;
+    CHECK(run() == 0 && D_8009B008.display_enabled == 1 && print_count == 13);
     for (i = 0; i < 7; i++)
         for (j = 0; j < 2; j++) {
             reset(); D_8009B488[2] = i; gInput_wPad1Repeat = j ? 0x100 : 0x800;

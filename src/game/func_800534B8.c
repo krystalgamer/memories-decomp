@@ -89,8 +89,8 @@ s32 func_800534B8(void)
             func_80059AA8(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     }
     if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))
-        ((u8 *)&D_8009B008)[0] ^= 1;
-    if (!((u8 *)&D_8009B008)[0])
+        D_8009B008.display_enabled ^= 1;
+    if (!D_8009B008.display_enabled)
         return 0;
     if (D_8009AF9A == -2) {
         s32 i = 0;

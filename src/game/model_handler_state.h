@@ -53,7 +53,16 @@ typedef char ModelDebugState_height_offset_must_be_2[
 ];
 
 extern ModelDebugState D_8009B004;
-extern u32 D_8009B008;
+typedef union {
+    u32 word;
+    u8 display_enabled;
+} ModelDebugDisplayState;
+
+typedef char ModelDebugDisplayState_size_must_be_4[
+    sizeof(ModelDebugDisplayState) == 4 ? 1 : -1
+];
+
+extern ModelDebugDisplayState D_8009B008;
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 /* The debug controller uses absolute string addresses. Their definitions
  * retain eight bytes each (four for B02C); no larger backing is implied. */

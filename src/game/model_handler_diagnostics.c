@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "model_handler_state.h"
 
-u32 D_8009B008 __attribute__((section(".sdata"))) = 0;
+ModelDebugDisplayState D_8009B008 __attribute__((section(".sdata"))) = {0};
 char D_8009B00C[8] __attribute__((section(".sdata"))) = "~cff0";
 char D_8009B014[8] __attribute__((section(".sdata"))) = "~cf00";
 char D_8009B01C[8] __attribute__((section(".sdata"))) = "%s%d";
