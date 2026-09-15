@@ -11,8 +11,6 @@
 #include "view_state.h"
 #include "duel_screen_tables.h"
 
-extern ScreenPair D_800EA070[];
-
 /* Projects all duel-slot coordinates into the biased screen-position table. */
 void func_800177C4(void)
 {

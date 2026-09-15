@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_SCREEN_TABLES_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "duel_grid.h"
 #include "duel_result_outro.h"
 
@@ -22,9 +23,8 @@ typedef struct {
 /* The card-slot projection coordinates and the two duel-result sprite
    tables, declared here so the source that defines them and the units that
    read them cannot drift apart. D_800908A0 is read as u16 halfwords by
-   debug_effect_screen.c, src/candidates/func_800177C4.c and
-   src/candidates/func_8001B0CC.c (the last
-   through inline assembly). The DuelFieldPosition arm is selected by the
+   debug_effect_screen.c, func_800177C4.c and func_8001B0CC.c. The
+   DuelFieldPosition arm is selected by the
    defining unit and by duel_card_record_lifecycle.c, whose func_80024D34
    loads the pair with lh. */
 #ifdef DUEL_SCREEN_TABLES_TYPED_POSITIONS
@@ -32,6 +32,7 @@ extern DuelFieldPosition D_800908A0[DUEL_SCREEN_CARD_POSITION_COUNT];
 #else
 extern u16 D_800908A0[];
 #endif
+extern ScreenPair D_800EA070[DUEL_SCREEN_CARD_POSITION_COUNT];
 extern DuelExodiaCardPoseTable D_80090918;
 extern DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT];
 extern DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT];

@@ -364,19 +364,14 @@ neighbours carry different profiles, so no run reached it anyway. Either way a
 run spanning one of them fails conditions 1 and 4 on the gap, which needs no
 special case.
 
-This used to be contrasted with a source carrying a single inline opcode, and
-that contrast no longer separates two groupable populations. Seven sources
-contain `.word 0x4A180001`, the GTE `rtps` encoding the period assembler
-could not spell, inside ordinary C with real operand constraints:
-`func_80015D18.c`, `func_80015DFC.c`, `func_80015EF4.c`, `func_800177C4.c`,
-`func_800178BC.c`, `func_8001B0CC.c` and `func_80029934.c`. All seven are
-build-integrated candidates under `src/candidates/`, so none of them is in
-matching C to group, and they are there for two different reasons. Five were
-reclassified by #3859, and each of those five rows says the source was
-byte-exact only through that inline asm statement -- two of them through a
-register pin as well -- so for those the opcode is the reason rather than an
-incidental detail. The other two, `func_80015EF4.c` and `func_80029934.c`,
-are ordinary unmatched candidates whose rows record a live residual.
+This used to be contrasted with sources carrying a source-authored
+`.word 0x4A180001` for the GTE `rtps` encoding. `func_800177C4.c` is now
+matching C built from typed scratchpad stores and the official Psy-Q GTE
+macros under `gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps`; the same
+normalization path also promoted `func_800178BC.c` and `func_8001B0CC.c`.
+Those one-function sources remain boundaries rather than a groupable
+translation unit. The remaining source-authored encoding is confined to the
+unmatched `src/candidates/func_80015EF4.c`.
 
 `display_projection.c` used to be an example here and no longer carries the
 encoding at all. #3859/#3904 moved `func_80015D18` and `func_80015DFC` out of
