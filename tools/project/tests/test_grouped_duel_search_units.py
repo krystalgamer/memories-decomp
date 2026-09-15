@@ -31,7 +31,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
     def test_functions_remain_in_image_order(self) -> None:
         field_source = (ROOT / "src/game/duel_field_equip_search.c").read_text()
         field_names = (
-            "s32 func_80026C0C(",
+            "s32 Duel_FindFreeFieldSlot(",
             "s32 Duel_CollectFieldCardsBelowType(",
             "s32 Duel_CollectFieldCardsByType(",
             "s32 func_80026DC8(",

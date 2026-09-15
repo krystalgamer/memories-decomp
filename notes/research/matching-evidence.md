@@ -1388,7 +1388,7 @@ equally strong:
 - the sequence itself is wrong and pins are used to force it, which is a much
   larger intervention.
 
-`func_80026C0C` (`0x80026C0C`) is the first kind: all 24 instructions were in
+`Duel_FindFreeFieldSlot` (`0x80026C0C`) is the first kind: all 24 instructions were in
 the right order before any pin, and only the base index and record pointer were
 swapped between `v1` and `a0`. State which case applies in the ledger row, since
 a reader deciding whether to revisit a function cannot tell them apart from the

@@ -331,7 +331,7 @@ extern:
 `DuelEffect_ApplyStopDefense`, `DuelEffect_UpdateRevealCard`,
 `DuelEffect_ApplyDarkPiercingLight`, `DuelEffect_ApplySwords`,
 `DuelEffect_ApplyHarpiesFeatherDuster`,
-`func_80026C0C`,
+`Duel_FindFreeFieldSlot`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, `func_8002C938`, and
 `func_8002C9B4`.
@@ -341,9 +341,9 @@ Raw local views retained for exact code generation:
 - `func_80023090` keeps byte-addressed construction for its first record
   pointer because it only scales the index before passing that pointer to the
   guardian comparison helper; it does not access a shared field directly.
-- `func_80026C0C` uses the shared typed extern, but casts its base to a byte
-  pointer and keeps the pinned `$a0` address construction so the record-scale
-  result and final pointer share the retail live range.
+- `Duel_FindFreeFieldSlot` keeps the manual byte-scaled base construction so
+  the record-scale result and final pointer share the retail live range, then
+  walks a typed `DuelCardRecord` cursor for the flags test.
 - `func_8001778C` keeps byte cursors for the paired `+0x00`/`+0x04` stores
   and independent `+0x16` cursor; its increments and bound use the shared
   size/count constants.
