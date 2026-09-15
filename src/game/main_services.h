@@ -6,10 +6,10 @@
 
 /* The per-frame callback registry the resident service pump walks.
  *
- * There are four slots, not one. func_8001306C calls every non-null slot in
- * order once per frame, and func_800134B4 clears all four. The size is not a
- * guess: c_symbols.ld places D_800E9DB0 at 0x800E9DB0 and the next symbol,
- * D_800E9DC0, sixteen bytes later, which is exactly four pointers.
+ * There are four slots, not one. Main_RunFrameServices calls every non-null
+ * slot in order once per frame, and func_800134B4 clears all four. The size is
+ * not a guess: c_symbols.ld places D_800E9DB0 at 0x800E9DB0 and the next
+ * symbol, D_800E9DC0, sixteen bytes later, which is exactly four pointers.
  *
  * The main_menu overlay previously declared slot 0 as a bare
  * `void (*)(void)` -- and, where it only cleared the slot, as an `s32`. Both
@@ -113,10 +113,10 @@ struct GraphicsFrameBuffer;
 void func_80013154(struct GraphicsFrameBuffer *base);
 void func_80013360(void);
 
-/* The pump itself, and the call that empties the registry. func_8001306C
+/* The pump itself, and the call that empties the registry. Main_RunFrameServices
    walks the four slots once per frame; func_800134B4 clears all four. Both
    callers already spelled the pump this way. */
-void func_8001306C(void);
+void Main_RunFrameServices(void);
 void func_800134B4(void);
 
 #endif

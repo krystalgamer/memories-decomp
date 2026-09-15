@@ -27,7 +27,7 @@ void Main_VBlankCB(void)
 
 void func_80012D4C(void)
 {
-    func_8001306C();
+    Main_RunFrameServices();
     Graphics_SyncFrame();
     Graphics_BeginFrame();
     Input_UpdatePads();

@@ -16,7 +16,7 @@
    display_projection.c above is owned by the pending #3859 reclassification. */
 
 /* Full-screen fade / brightness overlay, drawn once per frame from
-   func_8001306C's dispatcher.
+   the Main_RunFrameServices dispatcher.
 
    The fade state lives in the gFade_State record: byte 4 is the current
    level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and

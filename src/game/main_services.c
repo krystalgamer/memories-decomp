@@ -39,7 +39,7 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
    neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
    and re-syncs both progress pairs. Finishes with func_80014A5C/func_800136D4. */
-void func_8001306C(void) {
+void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
     s32 cnt;

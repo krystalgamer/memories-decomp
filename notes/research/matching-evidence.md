@@ -2436,7 +2436,7 @@ object model through two related parent/child constructors.
 | Function | Reusable evidence |
 |---:|---|
 | `File_InitTransferDescriptor` | Transfer-descriptor constructor and stack argument order |
-| `func_8001306C` | Nullable callback array, GP-relative callback, pacing counters, and 60-tick countdown |
+| `Main_RunFrameServices` (`0x8001306C`) | Nullable callback array, GP-relative callback, pacing counters, and 60-tick countdown |
 | `Duel_CalcGuardianStarBonus` | Signed card ID indexing and conditional guardian-star extraction before the matchup bonus |
 | `Duel_ShowResultPage` | Ten-child object iteration and bit `0x40` state updates |
 | `func_80019BD0` | Animation object field widths and callback layout |
