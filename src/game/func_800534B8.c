@@ -50,10 +50,11 @@ s32 func_800534B8(void)
             s32 height;
 
             stage += 2;
-            /* A typed store lets GCC move the stage-pointer load across it. */
-            *(u16 *)((u8 *)&D_8009B004 + 2) =
+            /* A natural member store moves the stage-pointer load across it;
+               the u16 member view preserves the original ordering. */
+            *(u16 *)&D_8009B004.fields.height =
                 *(u16 *)(D_8009AF88 + 0xA4);
-            height = *(s16 *)((u8 *)&D_8009B004 + 2);
+            height = D_8009B004.fields.height;
             if (stage->field_D18) {
                 stage->field_D18->rot.vx = 0;
                 stage->field_D18->rot.vy = 0;
