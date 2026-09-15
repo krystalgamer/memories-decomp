@@ -178,7 +178,7 @@ void func_80038148(DuelEffectChannel *object)
     s32 h;
     s32 w;
 
-    r = func_80036D70((u8 *)object);
+    r = func_80036D70((TextStreamOwner *)object);
     t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);

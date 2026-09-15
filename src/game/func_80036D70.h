@@ -2,22 +2,19 @@
 #define MEMORIES_DECOMP_FUNC_80036D70_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 
 /* Reads one little-endian 32-bit word out of a script stream and advances it.
  *
- * The object carries several stream pointers; the signed byte at +0x58
- * selects which one, and that pointer is stepped four bytes on. The word is
- * assembled from the four bytes low-first, so the stream is little-endian
- * here, unlike the sequence readers in the sound path.
+ * The TextStreamOwner carries 22 stream pointers followed by the signed
+ * selector at +0x58. The selected pointer is stepped four bytes on, and the
+ * word is assembled from those bytes low-first, so the stream is
+ * little-endian here, unlike the sequence readers in the sound path.
  *
- * The +0x58 selector is the same field the text command family calls
- * stream_58 on DuelEffectChannel, reached there as *(s8 *)(p + 0x58) and as
- * o->stream_58. This unit spells its parameter as a byte pointer and does not
- * claim the channel type.
+ * DuelEffectChannel has the same stream-pointer prefix and calls its selector
+ * stream_58; the sole caller casts that wider record to this narrow view.
  *
- * func_80038148 is the only consumer, and its local extern already agreed
- * with this in every part but the spelling: u32 against unsigned int and
- * u8 * against unsigned char *, which are the same types. */
-unsigned int func_80036D70(unsigned char *object);
+ * func_80038148 is the only consumer. */
+u32 func_80036D70(TextStreamOwner *object);
 
 #endif
