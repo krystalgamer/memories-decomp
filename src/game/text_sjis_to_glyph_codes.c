@@ -4,16 +4,17 @@
 
 void Text_SjisToGlyphCodes(u8 *dst, u8 *src, s32 count)
 {
+    const u16 *input = (const u16 *)src;
     s32 i;
 
     for (i = count - 1; i >= 0; i--) {
-        if (*(u16 *)(src + i * 2) != 0) {
+        if (input[i] != 0) {
             count = i + 1;
             break;
         }
     }
-    for (i = 0; i < count; i++, src += 2) {
-        s32 value = *(u16 *)src;
+    for (i = 0; i < count; i++, input++) {
+        s32 value = *input;
         s32 index = value != 0;
         u32 *entry = &D_801D9000[index];
         u32 word = *entry;
