@@ -111,8 +111,6 @@ segments:
       - [0x1F0C, .rodata, game/model_load_step]
       - [0x1F38, rodata, initial_data_1f38]
       - [0x1F3C, .rodata, game/model_texture_transfer]
-      - [0x1F80, rodata, initial_data_1f80]
-      - [0x1F84, .rodata, game/file_transfer_steps]
       - [0x1FC8, rodata, initial_data_1f]
       - [0x1FD8, .rodata, game/main_menu_load_package_stage]
       - [0x1FEC, rodata, initial_data_1d]

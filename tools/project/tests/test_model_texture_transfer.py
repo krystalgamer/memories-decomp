@@ -48,10 +48,11 @@ u8 slots[SLOTS] __attribute__((aligned(16)));
 u8 raw[RAW] __attribute__((aligned(16)));
 __asm__(".globl D_800F2C40\n.set D_800F2C40, slots+32\n"
         ".globl D_801DD000\n.set D_801DD000, raw+32\n");
-u8 D_801DE000[0x400], D_801A8000[0x1000];
+u8 D_801DD800[0x800], D_801DE000[0x400], D_801A8000[0x1000];
+u8 D_800F5694[1];
 static u8 destinations[6][32], buffers[2][0x1000];
 u8 *D_80010000, *D_80010004, *D_8001000C, *D_80010010;
-s32 D_80010014, D_80010018;
+s32 D_80010008, D_80010014, D_80010018;
 u8 *D_8009B118;
 volatile u32 D_8009B0F4_abs;
 void func_80056D7C(FileTransferDescriptor *, s32);

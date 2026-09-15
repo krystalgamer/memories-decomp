@@ -5266,13 +5266,13 @@
       "address": "0x80057544",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x26C",
-      "source": "src/game/file_transfer_steps.c"
+      "source": "src/game/model_texture_transfer.c"
     },
     {
       "address": "0x800577B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
-      "source": "src/game/file_transfer_steps.c"
+      "source": "src/game/model_texture_transfer.c"
     },
     {
       "address": "0x80057AF4",
