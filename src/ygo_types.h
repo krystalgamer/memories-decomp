@@ -241,11 +241,13 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
     sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
 ];
 
-/* Eight bytes copied as one unit. The matching wireframe renderer and two
-   retained candidates use this shape as the source and destination of a
-   whole-struct assignment: func_80015EF4 copies four rotation corners,
-   func_80029934 one parameter block out of D_80181000, and func_80030294 one
-   mask block out of D_8009AF4C.
+/* Eight bytes copied as one unit. Two retained candidates use this shape as
+   the source and destination of a whole-struct assignment: func_80015EF4
+   copies four rotation corners and func_80030294 one mask block out of
+   D_8009AF4C. The matching wireframe renderer func_80029934 used it for its
+   parameter block out of D_80181000 until that block was typed as the SVECTOR
+   it is. SVECTOR's alignment of 2 is still below a word, so its assignment
+   lowers to the same two unaligned move pairs.
 
    The element type is what this type is for, and it is load-bearing for the
    reason model.h:113-124 gives about ModelSlotCF8BlockWords -- the element
@@ -256,7 +258,7 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
    the retained targets and matching wireframe text are exactly two pairs per
    source-level assignment: func_80015EF4.S has 8 of each for its four copies;
    func_80029934 and func_80030294.S have 2 of each for their one. A word-element
-   spelling would not reproduce them.
+   spelling would not reproduce them; any element narrower than a word does.
 
    model.h's ModelBytes8 is the same shape and is deliberately left where it
    is; it is also the declared type of two defined objects, which is a claim
@@ -420,14 +422,16 @@ struct DisplayObject;
 /* The Library cursor's motion record at D_800EA1E8, 0x48 bytes. func_80029590,
    func_8002A3CC and func_8002A4A8 reach it through the typed declaration in
    game/func_8002A3CC.h, and func_8002BFCC through a cast of the byte view that
-   game/library_runtime.h declares at the same address. */
+   game/library_runtime.h declares at the same address. func_80029934 reads
+   globe_radius through the typed declaration too; it scales the globe
+   wireframe's rings and its stripe circle. */
 typedef struct {
     u8 pad_00[8];
     s16 x;
     s16 y;
     u16 x_fraction;
     u16 y_fraction;
-    u8 pad_10[2];
+    s16 globe_radius;
     u16 rest_x;
     u16 rest_y;
     u8 frames;
