@@ -22,7 +22,8 @@
  * view, while the typed declaration lives in func_8002A3CC.h; a file that
  * included both would have two declarations of the symbol. The two views are
  * kept apart on purpose, so this prototype takes the pointer its caller
- * already has and records the identification here instead. */
+ * already has. The implementation uses the asserted LibraryMotionState layout
+ * directly and accesses its typed y field. */
 void func_8002A660(u8 *record);
 
 #endif
