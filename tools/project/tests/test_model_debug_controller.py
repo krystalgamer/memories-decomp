@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/func_800534B8.c"
+SOURCE = ROOT / "src/game/model_debug_controller.c"
 START = """
 .text
 .globl _start
@@ -255,7 +255,7 @@ static s32 run(void)
     s32 result, i;
     bytes(expected_slots, slot_storage, sizeof(slot_storage));
     bytes(original_units, units, sizeof(units));
-    result = func_800534B8();
+    result = ModelDebug_UpdateController();
     CHECK(equal(slot_storage, expected_slots, sizeof(slot_storage)));
     for (i = 0; i < 3; i++) CHECK(equal(&units[i], &original_units[i], sizeof(units[i])));
     CHECK((D_8009B004.word & 0xFFFF) == 0xBEEF);

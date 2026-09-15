@@ -5,7 +5,7 @@
 
 /* Loads missing scene slots and handles the model-selection debug display.
  * The animated-battle frame uses the completion sentinel return value. */
-s32 func_800534B8(void);
+s32 ModelDebug_UpdateController(void);
 
 extern char D_80011518[];
 extern char D_8001152C[];

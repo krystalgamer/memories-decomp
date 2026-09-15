@@ -223,11 +223,12 @@ void func_80034830(void);
  * Eight are void (void), called with no arguments against a no-argument
  * declaration, so declaration and call already agree. The other three are
  * not, and are worth naming because assuming otherwise is exactly the
- * mistake this batch nearly shipped: func_800534B8 returns s32,
+ * mistake this batch nearly shipped: ModelDebug_UpdateController returns s32,
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
  * restated. func_8004158C has since matched and is declared by
- * func_8004158C.h. func_800534B8 is now owned by model_debug_controller.h. */
+ * func_8004158C.h. ModelDebug_UpdateController is owned by
+ * model_debug_controller.h. */
 void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 
