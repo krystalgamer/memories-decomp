@@ -2316,7 +2316,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x8004803C,func_8004803C,matching_c,game,C,src/game/sound_effect_voices.c,read,,"SpuSetKey(SPU_OFF, g_SDValue->voice_attr.voice); | SpuSetKeyOnWithAttr(&g_SDValue->voice_attr); | (+17 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x800482B0,func_800482B0,matching_c,game,C,src/game/func_800482B0.c,read,,"SpuGetVoiceEnvelope(g_SDValue->field_0435 + 0x14, &envelope); | func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume, | (+8 more)"
 0x8009B45C,g_SDValue,g_SDValue,0x80048658,SD_SEPlay,matching_c,game,C,src/game/sound_effect_request.c,read,,SDValue *a = g_SDValue; | SDValue *b = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,matching_c,game,C,src/game/func_80048768.c,read,,base = (u8 *)g_SDValue; | g_SDValue->voice_volume_left[i] = prod; | (+3 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80048768,func_80048768,matching_c,game,C,src/game/sound_effect_request.c,read,,base = (u8 *)g_SDValue; | g_SDValue->voice_volume_left[i] = prod; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80048920,SD_SESetVolume,matching_c,game,C,src/game/sd_se_set_volume.c,read,,SDValue *a = g_SDValue; | b = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80048A28,func_80048A28,matching_c,game,C,src/game/sound_voice_data.c,read,,SDValue *a = g_SDValue; | SDValue *c = g_SDValue; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80048C0C,func_80048C0C,matching_c,game,C,src/game/sound_voice_data.c,read,,SDValue *state = g_SDValue;

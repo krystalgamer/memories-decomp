@@ -4564,7 +4564,7 @@
       "address": "0x80048768",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1B8",
-      "source": "src/game/func_80048768.c"
+      "source": "src/game/sound_effect_request.c"
     },
     {
       "address": "0x80048920",

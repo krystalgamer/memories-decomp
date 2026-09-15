@@ -89,6 +89,12 @@ void func_800482B0(s32 id,s16 pitch,u8 volume,s16 pan,u32 mode,u8 value)
         pan!=expected_args[3] || mode!=(u32)expected_args[4] ||
         value!=expected_args[5]) fail(6);
 }
+void SD_SetCdPan(s16 pan) { (void)pan; }
+void SpuGetVoiceEnvelope(s32 voice,s16 *envelope)
+{
+    (void)voice; (void)envelope;
+}
+void func_80047864(s32 index) { (void)index; }
 /* The scenario supplies its expected dispatch class and resolved ID; the
  * oracle does not classify the request using the implementation's masks.
  * Entire state/index/note allocations, including unused records, are frozen. */
