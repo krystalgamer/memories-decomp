@@ -4,8 +4,8 @@
  * smoke particles from ccos/csin and rand(); otherwise it draws the rings,
  * the flash, the dust, the sparks and the smoke as quads through RotAverage4,
  * steps its phase and stage and fades every group. Current best under
- * gcc_2_8_1_g8_split: 2298 instructions against 2319 with opcode distance
- * 51 (15 surplus, 36 missing), with no hard register assignments and no
+ * gcc_2_8_1_g8_split: 2306 instructions against 2319 with opcode distance
+ * 43 (15 surplus, 28 missing), with no hard register assignments and no
  * inline assembly.
  *
  * Levers measured on this body:
@@ -25,7 +25,9 @@
  *   before the negation, and the last quad block reads the flipped sign
  *   back instead of negating it again;
  * - the third ring component's absolute value tests >= 0 first, which
- *   drops a duplicated test and jump.
+ *   drops a duplicated test and jump;
+ * - the ember and smoke seeding loops walk embers, smoke and smoke_speed
+ *   through SVECTOR cursors, as retail does.
  *
  * The earlier 2321-instruction build was two faults cancelling: 28 surplus
  * instructions in the two quad loops against the 26-instruction shortfall
@@ -34,9 +36,10 @@
  * Measured and not kept: named pointers for the vector sums and an FT4
  * accessed through a pointer (both shorten the build but spill a register,
  * raising the surplus to 24-46), and the spark colour fades as ternary
- * stores (surplus 27-28).
+ * stores (surplus 27-28). Cursors in the ring, dust and spark seeding
+ * loops add surplus the same way (17-41).
  *
- * Residual: census addiu -12, addu -2, andi +2, beqz +1, lbu +5, lh +2,
+ * Residual: census addiu -2, addu -4, andi +2, beqz +1, lbu +5, lh +2,
  * lhu -7, lw +1, negu +2, nop -14, slt -1, sltu +2. Retail reaches the FT4
  * and the vector sums through pointers; spelling that here spills a
  * register (2301 instructions, surplus 19).
@@ -84,6 +87,7 @@ s32 func_8006CD78(void *data, s32 arg1)
     u16 *w;
     u8 *c;
     SVECTOR *t;
+    SVECTOR *u;
     s32 i;
     s32 j;
     s32 k;
@@ -189,18 +193,21 @@ s32 func_8006CD78(void *data, s32 arg1)
             e->spark_colors[n3].g = 1;
             e->spark_colors[n3].b = 1;
         }
-        for (n4 = 0; n4 < 32; n4++) {
-            e->embers[n4].vx = (rand() - rand()) % 4096 * 0xA0 / 4096;
-            e->embers[n4].vy = (rand() - rand()) % 4096 * 0xA0 / 4096;
-            e->embers[n4].vz = (rand() - rand()) % 4096 * 0xA0 / 4096;
+        t = e->embers;
+        for (n4 = 0; n4 < 32; n4++, t++) {
+            t->vx = (rand() - rand()) % 4096 * 0xA0 / 4096;
+            t->vy = (rand() - rand()) % 4096 * 0xA0 / 4096;
+            t->vz = (rand() - rand()) % 4096 * 0xA0 / 4096;
         }
-        for (n5 = 0; n5 < 64; n5++) {
-            e->smoke[n5].vx = 0;
-            e->smoke[n5].vy = 0;
-            e->smoke[n5].vz = 0;
-            e->smoke_speed[n5].vx = (rand() - rand()) % 4096 * 0x60 / 4096;
-            e->smoke_speed[n5].vy = (rand() - rand()) % 4096 * 0x18 / 4096;
-            e->smoke_speed[n5].vz = (rand() - rand()) % 4096 * 0x60 / 4096;
+        u = e->smoke;
+        t = e->smoke_speed;
+        for (n5 = 0; n5 < 64; n5++, t++, u++) {
+            u->vx = 0;
+            u->vy = 0;
+            u->vz = 0;
+            t->vx = (rand() - rand()) % 4096 * 0x60 / 4096;
+            t->vy = (rand() - rand()) % 4096 * 0x18 / 4096;
+            t->vz = (rand() - rand()) % 4096 * 0x60 / 4096;
             e->smoke_frame[n5] = rand() % 4;
         }
         e->smoke_r = 0x80;
