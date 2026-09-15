@@ -179,8 +179,8 @@ void func_80048D08(s32 side, u32 *src)
                 g_SDValue->field_043C[key] = n;
                 g_SDValue->field_0444[n] = cur->data[j];
                 e = (SDNote *)(n * 8 + (u32)g_SDValue->field_0444);
-                v = *(u16 *)((u8 *)e + 6);
-                *(u16 *)((u8 *)e + 6) =
+                v = e->field_0006;
+                e->field_0006 =
                     (i != 0) ? (u16)(v + (addr_side >> 4))
                              : (u16)(v + (addr_other >> 4));
                 g_SDValue->field_0440 = g_SDValue->field_0440 + 1;
