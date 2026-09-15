@@ -11,8 +11,8 @@
 
 void Duel_RequestCombinedDeckData(void)
 {
-    u8 *source = (u8 *)gDuel_awCombinedDeckCardIds;
-    u8 *output;
+    u16 *source = gDuel_awCombinedDeckCardIds;
+    u16 *output;
     FileTransferDescriptor *result;
     s32 i;
     s32 previous;
@@ -21,27 +21,28 @@ void Duel_RequestCombinedDeckData(void)
     s32 value;
 
     Util_CopyWords(
-        source,
-        source - DUEL_DECK_ID_BUFFER_STRIDE,
+        (u8 *)source,
+        (u8 *)source - DUEL_DECK_ID_BUFFER_STRIDE,
         COMBINED_DECK_SIZE * sizeof(u16)
     );
     qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
 
-    output = source + DUEL_DECK_ID_BUFFER_STRIDE;
+    output = source + DUEL_DECK_ID_BUFFER_STRIDE / sizeof(u16);
     previous = 0;
     for (i = 0; i < COMBINED_DECK_SIZE; i++) {
-        value = *(u16 *)source;
+        value = *source;
         if (value != previous) {
-            *(u16 *)output = value;
+            *output = value;
             previous = value;
-            output += 2;
+            output++;
         }
-        source += 2;
+        source++;
     }
 
-    *(u16 *)output = DUEL_CARD_ID_LIST_END;
+    *output = DUEL_CARD_ID_LIST_END;
     table = D_8015C424;
-    first_id = *(u16 *)(table + DUEL_UNIQUE_DECK_CARD_IDS_OFFSET);
+    first_id =
+        ((u16 *)table)[DUEL_UNIQUE_DECK_CARD_IDS_OFFSET / sizeof(u16)];
     result = File_TryRequestAsyncTransfer(
         0, (u8 *)0, first_id - 1, previous - first_id + 1,
         Duel_StepCardDataTransfer, 0, 0
