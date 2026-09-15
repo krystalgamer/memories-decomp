@@ -1,18 +1,20 @@
 /*
  * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
  * result handoff. Current best under gcc_2_8_1_g8_split: 280/280
- * instructions, opcode multiset distance 0, and 25 non-relocation word
- * mismatches against src/candidates_target/func_80018FEC.S. Relocated words
- * are excluded because this object is not linked: all 90 of them differ, and
- * counting them gives 115 of 280, which measures the link step rather than
- * the code. The "114 differing positions" this comment carried until
- * 2026-09-12 came from an instrument that is not in the repository and could
- * not be reproduced, so it is not restated; measured the way above, the state
- * before this change is 84.
+ * instructions, opcode multiset distance 0, and no register binding.
+ * Compiled to an object and compared word for word with the assembled
+ * src/candidates_target/func_80018FEC.S, 6 of 280 words differ, and all six
+ * are register choices:
+ * - retail loads the effect record's +0x14 field and the 0x8000 constant
+ *   before the D_8009B17C store; this source loads them after it;
+ * - retail holds the constant 1 stored to D_8009B369 and D_8009B26C in $v1,
+ *   and this source holds it in $a0.
  *
- * The callback address remains pinned to preserve retail's
- * materialise-then-move sequence. Address hoists, index-first arithmetic, and
- * locals spanning intervening stores reproduce the rest of the allocation.
+ * The callback address goes through a copy, r = (s32)func_8001EC70 and then
+ * fnv = r, where this candidate used to bind fn to $2. The per-slot sparkle
+ * arm reads the work slot twice through one pointer d, which gives the reload
+ * retail's $v1, and names the (k << 12) + 0xA000 step before the +0x14 add.
+ * The final block stores D_8009B369 through side, which is dead there.
  *
  * Both delay-slot residuals this comment used to record are closed, and they
  * were a coupled pair. Taking duel_effect_request.h's .data arm gives the
@@ -81,10 +83,11 @@ void DuelScene_UpdateExodiaResult(void)
     s32 n;
     s32 r;
     s32 t14;
+    u32 sum;
     u8 *cards;
     u8 *poses;
     DisplayObject **objs;
-    register void (*fn)(void) __asm__("$2");
+    void (*fn)(void);
     s32 fnv;
     DuelCardReplayRecordBlock *g;
     s32 py;
@@ -93,14 +96,15 @@ void DuelScene_UpdateExodiaResult(void)
     DisplayObject **slot;
     s8 side;
     u8 *other;
+    DisplayObject *d;
 
     flags = D_8009B23A;
     if ((flags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         i = 0;
         cards = D_8015C424;
         poses = (u8 *)&D_80090918;
-        fn = (void (*)(void))func_8001EC70;
-        fnv = (s32)fn;
+        r = (s32)func_8001EC70;
+        fnv = r;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = (u8 *)D_8009B214;
@@ -198,9 +202,13 @@ next_obj:
         fx = DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
-        *(u16 *)(fx + 0) = (*slot)->field_30.h.field_30 + 0x1A;
-        *(u16 *)(fx + 2) = (*slot)->field_30.h.field_32 + 0x1E;
-        *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + ((k << 12) + 0xA000);
+        d = *slot;
+        *(u16 *)(fx + 0) = d->field_30.h.field_30 + 0x1A;
+        d = *slot;
+        *(u16 *)(fx + 2) = d->field_30.h.field_32 + 0x1E;
+        sum = (k << 12) + 0xA000;
+        anim = *(s32 *)(fx + 0x14) + sum;
+        *(s32 *)(fx + 0x14) = anim;
         *(u16 *)(fx + 0x1A) = 9;
         SD_SEPlayFull(0x17);
         D_8009B1B9 = D_8009B1B9 + 1;
@@ -226,7 +234,7 @@ next_obj:
     *(u16 *)(other + 0x12) = 0;
     func_800472A8(0x7310);
     func_80059C18(0x7310);
-    D_8009B369 = 1;
+    D_8009B369 = (side = 1);
     D_8009B269 = 3;
     D_8009B26C = 1;
 }
