@@ -1431,6 +1431,7 @@ Model_BuildCameraRelativeCoordinateUnit = 0x800592AC; // type:func
 Model_IsExodiaPresentationComplete = 0x80059C88; // type:func
 ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
+gModel_ImageCopyRect = 0x8009B468;
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

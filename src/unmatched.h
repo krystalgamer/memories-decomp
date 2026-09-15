@@ -104,15 +104,9 @@ void func_8002ACA4(u8 *);           /* library_runtime.c */
  * Nothing takes its sizeof. */
 extern u8 D_801AF800[];
 
-/* One consumer, func_8004E9A0.c. The four contiguous halfwords at
- * 0x8009B468..0x8009B46E are filled as a RECT before MoveImage, while
- * D_800F569F is only indexed at zero as the animation gate. Their linker
- * assignments establish storage but no subsystem header owns them, so their
- * existing declarations move here without assigning broader semantics. */
-extern s16 D_8009B468;
-extern s16 D_8009B46A;
-extern s16 D_8009B46C;
-extern s16 D_8009B46E;
+/* One consumer, func_8004E9A0.c. D_800F569F is only indexed at zero as the
+ * animation gate; its linker assignment establishes storage but no subsystem
+ * header owns it. */
 extern u8 D_800F569F[];
 
 /* One consumer, func_800582C0.c. These four contiguous halfwords are filled
