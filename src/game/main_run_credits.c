@@ -46,8 +46,8 @@
 
 void Main_RunCredits(void)
 {
-    u8 *save_state;
-    u8 *textbox;
+    SaveDataState *save_state;
+    DuelEffectChannel *textbox;
     u16 *number;
     u16 *table;
     s32 one;
@@ -64,13 +64,13 @@ void Main_RunCredits(void)
         D_8009B26C = mode | 0x40;
         Fade_InitIn();
     initialize_completion:
-        save_state = (u8 *)gDuel_awPlayerDeck;
-        *(s16 *)(save_state + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) = 0x30;
+        save_state = (SaveDataState *)gDuel_awPlayerDeck;
+        *(s16 *)&save_state->campaign_scene_index = 0x30;
         for (flag = 0x20; flag < 0x120; flag++) {
             Library_UpdateCardUsedFlag(flag | 0x8000);
         }
         D_8009B26E = 0;
-        save_state[0x3DE] = save_state[0x3DE] | 3;
+        ((u8 *)save_state)[0x3DE] = ((u8 *)save_state)[0x3DE] | 3;
     }
 
     state = D_8009B26E;
@@ -118,9 +118,9 @@ show_secret_number:
         TextBox_CreateFlagged(0, 0x23, 0x10, 0x70, 0x120, 0x20, 8);
     }
     func_80039794();
-    textbox = (u8 *)D_800EB0F8;
-    if ((*(u16 *)(textbox + 0x34) & 8) == 0) {
-        TextBox_Destroy(textbox);
+    textbox = D_800EB0F8;
+    if ((textbox->flags_34 & 8) == 0) {
+        TextBox_Destroy((u8 *)textbox);
         D_8009B26E = 2;
     }
     return;
