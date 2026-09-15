@@ -8,11 +8,11 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
-s32 func_80026C0C(s32 arg0)
+s32 Duel_FindFreeFieldSlot(s32 arg0)
 {
     s32 base;
     s32 off;
-    u8 *p;
+    DuelCardRecord *p;
     s32 i;
 
     do {
@@ -20,13 +20,13 @@ s32 func_80026C0C(s32 arg0)
         off = base << 3;
         off -= base;
         off <<= 2;
-        p = (u8 *)D_801A7AD8 + off;
+        p = (DuelCardRecord *)((u8 *)D_801A7AD8 + off);
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-            off = *(u16 *)(p + 0x16) & DUEL_CARD_FLAG_OCCUPIED;
+            off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
                 return D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
             }
-            p += DUEL_CARD_RECORD_SIZE;
+            p++;
         }
     } while (0);
     return -1;
@@ -138,7 +138,7 @@ s32 func_80026DC8(void) {
             } while (e != 0);
         }
 
-        n = func_80026C0C(DUEL_FIELD_ROW_SIZE);
+        n = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
         if (n < 0) {
             return 1;
         }
