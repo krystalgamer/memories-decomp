@@ -294,11 +294,15 @@ code-generation inputs.
 The interior alias `D_800F3938` now has a separate
 `ModelSlotCF8TailView`, rooted at slot offset `0xCF8` and extending through
 the property bytes at relative offsets `0x106`/`0x107` (slot
-`field_DFE`/`field_DFF`). `func_800559D4` keeps its signed address cursors,
-which are allocation-sensitive, but reads their first and second halfwords
-through the view instead of untyped dereferences. `func_8005A618` likewise
-uses the view's `field_0A` table. Its selector load and the two selector loads
-in `func_800559D4` retain byte-pointer address forms using the asserted
+`field_DFE`/`field_DFF`). Its first twelve bytes are one
+`ModelSlotCF8Prefix` union: the byte arm preserves the threshold and
+`field_0A` table consumers, while the value arm exposes the comparison
+halfwords at `+0`/`+2` and the flag word spanning `+8..+0xB`.
+`func_800559D4` keeps its signed address cursors, which are
+allocation-sensitive, but reads their first and second halfwords through the
+view instead of untyped dereferences. `func_8005A618` likewise uses the
+prefix's `field_0A` table. Its selector load and the two selector loads in
+`func_800559D4` retain byte-pointer address forms using the asserted
 relative-offset constants: direct member syntax merges two independently
 constructed addresses in `func_8005A618`, while it shortens
 `func_800559D4` by eight bytes. Those expressions are exact-code constraints,

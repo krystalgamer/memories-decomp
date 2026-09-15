@@ -125,9 +125,21 @@ typedef struct {
     s32 field_0C;
 } ModelSlotS32Quad;
 
+typedef union {
+    struct {
+        u8 field_00[0xA];
+        u8 field_0A[2];
+    } bytes;
+    struct {
+        u16 field_00;
+        u16 field_02;
+        u8 field_04[4];
+        u32 field_08;
+    } values;
+} ModelSlotCF8Prefix;
+
 typedef struct {
-    u8 field_00[0xA];
-    u8 field_0A[2];
+    ModelSlotCF8Prefix prefix;
     u16 field_0C[2];
     s32 field_10;
     s32 field_14;
@@ -140,10 +152,7 @@ typedef struct {
  * Relative names retain the alias-rooted offsets without claiming semantics
  * for the copied CF8 payload. */
 typedef struct {
-    u16 field_00;
-    u16 field_02;
-    u8 pad_04[6];
-    u8 field_0A[2];
+    ModelSlotCF8Prefix prefix;
     u16 field_0C[2];
     s32 field_10;
     s32 field_14;
@@ -401,7 +410,7 @@ typedef char ModelBytes8_size_must_be_8[
     sizeof(ModelBytes8) == 8 ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_field_0A_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8Block, field_0A) == 0xA ? 1 : -1
+    MODEL_OFFSET(ModelSlotCF8Block, prefix.bytes.field_0A) == 0xA ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_field_0C_offset_must_be_0xC[
     MODEL_OFFSET(ModelSlotCF8Block, field_0C) == 0xC ? 1 : -1
@@ -531,7 +540,13 @@ typedef char ModelSlotCF8TailView_size_must_be_0x108[
     sizeof(ModelSlotCF8TailView) == 0x108 ? 1 : -1
 ];
 typedef char ModelSlotCF8TailView_field_0A_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8TailView, field_0A) == 0xA ? 1 : -1
+    MODEL_OFFSET(ModelSlotCF8TailView, prefix.bytes.field_0A) == 0xA ? 1 : -1
+];
+typedef char ModelSlotCF8Prefix_size_must_be_0xC[
+    sizeof(ModelSlotCF8Prefix) == 0xC ? 1 : -1
+];
+typedef char ModelSlotCF8Prefix_field_08_offset_must_be_0x8[
+    MODEL_OFFSET(ModelSlotCF8Prefix, values.field_08) == 0x8 ? 1 : -1
 ];
 typedef char ModelSlotCF8Block_field_10_offset_must_be_0x10[
     MODEL_OFFSET(ModelSlotCF8Block, field_10) == 0x10 ? 1 : -1

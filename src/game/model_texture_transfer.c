@@ -265,14 +265,14 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         func_8005B620((s32 *)slot->sound_entries, (const s32 *)source, 0x40);
         *(ModelSlotCF8BlockWords *)&slot->field_CF8 =
             *(ModelSlotCF8BlockWords *)(source + 0x100);
-        if (*(u32 *)&slot->field_CF8.field_00[8] & 0x20200000) {
+        if (slot->field_CF8.prefix.values.field_08 & 0x20200000) {
             func_80059284(index, 4);
         }
         if (slot->field_DFA < 0xFFFF) {
-            *(u16 *)&slot->field_CF8.field_00[0] = slot->field_DFA;
+            slot->field_CF8.prefix.values.field_00 = slot->field_DFA;
         }
         if (slot->field_DFC < 0xFFFF) {
-            *(u16 *)&slot->field_CF8.field_00[2] = slot->field_DFC;
+            slot->field_CF8.prefix.values.field_02 = slot->field_DFC;
         }
         if (slot->field_E1D != 0) {
             slot->field_CF8.field_10 = -1;

@@ -13,7 +13,7 @@ s32 func_8005A618(s32 index)
 
     record = offset + (s32)&D_800F3938;
     coefficient = func_8005F1A4(
-        ((ModelSlotCF8TailView *)record)->field_0A[
+        ((ModelSlotCF8TailView *)record)->prefix.bytes.field_0A[
             (((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET]
         ] & 0x1F
     );

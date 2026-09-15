@@ -224,7 +224,8 @@ void func_8004EB00(void)
         if (D_800F2C40[1].field_E0F == 0) {
             D_8009AFE9 += func_80058E1C();
             if (D_8009AFE9 >= 0x3C) {
-                kind = D_800F2C40[D_800F2C40[0].field_DFE].field_CF8.field_0A[0] & 0x1F;
+                kind = D_800F2C40[D_800F2C40[0].field_DFE]
+                           .field_CF8.prefix.bytes.field_0A[0] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
                     mode = 0;

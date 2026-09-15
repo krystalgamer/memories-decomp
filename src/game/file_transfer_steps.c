@@ -209,8 +209,8 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         dst->field_CF8.field_10 = -1;
         dst->field_CF8.field_14 = -1;
         dst->field_CF8.field_18 = -1;
-        *(s16 *)&dst->field_CF8.field_00[0] = 0;
-        *(s16 *)&dst->field_CF8.field_00[2] = 0;
+        dst->field_CF8.prefix.values.field_00 = 0;
+        dst->field_CF8.prefix.values.field_02 = 0;
         dst->field_E14 = 1;
         break;
     }

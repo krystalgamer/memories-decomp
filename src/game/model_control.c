@@ -121,16 +121,16 @@ void func_800559D4(s32 index)
         if (other->field_DFF != 0) {
             {
                 u16 own_value =
-                    ((ModelSlotCF8TailView *)own_record)->field_00;
+                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
                 u16 other_value =
-                    ((ModelSlotCF8TailView *)other_record)->field_02;
+                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
                 selected = own_value > other_value ? 6 : 8;
             }
         } else {
             u16 own_value =
-                ((ModelSlotCF8TailView *)own_record)->field_00;
+                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
             u16 other_value =
-                ((ModelSlotCF8TailView *)other_record)->field_00;
+                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
             selected = own_value > other_value ? 6 : 5;
             if (own_value == other_value) {
                 selected |= 0x80;
@@ -181,16 +181,16 @@ void func_800559D4(s32 index)
         if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
-                    ((ModelSlotCF8TailView *)own_record)->field_00;
+                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
                 u32 other_value =
-                    ((ModelSlotCF8TailView *)other_record)->field_02;
+                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
                 reaction = other_value < own_value ? 6 : 8;
             }
         } else {
             u32 own_value =
-                ((ModelSlotCF8TailView *)own_record)->field_00;
+                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
             u32 other_value =
-                ((ModelSlotCF8TailView *)other_record)->field_00;
+                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
             reaction = other_value < own_value ? 6 : 5;
             if (own_value == other_value) {
                 reaction |= 0x80;
@@ -262,16 +262,20 @@ no_handler:
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =
-                            ((ModelSlotCF8TailView *)own_record)->field_00;
+                            ((ModelSlotCF8TailView *)own_record)->
+                                prefix.values.field_00;
                         u32 other_value =
-                            ((ModelSlotCF8TailView *)other_record)->field_02;
+                            ((ModelSlotCF8TailView *)other_record)->
+                                prefix.values.field_02;
                         fallback_action = other_value < own_value ? 6 : 8;
                     }
                 } else {
                     u32 own_value =
-                        ((ModelSlotCF8TailView *)own_record)->field_00;
+                        ((ModelSlotCF8TailView *)own_record)->
+                            prefix.values.field_00;
                     u32 other_value =
-                        ((ModelSlotCF8TailView *)other_record)->field_00;
+                        ((ModelSlotCF8TailView *)other_record)->
+                            prefix.values.field_00;
                     fallback_action = other_value < own_value ? 6 : 5;
                     if (own_value == other_value) {
                         fallback_action |= 0x80;
