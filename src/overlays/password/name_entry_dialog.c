@@ -33,8 +33,6 @@
    name_entry_runtime.c. The shop display unit after them has no proven
    ownership in this lifecycle. */
 
-extern DuelEffectChannel D_800EB1C0;
-
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;

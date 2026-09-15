@@ -109,6 +109,16 @@ extern u8 D_8016A2C8;
 extern u8 D_8016A2C9;
 extern u16 D_800C4E68;
 
+/* Resident campaign-map state read or updated by the alternate-location
+   controller while this overlay is active. */
+extern u8 D_800C4D82;
+extern u8 D_800C4DC9;
+extern u8 D_800C4DCC;
+extern u16 D_800C4E74;
+extern u8 D_8011464E;
+extern u8 D_8011464F;
+extern u16 D_8011C410;
+
 s32 CampaignMap_PickAlternateExit(void);
 void CampaignMap_UpdateAlternateLocation(void);
 s32 func_80169230(void);

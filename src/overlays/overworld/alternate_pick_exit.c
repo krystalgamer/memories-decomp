@@ -1,8 +1,6 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-extern u16 D_800C4E74;
-
 s32 CampaignMap_PickAlternateExit(void)
 {
     s32 i;

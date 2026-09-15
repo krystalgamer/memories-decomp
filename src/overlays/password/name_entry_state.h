@@ -57,6 +57,8 @@
  * never named them anywhere else -- dead declarations rather than a second
  * opinion, and were deleted along with that unit's equally unused
  * `extern DuelEffectChannel D_800EB1C0;`. */
+extern DuelEffectChannel D_800EB1C0;
+
 /* The selection frame the keyboard moves. NameEntry_Init positions it and
  * installs the drawing callback described by name_entry_frame.h; the fields
  * combine the drawing fields with the ones the keyboard tween needs.

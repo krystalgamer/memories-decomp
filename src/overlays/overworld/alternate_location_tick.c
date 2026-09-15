@@ -1,13 +1,6 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
-extern u8 D_800C4DC9;
-extern u8 D_800C4DCC;
-extern u8 D_800C4D82;
-extern u8 D_8011464E;
-extern u8 D_8011464F;
-extern u16 D_8011C410;
-
 void CampaignMap_UpdateAlternateLocation(void)
 {
     s32 r;

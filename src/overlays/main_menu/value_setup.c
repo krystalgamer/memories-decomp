@@ -47,10 +47,9 @@
    unit does not force it and naming it is #2602's business. */
 
 /* Value-setup screen state. PR #3069 gave these a shared header when four
-   sources drove them and each carried its own copy; with those sources now
-   one unit the sharing has no readers left, so the declarations and
-   everything #3069 established about them live here instead. Nothing it
-   found is dropped.
+   sources drove them and each carried its own copy; they remain centralized
+   in value_setup.h after those sources were coalesced. Nothing it found is
+   dropped.
 
      D_801845BC  At least three bytes. [0] is the live value, [1] its start,
                  and [2] the toggle result the screen computes.
@@ -67,15 +66,6 @@
    reads it by its own name. Left exactly as it is. They are distinct symbols
    at distinct addresses as far as C is concerned, so one unit does not force
    the question, and naming it is what #2602 exists for. */
-extern u8 D_801845BC[];
-extern u8 *D_801845D8;
-extern ValueSetupEntry D_801845C0[2];
-
-extern DisplayObject *D_801845A0;
-extern DisplayObject *D_801845A4;
-extern DisplayObject *D_801845B0[];
-extern DisplayObject *D_801845B8;
-extern u8 D_801845BE;
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
