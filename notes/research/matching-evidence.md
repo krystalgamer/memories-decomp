@@ -4024,21 +4024,23 @@ volatile section scalars, re-materialised at each of their six reads, while
 scalar and comes out `%gp_rel`, which fixes the profile at `-G8` on both the
 compiler and the assembler.
 
-Two other things that function needed, both already recorded rules paying off:
+One other thing that function needs is an already recorded rule paying off:
 
-- the loop is a `goto` loop, so GCC's loop pass never sees it and does not hoist
-  anything out of the body — see "GCC 2.8's loop optimiser only sees loops the
-  front end marked";
 - `step = 2; if (held & CROSS) step = 4;` rather than an `if`/`else`, which is
   "Initialise before the branch rather than in an else clause".
+
+The earlier exact source used a `goto` loop to keep GCC's loop pass out. A
+structured `for` with `func_80012D4C()` in its initializer and increment now
+reproduces the same loop body and all instructions after the prologue, so the
+goto shape was sufficient but not necessary.
 
 What did not come free is the base register. `D_800E9D28`'s base has to live in
 `$s0` across the loop; declared as a plain local it is allocated globally and
 lands next to the `%hi` temporary instead of coalescing with it, and the seven
 prologue instructions come out permuted. One `register s16 *p asm("$16")` pin
 settles it. That is a pin correcting an allocation on an otherwise exact
-sequence, the weaker of the two kinds of pin, and it is the only one the
-function needs.
+sequence, the weaker of the two kinds of pin, and it is the only remaining
+decompilation debt in the structured source.
 
 ## Correction: the `0x4C0` sound-packet window is a Psy-Q `SpuVoiceAttr`
 
