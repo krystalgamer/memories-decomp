@@ -408,6 +408,7 @@ Model_InitLightTriplet = 0x80059134; // type:func
 Model_GetFlatLight = 0x800591C0; // type:func
 Model_ControlSlotAnimation = 0x80057AF4; // type:func
 Model_UpdateViewMetrics = 0x80057F38; // type:func
+Model_UpdateDiscEffect = 0x8006C37C; // type:func
 Model_RegisterHandlerKey = 0x80060170; // type:func
 Model_FindHandlerKey = 0x800601D0; // type:func
 Model_GetPrimitiveHandler = 0x8006041C; // type:func

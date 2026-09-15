@@ -9,7 +9,7 @@
    durations. The four-byte element view remains the storage owner; the
    consumer describes the measured 28-byte record locally.
 
-   func_8006C37C.c reads D_80091604 and is matching C too, and so is
+   model_disc_effect.c reads D_80091604 and is matching C too, and so is
    func_8006CD78.c, which reads D_80091610 and D_800916D4. It reads
    D_800916D4 as three ring colours stored a channel at a time
    (ModelBurstPalette in model_burst_effect.h), and the head of D_80091610 as

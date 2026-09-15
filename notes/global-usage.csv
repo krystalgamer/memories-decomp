@@ -101,7 +101,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0"
 0x8001185C,D_8001185C,D_8001185C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,read,,scale = D_8001185C;
 0x8001186C,D_8001186C,D_8001186C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,8,"printf(D_8001186C, 0x1318, 0x1318);"
-0x8001187C,D_8001187C,D_8001187C,0x8006C37C,func_8006C37C,matching_c,game,C,src/game/func_8006C37C.c,read,8,scale = *(VECTOR *)D_8001187C;
+0x8001187C,D_8001187C,D_8001187C,0x8006C37C,Model_UpdateDiscEffect,matching_c,game,C,src/game/model_disc_effect.c,read,8,scale = *(VECTOR *)D_8001187C;
 0x8001188C,D_8001188C,D_8001188C,0x8006CD78,func_8006CD78,matching_c,game,C,src/game/func_8006CD78.c,read,,scale = D_8001188C;
 0x8001189C,D_8001189C,D_8001189C,0x8006F1B4,func_8006F1B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_05f9b4.s,address,,"addiu $t4, $v0, %lo(D_8001189C) | lui $v0, %hi(D_8001189C)"
 0x800118AC,D_800118AC,D_800118AC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118AC);
@@ -203,7 +203,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80091570,D_80091570,D_80091570,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,address,,r = &D_80091570[arg1];
 0x80091570,D_80091570,D_80091570,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,address,,ModelEffectCoefficient *rec = &D_80091570[arg1];
 0x800915E8,D_800915E8,D_800915E8,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,32,config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
-0x80091604,D_80091604,D_80091604,0x8006C37C,func_8006C37C,matching_c,game,C,src/game/func_8006C37C.c,address,16,e->table = (Effect8006C37CParams *)D_80091604;
+0x80091604,D_80091604,D_80091604,0x8006C37C,Model_UpdateDiscEffect,matching_c,game,C,src/game/model_disc_effect.c,address,16,e->table = (ModelDiscEffectConfig *)D_80091604;
 0x800916D4,D_800916D4,D_800916D4,0x8006CD78,func_8006CD78,matching_c,game,C,src/game/func_8006CD78.c,address,32,e->table = (ModelBurstPalette *)D_800916D4;
 0x800916E0,gAiScript_apfnCommand,gAiScript_apfnCommand,0x80070650,AiScript_Run,matching_c,game,C,src/game/ai_script_vm.c,read,,gAiScript_apfnCommand[idx](); | handler = gAiScript_apfnCommand[idx];
 0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x80070710,Ai_GetHandSize,matching_c,game,C,src/game/ai_get_hand_size.c,read,,return gDuel_aOpponentData[gDuel_bOpponentID].values[0];

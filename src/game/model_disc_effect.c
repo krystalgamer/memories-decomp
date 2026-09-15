@@ -3,7 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/memory.h"
-#include "../game/func_8006C37C.h"
+#include "../game/model_disc_effect.h"
 #include "../game/func_80057E20.h"
 #include "../game/func_80058E1C.h"
 #include "../game/model_graphics_state.h"
@@ -12,9 +12,9 @@
 #include "../game/model_geometry_tables.h"
 #include "../game/gpu_packets.h"
 
-s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
+s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
 {
-    Effect8006C37C *e;
+    ModelDiscEffectState *e;
     MATRIX ls;
     MATRIX m;
     POLY_G3 g3;
@@ -32,7 +32,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     s32 flag;
     GsOT *ot;
     u8 step;
-    Effect8006C37CParams *t;
+    ModelDiscEffectConfig *t;
     s32 i;
     s32 r;
     s32 v;
@@ -54,7 +54,7 @@ s32 func_8006C37C(Effect8006C37C *arg0, s32 arg1)
     step = func_80058E1C();
 
     if (arg1 >= 0) {
-        e->table = (Effect8006C37CParams *)D_80091604;
+        e->table = (ModelDiscEffectConfig *)D_80091604;
         t = e->table;
         func_80057E20(func_80058DCC(), &adj);
         if (adj.y < adj.z) {

@@ -6262,7 +6262,7 @@
       "address": "0x8006C37C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9FC",
-      "source": "src/game/func_8006C37C.c"
+      "source": "src/game/model_disc_effect.c"
     },
     {
       "address": "0x8006CD78",
