@@ -1420,8 +1420,8 @@ mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 of six `int (*)()` comparators selected by the inventory mode.
 `sorted_entry_relink.c` is a deliberate fourth qsort caller without the header:
 giving qsort itself a declaration changes its argument setup, so the file
-keeps that call unprototyped while taking only its comparator declaration from
-`func_80035598.h`.
+keeps that call unprototyped while taking only the `SortedEntry_Compare`
+declaration from `func_80035598.h`.
 
 `rand.h` fixes `RAND_MAX` at 32767 and exposes the `rand`/`srand` pair whose
 resident implementation is documented separately in [`rng.md`](rng.md).

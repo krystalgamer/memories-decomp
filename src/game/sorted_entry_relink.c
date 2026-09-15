@@ -16,7 +16,7 @@ void SortedEntry_SortAndRelink(void)
     D_8009B30C &= ~4;
 
     if (count >= 2) {
-        s32 (*compare)(const u32 *, const u32 *) = func_80035598;
+        s32 (*compare)(const u32 *, const u32 *) = SortedEntry_Compare;
 
         qsort(entry, count, sizeof(*entry), compare);
     }
