@@ -116,7 +116,8 @@ loop:
         do {
             n = D_8009B1D5 * 20;
             rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
-            if ((*(u32 *)((u8 *)rec + 0x14) & 0xC0000000) == 0x80000000) {
+            /* Retail tests terrain_modifier and flags as one packed word. */
+            if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
                 v = func_800278A0(rec);
                 if (v >= 0) {
     have:
@@ -150,7 +151,7 @@ loop:
                     mask = 0x90000000;
                     pp = pool;
                     do {
-                        if ((*(u32 *)((u8 *)scan + 0x14) & mask)
+                        if ((*(u32 *)&scan->terrain_modifier & mask)
                             == mask) {
                             *pp = scan;
                             pp++;
