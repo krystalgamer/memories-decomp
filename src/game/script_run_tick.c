@@ -29,7 +29,7 @@ void Script_RunTick(void)
     }
     if ((f & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         g = D_8009B2A4;
-        D_8009B290 = D_801A8000 + *(u16 *)(D_801A8000 + g * 2);
+        D_8009B290 = D_801A8000 + ((u16 *)D_801A8000)[g];
         b = *D_8009B290++;
         D_8009B28C = 0;
         D_8009B2A4 = g | DUEL_EVENT_SCRIPT_FLAG_STARTED;
