@@ -1831,7 +1831,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B350,D_8009B350,D_8009B350,0x80037D6C,Text_SetStateFromStream,matching_c,game,C,src/game/text_stream_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x800386B8,func_800386B8,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038798,DuelEffect_PlaySoundCommand,matching_c,game,C,src/game/duel_effect_play_sound_command.c,write,32,D_8009B350 = 1;
-0x8009B350,D_8009B350,D_8009B350,0x80038800,func_80038800,matching_c,game,C,src/game/duel_effect_script_dispatch.c,write,32,D_8009B350 = 1;
+0x8009B350,D_8009B350,D_8009B350,0x80038800,DuelEffect_FadeBgmCommand,matching_c,game,C,src/game/duel_effect_fade_bgm_command.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038B08,Text_CloseChoice,matching_c,game,C,src/game/duel_effect_object_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;
 0x8009B350,D_8009B350,D_8009B350,0x80038D14,Text_StartPageWait,matching_c,game,C,src/game/text_control_commands.c,write,32,D_8009B350 = 1;

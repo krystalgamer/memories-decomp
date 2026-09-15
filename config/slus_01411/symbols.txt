@@ -424,6 +424,7 @@ SD_ResetSequenceTracks = 0x8004CA60; // type:func
 
 // Semantic names
 DuelEffect_PlaySoundCommand = 0x80038798; // type:func
+DuelEffect_FadeBgmCommand = 0x80038800; // type:func
 
 // Semantic names
 Text_EncodeDecimalNoPadding = 0x800358A0; // type:func
