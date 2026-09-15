@@ -35,21 +35,27 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
     SpuSetVoiceAttr(&D_8009B458->voice_attr);
 }
 
+/* Resets the secondary sequencer: every track reader goes back to its
+ * ended/default-tempo state, every live object is detached from its channel
+ * and keyed off with a fresh envelope, and every channel record returns to
+ * centre pan and full volume/expression. The two offsets walk the state's
+ * `tracks` and `channels` arrays by byte stride, as retail does. */
 void func_8004A518(void) {
-    u8 *base;
-    u8 *r1;
-    u8 *r3;
+    SDSecondaryState *base;
+    SDSequenceTrack *track;
+    SDSecondaryRecord *channel;
     s32 mask;
     s32 i;
-    s32 o1;
+    s32 track_off;
     s32 off;
     s32 *tbl;
     s32 key;
+    SDSecondaryObject *obj;
     s32 k40;
     s32 c72;
     s32 cff;
     s32 one;
-    s32 o18;
+    s32 channel_off;
     u8 b40;
     u8 b7f;
     s32 w7f;
@@ -59,55 +65,56 @@ void func_8004A518(void) {
     c72 = 0x72;
     one = 1;
     cff = 0xFF;
-    o1 = 0x518;
-    base = (u8 *)D_8009B458;
-    *(s16 *)(base + 0x512) = 0x7F;
+    track_off = (u32)&((SDSecondaryState *)0)->tracks;
+    base = D_8009B458;
+    base->field_0512 = 0x7F;
     do {
-        r1 = (u8 *)D_8009B458 + o1;
+        track = (SDSequenceTrack *)((u8 *)D_8009B458 + track_off);
         i++;
-        *(s32 *)(r1 + 0) = 0;
-        *(s32 *)(r1 + 4) = 0;
-        r1[0x26] = 0;
-        *(s32 *)(r1 + 0x1C) = 0;
-        *(s32 *)(r1 + 8) = 0;
-        *(s32 *)(r1 + 0xC) = 0;
-        *(s16 *)(r1 + 0x14) = c72;
-        *(s16 *)(r1 + 0x16) = c72;
-        r1[0x24] = one;
-        *(s32 *)(r1 + 0x10) = 0;
-        *(s16 *)(r1 + 0x18) = 0;
-        r1[0x27] = 0;
-        r1[0x28] = cff;
-        r1[0x29] = 0;
-        r1[0x2B] = 0;
-        o1 += SD_SEQUENCE_TRACK_RECORD_SIZE;
+        track->pos = 0;
+        track->pos_saved = 0;
+        track->loop_count = 0;
+        track->delta_remaining = 0;
+        track->chunk_length = 0;
+        track->chunk_end = 0;
+        track->tempo_accumulator = c72;
+        track->tempo_step = c72;
+        track->ended = one;
+        track->chunk_start = 0;
+        track->field_0018 = 0;
+        track->field_0027 = 0;
+        track->running_status_held = cff;
+        track->running_status = 0;
+        track->field_002B = 0;
+        track_off += SD_SEQUENCE_TRACK_RECORD_SIZE;
     } while (i < SD_SEQUENCE_TRACK_COUNT);
 
     do {
-    base = (u8 *)D_8009B458;
-    if (*(s16 *)(base + 0x510) > 0) {
+    base = D_8009B458;
+    if (base->object_count > 0) {
         i = 0;
         k40 = 0x40;
         tbl = D_80011434;
-        off = 0x180;
+        off = (u32)&((SDSecondaryState *)0)->objects;
     top2:
+            obj = (SDSecondaryObject *)((u8 *)base + off);
             key = *tbl;
-            (base + off)[3] = SD_SECONDARY_RECORD_NONE;
-            (base + off)[0] = i;
-            (base + off)[0xD] = 0;
-            (base + off)[0xF] = 0;
-            (base + off)[0xC] = 0x40;
-            *(s16 *)(base + off + 0x1A) = k40;
-            *(s16 *)(base + off + 0x1C) = k40;
-            *(s16 *)(base + off + 0x1E) = 0;
+            obj->channel_index = SD_SECONDARY_RECORD_NONE;
+            obj->voice_index = i;
+            obj->field_000D = 0;
+            obj->field_000F = 0;
+            obj->pan = 0x40;
+            obj->cached_pitch_bend = k40;
+            obj->field_001C = k40;
+            obj->field_001E = 0;
             SD_ResetVoiceEnvelope(i);
             SpuSetKey(SPU_OFF, key);
             tbl++;
             off += SD_SECONDARY_OBJECT_SIZE;
-            base = (u8 *)D_8009B458;
+            base = D_8009B458;
             i++;
             mask |= key;
-        if (i < *(s16 *)(base + 0x510)) goto top2;
+        if (i < base->object_count) goto top2;
     }
     } while (0);
 
@@ -115,21 +122,21 @@ void func_8004A518(void) {
     b40 = 0x40;
     b7f = 0x7F;
     w7f = 0x7F;
-    o18 = i;
+    channel_off = i;
     do {
-        r3 = (u8 *)D_8009B458 + o18;
+        channel = (SDSecondaryRecord *)((u8 *)D_8009B458 + channel_off);
         i++;
-        r3[1] = b40;
-        r3[3] = b7f;
-        r3[4] = 0;
-        r3[5] = b7f;
-        r3[7] = b40;
-        *(s32 *)(r3 + 8) = w7f;
-        *(s32 *)(r3 + 0xC) = w7f;
-        r3[0x10] = 0;
-        *(s16 *)(r3 + 0x14) = 0;
-        r3[6] = 0;
-        o18 += SD_SEQUENCE_CHANNEL_RECORD_SIZE;
+        channel->pan = b40;
+        channel->volume = b7f;
+        channel->field_0004 = 0;
+        channel->expression = b7f;
+        channel->pitch_bend_msb = b40;
+        channel->field_0008 = w7f;
+        channel->field_000C = w7f;
+        channel->field_0010 = 0;
+        channel->field_0014 = 0;
+        channel->field_0006 = 0;
+        channel_off += SD_SEQUENCE_CHANNEL_RECORD_SIZE;
     } while (i < SD_SEQUENCE_CHANNEL_COUNT);
 
     SpuSetKey(SPU_OFF, mask);

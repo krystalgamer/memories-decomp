@@ -580,6 +580,16 @@ channel controls without changing their byte storage:
 | `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
 | `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
 
+`func_8004A518` writes every channel record through these members. Its other
+stores name four more channel members: the byte `field_0004`, which
+`func_8004B374` also clears, the two words `field_0008` and `field_000C`,
+both reset to `0x7F`, and the halfword `field_0014`. In the other layouts it
+names object halfword `field_001C` at `+0x1C`, which is set to `0x40` beside
+`cached_pitch_bend`, and track byte `field_002B`. Nothing else in C reads
+them, so they keep offset-based names. Replacing the `u8` padding with `s32`
+gives `SDSecondaryRecord` 4-byte alignment. Its size and offsets are
+unchanged, and its only container is the 4-aligned `SDSecondaryState`.
+
 The pan writer still substitutes `1` for an incoming zero. Pitch bend still
 stores only the second data byte masked to seven bits; the first data byte
 remains unused. These names do not add full fourteen-bit bend handling or

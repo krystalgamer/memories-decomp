@@ -2253,7 +2253,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,,b = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03aaf8.s,read,32,"lui $a2, %hi(D_8009B458) | lui $v0, %hi(D_8009B458) | (+2 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,,D_8009B458->voice_attr.mask = SPU_VOICE_PITCH; | D_8009B458->voice_attr.pitch = v; | (+3 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,read,,base = (u8 *)D_8009B458; | r1 = (u8 *)D_8009B458 + o1; | (+1 more)
+0x8009B458,D_8009B458,D_8009B458,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,read,,base = D_8009B458; | channel = (SDSecondaryRecord *)((u8 *)D_8009B458 + channel_off); | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A6F8,func_8004A6F8,matching_c,game,C,src/game/sound_voice_envelope.c,read,,u8 *p = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A764,func_8004A764,matching_c,game,C,src/game/sound_voice_envelope.c,read,,u8 *p = (u8 *)D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,(SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);

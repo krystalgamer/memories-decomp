@@ -228,16 +228,18 @@ typedef struct {
     u8 pan;
     u8 pad0002;
     u8 volume;
-    u8 pad0004;
+    u8 field_0004;
     u8 expression;
     u8 field_0006;
     u8 pitch_bend_msb;
-    u8 pad0008[8];
+    s32 field_0008;
+    s32 field_000C;
     u8 field_0010;
     u8 parameter_selector;
     u8 control_mode;
     u8 control_value;
-    u8 pad0014[4];
+    s16 field_0014;
+    u8 pad0016[2];
 } SDSecondaryRecord;
 
 typedef struct {
@@ -268,7 +270,7 @@ typedef struct {
     u16 level_right;
     u8 pad0018[2];
     s16 cached_pitch_bend;
-    u8 pad001C[2];
+    s16 field_001C;
     u16 field_001E;
     u8 pad0020[8];
 } SDSecondaryObject;
@@ -312,7 +314,7 @@ typedef struct {
     u8 running_status_held;
     u8 running_status;
     u8 running_status_saved;
-    u8 pad002B;
+    u8 field_002B;
 } SDSequenceTrack;
 
 typedef struct {
