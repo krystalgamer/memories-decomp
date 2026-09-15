@@ -4537,6 +4537,12 @@
       "source": "src/game/func_800482B0.c"
     },
     {
+      "address": "0x80048658",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x110",
+      "source": "src/game/sound_effect_request.c"
+    },
+    {
       "address": "0x80048768",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1B8",
