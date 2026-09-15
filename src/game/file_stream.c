@@ -35,7 +35,7 @@ void File_GetPosition(s32 *output, const char *path)
     *output = CdPosToInt_8007E710((const CdlLOC *)&file.pos);
 }
 
-void func_80013940(
+void File_SetTransferLocation(
     FileTransferDescriptor *transfer,
     s32 file_index,
     s32 sector_offset,
@@ -70,7 +70,7 @@ FileTransferDescriptor *File_InitTransferDescriptor(
 )
 {
     transfer->loader_argument = source;
-    func_80013940(transfer, flags, sector, -vertical);
+    File_SetTransferLocation(transfer, flags, sector, -vertical);
     transfer->done = 1;
     transfer->substate = 0;
     transfer->buffer_index = 0;
@@ -110,8 +110,9 @@ FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset)
         return 0;
 
     transfer = &gFile_SecondaryTransferDescriptor;
-    func_80013940(transfer, file_index & FILE_TRANSFER_FILE_INDEX_MASK,
-                  sector_offset, 0);
+    File_SetTransferLocation(
+        transfer, file_index & FILE_TRANSFER_FILE_INDEX_MASK, sector_offset, 0
+    );
     transfer->done = 0;
     transfer->status_flags = 0x00100000;
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
