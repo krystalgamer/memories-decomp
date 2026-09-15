@@ -24,9 +24,9 @@
 
 s32 MainMenu_UpdateFrontendMenu(void)
 {
-    u8 *ent3;
-    u8 *entry;
-    u8 *ent6;
+    DisplayObject *ent3;
+    DisplayObject *entry;
+    DisplayObject *ent6;
     u8 **slot;
     u8 **slot2;
     s32 step;
@@ -46,9 +46,9 @@ s32 MainMenu_UpdateFrontendMenu(void)
     s32 acc;
     s32 neg;
     s32 chr;
-    u8 *ent5;
+    DisplayObject *ent5;
     s32 poll;
-    u8 *ent2;
+    DisplayObject *ent2;
     DisplayObject *eloop;
 
     if (D_8018459B != 0) {
@@ -122,11 +122,11 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
     fade_done:
         if (D_80184598 < 0) {
-            ent2 = (u8 *)D_80184560;
-            ent2[0xE] = 0x80;
-            ent2[0xD] = 0x80;
-            ent2[0xC] = 0x80;
-            *(u16 *)(ent2 + 8) |= DISPLAY_OBJECT_FLAG_RENDERABLE;
+            ent2 = D_80184560;
+            ((u8 *)&ent2->field_0C)[2] = 0x80;
+            ((u8 *)&ent2->field_0C)[1] = 0x80;
+            ((u8 *)&ent2->field_0C)[0] = 0x80;
+            ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             D_80184560->field_6C = 0x3C;
             D_80184560->field_34.h.field_36 = 0;
         }
@@ -134,38 +134,38 @@ s32 MainMenu_UpdateFrontendMenu(void)
         goto ret_m1;
     }
 
-    entry = (u8 *)D_80184560;
+    entry = D_80184560;
     if (entry != 0 &&
-        (*(u16 *)(entry + 8) & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
-        if (entry[0x6C] != 0) {
-            entry[0x6C] = entry[0x6C] - 1;
+        (entry->flags & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
+        if (entry->field_6C != 0) {
+            entry->field_6C = entry->field_6C - 1;
         } else {
-            lvl = entry[0xE] + entry[0x60];
-            entry[0xE] = lvl;
-            entry[0xD] = lvl;
-            entry[0xC] = lvl;
-            entry = (u8 *)D_80184560;
-            chr = entry[0xC];
+            lvl = ((u8 *)&entry->field_0C)[2] + (u8)entry->field_60;
+            ((u8 *)&entry->field_0C)[2] = lvl;
+            ((u8 *)&entry->field_0C)[1] = lvl;
+            ((u8 *)&entry->field_0C)[0] = lvl;
+            entry = D_80184560;
+            chr = ((u8 *)&entry->field_0C)[0];
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
-                    entry[0x6C] = 0x3C;
+                    entry->field_6C = 0x3C;
                 }
-                ent5 = (u8 *)D_80184560;
-                neg = *(s16 *)(ent5 + 0x60);
-                *(s16 *)(ent5 + 0x60) = -neg;
+                ent5 = D_80184560;
+                neg = ent5->field_60;
+                ent5->field_60 = -neg;
             }
         }
         if ((gInput_wPad1Pressed & PAD_BUTTON_START) != 0) {
             SD_SEPlay(7, 0xFF, 0);
-            ent3 = (u8 *)D_80184560;
-            *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+            ent3 = D_80184560;
+            ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
             D_80184598 = 1;
             goto ret_m1;
         }
-        ent6 = (u8 *)D_80184560;
-        acc = *(u16 *)(ent6 + 0x36) + (u16)D_8009B0D8;
-        *(s16 *)(ent6 + 0x36) = acc;
+        ent6 = D_80184560;
+        acc = (u16)ent6->field_34.h.field_36 + (u16)D_8009B0D8;
+        ent6->field_34.h.field_36 = acc;
         if ((s16)acc >= 0xBB8) {
             return -2;
         }
@@ -222,12 +222,12 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if ((frame & 1) != 0) {
             MainMenu_SpawnFrontendEntryAfterimage(*slot);
         }
-        *(u16 *)(*slot + 8) =
-            *(u16 *)(*slot + 8) | DISPLAY_OBJECT_FLAG_RENDERABLE;
+        ((DisplayObject *)*slot)->flags =
+            ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
         goto tick_entry;
     hide_entry:
-        *(u16 *)(*slot + 8) =
-            *(u16 *)(*slot + 8) & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+        ((DisplayObject *)*slot)->flags =
+            ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     tick_entry:
         moved++;
         func_80040410((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
@@ -252,9 +252,9 @@ s32 MainMenu_UpdateFrontendMenu(void)
             /* Sharing i and omitting structured-loop notes preserves its
                allocation without rotating the first loop's saved registers. */
             clear_loop:
-                ent3 = *slot2;
+                ent3 = (DisplayObject *)*slot2;
                 if (ent3 != 0) {
-                    *(u16 *)(ent3 + 8) &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                    ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 }
                 slot2++;
                 i++;
