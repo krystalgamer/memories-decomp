@@ -1,0 +1,6 @@
+#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_LISTS_H
+#define MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_LISTS_H
+
+void DisplayObject_RenderLists(void);
+
+#endif
