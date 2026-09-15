@@ -19,6 +19,9 @@
  * func_8005F91C fills the keyframe ring that func_8005EBF4 evaluates. Its two
  * endpoint pointers are the narrowest common view used by its callers, which
  * pass ModelEffectEndpoint pointers, a local s16[4], or generic byte pointers.
+ * func_8005F828 therefore retains void * parameters, but its post-step stop
+ * tests use the typed kind member through an aligned s16 view; retail loads
+ * that field with lh, while direct access through the packed type expands it.
  * These operations return early while D_8009B07B and D_8009B07C are both 1. */
 void func_8005F27C(s32 mode, s32 coefficient, s32 offset);
 void func_8005DBA4(void);
