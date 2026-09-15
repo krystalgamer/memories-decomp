@@ -21,23 +21,23 @@ void func_8004E9A0(void) {
         switch (k) {
         case 1:
             u_0 = VSync(-1) / 8;
-            D_8009B46A = 0x1C0;
-            D_8009B46C = 0x10;
-            D_8009B46E = 0x40;
+            gModel_ImageCopyRectY = 0x1C0;
+            gModel_ImageCopyRectW = 0x10;
+            gModel_ImageCopyRectH = 0x40;
             r = u_0 % 3;
-            D_8009B468 = r * 16 + 0x2D0;
-            MoveImage((RECT *)&D_8009B468, 0x2C0, 0x1C0);
+            gModel_ImageCopyRect.x = r * 16 + 0x2D0;
+            MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0);
             break;
         case 4:
             n = MODEL_IMAGE_COPY_FRAME_COUNT;
             u_1 = VSync(-1) / 10;
             r4 = u_1 % n;
-            D_8009B468 = 0x260;
+            gModel_ImageCopyRect.x = 0x260;
             q = gModel_abImageCopyFrameRows[r4];
-            D_8009B46C = 0x20;
-            D_8009B46E = 0x18;
-            D_8009B46A = q * 3 * 8 + 0x180;
-            MoveImage((RECT *)&D_8009B468, 0x220, 0x168);
+            gModel_ImageCopyRectW = 0x20;
+            gModel_ImageCopyRectH = 0x18;
+            gModel_ImageCopyRectY = q * 3 * 8 + 0x180;
+            MoveImage(&gModel_ImageCopyRect, 0x220, 0x168);
             break;
         }
     }
