@@ -54,7 +54,7 @@ s32 Main_Init(void)
     StopCallback();
     SetMem(2);
     SetDispMask(0);
-    func_80015D0C();
+    Fade_DisableOrderingTables();
     p = gGraphics_aFrameBuffers;
     D_8009B0CC = 0;
     D_8009B0C8 = 0;

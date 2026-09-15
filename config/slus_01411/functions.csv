@@ -78,7 +78,7 @@ address,size,name,status,module,notes
 0x80015C84,0x3C,func_80015C84,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015CC0,0x3C,func_80015CC0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015CFC,0x10,Fade_EnableOrderingTables,matching_c,game,"Writes FADE_ORDERING_TABLE_ACTIVE to D_8009B141, the byte Graphics_BeginFrame requires before it links ordering tables 1-3 into table 0 and draws it; called from Fade_Update. 4 pre-policy variants: direct small-data byte assignment to one reproduced the exact four-instruction sequence."
-0x80015D0C,0xC,func_80015D0C,matching_c,game,4 pre-policy variants: direct small-data byte assignment to zero reproduced the exact three-instruction sequence.
+0x80015D0C,0xC,Fade_DisableOrderingTables,matching_c,game,4 pre-policy variants: direct small-data byte assignment to zero reproduced the exact three-instruction sequence.
 0x80015D18,0xA0,func_80015D18,matching_c,game,Exact match using scratchpad C stores and official Psy-Q GTE inline macros. The named profile expands Psy-Q RTPS placeholder 0x7F to the real COP2 opcode; 160-byte text and relocations match with no source-authored inline assembly or register pins.
 0x80015DB8,0x44,func_80015DB8,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80015DFC,0xF8,func_80015DFC,matching_c,game,"Exact match using volatile scratchpad stores, a volatile object-record reload and official Psy-Q GTE inline macros under the RTPS-normalizing profile. All 248 text bytes and relocations match with no source-authored inline assembly or register pins."
