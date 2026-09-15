@@ -49,11 +49,10 @@ extern u32 D_8009B06C;
 extern u32 D_8009B070;
 /* The decoded frame's rectangle and the resize latch, at 0x800FE0CC-0x800FE0D7.
  *
- * D_800FE0D0 and D_800FE0D4 are the width and height the pipeline hands to
- * LoadImage2 as rect.w and rect.h; one path scales the width instead, reading
- * it wide as `*(s32 *)&D_800FE0D0 * 0x1800 / 4096`, which is why the
- * declaration stays u16 and the cast stays at that use. D_800FE0CC is set to
- * 1 on the paths that change the rectangle.
+ * The width and height each have a 16-bit RECT view and a 32-bit arithmetic
+ * view. MovieFrameDimension records that overlay directly instead of making
+ * each consumer cast the global's address. D_800FE0CC is set to 1 on the
+ * paths that change the rectangle.
  *
  * All three keep the .data section attribute both sources already wrote, and
  * both write it: these sit at 0x800FE0xx, far from $gp, and the retail image
@@ -61,8 +60,19 @@ extern u32 D_8009B070;
  * tree there is no second group to serve -- no other source names them --
  * so one spelling carries. */
 extern s16 D_800FE0CC __attribute__((section(".data")));
-extern u16 D_800FE0D0 __attribute__((section(".data")));
-extern s32 D_800FE0D4 __attribute__((section(".data")));
+typedef union {
+    u16 pixels;
+    s32 word;
+} MovieFrameDimension;
+
+typedef char MovieFrameDimension_size_must_be_4[
+    sizeof(MovieFrameDimension) == 4 ? 1 : -1
+];
+
+extern MovieFrameDimension gMovie_FrameWidth asm("D_800FE0D0")
+    __attribute__((section(".data")));
+extern MovieFrameDimension gMovie_FrameHeight asm("D_800FE0D4")
+    __attribute__((section(".data")));
 
 /* The pending-interrupt word func_8005C1F4 tests, and clears after calling
  * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
