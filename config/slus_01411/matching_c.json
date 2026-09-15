@@ -5218,7 +5218,7 @@
       "address": "0x800534B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBFC",
-      "source": "src/game/func_800534B8.c"
+      "source": "src/game/model_debug_controller.c"
     },
     {
       "address": "0x800556E8",

@@ -70,7 +70,7 @@ PAIRS = [
     ("src/game/display_object_quad_renderers.c", "func_80042188", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
-    ("src/game/func_800534B8.c", "func_80056828", '#include "model_load_step.h"'),
+    ("src/game/model_debug_controller.c", "func_80056828", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
