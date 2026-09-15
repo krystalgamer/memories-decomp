@@ -279,8 +279,8 @@ extern u8 gDuel_bActiveEffectState;
  * State handlers raise 0x40 when the effect is finished, and the next tick
  * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
- * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c), 3 and 4 by
+ * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and
+ * 4 by
  * frontend_scene_states.c,
  * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
@@ -291,8 +291,8 @@ extern u8 gDuel_bActiveEffectState;
  * (still assembly). frontend_scene_states.c, main_run_campaign.c and
  * duel_update_card_pick_cursor.c define the .data arm below for that;
  * build_deck_pane_input.c, src/candidates/func_800283F4.c,
- * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and the
- * build-integrated MainMenu_UpdateTradeScreen candidate take the plain arm. */
+ * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and
+ * MainMenu_UpdateTradeScreen take the plain arm. */
 #ifdef GDUEL_BEFFECTSTATE_IN_DATA
 extern u8 gDuel_bEffectState __attribute__((section(".data")));
 #else

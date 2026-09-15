@@ -10,9 +10,8 @@
    MainMenu_InitTradeScreen's `i < 2` loop stores the func_800400AC result,
    or 0, into `.object` and 0 into `.unk4` (trade_update.c:54-65);
    MainMenu_DrawTradeOffersAndHighlights reads `[0].object` and
-   `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen (now a
-   build-integrated candidate, src/candidates/main_menu/func_801821DC.c) stores
-   `->y` through `[0].object` and `[1].object`.
+   `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen
+   (trade_update.c) stores `->y` through `[0].object` and `[1].object`.
    The two readers used to declare the symbol `u8 *[]`, read at [0] and
    [2], and `MainMenuWidget *`, with entry 1's pointer declared on its own
    as D_801845F4 (+8); the 8-byte stride reconciled those views, and spelled
@@ -56,7 +55,14 @@ typedef struct {
     s32 pad[5];
 } MainMenuState;
 
-/* The Trade candidate and inventory updater's two-record view of the shared
+/* These values are live on disjoint paths. Sharing their carrier reproduces
+   the retail s2 allocation without a hard-register binding. */
+typedef union {
+    s32 dirty;
+    u8 *clearBase;
+} MainMenuTradeDirtyCarrier;
+
+/* The Trade updater and inventory updater's two-record view of the shared
    overlay staging base. */
 #ifdef MAIN_MENU_TRADE_STATE_BUFFER
 extern MainMenuState D_801A8000[];
@@ -81,9 +87,8 @@ typedef struct {
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
  * (:40, :48) and passes it to func_800428EC (:41, :49);
  * MainMenu_ReleaseTradeDisplayHandles passes each to func_8004036C and
- * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen (now a
- * build-integrated candidate, src/candidates/main_menu/func_801821DC.c) reads
- * D_801845E0->frame and passes D_801845E0 to
+ * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen
+ * (trade_update.c) reads D_801845E0->frame and passes D_801845E0 to
  * func_80040410; MainMenu_RebuildTradeInventoryRows reads ->frame
  * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
  * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
@@ -148,10 +153,10 @@ extern u8 D_80185CCC[2];
  * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
  * `D_801845FC[0]` with `slot * 2888` added (trade_offers.c:169-172, :180),
  * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)D_801845FC`
- * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen (now a stored
- * candidate, src/candidates/main_menu/func_801821DC.c) indexes
- * `[0][...]`. Row 1 is also named on its own as D_80185144 in that
- * candidate (+0xB48 = CARD_COUNT * 4), which keeps its private declaration.
+ * (trade_screen_helpers.c:102), and MainMenu_UpdateTradeScreen
+ * (trade_update.c) indexes `[0][...]`. Row 1 is also named on its own as
+ * D_80185144 in that source (+0xB48 = CARD_COUNT * 4), which keeps its
+ * private declaration.
  * Two rows end at D_80185C8C, +0x1690. */
 extern CardCountEntry D_801845FC[][CARD_COUNT];
 

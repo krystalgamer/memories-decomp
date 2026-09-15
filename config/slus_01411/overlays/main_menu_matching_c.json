@@ -91,6 +91,12 @@
       "source": "src/overlays/main_menu/trade_update.c"
     },
     {
+      "address": "0x801821DC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x11B0",
+      "source": "src/overlays/main_menu/trade_update.c"
+    },
+    {
       "address": "0x8018338C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x188",

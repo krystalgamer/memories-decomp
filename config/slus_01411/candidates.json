@@ -293,26 +293,6 @@
       "canonical_contracts": {
         "D_8001189C": "dd2b12d6b2b45458d68ec71da2325a26f66c34a659b58d0255239e9418d07ad4"
       }
-    },
-    {
-      "address": "0x801821DC",
-      "module": "main_menu",
-      "profile": "gcc_2_8_1_g0_split",
-      "source": "src/candidates/main_menu/func_801821DC.c",
-      "target": "src/candidates_target/main_menu/func_801821DC.S",
-      "candidate_build_sha256": "6cc2ff5730cf40335881ff0d6bd74679025ab6ddf44b7453cfa287ad59962838",
-      "target_bytes_sha256": "fedef0a9b0c2c9d2e7622a6f2fc6a12a901e93607e4ac5f80718aa7ea7338c45",
-      "canonical_contract_sha256": "5670bc03664043d05930600d43818a1e050be4d51b0b8609a8dcf458d82ec968",
-      "canonical_contracts": {
-        "D_800EB224": "9f18b2b3440787f5d7d93ff7ccde752caa5d9b3ab46566ae1564e496f172282b",
-        "D_80185144": "5b8368a0bfa5f79714df23289af39b3095799179792773356e495261c8a39533",
-        "D_80185C8C": "2f27687ac2279d43c1d7f784010d6a139bd8c0c30550242d5ecb82338eca1521",
-        "D_80185C9C": "a361c1cc5a64a31bbf7ac735d9e2c7939a41fc988006753ac7d631f0f1db4f27",
-        "D_80185CC8": "13f1ed3cabf6ac934ffe8efc3f9f1b3b6e792de8dca1ace7f9ae3d95d34c1231",
-        "D_80185CCA": "e7e2d56fde0106f97aca5e0000fb33253b09d3b067920c5b48c89d1ab4541d1b",
-        "D_80185CCB": "6c63d3d380d93ed2d5b72227c8eaa43262d69116961827cbd6d47361a2ebb168",
-        "D_80185CCC": "0779a78b92b708a6faa7a2d9b0f1f38a59a2ee9d8dfd7cecbf05e992c0087776"
-      }
     }
   ]
 }

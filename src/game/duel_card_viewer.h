@@ -15,7 +15,7 @@
  * gDuel_wViewerCardID along with the event code 0x14 and state 2".
  *
  * A third writer since 2026-09-12: the Trade screen updater,
- * src/candidates/main_menu/func_801821DC.c, stores each pane's card id at
+ * src/overlays/main_menu/trade_update.c, stores each pane's card id at
  * two sites. That unit spelled the address D_8009B246 in a private
  * declaration of the same type until then; nothing about its object changed
  * when it took this name, only which name its two relocations carry.
@@ -38,8 +38,8 @@ extern u16 gDuel_wViewerCardID;
 
 /* The vertical offset the viewer draws at, set by the same screens that
  * publish the id above: build_deck_pane_input.c and the main menu's
- * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c) both store 20 (0x14) when they
+ * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c) both
+ * store 20 (0x14) when they
  * open the viewer, and
  * DuelEffect_UpdateCardViewerState is the consumer:
  *

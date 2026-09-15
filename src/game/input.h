@@ -67,15 +67,15 @@ extern u32 gInput_dwPendingHeld;
  *   _SIZED_VOLATILE -- an indexed volatile four-halfword view. That
  *                     leaves small data only where the assembler's -G sits
  *                     below the compiler's. Its consumers include
- *                     src/candidates/main_menu/func_801821DC.c and
+ *                     src/overlays/main_menu/trade_update.c and
  *                     src/overlays/main_menu/value_setup.c. The main-menu
- *                     candidate assembles at -G0, where nothing is small
+ *                     updater assembles at -G0, where nothing is small
  *                     data at either threshold, so the eight bytes reach
  *                     nothing;
- *                     value_setup.c is a module source rather than a
- *                     candidate, and what says the size reached nothing
- *                     there is the module hash, unchanged across the
- *                     change. For both, the arm is here only because it is
+ *                     value_setup.c is another module source, and what says
+ *                     the size reached nothing there is the module hash,
+ *                     unchanged across the change. For both, the arm is here
+ *                     only because it is
  *                     the volatile arm that can be indexed.
  *   _SIZED_IN_DATA_VOLATILE -- the same indexed volatile view in .data.
  *                     Matching func_80030294 selects it for all six pad
@@ -116,7 +116,7 @@ extern u16 gInput_wPad1Pressed;
  * _SIZED_IN_DATA_VOLATILE arm is src/game/func_80030294.c's, which reads
  * this name and the other five at [0] under uniform gcc_2_8_1_g8_split.
  * The _SIZED_VOLATILE arm also has a consumer,
- * src/candidates/main_menu/func_801821DC.c, which reads [0] and
+ * src/overlays/main_menu/trade_update.c, which reads [0] and
  * [1]; that one assembles at -G0, where the declared size reaches nothing,
  * so the arm is doing no work for it beyond naming the symbol. The scalar
  * _IS_VOLATILE arm below has its own new consumer the same day,
@@ -141,7 +141,7 @@ extern u16 gInput_wPad1Held;
 
 /* gInput_wPad1Repeat: same arms as the two symbols above, same reasons, and
  * The _SIZED_IN_DATA_VOLATILE one is func_80030294.c's. The
- * _SIZED_VOLATILE one is src/candidates/main_menu/func_801821DC.c's. It
+ * _SIZED_VOLATILE one is src/overlays/main_menu/trade_update.c's. It
  * still has no aggregate
  * consumer, so there is no unsized arm -- a spelling nothing in the tree
  * uses would be a guess, not a lever. The result controller's _IN_DATA
@@ -183,8 +183,7 @@ extern u16 gInput_wPad1RepeatBackup;
  *
  * Some consumers reach pad 2 as element 1 of the pad-1 name rather than by
  * these names, and that cannot be converted. value_setup.c and
- * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c) read both `[0]` and `[1]` of the
+ * MainMenu_UpdateTradeScreen (trade_update.c) read both `[0]` and `[1]` of the
  * pad-1 name; rewriting `[1]` to gInput_wPad2Repeat/gInput_wPad2Pressed is
  * the obvious tidy-up and it does not build. Measured on the value-setup
  * updater: the main_menu module stops matching, and it still fails when only

@@ -18,8 +18,8 @@
  * SaveData_RequestTradeWrite stamps integrity over both slots of the pair at
  * D_801D1880, records the second slot in
  * gMemCard_pSecondaryTransferCursor, and starts dialog step 4
- * to write them back. MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c) calls it once, after moving the
+ * to write them back. MainMenu_UpdateTradeScreen
+ * (src/overlays/main_menu/trade_update.c) calls it once, after moving the
  * traded card counts. */
 s32 SaveData_UpdateDuelLoad(void);
 void SaveData_RequestTradeWrite(void);

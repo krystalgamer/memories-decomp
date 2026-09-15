@@ -192,29 +192,34 @@ without adding them to resident function inventory or primary symbols.
 ### Trade lifecycle translation unit
 
 `trade_update.c` keeps `MainMenu_InitTradeScreen` immediately before
-`MainMenu_UpdateTradeScreen`, followed by `MainMenu_RefreshTradeInventory`.
-The initializer creates and resets the two inventory panes and calls the
-refresh for each side. The updater owns input, offers, confirmation and save
-completion for the rest of the screen's lifetime, and calls the same refresh
-after save restore, sort changes, card offers and completed exchanges.
+`MainMenu_UpdateTradeScreen`. The initializer creates and resets the two
+inventory panes and calls the refresh for each side. The updater owns input,
+offers, confirmation and save completion for the rest of the screen's
+lifetime, and calls the same refresh after save restore, sort changes, card
+offers and completed exchanges.
 
 The three functions form one contiguous `gcc_2_8_1_g0_split` run:
 `MainMenu_InitTradeScreen` occupies `0x80181F68..0x801821DC`, followed by
 `MainMenu_UpdateTradeScreen` through `0x8018338C`, then
 `MainMenu_RefreshTradeInventory` through `0x80183514`; the differently
-profiled card-stat comparator unit starts immediately afterward. The updater
-matched only by pinning four variables to hard registers, so since #3859 it
-is a build-integrated candidate (`src/candidates/main_menu/func_801821DC.c`) built
-from generated assembly at module offset `0x21DC`. The initializer keeps the
-C subsegment at `0x1F68` in `trade_update.c`, and the refresh has its own at
-`0x338C` in [`trade_inventory.c`](trade_inventory.c).
+profiled card-stat comparator unit starts immediately afterward.
+`trade_update.c` supplies one grouped C subsegment for the first two
+functions, and the refresh keeps its own C subsegment at `0x338C` in
+[`trade_inventory.c`](trade_inventory.c).
+
+The updater was reclassified in #3859 because its exact source pinned four
+variables to hard registers. Its replacement is pure C: natural restore-copy
+pointer roles recover `a1`/`a2`, a path-exclusive typed carrier recovers `s2`,
+and a single-iteration dirty-counter loop gives GCC the live-range weight
+needed to allocate `s3`. The grouped source now matches all 1132 updater
+instructions without register bindings.
 
 ### The two readiness flags are one array and two names at once
 
-`D_80185CC8` is a two-byte, per-side readiness flag. `MainMenu_UpdateTradeScreen`
-(its build-integrated candidate) proves the shape: it clears both entries in a loop, forms `D_80185CC8 + i` as a
-pointer, and compares `D_80185CC8[0]` against `D_80185CC8[1]` when deciding
-whether both players have confirmed.
+`D_80185CC8` is a two-byte, per-side readiness flag.
+`MainMenu_UpdateTradeScreen` proves the shape: it clears both entries in a
+loop, forms `D_80185CC8 + i` as a pointer, and compares `D_80185CC8[0]`
+against `D_80185CC8[1]` when deciding whether both players have confirmed.
 
 The second byte also has its own name, `D_80185CC9`, and both spellings are
 live *in the same function*. The trade updater reads side 1 as
