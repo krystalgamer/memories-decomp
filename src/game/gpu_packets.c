@@ -34,8 +34,15 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     D_800FE240 = D_800FE240 + (len + 2);
 }
 
-void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
-                   s32 maskx, s32 masky)
+void Graphics_SubmitTextureWindowPacket(
+    u32 *src,
+    GsOT *ot,
+    s32 idx,
+    s32 offx,
+    s32 offy,
+    s32 maskx,
+    s32 masky
+)
 {
     u32 *from;
     s32 len;

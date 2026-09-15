@@ -4108,7 +4108,8 @@ as far as the emitted code is concerned, because GCC folds it into whichever
 partial term it is adjacent to, and that changes how many instructions the
 neighbouring terms need.
 
-`func_8005B36C` builds a GP0 `0xE2` texture-window word from four 5-bit fields.
+`Graphics_SubmitTextureWindowPacket` builds a GP0 `0xE2` texture-window word
+from four 5-bit fields.
 Written with the constant third in the chain the body is 88 instructions;
 moving it to the front or to second position gives 89 -- the target's count --
 and drops the differing positions from 84 to 69. Nothing else changed. The
@@ -4984,7 +4985,7 @@ Sources, source hashes, profile selections, compiler/MASPSX assembly, relocation
 records, resolved binaries/diffs and canonical logs are retained under
 `tmp/copilot-fixer/attempts/func-80039794-cycle1/`; the original note is preserved
 there as `baseline-note.md`.
-## `func_8005B36C`: parameter-copy order is set by pseudo-register numbering
+## `Graphics_SubmitTextureWindowPacket` (`0x8005B36C`): parameter-copy order is set by pseudo-register numbering
 
 The stored candidate sat at two differing positions for two campaigns. Both
 were the function's entry parameter copies, in the wrong order:

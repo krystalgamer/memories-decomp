@@ -23,8 +23,15 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags);
 
 /* The texture-window variant: brackets the primitive with a 0xE2 window word
    built from the offset and mask pairs. */
-void func_8005B36C(u32 *src, GsOT *ot, s32 idx, s32 offx, s32 offy,
-                   s32 maskx, s32 masky);
+void Graphics_SubmitTextureWindowPacket(
+    u32 *src,
+    GsOT *ot,
+    s32 idx,
+    s32 offx,
+    s32 offy,
+    s32 maskx,
+    s32 masky
+);
 
 /* The mask-write variant: brackets the primitive with a 0xE6 pair that turns
    mask-bit drawing on before it and off after. */

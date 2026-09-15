@@ -1104,7 +1104,8 @@ uses `RECT`, `IsIdleGPU`, and `LoadImage2` directly for its portrait and CLUT
 uploads instead of parallel local declarations. Confirmed camera, lighting,
 object, packet, and sorting paths also use `libgs.h`, including
 `view_state_orbit.c`,
-`func_8005B36C` in [`gpu_packets.c`](../src/game/gpu_packets.c),
+`Graphics_SubmitTextureWindowPacket` in
+[`gpu_packets.c`](../src/game/gpu_packets.c),
 `model_scene_setup.c`, `model_scene_states.c`, and `model_texture_upload.c`.
 Current hierarchical-model C also includes `libhmd.h`. Representative
 consumers are `model_packet_handlers.c` for `GsSEQ`, `GsTYPEUNIT`, and the
