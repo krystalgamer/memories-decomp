@@ -49,10 +49,10 @@ extern u32 D_8009B06C;
 extern u32 D_8009B070;
 /* The decoded frame's rectangle and the resize latch, at 0x800FE0CC-0x800FE0D7.
  *
- * The width and height each have a 16-bit RECT view and a 32-bit arithmetic
- * view. MovieFrameDimension records that overlay directly instead of making
- * each consumer cast the global's address. D_800FE0CC is set to 1 on the
- * paths that change the rectangle.
+ * The current LIBGS graph/display width and height each have a 16-bit RECT
+ * view and a 32-bit arithmetic view. GraphicsDimension records that overlay
+ * directly instead of making each consumer cast the global's address.
+ * D_800FE0CC is set to 1 on the paths that change the rectangle.
  *
  * All three keep the .data section attribute both sources already wrote, and
  * both write it: these sit at 0x800FE0xx, far from $gp, and the retail image
@@ -63,15 +63,15 @@ extern s16 D_800FE0CC __attribute__((section(".data")));
 typedef union {
     u16 pixels;
     s32 word;
-} MovieFrameDimension;
+} GraphicsDimension;
 
-typedef char MovieFrameDimension_size_must_be_4[
-    sizeof(MovieFrameDimension) == 4 ? 1 : -1
+typedef char GraphicsDimension_size_must_be_4[
+    sizeof(GraphicsDimension) == 4 ? 1 : -1
 ];
 
-extern MovieFrameDimension gMovie_FrameWidth asm("D_800FE0D0")
+extern GraphicsDimension gGraphics_CurrentWidth asm("D_800FE0D0")
     __attribute__((section(".data")));
-extern MovieFrameDimension gMovie_FrameHeight asm("D_800FE0D4")
+extern GraphicsDimension gGraphics_CurrentHeight asm("D_800FE0D4")
     __attribute__((section(".data")));
 
 /* The pending-interrupt word func_8005C1F4 tests, and clears after calling

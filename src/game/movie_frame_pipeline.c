@@ -52,7 +52,7 @@ s32 Movie_StopStream(s32 arg0) {
         rect.y = m << 8;
         rect.w = 0x1E0;
         rect.h = 1;
-        for (; i < gMovie_FrameHeight.word; i++) {
+        for (; i < gGraphics_CurrentHeight.word; i++) {
             LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
             rect.y++;
@@ -60,8 +60,8 @@ s32 Movie_StopStream(s32 arg0) {
         rect.x = 0x140;
         rect.y = 0;
         rect.h = 1;
-        rect.w = gMovie_FrameWidth.pixels;
-        for (i = 0; i < gMovie_FrameHeight.word; i++) {
+        rect.w = gGraphics_CurrentWidth.pixels;
+        for (i = 0; i < gGraphics_CurrentHeight.word; i++) {
             LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
             rect.y++;
@@ -74,7 +74,7 @@ s32 Movie_StopStream(s32 arg0) {
         rect.w = 0x1E0;
         rect.x = 0;
         rect.h = 1;
-        for (; i < gMovie_FrameHeight.word; i++) {
+        for (; i < gGraphics_CurrentHeight.word; i++) {
             LoadImage(&rect, (u32 *)buf);
             DrawSync(0);
             rect.y++;
@@ -87,8 +87,8 @@ s32 Movie_StopStream(s32 arg0) {
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
         rect.x = 0;
         rect.y = 0;
-        rect.w = gMovie_FrameWidth.word * 2;
-        rect.h = gMovie_FrameHeight.pixels;
+        rect.w = gGraphics_CurrentWidth.word * 2;
+        rect.h = gGraphics_CurrentHeight.pixels;
         ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);
         D_8009B060 = 0;
     }
