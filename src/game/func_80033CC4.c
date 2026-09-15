@@ -12,8 +12,7 @@ void func_80033CC4(CardList *a0) {
     a1 = a1 << 4;
     v1 = v1 << 1;
     p = D_80090DD8 + v1;
-    a1 = a1 + (int)p;
-    v0 = *(u8 *)(a1 + 1);
+    v0 = p[a1 + 1];
     v0 = v0 & 0xf;
     a0->sort_mode = v0;
 }
