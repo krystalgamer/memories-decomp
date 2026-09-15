@@ -12,18 +12,21 @@
  * band is a dead zone, so the viewport only moves when the record has left
  * it, and it is then placed 0x40 above or 0xB0 below the record.
  *
- * The record is the library motion state. Its one caller, func_8002BFCC,
- * passes D_800EA1E8 and writes that same halfword itself on the line before
- * the call -- `((LibraryMotionState *)r)->y = y` -- so the offset is that
- * record's y, which ygo_types.h's LibraryMotionState names at exactly 0xA.
+ * The record is the library motion state. func_8002BFCC passes D_800EA1E8 and
+ * writes that same halfword itself on the line before the call --
+ * `((LibraryMotionState *)r)->y = y` -- so the offset is that record's y,
+ * which ygo_types.h's LibraryMotionState names at exactly 0xA.
+ * Library_UpdateGridCursor is the second caller and passes its byte-view state
+ * after handling cursor movement.
  *
  * The parameter stays u8 * rather than becoming LibraryMotionState *. That
- * caller holds the record through library_runtime.h's `u8 D_800EA1E8[]` byte
- * view, while the typed declaration lives in func_8002A3CC.h; a file that
- * included both would have two declarations of the symbol. The two views are
- * kept apart on purpose, so this prototype takes the pointer its caller
- * already has. The implementation uses the asserted LibraryMotionState layout
- * directly and accesses its typed y field. */
+ * first caller holds the record through library_runtime.h's
+ * `u8 D_800EA1E8[]` byte view, while Library_UpdateGridCursor receives the
+ * same state through its own u8 * dispatcher contract. The typed declaration
+ * lives in func_8002A3CC.h; including it beside the byte global would create
+ * conflicting declarations. The implementation therefore applies the
+ * asserted LibraryMotionState layout internally and accesses its typed y
+ * field. */
 void func_8002A660(u8 *record);
 
 #endif
