@@ -52,6 +52,7 @@
 #include "../game/duel_effect_allocate_request.h"
 #include "../game/duel_effect_resource_record.h"
 #include "../game/duel_effect_resource_setup.h"
+#define D_8009B1B9_AS_SIGNED
 #include "../game/func_800291E0.h"
 #include "../game/display_object_helpers.h"
 #include "../game/display_object_core.h"
@@ -59,6 +60,7 @@
 #include "../game/duel_battle_stats.h"
 #include "../game/duel_trap_resolution.h"
 #include "../game/duel_card_record_lifecycle.h"
+#include "../game/duel_scene_card_placement.h"
 #include "../game/sound.h"
 #include "../game/main_modes.h"
 #include "../game/func_8001944C.h"
@@ -79,11 +81,9 @@ extern u16 D_8009B178;
 extern u16 D_8009B17A;
 extern s16 D_8009B1A4[2];
 extern s8 D_8009B1B0[2];
-extern s8 D_8009B1B9;
 s8 D_8009B208[8];
 extern u8 D_8009B229;
 extern u8 D_800E9F64[];
-extern AnimatedBattleModelProperties D_800EF658[];
 
 void DuelScene_UpdateBattle(void)
 {

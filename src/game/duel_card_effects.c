@@ -1,4 +1,5 @@
 #define gDuel_bEffectRequestStatus_IN_DATA
+#define DUEL_FIELD_GRID_ALIASES
 #include "../types.h"
 #include "file_transfer.h"
 #include "duel_trap_resolution.h"
@@ -158,9 +159,6 @@ apply:
         gDuel_wCardEffectFlags = 0;
     }
 }
-
-extern s16 D_8009B1AC;
-extern s16 D_8009B1AE;
 
 void DuelEffect_ApplyMonsterRemoval(void) {
     DuelEffectRequest *p;
@@ -448,9 +446,8 @@ call:
 #define DUEL_FIELD_EFFECT_MARK_THRESHOLD 40
 #define DUEL_FIELD_EFFECT_TIMER_LIMIT 64
 
-extern u8 D_800907D8_2d
-    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("D_800907D8");
-extern u8 D_800907D8_flat[] asm("D_800907D8");
+/* The reveal path indexes by side and slot; the later status step walks the
+   same storage from a flat base. */
 
 void DuelEffect_UpdateRevealCard(DuelFieldEffectObject *o)
 {

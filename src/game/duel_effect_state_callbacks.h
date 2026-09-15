@@ -29,6 +29,7 @@ void func_80037B40(DuelEffectChannel *object);
 
 /* The gate on the script state machine, armed by func_8003767C and
  * func_8003771C and spent by TextBox_BuildStep. */
+extern u8 D_8009B335;
 extern u8 D_8009B357;
 
 #endif

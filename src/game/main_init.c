@@ -6,6 +6,7 @@
  */
 #define D_8009B0D8_IS_VOLATILE
 #define D_8009B0C0_IS_VOLATILE
+#define D_8009B0D1_IS_VOLATILE
 #define D_8009B230_IN_DATA
 #define GRAPHICS_ACTIVE_FRAME_BUFFER_IS_VOLATILE
 #define MAIN_MODE_STATE_NEXT_IN_DATA
@@ -38,8 +39,6 @@
 #include "movie_playback_control.h"
 #include "main_mode_state.h"
 #include "../psyq/libgs.h"
-
-extern volatile u8 D_8009B0D1;
 
 s32 Main_Init(void)
 {

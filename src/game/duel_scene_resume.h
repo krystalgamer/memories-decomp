@@ -8,6 +8,8 @@
  * one had, spawns the side indicator objects, and then either replays the
  * field effects or starts the BGM before fading in. Later ticks walk the
  * D_8009B208 replay list one entry per tick. */
+extern s8 D_8009B208[8];
+
 void DuelScene_UpdateResume(void);
 
 #endif

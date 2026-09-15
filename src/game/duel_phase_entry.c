@@ -1,5 +1,6 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
 #define GDUEL_WBGMID_IN_DATA
+#define D_8009B1B9_AS_SIGNED
 #include "../types.h"
 #include "func_800179F4.h"
 #include "display_object.h"
@@ -12,6 +13,7 @@
 #include "duel_scene_state.h"
 #include "duel_phase_entry.h"
 #include "duel_scene_resume.h"
+#include "duel_scene_card_placement.h"
 #include "view_state.h"
 #include "card_constants.h"
 #include "duel_scene_state.h"
@@ -30,9 +32,6 @@
 #include "duel_apply_card_object_flags.h"
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
-
-extern s8 D_8009B1B9;
-extern s8 D_8009B208[8];
 
 /* Three contiguous entries from the gDuel_apfnSceneStateHandler duel-phase callback table:
    resume/replay reconstruction, initial deck and selection setup, and draw

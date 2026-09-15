@@ -1,4 +1,5 @@
 #define D_8009AF74_IN_DATA
+#define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
 #include "../unmatched.h"
 #include "display_object.h"
@@ -11,9 +12,8 @@
 #include "func_80039794.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_transition.h"
+#include "dialog_choice.h"
 #include "func_80042C08.h"
-
-extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 void func_8003D518(MenuRecord *record)
 {

@@ -82,7 +82,6 @@
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define CARD_ID(i) (big = 0x48000, S(D_8015C424 + (i) * 0x1C + big, 0x36C0))
 
-extern s8 D_8009B160;
 extern s16 D_8009B19E;
 extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;

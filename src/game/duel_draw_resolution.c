@@ -19,15 +19,13 @@
 #include "func_80018C34.h"
 #include "display_object_helpers.h"
 
-extern DuelSideState *D_8009B1C8_hand asm("D_8009B1C8");
-
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
     s32 i;
     s32 card_id;
 
     for (i = 0; i < HAND_SIZE; i++) {
-        hand[i] = D_8009B1C8_hand->hand[i];
+        hand[i] = D_8009B1C8->hand[i];
     }
 
     for (card_id = EXODIA_FIRST_CARD_ID;
@@ -49,8 +47,6 @@ s32 Duel_HasAllExodiaPieces(void) {
 
     return 1;
 }
-
-extern u8 D_8009B1ED;
 
 void DuelScene_UpdateDrawResolution(void) {
     DisplayObject *p;

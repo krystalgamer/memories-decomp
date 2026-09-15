@@ -19,6 +19,18 @@ typedef struct {
     u8 status;
 } DuelCursorStatus;
 
+/* Direction selected by the cursor path plus the target column and row used
+   by func_8001D5B4. The field-action candidate keeps the coordinates
+   unsigned; the comparison helper requires signed loads. */
+extern s8 D_8009B160;
+#ifdef DUEL_CURSOR_COORDS_SIGNED
+extern s8 D_8009B1D6;
+extern s8 D_8009B1D7;
+#else
+extern u8 D_8009B1D6;
+extern u8 D_8009B1D7;
+#endif
+
 s32 func_80024060(DuelCursorStatus *object);
 
 #ifdef FUNC_80024088_WIDE_DIRECTION

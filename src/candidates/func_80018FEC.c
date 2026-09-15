@@ -32,12 +32,14 @@
 #define D_8009B369_IN_DATA
 #define MAIN_MODE_STATE_NEXT_IN_DATA
 #define MAIN_MODE_STATE_ACTIVE_IN_DATA
+#define ANIMATED_BATTLE_MODEL_PROPERTIES_AS_HALFWORDS
 #include "../types.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_effect_request.h"
 #include "../game/duel_card_pick_cursor.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
+#include "../game/duel_scene_card_placement.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_selection_layout.h"
 #include "../game/duel_screen_tables.h"
@@ -56,14 +58,12 @@
 #include "../unmatched.h"
 #include "../game/sound_output.h"
 #include "../game/model_scene_states.h"
+#include "../game/main_modes.h"
 #include "../game/model.h"
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
 
-extern u8 D_8009B1B9;
-
 extern s32 D_800E9F04[];
-extern u16 D_800EF658[];
 
 extern void SD_BGMFadeOutWithStep(s32);
 extern void SD_SEPlayFull(s32);

@@ -5,7 +5,6 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
-extern u8 D_800EAE92;
 void AiScript_PlayFieldCard(void)
 {
     s32 first = gAiScript_aMemory[AiScript_ReadByte()];

@@ -1,6 +1,7 @@
 #define D_8009B140_IN_DATA
 #define D_8009AF74_IN_DATA
 #define D_8009B09C_IN_DATA
+#define GDIALOG_CHOICE_IN_DATA
 #include "../types.h"
 #include "func_80032B38.h"
 #include "duel_effect.h"
@@ -17,11 +18,8 @@
 #include "../psyq/rand.h"
 #include "duel_reward_setup.h"
 #include "build_deck_deck_capacity.h"
+#include "dialog_choice.h"
 #include "../unmatched.h"
-
-/* Retail addresses these three with %hi/%lo under -G8, so they live outside
-   small data. */
-extern s8 gDialog_bChoice __attribute__((section(".data")));
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
  * confirm sound plays and, if the deck has an open slot

@@ -1,5 +1,6 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
+#define D_8009B0D1_IN_DATA
 #include "../types.h"
 #include "duel_effect_mode_7.h"
 #include "file_transfer.h"
@@ -15,8 +16,6 @@
 #include "mem_card.h"
 
 extern s16 gCampaignSavedSceneIndex[];
-
-extern u8 D_8009B0D1 __attribute__((section(".data")));
 
 void Main_ApplyMenuSelection(MainMenuSelection selection)
 {

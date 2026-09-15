@@ -36,6 +36,7 @@
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE88_VISIBLE
 #define D_800EAE88_AS_BYTES
+#define D_800EAE92_AS_ARRAY
 #define DUEL_FIELD_GRID_2D
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define GDUEL_BEFFECTSTATE_IN_DATA
@@ -56,6 +57,7 @@
 #include "../game/duel_effect.h"
 #include "../game/duel_check_quit_input.h"
 #include "../game/duel_side_view_angles.h"
+#include "../game/ai.h"
 #include "../game/duel_load_package_stage.h"
 #include "../game/display_object.h"
 #include "../game/display_object_core.h"
@@ -80,21 +82,16 @@ extern u32 D_8009B300 __attribute__((section(".data")));
 #define GRID_CARD(s) (&D_801A7AD8[D_800907D8[D_8009B1D5][SB(s, 0x10) * 5 + SB(s, 0xF)]])
 #define BANK(i, o) (big = 0x48000, H(D_8015C424 + (i) * 0x1C + big, (o)))
 
-extern s8 D_8009B160;
 u16 D_8009B170;
 u16 D_8009B172;
 u16 D_8009B178;
 u16 D_8009B17A;
 u8 D_8009B19C;
 extern s32 D_8009B1BC;
-extern u8 D_8009B1D6;
-extern u8 D_8009B1D7;
 extern u8 D_8009B21A;
 extern s8 D_8009B229;
 extern u8 D_800E9F64[];
 extern u8 D_800EAE91[];
-extern u8 D_800EAE92[];
-
 int func_8001700C(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
 void func_8001D344(u8 *object);

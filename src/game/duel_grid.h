@@ -49,7 +49,12 @@ typedef struct {
  *
  * Left unsized on purpose: a declared size is a -G input for this toolchain,
  * and no consumer needs the bound. */
-#ifdef DUEL_FIELD_GRID_2D
+#ifdef DUEL_FIELD_GRID_ALIASES
+extern u8 D_800907D8_2d
+    [DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT] asm("D_800907D8");
+extern u8 D_800907D8_flat[] asm("D_800907D8");
+#define D_800907D8 D_800907D8_flat
+#elif defined(DUEL_FIELD_GRID_2D)
 /* duel_card_effects.c and DuelEffect_ApplySwords
  * (src/candidates/func_80025F3C.c)
  * index it [side][slot]. That is not a spelling preference: rewriting either

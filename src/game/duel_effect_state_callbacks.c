@@ -24,8 +24,6 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
-extern u8 D_8009B335;
-
 void func_800374A8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;

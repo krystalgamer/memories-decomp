@@ -114,6 +114,14 @@ extern u8 D_800EAE8F[];
 extern u8 D_800EAE8F;
 #endif
 
+/* The field-card category byte at AiSelection.field_0A. The field-action
+   candidate requires an incomplete array to keep its absolute access. */
+#ifdef D_800EAE92_AS_ARRAY
+extern u8 D_800EAE92[];
+#else
+extern u8 D_800EAE92;
+#endif
+
 /* AiScript_LoadBestAttacker reads the byte recorded by
    AiScript_FindBestAttack before copying it into the VM register file. */
 extern u8 gAi_bBestAttacker;

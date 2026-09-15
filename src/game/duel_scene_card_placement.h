@@ -10,7 +10,11 @@
 extern u16 D_8009B150;
 /* Shared work-slot selector. Exodia uses its unsigned view; placement takes
  * the measured signed byte explicitly at its bound and array-index reads. */
+#ifdef D_8009B1B9_AS_SIGNED
+extern s8 D_8009B1B9;
+#else
 extern u8 D_8009B1B9;
+#endif
 extern s16 D_8009B206;
 extern s8 D_8009B218;
 

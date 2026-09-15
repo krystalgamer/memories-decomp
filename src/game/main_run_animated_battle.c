@@ -22,7 +22,6 @@
    the load-delay nop before the first read of it below. c_symbols.ld overrides
    this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
-extern AnimatedBattleModelProperties D_800EF658[];
 
 void Main_RunAnimatedBattle(void)
 {
