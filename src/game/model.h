@@ -128,7 +128,10 @@ typedef struct {
 typedef struct {
     u8 field_00[0xA];
     u8 field_0A[2];
-    u16 field_0C[8];
+    u16 field_0C[2];
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
 } ModelSlotCF8Block;
 
 /* View rooted at the D_800F3938 interior alias and extending through the two
@@ -141,7 +144,10 @@ typedef struct {
     u16 field_02;
     u8 pad_04[6];
     u8 field_0A[2];
-    u16 field_0C[8];
+    u16 field_0C[2];
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
     u8 pad_1C[0xEA];
     u8 field_106;
     u8 field_107;
@@ -526,6 +532,15 @@ typedef char ModelSlotCF8TailView_size_must_be_0x108[
 ];
 typedef char ModelSlotCF8TailView_field_0A_offset_must_be_0xA[
     MODEL_OFFSET(ModelSlotCF8TailView, field_0A) == 0xA ? 1 : -1
+];
+typedef char ModelSlotCF8Block_field_10_offset_must_be_0x10[
+    MODEL_OFFSET(ModelSlotCF8Block, field_10) == 0x10 ? 1 : -1
+];
+typedef char ModelSlotCF8Block_field_14_offset_must_be_0x14[
+    MODEL_OFFSET(ModelSlotCF8Block, field_14) == 0x14 ? 1 : -1
+];
+typedef char ModelSlotCF8Block_field_18_offset_must_be_0x18[
+    MODEL_OFFSET(ModelSlotCF8Block, field_18) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlotCF8TailView_field_106_offset_must_be_0x106[
     MODEL_OFFSET(ModelSlotCF8TailView, field_106) ==

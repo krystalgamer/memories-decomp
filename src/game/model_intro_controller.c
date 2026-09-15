@@ -86,9 +86,9 @@ check_ready:
         slot->field_BF6 = 1;
         slot->field_BF4 = 2;
         func_80047314(0x7310);
-        *(s32 *)&current->field_CF8.field_0C[2] = -1;
-        *(s32 *)&current->field_CF8.field_0C[4] = -1;
-        *(s32 *)&current->field_CF8.field_0C[6] = -1;
+        current->field_CF8.field_10 = -1;
+        current->field_CF8.field_14 = -1;
+        current->field_CF8.field_18 = -1;
         D_8009AFA0 = 0;
         first(D_80010024, 0);
         second(D_80010028, 0);

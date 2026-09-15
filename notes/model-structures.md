@@ -44,7 +44,7 @@ Verified shared fields and partial arrays are:
 | `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `func_80057AF4` reads it back the same way; `func_80056250` widens a card for the parts it flags |
 | `0xBF5` | `field_BF5` | direct reads in `func_80058E68`, `func_80058EC0`, and `func_800597C8` |
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
-| `0xCF8` | `field_CF8[10]` | `func_80057E20` and `func_80059000` read bytes `+7`, `+8`, and `+9` |
+| `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `func_80058F20`, `func_80058F74`, and `func_800593D0` |
 | `0xD18` | `field_D18` | `func_800592AC` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `func_8004DE24` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
@@ -285,9 +285,11 @@ and their placement units. Its repeated `field_D18` member expressions are
 intentional: GCC 2.8.1 must reload the coordinate pointer before each rotation
 and translation store to preserve the retail schedule. The case-10 staging
 path in `file_transfer_steps.c` likewise reaches the sound-entry run,
-`field_CF8` block, and `field_E14` through the shared slot layout; the three
-word stores inside `field_CF8` retain width-preserving casts across adjacent
-halfword members.
+`field_CF8` block, and `field_E14` through the shared slot layout. The three
+reset words inside `field_CF8` are now explicit signed members at relative
+offsets `0x10`, `0x14`, and `0x18`; the whole-block copy retains its separate
+`ModelSlotCF8BlockWords` view because its alignment and move width are
+code-generation inputs.
 
 The interior alias `D_800F3938` now has a separate
 `ModelSlotCF8TailView`, rooted at slot offset `0xCF8` and extending through

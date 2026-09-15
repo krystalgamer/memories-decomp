@@ -66,9 +66,9 @@ void func_8005611C(s32 arg0)
         ((u8 *)p)[i * 4 + 0xBF8] = 0;
     }
 
-    *(s32 *)&p->field_CF8.field_0C[2] = -1;
-    *(s32 *)&p->field_CF8.field_0C[4] = -1;
-    *(s32 *)&p->field_CF8.field_0C[6] = -1;
+    p->field_CF8.field_10 = -1;
+    p->field_CF8.field_14 = -1;
+    p->field_CF8.field_18 = -1;
     p->field_E16 = 0x3E;
     p->field_E1F = 0;
     Model_InitLightTriplet(arg0);

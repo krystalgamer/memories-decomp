@@ -275,9 +275,9 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
             *(u16 *)&slot->field_CF8.field_00[2] = slot->field_DFC;
         }
         if (slot->field_E1D != 0) {
-            *(s32 *)&slot->field_CF8.field_0C[2] = -1;
-            *(s32 *)&slot->field_CF8.field_0C[4] = -1;
-            *(s32 *)&slot->field_CF8.field_0C[6] = -1;
+            slot->field_CF8.field_10 = -1;
+            slot->field_CF8.field_14 = -1;
+            slot->field_CF8.field_18 = -1;
         }
         slot->field_E14 = 1;
         break;
