@@ -26,11 +26,11 @@ void func_800178BC(void)
     func_8001352C();
     GsSetLsMatrix(&D_800FE148);
     {
-        u8 *scratch = (u8 *)0x1F8003E0;
+        SVECTOR *scratch = (SVECTOR *)0x1F8003E0;
 
-        *(s16 *)scratch = 0x3E8;
-        *(s16 *)(scratch + 2) = 0;
-        *(s16 *)(scratch + 4) = 0x3E8;
+        scratch->vx = 0x3E8;
+        scratch->vy = 0;
+        scratch->vz = 0x3E8;
         gte_ldv0(scratch);
         gte_rtps();
         gte_stsxy(&p);
