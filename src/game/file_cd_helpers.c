@@ -5,9 +5,9 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-int File_Exists(int first, int second)
+s32 File_Exists(const char *path, CdlFILE *file)
 {
-    DslFILE *result = DsSearchFile((DslFILE *)second, (char *)first);
+    DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
 
     if (result == 0 || result == (DslFILE *)-1) {
         return -1;

@@ -38,12 +38,17 @@ void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
     }
 }
 
-s32 Movie_StartFileStream(s32 path, s32 start_frame, s32 end_frame, s32 arg3,
-                          s32 arg4)
+s32 Movie_StartFileStream(
+    const char *path,
+    s32 start_frame,
+    s32 end_frame,
+    s32 arg3,
+    s32 arg4
+)
 {
     CdlFILE *file = (CdlFILE *)D_800F5750;
 
-    if (File_Exists(path, (s32)file) != 0)
+    if (File_Exists(path, file) != 0)
         return -1;
     return func_8005B8A0(
         (u8 *)file, start_frame, end_frame,
