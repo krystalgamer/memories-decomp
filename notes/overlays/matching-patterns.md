@@ -21,9 +21,9 @@ or inline asm, to build-integrated candidates in
 [`src/candidates/`](../../src/candidates/):
 `MainMenu_UpdateFrontendMenu`, `MainMenu_UpdateTradeScreen`,
 `NameEntry_UpdateKeyboard` and `Password_UpdateShopScreen`.
-The frontend updater has since returned to matching C without bindings in
-[`frontend_update.c`](../../src/overlays/main_menu/frontend_update.c); the
-remaining three retain their candidate status.
+The frontend and keyboard updaters have since returned to matching C without
+bindings in [`frontend_update.c`](../../src/overlays/main_menu/frontend_update.c)
+and [`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c).
 Historical residuals below are not a current work queue; consult the
 per-module inventories and matching manifests before treating an old
 candidate as unfinished work.
@@ -919,9 +919,8 @@ solve by inserting work. One scalar candidate had seven relocated register
 differences; another introduced a redundant loop-entry copy between the
 initial and loop-hoisted `HIGH` pseudos for the column global.
 
-The source that matched, now a build-integrated candidate in
-[`src/candidates/password/func_8016913C.c`](../../src/candidates/password/func_8016913C.c) because the match
-depended on pinned registers (#3859), groups the
+The historical source reclassified in #3859 because its match depended on
+pinned registers grouped the
 initial column and row stride in a named register union at `$4`. Its `u64`
 member gives GCC a DI register pair, while the two `s32` fields are the
 values actually assigned and read. On `gcc_2_8_1_g0_split`, both address
@@ -935,6 +934,15 @@ mutually exclusive path. This is a measured register-liveness constraint,
 not evidence that the original author used the same union declaration.
 #2180 integrated all 382 relocated instruction words and the complete
 password image without an output patch or an inline assembly statement.
+
+The current binding-free
+[`name_entry_keyboard_update.c`](../../src/overlays/password/name_entry_keyboard_update.c)
+instead uses a complete automatic aggregate initializer for that same
+coordinate contract. This reproduces the pair allocation without a binding
+or a preliminary zeroing operation. The glyph-code helper's in-place column
+index supplies the required operand order on the mutually exclusive input
+path. These are source/profile-specific observations, not a claim about the
+original author's declarations.
 
 ## Statement splitting controls evaluation order
 

@@ -257,11 +257,21 @@ The name-entry pipeline is fourteen functions in executable order from
 `NameEntry_PollCompletion` at `0x80169C08`, ending at `0x80169C30`, all
 `gcc_2_8_1_g0_split`. `name_entry_runtime.c` holds the first eleven as the C
 subsegment at module offset `0x138` and owns the glyph atlas rodata at module
-offset `0x4`. `NameEntry_UpdateKeyboard` matched only through pinned
-registers and an asm statement, so since #3859 it is a build-integrated candidate
-(`src/candidates/password/func_8016913C.c`) assembled from generated
-assembly at `0x113C`; the last two are
+offset `0x4`. `NameEntry_UpdateKeyboard` was reclassified in #3859 because
+its earlier match depended on register bindings. Its binding-free replacement
+is now [`name_entry_keyboard_update.c`](name_entry_keyboard_update.c), the
+standalone C subsegment at `0x113C`; the last two are
 [`name_entry_dialog.c`](name_entry_dialog.c) at `0x1734`.
+
+The keyboard's complete `PasswordGlyphCoordinates` initializer keeps both
+coordinate words defined together. Replacing it with separate member stores
+changes old-GCC allocation; explicit zeroing adds unwanted instructions.
+The inline cell-code helper updates its column argument before indexing,
+preserving the selector block's operand order. Neither construct fixes a
+register or inserts assembly. The table declarations live in
+[`name_entry_tables.h`](name_entry_tables.h); their raw module storage is
+unchanged. Existing `DisplayObjectVelocity` views cover the two movement
+helper calls without changing the selection frame's layout.
 
 The two external doors are the lifecycle pair: `NameEntry_Init` builds the
 screen once, while `NameEntry_PollCompletion` advances it each frame and

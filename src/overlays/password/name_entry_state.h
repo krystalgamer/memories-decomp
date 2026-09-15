@@ -12,8 +12,7 @@
  * screen's data. The fourteen-function name-entry pipeline uses this header
  * as the single view of that state: eleven functions in
  * name_entry_runtime.c, two in name_entry_dialog.c, and
- * NameEntry_UpdateKeyboard, now a build-integrated candidate
- * (src/candidates/password/func_8016913C.c).
+ * NameEntry_UpdateKeyboard in name_entry_keyboard_update.c.
  *
  * What the uses show, without renaming anything:
  *

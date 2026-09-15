@@ -374,21 +374,6 @@
         "D_80185CCC": "0779a78b92b708a6faa7a2d9b0f1f38a59a2ee9d8dfd7cecbf05e992c0087776",
         "D_801A8000": "090c1c20cc650e57ed92505f749bcaccd16e040e3820612363f618454263a722"
       }
-    },
-    {
-      "address": "0x8016913C",
-      "module": "password",
-      "profile": "gcc_2_8_1_g0_split",
-      "source": "src/candidates/password/func_8016913C.c",
-      "target": "src/candidates_target/password/func_8016913C.S",
-      "candidate_build_sha256": "a794ff9a59d25d4f04cab36e1fa01b7b742604589fe637fa72079b27be4b8fb6",
-      "target_bytes_sha256": "8ea61340847936bca8d440dc87430c3dad555fde9143b74a4bf4ac9f09bdea9b",
-      "canonical_contract_sha256": "b6e8c1d84a493efac94c156bf3d6d33aabf32824d0ea5b80f4699acddc7b3f6b",
-      "canonical_contracts": {
-        "D_8016AB38": "e9a27c93ebab9e97e70d77bb3e3be08523781f5cc3a4f1203ae39d3e8d96f6ed",
-        "D_8016ABC0": "6676507d08b090917593ae4567199ca1370c7060894f1ff129e99e09cf34b315",
-        "D_8016D4D4": "9e2c57653097846fae42761b8511a1cb01660257842bfaac7d0059378c1f31a4"
-      }
     }
   ]
 }

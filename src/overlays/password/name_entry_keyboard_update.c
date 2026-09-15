@@ -1,10 +1,3 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0_split this source
- * rebuilt the target byte for byte, but only by pinning 3 variables to hard
- * registers and 1 inline asm statement, so it is kept here as a candidate
- * rather than counted as a decompilation. It was
- * src/overlays/password/name_entry_runtime.c.
- */
 #define GINPUT_PAD1_HELD_IS_VOLATILE
 #define GINPUT_PAD1_REPEAT_IS_VOLATILE
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
@@ -34,28 +27,25 @@
 #include "../../game/dialog_choice_state.h"
 #include "../../game/display_object_interpolation.h"
 #include "../../game/text_sjis_to_glyph_codes.h"
+#include "name_entry_tables.h"
 
-/* The complete name-entry screen pipeline in executable order: setup and
-   selection-frame drawing, glyph lookup and effects, then keyboard, dialog,
-   and completion handling. The fourteen functions share one compiler profile
-   and the D_8016D400 state block; the leading display-object helper and the
-   following shop display unit have no proven ownership in this lifecycle. */
-
-extern s8 D_8016AB38[][15];
-extern u8 D_8016ABC0[][2];
+static __inline__ s32 NameEntry_GetKeyboardCellCode(s8 *table, s32 row, s32 column)
+{
+    column += row * 15;
+    return table[column] & 0xF;
+}
 
 void NameEntry_UpdateKeyboard(void)
 {
     SelectionFrame *w;
     s32 work;
-    register s8 *glyphTable __asm__("$4");
+    s8 *glyphTable;
     s32 glyphRow;
     s32 glyphCol;
-    register s32 glyphIndex __asm__("$2");
     s32 glyphCode;
     s32 home;
     s32 n;
-    register s32 walkCol __asm__("$3");
+    s32 walkCol;
     s32 col;
     s32 row;
     DuelEffectEntry *node;
@@ -64,8 +54,6 @@ void NameEntry_UpdateKeyboard(void)
     s32 gx;
     s32 gy;
     s32 d;
-    /* Keep this coordinate pair in a0/a1, leaving the global's high half in a2. */
-    register PasswordGlyphCoordinates coords __asm__("$4");
 
     w = D_8016D404;
     if ((D_8016D4D4 & 0x4000) != 0) {
@@ -74,7 +62,7 @@ void NameEntry_UpdateKeyboard(void)
         if (work != 0) {
             w->width = (work >= 0) ? (w->width + 2) : (w->width - 2);
         }
-        DisplayObject_StepPositionXY(w);
+        DisplayObject_StepPositionXY((DisplayObjectVelocity *)w);
         w->timer = w->timer - 1;
         if (w->timer != 0) {
             return;
@@ -124,15 +112,19 @@ tail47:
     SD_SEPlayFull(47);
     obj = (u8 *)&D_8016AB38[0][0];
     row = (s8)D_8016D402;
-    coords.parts.column = (s8)D_8016D401;
-    coords.parts.stride = row * 15;
-    col = coords.parts.column;
-    work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
-    walkCol = col;
-    while (work < 0) {
-        walkCol = walkCol + work;
-        D_8016D401 = walkCol;
-        work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
+    {
+        /* Keep the pair fully initialized; separate stores change allocation. */
+        PasswordGlyphCoordinates coords = {
+            parts: { (s8)D_8016D401, row * 15 }
+        };
+        col = coords.parts.column;
+        work = *(s8 *)((coords.parts.column + coords.parts.stride) + (s32)obj);
+        walkCol = col;
+        while (work < 0) {
+            walkCol = walkCol + work;
+            D_8016D401 = walkCol;
+            work = *(s8 *)(((s8)walkCol + coords.parts.stride) + (s32)obj);
+        }
     }
     D_8016D402 = D_8016D426;
     w->widthBonus = 0;
@@ -147,7 +139,7 @@ tail47:
         D_8016D434 = (s8)D_8016D401 * 20 + 42;
     }
     D_8016D436 = (s8)D_8016D402 * 18 + 24;
-    DisplayObject_ResetVelocity(w);
+    DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
     w->timer = 8;
     w->stepX = ((D_8016D434 - w->x) << 8) / 8;
     w->stepY = ((D_8016D436 - w->y) << 8) / 8;
@@ -170,9 +162,7 @@ select:
     glyphTable = &D_8016AB38[0][0];
     glyphRow = (s8)D_8016D402;
     glyphCol = col = (s8)D_8016D401;
-    glyphIndex = glyphRow * 15;
-    glyphIndex = glyphCol + glyphIndex;
-    glyphCode = glyphTable[glyphIndex] & 0xF;
+    glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
     gx = kind;
     if (glyphCode == 4) {
         goto arm4;
