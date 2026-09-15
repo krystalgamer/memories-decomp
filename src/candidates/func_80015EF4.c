@@ -1,23 +1,28 @@
 /*
  * Renders the 3D duel card through scratchpad matrices, four projected
  * corners, per-vertex lighting, and two ordering-table submissions. Current
- * best under gcc_2_8_1_g0: 386/386 instructions, opcode multiset distance 20,
- * and 341 differing words, with no hard register pin.
+ * best under gcc_2_8_1_g0: 385/386 instructions and opcode multiset distance
+ * 7 (GTE commands the census renders as c2 left out), with no hard register
+ * pin.
  *
  * Scratchpad pointers are initialized after the early guard, typed bases
- * preserve the retail address mix, the model Y rotation is intentionally
- * recomputed, and Bytes8 assignments produce the unaligned corner copies. The
- * four inline rtps words are byte-identical; the sprite base remains a
- * compiler operand rather than a named register.
+ * preserve the retail address mix, and Bytes8 assignments produce the
+ * unaligned corner copies. The four RotColorDpq returns are kept in
+ * depth[4..7] and averaged the way retail does, as (sum / 4) >> 2; NormalClip
+ * takes the three projected words; the raised Y rotation reuses y; the Y
+ * translation is read once into c; and both GsSortPoly calls read the
+ * ordering-table array through tab. The four inline rtps words are
+ * byte-identical; the sprite base remains a compiler operand rather than a
+ * named register.
  *
- * Residual: six nop differences with three loads/four stores, plus one
- * inverted branch around always-executed scaling that retail guards with a
- * literal zero. The remaining work is source shape and scheduling.
+ * Residual: one inverted branch around always-executed scaling that retail
+ * guards with a literal zero, scratchpad address constants built through
+ * different registers (addu -2, ori -1), and two extra nops. The remaining
+ * work is source shape and scheduling.
  */
 #include "../types.h"
 #include "../ygo_types.h"
 #include "../psyq/libgte.h"
-#include "../psyq/libgte_abi_variants.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../game/screen_projection.h"
@@ -30,6 +35,7 @@ void func_80015EF4(
     GsOT *ot
 )
 {
+    GsOT **tab;
     u8 *m;
     s32 t;
     s32 c;
@@ -64,12 +70,13 @@ void func_80015EF4(
     rot[0].vy = y;
     rot[0].vz = m[0x22] << 4;
     if (holder->field_18 >= 0xF) {
-        rot[0].vy = (m[0x21] << 4) + 0x800;
+        rot[0].vy = y + 0x800;
     }
     lm->t[0] = *(s16 *)(m + 0x30);
-    lm->t[1] = *(s16 *)(m + 0x32);
+    c = *(s16 *)(m + 0x32);
+    lm->t[1] = c;
     lm->t[2] = *(s16 *)(m + 0x34);
-    t = *(s16 *)(m + 0x32) + 0xFF;
+    t = c + 0xFF;
     if (t < 0) {
         t = 0;
     }
@@ -103,16 +110,16 @@ void func_80015EF4(
     GsSetLightMatrix(lm);
     GsSetLsMatrix(&D_800FE148);
 
-    RotColorDpq(&rot[0], up, (CVECTOR *)ot,
+    depth[4] = RotColorDpq(&rot[0], up, (CVECTOR *)ot,
                 (long *)(prim + 8), (CVECTOR *)(prim + 4),
                 (long *)&depth[0]);
-    RotColorDpq(&rot[1], up, (CVECTOR *)ot,
+    depth[5] = RotColorDpq(&rot[1], up, (CVECTOR *)ot,
                 (long *)(prim + 0x14), (CVECTOR *)(prim + 0x10),
                 (long *)&depth[1]);
-    RotColorDpq(&rot[2], up, (CVECTOR *)ot,
+    depth[6] = RotColorDpq(&rot[2], up, (CVECTOR *)ot,
                 (long *)(prim + 0x20), (CVECTOR *)(prim + 0x1C),
                 (long *)&depth[2]);
-    RotColorDpq(&rot[3], up, (CVECTOR *)ot,
+    depth[7] = RotColorDpq(&rot[3], up, (CVECTOR *)ot,
                 (long *)(prim + 0x2C), (CVECTOR *)(prim + 0x28),
                 (long *)&depth[3]);
 
@@ -127,7 +134,7 @@ void func_80015EF4(
     c = m[0x5D];
     prim[0x19] = c;
     prim[0xD] = c;
-    if (NormalClip_800879A0(prim) <= 0) {
+    if (NormalClip(*(long *)(prim + 8), *(long *)(prim + 0x14), *(long *)(prim + 0x20)) <= 0) {
         prim[0x24] = 0x38;
         prim[0xC] = 0x38;
         prim[0x19] = 0x80;
@@ -153,9 +160,10 @@ void func_80015EF4(
         sprite[6] = m[0xE];
     }
 
-    depth[0] = (depth[0] + depth[1]
-                          + depth[2] + depth[3]) / 16;
-    GsSortPoly(prim, D_800E9D90[2], *(u16 *)depth);
+    depth[0] = (depth[4] + depth[5]
+                          + depth[6] + depth[7]) / 4 >> 2;
+    tab = D_800E9D90;
+    GsSortPoly(prim, tab[2], *(u16 *)depth);
 
     cpy[3].vy = 0;
     cpy[2].vy = 0;
@@ -199,5 +207,5 @@ void func_80015EF4(
         "addiu $2, %0, 32\n"
         "swc2 $14, 0($2)\n"
         : : "r"(sprite) : "$2", "$8", "$9", "$10", "$11", "memory");
-    GsSortPoly(sprite, D_800E9D90[2], 0xFFF);
+    GsSortPoly(sprite, tab[2], 0xFFF);
 }
