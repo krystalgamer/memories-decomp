@@ -7,7 +7,7 @@
 
 void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     u8 buf[CARD_COUNT];
-    u8 *b16;
+    u16 *b16;
     u8 *b8;
     u8 *e;
     u8 *t;
@@ -23,7 +23,7 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     s32 u16b;
     s32 u8b;
 
-    b16 = out16;
+    b16 = (u16 *)out16;
     b8 = out8;
 
     if (src == 0) {
@@ -77,10 +77,10 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     for (i = 0; i < DUEL_DECK_SHUFFLE_SWAP_COUNT; i++) {
         x = Rand_GetInterval(DECK_SIZE);
         y = Rand_GetInterval(DECK_SIZE);
-        t16 = t8 = *(u16 *)(b16 + x * 2);
-        u16b = *(u16 *)(b16 + y * 2);
-        *(s16 *)(b16 + x * 2) = u16b;
-        *(s16 *)(b16 + y * 2) = t16;
+        t16 = t8 = b16[x];
+        u16b = b16[y];
+        b16[x] = u16b;
+        b16[y] = t16;
         t8 = b8[x];
         u8b = b8[y];
         b8[x] = u8b;
