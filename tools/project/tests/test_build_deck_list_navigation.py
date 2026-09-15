@@ -31,7 +31,7 @@ class BuildDeckListNavigationTests(unittest.TestCase):
         }
         self.assertEqual(
             sources["0x800330BC"],
-            "src/game/build_deck_card_list_input.c",
+            "src/game/card_list_sort.c",
         )
         self.assertEqual(
             sources["0x80033500"],
@@ -44,7 +44,7 @@ class BuildDeckListNavigationTests(unittest.TestCase):
 
     def test_build_deck_uses_list_local_navigation(self):
         paths = (
-            ROOT / "src/game/build_deck_card_list_input.c",
+            ROOT / "src/game/card_list_sort.c",
             ROOT / "src/game/build_deck_pane_input.c",
             ROOT / "src/game/build_deck_transition_state.h",
         )
