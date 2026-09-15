@@ -35,6 +35,6 @@ s32 Duel_SelectEquipPair(void);
  * slot. ai_turn_action.c calls the two in adjacent lines behind the same
  * `(rand() & 1) == 0 && ... == 0` guard, so they are alternatives in one
  * chain rather than unrelated helpers. */
-s32 func_80027060(void);
+s32 Duel_SelectTrapPlay(void);
 
 #endif

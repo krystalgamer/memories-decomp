@@ -1300,7 +1300,7 @@
       "address": "0x80027060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
-      "source": "src/game/func_80027060.c"
+      "source": "src/game/duel_select_trap_play.c"
     },
     {
       "address": "0x8002712C",

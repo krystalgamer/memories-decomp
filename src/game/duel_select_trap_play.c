@@ -6,7 +6,7 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
-s32 func_80027060(void) {
+s32 Duel_SelectTrapPlay(void) {
     DuelCardRecord *sp10[6];
     s32 slot;
     s8 v;

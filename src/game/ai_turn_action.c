@@ -134,7 +134,7 @@ s32 func_80027508(void) {
     if ((rand() & 1) == 0 && Duel_SelectEquipPair() == 0) {
         return 0;
     }
-    if ((rand() & 1) == 0 && func_80027060() == 0) {
+    if ((rand() & 1) == 0 && Duel_SelectTrapPlay() == 0) {
         return 0;
     }
     if ((rand() & 3) == 0 && func_8002712C() == 0) {
