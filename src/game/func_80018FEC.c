@@ -49,7 +49,7 @@ void DuelScene_UpdateExodiaResult(void)
     u8 *obj;
     u8 *pose;
     u8 *rec;
-    u8 *fx;
+    DuelEffectObject *fx;
     s32 i;
     s32 anim;
     s32 n;
@@ -145,14 +145,14 @@ next_obj:
                 return;
             }
         }
-        fx = DuelEffect_AllocateRequest(0x13);
-        D_8009B17C = fx;
-        *(u16 *)(fx + 0) = (rand() & 0xFF) + 0x20;
+        fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0x13);
+        D_8009B17C = (u8 *)fx;
+        fx->x = (rand() & 0xFF) + 0x20;
         r = Rand_GetInterval(0xB0);
         n = D_8009B1B9;
-        t14 = *(s32 *)(fx + 0x14);
-        *(u16 *)(fx + 2) = r + 0x20;
-        *(s32 *)(fx + 0x14) = t14 + ((n & 3) << 13);
+        t14 = fx->field_14;
+        fx->y = r + 0x20;
+        fx->field_14 = t14 + ((n & 3) << 13);
         D_8009B1B9 = n + 1;
         return;
     }
@@ -164,26 +164,25 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = DuelEffect_AllocateRequest(0x13);
-            *(u16 *)(fx + 0) = 0xA0;
-            *(u16 *)(fx + 2) = 0x78;
-            D_8009B17C = fx;
-            ((DuelEffectObject *)fx)->field_14 =
-                ((DuelEffectObject *)fx)->field_14 + 0x8000;
+            fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0x13);
+            fx->x = 0xA0;
+            fx->y = 0x78;
+            D_8009B17C = (u8 *)fx;
+            fx->field_14 = fx->field_14 + 0x8000;
             return;
         }
         D_8009B1D0 = 4;
-        fx = DuelEffect_AllocateRequest(0);
+        fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0);
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         d = *slot;
-        *(u16 *)(fx + 0) = d->field_30.h.field_30 + 0x1A;
+        fx->x = d->field_30.h.field_30 + 0x1A;
         d = *slot;
-        *(u16 *)(fx + 2) = d->field_30.h.field_32 + 0x1E;
+        fx->y = d->field_30.h.field_32 + 0x1E;
         sum = (k << 12) + 0xA000;
-        anim = *(s32 *)(fx + 0x14) + sum;
-        *(s32 *)(fx + 0x14) = anim;
-        *(u16 *)(fx + 0x1A) = 9;
+        anim = fx->field_14 + sum;
+        fx->field_14 = anim;
+        fx->field_1A = 9;
         SD_SEPlayFull(0x17);
         D_8009B1B9 = D_8009B1B9 + 1;
         return;
