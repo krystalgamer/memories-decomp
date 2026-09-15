@@ -38,12 +38,14 @@ extern u8 gDuel_bQuitDialogState;
  *
  * Main_RunDuel takes the .data arm because its G8 build reaches the word
  * absolutely. The other two users take the plain scalar. debug_effect_screen.c
- * retains a private byte view because it touches byte 2 rather than this
- * halfword at offset 0.
+ * takes the guarded byte-array view because it touches byte 2 rather than
+ * this halfword at offset 0.
  *
  * The byte-2 use is worth knowing about before anyone widens this: the address
  * carries more than the flags word these two functions see. */
-#ifdef D_8009B16C_IN_DATA
+#ifdef D_8009B16C_AS_BYTE_ARRAY
+extern u8 D_8009B16C[4];
+#elif defined(D_8009B16C_IN_DATA)
 extern u16 D_8009B16C __attribute__((section(".data")));
 #else
 extern u16 D_8009B16C;

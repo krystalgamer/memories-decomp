@@ -56,6 +56,12 @@ typedef struct {
     s32 pad[5];
 } MainMenuState;
 
+/* The Trade candidate and inventory updater's two-record view of the shared
+   overlay staging base. */
+#ifdef MAIN_MENU_TRADE_STATE_BUFFER
+extern MainMenuState D_801A8000[];
+#endif
+
 /* The main-menu view of a display-object pool record. Named for this overlay
    rather than shared with the resident DisplayObject: `y` at 0x32 falls
    inside that record's s32 at 0x30, which is the split display_object.h

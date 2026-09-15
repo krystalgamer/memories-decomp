@@ -17,6 +17,7 @@
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
 #define MAIN_MENU_TRADE_SCROLL_AS_WORDS
+#define MAIN_MENU_TRADE_STATE_BUFFER
 #include "../../overlays/main_menu/trade_helpers.h"
 #include "../../game/display_object_config.h"
 #include "../../game/data_transfer_request.h"
@@ -30,7 +31,6 @@
 #include "../../game/func_800611D0.h"
 #include "../../unmatched.h"
 
-extern MainMenuState D_801A8000[];
 extern CardCountEntry D_80185144[];
 extern u8 D_80185CCB;
 

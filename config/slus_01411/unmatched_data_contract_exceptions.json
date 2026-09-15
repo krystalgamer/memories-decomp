@@ -1,29 +1,4 @@
 {
   "schema": 1,
-  "exceptions": [
-    {
-      "symbol": "D_801A8000",
-      "source": "src/candidates/main_menu/func_801821DC.c",
-      "declaration": "extern MainMenuState D_801A8000[];",
-      "reason": "Main-menu candidate requires its overlay state-array view; resident headers expose unrelated overlay-slot layouts at the same address."
-    },
-    {
-      "symbol": "D_8009B16C",
-      "source": "src/game/debug_effect_screen.c",
-      "declaration": "extern u8 D_8009B16C[4];",
-      "reason": "The grouped debug-effect unit uses a four-byte array view, while the resident quit-input owner exposes the same storage as a halfword."
-    },
-    {
-      "symbol": "D_8009B30C",
-      "source": "src/game/debug_effect_screen.c",
-      "declaration": "extern s32 D_8009B30C __attribute__((section(\".data\")));",
-      "reason": "The grouped debug-effect unit needs a signed forced-.data scalar view; sorted-entry owners use unsigned guarded views of the same storage."
-    },
-    {
-      "symbol": "D_800F56F0",
-      "source": "src/game/model_distance_queries.c",
-      "declaration": "extern u16 D_800F56F0[];",
-      "reason": "The distance queries require raw halfword indexing to match; camera_view.h owns the typed GsRVIEW2 view used by the other consumers."
-    }
-  ]
+  "exceptions": []
 }

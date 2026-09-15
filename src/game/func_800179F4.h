@@ -8,15 +8,23 @@
    func_800179F4 allocates both from func_800400AC and hands each to
    func_80042918, whose parameter is DisplayObject *, which is what #3176
    established and what DuelScene_UpdateResultOutro's source already declared. The
-   other three consumers spelled them u8 *; they are declared once here
-   instead.
+   other consumers use the typed view. The Exodia candidate takes the guarded
+   byte-pointer arm because its offset-based accesses are codegen-sensitive.
 
    The prototype is the one main_run_duel_and_library.c held as its own
    extern, which was the only declaration anywhere. */
 void func_800179F4(void);
 
+#ifdef D_8009B214_AS_BYTE_POINTER
+extern u8 *D_8009B214;
+#else
 extern DisplayObject *D_8009B214;
+#endif
+#ifdef D_8009B21C_AS_BYTE_POINTER
+extern u8 *D_8009B21C;
+#else
 extern DisplayObject *D_8009B21C;
+#endif
 
 /* Save-data windows selected while the duel scene starts. The no-opponent
  * path points them at the two 0x1000-byte halves of D_801D1200; the normal

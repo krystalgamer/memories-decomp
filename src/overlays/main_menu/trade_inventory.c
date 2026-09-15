@@ -7,7 +7,9 @@
 #include "../../ygo_types.h"
 #include "../../psyq/qsort.h"
 #include "../../game/card_constants.h"
+#define MAIN_MENU_TRADE_STATE_BUFFER
 #include "trade_helpers.h"
+#undef MAIN_MENU_TRADE_STATE_BUFFER
 #include "../../game/display_object_config.h"
 #include "../../game/data_transfer_request.h"
 #include "../../game/duel_card_viewer.h"
@@ -18,8 +20,6 @@
 #include "../../game/func_80061008.h"
 #include "../../game/func_800610E0.h"
 #include "../../game/func_800611D0.h"
-
-extern MainMenuState D_801A8000[];
 
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {

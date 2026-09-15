@@ -3,16 +3,16 @@
 #include "../psyq/memory.h"
 
 #include "model.h"
+#define D_800F56F0_AS_HALFWORDS
+#include "camera_view.h"
 #include "model_distance_queries.h"
 
-/* NOT converted to the GsRVIEW2 in camera_view.h, and deliberately so.
-   These six reads take the low halfword of vpx..vrz. Written as
+/* These six reads deliberately take camera_view.h's raw halfword arm rather
+   than its GsRVIEW2 view. Written as
    `*(u16 *)&D_800F56F0.vpx` the two functions come out four bytes short
    of retail, and through a `const u16 *` cursor they come out long --
    the raw array is the only one of the three that reproduces the target.
    The other nine users of the symbol do use the typed view. */
-extern u16 D_800F56F0[];
-
 s32 func_8005A1F4(s32 index)
 {
     SVECTOR output;

@@ -47,6 +47,9 @@
 #include "../game/display_object_work_slots.h"
 #include "../game/display_object_core.h"
 #include "../game/display_object_helpers.h"
+#define D_8009B214_AS_BYTE_POINTER
+#define D_8009B21C_AS_BYTE_POINTER
+#include "../game/func_800179F4.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../game/duel_effect_allocate_request.h"
@@ -56,7 +59,6 @@
 #include "../game/model.h"
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
-#include "../game/func_800179F4.h"
 
 extern u8 D_8009B1B9;
 

@@ -20,6 +20,10 @@
 #include "../unmatched.h"
 #include "duel_screen_tables.h"
 #include "duel_scene_state.h"
+#define D_8009B16C_AS_BYTE_ARRAY
+#include "duel_check_quit_input.h"
+#define D_8009B30C_AS_SIGNED_DATA
+#include "sorted_entry.h"
 #include "debug_effect_screen.h"
 
 /* The developer effect-preview screen: a pad-driven camera and viewport
@@ -28,9 +32,6 @@
    three call each other in that order and are the whole gcc_2_8_1_g8_split
    run between func_80021F80 and func_80022674. */
 
-extern s32 D_8009B30C __attribute__((section(".data")));
-
-extern u8 D_8009B16C[4];
 /* One packed small-data window: byte 0 selects one of the two coordinate
    bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
    unused. Keeping it as one object preserves the retail interior gap. */

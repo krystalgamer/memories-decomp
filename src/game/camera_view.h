@@ -32,7 +32,11 @@
    pad member. */
 extern SVECTOR D_800F5768[CAMERA_POSE_VECTOR_COUNT];
 
+#ifdef D_800F56F0_AS_HALFWORDS
+extern u16 D_800F56F0[];
+#else
 extern GsRVIEW2 D_800F56F0;
+#endif
 
 /* Advance the camera move or follow/orbit the selected model slots. */
 void func_80051A48(void);
