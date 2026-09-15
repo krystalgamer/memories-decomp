@@ -24,7 +24,7 @@
  * following jump's slot, where retail has it. Each alone breaks the length in
  * the opposite direction -- the arm alone is 281 instructions and the store
  * order alone is 279 -- so neither reads as an improvement until both are
- * applied. What is left is register allocation and constant spelling, not
+ * applied. What is left is register allocation, not
  * placement: the opcode multiset distance is 0, taken over the encoded opcode
  * fields rather than over a disassembler's rendering. objdump prints both the
  * addiu and ori forms of a constant load as li, and a census read off that
@@ -87,7 +87,6 @@ void DuelScene_UpdateExodiaResult(void)
     u8 *cards;
     u8 *poses;
     DisplayObject **objs;
-    void (*fn)(void);
     s32 fnv;
     DuelCardReplayRecordBlock *g;
     s32 py;
