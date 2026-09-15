@@ -122,7 +122,7 @@ class MatchingSourceContractTests(unittest.TestCase):
             source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="stopz",
         ))
 
-    def test_gte_macro_family_accepts_only_its_official_expansions(self) -> None:
+    def test_gte_macro_family_accepts_only_reviewed_expansions(self) -> None:
         source = (
             '__asm__ volatile ( "lwc2 $0, 0( %0 );" '
             '"lwc2 $1, 4( %0 )" : : "r"( vertex ) ) ;\n'
@@ -140,6 +140,13 @@ class MatchingSourceContractTests(unittest.TestCase):
             ': : "r"( depth ) : "$12", "memory" ) ;\n'
             '__asm__ volatile ( "mtc2 %0, $12;" "mtc2 %2, $14;" '
             '"mtc2 %1, $13" : : "r"( xy0 ), "r"( xy1 ), "r"( xy2 ) ) ;\n'
+            '__asm__ volatile ( "mtc2 %0, $0;" "mtc2 %1, $1" '
+            ': : "r"( vxy ), "r"( vz ) ) ;\n'
+            '__asm__ volatile ( "mtc2 %0, $6" : : "r"( rgb_word ) ) ;\n'
+            '__asm__ volatile ( "cfc2 %0, $31;" "nop" : "=r"( flag_word ) ) ;\n'
+            '__asm__ volatile ( "mfc2 %0, $8" : "=r"( ir0 ) ) ;\n'
+            '__asm__ volatile ( "mfc2 %0, $19" : "=r"( sz3 ) ) ;\n'
+            '__asm__ volatile ( ".word 0x0000107f" ) ;\n'
             '__asm__ volatile ( "nop;" "nop;" ".word 0x0000117f" ) ;\n'
             '__asm__ volatile ( "swc2 $24, 0( %0 )" '
             ': : "r"( &z ) : "memory" ) ;\n'
@@ -151,14 +158,31 @@ class MatchingSourceContractTests(unittest.TestCase):
         for candidate in (
             source.replace("$19", "$18", 1),
             source.replace(
-                '__asm__ volatile ( "nop;" "nop;" '
-                '".word 0x00000fff" ) ;\n',
-                "",
+                '__asm__ volatile ( "mtc2 %0, $0;" "mtc2 %1, $1" ',
+                '__asm__ volatile ( "mtc2 %0, $2;" "mtc2 %1, $1" ',
             ),
             source + 'asm("nop");\n',
         ):
             with self.subTest(candidate=candidate):
                 self.assertTrue(uses_disallowed_psyq_gte_asm(candidate))
+
+    def test_gte_macro_family_accepts_cop2_bridge_subset(self) -> None:
+        source = (
+            '__asm__ volatile ( "mtc2 %0, $6" : : "r"( rgb )) ;\n'
+            '__asm__ volatile ( "mtc2 %0, $0;" "mtc2 %1, $1" '
+            ': : "r"( vxy ), "r"( vz )) ;\n'
+            '__asm__ volatile ( "cfc2 %0, $31;" "nop" : "=r"( flag )) ;\n'
+            '__asm__ volatile ( "mfc2 %0, $8" : "=r"( ir0 )) ;\n'
+            '__asm__ volatile ( "mfc2 %0, $19" : "=r"( sz3 )) ;\n'
+            '__asm__ volatile ( ".word 0x0000107f" ) ;\n'
+        )
+        self.assertFalse(uses_disallowed_psyq_gte_asm(source))
+        self.assertEqual(source_violations(
+            source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="gte",
+        ), [])
+        self.assertTrue(uses_disallowed_psyq_gte_asm(
+            source.replace("mfc2 %0, $19", "mfc2 %0, $18")
+        ))
 
     def test_macro_profile_requires_known_explicit_allowance(self) -> None:
         validate_effective_profile({

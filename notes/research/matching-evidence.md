@@ -6444,28 +6444,23 @@ exactly:
 | `avsz3` | `4b58002d` |
 | `avsz4` | `4b68002e` |
 
-So the gap is narrow: the encodings are reachable from GNU as, and only the
-DMPSX marker words are untranslated. Closing it means rewriting the known
-markers on the way to the assembler — the optional per-profile
-`assembly_filter` hook already exists for exactly this kind of bridging, and
-is currently unused by every profile. Do not "fix" it by editing the imported
-SDK header, which is correct for the assembler it was written for.
+The gap was narrow: GNU as accepted the native encodings, while the DMPSX
+marker words were untranslated. The per-profile `assembly_filter` hook was
+added for this bridge; the imported SDK headers remain unchanged because they
+are correct for their original assembler.
 
-Until then, treat a target containing any of the eight words above as blocked
-at the toolchain, not at the source. That is a different conclusion from the
-usual "the residual is N instructions": there is no candidate to refine,
-because the command cannot be spelled at all.
+Targets using a command outside the reviewed filter set remain blocked at the
+toolchain rather than at source shape. Reviewed commands can now proceed to
+ordinary candidate refinement.
 
-`gcc_2_8_1_g8_split_psyq_gte` now bridges the three commands the HMD triangle
-driver needs. Its `tools/project/normalize_psyq_gte.py` filter rewrites the
-RTPS, NCDS and NCLIP markers to `4a180001`, `4ae80413` and `4b400006`, and
-fails on any other marker, so an untranslated command still cannot assemble
-silently. The `func_80033DB0` candidate builds under it at 672/672 with 18
-differing words, all one allocation swap. Splitting each 12-halfword cursor
-stride into `rec += 11; rec++;` preserves the retail `addiu 24` and changes
-the allocator tie, producing an exact match. Matching-source validation now
-has a separate strict GTE family for those official expansions. RTPT, NCCS,
-NCCT, AVSZ3 and AVSZ4 remain untranslated.
+`gcc_2_8_1_g8_split_psyq_gte` now bridges RTPS, NCDS, NCCS and NCLIP. Its
+`tools/project/normalize_psyq_gte.py` filter rewrites the markers to
+`4a180001`, `4ae80413`, `4b08041b` and `4b400006`, and fails on every other
+marker so untranslated commands cannot assemble silently. The matching-source
+family also permits only the exact compiler-allocated scalar COP2 templates in
+`src/psyq/cop2.h`; arbitrary statement assembly remains rejected. A named
+no-strength-reduce variant supports software-pipelined handlers. RTPT, NCCT,
+AVSZ3 and AVSZ4 remain untranslated.
 ## objdump hides identical runs, and a text column can drift off its bytes
 
 Three earlier entries here record measurement bugs in the comparison itself -

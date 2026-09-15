@@ -1738,14 +1738,16 @@ The accepted `gcc_2_8_1_g8_split_psyq_rtps` profile now uses
 
 This is not a general GTE allowance. The RTPS profiles still accept only the
 exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions. The
-`gcc_2_8_1_g8_split_psyq_gte` profile separately translates RTPS, NCDS and
-NCLIP through `tools/project/normalize_psyq_gte.py`; its matching-source family
-allows only the exact official loads, command markers, result/flag/depth
-stores, SXY3 input and MAC0 getter used by `func_80033DB0`. Source-authored
-assembly and register bindings remain forbidden, and every other command
-marker still needs a separately reviewed bridge. COP2 transfers have native
-assembler encodings, but their use must also satisfy the applicable source
-policy. See [the wireframe match](library-wireframe.md) for the RTPS-only case.
+`gcc_2_8_1_g8_split_psyq_gte` profile separately translates RTPS, NCDS, NCCS
+and NCLIP through `tools/project/normalize_psyq_gte.py`; the no-strength-reduce
+variant supports software-pipelined handlers without changing that command
+translation. Its matching-source family allows the exact reviewed macro
+expansions, including the compiler-allocated scalar transfers in
+`src/psyq/cop2.h`. Bare `_b` command forms are accepted for pipelines that do
+not need the two conservative macro nops. Source-authored assembly outside
+those exact templates and register bindings remain forbidden, and every other
+command marker still needs a separately reviewed bridge. See
+[the wireframe match](library-wireframe.md) for the RTPS-only case.
 
 A matching C conversion must preserve the exact native encoding and
 scheduling. The classification correction neither changes these imported

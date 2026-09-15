@@ -163,16 +163,15 @@ The authoritative inventory carries the positive per-function notes. The
 target was the verified North American executable with SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.
 
-Psy-Q's C inline interfaces cover the GTE operation families, but imported
-command macros contain DMPSX marker words rather than the native words above;
-see the [header caveat](psyq.md#gte-heuristics-and-command-header-caveat).
-The [measured build pipeline](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
-currently passes those markers unchanged through GCC, MASPSX, and GNU as.
-All three reopened functions require at least one affected GTE command, so
-they are presently **toolchain-blocked** as C candidates even though their
-classification remains `unmatched_asm`. That capability statement is
-separate from source origin: it neither proves the functions handwritten nor
-reverses the decision to remove an unsupported exemption.
+Psy-Q's imported command macros contain DMPSX marker words rather than native
+COP2 words; see the
+[header caveat](psyq.md#gte-heuristics-and-command-header-caveat). The
+[measured historical pipeline](research/matching-evidence.md#no-gte-command-instruction-can-currently-be-emitted-from-c)
+passed those markers through unchanged. Reviewed GTE profiles now translate
+RTPS, NCDS, NCCS and NCLIP, and `src/psyq/cop2.h` supplies narrowly sanctioned
+compiler-allocated scalar transfers for software pipelines. Other command
+families remain toolchain-blocked until separately reviewed.
 
-No complete C replacement, game-code edit, function-boundary change, compiler
-profile change, SDK reclassification, or marker translation is claimed here.
+This capability change does not establish source origin or make the reopened
+functions automatic matches. Their classification remains based on each
+function's own code shape and exact build result.

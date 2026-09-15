@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Expand Psy-Q's inline RTPS, NCDS and NCLIP placeholders for the GNU assembler.
+"""Expand reviewed Psy-Q inline GTE placeholders for the GNU assembler.
 
 inline_c.h is written for DMPSX, so its GTE command macros emit marker words
-rather than COP2 encodings. This rewrites the three markers the HMD triangle
-driver uses and rejects every other marker, so an unsupported command cannot
-be assembled silently as data.
+rather than COP2 encodings. This rewrites the reviewed RTPS, NCDS, NCCS and
+NCLIP markers and rejects every other marker, so an unsupported command
+cannot be assembled silently as data.
 """
 
 from __future__ import annotations
@@ -15,6 +15,7 @@ import sys
 PLACEHOLDERS = {
     ".word 0x0000007f": ".word 0x4A180001",  # RTPS
     ".word 0x00000fff": ".word 0x4AE80413",  # NCDS
+    ".word 0x0000107f": ".word 0x4B08041B",  # NCCS
     ".word 0x0000117f": ".word 0x4B400006",  # NCLIP
 }
 # gte_mvmva() adds its sf, mx, v, cv and lm arguments above the 0x13bf marker

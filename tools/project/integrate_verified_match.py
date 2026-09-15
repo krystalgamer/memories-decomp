@@ -91,12 +91,47 @@ PSYQ_GTE_SXY3_LOAD = re.compile(
     r'__asm__ volatile \( "mtc2 %0, \$12;" "mtc2 %2, \$14;" '
     r'"mtc2 %1, \$13" : : "r"\( .+ \), "r"\( .+ \), "r"\( .+ \) \) ;'
 )
+PSYQ_GTE_V0_WORDS_LOAD = re.compile(
+    r'__asm__ volatile \( "mtc2 %0, \$0;" "mtc2 %1, \$1" '
+    r': : "r"\( .+ \), "r"\( .+ \) ?\) ;'
+)
+PSYQ_GTE_RGB_WORD_LOAD = re.compile(
+    r'__asm__ volatile \( "mtc2 %0, \$6" : : "r"\( .+ \) ?\) ;'
+)
+PSYQ_GTE_FLAG_READ = re.compile(
+    r'__asm__ volatile \( "cfc2 %0, \$31;" "nop" '
+    r': "=r"\( [A-Za-z_]\w* \) ?\) ;'
+)
+PSYQ_GTE_IR0_READ = re.compile(
+    r'__asm__ volatile \( "mfc2 %0, \$8" '
+    r': "=r"\( [A-Za-z_]\w* \) ?\) ;'
+)
+PSYQ_GTE_SZ3_READ = re.compile(
+    r'__asm__ volatile \( "mfc2 %0, \$19" '
+    r': "=r"\( [A-Za-z_]\w* \) ?\) ;'
+)
 PSYQ_GTE_NCDS_COMMAND = (
     '__asm__ volatile ( "nop;" "nop;" ".word 0x00000fff" ) ;'
+)
+PSYQ_GTE_NCCS_COMMAND = (
+    '__asm__ volatile ( "nop;" "nop;" ".word 0x0000107f" ) ;'
 )
 PSYQ_GTE_NCLIP_COMMAND = (
     '__asm__ volatile ( "nop;" "nop;" ".word 0x0000117f" ) ;'
 )
+PSYQ_GTE_BARE_COMMANDS = {
+    '__asm__ volatile ( ".word 0x0000007f" ) ;',
+    '__asm__ volatile ( ".word 0x00000fff" ) ;',
+    '__asm__ volatile ( ".word 0x0000107f" ) ;',
+    '__asm__ volatile ( ".word 0x0000117f" ) ;',
+}
+PSYQ_GTE_COMMANDS = {
+    PSYQ_RTPS_COMMAND,
+    PSYQ_GTE_NCDS_COMMAND,
+    PSYQ_GTE_NCCS_COMMAND,
+    PSYQ_GTE_NCLIP_COMMAND,
+    *PSYQ_GTE_BARE_COMMANDS,
+}
 
 
 def splice_c_lines(source: str) -> str:
@@ -428,9 +463,9 @@ def uses_disallowed_psyq_gte_asm(
     allow_symbol_aliases: bool = False,
     tracked_symbol_names: set[str] | None = None,
 ) -> bool:
-    """Allow only the official GTE macro expansions used by the GTE filter."""
+    """Allow only reviewed GTE/COP2 expansions used by the GTE filter."""
     result: list[str] = []
-    commands: set[str] = set()
+    saw_command = False
     for line in splice_c_lines(source).splitlines(keepends=True):
         content = line.rstrip("\r\n")
         normalized = re.sub(r"\s+", " ", content).strip()
@@ -442,28 +477,20 @@ def uses_disallowed_psyq_gte_asm(
             or PSYQ_GTE_RGB_STORE.fullmatch(normalized) is not None
             or PSYQ_GTE_DEPTH_STORE.fullmatch(normalized) is not None
             or PSYQ_GTE_SXY3_LOAD.fullmatch(normalized) is not None
+            or PSYQ_GTE_V0_WORDS_LOAD.fullmatch(normalized) is not None
+            or PSYQ_GTE_RGB_WORD_LOAD.fullmatch(normalized) is not None
+            or PSYQ_GTE_FLAG_READ.fullmatch(normalized) is not None
+            or PSYQ_GTE_IR0_READ.fullmatch(normalized) is not None
+            or PSYQ_GTE_SZ3_READ.fullmatch(normalized) is not None
             or PSYQ_STOPZ_STORE.fullmatch(normalized) is not None
-            or normalized in (
-                PSYQ_RTPS_COMMAND,
-                PSYQ_GTE_NCDS_COMMAND,
-                PSYQ_GTE_NCLIP_COMMAND,
-            )
+            or normalized in PSYQ_GTE_COMMANDS
         )
         if allowed:
-            if normalized in (
-                PSYQ_RTPS_COMMAND,
-                PSYQ_GTE_NCDS_COMMAND,
-                PSYQ_GTE_NCLIP_COMMAND,
-            ):
-                commands.add(normalized)
+            saw_command |= normalized in PSYQ_GTE_COMMANDS
             result.append(" " * len(content) + line[len(content):])
         else:
             result.append(line)
-    return commands != {
-        PSYQ_RTPS_COMMAND,
-        PSYQ_GTE_NCDS_COMMAND,
-        PSYQ_GTE_NCLIP_COMMAND,
-    } or uses_asm_extension(
+    return not saw_command or uses_asm_extension(
         "".join(result),
         allow_register_pins=allow_register_pins,
         allow_symbol_aliases=allow_symbol_aliases,
