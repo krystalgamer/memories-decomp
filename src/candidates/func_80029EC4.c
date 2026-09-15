@@ -3,11 +3,7 @@
 #include "../game/library_runtime.h"
 #include "../game/func_80029EB0.h"
 #include "../game/card_constants.h"
-#include "../psyq/libgs_abi_variants.h"
-
-/* 0x800E9D9C is the second ordering-table pointer. ordering_tables.h declares
-   it `GsOT *`; this unit reads it as a word, so the private spelling stays. */
-extern s32 D_800E9D9C;
+#include "../game/ordering_tables.h"
 
 /*
  * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
@@ -19,6 +15,11 @@ extern s32 D_800E9D9C;
  * D_800EA1E8 address before the colour switch, loads 0xFF in the dispatch
  * branch's delay slot, and sets up the first GsSortGLine call's arguments
  * before the store that precedes it.
+ *
+ * The sprite, line and ordering-table values use their canonical Psy-Q and
+ * game declarations. Packed word stores remain where the source initializes
+ * adjacent SDK fields together; replacing them with separate field stores
+ * changes the candidate.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -33,11 +34,11 @@ extern s32 D_800E9D9C;
    edges with GsSortGLine. */
 void func_80029EC4(void)
 {
-    u8 *p;
-    u8 *q;
+    GsSPRITE *p;
+    GsGLINE *q;
     u8 *pj;
     u8 *pk;
-    s32 ot;
+    GsOT *ot;
     s32 n;
     s32 idx;
     s32 i;
@@ -56,7 +57,7 @@ void func_80029EC4(void)
     s32 e;
     s32 f;
 
-    p = (u8 *)0x1F800320;
+    p = (GsSPRITE *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
     ot = D_800E9D9C;
     if (n < 0) {
@@ -68,24 +69,24 @@ void func_80029EC4(void)
     grey = 0x404040;
     a = n * 178 + 8;
     b = n * 25;
-    *(u16 *)(p + 4) = 8;
-    *(u32 *)(p + 8) = e;
-    *(u32 *)(p + 0x10) = f;
+    p->x = 8;
+    *(u32 *)&p->w = e;
+    *(u32 *)&p->cx = f;
     idx = b * 8;
-    *(u16 *)(p + 6) = idx * 178 + 8;
-    *(u16 *)(p + 0x12) = 0xF7;
-    *(u16 *)(p + 0xE) = 0xF060;
-    *(u32 *)p = 0x8000000;
-    *(u16 *)(p + 0xC) = 0x1B;
+    p->y = idx * 178 + 8;
+    p->cy = 0xF7;
+    *(u16 *)&p->u = 0xF060;
+    p->attribute = 0x8000000;
+    p->tpage = 0x1B;
     do {
         idx = b * 8;
-        *(u16 *)(p + 6) = a;
-        *(u16 *)(p + 6) = a - gGraphics_sViewportY;
+        p->y = a;
+        p->y = a - gGraphics_sViewportY;
         for (i = 0; i < 10; idx += 10, i++) {
-            y = *(s16 *)(p + 6);
+            y = p->y;
             j = idx + 1;
             tb = D_800EA1E8;
-            if (y + *(u16 *)(p + 8) > 0) {
+            if (y + p->w > 0) {
                 if (y >= 0xF0) {
                     goto done;
                 }
@@ -96,23 +97,23 @@ void func_80029EC4(void)
                 do {
                     r = func_80029EB0(tb, j);
                     if (r & 0x80) {
-                        *(u32 *)(p + 0x14) = white;
+                        *(u32 *)&p->r = white;
                         if (r & 1) {
-                            *(u32 *)(p + 0x14) = grey;
+                            *(u32 *)&p->r = grey;
                         }
-                        *(u16 *)(p + 4) = c + 8;
-                        *(u16 *)(p + 0x10) = *(u16 *)(pj + 0x54);
+                        p->x = c + 8;
+                        p->cx = *(u16 *)(pj + 0x54);
                         GsSortFastSprite(p, ot, 2);
                     }
                     if (k < CARD_ID_END) {
                         r = func_80029EB0(tb, k);
                         if (r & 0x80) {
-                            *(u32 *)(p + 0x14) = white;
+                            *(u32 *)&p->r = white;
                             if (r & 1) {
-                                *(u32 *)(p + 0x14) = grey;
+                                *(u32 *)&p->r = grey;
                             }
-                            *(u16 *)(p + 4) = c + 0xA8;
-                            *(u16 *)(p + 0x10) = *(u16 *)(pk + 0x54);
+                            p->x = c + 0xA8;
+                            p->cx = *(u16 *)(pk + 0x54);
                             GsSortFastSprite(p, ot, 2);
                         }
                     }
@@ -123,7 +124,7 @@ void func_80029EC4(void)
                     k++;
                 } while (c < 0x8A);
             }
-            *(u16 *)(p + 6) = *(u16 *)(p + 6) + 0x10;
+            p->y = p->y + 0x10;
         }
         a += 178;
         n++;
@@ -132,47 +133,47 @@ void func_80029EC4(void)
 
 done:
     do {
-        q = (u8 *)0x1F800000;
+        q = (GsGLINE *)0x1F800000;
     } while (0);
     v = D_8009B09C;
-    *(u32 *)q = 0x50000000;
-    q[0xE] = 0;
-    q[0xD] = 0;
-    q[0xC] = 0;
-    q[0x11] = 0;
-    q[0x10] = 0;
-    q[0xF] = 0;
+    q->attribute = 0x50000000;
+    q->b0 = 0;
+    q->g0 = 0;
+    q->r0 = 0;
+    q->b1 = 0;
+    q->g1 = 0;
+    q->r1 = 0;
     v = v & 0x7F;
     do {
         t = D_800EA1E8;
     } while (0);
     switch (v / 32) {
     case 0:
-        q[0xD] = v * 8;
+        q->g0 = v * 8;
         break;
     case 1:
-        q[0xD] = 0xFF;
-        q[0x10] = (v - 0x20) * 8;
+        q->g0 = 0xFF;
+        q->g1 = (v - 0x20) * 8;
         break;
     case 2:
-        q[0xD] = (0x5F - v) * 8;
-        q[0x10] = 0xFF;
+        q->g0 = (0x5F - v) * 8;
+        q->g1 = 0xFF;
         break;
     case 3:
-        q[0x10] = (0x7F - v) * 8;
+        q->g1 = (0x7F - v) * 8;
         break;
     }
-    *(u16 *)(q + 8) = 0;
-    *(u16 *)(q + 4) = *(u16 *)(t + 8) - gGraphics_sViewportX;
+    q->x1 = 0;
+    q->x0 = *(u16 *)(t + 8) - gGraphics_sViewportX;
     y = (u16)*(u16 *)(t + 0xA) - (u16)gGraphics_sViewportY;
-    *(u16 *)(q + 6) = y;
-    *(u16 *)(q + 0xA) = y;
+    q->y0 = y;
+    q->y1 = y;
     GsSortGLine(q, ot, 1);
-    *(u16 *)(q + 8) = 0x140;
+    q->x1 = 0x140;
     GsSortGLine(q, ot, 1);
-    *(u16 *)(q + 0xA) = 0;
-    *(u16 *)(q + 8) = *(u16 *)(q + 4);
+    q->y1 = 0;
+    q->x1 = q->x0;
     GsSortGLine(q, ot, 1);
-    *(u16 *)(q + 0xA) = 0xF0;
+    q->y1 = 0xF0;
     GsSortGLine(q, ot, 1);
 }
