@@ -219,8 +219,9 @@ using that bit; the existing active-transfer helpers test it before calling
 command bits in `D_8009B112`. Its name does not combine the original volatile
 reads or change the range, filter, state, or callback operations.
 
-`func_80013940` interprets its third argument (`position`) and fourth argument
-(`size`) by sign. The matching body in `src/game/file_stream.c` applies:
+`File_SetTransferLocation` interprets its third argument (`position`) and
+fourth argument (`size`) by sign. The matching body in
+`src/game/file_stream.c` applies:
 
 ```c
 file_index = file_flags & FILE_TRANSFER_FILE_INDEX_MASK;

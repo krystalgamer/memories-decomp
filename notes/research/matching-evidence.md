@@ -2405,9 +2405,9 @@ Exact `func_8003D614` confirms a controller with:
 ### Transfer and animation anchors
 
 Exact `File_InitTransferDescriptor` confirms the `0x48`-byte transfer
-descriptor constructor used by `func_80013940`. Public arguments five through
-eight arrive on the stack, and the vertical/configuration argument selects
-direct, negative, or fixed-point initialization behavior.
+descriptor constructor that calls `File_SetTransferLocation`. Public arguments
+five through eight arrive on the stack, and the vertical/configuration
+argument selects direct, negative, or fixed-point initialization behavior.
 
 Exact `func_80019BD0` confirms animation-object fields including:
 
