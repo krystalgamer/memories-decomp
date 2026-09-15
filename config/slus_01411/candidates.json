@@ -251,7 +251,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800528AC.c",
       "target": "src/candidates_target/func_800528AC.S",
-      "candidate_build_sha256": "e5ec52264fcf7779d49ca338441f856324e8a18c541ac63f3373ff1da797bfb0",
+      "candidate_build_sha256": "64b6d71578f1b6636e1e9715bd10750a3c02210d6cd43b24365940de9ae59270",
       "target_bytes_sha256": "db9e4fe41ca52d07bec4c3bf9f62794a9d79a2f9e8ff45cbc6fa6b390472e387",
       "canonical_contract_sha256": "6da9bdb25f9522b8f76c871573ac42cdffe5cc4d1cf8036ed54b9d1ce814c3c7",
       "canonical_contracts": {
