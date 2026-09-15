@@ -26,5 +26,5 @@ void func_80058838(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
         bits[byte_index] |= 1 << (value - byte_index * 8);
     }
     a2.b3 = a1 & 127;
-    func_80058938(a0, a1 & 128, a2, a3, a4, (s32)bits);
+    func_80058938(a0, a1 & 128, a2, a3, a4, bits);
 }
