@@ -51,14 +51,14 @@ void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 flags;
 
     memset(&b, 0, 8);
-    b.vx = *(u16 *)&D_800F56F0.vpx;
-    b.vy = *(u16 *)&D_800F56F0.vpy;
-    b.vz = *(u16 *)&D_800F56F0.vpz;
+    b.vx = D_800F56F0.vpx;
+    b.vy = D_800F56F0.vpy;
+    b.vz = D_800F56F0.vpz;
     a = b;
     memset(&t, 0, 8);
-    t.vx = *(u16 *)&D_800F56F0.vrx;
-    t.vy = *(u16 *)&D_800F56F0.vry;
-    t.vz = *(u16 *)&D_800F56F0.vrz;
+    t.vx = D_800F56F0.vrx;
+    t.vy = D_800F56F0.vry;
+    t.vz = D_800F56F0.vrz;
     b = t;
     state = func_8005F174();
     if (state == 1) {
@@ -131,15 +131,17 @@ have_flags:
         p->eye.start_x = a.vx;
         p->eye.start_y = a.vy;
         p->eye.start_z = a.vz;
-        p->eye.end_x = *(u16 *)(arg1 + 0);
-        p->eye.end_y = *(u16 *)(arg1 + 2);
-        p->eye.end_z = *(u16 *)(arg1 + 4);
+        /* arg1/arg2 now hold a slot's field_DD0 position or &a/&b; both
+           are SVECTOR-shaped. */
+        p->eye.end_x = ((SVECTOR *)arg1)->vx;
+        p->eye.end_y = ((SVECTOR *)arg1)->vy;
+        p->eye.end_z = ((SVECTOR *)arg1)->vz;
         p->target.start_x = b.vx;
         p->target.start_y = b.vy;
         p->target.start_z = b.vz;
-        p->target.end_x = *(u16 *)(arg2 + 0);
-        p->target.end_y = *(u16 *)(arg2 + 2);
-        p->target.end_z = *(u16 *)(arg2 + 4);
+        p->target.end_x = ((SVECTOR *)arg2)->vx;
+        p->target.end_y = ((SVECTOR *)arg2)->vy;
+        p->target.end_z = ((SVECTOR *)arg2)->vz;
         arg3 = (arg3 < 0 ? -arg3 : arg3) * 2;
         if (arg3 > 0xFFFE) {
             p->duration = 0xFFFF;

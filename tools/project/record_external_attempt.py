@@ -629,7 +629,7 @@ def main() -> int:
         from integrate_verified_match import (
             load_tracked_symbol_names,
             uses_asm_extension,
-            uses_disallowed_psyq_rtps_asm,
+            uses_disallowed_psyq_inline_asm,
         )
 
         candidate = resolve_within(root, args.candidate, must_exist=True)
@@ -665,8 +665,9 @@ def main() -> int:
                 tracked_symbol_names=tracked_symbol_names,
             )
             or (
-                uses_disallowed_psyq_rtps_asm(
+                uses_disallowed_psyq_inline_asm(
                     preprocessed_text,
+                    macro_family=profiles[args.profile].get("psyq_inline_macro", "rtps"),
                     allow_register_pins=args.allow_register_pins,
                     allow_symbol_aliases=args.allow_symbol_aliases,
                     tracked_symbol_names=tracked_symbol_names,

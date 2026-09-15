@@ -727,6 +727,12 @@
       "source": "src/game/func_80019CC8.c"
     },
     {
+      "address": "0x8001B0CC",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps",
+      "size": "0xA4",
+      "source": "src/game/func_8001B0CC.c"
+    },
+    {
       "address": "0x8001B170",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x610",
@@ -3769,6 +3775,12 @@
       "source": "src/game/func_80041D60.c"
     },
     {
+      "address": "0x80041E7C",
+      "profile": "gcc_2_8_1_g8_psyq_stopz",
+      "size": "0x114",
+      "source": "src/game/func_80041E7C.c"
+    },
+    {
       "address": "0x80042188",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x654",
@@ -4744,7 +4756,7 @@
       "address": "0x80049DD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/func_80049DD8.c"
+      "source": "src/game/func_80049CF8.c"
     },
     {
       "address": "0x80049EC8",
@@ -4780,7 +4792,7 @@
       "address": "0x8004A2F8",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC4",
-      "source": "src/game/sound_secondary_object_volumes.c"
+      "source": "src/game/sound_spatialization.c"
     },
     {
       "address": "0x8004A3BC",
@@ -4792,7 +4804,7 @@
       "address": "0x8004A43C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/func_8004A43C.c"
+      "source": "src/game/sound_voice_setup.c"
     },
     {
       "address": "0x8004A518",
@@ -4840,7 +4852,7 @@
       "address": "0x8004A940",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1BC",
-      "source": "src/game/func_8004A940.c"
+      "source": "src/game/sound_secondary_object_selection.c"
     },
     {
       "address": "0x8004AAFC",
@@ -5002,7 +5014,7 @@
       "address": "0x8004C77C",
       "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/sound_start_sequence_tracks.c"
+      "source": "src/game/sound_sequence_timing.c"
     },
     {
       "address": "0x8004C84C",

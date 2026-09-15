@@ -7,8 +7,9 @@
 
 /* The record itself, as its typed consumers spell it: func_80029590,
  * func_8002A3CC and func_8002A4A8 open with
- * `LibraryMotionState *state = &D_800EA1E8;`. The type and its offset asserts
- * live in ygo_types.h; only this typed declaration lives here.
+ * `LibraryMotionState *state = &D_800EA1E8;`. func_80029934 includes this
+ * header for the globe wireframe's `globe_radius`. The type and its offset
+ * asserts live in ygo_types.h; only this typed declaration lives here.
  *
  * The same address is also declared as `u8 D_800EA1E8[]` in library_runtime.h.
  * func_8002BAB4 (src/game/library_runtime.c) reads only its first byte and

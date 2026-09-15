@@ -4,9 +4,12 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
+#include "../psyq/sdk_internal.h"
 #define D_8009B142_IN_DATA
 #define D_8009B0C0_IS_VOLATILE
 #include "graphics_frame.h"
+#define D_8009B141_IN_DATA
+#include "fade.h"
 #include "fade_constants.h"
 #include "graphics_frame_buffer.h"
 #include "ordering_tables.h"
@@ -31,8 +34,6 @@ u8 gGraphics_bActiveBuffer;
 GraphicsFrameBuffer *gGraphics_pActiveFrameBuffer;
 s16 gGraphics_sViewportX __attribute__((section(".sbss"))) = 0;
 s16 gGraphics_sViewportY __attribute__((section(".sbss"))) = 0;
-
-extern u8 D_8009B141 __attribute__((section(".data")));
 
 /* Waits for the current GPU/VBlank boundary and publishes the bounded number
    of frame advances consumed by the next game update. */

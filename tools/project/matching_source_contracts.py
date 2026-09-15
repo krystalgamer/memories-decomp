@@ -17,7 +17,7 @@ from integrate_verified_match import (
     profile_g_value,
     strip_c_comments,
     uses_asm_extension,
-    uses_disallowed_psyq_rtps_asm,
+    uses_disallowed_psyq_inline_asm,
     validate_effective_profile,
 )
 from workspace import WorkspaceError, resolve_within
@@ -32,14 +32,16 @@ def source_violations(
     tracked_symbol_names: set[str],
     *,
     allow_psyq_inline_macros: bool = False,
+    psyq_inline_macro: str = "rtps",
 ) -> list[str]:
     text = strip_c_comments(source)
     violations: list[str] = []
     if contains_register_pin(text):
         violations.append("contains a hard-register variable")
     if (
-        uses_disallowed_psyq_rtps_asm(
+        uses_disallowed_psyq_inline_asm(
             source,
+            macro_family=psyq_inline_macro,
             allow_register_pins=True,
             allow_symbol_aliases=True,
             tracked_symbol_names=tracked_symbol_names,
@@ -141,6 +143,7 @@ def audit(root: Path) -> list[str]:
                 preprocessed,
                 tracked_symbol_names,
                 allow_psyq_inline_macros=allow_psyq_inline_macros,
+                psyq_inline_macro=profile.get("psyq_inline_macro", "rtps"),
             ):
                 if violation not in violations:
                     violations.append(violation)

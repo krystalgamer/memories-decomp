@@ -52,6 +52,40 @@ for the patched LIBDS version reported as 4.6.1; other libraries must not be
 identified from 4.7 patterns. Never import catalogues as authoritative labels
 or override conflicting local evidence.
 
+## Header ownership and measured ABI views
+
+Psy-Q declarations belong under [`src/psyq/`](../src/psyq/), including
+address-qualified copies and caller views that deliberately differ from a
+manual's canonical prototype. Game, candidate, and overlay files consume those
+headers; they do not privately redeclare functions classified as `sdk_asm`.
+`make check-psyq-declarations` enforces that boundary against the function
+inventory, and `make check-metadata` runs it on every pull request. The gate
+applies C backslash-newline splicing before comment and conditional handling,
+expands declaration macros, inspects block-local `extern` declarations, and
+resolves explicit `asm` aliases to their SDK link identity. It follows local
+includes from consumer sources so declaration-bearing shared headers outside
+the usual game/candidate/overlay directories cannot bypass ownership, while
+unused headers remain out of scope.
+
+The current inventory has 600 CRT/SDK functions. Psy-Q headers expose 335 named
+entries used or otherwise established by the project; the remaining internal
+assembly functions do not receive speculative prototypes merely to increase
+coverage. Declarations moved from outside the Psy-Q tree use these owners:
+
+| Header | Interface | Why it is not just the manual prototype |
+|---|---|---|
+| [`crt.h`](../src/psyq/crt.h) | `__main`, `__do_global_dtors` | Resident GCC/Psy-Q startup callbacks, identified from the unique `NOHEAP.OBJ` signature. |
+| [`libcd_abi_variants.h`](../src/psyq/libcd_abi_variants.h) | `CdIntToPos_8007E600`, `CdPosToInt_8007E710` | Address-qualified interfaces for the second resident copies of byte-identical LIBCD routines. |
+| [`libgs_abi_variants.h`](../src/psyq/libgs_abi_variants.h) | `GsSortFastSprite`, `GsSortGLine` | The `func_80029EC4` candidate preserves byte-oriented scratchpad pointers and a word-sized ordering-table handle. The canonical typed interfaces remain in `libgs.h`. |
+| [`libgte_abi_variants.h`](../src/psyq/libgte_abi_variants.h) | `NormalClip_800879A0`, `RotAverageNclip3_nom_80089CF0` | Address-qualified aliases preserve locally observed arities while `libgte.h` retains the canonical declarations. |
+| [`libspu_internal.h`](../src/psyq/libspu_internal.h) | `func_80074E60` | Unidentified 32-byte LIBSPU entry immediately preceding the confirmed `_SpuInit`; the address-based name avoids inventing semantics. |
+| [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_80058F10`, `func_800862C0` | Unidentified SDK entries used by the embedded graphics getter and graphics frame setup. Their address-based names and existing ABIs are retained without assigning a library or return meaning. |
+
+Moving a declaration does not authorize normalizing its types. Candidate
+contract hashes include the declaration source and spelling, so ownership
+migrations are remeasured while candidate object fingerprints and the linked
+executable must remain unchanged.
+
 ## Psy-Q signature sweep
 
 Tier 1 evidence used to be gathered one function at a time. It is now produced
@@ -254,24 +288,31 @@ loads `GsOT.tag` at offset `+0x10` and directly calls confirmed `DrawOTag`;
 that linked callee distinguishes it from the `GsDrawOtIO` proposal. Matching
 `Graphics_BeginFrame` now calls it through the canonical `libgs.h` interface.
 
-Two further identifications have unique signatures but caller ABIs that
-contradict the canonical Psy-Q header. They are applied through address-qualified
-aliases in `libgte_abi_variants.h`, preserving the observed calls without
-weakening or changing `libgte.h`.
+Two further identifications originally used address-qualified aliases in
+`libgte_abi_variants.h` to preserve candidate caller views. The projection
+clip helper now uses the canonical three-input declaration directly;
+retained candidates keep their existing views pending separate validation.
 
 | Address | Identity | Blocker |
 |---|---|---|
-| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | The [`func_80041E7C`](../src/candidates/func_80041E7C.c) and [`func_80041F90`](../src/candidates/func_80041F90.c) candidates call the address-qualified `RotAverageNclip3_nom_80089CF0` alias with the four vectors present in retail, while `libgte.h` keeps the canonical three-vector declaration. |
+| `0x80089CF0` | `RotAverageNclip3_nom`, unique `LIBGTE.LIB/NOM_7.OBJ` match | Matching [`func_80041E7C`](../src/game/func_80041E7C.c) uses the canonical three-vector declaration. The retained [`func_80041F90`](../src/candidates/func_80041F90.c) candidate still uses its four-pointer ABI alias; a residual pointer in `$a3` is not evidence of a fourth SDK input. |
 | `0x800879A0` | `NormalClip`, unique `LIBGTE.LIB/SMP_05.OBJ` match | The build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) calls the address-qualified `NormalClip_800879A0` alias with the one pointer present in retail, while `libgte.h` keeps the canonical three-`long` declaration. |
 
-The *parameter types* are a separate question from the name, and for
-`0x80089CF0` they are settled: the two candidates that replaced
-`display_object_projection.c` spell their local prototype
-`long RotAverageNclip3_nom_80089CF0(SVECTOR *, SVECTOR *, SVECTOR *, SVECTOR *)`,
-taking the three the header gives and repeating it for the fourth. This keeps
-the independently confirmed name while documenting the unresolved arity
-difference, and it retires four private structs that described `SVECTOR` a
-field at a time.
+The verified 52-byte routine at `0x80089CF0` reads vector data through
+`$a0`, `$a1`, and `$a2`, never `$a3`. It executes RTPT, AVSZ3, and then NCLIP.
+Using its canonical three-input call removes the need for the projection
+helper's former `$a3` register binding and matches all 276 instruction bytes.
+The fourth pointer in the historical alias was unnecessary at this call site;
+the alias remains unchanged for other retained candidates.
+
+`func_80041E7C` reads GTE data register 24 through official `gte_stopz`, so its
+result is the signed NCLIP area in MAC0, not the depth in OTZ (register 7).
+The packed rotation bytes, full-width geometry offsets, wrapped output
+halfwords, translation `(0, 0, 300)`, and three scratchpad vertices are
+preserved. A 402-case ILP32 witness checks the setup protocol and complete
+scratchpad effects at O0/O2, with five semantic mutations rejected. The local
+retail MIPS comparison covers the same cases; geometry callees are scripted,
+not an implementation of RTPT or NCLIP arithmetic.
 
 ## CRT startup routines
 
@@ -632,7 +673,7 @@ Every row below is now an applied project symbol.
 | `0x800862D0` | `GsGetLs` | Applied from the unique 720-byte `LIBGS.LIB/GS_134.OBJ` signature; walks a coordinate hierarchy through `GsMulCoord2` and `GsMulCoord3` to build the local-screen matrix. |
 | `0x800865A0` | `GsMulCoord2` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX8.OBJ` signature; combines two coordinate frames with `MulMatrix2` and `ApplyMatrixLV`, then adds the translation components. |
 | `0x80086620` | `GsMulCoord3` | Applied from the unique 128-byte `LIBGS.LIB/MATRIX9.OBJ` signature; the `GsMulCoord2` body using `MulMatrix` and `ApplyMatrixLV`. |
-| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion; main-menu entry easing in `MainMenu_UpdateFrontendMenu` (a build-integrated candidate since #3859, [`src/candidates/main_menu/func_80180390.c`](../src/candidates/main_menu/func_80180390.c)) uses it the same way. |
+| `0x800866A0` | `rsin` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point sine output for model and display motion; main-menu entry easing in the binding-free [`MainMenu_UpdateFrontendMenu`](../src/overlays/main_menu/frontend_update.c) uses it the same way. |
 | `0x80086770` | `rcos` | Applied Psy-Q 4.6 identity; matching callers use its 4096-unit fixed-point cosine output alongside `rsin`. |
 | `0x80086810` | `SetFogNearFar` | Applied Psy-Q 4.6 identity; matching campaign-map callers configure near and far depth-cue distances from the current camera projection. |
 | `0x80086DC8` | `InitGeom` | Applied Psy-Q 4.6 identity at offset `0x8` of `LIBGTE.LIB/MSC00.OBJ`; resident startup paths invoke it before further GTE setup. |
@@ -1154,10 +1195,14 @@ redefinition rather than a harmless compatibility choice. Selecting
 change register allocation and the emitted instruction schedule and therefore
 requires an exact-match check. Matching game C now uses `libgte.h` across
 camera, model, duel, display, image-transfer, and spatial-sound paths.
-The two direct GTE-instruction users, now the candidates
-`src/candidates/func_80041E7C.c` and `src/candidates/func_80041F90.c`, also
-include `inline_c.h` for `gte_stopz`. No current matching game C includes
-`inline_c.h`, `inline_o.h` or `gtemac.h`.
+Matching `src/game/func_80041E7C.c` and the retained
+`src/candidates/func_80041F90.c` include `inline_c.h` for `gte_stopz`.
+The matching helper uses `gcc_2_8_1_g8_psyq_stopz`: its compiler and MASPSX
+flags are identical to `gcc_2_8_1_g8`, with no assembly filter. The explicit
+`psyq_inline_macro: "stopz"` allowance accepts only the official volatile
+`swc2 $24` getter with its register operand and memory clobber. The existing
+RTPS allowance stays separate and unchanged; other assembly, register
+bindings, OTZ reads, and missing macro expansions remain rejected.
 
 The remaining files target assembly sources. `inline_s.h` and `gtereg_s.h`
 use C-preprocessor definitions; `inline_s.h` explicitly identifies `aspsx` as
@@ -1725,7 +1770,7 @@ The existing C sources expose several useful starting points:
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `func_800592AC.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |
-| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `func_800592AC.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `func_80052D2C.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`) and the `func_80041E7C`/`func_80041F90` candidates (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
+| Local GTE and GPU function declarations | `libgte.h`, `libgpu.h` | Naming the library functions removed the reason these files had private declarations. `main_run_boot_sequence.c` (`FntLoad`), `func_800592AC.c` and matching `func_800580D4` (`RotMatrix_gte`, `RotMatrixZXY`), `func_8005922C.c` (`RotMatrixYXZ_gte`), `func_80052D2C.c` (`RotMatrix_gte`), `model_slot_properties.c` (`RotTrans`), matching `func_80041E7C` and the retained `func_80041F90` candidate (`RotMatrixZYX_gte`) now take the prototype from the header and cast at the call where the game's own pointer types differ, and the build-integrated [`func_80015EF4` candidate](../src/candidates/func_80015EF4.c) drops its own `RotColorDpq` and `RotMatrixZYX_gte` declarations the same way. Adopting the real return types changed nothing: the build stays byte-identical. |
 | Decoded-audio buffers inside `g_SDValue` | `SpuDecodedData` in `libspu.h` | ABI-compatible migration established in `func_80045054` (now grouped in `src/game/sound_output_state.c`), which passes the `0x1000`-byte region at `g_SDValue+0x53C` to `SpuReadDecodedData`; retain the shared `SDValue` byte-array split because other matching users require narrower views. |
 | Game-owned voice attribute blocks | `SpuVoiceAttr` in `libspu.h` | ABI-compatible migration is established in the candidates `func_8004A43C` and `SD_SetVoiceVolume` (formerly in `sound_voice_setup.c` and `sound_voice_volume.c`), and in `func_80047864` (grouped in `sound_voice_selection.c`), `func_80049CF8` and `func_80049DD8` (formerly in `sound_secondary_playback.c`): each passes a layout-compatible state block or temporary packet to `SpuSetVoiceAttr`; retain the local records because only their submitted fields and masks are proven. |
 | Game-owned common output attribute block | `SpuCommonAttr` in `libspu.h` | ABI-compatible migration is established in `func_8004671C.c`: `func_8004671C` fills its 40-byte local record and passes it to `SpuSetCommonAttr`; retain the local `Entry` layout because only the submitted fields and exact compiler shape are proven. `field14` aligns with `cd.reverb`, but mask `707` omits `SPU_COMMON_CDREV`, so that identity is positional only. |

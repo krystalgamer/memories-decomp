@@ -32,16 +32,19 @@ extern u8 D_8009B145;
  * D_8009AF74[1] (display_object_helpers.h) and take that table's .data
  * arm for the same reason.
  *
- * D_8009B141 needs no second arm here: graphics_frame.c does spell it
- * `.data`, but it does not include this header, so the two never meet. If it
- * ever does, this is where the guarded arm would go. */
+ * graphics_frame.c reaches D_8009B141 with %hi/%lo as well and takes its
+ * .data arm below; every other user keeps the plain small-data arm. */
 #ifdef D_8009B140_IN_DATA
 extern u8 D_8009B140 __attribute__((section(".data")));
 #else
 extern u8 D_8009B140;
 #endif
 
+#ifdef D_8009B141_IN_DATA
+extern u8 D_8009B141 __attribute__((section(".data")));
+#else
 extern u8 D_8009B141;
+#endif
 
 /* The colour a fade is heading for. Fade_Update copies the three into the
  * tint at D_8009B142/143/144 (graphics_frame.h) in address order, with no

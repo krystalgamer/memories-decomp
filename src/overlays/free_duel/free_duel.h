@@ -12,16 +12,11 @@
  * pair is where the pad is steering it, clamped to the grid, and the screen
  * runtime walks the cursor toward the target.
  *
- * gFreeDuel_bReturnFlags used to be left out of this header because the
- * resident callers declare it with an explicit .data section attribute that
- * the overlay callers do not use. That is true, and it does not matter here:
- * the question is not whether a divergent spelling exists but whether any file
- * carrying it includes this header. main_apply_menu_selection.c and
- * debug_menu_mapped_mode.c are
- * the two .data declarers and neither includes free_duel.h -- they are
- * resident units and this header is overlay-local -- so the two spellings
- * never meet and the overlay can share the plain one below. fade.h does the
- * same for D_8009B141 and mem_card.h for D_8009B3D4.
+ * gFreeDuel_bReturnFlags has two spellings. The overlay reaches it through
+ * the plain arm below; the resident writers main_apply_menu_selection.c and
+ * debug_menu_mapped_mode.c address it with %hi/%lo and define
+ * GFREEDUEL_BRETURNFLAGS_IN_DATA to take the .data arm, the same shape fade.h
+ * uses for D_8009B141.
  */
 extern s8 gFreeDuel_bCursorColumn;
 extern s8 gFreeDuel_bCursorRow;
@@ -32,7 +27,11 @@ extern s8 gFreeDuel_bTargetRow;
  * points and reads the byte back on later passes -- 0x80 once and the whole
  * byte against 0 twice -- so the overlay records the reason and acts on it
  * next time round. The two resident writers only ever clear it. */
+#ifdef GFREEDUEL_BRETURNFLAGS_IN_DATA
+extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
+#else
 extern u8 gFreeDuel_bReturnFlags;
+#endif
 
 /* Builds the duelist grid screen, uploading each available duelist's
  * portrait record from `src` to VRAM with LoadImage2 on the way.

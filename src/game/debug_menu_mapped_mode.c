@@ -6,8 +6,8 @@
 #include "debug_menu_mapped_mode.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
-
-extern u8 gFreeDuel_bReturnFlags __attribute__((section(".data")));
+#define GFREEDUEL_BRETURNFLAGS_IN_DATA
+#include "../overlays/free_duel/free_duel.h"
 
 void DebugMenu_EnterMappedMode(void)
 {

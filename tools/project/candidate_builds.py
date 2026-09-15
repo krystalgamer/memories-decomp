@@ -568,9 +568,45 @@ def target_words(candidate: Candidate) -> bytes:
     )
 
 
+def note_candidate_paths(root: Path) -> list[str]:
+    candidates: set[Path] = set()
+    for directory in (
+        root / "notes/candidates",
+        root / "notes/overlays/candidates",
+    ):
+        if not directory.exists():
+            continue
+        candidates.update(directory.rglob("func_*.md"))
+        candidates.update(
+            path
+            for path in directory.rglob("func_*")
+            if path.parent.name == "for_humans"
+        )
+    return sorted(path.relative_to(root).as_posix() for path in candidates)
+
+
+def candidate_code_paths(root: Path) -> tuple[set[str], set[str]]:
+    sources = {
+        path.relative_to(root).as_posix()
+        for path in (root / "src/candidates").rglob("func_*.c")
+    }
+    targets = {
+        path.relative_to(root).as_posix()
+        for path in (root / "src/candidates_target").rglob("func_*.S")
+    }
+    return sources, targets
+
+
 def load_candidates(
     verify_contracts: bool = True,
 ) -> tuple[list[Candidate], dict[str, dict[str, object]]]:
+    note_candidates = note_candidate_paths(ROOT)
+    if note_candidates:
+        raise CandidateBuildError(
+            "candidates must be build-integrated under src/candidates: "
+            f"{note_candidates}"
+        )
+
     configuration = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
     schema = configuration.get("schema")
     if schema not in (1, 2):
@@ -747,25 +783,9 @@ def load_candidates(
         if sha256(target_words(candidate)) != candidate.target_bytes_sha256:
             raise CandidateBuildError(f"{target_relative}: target byte hash differs")
 
-        notes = ROOT / ("notes/candidates" if module is None else "notes/overlays/candidates")
-        note = notes / f"{key}.md"
-        bundle = notes / f"for_humans/{key}"
-        if note.exists() or bundle.exists():
-            raise CandidateBuildError(
-                f"{key}: build-integrated candidates cannot retain note bundles"
-            )
         candidates.append(candidate)
 
-    actual_sources = {
-        path.relative_to(ROOT).as_posix()
-        for pattern in ("func_*.c", "*/func_*.c")
-        for path in SOURCE_DIRECTORY.glob(pattern)
-    }
-    actual_targets = {
-        path.relative_to(ROOT).as_posix()
-        for pattern in ("func_*.S", "*/func_*.S")
-        for path in TARGET_DIRECTORY.glob(pattern)
-    }
+    actual_sources, actual_targets = candidate_code_paths(ROOT)
     if actual_sources != configured_sources:
         raise CandidateBuildError(
             "candidate sources differ: "

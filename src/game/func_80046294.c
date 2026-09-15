@@ -74,7 +74,7 @@ after:
     if ((g_SDValue->flags_0040 & 0x80) != 0) {
         if (g_SDValue->field_157E != -1) {
             if (func_80049F50() == 1) {
-                func_80049C40(g_SDValue->field_157E);
+                SD_StopSequence(g_SDValue->field_157E);
             }
             g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;
         }

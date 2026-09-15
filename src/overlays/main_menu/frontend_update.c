@@ -1,16 +1,4 @@
-/*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g0_split this source
- * rebuilt the target byte for byte, but only by pinning 5 variables to hard
- * registers, so it is kept here as a candidate rather than counted as a
- * decompilation. It was src/overlays/main_menu/frontend.c.
- */
-/* The front-end menu: the wheel of eleven entries the module opens on, its
- * scrolling background, the slide transition that parks and recentres the
- * entries, and the afterimage sprites the moving entries leave behind.
- *
- * `gInput_wPad1Pressed` is read volatile for this whole unit.
- * MainMenu_UpdateFrontendMenu is the only reader; the declaration has to
- * precede the include, so it sits at the top of the file. */
+/* Each input branch samples the pressed-pad word independently. */
 #define GINPUT_PAD1_PRESSED_IS_VOLATILE
 #include "../../types.h"
 #include "../../game/two_player_save_setup.h"
@@ -43,14 +31,11 @@ s32 MainMenu_UpdateFrontendMenu(void)
     u8 **slot2;
     s32 step;
     s32 level;
-    /* These disjoint lifetimes deliberately share the retail argument/result
-       registers; ordinary temporaries invert the loads and multiply result. */
-    register u32 countdown __asm__("$5");
-    register s32 timer __asm__("$2");
-    register s32 value __asm__("$2");
+    s16 timer;
+    s32 value;
     s32 frame;
-    register s32 first __asm__("$3");
-    register s32 product __asm__("$3");
+    s32 first;
+    s32 product;
     s32 delta;
     s32 moved;
     s32 i;
@@ -64,7 +49,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     u8 *ent5;
     s32 poll;
     u8 *ent2;
-    u8 *eloop;
+    DisplayObject *eloop;
 
     if (D_8018459B != 0) {
         poll = SaveData_PollLoad();
@@ -192,18 +177,19 @@ s32 MainMenu_UpdateFrontendMenu(void)
         i = 0;
         slot = gMain_apMenuEntries;
     entry_loop:
-        eloop = *slot;
+        eloop = (DisplayObject *)*slot;
         if (eloop == 0) {
             goto next_entry;
         }
-        timer = *(s16 *)(eloop + 0x60);
-        countdown = *(u16 *)(eloop + 0x60);
+        timer = eloop->field_60;
+        step = (u16)eloop->field_60;
         if (timer <= 0) {
             goto next_entry;
         }
-        timer = countdown - 1;
-        ((DisplayObject *)eloop)->field_60 = timer;
-        if ((u32)gMain_bMenuID < 5) {
+        timer = step - 1;
+        eloop->field_60 = timer;
+        first = (u32)gMain_bMenuID < 5;
+        if (first) {
             if (i >= 5) {
                 goto hide_entry;
             }
@@ -213,20 +199,26 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 goto hide_entry;
             }
         }
-        eloop = *slot;
-        first = *(s16 *)(eloop + 0x38);
-        value = *(s16 *)(eloop + 0x36);
+        eloop = (DisplayObject *)*slot;
+        first = eloop->field_38.h.field_38;
+        value = eloop->field_34.h.field_36;
         delta = first - value;
-        value = *(s16 *)(eloop + 0x60);
-        frame = 0x10 - value;
-        value = *(u16 *)(eloop + 0x38);
-        if (frame != 0x10) {
+        value = eloop->field_60;
+        /* Keep the selector/endpoint scratch live as the phase limit. */
+        first = 0x10;
+        frame = first - value;
+        value = (u16)eloop->field_38.h.field_38;
+        if (frame != first) {
             product = rsin(frame << 6) * delta;
-            eloop = *slot;
-            product /= 0x1000;
-            value = *(u16 *)(eloop + 0x36) + product;
+            eloop = (DisplayObject *)*slot;
+            /* In-place truncation avoids the old compiler's quotient copy. */
+            if (product < 0) {
+                product += 0xFFF;
+            }
+            product >>= 12;
+            value = (u16)eloop->field_34.h.field_36 + product;
         }
-        *(volatile s16 *)(eloop + 0x30) = value;
+        *(volatile s16 *)&eloop->field_30.h.field_30 = value;
         if ((frame & 1) != 0) {
             MainMenu_SpawnFrontendEntryAfterimage(*slot);
         }
@@ -238,7 +230,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             *(u16 *)(*slot + 8) & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     tick_entry:
         moved++;
-        func_80040410(*slot, (i << 1) | (gMain_bMenuID != i));
+        func_80040410((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
     next_entry:
         i++;
         slot++;
@@ -296,14 +288,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
         } else {
             count = 6;
         }
-        func_80040410(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+        func_80040410((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         /* Keep the store in each arm: the join controls high-half reuse. */
         if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
         } else {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
         }
-        func_80040410(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+        func_80040410((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
         goto ret_m1;
     }
@@ -343,6 +335,5 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
     MainMenu_StartFrontendEntryTransition(1);
 ret_m1:
-    return -1;
     return -1;
 }

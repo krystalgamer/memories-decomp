@@ -8,8 +8,17 @@ then projects paired points and submits vertical stripe segments.
 The `LINE_G3` packet is at scratchpad `0x1F800000`, four `SVECTOR` inputs
 begin at `0x1F800038`, and the control words are at `0x1F800060`. The centre
 copy reads eight bytes from the view buffer at `0x80181000`. Its literal
-`lui`/`ori` address construction and alignment-one `Bytes8` copy preserve the
-retail unaligned load/store pairs. The axis helpers' shared header records
+`lui`/`ori` address construction and `SVECTOR` struct copy preserve the
+retail unaligned load/store pairs. `SVECTOR`'s alignment of 2 lowers to the
+same two `lwl`/`lwr` and `swl`/`swr` pairs as the alignment-one `Bytes8` spelling
+it replaced. The packet, vectors and control words are written through their
+`LINE_G3`, `SVECTOR` and `long` members. Three exceptions remain: the colour
+words, written through `*(s32 *)&prim->rN`; the three scratch `vy` clears,
+kept on absolute addresses because member stores through the vector pointers
+reorder the setup; and the unsigned `(u16)` first read of `y0`, which is
+retail's `lhu`. The globe radius is `LibraryMotionState.globe_radius`, the
+halfword at `D_800EA1E8 + 0x10`, read through `func_8002A3CC.h`'s typed
+declaration. No other C code reads that halfword. The axis helpers' shared header records
 their actual packet, ordering-table, vector, and control-pointer signatures.
 
 ## Exact source shape
