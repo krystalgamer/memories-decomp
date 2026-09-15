@@ -103,16 +103,17 @@ void func_80017708(void) {
 
 void func_8001778C(void)
 {
-    u8 *entry = (u8 *)D_801A7AD8;
+    DuelCardRecord *entry = D_801A7AD8;
     int i = 0;
-    u8 *field_16 = entry + 0x16;
+    u16 *flags = &entry->flags;
 
     do {
-        *(int *)entry = 0;
-        *(int *)(field_16 - 0x12) = 0;
-        *(u16 *)field_16 = 0;
-        field_16 += sizeof(DuelCardRecord);
+        *(s32 *)&entry->object = 0;
+        /* The data clear stays relative to the flags cursor for allocation. */
+        *(s32 *)(flags - 9) = 0;
+        *flags = 0;
+        flags = (u16 *)((u8 *)flags + sizeof(DuelCardRecord));
         i++;
-        entry += sizeof(DuelCardRecord);
+        entry++;
     } while (i < DUEL_CARD_RECORD_COUNT);
 }
