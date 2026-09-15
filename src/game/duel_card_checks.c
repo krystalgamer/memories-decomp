@@ -42,7 +42,7 @@ s32 Duel_CheckFusion(s32 arg0, s32 arg1)
         arg1 = arg0;
         arg0 = t;
     }
-    off = *(u16 *)(base + arg0 * 2);
+    off = ((u16 *)base)[arg0];
     if (off == 0) {
         return 0;
     }
