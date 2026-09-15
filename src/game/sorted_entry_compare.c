@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80035598.h"
+#include "sorted_entry_compare.h"
 
 int SortedEntry_Compare(const u32 *left, const u32 *right)
 {

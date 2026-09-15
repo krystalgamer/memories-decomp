@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "sorted_entry.h"
-#include "func_80035598.h"
+#include "sorted_entry_compare.h"
 #include "../psyq/qsort.h"
 
 /* Use the historical PSYQ declaration, whose comparator has unspecified args. */
