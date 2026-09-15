@@ -26,7 +26,7 @@
  * (BuildDeck_HasOpenDeckSlot), bit 14 of the state word at +0x633E is set, a
  * confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of D_8009B2F8, the narrow one
- * otherwise, which is then waited on until its +0x30 pointer is filled),
+ * otherwise, which is then waited on until its field_30 pointer is filled),
  * Fade_SetTargetLevel(0xA0, 2) runs and D_8009B140 is set from D_8009AF74[1] - 8.
  * With bit 14 set the effect channel at D_800EB0F8 is polled: once its flags
  * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
@@ -40,7 +40,7 @@
 void func_800339D0(BuildDeckTransitionState *record)
 {
     BuildDeckTransitionState *workspace = record;
-    u8 *box;
+    DuelEffectChannel *box;
     u8 *src;
     u8 *dst;
     u16 *slot;
@@ -56,15 +56,15 @@ void func_800339D0(BuildDeckTransitionState *record)
             mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
             workspace->state |= 0x4000;
             if (mode) {
-                ((u8 *)TextBox_CreateFlagged(
+                ((DuelEffectChannel *)TextBox_CreateFlagged(
                     0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
-                ))[0x59] = 0xA;
+                ))->field_59 = 0xA;
             } else {
                 box = TextBox_CreateFlagged(0, 9, 0x30, 0x60, 0xE0, 0x30, 0x20);
-                box[0x59] = 0xA;
+                box->field_59 = 0xA;
                 do {
                     func_80039794();
-                } while (*(s32 *)(box + 0x30) == 0);
+                } while (box->field_30 == 0);
             }
             Fade_SetTargetLevel(0xA0, 2);
             D_8009B140 = *(u8 *)&D_8009AF74[1] - 8;
@@ -77,10 +77,10 @@ void func_800339D0(BuildDeckTransitionState *record)
         func_80039794();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
-        box = (u8 *)D_800EB0F8;
-        if ((*(u32 *)(box + 0x34) & TEXT_BOX_COMPLETION_MASK) ==
+        box = D_800EB0F8;
+        if ((*(u32 *)&box->flags_34 & TEXT_BOX_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
-            TextBox_Destroy(box);
+            TextBox_Destroy((u8 *)box);
             if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
                 gDialog_bChoice != 0) {
                 workspace->state &= 0xBFFF;
