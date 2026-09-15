@@ -12,13 +12,10 @@ extern s32 D_800E9D9C;
 /*
  * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
  * encoding distance 0. Compiled to an object and compared word for word with
- * the assembled target, 61 of 268 words differ, all placement and register
- * choices. Retail completes 0xF70130's ori only after reloading b,
- * materialises 0x8000000 before the first row store, and reloads b ahead of
- * the viewport read at the loop head. In the cursor tail it takes the
- * D_800EA1E8 address before the colour switch, loads 0xFF in the dispatch
- * branch's delay slot, and sets up the first GsSortGLine call's arguments
- * before the store that precedes it.
+ * the assembled target, 20 of 268 words differ, all placement and register
+ * choices. The remaining prologue residual is the placement of 0x8000000's
+ * lui. The cursor switch is exact; the tail residual is confined to the first
+ * GsSortGLine argument and coordinate setup.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -52,9 +49,12 @@ void func_80029EC4(void)
     s32 y;
     s32 v;
     u8 *t;
+    s32 m;
     u8 *tb;
     s32 e;
     s32 f;
+    s32 b8;
+    s32 frame_value;
 
     p = (u8 *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
@@ -69,12 +69,13 @@ void func_80029EC4(void)
     a = n * 178 + 8;
     b = n * 25;
     *(u16 *)(p + 4) = 8;
+    b8 = b * 8;
+    *(u16 *)(p + 6) = b8 * 178 + 8;
     *(u32 *)(p + 8) = e;
     *(u32 *)(p + 0x10) = f;
-    idx = b * 8;
-    *(u16 *)(p + 6) = idx * 178 + 8;
     *(u16 *)(p + 0x12) = 0xF7;
     *(u16 *)(p + 0xE) = 0xF060;
+    do { } while (0);
     *(u32 *)p = 0x8000000;
     *(u16 *)(p + 0xC) = 0x1B;
     do {
@@ -134,37 +135,38 @@ done:
     do {
         q = (u8 *)0x1F800000;
     } while (0);
-    v = D_8009B09C;
-    *(u32 *)q = 0x50000000;
+    frame_value = D_8009B09C;
+    *(u32 *)q = (r = 0x50000000);
     q[0xE] = 0;
     q[0xD] = 0;
-    q[0xC] = 0;
-    q[0x11] = 0;
+    q[0x11] = (q[0xC] = 0);
     q[0x10] = 0;
     q[0xF] = 0;
-    v = v & 0x7F;
-    do {
-        t = D_800EA1E8;
-    } while (0);
-    switch (v / 32) {
+    do { } while (0);
+    m = frame_value & 0x7F;
+    t = (u8 *)D_800EA1E8;
+    switch (m / 32) {
     case 0:
-        q[0xD] = v * 8;
+        q[0xD] = m * 8;
         break;
     case 1:
         q[0xD] = 0xFF;
-        q[0x10] = (v - 0x20) * 8;
-        break;
+        v = m - 0x20;
+        goto shared;
     case 2:
-        q[0xD] = (0x5F - v) * 8;
+        q[0xD] = (0x5F - m) * 8;
         q[0x10] = 0xFF;
         break;
     case 3:
-        q[0x10] = (0x7F - v) * 8;
+        v = 0x7F - m;
+    shared:
+        q[0x10] = v * 8;
         break;
     }
+    k = gGraphics_sViewportY;
     *(u16 *)(q + 8) = 0;
     *(u16 *)(q + 4) = *(u16 *)(t + 8) - gGraphics_sViewportX;
-    y = (u16)*(u16 *)(t + 0xA) - (u16)gGraphics_sViewportY;
+    y = *(u16 *)(t + 0xA) - k;
     *(u16 *)(q + 6) = y;
     *(u16 *)(q + 0xA) = y;
     GsSortGLine(q, ot, 1);
