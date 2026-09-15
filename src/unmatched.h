@@ -612,7 +612,6 @@ extern u8 D_800EAE8E[];
 extern u8 D_800EF6E0[];
 extern s16 D_800F2B22;
 extern s32 D_800F56FC[];
-extern u8 D_800F5750[];
 #ifdef D_80177EA4_VISIBLE
 extern RECT D_80177EA4[];
 #endif
