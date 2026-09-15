@@ -1,10 +1,6 @@
-/* Reclassified from matching_c (#3859). This was
- * src/game/sound_voice_volume.c, byte-exact only under
- * gcc_2_8_1_cc_g8_as_g0_split, whose compiler and assembler disagree about
- * small data (GCC -G8, MASPSX -G0), and with 1 variable pinned to hard
- * registers. Under gcc_2_8_1_g0_split, a single threshold, it is 31 of 31
- * instructions with 2 differing, opcode distance 0. The source below is the
- * match, unchanged apart from its include paths. */
+/* Reclassified from matching_c (#3859). Under the valid uniform
+ * gcc_2_8_1_g0_split profile this binding-free source is 31 of 31
+ * instructions with eight differing words and opcode distance 0. */
 #include "../types.h"
 #include "../psyq/libspu.h"
 #include "../game/sound.h"
@@ -15,24 +11,21 @@
  * VOLL|VOLR|VOLMODEL|VOLMODER; volmode is cleared so both channels stay in
  * direct mode, and the 7.7 products are shifted back down by 7.
  *
- * The right-channel master is pinned to $a1. Every source shape tried left it
- * in $v0 and the product in $a1, which also sank the voice store below the
- * volume.left store: reusing the dead `left` parameter to hold it, a u16
- * local, a separate local read before the first multiply, a u16 pointer
- * indexed [0]/[1], computing `r` before `l`, and both operand orders of the
- * second multiply. All nine gave the same allocation and the same swap.
+ * Chaining the right-channel master through `r` keeps that load and multiply
+ * in retail's $a1. The remaining differences are the root pointer's split
+ * address register and the two multiply-result registers.
  */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right) {
     u8 *b;
-    register s32 master_right asm("$5");
+    s32 master_right;
     s32 l;
     s32 r;
     s32 v;
 
     b = (u8 *)D_8009B458;
     l = left * *(u16 *)(b + 0x514);
-    master_right = *(u16 *)(b + 0x516);
-    r = right * master_right;
+    master_right = (r = *(u16 *)(b + 0x516));
+    r = right * r;
     *(s16 *)(b + 0x4CC) = SPU_VOICE_DIRECT;
     *(s16 *)(b + 0x4CE) = SPU_VOICE_DIRECT;
     v = D_80011434[voice];
