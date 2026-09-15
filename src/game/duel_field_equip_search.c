@@ -98,7 +98,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1,
     return count;
 }
 
-s32 func_80026DC8(void) {
+s32 Duel_SelectEquipPair(void) {
     DuelCardRecord *a[DUEL_FIELD_ROW_SIZE + 1];
     DuelCardRecord *b[DUEL_FIELD_ROW_SIZE + 1];
     DuelCardRecord **q;

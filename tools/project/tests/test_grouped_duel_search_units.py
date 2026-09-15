@@ -34,7 +34,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
             "s32 Duel_FindFreeFieldSlot(",
             "s32 Duel_CollectFieldCardsBelowType(",
             "s32 Duel_CollectFieldCardsByType(",
-            "s32 func_80026DC8(",
+            "s32 Duel_SelectEquipPair(",
         )
         positions = [field_source.index(name) for name in field_names]
         self.assertEqual(positions, sorted(positions))

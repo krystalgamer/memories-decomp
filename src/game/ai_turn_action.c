@@ -131,7 +131,7 @@ s32 func_80027508(void) {
     DuelCardRecord *card;
     s32 slot;
 
-    if ((rand() & 1) == 0 && func_80026DC8() == 0) {
+    if ((rand() & 1) == 0 && Duel_SelectEquipPair() == 0) {
         return 0;
     }
     if ((rand() & 1) == 0 && func_80027060() == 0) {
