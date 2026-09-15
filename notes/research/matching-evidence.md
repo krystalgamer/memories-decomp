@@ -6453,6 +6453,15 @@ Until then, treat a target containing any of the eight words above as blocked
 at the toolchain, not at the source. That is a different conclusion from the
 usual "the residual is N instructions": there is no candidate to refine,
 because the command cannot be spelled at all.
+
+`gcc_2_8_1_g8_split_psyq_gte` now bridges the three commands the HMD triangle
+driver needs. Its `tools/project/normalize_psyq_gte.py` filter rewrites the
+RTPS, NCDS and NCLIP markers to `4a180001`, `4ae80413` and `4b400006`, and
+fails on any other marker, so an untranslated command still cannot assemble
+silently. The `func_80033DB0` candidate builds under it at 672/672 with 18
+differing words, all one allocation swap. RTPT, NCCS, NCCT, AVSZ3 and AVSZ4
+remain untranslated, and matching-source validation still accepts only the
+RTPS and STOPZ macro families.
 ## objdump hides identical runs, and a text column can drift off its bytes
 
 Three earlier entries here record measurement bugs in the comparison itself -
