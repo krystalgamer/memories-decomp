@@ -41,13 +41,16 @@ void func_8005D994(
     }
 
     if (arg4 != (u8 *)0) {
+        SVECTOR *offset = (SVECTOR *)arg4;
+
         m = -1;
         if (arg0 <= 0) {
             m = 1;
         }
-        a[0] = a[0] + *(s16 *)(arg4 + 0) * m;
-        a[1] = a[1] + *(u16 *)(arg4 + 2);
-        a[2] = a[2] + *(s16 *)(arg4 + 4) * m;
+        a[0] = a[0] + offset->vx * m;
+        /* Retail zero-extends only the middle component. */
+        a[1] = a[1] + *(u16 *)&offset->vy;
+        a[2] = a[2] + offset->vz * m;
     }
 
     b[0] = arg1;
