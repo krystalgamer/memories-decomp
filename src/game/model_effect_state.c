@@ -95,13 +95,14 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 }
 
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
-   its first control point, from the two source records func_800591FC and
-   func_80059208 return, and optionally replays up to two channel records
-   from D_8009B074 into the model slots. This is the seed half of the ring
-   the evaluator reads, which is why the two share a translation unit. */
+   its first control point, from the two source records returned by
+   Model_GetCameraViewBuffer and func_80059208, and optionally replays up to
+   two channel records from D_8009B074 into the model slots. This is the seed
+   half of the ring the evaluator reads, which is why the two share a
+   translation unit. */
 void func_8005F070(s32 enabled)
 {
-    GsRVIEW2 *left = func_800591FC();
+    GsRVIEW2 *left = Model_GetCameraViewBuffer();
     u16 *right = func_80059208();
 
     D_800F5768[0].vx = left->vpx;
@@ -236,7 +237,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
 
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
-    unsigned short *p = func_800591FC();
+    unsigned short *p = Model_GetCameraViewBuffer();
     unsigned short *q = func_80059208();
     if (D_8009B07B == 1 && D_8009B07C == 1)
         return;

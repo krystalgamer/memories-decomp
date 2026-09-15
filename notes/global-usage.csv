@@ -2833,7 +2833,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,D_800F56F0 = *(GsRVIEW2 *)m; | b = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &D_800F56F0.vpx;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,func_80058624,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,func_800591FC,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
+0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,Model_GetCameraViewBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)

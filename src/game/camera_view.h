@@ -42,9 +42,9 @@ extern GsRVIEW2 D_800F56F0;
 void func_80051A48(void);
 
 /* Returns &D_800F56F0. void * for the same reason as func_80059208: it is
-   what the definition returns, and its three callers each converted it to
-   something different on arrival. */
-void *func_800591FC(void);
+   what the definition returns, and callers consume the shared buffer as
+   GsRVIEW2, halfword, or byte-oriented views. */
+void *Model_GetCameraViewBuffer(void);
 extern GsRVIEW2 D_800F5710;
 
 /* 0x800F56A0, the GsCOORDUNIT func_800530C4 rebuilds in the block after its

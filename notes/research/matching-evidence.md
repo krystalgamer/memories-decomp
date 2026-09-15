@@ -7132,7 +7132,8 @@ declaration was misinformation rather than a lever. This is the class the
 `sound_voice_selection.h` review already called out: the build cannot tell you
 about a return type nobody uses, so only reading the definition finds these.
 
-**A `void *` definition with typed consumer declarations.** `func_800591FC`,
+**A `void *` definition with typed consumer declarations.**
+`Model_GetCameraViewBuffer`,
 `func_80059208` and `func_80059520` are each defined `void *` and declared
 `unsigned short *` or `u8 *` by their callers. Nothing complains because
 `void *` converts silently to any of them, so every spelling "works" and none
