@@ -76,7 +76,6 @@ coverage. Declarations moved from outside the Psy-Q tree use these owners:
 |---|---|---|
 | [`crt.h`](../src/psyq/crt.h) | `__main`, `__do_global_dtors` | Resident GCC/Psy-Q startup callbacks, identified from the unique `NOHEAP.OBJ` signature. |
 | [`libcd_abi_variants.h`](../src/psyq/libcd_abi_variants.h) | `CdIntToPos_8007E600`, `CdPosToInt_8007E710` | Address-qualified interfaces for the second resident copies of byte-identical LIBCD routines. |
-| [`libgs_abi_variants.h`](../src/psyq/libgs_abi_variants.h) | `GsSortFastSprite`, `GsSortGLine` | The `func_80029EC4` candidate preserves byte-oriented scratchpad pointers and a word-sized ordering-table handle. The canonical typed interfaces remain in `libgs.h`. |
 | [`libgte_abi_variants.h`](../src/psyq/libgte_abi_variants.h) | `NormalClip_800879A0`, `RotAverageNclip3_nom_80089CF0` | Address-qualified aliases preserve locally observed arities while `libgte.h` retains the canonical declarations. |
 | [`libspu_internal.h`](../src/psyq/libspu_internal.h) | `func_80074E60` | Unidentified 32-byte LIBSPU entry immediately preceding the confirmed `_SpuInit`; the address-based name avoids inventing semantics. |
 | [`sdk_internal.h`](../src/psyq/sdk_internal.h) | `func_80058F10`, `func_800862C0` | Unidentified SDK entries used by the embedded graphics getter and graphics frame setup. Their address-based names and existing ABIs are retained without assigning a library or return meaning. |
