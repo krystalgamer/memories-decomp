@@ -12,8 +12,8 @@
 #define D_800EAE88_AS_BYTES
 #include "../unmatched.h"
 
-/* Current best under gcc_2_8_1_g8_split: 269/271 instructions, opcode
- * distance 8, and 176 differing positions.
+/* Current best under gcc_2_8_1_g8_split: 271/271 instructions, opcode
+ * distance 0, 13 register-level differences.
  *
  * The AI's per-turn play decision. Writes the chosen action into the three
  * bytes at D_800EAE88 + 9: the action code at +9, its argument at +0xA, and a
@@ -26,7 +26,15 @@
  * walks the five hand slots from 0xA to 0xE for the first card whose top two
  * flag bits read 10, and decides what to do with it through func_800278A0 and
  * func_8002778C, falling back to scanning the opponent's five monster zones
- * for one with 0x90000000 set. */
+ * for one with 0x90000000 set.
+ *
+ * The walk body keeps retail's block order: the play block first, then the
+ * func_8002778C fallback with the give-up block inline, then the zone scan.
+ * The give-up block's % 15 goes through `v` and is read before its two
+ * stores, the random zone index also lives in `v`, and the zone scan names
+ * its 0x90000000 mask and walks its own pool cursor. The remaining
+ * differences are register choices for the slot, grid and record bases in
+ * the walk, and for the give-up block's result. */
 s32 func_800279BC(void)
 {
     DuelCardRecord *pool[6];
@@ -34,6 +42,7 @@ s32 func_800279BC(void)
     DuelCardRecord *lista[6];
     DuelCardRecord **pa;
     DuelCardRecord **pb;
+    DuelCardRecord **pp;
     DuelCardRecord *ea;
     DuelCardRecord *eb;
     DuelCardRecord *rec;
@@ -41,12 +50,14 @@ s32 func_800279BC(void)
     s32 slot;
     s32 n;
     s32 i;
+    s32 mask;
     s32 count;
     s32 v;
     u8 *grid;
     u8 *out;
     DuelCardRecord *recs;
     DuelCardRecord *scanbase;
+    s32 t;
 
     D_800EAE88[9] = 0;
     if (D_8009B16C & 0x1000) {
@@ -87,15 +98,14 @@ s32 func_800279BC(void)
         if (n != 0) {
             n = Rand_GetInterval(n + 1);
         }
-        rec = lista[n];
+        D_800EAE88[9] = (s8)lista[n]->table_index % 5 + 6;
         D_800EAE88[0xA] = 0;
         D_800EAE88[0xB] = 0;
-        D_800EAE88[9] = (s8)rec->table_index % 5 + 6;
         return 0;
 found:
         D_800EAE88[9] = (s8)ea->table_index % 5 + 6;
-        D_800EAE88[0xB] = 0;
         D_800EAE88[0xA] = (s8)eb->table_index % 5 + 1;
+        D_800EAE88[0xB] = 0;
         return 0;
 no_equip:
         slot = 0xA;
@@ -107,55 +117,61 @@ walk:
     scanbase = &D_801A7AD8[5];
 loop:
     {
-        rec = &recs[grid[slot + D_8009B1D5 * 20]];
-        if ((*(u32 *)((u8 *)rec + 0x14) & 0xC0000000) == 0x80000000) {
-            v = func_800278A0(rec);
-            if (v < 0) {
-                if ((rand() & 3) != 0) {
-                    if ((rand() & 1) != 0) {
-                        count = 0;
-                        i = 0;
-                        scan = &scanbase[(D_8009B1D5 ^ 1) * 15];
-                        pa = pool;
-                        do {
-                            if ((*(u32 *)((u8 *)scan + 0x14) & 0x90000000)
-                                == 0x90000000) {
-                                *pa = scan;
-                                pa++;
-                                count++;
-                            }
-                            i++;
-                            scan++;
-                        } while (i < 5);
-                        if (count != 0) {
-                            n = count - 1;
-                            if (n != 0) {
-                                n = Rand_GetInterval(count);
-                            }
-                            v = (s8)pool[n]->table_index;
-                            goto have;
-                        }
+        do {
+            rec = &recs[grid[slot + D_8009B1D5 * 20]];
+            if ((*(u32 *)((u8 *)rec + 0x14) & 0xC0000000) == 0x80000000) {
+                v = func_800278A0(rec);
+                if (v >= 0) {
+    have:
+                    if (D_8009B1C8->swords_turns_remaining == 0) {
+                        t = (s8)rec->table_index;
+                        out[0xB] = 0;
+                        out[0xA] = v % 5 + 0x38;
+                        out[9] = t % 5 + 1;
+                        return 0;
                     }
                     goto none;
                 }
-                v = func_8002778C((DuelSelectionSource *)rec);
-                if (v < 0) {
-                    goto none;
+                if ((rand() & 3) == 0) {
+                    v = func_8002778C((DuelSelectionSource *)rec);
+                    if (v >= 0) {
+                        goto have;
+                    }
+    none:
+                    v = (s8)rec->table_index % 15;
+                    out[0xA] = 0;
+                    out[0xB] = 1;
+                    out[9] = (s8)v - 4;
+                    return 0;
                 }
+                if ((rand() & 1) != 0) {
+                    count = 0;
+                    i = 0;
+                    scan = (DuelCardRecord *)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
+                    mask = 0x90000000;
+                    pp = pool;
+                    do {
+                        if ((*(u32 *)((u8 *)scan + 0x14) & mask)
+                            == mask) {
+                            *pp = scan;
+                            pp++;
+                            count++;
+                        }
+                        i++;
+                        scan++;
+                    } while (i < 5);
+                    if (count != 0) {
+                        v = count - 1;
+                        if (v != 0) {
+                            v = Rand_GetInterval(count);
+                        }
+                        v = (s8)pool[v]->table_index;
+                        goto have;
+                    }
+                }
+                goto none;
             }
-have:
-            if (D_8009B1C8->swords_turns_remaining == 0) {
-                out[0xB] = 0;
-                out[0xA] = v % 5 + 0x38;
-                out[9] = (s8)rec->table_index % 5 + 1;
-                return 0;
-            }
-none:
-            out[0xA] = 0;
-            out[0xB] = 1;
-            out[9] = (s8)((s8)rec->table_index % 15) - 4;
-            return 0;
-        }
+        } while (0);
         slot++;
     }
     if (slot < 0xF) {
