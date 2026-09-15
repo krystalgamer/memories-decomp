@@ -83,8 +83,8 @@ typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
  * views and cast at the global. u8 * is DuelEffect_AllocateRequest's return type. Retail
  * reaches it gp-relative
  * at every site, 17 lw and 14 sw in nine functions, four of them
- * (DuelScene_UpdateExodiaResult, DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle, DuelEffect_ApplyRitual) still
- * assembly. */
+ * (DuelScene_UpdateCardPlacement, DuelScene_UpdateBattle and
+ * DuelEffect_ApplyRitual) remain assembly. */
 extern u8 *D_8009B17C;
 
 /* Request flags are a complete lifecycle contract. DuelEffect_AllocateRequest
@@ -107,8 +107,8 @@ extern u8 *D_8009B17C;
  * DuelEffect_ResetRequestPool, and through %hi/%lo in DuelScene_Update,
  * DuelEffect_ApplyRaigeki, DuelEffect_ApplyStatPenalty,
  * DuelEffect_ApplyDarkPiercingLight and DuelScene_UpdateExodiaResult. The
- * matching coordinator, duel_card_effects.c, and the Exodia-result
- * candidate define the .data arm below for that. The request-creation source
+ * matching coordinator, duel_card_effects.c, and the matching Exodia-result
+ * source define the .data arm below for that. The request-creation source
  * takes the plain arm.
  *
  * This paragraph named duel_scene_update.c until 2026-09-12. That was true

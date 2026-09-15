@@ -284,7 +284,7 @@ extern u8 D_8009B368;
 /* A byte the duel setup clears and func_800179F4 tests against 1.
  * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
- * of that setup; DuelScene_UpdateExodiaResult (a tracked candidate) stores 1;
+ * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
  * DuelScene_UpdateBattle (still assembly) stores it too. func_800179F4 skips two
  * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or

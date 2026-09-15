@@ -1,34 +1,7 @@
 /*
  * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
- * result handoff. Current best under gcc_2_8_1_g8_split: 280/280
- * instructions, opcode multiset distance 0, and no register binding.
- * Compiled to an object and compared word for word with the assembled
- * src/candidates_target/func_80018FEC.S, 6 of 280 words differ, and all six
- * are register choices:
- * - retail loads the effect record's +0x14 field and the 0x8000 constant
- *   before the D_8009B17C store; this source loads them after it;
- * - retail holds the constant 1 stored to D_8009B369 and D_8009B26C in $v1,
- *   and this source holds it in $a0.
- *
- * The callback address goes through a copy, r = (s32)func_8001EC70 and then
- * fnv = r, where this candidate used to bind fn to $2. The per-slot sparkle
- * arm reads the work slot twice through one pointer d, which gives the reload
- * retail's $v1, and names the (k << 12) + 0xA000 step before the +0x14 add.
- * The final block stores D_8009B369 through side, which is dead there.
- *
- * Both delay-slot residuals this comment used to record are closed, and they
- * were a coupled pair. Taking duel_effect_request.h's .data arm gives the
- * bare form, which is one pseudo-instruction to the delay-slot filler, so the
- * slot before the gDuel_bEffectRequestStatus test stays the nop retail has; writing
- * D_8009B17C = fx before the +0x8000 store lets that store sink into the
- * following jump's slot, where retail has it. Each alone breaks the length in
- * the opposite direction -- the arm alone is 281 instructions and the store
- * order alone is 279 -- so neither reads as an improvement until both are
- * applied. What is left is register allocation, not
- * placement: the opcode multiset distance is 0, taken over the encoded opcode
- * fields rather than over a disassembler's rendering. objdump prints both the
- * addiu and ori forms of a constant load as li, and a census read off that
- * text reports three differences the encodings do not have.
+ * result handoff. The typed DuelEffectObject accumulator view and cross-path
+ * reuse of `side` preserve the retail scheduling and register allocation.
  */
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -42,6 +15,7 @@
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_scene_card_placement.h"
+#include "../game/duel_scene_exodia_result.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_selection_layout.h"
 #include "../game/duel_screen_tables.h"
@@ -56,9 +30,11 @@
 #include "../game/func_800179F4.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
+#include "../game/duel_effect.h"
 #include "../game/duel_effect_allocate_request.h"
 #include "../unmatched.h"
 #include "../game/sound_output.h"
+#include "../game/sound.h"
 #include "../game/model_scene_states.h"
 #include "../game/main_modes.h"
 #include "../game/model.h"
@@ -66,10 +42,6 @@
 #include "../game/main_mode_state.h"
 
 extern s32 D_800E9F04[];
-
-extern void SD_BGMFadeOutWithStep(s32);
-extern void SD_SEPlayFull(s32);
-extern void func_8003FF88(s32);
 
 void DuelScene_UpdateExodiaResult(void)
 {
@@ -107,7 +79,9 @@ void DuelScene_UpdateExodiaResult(void)
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
         obj = (u8 *)D_8009B214;
-        D_8009B1B4 = (DuelCardPickCursor *)&D_800E9F10[D_8009B1D5 * 0x70];
+        side = D_8009B1D5;
+        D_8009B1B4 =
+            (DuelCardPickCursor *)&D_800E9F10[(u8)side * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;
         *(u16 *)(obj + 0x2C) = 0x10;
         obj[0x6C] = 1;
@@ -194,7 +168,8 @@ next_obj:
             *(u16 *)(fx + 0) = 0xA0;
             *(u16 *)(fx + 2) = 0x78;
             D_8009B17C = fx;
-            *(s32 *)(fx + 0x14) = *(s32 *)(fx + 0x14) + 0x8000;
+            ((DuelEffectObject *)fx)->field_14 =
+                ((DuelEffectObject *)fx)->field_14 + 0x8000;
             return;
         }
         D_8009B1D0 = 4;
@@ -233,7 +208,7 @@ next_obj:
     *(u16 *)(other + 0x12) = 0;
     func_800472A8(0x7310);
     func_80059C18(0x7310);
-    D_8009B369 = (side = 1);
+    D_8009B369 = 1;
     D_8009B269 = 3;
     D_8009B26C = 1;
 }

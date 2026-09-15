@@ -60,7 +60,7 @@ extern u8 D_800E9F48[];
  * func_800235C0 loads it into the DuelFieldDisplaySource view that
  * duel_field_display_objects.c already casts the same record to. Five
  * functions still in assembly, none with a profile in matching_c.json, also
- * store or load it: DuelScene_UpdateExodiaResult.s:31 and :87, DuelScene_UpdateCardPlacement.s:32,
+ * store or load it: DuelScene_UpdateCardPlacement.s:32,
  * DuelScene_UpdateHandActions (stores :35, :106, :720, :1140, :1369, :1394;
  * loads :92, :501, :507, :1150, :1227), DuelScene_UpdateFieldActions
  * (stores :56, :613, :753, :1409,

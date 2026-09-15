@@ -122,6 +122,7 @@ Both functions remain generated assembly, but their scene-table positions,
 input branches, state transitions, and viewer payload writes establish the
 names independently of a C reconstruction.
 
-Candidate `func_80018FEC.c` retains the address-based `D_8009B23A` declaration
+Matching `src/game/func_80018FEC.c` retains the address-based
+`D_8009B23A` declaration
 as a lexical contract. Its linked target and the rest of the runtime use
 `gDuel_wSceneStateFlags`.
