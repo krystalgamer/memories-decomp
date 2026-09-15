@@ -20,6 +20,12 @@
 #include "text_constants.h"
 #include "../unmatched.h"
 
+typedef struct {
+    OptionsLayoutPositionBlock selection;
+    u16 pad_06;
+    u16 output_x[2];
+} OptionsLayoutBuffer;
+
 /* The options screen: its text-colour and text-box setup, the layout pass
    that places its two cursor objects, the init that creates them, and the
    input handler and per-frame dispatcher that drive it. All five work on the
@@ -45,24 +51,24 @@ void func_8003C4E0(s32 arg0) {
 }
 
 void Options_UpdateLayout(s32 selection) {
-    u8 sp0[12];
+    OptionsLayoutBuffer positions;
     DisplayObject *a;
     DisplayObject *b;
     s32 k;
     u32 v;
 
-    *(OptionsLayoutPositionBlock *)sp0 =
+    positions.selection =
         *(OptionsLayoutPositionBlock *)D_8009AF5C;
-    *(s16 *)(sp0 + 8) = 0x68;
+    positions.output_x[0] = 0x68;
     k = gOptions_bOutputType;
     a = D_8009B380;
     b = D_8009B388;
-    *(s16 *)(sp0 + 0xA) = 0xC8;
-    v = *(u16 *)(sp0 + 8 - -(k * 2));
+    positions.output_x[1] = 0xC8;
+    v = positions.output_x[k];
     a->field_30.h.field_32 = 0x48;
     a->field_30.h.field_30 = v;
     b->field_30.h.field_30 = 0x20;
-    b->field_30.h.field_32 = *(u16 *)(sp0 - -(selection * 2)) + 8;
+    b->field_30.h.field_32 = positions.selection.positions[selection] + 8;
     if (selection == 0) {
         a->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         b->field_30.h.field_30 = a->field_30.h.field_30 + 8;
