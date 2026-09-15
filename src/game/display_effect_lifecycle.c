@@ -3,6 +3,7 @@
 #include "display_effect_constants.h"
 #include "display_object_core.h"
 #include "display_effect_lifecycle.h"
+#include "menu_record.h"
 
 s32 func_80039F1C(DisplayEffectState *object)
 {
@@ -38,8 +39,10 @@ void func_80039F90(void **objects)
 
 void func_80039FD4(u8 *object)
 {
-    *(s8 *)(object + 0x30) = -1;
-    func_80039F90((void **)object);
+    MenuRecord *record = (MenuRecord *)object;
+
+    record->field_30 = -1;
+    func_80039F90((void **)record->grid[0]);
 }
 
 void func_80039FF8(DisplayEffectState *object)
