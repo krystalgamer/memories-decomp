@@ -11,7 +11,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/func_80041E7C.c"
+SOURCE = ROOT / "src/game/display_object_projection.c"
 START = """
 .text
 .globl _start
@@ -127,6 +127,13 @@ void GsSetLsMatrix(MATRIX *matrix)
     CHECK(matrix->t[0] == 0 && matrix->t[1] == 0 && matrix->t[2] == 300);
     for (i = 0; i < 9; i++) CHECK(matrix->m[i / 3][i % 3] == (s32)i * 17 - 50);
 }
+MATRIX *ScaleMatrix(MATRIX *matrix, VECTOR *scale)
+{
+    (void)scale;
+    return matrix;
+}
+void SetRotMatrix(MATRIX *matrix)
+{ (void)matrix; }
 void RotAverageNclip3_nom(SVECTOR *a, SVECTOR *b, SVECTOR *c)
 {
     CHECK(stage++ == 4 && a == VECTORS && b == VECTORS + 1 && c == VECTORS + 2);
