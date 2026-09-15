@@ -156,7 +156,7 @@ void func_8005922C(GsCOORDUNIT *unit, void *scale)
         bytes(&expected, &original_units[2], sizeof(expected));
         expected.rot.vx = expected.rot.vy = expected.rot.vz = 0;
         expected.matrix.t[0] = expected.matrix.t[2] = 0;
-        expected.matrix.t[1] = (s16)(D_8009B004 >> 16);
+        expected.matrix.t[1] = D_8009B004.fields.height;
         CHECK(equal(unit, &expected, sizeof(expected)));
         bytes(&original_units[2], &expected, sizeof(expected));
     }
@@ -222,7 +222,7 @@ void observe_print(char *format, s32 a, s32 b)
     } else if (display_cursor == 5) CHECK(format == D_8009B024);
     else if (display_cursor == 11) CHECK(format == D_8009B02C);
     else CHECK(format == D_80011564 && a == (u16)D_8009B488[2] &&
-               b == (s16)(D_8009B004 >> 16));
+               b == D_8009B004.fields.height);
     if (mutate_print && display_cursor == 0) {
         D_8009B488[0] = 789; D_8009AFA1 = 2;
     }
@@ -241,7 +241,7 @@ static void reset(void)
         D_800F2C40[i].field_D18 = &units[i];
     }
     D_8009AF9A = 0; D_8009AFA1 = 0;
-    D_8009B004 = 0x0123BEEF; D_8009B008 = 0xABCDEF01;
+    D_8009B004.word = 0x0123BEEF; D_8009B008 = 0xABCDEF01;
     D_8009B488[0] = 123; D_8009B488[1] = 456; D_8009B488[2] = 0;
     D_8009B48E[0] = D_8009B48E[1] = 0;
     D_8009B490[0] = D_8009B490[1] = 0;
@@ -258,7 +258,7 @@ static s32 run(void)
     result = func_800534B8();
     CHECK(equal(slot_storage, expected_slots, sizeof(slot_storage)));
     for (i = 0; i < 3; i++) CHECK(equal(&units[i], &original_units[i], sizeof(units[i])));
-    CHECK((D_8009B004 & 0xFFFF) == 0xBEEF);
+    CHECK((D_8009B004.word & 0xFFFF) == 0xBEEF);
     CHECK((D_8009B008 & 0xFFFFFF00) == 0xABCDEF00);
     CHECK(sample_cursor == sample_count);
     CHECK(display_cursor == 0 || display_cursor == 13);
@@ -299,7 +299,7 @@ int main(void)
                     CHECK(events[1][1] == slot && print_count == 14);
                     CHECK(event_count == (k ? 3 : 2));
                     if (k) CHECK(events[2][0] == (slot == 2 ? PLACE : ORIENT));
-                    if (k && slot == 2) CHECK((s16)(D_8009B004 >> 16) == -128);
+                    if (k && slot == 2) CHECK(D_8009B004.fields.height == -128);
                 }
             }
     for (i = 0; i < 4; i++) {
@@ -338,10 +338,10 @@ int main(void)
             }
     for (i = 0; i < 2; i++)
         for (j = 0; j < 2; j++) {
-            reset(); D_8009B004 = (i ? 0x7FFEu : 0x8002u) << 16 | 0xBEEF;
-            before = D_8009B004 >> 16; gInput_wPad1Held = 0x80;
+            reset(); D_8009B004.word = (i ? 0x7FFEu : 0x8002u) << 16 | 0xBEEF;
+            before = D_8009B004.halfwords[1]; gInput_wPad1Held = 0x80;
             gInput_wPad1Repeat = j ? 0x1000 : 0x4000;
-            CHECK(run() == 0 && (u16)(D_8009B004 >> 16) == (u16)(before + (j ? -10 : 10)));
+            CHECK(run() == 0 && D_8009B004.halfwords[1] == (u16)(before + (j ? -10 : 10)));
             CHECK(event_count == 1 && events[0][0] == PLACE);
         }
     for (i = 0; i < 16; i++) {

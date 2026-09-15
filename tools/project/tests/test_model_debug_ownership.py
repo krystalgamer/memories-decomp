@@ -115,6 +115,9 @@ class ModelDebugOwnershipTests(unittest.TestCase):
         header = '#include "model_handler_state.h"\n'
         self.probe(
             header + "typedef char width[sizeof(D_8009B004) == 4 ? 1 : -1];\n"
+            "u8 *first = &D_8009B004.fields.field_00;\n"
+            "s16 *height = &D_8009B004.fields.height;\n"
+            "u16 *height_bits = &D_8009B004.halfwords[1];\n"
             "typedef char normal[sizeof(D_8009B00C) == 8 ? 1 : -1];\n"
             "typedef char newline[sizeof(D_8009B02C) == 4 ? 1 : -1];\n"
         )
