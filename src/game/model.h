@@ -14,6 +14,8 @@
 #define MODEL_SLOT_PART_COUNT 58
 #define MODEL_SLOT_UNIT_COUNT 60
 #define MODEL_SLOT_ROW_COUNT 10
+#define MODEL_SLOT_CF8_DFE_OFFSET 0x106
+#define MODEL_SLOT_CF8_DFF_OFFSET 0x107
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -128,6 +130,22 @@ typedef struct {
     u8 field_0A[2];
     u16 field_0C[8];
 } ModelSlotCF8Block;
+
+/* View rooted at the D_800F3938 interior alias and extending through the two
+ * slot property bytes at DFE/DFF. The first words are compared by
+ * func_800559D4, while func_8005A618 selects field_0A through field_106.
+ * Relative names retain the alias-rooted offsets without claiming semantics
+ * for the copied CF8 payload. */
+typedef struct {
+    u16 field_00;
+    u16 field_02;
+    u8 pad_04[6];
+    u8 field_0A[2];
+    u16 field_0C[8];
+    u8 pad_1C[0xEA];
+    u8 field_106;
+    u8 field_107;
+} ModelSlotCF8TailView;
 
 /* A ModelSlotCF8Block's worth of words, for the one place that copies a whole
    block: file_transfer_steps.c's phase 10 fills field_CF8 straight out of the
@@ -503,6 +521,21 @@ typedef char ModelSlot_field_E1F_offset_must_be_0xE1F[
     MODEL_OFFSET(ModelSlot, field_E1F) == 0xE1F ? 1 : -1
 ];
 
+typedef char ModelSlotCF8TailView_size_must_be_0x108[
+    sizeof(ModelSlotCF8TailView) == 0x108 ? 1 : -1
+];
+typedef char ModelSlotCF8TailView_field_0A_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotCF8TailView, field_0A) == 0xA ? 1 : -1
+];
+typedef char ModelSlotCF8TailView_field_106_offset_must_be_0x106[
+    MODEL_OFFSET(ModelSlotCF8TailView, field_106) ==
+        MODEL_SLOT_CF8_DFE_OFFSET ? 1 : -1
+];
+typedef char ModelSlotCF8TailView_field_107_offset_must_be_0x107[
+    MODEL_OFFSET(ModelSlotCF8TailView, field_107) ==
+        MODEL_SLOT_CF8_DFF_OFFSET ? 1 : -1
+];
+
 typedef char ModelHandlerRegistryEntry_size_must_be_0x8[
     sizeof(ModelHandlerRegistryEntry) == 0x8 ? 1 : -1
 ];
@@ -617,7 +650,7 @@ extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
  * change which symbol their relocations name. Unlike the selection-table case
  * there is no assembly reader to corroborate that, but the matched C is
  * itself the evidence. */
-extern ModelSlotCF8Block D_800F3938;
+extern ModelSlotCF8TailView D_800F3938;
 extern ModelSlotLightEntry D_800F39B0[3];
 extern ModelSlotS32Quad D_800F39F0;
 extern u16 D_800F3A10[];

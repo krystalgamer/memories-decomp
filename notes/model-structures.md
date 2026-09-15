@@ -289,6 +289,19 @@ path in `file_transfer_steps.c` likewise reaches the sound-entry run,
 word stores inside `field_CF8` retain width-preserving casts across adjacent
 halfword members.
 
+The interior alias `D_800F3938` now has a separate
+`ModelSlotCF8TailView`, rooted at slot offset `0xCF8` and extending through
+the property bytes at relative offsets `0x106`/`0x107` (slot
+`field_DFE`/`field_DFF`). `func_800559D4` keeps its signed address cursors,
+which are allocation-sensitive, but reads their first and second halfwords
+through the view instead of untyped dereferences. `func_8005A618` likewise
+uses the view's `field_0A` table. Its selector load and the two selector loads
+in `func_800559D4` retain byte-pointer address forms using the asserted
+relative-offset constants: direct member syntax merges two independently
+constructed addresses in `func_8005A618`, while it shortens
+`func_800559D4` by eight bytes. Those expressions are exact-code constraints,
+not alternate storage declarations.
+
 Two typed pure-C functions retain raw local byte views:
 
 - `Model_InitLightTriplet` keeps its offset writes. Replacing them with
