@@ -18,7 +18,7 @@ void *func_80058F20(s32 index, s32 slot)
     return entry->entries + slot * MODEL_SLOT_DATA_ENTRY_SIZE;
 }
 
-u32 func_80058F74(s32 index)
+u32 Model_GetCurrentDataEntry(s32 index)
 {
     ModelSlot *entry = &D_800F2C40[index];
 

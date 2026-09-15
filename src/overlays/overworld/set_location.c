@@ -262,7 +262,7 @@ void CampaignMap_SetLocation(s32 index)
     func_800530C4();
     func_800533D8();
     func_80056250(2, (u8 *)D_80010000, 0x43000, 0);
-    obj = (u8 *)func_80058F74(2);
+    obj = (u8 *)Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
     colour[1] = 1365;
     colour[2] = 1365;

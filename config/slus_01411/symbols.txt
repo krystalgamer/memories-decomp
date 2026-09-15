@@ -405,6 +405,7 @@ DuelEffect_ClearMatchingMarker = 0x80035DB8; // type:func
 DuelEffect_ResetEntryMarkers = 0x80035DF4; // type:func
 DuelEffect_HasActiveEntry = 0x8003735C; // type:func
 Model_CopySlotU16Values = 0x80058FB0; // type:func
+Model_GetCurrentDataEntry = 0x80058F74; // type:func
 Model_InitLightTriplet = 0x80059134; // type:func
 Model_GetFlatLight = 0x800591C0; // type:func
 Model_ControlSlotAnimation = 0x80057AF4; // type:func
