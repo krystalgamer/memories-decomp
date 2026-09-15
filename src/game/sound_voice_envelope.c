@@ -9,29 +9,27 @@
    target stores through. The table and state-pointer declaration arms keep
    their addresses out of small data. */
 
-#define ATTR(p) (*(SpuVoiceAttr *)((u8 *)(p) + 0x4C0))
-
-void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone)
+void SD_SetVoiceEnvelopeFromTone(s32 index, SDToneEnvelopeView *tone)
 {
-    u8 *p = (u8 *)D_8009B458;
+    SDSecondaryState *p = D_8009B458;
 
-    ATTR(p).mask =
+    p->voice_attr.mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
-    ATTR(p).voice = D_80011434[index];
-    ATTR(p).adsr1 = *(u16 *)(tone + 0x20);
-    ATTR(p).adsr2 = *(u16 *)(tone + 0x22);
-    ATTR(p).a_mode = *(u16 *)(tone + 0x24);
-    SpuSetVoiceAttr(&ATTR(p));
+    p->voice_attr.voice = D_80011434[index];
+    p->voice_attr.adsr1 = tone->adsr1;
+    p->voice_attr.adsr2 = tone->adsr2;
+    p->voice_attr.a_mode = tone->a_mode;
+    SpuSetVoiceAttr(&p->voice_attr);
 }
 
 void SD_ResetVoiceEnvelope(s32 index)
 {
-    u8 *p = (u8 *)D_8009B458;
-    ATTR(p).voice = D_80011434[index];
-    ATTR(p).mask =
+    SDSecondaryState *p = D_8009B458;
+    p->voice_attr.voice = D_80011434[index];
+    p->voice_attr.mask =
         SPU_VOICE_ADSR_AMODE | SPU_VOICE_ADSR_ADSR1 | SPU_VOICE_ADSR_ADSR2;
-    ATTR(p).adsr1 = 0;
-    ATTR(p).adsr2 = 0;
-    ATTR(p).a_mode = SPU_VOICE_EXPIncN;
-    SpuSetVoiceAttr(&ATTR(p));
+    p->voice_attr.adsr1 = 0;
+    p->voice_attr.adsr2 = 0;
+    p->voice_attr.a_mode = SPU_VOICE_EXPIncN;
+    SpuSetVoiceAttr(&p->voice_attr);
 }

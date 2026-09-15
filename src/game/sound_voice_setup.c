@@ -13,18 +13,17 @@
 
 void func_8004A43C(SDSecondaryObject *p, s32 force)
 {
-    u8 *e;
+    SDSecondaryRecord *e;
     s32 v;
     s32 x;
     s32 y;
 
-    e = (u8 *)D_8009B458 +
-        p->channel_index * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-    if (e[7] == p->cached_pitch_bend && force == 0) {
+    e = &D_8009B458->channels[p->channel_index];
+    if (e->pitch_bend_msb == p->cached_pitch_bend && force == 0) {
         return;
     }
-    p->cached_pitch_bend = e[7];
-    v = SD_CalcPitchBend(p, e[7]);
+    p->cached_pitch_bend = e->pitch_bend_msb;
+    v = SD_CalcPitchBend(p, e->pitch_bend_msb);
     v = v + (p->note << 7);
     x = (s16)v >> 7;
     y = v & 0x7F;

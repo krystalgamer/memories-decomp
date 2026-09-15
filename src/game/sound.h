@@ -286,6 +286,13 @@ typedef struct {
 } SDSecondaryObject;
 
 typedef struct {
+    u8 pad0000[0x20];
+    u16 adsr1;
+    u16 adsr2;
+    u16 a_mode;
+} SDToneEnvelopeView;
+
+typedef struct {
     s16 field_0000;
     u8 pad0002[2];
     u8 *field_0004;
@@ -362,7 +369,8 @@ typedef struct {
     u16 timebase;
     u8 pad07FE[2];
     u8 field_0800;
-    u8 pad0801[3];
+    u8 field_0801;
+    u8 pad0802[2];
     s32 field_0804;
     s32 field_0808;
     s32 field_080C;
@@ -491,6 +499,11 @@ typedef char SDValue_output_level_offset_must_be_0x154C[
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
 ];
+typedef char SDToneEnvelopeView_offsets_must_match[
+    SD_STATE_OFFSET(SDToneEnvelopeView, adsr1) == 0x20 &&
+    SD_STATE_OFFSET(SDToneEnvelopeView, adsr2) == 0x22 &&
+    SD_STATE_OFFSET(SDToneEnvelopeView, a_mode) == 0x24 ? 1 : -1
+];
 typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
     SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
@@ -608,6 +621,9 @@ typedef char SDSecondaryState_tracks_offset_must_be_0x518[
 typedef char SDSecondaryState_track_count_offset_must_be_0x7FA[
     SD_STATE_OFFSET(SDSecondaryState, track_count) == 0x7FA ? 1 : -1
 ];
+typedef char SDSecondaryState_field_0801_offset_must_be_0x801[
+    SD_STATE_OFFSET(SDSecondaryState, field_0801) == 0x801 ? 1 : -1
+];
 typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
     SD_STATE_OFFSET(SDSecondaryState, timebase) == 0x7FC ? 1 : -1
 ];
@@ -713,7 +729,7 @@ extern s32 D_80011434[20];
 #endif
 
 /* Copies a tone record's ADSR fields into one SPU voice. */
-void SD_SetVoiceEnvelopeFromTone(s32 index, u8 *tone);
+void SD_SetVoiceEnvelopeFromTone(s32 index, SDToneEnvelopeView *tone);
 /* Resets one SPU voice's envelope through the shared attribute block. */
 void SD_ResetVoiceEnvelope(s32 index);
 

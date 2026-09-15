@@ -23,36 +23,37 @@
  */
 
 void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
-    u8 *base;
+    SDSecondaryState *base;
     s32 mask;
     s32 i;
     s32 off;
     s32 *tbl;
     s32 v0;
     s32 t1;
-    u8 *p;
+    SDSecondaryState *p;
     s32 a1;
 
     a1 = arg1;
-    base = (u8 *)D_8009B458;
+    base = D_8009B458;
     i = 0;
     mask = 0;
-    if (*(s16 *)(base + 0x510) > 0) {
+    if (base->object_count > 0) {
         t1 = arg0 & 0xFF;
         tbl = D_80011434;
         off = 0;
         top:
-            p = base + off;
-            if (p[0x183] == t1 && p[0x185] == (u8)a1) {
+            p = (SDSecondaryState *)((u8 *)base + off);
+            if (p->objects[0].channel_index == t1 &&
+                p->objects[0].field_0005 == (u8)a1) {
                 func_8004A7C0(i);
                 mask |= *tbl;
             }
             tbl++;
             do {
                 off += 0x28;
-                base = (u8 *)D_8009B458;
+                base = D_8009B458;
                 i++;
-                if (i < *(s16 *)(base + 0x510)) goto top;
+                if (i < base->object_count) goto top;
             } while (0);
     }
 
@@ -64,7 +65,8 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
     }
 
     {
-        u8 *q = (u8 *)D_8009B458 + ((u8)arg0) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-        q[4] = 0;
+        SDSecondaryRecord *q =
+            (SDSecondaryRecord *)D_8009B458 + (u8)arg0;
+        q->field_0004 = 0;
     }
 }

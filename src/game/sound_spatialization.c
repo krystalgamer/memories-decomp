@@ -19,10 +19,12 @@ void SD_UpdateSecondaryObjectVolumes(void)
         object_offset = 0x180;
         offset = i;
         do {
-            u8 *entry = (u8 *)state + offset;
+            SDSecondaryState *entry =
+                (SDSecondaryState *)((u8 *)state + offset);
 
-            if (entry[0x183] < SD_SEQUENCE_CHANNEL_COUNT) {
-                s32 value = entry[0x183];
+            if (entry->objects[0].channel_index <
+                SD_SEQUENCE_CHANNEL_COUNT) {
+                s32 value = entry->objects[0].channel_index;
                 SDSecondaryState *current;
 
                 SD_SpatializeSecondaryObject(
@@ -31,8 +33,10 @@ void SD_UpdateSecondaryObjectVolumes(void)
                 current = D_8009B458;
                 SD_SetVoiceVolume(
                     i,
-                    *(u16 *)((u8 *)current + offset + 0x194),
-                    *(u16 *)((u8 *)current + offset + 0x196));
+                    ((SDSecondaryState *)((u8 *)current + offset))
+                        ->objects[0].level_left,
+                    ((SDSecondaryState *)((u8 *)current + offset))
+                        ->objects[0].level_right);
             }
             object_offset += SD_SECONDARY_OBJECT_SIZE;
             state = D_8009B458;

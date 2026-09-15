@@ -5,28 +5,30 @@
 s32 func_8004A854(s32 value)
 {
     s32 result = -1;
-    u8 *state = (u8 *)D_8009B458;
+    SDSecondaryState *state = D_8009B458;
     s32 best = 0xFFFF;
     s32 i = 0;
 
-    if (*(short *)(state + 0x510) > i) {
+    if (state->object_count > i) {
         s32 offset;
 
         value = (u8)value;
         offset = 0;
         do {
-            u8 *entry = state + offset;
-            u16 candidate = *(u16 *)(entry + 0x19E);
+            SDSecondaryState *entry =
+                (SDSecondaryState *)((u8 *)state + offset);
+            u16 candidate = entry->objects[0].field_001E;
 
-            if ((u16)best >= candidate && entry[0x183] == value &&
-                entry[0x18D] != 0) {
+            if ((u16)best >= candidate &&
+                entry->objects[0].channel_index == value &&
+                entry->objects[0].field_000D != 0) {
                 best = candidate;
                 result = i;
             }
             offset += SD_SECONDARY_OBJECT_SIZE;
-            state = (u8 *)D_8009B458;
+            state = D_8009B458;
             i++;
-        } while (i < *(short *)(state + 0x510));
+        } while (i < state->object_count);
     }
     best = result;
     return best;
@@ -38,8 +40,7 @@ s32 func_8004A8E4(s32 index, s32 value)
     SDSecondaryObject *object = &state->objects[index];
 
     if (object->channel_index != SD_SECONDARY_RECORD_NONE) {
-        SDSecondaryRecord *record =
-            (SDSecondaryRecord *)state + object->channel_index;
+        SDSecondaryRecord *record = &state->channels[object->channel_index];
 
         if ((record->field_0006 & 0xF) != 0) {
             record->field_0006 = record->field_0006 - 1;

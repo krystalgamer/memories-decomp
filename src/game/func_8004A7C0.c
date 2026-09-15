@@ -9,12 +9,13 @@ void func_8004A7C0(int index)
     int object_offset = (table_offset + index) << 3;
     /* Direct objects[index] syntax changes GCC's index calculation. */
     SDSecondaryObject *entry =
-        (SDSecondaryObject *)((u8 *)D_8009B458 + 0x180 + object_offset);
+        (SDSecondaryObject *)((u8 *)D_8009B458 +
+            SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
     int *item;
     int result;
     if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)
         return;
-    item = (int *)((u8 *)D_80011434 + table_offset);
+    item = &D_80011434[index];
     do {
         SpuSetKey(SPU_OFF, *item);
         result = SpuGetKeyStatus(*item);

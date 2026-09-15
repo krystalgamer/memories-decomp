@@ -14,10 +14,10 @@
 
 void func_8004AAFC(void) {
     u8 sp10[0x18];
-    u8 *p;
-    u8 *e;
+    SDSecondaryState *p;
+    SDSecondaryObject *e;
     u8 *q;
-    u8 *r;
+    SDSecondaryRecord *r;
     s32 *t;
     s32 *u;
     s32 i;
@@ -30,47 +30,47 @@ void func_8004AAFC(void) {
     s32 v;
 
     SpuGetAllKeysStatus((char *)sp10);
-    p = (u8 *)D_8009B458;
+    p = D_8009B458;
     i = 0;
     m = i;
 
-    if (*(s16 *)(p + 0x510) > 0) {
+    if (p->object_count > 0) {
         key_off_env_on = SPU_OFF_ENV_ON;
         t = D_80011434;
         q = sp10;
-        o = 0x180;
+        o = SD_SECONDARY_OBJECT_ARRAY_OFFSET;
         do {
-            e = p + o;
-            if (e[3] < SD_SEQUENCE_CHANNEL_COUNT) {
-                func_8004A43C((SDSecondaryObject *)e, 0);
+            e = (SDSecondaryObject *)((u8 *)p + o);
+            if (e->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
+                func_8004A43C(e, 0);
             }
             if (*q == SPU_OFF) {
-                if (e[0xD] == 0) {
+                if (e->field_000D == 0) {
                     goto next;
                 }
-                r = (u8 *)D_8009B458 + e[3] * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-                a = r[6];
+                r = &D_8009B458->channels[e->channel_index];
+                a = r->field_0006;
                 if ((a & 0xF) != 0) {
-                    r[6] = a - 1;
+                    r->field_0006 = a - 1;
                 }
-                e[0xD] = 0;
-                *(s16 *)(e + 0x1E) = 0;
-                e[3] = SD_SECONDARY_RECORD_NONE;
+                e->field_000D = 0;
+                e->field_001E = 0;
+                e->channel_index = SD_SECONDARY_RECORD_NONE;
             }
 
-            b = e[0xD];
+            b = e->field_000D;
             c = b & 0xFF;
             if (c != 0 && *q == SPU_ON_ENV_OFF) {
                 if (c >= 2) {
                     m = m | *t;
                     func_8004A7C0(i, b);
                 } else {
-                    e[0xD] = b + 1;
+                    e->field_000D = b + 1;
                 }
             }
 
 next:
-            if (e[0xF] == 0 && (u32)(*q - SPU_ON) < 2) {
+            if (e->field_000F == 0 && (u32)(*q - SPU_ON) < 2) {
                 u = t;
                 while (1) {
                     SpuSetKey(SPU_OFF, *u);
@@ -87,10 +87,10 @@ next:
 
             t++;
             q++;
-            p = (u8 *)D_8009B458;
+            p = D_8009B458;
             o += 0x28;
             i++;
-        } while (i < *(s16 *)(p + 0x510));
+        } while (i < p->object_count);
     }
 
     if (m != 0) {

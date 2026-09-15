@@ -62,20 +62,20 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
  */
 
 s32 SD_ReadSequenceHeader(void) {
-    u8 *b;
+    SDSecondaryState *b;
     SDSequenceTrack *p;
     u32 r;
     u32 v;
     s32 m;
     u32 k;
 
-    b = (u8 *)D_8009B458;
-    p = (SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET);
-    b[0x801] = 0;
+    b = D_8009B458;
+    p = b->tracks;
+    b->field_0801 = 0;
     do {
         D_8009B458->field_07F0 = 0;
         D_8009B458->field_07F4 = 0;
-        ((SDSequenceTrack *)(b + SD_SEQUENCE_TRACK_ARRAY_OFFSET))->pos = 8;
+        b->tracks[0].pos = 8;
         D_8009B458->timebase = SD_ReadSequenceU16BE(p);
         D_8009B458->track_count = 1;
         D_8009B458->field_07F8 = 0;
