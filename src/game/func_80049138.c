@@ -5,6 +5,7 @@
 
 #include "sound.h"
 #include "sound_output.h"
+#include "func_80049138.h"
 #include "../unmatched.h"
 
 s32 func_80049138(s16 arg0, s32 arg1) {
@@ -12,7 +13,7 @@ s32 func_80049138(s16 arg0, s32 arg1) {
 
     if (*p->music_track != arg0 >> 4) {
         SDValue *q;
-        u8 *e;
+        SDMusicTableEntry *entry;
         s32 off;
 
         func_80046294();
@@ -22,10 +23,10 @@ s32 func_80049138(s16 arg0, s32 arg1) {
         q = g_SDValue;
         q->flags_0040 |= 2;
         off = (arg0 & 0xFF0) >> 1;
-        e = (u8 *)(off + (s32)q->field_1560);
+        entry = (SDMusicTableEntry *)(off + (s32)q->field_1560);
 
-        func_800471D0(*(s32 *)(e + 4), (s32)q->music_track, *(u16 *)(e + 2),
-                      e[0] << 11, e[1] << 11, 0x20);
+        func_800471D0(entry->field_04, (s32)q->music_track, entry->field_02,
+                      entry->field_00 << 11, entry->field_01 << 11, 0x20);
 
         *g_SDValue->music_track = 0xFFFF;
     }
