@@ -115,7 +115,7 @@ success:
     if (D_8009B3CC & 0x400) {
         DuelEffectChannel *text = &D_800EB0F8[root->text_index];
         func_80039794();
-        if ((*(u32 *)((u8 *)text + 0x34) & 0x2008) == 0x2000)
+        if ((*(u32 *)&text->flags_34 & 0x2008) == 0x2000)
             D_8009B3CC &= ~0x400;
         return;
     }
