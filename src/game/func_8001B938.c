@@ -135,22 +135,22 @@ void func_8001BAF0(void)
                     rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
                     other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
                             card->deck_index;
-                    v = (s8)rec->index_02;
-                    rec->index_02 = other->index_02;
-                    other->index_02 = v;
+                    v = rec->deck_index;
+                    rec->deck_index = other->deck_index;
+                    other->deck_index = v;
                     tmp = *rec;
                     *rec = *other;
                     *other = tmp;
                     k = D_8009B1D5 * HAND_SIZE;
                     id = *(u8 *)((j + k) + (s32)order);
                     spawned = (DuelCardDisplayObject *)slot->object;
-                    Duel_SetupCardRecord(id, (s8)rec->index_02);
+                    Duel_SetupCardRecord(id, rec->deck_index);
                     slot->object = (u8 *)func_80018004(
                         (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);
                     DisplayObject_ReleaseIfPresent(spawned);
-                    D_8009B1C8->hand[j] = rec->index_02;
+                    D_8009B1C8->hand[j] = rec->deck_index;
                     D_800EAE88[i] = j + 0xB;
                     sel[j] = -1;
                     continue;

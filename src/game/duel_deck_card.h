@@ -5,7 +5,9 @@
 
 typedef struct {
     s16 id;
-    u8 index_02;
+    /* Source slot in the combined deck. Draw and placement paths consume it
+       with signed byte loads before passing it to Duel_SetupCardRecord. */
+    s8 deck_index;
     u8 data_block_index;
     u8 flags_04;
     u8 unk_05;
@@ -19,7 +21,7 @@ typedef char DuelDeckCardRecord_id_offset_must_be_0[
     DUEL_DECK_CARD_OFFSET(id) == 0 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_index_offset_must_be_2[
-    DUEL_DECK_CARD_OFFSET(index_02) == 2 ? 1 : -1
+    DUEL_DECK_CARD_OFFSET(deck_index) == 2 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_data_block_offset_must_be_3[
     DUEL_DECK_CARD_OFFSET(data_block_index) == 3 ? 1 : -1

@@ -52,7 +52,7 @@ void Duel_PopulateCombinedDeckData(void)
         id = (s16)v;
         r = D_8015C424 + i;
         rec->flags_04 = r[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
-        rec->index_02 = i;
+        rec->deck_index = i;
         rec->data_block_index = i;
 
         src = D_8015C424;
