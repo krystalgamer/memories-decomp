@@ -137,7 +137,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800907D8,D_800907D8,D_800907D8_2d,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read,8,record = &D_801A7AD8[D_800907D8_2d[D_8009B1D5][i]];
 0x800907D8,D_800907D8,D_800907D8_flat,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,read,8,record = &D_801A7AD8[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
 0x800907D8,D_800907D8,D_800907D8,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effect_steps.c,read,8,entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
-0x800907D8,D_800907D8,D_800907D8,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,address,8,grid = (u8 *)D_800907D8;
+0x800907D8,D_800907D8,D_800907D8,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,address,8,grid = (u8 *)D_800907D8;
 0x800907D8,D_800907D8,D_800907D8,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,8,&D_801A7AD8[D_800907D8[position]];
 0x800907D8,D_800907D8,D_800907D8,0x8002778C,func_8002778C,matching_c,game,C,src/game/ai_turn_action.c,read,8,DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]]; | return D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x800278A0,func_800278A0,matching_c,game,C,src/game/ai_turn_action.c,read,8,return D_800907D8[ | u8 row = D_800907D8[
@@ -146,7 +146,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090800,D_80090800,D_80090800,0x80023D08,func_80023D08,matching_c,game,C,src/game/func_80023D08.c,read,,d->target_x = D_80090800[D_8009B1D5][index].x; | d->target_y = D_80090800[D_8009B1D5][index].y;
 0x80090800,D_80090800,D_80090800,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,address,,t = (u8 *)D_80090800;
 0x80090800,D_80090800,D_80090800,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,address,,t = (u8 *)D_80090800;
-0x80090800,D_80090800,D_80090800,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,address,,positions = (u8 *)D_80090800;
+0x80090800,D_80090800,D_80090800,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,address,,positions = (u8 *)D_80090800;
 0x80090800,D_80090800,D_80090800,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,,object->field_04 = D_80090800[side][0].y;
 0x800908A0,D_800908A0,D_800908A0,0x800177C4,func_800177C4,matching_c,game,C,src/game/func_800177C4.c,address,16,source = D_800908A0;
 0x800908A0,D_800908A0,D_800908A0,0x8001B0CC,func_8001B0CC,matching_c,game,C,src/game/func_8001B0CC.c,address,16,u16 *source = (u16 *)((u8 *)D_800908A0 + coord);
@@ -1256,7 +1256,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read_write,16,"lhu $a0, %gp_rel(D_8009B1D0)($gp) | lhu $v0, %gp_rel(D_8009B1D0)($gp) | (+2 more)"
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read_write,16,D_8009B1D0 = 0x258; | D_8009B1D0 = timer; | (+1 more)
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = D_8009B1D0 + 1; | (+3 more)
-0x8009B1D0,D_8009B1D0,D_8009B1D0,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = 0x10; | (+2 more)
+0x8009B1D0,D_8009B1D0,D_8009B1D0,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = 0x10; | (+2 more)
 0x8009B1D2,gDuel_wEffectCardID,gDuel_wEffectCardID,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,address,16,v = *(u8 *)&gDuel_wEffectCardID - 0x49;
 0x8009B1D2,gDuel_wEffectCardID,gDuel_wEffectCardID,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,read,16,s0 = gDuel_wEffectCardID;
 0x8009B1D2,gDuel_wEffectCardID,gDuel_wEffectCardID,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,read,16,unit = gDuel_wEffectCardID - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
@@ -1310,7 +1310,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read,8,record = &D_801A7AD8[D_800907D8_2d[D_8009B1D5][i]];
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,read,8,base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effect_steps.c,read,8,D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining = | entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]]; | (+2 more)
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES | base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES | base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read,8,if (D_8009B360[D_8009B1D5] >= 0) {
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,8,i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT; | int side = D_8009B1D5 ^ 1;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/duel_field_equip_search.c,read,8,base = D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0; | return D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT + arg0 + i;
@@ -1366,7 +1366,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B20C,D_8009B20C,D_8009B20C,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,read_write,16,(D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) * | D_8009B20C[1] = -1; | (+3 more)
 0x8009B20C,D_8009B20C,D_8009B20C,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,read_write,16,(D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) * | D_800907D8[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE); | (+4 more)
 0x8009B20C,D_8009B20C,D_8009B20C,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,write,16,D_8009B20C[1] = 0; | D_8009B20C[1] = 0x10; | (+2 more)
-0x8009B20C,D_8009B20C,D_8009B20C,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,read_write,16,D_8009B20C[1] = -1; | D_8009B20C[1] = next; | (+2 more)
+0x8009B20C,D_8009B20C,D_8009B20C,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,read_write,16,D_8009B20C[1] = -1; | D_8009B20C[1] = next; | (+2 more)
 0x8009B20C,D_8009B20C,D_8009B20C,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,write,16,D_8009B20C[1] = 32; | D_8009B20C[1] = timer; | (+1 more)
 0x8009B210,D_8009B210,D_8009B210,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,16,D_8009B210 &= ~0x40; | D_8009B210 = 0; | (+9 more)
 0x8009B210,D_8009B210,D_8009B210,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,write,16,D_8009B210 = 0;
@@ -1402,7 +1402,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,read_write,16,gDuel_wCardEffectFlags = 0; | gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40; | (+1 more)
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x80025EE0,DuelEffect_StartSwords,matching_c,game,C,src/game/duel_swords_effect.c,write,16,gDuel_wCardEffectFlags = 0;
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effect_steps.c,read_write,16,gDuel_wCardEffectFlags = 0; | gDuel_wCardEffectFlags |= 0x40; | (+1 more)
-0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,write,16,gDuel_wCardEffectFlags = 0;
+0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,write,16,gDuel_wCardEffectFlags = 0;
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x8002622C,DuelEffect_StartRitual,matching_c,game,C,src/game/duel_ritual_effect.c,write,16,gDuel_wCardEffectFlags = 0;
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,write,16,gDuel_wCardEffectFlags = 0;
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,write,16,gDuel_wCardEffectFlags = 0;
@@ -3115,7 +3115,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,address,,record = &D_801A7AD8[D_800907D8_2d[D_8009B1D5][i]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,address,,record = &D_801A7AD8[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effect_steps.c,address,,entry = &D_801A7AD8[D_800907D8[D_8009B1D5][slot]];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/func_800260D0.c,address,,record = &D_801A7AD8[card];
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,address,,record = &D_801A7AD8[card];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,address,,card = &D_801A7AD8[D_8009B19C]; | card = &D_801A7AD8[object->field_6A]; | (+3 more)
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,,&D_801A7AD8[D_800907D8[position]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C0C,func_80026C0C,matching_c,game,C,src/game/duel_field_equip_search.c,address,,p = (u8 *)D_801A7AD8 + off;
