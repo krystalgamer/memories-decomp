@@ -6,7 +6,10 @@
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
  *
- * Built under gcc_2_8_1_g8_split_psyq_gte. 862 instructions against 858.
+ * Built under gcc_2_8_1_g8_split_psyq_gte. 859 instructions against 858.
+ * Both returns re-read arg->primp rather than keeping primp live, and the
+ * POLY_GT4 arm reads arg->tagp into tg before addPrim; each shortens the
+ * primitive cursor's spill.
  * The residual is allocation: this source spills the primitive cursor to
  * the stack where retail spills the hoisted 0xFFFFFF mask, which adds the
  * reloads, and z's divide-by-four lacks retail's duplicated sra. A no-op
@@ -41,6 +44,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     u16 *rec;
     SVECTOR *vertop;
     SVECTOR *nortop;
+    GsOT *tg;
 
     flags = D_8009B30C;
     if (flags & 8) {
@@ -68,7 +72,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             func_80033CF8(x, y, w);
             rec += 14;
         }
-        return primp + 2;
+        return (u32 *)arg->primp + 2;
         } while (0);
     }
 
@@ -135,7 +139,8 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                     gt->clut = rec[1];
                     *(POLY_GT4 *)out = *gt;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                    addPrim(&arg->tagp->org[z], out);
+                    tg = arg->tagp;
+                    addPrim(&tg->org[z], out);
                     out += 0x34;
                     goto next;
                 }
@@ -255,5 +260,5 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         }
     }
     D_800FE240 = (u32 *)out;
-    return primp + 2;
+    return (u32 *)arg->primp + 2;
 }
