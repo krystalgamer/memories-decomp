@@ -125,24 +125,24 @@ s32 func_80045208(u16 arg0, s32 unused)
     if (a->flags_004A & 0x80) {
         if ((a->flags_004A & 0x40) || code <= 0x9FFF) {
             if (arg0 & 0x8000) {
-                *(s16 *)((u8 *)a + 0x534) = arg0;
+                *(s16 *)&a->field_0534 = arg0;
                 switch (arg0 & 0xF000) {
                 case 0x8000:
                     code = arg0 + 0x8000;
-                    table = *(u8 ***)((u8 *)a + 0x51C);
+                    table = (u8 **)a->bank_0518[1];
                     second = (u8 *)table + 8;
                     kind = 0x50;
                     break;
                 case 0x9000:
                     code = arg0 + 0x7000;
-                    table = *(u8 ***)((u8 *)a + 0x518);
+                    table = (u8 **)a->bank_0518[0];
                     second = (u8 *)table + 8;
                     kind = 0x60;
                     break;
                 default:
                     code = code + 0x6000;
                     kind = 0x70;
-                    table = *(u8 ***)((u8 *)g_SDValue + 0x520);
+                    table = (u8 **)g_SDValue->bank_0518[2];
                     second = (u8 *)table + 8;
                     break;
                 }
@@ -194,18 +194,18 @@ void func_80045334(s32 arg0)
         return;
     }
     value = arg0 & 0xF000;
-    *(s16 *)((u8 *)a + 0x534) = arg0;
+    *(s16 *)&a->field_0534 = arg0;
     switch (value) {
     case 0x8000:
         value = arg0 + value;
         code = value;
-        table = *(u8 ***)((u8 *)a + 0x51C);
+        table = (u8 **)a->bank_0518[1];
         second = (u8 *)table + 8;
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
-        table = *(u8 ***)((u8 *)a + 0x518);
+        table = (u8 **)a->bank_0518[0];
         second = (u8 *)table + 8;
         kind = 0x60;
         break;
@@ -213,7 +213,7 @@ void func_80045334(s32 arg0)
         code += 0x6000;
         kind = 0x70;
         b = g_SDValue;
-        table = *(u8 ***)((u8 *)b + 0x520);
+        table = (u8 **)b->bank_0518[2];
         second = (u8 *)table + 8;
         break;
     }
