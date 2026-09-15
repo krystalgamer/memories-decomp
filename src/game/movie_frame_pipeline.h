@@ -47,12 +47,13 @@ extern u8 D_8009B067;
 extern u32 D_8009B068;
 extern u32 D_8009B06C;
 extern u32 D_8009B070;
-/* The decoded frame's rectangle and the resize latch, at 0x800FE0CC-0x800FE0D7.
+/* The movie graph-reset latch and current LIBGS graph/display dimensions,
+ * at 0x800FE0CC-0x800FE0D7.
  *
  * The current LIBGS graph/display width and height each have a 16-bit RECT
  * view and a 32-bit arithmetic view. GraphicsDimension records that overlay
  * directly instead of making each consumer cast the global's address.
- * D_800FE0CC is set to 1 on the paths that change the rectangle.
+ * D_800FE0CC is set to 1 on paths that reinitialize graph/display state.
  *
  * All three keep the .data section attribute both sources already wrote, and
  * both write it: these sit at 0x800FE0xx, far from $gp, and the retail image
