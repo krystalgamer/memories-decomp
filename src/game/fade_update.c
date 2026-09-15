@@ -52,7 +52,7 @@ void Fade_Update(FadeTransitionState *p)
         }
         D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
     } else {
-        func_80015D0C();
+        Fade_DisableOrderingTables();
     }
     D_8009B144 = D_8009B14C;
     D_8009B143 = D_8009B14B;

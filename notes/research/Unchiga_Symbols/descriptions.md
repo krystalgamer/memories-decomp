@@ -247,7 +247,7 @@ on the suspects side until proven.)
 | 0x800158B8 | `Fade_InitOut` | Initializes head 255, target 0, in-flight flag, all 30 strips at the current level, and step 12. The final color helper installs white tint and flags 0xB0 when D_8009B145 is nonzero. |
 | 0x80015904 | `Fade_StartOut` | Calls `Fade_InitOut`, then requests step 8 and strip mode. Its final color-helper call overrides this with step 12 and non-strip flags 0xB0 when D_8009B145 is nonzero. |
 | 0x80015B00 | `Fade_WaitOut` | Calls `Fade_StartOut`, then pumps the four per-frame update functions until the in-flight bit drops. Blocking; the captured strip transitions took ~48 frames, not a fixed duration guaranteed by this wrapper. |
-| 0x8009B141 | `gFade_bOverlayOn` | Separate draw-control byte, written to 1/0 by `Fade_EnableOrderingTables` (0x80015CFC)/func_80015D0C; its high bit also affects updater behavior. With no active fade, drawing still requires level != 255. Equal-255 completion leaves this byte at 1 without drawing, so it is not an unconditional black-screen latch. |
+| 0x8009B141 | `gFade_bOverlayOn` | Separate draw-control byte, written to 1/0 by `Fade_EnableOrderingTables` (0x80015CFC)/`Fade_DisableOrderingTables` (0x80015D0C); its high bit also affects updater behavior. With no active fade, drawing still requires level != 255. Equal-255 completion leaves this byte at 1 without drawing, so it is not an unconditional black-screen latch. |
 
 ## Batch: text-box / dialog machine (2026-09-02, live-traced on name entry, Linux seat)
 

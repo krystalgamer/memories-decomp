@@ -208,7 +208,7 @@ if (f & FADE_FLAG_KEEP_OVERLAY) {
     }
     D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY;
 } else {
-    func_80015D0C();     /* D_8009B141 = 0 */
+    Fade_DisableOrderingTables(); /* D_8009B141 = 0 */
 }
 ```
 
@@ -268,7 +268,8 @@ When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears
 the active flag and calls `Fade_EnableOrderingTables` to write `D_8009B141 = 1`; the
 renderer still submits nothing because the level is `0xFF`. Conversely, an
-equal-zero update entering with flags `0x80` calls `func_80015D0C` and leaves
+equal-zero update entering with flags `0x80` calls
+`Fade_DisableOrderingTables` and leaves
 the control byte zero. Other zero-target flags can retain it or write
 `0x80` (`0x800153D0..0x80015404`), and the tinted completion path can re-arm
 the active flag (`0x80015414..0x80015478`). The entry check at

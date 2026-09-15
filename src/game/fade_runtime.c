@@ -141,7 +141,7 @@ void func_800156DC(void)
     D_8009B142 = 0xFF;
     D_8009B143 = 0xFF;
     D_8009B144 = 0xFF;
-    func_80015D0C();
+    Fade_DisableOrderingTables();
 }
 
 void func_8001572C(void)
@@ -413,7 +413,7 @@ void Fade_EnableOrderingTables(void)
     D_8009B141 = FADE_ORDERING_TABLE_ACTIVE;
 }
 
-void func_80015D0C(void)
+void Fade_DisableOrderingTables(void)
 {
     D_8009B141 = 0;
 }
