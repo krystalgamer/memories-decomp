@@ -144,19 +144,20 @@ void SaveData_BuildPayload(u8 *data)
     saved_value = D_8009B0C4;
     output_type = gSD_bOutputType;
     *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_TERTIARY_OFFSET) = 0;
-    *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_VBLANK_COUNTER_OFFSET) =
+    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->vblank_counter =
         saved_value;
 
     if (output_type < 0) {
         gSD_bOutputType = 0;
     }
 
-    data[SAVE_DATA_HEADER_SIZE + SAVE_DATA_OUTPUT_TYPE_OFFSET] = gSD_bOutputType;
+    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->output_type =
+        gSD_bOutputType;
     copy = data + SAVE_DATA_HEADER_SIZE;
     value = gSaveDataSequence + 1;
-    *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_SEQUENCE_OFFSET) = value;
-    *(s32 *)(data + SAVE_DATA_DUPLICATE_STATE_OFFSET +
-             SAVE_DATA_SEQUENCE_OFFSET) = value;
+    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->save_sequence = value;
+    ((SaveDataState *)(data + SAVE_DATA_DUPLICATE_STATE_OFFSET))->save_sequence =
+        value;
 
     SaveData_WritePrimarySecondaryIntegrity(copy);
     SaveData_WriteTertiaryIntegrity(copy);
