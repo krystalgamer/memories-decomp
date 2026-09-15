@@ -4,6 +4,8 @@
 #include "sound.h"
 #include "sound_output_transition.h"
 
+extern SDValue *volatile g_SDValue_output_transition asm("g_SDValue");
+
 void func_8004666C(void)
 {
     SDValue *first = g_SDValue;
@@ -20,3 +22,45 @@ void func_8004666C(void)
     }
 }
 
+/* Preserve this function's volatile pointer view inside the grouped unit. */
+#define g_SDValue g_SDValue_output_transition
+
+void func_800466C8(void)
+{
+    SDValue *state = g_SDValue;
+    SDValue *flags;
+
+    if (state->flags_0040 & 0x80) {
+        state->field_1588 = 8;
+        state->field_1584 = 255;
+        state = g_SDValue;
+        state->field_0049 = 0;
+        flags = g_SDValue;
+        state->field_0512 = -64;
+        flags->flags_0040 &= 0xFFFB;
+        return;
+    }
+    state->field_0049 = 0;
+    flags = g_SDValue;
+    state->field_0512 = -64;
+    flags->flags_0040 &= 0xFFFB;
+}
+
+#undef g_SDValue
+
+void func_8004671C(void)
+{
+    SpuCommonAttr entry;
+
+    /* 707 is exactly these five bits, and the two fields it does not select
+       are still written because retail writes them. */
+    entry.mask = SPU_COMMON_MVOLL | SPU_COMMON_MVOLR | SPU_COMMON_CDVOLL |
+                 SPU_COMMON_CDVOLR | SPU_COMMON_CDMIX;
+    entry.mvol.left = 16383;
+    entry.mvol.right = 16383;
+    entry.cd.volume.left = 32767;
+    entry.cd.volume.right = 32767;
+    entry.cd.reverb = SPU_OFF;
+    entry.cd.mix = SPU_ON;
+    SpuSetCommonAttr(&entry);
+}
