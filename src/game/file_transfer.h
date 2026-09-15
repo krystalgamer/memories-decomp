@@ -64,7 +64,7 @@ void func_80013C28(u8, u8 *, u32 *);
 #else
 void func_80013C28(s32);
 #endif
-void func_8001455C(void);
+void File_StepActiveTransfer(void);
 void func_80014A5C(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
@@ -115,9 +115,9 @@ void func_80014FA4(void);
  * File_RequestAsyncTransfer initializes the primary request. The command-busy
  * bit is raised after a successful DsCommand/DsPacket submission and cleared
  * by its completion callback. The position-query pair gates DsCommand 0x10:
- * func_80014308 raises pending, func_8001455C submits it and raises busy, and
- * func_80014390 clears busy. The word is only ever read and written whole,
- * and only ever through bit masks. Nothing indexes it, so the
+ * func_80014308 raises pending, File_StepActiveTransfer submits it and raises
+ * busy, and func_80014390 clears busy. The word is only ever read and written
+ * whole, and only ever through bit masks. Nothing indexes it, so the
  * `D_8009B0F4[0]` spellings this header replaces were an addressing device
  * rather than evidence of an array.
  *
@@ -167,20 +167,20 @@ extern s32 gFile_anLba[];
 extern volatile u32 D_8009B0F4;
 extern volatile u32 D_8009B0F4_abs __attribute__((section(".data")));
 
-/* The transfer-step flag word. func_8001455C sets and clears every bit of
- * it through the streaming retry state machine and reloads it after each
- * store; File_ActivateTransfer ORs in bit 0; the two readers outside this
- * family test bit 0x4000, the transfer-complete flag. Same two forms as
+/* The transfer-step flag word. File_StepActiveTransfer sets and clears every
+ * bit of it through the streaming retry state machine and reloads it after
+ * each store; File_ActivateTransfer ORs in bit 0; the two readers outside
+ * this family test bit 0x4000, the transfer-complete flag. Same two forms as
  * D_8009B0F4 above: five units reach it gp-relative, and two --
  * func_80037B40 and DuelEffect_ApplyBoardDestruction -- read it through a %hi/%lo pair into
  * the load's own register (retail's `lui $v0` / `lhu $v0,%lo(...)($v0)`),
  * which is the bare form; they take the _abs name. Measured per unit: with
  * either of the two on the plain name the executable links 8 bytes short
  * (0x1d07f8 against 0x1d0800), the two pairs collapsing to two gp-relative
- * loads. volatile stays on the shared form, where it keeps func_8001455C's
- * back-to-back read-modify-writes from folding; the _abs twin is not
- * volatile, and that is measured -- the two readers build byte-identical
- * without it, as D_8009B134_abs does. */
+ * loads. volatile stays on the shared form, where it keeps
+ * File_StepActiveTransfer's back-to-back read-modify-writes from folding; the
+ * _abs twin is not volatile, and that is measured -- the two readers build
+ * byte-identical without it, as D_8009B134_abs does. */
 extern volatile u16 D_8009B112;
 extern u16 D_8009B112_abs __attribute__((section(".data")));
 
@@ -281,15 +281,15 @@ void File_SetPositionTable(void);
 /* The two command callbacks the sound driver hangs on the loader: SD_InitState
  * installs func_8004666C in D_8009B0F0 and func_800466C8 in D_8009B120 (both
  * `void (void)`, sound_output_transition.h), File_InitTransferState clears
- * both beside its clear of D_8009B10C, and func_8001455C's transfer step runs
- * D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from state 5,
- * each only when non-zero. As with D_8009B10C, the loader owns the slot and
- * another unit registers the handler, and the pointer is what every use
- * assigns and calls: one declarer spelled them s32 and only stored 0, another
- * void * and only assigned the two functions. Retail: gp-relative sw of zero
- * in File_InitTransferState and gp-relative lw in func_8001455C, but sw %lo
- * through $at in SD_InitState, whose unit defines the .data arms below for
- * that. Initial value not read. */
+ * both beside its clear of D_8009B10C, and File_StepActiveTransfer's transfer
+ * step runs D_8009B120 from its state 1 and state 6 arms and D_8009B0F0 from
+ * state 5, each only when non-zero. As with D_8009B10C, the loader owns the
+ * slot and another unit registers the handler, and the pointer is what every
+ * use assigns and calls: one declarer spelled them s32 and only stored 0,
+ * another void * and only assigned the two functions. Retail: gp-relative sw
+ * of zero in File_InitTransferState and gp-relative lw in
+ * File_StepActiveTransfer, but sw %lo through $at in SD_InitState, whose unit
+ * defines the .data arms below for that. Initial value not read. */
 #ifdef D_8009B0F0_IN_DATA
 extern void (*D_8009B0F0)(void) __attribute__((section(".data")));
 #else

@@ -56,8 +56,9 @@ descriptor, and `func_800144B8` refuses to promote the secondary request while
 that lock survives. Every successful `DsCommand`/`DsPacket` submission in the
 resident stepper raises command-busy, and every corresponding completion
 callback clears it. `func_80014308` raises position-query-pending after the
-preceding packet completes; `func_8001455C` then issues `DsCommand(0x10)` and
-raises position-query-busy, which `func_80014390` clears on completion.
+preceding packet completes; `File_StepActiveTransfer` then issues
+`DsCommand(0x10)` and raises position-query-busy, which `func_80014390` clears
+on completion.
 
 `volatile` is part of the type, not decoration. Dropping it from the plain
 declaration builds a 0x1D0668-byte executable; dropping it from the absolute
@@ -106,7 +107,7 @@ and the full executable still matched:
   comment claiming a separate linker name was needed to stop GCC retaining the
   address. That unit now reaches the word through one name in
   both of its statements, and the `c_symbols.ld` entry is gone.
-- The two signed comparisons in `func_8001455C` within
+- The two signed comparisons in `File_StepActiveTransfer` within
   [`func_80013C28.c`](../src/game/func_80013C28.c) (`< 0` and
   `>= 0`, testing bit 31) do not need a signed declaration; an `(s32)` cast at
   the two use sites reproduces both sign-bit branches unchanged.
