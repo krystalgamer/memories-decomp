@@ -8,7 +8,7 @@ void func_80022EEC(DisplayObject *object)
 {
     u8 *base = D_800E9F10;
     s32 offset =
-        *(s16 *)&object->field_2C.h.field_2C * DUEL_SELECTION_RECORD_SIZE;
+        (s16)object->field_2C.h.field_2C * DUEL_SELECTION_RECORD_SIZE;
     DisplayObject *parent;
 
     offset += D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
