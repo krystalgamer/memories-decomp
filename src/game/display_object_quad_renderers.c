@@ -17,7 +17,7 @@
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
  * word are setlen and setcode, 8 and 0x38 here, which is setPolyG4, and 12
- * and 0x3C in func_80041068, which is setPolyGT4. The offsets agree member by
+ * and 0x3C in DisplayObject_RenderTexturedGouraudQuadList, which is setPolyGT4. The offsets agree member by
  * member -- each x/y pair lands on xN/yN, each colour word on rN, and in the
  * textured form each halfword on uN -- so the cursor is typed as the
  * primitive. The constants stay in `eight`/`hi` rather than setPolyG4's
@@ -38,7 +38,7 @@
  * is set, runs the bit-2 clip test through func_80041E7C, and submits the
  * quad -- twice when the +0x5A flag asks for the second texture -- through
  * func_80042188. */
-void func_80040DD8(void) {
+void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *g;
     u8 *h;
     DisplayObject *e;
@@ -151,7 +151,7 @@ void func_80040DD8(void) {
  * submission, gated on the byte at 0x72 two bytes past the record, rewrites
  * the first two vertices from 0x58; display_object.h records why that reach
  * stays a byte reach. */
-void func_80041068(void) {
+void DisplayObject_RenderTexturedGouraudQuadList(void) {
     POLY_GT4 *g;
     u8 *h;
     DisplayObject *e;
@@ -232,7 +232,7 @@ void func_80041068(void) {
                                       g->x0 + (s16)e->field_18,
                                       g->y0 + (s16)e->field_1A,
                                       (struct ProjectionOut *)h) <= 0) {
-                        goto next_textured;
+                        goto next;
                     }
                     v = v | 0x4000000;
                 }
@@ -256,7 +256,7 @@ void func_80041068(void) {
                                   e->field_14 | bit, h);
                 }
             }
-        next_textured:
+        next:
             ;
         } while (i >= 0);
     }

@@ -15,9 +15,9 @@
  * belongs on its side of the call. */
 void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
 
-/* Three of the seven per-list renderers in D_80090FB0. Each walks one display
- * object list from its head in D_800EFE38, runs every object's update callback,
- * and differs only in which list it takes and what it does afterwards:
+/* Three of the seven entries in gDisplayObject_ListRenderers. Each walks one
+ * display object list from its head in D_800EFE38, runs every object's update
+ * callback, and differs only in which list it takes and what it does afterwards:
  *
  *   func_80040CAC  list 0, the update-only pass -- no rendering at all
  *   func_80040BF8  list 3
