@@ -7,11 +7,11 @@
 void AiScript_LoadOpponentID(void)
 {
     s32 index;
-    s32 *values;
+    volatile s32 *values;
     s32 value;
 
     index = AiScript_ReadByte();
     values = gAiScript_aMemory;
     value = gDuel_bOpponentID;
-    *(volatile s32 *)(values + index) = value;
+    values[index] = value;
 }
