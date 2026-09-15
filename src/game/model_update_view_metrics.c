@@ -19,7 +19,7 @@
  * rename registers across the whole function. Taking each member's address
  * keeps every read a scalar reference, as the old (m + offset) casts were,
  * and builds byte-identically. It is the same device
- * the func_80040DD8 and func_80041068 candidates use; they too store to
+ * the two DisplayObject_Render*GouraudQuadList functions use; they too store to
  * fixed addresses between the reads.
  *
  * The parameter itself stays u8 *, for a separate reason: GsRVIEW2 is an

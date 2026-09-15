@@ -171,7 +171,8 @@ row count remains shared through `duel_grid.h`.
 
 `func_80041340` visits list keys `6` down to `0`. For every nonempty head it
 sets geometry screen distance `150`, resets the geometry offset to `(0, 0)`,
-and calls that key's handler from the seven-entry table at `D_80090FB0`.
+and calls that key's handler from the seven-entry
+`gDisplayObject_ListRenderers` table.
 
 Matching consumers establish these heads and pass shapes:
 
@@ -181,8 +182,8 @@ Matching consumers establish these heads and pass shapes:
 | `1` | `D_800EFE3A` | not yet identified in matching C | The dispatcher still treats it as one of the seven lists. |
 | `2` | `D_800EFE3C` | `func_80040814` | Runs the callback, then `func_80041D60` and `func_8004158C` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `3` | `D_800EFE3E` | `func_80040BF8` | Runs the callback, then submits through `func_800408D0` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
-| `4` | `D_800EFE40` | `func_80040DD8` | Builds and submits the `0x38` packet form described below. |
-| `5` | `D_800EFE42` | `func_80041068` | Builds and submits the larger `0x3C` packet form described below. |
+| `4` | `D_800EFE40` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
+| `5` | `D_800EFE42` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |
 | `6` | `D_800EFE44` | `func_80040D14` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
 
 Every matched list walker reads the next-slot link before invoking the current
@@ -245,7 +246,8 @@ inventory falls from 109 names/206 sites to 106 names/196 sites.
 
 ### Gouraud packet builders
 
-`func_80040DD8` and `func_80041068` share the same high-level path:
+`DisplayObject_RenderGouraudQuadList` and
+`DisplayObject_RenderTexturedGouraudQuadList` share the same high-level path:
 
 1. Walk the slot list with `DISPLAY_OBJECT_RECORD_SIZE` and run each `+0x24`
    callback.
@@ -264,8 +266,8 @@ The concrete differences are:
 
 | Function | List | Packet length byte | Primitive code byte | Priority bits | Optional second packet |
 |---|---:|---:|---:|---:|---|
-| `func_80040DD8` | `4` | `8` | `0x38` | `0x40000` | Controlled by slot byte `+0x5A`. |
-| `func_80041068` | `5` | `12` | `0x3C` | `0x50000` | Controlled by object-relative byte `+0x72`. |
+| `DisplayObject_RenderGouraudQuadList` | `4` | `8` | `0x38` | `0x40000` | Controlled by slot byte `+0x5A`. |
+| `DisplayObject_RenderTexturedGouraudQuadList` | `5` | `12` | `0x3C` | `0x50000` | Controlled by object-relative byte `+0x72`. |
 
 The length and code bytes are libgpu's `setPolyG4` and `setPolyGT4`, so list
 key `4` draws gouraud quads (`POLY_G4`) and list key `5` gouraud-textured quads
@@ -394,8 +396,8 @@ of the fourth argument.
 | `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
-| `func_80040DD8`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
-| `func_80041068`, list key `5` | `5` | the same |
+| `DisplayObject_RenderGouraudQuadList`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
+| `DisplayObject_RenderTexturedGouraudQuadList`, list key `5` | `5` | the same |
 
 Cases `1`, `2` and `3` pass it straight into `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite`, which take a `GsSPRITE *`. Cases `4`

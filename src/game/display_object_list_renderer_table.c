@@ -18,12 +18,12 @@
  * So this array is declared sized, unlike the other three, because the size
  * is established rather than assumed. */
 
-void (*D_80090FB0[DISPLAY_OBJECT_LIST_COUNT])(void) = {
+void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     func_80040CAC,
     func_80040588,
     func_80040814,
     func_80040BF8,
-    func_80040DD8,
-    func_80041068,
+    DisplayObject_RenderGouraudQuadList,
+    DisplayObject_RenderTexturedGouraudQuadList,
     func_80040D14,
 };

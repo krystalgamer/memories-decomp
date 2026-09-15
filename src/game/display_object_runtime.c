@@ -22,7 +22,7 @@ void func_80041340(void)
         if (D_800EFE38[i] >= 0) {
             SetGeomScreen(150);
             SetGeomOffset(0, 0);
-            D_80090FB0[i]();
+            gDisplayObject_ListRenderers[i]();
         }
     }
 }

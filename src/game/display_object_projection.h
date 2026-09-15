@@ -23,8 +23,8 @@ struct DisplayObject;
  * survives the test. The result is signed NCLIP area from MAC0, not OTZ.
  *
  * The first parameter is u32, which is what the field the callers pass --
- * field_20.word -- already is. The matching list renderers func_80040DD8 and
- * func_80041068 formerly declared it
+ * field_20.word -- already is. The matching Gouraud-quad list renderers
+ * formerly declared it
  * s32 and the fourth parameter u8 *, holding the scratchpad address at
  * 0x1F800398 as a byte pointer; both call sites now state that conversion
  * instead. */

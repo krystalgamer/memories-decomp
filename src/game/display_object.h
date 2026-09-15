@@ -173,8 +173,9 @@ typedef struct DisplayObject {
 
        Whole: display_object_helpers.c writes 0x00808080 here as the third of
        six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50, 0x5C, 0x68 -- and
-       func_80040DD8 and func_80041068 copy it into a primitive's colour
-       word.
+       DisplayObject_RenderGouraudQuadList and
+       DisplayObject_RenderTexturedGouraudQuadList copy it into a primitive's
+       colour word.
 
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
        pair. That function writes six such pairs at stride 8 -- 0x28, 0x30,
@@ -234,11 +235,12 @@ typedef struct DisplayObject {
 
        0x44 is the fourth of six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44,
        0x4C, 0x54 -- which display_object_helpers.c zeroes in one run. For a
-       gouraud-rendered object those six are per-vertex colours: func_80041068,
-       the twelve-word code-0x3C renderer, copies 0x44 into its third vertex's
-       colour word, and Dialog_UpdateChoice writes all six with colour
-       constants (0x2000 four times, 0xC000 twice) before installing
-       Widget_UpdatePulseColour as the update callback.
+       gouraud-rendered object those six are per-vertex colours:
+       DisplayObject_RenderTexturedGouraudQuadList, the twelve-word code-0x3C
+       renderer, copies 0x44 into its third vertex's colour word, and
+       Dialog_UpdateChoice writes all six with colour constants (0x2000 four
+       times, 0xC000 twice) before installing Widget_UpdatePulseColour as the
+       update callback.
 
        The sprite emitters read the same word as a scale instead:
        func_80040588 and func_800408D0 assign it to sprite_primitive.h's u32
@@ -274,8 +276,9 @@ typedef struct DisplayObject {
        display_object_helpers.c zeroes in one run.
 
        For a gouraud-rendered object it is a vertex colour:
-       func_80040DD8 and func_80041068 copy it into a primitive's colour
-       word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
+       DisplayObject_RenderGouraudQuadList and
+       DisplayObject_RenderTexturedGouraudQuadList copy it into a primitive's
+       colour word, Dialog_UpdateChoice writes 0x2000 and func_800391E4 writes
        0xA0A0A0.
 
        For others it holds a second callback: display_object_updates.c calls
@@ -302,7 +305,8 @@ typedef struct DisplayObject {
        pushed onto the whole tail. func_80041534 advances it by 4;
        func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
        reading DisplayObjectStreamState spells as `current`; and
-       func_80040DD8 and func_80041068 copy it into a primitive word.
+       the two DisplayObject_Render*GouraudQuadList functions copy it into a
+       primitive word.
 
        s32 serves all of them: a word load and store do not distinguish
        signedness, and the pointer writers cast, as they already do at 0x4C. */
@@ -343,10 +347,11 @@ typedef struct DisplayObject {
        grounds #3004 set out for 0x44. */
     s16 field_60;                  /* 0x60 */
     u8 pad_62[2];                  /* 0x62 */
-    /* Only reached as the first byte of a word: func_80041068 reads the s32
-       at 0x64 as the second vertex's x/y pair of its second POLY_GT4
-       submission, the same slot 0x34 fills in its first. The other three
-       bytes of that word are named below for their own byte users. */
+    /* Only reached as the first byte of a word:
+       DisplayObject_RenderTexturedGouraudQuadList reads the s32 at 0x64 as
+       the second vertex's x/y pair of its second POLY_GT4 submission, the
+       same slot 0x34 fills in its first. The other three bytes of that word
+       are named below for their own byte users. */
     u8 field_64;                   /* 0x64 */
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
@@ -390,17 +395,18 @@ typedef struct DisplayObject {
    0x800EFE48 + 96 * 0x70 is 0x800F2848, which is exactly where
    D_800F2848 begins. There is no room for a larger record.
 
-   Yet func_80041068 walks this pool
-   with that stride and then tests e[0x72] as a flag, reading a second
-   vertex set from 0x58, 0x64, 0x68 and 0x6C when it is set; and
+   Yet DisplayObject_RenderTexturedGouraudQuadList walks this pool with that
+   stride and then tests e[0x72] as a flag, reading a second vertex set from
+   0x58, 0x64, 0x68 and 0x6C when it is set; and
    func_80042824 in display_object_helpers.c writes object[0x72]. Both
    land two bytes past the record, which is `next` of the following
    entry.
 
    What that means is not established here. The sibling renderer
-   func_80040DD8 gates its second submission on e[0x5A] instead, so the
-   two list heads (D_800EFE38[4] and [5]) may simply carry differently
-   shaped payloads. Recorded as an open question rather than guessed at.
+   DisplayObject_RenderGouraudQuadList gates its second submission on
+   e[0x5A] instead, so the two list heads (D_800EFE38[4] and [5]) may simply
+   carry differently shaped payloads. Recorded as an open question rather
+   than guessed at.
 
    Neither reach stops the file converting. e[0x72] stays a byte reach,
    ((u8 *)e)[0x72], the spelling func_80042824 already uses for the
@@ -418,8 +424,8 @@ typedef struct DisplayObject {
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
    That is the same device func_80016784.c uses for its 0x0C colour word, and
-   it is how the func_80040DD8 and func_80041068 candidates name every
-   offset they touch except 0x72. */
+   it is how the two DisplayObject_Render*GouraudQuadList functions name
+   every offset they touch except 0x72. */
 
 #define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
 
