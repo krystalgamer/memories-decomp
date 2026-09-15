@@ -15,6 +15,6 @@
  * re-applied so the new balance takes effect at once. */
 void SD_SetCdPan(s32 pan);
 void func_80044F58(s32 value);
-s32 func_80044FE4(void);
+s32 SD_GetCdVolume(void);
 
 #endif

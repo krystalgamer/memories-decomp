@@ -46,7 +46,7 @@ void func_80044F58(s32 value)
     second->field_0512 = 0;
 }
 
-s32 func_80044FE4(void)
+s32 SD_GetCdVolume(void)
 {
     return g_SDValue->cd_volume;
 }
