@@ -3,15 +3,17 @@
  * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
  * keying on, and routing reverb. Current best under
  * gcc_2_8_1_cc_g8_as_g0: 355/355 instructions, opcode multiset distance 4,
- * and 160 differing words.
+ * and 145 differing words, with no register binding.
  *
  * Unsigned key/tone indices, uncached driver-root loads, block-scoped reverb
  * masks, folded VAB indices, two allocation call sites, and one forced root
- * reload reproduce the current shape. The incoming channel remains pinned to
- * $s7; it is the only pin and has the same eight uses as retail.
+ * reload reproduce the current shape. The incoming channel keeps retail's
+ * callee-saved register because its name is reused as the pitch shift count
+ * after its last use, and tone[2] is read into tr ahead of the voice
+ * attribute stores.
  *
- * Residual: four saved-register roles remain permuted, accounting for most
- * positional differences, plus two load-scheduling nops in object setup.
+ * Residual: register choices, plus the same opcode census as before: one
+ * missing addu, one missing sll and two extra nops.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
@@ -30,7 +32,7 @@
 
 void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
 {
-    register s32 channel asm("$23");
+    s32 channel;
     u8 *prog;
     s32 ch;
     u32 tidx;
@@ -54,6 +56,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
     s32 *voice;
     u16 adsr1;
     u16 adsr2;
+    u8 tr;
 
     channel = arg0;
     rec = D_8009B458 + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
@@ -122,6 +125,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         sum <<= 3;
         voice = &D_80011434[idx];
         *(s32 *)(D_8009B458 + 0x4C4) = 0x6019F;
+        tr = tone[2];
         *(s16 *)(D_8009B458 + 0x4CC) = 0;
         *(s16 *)(D_8009B458 + 0x4CE) = 0;
         *(s32 *)(D_8009B458 + 0x4C0) = *voice;
@@ -153,7 +157,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[6] = level;
         ((SDSecondaryObject *)obj)->field_0008 = prog[1];
         ((SDSecondaryObject *)obj)->field_000A = prog[4];
-        ((SDSecondaryObject *)obj)->field_0009 = tone[2];
+        ((SDSecondaryObject *)obj)->field_0009 = tr;
         ((SDSecondaryObject *)obj)->field_000E = velocity;
         *(u16 *)(obj + 0x1E) = 0xFFFF;
         ((SDSecondaryObject *)obj)->field_000B = tone[3];
@@ -170,8 +174,9 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         *(s16 *)(obj + 0x1A) = -1;
         *(s16 *)(obj + 0x1C) = rec[7];
         pitch = SD_CalcPitchBend((SDSecondaryObject *)obj, rec[7]) + obj[6] * 128;
+        channel = 7;
         *(s16 *)(D_8009B458 + 0x4D4) =
-            func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
+            func_80049FB4((s16)pitch >> channel, pitch & 0x7F, tone[4], tone[5]);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
         if (stolen == 0) {
             if ((rec[6] & 0xF) < 0xF) {
