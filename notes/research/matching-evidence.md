@@ -6419,7 +6419,7 @@ MASPSX has no option for it either; its whole flag set was checked.
 
 **The transfers are fine and only the commands are affected.** `lwc2`, `swc2`,
 `mtc2`, `mfc2`, `cfc2` and `ctc2` are real mnemonics, which is why
-`gte_stopz` works in `display_object_projection.c` (now the candidates `func_80041E7C.c` and `func_80041F90.c`) — the only GTE use in
+`gte_stopz` works in `display_object_projection_checks.c` — the only GTE use in
 accepted C, and a transfer. Reading that file as proof that "GTE works from C"
 is the trap here.
 
