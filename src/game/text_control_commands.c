@@ -135,7 +135,7 @@ void Text_NewLine(DuelEffectChannel *record)
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340((volatile u8 *)record);
+        D_8009B340(record);
     }
 }
 

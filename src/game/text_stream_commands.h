@@ -19,7 +19,7 @@ u8 func_8003B7E0(TextStreamOwner *object);
  * Text_ExtendGlyphCode and Text_SetStateFromStream both advance one of the
  * byte streams held at the front of the object, chosen by the signed byte at
  * 0x58. */
-void func_80037CE0(volatile u8 *object);
+void func_80037CE0(volatile DuelEffectChannel *object);
 void Text_ExtendGlyphCode(u8 *object);
 void Text_SetStateFromStream(DuelEffectChannel *object);
 
@@ -41,7 +41,7 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * when a new box starts, and Text_NewLine is the only caller. Nothing else
  * writes it, so the parameter type is not a guess: it is func_80037CE0's own,
  * volatile qualifier included. */
-extern void (*D_8009B340)(volatile u8 *object);
+extern void (*D_8009B340)(volatile DuelEffectChannel *object);
 extern void (*D_80090F18[])(u8 *);
 
 #endif
