@@ -4,10 +4,10 @@
 #include "../psyq/qsort.h"
 
 /* Use the historical PSYQ declaration, whose comparator has unspecified args. */
-void func_800355C8(void)
+void SortedEntry_SortAndRelink(void)
 {
-    u8 *base = (u8 *)D_8009B304;
-    u8 *entry = base;
+    SortedEntry *base = D_8009B304;
+    SortedEntry *entry = base;
     u32 count = D_8009B314;
     u32 sorted_count;
     u32 index;
@@ -16,9 +16,9 @@ void func_800355C8(void)
     D_8009B30C &= ~4;
 
     if (count >= 2) {
-        s32 (*compare)(const u32 *, const u32 *) = func_80035598;
+        s32 (*compare)(const u32 *, const u32 *) = SortedEntry_Compare;
 
-        qsort(entry, count, 8, compare);
+        qsort(entry, count, sizeof(*entry), compare);
     }
 
     sorted_count = D_8009B308;
@@ -26,9 +26,9 @@ void func_800355C8(void)
 
     if (sorted_count != 0) {
         do {
-            *(u16 *)(base + *(s16 *)(entry + 4) * 8 + 6) = index;
+            base[entry->append_index].sorted_position = index;
             index++;
-            entry += 8;
+            entry++;
         } while (index < sorted_count);
     }
 
