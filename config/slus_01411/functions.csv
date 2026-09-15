@@ -219,10 +219,10 @@ address,size,name,status,module,notes
 0x80026A3C,0xF8,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,Walks the opposing magic/trap row and removes every occupied card.
 0x80026B34,0x70,DuelEffect_UpdateCardEffect,matching_c,game,Dispatches the active effect index through the group table and returns the updated card-effect state word; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80026BA4,0x68,DuelEffect_StartCardEffect,matching_c,game,Maps a supported card ID into the 104-entry effect index and starts either the first or second group handler; object is byte-identical under gcc_2_8_1_g8 and gcc_2_8_1_g8_split.
-0x80026C0C,0x60,func_80026C0C,matching_c,game,"Scans five stride-0x1C records from D_801A7AD8 for the first whose halfword at 0x16 lacks bit 0x8000, returning base+i or -1; exact linked bytes and relocations from pure C without asm or register bindings."
+0x80026C0C,0x60,Duel_FindFreeFieldSlot,matching_c,game,"Scans five DuelCardRecord entries at the requested active-side row start, returning the first unoccupied absolute slot index or -1 when the row is full; exact pure-C match."
 0x80026C6C,0xAC,Duel_CollectFieldCardsBelowType,matching_c,game,Collects occupied field cards whose type is below the requested threshold. Removing a redundant one-iteration wrapper naturally gives the retail count and loop-index register allocation without pins.
 0x80026D18,0xB0,Duel_CollectFieldCardsByType,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80026DC8,0x298,func_80026DC8,matching_c,game,Exact resident match from newer clean collaborator evidence; accepted duel helper symbols preserve the verified source structure.
+0x80026DC8,0x298,Duel_SelectEquipPair,matching_c,game,"Finds a compatible active-side equip/card pair, or a free destination and compatible hand/field pair, then writes the selected slots into the AI action record; exact resident match."
 0x80027060,0xCC,func_80027060,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002712C,0xFC,func_8002712C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80027228,0x2E0,func_80027228,matching_c,game,"Goto layout matching retail block order, block-local selection pointer and slot byte locals, duplicated tails"

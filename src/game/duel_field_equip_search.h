@@ -6,7 +6,7 @@
 
 /* Returns the first unoccupied slot at or after `start` on the active side,
  * or -1 when the five-slot row is full. */
-s32 func_80026C0C(s32 start);
+s32 Duel_FindFreeFieldSlot(s32 start);
 
 /* Collecting occupied field records into a caller-supplied array.
  *
@@ -28,7 +28,7 @@ s32 Duel_CollectFieldCardsByType(DuelCardRecord **out, s32 arg1, s32 arg2);
 
 /* Returns 0 when it has written an equip pairing into D_800EAE88, 1 when
  * there is nothing to pair. */
-s32 func_80026DC8(void);
+s32 Duel_SelectEquipPair(void);
 
 /* The same convention, for a trap rather than an equip: 0 once it has written
  * a play into D_800EAE88, 1 when it found no trap on the field or no free
