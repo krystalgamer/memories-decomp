@@ -16,7 +16,7 @@
 #include "model_slot_queries.h"
 #include "../unmatched.h"
 #include "func_80057AF4.h"
-#include "func_8002A788.h"
+#include "library_grid_cursor.h"
 #include "func_8002A2F4.h"
 #include "save_data.h"
 #include "card_constants.h"

@@ -12,15 +12,15 @@
 
 /* The card grid's cursor position.
  *
- * func_8002A788 navigates the grid and reads both into s32 locals; func_8002BFCC
- * places the cursor sprite within a section from them, deriving x from the
- * column remainder and y from the row quotient/remainder. The cursor spans
- * two side-by-side 10x10 sections per section row.
+ * Library_UpdateGridCursor navigates the grid and reads both into s32 locals;
+ * func_8002BFCC places the cursor sprite within a section from them, deriving
+ * x from the column remainder and y from the row quotient/remainder. The
+ * cursor spans two side-by-side 10x10 sections per section row.
  *
  * Both must stay small-data eligible, and that is not a style question here:
- * func_8002A788's retail loads are gp-relative. A plain s8 scalar is eligible
- * under its uniform -G8 profile; an oversized array or a .data attribute
- * would change that address formation.
+ * Library_UpdateGridCursor's retail loads are gp-relative. A plain s8 scalar
+ * is eligible under its uniform -G8 profile; an oversized array or a .data
+ * attribute would change that address formation.
  *
  * The s8 spelling is measured rather than preferred. #3054 established that
  * what this code requires is a signed read: declaring them u8 and dropping

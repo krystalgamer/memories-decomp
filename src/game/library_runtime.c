@@ -14,7 +14,7 @@
 #include "model_slot_queries.h"
 #include "../unmatched.h"
 #include "func_80057AF4.h"
-#include "func_8002A788.h"
+#include "library_grid_cursor.h"
 #include "save_data.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
@@ -75,7 +75,7 @@ void func_8002BAB4(void)
         func_8002BAA0(state);
         break;
     case 1:
-        func_8002A788(state);
+        Library_UpdateGridCursor(state);
         break;
     case 2:
         func_8002ACA4(state);

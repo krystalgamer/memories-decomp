@@ -338,6 +338,15 @@ functions would reorder `.rodata` even if `.text` could still be made to fit.
 A subsegment size is also a free cross-check on a decompiled switch, since
 its byte size divided by four is the number of table entries.
 
+`Library_GetGridCursorCardId` at `0x8002A6B8` and
+`Library_UpdateGridCursor` at `0x8002A788` form another direct group. Their
+addresses are contiguous, both use `gcc_2_8_1_g8`, and the first computes the
+card id consumed by the second while both share the Library cursor globals.
+They now build once from `library_grid_cursor.c` in image order. Giving the
+lookup its caller-visible `u8 *state` parameter also removes the old
+translation-unit-specific prototype split without changing either caller's
+argument register.
+
 `Duel_IsPlayerDeckComplete` at `0x8002EE5C` directly precedes
 `Script_OpSavePrompt` at `0x8002EE94`. Both use
 `gcc_2_8_1_g8_split`, share `script_op_save_prompt.h`, and the prompt calls
@@ -346,20 +355,20 @@ from `script_op_save_prompt.c` in that image order.
 
 ## Sources that cannot be grouped at all
 
-Five resident sources were an `__asm__` block of `.word` literals with
+Five resident sources were once an `__asm__` block of `.word` literals with
 explicit `.reloc` directives and no C statements outside it: `func_800291E0`,
 `func_8002A4A8`, `func_8002A788`, `DebugMenu_UpdateCampaignEntry` and `Main_RunCredits`. They
 were registered in `matching_c.json` with a compiler profile, but no C was
 compiled for them, so the profile was inert and the recorded match reflected
 literal bytes rather than codegen.
 
-#3859 reclassified all five to `unmatched_asm` and removed the sources, and
-each one's `functions.csv` row records that. They are now in neither
-`matching_c.json` nor `candidates.json`, so a candidate scan over matching C
-no longer reaches them and none of them needs excluding by name.
+#3859 reclassified all five to `unmatched_asm` and removed those sources.
+`func_8002A788` was subsequently recovered as pure matching C, named
+`Library_UpdateGridCursor`, and grouped with its preceding card-id lookup.
+The other four still illustrate the ungroupable-hole case.
 
-What they still do is leave a hole. Each sits between two matched functions,
-and for three of the five those neighbours share a profile: `func_800291E0`
+Those remaining functions leave holes between matched functions. For three of
+the four, the neighbours share a profile: `func_800291E0`
 between two at `gcc_2_8_1_g0`, `DebugMenu_UpdateCampaignEntry` between two at
 `gcc_2_8_1_g8`, and `Main_RunCredits` between two at
 `gcc_2_8_1_g8_split_comm`. Of those three, only in the last is the hole

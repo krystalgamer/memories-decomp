@@ -27,6 +27,24 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertEqual(self.functions["0x8002A4A8"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002A4A8.c").exists())
 
+    def test_library_cursor_pair_has_one_owner(self) -> None:
+        owner = "src/game/library_grid_cursor.c"
+        self.assertEqual(self.functions["0x8002A6B8"]["source"], owner)
+        self.assertEqual(self.functions["0x8002A788"]["source"], owner)
+        self.assertFalse((ROOT / "src/game/card_grid_cursor_card_id.c").exists())
+        self.assertFalse((ROOT / "src/game/func_8002A788.c").exists())
+        self.assertFalse((ROOT / "src/game/func_8002A788.h").exists())
+
+    def test_library_cursor_lookup_has_one_typed_contract(self) -> None:
+        header = (ROOT / "src/game/library_grid_cursor.h").read_text()
+        owner = (ROOT / "src/game/library_grid_cursor.c").read_text()
+        staging = (ROOT / "src/game/func_8002A2F4.c").read_text()
+        self.assertEqual(
+            header.count("s32 Library_GetGridCursorCardId(u8 *state);"), 1
+        )
+        self.assertIn("Library_GetGridCursorCardId(state)", owner)
+        self.assertIn("Library_GetGridCursorCardId(p)", staging)
+
     def test_grouped_functions_remain_in_image_order(self) -> None:
         display_source = (ROOT / "src/game/display_parent_links.c").read_text()
         library_source = (ROOT / "src/game/func_8002A3CC.c").read_text()
@@ -37,6 +55,11 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertLess(
             library_source.index("s32 func_8002A3CC("),
             library_source.index("void func_8002A4A8("),
+        )
+        cursor_source = (ROOT / "src/game/library_grid_cursor.c").read_text()
+        self.assertLess(
+            cursor_source.index("s32 Library_GetGridCursorCardId("),
+            cursor_source.index("void Library_UpdateGridCursor("),
         )
 
 

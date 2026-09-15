@@ -7209,8 +7209,11 @@ Twelve globals in the tree are declared with two spellings that differ only in
 signedness. `gCardGrid_bCursorColumn` and `gCardGrid_bCursorRow` are the first
 pair measured, and the answer is not the one the shape of the problem suggests.
 
-Two sources use them. `func_8002A788.c` (now `src/candidates/func_8002A6B8.c`, with `func_8002A788` itself generated assembly again) declares them `s8` and reads them
-straight into an `s32`. `func_8002BFCC.c` declares them `u8` and writes
+At that campaign snapshot two sources used them. The cursor functions have
+since been recovered as matching C and grouped in `library_grid_cursor.c` as
+`Library_GetGridCursorCardId` and `Library_UpdateGridCursor`; both use the
+canonical `s8` declarations and read them into `s32`. `func_8002BFCC.c`
+declares them `u8` and writes
 `(s8)gCardGrid_bCursorColumn` at each use. Editing only `func_8002BFCC.c` and
 leaving the other alone -- it carries hand-written
 `.reloc .-4, R_MIPS_GPREL16` directives naming these symbols, so touching it

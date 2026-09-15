@@ -1478,12 +1478,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B254,gDuel_bEffectState,gDuel_bEffectState,0x8003353C,BuildDeck_UpdateDeckPaneInput,matching_c,game,C,src/game/build_deck_pane_input.c,write,8,gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
 0x8009B254,gDuel_bEffectState,gDuel_bEffectState,0x800336F0,BuildDeck_UpdateChestPaneInput,matching_c,game,C,src/game/build_deck_pane_input.c,write,8,gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,read_write,8,gCardGrid_bCursorColumn = column; | if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
-0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/card_grid_cursor_card_id.c,read,8,column = gCardGrid_bCursorColumn;
-0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,column = gCardGrid_bCursorColumn;
+0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A6B8,Library_GetGridCursorCardId,matching_c,game,C,src/game/library_grid_cursor.c,read,8,column = gCardGrid_bCursorColumn;
+0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,read,8,column = gCardGrid_bCursorColumn;
 0x8009B258,gCardGrid_bCursorColumn,gCardGrid_bCursorColumn,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BD0C.c,read,8,c = gCardGrid_bCursorColumn;
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,read_write,8,gCardGrid_bCursorRow = target_row; | if (column == gCardGrid_bCursorColumn && target_row == gCardGrid_bCursorRow) {
-0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,func_8002A6B8,matching_c,game,C,src/game/card_grid_cursor_card_id.c,read,8,s32 row = gCardGrid_bCursorRow;
-0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,distance = row - gCardGrid_bCursorRow; | frames = (gCardGrid_bCursorRow - row) * 2; | (+1 more)
+0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A6B8,Library_GetGridCursorCardId,matching_c,game,C,src/game/library_grid_cursor.c,read,8,s32 row = gCardGrid_bCursorRow;
+0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,read,8,distance = row - gCardGrid_bCursorRow; | frames = (gCardGrid_bCursorRow - row) * 2; | (+1 more)
 0x8009B259,gCardGrid_bCursorRow,gCardGrid_bCursorRow,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/func_8002BD0C.c,read,8,k = gCardGrid_bCursorRow;
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,if ((gDuel_bEffectRequestStatus & 1) != 0) {
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,read_write,8,gDuel_bEffectRequestStatus = | value = gDuel_bEffectRequestStatus;
@@ -1504,7 +1504,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B269,D_8009B269,D_8009B269,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,8,D_8009B269 = 8;
 0x8009B269,D_8009B269,D_8009B269,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,write,8,D_8009B269 = 3;
 0x8009B269,D_8009B269,D_8009B269,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"lui $at, %hi(D_8009B269) | sb $v0, %lo(D_8009B269)($at)"
-0x8009B269,D_8009B269,D_8009B269,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,8,D_8009B26C[0] = D_8009B269[0];
+0x8009B269,D_8009B269,D_8009B269,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,read,8,D_8009B26C[0] = D_8009B269[0];
 0x8009B269,D_8009B269,D_8009B269,0x8002CE08,Main_RunDebugMenu,matching_c,game,C,src/game/main_debug.c,write,8,D_8009B269 = 0;
 0x8009B269,D_8009B269,D_8009B269,0x8002D180,Main_RunAnimatedBattle,matching_c,game,C,src/game/main_run_animated_battle.c,address,8,D_8009B26C = D_8009B269;
 0x8009B269,D_8009B269,D_8009B269,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,address,8,value = D_8009B269;
@@ -1521,7 +1521,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"lui $at, %hi(D_8009B26C) | sb $v1, %lo(D_8009B26C)($at)"
 0x8009B26C,D_8009B26C,D_8009B26C,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,D_8009B26C = 3;
 0x8009B26C,D_8009B26C,D_8009B26C,0x800283F4,DuelEffect_UpdateCardViewerState,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,8,"lbu $v0, %lo(D_8009B26C)($v0) | lui $v0, %hi(D_8009B26C)"
-0x8009B26C,D_8009B26C,D_8009B26C,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,write,8,D_8009B26C[0] = D_8009B269[0];
+0x8009B26C,D_8009B26C,D_8009B26C,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,write,8,D_8009B26C[0] = D_8009B269[0];
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002CE08,Main_RunDebugMenu,matching_c,game,C,src/game/main_debug.c,write,8,D_8009B26C = flags | 0x40; | if ((D_8009B26C & 0x40) == 0) | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,write,8,D_8009B26C = flags | 0x40; | if (D_8009B26C & 0x40) | (+1 more)
 0x8009B26C,D_8009B26C,D_8009B26C,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read_write,8,D_8009B26C = next; | D_8009B26C = value | 0x40; | (+2 more)
@@ -1958,7 +1958,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read,16,} else if (gInput_wPad1Pressed & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) { | } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) { | (+1 more)
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read,16,(gInput_wPad1Pressed & 0xC0)) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800283F4,DuelEffect_UpdateCardViewerState,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
-0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,16,if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) { | if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
+0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,read,16,if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) { | if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_run_trade.c,read,16,if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8002EE94,Script_OpSavePrompt,matching_c,game,C,src/game/script_op_save_prompt.c,read,16,if ((gInput_wPad1Pressed & 0xC0) == 0) {
@@ -2006,7 +2006,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read,16,if (gInput_wPad1Held & PAD_BUTTON_START) {
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x80023FBC,func_80023FBC,matching_c,game,C,src/game/func_80023FBC.c,read,16,if (gInput_wPad1Held & PAD_DIRECTION_DOWN) { | if (gInput_wPad1Held & PAD_DIRECTION_LEFT) { | (+3 more)
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800240B0,Duel_UpdateCardPickCursor,matching_c,game,C,src/game/duel_update_card_pick_cursor.c,read,16,} else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
-0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x8002A788,func_8002A788,matching_c,game,C,src/game/func_8002A788.c,read,16,if ((gInput_wPad1Held & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) { | if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) { | (+6 more)
+0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x8002A788,Library_UpdateGridCursor,matching_c,game,C,src/game/library_grid_cursor.c,read,16,if ((gInput_wPad1Held & (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) { | if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) { | (+6 more)
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,16,if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x800330BC,BuildDeck_UpdateCardListInput,matching_c,game,C,src/game/build_deck_card_list_input.c,read,16,if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) { | if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
 0x8009B3A4,gInput_wPad1Held,gInput_wPad1Held,0x8003353C,BuildDeck_UpdateDeckPaneInput,matching_c,game,C,src/game/build_deck_pane_input.c,read,16,if (gInput_wPad1Held == PAD_DIRECTION_LEFT) {

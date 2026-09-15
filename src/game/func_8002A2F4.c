@@ -7,7 +7,7 @@
 #include "text_box_lifecycle.h"
 #include "duel_effect.h"
 #include "func_8002A2F4.h"
-#include "func_8002A788.h"
+#include "library_grid_cursor.h"
 #include "func_80029EB0.h"
 #include "text_box_runtime.h"
 #include "text_staging.h"
@@ -22,7 +22,7 @@ void func_8002A2F4(u8 *p)
     u8 *o;
 
     mode = 0;
-    r = func_8002A6B8();
+    r = Library_GetGridCursorCardId(p);
     gDuel_wSelectedCardID = r;
     t = (s16)r;
     q->card.card_id = t;
