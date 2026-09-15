@@ -23,7 +23,7 @@
 void DuelEffect_ApplyCursebreaker(void) {
     DuelCardRecord *record;
     DuelEffectObject *object;
-    u8 *position;
+    DuelFieldPosition *position;
     u8 *positions;
     s32 card;
     s32 next;
@@ -52,7 +52,9 @@ void DuelEffect_ApplyCursebreaker(void) {
            below, while sibling DuelEffect_ApplySwords uses the two-dimensional view
            selected by DUEL_FIELD_GRID_2D. The cast is the one
            place the two spellings meet. The single-pass loop preserves the
-           retail grid and side register allocation under GCC 2.8.1. */
+           retail grid and side register allocation under GCC 2.8.1. The
+           selected record uses DuelFieldPosition, with u16 member views to
+           retain retail's unsigned halfword loads. */
         do {
             grid = (u8 *)D_800907D8;
             base_slot = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
@@ -64,14 +66,15 @@ void DuelEffect_ApplyCursebreaker(void) {
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
         object->field_1A = 3;
-        position = (
+        position = (DuelFieldPosition *)(
             (step + DUEL_FIELD_SIDE_ZONE_COUNT) * sizeof(DuelFieldPosition) +
-            D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES
-        ) + positions;
-        x = *(u16 *)(position + 0);
+            D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES +
+            positions
+        );
+        x = *(u16 *)&position->x;
         object->y = 0;
         object->x = x;
-        object->field_04 = *(u16 *)(position + 2);
+        object->field_04 = *(u16 *)&position->y;
         object->field_14 = object->field_14 + step * 0x3000;
         SD_SEPlayFull(0x14);
 
