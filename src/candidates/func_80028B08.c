@@ -11,12 +11,15 @@
 #include "../game/card_constants.h"
 #include "../ygo_types.h"
 /*
- * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 172
- * differing positions. Scratchpad records must be locals below the entry
- * guards; the parameter word widths, field_67/field_68 roles, live 0xFFFF
- * addend, shared clamp/loop local, and delayed field_0 update are structural.
- * Residual: two rematerialized 0xF8 values replace target nops, and the two
- * later scratchpad bases remain exchanged between $s6 and $s7.
+ * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 135
+ * differing words against the assembled target. Scratchpad records must be
+ * locals below the entry guards; the parameter word widths, field_67/field_68
+ * roles, live 0xFFFF addend, shared clamp/loop local, and delayed field_0
+ * update are structural. CTX->field_3 = 9 sits in its own do/while (0), the
+ * sprite's uv word is stored right after its first x coordinate, and the
+ * field_32 + 0x20 row coordinate is computed into ny2 ahead of its store.
+ * Residual: two rematerialized 0xF8 values replace target nops, plus
+ * register choices.
  */
 void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
@@ -33,6 +36,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     u32 tile;
     s32 white;
     s32 wrap;
+    s32 ny2;
 
     white = 0xF8;
     wrap = 0xFFFF;
@@ -61,7 +65,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
             ) <= 0) {
             return;
         }
-        CTX->field_3 = 9;
+        do {
+            CTX->field_3 = 9;
+        } while (0);
         arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0xF0000;
         *(u32 *)&CTX->field_4 = win->field_0C;
         CTX->field_7 = 0x2C;
@@ -69,24 +75,24 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
 
     PRM->attribute = obj->attribute;
     PRM->xy.h.x = win->field_30.h.field_30 + 0x13;
+    PRM->uv.word = obj->field_5C;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
     PRM->xy.h.y = win->field_30.h.field_32 + 0x32;
     PRM->rgb = win->field_0C;
     *(u32 *)&PRM->cxcy = obj->field_40.word;
-    PRM->uv.word = obj->field_5C;
     PRM->tpage = obj->field_66;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     CTX->field_7 = CTX->field_7 | 2;
     PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
     PRM->extent.wh.w.word = 0x60;
+    PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
     PRM->extent.wh.h = 0xE;
     PRM->cxcy.h.cy = white;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
     PRM->cxcy.h.cx = 0x1E0;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     EXT->field_4 = 0;
@@ -152,11 +158,12 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         } while (i >= 0);
 
         PRM->xy.h.x = win->field_30.h.field_30 + 0x77;
+        ny2 = win->field_30.h.field_32 + 0x20;
         PRM->cxcy.h.cx = 0x1C0;
         *(u32 *)&PRM->extent = 0x00090009;
         PRM->uv.b.lo = 0;
         PRM->cxcy.h.cy = white;
-        PRM->xy.h.y = win->field_30.h.field_32 + 0x20;
+        PRM->xy.h.y = ny2;
         if (rec->field_3A != 0) {
             i = 0;
             do {
