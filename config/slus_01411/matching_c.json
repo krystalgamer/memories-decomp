@@ -2365,6 +2365,12 @@
       "source": "src/game/func_80033CF8.c"
     },
     {
+      "address": "0x80033DB0",
+      "profile": "gcc_2_8_1_g8_split_psyq_gte",
+      "size": "0xA80",
+      "source": "src/game/func_80033DB0.c"
+    },
+    {
       "address": "0x80035598",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",

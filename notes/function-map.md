@@ -138,7 +138,8 @@ recovered or that no custom C/assembly wrapper could reproduce the function.
 
 | Disposition | Functions | Bytes | Evidence |
 |---|---:|---:|---|
-| Reopened `unmatched_asm` | `func_80033DB0`, `func_80034830` | `0x17E8` | Conventional `0x50`/`0x58` stack frames, ordinary O32 saves and shared epilogues; fixed-register FLAG/depth reads match SDK C-macro shapes. |
+| Matching C | `func_80033DB0` | `0xA80` | Official Psy-Q RTPS/NCDS/NCLIP macro expansions plus split 12-halfword cursor strides reproduce all bytes and relocations without register bindings. |
+| Reopened `unmatched_asm` | `func_80034830` | `0xD68` | Conventional `0x58` stack frame, ordinary O32 saves and shared epilogue; fixed-register FLAG/depth reads match SDK C-macro shapes. |
 | Reopened `unmatched_asm`, origin unresolved | `func_80067220` | `0x134` | No custom incoming-register preservation; software-pipelined GTE loops are not exact stock macro sequences. |
 | Retained `handwritten_asm` | 60 functions | `0x9B80` | Custom incoming-register preservation in caller-owned object fields, with no stack frames. |
 

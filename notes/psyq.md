@@ -1736,13 +1736,14 @@ The accepted `gcc_2_8_1_g8_split_psyq_rtps` profile now uses
 `gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks` variant used by
 `func_80029934` changes only the named CSE option, not this translation.
 
-This is not a general GTE allowance. Matching-source validation accepts only
-the exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions for these
-profiles, with no source-authored assembly or register bindings. Other command
-markers still need a separately reviewed bridge. The candidate-only
-`gcc_2_8_1_g8_split_psyq_gte` profile translates RTPS, NCDS and NCLIP through
-`tools/project/normalize_psyq_gte.py` for the `func_80033DB0` candidate; it
-does not allow any inline macro family for matching C. COP2 transfers have native
+This is not a general GTE allowance. The RTPS profiles still accept only the
+exact official `gte_ldv0`, `gte_rtps`, and `gte_stsxy` expansions. The
+`gcc_2_8_1_g8_split_psyq_gte` profile separately translates RTPS, NCDS and
+NCLIP through `tools/project/normalize_psyq_gte.py`; its matching-source family
+allows only the exact official loads, command markers, result/flag/depth
+stores, SXY3 input and MAC0 getter used by `func_80033DB0`. Source-authored
+assembly and register bindings remain forbidden, and every other command
+marker still needs a separately reviewed bridge. COP2 transfers have native
 assembler encodings, but their use must also satisfy the applicable source
 policy. See [the wireframe match](library-wireframe.md) for the RTPS-only case.
 

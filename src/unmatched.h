@@ -205,11 +205,10 @@ void func_80029EC4(void);
  * begins at 0x8009B364, immediately after it. */
 extern u8 D_8009B363[];
 
-/* One consumer each, model_primitive_handler.c, which does not call either
- * one: its dispatcher returns them as function pointers for primitive codes
- * 0xD and 0x15. So the declaration fixes the pointer type rather than a call's
- * argument setup, and `void (void)` is what the consumer already spelled. */
-void func_80033DB0(void);
+/* model_primitive_handler.c does not call func_80034830: its dispatcher
+ * returns it as a function pointer for primitive code 0x15. The declaration
+ * fixes the pointer type rather than a call's argument setup, and `void
+ * (void)` is what the consumer already spelled. */
 void func_80034830(void);
 
 /* Eleven unmatched_asm functions, each with a single consumer that declared
@@ -391,7 +390,6 @@ extern u8 D_800E9EC0[];
  * this header, they have no defining C translation unit.
  */
 void func_800612C0(void);
-void func_8006151C(void);
 void func_800617E0(void);
 void func_80061A84(void);
 void func_80061DDC(void);

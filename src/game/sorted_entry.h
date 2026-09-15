@@ -80,4 +80,6 @@ extern SortedEntry *D_8009B310;
 extern u32 D_8009B314;
 #endif
 
+void func_80033CF8(s32 dx, s32 dy, s32 dz);
+
 #endif

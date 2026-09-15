@@ -7,6 +7,7 @@ from integrate_verified_match import (
     IntegrationError,
     declared_symbol,
     load_tracked_symbol_names,
+    uses_disallowed_psyq_gte_asm,
     uses_disallowed_psyq_rtps_asm,
     validate_effective_profile,
 )
@@ -121,7 +122,49 @@ class MatchingSourceContractTests(unittest.TestCase):
             source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="stopz",
         ))
 
+    def test_gte_macro_family_accepts_only_its_official_expansions(self) -> None:
+        source = (
+            '__asm__ volatile ( "lwc2 $0, 0( %0 );" '
+            '"lwc2 $1, 4( %0 )" : : "r"( vertex ) ) ;\n'
+            '__asm__ volatile ( "nop;" "nop;" ".word 0x0000007f" ) ;\n'
+            '__asm__ volatile ( "swc2 $14, 0( %0 )" '
+            ': : "r"( xy ) : "memory" ) ;\n'
+            '__asm__ volatile ( "cfc2 $12, $31;" "nop;" '
+            '"sw $12, 0( %0 )" : : "r"( flag ) : "$12", "memory" ) ;\n'
+            '__asm__ volatile ( "lwc2 $6, 0( %0 )" : : "r"( rgb ) ) ;\n'
+            '__asm__ volatile ( "nop;" "nop;" ".word 0x00000fff" ) ;\n'
+            '__asm__ volatile ( "swc2 $22, 0( %0 )" '
+            ': : "r"( color ) : "memory" ) ;\n'
+            '__asm__ volatile ( "mfc2 $12, $19;" "nop;" '
+            '"sra $12, $12, 2;" "sw $12, 0( %0 )" '
+            ': : "r"( depth ) : "$12", "memory" ) ;\n'
+            '__asm__ volatile ( "mtc2 %0, $12;" "mtc2 %2, $14;" '
+            '"mtc2 %1, $13" : : "r"( xy0 ), "r"( xy1 ), "r"( xy2 ) ) ;\n'
+            '__asm__ volatile ( "nop;" "nop;" ".word 0x0000117f" ) ;\n'
+            '__asm__ volatile ( "swc2 $24, 0( %0 )" '
+            ': : "r"( &z ) : "memory" ) ;\n'
+        )
+        self.assertFalse(uses_disallowed_psyq_gte_asm(source))
+        self.assertEqual(source_violations(
+            source, set(), allow_psyq_inline_macros=True, psyq_inline_macro="gte",
+        ), [])
+        for candidate in (
+            source.replace("$19", "$18", 1),
+            source.replace(
+                '__asm__ volatile ( "nop;" "nop;" '
+                '".word 0x00000fff" ) ;\n',
+                "",
+            ),
+            source + 'asm("nop");\n',
+        ):
+            with self.subTest(candidate=candidate):
+                self.assertTrue(uses_disallowed_psyq_gte_asm(candidate))
+
     def test_macro_profile_requires_known_explicit_allowance(self) -> None:
+        validate_effective_profile({
+            "compiler_flags": ["-G8"], "maspsx_flags": ["-G8"],
+            "psyq_inline_macro": "gte", "allow_psyq_inline_macros": True,
+        }, "test")
         for family, enabled in (("other", True), ("stopz", False), (["stopz"], True)):
             with self.subTest(family=family, enabled=enabled):
                 with self.assertRaises(IntegrationError):

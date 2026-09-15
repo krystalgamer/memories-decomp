@@ -3,6 +3,8 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "func_80033DB0.h"
+#include "func_8006151C.h"
 #include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "../unmatched.h"

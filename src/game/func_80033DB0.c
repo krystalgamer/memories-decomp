@@ -8,11 +8,10 @@
  *
  * Built under gcc_2_8_1_g8_split_psyq_gte, whose assembly filter turns the
  * official inline_c.h RTPS, NCDS and NCLIP placeholders into native COP2
- * words. 672 instructions against 672, 18 differing words, all one
- * allocation swap: retail holds the primitive cursor in $t6 and the normal
- * table in $t7, this source holds them the other way round. A no-op
- * `rec++; rec--;` after the normal-table load closes it, so the tie is
- * decided by that pseudo's uses; no legitimate spelling of it is known.
+ * words. Splitting each 12-halfword primitive stride into `rec += 11;
+ * rec++;` preserves the single retail `addiu 24` while giving the cursor
+ * enough allocator weight to take $t6 and leave the normal table in $t7.
+ * All 672 instructions and relocations then match.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -20,11 +19,10 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "../psyq/inline_c.h"
-#include "../game/sorted_entry.h"
-#include "../game/gpu_packets.h"
-
-extern u32 *func_8006151C(GsARGUNIT_NORMAL *arg);
-extern void func_80033CF8(s32 dx, s32 dy, s32 dz);
+#include "sorted_entry.h"
+#include "gpu_packets.h"
+#include "func_80033DB0.h"
+#include "func_8006151C.h"
 
 u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 {
@@ -64,7 +62,8 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
             y = (vertop[rec[7]].vy + vertop[rec[9]].vy + vertop[rec[11]].vy) / 3;
             w = (vertop[rec[7]].vz + vertop[rec[9]].vz + vertop[rec[11]].vz) / 3;
             func_80033CF8(x >= 0 ? x : -x, y >= 0 ? y : -y, w >= 0 ? w : -w);
-            rec += 12;
+            rec += 11;
+            rec++;
         }
         return primp + 2;
         } while (0);
@@ -172,7 +171,8 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
             addPrim(&arg->tagp->org[z], out);
             out += 0x28;
         next:
-            rec += 12;
+            rec += 11;
+            rec++;
         }
     } else {
         POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
@@ -221,7 +221,8 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                 addPrim(&arg->tagp->org[z], out);
                 out += 0x28;
             }
-            rec += 12;
+            rec += 11;
+            rec++;
         }
     }
     D_800FE240 = (u32 *)out;

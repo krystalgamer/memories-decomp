@@ -11,6 +11,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "func_8006151C.h"
 #include "model.h"
 #define FUNC_800603DC_RETURNS_HANDLER
 #include "model_primitive_handler.h"

@@ -6459,9 +6459,11 @@ driver needs. Its `tools/project/normalize_psyq_gte.py` filter rewrites the
 RTPS, NCDS and NCLIP markers to `4a180001`, `4ae80413` and `4b400006`, and
 fails on any other marker, so an untranslated command still cannot assemble
 silently. The `func_80033DB0` candidate builds under it at 672/672 with 18
-differing words, all one allocation swap. RTPT, NCCS, NCCT, AVSZ3 and AVSZ4
-remain untranslated, and matching-source validation still accepts only the
-RTPS and STOPZ macro families.
+differing words, all one allocation swap. Splitting each 12-halfword cursor
+stride into `rec += 11; rec++;` preserves the retail `addiu 24` and changes
+the allocator tie, producing an exact match. Matching-source validation now
+has a separate strict GTE family for those official expansions. RTPT, NCCS,
+NCCT, AVSZ3 and AVSZ4 remain untranslated.
 ## objdump hides identical runs, and a text column can drift off its bytes
 
 Three earlier entries here record measurement bugs in the comparison itself -

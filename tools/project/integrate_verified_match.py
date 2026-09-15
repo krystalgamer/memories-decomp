@@ -71,6 +71,32 @@ PSYQ_STOPZ_STORE = re.compile(
     r'__asm__ volatile \( "swc2 \$24, 0\( %0 \)" '
     r': : "r"\( (?:& ?)?[A-Za-z_]\w* \) : "memory" \) ;'
 )
+PSYQ_GTE_FLAG_STORE = re.compile(
+    r'__asm__ volatile \( "cfc2 \$12, \$31;" "nop;" '
+    r'"sw \$12, 0\( %0 \)" : : "r"\( .+ \) : "\$12", "memory" \) ;'
+)
+PSYQ_GTE_RGB_LOAD = re.compile(
+    r'__asm__ volatile \( "lwc2 \$6, 0\( %0 \)" : : "r"\( .+ \) \) ;'
+)
+PSYQ_GTE_RGB_STORE = re.compile(
+    r'__asm__ volatile \( "swc2 \$22, 0\( %0 \)" '
+    r': : "r"\( .+ \) : "memory" \) ;'
+)
+PSYQ_GTE_DEPTH_STORE = re.compile(
+    r'__asm__ volatile \( "mfc2 \$12, \$19;" "nop;" '
+    r'"sra \$12, \$12, 2;" "sw \$12, 0\( %0 \)" '
+    r': : "r"\( .+ \) : "\$12", "memory" \) ;'
+)
+PSYQ_GTE_SXY3_LOAD = re.compile(
+    r'__asm__ volatile \( "mtc2 %0, \$12;" "mtc2 %2, \$14;" '
+    r'"mtc2 %1, \$13" : : "r"\( .+ \), "r"\( .+ \), "r"\( .+ \) \) ;'
+)
+PSYQ_GTE_NCDS_COMMAND = (
+    '__asm__ volatile ( "nop;" "nop;" ".word 0x00000fff" ) ;'
+)
+PSYQ_GTE_NCLIP_COMMAND = (
+    '__asm__ volatile ( "nop;" "nop;" ".word 0x0000117f" ) ;'
+)
 
 
 def splice_c_lines(source: str) -> str:
@@ -213,7 +239,7 @@ def validate_effective_profile(profile: Any, profile_name: str) -> None:
     if not isinstance(profile, dict):
         raise IntegrationError(f"invalid compiler profile: {profile_name}")
     if "psyq_inline_macro" in profile:
-        if profile["psyq_inline_macro"] not in ("rtps", "stopz"):
+        if profile["psyq_inline_macro"] not in ("rtps", "stopz", "gte"):
             raise IntegrationError(f"profile {profile_name} has an unsupported Psy-Q inline macro")
         if profile.get("allow_psyq_inline_macros") is not True:
             raise IntegrationError(f"profile {profile_name} must explicitly allow its Psy-Q inline macro")
@@ -395,6 +421,56 @@ def uses_disallowed_psyq_rtps_asm(
     )
 
 
+def uses_disallowed_psyq_gte_asm(
+    source: str,
+    *,
+    allow_register_pins: bool = False,
+    allow_symbol_aliases: bool = False,
+    tracked_symbol_names: set[str] | None = None,
+) -> bool:
+    """Allow only the official GTE macro expansions used by the GTE filter."""
+    result: list[str] = []
+    commands: set[str] = set()
+    for line in splice_c_lines(source).splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        normalized = re.sub(r"\s+", " ", content).strip()
+        allowed = (
+            PSYQ_RTPS_LOAD.fullmatch(normalized) is not None
+            or PSYQ_RTPS_STORE.fullmatch(normalized) is not None
+            or PSYQ_GTE_FLAG_STORE.fullmatch(normalized) is not None
+            or PSYQ_GTE_RGB_LOAD.fullmatch(normalized) is not None
+            or PSYQ_GTE_RGB_STORE.fullmatch(normalized) is not None
+            or PSYQ_GTE_DEPTH_STORE.fullmatch(normalized) is not None
+            or PSYQ_GTE_SXY3_LOAD.fullmatch(normalized) is not None
+            or PSYQ_STOPZ_STORE.fullmatch(normalized) is not None
+            or normalized in (
+                PSYQ_RTPS_COMMAND,
+                PSYQ_GTE_NCDS_COMMAND,
+                PSYQ_GTE_NCLIP_COMMAND,
+            )
+        )
+        if allowed:
+            if normalized in (
+                PSYQ_RTPS_COMMAND,
+                PSYQ_GTE_NCDS_COMMAND,
+                PSYQ_GTE_NCLIP_COMMAND,
+            ):
+                commands.add(normalized)
+            result.append(" " * len(content) + line[len(content):])
+        else:
+            result.append(line)
+    return commands != {
+        PSYQ_RTPS_COMMAND,
+        PSYQ_GTE_NCDS_COMMAND,
+        PSYQ_GTE_NCLIP_COMMAND,
+    } or uses_asm_extension(
+        "".join(result),
+        allow_register_pins=allow_register_pins,
+        allow_symbol_aliases=allow_symbol_aliases,
+        tracked_symbol_names=tracked_symbol_names,
+    )
+
+
 def uses_disallowed_psyq_inline_asm(
     source: str,
     *,
@@ -405,6 +481,13 @@ def uses_disallowed_psyq_inline_asm(
 ) -> bool:
     if macro_family == "rtps":
         return uses_disallowed_psyq_rtps_asm(
+            source,
+            allow_register_pins=allow_register_pins,
+            allow_symbol_aliases=allow_symbol_aliases,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+    if macro_family == "gte":
+        return uses_disallowed_psyq_gte_asm(
             source,
             allow_register_pins=allow_register_pins,
             allow_symbol_aliases=allow_symbol_aliases,
