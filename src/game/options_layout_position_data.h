@@ -3,6 +3,18 @@
 
 #include "../ygo_types.h"
 
+/* Stack layout used while Options_UpdateLayout combines the three selection
+ * rows with the two output-type X positions. */
+typedef struct {
+    OptionsLayoutPositionBlock selection;
+    u16 pad_06;
+    u16 output_x[2];
+} OptionsLayoutBuffer;
+
+typedef char OptionsLayoutBuffer_size_must_be_0x0C[
+    sizeof(OptionsLayoutBuffer) == 0x0C ? 1 : -1
+];
+
 /* The byte-array arm is an addressing form, not a second type, and two
  * measurements say it has to stay. options_screen.c is the only unit that
  * selects it, for one `*(OptionsLayoutPositionBlock *)` copy, and retail
