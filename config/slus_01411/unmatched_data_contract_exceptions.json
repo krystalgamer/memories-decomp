@@ -38,12 +38,6 @@
       "reason": "The grouped debug-effect unit needs a signed forced-.data scalar view; sorted-entry owners use unsigned guarded views of the same storage."
     },
     {
-      "symbol": "D_8009B141",
-      "source": "src/game/graphics_frame.c",
-      "declaration": "extern u8 D_8009B141 __attribute__((section(\".data\")));",
-      "reason": "Graphics-frame codegen requires the forced-.data view; fade.h owns the ordinary gp-relative declaration used by other translation units."
-    },
-    {
       "symbol": "D_800F56F0",
       "source": "src/game/model_distance_queries.c",
       "declaration": "extern u16 D_800F56F0[];",
