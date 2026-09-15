@@ -399,13 +399,14 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
             p2 = (u8 *)p2 + 8;
         }
 
-        if (p1 != 0 && *(s16 *)((u8 *)p1 + 6) != 0) {
+        if (p1 != 0 &&
+            *(s16 *)&((ModelEffectEndpoint *)p1)->kind != 0) {
             goto cont;
         }
         if (p2 == 0) {
             return;
         }
-        if (*(s16 *)((u8 *)p2 + 6) == 0) {
+        if (*(s16 *)&((ModelEffectEndpoint *)p2)->kind == 0) {
             return;
         }
 cont:
