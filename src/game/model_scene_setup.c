@@ -38,7 +38,7 @@
    reset/configuration after it are in func_80052D2C.c. */
 
 void func_80052528(void) {
-    u8 *b;
+    GsRVIEW2 *view;
     s32 x;
     s32 f;
     s32 v;
@@ -47,10 +47,10 @@ void func_80052528(void) {
     s32 d;
 
     if (*(s16 *)&D_8009B47C >= 0x801) {
-        b = (u8 *)&D_800F56F0;
-        x = *(s32 *)(b + 0x10);
+        view = &D_800F56F0;
+        x = view->vry;
         f = 0;
-        if (x >= -0xC7 && *(s32 *)(b + 4) < x) {
+        if (x >= -0xC7 && view->vpy < x) {
             if (x < -0x64) {
                 f = (-200 - x) * MODEL_FIXED_ONE / -100;
             } else {
