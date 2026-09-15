@@ -293,7 +293,7 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
-    if ((D_800EB12C & 0x2008) != 0x2000) {
+    if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) != TEXT_BOX_FLAG_DONE) {
         return;
     }
     state = D_8016D424 & 0x1F;
