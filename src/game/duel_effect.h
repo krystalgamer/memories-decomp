@@ -149,8 +149,8 @@ extern u8 D_8009B320 __attribute__((section(".data")));
 extern u8 D_8009B320;
 #endif
 
-/* Stored by five C functions and read by one. func_80031CD4 stores the
- * list entry's id (card_list_text_boxes.c:19); func_80023144 stores
+/* Stored by five C functions and read by one. CardList_CreateSlotTextBox
+ * stores the list entry's id (card_list_text_boxes.c:19); func_80023144 stores
  * `id = (s16)record->card_id;` under `if (record->flags & 0x8000)`,
  * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
@@ -169,7 +169,8 @@ extern u8 D_8009B320;
  * D_8009B33A at +2.
  *
  * Those five loads are %gp_rel and every C writer's sh goes through $at
- * (func_80031CD4.s:20-21, func_80023144.s:36-37, DuelEffect_UpdateCardViewerState.s:102-103,
+ * (CardList_CreateSlotTextBox at 0x80031CD4, func_80023144.s:36-37,
+ * DuelEffect_UpdateCardViewerState.s:102-103,
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the four
  * units whose profiles are -G8 at both the compiler and maspsx --
  * duel_field_display_objects.c (func_80023144), func_80060E70.c,

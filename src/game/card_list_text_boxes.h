@@ -104,7 +104,7 @@ typedef char CardListAssertSize[sizeof(CardList) == 0x2D4C ? 1 : -1];
 
 #undef CARD_LIST_OFFSET
 
-void func_80031CD4(CardList *list, s32 slot);
+void CardList_CreateSlotTextBox(CardList *list, s32 slot);
 void func_80031E04(CardList *list, s32 count);
 
 #endif
