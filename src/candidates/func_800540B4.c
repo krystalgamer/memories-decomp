@@ -4,8 +4,8 @@
  * the shared primitive templates at D_8009AFAC..D_8009AFE8, sorts every unit
  * of the slot, then updates the slot's bounding volume, draws the ground
  * shadow fan and runs the palette flash. Current best under
- * gcc_2_8_1_g8_split: 1417 instructions against 1421 with opcode distance 62
- * (29 surplus, 33 missing), with no hard register assignments and no inline
+ * gcc_2_8_1_g8_split: 1419 instructions against 1421 with opcode distance 52
+ * (25 surplus, 27 missing), with no hard register assignments and no inline
  * assembly. This is a structural candidate: the control flow, call sequence
  * and store set are in place, the register and stack-slot assignment is not.
  *
@@ -22,7 +22,10 @@
  *   them close to retail's comparison chains;
  * - the light matrix normalisation counts down from 8;
  * - the six fade templates divide the colour bytes as s16 by 16, which
- *   gives retail's signed shifts.
+ *   gives retail's signed shifts;
+ * - the bounding volume's maxx, maxy and maxz accumulators are u16, like
+ *   minz, and are read through their (s16) casts;
+ * - the shadow's hh is an s16, the width of every value it takes.
  *
  * Residual: the local frame is a single byte buffer indexed through SP();
  * retail keeps the CF8 block pointer in $s6 where this source spills it,
@@ -104,17 +107,17 @@ void func_800540B4(s32 index)
     s32 x;
     s32 y;
     s32 z;
-    s32 maxx;
+    u16 maxx;
     s32 minx;
-    s32 maxy;
+    u16 maxy;
     s32 miny;
-    s32 maxz;
+    u16 maxz;
     s32 w;
     s32 hy;
     s32 dz;
     s32 cur;
     s32 half;
-    s32 hh;
+    s16 hh;
     u8 *tbl;
     s32 row;
     u16 *cp;
