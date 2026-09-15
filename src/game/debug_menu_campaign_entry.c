@@ -46,7 +46,7 @@
 
 void DebugMenu_UpdateCampaignEntry(void)
 {
-    u8 *textbox;
+    DuelEffectChannel *textbox;
     s32 result;
     s32 flags;
     u16 selection;
@@ -76,15 +76,14 @@ void DebugMenu_UpdateCampaignEntry(void)
     flags = D_8009B2EB;
     if ((flags & 0x40) != 0) {
         func_80039794();
-        textbox = (u8 *)D_800EB0F8;
+        textbox = D_800EB0F8;
         if ((D_8009B2EB & 0x20) == 0) {
-            if ((*(u16 *)(textbox + 0x34) & TEXT_BOX_FLAG_DONE) != 0) {
-                ((DuelEffectChannel *)textbox)->field_30 =
-                    Dialog_OpenChoice((DuelEffectChannel *)textbox);
+            if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
+                textbox->field_30 = Dialog_OpenChoice(textbox);
                 D_8009B2EB = D_8009B2EB | 0x20;
             }
         } else if (Input_IsPad1ConfirmPressed() != 0) {
-            TextBox_Destroy(textbox);
+            TextBox_Destroy((u8 *)textbox);
             func_8004036C(D_8009B2A0);
             D_8009B2EB = D_8009B2EB & 0x9F;
             D_8009B2EA = D_8009B2EA & 0xFE;
