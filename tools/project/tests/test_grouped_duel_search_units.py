@@ -28,6 +28,12 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         self.assertEqual(self.functions["0x8002C9B4"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002C9B4.c").exists())
 
+    def test_field_effect_steps_have_one_owner(self) -> None:
+        owner = "src/game/duel_field_effect_steps.c"
+        self.assertEqual(self.functions["0x80025F3C"]["source"], owner)
+        self.assertEqual(self.functions["0x800260D0"]["source"], owner)
+        self.assertFalse((ROOT / "src/game/func_800260D0.c").exists())
+
     def test_functions_remain_in_image_order(self) -> None:
         field_source = (ROOT / "src/game/duel_field_equip_search.c").read_text()
         field_names = (
@@ -43,6 +49,12 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         self.assertLess(
             object_source.index("void func_8002C938("),
             object_source.index("void func_8002C9B4("),
+        )
+
+        effect_source = (ROOT / "src/game/duel_field_effect_steps.c").read_text()
+        self.assertLess(
+            effect_source.index("void DuelEffect_ApplySwords("),
+            effect_source.index("void DuelEffect_ApplyCursebreaker("),
         )
 
 

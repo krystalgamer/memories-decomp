@@ -61,10 +61,9 @@ extern u8 D_800907D8_flat[] asm("D_800907D8");
  * of them to the flat index the other sixteen files use builds to the right
  * size and differs from byte 0x80025CA2.
  *
- * DuelEffect_ApplySwords previously shared duel_field_effect_steps.c with
- * func_800260D0 (now src/game/func_800260D0.c), which walks the grid flat,
- * so that unit defined DUEL_FIELD_GRID_2D for the [side][slot] user and cast
- * at the flat one. Both sources keep that distinction. */
+ * DuelEffect_ApplySwords shares duel_field_effect_steps.c with
+ * DuelEffect_ApplyCursebreaker, which walks the grid flat, so the unit defines
+ * DUEL_FIELD_GRID_2D for the [side][slot] user and casts at the flat one. */
 extern u8 D_800907D8[DUEL_SIDE_COUNT][DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 #else
 extern u8 D_800907D8[];
