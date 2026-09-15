@@ -23,7 +23,7 @@ void func_8005611C(s32 arg0);
  * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
  * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
  * sprite fields, and applies the mode-dependent horizontal offset through
- * func_8005A468 before func_800582C0 draws it.
+ * func_8005A468 before Model_ApplyTextureTint draws it.
  *
  * arg1 is a pointer used only as a non-null gate. Both callers now take it
  * from high_memory_addresses.h: the scalar D_80010000 or the indexed

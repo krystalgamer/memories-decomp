@@ -12,7 +12,7 @@
 #include "func_8004D914.h"
 #include "model_slot_support.h"
 #include "model_slot_updates.h"
-#include "func_800582C0.h"
+#include "model_apply_texture_tint.h"
 #include "model_transfer_flags.h"
 #include "func_8004DC38.h"
 #include "sound_voice_data.h"
@@ -132,7 +132,7 @@ void func_80056828(s32 index)
         break;
     }
     case 8:
-        func_800582C0(index, slot->field_E0C, slot->field_E0A);
+        Model_ApplyTextureTint(index, slot->field_E0C, slot->field_E0A);
         break;
     case 9: {
         ModelSlot *p = &D_800F2C40[index];

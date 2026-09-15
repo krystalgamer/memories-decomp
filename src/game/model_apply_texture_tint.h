@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_800582C0_H
-#define MEMORIES_DECOMP_FUNC_800582C0_H
+#ifndef MEMORIES_DECOMP_MODEL_APPLY_TEXTURE_TINT_H
+#define MEMORIES_DECOMP_MODEL_APPLY_TEXTURE_TINT_H
 
 #include "../types.h"
 
@@ -20,6 +20,6 @@
  *
  * model_slot_setup.c is the only caller and supplies the tint and level from
  * the slot's field_E0C and field_E0A. */
-void func_800582C0(s32 side, s32 tint, s32 level);
+void Model_ApplyTextureTint(s32 side, s32 tint, s32 level);
 
 #endif

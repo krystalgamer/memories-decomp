@@ -2,7 +2,7 @@
 #include "color_constants.h"
 #include "model_slot_setup.h"
 #include "func_8004D914.h"
-#include "func_800582C0.h"
+#include "model_apply_texture_tint.h"
 #include "model_word_memory.h"
 #include "model.h"
 #include "model_init_light_triplet.h"
@@ -78,7 +78,7 @@ void func_8005611C(s32 arg0)
  * widths (0x14 for the cards flagged in the +0xBEC bitfield, 0xC otherwise),
  * derives the two cursor limits at +0xDF0/+0xDF4, resets each card object's
  * sprite fields, and applies the mode-dependent horizontal offset through
- * func_8005A468 before func_800582C0 draws it. */
+ * func_8005A468 before Model_ApplyTextureTint draws it. */
 void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     ModelSlot *p;
     ModelSlot *q;
@@ -161,6 +161,6 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
     if (arg0 < 2) {
         b2 = (u8 *)D_800F2C40;
         r = (ModelSlot *)(arg0 * MODEL_SLOT_SIZE + b2);
-        func_800582C0(arg0, r->field_E0C, r->field_E0A);
+        Model_ApplyTextureTint(arg0, r->field_E0C, r->field_E0A);
     }
 }
