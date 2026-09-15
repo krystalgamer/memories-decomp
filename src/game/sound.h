@@ -189,7 +189,8 @@ typedef struct {
     u8 pad1568[0x10];
     s16 field_1578;
     s16 field_157A;
-    u16 field_157C;
+    /* Token copied from field_004E after sequence setup, or -1 when inactive. */
+    s16 field_157C;
     s16 field_157E;
     s16 field_1580;
     s16 field_1582;

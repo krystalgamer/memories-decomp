@@ -41,9 +41,7 @@ void func_80046DE8(void)
     }
     r = g_SDValue;
     value = r->field_157A;
-    /* Retail stores one -1 register into both halfwords. Through the
-       unsigned member the constant becomes 0xFFFF and takes its own li. */
-    *(s16 *)&r->field_157C = -1;
+    r->field_157C = -1;
     r->field_157E = -1;
     if (value != -1) {
         func_800498F8(value);
