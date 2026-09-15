@@ -41,7 +41,7 @@ void func_8005C388(s32 index, s32 arg1, s32 end_frame, s32 arg3, s32 arg4)
 s32 Movie_StartFileStream(s32 path, s32 start_frame, s32 end_frame, s32 arg3,
                           s32 arg4)
 {
-    CdlFILE *file = (CdlFILE *)D_800F5750;
+    CdlFILE *file = &gMovie_FileLookupResult;
 
     if (File_Exists(path, (s32)file) != 0)
         return -1;
