@@ -18,8 +18,6 @@
 #include "text_box_state_callbacks.h"
 #include "text_stream_commands.h"
 
-extern void (*D_80090F18[])(u8 *);
-
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what makes the
    opcode store below a single %gp_rel instruction whose load-delay slot needs

@@ -38,6 +38,8 @@ typedef char DuelResultSpriteSlot_size_must_be_0xC[
     sizeof(DuelResultSpriteSlot) == 0xC ? 1 : -1
 ];
 
+extern u16 D_8009B1E0;
+
 /* gDuel_apfnSceneStateHandler duel phase entry: the result outro. It spawns one object per row
  * of the winning side's sprite table -- D_80090928 with a real opponent,
  * D_80090960 without -- keeps them in the gDuel_awRitualData scratch as

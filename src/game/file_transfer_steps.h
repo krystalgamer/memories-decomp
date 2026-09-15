@@ -4,6 +4,10 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
+extern u8 D_8009B058[];
+extern u8 D_801DD800[];
+extern u8 D_800F5694[];
+
 /* The file-transfer phase callbacks Model_LoadMonsterMerge installs
  * through File_TryRequestAsyncTransfer: func_80056D7C for duel slots,
  * func_80057544 for another monster record and func_800577B0 for the

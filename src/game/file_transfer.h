@@ -21,6 +21,7 @@ extern FileRequestSlot D_801D4200;
 #ifdef FILE_TRANSFER_BYTE_VIEWS
 extern u8 D_801D4200_raw[] asm("D_801D4200");
 #endif
+extern u16 D_8009B0EC;
 
 typedef char FileTransfer_default_image_must_fill_sector[
     FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH * FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT *

@@ -2,8 +2,6 @@
 #include "duel_effect.h"
 #include "duel_effect_process_entries.h"
 
-extern void (*D_80090F58[])(DuelEffectEntry *, DuelEffectChannel *);
-
 void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 {
     DuelEffectEntry *p;

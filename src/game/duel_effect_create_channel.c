@@ -5,8 +5,6 @@
 #include "display_object_helpers.h"
 #include "duel_effect_create_channel.h"
 
-extern u8 D_800EF6EA;
-
 #define gDialog_bChoice (*(s8 *)0x8009B34D)
 
 DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {

@@ -251,8 +251,6 @@ DisplayObjectConfigView *func_80040510(
     return object;
 }
 
-extern s16 D_800EFE3A[];
-
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport

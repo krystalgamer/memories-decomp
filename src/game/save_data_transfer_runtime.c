@@ -20,8 +20,6 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 
-extern u8 D_801D2200[];
-
 /* The complete single-player and two-player save-transfer runtime. The first
    three functions request, poll, apply, build, and write the resident save;
    the remaining state machine loads both card slots, then the two wrappers add

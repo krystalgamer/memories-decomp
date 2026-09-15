@@ -44,8 +44,6 @@ void func_80050F24(s32 arg0)
 }
 
 /* "e%03ld(%ld)=%d\n" */
-extern u8 D_80011508[];
-
 void func_8005106C(s32 index) {
     u8 buf[0x50];
     u8 out[8];

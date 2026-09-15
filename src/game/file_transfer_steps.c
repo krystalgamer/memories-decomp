@@ -26,9 +26,6 @@
    address order and must stay that way: it is what puts the six-case table
    ahead of the eleven-case one. */
 
-extern u8 D_801DD800[];
-extern u8 D_800F5694[];
-
 void func_80057544(FileTransferDescriptor *object, s32 mode) {
     RECT rect0;
     RECT rect1;

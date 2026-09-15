@@ -18,8 +18,6 @@
  * record's 0x30 pair, so the choice object and its flags are reached at
  * displacements 0 and 4. Folding the cursor into the base costs a register and
  * four instructions, so the view stays. */
-extern u8 D_8009B356;
-
 void func_80039794(void)
 {
     DuelEffectChannel *p;

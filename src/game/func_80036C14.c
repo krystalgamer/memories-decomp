@@ -33,8 +33,6 @@ loop_check:
     goto loop_check;
 }
 
-extern s16 D_801DA000[];
-
 void func_80036C14(DuelEffectChannel *p, s32 a)
 {
     DuelEffectEntry *q;

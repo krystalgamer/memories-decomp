@@ -4,6 +4,8 @@
 #include "../types.h"
 #include "duel_effect.h"
 
+extern s16 D_801DA000[];
+
 /* Appends one 0x1C-byte packet to the buffer the object holds at 0x20, then
  * advances that pointer past it.
  *

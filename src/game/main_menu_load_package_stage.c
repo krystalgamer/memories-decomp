@@ -3,10 +3,10 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
+#include "file_transfer_steps.h"
 #include "../unmatched.h"
 
 #include "high_memory_addresses.h"
-extern u8 D_8009B058[];
 
 void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     RECT rect;

@@ -20,6 +20,8 @@ typedef struct {
     u16 hi;
 } TblEnt;
 
+extern u8 D_8009B356;
+
 void func_80039794(void);
 
 #endif

@@ -145,8 +145,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
-extern u16 D_8009B1E0;
-
 void DuelScene_UpdateResultOutro(void)
 {
     DuelResultSpriteSlot *slots;

@@ -17,7 +17,6 @@
 #include "func_8003A560.h"
 #include "../unmatched.h"
 
-extern s8 D_8009B326;
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 

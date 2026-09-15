@@ -39,10 +39,6 @@ u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 #define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
 #define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[2])
 #define gDebugEffect_bPage gDebugEffect_abPreviewState[4]
-extern u8 *D_8009B180;
-extern u8 *D_8009B184;
-extern DuelCardRecord D_801A7B80[];
-
 /* "~c0702D EFFECT = %2d %2d\n" */
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */

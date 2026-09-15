@@ -12,10 +12,6 @@
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
 
-extern u8 D_80010784[];
-extern u8 D_80010790[];
-extern u8 D_8001079C[];
-
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
  * word at a time, the two command callbacks are installed, three tables are

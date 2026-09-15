@@ -176,6 +176,7 @@ extern u8 gSaveData_aHeaderTemplate[];
  * names keep their own declarations. Of the five units that used to declare
  * it privately, four said `u8 []` and trade_update.c `Block16 []`. */
 extern u8 D_801D1200[];
+extern u8 D_801D2200[];
 
 /* 0x801B125A. SaveData_ApplyRuntimeState passes it as the destination of
  * Text_SjisToGlyphCodes, from state->player_name_sjis

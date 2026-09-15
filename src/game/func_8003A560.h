@@ -47,6 +47,7 @@ typedef char DisplayEffectVramSlot_size_must_be_0x18C10[
  * (notes/research/matching-evidence.md:6684-6695). menu_record_reset.c used
  * to declare it `s8 [DISPLAY_EFFECT_VRAM_SLOT_COUNT]` while this consumer
  * used `s8 []`. */
+extern s8 D_8009B326;
 extern s8 D_8015C410[];
 
 void func_8003A560(DisplayEffectVramState *state);

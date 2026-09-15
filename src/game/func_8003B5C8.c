@@ -3,9 +3,6 @@
 #include "func_8003B5C8.h"
 #include "text_constants.h"
 
-extern TextDecimalDigitKeyBlock D_80010330;
-extern const u32 D_801D9004[];
-
 /* Copies the ten two-byte Shift-JIS digit keys from D_80010330 into a local
    buffer and walks them as big-endian u16 keys. Each key is looked up in the
    4-byte-stride table at D_801D9004 (key in the low halfword, a zero word

@@ -4,6 +4,10 @@
 #include "../types.h"
 #include "../psyq/libspu_internal.h"
 
+extern u8 D_80010784[];
+extern u8 D_80010790[];
+extern u8 D_8001079C[];
+
 void func_80049200(s32 value);
 void func_80049230(s32 value, s32 data);
 /* func_800473CC passes the second argument as s16, which the caller-side

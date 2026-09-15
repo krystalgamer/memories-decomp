@@ -30,8 +30,6 @@
 #include "model_transfer_state.h"
 #include "../unmatched.h"
 
-extern s16 D_800F2B4A[];
-
 /* The start of the contiguous model-scene runtime: the two camera/view
    correction passes, which work on D_800F56F0, the camera move at D_800F2B20
    and the D_8009B478/D_8009B47C view values. The tint request pass that
@@ -174,4 +172,3 @@ last:
 
 #include "../psyq/stdarg.h"
 #include "model.h"
-

@@ -42,5 +42,6 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * writes it, so the parameter type is not a guess: it is func_80037CE0's own,
  * volatile qualifier included. */
 extern void (*D_8009B340)(volatile u8 *object);
+extern void (*D_80090F18[])(u8 *);
 
 #endif
