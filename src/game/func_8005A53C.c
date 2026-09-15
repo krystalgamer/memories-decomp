@@ -12,16 +12,16 @@ void func_8005A53C(s32 (*fn)(s32), u8 *entry, s32 arg2, s32 count)
     s32 result;
 
     for (i = count - 1; i != -1; i--) {
-        key = Model_FindHandlerKey(*(s32 *)entry);
-        value = *(s32 *)(entry + 4);
+        key = Model_FindHandlerKey(((ModelHandlerRunEntry *)entry)->key);
+        value = ((ModelHandlerRunEntry *)entry)->metadata;
         kind = key >> 24;
         step = (value & 0xFFFF) + 1;
         value &= 0xFFFF0000;
         if (((u32)kind < 2 && (key & 0xFFFF) != 0 && value != 0) ||
             (kind == 1 && (key & 0xFFFF) == 0)) {
-            result = fn(*(s32 *)entry);
+            result = fn(((ModelHandlerRunEntry *)entry)->key);
             if (result != -1) {
-                *(s32 *)entry = result;
+                ((ModelHandlerRunEntry *)entry)->key = result;
             }
         }
         entry += step * 4;

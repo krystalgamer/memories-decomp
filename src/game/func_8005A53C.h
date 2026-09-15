@@ -3,6 +3,17 @@
 
 #include "../types.h"
 
+/* Fixed prefix of one variable-length handler entry. The low half of metadata
+ * stores the entry's word count minus one; its high half gates callback use. */
+typedef struct {
+    s32 key;
+    s32 metadata;
+} ModelHandlerRunEntry;
+
+typedef char ModelHandlerRunEntry_prefix_size_must_be_8[
+    sizeof(ModelHandlerRunEntry) == 8 ? 1 : -1
+];
+
 /* Walks a run of variable-length handler entries and rewrites the key of each
  * one the callback accepts.
  *
