@@ -10,13 +10,15 @@
 extern s32 D_800E9D9C;
 
 /*
- * Current best under gcc_2_8_1_g0_split: 269 instructions against 268, with
- * encoding distance 1, one extra sll in the cursor-colour switch. Retail
- * reaches case 1's shift-and-store through case 3's copy, and this source
- * computes it in the arm. Retail also materialises the D_800EA1E8 address
- * before that switch rather than at the join, and fills one prologue delay
- * slot this build leaves empty while leaving empty one loop slot this build
- * fills.
+ * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
+ * encoding distance 0. Case 1 of the cursor-colour switch reaches case 3's
+ * shift-and-store through a goto, which is how retail shares that copy. What
+ * is left is placement: this build reloads b8 just before its shift, which
+ * costs an empty load-delay slot in the prologue, and fills the slot of the
+ * card-id test in the loop, which retail leaves empty. In the tail it
+ * materialises 0xFF inside case 1 rather than in the dispatch branch's delay
+ * slot, and takes the D_800EA1E8 address at the join rather than before the
+ * switch.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -141,14 +143,15 @@ done:
         break;
     case 1:
         q[0xD] = 0xFF;
-        q[0x10] = (m - 0x20) * 8;
-        break;
+        v = m - 0x20;
+        goto shared;
     case 2:
         q[0xD] = (0x5F - m) * 8;
         q[0x10] = 0xFF;
         break;
     case 3:
         v = 0x7F - m;
+    shared:
         q[0x10] = v * 8;
         break;
     }
