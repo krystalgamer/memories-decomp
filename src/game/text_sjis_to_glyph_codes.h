@@ -3,6 +3,6 @@
 
 #include "../types.h"
 
-void Text_SjisToGlyphCodes(u8 *dst, u8 *src, s32 count);
+void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count);
 
 #endif

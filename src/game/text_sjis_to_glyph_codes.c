@@ -2,7 +2,7 @@
 #include "text_constants.h"
 #include "text_sjis_to_glyph_codes.h"
 
-void Text_SjisToGlyphCodes(u8 *dst, u8 *src, s32 count)
+void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
 {
     const u16 *input = (const u16 *)src;
     s32 i;
