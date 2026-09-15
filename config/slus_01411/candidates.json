@@ -90,7 +90,7 @@
       "target": "src/candidates_target/func_8001D670.S",
       "candidate_build_sha256": "eaf849af17458dd6a80b59253f7a59aa928b1efb047b79a71860184066e503dd",
       "target_bytes_sha256": "47c9b08eb4dd84c67c5b4a6253a48b0116863fa5096852e41c3eca87a1794a04",
-      "canonical_contract_sha256": "b293ba1746114e8b11cc111233df409353bfbc4605755c44e0d81246ab1048d5",
+      "canonical_contract_sha256": "0f83cfdf059293b1589555bc3fa27ecf5a1963d888bcc1ac295d25956e61753d",
       "canonical_contracts": {
         "D_8009B160": "ac6a29d056d147a8159b06c002b0fe5447a1e61e3c210ab6925cca30ebace916",
         "D_8009B170": "7565b031c5844cf7a528e2029c04629e317c43a773e0cd53504c480ecf55ca17",
@@ -106,8 +106,8 @@
         "D_800E9F64": "2a0a97cf2a68c1afab453c6437ec4b587bf934787d4f184fe13d3dab53ad9480",
         "D_800EAE91": "9a3d06448c97c5a251755ae4199e7a25e7556c3caf212331c97401896ffdd03a",
         "D_800EAE92": "d56e957e4563345d8cc0d584c74f77fe4292e73cb6b5cf1f6c835918490d2e4e",
-        "gDuel_bCardViewerYOffset": "9911452ee13e8964a3675602e8da66ef5cb0ca12eaad2545845552f04d0615d1",
-        "gDuel_wViewerCardID": "fa17ec4e579cefa232ee53f8727540641a4567c9d745f0f9a680157a2ce68a09"
+        "gDuel_bCardViewerYOffset": "119e78b26d2257ef42bb7df4fc0cf677ec05775467b60664f64a3b932560f578",
+        "gDuel_wViewerCardID": "3d168cdfbc3ce9bcbcc90c0b847272e8b9d2a7fef8880fa9a0ab64e7c33b5338"
       }
     },
     {

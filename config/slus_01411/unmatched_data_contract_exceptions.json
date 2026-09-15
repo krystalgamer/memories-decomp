@@ -2,12 +2,6 @@
   "schema": 1,
   "exceptions": [
     {
-      "symbol": "D_8009B214",
-      "source": "src/candidates/func_80018FEC.c",
-      "declaration": "extern u8 *D_8009B214;",
-      "reason": "Candidate-local byte-pointer view preserves the measured Exodia presentation codegen; the resident owner exposes the same address as DisplayObject *."
-    },
-    {
       "symbol": "D_801A8000",
       "source": "src/candidates/main_menu/func_801821DC.c",
       "declaration": "extern MainMenuState D_801A8000[];",
