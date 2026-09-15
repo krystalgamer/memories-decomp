@@ -13,7 +13,7 @@
 #include "../unmatched.h"
 #include "file_transfer.h"
 #include "func_800136D4.h"
-#include "func_80041340.h"
+#include "display_object_render_lists.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
 #include "graphics_frame_buffer.h"
@@ -45,7 +45,7 @@ void Main_RunFrameServices(void) {
     s32 cnt;
 
     Fade_DrawOverlay();
-    func_80041340();
+    DisplayObject_RenderLists();
 
     for (i = 0; i < 4; i++) {
         fn = D_800E9DB0[i];

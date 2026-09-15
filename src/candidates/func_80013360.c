@@ -22,7 +22,7 @@
 #include "../game/fade.h"
 #include "../unmatched.h"
 #include "../game/func_800136D4.h"
-#include "../game/func_80041340.h"
+#include "../game/display_object_render_lists.h"
 #include "../game/graphics_constants.h"
 #include "../game/graphics_frame.h"
 #include "../game/main_frame.h"

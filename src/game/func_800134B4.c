@@ -7,7 +7,7 @@
 #include "fade.h"
 #include "../unmatched.h"
 #include "func_800136D4.h"
-#include "func_80041340.h"
+#include "display_object_render_lists.h"
 #include "graphics_constants.h"
 #include "graphics_frame.h"
 #include "main_frame.h"

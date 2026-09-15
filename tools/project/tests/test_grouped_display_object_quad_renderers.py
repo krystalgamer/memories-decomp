@@ -43,6 +43,15 @@ class GroupedDisplayObjectQuadRendererTests(unittest.TestCase):
             table.index("DisplayObject_RenderTexturedGouraudQuadList"),
         )
 
+    def test_frame_renderer_uses_semantic_name(self) -> None:
+        source = (ROOT / "src/game/display_object_runtime.c").read_text()
+        self.assertIn("void DisplayObject_RenderLists(void)", source)
+        self.assertIn("gDisplayObject_ListRenderers[i]();", source)
+        self.assertTrue(
+            (ROOT / "src/game/display_object_render_lists.h").exists()
+        )
+        self.assertFalse((ROOT / "src/game/func_80041340.h").exists())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -169,9 +169,9 @@ row count remains shared through `duel_grid.h`.
 
 ## Seven processing lists
 
-`func_80041340` visits list keys `6` down to `0`. For every nonempty head it
-sets geometry screen distance `150`, resets the geometry offset to `(0, 0)`,
-and calls that key's handler from the seven-entry
+`DisplayObject_RenderLists` visits list keys `6` down to `0`. For every
+nonempty head it sets geometry screen distance `150`, resets the geometry
+offset to `(0, 0)`, and calls that key's handler from the seven-entry
 `gDisplayObject_ListRenderers` table.
 
 Matching consumers establish these heads and pass shapes:
