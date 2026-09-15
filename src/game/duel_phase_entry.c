@@ -158,8 +158,6 @@ void DuelScene_UpdateResume(void)
 void DuelScene_UpdateStartup(void)
 {
     u16 *w;
-    u8 *r1;
-    u8 *r2;
     DuelDeckCardRecord *rec;
     s32 i;
     s32 atk;
@@ -223,9 +221,8 @@ void DuelScene_UpdateStartup(void)
             def += ((stat >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        r1 = (u8 *)D_800E9FF0;
-        *(s16 *)(r1 + 0xE) = atk / DECK_SIZE;
-        *(s16 *)(r1 + 0x10) = def / DECK_SIZE;
+        D_800E9FF0[0].field_0E = atk / DECK_SIZE;
+        D_800E9FF0[0].field_10 = def / DECK_SIZE;
         atk = 0;
         def = 0;
         rec = &gDuel_aDeckCardRecords[DECK_SIZE];
@@ -235,9 +232,8 @@ void DuelScene_UpdateStartup(void)
             def += ((stat2 >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                    CARD_STAT_SCALE;
         }
-        r2 = (u8 *)D_800E9FF0;
-        *(s16 *)(r2 + 0x2E) = atk / DECK_SIZE;
-        *(s16 *)(r2 + 0x30) = def / DECK_SIZE;
+        D_800E9FF0[1].field_0E = atk / DECK_SIZE;
+        D_800E9FF0[1].field_10 = def / DECK_SIZE;
         D_8009B174 = 5;
         break;
     }
@@ -282,7 +278,7 @@ void DuelScene_UpdateDrawPhase(void) {
             (D_8009B1D5 << 4) | 0x2E0;
         Duel_ClearHandSlots();
         side = D_8009B1D5;
-        D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + side * sizeof(DuelSideState));
+        D_8009B1C8 = &D_800E9FF0[side];
         D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = D_800EA030;
@@ -310,8 +306,8 @@ void DuelScene_UpdateDrawPhase(void) {
             }
         }
         for (i = 0; i < HAND_SIZE; i++) {
-            hand[i] = ((u8 *)D_8009B1C8 + i)[0x1A];
-            *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = -1;
+            hand[i] = D_8009B1C8->hand[i];
+            D_8009B1C8->hand[i] = -1;
         }
         n = 0;
         i = n;
@@ -325,7 +321,7 @@ void DuelScene_UpdateDrawPhase(void) {
             rec->flags = 0;
             rec->object = 0;
             if (*(s8 *)p >= 0) {
-                ((u8 *)D_8009B1C8 + n)[0x1A] = *p;
+                D_8009B1C8->hand[n] = *p;
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
