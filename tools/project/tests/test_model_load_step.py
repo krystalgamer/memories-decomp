@@ -48,7 +48,7 @@ FIXTURE = r"""
 #include "src/game/model_slot_updates.h"
 #include "src/game/model_transfer_flags.h"
 #include "src/game/func_8004D914.h"
-#include "src/game/func_800582C0.h"
+#include "src/game/model_apply_texture_tint.h"
 #include "src/game/func_8004DC38.h"
 #include "src/game/sound_voice_data.h"
 #include "src/game/script_state.h"
@@ -227,7 +227,7 @@ void func_8005A468(s32 index,s32 speed)
 {
     s32 args[5]={0};args[0]=index;args[1]=speed;event(SPEED,args);
 }
-void func_800582C0(s32 index,s32 tint,s32 level)
+void Model_ApplyTextureTint(s32 index,s32 tint,s32 level)
 {
     s32 args[5]={0};args[0]=index;args[1]=tint;args[2]=level;event(TINT,args);
 }
@@ -302,7 +302,7 @@ static void oracle(s32 index)
         else if(p[0xE16]==60) func_8005A468(index,-amount);
         if(index>=2) p[0xE1F]=1;
         break;
-    case 8: func_800582C0(index,p[0xE0C],get16(p+0xE0A));break;
+    case 8: Model_ApplyTextureTint(index,p[0xE0C],get16(p+0xE0A));break;
     case 9: {
         s32 command=(s32)get32(p+0xD10),selected;
         u8 *context=(u8 *)get32(p+0xDE8),*base;

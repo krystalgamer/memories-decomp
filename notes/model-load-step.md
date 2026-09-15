@@ -26,7 +26,7 @@ diagnostic, or a state write.
 | 5 | Rearm each part's sequence fields, preserving unrelated fields |
 | 6 | Publish +0xE1F = 1 around `func_800590DC`, then clear it |
 | 7 | Apply mode-dependent speed and finish slots at index 2 or higher |
-| 8 | Forward tint and level fields to `func_800582C0` |
+| 8 | Forward tint and level fields to `Model_ApplyTextureTint` |
 | 9 | Activate the selected control module when its command is nonnegative, then seek the slot's parts |
 | 10 | Submit the slot's 0x800-byte-stride sound-data address unless +0xE1D is nonzero |
 | 11 | Set +0xE1E when enabled and always set the finish latch |

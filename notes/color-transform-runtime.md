@@ -113,7 +113,7 @@ packer has no input colour from which to preserve it.
 
 ## VRAM application
 
-Matching `func_800582C0` applies the BGR555 transform to VRAM colour bands.
+Matching `Model_ApplyTextureTint` applies the BGR555 transform to VRAM colour bands.
 For buffer selector `0` or `1`, it processes two `256 x 4` rectangles:
 
 1. Read from x `selector * 256`, y `248` and `252` through `StoreImage2`.

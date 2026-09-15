@@ -98,7 +98,7 @@ extern u8 D_801AF800[];
  * header owns it. */
 extern u8 D_800F569F[];
 
-/* One consumer, func_800582C0.c. These four contiguous halfwords are filled
+/* One consumer, Model_ApplyTextureTint. These four contiguous halfwords are filled
  * as a RECT for StoreImage2, LoadImage2, and MoveImage. The linker assignments
  * establish the scratch storage, but no subsystem header owns it. */
 extern s16 D_8009B470;

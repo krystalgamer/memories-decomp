@@ -4,9 +4,10 @@
 #include "../psyq/libgpu.h"
 #include "color_constants.h"
 #include "color.h"
-#include "func_800582C0.h"
+#include "model_apply_texture_tint.h"
 
-void func_800582C0(s32 arg0, s32 arg1, s32 arg2) {
+void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
+{
     u16 buf[0x400];
     u16 *q;
     s32 y;
