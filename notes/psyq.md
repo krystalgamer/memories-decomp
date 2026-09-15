@@ -607,7 +607,7 @@ Every row below is now an applied project symbol.
 | `0x80081C04` | `get_alarm` | Private timeout-alarm query runtime at the exact ordered boundary and `0x144` extent. |
 | `0x80081D48` | `_version` | Private GPU version-reporting helper immediately before `LoadImage2`, matching the independent map and `0xA0` extent. |
 | `0x80081DE8` | `LoadImage2` | Applied Psy-Q identity; streamed package callbacks pass rectangle-shaped records and staged image data. |
-| `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `func_800582C0` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
+| `0x80081ED4` | `StoreImage2` | Applied Psy-Q 4.6 identity; `Model_ApplyTextureTint` reads a VRAM rectangle into a local pixel buffer before transforming and re-uploading it. |
 | `0x80081FC0` | `MoveImage2` | Applied Psy-Q identity; `file_cd_helpers.c` passes the current display rectangle plus destination coordinates. |
 | `0x80082104` | `DrawOTag2` | Applied at offset `0x2DB4` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
 | `0x80082200` | `_GPU_ResetCallback` | Applied at offset `0x2EB0` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature. |
@@ -1078,7 +1078,7 @@ depend on GTE, GPU, and `libgs` declarations without including those headers.
 Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
 migrations include `duel_card_record_lifecycle.c`, `func_800289BC.c`,
-`file_cd_helpers.c`, `func_800582C0.c`, and
+`file_cd_helpers.c`, `model_apply_texture_tint.c`, and
 `model_handler_registry.c`. The main-menu value-bar renderer
 `MainMenu_DrawValueSetup` in `value_setup.c` (formerly
 `value_setup_visuals.c`, and `starchip_bars.c` before that) uses native `POLY_G4`/`POLY_GT4` stack records and
@@ -1163,7 +1163,7 @@ without changing how the function pointer is installed.
 The tracked `libgpu.h` declares both `LoadImage` and `LoadImage2` with the
 same `RECT *` / `u32 *` argument shape. Both current matching `LoadImage`
 callers, `duel_card_record_lifecycle.c` and `func_800289BC.c`, use that interface.
-`func_800582C0.c` likewise uses the shared `LoadImage2` prototype while
+`model_apply_texture_tint.c` likewise uses the shared `LoadImage2` prototype while
 retaining rectangle-compatible local storage. Other image-transfer callers
 may retain local record views where an SDK structure changes exact code
 generation.
@@ -1766,7 +1766,7 @@ The existing C sources expose several useful starting points:
 | `RECT` in `src/psyq/libgpu.h` | GPU transfer rectangle | Typed migration is established in `Duel_SetupCardRecord`, the native local `RECT` in [`main_menu_load_package_stage.c`](../src/game/main_menu_load_package_stage.c), and `func_80057544`/`func_800577B0` in [`file_transfer_steps.c`](../src/game/file_transfer_steps.c); preserve byte-offset selection and layout-compatible casts elsewhere when exact code generation requires them. |
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
 | Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `duel_card_stat_display.c`, `func_80031784.c`, and `fade_runtime.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
-| Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `func_800582C0`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
+| Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `Model_ApplyTextureTint`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
 | Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_setup.c` and `model_scene_states.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
