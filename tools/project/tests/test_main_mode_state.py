@@ -33,7 +33,7 @@ CONSUMERS = (
     "src/game/duel_effect_mode_7.c",
     "src/game/frontend_scene_states.c",
     "src/game/func_80024DC8.c",
-    "src/game/func_8002A788.c",
+    "src/game/card_grid_cursor_navigation.c",
     "src/game/func_8002EB48.c",
     "src/game/script_op_return_to_menu.c",
     "src/game/debug_menu_campaign_entry.c",
@@ -66,7 +66,10 @@ NEXT_DATA = {
     "src/game/script_op_save_prompt.c",
     "src/game/main_init.c",
 }
-NEXT_ARRAY = {"src/game/func_8002A788.c", "src/game/script_control_commands.c"}
+NEXT_ARRAY = {
+    "src/game/card_grid_cursor_navigation.c",
+    "src/game/script_control_commands.c",
+}
 ACTIVE_DATA = {
     "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
     "src/candidates/func_800283F4.c",
@@ -76,7 +79,7 @@ ACTIVE_DATA = {
 ACTIVE_ARRAY = {
     "src/game/debug_menu_two_player_entry.c", "src/game/duel_effect_basic_commands.c",
     "src/game/duel_effect_mode_7.c", "src/game/frontend_scene_states.c",
-    "src/game/func_8002A788.c", "src/game/func_8002EB48.c",
+    "src/game/card_grid_cursor_navigation.c", "src/game/func_8002EB48.c",
     "src/game/script_op_return_to_menu.c",
     "src/game/main_init.c", "src/game/script_control_commands.c",
 }

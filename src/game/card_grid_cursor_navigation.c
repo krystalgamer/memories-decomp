@@ -11,9 +11,9 @@
  * after the motion stepper. Its card-id definition does not consume that value,
  * but using its normal no-argument prototype replaces this restore at `+0x3C`
  * with a nop. `FUNC_8002A6B8_STATE_ARGUMENT` selects the argument-taking call
- * view only for this handler; the definition and earlier no-argument callers
- * retain their existing view. No dead expression, register pin, inline assembly
- * or new profile is needed.
+ * view for this translation unit; earlier callers retain their no-argument
+ * view, while the shared definition ignores the parameter. No dead expression,
+ * register pin, inline assembly or new profile is needed.
  *
  * The handler preserves selection/cancel returns, ten-row jumps, bounded
  * single-cell movement, fourfold wrap duration and the final scroll update.
@@ -30,12 +30,44 @@
 #include "../types.h"
 #include "../unmatched.h"
 #include "input.h"
+#include "card_constants.h"
 #include "card_grid.h"
 #include "func_8002A3CC.h"
 #include "func_80029EB0.h"
 #include "func_8002A660.h"
 #include "func_8002A788.h"
 #include "main_mode_state.h"
+
+s32 func_8002A6B8(u8 *state)
+{
+    s32 row = gCardGrid_bCursorRow;
+    s32 row_tens = row / CARD_GRID_SECTION_SIDE_LENGTH;
+    s8 row_tens_byte = (s8)row_tens;
+    s32 index = row_tens_byte * CARD_GRID_SECTION_ROW_CARD_COUNT;
+    s8 row_ones =
+        (s8)(row - row_tens * CARD_GRID_SECTION_SIDE_LENGTH);
+    s32 base;
+    s32 column;
+    s32 column_tens;
+    s8 column_ones;
+    s32 result;
+
+    index += row_ones * CARD_GRID_SECTION_SIDE_LENGTH;
+
+    column = gCardGrid_bCursorColumn;
+    if (column >= CARD_GRID_SECTION_SIDE_LENGTH) {
+        index += CARD_GRID_SECTION_CARD_COUNT;
+    }
+    base = index + 1;
+    column_tens = column / CARD_GRID_SECTION_SIDE_LENGTH;
+    column_ones =
+        (s8)(column - column_tens * CARD_GRID_SECTION_SIDE_LENGTH);
+    index = base + column_ones;
+    if (index >= CARD_ID_END) {
+        return 0;
+    }
+    return index;
+}
 
 void func_8002A788(u8 *state)
 {

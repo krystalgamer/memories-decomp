@@ -14,13 +14,9 @@ void func_8002A788(u8 *state);
 /* The card id under the library grid cursor, computed from
  * gCardGrid_bCursorRow and gCardGrid_bCursorColumn.
  *
- * func_8002A2F4.c used to declare it `s32 (u8 *)` and pass its own record.
- * The definition names no parameter, and the argument was not load bearing:
- * the record is func_8002A2F4's first parameter, so it is still in $a0 at this,
- * the function's first call, and dropping it builds byte for byte. */
-/* Unlike the first-call case above, func_8002A788 has already called the
- * motion stepper. Its explicit state argument restores $a0 as retail does;
- * the card-id definition still ignores that incoming value. */
+ * The helper ignores its incoming argument. func_8002A2F4 calls it first and
+ * needs no explicit argument, while func_8002A788 has already called the
+ * motion stepper and passes state to restore $a0 as retail does. */
 #ifdef FUNC_8002A6B8_STATE_ARGUMENT
 s32 func_8002A6B8(u8 *state);
 #else
