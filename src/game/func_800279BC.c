@@ -12,10 +12,7 @@
 #define D_800EAE88_AS_BYTES
 #include "../unmatched.h"
 
-/* Current best under gcc_2_8_1_g8_split: 271/271 instructions, opcode
- * distance 0, 13 register-level differences.
- *
- * The AI's per-turn play decision. Writes the chosen action into the three
+/* The AI's per-turn play decision. Writes the chosen action into the three
  * bytes at D_800EAE88 + 9: the action code at +9, its argument at +0xA, and a
  * flag at +0xB. It does nothing while bit 0x1000 of D_8009B16C is set.
  *
@@ -28,13 +25,11 @@
  * func_8002778C, falling back to scanning the opponent's five monster zones
  * for one with 0x90000000 set.
  *
- * The walk body keeps retail's block order: the play block first, then the
- * func_8002778C fallback with the give-up block inline, then the zone scan.
- * The give-up block's % 15 goes through `v` and is read before its two
- * stores, the random zone index also lives in `v`, and the zone scan names
- * its 0x90000000 mask and walks its own pool cursor. The remaining
- * differences are register choices for the slot, grid and record bases in
- * the walk, and for the give-up block's result. */
+ * The walk body keeps retail's block order inside a do-while(0): the play
+ * block first, then the func_8002778C fallback with the give-up block inline,
+ * then the zone scan. Its record, grid and give-up arithmetic are written
+ * index-first through integer casts, which is the operand order retail's
+ * addu instructions show. */
 s32 func_800279BC(void)
 {
     DuelCardRecord *pool[6];
@@ -51,6 +46,7 @@ s32 func_800279BC(void)
     s32 n;
     s32 i;
     s32 mask;
+    s32 res;
     s32 count;
     s32 v;
     u8 *grid;
@@ -118,16 +114,18 @@ walk:
 loop:
     {
         do {
-            rec = &recs[grid[slot + D_8009B1D5 * 20]];
+            n = D_8009B1D5 * 20;
+            rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
             if ((*(u32 *)((u8 *)rec + 0x14) & 0xC0000000) == 0x80000000) {
                 v = func_800278A0(rec);
                 if (v >= 0) {
     have:
                     if (D_8009B1C8->swords_turns_remaining == 0) {
                         t = (s8)rec->table_index;
+                        slot = t % 5 + 1;
                         out[0xB] = 0;
                         out[0xA] = v % 5 + 0x38;
-                        out[9] = t % 5 + 1;
+                        out[9] = slot;
                         return 0;
                     }
                     goto none;
@@ -140,8 +138,9 @@ loop:
     none:
                     v = (s8)rec->table_index % 15;
                     out[0xA] = 0;
+                    res = (s8)v - 4;
                     out[0xB] = 1;
-                    out[9] = (s8)v - 4;
+                    out[9] = res;
                     return 0;
                 }
                 if ((rand() & 1) != 0) {

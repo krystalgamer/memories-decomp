@@ -136,21 +136,6 @@
       }
     },
     {
-      "address": "0x800279BC",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_800279BC.c",
-      "target": "src/candidates_target/func_800279BC.S",
-      "candidate_build_sha256": "e748244fb03f54236a49a2260aaea7671b5cbfbb26a10044a99f9c10c5efbe8d",
-      "target_bytes_sha256": "1ed0f0dfe1f5f4789c75bb80409302f1ef045844cad283c4f7670323dcec7767",
-      "canonical_contract_sha256": "4bf795f17f8ccc2e6b3e5b3f9ce2a5435b655f2cc40faacee8e854afb2b9e1c3",
-      "canonical_contracts": {
-        "D_800907D8": "af4f828fa8b92a58bac1ecaf3fb66a0d45ace798ae99150658c80a6a645bce57",
-        "D_8009B1C8": "cb2023a8b8441e61d8eaea81c06cd6d4d8b0b78abe10a20bcf14995174c5dfb0",
-        "D_8009B1D5": "ec3929c923b30d04058ee36240d62522fbc4dd203ccff41f083039e61c0c0b03",
-        "D_800EAE88": "f2a4e59d2639aae4f11e99d2a70b1bd067d0d6447d1325bb0f8c5e32d1a278a2"
-      }
-    },
-    {
       "address": "0x800283F4",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800283F4.c",
