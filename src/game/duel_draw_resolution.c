@@ -53,8 +53,8 @@ s32 Duel_HasAllExodiaPieces(void) {
 extern u8 D_8009B1ED;
 
 void DuelScene_UpdateDrawResolution(void) {
-    u8 *p;
-    u8 *c;
+    DisplayObject *p;
+    DuelSideState *c;
     DuelCardReplayRecordBlock *g;
     u8 *base;
     s32 i;
@@ -81,10 +81,9 @@ void DuelScene_UpdateDrawResolution(void) {
         }
         D_8009B1ED = 8;
         b = D_8009B1EC - 1;
-        /* Raw offset spelling preserves the matching draw-loop schedule. */
-        c = (u8 *)D_8009B1C8;
+        c = D_8009B1C8;
         D_8009B1EC = b;
-        if (*(s8 *)(c + 0x18) >= DECK_SIZE) {
+        if (c->deck_draw_cursor >= DECK_SIZE) {
             gDuel_bWinnerSide = D_8009B1D5 ^ 1;
             D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment =
                 DUEL_RANK_ADJUST_DECK_OUT_WIN;
@@ -98,24 +97,24 @@ void DuelScene_UpdateDrawResolution(void) {
         } else {
             k = a;
         }
-        Duel_SetupCardRecord(k, *(s8 *)((u8 *)D_8009B1C8 + 0x18));
-        p = (u8 *)func_80018004(
+        Duel_SetupCardRecord(k, D_8009B1C8->deck_draw_cursor);
+        p = (DisplayObject *)func_80018004(
             (DuelCardRecord *)((u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE),
             i * 60 + 0x14E,
             0x92
         );
-        p[0x6C] = 1;
-        *(s16 *)(p + 0x60) = 0xC;
-        *(s32 *)(p + 0x24) = (s32)func_80018C34;
-        D_800EA030[i].object = p;
+        p->field_6C = 1;
+        p->field_60 = 0xC;
+        p->update = (DisplayObjectCallback)func_80018C34;
+        D_800EA030[i].object = (u8 *)p;
         base = D_8015C424;
         g = (DuelCardReplayRecordBlock *)(base +
-            p[0x6A] * sizeof(DuelCardRecord) +
+            p->field_6A * sizeof(DuelCardRecord) +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
         y = *(s8 *)&((DuelDeckCardRecord *)g->record.data)->index_02;
-        *(s8 *)((u8 *)D_8009B1C8 + i + 0x1A) = y;
-        n = *(u8 *)((u8 *)D_8009B1C8 + 0x18);
-        *(u8 *)((u8 *)D_8009B1C8 + 0x18) = n + 1;
+        D_8009B1C8->hand[i] = y;
+        n = (u8)D_8009B1C8->deck_draw_cursor;
+        D_8009B1C8->deck_draw_cursor = n + 1;
         if (*(s8 *)&D_8009B1EC == 0) {
             gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         }

@@ -55,7 +55,7 @@ extern u8 D_8009B2E9;
 extern u8 D_8009B2EA;
 extern u8 D_8009B2EB;
 extern u8 *D_8009B2EC;
-extern u8 D_8009B2F0;
+extern u8 gDebugMenu_bPage;
 extern u8 D_800EAED8[];
 
 typedef char FrontendDebugColumnsSize[

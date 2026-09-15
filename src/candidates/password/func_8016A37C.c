@@ -55,12 +55,8 @@
 
 extern s32 D_801A8008[];
 extern u8 D_801B1245[];
-extern u8 *D_8016D430;
-extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
 
-extern u16 D_8016D4DC;
-extern u32 D_8016D438;
 extern u32 D_801A8000[];
 void Password_UpdateShopScreen(void)
 {
@@ -81,7 +77,7 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
         return;
     }
-    if ((D_800EB12C & 0x2008) != 0x2000) {
+    if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) != TEXT_BOX_FLAG_DONE) {
         return;
     }
     state = D_8016D424 & 0x1F;

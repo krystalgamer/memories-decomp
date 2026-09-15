@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "frontend_debug_state.h"
 
-void func_80030198(void);
+void DebugMenu_Init(void);
 void func_80030250(
     u8 *data,
     s32 field_B4,

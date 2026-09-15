@@ -5,12 +5,14 @@
 #include "../types.h"
 #include "graphics_frame.h"
 #include "model_scene_states.h"
+#include "model_debug_controller.h"
 #include "../psyq/libgte.h"
 #include "fade.h"
 #include "sound.h"
 #include "main_modes.h"
 #include "../unmatched.h"
 #include "model_cleanup.h"
+#include "model.h"
 #include "model_scene_setup.h"
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
@@ -29,7 +31,7 @@ void Main_RunAnimatedBattle(void)
     s32 v;
 
     SetGeomOffset(0xA0, 0x78);
-    SetGeomScreen(0x12C);
+    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     f = D_8009B26C;
     if ((f & 0x40) == 0) {
         D_8009B26C = f | 0x40;
@@ -37,7 +39,7 @@ void Main_RunAnimatedBattle(void)
         func_800530C4();
         func_800533D8();
         p = D_800EF658;
-        if (p->model_id == 0x309) {
+        if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
             D_8009B26C = D_8009B26C | 0x20;
             func_80059C24();
         } else {

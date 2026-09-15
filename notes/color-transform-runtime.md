@@ -10,7 +10,7 @@ profile difference is not a real boundary.
 
 | Function | Input | Output | Established role |
 |---|---|---|---|
-| `func_8005A98C` | three channels plus their maximum value | `{h, lightness, saturation}` | RGB to fixed-point HSL |
+| `Color_RgbToHsl` (`0x8005A98C`) | three channels plus their maximum value | `{h, lightness, saturation}` | RGB to fixed-point HSL |
 | `func_8005ABA0` | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
 | `func_8005AE68` | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
@@ -31,7 +31,7 @@ so `COLOR_HUE_FULL_TURN` is `0x6000`, not the `0x1000` trigonometric turn.
 The conversion helpers, tint wrappers, and VRAM fast-path scale test share
 these constants without changing their local types or arithmetic order.
 
-`func_8005A98C` first finds the maximum and minimum input channels. With
+`Color_RgbToHsl` first finds the maximum and minimum input channels. With
 `limit` equal to the maximum channel value, it produces:
 
 ```text
@@ -122,7 +122,9 @@ when higher flag bits are set.
 
 Matching `func_8001944C` has a separate readback path: `StoreImage2` reads a
 rectangle into `D_8015C424`, a loop sets `COLOR_BGR555_STP_MASK` on every
-halfword, selected halfwords are cleared, and `LoadImage2` uploads the block.
+halfword, twelve corner pixels are cleared to 0 (the three at each corner:
+(0, 0), (0, 1), (1, 0) and their mirrors at columns 138/139 and rows
+194/195), and `LoadImage2` uploads the block.
 `duel_display.h` names its width as `DUEL_CARD_READBACK_WIDTH_WORDS` (`140`)
 and height as `DUEL_CARD_READBACK_HEIGHT` (`196`). Their product,
 `DUEL_CARD_READBACK_WORD_COUNT`, is `0x6B30` halfwords (`0xD660` bytes).
@@ -139,4 +141,6 @@ unchanged.
 The formulas, flag meanings, channel packing, zero handling, rectangle
 coordinates, and transfer sizes come from local matching C. The user-facing
 purpose of each transformed VRAM band and the original Konami names remain
-unassigned, so the functions retain address-based symbols.
+unassigned. `Color_RgbToHsl` is named for the conversion its formulas
+establish, not for an original name; the other helpers keep address-based
+symbols.

@@ -75,4 +75,6 @@ extern u8 D_8009AFA4;
 
 extern u8 D_8009AFA6;
 
+s32 func_80058DCC(void);
+
 #endif

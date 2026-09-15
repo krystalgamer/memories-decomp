@@ -45,10 +45,10 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     memset(pts, 0, 16);
     pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
     for (i = 1; i < 3; i++) {
-        u8 *e;
+        s16 *e;
 
-        e = (u8 *)keys[i] + k * 8;
-        if (*(s16 *)(e + 6) != 1) {
+        e = (s16 *)((u8 *)keys[i] + k * 8);
+        if (e[3] != 1) {
             break;
         }
     }
@@ -67,15 +67,15 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 
         kp = &D_800F5788[(cur - D_800F5788 + D_8009B078 - 1) % D_8009B078];
         p = (s16 *)((u8 *)kp + k * 8);
-        if (*(s16 *)((u8 *)p + 6) == 1) {
+        if (p[3] == 1) {
             pts[0] = p;
         }
         i = 0;
     } else {
-        den = *(u16 *)((u8 *)keys[0] + 0x22);
+        den = keys[0]->duration;
         for (i = 1; i < 3; i++) {
             if (keys[i - 1] != keys[i]) {
-                den += *(u16 *)((u8 *)keys[i] + 0x22);
+                den += keys[i]->duration;
             }
         }
         i = 0;
@@ -189,7 +189,7 @@ s32 func_8005F1B8(s32 level, s32 value)
 
 void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
 {
-    u8 *r;
+    ModelEffectCoefficient *r;
     s32 v;
     s32 d;
     s32 t;
@@ -197,7 +197,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     s32 u;
     ModelEffectAdjustment sp18;
 
-    r = (u8 *)D_80091570 + arg1 * 8;
+    r = &D_80091570[arg1];
 
     if (D_8009B07B == 1) {
         if (D_8009B07C == 1) {
@@ -205,7 +205,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
         }
     }
 
-    v = (s16)*(u16 *)r;
+    v = r->field_00;
 
     if (arg0 < 2) {
         func_80059000(arg0, (s16 *)&sp18);
@@ -227,7 +227,7 @@ void func_8005F27C(s32 arg0, s32 arg1, s32 arg2)
     }
 
     func_8005F3B8(
-        arg0, v, *(s16 *)(r + 2), *(s16 *)(r + 4), (SVECTOR *)arg2
+        arg0, v, r->angle, r->field_04, (SVECTOR *)arg2
     );
 }
 
@@ -479,7 +479,7 @@ m1:
         }
         n = D_8009B078;
         key->magnitude = arg3;
-        key->radius = 0;
+        key->duration = 0;
         key->progress = 0;
         D_8009B078 = n + 1;
     }

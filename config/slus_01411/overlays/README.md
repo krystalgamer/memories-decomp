@@ -23,11 +23,14 @@ and trailing module data:
 |---:|---:|---|
 | `0x0000-0x00B4` | `0x80168000-0x801680B4` | Module tables and strings |
 | `0x00B4-0x5400` | `0x801680B4-0x8016D400` | MIPS text |
-| `0x5400-0x7800` | `0x8016D400-0x8016F800` | Module data |
+| `0x5400-0x5590` | `0x8016D400-0x8016D590` | C-owned screen state |
+| `0x5590-0x7800` | `0x8016D590-0x8016F800` | Remaining raw module data |
 
 The first function prologue begins at `0x801680B4`. The trailing boundary is
-required by references to `D_8016D400` and contains the confirmed
-`gPassword_abDigits` symbol at `0x8016D410`.
+required by references to `D_8016D400`. The first `0x190` bytes are one
+consumer-backed `PasswordModuleState`; linker aliases retain the historical
+interior symbol names used by generated assembly while the C object owns the
+storage.
 
 Both Egypt overworld variants share one layout shape. They are separate
 modules because the resident loader picks the second package when campaign
@@ -112,6 +115,31 @@ Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
 `D_80180000[1]` reach across the section boundary and emits six checked
 function relocations in retail order.
 
+Main menu also owns the complete loaded runtime-state prefix at
+`0x80184558-0x80185CD4`. `module_state.c` emits three consecutive typed
+objects for the frontend, value-setup, and Trade screens, including both
+722-card inventory rows. Their sizes and the consumer-supported nested
+strides are compile-time checked. `main_menu_linker_symbols.txt` preserves
+the historical interior names, including the overlapping array/scalar views
+at `D_801845BC`/`D_801845BE` and `D_80185CC8`/`D_80185CC9`. The remaining
+raw asset tail begins at module offset `0x5CD4`.
+
+Password also owns `0x8016D400-0x8016D590` as one zero-initialized
+`PasswordModuleState`. The single object avoids treating sparse interior labels
+as object extents: for example, `D_8016D440` is a four-pointer array and
+`D_8016D4DC` is a halfword even though the next generated labels are much
+farther away. `password_linker_symbols.txt` defines those historical names as
+offset aliases from `gPassword_ModuleState`; the object exports one
+section-defined owner with an exact `0x190`-byte `.data` section.
+
+Free Duel additionally maps its complete named state prefix at
+`0x80169030-0x801690A8` through `module_state.c`. The `0x78`-byte object
+section owns the 40-byte availability grid, thumb pointer, one unknown word,
+16-pointer sparkle pool, cursor pointer, and the four-byte storage whose low
+byte is `gFreeDuel_bScreenFlags`. The explicit storage view is required
+because GCC aligns separate byte definitions while retail places the three
+padding bytes directly after the live flag.
+
 Both overworld variants also compile the live location table from
 `overworld/location_table.c`: sixteen typed 66-byte records at
 `0x801691A8-0x801695C8`, identical in the two verified images. The table is
@@ -140,9 +168,7 @@ names and addresses are retained from the research map, but there is only one
 build declaration for each name so C-owned `defined:True` markers cannot be
 undermined by a second, undefined declaration. The research export is unchanged.
 
-The main-menu prefix remains assembly-owned. `MainMenu_UpdateTradeScreen`
-in `trade_update.c` declares `D_80180000[]` and reads element 1 as a comparator
-block, reaching past the first word into `module_rodata`. Treating that
-declaration as a four-byte object would assert a false boundary. Other bulk
-module data remains assembly-owned pending evidence-backed object boundaries;
-these mappings do not complete issue #2602.
+The rest of the main-menu data remains assembly-owned. The prefix mapping
+stops before the first uncharacterised asset bytes rather than deriving their
+extent from the final state label, so this mapping advances but does not
+complete issue #2602.

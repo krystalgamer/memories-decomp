@@ -7,9 +7,13 @@
 
 void func_8001D344(u8 *object)
 {
-    s32 step = *(s16 *)(object + 0x60);
+    s32 step = ((DisplayObject *)object)->field_60;
     s32 remaining = 3;
     s32 i = 0;
+    /* Byte cursors: the three colour bytes of field_0C step against the
+       halfwords at 0x28, 0x2A and 0x2C, which are position.h and
+       field_2C.h -- two different members, so no member array covers the
+       walk. */
     u8 *current = object + 0xC;
     u8 *target = object;
 
@@ -36,8 +40,8 @@ void func_8001D344(u8 *object)
     }
 
     if (remaining == 0) {
-        object[0x6C] = 0;
-        *(s32 *)(object + 0x24) = 0;
+        ((DisplayObject *)object)->field_6C = 0;
+        ((DisplayObject *)object)->update = 0;
     }
 }
 

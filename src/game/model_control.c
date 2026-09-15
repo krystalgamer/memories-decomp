@@ -37,8 +37,8 @@ void func_800559D4(s32 index)
     ModelSlot *other;
     ModelControlHandler handler;
     ModelControlHandler primary_handler;
-    u8 *primary = *(u8 **)((u8 *)slot + 0xDE8);
-    u8 *secondary = *(u8 **)((u8 *)slot + 0xDEC);
+    u8 *primary = (u8 *)slot->field_DE8;
+    u8 *secondary = (u8 *)slot->field_DEC;
     u16 *own_stats;
     u16 *other_stats;
     u8 *stats_base;
@@ -54,7 +54,7 @@ void func_800559D4(s32 index)
     if (slot->field_E1F == 0) {
         return;
     }
-    primary_state = *(s32 *)((u8 *)slot + 0xD10);
+    primary_state = ((ModelControlCommandView *)slot)->commands[2];
     D_8009AFA0 = index;
     if (primary_state >= 0) {
         if (index != 0) {
@@ -67,7 +67,8 @@ void func_800559D4(s32 index)
         func_8005F198(0);
     }
     if (slot->field_E0E == 6) {
-        if (slot->field_BF5 == slot->field_DFE + 3 || slot->field_DF8 == 0x309) {
+        if (slot->field_BF5 == slot->field_DFE + 3
+            || slot->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {
             slot->field_E0E = 7;
         } else {
             slot->field_E0E = 2;
@@ -95,7 +96,8 @@ void func_800559D4(s32 index)
         slot->field_E0E = 8;
         slot->field_E08 = 0;
     }
-    if (slot->field_BF5 != slot->field_DFE + 3 && slot->field_DF8 != 0x309) {
+    if (slot->field_BF5 != slot->field_DFE + 3
+        && slot->field_DF8 != MODEL_SPECIAL_BATTLE_ID) {
         s32 eligible = slot->field_E0E;
         if (eligible != 0 && eligible != 3 && eligible != 1 && eligible != 4 && eligible != 5) {
             return;

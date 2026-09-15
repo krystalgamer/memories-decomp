@@ -108,7 +108,7 @@ void SD_UpdateFades(void) {
 void SD_UpdateRuntime(void)
 {
     SDValue *p;
-    u8 *e;
+    SDCommand *e;
     s32 mask;
     s32 i;
     s32 off;
@@ -137,7 +137,7 @@ void SD_UpdateRuntime(void)
     if ((p->flags_0040 & 0x80) != 0 &&
         p->field_157E != -1 &&
         func_80049F50() != 1) {
-        func_80049C40(g_SDValue->field_157E);
+        SD_StopSequence(g_SDValue->field_157E);
         p = g_SDValue;
         value = p->flags_0040;
         p->field_1588 = -0x80;
@@ -155,57 +155,57 @@ void SD_UpdateRuntime(void)
     if (p->command_count == 0) {
         return;
     }
-    e = (u8 *)&p->commands.c[0];
+    e = &p->commands.c[0];
     /* Separate bodies preserve equality dispatch instead of case ranges;
        cross-jumping still shares the emitted bodies. */
     value = p->commands.c[0].command;
     switch (value) {
     case 0x44:
         if (p->field_1588 == 0) {
-            p->field_1588 = *(u16 *)(e + 8);
-            p->field_1584 = e[2];
+            p->field_1588 = (u16)e->field_0008;
+            p->field_1584 = (u8)e->field_0002;
         }
         break;
     case 0x45:
         if (p->field_1588 == 0) {
-            p->field_1588 = *(u16 *)(e + 8);
-            p->field_1584 = e[2];
+            p->field_1588 = (u16)e->field_0008;
+            p->field_1584 = (u8)e->field_0002;
         }
         break;
     case 0x29:
         if (p->field_0512 == 0) {
-            p->field_0512 = *(u16 *)(e + 8);
-            p->field_0049 = e[2];
+            p->field_0512 = (u16)e->field_0008;
+            p->field_0049 = (u8)e->field_0002;
         }
         break;
     case 0x2A:
         if (p->field_0512 == 0) {
-            p->field_0512 = *(u16 *)(e + 8);
-            p->field_0049 = e[2];
+            p->field_0512 = (u16)e->field_0008;
+            p->field_0049 = (u8)e->field_0002;
         }
         break;
     }
 
     p = g_SDValue;
-    p->field_007C = e[0];
+    p->field_007C = e->command;
     g_SDValue->field_007D = 0;
     p = g_SDValue;
-    p->field_004E = *(u16 *)(e + 2);
-    p->field_0050 = *(u32 *)(e + 4);
-    p->field_0054 = *(u32 *)(e + 8);
-    p->field_0058 = *(u32 *)(e + 0xC);
-    p->field_007E = e[1];
+    p->field_004E = (u16)e->field_0002;
+    p->field_0050 = e->field_0004;
+    p->field_0054 = e->field_0008;
+    p->field_0058 = e->field_000C;
+    p->field_007E = e->field_0001;
     /* The second global read preserves separate pointers for the tail copy
        and queue bookkeeping after CSE. */
     r = g_SDValue;
-    *(SDCommandTail *)&r->field_005C[0] = *(SDCommandTail *)(e + 0x10);
+    *(SDCommandTail *)&r->field_005C[0] = *(SDCommandTail *)&e->field_0010;
     q = g_SDValue;
     q->field_15F4 = 8;
     q->command_count = q->command_count - 1;
     func_80045514();
 
     loop_state = g_SDValue;
-    e += 0x30;
+    e++;
     i = 0;
     if (loop_state->command_count <= 0) {
         return;
@@ -216,12 +216,12 @@ void SD_UpdateRuntime(void)
            queue's byte view, whose ARRAY_REF keeps it; the block copy stays
            a byte-address sum, because &commands.b[off] puts the offset
            first. sound.h checks the queue offset. */
-        loop_state->commands.b[off] = e[0];
+        loop_state->commands.b[off] = e->command;
         *(SDCommand *)((u8 *)g_SDValue + off + SD_COMMAND_QUEUE_BYTE_OFFSET) =
-            *(SDCommand *)e;
+            *e;
         off += 0x30;
         loop_state = g_SDValue;
         i += 1;
-        e += 0x30;
+        e++;
     } while (i < loop_state->command_count);
 }

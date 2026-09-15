@@ -5,6 +5,8 @@
 #include "card_constants.h"
 #include "card_list_text_boxes.h"
 
+#define BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG 0x80
+
 #define BUILD_DECK_TRANSITION_STATE_OFFSET(member) \
     ((u32)&(((BuildDeckTransitionState *)0)->member))
 
@@ -69,7 +71,7 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * func_80031874.c reads it for lists[kind] and the three card-indexed byte
  * tables; func_800323F8 is still without a profile in matching_c.json. Every
  * global access is a %gp_rel
- * lw/sw (func_80032C48.s:258, func_80033998.s:4,
+ * lw/sw (func_80032C48.s:258, BuildDeck_HasOpenDeckSlot,
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
  * read.
  *
@@ -78,6 +80,6 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
  * 2.8.1 instruction selection. The shared layout checks keep those preserved
  * raw accesses tied to the same record. The complete D_80090DF8 callback
  * family receives this type directly. */
-extern BuildDeckTransitionState *D_8009B2FC;
+extern BuildDeckTransitionState *gBuildDeck_pState;
 
 #endif

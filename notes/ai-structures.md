@@ -36,9 +36,11 @@ the same packed card-type bits. Raw address calculations use integer-valued
 byte constants rather than `sizeof`-derived strides, keeping their arithmetic
 types unchanged; no loop bound or clearing behavior changes.
 
-`AiScript_FindKiller` and `AiScript_FindBestAttack` retain raw halfword flag
-reads at `+0x06` while reusing the shared `DUEL_CARD_FLAG_*` masks. The latter's
-attacker filter excludes used-this-turn entries; its target filters separately
+`AiScript_FindKiller` and `AiScript_FindBestAttack` both walk `AiActiveCard`
+records and read the `+0x06` halfword as the typed `flags` member, tested
+against the shared `DUEL_CARD_FLAG_*` masks. `AiScript_FindKiller` skips empty
+and used-this-turn entries among the own monsters. `AiScript_FindBestAttack`'s
+attacker filter also excludes used-this-turn entries; its target filters separately
 exclude used and defense-position entries, and hide face-down targets for any
 nonzero scripted visibility value. That condition differs from the strongest/weakest
 searches' `hide_face_down == 1`; the predicates are not consolidated.
@@ -178,7 +180,7 @@ fixed instruction quota.
 The retail SDK `VSync` (`0x80074170`) explains why this is a query rather
 than a wait-for-VBlank call. Its mode-1 branch at `0x800741E4` goes to the
 return at `0x800742D0`, bypassing both calls to the wait helper
-`func_800742E8` and the saved-baseline update at `0x800742B4`. The returned
+`v_wait` and the saved-baseline update at `0x800742B4`. The returned
 value is `(stable_counter - D_80091998) & 0xFFFF`; the executable stores
 `0x1F801110` in the counter pointer `D_80091994`. The sampling loop requires
 two consecutive counter reads to agree.

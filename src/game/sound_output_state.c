@@ -44,7 +44,7 @@ s32 func_80045054(void)
     SDValue *loaded;
     SDValue *state;
 
-    *(s32 *)((u8 *)choice_state + 0x538) = select;
+    choice_state->decoded_half = select;
     if (select == SPU_DECODED_FIRSTHALF) {
         values = (s16 *)choice_state->buffer_ptrs_153C[0];
     } else {
@@ -53,12 +53,12 @@ s32 func_80045054(void)
     loaded = g_SDValue_output_level;
     i = 0;
     state = loaded;
-    *(s32 *)((u8 *)state + 0x154C) = 0;
-    *(s32 *)((u8 *)state + 0x1550) = 0;
+    state->output_level.sum = 0;
+    state->field_1550.sum = 0;
     do {
         s32 value = *values;
         u32 square = value * value;
-        *(u32 *)((u8 *)state + 0x154C) += square >> 8;
+        state->output_level.sum += square >> 8;
         i++;
         values++;
     } while (i < SD_MIX_SAMPLE_COUNT);
@@ -68,13 +68,13 @@ s32 func_80045054(void)
         s32 other;
         state = g_SDValue_output_level;
         do {
-            result = *(s16 *)((u8 *)state + 0x154E);
+            result = state->output_level.halves[1];
         } while (0);
         flags = state->flags_0040;
-        other = *(s16 *)((u8 *)state + 0x1552);
+        other = state->field_1550.halves[1];
         flags &= 3;
-        *(s32 *)((u8 *)state + 0x154C) = result;
-        *(s32 *)((u8 *)state + 0x1550) = other;
+        state->output_level.sum = result;
+        state->field_1550.sum = other;
         if (!flags) {
             return result;
         }

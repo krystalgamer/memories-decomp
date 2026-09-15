@@ -323,6 +323,27 @@ func = 0x80020000; // still an assignment
 
         self.assertEqual(self.errors(), [])
 
+    def test_data_exception_may_reference_a_resident_owner_header(self) -> None:
+        declaration = "extern u8 data[];"
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/game/data.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            declaration + "\nvoid caller(void) { data[0] = 1; }\n",
+        )
+        self.write_data_exceptions(
+            [
+                {
+                    "symbol": "data",
+                    "source": "src/game/caller.c",
+                    "declaration": declaration,
+                    "reason": "The byte-oriented codegen view is load-bearing.",
+                }
+            ]
+        )
+
+        self.assertEqual(self.errors(), [])
+
     def test_data_exception_drift_is_actionable(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
         self.write("src/unmatched.h", "extern s32 data;\n")
@@ -384,7 +405,7 @@ extern s32 data;
                 for error in self.errors())
         )
 
-    def test_headerless_data_is_reported_without_guessing_a_contract(self) -> None:
+    def test_headerless_data_is_rejected_without_guessing_a_contract(self) -> None:
         self.write_linker_symbols("data = 0x80010000;\n")
         self.write(
             "src/game/caller.c",
@@ -393,7 +414,209 @@ extern s32 data;
 
         errors, stats = unmatched_contracts.validate(self.root)
 
+        self.assertIn(
+            "src/game/caller.c: local declaration of unmatched data data "
+            "has no owner header: extern s32 data;",
+            errors,
+        )
+        self.assertEqual(stats["headerless_data"], 1)
+        self.assertEqual(stats["headerless_data_sites"], 1)
+
+    def test_local_data_with_owner_header_is_allowed(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/game/data.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, stats = unmatched_contracts.validate(self.root)
+
         self.assertEqual(errors, [])
+        self.assertEqual(stats["headerless_data"], 0)
+        self.assertEqual(stats["headerless_data_sites"], 0)
+
+    def test_unincluded_owner_header_does_not_cover_local_data(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write("src/game/data.h", "extern s32 data;\n")
+        self.write(
+            "src/game/caller.c",
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, _ = unmatched_contracts.validate(self.root)
+
+        self.assertTrue(
+            any("local declaration of unmatched data data has no owner header"
+                in error for error in errors)
+        )
+
+    def test_inactive_guarded_owner_does_not_cover_local_data(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/data.h",
+            "#ifdef ENABLED\n"
+            "extern s32 data;\n"
+            "#endif\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, _ = unmatched_contracts.validate(self.root)
+
+        self.assertTrue(
+            any("local declaration of unmatched data data has no owner header"
+                in error for error in errors)
+        )
+
+    def test_composite_inactive_guards_do_not_cover_local_data(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+        for condition in (
+            "!defined(DISABLED) && defined(ENABLED)",
+            "defined(ENABLED) || defined(FALLBACK)",
+            "(defined(ENABLED) && !defined(DISABLED))",
+        ):
+            with self.subTest(condition=condition):
+                self.write(
+                    "src/game/data.h",
+                    f"#if {condition}\nextern s32 data;\n#endif\n",
+                )
+                errors, _ = unmatched_contracts.validate(self.root)
+                self.assertTrue(
+                    any(
+                        "local declaration of unmatched data data has no owner header"
+                        in error
+                        for error in errors
+                    )
+                )
+
+    def test_condition_evaluator_handles_boolean_precedence_and_parentheses(self) -> None:
+        enabled = {"ENABLED"}
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "!defined(DISABLED) && defined(ENABLED)", enabled
+        ))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "defined(DISABLED) || (defined(ENABLED) && !defined(OTHER))",
+            enabled,
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "defined(DISABLED) || defined(OTHER) && defined(ENABLED)", enabled
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "(!defined(DISABLED) && defined(ENABLED)) == 0", enabled
+        ))
+        macros = {
+            "ZERO": "0",
+            "FOUR": "2 + 2",
+            "ALIAS": "FOUR",
+            "FUNCTION": None,
+        }
+        self.assertFalse(unmatched_contracts.condition_enabled("ZERO", macros))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "ALIAS == 4 && defined(FUNCTION) && !FUNCTION", macros
+        ))
+        self.assertTrue(unmatched_contracts.condition_enabled(
+            "(-3 % 2) == -1", macros
+        ))
+        self.assertFalse(unmatched_contracts.condition_enabled(
+            "(-3 % 2) == 1", macros
+        ))
+
+    def test_zero_valued_macro_does_not_activate_an_owner(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/data.h",
+            "#define ENABLED 0\n"
+            "#if ENABLED\n"
+            "extern s32 data;\n"
+            "#endif\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+
+        errors, _ = unmatched_contracts.validate(self.root)
+
+        self.assertTrue(
+            any(
+                "local declaration of unmatched data data has no owner header"
+                in error
+                for error in errors
+            )
+        )
+
+    def test_unsupported_condition_fails_closed(self) -> None:
+        with self.assertRaisesRegex(
+            unmatched_contracts.ContractError,
+            "unsupported preprocessor condition",
+        ):
+            unmatched_contracts.condition_enabled("ENABLED ? 1 : 0", {"ENABLED"})
+
+    def test_every_compiler_profile_requires_an_active_owner(self) -> None:
+        self.write_linker_symbols("data = 0x80010000;\n")
+        self.write(
+            "src/game/data.h",
+            "#ifdef ENABLED\n"
+            "extern s32 data;\n"
+            "#endif\n",
+        )
+        self.write(
+            "src/game/caller.c",
+            '#include "data.h"\n'
+            "extern s32 data;\n"
+            "void caller(void) { data = 1; }\n",
+        )
+        self.write(
+            "config/slus_01411/matching_c.json",
+            json.dumps(
+                {
+                    "functions": [
+                        {
+                            "address": "0x80020000",
+                            "source": "src/game/caller.c",
+                            "profile": "enabled",
+                        },
+                        {
+                            "address": "0x80020010",
+                            "source": "src/game/caller.c",
+                            "profile": "disabled",
+                        },
+                    ]
+                }
+            ),
+        )
+        self.write(
+            "config/slus_01411/compiler_profiles.json",
+            json.dumps(
+                {
+                    "profiles": {
+                        "enabled": {"compiler_flags": ["-DENABLED"]},
+                        "disabled": {"compiler_flags": []},
+                    }
+                }
+            ),
+        )
+
+        errors, stats = unmatched_contracts.validate(self.root)
+
+        self.assertTrue(any("under profile disabled" in error for error in errors))
+        self.assertFalse(any("under profile enabled" in error for error in errors))
         self.assertEqual(stats["headerless_data"], 1)
         self.assertEqual(stats["headerless_data_sites"], 1)
 

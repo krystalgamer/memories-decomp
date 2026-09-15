@@ -1,10 +1,10 @@
 #define D_8009B360_IN_DATA
+#define GDUEL_BOPPONENTID_AS_SIZED_ARRAY
 #include "../types.h"
+#include "ai_opponent_data.h"
 #include "duel_side_state.h"
 #include "campaign_flags.h"
 #include "duel_ritual_controller.h"
-
-extern s8 gDuel_bOpponentID[9];
 
 void func_80019CC8(void *object)
 {

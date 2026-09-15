@@ -2,51 +2,16 @@
 #define MEMORIES_DECOMP_PASSWORD_SHOP_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../game/duel_effect.h"
 #include "../../game/save_data.h"
-
-/* Known prefix of the preview's control object, not its full allocation. */
-typedef struct {
-    u8 pad0[0x8];
-    u16 flags;
-    u8 pad0A[0x17];
-    u8 phase;
-    u8 pad22[0x10];
-    u16 y;
-} PasswordCardPreviewView;
-
-typedef void (*PasswordCursorUpdate)(u8 *object);
+#include "module_state.h"
 
 /* The digit cursor's record, as the cursor helpers, shop updater and
  * initializer describe it between them. Their former private views never
  * disagreed about a byte -- they named different ones -- so this is their
  * union rather than a new claim, and the padding keeps every named field at
  * the offset its own function already used. */
-typedef struct {
-    u8 pad00[0x8];
-    u16 flags;        /* 0x08 */
-    u8 pad0A[0x0E];
-    /* Where x/y are heading. Password_SetDigitCursorTarget writes this pair
-       and nothing else, Password_UpdateDigitCursor derives its velocity from
-       target minus live, and on the last tick copies the pair straight into
-       x/y as one word. */
-    s16 target_x;     /* 0x18 */
-    s16 target_y;     /* 0x1A */
-    u8 pad1C[0x14];
-    s16 x;            /* 0x30 */
-    s16 y;            /* 0x32 */
-    u8 pad34[0x2C];
-    s16 timer;        /* 0x60 */
-    u8 pad62[0x7];
-    u8 kind;          /* 0x69 */
-    u8 pad6A[0x2];
-    u8 updateFlags;   /* 0x6C */
-} PasswordCursorView;
-
-extern PasswordCursorView *gPassword_pDigitCursorWidget;
-
-extern PasswordCardPreviewView *D_8016D4D8;
-
 /* Shop/password-entry state. Every password-shop function lives in shop.c
  * and uses these shared declarations, except Password_UpdateShopScreen, now
  * a build-integrated candidate (src/candidates/password/func_8016A37C.c) that
@@ -62,11 +27,7 @@ extern PasswordCardPreviewView *D_8016D4D8;
  * paragraph was left behind, so the header asserted the opposite of what it
  * did. `shop.c` owns the cursor helpers and initializer, and the stored
  * updater candidate includes this header too, so every password-shop user
- * consumes the shared view. */
-extern u8 gPassword_abDigits[];
-extern s32 gPassword_nDigitIndex;
-extern u16 D_8016D424;
-
+ * consumes the shared declarations from module_state.h. */
 /* Builds text-box record 0 and returns it; both call sites ignore the
    record. */
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);

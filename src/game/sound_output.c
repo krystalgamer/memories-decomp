@@ -8,6 +8,9 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_voice_selection.h"
 
+#define SOUND_INIT_S16_VIEW
+#include "sound_init.h"
+
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
    the next read. */
@@ -24,21 +27,23 @@ void func_80046DE8(void)
     s32 value;
 
     p = g_SDValue;
-    p->mix_scale = ((u8 *)p)[0x1649];
-    *(s16 *)((u8 *)p + 0x44) = ((u8 *)p)[0x164A];
+    p->mix_scale = p->field_1649;
+    p->field_0044 = p->field_164A;
     func_80044DC0(0);
     q = g_SDValue;
     q->field_0512 = 0;
     if (q->field_157E != -1) {
         if ((s16)func_80049F50() != 1) {
-            func_80049C40(g_SDValue->field_157E);
+            SD_StopSequence(g_SDValue->field_157E);
             g_SDValue->flags_0040 &= 0xFF7F;
         }
         func_80049CB0(g_SDValue->field_157E);
     }
     r = g_SDValue;
     value = r->field_157A;
-    *(s16 *)((u8 *)r + 0x157C) = -1;
+    /* Retail stores one -1 register into both halfwords. Through the
+       unsigned member the constant becomes 0xFFFF and takes its own li. */
+    *(s16 *)&r->field_157C = -1;
     r->field_157E = -1;
     if (value != -1) {
         func_800498F8(value);
@@ -51,20 +56,20 @@ void func_80046DE8(void)
     g_SDValue->voice_active_mask = 0;
     g_SDValue->field_0435 = 0;
     for (i = 0; i < 4; i++) {
-        *((u8 *)g_SDValue + i + 0x40C) = 0;
+        g_SDValue->field_040C[i] = 0;
         g_SDValue->voice_ids[i] = 0;
     }
     t = g_SDValue;
-    ((u8 *)t)[0x7C] = 0;
+    t->field_007C = 0;
     t->command_count = 0;
-    ((u8 *)g_SDValue)[0x7D] = 0;
+    g_SDValue->field_007D = 0;
     u = g_SDValue;
-    ((u8 *)u)[0x7E] = 0;
+    u->field_007E = 0;
     w = g_SDValue;
-    *(s16 *)((u8 *)u + 0x4E) = 0;
-    *(s32 *)((u8 *)u + 0x50) = 0;
-    *(s32 *)((u8 *)u + 0x54) = 0;
-    *(s32 *)((u8 *)u + 0x58) = 0;
+    u->field_004E = 0;
+    u->field_0050 = 0;
+    u->field_0054 = 0;
+    u->field_0058 = 0;
     w->flags_0040 = 0;
 }
 
@@ -95,7 +100,7 @@ void SD_SetOutputType(s16 value)
     }
 }
 
-s32 func_80047008(void)
+s32 SD_GetOutputType(void)
 {
     return g_SDValue->output_type;
 }
@@ -181,3 +186,69 @@ void func_80047278(u32 value)
     func_80047AD0(value & SD_COMMAND_VALUE_MASK);
 }
 
+void func_800472A8(s32 arg0)
+{
+    u16 saved = arg0;
+
+    if ((g_SDValue->flags_004A & 2) == 0)
+        return;
+
+    if (arg0 & 0x8000) {
+        func_80045334(saved & SD_COMMAND_VALUE_MASK);
+    } else {
+        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+
+        if (masked >= SD_BGM_COMMAND_BASE)
+            arg0 -= SD_BGM_COMMAND_BASE;
+        func_80049138((s16)arg0, 1);
+    }
+}
+
+void func_80047314(u32 value)
+{
+    func_8004733C(value & SD_COMMAND_VALUE_MASK, g_SDValue->field_164B);
+}
+
+void func_8004733C(s32 arg0, s32 arg1)
+{
+    u16 saved = arg0;
+
+    if ((g_SDValue->flags_004A & 2) == 0)
+        return;
+
+    if (arg0 & 0x8000) {
+        func_800473CC(SD_BGM_COMMAND_BASE);
+        arg1 = (s16)arg1;
+        func_80045208(saved & SD_COMMAND_VALUE_MASK, arg1);
+    } else {
+        u32 masked = (u32)(saved & SD_COMMAND_VALUE_MASK);
+
+        if (masked >= SD_BGM_COMMAND_BASE)
+            arg0 -= SD_BGM_COMMAND_BASE;
+        arg1 = (s16)arg1;
+        func_80049230((s16)arg0, arg1);
+    }
+}
+
+void func_800473CC(u32 value)
+{
+    func_800473F0(value & SD_COMMAND_VALUE_MASK, -32);
+}
+
+void func_800473F0(u16 flags, s32 value)
+{
+    if ((flags & 0x8000) != 0)
+        func_80045114();
+    else
+        func_80049230_s16(-1, value);
+}
+
+void func_80047430(s32 value, s32 flag)
+{
+    func_80049108(value, flag);
+}
+
+void func_80047458(s32 value, s32 flag)
+{
+    func_800490F0(value, flag);
+}

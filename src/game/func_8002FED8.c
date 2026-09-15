@@ -2,14 +2,15 @@
 #include "scene_script.h"
 #include "../psyq/libgte.h"
 #include "trig_constants.h"
+#include "display_object.h"
 #include "func_8002FED8.h"
 
-void func_8002FED8(SceneScriptSlot *state, u8 *color)
+void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
 {
     s32 angle;
     s32 intensity;
     s32 component;
-    u8 *object;
+    DisplayObject *object;
 
     if (((u16)state->unk04 & 0x8000) == 0) {
         state->unk04 |= 0x8000;
@@ -23,21 +24,21 @@ void func_8002FED8(SceneScriptSlot *state, u8 *color)
     if (intensity == 24)
         intensity = 23;
     component = intensity - 104;
-    color[14] = component;
-    color[13] = component;
-    color[12] = component;
-    object = (u8 *)D_800EAE98[0].unk00;
-    if (object != (u8 *)0) {
+    ((u8 *)&color->field_0C)[2] = component;
+    ((u8 *)&color->field_0C)[1] = component;
+    ((u8 *)&color->field_0C)[0] = component;
+    object = (DisplayObject *)D_800EAE98[0].unk00;
+    if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        object[14] = component;
-        object[13] = component;
-        object[12] = component;
+        ((u8 *)&object->field_0C)[2] = component;
+        ((u8 *)&object->field_0C)[1] = component;
+        ((u8 *)&object->field_0C)[0] = component;
     }
-    object = (u8 *)D_800EAE98[1].unk00;
-    if (object != (u8 *)0) {
+    object = (DisplayObject *)D_800EAE98[1].unk00;
+    if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        object[14] = component;
-        object[13] = component;
-        object[12] = component;
+        ((u8 *)&object->field_0C)[2] = component;
+        ((u8 *)&object->field_0C)[1] = component;
+        ((u8 *)&object->field_0C)[0] = component;
     }
 }

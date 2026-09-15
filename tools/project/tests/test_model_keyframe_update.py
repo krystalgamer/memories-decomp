@@ -668,8 +668,8 @@ class ModelKeyframeUpdateTests(unittest.TestCase):
                         "(pose[0] * remaining + position[0] * elapsed) / duration",
                     ),
                     "late-elapsed-store": (
-                        "*(u16 *)(previous + 0x24) = elapsed;",
-                        "*(u16 *)((u8 *)D_8009B074 + 0x24) = elapsed;",
+                        "previous->progress = elapsed;",
+                        "D_8009B074->progress = elapsed;",
                     ),
                     "clamp-before-narrow": (
                         "delta[0] = value;",

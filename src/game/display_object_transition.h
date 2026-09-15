@@ -16,9 +16,11 @@
  * this declaration to void *. */
 void func_8004365C(DisplayObject *a, DisplayObject *b);
 
-/* Spins the frame loop for count frames, or until START or the confirm button
- * is pressed once the file-transfer request words have gone quiet. Callers
- * pass a plain frame count. */
-void func_800438B8(s32 count);
+/* Holds a boot screen: spins the frame loop for count frames, or until START
+ * or the confirm button is pressed once the file-transfer request words have
+ * gone quiet. It never returns while a transfer is still in flight, even after
+ * count runs out. Main_RunBootSequence passes 4 after the first boot image and
+ * 0xB4 while the main-menu package loads behind the second. */
+void Main_HoldBootScreen(s32 count);
 
 #endif

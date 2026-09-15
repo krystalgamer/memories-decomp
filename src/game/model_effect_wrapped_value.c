@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model_effect_coefficients.h"
+#include "model_effect_wrapped_value.h"
 #include "trig_constants.h"
 
 s32 func_8005A618(s32 index)

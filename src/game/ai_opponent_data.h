@@ -21,7 +21,14 @@ typedef char AiOpponentData_size_must_be_9[
 
 extern AiOpponentData gDuel_aOpponentData[AI_OPPONENT_COUNT];
 
-/* The signed opponent selector is loaded absolutely, even by G8 code. */
+/* The signed opponent selector is loaded absolutely. The array spellings are
+ * codegen views used by G8 duel units; every consumer reads only element 0. */
+#ifdef GDUEL_BOPPONENTID_AS_SIZED_ARRAY
+extern s8 gDuel_bOpponentID[AI_OPPONENT_DATA_FIELD_COUNT];
+#elif defined(GDUEL_BOPPONENTID_AS_ARRAY)
+extern s8 gDuel_bOpponentID[];
+#else
 extern s8 gDuel_bOpponentID __attribute__((section(".data")));
+#endif
 
 #endif

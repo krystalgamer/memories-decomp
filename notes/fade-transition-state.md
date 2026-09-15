@@ -28,7 +28,7 @@ The end of `band_levels` gives a minimum record size of `0x28`.
 `gFade_State`, independently fixing the extent. C89 typedef assertions verify
 the total size and every modeled field offset.
 
-Target assembly across `func_800151B0`, `Fade_StepBands`,
+Target assembly across `Fade_Init`, `Fade_StepBands`,
 `Fade_Update`, `Fade_DrawOverlay`, `Fade_FillBandLevels`, the setup functions, and
 the flag-setting wrappers establishes the access widths and offsets. GMS
 corroborates the same byte labels, the halfword at `0x08`, and the 30-byte
@@ -130,10 +130,11 @@ rather than inferred from a caller's name:
 |---|---|---|
 | `Fade_InitIn` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0` / `0xFF` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
 | `Fade_InitOut` in [`fade_runtime.c`](../src/game/fade_runtime.c) | `0xFF` / `0` | fills all bands with the current level, sets flags `0x80` and step `0x0C` |
+| `Fade_Init` in [`fade_init.c`](../src/game/fade_init.c) | untouched / `0` | boot reset from `Main_Init`: clears flags and `level`, sets step `8`, clears `D_8009B145`; no transition is armed |
 
-`Fade_StartIn` and `Fade_StartOut` call those initializers, then request
-step `8` and flag `0x01` (band mode). However, both call a color helper
-**after** that request. When `D_8009B145` is nonzero,
+`Fade_StartIn` and `Fade_StartOut` call `Fade_InitIn` and `Fade_InitOut`,
+then request step `8` and flag `0x01` (band mode). However, both call a color
+helper **after** that request. When `D_8009B145` is nonzero,
 [`func_8001572C`](../src/game/fade_runtime.c) replaces the flags with `0x90`,
 while [`func_80015870`](../src/game/fade_runtime.c) replaces them with `0xB0`.
 Both helpers write white tint, restore step `0x0C`, and clear band mode by
@@ -147,9 +148,9 @@ the blocking `Fade_Wait` begin the wrapper/control layer. Eighteen contiguous
 functions follow over the setup paths above. They vary along three axes, and
 reading them as a grid is what makes the unnamed ones tractable:
 
-- which initializer runs -- `Fade_Init*` (default step `0x0C`, no band mode)
-  or `Fade_Start*` (band mode requested, then possibly replaced by the colour
-  helper as described above);
+- which initializer runs -- `Fade_InitIn*` or `Fade_InitOut*` (default step
+  `0x0C`, no band mode) or `Fade_Start*` (band mode requested, then possibly
+  replaced by the colour helper as described above);
 - whether the wrapper ends with `Fade_Wait`, i.e. whether it blocks;
 - whether it ORs extra bits into `flags` and calls a colour helper.
 
@@ -323,7 +324,7 @@ extern u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
 
 Matching pure-C users migrated to this shared header include:
 
-- `func_800151B0`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
+- `Fade_Init`, `Fade_StepBands`, `Fade_Update`, `Fade_DrawOverlay`,
   `Fade_FillBandLevels`, `func_800156DC`;
 - `func_8001572C`, `Fade_InitIn`, `Fade_StartIn`;
 - `Fade_InitInColor`, `func_80015870`, `Fade_InitOut`;

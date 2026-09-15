@@ -629,6 +629,7 @@ def main() -> int:
         from integrate_verified_match import (
             load_tracked_symbol_names,
             uses_asm_extension,
+            uses_disallowed_psyq_inline_asm,
         )
 
         candidate = resolve_within(root, args.candidate, must_exist=True)
@@ -643,6 +644,14 @@ def main() -> int:
         preprocessed_text = preprocess_candidate(
             root, candidate, profiles[args.profile]
         )
+        if (
+            args.allow_psyq_inline_macros
+            and profiles[args.profile].get("allow_psyq_inline_macros") is not True
+        ):
+            raise ExternalAttemptError(
+                "--allow-psyq-inline-macros requires a profile that explicitly "
+                "allows Psy-Q inline macros"
+            )
         tracked_symbol_names = (
             load_tracked_symbol_names(root)
             if args.allow_symbol_aliases
@@ -656,8 +665,15 @@ def main() -> int:
                 tracked_symbol_names=tracked_symbol_names,
             )
             or (
-                not args.allow_psyq_inline_macros
-                and uses_asm_extension(
+                uses_disallowed_psyq_inline_asm(
+                    preprocessed_text,
+                    macro_family=profiles[args.profile].get("psyq_inline_macro", "rtps"),
+                    allow_register_pins=args.allow_register_pins,
+                    allow_symbol_aliases=args.allow_symbol_aliases,
+                    tracked_symbol_names=tracked_symbol_names,
+                )
+                if args.allow_psyq_inline_macros
+                else uses_asm_extension(
                     preprocessed_text,
                     allow_register_pins=args.allow_register_pins,
                     allow_symbol_aliases=args.allow_symbol_aliases,

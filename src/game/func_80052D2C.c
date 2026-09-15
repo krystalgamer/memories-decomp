@@ -108,7 +108,7 @@ have_flags:
     {
         ModelCameraMove *p = &D_800F2B20;
 
-        p->field_02 = 0x12C;
+        p->field_02 = MODEL_DEFAULT_PROJECTION;
         p->field_06 = 8;
         p->field_04 = 8;
         p->flags = 0;

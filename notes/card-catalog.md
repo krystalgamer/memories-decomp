@@ -84,9 +84,10 @@ occupy flags `0x121` through `0x3F2`.
 The initializer then walks card IDs `1` through `722` and tests each same
 Library flag through `Campaign_TestStoryFlag`. A set flag increments
 the visible-card count and sets byte `0x80` in that card's display record.
-When `func_8002C518(card_id)` returns a negative value, the initializer also
-sets that record's low bit; the matching body establishes the bit but not a
-safe semantic name for it.
+When `Library_CheckCardOwned(card_id)` returns a negative value, meaning the
+card is in neither the trunk nor the deck, the initializer also sets that
+record's low bit. `func_8002A2F4` later forces `D_8009B320` to `4` for such a
+card when it opens its text box.
 
 Each display record also receives a selector derived from the packed card
 type:

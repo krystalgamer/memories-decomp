@@ -40,8 +40,10 @@ FRONT_END_FLAG = re.compile(r"^-(?:D|U|I|G|m|O|f(?!no-builtin$))")
 
 # (caller, callee, include that provides the callee's declaration)
 PAIRS = [
+    ("src/game/func_80040DD8.c", "func_80041E7C", '#include "display_object_projection.h"'),
+    ("src/game/func_80041068.c", "func_80041E7C", '#include "display_object_projection.h"'),
     ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
-    ("src/game/sound_secondary_object_volumes.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
+    ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
     ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/candidates/password/func_8016A37C.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_8004A6D8.c", "func_8004A518", '#include "sound.h"'),
@@ -49,7 +51,7 @@ PAIRS = [
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/game/func_8001B938.c", "func_8004036C", '#include "display_object_core.h"'),
-    ("src/game/func_80030998.c", "func_8004036C", '#include "display_object_core.h"'),
+    ("src/game/debug_menu_campaign_entry.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "func_800400AC", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "func_800404CC", '#include "display_object_config.h"'),
     ("src/game/func_800262D4.c", "func_8004036C", '#include "display_object_core.h"'),
@@ -61,10 +63,11 @@ PAIRS = [
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
-    ("src/candidates/func_80041068.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
+    ("src/game/func_80040DD8.c", "func_80042188", '#include "display_object_packet_submit.h"'),
+    ("src/game/func_80041068.c", "func_80042188", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
-    ("src/game/func_80050584.c", "func_80056828", '#include "model_load_step.h"'),
+    ("src/game/func_800534B8.c", "func_80056828", '#include "model_load_step.h"'),
     ("src/game/func_8004CB0C.c", "func_8005A3D0", '#include "../game/model_parent_search.h"'),
     ("src/game/func_80024200.c", "func_800235C0", '#include "duel_field_display_objects.h"'),
     ("src/game/duel_field_display_objects.c", "func_80018150", '#include "duel_card_object_helpers.h"'),
@@ -77,7 +80,6 @@ PAIRS = [
 
 PACKET_SUBMIT_CANDIDATES = (
     "src/candidates/func_80028B08.c",
-    "src/candidates/func_80041068.c",
 )
 
 
@@ -211,7 +213,9 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 self.assertIn(callee, found)
 
     def test_lost_cd_header_is_caught_while_sdk_types_remain_visible(self) -> None:
-        header = (REPOSITORY / "src/game/file_cd_helpers.h").read_text(encoding="utf-8")
+        header = (
+            REPOSITORY / "src/psyq/libcd_abi_variants.h"
+        ).read_text(encoding="utf-8")
         for source, callee, include in PAIRS:
             if "file_cd_helpers.h" not in include:
                 continue

@@ -76,7 +76,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     func_8004036C(y);
 }
 
-void func_800438B8(s32 count)
+void Main_HoldBootScreen(s32 count)
 {
     s32 found = 0;
 

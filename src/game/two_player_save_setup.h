@@ -11,7 +11,7 @@
  * SaveData_UpdateDuelLoad reports a status its callers poll:
  * MainMenu_UpdateFrontendMenu (now a build-integrated candidate,
  * src/candidates/main_menu/func_80180390.c) stores the result for
- * main-menu item 2 and async_state_poll.c tests it
+ * main-menu item 2 and debug_menu_two_player_entry.c tests it
  * before entering the two-player duel setup. On top of the trade load it
  * requires a full deck in both saves and converts both player names.
  *

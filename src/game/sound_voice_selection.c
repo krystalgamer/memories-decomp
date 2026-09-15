@@ -174,13 +174,13 @@ s32 func_80047C50(s32 value)
     return 0xFFFF;
 }
 
-void func_80047C70(s32 value)
+void SD_KeyOffVoice(s32 voice)
 {
     s32 count;
 
     for (count = 0; count < SD_KEY_OFF_RETRY_LIMIT; count++) {
-        SpuSetKey(SPU_OFF, value);
-        if (SpuGetKeyStatus(value) == SPU_OFF)
+        SpuSetKey(SPU_OFF, voice);
+        if (SpuGetKeyStatus(voice) == SPU_OFF)
             break;
     }
 }
@@ -198,7 +198,7 @@ void func_80047CC4(s32 value)
         state = g_SDValue;
         if (state->voice_active_mask & bit) {
             if (state->voice_ids[(u8)slot] == (u16)normalized) {
-                func_80047C70(command);
+                SD_KeyOffVoice(command);
                 g_SDValue->field_0435 = slot;
                 g_SDValue->voice_active_mask &= ~bit;
                 break;
@@ -250,7 +250,7 @@ void SD_SEStop(s32 id)
         if (g_SDValue->voice_ids[i] == key) {
             bits |= bit;
             g_SDValue->voice_active_mask &= ~mask;
-            func_80047C70(bit);
+            SD_KeyOffVoice(bit);
         }
         mask <<= 1;
         bit <<= 1;

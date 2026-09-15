@@ -89,8 +89,8 @@ void func_80059DD8(s32 index)
     ModelSlot *base = &D_800F2C40[index];
     ModelSlotHeadEntry *slot = base->field_000;
     s32 (*callback)(s32) = func_8005FC1C;
-    u8 *node;
-    u8 *next;
+    u32 *node;
+    u32 *next;
     s32 i;
 
     if (base->field_E1F == 0) {
@@ -98,18 +98,18 @@ void func_80059DD8(s32 index)
     }
     for (i = 0; i < base->field_E1A; i++, slot++) {
         node = slot->field_04;
-        if (node != (u8 *)0) {
+        if (node != 0) {
             while (1) {
-                if (*(s32 *)(node + 8) != 0) {
+                if (node[2] != 0) {
                     func_8005A53C(
                         callback,
-                        node + 12,
-                        *(s32 *)(node + 4),
-                        *(s32 *)(node + 8)
+                        (u8 *)&node[3],
+                        node[1],
+                        node[2]
                     );
                 }
-                next = *(u8 **)node;
-                if (next == (u8 *)-1) {
+                next = (u32 *)node[0];
+                if (next == (u32 *)-1) {
                     break;
                 }
                 node = next;

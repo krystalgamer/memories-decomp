@@ -2,22 +2,12 @@
 #include "../game/graphics_frame.h"
 #include "../game/library_runtime.h"
 #include "../game/func_80029EB0.h"
+#include "../game/card_constants.h"
+#include "../psyq/libgs_abi_variants.h"
 
 /* 0x800E9D9C is the second ordering-table pointer. ordering_tables.h declares
    it `GsOT *`; this unit reads it as a word, so the private spelling stays. */
 extern s32 D_800E9D9C;
-
-/* src/psyq/libgs.h:791 and :802 declare these as
-   GsSortFastSprite(GsSPRITE *, GsOT *, unsigned short) and
-   GsSortGLine(GsGLINE *, GsOT *, unsigned short). Including it builds this
-   object byte for byte the same, and costs ten new warnings: the two
-   primitives here are scratchpad addresses held as u8 *, and the ordering
-   table is carried as a word, so every call reports an incompatible pointer
-   and arg 2 "makes pointer from integer without a cast". Making that coherent
-   means retyping the primitives and the handle, which is a change to what this
-   unit says about the objects, not to where its declarations live. */
-extern void GsSortFastSprite(u8 *, s32, s32);
-extern void GsSortGLine(u8 *, s32, s32);
 
 /*
  * Current best under gcc_2_8_1_g0: 269 instructions against 268, with
@@ -31,7 +21,7 @@ extern void GsSortGLine(u8 *, s32, s32);
    0x1F800320. The first visible row comes from the viewport scroll divided by
    the 178-pixel row pitch; from there four rows of ten lines are walked, each
    line holding ten cells on the left at column 8 and, while the paired index
-   is still below 0x2D3, ten more on the right at column 0xA8. A cell is drawn
+   is still below CARD_ID_END, ten more on the right at column 0xA8. A cell is drawn
    only when func_80029EB0 reports bit 0x80, tinted 0x808080 or 0x404040 on
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
@@ -102,7 +92,7 @@ void func_80029EC4(void)
                         *(u16 *)(p + 0x10) = *(u16 *)(pj + 0x54);
                         GsSortFastSprite(p, ot, 2);
                     }
-                    if (k < 0x2D3) {
+                    if (k < CARD_ID_END) {
                         r = func_80029EB0(D_800EA1E8, k);
                         if (r & 0x80) {
                             *(u32 *)(p + 0x14) = white;

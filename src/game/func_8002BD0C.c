@@ -36,6 +36,8 @@
 #include "sound.h"
 #include "text_render_state.h"
 #include "text_staging.h"
+#include "func_8002A660.h"
+#include "text_box_runtime.h"
 
 /* The Library screen, in address order: the package-transfer phase
    callback, the pass that marks every owned card in the screen's state, and
@@ -189,13 +191,13 @@ void func_8002BFCC(void) {
     } else {
         x = (d % CARD_GRID_SECTION_SIDE_LENGTH) * 0xE + 0xE;
     }
-    *(s16 *)(r + 0x12) = x;
-    *(s16 *)(r + 8) = x;
+    ((LibraryMotionState *)r)->rest_x = x;
+    ((LibraryMotionState *)r)->x = x;
     k = gCardGrid_bCursorRow;
     y = (k / CARD_GRID_SECTION_SIDE_LENGTH) * 0xB2
         + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
-    *(s16 *)(r + 0x14) = y;
-    *(s16 *)(r + 0xA) = y;
+    ((LibraryMotionState *)r)->rest_y = y;
+    ((LibraryMotionState *)r)->y = y;
     func_8002A660(r);
     o = func_800400AC(func_8004002C(), 2);
     func_800404CC(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
@@ -206,10 +208,10 @@ void func_8002BFCC(void) {
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     *(u8 **)(r + 0x48) = o;
     o = func_800400AC(func_8004002C(), 2);
-    func_800404CC(o, *(s16 *)(r + 8), *(s16 *)(r + 0xA), 0, 2, 2, 0x1B, 0x147);
+    func_800404CC(o, ((LibraryMotionState *)r)->x, ((LibraryMotionState *)r)->y, 0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;
-    *(u8 **)(r + 0x44) = o;
+    ((LibraryMotionState *)r)->render = (DisplayObject *)o;
     r[0x56] = 0;
     *(s16 *)(r + 0x54) = 0;
     do {
@@ -240,7 +242,7 @@ void func_8002BFCC(void) {
         if (Campaign_TestStoryFlag(n + CAMPAIGN_FLAG_LIBRARY_CARD_BASE) != 0) {
             D_801D5608[0].library_count += 1;
             *(u8 *)(r + n * 4 + 0x56) = 0x80;
-            if (func_8002C518(n) < 0) {
+            if (Library_CheckCardOwned(n) < 0) {
                 *(u8 *)(r + n * 4 + 0x56) |= 1;
             }
         }

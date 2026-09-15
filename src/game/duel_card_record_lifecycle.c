@@ -14,6 +14,7 @@
 #include "duel_grid.h"
 #define DUEL_SCREEN_TABLES_TYPED_POSITIONS
 #include "duel_screen_tables.h"
+#define DUEL_TERRAIN_AS_ARRAY
 #include "duel_terrain_boost.h"
 #include "func_80016778.h"
 #include "util_memory.h"
@@ -84,7 +85,6 @@ void func_80024954(DuelCardRecord *object)
     object->flags = 0;
 }
 
-extern u8 gDuel_bTerrain[];
 /* Same byte, distinct compiler identity: keep both address materializations. */
 
 s32 Duel_GetTerrainBoost(s32 cardType)

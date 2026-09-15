@@ -4,13 +4,13 @@
 contracts. `duel_interface_setup.h` includes it for the producer API;
 the menu dispatcher, scene/sound states, cursor updater, async return path,
 and retained `func_80030294` candidate consume the same declarations.
-The raw-word `func_80030998` also includes it without changing any assembly.
+The raw-word `DebugMenu_UpdateCampaignEntry` also includes it without changing any assembly.
 This is declaration/type work, not a new C storage mapping or semantic rename.
 
 ## Three-row evidence
 
 `func_80030250` stores three caret columns at `0x8009B2B4..B2B6` and initializes
-three digit counts at `0x8009B2C0..B2C2`. The sound editor `func_800307B8`
+three digit counts at `0x8009B2C0..B2C2`. The sound editor `DebugMenu_UpdateSoundEntry`
 requests three rows with columns `0x11, 0x19, 0x21`, then overrides rows 1
 and 2 to three digits. Its format at `D_80090CB4` contains three conversions:
 `%04X`, `%03X`, `%03X`. The scene/menu/movie states request one row and
@@ -39,7 +39,7 @@ Scalar producers retain their original labels for the three column and
 digit stores. `FRONTEND_DEBUG_ROW_VIEWS` gives the candidate bounded
 three-byte arrays; both remain inside its assembler's `-G4` limit.
 The saved sound pair is selected by `FRONTEND_DEBUG_SOUND_ROW_VIEW` in
-`func_800307B8`; its four-byte size remains small data under that TU's profile.
+`DebugMenu_UpdateSoundEntry`; its four-byte size remains small data under that TU's profile.
 No array is a new definition, and no interior label is folded into a base
 relocation.
 
@@ -66,7 +66,7 @@ There are no tentative definitions, section-attribute changes, or new pins.
 
 ## Setup consumers and verification
 
-`func_80030198` now keeps the created text box as `DuelEffectChannel *`
+`DebugMenu_Init` now keeps the created text box as `DuelEffectChannel *`
 and writes its existing `field_5A`/`field_5B` members. The cursor object is
 `DisplayObject *`, consistent with every consumer of `D_8009B2E4`.
 The four byte stores at offsets `0x45, 0x3D, 0x35, 0x2D` address byte 1

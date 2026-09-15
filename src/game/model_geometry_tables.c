@@ -4,12 +4,14 @@
 /* Initialized data at 0x800915E8 through 0x800916E0, previously a generated
    blob (#2602).
 
-   Nothing in tracked C reads any of these. Their readers are func_8006AF74
-   and func_8006CD78, both still unmatched assembly and both module=game, so
-   this is game data whose consumers cannot yet describe it.
+   model_subdivided_effect.c reads D_800915E8 as three six-byte colour
+   channels followed by signed height/radius minima and growth/fade
+   durations. The four-byte element view remains the storage owner; the
+   consumer describes the measured 28-byte record locally.
 
-   That is the limit of what is known, so no shape is invented. D_800915E8's
-   first four words carry 0xA0 in each occupied byte lane and D_800916D4 is
+   func_8006C37C.c reads D_80091604 and is matching C too; func_8006CD78,
+   which reads D_80091610 and D_800916D4, is the only reader still in
+   assembly. D_800916D4 is
    two 0x404040FF words and one 0x000000FF, which is what a colour looks
    like; the rest are left flat. D_80091610's ninety-eight halfwords have no
    established row width -- ninety-eight is 2 x 7 x 7 and nothing chooses

@@ -45,8 +45,6 @@
 
 extern s32 D_801A8008[];
 extern u8 D_801B1245[];
-extern u8 *D_8016D430;
-extern u8 *D_8016D440[];
 extern u8 D_800EA0E8[];
 
 void Password_RefreshDigitDisplay(void)

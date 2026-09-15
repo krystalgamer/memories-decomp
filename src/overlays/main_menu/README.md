@@ -74,11 +74,10 @@ rather than initialised content.
 
 `Main_RunMenu` enters the image at `MainMenu_InitFrontendMenu`,
 `MainMenu_UpdateFrontendMenu` and `MainMenu_DestroyFrontendMenu`.
-The first and last build from matching C. `MainMenu_UpdateFrontendMenu`
-matched only through pinned registers, so since #3859 it is a build-integrated
-candidate (`src/candidates/main_menu/func_80180390.c`) and its text is
-generated assembly again. These frontend entries are distinct from the
-Trade-screen entries below.
+All three build from matching C. `MainMenu_UpdateFrontendMenu` was
+reclassified in #3859 because its old match used register bindings; the
+binding-free replacement is now [`frontend_update.c`](frontend_update.c).
+These frontend entries are distinct from the Trade-screen entries below.
 
 The loaded bytes contain resident call targets throughout `0x80180xxx` and
 the module-scoped `gMain_bMenuID` at `0x80184594`. A second SU phase at sectors
@@ -156,8 +155,8 @@ declarations in `entrypoints.h` are included by definitions and both callers.
 
 The init entry point is [`frontend.c`](frontend.c); the transition
 initializer and teardown, the background drawer and the afterimage pair are
-[`frontend_background.c`](frontend_background.c), after the update entry
-point's generated assembly -- see *The frontend translation unit* below.
+[`frontend_background.c`](frontend_background.c), after the standalone update
+entry point -- see *The frontend translation unit* below.
 
 ## Trade-screen ownership
 
@@ -385,8 +384,8 @@ proof of the original author's translation-unit boundaries.
 
 `MainMenu_UpdateValueSetup` (`0x801812B4`) updates the two-value/shared-option
 editor, not merely the LP fields. `MainMenu_StartValueSetup`,
-`MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` share declarations
-with the resident `Main_RunTwoPlayerDuelSetup` caller.
+`MainMenu_UpdateValueSetup` and `MainMenu_FinishValueSetup` are declared in
+`value_setup.h`, shared with the resident `Main_RunTwoPlayerDuelSetup` caller.
 
 | Result | Meaning | Resident behavior |
 |---:|---|---|
@@ -595,12 +594,21 @@ bytes cover `0x80180E6C-0x80180FD8` exactly, with callback object offset
 ## The frontend translation unit
 
 The front-end screen is `0x8018001C..0x80180FD8`, one contiguous
-`gcc_2_8_1_g0_split` run. It was five sources, then one, `frontend.c`. Since
-#3859 moved `MainMenu_UpdateFrontendMenu` to a build-integrated candidate
-(`src/candidates/main_menu/func_80180390.c`), the run is two C subsegments
-around that function's generated assembly: `frontend.c` at module offset
-`0x1C` holds the initializer, and `frontend_background.c` at `0xB4C` holds
-the five functions after the updater.
+`gcc_2_8_1_g0_split` run. It was five sources, then one, `frontend.c`; #3859
+later restored generated assembly for the register-bound updater. The run now
+uses three C subsegments: `frontend.c` at module offset `0x1C` holds the
+initializer, `frontend_update.c` at `0x390` holds the binding-free updater,
+and `frontend_background.c` at `0xB4C` holds the five following functions.
+Their boundaries and compiler profile are unchanged.
+
+The updater retains a shared scratch value for menu-group selection, the
+signed endpoint, and the phase limit. Keeping the limit live through both
+`frame = first - value` and `frame != first` reproduces the target allocation
+without a register assignment. The signed fixed-point product is corrected
+in place before shifting, preserving truncation toward zero; ordinary `/4096`
+introduced an extra quotient copy in the measured source. The positive timer
+guard keeps its decremented halfword in range. The entry's fields use the
+existing `DisplayObject` layout and configuration view.
 
 | Address | Function | Was |
 |---|---|---|
@@ -637,8 +645,8 @@ parameter. All four now live in `frontend.h`.
 `GINPUT_PAD1_PRESSED_IS_VOLATILE` was defined for the whole unit rather than
 for one function, because it has to precede `input.h`. That was safe:
 `MainMenu_UpdateFrontendMenu` is the only front-end function that reads
-`gInput_wPad1Pressed` at all. Its build-integrated candidate keeps the define; neither
-remaining C file needs it.
+`gInput_wPad1Pressed` at all. `frontend_update.c` keeps the define; neither
+other C file needs it.
 
 ## Value-setup translation unit
 

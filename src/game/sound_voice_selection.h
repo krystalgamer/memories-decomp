@@ -10,7 +10,7 @@ s32 func_80047AD0(s32 value);
 s32 func_80047B68(u16 value);
 void func_80047BB4(u16 *items, s32 count);
 s32 func_80047C50(s32 value);
-void func_80047C70(s32 value);
+void SD_KeyOffVoice(s32 voice);
 void func_80047CC4(s32 value);
 void SD_SEStop(s32 id);
 

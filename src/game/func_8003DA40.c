@@ -12,9 +12,8 @@
 
 void func_8003DA40(MenuRecord *record)
 {
-#define p ((u8 *)record)
     DisplayObject *e;
-    u8 *q;
+    DuelEffectChannel *q;
     s32 f;
     s32 g;
     s32 v;
@@ -29,26 +28,29 @@ void func_8003DA40(MenuRecord *record)
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(e);
         func_800428EC((u8 *)e, (s8)(*(u8 *)&D_8009AF74[1] - 2));
-        *(s32 *)p = (s32)e;
+        record->grid[0][0] = (s32)e;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;
-        q = (u8 *)DuelEffect_CreateChannel(0xD0, 0);
-        *(s16 *)(q + 0x34) = *(u16 *)(q + 0x34) | 4;
+        q = DuelEffect_CreateChannel(0xD0, 0);
+        q->flags_34 = q->flags_34 | 4;
         do {
             func_80039794();
-        } while (*(s32 *)(q + 0x30) == 0);
-        TextBox_SetPos((DuelEffectChannel *)q,
+        } while (q->field_30 == 0);
+        TextBox_SetPos(q,
                        *(s16 *)&e->field_30.h.field_30,
                        *(s16 *)&e->field_30.h.field_32);
     }
 
-    e = *(DisplayObject **)p;
-    q = (u8 *)&D_800EB0F8[p[0x1A]];
+    e = (DisplayObject *)record->grid[0][0];
+    /* The dialog channel's index. It is the byte at 0x1A, inside grid's
+       third row, and dialog_transition.c reads it the same way; nothing
+       matched yet writes it, so MenuRecord has no name for it. */
+    q = &D_800EB0F8[((u8 *)record)[0x1A]];
     g = D_8009B3C1;
 
     if ((g & 0x40) != 0) {
         func_80039794();
-        if ((*(u16 *)(q + 0x34) & 0x2000) != 0) {
+        if ((q->flags_34 & 0x2000) != 0) {
             D_8009B3C1 = 0;
         }
     } else {
@@ -57,15 +59,14 @@ void func_8003DA40(MenuRecord *record)
         if ((s16)v >= 0) {
             *(s16 *)&e->field_30.h.field_30 = 0x20;
             *(s16 *)&e->field_30.h.field_32 = 0x50;
-            h = *(u16 *)(q + 0x34);
+            h = q->flags_34;
             D_8009B3C1 = g | 0x40;
-            *(s16 *)(q + 0x34) = h & 0xFFFB;
+            q->flags_34 = h & 0xFFFB;
         } else {
             Widget_SlideSine((DisplayObjectPosition *)e, 0x20, 0x50, (s16)v);
         }
-        TextBox_SetPos((DuelEffectChannel *)q,
+        TextBox_SetPos(q,
                        *(s16 *)&e->field_30.h.field_30,
                        *(s16 *)&e->field_30.h.field_32);
     }
-#undef p
 }

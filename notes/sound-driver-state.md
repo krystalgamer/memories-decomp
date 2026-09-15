@@ -32,8 +32,10 @@ Konami type or field naming.
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
+| `0x0538` | `decoded_half` | `func_80045054` stores `SpuReadDecodedData`'s returned half here. |
 | `0x053C` | `buffer_053C[4][0x200]` | Four work buffers whose addresses are installed during sound initialization. |
 | `0x153C` | `buffer_ptrs_153C[4]` | Pointers to the four work buffers. |
+| `0x154C` | `output_level` | `func_80045054` sums squared CD samples into it and publishes its signed high halfword as the level. |
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
 | `0x1618` | `busy` | Command registration tests and sets this byte. |
@@ -178,10 +180,18 @@ size.
 
 ```c
 SpuReadDecodedData(
-    (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
-    5
+    (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
 );
 ```
+
+It stores the returned half, `SPU_DECODED_FIRSTHALF` or the second half, in
+the word `decoded_half` at `+0x538`, and sums the selected half's 256 signed
+sample squares, each shifted right by eight, into `output_level` at `+0x154C`.
+It then publishes that sum's signed high halfword as both the new
+accumulator and the return value, unless `flags_0040 & 3` mutes it to zero.
+The neighbouring word `field_1550` gets the same treatment from its own high
+halfword, but nothing in C accumulates into it. Both words are `SDLevelWord`
+unions (`sum` and `halves[2]`), so the high-halfword reads stay member reads.
 
 `SpuDecodedData` is four arrays of `0x200` signed halfwords (`cd_left`,
 `cd_right`, `voice1`, and `voice3`), so this call establishes a
@@ -235,10 +245,11 @@ Matching sound initialization selects transfer mode zero with
 `SpuSetTransferMode(0)`. The secondary transfer path then calls
 `SpuSetTransferStartAddr` with either the configured SPU RAM base or that base
 plus `bytes_consumed` before advancing a transfer window. The status wrapper
-at `0x800498BC` forwards caller value zero as
-`SpuIsTransferCompleted(0)` and every nonzero value as
-`SpuIsTransferCompleted(1)`; local evidence does not assign stronger names to
-those two modes.
+`SD_VabTransCompleted` (`0x800498BC`) forwards caller value zero as
+`SpuIsTransferCompleted(SPU_TRANSFER_PEEK)` and every nonzero value as
+`SpuIsTransferCompleted(SPU_TRANSFER_WAIT)`, the poll-or-block contract of
+libsnd's `SsVabTransCompleted`. Nothing in the executable or the overlay
+archives calls it.
 
 Voice setup uses `SpuSetVoiceAttr` through two layout-compatible local views:
 the main driver submits the attribute block rooted at `g_SDValue+0x3C4`, while
@@ -286,38 +297,32 @@ preserve GCC relocation shape. The shared header remains the layout reference,
 while exact executable matching decides whether a typed field access is safe
 for a particular function.
 
-The contiguous output/control block at `0x80046F58-0x80047278` now builds as
-`src/game/sound_output.c`. Its ten functions use `SDValue` and `SDCommand`
+The contiguous output/control block at `0x80046DE8-0x80047458` now builds as
+`src/game/sound_output.c`. Its eighteen functions use `SDValue` and `SDCommand`
 directly, including output-type reads/writes, driver flags, CD-volume reuse,
-and construction of three command variants.
+construction of three command variants, packed request dispatch, and
+sequence-state control.
 
 An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the
 four-voice tables, late control fields, and the music-track pointer.
 
-Eighteen accesses in nine files retain an explicit byte-pointer expression
-(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`), nine of them in resident
-sources and nine in build-integrated candidates. Three forms, counted by
-what the cast applies to:
+Some accesses still use an explicit byte-pointer expression
+(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`). The list changes as
+members are named, so this note does not keep a count. `func_80045054` no
+longer has any: its former base-local byte views are now the
+`decoded_half`, `output_level` and `field_1550` members.
 
-- a cast on the pointer combined with an offset or index (twelve; six in
-  `sd_init_state.c`, and one of the twelve is passed as a call argument
-  rather than dereferenced);
-- a base local assigned `(u8 *)g_SDValue` (five, three of them in
-  `sound_output_state.c`, all within `func_80045054`);
-- a cast on a member's value (one, `sound_voice_selection.c`, in
-  `SD_SEStop`).
+None of the three exceptions this note used to document is still a
+byte-pointer access. The first, `func_80045054`'s decoded-data argument,
+is now the `buffer_053C` member quoted in the SPU section above. The other
+two:
 
-This note records a code-generation rationale for exactly one of the
-eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
-layout of `SpuDecodedData` rather than for its spelling, and the rest are
-undocumented here. Of the three exceptions the note documents, only
-`func_800493F8` is still a byte-pointer access at all:
-
-- `func_800493F8` writes the music-track pointer through
-  `((u8 *)g_SDValue + 0x1564)` because the direct member assignment changes
-  register allocation. It is `src/game/sound_init.c:86`, and the source
-  carries the measurement in a comment above the store.
+- `func_800493F8` wrote the music-track pointer through
+  `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
+  register allocation. Since #4457 it stores through the member's address,
+  `*(void **)&g_SDValue->music_track` in `src/game/sound_init.c`, and the
+  comment above that store carries the measurement.
 - `func_80047FAC` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
@@ -578,6 +583,16 @@ channel controls without changing their byte storage:
 | `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
 | `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
 
+`func_8004A518` writes every channel record through these members. Its other
+stores name four more channel members: the byte `field_0004`, which
+`func_8004B374` also clears, the two words `field_0008` and `field_000C`,
+both reset to `0x7F`, and the halfword `field_0014`. In the other layouts it
+names object halfword `field_001C` at `+0x1C`, which is set to `0x40` beside
+`cached_pitch_bend`, and track byte `field_002B`. Nothing else in C reads
+them, so they keep offset-based names. Replacing the `u8` padding with `s32`
+gives `SDSecondaryRecord` 4-byte alignment. Its size and offsets are
+unchanged, and its only container is the 4-aligned `SDSecondaryState`.
+
 The pan writer still substitutes `1` for an incoming zero. Pitch bend still
 stores only the second data byte masked to seven bits; the first data byte
 remains unused. These names do not add full fourteen-bit bend handling or
@@ -733,12 +748,14 @@ above.
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
 | `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
-| `0x07E8` | pointer | `field_07E8` | `func_80049A64` stores the sequence/stream input pointer. |
+| `0x07E8` | pointer | `field_07E8` | `SD_OpenSequence` stores the sequence/stream input pointer. |
 | `0x07EC` | `s32` | `field_07EC` | Playback initializes the bound to `0x10000`; `SD_ReadSequenceByte` and `SD_FindMidiTrackChunk` compare reader offsets against it. |
 | `0x07FA` | `u16` | `track_count` | `SD_HandleSequenceMetaEvent` and `SD_StartSequenceTracks` bound `0x2C`-byte work-record loops. |
 | `0x07FC` | `u16` | `timebase` | `SD_HandleSequenceMetaEvent` and `SD_ScaleSequenceDelta` select timing conversions from it. |
 | `0x0800` | `u8` | `field_0800` | Cleared by `SD_StartSequenceTracks`. |
-| `0x0804`, `0x0808`, `0x080C`, `0x0810` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
+| `0x0804`, `0x0808` | `s32` | offset-based fields | Timing/playback routines establish word accesses; their broader roles remain uncertain. |
+| `0x080C` | `s32` | `field_080C` | Fast-forward target read address. `SD_PlaySequenceFastForward` sets it and sound init clears it. While it is nonzero, `SD_ProcessSequenceTracks` skips the delta-time countdown, and it clears the field once a track's `field_07DC + pos` reaches it. |
+| `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`field_07DC + pos`) here. Sound init clears it, and no matched code reads it. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | Initialization and update/output controls set/test these bytes. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `func_800497E0` advances it across a transfer window. |
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
@@ -796,7 +813,7 @@ therefore comes from the local call graph rather than an imported name.
 
 ### Sequence-input header tags
 
-`func_80049A64` reads the input's first word and accepts these exact values
+`SD_OpenSequence` reads the input's first word and accepts these exact values
 before recording a pending sequence input:
 
 | Constant | Word value | Bytes on the little-endian target |
@@ -834,7 +851,7 @@ the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 
 The promoted caller takes its declarations from sound-owned headers.
-`func_80045484` retains its explicit byte mask, and `func_80049A64` retains
+`func_80045484` retains its explicit byte mask, and `SD_OpenSequence` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
 `SD_PlaySequence` caller view while its definition keeps the one-argument
@@ -845,9 +862,9 @@ The complete five-function secondary playback lifecycle now builds from
 `src/game/sound_secondary_playback.c`, covering `0x80049A64` through
 `0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
 `SD_PlaySequence` calls the canonical `SD_StartSequenceTracks(void)`, while
-`func_80049BAC` uses a narrow same-symbol no-argument alias matching its
-original translation unit. The adjacent functions on both sides require
-`gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
+`SD_PlaySequenceFastForward` uses a narrow same-symbol no-argument alias
+matching its original translation unit. The adjacent functions on both sides
+require `gcc_2_8_1_g8_split`, fixing the restored unit's boundaries.
 
 ### Migration status and exact-code exceptions
 

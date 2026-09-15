@@ -5,7 +5,7 @@
 #include "sound_sequence_timing.h"
 #include "../unmatched.h"
 
-int func_80049A64(void *input, short value)
+int SD_OpenSequence(void *input, short vab_id)
 {
     unsigned int tag;
     SDSecondaryState *state;
@@ -17,7 +17,7 @@ int func_80049A64(void *input, short value)
     state = D_8009B458;
     if (state->field_07E0 == -1) {
         state->field_07E8 = input;
-        state->field_07E0 = value;
+        state->field_07E0 = vab_id;
         state->field_07E2 = 2;
         state->flag_0500 = 0;
         return 0;
@@ -49,7 +49,12 @@ void SD_PlaySequence(s32 arg0)
     D_8009B458->flag_0500 = 0;
 }
 
-void func_80049BAC(s32 value)
+/* The play branch of SD_PlaySequence plus a fast-forward target in
+   field_080C. While that is nonzero, SD_ProcessSequenceTracks dispatches each
+   track's next event group on every tick instead of waiting out its delta
+   time, and clears it once a track's read address (field_07DC + pos) reaches
+   target. */
+void SD_PlaySequenceFastForward(s32 target)
 {
     SDSecondaryState *state;
 
@@ -66,13 +71,13 @@ void func_80049BAC(s32 value)
         first = D_8009B458;
         first->flag_0502 = 1;
         second = D_8009B458;
-        first->field_080C = value;
+        first->field_080C = target;
         second->field_07E2 = 1;
         second->flag_0500 = 0;
     }
 }
 
-void func_80049C40(void)
+void SD_StopSequence(void)
 {
     SDSecondaryState *initial = D_8009B458;
 

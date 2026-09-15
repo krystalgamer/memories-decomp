@@ -42,6 +42,21 @@ See [the contract evidence](../../../notes/overlays/name-entry-type-contracts.md
 for consumer agreement, layout assertions and the drawing alias's wider
 observed prefix. No screen function bodies or callback signatures change.
 
+## Shared module state
+
+[`module_state.c`](module_state.c) owns the zero-initialized
+`0x8016D400-0x8016D590` prefix as one `PasswordModuleState`. Its fields cover
+the name-entry flags, selection frame and caret state followed by the password
+digits, cursor, preview, selected card and shop state. The record is asserted
+to remain exactly `0x190` bytes; data after `0x8016D590` remains raw.
+
+[`module_state.h`](module_state.h) centralizes the historical declarations so
+matching C and stored candidates preserve their original relocations.
+`password_linker_symbols.txt` maps each historical interior name to an offset
+from `gPassword_ModuleState`, allowing generated unmatched assembly to keep
+using names such as `D_8016D400` and `D_8016D4D4` without creating duplicate
+storage owners.
+
 ## Password-shop lifecycle translation unit
 
 The password shop screen is ten functions in executable order, from

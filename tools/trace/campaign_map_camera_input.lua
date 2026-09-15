@@ -7,11 +7,13 @@
 --   found no direct call or stored pointer in the resident image or verified
 --   overlays.
 --
---   This trace breaks on both CampaignMap_MoveCameraDpad and the known active
---   map tick CampaignMap_UpdateLocation. A hit on the first proves the camera
---   helper is live; repeated hits on only the second provide controlled
---   negative evidence that the debugger and map tick were active while the
---   helper was not observed. Camera snapshots cover the five fields the
+--   This trace breaks on CampaignMap_MoveCameraDpad, the known active map tick
+--   CampaignMap_UpdateLocation, and the resident Main_RunCampaignMap
+--   dispatcher. It also polls gCampaignMap_Location. The resident control and
+--   location changes distinguish a genuinely active map from a debugger whose
+--   overlay execution breakpoints never fired. A hit on the camera helper
+--   proves it is live; repeated active controls without that hit provide
+--   controlled negative evidence. Camera snapshots cover the five fields the
 --   helper can change, but do not attribute a change unless its breakpoint
 --   also fired.
 --
@@ -19,7 +21,7 @@
 --   1. Enter the visible campaign location map, then open the PCSX-Redux
 --      debugger and select the interpreter CPU.
 --   2. Paste this script into Debug -> Lua editor and confirm that it reports
---      two installed breakpoints.
+--      three installed breakpoints.
 --   3. Try isolated holds of Left, Right, Up, Down, L1 and R1. Also try a
 --      direction with L2 or R2, and a direction while holding Cross. Release
 --      each combination before trying the next.
@@ -38,10 +40,13 @@ local bit = require('bit')
 local ffi = require('ffi')
 
 local SCRIPT_NAME = 'campaign_map_camera_input'
+local RUN_CAMPAIGN_MAP = 0x8002d2d8
+local RUN_CAMPAIGN_MAP_SIGNATURE = 0x93830364
 local MOVE_CAMERA = 0x80168388
 local MOVE_CAMERA_SIGNATURE = 0x27bdffe8
 local UPDATE_LOCATION = 0x80168fcc
 local UPDATE_LOCATION_SIGNATURE = 0x27bdffe0
+local LOCATION = 0x8016960c
 local MAIN_MODE = 0x8009b26c
 local PAD1_HELD = 0x8009b3a4
 local CAMERA = 0x800f2848
@@ -93,7 +98,8 @@ local function mainMode()
 end
 
 local function signaturesMatch()
-    return u32(MOVE_CAMERA) == MOVE_CAMERA_SIGNATURE
+    return u32(RUN_CAMPAIGN_MAP) == RUN_CAMPAIGN_MAP_SIGNATURE
+        and u32(MOVE_CAMERA) == MOVE_CAMERA_SIGNATURE
         and u32(UPDATE_LOCATION) == UPDATE_LOCATION_SIGNATURE
 end
 
@@ -101,6 +107,7 @@ local function cameraSnapshot()
     return {
         mode = mainMode(),
         held = u16(PAD1_HELD),
+        location = u8(LOCATION),
         field00 = s16(CAMERA),
         angle = s16(CAMERA + 0x02),
         field04 = s16(CAMERA + 0x04),
@@ -111,12 +118,13 @@ end
 
 local function snapshotText(prefix, frame, value)
     return string.format(
-        '%s frame=%06d mode=%d held=0x%04X '
+        '%s frame=%06d mode=%d held=0x%04X location=%d '
             .. 'field_00=%d angle=%d field_04=%d vrx=%d vrz=%d',
         prefix,
         frame,
         value.mode,
         value.held,
+        value.location,
         value.field00,
         value.angle,
         value.field04,
@@ -127,11 +135,14 @@ end
 
 local function deltaText(prefix, frame, before, after, reason)
     return string.format(
-        '%s frame=%06d reason=%s field_00=%d angle=%d field_04=%d '
+        '%s frame=%06d reason=%s location=%d->%d '
+            .. 'field_00=%d angle=%d field_04=%d '
             .. 'vrx=%d vrz=%d',
         prefix,
         frame,
         reason,
+        before.location,
+        after.location,
         after.field00 - before.field00,
         after.angle - before.angle,
         after.field04 - before.field04,
@@ -142,8 +153,10 @@ end
 
 local lines = {}
 local frames = 0
+local dispatchHits = 0
 local updateHits = 0
 local moveHits = 0
+local locationChanges = 0
 local moveRows = 0
 local inputSamples = 0
 local firstMoveFrame = nil
@@ -153,6 +166,7 @@ local seenMoveMasks = {}
 local callbackError = nil
 local warningPrinted = false
 local done = false
+local lastLocation = u8(LOCATION)
 
 local function emit(text)
     lines[#lines + 1] = text
@@ -180,6 +194,9 @@ local function closeInput(reason)
 end
 
 local function disableBreakpoints()
+    if breakpoint_campaign_map_camera_dispatch ~= nil then
+        breakpoint_campaign_map_camera_dispatch:disable()
+    end
     if breakpoint_campaign_map_camera_move ~= nil then
         breakpoint_campaign_map_camera_move:disable()
     end
@@ -208,20 +225,25 @@ local function finish(reason)
     print('script: ' .. SCRIPT_NAME)
     print('status: ' .. reason)
     print(string.format(
-        'summary: frames=%d move_hits=%d active_tick_hits=%d '
-            .. 'input_samples=%d move_rows=%d routine_observed=%s '
-            .. 'active_tick_observed=%s',
+        'summary: frames=%d dispatch_hits=%d move_hits=%d '
+            .. 'active_tick_hits=%d location_changes=%d input_samples=%d '
+            .. 'move_rows=%d routine_observed=%s active_tick_observed=%s',
         frames,
+        dispatchHits,
         moveHits,
         updateHits,
+        locationChanges,
         inputSamples,
         moveRows,
         tostring(moveHits > 0),
         tostring(updateHits > 0)
     ))
     print(string.format(
-        'overlay_signatures: move=0x%08X expected=0x%08X '
+        'signatures: dispatcher=0x%08X expected=0x%08X '
+            .. 'move=0x%08X expected=0x%08X '
             .. 'active_tick=0x%08X expected=0x%08X',
+        u32(RUN_CAMPAIGN_MAP),
+        RUN_CAMPAIGN_MAP_SIGNATURE,
         u32(MOVE_CAMERA),
         MOVE_CAMERA_SIGNATURE,
         u32(UPDATE_LOCATION),
@@ -301,6 +323,23 @@ local function flushPendingMoves()
     pendingMoves = keep
 end
 
+local function onRunCampaignMap()
+    if done or callbackError ~= nil then
+        return
+    end
+
+    dispatchHits = dispatchHits + 1
+    if dispatchHits == 1 then
+        emit(snapshotText(
+            'dispatcher_first',
+            frames,
+            cameraSnapshot()
+        ))
+        print(SCRIPT_NAME
+              .. ': resident Main_RunCampaignMap control observed')
+    end
+end
+
 local function onMoveCamera()
     if done or callbackError ~= nil then
         return
@@ -371,6 +410,19 @@ local function poll()
 
     pollInput()
     flushPendingMoves()
+    local location = u8(LOCATION)
+    if location ~= lastLocation then
+        locationChanges = locationChanges + 1
+        emit(string.format(
+            'location_change=%02d frame=%06d from=%d to=%d held=0x%04X',
+            locationChanges,
+            frames,
+            lastLocation,
+            location,
+            u16(PAD1_HELD)
+        ))
+        lastLocation = location
+    end
 
     if moveHits == 0
         and not warningPrinted
@@ -391,9 +443,16 @@ local function poll()
         if updateHits > 0 then
             finish('active map tick observed but free-camera routine was '
                    .. 'not observed during capture')
+        elseif dispatchHits > 0 then
+            finish('resident campaign-map dispatcher observed but overlay '
+                   .. 'active-tick breakpoint did not fire')
+        elseif locationChanges > 0 then
+            finish('map navigation changed location but no execution '
+                   .. 'breakpoint control fired; restart in interpreter CPU '
+                   .. 'mode before rerunning')
         else
-            finish('no active-tick hit; select interpreter CPU and rerun '
-                   .. 'on the visible campaign map')
+            finish('no campaign-map control or location change observed; '
+                   .. 'select interpreter CPU and rerun on the visible map')
         end
     end
 end
@@ -433,6 +492,18 @@ elseif not signaturesMatch() then
     finish('campaign overworld overlay signatures do not match retail')
 else
     local ok, err = pcall(function()
+        breakpoint_campaign_map_camera_dispatch = PCSX.addBreakpoint(
+            RUN_CAMPAIGN_MAP,
+            'Exec',
+            4,
+            'Control: resident Main_RunCampaignMap dispatch',
+            function()
+                local callbackOk, callbackErr = pcall(onRunCampaignMap)
+                if not callbackOk then
+                    callbackError = tostring(callbackErr)
+                end
+            end
+        )
         breakpoint_campaign_map_camera_move = PCSX.addBreakpoint(
             MOVE_CAMERA,
             'Exec',
@@ -463,6 +534,6 @@ else
         finish('breakpoint installation error: ' .. callbackError)
     else
         print(SCRIPT_NAME
-              .. ': breakpoints installed; try isolated camera controls')
+              .. ': three breakpoints installed; try isolated camera controls')
     end
 end

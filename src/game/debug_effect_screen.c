@@ -31,9 +31,13 @@
 extern s32 D_8009B30C __attribute__((section(".data")));
 
 extern u8 D_8009B16C[4];
-/* The tuned pair the HUD prints: D_8009AF2A selects which of the two
-   D_8009AF2C entries the up/down repeat adjusts. */
-extern u8 D_8009AF2E;
+/* One packed small-data window: byte 0 selects one of the two coordinate
+   bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
+   unused. Keeping it as one object preserves the retail interior gap. */
+u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
+#define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
+#define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[2])
+#define gDebugEffect_bPage gDebugEffect_abPreviewState[4]
 extern u8 *D_8009B180;
 extern u8 *D_8009B184;
 extern DuelCardRecord D_801A7B80[];
@@ -123,7 +127,7 @@ void func_800220B8(void) {
    places a new object through DuelEffect_AllocateRequest at a page-dependent position. */
 void func_800222F4(void) {
     DisplayObject *obj;
-    u8 *p;
+    DuelEffectRequest *p;
 
     if (gInput_wPad1Held & PAD_BUTTON_START) {
         func_800220B8();
@@ -131,9 +135,9 @@ void func_800222F4(void) {
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
         D_8009B16C[2] = 0;
-        D_8009AF2E = 0;
-        D_8009AF2A = 0;
-        D_8009AF2D = 0;
+        gDebugEffect_bPage = 0;
+        gDebugEffect_bCoordinateAxis = 0;
+        gDebugEffect_abCoordinates[1] = 0;
         D_8009B184 = 0;
         D_8009B180 = 0;
     }
@@ -144,15 +148,15 @@ void func_800222F4(void) {
         func_8004036C(D_8009B184);
         D_8009B184 = 0;
         D_8009B180 = 0;
-        switch (D_8009AF2E) {
+        switch (gDebugEffect_bPage) {
         case 0:
             break;
         case 1:
             func_80029164(0, 1);
             File_WaitForTransfers();
             obj = (DisplayObject *)func_800291E0(0, -1, -1);
-            *(s16 *)&obj->field_30.h.field_30 = 0x5A;
-            *(s16 *)&obj->field_30.h.field_32 = 0x16;
+            obj->field_30.h.field_30 = 0x5A;
+            obj->field_30.h.field_32 = 0x16;
             func_80012D84(4);
             func_8001944C(obj);
             break;
@@ -166,51 +170,55 @@ void func_800222F4(void) {
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
         gDuel_wSceneStateFlags |= 0x4000;
-        D_8009AF2E++;
-        if (D_8009AF2E >= 4) {
-            D_8009AF2E = 0;
+        gDebugEffect_bPage++;
+        if (gDebugEffect_bPage >= 4) {
+            gDebugEffect_bPage = 0;
         }
     } else if (gInput_wPad1Pressed & (PAD_DIRECTION_LEFT | PAD_DIRECTION_RIGHT)) {
-        D_8009AF2A ^= 1;
+        gDebugEffect_bCoordinateAxis ^= 1;
     } else if (gInput_wPad1Repeat & (PAD_DIRECTION_UP | PAD_DIRECTION_DOWN)) {
-        D_8009AF2C[D_8009AF2A]++;
+        gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis]++;
         if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
-            D_8009AF2C[D_8009AF2A] -= 2;
+            gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis] -= 2;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
-        p = DuelEffect_AllocateRequest(D_8009AF2C[0]);
+        p = (DuelEffectRequest *)DuelEffect_AllocateRequest(
+            gDebugEffect_abCoordinates[0]);
         D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
-        *(s16 *)(p + 0x1A) = D_8009AF2D;
-        switch (D_8009AF2E) {
+        p->field_1A = gDebugEffect_abCoordinates[1];
+        switch (gDebugEffect_bPage) {
         case 0:
-            *(s16 *)(p + 0) = D_800908A0[0xC];
-            *(s16 *)(p + 2) = -0x18;
-            *(s16 *)(p + 4) = D_800908A0[0xD];
+            p->field_00 = D_800908A0[0xC];
+            p->field_02 = -0x18;
+            p->field_04 = D_800908A0[0xD];
             break;
         case 1:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x78;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x78;
             break;
         case 2:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x70;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x70;
             break;
         case 3:
-            *(s16 *)(p + 0) = 0xA0;
-            *(s16 *)(p + 2) = 0x70;
+            p->field_00 = 0xA0;
+            p->field_02 = 0x70;
             break;
         }
     }
 }
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
-   depending on D_8009AF2A. */
+   depending on the selected coordinate axis. */
 void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
     func_800222F4();
-    FntPrint(D_80010074, D_8009AF2C[0], D_8009AF2D);
-    v0 = D_8009AF2A;
+    FntPrint(
+        D_80010074,
+        gDebugEffect_abCoordinates[0],
+        gDebugEffect_abCoordinates[1]);
+    v0 = gDebugEffect_bCoordinateAxis;
     if (v0 != 0) {
         FntPrint(D_80010090);
     } else {

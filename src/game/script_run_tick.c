@@ -19,7 +19,7 @@ void Script_RunTick(void)
     f = D_8009B2A4;
     if (f & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         func_80039794();
-        if ((D_800EB12C & 0x2008) == TEXT_BOX_FLAG_DONE) {
+        if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             D_8009B2A4 &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;

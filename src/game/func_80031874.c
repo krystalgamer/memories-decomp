@@ -60,17 +60,17 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
     y = y0 - vy;
     do {
     } while (0);
-    list = &D_8009B2FC->lists[kind];
+    list = &gBuildDeck_pState->lists[kind];
     row = (u8 *)&list->entries[list->first];
     text = (u8 *)0x1F800000;
     if (kind == 0) {
         header->x = x + 0x88;
         header->y = y + 0xF;
-        func_80031784((u8 *)header, (s32)ot, D_80090DD8, list->sort_mode);
+        func_80031784(header, (s32)ot, D_80090DD8, list->sort_mode);
     } else {
         header->x = x + 0x6A;
         header->y = y + 0xF;
-        func_80031784((u8 *)header, (s32)ot, &D_80090DD8[kind * 16],
+        func_80031784(header, (s32)ot, &D_80090DD8[kind * 16],
                       list->sort_mode);
     }
     i = 0;
@@ -90,7 +90,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 Text_EncodeDecimalNoPadding(list->first + i + 1, 2, text);
                 func_800316F0((u8 *)sprite, (s32)ot, text, 2);
                 sprite->x += 4;
-            } else if (D_8009B2FC->card_sort_rank[id] != 0) {
+            } else if (gBuildDeck_pState->card_sort_rank[id] != 0) {
                 sprite->v = 0x68;
                 sprite->w = 0x18;
                 sprite->u = 0xE8;
@@ -123,9 +123,9 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->x = x + 0x107;
                 sprite->y += 8;
                 Text_EncodeDecimalDigits(
-                    D_8009B2FC->chest_card_quantities[id], 3, text);
+                    gBuildDeck_pState->chest_card_quantities[id], 3, text);
                 func_800316F0((u8 *)sprite, (s32)ot, text, 3);
-                n = D_8009B2FC->deck_card_quantities[id];
+                n = gBuildDeck_pState->deck_card_quantities[id];
                 /* Red once the deck holds the limit: three copies, or one of
                    ids 0x11-0x15. */
                 if (n >= 3 || ((u32)(id - 0x11) < 5 && n != 0)) {

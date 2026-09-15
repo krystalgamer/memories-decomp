@@ -51,9 +51,11 @@ The public text-box build/wait pair and `TextBox_SetPos` now also take
 consumers retain raw byte cursors internally and cast only at the call
 boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
 typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
-helper `func_80039AD4` takes `DuelEffectChannel *`, while preserving its two
-raw byte accesses inside `field_10`; this removes the incompatible-pointer
-calls from both fade callbacks without claiming names for those bytes.
+helper `func_80039AD4` takes `DuelEffectChannel *`, which removes the
+incompatible-pointer calls from both fade callbacks. It reads the channel's
+byte at `0x10`, `field_10`, as the object's index into the `D_800EAF08`
+occupancy table and clears that table entry. It then zeroes the next byte,
+`field_11`, as part of the release.
 
 ## `D_800EB288`: 620 `0x1C`-byte entries
 
@@ -80,6 +82,29 @@ seven-word (`0x1C`) records and advances both pointers by `0x1C`,
 independently confirming that the named bytes belong to one record rather
 than parallel arrays. Unchiga's same-address sketches and GMS pseudocode
 corroborate these accesses but do not determine the shared types.
+
+## Dialog and active-handler control bytes
+
+`duel_effect.h` also owns three scalar control contracts used by the resident
+state machine. `D_8009B244` is the message identifier passed to
+`TextBox_Create` by `func_80028310`. `D_8009B248` is that dialog's two-stage
+latch: bit `0x80` records that the box was created, and bit `0x40` records that
+its choice object was opened. `DuelEffect_UpdateState` clears the latch when a
+new request starts. `D_8009B24A` holds the active handler index copied from
+`D_8009B254` before the request byte receives its started bit.
+
+The header names only the two proven `D_8009B248` flags. It leaves the three
+symbols separate because the bytes between their addresses are live or
+unexplained; this is declaration centralization, not a claim that they form a
+single packed structure.
+
+The Build Deck mode-7 entry pair has a related but separate byte at
+`D_8009B2F8`. Its high bit selects the wide confirmation dialog in
+`func_800339D0`; in narrow mode, a nonzero choice cancels the pending exit.
+That flag now lives beside `BuildDeckTransitionState` rather than in two local
+magic-number uses. Its two local scalar declarations remain because the byte
+also has candidate-only array views whose relocation contracts are reviewed
+separately.
 
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of
 `DuelEffectEntry.field_18`. It selects the display-object coordinate layout
@@ -148,18 +173,20 @@ construction path explicit without broadening either shared structure.
 Matching-C functions implemented with inline assembly remain unchanged:
 
 - `Main_RunCredits` references `D_800EB0F8`;
-- `func_80030998` references both globals through explicit relocations.
+- `DebugMenu_UpdateCampaignEntry` references both globals through explicit relocations.
 
 `DuelEffect_UpdateObjectLayout` is also matching C, but it retains a minimal
 local `EffectEntry` view and is not counted among the six shared-header users.
 `DuelEffect_ProcessEntries` likewise remains on its local complete-record view
 so its accepted source does not broaden the shared declaration.
-`func_8003DA40` is now matching C as well, but retains a local `Rec64` channel
-view and byte-offset accesses, so it is not counted among the seven
-`DuelEffectChannel` users.
-`func_8003D74C` is likewise matching C but keeps a raw byte view with the
-verified 100-byte channel stride while coordinating the duel-intro card
-reveal.
+`func_8003DA40` is matching C as well, and now takes its dialog channel as a
+`DuelEffectChannel *`, both the one `DuelEffect_CreateChannel` returns and the
+`D_800EB0F8` element it selects later (`flags_34`, `field_30`). The index it
+selects that element with is still the raw byte at `+0x1A` of its
+`MenuRecord`, which `dialog_transition.c` reads the same way.
+`func_8003D74C`, which coordinates the duel-intro card reveal, likewise
+takes its channel as a `DuelEffectChannel *` and selects it by the same
+`+0x1A` byte.
 
 The changing assembly-user lists for `D_800EB0F8` and `D_800EB288` are not
 duplicated here. [`global-usage.csv`](global-usage.csv) is the generated

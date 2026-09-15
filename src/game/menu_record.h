@@ -30,11 +30,16 @@ typedef struct {
        twelve bytes -- and never the x/y pair at the type's tail. Only
        func_8003A95C reads that tail, and nothing passes it a row.
 
-       Left as s32 grid[4][3] rather than retyped: making it an array
-       of a three-pointer struct would be a better description, but
-       every existing user spells it as this shape and the change
-       belongs with the conversion of
-       display_effect_update_callbacks.c, not ahead of it. */
+       Kept as s32 grid[4][3], with the pointer casts written out at
+       each use (ILP32, so a slot is exactly one pointer word). The
+       converted display_effect_update_callbacks.c reads these words
+       through several views: rows go to func_8003A440 and
+       func_8003A1EC as u8 ** and to func_80039F90 as void **, the
+       record itself goes to func_8003A920 as the DisplayPositionGroup *
+       for row 0, and single slots such as grid[0][0] and grid[0][1]
+       hold DisplayObject pointers. No one element type fits all of
+       those users, so the integer slots stay and each user's cast
+       states the view it takes. */
     s32 grid[4][3];
     s8 field_30;
     /* DisplayEffectState names this same byte field_31 on this same

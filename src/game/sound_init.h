@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SOUND_INIT_H
 
 #include "../types.h"
+#include "../psyq/libspu_internal.h"
 
 void func_80049200(s32 value);
 void func_80049230(s32 value, s32 data);
@@ -11,7 +12,6 @@ void func_80049230(s32 value, s32 data);
 #ifdef SOUND_INIT_S16_VIEW
 extern void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
 #endif
-void func_80074E60(void);
 void SD_Init(void);
 void func_80049308(void);
 void func_80049394(void *entry);

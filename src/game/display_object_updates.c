@@ -16,16 +16,16 @@
 /* Submits one display object as a sprite in vertical strips of up to 64
    pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
    the object, offsets it by the viewport origin unless bit 3 is set, runs
-   the bit-2 clip test through func_80041F90 (setting the quad at 0x1F800344
-   up as a 9-word packet, semi-transparent when the tag says so), then walks
-   the object's width through func_80042188, advancing the position or the
-   size and the texture coordinates (the page step depends on the depth bits
-   of the tag) after each strip. */
+   the bit-2 clip test through func_80041F90 (setting the POLY_FT4 at
+   0x1F800344 up as a 9-word packet, semi-transparent when the tag says so),
+   then walks the object's width through func_80042188, advancing the
+   position or the size and the texture coordinates (the page step depends on
+   the depth bits of the tag) after each strip. */
 void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
     u16 mode16 = mode_arg;
     SpritePrim *p;
     ClipState *c;
-    u8 *g;
+    POLY_FT4 *g;
     s32 step;
     s32 mode;
     s32 remaining;
@@ -34,7 +34,7 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
 
     c = (ClipState *)0x1F800378;
     p = (SpritePrim *)0x1F800320;
-    g = (u8 *)0x1F800344;
+    g = (POLY_FT4 *)0x1F800344;
     step = 1;
 
     tag = e->attribute;
@@ -66,9 +66,9 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
                           (struct ProjectionOut *)c->out) <= 0) {
             return;
         }
-        g[3] = 9;
-        *(s32 *)(g + 4) = p->rgb;
-        g[7] = 0x2C;
+        setlen(g, 9);
+        *(s32 *)&g->r0 = p->rgb;
+        g->code = 0x2C;
         if ((p->attribute & GsALON) != 0) {
             SetSemiTrans(g, 1);
         }
@@ -91,7 +91,7 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        func_80042188(p, g, tex, mode, c->out);
+        func_80042188(p, (u8 *)g, tex, mode, c->out);
         if (c->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {
@@ -128,7 +128,7 @@ void func_80040BF8(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_800408D0(object, (s32)table[object->ot_index],
-                              *(s16 *)(data + 0x14));
+                              (s16)object->field_14);
             }
         } while (i >= 0);
     }
@@ -172,7 +172,7 @@ void func_80040D14(void)
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 void (*secondary)(u8 *, s32) =
-                    *(void (**)(u8 *, s32))(data + 0x4C);
+                    (void (*)(u8 *, s32))object->field_4C;
 
                 if (secondary != 0) {
                     secondary(data, (s32)table[object->ot_index]);

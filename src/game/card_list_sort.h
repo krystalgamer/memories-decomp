@@ -26,6 +26,6 @@ s32 func_80032BD4(CardListSortItem *left, CardListSortItem *right);
 void func_80032C48(CardList *list);
 
 /* Handles scrolling, page changes and sort selection for one card list. */
-s32 func_800330BC(CardList *list);
+s32 BuildDeck_UpdateCardListInput(CardList *list);
 
 #endif

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "../ygo_types.h"
+#include "triangle_subdivision.h"
 
 /* Recursive triangle subdivision, written twice: once over s16 vertices
    (func_8006BCA4) and once over three-byte colour triplets (func_8006C120),
@@ -7,8 +7,8 @@
 
    The two subdividers are the same algorithm - split at the three edge
    midpoints, recurse four ways, write twelve vertices at the last depth -
-   and neither calls the other. They sit back to back in the image and the
-   unit is bounded by unmatched assembly on both sides.
+   and neither calls the other. They sit back to back in the image, between
+   func_8006AF74 and func_8006C37C, which are separate matching units.
 
    The manifest used to record func_8006BCA4 at gcc_2_8_1_g8 and the triplet
    run at gcc_2_8_1_g0, which read as a profile boundary between them. It is
@@ -20,12 +20,8 @@
    buffer is a Triplet, which strides 4 - the fourth byte is never read or
    written by any of the four functions here, so it is carried, not used.
 
-   func_8006C2FC has no caller anywhere in the tree. It stays with the other
-   two because it is the third member of the same primitive set and sits
-   between them in the image, not because a call edge places it. */
-void func_8006C2FC(u8 *output, s32 first, s32 second, s32 third);
-void func_8006C30C(u8 *destination, const u8 *source);
-void func_8006C330(u8 *out, u8 *a, u8 *b);
+   model_subdivided_effect.c initializes six colours with func_8006C2FC and
+   calls both subdividers at depth two for each of its eight base faces. */
 
 /* Recursive triangle subdivision: splits the triangle (a, b, c) at its
  * three edge midpoints and, at the last depth, writes the four resulting

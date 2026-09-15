@@ -7,6 +7,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/stdio.h"
 #include "model.h"
+#include "model_control.h"
 #include "func_80058E1C.h"
 #include "func_80057AF4.h"
 #include "sound.h"
@@ -66,12 +67,12 @@ void func_8005106C(s32 index) {
     if (m->field_E1F == 0) {
         return;
     }
-    if (((u8 *)m)[0xDC3] >= 2) {
-        if ((*(u32 *)((u8 *)m + 0xDC0) & 0xFFFFFF) == 0) {
+    if (m->field_DC0[3] >= 2) {
+        if ((*(u32 *)m->field_DC0 & 0xFFFFFF) == 0) {
             return;
         }
     }
-    if (((u8 *)m)[0xE1E] == 0) {
+    if (m->field_E1E == 0) {
         return;
     }
     anim = m->field_BF5;
@@ -85,11 +86,11 @@ void func_8005106C(s32 index) {
         phase = 0;
     }
     cur = m->field_DFE;
-    value = *(s32 *)((s32)m + (cur << 2) + 0xD08);
+    value = ((ModelControlCommandView *)m)->commands[cur];
     show = 0;
     if (value >= 0) {
-        if (((u8 *)m)[0xE0E] != 8) {
-            if (((u8 *)m)[0xE0E] != 2 || cur + 3 == anim) {
+        if (m->field_E0E != 8) {
+            if (m->field_E0E != 2 || cur + 3 == anim) {
                 show = 1;
             }
         }
@@ -99,11 +100,13 @@ void func_8005106C(s32 index) {
 
             speed2 = m->field_E0D * func_80058E1C();
             cur2 = m->field_DFE;
-            phase = *(u16 *)((u8 *)m + 0xE08);
-            *(u16 *)((u8 *)m + 0xE08) = phase + speed2;
-            value2 = *(s32 *)((s32)m + (cur2 << 2) + 0xD08);
+            phase = m->field_E08;
+            m->field_E08 = phase + speed2;
+            value2 = ((ModelControlCommandView *)m)->commands[cur2];
             anim = m->field_DFE + 3;
-            sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)((u8 *)m + 0xE08) >> 4);
+            /* Retail loads field_E08 again after the store above; read
+               plainly, GCC reuses the value it just stored instead. */
+            sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);
             FntPrint(buf);
         }
     }
@@ -112,7 +115,7 @@ void func_8005106C(s32 index) {
             return;
         }
     }
-    func_8005A6A8(*(s16 *)&m->field_DD0[0], *(s16 *)&m->field_DD0[2], &out[0], &out[1]);
+    func_8005A6A8(m->field_DD0[0], m->field_DD0[2], &out[0], &out[1]);
     i = 0;
 loop:
     flag = e->flags & 0x8000;

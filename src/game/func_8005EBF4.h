@@ -6,7 +6,8 @@
 
 /* One entry of the keyframe ring at D_800F5788. func_8005F91C installs two
    requested endpoints, func_8005FB30 resolves them into the following pair,
-   and func_8005E808 maintains the trailing radius state. */
+   and func_8005E808 derives the trailing duration/bound, Key.duration at
+   +0x22. */
 
 /* Timing/state view used by func_8005E808 to preserve its measured field
    accesses while sharing Key's established allocation layout. */

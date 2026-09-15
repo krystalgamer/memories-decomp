@@ -8,5 +8,4 @@
 #include "func_80039794.h"
 #include "input_is_pad1_confirm_pressed.h"
 
-extern unsigned char gDuel_bEffectHandlerFlags;
-void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}func_80039794();o=D_800EB0F8;if((gDuel_bEffectHandlerFlags&0x40)==0){unsigned short f=o->flags_34;if((f&TEXT_BOX_FLAG_DONE)==0)return;if((f&0x10)==0){o->field_30=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=0x40;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}
+void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}func_80039794();o=D_800EB0F8;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags_34;if((f&TEXT_BOX_FLAG_DONE)==0)return;if((f&0x10)==0){o->field_30=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}

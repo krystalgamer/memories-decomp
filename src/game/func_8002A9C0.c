@@ -8,30 +8,32 @@
 
 /* The update callback func_8002ABB4 installs at 0x4C on the object it
    builds: it fades the object out over its own field_60 countdown, projects
-   it, and emits a four-vertex gouraud line and then a flat one through
-   func_8005B260. The record is the canonical DisplayObject.
+   it, and emits a four-vertex flat polyline (one colour word, length 6)
+   and then, with the length cut to 3 and x3/y3 copied into x1/y1, a single
+   flat line from the first vertex to the last, both through func_8005B260.
+   The record is the canonical DisplayObject.
 
-   Two of its reads stay non-struct references, and that is measured. The
-   four SVECTORs and the packet this function fills live in scratchpad and
-   are written through pointers of their own; a read of the object that sits
-   between those stores can be floated across them once it is a struct
-   reference, and the target does not float these two. As member reads,
-   0x32 grows the function past its segment and 0x3E changes its code
-   outright, while their neighbours 0x30 and 0x3C convert with no change at
-   all. Those two are read through the member's address as s16 and
-   converted back to u16: fold would turn a u16 cast, the members' own
-   type, back into the member read. Everything else the function touches
-   is an ordinary member read. */
+   The scratchpad side is typed as well: a LINE_F4 at 0x1F8002A0, the four
+   SVECTOR corners RotAverage4 projects into its x0..x3, and the
+   ProjectionOut func_80041F90 leaves at 0x1F800398. That is load-bearing.
+   Written through byte pointers, those stores are not struct references, and
+   GCC floats the object's struct-member reads of 0x32 and 0x3E across them
+   where the target does not. With both sides typed the plain member reads
+   keep their place.
+
+   b0[1].vx and b0[2].vy are b1->vx and b2->vy: the target addresses those
+   two stores from the first corner's base, and spelling them through b1 and
+   b2 changes the code. */
 void func_8002A9C0(DisplayObject *o, s32 arg1)
 {
     s32 sp28;
     s32 sp2C;
-    u8 *q;
-    u8 *r;
-    u8 *b0;
-    u8 *b1;
-    u8 *b2;
-    u8 *b3;
+    LINE_F4 *q;
+    struct ProjectionOut *r;
+    SVECTOR *b0;
+    SVECTOR *b1;
+    SVECTOR *b2;
+    SVECTOR *b3;
     s32 n;
     s32 e;
     s32 m;
@@ -47,60 +49,57 @@ void func_8002A9C0(DisplayObject *o, s32 arg1)
         return;
     }
 
-    r = (u8 *)0x1F800398;
+    r = (struct ProjectionOut *)0x1F800398;
     ((u8 *)&o->field_0C)[2] = *(u8 *)&o->field_60;
     func_80041F90(o,
                   *(s16 *)&o->field_30.h.field_30 + *(s16 *)&o->field_18,
                   *(s16 *)&o->field_30.h.field_32 + *(s16 *)&o->field_1A,
-                  (struct ProjectionOut *)0x1F800398);
+                  r);
 
-    q = (u8 *)0x1F8002A0;
-    b0 = (u8 *)0x1F800300;
+    q = (LINE_F4 *)0x1F8002A0;
+    b0 = (SVECTOR *)0x1F800300;
     m = 0x55555555;
-    b2 = (u8 *)0x1F800310;
-    b3 = (u8 *)0x1F800318;
-    b1 = (u8 *)0x1F800308;
+    b2 = (SVECTOR *)0x1F800310;
+    b3 = (SVECTOR *)0x1F800318;
+    b1 = (SVECTOR *)0x1F800308;
 
     z = *(s32 *)&o->field_0C;
-    q[3] = 6;
-    *(s32 *)(q + 0x18) = m;
-    *(s32 *)(q + 4) = z;
-    q[7] = 0x4C;
+    setlen(q, 6);
+    q->pad = m;
+    *(s32 *)&q->r0 = z;
+    q->code = 0x4C;
 
-    v = *(u16 *)&o->field_30.h.field_30 - *(u16 *)r;
-    *(s16 *)b2 = v;
-    *(s16 *)b0 = v;
-    v += *(u16 *)&o->field_3C.h.field_3C;
-    *(s16 *)b3 = v;
-    *(s16 *)(b0 + 8) = v;
+    v = o->field_30.h.field_30 - (u16)r->f0;
+    b2->vx = v;
+    b0->vx = v;
+    v += o->field_3C.h.field_3C;
+    b3->vx = v;
+    b0[1].vx = v;
 
-    /* 0x32: see the note above -- as a member read this grows .text. */
-    w = (u16)*(s16 *)&o->field_30.h.field_32 - *(u16 *)(r + 2);
-    *(s16 *)(b1 + 2) = w;
-    *(s16 *)(b0 + 2) = w;
-    /* 0x3E: likewise, and here the code changes rather than the size. */
-    e = (u16)*(s16 *)&o->field_3C.h.field_3E;
-    *(s16 *)(b3 + 4) = 0;
-    *(s16 *)(b2 + 4) = 0;
-    *(s16 *)(b1 + 4) = 0;
-    *(s16 *)(b0 + 4) = 0;
+    w = o->field_30.h.field_32 - (u16)r->f2;
+    b1->vy = w;
+    b0->vy = w;
+    e = o->field_3C.h.field_3E;
+    b3->vz = 0;
+    b2->vz = 0;
+    b1->vz = 0;
+    b0->vz = 0;
 
     w += e;
-    *(s16 *)(b3 + 2) = w;
-    *(s16 *)(b0 + 0x12) = w;
+    b3->vy = w;
+    b0[2].vy = w;
 
     RotAverage4(
-        (SVECTOR *)0x1F800300, (SVECTOR *)0x1F800308,
-        (SVECTOR *)0x1F800310, (SVECTOR *)0x1F800318,
-        (long *)0x1F8002A8, (long *)0x1F8002AC,
-        (long *)0x1F8002B4, (long *)0x1F8002B0,
+        b0, b1, b2, b3,
+        (long *)&q->x0, (long *)&q->x1,
+        (long *)&q->x3, (long *)&q->x2,
         (long *)&sp28, (long *)&sp2C
     );
 
-    func_8005B260((u32 *)0x1F8002A0, (GsOT *)arg1, *(u16 *)&o->field_14, 1);
-    q[3] = 3;
-    q[7] = 0x40;
+    func_8005B260((u32 *)q, (GsOT *)arg1, *(u16 *)&o->field_14, 1);
+    setlen(q, 3);
+    q->code = 0x40;
     k = *(u16 *)&o->field_14;
-    *(s32 *)(q + 0xC) = *(s32 *)(q + 0x14);
-    func_8005B260((u32 *)0x1F8002A0, (GsOT *)arg1, (u16)k, 1);
+    *(s32 *)&q->x1 = *(s32 *)&q->x3;
+    func_8005B260((u32 *)q, (GsOT *)arg1, (u16)k, 1);
 }

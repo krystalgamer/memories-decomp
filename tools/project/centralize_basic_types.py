@@ -15,8 +15,7 @@ from workspace import WorkspaceError, require_workspace_root, resolve_within
 # would keep the check out of the metadata workflow -- the one job that runs
 # without a toolchain or retail input. `--apply` rewrites files in place and
 # keeps the guard, because there the cost of running from the wrong directory is
-# real. `candidate_files.py` and `check_candidate_headlines.py` resolve their
-# roots the same way for the same reason.
+# real.
 ROOT = Path(__file__).resolve().parents[2]
 
 

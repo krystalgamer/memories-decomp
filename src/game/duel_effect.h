@@ -10,7 +10,13 @@
 #define DUEL_EVENT_SCRIPT_FLAG_STARTED 0x8000
 #define TEXT_BOX_FLAG_BUILD_REQUESTED 0x800
 #define TEXT_BOX_FLAG_DONE 0x2000
+#define TEXT_BOX_COMPLETION_MASK 0x2008
+#define TEXT_BOX_FLAG_BUILD_ACTIVE 0x4000
+#define DUEL_EFFECT_CHANNEL_FLAG_ACTIVE 0x8000
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_STATE_INDEX_MASK 0x1F
+#define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
+#define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
 /* One text/effect entry, 0x1C bytes, the element type of D_800EB288. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
@@ -39,7 +45,7 @@ extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
  * DuelEffectChannel in. It stays a second name because how this address is
  * spelled is a codegen input, and two matched functions record the shape:
- * func_80031084.c has to hold the array base in a local, since writing
+ * debug_menu_update.c has to hold the array base in a local, since writing
  * `&D_800EB0F8[1]` inline folds the record offset into the address and
  * drops the `addiu` retail keeps for the call argument; and
  * FreeDuel_UpdateScreen has to hold this symbol in a local, since writing
@@ -55,10 +61,9 @@ extern DuelEffectChannel D_800EB15C;
  * field_36 (:83) halfwords of record 0 under one name. Script_RunTick
  * (script_run_tick.c:23) and Password_UpdateShopScreen (now a stored
  * candidate, src/candidates/password/func_8016A37C.c) each load it as a
- * word and test
- * `& 0x2008` against 0x2000, TEXT_BOX_FLAG_DONE (:14) in the first and the
- * literal in the second; retail loads it lui/lw (func_8002FA54.s:15-16).
- * Script_OpSavePrompt (src/candidates/func_8002EE94.c) reads the low halfword
+ * word and test it through TEXT_BOX_COMPLETION_MASK against
+ * TEXT_BOX_FLAG_DONE; retail loads it lui/lw (func_8002FA54.s:15-16).
+ * Script_OpSavePrompt (script_op_save_prompt.c) reads the low halfword
  * as `D_800EB0F8[0].flags_34`, and password README.md:146-147 calls the word
  * the slot-0 text flags. Both units also matched when the read was spelled
  * `*(u32 *)&D_800EB0F8[0].flags_34` (measured, one build each), so the name
@@ -255,6 +260,18 @@ typedef char DuelEffectObject_size_must_be_0x1C[
 
 #define DUEL_EFFECT_STATE_FLAG_COMPLETE 0x40
 #define DUEL_EFFECT_STATE_FLAG_INITIALIZED 0x80
+#define DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN 0x40
+#define DUEL_EFFECT_DIALOG_FLAG_CREATED 0x80
+
+/* Legacy aliases for the dialog request, handler flags, and active handler
+ * index. func_800283F4's candidate contract uses D_8009B248; D_8009B244 and
+ * D_8009B24A remain layout aliases for other address-oriented consumers. */
+extern u16 D_8009B244;
+extern u8 D_8009B248;
+extern u8 D_8009B24A;
+
+extern u8 gDuel_bEffectHandlerFlags;
+extern u8 gDuel_bActiveEffectState;
 
 /* The pending duel-effect request. DuelEffect_UpdateState reads it each
  * tick: zero is idle; otherwise the low bits are the effect id, which it
@@ -263,14 +280,15 @@ typedef char DuelEffectObject_size_must_be_0x1C[
  * clears the byte back to 0. Stored 2 by build_deck_pane_input.c,
  * duel_update_card_pick_cursor.c and the main_menu overlay's
  * MainMenu_UpdateTradeScreen (now a build-integrated candidate,
- * src/candidates/main_menu/func_801821DC.c), 3 and 4 by func_80030E30.c,
+ * src/candidates/main_menu/func_801821DC.c), 3 and 4 by
+ * frontend_scene_states.c,
  * and cleared by
  * Main_ResetFrontendRuntime and Main_RunCampaign. One byte, read lbu; the
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
  * Retail reaches it through $gp in DuelEffect_UpdateState,
  * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
  * through %hi/%lo everywhere else, including DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions
- * (still assembly). func_80030E30.c, main_run_campaign.c and
+ * (still assembly). frontend_scene_states.c, main_run_campaign.c and
  * duel_update_card_pick_cursor.c define the .data arm below for that;
  * build_deck_pane_input.c, src/candidates/func_800283F4.c,
  * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and the

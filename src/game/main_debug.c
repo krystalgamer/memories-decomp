@@ -2,7 +2,7 @@
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
 #include "duel_interface_setup.h"
-#include "func_80031084.h"
+#include "debug_menu_update.h"
 #include "main_debug.h"
 #include "main_modes.h"
 #include "main_reset_frontend_runtime.h"
@@ -20,9 +20,9 @@ void Main_RunDebugMenu(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_80030198();
+        DebugMenu_Init();
     } else {
-        func_80031084();
+        DebugMenu_Update();
         if ((D_8009B26C & 0x40) == 0)
             D_8009B269 = 0;
     }

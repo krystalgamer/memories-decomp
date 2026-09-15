@@ -69,7 +69,7 @@
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
 /* Two consumers. frontend_scene_states.c spelled the result `int` and
- * func_800307B8.c spelled it `s32`; types.h defines s32 as signed int, so the
+ * debug_menu_sound_entry.c spelled it `s32`; types.h defines s32 as signed int, so the
  * two agree and the difference was only spelling. */
 s32 func_80030294(void);
 
@@ -177,8 +177,8 @@ extern s32 D_8009B118;
  * added when that table moved out of its blob. The argument there was that
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
- * header already holds exactly this class, in func_80042C08, func_80035E20
- * and func_80067220, and the issue asks for one declaration site rather than
+ * header already holds exactly this class, in func_80035E20 and
+ * func_80067220, and the issue asks for one declaration site rather than
  * a defensible second one.
  *
  * void (void) is the form all nine consumers already used. As with the
@@ -234,11 +234,9 @@ void func_80034830(void);
  * func_80051350 returns s32 and takes three, and func_8004158C takes three.
  * Each prototype below is copied from the consumer that had it, not
  * restated. func_8004158C has since matched and is declared by
- * func_8004158C.h. */
+ * func_8004158C.h. func_800534B8 is now owned by model_debug_controller.h. */
 void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
-s32 func_800534B8(void);
-void func_8005C7BC(void);
 
 /* Three caller-visible contracts that were outside the central inventory.
  *
@@ -261,34 +259,24 @@ void func_80015EF4(void *, u8 *, u8 *, s32 *);
 extern u16 D_8009B162;   /* nine declarers  */
 extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
-/* Nothing in the tree calls this one. Both consumers only take its address,
- * to install it in a display object's +0x4C slot: dialog_transition.c stores
- * it twice, once through (s32) and once through (u8 *), and
- * overworld/set_location.c stores it as a void *. No C source invokes +0x4C,
- * so whatever reads that slot back is still generated assembly.
+/* Two functions found by asking which unmatched functions are never called
+ * by name rather than which are declared oddly.
  *
- * That means its arity is NOT established, and the (void) here is the form
- * set_location.c already used rather than a claim. It is safe precisely
- * because there are no call sites for it to be wrong at -- taking a
- * function's address does not depend on its signature. If a caller of +0x4C
- * is ever matched and passes an argument, this declaration is what has to
- * change, and dialog_transition.c's unprototyped `extern void
- * func_80042C08();` was quietly saying the same thing. */
-void func_80042C08(void);
-
-/* Two more of the same kind, found by asking which unmatched functions are
- * never called rather than which are declared oddly.
- *
- * func_80035E20 goes into the SAME +0x4C slot, in func_800391E4.c. That slot
- * holds at least two unmatched callbacks, which is the reason none of their
- * arities are established: the code that reads +0x4C back and calls it has
- * not been matched, so nothing in C has ever had to state their arguments.
+ * func_80035E20 goes into a display object's +0x4C slot, in func_800391E4.c.
+ * The slot's calling convention is known: func_80040D14
+ * (display_object_updates.c) reads +0x4C back and calls it with two
+ * arguments, the object and its ordering-table entry. func_80042C08, the
+ * other callback stored there, has matched and is declared by
+ * func_80042C08.h as (DisplayObject *, GsOT *). This one is still unmatched,
+ * so its parameter types are not established by a matched definition; the
+ * build-integrated candidate spells the same two-argument shape. Only its
+ * semantic parameter types remain open, not its arity.
  *
  * func_80067220 is not a callback at all -- model_primitive_handler.c returns its
  * address as an s32 -- but it lands in the same place for the same reason.
  *
  * Both were spelled without a prototype by their consumers, which is the
- * honest form for a function nobody calls. They keep a declared return type
+ * honest form for a function nobody calls by name. They keep a declared return type
  * here because their consumers cast the address, not the result. */
 s32 func_80035E20();
 int func_80067220();
@@ -358,7 +346,7 @@ extern u16 D_8009B1D0;   /* four declarers */
  * source defines it and the four that use it share no subsystem header, so it
  * is homeless by the rule at the top of this file.
  *
- * The Script_OpSavePrompt candidate also clears it, spelled with a .data section
+ * Script_OpSavePrompt also clears it, spelled with a .data section
  * attribute because it addresses the byte outside small data. */
 #ifdef D_8009B34C_IN_DATA
 extern u8 D_8009B34C __attribute__((section(".data")));
@@ -376,9 +364,6 @@ extern u8 D_8009B34C;
 extern u8 D_80010074[];
 extern u8 D_80010090[];
 extern u8 D_800100A8[];
-extern u8 D_8009AF2A;
-extern u8 D_8009AF2C[2];
-extern u8 D_8009AF2D;
 extern s32 D_8009B0FC;
 extern u8 D_8009B108;
 extern u8 D_8009B110;
@@ -389,8 +374,6 @@ extern u8 D_8009B26E;
 extern u16 D_8009B33A;
 extern s32 D_8009B378;
 extern s32 D_8009B3BC;
-extern u8 D_8009B48E[2];
-extern u8 D_8009B490[2];
 extern u16 D_800F5678[];
 extern s16 D_800EFE3C;
 
@@ -411,13 +394,12 @@ extern u8 D_800E9EC0[];
  * shared it through a model_primitive_handler_entries.h that existed for no
  * other purpose. It folds in here.
  *
- * The reason that header could not simply be model_primitive_handler.h still
- * holds and is worth keeping written down: that header declares func_800603DC
- * as void *(u32), while model_handler_registry.c declares the same function
- * as `extern s32 (*func_800603DC())()` and uses it sixty-seven times. Those
- * spellings collide, so the registry cannot include model_primitive_handler.h
- * at all. This header does not declare func_800603DC, so both files can take
- * the entry points from here.
+ * They were first placed here because model_handler_registry.c could not
+ * include model_primitive_handler.h: the two spelled func_800603DC
+ * differently. That header now carries both spellings behind
+ * FUNC_800603DC_RETURNS_HANDLER, and the registry defines the guard and
+ * includes it. The entry points stay here because, like everything else in
+ * this header, they have no defining C translation unit.
  */
 void func_800612C0(void);
 void func_8006151C(void);
@@ -527,7 +509,7 @@ struct DuelRitualResult;
  * deltas from the distance to the target over the remaining frame count, then
  * advances both accumulators, publishes their high halves as the camera
  * position, and snaps to the target when the counter runs out. */
-/* Entry 5 of the frontend step table D_80090D84 (frontend_step_tables.c):
+/* Entry 5 of the frontend step table gDebugMenu_apfnPrimaryPageSteps (frontend_step_tables.c):
  * the debug sound test. It steps gDebug_nSceneOrSoundID from the pad, plays
  * the selected sound effect or BGM, and stops all sound on START. */
 /* One step of the card list's cursor and paging input.
@@ -552,12 +534,8 @@ struct DuelRitualResult;
  * R1 wraps past the last choice to the first; up and down clamp. The record
  * parameter is only forwarded to Dialog_HighlightChoice, which takes the same
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
- * (src/candidates/func_8002EE94.c) holds the same object as
+ * (script_op_save_prompt.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* D_80090FB0 entry 5: builds 12-word 0x3C packets in scratchpad while walking
- * display-object list 5. It is reached only through that table. */
-void func_80041068(void);
-
 /* Three arguments, and no result: sound_spatialization.c already declared it
    this way and matched, while two other files carried `extern int
    SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
@@ -587,7 +565,6 @@ extern DisplayObject *D_8009B18C;
 extern DisplayObject *D_8009B1CC;
 extern DisplayObject *D_8009B1F8;
 #endif
-extern u8 D_8009B248;
 extern u8 D_8009B261;
 #ifdef D_8009B264_VISIBLE
 extern DuelEffectRequest *D_8009B264;
@@ -615,7 +592,6 @@ extern u16 D_8009B374;
 
 #ifdef D_8009B_MODEL_VISIBLE
 extern ModelBytes8 D_8009B480;
-extern s16 D_8009B488[MODEL_SLOT_COUNT];
 #endif
 #ifdef D_800E9ECE_AS_SCALAR
 extern u8 D_800E9ECE;

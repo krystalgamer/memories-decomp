@@ -8,10 +8,13 @@ local scriptPath = SCRIPT_UNDER_TEST
     or 'tools/trace/campaign_map_camera_input.lua'
 
 local RAM_BASE = 0x80000000
+local RUN_CAMPAIGN_MAP = 0x8002d2d8
+local RUN_CAMPAIGN_MAP_SIGNATURE = 0x93830364
 local MOVE_CAMERA = 0x80168388
 local MOVE_CAMERA_SIGNATURE = 0x27bdffe8
 local UPDATE_LOCATION = 0x80168fcc
 local UPDATE_LOCATION_SIGNATURE = 0x27bdffe0
+local LOCATION = 0x8016960c
 local MAIN_MODE = 0x8009b26c
 local PAD1_HELD = 0x8009b3a4
 local CAMERA = 0x800f2848
@@ -43,6 +46,10 @@ local function capture(options)
     end
 
     set8(MAIN_MODE, options.mode or 5)
+    set32(
+        RUN_CAMPAIGN_MAP,
+        options.dispatchSignature or RUN_CAMPAIGN_MAP_SIGNATURE
+    )
     set32(
         MOVE_CAMERA,
         options.moveSignature or MOVE_CAMERA_SIGNATURE
@@ -90,6 +97,7 @@ local function capture(options)
             end,
         },
     }
+    breakpoint_campaign_map_camera_dispatch = nil
     breakpoint_campaign_map_camera_move = nil
     breakpoint_campaign_map_camera_update = nil
     listener_campaign_map_camera_input_reset = nil
@@ -123,6 +131,10 @@ local function capture(options)
         self:call(MOVE_CAMERA)
     end
 
+    function result:dispatch()
+        self:call(RUN_CAMPAIGN_MAP)
+    end
+
     function result:update()
         self:call(UPDATE_LOCATION)
     end
@@ -133,6 +145,10 @@ local function capture(options)
 
     function result:angle(value)
         set16(CAMERA + 0x02, value)
+    end
+
+    function result:location(value)
+        set8(LOCATION, value)
     end
 
     function result:moveSignature(value)
@@ -152,7 +168,8 @@ local function capture(options)
 end
 
 local live = capture()
-assert(live:has('breakpoints installed'))
+assert(live:has('three breakpoints installed'))
+live:dispatch()
 live:update()
 live:input(0x8000)
 live:frames(1)
@@ -169,8 +186,10 @@ assert(live:has('held=0x8000'))
 assert(live:has('move_delta=01'))
 assert(live:has('angle=-2'))
 assert(live:has('move_hits=1 active_tick_hits=1'))
+assert(live:has('dispatch_hits=1'))
 assert(live:disabled(MOVE_CAMERA))
 assert(live:disabled(UPDATE_LOCATION))
+assert(live:disabled(RUN_CAMPAIGN_MAP))
 
 local idleCall = capture()
 idleCall:update()
@@ -200,9 +219,26 @@ assert(not setupFailure:has('no free-camera hit yet'))
 setupFailure:frames(1)
 assert(setupFailure:has('no free-camera hit yet'))
 setupFailure:frames(1500)
-assert(setupFailure:has(
-    'status: no active-tick hit; select interpreter CPU and rerun'
+assert(setupFailure:has('status: no campaign-map control or location change'))
+
+local dispatcherOnly = capture()
+dispatcherOnly:dispatch()
+dispatcherOnly:frames(1800)
+assert(dispatcherOnly:has(
+    'status: resident campaign-map dispatcher observed but overlay '
+        .. 'active-tick breakpoint did not fire'
 ))
+
+local pollingControl = capture()
+pollingControl:location(2)
+pollingControl:frames(1)
+pollingControl:frames(1799)
+assert(pollingControl:has(
+    'status: map navigation changed location but no execution breakpoint '
+        .. 'control fired'
+))
+assert(pollingControl:has('location_changes=1'))
+assert(pollingControl:has('location_change=01'))
 
 local wrongMode = capture({mode = 8})
 assert(wrongMode:has('main mode 8 is not Campaign Map mode 5'))
@@ -222,6 +258,7 @@ assert(replaced:has(
 ))
 assert(replaced:disabled(MOVE_CAMERA))
 assert(replaced:disabled(UPDATE_LOCATION))
+assert(replaced:disabled(RUN_CAMPAIGN_MAP))
 
 local reset = capture()
 reset:reset()
@@ -230,6 +267,7 @@ assert(reset:has(
 ))
 assert(reset:disabled(MOVE_CAMERA))
 assert(reset:disabled(UPDATE_LOCATION))
+assert(reset:disabled(RUN_CAMPAIGN_MAP))
 
 local bounded = capture()
 for _ = 1, 120 do
@@ -239,6 +277,7 @@ assert(bounded:has('status: maximum free-camera hit count reached'))
 assert(bounded:has('move_hits=120'))
 assert(bounded:disabled(MOVE_CAMERA))
 assert(bounded:disabled(UPDATE_LOCATION))
+assert(bounded:disabled(RUN_CAMPAIGN_MAP))
 
 print = hostPrint
-print('campaign_map_camera_input: all nine callback-replay cases passed')
+print('campaign_map_camera_input: all eleven callback-replay cases passed')

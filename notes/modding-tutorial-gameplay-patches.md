@@ -225,7 +225,7 @@ The tutorials identify two SLUS offsets in the deck editor:
 | `0x24020` | `0x80033820` | `01 00 03 24` | `addiu $v1, $zero, 1` | Exodia-piece copy limit |
 | `0x24070` | `0x80033870` | `03 00 42 2C` | `sltiu $v0, $v0, 3` | General per-card copy limit |
 
-Both instructions are in `func_800336F0`, whose exact matching C establishes
+Both instructions are in `BuildDeck_UpdateChestPaneInput`, whose exact matching C establishes
 the surrounding behavior. The function obtains the selected card ID in `r`
 and begins with a permitted-copy count of one:
 
@@ -271,7 +271,7 @@ The tutorial then installs two hooks:
 
 The first hook lies in `func_80031874`, the Build Deck list renderer matched in
 `src/game/func_80031874.c`; the second lies in the exact matching deck-add path
-`func_800336F0`.
+`BuildDeck_UpdateChestPaneInput`.
 
 The injected lookup contains 26 little-endian halfword slots:
 

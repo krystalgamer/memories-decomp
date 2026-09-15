@@ -13,8 +13,8 @@
 #include "../../game/display_object_layout.h"
 #include "../../game/main_services.h"
 #include "../../game/sound.h"
-#include "entrypoints.h"
 #include "ordering_tables.h"
+#include "value_setup.h"
 
 /* The value-setup screen: the three lifecycle entry points
    main_run_two_player_duel_setup.c
@@ -76,10 +76,6 @@ extern DisplayObject *D_801845A4;
 extern DisplayObject *D_801845B0[];
 extern DisplayObject *D_801845B8;
 extern u8 D_801845BE;
-void MainMenu_StartValueWidgetTween(s32 index, s32 value);
-void MainMenu_DrawValueSetup(void);
-s32 MainMenu_CountDecimalDigits(s32 value);
-
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;

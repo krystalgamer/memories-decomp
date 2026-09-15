@@ -52,4 +52,12 @@ extern u8 gDuel_bCardViewerYOffset;
 extern DisplayObject *gDuel_pCardViewerCard;
 extern DuelEffectChannel *gDuel_pCardViewerTextBox;
 
+/* The card-viewer candidate keeps the original address names as lexical
+ * contract keys while the linked symbols above carry the semantic names. */
+#ifdef DUEL_CARD_VIEWER_ADDRESS_ALIASES
+extern DisplayObject *D_8009B240;
+extern DisplayObject *D_8009B24C;
+extern DuelEffectChannel *D_8009B250;
+#endif
+
 #endif

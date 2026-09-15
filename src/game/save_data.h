@@ -216,8 +216,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state);
  * ahead of it through SaveData_BuildPayload, and asks the memory card layer to
  * write it under gMemCard_szSaveFileName.
  *
- * Its earlier C caller, Script_OpSavePrompt (now
- * src/candidates/func_8002EE94.c),
+ * Its earlier C caller, Script_OpSavePrompt (script_op_save_prompt.c),
  * reached it with no declaration in scope at
  * all before this, so neither the argument list nor the void return was being
  * checked against the definition. Main_RunCredits uses this same declaration

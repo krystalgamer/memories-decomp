@@ -185,11 +185,28 @@ returns its refusal unchanged; on success the wrapper stages its arguments in
 the shared request globals, starts `_card_info(chan)` against
 `gMemCard_aIOEventHandles`, and returns `1` without waiting.
 
-The poll at `0x80044838` is still assembly (the tracked candidate is
-`src/candidates/func_80044838.c`), but its dispatch fixes what each code does.
+The poll at `0x80044838` is matching C in `src/game/func_80044838.c`.
+Its dispatch fixes what each code does.
 It returns `-1` while the slot is idle and `0` while the request is still
-running; when it finishes it writes the code and the result through its two
-output pointers, puts `gMemCard_bRequest` back to `-1`, and returns `1`.
+running; when it finishes it writes the result first and then the request
+code through its two output pointers, puts `gMemCard_bRequest` back to `-1`,
+and returns `1`. This write order remains observable when the outputs alias.
+
+The BIOS open, seek, and transfer loops allow eleven calls: the first attempt
+plus ten retries. Creation rejects a free-block count plus requested size of
+16 or more with result `7`, rejects an existing name with `6`, and reports
+`2` when the creation retry byte is exhausted. Retry and timeout bytes wrap
+before their signed tests; the controller does not clamp them.
+
+The separate directory and transfer result lifetimes, explicit closes on
+both file-failure paths, and the shared create-loop initializer preserve
+the original instruction scheduling without register bindings or inline
+assembly. The controller contributes 1,180 text bytes and a 48-byte,
+twelve-entry request jump table. Its native ILP32 witness in
+`tools/project/tests/test_mem_card_io_controller.py` covers 973 cases at
+both optimization levels and rejects six behavioral mutations. The BIOS
+and file interfaces are stubbed: these checks exercise the controller,
+not memory-card hardware.
 
 | Code | Wrapper | Staged arguments | What the poll does |
 |---:|---|---|---|
@@ -239,8 +256,8 @@ The controller's bounded workspace, absolute directory view, frame backing,
 and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
 [memory-card-work-controller.md](memory-card-work-controller.md). The request
 prototypes live in `mem_card.h`; event initialization remains in
-`io_event_helpers.h`. Existing driver bodies and poll-candidate code are
-unchanged.
+`io_event_helpers.h`. The grouped driver remains separate from the matching
+request controller in `src/game/func_80044838.c`.
 
 ## Directory enumeration
 
@@ -262,11 +279,14 @@ own name and treats a zero count as the name being free.
 
 ### Shared request and directory contracts
 
-The matching producer in `mem_card_driver.c` and the retained poll candidate
-now consume the request declarations in `mem_card.h`, the directory API in
-`mem_card_directory.h`, and the existing event API in `io_event_helpers.h`.
-This removes eight driver-local globals and fourteen candidate-local globals,
-plus the candidate's three private function prototypes. These are identified
+The matching producer in `mem_card_driver.c` and matching controller in
+`src/game/func_80044838.c` consume the request declarations in `mem_card.h`,
+the directory API in `mem_card_directory.h`, and the existing event API in
+`io_event_helpers.h`.
+The earlier ownership migration removed eight driver-local globals and
+fourteen globals plus three function prototypes from the then-candidate
+controller. The matching source retains those owning-header contracts without
+private declarations. These are identified
 memory-card objects, so their owning headers, not `unmatched.h`, carry the
 contracts.
 
@@ -289,9 +309,9 @@ unsigned loads -- which feed the sector, seek, transfer-size and create-mode
 arguments -- are now the only declaration. `gMemCard_bRequest` is the row that
 did reach one: through the `u8` arm `gMemCard_bRequest = -1;` materialised
 255, where its target has `addiu $v1, $zero, -0x1` before the `sb`, so
-collapsing the guard also moved that candidate one instruction closer. The
+collapsing the guard moved the earlier candidate one instruction closer. The
 five `(s8)` casts the poll needed over the `u8` arm are redundant under `s8`,
-and the candidate object is byte for byte the same without them.
+and removing them preserved that candidate object's bytes at that stage.
 `gMemCard_pRequestBuf` stays an `s32` address, matching the request wrappers'
 integer buffer ABI. Event-handle elements stay `long`, and both asynchronous
 users select the existing volatile result arm. The poll's `D_8009B436`
@@ -319,12 +339,15 @@ not normalized. The low-level wildcard `D_8009AF7C` gains a shared declaration
 consumed by its `.sdata` owner, but keeps its four-byte definition and remains
 distinct from the high-level wildcard `D_8009AF70`.
 
-The poll consumes all seventeen formerly bypassed dependencies directly from
-headers. Its schema-2 private-extern dependency map is consequently empty,
-not disabled; the reviewed aggregate changes, but its object fingerprint
-remains `34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970`.
-No candidate target, profile, measured near-miss result, or assembly fallback
-changes.
+The matching controller consumes all seventeen formerly bypassed dependencies
+directly from headers. Before promotion, that migration emptied the candidate's
+schema-2 private-extern dependency map without disabling it and preserved its
+then-current object fingerprint
+`34bde1bb8b430da186303a995a676dd02ba17a5f5df3d1bae5a7af5e542f6970`.
+That historical declaration-only step did not change the candidate target,
+profile, measured near miss, or assembly fallback. The subsequent matching
+promotion retired that candidate and its fallback; the earlier failed
+measurements remain historical evidence.
 
 ## Save payload staging
 
@@ -396,8 +419,8 @@ The two wrappers differ in that message and in what they check afterwards:
 
 | Function | Message | After a good pair | Callers |
 |---|---:|---|---|
-| `SaveData_UpdateTradeLoad` (`0x8003FCD8`) | `0x29` | nothing more | main-menu item `3`; `func_80030EC8`, which then enters mode `14`, `Main_RunTrade` |
-| `SaveData_UpdateDuelLoad` (`0x8003FD14`) | `40`, `36` | all 40 deck slots nonzero in both saves, then both player names converted to glyph codes | main-menu item `2`; `func_80031000`, which then enters mode `16`, the two-player duel setup |
+| `SaveData_UpdateTradeLoad` (`0x8003FCD8`) | `0x29` | nothing more | main-menu item `3`; `DebugMenu_UpdateTradeEntry`, which then enters mode `14`, `Main_RunTrade` |
+| `SaveData_UpdateDuelLoad` (`0x8003FD14`) | `40`, `36` | all 40 deck slots nonzero in both saves, then both player names converted to glyph codes | main-menu item `2`; `DebugMenu_UpdateTwoPlayerDuelEntry`, which then enters mode `16`, the two-player duel setup |
 
 `SaveData_UpdateDuelLoad` sets its message before it calls
 `SaveData_UpdateTradeLoad`, whose one-shot latch then leaves it alone. That

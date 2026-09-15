@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "../psyq/sdk_internal.h"
 
 /* The packet cursor these helpers write through: a cursor into the frame's
  * scratch packet area, advanced past each packet as it is linked. It is

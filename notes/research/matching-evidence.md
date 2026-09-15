@@ -1019,7 +1019,7 @@ PLAIN = re.compile(r'\*/\s{2}(\S+)\s+(.*)')
 |---|---:|
 | `AiScript_CalcCardPower` | 0x18C |
 | `func_80012E5C` | 0x210 |
-| `func_80031084` | 0x2C8 |
+| `DebugMenu_Update` | 0x2C8 |
 | `func_8003A560` | 0x3C0 |
 | `func_80043BCC` | 0x17C |
 | `func_8001BD88` | 0x14B8 |
@@ -1509,8 +1509,14 @@ whether the assembler can prove a store is one gp-relative instruction - so the
 test is whether the candidate's gp-relative accesses actually differ from the
 target's. If they already agree, the declaration is not the problem, whatever
 sits next to them. `func_8002EE94`'s obstacle is store forwarding and
-`func_80044838` is nine instructions short of a structural match; neither is an
+`func_80044838` was nine instructions short of a structural match in this
+experiment; neither obstacle was an
 addressing fault.
+
+The later `func_80044838` resolution preserves these historical measurements.
+Scoped call results, explicit failure closes, and a shared-entry create retry
+loop reproduce its 295 instructions and twelve-word jump table without changing
+the global declarations; see [Memory-card Runtime Events](../memory-card-runtime.md).
 
 So: diagnose from the differing instructions, not from the declarations. A
 count of `extern` lines is not evidence, and a `nop` near a gp-relative store is
@@ -2440,7 +2446,7 @@ object model through two related parent/child constructors.
 | `ScriptImage_RequestTransfer` | Three archive layouts selected by high byte; packed decimal index calculation |
 | `ScriptImage_CreateObject` | Object creation wrapper with signed mode byte |
 | `func_8002EB78` | G8 stream state with split absolute `0x4C`-byte table entries |
-| `func_80030D5C` | G8 state machine mixing GP-relative state and absolute flag word |
+| `DebugMenu_UpdateMovieEntry` | G8 state machine mixing GP-relative state and absolute flag word |
 | `func_800375A4` | Signed countdown state and object cleanup |
 | `func_80037A58` | Signed duration, randomized coordinate snapshot, and restoration |
 | `Text_StartCampaignDuel` | Four direct byte-stream reads with absolute G0 globals |
@@ -4078,7 +4084,9 @@ offsets instead does not: the base stays in `$v1` and the argument is derived
 as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
 reach their exact instruction count with opcode distance 0, at 6, 8 and 9
 differing positions, and what is left in each is prologue scheduling. The
-stored candidates are in `notes/candidates/`.
+remaining `func_8004A27C` candidate is build-integrated at
+`src/candidates/func_8004A27C.c`; the two envelope helpers are exact in
+`src/game/sound_voice_envelope.c`.
 
 ### Emission order is not source order for a run of stores to one struct
 
@@ -4198,7 +4206,7 @@ choice several instructions away, not as a missing mask.
 
 A callee's return type is observable in the caller even when the value is
 thrown away. `func_8005B0B4` ends with `*out = c; return out;`, and with
-`func_8005A98C` declared `HsvT *` the closing three-byte struct copy comes out
+`Color_RgbToHsl` (`0x8005A98C`) declared `HsvT *` the closing three-byte struct copy comes out
 based on `$v0` where the target bases it on the parameter's own `$s6`.
 Declaring the same callee `void` -- the value is unused either way, and the
 emitted call is identical -- moves the copy back onto `$s6` and finishes the
@@ -4218,7 +4226,7 @@ and the instruction multiset is already exact, check the return types of
 everything the function calls before spending time on the tail itself.
 The five functions now share `color_transform.c`. `color.h` exposes the real
 definition signatures, while the final two callers use private alternate C
-identifiers bound to those same linker symbols with `asm("func_8005A98C")`
+identifiers bound to those same linker symbols with `asm("Color_RgbToHsl")`
 and `asm("func_8005ABA0")`. Those aliases retain the measured discarded-return
 and wide-argument views without conflicting declarations in one translation
 unit. They are second names for the same functions, not duplicate definitions.
@@ -4476,11 +4484,11 @@ looks redundant is the one that reproduces.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found on `func_80045208` and its twin `func_80045334`, whose entries are in
-`notes/candidates/`. Both reconstruct to the exact instruction count with the
-exact register assignment and stop on the same two positions: the order of
-three word stores into a stack request block, and therefore which of them the
-delay-slot filler steals for the following call.
+Found on `func_80045208` and its twin `func_80045334`, whose exact source is
+`src/game/sound_output_state.c`. Both reconstruct to the exact instruction
+count with the exact register assignment and stop on the same two positions:
+the order of three word stores into a stack request block, and therefore which
+of them the delay-slot filler steals for the following call.
 
 The rule is reproducible in a probe of ten lines:
 
@@ -4521,11 +4529,12 @@ diagnostic that tells you what the scheduler did, not as a profile to ship.
 
 ## The store of a load-produced value is scheduled last in its block
 
-Found while taking `func_80045208` from opcode distance 3 to 0; the entry is in
-`notes/candidates/`. It and its twin `func_80045334` both reconstruct to the
-exact instruction count with the exact register assignment and stop on the same
-two positions: the order of three word stores into a stack request block, and
-therefore which of them the delay-slot filler steals for the following call.
+Found while taking `func_80045208` from opcode distance 3 to 0; its exact source
+is `src/game/sound_output_state.c`. It and its twin `func_80045334` both
+reconstruct to the exact instruction count with the exact register assignment
+and stop on the same two positions: the order of three word stores into a stack
+request block, and therefore which of them the delay-slot filler steals for the
+following call.
 `func_80045334`'s entry already records that source statement order is not the
 input this order is computed from, over about 1800 variants. This is what it is
 computed from instead.
@@ -6377,6 +6386,13 @@ Two consequences worth carrying forward:
   pin is inert, check that the register actually appears in the output.
 
 ## No GTE command instruction can currently be emitted from C
+
+**Historical finding, with a narrow RTPS exception now implemented.**
+`normalize_psyq_rtps.py` and the named RTPS profiles translate the official
+RTPS marker for matching `func_80015D18` and `func_80029934`. The latter's
+[wireframe evidence](../library-wireframe.md) uses the same approved macro
+family without widening it. The following probe describes profiles without
+that filter; it is not a reason to exclude every RTPS-only function.
 
 The three functions #2390 reopened into the candidate queue — `func_80033DB0`,
 `func_80034830` and `func_80067220` — all need GTE *command* words. None of

@@ -65,7 +65,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         *p = q;
         gDuel_bTerrain = v;
     }
-    D_8009B36A = func_80036D3C(o);
+    gDuel_wBgmId = func_80036D3C(o);
     D_8009B374 = 0x72A0;
     x = (u8)gDuel_bOpponentID;
     if ((u32)(x - 9) < 8) D_8009B374 = 0x7280;

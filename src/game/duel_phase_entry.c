@@ -1,5 +1,5 @@
 #define FUNC_80018004_AMBIENT_POSITION_ARGS
-#define D_8009B36A_IN_DATA
+#define GDUEL_WBGMID_IN_DATA
 #include "../types.h"
 #include "func_800179F4.h"
 #include "display_object.h"
@@ -43,8 +43,7 @@ extern s8 D_8009B208[8];
 void DuelScene_UpdateResume(void)
 {
     DuelCardRecord *rec;
-    u8 *obj;
-    u8 *q;
+    DuelEffectRequest *obj;
     u8 *b;
     DisplayObject *card;
     s32 i;
@@ -84,9 +83,9 @@ void DuelScene_UpdateResume(void)
         func_8001352C();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
             if (D_800E9FF0[i].swords_turns_remaining != 0) {
-                obj = DuelEffect_AllocateRequest(0x15);
-                *(u16 *)(obj + 0x1A) = i + 2;
-                obj[0x1C] |= 0x20;
+                obj = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);
+                obj->field_1A = i + 2;
+                obj->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
                 gDuel_apSwordsEffectObjects[i] =
                     (DuelFieldEffectObject *)obj;
             }
@@ -102,9 +101,9 @@ void DuelScene_UpdateResume(void)
                 }
             }
         } else {
-            q = (u8 *)D_800E9FF0;
-            if (*(s16 *)(q + 0x14) != 0 && *(s16 *)(q + 0x34) != 0) {
-                SD_BGMPlay(D_8009B36A);
+            if (D_800E9FF0[0].life_points.signed_value != 0 &&
+                D_800E9FF0[1].life_points.signed_value != 0) {
+                SD_BGMPlay(gDuel_wBgmId);
             }
         }
         Fade_StartIn();
@@ -148,11 +147,11 @@ void DuelScene_UpdateResume(void)
         card = replay->record.object;
     }
     func_8001352C();
-    obj = (u8 *)DuelEffect_CreateRequest(0xB);
-    *(u16 *)obj = card->field_30.h.field_30;
-    *(u16 *)(obj + 2) = card->field_30.h.field_32;
-    *(u16 *)(obj + 4) = *(u16 *)&card->field_34;
-    *(u16 *)(obj + 0x1A) = func_800181EC((CardObject *)card);
+    obj = DuelEffect_CreateRequest(0xB);
+    obj->field_00 = card->field_30.h.field_30;
+    obj->field_02 = card->field_30.h.field_32;
+    obj->field_04 = *(u16 *)&card->field_34;
+    obj->field_1A = func_800181EC((CardObject *)card);
     func_80024954(&D_801A7AD8[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }
@@ -214,7 +213,7 @@ void DuelScene_UpdateStartup(void)
              D_8009B134_abs) != 0) {
             break;
         }
-        SD_BGMPlay(D_8009B36A);
+        SD_BGMPlay(gDuel_wBgmId);
         Duel_PopulateCombinedDeckData();
         atk = 0;
         def = 0;

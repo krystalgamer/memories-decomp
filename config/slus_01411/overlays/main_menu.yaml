@@ -64,7 +64,7 @@ segments:
     subsegments:
       - [0x4, .rodata, overlays/main_menu/module_rodata]
       - [0x1C, c, overlays/main_menu/frontend]
-      - [0x390, asm, overlays/main_menu/text_390]
+      - [0x390, c, overlays/main_menu/frontend_update]
       - [0xB4C, c, overlays/main_menu/frontend_background]
       - [0xFD8, c, overlays/main_menu/value_setup]
       - [0x1F68, c, overlays/main_menu/trade_update]
@@ -74,6 +74,7 @@ segments:
       - [0x3B2C, c, overlays/main_menu/trade_offers]
       - [0x416C, c, overlays/main_menu/card_name_count_comparators]
       - [0x4344, c, overlays/main_menu/trade_screen_helpers]
-      - [0x4558, data, overlays/main_menu/data]
+      - [0x4558, .data, overlays/main_menu/module_state]
+      - [0x5CD4, data, overlays/main_menu/data]
 
   - [0x8000]

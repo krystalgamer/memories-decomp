@@ -21,6 +21,7 @@ FUNCTION_POINTER_OBJECT = re.compile(
 )
 CONDITIONAL_DIRECTIVE = re.compile(
     r"^\s*#\s*(?P<directive>if|ifdef|ifndef|elif|else|endif)\b"
+    r"(?P<argument>.*)$"
 )
 IGNORED_NAMES = frozenset(
     {
@@ -222,6 +223,34 @@ def declaration_names(statement: str) -> list[tuple[str, str | None]]:
     return result
 
 
+def is_old_style_definition_prefix(statement: str, name: str) -> bool:
+    match = re.search(
+        rf"\b{re.escape(name)}\s*\((?P<parameters>[^()]*)\)"
+        r"\s*(?P<declaration>[^;]+);$",
+        statement,
+    )
+    if match is None:
+        return False
+    parameters = [
+        parameter.strip()
+        for parameter in match.group("parameters").split(",")
+        if parameter.strip()
+    ]
+    if not parameters or any(
+        re.fullmatch(r"[A-Za-z_]\w*", parameter) is None
+        for parameter in parameters
+    ):
+        return False
+    declared_name = re.search(
+        r"(?P<name>[A-Za-z_]\w*)\s*(?:\[[^]]*\])?\s*$",
+        match.group("declaration"),
+    )
+    return (
+        declared_name is not None
+        and declared_name.group("name") in parameters
+    )
+
+
 def mask_non_code(source: str) -> str:
     text = candidate_builds.strip_c_comments(source)
     output = list(text)
@@ -299,6 +328,73 @@ def definition_names(source: str) -> set[str]:
     return definitions
 
 
+def declaration_statements(source: str) -> list[str]:
+    text = re.sub(r"\\\r?\n", "", source)
+    text = candidate_builds.strip_c_comments(text)
+    lines = text.splitlines(keepends=True)
+    active: bool | None = True
+    conditions: list[tuple[bool | None, bool | None]] = []
+    for index, line in enumerate(lines):
+        directive = CONDITIONAL_DIRECTIVE.match(line)
+        if directive is not None:
+            kind = directive.group("directive")
+            argument = directive.group("argument").strip()
+            if kind in {"if", "ifdef", "ifndef"}:
+                parent = active
+                condition = (
+                    argument != "0"
+                    if kind == "if" and argument in {"0", "1"}
+                    else None
+                )
+                current = (
+                    False
+                    if parent is False or condition is False
+                    else True
+                    if parent is True and condition is True
+                    else None
+                )
+                conditions.append((parent, condition))
+                active = current
+            elif kind in {"elif", "else"} and conditions:
+                parent, prior = conditions[-1]
+                condition = (
+                    True
+                    if kind == "else"
+                    else argument != "0"
+                    if argument in {"0", "1"}
+                    else None
+                )
+                current = (
+                    False
+                    if parent is False or prior is True or condition is False
+                    else True
+                    if parent is True and prior is False and condition is True
+                    else None
+                )
+                prior = (
+                    True
+                    if prior is True or condition is True
+                    else False
+                    if prior is False and condition is False
+                    else None
+                )
+                conditions[-1] = (parent, prior)
+                active = current
+            elif kind == "endif" and conditions:
+                parent, _ = conditions.pop()
+                active = parent
+        if line.lstrip().startswith("#") or active is False:
+            lines[index] = "".join(
+                "\n" if char == "\n" else " " for char in line
+            )
+    return candidate_builds.top_level_statements("".join(lines))
+
+
+def has_static_specifier(statement: str, name: str) -> bool:
+    prefix, separator, _ = statement.partition(name)
+    return bool(separator and re.search(r"\bstatic\b", prefix))
+
+
 def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     statuses = inventory_statuses(root)
     owners = matching_owners(root)
@@ -317,8 +413,16 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             problems.append(f"{path.relative_to(root)}: {error}")
             continue
         definitions = definition_names(source)
-        for statement in candidate_builds.top_level_statements(source):
+        for statement in declaration_statements(source):
             for name, alias in declaration_names(statement):
+                if is_old_style_definition_prefix(statement, name):
+                    continue
+                if (
+                    alias is None
+                    and has_static_specifier(statement, name)
+                    and name in definitions
+                ):
+                    continue
                 declaration_count += 1
                 symbols = {name}
                 if alias is not None:
@@ -328,11 +432,23 @@ def audit(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                     for symbol in symbols
                 ):
                     same_unit_count += 1
+                    problems.append(
+                        f"{path.relative_to(root)}: same-unit function "
+                        f"declaration {name} belongs in "
+                        f"{path.with_suffix('.h').relative_to(root)}: "
+                        f"{statement}"
+                    )
                     continue
                 if not any(
                     (unit.module, symbol) in owners for symbol in symbols
                 ) and any(symbol in definitions for symbol in symbols):
                     same_unit_count += 1
+                    problems.append(
+                        f"{path.relative_to(root)}: same-unit function "
+                        f"declaration {name} belongs in "
+                        f"{path.with_suffix('.h').relative_to(root)}: "
+                        f"{statement}"
+                    )
                     continue
                 if statuses.get((unit.module, name)) == "unmatched_asm":
                     if unit.module == "resident":
@@ -373,7 +489,7 @@ def main() -> int:
         return 1
     print(
         "translation-unit headers: OK "
-        f"({stats['sources']} sources, {stats['same_unit']} same-unit forwards, "
+        f"({stats['sources']} sources, {stats['same_unit']} local forwards, "
         f"{stats['unmatched']} unmatched declarations delegated)"
     )
     return 0

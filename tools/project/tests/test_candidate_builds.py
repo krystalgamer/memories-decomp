@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
@@ -72,6 +73,87 @@ class CandidateFingerprintTests(unittest.TestCase):
 
 
 class CandidateContractTests(unittest.TestCase):
+    def test_missing_bundle_directory_is_valid_when_no_notes_remain(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            self.assertEqual(
+                candidate_builds.note_candidate_paths(Path(directory)),
+                [],
+            )
+
+    def test_note_only_candidates_are_detected(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            resident = root / "notes/candidates/archive/func_80012345.md"
+            overlay = (
+                root
+                / "notes/overlays/candidates/password/func_80123456.md"
+            )
+            bundle = (
+                root
+                / "notes/overlays/candidates/password/for_humans"
+                / "func_80123456"
+            )
+            resident.parent.mkdir(parents=True)
+            overlay.parent.mkdir(parents=True)
+            bundle.mkdir(parents=True)
+            resident.write_text("candidate", encoding="utf-8")
+            overlay.write_text("candidate", encoding="utf-8")
+            (bundle / "candidate.c").write_text("candidate", encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.note_candidate_paths(root),
+                [
+                    "notes/candidates/archive/func_80012345.md",
+                    "notes/overlays/candidates/password/for_humans/"
+                    "func_80123456",
+                    "notes/overlays/candidates/password/func_80123456.md",
+                ],
+            )
+
+    def test_note_only_candidate_stores_are_rejected_by_loader(self) -> None:
+        cases = (
+            "notes/candidates/archive/func_80012345.md",
+            "notes/overlays/candidates/password/func_80123456.md",
+            "notes/overlays/candidates/password/for_humans/"
+            "func_80123456/candidate.c",
+        )
+        for relative in cases:
+            with self.subTest(relative=relative):
+                with tempfile.TemporaryDirectory(
+                    dir=REPOSITORY / "tmp"
+                ) as directory:
+                    root = Path(directory)
+                    path = root / relative
+                    path.parent.mkdir(parents=True)
+                    path.write_text("candidate", encoding="utf-8")
+
+                    with mock.patch.object(candidate_builds, "ROOT", root):
+                        with self.assertRaisesRegex(
+                            candidate_builds.CandidateBuildError,
+                            "candidates must be build-integrated",
+                        ):
+                            candidate_builds.load_candidates()
+
+    def test_deep_candidate_sources_and_targets_are_detected(self) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            root = Path(directory)
+            source = root / "src/candidates/password/deep/func_80123456.c"
+            target = (
+                root / "src/candidates_target/password/deep/func_80123456.S"
+            )
+            source.parent.mkdir(parents=True)
+            target.parent.mkdir(parents=True)
+            source.write_text("candidate", encoding="utf-8")
+            target.write_text("candidate", encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_code_paths(root),
+                (
+                    {"src/candidates/password/deep/func_80123456.c"},
+                    {"src/candidates_target/password/deep/func_80123456.S"},
+                ),
+            )
+
     def test_extern_parser_handles_supported_forms(self) -> None:
         text = r'''
 /* extern void fake_comment(void); */
@@ -86,6 +168,27 @@ extern u8 *alias asm("real_symbol");
         self.assertEqual(
             candidate_builds.candidate_extern_symbols(text),
             ["callback", "data", "hook", "real_symbol", "value"],
+        )
+
+    def test_extern_parser_handles_arrays_of_function_pointers(self) -> None:
+        self.assertEqual(
+            candidate_builds.extern_symbol(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.declaration_identifier(
+                "extern s32 (*D_800114E8[4])(s32, s32);"
+            ),
+            "D_800114E8",
+        )
+        self.assertEqual(
+            candidate_builds.candidate_extern_symbols(
+                "extern s32 (*handlers[4])(s32, s32);\n"
+                "extern void (*grid[2][3])(void);\n"
+            ),
+            ["grid", "handlers"],
         )
 
     def test_contract_symbols_follow_used_header_asm_aliases(self) -> None:
@@ -529,6 +632,26 @@ extern int sdk_call(int value);
                     ],
                 ),
                 ["D_800FE240"],
+            )
+
+    def test_dialog_configured_used_contract_survives_header_centralization(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as directory:
+            source = Path(directory) / "candidate.c"
+            text = "void candidate(void) { D_8009B248 = value; }\n"
+            source.write_text(text, encoding="utf-8")
+
+            self.assertEqual(
+                candidate_builds.candidate_contract_symbols(
+                    source,
+                    text,
+                    [
+                        "D_8009B248",
+                        "D_8009B24A",
+                    ],
+                ),
+                ["D_8009B248"],
             )
 
     def test_contract_validation_reports_changed_dependencies(self) -> None:

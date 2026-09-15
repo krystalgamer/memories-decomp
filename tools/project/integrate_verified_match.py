@@ -56,6 +56,21 @@ EXTERNAL_FIELDS = (
     "summary",
 )
 G_FLAG = re.compile(r"^-G(?P<value>\d+)$")
+PSYQ_RTPS_LOAD = re.compile(
+    r'__asm__ volatile \( "lwc2 \$0, 0\( %0 \);" '
+    r'"lwc2 \$1, 4\( %0 \)" : : "r"\( .+ \) \) ;'
+)
+PSYQ_RTPS_COMMAND = (
+    '__asm__ volatile ( "nop;" "nop;" ".word 0x0000007f" ) ;'
+)
+PSYQ_RTPS_STORE = re.compile(
+    r'__asm__ volatile \( "swc2 \$14, 0\( %0 \)" '
+    r': : "r"\( .+ \) : "memory" \) ;'
+)
+PSYQ_STOPZ_STORE = re.compile(
+    r'__asm__ volatile \( "swc2 \$24, 0\( %0 \)" '
+    r': : "r"\( (?:& ?)?[A-Za-z_]\w* \) : "memory" \) ;'
+)
 
 
 def splice_c_lines(source: str) -> str:
@@ -197,6 +212,11 @@ def profile_g_value(flags: Any, description: str) -> int:
 def validate_effective_profile(profile: Any, profile_name: str) -> None:
     if not isinstance(profile, dict):
         raise IntegrationError(f"invalid compiler profile: {profile_name}")
+    if "psyq_inline_macro" in profile:
+        if profile["psyq_inline_macro"] not in ("rtps", "stopz"):
+            raise IntegrationError(f"profile {profile_name} has an unsupported Psy-Q inline macro")
+        if profile.get("allow_psyq_inline_macros") is not True:
+            raise IntegrationError(f"profile {profile_name} must explicitly allow its Psy-Q inline macro")
     compiler_g = profile_g_value(
         profile.get("compiler_flags"), f"{profile_name} compiler_flags"
     )
@@ -340,6 +360,76 @@ def uses_asm_extension(
     return ASM_PATTERN.search(code) is not None
 
 
+def uses_disallowed_psyq_rtps_asm(
+    source: str,
+    *,
+    allow_register_pins: bool = False,
+    allow_symbol_aliases: bool = False,
+    tracked_symbol_names: set[str] | None = None,
+) -> bool:
+    """Allow only the exact official Psy-Q RTPS macro expansion."""
+    result: list[str] = []
+    saw_rtps = False
+    for line in splice_c_lines(source).splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        newline = line[len(content):]
+        normalized = re.sub(r"\s+", " ", content).strip()
+        allowed = (
+            PSYQ_RTPS_LOAD.fullmatch(normalized) is not None
+            or PSYQ_RTPS_STORE.fullmatch(normalized) is not None
+            or normalized == PSYQ_RTPS_COMMAND
+        )
+        if allowed:
+            saw_rtps |= normalized == PSYQ_RTPS_COMMAND
+            result.append(" " * len(content) + newline)
+        else:
+            result.append(line)
+    return (
+        not saw_rtps
+        or uses_asm_extension(
+            "".join(result),
+            allow_register_pins=allow_register_pins,
+            allow_symbol_aliases=allow_symbol_aliases,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+    )
+
+
+def uses_disallowed_psyq_inline_asm(
+    source: str,
+    *,
+    macro_family: str = "rtps",
+    allow_register_pins: bool = False,
+    allow_symbol_aliases: bool = False,
+    tracked_symbol_names: set[str] | None = None,
+) -> bool:
+    if macro_family == "rtps":
+        return uses_disallowed_psyq_rtps_asm(
+            source,
+            allow_register_pins=allow_register_pins,
+            allow_symbol_aliases=allow_symbol_aliases,
+            tracked_symbol_names=tracked_symbol_names,
+        )
+    if macro_family != "stopz":
+        return True
+    result: list[str] = []
+    saw_stopz = False
+    for line in splice_c_lines(source).splitlines(keepends=True):
+        content = line.rstrip("\r\n")
+        normalized = re.sub(r"\s+", " ", content).strip()
+        if PSYQ_STOPZ_STORE.fullmatch(normalized) is not None:
+            saw_stopz = True
+            result.append(" " * len(content) + line[len(content):])
+        else:
+            result.append(line)
+    return not saw_stopz or uses_asm_extension(
+        "".join(result),
+        allow_register_pins=allow_register_pins,
+        allow_symbol_aliases=allow_symbol_aliases,
+        tracked_symbol_names=tracked_symbol_names,
+    )
+
+
 def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = json.load(handle)
@@ -440,6 +530,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="replace an existing matching source after inline refinement",
     )
+    parser.add_argument(
+        "--allow-psyq-inline-macros",
+        action="store_true",
+        help=(
+            "accept assembly introduced by included Psy-Q inline macros; "
+            "assembly written directly in the source remains rejected"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -525,6 +623,14 @@ def main() -> int:
             raise IntegrationError(f"unknown compiler profile: {args.profile}")
         profile = profiles[args.profile]
         validate_effective_profile(profile, args.profile)
+        if (
+            args.allow_psyq_inline_macros
+            and profile.get("allow_psyq_inline_macros") is not True
+        ):
+            raise IntegrationError(
+                "--allow-psyq-inline-macros requires a profile that explicitly "
+                "allows Psy-Q inline macros"
+            )
 
         functions = load_inventory(functions_path)
         matches = [
@@ -572,11 +678,21 @@ def main() -> int:
                 f"{address:#010x}: expanded matching C cannot contain "
                 "hard-register variables"
             )
-        if uses_asm_extension(
-            preprocessed_text,
-            allow_register_pins=True,
-            allow_symbol_aliases=True,
-            tracked_symbol_names=tracked_symbol_names,
+        if (
+            uses_disallowed_psyq_inline_asm(
+                preprocessed_text,
+                macro_family=profile.get("psyq_inline_macro", "rtps"),
+                allow_register_pins=True,
+                allow_symbol_aliases=True,
+                tracked_symbol_names=tracked_symbol_names,
+            )
+            if args.allow_psyq_inline_macros
+            else uses_asm_extension(
+                preprocessed_text,
+                allow_register_pins=True,
+                allow_symbol_aliases=True,
+                tracked_symbol_names=tracked_symbol_names,
+            )
         ):
             raise IntegrationError(
                 f"{address:#010x}: expanded matching C contains statement-level "
