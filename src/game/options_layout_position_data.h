@@ -3,6 +3,16 @@
 
 #include "../ygo_types.h"
 
+typedef struct {
+    OptionsLayoutPositionBlock selection;
+    u16 pad_06;
+    u16 output_x[2];
+} OptionsLayoutBuffer;
+
+typedef char OptionsLayoutBuffer_size_must_be_12[
+    sizeof(OptionsLayoutBuffer) == 12 ? 1 : -1
+];
+
 /* The byte-array arm is an addressing form, not a second type, and two
  * measurements say it has to stay. options_screen.c is the only unit that
  * selects it, for one `*(OptionsLayoutPositionBlock *)` copy, and retail

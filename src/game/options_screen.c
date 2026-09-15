@@ -20,12 +20,6 @@
 #include "text_constants.h"
 #include "../unmatched.h"
 
-typedef struct {
-    OptionsLayoutPositionBlock selection;
-    u16 pad_06;
-    u16 output_x[2];
-} OptionsLayoutBuffer;
-
 /* The options screen: its text-colour and text-box setup, the layout pass
    that places its two cursor objects, the init that creates them, and the
    input handler and per-frame dispatcher that drive it. All five work on the
