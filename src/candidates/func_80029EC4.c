@@ -10,11 +10,13 @@
 extern s32 D_800E9D9C;
 
 /*
- * Current best under gcc_2_8_1_g0: 269 instructions against 268, with
- * encoding distance 5 and 97 differing positions. The target is split-address
- * code; retuning this source under gcc_2_8_1_g0_split remains the next step.
- * The residual non-split build shares one D_800EA1E8 address, emits one extra
- * shift, and leaves two delay slots empty.
+ * Current best under gcc_2_8_1_g0_split: 269 instructions against 268, with
+ * encoding distance 1, one extra sll in the cursor-colour switch. Retail
+ * reaches case 1's shift-and-store through case 3's copy, and this source
+ * computes it in the arm. Retail also materialises the D_800EA1E8 address
+ * before that switch rather than at the join, and fills one prologue delay
+ * slot this build leaves empty while leaving empty one loop slot this build
+ * fills.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -47,7 +49,11 @@ void func_80029EC4(void)
     s32 grey;
     s32 y;
     s32 v;
+    u8 *t;
+    s32 m;
+    s32 b8;
 
+    p = (u8 *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
     ot = D_800E9D9C;
     if (n < 0) {
@@ -57,11 +63,11 @@ void func_80029EC4(void)
     grey = 0x404040;
     a = n * 178 + 8;
     b = n * 25;
-    p = (u8 *)0x1F800320;
+    b8 = b * 8;
     *(u16 *)(p + 4) = 8;
     *(u32 *)(p + 8) = 0xE000C;
     *(u32 *)(p + 0x10) = 0xF70130;
-    *(u16 *)(p + 6) = b * 8 * 178 + 8;
+    *(u16 *)(p + 6) = b8 * 178 + 8;
     *(u16 *)(p + 0x12) = 0xF7;
     *(u16 *)(p + 0xE) = 0xF060;
     *(u32 *)p = 0x8000000;
@@ -70,10 +76,10 @@ void func_80029EC4(void)
         idx = b * 8;
         *(u16 *)(p + 6) = a;
         *(u16 *)(p + 6) = a - gGraphics_sViewportY;
-        for (i = 0; i < 10; i++, idx += 10) {
+        for (i = 0; i < 10; idx += 10, i++) {
             y = *(s16 *)(p + 6);
+            j = idx + 1;
             if (y + *(u16 *)(p + 8) > 0) {
-                j = idx + 1;
                 if (y >= 0xF0) {
                     goto done;
                 }
@@ -128,27 +134,29 @@ done:
     q[0x11] = 0;
     q[0x10] = 0;
     q[0xF] = 0;
-    i = v & 0x7F;
-    switch (i / 32) {
+    m = v & 0x7F;
+    switch (m / 32) {
     case 0:
-        q[0xD] = i * 8;
+        q[0xD] = m * 8;
         break;
     case 1:
         q[0xD] = 0xFF;
-        q[0x10] = (i - 0x20) * 8;
+        q[0x10] = (m - 0x20) * 8;
         break;
     case 2:
-        q[0xD] = (0x5F - i) * 8;
+        q[0xD] = (0x5F - m) * 8;
         q[0x10] = 0xFF;
         break;
     case 3:
-        q[0x10] = (0x7F - i) * 8;
+        v = 0x7F - m;
+        q[0x10] = v * 8;
         break;
     }
     *(u16 *)(q + 8) = 0;
-    *(u16 *)(q + 4) = *(u16 *)(D_800EA1E8 + 8) - gGraphics_sViewportX;
-    *(u16 *)(q + 6) = *(u16 *)(D_800EA1E8 + 0xA) - gGraphics_sViewportY;
-    *(u16 *)(q + 0xA) = *(u16 *)(D_800EA1E8 + 0xA) - gGraphics_sViewportY;
+    t = (u8 *)D_800EA1E8;
+    *(u16 *)(q + 4) = *(u16 *)(t + 8) - gGraphics_sViewportX;
+    *(u16 *)(q + 6) = *(u16 *)(t + 0xA) - gGraphics_sViewportY;
+    *(u16 *)(q + 0xA) = *(u16 *)(t + 0xA) - gGraphics_sViewportY;
     GsSortGLine(q, ot, 1);
     *(u16 *)(q + 8) = 0x140;
     GsSortGLine(q, ot, 1);
