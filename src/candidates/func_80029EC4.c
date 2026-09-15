@@ -11,14 +11,14 @@ extern s32 D_800E9D9C;
 
 /*
  * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
- * encoding distance 0. Case 1 of the cursor-colour switch reaches case 3's
- * shift-and-store through a goto, which is how retail shares that copy. What
- * is left is placement: this build reloads b8 just before its shift, which
- * costs an empty load-delay slot in the prologue, and fills the slot of the
- * card-id test in the loop, which retail leaves empty. In the tail it
- * materialises 0xFF inside case 1 rather than in the dispatch branch's delay
- * slot, and takes the D_800EA1E8 address at the join rather than before the
- * switch.
+ * encoding distance 0. Compiled to an object and compared word for word with
+ * the assembled target, 91 of 268 words differ, all placement and register
+ * choices. Retail completes 0xF70130's ori only after reloading b,
+ * materialises 0x8000000 before the first row store, and reloads b ahead of
+ * the viewport read at the loop head. In the cursor tail it takes the
+ * D_800EA1E8 address before the colour switch, loads 0xFF in the dispatch
+ * branch's delay slot, and sets up the first GsSortGLine call's arguments
+ * before the store that precedes it.
  */
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
@@ -39,8 +39,6 @@ void func_80029EC4(void)
     u8 *pk;
     s32 ot;
     s32 n;
-    s32 a;
-    s32 b;
     s32 idx;
     s32 i;
     s32 c;
@@ -49,11 +47,15 @@ void func_80029EC4(void)
     s32 r;
     s32 white;
     s32 grey;
+    s32 a;
+    s32 b;
     s32 y;
     s32 v;
     u8 *t;
     s32 m;
-    s32 b8;
+    u8 *tb;
+    s32 e;
+    s32 f;
 
     p = (u8 *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
@@ -61,15 +63,17 @@ void func_80029EC4(void)
     if (n < 0) {
         return;
     }
+    e = 0xE000C;
+    f = 0xF70130;
     white = 0x808080;
     grey = 0x404040;
     a = n * 178 + 8;
     b = n * 25;
-    b8 = b * 8;
     *(u16 *)(p + 4) = 8;
-    *(u32 *)(p + 8) = 0xE000C;
-    *(u32 *)(p + 0x10) = 0xF70130;
-    *(u16 *)(p + 6) = b8 * 178 + 8;
+    *(u32 *)(p + 8) = e;
+    *(u32 *)(p + 0x10) = f;
+    idx = b * 8;
+    *(u16 *)(p + 6) = idx * 178 + 8;
     *(u16 *)(p + 0x12) = 0xF7;
     *(u16 *)(p + 0xE) = 0xF060;
     *(u32 *)p = 0x8000000;
@@ -81,6 +85,7 @@ void func_80029EC4(void)
         for (i = 0; i < 10; idx += 10, i++) {
             y = *(s16 *)(p + 6);
             j = idx + 1;
+            tb = D_800EA1E8;
             if (y + *(u16 *)(p + 8) > 0) {
                 if (y >= 0xF0) {
                     goto done;
@@ -90,7 +95,7 @@ void func_80029EC4(void)
                 pk = &D_800EA1E8[k * 4];
                 pj = &D_800EA1E8[j * 4];
                 do {
-                    r = func_80029EB0(D_800EA1E8, j);
+                    r = func_80029EB0(tb, j);
                     if (r & 0x80) {
                         *(u32 *)(p + 0x14) = white;
                         if (r & 1) {
@@ -101,7 +106,7 @@ void func_80029EC4(void)
                         GsSortFastSprite(p, ot, 2);
                     }
                     if (k < CARD_ID_END) {
-                        r = func_80029EB0(D_800EA1E8, k);
+                        r = func_80029EB0(tb, k);
                         if (r & 0x80) {
                             *(u32 *)(p + 0x14) = white;
                             if (r & 1) {
