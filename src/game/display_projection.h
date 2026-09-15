@@ -6,8 +6,9 @@
 #define DISPLAY_PROJECTION_TRACKED_OFFSET(member) \
     ((u32)&(((DisplayProjectionTrackedObject *)0)->member))
 
-/* Object tracked by func_80015DFC. `record` supplies the world coordinates
- * projected into screen_x/screen_y; field_18 selects the one-pixel y bias. */
+/* Object tracked by func_80015DFC. `record` supplies its typed 0x30 and 0x34
+ * coordinates for projection into screen_x/screen_y; field_18 selects the
+ * one-pixel y bias. */
 typedef struct {
     DisplayObject *record;
     u8 pad_04[4];

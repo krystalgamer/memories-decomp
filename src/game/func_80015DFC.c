@@ -25,14 +25,14 @@ void func_80015DFC(DisplayProjectionTrackedObject *object)
 
     GsSetLsMatrix(&D_800FE148);
     {
-        u16 x = *(u16 *)((u8 *)object->record + 0x30);
+        u16 x = object->record->field_30.h.field_30;
         volatile u8 *scratch = (volatile u8 *)0x1F8003E0;
 
         *(volatile s16 *)(scratch + 2) = 0;
         *(volatile u16 *)scratch = x;
         *(volatile u16 *)(scratch + 4) =
-            *(u16 *)((u8 *)((volatile DisplayProjectionTrackedObject *)object)
-                         ->record + 0x34);
+            *(u16 *)&((volatile DisplayProjectionTrackedObject *)object)
+                        ->record->field_34.h.field_34;
         gte_ldv0((u8 *)scratch);
         gte_rtps();
         gte_stsxy(&p);
