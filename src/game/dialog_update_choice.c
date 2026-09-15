@@ -38,7 +38,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         e->field_3C.word = 0xC000;
         e->update = Widget_UpdatePulseColour;
         e->attribute = e->attribute | (GsALON | GsAONE);
-        Dialog_HighlightChoice((u8 *)p);
+        Dialog_HighlightChoice(p);
     }
 
     if ((p->flags_34 & 4) != 0) {
@@ -52,7 +52,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         if ((g & DIALOG_CHOICE_INPUT_CONFIRMED) != 0) {
             gDialog_bInputState = g & 0xBF;
             gDialog_bChoice = g & 7;
-            Dialog_HighlightChoice((u8 *)p);
+            Dialog_HighlightChoice(p);
             return;
         }
         if ((f & DIALOG_CHOICE_INPUT_CANCELLED) == 0) {
@@ -60,7 +60,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         }
         gDialog_bInputState = 0;
     } else {
-        if (Dialog_ReadChoiceInput((u8 *)p) != 0) {
+        if (Dialog_ReadChoiceInput(p) != 0) {
             return;
         }
         if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {

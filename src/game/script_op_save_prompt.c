@@ -212,7 +212,7 @@ void Script_OpSavePrompt(void)
     }
 
     do {
-        if (Dialog_ReadChoiceInput((u8 *)box) != 0) {
+        if (Dialog_ReadChoiceInput(box) != 0) {
             return;
         }
         if ((gInput_wPad1Pressed & 0xC0) == 0) {

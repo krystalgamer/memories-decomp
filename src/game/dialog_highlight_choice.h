@@ -3,6 +3,8 @@
 
 #include "../types.h"
 
-void Dialog_HighlightChoice(u8 *record);
+struct DuelEffectChannel;
+
+void Dialog_HighlightChoice(struct DuelEffectChannel *record);
 
 #endif

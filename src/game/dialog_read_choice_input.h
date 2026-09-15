@@ -3,6 +3,8 @@
 
 #include "../types.h"
 
-s32 Dialog_ReadChoiceInput(u8 *record);
+struct DuelEffectChannel;
+
+s32 Dialog_ReadChoiceInput(struct DuelEffectChannel *record);
 
 #endif

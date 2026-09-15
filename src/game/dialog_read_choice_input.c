@@ -5,6 +5,7 @@
 #include "sound.h"
 #include "dialog_choice.h"
 #include "dialog_read_choice_input.h"
+#include "duel_effect.h"
 
 /* Up, down or R1 on the repeat pad moves the dialog's choice cursor. R1
    wraps to the top; the directions clamp and report the press as handled
@@ -12,7 +13,7 @@
 
    gInput_wPad1Repeat is volatile: the target reads it once per test rather
    than caching it, and the three reads are what the three branches turn on. */
-s32 Dialog_ReadChoiceInput(u8 *record)
+s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
 {
     if (gInput_wPad1Repeat &
         (PAD_DIRECTION_VERTICAL_MASK | PAD_BUTTON_R1)) {

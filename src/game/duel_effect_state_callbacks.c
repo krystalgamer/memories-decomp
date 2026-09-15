@@ -35,9 +35,9 @@ void func_800374A8(DuelEffectChannel *object)
     }
 }
 
-u8 *Dialog_OpenChoice(DuelEffectChannel *record)
+DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 {
-    u8 *cursor = func_800400AC((s32)func_8004006C(), 2);
+    DisplayObject *cursor = func_800400AC((s32)func_8004006C(), 2);
 
     func_800404CC(
         cursor,
@@ -49,10 +49,10 @@ u8 *Dialog_OpenChoice(DuelEffectChannel *record)
         11,
         0x20C
     );
-    *(u16 *)(cursor + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
-                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_80042918((DisplayObject *)cursor);
-    func_800428EC(cursor, (s8)(record->field_59 + 1));
+    cursor->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_80042918(cursor);
+    func_800428EC((u8 *)cursor, (s8)(record->field_59 + 1));
     return cursor;
 }
 

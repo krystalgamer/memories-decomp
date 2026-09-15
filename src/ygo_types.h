@@ -513,7 +513,7 @@ typedef struct DuelEffectChannel {
        func_8004036C. Integer-looking field_2C writes elsewhere belong to the
        unrelated DuelEffectResourceRecord. */
     struct DisplayObject *field_2C;
-    void *field_30;
+    struct DisplayObject *field_30;
     u16 flags_34;
     u16 field_36;
     u16 field_38;

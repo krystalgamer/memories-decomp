@@ -19,9 +19,9 @@
  * declared in DuelEffectChannel at those offsets and at these widths, and
  * every caller, duel_effect_dialog_state.c included, holds a DuelEffectChannel *.
  *
- * The return stays u8 *. It is a display object, not this record, and every
- * caller stores it into a void * slot. */
-u8 *Dialog_OpenChoice(DuelEffectChannel *record);
+ * The returned display object is stored in the channel's field_30 slot and
+ * released through the display-object lifecycle helpers. */
+struct DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record);
 
 /* The per-frame half of Dialog_OpenChoice's state: that builds the choice
  * list once, and this runs it, reading the cursor input and repainting the

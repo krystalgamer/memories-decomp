@@ -108,7 +108,7 @@ state_four:
             D_8009B174 = 4;
             break;
         }
-        if (!Dialog_ReadChoiceInput((u8 *)D_800EB0F8) &&
+        if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
             (gInput_wPad1Pressed & 0xC0)) {
             SD_SEPlayFull(7);
             D_8009B174 |= 0x10;

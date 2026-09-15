@@ -216,7 +216,7 @@ void DuelEffect_ApplyRitual(void)
                 D_8009B210 |= 0x40;
             }
         } else if (!(D_8009B210 & 0x20)) {
-            if (!Dialog_ReadChoiceInput((u8 *)D_800EB0F8) &&
+            if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
                 (gInput_wPad1Pressed & 0xC0)) {
                 SD_SEPlayFull(7);
                 object->position.h.field_28 = 134;
