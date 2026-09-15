@@ -5,10 +5,10 @@
 #include "display_object_helpers.h"
 
 void *func_8002E3FC(void) {
-    unsigned char *object =
+    DisplayObject *object =
         func_800400AC((s32)DisplayObject_FindFreeSlot(), 2);
     func_800404CC(object,0x10,0xB0,0,0,0,0xD,0x100);
-    *(unsigned short *)(object + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_80042918((DisplayObject *)object);
+    object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_80042918(object);
     return object;
 }
