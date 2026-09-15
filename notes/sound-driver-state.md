@@ -32,8 +32,10 @@ Konami type or field naming.
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
+| `0x0538` | `decoded_half` | `func_80045054` stores `SpuReadDecodedData`'s returned half here. |
 | `0x053C` | `buffer_053C[4][0x200]` | Four work buffers whose addresses are installed during sound initialization. |
 | `0x153C` | `buffer_ptrs_153C[4]` | Pointers to the four work buffers. |
+| `0x154C` | `output_level` | `func_80045054` sums squared CD samples into it and publishes its signed high halfword as the level. |
 | `0x1560` | `field_1560` | Base pointer used to select a music/sequence table entry. |
 | `0x1564` | `music_track` | Pointer defaults to `0x801EA800`; its first 16-bit value is initialized to `0xFFFF`. |
 | `0x1618` | `busy` | Command registration tests and sets this byte. |
@@ -178,10 +180,18 @@ size.
 
 ```c
 SpuReadDecodedData(
-    (SpuDecodedData *)((u8 *)g_SDValue + 0x53C),
-    5
+    (SpuDecodedData *)g_SDValue_output_level->buffer_053C, SPU_CDONLY
 );
 ```
+
+It stores the returned half, `SPU_DECODED_FIRSTHALF` or the second half, in
+the word `decoded_half` at `+0x538`, and sums the selected half's 256 signed
+sample squares, each shifted right by eight, into `output_level` at `+0x154C`.
+It then publishes that sum's signed high halfword as both the new
+accumulator and the return value, unless `flags_0040 & 3` mutes it to zero.
+The neighbouring word `field_1550` gets the same treatment from its own high
+halfword, but nothing in C accumulates into it. Both words are `SDLevelWord`
+unions (`sum` and `halves[2]`), so the high-halfword reads stay member reads.
 
 `SpuDecodedData` is four arrays of `0x200` signed halfwords (`cd_left`,
 `cd_right`, `voice1`, and `voice3`), so this call establishes a
@@ -297,29 +307,22 @@ An additional scalar/pointer pass converts 17 pure-C functions to named
 `SDValue` fields covering channel volume, CD volume, driver flags, the
 four-voice tables, late control fields, and the music-track pointer.
 
-Eighteen accesses in nine files retain an explicit byte-pointer expression
-(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`), nine of them in resident
-sources and nine in build-integrated candidates. Three forms, counted by
-what the cast applies to:
+Some accesses still use an explicit byte-pointer expression
+(`git grep -nE '\(u8 \*\) *g_SDValue' -- src`). The list changes as
+members are named, so this note does not keep a count. `func_80045054` no
+longer has any: its former base-local byte views are now the
+`decoded_half`, `output_level` and `field_1550` members.
 
-- a cast on the pointer combined with an offset or index (twelve; six in
-  `sd_init_state.c`, and one of the twelve is passed as a call argument
-  rather than dereferenced);
-- a base local assigned `(u8 *)g_SDValue` (five, three of them in
-  `sound_output_state.c`, all within `func_80045054`);
-- a cast on a member's value (one, `sound_voice_selection.c`, in
-  `SD_SEStop`).
+None of the three exceptions this note used to document is still a
+byte-pointer access. The first, `func_80045054`'s decoded-data argument,
+is now the `buffer_053C` member quoted in the SPU section above. The other
+two:
 
-This note records a code-generation rationale for exactly one of the
-eighteen. `func_80045054`'s cast is quoted in the SPU section above for the
-layout of `SpuDecodedData` rather than for its spelling, and the rest are
-undocumented here. Of the three exceptions the note documents, only
-`func_800493F8` is still a byte-pointer access at all:
-
-- `func_800493F8` writes the music-track pointer through
-  `((u8 *)g_SDValue + 0x1564)` because the direct member assignment changes
-  register allocation. It is `src/game/sound_init.c:86`, and the source
-  carries the measurement in a comment above the store.
+- `func_800493F8` wrote the music-track pointer through
+  `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
+  register allocation. Since #4457 it stores through the member's address,
+  `*(void **)&g_SDValue->music_track` in `src/game/sound_init.c`, and the
+  comment above that store carries the measurement.
 - `func_80047FAC` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the

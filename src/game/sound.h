@@ -71,6 +71,13 @@ typedef char SDBankHeaderWords_size_must_be_8[
     sizeof(SDBankHeaderWords) == 8 ? 1 : -1
 ];
 
+/* An output-level accumulator: func_80045054 sums sample squares into the
+   word and reads back its signed high half (halves[1]) as the level. */
+typedef union {
+    u32 sum;
+    s16 halves[2];
+} SDLevelWord;
+
 typedef struct {
     u16 field_0000;
     u16 field_0002;
@@ -169,11 +176,14 @@ typedef struct {
     u8 field_0532;
     u8 mix_multiplier;
     u16 field_0534;
-    u8 pad0536[6];
+    u8 pad0536[2];
+    s32 decoded_half;
     u8 buffer_053C[4][0x200];
     u8 pad0D3C[0x800];
     u8 *buffer_ptrs_153C[4];
-    u8 pad154C[0x14];
+    SDLevelWord output_level;
+    SDLevelWord field_1550;
+    u8 pad1554[0xC];
     u8 *field_1560;
     u16 *music_track;
     u8 pad1568[0x10];
@@ -470,6 +480,13 @@ typedef char SDValue_field_15EC_offset_must_be_0x15EC[
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
     SD_STATE_OFFSET(SDValue, field_15F4) == 0x15F4 ? 1 : -1
+];
+typedef char SDValue_decoded_half_offset_must_be_0x538[
+    SD_STATE_OFFSET(SDValue, decoded_half) == 0x538 ? 1 : -1
+];
+typedef char SDValue_output_level_offset_must_be_0x154C[
+    SD_STATE_OFFSET(SDValue, output_level) == 0x154C &&
+    SD_STATE_OFFSET(SDValue, field_1550) == 0x1550 ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
