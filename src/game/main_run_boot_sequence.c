@@ -20,8 +20,8 @@
 
 void Main_RunBootSequence(s32 mode)
 {
-    register u8 *object;
-    register u8 *first;
+    register DisplayObject *object;
+    register DisplayObject *first;
     D_8009B428 = 0;
     if (mode == 0) {
         File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, func_800434F4, 0, 0);
@@ -49,9 +49,9 @@ void Main_RunBootSequence(s32 mode)
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
                   D_801AF000);
-    *(u16 *)(object + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
-                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C(0, (DisplayObject *)object);
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_8004365C(0, object);
     Main_HoldBootScreen(4);
     FntLoad(0x2C0, 0);
     SetDumpFnt(FntOpen(
@@ -68,9 +68,9 @@ void Main_RunBootSequence(s32 mode)
     object = func_800400AC(func_8004002C(), 2);
     func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
                   D_801AF000);
-    *(u16 *)(object + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
-                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_8004365C((DisplayObject *)first, (DisplayObject *)object);
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_8004365C(first, object);
     func_80047AD0(2);
     func_80012D84(4);
     File_RequestMainMenuPackage();
