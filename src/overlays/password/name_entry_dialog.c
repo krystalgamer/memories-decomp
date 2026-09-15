@@ -28,8 +28,8 @@
 
 /* The end of the name-entry screen pipeline: the confirmation dialog and
    completion polling, on the same D_8016D400 state block as the rest. They
-   follow NameEntry_UpdateKeyboard, a build-integrated candidate since #3859
-   (src/candidates/password/func_8016913C.c); the earlier stages are in
+   follow NameEntry_UpdateKeyboard, the binding-free matching C function in
+   name_entry_keyboard_update.c; the earlier stages are in
    name_entry_runtime.c. The shop display unit after them has no proven
    ownership in this lifecycle. */
 

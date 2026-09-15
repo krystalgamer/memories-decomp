@@ -32,8 +32,8 @@
    eleven functions share one compiler profile and the D_8016D400 state
    block; the leading display-object helper has no proven ownership in this
    lifecycle. The keyboard handler that follows, NameEntry_UpdateKeyboard,
-   matched only through pinned registers and an asm statement and is a stored
-   candidate since #3859 (src/candidates/password/func_8016913C.c); the
+   is the binding-free matching C function in
+   name_entry_keyboard_update.c; the
    dialog and completion handling after it are in name_entry_dialog.c. */
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
