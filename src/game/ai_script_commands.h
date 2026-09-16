@@ -69,7 +69,7 @@ void AiScript_LoadOpponentData(void);
 void AiScript_Store(void);
 void AiScript_SetRegister(void);
 void AiScript_Add(void);
-void func_8007368C(void);
+void AiScript_LoadGuardianStarChoice(void);
 void AiScript_Print(void);
 
 #endif

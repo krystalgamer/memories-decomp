@@ -166,7 +166,7 @@ uncertain, personal, or describes only an unknown flag:
 | `0x8002D7C4` | `hirataLoop` | Personal/opaque label with no stable behavior name. |
 | `0x80073464` | `aiInstUnkOn` | Sets a second unidentified AI flag. |
 | `0x80073474` | `aiInstUnkOff` | Clears a second unidentified AI flag. |
-| `0x8007368C` | `ai_sub_8007368C` | Copies an operand into an unidentified AI output byte. |
+| `0x8007368C` | `AiScript_LoadGuardianStarChoice` | Loads the selected card's guardian-star-2 choice from the low byte of one AI register. |
 
 These should be named only after the consuming state or flag semantics are
 established.

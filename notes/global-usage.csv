@@ -2590,7 +2590,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE8E,D_800EAE8E,D_800EAE8E,0x8001BD88,DuelScene_UpdateHandActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,8,"lbu $v1, %lo(D_800EAE8E)($v0) | lui $v0, %hi(D_800EAE8E)"
 0x800EAE8E,D_800EAE8E,D_800EAE8E,0x80073050,AiScript_SetPosition,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE8E[0] = value;
 0x800EAE8F,D_800EAE8F,D_800EAE8F,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,read,8,if (D_800EAE8F[0] & 1) {
-0x800EAE8F,D_800EAE8F,D_800EAE8F,0x8007368C,func_8007368C,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+0x800EAE8F,D_800EAE8F,D_800EAE8F,0x8007368C,AiScript_LoadGuardianStarChoice,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 0x800EAE90,D_800EAE90,D_800EAE90,0x8001BD88,DuelScene_UpdateHandActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,8,"lbu $v0, %lo(D_800EAE90)($v0) | lui $v0, %hi(D_800EAE90)"
 0x800EAE90,D_800EAE90,D_800EAE90,0x80071510,AiScript_LoadSelectionRandom,matching_c,game,C,src/game/ai_script_combo.c,read,8,values[index] = D_800EAE90;
 0x800EAE90,D_800EAE90,D_800EAE90,0x80073448,AiScript_SetSelectionRandom,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE90 = 1;
@@ -2910,7 +2910,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800735A0,AiScript_Store,matching_c,game,C,src/game/ai_script_state_ops.c,address,32,volatile int *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800735DC,AiScript_SetRegister,matching_c,game,C,src/game/ai_script_state_ops.c,read_write,32,gAiScript_aMemory[dst] = gAiScript_aMemory[src];
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80073624,AiScript_Add,matching_c,game,C,src/game/ai_script_state_ops.c,address,32,int *values = gAiScript_aMemory;
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007368C,func_8007368C,matching_c,game,C,src/game/ai_script_state_ops.c,address,32,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x8007368C,AiScript_LoadGuardianStarChoice,matching_c,game,C,src/game/ai_script_state_ops.c,address,32,D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 0x800F5BE8,gAiScript_State,gAiScript_State,0x8007058C,AiScript_ReadByte,matching_c,game,C,src/game/ai_script_vm.c,address,,register AiScriptState *stream = &gAiScript_State;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705AC,AiScript_ReadShort,matching_c,game,C,src/game/ai_script_vm.c,read_write,,gAiScript_State.script_cursor += 2; | u8 *p = gAiScript_State.script_cursor;
 0x800F5BE8,gAiScript_State,gAiScript_State,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,write,,"bzero(state, sizeof(gAiScript_State)); | gAiScript_State.script_base = arg0; | (+2 more)"

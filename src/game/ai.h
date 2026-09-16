@@ -105,7 +105,7 @@ extern u8 D_800EAE90 __attribute__((section(".data")));
 extern u8 D_800EAE90;
 #endif
 
-/* The preceding selection byte is written by func_8007368C from an AI
+/* The preceding selection byte is written by AiScript_LoadGuardianStarChoice from an AI
  * register. The presentation sequence reads bit 0 after updating the card
  * flags; the byte-array view preserves that access ordering. */
 #ifdef D_800EAE8F_IS_ARRAY

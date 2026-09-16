@@ -72,6 +72,6 @@ AiScriptHandler gAiScript_apfnCommand[68] = {
     AiScript_Store,
     AiScript_SetRegister,
     AiScript_Add,
-    func_8007368C,
+    AiScript_LoadGuardianStarChoice,
     AiScript_Print,
 };

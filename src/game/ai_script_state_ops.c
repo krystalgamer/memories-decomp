@@ -205,7 +205,7 @@ void AiScript_Add(void)
     values[output] = values[left] + values[right];
 }
 
-void func_8007368C(void)
+void AiScript_LoadGuardianStarChoice(void)
 {
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 }
