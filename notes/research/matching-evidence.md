@@ -67,8 +67,9 @@ No register pins, inline assembly, local externs, or compiler-profile changes
 are needed.
 
 The shared `ai.h` declaration retains the existing return-width distinction:
-the definition and fusion consumers use `s8`, while `ai_card_ranges.c`
-selects `s32` to preserve its two call sites without extra sign extension.
+the definition and fusion consumers use `s8`, while the leading range helpers
+in `ai_script_control_flow.c` select `s32` to preserve their two call sites
+without extra sign extension.
 
 ### Sound command filtering without register pins
 
