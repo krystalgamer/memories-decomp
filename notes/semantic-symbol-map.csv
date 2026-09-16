@@ -197,6 +197,7 @@ function,0x8002C7E8,Duel_CheckRitual,high,"gms.c checkRitual; ritual-data caller
 function,0x8002CB80,Duel_CalcGuardianStarMatchup,high,"gms.c gsBonus; local body","Returns the guardian-star matchup modifier."
 function,0x8002CBF4,Duel_GetBaseCardStat,high,"gms.c baseCardStat; local stats table","Returns a terrain-adjusted base attack or defense value."
 function,0x8002CCE4,Library_UpdateCardUsedFlag,high,"gms.c toggleLibraryUsed; local bitset body","Sets or clears one card's library-used bit."
+function,0x8002CDE8,Main_PrepareFrontendLoop,high,"sole Main_Loop preheader caller; matching body calls Main_ResetFrontendRuntime once before the infinite mode-dispatch loop; main_debug.h explicitly distinguishes it from Main_RunDebugMenu","Resets frontend runtime before top-level mode dispatch begins."
 function,0x8002CE08,Main_RunDebugMenu,high,"gms.c debugMenuLoop; main dispatcher","Runs the debug-menu state."
 function,0x8002CE64,Main_RunCampaign,high,"gms.c campaignLoop; main dispatcher","Runs the campaign state."
 function,0x8002CEE8,Main_RunDuel,high,"gms.c duelLoop; main dispatcher","Runs the duel state machine."
