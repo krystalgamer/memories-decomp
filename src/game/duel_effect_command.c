@@ -146,7 +146,8 @@ void func_800380D4(DuelEffectChannel *object)
     register u32 value;
 
     object->field_38 = 0;
-    stream = &((u8 **)object)[object->stream_58];
+    stream =
+        &((TextStreamOwner *)object)->streams[object->stream_58];
     current = *stream;
     value = current[0];
     current++;
