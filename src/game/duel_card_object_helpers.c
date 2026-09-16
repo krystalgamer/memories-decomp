@@ -15,7 +15,7 @@ DisplayObject *func_80018150(int arg0, int arg1)
     return object;
 }
 
-int func_800181EC(CardObject *object)
+int Duel_GetCardEffectVariant(CardObject *object)
 {
     int value = 1;
     switch (object->type) {

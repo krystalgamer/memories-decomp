@@ -846,7 +846,7 @@ s32 SD_OpenSequence(void *input, s16 vab_id);
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
-   spelling and casts at the use. Contrast func_800181EC, where the same
+   spelling and casts at the use. Contrast Duel_GetCardEffectVariant, where the same
    s16-against-int disagreement is free because every caller stores the result
    into a 16-bit field and the sh truncates anyway. See
    notes/research/matching-evidence.md. */

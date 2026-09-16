@@ -7100,9 +7100,9 @@ Widening that declaration to the definition's `s32` -- which is what
 Eight bytes. The `s16` forces the value to be narrowed before the comparison,
 and the `sll`/`sra` pair that does it is retail's.
 
-That last one is worth putting beside `func_800181EC`, where the identical
+That last one is worth putting beside `Duel_GetCardEffectVariant`, where the identical
 `s16`-against-`int` disagreement is free. The difference is not the types, it
-is what the caller does with the value: `func_800181EC`'s three callers all
+is what the caller does with the value: `Duel_GetCardEffectVariant`'s three callers all
 store the result into a 16-bit field, so the `sh` truncates regardless and the
 narrowing costs nothing. `func_80049F50`'s caller compares it, so the narrowing
 has to be materialised.

@@ -243,7 +243,7 @@ hit:
     p->field_00 = ((DisplayObject *)e->object)->field_30.h.field_30;
     p->field_02 = ((DisplayObject *)e->object)->field_30.h.field_32;
     p->field_04 = *(u16 *)&((DisplayObject *)e->object)->field_34;
-    p->field_1A = func_800181EC((CardObject *)e->object);
+    p->field_1A = Duel_GetCardEffectVariant((CardObject *)e->object);
     func_80024954(e);
     SD_SEPlayFull(0x1F);
 }
@@ -433,7 +433,7 @@ void DuelEffect_ApplyRaigeki(void) {
             q->field_00 = ((DisplayObject *)r->object)->field_30.h.field_30;
             q->field_02 = ((DisplayObject *)r->object)->field_30.h.field_32;
             q->field_04 = *(u16 *)&((DisplayObject *)r->object)->field_34;
-            q->field_1A = func_800181EC((CardObject *)r->object);
+            q->field_1A = Duel_GetCardEffectVariant((CardObject *)r->object);
             func_80024954(r);
             a = 0x1F;
 call:
