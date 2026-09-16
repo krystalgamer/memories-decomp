@@ -34,7 +34,7 @@ void func_80059C24(void)
     D_8009AF9A = -1;
 }
 
-s32 func_80059C88(void)
+s32 Model_IsExodiaPresentationComplete(void)
 {
     return D_8009AF9A == -2;
 }

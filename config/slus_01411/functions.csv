@@ -955,7 +955,7 @@ address,size,name,status,module,notes
 0x80059B90,0x88,func_80059B90,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80059C18,0xC,func_80059C18,matching_c,game,Animated-battle scene-state setter; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059C24,0x64,func_80059C24,matching_c,game,Animated-battle scene initializer; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
-0x80059C88,0x14,func_80059C88,matching_c,game,Animated-battle completion predicate; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
+0x80059C88,0x14,Model_IsExodiaPresentationComplete,matching_c,game,Animated-battle completion predicate; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059C9C,0x34,func_80059C9C,matching_c,game,Second animated-battle scene initializer; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059CD0,0x14,func_80059CD0,matching_c,game,Second animated-battle completion predicate; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059CE4,0xF4,func_80059CE4,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
