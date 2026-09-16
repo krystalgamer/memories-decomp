@@ -75,7 +75,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18CEC 800284EC 07010224 */  addiu      $v0, $zero, 0x107
     /* 18CF0 800284F0 1400A0AF */  sw         $zero, 0x14($sp)
     /* 18CF4 800284F4 1C00A2AF */  sw         $v0, 0x1C($sp)
-    /* 18CF8 800284F8 3301010C */  jal        func_800404CC
+    /* 18CF8 800284F8 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 18CFC 800284FC 0E00C624 */   addiu     $a2, $a2, 0xE
     /* 18D00 80028500 08002296 */  lhu        $v0, 0x8($s1)
     /* 18D04 80028504 21202002 */  addu       $a0, $s1, $zero

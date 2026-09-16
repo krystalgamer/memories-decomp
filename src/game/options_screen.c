@@ -78,7 +78,7 @@ void Options_UpdateLayout(s32 selection) {
    plus a func_800428EC(obj1, -5), then sets the options state and output type
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
    is set) and calls Options_InitTextDisplay(0); obj2 gets an
-   8-arg func_800404CC setup and is stashed in D_8009B388;
+   8-arg DisplayObject_ConfigureSpriteAtPosition setup and is stashed in D_8009B388;
    obj3 gets a 10-arg func_80040510 setup. Finally Options_UpdateLayout is called
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
    and SD_BGMPlay(0x7350) runs last.
@@ -114,7 +114,7 @@ void Options_Init(void) {
 
     obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     s0 = 0xB;
-    func_800404CC(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
     D_8009B388 = obj;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

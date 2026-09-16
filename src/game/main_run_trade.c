@@ -45,7 +45,7 @@ void Main_RunTrade(void)
         box->field_59 = 0x10;
         func_80039A14(box);
         obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
+        DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;
         func_80042918(obj);

@@ -105,7 +105,7 @@ conversions, not pointer-success tests or dereferences.
 The separate configurator migration extends the same header with:
 
 ```c
-void func_800404CC(
+void DisplayObject_ConfigureSpriteAtPosition(
     void *object, s32 x, s32 y, s32 field_67, s32 field_68,
     s32 field_69, s32 color, s32 texture
 );

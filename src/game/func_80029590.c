@@ -12,7 +12,7 @@ void func_80029590(void)
     LibraryMotionState *state = &D_800EA1E8;
     for (; i < 8; i++) {
         DisplayObject *object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(object, 8, (i >> 1) * 178 + 8,
+        DisplayObject_ConfigureSpriteAtPosition(object, 8, (i >> 1) * 178 + 8,
                       0, 3, i, 25, 262);
         if (i & 1)
             *(s16 *)&object->field_30.h.field_30 = 168;

@@ -134,7 +134,7 @@ glabel func_8002ACA4
     /* 1B680 8002AE80 1800A2AF */  sw         $v0, 0x18($sp)
     /* 1B684 8002AE84 0C020224 */  addiu      $v0, $zero, 0x20C
     /* 1B688 8002AE88 1000A0AF */  sw         $zero, 0x10($sp)
-    /* 1B68C 8002AE8C 3301010C */  jal        func_800404CC
+    /* 1B68C 8002AE8C 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 1B690 8002AE90 1C00A2AF */   sw        $v0, 0x1C($sp)
     /* 1B694 8002AE94 08000296 */  lhu        $v0, 0x8($s0)
     /* 1B698 8002AE98 21200002 */  addu       $a0, $s0, $zero
@@ -292,7 +292,7 @@ glabel func_8002ACA4
     /* 1B8D0 8002B0D0 1800A2AF */  sw         $v0, 0x18($sp)
     /* 1B8D4 8002B0D4 07010224 */  addiu      $v0, $zero, 0x107
     /* 1B8D8 8002B0D8 1400A0AF */  sw         $zero, 0x14($sp)
-    /* 1B8DC 8002B0DC 3301010C */  jal        func_800404CC
+    /* 1B8DC 8002B0DC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 1B8E0 8002B0E0 1C00A2AF */   sw        $v0, 0x1C($sp)
     /* 1B8E4 8002B0E4 21200002 */  addu       $a0, $s0, $zero
     /* 1B8E8 8002B0E8 80000224 */  addiu      $v0, $zero, 0x80

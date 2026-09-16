@@ -885,7 +885,7 @@ glabel DuelScene_UpdateHandActions
     /* D274 8001CA74 1800B1AF */  sw         $s1, 0x18($sp)
     /* D278 8001CA78 1C00B0AF */  sw         $s0, 0x1C($sp)
     /* D27C 8001CA7C F8FFA524 */  addiu      $a1, $a1, -0x8
-    /* D280 8001CA80 3301010C */  jal        func_800404CC
+    /* D280 8001CA80 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* D284 8001CA84 1E00C624 */   addiu     $a2, $a2, 0x1E
     /* D288 8001CA88 460A010C */  jal        func_80042918
     /* D28C 8001CA8C 21208002 */   addu      $a0, $s4, $zero
@@ -912,7 +912,7 @@ glabel DuelScene_UpdateHandActions
     /* D2E0 8001CAE0 1800B1AF */  sw         $s1, 0x18($sp)
     /* D2E4 8001CAE4 1C00B0AF */  sw         $s0, 0x1C($sp)
     /* D2E8 8001CAE8 3C00A524 */  addiu      $a1, $a1, 0x3C
-    /* D2EC 8001CAEC 3301010C */  jal        func_800404CC
+    /* D2EC 8001CAEC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* D2F0 8001CAF0 1E00C624 */   addiu     $a2, $a2, 0x1E
     /* D2F4 8001CAF4 460A010C */  jal        func_80042918
     /* D2F8 8001CAF8 21208002 */   addu      $a0, $s4, $zero

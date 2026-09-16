@@ -85,11 +85,11 @@ void DuelScene_UpdateResultRewards(void)
         D_8009B1E8->rank_tier = score / 10;
         D_8009B1E8->page_index = 0;
         object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(object, 32, 16, 3, 1, 2, 11, 524);
+        DisplayObject_ConfigureSpriteAtPosition(object, 32, 16, 3, 1, 2, 11, 524);
         func_80042918(object);
         object->flags |= 0x28;
         object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(object, 288, 16, 3, 1, 0, 11, 524);
+        DisplayObject_ConfigureSpriteAtPosition(object, 288, 16, 3, 1, 0, 11, 524);
         func_80042918(object);
         count = 9;
         object->flags |= 0x28;
@@ -122,7 +122,7 @@ void DuelScene_UpdateResultRewards(void)
                 do {
                     count++;
                     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-                    func_800404CC(object, x, 192, 3, 4, 0, 11, 524);
+                    DisplayObject_ConfigureSpriteAtPosition(object, x, 192, 3, 4, 0, 11, 524);
                     func_80042918(object);
                     x += 20;
                     object->flags |= 0x20;

@@ -141,7 +141,7 @@ shared_tail:
     entry->object_04 = object;
 
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800404CC(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
+    DisplayObject_ConfigureSpriteAtPosition(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
 
     object->field_18 = 0x46;
     object->field_48.h.field_48 = 0x46;

@@ -78,7 +78,7 @@ void func_800428A8(
 )
 {
     ((DisplayObjectResource *)object)->resource = resource;
-    func_800404CC(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
+    DisplayObject_ConfigureSpriteAtPosition(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
 s32 func_800428EC(u8 *object, s8 value)

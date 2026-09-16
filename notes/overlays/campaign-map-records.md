@@ -44,10 +44,10 @@ contract and are deliberately unchanged.
 | Offset | Member | Type | Live evidence |
 |---:|---|---|---|
 | `0x00` | `story_flag` | `u16` | Both consumers treat zero as unconditional and otherwise call `Campaign_TestStoryFlag`. |
-| `0x02` | `x` | `s16` | The spawning path passes it through `func_800428A8` to `func_800404CC`'s X argument. |
+| `0x02` | `x` | `s16` | The spawning path passes it through `func_800428A8` to `DisplayObject_ConfigureSpriteAtPosition`'s X argument. |
 | `0x04` | `y` | `s16` | The same chain uses it as Y. |
 | `0x06` | `input_mask` | `u16` | The selector ANDs it with the held-input word. |
-| `0x08` | `field_08` | `u8` | Spawning passes it as `func_800428A8`'s `arg5`, then `func_800404CC`'s `field_69`. No stronger sprite/resource meaning is asserted. |
+| `0x08` | `field_08` | `u8` | Spawning passes it as `func_800428A8`'s `arg5`, then `DisplayObject_ConfigureSpriteAtPosition`'s `field_69`. No stronger sprite/resource meaning is asserted. |
 | `0x09` | `destination` | `u8` | Both paths skip the sentinel `16`; the selector returns the value for an eligible exit. |
 | `0x0A` | `move_steps` | `u8` | Selection copies it to `gCampaignMap_MoveState`; the transition uses that state as its camera-tween step count and marker interpolation divisor. |
 | `0x0B` | `pad_0B` | `u8` | No live access identified; preserved, not interpreted. |

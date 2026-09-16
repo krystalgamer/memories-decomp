@@ -94,7 +94,7 @@ void DuelEffect_UpdateCardViewerState(void)
         func_800428EC((u8 *)obj, 0x14);
         D_8009B24C = obj;
         obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
+        DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
         obj->field_60 = slide;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(obj);

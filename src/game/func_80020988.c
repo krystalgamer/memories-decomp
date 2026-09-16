@@ -23,7 +23,7 @@ s32 func_80020988(void) {
         q = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         b = 0xB;
         c = 0x20C;
-        func_800404CC(
+        DisplayObject_ConfigureSpriteAtPosition(
             q,
             *(s16 *)&D_8009B1CC->field_30.h.field_30 - 8,
             *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,
@@ -49,7 +49,7 @@ s32 func_80020988(void) {
         D_8009B188 = q;
 
         q = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(
+        DisplayObject_ConfigureSpriteAtPosition(
             q,
             *(s16 *)&D_8009B1CC->field_30.h.field_30 + 0x3C,
             *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,

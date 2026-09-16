@@ -1073,10 +1073,10 @@ call produce the same code except for **where the `a0` load is emitted**:
 D_801845B0[0] = object;
 if (object != 0) {
     /* move a0,v0 emitted first, ahead of a1/a2/a3 */
-    func_800404CC(object, 0, 0, 3, 4, 0, 0xB, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 3, 4, 0, 0xB, 0x20C);
 
     /* move a0,v0 emitted last, after a1/a2/a3 */
-    func_800404CC(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
 }
 ```
 

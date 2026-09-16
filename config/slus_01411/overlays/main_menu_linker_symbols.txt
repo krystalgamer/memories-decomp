@@ -8,6 +8,7 @@ SaveData_RequestTradeWrite = 0x8003FE14;
 SD_SEPlay = 0x80048658;
 DisplayObject_FindFreeGeneralSlot = 0x8004002C;
 DisplayObject_SetResourceVariant = 0x80040410;
+DisplayObject_ConfigureSpriteAtPosition = 0x800404CC;
 GsSortPoly = 0x80084320;
 rsin = 0x800866A0;
 gInput_wPad1Repeat = 0x8009B394;

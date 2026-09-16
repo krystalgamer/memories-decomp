@@ -5,7 +5,7 @@
 
 /* Creates and registers one screen-space display object, returning it.
  *
- * It allocates a type 2 object, configures it through func_800404CC with a
+ * It allocates a type 2 object, configures it through DisplayObject_ConfigureSpriteAtPosition with a
  * fixed geometry and depth, sets DISPLAY_OBJECT_FLAG_SCREEN_SPACE in the flag
  * halfword at +0x08, hands it to func_80042918, and returns the pointer.
  *

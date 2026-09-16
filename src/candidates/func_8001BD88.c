@@ -457,13 +457,13 @@ void DuelScene_UpdateHandActions(void)
                     SD_SEPlayFull(0xB);
                 }
                 o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-                func_800404CC(o, (s16)S(obj, 0x30) - 8, S(obj, 0x32) + 0x1E, 3, 1, 2, 0xB, 0x20C);
+                DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) - 8, S(obj, 0x32) + 0x1E, 3, 1, 2, 0xB, 0x20C);
                 func_80042918((DisplayObject *)o);
                 func_800428EC(o, 0xA);
                 H(o, 8) |= 0x28;
                 D_8009B188 = (DisplayObject *)o;
                 o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-                func_800404CC(o, (s16)S(obj, 0x30) + 0x3C, S(obj, 0x32) + 0x1E, 3, 1, 0, 0xB, k20c);
+                DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) + 0x3C, S(obj, 0x32) + 0x1E, 3, 1, 0, 0xB, k20c);
                 func_80042918((DisplayObject *)o);
                 func_800428EC(o, 0xA);
                 H(o, 8) |= 0x28;

@@ -140,8 +140,8 @@ and automatic card rotation are separate presentation paths.
 The two triangle patches are argument-setup switches rather than draw-call
 switches. At `0x800284D8`, retail loads `a2` from
 `gDuel_bCardViewerYOffset`; the delay slot
-of the later `func_800404CC` call then adds `0x0E`. At `0x8002946C`, retail
-loads the constant `4` into `a2` before another `func_800404CC` call.
+of the later `DisplayObject_ConfigureSpriteAtPosition` call then adds `0x0E`. At `0x8002946C`, retail
+loads the constant `4` into `a2` before another `DisplayObject_ConfigureSpriteAtPosition` call.
 FM-Online's enable values (`0x93860343` and `0x24060004`) are those original
 instructions exactly. Hiding the text or image replaces only that instruction
 with `nop`; both calls and their other arguments remain in place. The patch

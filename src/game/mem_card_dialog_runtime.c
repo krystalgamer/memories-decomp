@@ -240,7 +240,7 @@ void MemCardDialog_CreateObject(void)
     }
 
     o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800404CC(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
+    DisplayObject_ConfigureSpriteAtPosition(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
     o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_80042918(o);

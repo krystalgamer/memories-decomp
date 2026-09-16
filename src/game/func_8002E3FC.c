@@ -7,7 +7,7 @@
 void *func_8002E3FC(void) {
     DisplayObject *object =
         func_800400AC((s32)DisplayObject_FindFreeSlot(), 2);
-    func_800404CC(object,0x10,0xB0,0,0,0,0xD,0x100);
+    DisplayObject_ConfigureSpriteAtPosition(object,0x10,0xB0,0,0,0,0xD,0x100);
     object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_80042918(object);
     return object;

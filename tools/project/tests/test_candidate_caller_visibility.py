@@ -57,7 +57,7 @@ PAIRS = [
     ("src/game/func_8001B938.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/debug_menu_campaign_entry.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "func_800400AC", '#include "display_object_core.h"'),
-    ("src/game/func_800218F0.c", "func_800404CC", '#include "display_object_config.h"'),
+    ("src/game/func_800218F0.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
     ("src/game/func_800262D4.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
     (

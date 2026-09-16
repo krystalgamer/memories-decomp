@@ -21,7 +21,7 @@ typedef struct {
    they were describing happens at the store rather than at the return. */
 s32 func_800181EC(CardObject *object);
 
-/* Allocates a type 2 display object, passes arg0/arg1 to func_800404CC as
+/* Allocates a type 2 display object, passes arg0/arg1 to DisplayObject_ConfigureSpriteAtPosition as
    its x/y, and marks it screen space. Defined in
    duel_card_object_helpers.c; func_800235C0 creates the field-card panel
    through it. */

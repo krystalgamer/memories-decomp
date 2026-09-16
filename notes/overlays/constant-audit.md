@@ -112,7 +112,7 @@ are both established, and both are now matching C: the consumer is
    `0x20` at all. Its single site is now written with those two constants.
    Only `0x28` — which is `0x20 | 0x08` — depends on the open bit.
 
-   `DisplayObject_ConfigureSpriteResource` — the configurator reached through `func_800404CC` and
+   `DisplayObject_ConfigureSpriteResource` — the configurator reached through `DisplayObject_ConfigureSpriteAtPosition` and
    `func_800428A8` — clears `0x20` from the flag word at `+8` and then sets it
    again only when the texture argument has bit `0x8000`:
 

@@ -152,7 +152,7 @@ void func_8002ACA4(u8 *state)
             if (func_80058DD8(0) == 1) {
                 state[4] = 0;
                 o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-                func_800404CC(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
+                DisplayObject_ConfigureSpriteAtPosition(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
                 func_80042918((DisplayObject *)o);
                 func_800428EC(o, 0xA);
@@ -221,7 +221,7 @@ void func_8002ACA4(u8 *state)
         SD_SEPlayFull(0x32);
         W(rec->object_04, 4) |= 0x80000000;
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(o, 0x148, 0xE, 0, 2, 0, 0x1B, 0x107);
+        DisplayObject_ConfigureSpriteAtPosition(o, 0x148, 0xE, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
         H(o, 8) |= 8;

@@ -239,7 +239,7 @@ glabel func_800323F8
     /* 22F58 80032758 1000B3AF */  sw         $s3, 0x10($sp)
     /* 22F5C 8003275C 1400A0AF */  sw         $zero, 0x14($sp)
     /* 22F60 80032760 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 22F64 80032764 3301010C */  jal        func_800404CC
+    /* 22F64 80032764 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 22F68 80032768 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 22F6C 8003276C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22F70 80032770 0380103C */   lui       $s0, %hi(func_80031874)
@@ -265,7 +265,7 @@ glabel func_800323F8
     /* 22FC0 800327C0 1000B3AF */  sw         $s3, 0x10($sp)
     /* 22FC4 800327C4 1400B1AF */  sw         $s1, 0x14($sp)
     /* 22FC8 800327C8 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 22FCC 800327CC 3301010C */  jal        func_800404CC
+    /* 22FCC 800327CC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 22FD0 800327D0 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 22FD4 800327D4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22FD8 800327D8 00000000 */   nop
@@ -291,7 +291,7 @@ glabel func_800323F8
     /* 23028 80032828 1000B3AF */  sw         $s3, 0x10($sp)
     /* 2302C 8003282C 1400B2AF */  sw         $s2, 0x14($sp)
     /* 23030 80032830 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 23034 80032834 3301010C */  jal        func_800404CC
+    /* 23034 80032834 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 23038 80032838 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 2303C 8003283C 2120A002 */  addu       $a0, $s5, $zero
     /* 23040 80032840 0800A296 */  lhu        $v0, 0x8($s5)
@@ -312,7 +312,7 @@ glabel func_800323F8
     /* 2307C 8003287C 1000B3AF */  sw         $s3, 0x10($sp)
     /* 23080 80032880 1400B2AF */  sw         $s2, 0x14($sp)
     /* 23084 80032884 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 23088 80032888 3301010C */  jal        func_800404CC
+    /* 23088 80032888 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 2308C 8003288C 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 23090 80032890 2120A002 */  addu       $a0, $s5, $zero
     /* 23094 80032894 0800A296 */  lhu        $v0, 0x8($s5)
@@ -334,7 +334,7 @@ glabel func_800323F8
     /* 230D4 800328D4 1000B3AF */  sw         $s3, 0x10($sp)
     /* 230D8 800328D8 1400A2AF */  sw         $v0, 0x14($sp)
     /* 230DC 800328DC 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 230E0 800328E0 3301010C */  jal        func_800404CC
+    /* 230E0 800328E0 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 230E4 800328E4 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 230E8 800328E8 2120A002 */  addu       $a0, $s5, $zero
     /* 230EC 800328EC 0800A296 */  lhu        $v0, 0x8($s5)
@@ -357,7 +357,7 @@ glabel func_800323F8
     /* 23130 80032930 1000B3AF */  sw         $s3, 0x10($sp)
     /* 23134 80032934 1400B1AF */  sw         $s1, 0x14($sp)
     /* 23138 80032938 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 2313C 8003293C 3301010C */  jal        func_800404CC
+    /* 2313C 8003293C 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 23140 80032940 1C00A2AF */   sw        $v0, 0x1C($sp)
     /* 23144 80032944 2120A002 */  addu       $a0, $s5, $zero
     /* 23148 80032948 0800A296 */  lhu        $v0, 0x8($s5)
@@ -379,7 +379,7 @@ glabel func_800323F8
     /* 23188 80032988 1000B3AF */  sw         $s3, 0x10($sp)
     /* 2318C 8003298C 1400A2AF */  sw         $v0, 0x14($sp)
     /* 23190 80032990 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 23194 80032994 3301010C */  jal        func_800404CC
+    /* 23194 80032994 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 23198 80032998 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 2319C 8003299C 2120A002 */  addu       $a0, $s5, $zero
     /* 231A0 800329A0 08008294 */  lhu        $v0, 0x8($a0)
@@ -401,7 +401,7 @@ glabel func_800323F8
     /* 231E0 800329E0 1000B3AF */  sw         $s3, 0x10($sp)
     /* 231E4 800329E4 1400A2AF */  sw         $v0, 0x14($sp)
     /* 231E8 800329E8 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 231EC 800329EC 3301010C */  jal        func_800404CC
+    /* 231EC 800329EC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 231F0 800329F0 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 231F4 800329F4 2120A002 */  addu       $a0, $s5, $zero
     /* 231F8 800329F8 08008294 */  lhu        $v0, 0x8($a0)
@@ -422,7 +422,7 @@ glabel func_800323F8
     /* 23234 80032A34 1000B3AF */  sw         $s3, 0x10($sp)
     /* 23238 80032A38 1400B0AF */  sw         $s0, 0x14($sp)
     /* 2323C 80032A3C 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 23240 80032A40 3301010C */  jal        func_800404CC
+    /* 23240 80032A40 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 23244 80032A44 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 23248 80032A48 2120A002 */  addu       $a0, $s5, $zero
     /* 2324C 80032A4C 08008294 */  lhu        $v0, 0x8($a0)
@@ -443,7 +443,7 @@ glabel func_800323F8
     /* 23288 80032A88 1000B3AF */  sw         $s3, 0x10($sp)
     /* 2328C 80032A8C 1400B0AF */  sw         $s0, 0x14($sp)
     /* 23290 80032A90 1800B2AF */  sw         $s2, 0x18($sp)
-    /* 23294 80032A94 3301010C */  jal        func_800404CC
+    /* 23294 80032A94 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 23298 80032A98 1C00B4AF */   sw        $s4, 0x1C($sp)
     /* 2329C 80032A9C 2120A002 */  addu       $a0, $s5, $zero
     /* 232A0 80032AA0 08008294 */  lhu        $v0, 0x8($a0)
@@ -465,7 +465,7 @@ glabel func_800323F8
     /* 232E0 80032AE0 1000A0AF */  sw         $zero, 0x10($sp)
     /* 232E4 80032AE4 1400B1AF */  sw         $s1, 0x14($sp)
     /* 232E8 80032AE8 1800B0AF */  sw         $s0, 0x18($sp)
-    /* 232EC 80032AEC 3301010C */  jal        func_800404CC
+    /* 232EC 80032AEC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 232F0 80032AF0 1C00A2AF */   sw        $v0, 0x1C($sp)
     /* 232F4 80032AF4 2120A002 */  addu       $a0, $s5, $zero
     /* 232F8 80032AF8 3B0A010C */  jal        func_800428EC

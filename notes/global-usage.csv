@@ -1878,7 +1878,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B363,D_8009B363,D_8009B363,0x80030C10,func_80030C10,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B363[0] = 0;
 0x8009B363,D_8009B363,D_8009B363,0x80038898,func_80038898,matching_c,game,C,src/game/duel_effect_basic_commands.c,write,8,D_8009B363[0] = value;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x8001798C,Duel_LoadTerrainPackage,matching_c,game,C,src/game/duel_load_terrain_package.c,read,8,int value = gDuel_bTerrain[0];
-0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,read,8,"func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732); | value = gDuel_bTerrain;"
+0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,read,8,"DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732); | value = gDuel_bTerrain;"
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain|gDuel_bTerrainCodegenAlias,0x8002497C,Duel_GetTerrainBoost,matching_c,game,C,src/game/duel_card_record_lifecycle.c,read,8,if (gDuel_bTerrain[0] == 0 || cardType >= CARD_TYPE_MAGIC) { | u8 *terrain = gDuel_bTerrainCodegenAlias;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024DC8,func_80024DC8,matching_c,game,C,src/game/func_80024DC8.c,write,8,gDuel_bTerrain = 0;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read_write,8,b = gDuel_bTerrain; | gDuel_bTerrain * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT + | (+2 more)

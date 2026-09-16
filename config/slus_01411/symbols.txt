@@ -1357,6 +1357,7 @@ DisplayObject_SetResourceVariant = 0x80040410; // type:func
 DisplayObject_UpdateResourceVariant = 0x80040424; // type:func
 DisplayObject_SetResourcePath = 0x8004044C; // type:func
 DisplayObject_ConfigureSpriteResource = 0x80040468; // type:func
+DisplayObject_ConfigureSpriteAtPosition = 0x800404CC; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 File_RequestOptionsPackage = 0x8003C2B4; // type:func
 GameOver_LoadPackageStage = 0x8003C328; // type:func

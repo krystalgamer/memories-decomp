@@ -126,7 +126,7 @@ void *func_800400AC(s32 index, s32 key)
     }
     return &objects[id];
 }
-void func_800404CC(void *p, s32 x, s32 y, s32 a, s32 b, s32 c, s32 color, s32 texture)
+void DisplayObject_ConfigureSpriteAtPosition(void *p, s32 x, s32 y, s32 a, s32 b, s32 c, s32 color, s32 texture)
 {
     s32 id = object_id(p);
     event(8, id, x, y, b, c);

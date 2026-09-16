@@ -120,7 +120,7 @@ void func_8003D74C(MenuRecord *record)
         p->field_4C = (s32)func_80042C08;
         record->grid[0][1] = (s32)p;
         p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800404CC(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(p);

@@ -73,7 +73,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A0 = object;
     if (object != 0) {
-        func_800404CC(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
+        DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         D_801845A0->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845A0, -2);
@@ -91,7 +91,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[0] = object;
     if (object != 0) {
-        func_800404CC(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845B0[0], 1);
@@ -100,7 +100,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[1] = object;
     if (object != 0) {
-        func_800404CC(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845B0[1], 1);
@@ -109,7 +109,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[2] = object;
     if (object != 0) {
-        func_800404CC(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteAtPosition(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_800428EC((u8 *)D_801845B0[2], 1);

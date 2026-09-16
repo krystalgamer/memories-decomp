@@ -41,7 +41,7 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
         (s32)DisplayObject_FindFreeSlot(), 2
     );
 
-    func_800404CC(
+    DisplayObject_ConfigureSpriteAtPosition(
         cursor,
         record->field_3C + record->field_3E - 0x10,
         record->field_40 + record->field_42 - 0x10,

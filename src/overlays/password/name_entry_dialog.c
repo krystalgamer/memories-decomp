@@ -74,7 +74,7 @@ void NameEntry_UpdateDialog(void)
                 } while (box->field_30 == 0);
             }
             caret = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-            func_800404CC(caret, 16, 248, 0, 0, 0, 23, 257);
+            DisplayObject_ConfigureSpriteAtPosition(caret, 16, 248, 0, 0, 0, 23, 257);
             func_80042918(caret);
             func_800428EC(caret, 19);
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

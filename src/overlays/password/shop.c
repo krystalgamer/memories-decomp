@@ -213,7 +213,7 @@ void Password_InitShopScreen(void)
     *(s16 *)(cardCache + 44) = 512;
     *(s16 *)(cardCache + 46) = 240;
     o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800404CC(o, 152, 40, 0, 2, 3, 31, 257);
+    DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
     func_800428EC(o, -8);
     *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
