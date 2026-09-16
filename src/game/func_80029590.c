@@ -15,7 +15,7 @@ void func_80029590(void)
         DisplayObject_ConfigureSpriteAtPosition(object, 8, (i >> 1) * 178 + 8,
                       0, 3, i, 25, 262);
         if (i & 1)
-            *(s16 *)&object->field_30.h.field_30 = 168;
+            object->field_30.h.field_30 = 168;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_8004293C(object);
