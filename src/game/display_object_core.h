@@ -11,7 +11,7 @@ s32 func_8004002C(void);
 s32 func_8004006C(void);
 void *func_800400AC(s32 index, s32 key);
 
-void func_8004020C(struct DisplayObject *slot);
+void DisplayObject_Release(struct DisplayObject *slot);
 void func_800402A0(struct DisplayObject *slot, s32 key);
 
 #ifdef FUNC_8004036C_AMBIENT_OBJECT

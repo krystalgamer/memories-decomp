@@ -508,7 +508,7 @@ extern DisplayObject D_800F0548[
 /* Two counters the pool keeps beside the tables above. func_800400AC bumps
  * D_8009B412 once it has picked a slot, after reading the slot's
  * ALLOCATED flag and before testing it, so it counts every allocation
- * request that reached a slot, initialised or not; func_8004020C bumps
+ * request that reached a slot, initialised or not; DisplayObject_Release bumps
  * D_8009B410 after reading the slot's previous and next links
  * (display_object_core.h calls it the unlink counter). DisplayObject_ResetPool
  * stores 0 into both beside its -1 fill of D_800EFE38 and D_800F2878.

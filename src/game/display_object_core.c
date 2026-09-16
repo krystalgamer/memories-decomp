@@ -99,7 +99,7 @@ void *func_800400AC(s32 index, s32 key)
     return slot;
 }
 
-void func_8004020C(DisplayObject *slot)
+void DisplayObject_Release(DisplayObject *slot)
 {
     s32 first = slot->previous;
     s32 second = slot->next;
@@ -127,7 +127,7 @@ void func_800402A0(DisplayObject *slot, s32 key)
     u16 saved = slot->flags;
     s32 v;
 
-    func_8004020C(slot);
+    DisplayObject_Release(slot);
     v = *(s16 *)((u8 *)D_800EFE38 + key * 2);
     if (v < 0) {
         *(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
@@ -145,7 +145,7 @@ void func_800402A0(DisplayObject *slot, s32 key)
 void func_8004036C(void *object)
 {
     if (object != 0) {
-        func_8004020C((DisplayObject *)object);
+        DisplayObject_Release((DisplayObject *)object);
     }
 }
 

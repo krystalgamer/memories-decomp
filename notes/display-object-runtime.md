@@ -47,9 +47,10 @@ therefore request both that cell offset and screen-space rendering.
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
 that key at `+0x1E`, and fills the companion `D_800F2878` entry when the list
-was empty. `func_8004020C` removes a slot by reconnecting both neighboring
-links and clears its allocation flags. `func_800402A0` removes and reinserts
-an existing slot under another list key while preserving its flags.
+was empty. `DisplayObject_Release` removes a slot by reconnecting both
+neighboring links and clears its allocation flags. `func_800402A0` removes
+and reinserts an existing slot under another list key while preserving its
+flags.
 
 ## Shared index and allocation API
 
