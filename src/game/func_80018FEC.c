@@ -106,7 +106,7 @@ next_obj:
         pose = (u8 *)(anim * 3 + (u32)poses);
         *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
         py = pose[2];
-        *(u16 *)(obj + 0x2C) = 0xB4;
+        ((DisplayObject *)obj)->field_2C.h.field_2C = 0xB4;
         ((DisplayObject *)obj)->field_6C = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(s16 *)(obj + 0x2A) = py - 0x1E;
