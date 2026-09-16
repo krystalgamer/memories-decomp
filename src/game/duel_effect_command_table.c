@@ -3,7 +3,7 @@
 #include "duel_effect_command_table.h"
 #include "text_control_commands.h"
 #include "duel_effect_object_commands.h"
-#include "duel_effect_script_dispatch.h"
+#include "duel_effect_fade_out_bgm_command.h"
 #include "text_stream_commands.h"
 #include "duel_effect_basic_commands.h"
 #include "duel_effect_play_sound_command.h"
@@ -43,7 +43,7 @@ void (*D_80090EAC[])(DuelEffectChannel *) = {
     func_80038690,
     func_800386B8,
     DuelEffect_PlaySoundCommand,
-    (void (*)(DuelEffectChannel *))func_80038800,
+    (void (*)(DuelEffectChannel *))DuelEffect_FadeOutBgmCommand,
     (void (*)(DuelEffectChannel *))func_80038888,
     (void (*)(DuelEffectChannel *))func_80038890,
     func_80038898,

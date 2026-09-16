@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "sound.h"
 #include "duel_effect.h"
-#include "duel_effect_script_dispatch.h"
+#include "duel_effect_fade_out_bgm_command.h"
 
-void func_80038800(DuelEffectCommand *command)
+void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 {
     u8 **slot;
     u8 *cursor;
