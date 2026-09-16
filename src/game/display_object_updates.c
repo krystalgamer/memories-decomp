@@ -149,7 +149,7 @@ void func_80040CAC(void)
     }
 }
 
-void func_80040D14(void)
+void DisplayObject_RenderCustomList(void)
 {
     s32 i = D_800EFE38[6];
 

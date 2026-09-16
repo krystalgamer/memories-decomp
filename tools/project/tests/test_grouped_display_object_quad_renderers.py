@@ -42,6 +42,10 @@ class GroupedDisplayObjectQuadRendererTests(unittest.TestCase):
             table.index("DisplayObject_RenderGouraudQuadList"),
             table.index("DisplayObject_RenderTexturedGouraudQuadList"),
         )
+        self.assertLess(
+            table.index("DisplayObject_RenderTexturedGouraudQuadList"),
+            table.index("DisplayObject_RenderCustomList"),
+        )
 
 
 if __name__ == "__main__":

@@ -2402,7 +2402,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,address,32,tb = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,32,GsOT **t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,32,GsOT **table = D_800E9D90;
-0x800E9D90,D_800E9D90,D_800E9D90,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,address,32,GsOT **table = D_800E9D90;
+0x800E9D90,D_800E9D90,D_800E9D90,0x80040D14,DisplayObject_RenderCustomList,matching_c,game,C,src/game/display_object_updates.c,address,32,GsOT **table = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,32,tb = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,32,tb = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x8004CB0C,func_8004CB0C,matching_c,game,C,src/game/func_8004CB0C.c,read,32,table = D_800E9D90[2]; | table = D_800E9D90[3];
@@ -2687,7 +2687,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[3];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[0];
-0x800EFE38,D_800EFE38,D_800EFE38,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[6];
+0x800EFE38,D_800EFE38,D_800EFE38,0x80040D14,DisplayObject_RenderCustomList,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[6];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[4];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[5];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041340,func_80041340,matching_c,game,C,src/game/display_object_runtime.c,read,16,if (D_800EFE38[i] >= 0) {
@@ -2703,7 +2703,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
+0x800EFE48,D_800EFE48,D_800EFE48,0x80040D14,DisplayObject_RenderCustomList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,func_80042B40,matching_c,game,C,src/game/display_object_helpers.c,read,,u8 *object = (u8 *)D_800EFE48;

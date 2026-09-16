@@ -250,7 +250,7 @@ extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags *
  * by name rather than which are declared oddly.
  *
  * func_80035E20 goes into a display object's +0x4C slot, in func_800391E4.c.
- * The slot's calling convention is known: func_80040D14
+ * The slot's calling convention is known: DisplayObject_RenderCustomList
  * (display_object_updates.c) reads +0x4C back and calls it with two
  * arguments, the object and its ordering-table entry. func_80042C08, the
  * other callback stored there, has matched and is declared by

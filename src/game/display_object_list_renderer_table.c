@@ -25,5 +25,5 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     func_80040BF8,
     DisplayObject_RenderGouraudQuadList,
     DisplayObject_RenderTexturedGouraudQuadList,
-    func_80040D14,
+    DisplayObject_RenderCustomList,
 };
