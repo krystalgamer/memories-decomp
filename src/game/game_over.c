@@ -17,7 +17,7 @@ void func_8003C950(void)
 {
     DisplayObject *object;
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 3);
-    func_80040510(
+    DisplayObject_ConfigureScreenSprite(
         (DisplayObjectConfigView *)object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 0, 16, 0, 240
     );

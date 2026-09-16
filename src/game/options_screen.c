@@ -79,7 +79,7 @@ void Options_UpdateLayout(s32 selection) {
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
    is set) and calls Options_InitTextDisplay(0); obj2 gets an
    8-arg DisplayObject_ConfigureSpriteAtPosition setup and is stashed in D_8009B388;
-   obj3 gets a 10-arg func_80040510 setup. Finally Options_UpdateLayout is called
+   obj3 gets a 10-arg DisplayObject_ConfigureScreenSprite setup. Finally Options_UpdateLayout is called
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
    and SD_BGMPlay(0x7350) runs last.
 
@@ -120,7 +120,7 @@ void Options_Init(void) {
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
-    func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
+    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
 
     {
         s32 flag = gOptions_bSelection;

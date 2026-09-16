@@ -10,7 +10,7 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
     DisplayObject *object =
         (DisplayObject *)func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
 
-    func_80040510(
+    DisplayObject_ConfigureScreenSprite(
         (DisplayObjectConfigView *)object,
         source->x,
         source->y,

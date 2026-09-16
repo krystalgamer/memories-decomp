@@ -361,7 +361,7 @@ than concatenating text. In one translation unit that reconciliation is
 forced, and it turns out to be free. The two views agreed everywhere they
 overlapped — the pulse's `sourceGlyph` at `+0x4C` is the factory's `f76`, the
 field it writes the glyph node into — so they collapse to a single
-`GlyphSprite` with no byte moving. The same is true of `func_80040510`, which
+`GlyphSprite` with no byte moving. The same is true of `DisplayObject_ConfigureScreenSprite`, which
 the merged sources declared three times with three different first parameter
 types (`void *`, `u8 *`, and a private `Obj *`); one `void *` declaration
 serves all three call sites.

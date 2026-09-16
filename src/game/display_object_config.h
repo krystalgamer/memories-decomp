@@ -56,12 +56,12 @@ void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
 );
 
-/* Layout view used by func_80040510, which writes the position, extent and
+/* Layout view used by DisplayObject_ConfigureScreenSprite, which writes the position, extent and
  * blend fields of a display object in one call. It covers only the fields
- * func_80040510 itself touches.
+ * DisplayObject_ConfigureScreenSprite itself touches.
  *
  * This is deliberately NOT the canonical DisplayObject in display_object.h,
- * and it is not a rival to it. func_80040510 writes 16-bit halves at four
+ * and it is not a rival to it. DisplayObject_ConfigureScreenSprite writes 16-bit halves at four
  * offsets the canonical record held as 32-bit words: 0x30, 0x3C, 0x40 and
  * 0x48, plus a pair of bytes inside the halfword at 0x5C. The note here used
  * to say that splitting those words would change how existing users store
@@ -78,11 +78,11 @@ void DisplayObject_SetResourcePath(
  * display_object_updates.c all still build byte-identically.
  *
  * What keeps this view alive is no longer the layout but the signature below:
- * func_80040510 and its callers pass the record as this type, and several of
+ * DisplayObject_ConfigureScreenSprite and its callers pass the record as this type, and several of
  * those callers still hold it as a bare pointer. Retiring the view is that
  * change, not a layout change. Until then the two descriptions coexist: the
  * canonical record owns the pool, and this view records the shape
- * func_80040510 works in. */
+ * DisplayObject_ConfigureScreenSprite works in. */
 typedef struct {
     u8 pad_00[0x08];
     u16 flags;
@@ -113,7 +113,7 @@ typedef struct {
 void *DisplayObject_ConfigureSpriteResource(u8 *object, s32 field_67, s32 field_68, s32 field_69,
                     s32 color, s32 texture);
 
-DisplayObjectConfigView *func_80040510(
+DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     DisplayObjectConfigView *object,
     s32 x,
     s32 y,

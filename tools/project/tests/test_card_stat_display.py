@@ -141,7 +141,7 @@ void *func_800400AC(s32 index, s32 key)
     return &actual.object;
 }
 
-DisplayObjectConfigView *func_80040510(
+DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     DisplayObjectConfigView *object, s32 px, s32 py, s32 height,
     s32 width, s32 field_5C, s32 field_5D, s32 field_66,
     s32 field_40, s32 field_42)

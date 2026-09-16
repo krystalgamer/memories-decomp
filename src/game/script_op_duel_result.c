@@ -67,11 +67,11 @@ void Script_OpDuelResult(void) {
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         D_800EAE98[0].unk00 = (s32)o;
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
-        func_80040510((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC((u8 *)o, -1);
         D_800EAE98[1].unk00 = (s32)o;
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
-        func_80040510((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         func_800428EC((u8 *)o, -1);
         D_800EAE98[2].unk00 = (s32)o;
         q = func_800400AC(DisplayObject_FindFreeGeneralSlot(), four);

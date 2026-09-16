@@ -220,7 +220,7 @@ typedef struct DisplayObject {
     /* 0x40 and 0x48 are the last two words display_object_config.h's separate
        halfword view covers, and they are read both ways for the same reason
        0x3C is: display_object_core.c clears each with one sw and the two
-       sprite emitters copy each as a word, while func_80040510 and the dialog
+       sprite emitters copy each as a word, while DisplayObject_ConfigureScreenSprite and the dialog
        and duel layout code write the halves. The view calls 0x48/0x4A
        half_height_2/half_width_2; the halves are left field_-named here, as
        0x3C's are, until a caller pins the meaning. */

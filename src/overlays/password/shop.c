@@ -218,7 +218,7 @@ void Password_InitShopScreen(void)
     *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
     o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
-    func_80040510(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
+    DisplayObject_ConfigureScreenSprite(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
     *(u32 *)(o + 4) &= ~GsROTOFF;
     *(s16 *)(o + 72) = 13;
     *(s16 *)(o + 74) = 13;

@@ -218,7 +218,7 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 fie
     DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
 }
 
-DisplayObjectConfigView *func_80040510(
+DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     DisplayObjectConfigView *object,
     s32 x,
     s32 y,

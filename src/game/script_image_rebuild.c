@@ -60,7 +60,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     p->image_id = n;
     if (n >= 0x200) {
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 3);
-        func_80040510(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
+        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
         ((DisplayObject *)o)->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         ((DisplayObject *)o)->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
