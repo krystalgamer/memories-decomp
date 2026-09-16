@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_SCRIPT_IMAGE_REBUILD_H
 
 #include "../types.h"
+#include "script_image_objects.h"
 
 /* Rebuilds the display objects for one scene-script image record. `value` is
  * the packed image id, or negative to reuse the one already stored at the
@@ -14,8 +15,8 @@
  * which of the two overlays exist. Under 0x100 the record's two overlay words
  * are just cleared.
  *
- * Both callers spelled the record `void *`; it is a u8 * here because that is
- * what the definition walks. */
-void ScriptImage_RebuildObjects(u8 *record, s32 value);
+ * Both callers hold a wider scene-script allocation and pass its
+ * ScriptImageObjectSet prefix. */
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *record, s32 value);
 
 #endif

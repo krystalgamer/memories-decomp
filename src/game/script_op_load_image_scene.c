@@ -42,7 +42,8 @@ void Script_OpLoadImageScene(void)
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
             D_8009B27C = flags | 0x800;
-            ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1);
+            ScriptImage_RebuildObjects(
+                (ScriptImageObjectSet *)D_800EAE98, -1);
             Fade_StartIn();
         }
     } else {

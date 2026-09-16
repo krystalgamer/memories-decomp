@@ -263,7 +263,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF8E,D_8009AF8E,D_8009AF8E,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,address,16,sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
 0x8009AF8E,D_8009AF8E,D_8009AF8E,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,read_write,16,D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
 0x8009AF8E,D_8009AF8E,D_8009AF8E,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009AF8E = 0;
-0x8009AF90,D_8009AF90,D_8009AF90,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,read,16,amount = sprite.y + full_height - ((H(0xA8) & 0x1FFF) + D_8009AF90); | pitch_bits = *(u16 *)&D_8009AF90;
+0x8009AF90,D_8009AF90,D_8009AF90,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,read,16,((BACKGROUND_FIELD_A8 & 0x1FFF) + D_8009AF90); | pitch_bits = *(u16 *)&D_8009AF90;
 0x8009AF90,D_8009AF90,D_8009AF90,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,write,16,D_8009AF90 = r;
 0x8009AF90,D_8009AF90,D_8009AF90,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009AF90 = 0;
 0x8009AF92,D_8009AF92,D_8009AF92,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0448b4.s,read,16,"lhu $v1, %gp_rel(D_8009AF92)($gp)"
@@ -2599,8 +2599,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE92,D_800EAE92,D_800EAE92,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,read,8,"lbu $s4, %lo(D_800EAE92)($v0) | lui $v0, %hi(D_800EAE92)"
 0x800EAE92,D_800EAE92,D_800EAE92,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,8,D_800EAE92 = 0;
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,address,,func_8002FFD4((u8 *)D_800EAE98);
-0x800EAE98,D_800EAE98,D_800EAE98,0x8002E470,Script_OpLoadImageScene,matching_c,game,C,src/game/script_op_load_image_scene.c,address,,"ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1); | ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98); | (+1 more)"
-0x800EAE98,D_800EAE98,D_800EAE98,0x8002E730,Script_OpShowImage,matching_c,game,C,src/game/script_op_show_image.c,address,,"ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1); | ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98); | (+1 more)"
+0x800EAE98,D_800EAE98,D_800EAE98,0x8002E470,Script_OpLoadImageScene,matching_c,game,C,src/game/script_op_load_image_scene.c,address,,"(ScriptImageObjectSet *)D_800EAE98, -1); | ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98); | (+1 more)"
+0x800EAE98,D_800EAE98,D_800EAE98,0x8002E730,Script_OpShowImage,matching_c,game,C,src/game/script_op_show_image.c,address,,"ScriptImage_RebuildObjects((ScriptImageObjectSet *)D_800EAE98, -1); | ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98); | (+1 more)"
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,write,,D_800EAE98[0].unk00 = (s32)o; | D_800EAE98[1].unk00 = (s32)o; | (+2 more)
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,address,,slot = D_800EAE98;
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002FED8,func_8002FED8,matching_c,game,C,src/game/func_8002FED8.c,read,,object = (DisplayObject *)D_800EAE98[0].unk00; | object = (DisplayObject *)D_800EAE98[1].unk00;

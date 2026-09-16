@@ -4,13 +4,22 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
+typedef struct {
+    ScriptImageEntry entries[3];
+    s16 image_id;
+} ScriptImageObjectSet;
+
+typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
+    (u32)&((ScriptImageObjectSet *)0)->image_id == 0x3C ? 1 : -1
+];
+
 /* Three of the scene script's image slots at D_800EAE98, as
  * ScriptImage_ReleaseObjects
  * releases them: a display-object pointer and the image id that filled it.
  * This is not the whole slot table -- the same function writes the mode
- * halfword at +0x3C, past these three entries -- and the callers hold their
- * own wider views under their own names. The shared ScriptImageEntry layout
- * is defined in ygo_types.h. */
+ * halfword in ScriptImageObjectSet after these three entries -- and the
+ * callers hold their own wider views under their own names. The shared
+ * ScriptImageEntry layout is defined in ygo_types.h. */
 /* Transfer callback for one script image. The loader supplies its
  * FileTransferDescriptor and advances the callback stage through the setup
  * phases. */
