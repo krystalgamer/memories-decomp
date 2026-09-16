@@ -54,7 +54,10 @@ s32 DisplayObjectStream_ResetOffset(
     return 1;
 }
 
-s32 func_80041434(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_Noop(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     return 1;
 }

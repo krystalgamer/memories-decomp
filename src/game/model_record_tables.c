@@ -24,7 +24,7 @@
 s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,
-    func_80041434,
+    DisplayObjectStream_Noop,
     func_8004143C,
     func_80041464,
     func_8004149C,
