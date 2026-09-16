@@ -1408,7 +1408,7 @@
       "address": "0x80029108",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
-      "source": "src/game/func_80029108.c"
+      "source": "src/game/card_preview_update_variant.c"
     },
     {
       "address": "0x80029164",

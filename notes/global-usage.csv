@@ -1,3 +1,4 @@
+0x8009B424,D_8009B424,D_8009B424,0x80029108,CardPreview_UpdateVariant,matching_c,game,C,src/game/card_preview_update_variant.c,write,32,D_8009B424 = 1;
 global_address,global_name,observed_names,function_address,function_name,function_status,function_module,evidence_source,evidence_path,access,width_bits,context
 0x80010000,D_80010000,D_80010000,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8001755C,func_8001755C,matching_c,game,C,src/game/func_8001755C.c,read,,"func_80056250(2, D_80010000[0].payload_bases[0], 0x63000, 4);"
@@ -2143,7 +2144,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B410,D_8009B410,D_8009B410,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,write,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x8009B412,D_8009B412,D_8009B412,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_8009B412++;
 0x8009B412,D_8009B412,D_8009B412,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,write,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
-0x8009B424,D_8009B424,D_8009B424,0x80029108,func_80029108,matching_c,game,C,src/game/func_80029108.c,write,32,D_8009B424 = 1;
 0x8009B424,D_8009B424,D_8009B424,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
 0x8009B424,D_8009B424,D_8009B424,0x800408D0,func_800408D0,matching_c,game,C,src/game/display_object_updates.c,write,32,D_8009B424 = 0;
 0x8009B424,D_8009B424,D_8009B424,0x8004158C,func_8004158C,matching_c,game,C,src/game/func_8004158C.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {

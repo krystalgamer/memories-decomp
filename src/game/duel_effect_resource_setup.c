@@ -156,7 +156,7 @@ shared_tail:
 
     ((DisplayObject *)entry->object_04)->field_65 = 3;
     object->field_65 = 3;
-    object->field_10 = (u32)func_80029108;
+    object->field_10 = (u32)CardPreview_UpdateVariant;
 
     {
         DisplayObject *secondary = entry->object_04;

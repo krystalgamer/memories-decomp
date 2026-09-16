@@ -6820,7 +6820,7 @@ a spelling, and the two directions are not symmetric.
 Narrowing to `u8`, which is what the definition said, costs an instruction at
 some call sites but not others. Measured one file at a time:
 
-- `func_80029108.c` passes a local whose value is either the constant 2 or an
+- `card_preview_update_variant.c` passes a local whose value is either the constant 2 or an
   `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
   emits nothing extra; the build stays byte-exact.
 - `display_effect_process_menu_records.c` passes `n` from `func_8003B378`,
