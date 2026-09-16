@@ -197,18 +197,20 @@ join:
     ;
     node = TextBox_GetGlyphAt(kind, gx, gy);
     obj = NameEntry_SpawnGlyphSprite(kind, node);
-    obj[0x6C] = 1;
-    *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
+    ((DisplayObject *)obj)->field_6C = 1;
+    ((DisplayObject *)obj)->update =
+        (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
     if (node == 0) {
-        *(u16 *)(obj + 8) &= 0xFFBF;
+        ((DisplayObject *)obj)->flags &= 0xFFBF;
     }
     if (work != 0) {
-        *(s16 *)(obj + 0x48) = 20;
+        ((DisplayObject *)obj)->field_48.h.field_48 = 20;
         node = TextBox_GetGlyphAt(kind, gx + 20, gy);
         obj = NameEntry_SpawnGlyphSprite(kind, node);
-        obj[0x6C] = 1;
-        *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphPulse;
-        *(s16 *)(obj + 0x48) = 0;
+        ((DisplayObject *)obj)->field_6C = 1;
+        ((DisplayObject *)obj)->update =
+            (DisplayObjectCallback)NameEntry_UpdateGlyphPulse;
+        ((DisplayObject *)obj)->field_48.h.field_48 = 0;
     }
     if (kind == 1) {
         u16 *slot;
@@ -219,11 +221,13 @@ join:
             *slot = node->code_00;
         }
         obj = NameEntry_SpawnGlyphSprite(1, node);
-        *(s16 *)(obj + 0x60) = 8;
-        *(NameEntryGlyphUpdate *)(obj + 0x24) = NameEntry_UpdateGlyphTransfer;
-        *(s16 *)(obj + 0x46) = 204;
-        *(s16 *)(obj + 0x44) = D_8016D42C * 16 + 112;
-        obj[0x6C] = 6;
+        ((DisplayObject *)obj)->field_60 = 8;
+        ((DisplayObject *)obj)->update =
+            (DisplayObjectCallback)NameEntry_UpdateGlyphTransfer;
+        ((DisplayObject *)obj)->field_44.h.field_46 = 204;
+        ((DisplayObject *)obj)->field_44.h.field_44 =
+            D_8016D42C * 16 + 112;
+        ((DisplayObject *)obj)->field_6C = 6;
     }
     return;
 sel_ret:
