@@ -14,7 +14,7 @@
    It is a GsSPRITE (libgs.h) field for field, and the layout is not the only
    evidence for that. display_object_core.c initialises the object fields
    these are copied from with 0x00808080 and 0x10001000, which are r/g/b at
-   0x80 each and scalex/scaley at 1.0 in 4.12; func_800408D0 advances `tpage`
+   0x80 each and scalex/scaley at 1.0 in 4.12; DisplayObject_RenderSpriteStrips advances `tpage`
    by a page step and bounds `uv.b.lo` at 0x100, which is what a u coordinate
    does; and DisplayObject_RenderSpriteList writes `rotate` only when the attribute's GsROTOFF
    bit is clear.

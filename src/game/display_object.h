@@ -209,7 +209,7 @@ typedef struct DisplayObject {
         } h;
     } field_38;                    /* 0x38 */
     /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word into the sprite
-       primitive, while func_800408D0 reads the two halves separately. */
+       primitive, while DisplayObject_RenderSpriteStrips reads the two halves separately. */
     union {
         s32 word;
         struct {
@@ -244,7 +244,7 @@ typedef struct DisplayObject {
        update callback.
 
        The sprite emitters read the same word as a scale instead:
-       DisplayObject_RenderSpriteList and func_800408D0 assign it to sprite_primitive.h's u32
+       DisplayObject_RenderSpriteList and DisplayObject_RenderSpriteStrips assign it to sprite_primitive.h's u32
        `scale`, and display_object_transition.c animates the two halves from a
        0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.

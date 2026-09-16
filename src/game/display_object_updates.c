@@ -21,7 +21,7 @@
    then walks the object's width through func_80042188, advancing the
    position or the size and the texture coordinates (the page step depends on
    the depth bits of the tag) after each strip. */
-void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
+void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg) {
     u16 mode16 = mode_arg;
     SpritePrim *p;
     ClipState *c;
@@ -127,7 +127,7 @@ void DisplayObject_RenderSpriteStripList(void)
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                func_800408D0(object, (s32)table[object->ot_index],
+                DisplayObject_RenderSpriteStrips(object, (s32)table[object->ot_index],
                               (s16)object->field_14);
             }
         } while (i >= 0);

@@ -170,7 +170,7 @@ Matching consumers establish these heads and pass shapes:
 | `0` | `D_800EFE38` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
 | `1` | `D_800EFE3A` | not yet identified in matching C | The dispatcher still treats it as one of the seven lists. |
 | `2` | `D_800EFE3C` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
-| `3` | `D_800EFE3E` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `func_800408D0` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
+| `3` | `D_800EFE3E` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `DisplayObject_RenderSpriteStrips` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `4` | `D_800EFE40` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
 | `5` | `D_800EFE42` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |
 | `6` | `D_800EFE44` | `DisplayObject_RunSecondaryCallbackList` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
@@ -280,7 +280,7 @@ word**, and the header now calls it `DisplayObject.attribute`.
 
 Both renderers copy it **verbatim** into the record they are building —
 `p->tag = e->unk4` in `DisplayObject_RenderSpriteList`, and the same assignment at the top of
-`func_800408D0`. That record is a `GsSPRITE`: its fields line up one for one
+`DisplayObject_RenderSpriteStrips`. That record is a `GsSPRITE`: its fields line up one for one
 with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
 `tpage`, `u`/`v`, `cx`/`cy`, `r`/`g`/`b`, `mx`/`my`, `scalex`/`scaley` to
 `rotate` at `+0x20`, and both renderers hand it to `func_80042188`, whose
@@ -307,15 +307,15 @@ unchanged from the object.
 
 | Bit | Effect | Established by |
 |---|---|---|
-| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `func_800408D0` |
-| `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `func_800408D0` |
+| `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `DisplayObject_RenderSpriteStrips` |
+| `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `DisplayObject_RenderSpriteStrips` |
 | `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `func_80041F90` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
 | `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `DisplayObject_RenderSpriteList` |
 
 The step values are the texture-page advance applied when a strip's `u`
 coordinate wraps past `0x100`, so `DISPLAY_OBJECT_ATTRIBUTE_8BPP` and
 `DISPLAY_OBJECT_ATTRIBUTE_16BPP` are the colour depth: 1, 2 and 4 pages
-correspond to 4bpp, 8bpp and 16bpp. `func_800408D0` already describes them as
+correspond to 4bpp, 8bpp and 16bpp. `DisplayObject_RenderSpriteStrips` already describes them as
 "the depth bits of the tag"; what is new here is the connection to the overlay
 writes.
 
@@ -383,7 +383,7 @@ of the fourth argument.
 | Caller | Dispatch case | First argument |
 |---|---:|---|
 | `DisplayObject_RenderSpriteList` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
-| `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `DisplayObject_RenderSpriteStrips` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
 | `DisplayObject_RenderGouraudQuadList`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |
 | `DisplayObject_RenderTexturedGouraudQuadList`, list key `5` | `5` | the same |

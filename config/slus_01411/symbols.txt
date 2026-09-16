@@ -1369,6 +1369,7 @@ DisplayObject_ConfigureSpriteAtPosition = 0x800404CC; // type:func
 DisplayObject_ConfigureScreenSprite = 0x80040510; // type:func
 DisplayObject_RenderSpriteList = 0x80040588; // type:func
 DisplayObject_RenderSpriteSheetList = 0x80040814; // type:func
+DisplayObject_RenderSpriteStrips = 0x800408D0; // type:func
 DisplayObject_RunUpdateCallbackList = 0x80040CAC; // type:func
 DisplayObject_RenderSpriteStripList = 0x80040BF8; // type:func
 DisplayObject_RunSecondaryCallbackList = 0x80040D14; // type:func

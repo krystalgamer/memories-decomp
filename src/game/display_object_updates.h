@@ -13,7 +13,7 @@
  * The caller loads the halfword signed (lh), and a u16 parameter turns that
  * into lhu. The callee masks with andi 0xFFFF either way, so the narrowing
  * belongs on its side of the call. */
-void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
+void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg);
 
 /* Three of the seven entries in gDisplayObject_ListRenderers. Each walks one
  * display object list from its head in D_800EFE38, runs every object's update
