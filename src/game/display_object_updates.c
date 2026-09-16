@@ -105,7 +105,7 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg) {
     } while (remaining != 0);
 }
 
-void func_80040BF8(void)
+void DisplayObject_RenderSpriteStripList(void)
 {
     s32 i = D_800EFE38[3];
 

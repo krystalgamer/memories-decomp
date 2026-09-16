@@ -22,7 +22,7 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     DisplayObject_RunUpdateCallbackList,
     DisplayObject_RenderSpriteList,
     DisplayObject_RenderSpriteSheetList,
-    func_80040BF8,
+    DisplayObject_RenderSpriteStripList,
     DisplayObject_RenderGouraudQuadList,
     DisplayObject_RenderTexturedGouraudQuadList,
     func_80040D14,

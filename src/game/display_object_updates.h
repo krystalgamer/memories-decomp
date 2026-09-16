@@ -6,8 +6,8 @@
 
 /* Submits one display object as a sprite in vertical strips of up to 64
  * pixels: `tex` is the object's texture word and `mode_arg` the halfword at
- * +0x14. func_80040BF8 below is its only caller, and reaches it for every
- * renderable object in the update list.
+ * +0x14. DisplayObject_RenderSpriteStripList below is its only caller, and
+ * reaches it for every renderable object in the update list.
  *
  * The third parameter is s32 and the definition narrows it to a u16 local.
  * The caller loads the halfword signed (lh), and a u16 parameter turns that
@@ -20,14 +20,14 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
  * callback, and differs only in which list it takes and what it does afterwards:
  *
  *   DisplayObject_RunUpdateCallbackList  list 0, callback-only
- *   func_80040BF8  list 3
+ *   DisplayObject_RenderSpriteStripList  list 3
  *   func_80040D14  list 6
  *
  * The list-3 walker submits sprite strips, and the list-6 walker invokes the
  * object's second callback slot at +0x4C. All three are reached only as
  * entries of that table, so the table file is their only consumer and
  * declared all three itself before this header. */
-void func_80040BF8(void);
+void DisplayObject_RenderSpriteStripList(void);
 void DisplayObject_RunUpdateCallbackList(void);
 void func_80040D14(void);
 
