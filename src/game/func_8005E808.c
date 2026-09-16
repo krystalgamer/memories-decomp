@@ -98,9 +98,9 @@ void func_8005E808(u8 *p)
                 continue;
             }
             Model_CopySlotU16Values(slot, (u16 *)pos);
-            pos[0] = pos[0] + *(u16 *)e;
-            pos[1] = pos[1] + *(u16 *)q;
-            pos[2] = pos[2] + *(u16 *)(q + 2);
+            pos[0] = pos[0] + (u16)((Coeff *)e)->x;
+            pos[1] = pos[1] + (u16)((Coeff *)e)->y;
+            pos[2] = pos[2] + (u16)((Coeff *)e)->z;
             dx = pos[0] - g->vx;
             dy = pos[1] - g->vy;
             dz = pos[2] - g->vz;
