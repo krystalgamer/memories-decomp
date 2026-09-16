@@ -13,7 +13,7 @@
    of retail, and through a `const u16 *` cursor they come out long --
    the raw array is the only one of the three that reproduces the target.
    The other nine users of the symbol do use the typed view. */
-s32 func_8005A1F4(s32 index)
+s32 Model_GetSlotDistanceFromCameraEye(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
@@ -29,7 +29,7 @@ s32 func_8005A1F4(s32 index)
     );
 }
 
-s32 func_8005A2E0(s32 index)
+s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;

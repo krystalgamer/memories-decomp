@@ -2820,8 +2820,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
 0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,address,16,arg1 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE); | arg2 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 0x800F3A4F,D_800F3A4F,D_800F3A4F,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"lbu $v1, %lo(D_800F3A4F)($v0) | lui $v0, %hi(D_800F3A4F)"
 0x800F3A51,D_800F3A51,D_800F3A51,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,8,"lbu $v1, %lo(D_800F3A51)($v0) | lui $v0, %hi(D_800F3A51)"
 0x800F4858,D_800F4858,D_800F4858,0x8004EB00,func_8004EB00,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03f300.s,read,16,"lhu $v0, %lo(D_800F4858)($v0) | lui $v0, %hi(D_800F4858)"
@@ -2843,8 +2843,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,func_80058624,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,func_800591FC,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,func_8005A1F4,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
-0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,func_8005A2E0,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)
+0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
+0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,func_8005A6A8,matching_c,game,C,src/game/func_8005A6A8.c,read,,a = D_800F56F0.vpx - arg0; | b = D_800F56F0.vpz - arg1; | (+5 more)
 0x800F56FC,D_800F56FC,D_800F56FC,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,32,b = (long *)D_800F56FC;
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = D_800F56F0;
