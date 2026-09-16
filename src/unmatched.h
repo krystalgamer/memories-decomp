@@ -84,7 +84,7 @@ void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to DisplayObject_ConfigureSpriteAtPositionWithResource or stores it into an object field, and
- * none of them read through it. func_80020D4C sized it [16], but nothing
+ * none of them read through it. DuelResult_UpdateOrbitSprite sized it [16], but nothing
  * takes its sizeof, so the bound was decorative. */
 
 /* Six consumers use this second buffer base with the same unsized-byte-array

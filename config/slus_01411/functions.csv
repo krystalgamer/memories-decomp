@@ -155,7 +155,7 @@ address,size,name,status,module,notes
 0x800208D4,0xB4,DuelScene_UpdateTurnSwitch,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80020988,0x25C,func_80020988,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8 from the ygofm reference (batch port, probe-verified)."
 0x80020BE4,0x168,func_80020BE4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses preserve the retail reload sequence.
-0x80020D4C,0x19C,func_80020D4C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
+0x80020D4C,0x19C,DuelResult_UpdateOrbitSprite,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_no_split.
 0x80020EE8,0x64,func_80020EE8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80020F4C,0x534,DuelScene_UpdateResultOutro,matching_c,game,"Duel-result outro sequence: streams the outro package and voice clip, spawns the seven confetti sprites for the winning side, holds for input, then hands over to state 0xD."
 0x80021480,0xD8,Duel_ShowResultPage,matching_c,game,"High-confidence semantic name: the end-of-duel state machine passes the selected page index at result-state offset +0x37; the matching body applies the root mode, toggles ten child render flags, and creates the page-specific text box. 5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."

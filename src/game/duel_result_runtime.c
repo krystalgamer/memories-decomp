@@ -48,10 +48,11 @@
 /* The complete duel-result outro, rank, drop, and award runtime.
 
    The duel-result outro and the two update callbacks it hangs on its
-   confetti: func_80020D4C orbits a sprite around its spawn point,
-   func_80020EE8 sends it flying off, and DuelScene_UpdateResultOutro is the outro
-   sequence that spawns the sprites on the first and retargets them at the
-   second. The three sources were recorded at gcc_2_8_1_g8_no_split,
+   confetti: DuelResult_UpdateOrbitSprite orbits a sprite around its spawn
+   point, func_80020EE8 sends it flying off, and
+   DuelScene_UpdateResultOutro is the outro sequence that spawns the sprites
+   on the first and retargets them at the second. The three sources were
+   recorded at gcc_2_8_1_g8_no_split,
    gcc_2_8_1_g8 and gcc_2_8_1_g8_split, and each compiles to an identical
    object at gcc_2_8_1_g8_split. Bounded below by the outro package's
    transfer callback func_80020BE4, which cannot reproduce its object under
@@ -67,7 +68,7 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
-void func_80020D4C(DisplayObject *arg0) {
+void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
     DisplayObject *slot;
@@ -137,8 +138,9 @@ void func_80020EE8(DuelCardDisplayObject *object)
         has drained, SD_BGMPlay starts that track.
      2  spawn the seven confetti sprites from the D_80090928 (real opponent)
         or D_80090960 (no opponent) table row for the winning side, each on
-        func_80020D4C with a random radius and orbit key, and remember them
-        in the gDuel_awRitualData slot table; then wait for DisplayObject_FindAllocatedByTag.
+        DuelResult_UpdateOrbitSprite with a random radius and orbit key, and
+        remember them in the gDuel_awRitualData slot table; then wait for
+        DisplayObject_FindAllocatedByTag.
      3  hold for 0x258 frames or until the player presses one of the 0xE0
         buttons, then retarget every spawned sprite at func_80020EE8 so it
         flies off, and wait for DisplayObject_FindAllocatedByTag again.
@@ -268,7 +270,8 @@ void DuelScene_UpdateResultOutro(void)
                     obj->position.h.field_2A =
                         Rand_GetInterval(TRIG_ANGLE_FULL_TURN);
                     obj->field_6C = 1;
-                    obj->update = (DisplayObjectCallback)func_80020D4C;
+                    obj->update =
+                        (DisplayObjectCallback)DuelResult_UpdateOrbitSprite;
                     slots[i].object = obj;
                 }
             }

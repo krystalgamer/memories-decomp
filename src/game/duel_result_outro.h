@@ -5,6 +5,7 @@
 #include "duel_card_display_state.h"
 #include "display_object.h"
 
+void DuelResult_UpdateOrbitSprite(DisplayObject *object);
 void func_80020EE8(DuelCardDisplayObject *object);
 
 #define DUEL_RESULT_SPRITE_COUNT 7
