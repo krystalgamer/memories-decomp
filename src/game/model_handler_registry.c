@@ -267,7 +267,7 @@ void Model_ProcessType2Unit(
                     e = (u16 *)(b +
                         ((ModelType2Record *)q)->index_offset * 4);
                     rec = q;
-                    if (*(s16 *)(q + 6) > 0) {
+                    if (((ModelType2Record *)q)->row_count > 0) {
                         do {
                             if (f) {
                                 *e = 0;
@@ -278,7 +278,9 @@ void Model_ProcessType2Unit(
                                 e++;
                             }
                             j++;
-                        } while (j < *(s16 *)(rec + 6));
+                        } while (
+                            j < ((ModelType2Record *)rec)->row_count
+                        );
                     }
                     if (f) {
                         v = *(u16 *)rec;

@@ -31,10 +31,11 @@ typedef char ModelType2RecordHeader_size_must_be_4[
     sizeof(ModelType2RecordHeader) == 4 ? 1 : -1
 ];
 
-/* Twelve-byte stream record. Only the indexed auxiliary-buffer offset is
- * named until the preceding halfword roles are migrated. */
+/* Twelve-byte stream record. Only fields with established loop/index roles
+ * are named. */
 typedef struct {
-    u8 pad_00[8];
+    u8 pad_00[6];
+    s16 row_count;
     s32 index_offset;
 } ModelType2Record;
 
