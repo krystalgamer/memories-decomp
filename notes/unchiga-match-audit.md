@@ -45,7 +45,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x80047FAC` | `func_80047FAC` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80049010` | `func_80049010` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80049600` | `func_80049600` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
-| `0x800497E0` | `func_800497E0` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
+| `0x800497E0` | `SD_VabTransBodyChunk` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x8004C84C` | `func_8004C84C` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80057E20` | `func_80057E20` | `collaborator_match` | `gcc_2_8_1_g8` |
 | `0x80058EC0` | `func_80058EC0` | `inline_refinement` | `gcc_2_8_1_g8_split` |

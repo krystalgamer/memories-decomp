@@ -8,7 +8,7 @@
    consumed-byte counter. Returns the state token once the window fills,
    SD_TRANSFER_INCOMPLETE while more remains, or SD_TRANSFER_ERROR on a
    state mismatch or short transfer. */
-s32 func_800497E0(void *rec, s32 count, s32 state) {
+s32 SD_VabTransBodyChunk(void *rec, s32 count, s32 state) {
     SDSecondaryState *v1 = D_8009B458;
     SDSecondaryTransfer *s1;
     s32 result;
