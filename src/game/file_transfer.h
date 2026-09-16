@@ -140,7 +140,7 @@ void func_80014FA4(void);
 /* The word at 0x800101D8, which holds the address 0x80168000.
  *
  * It reaches the same two descriptor fields that take a buffer address in the
- * case immediately above it -- func_8003BD14's case 2 writes
+ * case immediately above it -- Password_LoadPackageStage's case 2 writes
  * `value_08 = (s32)D_801A8000`, and its case 3 writes this word into the same
  * two fields -- so the word is a stored address and is declared as one.  Every read is a single load of that word; the array and
  * scalar spellings this replaces reached it as `*(s32 *)(D_800101D8)` and as

@@ -4,10 +4,10 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
-#include "func_8003BD14.h"
+#include "password_load_package_stage.h"
 #include "../unmatched.h"
 
-void func_8003BD14(FileTransferDescriptor *object, s32 mode) {
+void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
         object->field_30.h.counter = 0x300;

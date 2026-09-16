@@ -259,7 +259,7 @@ under [`src/overlays/name_entry/`](../src/overlays/name_entry/).
 
 Matching `File_RequestPasswordPackage` requests 86 WA sectors beginning at sector `0x1F2F`,
 which is archive range `0xF97800-0xFC2800`. Its matching callback
-`func_8003BD14` accounts for the complete package:
+`Password_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
