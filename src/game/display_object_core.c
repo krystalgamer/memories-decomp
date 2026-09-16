@@ -173,7 +173,7 @@ void DisplayObject_UpdateResourceVariant(
     }
 }
 
-void func_8004044C(
+void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
     u8 field_68,

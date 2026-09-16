@@ -626,7 +626,7 @@ address,size,name,status,module,notes
 0x800403F0,0x20,DisplayObject_Reset,matching_c,game,No-argument public wrapper around DisplayObject_ResetPool in the complete display-object core unit.
 0x80040410,0x14,DisplayObject_SetResourceVariant,matching_c,game,Byte assignment followed by flags clear; byte-identical under all four standard g0/g8 profiles.
 0x80040424,0x28,DisplayObject_UpdateResourceVariant,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8004044C,0x1C,func_8004044C,matching_c,game,Three byte assignments followed by flags clear matched exactly.
+0x8004044C,0x1C,DisplayObject_SetResourcePath,matching_c,game,Sets all three resource-table selector bytes and clears the resolved-resource latch; matched exactly.
 0x80040468,0x64,func_80040468,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800404CC,0x44,func_800404CC,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80040510,0x78,func_80040510,matching_c,game,"Exact post-terminal match: the initializer returns its object pointer, naturally reproducing retail v0 allocation without inline asm."
