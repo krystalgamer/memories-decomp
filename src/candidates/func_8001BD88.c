@@ -46,6 +46,7 @@
 #define GDUEL_BCARDVIEWERYOFFSET_IN_DATA
 #define GDUEL_WVIEWERCARDID_IN_DATA
 #define D_800EAE90_IN_DATA
+#define D_800EAE89_IN_DATA
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #define D_8009B360_AS_SIDE_ARRAY
 #define D_800EAE88_VISIBLE
@@ -98,7 +99,6 @@ extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
 extern u8 D_800E9F2C[];
-extern u8 D_800EAE89 __attribute__((section(".data")));
 
 void func_8001B8B8(u8 *arg0);
 void func_8001B938(u8 *p);
