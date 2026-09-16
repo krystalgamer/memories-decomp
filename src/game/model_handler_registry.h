@@ -21,6 +21,16 @@ typedef char ModelType2Scratch_indices_offset_must_be_0x18[
     ((u32)&(((ModelType2Scratch *)0)->indices)) == 0x18 ? 1 : -1
 ];
 
+/* Four-byte prefix of the type-2 record stream. */
+typedef struct {
+    u16 field_00;
+    u16 record_count;
+} ModelType2RecordHeader;
+
+typedef char ModelType2RecordHeader_size_must_be_4[
+    sizeof(ModelType2RecordHeader) == 4 ? 1 : -1
+];
+
 void Model_RegisterHandlerKey(s32 key, s32 val);
 s32 Model_FindHandlerKey(s32 val);
 void Model_ProcessType2Unit(

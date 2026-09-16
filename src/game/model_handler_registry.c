@@ -250,7 +250,7 @@ void Model_ProcessType2Unit(
     i = 0;
     q = ((ModelType2Scratch *)scratch)->records;
     r = scratch;
-    n = *(u16 *)(q + 2);
+    n = ((ModelType2RecordHeader *)q)->record_count;
     q += 4;
 
     if (n != 0) {
