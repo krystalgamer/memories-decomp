@@ -10,6 +10,7 @@
 #include "model.h"
 #include "model_load_step.h"
 #include "model_graphics_state.h"
+#include "model_background.h"
 #include "camera_view.h"
 #include "model_scene_setup.h"
 #include "model_state_setters.h"
@@ -53,7 +54,7 @@ s32 ModelDebug_UpdateController(void)
             /* A natural member store moves the stage-pointer load across it;
                the u16 member view preserves the original ordering. */
             *(u16 *)&D_8009B004.fields.height =
-                *(u16 *)(D_8009AF88 + 0xA4);
+                ((ModelBackgroundRecord *)D_8009AF88)->stage_height;
             height = D_8009B004.fields.height;
             if (stage->field_D18) {
                 stage->field_D18->rot.vx = 0;
