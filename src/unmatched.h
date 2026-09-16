@@ -253,14 +253,14 @@ extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags *
  * by name rather than which are declared oddly.
  *
  * func_80035E20 goes into a display object's +0x4C slot, in func_800391E4.c.
- * The slot's calling convention is known: func_80040D14
- * (display_object_updates.c) reads +0x4C back and calls it with two
- * arguments, the object and its ordering-table entry. func_80042C08, the
- * other callback stored there, has matched and is declared by
- * func_80042C08.h as (DisplayObject *, GsOT *). This one is still unmatched,
- * so its parameter types are not established by a matched definition; the
- * build-integrated candidate spells the same two-argument shape. Only its
- * semantic parameter types remain open, not its arity.
+ * The slot's calling convention is known:
+ * DisplayObject_RunSecondaryCallbackList reads +0x4C back and calls it with
+ * two arguments, the object and its ordering-table entry. func_80042C08, the
+ * other callback stored there, has matched and is declared by func_80042C08.h
+ * as (DisplayObject *, GsOT *). This one is still unmatched, so its parameter
+ * types are not established by a matched definition; the build-integrated
+ * candidate spells the same two-argument shape. Only its semantic parameter
+ * types remain open, not its arity.
  *
  * func_80067220 is not a callback at all -- model_primitive_handler.c returns its
  * address as an s32 -- but it lands in the same place for the same reason.

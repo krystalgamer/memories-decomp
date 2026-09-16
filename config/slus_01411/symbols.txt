@@ -1371,6 +1371,7 @@ DisplayObject_RenderSpriteList = 0x80040588; // type:func
 DisplayObject_RenderSpriteSheetList = 0x80040814; // type:func
 DisplayObject_RunUpdateCallbackList = 0x80040CAC; // type:func
 DisplayObject_RenderSpriteStripList = 0x80040BF8; // type:func
+DisplayObject_RunSecondaryCallbackList = 0x80040D14; // type:func
 DisplayObject_RenderFrame = 0x80041340; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 File_RequestOptionsPackage = 0x8003C2B4; // type:func

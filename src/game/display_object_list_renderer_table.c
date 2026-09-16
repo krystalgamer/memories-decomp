@@ -25,5 +25,5 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     DisplayObject_RenderSpriteStripList,
     DisplayObject_RenderGouraudQuadList,
     DisplayObject_RenderTexturedGouraudQuadList,
-    func_80040D14,
+    DisplayObject_RunSecondaryCallbackList,
 };

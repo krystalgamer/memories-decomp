@@ -173,7 +173,7 @@ Matching consumers establish these heads and pass shapes:
 | `3` | `D_800EFE3E` | `DisplayObject_RenderSpriteStripList` | Runs the callback, then submits through `func_800408D0` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `4` | `D_800EFE40` | `DisplayObject_RenderGouraudQuadList` | Builds and submits the `0x38` packet form described below. |
 | `5` | `D_800EFE42` | `DisplayObject_RenderTexturedGouraudQuadList` | Builds and submits the larger `0x3C` packet form described below. |
-| `6` | `D_800EFE44` | `func_80040D14` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
+| `6` | `D_800EFE44` | `DisplayObject_RunSecondaryCallbackList` | Runs the callback, then invokes the optional secondary callback at `+0x4C`. |
 
 Every matched list walker reads the next-slot link before invoking the current
 slot's callback. The callback can therefore remove or move the current slot

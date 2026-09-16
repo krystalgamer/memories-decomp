@@ -21,7 +21,7 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
  *
  *   DisplayObject_RunUpdateCallbackList  list 0, callback-only
  *   DisplayObject_RenderSpriteStripList  list 3
- *   func_80040D14  list 6
+ *   DisplayObject_RunSecondaryCallbackList  list 6
  *
  * The list-3 walker submits sprite strips, and the list-6 walker invokes the
  * object's second callback slot at +0x4C. All three are reached only as
@@ -29,6 +29,6 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
  * declared all three itself before this header. */
 void DisplayObject_RenderSpriteStripList(void);
 void DisplayObject_RunUpdateCallbackList(void);
-void func_80040D14(void);
+void DisplayObject_RunSecondaryCallbackList(void);
 
 #endif

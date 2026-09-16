@@ -149,7 +149,7 @@ void DisplayObject_RunUpdateCallbackList(void)
     }
 }
 
-void func_80040D14(void)
+void DisplayObject_RunSecondaryCallbackList(void)
 {
     s32 i = D_800EFE38[6];
 
