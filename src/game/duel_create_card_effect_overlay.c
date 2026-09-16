@@ -3,9 +3,9 @@
 #include "display_object_config.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
-#include "func_80019564.h"
+#include "duel_create_card_effect_overlay.h"
 
-DisplayObject *func_80019564(DisplayObjectConfigView *source)
+DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
 {
     DisplayObject *object =
         (DisplayObject *)func_800400AC(func_8004002C(), 1);

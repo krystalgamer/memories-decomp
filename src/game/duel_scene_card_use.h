@@ -20,7 +20,8 @@
  *      field_21 alpha in steps of 6, releases the original object, then
  *      holds on field_60 counting down
  *   2  hands the latched id to DuelEffect_StartCardEffect with flag 0
- *   3  builds two func_80019564 copies of the window, one GsALON | GsAONE
+ *   3  builds two Duel_CreateCardEffectOverlay copies of the window,
+ *      one GsALON | GsAONE
  *      and one GsALON | GsATWO, sweeps their +0x44/+0x46 pair and their
  *      0xC colour word down together, and releases both when it reaches 0
  *   4  repeats DuelEffect_StartCardEffect with flag 1 and returns to state 5
