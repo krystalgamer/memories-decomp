@@ -5,7 +5,7 @@
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "func_80041D60.h"
 
-void func_80029108(DisplayObjectConfig *object, int arg1)
+void CardPreview_UpdateVariant(DisplayObjectConfig *object, s32 arg1)
 {
     int value = 2;
 

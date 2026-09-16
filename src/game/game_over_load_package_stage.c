@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-void func_8003C328(FileTransferDescriptor *object, s32 mode)
+void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:

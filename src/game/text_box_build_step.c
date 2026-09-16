@@ -2,7 +2,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA
 #define SCRIPT_STATE_COMMAND_IN_DATA
 #include "../types.h"
-#include "func_80037C74.h"
+#include "text_box_wrap_line.h"
 #include "input.h"
 #include "duel_effect.h"
 #include "duel_effect_state_callbacks.h"
@@ -126,7 +126,7 @@ next_opcode:
             goto next_opcode;
         }
     }
-    if (func_80037C74(object) != 0) {
+    if (TextBox_WrapLineIfNeeded(object) != 0) {
         object->state_51 = 4;
         return;
     }

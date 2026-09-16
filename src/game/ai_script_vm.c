@@ -34,8 +34,8 @@ void AiScript_Init(void *arg0)
     bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));
     if (arg0 == 0)
         state[0] = 1;
-    *(void **)(state + 4) = arg0;
-    *(void **)(state + 8) = arg0;
+    gAiScript_State.script_base = arg0;
+    gAiScript_State.script_cursor = arg0;
 }
 
 s32 AiScript_Run(void)

@@ -1342,6 +1342,17 @@ gPassword_nDigitIndex = 0x8016D428;
 PCread = 0x80073758; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
 Main_RunFrameServices = 0x8001306C; // type:func
+CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
+TextBox_WaitForScriptCompletion = 0x800377AC; // type:func
+NameEntry_LoadPackageStage = 0x8003BA14; // type:func
+DisplayObjectStream_Stop = 0x8004141C; // type:func
+DisplayObjectStream_ResetOffset = 0x80041428; // type:func
+Options_LoadPackageStage = 0x8003C120; // type:func
+File_RequestOptionsPackage = 0x8003C2B4; // type:func
+GameOver_LoadPackageStage = 0x8003C328; // type:func
+Password_LoadPackageStage = 0x8003BD14; // type:func
+FreeDuel_LoadPackageStage = 0x8003B808; // type:func
+Main_PrepareFrontendLoop = 0x8002CDE8; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

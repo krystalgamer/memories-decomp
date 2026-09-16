@@ -117,10 +117,10 @@ Two retail callers corroborate the contract independently of the setter:
   supplying three signed halfwords and two bytes from successive eight-byte
   records, with the first halfword decremented. Its call at `0x8002D264`
   supplies just slot 2 and `gDuel_bTerrain` (`0x8009B364`).
-- `func_800534B8` calls slots 0 and 1 at `0x80054050` and `0x80054074`,
-  restoring the first and last two properties from their mirrors while passing
-  `-1` for the second and third. Its call at `0x80054080` supplies just slot 2
-  and the third halfword mirror, `D_8009B48C`.
+- `ModelDebug_UpdateController` calls slots 0 and 1 at `0x80054050` and
+  `0x80054074`, restoring the first and last two properties from their mirrors
+  while passing `-1` for the second and third. Its call at `0x80054080`
+  supplies just slot 2 and the third halfword mirror, `D_8009B48C`.
 
 This supports the high-confidence name `Model_SetSlotProperties` without
 assigning speculative meanings to the individual offset-named fields.

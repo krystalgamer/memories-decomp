@@ -5,13 +5,13 @@
 #include "../psyq/libgpu.h"
 #define D_800101D8_IN_DATA
 #include "file_transfer.h"
-#include "func_8003B808.h"
+#include "free_duel_load_package_stage.h"
 #include "../unmatched.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-void func_8003B808(FileTransferDescriptor *object, s32 mode) {
+void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
         object->field_30.h.counter = 0;

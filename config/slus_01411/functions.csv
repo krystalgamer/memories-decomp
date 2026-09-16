@@ -102,7 +102,7 @@ address,size,name,status,module,notes
 0x8001778C,0x38,func_8001778C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800177C4,0xF8,func_800177C4,matching_c,game,"Pure C projection-loop match for issue #5: typed scratchpad stores and approved Psy-Q GTE macros reproduce all thirty RTPS iterations under the no-strength-reduction RTPS profile, without hard-register pins or statement-level inline assembly."
 0x800178BC,0xD0,func_800178BC,matching_c,game,Exact match using scratchpad C stores and official Psy-Q GTE inline macros under the RTPS-normalizing profile. All 208 text bytes and relocations match with no source-authored inline assembly or register pins.
-0x8001798C,0x68,func_8001798C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001798C,0x68,Duel_LoadTerrainPackage,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800179F4,0x3C0,func_800179F4,matching_c,game,"Pure-C match under gcc_2_8_1_g8_split. The negative-opponent pool path stores and passes D_801D1200 directly, allowing the common terminal shuffle to retain the retail argument allocation without hard-register bindings."
 0x80017DB4,0x88,func_80017DB4,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80017E3C,0xC8,func_80017E3C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
@@ -243,7 +243,7 @@ address,size,name,status,module,notes
 0x800289B4,0x8,func_800289B4,matching_c,game,Empty function matched exactly.
 0x800289BC,0x14C,func_800289BC,matching_c,game,Exact collaborator match: transfer-rectangle setup reproduces linked bytes and relocations under GCC G0 no-split.
 0x80028B08,0x600,func_80028B08,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_80028B08.c with target src/candidates_target/func_80028B08.S; profile gcc_2_8_1_g8_split, exact 384-instruction count and 135 differing words against the assembled target. The duel card-detail panel builds scratchpad parameters for its frame, card image, ATK/DEF digits, repeated icons, and guardian-star tile. Key structural levers are scratchpad pointers materialized as locals below the entry guards, exact mixed-width field copies, separate field_67 index and field_68 guard roles, a live 0xFFFF addend, the delayed parameter flag update, a do/while (0) around CTX->field_3, two sprite stores placed earlier between the same calls, and a named field_32 + 0x20 coordinate. Residual: two 0xF8 rematerializations replace target nops, plus register choices. See the source comment."
-0x80029108,0x5C,func_80029108,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80029108,0x5C,CardPreview_UpdateVariant,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80029164,0x7C,func_80029164,matching_c,game,"Exact pure-C match: uniform gcc_2_8_1_g8_split preserves the record/callback addresses and an isolated absolute store preserves the retail D_8009B0F4 macro form; no mixed threshold, private extern declarations, register pins, or inline assembly."
 0x800291E0,0x348,func_800291E0,matching_c,game,Pure C under uniform G8 split: complete shared object/resource layouts and the real pointer return recover 840 bytes with no asm barriers or pins; coordinate inputs and historical attempts preserved.
 0x80029528,0x4C,func_80029528,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -291,7 +291,7 @@ address,size,name,status,module,notes
 0x8002CCE4,0x64,Library_UpdateCardUsedFlag,matching_c,game,"Pure-C reclassification match: branch-local byte accesses and reuse of the consumed flag parameter for the clear mask recover all register assignments without ten pins. Preserves byte/bit selection and set/clear semantics; exact100-byte text and relocations with gcc_2_8_1_o1_g0, preserving old evidence (issue #5)."
 0x8002CD48,0x44,func_8002CD48,matching_c,game,Applies the requested set/clear state only when the prior test is zero and returns that prior test result. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CD8C,0x5C,Main_ResetFrontendRuntime,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8002CDE8,0x20,func_8002CDE8,matching_c,game,Direct call matched the exact R_MIPS_26 relocation.
+0x8002CDE8,0x20,Main_PrepareFrontendLoop,matching_c,game,Direct call matched the exact R_MIPS_26 relocation.
 0x8002CE08,0x5C,Main_RunDebugMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002CE64,0x84,Main_RunCampaign,matching_c,game,Post-terminal pure-C match; absolute scalar opponent-state load and one verified literal store preserve retail addressing.
 0x8002CEE8,0x1F8,Main_RunDuel,matching_c,game,Pure-C exact match under the original unsplit GCC schedule with MASPSX common-symbol preservation; defining D_8009B26C naturally emits the retail load-delay nop after loading D_8009B368.
@@ -347,7 +347,7 @@ address,size,name,status,module,notes
 0x8002FA54,0x124,Script_RunTick,matching_c,game,"Advances the active story-script bytecode stream by one campaign frame; exact post-terminal match unlocked by collaborator dispatcher structure, a u16 flag local, and split-address generation."
 0x8002FB78,0x198,Campaign_LoadScenePackageStage,matching_c,game,"High-confidence semantic name: the sole caller requests the fixed 49-sector campaign presentation package; four stage lengths exactly cover its image, palette, event-script, and portrait-bank phases. Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence."
 0x8002FD10,0x1C0,Campaign_LoadScenePackage,matching_c,game,"High-confidence semantic name: initializes the fixed campaign presentation/event package, uploads its 25 dialog portraits, and seeds D_8009B2A4 from the argument rather than selecting an archive page. The record-clearing loop subscripts D_800EAE98 rather than walking a pointer: both spellings give 112 instructions, but the walking pointer adds a reference to the slot local and changes allocator ranking. D_80010000 and both gGraphics_sViewport halves need section(.data) scalars to stay out of small data at -G8."
-0x8002FED0,0x8,func_8002FED0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8002FED0,0x8,SceneScript_NoOpRecordCallback,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002FED8,0xFC,func_8002FED8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002FFD4,0x7C,func_8002FFD4,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80030050,0x1C,func_80030050,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
@@ -450,7 +450,7 @@ address,size,name,status,module,notes
 0x800375A4,0xD8,func_800375A4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003767C,0xA0,func_8003767C,matching_c,game,"Reference declaration evidence independently verified; aggregate globals and same-address linker aliases preserve exact address materialization, linked bytes, and relocations."
 0x8003771C,0x90,func_8003771C,matching_c,game,"Exact pure-C duel-effect value setup. Reads three script halfwords, normalizes the middle value above 0x1000 while selecting object state 10, then sets the global effect state and countdown to 7."
-0x800377AC,0x1C,func_800377AC,matching_c,game,First -O2 -G8 conditional-byte-store candidate matched.
+0x800377AC,0x1C,TextBox_WaitForScriptCompletion,matching_c,game,First -O2 -G8 conditional-byte-store candidate matched.
 0x800377C8,0xB4,func_800377C8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003787C,0x5C,func_8003787C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations. Its g8_split and g8 objects are byte-identical; grouped between the other D_80090E64 callbacks.
 0x800378D8,0x3C,func_800378D8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -461,7 +461,7 @@ address,size,name,status,module,notes
 0x800379F8,0x60,func_800379F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037A58,0xE8,func_80037A58,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037B40,0x134,func_80037B40,matching_c,game,Exact collaborator match: updated switch fallthrough structure and aggregate global declarations reproduce linked bytes and relocations.
-0x80037C74,0x6C,func_80037C74,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80037C74,0x6C,TextBox_WrapLineIfNeeded,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80037CE0,0x4C,func_80037CE0,matching_c,game,Pure-C post-terminal resolution: word-sized flags and byte-sized control locals recover the exact allocation without two pins. Preserves the volatile flag load and ordinary halfword store in the branch delay slot; exact 76-byte text and global relocations with gcc_2_8_1_g8 (issue #5).
 0x80037D2C,0x40,Text_ExtendGlyphCode,matching_c,game,Pure-C post-terminal match: ordered glyph-code accesses plus gcc_2_8_1_g8_no_sched1 reproduce the exact 64-byte stream/global sequence without four pins or three assembly barriers. Uses shared TextStreamOwner and publishes the extended code before completion; compiler and assembler both G8 (issue #5).
 0x80037D6C,0x38,Text_SetStateFromStream,matching_c,game,"High-confidence semantic name: F7 consumes one byte into the text channel state and yields the frame. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
@@ -521,7 +521,7 @@ address,size,name,status,module,notes
 0x80039F90,0x44,func_80039F90,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FD4,0x24,func_80039FD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FF8,0x24,func_80039FF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003A01C,0x17C,func_8003A01C,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
+0x8003A01C,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
 0x8003A198,0x54,func_8003A198,matching_c,game,"Display-effect resource-table probe grouped with its object builder, layer setup, and VRAM state callback; its object is byte-identical at g0, g0_split, g8, and g8_split."
 0x8003A1EC,0x254,func_8003A1EC,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."
 0x8003A440,0x120,func_8003A440,matching_c,game,"Display-effect child layer/attribute setup grouped with the resource pipeline; its object is byte-identical at g0, g0_split, g8, and g8_split."
@@ -541,18 +541,18 @@ address,size,name,status,module,notes
 0x8003B734,0x10,Input_IsPad1ConfirmPressed,matching_c,game,Returns the newly pressed X/Square mask; both callers use it as a confirm predicate.
 0x8003B744,0x9C,Text_LookupString,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003B7E0,0x28,func_8003B7E0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003B808,0x1B4,func_8003B808,matching_c,game,"Exact match with gcc_2_8_1_g8_split; owns jtbl_80010348, declared as a .rodata subsegment in split.yaml."
+0x8003B808,0x1B4,FreeDuel_LoadPackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; owns jtbl_80010348, declared as a .rodata subsegment in split.yaml."
 0x8003B9BC,0x58,Main_InitFreeDuelMenu,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8003BA14,0x1E4,func_8003BA14,matching_c,game,Four-mode display-object setup callback used after an asynchronous transfer. Exact post-terminal collaborator match; volatile global reloads and the D_800101D8 pointer-object declaration reproduce retail codegen.
+0x8003BA14,0x1E4,NameEntry_LoadPackageStage,matching_c,game,Four-mode display-object setup callback used after an asynchronous transfer. Exact post-terminal collaborator match; volatile global reloads and the D_800101D8 pointer-object declaration reproduce retail codegen.
 0x8003BBF8,0x48,File_RequestNameEntryPackage,matching_c,game,Requests the complete name-entry package and waits for its asynchronous transfer; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003BC40,0xD4,Text_SjisToGlyphCodes,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x8003BD14,0x1A4,func_8003BD14,matching_c,game,Four-mode object setup dispatcher; collaborator structure with exact D_800101D8 relocation spelling.
+0x8003BD14,0x1A4,Password_LoadPackageStage,matching_c,game,Four-mode object setup dispatcher; collaborator structure with exact D_800101D8 relocation spelling.
 0x8003BEB8,0x48,File_RequestPasswordPackage,matching_c,game,Requests the complete password package and waits for its asynchronous transfer; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003BF00,0x1C0,func_8003BF00,matching_c,game,"Exact match with gcc_2_8_1_g8_split; File_RequestAsyncTransfer phase callback, owns jtbl_80010360."
+0x8003BF00,0x1C0,CampaignMap_LoadPackageStage,matching_c,game,"Exact match with gcc_2_8_1_g8_split; File_RequestAsyncTransfer phase callback, owns jtbl_80010360."
 0x8003C0C0,0x60,File_RequestEgyptOverworldPackage,matching_c,game,Selects the pre- or post-tournament Egypt-overworld package and waits for its asynchronous transfer; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003C120,0x194,func_8003C120,matching_c,game,The collaborator typed four-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
-0x8003C2B4,0x74,func_8003C2B4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8003C328,0x170,func_8003C328,matching_c,game,The collaborator typed three-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
+0x8003C120,0x194,Options_LoadPackageStage,matching_c,game,The collaborator typed four-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
+0x8003C2B4,0x74,File_RequestOptionsPackage,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003C328,0x170,GameOver_LoadPackageStage,matching_c,game,The collaborator typed three-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
 0x8003C498,0x48,func_8003C498,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C4E0,0x88,func_8003C4E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C568,0xC0,Options_UpdateLayout,matching_c,game,Positions the options cursor and stereo/mono widget from the selected row and working output type. Declarations and types independently verified; exact linked bytes and relocations.
@@ -578,7 +578,7 @@ address,size,name,status,module,notes
 0x8003D2B8,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,Requires equal duelist codes and a candidate save sequence equal to gSaveDataSequence; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003D300,0x2C,func_8003D300,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8003D32C,0x8,func_8003D32C,matching_c,game,Empty void function matched the return-and-nop sequence.
-0x8003D334,0x138,func_8003D334,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
+0x8003D334,0x138,Checkerboard_DrawBackground,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8003D46C,0xAC,DuelEffect_CreateChannel,matching_c,game,Post-terminal pure-C match from collaborator source; one verified absolute byte store preserves retail $at materialization.
 0x8003D518,0xFC,func_8003D518,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003D614,0x138,func_8003D614,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -639,8 +639,8 @@ address,size,name,status,module,notes
 0x80040DD8,0x290,DisplayObject_RenderGouraudQuadList,matching_c,game,"Renders display-object list 4 as one or two POLY_G4 packets with viewport offset and clipping. Grouped with the adjacent textured quad renderer in display_object_quad_renderers.c under uniform G8 split."
 0x80041068,0x2D8,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,"Renders display-object list 5 as one or two POLY_GT4 packets with viewport offset and clipping. Grouped with the adjacent untextured quad renderer in display_object_quad_renderers.c under uniform G8 split."
 0x80041340,0xDC,func_80041340,matching_c,game,Frame renderer at the head of the complete eight-function display-object runtime unit.
-0x8004141C,0xC,func_8004141C,matching_c,game,Halfword clear with -1 return matched exactly.
-0x80041428,0xC,func_80041428,matching_c,game,Halfword clear with 1 return matched exactly.
+0x8004141C,0xC,DisplayObjectStream_Stop,matching_c,game,Halfword clear with -1 return matched exactly.
+0x80041428,0xC,DisplayObjectStream_ResetOffset,matching_c,game,Halfword clear with 1 return matched exactly.
 0x80041434,0x8,func_80041434,matching_c,game,Constant 1 return matched exactly.
 0x8004143C,0x28,func_8004143C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80041464,0x38,func_80041464,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
@@ -678,7 +678,7 @@ address,size,name,status,module,notes
 0x8004318C,0xA4,DisplayObject_InterpolatePositionCosine,matching_c,game,Cosine interpolation from the saved position to the caller target through their midpoint; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80043230,0xF8,Widget_SlideSine,matching_c,game,Signed-phase sine slide used by dialog and widget enter/leave callbacks; external IDB identity agrees with the matching body and callers.
 0x80043328,0x1CC,Main_LoadBootPackageStage,matching_c,game,"High-confidence semantic name: the sole 54-sector WA boot-package request installs this four-stage callback; its lengths exactly cover the request and route the persistent frontend image, palette/ramp uploads, and module ID 0x16 at 0x80168000. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations."
-0x800434F4,0x168,func_800434F4,matching_c,game,Matched from updated collaborator source: volatile display-state accesses and scoped 0x100 lifetime reproduce retail code generation.
+0x800434F4,0x168,Main_LoadBootImageStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses and scoped 0x100 lifetime reproduce retail code generation.
 0x8004365C,0x25C,func_8004365C,matching_c,game,Pure-C inline refinement matched the full executable.
 0x800438B8,0xA8,Main_HoldBootScreen,matching_c,game,Holds a boot screen for a frame count until loading is idle; START or confirm skips once idle. 1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80043960,0x26C,Main_RunBootSequence,matching_c,game,"High-confidence semantic name: Main_Init is the sole caller after subsystem initialization; mode zero loads the boot resources, runs module ID 0x16 through func_801680F4/func_80168160, requests the main-menu package, and resets frontend runtime. Pure-C inline refinement matched the full executable."
@@ -813,8 +813,8 @@ address,size,name,status,module,notes
 0x80049BAC,0x94,SD_PlaySequenceFastForward,matching_c,game,Starts the staged secondary sequence playing and fast-forwards it to a target read address. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049C40,0x70,SD_StopSequence,matching_c,game,Stops the open secondary sequence and leaves it staged. 2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049CB0,0x48,func_80049CB0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80049CF8,0xE0,func_80049CF8,matching_c,game,Exact 56-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value prevents mask hoisting; counter and state/count scopes preserve allocation and load order. Shared state/SDK layouts and state-relative field offsets replace six pins and three assembly statements. Matching rationale is in the source comment.
-0x80049DD8,0xF0,func_80049DD8,matching_c,game,Exact 60-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value and counter/state-count scopes preserve allocation and cached-volume restoration without six pins or three assembly statements. Shared layout offsets and SDK contract retained; rationale is in the source comment.
+0x80049CF8,0xE0,SD_MuteSecondaryVoices,matching_c,game,Exact 56-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value prevents mask hoisting; counter and state/count scopes preserve allocation and load order. Shared state/SDK layouts and state-relative field offsets replace six pins and three assembly statements. Matching rationale is in the source comment.
+0x80049DD8,0xF0,SD_RestoreSecondaryVoiceVolumes,matching_c,game,Exact 60-instruction C under uniform G8 split with the existing DATA pointer view. Reused control value and counter/state-count scopes preserve allocation and cached-volume restoration without six pins or three assembly statements. Shared layout offsets and SDK contract retained; rationale is in the source comment.
 0x80049EC8,0x48,func_80049EC8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80049F10,0x40,func_80049F10,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049F50,0x64,func_80049F50,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
@@ -889,7 +889,7 @@ address,size,name,status,module,notes
 0x800530C4,0x184,func_800530C4,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80053248,0x190,Model_SetSlotProperties,matching_c,game,"Variadic model-slot property setter. void Model_SetSlotProperties(s32 idx, ...) consumes five s32 properties for slots 0 and 1 but only one for slot 2. Negative properties leave the corresponding fields unchanged: the first writes ModelSlot.field_DF8 and D_8009B488[idx]; slots 0 and 1 also write field_DFA, field_DFC, field_DFE with D_8009B48E[idx] and field_DFF with D_8009B490[idx], the last two as booleans. The idx >= 2 arm instead points D_8009AF88 at D_80091008 + 0xB2 * D_800F5678[0]. Only indices 0 through 2 are supported by the slot array; there is no bounds check. Always sets D_8009AF94 to 15. High-confidence name from matching C and callers at 0x8002D180 and 0x800534B8; individual property meanings remain uncertain."
 0x800533D8,0xE0,func_800533D8,matching_c,game,Pure-C inline refinement matched the full executable.
-0x800534B8,0xBFC,func_800534B8,matching_c,game,"Pure C model-debug load/input controller; exact 3068-byte match plus four-byte D_8009B004 backing, canonical model/input/SDK ownership and measured slot-property arity."
+0x800534B8,0xBFC,ModelDebug_UpdateController,matching_c,game,"Pure C model-debug load/input controller; exact 3068-byte match plus four-byte D_8009B004 backing, canonical model/input/SDK ownership and measured slot-property arity."
 0x800540B4,0x1634,func_800540B4,unmatched_asm,game,"Build-integrated candidate in src/candidates/func_800540B4.c with target src/candidates_target/func_800540B4.S; profile gcc_2_8_1_g8_split, 1417 instructions against 1421, opcode distance 62, with no hard register assignments and no inline assembly. Per-slot model draw pass: ordering table and lights, colour fade into the shared primitive templates, unit sort, bounding volume, ground shadow fan and palette flash. Structural candidate: control flow, call sequence and store set are in place; register and stack-slot assignment are not. Key levers are the %hi/%lo ordering-table views, the unmasked fade-complete word compare, signed CF8 offset bytes, the GsCOORDUNIT pointer difference for the part index, default-first template switches with one store, and s16 fade divisions. See the source comment and config/slus_01411/candidates.json."
 0x800556E8,0x2EC,func_800556E8,matching_c,game,"OR-condition handoff with a limit local, mirrored clamps with separate temporaries, guarded do-while part loop"
 0x800559D4,0x748,func_800559D4,matching_c,game,"Exact 1864-byte C controller plus 24-byte switch table with uniform G8 split: scoped address captures, signed cursors and separate phase values preserve module callbacks, animation transitions and sound gating. Verified field/helper contracts; historical attempts retained."
@@ -968,8 +968,8 @@ address,size,name,status,module,notes
 0x8005A0DC,0x54,func_8005A0DC,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A130,0x58,func_8005A130,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A188,0x6C,func_8005A188,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8005A1F4,0xEC,func_8005A1F4,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x8005A2E0,0xF0,func_8005A2E0,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
+0x8005A1F4,0xEC,Model_GetSlotDistanceFromCameraEye,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
+0x8005A2E0,0xF0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005A3D0,0x98,func_8005A3D0,matching_c,game,"Exact ordinary-C parent/backlink search; valid count lifetime and structured outer loop preserve152bytes. Shared model_parent_search.h retains measured definition and caller pointer views, with no source-local API declaration."
 0x8005A468,0x5C,func_8005A468,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A4C4,0x78,func_8005A4C4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

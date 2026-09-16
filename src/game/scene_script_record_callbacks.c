@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "scene_script_record_callbacks.h"
-#include "func_8002FED0.h"
+#include "scene_script_noop_record_callback.h"
 #include "func_8002FED8.h"
 
 /* Initialized data at 0x80090CAC: the two callbacks func_8002FFD4 selects
@@ -10,6 +10,6 @@
  */
 
 SceneScriptRecordCallback D_80090CAC[] = {
-    (SceneScriptRecordCallback)func_8002FED0,
+    (SceneScriptRecordCallback)SceneScript_NoOpRecordCallback,
     (SceneScriptRecordCallback)func_8002FED8,
 };

@@ -1,7 +1,7 @@
 #include "../types.h"
-#include "func_80037C74.h"
+#include "text_box_wrap_line.h"
 
-s32 func_80037C74(DuelEffectChannel *object) {
+s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
     if (*(s16 *)&object->field_38 >= object->field_3E) {
         object->field_38 = 0;
         object->field_3A += object->field_5B;

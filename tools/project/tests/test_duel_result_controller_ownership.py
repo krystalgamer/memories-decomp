@@ -289,9 +289,12 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:
         names = (
             "func_800179F4.c", "func_8001B170.c", "duel_scene_callbacks.c",
-            "func_8003BF00.c", "func_80020BE4.c", "func_8003C120.c",
-            "func_8002F4C0.c", "func_800434F4.c", "func_8003C328.c",
-            "func_8003B808.c",
+            "campaign_map_load_package_stage.c", "func_80020BE4.c",
+            "options_load_package_stage.c",
+            "func_8002F4C0.c", "func_800434F4.c",
+            "game_over_load_package_stage.c",
+            "password_load_package_stage.c",
+            "free_duel_load_package_stage.c",
         )
         for name in names:
             with self.subTest(name=name):

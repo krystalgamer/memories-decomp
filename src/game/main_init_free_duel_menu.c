@@ -1,9 +1,9 @@
 #include "../types.h"
 #include "file_constants.h"
 #include "file_transfer.h"
-#include "func_8003B808.h"
+#include "free_duel_load_package_stage.h"
 #include "main_init_free_duel_menu.h"
 #include "../overlays/free_duel/free_duel.h"
 
 #include "high_memory_addresses.h"
-void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FILE_WA_FREE_DUEL_START_SECTOR,FILE_WA_FREE_DUEL_SECTOR_COUNT,func_8003B808,0,0);File_WaitForTransfers();FreeDuel_Init(D_80010000);}
+void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FILE_WA_FREE_DUEL_START_SECTOR,FILE_WA_FREE_DUEL_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(D_80010000);}

@@ -5,7 +5,7 @@
 #include "../unmatched.h"
 #include "func_8003A01C.h"
 
-void func_8003A01C(FileTransferDescriptor *p, s32 mode)
+void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 v_0;
     s32 v_1;

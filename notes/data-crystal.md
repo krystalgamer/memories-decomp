@@ -111,7 +111,7 @@ promoted into source.
 | `0x06` | Dark |
 
 Local loader evidence verifies the seven-value domain and its direct archive
-indexing. `func_8001798C` uses `gDuel_bTerrain` to select one of seven
+indexing. `Duel_LoadTerrainPackage` uses `gDuel_bTerrain` to select one of seven
 235-sector WA records:
 
 ```text

@@ -528,7 +528,8 @@ State after this one-function checkpoint:
 
 ### Continuous wave 16
 
-`func_8003C328` matched after importing the collaborator's typed three-mode
+`GameOver_LoadPackageStage` matched after importing the collaborator's typed
+three-mode
 object initializer under `gcc_2_8_1_g0_no_split`. The structure layout and
 switch preserve the retail case dispatch, shared state stores, and mode-two
 callback sequence without asm or register bindings. The function matches
@@ -546,7 +547,8 @@ State after this one-function checkpoint:
 
 ### Continuous wave 17
 
-`func_8003C120` matched after importing the collaborator's typed four-mode
+`Options_LoadPackageStage` matched after importing the collaborator's typed
+four-mode
 object initializer under `gcc_2_8_1_g0_no_split`. The structure layout and
 switch preserve the retail case dispatch, nested shared tails, and mode-two
 callback sequence without asm or register bindings. The function matches

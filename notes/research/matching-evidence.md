@@ -3014,7 +3014,8 @@ With `-G8` and `-msplit-addresses`:
   data. `-msplit-addresses` then splits its address at compile time into a
   compiler-allocated register, which the scheduler is free to hoist.
 
-Both forms appear in the same function. In `func_8003B808` (0x8003B808) every
+Both forms appear in the same function. In `FreeDuel_LoadPackageStage`
+(0x8003B808) every
 scalar global is rebuilt per access while `D_801AF000`, an array, gets its own
 register:
 
@@ -3028,12 +3029,14 @@ register:
 
 Declaring the scalars plainly under `-G0` instead lets GCC cache the address
 in a register and reuse it, which builds five instructions short on
-`func_8003B808` and six to eight on `func_8003BF00`. Both functions' canonical
-campaigns recorded exactly that as a shifted dispatch branch target
-(`+0x10: 64!=5c` and `+0xc: 68!=62`). The residuals were accurate; nothing in
-them suggested the cause was a declaration.
+`FreeDuel_LoadPackageStage` and six to eight on
+`CampaignMap_LoadPackageStage`. Both functions' canonical campaigns recorded
+exactly that as a shifted dispatch branch target (`+0x10: 64!=5c` and
+`+0xc: 68!=62`). The residuals were accurate; nothing in them suggested the
+cause was a declaration.
 
-The sibling functions `func_8003BA14` and `func_8003BD14` match under
+The sibling functions `NameEntry_LoadPackageStage` and
+`Password_LoadPackageStage` match under
 `gcc_2_8_1_g0_no_split`, so profile inheritance from a neighbour is not safe
 here either: the family splits on which members touch an array.
 
@@ -3048,12 +3051,13 @@ When two statements in the same basic block each need a constant, and one of
 them costs a `lui`/`ori` pair while the other fits in a single `addiu`, the
 expensive one is materialised first and source order decides the rest.
 
-`func_8003B808` and `func_8003BF00` are switch statements whose arms all have
-the same shape: assign a field, then mask a global. Most arms match with the
-field assignment written first. Exactly one arm in each function does not:
+`FreeDuel_LoadPackageStage` and `CampaignMap_LoadPackageStage` are switch
+statements whose arms all have the same shape: assign a field, then mask a
+global. Most arms match with the field assignment written first. Exactly one
+arm in each function does not:
 
-    func_8003B808 case 3   field1C = 0x18000    lui + ori
-    func_8003BF00 case 1   field1C = 0x43000    lui + ori
+    FreeDuel_LoadPackageStage case 3   field1C = 0x18000    lui + ori
+    CampaignMap_LoadPackageStage case 1   field1C = 0x43000    lui + ori
 
 Those two need the mask statement written first. Every other arm uses a
 constant that fits one instruction and is insensitive to the order.
@@ -6818,7 +6822,7 @@ a spelling, and the two directions are not symmetric.
 Narrowing to `u8`, which is what the definition said, costs an instruction at
 some call sites but not others. Measured one file at a time:
 
-- `func_80029108.c` passes a local whose value is either the constant 2 or an
+- `card_preview_update_variant.c` passes a local whose value is either the constant 2 or an
   `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
   emits nothing extra; the build stays byte-exact.
 - `display_effect_process_menu_records.c` passes `n` from `func_8003B378`,
@@ -7021,7 +7025,7 @@ rest from whatever the registers happen to hold. `func_8004036C` in
 "corrected" by writing the missing argument, because there is no expression
 in the caller that produces it.
 
-    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_8001798C.c
+    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_load_terrain_package.c
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
     func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c

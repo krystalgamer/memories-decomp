@@ -6,7 +6,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "dialog_choice.h"
 #include "campaign_flags.h"
-#include "func_80037C74.h"
+#include "text_box_wrap_line.h"
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 #include "campaign_scene_package.h"
@@ -130,12 +130,12 @@ void Text_NewLine(DuelEffectChannel *record)
 {
     record->field_56++;
     record->field_38 = 0x1000;
-    if (func_80037C74(record)) {
+    if (TextBox_WrapLineIfNeeded(record)) {
         record->state_51 = 4;
     }
     D_8009B350 = 1;
     if (D_8009B340) {
-        D_8009B340((volatile u8 *)record);
+        D_8009B340(record);
     }
 }
 

@@ -6,6 +6,8 @@
 #include "display_object_config.h"
 
 void func_80028B08(DisplayObject *object, s32 arg1);
-void func_80029108(DisplayObjectConfig *object, s32 arg1);
+/* Applies the preview object's stored card variant, or fallback variant 2,
+ * then redraws and requests the current display-list pass to rerun. */
+void CardPreview_UpdateVariant(DisplayObjectConfig *object, s32 arg1);
 
 #endif

@@ -20,7 +20,7 @@
 
 ModelDebugState D_8009B004 = {0};
 
-s32 func_800534B8(void)
+s32 ModelDebug_UpdateController(void)
 {
     s32 reload = 0;
     char *normal = D_8009B00C;

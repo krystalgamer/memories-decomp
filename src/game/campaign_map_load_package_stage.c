@@ -5,13 +5,13 @@
 #include "../psyq/libgpu.h"
 #define D_800101D8_IN_DATA
 #include "file_transfer.h"
-#include "func_8003BF00.h"
+#include "campaign_map_load_package_stage.h"
 #include "../unmatched.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-void func_8003BF00(FileTransferDescriptor *object, s32 mode) {
+void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
         object->phase_size = 6 * FILE_SECTOR_SIZE;

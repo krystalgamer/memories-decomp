@@ -94,7 +94,7 @@ attribution, and called-address checks are recorded in
 
 ### Duel terrain packages
 
-Matching `func_8001798C` selects one of seven terrain packages with the source
+Matching `Duel_LoadTerrainPackage` selects one of seven terrain packages with the source
 constants `DUEL_TERRAIN_PACKAGE_FIRST_SECTOR` (`0x16C6`) and
 `DUEL_TERRAIN_PACKAGE_SECTOR_COUNT` (`0xEB`). Because the count is also the
 per-terrain stride, the seven packages occupy WA sectors `0x16C6-0x1D33`, or
@@ -213,7 +213,7 @@ shared resource package.
 
 `Main_InitFreeDuelMenu` requests 87 WA sectors beginning at sector `0x1E88`,
 which is archive range `0xF44000-0xF6F800`. Resident callback
-`func_8003B808` accounts for all five transfer phases:
+`FreeDuel_LoadPackageStage` accounts for all five transfer phases:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
@@ -241,7 +241,7 @@ to the next 64-entry CLUT column.
 
 Matching `File_RequestNameEntryPackage` requests 80 WA sectors beginning at sector `0x1EDF`,
 which is archive range `0xF6F800-0xF97800`. Its matching callback
-`func_8003BA14` accounts for the complete package:
+`NameEntry_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
@@ -259,7 +259,7 @@ under [`src/overlays/name_entry/`](../src/overlays/name_entry/).
 
 Matching `File_RequestPasswordPackage` requests 86 WA sectors beginning at sector `0x1F2F`,
 which is archive range `0xF97800-0xFC2800`. Its matching callback
-`func_8003BD14` accounts for the complete package:
+`Password_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
@@ -276,9 +276,9 @@ resource-level offsets and visual-label confidence.
 
 ### Options and PocketStation package
 
-`Main_RunOptionsMenu` calls `func_8003C2B4`, which first requests 50 WA
-sectors beginning at `0x2115`. Its matching callback `func_8003C120` accounts
-for the complete package:
+`Main_RunOptionsMenu` calls `File_RequestOptionsPackage`, which first requests
+50 WA sectors beginning at `0x2115`. Its matching callback
+`Options_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
@@ -288,13 +288,29 @@ for the complete package:
 | `0x109B800-0x10A3800` | `0x8000` / 16 sectors | Transfers a PocketStation-titled 32 KiB payload to `0x80140000`. |
 
 The phase sizes total the requested 50 sectors exactly. After waiting,
-`func_8003C2B4` requests the next 16 sectors (`0x2147..0x2156`) directly to
-the same `0x80140000` address. The two 32 KiB payloads have distinct hashes
-and differ in 28,915 bytes; the second therefore replaces, rather than
-extends, the first before `Options_Init` runs. Their Shift-JIS headers identify
-two variants of `PocketStation   Yu-Gi-Oh! Shin Duel Monsters`, differing in
-the title punctuation. See [`options-screen.md`](options-screen.md) for the
-input reachability boundary and exact hashes.
+`File_RequestOptionsPackage` requests the next 16 sectors
+(`0x2147..0x2156`) directly to the same `0x80140000` address. The two 32 KiB
+payloads have distinct hashes and differ in 28,915 bytes; the second therefore
+replaces, rather than extends, the first before `Options_Init` runs. Their
+Shift-JIS headers identify two variants of
+`PocketStation   Yu-Gi-Oh! Shin Duel Monsters`, differing in the title
+punctuation. See [`options-screen.md`](options-screen.md) for the input
+reachability boundary and exact hashes.
+
+### Game Over package
+
+`Main_RunGameOver` calls `func_8003C498` on first entry, immediately before
+the resident Game Over screen is initialized. That wrapper requests 50 WA
+sectors beginning at `0x2157`, and `GameOver_LoadPackageStage` accounts for
+all three phases:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0x10AB800-0x10C3800` | `0x18000` / 48 sectors | Schedules the Game Over image payload through the GPU/VRAM transfer path. |
+| `0x10C3800-0x10C4000` | `0x800` / 1 sector | Stages palette data. |
+| `0x10C4000-0x10C4800` | `0x800` / 1 sector | Uploads the staged block as a `256 x 4` rectangle at VRAM `(0, 240)`, then transfers this sector to `0x801AF000`. |
+
+The phase sizes total the requested 50 sectors exactly.
 
 ## Development-path evidence
 

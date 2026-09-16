@@ -474,9 +474,9 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  * cursor started at this address, which is what says the seven halfwords are
  * one array rather than seven objects that happen to be adjacent.
  */
-/* The list walk's rerun request. func_80029108 sets it to 1 after changing an
- * object's config, and the two list renderers clear it before their pass and
- * test it at the end -- func_80040588's inventory row calls that its
+/* The list walk's rerun request. CardPreview_UpdateVariant sets it to 1 after
+ * changing an object's config, and the two list renderers clear it before
+ * their pass and test it at the end -- func_80040588's inventory row calls that its
  * "while(1)/continue rerun loop". So it is state of the walk over the lists
  * declared just below, which is why it is declared here rather than beside
  * either renderer. */

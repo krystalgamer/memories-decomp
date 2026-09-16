@@ -76,19 +76,20 @@ void File_RequestMainMenuPackage(void);
 void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
-void func_8003C120(FileTransferDescriptor *descriptor, s32 mode);
-void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
+void File_RequestOptionsPackage(void);
+void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
+void GameOver_LoadPackageStage(
+    FileTransferDescriptor *descriptor,
+    s32 mode
+);
 void Main_LoadBootPackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
-/* Another wrapper of the same shape as the four above: it asks for sector
-   0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
-   waits. It keeps its address-based name because which package that sector
-   holds is not established here -- the four named ones use FILE_WA_*
-   constants, and this one still spells the sector as a literal. */
+/* Loads the fixed Game Over image package: Main_RunGameOver calls it on first
+ * entry immediately before func_8003C950 initializes that screen. */
 void func_8003C498(void);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
@@ -140,18 +141,19 @@ void func_80014FA4(void);
 /* The word at 0x800101D8, which holds the address 0x80168000.
  *
  * It reaches the same two descriptor fields that take a buffer address in the
- * case immediately above it -- func_8003BD14's case 2 writes
+ * case immediately above it -- Password_LoadPackageStage's case 2 writes
  * `value_08 = (s32)D_801A8000`, and its case 3 writes this word into the same
  * two fields -- so the word is a stored address and is declared as one.  Every read is a single load of that word; the array and
  * scalar spellings this replaces reached it as `*(s32 *)(D_800101D8)` and as
  * a plain read, which are the same load.
  *
  * D_800101D8_IN_DATA is a codegen input, measured on each unit separately:
- * put either func_8003BF00.c or func_8003B808.c on the plain declaration and
- * the link fails on that object alone with `relocation truncated to fit:
- * R_MIPS_GPREL16 against D_800101D8`, because the unit reaches the symbol
- * gp-relatively and 0x800101D8 is out of range of $gp.  The attribute takes it
- * out of small data for those two; the other three do not need it.
+ * put either campaign_map_load_package_stage.c or
+ * free_duel_load_package_stage.c on the plain declaration and the link fails
+ * on that object alone with `relocation truncated to fit: R_MIPS_GPREL16
+ * against D_800101D8`, because the unit reaches the symbol gp-relatively and
+ * 0x800101D8 is out of range of $gp. The attribute takes it out of small data
+ * for those two; the other three do not need it.
  */
 #ifdef D_800101D8_IN_DATA
 extern u8 *D_800101D8 __attribute__((section(".data")));

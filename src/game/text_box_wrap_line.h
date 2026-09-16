@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80037C74_H
-#define MEMORIES_DECOMP_FUNC_80037C74_H
+#ifndef MEMORIES_DECOMP_TEXT_BOX_WRAP_LINE_H
+#define MEMORIES_DECOMP_TEXT_BOX_WRAP_LINE_H
 
 #include "../types.h"
 #include "duel_effect.h"
@@ -16,6 +16,6 @@
  * signed, so those two reads keep an explicit `*(s16 *)&` at the use.
  *
  * The return is a flag, not a count. */
-s32 func_80037C74(DuelEffectChannel *object);
+s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object);
 
 #endif

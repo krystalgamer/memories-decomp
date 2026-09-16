@@ -36,7 +36,7 @@ u32 func_80058A7C(int side, int mode, GsIMAGE *params)
 s32 func_80058B4C(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
                   s32 z, s32 w)
 {
-    u16 bounds[4];
+    RECT bounds;
     s32 high;
     s32 low;
 
@@ -75,24 +75,24 @@ s32 func_80058B4C(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
             func_80058A7C(mode - 3, arg3, data);
         }
 
-        bounds[0] = *(u16 *)&data->px;
-        bounds[1] = *(u16 *)&data->py;
-        bounds[2] = data->pw;
-        bounds[3] = data->ph;
+        bounds.x = *(u16 *)&data->px;
+        bounds.y = *(u16 *)&data->py;
+        bounds.w = data->pw;
+        bounds.h = data->ph;
         while (IsIdleGPU(3) != 0) {
         }
         while (LoadImage2(
-            (RECT *)bounds, (u32 *)data->pixel
+            &bounds, (u32 *)data->pixel
         ) != 0) {
         }
-        bounds[0] = *(u16 *)&data->cx;
-        bounds[1] = *(u16 *)&data->cy;
-        bounds[2] = data->cw;
-        bounds[3] = data->ch;
+        bounds.x = *(u16 *)&data->cx;
+        bounds.y = *(u16 *)&data->cy;
+        bounds.w = data->cw;
+        bounds.h = data->ch;
         while (IsIdleGPU(3) != 0) {
         }
         while (LoadImage2(
-            (RECT *)bounds, (u32 *)data->clut
+            &bounds, (u32 *)data->clut
         ) != 0) {
         }
         while (IsIdleGPU(3) != 0) {

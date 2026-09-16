@@ -66,7 +66,7 @@ void Main_RunAnimatedBattle(void)
         if (f & 0x20) {
             v = func_80059C88();
         } else {
-            v = func_800534B8();
+            v = ModelDebug_UpdateController();
         }
         if (v != 0) {
             SD_KeyOffVoiceSlots();
