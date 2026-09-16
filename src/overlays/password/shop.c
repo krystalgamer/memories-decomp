@@ -110,23 +110,27 @@ void Password_UpdateDigitCursor(u8 *object)
 {
     s16 remaining;
 
-    object[0x22] = object[0x22] + 1;
-    if ((object[0x6C] & 0x40) != 0) {
-        if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
+    ((PasswordCursorView *)object)->phase += 1;
+    if ((((PasswordCursorView *)object)->updateFlags & 0x40) != 0) {
+        if (DisplayObject_MarkInitialized(
+                (DisplayObjectLifecycle *)object) == 0) {
             DisplayObject_ResetVelocity(object);
-            *(s16 *)(object + 0x36) =
-                ((*(s16 *)(object + 0x18) - *(s16 *)(object + 0x30)) << 8) /
-                *(s16 *)(object + 0x60);
-            *(s16 *)(object + 0x38) =
-                ((*(s16 *)(object + 0x1A) - *(s16 *)(object + 0x32)) << 8) /
-                *(s16 *)(object + 0x60);
+            ((PasswordCursorView *)object)->step_x =
+                ((((PasswordCursorView *)object)->target_x -
+                  ((PasswordCursorView *)object)->x) << 8) /
+                ((PasswordCursorView *)object)->timer;
+            ((PasswordCursorView *)object)->step_y =
+                ((((PasswordCursorView *)object)->target_y -
+                  ((PasswordCursorView *)object)->y) << 8) /
+                ((PasswordCursorView *)object)->timer;
         }
         DisplayObject_StepPositionXY(object);
-        remaining = *(u16 *)(object + 0x60) - 1;
-        *(s16 *)(object + 0x60) = remaining;
+        remaining = (u16)((PasswordCursorView *)object)->timer - 1;
+        ((PasswordCursorView *)object)->timer = remaining;
         if (remaining <= 0) {
-            *(s32 *)(object + 0x30) = *(s32 *)(object + 0x18);
-            object[0x6C] = object[0x6C] & 0x3F;
+            *(s32 *)&((PasswordCursorView *)object)->x =
+                *(s32 *)&((PasswordCursorView *)object)->target_x;
+            ((PasswordCursorView *)object)->updateFlags &= 0x3F;
         }
     }
 }
