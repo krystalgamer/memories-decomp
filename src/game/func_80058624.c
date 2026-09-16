@@ -3,8 +3,10 @@
 #include "../psyq/libgte.h"
 #include "sound_voice_data.h"
 #include "sound.h"
+#include "positional_sound.h"
 
-void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
+void SD_ApplyPositionalSound(
+    s32 sound_id, s32 play, s32 world_x, s32 world_z)
 {
     u8 st[2];
     s8 *pp;
@@ -22,8 +24,8 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 v;
     s32 w;
 
-    dx = D_800F56F0.vpx - arg2;
-    dz = D_800F56F0.vpz - arg3;
+    dx = D_800F56F0.vpx - world_x;
+    dz = D_800F56F0.vpz - world_z;
     pp = (s8 *)&st[1];
     st[0] = 0;
     st[1] = 0;
@@ -49,7 +51,7 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     }
 
     if (dd != 0) {
-        r = (arg2 * ez + arg3 * ex + n) / dd;
+        r = (world_x * ez + world_z * ex + n) / dd;
         w = r / 16;
         /* The conditional form negates w's register instead of v in place. */
         v = __builtin_abs(w);
@@ -63,9 +65,9 @@ void func_80058624(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
         *pp = w;
     }
 
-    if (arg1 != 0) {
-        SD_SEPlay(arg0 & 0xFFFF, st[0], *(s8 *)&st[1]);
+    if (play != 0) {
+        SD_SEPlay(sound_id & 0xFFFF, st[0], *(s8 *)&st[1]);
     } else {
-        func_80048A28(arg0 & 0xFFFF, st[0], *(s8 *)&st[1]);
+        func_80048A28(sound_id & 0xFFFF, st[0], *(s8 *)&st[1]);
     }
 }

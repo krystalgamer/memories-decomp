@@ -919,8 +919,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B100,D_8009B100,D_8009B100,0x8001455C,File_StepActiveTransfer,matching_c,game,C,src/game/func_80014294.c,read_write,16,D_8009B100 = 0; | D_8009B100 = 1; | (+3 more)
 0x8009B104,D_8009B104,D_8009B104,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,address,8,"DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);"
 0x8009B104,D_8009B104,D_8009B104,0x80014134,func_80014134,matching_c,game,C,src/game/func_80013C28.c,address,8,"DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1);"
-0x8009B104,D_8009B104,D_8009B104,0x80014308,func_80014308,matching_c,game,C,src/game/func_80014294.c,address,8,"DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);"
-0x8009B104,D_8009B104,D_8009B104,0x8001455C,File_StepActiveTransfer,matching_c,game,C,src/game/func_80014294.c,address,8,"CdIntToPos_8007E600(p->absolute_lba, (CdlLOC *)D_8009B104); | if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) { | (+3 more)"
+0x8009B104,D_8009B104,D_8009B104,0x80014308,func_80014308,matching_c,game,C,src/game/func_80014294.c,address,8,"0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,"
+0x8009B104,D_8009B104,D_8009B104,0x8001455C,File_StepActiveTransfer,matching_c,game,C,src/game/func_80014294.c,address,8,"0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B, | 0xA0, DSL_LOC_VIEW(D_8009B104), 0x15, | (+3 more)"
 0x8009B108,D_8009B108,D_8009B108,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,8,D_8009B108 = 0;
 0x8009B10C,D_8009B10C,D_8009B10C,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,write,,D_8009B10C = File_WaitForTransfers;
 0x8009B10C,D_8009B10C,D_8009B10C,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,,D_8009B10C = 0;
@@ -2822,7 +2822,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read_write,,D_800F56F0.rz = 0; | D_800F56F0.super = 0; | (+8 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x80057F38,Model_UpdateViewMetrics,matching_c,game,C,src/game/model_update_view_metrics.c,write,,D_800F56F0 = *(GsRVIEW2 *)m; | b = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &D_800F56F0.vpx;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,func_80058624,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
+0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,SD_ApplyPositionalSound,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,Model_GetCameraViewBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)

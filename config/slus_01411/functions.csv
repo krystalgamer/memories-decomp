@@ -906,7 +906,7 @@ address,size,name,status,module,notes
 0x800580D4,0x1EC,func_800580D4,matching_c,game,"Pure-C reclassification match: an inlined four-argument rotation helper gives the full-turn constant the retail a2 preference, while a second inline helper keeps both matrix calls tied to the initialized work object and makes GCC rematerialize its sp+0x98 address. Exact 492-byte text and relocations under gcc_2_8_1_g8_split; no register pins or inline assembly."
 0x800582C0,0x174,Model_ApplyTextureTint,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058434,0x1F0,func_80058434,matching_c,game,Collaborator refinement independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split. Distinct adjacent 12-byte vector symbols preserve retail address materialization.
-0x80058624,0x214,func_80058624,matching_c,game,Explicit signed absolute value produced the exact in-place negation and 532-byte function.
+0x80058624,0x214,SD_ApplyPositionalSound,matching_c,game,Explicit signed absolute value produced the exact in-place negation and 532-byte function.
 0x80058838,0x100,func_80058838,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80058938,0x144,func_80058938,matching_c,game,Pure-C model tint request initialization and optional source-byte fill; exact 81-instruction match without hard-register bindings.
 0x80058A7C,0xD0,func_80058A7C,matching_c,game,Pure-C inline refinement matched the full executable.
