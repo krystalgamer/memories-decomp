@@ -45,7 +45,11 @@ void func_8003A920(
     }
 }
 
-void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y)
+void DisplayPositionGroup_SetPosition(
+    DisplayPositionGroup *group,
+    s32 x,
+    s32 y
+)
 {
     group->x = x;
     group->y = y;
@@ -85,7 +89,11 @@ void func_8003A990(MenuRecord *p)
     r->field_48 = t;
 
     if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
-        func_8003A95C((DisplayPositionGroup *)r, r->field_40, r->field_42);
+        DisplayPositionGroup_SetPosition(
+            (DisplayPositionGroup *)r,
+            r->field_40,
+            r->field_42
+        );
         r->display_effect_step = 0;
     } else {
         c = rcos((s16)t);
@@ -95,7 +103,7 @@ void func_8003A990(MenuRecord *p)
             dx = r->field_44 - dx;
             dy = r->field_46 - dy;
         }
-        func_8003A95C(
+        DisplayPositionGroup_SetPosition(
             (DisplayPositionGroup *)r,
             (s16)(*(u16 *)&r->field_40 - dx),
             (s16)(*(u16 *)&r->field_42 - dy)

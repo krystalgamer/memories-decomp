@@ -527,7 +527,7 @@ address,size,name,status,module,notes
 0x8003A440,0x120,func_8003A440,matching_c,game,"Display-effect child layer/attribute setup grouped with the resource pipeline; its object is byte-identical at g0, g0_split, g8, and g8_split."
 0x8003A560,0x3C0,func_8003A560,matching_c,game,"VRAM page swap state callback completing the display-effect resource pipeline; g8_split is required and fixes the grouped unit's profile."
 0x8003A920,0x3C,func_8003A920,matching_c,game,"Three-child position propagation beginning the seven-function display-effect update callback unit; its object is byte-identical at g0, g0_split, g8, and g8_split."
-0x8003A95C,0x34,func_8003A95C,matching_c,game,"Group-position setter and direct position-propagation caller in the display-effect update callback unit; byte-identical across the four standard g0/g8 profiles."
+0x8003A95C,0x34,DisplayPositionGroup_SetPosition,matching_c,game,"Group-position setter and direct position-propagation caller in the display-effect update callback unit; byte-identical across the four standard g0/g8 profiles."
 0x8003A990,0x154,func_8003A990,matching_c,game,"Cosine position-easing callback grouped with the contiguous display-effect update family; its object is byte-identical across the four standard g0/g8 profiles."
 0x8003AAE4,0x164,func_8003AAE4,matching_c,game,"Display-effect fade-in/resource callback grouped with the complete contiguous update family; g0 is required and fixes the shared profile."
 0x8003AC48,0x124,func_8003AC48,matching_c,game,"Display-effect fade-out/resource callback grouped with the complete contiguous update family; only g0 preserves its exact object."

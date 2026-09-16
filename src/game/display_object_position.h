@@ -33,7 +33,11 @@ typedef struct {
 void func_8003A920(DisplayPositionGroup *group, s16 x, s16 y);
 
 /* Sets the group's own pair and then pushes it to the children. */
-void func_8003A95C(DisplayPositionGroup *group, s32 x, s32 y);
+void DisplayPositionGroup_SetPosition(
+    DisplayPositionGroup *group,
+    s32 x,
+    s32 y
+);
 
 /* The callbacks sharing the implementation file retain their individually
  * measured argument views where old GCC's allocation depends on them. */

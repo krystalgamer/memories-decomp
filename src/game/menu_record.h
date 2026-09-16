@@ -28,7 +28,8 @@ typedef struct {
        would run to 0x5C and overrun this 0x4C record. It does not,
        because func_8003A920 touches only children[0..2] -- the first
        twelve bytes -- and never the x/y pair at the type's tail. Only
-       func_8003A95C reads that tail, and nothing passes it a row.
+       DisplayPositionGroup_SetPosition reads that tail, and nothing
+       passes it a row.
 
        Kept as s32 grid[4][3], with the pointer casts written out at
        each use (ILP32, so a slot is exactly one pointer word). The
@@ -73,10 +74,11 @@ typedef struct {
        record had no names for.
 
        0x40 and 0x42 are the destination the sweep eases toward: it hands
-       them to func_8003A95C as the final x and y, and subtracts a cosine
-       fraction of 0x44/0x46 from them on the way. func_8003AAE4 uses 0x40
-       differently -- a 0..0x80 fade ramp it steps by D_8009B0D8 * 8 -- so
-       neither reading governs and the offsets stay the names.
+       them to DisplayPositionGroup_SetPosition as the final x and y, and
+       subtracts a cosine fraction of 0x44/0x46 from them on the way.
+       func_8003AAE4 uses 0x40 differently -- a 0..0x80 fade ramp it steps by
+       D_8009B0D8 * 8 -- so neither reading governs and the offsets stay the
+       names.
 
        0x44 and 0x46 are the distance still to travel: the sweep seeds them
        with 0x40 - 0x34 and 0x42 - 0x36 on its first tick.
