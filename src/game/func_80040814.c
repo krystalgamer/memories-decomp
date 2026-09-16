@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#define FUNC_80041D60_AMBIENT_ARGS
-#include "func_80041D60.h"
+#define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
+#include "display_object_update_command_stream.h"
 #include "../unmatched.h"
 #include "display_object_render_sprite_sheet.h"
 #include "func_80040814.h"
@@ -30,7 +30,7 @@ void func_80040814(void) {
 
             if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                func_80041D60((DisplayObject *)q);
+                DisplayObject_UpdateCommandStream((DisplayObject *)q);
                 DisplayObject_RenderSpriteSheet(
                     (DisplayObject *)q, (s32)t[p->ot_index],
                     (s16)p->field_14

@@ -25,8 +25,8 @@
 #define DISPLAY_OBJECT_RELEASE_IF_PRESENT_AMBIENT_OBJECT
 #include "../../game/display_object_core.h"
 #include "../../game/func_80039794.h"
-#define FUNC_80041D60_AMBIENT_ARGS
-#include "../../game/func_80041D60.h"
+#define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
+#include "../../game/display_object_update_command_stream.h"
 #include "../../game/func_80024DC8.h"
 #include "../../game/display_object_config.h"
 #include "../../psyq/libgte.h"
@@ -376,7 +376,7 @@ void FreeDuel_UpdateCursorTween(void)
         if (sparkle != 0 && slot != 0) {
             sparkle->field_30.word = widget->field_30.word;
             func_800428EC((u8 *)sparkle, (s8)((u8)widget->field_16 - 1));
-            func_80041D60(sparkle);
+            DisplayObject_UpdateCommandStream(sparkle);
             sparkle->field_4C = widget->field_4C;
             sparkle->field_6C = 1;
             sparkle->flags |= 1;

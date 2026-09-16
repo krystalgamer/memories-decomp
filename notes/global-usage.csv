@@ -832,7 +832,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AD6C,func_8003AD6C,matching_c,game,C,src/game/display_effect_update_callbacks.c,read,32,n = (u16)p->field_40 - D_8009B0D8 * 8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003B054,func_8003B054,matching_c,game,C,src/game/display_effect_update_callbacks.c,read,32,*(u16 *)&o->field_60 += (u16)D_8009B0D8; | *(u16 *)&o->field_60 -= (u16)D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_pads.c,read,32,value = gInput_abRepeatTimers[i] + (u8)D_8009B0D8;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80041D60,func_80041D60,matching_c,game,C,src/game/func_80041D60.c,read,32,s16 remain = (u16)arg0->field_5A - (u16)D_8009B0D8;
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80041D60,DisplayObject_UpdateCommandStream,matching_c,game,C,src/game/display_object_update_command_stream.c,read,32,s16 remain = (u16)arg0->field_5A - (u16)D_8009B0D8;
 0x8009B0E0,D_8009B0E0,D_8009B0E0,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,write,8,D_8009B0E0 = 0;
 0x8009B0E8,D_8009B0E8,D_8009B0E8,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B0E8 = 0;
 0x8009B0E8,D_8009B0E8,D_8009B0E8,0x80014A5C,func_80014A5C,matching_c,game,C,src/game/func_80014294.c,read_write,32,D_8009B0E8 = 0; | D_8009B0E8 = 1; | (+1 more)

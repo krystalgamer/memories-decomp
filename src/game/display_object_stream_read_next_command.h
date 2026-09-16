@@ -5,7 +5,7 @@
 #include "../ygo_types.h"
 #include "display_object.h"
 
-/* The stream dispatcher consumes only ctx. func_80041D60 nevertheless emits
+/* The stream dispatcher consumes only ctx. DisplayObject_UpdateCommandStream nevertheless emits
  * the retail four-argument call sequence: script and attribute are selected
  * on the first-time path or ambient on the cooldown path, and ctx is repeated
  * in $a3. */

@@ -3808,7 +3808,7 @@
       "address": "0x80041D60",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x11C",
-      "source": "src/game/func_80041D60.c"
+      "source": "src/game/display_object_update_command_stream.c"
     },
     {
       "address": "0x80041E7C",

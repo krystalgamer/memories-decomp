@@ -37,7 +37,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x8003787C` | `func_8003787C` | `inline_refinement` | `gcc_2_8_1_g8_split` |
 | `0x8003CEB8` | `SaveData_CalcCrc16` | `inline_refinement` | `gcc_2_8_1_g8` |
 | `0x8003D334` | `func_8003D334` | `collaborator_match` | `gcc_2_8_1_g8` |
-| `0x80041D60` | `func_80041D60` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
+| `0x80041D60` | `DisplayObject_UpdateCommandStream` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044DC0` | `func_80044DC0` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044FFC` | `func_80044FFC` | `inline_refinement` | `gcc_2_8_1_g8` |
 | `0x80045484` | `SD_HasQueuedStreamCommand` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |

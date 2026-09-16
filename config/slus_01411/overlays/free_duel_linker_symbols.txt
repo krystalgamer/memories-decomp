@@ -7,6 +7,7 @@ gInput_wPad1Held = 0x8009B3A4;
 DisplayObject_FindFreeGeneralSlot = 0x8004002C;
 DisplayObject_ReleaseIfPresent = 0x8004036C;
 DisplayObject_ConfigureScreenSprite = 0x80040510;
+DisplayObject_UpdateCommandStream = 0x80041D60;
 DisplayObject_ResetVelocity = 0x800429D8;
 DisplayObject_StepPositionXY = 0x80042A78;
 gDuel_awPlayerDeck = 0x801D0200;

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object.h"
-#include "func_80041D60.h"
+#include "display_object_update_command_stream.h"
 #define DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_WIDE_CALL
 #include "display_object_stream_read_next_command.h"
 #include "graphics_frame.h"
@@ -32,7 +32,7 @@
    single pair compiles to the same logic but gcc allocates a spare
    register (a0) for the 2nd/3rd steps instead of matching the ROM's
    plain v0/v1 reuse. */
-void func_80041D60(DisplayObject *arg0, s32 arg1, s32 arg2) {
+void DisplayObject_UpdateCommandStream(DisplayObject *arg0, s32 arg1, s32 arg2) {
     u8 *base;
     u8 *p;
 

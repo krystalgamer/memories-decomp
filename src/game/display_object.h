@@ -330,7 +330,7 @@ typedef struct DisplayObject {
     /* Named field_58 and field_5A by DisplayObjectStreamState in
        ygo_types.h, on this same record and at this same pair of offsets, on
        the grounds the 0x50 comment above already gives: that view is
-       DisplayObjectStream_ReadNextCommand's reading of the script buffer. func_80041D60 resets
+       DisplayObjectStream_ReadNextCommand's reading of the script buffer. DisplayObject_UpdateCommandStream resets
        both when it opens a script and then counts 0x5A down by D_8009B0D8
        until it reaches zero, which is what says the pair is a status field
        and a countdown rather than four padding bytes. */

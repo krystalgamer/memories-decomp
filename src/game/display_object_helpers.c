@@ -22,7 +22,7 @@ void func_800427DC(DisplayObject *object, int value)
     object->field_1C = 0;
     object->field_1A = 0;
     object->field_18 = 0;
-    /* Low byte only. field_5A is the s16 countdown func_80041D60
+    /* Low byte only. field_5A is the s16 countdown DisplayObject_UpdateCommandStream
        steps by D_8009B0D8 on this same record; this writes one byte
        of it, and that width is retail's, not a simplification. */
     *(u8 *)&object->field_5A = value;
