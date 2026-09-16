@@ -510,7 +510,7 @@ typedef struct DuelEffectChannel {
     struct DisplayObject *field_28;
     /* The second owned display object has the same evidence: producers store
        the object they just built and consumers release it through
-       func_8004036C. Integer-looking field_2C writes elsewhere belong to the
+       DisplayObject_ReleaseIfPresent. Integer-looking field_2C writes elsewhere belong to the
        unrelated DuelEffectResourceRecord. */
     struct DisplayObject *field_2C;
     struct DisplayObject *field_30;

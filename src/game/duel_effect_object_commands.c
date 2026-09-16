@@ -58,7 +58,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
 
 void Text_CloseChoice(DuelEffectChannel *object)
 {
-    func_8004036C(object->field_30);
+    DisplayObject_ReleaseIfPresent(object->field_30);
     object->field_30 = 0;
     object->state_51 = 2;
     object->field_62 = 0;

@@ -141,8 +141,8 @@ void func_800222F4(void) {
     if (gDuel_wSceneStateFlags & 0x4000) {
         gDuel_wSceneStateFlags &= 0xBFFF;
         func_80029528(0);
-        func_8004036C(D_8009B180);
-        func_8004036C(D_8009B184);
+        DisplayObject_ReleaseIfPresent(D_8009B180);
+        DisplayObject_ReleaseIfPresent(D_8009B184);
         D_8009B184 = 0;
         D_8009B180 = 0;
         switch (gDebugEffect_bPage) {

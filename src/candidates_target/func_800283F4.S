@@ -273,7 +273,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18FD0 800287D0 400383A3 */  sb         $v1, %gp_rel(gDuel_bEffectHandlerFlags)($gp)
     /* 18FD4 800287D4 50004010 */  beqz       $v0, .L80028918
     /* 18FD8 800287D8 00000000 */   nop
-    /* 18FDC 800287DC DB00010C */  jal        func_8004036C
+    /* 18FDC 800287DC DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* 18FE0 800287E0 00000000 */   nop
     /* 18FE4 800287E4 4AA5000C */  jal        func_80029528
     /* 18FE8 800287E8 03000424 */   addiu     $a0, $zero, 0x3

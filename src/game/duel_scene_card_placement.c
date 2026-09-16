@@ -111,12 +111,12 @@ void DuelScene_UpdateCardPlacement(void)
             if (hand->active_09) {
                 u8 *child = hand->child;
                 hand->object = 0;
-                func_8004036C(child);
+                DisplayObject_ReleaseIfPresent(child);
                 hand->child = 0;
             }
             n++;
         } while (n < 5);
-        func_8004036C(side->object);
+        DisplayObject_ReleaseIfPresent(side->object);
         D_8009B162 = 8;
         side->object = 0;
         D_8009B174 = 1;
@@ -422,8 +422,8 @@ request_combination:
                         *(u16 *)((u32)entry + (u32)&((DisplayObject *)0)->flags) = entry->flags | 4;
                     }
                     slots = D_800E9EF0;
-                    func_8004036C(slots[0]);
-                    func_8004036C(slots[1]);
+                    DisplayObject_ReleaseIfPresent(slots[0]);
+                    DisplayObject_ReleaseIfPresent(slots[1]);
                     slots[1] = 0;
                     slots[0] = 0;
                     object = (DisplayObject *)func_80017F04(card, 64, 82);
@@ -505,10 +505,10 @@ request_combination:
                     DisplayObject **release_slots = D_800E9EF0;
                     D_8009B174 |= 0x20;
                     if (release_slots[1]->field_68 < 20) {
-                        func_8004036C(D_800E9EF0[0]);
+                        DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
                         D_800E9EF0[0] = release_slots[1];
                     } else {
-                        func_8004036C(release_slots[1]);
+                        DisplayObject_ReleaseIfPresent(release_slots[1]);
                     }
                 }
                 {
@@ -636,7 +636,7 @@ finish_effect_step:
             PLACEMENT_VY(object) = DisplayObject_StepToward(PLACEMENT_VY(object), 2048, 96);
             DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
             if ((s16)PLACEMENT_PX(object) < -52 || (s16)PLACEMENT_PY(object) >= 240) {
-                func_8004036C(object);
+                DisplayObject_ReleaseIfPresent(object);
                 D_800E9EF0[0] = D_800E9EF0[1];
                 TextBox_Destroy(D_800EB0F8);
                 D_8009B174 = 3;

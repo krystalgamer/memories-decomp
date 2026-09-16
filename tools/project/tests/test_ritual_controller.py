@@ -152,7 +152,7 @@ s32 func_800428EC(u8 *p, s8 order)
     return 0;
 }
 void func_80029528(s32 id) { event(14, id, 0, 0, 0); }
-void func_8004036C(void *p) { event(15, object_id(p), 0, 0, 0); }
+void DisplayObject_ReleaseIfPresent(void *p) { event(15, object_id(p), 0, 0, 0); }
 int StoreImage(RECT *rect, u32 *data)
 {
     event(16, 0, 0, 0, 0);

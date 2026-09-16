@@ -113,7 +113,7 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
-            func_8004036C(gMemCard_pDialogObject);
+            DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             if ((D_8009B3EA & 0x80) == 0) {
                 D_8009B3EA = 3;
@@ -190,7 +190,7 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
-            func_8004036C(gMemCard_pDialogObject);
+            DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             return 2;
         }

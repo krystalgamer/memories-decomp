@@ -156,7 +156,7 @@ void NameEntry_UpdateDialog(void)
         if ((caret->status & 0x40) == 0) {
             return;
         }
-        func_8004036C(caret);
+        DisplayObject_ReleaseIfPresent(caret);
         ff = D_8016D400;
         D_8016D400 = ff & 0x7F;
         Text_SjisToGlyphCodes(D_801B125A, D_8016D418, 6);

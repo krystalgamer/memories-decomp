@@ -6957,7 +6957,7 @@ chain becomes dead and GCC deletes it too.
 So "the definition takes `void`" is not a reason to correct a caller that
 passes something. The two questions are separate: what the callee reads, and
 what the retail call site sets up. This is the mirror of the
-`func_8004036C`/`func_8004CB0C` case, where a caller passes *no* argument to a
+`DisplayObject_ReleaseIfPresent`/`func_8004CB0C` case, where a caller passes *no* argument to a
 function that takes one; the same rule covers both, which is that a call site's
 argument list is retail's, not the callee's.
 
@@ -7019,7 +7019,7 @@ Both directions occur, for different reasons.
 
 **A caller declares FEWER arguments than the definition takes** (25 pairs).
 The call site sets up only the arguments it names, and the callee reads the
-rest from whatever the registers happen to hold. `func_8004036C` in
+rest from whatever the registers happen to hold. `DisplayObject_ReleaseIfPresent` in
 `free_duel/screen_runtime.c` is the documented example: declared `void
 (void)`, defined `void (void *)`, called with nothing. These cannot be
 "corrected" by writing the missing argument, because there is no expression

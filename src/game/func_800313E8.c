@@ -57,7 +57,7 @@ void func_800313E8(DisplayObject *o) {
         o->field_44.h.field_46 = (s16)t * 512;
         o->field_44.h.field_44 = (s16)t * 512;
         if (o->field_60 == 0) {
-            func_8004036C(o);
+            DisplayObject_ReleaseIfPresent(o);
         }
     } else {
         DisplayObject_StepPositionXY(motion);

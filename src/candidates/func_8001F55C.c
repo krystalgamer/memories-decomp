@@ -162,7 +162,7 @@ void DuelScene_UpdateBattle(void)
             D_8009B229 = 0;
         }
         D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F64 + D_8009B1D5 * 0x70);
-        func_8004036C(*(void **)((u8 *)D_8009B1B4 + 4));
+        DisplayObject_ReleaseIfPresent(*(void **)((u8 *)D_8009B1B4 + 4));
         D_8009B162 = 8;
         D_8009B174 = 1;
         *(void **)((u8 *)D_8009B1B4 + 4) = 0;
@@ -619,8 +619,8 @@ void DuelScene_UpdateBattle(void)
                     Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)left->object);
                 }
             }
-            func_8004036C(D_800E9EF0[0]);
-            func_8004036C(D_800E9EF0[1]);
+            DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
+            DisplayObject_ReleaseIfPresent(D_800E9EF0[1]);
             o = D_8009B214;
             o->position.h.field_28 = 0xC;
             o->field_2C.h.field_2C = 0x10;

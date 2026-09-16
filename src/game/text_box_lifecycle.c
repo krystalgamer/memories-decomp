@@ -12,9 +12,9 @@ void TextBox_Destroy(void *record_ptr)
     func_80035CA8(record->index_57);
     DuelEffect_ClearMatchingMarker(record->index_57);
     record->flags_34 = 0;
-    func_8004036C(record->field_30);
-    func_8004036C(record->field_2C);
-    func_8004036C(record->field_28);
+    DisplayObject_ReleaseIfPresent(record->field_30);
+    DisplayObject_ReleaseIfPresent(record->field_2C);
+    DisplayObject_ReleaseIfPresent(record->field_28);
     record->field_30 = 0;
     record->field_2C = 0;
     record->field_28 = 0;

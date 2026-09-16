@@ -140,9 +140,9 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {
-    func_8004036C(D_801845DC);
+    DisplayObject_ReleaseIfPresent(D_801845DC);
     D_801845DC = 0;
-    func_8004036C(D_801845E0);
+    DisplayObject_ReleaseIfPresent(D_801845E0);
     D_801845E0 = 0;
     D_800E9DB0[1] = 0;
 }

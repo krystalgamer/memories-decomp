@@ -226,7 +226,7 @@ extern u8 D_8009B3C0;
  *   gMemCard_pDialogObject
  *               The box's display object. Assigned when the dialog opens,
  *               null-tested before teardown and reset to 0 after
- *               func_8004036C releases it; callers drive its field_60
+ *               DisplayObject_ReleaseIfPresent releases it; callers drive its field_60
  *               between -0x400 and 0x400.
  */
 extern u8 D_8009B3EE;

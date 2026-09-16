@@ -77,7 +77,7 @@ void Main_RunTrade(void)
         if (obj->field_60 <= 0) {
             D_8009B26E = 0;
             TextBox_Destroy(box);
-            func_8004036C(D_800E9EF0[0]);
+            DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
             D_800E9EF0[0] = 0;
         }
         break;

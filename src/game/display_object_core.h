@@ -14,10 +14,10 @@ void *func_800400AC(s32 index, s32 key);
 void DisplayObject_Release(struct DisplayObject *slot);
 void DisplayObject_MoveToListHead(struct DisplayObject *slot, s32 key);
 
-#ifdef FUNC_8004036C_AMBIENT_OBJECT
-void func_8004036C(void);
+#ifdef DISPLAY_OBJECT_RELEASE_IF_PRESENT_AMBIENT_OBJECT
+void DisplayObject_ReleaseIfPresent(void);
 #else
-void func_8004036C(void *object);
+void DisplayObject_ReleaseIfPresent(void *object);
 #endif
 
 void DisplayObject_Reset(void);

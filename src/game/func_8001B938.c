@@ -149,7 +149,7 @@ void func_8001BAF0(void)
                         (DuelCardRecord *)(id * DUEL_CARD_RECORD_SIZE +
                                            (s32)records),
                         spawned->out_x, spawned->out_y);
-                    func_8004036C(spawned);
+                    DisplayObject_ReleaseIfPresent(spawned);
                     D_8009B1C8->hand[j] = rec->index_02;
                     D_800EAE88[i] = j + 0xB;
                     sel[j] = -1;

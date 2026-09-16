@@ -114,7 +114,7 @@ next_obj:
             goto next_obj;
         }
         D_800E9F04[0] = 0;
-        func_8004036C(*(u8 **)((u8 *)D_8009B1B4 + 4));
+        DisplayObject_ReleaseIfPresent(*(u8 **)((u8 *)D_8009B1B4 + 4));
         D_8009B162 = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;

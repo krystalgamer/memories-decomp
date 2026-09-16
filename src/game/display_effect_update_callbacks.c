@@ -358,7 +358,7 @@ void func_8003B054(MenuRecord *record)
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         o->field_0C = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.h.field_46 = 0x1000;
-        func_8004036C(o2);
+        DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;
         goto clear;
     }

@@ -43,7 +43,7 @@ void CampaignMap_ClearLocationObjects(void)
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        func_8004036C(D_801695F8[i]);
+        DisplayObject_ReleaseIfPresent(D_801695F8[i]);
         D_801695F8[i] = 0;
     }
 }
@@ -525,7 +525,7 @@ void CampaignMap_UpdateLocation(void)
             D_801695C8->f48 = (u16)record->f12;
             D_801695C8->f50 = (u16)record->f14;
         } else {
-            func_8004036C(D_801695C8);
+            DisplayObject_ReleaseIfPresent(D_801695C8);
             D_801695C8 = 0;
         }
     }
@@ -535,7 +535,7 @@ void CampaignMap_UpdateLocation(void)
             Fade_InitOut();
             D_800E9ECF = 2;
             CampaignMap_ClearLocationObjects();
-            func_8004036C(D_801695C8);
+            DisplayObject_ReleaseIfPresent(D_801695C8);
             SD_BGMFadeOutWithStep(4);
         }
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
@@ -557,7 +557,7 @@ void CampaignMap_UpdateLocation(void)
     }
     gCampaignMap_Location = exit;
     if ((u8)exit < 10) {
-        func_8004036C(D_801695C8);
+        DisplayObject_ReleaseIfPresent(D_801695C8);
         D_801695C8 = 0;
     }
     CampaignMap_ClearLocationObjects();

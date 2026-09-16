@@ -142,7 +142,7 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     slot->flags = saved;
 }
 
-void func_8004036C(void *object)
+void DisplayObject_ReleaseIfPresent(void *object)
 {
     if (object != 0) {
         DisplayObject_Release((DisplayObject *)object);

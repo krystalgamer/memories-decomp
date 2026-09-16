@@ -135,15 +135,15 @@ void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
 
-    func_8004036C(D_80184558);
+    DisplayObject_ReleaseIfPresent(D_80184558);
     D_80184558 = 0;
-    func_8004036C(D_8018455C);
+    DisplayObject_ReleaseIfPresent(D_8018455C);
     D_8018455C = 0;
-    func_8004036C(D_80184560);
+    DisplayObject_ReleaseIfPresent(D_80184560);
     D_80184560 = 0;
     for (i = 0; i < 0xB; i++) {
         if (gMain_apMenuEntries[i] != 0) {
-            func_8004036C(gMain_apMenuEntries[i]);
+            DisplayObject_ReleaseIfPresent(gMain_apMenuEntries[i]);
             gMain_apMenuEntries[i] = 0;
         }
     }
@@ -197,6 +197,6 @@ void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
     } else {
         /* The parameter, not o: passing o here makes the rebuilt module
            four bytes longer than the target. */
-        func_8004036C(object);
+        DisplayObject_ReleaseIfPresent(object);
     }
 }

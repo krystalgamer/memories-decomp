@@ -14,7 +14,7 @@ void func_80022EEC(DisplayObject *object)
     offset += D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
     parent = *(DisplayObject **)(base + offset);
     if (parent == 0) {
-        func_8004036C(object);
+        DisplayObject_ReleaseIfPresent(object);
     } else {
         object->field_30.h.field_30 =
             parent->field_30.h.field_30 + object->position.h.field_28;

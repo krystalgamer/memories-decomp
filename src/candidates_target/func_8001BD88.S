@@ -679,7 +679,7 @@ glabel DuelScene_UpdateHandActions
     /* CF60 8001C760 04004224 */  addiu      $v0, $v0, 0x4
     /* CF64 8001C764 320062A4 */  sh         $v0, 0x32($v1)
     /* CF68 8001C768 0400848E */  lw         $a0, 0x4($s4)
-    /* CF6C 8001C76C DB00010C */  jal        func_8004036C
+    /* CF6C 8001C76C DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* CF70 8001C770 00000000 */   nop
     /* CF74 8001C774 0F80023C */  lui        $v0, %hi(D_800EA030)
     /* CF78 8001C778 040080AE */  sw         $zero, 0x4($s4)
@@ -956,10 +956,10 @@ glabel DuelScene_UpdateHandActions
     /* D388 8001CB88 00000000 */   nop
   .L8001CB8C:
     /* D38C 8001CB8C 8002848F */  lw         $a0, %gp_rel(D_8009B188)($gp)
-    /* D390 8001CB90 DB00010C */  jal        func_8004036C
+    /* D390 8001CB90 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* D394 8001CB94 00000000 */   nop
     /* D398 8001CB98 8402848F */  lw         $a0, %gp_rel(D_8009B18C)($gp)
-    /* D39C 8001CB9C DB00010C */  jal        func_8004036C
+    /* D39C 8001CB9C DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* D3A0 8001CBA0 00000000 */   nop
     /* D3A4 8001CBA4 840280AF */  sw         $zero, %gp_rel(D_8009B18C)($gp)
     /* D3A8 8001CBA8 800280AF */  sw         $zero, %gp_rel(D_8009B188)($gp)
@@ -1079,10 +1079,10 @@ glabel DuelScene_UpdateHandActions
     /* D55C 8001CD5C 15000212 */  beq        $s0, $v0, .L8001CDB4
     /* D560 8001CD60 00000000 */   nop
     /* D564 8001CD64 8002848F */  lw         $a0, %gp_rel(D_8009B188)($gp)
-    /* D568 8001CD68 DB00010C */  jal        func_8004036C
+    /* D568 8001CD68 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* D56C 8001CD6C 00000000 */   nop
     /* D570 8001CD70 8402848F */  lw         $a0, %gp_rel(D_8009B18C)($gp)
-    /* D574 8001CD74 DB00010C */  jal        func_8004036C
+    /* D574 8001CD74 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* D578 8001CD78 00000000 */   nop
     /* D57C 8001CD7C 0F80023C */  lui        $v0, %hi(D_800E9EF0)
     /* D580 8001CD80 F09E53AC */  sw         $s3, %lo(D_800E9EF0)($v0)

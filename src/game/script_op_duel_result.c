@@ -96,7 +96,7 @@ void Script_OpDuelResult(void) {
         if (D_8009B2A0 != 0) {
             D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        func_8004036C(D_8009B280);
+        DisplayObject_ReleaseIfPresent(D_8009B280);
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         D_8009B27C = 0;
     }

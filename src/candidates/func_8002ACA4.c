@@ -421,7 +421,7 @@ void func_8002ACA4(u8 *state)
             H(rec->object_00, 8) |= 4;
             state[1] = 6;
             state[4] = 0;
-            func_8004036C((void *)W(state, 0x50));
+            DisplayObject_ReleaseIfPresent((void *)W(state, 0x50));
             func_80014FA4();
             SD_SEPlayFull(0x31);
             return;
@@ -476,7 +476,7 @@ void func_8002ACA4(u8 *state)
                 return;
             }
         } else if (state[3] == 0) {
-            func_8004036C((void *)W(state, 0x4C));
+            DisplayObject_ReleaseIfPresent((void *)W(state, 0x4C));
             W(state, 0x4C) = 0;
             TextBox_Destroy(&D_800EB0F8[0]);
             state[1] = 8;

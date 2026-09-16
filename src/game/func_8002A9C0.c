@@ -45,7 +45,7 @@ void func_8002A9C0(DisplayObject *o, s32 arg1)
     n = *(u16 *)&o->field_60 - 0x10;
     o->field_60 = n;
     if ((s16)n <= 0) {
-        func_8004036C(o);
+        DisplayObject_ReleaseIfPresent(o);
         return;
     }
 

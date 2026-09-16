@@ -8,7 +8,7 @@
     ((u32)&(((DisplayParent *)0)->member))
 
 /* func_80022FF0 passes both objects of each entry to func_80022F98;
- * func_800235C0 positions the first and frees both with func_8004036C. */
+ * func_800235C0 positions the first and frees both with DisplayObject_ReleaseIfPresent. */
 typedef struct DisplayLinkEntry {
     DisplayObject *object;
     DisplayObject *field_04;

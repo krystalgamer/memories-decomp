@@ -483,15 +483,15 @@ void MainMenu_FinishValueSetup(void)
     *D_801845C0[0].out = D_801845C0[0].value;
     *D_801845C0[1].out = D_801845C0[1].value;
     *D_801845D8 = (D_801845BE != 1);
-    func_8004036C(D_801845A0);
+    DisplayObject_ReleaseIfPresent(D_801845A0);
     D_801845A0 = 0;
-    func_8004036C(D_801845A4);
+    DisplayObject_ReleaseIfPresent(D_801845A4);
     D_801845A4 = 0;
-    func_8004036C(D_801845B0[0]);
+    DisplayObject_ReleaseIfPresent(D_801845B0[0]);
     D_801845B0[0] = 0;
-    func_8004036C(D_801845B0[1]);
+    DisplayObject_ReleaseIfPresent(D_801845B0[1]);
     D_801845B0[1] = 0;
-    func_8004036C(D_801845B0[2]);
+    DisplayObject_ReleaseIfPresent(D_801845B0[2]);
     D_801845B0[2] = 0;
     D_800E9DB0[0] = 0;
 }

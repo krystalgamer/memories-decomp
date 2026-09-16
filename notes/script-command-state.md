@@ -38,7 +38,7 @@ command latch and script cursor lie between the two pairs.
 `func_8002F968` seeds signed countdown `D_8009B278` from two script bytes and
 clears the command when it reaches zero. `Script_OpShowImage` and
 `func_8002F630` store a freshly allocated `DisplayObject *` in `D_8009B280`
-and later release it through `func_8004036C`. The forward declaration in
+and later release it through `DisplayObject_ReleaseIfPresent`. The forward declaration in
 `script_state.h` uses the existing `struct DisplayObject` tag; it does not
 create a second object layout or import unrelated guarded graphics globals.
 

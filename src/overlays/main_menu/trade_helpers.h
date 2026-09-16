@@ -86,7 +86,7 @@ typedef struct {
  * releases and clears. MainMenu_InitTradeScreen stores a func_800400AC
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
  * (:40, :48) and passes it to func_800428EC (:41, :49);
- * MainMenu_ReleaseTradeDisplayHandles passes each to func_8004036C and
+ * MainMenu_ReleaseTradeDisplayHandles passes each to DisplayObject_ReleaseIfPresent and
  * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen
  * (trade_update.c) reads D_801845E0->frame and passes D_801845E0 to
  * DisplayObject_SetResourceVariant; MainMenu_RebuildTradeInventoryRows reads ->frame

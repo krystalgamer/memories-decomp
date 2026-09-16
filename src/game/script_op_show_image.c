@@ -70,7 +70,7 @@ void Script_OpShowImage(void) {
     }
     if (!(flags & 0x2000)) {
         D_8009B27C = flags | 0x2000;
-        func_8004036C(D_8009B280);
+        DisplayObject_ReleaseIfPresent(D_8009B280);
         ScriptImage_RebuildObjects((ScriptImageObjectSet *)D_800EAE98, -1);
         if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) {
             func_80015C0C();

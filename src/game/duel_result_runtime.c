@@ -115,7 +115,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
     }
     object->field_21 -= 2;
     if (object->field_21 < 0xC0) {
-        func_8004036C((u8 *)object);
+        DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }
 

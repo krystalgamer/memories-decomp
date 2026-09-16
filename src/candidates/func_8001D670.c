@@ -280,7 +280,7 @@ void DuelScene_UpdateFieldActions(void)
                 && func_8001700C(&D_801A7AD8[D_800907D8[D_8009B1D5][SB(side, 0xF) + 10]]) != 0) {
                 D_8009B1F8 = func_8001D518((DisplayObject *)W(side, 4));
             } else {
-                func_8004036C(D_8009B1F8);
+                DisplayObject_ReleaseIfPresent(D_8009B1F8);
                 D_8009B1F8 = 0;
             }
         }
@@ -321,7 +321,7 @@ void DuelScene_UpdateFieldActions(void)
             card = GRID_CARD(side);
             if ((W(card, 0x14) & 0xC8000000) == 0x80000000) {
                 SD_SEPlayFull(7);
-                func_8004036C(D_8009B1F8);
+                DisplayObject_ReleaseIfPresent(D_8009B1F8);
                 D_8009B1F8 = 0;
                 row = SB(side, 0x10);
                 if (row >= 2) {
@@ -416,7 +416,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (D_8009B174 & 0x40) {
             if (D_8009B162 == 0) {
-                func_8004036C((void *)W(s, 4));
+                DisplayObject_ReleaseIfPresent((void *)W(s, 4));
                 W(s, 4) = 0;
                 D_8009B174 = 3;
                 v = D_8009B1D5 * 0x70;
@@ -586,7 +586,7 @@ void DuelScene_UpdateFieldActions(void)
             } else if (D_8009B174 & 0x40) {
                 if (D_8009B174 & 0x10) {
                     D_801A7AD8[B(D_8009B1CC, 0x6A)].flags |= 0x8000;
-                    func_8004036C(D_8009B1CC);
+                    DisplayObject_ReleaseIfPresent(D_8009B1CC);
                     D_8009B174 = 3;
                     H(W(side, 4), 8) |= 0x40;
                     return;
@@ -646,7 +646,7 @@ void DuelScene_UpdateFieldActions(void)
             o = (u8 *)W(s, 4);
             D_8009B174 |= 0x80;
             D_8009B1B4 = (DuelCardPickCursor *)s;
-            func_8004036C(o);
+            DisplayObject_ReleaseIfPresent(o);
             D_8009B162 = 8;
             W(D_8009B1B4, 4) = 0;
         }
@@ -676,7 +676,7 @@ void DuelScene_UpdateFieldActions(void)
     case 11:
     quit_ai:
         D_8009B16C &= 0xEFFF;
-        func_8004036C(D_8009B1F8);
+        DisplayObject_ReleaseIfPresent(D_8009B1F8);
         D_8009B1F8 = 0;
         D_8009B174 = 0xA;
         SD_SEPlayFull(0x30);

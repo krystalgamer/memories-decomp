@@ -32,7 +32,7 @@ void func_80039F90(void **objects)
     s32 i;
 
     for (i = 2; i >= 0; i--) {
-        func_8004036C(objects[i]);
+        DisplayObject_ReleaseIfPresent(objects[i]);
         objects[i] = 0;
     }
 }

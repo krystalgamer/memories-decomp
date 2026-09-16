@@ -154,8 +154,8 @@ void DuelEffect_ApplyRitual(void)
             D_800E9EF0.slots[0]->field_0C = value;
             D_800E9EF0.slots[1]->field_0C = value;
             if (!value) {
-                func_8004036C(D_800E9EF0.slots[0]);
-                func_8004036C(D_800E9EF0.slots[1]);
+                DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[0]);
+                DisplayObject_ReleaseIfPresent(D_800E9EF0.slots[1]);
                 D_8009B210 = 3;
             }
         }
@@ -237,7 +237,7 @@ void DuelEffect_ApplyRitual(void)
                 D_8009B210 |= 0x20;
             }
         } else if (!func_80042B40(1)) {
-            func_8004036C(object);
+            DisplayObject_ReleaseIfPresent(object);
 state_five:
             D_8009B210 = 5;
         }

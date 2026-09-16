@@ -89,7 +89,7 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 
     set->image_id = -1;
     for (i = 0; i < 3; i++, entries++) {
-        func_8004036C(entries->pointer);
+        DisplayObject_ReleaseIfPresent(entries->pointer);
         entries->pointer = 0;
         entries->value = 0;
     }

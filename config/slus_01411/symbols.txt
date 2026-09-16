@@ -462,6 +462,7 @@ TextBox_SetPos = 0x80039934; // type:func
 DisplayObject_FindFreeGeneralSlot = 0x8004002C; // type:func
 DisplayObject_FindFreeSlot = 0x8004006C; // type:func
 DisplayObject_Release = 0x8004020C; // type:func
+DisplayObject_ReleaseIfPresent = 0x8004036C; // type:func
 DisplayObject_MoveToListHead = 0x800402A0; // type:func
 DisplayObject_ResetPool = 0x80040390; // type:func
 DisplayObject_Reset = 0x800403F0; // type:func

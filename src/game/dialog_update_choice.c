@@ -77,7 +77,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
     p->state_51 = 0;
     SD_SEPlayFull(7);
     if ((D_8009B34C & 0x40) == 0) {
-        func_8004036C(p->field_30);
+        DisplayObject_ReleaseIfPresent(p->field_30);
         p->field_30 = 0;
         p->state_51 = 3;
     }

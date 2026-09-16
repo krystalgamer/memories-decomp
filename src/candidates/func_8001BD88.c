@@ -384,7 +384,7 @@ void DuelScene_UpdateHandActions(void)
                 obj = hand->object;
                 hand->active_09 = 0;
                 H(obj, 0x32) += 4;
-                func_8004036C(hand->child);
+                DisplayObject_ReleaseIfPresent(hand->child);
                 hand->child = 0;
                 h = D_800EA030;
                 B(side, 0x15)--;
@@ -482,8 +482,8 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B174 &= 0xDF;
                 if (v != 0) {
                 restore:
-                    func_8004036C(D_8009B188);
-                    func_8004036C(D_8009B18C);
+                    DisplayObject_ReleaseIfPresent(D_8009B188);
+                    DisplayObject_ReleaseIfPresent(D_8009B18C);
                     D_8009B18C = 0;
                     D_8009B188 = 0;
                     W(obj, 0x28) = W(obj, 0x2C);
@@ -520,8 +520,8 @@ void DuelScene_UpdateHandActions(void)
                 }
                 kind = (gDuel_adwCardStats[CARD_ID(B(obj, 0x6A)) - 1] >> 0x1A) & 0x1F;
                 if (kind >= 0x14 && B(obj, 0x21) == 0 && kind != 0x17 && kind != 0x15) {
-                    func_8004036C(D_8009B188);
-                    func_8004036C(D_8009B18C);
+                    DisplayObject_ReleaseIfPresent(D_8009B188);
+                    DisplayObject_ReleaseIfPresent(D_8009B18C);
                     D_800E9EF0[0] = (DisplayObject *)obj;
                     base = (u8 *)D_8009B1C8;
                     D_8009B18C = 0;

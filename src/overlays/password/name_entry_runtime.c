@@ -213,7 +213,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     }
     value = obj->frame;
     if (value >= 12) {
-        func_8004036C(obj);
+        DisplayObject_ReleaseIfPresent(obj);
         return;
     }
     step = value;
@@ -254,7 +254,7 @@ void NameEntry_UpdateGlyphFragment(u8 *object)
         /* The parameter, not o: with every use on o, GCC keeps a second
            callee-saved copy of it and the function grows by three
            instructions. */
-        func_8004036C(object);
+        DisplayObject_ReleaseIfPresent(object);
     }
 }
 
@@ -291,7 +291,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
             }
         }
     } else {
-        func_8004036C(object);
+        DisplayObject_ReleaseIfPresent(object);
     }
 }
 
@@ -351,7 +351,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
         n = (u16)g->field_60 - 1;
         g->field_60 = n;
         if ((s16)n <= 0) {
-            func_8004036C(g);
+            DisplayObject_ReleaseIfPresent(g);
         }
         return;
     }

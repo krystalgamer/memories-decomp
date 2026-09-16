@@ -12,7 +12,7 @@
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
 typedef struct {
-    /* func_80029528 hands both of these to func_8004036C, which takes a
+    /* func_80029528 hands both of these to DisplayObject_ReleaseIfPresent, which takes a
      * void *object, and then clears them -- so the two leading words are
      * display-object pointers being released, not padding. */
     void *object_00;

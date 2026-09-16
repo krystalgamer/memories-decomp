@@ -100,7 +100,7 @@ glabel DuelScene_UpdateBattle
     /* FEAC 8001F6AC 21186200 */  addu       $v1, $v1, $v0
     /* FEB0 8001F6B0 0400648C */  lw         $a0, 0x4($v1)
     /* FEB4 8001F6B4 AC0283AF */  sw         $v1, %gp_rel(D_8009B1B4)($gp)
-    /* FEB8 8001F6B8 DB00010C */  jal        func_8004036C
+    /* FEB8 8001F6B8 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* FEBC 8001F6BC 00000000 */   nop
     /* FEC0 8001F6C0 AC02838F */  lw         $v1, %gp_rel(D_8009B1B4)($gp)
     /* FEC4 8001F6C4 08000224 */  addiu      $v0, $zero, 0x8
@@ -1221,10 +1221,10 @@ glabel DuelScene_UpdateBattle
     /* 10F50 80020750 0F80103C */  lui        $s0, %hi(D_800E9EF0)
   .L80020754:
     /* 10F54 80020754 F09E048E */  lw         $a0, %lo(D_800E9EF0)($s0)
-    /* 10F58 80020758 DB00010C */  jal        func_8004036C
+    /* 10F58 80020758 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* 10F5C 8002075C F09E1026 */   addiu     $s0, $s0, %lo(D_800E9EF0)
     /* 10F60 80020760 0400048E */  lw         $a0, 0x4($s0)
-    /* 10F64 80020764 DB00010C */  jal        func_8004036C
+    /* 10F64 80020764 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* 10F68 80020768 00000000 */   nop
     /* 10F6C 8002076C 0C000224 */  addiu      $v0, $zero, 0xC
     /* 10F70 80020770 10000624 */  addiu      $a2, $zero, 0x10

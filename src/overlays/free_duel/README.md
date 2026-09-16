@@ -130,9 +130,9 @@ Unchiga F92 to BGM-driver state started by the overlay initializer. It is not
 the visual fade record in `gFade_State`; the narrower sound-driver field
 semantics remain intentionally unnamed.
 
-`func_8004036C` keeps the local `void (void)` declaration the sparkle updater
+`DisplayObject_ReleaseIfPresent` keeps the local `void (void)` declaration the sparkle updater
 carried, and the reason for it: its two calls pass no argument at all, so
-`display_object_api.h`'s typed `void func_8004036C(void *)` would make the
+`display_object_api.h`'s typed `void DisplayObject_ReleaseIfPresent(void *)` would make the
 compiler set up an argument the retail image does not. Nothing else in this
 unit's include set declares that symbol, so the local spelling is still the
 only one in scope - worth stating, because it is the kind of thing a merge

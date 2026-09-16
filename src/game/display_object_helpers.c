@@ -252,6 +252,6 @@ void func_80042BC0(DisplayObjectLifecycle *object)
         object->value_0D = value;
         object->value_0C = value;
     } else {
-        func_8004036C(object);
+        DisplayObject_ReleaseIfPresent(object);
     }
 }

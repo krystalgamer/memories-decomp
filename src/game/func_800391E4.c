@@ -47,7 +47,7 @@ void func_800391E4(DuelEffectChannel *p) {
 
     if ((p->flags_34 & 0x20) != 0) {
         if (p->field_2C != 0) {
-            func_8004036C(p->field_2C);
+            DisplayObject_ReleaseIfPresent(p->field_2C);
         }
         e = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 4);
         func_800427DC(e, 1);

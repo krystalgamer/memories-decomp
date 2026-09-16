@@ -34,7 +34,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
 void ScriptImage_RequestTransfer(
     volatile ScriptImageObjectSet *owner, s32 value);
 
-/* Releases the three image slots: each pointer goes to func_8004036C and both
+/* Releases the three image slots: each pointer goes to DisplayObject_ReleaseIfPresent and both
  * words are zeroed, and image_id is set to -1 first so the next request
  * treats the record as empty. */
 void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);

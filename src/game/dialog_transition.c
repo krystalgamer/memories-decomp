@@ -68,7 +68,7 @@ void func_8003D614(MenuRecord *record)
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
         if (object->field_60 <= 0) {
-            func_8004036C(object);
+            DisplayObject_ReleaseIfPresent(object);
             record->grid[0][0] = 0;
         } else {
             Widget_SlideSine(
@@ -89,7 +89,7 @@ void func_8003D614(MenuRecord *record)
         *(u16 *)&object->field_48.h.field_4A += 8;
         *(u16 *)&object->field_48.h.field_48 += 8;
         if (object->field_48.h.field_48 >= 0xC0) {
-            func_8004036C(object);
+            DisplayObject_ReleaseIfPresent(object);
             record->grid[0][1] = 0;
         }
     }

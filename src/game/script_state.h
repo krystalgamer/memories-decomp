@@ -112,7 +112,7 @@ extern s32 D_8009B298;
 extern s16 D_8009B278;
 
 /* Script_OpShowImage and Script_OpDuelResult retain an allocated display object
- * here until their later command phase releases it with func_8004036C. */
+ * here until their later command phase releases it with DisplayObject_ReleaseIfPresent. */
 struct DisplayObject;
 extern struct DisplayObject *D_8009B280;
 

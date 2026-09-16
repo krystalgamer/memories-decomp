@@ -261,7 +261,7 @@ s32 func_800235C0(void)
             }
             if (D_8009B162 & 4) {
                 func_80022D94(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);
-                func_8004036C(source->object);
+                DisplayObject_ReleaseIfPresent(source->object);
                 source->object = 0;
                 records = D_8015C424;
                 for (i = 5; i < 30; i++) {
@@ -357,13 +357,13 @@ s32 func_800235C0(void)
             moving = busy;
             if (o->field_60 < 0) {
                 TextBox_Destroy(&D_800EB0F8[source->field_14]);
-                func_8004036C(o);
+                DisplayObject_ReleaseIfPresent(o);
                 source->field_00 = 0;
                 if (source->entries != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-                        func_8004036C(source->entries[i].object);
+                        DisplayObject_ReleaseIfPresent(source->entries[i].object);
                         source->entries[i].object = 0;
-                        func_8004036C(source->entries[i].field_04);
+                        DisplayObject_ReleaseIfPresent(source->entries[i].field_04);
                         source->entries[i].field_04 = 0;
                     }
                 }

@@ -86,7 +86,7 @@ void DuelScene_UpdateCardUse(void)
                 return;
             }
             D_8009B174 = D_8009B174 | 0x40;
-            func_8004036C(p);
+            DisplayObject_ReleaseIfPresent(p);
             q1 = D_800E9EF0[1];
             D_800E9EF0[0] = 0;
             q1->flags = q1->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
@@ -154,8 +154,8 @@ void DuelScene_UpdateCardUse(void)
         if (value != 0) {
             return;
         }
-        func_8004036C(D_800E9EF0[0]);
-        func_8004036C(D_800E9EF0[1]);
+        DisplayObject_ReleaseIfPresent(D_800E9EF0[0]);
+        DisplayObject_ReleaseIfPresent(D_800E9EF0[1]);
         D_8009B174 = 4;
         return;
     case 4:

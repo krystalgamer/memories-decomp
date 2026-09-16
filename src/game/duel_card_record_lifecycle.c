@@ -74,7 +74,7 @@ void func_80024914(DuelCardRecord *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
     if (object->object != 0) {
-        func_8004036C(object->object);
+        DisplayObject_ReleaseIfPresent(object->object);
         object->object = 0;
     }
 }

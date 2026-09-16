@@ -95,8 +95,8 @@ s32 func_80020988(void) {
 
     if ((gInput_wPad1Pressed &
          (PAD_BUTTON_CONFIRM_MASK | PAD_BUTTON_CANCEL)) != 0) {
-        func_8004036C(D_8009B188);
-        func_8004036C(D_8009B18C);
+        DisplayObject_ReleaseIfPresent(D_8009B188);
+        DisplayObject_ReleaseIfPresent(D_8009B18C);
         if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
             return -1;
         }

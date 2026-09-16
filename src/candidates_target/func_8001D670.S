@@ -401,7 +401,7 @@ glabel DuelScene_UpdateFieldActions
     /* E42C 8001DC2C 00000000 */   nop
   .L8001DC30:
     /* E430 8001DC30 F002848F */  lw         $a0, %gp_rel(D_8009B1F8)($gp)
-    /* E434 8001DC34 DB00010C */  jal        func_8004036C
+    /* E434 8001DC34 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* E438 8001DC38 00000000 */   nop
     /* E43C 8001DC3C F00280AF */  sw         $zero, %gp_rel(D_8009B1F8)($gp)
   .L8001DC40:
@@ -551,7 +551,7 @@ glabel DuelScene_UpdateFieldActions
     /* E66C 8001DE6C B8FF000C */  jal        SD_SEPlayFull
     /* E670 8001DE70 07000424 */   addiu     $a0, $zero, 0x7
     /* E674 8001DE74 F002848F */  lw         $a0, %gp_rel(D_8009B1F8)($gp)
-    /* E678 8001DE78 DB00010C */  jal        func_8004036C
+    /* E678 8001DE78 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* E67C 8001DE7C 00000000 */   nop
     /* E680 8001DE80 F00280AF */  sw         $zero, %gp_rel(D_8009B1F8)($gp)
     /* E684 8001DE84 1000B482 */  lb         $s4, 0x10($s5)
@@ -765,7 +765,7 @@ glabel DuelScene_UpdateFieldActions
     /* E9A0 8001E1A0 A8024014 */  bnez       $v0, .L8001EC44
     /* E9A4 8001E1A4 00000000 */   nop
     /* E9A8 8001E1A8 0400A48E */  lw         $a0, 0x4($s5)
-    /* E9AC 8001E1AC DB00010C */  jal        func_8004036C
+    /* E9AC 8001E1AC DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* E9B0 8001E1B0 00000000 */   nop
     /* E9B4 8001E1B4 CD028393 */  lbu        $v1, %gp_rel(D_8009B1D5)($gp)
     /* E9B8 8001E1B8 03000224 */  addiu      $v0, $zero, 0x3
@@ -1261,7 +1261,7 @@ glabel DuelScene_UpdateFieldActions
     /* F0F4 8001E8F4 16004394 */  lhu        $v1, 0x16($v0)
     /* F0F8 8001E8F8 00000000 */  nop
     /* F0FC 8001E8FC 00806334 */  ori        $v1, $v1, 0x8000
-    /* F100 8001E900 DB00010C */  jal        func_8004036C
+    /* F100 8001E900 DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* F104 8001E904 160043A4 */   sh        $v1, 0x16($v0)
     /* F108 8001E908 0400A48E */  lw         $a0, 0x4($s5)
     /* F10C 8001E90C 00000000 */  nop
@@ -1408,7 +1408,7 @@ glabel DuelScene_UpdateFieldActions
     /* F320 8001EB20 8000A234 */  ori        $v0, $a1, 0x80
     /* F324 8001EB24 6C0282A3 */  sb         $v0, %gp_rel(D_8009B174)($gp)
     /* F328 8001EB28 AC0283AF */  sw         $v1, %gp_rel(D_8009B1B4)($gp)
-    /* F32C 8001EB2C DB00010C */  jal        func_8004036C
+    /* F32C 8001EB2C DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* F330 8001EB30 00000000 */   nop
     /* F334 8001EB34 AC02838F */  lw         $v1, %gp_rel(D_8009B1B4)($gp)
     /* F338 8001EB38 08000224 */  addiu      $v0, $zero, 0x8
@@ -1460,7 +1460,7 @@ glabel DuelScene_UpdateFieldActions
     /* F3E0 8001EBE0 F002848F */  lw         $a0, %gp_rel(D_8009B1F8)($gp)
     /* F3E4 8001EBE4 FFEF4230 */  andi       $v0, $v0, 0xEFFF
     /* F3E8 8001EBE8 640282A7 */  sh         $v0, %gp_rel(D_8009B16C)($gp)
-    /* F3EC 8001EBEC DB00010C */  jal        func_8004036C
+    /* F3EC 8001EBEC DB00010C */  jal        DisplayObject_ReleaseIfPresent
     /* F3F0 8001EBF0 00000000 */   nop
     /* F3F4 8001EBF4 0A000224 */  addiu      $v0, $zero, 0xA
     /* F3F8 8001EBF8 F00280AF */  sw         $zero, %gp_rel(D_8009B1F8)($gp)

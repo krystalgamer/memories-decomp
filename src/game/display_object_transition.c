@@ -71,9 +71,9 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
 
     b->field_44.word = 0x10001000;
     b->attribute = (b->attribute | GsROTOFF) & ~(GsALON | GsATWO | GsAONE);
-    func_8004036C(a);
-    func_8004036C(x);
-    func_8004036C(y);
+    DisplayObject_ReleaseIfPresent(a);
+    DisplayObject_ReleaseIfPresent(x);
+    DisplayObject_ReleaseIfPresent(y);
 }
 
 void Main_HoldBootScreen(s32 count)

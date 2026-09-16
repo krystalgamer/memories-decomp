@@ -140,7 +140,7 @@ state_four:
                 card->flags = flags & ~0x2400;
             }
             card->stat_modifier = scratch->stat_modifier;
-            func_8004036C(object);
+            DisplayObject_ReleaseIfPresent(object);
             D_800E9EF0[0] = card->object;
             object = D_800E9EF0[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
