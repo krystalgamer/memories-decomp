@@ -10,7 +10,7 @@ struct DisplayObject;
  * (scene_script_record_callbacks.c). It advances a sine phase at +6 of
  * `state`, latched by bit 0x8000 of +4 on the first call. From it, it writes
  * a pulsing grey into the colour bytes (field_0C) of `color` -- the display
- * object func_8002FFD4 passes from the slot's own first word -- and a
+ * object SceneScript_UpdateSlots passes from the slot's own first word -- and a
  * brighter one into those of the display objects in scene-script slots 0
  * and 1. */
 void func_8002FED8(SceneScriptSlot *state, struct DisplayObject *color);

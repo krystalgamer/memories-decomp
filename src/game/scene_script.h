@@ -44,11 +44,8 @@
  * and there is no symbol at 0x800EAEFC for it to belong to instead. */
 extern SceneScriptSlot D_800EAE98[];
 
-/* The per-tick sweep over the first three slots. It takes the table as bytes
- * rather than as SceneScriptSlot *, strides 0x14 by hand, and dispatches
- * through D_80090CAC on the byte at +4, so the record view above is the
- * layout it walks rather than the type it is written against.
- * Main_RunCampaign is the only caller and already casts the table to u8 *. */
-void func_8002FFD4(u8 *records);
+/* The per-tick sweep over the first three slots. It dispatches each live
+ * slot through D_80090CAC using the low byte at +4 as the callback index. */
+void SceneScript_UpdateSlots(SceneScriptSlot *records);
 
 #endif
