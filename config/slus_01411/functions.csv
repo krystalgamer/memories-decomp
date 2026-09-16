@@ -578,7 +578,7 @@ address,size,name,status,module,notes
 0x8003D2B8,0x48,SaveData_MatchesDuelistAndCurrentSequence,matching_c,game,Requires equal duelist codes and a candidate save sequence equal to gSaveDataSequence; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003D300,0x2C,func_8003D300,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x8003D32C,0x8,func_8003D32C,matching_c,game,Empty void function matched the return-and-nop sequence.
-0x8003D334,0x138,func_8003D334,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
+0x8003D334,0x138,Checkerboard_DrawBackground,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x8003D46C,0xAC,DuelEffect_CreateChannel,matching_c,game,Post-terminal pure-C match from collaborator source; one verified absolute byte store preserves retail $at materialization.
 0x8003D518,0xFC,func_8003D518,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003D614,0x138,func_8003D614,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

@@ -35,14 +35,20 @@ typedef struct {
     u16 field_06;
     u32 field_08;
     u16 field_0C;
-    u8 field_0E;
-    u8 field_0F;
+    union {
+        u16 word;
+        struct {
+            u8 field_0E;
+            u8 field_0F;
+        } bytes;
+    } field_0E;
     u16 field_10;
     u16 field_12;
     u32 field_14;
 } CheckerboardSprite;
 
 void func_8003D32C(void);
-void func_8003D334(CheckerboardState *state, GsOT *ordering_table);
+void Checkerboard_DrawBackground(
+    CheckerboardState *state, GsOT *ordering_table);
 
 #endif

@@ -14,7 +14,8 @@ void func_8003D32C(void)
 }
 
 /* Tiles the 320x240 background with alternating 64x32 sprite cells. */
-void func_8003D334(CheckerboardState *state, GsOT *ordering_table)
+void Checkerboard_DrawBackground(
+    CheckerboardState *state, GsOT *ordering_table)
 {
     CheckerboardSprite *sprite = (CheckerboardSprite *)0x1F800000;
     s32 y;
@@ -32,7 +33,7 @@ void func_8003D334(CheckerboardState *state, GsOT *ordering_table)
     sprite->field_10 = 0x2C0;
     sprite->field_12 = 0xFC;
     mode = state->field_14;
-    *(u16 *)&sprite->field_0E = 0x3030;
+    sprite->field_0E.word = 0x3030;
     sprite->field_14 = field_0C;
 
     flip = 0;
@@ -40,7 +41,7 @@ void func_8003D334(CheckerboardState *state, GsOT *ordering_table)
     do {
         x = 0;
         sprite->field_04 = flip << 5;
-        sprite->field_0E = 0x30;
+        sprite->field_0E.bytes.field_0E = 0x30;
         sprite->field_06 = y;
         sprite->field_10 = 0x2C0;
         do {
@@ -53,7 +54,7 @@ void func_8003D334(CheckerboardState *state, GsOT *ordering_table)
 
         x = 0;
         sprite->field_04 = (flip ^ 1) << 5;
-        sprite->field_0E = 0x50;
+        sprite->field_0E.bytes.field_0E = 0x50;
         sprite->field_10 = 0x2D0;
         do {
             GsSortFastSprite((GsSPRITE *)sprite, ordering_table,
