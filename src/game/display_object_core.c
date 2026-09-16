@@ -186,21 +186,21 @@ void func_8004044C(
 void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
                     int color, int texture)
 {
+    DisplayObject *configured = (DisplayObject *)object;
     u16 flags;
 
-    object[0x67] = field_67;
-    object[0x68] = field_68;
-    object[0x69] = field_69;
-    object[0x66] = color;
-    object[0x5E] = color >> 16;
-    object[0x5F] = color >> 8;
-    *(u16 *)(object + 0x40) = texture & 0x3F0;
-    *(u16 *)(object + 0x42) = (texture & 0xF) + 0xF0;
-    flags = *(u16 *)(object + 8) & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
-    *(u16 *)(object + 8) = flags;
+    configured->field_67 = field_67;
+    configured->field_68 = field_68;
+    configured->field_69 = field_69;
+    configured->field_66 = color;
+    *(u8 *)&configured->field_5E = color >> 16;
+    *((u8 *)&configured->field_5E + 1) = color >> 8;
+    configured->field_40.h.field_40 = texture & 0x3F0;
+    configured->field_40.h.field_42 = (texture & 0xF) + 0xF0;
+    flags = configured->flags & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
+    configured->flags = flags;
     if (texture & 0x8000) {
-        *(u16 *)(object + 8) =
-            flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
+        configured->flags = flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     }
     return object;
 }
