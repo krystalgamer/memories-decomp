@@ -438,7 +438,7 @@ s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
     } else {
         _card_wait(gMemCard_bChannel != 0);
     }
-    switch ((s8)(*(u8 *)&gMemCard_bRequest - 1)) {
+    switch ((s8)((u8)gMemCard_bRequest - 1)) {
     case 0:
     case 1:
         if (MemCard_DoLoadDirectory() >= 0)
