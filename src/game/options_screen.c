@@ -162,7 +162,7 @@ void Options_HandleInput(void)
     if (gOptions_bSelection != 0 &&
         (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK)) {
         SD_SEPlayFull(7);
-        gOptions_bState = *(u8 *)&gOptions_bSelection + 1;
+        gOptions_bState = (u8)gOptions_bSelection + 1;
         return;
     }
 
