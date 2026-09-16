@@ -496,7 +496,7 @@
       "address": "0x80016D04",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/func_80016D04.c"
+      "source": "src/game/duel_draw_card_output_position.c"
     },
     {
       "address": "0x80016D2C",

@@ -27,8 +27,8 @@ typedef struct {
    their eased result. func_80017F04 writes that pair as the object's initial
    position. The rest stay field_NN because no existing view names them:
    0x4C is a second callback slot, which DisplayObject covers with pad_4C,
-   and all that is known here is that func_80017F04 stores func_80016D04
-   into it. */
+   and all that is known here is that func_80017F04 stores
+   Duel_DrawCardAtOutputPosition into it. */
 typedef struct {
     u8 pad_00[0x04];
     u32 attribute;

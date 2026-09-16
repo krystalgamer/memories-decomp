@@ -30,7 +30,7 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "duel_action_lock.h"
-#include "func_80016D04.h"
+#include "duel_draw_card_output_position.h"
 #include "func_80016778.h"
 #include "../unmatched.h"
 #include "func_800179F4.h"
