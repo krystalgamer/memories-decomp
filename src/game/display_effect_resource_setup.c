@@ -22,7 +22,9 @@
 
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
-s32 func_8003A1EC(MenuRecord *a, DisplayObject **out, s32 c) {
+s32 DisplayEffect_BuildResourceObjects(
+    MenuRecord *a, DisplayObject **out, s32 c)
+{
     DisplayObject *p;
     u8 *tb;
     s32 f;
@@ -208,7 +210,8 @@ void func_8003A560(DisplayEffectVramState *a)
             Util_CopyWords(slot->extra, D_801AF000, 0x800);
         }
     } else {
-        func_8003A1EC((MenuRecord *)a, (DisplayObject **)a, a->field_31);
+        DisplayEffect_BuildResourceObjects(
+            (MenuRecord *)a, (DisplayObject **)a, a->field_31);
         a->state = 0;
         a->field_32 |= 0x40;
     }

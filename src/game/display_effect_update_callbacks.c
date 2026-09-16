@@ -134,7 +134,7 @@ void func_8003AAE4(MenuRecord *p) {
         b = q->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), a);
         e = p->grid[1];
-        func_8003A1EC(p, (DisplayObject **)e, b);
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)e, b);
         func_8003A440((u8 **)e, (GsALON | GsATWO), a - 1);
         p->field_40 = 0;
     }
@@ -181,7 +181,7 @@ void func_8003AC48(MenuRecord *p)
         y = h->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), x);
         d = (u8 **)p->grid[1];
-        func_8003A1EC(p, (DisplayObject **)d, y);
+        DisplayEffect_BuildResourceObjects(p, (DisplayObject **)d, y);
         func_8003A440(d, (GsALON | GsATWO), x - 1);
         p->field_40 = 0x80;
     }
@@ -230,14 +230,18 @@ void func_8003AD6C(MenuRecord *p)
         a = r->field_67;
         b = r->field_16;
         func_80039F90((void **)p->grid[0]);
-        func_8003A1EC(p, (DisplayObject **)p->grid[0], p->field_31);
+        DisplayEffect_BuildResourceObjects(
+            p, (DisplayObject **)p->grid[0], p->field_31);
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), b);
-        func_8003A1EC(p, (DisplayObject **)p->grid[1], p->field_31);
+        DisplayEffect_BuildResourceObjects(
+            p, (DisplayObject **)p->grid[1], p->field_31);
         d = b - 1;
         func_8003A440((u8 **)p->grid[1], (GsALON | GsATWO), d);
-        func_8003A1EC(p, (DisplayObject **)p->grid[2], a);
+        DisplayEffect_BuildResourceObjects(
+            p, (DisplayObject **)p->grid[2], a);
         func_8003A440((u8 **)p->grid[2], (GsALON | GsAONE), b);
-        func_8003A1EC(p, (DisplayObject **)p->grid[3], a);
+        DisplayEffect_BuildResourceObjects(
+            p, (DisplayObject **)p->grid[3], a);
         func_8003A440((u8 **)p->grid[3], (GsALON | GsATWO), d);
         p->field_40 = 0x80;
     }

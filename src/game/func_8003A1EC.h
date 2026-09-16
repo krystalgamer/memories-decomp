@@ -24,6 +24,7 @@
  * func_8003A560 in display_effect_resource_setup.c holds the same memory as a
  * DisplayEffectState instead and says so with its cast; menu_record.h records
  * that the two views name these same bytes. */
-s32 func_8003A1EC(MenuRecord *a, DisplayObject **out, s32 c);
+s32 DisplayEffect_BuildResourceObjects(
+    MenuRecord *record, DisplayObject **out, s32 resource_index);
 
 #endif

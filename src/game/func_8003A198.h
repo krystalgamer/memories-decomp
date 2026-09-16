@@ -6,8 +6,8 @@
 /* Walks three levels of halfword offset tables rooted at `b`: entry `x` of the
  * root gives the offset of a second table, entry `y` of that gives a third,
  * and entry `z` of the third must be non-zero. Returns 1 when all three are
- * non-zero, 0 at the first zero. func_8003A1EC asks it about the table at
- * D_801AF000 or D_801AF800. */
+ * non-zero, 0 at the first zero. DisplayEffect_BuildResourceObjects asks it
+ * about the table at D_801AF000 or D_801AF800. */
 int DisplayEffect_HasResourceEntry(
     unsigned char *base, int group, int row, int entry);
 

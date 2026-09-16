@@ -35,7 +35,8 @@ typedef struct {
        each use (ILP32, so a slot is exactly one pointer word). The
        converted display_effect_update_callbacks.c reads these words
        through several views: rows go to func_8003A440 and
-       func_8003A1EC as u8 ** and to func_80039F90 as void **, the
+       DisplayEffect_BuildResourceObjects as DisplayObject ** and to
+       func_80039F90 as void **, the
        record itself goes to func_8003A920 as the DisplayPositionGroup *
        for row 0, and single slots such as grid[0][0] and grid[0][1]
        hold DisplayObject pointers. No one element type fits all of

@@ -523,7 +523,7 @@ address,size,name,status,module,notes
 0x80039FF8,0x24,func_80039FF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A01C,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
 0x8003A198,0x54,DisplayEffect_HasResourceEntry,matching_c,game,"Display-effect resource-table probe grouped with its object builder, layer setup, and VRAM state callback; its object is byte-identical at g0, g0_split, g8, and g8_split."
-0x8003A1EC,0x254,func_8003A1EC,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."
+0x8003A1EC,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."
 0x8003A440,0x120,func_8003A440,matching_c,game,"Display-effect child layer/attribute setup grouped with the resource pipeline; its object is byte-identical at g0, g0_split, g8, and g8_split."
 0x8003A560,0x3C0,func_8003A560,matching_c,game,"VRAM page swap state callback completing the display-effect resource pipeline; g8_split is required and fixes the grouped unit's profile."
 0x8003A920,0x3C,func_8003A920,matching_c,game,"Three-child position propagation beginning the seven-function display-effect update callback unit; its object is byte-identical at g0, g0_split, g8, and g8_split."
