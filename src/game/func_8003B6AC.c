@@ -3,7 +3,7 @@
 #include "duel_effect_entry_ranges.h"
 #include "func_8003B6AC.h"
 
-void func_8003B6AC(s32 arg0, s32 arg1)
+void DuelEffect_SetEntryRangeLayout(s32 arg0, s32 arg1)
 {
     u8 *t = (u8 *)gDuelEffect_awEntryRangeBoundaries;
     u8 *lo = t + arg0 * 2;

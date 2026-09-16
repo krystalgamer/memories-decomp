@@ -75,7 +75,7 @@ Verified entry fields are:
 | `0x12` | `field_12` | compared with the requested marker plus one |
 | `0x13` | `field_13` | active-value test/write in the bounded scan pair |
 | `0x15` | `field_15` | second byte written by `func_800373C8` |
-| `0x18` | `field_18` | range write in `func_8003B6AC`; `DuelEffect_UpdateObjectLayout` reads it |
+| `0x18` | `field_18` | range write in `DuelEffect_SetEntryRangeLayout`; `DuelEffect_UpdateObjectLayout` reads it |
 
 Exact C for `DuelEffect_ProcessEntries` (`0x80039D64`) copies complete
 seven-word (`0x1C`) records and advances both pointers by `0x1C`,
@@ -129,7 +129,7 @@ flagged sound path, and arms effect state `0x11` with a follow-up value.
 Six pure-C functions now use the shared declaration:
 `DuelEffect_ClearMatchingMarker`, `DuelEffect_ResetEntryMarkers`,
 `DuelEffect_HasActiveEntry`, `func_800373C8`, `func_8003741C`, and
-`func_8003B6AC`.
+`DuelEffect_SetEntryRangeLayout`.
 
 ## Runtime state and channel lifecycle
 
