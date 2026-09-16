@@ -21,10 +21,12 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertEqual(self.functions["0x80022FF0"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_80022FF0.c").exists())
 
-    def test_library_motion_pair_has_one_owner(self) -> None:
+    def test_library_selection_motion_group_has_one_owner(self) -> None:
         owner = "src/game/func_8002A3CC.c"
+        self.assertEqual(self.functions["0x8002A2F4"]["source"], owner)
         self.assertEqual(self.functions["0x8002A3CC"]["source"], owner)
         self.assertEqual(self.functions["0x8002A4A8"]["source"], owner)
+        self.assertFalse((ROOT / "src/game/func_8002A2F4.c").exists())
         self.assertFalse((ROOT / "src/game/func_8002A4A8.c").exists())
 
     def test_library_cursor_pair_has_one_owner(self) -> None:
@@ -38,7 +40,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
     def test_library_cursor_lookup_has_one_typed_contract(self) -> None:
         header = (ROOT / "src/game/library_grid_cursor.h").read_text()
         owner = (ROOT / "src/game/library_grid_cursor.c").read_text()
-        staging = (ROOT / "src/game/func_8002A2F4.c").read_text()
+        staging = (ROOT / "src/game/func_8002A3CC.c").read_text()
         self.assertEqual(
             header.count("s32 Library_GetGridCursorCardId(u8 *state);"), 1
         )
@@ -51,6 +53,10 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         self.assertLess(
             display_source.index("void DuelSelection_LinkDisplayObject("),
             display_source.index("void DuelSelection_LinkDisplayObjects("),
+        )
+        self.assertLess(
+            library_source.index("void func_8002A2F4("),
+            library_source.index("s32 func_8002A3CC("),
         )
         self.assertLess(
             library_source.index("s32 func_8002A3CC("),

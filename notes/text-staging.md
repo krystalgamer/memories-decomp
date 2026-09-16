@@ -62,7 +62,7 @@ explains why these are not persistent ATK/DEF globals.
   `func_80023144` in `src/game/duel_field_display_objects.c`, `func_80060E70`
   in `src/game/func_80060E70.c`, `MemCardDialog_UpdateSave` in
   `src/game/mem_card_dialog_load_save.c` and `func_8002A2F4` in
-  `src/game/func_8002A2F4.c`, plus `Password_UpdateShopScreen` in
+  `src/game/func_8002A3CC.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The filter is
   `git grep -lw D_801D5608 -- 'src/candidates/**'`. The distinction that holds
   is the contract one. The probe over all configured
