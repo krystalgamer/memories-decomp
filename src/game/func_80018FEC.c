@@ -107,7 +107,7 @@ next_obj:
         *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
         py = pose[2];
         *(u16 *)(obj + 0x2C) = 0xB4;
-        obj[0x6C] = 1;
+        ((DisplayObject *)obj)->field_6C = 1;
         *(s32 *)(obj + 0x24) = fnv;
         *(s16 *)(obj + 0x2A) = py - 0x1E;
         objs[pose[0]] = (DisplayObject *)obj;
