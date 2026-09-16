@@ -47,7 +47,7 @@ void func_80030C10(void)
         } else {
             D_8009B363[0] = 0;
             D_8009B26C[0] = 5;
-            D_8009B2E8 = *(u8 *)&gDebug_nSceneOrSoundID;
+            D_8009B2E8 = (u8)gDebug_nSceneOrSoundID;
         }
     }
 }
@@ -69,7 +69,7 @@ void DebugMenu_UpdateTitleEntry(void)
         } else {
             D_8009B268 = 1;
             D_8009B26C[0] = 8;
-            D_8009B26D = *(u8 *)&gDebug_nSceneOrSoundID;
+            D_8009B26D = (u8)gDebug_nSceneOrSoundID;
         }
     }
 }
