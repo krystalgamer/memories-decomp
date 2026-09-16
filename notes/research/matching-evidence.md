@@ -432,7 +432,8 @@ the older kind, and 161 of those are still `unmatched_asm`. Those histories
 never tried their cohort's profile, so their six attempts do not mean what a
 profile-era six means.
 
-`func_80013B04` (`0x80013B04`) shows the difference. Its six rows are all
+`File_TryStartPrimaryTransfer` (`0x80013B04`) shows the difference. Its six
+rows are all
 free-form, and every one of them blames the branch orientation: "inverted the
 busy branch", "moved the null return to the shared epilogue". Both claims are
 wrong. Under `gcc_2_8_1_g8_split` — the profile its matched neighbour

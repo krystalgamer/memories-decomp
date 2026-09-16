@@ -571,6 +571,7 @@ gDuel_awUniqueDeckCardIds = 0x80178130;
 
 // Semantic names
 File_InitTransferDescriptor = 0x80013998; // type:func
+File_TryStartPrimaryTransfer = 0x80013B04; // type:func
 
 // Semantic names
 BuildDeck_AddCard = 0x800320BC; // type:func
