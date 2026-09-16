@@ -3208,7 +3208,7 @@
       "address": "0x8003BF00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/func_8003BF00.c"
+      "source": "src/game/campaign_map_load_package_stage.c"
     },
     {
       "address": "0x8003C0C0",

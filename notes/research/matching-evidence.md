@@ -3028,8 +3028,9 @@ register:
 
 Declaring the scalars plainly under `-G0` instead lets GCC cache the address
 in a register and reuse it, which builds five instructions short on
-`func_8003B808` and six to eight on `func_8003BF00`. Both functions' canonical
-campaigns recorded exactly that as a shifted dispatch branch target
+`func_8003B808` and six to eight on `CampaignMap_LoadPackageStage`. Both
+functions' canonical campaigns recorded exactly that as a shifted dispatch
+branch target
 (`+0x10: 64!=5c` and `+0xc: 68!=62`). The residuals were accurate; nothing in
 them suggested the cause was a declaration.
 
@@ -3048,12 +3049,13 @@ When two statements in the same basic block each need a constant, and one of
 them costs a `lui`/`ori` pair while the other fits in a single `addiu`, the
 expensive one is materialised first and source order decides the rest.
 
-`func_8003B808` and `func_8003BF00` are switch statements whose arms all have
-the same shape: assign a field, then mask a global. Most arms match with the
-field assignment written first. Exactly one arm in each function does not:
+`func_8003B808` and `CampaignMap_LoadPackageStage` are switch statements whose
+arms all have the same shape: assign a field, then mask a global. Most arms
+match with the field assignment written first. Exactly one arm in each
+function does not:
 
     func_8003B808 case 3   field1C = 0x18000    lui + ori
-    func_8003BF00 case 1   field1C = 0x43000    lui + ori
+    CampaignMap_LoadPackageStage case 1   field1C = 0x43000    lui + ori
 
 Those two need the mask statement written first. Every other arm uses a
 constant that fits one instruction and is insensitive to the order.

@@ -143,9 +143,10 @@ extern const char D_80011918[];
  * it identically as `extern s32 D_8009B118;`, which is why it can move here
  * unchanged - there is no per-consumer spelling to preserve.
  *
- * It holds an address despite the s32 spelling: func_8003BF00.c passes it to
- * LoadImage2 as (u32 *) and also adds 0x800 to it. The s32 is left as-is
- * rather than retyped, which is a separate question from centralizing it.
+ * It holds an address despite the s32 spelling:
+ * campaign_map_load_package_stage.c passes it to LoadImage2 as (u32 *) and
+ * also adds 0x800 to it. The s32 is left as-is rather than retyped, which is
+ * a separate question from centralizing it.
  *
  * Six consumers do NOT take the plain arm, and both reasons are load bearing.
  * Five carry section(".data"), which is the -G8 lever that keeps the address
