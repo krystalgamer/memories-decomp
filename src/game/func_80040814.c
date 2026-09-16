@@ -4,7 +4,7 @@
 #define FUNC_80041D60_AMBIENT_ARGS
 #include "func_80041D60.h"
 #include "../unmatched.h"
-#include "func_8004158C.h"
+#include "display_object_render_sprite_sheet.h"
 #include "func_80040814.h"
 
 #include "ordering_tables.h"
@@ -31,7 +31,7 @@ void func_80040814(void) {
             if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_80041D60((DisplayObject *)q);
-                func_8004158C(
+                DisplayObject_RenderSpriteSheet(
                     (DisplayObject *)q, (s32)t[p->ot_index],
                     (s16)p->field_14
                 );

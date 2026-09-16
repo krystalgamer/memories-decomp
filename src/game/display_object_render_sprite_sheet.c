@@ -9,7 +9,7 @@
 #include "graphics_frame.h"
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
-#include "func_8004158C.h"
+#include "display_object_render_sprite_sheet.h"
 
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
@@ -20,7 +20,7 @@
  * attribute's 0x08000000 bit asked for that, or as a rotated/scaled sprite
  * about the object's +0x48 pivot. The scale and colour are written through
  * GsSPRITE's own members, which is the view libgs gives the record. */
-void func_8004158C(DisplayObject *object, s32 ot, s32 depth)
+void DisplayObject_RenderSpriteSheet(DisplayObject *object, s32 ot, s32 depth)
 {
     SpritePrim *sprite;
     SpriteSheetWork *work;

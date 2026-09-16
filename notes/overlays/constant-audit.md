@@ -105,7 +105,7 @@ The former composite `0x28` writes are now expressed as
 `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
 DISPLAY_OBJECT_FLAG_SCREEN_SPACE`. The `0x20` bit's provenance and consumer
 are both established, and both are now matching C: the consumer is
-`func_8004158C` in `src/game/func_8004158C.c`.
+`DisplayObject_RenderSpriteSheet` in `src/game/display_object_render_sprite_sheet.c`.
 
    An earlier version of this entry also listed `0x48` as blocked. That was
    wrong: `0x48` is `0x40 | 0x08`, both of which are named, and it contains no
@@ -132,7 +132,7 @@ are both established, and both are now matching C: the consumer is
    `DISPLAY_OBJECT_RENDERABLE_MASK`, `DISPLAY_OBJECT_FLAG_SCREEN_SPACE` and
    `DISPLAY_OBJECT_FLAG_CLIP_TEST`.
 
-   The single reader is `func_8004158C`, the `0x700`-byte sprite-sheet
+   The single reader is `DisplayObject_RenderSpriteSheet`, the `0x700`-byte sprite-sheet
    renderer called from `func_80040814.c`. At `0x800416F0` it loads the flag
    word and branches on the bit. Its working clut position has just been
    initialised from the object's `+0x40` and `+0x42`, the halves the

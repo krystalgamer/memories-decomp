@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8004158C_H
-#define MEMORIES_DECOMP_FUNC_8004158C_H
+#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_SPRITE_SHEET_H
+#define MEMORIES_DECOMP_DISPLAY_OBJECT_RENDER_SPRITE_SHEET_H
 
 #include "../types.h"
 #include "display_object.h"
@@ -26,8 +26,8 @@ typedef struct {
     u16 size;
 } SpriteSheetPart;
 
-/* Per-object working state func_8004158C keeps in the scratchpad at
- * 0x1F800378. `proj` is the projection func_80041F90 fills and
+/* Per-object working state DisplayObject_RenderSpriteSheet keeps in the
+ * scratchpad at 0x1F800378. `proj` is the projection func_80041F90 fills and
  * func_80042188 takes as its origin record. */
 typedef struct {
     u32 pad_00;
@@ -59,6 +59,6 @@ typedef struct {
 /* Draws a display object whose image is a sprite sheet: every part becomes
  * one GsSPRITE-shaped primitive in the scratchpad at 0x1F800320, positioned
  * relative to the object and submitted through func_80042188. */
-void func_8004158C(DisplayObject *object, s32 ot, s32 depth);
+void DisplayObject_RenderSpriteSheet(DisplayObject *object, s32 ot, s32 depth);
 
 #endif
