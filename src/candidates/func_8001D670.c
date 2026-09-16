@@ -97,7 +97,6 @@ u8 D_8009B19C;
 extern s32 D_8009B1BC;
 extern u8 D_8009B21A;
 extern s8 D_8009B229;
-extern u8 D_800E9F64[];
 extern u8 D_800EAE91[];
 int func_8001700C(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
