@@ -293,11 +293,12 @@ void Model_ProcessType2Unit(
                         } else {
                             *(u16 *)rec = sh;
                         }
-                        v = *(s16 *)(rec + 2);
+                        v = ((ModelType2Record *)rec)->field_02;
                         if (v >= 8) {
-                            *(s16 *)(rec + 2) = v % 8;
+                            ((ModelType2Record *)rec)->field_02 = v % 8;
                         }
-                        *(u16 *)(rec + 2) = *(u16 *)(rec + 2) + 0xF8;
+                        ((ModelType2Record *)rec)->field_02 =
+                            ((ModelType2Record *)rec)->field_02 + 0xF8;
                     }
                     q += 0xC;
                 }
