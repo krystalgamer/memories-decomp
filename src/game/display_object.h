@@ -500,7 +500,7 @@ extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
- * same pool, which func_8004002C scans. */
+ * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
 extern DisplayObject D_800F0548[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];

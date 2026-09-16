@@ -199,7 +199,7 @@ void func_8002BFCC(void) {
     ((LibraryMotionState *)r)->rest_y = y;
     ((LibraryMotionState *)r)->y = y;
     func_8002A660(r);
-    o = func_800400AC(func_8004002C(), 2);
+    o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
     o[0x5F] = 0x80;
     func_80042918((DisplayObject *)o);
@@ -207,7 +207,7 @@ void func_8002BFCC(void) {
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     *(u8 **)(r + 0x48) = o;
-    o = func_800400AC(func_8004002C(), 2);
+    o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(o, ((LibraryMotionState *)r)->x, ((LibraryMotionState *)r)->y, 0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;

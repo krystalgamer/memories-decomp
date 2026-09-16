@@ -154,7 +154,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
     DisplayObject *entry = (DisplayObject *)source;
     DisplayObject *object;
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     if (object != 0) {
         func_800428A8(object, (s16)entry->field_30.h.field_30,
                       (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,

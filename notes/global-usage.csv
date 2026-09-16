@@ -2708,7 +2708,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,func_80042B40,matching_c,game,C,src/game/display_object_helpers.c,read,,u8 *object = (u8 *)D_800EFE48;
-0x800F0548,D_800F0548,D_800F0548,0x8004002C,func_8004002C,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800F0548;
+0x800F0548,D_800F0548,D_800F0548,0x8004002C,DisplayObject_FindFreeGeneralSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800F0548;
 0x800F2848,D_800F2848,D_800F2848,0x8001352C,func_8001352C,matching_c,game,C,src/game/view_state_orbit.c,read,,ViewState *p = &D_800F2848; | s32 n = -D_800F2848.field_00;
 0x800F2848,D_800F2848,D_800F2848,0x800135FC,func_800135FC,matching_c,game,C,src/game/view_state_orbit.c,address,,ViewState *record = &D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x800164FC,func_800164FC,matching_c,game,C,src/game/func_800164FC.c,address,,q = &D_800F2848;

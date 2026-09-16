@@ -87,7 +87,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
 
 u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
-    DuelCardDisplayObject *p = func_800400AC(func_8004002C(), 6);
+    DuelCardDisplayObject *p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
     s32 *tbl;
     s32 k;
 

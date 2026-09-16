@@ -39,7 +39,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
 
     gMain_bMenuID = menu % 11;
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_80184558 = object;
     if (object != 0) {
         func_800428A8(object, 0, 0, 5, 0, 0, 0x1A, 1, D_801AF800);
@@ -49,7 +49,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         func_800428EC((u8 *)D_80184558, 0);
     }
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_8018455C = object;
     if (object != 0) {
         func_800428A8(object, 0, 8, 5, 0, 2, 0x1A, 1, D_801AF800);
@@ -59,7 +59,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         func_800428EC((u8 *)D_8018455C, 1);
     }
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_80184560 = object;
     if (object != 0) {
         func_800428A8(object, 0, 8, 5, 0, 1, 0x1A, 1, D_801AF800);
@@ -75,7 +75,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     }
 
     for (i = 0; i < 11; i++) {
-        entry = func_800400AC(func_8004002C(), 2);
+        entry = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         if (i < 5) {
             y = i * 32 + 50;
         } else {

@@ -30,7 +30,7 @@ The two allocation scans divide the pool:
 | Function | Slots scanned | Role established by the scan |
 |---|---:|---|
 | `func_8004006C` | `0-95` | Searches the complete 96-slot pool. |
-| `func_8004002C` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
+| `DisplayObject_FindFreeGeneralSlot` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
 
 Both return the first slot whose `+0x08` flags do not contain
 `DISPLAY_OBJECT_FLAG_ALLOCATED`. `func_800400AC` initializes a newly claimed
@@ -58,7 +58,7 @@ flags.
 declaration point for the general-use index scan and indexed allocator:
 
 ```c
-s32 func_8004002C(void);
+s32 DisplayObject_FindFreeGeneralSlot(void);
 void *func_800400AC(s32 index, s32 key);
 ```
 

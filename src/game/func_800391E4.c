@@ -49,7 +49,7 @@ void func_800391E4(DuelEffectChannel *p) {
         if (p->field_2C != 0) {
             func_8004036C(p->field_2C);
         }
-        e = func_800400AC(func_8004002C(), 4);
+        e = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 4);
         func_800427DC(e, 1);
         p->field_2C = e;
         e->attribute = e->attribute | (GsALON | GsATWO);

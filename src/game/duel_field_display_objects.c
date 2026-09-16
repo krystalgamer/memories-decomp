@@ -191,7 +191,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
     DuelFieldPosition *position;
 
     index = source->y * DUEL_FIELD_ROW_SIZE + source->x;
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_80040468(
         (u8 *)object,
         4,

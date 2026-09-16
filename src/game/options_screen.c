@@ -73,7 +73,7 @@ void Options_UpdateLayout(s32 selection) {
     }
 }
 
-/* Creates 3 objects via func_800400AC(func_8004002C(),
+/* Creates 3 objects via func_800400AC(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg func_800428A8 setup
    plus a func_800428EC(obj1, -5), then sets the options state and output type
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
@@ -95,7 +95,7 @@ void Options_Init(void) {
     s32 s0;
     s32 s2;
 
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     s2 = 0x10;
     func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
     func_800428EC((u8 *)obj, -5);
@@ -112,14 +112,14 @@ void Options_Init(void) {
     gOptions_bSelection = 0;
     Options_InitTextDisplay(0);
 
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     s0 = 0xB;
     func_800404CC(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
     D_8009B388 = obj;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
-    obj = func_800400AC(func_8004002C(), 1);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
     func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
 
     {

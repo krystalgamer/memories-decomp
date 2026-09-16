@@ -111,7 +111,7 @@ void Duel_CalcRankScore(void)
     D_8009B1E8->side_scores[0] = score_input[0];
     D_8009B1E8->side_scores[1] = score_input[1];
 }
-s32 func_8004002C(void)
+s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     event(6, allocation_count, 0, 0, 0, 0);
     return 100 + allocation_count++;

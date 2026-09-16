@@ -43,7 +43,7 @@ u8 *func_800291E0(s32 index, s32 x, s32 y)
     setup = x;
     entry = &D_800EA0E8[index];
 
-    object = func_800400AC(func_8004002C(), 6);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
     func_80040510((DisplayObjectConfigView *)object, 0, 0, 0x66, 0x60, 0, 0,
         ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
         (s16)entry->field_2C, (s16)entry->field_2E);
@@ -140,7 +140,7 @@ shared_tail:
 
     entry->object_04 = object;
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
 
     object->field_18 = 0x46;

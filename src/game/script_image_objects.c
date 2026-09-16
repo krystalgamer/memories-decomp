@@ -98,7 +98,7 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
 {
     ScriptImageEntry *record = entry;
-    DisplayObject *object = func_800400AC(func_8004002C(), 2);
+    DisplayObject *object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
 
     func_800404CC(object, 0, 0, 2, 0, 0, size, mode);
     func_800428EC((u8 *)object, (s8)mode);

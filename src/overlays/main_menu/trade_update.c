@@ -31,7 +31,7 @@ void MainMenu_InitTradeScreen(void)
     DisplayObject *entry;
     s32 i;
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845DC = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
@@ -41,7 +41,7 @@ void MainMenu_InitTradeScreen(void)
         func_800428EC((u8 *)D_801845DC, -2);
     }
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845E0 = (MainMenuWidget *)object;
     if (object != 0) {
         func_800404CC(object, 0, -3, 0, 4, 4, 0xC, 0x208);
@@ -54,7 +54,7 @@ void MainMenu_InitTradeScreen(void)
     func_80061008(0, 0x25, 0xA0, 0x25);
 
     for (i = 0; i < 2; i++) {
-        entry = func_800400AC(func_8004002C(), 2);
+        entry = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         if (entry != 0) {
             func_800404CC(entry, i * 0xA0 + 0x1E, 0x24, 0, 4, 8, 0xC, 0x208);
             entry->flags |=

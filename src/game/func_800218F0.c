@@ -84,16 +84,16 @@ void DuelScene_UpdateResultRewards(void)
         score -= 50;
         D_8009B1E8->rank_tier = score / 10;
         D_8009B1E8->page_index = 0;
-        object = func_800400AC(func_8004002C(), 2);
+        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800404CC(object, 32, 16, 3, 1, 2, 11, 524);
         func_80042918(object);
         object->flags |= 0x28;
-        object = func_800400AC(func_8004002C(), 2);
+        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800404CC(object, 288, 16, 3, 1, 0, 11, 524);
         func_80042918(object);
         count = 9;
         object->flags |= 0x28;
-        object = func_800400AC(func_8004002C(), 2);
+        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
         func_80042918(object);
         func_800428EC((u8 *)object, -1);
@@ -121,7 +121,7 @@ void DuelScene_UpdateResultRewards(void)
                 x = 160;
                 do {
                     count++;
-                    object = func_800400AC(func_8004002C(), 2);
+                    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
                     func_800404CC(object, x, 192, 3, 4, 0, 11, 524);
                     func_80042918(object);
                     x += 20;
@@ -133,14 +133,14 @@ void DuelScene_UpdateResultRewards(void)
         }
 side_result:
         if (D_8009B360[gDuel_bWinnerSide] < 0) {
-            object = func_800400AC(func_8004002C(), 2);
+            object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
                 16, 8, D_801AF000);
             func_80042918(object);
             func_800428EC((u8 *)object, -2);
             object->flags |= 0x20;
             D_8009B1E8->children[0] = object;
-            object = func_800400AC(func_8004002C(), 2);
+            object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
                 16, 8, D_801AF000);
             func_80042918(object);

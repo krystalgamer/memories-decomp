@@ -58,7 +58,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18CA8 800284A8 3B0A010C */  jal        func_800428EC
     /* 18CAC 800284AC 14000524 */   addiu     $a1, $zero, 0x14
     /* 18CB0 800284B0 440391AF */  sw         $s1, %gp_rel(gDuel_pCardViewerCard)($gp)
-    /* 18CB4 800284B4 0B00010C */  jal        func_8004002C
+    /* 18CB4 800284B4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 18CB8 800284B8 00000000 */   nop
     /* 18CBC 800284BC 21204000 */  addu       $a0, $v0, $zero
     /* 18CC0 800284C0 2B00010C */  jal        func_800400AC

@@ -17,7 +17,7 @@
 
 extern u8 tail_data_start[];
 
-s32 func_8004002C(void)
+s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = D_800F0548;
     s32 i;

@@ -24,7 +24,7 @@ void DebugMenu_Init(void)
     text_box->field_5A = 16;
     text_box->field_5B = 16;
     func_80039A14(text_box);
-    object = func_800400AC(func_8004002C(), 4);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 4);
     D_8009B2E4 = object;
     func_800427DC(object, 0);
     ((u8 *)&object->field_44)[1] = 0xC0;

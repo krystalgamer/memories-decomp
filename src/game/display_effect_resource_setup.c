@@ -48,7 +48,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
 
     {
         m = GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        p = func_800400AC(func_8004002C(), 2);
+        p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
         func_80042918(p);
@@ -58,7 +58,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         out[0] = (u8 *)p;
 
         if (func_8003A198(tb, c, 1, 0) != 0) {
-            p = func_800400AC(func_8004002C(), 2);
+            p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
             func_80042918(p);
@@ -71,7 +71,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         out[1] = (u8 *)p;
 
         if (func_8003A198(tb, c, 2, 0) != 0) {
-            p = func_800400AC(func_8004002C(), 2);
+            p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
             func_80042918(p);
