@@ -13,9 +13,9 @@
  * [D_8009B304, D_8009B310).  func_800355C8 sorts them, writes the inverse
  * links, and resets D_8009B310 back to the base.
  *
- * The comparator func_80035598 compares the u32 at offset 0 of an entry.  On
- * this target that word holds `distance` in the high halfword and `packed` in
- * the low one, so the order is ascending by distance, ties broken by `packed`.
+ * SortedEntry_Compare compares the u32 at offset 0 of an entry. On this
+ * target that word holds `distance` in the high halfword and `packed` in the
+ * low one, so the order is ascending by distance, ties broken by `packed`.
  */
 typedef struct {
     /* ratan2(dx, dz) / 16, clamped to 255 and shifted left by 8, or'd with

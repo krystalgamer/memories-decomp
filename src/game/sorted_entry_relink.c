@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "sorted_entry.h"
-#include "func_80035598.h"
+#include "sorted_entry_compare.h"
 #include "../psyq/qsort.h"
 
 /* Use the historical PSYQ declaration, whose comparator has unspecified args. */
@@ -16,7 +16,7 @@ void func_800355C8(void)
     D_8009B30C &= ~4;
 
     if (count >= 2) {
-        s32 (*compare)(const u32 *, const u32 *) = func_80035598;
+        s32 (*compare)(const u32 *, const u32 *) = SortedEntry_Compare;
 
         qsort(entry, count, 8, compare);
     }
