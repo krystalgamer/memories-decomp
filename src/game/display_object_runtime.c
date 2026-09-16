@@ -72,7 +72,10 @@ s32 DisplayObjectStream_JumpToOffset(
     return 1;
 }
 
-s32 func_80041464(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     object->flags ^= 0x800000;
     object->field_58 = 0;

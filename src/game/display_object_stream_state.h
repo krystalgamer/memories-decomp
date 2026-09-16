@@ -20,7 +20,10 @@ s32 DisplayObjectStream_JumpToOffset(
     DisplayObjectStreamState *object,
     const u8 *data
 );
-s32 func_80041464(DisplayObjectStreamState *object, const u8 *data);
+s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+);
 
 /* Display-object stream opcode 0xFA, entry 5 of D_80090FEC
  * (model_record_tables.c). `data` holds a count byte followed by that many

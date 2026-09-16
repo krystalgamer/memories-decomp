@@ -643,7 +643,7 @@ address,size,name,status,module,notes
 0x80041428,0xC,DisplayObjectStream_ResetOffset,matching_c,game,Halfword clear with 1 return matched exactly.
 0x80041434,0x8,DisplayObjectStream_Noop,matching_c,game,Constant 1 return matched exactly.
 0x8004143C,0x28,DisplayObjectStream_JumpToOffset,matching_c,game,Resets the stream offset counter and jumps to base plus a little-endian 16-bit operand; exact match.
-0x80041464,0x38,func_80041464,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80041464,0x38,DisplayObjectStream_ToggleFlagAndJumpToOffset,matching_c,game,Toggles flags bit 0x800000 resets the stream offset counter and jumps to base plus a little-endian 16-bit operand; exact match.
 0x8004149C,0x98,func_8004149C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80041534,0x58,func_80041534,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004158C,0x700,func_8004158C,matching_c,game,"Sprite-sheet display-object renderer, called from func_80040814 for each renderable object. It walks the sheet at the object's +0x4C word (a four-byte header, then six-byte parts) and submits one sprite per part through func_80042188: plain, flipped, or rotated/scaled about the +0x48 pivot, optionally culled to the screen, or as semi-transparent quads after func_80041F90's clip test. Pure-C match for issue #5 in its own unit, src/game/func_8004158C.c, under uniform gcc_2_8_1_g8_split; the sheet and scratchpad records are typed in func_8004158C.h, which also owns the prototype."
