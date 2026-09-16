@@ -98,7 +98,6 @@ extern s16 D_8009B19E;
 extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
-extern u8 D_800E9F2C[];
 
 void func_8001B8B8(u8 *arg0);
 void func_8001B938(u8 *p);

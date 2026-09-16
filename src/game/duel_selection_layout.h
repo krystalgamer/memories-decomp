@@ -28,6 +28,24 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
 extern u8 D_800E9F10[];
 
+/* A name for record 1 of that same table, 0x1C bytes in -- exactly
+ * DUEL_SELECTION_RECORD_SIZE -- so it is record 1 of side 0, and because it
+ * is indexed with the same per-side stride it is record 1 of whichever side
+ * is selected:
+ *
+ *     D_8009B1B4 = (DuelCardPickCursor *)((u8 *)(D_8009B1D5 *
+ *         DUEL_SELECTION_SIDE_SIZE) + (s32)D_800E9F2C);
+ *
+ * DuelScene_UpdateHandActions (src/candidates/func_8001BD88.c:403) is the only
+ * source in the tree that mentions it, and it writes the sum with the cast on
+ * the base because retail adds the base to the index rather than the other
+ * way round.
+ *
+ * Like the other names into this table it keeps its own relocations -- one
+ * %hi/%lo pair in func_8001BD88.S, and no access is gp-relative -- so this is
+ * the plain array declaration. */
+extern u8 D_800E9F2C[];
+
 /* A second name for the inside of that same table, 0x38 bytes in --
  * exactly 2 * DUEL_SELECTION_RECORD_SIZE, so it is record 2 of side 0, and
  * because it is indexed with the same per-side stride it is record 2 of
