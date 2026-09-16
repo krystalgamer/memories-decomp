@@ -47,9 +47,22 @@ typedef char SortedEntry_sorted_position_must_be_at_6[
     SORTED_ENTRY_OFFSET(sorted_position) == 6 ? 1 : -1
 ];
 
-/* func_80035668 stores 0x808080 here alongside its write to D_8009B30C.
- * Nothing else in the decompiled tree reads it, so its role is unverified. */
+/* The grey fill word. func_80035668 stores 0x808080 here alongside its write
+ * to D_8009B30C (src/game/text_render_state.c:8), and four sites read it back:
+ * the two palette builders take the whole word -- func_80033DB0.c:81 and :180
+ * and func_80034830.c:81 and :200 all do *(u32 *)grey = D_8009B300; -- while
+ * the card viewer's fade step reads the low byte through the address,
+ * a = *(u8 *)&D_8009B300, and writes the word back (func_8001D670.c:558
+ * and :571).
+ *
+ * That byte view is why the func_8001D670 candidate wants this symbol outside
+ * small data: it defines D_8009B300_IN_DATA to take the .data arm, the same
+ * arrangement the state pointers below use. */
+#ifdef D_8009B300_IN_DATA
+extern u32 D_8009B300 __attribute__((section(".data")));
+#else
 extern u32 D_8009B300;
+#endif
 
 #ifdef SORTED_ENTRY_STATE_IN_DATA
 extern SortedEntry *D_8009B304 __attribute__((section(".data")));
