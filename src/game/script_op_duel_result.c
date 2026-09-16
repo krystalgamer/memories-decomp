@@ -57,7 +57,7 @@ void Script_OpDuelResult(void) {
         if (D_8009B2A0 != 0) {
             D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         four = 4;
         o = func_800400AC(func_8004002C(), 2);
         func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
@@ -97,7 +97,7 @@ void Script_OpDuelResult(void) {
             D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         func_8004036C(D_8009B280);
-        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         D_8009B27C = 0;
     }
 }

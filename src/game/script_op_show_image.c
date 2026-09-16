@@ -58,13 +58,14 @@ void Script_OpShowImage(void) {
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;
         rec->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
-        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {
             func_80015C84(D_8009B145);
         }
-        ScriptImage_RequestTransfer((u8 *)D_800EAE98, D_8009B270 & 0xFFF);
+        ScriptImage_RequestTransfer(
+            (ScriptImageObjectSet *)D_800EAE98, D_8009B270 & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {

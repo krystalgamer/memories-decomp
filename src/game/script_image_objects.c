@@ -42,7 +42,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
     }
 }
 
-void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value)
 {
     s32 index;
     s32 mode;
@@ -51,7 +52,7 @@ void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
     FileTransferDescriptor *object;
 
     if (owner) {
-        *(s16 *)(owner + 0x3C) = value;
+        owner->image_id = value;
     }
 
     index = ((value >> 4) & 15) * 10 + (value & 15);
@@ -81,11 +82,12 @@ void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-void ScriptImage_ReleaseObjects(ScriptImageEntry *entries)
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 {
+    ScriptImageEntry *entries = set->entries;
     s32 i;
 
-    *(s16 *)((u8 *)entries + 0x3C) = -1;
+    set->image_id = -1;
     for (i = 0; i < 3; i++, entries++) {
         func_8004036C(entries->pointer);
         entries->pointer = 0;

@@ -29,14 +29,15 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
  * two nibbles are the index, and the third selects one of three tables with
  * its own sector stride (0x21, 0x51 or 0x71) -- any other mode returns without
  * requesting anything. `owner` may be null; when it is not, the id is recorded
- * at its +0x3C first. The parameter is volatile in the definition, so that
+ * in image_id first. The parameter is volatile in the definition, so that
  * store is not merged with the caller's own writes to the same record. */
-void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value);
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value);
 
 /* Releases the three image slots: each pointer goes to func_8004036C and both
- * words are zeroed, and the mode halfword at +0x3C is set to -1 first so the
- * next request treats the record as empty. */
-void ScriptImage_ReleaseObjects(ScriptImageEntry *entries);
+ * words are zeroed, and image_id is set to -1 first so the next request
+ * treats the record as empty. */
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
 
 /* Builds one display object for a script image and stores it at `owner`, a
  * ScriptImageEntry, with `size` the object's request size and `mode`
