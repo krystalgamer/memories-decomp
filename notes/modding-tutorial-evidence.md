@@ -410,7 +410,8 @@ of every resident glyph in that range.
 
 The 20 bytes at `D_80010330` (SLUS offset `0xB30`) contain ten big-endian
 Shift-JIS keys, `0x824F` through `0x8258`, for the full-width digits `0`-`9`.
-Matching `func_8003B5C8` copies this table as a byte array and looks up each
+Matching `Text_InitDecimalDigitGlyphMap` copies this table as a byte array and
+looks up each
 key in `D_801D9004` to populate the digit-glyph table at `D_800EAFF8`.
 The byte-array layout is retained because it controls the unaligned block
 copy; naming the extent does not change it into a halfword array.

@@ -16,7 +16,7 @@
 #include "duel_side_state.h"
 #include "display_object_core.h"
 #include "sound.h"
-#include "func_8003B5C8.h"
+#include "text_init_decimal_digit_glyph_map.h"
 #include "graphics_frame.h"
 #include "main_frame.h"
 #include "../psyq/libapi.h"
@@ -75,7 +75,7 @@ s32 Main_Init(void)
     func_800134B4();
     Movie_ResetPlaybackState();
     func_80035A64();
-    func_8003B5C8();
+    Text_InitDecimalDigitGlyphMap();
     SD_InitState(D_800E9EC0[0]);
     VSyncCallback(Main_VBlankCB);
     Sound_InitFrontend();

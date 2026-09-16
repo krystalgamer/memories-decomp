@@ -773,7 +773,8 @@ but emits `addu $v1, $v1, $s0`, a different encoding.
 
 **Write an unrotated loop with explicit `goto`.** GCC rotates a loop whose test
 is at the top, duplicating the test and branching into the middle. Every
-structured spelling of the inner search in `func_8003B5C8` does this and costs
+structured spelling of the inner search in `Text_InitDecimalDigitGlyphMap`
+does this and costs
 three to eight instructions; only
 
 ```c
@@ -790,7 +791,8 @@ addresses block *placement*; this one addresses loop *rotation*, and the two are
 independent.
 
 **Hoist a loop-invariant probe by hand.** GCC did not lift `*(s32 *)D_801D9004`
-out of the outer loop in `func_8003B5C8`; reading it into a local before the loop
+out of the outer loop in `Text_InitDecimalDigitGlyphMap`; reading it into a
+local before the loop
 is what reproduces the target's single load into `$t3`.
 
 ### Compiler-generated jump tables need explicit `.rodata` ownership
@@ -1719,7 +1721,8 @@ source permutation is low-yield — record what was measured and move on.
 
 ## Reading loop shape, and what retail's registers do not tell you
 
-Two independent results from `func_8003B5C8`, a leaf that searches a table
+Two independent results from `Text_InitDecimalDigitGlyphMap`, a leaf that
+searches a table
 for each 16-bit value in a 20-byte buffer.
 
 **Removing a rotation fixup.** A search loop written as `do { ... } while
@@ -4345,7 +4348,8 @@ registers even though `reg 91` carries `REG_DEAD` at the copy and its only
 remaining use is that copy. Neither coalescing nor the `REG_EQUIV`
 rematerialisation that would delete the copy fires.
 
-Crossed on `func_8003B5C8` without removing it: five placements of the setup
+Crossed on `Text_InitDecimalDigitGlyphMap` without removing it: five
+placements of the setup
 read, the base hoisted into a local (which moves the cost rather than removing
 it -- the loop then emits `move` instead of the low-part add and the setup
 grows by one), the symbol declared as a scalar with its address taken, the
@@ -4403,7 +4407,8 @@ do {
 } while (p < end);
 ```
 
-`func_8003B5C8` matches exactly this way, 57 of 57 instructions on
+`Text_InitDecimalDigitGlyphMap` matches exactly this way, 57 of 57
+instructions on
 `gcc_2_8_1_g0_split` and `gcc_2_8_1_g8_split`. Everything listed as crossed
 above stays crossed; none of it moved the count, because all of it kept the
 read in the setup.
@@ -4428,7 +4433,7 @@ same bytes as a `u32` array, or copying them in a loop, gives aligned moves
 and cannot reproduce the block. `struct { u8 b[20]; }` assigned whole does,
 one pair per word plus the tail.
 
-Derived independently on `func_8003B5C8` in #1723 and #1725.
+Derived independently on `Text_InitDecimalDigitGlyphMap` in #1723 and #1725.
 
 ## Screen for split addressing before starting, alongside jump tables and the nops
 
@@ -4444,7 +4449,8 @@ with the destination, so wherever the target has `lui $sN, %hi(X)` followed by
 `addiu $sN, $sN, %lo(X)` with the same register, or reuses a held `%hi` as a
 load or store base, the build is one copy off and the anti-dependence that copy
 creates then permutes the surrounding schedule. On `Campaign_LoadScenePackage` that was 8
-positions, on `func_8003B5C8` one extra instruction it could not shed.
+positions, on `Text_InitDecimalDigitGlyphMap` one extra instruction it could
+not shed.
 
 The screen is cheap. Over a function's splat asm, flag it when either appears:
 

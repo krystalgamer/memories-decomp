@@ -62,17 +62,17 @@ extern u8 gText_abColorSlots[];
  * script byte's index and masks it with 0x8FF0FFFF. Those two read it
  * through this declaration, the u32 spelling both already used.
  * func_80039794.c takes this declaration too and casts it to its TblEnt view
- * to read bits 0-2 of each high halfword; func_8003B5C8.c reaches
- * entry 1 under its own name, D_801D9004, with a const that its note
- * explains. 0x174 bytes to D_801D9174, 93 entries; the first word is zero in
- * the image, no C unit writes the table, and the filler was not read. Retail
- * reaches it through %hi/%lo at every site, which an incomplete array gives
- * at any -G, so no unit needs an arm. */
+ * to read bits 0-2 of each high halfword;
+ * text_init_decimal_digit_glyph_map.c reaches entry 1 under its own name,
+ * D_801D9004, with a const that its note explains. 0x174 bytes to D_801D9174,
+ * 93 entries; the first word is zero in the image, no C unit writes the table,
+ * and the filler was not read. Retail reaches it through %hi/%lo at every
+ * site, which an incomplete array gives at any -G, so no unit needs an arm. */
 extern u32 D_801D9000[];
 
-/* The digit glyph-index table. func_8003B5C8.c fills it, and its note there
- * says what with: each of the ten Shift-JIS digit keys is looked up in the
- * table at D_801D9004 and the 1-based match index is written here.
+/* The digit glyph-index table. Text_InitDecimalDigitGlyphMap fills it, and its
+ * note there says what with: each of the ten Shift-JIS digit keys is looked
+ * up in the table at D_801D9004 and the 1-based match index is written here.
  * password/shop.c then reads it as `D_800EAFF8[gPassword_abDigits[i]]` to
  * turn an entered digit into a glyph, and func_80038148 reads element 0 and
  * one chosen by a buffer byte.

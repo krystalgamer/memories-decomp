@@ -3166,7 +3166,7 @@
       "address": "0x8003B5C8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/game/func_8003B5C8.c"
+      "source": "src/game/text_init_decimal_digit_glyph_map.c"
     },
     {
       "address": "0x8003B6AC",

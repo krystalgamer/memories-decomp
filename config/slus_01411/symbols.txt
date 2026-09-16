@@ -468,6 +468,7 @@ Fade_EnableOrderingTables = 0x80015CFC; // type:func
 Fade_DisableOrderingTables = 0x80015D0C; // type:func
 Campaign_TestStoryFlag = 0x8002CCA8; // type:func
 Text_LookupString = 0x8003B744; // type:func
+Text_InitDecimalDigitGlyphMap = 0x8003B5C8; // type:func
 Text_SjisToGlyphCodes = 0x8003BC40; // type:func
 TextBox_SetRect = 0x80035AB8; // type:func
 TextBox_Destroy = 0x80035B7C; // type:func

@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "../ygo_types.h"
-#include "func_8003B5C8.h"
+#include "text_init_decimal_digit_glyph_map.h"
 #include "text_constants.h"
 
 /* Copies the ten two-byte Shift-JIS digit keys from D_80010330 into a local
@@ -14,7 +14,7 @@
    a load from unchanging memory as loop-invariant regardless of the stores in
    the body, which is what leaves one shared %hi in the preheader feeding both
    the guard load and the per-iteration table address. */
-void func_8003B5C8(void) {
+void Text_InitDecimalDigitGlyphMap(void) {
     TextDecimalDigitKeyBlock buf;
     u16 *out;
     u16 *q;
