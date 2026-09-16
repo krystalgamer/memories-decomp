@@ -1845,7 +1845,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B356,D_8009B356,D_8009B356,0x80039794,func_80039794,matching_c,game,C,src/game/func_80039794.c,read_write,8,D_8009B356 = kind; | arg = D_8009B356;
 0x8009B357,D_8009B357,D_8009B357,0x8003767C,func_8003767C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,8,D_8009B357 = 5;
 0x8009B357,D_8009B357,D_8009B357,0x8003771C,func_8003771C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,8,D_8009B357 = 7;
-0x8009B357,D_8009B357,D_8009B357,0x800377AC,func_800377AC,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B357 == 0) {
+0x8009B357,D_8009B357,D_8009B357,0x800377AC,TextBox_WaitForScriptCompletion,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,8,if (D_8009B357 == 0) {
 0x8009B357,D_8009B357,D_8009B357,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read_write,8,D_8009B357 = 0; | if (D_8009B357 != 0) {
 0x8009B35A,D_8009B35A,D_8009B35A,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,write,16,D_8009B35A = D_8009B33A;
 0x8009B35A,D_8009B35A,D_8009B35A,0x80039794,func_80039794,matching_c,game,C,src/game/func_80039794.c,read_write,16,D_8009B35A = 0; | D_8009B35A = reset_value; | (+1 more)

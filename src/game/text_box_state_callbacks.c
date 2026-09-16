@@ -23,7 +23,7 @@ TextBoxStateCallback D_80090E64[] = {
     func_8003787C,
     func_800378D8,
     func_80037950,
-    func_800377AC,
+    TextBox_WaitForScriptCompletion,
     func_8003771C,
     func_8003798C,
     func_800379C4,

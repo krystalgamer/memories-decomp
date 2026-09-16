@@ -1343,6 +1343,7 @@ PCread = 0x80073758; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
 Main_RunFrameServices = 0x8001306C; // type:func
 CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
+TextBox_WaitForScriptCompletion = 0x800377AC; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

@@ -15,7 +15,7 @@ void func_800374A8(DuelEffectChannel *object);
 void func_800375A4(DuelEffectChannel *object);
 void func_8003767C(DuelEffectChannel *object);
 void func_8003771C(DuelEffectChannel *object);
-void func_800377AC(DuelEffectChannel *object);
+void TextBox_WaitForScriptCompletion(DuelEffectChannel *object);
 void func_800377C8(DuelEffectChannel *object);
 void func_8003787C(DuelEffectChannel *object);
 void func_800378D8(DuelEffectChannel *object);
