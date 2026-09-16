@@ -28,7 +28,7 @@ s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_JumpToOffset,
     DisplayObjectStream_ToggleFlagAndJumpToOffset,
     DisplayObjectStream_JumpToRandomOffset,
-    func_80041534,
+    DisplayObjectStream_ConfigureRotation,
 };
 
 u8 D_80091008[] = {

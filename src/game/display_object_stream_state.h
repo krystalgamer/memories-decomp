@@ -36,10 +36,12 @@ s32 DisplayObjectStream_JumpToRandomOffset(
 );
 
 /* Display-object stream opcode 0xF9, entry 6 of D_80090FEC
- * (model_record_tables.c). It reads four operand bytes: the first into
- * field_22, the second sign-extended into field_4A, and the third and fourth
- * as a little-endian halfword into field_48. It also raises GsROTOFF in the
- * attribute word `flags` and advances `current` by 4. Returns 1. */
-s32 func_80041534(DisplayObjectStreamState *object, const u8 *data);
+ * (model_record_tables.c). It reads the rotation byte, a signed y pivot, and
+ * a little-endian x pivot from four operand bytes. It also raises GsROTOFF in
+ * the attribute word `flags` and advances `current` by 4. Returns 1. */
+s32 DisplayObjectStream_ConfigureRotation(
+    DisplayObjectStreamState *object,
+    const u8 *data
+);
 
 #endif

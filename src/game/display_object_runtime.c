@@ -101,7 +101,10 @@ s32 DisplayObjectStream_JumpToRandomOffset(
     return 1;
 }
 
-s32 func_80041534(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_ConfigureRotation(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     int high;
     int low;

@@ -303,11 +303,11 @@ typedef struct DisplayObject {
        0x5C, 0x68. That is
        a different run from the stride-8 one described at 0x4C, and the two
        agree only at 0x2C and 0x44, which is why neither run's reading can be
-       pushed onto the whole tail. func_80041534 advances it by 4;
-       func_80041C8C.c adds the halfword at 0x58 to form a byte pointer, the
-       reading DisplayObjectStreamState spells as `current`; and
-       the two DisplayObject_Render*GouraudQuadList functions copy it into a
-       primitive word.
+       pushed onto the whole tail. DisplayObjectStream_ConfigureRotation
+       advances it by 4; func_80041C8C.c adds the halfword at 0x58 to form a
+       byte pointer, the reading DisplayObjectStreamState spells as `current`;
+       and the two DisplayObject_Render*GouraudQuadList functions copy it into
+       a primitive word.
 
        s32 serves all of them: a word load and store do not distinguish
        signedness, and the pointer writers cast, as they already do at 0x4C. */

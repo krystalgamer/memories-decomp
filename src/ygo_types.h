@@ -1138,18 +1138,18 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
 ];
 
 /* Display-object script state shared by the seven D_80090FEC handlers,
-   DisplayObjectStream_Stop through func_80041534.
+   DisplayObjectStream_Stop through DisplayObjectStream_ConfigureRotation.
    The two pointers delimit the script buffer and the trailing halfwords are
    handler status fields. */
 typedef struct {
     u8 pad_00[4];
     u32 flags;
     u8 pad_08[0x1A];
-    /* func_80041534 (opcode 0xF9) loads its first operand byte here. */
+    /* DisplayObjectStream_ConfigureRotation loads its angle operand here. */
     u8 field_22;
     u8 pad_23[0x25];
-    /* func_80041534 stores its little-endian halfword operand in field_48
-       and its sign-extended second operand byte in field_4A. */
+    /* DisplayObjectStream_ConfigureRotation stores its little-endian x pivot
+       in field_48 and its sign-extended y pivot byte in field_4A. */
     s16 field_48;
     s16 field_4A;
     /* func_80041C8C points this at the current opcode's operand target:
