@@ -22,7 +22,7 @@
    trailing +/-0x1000, which is the four corners of a square. Written in
    that shape and left unnamed. */
 s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
-    func_8004141C,
+    DisplayObjectStream_Stop,
     func_80041428,
     func_80041434,
     func_8004143C,

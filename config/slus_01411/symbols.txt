@@ -1345,6 +1345,7 @@ Main_RunFrameServices = 0x8001306C; // type:func
 CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
 TextBox_WaitForScriptCompletion = 0x800377AC; // type:func
 NameEntry_LoadPackageStage = 0x8003BA14; // type:func
+DisplayObjectStream_Stop = 0x8004141C; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

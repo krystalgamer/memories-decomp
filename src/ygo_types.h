@@ -1138,7 +1138,7 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
 ];
 
 /* Display-object script state shared by the seven D_80090FEC handlers,
-   func_8004141C through func_80041534.
+   DisplayObjectStream_Stop through func_80041534.
    The two pointers delimit the script buffer and the trailing halfwords are
    handler status fields. */
 typedef struct {
