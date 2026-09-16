@@ -111,7 +111,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     handlers = D_80090F18;
     object->delay_52 = object->field_53;
 next_opcode:
-    slot = (u8 **)((u8 *)object + object->stream_58 * 4);
+    slot = &((TextStreamOwner *)object)->streams[object->stream_58];
     script = *slot;
     D_8009B33A = script[0];
     op = (s16)D_8009B33A;
