@@ -108,7 +108,7 @@ next_obj:
         py = pose[2];
         ((DisplayObject *)obj)->field_2C.h.field_2C = 0xB4;
         ((DisplayObject *)obj)->field_6C = 1;
-        *(s32 *)(obj + 0x24) = fnv;
+        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
         *(s16 *)(obj + 0x2A) = py - 0x1E;
         objs[pose[0]] = (DisplayObject *)obj;
         *(u8 **)rec = 0;
