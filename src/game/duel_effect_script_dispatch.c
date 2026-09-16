@@ -12,7 +12,7 @@ void func_80038800(DuelEffectCommand *command)
     u32 opcode;
     u32 high_bit;
 
-    slot = (u8 **)((u8 *)command + command->cursor_slot * 4);
+    slot = &((TextStreamOwner *)command)->streams[command->cursor_slot];
     cursor = *slot;
     raw = *cursor++;
     saved_raw = raw;
