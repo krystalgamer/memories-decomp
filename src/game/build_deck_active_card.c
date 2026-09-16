@@ -9,5 +9,5 @@ s32 BuildDeck_GetActiveCardID(CardList *list)
     if (entry->flags == 0) {
         return 0;
     }
-    return *(s16 *)&entry->id;
+    return (s16)entry->id;
 }
