@@ -66,7 +66,7 @@ void DuelScene_UpdateExodiaResult(void)
     s32 k;
     DisplayObject **slot;
     s8 side;
-    u8 *other;
+    DuelSideState *other;
     DisplayObject *d;
 
     flags = D_8009B23A;
@@ -202,9 +202,9 @@ next_obj:
     side = D_8009B1D5;
     gDuel_bWinnerSide = side;
     D_800E9FF0[(u8)side].rank.result_adjustment = 0x28;
-    other = (u8 *)&D_800E9FF0[D_8009B1D5 ^ 1];
-    *(u16 *)(other + 0x14) = 0;
-    *(u16 *)(other + 0x12) = 0;
+    other = &D_800E9FF0[D_8009B1D5 ^ 1];
+    other->life_points.unsigned_value = 0;
+    other->displayed_life_points = 0;
     func_800472A8(0x7310);
     func_80059C18(0x7310);
     D_8009B369 = 1;
