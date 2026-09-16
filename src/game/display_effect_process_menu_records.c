@@ -23,7 +23,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
     if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
             if (((DisplayObject *)p->grid[0][1])->field_5A == 0) {
-                *(s16 *)&p->field_3E =
+                p->field_3E =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->field_32 = p->field_32 & 0xFE;
@@ -32,7 +32,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
             }
         } else {
             v = p->field_3E - 1;
-            *(s16 *)&p->field_3E = v;
+            p->field_3E = v;
             if ((s16)v <= 0) {
                 p->field_32 = p->field_32 | 1;
                 DisplayObject_SetResourceVariant(
