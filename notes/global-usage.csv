@@ -2649,7 +2649,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB12C,D_800EB12C,D_800EB12C,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read,32,if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
-0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,func_8003C4E0,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
+0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
 0x800EB184,D_800EB184,D_800EB184,0x80030090,func_80030090,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x40;
 0x800EB184,D_800EB184,D_800EB184,0x800300AC,func_800300AC,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x80;
 0x800EB184,D_800EB184,D_800EB184,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,32,DisplayObject *first = D_800EB184[0];
@@ -3287,7 +3287,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D56A8,D_801D56A8,D_801D56A8,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,32,D_801D56A8[0] = dropped_card;
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,8,gText_abColorSlots[0] = 4; | gText_abColorSlots[1] = 4; | (+1 more)
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x80038498,func_80038498,matching_c,game,C,src/game/duel_effect_command.c,read,8,w = gText_abColorSlots[v & 0xF];
-0x801D5708,gText_abColorSlots,gText_abColorSlots,0x8003C4E0,func_8003C4E0,matching_c,game,C,src/game/options_screen.c,address,8,u8 *t = gText_abColorSlots;
+0x801D5708,gText_abColorSlots,gText_abColorSlots,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,8,u8 *t = gText_abColorSlots;
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x800611D0,func_800611D0,matching_c,game,C,src/game/func_800611D0.c,address,8,void func_800611D0(int offset){unsigned char*base=gText_abColorSlots;DuelEffectChannel*parent;DisplayObject*obj;base[...
 0x801D5800,D_801D5800,D_801D5800,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/duel_effect_command.c,read,16,D_801D5800[id - 0x8000]; | text = (u8 *)((u32)D_801D5800 & 0xFFFF0000) +
 0x801D5800,D_801D5800,D_801D5800,0x800383DC,func_800383DC,matching_c,game,C,src/game/duel_effect_command.c,read,16,D_801D5800[a2 - TEXT_GLOBAL_STRING_ID_BASE]; | v1 = ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
