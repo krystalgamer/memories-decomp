@@ -2368,7 +2368,7 @@ first-sector constants (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`,
 `0x1FA7`, `0x2115`, `0x2147`, `0x2157`, `0x2189`, one indexed at `0x1FD9`).
 
 **The duel blob.** Starting a duel submits one asynchronous range request for
-**235 sectors at sector `0x16C6 + 235 × terrain`** [`func_8001798C`]. This is
+**235 sectors at sector `0x16C6 + 235 × terrain`** [`Duel_LoadTerrainPackage`]. This is
 one high-level transfer request, not evidence that the drive consumes the whole
 range in one low-level CD operation. Its `Duel_LoadPackageStage` callback
 handles stage indices 0 through 12; those thirteen chunk sizes sum to exactly

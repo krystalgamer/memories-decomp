@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
 
-void func_8001798C(void)
+void Duel_LoadTerrainPackage(void)
 {
     int value = gDuel_bTerrain[0];
     int index = (((value * 15) * 4 - value) * 4 - value) +

@@ -94,7 +94,7 @@ attribution, and called-address checks are recorded in
 
 ### Duel terrain packages
 
-Matching `func_8001798C` selects one of seven terrain packages with the source
+Matching `Duel_LoadTerrainPackage` selects one of seven terrain packages with the source
 constants `DUEL_TERRAIN_PACKAGE_FIRST_SECTOR` (`0x16C6`) and
 `DUEL_TERRAIN_PACKAGE_SECTOR_COUNT` (`0xEB`). Because the count is also the
 per-terrain stride, the seven packages occupy WA sectors `0x16C6-0x1D33`, or

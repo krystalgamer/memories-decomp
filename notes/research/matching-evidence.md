@@ -7024,7 +7024,7 @@ rest from whatever the registers happen to hold. `func_8004036C` in
 "corrected" by writing the missing argument, because there is no expression
 in the caller that produces it.
 
-    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_8001798C.c
+    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_load_terrain_package.c
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
     func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c

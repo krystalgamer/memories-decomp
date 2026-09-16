@@ -339,7 +339,7 @@ of these values as generated merge boundaries.
 
 ## Seven 235-sector WA records
 
-Matching `func_8001798C` now expresses the request with the shared source
+Matching `Duel_LoadTerrainPackage` now expresses the request with the shared source
 constants:
 
 ```text
@@ -554,7 +554,7 @@ disc; the layout above stands as written, this only fills some of its
 provisional items.
 
 **The seven 235-sector records are the seven terrain types.** The index in
-`func_8001798C` is the terrain byte `gDuel_bTerrain` (0 normal, 1 forest, 2
+`Duel_LoadTerrainPackage` is the terrain byte `gDuel_bTerrain` (0 normal, 1 forest, 2
 wasteland, 3 mountain, 4 meadow, 5 sea, 6 dark). Hashing all thirteen phases
 across the seven records, twelve are byte-identical and only phase 12 (the
 last `0x10000`, VRAM (640, 256)) differs — the field picture. So the seven

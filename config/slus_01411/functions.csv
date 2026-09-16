@@ -102,7 +102,7 @@ address,size,name,status,module,notes
 0x8001778C,0x38,func_8001778C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800177C4,0xF8,func_800177C4,matching_c,game,"Pure C projection-loop match for issue #5: typed scratchpad stores and approved Psy-Q GTE macros reproduce all thirty RTPS iterations under the no-strength-reduction RTPS profile, without hard-register pins or statement-level inline assembly."
 0x800178BC,0xD0,func_800178BC,matching_c,game,Exact match using scratchpad C stores and official Psy-Q GTE inline macros under the RTPS-normalizing profile. All 208 text bytes and relocations match with no source-authored inline assembly or register pins.
-0x8001798C,0x68,func_8001798C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001798C,0x68,Duel_LoadTerrainPackage,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800179F4,0x3C0,func_800179F4,matching_c,game,"Pure-C match under gcc_2_8_1_g8_split. The negative-opponent pool path stores and passes D_801D1200 directly, allowing the common terminal shuffle to retain the retail argument allocation without hard-register bindings."
 0x80017DB4,0x88,func_80017DB4,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80017E3C,0xC8,func_80017E3C,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
