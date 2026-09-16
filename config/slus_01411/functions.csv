@@ -553,7 +553,7 @@ address,size,name,status,module,notes
 0x8003C120,0x194,Options_LoadPackageStage,matching_c,game,The collaborator typed four-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
 0x8003C2B4,0x74,File_RequestOptionsPackage,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C328,0x170,GameOver_LoadPackageStage,matching_c,game,The collaborator typed three-mode initializer matches under the G0 no-split profile; exact linked bytes and relocations.
-0x8003C498,0x48,func_8003C498,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8003C498,0x48,File_RequestGameOverPackage,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003C4E0,0x88,func_8003C4E0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8003C568,0xC0,Options_UpdateLayout,matching_c,game,Positions the options cursor and stereo/mono widget from the selected row and working output type. Declarations and types independently verified; exact linked bytes and relocations.
 0x8003C628,0x178,Options_Init,matching_c,game,"Initializes the options widgets and state from the stored sound output type. Exact post-terminal collaborator match; mixed GCC -G8/MASPSX -G4 threshold preserves gSD_bOutputType absolute addressing and neighboring gp-relative globals. Its s1 register pin on the first object was re-measured for #3859 as inert and removed."

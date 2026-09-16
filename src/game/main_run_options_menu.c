@@ -38,7 +38,7 @@ void Main_RunGameOver(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003C498();
+        File_RequestGameOverPackage();
         func_8003C950();
     }
 

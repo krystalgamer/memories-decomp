@@ -299,10 +299,10 @@ reachability boundary and exact hashes.
 
 ### Game Over package
 
-`Main_RunGameOver` calls `func_8003C498` on first entry, immediately before
-the resident Game Over screen is initialized. That wrapper requests 50 WA
-sectors beginning at `0x2157`, and `GameOver_LoadPackageStage` accounts for
-all three phases:
+`Main_RunGameOver` calls `File_RequestGameOverPackage` on first entry,
+immediately before the resident Game Over screen is initialized. That wrapper
+requests 50 WA sectors beginning at `0x2157`, and
+`GameOver_LoadPackageStage` accounts for all three phases:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|

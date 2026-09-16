@@ -77,6 +77,7 @@ void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void File_RequestOptionsPackage(void);
+void File_RequestGameOverPackage(void);
 void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
 void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,
@@ -87,10 +88,6 @@ void Main_LoadBootPackageStage(
 );
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
-
-/* Loads the fixed Game Over image package: Main_RunGameOver calls it on first
- * entry immediately before func_8003C950 initializes that screen. */
-void func_8003C498(void);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the
    other bits of its low field. Every caller reaches it through the same
