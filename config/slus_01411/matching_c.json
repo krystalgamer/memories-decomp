@@ -4252,7 +4252,7 @@
       "address": "0x80045484",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x90",
-      "source": "src/game/func_80045484.c"
+      "source": "src/game/sd_has_queued_stream_command.c"
     },
     {
       "address": "0x80045514",

@@ -40,7 +40,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x80041D60` | `func_80041D60` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044DC0` | `func_80044DC0` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044FFC` | `func_80044FFC` | `inline_refinement` | `gcc_2_8_1_g8` |
-| `0x80045484` | `func_80045484` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
+| `0x80045484` | `SD_HasQueuedStreamCommand` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x8004763C` | `func_8004763C` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80047FAC` | `func_80047FAC` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80049010` | `func_80049010` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |

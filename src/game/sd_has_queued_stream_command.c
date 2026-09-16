@@ -3,7 +3,7 @@
 
 /* Scans entries [1, count) for one carrying a space (0x20), the 0x11
    CD-track marker, or a '$' (0x24) in f0; returns 1 on the first hit. */
-s32 func_80045484(void) {
+s32 SD_HasQueuedStreamCommand(void) {
     s32 i;
 
     for (i = 1; i < g_SDValue->command_count; i++) {

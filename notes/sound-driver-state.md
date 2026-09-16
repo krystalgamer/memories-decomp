@@ -883,7 +883,8 @@ the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 
 The promoted caller takes its declarations from sound-owned headers.
-`func_80045484` retains its explicit byte mask, and `SD_OpenSequence` retains
+`SD_HasQueuedStreamCommand` retains its explicit byte mask, and
+`SD_OpenSequence` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
 `SD_PlaySequence` caller view while its definition keeps the one-argument

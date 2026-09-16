@@ -80,7 +80,7 @@ void func_80045514(void)
         }
         g_SDValue->field_007D = 0;
         g_SDValue->field_007C = 0;
-        if ((func_80045484() & 0xFF) != 0) {
+        if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             return;
         }
         g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFFFC;
@@ -105,7 +105,7 @@ void func_80045514(void)
             return;
         }
         g_SDValue->field_0534 = 0xFFFF;
-        if ((func_80045484() & 0xFF) != 0) {
+        if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             goto clear_7d_7c;
         }
         {

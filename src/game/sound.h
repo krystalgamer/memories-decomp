@@ -757,7 +757,7 @@ void SD_InitState(u8);
 s32 SD_EnqueueCommand(SDCommand *);
 /* Scans queued commands [1, count) for 0x20, 0x11, or 0x24. The command
  * pump masks the result to a byte; the definition returns a full s32. */
-s32 func_80045484(void);
+s32 SD_HasQueuedStreamCommand(void);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 /* Advances the active sound command from SD_UpdateRuntime. */
