@@ -76,6 +76,7 @@ void File_RequestMainMenuPackage(void);
 void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
+void File_RequestOptionsPackage(void);
 void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
 void GameOver_LoadPackageStage(
     FileTransferDescriptor *descriptor,

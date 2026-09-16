@@ -9,7 +9,6 @@
 #include "fade.h"
 #include "file_transfer.h"
 #include "main_menu_selection.h"
-#include "func_8003C2B4.h"
 #include "game_over.h"
 #include "main_modes.h"
 #include "menu_record_reset.h"

@@ -11,7 +11,7 @@ The relevant resident path is:
 
 ```text
 Main_RunOptionsMenu
-  -> func_8003C2B4
+  -> File_RequestOptionsPackage
        -> WA sectors 0x2115..0x2146 through Options_LoadPackageStage
        -> WA sectors 0x2147..0x2156 directly to 0x80140000
   -> Options_Init
@@ -88,7 +88,7 @@ has already been established in the current process.
 
 ## WA package and PocketStation payloads
 
-`func_8003C2B4` requests 50 WA sectors beginning at `0x2115`.
+`File_RequestOptionsPackage` requests 50 WA sectors beginning at `0x2115`.
 `Options_LoadPackageStage` accounts for all four phases:
 
 | WA range | Size | Callback behavior |
