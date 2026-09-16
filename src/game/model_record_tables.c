@@ -5,12 +5,12 @@
 /* Initialized data at 0x80090FEC through 0x80091508, previously a generated
    blob (#2602). Three tables, contiguous, so one translation unit.
 
-   D_80090FEC is the display-object stream handler table. func_80041C8C
-   dispatches table[op ^ 0xFF] for opcodes from 0xF0 up. All seven callbacks
-   receive the shared DisplayObjectStreamState and operand cursor, including
-   the reset and no-op entries that do not need both arguments. This keeps the
-   interpreter boundary checked instead of hiding five prototype differences
-   behind table casts.
+   D_80090FEC is the display-object stream handler table.
+   DisplayObjectStream_ReadNextCommand dispatches table[op ^ 0xFF] for opcodes
+   from 0xF0 up. All seven callbacks receive the shared DisplayObjectStreamState
+   and operand cursor, including the reset and no-op entries that do not need
+   both arguments. This keeps the interpreter boundary checked instead of
+   hiding five prototype differences behind table casts.
 
    D_80091008 is the 0xB2-byte record table Model_LoadMonsterMerge
    describes and func_80052D2C.c indexes as

@@ -1152,8 +1152,9 @@ typedef struct {
        in field_48 and its sign-extended y pivot byte in field_4A. */
     s16 field_48;
     s16 field_4A;
-    /* func_80041C8C points this at the current opcode's operand target:
-       base plus the little-endian halfword that follows the opcode. */
+    /* DisplayObjectStream_ReadNextCommand points this at the current opcode's
+       operand target: base plus the little-endian halfword that follows the
+       opcode. */
     u8 *field_4C;
     u8 *current;
     u8 *base;

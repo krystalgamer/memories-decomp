@@ -28,7 +28,7 @@ void DisplayObject_RenderFrame(void)
 }
 
 /* The seven display-object stream opcode handlers, entries 0 through 6 of
-   D_80090FEC in model_record_tables.c, which func_80041C8C dispatches as
+   D_80090FEC in model_record_tables.c, which DisplayObjectStream_ReadNextCommand dispatches as
    table[op ^ 0xFF] for opcodes 0xFF down to 0xF9: the stream stop, counter
    reset, no-op, two jumps, random jump, and four-operand attribute command.
    Each reads its operands from the object's stream and returns whether the

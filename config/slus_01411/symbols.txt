@@ -1359,6 +1359,7 @@ DisplayObjectStream_ToggleFlagAndJumpToOffset = 0x80041464; // type:func
 DisplayObjectStream_JumpToRandomOffset = 0x8004149C; // type:func
 DisplayObjectStream_ConfigureRotation = 0x80041534; // type:func
 DisplayObject_RenderSpriteSheet = 0x8004158C; // type:func
+DisplayObjectStream_ReadNextCommand = 0x80041C8C; // type:func
 DisplayObject_SetResourceVariant = 0x80040410; // type:func
 DisplayObject_UpdateResourceVariant = 0x80040424; // type:func
 DisplayObject_SetResourcePath = 0x8004044C; // type:func

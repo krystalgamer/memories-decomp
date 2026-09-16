@@ -19,7 +19,7 @@ the applies and byte-verify once).
 | `0x80015xxx` family | `reset_obj_*` (fleet) | CONFIRMED REPEATABLE: identical 20-function exit path on both Circle-exits (teardown family + cancel blip + flag setters 0x80047430/0x80049108/0x8004A2F8/0x80084240). Also proven: exiting OPTION commits nothing to the 0x801D0xxx save region. | Menu-screen teardown path; names stay fleet-mechanical until per-function roles emerge. |
 | `0x8004002C`-`0x800404CC` + `0x80041428` | various `func_`/`myst` | Fired only during the X->OPTION build-up (with the widget setter 0x80040410 triple). | Widget/object constructor-initializer family for building a menu screen. |
 | `0x80040588`, `0x80040804` (triple), `0x80040D14`, `0x80042210`, `0x8004A40C/430/7C0`, `0x8004B374/70C`, `0x80035E20`, `0x8003C7A0/8CC` | various | Ambient ONLY while sitting in OPTION (with `Main_RunOptionsMenu` + GPU prim setters SetSemiTrans/SetPolyGT4/GsSortFlipSprite). | Options-screen widget update/draw helpers. |
-| `0x80041C8C` | `func_80041C8C` (19/53 stub) | Press-only on main menu, but AMBIENT in OPTION. | Widget visual refresher, called whenever widgets animate; OPTION animates constantly. |
+| `0x80041C8C` | `DisplayObjectStream_ReadNextCommand` | Press-only on main menu, but AMBIENT in OPTION. | Matching stream reader dispatches control opcodes and loads the next timed display-object command. |
 
 ## From the STEREO/MONO toggle (2026-08-31)
 

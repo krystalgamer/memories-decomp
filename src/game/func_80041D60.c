@@ -1,30 +1,31 @@
 #include "../types.h"
 #include "display_object.h"
 #include "func_80041D60.h"
-#define FUNC_80041C8C_WIDE_CALL
-#include "func_80041C8C.h"
+#define DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_WIDE_CALL
+#include "display_object_stream_read_next_command.h"
 #include "graphics_frame.h"
 
-/* If arg0's 0x10 state bit isn't set yet: marks it set, resets field_58/field_5A,
-   then walks a 3-level little-endian-u16 offset chain through the object's field_54
-   byte buffer (indexed at each level by field_67, field_68, field_69) to resolve a final
-   pointer. That pointer and a copy of the attribute (masked to clear bit 0x00800000,
-   restored if flags' 0x100 bit is set) become the args for func_80041C8C,
-   which always fires on this path. Otherwise (0x10 already set): if
-   neither of flags' low two bits are set and the field_5A cooldown is nonzero,
-   decrements it by D_8009B0D8 and fires func_80041C8C once it reaches
-   zero or below.
+/* If arg0's 0x10 state bit isn't set yet: marks it set, resets
+   field_58/field_5A, then walks a 3-level little-endian-u16 offset chain
+   through the object's field_54 byte buffer (indexed at each level by
+   field_67, field_68, field_69) to resolve a final pointer. That pointer and a
+   copy of the attribute (masked to clear bit 0x00800000, restored if flags'
+   0x100 bit is set) become the args for DisplayObjectStream_ReadNextCommand,
+   which always fires on this path. Otherwise (0x10 already set): if neither
+   of flags' low two bits are set and the field_5A cooldown is nonzero,
+   decrements it by D_8009B0D8 and fires DisplayObjectStream_ReadNextCommand
+   once it reaches zero or below.
 
    arg1 and arg2 are read, not just written. The first-time path assigns
    both before jumping to the call, but the cooldown path falls into the
    same call with neither assigned, so on that path they are whatever the
    caller left in $a1 and $a2. All three callers pass one argument, so on the
-   cooldown path func_80041C8C receives two values the caller never
-   supplied. That is what the retail image does. Declaring the real
-   three-argument prototype at a call site makes the call a
-   constraint violation, and passing arguments to satisfy it adds the
-   register setup and breaks the match, so all three callers select the
-   guarded one-argument declaration on purpose.
+   cooldown path DisplayObjectStream_ReadNextCommand receives two values the
+   caller never supplied. That is what the retail image does. Declaring the
+   real three-argument prototype at a call site makes the call a constraint
+   violation, and passing arguments to satisfy it adds the register setup and
+   breaks the match, so all three callers select the guarded one-argument
+   declaration on purpose.
 
    The three chain steps use separately-named pointer/offset locals
    (p1/off1, p2/off2, p3/off3) rather than one reused pair -- reusing a
@@ -72,7 +73,7 @@ void func_80041D60(DisplayObject *arg0, s32 arg1, s32 arg2) {
         arg0->field_5A = remain;
         if (remain <= 0) {
 call_it:
-            func_80041C8C(arg0, arg1, arg2, arg0);
+            DisplayObjectStream_ReadNextCommand(arg0, arg1, arg2, arg0);
         }
     }
 }

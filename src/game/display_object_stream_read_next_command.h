@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80041C8C_H
-#define MEMORIES_DECOMP_FUNC_80041C8C_H
+#ifndef MEMORIES_DECOMP_DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_H
+#define MEMORIES_DECOMP_DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_H
 
 #include "../types.h"
 #include "../ygo_types.h"
@@ -9,12 +9,12 @@
  * the retail four-argument call sequence: script and attribute are selected
  * on the first-time path or ambient on the cooldown path, and ctx is repeated
  * in $a3. */
-#ifdef FUNC_80041C8C_WIDE_CALL
-void func_80041C8C(
+#ifdef DISPLAY_OBJECT_STREAM_READ_NEXT_COMMAND_WIDE_CALL
+void DisplayObjectStream_ReadNextCommand(
     DisplayObject *ctx, s32 script, s32 attribute, DisplayObject *ctx_again
 );
 #else
-void func_80041C8C(DisplayObjectStreamState *object);
+void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object);
 #endif
 
 #endif

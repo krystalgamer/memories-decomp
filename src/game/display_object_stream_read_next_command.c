@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "model_record_tables.h"
-#include "func_80041C8C.h"
+#include "display_object_stream_read_next_command.h"
 
-void func_80041C8C(DisplayObjectStreamState *object)
+void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
 {
     u8 *p;
     s32 op;
