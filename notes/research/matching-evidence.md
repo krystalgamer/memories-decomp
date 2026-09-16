@@ -6814,7 +6814,7 @@ standalone sprite record, not a display object.
 
 ## A narrower parameter type is not free at the call site, but a wider one is
 
-`func_80040410` was defined as `(DisplayObjectConfig *object, u8 value)` while
+`DisplayObject_SetResourceVariant` was defined as `(DisplayObjectConfig *object, u8 value)` while
 its seven consumers each declared it themselves, five of them spelling the
 second parameter `s32` or `int`. Giving them all one prototype meant choosing
 a spelling, and the two directions are not symmetric.

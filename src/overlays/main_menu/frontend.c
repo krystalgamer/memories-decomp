@@ -88,7 +88,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             entry->flags =
                 (entry->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-            func_80040410((DisplayObjectConfig *)entry, value);
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)entry, value);
             func_80042918(entry);
             gMain_apMenuEntries[i] = (u8 *)entry;
         } else {

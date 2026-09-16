@@ -3,12 +3,12 @@
 
 #include "../types.h"
 
-/* The narrower view func_80040410 and DisplayObject_UpdateResourceVariant
- * use: the flags halfword at 0x08 and the three selector bytes at 0x67..0x69.
- * It is the same record DisplayObjectConfigView below describes, seen through
- * the only fields these two writers touch, and it is spelt separately for the
- * same reason that one is: neither is the canonical DisplayObject in
- * display_object.h. */
+/* The narrower view DisplayObject_SetResourceVariant and
+ * DisplayObject_UpdateResourceVariant use: the flags halfword at 0x08 and the
+ * three selector bytes at 0x67..0x69. It is the same record
+ * DisplayObjectConfigView below describes, seen through the only fields these
+ * two writers touch, and it is spelt separately for the same reason that one
+ * is: neither is the canonical DisplayObject in display_object.h. */
 typedef struct {
     u8 pad_00[8];
     u16 flags;
@@ -17,8 +17,9 @@ typedef struct {
     u8 field_68;
     u8 field_69;
     /* 0x6A is the value CardPreview_UpdateVariant compares against the 0x69
-       selector before it calls func_80040410 to store one into the other, so
-       the two bytes are read as a pair by the same function.
+       selector before it calls DisplayObject_SetResourceVariant to store one
+       into the other, so the two bytes are read as a pair by the same
+       function.
 
        This byte is not unnamed elsewhere: duel_card_display_state.h calls it
        card_index, and on a duel card's display object that is exactly what it
@@ -43,7 +44,7 @@ typedef struct {
  * widening it costs nothing -- while a u8 parameter costs an andi at every
  * call site whose argument range the compiler cannot prove. See
  * notes/research/matching-evidence.md. */
-void func_80040410(DisplayObjectConfig *object, s32 value);
+void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value);
 
 /* Changes the third resource selector only when needed and clears the
  * resolution flag so the display-object runtime rebuilds its resource. */

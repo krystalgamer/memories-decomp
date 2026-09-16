@@ -105,11 +105,12 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
     /* Snapshot includes the newly interpolated coordinate, but old flags. */
     consume(AFTERIMAGE, 0);
 }
-void func_80040410(DisplayObjectConfig *entry, s32 selector)
+void DisplayObject_SetResourceVariant(DisplayObjectConfig *entry, s32 selector)
 {
     if ((u8 *)entry != object) fail(5);
     consume(CONFIGURE, selector);
-    /* Owned contract: src/game/display_object_core.c, func_80040410. */
+    /* Owned contract: src/game/display_object_core.c,
+       DisplayObject_SetResourceVariant. */
     entry->field_69 = selector;
     entry->flags &= 0xFFEF;
 }

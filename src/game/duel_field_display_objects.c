@@ -281,7 +281,7 @@ s32 func_800235C0(void)
                 o = func_80018150(0, 0xF0);
                 source->field_16 = 0x24;
                 if (source->field_13 != 0) {
-                    func_80040410((DisplayObjectConfig *)o, source->field_13);
+                    DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);
                     source->field_16 = 7;
                 }
                 func_800428EC((u8 *)o, -(source->table_index * 2) - 2);

@@ -68,7 +68,7 @@ void DuelEffect_ApplyTerrain(void) {
             a = (DisplayObjectConfig *)D_8009B214;
             b = gDuel_bTerrain;
             ((DuelEffectRequest *)D_8009B17C)->field_1A = -2;
-            func_80040410(a, b);
+            DisplayObject_SetResourceVariant(a, b);
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }
         return;

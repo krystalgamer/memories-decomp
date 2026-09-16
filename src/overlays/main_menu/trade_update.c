@@ -571,7 +571,7 @@ update:
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);
-        func_80040410(D_801845E0, flags + 4);
+        DisplayObject_SetResourceVariant(D_801845E0, flags + 4);
     }
     if (dirty0 != 0) {
         MainMenu_RebuildTradeInventoryRows(0);

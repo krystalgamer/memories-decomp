@@ -60,7 +60,11 @@ PAIRS = [
     ("src/game/func_800218F0.c", "func_800404CC", '#include "display_object_config.h"'),
     ("src/game/func_800262D4.c", "func_8004036C", '#include "display_object_core.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
-    ("src/game/func_80024E58.c", "func_80040410", '#include "display_object_config.h"'),
+    (
+        "src/game/func_80024E58.c",
+        "DisplayObject_SetResourceVariant",
+        '#include "display_object_config.h"',
+    ),
     ("src/game/file_stream.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/func_80014294.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/func_80014294.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),

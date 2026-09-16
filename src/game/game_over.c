@@ -50,17 +50,17 @@ s32 func_8003CA5C(void)
     if (value == 0) {
         switch (p->field_6C) {
         case 0:
-            func_80040410((DisplayObjectConfig *)p, 1);
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)p, 1);
             p->field_6C = 1;
             motion->velocity_x = -0xC0;
             break;
         case 1:
             DisplayObject_ResetVelocity(motion);
-            func_80040410((DisplayObjectConfig *)p, 2);
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)p, 2);
             p->field_6C = 2;
             break;
         case 2:
-            func_80040410((DisplayObjectConfig *)p, 0);
+            DisplayObject_SetResourceVariant((DisplayObjectConfig *)p, 0);
             p->field_6C = 0;
             if (motion->x < -0x2F) {
                 motion->x = 0x160;

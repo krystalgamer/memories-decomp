@@ -230,7 +230,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     tick_entry:
         moved++;
-        func_80040410((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
+        DisplayObject_SetResourceVariant((DisplayObjectConfig *)*slot, (i << 1) | (gMain_bMenuID != i));
     next_entry:
         i++;
         slot++;
@@ -288,14 +288,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
         } else {
             count = 6;
         }
-        func_80040410((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+        DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
         /* Keep the store in each arm: the join controls high-half reuse. */
         if ((gInput_wPad1Repeat & PAD_DIRECTION_UP) != 0) {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
         } else {
             *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
         }
-        func_80040410((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+        DisplayObject_SetResourceVariant((DisplayObjectConfig *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
         SD_SEPlay(6, 0xFF, 0);
         goto ret_m1;
     }

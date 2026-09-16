@@ -13,7 +13,7 @@ void CardPreview_UpdateVariant(DisplayObjectConfig *object, s32 arg1)
         value = object->field_6A;
     }
     if (value != object->field_69) {
-        func_80040410(object, value);
+        DisplayObject_SetResourceVariant(object, value);
         func_80041D60((DisplayObject *)object);
         D_8009B424 = 1;
     }

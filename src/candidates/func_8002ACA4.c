@@ -19,8 +19,9 @@
  * - the compiler runs at -G8 with a -G0 assembler, so D_8009B338 and
  *   D_8009B0C0 are stored through $at as in retail, while D_800E9ECF keeps
  *   its aggregate arm and a split %hi/%lo store;
- * - the close path reads func_80040410's argument into a local before
- *   clearing D_8009B0C0, and the 0x10 counter is re-read after its store.
+ * - the close path reads DisplayObject_SetResourceVariant's argument into a
+ *   local before clearing D_8009B0C0, and the 0x10 counter is re-read after
+ *   its store.
  *
  * Residual: the target reloads the slide phase into the register it loaded
  * it from (two load-delay nops) and materialises the case 5 pad address
@@ -367,7 +368,7 @@ void func_8002ACA4(u8 *state)
                 H(state, 0x10) = 0x400;
                 if (!(D_800E9ECE & 0x80) && state[3] == 0) {
                     state[2] = 1;
-                    func_80040410((void *)W(state, 0x50), 1);
+                    DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
                     return;
                 }
             }
@@ -408,7 +409,7 @@ void func_8002ACA4(u8 *state)
                     void *p = (void *)W(state, 0x50);
 
                     D_8009B0C0 = 0;
-                    func_80040410(p, 2);
+                    DisplayObject_SetResourceVariant(p, 2);
                 }
                 goto next;
             }

@@ -336,7 +336,7 @@ void Duel_ShowResultPage(s32 page)
     DisplayObject *child;
     void *object;
 
-    func_80040410((DisplayObjectConfig *)D_8009B1E8->root, page);
+    DisplayObject_SetResourceVariant((DisplayObjectConfig *)D_8009B1E8->root, page);
     if (page == 0) {
         DuelResultDisplayState *state = D_8009B1E8;
 

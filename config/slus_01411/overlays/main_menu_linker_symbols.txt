@@ -6,6 +6,7 @@ SaveData_UpdateTradeLoad = 0x8003FCD8;
 SaveData_UpdateDuelLoad = 0x8003FD14;
 SaveData_RequestTradeWrite = 0x8003FE14;
 SD_SEPlay = 0x80048658;
+DisplayObject_SetResourceVariant = 0x80040410;
 GsSortPoly = 0x80084320;
 rsin = 0x800866A0;
 gInput_wPad1Repeat = 0x8009B394;

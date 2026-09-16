@@ -89,7 +89,7 @@ typedef struct {
  * MainMenu_ReleaseTradeDisplayHandles passes each to func_8004036C and
  * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen
  * (trade_update.c) reads D_801845E0->frame and passes D_801845E0 to
- * func_80040410; MainMenu_RebuildTradeInventoryRows reads ->frame
+ * DisplayObject_SetResourceVariant; MainMenu_RebuildTradeInventoryRows reads ->frame
  * (trade_screen_helpers.c:101). The units used to declare them `u8 *` and
  * `void *`, and D_801845E0 also `MainMenuWidget *` in the two units that
  * read `frame`. `frame` is a member of that view, and so is the +8 halfword

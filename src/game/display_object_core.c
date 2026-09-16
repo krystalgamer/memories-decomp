@@ -156,7 +156,7 @@ void func_800403F0(void)
     DisplayObject_ResetPool();
 }
 
-void func_80040410(DisplayObjectConfig *object, s32 value)
+void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
     object->field_69 = value;
     object->flags &= 0xFFEF;

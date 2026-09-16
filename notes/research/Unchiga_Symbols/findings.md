@@ -21,7 +21,7 @@ operator corrects when needed.
 | F2 | `SD_SEPlay` (`0x80048658`) | Plays a sound effect: called with (6, 0xFF) on every cursor move — SE #6 is the menu blip; chain reaches `_spu_note2pitch` / `SpuGetVoiceEnvelope`. Existing wrappers `call_80048658_255_0`/`call_80048658_flagged` fit "play SE id at volume". DotR vocabulary for this role: `SD_SEPlay*`. | `SD_SEPlay` | APPLIED |
 | F3 | `func_800482B0(id, 0, vol)` | SE playback internal, called by the F2 chain (ra 0x80048758). | (hold — internals need one more session) | HOLD |
 | F4 | `func_8004803C(id, 0, 0)` | SE playback internal, deeper in the same chain (ra 0x800484E8). | (hold) | HOLD |
-| F5 | `func_80040410(obj, state)` | Widget/object state setter: writes `obj+0x69 = state`, clears bit 0x10 of flags at `obj+8` (matched C). Called twice per cursor move on the two highlight widgets (0x800F0698 / 0x800F0858) with swapped states. | (hold — want the widget pool named first) | HOLD |
+| F5 | `DisplayObject_SetResourceVariant(obj, state)` | Widget/object state setter: writes `obj+0x69 = state`, clears bit 0x10 of flags at `obj+8` (matched C). Called twice per cursor move on the two highlight widgets (0x800F0698 / 0x800F0858) with swapped states. | (hold — want the widget pool named first) | HOLD |
 | F6 | `func_80041C8C(obj, dataPtr, state<<24)` | Per-widget visual refresh after F5; still unmatched (19/53 near-miss stub). | (hold) | HOLD |
 
 ### OPTION round-trip additions (same session)
