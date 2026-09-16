@@ -213,7 +213,7 @@ shared resource package.
 
 `Main_InitFreeDuelMenu` requests 87 WA sectors beginning at sector `0x1E88`,
 which is archive range `0xF44000-0xF6F800`. Resident callback
-`func_8003B808` accounts for all five transfer phases:
+`FreeDuel_LoadPackageStage` accounts for all five transfer phases:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|

@@ -147,12 +147,12 @@ void func_80014FA4(void);
  * a plain read, which are the same load.
  *
  * D_800101D8_IN_DATA is a codegen input, measured on each unit separately:
- * put either campaign_map_load_package_stage.c or func_8003B808.c on the
- * plain declaration and the link fails on that object alone with `relocation
- * truncated to fit: R_MIPS_GPREL16 against D_800101D8`, because the unit
- * reaches the symbol gp-relatively and 0x800101D8 is out of range of $gp.
- * The attribute takes it out of small data for those two; the other three do
- * not need it.
+ * put either campaign_map_load_package_stage.c or
+ * free_duel_load_package_stage.c on the plain declaration and the link fails
+ * on that object alone with `relocation truncated to fit: R_MIPS_GPREL16
+ * against D_800101D8`, because the unit reaches the symbol gp-relatively and
+ * 0x800101D8 is out of range of $gp. The attribute takes it out of small data
+ * for those two; the other three do not need it.
  */
 #ifdef D_800101D8_IN_DATA
 extern u8 *D_800101D8 __attribute__((section(".data")));

@@ -3166,7 +3166,7 @@
       "address": "0x8003B808",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",
-      "source": "src/game/func_8003B808.c"
+      "source": "src/game/free_duel_load_package_stage.c"
     },
     {
       "address": "0x8003B9BC",

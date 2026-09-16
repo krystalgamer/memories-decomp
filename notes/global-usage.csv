@@ -7,7 +7,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010000,D_80010000,D_80010000,0x8002FB78,Campaign_LoadScenePackageStage,matching_c,game,C,src/game/campaign_load_scene_package_stage.c,read,8,t = (s32)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,read,8,src = (u32 *)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,8,slot = &((DisplayEffectVramSlot *)D_80010000)[D_8009B326]; | slots = (DisplayEffectVramSlot *)D_80010000;
-0x80010000,D_80010000,D_80010000,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,read,8,object->value_08 = (s32)D_80010000; | object->value_0C = (s32)D_80010000;
+0x80010000,D_80010000,D_80010000,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,8,object->value_08 = (s32)D_80010000; | object->value_0C = (s32)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8003B9BC,Main_InitFreeDuelMenu,matching_c,game,C,src/game/main_init_free_duel_menu.c,read,8,"void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FILE_WA_FREE_DUEL_START_SECTOR,FILE_WA_FREE_DUEL_SECTO..."
 0x80010000,D_80010000,D_80010000,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,8,object->value_08 = (s32)D_80010000; | object->value_0C = (s32)D_80010000;
 0x80010000,D_80010000,D_80010000,0x80056828,func_80056828,matching_c,game,C,src/game/model_load_step.c,read,8,payload = D_80010000;
@@ -46,7 +46,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010074,D_80010074,D_80010074,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,"D_80010074,"
 0x80010090,D_80010090,D_80010090,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_80010090);
 0x800100A8,D_800100A8,D_800100A8,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,FntPrint(D_800100A8);
-0x800101D8,D_800101D8,D_800101D8,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
+0x800101D8,D_800101D8,D_800101D8,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
 0x800101D8,D_800101D8,D_800101D8,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read,8,y = D_800101D8;
 0x800101D8,D_800101D8,D_800101D8,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
 0x800101D8,D_800101D8,D_800101D8,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,8,object->value_08 = (u32)D_800101D8; | object->value_0C = (u32)D_800101D8;
@@ -897,7 +897,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80037B40,func_80037B40,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,32,if ((D_8009B0F4_abs & FILE_TRANSFER_FLAG_SECTOR_RANGE) == 0) {
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003A01C,DisplayEffect_LoadResourceStage,matching_c,game,C,src/game/func_8003A01C.c,read_write,32,D_8009B0F4 = v_0; | D_8009B0F4 = v_1; | (+6 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read_write,32,D_8009B0F4_abs = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE; | if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
-0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read_write,32,D_8009B0F4 = v & m; | D_8009B0F4 = v2 & 0xFFDDFFFF; | (+8 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
@@ -951,7 +951,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B118,D_8009B118,D_8009B118,0x8002FB78,Campaign_LoadScenePackageStage,matching_c,game,C,src/game/campaign_load_scene_package_stage.c,read,32,c = D_8009B118; | t = (p->value_08 = D_8009B118); | (+1 more)
 0x8009B118,D_8009B118,D_8009B118,0x80032184,func_80032184,matching_c,game,C,src/game/func_80032184.c,read,32,"LoadImage2((RECT *)g, (u32 *)D_8009B118); | p->value_08 = D_8009B118; | (+2 more)"
 0x8009B118,D_8009B118,D_8009B118,0x8003A01C,DisplayEffect_LoadResourceStage,matching_c,game,C,src/game/func_8003A01C.c,read,32,b = D_8009B118; | c = D_8009B118; | (+1 more)
-0x8009B118,D_8009B118,D_8009B118,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
+0x8009B118,D_8009B118,D_8009B118,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
 0x8009B118,D_8009B118,D_8009B118,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read,32,d = D_8009B118; | d2 = D_8009B118; | (+2 more)
 0x8009B118,D_8009B118,D_8009B118,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
 0x8009B118,D_8009B118,D_8009B118,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
@@ -3181,7 +3181,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801AF000,D_801AF000,D_801AF000,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,read,,"func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x8003A1EC,func_8003A1EC,matching_c,game,C,src/game/display_effect_resource_setup.c,read,,tb = D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,,"Util_CopyWords(D_801AF000, slot->extra, 0x800); | Util_CopyWords(slot->extra, D_801AF000, 0x800); | (+1 more)"
-0x801AF000,D_801AF000,D_801AF000,0x8003B808,func_8003B808,matching_c,game,C,src/game/func_8003B808.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
+0x801AF000,D_801AF000,D_801AF000,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/options_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/game_over_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;

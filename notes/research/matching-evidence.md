@@ -3014,7 +3014,8 @@ With `-G8` and `-msplit-addresses`:
   data. `-msplit-addresses` then splits its address at compile time into a
   compiler-allocated register, which the scheduler is free to hoist.
 
-Both forms appear in the same function. In `func_8003B808` (0x8003B808) every
+Both forms appear in the same function. In `FreeDuel_LoadPackageStage`
+(0x8003B808) every
 scalar global is rebuilt per access while `D_801AF000`, an array, gets its own
 register:
 
@@ -3028,11 +3029,11 @@ register:
 
 Declaring the scalars plainly under `-G0` instead lets GCC cache the address
 in a register and reuse it, which builds five instructions short on
-`func_8003B808` and six to eight on `CampaignMap_LoadPackageStage`. Both
-functions' canonical campaigns recorded exactly that as a shifted dispatch
-branch target
-(`+0x10: 64!=5c` and `+0xc: 68!=62`). The residuals were accurate; nothing in
-them suggested the cause was a declaration.
+`FreeDuel_LoadPackageStage` and six to eight on
+`CampaignMap_LoadPackageStage`. Both functions' canonical campaigns recorded
+exactly that as a shifted dispatch branch target (`+0x10: 64!=5c` and
+`+0xc: 68!=62`). The residuals were accurate; nothing in them suggested the
+cause was a declaration.
 
 The sibling functions `NameEntry_LoadPackageStage` and
 `Password_LoadPackageStage` match under
@@ -3050,12 +3051,12 @@ When two statements in the same basic block each need a constant, and one of
 them costs a `lui`/`ori` pair while the other fits in a single `addiu`, the
 expensive one is materialised first and source order decides the rest.
 
-`func_8003B808` and `CampaignMap_LoadPackageStage` are switch statements whose
-arms all have the same shape: assign a field, then mask a global. Most arms
-match with the field assignment written first. Exactly one arm in each
-function does not:
+`FreeDuel_LoadPackageStage` and `CampaignMap_LoadPackageStage` are switch
+statements whose arms all have the same shape: assign a field, then mask a
+global. Most arms match with the field assignment written first. Exactly one
+arm in each function does not:
 
-    func_8003B808 case 3   field1C = 0x18000    lui + ori
+    FreeDuel_LoadPackageStage case 3   field1C = 0x18000    lui + ori
     CampaignMap_LoadPackageStage case 1   field1C = 0x43000    lui + ori
 
 Those two need the mask statement written first. Every other arm uses a

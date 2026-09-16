@@ -1349,6 +1349,7 @@ DisplayObjectStream_Stop = 0x8004141C; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 GameOver_LoadPackageStage = 0x8003C328; // type:func
 Password_LoadPackageStage = 0x8003BD14; // type:func
+FreeDuel_LoadPackageStage = 0x8003B808; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

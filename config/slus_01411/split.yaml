@@ -84,7 +84,7 @@ segments:
       - [0xA88, rodata, initial_data_1]
       - [0xA94, .rodata, game/card_list_sort]
       - [0xAB8, rodata, initial_data_1a]
-      - [0xB48, .rodata, game/func_8003B808]
+      - [0xB48, .rodata, game/free_duel_load_package_stage]
       - [0xB5C, rodata, initial_data_1b]
       - [0xB60, .rodata, game/campaign_map_load_package_stage]
       - [0xB78, rodata, initial_data_1c]

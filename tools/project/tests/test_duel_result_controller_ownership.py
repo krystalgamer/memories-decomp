@@ -294,7 +294,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             "func_8002F4C0.c", "func_800434F4.c",
             "game_over_load_package_stage.c",
             "password_load_package_stage.c",
-            "func_8003B808.c",
+            "free_duel_load_package_stage.c",
         )
         for name in names:
             with self.subTest(name=name):
