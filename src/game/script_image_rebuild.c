@@ -69,7 +69,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         t = &D_80090C00[n * 6];
         p->entries[0].value = 0;
         if (t[0] & 1) {
-            ScriptImage_CreateObject((u8 *)&p->entries[1],
+            ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
             ((DisplayObject *)p->entries[1].pointer)
                 ->field_30.h.field_30 = t[1];
@@ -77,7 +77,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
                 ->field_30.h.field_32 = t[2];
         }
         if (t[0] & 2) {
-            ScriptImage_CreateObject((u8 *)&p->entries[2],
+            ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
             ((DisplayObject *)p->entries[2].pointer)
                 ->field_30.h.field_30 = t[3];
@@ -90,17 +90,17 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
             }
         }
     } else {
-        ScriptImage_CreateObject((u8 *)p, 0x10, 0);
+        ScriptImage_CreateObject(&p->entries[0], 0x10, 0);
         if (n >= 0x100) {
             k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
             b = D_80090BA8;
             n = b[k * 2];
             if (n & 1) {
-                ScriptImage_CreateObject((u8 *)&p->entries[1],
+                ScriptImage_CreateObject(&p->entries[1],
                                          0x12, 1);
             }
             if (n & 2) {
-                ScriptImage_CreateObject((u8 *)&p->entries[2],
+                ScriptImage_CreateObject(&p->entries[2],
                                          0x14, 2);
                 p->entries[2].value = b[k * 2 + 1];
             }

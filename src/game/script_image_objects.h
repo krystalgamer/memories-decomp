@@ -46,6 +46,6 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
  * also sets the entry's field_10. ScriptImage_RebuildObjects is the only
  * caller outside this unit, and called it with no prototype at all before
  * this header. */
-void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode);
+void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode);
 
 #endif
