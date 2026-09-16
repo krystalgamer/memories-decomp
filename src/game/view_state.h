@@ -38,14 +38,14 @@
    they are.
 
    0x10..0x2F is a Psy-Q GsRVIEW2, and that is a call rather than an
-   inference: func_800134E0 builds a `GsRVIEW2 *` at exactly `&D_800F2848 +
-   0x10` and hands it to GsSetRefView2, whose parameter is that type. Its
-   own arithmetic corroborates the member order -- it adds its three
-   arguments to vrx, vry and vrz at 0x1C, 0x20 and 0x24 and writes the sums
-   to vpx, vpy and vpz at 0x10, 0x14 and 0x18, which is what a reference
-   view is. func_800134E0's header has said so since #2689; the record now
-   spells it, and that file's note about not editing this header is gone
-   with it.
+   inference: ViewState_ApplyViewpointOffset builds a `GsRVIEW2 *` at exactly
+   `&D_800F2848 + 0x10` and hands it to GsSetRefView2, whose parameter is that
+   type. Its own arithmetic corroborates the member order -- it adds its
+   three arguments to vrx, vry and vrz at 0x1C, 0x20 and 0x24 and writes the
+   sums to vpx, vpy and vpz at 0x10, 0x14 and 0x18, which is what a reference
+   view is. ViewState_ApplyViewpointOffset's header has said so since #2689;
+   the record now spells it, and that file's note about not editing this
+   header is gone with it.
 
    The old field_1C through field_2C are vrx, vry, vrz, rz and super under
    their Psy-Q names, at the same offsets and the same widths -- `long` is
