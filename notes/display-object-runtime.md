@@ -167,7 +167,7 @@ Matching consumers establish these heads and pass shapes:
 
 | Key | Head address | Matching consumer | Established behavior |
 |---:|---:|---|---|
-| `0` | `D_800EFE38` | `func_80040CAC` | Runs each slot's `+0x24` callback without a submission step. |
+| `0` | `D_800EFE38` | `DisplayObject_RunUpdateCallbackList` | Runs each slot's `+0x24` callback without a submission step. |
 | `1` | `D_800EFE3A` | not yet identified in matching C | The dispatcher still treats it as one of the seven lists. |
 | `2` | `D_800EFE3C` | `DisplayObject_RenderSpriteSheetList` | Runs the callback, then `DisplayObject_UpdateCommandStream` and `DisplayObject_RenderSpriteSheet` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |
 | `3` | `D_800EFE3E` | `func_80040BF8` | Runs the callback, then submits through `func_800408D0` for slots matching `DISPLAY_OBJECT_RENDERABLE_MASK`. |

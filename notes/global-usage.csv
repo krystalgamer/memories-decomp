@@ -2687,7 +2687,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE38,D_800EFE38,D_800EFE38,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,address,16,*(u16 *)((u8 *)D_800EFE38 + key * 2) = slot->field_0A; | slot->next = *(u16 *)((u8 *)D_800EFE38 + key * 2); | (+1 more)
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[3];
-0x800EFE38,D_800EFE38,D_800EFE38,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[0];
+0x800EFE38,D_800EFE38,D_800EFE38,0x80040CAC,DisplayObject_RunUpdateCallbackList,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[0];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[6];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[4];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[5];
@@ -2703,7 +2703,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,,e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040814,DisplayObject_RenderSpriteSheetList,matching_c,game,C,src/game/display_object_render_sprite_sheet_list.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];
+0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,DisplayObject_RunUpdateCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,address,,e = &D_800EFE48[i];

@@ -19,7 +19,7 @@
  * is established rather than assumed. */
 
 void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
-    func_80040CAC,
+    DisplayObject_RunUpdateCallbackList,
     DisplayObject_RenderSpriteList,
     DisplayObject_RenderSpriteSheetList,
     func_80040BF8,

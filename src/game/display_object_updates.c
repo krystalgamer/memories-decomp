@@ -134,7 +134,7 @@ void func_80040BF8(void)
     }
 }
 
-void func_80040CAC(void)
+void DisplayObject_RunUpdateCallbackList(void)
 {
     s32 i = D_800EFE38[0];
 

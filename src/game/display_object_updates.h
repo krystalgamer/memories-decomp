@@ -19,16 +19,16 @@ void func_800408D0(DisplayObject *e, s32 tex, s32 mode_arg);
  * display object list from its head in D_800EFE38, runs every object's update
  * callback, and differs only in which list it takes and what it does afterwards:
  *
- *   func_80040CAC  list 0, the update-only pass -- no rendering at all
+ *   DisplayObject_RunUpdateCallbackList  list 0, callback-only
  *   func_80040BF8  list 3
  *   func_80040D14  list 6
  *
- * The two that render reach the object's second callback slot at +0x4C for
- * renderable objects. All three are reached only as entries of that table, so
- * the table file is their only consumer and declared all three itself before
- * this header. */
+ * The list-3 walker submits sprite strips, and the list-6 walker invokes the
+ * object's second callback slot at +0x4C. All three are reached only as
+ * entries of that table, so the table file is their only consumer and
+ * declared all three itself before this header. */
 void func_80040BF8(void);
-void func_80040CAC(void);
+void DisplayObject_RunUpdateCallbackList(void);
 void func_80040D14(void);
 
 #endif
