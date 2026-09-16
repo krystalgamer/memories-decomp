@@ -36,8 +36,9 @@ void SD_Term(void)
  * fsize (+0x0C) minus that is the body size, and mvol (+0x18) and pan
  * (+0x19) are kept beside them. `spu_addr` is where the body goes: the
  * packages' own +0x0C word, which with the body size at +8 ends every one at
- * SPU address 0x79020. SD_VabTransBody and func_800497E0 later SpuWrite the
- * body there. Asking for id -1 fails while the slot is still live.
+ * SPU address 0x79020. SD_VabTransBody and SD_VabTransBodyChunk later
+ * SpuWrite the body there. Asking for id -1 fails while the slot is still
+ * live.
  *
  * The 152-byte function at `0x800496C4` matches under the existing uniform
  * `gcc_2_8_1_g0` profile using `SDSecondaryState` and `SDSecondaryTransfer` from
