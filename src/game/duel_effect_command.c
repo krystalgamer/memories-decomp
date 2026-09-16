@@ -133,7 +133,8 @@ void func_80038070(DuelEffectChannel *object)
 
 void func_80038094(DuelEffectChannel *object)
 {
-    u8 **stream = &((u8 **)object)[object->stream_58];
+    u8 **stream =
+        &((TextStreamOwner *)object)->streams[object->stream_58];
 
     func_80038024(object, *(*stream)++);
 }
