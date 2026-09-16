@@ -75,8 +75,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800107F4,D_800107F4,D_800107F4,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107F4, g_SDValue->field_1649);"
 0x80010834,D_80010834,D_80010834,0x80049FB4,func_80049FB4,matching_c,game,C,src/game/func_80049FB4.c,read,16,return (u16)(D_80010834[(12 - (s16)(down % 12)) % 12][col] >> | return (u16)(D_80010834[diff % 12][col] << (diff / 12));
 0x80011434,D_80011434,D_80011434,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,address,32,tbl = D_80011434;
-0x80011434,D_80011434,D_80011434,0x80049CF8,func_80049CF8,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
-0x80011434,D_80011434,D_80011434,0x80049DD8,func_80049DD8,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
+0x80011434,D_80011434,D_80011434,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
+0x80011434,D_80011434,D_80011434,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A27C,SD_SetVoiceVolume,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03aa7c.s,address,,"addiu $v0, $v0, %lo(D_80011434) | lui $v0, %hi(D_80011434)"
 0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
 0x80011434,D_80011434,D_80011434,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
@@ -2224,8 +2224,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049BAC,SD_PlaySequenceFastForward,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->flag_0500 = 1; | first = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049C40,SD_StopSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,SDSecondaryState *initial = D_8009B458; | other = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049CB0,func_80049CB0,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->field_07E0 = -1; | D_8009B458->field_07E2 = 0; | (+4 more)
-0x8009B458,D_8009B458,D_8009B458,0x80049CF8,func_80049CF8,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049DD8,func_80049DD8,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x80049CF8,SD_MuteSecondaryVoices,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049EC8,func_80049EC8,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F10,func_80049F10,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F50,func_80049F50,matching_c,game,C,src/game/func_80049EC8.c,read,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
