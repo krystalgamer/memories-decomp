@@ -36,8 +36,8 @@ void func_800391E4(DuelEffectChannel *p) {
 
     e->field_30.h.field_30 = (u16)p->field_3C;
     e->field_30.h.field_32 = (u16)p->field_40;
-    *(s16 *)&e->field_3C.h.field_3C = *(u16 *)&p->field_3E;
-    *(s16 *)&e->field_3C.h.field_3E = *(u16 *)&p->field_42;
+    e->field_3C.h.field_3C = (u16)p->field_3E;
+    e->field_3C.h.field_3E = (u16)p->field_42;
     v = (s16)*(u16 *)&p->field_3E / 2;
     *(s16 *)&e->field_18 = v;
     e->field_48.h.field_48 = v;
