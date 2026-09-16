@@ -6,7 +6,7 @@
 #include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
 #include "text_stream_read_u32_le.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 #include "duel_effect_command.h"
 #include "../unmatched.h"
 
@@ -295,13 +295,13 @@ void func_80038334(DuelEffectChannel *object)
 
 void func_80038388(DuelEffectChannel *object)
 {
-    object->field_38 = func_80036D3C(object);
+    object->field_38 = TextStream_ReadU16LE(object);
 }
 
 void func_800383B0(DuelEffectChannel *object)
 {
     object->field_60 = 0;
-    object->field_61 = func_80036D3C(object);
+    object->field_61 = TextStream_ReadU16LE(object);
 }
 
 u32 *func_800383DC(DuelEffectChannel *a0) {

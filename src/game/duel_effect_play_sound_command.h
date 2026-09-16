@@ -5,7 +5,7 @@
 #include "duel_effect.h"
 
 /* The three D_80090EAC sound commands. All read their operand through
- * func_80036D3C, which is the "next word of this object's current script
+ * TextStream_ReadU16LE, which is the "next word of this object's current script
  * stream" accessor, so none of them touches the cursor arithmetic directly
  * except func_800386B8, which reads a raw opcode byte first.
  *

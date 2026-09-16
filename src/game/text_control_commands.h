@@ -35,7 +35,7 @@ void Text_StartPageWait(DuelEffectChannel *object);
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object);
 
 /* D_80090EAC entry: pushes a stream cursor. It takes a word through
- * func_80036D3C, writes it as the low half of the NEXT cursor slot -- keeping
+ * TextStream_ReadU16LE, writes it as the low half of the NEXT cursor slot -- keeping
  * that slot's high half -- and then increments the object's +0x58 cursor index,
  * so the following commands read from the new stream. */
 void Text_PushStreamOffset(DuelEffectChannel *object);

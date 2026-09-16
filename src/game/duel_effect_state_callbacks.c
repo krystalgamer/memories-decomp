@@ -3,7 +3,7 @@
 #define D_8009B0CC_IN_DATA
 #define SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 #include "../types.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 #include "../psyq/rand.h"
 #include "dialog_choice_state.h"
 #include "display_object_core.h"
@@ -66,7 +66,7 @@ void func_8003767C(DuelEffectChannel *state)
 
     D_8009B2AA[0] = 0;
     D_8009B2A8[0] = 0;
-    result = func_80036D3C(state);
+    result = TextStream_ReadU16LE(state);
     D_8009B270[0] = result;
 
     if (result & 0x8000) {
@@ -77,7 +77,7 @@ void func_8003767C(DuelEffectChannel *state)
 
         *slot = script + 1;
         Base2_8009B2AA[0] = value;
-        Base2_8009B2A8[0] = func_80036D3C(state);
+        Base2_8009B2A8[0] = TextStream_ReadU16LE(state);
     }
 
     D_8009B357 = 5;
@@ -91,9 +91,9 @@ void func_8003771C(DuelEffectChannel *object)
     s32 raw_value;
 
     object->state_51 = 0;
-    D_8009B2A8_scalar = func_80036D3C(object);
-    D_8009B2AA_scalar = func_80036D3C(object);
-    D_8009B29C = func_80036D3C(object);
+    D_8009B2A8_scalar = TextStream_ReadU16LE(object);
+    D_8009B2AA_scalar = TextStream_ReadU16LE(object);
+    D_8009B29C = TextStream_ReadU16LE(object);
 
     signed_value = D_8009B2AA_scalar;
     raw_value = (u16)D_8009B2AA_scalar;
@@ -237,7 +237,7 @@ void func_800379F8(DuelEffectChannel *object)
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B322 = func_80036D3C(object);
+        D_8009B322 = TextStream_ReadU16LE(object);
     }
     D_8009B322--;
     if (D_8009B322 == 0) {
@@ -251,7 +251,7 @@ void func_80037A58(DuelEffectChannel *object)
 
     if ((flags & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = flags | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B322 = func_80036D3C(object);
+        D_8009B322 = TextStream_ReadU16LE(object);
         D_8009B348[0] = gGraphics_uViewportX[0];
         D_8009B348[1] = gGraphics_uViewportY[0];
     }

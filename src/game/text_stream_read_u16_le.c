@@ -1,8 +1,8 @@
 #include "../types.h"
 #include "duel_effect.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 
-int func_80036D3C(DuelEffectChannel *object)
+int TextStream_ReadU16LE(DuelEffectChannel *object)
 {
     u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *current = *stream;

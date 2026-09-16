@@ -2530,7 +2530,7 @@
       "address": "0x80036D3C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
-      "source": "src/game/func_80036D3C.c"
+      "source": "src/game/text_stream_read_u16_le.c"
     },
     {
       "address": "0x80036D70",

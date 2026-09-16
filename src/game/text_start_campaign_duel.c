@@ -3,7 +3,7 @@
 #include "../types.h"
 #include "text_start_campaign_duel.h"
 #include "duel_effect.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 #include "duel_side_state.h"
 #include "../unmatched.h"
 
@@ -65,7 +65,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         *p = q;
         gDuel_bTerrain = v;
     }
-    gDuel_wBgmId = func_80036D3C(o);
+    gDuel_wBgmId = TextStream_ReadU16LE(o);
     D_8009B374 = 0x72A0;
     x = (u8)gDuel_bOpponentID;
     if ((u32)(x - 9) < 8) D_8009B374 = 0x7280;

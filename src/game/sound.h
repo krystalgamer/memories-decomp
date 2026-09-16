@@ -922,7 +922,7 @@ extern u32 gSD_dwCurrentBgmCommand;
  * (script_stream_commands.c) and func_800386B8
  * (duel_effect_play_sound_command.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
- * 8)` and `func_80036D3C(object) & 0xFFFF`), and copy
+ * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy
  * gSD_dwCurrentBgmCommand[0] into it under `& 4`. No other C unit touches
  * it. Initial value not read.
  *

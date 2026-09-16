@@ -34,7 +34,7 @@ weakening the dispatch contract back to `u8 *`.
 | `FE` | none | `Text_NewLine` | Advances the line, resets horizontal position, handles page overflow, and notifies choice-line counting |
 | `FF` | none | `Text_EndStream` | Pops one stream; marks the text complete only when the depth becomes negative |
 
-All `u16` values are little-endian because `func_80036D3C` reads
+All `u16` values are little-endian because `TextStream_ReadU16LE` reads
 `current[0] | current[1] << 8` and advances the current stream by two bytes.
 
 ## F8 is a secondary-command escape

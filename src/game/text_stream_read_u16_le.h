@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80036D3C_H
-#define MEMORIES_DECOMP_FUNC_80036D3C_H
+#ifndef MEMORIES_DECOMP_TEXT_STREAM_READ_U16_LE_H
+#define MEMORIES_DECOMP_TEXT_STREAM_READ_U16_LE_H
 
 #include "../types.h"
 #include "duel_effect.h"
@@ -12,6 +12,6 @@
  * that byte rather than by passing a different object.
  *
  * The parameter is the object that owns the streams, not a stream itself. */
-int func_80036D3C(DuelEffectChannel *object);
+int TextStream_ReadU16LE(DuelEffectChannel *object);
 
 #endif

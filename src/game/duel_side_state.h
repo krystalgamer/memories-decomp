@@ -308,7 +308,7 @@ extern u8 D_8009B369;
 
 /* The halfword the duel hands to SD_BGMPlay: DuelScene_UpdateResume and DuelScene_UpdateStartup
  * read it for that call, func_80024DC8 stores 0x7270, DebugMenu_EnterDuel stores
- * 0x71D0 and Text_StartCampaignDuel stores func_80036D3C's result. lhu/sh
+ * 0x71D0 and Text_StartCampaignDuel stores TextStream_ReadU16LE's result. lhu/sh
  * everywhere, two bytes wide (gFreeDuel_bTargetColumn is at 0x8009B36C).
  * Retail reaches it through %hi/%lo at all five sites and never through $gp,
  * so duel_phase_entry.c and frontend_scene_states.c define

@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 #include "card_constants.h"
 #include "campaign_flags.h"
 #include "display_object_core.h"
@@ -17,7 +17,7 @@ void func_800389D8(DuelEffectChannel *object)
     s32 value;
 
     *(s32 *)((u8 *)object + offset) += D_8009B34E * 2;
-    value = func_80036D3C(object);
+    value = TextStream_ReadU16LE(object);
     offset = object->stream_58 * 4;
     *(s32 *)((u8 *)object + offset) =
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |
@@ -30,7 +30,7 @@ void func_80038A44(DuelEffectChannel *object)
     s32 value;
 
     *(s32 *)((u8 *)object + offset) += D_8009B355 * 2;
-    value = func_80036D3C(object);
+    value = TextStream_ReadU16LE(object);
     offset = object->stream_58 * 4;
     *(s32 *)((u8 *)object + offset) =
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |

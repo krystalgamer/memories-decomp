@@ -21,7 +21,7 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/text_start_campaign_duel.c"
-HELPER = REPOSITORY / "src/game/func_80036D3C.c"
+HELPER = REPOSITORY / "src/game/text_stream_read_u16_le.c"
 CASE_COUNT = 256 * 4 * 8 * 2
 START = """
 .text
@@ -51,7 +51,7 @@ GLOBAL_OFFSETS = {
 WITNESS = r"""
 #include "src/types.h"
 #include "src/game/text_start_campaign_duel.h"
-#include "src/game/func_80036D3C.h"
+#include "src/game/text_stream_read_u16_le.h"
 #include "src/game/ai_opponent_data.h"
 
 u8 global_bytes[0x140] __attribute__((aligned(4)));
@@ -112,9 +112,9 @@ static u16 bank(u8 opponent)
     }
 }
 
-int __real_func_80036D3C(DuelEffectChannel *channel);
+int __real_TextStream_ReadU16LE(DuelEffectChannel *channel);
 
-int __wrap_func_80036D3C(DuelEffectChannel *channel)
+int __wrap_TextStream_ReadU16LE(DuelEffectChannel *channel)
 {
     s32 result;
     calls++;
@@ -136,7 +136,7 @@ int __wrap_func_80036D3C(DuelEffectChannel *channel)
         fixture_error = 13;
         return 0;
     }
-    result = __real_func_80036D3C(channel);
+    result = __real_TextStream_ReadU16LE(channel);
     if (result != words[word_index] ||
         !equal(&object, &expected_after, sizeof(object)) ||
         !equal(stream, saved_stream, sizeof(stream))) fixture_error = 14;
@@ -259,7 +259,7 @@ class CampaignDuelCommandTests(unittest.TestCase):
                     "-fno-builtin", "-fno-strict-aliasing", "-fno-pie", "-no-pie",
                     "-fno-stack-protector", "-nostdlib", "-I", str(REPOSITORY),
                     str(source), str(HELPER), str(witness), str(startup),
-                    "-Wl,--wrap=func_80036D3C", *aliases, "-o", str(binary),
+                    "-Wl,--wrap=TextStream_ReadU16LE", *aliases, "-o", str(binary),
                 ],
                 capture_output=True, text=True, timeout=60, env=environment,
             )

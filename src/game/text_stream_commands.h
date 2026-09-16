@@ -23,7 +23,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object);
 void Text_ExtendGlyphCode(u8 *object);
 void Text_SetStateFromStream(DuelEffectChannel *object);
 
-/* Writes func_80036D3C's result into the low halfword of the same word those
+/* Writes TextStream_ReadU16LE's result into the low halfword of the same word those
  * two advance: it indexes the words at the front of the object by the signed
  * byte at 0x58, and preserves the high halfword. Declared beside them because
  * it is the third reader of that selector.

@@ -76,7 +76,7 @@ extern u8 D_801A8000[];
  * at the same addresses: they stop GCC retaining addresses across calls. */
 /* A sixteen-bit operand the script engine assembles from the stream a byte at
  * a time in script_flag_commands.c and script_op_duel_result.c. The text callback
- * func_8003771C sets it from func_80036D3C's return.
+ * func_8003771C sets it from TextStream_ReadU16LE's return.
  *
  * The default-arm consumers read it unsigned except one site, which takes it as
  * `*(s16 *)&D_8009B29C` to get a signed value out of the same halfword. That
@@ -126,7 +126,7 @@ extern struct DisplayObject *D_8009B280;
  * D_8009B2A8/D_8009B2AA), and Script_OpShowImage tests 0x4000. Retail is
  * sh/lhu gp-relative at all three, so the plain u16 they already wrote.
  *
- * The text callbacks store func_80036D3C's result through $at, requiring
+ * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
  * the unsized-array arm rather than a small scalar. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
 extern u16 D_8009B270[];

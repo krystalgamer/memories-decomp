@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "duel_effect_command_table.h"
 #include "duel_effect.h"
-#include "func_80036D3C.h"
+#include "text_stream_read_u16_le.h"
 #include "text_stream_commands.h"
 #include "duel_effect_entry_occupancy.h"
 #include "dialog_choice.h"
@@ -38,7 +38,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     D_80090EAC[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=func_80036D3C(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=TextStream_ReadU16LE(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
@@ -89,7 +89,7 @@ void Text_StartPageWait(DuelEffectChannel *value)
 
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 {
-    s32 flag = func_80036D3C(object);
+    s32 flag = TextStream_ReadU16LE(object);
 
     flag &= CAMPAIGN_FLAG_COMMAND_WORD_MASK;
     if (flag & CAMPAIGN_FLAG_COMMAND_WRITE) {
@@ -98,7 +98,7 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
     }
 
     {
-        s32 target = func_80036D3C(object);
+        s32 target = TextStream_ReadU16LE(object);
 
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
@@ -117,7 +117,7 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
     s32 no;
     s32 v;
 
-    v = func_80036D3C(arg0);
+    v = TextStream_ReadU16LE(arg0);
     c = arg0->stream_58;
     no = (c + 1) * 4;
     co = c * 4;
