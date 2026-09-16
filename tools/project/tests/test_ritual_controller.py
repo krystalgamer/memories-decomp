@@ -140,7 +140,7 @@ void DisplayObject_StepPositionY(DisplayObjectVelocity *p)
 }
 void SD_SEPlayFull(u32 id) { event(10, id, 0, 0, 0); }
 void func_8001944C(DisplayObject *p) { event(11, object_id(p), 0, 0, 0); }
-DisplayObject *func_80019564(DisplayObjectConfigView *p)
+DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *p)
 {
     event(12, object_id(p), clone_count, 0, 0);
     if (clone_count >= 2) { error = 5; return &clone_objects[0]; }
