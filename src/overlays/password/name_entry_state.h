@@ -65,7 +65,7 @@ extern DuelEffectChannel D_800EB1C0;
  * NameEntrySelectionFrameView is an alias of this same central contract.
  *
  * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
- * pointer func_800400AC returned, then stores that pointer here with a cast.
+ * pointer DisplayObject_AcquireSlot returned, then stores that pointer here with a cast.
  * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and timer
  * and writes stepX and stepY. NameEntry_SpawnGlyphSprite reads x and y.
  * The drawing callback additionally constrains priority and height.

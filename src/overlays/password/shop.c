@@ -212,12 +212,12 @@ void Password_InitShopScreen(void)
     *(s16 *)(cardCache + 42) = 256;
     *(s16 *)(cardCache + 44) = 512;
     *(s16 *)(cardCache + 46) = 240;
-    o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
     func_800428EC(o, -8);
     *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
-    o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+    o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(o, 256, 120, 32, 32, 16, 128, 30, 256, 240);
     *(u32 *)(o + 4) &= ~GsROTOFF;
     *(s16 *)(o + 72) = 13;
@@ -233,7 +233,7 @@ void Password_InitShopScreen(void)
     gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
     i = 0;
     do {
-        o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
         *(u32 *)(o + 4) |= GsALON;
         func_80042918(o);

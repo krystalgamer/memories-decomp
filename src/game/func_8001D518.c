@@ -12,7 +12,7 @@ DisplayObject *func_8001D518(DisplayObject *source)
 {
     DisplayObject *object = D_8009B1F8;
     if (object == 0) {
-        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource((u8 *)object, 4, 3, 8, 0xB, 0x1F0);
         object->field_6A = source->field_0A;
         func_800428EC((u8 *)object, 1);

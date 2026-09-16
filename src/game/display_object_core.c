@@ -45,7 +45,7 @@ s32 DisplayObject_FindFreeSlot(void)
     return -1;
 }
 
-void *func_800400AC(s32 index, s32 key)
+void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     DisplayObject *slot;
     s16 other;

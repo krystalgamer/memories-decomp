@@ -7,7 +7,7 @@
 #include "module_rodata.h"
 
 /* One entry of D_801845EC, the two Trade card-display slots.
-   MainMenu_InitTradeScreen's `i < 2` loop stores the func_800400AC result,
+   MainMenu_InitTradeScreen's `i < 2` loop stores the DisplayObject_AcquireSlot result,
    or 0, into `.object` and 0 into `.unk4` (trade_update.c:54-65);
    MainMenu_DrawTradeOffersAndHighlights reads `[0].object` and
    `[1].object` (trade_offers.c:37-38); MainMenu_UpdateTradeScreen
@@ -83,7 +83,7 @@ typedef struct {
 
 /* The two Trade display handles, D_801845DC and D_801845E0 -- the pair
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
- * releases and clears. MainMenu_InitTradeScreen stores a func_800400AC
+ * releases and clears. MainMenu_InitTradeScreen stores a DisplayObject_AcquireSlot
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
  * (:40, :48) and passes it to func_800428EC (:41, :49);
  * MainMenu_ReleaseTradeDisplayHandles passes each to DisplayObject_ReleaseIfPresent and

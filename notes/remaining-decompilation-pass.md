@@ -659,7 +659,7 @@ State after this one-function checkpoint:
 
 ### Continuous wave 24
 
-`func_800400AC` matched after correcting the signedness of the slot record's
+`DisplayObject_AcquireSlot` matched after correcting the signedness of the slot record's
 two leading link fields and enabling split addresses. Declaring both offsets
 `0x00` and `0x02` as `s16` lets GCC reuse one signed `-1` constant for their
 initialization instead of materializing unsigned `0xFFFF` separately. With the

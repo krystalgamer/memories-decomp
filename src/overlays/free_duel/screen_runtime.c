@@ -112,7 +112,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 {
     DisplayObject *x;
 
-    x = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
     ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
@@ -232,7 +232,7 @@ void FreeDuel_Init(u8 *src)
 done:
     for (i = 0; i < 25; i++) {
         if (gFreeDuel_abGridAvailable[i] != 0) {
-            obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+            obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
@@ -245,7 +245,7 @@ done:
     }
     for (k = 25, i = 0; i < 15; i++, k++) {
         if (gFreeDuel_abGridAvailable[k] != 0) {
-            obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+            obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (k / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
@@ -256,18 +256,18 @@ done:
             obj->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         }
     }
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
     func_800428EC((u8 *)obj, 10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
     func_800428EC((u8 *)obj, -10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
     ((u8 *)&obj->field_5E)[1] = 128;
     func_800428EC((u8 *)obj, 15);

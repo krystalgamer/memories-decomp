@@ -11,7 +11,7 @@ storage remain unchanged. No new semantic symbol name is assigned.
 | Consumer | Evidence for the contract |
 |---|---|
 | `DuelScene_UpdateCardUse` | Reads slots 0 and 1 as display objects, installs objects returned by `func_800291E0` and `Duel_CreateCardEffectOverlay`, modifies their render attributes, flags, scale halves and colour word, and releases both with `DisplayObject_ReleaseIfPresent`. |
-| `Main_RunTrade` | Stores the object returned by `func_800400AC` in slot 0, animates that same object, then releases it and clears the slot. The former `gTradeObj` macro was only a cast of the table's first word, not a distinct symbol. |
+| `Main_RunTrade` | Stores the object returned by `DisplayObject_AcquireSlot` in slot 0, animates that same object, then releases it and clears the slot. The former `gTradeObj` macro was only a cast of the table's first word, not a distinct symbol. |
 | `func_8002CB50` | Copies exactly five words starting at this address and appends a zero word to the destination. It does not allocate or release the objects. |
 | Retained `DuelScene_UpdateExodiaResult` | Stages five card display objects using the three-byte pose records at `D_80090918`, then indexes the slots to read each object's `+0x30/+0x32` position for a sparkle effect. |
 

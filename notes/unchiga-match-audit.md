@@ -88,7 +88,7 @@ as `post_terminal_resolution`.
 | `0x80035DB8` | `DuelEffect_ClearMatchingMarker` | `inline_refinement` | `+0xA: 0f80023c != 0f80033c` |
 | `0x80035DF4` | `DuelEffect_ResetEntryMarkers` | `inline_refinement` | `+0x8: 88b24224 != a0b24224` |
 | `0x8003735C` | `DuelEffect_HasActiveEntry` | `inline_refinement` | `+0x2: 5c008294 != 5c008394` |
-| `0x800400AC` | `func_800400AC` | `collaborator_match` | `+0x9: 2148a000 != 2140a000` |
+| `0x800400AC` | `DisplayObject_AcquireSlot` | `collaborator_match` | `+0x9: 2148a000 != 2140a000` |
 | `0x8004020C` | `DisplayObject_Release` | `collaborator_match` | `+0x6: 00008384 != 00008584` |
 | `0x800428EC` | `func_800428EC` | `collaborator_match` | `+0x4: 6c008327 != 160085a0` |
 | `0x80044CFC` | `MemCard_SetIOResultCompleteCB` | `inline_refinement` | `+0x2: 0a80023c != 0a80013c` |

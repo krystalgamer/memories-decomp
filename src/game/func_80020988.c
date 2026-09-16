@@ -20,7 +20,7 @@ s32 func_80020988(void) {
     if ((D_8009B152 & 0x80) == 0) {
         D_8009B152 = D_8009B152 | 0x80;
         one = 1;
-        q = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         b = 0xB;
         c = 0x20C;
         DisplayObject_ConfigureSpriteAtPosition(
@@ -48,7 +48,7 @@ s32 func_80020988(void) {
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         D_8009B188 = q;
 
-        q = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(
             q,
             *(s16 *)&D_8009B1CC->field_30.h.field_30 + 0x3C,

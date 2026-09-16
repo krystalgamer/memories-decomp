@@ -506,7 +506,7 @@ extern DisplayObject D_800F0548[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];
 
-/* Two counters the pool keeps beside the tables above. func_800400AC bumps
+/* Two counters the pool keeps beside the tables above. DisplayObject_AcquireSlot bumps
  * D_8009B412 once it has picked a slot, after reading the slot's
  * ALLOCATED flag and before testing it, so it counts every allocation
  * request that reached a slot, initialised or not; DisplayObject_Release bumps
@@ -517,7 +517,7 @@ extern DisplayObject D_800F0548[
  * reads are lhu, so u16. Initial value not read.
  *
  * Every retail access is gp-relative (lhu/addiu/sh in func_8004020C.s:4-8
- * and func_800400AC.s:16-20, sh $zero in func_80040390.s:10-11), so the
+ * and DisplayObject_AcquireSlot.s:16-20, sh $zero in func_80040390.s:10-11), so the
  * plain halfword serves both the per-slot and whole-pool paths in
  * display_object_core.c. */
 extern u16 D_8009B410;

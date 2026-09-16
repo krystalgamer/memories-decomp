@@ -145,7 +145,7 @@ void NameEntry_Init(void)
     D_8016D402 = 0;
     D_8016D401 = 0;
     D_8016D42C = 0;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     D_8016D434 = 22;
     obj->field_30.h.field_30 = 22;
     D_8016D436 = 24;
@@ -156,7 +156,7 @@ void NameEntry_Init(void)
     func_800428EC((u8 *)obj, 10);
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     obj->field_48.h.field_4A = 13;
     obj->field_48.h.field_48 = 13;
@@ -164,7 +164,7 @@ void NameEntry_Init(void)
     func_80042918(obj);
     func_800428EC((u8 *)obj, 10);
     D_8016D43C = (u8 *)obj;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 3);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
     DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
     obj->field_0C = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
@@ -269,7 +269,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
     if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
         for (dy = 0; dy < 0x10; dy += 4) {
             for (dx = 0; dx < 0x10; dx += 4) {
-                piece = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+                piece = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
                 if (piece != 0) {
                     /* Scoped to the copy: a function-wide view costs
                        GCC a second callee-saved register for the
@@ -359,7 +359,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     n = (u16)g->field_60 - 1;
     g->field_60 = n;
     if ((s16)n > 0) {
-        o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o,
                       (s16)g->field_30.h.field_30, (s16)g->field_30.h.field_32,
                       16, 16,
@@ -411,7 +411,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     v = 0;
     /* Preserve the pre-null-test read; this is not a null-safe C contract. */
     code = w->code_00;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (w != 0) {
         p = &D_800EB0F8[slot];
         switch (code) {

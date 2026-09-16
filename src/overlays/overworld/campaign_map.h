@@ -41,7 +41,7 @@ extern u8 D_80169619;
  * stores the same return, updates f48/f50 and clears it; and
  * CampaignMap_UpdateLocationTransition reads and writes f96/f48/f50.
  *
- * D_801695D8 holds the object func_800400AC returned.
+ * D_801695D8 holds the object DisplayObject_AcquireSlot returned.
  * CampaignMap_SetLocation reaches f8 through a byte view, while
  * CampaignMap_UpdateLocationTransition reaches f72/f74/f8 through MapObject.
  *

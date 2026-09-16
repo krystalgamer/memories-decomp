@@ -33,7 +33,7 @@ The two allocation scans divide the pool:
 | `DisplayObject_FindFreeGeneralSlot` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
 
 Both return the first slot whose `+0x08` flags do not contain
-`DISPLAY_OBJECT_FLAG_ALLOCATED`. `func_800400AC` initializes a newly claimed
+`DISPLAY_OBJECT_FLAG_ALLOCATED`. `DisplayObject_AcquireSlot` initializes a newly claimed
 slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
 `DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
 and update passes require both bits before submitting visible content.
@@ -45,7 +45,7 @@ texture coordinates. Callers that set the composite former literal `0x28`
 therefore request both that cell offset and screen-space rendering.
 
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
-`func_800400AC` inserts a slot at the head selected by its list key, records
+`DisplayObject_AcquireSlot` inserts a slot at the head selected by its list key, records
 that key at `+0x1E`, and fills the companion `D_800F2878` entry when the list
 was empty. `DisplayObject_Release` removes a slot by reconnecting both
 neighboring links and clears its allocation flags.
@@ -60,7 +60,7 @@ declaration point for the general-use index scan and indexed allocator:
 ```c
 s32 DisplayObject_FindFreeGeneralSlot(void);
 s32 DisplayObject_FindFreeSlot(void);
-void *func_800400AC(s32 index, s32 key);
+void *DisplayObject_AcquireSlot(s32 index, s32 key);
 ```
 
 The defining `display_object_core.c` and every current C caller include
@@ -97,7 +97,7 @@ Existing null checks and unchecked call sites are preserved.
 
 The whole-pool scanner uses the same signed integer contract: index zero is
 valid and the `-1` sentinel must remain signed. Its callers pass that index to
-`func_800400AC`; casts retained at a few allocator boundaries are scalar
+`DisplayObject_AcquireSlot`; casts retained at a few allocator boundaries are scalar
 conversions, not pointer-success tests or dereferences.
 
 ## Shared coordinate configuration

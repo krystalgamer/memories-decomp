@@ -24,7 +24,7 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
 
     do {
         record->enabled = 0;
-        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
+        object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         object->field_68 = 0;
         object->field_69 = 0;
         object->field_30.h.field_30 = record->x;

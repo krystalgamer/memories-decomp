@@ -315,7 +315,7 @@ void func_8003B054(MenuRecord *record)
         } else {
             id = record->field_30;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
-            o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+            o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o, (s16)record->field_34, (s16)record->field_36, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
             *(u16 *)&o->field_40.h.field_40 += (idx >> 4) << 6;
             *(u8 *)&o->field_5C =
@@ -337,7 +337,7 @@ void func_8003B054(MenuRecord *record)
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
         *(u16 *)&o->field_48.h.field_4A = 0;
-        o2 = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+        o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o2, *(s16 *)&o->field_30.h.field_30, *(s16 *)&o->field_30.h.field_32, 0x30, 0x30, *(u8 *)&o->field_5C, ((u8 *)&o->field_5C)[1], 0xE, 0x200, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;

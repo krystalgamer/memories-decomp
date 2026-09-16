@@ -134,7 +134,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
     return allocation_index;
 }
 
-void *func_800400AC(s32 index, s32 key)
+void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     check_stage(2, 0);
     if (index != allocation_index || key != 1) fail(12);

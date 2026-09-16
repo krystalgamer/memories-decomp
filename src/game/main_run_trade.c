@@ -44,7 +44,7 @@ void Main_RunTrade(void)
         box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
         box->field_59 = 0x10;
         func_80039A14(box);
-        obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;

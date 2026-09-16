@@ -16,7 +16,7 @@ typedef struct {
 } DuelCardDisplayData;
 
 /* Every field below is one func_80017F04, func_80017DB4, func_80017E3C or
-   func_80018004 writes or reads on the object func_800400AC hands back. The
+   func_80018004 writes or reads on the object DisplayObject_AcquireSlot hands back. The
    offsets are unchanged; the fields added for func_80017F04 replace padding
    this struct already carried, so no existing user's codegen can move.
 

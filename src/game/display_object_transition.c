@@ -24,7 +24,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     x = (DisplayObject *)0;
 
     if (a != (DisplayObject *)0) {
-        x = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(x, 0, 0, 0, 0, a->field_69, a->field_66, 0x20D,
                       D_801AF000);
         x->attribute = a->attribute;
@@ -38,7 +38,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     b->field_48.h.field_4A = 0x78;
     b->attribute = b->attribute & ~GsROTOFF;
 
-    y = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);
     y->attribute = b->attribute;
     func_800428EC((u8 *)y, -1);

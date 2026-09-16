@@ -62,7 +62,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
         if (entry->destination != 0x10) {
             if (entry->story_flag == 0 ||
                 Campaign_TestStoryFlag(entry->story_flag) != 0) {
-                object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+                object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 func_800428A8(
                     object, entry->x, entry->y, 0, 2,
                     entry->field_08, 0x17, 0x100, D_801AF000
@@ -222,7 +222,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     MapLocation *record;
     MapLocation *entry;
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     table = gCampaignMap_aLocationTable;
     record = table + gCampaignMap_Location;
     func_800428A8(
@@ -271,13 +271,13 @@ void CampaignMap_SetLocation(s32 index)
     SetFogNearFar(6000, 8000, D_800F2848.projection);
     D_800E9DB0[3] = CampaignMap_UpdateView;
     func_80035668(0);
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
     ((DisplayObject *)obj)->flags =
         ((DisplayObject *)obj)->flags |
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     ((DisplayObject *)obj)->field_30.h.field_30 = 160;
     ((DisplayObject *)obj)->field_30.h.field_32 = 144;
     ((DisplayObject *)obj)->field_60 = 128;

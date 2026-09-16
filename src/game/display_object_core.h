@@ -9,7 +9,7 @@ extern s16 D_800EFE3A[];
 
 s32 DisplayObject_FindFreeGeneralSlot(void);
 s32 DisplayObject_FindFreeSlot(void);
-void *func_800400AC(s32 index, s32 key);
+void *DisplayObject_AcquireSlot(s32 index, s32 key);
 
 void DisplayObject_Release(struct DisplayObject *slot);
 void DisplayObject_MoveToListHead(struct DisplayObject *slot, s32 key);

@@ -182,7 +182,7 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     s32 type;
     s16 val;
 
-    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 0);
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 0);
 
     obj->out_y = -0x18;
     obj->out_x = x;

@@ -121,7 +121,7 @@ glabel func_8002ACA4
     /* 1B64C 8002AE4C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 1B650 8002AE50 040060A2 */   sb        $zero, 0x4($s3)
     /* 1B654 8002AE54 21204000 */  addu       $a0, $v0, $zero
-    /* 1B658 8002AE58 2B00010C */  jal        func_800400AC
+    /* 1B658 8002AE58 2B00010C */  jal        DisplayObject_AcquireSlot
     /* 1B65C 8002AE5C 02000524 */   addiu     $a1, $zero, 0x2
     /* 1B660 8002AE60 21804000 */  addu       $s0, $v0, $zero
     /* 1B664 8002AE64 21200002 */  addu       $a0, $s0, $zero
@@ -279,7 +279,7 @@ glabel func_8002ACA4
     /* 1B89C 8002B09C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 1B8A0 8002B0A0 040082AC */   sw        $v0, 0x4($a0)
     /* 1B8A4 8002B0A4 21204000 */  addu       $a0, $v0, $zero
-    /* 1B8A8 8002B0A8 2B00010C */  jal        func_800400AC
+    /* 1B8A8 8002B0A8 2B00010C */  jal        DisplayObject_AcquireSlot
     /* 1B8AC 8002B0AC 02000524 */   addiu     $a1, $zero, 0x2
     /* 1B8B0 8002B0B0 21804000 */  addu       $s0, $v0, $zero
     /* 1B8B4 8002B0B4 21200002 */  addu       $a0, $s0, $zero

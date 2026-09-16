@@ -22,7 +22,7 @@ void func_8003DA40(MenuRecord *record)
     f = D_8009B3C1;
     if ((f & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 = f | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        e = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+        e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

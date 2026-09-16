@@ -33,7 +33,7 @@
                  the starter did on it.
      D_801845A4  same pair, same reason.
 
-   All of them, and D_801845B8, are display objects out of func_800400AC,
+   All of them, and D_801845B8, are display objects out of DisplayObject_AcquireSlot,
    and every offset any of them was reached at is a DisplayObject member:
    flags at 0x08, update at 0x24, the position pair at 0x30, the saved pair
    at 0x36/0x38, the timer at 0x60 and the two widget bytes at 0x6B/0x6C.
@@ -70,7 +70,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A0 = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
@@ -79,7 +79,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428EC((u8 *)D_801845A0, -2);
     }
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A4 = object;
     if (object != 0) {
         func_800428A8(object, 0, 0xA, 6, 0, 0, 0xE, 5, D_801AF800);
@@ -88,7 +88,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428EC((u8 *)D_801845A4, -1);
     }
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[0] = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
@@ -97,7 +97,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428EC((u8 *)D_801845B0[0], 1);
     }
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[1] = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
@@ -106,7 +106,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428EC((u8 *)D_801845B0[1], 1);
     }
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845B0[2] = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);

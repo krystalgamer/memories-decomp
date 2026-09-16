@@ -31,7 +31,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     s32 kind;
     s32 *stats;
 
-    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(object, x, y, 0x10, 0x10, 0, 0xC8, 0xB, 0x260, 0xFC);
     do { stats = gDuel_adwCardStats; } while (0);
     table_index--;

@@ -116,7 +116,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
     event(6, allocation_count, 0, 0, 0, 0);
     return 100 + allocation_count++;
 }
-void *func_800400AC(s32 index, s32 key)
+void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     s32 id = object_count++;
     event(7, id, index, key, 0, 0);

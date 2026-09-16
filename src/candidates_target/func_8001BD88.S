@@ -47,7 +47,7 @@ glabel DuelScene_UpdateHandActions
     /* C60C 8001BE0C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* C610 8001BE10 150040A2 */   sb        $zero, 0x15($s2)
     /* C614 8001BE14 21204000 */  addu       $a0, $v0, $zero
-    /* C618 8001BE18 2B00010C */  jal        func_800400AC
+    /* C618 8001BE18 2B00010C */  jal        DisplayObject_AcquireSlot
     /* C61C 8001BE1C 02000524 */   addiu     $a1, $zero, 0x2
     /* C620 8001BE20 21984000 */  addu       $s3, $v0, $zero
     /* C624 8001BE24 21206002 */  addu       $a0, $s3, $zero
@@ -870,7 +870,7 @@ glabel DuelScene_UpdateHandActions
     /* D238 8001CA38 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* D23C 8001CA3C 01001224 */   addiu     $s2, $zero, 0x1
     /* D240 8001CA40 21204000 */  addu       $a0, $v0, $zero
-    /* D244 8001CA44 2B00010C */  jal        func_800400AC
+    /* D244 8001CA44 2B00010C */  jal        DisplayObject_AcquireSlot
     /* D248 8001CA48 02000524 */   addiu     $a1, $zero, 0x2
     /* D24C 8001CA4C 21A04000 */  addu       $s4, $v0, $zero
     /* D250 8001CA50 21208002 */  addu       $a0, $s4, $zero
@@ -900,7 +900,7 @@ glabel DuelScene_UpdateHandActions
     /* D2B0 8001CAB0 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* D2B4 8001CAB4 00000000 */   nop
     /* D2B8 8001CAB8 21204000 */  addu       $a0, $v0, $zero
-    /* D2BC 8001CABC 2B00010C */  jal        func_800400AC
+    /* D2BC 8001CABC 2B00010C */  jal        DisplayObject_AcquireSlot
     /* D2C0 8001CAC0 02000524 */   addiu     $a1, $zero, 0x2
     /* D2C4 8001CAC4 21A04000 */  addu       $s4, $v0, $zero
     /* D2C8 8001CAC8 21208002 */  addu       $a0, $s4, $zero

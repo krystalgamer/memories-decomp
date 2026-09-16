@@ -461,6 +461,7 @@ TextBox_BuildStep = 0x800393B0; // type:func
 TextBox_SetPos = 0x80039934; // type:func
 DisplayObject_FindFreeGeneralSlot = 0x8004002C; // type:func
 DisplayObject_FindFreeSlot = 0x8004006C; // type:func
+DisplayObject_AcquireSlot = 0x800400AC; // type:func
 DisplayObject_Release = 0x8004020C; // type:func
 DisplayObject_ReleaseIfPresent = 0x8004036C; // type:func
 DisplayObject_MoveToListHead = 0x800402A0; // type:func

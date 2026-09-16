@@ -2379,7 +2379,7 @@ layout. The full record remains only partially typed.
 
 ### `0x70`-byte allocator objects
 
-Analysis around `func_800400AC` supports:
+Analysis around `DisplayObject_AcquireSlot` supports:
 
 - Object stride `0x70`.
 - Linked-list heads at `D_800EFE38` and `D_800F2878`.
@@ -2489,7 +2489,7 @@ with materially distinct hypotheses and preserve later candidates under
   `Text_StartCampaignDuel` should start from G0 direct byte-stream reads rather than
   wrapper helpers.
 - Future untouched allocator/list users in the module surrounding the now-exact
-  `func_800400AC` should begin with its confirmed `0x70`-byte slot layout and
+  `DisplayObject_AcquireSlot` should begin with its confirmed `0x70`-byte slot layout and
   `gcc_2_8_1_g8_split` profile.
 - Four-state callbacks in the `0x8003Bxxx` module use nested branch trees,
   while five- and six-state callbacks use explicit jump tables. Absolute

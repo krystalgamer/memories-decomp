@@ -28,7 +28,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8001BD88.c",
       "target": "src/candidates_target/func_8001BD88.S",
-      "candidate_build_sha256": "6e0df2c6e061fba54bcafbe460480b20f2695d8d4ed8b61d44322fcaf3eaea09",
+      "candidate_build_sha256": "47bc004af33fd482ac221dc42652a6057667351214d1ee53cae1c322dde4aa33",
       "target_bytes_sha256": "62bdb7bf251ed0efd1c5060dfabf40c2ce783c315a21863bd86640162e8258b4",
       "canonical_contract_sha256": "00f014fd47aaf5e9c9a48779038c433b01a2a61037ecb5115352f7c84441530d",
       "canonical_contracts": {
@@ -102,7 +102,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800283F4.c",
       "target": "src/candidates_target/func_800283F4.S",
-      "candidate_build_sha256": "cd49ca167ae3b2c59d74587eec77a58b4702c0487634bd610e70ba33de0c6f73",
+      "candidate_build_sha256": "36e7be2de245de98cfcabd86e0700f0d38766afce44d66bb0aafa3cd1b1ca0dc",
       "target_bytes_sha256": "191b87b8e0c76c75d48fdc5d2424a092de52e53d72d52aea73557b3db53a7df1",
       "canonical_contract_sha256": "c5259613e2694eb340554630240d0d5e8d686e99b716015c2973dc10adbe7ce3",
       "canonical_contracts": {
@@ -149,7 +149,7 @@
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "source": "src/candidates/func_8002ACA4.c",
       "target": "src/candidates_target/func_8002ACA4.S",
-      "candidate_build_sha256": "b52add076b46b57a173bec0a66c19c20d0be8d3fa5a738010dfc3137b26ecb43",
+      "candidate_build_sha256": "d60d8a42d2bfd08752e7fb2fedf2f14c8e707e68711b74005d5ac6ce94985453",
       "target_bytes_sha256": "0f98b7a352d9b1c31034ae1ae2c3ff2d9d1edf528c99da40727b793a2bbe2e37",
       "canonical_contract_sha256": "8292679db39386e85e08497f53bc855fb582dcdea8c05573e9632ea659dfc9cd",
       "canonical_contracts": {
@@ -161,7 +161,7 @@
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "source": "src/candidates/func_800323F8.c",
       "target": "src/candidates_target/func_800323F8.S",
-      "candidate_build_sha256": "40b740886b4d4ae58abc9163d00cbd1b38c3b27e10c5853862352e299b130de9",
+      "candidate_build_sha256": "0dd0c51533b54ab1774720d4a7428be043ffaf9b3bed9f9079d49e6a463a560b",
       "target_bytes_sha256": "b5dfe06851052e90a62d06b6172bbce5cd24ce541eb8f38dfa572c947f67c677",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
