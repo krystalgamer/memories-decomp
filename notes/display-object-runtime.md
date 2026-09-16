@@ -29,7 +29,7 @@ The two allocation scans divide the pool:
 
 | Function | Slots scanned | Role established by the scan |
 |---|---:|---|
-| `func_8004006C` | `0-95` | Searches the complete 96-slot pool. |
+| `DisplayObject_FindFreeSlot` | `0-95` | Searches the complete 96-slot pool. |
 | `DisplayObject_FindFreeGeneralSlot` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
 
 Both return the first slot whose `+0x08` flags do not contain
@@ -59,6 +59,7 @@ declaration point for the general-use index scan and indexed allocator:
 
 ```c
 s32 DisplayObject_FindFreeGeneralSlot(void);
+s32 DisplayObject_FindFreeSlot(void);
 void *func_800400AC(s32 index, s32 key);
 ```
 
@@ -94,23 +95,10 @@ The opaque `void *` result exposes an arena address without publishing the
 private `DisplaySlot` layout or conflating callers' different prefix views.
 Existing null checks and unchecked call sites are preserved.
 
-The alternate whole-pool scanner `func_8004006C` remains outside this
-header migration. Four callers still carry legacy pointer-shaped declarations
-for that separate function and explicitly convert its returned word to
-`s32` at the allocator boundary:
-
-| Caller | Source |
-|---|---|
-| `Dialog_OpenChoice` | `duel_effect_state_callbacks.c` |
-| `Dialog_UpdateChoice` | `src/game/dialog_update_choice.c` |
-| `func_80018150` | `duel_card_object_helpers.c` |
-| `func_8002E3FC` | `func_8002E3FC.c` |
-
-These are index conversions, not dereferences or pointer-success tests.
-Index zero is valid for that scanner and the `-1` sentinel must remain
-signed. Other existing scalar declarations of the alternate scanner are
-unchanged. The four boundaries are explicit pending a complete audit/migration
-of that separate API, not evidence that its true return is a pointer.
+The whole-pool scanner uses the same signed integer contract: index zero is
+valid and the `-1` sentinel must remain signed. Its callers pass that index to
+`func_800400AC`; casts retained at a few allocator boundaries are scalar
+conversions, not pointer-success tests or dereferences.
 
 ## Shared coordinate configuration
 

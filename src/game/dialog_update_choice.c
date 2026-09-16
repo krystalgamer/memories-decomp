@@ -24,7 +24,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
     if ((p->state_51 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         p->state_51 = p->state_51 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        e = func_800400AC((s32)func_8004006C(), 4);
+        e = func_800400AC((s32)DisplayObject_FindFreeSlot(), 4);
         func_800427DC(e, 1);
         func_80042918(e);
         func_800428EC((u8 *)e,

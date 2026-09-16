@@ -32,7 +32,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
     return -1;
 }
 
-s32 func_8004006C(void)
+s32 DisplayObject_FindFreeSlot(void)
 {
     DisplayObject *entry = D_800EFE48;
     s32 i;

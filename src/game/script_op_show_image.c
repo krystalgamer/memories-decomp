@@ -53,7 +53,7 @@ void Script_OpShowImage(void) {
     flags = D_8009B27C;
     if (!(flags & 0x4000)) {
         D_8009B27C = flags | 0x4000;
-        rec = func_800400AC(func_8004006C(), 3);
+        rec = func_800400AC(DisplayObject_FindFreeSlot(), 3);
         func_80040510((DisplayObjectConfigView *)rec, 0, 0, VRAM_COPY_WIDTH,
             VRAM_COPY_HEIGHT, 0, 0, 0x17, 0, 0xF4);
         D_8009B280 = rec;

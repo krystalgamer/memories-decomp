@@ -8,7 +8,7 @@ struct DisplayObject;
 extern s16 D_800EFE3A[];
 
 s32 DisplayObject_FindFreeGeneralSlot(void);
-s32 func_8004006C(void);
+s32 DisplayObject_FindFreeSlot(void);
 void *func_800400AC(s32 index, s32 key);
 
 void DisplayObject_Release(struct DisplayObject *slot);

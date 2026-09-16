@@ -2695,7 +2695,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read,16,i = D_800EFE3A[0];
 0x800EFE3C,D_800EFE3C,D_800EFE3C,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,read,16,s32 i = D_800EFE3C;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80015DB8,func_80015DB8,matching_c,game,C,src/game/display_projection.c,address,,entry = D_800EFE48 + object->field_6A;
-0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,func_8004006C,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800EFE48;
+0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,DisplayObject_FindFreeSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[other].previous = index; | slot = &D_800EFE48[index];
 0x800EFE48,D_800EFE48,D_800EFE48,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[first].next = second; | D_800EFE48[second].previous = -1; | (+1 more)
 0x800EFE48,D_800EFE48,D_800EFE48,0x800402A0,func_800402A0,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[v].previous = slot->field_0A;

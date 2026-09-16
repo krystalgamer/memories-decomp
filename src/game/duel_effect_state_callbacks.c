@@ -37,7 +37,9 @@ void func_800374A8(DuelEffectChannel *object)
 
 DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 {
-    DisplayObject *cursor = func_800400AC((s32)func_8004006C(), 2);
+    DisplayObject *cursor = func_800400AC(
+        (s32)DisplayObject_FindFreeSlot(), 2
+    );
 
     func_800404CC(
         cursor,

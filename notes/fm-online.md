@@ -155,7 +155,7 @@ words restore these exact retail targets:
 |---:|---|
 | `0x800370E4` | `SD_SEPlayFull(6)` |
 | `0x800370EC` | `Dialog_HighlightChoice` |
-| `0x800371D0` | `func_8004006C` |
+| `0x800371D0` | `DisplayObject_FindFreeSlot` |
 | `0x8003725C` | `Dialog_HighlightChoice` |
 | `0x80037FF4` | `func_80036C14` |
 | `0x80039730` | `func_80036C14` |

@@ -19,7 +19,7 @@ void func_800391E4(DuelEffectChannel *p) {
 
     e = p->field_28;
     if (e == (DisplayObject *)0) {
-        e = func_800400AC(func_8004006C(), 6);
+        e = func_800400AC(DisplayObject_FindFreeSlot(), 6);
         b = p->index_57;
         e->field_40.h.field_40 = 0x280;
         e->field_40.h.field_42 = 0xE8;
