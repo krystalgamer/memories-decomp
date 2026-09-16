@@ -32,6 +32,12 @@
  * the two assignments are to distinct fields and neither depends on the
  * other, so the order is free.
  *
+ * The record pointer is computed immediately after the EXT->field_4
+ * store, above the PRM field writes rather than just before its first
+ * use. Nothing between the two positions writes obj or D_800EA0E8, so
+ * the position is free; retail materialises the address there and the
+ * whole block allocates around it.
+ *
  * Residual: register choices only.
  */
 void func_80028B08(DisplayObject *obj, s32 arg1) {
@@ -107,13 +113,13 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     func_80042188(PRM, CTX, arg1, arg, EXT);
 
     EXT->field_4 = 0;
+    rec = &D_800EA0E8[obj->field_67];
     PRM->tpage = 0x1F;
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
     PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;
     PRM->xy.h.y = win->field_30.h.field_32 + obj->field_30.h.field_32;
     PRM->uv.word = obj->field_5E;
     *(u32 *)&PRM->extent = obj->field_3C.word;
-    rec = &D_800EA0E8[obj->field_67];
     if (obj->field_68 < 0x14) {
         if (rec->field_3C & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
