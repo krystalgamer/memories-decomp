@@ -44,7 +44,6 @@ void func_8005E808(u8 *p)
     s16 pos[4];
     s16 buf[10][3];
     u8 *e;
-    u8 *q;
     SVECTOR *g;
     s32 i;
     s32 j;
@@ -86,7 +85,6 @@ void func_8005E808(u8 *p)
 
     e = (u8 *)state;
     for (i = 0; i < 2; i++, e += 8) {
-        q = e + 2;
         g = &D_800F5768[i];
         switch ((s16)((Coeff *)e)->w) {
         case 0x80:
@@ -131,12 +129,12 @@ void func_8005E808(u8 *p)
             s32 radius_scaled;
             s32 factor;
             v = (u16)D_800F5768[2].vx;
-            if (D_800F5768[2].vx < *(s16 *)e) {
-                v = *(u16 *)e;
+            if (D_800F5768[2].vx < ((Coeff *)e)->x) {
+                v = (u16)((Coeff *)e)->x;
             }
             radius_scaled = (s16)v * 6284 / 1000;
             d = k * radius_scaled;
-            factor = __builtin_abs(*(s16 *)q);
+            factor = __builtin_abs(((Coeff *)e)->y);
             d = (u32)(d * factor) / 4096000;
             if (state->field_22 < d) {
                 state->field_22 = d;

@@ -2851,7 +2851,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5710,D_800F5710,D_800F5710,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F5710 = D_800F56F0;
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,u8 *p = D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
-0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < *(s16 *)e) { | (+1 more)
+0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < ((Coeff *)e)->x) { | (+1 more)
 0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
 0x800F5768,D_800F5768,D_800F5768,0x8005F070,func_8005F070,matching_c,game,C,src/game/model_effect_state.c,write,,D_800F5768[0].vx = left->vpx; | D_800F5768[0].vy = left->vpy; | (+7 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,D_8009B074 = D_800F5788; | Key *key = D_800F5788; | (+1 more)
