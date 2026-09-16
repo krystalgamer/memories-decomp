@@ -123,7 +123,7 @@ address,size,name,status,module,notes
 0x80019608,0x400,DuelScene_UpdateCardUse,matching_c,game,"Pure C five-state card-zoom sequencer: selected-card latch, enlarged-window fade and hold, readback replacement, resize/fade-out and teardown. Reusing the consumed card-ID scalar for extent and color with an in-place decrement removes all three bindings. Existing callback contracts, COMMON global resolution, inherited tracked header aliases and gcc_2_8_1_g8_split_comm profile are preserved."
 0x80019A08,0x58,Duel_CheckEquip,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019A60,0xCC,Duel_CheckFusion,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80019B2C,0x74,func_80019B2C,matching_c,game,Pure-C inline refinement matched the full executable.
+0x80019B2C,0x74,DisplayObject_UpdateAlphaTransition,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80019BA0,0x30,func_80019BA0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80019BD0,0xF8,func_80019BD0,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80019CC8,0x50,func_80019CC8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

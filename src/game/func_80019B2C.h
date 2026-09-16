@@ -3,6 +3,6 @@
 
 #include "display_object.h"
 
-void func_80019B2C(DisplayObject *object);
+void DisplayObject_UpdateAlphaTransition(DisplayObject *object);
 
 #endif
