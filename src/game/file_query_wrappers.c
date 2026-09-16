@@ -15,12 +15,12 @@ int func_8005988C(int value)
 
 s32 func_800598E4(int first, int second)
 {
-    return func_80059908(first, second, 0, 0);
+    return HostFile_ReadRange(first, second, 0, 0);
 }
 
 #define FILE_READ_CHUNK_SIZE 0x1000
 
-s32 func_80059908(s32 path, s32 destination, s32 offset, s32 length)
+s32 HostFile_ReadRange(s32 path, s32 destination, s32 offset, s32 length)
 {
     s32 handle;
     s32 total;

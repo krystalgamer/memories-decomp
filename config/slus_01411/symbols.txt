@@ -1340,6 +1340,7 @@ gPassword_nDigitIndex = 0x8016D428;
 
 // Semantic names
 PCread = 0x80073758; // type:func
+HostFile_ReadRange = 0x80059908; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
 Main_RunFrameServices = 0x8001306C; // type:func
 
