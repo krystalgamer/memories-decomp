@@ -2,13 +2,13 @@
 #include "../psyq/rand.h"
 #include "display_effect_constants.h"
 #include "display_object_config.h"
-#include "func_8003B378.h"
+#include "display_effect_update_menu_record.h"
 #include "display_effect_process_menu_records.h"
 #include "menu_record.h"
 #include "display_object.h"
 #include "display_effect_step_table.h"
 
-void func_8003B378(MenuRecord *p, s32 n) {
+void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     s32 f;
     s32 g;
     s32 c;
@@ -91,7 +91,7 @@ void DisplayEffect_ProcessMenuRecords(s32 value) {
     do {
         if (record->field_30 >= 0) {
             if (record->field_32 & 0x40) {
-                func_8003B378(record, value);
+                DisplayEffect_UpdateMenuRecord(record, value);
             }
 
             if (record->display_effect_step != 0) {

@@ -6825,7 +6825,7 @@ some call sites but not others. Measured one file at a time:
 - `card_preview_update_variant.c` passes a local whose value is either the constant 2 or an
   `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
   emits nothing extra; the build stays byte-exact.
-- `display_effect_process_menu_records.c` passes `n` from `func_8003B378`,
+- `display_effect_process_menu_records.c` passes `n` from `DisplayEffect_UpdateMenuRecord`,
   whose range the compiler cannot prove. The
   build breaks at VRAM `0x8003B484`, where the expected `addu` (`0x21`)
   becomes `andi $a1, $a1, 0xFF`. The truncation the prototype now demands is

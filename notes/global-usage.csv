@@ -2613,7 +2613,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAFF8,D_800EAFF8,D_800EAFF8,0x8003B5C8,func_8003B5C8,matching_c,game,C,src/game/func_8003B5C8.c,address,16,out = D_800EAFF8;
 0x800EB010,D_800EB010,D_800EB010,0x8002E370,DuelEffect_MarkObjectIfActive,matching_c,game,C,src/game/duel_effect_mark_object_if_active.c,address,,p = &D_800EB010[count];
 0x800EB010,D_800EB010,D_800EB010,0x8002EB78,Script_OpShowMenu,matching_c,game,C,src/game/script_op_show_menu.c,address,,o = &D_800EB010[bit >> 7];
-0x800EB010,D_800EB010,D_800EB010,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,address,,"func_8003B378(D_800EB010, value);"
+0x800EB010,D_800EB010,D_800EB010,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,address,,"DisplayEffect_UpdateMenuRecord(D_800EB010, value);"
 0x800EB010,D_800EB010,D_800EB010,0x80038EB0,Text_HandleDisplayEffectCommand,matching_c,game,C,src/game/text_control_commands.c,address,,e = &D_800EB010[slot]; | e = D_800EB010;
 0x800EB010,D_800EB010,D_800EB010,0x80039E9C,func_80039E9C,matching_c,game,C,src/game/menu_record_reset.c,address,,MenuRecord *record = &D_800EB010[i];
 0x800EB010,D_800EB010,D_800EB010,0x8003B50C,DisplayEffect_ProcessMenuRecords,matching_c,game,C,src/game/display_effect_process_menu_records.c,address,,MenuRecord *record = D_800EB010;

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8003B378_H
-#define MEMORIES_DECOMP_FUNC_8003B378_H
+#ifndef MEMORIES_DECOMP_DISPLAY_EFFECT_UPDATE_MENU_RECORD_H
+#define MEMORIES_DECOMP_DISPLAY_EFFECT_UPDATE_MENU_RECORD_H
 
 #include "../types.h"
 #include "menu_record.h"
@@ -13,6 +13,6 @@
  * grid[4][3] is four DisplayPositionGroup children arrays -- and 0x3E is
  * field_3E, named from the DisplayEffectState view that already had it.
  * Both consumers hold the record as MenuRecord and no longer cast. */
-void func_8003B378(MenuRecord *p, s32 n);
+void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n);
 
 #endif

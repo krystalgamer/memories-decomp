@@ -1,5 +1,5 @@
 #include "../types.h"
-#include "func_8003B378.h"
+#include "display_effect_update_menu_record.h"
 #include "rand_get_interval.h"
 #include "func_8003134C.h"
 #include "menu_record.h"
@@ -36,6 +36,6 @@ void DebugMenu_UpdateBustUpEntry(void)
         second->flags = second_flags;
     } else {
         s32 value = Rand_GetInterval(4);
-        func_8003B378(D_800EB010, value);
+        DisplayEffect_UpdateMenuRecord(D_800EB010, value);
     }
 }
