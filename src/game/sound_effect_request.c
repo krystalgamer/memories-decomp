@@ -46,6 +46,7 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
     }
     if ((tags.words.original & 0xF000) == 0x4000) {
         SDValue *a = g_SDValue;
+        u8 *table;
         u16 v;
         s32 n;
 
@@ -54,7 +55,8 @@ void SD_SEPlay(s32 arg0, s32 arg1, s32 arg2)
         hi = t2;
         hi = (hi != 0) << 6;
 
-        v = *(u16 *)((u8 *)a + (lo + hi) + 0x44C);
+        table = (u8 *)&a->field_044C;
+        v = *(u16 *)(table + (lo + hi));
         if (v == 0xFFFF) {
             return;
         }
@@ -113,7 +115,8 @@ void func_80048768(s32 arg0, s32 arg1)
         flag = 0 < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
         base = (u8 *)g_SDValue;
-        pt = *(u16 *)(base + off + SD_VOICE_LOOKUP_BYTE_OFFSET);
+        /* Keep the state base first in the sum to preserve retail's addu order. */
+        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->field_044C);
         arg0 = SD_PENDING_ENTRY_NONE;
         if (pt == arg0) {
             return;
