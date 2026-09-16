@@ -2307,7 +2307,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x800478EC,func_800478EC,matching_c,game,C,src/game/sound_voice_selection.c,read,,g_SDValue->voice_active_mask &= ~bit2; | g_SDValue->voice_step[i] = 0; | (+8 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047A68,func_80047A68,matching_c,game,C,src/game/sound_voice_selection.c,read,,if (g_SDValue->voice_ids[i] >= threshold) | u16 threshold = g_SDValue->field_0004;
 0x8009B45C,g_SDValue,g_SDValue,0x80047AD0,func_80047AD0,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue; | register SDValue *final = g_SDValue;
-0x8009B45C,g_SDValue,g_SDValue,0x80047B68,func_80047B68,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue;
+0x8009B45C,g_SDValue,g_SDValue,0x80047B68,SD_RequestValueLink,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x80047BB4,func_80047BB4,matching_c,game,C,src/game/sound_voice_selection.c,read,,g_SDValue->flags_0040 |= 2;
 0x8009B45C,g_SDValue,g_SDValue,0x80047CC4,func_80047CC4,matching_c,game,C,src/game/sound_voice_selection.c,read,,SDValue *state = g_SDValue; | g_SDValue->field_0435 = slot; | (+2 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80047DB0,SD_SEStop,matching_c,game,C,src/game/sound_voice_selection.c,read,,g_SDValue->voice_active_mask &= ~mask; | if (g_SDValue->voice_ids[i] == key) { | (+1 more)
