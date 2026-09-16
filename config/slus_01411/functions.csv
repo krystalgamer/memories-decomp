@@ -638,7 +638,7 @@ address,size,name,status,module,notes
 0x80040D14,0xC4,func_80040D14,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80040DD8,0x290,DisplayObject_RenderGouraudQuadList,matching_c,game,"Renders display-object list 4 as one or two POLY_G4 packets with viewport offset and clipping. Grouped with the adjacent textured quad renderer in display_object_quad_renderers.c under uniform G8 split."
 0x80041068,0x2D8,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,"Renders display-object list 5 as one or two POLY_GT4 packets with viewport offset and clipping. Grouped with the adjacent untextured quad renderer in display_object_quad_renderers.c under uniform G8 split."
-0x80041340,0xDC,func_80041340,matching_c,game,Frame renderer at the head of the complete eight-function display-object runtime unit.
+0x80041340,0xDC,DisplayObject_RenderFrame,matching_c,game,Installs the display flat lights and renders every nonempty display-object list through its seven-entry renderer table.
 0x8004141C,0xC,DisplayObjectStream_Stop,matching_c,game,Halfword clear with -1 return matched exactly.
 0x80041428,0xC,DisplayObjectStream_ResetOffset,matching_c,game,Halfword clear with 1 return matched exactly.
 0x80041434,0x8,DisplayObjectStream_Noop,matching_c,game,Constant 1 return matched exactly.

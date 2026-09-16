@@ -8,9 +8,9 @@
 #include "display_object_layout.h"
 #include "display_object_list_renderer_table.h"
 #include "display_object_stream_state.h"
-#include "func_80041340.h"
+#include "display_object_render_frame.h"
 
-void func_80041340(void)
+void DisplayObject_RenderFrame(void)
 {
     s32 i;
     SetBackColor(96, 96, 96);
