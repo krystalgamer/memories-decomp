@@ -124,7 +124,10 @@ u32 DisplayObjectStream_ReadU16LE(const u8 *data)
     return (data[1] << 8) | data[0];
 }
 
-u8 *func_800429BC(DisplayObjectStream *object, const u8 *data)
+u8 *DisplayObjectStream_ResolveOffset(
+    DisplayObjectStream *object,
+    const u8 *data
+)
 {
     return object->base + ((data[1] << 8) | data[0]);
 }

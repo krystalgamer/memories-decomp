@@ -661,7 +661,7 @@ address,size,name,status,module,notes
 0x8004293C,0x24,func_8004293C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042960,0x48,func_80042960,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800429A8,0x14,DisplayObjectStream_ReadU16LE,matching_c,game,Reads and returns one little-endian unsigned 16-bit stream value; exact match.
-0x800429BC,0x1C,func_800429BC,matching_c,game,Base pointer plus little-endian two-byte offset matched exactly.
+0x800429BC,0x1C,DisplayObjectStream_ResolveOffset,matching_c,game,Returns the display-object stream base plus one little-endian unsigned 16-bit offset; exact match.
 0x800429D8,0x28,DisplayObject_ResetVelocity,matching_c,game,"Clears an object's three velocity components and primes the three 8.8 position fractions to 0x80; null-tolerant. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80042A00,0x28,DisplayObject_StepPositionX,matching_c,game,"Advances x by velocity_x in 8.8 fixed point, keeping the remainder in fraction_x. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80042A28,0x28,DisplayObject_StepPositionY,matching_c,game,"Advances y by velocity_y in 8.8 fixed point, keeping the remainder in fraction_y. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."

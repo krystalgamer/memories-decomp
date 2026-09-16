@@ -83,7 +83,10 @@ void func_80042918(DisplayObject *object);
 void func_8004293C(DisplayObject *object);
 int func_80042960(DisplayObject *object);
 u32 DisplayObjectStream_ReadU16LE(const u8 *data);
-u8 *func_800429BC(DisplayObjectStream *object, const u8 *data);
+u8 *DisplayObjectStream_ResolveOffset(
+    DisplayObjectStream *object,
+    const u8 *data
+);
 void DisplayObject_ResetVelocity(DisplayObjectVelocity *object);
 void DisplayObject_StepPositionX(DisplayObjectVelocity *object);
 void DisplayObject_StepPositionY(DisplayObjectVelocity *object);
