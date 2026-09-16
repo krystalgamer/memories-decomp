@@ -88,12 +88,12 @@ void func_8005E808(u8 *p)
     for (i = 0; i < 2; i++, e += 8) {
         q = e + 2;
         g = &D_800F5768[i];
-        switch (*(s16 *)(q + 4)) {
+        switch ((s16)((Coeff *)e)->w) {
         case 0x80:
         case 0x81:
         {
             s32 dx, dy, dz;
-            slot = (s16)(*(u16 *)(q + 4) & 0xFF7F);
+            slot = (s16)(((Coeff *)e)->w & 0xFF7F);
             if (func_80058DD8(slot) != 1) {
                 continue;
             }
