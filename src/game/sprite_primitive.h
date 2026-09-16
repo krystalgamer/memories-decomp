@@ -16,7 +16,7 @@
    these are copied from with 0x00808080 and 0x10001000, which are r/g/b at
    0x80 each and scalex/scaley at 1.0 in 4.12; func_800408D0 advances `tpage`
    by a page step and bounds `uv.b.lo` at 0x100, which is what a u coordinate
-   does; and func_80040588 writes `rotate` only when the attribute's GsROTOFF
+   does; and DisplayObject_RenderSpriteList writes `rotate` only when the attribute's GsROTOFF
    bit is clear.
  
      0x00 attribute   0x0C tpage       0x18 mx, my

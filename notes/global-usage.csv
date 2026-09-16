@@ -1068,7 +1068,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportX) | sh $zero, %lo(gGraphics_sViewportX)($at)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800338E4,BuildDeck_UpdatePaneTransition,matching_c,game,C,src/game/build_deck_update_pane_transition.c,read_write,16,gGraphics_sViewportX += (u16)state->viewport_step_x; | gGraphics_sViewportX = position; | (+1 more)
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v0, %lo(gGraphics_sViewportX)($v0) | lui $v0, %hi(gGraphics_sViewportX)"
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read,16,p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,read,16,p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800408D0,func_800408D0,matching_c,game,C,src/game/display_object_updates.c,read,16,p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,dx = gGraphics_sViewportX;
@@ -1084,7 +1084,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,read,16,vy = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,write,16,"lui $at, %hi(gGraphics_sViewportY) | sh $zero, %lo(gGraphics_sViewportY)($at)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lui $v1, %hi(gGraphics_sViewportY)"
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read,16,p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,read,16,p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800408D0,func_800408D0,matching_c,game,C,src/game/display_object_updates.c,read,16,p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,dx = gGraphics_sViewportY;
@@ -2145,7 +2145,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B412,D_8009B412,D_8009B412,0x800400AC,func_800400AC,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_8009B412++;
 0x8009B412,D_8009B412,D_8009B412,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,write,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x8009B424,D_8009B424,D_8009B424,0x80029108,CardPreview_UpdateVariant,matching_c,game,C,src/game/card_preview_update_variant.c,write,32,D_8009B424 = 1;
-0x8009B424,D_8009B424,D_8009B424,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
+0x8009B424,D_8009B424,D_8009B424,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
 0x8009B424,D_8009B424,D_8009B424,0x800408D0,func_800408D0,matching_c,game,C,src/game/display_object_updates.c,write,32,D_8009B424 = 0;
 0x8009B424,D_8009B424,D_8009B424,0x8004158C,func_8004158C,matching_c,game,C,src/game/func_8004158C.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
 0x8009B428,D_8009B428,D_8009B428,0x80043960,Main_RunBootSequence,matching_c,game,C,src/game/main_run_boot_sequence.c,write,8,D_8009B428 = 0;
@@ -2400,7 +2400,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D90,D_800E9D90,D_800E9D90,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,32,ot = D_800E9D90[3];
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C604,DuelEffect_AllocateRequest,matching_c,game,C,src/game/duel_effect_object_pool.c,address,32,t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,read,32,rec->field_08 = (s32)D_800E9D90[2]; | rec->field_0C = (s32)D_800E9D90[1];
-0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,address,32,tb = D_800E9D90;
+0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,32,tb = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,32,GsOT **t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,32,GsOT **table = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040D14,func_80040D14,matching_c,game,C,src/game/display_object_updates.c,address,32,GsOT **table = D_800E9D90;
@@ -2692,7 +2692,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[4];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_quad_renderers.c,read,16,i = D_800EFE38[5];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80041340,DisplayObject_RenderFrame,matching_c,game,C,src/game/display_object_runtime.c,read,16,if (D_800EFE38[i] >= 0) {
-0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,read,16,i = D_800EFE3A[0];
+0x800EFE3A,D_800EFE3A,D_800EFE3A,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,read,16,i = D_800EFE3A[0];
 0x800EFE3C,D_800EFE3C,D_800EFE3C,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,read,16,s32 i = D_800EFE3C;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80015DB8,func_80015DB8,matching_c,game,C,src/game/display_projection.c,address,,entry = D_800EFE48 + object->field_6A;
 0x800EFE48,D_800EFE48,D_800EFE48,0x8004006C,DisplayObject_FindFreeSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800EFE48;
@@ -2700,7 +2700,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[first].next = second; | D_800EFE48[second].previous = -1; | (+1 more)
 0x800EFE48,D_800EFE48,D_800EFE48,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,write,,D_800EFE48[v].previous = slot->field_0A;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
-0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,func_80040588,matching_c,game,C,src/game/display_object_core.c,address,,e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
+0x800EFE48,D_800EFE48,D_800EFE48,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,,e = (DisplayObject *)((u8 *)D_800EFE48 + i * DISPLAY_OBJECT_RECORD_SIZE);
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040814,func_80040814,matching_c,game,C,src/game/func_80040814.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040BF8,func_80040BF8,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040CAC,func_80040CAC,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *object = &D_800EFE48[i];

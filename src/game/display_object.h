@@ -208,7 +208,7 @@ typedef struct DisplayObject {
             s16 field_3A;
         } h;
     } field_38;                    /* 0x38 */
-    /* 0x3C likewise: func_80040588 copies the whole word into the sprite
+    /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word into the sprite
        primitive, while func_800408D0 reads the two halves separately. */
     union {
         s32 word;
@@ -244,7 +244,7 @@ typedef struct DisplayObject {
        update callback.
 
        The sprite emitters read the same word as a scale instead:
-       func_80040588 and func_800408D0 assign it to sprite_primitive.h's u32
+       DisplayObject_RenderSpriteList and func_800408D0 assign it to sprite_primitive.h's u32
        `scale`, and display_object_transition.c animates the two halves from a
        0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
@@ -477,7 +477,7 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  */
 /* The list walk's rerun request. CardPreview_UpdateVariant sets it to 1 after
  * changing an object's config, and the two list renderers clear it before
- * their pass and test it at the end -- func_80040588's inventory row calls that its
+ * their pass and test it at the end -- DisplayObject_RenderSpriteList's inventory row calls that its
  * "while(1)/continue rerun loop". So it is state of the walk over the lists
  * declared just below, which is why it is declared here rather than beside
  * either renderer. */

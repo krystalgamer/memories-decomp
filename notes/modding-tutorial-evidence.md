@@ -481,7 +481,7 @@ background palette.
 
 The object-based draw path identifies three more rows. `DisplayObject_ConfigureSpriteResource` stores
 the texture argument's bits `4`-`9` as CLUT x and stores
-`240 + (texture & 0xF)` as CLUT y. `func_80040588` copies that coordinate pair
+`240 + (texture & 0xF)` as CLUT y. `DisplayObject_RenderSpriteList` copies that coordinate pair
 into its sprite work record, and assembly for `func_80042188` packs it into
 the GPU primitive with the same `(y << 6) | ((x >> 4) & 0x3F)` formula as
 `getClut`.

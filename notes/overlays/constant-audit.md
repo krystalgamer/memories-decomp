@@ -137,7 +137,7 @@ are both established, and both are now matching C: the consumer is
    word and branches on the bit. Its working clut position has just been
    initialised from the object's `+0x40` and `+0x42`, the halves the
    configurator wrote from the same `texture` argument and the ones
-   `func_80040588` copies into a sprite's `cx`/`cy`. When the bit is set, it
+   `DisplayObject_RenderSpriteList` copies into a sprite's `cx`/`cy`. When the bit is set, it
    adds a further offset taken from the byte at `+3` of the sprite sheet
    pointed to by object `+0x4C`:
 

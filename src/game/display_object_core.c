@@ -8,7 +8,7 @@
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
 #include "display_object_projection.h"
-#include "func_80040588.h"
+#include "display_object_render_sprite_list.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "graphics_frame.h"
 #include "ordering_tables.h"
@@ -262,7 +262,7 @@ DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
    which may ask (D_8009B424) for the object to be run again, and the
    POLY_FT4 at 0x1F800344 is set up as a 9-word semi-transparent packet
    instead. */
-void func_80040588(void) {
+void DisplayObject_RenderSpriteList(void) {
     SpritePrim *p;
     POLY_FT4 *g;
     ClipState *h;

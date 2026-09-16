@@ -325,7 +325,7 @@ extern u8 D_8009B144;
 #endif
 
 /* Viewport scroll offset in pixels, signed: func_8002A660 subtracts it from a
-   sprite position and func_80040588 subtracts it from a primitive's, and both
+   sprite position and DisplayObject_RenderSpriteList subtracts it from a primitive's, and both
    results have to be able to go negative.
 
    Files that reach these through `__attribute__((section(".data")))`, or as an

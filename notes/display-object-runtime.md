@@ -279,7 +279,7 @@ The 32-bit field at object offset `+0x4` is not a second flag word alongside
 word**, and the header now calls it `DisplayObject.attribute`.
 
 Both renderers copy it **verbatim** into the record they are building —
-`p->tag = e->unk4` in `func_80040588`, and the same assignment at the top of
+`p->tag = e->unk4` in `DisplayObject_RenderSpriteList`, and the same assignment at the top of
 `func_800408D0`. That record is a `GsSPRITE`: its fields line up one for one
 with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
 `tpage`, `u`/`v`, `cx`/`cy`, `r`/`g`/`b`, `mx`/`my`, `scalex`/`scaley` to
@@ -309,8 +309,8 @@ unchanged from the object.
 |---|---|---|
 | `DISPLAY_OBJECT_ATTRIBUTE_8BPP` | Texture-page step of `2` per wrap | `func_800408D0` |
 | `DISPLAY_OBJECT_ATTRIBUTE_16BPP` | Texture-page step of `4`, taking precedence | `func_800408D0` |
-| `0x08000000` | When **clear**, selects the alternate size/offset path in `func_80040588`; also gates a projection path in `func_80041F90` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
-| `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `func_80040588` |
+| `0x08000000` | When **clear**, selects the alternate size/offset path in `DisplayObject_RenderSpriteList`; also gates a projection path in `func_80041F90` (`src/game/display_object_projection_checks.c`), and is copied into the clip state as `c->flag` | both renderers |
+| `0x40000000` | Adds `SetSemiTrans(g, 1)` in the clip-test path | `DisplayObject_RenderSpriteList` |
 
 The step values are the texture-page advance applied when a strip's `u`
 coordinate wraps past `0x100`, so `DISPLAY_OBJECT_ATTRIBUTE_8BPP` and
@@ -364,7 +364,7 @@ game* is exactly what a library-owned attribute field looks like.
 The flags-versus-length question dissolves rather than being answered. It
 assumed the word was a `P_TAG`, whose top byte is a primitive length. A
 `GsSPRITE` is a descriptor, not a packet: `GsSortSprite` builds the packet and
-owns its length, and `func_80040588`'s `g[3] = 9` writes the length of a
+owns its length, and `DisplayObject_RenderSpriteList`'s `g[3] = 9` writes the length of a
 *different*, separately built quad at `0x1F800344`, not of the sprite. No byte
 is shared, so no constant here has to hedge.
 
@@ -382,7 +382,7 @@ of the fourth argument.
 
 | Caller | Dispatch case | First argument |
 |---|---:|---|
-| `func_80040588` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
+| `DisplayObject_RenderSpriteList` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_800408D0` | `1`, `3`, default | `0x1F800320`, a `GsSPRITE *` |
 | `func_80016784` | — | `0x1F800320` / `0x1F800000`, records in the same scratchpad |
 | `DisplayObject_RenderGouraudQuadList`, list key `4` | `4` | `v = *(s32 *)(e + 4)`, **the attribute word** |

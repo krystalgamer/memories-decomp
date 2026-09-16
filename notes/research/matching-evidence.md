@@ -6785,7 +6785,7 @@ adjacent members as one word.**
   `0x08` words whole -- x together with y, w together with h -- so those two
   accesses cast the address of the first halfword to `u32 *`. The individual
   y and h updates retain their measured unsigned and signed halfword views.
-- `func_80040588.c`'s shared `SpritePrim` in `ygo_types.h` is `GsSPRITE`
+- `DisplayObject_RenderSpriteList.c`'s shared `SpritePrim` in `ygo_types.h` is `GsSPRITE`
   field for field, but its
   position and size words each span two `GsSPRITE` halves. There is no store
   to cast, so the local struct has to keep its union-shaped members and the
@@ -6874,7 +6874,7 @@ byte-exact. So:
   link error rather than a silent mismatch, which at least fails loudly.
 
 A redundant declaration that is merely *duplicated* rather than differently
-spelled is free to delete either way. `func_80040588.c` carried
+spelled is free to delete either way. `DisplayObject_RenderSpriteList.c` carried
 `extern DisplayObject D_800EFE48[]` while already including `display_object.h`,
 which declares the same symbol with its named capacity; the two are compatible
 types, and dropping the local line changed nothing.
