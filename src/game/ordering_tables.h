@@ -27,7 +27,19 @@ extern GsOT *D_800E9D98[];
 #else
 extern GsOT *D_800E9D98;
 #endif
+/* Slot 3. Both readers want the bare %hi/%lo form -- two relocations each in
+ * their target listings -- and their build profiles are why they reach it by
+ * different routes. func_80029EC4 builds gcc_2_8_1_g0_split, where -G0 takes
+ * every scalar out of small data and the plain declaration already gives the
+ * bare pair. func_800540B4 builds gcc_2_8_1_g8_split, where that same
+ * declaration would be gp-relative, so it places the symbol in .data by
+ * defining D_800E9D9C_IN_DATA. This is the -G8/-G0 split the note above
+ * describes for slots 1 and 2, stated per reader rather than per slot. */
+#ifdef D_800E9D9C_IN_DATA
+extern GsOT *D_800E9D9C __attribute__((section(".data")));
+#else
 extern GsOT *D_800E9D9C;
+#endif
 
 typedef char OrderingTable_descriptor_size_must_be_0x14[
     sizeof(GsOT) == 0x14 ? 1 : -1
