@@ -11,6 +11,6 @@ void func_8004695C(s32 value);
  * (Sound_InitFrontend passes them from gFile_anLba). A zero LBA clears that
  * source's bit in g_SDValue->flags_004A (0x01, 0x02 and 0x40). It also zeroes
  * field_003C and raises 0xA in flags_0040. */
-void func_80046990(s32 first, s32 second, s32 third);
+void SD_InitDataSourceFlags(s32 first, s32 second, s32 third);
 
 #endif

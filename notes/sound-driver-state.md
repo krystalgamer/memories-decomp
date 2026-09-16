@@ -101,9 +101,9 @@ the same full-volume arguments. This effect-call maximum is distinct from
 
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
-`gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table
+`gFile_anLba[4]`, `[5]`, and `[6]` to `SD_InitDataSourceFlags`. The runtime file table
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
-`func_80046990` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
+`SD_InitDataSourceFlags` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
 `flags_004A` when the corresponding file position is zero, and sets
 `flags_0040 |= 0x0A`. The frontend then calls `func_80012D4C` while
 `func_8004703C` continues to expose bit `0x08`, making that bit the

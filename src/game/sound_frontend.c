@@ -12,7 +12,7 @@ void Sound_InitFrontend(void)
     register volatile s32 *lbas = gFile_anLba;
 
     gSD_bOutputType = -1;
-    func_80046990(
+    SD_InitDataSourceFlags(
         lbas[FILE_LBA_INDEX_SD_SE],
         lbas[FILE_LBA_INDEX_SD_BGM],
         lbas[FILE_LBA_INDEX_MASTER_XA]);
