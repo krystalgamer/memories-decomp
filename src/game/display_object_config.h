@@ -3,11 +3,12 @@
 
 #include "../types.h"
 
-/* The narrower view func_80040410 and func_80040424 use: the flags halfword
- * at 0x08 and the three selector bytes at 0x67..0x69. It is the same record
- * DisplayObjectConfigView below describes, seen through the only fields these
- * two writers touch, and it is spelt separately for the same reason that one
- * is: neither is the canonical DisplayObject in display_object.h. */
+/* The narrower view func_80040410 and DisplayObject_UpdateResourceVariant
+ * use: the flags halfword at 0x08 and the three selector bytes at 0x67..0x69.
+ * It is the same record DisplayObjectConfigView below describes, seen through
+ * the only fields these two writers touch, and it is spelt separately for the
+ * same reason that one is: neither is the canonical DisplayObject in
+ * display_object.h. */
 typedef struct {
     u8 pad_00[8];
     u16 flags;
@@ -44,11 +45,12 @@ typedef struct {
  * notes/research/matching-evidence.md. */
 void func_80040410(DisplayObjectConfig *object, s32 value);
 
-/* The sibling the comment above already names. It was defined here and
-   declared nowhere, so its one caller wrote `extern s32 func_80040424();`
-   -- wrong in the return type and in the parameter list, and undetectable,
-   because that caller discards the result. */
-void func_80040424(DisplayObjectConfig *object, s32 value);
+/* Changes the third resource selector only when needed and clears the
+ * resolution flag so the display-object runtime rebuilds its resource. */
+void DisplayObject_UpdateResourceVariant(
+    DisplayObjectConfig *object,
+    s32 value
+);
 void func_8004044C(
     DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
 );

@@ -7112,9 +7112,9 @@ declaration that disagrees with its definition is not automatically wrong, and
 whether it can be corrected depends on the consumer, not on the definition.
 Checked while compiling this list: none of the four functions defined `void`
 but declared with a value type -- `func_8003A440`, `func_8003A920`,
-`func_80040424`, `func_8004A27C` -- has a caller that actually reads the
-result. There is no case in the tree of a caller consuming a return its callee
-never produces.
+`DisplayObject_UpdateResourceVariant`, `func_8004A27C` -- has a caller that
+actually reads the result. There is no case in the tree of a caller consuming
+a return its callee never produces.
 
 ## Three things a declaration survey does not see, and one it invents
 

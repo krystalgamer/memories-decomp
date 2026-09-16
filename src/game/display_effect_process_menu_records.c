@@ -77,7 +77,10 @@ slow:
     if ((s8)p->field_3B < 6) {
         return;
     }
-    func_80040424((DisplayObjectConfig *)p->grid[0][2], 0);
+    DisplayObject_UpdateResourceVariant(
+        (DisplayObjectConfig *)p->grid[0][2],
+        0
+    );
 }
 
 void DisplayEffect_ProcessMenuRecords(s32 value) {

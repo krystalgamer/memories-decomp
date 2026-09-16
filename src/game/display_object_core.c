@@ -162,7 +162,10 @@ void func_80040410(DisplayObjectConfig *object, s32 value)
     object->flags &= 0xFFEF;
 }
 
-void func_80040424(DisplayObjectConfig *object, s32 value)
+void DisplayObject_UpdateResourceVariant(
+    DisplayObjectConfig *object,
+    s32 value
+)
 {
     if (object->field_69 != value) {
         object->field_69 = value;

@@ -1348,6 +1348,7 @@ NameEntry_LoadPackageStage = 0x8003BA14; // type:func
 DisplayObjectStream_Stop = 0x8004141C; // type:func
 DisplayObjectStream_ResetOffset = 0x80041428; // type:func
 DisplayObjectStream_Noop = 0x80041434; // type:func
+DisplayObject_UpdateResourceVariant = 0x80040424; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 File_RequestOptionsPackage = 0x8003C2B4; // type:func
 GameOver_LoadPackageStage = 0x8003C328; // type:func
