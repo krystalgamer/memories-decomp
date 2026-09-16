@@ -273,7 +273,11 @@ void Model_ProcessType2Unit(
                                 *e = 0;
                             }
                             e++;
-                            for (k = 1; k < *(s16 *)(rec + 4); k++) {
+                            for (
+                                k = 1;
+                                k < ((ModelType2Record *)rec)->column_count;
+                                k++
+                            ) {
                                 *e |= 0x8000;
                                 e++;
                             }
