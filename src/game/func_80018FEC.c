@@ -98,8 +98,10 @@ void DuelScene_UpdateExodiaResult(void)
         rec = (u8 *)D_800EA030;
 next_obj:
         obj = *(u8 **)rec;
-        g = (DuelCardReplayRecordBlock *)(obj[0x6A] * sizeof(DuelCardRecord) +
-            (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
+        g = (DuelCardReplayRecordBlock *)(
+            ((DisplayObject *)obj)->field_6A * sizeof(DuelCardRecord) +
+            (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
+        );
         anim = g->record.card_id - 0x11;
         pose = (u8 *)(anim * 3 + (u32)poses);
         *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
