@@ -11,7 +11,7 @@ typedef void (*DisplayObjectCallback)(u8 *);
  * previous and next are pool indices, not pointers:
  * DisplayObject_MoveToListHead unlinks an entry by writing -1 to both and then
  * repairs the neighbour's link through D_800EFE48[v].previous, and
- * func_80040814 walks the list through next.
+ * DisplayObject_RenderSpriteSheetList walks the list through next.
  */
 /* The union of the four private views this record had: display_object.h's
  * own (previous/next/flags/update), display_object_core.c's DisplaySlot

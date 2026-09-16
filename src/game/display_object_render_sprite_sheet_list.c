@@ -5,11 +5,11 @@
 #include "display_object_update_command_stream.h"
 #include "../unmatched.h"
 #include "display_object_render_sprite_sheet.h"
-#include "func_80040814.h"
+#include "display_object_render_sprite_sheet_list.h"
 
 #include "ordering_tables.h"
 
-void func_80040814(void) {
+void DisplayObject_RenderSpriteSheetList(void) {
     s32 i = D_800EFE3C;
 
     if (i >= 0) {

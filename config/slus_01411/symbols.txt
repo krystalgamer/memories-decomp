@@ -1368,6 +1368,7 @@ DisplayObject_ConfigureSpriteResource = 0x80040468; // type:func
 DisplayObject_ConfigureSpriteAtPosition = 0x800404CC; // type:func
 DisplayObject_ConfigureScreenSprite = 0x80040510; // type:func
 DisplayObject_RenderSpriteList = 0x80040588; // type:func
+DisplayObject_RenderSpriteSheetList = 0x80040814; // type:func
 DisplayObject_RenderFrame = 0x80041340; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 File_RequestOptionsPackage = 0x8003C2B4; // type:func

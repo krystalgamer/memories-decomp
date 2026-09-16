@@ -3706,7 +3706,7 @@
       "address": "0x80040814",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/game/func_80040814.c"
+      "source": "src/game/display_object_render_sprite_sheet_list.c"
     },
     {
       "address": "0x800408D0",

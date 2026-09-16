@@ -4,7 +4,7 @@
 #include "../unmatched.h"
 #include "display_object_updates.h"
 #include "display_object_render_sprite_list.h"
-#include "func_80040814.h"
+#include "display_object_render_sprite_sheet_list.h"
 
 /* Initialized data at 0x80090FB0: the per-list display object renderers.
  *
@@ -21,7 +21,7 @@
 void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
     func_80040CAC,
     DisplayObject_RenderSpriteList,
-    func_80040814,
+    DisplayObject_RenderSpriteSheetList,
     func_80040BF8,
     DisplayObject_RenderGouraudQuadList,
     DisplayObject_RenderTexturedGouraudQuadList,
