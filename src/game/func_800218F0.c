@@ -61,7 +61,7 @@ void DuelScene_UpdateResultRewards(void)
         sound = 0x72E1;
         if (gDuel_bWinnerSide) {
             sound = 0x72F1;
-            opponent = *(u8 *)&gDuel_bOpponentID;
+            opponent = (u8)gDuel_bOpponentID;
             D_8009B355 = 1;
             D_8009B32E = (s8)opponent - 31960;
         }
