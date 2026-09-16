@@ -461,7 +461,7 @@ address,size,name,status,module,notes
 0x800379F8,0x60,func_800379F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037A58,0xE8,func_80037A58,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80037B40,0x134,func_80037B40,matching_c,game,Exact collaborator match: updated switch fallthrough structure and aggregate global declarations reproduce linked bytes and relocations.
-0x80037C74,0x6C,func_80037C74,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80037C74,0x6C,TextBox_WrapLineIfNeeded,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80037CE0,0x4C,func_80037CE0,matching_c,game,Pure-C post-terminal resolution: word-sized flags and byte-sized control locals recover the exact allocation without two pins. Preserves the volatile flag load and ordinary halfword store in the branch delay slot; exact 76-byte text and global relocations with gcc_2_8_1_g8 (issue #5).
 0x80037D2C,0x40,Text_ExtendGlyphCode,matching_c,game,Pure-C post-terminal match: ordered glyph-code accesses plus gcc_2_8_1_g8_no_sched1 reproduce the exact 64-byte stream/global sequence without four pins or three assembly barriers. Uses shared TextStreamOwner and publishes the extended code before completion; compiler and assembler both G8 (issue #5).
 0x80037D6C,0x38,Text_SetStateFromStream,matching_c,game,"High-confidence semantic name: F7 consumes one byte into the text channel state and yields the frame. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8."
