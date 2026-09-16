@@ -192,7 +192,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
 
     index = source->y * DUEL_FIELD_ROW_SIZE + source->x;
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_80040468(
+    DisplayObject_ConfigureSpriteResource(
         (u8 *)object,
         4,
         3,

@@ -57,7 +57,7 @@ glabel DuelScene_UpdateHandActions
     /* C634 8001BE34 0B000224 */  addiu      $v0, $zero, 0xB
     /* C638 8001BE38 1000A2AF */  sw         $v0, 0x10($sp)
     /* C63C 8001BE3C 0C020224 */  addiu      $v0, $zero, 0x20C
-    /* C640 8001BE40 1A01010C */  jal        func_80040468
+    /* C640 8001BE40 1A01010C */  jal        DisplayObject_ConfigureSpriteResource
     /* C644 8001BE44 1400A2AF */   sw        $v0, 0x14($sp)
     /* C648 8001BE48 08006296 */  lhu        $v0, 0x8($s3)
     /* C64C 8001BE4C 21206002 */  addu       $a0, $s3, $zero

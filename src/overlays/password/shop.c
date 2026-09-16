@@ -234,7 +234,7 @@ void Password_InitShopScreen(void)
     i = 0;
     do {
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_80040468(o, 3, 1, i, 11, 524);
+        DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
         *(u32 *)(o + 4) |= GsALON;
         func_80042918(o);
         func_800428EC(o, 8);

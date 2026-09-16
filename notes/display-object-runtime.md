@@ -38,7 +38,7 @@ slot with `DISPLAY_OBJECT_RENDERABLE_MASK`, the combination of
 `DISPLAY_OBJECT_FLAG_RENDERABLE` and `DISPLAY_OBJECT_FLAG_ALLOCATED`. Render
 and update passes require both bits before submitting visible content.
 
-`func_80040468` controls `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` from bit
+`DisplayObject_ConfigureSpriteResource` controls `DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET` from bit
 `0x8000` of its texture argument. The sprite builder at `0x8004158C` consumes
 that flag by adding the packed per-cell U/V nibble offsets to the object's base
 texture coordinates. Callers that set the composite former literal `0x28`
@@ -118,7 +118,7 @@ callers-only or partially shared signature.
 
 Coordinates remain **full-word inputs**. The implementation stores their
 low halfwords at object `+0x30/+0x32`, then forwards the five configuration
-words unchanged to `func_80040468`. Its old `s16` formals did not establish
+words unchanged to `DisplayObject_ConfigureSpriteResource`. Its old `s16` formals did not establish
 that all callers had already narrowed their coordinates. Most declarations
 were wide, and halfword source loads participate in promoted integer sums.
 Keeping `s32` inputs preserves those expressions without adding caller-side
@@ -127,7 +127,7 @@ sign-extension or truncation. This does not clamp or validate coordinates.
 The public parameter stays an opaque `void *`. Inside the function a local
 `DisplayObject *o` views it, and the two stores go through
 `o->field_30.h.field_30` and `o->field_30.h.field_32`. The unchanged
-`object` pointer is what gets forwarded to `func_80040468`. No new aggregate
+`object` pointer is what gets forwarded to `DisplayObject_ConfigureSpriteResource`. No new aggregate
 layout, null check, allocation or rendering submission is introduced. The
 delegate's existing selector-byte, packed-configuration and flag writes
 are unchanged; parameter names do not establish new artwork identities.

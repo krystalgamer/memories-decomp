@@ -149,7 +149,7 @@ void DuelScene_UpdateHandActions(void)
         B(side, 0xE) = 0;
         B(side, 0x15) = 0;
         o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_80040468(o, 3, 0, 2, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteResource(o, 3, 0, 2, 0xB, 0x20C);
         H(o, 8) |= 0x28;
         func_80042918((DisplayObject *)o);
         func_800428EC(o, 0xA);
