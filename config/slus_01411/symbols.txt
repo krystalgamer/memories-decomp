@@ -459,7 +459,10 @@ Dialog_HighlightChoice = 0x80036F80; // type:func
 Dialog_OpenChoice = 0x800374F4; // type:func
 TextBox_BuildStep = 0x800393B0; // type:func
 TextBox_SetPos = 0x80039934; // type:func
+DisplayObject_FindFreeGeneralSlot = 0x8004002C; // type:func
+DisplayObject_Release = 0x8004020C; // type:func
 DisplayObject_ResetPool = 0x80040390; // type:func
+DisplayObject_Reset = 0x800403F0; // type:func
 DisplayObject_ResetVelocity = 0x800429D8; // type:func
 DisplayObject_StepPositionX = 0x80042A00; // type:func
 DisplayObject_StepPositionY = 0x80042A28; // type:func
@@ -1342,6 +1345,25 @@ gPassword_nDigitIndex = 0x8016D428;
 PCread = 0x80073758; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
 Main_RunFrameServices = 0x8001306C; // type:func
+CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
+TextBox_WaitForScriptCompletion = 0x800377AC; // type:func
+NameEntry_LoadPackageStage = 0x8003BA14; // type:func
+DisplayObjectStream_Stop = 0x8004141C; // type:func
+DisplayObjectStream_ResetOffset = 0x80041428; // type:func
+DisplayObjectStream_Noop = 0x80041434; // type:func
+DisplayObject_SetResourceVariant = 0x80040410; // type:func
+DisplayObject_UpdateResourceVariant = 0x80040424; // type:func
+DisplayObject_SetResourcePath = 0x8004044C; // type:func
+Options_LoadPackageStage = 0x8003C120; // type:func
+File_RequestOptionsPackage = 0x8003C2B4; // type:func
+GameOver_LoadPackageStage = 0x8003C328; // type:func
+File_RequestGameOverPackage = 0x8003C498; // type:func
+Options_InitTextDisplay = 0x8003C4E0; // type:func
+Password_LoadPackageStage = 0x8003BD14; // type:func
+FreeDuel_LoadPackageStage = 0x8003B808; // type:func
+Main_PrepareFrontendLoop = 0x8002CDE8; // type:func
+DisplayPositionGroup_SetPosition = 0x8003A95C; // type:func
+File_SetTransferLocation = 0x80013940; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

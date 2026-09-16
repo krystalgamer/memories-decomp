@@ -3,6 +3,7 @@
 
 #include "../types.h"
 
+void Options_InitTextDisplay(s32 slot);
 void Options_UpdateLayout(s32 selection);
 
 #endif

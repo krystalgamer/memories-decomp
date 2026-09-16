@@ -2,7 +2,7 @@
 #include "sound.h"
 #include "sound_state_control.h"
 
-void func_8004695C(s32 value)
+void SD_SetSequenceVSyncMode(s32 value)
 {
     SDSecondaryState *state;
 
@@ -14,7 +14,7 @@ void func_8004695C(s32 value)
         state->flag_0500 = 0;
 }
 
-void func_80046990(s32 first, s32 second, s32 third)
+void SD_InitDataSourceFlags(s32 first, s32 second, s32 third)
 {
     g_SDValue->field_003C = 0;
     if (first == 0)

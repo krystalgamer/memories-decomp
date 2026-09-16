@@ -42,11 +42,11 @@
  *
  * The record's three 0x14-byte image slots are ScriptImageEntry records,
  * reached as ((ScriptImageEntry *)p)[0..2], and the object each one holds
- * is a DisplayObject. The mode halfword at +0x3C lies past the three slots
- * (script_image_objects.h) and stays a raw halfword.
+ * is a DisplayObject. ScriptImageObjectSet names the image-id halfword at
+ * +0x3C immediately after those three slots.
  */
 
-void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     s32 n;
     u8 *o;
     u8 *t;
@@ -55,58 +55,58 @@ void ScriptImage_RebuildObjects(u8 *p, s32 arg1) {
 
     n = arg1;
     if (n < 0) {
-        n = *(s16 *)(p + 0x3C);
+        n = p->image_id;
     }
-    *(s16 *)(p + 0x3C) = n;
+    p->image_id = n;
     if (n >= 0x200) {
-        o = func_800400AC(func_8004002C(), 3);
+        o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 3);
         func_80040510(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
         ((DisplayObject *)o)->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         ((DisplayObject *)o)->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        ((ScriptImageEntry *)p)->field_10 = 1;
-        ((ScriptImageEntry *)p)->pointer = o;
+        p->entries[0].field_10 = 1;
+        p->entries[0].pointer = o;
         t = &D_80090C00[n * 6];
-        ((ScriptImageEntry *)p)->value = 0;
+        p->entries[0].value = 0;
         if (t[0] & 1) {
-            ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[1],
+            ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
-            ((DisplayObject *)((ScriptImageEntry *)p)[1].pointer)
+            ((DisplayObject *)p->entries[1].pointer)
                 ->field_30.h.field_30 = t[1];
-            ((DisplayObject *)((ScriptImageEntry *)p)[1].pointer)
+            ((DisplayObject *)p->entries[1].pointer)
                 ->field_30.h.field_32 = t[2];
         }
         if (t[0] & 2) {
-            ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[2],
+            ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
-            ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)
+            ((DisplayObject *)p->entries[2].pointer)
                 ->field_30.h.field_30 = t[3];
-            ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)
+            ((DisplayObject *)p->entries[2].pointer)
                 ->field_30.h.field_32 = t[4];
-            ((ScriptImageEntry *)p)[2].value = t[5];
+            p->entries[2].value = t[5];
             if (t[0] & 0x80) {
-                ((DisplayObject *)((ScriptImageEntry *)p)[2].pointer)->flags |=
+                ((DisplayObject *)p->entries[2].pointer)->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
         }
     } else {
-        ScriptImage_CreateObject(p, 0x10, 0);
+        ScriptImage_CreateObject(&p->entries[0], 0x10, 0);
         if (n >= 0x100) {
             k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
             b = D_80090BA8;
             n = b[k * 2];
             if (n & 1) {
-                ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[1],
+                ScriptImage_CreateObject(&p->entries[1],
                                          0x12, 1);
             }
             if (n & 2) {
-                ScriptImage_CreateObject((u8 *)&((ScriptImageEntry *)p)[2],
+                ScriptImage_CreateObject(&p->entries[2],
                                          0x14, 2);
-                ((ScriptImageEntry *)p)[2].value = b[k * 2 + 1];
+                p->entries[2].value = b[k * 2 + 1];
             }
         } else {
-            ((ScriptImageEntry *)p)[1].pointer = 0;
-            ((ScriptImageEntry *)p)[2].pointer = 0;
+            p->entries[1].pointer = 0;
+            p->entries[2].pointer = 0;
         }
     }
 }

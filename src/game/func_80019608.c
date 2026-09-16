@@ -13,7 +13,7 @@
 #include "display_object_helpers.h"
 #include "file_transfer.h"
 #include "func_8001944C.h"
-#include "func_80019564.h"
+#include "duel_create_card_effect_overlay.h"
 #include "duel_magic_effect_dispatch.h"
 #include "func_800291E0.h"
 #include "duel_effect_resource_setup.h"
@@ -124,11 +124,11 @@ void DuelScene_UpdateCardUse(void)
             D_8009B174 = state | 0x80;
             func_8001944C((DisplayObject *)p);
             D_800E9EF0[0] =
-                func_80019564((DisplayObjectConfigView *)p);
+                Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
             D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute | (GsALON | GsAONE);
             D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute & ~GsROTOFF;
             D_800E9EF0[1] =
-                func_80019564((DisplayObjectConfigView *)p);
+                Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
             func_800428EC((u8 *)D_800E9EF0[1], -1);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;

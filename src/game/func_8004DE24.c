@@ -12,6 +12,8 @@
 #include "ordering_tables.h"
 
 #define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
+#define BACKGROUND_FIELD_A8 \
+    (((ModelBackgroundRecord *)D_8009AF88)->field_A8)
 
 void func_8004DE24(void)
 {
@@ -45,7 +47,7 @@ void func_8004DE24(void)
     s32 second_depth;
 
     vbase = D_8009AF88[0xAC];
-    ubase = (H(0xAA) & 0x3F) << (2 - ((H(0xA8) >> 13) & 3));
+    ubase = (H(0xAA) & 0x3F) << (2 - ((BACKGROUND_FIELD_A8 >> 13) & 3));
     height = slot->field_D18->matrix.t[1] + 300;
     if (!slot->field_E1F)
         return;
@@ -54,7 +56,7 @@ void func_8004DE24(void)
         return;
     func_8004E7B0(0);
     sprite.attribute = 0;
-    if (H(0xA8) & 0xE000)
+    if (BACKGROUND_FIELD_A8 & 0xE000)
         sprite.attribute = 0x01000000;
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->field_D70[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->field_D70[1]);
@@ -62,7 +64,7 @@ void func_8004DE24(void)
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
     GsSetLightMatrix(&D_800F56A0.matrix);
     NormalColorCol(&normals.values[0], &colors[0], (CVECTOR *)&sprite.r);
-    sprite.tpage = ((H(0xA8) >> 6) & 0x180) |
+    sprite.tpage = ((BACKGROUND_FIELD_A8 >> 6) & 0x180) |
         ((H(0xAC) & 0x100) >> 4) | ((H(0xAA) & 0x3FF) >> 6) |
         ((H(0xAC) & 0x200) << 2);
     sprite.cx = H(0xAE);
@@ -74,7 +76,7 @@ void func_8004DE24(void)
     sprite.v = vbase;
     sprite.h = 256;
     sprite.y = y;
-    minimum_y = -(H(0xA8) & 0x1FFF);
+    minimum_y = -(BACKGROUND_FIELD_A8 & 0x1FFF);
     if ((s16)pitch_bits >= minimum_y && y >= minimum_y) {
         if (y > 0)
             sprite.y = 0;
@@ -84,7 +86,7 @@ void func_8004DE24(void)
         }
         {
             s32 end = sprite.y + 256;
-            s32 edge = (H(0xA8) & 0x1FFF) + (s16)pitch_bits;
+            s32 edge = (BACKGROUND_FIELD_A8 & 0x1FFF) + (s16)pitch_bits;
             s32 full_height;
             s32 amount;
             if (edge < 241) {
@@ -94,13 +96,14 @@ void func_8004DE24(void)
                 goto second_clip;
             }
             full_height = sprite.h;
-            amount = sprite.y + full_height - ((H(0xA8) & 0x1FFF) + D_8009AF90);
+            amount = sprite.y + full_height -
+                ((BACKGROUND_FIELD_A8 & 0x1FFF) + D_8009AF90);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 second_clip:
         {
             s32 end = sprite.v + sprite.h;
-            s32 edge = H(0xA8) & 0x1FFF;
+            s32 edge = BACKGROUND_FIELD_A8 & 0x1FFF;
             s32 full_height;
             s32 amount;
             if ((u32)edge < 241) {
@@ -112,7 +115,8 @@ second_clip:
                 goto tiles;
 trim_texture:
             full_height = sprite.h;
-            amount = sprite.v + full_height - (H(0xA8) & 0x1FFF);
+            amount =
+                sprite.v + full_height - (BACKGROUND_FIELD_A8 & 0x1FFF);
             sprite.h = full_height - (amount < full_height ? amount : full_height);
         }
 tiles:
@@ -208,3 +212,5 @@ advance:
         vertices[6] = vertices[7];
     } while (phase <= 4096);
 }
+
+#undef BACKGROUND_FIELD_A8

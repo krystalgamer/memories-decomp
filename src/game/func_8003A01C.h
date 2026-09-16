@@ -27,6 +27,10 @@
  * `p->phase_size = 48 * FILE_SECTOR_SIZE;` is fine because the larger
  * constant needs its own
  * lui/ori either way. */
+void DisplayEffect_LoadResourceStage(
+    FileTransferDescriptor *descriptor, s32 mode);
+
+/* Compatibility symbol used by the independently owned installer. */
 void func_8003A01C(FileTransferDescriptor *descriptor, s32 mode);
 
 #endif

@@ -20,7 +20,7 @@
 #include "display_object_motion.h"
 #include "display_object_core.h"
 #include "func_8001944C.h"
-#include "func_80019564.h"
+#include "duel_create_card_effect_overlay.h"
 #include "func_800291E0.h"
 #include "duel_effect_allocate_request.h"
 #include "duel_effect.h"
@@ -125,10 +125,14 @@ void DuelEffect_ApplyRitual(void)
             if ((s32)((u32)timer << 16) <= 0) {
                 D_8009B210 |= 0x40;
                 func_8001944C(object);
-                D_800E9EF0.slots[0] = func_80019564((DisplayObjectConfigView *)object);
+                D_800E9EF0.slots[0] =
+                    Duel_CreateCardEffectOverlay(
+                        (DisplayObjectConfigView *)object);
                 D_800E9EF0.slots[0]->attribute |= 0x50000000;
                 D_800E9EF0.slots[0]->attribute &= ~0x08000000;
-                D_800E9EF0.slots[1] = func_80019564((DisplayObjectConfigView *)object);
+                D_800E9EF0.slots[1] =
+                    Duel_CreateCardEffectOverlay(
+                        (DisplayObjectConfigView *)object);
                 func_800428EC((u8 *)D_800E9EF0.slots[1], -1);
                 D_800E9EF0.slots[1]->attribute |= 0x60000000;
                 D_800E9EF0.slots[1]->attribute &= ~0x08000000;

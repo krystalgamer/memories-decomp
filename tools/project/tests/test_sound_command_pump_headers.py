@@ -40,7 +40,7 @@ DECLARATIONS = [
     ),
     (
         "sound.h",
-        "func_80045484",
+        "SD_HasQueuedStreamCommand",
         "s32 (*checked)(void)",
         "u8 (*checked)(void)",
     ),
@@ -62,7 +62,7 @@ CALL_ARGUMENTS = {
     "func_80045514": "",
     "func_800476B4": "0, 0",
     "SD_ArmBusyCallback": "",
-    "func_80045484": "",
+    "SD_HasQueuedStreamCommand": "",
     "SD_OpenSequence": "0, 0",
     "SD_PlaySequence": "1",
 }
@@ -202,7 +202,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     "void checked(void) {\n"
                     "  func_800476B4((SDSeqBlock *)0, (u32)0);\n"
                     "  SD_ArmBusyCallback();\n"
-                    "  (void)func_80045484();\n"
+                    "  (void)SD_HasQueuedStreamCommand();\n"
                     "  (void)SD_OpenSequence((u8 *)0, (s16)0);\n"
                     f"  func_800498F8({arguments});\n"
                     f"  SD_StopSequence({arguments});\n"
@@ -215,7 +215,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
         for source, header in (
             ("src/game/sound_pending_entries.c", "sound_pending_entries.h"),
             ("src/game/sd_arm_busy_callback.c", "sound_output_state.h"),
-            ("src/game/func_80045484.c", "sound.h"),
+            ("src/game/sd_has_queued_stream_command.c", "sound.h"),
             ("src/game/sound_secondary_playback.c", "sound.h"),
             ("src/game/sound_secondary_playback.c", "sound_sequence_timing.h"),
         ):

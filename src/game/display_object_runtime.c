@@ -29,29 +29,35 @@ void func_80041340(void)
 
 /* The seven display-object stream opcode handlers, entries 0 through 6 of
    D_80090FEC in model_record_tables.c, which func_80041C8C dispatches as
-   table[op ^ 0xFF] for opcodes 0xFF down to 0xF9: the counter resets, the
-   no-op, the two jumps, the random jump, and the four-operand attribute
-   command. Each reads its operands from the object's stream and returns
-   whether the interpreter should keep going.
+   table[op ^ 0xFF] for opcodes 0xFF down to 0xF9: the stream stop, counter
+   reset, no-op, two jumps, random jump, and four-operand attribute command.
+   Each reads its operands from the object's stream and returns whether the
+   interpreter should keep going.
 
    The three former sources were recorded at gcc_2_8_1_g8 and
    gcc_2_8_1_g8_split, and every member compiles to an identical object at
    gcc_2_8_1_g8_split. Together with the contiguous frame renderer above,
    this is the complete matching run between unmatched display-object code. */
 
-s32 func_8004141C(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
 {
     object->field_5A = 0;
     return -1;
 }
 
-s32 func_80041428(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_ResetOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     object->field_58 = 0;
     return 1;
 }
 
-s32 func_80041434(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_Noop(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     return 1;
 }

@@ -474,9 +474,9 @@ typedef char DisplayObject_field_65_must_be_at_0x65[
  * cursor started at this address, which is what says the seven halfwords are
  * one array rather than seven objects that happen to be adjacent.
  */
-/* The list walk's rerun request. func_80029108 sets it to 1 after changing an
- * object's config, and the two list renderers clear it before their pass and
- * test it at the end -- func_80040588's inventory row calls that its
+/* The list walk's rerun request. CardPreview_UpdateVariant sets it to 1 after
+ * changing an object's config, and the two list renderers clear it before
+ * their pass and test it at the end -- func_80040588's inventory row calls that its
  * "while(1)/continue rerun loop". So it is state of the walk over the lists
  * declared just below, which is why it is declared here rather than beside
  * either renderer. */
@@ -500,7 +500,7 @@ extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];
 /* &D_800EFE48[DISPLAY_OBJECT_RESERVED_CAPACITY]: the allocatable tail of the
- * same pool, which func_8004002C scans. */
+ * same pool, which DisplayObject_FindFreeGeneralSlot scans. */
 extern DisplayObject D_800F0548[
     DISPLAY_OBJECT_POOL_CAPACITY - DISPLAY_OBJECT_RESERVED_CAPACITY
 ];
@@ -508,7 +508,7 @@ extern DisplayObject D_800F0548[
 /* Two counters the pool keeps beside the tables above. func_800400AC bumps
  * D_8009B412 once it has picked a slot, after reading the slot's
  * ALLOCATED flag and before testing it, so it counts every allocation
- * request that reached a slot, initialised or not; func_8004020C bumps
+ * request that reached a slot, initialised or not; DisplayObject_Release bumps
  * D_8009B410 after reading the slot's previous and next links
  * (display_object_core.h calls it the unlink counter). DisplayObject_ResetPool
  * stores 0 into both beside its -1 fill of D_800EFE38 and D_800F2878.

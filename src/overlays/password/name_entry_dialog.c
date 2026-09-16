@@ -73,7 +73,7 @@ void NameEntry_UpdateDialog(void)
                     func_80039794();
                 } while (box->field_30 == 0);
             }
-            caret = func_800400AC(func_8004002C(), 2);
+            caret = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800404CC(caret, 16, 248, 0, 0, 0, 23, 257);
             func_80042918(caret);
             func_800428EC(caret, 19);

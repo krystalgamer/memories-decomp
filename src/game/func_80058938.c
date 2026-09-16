@@ -3,7 +3,7 @@
 #include "model.h"
 
 void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
-                   s32 a4, s32 bits)
+                   s32 a4, const u8 *bits)
 {
     ModelSlot *slot;
     ModelTintRequest *r;
@@ -45,7 +45,7 @@ void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
             r->start = a2;
             r->end = a3;
             for (; mode < 8; mode++) {
-                base[mode + sel + 1] = bits ? *(u8 *)(bits + mode) : fill;
+                base[mode + sel + 1] = bits ? bits[mode] : fill;
             }
             break;
         }

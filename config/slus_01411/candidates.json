@@ -16,7 +16,7 @@
       "profile": "gcc_2_8_1_g0",
       "source": "src/candidates/func_80015EF4.c",
       "target": "src/candidates_target/func_80015EF4.S",
-      "candidate_build_sha256": "a2e1135b1841480b0ada1371841bcf0b6511ac66a0e9278198245c1996328d12",
+      "candidate_build_sha256": "eb161957346ffc48781031473d8a3ca064839d4e0194706bc626cd4ee8f965e9",
       "target_bytes_sha256": "fb778d5b8fd339ec778dd8af114d28b77b2127795c4c33aa0bd4e9bade3b312f",
       "canonical_contract_sha256": "e50589b02957e6ad949c5d96f41748bd05ecc1c34bc849b92da1d02acd7199a2",
       "canonical_contracts": {
@@ -28,7 +28,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8001BD88.c",
       "target": "src/candidates_target/func_8001BD88.S",
-      "candidate_build_sha256": "1d17eabd229dc2696d4184bd15c0f3fd4d699eec31d220ef820bdf06e113cd3c",
+      "candidate_build_sha256": "602354c36ce5362333971b0cbb7e2246438b086b1e0bcdd225eab2cc1c19fd07",
       "target_bytes_sha256": "62bdb7bf251ed0efd1c5060dfabf40c2ce783c315a21863bd86640162e8258b4",
       "canonical_contract_sha256": "00f014fd47aaf5e9c9a48779038c433b01a2a61037ecb5115352f7c84441530d",
       "canonical_contracts": {
@@ -50,7 +50,7 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "source": "src/candidates/func_8001D670.c",
       "target": "src/candidates_target/func_8001D670.S",
-      "candidate_build_sha256": "eaf849af17458dd6a80b59253f7a59aa928b1efb047b79a71860184066e503dd",
+      "candidate_build_sha256": "bfb87bee6bd2939aa1e8837dc06c61218137d2c4687fbdeff427467045d79f57",
       "target_bytes_sha256": "47c9b08eb4dd84c67c5b4a6253a48b0116863fa5096852e41c3eca87a1794a04",
       "canonical_contract_sha256": "9a551f1c8674272eb450b5f60eb39a9f267dee6ca2d3fcae286b83d872d4da66",
       "canonical_contracts": {
@@ -102,7 +102,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_800283F4.c",
       "target": "src/candidates_target/func_800283F4.S",
-      "candidate_build_sha256": "b7dad2eecd0087d418f639619b1d65c0e8ec2cf533f12e2b9bbfb71f04487b3e",
+      "candidate_build_sha256": "1eab3ee9f7acbb4a23b07249b27ae5ad19efd38b48c4785a922f7ffb3472200e",
       "target_bytes_sha256": "191b87b8e0c76c75d48fdc5d2424a092de52e53d72d52aea73557b3db53a7df1",
       "canonical_contract_sha256": "c5259613e2694eb340554630240d0d5e8d686e99b716015c2973dc10adbe7ce3",
       "canonical_contracts": {
@@ -149,7 +149,7 @@
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "source": "src/candidates/func_8002ACA4.c",
       "target": "src/candidates_target/func_8002ACA4.S",
-      "candidate_build_sha256": "d36ee7df1d60abb13eb8c6b0f6660c35648ca7ec87aa416aaf2f9288b68a31a2",
+      "candidate_build_sha256": "8e8959c4e370d6f3b6d03a7d7abe7258a7069ddc05359aa2db1000a5ae66db6b",
       "target_bytes_sha256": "0f98b7a352d9b1c31034ae1ae2c3ff2d9d1edf528c99da40727b793a2bbe2e37",
       "canonical_contract_sha256": "8292679db39386e85e08497f53bc855fb582dcdea8c05573e9632ea659dfc9cd",
       "canonical_contracts": {
@@ -161,7 +161,7 @@
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "source": "src/candidates/func_800323F8.c",
       "target": "src/candidates_target/func_800323F8.S",
-      "candidate_build_sha256": "13271b15a43f0c2f2bdb756a0408f709c9346d0aadf988b5e56fe7793bfa290e",
+      "candidate_build_sha256": "aea6beb15f58facc77e662aadad6744baeb4ae56fb40344ff5db9628c14a01b8",
       "target_bytes_sha256": "b5dfe06851052e90a62d06b6172bbce5cd24ce541eb8f38dfa572c947f67c677",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}

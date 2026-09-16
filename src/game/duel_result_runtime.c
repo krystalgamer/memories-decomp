@@ -83,7 +83,7 @@ void func_80020D4C(DisplayObject *arg0) {
     }
 
     if (D_8009B0CC & 1) {
-        slot = func_800400AC(func_8004002C(), 2);
+        slot = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         if (slot != 0) {
             func_800428A8(slot, (s16)arg0->field_30.h.field_30,
                                    (s16)arg0->field_30.h.field_32, 0,
@@ -249,7 +249,7 @@ void DuelScene_UpdateResultOutro(void)
                 }
                 slots[i].object = 0;
                 if (spec->kind != 0) {
-                    obj = func_800400AC(func_8004002C(), 2);
+                    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
                     func_800428A8(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
                                   D_801AF000);
@@ -336,7 +336,7 @@ void Duel_ShowResultPage(s32 page)
     DisplayObject *child;
     void *object;
 
-    func_80040410((DisplayObjectConfig *)D_8009B1E8->root, page);
+    DisplayObject_SetResourceVariant((DisplayObjectConfig *)D_8009B1E8->root, page);
     if (page == 0) {
         DuelResultDisplayState *state = D_8009B1E8;
 

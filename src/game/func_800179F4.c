@@ -30,7 +30,7 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "duel_action_lock.h"
-#include "func_80016D04.h"
+#include "duel_draw_card_output_position.h"
 #include "func_80016778.h"
 #include "../unmatched.h"
 #include "func_800179F4.h"
@@ -118,7 +118,7 @@ void func_800179F4(void)
     File_WaitForTransfers();
     D_8009B22C =
         &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     func_80042918(obj);
     /* Both of this function's flag merges go through the member's address
@@ -136,7 +136,7 @@ void func_800179F4(void)
     *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
     D_8009B214 = obj;
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(
         obj, 280, 32, 4, side, 0, 11, 748
     );
@@ -146,7 +146,7 @@ void func_800179F4(void)
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
     D_8009B21C = obj;
-    obj = func_800400AC(func_8004002C(), 6);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
     func_80042918(obj);
     func_800428EC((u8 *)obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;

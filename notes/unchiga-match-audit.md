@@ -40,7 +40,7 @@ The collaborator sources were treated as hypotheses and compiled with the local 
 | `0x80041D60` | `func_80041D60` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044DC0` | `func_80044DC0` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80044FFC` | `func_80044FFC` | `inline_refinement` | `gcc_2_8_1_g8` |
-| `0x80045484` | `func_80045484` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
+| `0x80045484` | `SD_HasQueuedStreamCommand` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x8004763C` | `func_8004763C` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80047FAC` | `func_80047FAC` | `collaborator_match` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
 | `0x80049010` | `func_80049010` | `inline_refinement` | `gcc_2_8_1_cc_g0_as_g8_no_split` |
@@ -89,7 +89,7 @@ as `post_terminal_resolution`.
 | `0x80035DF4` | `DuelEffect_ResetEntryMarkers` | `inline_refinement` | `+0x8: 88b24224 != a0b24224` |
 | `0x8003735C` | `DuelEffect_HasActiveEntry` | `inline_refinement` | `+0x2: 5c008294 != 5c008394` |
 | `0x800400AC` | `func_800400AC` | `collaborator_match` | `+0x9: 2148a000 != 2140a000` |
-| `0x8004020C` | `func_8004020C` | `collaborator_match` | `+0x6: 00008384 != 00008584` |
+| `0x8004020C` | `DisplayObject_Release` | `collaborator_match` | `+0x6: 00008384 != 00008584` |
 | `0x800428EC` | `func_800428EC` | `collaborator_match` | `+0x4: 6c008327 != 160085a0` |
 | `0x80044CFC` | `MemCard_SetIOResultCompleteCB` | `inline_refinement` | `+0x2: 0a80023c != 0a80013c` |
 | `0x80044D0C` | `MemCard_SetIOResultTimeoutCB` | `inline_refinement` | `+0x0: 0a80033c != 01000224` |

@@ -11,7 +11,7 @@
 void Main_ResetFrontendRuntime(void)
 {
     D_8009B0C0 = 0;
-    func_800403F0();
+    DisplayObject_Reset();
     func_80035A64();
     func_80039E9C();
     func_800134B4();

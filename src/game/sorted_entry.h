@@ -3,17 +3,17 @@
 
 #include "../types.h"
 
-/* The list of pending eight-byte entries that func_800355C8 sorts and whose
- * inverse index links it rebuilds.
+/* The list of pending eight-byte entries that SortedEntry_SortAndRelink sorts
+ * and whose inverse index links it rebuilds.
  *
  * func_80035680 opens the list: it points both the base D_8009B304 and the
  * append pointer D_8009B310 at the same address and zeroes the count
  * D_8009B314.  func_80033CF8 appends one entry per call, advancing D_8009B310
  * by one entry and bumping D_8009B314, so the live entries are always
- * [D_8009B304, D_8009B310).  func_800355C8 sorts them, writes the inverse
- * links, and resets D_8009B310 back to the base.
+ * [D_8009B304, D_8009B310). SortedEntry_SortAndRelink sorts them, writes the
+ * inverse links, and resets D_8009B310 back to the base.
  *
- * The comparator func_80035598 compares the u32 at offset 0 of an entry.  On
+ * SortedEntry_Compare compares the u32 at offset 0 of an entry. On
  * this target that word holds `distance` in the high halfword and `packed` in
  * the low one, so the order is ascending by distance, ties broken by `packed`.
  */
@@ -27,8 +27,8 @@ typedef struct {
     /* The value of D_8009B314 when the entry was appended, i.e. the entry's
      * position in append order. */
     s16 append_index;
-    /* Written by func_800355C8, which stores each entry's sorted position
-     * into the slot named by that entry's append_index. */
+    /* Written by SortedEntry_SortAndRelink, which stores each entry's sorted
+     * position into the slot named by that entry's append_index. */
     s16 sorted_position;
 } SortedEntry;
 
@@ -56,16 +56,16 @@ extern SortedEntry *D_8009B304 __attribute__((section(".data")));
 #else
 extern SortedEntry *D_8009B304;
 #endif
-/* The entry count, saved by func_800355C8 across the sort and compared
- * against D_8009B314 by the walk in func_800164FC. */
+/* The entry count, saved by SortedEntry_SortAndRelink across the sort and
+ * compared against D_8009B314 by the walk in func_800164FC. */
 #ifdef SORTED_ENTRY_STATE_IN_DATA
 extern u32 D_8009B308 __attribute__((section(".data")));
 #else
 extern u32 D_8009B308;
 #endif
 /* Flag word.  func_80035680 sets bit 2 when it opens the list and
- * func_800355C8 clears it again.  func_800164FC tests bit 1 and clears bits
- * 0 and 1; nothing in the decompiled tree sets either of those two, so what
+ * SortedEntry_SortAndRelink clears it again. func_800164FC tests bit 1 and
+ * clears bits 0 and 1; nothing in the decompiled tree sets either, so what
  * raises the flag it tests is not known here.  func_80035668 writes the word
  * wholesale, and both of its call sites pass 0. */
 #ifdef D_8009B30C_AS_SIGNED_DATA
@@ -81,5 +81,6 @@ extern u32 D_8009B314;
 #endif
 
 void func_80033CF8(s32 dx, s32 dy, s32 dz);
+void SortedEntry_SortAndRelink(void);
 
 #endif

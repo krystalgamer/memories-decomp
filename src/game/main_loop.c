@@ -11,7 +11,7 @@
 #include "main_mode_state.h"
 
 void Main_Loop(void) {
-    func_8002CDE8();
+    Main_PrepareFrontendLoop();
     for (;;) {
         u8 v;
         func_80012D4C();

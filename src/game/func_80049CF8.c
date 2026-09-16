@@ -12,8 +12,9 @@
 #define D_8009B458_IN_DATA
 #include "../types.h"
 #include "sound.h"
+#include "sound_secondary_voice_levels.h"
 
-void func_80049CF8(void)
+void SD_MuteSecondaryVoices(void)
 {
     SpuVoiceAttr packet;
     SDSecondaryState *initial = D_8009B458;
@@ -76,7 +77,7 @@ void func_80049CF8(void)
  * The SDK mask selects only the initialized voice and cached volume fields.
  */
 
-void func_80049DD8(void)
+void SD_RestoreSecondaryVoiceVolumes(void)
 {
     SpuVoiceAttr packet;
     SDSecondaryState *initial = D_8009B458;

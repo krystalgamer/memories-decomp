@@ -42,7 +42,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
     }
 }
 
-void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value)
 {
     s32 index;
     s32 mode;
@@ -51,7 +52,7 @@ void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
     FileTransferDescriptor *object;
 
     if (owner) {
-        *(s16 *)(owner + 0x3C) = value;
+        owner->image_id = value;
     }
 
     index = ((value >> 4) & 15) * 10 + (value & 15);
@@ -81,11 +82,12 @@ void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value)
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-void ScriptImage_ReleaseObjects(ScriptImageEntry *entries)
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 {
+    ScriptImageEntry *entries = set->entries;
     s32 i;
 
-    *(s16 *)((u8 *)entries + 0x3C) = -1;
+    set->image_id = -1;
     for (i = 0; i < 3; i++, entries++) {
         func_8004036C(entries->pointer);
         entries->pointer = 0;
@@ -93,22 +95,22 @@ void ScriptImage_ReleaseObjects(ScriptImageEntry *entries)
     }
 }
 
-void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode)
+void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
 {
-    ScriptImageEntry *entry = (ScriptImageEntry *)owner;
-    DisplayObject *object = func_800400AC(func_8004002C(), 2);
+    ScriptImageEntry *record = entry;
+    DisplayObject *object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
 
     func_800404CC(object, 0, 0, 2, 0, 0, size, mode);
     func_800428EC((u8 *)object, (s8)mode);
-    entry->field_10 = 1;
+    record->field_10 = 1;
     if (mode == 2) {
-        entry->value = 1;
+        record->value = 1;
         object->attribute |= (GsALON | GsAONE);
     } else {
-        entry->value = 0;
+        record->value = 0;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     }
-    /* Through the parameter rather than entry: with every store on entry,
+    /* Through the parameter rather than record: with every store on record,
        GCC keeps a second copy of the pointer and six instructions change. */
-    ((ScriptImageEntry *)owner)->pointer = object;
+    entry->pointer = object;
 }

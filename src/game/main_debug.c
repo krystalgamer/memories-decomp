@@ -9,7 +9,7 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
-void func_8002CDE8(void)
+void Main_PrepareFrontendLoop(void)
 {
     Main_ResetFrontendRuntime();
 }

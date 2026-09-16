@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "model.h"
+#include "model_background.h"
 #include "model_graphics_state.h"
 #include "func_8004E7B0.h"
 
@@ -45,7 +46,7 @@ void func_8004E7B0(s32 force)
         }
     }
     if (force != 0 || dy != 0) {
-        m = *(u16 *)(D_8009AF88 + 0xA6);
+        m = ((ModelBackgroundRecord *)D_8009AF88)->texture_width;
         D_8009AF8E = (dy * 1280 / 384 + D_8009AF8E + m) % m;
     }
     if (force != 0 || dz != 0) {

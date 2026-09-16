@@ -24,7 +24,8 @@
    that places its two cursor objects, the init that creates them, and the
    input handler and per-frame dispatcher that drive it. All five work on the
    gOptions_* state options.h describes, and each is reached from the one
-   after it - Options_Init calls func_8003C4E0 and Options_UpdateLayout,
+   after it - Options_Init calls Options_InitTextDisplay and
+   Options_UpdateLayout,
    Options_HandleInput calls Options_UpdateLayout on every output-type change,
    and Options_Update dispatches to Options_HandleInput.
 
@@ -35,7 +36,7 @@
    .data arm of that declaration, which leaves the assembler threshold with
    nothing to decide. */
 
-void func_8003C4E0(s32 arg0) {
+void Options_InitTextDisplay(s32 arg0) {
     u8 *t = gText_abColorSlots;
     t[0]=4; t[1]=4; t[2]=4; t[3]=4; t[4]=4;
     t[arg0]=0;
@@ -72,11 +73,11 @@ void Options_UpdateLayout(s32 selection) {
     }
 }
 
-/* Creates 3 objects via func_800400AC(func_8004002C(),
+/* Creates 3 objects via func_800400AC(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg func_800428A8 setup
    plus a func_800428EC(obj1, -5), then sets the options state and output type
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
-   is set) and calls func_8003C4E0(0); obj2 gets an
+   is set) and calls Options_InitTextDisplay(0); obj2 gets an
    8-arg func_800404CC setup and is stashed in D_8009B388;
    obj3 gets a 10-arg func_80040510 setup. Finally Options_UpdateLayout is called
    with the selection flag (set to 0 earlier), D_8009B380 is set to obj3,
@@ -94,7 +95,7 @@ void Options_Init(void) {
     s32 s0;
     s32 s2;
 
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     s2 = 0x10;
     func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
     func_800428EC((u8 *)obj, -5);
@@ -109,16 +110,16 @@ void Options_Init(void) {
         }
     }
     gOptions_bSelection = 0;
-    func_8003C4E0(0);
+    Options_InitTextDisplay(0);
 
-    obj = func_800400AC(func_8004002C(), 2);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     s0 = 0xB;
     func_800404CC(obj, 0x18, 0x48, 3, 4, 0, s0, 0x20C);
     D_8009B388 = obj;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
-    obj = func_800400AC(func_8004002C(), 1);
+    obj = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 1);
     func_80040510((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
 
     {

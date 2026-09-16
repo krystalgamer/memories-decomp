@@ -309,7 +309,7 @@ void func_8005C1F4(void) {
     }
     dst = D_8009B498 + D_8009B067 * 8 + 0x40000;
     src = D_8009B498 + 0x40000;
-    *(RECT *)(dst + 0x2400) = *(RECT *)(src + 0x2428);
+    ((MovieWorkArea *)dst)->slots[0] = ((MovieWorkArea *)src)->strip;
     idx = D_8009B067;
     LoadImage((RECT *)(D_8009B498 + 0x42400 + idx * 8),
               (u32 *)(D_8009B498 + 0x37000 + idx * 0x2D00));

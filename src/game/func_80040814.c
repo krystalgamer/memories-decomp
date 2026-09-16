@@ -31,7 +31,10 @@ void func_80040814(void) {
             if (((p->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 func_80041D60((DisplayObject *)q);
-                func_8004158C((DisplayObject *)q, (s32)t[p->ot_index], *(s16 *)(q + 0x14));
+                func_8004158C(
+                    (DisplayObject *)q, (s32)t[p->ot_index],
+                    (s16)p->field_14
+                );
             }
         } while (i >= 0);
     }

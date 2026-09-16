@@ -4,13 +4,22 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
+typedef struct {
+    ScriptImageEntry entries[3];
+    s16 image_id;
+} ScriptImageObjectSet;
+
+typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
+    (u32)&((ScriptImageObjectSet *)0)->image_id == 0x3C ? 1 : -1
+];
+
 /* Three of the scene script's image slots at D_800EAE98, as
  * ScriptImage_ReleaseObjects
  * releases them: a display-object pointer and the image id that filled it.
  * This is not the whole slot table -- the same function writes the mode
- * halfword at +0x3C, past these three entries -- and the callers hold their
- * own wider views under their own names. The shared ScriptImageEntry layout
- * is defined in ygo_types.h. */
+ * halfword in ScriptImageObjectSet after these three entries -- and the
+ * callers hold their own wider views under their own names. The shared
+ * ScriptImageEntry layout is defined in ygo_types.h. */
 /* Transfer callback for one script image. The loader supplies its
  * FileTransferDescriptor and advances the callback stage through the setup
  * phases. */
@@ -20,14 +29,15 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
  * two nibbles are the index, and the third selects one of three tables with
  * its own sector stride (0x21, 0x51 or 0x71) -- any other mode returns without
  * requesting anything. `owner` may be null; when it is not, the id is recorded
- * at its +0x3C first. The parameter is volatile in the definition, so that
+ * in image_id first. The parameter is volatile in the definition, so that
  * store is not merged with the caller's own writes to the same record. */
-void ScriptImage_RequestTransfer(volatile u8 *owner, s32 value);
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value);
 
 /* Releases the three image slots: each pointer goes to func_8004036C and both
- * words are zeroed, and the mode halfword at +0x3C is set to -1 first so the
- * next request treats the record as empty. */
-void ScriptImage_ReleaseObjects(ScriptImageEntry *entries);
+ * words are zeroed, and image_id is set to -1 first so the next request
+ * treats the record as empty. */
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
 
 /* Builds one display object for a script image and stores it at `owner`, a
  * ScriptImageEntry, with `size` the object's request size and `mode`
@@ -36,6 +46,6 @@ void ScriptImage_ReleaseObjects(ScriptImageEntry *entries);
  * also sets the entry's field_10. ScriptImage_RebuildObjects is the only
  * caller outside this unit, and called it with no prototype at all before
  * this header. */
-void ScriptImage_CreateObject(u8 *owner, s32 size, s32 mode);
+void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode);
 
 #endif

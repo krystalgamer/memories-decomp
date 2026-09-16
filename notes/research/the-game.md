@@ -100,7 +100,7 @@ sets the bit by default and clears it with that modifier.
 The script and text handlers use `0x4000` to select a write rather than a
 test, stripping that command bit while preserving `0x8000`. Thus encoded
 writes `0x4000 | id` and `0xC000 | id` set and clear respectively.
-Matching [`func_8002CD48`](../../src/game/func_8002CD48.c) applies a change
+Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_ensure_story_flag.c) applies a change
 only when the requested predicate was false and returns the **prior** test
 result. Its zero return after applying a change is not an error code.
 These are encoding and operation contracts, not new meanings assigned to
@@ -1054,7 +1054,7 @@ caller-side handover in section 5.10 establishes a use of `0x309` for
 
 Initialization and polling occupy separate branches. On later calls,
 mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
-`func_800534B8`. A nonzero result calls `SD_KeyOffVoiceSlots` and
+`ModelDebug_UpdateController`. A nonzero result calls `SD_KeyOffVoiceSlots` and
 `SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
 `D_8009B269`, rather than hard-coding a return to duel mode. The subsequent
 `func_80059CE4` call runs on this polling branch even when completion has
@@ -2368,7 +2368,7 @@ first-sector constants (`0x1690`, `0x1E88`, `0x1EDF`, `0x1F2F`,
 `0x1FA7`, `0x2115`, `0x2147`, `0x2157`, `0x2189`, one indexed at `0x1FD9`).
 
 **The duel blob.** Starting a duel submits one asynchronous range request for
-**235 sectors at sector `0x16C6 + 235 × terrain`** [`func_8001798C`]. This is
+**235 sectors at sector `0x16C6 + 235 × terrain`** [`Duel_LoadTerrainPackage`]. This is
 one high-level transfer request, not evidence that the drive consumes the whole
 range in one low-level CD operation. Its `Duel_LoadPackageStage` callback
 handles stage indices 0 through 12; those thirteen chunk sizes sum to exactly

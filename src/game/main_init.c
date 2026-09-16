@@ -70,7 +70,7 @@ s32 Main_Init(void)
     gGraphics_pActiveFrameBuffer = p;
     D_8009B0C4 = t;
     func_80013154(p);
-    func_800403F0();
+    DisplayObject_Reset();
     Fade_Init();
     func_800134B4();
     Movie_ResetPlaybackState();

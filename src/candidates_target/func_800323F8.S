@@ -224,7 +224,7 @@ glabel func_800323F8
     /* 22F1C 8003271C 5DFF4014 */  bnez       $v0, .L80032494
     /* 22F20 80032720 4463D626 */   addiu     $s6, $s6, 0x6344
     /* 22F24 80032724 F403968F */  lw         $s6, %gp_rel(D_8009B2FC)($gp)
-    /* 22F28 80032728 0B00010C */  jal        func_8004002C
+    /* 22F28 80032728 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22F2C 8003272C 04001324 */   addiu     $s3, $zero, 0x4
     /* 22F30 80032730 21204000 */  addu       $a0, $v0, $zero
     /* 22F34 80032734 2B00010C */  jal        func_800400AC
@@ -241,7 +241,7 @@ glabel func_800323F8
     /* 22F60 80032760 1800B2AF */  sw         $s2, 0x18($sp)
     /* 22F64 80032764 3301010C */  jal        func_800404CC
     /* 22F68 80032768 1C00B4AF */   sw        $s4, 0x1C($sp)
-    /* 22F6C 8003276C 0B00010C */  jal        func_8004002C
+    /* 22F6C 8003276C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22F70 80032770 0380103C */   lui       $s0, %hi(func_80031874)
     /* 22F74 80032774 21204000 */  addu       $a0, $v0, $zero
     /* 22F78 80032778 2B00010C */  jal        func_800400AC
@@ -251,7 +251,7 @@ glabel func_800323F8
     /* 22F88 80032788 3000A28E */  lw         $v0, 0x30($s5)
     /* 22F8C 8003278C 74181026 */  addiu      $s0, $s0, %lo(func_80031874)
     /* 22F90 80032790 4C0070AC */  sw         $s0, 0x4C($v1)
-    /* 22F94 80032794 0B00010C */  jal        func_8004002C
+    /* 22F94 80032794 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22F98 80032798 300062AC */   sw        $v0, 0x30($v1)
     /* 22F9C 8003279C 21204000 */  addu       $a0, $v0, $zero
     /* 22FA0 800327A0 2B00010C */  jal        func_800400AC
@@ -267,7 +267,7 @@ glabel func_800323F8
     /* 22FC8 800327C8 1800B2AF */  sw         $s2, 0x18($sp)
     /* 22FCC 800327CC 3301010C */  jal        func_800404CC
     /* 22FD0 800327D0 1C00B4AF */   sw        $s4, 0x1C($sp)
-    /* 22FD4 800327D4 0B00010C */  jal        func_8004002C
+    /* 22FD4 800327D4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 22FD8 800327D8 00000000 */   nop
     /* 22FDC 800327DC 21204000 */  addu       $a0, $v0, $zero
     /* 22FE0 800327E0 2B00010C */  jal        func_800400AC
@@ -278,7 +278,7 @@ glabel func_800323F8
     /* 22FF4 800327F4 4C0070AC */  sw         $s0, 0x4C($v1)
     /* 22FF8 800327F8 300062AC */  sw         $v0, 0x30($v1)
     /* 22FFC 800327FC 02000224 */  addiu      $v0, $zero, 0x2
-    /* 23000 80032800 0B00010C */  jal        func_8004002C
+    /* 23000 80032800 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23004 80032804 3E63C2A6 */   sh        $v0, 0x633E($s6)
     /* 23008 80032808 21204000 */  addu       $a0, $v0, $zero
     /* 2300C 8003280C 2B00010C */  jal        func_800400AC
@@ -299,7 +299,7 @@ glabel func_800323F8
     /* 23048 80032848 20004234 */  ori        $v0, $v0, 0x20
     /* 2304C 8003284C 3B0A010C */  jal        func_800428EC
     /* 23050 80032850 0800A2A6 */   sh        $v0, 0x8($s5)
-    /* 23054 80032854 0B00010C */  jal        func_8004002C
+    /* 23054 80032854 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23058 80032858 3C2DD5AE */   sw        $s5, 0x2D3C($s6)
     /* 2305C 8003285C 21204000 */  addu       $a0, $v0, $zero
     /* 23060 80032860 2B00010C */  jal        func_800400AC
@@ -320,7 +320,7 @@ glabel func_800323F8
     /* 2309C 8003289C 20004234 */  ori        $v0, $v0, 0x20
     /* 230A0 800328A0 3B0A010C */  jal        func_800428EC
     /* 230A4 800328A4 0800A2A6 */   sh        $v0, 0x8($s5)
-    /* 230A8 800328A8 0B00010C */  jal        func_8004002C
+    /* 230A8 800328A8 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 230AC 800328AC 885AD5AE */   sw        $s5, 0x5A88($s6)
     /* 230B0 800328B0 21204000 */  addu       $a0, $v0, $zero
     /* 230B4 800328B4 2B00010C */  jal        func_800400AC
@@ -342,7 +342,7 @@ glabel func_800323F8
     /* 230F4 800328F4 20004234 */  ori        $v0, $v0, 0x20
     /* 230F8 800328F8 3B0A010C */  jal        func_800428EC
     /* 230FC 800328FC 0800A2A6 */   sh        $v0, 0x8($s5)
-    /* 23100 80032900 0B00010C */  jal        func_8004002C
+    /* 23100 80032900 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23104 80032904 382DD5AE */   sw        $s5, 0x2D38($s6)
     /* 23108 80032908 21204000 */  addu       $a0, $v0, $zero
     /* 2310C 8003290C 2B00010C */  jal        func_800400AC
@@ -365,7 +365,7 @@ glabel func_800323F8
     /* 23150 80032950 20004234 */  ori        $v0, $v0, 0x20
     /* 23154 80032954 3B0A010C */  jal        func_800428EC
     /* 23158 80032958 0800A2A6 */   sh        $v0, 0x8($s5)
-    /* 2315C 8003295C 0B00010C */  jal        func_8004002C
+    /* 2315C 8003295C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23160 80032960 845AD5AE */   sw        $s5, 0x5A84($s6)
     /* 23164 80032964 21204000 */  addu       $a0, $v0, $zero
     /* 23168 80032968 2B00010C */  jal        func_800400AC
@@ -387,7 +387,7 @@ glabel func_800323F8
     /* 231A8 800329A8 20004234 */  ori        $v0, $v0, 0x20
     /* 231AC 800329AC 3B0A010C */  jal        func_800428EC
     /* 231B0 800329B0 080082A4 */   sh        $v0, 0x8($a0)
-    /* 231B4 800329B4 0B00010C */  jal        func_8004002C
+    /* 231B4 800329B4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 231B8 800329B8 0B001024 */   addiu     $s0, $zero, 0xB
     /* 231BC 800329BC 21204000 */  addu       $a0, $v0, $zero
     /* 231C0 800329C0 2B00010C */  jal        func_800400AC
@@ -409,7 +409,7 @@ glabel func_800323F8
     /* 23200 80032A00 20004234 */  ori        $v0, $v0, 0x20
     /* 23204 80032A04 3B0A010C */  jal        func_800428EC
     /* 23208 80032A08 080082A4 */   sh        $v0, 0x8($a0)
-    /* 2320C 80032A0C 0B00010C */  jal        func_8004002C
+    /* 2320C 80032A0C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23210 80032A10 00000000 */   nop
     /* 23214 80032A14 21204000 */  addu       $a0, $v0, $zero
     /* 23218 80032A18 2B00010C */  jal        func_800400AC
@@ -430,7 +430,7 @@ glabel func_800323F8
     /* 23254 80032A54 20004234 */  ori        $v0, $v0, 0x20
     /* 23258 80032A58 3B0A010C */  jal        func_800428EC
     /* 2325C 80032A5C 080082A4 */   sh        $v0, 0x8($a0)
-    /* 23260 80032A60 0B00010C */  jal        func_8004002C
+    /* 23260 80032A60 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23264 80032A64 00000000 */   nop
     /* 23268 80032A68 21204000 */  addu       $a0, $v0, $zero
     /* 2326C 80032A6C 2B00010C */  jal        func_800400AC
@@ -451,7 +451,7 @@ glabel func_800323F8
     /* 232A8 80032AA8 20004234 */  ori        $v0, $v0, 0x20
     /* 232AC 80032AAC 3B0A010C */  jal        func_800428EC
     /* 232B0 80032AB0 080082A4 */   sh        $v0, 0x8($a0)
-    /* 232B4 80032AB4 0B00010C */  jal        func_8004002C
+    /* 232B4 80032AB4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 232B8 80032AB8 00000000 */   nop
     /* 232BC 80032ABC 21204000 */  addu       $a0, $v0, $zero
     /* 232C0 80032AC0 2B00010C */  jal        func_800400AC

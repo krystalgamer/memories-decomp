@@ -819,7 +819,8 @@ offsets exactly; they are duplicate tutorial rows, not additional archive
 copies.
 
 The password-screen package starts at `0xF97800`. Its exact callback
-`func_8003BD14` uploads the same `0x2000`-byte palette rectangle, and the
+`Password_LoadPackageStage` uploads the same `0x2000`-byte palette rectangle,
+and the
 tutorial lists its six large-card rows at
 `0xFB8800-0xFB93FF`. Five rows are byte-identical to the terrain and Library
 copies. The large-Magic row differs only in its final `0x20` bytes, where the

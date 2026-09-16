@@ -64,7 +64,7 @@ void SD_InitState(u8 arg0)
     q->field_1584 = 0xFF;
     func_800494F4((s32 *)0x801E1670);
     func_8004671C();
-    func_80044D48();
+    SD_InitBufferState();
     func_80048F14();
     SD_SetOutputType(0);
     D_8009B458->field_0509 = 0;

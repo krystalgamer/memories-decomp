@@ -46,7 +46,7 @@ void Main_RunBootSequence(s32 mode)
         return;
     }
     Fade_InitIn();
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
@@ -65,7 +65,7 @@ void Main_RunBootSequence(s32 mode)
     while (func_80168160(1) != 0) {
     }
     DsInit();
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

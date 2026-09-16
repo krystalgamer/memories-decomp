@@ -3,8 +3,9 @@
 
 #include "../types.h"
 
-/* The narrower view func_80040410 and func_80040424 use: the flags halfword
- * at 0x08 and the three selector bytes at 0x67..0x69. It is the same record
+/* The narrower view DisplayObject_SetResourceVariant and
+ * DisplayObject_UpdateResourceVariant use: the flags halfword at 0x08 and the
+ * three selector bytes at 0x67..0x69. It is the same record
  * DisplayObjectConfigView below describes, seen through the only fields these
  * two writers touch, and it is spelt separately for the same reason that one
  * is: neither is the canonical DisplayObject in display_object.h. */
@@ -15,19 +16,20 @@ typedef struct {
     u8 field_67;
     u8 field_68;
     u8 field_69;
-    /* 0x6A is the value func_80029108 compares against the 0x69 selector
-       before it calls func_80040410 to store one into the other, so the two
-       bytes are read as a pair by the same function.
+    /* 0x6A is the value CardPreview_UpdateVariant compares against the 0x69
+       selector before it calls DisplayObject_SetResourceVariant to store one
+       into the other, so the two bytes are read as a pair by the same
+       function.
 
        This byte is not unnamed elsewhere: duel_card_display_state.h calls it
        card_index, and on a duel card's display object that is exactly what it
        holds -- func_80017F04 stores (record - D_801A7AD8) / 0x1C into it, and
        func_80017DB4 and func_80017E3C index D_801A7AD8 with it. It is spelt
        field_6A here rather than card_index because nothing establishes that
-       the objects func_80029108 walks are duel card records, and a selector
-       fed from a card index on one kind of object is not evidence that every
-       object carries one. Naming it after the one use we can see would assert
-       more than is known.
+       the objects CardPreview_UpdateVariant walks are duel card records, and
+       a selector fed from a card index on one kind of object is not evidence
+       that every object carries one. Naming it after the one use we can see
+       would assert more than is known.
 
        The canonical DisplayObject in display_object.h covers 0x67..0x6B with
        pad_67, so this does not contradict that record. It is last, and this
@@ -42,14 +44,15 @@ typedef struct {
  * widening it costs nothing -- while a u8 parameter costs an andi at every
  * call site whose argument range the compiler cannot prove. See
  * notes/research/matching-evidence.md. */
-void func_80040410(DisplayObjectConfig *object, s32 value);
+void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value);
 
-/* The sibling the comment above already names. It was defined here and
-   declared nowhere, so its one caller wrote `extern s32 func_80040424();`
-   -- wrong in the return type and in the parameter list, and undetectable,
-   because that caller discards the result. */
-void func_80040424(DisplayObjectConfig *object, s32 value);
-void func_8004044C(
+/* Changes the third resource selector only when needed and clears the
+ * resolution flag so the display-object runtime rebuilds its resource. */
+void DisplayObject_UpdateResourceVariant(
+    DisplayObjectConfig *object,
+    s32 value
+);
+void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
 );
 

@@ -52,6 +52,23 @@ typedef struct {
     u32 field_0004;
 } SDValueLink;
 
+/* Prefix shared by the music packages consumed by func_80045514 and
+ * func_80049308. Both pass the embedded pBAV header and its SPU destination
+ * to SD_VabOpenHead. */
+typedef struct {
+    u8 pad_0000[0x0C];
+    s32 spu_address;
+    u8 pad_0010[0x40];
+    u8 vab_header[1];
+} SDMusicPackage;
+
+typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
+    ((u32)&(((SDMusicPackage *)0)->spu_address)) == 0x0C ? 1 : -1
+];
+typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
+    ((u32)&(((SDMusicPackage *)0)->vab_header)) == 0x50 ? 1 : -1
+];
+
 typedef struct {
     u8 volume;
     u8 timer;
@@ -740,7 +757,7 @@ void SD_InitState(u8);
 s32 SD_EnqueueCommand(SDCommand *);
 /* Scans queued commands [1, count) for 0x20, 0x11, or 0x24. The command
  * pump masks the result to a byte; the definition returns a full s32. */
-s32 func_80045484(void);
+s32 SD_HasQueuedStreamCommand(void);
 void SD_UpdateFades(void);
 void SD_UpdateRuntime(void);
 /* Advances the active sound command from SD_UpdateRuntime. */

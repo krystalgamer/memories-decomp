@@ -22,7 +22,7 @@ void func_8003D518(MenuRecord *record)
 
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        object = func_800400AC(func_8004002C(), 6);
+        object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
         object->field_30.h.field_30 = 160;
         object->field_30.h.field_32 = 120;
         object->field_48.h.field_48 = 128;
@@ -110,7 +110,7 @@ void func_8003D74C(MenuRecord *record)
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 =
             D_8009B3C1 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        p = func_800400AC(func_8004002C(), 6);
+        p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
         p->field_30.h.field_30 = 0xA0;
         p->field_30.h.field_32 = 0x78;
         p->field_48.h.field_48 = 0x80;
@@ -119,7 +119,7 @@ void func_8003D74C(MenuRecord *record)
         func_800428EC((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         p->field_4C = (s32)func_80042C08;
         record->grid[0][1] = (s32)p;
-        p = func_800400AC(func_8004002C(), 2);
+        p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800404CC(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

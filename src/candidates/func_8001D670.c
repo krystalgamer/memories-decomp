@@ -4,8 +4,8 @@
  * field path, moves the field cursor, opens the card viewer, picks the
  * attacker and its target, commits the fusion or sacrifice selection and
  * fades the field for the battle state. Current best under
- * gcc_2_8_1_g8_split_comm: 1397 instructions against 1408 with opcode distance
- * 25 (7 surplus, 18 missing), with no hard register assignments and no
+ * gcc_2_8_1_g8_split_comm: 1405 instructions against 1408 with opcode distance
+ * 15 (6 surplus, 9 missing), with no hard register assignments and no
  * inline assembly.
  *
  * Levers measured on this body:
@@ -25,11 +25,18 @@
  *   gp-relative stores, and each second store of a pair sits in its own
  *   do { } while (0) so its load is not scheduled ahead of the first store;
  *   the _comm profile keeps those definitions common, where plain g8_split
- *   would allocate them in .sbss.
+ *   would allocate them in .sbss;
+ * - the D_800907AC index bytes at +0x10 and +0x48 are read signed;
+ * - the two BANK reads that set the object's 0x28 and 0x2A fields re-read
+ *   the card index from the object, and the second store sits in its own
+ *   do { } while (0);
+ * - the 0x14 test on the current side's D_800E9FF0 record goes through a
+ *   named pointer;
+ * - one of the two identical flag-and-refresh tails sets the flag with |=,
+ *   so the two tails are no longer identical.
  *
  * Residual: census addiu -1, addu +1, beqz +2, bnez -2, j +1, jal -1,
- * lb -3, lbu +1, lhu -1, lui +1, lw -1, nop -1, ori -1, sh -1, sll -4,
- * slti +1, subu -2. Retail keeps separate func_80017E3C calls for the
+ * lb -1, lui +1, sh -1, sll -2, slti +1, subu -1. Retail keeps separate func_80017E3C calls for the
  * field-cursor and card-pick paths where this source shares one.
  */
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
@@ -117,6 +124,7 @@ void DuelScene_UpdateFieldActions(void)
     s32 n;
     s32 i;
     s32 v;
+    u8 *pw;
     s32 d;
     s32 big;
     s8 row;
@@ -128,7 +136,8 @@ void DuelScene_UpdateFieldActions(void)
         gDuel_wSceneStateFlags |= 0x8000;
         if (S(D_800E9FF0, 0x14) == 0 || S(D_800E9FF0, 0x34) == 0) {
             gDuel_bWinnerSide = D_8009B1D5;
-            if (S((u8 *)D_800E9FF0 + (D_8009B1D5 << 5), 0x14) == 0) {
+            pw = (u8 *)D_800E9FF0 + (D_8009B1D5 << 5);
+            if (S(pw, 0x14) == 0) {
                 gDuel_bWinnerSide = D_8009B1D5 ^ 1;
             }
             B(&D_800E9FF0[gDuel_bWinnerSide], 0) = 2;
@@ -211,7 +220,7 @@ void DuelScene_UpdateFieldActions(void)
                 D_8009B20C[0] = flags | 0x8000;
                 if (f & 0x8000) {
                     if (f & 0x800) {
-                        card->flags = f | 0x4000;
+                        card->flags |= 0x4000;
                         func_80017E3C(card->object);
                         goto back_to_menu;
                     }
@@ -350,7 +359,7 @@ void DuelScene_UpdateFieldActions(void)
             S(s, 0xC) = 0x74;
             func_800234E4((DuelFieldDisplaySource *)s);
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
-                D_800907AC[D_8009B1D5][B(s, 0x18)][B(s, 0x10)]);
+                D_800907AC[D_8009B1D5][B(s, 0x18)][SB(s, 0x10)]);
             o = (u8 *)W(s, 4);
             other = (u8 *)W(D_800E9F64 + D_8009B1D5 * 0x70 - 0x18, 0);
             DisplayObject_ResetVelocity((void *)o);
@@ -421,7 +430,7 @@ void DuelScene_UpdateFieldActions(void)
         if (gInput_wPad1Pressed & 0x20) {
             other = D_800E9F10 + D_8009B1D5 * 0x70;
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
-                D_800907AC[D_8009B1D5][B(other, 0x50)][B(other, 0x48)]);
+                D_800907AC[D_8009B1D5][B(other, 0x50)][SB(other, 0x48)]);
             o = (u8 *)W(s, 4);
             other = (u8 *)W(D_800E9F10 + D_8009B1D5 * 0x70, 0x3C);
             DisplayObject_ResetVelocity((void *)o);
@@ -595,11 +604,12 @@ void DuelScene_UpdateFieldActions(void)
                         SD_SEPlayFull(8);
                         o = (u8 *)D_8009B1CC;
                         S(o, 0x60) = 0xC;
-                        n = B(o, 0x6A);
                         W(o, 0x24) = (s32)func_8001D3C4;
-                        H(o, 0x28) = BANK(n, 0x36BC);
+                        H(o, 0x28) = BANK(B(o, 0x6A), 0x36BC);
                         S(o, 0x2C) = 0;
-                        H(o, 0x2A) = BANK(n, 0x36BE);
+                        do {
+                            H(o, 0x2A) = BANK(B(o, 0x6A), 0x36BE);
+                        } while (0);
                         if (D_801A7AD8[B(o, 0x6A)].flags & 0x1000) {
                             S(o, 0x2C) = 0x80;
                         }

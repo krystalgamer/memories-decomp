@@ -26,7 +26,7 @@
 #include "sound_pending_entries.h"
 #include "sound_voice_selection.h"
 #include "duel_action_lock.h"
-#include "func_80016D04.h"
+#include "duel_draw_card_output_position.h"
 #include "func_80016778.h"
 #include "../unmatched.h"
 #include "func_800179F4.h"
@@ -87,7 +87,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
 
 u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
-    DuelCardDisplayObject *p = func_800400AC(func_8004002C(), 6);
+    DuelCardDisplayObject *p = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
     s32 *tbl;
     s32 k;
 
@@ -103,7 +103,7 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     p->field_10 = func_80016778;
     func_80042918((DisplayObject *)p);
-    p->field_4C = func_80016D04;
+    p->field_4C = Duel_DrawCardAtOutputPosition;
     func_80017E3C(p);
     func_80017DB4(p);
     return (u8 *)p;

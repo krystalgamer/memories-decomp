@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
-void func_800434F4(FileTransferDescriptor *p, s32 mode)
+void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
     s32 v;

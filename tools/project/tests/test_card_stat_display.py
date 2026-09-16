@@ -128,7 +128,7 @@ static void old_callback(u8 *object)
     fail(31);
 }
 
-s32 func_8004002C(void)
+s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     check_stage(1, 0);
     return allocation_index;

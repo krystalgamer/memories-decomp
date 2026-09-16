@@ -111,8 +111,9 @@ When bit `0x80` is clear, it starts a choice:
 - high nibble sets choice style/state flags;
 - if bit `0x08` is set, one additional byte supplies the enabled-choice mask
   and input-mode flag;
-- it clears existing glyph markers, installs `func_80037CE0` as the pending
-  newline callback, and raises the choice-active text flag.
+- it clears existing glyph markers, installs
+  `Text_TryCompleteChoiceLayout` as the pending newline callback, and raises
+  the choice-active text flag.
 
 Text rendering continues through the choice labels. Each FE calls
 `Text_NewLine`, which invokes the pending callback. Once the line counter

@@ -227,7 +227,9 @@ s32 Model_FindHandlerKey(s32 val) {
     return -1;
 }
 
-void func_80060220(s32 arg0, u8 *arg1, u8 *arg2) {
+void Model_ProcessType2Unit(
+    s32 model_index, ModelTypeUnit *unit, u8 *scratch)
+{
     u8 *p;
     u8 *q;
     u8 *b;
@@ -246,19 +248,19 @@ void func_80060220(s32 arg0, u8 *arg1, u8 *arg2) {
 
     m = 0x2000001;
     i = 0;
-    q = *(u8 **)arg2;
-    r = arg2;
+    q = *(u8 **)scratch;
+    r = scratch;
     n = *(u16 *)(q + 2);
     q += 4;
 
     if (n != 0) {
-        f = arg0 < 2;
-        sh = arg0 << 8;
+        f = model_index < 2;
+        sh = model_index << 8;
         p = q;
 
         do {
             q = p + 0xC;
-            if (*(s32 *)arg1 == m) {
+            if (unit->type == m) {
                 b = *(u8 **)(r + 0x18);
                 if (b != (u8 *)0) {
                     j = 0;
@@ -303,8 +305,7 @@ void func_80060220(s32 arg0, u8 *arg1, u8 *arg2) {
         } while (i < n);
     }
 
-    func_800603DC(*(s32 *)arg1)(arg2);
+    func_800603DC(unit->type)(scratch);
     DrawSync(0);
-    *(ModelHandler *)(*(s32 *)(arg1 + 4)) =
-        (ModelHandler)GsU_00000000;
+    *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
 }

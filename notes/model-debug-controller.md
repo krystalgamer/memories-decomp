@@ -1,9 +1,9 @@
 # Model-debug controller
 
-`func_800534B8` (`0x800534B8`, `0xBFC` bytes) is the returning controller used
-by `Main_RunAnimatedBattle` outside the intro mode. Its load diagnostics,
-decimal model-ID editor, stage selector, and per-model flag display support
-the descriptive controller name; the function retains its address-based symbol.
+`ModelDebug_UpdateController` (`0x800534B8`, `0xBFC` bytes) is the returning
+controller used by `Main_RunAnimatedBattle` outside the intro mode. Its load
+diagnostics, decimal model-ID editor, stage selector, and per-model flag
+display support the descriptive controller name.
 
 ## Behavior retained
 
@@ -49,7 +49,7 @@ The original small-data run is now three contiguous sections:
 | Address | Bytes | Owner |
 |---|---:|---|
 | `0x8009AFE4` | `0x20` | `model_handler_state.c` |
-| `0x8009B004` | `4` | `func_800534B8.c` |
+| `0x8009B004` | `4` | `model_debug_controller.c` |
 | `0x8009B008` | `0x50` | `model_handler_diagnostics.c` |
 
 The definition deliberately lets the named uniform-G8 compiler profile

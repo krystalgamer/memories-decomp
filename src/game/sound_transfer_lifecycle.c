@@ -88,10 +88,12 @@ s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr)
     state->transfer.field_0000 = zero;
     entry = &state->transfer;
     entry->field_0004 = vab;
-    entry->field_0008 = (*(u16 *)(vab + 0x12) << 9) + 0xA20;
-    entry->field_0010 = *(s32 *)(vab + 0x0C) - entry->field_0008;
-    entry->field_0018 = vab[0x18];
-    entry->field_001B = vab[0x19];
+    entry->field_0008 =
+        (((SDVabHeader *)vab)->program_count << 9) + 0xA20;
+    entry->field_0010 =
+        ((SDVabHeader *)vab)->file_size - entry->field_0008;
+    entry->field_0018 = ((SDVabHeader *)vab)->master_volume;
+    entry->field_001B = ((SDVabHeader *)vab)->pan;
     entry->field_0014 = (u8 *)spu_addr;
     return 0;
 }

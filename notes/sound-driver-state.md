@@ -101,9 +101,9 @@ the same full-volume arguments. This effect-call maximum is distinct from
 
 `Sound_InitFrontend` is the game-facing bridge into this lower-level state. It
 sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
-`gFile_anLba[4]`, `[5]`, and `[6]` to `func_80046990`. The runtime file table
+`gFile_anLba[4]`, `[5]`, and `[6]` to `SD_InitDataSourceFlags`. The runtime file table
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
-`func_80046990` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
+`SD_InitDataSourceFlags` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
 `flags_004A` when the corresponding file position is zero, and sets
 `flags_0040 |= 0x0A`. The frontend then calls `func_80012D4C` while
 `func_8004703C` continues to expose bit `0x08`, making that bit the
@@ -774,7 +774,7 @@ above.
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
-| `0x0509` | `u8` | `field_0509` | `func_8004695C` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
+| `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
 | `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
@@ -883,7 +883,8 @@ the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 
 The promoted caller takes its declarations from sound-owned headers.
-`func_80045484` retains its explicit byte mask, and `SD_OpenSequence` retains
+`SD_HasQueuedStreamCommand` retains its explicit byte mask, and
+`SD_OpenSequence` retains
 the signed-halfword store and test after the canonical word-sized result.
 `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` selects the measured two-argument
 `SD_PlaySequence` caller view while its definition keeps the one-argument

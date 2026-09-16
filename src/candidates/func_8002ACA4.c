@@ -19,8 +19,9 @@
  * - the compiler runs at -G8 with a -G0 assembler, so D_8009B338 and
  *   D_8009B0C0 are stored through $at as in retail, while D_800E9ECF keeps
  *   its aggregate arm and a split %hi/%lo store;
- * - the close path reads func_80040410's argument into a local before
- *   clearing D_8009B0C0, and the 0x10 counter is re-read after its store.
+ * - the close path reads DisplayObject_SetResourceVariant's argument into a
+ *   local before clearing D_8009B0C0, and the 0x10 counter is re-read after
+ *   its store.
  *
  * Residual: the target reloads the slide phase into the register it loaded
  * it from (two load-delay nops) and materialises the case 5 pad address
@@ -150,7 +151,7 @@ void func_8002ACA4(u8 *state)
             func_80056828(0);
             if (func_80058DD8(0) == 1) {
                 state[4] = 0;
-                o = func_800400AC(func_8004002C(), 2);
+                o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
                 func_800404CC(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
                 func_80042918((DisplayObject *)o);
@@ -219,7 +220,7 @@ void func_8002ACA4(u8 *state)
         H(o, 0x60) = 0;
         SD_SEPlayFull(0x32);
         W(rec->object_04, 4) |= 0x80000000;
-        o = func_800400AC(func_8004002C(), 2);
+        o = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800404CC(o, 0x148, 0xE, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
@@ -367,7 +368,7 @@ void func_8002ACA4(u8 *state)
                 H(state, 0x10) = 0x400;
                 if (!(D_800E9ECE & 0x80) && state[3] == 0) {
                     state[2] = 1;
-                    func_80040410((void *)W(state, 0x50), 1);
+                    DisplayObject_SetResourceVariant((void *)W(state, 0x50), 1);
                     return;
                 }
             }
@@ -408,7 +409,7 @@ void func_8002ACA4(u8 *state)
                     void *p = (void *)W(state, 0x50);
 
                     D_8009B0C0 = 0;
-                    func_80040410(p, 2);
+                    DisplayObject_SetResourceVariant(p, 2);
                 }
                 goto next;
             }

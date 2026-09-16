@@ -21,7 +21,7 @@ void Script_OpLoadImageScene(void)
     if (func_8002E3B4() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
-        ScriptImage_ReleaseObjects((ScriptImageEntry *)D_800EAE98);
+        ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         script = D_8009B290;
         next = script + 2;
         D_8009B290 = next;
@@ -35,14 +35,16 @@ void Script_OpLoadImageScene(void)
             D_8009B290 = script + 6;
             gGraphics_sViewportY = script[4] | (next2[1] << 8);
         }
-        ScriptImage_RequestTransfer((u8 *)D_800EAE98, D_8009B270);
+        ScriptImage_RequestTransfer(
+            (ScriptImageObjectSet *)D_800EAE98, D_8009B270);
     }
     flags = D_8009B27C;
     if ((flags & 0x800) == 0) {
         if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              D_8009B134_abs) == 0) {
             D_8009B27C = flags | 0x800;
-            ScriptImage_RebuildObjects((u8 *)D_800EAE98, -1);
+            ScriptImage_RebuildObjects(
+                (ScriptImageObjectSet *)D_800EAE98, -1);
             Fade_StartIn();
         }
     } else {

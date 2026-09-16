@@ -103,7 +103,7 @@ void func_8003771C(DuelEffectChannel *object)
     D_8009B27C_scalar = 7;
 }
 
-void func_800377AC(DuelEffectChannel *object)
+void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
 {
     if (D_8009B357 == 0) {
         object->state_51 = 0;

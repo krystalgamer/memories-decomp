@@ -30,7 +30,7 @@ The two allocation scans divide the pool:
 | Function | Slots scanned | Role established by the scan |
 |---|---:|---|
 | `func_8004006C` | `0-95` | Searches the complete 96-slot pool. |
-| `func_8004002C` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
+| `DisplayObject_FindFreeGeneralSlot` | `16-95` | Skips the 16 reserved slots and searches the 80-slot general-use subrange beginning at `D_800F0548`. |
 
 Both return the first slot whose `+0x08` flags do not contain
 `DISPLAY_OBJECT_FLAG_ALLOCATED`. `func_800400AC` initializes a newly claimed
@@ -47,9 +47,10 @@ therefore request both that cell offset and screen-space rendering.
 Each slot begins with two signed 16-bit links at `+0x00` and `+0x02`.
 `func_800400AC` inserts a slot at the head selected by its list key, records
 that key at `+0x1E`, and fills the companion `D_800F2878` entry when the list
-was empty. `func_8004020C` removes a slot by reconnecting both neighboring
-links and clears its allocation flags. `func_800402A0` removes and reinserts
-an existing slot under another list key while preserving its flags.
+was empty. `DisplayObject_Release` removes a slot by reconnecting both
+neighboring links and clears its allocation flags. `func_800402A0` removes
+and reinserts an existing slot under another list key while preserving its
+flags.
 
 ## Shared index and allocation API
 
@@ -57,7 +58,7 @@ an existing slot under another list key while preserving its flags.
 declaration point for the general-use index scan and indexed allocator:
 
 ```c
-s32 func_8004002C(void);
+s32 DisplayObject_FindFreeGeneralSlot(void);
 void *func_800400AC(s32 index, s32 key);
 ```
 

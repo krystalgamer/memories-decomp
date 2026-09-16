@@ -19,7 +19,7 @@ FileTransferDescriptor *func_80029164(s32 slot, s32 value)
     object = File_TryRequestAsyncTransfer(
         0, 0, (value - 1) * 7 + CARD_COUNT, 7, func_800289BC, 0, 0);
     object->callback_data = (void *)slot;
-    *(u32 *)0x8009B0F4 =
+    D_8009B0F4_abs =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
     return object;
 }
@@ -43,7 +43,7 @@ u8 *func_800291E0(s32 index, s32 x, s32 y)
     setup = x;
     entry = &D_800EA0E8[index];
 
-    object = func_800400AC(func_8004002C(), 6);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 6);
     func_80040510((DisplayObjectConfigView *)object, 0, 0, 0x66, 0x60, 0, 0,
         ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
         (s16)entry->field_2C, (s16)entry->field_2E);
@@ -140,7 +140,7 @@ shared_tail:
 
     entry->object_04 = object;
 
-    object = func_800400AC(func_8004002C(), 2);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800404CC(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
 
     object->field_18 = 0x46;
@@ -156,7 +156,7 @@ shared_tail:
 
     ((DisplayObject *)entry->object_04)->field_65 = 3;
     object->field_65 = 3;
-    object->field_10 = (u32)func_80029108;
+    object->field_10 = (u32)CardPreview_UpdateVariant;
 
     {
         DisplayObject *secondary = entry->object_04;

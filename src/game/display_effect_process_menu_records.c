@@ -27,7 +27,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->field_32 = p->field_32 & 0xFE;
-                func_80040410(
+                DisplayObject_SetResourceVariant(
                     (DisplayObjectConfig *)p->grid[0][1], 0);
             }
         } else {
@@ -35,7 +35,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
             *(s16 *)&p->field_3E = v;
             if ((s16)v <= 0) {
                 p->field_32 = p->field_32 | 1;
-                func_80040410(
+                DisplayObject_SetResourceVariant(
                     (DisplayObjectConfig *)p->grid[0][1], 1);
             }
         }
@@ -69,7 +69,7 @@ void func_8003B378(MenuRecord *p, s32 n) {
 
     p->field_3B = 6;
     p->field_3A = n;
-    func_80040410((DisplayObjectConfig *)p->grid[0][2], n);
+    DisplayObject_SetResourceVariant((DisplayObjectConfig *)p->grid[0][2], n);
     return;
 
 slow:
@@ -77,7 +77,10 @@ slow:
     if ((s8)p->field_3B < 6) {
         return;
     }
-    func_80040424((DisplayObjectConfig *)p->grid[0][2], 0);
+    DisplayObject_UpdateResourceVariant(
+        (DisplayObjectConfig *)p->grid[0][2],
+        0
+    );
 }
 
 void DisplayEffect_ProcessMenuRecords(s32 value) {

@@ -32,7 +32,7 @@ int func_8002712C(void)
 {
  DuelCardRecord*list[6];int count=Duel_CollectFieldCardsByType(list,0,CARD_TYPE_MAGIC);
  if(count){s8 first=list[0]->table_index;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;D_800EAE88.zero=0;D_800EAE88.random=0;D_800EAE88.value=6;
-  index=func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
+  index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=index%DUEL_FIELD_ROW_SIZE;}return 0;}return 1;
 }
 
 /* AI fusion attempt. Collects the side's monsters, rolls a coin, and looks
@@ -69,7 +69,7 @@ s32 func_80027228(void) {
             }
         }
     }
-    slot = func_80026C0C(DUEL_FIELD_ROW_SIZE);
+    slot = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
     if (slot >= 0) {
         goto phase2;
     }
@@ -131,10 +131,10 @@ s32 func_80027508(void) {
     DuelCardRecord *card;
     s32 slot;
 
-    if ((rand() & 1) == 0 && func_80026DC8() == 0) {
+    if ((rand() & 1) == 0 && Duel_SelectEquipPair() == 0) {
         return 0;
     }
-    if ((rand() & 1) == 0 && func_80027060() == 0) {
+    if ((rand() & 1) == 0 && Duel_SelectTrapPlay() == 0) {
         return 0;
     }
     if ((rand() & 3) == 0 && func_8002712C() == 0) {
@@ -150,7 +150,7 @@ s32 func_80027508(void) {
     if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
         s8 v;
 
-        slot = func_80026C0C(DUEL_FIELD_ROW_SIZE);
+        slot = Duel_FindFreeFieldSlot(DUEL_FIELD_ROW_SIZE);
         if (slot < 0) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
@@ -163,7 +163,7 @@ s32 func_80027508(void) {
     } else {
         s8 v;
 
-        slot = func_80026C0C(DUEL_FIELD_SIDE_ZONE_COUNT);
+        slot = Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);
         if (slot < 0) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }

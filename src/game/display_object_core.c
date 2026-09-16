@@ -17,7 +17,7 @@
 
 extern u8 tail_data_start[];
 
-s32 func_8004002C(void)
+s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = D_800F0548;
     s32 i;
@@ -99,7 +99,7 @@ void *func_800400AC(s32 index, s32 key)
     return slot;
 }
 
-void func_8004020C(DisplayObject *slot)
+void DisplayObject_Release(DisplayObject *slot)
 {
     s32 first = slot->previous;
     s32 second = slot->next;
@@ -127,7 +127,7 @@ void func_800402A0(DisplayObject *slot, s32 key)
     u16 saved = slot->flags;
     s32 v;
 
-    func_8004020C(slot);
+    DisplayObject_Release(slot);
     v = *(s16 *)((u8 *)D_800EFE38 + key * 2);
     if (v < 0) {
         *(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
@@ -145,24 +145,27 @@ void func_800402A0(DisplayObject *slot, s32 key)
 void func_8004036C(void *object)
 {
     if (object != 0) {
-        func_8004020C((DisplayObject *)object);
+        DisplayObject_Release((DisplayObject *)object);
     }
 }
 
 void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{u8*p=(u8*)D_800EFE48;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){*(s16*)(p+8)=0;p+=DISPLAY_OBJECT_RECORD_SIZE;}}}
 
-void func_800403F0(void)
+void DisplayObject_Reset(void)
 {
     DisplayObject_ResetPool();
 }
 
-void func_80040410(DisplayObjectConfig *object, s32 value)
+void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
     object->field_69 = value;
     object->flags &= 0xFFEF;
 }
 
-void func_80040424(DisplayObjectConfig *object, s32 value)
+void DisplayObject_UpdateResourceVariant(
+    DisplayObjectConfig *object,
+    s32 value
+)
 {
     if (object->field_69 != value) {
         object->field_69 = value;
@@ -170,7 +173,7 @@ void func_80040424(DisplayObjectConfig *object, s32 value)
     }
 }
 
-void func_8004044C(
+void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
     u8 field_68,
@@ -186,21 +189,21 @@ void func_8004044C(
 void *func_80040468(u8 *object, int field_67, int field_68, int field_69,
                     int color, int texture)
 {
+    DisplayObject *configured = (DisplayObject *)object;
     u16 flags;
 
-    object[0x67] = field_67;
-    object[0x68] = field_68;
-    object[0x69] = field_69;
-    object[0x66] = color;
-    object[0x5E] = color >> 16;
-    object[0x5F] = color >> 8;
-    *(u16 *)(object + 0x40) = texture & 0x3F0;
-    *(u16 *)(object + 0x42) = (texture & 0xF) + 0xF0;
-    flags = *(u16 *)(object + 8) & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
-    *(u16 *)(object + 8) = flags;
+    configured->field_67 = field_67;
+    configured->field_68 = field_68;
+    configured->field_69 = field_69;
+    configured->field_66 = color;
+    *(u8 *)&configured->field_5E = color >> 16;
+    *((u8 *)&configured->field_5E + 1) = color >> 8;
+    configured->field_40.h.field_40 = texture & 0x3F0;
+    configured->field_40.h.field_42 = (texture & 0xF) + 0xF0;
+    flags = configured->flags & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
+    configured->flags = flags;
     if (texture & 0x8000) {
-        *(u16 *)(object + 8) =
-            flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
+        configured->flags = flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     }
     return object;
 }

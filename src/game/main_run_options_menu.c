@@ -3,7 +3,6 @@
 #include "../types.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "func_8003C2B4.h"
 #include "game_over.h"
 #include "main_modes.h"
 #include "main_services.h"
@@ -20,7 +19,7 @@ void Main_RunOptionsMenu(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003C2B4();
+        File_RequestOptionsPackage();
         Options_Init();
         Fade_WaitIn();
     }
@@ -39,7 +38,7 @@ void Main_RunGameOver(void)
 
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
-        func_8003C498();
+        File_RequestGameOverPackage();
         func_8003C950();
     }
 

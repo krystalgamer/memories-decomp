@@ -650,7 +650,7 @@ carried the pattern, and both would overrun their neighbours if read literally:
 The last row is why the forms are not interchangeable, and it is worth
 measuring rather than assuming. Relaxing `func_80024E58.c`'s `[8]` to an
 incomplete `[]` costs four bytes of text, because that file assembles at `-G4`;
-the identical relaxation in `func_8001798C.c`, which assembles at `-G8`, is
+the identical relaxation in `duel_load_terrain_package.c`, which assembles at `-G8`, is
 exact. `options_init.c` used to sit on the `-G4` assembler arm with a sized
 array for the same reason. Once it took the `.data` arm, the assembler
 threshold had nothing left to decide in it, and `Options_Init` now builds at

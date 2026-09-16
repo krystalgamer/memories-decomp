@@ -55,23 +55,23 @@ class ModelDebugOwnershipTests(unittest.TestCase):
 
     def test_controller_owner_return_and_arity(self):
         prefix = '#include "model_debug_controller.h"\n'
-        self.probe(prefix + "s32 (*tick)(void) = func_800534B8;\n")
+        self.probe(prefix + "s32 (*tick)(void) = ModelDebug_UpdateController;\n")
         self.probe(
-            prefix + "void (*tick)(void) = func_800534B8;\n",
+            prefix + "void (*tick)(void) = ModelDebug_UpdateController;\n",
             False, "incompatible pointer type",
         )
         self.probe(
-            prefix + "s32 tick(void) { return func_800534B8(1); }\n",
+            prefix + "s32 tick(void) { return ModelDebug_UpdateController(1); }\n",
             False, "too many arguments",
         )
         self.probe(
-            '#include "../unmatched.h"\ns32 tick(void) { return func_800534B8(); }\n',
-            False, "implicit declaration of function `func_800534B8'",
+            '#include "../unmatched.h"\ns32 tick(void) { return ModelDebug_UpdateController(); }\n',
+            False, "implicit declaration of function `ModelDebug_UpdateController'",
         )
 
     def test_actual_definition_and_callers_keep_visible_owners(self):
         for relative in (
-            "src/game/func_800534B8.c", "src/game/main_run_animated_battle.c",
+            "src/game/model_debug_controller.c", "src/game/main_run_animated_battle.c",
             "src/game/func_80052D2C.c", "src/game/model_intro_controller.c",
         ):
             with self.subTest(source=relative):
@@ -150,7 +150,7 @@ class ModelDebugOwnershipTests(unittest.TestCase):
         objects = []
         for name, source, profile in (
             ("prefix", "src/game/model_handler_state.c", "gcc_2_8_1_g8"),
-            ("controller", "src/game/func_800534B8.c", "gcc_2_8_1_g8_split"),
+            ("controller", "src/game/model_debug_controller.c", "gcc_2_8_1_g8_split"),
             ("suffix", "src/game/model_handler_diagnostics.c", "gcc_2_8_1_g8"),
         ):
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):

@@ -286,12 +286,12 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
     }
 }
 
-/* Two transfer-phase callbacks of the func_8003B808 family, kept in one
-   translation unit because they are the same routine over different assets:
-   each takes the descriptor plus a phase index, and each switch arm programs
-   the same fields -- phase_size, the value_08/value_0C source window, done,
-   and the field_30 halfword pair -- while clearing and setting the same bits of
-   D_8009B0F4_abs.
+/* Two transfer-phase callbacks of the FreeDuel_LoadPackageStage family, kept
+   in one translation unit because they are the same routine over different
+   assets: each takes the descriptor plus a phase index, and each switch arm
+   programs the same fields -- phase_size, the value_08/value_0C source
+   window, done, and the field_30 halfword pair -- while clearing and setting
+   the same bits of D_8009B0F4_abs.
 
    Both own a .rodata jump table, and the two tables are adjacent in the image
    (0x1F84 for the six-case switch, 0x1F9C for the eleven-case one). Together

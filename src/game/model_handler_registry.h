@@ -3,9 +3,17 @@
 
 #include "../types.h"
 
+/* Layout-compatible view of libhmd's GsTYPEUNIT. Kept local so users that
+ * only need registry declarations do not inherit libhmd's include chain. */
+typedef struct {
+    u32 type;
+    u32 *ptr;
+} ModelTypeUnit;
+
 void Model_RegisterHandlerKey(s32 key, s32 val);
 s32 Model_FindHandlerKey(s32 val);
-void func_80060220(s32 arg0, u8 *arg1, u8 *arg2);
+void Model_ProcessType2Unit(
+    s32 model_index, ModelTypeUnit *unit, u8 *scratch);
 void func_80069E44(void);
 void func_80069F94(void);
 void func_8006A0E8(void);

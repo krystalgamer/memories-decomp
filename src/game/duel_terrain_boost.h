@@ -32,7 +32,7 @@
      -G8 profiles would make a one-byte object small data and address it
      %gp_rel, so a TU that needs the absolute form must push the symbol out of
      small data. An array of unknown or large size does that:
-         func_8001798C.c        (gcc_2_8_1_g8)
+         duel_load_terrain_package.c        (gcc_2_8_1_g8)
          duel_card_record_lifecycle.c (gcc_2_8_1_g8_split)
              DUEL_TERRAIN_AS_ARRAY
 
@@ -51,7 +51,7 @@
 
    The forms are still not interchangeable. Under that mixed profile,
    relaxing the [8] to an incomplete [] cost 4 bytes of text, while the same
-   relaxation in func_8001798C.c is exact. No spelling here claims the object
+   relaxation in duel_load_terrain_package.c is exact. No spelling here claims the object
    has more than one byte.
 
    c_symbols.ld also defines gDuel_bTerrainCodegenAlias at the same 0x8009B364

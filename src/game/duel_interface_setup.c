@@ -4,7 +4,7 @@
 #include "duel_effect.h"
 #include "frontend_debug_tables.h"
 #include "fade.h"
-#include "func_800300C8.h"
+#include "debug_menu_update_cursor_layout.h"
 #include "func_8003B6AC.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
@@ -24,14 +24,14 @@ void DebugMenu_Init(void)
     text_box->field_5A = 16;
     text_box->field_5B = 16;
     func_80039A14(text_box);
-    object = func_800400AC(func_8004002C(), 4);
+    object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 4);
     D_8009B2E4 = object;
     func_800427DC(object, 0);
     ((u8 *)&object->field_44)[1] = 0xC0;
     ((u8 *)&object->field_3C)[1] = 0xC0;
     ((u8 *)&object->field_34)[1] = 0xC0;
     ((u8 *)&object->field_2C)[1] = 0xC0;
-    func_800300C8();
+    DebugMenu_UpdateCursorLayout();
     Fade_WaitIn();
 }
 
@@ -50,8 +50,8 @@ void func_80030250(
     D_8009B2B4 = field_B4;
     D_8009B2B5 = field_B5;
     D_8009B2B6 = field_B6;
-    D_8009B2E9 = 0;
-    D_8009B2DC = 0;
+    gDebug_bEditorDigit = 0;
+    gDebug_bEditorRow = 0;
     D_8009B2B8 = field_B8;
     D_8009B2C2 = field_C0;
     D_8009B2C1 = field_C0;
