@@ -933,7 +933,7 @@ address,size,name,status,module,notes
 0x80059220,0xC,func_80059220,matching_c,game,"Returns the secondary model buffer base; g0_split and g8_split objects are byte-identical."
 0x8005922C,0x58,func_8005922C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80059284,0x28,func_80059284,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x800592AC,0x124,func_800592AC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
+0x800592AC,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800593D0,0xCC,func_800593D0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005949C,0x24,func_8005949C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800594C0,0x60,func_800594C0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
