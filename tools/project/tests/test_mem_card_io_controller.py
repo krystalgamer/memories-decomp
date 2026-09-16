@@ -152,7 +152,7 @@ static void reset(s32 request, s32 step)
     gMemCard_pRequestBuf = (s32)buffer;
     out_state = 123456; out_result = 654321;
 }
-static s32 run(void) { return func_80044838(0, &out_state, &out_result); }
+static s32 run(void) { return MemCard_ProcessRequest(0, &out_state, &out_result); }
 static void pending(void)
 { CHECK(out_state == 123456 && out_result == 654321); }
 static void done(s32 request, s32 result)
@@ -179,7 +179,7 @@ int main(void)
     }
     for (i = 0; i < 256; i++) {
         reset(3, 0); gMemCard_bChannel = i; status = 2;
-        CHECK(func_80044838(1, &out_state, &out_result) == 0); pending();
+        CHECK(MemCard_ProcessRequest(1, &out_state, &out_result) == 0); pending();
         CHECK(counts[STATUS] == 1 && counts[WAIT] == 0 && counts[DIRECTORY] == 0);
     }
     for (request = 1; request <= 2; request++) for (i = -1; i <= 2; i++) {
@@ -236,9 +236,9 @@ int main(void)
     reset(4, 1); gMemCard_wRequestOffset = gMemCard_wRequestSize = 0xFFFF;
     CHECK(run() == 0 && counts[WRITE] == 1); pending();
     reset(1, 0); directory_result = 2;
-    CHECK(func_80044838(0, &out_state, &out_state) == 1 && out_state == 1);
+    CHECK(MemCard_ProcessRequest(0, &out_state, &out_state) == 1 && out_state == 1);
     reset(2, 0);
-    CHECK(func_80044838(0, (s32 *)&gMemCard_nIOResult, &out_result) == 1);
+    CHECK(MemCard_ProcessRequest(0, (s32 *)&gMemCard_nIOResult, &out_result) == 1);
     CHECK(out_result == 0 && gMemCard_nIOResult == 2);
     for (request = 11; request <= 12; request++) {
         reset(request, 0); CHECK(run() == 0 && gMemCard_bRequestStep == 2);
@@ -271,7 +271,7 @@ class MemCardIOControllerTests(unittest.TestCase):
                 "void MemCard_ClearIOEvents"
             )
             self.assertTrue(separator)
-            marker = "s32 func_80044838"
+            marker = "s32 MemCard_ProcessRequest"
             self.assertIn(marker, text)
             text = preamble + text[text.index(marker):]
             if mutation:

@@ -40,7 +40,7 @@ void func_8003DC1C(void)
     }
     status = -1;
     if (D_8009B3CC & 0x4000)
-        status = func_80044838(1, &D_8009B3E4, &D_8009B3C8);
+        status = MemCard_ProcessRequest(1, &D_8009B3E4, &D_8009B3C8);
     if ((D_8009B3CC & 0x1000) && status != 0 && status == 1) {
         switch (D_8009B3E4) {
         case 2:

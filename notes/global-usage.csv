@@ -2086,7 +2086,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F740,MemCardDialog_Start,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3DE = step;
 0x8009B3E0,gMemCard_pSecondaryTransferCursor,gMemCard_pSecondaryTransferCursor,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"(unsigned long *)gMemCard_pSecondaryTransferCursor, | gMemCard_pSecondaryTransferCursor += 0x80; | (+1 more)"
 0x8009B3E0,gMemCard_pSecondaryTransferCursor,gMemCard_pSecondaryTransferCursor,0x8003FE14,SaveData_RequestTradeWrite,matching_c,game,C,src/game/save_data_transfer_runtime.c,write,8,gMemCard_pSecondaryTransferCursor = q;
-0x8009B3E4,D_8009B3E4,D_8009B3E4,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,32,"status = func_80044838(1, &D_8009B3E4, &D_8009B3C8); | switch (D_8009B3E4) {"
+0x8009B3E4,D_8009B3E4,D_8009B3E4,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,32,"status = MemCard_ProcessRequest(1, &D_8009B3E4, &D_8009B3C8); | switch (D_8009B3E4) {"
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80030EC8,DebugMenu_UpdateTradeEntry,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B3EA = 0;
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80031000,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,C,src/game/debug_menu_two_player_entry.c,write,8,D_8009B3EA = 0;
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,read_write,8,D_8009B3EA &= 0xBF; | D_8009B3EA = 0x82; | (+11 more)
@@ -2154,51 +2154,51 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x80044278,MemCard_ReqReadSector,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x80044380,MemCard_ReqWriteSector,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
-0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,32,"(u8 *)gMemCard_pRequestBuf); | transfer_result = read(fd, (void *)gMemCard_pRequestBuf, | (+1 more)"
+0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,32,"(u8 *)gMemCard_pRequestBuf); | transfer_result = read(fd, (void *)gMemCard_pRequestBuf, | (+1 more)"
 0x8009B434,gMemCard_wRequestSize,gMemCard_wRequestSize,0x800441DC,MemCard_ReqReadFile,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestSize = size;
 0x8009B434,gMemCard_wRequestSize,gMemCard_wRequestSize,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestSize = size;
 0x8009B434,gMemCard_wRequestSize,gMemCard_wRequestSize,0x800443EC,MemCard_ReqCreateFile,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestSize = blocks;
-0x8009B434,gMemCard_wRequestSize,gMemCard_wRequestSize,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,16,(gMemCard_wRequestSize << 16) | 0x200); | gMemCard_wRequestSize); | (+1 more)
-0x8009B436,D_8009B436,D_8009B436,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,D_8009B436 = 0x14; | D_8009B436 = D_8009B436 - 1; | (+1 more)
+0x8009B434,gMemCard_wRequestSize,gMemCard_wRequestSize,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,16,(gMemCard_wRequestSize << 16) | 0x200); | gMemCard_wRequestSize); | (+1 more)
+0x8009B436,D_8009B436,D_8009B436,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,D_8009B436 = 0x14; | D_8009B436 = D_8009B436 - 1; | (+1 more)
 0x8009B437,gMemCard_bChannel,gMemCard_bChannel,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bChannel = chan;
 0x8009B437,gMemCard_bChannel,gMemCard_bChannel,0x8004413C,MemCard_ReqLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read,8,_card_clear(gMemCard_bChannel);
 0x8009B437,gMemCard_bChannel,gMemCard_bChannel,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read,8,"MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C, | _card_clear(gMemCard_bChannel); | (+2 more)"
-0x8009B437,gMemCard_bChannel,gMemCard_bChannel,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,8,"_card_read(gMemCard_bChannel, gMemCard_wRequestOffset, | _card_wait(gMemCard_bChannel != 0); | (+3 more)"
+0x8009B437,gMemCard_bChannel,gMemCard_bChannel,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,8,"_card_read(gMemCard_bChannel, gMemCard_wRequestOffset, | _card_wait(gMemCard_bChannel != 0); | (+3 more)"
 0x8009B438,gMemCard_nFreeBlocks,gMemCard_nFreeBlocks,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,32,slot->free_blocks = *(u8 *)&gMemCard_nFreeBlocks;
 0x8009B438,gMemCard_nFreeBlocks,gMemCard_nFreeBlocks,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_nFreeBlocks =
-0x8009B438,gMemCard_nFreeBlocks,gMemCard_nFreeBlocks,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,32,if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
+0x8009B438,gMemCard_nFreeBlocks,gMemCard_nFreeBlocks,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,32,if (gMemCard_nFreeBlocks + gMemCard_wRequestSize < 0x10)
 0x8009B43C,gMemCard_bRetries,gMemCard_bRetries,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bRetries = 10;
 0x8009B43C,gMemCard_bRetries,gMemCard_bRetries,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRetries = (u8)v0; | gMemCard_bRetries = 0xA; | (+1 more)
-0x8009B43C,gMemCard_bRetries,gMemCard_bRetries,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRetries = 0x14; | gMemCard_bRetries = 0xA; | (+3 more)
+0x8009B43C,gMemCard_bRetries,gMemCard_bRetries,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRetries = 0x14; | gMemCard_bRetries = 0xA; | (+3 more)
 0x8009B43D,gMemCard_bLoadStep,gMemCard_bLoadStep,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bLoadStep = 0;
 0x8009B43D,gMemCard_bLoadStep,gMemCard_bLoadStep,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bLoadStep = (u8)(gMemCard_bLoadStep + 1); | gMemCard_bLoadStep = 2; | (+1 more)
 0x8009B43E,gMemCard_bRequest,gMemCard_bRequest,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bRequest = -1;
 0x8009B43E,gMemCard_bRequest,gMemCard_bRequest,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRequest = request; | if (gMemCard_bRequest >= 0)
 0x8009B43E,gMemCard_bRequest,gMemCard_bRequest,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read,8,if (gMemCard_bRequest != 8) { | if (gMemCard_bRequest == 1) {
-0x8009B43E,gMemCard_bRequest,gMemCard_bRequest,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,*out_state = gMemCard_bRequest; | gMemCard_bRequest = -1; | (+5 more)
+0x8009B43E,gMemCard_bRequest,gMemCard_bRequest,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,*out_state = gMemCard_bRequest; | gMemCard_bRequest = -1; | (+5 more)
 0x8009B440,gMemCard_nDirEntries,gMemCard_nDirEntries,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,32,if (index < gMemCard_nDirEntries) { | } while (index < gMemCard_nDirEntries);
 0x8009B440,gMemCard_nDirEntries,gMemCard_nDirEntries,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read,32,"&gMemCard_nDirEntries); | MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries);"
 0x8009B440,gMemCard_nDirEntries,gMemCard_nDirEntries,0x80044CD4,MemCard_FindLoadedEntry,matching_c,game,C,src/game/mem_card_find_loaded_entry.c,read,32,"MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);"
 0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,,"*(s32 *)((u8 *)gMemCard_pDirEntries + 40 * index + 0x20) / 64); | FntPrint(D_8009AF6C, &gMemCard_pDirEntries[index]); | (+1 more)"
 0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_driver.c,write,,gMemCard_pDirEntries = 0;
 0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read_write,,"MemCard_CalcFreeBlocks(gMemCard_pDirEntries, gMemCard_nDirEntries); | gMemCard_pDirEntries = gMemCard_aDirEntries;"
-0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,,"gMemCard_pDirEntries, 0) == 0)"
+0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,,"gMemCard_pDirEntries, 0) == 0)"
 0x8009B444,gMemCard_pDirEntries,gMemCard_pDirEntries,0x80044CD4,MemCard_FindLoadedEntry,matching_c,game,C,src/game/mem_card_find_loaded_entry.c,read,,"MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);"
 0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x800441DC,MemCard_ReqReadFile,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestOffset = offset;
 0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x80044278,MemCard_ReqReadSector,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestOffset = sector;
 0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestOffset = offset;
 0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x80044380,MemCard_ReqWriteSector,matching_c,game,C,src/game/mem_card_driver.c,write,16,gMemCard_wRequestOffset = sector;
-0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read,16,"_card_read(gMemCard_bChannel, gMemCard_wRequestOffset, | _card_write(gMemCard_bChannel, gMemCard_wRequestOffset, | (+1 more)"
+0x8009B44C,gMemCard_wRequestOffset,gMemCard_wRequestOffset,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read,16,"_card_read(gMemCard_bChannel, gMemCard_wRequestOffset, | _card_write(gMemCard_bChannel, gMemCard_wRequestOffset, | (+1 more)"
 0x8009B44E,gMemCard_bDirFlags,gMemCard_bDirFlags,0x80043EBC,MemCard_InitIOEvents,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bDirFlags = 0;
 0x8009B44E,gMemCard_bDirFlags,gMemCard_bDirFlags,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bDirFlags |= 0x80; | if (gMemCard_bDirFlags & 0x80) {
 0x8009B44F,gMemCard_bRequestStep,gMemCard_bRequestStep,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,write,8,gMemCard_bRequestStep = 0;
-0x8009B44F,gMemCard_bRequestStep,gMemCard_bRequestStep,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRequestStep = gMemCard_bRequestStep + 1; | gMemCard_bRequestStep = resume_step; | (+3 more)
+0x8009B44F,gMemCard_bRequestStep,gMemCard_bRequestStep,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,8,gMemCard_bRequestStep = gMemCard_bRequestStep + 1; | gMemCard_bRequestStep = resume_step; | (+3 more)
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80043D48,MemCard_ClearIOEvents,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_nIOResult = -1;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044038,MemCard_ClearCard,matching_c,game,C,src/game/mem_card_driver.c,read,32,if (gMemCard_nIOResult != 1) | while (gMemCard_nIOResult < 0) {
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x800440B4,MemCard_BeginRequest,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_nIOResult = -1;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x8004413C,MemCard_ReqLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read,32,while (gMemCard_nIOResult < 0) {
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,read_write,32,gMemCard_nIOResult = 3; | gMemCard_nIOResult = 4; | (+4 more)
-0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,read_write,32,*out_result = gMemCard_nIOResult; | gMemCard_nIOResult = 0; | (+4 more)
+0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,read_write,32,*out_result = gMemCard_nIOResult; | gMemCard_nIOResult = 0; | (+4 more)
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044CFC,MemCard_SetIOResultCompleteCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 0;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044D0C,MemCard_SetIOResultTimeoutCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 1;
 0x8009B450,gMemCard_nIOResult,gMemCard_nIOResult,0x80044D20,MemCard_SetIOResultErrorCB,matching_c,game,C,src/game/mem_card_io_result_callbacks.c,write,32,gMemCard_nIOResult = 2;
@@ -2740,15 +2740,15 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044380,MemCard_ReqWriteSector,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x800443EC,MemCard_ReqCreateFile,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
-0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
+0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aIOEventHandles);
 0x800F2AF0,gMemCard_aHwIOEventHandles,gMemCard_aHwIOEventHandles,0x80044038,MemCard_ClearCard,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
 0x800F2AF0,gMemCard_aHwIOEventHandles,gMemCard_aHwIOEventHandles,0x8004413C,MemCard_ReqLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
 0x800F2AF0,gMemCard_aHwIOEventHandles,gMemCard_aHwIOEventHandles,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
-0x800F2AF0,gMemCard_aHwIOEventHandles,gMemCard_aHwIOEventHandles,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
+0x800F2AF0,gMemCard_aHwIOEventHandles,gMemCard_aHwIOEventHandles,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,address,32,MemCard_ClearIOEvents(gMemCard_aHwIOEventHandles);
 0x800F2B00,gMemCard_szRequestPath,gMemCard_szRequestPath,0x800441DC,MemCard_ReqReadFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x800F2B00,gMemCard_szRequestPath,gMemCard_szRequestPath,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x800F2B00,gMemCard_szRequestPath,gMemCard_szRequestPath,0x800443EC,MemCard_ReqCreateFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
-0x800F2B00,gMemCard_szRequestPath,gMemCard_szRequestPath,0x80044838,func_80044838,matching_c,game,C,src/game/mem_card_driver.c,address,8,"fd = open(gMemCard_szRequestPath, | fd = open(gMemCard_szRequestPath, mode); | (+1 more)"
+0x800F2B00,gMemCard_szRequestPath,gMemCard_szRequestPath,0x80044838,MemCard_ProcessRequest,matching_c,game,C,src/game/mem_card_driver.c,address,8,"fd = open(gMemCard_szRequestPath, | fd = open(gMemCard_szRequestPath, mode); | (+1 more)"
 0x800F2B20,D_800F2B20,D_800F2B20,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_x; | D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_y; | (+47 more)
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052694,func_80052694,matching_c,game,C,src/game/model_scene_setup.c,address,,e = &D_800F2B20; | g = &D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F2B20.eye.pair_slot = -1; | D_800F2B20.eye.pair_slot = index ^ 1; | (+6 more)

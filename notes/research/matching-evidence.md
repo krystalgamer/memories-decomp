@@ -1502,18 +1502,18 @@ so.**
 | candidate | surface signature | result of defining the globals with `--use-comm-section` |
 | --- | --- | --- |
 | `func_8002EE94` | four plain small externs, residual around a `%gp_rel` store | inert: 13 differing, 349 of 359 aligned, imbalance unchanged |
-| `func_80044838` | nine plain small externs, `%gp_rel` store / `j` / `nop` tails | inert: 283 differing, nine instructions short, on both profiles |
+| `MemCard_ProcessRequest` | nine plain small externs, `%gp_rel` store / `j` / `nop` tails | inert: 283 differing, nine instructions short, on both profiles |
 
 Both have the signature and neither moves at all. The lever fixes *addressing* -
 whether the assembler can prove a store is one gp-relative instruction - so the
 test is whether the candidate's gp-relative accesses actually differ from the
 target's. If they already agree, the declaration is not the problem, whatever
 sits next to them. `func_8002EE94`'s obstacle is store forwarding and
-`func_80044838` was nine instructions short of a structural match in this
+`MemCard_ProcessRequest` was nine instructions short of a structural match in this
 experiment; neither obstacle was an
 addressing fault.
 
-The later `func_80044838` resolution preserves these historical measurements.
+The later `MemCard_ProcessRequest` resolution preserves these historical measurements.
 Scoped call results, explicit failure closes, and a shared-entry create retry
 loop reproduce its 295 instructions and twelve-word jump table without changing
 the global declarations; see [Memory-card Runtime Events](../memory-card-runtime.md).
@@ -6064,7 +6064,7 @@ were affected here:
 | --- | --- | --- | --- |
 | `func_80046294` | 8 | 7 | a false difference |
 | `func_80015EF4` | 339 | 340 | a concealed real difference |
-| `func_80044838` | 285 | 288 | three concealed real differences |
+| `MemCard_ProcessRequest` | 285 | 288 | three concealed real differences |
 | `func_80029934` | 230 | 231 | the note was right, the tool was wrong |
 
 The last row is the useful one. That entry's note recorded 231 from an earlier

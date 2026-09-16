@@ -114,7 +114,7 @@ int printf(const char *format, ...)
     else error = 3;
     return 0;
 }
-s32 func_80044838(s32 mode, s32 *request, s32 *result)
+s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result)
 {
     event(5, mode, 0, 0, 0, 0);
     if (request != &D_8009B3E4 || result != &D_8009B3C8) error = 4;

@@ -42,7 +42,7 @@ REQUESTS = (
     ("MemCard_ReqReadSector", "s32", "s32, s32, s32", "0, 0, 0"),
     ("MemCard_ReqWriteSector", "s32", "s32, s32, s32", "0, 0, 0"),
     ("MemCard_ReqCreateFile", "s32", "s32, s32, s32", "0, 0, 0"),
-    ("func_80044838", "s32", "s32, s32 *, s32 *", "0, 0, 0"),
+    ("MemCard_ProcessRequest", "s32", "s32, s32 *, s32 *", "0, 0, 0"),
 )
 
 
@@ -120,7 +120,7 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
         )
         self.probe(
             '#include "mem_card.h"\n'
-            "s32 (*poll)(s32, s16 *, s32 *) = func_80044838;",
+            "s32 (*poll)(s32, s16 *, s32 *) = MemCard_ProcessRequest;",
             accepted=False, diagnostic="incompatible pointer|incompatible-pointer",
         )
 

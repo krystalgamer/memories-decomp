@@ -26,7 +26,7 @@ s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size
 s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
 s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
 s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
-s32 func_80044838(s32 mode, s32 *request, s32 *result);
+s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result);
 
 /* The result of the card's asynchronous IO, set from the callbacks
  * mem_card_io_result_callbacks.h declares and polled by the request state
@@ -57,7 +57,7 @@ extern s32 gMemCard_nIOResult;
  * The readers hand it back to _card_info, _card_clear and _card_load, and to
  * MemCard_FindFiles's s32 first parameter. Retail stores it with sb and
  * reads it with lbu at ten sites, all gp-relative into $a0, five of the reads
- * in func_80044838; so it is one unsigned byte, and the one
+ * in MemCard_ProcessRequest; so it is one unsigned byte, and the one
  * char spelling was the writer's, where a store shows no sign. */
 extern u8 gMemCard_bChannel;
 
@@ -182,7 +182,7 @@ extern u8 D_8009B436;
  * and `gMemCard_bRetries = 0xA;`
  * (func_80044608.s lbu :40, :94, :121; sb :43, :73, :97, :104, :124). The
  * writer spelled it char, where a store shows no sign; the gMemCard_bChannel
- * comment above records the same split. func_80044838 reads the byte,
+ * comment above records the same split. MemCard_ProcessRequest reads the byte,
  * decrements it with byte wrapping, and tests the signed result.
  * gMemCard_bLoadStep is the
  * next symbol, at +1 (c_symbols.ld:272). Every access is `%gp_rel`; plain

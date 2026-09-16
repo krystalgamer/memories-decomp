@@ -422,7 +422,7 @@ ret:
     return gMemCard_nIOResult;
 }
 
-s32 func_80044838(s32 arg0, s32 *out_state, s32 *out_result)
+s32 MemCard_ProcessRequest(s32 arg0, s32 *out_state, s32 *out_result)
 {
     s32 r;
     s32 fd;

@@ -9,7 +9,7 @@
  * only negative when idle); otherwise records the channel and request code
  * in gMemCard_bChannel and gMemCard_bRequest, resets gMemCard_bRetries,
  * gMemCard_bLoadStep and gMemCard_bRequestStep, and marks gMemCard_nIOResult
- * pending. The matching controller func_80044838 dispatches on the code and puts
+ * pending. The matching controller MemCard_ProcessRequest dispatches on the code and puts
  * the slot back to -1 once it hands the caller a result:
  *
  *    1  MemCard_ReqCardInfo       _card_info only; reports the card's state
