@@ -49,7 +49,7 @@ void func_8003DC1C(void)
             case 3:
                 D_8009B3CC |= 0x800;
             case 0:
-                slot->free_blocks = *(u8 *)&gMemCard_nFreeBlocks;
+                slot->free_blocks = (u8)gMemCard_nFreeBlocks;
                 goto success;
             case 4:
                 D_8009B3CC |= 2;
