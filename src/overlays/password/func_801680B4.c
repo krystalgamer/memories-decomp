@@ -1,14 +1,14 @@
 #include "../../types.h"
+#include "../../game/display_object.h"
 #include "../../game/display_object_core.h"
 #include "../../game/display_object_layout.h"
 
 u8 *func_801680B4(s32 x, s32 y)
 {
-    u8 *object;
+    DisplayObject *object;
 
     object = func_800400AC(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, x, y, 0, 0, 0, 0x17, 0x101);
-    *(u16 *)(object + 8) =
-        *(u16 *)(object + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    return object;
+    object->flags = object->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    return (u8 *)object;
 }
