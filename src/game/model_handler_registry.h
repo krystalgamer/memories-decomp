@@ -31,6 +31,17 @@ typedef char ModelType2RecordHeader_size_must_be_4[
     sizeof(ModelType2RecordHeader) == 4 ? 1 : -1
 ];
 
+/* Twelve-byte stream record. Only the indexed auxiliary-buffer offset is
+ * named until the preceding halfword roles are migrated. */
+typedef struct {
+    u8 pad_00[8];
+    s32 index_offset;
+} ModelType2Record;
+
+typedef char ModelType2Record_size_must_be_0xC[
+    sizeof(ModelType2Record) == 0xC ? 1 : -1
+];
+
 void Model_RegisterHandlerKey(s32 key, s32 val);
 s32 Model_FindHandlerKey(s32 val);
 void Model_ProcessType2Unit(

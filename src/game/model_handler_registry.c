@@ -264,7 +264,8 @@ void Model_ProcessType2Unit(
                 b = ((ModelType2Scratch *)r)->indices;
                 if (b != (u8 *)0) {
                     j = 0;
-                    e = (u16 *)(b + *(s32 *)(q + 8) * 4);
+                    e = (u16 *)(b +
+                        ((ModelType2Record *)q)->index_offset * 4);
                     rec = q;
                     if (*(s16 *)(q + 6) > 0) {
                         do {
