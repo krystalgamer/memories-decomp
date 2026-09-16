@@ -13,7 +13,8 @@ void func_80038690(DuelEffectChannel *object)
 
 void func_800386B8(DuelEffectChannel *object)
 {
-    u8 **slot = (u8 **)object + object->stream_58;
+    u8 **slot =
+        &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *stream = *slot;
     s32 command = *stream;
     s32 op;
