@@ -83,7 +83,10 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
     return 1;
 }
 
-s32 func_8004149C(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_JumpToRandomOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     int i = rand() % data[0];
     unsigned hi, lo;

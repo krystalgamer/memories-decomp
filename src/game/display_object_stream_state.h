@@ -30,7 +30,10 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
  * little-endian halfword offsets. One is picked with rand(), and the stream
  * cursor at +0x50 is set to the stream base at +0x54 plus that offset, so the
  * opcode is a random jump. Also zeroes the halfword at +0x58. Returns 1. */
-s32 func_8004149C(DisplayObjectStreamState *object, const u8 *data);
+s32 DisplayObjectStream_JumpToRandomOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+);
 
 /* Display-object stream opcode 0xF9, entry 6 of D_80090FEC
  * (model_record_tables.c). It reads four operand bytes: the first into

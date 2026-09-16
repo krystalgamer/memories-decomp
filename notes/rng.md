@@ -215,14 +215,15 @@ after the record's other fields have already been initialized. Deterministic
 duel traces must reproduce those branch outcomes, not assume that every
 invocation of `func_8002712C` consumes a value.
 
-`func_8004149C` treats its data argument as a count byte followed by that many
-little-endian 16-bit offsets. It consumes one RNG value, selects
-`rand() % count`, clears object halfword `+0x58`, and sets object pointer
-`+0x50` to the base pointer at `+0x54` plus the selected offset. The call to
-`rand` occurs before the count is used, so even a malformed zero-count table
-advances the stream before the generated signed-division guard traps. For a
-valid count `N`, the same `32768 = qN + r` modulo bias applies: entries
-`0` through `r - 1` have one more source value than the remaining entries.
+`DisplayObjectStream_JumpToRandomOffset` treats its data argument as a count
+byte followed by that many little-endian 16-bit offsets. It consumes one RNG
+value, selects `rand() % count`, clears object halfword `+0x58`, and sets
+object pointer `+0x50` to the base pointer at `+0x54` plus the selected offset.
+The call to `rand` occurs before the count is used, so even a malformed
+zero-count table advances the stream before the generated signed-division
+guard traps. For a valid count `N`, the same `32768 = qN + r` modulo bias
+applies: entries `0` through `r - 1` have one more source value than the
+remaining entries.
 
 The drop threshold has equally sized preimages: masking with
 `DUEL_DROP_WEIGHT_TOTAL - 1` produces 0-2047 exactly 16 times each before the
