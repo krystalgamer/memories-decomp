@@ -50,6 +50,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/memory.h"
 #include "../psyq/rand.h"
+#include "../game/model_subdivided_effect.h"
 #include "../game/func_80057E20.h"
 #include "../game/func_80058E1C.h"
 #include "../game/model_copy_slot_u16_values.h"
@@ -61,8 +62,6 @@
 #include "../game/model_state_setters.h"
 #include "../game/screen_projection.h"
 #include "../game/sound.h"
-
-extern VECTOR D_8001188C;
 
 #define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
 
