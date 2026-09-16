@@ -11,15 +11,28 @@
 #include "../game/card_constants.h"
 #include "../ygo_types.h"
 /*
- * Current best under gcc_2_8_1_g8_split: 384/384 instructions with 135
- * differing words against the assembled target. Scratchpad records must be
+ * Current best under gcc_2_8_1_g8_split: 384/384 instructions with an empty
+ * opcode census against the assembled target. Scratchpad records must be
  * locals below the entry guards; the parameter word widths, field_67/field_68
  * roles, live 0xFFFF addend, shared clamp/loop local, and delayed field_0
  * update are structural. CTX->field_3 = 9 sits in its own do/while (0), the
  * sprite's uv word is stored right after its first x coordinate, and the
  * field_32 + 0x20 row coordinate is computed into ny2 ahead of its store.
- * Residual: two rematerialized 0xF8 values replace target nops, plus
- * register choices.
+ *
+ * The 0xF8 sprite height is written as a literal at all five of its sites,
+ * not held in a local. gcc 2.8 has no global CSE, so a named local becomes
+ * one pseudo that survives across blocks and is materialised where retail
+ * has nothing; the literal is recomputed per block, as retail does. The five
+ * sites are a coupled set -- substituting any one of them alone changes
+ * nothing measurable, and only all five together remove both surplus addiu.
+ *
+ * The uv word is read before the extent word, which is the reverse of the
+ * order the fields are declared in. Written the other way round, the extent
+ * load fills the delay slot of the uv load, where retail leaves it empty;
+ * the two assignments are to distinct fields and neither depends on the
+ * other, so the order is free.
+ *
+ * Residual: register choices only.
  */
 void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
@@ -34,11 +47,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     u16 flags;
     u32 f4;
     u32 tile;
-    s32 white;
     s32 wrap;
     s32 ny2;
 
-    white = 0xF8;
     wrap = 0xFFFF;
     win = (DisplayObject *)obj->field_54;
     if ((obj->attribute & GsDOFF) != 0) {
@@ -89,7 +100,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->extent.wh.w.word = 0x60;
     PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
     PRM->extent.wh.h = 0xE;
-    PRM->cxcy.h.cy = white;
+    PRM->cxcy.h.cy = 0xF8;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
     PRM->cxcy.h.cx = 0x1E0;
@@ -100,22 +111,22 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
     PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;
     PRM->xy.h.y = win->field_30.h.field_32 + obj->field_30.h.field_32;
-    *(u32 *)&PRM->extent = obj->field_3C.word;
     PRM->uv.word = obj->field_5E;
+    *(u32 *)&PRM->extent = obj->field_3C.word;
     rec = &D_800EA0E8[obj->field_67];
     if (obj->field_68 < 0x14) {
         if (rec->field_3C & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
         func_80042188(PRM, CTX, arg1, arg, EXT);
-        PRM->cxcy.h.cy = white;
+        PRM->cxcy.h.cy = 0xF8;
         PRM->uv.b.hi = PRM->uv.b.hi + *(u8 *)&PRM->extent.wh.h;
         PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
         if (rec->field_3C & 0x40) {
             PRM->cxcy.h.cy = 0xF9;
         }
         func_80042188(PRM, CTX, arg1, arg, EXT);
-        PRM->cxcy.h.cy = white;
+        PRM->cxcy.h.cy = 0xF8;
 
         i = rec->field_32 + rec->field_36;
         if (i > CARD_STAT_MAX) {
@@ -144,7 +155,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         } while (i >= 0);
 
         PRM->xy.h.x = win->field_30.h.field_30 + 0x61;
-        PRM->cxcy.h.cy = white;
+        PRM->cxcy.h.cy = 0xF8;
         PRM->xy.h.y = win->field_30.h.field_32 + 0xAB;
         if (rec->field_3C & 0x40) {
             PRM->cxcy.h.cy = 0xF9;
@@ -162,7 +173,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         PRM->cxcy.h.cx = 0x1C0;
         *(u32 *)&PRM->extent = 0x00090009;
         PRM->uv.b.lo = 0;
-        PRM->cxcy.h.cy = white;
+        PRM->cxcy.h.cy = 0xF8;
         PRM->xy.h.y = ny2;
         if (rec->field_3A != 0) {
             i = 0;
