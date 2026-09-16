@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-void func_8003C950(void);
+void GameOver_Init(void);
 s32 func_8003CA5C(void);
 
 #endif

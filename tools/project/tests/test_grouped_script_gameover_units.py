@@ -68,7 +68,7 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
             ),
             (
                 "src/game/game_over.c",
-                ("void func_8003C950(", "s32 func_8003CA5C("),
+                ("void GameOver_Init(", "s32 func_8003CA5C("),
             ),
             (
                 "src/game/script_op_save_prompt.c",
