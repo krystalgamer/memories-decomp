@@ -10,7 +10,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[3]
-SOURCE = ROOT / "src/game/func_80044838.c"
+SOURCE = ROOT / "src/game/mem_card_driver.c"
 START = """
 .text
 .globl _start
@@ -266,7 +266,14 @@ class MemCardIOControllerTests(unittest.TestCase):
         scratch.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(dir=scratch) as temporary:
             directory = Path(temporary)
-            source = SOURCE
+            text = SOURCE.read_text()
+            preamble, separator, _ = text.partition(
+                "void MemCard_ClearIOEvents"
+            )
+            self.assertTrue(separator)
+            marker = "s32 func_80044838"
+            self.assertIn(marker, text)
+            text = preamble + text[text.index(marker):]
             if mutation:
                 edits = {
                     "attempts": ("for (tries = 0xA;;)", "for (tries = 9;;)"),
@@ -280,16 +287,16 @@ class MemCardIOControllerTests(unittest.TestCase):
                     ),
                 }
                 old, new = edits[mutation]
-                text = SOURCE.read_text()
                 self.assertIn(old, text)
                 text = text.replace(old, new)
-                text = re.sub(
-                    r'^#include "([^"]+)"',
-                    lambda m: '#include "' + str((SOURCE.parent / m[1]).resolve()) + '"',
-                    text, flags=re.MULTILINE,
-                )
-                source = directory / "mutated.c"
-                source.write_text(text)
+            text = re.sub(
+                r'^#include "([^"]+)"',
+                lambda m: '#include "' +
+                    str((SOURCE.parent / m[1]).resolve()) + '"',
+                text, flags=re.MULTILINE,
+            )
+            source = directory / "controller.c"
+            source.write_text(text)
             fixture = directory / "fixture.c"
             fixture.write_text(WITNESS)
             start = directory / "start.S"

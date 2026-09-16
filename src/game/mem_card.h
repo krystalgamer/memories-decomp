@@ -161,7 +161,7 @@ extern u8 gMemCard_bDirFlags;
  * (:120), four to the offset (:165, :182, :199, :216) and three to the size
  * (:167, :201, :233) -- and a store is `sb` or `sh` whichever sign the
  * declaration carries, so the signed views it used to select never reached an
- * instruction. The poll, src/game/func_80044838.c, is what reads them,
+ * instruction. The poll, src/game/mem_card_driver.c, is what reads them,
  * and its target listing fixes the widths and signs: eight `lbu` of the step,
  * three `lhu` of the offset and four of the size
  * in its byte-matched resident body.

@@ -185,7 +185,7 @@ returns its refusal unchanged; on success the wrapper stages its arguments in
 the shared request globals, starts `_card_info(chan)` against
 `gMemCard_aIOEventHandles`, and returns `1` without waiting.
 
-The poll at `0x80044838` is matching C in `src/game/func_80044838.c`.
+The poll at `0x80044838` is matching C in `src/game/mem_card_driver.c`.
 Its dispatch fixes what each code does.
 It returns `-1` while the slot is idle and `0` while the request is still
 running; when it finishes it writes the result first and then the request
@@ -257,7 +257,7 @@ and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
 [memory-card-work-controller.md](memory-card-work-controller.md). The request
 prototypes live in `mem_card.h`; event initialization remains in
 `io_event_helpers.h`. The grouped driver remains separate from the matching
-request controller in `src/game/func_80044838.c`.
+request controller in `src/game/mem_card_driver.c`.
 
 ## Directory enumeration
 
@@ -280,7 +280,7 @@ own name and treats a zero count as the name being free.
 ### Shared request and directory contracts
 
 The matching producer in `mem_card_driver.c` and matching controller in
-`src/game/func_80044838.c` consume the request declarations in `mem_card.h`,
+`src/game/mem_card_driver.c` consume the request declarations in `mem_card.h`,
 the directory API in `mem_card_directory.h`, and the existing event API in
 `io_event_helpers.h`.
 The earlier ownership migration removed eight driver-local globals and

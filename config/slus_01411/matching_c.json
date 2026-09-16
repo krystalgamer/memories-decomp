@@ -4126,7 +4126,7 @@
       "address": "0x80044838",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x49C",
-      "source": "src/game/func_80044838.c"
+      "source": "src/game/mem_card_driver.c"
     },
     {
       "address": "0x80044CD4",
