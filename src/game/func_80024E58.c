@@ -37,7 +37,7 @@ void DuelEffect_ApplyTerrain(void) {
     if (DuelEffect_MarkInitialized() == 0) {
         r = D_8009B1C8;
         r->rank.field_0A = r->rank.field_0A + 1;
-        v = *(u8 *)&gDuel_wEffectCardID - 0x49;
+        v = (u8)gDuel_wEffectCardID - 0x49;
         gDuel_bTerrain = v;
         n = gDuel_bTerrain - 1;
         e = DuelEffect_AllocateRequest(0xA);
