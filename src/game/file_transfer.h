@@ -77,18 +77,18 @@ void File_RequestNameEntryPackage(void);
 void File_RequestPasswordPackage(void);
 void File_RequestEgyptOverworldPackage(void);
 void Options_LoadPackageStage(FileTransferDescriptor *descriptor, s32 mode);
-void func_8003C328(FileTransferDescriptor *descriptor, s32 mode);
+void GameOver_LoadPackageStage(
+    FileTransferDescriptor *descriptor,
+    s32 mode
+);
 void Main_LoadBootPackageStage(
     FileTransferDescriptor *descriptor, s32 stage
 );
 void func_800434F4(FileTransferDescriptor *descriptor, s32 mode);
 void MainMenu_LoadPackageStage(FileTransferDescriptor *descriptor, s32 stage);
 
-/* Another wrapper of the same shape as the four above: it asks for sector
-   0x2157, 0x32 sectors, with func_8003C328 as the completion callback, then
-   waits. It keeps its address-based name because which package that sector
-   holds is not established here -- the four named ones use FILE_WA_*
-   constants, and this one still spells the sector as a literal. */
+/* Loads the fixed Game Over image package: Main_RunGameOver calls it on first
+ * entry immediately before func_8003C950 initializes that screen. */
 void func_8003C498(void);
 
 /* Puts the loader's control halfword at 0x8009B112 into mode 2, clearing the

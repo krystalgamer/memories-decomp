@@ -296,6 +296,21 @@ two variants of `PocketStation   Yu-Gi-Oh! Shin Duel Monsters`, differing in
 the title punctuation. See [`options-screen.md`](options-screen.md) for the
 input reachability boundary and exact hashes.
 
+### Game Over package
+
+`Main_RunGameOver` calls `func_8003C498` on first entry, immediately before
+the resident Game Over screen is initialized. That wrapper requests 50 WA
+sectors beginning at `0x2157`, and `GameOver_LoadPackageStage` accounts for
+all three phases:
+
+| WA range | Size | Callback behavior |
+|---:|---:|---|
+| `0x10AB800-0x10C3800` | `0x18000` / 48 sectors | Schedules the Game Over image payload through the GPU/VRAM transfer path. |
+| `0x10C3800-0x10C4000` | `0x800` / 1 sector | Stages palette data. |
+| `0x10C4000-0x10C4800` | `0x800` / 1 sector | Uploads the staged block as a `256 x 4` rectangle at VRAM `(0, 240)`, then transfers this sector to `0x801AF000`. |
+
+The phase sizes total the requested 50 sectors exactly.
+
 ## Development-path evidence
 
 The executable preserves paths including:
