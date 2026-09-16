@@ -23,12 +23,15 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
     }
     if ((arg0 & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
         SDValue *a = g_SDValue;
+        u8 *table;
         u16 v;
 
         lo = (arg0 & SD_VOICE_LOOKUP_INDEX_MASK) << 1;
         hi = arg0 & SD_VOICE_LOOKUP_BANK_FLAG;
         hi = (hi != 0) << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        v = *(u16 *)((u8 *)a + (lo + hi) + SD_VOICE_LOOKUP_BYTE_OFFSET);
+        /* Keep the table base separate from the byte offset for allocation. */
+        table = (u8 *)&a->field_044C;
+        v = *(u16 *)(table + (lo + hi));
         ff = SD_PENDING_ENTRY_NONE;
         if (v == ff) {
             return;
