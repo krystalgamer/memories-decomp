@@ -337,6 +337,7 @@ AiScript_Print = 0x800736C4; // type:func
 // Semantic names
 SD_SEPlayFull = 0x8003FEE0; // type:func
 SD_ResetCdPan = 0x80044DA0; // type:func
+SD_CalcSpatialVolumePan = 0x8005A6A8; // type:func
 SD_InitState = 0x80046768; // type:func
 SD_ResetRuntime = 0x80046DE8; // type:func
 SD_SetOutputType = 0x80046FA0; // type:func

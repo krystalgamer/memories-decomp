@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8005A6A8_H
-#define MEMORIES_DECOMP_FUNC_8005A6A8_H
+#ifndef MEMORIES_DECOMP_SD_CALC_SPATIAL_VOLUME_PAN_H
+#define MEMORIES_DECOMP_SD_CALC_SPATIAL_VOLUME_PAN_H
 
 #include "../types.h"
 
@@ -8,6 +8,8 @@
  * 700, sets the volume byte in *arg2 (0xFF down to 0x10). The signed
  * projection onto the listener direction, divided by 16 and clamped to
  * +-0x7F, sets the pan in *arg3. */
-void func_8005A6A8(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3);
+void SD_CalcSpatialVolumePan(
+    s32 x, s32 z, u8 *volume, u8 *pan
+);
 
 #endif

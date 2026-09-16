@@ -1,13 +1,13 @@
 #include "../types.h"
 #include "camera_view.h"
 #include "../psyq/libgte.h"
-#include "func_8005A6A8.h"
+#include "sd_calc_spatial_volume_pan.h"
 
 /* Distance-to-camera fade and pan for one sound source: the square root of
  * the distance from the listener record at D_800F56F0, minus 700, sets the
  * volume byte (0xFF down to 0x10), and the signed projection onto the
  * listener direction, divided by 16 and clamped to +-0x7F, sets the pan. */
-void func_8005A6A8(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
+void SD_CalcSpatialVolumePan(s32 arg0, s32 arg1, u8 *arg2, u8 *arg3) {
     s32 a;
     s32 b;
     s32 c;

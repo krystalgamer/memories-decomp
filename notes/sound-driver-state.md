@@ -535,10 +535,10 @@ music/sequence helpers.
 
 ## Spatial volume and pan
 
-Matching `func_8005A6A8` converts one sound source's X/Z position into a
-volume byte and signed pan byte using the 32-byte reference-view record at
-`D_800F56F0` documented in `notes/model-structures.md`. Let `(sx, sz)` be the
-source, `(vx, vz)` the viewpoint, and `(rx, rz)` the reference point.
+Matching `SD_CalcSpatialVolumePan` converts one sound source's X/Z position
+into a volume byte and signed pan byte using the 32-byte reference-view record
+at `D_800F56F0` documented in `notes/model-structures.md`. Let `(sx, sz)` be
+the source, `(vx, vz)` the viewpoint, and `(rx, rz)` the reference point.
 
 The volume uses the XZ-plane distance from the viewpoint:
 
