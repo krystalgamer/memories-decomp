@@ -11,12 +11,12 @@
  *
  * DuelEffect_PlaySoundCommand plays a sound effect or, with bit 15 set, routes
  * the id through func_8003FF88 and latches a second word into D_8009B33C.
- * func_80038690 is the plain BGM play. func_800386B8 is the BGM control byte:
- * a non-zero low six bits play the next stream word, otherwise bits 0, 1 and 2
- * replay, latch or copy the current command -- and bit 7 puts the object into
- * wait state 0xC and raises D_8009B350. */
+ * DuelEffect_PlayBgmCommand is the plain BGM play. func_800386B8 is the BGM
+ * control byte: a non-zero low six bits play the next stream word, otherwise
+ * bits 0, 1 and 2 replay, latch or copy the current command -- and bit 7 puts
+ * the object into wait state 0xC and raises D_8009B350. */
 void DuelEffect_PlaySoundCommand(DuelEffectChannel *object);
-void func_80038690(DuelEffectChannel *object);
+void DuelEffect_PlayBgmCommand(DuelEffectChannel *object);
 void func_800386B8(DuelEffectChannel *object);
 
 #endif

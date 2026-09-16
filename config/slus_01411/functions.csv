@@ -480,7 +480,7 @@ address,size,name,status,module,notes
 0x80038498,0x4C,func_80038498,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x800384E4,0x4C,func_800384E4,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80038530,0x160,Text_StartCampaignDuel,matching_c,game,Exact pin-free campaign duel command: separate per-byte slot/cursor/value lifetimes recover all 352 bytes under uniform G0. Canonical globals with unsigned opponent reload after the word reader and explicit signed equality views. No instruction assembly or source-local externs.
-0x80038690,0x28,func_80038690,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80038690,0x28,DuelEffect_PlayBgmCommand,matching_c,game,Reads one 16-bit command operand and starts BGM playback with it; exact match with gcc_2_8_1_g8.
 0x800386B8,0xE0,func_800386B8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038798,0x68,DuelEffect_PlaySoundCommand,matching_c,game,Post-terminal pure-C match; explicit 16-bit masking plus real callee arguments reproduces the redundant retail mask sequence.
 0x80038800,0x88,DuelEffect_FadeOutBgmCommand,matching_c,game,"Reads a fade step from the active duel-effect stream, fades BGM with the default or explicit step, and marks the command complete when the high bit is set."

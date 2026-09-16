@@ -6,7 +6,7 @@
 #include "duel_effect.h"
 #include "duel_effect_play_sound_command.h"
 
-void func_80038690(DuelEffectChannel *object)
+void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 {
     SD_BGMPlay((u16)func_80036D3C(object));
 }
