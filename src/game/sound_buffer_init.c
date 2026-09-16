@@ -3,7 +3,7 @@
 #include "sound.h"
 #include "sound_buffer_init.h"
 
-void func_80044D48(void)
+void SD_InitBufferState(void)
 {
     SDValue *base;
 
