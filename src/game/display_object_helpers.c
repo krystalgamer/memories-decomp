@@ -119,7 +119,7 @@ int func_80042960(DisplayObject *object)
             DISPLAY_OBJECT_RENDERABLE_MASK);
 }
 
-u32 func_800429A8(const u8 *data)
+u32 DisplayObject_ReadU16LE(const u8 *data)
 {
     return (data[1] << 8) | data[0];
 }
