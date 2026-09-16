@@ -8,6 +8,7 @@
  * and entry `z` of the third must be non-zero. Returns 1 when all three are
  * non-zero, 0 at the first zero. func_8003A1EC asks it about the table at
  * D_801AF000 or D_801AF800. */
-int func_8003A198(unsigned char *b, int x, int y, int z);
+int DisplayEffect_HasResourceEntry(
+    unsigned char *base, int group, int row, int entry);
 
 #endif
