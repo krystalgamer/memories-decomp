@@ -15,10 +15,39 @@
  * byte-identical; the sprite base remains a compiler operand rather than a
  * named register.
  *
- * Residual: one inverted branch around always-executed scaling that retail
- * guards with a literal zero, scratchpad address constants built through
- * different registers (addu -2, ori -1), and two extra nops. The remaining
- * work is source shape and scheduling.
+ * Residual: four instructions, with two axes measured and closed. Discount the
+ * census pair c2 +4 / rtps -4 throughout: those are the same four GTE words
+ * spelled differently by the two renderers.
+ *
+ * The two extra nops are one phenomenon rather than two. Retail splits an
+ * address's %hi/%lo pair and puts half of it in a delay slot -- addiu %lo of
+ * D_800FE148 in the jal GsSetLsMatrix slot, lui %hi of D_800E9D90 in the bgez
+ * slot -- while this source keeps each pair adjacent and the slot takes a nop.
+ * The declarations are not the axis: MATRIX is 32 bytes and the GsOT * array
+ * 16, so both symbols are already outside small data, and the target listing
+ * has no %gp_rel and no lui $at at all. The profile is: under
+ * gcc_2_8_1_g0_split both nops go (surplus 3 -> 1, non-equal blocks 22 -> 18),
+ * and the length then reads 383/386 instead of 385/386 -- the 385 was two
+ * faults cancelling, not agreement. Control: gcc_2_8_1_g0_no_split is
+ * byte-identical to the installed profile, which is what shows the default is
+ * already the unsplit form. Not installed here, because the deficit below is
+ * still open and the change would be argued on the census alone.
+ *
+ * The inverted branch is a dead branch that retail emits anyway: it zeroes $v0
+ * after the RotMatrixZYX_gte call and branches bnez on that zero, so the
+ * scaling always runs and the call's return value is discarded. A local zero
+ * tested from another basic block does not reproduce it -- gcc folds the test
+ * and deletes the branch, measured at two positions, both identical to each
+ * other. Deleting the branch outright is worse, not better: it trades the
+ * surplus beqz for a missing bnez and addu.
+ *
+ * The last addu/ori is retail holding 0x1F800000 intact in a register and
+ * deriving rot by copy plus or, where this source spends a fresh lui/ori.
+ * Respelling the base does not reach it -- a base local added, or-ed, or used
+ * for rot alone all compile byte-identically to the plain constants, because
+ * the base is a compile-time constant and gcc folds every form. The sharing is
+ * the compiler's own CSE decision, so what is left to try is position and
+ * register pressure, not further spellings of the constant.
  */
 #include "../types.h"
 #include "../ygo_types.h"
