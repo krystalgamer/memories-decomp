@@ -5,7 +5,7 @@
 
 /* Stores `value` in the secondary sound state's byte 0x509 and mirrors
  * whether it is non-zero into flag_0500. */
-void func_8004695C(s32 value);
+void SD_SetSequenceVSyncMode(s32 value);
 
 /* Takes the LBAs of the three sound data sources, in order SE, BGM and XA
  * (Sound_InitFrontend passes them from gFile_anLba). A zero LBA clears that
