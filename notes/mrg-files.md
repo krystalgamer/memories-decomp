@@ -277,8 +277,8 @@ resource-level offsets and visual-label confidence.
 ### Options and PocketStation package
 
 `Main_RunOptionsMenu` calls `func_8003C2B4`, which first requests 50 WA
-sectors beginning at `0x2115`. Its matching callback `func_8003C120` accounts
-for the complete package:
+sectors beginning at `0x2115`. Its matching callback
+`Options_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|
