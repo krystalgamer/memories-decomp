@@ -2536,7 +2536,7 @@
       "address": "0x80036D70",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/func_80036D70.c"
+      "source": "src/game/text_stream_read_u32_le.c"
     },
     {
       "address": "0x80036DBC",

@@ -70,7 +70,7 @@ explains why these are not persistent ATK/DEF globals.
   candidates that carry a `module`, finds `D_801D5608` in no entry's
   canonical contracts, so no entry declares it privately; that file does not
   move when this header changes. The indirect text number
-  reader (`func_80038148` via `func_80036D70`) retains its integer address
+  reader (`func_80038148` via `TextStream_ReadU32LE`) retains its integer address
   boundary; the producer views do not establish a universal pointee type for
   that general script operand.
 

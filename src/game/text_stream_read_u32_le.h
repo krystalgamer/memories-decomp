@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80036D70_H
-#define MEMORIES_DECOMP_FUNC_80036D70_H
+#ifndef MEMORIES_DECOMP_TEXT_STREAM_READ_U32_LE_H
+#define MEMORIES_DECOMP_TEXT_STREAM_READ_U32_LE_H
 
 #include "../types.h"
 #include "../ygo_types.h"
@@ -15,6 +15,6 @@
  * stream_58; the sole caller casts that wider record to this narrow view.
  *
  * func_80038148 is the only consumer. */
-u32 func_80036D70(TextStreamOwner *object);
+u32 TextStream_ReadU32LE(TextStreamOwner *object);
 
 #endif

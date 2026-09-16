@@ -5,7 +5,7 @@
 #include "text_constants.h"
 #include "duel_effect.h"
 #include "text_encode_decimal_digits.h"
-#include "func_80036D70.h"
+#include "text_stream_read_u32_le.h"
 #include "func_80036D3C.h"
 #include "duel_effect_command.h"
 #include "../unmatched.h"
@@ -179,7 +179,7 @@ void func_80038148(DuelEffectChannel *object)
     s32 h;
     s32 w;
 
-    r = func_80036D70((TextStreamOwner *)object);
+    r = TextStream_ReadU32LE((TextStreamOwner *)object);
     t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);

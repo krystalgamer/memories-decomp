@@ -31,9 +31,9 @@ void func_800380D4(DuelEffectChannel *object);
 void func_80038110(DuelEffectChannel *object);
 
 /* D_80090EAC entry: formats a decimal number into the object's text. The value
- * comes through func_80036D70 as a pointer, the width from the low nibble of the
- * next stream byte, and Text_EncodeDecimalDigits does the conversion into a
- * local buffer before the glyphs are appended. */
+ * comes through TextStream_ReadU32LE as a pointer, the width from the low
+ * nibble of the next stream byte, and Text_EncodeDecimalDigits does the
+ * conversion into a local buffer before the glyphs are appended. */
 void func_80038148(DuelEffectChannel *object);
 
 /* D_80090EAC entry: sets the object's glyph cell size from a one-byte operand --
