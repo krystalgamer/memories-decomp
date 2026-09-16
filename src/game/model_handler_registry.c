@@ -248,7 +248,7 @@ void Model_ProcessType2Unit(
 
     m = 0x2000001;
     i = 0;
-    q = *(u8 **)scratch;
+    q = ((ModelType2Scratch *)scratch)->records;
     r = scratch;
     n = *(u16 *)(q + 2);
     q += 4;
@@ -261,7 +261,7 @@ void Model_ProcessType2Unit(
         do {
             q = p + 0xC;
             if (unit->type == m) {
-                b = *(u8 **)(r + 0x18);
+                b = ((ModelType2Scratch *)r)->indices;
                 if (b != (u8 *)0) {
                     j = 0;
                     e = (u16 *)(b + *(s32 *)(q + 8) * 4);

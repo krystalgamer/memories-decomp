@@ -10,6 +10,17 @@ typedef struct {
     u32 *ptr;
 } ModelTypeUnit;
 
+/* Pointer-bearing prefix used by the type-2 unit processor's scratch block. */
+typedef struct {
+    u8 *records;
+    u8 pad_04[0x14];
+    u8 *indices;
+} ModelType2Scratch;
+
+typedef char ModelType2Scratch_indices_offset_must_be_0x18[
+    ((u32)&(((ModelType2Scratch *)0)->indices)) == 0x18 ? 1 : -1
+];
+
 void Model_RegisterHandlerKey(s32 key, s32 val);
 s32 Model_FindHandlerKey(s32 val);
 void Model_ProcessType2Unit(
