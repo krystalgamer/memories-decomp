@@ -172,7 +172,9 @@ void func_80056828(s32 index)
     }
     case 10:
         if (slot->field_E1D == 0) {
-            func_80048D08(index, (u32 *)(D_801A8000 + (index << 11)));
+            SD_LoadSequenceBankPair(
+                index, (u32 *)(D_801A8000 + (index << 11))
+            );
         }
         break;
     case 11:

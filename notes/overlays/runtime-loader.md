@@ -654,7 +654,7 @@ finalization mode:
 | `0xF08800-0xF20800` | `0x18000` / 48 sectors | Schedules the second image payload through the GPU/VRAM transfer path. |
 | `0xF20800-0xF21000` | `0x800` / 1 sector | Stages a second palette block. The callback uploads its first `0x400` bytes as a `256 x 2` rectangle to VRAM `(256, 246)`; the remaining `0x400` bytes are zero padding. |
 | `0xF21000-0xF2B000` | `0xA000` / 20 sectors | Uses transfer state `3`, the alternating sector buffer, and descriptor value `0x26810`; its destination and later role remain unnamed. |
-| `0xF2B000-0xF2B800` | `0x800` / 1 sector | Stages one final sector, then calls `func_80048D08(1, buffer)`; the resident routine's package-specific role remains unnamed. |
+| `0xF2B000-0xF2B800` | `0x800` / 1 sector | Stages one final sector, then calls `SD_LoadSequenceBankPair(1, buffer)` to rebuild the paired sound-bank registrations. |
 
 The six sizes total the requested `0x45000` bytes exactly. No phase is copied
 directly to a callable `0x80168xxx` module slot, so the resident loader

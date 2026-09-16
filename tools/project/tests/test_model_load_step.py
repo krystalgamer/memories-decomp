@@ -250,7 +250,7 @@ void func_8004DC38(ModelSlot *p,s32 i,s32 n,u32 position)
     if(i<0 || i>=58) fail(6);
     event(SEEK,args);if(!reference_run) seek_calls++;
 }
-void func_80048D08(s32 index,u32 *data)
+void SD_LoadSequenceBankPair(s32 index,u32 *data)
 {
     s32 args[5]={0};args[0]=index;args[1]=(u8 *)data-D_801A8000;event(SOUND,args);
 }
@@ -329,7 +329,7 @@ static void oracle(s32 index)
         break;
     }
     case 10:
-        if(p[0xE1D]==0) func_80048D08(index,(u32 *)(D_801A8000+index*2048));
+        if(p[0xE1D]==0) SD_LoadSequenceBankPair(index,(u32 *)(D_801A8000+index*2048));
         break;
     case 11:
         if(p[0xE1D]==0) p[0xE1E]=1;

@@ -344,6 +344,7 @@ SD_SetOutputType = 0x80046FA0; // type:func
 SD_GetOutputType = 0x80047008; // type:func
 SD_VSync = 0x80047050; // type:func
 SD_SEPlay = 0x80048658; // type:func
+SD_LoadSequenceBankPair = 0x80048D08; // type:func
 SD_SEStop = 0x80047DB0; // type:func
 SD_Init = 0x800492D8; // type:func
 SD_SESetVolume = 0x80048920; // type:func
