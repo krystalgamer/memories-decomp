@@ -1672,7 +1672,7 @@
       "address": "0x8002CD48",
       "profile": "gcc_2_8_1_g0",
       "size": "0x44",
-      "source": "src/game/func_8002CD48.c"
+      "source": "src/game/campaign_ensure_story_flag.c"
     },
     {
       "address": "0x8002CD8C",

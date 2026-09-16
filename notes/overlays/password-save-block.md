@@ -175,7 +175,7 @@ Write commands pass `command & 0xBFFF`, retaining the clear modifier:
 the requested predicate and may use a following jump target. The command
 selector does not make a direct call to the tester mutate the bank.
 
-Matching [`func_8002CD48`](../../src/game/func_8002CD48.c) saves the test
+Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_ensure_story_flag.c) saves the test
 result, invokes the updater only when that result is zero, and returns the
 saved result. Nonzero therefore means the requested state was already
 satisfied; zero is returned after applying a needed change, not as an update

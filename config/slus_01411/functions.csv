@@ -289,7 +289,7 @@ address,size,name,status,module,notes
 0x8002CBF4,0xB4,Duel_GetBaseCardStat,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x8002CCA8,0x3C,Campaign_TestStoryFlag,matching_c,game,Tests the shared save flag bank without writing; normal requests return the selected mask or zero; modifier 0x8000 returns one when clear and zero when set. Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002CCE4,0x64,Library_UpdateCardUsedFlag,matching_c,game,"Pure-C reclassification match: branch-local byte accesses and reuse of the consumed flag parameter for the clear mask recover all register assignments without ten pins. Preserves byte/bit selection and set/clear semantics; exact100-byte text and relocations with gcc_2_8_1_o1_g0, preserving old evidence (issue #5)."
-0x8002CD48,0x44,func_8002CD48,matching_c,game,Applies the requested set/clear state only when the prior test is zero and returns that prior test result. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8002CD48,0x44,Campaign_EnsureStoryFlag,matching_c,game,Applies the requested set/clear state only when the prior test is zero and returns that prior test result. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CD8C,0x5C,Main_ResetFrontendRuntime,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8002CDE8,0x20,Main_PrepareFrontendLoop,matching_c,game,Direct call matched the exact R_MIPS_26 relocation.
 0x8002CE08,0x5C,Main_RunDebugMenu,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

@@ -23,5 +23,8 @@
 /* Shared packed flag-update interface; the established public name is retained. */
 s32 Campaign_TestStoryFlag(s32 flag);
 void Library_UpdateCardUsedFlag(s32 flag);
+/* Applies an encoded set/clear request only when its desired state is absent,
+ * then returns whether that state was already satisfied. */
+s32 Campaign_EnsureStoryFlag(s32 flag);
 
 #endif

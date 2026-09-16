@@ -100,7 +100,7 @@ sets the bit by default and clears it with that modifier.
 The script and text handlers use `0x4000` to select a write rather than a
 test, stripping that command bit while preserving `0x8000`. Thus encoded
 writes `0x4000 | id` and `0xC000 | id` set and clear respectively.
-Matching [`func_8002CD48`](../../src/game/func_8002CD48.c) applies a change
+Matching [`Campaign_EnsureStoryFlag`](../../src/game/campaign_ensure_story_flag.c) applies a change
 only when the requested predicate was false and returns the **prior** test
 result. Its zero return after applying a change is not an error code.
 These are encoding and operation contracts, not new meanings assigned to
