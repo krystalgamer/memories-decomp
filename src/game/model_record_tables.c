@@ -23,7 +23,7 @@
    that shape and left unnamed. */
 s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
-    func_80041428,
+    DisplayObjectStream_ResetOffset,
     func_80041434,
     func_8004143C,
     func_80041464,

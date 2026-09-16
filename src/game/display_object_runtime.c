@@ -45,7 +45,10 @@ s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
     return -1;
 }
 
-s32 func_80041428(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_ResetOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     object->field_58 = 0;
     return 1;

@@ -8,7 +8,10 @@ s32 DisplayObjectStream_Stop(
     DisplayObjectStreamState *object,
     const u8 *data
 );
-s32 func_80041428(DisplayObjectStreamState *object, const u8 *data);
+s32 DisplayObjectStream_ResetOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+);
 s32 func_80041434(DisplayObjectStreamState *object, const u8 *data);
 s32 func_8004143C(DisplayObjectStreamState *object, const u8 *data);
 s32 func_80041464(DisplayObjectStreamState *object, const u8 *data);

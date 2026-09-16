@@ -640,7 +640,7 @@ address,size,name,status,module,notes
 0x80041068,0x2D8,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,"Renders display-object list 5 as one or two POLY_GT4 packets with viewport offset and clipping. Grouped with the adjacent untextured quad renderer in display_object_quad_renderers.c under uniform G8 split."
 0x80041340,0xDC,func_80041340,matching_c,game,Frame renderer at the head of the complete eight-function display-object runtime unit.
 0x8004141C,0xC,DisplayObjectStream_Stop,matching_c,game,Halfword clear with -1 return matched exactly.
-0x80041428,0xC,func_80041428,matching_c,game,Halfword clear with 1 return matched exactly.
+0x80041428,0xC,DisplayObjectStream_ResetOffset,matching_c,game,Halfword clear with 1 return matched exactly.
 0x80041434,0x8,func_80041434,matching_c,game,Constant 1 return matched exactly.
 0x8004143C,0x28,func_8004143C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80041464,0x38,func_80041464,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.

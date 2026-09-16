@@ -1346,6 +1346,7 @@ CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
 TextBox_WaitForScriptCompletion = 0x800377AC; // type:func
 NameEntry_LoadPackageStage = 0x8003BA14; // type:func
 DisplayObjectStream_Stop = 0x8004141C; // type:func
+DisplayObjectStream_ResetOffset = 0x80041428; // type:func
 Options_LoadPackageStage = 0x8003C120; // type:func
 GameOver_LoadPackageStage = 0x8003C328; // type:func
 Password_LoadPackageStage = 0x8003BD14; // type:func
