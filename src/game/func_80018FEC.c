@@ -104,7 +104,7 @@ next_obj:
         );
         anim = g->record.card_id - 0x11;
         pose = (u8 *)(anim * 3 + (u32)poses);
-        *(s16 *)(obj + 0x28) = pose[1] - 0x1A;
+        ((DisplayObject *)obj)->position.h.field_28 = pose[1] - 0x1A;
         py = pose[2];
         ((DisplayObject *)obj)->field_2C.h.field_2C = 0xB4;
         ((DisplayObject *)obj)->field_6C = 1;
