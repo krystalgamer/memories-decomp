@@ -83,13 +83,13 @@ void DuelScene_UpdateExodiaResult(void)
         D_8009B1B4 =
             (DuelCardPickCursor *)&D_800E9F10[(u8)side * 0x70];
         *(s16 *)(obj + 0x28) = -0x40;
-        *(u16 *)(obj + 0x2C) = 0x10;
+        ((DisplayObject *)obj)->field_2C.h.field_2C = 0x10;
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
         obj = (u8 *)D_8009B21C;
         *(s16 *)(obj + 0x28) = 0x180;
-        *(u16 *)(obj + 0x2C) = 0x10;
+        ((DisplayObject *)obj)->field_2C.h.field_2C = 0x10;
         ((DisplayObject *)obj)->field_6C = 1;
         ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
