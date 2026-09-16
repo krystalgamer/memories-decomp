@@ -16,7 +16,10 @@ s32 DisplayObjectStream_Noop(
     DisplayObjectStreamState *object,
     const u8 *data
 );
-s32 func_8004143C(DisplayObjectStreamState *object, const u8 *data);
+s32 DisplayObjectStream_JumpToOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+);
 s32 func_80041464(DisplayObjectStreamState *object, const u8 *data);
 
 /* Display-object stream opcode 0xFA, entry 5 of D_80090FEC

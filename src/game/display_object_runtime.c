@@ -62,7 +62,10 @@ s32 DisplayObjectStream_Noop(
     return 1;
 }
 
-s32 func_8004143C(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_JumpToOffset(
+    DisplayObjectStreamState *object,
+    const u8 *data
+)
 {
     object->field_58 = 0;
     object->current = object->base + ((data[1] << 8) | data[0]);
