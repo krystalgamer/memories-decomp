@@ -3,7 +3,7 @@
 #include "dialog_choice.h"
 #include "text_stream_commands.h"
 
-void func_80037CE0(volatile DuelEffectChannel *object)
+void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
 {
     u32 flags;
     u8 control;

@@ -76,7 +76,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         DuelEffect_ClearMatchingMarker(object->index_57);
         v = object->flags_34;
         object->field_56 = 0;
-        D_8009B340 = func_80037CE0;
+        D_8009B340 = Text_TryCompleteChoiceLayout;
         object->flags_34 = v | 0x1000;
     }
 }
