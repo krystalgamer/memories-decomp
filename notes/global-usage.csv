@@ -2044,7 +2044,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read_write,,"D_80090F88[D_8009B3C1 & 0xF](root, slot); | D_8009B3C1 = 1; | (+2 more)"
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003E7D4,MemCardDialog_StepLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003F740,MemCardDialog_Start,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3C1 = 0;
 0x8009B3C2,D_8009B3C2,D_8009B3C2,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,16,D_8009B3C2);
@@ -2093,7 +2093,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E7D4,MemCardDialog_StepLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 0;
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 1;
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3EB &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED; | D_8009B3EB = 0xA; | (+17 more)
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3EB = 0;
+0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 0;
 0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3EB &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED; | D_8009B3EB = 0; | (+9 more)
 0x8009B3EC,D_8009B3EC,D_8009B3EC,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3EC = 0; | D_8009B3EC = 3; | (+2 more)
 0x8009B3EC,D_8009B3EC,D_8009B3EC,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3EC = 0; | D_8009B3EC++; | (+1 more)

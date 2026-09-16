@@ -20,19 +20,10 @@
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
 
-/* The save/empty callbacks, trade write-back operation, and modal runtime that
-   drives the operation table. MemCardDialog_Update dispatches the save and
+/* The empty callback, trade write-back operation, and modal runtime that
+   drive the operation table. MemCardDialog_Update dispatches the save and
    trade operations through D_80090F9C; all paths share the dialog flags,
    result words, active channel, and request outcome. */
-
-void MemCardDialog_StepSave(void)
-{
-    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
-        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B3EB = 0;
-    }
-    MemCardDialog_UpdateSave();
-}
 
 void MemCardDialog_StepNone(void)
 {

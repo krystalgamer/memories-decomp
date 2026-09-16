@@ -3502,7 +3502,7 @@
       "address": "0x8003EE90",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/mem_card_dialog_runtime.c"
+      "source": "src/game/mem_card_dialog_load_save.c"
     },
     {
       "address": "0x8003EEC8",

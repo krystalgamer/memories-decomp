@@ -5,6 +5,7 @@
 #include "file_transfer.h"
 #include "mem_card.h"
 #include "mem_card_dialog_load_save.h"
+#include "mem_card_dialog_steps.h"
 #include "mem_card_directory.h"
 #include "save_data.h"
 #include "text_staging.h"
@@ -13,8 +14,7 @@
 
 /* The load half of the memory-card dialog's operations: the message helper,
    the load state machine and the two load step callbacks D_80090F9C selects.
-   The save state machine follows them, MemCardDialog_UpdateSave; its step
-   callback is in mem_card_dialog_runtime.c. */
+   The save state machine and its step callback follow them. */
 
 /* The two stores below are deliberate: retail writes the masked value and
    then the value with the new bits set. Without volatile the first store is
@@ -493,4 +493,13 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xCE, 0x18);
         break;
     }
+}
+
+void MemCardDialog_StepSave(void)
+{
+    if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
+        D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
+        D_8009B3EB = 0;
+    }
+    MemCardDialog_UpdateSave();
 }
