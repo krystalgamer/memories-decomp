@@ -34,7 +34,7 @@ typedef char ModelType2RecordHeader_size_must_be_4[
 /* Twelve-byte stream record. Only fields with established loop/index roles
  * are named. */
 typedef struct {
-    u8 pad_00[2];
+    u16 field_00;
     s16 field_02;
     s16 column_count;
     s16 row_count;

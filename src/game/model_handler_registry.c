@@ -287,11 +287,13 @@ void Model_ProcessType2Unit(
                         );
                     }
                     if (f) {
-                        v = *(u16 *)rec;
-                        if (*(s16 *)rec >= 0x280) {
-                            *(u16 *)rec = (v - 0x280) + sh;
+                        v = ((ModelType2Record *)rec)->field_00;
+                        if ((s16)((ModelType2Record *)rec)->field_00 >=
+                            0x280) {
+                            ((ModelType2Record *)rec)->field_00 =
+                                (v - 0x280) + sh;
                         } else {
-                            *(u16 *)rec = sh;
+                            ((ModelType2Record *)rec)->field_00 = sh;
                         }
                         v = ((ModelType2Record *)rec)->field_02;
                         if (v >= 8) {
@@ -304,8 +306,8 @@ void Model_ProcessType2Unit(
                 }
             }
             if (f) {
-                w = *(u16 *)p;
-                *(u16 *)p = (w - 0x280) + sh;
+                w = ((ModelType2Record *)p)->field_00;
+                ((ModelType2Record *)p)->field_00 = (w - 0x280) + sh;
             }
             i++;
             p = q;
