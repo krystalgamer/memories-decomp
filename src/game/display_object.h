@@ -8,9 +8,10 @@ typedef void (*DisplayObjectCallback)(u8 *);
 
 /* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at D_800EFE48.
  *
- * previous and next are pool indices, not pointers: func_800402A0 unlinks an
- * entry by writing -1 to both and then repairs the neighbour's link through
- * D_800EFE48[v].previous, and func_80040814 walks the list through next.
+ * previous and next are pool indices, not pointers:
+ * DisplayObject_MoveToListHead unlinks an entry by writing -1 to both and then
+ * repairs the neighbour's link through D_800EFE48[v].previous, and
+ * func_80040814 walks the list through next.
  */
 /* The union of the four private views this record had: display_object.h's
  * own (previous/next/flags/update), display_object_core.c's DisplaySlot
@@ -492,10 +493,10 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
  * the reset walk uses an s16 *.
  *
- * func_800402A0 in display_object_core.c reached it through a u8 * and
- * scaled by two by hand. It now
- * takes this declaration and casts at the use site, which is the form it
- * already uses one line earlier for D_800EFE38. */
+ * DisplayObject_MoveToListHead in display_object_core.c reached it through a
+ * u8 * and scaled by two by hand. It now takes this declaration and casts at
+ * the use site, which is the form it already uses one line earlier for
+ * D_800EFE38. */
 extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];

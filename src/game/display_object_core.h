@@ -12,7 +12,7 @@ s32 DisplayObject_FindFreeSlot(void);
 void *func_800400AC(s32 index, s32 key);
 
 void DisplayObject_Release(struct DisplayObject *slot);
-void func_800402A0(struct DisplayObject *slot, s32 key);
+void DisplayObject_MoveToListHead(struct DisplayObject *slot, s32 key);
 
 #ifdef FUNC_8004036C_AMBIENT_OBJECT
 void func_8004036C(void);

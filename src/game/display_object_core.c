@@ -122,7 +122,7 @@ void DisplayObject_Release(DisplayObject *slot)
     slot->flags = 0;
 }
 
-void func_800402A0(DisplayObject *slot, s32 key)
+void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
 {
     u16 saved = slot->flags;
     s32 v;
