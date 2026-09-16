@@ -85,13 +85,13 @@ void DuelScene_UpdateExodiaResult(void)
         *(s16 *)(obj + 0x28) = -0x40;
         *(u16 *)(obj + 0x2C) = 0x10;
         ((DisplayObject *)obj)->field_6C = 1;
-        *(s32 *)(obj + 0x24) = fnv;
+        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
         obj = (u8 *)D_8009B21C;
         *(s16 *)(obj + 0x28) = 0x180;
         *(u16 *)(obj + 0x2C) = 0x10;
         ((DisplayObject *)obj)->field_6C = 1;
-        *(s32 *)(obj + 0x24) = fnv;
+        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
         *(u16 *)(obj + 0x2A) = *(u16 *)(obj + 0x32);
         rec = (u8 *)D_800EA030;
 next_obj:
