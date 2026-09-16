@@ -44,7 +44,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
     u8 **stream;
     u8 *cursor;
 
-    stream = &((u8 **)object)[object->stream_58];
+    stream = &((TextStreamOwner *)object)->streams[object->stream_58];
     cursor = *stream;
     value = *cursor++;
     duelist_id = value;
