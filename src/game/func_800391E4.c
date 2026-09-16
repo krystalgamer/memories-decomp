@@ -32,7 +32,7 @@ void func_800391E4(DuelEffectChannel *p) {
     }
 
     func_80042918(e);
-    func_800428EC((u8 *)e, *(s8 *)&p->field_59);
+    func_800428EC((u8 *)e, (s8)p->field_59);
 
     *(s16 *)&e->field_30.h.field_30 = *(u16 *)&p->field_3C;
     *(s16 *)&e->field_30.h.field_32 = *(u16 *)&p->field_40;
