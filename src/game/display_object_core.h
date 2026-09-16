@@ -20,7 +20,7 @@ void func_8004036C(void);
 void func_8004036C(void *object);
 #endif
 
-void func_800403F0(void);
+void DisplayObject_Reset(void);
 void func_800404CC(
     void *object, s32 x, s32 y, s32 field_67, s32 field_68,
     s32 field_69, s32 color, s32 texture

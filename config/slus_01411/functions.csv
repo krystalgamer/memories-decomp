@@ -623,7 +623,7 @@ address,size,name,status,module,notes
 0x800402A0,0xCC,func_800402A0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations. Its g0_split and g8_split objects are byte-identical; grouped with the unlink operation it calls before relinking.
 0x8004036C,0x24,func_8004036C,matching_c,game,Nullable-object conditional call matched exact branch and frame scheduling. Its g8 and g8_split objects are byte-identical; grouped as the null-safe release wrapper.
 0x80040390,0x60,DisplayObject_ResetPool,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split. It clears the list heads and allocation flags owned by display_object_core.c.
-0x800403F0,0x20,func_800403F0,matching_c,game,No-argument pool-reset wrapper in the complete display-object core unit.
+0x800403F0,0x20,DisplayObject_Reset,matching_c,game,No-argument public wrapper around DisplayObject_ResetPool in the complete display-object core unit.
 0x80040410,0x14,DisplayObject_SetResourceVariant,matching_c,game,Byte assignment followed by flags clear; byte-identical under all four standard g0/g8 profiles.
 0x80040424,0x28,DisplayObject_UpdateResourceVariant,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8004044C,0x1C,func_8004044C,matching_c,game,Three byte assignments followed by flags clear matched exactly.

@@ -11,7 +11,7 @@
 void DebugMenu_Exit(void)
 {
     Fade_WaitInitOut();
-    func_800403F0();
+    DisplayObject_Reset();
     func_80035A64();
     longjmp(D_800E9DC0, 2);
 }

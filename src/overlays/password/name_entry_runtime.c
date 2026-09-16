@@ -121,7 +121,7 @@ void NameEntry_Init(void)
     DuelEffectChannel *sprite;
 
     SD_BGMPlay(28688);
-    func_800403F0();
+    DisplayObject_Reset();
     D_8016D400 = 0;
     D_8016D403 = 0;
     D_8016D408 = 0;
