@@ -15,7 +15,7 @@
 #include "frontend_debug_state.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "func_800300C8.h"
+#include "debug_menu_update_cursor_layout.h"
 #include "text_box_runtime.h"
 
 void DebugMenu_Update(void) {
@@ -88,13 +88,13 @@ void DebugMenu_Update(void) {
                 }
             }
         }
-        func_800300C8();
+        DebugMenu_UpdateCursorLayout();
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
         k = DEBUG_MENU_ENTRY_EXIT;
         if (gDebugMenu_bCursor != k) {
             gDebugMenu_bCursor = k;
-            func_800300C8();
+            DebugMenu_UpdateCursorLayout();
             return;
         }
         D_8009B2EB = 0x14;

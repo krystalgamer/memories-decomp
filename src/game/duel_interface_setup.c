@@ -4,7 +4,7 @@
 #include "duel_effect.h"
 #include "frontend_debug_tables.h"
 #include "fade.h"
-#include "func_800300C8.h"
+#include "debug_menu_update_cursor_layout.h"
 #include "func_8003B6AC.h"
 #include "text_box_lifecycle.h"
 #include "display_object_helpers.h"
@@ -31,7 +31,7 @@ void DebugMenu_Init(void)
     ((u8 *)&object->field_3C)[1] = 0xC0;
     ((u8 *)&object->field_34)[1] = 0xC0;
     ((u8 *)&object->field_2C)[1] = 0xC0;
-    func_800300C8();
+    DebugMenu_UpdateCursorLayout();
     Fade_WaitIn();
 }
 

@@ -1679,7 +1679,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2DE,D_8009B2DE,D_8009B2DE,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read_write,16,D_8009B2DE = 0; | if (D_8009B2DE == 0) {
 0x8009B2E0,D_8009B2E0,D_8009B2E0,0x80030250,func_80030250,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2E0 = field_E0;
 0x8009B2E0,D_8009B2E0,D_8009B2E0,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,8,D_8009B2DC = D_8009B2E0 - 1; | if ((s8)D_8009B2DC >= (s8)D_8009B2E0) {
-0x8009B2E4,D_8009B2E4,D_8009B2E4,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,read,,DisplayObject *target = D_8009B2E4;
+0x8009B2E4,D_8009B2E4,D_8009B2E4,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,read,,DisplayObject *target = D_8009B2E4;
 0x8009B2E4,D_8009B2E4,D_8009B2E4,0x80030198,DebugMenu_Init,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2E4 = object;
 0x8009B2E4,D_8009B2E4,D_8009B2E4,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,,DisplayObject *second = D_8009B2E4;
 0x8009B2E8,D_8009B2E8,D_8009B2E8,0x80030C10,func_80030C10,matching_c,game,C,src/game/frontend_scene_states.c,read_write,8,D_8009B2E8 = *(u8 *)&gDebug_nSceneOrSoundID; | gDebug_nSceneOrSoundID = D_8009B2E8;
@@ -1706,7 +1706,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2EC,D_8009B2EC,D_8009B2EC,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,8,"FntPrint((char *)D_8009B2EC, gDebug_nSceneOrSoundID, D_8009B2CA, D_8009B2CC);"
 0x8009B2F0,gDebugMenu_bPage,gDebugMenu_bPage,0x80030198,DebugMenu_Init,matching_c,game,C,src/game/duel_interface_setup.c,write,,gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
 0x8009B2F0,gDebugMenu_bPage,gDebugMenu_bPage,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,read_write,8,"TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0); | gDebugMenu_bPage = gDebugMenu_bPage ^ one; | (+1 more)"
-0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,read,8,s32 index = gDebugMenu_bCursor;
+0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,read,8,s32 index = gDebugMenu_bCursor;
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_mapped_mode.c,read,8,s32 i = gDebugMenu_bCursor;
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,read_write,8,D_8009B2EB = gDebugMenu_bCursor + 1; | gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT; | (+13 more)
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,write,8,D_8009B2F8[0] = 0x80;
@@ -2648,7 +2648,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,address,,TextBox_Destroy(D_800EB0F8);
 0x800EB12C,D_800EB12C,D_800EB12C,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read,32,if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
-0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,func_800300C8,matching_c,game,C,src/game/func_800300C8.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
+0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
 0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
 0x800EB184,D_800EB184,D_800EB184,0x80030090,func_80030090,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x40;
 0x800EB184,D_800EB184,D_800EB184,0x800300AC,func_800300AC,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x80;

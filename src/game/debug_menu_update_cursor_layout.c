@@ -1,11 +1,11 @@
 #include "../types.h"
 #include "../game/display_object.h"
-#include "../game/func_800300C8.h"
+#include "../game/debug_menu_update_cursor_layout.h"
 #include "../game/duel_effect.h"
 #include "../game/frontend_debug_tables.h"
 #include "../game/frontend_debug_state.h"
 
-void func_800300C8(void)
+void DebugMenu_UpdateCursorLayout(void)
 {
     struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
     s32 first = source->base;

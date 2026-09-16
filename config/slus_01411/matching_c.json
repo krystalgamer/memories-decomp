@@ -2062,7 +2062,7 @@
       "address": "0x800300C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/func_800300C8.c"
+      "source": "src/game/debug_menu_update_cursor_layout.c"
     },
     {
       "address": "0x80030198",

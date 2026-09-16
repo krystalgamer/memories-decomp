@@ -1,11 +1,11 @@
-#ifndef MEMORIES_DECOMP_FUNC_800300C8_H
-#define MEMORIES_DECOMP_FUNC_800300C8_H
+#ifndef MEMORIES_DECOMP_DEBUG_MENU_UPDATE_CURSOR_LAYOUT_H
+#define MEMORIES_DECOMP_DEBUG_MENU_UPDATE_CURSOR_LAYOUT_H
 
 #include "../types.h"
 
-/* The two records func_800300C8 reads and writes. Both are narrow views: they
- * name only the fields this function touches and carry the rest as padding, so
- * neither is a claim about the whole record. */
+/* The two records DebugMenu_UpdateCursorLayout reads and writes. Both are
+ * narrow views: they name only the fields this function touches and carry the
+ * rest as padding, so neither is a claim about the whole record. */
 
 /* Read side: a view of D_800EB15C, which duel_effect.h declares as the
  * DuelEffectChannel at D_800EB0F8[1]. Only the three values at 0x3C are
@@ -24,8 +24,9 @@ struct LayoutSource {
  * LayoutTarget. It is gone: the record is a DisplayObject.
  *
  * That view was declined a merge on the grounds that no file read both its
- * region (from 0x28) and the u16 at 0x08 that debug_menu_bust_up_entry.c named with a
- * local LocalRecord of its own. #3388 retired that LocalRecord for
+ * region (from 0x28) and the u16 at 0x08 that
+ * debug_menu_bust_up_entry.c named with a local LocalRecord of its own.
+ * #3388 retired that LocalRecord for
  * DisplayObject, which names both -- flags at 0x08, and the four position
  * unions whose halfword pairs are exactly the eight fields LayoutTarget
  * listed: position.h at 0x28/0x2A, field_30.h at 0x30/0x32, field_38.h at
@@ -36,6 +37,6 @@ struct LayoutSource {
  * LayoutSource above is NOT retired, for a reason that has not expired: it
  * and DuelEffectChannel disagree about the signedness of 0x40. */
 
-void func_800300C8(void);
+void DebugMenu_UpdateCursorLayout(void);
 
 #endif
