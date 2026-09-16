@@ -6214,7 +6214,7 @@
       "address": "0x80060B38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x338",
-      "source": "src/game/func_80060B38.c"
+      "source": "src/game/card_list_render_deck_box_stats.c"
     },
     {
       "address": "0x80060E70",

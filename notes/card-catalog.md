@@ -27,7 +27,8 @@ Names and gameplay fields were decoded from the verified
 - `gDuel_abCardLevelAttr` at `0x801D5332`, indexed directly by card ID,
   stores attribute in the high nibble and level in the low nibble.
 
-The deck-box stat drawer `func_80060B38` uses the shared `CARD_STAT_*`
+The deck-box stat drawer `CardList_RenderDeckBoxStats` uses the shared
+`CARD_STAT_*`
 constants to decode the type, ATK, and DEF fields, and `CARD_TYPE_MAGIC` to
 exclude non-monsters. It then checks intermediate digit bytes against
 `TEXT_DECIMAL_RADIX` before drawing them. The stat scale and decimal radix

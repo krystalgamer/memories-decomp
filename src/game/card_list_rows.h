@@ -8,7 +8,8 @@
     ((u32)&(((CardListRowSet *)0)->member))
 
 /* One of the 24-byte D_801A8000 records shared by the row builder and
- * renderer. func_80060B38 independently confirms the enabled halfword and
+ * renderer. CardList_RenderDeckBoxStats independently confirms the enabled
+ * halfword and
  * seven card entries below. */
 typedef struct {
     DuelCardDisplayObject *object;
@@ -30,7 +31,8 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
 
 #undef CARD_LIST_ROW_SET_OFFSET
 
-/* The two row sets func_80061008 builds, and the array func_80060B38 and
+/* The two row sets func_80061008 builds, and the array
+ * CardList_RenderDeckBoxStats and
  * func_80060E70 index by the display object's field_6A.
  *
  * This declaration is deliberately NOT the only one of D_801A8000 in the

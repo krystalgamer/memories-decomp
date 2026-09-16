@@ -1390,6 +1390,7 @@ HostFile_ReadRange = 0x80059908; // type:func
 Duel_ShowResultPage = 0x80021480; // type:func
 CardList_CreateSlotTextBox = 0x80031CD4; // type:func
 DuelResult_UpdateOrbitSprite = 0x80020D4C; // type:func
+CardList_RenderDeckBoxStats = 0x80060B38; // type:func
 Main_RunFrameServices = 0x8001306C; // type:func
 CampaignMap_LoadPackageStage = 0x8003BF00; // type:func
 TextBox_WaitForScriptCompletion = 0x800377AC; // type:func

@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80060B38_H
-#define MEMORIES_DECOMP_FUNC_80060B38_H
+#ifndef MEMORIES_DECOMP_CARD_LIST_RENDER_DECK_BOX_STATS_H
+#define MEMORIES_DECOMP_CARD_LIST_RENDER_DECK_BOX_STATS_H
 
 #include "../types.h"
 #include "display_object.h"
@@ -12,6 +12,6 @@
  * in a display object's field_4C, so the object's own draw pass supplies both
  * arguments. That is why the declaration it replaced could say (void) without
  * the build noticing. */
-void func_80060B38(DisplayObject *obj, GsOT *ot);
+void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot);
 
 #endif

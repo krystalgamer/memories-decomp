@@ -176,7 +176,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090DD8,D_80090DD8,D_80090DD8,0x800323F8,func_800323F8,matching_c,game,C,src/game/func_800323F8.c,address,8,icons = (s32)D_80090DD8;
 0x80090DD8,D_80090DD8,D_80090DD8,0x800330BC,BuildDeck_UpdateCardListInput,matching_c,game,C,src/game/card_list_sort.c,address,8,entry = D_80090DD8 + slot;
 0x80090DD8,D_80090DD8,D_80090DD8,0x80033CC4,func_80033CC4,matching_c,game,C,src/game/func_80033CC4.c,address,8,p = D_80090DD8 + v1;
-0x80090DD8,D_80090DD8,D_80090DD8,0x80060B38,func_80060B38,matching_c,game,C,src/game/func_80060B38.c,address,8,tbl = D_80090DD8;
+0x80090DD8,D_80090DD8,D_80090DD8,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,8,tbl = D_80090DD8;
 0x80090DF8,D_80090DF8,D_80090DF8,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,32,D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
 0x80090E0C,D_80090E0C,D_80090E0C,0x800357E8,Text_EncodeDecimalDigits,matching_c,game,C,src/game/text_encode_decimal_digits.c,read,32,s32 d = D_80090E0C[arg1];
 0x80090E58,gDuelEffect_awEntryRangeBoundaries,gDuelEffect_awEntryRangeBoundaries,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read,16,D_800EB288[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
@@ -3126,7 +3126,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A8000,D_801A8000,D_801A8000,0x80056828,func_80056828,matching_c,game,C,src/game/model_load_step.c,address,8,"index, (u32 *)(D_801A8000 + (index << 11))"
 0x801A8000,D_801A8000,D_801A8000,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_texture_transfer.c,address,8,(u32)(D_801A8000 + index * FILE_SECTOR_SIZE);
 0x801A8000,D_801A8000,D_801A8000,0x800577B0,func_800577B0,matching_c,game,C,src/game/model_texture_transfer.c,address,8,object->value_08 = (s32)D_801A8000; | object->value_0C = (s32)D_801A8000;
-0x801A8000,D_801A8000,D_801A8000,0x80060B38,func_80060B38,matching_c,game,C,src/game/func_80060B38.c,address,,rec = &D_801A8000[obj->field_6A];
+0x801A8000,D_801A8000,D_801A8000,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,,rec = &D_801A8000[obj->field_6A];
 0x801A8000,D_801A8000,D_801A8000,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,address,,s = &D_801A8000[idx];
 0x801A8000,D_801A8000,D_801A8000,0x80061008,func_80061008,matching_c,game,C,src/game/func_80061008.c,address,,CardListRowSet *record = D_801A8000;
 0x801A9800,D_801A9800,D_801A9800,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,8,d->value_08 = d->value_0C = (u32)D_801A9800;
@@ -3244,7 +3244,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/duel_effect_command.c,read,32,id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> | stats = gDuel_adwCardStats[gDuel_wSelectedCardID - 1];
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,32,if (((gDuel_adwCardStats[D_800F2C40[1].field_DF8] >> 0x1A) & 0x1F) == 1) {
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,32,sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
-0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060B38,func_80060B38,matching_c,game,C,src/game/func_80060B38.c,read,32,((gDuel_adwCardStats[id - 1] >> CARD_STAT_DEFENSE_SHIFT) & | (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) * | (+1 more)
+0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,read,32,((gDuel_adwCardStats[id - 1] >> CARD_STAT_DEFENSE_SHIFT) & | (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) * | (+1 more)
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,read,32,if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071008,AiScript_CalcCardPower,matching_c,game,C,src/game/ai_script_calc_card_power.c,read,32,if (((gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) &
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80071194,AiScript_TestHighStat,matching_c,game,C,src/game/ai_script_query_commands.c,read,32,if (((gDuel_adwCardStats[value - 1] >> CARD_STAT_TYPE_SHIFT) &

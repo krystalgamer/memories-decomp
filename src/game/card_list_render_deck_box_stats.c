@@ -8,7 +8,7 @@
 #include "color_constants.h"
 #include "text_constants.h"
 #include "duel_card.h"
-#include "func_80060B38.h"
+#include "card_list_render_deck_box_stats.h"
 #include "card_list_rows.h"
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
@@ -19,7 +19,7 @@
    and defence from gDuel_adwCardStats are rendered as four decimal digits
    each (through Text_EncodeDecimalDigits), dimmed when the entry's high
    bit is set. */
-void func_80060B38(DisplayObject *obj, GsOT *ot) {
+void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     u8 atk[8];
     u8 def[8];
     GsSPRITE *sp;

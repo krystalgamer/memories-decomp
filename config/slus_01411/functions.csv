@@ -1045,7 +1045,7 @@ address,size,name,status,module,notes
 0x8006086C,0x4C,func_8006086C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800608B8,0x234,func_800608B8,matching_c,game,Second primitive-family selector in the complete five-function handler selector/binder unit.
 0x80060AEC,0x4C,func_80060AEC,matching_c,game,"Sole binder for func_800608B8; byte-identical at g0, g0_split, g8, and g8_split."
-0x80060B38,0x338,func_80060B38,matching_c,game,"GsSPRITE scratchpad with u32 field pairs, dependence-derived statement order, direct stats indexing, u8 digit local"
+0x80060B38,0x338,CardList_RenderDeckBoxStats,matching_c,game,"GsSPRITE scratchpad with u32 field pairs, dependence-derived statement order, direct stats indexing, u8 digit local"
 0x80060E70,0x198,func_80060E70,matching_c,game,"Pure-C reclassification match for issue #5: a do-while(0) block around the three text-staging stores keeps loop.c from hoisting the card-stat table address, so retail's $fp staging pointer and per-row $t0 address rebuild come out without pins. Exact 408-byte text and relocations under gcc_2_8_1_g8_split_no_strength_reduce without register pins or inline assembly."
 0x80061008,0xD8,func_80061008,matching_c,game,Recovered two-record constructor loop with exact linked bytes; two nonvolatile literal clears preserve retail assembler-temporary materialization.
 0x800610E0,0xF0,func_800610E0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

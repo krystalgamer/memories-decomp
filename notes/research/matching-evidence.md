@@ -7083,7 +7083,7 @@ in the caller that produces it.
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c
     Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
-    func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
+    CardList_RenderDeckBoxStats def 2 (card_list_render_deck_box_stats.c) <- decl 0 in func_80061008.c
 
 **A caller declares MORE arguments than the definition takes** (14 pairs).
 The retail call site computes and passes a value the callee ignores, and the

@@ -3,7 +3,7 @@
 #include "display_object.h"
 #include "display_object_core.h"
 #include "display_object_helpers.h"
-#include "func_80060B38.h"
+#include "card_list_render_deck_box_stats.h"
 #include "card_list_rows.h"
 #include "func_80061008.h"
 
@@ -31,7 +31,7 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
         object->field_30.h.field_32 = record->y;
         object->field_6A = i++;
         DisplayObject_SelectOrderingTable1(object);
-        object->field_4C = (s32)func_80060B38;
+        object->field_4C = (s32)CardList_RenderDeckBoxStats;
         record->object = (DuelCardDisplayObject *)object;
         record++;
     } while (i < 2);
