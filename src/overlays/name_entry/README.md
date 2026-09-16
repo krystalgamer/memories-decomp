@@ -15,9 +15,9 @@ Verified scope:
 
 The package is recovered from the resident loader trace. `Main_RunNameEntry`
 (`0x8002D62C`) calls `File_RequestNameEntryPackage`, whose request is
-`func_80014E1C(0, 0, 0x1EDF, 0x50, func_8003BA14, 0, 0)`. The third and fourth
-arguments are the first WA sector and the sector count, which the two
-already-verified screens confirm: Free Duel uses `(0x1E88, 0x57)` for
+`func_80014E1C(0, 0, 0x1EDF, 0x50, NameEntry_LoadPackageStage, 0, 0)`. The
+third and fourth arguments are the first WA sector and the sector count, which
+the two already-verified screens confirm: Free Duel uses `(0x1E88, 0x57)` for
 `7816-7903` and the password screen uses `(0x1F2F, 0x56)` for `7983-8069`.
 
 ## Shared image with the password screen

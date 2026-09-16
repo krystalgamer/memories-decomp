@@ -2,10 +2,10 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "func_8003BA14.h"
+#include "name_entry_load_package_stage.h"
 #include "../unmatched.h"
 
-void func_8003BA14(FileTransferDescriptor *object, s32 mode)
+void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     s32 one;
     s32 v;

@@ -241,7 +241,7 @@ to the next 64-entry CLUT column.
 
 Matching `File_RequestNameEntryPackage` requests 80 WA sectors beginning at sector `0x1EDF`,
 which is archive range `0xF6F800-0xF97800`. Its matching callback
-`func_8003BA14` accounts for the complete package:
+`NameEntry_LoadPackageStage` accounts for the complete package:
 
 | WA range | Size | Callback behavior |
 |---:|---:|---|

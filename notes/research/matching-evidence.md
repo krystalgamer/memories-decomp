@@ -3034,7 +3034,8 @@ branch target
 (`+0x10: 64!=5c` and `+0xc: 68!=62`). The residuals were accurate; nothing in
 them suggested the cause was a declaration.
 
-The sibling functions `func_8003BA14` and `func_8003BD14` match under
+The sibling functions `NameEntry_LoadPackageStage` and `func_8003BD14` match
+under
 `gcc_2_8_1_g0_no_split`, so profile inheritance from a neighbour is not safe
 here either: the family splits on which members touch an array.
 
