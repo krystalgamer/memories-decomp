@@ -12,7 +12,7 @@ void func_80022EEC(DisplayObject *object)
     DisplayObject *parent;
 
     offset += D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE;
-    parent = *(DisplayObject **)(base + offset);
+    parent = ((DuelSelectionDisplayRecord *)(base + offset))->parent;
     if (parent == 0) {
         DisplayObject_ReleaseIfPresent(object);
     } else {
