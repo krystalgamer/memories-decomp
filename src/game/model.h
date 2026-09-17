@@ -14,6 +14,7 @@
 #define MODEL_SLOT_PART_COUNT 58
 #define MODEL_SLOT_UNIT_COUNT 60
 #define MODEL_SLOT_ROW_COUNT 10
+#define MODEL_SLOT_ROW_KEY_TABLE_OFFSET 0x2C8
 #define MODEL_SLOT_CF8_DFE_OFFSET 0x106
 #define MODEL_SLOT_CF8_DFF_OFFSET 0x107
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
@@ -386,7 +387,8 @@ typedef char ModelSlotPart_start_offset_must_be_0x18[
     MODEL_OFFSET(ModelSlotPart, start) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlot_field_2C8_offset_must_be_0x2C8[
-    MODEL_OFFSET(ModelSlot, field_2C8) == 0x2C8 ? 1 : -1
+    MODEL_OFFSET(ModelSlot, field_2C8) ==
+        MODEL_SLOT_ROW_KEY_TABLE_OFFSET ? 1 : -1
 ];
 typedef char ModelSlot_field_750_offset_must_be_0x750[
     MODEL_OFFSET(ModelSlot, field_750) == 0x750 ? 1 : -1

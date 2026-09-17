@@ -211,22 +211,33 @@ void func_8004D75C(s32 index)
     }
 }
 
+/* The relink pass between the two above. Every reach now goes through
+   ModelSlot: the command list is ch->field_DD8, the channel count is
+   ch->field_E1B, and row 1's key for the current channel is
+   ch->field_2C8[1][i].
+
+   The two key reads inside the loops keep a byte-offset sum instead of
+   ch->field_2C8[j][i]. Their address has to stay `ch + <running offset> +
+   MODEL_SLOT_ROW_KEY_TABLE_OFFSET`, because that way the channel offset and
+   the row stride share one induction variable; indexing the member gives the
+   compiler a second one, which costs a callee-saved register and two
+   instructions. Written left to right so the base is the first addend, which
+   is also what the retail sum does. */
 void func_8004D914(s32 arg0)
 {
-    u8 *b;
-    u8 *e;
+    ModelSlot *ch;
     s32 *a;
     s32 *c;
     s32 *t;
     s32 *g;
     s32 i;
     s32 j;
-    s32 k;
     s32 o;
     s32 w;
     s32 y;
     s32 x;
     u16 *yp;
+    s32 k;
     s32 v;
     s32 hi;
     s32 one;
@@ -234,13 +245,13 @@ void func_8004D914(s32 arg0)
     s32 mask;
     s32 bit;
 
-    b = (u8 *)D_800F2C40 + arg0 * MODEL_SLOT_SIZE;
+    ch = &D_800F2C40[arg0];
     o = 0;
-    if (*(volatile s32 *)(b + 0xDD8) == 0) {
+    if (ch->field_DD8 == 0) {
         return;
     }
     i = 0;
-    if (b[0xE1B] == 0) {
+    if (ch->field_E1B == 0) {
         return;
     }
 
@@ -249,17 +260,15 @@ void func_8004D914(s32 arg0)
     bit = 0x10000;
     one = 1;
     o = i;
-    e = b;
 
     do {
         j = 1;
-        k = o + 0x74;
-        g = (s32 *)(*(volatile s32 *)(b + 0xDD8)
-            + *(u16 *)(e + 0x33C) * 4);
+        k = o + sizeof(ch->field_2C8[0]);
+        g = &ch->field_DD8[ch->field_2C8[1][i]];
 
         do {
-            w = *(u16 *)(b + k + 0x2C8);
-            a = (s32 *)(*(volatile s32 *)(b + 0xDD8) + w * 4);
+            w = *(u16 *)((u8 *)ch + k + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
+            a = &ch->field_DD8[w];
             if (w != ff) {
                 t = a - 1;
                 while (1) {
@@ -267,9 +276,11 @@ void func_8004D914(s32 arg0)
                     if (x < 0) {
                         hi = (u32)x >> 16;
                         hi = hi & 0x7F;
-                        yp = (u16 *)(b + (o + hi * 0x74) + 0x2C8);
+                        yp = (u16 *)((u8 *)ch
+                            + (o + hi * sizeof(ch->field_2C8[0]))
+                            + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
                         y = *yp;
-                        c = (s32 *)(*(volatile s32 *)(b + 0xDD8) + y * 4);
+                        c = &ch->field_DD8[y];
                         if (hi == 0) {
                             goto zero;
                         }
@@ -300,23 +311,20 @@ cont:
                     a++;
                 }
 hit:
-                *(s16 *)c =
-                    g - (s32 *)*(volatile s32 *)(b + 0xDD8);
-                *(s16 *)a =
-                    c - (s32 *)*(volatile s32 *)(b + 0xDD8);
+                *(s16 *)c = g - ch->field_DD8;
+                *(s16 *)a = c - ch->field_DD8;
                 goto cont;
 zero:
-                *(s16 *)t =
-                    (a - (s32 *)*(volatile s32 *)(b + 0xDD8)) - 1;
-                *(s16 *)a =
-                    (t - (s32 *)*(volatile s32 *)(b + 0xDD8)) + 1;
+                /* Reloaded rather than reusing the base the links above
+                   already hold: retail reads the member again here. */
+                *(s16 *)t = (a - (s32 *)*(volatile s32 *)&ch->field_DD8) - 1;
+                *(s16 *)a = (t - ch->field_DD8) + 1;
             }
             j++;
-            k += 0x74;
+            k += sizeof(ch->field_2C8[0]);
         } while (j < MODEL_SLOT_ROW_COUNT);
 
         o += 2;
-        e += 2;
         i++;
-    } while (i < b[0xE1B]);
+    } while (i < ch->field_E1B);
 }
