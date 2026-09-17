@@ -58,6 +58,7 @@
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
 #include "../game/duel_card.h"
+#include "../game/duel_card_can_act_this_turn.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_card_display_state.h"
 #include "../game/duel_card_record_lifecycle.h"
@@ -96,7 +97,6 @@ u16 D_8009B172;
 u16 D_8009B178;
 u16 D_8009B17A;
 u8 D_8009B19C;
-int DuelCard_CanActThisTurn(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
 void func_8001D344(DisplayObject *object);
 void func_8001D3C4(DisplayObject *o);
