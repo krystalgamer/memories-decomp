@@ -2,11 +2,11 @@
  * Semantic absolute value and keyframe bounds: `func_8005E808`
  *
  * The 1004-byte keyframe routine matches all 251 instruction words under the
- * existing uniform `gcc_2_8_1_g8_split` profile. Its 0x28-byte timing view
- * shares the existing `Key` allocation size without replacing the opaque
- * keyframe layout used by the evaluator. The +0x22 field is consumed as a
- * duration denominator by `model_effect_state.c`; the retired candidate's
- * "audible radius" description was not the established contract.
+ * existing uniform `gcc_2_8_1_g8_split` profile. Its parameter uses the
+ * canonical 0x28-byte `Key` layout shared with the evaluator. The duration
+ * field at +0x22 is consumed as a denominator by `model_effect_state.c`; the
+ * retired candidate's "audible radius" description was not the established
+ * contract.
  *
  * Two `__builtin_abs` calls are load-bearing. They use the same semantic
  * intrinsic as matching `duel_draw_status_numbers.c` and `func_80058624.c`.
@@ -28,7 +28,6 @@
  * preserved; one post-terminal resolution records this result. No register
  * pins, source-level inline assembly, symbol aliases, or new profile is used.
  */
-#define MODEL_KEYFRAME_TIMING_VIEW
 #include "../types.h"
 #include "camera_view.h"
 #include "model_copy_slot_u16_values.h"
@@ -37,9 +36,8 @@
 #include "model_transfer_state.h"
 #include "model_transfer_flags.h"
 
-void func_8005E808(u8 *p)
+void func_8005E808(Key *state)
 {
-    ModelKeyframeTimingView *state = (ModelKeyframeTimingView *)p;
     /* The copier writes four halfwords; only the first three are coordinates. */
     s16 pos[4];
     s16 buf[10][3];
@@ -60,7 +58,7 @@ void func_8005E808(u8 *p)
     {
         s32 n;
         s32 t;
-        n = state->field_20;
+        n = state->magnitude;
         a = __builtin_abs(n);
         t = a;
         if (a <= 0) {
@@ -68,18 +66,18 @@ void func_8005E808(u8 *p)
         }
         k = t * 2;
     }
-    func_8005FB30((Key *)state);
-    state->field_24 = 0;
+    func_8005FB30(state);
+    state->progress = 0;
     if (D_8009B074->ready != 0) {
         return;
     }
-    state->field_26 = 1;
+    state->ready = 1;
     if (a >= 0x4000) {
-        state->field_22 = 0x4000;
+        state->duration = 0x4000;
     } else {
-        state->field_22 = k;
+        state->duration = k;
     }
-    if (state->field_20 >= 0) {
+    if (state->magnitude >= 0) {
         return;
     }
 
@@ -103,8 +101,8 @@ void func_8005E808(u8 *p)
             dy = pos[1] - g->vy;
             dz = pos[2] - g->vz;
             d = k * SquareRoot0(dx * dx + dy * dy + dz * dz) / 1000;
-            if (state->field_22 < d) {
-                state->field_22 = d;
+            if (state->duration < d) {
+                state->duration = d;
             }
             continue;
         }
@@ -120,8 +118,8 @@ void func_8005E808(u8 *p)
                 sum += SquareRoot0(dx * dx + dy * dy + dz * dz);
             }
             d = k * sum / 1000;
-            if (state->field_22 < d) {
-                state->field_22 = d;
+            if (state->duration < d) {
+                state->duration = d;
             }
             continue;
         case 4:
@@ -136,8 +134,8 @@ void func_8005E808(u8 *p)
             d = k * radius_scaled;
             factor = __builtin_abs(((Coeff *)e)->y);
             d = (u32)(d * factor) / 4096000;
-            if (state->field_22 < d) {
-                state->field_22 = d;
+            if (state->duration < d) {
+                state->duration = d;
             }
             continue;
         }

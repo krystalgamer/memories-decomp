@@ -183,7 +183,7 @@ int main(void)
     key.magnitude = -1;
     D_8009B074 = &key;
     D_800F5768[1].vx = -1;
-    func_8005E808((u8 *)&key);
+    func_8005E808(&key);
     if (copies != 2 || roots != 2 || key.ready != 1) return 12;
     if (key.duration != 2 || key.progress != 0) return 13;
     {

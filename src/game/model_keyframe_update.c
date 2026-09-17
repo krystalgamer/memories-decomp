@@ -69,7 +69,7 @@ void func_8005DBA4(void)
         Key *key = D_800F5788;
         s32 i;
         for (i = 0; i < D_8009B078; i++) {
-            func_8005E808((u8 *)key++);
+            func_8005E808(key++);
         }
         D_8009B079 = 0;
         D_8009B07A = -1;
@@ -316,7 +316,7 @@ next_channel:
             }
         }
         if (D_8009B074) {
-            func_8005E808((u8 *)D_8009B074);
+            func_8005E808(D_8009B074);
             if (D_8009B074->magnitude == 0) {
                 func_8005DBA4();
             }
