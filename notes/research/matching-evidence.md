@@ -2939,7 +2939,7 @@ gp-relative instruction or to a `lui` plus `%lo` pair. For a symbol the
 assembler cannot see the definition of, that choice follows the assembler's
 own `-G` flag rather than the section the symbol really lands in.
 
-Measured on `func_800175A0` (0x800175A0, 76 instructions, a leaf):
+Measured on `Duel_InitSideStates` (0x800175A0, 76 instructions, a leaf):
 
     assembled with -G8    candidate 72
     assembled with -G0    candidate 82

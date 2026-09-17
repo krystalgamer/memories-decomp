@@ -9,7 +9,7 @@
 #include "duel_card.h"
 #include "../unmatched.h"
 
-void func_800175A0(void) {
+void Duel_InitSideStates(void) {
     u16 sp[DUEL_SIDE_COUNT];
     DuelSideState *e;
     s32 k;

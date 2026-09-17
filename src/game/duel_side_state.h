@@ -161,11 +161,11 @@ extern u8 *D_8009B22C;
 
 /* The halfword Main_RunTwoPlayerDuelSetup passes, as `(u8 *)&D_8009B230`, to
  * MainMenu_StartValueSetup's `toggle` parameter (value_setup.h declares
- * `u8 *toggle`), beside the two halfwords below; func_800175A0, when both
+ * `u8 *toggle`), beside the two halfwords below; Duel_InitSideStates, when both
  * D_8009B360 and gDuel_bOpponentID
  * are negative, copies `*(u8 *)&D_8009B230` into card_view_mode of both
  * D_800E9FF0 records; Main_Init stores 1 into it. Every retail access is a
- * byte or an address (lbu func_800175A0.s:65, sb func_80012B50.s:39, the
+ * byte or an address (lbu Duel_InitSideStates.s:65, sb func_80012B50.s:39, the
  * lui/addiu pair at 0x8002DC60), so the listings do not say how
  * wide the object is; two of the three units declare the u16 and reach the
  * byte through a `(u8 *)` cast, and overlays/main_menu/README.md describes the
@@ -187,8 +187,8 @@ extern u16 D_8009B230;
  * (D_8009B236 first, then D_8009B234) and passes to MainMenu_StartValueSetup
  * as `first` and `second`, both declared `u16 *` in value_setup.h -- that
  * signature is
- * what fixes the type, and func_800175A0's lhu of each
- * (func_800175A0.s:11-12) agrees. func_800175A0 copies them into `sp[0]`
+ * what fixes the type, and Duel_InitSideStates's lhu of each
+ * (Duel_InitSideStates.s:11-12) agrees. Duel_InitSideStates copies them into `sp[0]`
  * and `sp[1]` of its `u16 sp[DUEL_SIDE_COUNT]` when gDuel_bOpponentID is
  * negative. No other C
  * unit touches them. Initial value not read.
@@ -336,7 +336,7 @@ extern u16 gDuel_wBgmId;
 /* Clears the per-duel state -- roughly thirty scalars, several of them
  * written more than once -- and then, as its last statement, assigns
  * `D_8009B1C8 = &D_800E9FF0[D_8009B1D5];` (duel_state_init.c:62;
- * func_800175A0.s:85). It does not touch D_8009B22C: that store is in its
+ * Duel_InitSideStates.s:85). It does not touch D_8009B22C: that store is in its
  * only caller, src/candidates/func_800179F4.c:136, after the call at :112.
  *
  * Declared here because that last statement is the assignment this header
@@ -344,6 +344,6 @@ extern u16 gDuel_wBgmId;
  * assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and this is
  * one of them. func_800179F4 (src/candidates/func_800179F4.c) is the only
  * caller, and its old func_800179F4.c had the only declaration. */
-void func_800175A0(void);
+void Duel_InitSideStates(void);
 
 #endif

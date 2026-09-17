@@ -274,7 +274,7 @@ visibility or a complete scratch-buffer layout follows from these writes.
 
 The value editor's shared option has a confirmed resident consumer, even
 though its visible caption remains unassigned. Matching
-[`func_800175A0`](../src/game/duel_state_init.c) first clears
+[`Duel_InitSideStates`](../src/game/duel_state_init.c) first clears
 `DuelSideState.card_view_mode` at byte `+0x1F` of both `D_800E9FF0` side
 records. These are `0x20`-byte records, not the `0x1C`-byte card records
 described above:

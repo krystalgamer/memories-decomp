@@ -2237,7 +2237,7 @@ from 500 through 8000. Matching
 initializes the values,
 and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/value_setup.c)
 (`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
-`func_800175A0` copies those selections into both the authoritative and
+`Duel_InitSideStates` copies those selections into both the authoritative and
 maximum LP fields; recovery is therefore capped at the chosen starting value.
 
 On this setup screen, **Circle on either pad cancels** and **Start on

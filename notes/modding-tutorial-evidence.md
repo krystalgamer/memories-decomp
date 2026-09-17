@@ -81,7 +81,7 @@ The offset maps to VRAM `0x800175D0`:
 ```
 
 At that address, matching
-[`func_800175A0`](../src/game/duel_state_init.c) contains:
+[`Duel_InitSideStates`](../src/game/duel_state_init.c) contains:
 
 ```mips
 addiu $v0, $zero, 0x1F40
@@ -124,7 +124,7 @@ input handler
 [`MainMenu_UpdateValueSetup`](../src/overlays/main_menu/value_setup.c) uses
 `DUEL_LIFE_POINT_SELECTION_STEP` to let pad 1 and pad 2 adjust their
 respective values to `1` or a multiple of 500 from 500 through 8000.
-`func_800175A0` then initializes each duel side from those two selected
+`Duel_InitSideStates` then initializes each duel side from those two selected
 values.
 
 The editor also carries one shared binary option, whose visible meaning is
@@ -142,7 +142,7 @@ ordinary-duel initialization site.
 **Confidence:**
 
 - **Confirmed** that file offset `0x7DD0` is the 8000 immediate in
-  `func_800175A0`.
+  `Duel_InitSideStates`.
 - **Confirmed** that changing it changes the initial authoritative player and
   opponent LP values on the ordinary duel path.
 - **Confirmed** that the adjacent `+0x16` fields are maximum LP values used to
