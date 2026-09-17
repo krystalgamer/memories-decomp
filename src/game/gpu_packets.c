@@ -4,6 +4,9 @@
 #include "../psyq/libgs.h"
 #include "gpu_packets.h"
 
+#define GPU_PACKET_CODE_OFFSET(prefix_words) \
+    ((prefix_words) * sizeof(u32) + (u32)&((P_CODE *)0)->code)
+
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;
@@ -28,7 +31,7 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     i = draw;
     ((P_TAG *)D_800FE240)->len = i;
     if (flags >= 0) {
-        ((u8 *)D_800FE240)[0xB] |= 2;
+        ((u8 *)D_800FE240)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 2);
@@ -97,7 +100,7 @@ void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
     *(D_800FE240 + len + 3) = 0xE6000000;
     setlen(D_800FE240, len + 3);
     if (flags >= 0) {
-        ((u8 *)D_800FE240)[0xF] |= 2;
+        ((u8 *)D_800FE240)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 4);
