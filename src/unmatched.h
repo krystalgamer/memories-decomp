@@ -605,9 +605,6 @@ extern s8 D_800EA02F[];
 extern u8 D_800EAE88[];
 #else
 extern AiSelection D_800EAE88;
-#ifdef D_800EAE88_AS_SELECTION_AND_BYTES
-extern u8 D_800EAE88_bytes[] asm("D_800EAE88");
-#endif
 #endif
 #endif
 
