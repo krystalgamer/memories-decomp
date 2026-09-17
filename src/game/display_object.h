@@ -538,7 +538,7 @@ extern u16 D_8009B412;
  * the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
- * slot; func_80042BC0 in display_object_lifecycle.h is a sibling by role but
+ * slot; DisplayObject_FadeBrightnessAndRelease in display_object_lifecycle.h is a sibling by role but
  * takes DisplayObjectLifecycle *, not this type. */
 void func_80020D4C(DisplayObject *object);
 

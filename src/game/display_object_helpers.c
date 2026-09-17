@@ -245,14 +245,14 @@ s32 DisplayObject_MarkInitialized(DisplayObjectLifecycle *object)
     return 1;
 }
 
-void func_80042BC0(DisplayObjectLifecycle *object)
+void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object)
 {
-    s32 value = object->value_0C - object->step;
+    s32 value = object->red - object->fade_step;
 
     if (value > 0) {
-        object->value_0E = value;
-        object->value_0D = value;
-        object->value_0C = value;
+        object->blue = value;
+        object->green = value;
+        object->red = value;
     } else {
         DisplayObject_ReleaseIfPresent(object);
     }

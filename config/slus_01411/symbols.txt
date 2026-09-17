@@ -486,6 +486,7 @@ DisplayObject_StepToward = 0x80042AD8; // type:func
 DisplayObject_StepTowardZero = 0x80042B08; // type:func
 DisplayObject_FindAllocatedByTag = 0x80042B40; // type:func
 DisplayObject_MarkInitialized = 0x80042B98; // type:func
+DisplayObject_FadeBrightnessAndRelease = 0x80042BC0; // type:func
 DisplayObject_SavePosition = 0x80043178; // type:func
 DisplayObject_InterpolatePositionCosine = 0x8004318C; // type:func
 Widget_SlideSine = 0x80043230; // type:func

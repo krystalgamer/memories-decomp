@@ -95,7 +95,7 @@ void func_80020D4C(DisplayObject *arg0) {
             slot->attribute |= (GsALON | GsAONE);
             DisplayObject_SetDepthOffset(slot, (u8)arg0->field_16 - 1);
             slot->field_60 = 8;
-            slot->update = (DisplayObjectCallback)func_80042BC0;
+            slot->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
         }
     }
 

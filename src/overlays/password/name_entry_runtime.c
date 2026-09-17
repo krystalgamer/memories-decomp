@@ -368,7 +368,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
                       (u16)g->field_40.h.field_40, (u16)g->field_40.h.field_42);
         o->field_0C = 0x606060;
         o->field_60 = 6;
-        o->update = (DisplayObjectCallback)func_80042BC0;
+        o->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
         o->attribute |= (GsALON | GsAONE);
         return;
     }
