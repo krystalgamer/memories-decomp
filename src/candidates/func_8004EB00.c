@@ -28,6 +28,7 @@
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
+#include "../game/func_8004EB00.h"
 #include "../game/model.h"
 #include "../game/model_graphics_state.h"
 #include "../game/model_handler_state.h"
@@ -54,8 +55,6 @@
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
-extern s32 (*D_800114E8[4])(s32, s32);
 
 void func_8005A0DC(s32 value);
 int func_8005A878(int arg);

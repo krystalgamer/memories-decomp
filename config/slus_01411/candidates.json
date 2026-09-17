@@ -231,9 +231,9 @@
       "target": "src/candidates_target/func_8004EB00.S",
       "candidate_build_sha256": "5b6a48ff8a785443b6665c1bdf5e3dc123d8cddd6a0a341e956b108d120b055d",
       "target_bytes_sha256": "9b0f9a88765397cfcd465efc060d52cc215de87002fae7a8821f1e457e292320",
-      "canonical_contract_sha256": "9a9b3875d3bb3ea3b4e6a5faebed05b3a2190f50da155cb803b4219a615684b8",
+      "canonical_contract_sha256": "a92268076893c3d5a7e3192561a7c45ab7ae3149ade30cb752dcfa29e807aff9",
       "canonical_contracts": {
-        "D_800114E8": "a4ec53f3911f3c9d81c0979e85e09c256dfae97e3fedf00061a37aaae1c1eb75"
+        "D_800114E8": "36693d736dad322cf2116191ca28c90ce7615facbef487c7cc6923729c220797"
       }
     },
     {
