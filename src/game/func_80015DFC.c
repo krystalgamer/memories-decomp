@@ -1,5 +1,7 @@
 /* Volatile scratchpad stores and the second record reload preserve retail
- * ordering around the official Psy-Q RTPS macros. */
+ * ordering around the official Psy-Q RTPS macros. The scratchpad word is the
+ * SVECTOR gte_ldv0 loads, and the qualifier lives on that pointer, so its
+ * three stores are plain member stores. */
 #include "../types.h"
 #include "duel_side_state.h"
 #include "display_object.h"
@@ -26,11 +28,11 @@ void func_80015DFC(DisplayProjectionTrackedObject *object)
     GsSetLsMatrix(&D_800FE148);
     {
         u16 x = object->record->field_30.h.field_30;
-        volatile u8 *scratch = (volatile u8 *)0x1F8003E0;
+        volatile SVECTOR *scratch = (volatile SVECTOR *)0x1F8003E0;
 
-        *(volatile s16 *)(scratch + 2) = 0;
-        *(volatile u16 *)scratch = x;
-        *(volatile u16 *)(scratch + 4) =
+        scratch->vy = 0;
+        scratch->vx = x;
+        scratch->vz =
             *(u16 *)&((volatile DisplayProjectionTrackedObject *)object)
                         ->record->field_34.h.field_34;
         gte_ldv0((u8 *)scratch);
