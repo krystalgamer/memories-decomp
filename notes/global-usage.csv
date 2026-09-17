@@ -141,7 +141,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800907D8,D_800907D8,D_800907D8,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,read,8,&D_801A7AD8[D_800907D8[position]];
 0x800907D8,D_800907D8,D_800907D8,0x8002778C,func_8002778C,matching_c,game,C,src/game/ai_turn_action.c,read,8,DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]]; | return D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x800278A0,func_800278A0,matching_c,game,C,src/game/ai_turn_action.c,read,8,return D_800907D8[ | u8 row = D_800907D8[
-0x800907D8,D_800907D8,D_800907D8,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,address,8,grid = D_800907D8;
+0x800907D8,D_800907D8,D_800907D8,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,address,8,grid = D_800907D8;
 0x80090800,D_80090800,D_80090800,0x800234E4,func_800234E4,matching_c,game,C,src/game/duel_field_display_objects.c,address,,u8 *base = (u8 *)D_80090800;
 0x80090800,D_80090800,D_80090800,0x80023D08,func_80023D08,matching_c,game,C,src/game/func_80023D08.c,read,,d->target_x = D_80090800[D_8009B1D5][index].x; | d->target_y = D_80090800[D_8009B1D5][index].y;
 0x80090800,D_80090800,D_80090800,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,address,,t = (u8 *)D_80090800;
@@ -1149,7 +1149,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B16C,D_8009B16C,D_8009B16C,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,read_write,16,D_8009B16C |= 0x2000;
 0x8009B16C,D_8009B16C,D_8009B16C,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read_write,8,D_8009B16C[2] = (D_8009B16C[2] + 1) & 7; | D_8009B16C[2] = 0;
 0x8009B16C,D_8009B16C,D_8009B16C,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,read_write,16,D_8009B16C |= 0x2000;
-0x8009B16C,D_8009B16C,D_8009B16C,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,read,16,if (D_8009B16C & 0x1000) {
+0x8009B16C,D_8009B16C,D_8009B16C,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,16,if (D_8009B16C & 0x1000) {
 0x8009B16C,D_8009B16C,D_8009B16C,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,16,if (D_8009B16C & 0x2000)
 0x8009B170,D_8009B170,D_8009B170,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,write,16,"sh $v0, %gp_rel(D_8009B170)($gp)"
 0x8009B170,D_8009B170,D_8009B170,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,16,"lhu $v0, %gp_rel(D_8009B170)($gp)"
@@ -1248,7 +1248,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,read,,D_8009B1C8->card_view_mode == 0) {
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read,,r = D_8009B1C8;
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,read,,(u16) D_8009B1C8->max_life_points; | D_8009B1C8->life_points.unsigned_value = | (+5 more)
-0x8009B1C8,D_8009B1C8,D_8009B1C8,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,read,,if (D_8009B1C8->swords_turns_remaining == 0) {
+0x8009B1C8,D_8009B1C8,D_8009B1C8,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,,if (D_8009B1C8->swords_turns_remaining == 0) {
 0x8009B1CC,D_8009B1CC,D_8009B1CC,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,read_write,32,"lw $a0, %gp_rel(D_8009B1CC)($gp) | lw $s2, %gp_rel(D_8009B1CC)($gp) | (+3 more)"
 0x8009B1CC,D_8009B1CC,D_8009B1CC,0x80020988,func_80020988,matching_c,game,C,src/game/func_80020988.c,read,,"*(s16 *)&D_8009B1CC->field_30.h.field_30 + 0x3C, | *(s16 *)&D_8009B1CC->field_30.h.field_30 - 8, | (+2 more)"
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = 4; | (+2 more)
@@ -1319,7 +1319,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,read,8,D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT +
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002778C,func_8002778C,matching_c,game,C,src/game/ai_turn_action.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7 | slot + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800278A0,func_800278A0,matching_c,game,C,src/game/ai_turn_action.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT + 7 | i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,read,8,n = D_8009B1D5 * 20; | scan = (DuelCardRecord *)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,8,n = D_8009B1D5 * 20; | scan = (DuelCardRecord *)((s32)((D_8009B1D5 ^ 1) * 15) * 28 + (s32)scanbase);
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x80028220,func_80028220,matching_c,game,C,src/game/duel_card_state_helpers.c,read,8,"D_8009B1D5 ^ 1); | func_80027DF8(D_801AB00C, D_8009B1D5);"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002C7E8,Duel_CheckRitual,matching_c,game,C,src/game/duel_check_ritual.c,read,8,if (D_8009B1D5 != 0) {
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8002C938,Duel_CollectFieldRowCardObjects,matching_c,game,C,src/game/duel_field_card_objects.c,read,8,D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -2578,7 +2578,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x8002712C,func_8002712C,matching_c,game,C,src/game/ai_turn_action.c,read_write,,if(count){s8 first=list[0]->table_index;int index;D_800EAE88.result=first%DUEL_FIELD_ROW_SIZE+11;D_800EAE88.field1=0;... | index=Duel_FindFreeFieldSlot(DUEL_FIELD_SIDE_ZONE_COUNT);if(index>=0){D_800EAE88.random=rand()&1;D_800EAE88.value+=in...
 0x800EAE88,D_800EAE88,D_800EAE88_bytes,0x80027228,func_80027228,matching_c,game,C,src/game/ai_turn_action.c,address,8,st = D_800EAE88_bytes;
 0x800EAE88,D_800EAE88,D_800EAE88_bytes,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,write,8,D_800EAE88_bytes[0] = v % DUEL_FIELD_ROW_SIZE + 0xB; | D_800EAE88_bytes[1] = 0; | (+6 more)
-0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,write,8,D_800EAE88[0xA] = (s8)eb->table_index % 5 + 1; | D_800EAE88[0xA] = 0; | (+5 more)
+0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,write,8,D_800EAE88[0xA] = (s8)eb->table_index % 5 + 1; | D_800EAE88[0xA] = 0; | (+5 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));"
 0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
@@ -3120,7 +3120,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,address,,card = &D_801A7AD8[
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002778C,func_8002778C,matching_c,game,C,src/game/ai_turn_action.c,address,,DuelCardRecord *entry = &D_801A7AD8[D_800907D8[position]];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800278A0,func_800278A0,matching_c,game,C,src/game/ai_turn_action.c,address,,entry = &D_801A7AD8[row];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800279BC,func_800279BC,matching_c,game,C,src/game/func_800279BC.c,address,,recs = D_801A7AD8; | scanbase = &D_801A7AD8[5];
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,address,,recs = D_801A7AD8; | scanbase = &D_801A7AD8[5];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027DF8,func_80027DF8,matching_c,game,C,src/game/func_80027DF8.c,address,,base = &D_801A7AD8[who * DUEL_CARD_SIDE_RECORD_COUNT];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C7E8,Duel_CheckRitual,matching_c,game,C,src/game/duel_check_ritual.c,address,,c = &D_801A7AD8[i];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002C938,Duel_CollectFieldRowCardObjects,matching_c,game,C,src/game/duel_field_card_objects.c,address,,entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
