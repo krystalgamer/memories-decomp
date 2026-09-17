@@ -213,9 +213,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     if (saved_index >= 0) {
         TextBox_SetPos(
-            (DuelEffectChannel *)(
-                (u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
-            ),
+            &D_800EB0F8[saved_index],
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }

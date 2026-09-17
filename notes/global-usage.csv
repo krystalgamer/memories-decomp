@@ -2641,7 +2641,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003D74C,func_8003D74C,matching_c,game,C,src/game/dialog_transition.c,address,,r = &D_800EB0F8[((u8 *)record)[0x1A]];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DA40,func_8003DA40,matching_c,game,C,src/game/func_8003DA40.c,address,,q = &D_800EB0F8[((u8 *)record)[0x1A]];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,,DuelEffectChannel *text = &D_800EB0F8[root->text_index];
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F2B0,MemCardDialog_StepSlide,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,(u8 *)D_800EB0F8 + saved_index * sizeof(DuelEffectChannel)
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F2B0,MemCardDialog_StepSlide,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,&D_800EB0F8[saved_index]
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F388,MemCardDialog_CreateObject,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,DuelEffectChannel *p = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | p = &D_800EB0F8[D_8009B3EE];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,,TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | q = D_800EB0F8;
