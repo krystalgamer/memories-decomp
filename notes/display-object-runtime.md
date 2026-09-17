@@ -134,7 +134,7 @@ are unchanged; parameter names do not establish new artwork identities.
 
 ## Parent-linked duel rows
 
-Matching `DuelSelection_LinkDisplayObject` and `func_80022FF0` use a separate local parent view
+Matching `DuelSelection_LinkDisplayObject` and `DuelSelection_LinkDisplayObjects` use a separate local parent view
 to attach display objects to one reference position. For every non-null
 object, `DuelSelection_LinkDisplayObject`:
 
@@ -144,7 +144,7 @@ object, `DuelSelection_LinkDisplayObject`:
 - installs `DuelSelection_UpdateLinkedObject` as callback `+0x24`;
 - sets object byte `+0x6C` to one.
 
-`func_80022FF0` applies that setup first to the parent's standalone base
+`DuelSelection_LinkDisplayObjects` applies that setup first to the parent's standalone base
 object, then to two object-pointer lanes in each of
 `DUEL_FIELD_ROW_SIZE` five 12-byte rows. It always clears the standalone base
 pointer after processing it. When the caller's clear argument is nonzero, it
