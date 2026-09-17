@@ -5,7 +5,10 @@
 #include "display_object_config.h"
 #include "display_object_lifecycle.h"
 
-void func_800427DC(DisplayObject *object, int value)
+void DisplayObject_InitializeGouraudQuad(
+    DisplayObject *object,
+    s32 has_secondary_quad
+)
 {
     u16 flags = object->flags;
 
@@ -22,10 +25,8 @@ void func_800427DC(DisplayObject *object, int value)
     object->field_1C = 0;
     object->field_1A = 0;
     object->field_18 = 0;
-    /* Low byte only. field_5A is the s16 countdown DisplayObject_UpdateCommandStream
-       steps by D_8009B0D8 on this same record; this writes one byte
-       of it, and that width is retail's, not a simplification. */
-    *(u8 *)&object->field_5A = value;
+    /* List 4 reads only this low byte to gate a second POLY_G4 submission. */
+    *(u8 *)&object->field_5A = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 

@@ -63,7 +63,10 @@ extern volatile u16 D_8009AF74[4] __attribute__((section(".sdata")));
 /* Returns the first allocated display object carrying the requested tag. */
 void *DisplayObject_FindAllocatedByTag(s32 value);
 
-void func_800427DC(DisplayObject *object, int value);
+void DisplayObject_InitializeGouraudQuad(
+    DisplayObject *object,
+    s32 has_secondary_quad
+);
 void func_80042824(DisplayObject *object, int value);
 void DisplayObject_ConfigureSpriteWithResource(
     DisplayObject *object,

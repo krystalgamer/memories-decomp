@@ -26,7 +26,7 @@ void DebugMenu_Init(void)
     func_80039A14(text_box);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
     D_8009B2E4 = object;
-    func_800427DC(object, 0);
+    DisplayObject_InitializeGouraudQuad(object, 0);
     ((u8 *)&object->field_44)[1] = 0xC0;
     ((u8 *)&object->field_3C)[1] = 0xC0;
     ((u8 *)&object->field_34)[1] = 0xC0;

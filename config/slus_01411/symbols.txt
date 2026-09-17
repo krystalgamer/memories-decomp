@@ -472,6 +472,7 @@ DisplayObject_ReleaseIfPresent = 0x8004036C; // type:func
 DisplayObject_MoveToListHead = 0x800402A0; // type:func
 DisplayObject_ResetPool = 0x80040390; // type:func
 DisplayObject_Reset = 0x800403F0; // type:func
+DisplayObject_InitializeGouraudQuad = 0x800427DC; // type:func
 DisplayObject_ConfigureSpriteWithResource = 0x80042874; // type:func
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8; // type:func
 DisplayObject_SetDepthOffset = 0x800428EC; // type:func
