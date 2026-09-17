@@ -141,8 +141,8 @@ void DuelScene_UpdateResume(void)
         DuelCardReplayRecordBlock *replay;
 
         b = D_8015C424;
-        replay = (DuelCardReplayRecordBlock *)(b +
-            D_8009B208[n] * sizeof(DuelCardRecord) + replay_offset);
+        replay = (DuelCardReplayRecordBlock *)(
+            (u8 *)&((DuelCardRecord *)b)[D_8009B208[n]] + replay_offset);
         card = replay->record.object;
     }
     func_8001352C();
