@@ -828,8 +828,8 @@ s32 func_80049138(s16 arg0, s32 arg1);
    every track has ended. func_80049EC8.c is the only caller and
    its local extern already agreed with this.
 
-   The 3 is the value func_80049F50 promotes into the secondary path's state
-   byte, as the note further down records. */
+   The 3 is the value SD_PollSequenceState promotes into the secondary
+   path's state byte, as the note further down records. */
 s32 SD_GetSequenceStatus(void);
 
 /* Opens a tagged secondary sequence against a VAB id if no sequence is
@@ -839,8 +839,12 @@ s32 SD_GetSequenceStatus(void);
  * status into its signed halfword field. */
 s32 SD_OpenSequence(void *input, s16 vab_id);
 
-/* func_80049F50 reports the secondary path's state byte, promoting a
-   SD_GetSequenceStatus of 3 into it on the way. Its two callers disagree about
+/* SD_PollSequenceState reports the secondary path's state halfword,
+   field_07E2, promoting a SD_GetSequenceStatus of 3 into it on the way.
+   It is the only writer of that 3, and SD_ProcessSequenceTracks stops
+   advancing once the halfword leaves 1 without ever updating it, so a
+   finished sequence stays marked playing until this is called.
+   notes/sound-driver-state.md tabulates the halfword's values. Its two callers disagree about
    the return width and the narrower one is right to: SD_UpdateRuntime
    (src/game/sound_runtime.c) compares
    the result rather than storing it, so the narrowing has to be materialised
@@ -850,10 +854,10 @@ s32 SD_OpenSequence(void *input, s16 vab_id);
    s16-against-int disagreement is free because every caller stores the result
    into a 16-bit field and the sh truncates anyway. See
    notes/research/matching-evidence.md. */
-#ifdef FUNC_80049F50_RETURNS_S16
-s16 func_80049F50(void);
+#ifdef SD_POLL_SEQUENCE_STATE_RETURNS_S16
+s16 SD_PollSequenceState(void);
 #else
-s32 func_80049F50(void);
+s32 SD_PollSequenceState(void);
 #endif
 
 /* Three no-argument steps of the secondary path that every caller reaches WITH

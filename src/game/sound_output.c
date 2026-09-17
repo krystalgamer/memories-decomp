@@ -33,7 +33,7 @@ void SD_ResetRuntime(void)
     q = g_SDValue;
     q->field_0512 = 0;
     if (q->field_157E != -1) {
-        if ((s16)func_80049F50() != 1) {
+        if ((s16)SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->field_157E);
             g_SDValue->flags_0040 &= 0xFF7F;
         }

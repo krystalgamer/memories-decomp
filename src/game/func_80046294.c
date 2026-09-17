@@ -1,6 +1,6 @@
 #include "../types.h"
 #define G_SDVALUE_IN_DATA
-#define FUNC_80049F50_RETURNS_S16
+#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "sound.h"
 
@@ -73,7 +73,7 @@ after:
 
     if ((g_SDValue->flags_0040 & 0x80) != 0) {
         if (g_SDValue->field_157E != -1) {
-            if (func_80049F50() == 1) {
+            if (SD_PollSequenceState() == 1) {
                 SD_StopSequence(g_SDValue->field_157E);
             }
             g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;

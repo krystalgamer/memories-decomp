@@ -1,4 +1,4 @@
-#define FUNC_80049F50_RETURNS_S16
+#define SD_POLL_SEQUENCE_STATE_RETURNS_S16
 #define SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG
 #include "../types.h"
 #include "func_80044DC0.h"
@@ -136,7 +136,7 @@ void SD_UpdateRuntime(void)
     p = g_SDValue;
     if ((p->flags_0040 & 0x80) != 0 &&
         p->field_157E != -1 &&
-        func_80049F50() != 1) {
+        SD_PollSequenceState() != 1) {
         SD_StopSequence(g_SDValue->field_157E);
         p = g_SDValue;
         value = p->flags_0040;

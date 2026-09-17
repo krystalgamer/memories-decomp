@@ -7087,11 +7087,11 @@ about a return type nobody uses, so only reading the definition finds these.
 `void *` converts silently to any of them, so every spelling "works" and none
 is checked. No diagnostic exists for this one at all.
 
-**A narrower return that is load-bearing.** `func_80049F50` is defined `s32` in
+**A narrower return that is load-bearing.** `SD_PollSequenceState` is defined `s32` in
 `sound_secondary_playback.c` and declared `s16` in `sound_runtime.c` (now `func_80049EC8.c` and `src/candidates/func_80045F3C.c`), where the
 result is compared:
 
-    if (... func_80049F50() != 1)
+    if (... SD_PollSequenceState() != 1)
 
 Widening that declaration to the definition's `s32` -- which is what
 "correcting" it means -- gives
@@ -7105,7 +7105,7 @@ That last one is worth putting beside `func_800181EC`, where the identical
 `s16`-against-`int` disagreement is free. The difference is not the types, it
 is what the caller does with the value: `func_800181EC`'s three callers all
 store the result into a 16-bit field, so the `sh` truncates regardless and the
-narrowing costs nothing. `func_80049F50`'s caller compares it, so the narrowing
+narrowing costs nothing. `SD_PollSequenceState`'s caller compares it, so the narrowing
 has to be materialised.
 
 So the rule for return types has the same shape as the one for arguments. A

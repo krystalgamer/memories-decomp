@@ -25,7 +25,7 @@ void func_80049F10(s16 first, s16 second)
         SD_UpdateSecondaryObjectVolumes();
 }
 
-s32 func_80049F50(void)
+s32 SD_PollSequenceState(void)
 {
     s32 value;
 

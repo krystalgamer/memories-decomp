@@ -2228,7 +2228,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,read,,SDSecondaryState *initial = D_8009B458; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049EC8,func_80049EC8,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80049F10,func_80049F10,matching_c,game,C,src/game/func_80049EC8.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x80049F50,func_80049F50,matching_c,game,C,src/game/func_80049EC8.c,read,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
+0x8009B458,D_8009B458,D_8009B458,0x80049F50,SD_PollSequenceState,matching_c,game,C,src/game/func_80049EC8.c,read,,D_8009B458->field_07E2 = value; | if (D_8009B458->field_07E2 == 1) { | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A0FC,SD_SpatializeSecondaryObject,matching_c,game,C,src/game/sound_spatialize_object.c,read,,state1 = D_8009B458; | state2 = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A27C,SD_SetVoiceVolume,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_03aa7c.s,read,32,"lui $v1, %hi(D_8009B458) | lw $v1, %lo(D_8009B458)($v1)"
 0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,matching_c,game,C,src/game/sound_spatialization.c,read,,SDSecondaryState *state = D_8009B458; | current = D_8009B458; | (+1 more)

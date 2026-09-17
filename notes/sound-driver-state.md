@@ -439,7 +439,7 @@ struct for the pointee, and the reason was a measurement rather than a
 preference. That is **resolved as of 2026-09-11**; the eliminations below
 are kept because they are what made the answer findable, and the answer is
 the last paragraph of this section. With `sound.h` included and its `G_SDVALUE_IN_DATA`,
-`FUNC_80049F50_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
+`SD_POLL_SEQUENCE_STATE_RETURNS_S16` and `SD_SECONDARY_STEPS_TAKE_AMBIENT_ARG` arms
 selected, so that the unit declares none of those three symbols itself, the
 candidate's object is byte-identical. Pointing the same reads at `SDValue`
 instead is not: the object changes. What that is not caused by was measured
@@ -820,6 +820,34 @@ caller's tone record, while the second sets the initialization defaults before
 the caller turns the voice off. Both now match as pure C at
 `gcc_2_8_1_g8_split`, with the `const` table declaration still preserving the
 original address materialization.
+
+### The sequencer state halfword (`field_07E2`)
+
+Every value the state halfword at `0x07E2` takes has a matching-C writer, and
+all of them are in `src/game/`:
+
+| Value | Meaning | Written by |
+|---:|---|---|
+| `0` | no sequence open | `SD_InitState`, beside `field_07E0 = -1`, and the close step `func_80049CB0`, which also restores `field_07E0` to `-1` |
+| `1` | playing | `SD_PlaySequence` when the low byte of its argument is nonzero, `SD_PlaySequenceFastForward` always, and `SD_RestoreSecondaryVoiceVolumes` |
+| `2` | staged or stopped | `SD_OpenSequence` once it has staged an input, and `SD_StopSequence` |
+| `3` | every track ended | `SD_PollSequenceState`, and nothing else |
+| `4` | paused | `SD_PlaySequence` when the low byte of its argument is zero, and `SD_MuteSecondaryVoices` |
+
+The readers make `3` the interesting one. `SD_ProcessSequenceTracks` returns
+`0` immediately unless the halfword is `1`, and it never writes the halfword
+itself, so the sequencer stops advancing at the end of a sequence but leaves
+the state reading `1`. `SD_GetSequenceStatus` returns `3` exactly when no
+track has its `ended` flag clear -- including when `track_count` is zero,
+where its loop does not run -- and `SD_PollSequenceState` is what asks it and
+latches the answer. So a finished sequence is only observable after something
+polls it.
+
+Its three callers all pair that with `SDValue`'s flag `0x80` and
+`field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
+when the poll is not `1`, and `func_80046294` stops it when the poll is `1`.
+`func_80049EC8` and `func_80049F10` read the same halfword for a different
+question, skipping `SD_UpdateSecondaryObjectVolumes` while it is `2`.
 
 ### Transfer-window state and results
 
