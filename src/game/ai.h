@@ -76,7 +76,10 @@ extern AiScriptState gAiScript_State;
 typedef struct {
     s8 result;      /* 0x00 */
     s8 field1;      /* 0x01 */
-    char pad_02[4]; /* 0x02 */
+    /* Cleared beside result and field1 by func_80027228's second hit block,
+     * the only writer this record has for it. */
+    s8 field_02;    /* 0x02 */
+    char pad_03[3]; /* 0x03 */
     s8 value;       /* 0x06 */
     s8 zero;        /* 0x07 */
     s8 random;      /* 0x08 */
@@ -110,7 +113,7 @@ extern u8 D_800EAE90;
  * the byte, none of them through this name: ai_script_actions.c stores the
  * second of the five combo bytes as D_800EAE88[1], duel_select_trap_play.c and
  * duel_field_equip_search.c clear it the same way, and ai_turn_action.c writes
- * it both as D_800EAE88.field1 and as D_800EAE88_bytes[1]. The func_8001BD88
+ * it as D_800EAE88.field1. The func_8001BD88
  * candidate is the only reader, and it reaches the byte through this symbol
  * rather than through the table: its listing has lui %hi / lbu %lo for
  * D_800EAE89 and lui %hi / addiu %lo for D_800EAE88, two relocations in the one

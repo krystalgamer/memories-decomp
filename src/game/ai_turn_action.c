@@ -10,7 +10,6 @@
 #include "duel_card_checks.h"
 #include "duel_card_selection.h"
 #include "duel_battle_stats.h"
-#define D_800EAE88_AS_SELECTION_AND_BYTES
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
@@ -77,35 +76,35 @@ s32 func_80027228(void) {
 
 found1:
     {
-    u8 *st;
+    AiSelection *st;
     s8 v;
 
-    st = D_800EAE88_bytes;
+    st = &D_800EAE88;
     v = e1->table_index;
-    st[1] = 0;
-    st[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
+    st->field1 = 0;
+    st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
     v = e2->table_index;
-    st[6] = v % DUEL_FIELD_ROW_SIZE + 1;
-    st[7] = rand() & 1;
-    st[8] = 0;
+    st->value = v % DUEL_FIELD_ROW_SIZE + 1;
+    st->zero = rand() & 1;
+    st->random = 0;
     return 0;
     }
 
 found2:
     {
-    u8 *st;
+    AiSelection *st;
     s8 v;
     s8 w;
 
-    st = D_800EAE88_bytes;
+    st = &D_800EAE88;
     v = e1->table_index;
-    st[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
+    st->result = v % DUEL_FIELD_ROW_SIZE + 0xB;
     w = e2->table_index;
-    st[2] = 0;
-    st[6] = slot % DUEL_FIELD_ROW_SIZE + 1;
-    st[1] = w % DUEL_FIELD_ROW_SIZE + 0xB;
-    st[7] = rand() & 1;
-    st[8] = 0;
+    st->field_02 = 0;
+    st->value = slot % DUEL_FIELD_ROW_SIZE + 1;
+    st->field1 = w % DUEL_FIELD_ROW_SIZE + 0xB;
+    st->zero = rand() & 1;
+    st->random = 0;
     return 0;
     }
 
