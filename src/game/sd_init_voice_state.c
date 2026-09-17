@@ -5,7 +5,7 @@
 #include "sound_pending_constants.h"
 #include "sound_voice_constants.h"
 
-void func_80047480(void) {
+void SD_InitVoiceState(void) {
     SDValue *p;
     SDValue *q;
     SDValue *r;

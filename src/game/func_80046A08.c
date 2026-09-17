@@ -62,7 +62,7 @@ void func_80046A08(void) {
         goto call;
     case 3:
         if ((func_8004703C() & 7) == 0) {
-            func_80047480();
+            SD_InitVoiceState();
             g_SDValue->field_003C += 1;
             return;
         }

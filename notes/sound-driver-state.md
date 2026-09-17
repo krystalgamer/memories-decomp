@@ -30,7 +30,7 @@ Konami type or field naming.
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
-| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `func_80047480`, populated by `func_80048D08`, and selected by the indirect voice-code decoders. |
+| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `func_80048D08`, and selected by the indirect voice-code decoders. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |

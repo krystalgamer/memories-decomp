@@ -1438,3 +1438,4 @@ SD_SelectSecondaryObject = 0x8004A940; // type:func
 // Semantic names
 SD_FindLowestPrioritySecondaryObject = 0x8004A854; // type:func
 BuildDeck_RefreshCountDisplay = 0x80031E5C; // type:func
+SD_InitVoiceState = 0x80047480; // type:func

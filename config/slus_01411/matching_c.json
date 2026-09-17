@@ -4444,7 +4444,7 @@
       "address": "0x80047480",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1BC",
-      "source": "src/game/func_80047480.c"
+      "source": "src/game/sd_init_voice_state.c"
     },
     {
       "address": "0x8004763C",

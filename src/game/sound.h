@@ -166,7 +166,7 @@ typedef struct {
        fills in the live half per sound effect -- `voice` as the key bitmask,
        `volume` from the note table and the pan, `note` as the pitch and `addr`
        as the waveform address -- and hands it to SpuSetKeyOnWithAttr. The
-       constant half is written once by func_80047480: `mask` 0xFFFF, unity
+       constant half is written once by SD_InitVoiceState: `mask` 0xFFFF, unity
        `pitch`, `sample_note` 0x3C00, the three envelope rate modes and zeroed
        ADSR. Both were reaching it by offset before; the region is exactly one
        SpuVoiceAttr wide, which the assertion below pins. */
@@ -794,7 +794,7 @@ void SD_BGMFadeOut(void);
 void SD_BGMFadeOutWithStep(s32);
 void func_8003FF88(u32);
 void func_8003FFB4(u32);
-void func_80047480(void);
+void SD_InitVoiceState(void);
 /* A per-frame sweep over the runtime state at D_8009B458, called by
    SD_SequenceTimerCallback (sound_secondary_commands.c) and
    sound_sequence_runtime.c together with func_8004AAFC. It
