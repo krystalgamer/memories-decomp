@@ -120,7 +120,7 @@ show_secret_number:
     func_80039794();
     textbox = D_800EB0F8;
     if ((textbox->flags_34 & 8) == 0) {
-        TextBox_Destroy((u8 *)textbox);
+        TextBox_Destroy(textbox);
         D_8009B26E = 2;
     }
     return;

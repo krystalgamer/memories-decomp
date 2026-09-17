@@ -83,7 +83,7 @@ void DebugMenu_UpdateCampaignEntry(void)
                 D_8009B2EB = D_8009B2EB | 0x20;
             }
         } else if (Input_IsPad1ConfirmPressed() != 0) {
-            TextBox_Destroy((u8 *)textbox);
+            TextBox_Destroy(textbox);
             DisplayObject_ReleaseIfPresent(D_8009B2A0);
             D_8009B2EB = D_8009B2EB & 0x9F;
             D_8009B2EA = D_8009B2EA & 0xFE;
