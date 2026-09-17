@@ -25,7 +25,7 @@
 #include "model_control.h"
 #include "model_transfer_flags.h"
 #include "high_memory_addresses.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "func_80058E1C.h"
 #include "func_8004DC38.h"
 #include "duel_card.h"
@@ -151,19 +151,19 @@ void func_800559D4(s32 index)
     case 5:
         FntPrint(D_8009B030);
         if (other->field_E0F == 5 && other->field_E06 >= 0x60) {
-            func_80057AF4(index ^ 1, 1, 1);
+            Model_ControlSlotAnimation(index ^ 1, 1, 1);
         }
         return;
     case 3:
         FntPrint(D_8009B038);
         if (action == 6) {
             other->field_E13 = 0x80;
-            func_80057AF4(index ^ 1, 6, 1);
+            Model_ControlSlotAnimation(index ^ 1, 6, 1);
             return;
         }
         if (action & 0x80) {
             other->field_E13 = 0xFF;
-            func_80057AF4(index ^ 1, 5, 1);
+            Model_ControlSlotAnimation(index ^ 1, 5, 1);
             return;
         }
     case 1:
@@ -223,7 +223,7 @@ void func_800559D4(s32 index)
                 }
             }
         } else {
-            func_80057AF4(index ^ 1, command, 1);
+            Model_ControlSlotAnimation(index ^ 1, command, 1);
             changed++;
         }
         if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
@@ -284,7 +284,7 @@ no_handler:
                         }
                     }
                 }
-                func_80057AF4(index ^ 1, fallback_action & 0x7F, 1);
+                Model_ControlSlotAnimation(index ^ 1, fallback_action & 0x7F, 1);
                 slot->field_E0E = 2;
             }
         } else if (state == 8) {

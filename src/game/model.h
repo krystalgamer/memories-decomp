@@ -58,7 +58,7 @@ typedef struct {
  * iteration -- 58 halfwords at 0x750 + row * 0x76 and the halfword at
  * 0x7C4 + row * 0x76 -- which is what groups `values` and `max` into one
  * 0x76-byte record. func_8004D75C then accumulates one entry of `values`
- * per part and leaves `max` holding the largest of them, and func_80057AF4,
+ * per part and leaves `max` holding the largest of them, and Model_ControlSlotAnimation,
  * func_800556E8, func_8005106C and func_80058EC0 read that same `max` as the
  * length of animation `row`. */
 typedef struct {
@@ -72,7 +72,7 @@ typedef struct {
  * library fills it in, and every field the game touches is one GsSEQ names
  * and uses the way libhmd does:
  *
- *   ii / aframe  func_80057AF4 stores a command index into ii, and
+ *   ii / aframe  Model_ControlSlotAnimation stores a command index into ii, and
  *                func_80056250 clears both to 0xFFFF when it rearms a part
  *   sid / speed  src/candidates/func_800528AC.c and
  *                model_slot_state_updates.c switch
@@ -217,13 +217,13 @@ typedef struct {
     ModelSlotPart *field_1E0[MODEL_SLOT_PART_COUNT];
     /* The per-animation key table. func_8004D58C fills it with 0xFFFF at a
      * 0x74 stride over MODEL_SLOT_ROW_COUNT rows, func_8004D75C indexes it as
-     * [row][part], and func_80057AF4 reads the same halfword through the
+     * [row][part], and Model_ControlSlotAnimation reads the same halfword through the
      * literal offset arithmetic 0x2C8 + current * 116 + part * 2. */
     u16 field_2C8[MODEL_SLOT_ROW_COUNT][MODEL_SLOT_PART_COUNT];
     ModelSlotRow field_750[MODEL_SLOT_ROW_COUNT];
     /* The part bitfield func_8005611C's caller documents as "+0xBEC":
      * func_8004D58C sets bit `part % 8` of byte `part / 8` from the command
-     * block, func_80057AF4 reads it back the same way, and func_80056250
+     * block, Model_ControlSlotAnimation reads it back the same way, and func_80056250
      * widens a card from 0xC to 0x14 for the parts it flags. */
     u8 field_BEC[8];
     u8 field_BF4;
@@ -251,7 +251,7 @@ typedef struct {
     s16 field_DD0[4];
     /* The command list and the three pointers beside it, all installed by
      * func_8004D58C out of the two blocks it finds in the command chain.
-     * func_80057AF4 reads field_DD8 as the base of 4-byte command records and
+     * Model_ControlSlotAnimation reads field_DD8 as the base of 4-byte command records and
      * field_DDC / field_DE0 as the source and destination of its transfers. */
     s32 *field_DD8;
     u8 *field_DDC;

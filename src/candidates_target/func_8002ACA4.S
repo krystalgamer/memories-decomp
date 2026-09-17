@@ -572,7 +572,7 @@ glabel func_8002ACA4
   .L8002B510:
     /* 1BD10 8002B510 21200000 */  addu       $a0, $zero, $zero
     /* 1BD14 8002B514 21288000 */  addu       $a1, $a0, $zero
-    /* 1BD18 8002B518 BD5E010C */  jal        func_80057AF4
+    /* 1BD18 8002B518 BD5E010C */  jal        Model_ControlSlotAnimation
     /* 1BD1C 8002B51C 01000624 */   addiu     $a2, $zero, 0x1
     /* 1BD20 8002B520 21200000 */  addu       $a0, $zero, $zero
     /* 1BD24 8002B524 01000524 */  addiu      $a1, $zero, 0x1

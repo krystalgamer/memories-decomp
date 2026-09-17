@@ -237,7 +237,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             (gInput_wPad1Pressed[1] & 0x20) != 0) {
             other = ((gInput_wPad1Pressed[0] >> 5) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy(D_800EB224);
+            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[other] = 0;
             func_800610E0(other ^ 1);
             D_80185CCF = 0;
@@ -248,11 +248,11 @@ s32 MainMenu_UpdateTradeScreen(void)
             SD_SEPlay(48, 255, 0);
             switch (D_80185CCE) {
             case 0:
-                TextBox_Destroy(D_800EB224);
+                TextBox_Destroy((DuelEffectChannel *)D_800EB224);
                 D_80185CD0 = 1;
                 break;
             case 1:
-                TextBox_Destroy(D_800EB224);
+                TextBox_Destroy((DuelEffectChannel *)D_800EB224);
                 i = 1;
                 clearFlags = D_80185CC8 + i;
                 do {
@@ -278,7 +278,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     if (D_80185CC8[0] != 0) {
         if ((gInput_wPad1Pressed[0] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy(D_800EB224);
+            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[0] = 0;
         }
         goto check_scroll0;
@@ -421,7 +421,7 @@ player1:
     if (D_80185CC8[1] != 0) {
         if ((gInput_wPad1Pressed[1] & 0x20) != 0) {
             SD_SEPlay(8, 255, 0);
-            TextBox_Destroy(D_800EB224);
+            TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[1] = 0;
         }
         goto check_scroll1;
@@ -581,8 +581,8 @@ update:
     }
     if (D_80185CC8[0] != 0 && D_80185CC8[1] != 0) {
         D_80185CCE = 0;
-        TextBox_Destroy(D_800EB224);
-        TextBox_Destroy(D_800EB224);
+        TextBox_Destroy((DuelEffectChannel *)D_800EB224);
+        TextBox_Destroy((DuelEffectChannel *)D_800EB224);
         func_800611D0(*(volatile u8 *)&D_80185CCE);
         D_80185CCF = 1;
     }

@@ -13,7 +13,9 @@ typedef struct {
     u16 texture_width;
     /* Low 13 bits bound vertical clipping; high bits select texture modes. */
     u16 field_A8;
-    u8 pad_AA[0x08];
+    /* Low six bits feed U; the next four contribute to the texture page. */
+    u16 field_AA;
+    u8 pad_AC[0x06];
 } ModelBackgroundRecord;
 
 typedef char ModelBackgroundRecord_stage_height_offset_must_be_0xA4[
@@ -24,6 +26,9 @@ typedef char ModelBackgroundRecord_texture_width_offset_must_be_0xA6[
 ];
 typedef char ModelBackgroundRecord_field_A8_offset_must_be_0xA8[
     ((u32)&(((ModelBackgroundRecord *)0)->field_A8)) == 0xA8 ? 1 : -1
+];
+typedef char ModelBackgroundRecord_field_AA_offset_must_be_0xAA[
+    ((u32)&(((ModelBackgroundRecord *)0)->field_AA)) == 0xAA ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_size_must_be_0xB2[
     sizeof(ModelBackgroundRecord) == 0xB2 ? 1 : -1

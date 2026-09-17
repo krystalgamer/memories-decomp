@@ -27,14 +27,10 @@ typedef struct {
 } DuelSelectionSource;
 
 /* Both scan the field row for an occupied card and return the index byte of
- * the best match, but they spell their argument differently and that is left
- * alone. func_8002778C takes the block as DuelSelectionSource *, while
- * func_800278A0 takes it as void * and casts at the access:
- * `*(DuelSelectionObject **)arg0`. The two describe the same one-pointer
- * block; giving func_800278A0 the struct type would be retyping a parameter
- * on the strength of its neighbour rather than of its own body, which is a
- * separate question from moving the types out of the .c. */
+ * the best match through the same one-pointer source view. func_800279BC
+ * passes a DuelCardRecord whose object pointer is its first word, so that
+ * caller makes the compatible boundary explicit. */
 int func_8002778C(DuelSelectionSource *source);
-s32 func_800278A0(void *arg0);
+s32 func_800278A0(DuelSelectionSource *source);
 
 #endif

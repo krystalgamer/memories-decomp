@@ -714,16 +714,34 @@ typedef struct {
     u8 pad0A[0x0E];
     s16 target_x;
     s16 target_y;
-    u8 pad1C[0x14];
+    u8 pad1C[6];
+    u8 phase;
+    u8 pad23[0x0D];
     s16 x;
     s16 y;
-    u8 pad34[0x2C];
+    u8 pad34[2];
+    s16 step_x;
+    s16 step_y;
+    u8 pad3A[0x26];
     s16 timer;
     u8 pad62[0x7];
     u8 kind;
     u8 pad6A[0x2];
     u8 updateFlags;
 } PasswordCursorView;
+
+typedef char PasswordCursorView_phase_offset_must_be_0x22[
+    YGO_TYPE_OFFSET(PasswordCursorView, phase) == 0x22 ? 1 : -1
+];
+typedef char PasswordCursorView_step_x_offset_must_be_0x36[
+    YGO_TYPE_OFFSET(PasswordCursorView, step_x) == 0x36 ? 1 : -1
+];
+typedef char PasswordCursorView_timer_offset_must_be_0x60[
+    YGO_TYPE_OFFSET(PasswordCursorView, timer) == 0x60 ? 1 : -1
+];
+typedef char PasswordCursorView_update_flags_offset_must_be_0x6C[
+    YGO_TYPE_OFFSET(PasswordCursorView, updateFlags) == 0x6C ? 1 : -1
+];
 
 typedef struct {
     u8 flags;

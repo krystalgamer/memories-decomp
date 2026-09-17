@@ -39,9 +39,9 @@ Verified shared fields and partial arrays are:
 |---:|---|---|
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `func_80059DD8` advances by 8 and reads the pointer at `+4` |
 | `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
-| `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `func_80057AF4` reaches it as `0x2C8 + current * 116 + part * 2` |
+| `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `func_80058EC0` reads it as `field_BF5 * 118` |
-| `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `func_80057AF4` reads it back the same way; `func_80056250` widens a card for the parts it flags |
+| `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `func_80056250` widens a card for the parts it flags |
 | `0xBF5` | `field_BF5` | direct reads in `func_80058E68`, `func_80058EC0`, and `func_800597C8` |
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |

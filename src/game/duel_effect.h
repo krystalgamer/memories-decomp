@@ -128,7 +128,7 @@ extern u8 D_8009B355;
  * `if (D_8009B34E != 0)` in duel_field_display_objects.c;
  * func_8002A2F4 stores the byte at +0x54 of the object
  * TextBox_Create returned (`o` is u8 *) and then 4 when
- * `*(p + (n << 2) + 0x56) & 1` (src/game/func_8002A2F4.c:40-43);
+ * `*(p + (n << 2) + 0x56) & 1` (src/game/func_8002A3CC.c:40-43);
  * func_80037DA4 stores it into `object[0x54]` when the opcode byte has bit
  * 0x10 (src/candidates/func_80037DA4.c). notes/duel-card-record.md:173-176
  * glosses the three results. No unit defines it; the address comes from the
@@ -140,7 +140,7 @@ extern u8 D_8009B355;
  * it u8 and matched, and the load is lbu (func_80037DA4.s:20, gp-relative).
  * Retail stores it through $at in func_80023144 (func_80023144.s:162-163)
  * and func_8002A2F4 (func_8002A2F4.s:39-40, :48-49), both
- * gcc_2_8_1_g8_split, so duel_field_display_objects.c and func_8002A2F4.c
+ * gcc_2_8_1_g8_split, so duel_field_display_objects.c and func_8002A3CC.c
  * define the .data arm; func_80037DA4's candidate takes the plain byte.
  * Initial value not read. */
 #ifdef D_8009B320_IN_DATA
@@ -155,7 +155,7 @@ extern u8 D_8009B320;
  * immediately after `D_8009B34E = 1;` (duel_field_display_objects.c);
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
  * func_8002A2F4 stores Library_GetGridCursorCardId's result
- * (src/game/func_8002A2F4.c:26) and then, under `if (n != 0)`, stores
+ * (src/game/func_8002A3CC.c:26) and then, under `if (n != 0)`, stores
  * 0 when func_80029EB0's result `r` (:32) has `(r & 0x80) == 0` (:34-35);
  * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
@@ -174,7 +174,7 @@ extern u8 D_8009B320;
  * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the four
  * units whose profiles are -G8 at both the compiler and maspsx --
  * duel_field_display_objects.c (func_80023144), func_80060E70.c,
- * func_8002A2F4.c and the DuelEffect_UpdateCardViewerState candidate --
+ * func_8002A3CC.c and the DuelEffect_UpdateCardViewerState candidate --
  * define the .data arm, and card_list_text_boxes.c, whose unit assembles
  * at -G0, takes the plain declaration.
  * Initial value not read. */

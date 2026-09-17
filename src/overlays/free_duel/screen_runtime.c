@@ -75,12 +75,12 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     s32 index;
     s32 param;
     s16 trunc;
-    u8 *panel;
+    DuelEffectChannel *panel;
     SaveDataWorkspace *base;
     u16 *slot;
 
     col = gFreeDuel_bCursorColumn;
-    panel = (u8 *)D_800EB0F8;
+    panel = D_800EB0F8;
     w->field_30.h.field_30 = col * 56 + 20;
     w->field_30.h.field_32 = gFreeDuel_bCursorRow * 52 + 40;
     TextBox_Destroy(panel);

@@ -250,6 +250,8 @@ extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];
 extern AiActiveCard gDuel_aActiveCards[];
 
+void AiScript_Init(u8 *script);
+s32 AiScript_Run(void);
 s32 Ai_IsCardInSets(s32 mode, s32 index);
 /* The range callers need the widened declaration to avoid an extra pair of
  * sign-extension instructions at each call; the definition returns s8. */

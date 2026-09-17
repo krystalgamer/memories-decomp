@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80018C34_H
-#define MEMORIES_DECOMP_FUNC_80018C34_H
+#ifndef MEMORIES_DECOMP_DUEL_UPDATE_DRAW_CARD_SLIDE_H
+#define MEMORIES_DECOMP_DUEL_UPDATE_DRAW_CARD_SLIDE_H
 
 #include "../types.h"
 #include "display_object.h"
@@ -11,6 +11,6 @@
  * Widget_SlideSine. When the phase reaches zero it snaps to the target and
  * clears its update hook and field_6C. duel_draw_resolution.c installs it by
  * address. */
-void func_80018C34(DisplayObject *o);
+void Duel_UpdateDrawCardSlide(DisplayObject *object);
 
 #endif

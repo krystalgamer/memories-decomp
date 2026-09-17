@@ -14,12 +14,13 @@ void func_8001D344(DisplayObject *object)
        of field_0C step against the halfwords at 0x28, 0x2A and 0x2C, which
        are position.h and field_2C.h -- two different members, so no member
        array covers the walk. */
-    u8 *current = (u8 *)object + 0xC;
+    u8 *current = (u8 *)&object->field_0C;
     u8 *target = (u8 *)object;
 
     for (; i < 3; i++) {
         s32 value = *current;
-        s32 limit = *(s16 *)(target + 0x28);
+        s32 limit = *(s16 *)(target +
+            (u32)&((DisplayObject *)0)->position.h.field_28);
 
         if (value < limit) {
             value += step;

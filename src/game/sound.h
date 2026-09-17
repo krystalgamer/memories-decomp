@@ -853,10 +853,10 @@ s32 SD_GetSequenceStatus(void);
 
 /* Opens a tagged secondary sequence against a VAB id if no sequence is
  * already open, like libsnd's SsSeqOpen: 0 is the access number the stop and
- * close steps are later handed, -1 a refusal. The definition uses void * for
- * the input and returns a full s32 status; the command pump stores that
- * status into its signed halfword field. */
-s32 SD_OpenSequence(void *input, s16 vab_id);
+ * close steps are later handed, -1 a refusal. The input is retained as the
+ * secondary state's u8 sequence cursor and the function returns a full s32
+ * status; the command pump stores that status into its signed halfword field. */
+s32 SD_OpenSequence(u8 *input, s16 vab_id);
 
 /* SD_PollSequenceState reports the secondary path's state halfword,
    field_07E2, promoting a SD_GetSequenceStatus of 3 into it on the way.
@@ -869,7 +869,7 @@ s32 SD_OpenSequence(void *input, s16 vab_id);
    the result rather than storing it, so the narrowing has to be materialised
    and the sll/sra pair it produces is retail's -- widening that caller to the
    definition's s32 drops eight bytes. sound_output.c takes the definition's
-   spelling and casts at the use. Contrast func_800181EC, where the same
+   spelling and casts at the use. Contrast Duel_GetCardEffectVariant, where the same
    s16-against-int disagreement is free because every caller stores the result
    into a 16-bit field and the sh truncates anyway. See
    notes/research/matching-evidence.md. */

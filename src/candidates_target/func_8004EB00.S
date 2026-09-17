@@ -265,7 +265,7 @@ glabel func_8004EB00
     /* 3F6D4 8004EED4 1000B0AF */   sw        $s0, 0x10($sp)
     /* 3F6D8 8004EED8 21200000 */  addu       $a0, $zero, $zero
     /* 3F6DC 8004EEDC 02000524 */  addiu      $a1, $zero, 0x2
-    /* 3F6E0 8004EEE0 BD5E010C */  jal        func_80057AF4
+    /* 3F6E0 8004EEE0 BD5E010C */  jal        Model_ControlSlotAnimation
     /* 3F6E4 8004EEE4 01000624 */   addiu     $a2, $zero, 0x1
     /* 3F6E8 8004EEE8 92008293 */  lbu        $v0, %gp_rel(D_8009AF9A)($gp)
     /* 3F6EC 8004EEEC E10080A3 */  sb         $zero, %gp_rel(D_8009AFE9)($gp)
@@ -349,7 +349,7 @@ glabel func_8004EB00
     /* 3F81C 8004F01C 02006324 */   addiu     $v1, $v1, 0x2
   .L8004F020:
     /* 3F820 8004F020 01000424 */  addiu      $a0, $zero, 0x1
-    /* 3F824 8004F024 BD5E010C */  jal        func_80057AF4
+    /* 3F824 8004F024 BD5E010C */  jal        Model_ControlSlotAnimation
     /* 3F828 8004F028 21308000 */   addu      $a2, $a0, $zero
     /* 3F82C 8004F02C 92008293 */  lbu        $v0, %gp_rel(D_8009AF9A)($gp)
     /* 3F830 8004F030 E10080A3 */  sb         $zero, %gp_rel(D_8009AFE9)($gp)
@@ -806,7 +806,7 @@ glabel func_8004EB00
   .L8004F6C8:
     /* 3FEC8 8004F6C8 01000424 */  addiu      $a0, $zero, 0x1
     /* 3FECC 8004F6CC 06000524 */  addiu      $a1, $zero, 0x6
-    /* 3FED0 8004F6D0 BD5E010C */  jal        func_80057AF4
+    /* 3FED0 8004F6D0 BD5E010C */  jal        Model_ControlSlotAnimation
     /* 3FED4 8004F6D4 21308000 */   addu      $a2, $a0, $zero
   .L8004F6D8:
     /* 3FED8 8004F6D8 21200000 */  addu       $a0, $zero, $zero
@@ -1017,7 +1017,7 @@ glabel func_8004EB00
     /* 401E4 8004F9E4 21282002 */   addu      $a1, $s1, $zero
     /* 401E8 8004F9E8 21202002 */  addu       $a0, $s1, $zero
     /* 401EC 8004F9EC 07000524 */  addiu      $a1, $zero, 0x7
-    /* 401F0 8004F9F0 BD5E010C */  jal        func_80057AF4
+    /* 401F0 8004F9F0 BD5E010C */  jal        Model_ControlSlotAnimation
     /* 401F4 8004F9F4 01000624 */   addiu     $a2, $zero, 0x1
     /* 401F8 8004F9F8 92008293 */  lbu        $v0, %gp_rel(D_8009AF9A)($gp)
     /* 401FC 8004F9FC 823F0108 */  j          .L8004FE08

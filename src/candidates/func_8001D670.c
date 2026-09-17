@@ -97,7 +97,6 @@ u8 D_8009B19C;
 extern s32 D_8009B1BC;
 extern u8 D_8009B21A;
 extern s8 D_8009B229;
-extern u8 D_800E9F64[];
 extern u8 D_800EAE91[];
 int func_8001700C(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
@@ -108,8 +107,6 @@ s32 func_8001D5B4(DuelFieldCursor *cursor);
 s32 func_80020988(void);
 void func_800234E4(DuelFieldDisplaySource *source);
 void func_80028220(void);
-void AiScript_Init(void *arg0);
-s32 AiScript_Run(void);
 
 void DuelScene_UpdateFieldActions(void)
 {

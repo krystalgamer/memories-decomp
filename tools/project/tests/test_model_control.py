@@ -157,7 +157,7 @@ s32 func_80058E1C(void)
     return serial % 6;
 }
 
-void func_80057AF4(s32 index, s32 animation, s32 flag)
+void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 {
     if (index != (chosen_index ^ 1) || flag != 1) fixture_error = 5;
     event(31, index, animation, flag);
@@ -221,7 +221,7 @@ static void reference(s32 index)
     if (commands[self->field_DFE] < 0) {
         if (self->field_BF5 == self->field_DFE + 3) {
             if ((s32)(self->field_E06 >> 4) >= (s32)(self->field_750[self->field_BF5].max >> 1)) {
-                func_80057AF4(index ^ 1, selection(self, other, index) & 0x7F, 1);
+                Model_ControlSlotAnimation(index ^ 1, selection(self, other, index) & 0x7F, 1);
                 self->field_E0E = 2;
             }
         } else if (self->field_E0E == 8) self->field_E0E = 2;
@@ -247,18 +247,18 @@ static void reference(s32 index)
     case 2: FntPrint(D_8009B050); return;
     case 5:
         FntPrint(D_8009B030);
-        if (other->field_E0F == 5 && other->field_E06 >= 0x60) func_80057AF4(index ^ 1, 1, 1);
+        if (other->field_E0F == 5 && other->field_E06 >= 0x60) Model_ControlSlotAnimation(index ^ 1, 1, 1);
         return;
     case 3:
         FntPrint(D_8009B038);
         if (decision == 6) {
             other->field_E13 = 0x80;
-            func_80057AF4(index ^ 1, 6, 1);
+            Model_ControlSlotAnimation(index ^ 1, 6, 1);
             return;
         }
         if (decision & 0x80) {
             other->field_E13 = 0xFF;
-            func_80057AF4(index ^ 1, 5, 1);
+            Model_ControlSlotAnimation(index ^ 1, 5, 1);
             return;
         }
         break;
@@ -276,7 +276,7 @@ static void reference(s32 index)
         if (self->field_E0E == 4 && decision == 6 && other->field_E0F != 6) decision = 5;
     }
     if (other->field_E0F != decision) {
-        func_80057AF4(index ^ 1, decision, 1);
+        Model_ControlSlotAnimation(index ^ 1, decision, 1);
         changed = 1;
     } else if (other->field_E16 != 0x23 && other->field_E06 >= 0xA0 && ((rand() >> 8) & 3)) {
         other->field_E06 -= step;

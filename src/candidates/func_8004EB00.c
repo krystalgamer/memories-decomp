@@ -41,7 +41,7 @@
 #include "../game/model_transfer_state.h"
 #include "../game/model_transfer_flags.h"
 #include "../game/func_80058E1C.h"
-#include "../game/func_80057AF4.h"
+#include "../game/model_control_slot_animation.h"
 #include "../game/func_8005106C.h"
 #include "../game/model_effect_requests.h"
 #include "../game/model_distance_queries.h"
@@ -171,7 +171,7 @@ void func_8004EB00(void)
                 }
                 func_80059590(0, 0, 0x80, 0x80, 0x80);
                 func_80059590(1, 0, 0x80, 0x80, 0x80);
-                func_80057AF4(0, 2, 1);
+                Model_ControlSlotAnimation(0, 2, 1);
                 D_8009AFE9 = 0;
                 D_8009AF9A++;
                 break;
@@ -213,7 +213,7 @@ void func_8004EB00(void)
             D_800F2C40[1].field_DC0[1] = c0;
             D_800F2C40[1].field_DC0[2] = c1;
         } else {
-            func_80057AF4(1, 2, 1);
+            Model_ControlSlotAnimation(1, 2, 1);
             D_8009AFE9 = 0;
             D_8009AF9A++;
             break;
@@ -415,7 +415,7 @@ void func_8004EB00(void)
                 if (D_800F2C40[1].field_E13 == 0xFF) {
                     D_800F2C40[1].field_E13 = 0x80;
                 }
-                func_80057AF4(1, 6, 1);
+                Model_ControlSlotAnimation(1, 6, 1);
             }
             func_8005F91C(0, (void *)0, (void *)0, 0);
             if (func_8005A878(1) != 0) {
@@ -489,7 +489,7 @@ void func_8004EB00(void)
                 } else {
                     func_8005F714(-1, f, 0x4000);
                     func_8005A010(-1, f);
-                    func_80057AF4(f, 7, 1);
+                    Model_ControlSlotAnimation(f, 7, 1);
                     D_8009AF9A++;
                     break;
                 }

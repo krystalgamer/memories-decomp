@@ -150,7 +150,7 @@ void DuelScene_UpdateResume(void)
     obj->field_00 = card->field_30.h.field_30;
     obj->field_02 = card->field_30.h.field_32;
     obj->field_04 = *(u16 *)&card->field_34;
-    obj->field_1A = func_800181EC((CardObject *)card);
+    obj->field_1A = Duel_GetCardEffectVariant((CardObject *)card);
     func_80024954(&D_801A7AD8[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }

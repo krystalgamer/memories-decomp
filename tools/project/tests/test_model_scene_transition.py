@@ -54,7 +54,7 @@ WITNESS = r"""
 #include "src/game/model_state_setters.h"
 #include "src/game/model_slot_properties.h"
 #include "src/game/model_effect_requests.h"
-#include "src/game/func_80057AF4.h"
+#include "src/game/model_control_slot_animation.h"
 #include "src/game/file_transfer.h"
 #include "src/game/file_names.h"
 #include "src/game/sound_init.h"
@@ -128,7 +128,7 @@ void func_80059590(s32 index, s32 fourth, s32 first, s32 second, s32 third)
 
 void func_801807B0(void) { record(5, 0, 0, 0, 0); }
 void func_80181C4C(s32 value) { record(6, value, 0, 0, 0); }
-void func_80049394(void *value)
+void func_80049394(u16 *value)
 {
     record(7, value == sound_data, 0, 0, 0);
 }
@@ -149,7 +149,7 @@ void func_80050584(s32 index)
     if (activate_action == 5) FLAGS[1] = 1;
 }
 
-void func_80057AF4(s32 index, s32 animation, s32 flag)
+void Model_ControlSlotAnimation(s32 index, s32 animation, s32 flag)
 {
     record(12, index, animation, flag, 0);
     if (animation_action == 1) D_800F2C40[index].field_E15 = 250;

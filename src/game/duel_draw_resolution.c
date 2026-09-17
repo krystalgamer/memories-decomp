@@ -16,7 +16,7 @@
 #include "duel_scene_state.h"
 #include "../unmatched.h"
 #include "func_80018004.h"
-#include "func_80018C34.h"
+#include "duel_update_draw_card_slide.h"
 #include "display_object_helpers.h"
 
 s32 Duel_HasAllExodiaPieces(void) {
@@ -101,7 +101,7 @@ void DuelScene_UpdateDrawResolution(void) {
         );
         p->field_6C = 1;
         p->field_60 = 0xC;
-        p->update = (DisplayObjectCallback)func_80018C34;
+        p->update = (DisplayObjectCallback)Duel_UpdateDrawCardSlide;
         D_800EA030[i].object = (u8 *)p;
         base = D_8015C424;
         g = (DuelCardReplayRecordBlock *)(base +

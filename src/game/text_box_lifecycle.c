@@ -5,10 +5,8 @@
 #include "display_object_core.h"
 #include "text_box_set_rect.h"
 
-void TextBox_Destroy(void *record_ptr)
+void TextBox_Destroy(DuelEffectChannel *record)
 {
-    DuelEffectChannel *record = record_ptr;
-
     func_80035CA8(record->index_57);
     DuelEffect_ClearMatchingMarker(record->index_57);
     record->flags_34 = 0;

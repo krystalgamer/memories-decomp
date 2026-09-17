@@ -265,7 +265,7 @@ void CampaignMap_SetLocation(s32 index)
     colour[0] = 1365;
     colour[1] = 1365;
     colour[2] = 1365;
-    func_8005922C((struct _GsCOORDUNIT *)obj, colour);
+    func_8005922C((struct _GsCOORDUNIT *)obj, (VECTOR *)colour);
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, D_800F2848.projection);

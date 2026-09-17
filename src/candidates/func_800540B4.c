@@ -47,7 +47,7 @@
 #define ORDERING_TABLE_SLOT2_ARRAY
 #include "../game/ordering_tables.h"
 #include "../game/func_80058E1C.h"
-#include "../game/func_80057AF4.h"
+#include "../game/model_control_slot_animation.h"
 #include "../game/func_80057E20.h"
 #include "../game/func_8005922C.h"
 #include "../game/model_slot_state_updates.h"
@@ -350,7 +350,10 @@ void func_800540B4(s32 index)
                 if (found) {
                     ScaleMatrix((MATRIX *)((u8 *)e->field_00 + 4), (VECTOR *)&slot->field_DB0);
                 } else {
-                    func_8005922C((GsCOORDUNIT *)e->field_00, &slot->field_DB0);
+                    func_8005922C(
+                        (GsCOORDUNIT *)e->field_00,
+                        (VECTOR *)&slot->field_DB0
+                    );
                 }
             }
         }
@@ -703,7 +706,7 @@ void func_800540B4(s32 index)
         return;
     }
     if (slot->field_E10 != 0) {
-        func_80057AF4(index, -1, 0);
+        Model_ControlSlotAnimation(index, -1, 0);
     } else {
         v = slot->field_E0F;
         if (v != 0) {

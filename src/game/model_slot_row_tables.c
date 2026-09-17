@@ -71,11 +71,11 @@ void func_8004D58C(s32 arg0, u8 *arg1)
        anything else here. These three pointer members cost nothing to name:
        they are stored as zero, so the *(s32 *)& that keeps the store a
        non-struct reference is free. The four copies out of the command
-       blocks at the end are not -- naming either pair is the single
-       instruction that pushes .text into .initialized_data again, and so is
-       naming both. Each group was measured on its own. */
+       blocks at the end are not -- direct member stores push .text into
+       .initialized_data. Their byte-cursor form remains, with each
+       displacement derived from the corresponding member instead. */
     do {
-        ((ModelSlotRow *)(c + 0x750))->max = 0;
+        ((ModelSlotRow *)(c + (u32)&((ModelSlot *)0)->field_750))->max = 0;
         j = 0;
         a = n;
         b = m;
@@ -85,8 +85,8 @@ void func_8004D58C(s32 arg0, u8 *arg1)
             v = t + b;
             b += 2;
             j++;
-            *(u16 *)(v + 0x2C8) = ff;
-            *(s16 *)(u + 0x750) = 0;
+            *(u16 *)(v + (u32)&((ModelSlot *)0)->field_2C8) = ff;
+            *(s16 *)(u + (u32)&((ModelSlot *)0)->field_750) = 0;
         } while (j < 0x3A);
         n += 0x76;
         m += 0x74;
@@ -144,13 +144,13 @@ void func_8004D58C(s32 arg0, u8 *arg1)
                 i++;
             } while ((u32)i < *(u16 *)k);
         }
-        *(s32 *)(t + 0xDD8) = *(s32 *)p3;
-        *(s32 *)(t + 0xDDC) = *(s32 *)(p3 + 4);
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DD8) = *(s32 *)p3;
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DDC) = *(s32 *)(p3 + 4);
     }
     if (p2 != (u8 *)0) {
         p2 += 4;
-        *(s32 *)(t + 0xDE0) = *(s32 *)p2;
-        *(s32 *)(t + 0xDE4) = *(s32 *)(p2 + 4);
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DE0) = *(s32 *)p2;
+        *(s32 *)(t + (u32)&((ModelSlot *)0)->field_DE4) = *(s32 *)(p2 + 4);
     }
 }
 

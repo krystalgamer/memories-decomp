@@ -15,6 +15,6 @@ void MemCardDialog_Start(s32 step);
 /* Queues a memory-card transfer of size bytes from buf, to or from the file
  * named by name, with step selecting the operation. The callers use steps 0
  * (load), 1 (load without the confirmation prompt), 2 (save) and 4. */
-void MemCardDialog_Request(void *buf, s32 size, u8 *name, s32 step);
+void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step);
 
 #endif

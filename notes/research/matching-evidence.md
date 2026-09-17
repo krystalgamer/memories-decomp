@@ -5099,7 +5099,7 @@ its register but put the `lui`/`addiu` five positions too early, before the
 `v * 12` chain that retail computes first. Wrapping the multiply in an enclosing
 scope, so it is a finished statement before the pinned declaration is reached,
 reorders them. This is the placement half of a cost whose allocation half was
-recorded on `func_80057AF4`: everything feeding a pinned value collapses into
+recorded on `Model_ControlSlotAnimation`: everything feeding a pinned value collapses into
 it, *and* the value is materialised as early as it can be.
 
 **The last two positions were a store reusing an existing local.**
@@ -5121,7 +5121,7 @@ allocation problem.**
 load-bearing, costing 24, 9, 18, 14, 4 and 34 positions when removed one at a
 time.
 
-## `func_80057AF4`: the variable-count diagnostic, in both directions
+## `Model_ControlSlotAnimation`: the variable-count diagnostic, in both directions
 
 Sixty-two differing positions, every one a register name at the right position,
 closed to zero. The instrument that made it tractable is the classification
@@ -6023,7 +6023,7 @@ that, and what it buys depends entirely on what a new declaration changes:
 | function | what the inner block provided | worth |
 | --- | --- | --- |
 | `func_80045C98` | somewhere to name an anonymous `mult` product so it could be pinned | 4 positions |
-| `func_80057AF4` | a separately declared `entry` per `switch` case, so one value could occupy two hard registers | 18 to 6 |
+| `Model_ControlSlotAnimation` | a separately declared `entry` per `switch` case, so one value could occupy two hard registers | 18 to 6 |
 | `func_80045208` | a scope in which an identical-arm conditional stops being folded | 2 to 0 |
 
 And two measured places where it does nothing:
@@ -7104,9 +7104,9 @@ Widening that declaration to the definition's `s32` -- which is what
 Eight bytes. The `s16` forces the value to be narrowed before the comparison,
 and the `sll`/`sra` pair that does it is retail's.
 
-That last one is worth putting beside `func_800181EC`, where the identical
+That last one is worth putting beside `Duel_GetCardEffectVariant`, where the identical
 `s16`-against-`int` disagreement is free. The difference is not the types, it
-is what the caller does with the value: `func_800181EC`'s three callers all
+is what the caller does with the value: `Duel_GetCardEffectVariant`'s three callers all
 store the result into a 16-bit field, so the `sh` truncates regardless and the
 narrowing costs nothing. `SD_PollSequenceState`'s caller compares it, so the narrowing
 has to be materialised.

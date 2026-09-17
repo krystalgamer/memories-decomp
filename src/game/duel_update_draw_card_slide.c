@@ -2,9 +2,9 @@
 #include "display_object_interpolation.h"
 #include "display_object.h"
 #include "display_object_lifecycle.h"
-#include "func_80018C34.h"
+#include "duel_update_draw_card_slide.h"
 
-void func_80018C34(DisplayObject *o)
+void Duel_UpdateDrawCardSlide(DisplayObject *o)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2C = 0x400 / o->field_60;

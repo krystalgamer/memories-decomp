@@ -103,8 +103,6 @@ extern s8 D_8009B20A;
 void func_8001B938(DuelSelectionRecord *selection);
 void func_8001BAF0(void);
 void func_80028220(void);
-void AiScript_Init(void *arg0);
-s32 AiScript_Run(void);
 
 void DuelScene_UpdateHandActions(void)
 {

@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* The two fields func_800181EC reads out of a card's display object: the
+/* The two fields Duel_GetCardEffectVariant reads out of a card's display object: the
    flag byte at 0x22 and the type byte at 0x68. It is a view of those two
    offsets, not a claim about the rest of the record, which is why the gaps
    are still padding. */
@@ -19,7 +19,7 @@ typedef struct {
    the three callers used to declare: the definition returns int, and every
    call site stores the result straight into a 16-bit field, so the narrowing
    they were describing happens at the store rather than at the return. */
-s32 func_800181EC(CardObject *object);
+s32 Duel_GetCardEffectVariant(CardObject *object);
 
 /* Allocates a type 2 display object, passes arg0/arg1 to DisplayObject_ConfigureSpriteAtPosition as
    its x/y, and marks it screen space. Defined in
