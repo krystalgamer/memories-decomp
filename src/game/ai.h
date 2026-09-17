@@ -135,6 +135,16 @@ extern u8 D_800EAE8F[];
 extern u8 D_800EAE8F;
 #endif
 
+/* The byte at AiSelection.field_09, one below the category byte. The
+   field-action candidate is its only reader and reaches it absolutely, with
+   lui %hi / lbu %lo(D_800EAE91) into the same register the D_800EAE92 read in
+   that same function uses -- so it takes the same incomplete-array view. */
+#ifdef D_800EAE91_AS_ARRAY
+extern u8 D_800EAE91[];
+#else
+extern u8 D_800EAE91;
+#endif
+
 /* The field-card category byte at AiSelection.field_0A. The field-action
    candidate requires an incomplete array to keep its absolute access. */
 #ifdef D_800EAE92_AS_ARRAY
