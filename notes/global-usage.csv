@@ -2238,7 +2238,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,(SDSecondaryObject *)((u8 *)D_8009B458 +
 0x8009B458,D_8009B458,D_8009B458,0x8004A854,SD_FindLowestPrioritySecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458; | state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,func_8004A8E4,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458;
+0x8009B458,D_8009B458,D_8009B458,0x8004A8E4,SD_PrepareSecondaryObjectReuse,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A940,SD_SelectSecondaryObject,matching_c,game,C,src/game/sound_secondary_object_selection.c,read,,SDSecondaryState *state = D_8009B458; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004AAFC,func_8004AAFC,matching_c,game,C,src/game/func_8004AAFC.c,read,,p = D_8009B458; | r = &D_8009B458->channels[e->channel_index];
 0x8009B458,D_8009B458,D_8009B458,0x8004ACE4,func_8004ACE4,matching_c,game,C,src/game/func_8004ACE4.c,read,,D_8009B458->field_0844 = entry->control_value; | D_8009B458->field_0845 = entry->control_value;
