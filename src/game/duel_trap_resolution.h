@@ -5,7 +5,9 @@
 
 /* Decides whether the attacking card trips the trap it is walking into,
  * comparing its attack against gDuel_abTrapAttackThresholds scaled by 100.
- * The table is defined in this unit and its comment names each entry. */
+ * The input remains the caller's byte-view DisplayObject; its field_6A record
+ * index is reached through the asserted member offset. The table is defined
+ * in this unit and its comment names each entry. */
 s32 func_8001F0D0(u8 *record);
 
 /* Runs the trap presentation one step and reports whether it is still busy:

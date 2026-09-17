@@ -92,7 +92,9 @@ s32 func_8001F0D0(u8 *p) {
     }
     if (n != 0) {
         do {
-            th = Duel_CalcCardStats(&D_801A7AD8[p[0x6A]]) & 0xFFFF;
+            th = Duel_CalcCardStats(
+                &D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]]
+            ) & 0xFFFF;
         } while (0);
         sel = -1;
         off3 = 0x18000;
