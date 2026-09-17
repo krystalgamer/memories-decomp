@@ -38,7 +38,11 @@ void func_80046294(void)
                     *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
                 goto decrement;
             case 0x20:
-                if (*(s32 *)(STATE_BYTES + offset + 0x90) != 0x20) {
+                /* Keep the byte-cursor sum: direct member access reschedules
+                   the queue-base add and the following load. */
+                if (*(s32 *)(STATE_BYTES + offset +
+                        SD_COMMAND_QUEUE_BYTE_OFFSET +
+                        (u32)&((SDCommand *)0)->field_0010) != 0x20) {
                     goto test;
                 }
                 *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
