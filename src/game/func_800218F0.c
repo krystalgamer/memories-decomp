@@ -161,31 +161,26 @@ side_result:
                 /* Only the null test goes through `save`; the updates below
                    index D_8009B1D8 again each time, as retail reloads the
                    window pointer (106 differences through `save`). */
-                SaveDataState *save =
-                    (SaveDataState *)D_8009B1D8[gDuel_bWinnerSide];
+                SaveDataState *save = D_8009B1D8[gDuel_bWinnerSide];
                 D_8009B16C |= 0x2000;
                 if (save) {
                     if (D_8009B360[0] < 0 && gDuel_bOpponentID >= 0) {
-                        ((SaveDataState *)D_8009B1D8[0])->starchips +=
+                        D_8009B1D8[0]->starchips +=
                             D_8009B1E8->starchip_prize;
-                        if (((SaveDataState *)D_8009B1D8[0])->starchips > 999999)
-                            ((SaveDataState *)D_8009B1D8[0])->starchips = 999999;
+                        if (D_8009B1D8[0]->starchips > 999999)
+                            D_8009B1D8[0]->starchips = 999999;
                         Duel_AwardCard(D_8009B1E8->dropped_card_id);
                     } else {
-                        value = ((SaveDataState *)
-                                 D_8009B1D8[gDuel_bWinnerSide])->duel_wins + 1;
-                        ((SaveDataState *)
-                         D_8009B1D8[gDuel_bWinnerSide])->duel_wins = value;
+                        value = D_8009B1D8[gDuel_bWinnerSide]->duel_wins + 1;
+                        D_8009B1D8[gDuel_bWinnerSide]->duel_wins = value;
                         if (value >= 10000)
-                            ((SaveDataState *)
-                             D_8009B1D8[gDuel_bWinnerSide])->duel_wins = 9999;
-                        value = ((SaveDataState *)
-                                 D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses + 1;
-                        ((SaveDataState *)
-                         D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses = value;
+                            D_8009B1D8[gDuel_bWinnerSide]->duel_wins = 9999;
+                        value = D_8009B1D8[gDuel_bWinnerSide ^ 1]
+                                    ->duel_losses + 1;
+                        D_8009B1D8[gDuel_bWinnerSide ^ 1]->duel_losses = value;
                         if (value >= 10000)
-                            ((SaveDataState *)
-                             D_8009B1D8[gDuel_bWinnerSide ^ 1])->duel_losses = 9999;
+                            D_8009B1D8[gDuel_bWinnerSide ^ 1]
+                                ->duel_losses = 9999;
                     }
                 }
             }

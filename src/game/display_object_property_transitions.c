@@ -5,17 +5,17 @@
 #include "display_object.h"
 #include "trig_constants.h"
 
-void func_8001D344(u8 *object)
+void func_8001D344(DisplayObject *object)
 {
-    s32 step = ((DisplayObject *)object)->field_60;
+    s32 step = object->field_60;
     s32 remaining = 3;
     s32 i = 0;
-    /* Byte cursors: the three colour bytes of field_0C step against the
-       halfwords at 0x28, 0x2A and 0x2C, which are position.h and
-       field_2C.h -- two different members, so no member array covers the
-       walk. */
-    u8 *current = object + 0xC;
-    u8 *target = object;
+    /* Byte cursors even though the object is typed: the three colour bytes
+       of field_0C step against the halfwords at 0x28, 0x2A and 0x2C, which
+       are position.h and field_2C.h -- two different members, so no member
+       array covers the walk. */
+    u8 *current = (u8 *)object + 0xC;
+    u8 *target = (u8 *)object;
 
     for (; i < 3; i++) {
         s32 value = *current;
@@ -40,8 +40,8 @@ void func_8001D344(u8 *object)
     }
 
     if (remaining == 0) {
-        ((DisplayObject *)object)->field_6C = 0;
-        ((DisplayObject *)object)->update = 0;
+        object->field_6C = 0;
+        object->update = 0;
     }
 }
 

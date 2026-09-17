@@ -23,7 +23,7 @@ void Script_OpShowMenu(void)
         D_8009B274 = o;
 
         if (o->field_30 >= 0) {
-            func_80039FD4((u8 *)o);
+            func_80039FD4(o);
         }
         func_80039E9C();
         func_80039F44((DisplayEffectState *)o);

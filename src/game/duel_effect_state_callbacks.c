@@ -177,7 +177,7 @@ void func_8003787C(DuelEffectChannel *object)
     }
     record = D_8009B328;
     if (record->display_effect_step == 0) {
-        func_80039FD4((u8 *)record);
+        func_80039FD4(record);
         object->state_51 = 0;
     }
 }

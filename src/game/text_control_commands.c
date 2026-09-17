@@ -188,7 +188,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         }
         D_8009B328 = e;
         if (flags & 2) {
-            func_80039FD4((u8 *)e);
+            func_80039FD4(e);
             return;
         }
         if (flags & 1) {
