@@ -168,7 +168,7 @@ void NameEntry_Init(void)
     DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
     obj->field_0C = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
-    func_8004293C(obj);
+    DisplayObject_SelectOrderingTable3(obj);
     D_8016D4D2 = 244;
     Fade_WaitIn();
 }

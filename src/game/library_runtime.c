@@ -357,7 +357,7 @@ void func_8002BFCC(void) {
     m[0x5A] = 0x10;
     m[0x5B] = 0x10;
     func_80039A14((struct DuelEffectChannel *)m);
-    func_8004293C(*(DisplayObject **)(m + 0x28));
+    DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8002A2F4(r);

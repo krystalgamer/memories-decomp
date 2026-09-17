@@ -100,7 +100,7 @@ void func_80042918(DisplayObject *object)
     object->field_14 = D_8009AF74[1] - object->field_16;
 }
 
-void func_8004293C(DisplayObject *object)
+void DisplayObject_SelectOrderingTable3(DisplayObject *object)
 {
     object->ot_index = 3;
     object->field_14 = D_8009AF74[3] - object->field_16;

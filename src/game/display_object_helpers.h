@@ -51,7 +51,7 @@ typedef struct {
    there, not decorative.
 
    Indexed by a display object's ot_index: func_80042918 sets 1 and reads
-   [1], func_8004293C sets 3 and reads [3], DisplayObject_AcquireSlot reads
+   [1], DisplayObject_SelectOrderingTable3 sets 3 and reads [3], DisplayObject_AcquireSlot reads
    [ot_index]. [1] and [3] used to be spelled D_8009AF76 and D_8009AF7A
    privately. Seven byte readers (dialog_transition.c, func_800339D0.c,
    func_8003DA40.c, func_800388D8.c,
@@ -80,7 +80,7 @@ void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3,
 void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, void *resource );
 s32 DisplayObject_SetDepthOffset(u8 *object, s8 value);
 void func_80042918(DisplayObject *object);
-void func_8004293C(DisplayObject *object);
+void DisplayObject_SelectOrderingTable3(DisplayObject *object);
 int func_80042960(DisplayObject *object);
 u32 DisplayObjectStream_ReadU16LE(const u8 *data);
 u8 *DisplayObjectStream_ResolveOffset(
