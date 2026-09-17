@@ -75,7 +75,7 @@ void Options_UpdateLayout(s32 selection) {
 
 /* Creates 3 objects via DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg func_800428A8 setup
-   plus a func_800428EC(obj1, -5), then sets the options state and output type
+   plus a DisplayObject_SetDepthOffset(obj1, -5), then sets the options state and output type
    from gSD_bOutputType (clearing the output type back to 0 when its sign bit
    is set) and calls Options_InitTextDisplay(0); obj2 gets an
    8-arg DisplayObject_ConfigureSpriteAtPosition setup and is stashed in D_8009B388;
@@ -98,7 +98,7 @@ void Options_Init(void) {
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     s2 = 0x10;
     func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
-    func_800428EC((u8 *)obj, -5);
+    DisplayObject_SetDepthOffset((u8 *)obj, -5);
     gOptions_bState = 1;
     {
         s8 flag408 = gSD_bOutputType;

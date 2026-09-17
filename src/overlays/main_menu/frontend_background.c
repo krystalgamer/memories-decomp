@@ -163,7 +163,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
         object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         func_80042918(object);
-        func_800428EC((u8 *)object, (s8)(-(u8)entry->field_60));
+        DisplayObject_SetDepthOffset((u8 *)object, (s8)(-(u8)entry->field_60));
         object->update = MainMenu_UpdateFrontendEntryAfterimage;
         ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
         ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];

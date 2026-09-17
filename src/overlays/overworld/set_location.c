@@ -67,7 +67,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                     object, entry->x, entry->y, 0, 2,
                     entry->field_08, 0x17, 0x100, D_801AF000
                 );
-                func_800428EC(object, 5);
+                DisplayObject_SetDepthOffset(object, 5);
                 *(u16 *)(object + 8) |=
                     DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -229,7 +229,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         object, record->f12, record->f14, 0, 1, 0,
         0x17, 0x100, D_801AF000
     );
-    func_800428EC(object, 0xA);
+    DisplayObject_SetDepthOffset(object, 0xA);
     ((DisplayObject *)object)->flags |=
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -285,7 +285,7 @@ void CampaignMap_SetLocation(s32 index)
     ((DisplayObject *)obj)->field_48.h.field_4A = 192;
     ((DisplayObject *)obj)->field_44.h.field_44 = 5120;
     ((DisplayObject *)obj)->field_44.h.field_46 = 4096;
-    func_800428EC(obj, -10);
+    DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
     ((DisplayObject *)obj)->field_4C = (s32)func_80042C08;
     D_801695D8 = (MapObject *)obj;

@@ -85,7 +85,7 @@ typedef struct {
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
  * releases and clears. MainMenu_InitTradeScreen stores a DisplayObject_AcquireSlot
  * result into each (trade_update.c:37, :45), ORs 0x28 into +8
- * (:40, :48) and passes it to func_800428EC (:41, :49);
+ * (:40, :48) and passes it to DisplayObject_SetDepthOffset (:41, :49);
  * MainMenu_ReleaseTradeDisplayHandles passes each to DisplayObject_ReleaseIfPresent and
  * stores 0 (trade_offers.c:141-144); MainMenu_UpdateTradeScreen
  * (trade_update.c) reads D_801845E0->frame and passes D_801845E0 to
@@ -95,7 +95,7 @@ typedef struct {
  * read `frame`. `frame` is a member of that view, and so is the +8 halfword
  * those two stores OR into, named `flags` as DisplayObjectConfig
  * (display_object_config.h) names it, so the widget view is the one kept
- * here; only the func_800428EC sites cast to bytes. */
+ * here; only the DisplayObject_SetDepthOffset sites cast to bytes. */
 extern MainMenuWidget *D_801845DC;
 extern MainMenuWidget *D_801845E0;
 

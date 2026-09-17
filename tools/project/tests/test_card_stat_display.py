@@ -164,7 +164,7 @@ void func_80042918(DisplayObject *object)
     copy_bytes(&actual, expected[3], sizeof(actual));
 }
 
-s32 func_800428EC(u8 *object, s8 value)
+s32 DisplayObject_SetDepthOffset(u8 *object, s8 value)
 {
     check_stage(5, 3);
     if ((void *)object != &actual.object || value != 10) fail(15);

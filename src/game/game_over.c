@@ -25,7 +25,7 @@ void func_8003C950(void)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
     *(u8 *)&object->field_5E = 128;
-    func_800428EC((u8 *)object, 4);
+    DisplayObject_SetDepthOffset((u8 *)object, 4);
     object->field_6C = 0;
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

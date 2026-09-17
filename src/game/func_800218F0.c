@@ -96,7 +96,7 @@ void DuelScene_UpdateResultRewards(void)
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
         func_80042918(object);
-        func_800428EC((u8 *)object, -1);
+        DisplayObject_SetDepthOffset((u8 *)object, -1);
         object->flags |= 0x20;
         D_8009B1E8->root = object;
         do {
@@ -137,14 +137,14 @@ side_result:
             func_800428A8(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
                 16, 8, D_801AF000);
             func_80042918(object);
-            func_800428EC((u8 *)object, -2);
+            DisplayObject_SetDepthOffset((u8 *)object, -2);
             object->flags |= 0x20;
             D_8009B1E8->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
                 16, 8, D_801AF000);
             func_80042918(object);
-            func_800428EC((u8 *)object, -1);
+            DisplayObject_SetDepthOffset((u8 *)object, -1);
             object->flags |= 0x20;
             D_8009B1E8->children[1] = object;
         }

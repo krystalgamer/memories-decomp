@@ -90,7 +90,7 @@ as `post_terminal_resolution`.
 | `0x8003735C` | `DuelEffect_HasActiveEntry` | `inline_refinement` | `+0x2: 5c008294 != 5c008394` |
 | `0x800400AC` | `DisplayObject_AcquireSlot` | `collaborator_match` | `+0x9: 2148a000 != 2140a000` |
 | `0x8004020C` | `DisplayObject_Release` | `collaborator_match` | `+0x6: 00008384 != 00008584` |
-| `0x800428EC` | `func_800428EC` | `collaborator_match` | `+0x4: 6c008327 != 160085a0` |
+| `0x800428EC` | `DisplayObject_SetDepthOffset` | `collaborator_match` | `+0x4: 6c008327 != 160085a0` |
 | `0x80044CFC` | `MemCard_SetIOResultCompleteCB` | `inline_refinement` | `+0x2: 0a80023c != 0a80013c` |
 | `0x80044D0C` | `MemCard_SetIOResultTimeoutCB` | `inline_refinement` | `+0x0: 0a80033c != 01000224` |
 | `0x80044D20` | `MemCard_SetIOResultErrorCB` | `inline_refinement` | `+0x0: 0a80033c != 02000224` |

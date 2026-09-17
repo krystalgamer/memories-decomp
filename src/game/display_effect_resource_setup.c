@@ -52,7 +52,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
         func_80042918(p);
-        func_800428EC((u8 *)p, f);
+        DisplayObject_SetDepthOffset((u8 *)p, f);
         p->attribute = p->attribute | m;
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         out[0] = (u8 *)p;
@@ -62,7 +62,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
             func_80042918(p);
-            func_800428EC((u8 *)p, f | 1);
+            DisplayObject_SetDepthOffset((u8 *)p, f | 1);
             p->attribute = p->attribute | m;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
@@ -75,7 +75,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
             func_80042918(p);
-            func_800428EC((u8 *)p, f | 1);
+            DisplayObject_SetDepthOffset((u8 *)p, f | 1);
             p->attribute =
                 p->attribute | GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -101,7 +101,7 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
             if (e != 0) {
                 e->attribute = e->attribute & ~(GsALON | GsATWO | GsAONE);
                 e->attribute = e->attribute | GsALON;
-                func_800428EC((u8 *)e, c);
+                DisplayObject_SetDepthOffset((u8 *)e, c);
                 e->field_0C = COLOR_RGB24_NEUTRAL_GREY;
                 e->field_40.h.field_42 -= 1;
             }
@@ -111,7 +111,7 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
             e = (DisplayObject *)arg0[i];
             if (e != 0) {
                 e->attribute = (e->attribute & ~(GsALON | GsATWO | GsAONE)) | arg1;
-                func_800428EC((u8 *)e, (s8)arg2);
+                DisplayObject_SetDepthOffset((u8 *)e, (s8)arg2);
                 if (arg1 == (GsALON | GsATWO)) {
                     e->field_40.h.field_42 = 0xFD;
                 } else {

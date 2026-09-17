@@ -76,7 +76,7 @@ void NameEntry_UpdateDialog(void)
             caret = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPosition(caret, 16, 248, 0, 0, 0, 23, 257);
             func_80042918(caret);
-            func_800428EC(caret, 19);
+            DisplayObject_SetDepthOffset(caret, 19);
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             box->field_2C = caret;
             DisplayObject_SavePosition(caret);

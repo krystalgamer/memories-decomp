@@ -7,6 +7,7 @@ GsSetProjection = 0x800857C0;
 DisplayObject_FindFreeGeneralSlot = 0x8004002C;
 DisplayObject_AcquireSlot = 0x800400AC;
 DisplayObject_ReleaseIfPresent = 0x8004036C;
+DisplayObject_SetDepthOffset = 0x800428EC;
 DisplayObject_SavePosition = 0x80043178;
 DisplayObject_InterpolatePositionCosine = 0x8004318C;
 D_8016A274 = gCampaignMap_AlternateState + 0x00;

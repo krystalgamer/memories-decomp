@@ -49,7 +49,7 @@ void Main_RunTrade(void)
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;
         func_80042918(obj);
-        func_800428EC((u8 *)obj, 0xF);
+        DisplayObject_SetDepthOffset((u8 *)obj, 0xF);
         D_800E9EF0[0] = obj;
         Fade_WaitIn();
     }

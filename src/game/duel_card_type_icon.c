@@ -52,7 +52,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         break;
     }
     func_80042918((DisplayObject *)object);
-    func_800428EC((u8 *)object, 10);
+    DisplayObject_SetDepthOffset((u8 *)object, 10);
     {
         DisplayObject *output = (DisplayObject *)object;
         output->field_44.word = 0;

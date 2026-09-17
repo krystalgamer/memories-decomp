@@ -152,7 +152,7 @@ shared_tail:
     object->flags |= 8;
 
     func_80042918(object);
-    func_800428EC((u8 *)object, -1);
+    DisplayObject_SetDepthOffset((u8 *)object, -1);
 
     ((DisplayObject *)entry->object_04)->field_65 = 3;
     object->field_65 = 3;

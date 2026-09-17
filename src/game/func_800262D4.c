@@ -133,7 +133,7 @@ void DuelEffect_ApplyRitual(void)
                 D_800E9EF0.slots[1] =
                     Duel_CreateCardEffectOverlay(
                         (DisplayObjectConfigView *)object);
-                func_800428EC((u8 *)D_800E9EF0.slots[1], -1);
+                DisplayObject_SetDepthOffset((u8 *)D_800E9EF0.slots[1], -1);
                 D_800E9EF0.slots[1]->attribute |= 0x60000000;
                 D_800E9EF0.slots[1]->attribute &= ~0x08000000;
                 func_80029528(1);

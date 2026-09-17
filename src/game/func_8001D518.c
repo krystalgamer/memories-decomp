@@ -15,7 +15,7 @@ DisplayObject *func_8001D518(DisplayObject *source)
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource((u8 *)object, 4, 3, 8, 0xB, 0x1F0);
         object->field_6A = source->field_0A;
-        func_800428EC((u8 *)object, 1);
+        DisplayObject_SetDepthOffset((u8 *)object, 1);
         object->update = (DisplayObjectCallback)func_80015DB8;
         object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     }

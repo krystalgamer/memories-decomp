@@ -101,7 +101,7 @@ void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
     DisplayObject *object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
 
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 2, 0, 0, size, mode);
-    func_800428EC((u8 *)object, (s8)mode);
+    DisplayObject_SetDepthOffset((u8 *)object, (s8)mode);
     record->field_10 = 1;
     if (mode == 2) {
         record->value = 1;

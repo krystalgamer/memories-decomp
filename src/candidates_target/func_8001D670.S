@@ -1027,7 +1027,7 @@ glabel DuelScene_UpdateFieldActions
     /* ED78 8001E578 21206002 */   addu      $a0, $s3, $zero
     /* ED7C 8001E57C 21904000 */  addu       $s2, $v0, $zero
     /* ED80 8001E580 21204002 */  addu       $a0, $s2, $zero
-    /* ED84 8001E584 3B0A010C */  jal        func_800428EC
+    /* ED84 8001E584 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* ED88 8001E588 F6FF0524 */   addiu     $a1, $zero, -0xA
     /* ED8C 8001E58C 21206002 */  addu       $a0, $s3, $zero
     /* ED90 8001E590 0F80023C */  lui        $v0, %hi(D_800E9EF0)

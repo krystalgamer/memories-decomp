@@ -297,7 +297,7 @@ glabel func_800323F8
     /* 23040 80032840 0800A296 */  lhu        $v0, 0x8($s5)
     /* 23044 80032844 08000524 */  addiu      $a1, $zero, 0x8
     /* 23048 80032848 20004234 */  ori        $v0, $v0, 0x20
-    /* 2304C 8003284C 3B0A010C */  jal        func_800428EC
+    /* 2304C 8003284C 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 23050 80032850 0800A2A6 */   sh        $v0, 0x8($s5)
     /* 23054 80032854 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23058 80032858 3C2DD5AE */   sw        $s5, 0x2D3C($s6)
@@ -318,7 +318,7 @@ glabel func_800323F8
     /* 23094 80032894 0800A296 */  lhu        $v0, 0x8($s5)
     /* 23098 80032898 08000524 */  addiu      $a1, $zero, 0x8
     /* 2309C 8003289C 20004234 */  ori        $v0, $v0, 0x20
-    /* 230A0 800328A0 3B0A010C */  jal        func_800428EC
+    /* 230A0 800328A0 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 230A4 800328A4 0800A2A6 */   sh        $v0, 0x8($s5)
     /* 230A8 800328A8 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 230AC 800328AC 885AD5AE */   sw        $s5, 0x5A88($s6)
@@ -340,7 +340,7 @@ glabel func_800323F8
     /* 230EC 800328EC 0800A296 */  lhu        $v0, 0x8($s5)
     /* 230F0 800328F0 0A000524 */  addiu      $a1, $zero, 0xA
     /* 230F4 800328F4 20004234 */  ori        $v0, $v0, 0x20
-    /* 230F8 800328F8 3B0A010C */  jal        func_800428EC
+    /* 230F8 800328F8 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 230FC 800328FC 0800A2A6 */   sh        $v0, 0x8($s5)
     /* 23100 80032900 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23104 80032904 382DD5AE */   sw        $s5, 0x2D38($s6)
@@ -363,7 +363,7 @@ glabel func_800323F8
     /* 23148 80032948 0800A296 */  lhu        $v0, 0x8($s5)
     /* 2314C 8003294C 0A000524 */  addiu      $a1, $zero, 0xA
     /* 23150 80032950 20004234 */  ori        $v0, $v0, 0x20
-    /* 23154 80032954 3B0A010C */  jal        func_800428EC
+    /* 23154 80032954 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 23158 80032958 0800A2A6 */   sh        $v0, 0x8($s5)
     /* 2315C 8003295C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23160 80032960 845AD5AE */   sw        $s5, 0x5A84($s6)
@@ -385,7 +385,7 @@ glabel func_800323F8
     /* 231A0 800329A0 08008294 */  lhu        $v0, 0x8($a0)
     /* 231A4 800329A4 0A000524 */  addiu      $a1, $zero, 0xA
     /* 231A8 800329A8 20004234 */  ori        $v0, $v0, 0x20
-    /* 231AC 800329AC 3B0A010C */  jal        func_800428EC
+    /* 231AC 800329AC 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 231B0 800329B0 080082A4 */   sh        $v0, 0x8($a0)
     /* 231B4 800329B4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 231B8 800329B8 0B001024 */   addiu     $s0, $zero, 0xB
@@ -407,7 +407,7 @@ glabel func_800323F8
     /* 231F8 800329F8 08008294 */  lhu        $v0, 0x8($a0)
     /* 231FC 800329FC 0A000524 */  addiu      $a1, $zero, 0xA
     /* 23200 80032A00 20004234 */  ori        $v0, $v0, 0x20
-    /* 23204 80032A04 3B0A010C */  jal        func_800428EC
+    /* 23204 80032A04 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 23208 80032A08 080082A4 */   sh        $v0, 0x8($a0)
     /* 2320C 80032A0C 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23210 80032A10 00000000 */   nop
@@ -428,7 +428,7 @@ glabel func_800323F8
     /* 2324C 80032A4C 08008294 */  lhu        $v0, 0x8($a0)
     /* 23250 80032A50 FCFF0524 */  addiu      $a1, $zero, -0x4
     /* 23254 80032A54 20004234 */  ori        $v0, $v0, 0x20
-    /* 23258 80032A58 3B0A010C */  jal        func_800428EC
+    /* 23258 80032A58 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 2325C 80032A5C 080082A4 */   sh        $v0, 0x8($a0)
     /* 23260 80032A60 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 23264 80032A64 00000000 */   nop
@@ -449,7 +449,7 @@ glabel func_800323F8
     /* 232A0 80032AA0 08008294 */  lhu        $v0, 0x8($a0)
     /* 232A4 80032AA4 FCFF0524 */  addiu      $a1, $zero, -0x4
     /* 232A8 80032AA8 20004234 */  ori        $v0, $v0, 0x20
-    /* 232AC 80032AAC 3B0A010C */  jal        func_800428EC
+    /* 232AC 80032AAC 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 232B0 80032AB0 080082A4 */   sh        $v0, 0x8($a0)
     /* 232B4 80032AB4 0B00010C */  jal        DisplayObject_FindFreeGeneralSlot
     /* 232B8 80032AB8 00000000 */   nop
@@ -468,7 +468,7 @@ glabel func_800323F8
     /* 232EC 80032AEC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* 232F0 80032AF0 1C00A2AF */   sw        $v0, 0x1C($sp)
     /* 232F4 80032AF4 2120A002 */  addu       $a0, $s5, $zero
-    /* 232F8 80032AF8 3B0A010C */  jal        func_800428EC
+    /* 232F8 80032AF8 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 232FC 80032AFC FCFF0524 */   addiu     $a1, $zero, -0x4
     /* 23300 80032B00 97C7000C */  jal        func_80031E5C
     /* 23304 80032B04 2120C002 */   addu      $a0, $s6, $zero

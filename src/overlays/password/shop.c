@@ -214,7 +214,7 @@ void Password_InitShopScreen(void)
     *(s16 *)(cardCache + 46) = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
-    func_800428EC(o, -8);
+    DisplayObject_SetDepthOffset(o, -8);
     *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
@@ -224,7 +224,7 @@ void Password_InitShopScreen(void)
     *(s16 *)(o + 74) = 13;
     *(u32 *)(o + 4) |= (GsALON | GsAONE);
     func_80042918(o);
-    func_800428EC(o, 10);
+    DisplayObject_SetDepthOffset(o, 10);
     *(PasswordCursorUpdate *)(o + 36) = Password_UpdateDigitCursor;
     Password_SetDigitCursorTarget(o);
     hook = Password_UpdateDigitCursorDecoration;
@@ -237,7 +237,7 @@ void Password_InitShopScreen(void)
         DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
         *(u32 *)(o + 4) |= GsALON;
         func_80042918(o);
-        func_800428EC(o, 8);
+        DisplayObject_SetDepthOffset(o, 8);
         *(PasswordCursorUpdate *)(o + 36) = hook;
         *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

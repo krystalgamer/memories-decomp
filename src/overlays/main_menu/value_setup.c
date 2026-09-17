@@ -76,7 +76,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         D_801845A0->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_800428EC((u8 *)D_801845A0, -2);
+        DisplayObject_SetDepthOffset((u8 *)D_801845A0, -2);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -85,7 +85,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         func_800428A8(object, 0, 0xA, 6, 0, 0, 0xE, 5, D_801AF800);
         D_801845A4->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_800428EC((u8 *)D_801845A4, -1);
+        DisplayObject_SetDepthOffset((u8 *)D_801845A4, -1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -94,7 +94,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[0], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[0]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_800428EC((u8 *)D_801845B0[0], 1);
+        DisplayObject_SetDepthOffset((u8 *)D_801845B0[0], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -103,7 +103,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[1], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[1]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_800428EC((u8 *)D_801845B0[1], 1);
+        DisplayObject_SetDepthOffset((u8 *)D_801845B0[1], 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -112,7 +112,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
         DisplayObject_ConfigureSpriteAtPosition(D_801845B0[2], 0, 0, 3, 4, 0, 0xB, 0x20C);
         D_801845B0[2]->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_800428EC((u8 *)D_801845B0[2], 1);
+        DisplayObject_SetDepthOffset((u8 *)D_801845B0[2], 1);
     }
 
     D_801845D8 = toggle;

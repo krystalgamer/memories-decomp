@@ -153,7 +153,7 @@ void NameEntry_Init(void)
     obj->field_3C.h.field_3C = 16;
     obj->field_3C.h.field_3E = 16;
     func_80042918(obj);
-    func_800428EC((u8 *)obj, 10);
+    DisplayObject_SetDepthOffset((u8 *)obj, 10);
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
@@ -162,7 +162,7 @@ void NameEntry_Init(void)
     obj->field_48.h.field_48 = 13;
     obj->attribute = obj->attribute | GsALON;
     func_80042918(obj);
-    func_800428EC((u8 *)obj, 10);
+    DisplayObject_SetDepthOffset((u8 *)obj, 10);
     D_8016D43C = (u8 *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
     DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);

@@ -248,7 +248,7 @@ glabel DuelScene_UpdateBattle
     /* 100E4 8001F8E4 16000224 */  addiu      $v0, $zero, 0x16
     /* 100E8 8001F8E8 320022A6 */  sh         $v0, 0x32($s1)
     /* 100EC 8001F8EC C0000224 */  addiu      $v0, $zero, 0xC0
-    /* 100F0 8001F8F0 3B0A010C */  jal        func_800428EC
+    /* 100F0 8001F8F0 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 100F4 8001F8F4 210022A2 */   sb        $v0, 0x21($s1)
     /* 100F8 8001F8F8 08002296 */  lhu        $v0, 0x8($s1)
     /* 100FC 8001F8FC 00000000 */  nop
@@ -311,7 +311,7 @@ glabel DuelScene_UpdateBattle
     /* 101D4 8001F9D4 16000224 */  addiu      $v0, $zero, 0x16
     /* 101D8 8001F9D8 320022A6 */  sh         $v0, 0x32($s1)
     /* 101DC 8001F9DC C0000224 */  addiu      $v0, $zero, 0xC0
-    /* 101E0 8001F9E0 3B0A010C */  jal        func_800428EC
+    /* 101E0 8001F9E0 3B0A010C */  jal        DisplayObject_SetDepthOffset
     /* 101E4 8001F9E4 210022A2 */   sb        $v0, 0x21($s1)
     /* 101E8 8001F9E8 08002296 */  lhu        $v0, 0x8($s1)
     /* 101EC 8001F9EC 00000000 */  nop
