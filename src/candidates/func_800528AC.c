@@ -1,8 +1,18 @@
 /*
- * Reclassified from matching_c (#3859). Under gcc_2_8_1_g8_split this
- * source rebuilt the target byte for byte, but only by
- * pinning 16 variables to hard registers and an inline helper that is itself inline asm, so it is kept here as a candidate
- * rather than counted as a decompilation. It was src/game/model_scene_setup.c.
+ * Model tint queue pass. Reclassified from matching_c (#3859), where the
+ * source was byte-exact under gcc_2_8_1_g8_split only by pinning 16 variables
+ * to hard registers and building the request table base in an inline helper
+ * that was itself inline asm. Current best with no hard register pin and no
+ * inline asm: 287/288 instructions and opcode distance 1 (one missing addu).
+ *
+ * The table base is read directly from D_800F2B50, the slot is indexed as
+ * &D_800F2C40[side], func_80059AA8 gets a literal zero, and the three colour
+ * channels are plain interpolations. The second declaration of D_800F2C40 is
+ * gone.
+ *
+ * Residual: retail copies the table base into $s5 in the prologue, loads the
+ * zero argument in an earlier branch delay slot, and keeps the sprite id in
+ * $s2 with its shift and mask split around the func_80059AA8 call.
  */
 #include "../types.h"
 #include "../game/model_view_adjustments.h"
@@ -36,35 +46,22 @@
 #include "../game/model_transfer_state.h"
 #include "../unmatched.h"
 
-extern ModelSlot D_800F2C40_alias[] asm("D_800F2C40");
-
 /* The contiguous model-scene runtime: camera/view correction, tint request
    processing, camera-move setup, and scene reset/configuration. The seven
    functions share D_800F56F0, D_800F2B20, D_800F2B50, model slots, and the
    D_8009AFxx scene-control state. */
-
-static __inline__ ModelTintRequest *make_table_base(void)
-{
-    register Pair64 wide asm("$2");
-    register volatile u32 addr asm("$2");
-    addr = (u32)D_800F2B50;
-    wide.w.lo = addr;
-    return (ModelTintRequest *)(u32)wide.d;
-}
 
 /* Per-frame tint pass over the ten requests at D_800F2B50. A live request
  * interpolates its start colour towards its end colour, redraws the slot with
  * the requested part id, then restores the slot and advances the request. */
 void func_800528AC(void)
 {
-    /* File scope changes the later varargs function and grows it by 0xC. */
-    register const u32 hard_zero asm("$0");
     ModelTintColor save;
     ModelTintColor col;
     s32 i;
     s32 j;
     s32 k;
-    register u32 v asm("$18");
+    u32 v;
     s32 keep;
     s32 old;
     u8 side;
@@ -73,13 +70,13 @@ void func_800528AC(void)
     u16 lo;
     u16 hi;
     u16 a;
-    register s32 aa asm("$19");
+    s32 aa;
     s32 sv;
     ModelSlot *slot;
     ModelTintRequest *e;
     ModelTintRequest *table;
 
-    table = make_table_base();
+    table = (ModelTintRequest *)D_800F2B50;
     for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
         e = &table[i];
         if ((*(u8 *)e & 1) == 0) {
@@ -97,33 +94,15 @@ void func_800528AC(void)
         hi = e->duration;
         side = (v >> 1) & 1;
         v = (v >> 3) & 0x1F;
-        {
-            register s32 zero_arg asm("$5") = hard_zero;
-            {
-                register u32 model_base asm("$9") = (u32)D_800F2C40_alias;
-                slot = (ModelSlot *)((u32)side * sizeof(ModelSlot) + model_base);
-            }
-            sav06 = slot->field_E06;
-            keep = slot->field_BF5;
-            old = func_80059AA8(side, zero_arg);
-        }
+        slot = &D_800F2C40[side];
+        sav06 = slot->field_E06;
+        keep = slot->field_BF5;
+        old = func_80059AA8(side, 0);
         save = *(ModelTintColor *)slot->field_DC0;
         col.b3 = e->start.b3;
-        col.b0 = ({ register s32 p asm("$3"); p = e->start.b0 * (hi - lo); p / hi; })
-                 + ({ register s32 p asm("$3"); p = e->end.b0 * lo; p / hi; });
-        col.b1 = ({ register s32 p asm("$3"); p = e->start.b1 * (hi - lo); p / hi; })
-                 + ({ register s32 p asm("$3"); p = e->end.b1 * lo; p / hi; });
-        {
-            register s32 p asm("$3");
-            register s32 out asm("$4");
-            register s32 q asm("$16");
-            p = e->start.b2 * (hi - lo);
-            out = p / hi;
-            p = e->end.b2 * lo;
-            q = p / hi;
-            out += q;
-            col.b2 = out;
-        }
+        col.b0 = e->start.b0 * (hi - lo) / hi + e->end.b0 * lo / hi;
+        col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
+        col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
         *(ModelTintColor *)slot->field_DC0 = col;
 
         aa = a;
@@ -139,21 +118,9 @@ void func_800528AC(void)
             slot->field_BF5 = v;
         }
 
-        {
-            register s32 render_side asm("$4");
-            render_side = side;
-            {
-                register s32 global_ptr asm("$3");
-                register u32 global_flag asm("$2");
-                register s32 global_base asm("$9") =
-                    (s32)((u8 *)D_800F2B50 + 1);
-                global_ptr = off + global_base;
-                global_flag = (e->flags >> 2) & 1;
-                D_8009AF9C = global_ptr;
-                D_8009AF9B = global_flag;
-                func_800540B4(render_side);
-            }
-        }
+        D_8009AF9C = (s32)((u8 *)D_800F2B50 + 1) + off;
+        D_8009AF9B = (e->flags >> 2) & 1;
+        func_800540B4(side);
         D_8009AF9C = 0;
         D_8009AF9B = 0;
 

@@ -70,13 +70,21 @@ void *DisplayObject_FindAllocatedByTag(s32 value);
 
 void func_800427DC(DisplayObject *object, int value);
 void func_80042824(DisplayObject *object, int value);
-void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, void *resource );
+void DisplayObject_ConfigureSpriteWithResource(
+    DisplayObject *object,
+    s32 arg1,
+    s32 arg2,
+    s32 arg3,
+    s32 arg4,
+    s32 arg5,
+    void *resource
+);
 /* arg8 is a resource pointer, not an integer. Every caller passes one -- the
    overlays pass D_801AF000 / D_801AF800, the resident callers pass a spec or
    table address -- and the function stores it straight into the object's
-   0x54 word, which DisplayObject already declares void *. func_80042874 just
-   above it does the same job through DisplayObjectResource::resource and
-   spells the parameter this way already. */
+   0x54 word, which DisplayObject already declares void *.
+   DisplayObject_ConfigureSpriteWithResource just above does the same job
+   through the canonical record. */
 void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, void *resource );
 /* Stores the object's depth order and returns its resulting ordering-table
  * depth. It takes the canonical record: it reads ot_index and writes
