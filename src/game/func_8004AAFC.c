@@ -6,11 +6,12 @@
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
-/* Per-entry sweep over the 0x28-byte records at D_8009B458 + 0x180: sends the
- * under-0x10 ones through func_8004A43C, resets a record whose voice is SPU_OFF,
- * advances the +0xD counter for SPU_ON_ENV_OFF, requests key-off for
- * SPU_ON/SPU_OFF_ENV_ON through the SpuSetKey/SpuGetKeyStatus pair, and ORs the
- * touched masks into one final SpuSetKey call. */
+/* Per-entry sweep over the SDSecondaryObject records at
+ * D_8009B458->objects: sends the under-0x10 ones through func_8004A43C,
+ * resets a record whose voice is SPU_OFF, advances the +0xD counter for
+ * SPU_ON_ENV_OFF, requests key-off for SPU_ON/SPU_OFF_ENV_ON through the
+ * SpuSetKey/SpuGetKeyStatus pair, and ORs the touched masks into one final
+ * SpuSetKey call. */
 
 void func_8004AAFC(void) {
     u8 sp10[0x18];
@@ -88,7 +89,7 @@ next:
             t++;
             q++;
             p = D_8009B458;
-            o += 0x28;
+            o += sizeof(SDSecondaryObject);
             i++;
         } while (i < p->object_count);
     }
