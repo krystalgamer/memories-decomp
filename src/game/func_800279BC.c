@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "../game/ai.h"
 #include "../game/duel_grid.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_checks.h"
@@ -9,12 +10,12 @@
 #include "../game/duel_side_state.h"
 #include "../psyq/rand.h"
 #define D_800EAE88_VISIBLE
-#define D_800EAE88_AS_BYTES
 #include "../unmatched.h"
 
 /* The AI's per-turn play decision. Writes the chosen action into the three
- * bytes at D_800EAE88 + 9: the action code at +9, its argument at +0xA, and a
- * flag at +0xB. It does nothing while bit 0x1000 of D_8009B16C is set.
+ * trailing bytes of the D_800EAE88 selection: the action code in field_09,
+ * its argument in field_0A, and a flag in field_0B. It does nothing while bit
+ * 0x1000 of D_8009B16C is set.
  *
  * One turn in four it first looks for an equip: it collects the field's
  * monsters (type 0x17) and the hand's magic cards, and takes the first pair
@@ -50,12 +51,12 @@ s32 func_800279BC(void)
     s32 count;
     s32 v;
     u8 *grid;
-    u8 *out;
+    AiSelection *out;
     DuelCardRecord *recs;
     DuelCardRecord *scanbase;
     s32 t;
 
-    D_800EAE88[9] = 0;
+    D_800EAE88.field_09 = 0;
     if (D_8009B16C & 0x1000) {
         return 0;
     }
@@ -94,21 +95,21 @@ s32 func_800279BC(void)
         if (n != 0) {
             n = Rand_GetInterval(n + 1);
         }
-        D_800EAE88[9] = (s8)lista[n]->table_index % 5 + 6;
-        D_800EAE88[0xA] = 0;
-        D_800EAE88[0xB] = 0;
+        D_800EAE88.field_09 = (s8)lista[n]->table_index % 5 + 6;
+        D_800EAE88.field_0A = 0;
+        D_800EAE88.field_0B = 0;
         return 0;
 found:
-        D_800EAE88[9] = (s8)ea->table_index % 5 + 6;
-        D_800EAE88[0xA] = (s8)eb->table_index % 5 + 1;
-        D_800EAE88[0xB] = 0;
+        D_800EAE88.field_09 = (s8)ea->table_index % 5 + 6;
+        D_800EAE88.field_0A = (s8)eb->table_index % 5 + 1;
+        D_800EAE88.field_0B = 0;
         return 0;
 no_equip:
         slot = 0xA;
     }
 walk:
     grid = D_800907D8;
-    out = D_800EAE88;
+    out = &D_800EAE88;
     recs = D_801A7AD8;
     scanbase = &D_801A7AD8[5];
 loop:
@@ -124,9 +125,9 @@ loop:
                     if (D_8009B1C8->swords_turns_remaining == 0) {
                         t = (s8)rec->table_index;
                         slot = t % 5 + 1;
-                        out[0xB] = 0;
-                        out[0xA] = v % 5 + 0x38;
-                        out[9] = slot;
+                        out->field_0B = 0;
+                        out->field_0A = v % 5 + 0x38;
+                        out->field_09 = slot;
                         return 0;
                     }
                     goto none;
@@ -138,10 +139,10 @@ loop:
                     }
     none:
                     v = (s8)rec->table_index % 15;
-                    out[0xA] = 0;
+                    out->field_0A = 0;
                     res = (s8)v - 4;
-                    out[0xB] = 1;
-                    out[9] = res;
+                    out->field_0B = 1;
+                    out->field_09 = res;
                     return 0;
                 }
                 if ((rand() & 1) != 0) {
