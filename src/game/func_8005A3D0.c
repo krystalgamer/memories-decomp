@@ -5,7 +5,7 @@
 #include "../psyq/libhmd.h"
 #include "model_parent_search.h"
 
-s32 func_8005A3D0(ModelSlot *model, void *parent)
+s32 func_8005A3D0(ModelSlot *model, GsCOORDUNIT *parent)
 {
     s32 current_count = model->entry_count;
     s32 index = 0;

@@ -9,8 +9,8 @@
 #include "model.h"
 
 /* Searches the coordinate parent/backlink relationships and returns an entry
- * index. The implementation uses the model layout and an opaque parent;
- * func_8004CB0C passes its slot and an SDK coordinate. */
-s32 func_8005A3D0(ModelSlot *model, void *parent);
+ * index. func_8004CB0C passes two entries from the model's coordinate-unit
+ * array as the parent to find. */
+s32 func_8005A3D0(ModelSlot *model, GsCOORDUNIT *parent);
 
 #endif

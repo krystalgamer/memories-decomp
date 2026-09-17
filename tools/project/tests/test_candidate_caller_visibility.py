@@ -404,7 +404,11 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             '#include "model_parent_search.h"',
             (REPOSITORY / definition).read_text(encoding="utf-8"),
         )
-        views = [("ModelSlot *, void *", True), ("u8 *, GsCOORDUNIT *", False)]
+        views = [
+            ("ModelSlot *, GsCOORDUNIT *", True),
+            ("ModelSlot *, void *", False),
+            ("u8 *, GsCOORDUNIT *", False),
+        ]
         with tempfile.TemporaryDirectory(dir=REPOSITORY / "tmp") as temporary:
             path = Path(temporary) / "view.c"
             for parameters, accepted in views:
