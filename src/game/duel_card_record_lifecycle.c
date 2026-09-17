@@ -70,7 +70,7 @@ void Duel_PopulateCombinedDeckData(void)
     }
 }
 
-void func_80024914(DuelCardRecord *object)
+void DuelCard_DeactivateRecord(DuelCardRecord *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
     if (object->object != 0) {
@@ -81,7 +81,7 @@ void func_80024914(DuelCardRecord *object)
 
 void func_80024954(DuelCardRecord *object)
 {
-    func_80024914(object);
+    DuelCard_DeactivateRecord(object);
     object->flags = 0;
 }
 

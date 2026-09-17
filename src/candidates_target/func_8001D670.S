@@ -1033,7 +1033,7 @@ glabel DuelScene_UpdateFieldActions
     /* ED90 8001E590 0F80023C */  lui        $v0, %hi(D_800E9EF0)
     /* ED94 8001E594 F09E52AC */  sw         $s2, %lo(D_800E9EF0)($v0)
     /* ED98 8001E598 0C009684 */  lh         $s6, 0xC($a0)
-    /* ED9C 8001E59C 4592000C */  jal        func_80024914
+    /* ED9C 8001E59C 4592000C */  jal        DuelCard_DeactivateRecord
     /* EDA0 8001E5A0 F09E5724 */   addiu     $s7, $v0, %lo(D_800E9EF0)
     /* EDA4 8001E5A4 1000A382 */  lb         $v1, 0x10($s5)
     /* EDA8 8001E5A8 00000000 */  nop
@@ -1069,7 +1069,7 @@ glabel DuelScene_UpdateFieldActions
     /* EE20 8001E620 6A004292 */  lbu        $v0, 0x6A($s2)
     /* EE24 8001E624 00000000 */  nop
     /* EE28 8001E628 940282A3 */  sb         $v0, %gp_rel(D_8009B19C)($gp)
-    /* EE2C 8001E62C 4592000C */  jal        func_80024914
+    /* EE2C 8001E62C 4592000C */  jal        DuelCard_DeactivateRecord
     /* EE30 8001E630 21206002 */   addu      $a0, $s3, $zero
     /* EE34 8001E634 1D80033C */  lui        $v1, %hi(gDuel_adwCardStats)
     /* EE38 8001E638 44426324 */  addiu      $v1, $v1, %lo(gDuel_adwCardStats)

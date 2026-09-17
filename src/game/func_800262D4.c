@@ -61,9 +61,9 @@ void DuelEffect_ApplyRitual(void)
     case 0:
         if (((DuelEffectRequest *)D_8009B17C)->field_1D) {
             D_8009B19C = D_800E9EF0.slots[3]->field_6A;
-            func_80024914(&D_801A7AD8[D_800E9EF0.slots[2]->field_6A]);
-            func_80024914(&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]);
-            func_80024914(&D_801A7AD8[D_800E9EF0.slots[4]->field_6A]);
+            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[2]->field_6A]);
+            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]);
+            DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[4]->field_6A]);
             D_8009B210 = 1;
         }
         break;
