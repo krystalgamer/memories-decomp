@@ -3,16 +3,21 @@
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
+#define BUILD_DECK_RECOUNT_QUANTITY_OFFSET \
+    ((u32)&((BuildDeckTransitionState *)0)->deck_card_quantities)
+#define BUILD_DECK_RECOUNT_ROW_ID_OFFSET \
+    ((u32)&((BuildDeckTransitionState *)0)->lists[1].entries[0].id)
+#define CARD_ENTRY_ID_TO_FLAGS_OFFSET \
+    ((u32)&((CardEntry *)0)->flags - (u32)&((CardEntry *)0)->id)
+
 void func_8003201C(BuildDeckTransitionState *state)
 {
     s32 index;
 
     state->deck_card_quantities[0] = 0;
-    /* The count loop keeps its byte cursors: `count` and `output` walk the
-       deck quantity table from `state + index`, and `record` sits on each
-       deck row's id (state + 0x2D54, 16 bytes a row) with the flags byte 9
-       past it. Written as deck_card_quantities[] and CardEntry members the
-       loop's addressing changes (4 and 7 differences). */
+    /* The count loop keeps its byte cursors: typed member accesses change its
+       addressing, but the deck-row base, flags distance and stride can still
+       be derived from the shared layouts. */
     {
         u8 *count;
 
@@ -23,14 +28,15 @@ void func_8003201C(BuildDeckTransitionState *state)
             u8 *record;
             u8 *output;
 
-            count[0x5AC4] = 0;
+            count[BUILD_DECK_RECOUNT_QUANTITY_OFFSET] = 0;
             record_index = 0;
             output = count;
-            record = (u8 *)state + 0x2D54;
+            record = (u8 *)state + BUILD_DECK_RECOUNT_ROW_ID_OFFSET;
             for (; record_index < DECK_SIZE; record_index++) {
-                if (record[9] != 0 && *(s16 *)record == index)
-                    output[0x5AC4]++;
-                record += 0x10;
+                if (record[CARD_ENTRY_ID_TO_FLAGS_OFFSET] != 0 &&
+                    *(s16 *)record == index)
+                    output[BUILD_DECK_RECOUNT_QUANTITY_OFFSET]++;
+                record += sizeof(CardEntry);
             }
         }
     }
