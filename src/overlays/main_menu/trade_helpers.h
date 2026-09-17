@@ -122,11 +122,18 @@ void MainMenu_RebuildTradeInventoryRows(s32 side);
  *               applied at the use, not by the declaration, so moving the
  *               declaration here leaves it in place.
  *   D_80185CC9  Set to 1 and tested; cleared nowhere in this overlay.
+ *   D_80185CCB  Player 1's row index, read once as `D_80185CCB * 22 + 36` to
+ *               place the second widget. It is the second byte of
+ *               D_80185CCA[2] below, and like D_80185CC9 inside D_80185CC8[2]
+ *               it carries its own address symbol because its reader reaches
+ *               the byte by that name rather than through the array. No C
+ *               source in this overlay writes it.
  *   D_80185CCF  Three flags, each zeroed on entry, set while their part of
  *   D_80185CD0  the screen is pending, tested, and cleared again.
  *   D_80185CD1
  */
 extern u8 D_80185CC9;
+extern u8 D_80185CCB;
 extern u8 D_80185CCE;
 extern u8 D_80185CCF;
 extern u8 D_80185CD0;
