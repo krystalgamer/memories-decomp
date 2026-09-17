@@ -104,8 +104,8 @@ void DuelScene_UpdateDrawResolution(void) {
         p->update = (DisplayObjectCallback)Duel_UpdateDrawCardSlide;
         D_800EA030[i].object = (u8 *)p;
         base = D_8015C424;
-        g = (DuelCardReplayRecordBlock *)(base +
-            p->field_6A * sizeof(DuelCardRecord) +
+        g = (DuelCardReplayRecordBlock *)(
+            (u8 *)&((DuelCardRecord *)base)[p->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
         y = *(s8 *)&((DuelDeckCardRecord *)g->record.data)->index_02;
         D_8009B1C8->hand[i] = y;
