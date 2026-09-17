@@ -80,7 +80,7 @@ void func_800339D0(BuildDeckTransitionState *record)
         box = D_800EB0F8;
         if ((*(u32 *)&box->flags_34 & TEXT_BOX_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
-            TextBox_Destroy((u8 *)box);
+            TextBox_Destroy(box);
             if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
                 gDialog_bChoice != 0) {
                 workspace->state &= 0xBFFF;
