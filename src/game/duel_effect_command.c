@@ -244,7 +244,8 @@ write:
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
-    u8 **stream = &((u8 **)object)[object->stream_58];
+    u8 **stream =
+        &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *cursor = *stream;
     u32 value = *cursor++;
 
