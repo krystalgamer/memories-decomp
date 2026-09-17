@@ -10,10 +10,12 @@
  *
  * The slow path walks the strip in two 256x4 bands: StoreImage2 pulls a band
  * into a local buffer, every one of its 0x400 pixels goes through
- * func_8005AE68(pixel, tint, level), and LoadImage2 writes the result back
- * eight rows higher. When the tint keeps the hue, is not inverted, and level
- * is at or above COLOR_FIXED_ONE the recolour is the identity, so the whole
- * strip moves in one MoveImage instead.
+ * Color_TintBgr555Pixel(pixel, tint, level), and LoadImage2 writes the
+ * result back eight rows higher. When the tint keeps the hue, is not
+ * inverted, and level is at or above COLOR_FIXED_ONE the recolour is the
+ * identity apart from the tint's zero-channel clamp, so the whole strip moves
+ * in one MoveImage instead; notes/color-transform-runtime.md measures that
+ * difference.
  *
  * Its four-halfword RECT scratch at D_8009B470..D_8009B476 has no subsystem
  * owner and is declared centrally in unmatched.h.

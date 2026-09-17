@@ -12,7 +12,7 @@ profile difference is not a real boundary.
 |---|---|---|---|
 | `Color_RgbToHsl` (`0x8005A98C`) | three channels plus their maximum value | `{h, lightness, saturation}` | RGB to fixed-point HSL |
 | `Color_HslToRgb` (`0x8005ABA0`) | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
-| `func_8005AE68` | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
+| `Color_TintBgr555Pixel` (`0x8005AE68`) | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
 | `func_8005B0B4` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
 
@@ -85,7 +85,7 @@ worst per-channel deviation of `0.5`, which is the `+0x800` rounding alone.
 
 ## Tint controls
 
-`func_8005AE68` and `func_8005B0B4` apply the same controls after converting
+`Color_TintBgr555Pixel` and `func_8005B0B4` apply the same controls after converting
 to HSL:
 
 | Control | Effect |
@@ -100,6 +100,20 @@ Both wrappers replace a zero output channel with one. The BGR555 wrapper has
 two additional rules: input zero returns zero immediately, and bit `0x8000`
 is copied unchanged from the input colour to the repacked result.
 
+### Measured over every BGR555 input
+
+`Color_TintBgr555Pixel` takes a 16-bit argument, so the whole input domain
+fits in one sweep. Modelling the matching body over all `0x10000` halfwords
+settles what each control does, rather than inferring it from the arithmetic:
+
+| Claim | Result |
+|---|---|
+| Forced sectors `0-5` each leave one hue family dominant | Sector 0 leaves red dominant, 1 red and green, 2 green, 3 green and blue, 4 blue, 5 red and blue. The only other outcome is all three equal, which is the zero-saturation case. |
+| `COLOR_TINT_GRAYSCALE` emits a grey | All three output channels are equal for every input. A zero `scale` does the same under any hue selector. |
+| `COLOR_TINT_INVERT` is a complement | Before the zero clamp, `flags = f \| 8` is exactly the three-sector rotation of the same colour with every channel subtracted from `31`. The rotation is what cancels the complement's own three-sector hue shift, which is why `f` and `f \| 8` leave the same channels dominant. |
+| Bit `0x8000` is copied, not computed | Holds for every input under flags `0`, `3`, `6`, `7`, `0xE` and `0xF`. |
+| `scale` only removes saturation | The spread between the brightest and dimmest output channel never falls as `scale` rises through `0`, `0x400`, `0x800`, `0xC00` and `0x1000`. |
+
 `func_8005B054` is the direct packing counterpart: it converts one fixed-point
 HSL triple with channel maximum `31` and packs the resulting channels into
 BGR555 bits `0-14`.
@@ -108,7 +122,7 @@ BGR555 bits `0-14`.
 mask (`31`), green shift (`5`), blue shift (`10`), and STP mask (`0x8000`).
 Red occupies bits `0-4`, green bits `5-9`, and blue bits `10-14`. The channel
 mask is also the maximum passed to HSL conversion. Both packing paths use
-these constants, but only `func_8005AE68` copies the input STP bit; the direct
+these constants, but only `Color_TintBgr555Pixel` copies the input STP bit; the direct
 packer has no input colour from which to preserve it.
 
 ## VRAM application
@@ -117,7 +131,7 @@ Matching `Model_ApplyTextureTint` applies the BGR555 transform to VRAM colour ba
 For buffer selector `0` or `1`, it processes two `256 x 4` rectangles:
 
 1. Read from x `selector * 256`, y `248` and `252` through `StoreImage2`.
-2. Transform all `0x400` halfwords in each rectangle with `func_8005AE68`.
+2. Transform all `0x400` halfwords in each rectangle with `Color_TintBgr555Pixel`.
 3. Upload the results to the same x coordinate at y `240` and `244` through
    `LoadImage2`.
 
@@ -128,6 +142,13 @@ moves the complete `256 x 8` source band from y `248` to y `240` with
 `MoveImage`. The first comparison deliberately remains against the full
 argument, not `flags & COLOR_TINT_HUE_MASK`; the two tests are not equivalent
 when higher flag bits are set.
+
+That fast path is not bit-identical to the slow one. At `flags = 7` and
+`scale = 0x1000` the per-pixel transform returns its input with every zero
+channel raised to one, which the sweep above confirms for all `0xFFFF`
+non-zero halfwords, and that changes 5953 of them. `MoveImage` copies those
+pixels unchanged instead. The retail code accepts the difference; it is not a
+claim that the two paths agree.
 
 ## Card-image readback
 
