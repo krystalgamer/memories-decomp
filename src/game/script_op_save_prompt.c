@@ -197,9 +197,8 @@ void Script_OpSavePrompt(void)
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos((struct DuelEffectChannel *)box,
-                       *(s16 *)&obj->field_30.h.field_30,
-               *(s16 *)&obj->field_30.h.field_32);
+        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+                       *(s16 *)&obj->field_30.h.field_32);
         return;
     }
 
@@ -215,14 +214,12 @@ void Script_OpSavePrompt(void)
                this one as well costs sixteen bytes. Same field, same function,
                and the two spellings are not interchangeable here. */
             value = ((s16 *)obj)[0x19];
-            TextBox_SetPos((struct DuelEffectChannel *)box,
-                           ((s16 *)obj)[0x18], value);
+            TextBox_SetPos(box, ((s16 *)obj)[0x18], value);
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos((struct DuelEffectChannel *)box,
-                       *(s16 *)&obj->field_30.h.field_30,
-               *(s16 *)&obj->field_30.h.field_32);
+        TextBox_SetPos(box, *(s16 *)&obj->field_30.h.field_30,
+                       *(s16 *)&obj->field_30.h.field_32);
         return;
     }
 
