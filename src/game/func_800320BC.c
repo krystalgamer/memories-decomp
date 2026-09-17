@@ -8,12 +8,20 @@
 #include "../game/text_box_runtime.h"
 #include "../game/text_staging.h"
 
+#define BUILD_DECK_ADD_LIST_OFFSET \
+    ((u32)&((BuildDeckTransitionState *)0)->lists[1])
+#define BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET \
+    ((u32)&((BuildDeckTransitionState *)0)->lists[1].entries[0].id + \
+     2 * sizeof(s16))
+#define BUILD_DECK_ADD_ENTRY_HALFWORD_STRIDE \
+    (sizeof(CardEntry) / sizeof(s16))
+
 /* The Build Deck screen's card counts: the count box refresh, returning a
    copy to the chest, taking one out, recounting the deck, and adding a card
    to the deck list. All five work on the same screen record - the per-card
    counts at +0x5D97, the two totals at +0x5A9C and +0x5AA0, the chest list
-   at +4 and the deck list at +0x2D50 - and each re-sorts through
-   func_80032C48 when it changes what a list shows.
+   at +4 and the deck list at the second `lists` element - and each re-sorts
+   through func_80032C48 when it changes what a list shows.
 
    The four former sources were recorded at gcc_2_8_1_g0_split, gcc_2_8_1_g0
    and gcc_2_8_1_g8. Every member compiles to an identical object at
@@ -31,7 +39,7 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
 
         record = &base[record_index];
     }
-    entry = (s16 *)(arg0 + 0x2D58);
+    entry = (s16 *)(arg0 + BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET);
     do {
         if (((u8 *)entry)[5] == 0) {
             ((u8 *)entry)[5] = 1;
@@ -43,11 +51,11 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
             entry[0] =
                 (s16)(((*record >> CARD_STAT_DEFENSE_SHIFT) &
                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
-            func_80032C48((void *)(arg0 + 0x2D50));
+            func_80032C48((void *)(arg0 + BUILD_DECK_ADD_LIST_OFFSET));
             func_8003201C((BuildDeckTransitionState *)arg0);
             return;
         }
         index++;
-        entry += 8;
+        entry += BUILD_DECK_ADD_ENTRY_HALFWORD_STRIDE;
     } while (index < DECK_SIZE);
 }
