@@ -21,7 +21,7 @@ void Main_RunCampaign(void) {
         return;
     }
 
-    func_8002FFD4((u8 *)D_800EAE98);
+    SceneScript_UpdateSlots(D_800EAE98);
     Script_RunTick();
     if (D_8009B26C & 0x40)
         return;
