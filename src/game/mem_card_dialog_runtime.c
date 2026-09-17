@@ -367,7 +367,7 @@ void MemCardDialog_Start(s32 step)
     D_8009B3C1 = 0;
 }
 
-void MemCardDialog_Request(void *buf, s32 size, u8 *name, s32 step)
+void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step)
 {
     strcpy(D_800EFE18, name);
     D_8009B3F9 = 0;

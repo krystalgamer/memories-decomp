@@ -2684,7 +2684,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE18,D_800EFE18,D_800EFE18,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"strcpy(D_800EFE18, name);"
 0x800EFE38,D_800EFE38,D_800EFE38,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_800EFE38[key] = index; | other = D_800EFE38[key]; | (+1 more)
 0x800EFE38,D_800EFE38,D_800EFE38,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,16,D_800EFE38[index] = second;
-0x800EFE38,D_800EFE38,D_800EFE38,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,address,16,*(u16 *)((u8 *)D_800EFE38 + key * 2) = slot->field_0A; | slot->next = *(u16 *)((u8 *)D_800EFE38 + key * 2); | (+1 more)
+0x800EFE38,D_800EFE38,D_800EFE38,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_800EFE38[key] = slot->field_0A; | slot->next = D_800EFE38[key]; | (+1 more)
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040BF8,DisplayObject_RenderSpriteStripList,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[3];
 0x800EFE38,D_800EFE38,D_800EFE38,0x80040CAC,DisplayObject_RunUpdateCallbackList,matching_c,game,C,src/game/display_object_updates.c,read,16,s32 i = D_800EFE38[0];
@@ -2727,7 +2727,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2848,D_800F2848,D_800F2848,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/library_runtime.c,address,,model = &D_800F2848; | p = &D_800F2848;
 0x800F2848,D_800F2848,D_800F2848,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,read,,SetGeomScreen(D_800F2848.projection);
 0x800F2878,D_800F2878,D_800F2878,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,write,16,D_800F2878[key] = index;
-0x800F2878,D_800F2878,D_800F2878,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,address,16,*(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
+0x800F2878,D_800F2878,D_800F2878,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,write,16,D_800F2878[key] = slot->field_0A;
 0x800F2878,D_800F2878,D_800F2878,0x80040390,DisplayObject_ResetPool,matching_c,game,C,src/game/display_object_core.c,address,16,void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=...
 0x800F2888,gMemCard_aDirEntries,gMemCard_aDirEntries,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,,"gMemCard_aDirEntries, | gMemCard_pDirEntries = gMemCard_aDirEntries;"
 0x800F2AE0,gMemCard_aIOEventHandles,gMemCard_aIOEventHandles,0x80043E68,MemCard_CloseIOEvents,matching_c,game,C,src/game/mem_card_driver.c,address,32,long *item = gMemCard_aIOEventHandles;
@@ -2787,7 +2787,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x80056828,func_80056828,matching_c,game,C,src/game/model_load_step.c,address,,ModelSlot *p = &D_800F2C40[index]; | ModelSlot *slot = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_texture_transfer.c,address,,slot = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x800577B0,func_800577B0,matching_c,game,C,src/game/model_texture_transfer.c,address,,dst = D_800F2C40;
-0x800F2C40,D_800F2C40,D_800F2C40,0x80057AF4,func_80057AF4,matching_c,game,C,src/game/func_80057AF4.c,address,,m = &D_800F2C40[index];
+0x800F2C40,D_800F2C40,D_800F2C40,0x80057AF4,Model_ControlSlotAnimation,matching_c,game,C,src/game/model_control_slot_animation.c,address,,m = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80057E20,func_80057E20,matching_c,game,C,src/game/func_80057E20.c,address,,ModelSlot *rec = &D_800F2C40[idx];
 0x800F2C40,D_800F2C40,D_800F2C40,0x800580D4,func_800580D4,matching_c,game,C,src/game/model_update_view_metrics.c,address,,slot = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80058938,func_80058938,matching_c,game,C,src/game/func_80058938.c,address,,slot = &D_800F2C40[a0];

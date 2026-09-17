@@ -356,7 +356,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ] * DUEL_CARD_RECORD_SIZE + (u8 *)D_801A7AD8);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
-                ((u8 *)p->object)[0x68] == 0) {
+                ((DisplayObject *)p->object)->field_68 == 0) {
                 func_80024954(p);
             }
             i++;

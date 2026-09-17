@@ -5,7 +5,7 @@
 #include "sound_sequence_timing.h"
 #include "../unmatched.h"
 
-int SD_OpenSequence(void *input, short vab_id)
+int SD_OpenSequence(u8 *input, short vab_id)
 {
     unsigned int tag;
     SDSecondaryState *state;

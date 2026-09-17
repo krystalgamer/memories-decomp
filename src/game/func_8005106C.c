@@ -9,7 +9,7 @@
 #include "model.h"
 #include "model_control.h"
 #include "func_80058E1C.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "sound.h"
 #include "func_8005A6A8.h"
 
@@ -25,7 +25,7 @@ void func_80050F24(s32 arg0)
     index = p->field_DFE + 3;
     value = p->field_750[index].max;
     if (value != 0) {
-        func_80057AF4(arg0, index, 1);
+        Model_ControlSlotAnimation(arg0, index, 1);
     }
     value = value * 2 / 3;
     if (value < 60) {

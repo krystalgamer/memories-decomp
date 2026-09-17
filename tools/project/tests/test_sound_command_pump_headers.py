@@ -47,7 +47,7 @@ DECLARATIONS = [
     (
         "sound.h",
         "SD_OpenSequence",
-        "s32 (*checked)(void *, s16)",
+        "s32 (*checked)(u8 *, s16)",
         "s16 (*checked)(u8 *, s16)",
     ),
     (
@@ -159,8 +159,8 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
 
     def test_secondary_input_pointer_and_return_are_independently_checked(self) -> None:
         for declaration in (
-            "s32 (*checked)(u8 *, s16)",
-            "s16 (*checked)(void *, s16)",
+            "s32 (*checked)(void *, s16)",
+            "s16 (*checked)(u8 *, s16)",
         ):
             with self.subTest(declaration=declaration):
                 self.probe(
