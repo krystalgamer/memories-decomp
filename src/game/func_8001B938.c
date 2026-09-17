@@ -45,8 +45,8 @@ void func_8001B938(DuelSelectionRecord *selection) {
     if (selection->field_15 == 0) {
         b = D_8015C424;
         r = (DisplayObject *)D_800EA030[(s8)selection->field_0E].object;
-        g = (DuelCardReplayRecordBlock *)(b +
-            r->field_6A * sizeof(DuelCardRecord) +
+        g = (DuelCardReplayRecordBlock *)(
+            (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
         i = (gDuel_adwCardStats[((DuelDeckCardRecord *)g->record.data)->id - 1] >>
              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
