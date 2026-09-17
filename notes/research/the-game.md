@@ -1336,7 +1336,7 @@ accounting, not every route into it, other writers, or a new runtime trace.
 in `D_8009B22A` and its record index in `D_8009B1B8`, but does not increment
 the statistic. Matching `func_8001F364` in the same source runs the
 presentation sequence. Mode 1 calls
-[`func_80024954`](../../src/game/duel_card_record_lifecycle.c) to clear the
+[`DuelCard_RemoveFromField`](../../src/game/duel_card_record_lifecycle.c) to clear the
 selected card's flags and remove its object. Only when the later mode-3 countdown
 finishes does it increment statistic `+0x06` in
 `0x800E9FF0 + (D_8009B1D5 ^ 1) * 0x20` and return zero. The grid mapping

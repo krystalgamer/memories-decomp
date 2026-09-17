@@ -589,7 +589,7 @@ void DuelScene_UpdateFieldActions(void)
                     return;
                 }
             finish:
-                func_80024954(&D_801A7AD8[B(D_8009B1CC, 0x6A)]);
+                DuelCard_RemoveFromField(&D_801A7AD8[B(D_8009B1CC, 0x6A)]);
                 D_8009B174 = 9;
                 D_800E9EF0[0] = D_8009B1CC;
                 return;

@@ -211,7 +211,7 @@ m1:
     e->y = p->field_30.h.field_32;
     q34 = (u16 *)&p->field_34.h.field_34;
     *(d = &e->field_04) = *q34;
-    func_80024954(&D_801A7AD8[p->field_6A]);
+    DuelCard_RemoveFromField(&D_801A7AD8[p->field_6A]);
     SD_SEPlayFull(0x17);
     D_8009B210 = 2;
     }
