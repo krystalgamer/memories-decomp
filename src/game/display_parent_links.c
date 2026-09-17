@@ -4,7 +4,10 @@
 #include "display_parent_links.h"
 #include "duel_selection_update_linked_object.h"
 
-void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
+void DuelSelection_LinkDisplayObject(
+    DisplayParent *parent,
+    volatile DisplayObject *object
+)
 {
     DisplayObject *base;
     int index;
@@ -36,8 +39,8 @@ void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
  * `entry++, slot++` gives retail's second-cursor increment before its slot
  * increment. Reversing those source increments swaps instructions at `+0x6C`
  * and `+0x70`. The source configures the base object first, then both objects in
- * each of five entries, through `func_80022F98`; it always clears `parent->base`
- * and only clears the two entry pointers when requested.
+ * each of five entries, through `DuelSelection_LinkDisplayObject`; it always
+ * clears `parent->base` and only clears the two entry pointers when requested.
  * The canonical history and six terminal refinement rows remain unchanged;
  * one post-terminal resolution records the newly verified source structure.
  */
@@ -49,12 +52,12 @@ void func_80022FF0(DisplayParent *parent, s32 clear)
 
     entry = parent->entries;
     if (entry != 0) {
-        func_80022F98(parent, parent->base);
+        DuelSelection_LinkDisplayObject(parent, parent->base);
         parent->base = 0;
         for (slot = 0; slot < DUEL_FIELD_ROW_SIZE; entry++, slot++) {
             child = (DisplayLinkEntry *)((u8 *)entry + 4);
-            func_80022F98(parent, entry->object);
-            func_80022F98(parent, child->object);
+            DuelSelection_LinkDisplayObject(parent, entry->object);
+            DuelSelection_LinkDisplayObject(parent, child->object);
             if (clear) {
                 entry->object = 0;
                 child->object = 0;

@@ -49,7 +49,7 @@ class GroupedDuelLibraryNeighborTests(unittest.TestCase):
         display_source = (ROOT / "src/game/display_parent_links.c").read_text()
         library_source = (ROOT / "src/game/func_8002A3CC.c").read_text()
         self.assertLess(
-            display_source.index("void func_80022F98("),
+            display_source.index("void DuelSelection_LinkDisplayObject("),
             display_source.index("void func_80022FF0("),
         )
         self.assertLess(

@@ -134,9 +134,9 @@ are unchanged; parameter names do not establish new artwork identities.
 
 ## Parent-linked duel rows
 
-Matching `func_80022F98` and `func_80022FF0` use a separate local parent view
+Matching `DuelSelection_LinkDisplayObject` and `func_80022FF0` use a separate local parent view
 to attach display objects to one reference position. For every non-null
-object, `func_80022F98`:
+object, `DuelSelection_LinkDisplayObject`:
 
 - stores object coordinates `+0x30/+0x32` relative to the parent's reference
   object in fields `+0x28/+0x2A`;
