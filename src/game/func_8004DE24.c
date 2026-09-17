@@ -14,6 +14,8 @@
 #define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
 #define BACKGROUND_FIELD_A8 \
     (((ModelBackgroundRecord *)D_8009AF88)->field_A8)
+#define BACKGROUND_FIELD_AA \
+    (((ModelBackgroundRecord *)D_8009AF88)->field_AA)
 
 void func_8004DE24(void)
 {
@@ -47,7 +49,8 @@ void func_8004DE24(void)
     s32 second_depth;
 
     vbase = D_8009AF88[0xAC];
-    ubase = (H(0xAA) & 0x3F) << (2 - ((BACKGROUND_FIELD_A8 >> 13) & 3));
+    ubase = (BACKGROUND_FIELD_AA & 0x3F) <<
+        (2 - ((BACKGROUND_FIELD_A8 >> 13) & 3));
     height = slot->field_D18->matrix.t[1] + 300;
     if (!slot->field_E1F)
         return;
@@ -65,7 +68,8 @@ void func_8004DE24(void)
     GsSetLightMatrix(&D_800F56A0.matrix);
     NormalColorCol(&normals.values[0], &colors[0], (CVECTOR *)&sprite.r);
     sprite.tpage = ((BACKGROUND_FIELD_A8 >> 6) & 0x180) |
-        ((H(0xAC) & 0x100) >> 4) | ((H(0xAA) & 0x3FF) >> 6) |
+        ((H(0xAC) & 0x100) >> 4) |
+        ((BACKGROUND_FIELD_AA & 0x3FF) >> 6) |
         ((H(0xAC) & 0x200) << 2);
     sprite.cx = H(0xAE);
     sprite.cy = H(0xB0);
@@ -214,3 +218,4 @@ advance:
 }
 
 #undef BACKGROUND_FIELD_A8
+#undef BACKGROUND_FIELD_AA
