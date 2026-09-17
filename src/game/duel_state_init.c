@@ -82,23 +82,21 @@ void Duel_ClearHandSlots(void)
 void func_80017708(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
-        u8 *p = D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE;
-        for (
-            j = 0;
-            j < DUEL_SELECTION_RECORDS_PER_SIDE;
-            p += DUEL_SELECTION_RECORD_SIZE, j++
-        ) {
-            *(u32 *)(p + 0x00) = 0;
-            *(u32 *)(p + 0x04) = 0;
-            *(u32 *)(p + 0x08) = 0;
-            p[0x18] = 0;
-            p[0x13] = 1;
-            p[0x17] = j;
-            p[0x14] = (j != 3) ? j : 1;
+        DuelSelectionRecord *p = (DuelSelectionRecord *)
+            (D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE);
+        for (j = 0; j < DUEL_SELECTION_RECORDS_PER_SIDE; p++, j++) {
+            p->field_00 = 0;
+            p->field_04 = 0;
+            p->hand = (DuelHandSlot *)0;
+            p->field_18 = 0;
+            p->field_13 = 1;
+            p->field_17 = j;
+            p->field_14 = (j != 3) ? j : 1;
         }
     }
-    D_800E9F10[0x13] = 0;
-    D_800E9F10[DUEL_SELECTION_SIDE_SIZE + 0x13] = 0;
+    ((DuelSelectionRecord *)D_800E9F10)[0].field_13 = 0;
+    ((DuelSelectionRecord *)D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
+        .field_13 = 0;
 }
 
 void func_8001778C(void)

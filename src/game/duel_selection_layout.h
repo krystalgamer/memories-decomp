@@ -25,6 +25,41 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
     sizeof(DuelSelectionSideView) == 0xC ? 1 : -1
 ];
 
+/* One whole selection record, DUEL_SELECTION_RECORD_SIZE bytes, four to a
+ * side. func_80017708 resets every field named here, which is what fixes
+ * their widths: three words at the front -- the third being the same hand
+ * pointer DuelSelectionSideView views at +8 -- and the four bytes at 0x13,
+ * 0x14, 0x17 and 0x18.
+ *
+ * DuelCardPickCursor covers the same record from 0xC to 0x19 and stops at
+ * 0x1A so that it keeps alignment 1; this one starts at the front, so it
+ * carries the hand pointer and the record's real stride instead. */
+typedef struct {
+    u32 field_00;
+    u32 field_04;
+    DuelHandSlot *hand;
+    u8 pad_0C[7];
+    u8 field_13;
+    u8 field_14;
+    u8 pad_15[2];
+    u8 field_17;
+    u8 field_18;
+    u8 pad_19[3];
+} DuelSelectionRecord;
+
+typedef char DuelSelectionRecord_hand_offset_must_be_8[
+    (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
+];
+typedef char DuelSelectionRecord_field_13_offset_must_be_0x13[
+    (u32)&(((DuelSelectionRecord *)0)->field_13) == 0x13 ? 1 : -1
+];
+typedef char DuelSelectionRecord_field_18_offset_must_be_0x18[
+    (u32)&(((DuelSelectionRecord *)0)->field_18) == 0x18 ? 1 : -1
+];
+typedef char DuelSelectionRecord_size_must_be_record_size[
+    sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1
+];
+
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
 extern u8 D_800E9F10[];
 
@@ -110,7 +145,8 @@ extern DuelCardPickCursor *D_8009B1B4;
  * written in the loop survives only for records 1 to 3.
  *
  * Declared here because this header owns everything it touches: D_800E9F10
- * above, and the three size constants the walk is written in terms of.
+ * above, DuelSelectionRecord, which the walk now names those fields through,
+ * and the three size constants it is written in terms of.
  * func_800179F4 (src/candidates/func_800179F4.c) is the only caller, and
  * its old func_800179F4.c held the only declaration. */
 void func_80017708(void);
