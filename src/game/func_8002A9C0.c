@@ -24,7 +24,7 @@
    b0[1].vx and b0[2].vy are b1->vx and b2->vy: the target addresses those
    two stores from the first corner's base, and spelling them through b1 and
    b2 changes the code. */
-void func_8002A9C0(DisplayObject *o, s32 arg1)
+void func_8002A9C0(DisplayObject *o, GsOT *ot)
 {
     s32 sp28;
     s32 sp2C;
@@ -96,10 +96,10 @@ void func_8002A9C0(DisplayObject *o, s32 arg1)
         (long *)&sp28, (long *)&sp2C
     );
 
-    func_8005B260((u32 *)q, (GsOT *)arg1, *(u16 *)&o->field_14, 1);
+    func_8005B260((u32 *)q, ot, *(u16 *)&o->field_14, 1);
     setlen(q, 3);
     q->code = 0x40;
     k = *(u16 *)&o->field_14;
     *(s32 *)&q->x1 = *(s32 *)&q->x3;
-    func_8005B260((u32 *)q, (GsOT *)arg1, (u16)k, 1);
+    func_8005B260((u32 *)q, ot, (u16)k, 1);
 }
