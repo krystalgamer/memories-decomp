@@ -146,7 +146,7 @@ s32 func_80059AA8(s32 slot, s32 flag)
     CHECK(flag == (((record[0xA1] >> 1) ^ 1) & 1));
     return flag;
 }
-void func_8005922C(GsCOORDUNIT *unit, void *scale)
+void func_8005922C(GsCOORDUNIT *unit, VECTOR *scale)
 {
     GsCOORDUNIT expected;
     s32 i;

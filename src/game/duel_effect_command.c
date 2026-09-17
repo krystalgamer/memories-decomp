@@ -338,7 +338,8 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
 
 void func_80038498(DuelEffectChannel *object)
 {
-    u8 **slot = &((u8 **)object)[object->stream_58];
+    u8 **slot =
+        &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
