@@ -155,11 +155,11 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        D_800EAE88_bytes[1] = 0;
-        D_800EAE88_bytes[6] = slot % DUEL_FIELD_ROW_SIZE + 1;
-        D_800EAE88_bytes[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        D_800EAE88_bytes[7] = rand() & 1;
-        D_800EAE88_bytes[8] = 1;
+        D_800EAE88.field1 = 0;
+        D_800EAE88.value = slot % DUEL_FIELD_ROW_SIZE + 1;
+        D_800EAE88.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        D_800EAE88.zero = rand() & 1;
+        D_800EAE88.random = 1;
     } else {
         s8 v;
 
@@ -168,13 +168,13 @@ s32 func_80027508(void) {
             slot = Rand_GetInterval(DUEL_FIELD_ROW_SIZE);
         }
         v = card->table_index;
-        D_800EAE88_bytes[1] = 0;
-        D_800EAE88_bytes[7] = 0;
-        D_800EAE88_bytes[6] = slot % DUEL_FIELD_ROW_SIZE + 6;
-        D_800EAE88_bytes[0] = v % DUEL_FIELD_ROW_SIZE + 0xB;
-        D_800EAE88_bytes[8] = rand() & 1;
+        D_800EAE88.field1 = 0;
+        D_800EAE88.zero = 0;
+        D_800EAE88.value = slot % DUEL_FIELD_ROW_SIZE + 6;
+        D_800EAE88.result = v % DUEL_FIELD_ROW_SIZE + 0xB;
+        D_800EAE88.random = rand() & 1;
         if (((gDuel_adwCardStats[*(s16 *)&card->card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_EQUIP) {
-            D_800EAE88_bytes[8] = 1;
+            D_800EAE88.random = 1;
         }
     }
     return 0;
