@@ -189,7 +189,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
     s32 saved_index = index;
     s32 value;
 
-    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
     }
 

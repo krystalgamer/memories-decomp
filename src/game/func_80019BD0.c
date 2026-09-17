@@ -9,7 +9,7 @@ void func_80019BD0(DisplayObject *o)
 {
     int current;
 
-    if (!func_80042B98((DisplayObjectLifecycle *)o)) {
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2E = 0x40;
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         if (o->field_20.b.field_21) {

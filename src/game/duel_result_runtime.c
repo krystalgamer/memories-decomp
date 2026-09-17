@@ -110,7 +110,7 @@ void func_80020D4C(DisplayObject *arg0) {
 
 void func_80020EE8(DuelCardDisplayObject *object)
 {
-    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     }
     object->field_21 -= 2;

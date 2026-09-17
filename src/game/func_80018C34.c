@@ -6,7 +6,7 @@
 
 void func_80018C34(DisplayObject *o)
 {
-    if (!func_80042B98((DisplayObjectLifecycle *)o)) {
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->field_2C.h.field_2C = 0x400 / o->field_60;
         o->position.h.field_28 = o->field_30.h.field_30 - 0x140;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)o);

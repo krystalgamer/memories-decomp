@@ -9,7 +9,7 @@
 #include "display_object_lifecycle.h"
 
 /* The mirror of func_800229F4: the card turn-back animation step. Picks
- * the mode (+0x2E) from the card record's flags when func_80042B98 says
+ * the mode (+0x2E) from the card record's flags when DisplayObject_MarkInitialized says
  * the object is idle, then runs one of three mode arms -- a countdown that
  * sets the record's 0x400 flag (mode 0), and two rotate-then-settle arms
  * (modes 1 and 2) stepping the angle at +0x2A by +0x28 until the +0x60
@@ -24,7 +24,7 @@ void func_80022674(DuelCardTurnObject *p) {
     s32 f;
 
     e = &D_801A7AD8[p->record_index];
-    if (func_80042B98((DisplayObjectLifecycle *)p) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
@@ -157,7 +157,7 @@ alt2:
 }
 
 /* Card flip/turn animation step on a duel card object: picks the animation
- * mode (+0x2E) from the card's record flags when func_80042B98 says the
+ * mode (+0x2E) from the card's record flags when DisplayObject_MarkInitialized says the
  * object is idle, then runs one of three mode arms -- a plain countdown
  * (mode 0), and two rotate-then-settle arms (modes 1 and 2) that step the
  * angle at +0x2A by +0x28 until the +0x60 counter runs out, mirror it
@@ -175,7 +175,7 @@ void func_800229F4(DuelCardTurnObject *p) {
     s32 f;
 
     e = &D_801A7AD8[p->record_index];
-    if (func_80042B98((DisplayObjectLifecycle *)p) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)p) == 0) {
         m = e->flags;
         v = 0;
         if ((m & DUEL_CARD_FLAG_FACE_DOWN) == 0) {
