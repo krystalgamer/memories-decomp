@@ -105,7 +105,7 @@ void func_80037DA4(DuelEffectChannel *object)
         text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
     }
 store:
-    slot = &((u8 **)object)[object->stream_58];
+    slot = &((TextStreamOwner *)object)->streams[object->stream_58];
     *slot = text;
     return;
 plain:
