@@ -86,7 +86,7 @@ void func_80017708(void) {
             (D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE);
         for (j = 0; j < DUEL_SELECTION_RECORDS_PER_SIDE; p++, j++) {
             p->field_00 = 0;
-            p->field_04 = 0;
+            p->cursor_object = 0;
             p->hand = (DuelHandSlot *)0;
             p->field_18 = 0;
             p->field_13 = 1;

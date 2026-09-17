@@ -36,7 +36,9 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
  * carries the hand pointer and the record's real stride instead. */
 typedef struct {
     u32 field_00;
-    u32 field_04;
+    /* The cursor sprite func_8001BD88 creates for the side and flags through
+     * its halfword at +8; DuelScene_UpdateExodiaResult releases it. */
+    struct DisplayObject *cursor_object;
     DuelHandSlot *hand;
     u8 pad_0C[2];
     /* The hand slot the side's cursor is on: func_8001B8B8 indexes

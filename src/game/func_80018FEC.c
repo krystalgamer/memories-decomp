@@ -14,6 +14,7 @@
 #include "../game/duel_side_state.h"
 #include "../game/duel_effect_request.h"
 #include "../game/duel_card_pick_cursor.h"
+#include "../game/duel_selection_layout.h"
 #include "../game/duel_card_layout.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_scene_card_placement.h"
@@ -118,7 +119,8 @@ next_obj:
             goto next_obj;
         }
         D_800E9F04[0] = 0;
-        DisplayObject_ReleaseIfPresent(*(u8 **)((u8 *)D_8009B1B4 + 4));
+        DisplayObject_ReleaseIfPresent(
+            ((DuelSelectionRecord *)D_8009B1B4)->cursor_object);
         D_8009B162 = 8;
         D_8009B1D0 = 0;
         D_8009B1B9 = 0;
