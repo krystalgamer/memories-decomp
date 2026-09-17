@@ -66,7 +66,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
             x->field_0C = c;
         }
         i += 8;
-        func_80012D4C();
+        Main_AdvanceFrame();
     } while (i < 0x81);
 
     b->field_44.word = 0x10001000;
@@ -81,7 +81,7 @@ void Main_HoldBootScreen(s32 count)
     s32 found = 0;
 
     for (;;) {
-        func_80012D4C();
+        Main_AdvanceFrame();
         if (!found &&
             (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
               D_8009B134) == 0))

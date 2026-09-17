@@ -26,7 +26,7 @@ s32 func_80043BCC(void) {
         D_8009B428 = 0;
         for (;;) {
             rand();
-            func_80012D4C();
+            Main_AdvanceFrame();
             f = D_8009B428;
             if ((f & 1) == 0) {
                 if ((f & 0x80) == 0) {

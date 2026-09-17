@@ -11,10 +11,10 @@ void File_WaitForTransfers(void) {
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING) == 0) {
             func_80015038();
         }
-        func_80012D4C();
+        Main_AdvanceFrame();
     }
 
     while (D_8009B134 != 0) {
-        func_80012D4C();
+        Main_AdvanceFrame();
     }
 }

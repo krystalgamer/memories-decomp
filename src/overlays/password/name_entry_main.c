@@ -72,7 +72,7 @@ void NameEntry_Main(void)
     printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000);
     NameEntry_Init();
     do {
-        func_80012D4C();
+        Main_AdvanceFrame();
         rand();
     } while (NameEntry_PollCompletion() == 0);
     NameEntry_BuildStarterDeck();

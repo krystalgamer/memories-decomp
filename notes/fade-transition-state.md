@@ -108,7 +108,7 @@ clears the wait threshold `D_8009B0C0`, but that does not force the sampled
 counter to zero or guarantee a factor of `1`. Actual GPU/render work and
 VBlank timing still determine the sample.
 
-The standard [`func_80012D4C`](../src/game/main_frame.c) pump calls
+The standard [`Main_AdvanceFrame`](../src/game/main_frame.c) pump calls
 `Main_RunFrameServices` **before** `Graphics_SyncFrame`.
 [`Main_RunFrameServices`](../src/game/main_services.c) starts with `Fade_DrawOverlay`,
 so the fade reads the factor already present at draw time, not the one

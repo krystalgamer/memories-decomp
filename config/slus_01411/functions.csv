@@ -4,7 +4,7 @@ address,size,name,status,module,notes
 0x80012AE8,0x68,__do_global_dtors,sdk_asm,psyq/crt,
 0x80012B50,0x184,Main_Init,matching_c,game,"Pure-C exact match under gcc_2_8_1_g8_split_no_sched1. Disabling sched1 keeps the framebuffer base ahead of the volatile startup stores, reproducing the retail 97-instruction body without the former $a0 hard-register pin."
 0x80012CD4,0x78,Main_VBlankCB,matching_c,game,"Exact post-terminal match from interrupt-shared volatility evidence: counters are volatile, reentrancy bytes are not."
-0x80012D4C,0x38,func_80012D4C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80012D4C,0x38,Main_AdvanceFrame,matching_c,game,"The game's frame-advance primitive: Main_RunFrameServices, Graphics_SyncFrame, Graphics_BeginFrame and Input_UpdatePads, in that order and nothing else. Every call site is a loop body. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x80012D84,0x30,func_80012D84,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80012DB4,0xA8,Graphics_SyncFrame,matching_c,game,"Synchronizes the current GPU/VBlank boundary and publishes the bounded frame-advance count. Exact 42/42 match: the ternary selection, non-volatile output byte, and local common definition of D_8009B0C1 preserve the retail delay slots and gp-relative load."
 0x80012E5C,0x210,Graphics_BeginFrame,matching_c,game,"Selects the active graphics buffer, installs its work area, and rebuilds four ordering tables for the next frame. Exact 132/132 match: moving the loop decrements after func_80085DB0 preserves retail scheduling. The $2 pin on the base pointer that used to accompany it was re-measured for #3859 and is inert, so it was removed."

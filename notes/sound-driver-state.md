@@ -105,7 +105,7 @@ sets `gSD_bOutputType` to the unresolved sentinel `-1`, then passes
 identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
 `SD_InitDataSourceFlags` clears `field_003C`, clears bits `0x01`, `0x02`, or `0x40` in
 `flags_004A` when the corresponding file position is zero, and sets
-`flags_0040 |= 0x0A`. The frontend then calls `func_80012D4C` while
+`flags_0040 |= 0x0A`. The frontend then calls `Main_AdvanceFrame` while
 `func_8004703C` continues to expose bit `0x08`, making that bit the
 game-facing startup-busy condition.
 

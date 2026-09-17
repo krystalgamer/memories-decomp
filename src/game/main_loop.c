@@ -14,7 +14,7 @@ void Main_Loop(void) {
     Main_PrepareFrontendLoop();
     for (;;) {
         u8 v;
-        func_80012D4C();
+        Main_AdvanceFrame();
         v = D_8009B26C;
         if ((v & 0x80) == 0) {
             D_8009B26C = v | 0x80;

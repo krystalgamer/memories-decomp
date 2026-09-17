@@ -4035,7 +4035,7 @@ One other thing that function needs is an already recorded rule paying off:
   "Initialise before the branch rather than in an else clause".
 
 The earlier exact source used a `goto` loop to keep GCC's loop pass out. A
-structured `for` with `func_80012D4C()` in its initializer and increment now
+structured `for` with `Main_AdvanceFrame()` in its initializer and increment now
 reproduces the same loop body and all instructions after the prologue, so the
 goto shape was sufficient but not necessary.
 
