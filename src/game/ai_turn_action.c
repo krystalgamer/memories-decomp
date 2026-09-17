@@ -205,7 +205,7 @@ int func_8002778C(DuelSelectionSource *source)
     return -1;
 }
 
-s32 func_800278A0(void *arg0)
+s32 func_800278A0(DuelSelectionSource *source)
 {
     s32 i;
     s32 found = 0;
@@ -220,7 +220,7 @@ s32 func_800278A0(void *arg0)
             found++;
             if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
                 s32 result = func_8001EFD4(
-                    *(DisplayObject **)arg0,
+                    (DisplayObject *)source->ptr,
                     (DisplayObject *)entry->object);
                 if (result > 0) {
                     return ((DuelSelectionObject *)entry->object)->index;

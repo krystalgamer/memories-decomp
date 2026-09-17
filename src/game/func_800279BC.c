@@ -119,7 +119,7 @@ loop:
             rec = (DuelCardRecord *)((s32)*(u8 *)(slot + n + (s32)grid) * 28 + (s32)recs);
             /* Retail tests terrain_modifier and flags as one packed word. */
             if ((*(u32 *)&rec->terrain_modifier & 0xC0000000) == 0x80000000) {
-                v = func_800278A0(rec);
+                v = func_800278A0((DuelSelectionSource *)rec);
                 if (v >= 0) {
     have:
                     if (D_8009B1C8->swords_turns_remaining == 0) {
