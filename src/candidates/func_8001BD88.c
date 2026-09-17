@@ -55,6 +55,7 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "../psyq/stdio.h"
+#include "../game/duel_scene_hand_actions.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
@@ -95,9 +96,6 @@
 #define SB(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define CARD_ID(i) (big = 0x48000, S(D_8015C424 + (i) * 0x1C + big, 0x36C0))
 
-extern s16 D_8009B19E;
-extern u8 D_8009B1E2;
-extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
 
 void func_8001B938(DuelSelectionRecord *selection);
