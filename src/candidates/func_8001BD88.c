@@ -59,6 +59,7 @@
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
+#include "../game/func_8001B938.h"
 #include "../game/func_8001B8B8.h"
 #include "../game/duel_hand.h"
 #include "../game/duel_card.h"
@@ -98,9 +99,6 @@
 #define CARD_ID(i) (big = 0x48000, S(D_8015C424 + (i) * 0x1C + big, 0x36C0))
 
 extern s8 D_8009B20A;
-
-void func_8001B938(DuelSelectionRecord *selection);
-void func_8001BAF0(void);
 
 void DuelScene_UpdateHandActions(void)
 {
