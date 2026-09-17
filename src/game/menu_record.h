@@ -147,9 +147,8 @@ extern MenuRecord *D_8009B274;
    #3534, so the gap that justified the byte view is closed and the
    declaration now lives with its type.
 
-   func_80039FD4 still takes u8 *, so the two sites that hand it this
-   pointer cast; that parameter is shared with four callers of other types
-   and is a separate unit. Retail reaches the pointer gp-relative at every
+   func_80039FD4 takes this record too, so the sites that hand it this
+   pointer no longer cast. Retail reaches the pointer gp-relative at every
    one of its thirteen sites. */
 extern MenuRecord *D_8009B328;
 

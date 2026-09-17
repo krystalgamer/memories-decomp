@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_DISPLAY_EFFECT_LIFECYCLE_H
 
 #include "../types.h"
+#include "menu_record.h"
 
 /* Fields the display-effect lifecycle helpers read and write while arming,
  * resetting and tearing down an effect slot.
@@ -27,7 +28,7 @@ typedef struct {
 s32 func_80039F1C(DisplayEffectState *object);
 void func_80039F44(DisplayEffectState *object);
 void func_80039F90(void **objects);
-void func_80039FD4(u8 *object);
+void func_80039FD4(MenuRecord *record);
 
 /* D_8009B328 moved to menu_record.h with the MenuRecord * type it now
  * carries; it points into D_800EB010, which is declared there too. */
