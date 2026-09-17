@@ -1423,3 +1423,7 @@ Text_CompletePageAdvance = 0x8003741C; // type:func
 // Semantic names
 DebugMenu_DimPrimaryDisplayObject = 0x80030090; // type:func
 DebugMenu_RestorePrimaryDisplayObject = 0x800300AC; // type:func
+
+// Semantic names
+BuildDeck_ReturnCardToChest = 0x80031EE4; // type:func
+BuildDeck_TakeCardFromChest = 0x80031F7C; // type:func

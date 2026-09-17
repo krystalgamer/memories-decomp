@@ -29,7 +29,7 @@ void func_80031E5C(BuildDeckTransitionState *record) {
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-void func_80031EE4(BuildDeckTransitionState *base, s32 index)
+void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index)
 {
     u32 raw = base->chest_card_quantities[index];
     s32 count = raw & 255;
@@ -59,7 +59,7 @@ void func_80031EE4(BuildDeckTransitionState *base, s32 index)
     }
 }
 
-void func_80031F7C(BuildDeckTransitionState *state, s32 id)
+void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id)
 {
     s32 count = state->chest_card_quantities[id];
 

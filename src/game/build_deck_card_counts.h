@@ -19,20 +19,20 @@ void func_80031E5C(BuildDeckTransitionState *record);
  * CARD_CHEST_QUANTITY_MAX only the two numbers move. At the maximum it does
  * nothing, not even the total. The matched visibility-byte write is volatile
  * so the post-search pointer adjustment is not folded into its store offset. */
-void func_80031EE4(BuildDeckTransitionState *base, s32 index);
+void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index);
 
 /* Two updates to the build-deck screen's per-card counts, both taking the
  * complete BuildDeckTransitionState. func_8003201C keeps byte cursors only
  * inside its count loop, where retail walks the quantity table and deck rows
  * from measured offsets.
  *
- * func_80031F7C decrements one card's count and, when it reaches zero, clears
+ * BuildDeck_TakeCardFromChest decrements one card's count and, when it reaches zero, clears
  * that card's deck record flag and re-sorts. It does nothing at all when the
  * count is already zero, and returns nothing to say so.
  *
  * func_8003201C recounts every card from the deck records and stores how many
  * leading records are still marked. */
-void func_80031F7C(BuildDeckTransitionState *state, s32 id);
+void BuildDeck_TakeCardFromChest(BuildDeckTransitionState *state, s32 id);
 void func_8003201C(BuildDeckTransitionState *state);
 
 /* Fills the first free entry of the deck list at `base` + 0x2D58 with card

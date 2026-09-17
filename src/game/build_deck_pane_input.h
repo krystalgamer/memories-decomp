@@ -8,13 +8,13 @@
  * their bodies retain a byte-pointer alias for offset-heavy workspace access.
  *
  * BuildDeck_UpdateChestPaneInput is step 2, the chest pane. Its confirm moves the highlighted
- * card into the deck: BuildDeck_AddCard adds it and func_80031F7C takes one
+ * card into the deck: BuildDeck_AddCard adds it and BuildDeck_TakeCardFromChest takes one
  * off the chest count. RIGHT slides the viewport to 0x140 through
  * pane-transition step 1, landing in step 3.
  *
  * BuildDeck_UpdateDeckPaneInput is step 3, the deck pane, and does the reverse. Its confirm
  * clears the highlighted deck record, recounts the deck (func_8003201C) and
- * puts the card back in the chest (func_80031EE4). LEFT slides back to 0 and
+ * puts the card back in the chest (BuildDeck_ReturnCardToChest). LEFT slides back to 0 and
  * returns to step 2.
  *
  * In both, TRIANGLE opens the card viewer on the highlighted card, and

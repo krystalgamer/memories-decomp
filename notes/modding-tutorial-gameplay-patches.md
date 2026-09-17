@@ -194,7 +194,7 @@ cards to the recent-acquisition history.
 The shared `CARD_CHEST_QUANTITY_MAX` names that `250` limit. The award
 routine still increments the byte before clamping values at or above `251`;
 it is not a wider integer saturating increment. The working-trunk helper
-`func_80031EE4`, called when returning a card from the deck, instead refuses
+`BuildDeck_ReturnCardToChest`, called when returning a card from the deck, instead refuses
 an increment only when the existing count equals the limit. The named
 constant preserves both comparisons, including their different behavior for
 out-of-range input bytes.
