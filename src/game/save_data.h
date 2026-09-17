@@ -12,6 +12,7 @@
     (SAVE_DATA_HEADER_SIZE + SAVE_DATA_STATE_SIZE)
 #define SAVE_DATA_CARD_QUANTITIES_OFFSET 0x50
 #define SAVE_DATA_DUELIST_CODE_OFFSET 0x334
+#define SAVE_DATA_CREDITS_FLAGS_OFFSET 0x3DE
 #define SAVE_DATA_SEQUENCE_OFFSET 0x404
 #define SAVE_DATA_VBLANK_COUNTER_OFFSET 0x408
 #define SAVE_DATA_PLAYER_NAME_OFFSET 0x40C
@@ -67,9 +68,14 @@ typedef struct {
         (DECK_SIZE * sizeof(u16) + CARD_COUNT)
     ];
     s32 duelist_code;
-    u8 pad_338[
+    u8 pad_338[SAVE_DATA_CREDITS_FLAGS_OFFSET -
+        (SAVE_DATA_DUELIST_CODE_OFFSET + sizeof(s32))];
+    /* Main_RunCredits sets the low two bits when the ending starts, beside
+     * parking campaign_scene_index at 0x30 and marking every card used. */
+    u8 field_3DE;
+    u8 pad_3DF[
         SAVE_DATA_SEQUENCE_OFFSET -
-        (SAVE_DATA_DUELIST_CODE_OFFSET + sizeof(s32))
+        (SAVE_DATA_CREDITS_FLAGS_OFFSET + sizeof(u8))
     ];
     u32 save_sequence;
     u32 vblank_counter;
@@ -105,6 +111,10 @@ typedef char SaveDataState_card_quantities_offset_must_be_0x50[
 typedef char SaveDataState_duelist_code_offset_must_be_0x334[
     (u32)&(((SaveDataState *)0)->duelist_code) ==
         SAVE_DATA_DUELIST_CODE_OFFSET ? 1 : -1
+];
+typedef char SaveDataState_field_3DE_offset_must_be_0x3DE[
+    (u32)&(((SaveDataState *)0)->field_3DE) ==
+        SAVE_DATA_CREDITS_FLAGS_OFFSET ? 1 : -1
 ];
 typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
     (u32)&(((SaveDataState *)0)->campaign_flags) ==

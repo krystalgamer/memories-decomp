@@ -70,7 +70,7 @@ void Main_RunCredits(void)
             Library_UpdateCardUsedFlag(flag | 0x8000);
         }
         D_8009B26E = 0;
-        ((u8 *)save_state)[0x3DE] = ((u8 *)save_state)[0x3DE] | 3;
+        save_state->field_3DE = save_state->field_3DE | 3;
     }
 
     state = D_8009B26E;
