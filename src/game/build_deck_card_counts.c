@@ -13,7 +13,12 @@
 /* The Build Deck screen's three contiguous count helpers. They refresh the
    count box, return a card to the chest, and remove a card from it. The unit
    is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
-   func_8003201C. */
+   func_8003201C.
+
+   func_80031EE4 takes the screen record as itself. An earlier note here said
+   the state had to be cast at each use because a BuildDeckTransitionState *
+   local cost an instruction; that is true of a local, and not of the
+   parameter, which is the same incoming register either way. */
 
 void func_80031E5C(u8 *arg0) {
     DuelEffectChannel *p;
@@ -26,19 +31,17 @@ void func_80031E5C(u8 *arg0) {
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-void func_80031EE4(u8 *base, s32 index)
+void func_80031EE4(BuildDeckTransitionState *base, s32 index)
 {
-    /* The state is cast at each use: through a BuildDeckTransitionState *
-       local the function grows by an instruction. */
-    u32 raw = ((BuildDeckTransitionState *)base)->chest_card_quantities[index];
+    u32 raw = base->chest_card_quantities[index];
     s32 count = raw & 255;
 
     if (count == 0) {
         CardListSortItem *entry =
-            (CardListSortItem *)((BuildDeckTransitionState *)base)->lists[0].entries;
+            (CardListSortItem *)base->lists[0].entries;
 
-        ((BuildDeckTransitionState *)base)->chest_total++;
-        ((BuildDeckTransitionState *)base)->chest_card_quantities[index]++;
+        base->chest_total++;
+        base->chest_card_quantities[index]++;
         do {
             s32 id = entry->card_id;
 
@@ -49,12 +52,12 @@ void func_80031EE4(u8 *base, s32 index)
         entry--;
         /* Keep the post-search adjustment separate from the flag store. */
         ((volatile CardListSortItem *)entry)->field_0D = 1;
-        func_80032C48(&((BuildDeckTransitionState *)base)->lists[0]);
+        func_80032C48(&base->lists[0]);
     } else if (count != CARD_CHEST_QUANTITY_MAX) {
         s32 next = raw + 1;
 
-        ((BuildDeckTransitionState *)base)->chest_card_quantities[index] = next;
-        ((BuildDeckTransitionState *)base)->chest_total++;
+        base->chest_card_quantities[index] = next;
+        base->chest_total++;
     }
 }
 

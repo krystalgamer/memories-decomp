@@ -58,7 +58,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             e->entries[e->first + e->cursor].flags = 0;
             func_80032C48(&state->lists[1]);
             func_8003201C((u8 *)state);
-            func_80031EE4((u8 *)state, r);
+            func_80031EE4(state, r);
             func_80031E5C((u8 *)state);
             func_80031574(r, 0x234, 0x16, 0x162, 0xA);
             return;
