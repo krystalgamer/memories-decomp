@@ -147,9 +147,11 @@ s32 Movie_DecodeAndPresentFrame(void) {
        hit provably distinct members and GCC reschedules them against
        the surrounding gp loads. Through u8 * it cannot tell them
        apart, which is the order retail has; kept opaque, and re-based
-       so retyping the cursor does not rescale the offsets. */
-    *(s16 *)((u8 *)display + 0x2428) = x;
-    *(s16 *)((u8 *)frame + 0x2420) = x;
+       so retyping the cursor does not rescale the member-derived offsets. */
+    *(s16 *)((u8 *)display +
+        (u32)&((MovieWorkArea *)0)->strip.x) = x;
+    *(s16 *)((u8 *)frame +
+        (u32)&((MovieWorkArea *)0)->frame.x) = x;
 
     rects = (MovieWorkArea *)(D_8009B498 + 0x40000);
     y = *(u16 *)&env.clip.y + (0xF0 - rects->frame.h) / 2;
