@@ -8,7 +8,7 @@
    consumed-byte counter. Returns the state token once the window fills,
    SD_TRANSFER_INCOMPLETE while more remains, or SD_TRANSFER_ERROR on a
    state mismatch or short transfer. */
-s32 SD_VabTransBodyChunk(void *rec, s32 count, s32 state) {
+s32 SD_VabTransBodyChunk(u8 *rec, s32 count, s32 state) {
     SDSecondaryState *v1 = D_8009B458;
     SDSecondaryTransfer *s1;
     s32 result;
@@ -29,7 +29,7 @@ s32 SD_VabTransBodyChunk(void *rec, s32 count, s32 state) {
         }
     }
 
-    result = SpuWrite((u8 *)rec, (u32)count);
+    result = SpuWrite(rec, (u32)count);
     if (result != count) {
         return SD_TRANSFER_ERROR;
     }
