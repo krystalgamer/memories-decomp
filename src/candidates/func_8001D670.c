@@ -53,6 +53,7 @@
 #define GDUEL_WVIEWERCARDID_IN_DATA
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
+#include "../game/duel_scene_field_actions.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
@@ -94,8 +95,6 @@ u16 D_8009B172;
 u16 D_8009B178;
 u16 D_8009B17A;
 u8 D_8009B19C;
-extern s32 D_8009B1BC;
-extern u8 D_8009B21A;
 int DuelCard_CanActThisTurn(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
 void func_8001D344(DisplayObject *object);
