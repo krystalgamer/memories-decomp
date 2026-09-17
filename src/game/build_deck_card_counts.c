@@ -15,10 +15,11 @@
    is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
    func_8003201C.
 
-   func_80031EE4 takes the screen record as itself. An earlier note here said
-   the state had to be cast at each use because a BuildDeckTransitionState *
-   local cost an instruction; that is true of a local, and not of the
-   parameter, which is the same incoming register either way. */
+   func_80031EE4 and func_80031F7C take the screen record as itself. An
+   earlier note here said the state had to be cast at each use because a
+   BuildDeckTransitionState * local cost an instruction; that is true of a
+   local, and not of the parameter, which is the same incoming register
+   either way. */
 
 void func_80031E5C(u8 *arg0) {
     DuelEffectChannel *p;
@@ -61,15 +62,14 @@ void func_80031EE4(BuildDeckTransitionState *base, s32 index)
     }
 }
 
-void func_80031F7C(u8 *state, s32 id)
+void func_80031F7C(BuildDeckTransitionState *state, s32 id)
 {
-    s32 count = ((BuildDeckTransitionState *)state)->chest_card_quantities[id];
+    s32 count = state->chest_card_quantities[id];
 
     if (count != 0) {
         count--;
         if (count == 0) {
-            CardEntry *record =
-                ((BuildDeckTransitionState *)state)->lists[0].entries;
+            CardEntry *record = state->lists[0].entries;
 
             while (1) {
                 if ((s16)record->id == id) {
@@ -79,12 +79,12 @@ void func_80031F7C(u8 *state, s32 id)
             }
 
             record->flags = 0;
-            if (((BuildDeckTransitionState *)state)->chest_card_quantities[id] != 0) {
+            if (state->chest_card_quantities[id] != 0) {
                 record->flags = 0x80;
             }
-            func_80032C48(&((BuildDeckTransitionState *)state)->lists[0]);
+            func_80032C48(&state->lists[0]);
         }
-        ((BuildDeckTransitionState *)state)->chest_card_quantities[id] = count;
-        ((BuildDeckTransitionState *)state)->chest_total -= 1;
+        state->chest_card_quantities[id] = count;
+        state->chest_total -= 1;
     }
 }
