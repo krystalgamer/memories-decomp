@@ -4234,7 +4234,7 @@ everything the function calls before spending time on the tail itself.
 The five functions now share `color_transform.c`. `color.h` exposes the real
 definition signatures, while the final two callers use private alternate C
 identifiers bound to those same linker symbols with `asm("Color_RgbToHsl")`
-and `asm("func_8005ABA0")`. Those aliases retain the measured discarded-return
+and `asm("Color_HslToRgb")`. Those aliases retain the measured discarded-return
 and wide-argument views without conflicting declarations in one translation
 unit. They are second names for the same functions, not duplicate definitions.
 

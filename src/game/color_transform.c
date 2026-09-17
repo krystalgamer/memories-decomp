@@ -72,7 +72,7 @@ HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
     return out;
 }
 
-Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim)
+Color *Color_HslToRgb(Color *out, s32 h, u16 s, u16 v, u8 lim)
 {
     u32 ch[3];
     Color t;
@@ -158,7 +158,7 @@ s32 func_8005AE68(u16 color, s32 flags, u16 scale)
         hsv.v = (hsv.v * scale) / COLOR_FIXED_ONE;
     }
 
-    func_8005ABA0(&out, hsv.h, hsv.s, hsv.v, COLOR_BGR555_CHANNEL_MASK);
+    Color_HslToRgb(&out, hsv.h, hsv.s, hsv.v, COLOR_BGR555_CHANNEL_MASK);
 
     if (inverted) {
         out.r = lim - out.r;
@@ -180,7 +180,7 @@ s32 func_8005B054(s32 value, u32 a, u32 b)
 {
     Color color;
 
-    func_8005ABA0_wide(
+    Color_HslToRgb_wide(
         &color, value, a & 0xFFFF, b & 0xFFFF, COLOR_BGR555_CHANNEL_MASK
     );
     return (color.r & COLOR_BGR555_CHANNEL_MASK) |
@@ -222,7 +222,7 @@ Color *func_8005B0B4(
         hsv.v = hsv.v * scale / COLOR_FIXED_ONE;
     }
 
-    func_8005ABA0_wide(&c, hsv.h, hsv.s, hsv.v, lim);
+    Color_HslToRgb_wide(&c, hsv.h, hsv.s, hsv.v, lim);
 
     if (inv) {
         c.r = lim - c.r;

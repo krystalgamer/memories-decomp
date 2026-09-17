@@ -11,7 +11,7 @@ profile difference is not a real boundary.
 | Function | Input | Output | Established role |
 |---|---|---|---|
 | `Color_RgbToHsl` (`0x8005A98C`) | three channels plus their maximum value | `{h, lightness, saturation}` | RGB to fixed-point HSL |
-| `func_8005ABA0` | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
+| `Color_HslToRgb` (`0x8005ABA0`) | fixed-point HSL plus a channel maximum | three channels | fixed-point HSL to RGB |
 | `func_8005AE68` | one BGR555 colour, flags, scale | one BGR555 colour | hue/saturation transform preserving bit `0x8000` |
 | `func_8005B054` | fixed-point HSL | one BGR555 colour | direct HSL-to-BGR555 packing |
 | `func_8005B0B4` | three channels, flags, scale, maximum | three channels | the same transform on an unpacked RGB triple |
@@ -65,12 +65,23 @@ The difference between the other two channels supplies the signed position
 within that two-edge span; negative red-sector values wrap by adding
 `0x6000`.
 
-`func_8005ABA0` performs the inverse calculation. It derives the minimum and
+`Color_HslToRgb` performs the inverse calculation. It derives the minimum and
 maximum channel magnitudes from lightness and saturation, interpolates the
 third channel across the selected hue edge, rounds each 12-bit fixed-point
 result with `+0x800`, and clamps it to `0xFF`. Evaluating the two matching
 integer formulas across all `32 * 32 * 32` BGR555 channel triples reproduces
 every input channel exactly.
+
+The rebuilt channel pair is the textbook HSL pair. Below lightness `0x800`
+the matching body computes `minimum = lightness * (0x1000 - saturation)` and
+`maximum = 2 * lightness - minimum`, which is `p = L * (1 - S)` and
+`q = L * (1 + S)`; above it the body computes
+`maximum = lightness * (0x1000 - saturation) + saturation` and
+`minimum = 2 * lightness - maximum`, which is `q = L + S - L * S`. Comparing
+the matching integer formula against floating-point HSL-to-RGB with
+`hue = h / 0x6000`, `L = s / 0x1000` and `S = v / 0x1000` over 418176
+`(hue, lightness, saturation)` samples at channel maximum `255` leaves a
+worst per-channel deviation of `0.5`, which is the `+0x800` rounding alone.
 
 ## Tint controls
 

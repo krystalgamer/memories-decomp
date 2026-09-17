@@ -6,7 +6,7 @@
 #include "color_constants.h"
 
 HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim);
-Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim);
+Color *Color_HslToRgb(Color *out, s32 h, u16 s, u16 v, u8 lim);
 
 /* Caller-side same-symbol views whose discarded returns and widened arguments
  * are code-generation sensitive. The public declarations above remain the
@@ -14,9 +14,9 @@ Color *func_8005ABA0(Color *out, s32 h, u16 s, u16 v, u8 lim);
 extern void Color_RgbToHsl_void(
     HsvT *out, u8 r, u8 g, u8 b, u8 lim
 ) asm("Color_RgbToHsl");
-extern void func_8005ABA0_wide(
+extern void Color_HslToRgb_wide(
     Color *out, s32 h, u32 s, u32 v, s32 lim
-) asm("func_8005ABA0");
+) asm("Color_HslToRgb");
 
 /* Tint a packed BGR555 pixel, preserving its STP bit. Returns 0 unchanged. */
 s32 func_8005AE68(u16 color, s32 flags, u16 scale);
