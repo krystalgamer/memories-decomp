@@ -99,7 +99,7 @@ void Duel_InitSelectionRecords(void) {
         .field_13 = 0;
 }
 
-void func_8001778C(void)
+void Duel_ResetCardRecords(void)
 {
     DuelCardRecord *entry = D_801A7AD8;
     int i = 0;

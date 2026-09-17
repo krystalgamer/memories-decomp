@@ -137,6 +137,6 @@ s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
  * Declared here because this header owns everything the walk is written in
  * terms of: D_801A7AD8 and DuelCardRecord above, and
  * DUEL_CARD_RECORD_COUNT from the duel_card_layout.h it includes. */
-void func_8001778C(void);
+void Duel_ResetCardRecords(void);
 
 #endif
