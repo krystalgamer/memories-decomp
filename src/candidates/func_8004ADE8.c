@@ -97,7 +97,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
                 if ((rec[6] & 0xF) >= (limit >> 4)) {
                     idx = func_8004A854(ch);
                     if (idx == -1) {
-                        idx = func_8004A940(ch, key);
+                        idx = SD_SelectSecondaryObject(ch, key);
                         goto have;
                     }
                     stolen = 1;
@@ -105,7 +105,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
                 }
             }
         }
-        idx = func_8004A940(channel & 0xFF, key);
+        idx = SD_SelectSecondaryObject(channel & 0xFF, key);
     have:
         if (idx == -1) {
             goto next;

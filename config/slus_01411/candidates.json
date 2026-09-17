@@ -204,14 +204,14 @@
       "profile": "gcc_2_8_1_cc_g8_as_g0",
       "source": "src/candidates/func_8004ADE8.c",
       "target": "src/candidates_target/func_8004ADE8.S",
-      "candidate_build_sha256": "dccb95ba4aa1f8ae530b568870a3b5e3b9e1f79084dfa3b0dd8b3cfd3c5c7dee",
+      "candidate_build_sha256": "e9611663ff8a7ddec6a7da0313ea331fca077fb2f152302854bff32e27a126c4",
       "target_bytes_sha256": "39df5b732bbe17ad475ca0773afe2c2e98cd6de67dcc8dc09e2b465f03eb880b",
-      "canonical_contract_sha256": "dfac66b3b99665c3bde37a8635377882f3d2b701b13800a0da4dabc2ca6297bc",
+      "canonical_contract_sha256": "c18dc1390f1a4a5dabbeca747b1018ee7b845b34380955a70f842e4b3e303890",
       "canonical_contracts": {
         "D_8009B458": "c8e9c74e6319bc68fec640a81df9c4d3c59c438504e283e2ab3a6527f9a075eb",
         "SD_CalcPitchBend": "558922b8815e6adda7689c7e3ec1d13288621755ed8d9c857173aa1fdebed8e2",
         "func_8004A854": "026aa72df1354e23928f822b47ff7a072c6373c4c1aef19bf786de032f45b585",
-        "func_8004A940": "c8645a4bb784844a59c9424fb49b65a40fe5bc5d00a88c1bc1818da01500ef0d"
+        "SD_SelectSecondaryObject": "cbaf754bbf5a768cc908a1f96d27652f3628bf1b23627374abdc1cf0b42a9bad"
       }
     },
     {

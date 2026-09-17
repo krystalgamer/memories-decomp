@@ -10,6 +10,7 @@
 s32 func_8004A854(s32 value);
 
 s32 func_8004A8E4(s32 index, s32 value);
-s32 func_8004A940(s32 value, s32 variant);
+/* Selects a reusable secondary object for one channel/variant request. */
+s32 SD_SelectSecondaryObject(s32 value, s32 variant);
 
 #endif

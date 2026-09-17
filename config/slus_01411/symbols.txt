@@ -1427,3 +1427,6 @@ DebugMenu_RestorePrimaryDisplayObject = 0x800300AC; // type:func
 // Semantic names
 BuildDeck_ReturnCardToChest = 0x80031EE4; // type:func
 BuildDeck_TakeCardFromChest = 0x80031F7C; // type:func
+
+// Semantic names
+SD_SelectSecondaryObject = 0x8004A940; // type:func
