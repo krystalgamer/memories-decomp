@@ -968,7 +968,7 @@ That is only wrong where the retail assembler filled one, and it did.
 
 ##### The worked example
 
-`func_80043BCC` (`0x80043BCC`, 0x17C). GCC emits, in a reorder region:
+`Main_RunFrontendLoop` (`0x80043BCC`, 0x17C). GCC emits, in a reorder region:
 
 ```
 beq  $2,$0,$L5
@@ -1022,7 +1022,7 @@ PLAIN = re.compile(r'\*/\s{2}(\S+)\s+(.*)')
 | `func_80012E5C` | 0x210 |
 | `DebugMenu_Update` | 0x2C8 |
 | `func_8003A560` | 0x3C0 |
-| `func_80043BCC` | 0x17C |
+| `Main_RunFrontendLoop` | 0x17C |
 | `func_8001BD88` | 0x14B8 |
 | `func_8004EB00` | 0x132C |
 

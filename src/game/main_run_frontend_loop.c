@@ -7,7 +7,7 @@
 #include "../overlays/main_menu/frontend.h"
 #include "../psyq/rand.h"
 #include "fade.h"
-#include "func_80043BCC.h"
+#include "main_run_frontend_loop.h"
 #include "input.h"
 #include "main_reset_frontend_runtime.h"
 #include "movie_playback_control.h"
@@ -15,7 +15,7 @@
 #include "sound.h"
 #include "main_frame.h"
 
-s32 func_80043BCC(void) {
+s32 Main_RunFrontendLoop(void) {
     s32 r;
     u32 f;
     s32 g;

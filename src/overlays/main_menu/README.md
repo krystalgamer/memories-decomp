@@ -450,7 +450,7 @@ and numeric rolling remain separate, and no real-time duration is inferred.
 the title prompt, entry/exit animation and asynchronous load/save dialogs.
 It is not merely the selection handler. `Main_RunMenu` translates completed
 nonnegative menu IDs into resident modes; the returned values are not those
-mode IDs themselves. `-1` keeps polling. In the separate `func_80043BCC`
+mode IDs themselves. `-1` keeps polling. In the separate `Main_RunFrontendLoop`
 caller, `-2` tears down and restarts the outer frontend loop; no particular
 attract movie or timeout duration is established by that return code.
 
