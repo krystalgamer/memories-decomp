@@ -6,7 +6,9 @@
 /* Display objects whose first entry receives the shared brightness update. */
 extern DisplayObject *D_800EB184[4];
 
-void func_80030090(void);
-void func_800300AC(void);
+/* The sound and campaign debug editors dim the primary object on entry and
+ * restore its neutral RGB brightness on exit. */
+void DebugMenu_DimPrimaryDisplayObject(void);
+void DebugMenu_RestorePrimaryDisplayObject(void);
 
 #endif

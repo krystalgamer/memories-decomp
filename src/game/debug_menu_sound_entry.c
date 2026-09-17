@@ -23,7 +23,7 @@ void DebugMenu_UpdateSoundEntry(void)
     if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
         D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
         count = 3;
-        func_80030090();
+        DebugMenu_DimPrimaryDisplayObject();
         gDebug_nSceneOrSoundID = gDebug_nLastSoundID[0];
         D_8009B2CA = D_8009B2DA;
         D_8009B2CC = gDebug_nLastSoundID[1];
@@ -49,7 +49,7 @@ void DebugMenu_UpdateSoundEntry(void)
     }
     if (result < 0) {
         D_8009B2EB = 0;
-        func_800300AC();
+        DebugMenu_RestorePrimaryDisplayObject();
         return;
     }
 

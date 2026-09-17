@@ -2650,8 +2650,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A2F4.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
 0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
-0x800EB184,D_800EB184,D_800EB184,0x80030090,func_80030090,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x40;
-0x800EB184,D_800EB184,D_800EB184,0x800300AC,func_800300AC,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)D_800EB184[0])[12] = ((u8 *)D_800EB184[0])[13] = | ((u8 *)D_800EB184[0])[14] = 0x80;
+0x800EB184,D_800EB184,D_800EB184,0x80030090,DebugMenu_DimPrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)&D_800EB184[0]->field_0C)[0] = ((u8 *)&D_800EB184[0]->field_0C)[1] = | ((u8 *)&D_800EB184[0]->field_0C)[2] = 0x40;
+0x800EB184,D_800EB184,D_800EB184,0x800300AC,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,((u8 *)&D_800EB184[0]->field_0C)[0] = ((u8 *)&D_800EB184[0]->field_0C)[1] = | ((u8 *)&D_800EB184[0]->field_0C)[2] = 0x80;
 0x800EB184,D_800EB184,D_800EB184,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,32,DisplayObject *first = D_800EB184[0];
 0x800EB224,D_800EB224,D_800EB224,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,address,8,cleanup = (DuelEffectChannel *)D_800EB224;
 0x800EB24C,D_800EB24C,D_800EB24C,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,read,32,"lui $v0, %hi(D_800EB24C) | lw $v1, %lo(D_800EB24C)($v0)"

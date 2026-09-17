@@ -53,7 +53,7 @@ void DebugMenu_UpdateCampaignEntry(void)
 
     if ((D_8009B2EB & 0x80) == 0) {
         D_8009B2EB = D_8009B2EB | 0x80;
-        func_80030090();
+        DebugMenu_DimPrimaryDisplayObject();
         Campaign_LoadScenePackage(0);
         D_8009B2BC = 0;
         goto select_editor;
@@ -91,7 +91,7 @@ void DebugMenu_UpdateCampaignEntry(void)
     } else if (result != 0) {
         if (result < 0) {
             D_8009B2EB = 0;
-            func_800300AC();
+            DebugMenu_RestorePrimaryDisplayObject();
             return;
         }
         if (D_8009B2BC == 0) {

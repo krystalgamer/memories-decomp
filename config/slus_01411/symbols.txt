@@ -1419,3 +1419,7 @@ Main_RunBootSequence = 0x80043960; // type:func
 
 // Semantic names
 Text_CompletePageAdvance = 0x8003741C; // type:func
+
+// Semantic names
+DebugMenu_DimPrimaryDisplayObject = 0x80030090; // type:func
+DebugMenu_RestorePrimaryDisplayObject = 0x800300AC; // type:func
