@@ -282,7 +282,7 @@ void DuelScene_UpdateDrawPhase(void) {
         D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
                 side * DUEL_SELECTION_SIDE_SIZE);
         base = D_800EA030;
-        *(DuelHandSlot **)((u8 *)D_8009B1B4 + 8) = base;
+        ((DuelSelectionSideView *)D_8009B1B4)->hand = base;
         if (D_8009B1C8->swords_turns_remaining != 0) {
             c = D_8009B1C8->swords_turns_remaining - 1;
             D_8009B1C8->swords_turns_remaining = c;
