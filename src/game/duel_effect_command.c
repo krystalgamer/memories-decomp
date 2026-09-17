@@ -277,7 +277,8 @@ void func_80038334(DuelEffectChannel *object)
 {
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
-        u8 **stream = &((u8 **)object)[object->stream_58];
+        u8 **stream =
+            &((TextStreamOwner *)object)->streams[object->stream_58];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -285,7 +286,8 @@ void func_80038334(DuelEffectChannel *object)
         object->field_5A = value;
     }
     {
-        u8 **stream = &((u8 **)object)[object->stream_58];
+        u8 **stream =
+            &((TextStreamOwner *)object)->streams[object->stream_58];
         u8 *current = *stream;
         u8 value = *current++;
 
