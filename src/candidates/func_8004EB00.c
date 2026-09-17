@@ -57,7 +57,6 @@
 
 extern s32 (*D_800114E8[4])(s32, s32);
 
-void func_8005A010(s32 first, s32 second);
 void func_8005A0DC(s32 value);
 int func_8005A878(int arg);
 
