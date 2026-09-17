@@ -126,7 +126,7 @@ void Fade_FillBandLevels(s32 level)
     s32 i;
 
     for (i = FADE_BAND_COUNT - 1; i >= 0; i--) {
-        *(p + i + 0xA) = level;
+        *(p + i + (u32)&((FadeTransitionState *)0)->band_levels) = level;
     }
 }
 

@@ -73,6 +73,7 @@ void Fade_Init(void);
 void Fade_StepBands(void);
 void Fade_Update(FadeTransitionState *);
 void Fade_DrawOverlay(void);
+/* Fills FadeTransitionState::band_levels through the retail byte cursor. */
 void Fade_FillBandLevels(s32);
 void func_800156DC(void);
 void func_8001572C(void);
