@@ -95,7 +95,7 @@ void Duel_InitScene(void)
         Duel_InitSideStates();
         D_8009B16C |= 0x1000;
     }
-    D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState));
+    D_8009B1C8 = &D_800E9FF0[D_8009B1D5];
     func_800178BC();
     D_800F2848.angle =
         D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
