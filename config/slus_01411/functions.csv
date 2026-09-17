@@ -762,7 +762,7 @@ address,size,name,status,module,notes
 0x800478EC,0x17C,func_800478EC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80047A68,0x68,func_80047A68,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80047AD0,0x98,func_80047AD0,matching_c,game,Pure-C inline refinement matched the full executable.
-0x80047B68,0x4C,func_80047B68,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80047B68,0x4C,SD_RequestValueLink,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047BB4,0x9C,func_80047BB4,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80047C50,0x20,func_80047C50,matching_c,game,Pure-C post-terminal resolution: a u16 result local preserves the input in v0 and defers narrowing to the return delay slot. Exact 32-byte function with gcc_2_8_1_g0; no register pins or inline assembly. Replaces the reclassified pinned candidate (issue #5).
 0x80047C70,0x54,SD_KeyOffVoice,matching_c,game,Keys off one SPU voice and polls its key status up to 256 times. 3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

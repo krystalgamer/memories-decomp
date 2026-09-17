@@ -1408,6 +1408,7 @@ File_RequestGameOverPackage = 0x8003C498; // type:func
 Options_InitTextDisplay = 0x8003C4E0; // type:func
 Password_LoadPackageStage = 0x8003BD14; // type:func
 FreeDuel_LoadPackageStage = 0x8003B808; // type:func
+SD_RequestValueLink = 0x80047B68; // type:func
 Main_PrepareFrontendLoop = 0x8002CDE8; // type:func
 DisplayPositionGroup_SetPosition = 0x8003A95C; // type:func
 File_SetTransferLocation = 0x80013940; // type:func

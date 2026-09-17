@@ -139,7 +139,7 @@ s32 func_80047AD0(s32 value)
     return 1;
 }
 
-s32 func_80047B68(u16 value)
+s32 SD_RequestValueLink(u16 value)
 {
     SDValue *state = g_SDValue;
 
