@@ -24,7 +24,7 @@
    selection-side setup in its state-3 paths followed by execution of the
    AI-script hand/field selection in state 0. */
 
-void func_8001B938(u8 *p) {
+void func_8001B938(DuelSelectionRecord *selection) {
     DisplayObject *r;
     DuelCardRecord *e;
     u8 *b;
@@ -42,9 +42,9 @@ void func_8001B938(u8 *p) {
     D_8009B1B4->field_11 = 2;
     D_8009B1B4->field_12 = 3;
 
-    if (p[0x15] == 0) {
+    if (selection->field_15 == 0) {
         b = D_8015C424;
-        r = (DisplayObject *)D_800EA030[*(s8 *)(p + 0xE)].object;
+        r = (DisplayObject *)D_800EA030[(s8)selection->field_0E].object;
         g = (DuelCardReplayRecordBlock *)(b +
             r->field_6A * sizeof(DuelCardRecord) +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
