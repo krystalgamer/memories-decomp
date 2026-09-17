@@ -373,7 +373,7 @@ void func_800507D0(void)
       func_80059590(1, 2, 0, 0, 0);
       func_801807B0();
       func_80181C4C(0);
-      func_80049394(D_80010034);
+      func_80049394((u16 *)D_80010034);
       func_80047314(29488);
       phase_value = D_8009AF9A + 1;
       goto store_phase;

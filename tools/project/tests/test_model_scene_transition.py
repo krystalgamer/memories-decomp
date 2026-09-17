@@ -128,7 +128,7 @@ void func_80059590(s32 index, s32 fourth, s32 first, s32 second, s32 third)
 
 void func_801807B0(void) { record(5, 0, 0, 0, 0); }
 void func_80181C4C(s32 value) { record(6, value, 0, 0, 0); }
-void func_80049394(void *value)
+void func_80049394(u16 *value)
 {
     record(7, value == sound_data, 0, 0, 0);
 }

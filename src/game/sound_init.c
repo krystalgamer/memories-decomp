@@ -63,11 +63,11 @@ void func_80049308(void)
     }
 }
 
-void func_80049394(void *entry)
+void func_80049394(u16 *track)
 {
     func_80049010();
-    if (entry != 0)
-        g_SDValue->music_track = entry;
+    if (track != 0)
+        g_SDValue->music_track = track;
     else
         g_SDValue->music_track = (u16 *)0x801EA800;
     *g_SDValue->music_track = 0xFFFF;
