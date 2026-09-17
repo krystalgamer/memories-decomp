@@ -16,21 +16,27 @@ class GroupedDisplayObjectQuadRendererTests(unittest.TestCase):
         }
 
     def test_quad_renderers_have_one_owner(self) -> None:
-        owner = "src/game/display_object_quad_renderers.c"
+        owner = "src/game/display_object_runtime.c"
         self.assertEqual(self.functions["0x80040DD8"]["source"], owner)
         self.assertEqual(self.functions["0x80041068"]["source"], owner)
+        self.assertEqual(self.functions["0x80041340"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_80040DD8.c").exists())
         self.assertFalse((ROOT / "src/game/func_80041068.c").exists())
+        self.assertFalse(
+            (ROOT / "src/game/display_object_quad_renderers.c").exists()
+        )
 
     def test_quad_renderers_remain_in_image_order(self) -> None:
-        source = (
-            ROOT / "src/game/display_object_quad_renderers.c"
-        ).read_text()
+        source = (ROOT / "src/game/display_object_runtime.c").read_text()
         self.assertLess(
             source.index("void DisplayObject_RenderGouraudQuadList("),
             source.index(
                 "void DisplayObject_RenderTexturedGouraudQuadList("
             ),
+        )
+        self.assertLess(
+            source.index("void DisplayObject_RenderTexturedGouraudQuadList("),
+            source.index("void DisplayObject_RenderFrame("),
         )
 
     def test_renderer_table_uses_semantic_names(self) -> None:
