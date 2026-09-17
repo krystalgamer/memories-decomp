@@ -203,7 +203,7 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
     s16 frame;
 
     source = obj->sourceGlyph;
-    if (func_80042B98((DisplayObjectLifecycle *)sprite) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)sprite) == 0) {
         if (source != 0) {
             obj->savedSourceX = source->x_0C;
             source->x_0C = 0x400;
@@ -266,7 +266,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
     s32 dx;
     s32 dy;
 
-    if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
         for (dy = 0; dy < 0x10; dy += 4) {
             for (dx = 0; dx < 0x10; dx += 4) {
                 piece = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);

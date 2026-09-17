@@ -112,7 +112,7 @@ void Password_UpdateDigitCursor(u8 *object)
 
     object[0x22] = object[0x22] + 1;
     if ((object[0x6C] & 0x40) != 0) {
-        if (func_80042B98((DisplayObjectLifecycle *)object) == 0) {
+        if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
             DisplayObject_ResetVelocity(object);
             *(s16 *)(object + 0x36) =
                 ((*(s16 *)(object + 0x18) - *(s16 *)(object + 0x30)) << 8) /

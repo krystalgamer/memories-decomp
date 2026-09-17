@@ -8,7 +8,7 @@
 
 void func_8001EC70(DisplayObject *object)
 {
-    if (!func_80042B98((DisplayObjectLifecycle *)object)) {
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object)) {
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0;
         object->field_2C.h.field_2E = 0;
@@ -25,7 +25,7 @@ void func_8001EC70(DisplayObject *object)
 
 void func_8001ED20(DisplayObject *object)
 {
-    if (!func_80042B98((DisplayObjectLifecycle *)object)) {
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object)) {
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0;
         object->field_2C.h.field_2E = 0;

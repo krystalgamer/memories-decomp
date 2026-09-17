@@ -6,7 +6,7 @@
 
 void func_8001D240(DisplayObject *o)
 {
-    if (!func_80042B98((DisplayObjectLifecycle *)o)) {
+    if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         if (!o->field_20.b.field_22) {
             *(s16 *)&o->position.h.field_28 = -8;

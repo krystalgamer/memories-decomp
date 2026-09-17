@@ -29,7 +29,7 @@ void func_800313E8(DisplayObject *o) {
     s32 v;
     s32 t;
 
-    if (func_80042B98((DisplayObjectLifecycle *)o) == 0) {
+    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o) == 0) {
         o->field_44.word = 0;
         o->field_60 = 0;
         o->attribute = o->attribute & ~GsROTOFF;

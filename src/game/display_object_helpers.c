@@ -237,7 +237,7 @@ void *func_80042B40(s32 value)
     return 0;
 }
 
-s32 func_80042B98(DisplayObjectLifecycle *object)
+s32 DisplayObject_MarkInitialized(DisplayObjectLifecycle *object)
 {
     if ((object->flags & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
         object->flags |= DISPLAY_OBJECT_FLAG_ALLOCATED;

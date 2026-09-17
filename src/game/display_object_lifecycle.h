@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* Fields func_80042B98 and func_80042BC0 read and write while stepping a
+/* Fields DisplayObject_MarkInitialized and func_80042BC0 read and write while stepping a
  * display object towards its target state. Other translation units describe
  * the same memory through their own narrower views. */
 typedef struct {
@@ -17,7 +17,7 @@ typedef struct {
     u8 flags;
 } DisplayObjectLifecycle;
 
-s32 func_80042B98(DisplayObjectLifecycle *object);
+s32 DisplayObject_MarkInitialized(DisplayObjectLifecycle *object);
 void func_80042BC0(DisplayObjectLifecycle *object);
 
 #endif
