@@ -117,6 +117,19 @@ extern DuelSideState *D_8009B1C8;
 extern DuelFieldEffectObject
     *gDuel_apSwordsEffectObjects[DUEL_SIDE_COUNT];
 
+/* The flag the field-action step raises for the battle step.
+ * DuelScene_UpdateFieldActions stores 0 twice and 1 once
+ * (src/candidates/func_8001D670.c), DuelScene_UpdateBattle stores 0 twice and
+ * is the only reader, testing it against 0
+ * (src/candidates/func_8001F55C.c:408). That single load is lbu and the five
+ * stores are sb and cannot say, so the byte is unsigned -- which settles a
+ * disagreement the two units carried, one declaring it u8 and the other s8
+ * while every use is a store of 0 or 1 or a test against 0, so neither
+ * spelling showed in the object code. No other C source in this tree mentions
+ * the symbol. Every access in both listings is gp-relative, so this is the
+ * plain declaration. Initial value not read. */
+extern u8 D_8009B229;
+
 /* The card id the last search or trap selection left behind. func_80025028
  * stores 0 before its slot loop and its argument on a hit, and its own
  * comment says what a hit and a miss leave; func_8001F0D0 stores `sel +

@@ -96,7 +96,6 @@ u16 D_8009B17A;
 u8 D_8009B19C;
 extern s32 D_8009B1BC;
 extern u8 D_8009B21A;
-extern s8 D_8009B229;
 int DuelCard_CanActThisTurn(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
 void func_8001D344(DisplayObject *object);

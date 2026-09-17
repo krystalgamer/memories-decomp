@@ -82,7 +82,6 @@ extern u16 D_8009B17A;
 extern s16 D_8009B1A4[2];
 extern s8 D_8009B1B0[2];
 s8 D_8009B208[8];
-extern u8 D_8009B229;
 
 void DuelScene_UpdateBattle(void)
 {
