@@ -474,6 +474,7 @@ DisplayObject_Reset = 0x800403F0; // type:func
 DisplayObject_SetDepthOffset = 0x800428EC; // type:func
 DisplayObject_SelectOrderingTable1 = 0x80042918; // type:func
 DisplayObject_SelectOrderingTable3 = 0x8004293C; // type:func
+DisplayObject_RunUpdateAndCheckRenderable = 0x80042960; // type:func
 DisplayObject_ResetVelocity = 0x800429D8; // type:func
 DisplayObject_StepPositionX = 0x80042A00; // type:func
 DisplayObject_StepPositionY = 0x80042A28; // type:func

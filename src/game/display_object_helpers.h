@@ -81,7 +81,7 @@ void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 ar
 s32 DisplayObject_SetDepthOffset(u8 *object, s8 value);
 void DisplayObject_SelectOrderingTable1(DisplayObject *object);
 void DisplayObject_SelectOrderingTable3(DisplayObject *object);
-int func_80042960(DisplayObject *object);
+int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object);
 u32 DisplayObjectStream_ReadU16LE(const u8 *data);
 u8 *DisplayObjectStream_ResolveOffset(
     DisplayObjectStream *object,

@@ -106,7 +106,7 @@ void DisplayObject_SelectOrderingTable3(DisplayObject *object)
     object->field_14 = D_8009AF74[3] - object->field_16;
 }
 
-int func_80042960(DisplayObject *object)
+int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object)
 {
     /* Called as void (*)(void), with no argument, on purpose: the slot's
        declared type takes a u8 *, but the ambient argument register is what
