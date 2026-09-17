@@ -387,14 +387,14 @@ void FreeDuel_UpdateCursorTween(void)
 
 void FreeDuel_UpdateScreen(void)
 {
-    u8 *panel;
+    DuelEffectChannel *panel;
     u16 *entry;
     s32 index;
 
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
         func_80039794();
-        panel = (u8 *)&D_800EB15C;
-        if ((*(u16 *)(panel + 0x34) & 8) == 0) {
+        panel = &D_800EB15C;
+        if ((panel->flags_34 & 8) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
             gFreeDuel_pCursorWidget->flags |=

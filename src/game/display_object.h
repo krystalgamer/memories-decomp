@@ -298,7 +298,7 @@ typedef struct DisplayObject {
 
        src/candidates/func_800179F4.c stores a pointer to another display
        object here and Duel_DrawLifePointsAndDeckCounts loads it back.
-       func_80042824 in display_object_helpers.c writes the colour 0x00808080,
+       DisplayObject_InitializeTexturedGouraudQuad in display_object_helpers.c writes the colour 0x00808080,
        as the fourth of six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50,
        0x5C, 0x68. That is
        a different run from the stride-8 one described at 0x4C, and the two
@@ -399,7 +399,7 @@ typedef struct DisplayObject {
    Yet DisplayObject_RenderTexturedGouraudQuadList walks this pool with that
    stride and then tests e[0x72] as a flag, reading a second vertex set from
    0x58, 0x64, 0x68 and 0x6C when it is set; and
-   func_80042824 in display_object_helpers.c writes object[0x72]. Both
+   DisplayObject_InitializeTexturedGouraudQuad in display_object_helpers.c writes object[0x72]. Both
    land two bytes past the record, which is `next` of the following
    entry.
 
@@ -410,7 +410,7 @@ typedef struct DisplayObject {
    than guessed at.
 
    Neither reach stops the file converting. e[0x72] stays a byte reach,
-   ((u8 *)e)[0x72], the spelling func_80042824 already uses for the
+   ((u8 *)e)[0x72], the spelling DisplayObject_InitializeTexturedGouraudQuad already uses for the
    identical write, and the second vertex set is reached from the members
    its words begin at: *(s32 *)&e->field_58, &e->field_64 and so on.
 
