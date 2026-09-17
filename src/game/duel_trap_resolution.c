@@ -155,7 +155,7 @@ s32 func_8001F364(void) {
     DuelEffectObject *e;
     DuelCardReplayRecordBlock *g;
     DisplayObject *p;
-    u8 *q;
+    DuelSideState *q;
     u8 *r;
     s32 one;
     s32 v;
@@ -231,7 +231,7 @@ m3:
     if ((s16)t > 0) {
         return 1;
     }
-    q = (u8 *)D_800E9FF0 + (D_8009B1D5 ^ 1) * sizeof(DuelSideState);
-    q[6] = q[6] + 1;
+    q = &D_800E9FF0[D_8009B1D5 ^ 1];
+    q->rank.traps_triggered = q->rank.traps_triggered + 1;
     return 0;
 }
