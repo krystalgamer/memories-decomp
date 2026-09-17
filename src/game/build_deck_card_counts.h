@@ -24,7 +24,8 @@ void BuildDeck_ReturnCardToChest(BuildDeckTransitionState *base, s32 index);
 /* Two updates to the build-deck screen's per-card counts, both taking the
  * complete BuildDeckTransitionState. func_8003201C keeps byte cursors only
  * inside its count loop, where retail walks the quantity table and deck rows
- * from measured offsets.
+ * while deriving their base, field distance and stride from the shared
+ * BuildDeckTransitionState and CardEntry layouts.
  *
  * BuildDeck_TakeCardFromChest decrements one card's count and, when it reaches zero, clears
  * that card's deck record flag and re-sorts. It does nothing at all when the
