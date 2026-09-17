@@ -5,7 +5,8 @@
 #include "../ygo_types.h"
 #include "duel_effect.h"
 
-u8 func_8003B7E0(TextStreamOwner *object);
+/* Reads one byte from the selected text stream and advances its cursor. */
+u8 TextStream_ReadByte(TextStreamOwner *object);
 
 /* Three text stream command handlers, all taking the object that owns the
  * streams.
