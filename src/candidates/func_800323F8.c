@@ -233,5 +233,5 @@ void func_800323F8(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3)
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x140, 0, 3, 0, 3, 0xB, 0x2F8);
     DisplayObject_SetDepthOffset((DisplayObject *)o, -4);
-    func_80031E5C((BuildDeckTransitionState *)p);
+    BuildDeck_RefreshCountDisplay((BuildDeckTransitionState *)p);
 }

@@ -20,7 +20,7 @@
    local, and not of the parameter, which is the same incoming register
    either way. */
 
-void func_80031E5C(BuildDeckTransitionState *record) {
+void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record) {
     DuelEffectChannel *p;
     D_801D5608[0].build_deck.chest = record->chest_total;
     D_801D5608[0].build_deck.deck = record->deck_total;

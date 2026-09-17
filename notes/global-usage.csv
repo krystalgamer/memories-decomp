@@ -3277,7 +3277,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5608,D_801D5608,D_801D5608,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A3CC.c,address,,TextStagingValues *q = D_801D5608;
 0x801D5608,D_801D5608,D_801D5608,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/library_runtime.c,read_write,,D_801D5608[0].library_count += 1; | D_801D5608[0].library_count = 0;
 0x801D5608,D_801D5608,D_801D5608,0x8002DA1C,Main_RunCredits,matching_c,game,C,src/game/main_run_credits.c,write,,D_801D5608[0].pair.hi = number[1]; | D_801D5608[0].pair.lo = number[0];
-0x801D5608,D_801D5608,D_801D5608,0x80031E5C,func_80031E5C,matching_c,game,C,src/game/build_deck_card_counts.c,write,,D_801D5608[0].build_deck.chest = | D_801D5608[0].build_deck.deck =
+0x801D5608,D_801D5608,D_801D5608,0x80031E5C,BuildDeck_RefreshCountDisplay,matching_c,game,C,src/game/build_deck_card_counts.c,write,,D_801D5608[0].build_deck.chest = | D_801D5608[0].build_deck.deck =
 0x801D5608,D_801D5608,D_801D5608,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,,D_801D5608[0].blocks.needed = needed; | D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
 0x801D5608,D_801D5608,D_801D5608,0x8003FD14,SaveData_UpdateDuelLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,,state = D_801D5608;
 0x801D5608,D_801D5608,D_801D5608,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,write,,D_801D5608[0].card.card_id = id; | dst = D_801D5608;

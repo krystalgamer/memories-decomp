@@ -8,7 +8,7 @@
  * into the D_801D5608 staging pair, then opens the text box
  * that prints them and takes its display object out of screen space. Called
  * after every add or remove, which is what refreshes the count on screen. */
-void func_80031E5C(BuildDeckTransitionState *record);
+void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record);
 
 /* Returns one copy of card `index` to the chest: bumps
  * base->chest_card_quantities[index] and base->chest_total.
