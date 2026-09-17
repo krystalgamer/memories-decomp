@@ -49,7 +49,8 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
     side = D_8009B1D5;
     page = side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     slot_a = grid[index_a + page];
-    offset_a = slot_a * sizeof(DuelCardRecord);
+    /* Retail computes the typed byte offset before loading the record base. */
+    offset_a = (u32)&((DuelCardRecord *)0)[slot_a];
     records = D_801A7AD8;
     index_b = row_b * DUEL_FIELD_ROW_SIZE + cursor_b->col;
     slot_b = grid[index_b + page];
