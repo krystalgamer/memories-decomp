@@ -38,7 +38,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     D_80090EAC[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; unsigned int *p;v=TextStream_ReadU16LE(o);p=&((unsigned int*)o)[o->stream_58];*p=(*p&0xFFFF0000)|(v&0xFFFF);}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&((TextStreamOwner *)o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&0xFFFF0000)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
