@@ -47,9 +47,9 @@ void func_80013360(void)
     r->y = 0;
     D_8009B098 |= 0x2000;
 
-    for (func_80012D4C();
+    for (Main_AdvanceFrame();
          (gInput_wPad1Pressed & PAD_BUTTON_START) == 0;
-         func_80012D4C()) {
+         Main_AdvanceFrame()) {
         s32 step;
 
         if (gInput_wPad1Held & PAD_DIRECTION_MASK) {

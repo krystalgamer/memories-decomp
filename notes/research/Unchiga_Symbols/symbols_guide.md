@@ -73,7 +73,7 @@ A choice box is an ordinary text box whose string ends in a choice attribute. Th
 ### Screen fades (also everywhere)
 
 The recorded menu transitions use this shared fade system. `Fade_WaitOut`
-blocks its caller but repeatedly calls `func_80012D4C` until the active flag
+blocks its caller but repeatedly calls `Main_AdvanceFrame` until the active flag
 clears. The roughly 48-frame, step-8 result describes those captures, not
 every setup path.
 

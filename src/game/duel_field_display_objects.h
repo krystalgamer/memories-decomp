@@ -28,8 +28,8 @@
  *
  * func_800235C0 reads the rest: the DisplayLinkEntry array at 0x08 (the
  * same member display_parent_links.h's DisplayParent view names entries,
- * which func_800235C0 passes to func_80022FF0), the halfword at 0x0C it
- * stores as the panel's y, and the byte at 0x13 it applies with
+ * which func_800235C0 passes to DuelSelection_LinkDisplayObjects), the
+ * halfword at 0x0C it stores as the panel's y, and the byte at 0x13 it applies with
  * DisplayObject_SetResourceVariant. */
 typedef struct {
     DisplayObject *field_00;

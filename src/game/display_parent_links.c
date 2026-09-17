@@ -25,7 +25,7 @@ void DuelSelection_LinkDisplayObject(
 }
 
 /*
- * Derive paired cursors inside the loop: `func_80022FF0`
+ * Derive paired cursors inside the loop: `DuelSelection_LinkDisplayObjects`
  *
  * The parent-link routine at `0x80022FF0` matches all 160 bytes with the existing
  * uniform `gcc_2_8_1_g8` profile, without its historical five register pins.
@@ -44,7 +44,7 @@ void DuelSelection_LinkDisplayObject(
  * The canonical history and six terminal refinement rows remain unchanged;
  * one post-terminal resolution records the newly verified source structure.
  */
-void func_80022FF0(DisplayParent *parent, s32 clear)
+void DuelSelection_LinkDisplayObjects(DisplayParent *parent, s32 clear)
 {
     DisplayLinkEntry *entry;
     DisplayLinkEntry *child;

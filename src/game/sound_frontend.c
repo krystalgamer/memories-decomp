@@ -17,7 +17,7 @@ void Sound_InitFrontend(void)
         lbas[FILE_LBA_INDEX_SD_BGM],
         lbas[FILE_LBA_INDEX_MASTER_XA]);
     while (func_8004703C() & 8) {
-        func_80012D4C();
+        Main_AdvanceFrame();
     }
 }
 

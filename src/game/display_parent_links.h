@@ -7,7 +7,7 @@
 #define DISPLAY_PARENT_OFFSET(member) \
     ((u32)&(((DisplayParent *)0)->member))
 
-/* func_80022FF0 passes both objects of each entry to
+/* DuelSelection_LinkDisplayObjects passes both objects of each entry to
  * DuelSelection_LinkDisplayObject; func_800235C0 positions the first and frees
  * both with DisplayObject_ReleaseIfPresent. */
 typedef struct DisplayLinkEntry {
@@ -43,6 +43,6 @@ void DuelSelection_LinkDisplayObject(
     DisplayParent *parent,
     volatile DisplayObject *object
 );
-void func_80022FF0(DisplayParent *parent, s32 clear);
+void DuelSelection_LinkDisplayObjects(DisplayParent *parent, s32 clear);
 
 #endif

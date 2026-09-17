@@ -25,7 +25,7 @@ void Main_VBlankCB(void)
     }
 }
 
-void func_80012D4C(void)
+void Main_AdvanceFrame(void)
 {
     Main_RunFrameServices();
     Graphics_SyncFrame();
@@ -36,6 +36,6 @@ void func_80012D4C(void)
 void func_80012D84(s32 count)
 {
     do {
-        func_80012D4C();
+        Main_AdvanceFrame();
     } while (--count != 0);
 }

@@ -152,7 +152,7 @@ number. The matched `Main_RunMenu` and `Main_RunBuildDeckMenu` call
 `Fade_WaitIn` during initialization to start and wait for a transition
 toward level `255`. On exit they call `SD_BGMFadeOut`, then `Fade_WaitOut`
 [`0x80015B00`] before processing the destination. That wait repeatedly calls
-`func_80012D4C` until the fade's active flag clears: the caller waits while
+`Main_AdvanceFrame` until the fade's active flag clears: the caller waits while
 the frame-update helper continues, rather than freezing the whole console.
 
 **The banded path.** A shared `0x28`-byte record contains current and target

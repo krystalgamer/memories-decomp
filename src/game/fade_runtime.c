@@ -263,7 +263,7 @@ void Fade_Wait(void)
     FadeTransitionState *state = &gFade_State;
 
     do {
-        func_80012D4C();
+        Main_AdvanceFrame();
     } while (state->flags & FADE_FLAG_ACTIVE);
 }
 

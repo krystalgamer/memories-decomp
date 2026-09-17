@@ -301,7 +301,7 @@ s32 func_800235C0(void)
                         }
                     }
                 }
-                func_80022FF0((DisplayParent *)source, 0);
+                DuelSelection_LinkDisplayObjects((DisplayParent *)source, 0);
             }
             if (D_8009B162 & 8) {
                 o = source->field_00;
@@ -310,7 +310,7 @@ s32 func_800235C0(void)
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);
                 o->field_60 = 0x400;
                 o->field_6C = 2;
-                func_80022FF0((DisplayParent *)source, 1);
+                DuelSelection_LinkDisplayObjects((DisplayParent *)source, 1);
             }
             busy = 0;
         }
