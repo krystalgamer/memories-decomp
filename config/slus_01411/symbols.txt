@@ -1414,3 +1414,6 @@ File_SetTransferLocation = 0x80013940; // type:func
 Campaign_LoadScenePackage = 0x8002FD10; // type:func
 Text_ExtendGlyphCode = 0x80037D2C; // type:func
 Main_RunBootSequence = 0x80043960; // type:func
+
+// Semantic names
+Text_CompletePageAdvance = 0x8003741C; // type:func

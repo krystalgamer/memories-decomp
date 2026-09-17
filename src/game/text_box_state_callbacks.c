@@ -15,7 +15,7 @@
 TextBoxStateCallback D_80090E64[] = {
     Dialog_UpdateChoice,
     Dialog_UpdateChoice,
-    func_8003741C,
+    Text_CompletePageAdvance,
     func_800374A8,
     func_800375A4,
     func_8003767C,

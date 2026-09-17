@@ -70,7 +70,7 @@ loop:
     }
 }
 
-void func_8003741C(DuelEffectChannel *object)
+void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
     u8 state = object->state_51;
     DuelEffectEntry *entry;

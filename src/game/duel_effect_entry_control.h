@@ -5,8 +5,8 @@
 #include "duel_effect.h"
 
 /* DuelEffect_HasActiveEntry reports whether a channel still has an entry in
- * flight, and func_8003741C is the D_80090E64 state that waits for that to
- * clear.
+ * flight, and Text_CompletePageAdvance is the D_80090E64 state that waits for
+ * that to clear.
  *
  * func_800373C8 is the third function this unit defines. It was held back
  * until its narrowing parameters could be measured: it is defined
@@ -17,7 +17,7 @@
  * either way and the executable is unchanged. The declaration below is the
  * definition's own. */
 s32 DuelEffect_HasActiveEntry(DuelEffectChannel *channel);
-void func_8003741C(DuelEffectChannel *object);
+void Text_CompletePageAdvance(DuelEffectChannel *object);
 
 /* Starting from the record's entry range, walks up to range_count_5E entries;
  * for each with flags_11 & 0x80 set, writes a1 to field_13 and a2 to

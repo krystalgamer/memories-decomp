@@ -92,7 +92,7 @@ State-table entry 4 (`func_800375A4`) performs the actual wait:
 3. it plays sound effect `0x0B`, switches to state 2, destroys the cursor, and
    clears its pointer.
 
-State-table entry 2 (`func_8003741C`) asks the existing glyph/effect entries
+State-table entry 2 (`Text_CompletePageAdvance`) asks the existing glyph/effect entries
 to clear, waits until no active entry remains, resets line and cursor fields,
 and returns the text channel to state zero. Parsing then resumes at the byte
 after FA.

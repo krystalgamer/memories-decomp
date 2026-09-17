@@ -71,7 +71,7 @@ Verified entry fields are:
 
 | Offset | Shared field | Evidence |
 |---:|---|---|
-| `0x11` | `flags_11` | bit `0x80` gates exact scans; target `func_8003741C` and `DuelEffect_ProcessEntries` agree |
+| `0x11` | `flags_11` | bit `0x80` gates exact scans; target `Text_CompletePageAdvance` and `DuelEffect_ProcessEntries` agree |
 | `0x12` | `field_12` | compared with the requested marker plus one |
 | `0x13` | `field_13` | active-value test/write in the bounded scan pair |
 | `0x15` | `field_15` | second byte written by `func_800373C8` |
@@ -128,7 +128,7 @@ flagged sound path, and arms effect state `0x11` with a follow-up value.
 
 Six pure-C functions now use the shared declaration:
 `DuelEffect_ClearMatchingMarker`, `DuelEffect_ResetEntryMarkers`,
-`DuelEffect_HasActiveEntry`, `func_800373C8`, `func_8003741C`, and
+`DuelEffect_HasActiveEntry`, `func_800373C8`, `Text_CompletePageAdvance`, and
 `DuelEffect_SetEntryRangeLayout`.
 
 ## Runtime state and channel lifecycle
@@ -202,7 +202,7 @@ expressions with direct `DuelEffectEntry` member access shortened the two
 exact functions by eight bytes in total and failed the resident text-size
 check. The retained expressions preserve GCC 2.8.1's address-adjustment and
 register schedule; they are not a competing layout declaration. The third
-function in that grouped source, `func_8003741C`, uses the shared
+function in that grouped source, `Text_CompletePageAdvance`, uses the shared
 `DuelEffectEntry` fields directly.
 
 The shared field syntax was exact-tested successfully in the other migrated
