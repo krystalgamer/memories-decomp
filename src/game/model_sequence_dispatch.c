@@ -61,7 +61,7 @@ u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx)
     u32 *handlers;
     u32 *commands;
     u32 *parameters;
-    u32 **slots;
+    ModelAnimParams *slots;
     s32 (*handler)(GsARGUNIT_ANIM *);
     s32 i;
     s32 direction;
@@ -137,16 +137,21 @@ stopped:
                 }
             }
             dispatch_record = (u8 *)((track->ti * sizeof(*commands)) + (u32)commands);
-            slots = (u32 **)((u8 *)ctx + 0x14 + (ctx->header_size << 2));
+            slots = (ModelAnimParams *)(
+                (u8 *)ctx + 0x14 + (ctx->header_size << 2)
+            );
             value = dispatch_record[3] & 0x7F;
             handler = (s32 (*)(GsARGUNIT_ANIM *))handlers[value + 1];
-            slots[0] = (u32 *)cursor;
-            slots[1] = parameters + (u16)commands[track->ci];
-            slots[2] = parameters + (u16)commands[track->ti];
+            slots->seq = cursor;
+            slots->source =
+                (ModelKeyframe *)(parameters + (u16)commands[track->ci]);
+            slots->target =
+                (ModelKeyframe *)(parameters + (u16)commands[track->ti]);
             if (track->ii != 0xFFFF) {
-                slots[3] = parameters + (u16)commands[track->ii];
+                slots->out =
+                    (ModelKeyframe *)(parameters + (u16)commands[track->ii]);
             } else {
-                slots[3] = 0;
+                slots->out = 0;
             }
             if (track->ci != track->ti) {
                 result = handler(ctx);
