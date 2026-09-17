@@ -186,10 +186,9 @@ void DisplayObject_SetResourcePath(
     object->flags &= 0xFFEF;
 }
 
-void *DisplayObject_ConfigureSpriteResource(u8 *object, int field_67, int field_68, int field_69,
-                    int color, int texture)
+void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
+                    int field_69, int color, int texture)
 {
-    DisplayObject *configured = (DisplayObject *)object;
     u16 flags;
 
     configured->field_67 = field_67;
@@ -205,7 +204,7 @@ void *DisplayObject_ConfigureSpriteResource(u8 *object, int field_67, int field_
     if (texture & 0x8000) {
         configured->flags = flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     }
-    return object;
+    return configured;
 }
 
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,

@@ -234,7 +234,7 @@ void Password_InitShopScreen(void)
     i = 0;
     do {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
+        DisplayObject_ConfigureSpriteResource((DisplayObject *)o, 3, 1, i, 11, 524);
         *(u32 *)(o + 4) |= GsALON;
         DisplayObject_SelectOrderingTable1(o);
         DisplayObject_SetDepthOffset(o, 8);

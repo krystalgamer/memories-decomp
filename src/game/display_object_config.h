@@ -3,6 +3,11 @@
 
 #include "../types.h"
 
+/* The canonical record, declared in display_object.h. Named rather than
+ * included so this header stays the narrow-view header it is meant to be;
+ * every caller of the one function below already has the full record. */
+struct DisplayObject;
+
 /* The narrower view DisplayObject_SetResourceVariant and
  * DisplayObject_UpdateResourceVariant use: the flags halfword at 0x08 and the
  * three selector bytes at 0x67..0x69. It is the same record
@@ -89,9 +94,14 @@ typedef struct {
 
 /* Writes the three glyph-selector bytes at 0x67..0x69 plus the colour and
  * texture fields, and returns the object. Every caller discards the result,
- * which is how three of the four declared it as returning void. */
-void *DisplayObject_ConfigureSpriteResource(u8 *object, s32 field_67, s32 field_68, s32 field_69,
-                    s32 color, s32 texture);
+ * which is how three of the four declared it as returning void.
+ *
+ * It takes the canonical record: it writes seven of its members and nothing
+ * the narrow views above cover. The two callers that still hand it a byte
+ * cursor -- shop.c and the func_8001BD88 candidate -- keep their own byte
+ * arithmetic and name the record at the call. */
+void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 field_67,
+                    s32 field_68, s32 field_69, s32 color, s32 texture);
 
 DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     DisplayObjectConfigView *object,

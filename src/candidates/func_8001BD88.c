@@ -148,7 +148,7 @@ void DuelScene_UpdateHandActions(void)
         B(side, 0xE) = 0;
         B(side, 0x15) = 0;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteResource(o, 3, 0, 2, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteResource((DisplayObject *)o, 3, 0, 2, 0xB, 0x20C);
         H(o, 8) |= 0x28;
         DisplayObject_SelectOrderingTable1((DisplayObject *)o);
         DisplayObject_SetDepthOffset(o, 0xA);

@@ -62,7 +62,7 @@ void func_80042874(
 )
 {
     object->resource = resource;
-    DisplayObject_ConfigureSpriteResource((u8 *)object, arg1, arg2, arg3, arg4, arg5);
+    DisplayObject_ConfigureSpriteResource(object, arg1, arg2, arg3, arg4, arg5);
 }
 
 void func_800428A8(
