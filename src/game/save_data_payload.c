@@ -167,8 +167,7 @@ void SaveData_BuildPayload(u8 *data)
 
         i = 0;
         do {
-            *((u8 *)((u32)data + i) +
-              SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
+            *(data + i + SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
             i++;
         } while (i < SAVE_DATA_RESERVED_TAIL_SIZE);
     }
