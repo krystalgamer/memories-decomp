@@ -1,6 +1,6 @@
 global_address,global_name,observed_names,function_address,function_name,function_status,function_module,evidence_source,evidence_path,access,width_bits,context
 0x80010000,D_80010000,D_80010000,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)D_80010000;
-0x80010000,D_80010000,D_80010000,0x8001755C,func_8001755C,matching_c,game,C,src/game/func_8001755C.c,read,,"func_80056250(2, D_80010000[0].payload_bases[0], 0x63000, 4);"
+0x80010000,D_80010000,D_80010000,0x8001755C,Duel_InitModelScene,matching_c,game,C,src/game/duel_init_model_scene.c,read,,"func_80056250(2, D_80010000[0].payload_bases[0], 0x63000, 4);"
 0x80010000,D_80010000,D_80010000,0x8002C604,DuelEffect_AllocateRequest,matching_c,game,C,src/game/duel_effect_object_pool.c,read,8,q = D_80010000;
 0x80010000,D_80010000,D_80010000,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,,"func_800323F8((u32)D_80010000[0].payload_bases[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);"
 0x80010000,D_80010000,D_80010000,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,,"(u32)D_80010000[0].payload_bases[0],"
