@@ -17,7 +17,7 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     u8 *v1;
     v0 = a0->range_start_5C;
     count = a0->range_count_5E;
-    v1 = (u8 *)D_800EB288 + v0 * sizeof(DuelEffectEntry);
+    v1 = (u8 *)&D_800EB288[v0];
     if (count == 0) {
         goto ret_zero_a;
     }
