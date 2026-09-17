@@ -3,7 +3,9 @@
  * result handoff. The typed DuelEffectObject accumulator view, typed
  * DisplayObject cursor, and cross-path reuse of `side` preserve the retail
  * scheduling and register allocation. The first position store keeps a signed
- * address-of-member view so GCC materializes -0x40 like retail.
+ * address-of-member view so GCC materializes -0x40 like retail. The two
+ * request-completion byte tests retain the global byte pointer but derive
+ * their index from DuelEffectRequest::field_1D.
  */
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -36,6 +38,9 @@
 #include "../game/duel_effect.h"
 #include "../game/duel_effect_allocate_request.h"
 #include "../unmatched.h"
+
+#define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
+    ((u32)&((DuelEffectRequest *)0)->field_1D)
 #include "../game/sound_output.h"
 #include "../game/sound.h"
 #include "../game/model_scene_states.h"
@@ -142,7 +147,7 @@ next_obj:
             return;
         }
         if (D_8009B17C != 0) {
-            if (D_8009B17C[0x1D] == 0) {
+            if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
                 return;
             }
             SD_SEPlayFull(0x1D);
@@ -194,7 +199,7 @@ next_obj:
         return;
     }
     if (flags & 0x1000) {
-        if (D_8009B17C[0x1D] == 0) {
+        if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
             return;
         }
         D_8009B23A = flags & 0xEFFF;
