@@ -100,7 +100,7 @@ extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
 
-void func_8001B938(u8 *p);
+void func_8001B938(DuelSelectionRecord *selection);
 void func_8001BAF0(void);
 void func_80028220(void);
 void AiScript_Init(void *arg0);
@@ -311,7 +311,7 @@ void DuelScene_UpdateHandActions(void)
             if (D_8009B162 == 0) {
                 if (!((u16)D_8009B20C[0] & 0x8000)) {
                     D_8009B20C[0] = (u16)D_8009B20C[0] | 0xC000;
-                    func_8001B938(side);
+                    func_8001B938((DuelSelectionRecord *)side);
                     D_8009B20A = D_800EAE8E[0] - 6;
                     if (D_8009B20A < 0) {
                         D_8009B20A = D_800EAE8E[0] - 1;
@@ -544,7 +544,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(flags & 0x80)) {
             D_8009B174 = flags | 0x80;
             D_8009B210 = 0;
-            func_8001B938(side);
+            func_8001B938((DuelSelectionRecord *)side);
             D_8009B174 |= 0x40;
             v = D_8009B174 & 0x40;
         }
