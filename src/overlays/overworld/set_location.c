@@ -63,7 +63,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
             if (entry->story_flag == 0 ||
                 Campaign_TestStoryFlag(entry->story_flag) != 0) {
                 object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-                func_800428A8(
+                DisplayObject_ConfigureSpriteAtPositionWithResource(
                     object, entry->x, entry->y, 0, 2,
                     entry->field_08, 0x17, 0x100, D_801AF000
                 );
@@ -225,7 +225,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     table = gCampaignMap_aLocationTable;
     record = table + gCampaignMap_Location;
-    func_800428A8(
+    DisplayObject_ConfigureSpriteAtPositionWithResource(
         object, record->f12, record->f14, 0, 1, 0,
         0x17, 0x100, D_801AF000
     );
@@ -272,7 +272,7 @@ void CampaignMap_SetLocation(s32 index)
     D_800E9DB0[3] = CampaignMap_UpdateView;
     func_80035668(0);
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 96, 24, 0, 0, 0, 23, 256, D_801AF000);
     ((DisplayObject *)obj)->flags =
         ((DisplayObject *)obj)->flags |
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

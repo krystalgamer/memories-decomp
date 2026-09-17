@@ -132,7 +132,7 @@ void DisplayObject_ConfigureSpriteAtPosition(void *p, s32 x, s32 y, s32 a, s32 b
     event(8, id, x, y, b, c);
     if (a != 3 || color != 11 || texture != 524) error = 6;
 }
-void func_800428A8(void *p, s32 a, s32 b, s32 c, s32 d, s32 e,
+void DisplayObject_ConfigureSpriteAtPositionWithResource(DisplayObject *p, s32 a, s32 b, s32 c, s32 d, s32 e,
                   s32 f, s32 g, void *resource)
 {
     event(9, object_id(p), b, d, e, 0);

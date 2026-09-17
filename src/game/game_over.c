@@ -23,7 +23,7 @@ void func_8003C950(void)
     );
     object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);
     *(u8 *)&object->field_5E = 128;
     DisplayObject_SetDepthOffset(object, 4);
     object->field_6C = 0;

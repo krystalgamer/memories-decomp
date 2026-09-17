@@ -1,8 +1,9 @@
 /*
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
- * gcc_2_8_1_g8_split: 444 instructions against 446 and opcode distance 4,
- * with no hard register assignments and no inline assembly.
+ * gcc_2_8_1_g8_split: 446 instructions against 446, opcode distance 2 and
+ * 314 differing non-relocation words, with no hard register assignments and
+ * no inline assembly.
  *
  * The full vector block, inverted negation guard, reference-vector push, and
  * depth-three retry are present. A scalar clamp temporary feeding one shared
@@ -17,15 +18,17 @@
  *    `moved` for the clamp LIMIT instead also moves min_extent out of its
  *    stack slot, and the target reloads that slot before every clamp;
  *  - `hits` is volatile: the target keeps it in memory and reloads, adds and
- *    stores it on each increment.
+ *    stores it on each increment;
+ *  - `e0 = t;` and `e1 = t;` each sit in their own do { } while (0) block,
+ *    which keeps the next clamp's halfword load after the pair copy as the
+ *    target does and brings back the missing register copy and nop.
  * Measured and inert: declaring the loop's locals at function scope, zeroing
  * `moved` at the top of the function (a dead store), and either arm order of
  * the `moved != 0` test, including a goto to an out-of-line increment.
  *
  * Residual: in the `moved != 0` dispatch `moved` sits in $fp where the target
  * uses $s1 with the opposite branch polarity, and `mode` is reloaded from its
- * stack slot. The census is one missing register copy, one missing lw, one
- * missing nop and one extra jump; all eleven of the target's min_extent reloads
+ * stack slot. The census is one missing lw and one extra jump; all eleven of the target's min_extent reloads
  * from its stack slot are present. Addressing matches. See
  * notes/research/func-80051350-decode.md for the structural map.
  */
@@ -80,7 +83,9 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         v = min_extent;
     }
     t.values[1] = v;
-    e0 = t;
+    do {
+        e0 = t;
+    } while (0);
     v = (s16)D_800F2C40[0].field_DC8[1] / 2;
     if (v < min_extent) {
         v = min_extent;
@@ -91,7 +96,9 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         v = min_extent;
     }
     t.values[1] = v;
-    e1 = t;
+    do {
+        e1 = t;
+    } while (0);
     v = (s16)D_800F2C40[0].field_DC8[2] / 2;
     if (v < min_extent) {
         v = min_extent;

@@ -49,7 +49,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
     {
         m = GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, f);
@@ -59,7 +59,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
 
         if (func_8003A198(tb, c, 1, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
             DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset(p, f | 1);
@@ -72,7 +72,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
 
         if (func_8003A198(tb, c, 2, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
             DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset(p, f | 1);

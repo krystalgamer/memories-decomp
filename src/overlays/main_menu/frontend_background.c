@@ -156,7 +156,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     if (object != 0) {
-        func_800428A8(object, (s16)entry->field_30.h.field_30,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->field_30.h.field_30,
                       (s16)entry->field_30.h.field_32, 0, 0, entry->field_69,
                       0x18, 0, D_801AF800);
         object->attribute |= 0x51000000;

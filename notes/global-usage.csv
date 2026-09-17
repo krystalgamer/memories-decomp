@@ -3176,19 +3176,19 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801AF000,D_801AF000,D_801AF000,0x80020BE4,func_80020BE4,matching_c,game,C,src/game/func_80020BE4.c,address,8,p->value_08 = (s32)D_801AF000; | p->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x80020D4C,func_80020D4C,matching_c,game,C,src/game/duel_result_runtime.c,read,,D_801AF000);
 0x801AF000,D_801AF000,D_801AF000,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read,,D_801AF000);
-0x801AF000,D_801AF000,D_801AF000,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,address,8,"16, 8, D_801AF000); | func_800428A8(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);"
+0x801AF000,D_801AF000,D_801AF000,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,address,8,"16, 8, D_801AF000); | DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x8002F4C0,func_8002F4C0,matching_c,game,C,src/game/func_8002F4C0.c,address,8,d->value_08 = (s32)D_801AF000; | d->value_0C = (s32)D_801AF000;
-0x801AF000,D_801AF000,D_801AF000,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,read,,"func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);"
+0x801AF000,D_801AF000,D_801AF000,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,read,,"DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x8003A1EC,func_8003A1EC,matching_c,game,C,src/game/display_effect_resource_setup.c,read,,tb = D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,,"Util_CopyWords(D_801AF000, slot->extra, 0x800); | Util_CopyWords(slot->extra, D_801AF000, 0x800); | (+1 more)"
 0x801AF000,D_801AF000,D_801AF000,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/options_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/game_over_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
-0x801AF000,D_801AF000,D_801AF000,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,read,,"func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);"
-0x801AF000,D_801AF000,D_801AF000,0x8003C950,func_8003C950,matching_c,game,C,src/game/game_over.c,read,,"func_800428A8(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);"
+0x801AF000,D_801AF000,D_801AF000,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,read,,"DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);"
+0x801AF000,D_801AF000,D_801AF000,0x8003C950,func_8003C950,matching_c,game,C,src/game/game_over.c,read,,"DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x800434F4,Main_LoadBootImageStage,matching_c,game,C,src/game/func_800434F4.c,address,8,p->value_08 = (u32)D_801AF000; | p->value_0C = (u32)D_801AF000;
-0x801AF000,D_801AF000,D_801AF000,0x8004365C,func_8004365C,matching_c,game,C,src/game/display_object_transition.c,read,,"D_801AF000); | func_800428A8(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);"
+0x801AF000,D_801AF000,D_801AF000,0x8004365C,func_8004365C,matching_c,game,C,src/game/display_object_transition.c,read,,"D_801AF000); | DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x80043960,Main_RunBootSequence,matching_c,game,C,src/game/main_run_boot_sequence.c,read,,D_801AF000);
 0x801AF800,D_801AF800,D_801AF800,0x8003A1EC,func_8003A1EC,matching_c,game,C,src/game/display_effect_resource_setup.c,address,8,tb = D_801AF800;
 0x801AF800,D_801AF800,D_801AF800,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,address,8,"Util_CopyWords(D_801AF800, slot->extra, 0x800); | Util_CopyWords(slot->extra, D_801AF800, 0x800); | (+1 more)"

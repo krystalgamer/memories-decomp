@@ -13,7 +13,7 @@ void func_80020EE8(DuelCardDisplayObject *object);
    and D_80090960 (none). Each table is indexed by the winning side and then
    by sprite, DUEL_RESULT_SPRITE_COUNT of them, and DuelScene_UpdateResultOutro spends the
    whole entry in one call: `x` and `y` are the spawn position it hands
-   func_800428A8, `kind` is that call's part selector and doubles as the
+   DisplayObject_ConfigureSpriteAtPositionWithResource, `kind` is that call's part selector and doubles as the
    "this slot is used" test, and `tag` goes to the object's field_48. */
 typedef struct {
     u8 x;

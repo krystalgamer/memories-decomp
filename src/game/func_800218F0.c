@@ -94,7 +94,7 @@ void DuelScene_UpdateResultRewards(void)
         count = 9;
         object->flags |= 0x28;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800428A8(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, -1);
         object->flags |= 0x20;
@@ -134,14 +134,14 @@ void DuelScene_UpdateResultRewards(void)
 side_result:
         if (D_8009B360[gDuel_bWinnerSide] < 0) {
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            func_800428A8(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
                 16, 8, D_801AF000);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -2);
             object->flags |= 0x20;
             D_8009B1E8->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            func_800428A8(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
                 16, 8, D_801AF000);
             DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset(object, -1);

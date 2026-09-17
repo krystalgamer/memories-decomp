@@ -47,7 +47,7 @@ void Main_RunBootSequence(s32 mode)
     }
     Fade_InitIn();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(object, 0, 0, 0, 0, 0, 0x10, 0x100,
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x10, 0x100,
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -66,7 +66,7 @@ void Main_RunBootSequence(s32 mode)
     }
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(object, 0, 0, 0, 0, 1, 0x10, 0x100,
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,
                   D_801AF000);
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

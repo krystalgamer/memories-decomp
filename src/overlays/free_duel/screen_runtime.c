@@ -113,7 +113,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     DisplayObject *x;
 
     x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
     ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
     DisplayObject_SetDepthOffset(x, 5);
@@ -257,18 +257,18 @@ done:
         }
     }
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
     DisplayObject_SetDepthOffset(obj, -10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
     ((u8 *)&obj->field_5E)[1] = 128;
     DisplayObject_SetDepthOffset(obj, 15);
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

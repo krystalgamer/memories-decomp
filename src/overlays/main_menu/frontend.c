@@ -42,7 +42,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_80184558 = object;
     if (object != 0) {
-        func_800428A8(object, 0, 0, 5, 0, 0, 0x1A, 1, D_801AF800);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 5, 0, 0, 0x1A, 1, D_801AF800);
         D_80184558->attribute |= 0x1000000;
         D_80184558->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -52,7 +52,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_8018455C = object;
     if (object != 0) {
-        func_800428A8(object, 0, 8, 5, 0, 2, 0x1A, 1, D_801AF800);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 2, 0x1A, 1, D_801AF800);
         D_8018455C->attribute |= 0x1000000;
         D_8018455C->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -62,7 +62,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_80184560 = object;
     if (object != 0) {
-        func_800428A8(object, 0, 8, 5, 0, 1, 0x1A, 1, D_801AF800);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 5, 0, 1, 0x1A, 1, D_801AF800);
         D_80184560->attribute |= 0x1000000;
         D_80184560->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -82,7 +82,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
             y = (i - 5) * 32 + 42;
         }
         if (entry != 0) {
-            func_800428A8(entry, 0xA0, y, 0, 0, 0, 0x18, 0, D_801AF800);
+            DisplayObject_ConfigureSpriteAtPositionWithResource(entry, 0xA0, y, 0, 0, 0, 0x18, 0, D_801AF800);
             value = i * 2 | (gMain_bMenuID != i);
             entry->attribute |= 0x1000000;
             entry->flags =

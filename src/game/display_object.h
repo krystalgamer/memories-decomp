@@ -372,7 +372,7 @@ typedef struct DisplayObject {
     u8 field_68;                   /* 0x68 */
     /* Named on this same record by DisplayObjectConfig in
        display_object_config.h. display_object_transition.c reads it and hands
-       it to func_800428A8. */
+       it to DisplayObject_ConfigureSpriteAtPositionWithResource. */
     u8 field_69;                   /* 0x69 */
     /* func_8001D518.c copies a byte into this offset when it builds the
        projection slot's object, taking it from 0x0A on the record it is given.
