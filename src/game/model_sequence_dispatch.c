@@ -17,7 +17,9 @@
  *
  * The single-pass endpoint checks preserve GCC 2.8.1's reference weighting.
  * Flattening them exchanges the context and cached-sentinel registers in
- * fifteen words. No register bindings or instruction assembly are used.
+ * fifteen words. The ModelAnimParams tail keeps its byte-addressed form but
+ * derives its base from GsARGUNIT_ANIM::header_size. No register bindings or
+ * instruction assembly are used.
  */
 static __inline__ u32 scan_command(GsSEQ *track, u32 *commands, u32 index)
 {
@@ -138,7 +140,9 @@ stopped:
             }
             dispatch_record = (u8 *)((track->ti * sizeof(*commands)) + (u32)commands);
             slots = (ModelAnimParams *)(
-                (u8 *)ctx + 0x14 + (ctx->header_size << 2)
+                (u8 *)ctx +
+                (u32)&((GsARGUNIT_ANIM *)0)->header_size +
+                (ctx->header_size << 2)
             );
             value = dispatch_record[3] & 0x7F;
             handler = (s32 (*)(GsARGUNIT_ANIM *))handlers[value + 1];
