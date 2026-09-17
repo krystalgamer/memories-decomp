@@ -204,8 +204,8 @@ m1:
     D_8009B1D0 = t;
     if ((s16)t <= 0) {
     r = D_8015C424;
-    g = (DuelCardReplayRecordBlock *)(r +
-        D_8009B1B8 * sizeof(DuelCardRecord) +
+    g = (DuelCardReplayRecordBlock *)(
+        (u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = (DisplayObject *)g->record.object;
     e = (DuelEffectObject *)DuelEffect_CreateRequest(8);
