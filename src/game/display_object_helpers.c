@@ -51,8 +51,8 @@ void func_80042824(DisplayObject *object, int value)
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-void func_80042874(
-    DisplayObjectResource *object,
+void DisplayObject_ConfigureSpriteWithResource(
+    DisplayObject *object,
     s32 arg1,
     s32 arg2,
     s32 arg3,
@@ -61,7 +61,7 @@ void func_80042874(
     void *resource
 )
 {
-    object->resource = resource;
+    object->field_54 = resource;
     DisplayObject_ConfigureSpriteResource(object, arg1, arg2, arg3, arg4, arg5);
 }
 
