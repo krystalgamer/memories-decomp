@@ -144,7 +144,7 @@ next_obj:
                 return;
             }
             SD_SEPlayFull(0x1D);
-            if (func_80042B40(1) == 0) {
+            if (DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B23A = D_8009B23A | 0x2000;
                 return;
             }

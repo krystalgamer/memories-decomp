@@ -1488,7 +1488,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,if ((gDuel_bEffectRequestStatus & 1) != 0) {
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,read_write,8,gDuel_bEffectRequestStatus = | value = gDuel_bEffectRequestStatus;
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,read,8,if ((gDuel_bEffectRequestStatus & 1) == 0) {
-0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read,8,if ((gDuel_bEffectRequestStatus & 1) == 0 && func_80042B40(1) == 0) {
+0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read,8,if ((gDuel_bEffectRequestStatus & 1) == 0 && DisplayObject_FindAllocatedByTag(1) == 0) {
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x80025D30,DuelEffect_ApplyStatPenalty,matching_c,game,C,src/game/duel_card_effects.c,read,8,if ((gDuel_bEffectRequestStatus & 1) == 0) {
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x8002C598,DuelEffect_ResetRequestPool,matching_c,game,C,src/game/duel_effect_object_pool.c,write,8,gDuel_bEffectRequestStatus = 0;
 0x8009B260,gDuel_bEffectRequestStatus,gDuel_bEffectRequestStatus,0x8002C68C,DuelEffect_CreateRequest,matching_c,game,C,src/game/duel_effect_request_create.c,read_write,8,gDuel_bEffectRequestStatus |= DUEL_EFFECT_REQUEST_STATUS_ACTIVE;
@@ -2707,7 +2707,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040D14,DisplayObject_RunSecondaryCallbackList,matching_c,game,C,src/game/display_object_updates.c,address,,DisplayObject *base = D_800EFE48;
 0x800EFE48,D_800EFE48,D_800EFE48,0x80040DD8,DisplayObject_RenderGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &D_800EFE48[i];
 0x800EFE48,D_800EFE48,D_800EFE48,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,address,,e = &D_800EFE48[i];
-0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,func_80042B40,matching_c,game,C,src/game/display_object_helpers.c,read,,u8 *object = (u8 *)D_800EFE48;
+0x800EFE48,D_800EFE48,D_800EFE48,0x80042B40,DisplayObject_FindAllocatedByTag,matching_c,game,C,src/game/display_object_helpers.c,read,,u8 *object = (u8 *)D_800EFE48;
 0x800F0548,D_800F0548,D_800F0548,0x8004002C,DisplayObject_FindFreeGeneralSlot,matching_c,game,C,src/game/display_object_core.c,address,,DisplayObject *entry = D_800F0548;
 0x800F2848,D_800F2848,D_800F2848,0x8001352C,func_8001352C,matching_c,game,C,src/game/view_state_orbit.c,read,,ViewState *p = &D_800F2848; | s32 n = -D_800F2848.field_00;
 0x800F2848,D_800F2848,D_800F2848,0x800135FC,func_800135FC,matching_c,game,C,src/game/view_state_orbit.c,address,,ViewState *record = &D_800F2848;

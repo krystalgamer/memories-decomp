@@ -199,7 +199,7 @@ glabel DuelScene_UpdateBattle
     /* 10020 8001F820 A0004230 */  andi       $v0, $v0, 0xA0
     /* 10024 8001F824 22044314 */  bne        $v0, $v1, .L800208B0
     /* 10028 8001F828 00000000 */   nop
-    /* 1002C 8001F82C D00A010C */  jal        func_80042B40
+    /* 1002C 8001F82C D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* 10030 8001F830 01000424 */   addiu     $a0, $zero, 0x1
     /* 10034 8001F834 1E044014 */  bnez       $v0, .L800208B0
     /* 10038 8001F838 02000224 */   addiu     $v0, $zero, 0x2
@@ -340,7 +340,7 @@ glabel DuelScene_UpdateBattle
   .L8001FA40:
     /* 10240 8001FA40 2B004014 */  bnez       $v0, .L8001FAF0
     /* 10244 8001FA44 0F80023C */   lui       $v0, %hi(D_800E9EF0)
-    /* 10248 8001FA48 D00A010C */  jal        func_80042B40
+    /* 10248 8001FA48 D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* 1024C 8001FA4C 01000424 */   addiu     $a0, $zero, 0x1
     /* 10250 8001FA50 97034014 */  bnez       $v0, .L800208B0
     /* 10254 8001FA54 0F80043C */   lui       $a0, %hi(D_800E9EF0)

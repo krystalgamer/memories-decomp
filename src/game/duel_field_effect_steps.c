@@ -55,7 +55,7 @@ void DuelEffect_ApplySwords(void)
                 }
             }
         }
-    } else if (func_80042B40(1) == 0 &&
+    } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
                ((DuelFieldEffectObject *)D_8009B17C)->count >= 2) {
         D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;

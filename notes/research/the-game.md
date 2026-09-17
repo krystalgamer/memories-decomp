@@ -1092,7 +1092,7 @@ The normal draw-resolution path has a source-backed Exodia check.
 Matching
 [`Duel_HasAllExodiaPieces`](../../src/game/duel_draw_resolution.c)
 requires card IDs `0x11..0x15` in the current hand. On its post-draw branch,
-`DuelScene_UpdateDrawResolution` runs that check after `func_80042B40(1)` returns zero; a
+`DuelScene_UpdateDrawResolution` runs that check after `DisplayObject_FindAllocatedByTag(1)` returns zero; a
 successful check sets `gDuel_wSceneStateFlags = 0xE`. This is a gated transition, not
 evidence that every action tests all win conditions or that presentation
 finishes in the same frame.

@@ -502,7 +502,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
             }
         }
     }
-    if ((gDuel_bEffectRequestStatus & 1) == 0 && func_80042B40(1) == 0) {
+    if ((gDuel_bEffectRequestStatus & 1) == 0 && DisplayObject_FindAllocatedByTag(1) == 0) {
         gDuel_wCardEffectFlags = 0;
     }
 }

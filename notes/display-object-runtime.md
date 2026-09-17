@@ -70,7 +70,7 @@ Assembly-only word/relocation references in `func_800291E0` (generated
 assembly again; its old `func_800291E0.c` was a `.word` transcription) are not
 C declaration sites and remain unchanged.
 
-The former aggregate API header also declared `func_80042B40`, even though
+The former aggregate API header also declared `DisplayObject_FindAllocatedByTag`, even though
 `display_object_helpers.c` defines it. Its declaration now lives in
 `display_object_helpers.h`; each caller includes only the core, helper, or both
 owners needed by the functions it uses.

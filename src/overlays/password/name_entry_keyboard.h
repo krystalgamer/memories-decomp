@@ -31,7 +31,7 @@ s32 NameEntry_PollCompletion(void);
 void NameEntry_BuildStarterDeck(void);
 
 /* The dialog's own sliding panel object, reached through the text box at
- * field_2C or by tag from func_80042B40. A different object from the
+ * field_2C or by tag from DisplayObject_FindAllocatedByTag. A different object from the
  * selection frame name_entry_state.h declares, and the fields are spelled
  * by hex offset here so that the two views cannot be read as if they shared
  * a numbering: this unit's +0x30 is the old Caret's `f48`. */

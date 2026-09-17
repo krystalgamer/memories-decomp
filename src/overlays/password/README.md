@@ -438,7 +438,7 @@ byte-for-byte, which is the proof rather than the argument.
 the glyph-effect merge, where two views turned out to describe one object,
 these describe genuinely different ones: `SelectionFrame` is the keyboard
 cursor in `D_8016D404`, while `DialogCaret` is the panel the dialog reaches
-through the text box's `field_2C` and by tag from `func_80042B40(6)`. They
+through the text box's `field_2C` and by tag from `DisplayObject_FindAllocatedByTag(6)`. They
 are not collapsed.
 
 What the merge did force is a numbering collision. The two files spelled

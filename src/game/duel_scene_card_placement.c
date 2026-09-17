@@ -153,7 +153,7 @@ void DuelScene_UpdateCardPlacement(void)
                     } while (n >= 0);
                     return;
                 }
-                if (func_80042B40(1))
+                if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 D_8009B174 = 2;
             }
@@ -355,7 +355,7 @@ request_combination:
                 {
                     DisplayObject **slots;
                     s32 alpha;
-                    if (func_80042B40(1))
+                    if (DisplayObject_FindAllocatedByTag(1))
                     return;
                     if (!(D_8009B210 & 0x80)) {
                         slots = D_800E9EF0;
@@ -453,7 +453,7 @@ request_combination:
                         func_80029528(0);
                         return;
                     }
-                    if (!func_80042B40(1))
+                    if (!DisplayObject_FindAllocatedByTag(1))
                     D_8009B210 = 4;
                     break;
                 }
@@ -492,7 +492,7 @@ request_combination:
             }
             if (D_8009B174 & 0x40) {
                 DisplayObject **slots;
-                if (func_80042B40(1))
+                if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 {
                     s32 phase = D_8009B174;
@@ -549,7 +549,7 @@ request_combination:
             }
             if (D_8009B174 & 0x40) {
                 DisplayObject **slots;
-                if (func_80042B40(1))
+                if (DisplayObject_FindAllocatedByTag(1))
                 return;
                 {
                     s32 phase = D_8009B174;

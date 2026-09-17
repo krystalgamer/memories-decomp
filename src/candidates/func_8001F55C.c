@@ -200,7 +200,7 @@ void DuelScene_UpdateBattle(void)
                     D_8009B174 |= 0x20;
                 }
             }
-            if ((D_8009B174 & 0xA0) == 0xA0 && func_80042B40(1) == 0) {
+            if ((D_8009B174 & 0xA0) == 0xA0 && DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B174 = 2;
                 return;
             }
@@ -256,7 +256,7 @@ void DuelScene_UpdateBattle(void)
                 return;
             }
         } else if (!(D_8009B174 & 0x40)) {
-            if (func_80042B40(1) == 0) {
+            if (DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_800E9EF0[0]->flags &= 0xFFBF;
                 D_800E9EF0[2]->flags |= 0x40;
                 if (D_800E9EF0[1] != 0) {

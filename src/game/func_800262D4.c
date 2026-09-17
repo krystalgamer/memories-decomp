@@ -208,7 +208,7 @@ void DuelEffect_ApplyRitual(void)
             object->field_6C = 1;
             object->update = func_8001EC70;
         } else if (!(D_8009B210 & 0x40)) {
-            if (!func_80042B40(1)) {
+            if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
                     D_8015C424_cards.field_cards[object->field_6A].card_id;
                 text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 32);
@@ -236,7 +236,7 @@ void DuelEffect_ApplyRitual(void)
                 TextBox_Destroy(D_800EB0F8);
                 D_8009B210 |= 0x20;
             }
-        } else if (!func_80042B40(1)) {
+        } else if (!DisplayObject_FindAllocatedByTag(1)) {
             DisplayObject_ReleaseIfPresent(object);
 state_five:
             D_8009B210 = 5;

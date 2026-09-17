@@ -116,7 +116,7 @@ void DuelScene_UpdateDrawResolution(void) {
         }
         SD_SEPlayFull(0xA);
     } else {
-        if (func_80042B40(1) == 0) {
+        if (DisplayObject_FindAllocatedByTag(1) == 0) {
             gDuel_wSceneStateFlags = 4;
             if (Duel_HasAllExodiaPieces() != 0) {
                 gDuel_wSceneStateFlags = 0xE;

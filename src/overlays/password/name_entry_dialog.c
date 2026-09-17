@@ -149,7 +149,7 @@ void NameEntry_UpdateDialog(void)
         return;
     }
     if ((flags & 0x80) != 0) {
-        caret = (DialogCaret *)func_80042B40(6);
+        caret = (DialogCaret *)DisplayObject_FindAllocatedByTag(6);
         if (caret == 0) {
             return;
         }
@@ -168,10 +168,10 @@ void NameEntry_UpdateDialog(void)
         NameEntry_AdjustLength(1, 6);
         return;
     }
-    if (func_80042B40(1) != 0) {
+    if (DisplayObject_FindAllocatedByTag(1) != 0) {
         return;
     }
-    if (func_80042B40(2) != 0) {
+    if (DisplayObject_FindAllocatedByTag(2) != 0) {
         return;
     }
     if ((D_8016D400 & 0x40) == 0) {

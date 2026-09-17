@@ -232,7 +232,7 @@ void DuelScene_UpdateFieldActions(void)
                 }
                 goto back_to_menu;
             }
-            if (func_80042B40(0xF) == 0) {
+            if (DisplayObject_FindAllocatedByTag(0xF) == 0) {
                 card->flags |= 0x4000;
                 func_80017E3C(card->object);
                 D_8009B174 = k;
@@ -247,7 +247,7 @@ void DuelScene_UpdateFieldActions(void)
                     D_8009B20C[0] = flags | 0xC000;
                     goto pick_object;
                 }
-            } else if (!(flags & 0x4000) || func_80042B40(0xF) == 0) {
+            } else if (!(flags & 0x4000) || DisplayObject_FindAllocatedByTag(0xF) == 0) {
                 D_8009B21A = 1;
                 goto attack;
             }
@@ -265,7 +265,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             B(side, 0x19) = 0;
         }
-        if (func_80042B40(0xF) != 0) {
+        if (DisplayObject_FindAllocatedByTag(0xF) != 0) {
             break;
         }
         if (func_80024060((DuelCursorStatus *)side) != 0) {
@@ -559,7 +559,7 @@ void DuelScene_UpdateFieldActions(void)
             }
         } else {
             if (D_8009B21A != 0) {
-                if (func_80042B40(1) != 0) {
+                if (DisplayObject_FindAllocatedByTag(1) != 0) {
                     return;
                 }
                 goto finish;
@@ -579,7 +579,7 @@ void DuelScene_UpdateFieldActions(void)
                 }
                 v = (a << 16) | (a << 8) | a;
                 D_8009B300 = v;
-                if (v == D_8009B1BC && func_80042B40(1) == 0) {
+                if (v == D_8009B1BC && DisplayObject_FindAllocatedByTag(1) == 0) {
                     D_8009B174 &= 0xDF;
                     return;
                 }

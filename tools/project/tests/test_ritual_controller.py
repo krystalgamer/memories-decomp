@@ -172,7 +172,7 @@ u8 *func_80017F04(DuelCardRecord *p, s32 x, s32 y)
     return (u8 *)&choice_object;
 }
 void func_8001EC70(u8 *p) { event(26, object_id(p), 0, 0, 0); }
-void *func_80042B40(s32 id)
+void *DisplayObject_FindAllocatedByTag(s32 id)
 {
     event(19, id, 0, 0, 0);
     return busy ? &main_object : 0;

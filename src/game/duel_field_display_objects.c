@@ -378,7 +378,7 @@ s32 func_800235C0(void)
         }
         if (D_8009B162 & 0x4000) {
             busy = 1;
-            if (func_80042B40(1) != 0) {
+            if (DisplayObject_FindAllocatedByTag(1) != 0) {
                 return busy;
             }
             D_8009B162 &= 0xBFFF;

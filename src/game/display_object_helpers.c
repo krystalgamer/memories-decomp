@@ -218,7 +218,7 @@ s32 DisplayObject_StepTowardZero(s32 value, s32 step)
 #define DISPLAY_OBJECT_FROM_FIELD_6C(field) \
     ((DisplayObject *)((field) - 0x6C))
 
-void *func_80042B40(s32 value)
+void *DisplayObject_FindAllocatedByTag(s32 value)
 {
     u8 *object = (u8 *)D_800EFE48;
     s32 count = DISPLAY_OBJECT_POOL_CAPACITY;

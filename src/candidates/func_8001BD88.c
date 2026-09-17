@@ -262,7 +262,7 @@ void DuelScene_UpdateHandActions(void)
                 return;
             }
             if ((u16)D_8009B20C[0] & 0x4000) {
-                if (func_80042B40(1) == 0) {
+                if (DisplayObject_FindAllocatedByTag(1) == 0) {
                     v = (u16)D_8009B20C[0] & 0x1000;
                     D_8009B20C[0] = (u16)D_8009B20C[0] & 0xBFFF;
                     if (v != 0) {

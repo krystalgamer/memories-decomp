@@ -138,10 +138,10 @@ void func_80020EE8(DuelCardDisplayObject *object)
      2  spawn the seven confetti sprites from the D_80090928 (real opponent)
         or D_80090960 (no opponent) table row for the winning side, each on
         func_80020D4C with a random radius and orbit key, and remember them
-        in the gDuel_awRitualData slot table; then wait for func_80042B40.
+        in the gDuel_awRitualData slot table; then wait for DisplayObject_FindAllocatedByTag.
      3  hold for 0x258 frames or until the player presses one of the 0xE0
         buttons, then retarget every spawned sprite at func_80020EE8 so it
-        flies off, and wait for func_80042B40 again.
+        flies off, and wait for DisplayObject_FindAllocatedByTag again.
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
@@ -277,7 +277,7 @@ void DuelScene_UpdateResultOutro(void)
                 D_8009B134_abs) {
                 return;
             }
-            if (func_80042B40(1) == 0) {
+            if (DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B174 = 3;
             }
         }
@@ -307,7 +307,7 @@ void DuelScene_UpdateResultOutro(void)
                 }
             }
         } else {
-            if (func_80042B40(1) == 0) {
+            if (DisplayObject_FindAllocatedByTag(1) == 0) {
                 D_8009B174 = 4;
             }
         }

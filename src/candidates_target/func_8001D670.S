@@ -265,7 +265,7 @@ glabel DuelScene_UpdateFieldActions
     /* E234 8001DA34 DA760008 */  j          .L8001DB68
     /* E238 8001DA38 02000224 */   addiu     $v0, $zero, 0x2
   .L8001DA3C:
-    /* E23C 8001DA3C D00A010C */  jal        func_80042B40
+    /* E23C 8001DA3C D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* E240 8001DA40 0F000424 */   addiu     $a0, $zero, 0xF
     /* E244 8001DA44 7F044014 */  bnez       $v0, .L8001EC44
     /* E248 8001DA48 00000000 */   nop
@@ -320,7 +320,7 @@ glabel DuelScene_UpdateFieldActions
   .L8001DB04:
     /* E304 8001DB04 05004010 */  beqz       $v0, .L8001DB1C
     /* E308 8001DB08 00000000 */   nop
-    /* E30C 8001DB0C D00A010C */  jal        func_80042B40
+    /* E30C 8001DB0C D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* E310 8001DB10 0F000424 */   addiu     $a0, $zero, 0xF
     /* E314 8001DB14 4B044014 */  bnez       $v0, .L8001EC44
     /* E318 8001DB18 00000000 */   nop
@@ -352,7 +352,7 @@ glabel DuelScene_UpdateFieldActions
   .L8001DB74:
     /* E374 8001DB74 1900A0A2 */  sb         $zero, 0x19($s5)
   .L8001DB78:
-    /* E378 8001DB78 D00A010C */  jal        func_80042B40
+    /* E378 8001DB78 D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* E37C 8001DB7C 0F000424 */   addiu     $a0, $zero, 0xF
     /* E380 8001DB80 30044014 */  bnez       $v0, .L8001EC44
     /* E384 8001DB84 00000000 */   nop
@@ -1199,7 +1199,7 @@ glabel DuelScene_UpdateFieldActions
     /* F010 8001E810 00000000 */  nop
     /* F014 8001E814 07004010 */  beqz       $v0, .L8001E834
     /* F018 8001E818 20006230 */   andi      $v0, $v1, 0x20
-    /* F01C 8001E81C D00A010C */  jal        func_80042B40
+    /* F01C 8001E81C D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* F020 8001E820 01000424 */   addiu     $a0, $zero, 0x1
     /* F024 8001E824 40004010 */  beqz       $v0, .L8001E928
     /* F028 8001E828 00000000 */   nop
@@ -1235,7 +1235,7 @@ glabel DuelScene_UpdateFieldActions
     /* F090 8001E890 00B322AC */  sw         $v0, %lo(D_8009B300)($at)
     /* F094 8001E894 EB004314 */  bne        $v0, $v1, .L8001EC44
     /* F098 8001E898 00000000 */   nop
-    /* F09C 8001E89C D00A010C */  jal        func_80042B40
+    /* F09C 8001E89C D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* F0A0 8001E8A0 01000424 */   addiu     $a0, $zero, 0x1
     /* F0A4 8001E8A4 E7004014 */  bnez       $v0, .L8001EC44
     /* F0A8 8001E8A8 00000000 */   nop

@@ -359,7 +359,7 @@ glabel DuelScene_UpdateHandActions
   .L8001C2A4:
     /* CAA4 8001C2A4 2C004010 */  beqz       $v0, .L8001C358
     /* CAA8 8001C2A8 00206230 */   andi      $v0, $v1, 0x2000
-    /* CAAC 8001C2AC D00A010C */  jal        func_80042B40
+    /* CAAC 8001C2AC D00A010C */  jal        DisplayObject_FindAllocatedByTag
     /* CAB0 8001C2B0 01000424 */   addiu     $a0, $zero, 0x1
     /* CAB4 8001C2B4 D9034014 */  bnez       $v0, .L8001D21C
     /* CAB8 8001C2B8 00000000 */   nop

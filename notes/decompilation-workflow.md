@@ -626,7 +626,7 @@ the word-copy view remains exactly the size of `FileTransferDescriptor`.
 
 An API-shaped header still is not an owner when it combines unrelated
 translation units. The old `display_object_api.h` mixed eight functions from
-`display_object_core.c` with `func_80042B40` from
+`display_object_core.c` with `DisplayObject_FindAllocatedByTag` from
 `display_object_helpers.c`. Those declarations now live in
 `display_object_core.h` and `display_object_helpers.h`, and callers include
 only the owner or owners they use.
