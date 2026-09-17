@@ -197,7 +197,7 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *p)
     if (mutation == 3) { gInput_wPad1Pressed = 0x80; gDialog_bChoice = -1; }
     return choice_result;
 }
-void TextBox_Destroy(void *p)
+void TextBox_Destroy(struct DuelEffectChannel *p)
 {
     event(23, p == D_800EB0F8, 0, 0, 0);
     if (mutation == 4) D_8009B210 = 0x1C4;
