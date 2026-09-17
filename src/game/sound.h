@@ -853,10 +853,10 @@ s32 SD_GetSequenceStatus(void);
 
 /* Opens a tagged secondary sequence against a VAB id if no sequence is
  * already open, like libsnd's SsSeqOpen: 0 is the access number the stop and
- * close steps are later handed, -1 a refusal. The definition uses void * for
- * the input and returns a full s32 status; the command pump stores that
- * status into its signed halfword field. */
-s32 SD_OpenSequence(void *input, s16 vab_id);
+ * close steps are later handed, -1 a refusal. The input is retained as the
+ * secondary state's u8 sequence cursor and the function returns a full s32
+ * status; the command pump stores that status into its signed halfword field. */
+s32 SD_OpenSequence(u8 *input, s16 vab_id);
 
 /* SD_PollSequenceState reports the secondary path's state halfword,
    field_07E2, promoting a SD_GetSequenceStatus of 3 into it on the way.
