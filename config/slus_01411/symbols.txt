@@ -473,6 +473,7 @@ DisplayObject_MoveToListHead = 0x800402A0; // type:func
 DisplayObject_ResetPool = 0x80040390; // type:func
 DisplayObject_Reset = 0x800403F0; // type:func
 DisplayObject_ConfigureSpriteWithResource = 0x80042874; // type:func
+DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8; // type:func
 DisplayObject_SetDepthOffset = 0x800428EC; // type:func
 DisplayObject_SelectOrderingTable1 = 0x80042918; // type:func
 DisplayObject_SelectOrderingTable3 = 0x8004293C; // type:func

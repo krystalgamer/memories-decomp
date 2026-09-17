@@ -655,7 +655,7 @@ address,size,name,status,module,notes
 0x800427DC,0x48,func_800427DC,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8. The complete eighteen-function helper object is byte-identical under g8_split and now begins the unified utility/lifecycle unit.
 0x80042824,0x50,func_80042824,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80042874,0x34,DisplayObject_ConfigureSpriteWithResource,matching_c,game,Stores the resource pointer at field_54 and applies the supplied selector color and texture configuration; exact match.
-0x800428A8,0x44,func_800428A8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x800428A8,0x44,DisplayObject_ConfigureSpriteAtPositionWithResource,matching_c,game,"Stores the resource pointer at field_54 and applies the supplied position, selector, color, and texture configuration; exact match."
 0x800428EC,0x2C,DisplayObject_SetDepthOffset,matching_c,game,Stores the signed ordering-depth offset and recomputes field_14 from the selected ordering-table base; exact linked bytes and relocations.
 0x80042918,0x24,DisplayObject_SelectOrderingTable1,matching_c,game,Selects ordering-table slot 1 and recomputes the effective depth from its base minus the stored depth offset; exact match.
 0x8004293C,0x24,DisplayObject_SelectOrderingTable3,matching_c,game,Selects ordering-table slot 3 and recomputes the effective depth from its base minus the stored depth offset; exact match.

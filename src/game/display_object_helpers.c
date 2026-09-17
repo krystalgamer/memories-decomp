@@ -65,8 +65,8 @@ void DisplayObject_ConfigureSpriteWithResource(
     DisplayObject_ConfigureSpriteResource(object, arg1, arg2, arg3, arg4, arg5);
 }
 
-void func_800428A8(
-    void *object,
+void DisplayObject_ConfigureSpriteAtPositionWithResource(
+    DisplayObject *object,
     s32 arg1,
     s32 arg2,
     s32 arg3,
@@ -77,7 +77,7 @@ void func_800428A8(
     void *resource
 )
 {
-    ((DisplayObjectResource *)object)->resource = resource;
+    object->field_54 = resource;
     DisplayObject_ConfigureSpriteAtPosition(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 

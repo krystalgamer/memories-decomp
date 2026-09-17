@@ -25,7 +25,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
 
     if (a != (DisplayObject *)0) {
         x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800428A8(x, 0, 0, 0, 0, a->field_69, a->field_66, 0x20D,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, a->field_69, a->field_66, 0x20D,
                       D_801AF000);
         x->attribute = a->attribute;
         DisplayObject_SetDepthOffset(x, -1);
@@ -39,7 +39,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     b->attribute = b->attribute & ~GsROTOFF;
 
     y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    func_800428A8(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(y, 0, 0, 0, 0, b->field_69, b->field_66, 0x20D, D_801AF000);
     y->attribute = b->attribute;
     DisplayObject_SetDepthOffset(y, -1);
     y->flags = y->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

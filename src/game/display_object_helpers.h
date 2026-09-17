@@ -7,11 +7,6 @@
 
 typedef struct {
     u8 pad_00[0x54];
-    void *resource;
-} DisplayObjectResource;
-
-typedef struct {
-    u8 pad_00[0x54];
     u8 *base;
 } DisplayObjectStream;
 
@@ -79,13 +74,23 @@ void DisplayObject_ConfigureSpriteWithResource(
     s32 arg5,
     void *resource
 );
-/* arg8 is a resource pointer, not an integer. Every caller passes one -- the
+/* resource is a pointer, not an integer. Every caller passes one -- the
    overlays pass D_801AF000 / D_801AF800, the resident callers pass a spec or
    table address -- and the function stores it straight into the object's
    0x54 word, which DisplayObject already declares void *.
    DisplayObject_ConfigureSpriteWithResource just above does the same job
    through the canonical record. */
-void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, void *resource );
+void DisplayObject_ConfigureSpriteAtPositionWithResource(
+    DisplayObject *object,
+    s32 arg1,
+    s32 arg2,
+    s32 arg3,
+    s32 arg4,
+    s32 arg5,
+    s32 arg6,
+    s32 arg7,
+    void *resource
+);
 /* Stores the object's depth order and returns its resulting ordering-table
  * depth. It takes the canonical record: it reads ot_index and writes
  * field_16 and field_14, and two thirds of its call sites were already

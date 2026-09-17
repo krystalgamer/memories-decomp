@@ -9,6 +9,7 @@ DisplayObject_AcquireSlot = 0x800400AC;
 DisplayObject_ReleaseIfPresent = 0x8004036C;
 DisplayObject_ConfigureScreenSprite = 0x80040510;
 DisplayObject_UpdateCommandStream = 0x80041D60;
+DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8;
 DisplayObject_SetDepthOffset = 0x800428EC;
 DisplayObject_ResetVelocity = 0x800429D8;
 DisplayObject_StepPositionXY = 0x80042A78;

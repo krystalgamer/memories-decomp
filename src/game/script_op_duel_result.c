@@ -60,7 +60,7 @@ void Script_OpDuelResult(void) {
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
         four = 4;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        func_800428A8(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
         DisplayObject_SetDepthOffset(o, 1);
         o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;

@@ -82,7 +82,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     D_801845A4 = object;
     if (object != 0) {
-        func_800428A8(object, 0, 0xA, 6, 0, 0, 0xE, 5, D_801AF800);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0xA, 6, 0, 0, 0xE, 5, D_801AF800);
         D_801845A4->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SetDepthOffset(D_801845A4, -1);

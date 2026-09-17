@@ -113,7 +113,7 @@ are both established, and both are now matching C: the consumer is
    Only `0x28` — which is `0x20 | 0x08` — depends on the open bit.
 
    `DisplayObject_ConfigureSpriteResource` — the configurator reached through `DisplayObject_ConfigureSpriteAtPosition` and
-   `func_800428A8` — clears `0x20` from the flag word at `+8` and then sets it
+   `DisplayObject_ConfigureSpriteAtPositionWithResource` — clears `0x20` from the flag word at `+8` and then sets it
    again only when the texture argument has bit `0x8000`:
 
    ```c
@@ -151,7 +151,7 @@ are both established, and both are now matching C: the consumer is
 
    Worth recording alongside that: the overlay `|= 0x28` writes are **not**
    redundant with the configurator, they override it. In `FreeDuel_Init` the
-   preceding `func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000)` passes
+   preceding `DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000)` passes
    texture `0`, so the configurator has just *cleared* `0x20`; the overlay
    then forces it back on. Those callers are therefore opting into the cell
    offset for objects whose texture argument did not request it.

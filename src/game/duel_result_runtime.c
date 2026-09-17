@@ -85,7 +85,7 @@ void func_80020D4C(DisplayObject *arg0) {
     if (D_8009B0CC & 1) {
         slot = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         if (slot != 0) {
-            func_800428A8(slot, (s16)arg0->field_30.h.field_30,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(slot, (s16)arg0->field_30.h.field_30,
                                    (s16)arg0->field_30.h.field_32, 0,
                                    arg0->field_68, arg0->field_69, 0x11, 9,
                                    D_801AF000);
@@ -250,7 +250,7 @@ void DuelScene_UpdateResultOutro(void)
                 slots[i].object = 0;
                 if (spec->kind != 0) {
                     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-                    func_800428A8(obj, spec->x, spec->y, 0,
+                    DisplayObject_ConfigureSpriteAtPositionWithResource(obj, spec->x, spec->y, 0,
                                   gDuel_bWinnerSide, spec->kind, 0x11, 9,
                                   D_801AF000);
                     if (obj->field_69 >= 0x1A) {

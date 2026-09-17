@@ -11,6 +11,7 @@ DisplayObject_AcquireSlot = 0x800400AC;
 DisplayObject_ReleaseIfPresent = 0x8004036C;
 DisplayObject_SetResourceVariant = 0x80040410;
 DisplayObject_ConfigureSpriteAtPosition = 0x800404CC;
+DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8;
 DisplayObject_SetDepthOffset = 0x800428EC;
 DisplayObject_SelectOrderingTable1 = 0x80042918;
 GsSortPoly = 0x80084320;
