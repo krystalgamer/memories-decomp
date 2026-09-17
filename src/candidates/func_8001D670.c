@@ -80,6 +80,7 @@
 #include "../game/input.h"
 #include "../game/sorted_entry.h"
 #include "../game/sound.h"
+#include "../game/duel_card_state_helpers.h"
 #include "../unmatched.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -102,7 +103,6 @@ void func_8001D3C4(DisplayObject *o);
 DisplayObject *func_8001D518(DisplayObject *source);
 s32 func_8001D5B4(DuelFieldCursor *cursor);
 s32 func_80020988(void);
-void func_80028220(void);
 
 void DuelScene_UpdateFieldActions(void)
 {

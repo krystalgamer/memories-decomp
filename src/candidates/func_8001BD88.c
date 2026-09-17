@@ -87,6 +87,7 @@
 #include "../game/ai.h"
 #include "../game/script_state.h"
 #include "../game/sound.h"
+#include "../game/duel_card_state_helpers.h"
 #include "../unmatched.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -100,7 +101,6 @@ extern s8 D_8009B20A;
 
 void func_8001B938(DuelSelectionRecord *selection);
 void func_8001BAF0(void);
-void func_80028220(void);
 
 void DuelScene_UpdateHandActions(void)
 {
