@@ -25,7 +25,7 @@ void func_8002C938(u32 *output, s32 alternate)
     *output = 0;
 }
 
-void func_8002C9B4(u32 *output, s32 selector)
+void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
 {
     DuelCardRecord *entry;
     s32 base;

@@ -15,7 +15,7 @@ base-relative views of the same records, without claiming a new allocation.
 The generated `notes/global-usage.csv` snapshot lists matching-C and
 assembly users; filter it on global address `0x801A7AD8`. The
 typed-migration inventory below separately records which matching sources
-have adopted the shared declaration. `func_8002C9B4` now uses the shared
+have adopted the shared declaration. `Duel_CollectMatchingFieldCardObjects` now uses the shared
 typed C declarations directly, including the `D_801A7B64` interior alias.
 The generated report may predate a promotion until it is regenerated.
 
@@ -334,7 +334,7 @@ extern:
 `Duel_FindFreeFieldSlot`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
 `func_8002778C`, `func_800278A0`, `func_80027DF8`, `func_8002C938`, and
-`func_8002C9B4`.
+`Duel_CollectMatchingFieldCardObjects`.
 
 Raw local views retained for exact code generation:
 
@@ -363,18 +363,81 @@ Any matching-C report user not listed in the typed inventory above still
 retains a local or raw record view. Derive that changing set from
 `notes/global-usage.csv` rather than duplicating it here.
 
-`func_8002C9B4` replaces the former inline-assembly implementation with
-matching C and the shared `DuelCardRecord` view. Its negative-selector path
-retains `D_801A7B64` for the original two-side traversal and relocation;
-this is an interior view of the existing table, not another allocation.
+`Duel_CollectMatchingFieldCardObjects` replaces the former inline-assembly
+implementation with matching C and the shared `DuelCardRecord` view. Its
+negative-selector path retains `D_801A7B64` for the original two-side
+traversal and relocation; this is an interior view of the existing table, not
+another allocation.
 
 The output is a zero-terminated list of object addresses in `u32` words.
 A negative selector can append two occupied cards per iteration across ten
 field zones, so the maximum is **21 words including the terminator**.
 Other selectors inspect one five-card row, so their maximum is **six words
-including the terminator**. The function has no capacity argument. No tracked
-caller is currently present, so these bounds specify required worst-case
-capacity, not a verified size for an existing caller's allocation.
+including the terminator**. The function has no capacity argument.
+
+## Which row the two object collectors read
+
+Both collectors in `src/game/func_8002C938.c` start from
+`D_8009B1D5 ? 5 : 20`, which is the opposite side's block, not the selecting
+side's: `D_800907CC` in `src/game/duel_field_layout.c` maps the two hands to
+records `{0..4}` and `{15..19}`, and `D_800907D8` paired with `D_80090800`
+place records 5-9 and 20-24 on the row at `|y| = 95` and records 10-14 and
+25-29 on the row at `|y| = 161` behind it. So records 5-9 belong to side 0
+and 20-24 to side 1, and selecting `5` when `D_8009B1D5` is `1` reads side 0.
+`Duel_CollectFieldCardsByType` scales the same table by
+`D_8009B1D5 * DUEL_CARD_SIDE_RECORD_COUNT` and its `Duel_SelectEquipPair`
+caller asks for equip cards at offset 0 and any card at offset 5, which is
+the selecting side's own hand and own front row; the two object collectors
+omit that scale, so they read the other side.
+
+`func_8002C938`'s second argument adds another `DUEL_FIELD_ROW_SIZE`, moving
+it from that front row to the `|y| = 161` row behind it.
+
+## The traced overlay caller
+
+The duel overlay is not split into this project, so `WA_MRG.MRG` is the only
+record of the callers. Two overlay functions call this one, at file offsets
+`0xBB3B18` and `0xBBBE84`, which are addresses `0x80150B18` and `0x80158E84`:
+the `j 0x150bec` at file offset `0xBB3BD8` lands on file offset `0xBB3BEC`,
+which fixes the image base at `0x7F59D000`. Both sets of call sites repeat at
+six further offsets, once per language image, for the 21 `jal` sites the file
+holds.
+
+The first caller takes a record pointer and a second argument it rejects
+unless it is below 8, then indexes an eight-entry table at `0x8015ACD4` whose
+entries are `{u8, u8, u8, u8 pad, s32 selector}`:
+
+| Index | First three bytes | Selector |
+|---:|---|---:|
+| 0 | `ff 40 00` | 3 |
+| 1 | `ff 00 ff` | 2 |
+| 2 | `60 60 ff` | 14 |
+| 3 | `ff 00 00` | 1500 |
+| 4 | `20 ff 20` | 9 |
+| 5 | `ff ff ff` | 18 |
+| 6 | `ff ff 60` | 12 |
+| 7 | `ff 70 70` | 999 |
+
+Selectors 3, 2, 14, 9, 18 and 12 are `card_constants.h`'s
+`CARD_TYPE_WARRIOR`, `CARD_TYPE_ZOMBIE`, `CARD_TYPE_MACHINE`,
+`CARD_TYPE_INSECT`, `CARD_TYPE_ROCK` and `CARD_TYPE_FISH`; 1500 is above
+`CARD_TYPE_MAGIC`, so it takes the attack comparison instead. The caller
+passes the selector to `Duel_CollectMatchingFieldCardObjects` with the fixed
+output buffer `0x8015B838` and then counts the result by walking it to the
+terminator, but it diverts the `999` entry to `func_8002C938` with a nonzero
+second argument, so that entry reads the row behind the front row unfiltered
+rather than filtering on an attack of 999.
+
+The second caller rejects a second argument that is not below 2, indexes a
+two-entry 16-byte-stride table at `0x8015B7A8`, and branches on the halfword
+at that entry's `+0x0E`, which is `0` in the first entry and `1` in the
+second: zero calls this function with selector `-1` and nonzero calls it with
+selector `0`. So the negative both-sides path does have a traced caller, and
+both callers share the one output buffer.
+
+That buffer's capacity is consistent with the 21-word worst case. From
+`0x8015B838` the overlay image is zero for `0x58` bytes, up to the next
+initialised data at `0x8015B890`, which is 22 words.
 
 ## Current assembly users
 

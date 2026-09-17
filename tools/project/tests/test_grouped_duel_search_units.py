@@ -54,7 +54,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         object_source = (ROOT / "src/game/func_8002C938.c").read_text()
         self.assertLess(
             object_source.index("void func_8002C938("),
-            object_source.index("void func_8002C9B4("),
+            object_source.index("void Duel_CollectMatchingFieldCardObjects("),
         )
 
         pool_source = (ROOT / "src/game/duel_effect_object_pool.c").read_text()

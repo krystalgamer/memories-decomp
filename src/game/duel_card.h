@@ -65,21 +65,24 @@ extern DuelCardRecord D_801A7AD8[];
 
 /* The same table, entered five records in: 0x801A7B64 is 0x8C past
  * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
- * &D_801A7AD8[5]. func_8002C9B4 retains this alias for its two-side
- * traversal and the original relocation. func_8002C938 selects its row
- * through D_801A7AD8 instead. */
+ * &D_801A7AD8[5]. Duel_CollectMatchingFieldCardObjects retains this alias
+ * for its two-side traversal and the original relocation. func_8002C938
+ * selects its row through D_801A7AD8 instead. */
 extern DuelCardRecord D_801A7B64[];
 
 void func_8002C938(u32 *output, s32 alternate);
 /* Writes a zero-terminated list of occupied cards' object addresses.
- * Negative selectors scan both sides. Other selectors scan a side-dependent
- * row: 0..20 match the object's 0x68 byte, and 21+ require at least that
- * attack value from the low half of Duel_CalcCardStats.
+ * Negative selectors scan both sides. Other selectors scan the front row of
+ * the side D_8009B1D5 does not select: 0..20 match the object's 0x68 card
+ * type byte, and 21+ require at least that attack value from the low half of
+ * Duel_CalcCardStats.
  * The caller must provide at least 21 u32 words for a negative selector
  * (20 addresses plus the terminator), or six words otherwise (five plus the
- * terminator). There is no capacity argument and no tracked caller currently
- * establishes a concrete output allocation. */
-void func_8002C9B4(u32 *output, s32 selector);
+ * terminator). There is no capacity argument. Both traced callers live in the
+ * unsplit duel overlay and share one fixed output buffer at 0x8015B838, whose
+ * 0x58 zero bytes of room match that 21-word worst case;
+ * notes/duel-card-record.md records them. */
+void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector);
 
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card
