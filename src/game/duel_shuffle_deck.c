@@ -88,8 +88,6 @@ void Duel_ShuffleDeck(s32 src, u8 *out16, u8 *out8) {
     }
 }
 
-extern char gDuel_awPlayerShuffledDeck[];
-
 void Duel_ShuffleBothDecks(void *arg0, void *arg1)
 {
     char *base = gDuel_awPlayerShuffledDeck;
