@@ -55,7 +55,7 @@
 #include "../game/model.h"
 #include "../game/model_load_step.h"
 #include "../game/func_80058DD8.h"
-#include "../game/func_80057AF4.h"
+#include "../game/model_control_slot_animation.h"
 #include "../game/model_copy_slot_u16_values.h"
 #include "../game/func_80059AA8.h"
 #include "../game/model_state_setters.h"
@@ -333,7 +333,7 @@ void func_8002ACA4(u8 *state)
                 func_80059AA8(0, 1);
                 func_80059AE0(0);
             }
-            func_80057AF4(0, 0, 1);
+            Model_ControlSlotAnimation(0, 0, 1);
             func_800597C8(0, 1, 0);
             W(state, 0x20) = 0x12C;
             state[3] = 2;

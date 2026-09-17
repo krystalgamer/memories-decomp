@@ -4,7 +4,7 @@
 #include "model.h"
 #include "func_80058E1C.h"
 #include "model_slot_state_updates.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "model_effect_state.h"
 #include "func_800556E8.h"
 
@@ -81,7 +81,7 @@ void func_800556E8(s32 index) {
                     func_800597C8(index, m->field_BF4, 0);
                     m->field_BF6 = m->field_BF4;
                     if (m->field_E0F != 0) {
-                        func_80057AF4(index, 0, 0);
+                        Model_ControlSlotAnimation(index, 0, 0);
                     }
                     if (m->field_DC0[7] == 6) {
                         func_8005F714(-1, index + 2, m->field_750[2].max);

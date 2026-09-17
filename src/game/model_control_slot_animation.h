@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_80057AF4_H
-#define MEMORIES_DECOMP_FUNC_80057AF4_H
+#ifndef MEMORIES_DECOMP_MODEL_CONTROL_SLOT_ANIMATION_H
+#define MEMORIES_DECOMP_MODEL_CONTROL_SLOT_ANIMATION_H
 
 #include "../types.h"
 
@@ -15,6 +15,6 @@
  *
  * All three callers already spelled it exactly this way, as did the file's own
  * forward declaration. */
-void func_80057AF4(s32 index, s32 anim, s32 flag);
+void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag);
 
 #endif

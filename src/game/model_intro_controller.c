@@ -20,7 +20,7 @@
 #include "model_transfer_state.h"
 #include "model_effect_state.h"
 #include "func_80058E1C.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "func_8005D994.h"
 #include "file_transfer.h"
 #include "high_memory_addresses.h"
@@ -79,7 +79,7 @@ check_ready:
         func_8005F3B8(0, 10000, 0xE00, 0, 0);
         func_800597C8(0, 1, 0);
         if (slot->field_E0F) {
-            func_80057AF4(0, 0, 0);
+            Model_ControlSlotAnimation(0, 0, 0);
         }
         func_80059700(0, 1);
         func_80059590(0, 5, 0, 0, 0);
@@ -314,7 +314,7 @@ void func_80050584(s32 arg0) {
 #include "model_state_setters.h"
 #include "model_slot_properties.h"
 #include "model_effect_requests.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "file_transfer.h"
 #include "file_names.h"
 #include "sound_init.h"
@@ -465,7 +465,7 @@ void func_800507D0(void)
             }
             else
             {
-              func_80057AF4((u8)ACTIVE_SLOT, animation, 1);
+              Model_ControlSlotAnimation((u8)ACTIVE_SLOT, animation, 1);
             }
           }
           goto tick_active_slot;

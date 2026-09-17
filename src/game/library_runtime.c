@@ -15,7 +15,7 @@
 #include "../psyq/rand.h"
 #include "model_slot_queries.h"
 #include "../unmatched.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 #include "library_grid_cursor.h"
 #include "func_8002A2F4.h"
 #include "save_data.h"
@@ -127,7 +127,7 @@ void func_8002BAB4(void)
                     if (rand() & 1) {
                         r = 7;
                     }
-                    func_80057AF4(0, r, 1);
+                    Model_ControlSlotAnimation(0, r, 1);
                 }
             }
         }

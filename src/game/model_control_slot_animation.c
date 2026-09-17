@@ -2,7 +2,7 @@
 #include "model_word_memory.h"
 #include "model.h"
 #include "model_slot_state_updates.h"
-#include "func_80057AF4.h"
+#include "model_control_slot_animation.h"
 
 /* Starts, restores or stops one model slot's part animation.
  *
@@ -16,7 +16,7 @@
  * part bit is found by shifting with the word count while it still holds 3,
  * which is the retail srav/sllv form, and a shared variable would give the
  * word count the slot's callee-saved register. */
-void func_80057AF4(s32 index, s32 anim, s32 flag) {
+void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     ModelSlot *m;
     ModelSlotPart **parts;
     u8 *dst;
@@ -83,7 +83,7 @@ void func_80057AF4(s32 index, s32 anim, s32 flag) {
                 return;
             }
             m->field_BF6 = m->field_BF4;
-            func_80057AF4(index, 0, 0);
+            Model_ControlSlotAnimation(index, 0, 0);
         }
         if (anim == m->field_DFE + 3
             || m->field_DF8 == MODEL_SPECIAL_BATTLE_ID) {

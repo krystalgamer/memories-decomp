@@ -1366,7 +1366,7 @@ glabel func_800540B4
     /* 45BB0 800553B0 06004010 */  beqz       $v0, .L800553CC
     /* 45BB4 800553B4 FFFF0524 */   addiu     $a1, $zero, -0x1
     /* 45BB8 800553B8 C808A48F */  lw         $a0, 0x8C8($sp)
-    /* 45BBC 800553BC BD5E010C */  jal        func_80057AF4
+    /* 45BBC 800553BC BD5E010C */  jal        Model_ControlSlotAnimation
     /* 45BC0 800553C0 21300000 */   addu      $a2, $zero, $zero
     /* 45BC4 800553C4 05550108 */  j          .L80055414
     /* 45BC8 800553C8 00000000 */   nop

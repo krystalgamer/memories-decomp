@@ -44,7 +44,7 @@ WITNESS = r"""
 #include "src/game/model_transfer_state.h"
 #include "src/game/model_effect_state.h"
 #include "src/game/func_80058E1C.h"
-#include "src/game/func_80057AF4.h"
+#include "src/game/model_control_slot_animation.h"
 #include "src/game/func_8005D994.h"
 #include "src/game/file_transfer.h"
 #include "src/game/high_memory_addresses.h"
@@ -215,7 +215,7 @@ void func_80056828(s32 a) { observe(POLL,a,0,0,0,0,0,0,0); }
 void func_8005F3B8(s32 a,s32 b,s32 c,s32 d,SVECTOR *v)
 { observe(EFFECT,a,b,c,d,0,0,0,(const u8 *)v); }
 void func_800597C8(s32 a,s32 b,s32 c) { observe(PENDING,a,b,c,0,0,0,0,0); }
-void func_80057AF4(s32 a,s32 b,s32 c) { observe(ANIMATE,a,b,c,0,0,0,0,0); }
+void Model_ControlSlotAnimation(s32 a,s32 b,s32 c) { observe(ANIMATE,a,b,c,0,0,0,0,0); }
 void func_80059700(s32 a,s32 b) { observe(VELOCITY,a,b,0,0,0,0,0,0); }
 void func_80059590(s32 a,s32 b,s32 c,s32 d,s32 e)
 { observe(PROPERTIES,a,b,c,d,e,0,0,0); }
