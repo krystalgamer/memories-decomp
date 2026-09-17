@@ -5581,7 +5581,7 @@ move and the allocator can put anywhere. So:
 - anything between them, or different registers: split addressing, which means
   an incomplete or oversized array.
 
-It is a per-symbol reading, and one function can want both. `func_800179F4`
+It is a per-symbol reading, and one function can want both. `Duel_InitScene`
 (0x800179F4) wants the macro form for `gDuel_bTerrain`, `gDuel_bOpponentID` and
 `D_8009B369`, and split addressing for `D_800E9FF0`, `D_800EA0E8`,
 `D_800F284A` and `gDuel_awPlayerDeck`. Getting `gDuel_bTerrain` wrong alone was
@@ -5602,7 +5602,7 @@ the address was in a register combine could not fold into, and the reason is
 combine's single-use requirement: it only substitutes the address-forming insn
 into the load when that insn's result has exactly one use.
 
-Spellings that do **not** defeat the fold, all measured on `func_800179F4`: a
+Spellings that do **not** defeat the fold, all measured on `Duel_InitScene`: a
 local pointer assigned in the same block, a cast through `u8 *`, an explicit
 pointer decrement, and a `register` pin on the holder -- the fold happens
 before allocation, so pinning cannot prevent it. A `volatile` pointee does
@@ -5710,7 +5710,7 @@ wrong: GCC fills the load delay slot with whatever is ready, and readiness
 depends on which register the load targets, so the symptom is ordering while
 the cause is allocation.
 
-On `func_800179F4` retail's tail is
+On `Duel_InitScene` retail's tail is
 
     lui   $v0, %hi(func_800164FC)
     lw    $v1, %gp_rel(D_8009B21C)
@@ -5832,7 +5832,7 @@ Two things make this worth generalising:
 So when a residual is entirely register names and the multiset is identical,
 enumerate the spellings that change a local's reference count by one in each
 direction before concluding the allocator is out of reach. On this function the
-`%hi`-coalescing lever from `func_800179F4`, a `section(".data")` attribute in
+`%hi`-coalescing lever from `Duel_InitScene`, a `section(".data")` attribute in
 three forms, register pins on three locals, five statement placements, all
 twenty-four declaration orders and every profile were all measured first and
 all left it at 8.
@@ -7028,9 +7028,9 @@ rest from whatever the registers happen to hold. `DisplayObject_ReleaseIfPresent
 in the caller that produces it.
 
     Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_load_terrain_package.c
-    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in func_800179F4.c
+    Duel_LoadPackageStage  def 2 (duel_load_package_stage.c)  <-  decl 0 in duel_init_scene.c
     func_80013154          def 1 (main_services.c)  <-  decl 0 in main_init.c
-    func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c
+    func_80017F04          def 3 (duel_init_scene.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
     DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c

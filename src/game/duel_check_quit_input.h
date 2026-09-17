@@ -19,7 +19,7 @@ s32 Duel_CheckQuitInput(void);
  *         with 0x80 set it waits for the box, destroys it, and clears the
  *         byte back to 0.
  *
- * func_800179F4 clears it when a duel starts, in the same run of assignments
+ * Duel_InitScene clears it when a duel starts, in the same run of assignments
  * that resets the rest of the duel state.
  *
  * These three are the only accessors in the image, assembly included.
@@ -32,7 +32,7 @@ extern u8 gDuel_bQuitDialogState;
  *
  * DuelScene_Update raises 0x2000 here at the point it clears
  * gDuel_bQuitDialogState above -- that is the quit result -- and Main_RunDuel
- * reads exactly that bit back. func_800179F4 clears the word when the duel
+ * reads exactly that bit back. Duel_InitScene clears the word when the duel
  * starts, in the same run of assignments that clears the quit state, and
  * raises 0x1000 there for its own reason.
  *

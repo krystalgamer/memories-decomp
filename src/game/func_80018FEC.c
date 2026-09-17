@@ -30,7 +30,7 @@
 #include "../game/display_object_helpers.h"
 #define D_8009B214_AS_BYTE_POINTER
 #define D_8009B21C_AS_BYTE_POINTER
-#include "../game/func_800179F4.h"
+#include "../game/duel_init_scene.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../game/duel_effect.h"

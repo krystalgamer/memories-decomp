@@ -13,7 +13,7 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
   on the target, preserving GP-relative indexed access. Default consumers keep
   their scalar names. Native fixtures must allocate a real pointer pair and
   map the second scalar identity to its second element.
-- `func_800179F4` selects the two `0x1000`-byte windows beginning at
+- `Duel_InitScene` selects the two `0x1000`-byte windows beginning at
   `D_801D1200` in the no-opponent path, or the persistent state base in the
   normal path. `SaveDataState` already covers the required `0x5E4`-byte
   prefix. Its former four-byte padding at `+0x518` is now two `u16`

@@ -167,7 +167,7 @@ extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 
 /* 0x801D1200. Five functions in four units take its address and nothing
- * else: func_800179F4 (src/candidates/func_800179F4.c, `pool =
+ * else: Duel_InitScene (src/candidates/duel_init_scene.c, `pool =
  * D_801D1200;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
  * (save_data_transfer_runtime.c as the first argument to MemCardDialog_Request
  * and through SaveDataState casts, the second at
@@ -177,7 +177,7 @@ extern u8 gSaveData_aHeaderTemplate[];
  * (src/overlays/main_menu/trade_inventory.c:41, `+ slot * 0x1000`) and
  * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c, through
  * its 16-byte block view, cast at the use). The
- * resident listings form the address with lui/addiu (func_800179F4.s:226-227,
+ * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,
  * func_8003FD14.s:22-23, func_8003F8D4.s:115-116 and :136-137) and say
  * nothing about the object's width. c_symbols.ld names D_801D160C (+0x40C)
  * and D_801D1880 (+0x680) inside it, and the Block16 indexes above reach

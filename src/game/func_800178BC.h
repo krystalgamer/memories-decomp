@@ -12,7 +12,7 @@
  * D_8009B200 and D_8009B202 receive the projected X/Y offsets from the
  * 0xA0/0x6C screen centre.
  *
- * func_800179F4 (src/candidates/func_800179F4.c) is the only consumer and
+ * Duel_InitScene (src/candidates/duel_init_scene.c) is the only consumer and
  * reached it through a local extern that already agreed with this. */
 void func_800178BC(void);
 extern s16 D_8009B200;

@@ -4,7 +4,7 @@
 #define DUEL_TERRAIN_SCALAR_IN_DATA
 #include "../types.h"
 #include "duel_effect_allocate_request.h"
-#include "func_800179F4.h"
+#include "duel_init_scene.h"
 #include "duel_terrain_boost.h"
 #include "duel_side_state.h"
 #include "duel_effect_request.h"

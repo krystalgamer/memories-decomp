@@ -33,7 +33,7 @@
 #include "duel_draw_card_output_position.h"
 #include "func_80016778.h"
 #include "../unmatched.h"
-#include "func_800179F4.h"
+#include "duel_init_scene.h"
 #include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
 #include "func_80029574.h"
@@ -46,7 +46,7 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
-void func_800179F4(void)
+void Duel_InitScene(void)
 {
     DisplayObject *obj;
     u8 *p;

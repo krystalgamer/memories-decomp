@@ -39,7 +39,7 @@
 #include "../game/file_transfer.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_action_lock.h"
-#include "../game/func_800179F4.h"
+#include "../game/duel_init_scene.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_card.h"
 #include "../game/display_object.h"

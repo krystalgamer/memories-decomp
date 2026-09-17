@@ -8,7 +8,7 @@
  * byte order list, and the byte lists sit below the halfword base at -0x54
  * and -0x2C.
  *
- * func_800179F4 declared this `(u8 *, u8 *)` while the definition takes
+ * Duel_InitScene declared this `(u8 *, u8 *)` while the definition takes
  * `(void *, void *)`; nothing compared the two. */
 void Duel_ShuffleBothDecks(void *arg0, void *arg1);
 

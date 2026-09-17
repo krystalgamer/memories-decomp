@@ -2,7 +2,7 @@
 #define MAIN_MODE_STATE_NEXT_AS_SCALAR
 #define MAIN_MODE_STATE_ACTIVE_AS_SCALAR
 #include "../types.h"
-#include "func_800179F4.h"
+#include "duel_init_scene.h"
 #include "graphics_frame.h"
 #include "func_800339D0.h"
 #include "save_data.h"

@@ -922,7 +922,7 @@ them agree.
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
 | `src/game/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `src/game/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/game/duel_init_scene.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
 | `src/game/main_run_duel.c` | `extern u16 D_8009B16C` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 

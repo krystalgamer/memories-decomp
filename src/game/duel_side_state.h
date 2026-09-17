@@ -146,16 +146,16 @@ extern u8 D_8009B229;
  * same halfword under the other sign. Initial value not read. */
 extern s16 D_8009B22A;
 
-/* Assigned in two units and read by no C statement: func_800179F4 writes
+/* Assigned in two units and read by no C statement: Duel_InitScene writes
  * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];`
- * (src/candidates/func_800179F4.c:136-137) and
+ * (src/candidates/duel_init_scene.c:136-137) and
  * DuelScene_UpdateTurnSwitch writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
  * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
  * under the arm both units take (duel_grid.h:63) and 20 is
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT (duel_grid.h:9); duel_scene_turn_switch.c used to
  * write `void *` for the same address, and no prototype takes &D_8009B22C.
- * Both stores are gp-relative sw (func_800179F4.s:128, DuelScene_UpdateTurnSwitch.s:46),
+ * Both stores are gp-relative sw (Duel_InitScene.s:128, DuelScene_UpdateTurnSwitch.s:46),
  * so this is the plain declaration. Initial value not read. */
 extern u8 *D_8009B22C;
 
@@ -244,7 +244,7 @@ extern s8 D_8009B360;
 extern u8 gDuel_bWinnerSide;
 
 /* The outro's own copy of the winning side, and the only one of these that
- * carries a "not set" state. func_800179F4 clears it to -1 when the duel
+ * carries a "not set" state. Duel_InitScene clears it to -1 when the duel
  * starts, DuelScene_UpdateResultOutro writes the winner alongside D_8009B362 when the
  * result sequence begins, and duel_scene_update.c reads it as an override:
  * it takes D_8009B1D5 and replaces it with this value only when the test
@@ -294,17 +294,17 @@ extern u8 D_8009B368 __attribute__((section(".data")));
 extern u8 D_8009B368;
 #endif
 
-/* A byte the duel setup clears and func_800179F4 tests against 1.
+/* A byte the duel setup clears and Duel_InitScene tests against 1.
  * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
- * DuelScene_UpdateBattle (still assembly) stores it too. func_800179F4 skips two
+ * DuelScene_UpdateBattle (still assembly) stores it too. Duel_InitScene skips two
  * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
  * lbu and every declarer said u8. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp.
- * src/candidates/func_800179F4.c and src/game/main_run_duel.c reach
+ * src/candidates/duel_init_scene.c and src/game/main_run_duel.c reach
  * other symbols through $gp, so they define the .data arm below;
  * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
  * small data and take the plain byte. src/candidates/func_80018FEC.c also
@@ -337,13 +337,13 @@ extern u16 gDuel_wBgmId;
  * written more than once -- and then, as its last statement, assigns
  * `D_8009B1C8 = &D_800E9FF0[D_8009B1D5];` (duel_state_init.c:62;
  * Duel_InitSideStates.s:85). It does not touch D_8009B22C: that store is in its
- * only caller, src/candidates/func_800179F4.c:136, after the call at :112.
+ * only caller, src/candidates/duel_init_scene.c:136, after the call at :112.
  *
  * Declared here because that last statement is the assignment this header
  * already describes: the note on D_8009B1C8 says four translation units
  * assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and this is
- * one of them. func_800179F4 (src/candidates/func_800179F4.c) is the only
- * caller, and its old func_800179F4.c had the only declaration. */
+ * one of them. Duel_InitScene (src/candidates/duel_init_scene.c) is the only
+ * caller, and its old duel_init_scene.c had the only declaration. */
 void Duel_InitSideStates(void);
 
 #endif

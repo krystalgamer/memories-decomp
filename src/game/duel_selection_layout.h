@@ -183,8 +183,8 @@ extern DuelCardPickCursor *D_8009B1B4;
  * Declared here because this header owns everything it touches: D_800E9F10
  * above, DuelSelectionRecord, which the walk now names those fields through,
  * and the three size constants it is written in terms of.
- * func_800179F4 (src/candidates/func_800179F4.c) is the only caller, and
- * its old func_800179F4.c held the only declaration. */
+ * Duel_InitScene (src/candidates/duel_init_scene.c) is the only caller, and
+ * its old duel_init_scene.c held the only declaration. */
 void Duel_InitSelectionRecords(void);
 
 #endif
