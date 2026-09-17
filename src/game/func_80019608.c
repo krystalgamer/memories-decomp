@@ -54,7 +54,7 @@ void DuelScene_UpdateCardUse(void)
             D_8009B1C8->rank.pure_magic_used =
                 D_8009B1C8->rank.pure_magic_used + 1;
         }
-        func_80024914(slot);
+        DuelCard_DeactivateRecord(slot);
         D_8009B174 = 1;
     }
     state = D_8009B174;

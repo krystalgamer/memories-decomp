@@ -9,7 +9,8 @@
  * candidate, calls it with the full-word channel. */
 s32 SD_FindLowestPrioritySecondaryObject(s32 value);
 
-s32 func_8004A8E4(s32 index, s32 value);
+/* Updates the selected object's current channel bookkeeping before reuse. */
+s32 SD_PrepareSecondaryObjectReuse(s32 index, s32 value);
 /* Selects a reusable secondary object for one channel/variant request. */
 s32 SD_SelectSecondaryObject(s32 value, s32 variant);
 

@@ -493,7 +493,7 @@ void DuelScene_UpdateFieldActions(void)
         DisplayObject_SetDepthOffset((DisplayObject *)o, -0xA);
         D_800E9EF0[0] = (DisplayObject *)o;
         d = S(card, 0xC);
-        func_80024914(card);
+        DuelCard_DeactivateRecord(card);
         card = GRID_CARD(s);
         if (a == 0) {
             D_8009B17A = card->flags;
@@ -503,7 +503,7 @@ void DuelScene_UpdateFieldActions(void)
             o = func_80017F04(card, S(card, 8), S(card, 0xA));
             D_800E9EF0[1] = (DisplayObject *)o;
             D_8009B19C = B(o, 0x6A);
-            func_80024914(card);
+            DuelCard_DeactivateRecord(card);
             f = 9;
             if (((gDuel_adwCardStats[d - 1] >> 0x1A) & 0x1F) == 0x17) {
                 D_8009B174 = 8;

@@ -34,7 +34,7 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
     return best;
 }
 
-s32 func_8004A8E4(s32 index, s32 value)
+s32 SD_PrepareSecondaryObjectReuse(s32 index, s32 value)
 {
     SDSecondaryState *state = D_8009B458;
     SDSecondaryObject *object = &state->objects[index];
@@ -78,7 +78,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                     s32 count = state->object_count;
                     do {
                         if (state->objects[i].field_000D == 0) {
-                            return func_8004A8E4(i, (u8)value);
+                            return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
                     } while (i < count);
@@ -91,7 +91,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                         u8 owner = state->objects[i].channel_index;
                         if (owner == (u8)value &&
                             state->objects[i].field_0005 == (u8)variant) {
-                            return func_8004A8E4(i, owner);
+                            return SD_PrepareSecondaryObjectReuse(i, owner);
                         }
                         state = D_8009B458;
                         i++;
@@ -104,7 +104,7 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
                     s32 count = state->object_count;
                     do {
                         if (state->objects[i].field_000D == 0) {
-                            return func_8004A8E4(i, (u8)value);
+                            return SD_PrepareSecondaryObjectReuse(i, (u8)value);
                         }
                         i++;
                     } while (i < count);
@@ -130,5 +130,5 @@ s32 SD_SelectSecondaryObject(s32 value, s32 variant)
     if (best >= 0xFFFF) {
         return -1;
     }
-    return func_8004A8E4(result, (u8)value);
+    return SD_PrepareSecondaryObjectReuse(result, (u8)value);
 }

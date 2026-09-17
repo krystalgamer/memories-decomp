@@ -1268,7 +1268,7 @@ glabel DuelScene_UpdateHandActions
     /* D82C 8001D02C C0200200 */  sll        $a0, $v0, 3
     /* D830 8001D030 23208200 */  subu       $a0, $a0, $v0
     /* D834 8001D034 80200400 */  sll        $a0, $a0, 2
-    /* D838 8001D038 4592000C */  jal        func_80024914
+    /* D838 8001D038 4592000C */  jal        DuelCard_DeactivateRecord
     /* D83C 8001D03C 21209500 */   addu      $a0, $a0, $s5
     /* D840 8001D040 20740008 */  j          .L8001D080
     /* D844 8001D044 00000000 */   nop

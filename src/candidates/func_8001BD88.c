@@ -592,7 +592,7 @@ void DuelScene_UpdateHandActions(void)
                         obj = card->object;
                         i = 1;
                         D_800E9EF0[0] = (DisplayObject *)func_80017F04(card, S(card, 8), S(card, 0xA));
-                        func_80024914(&D_801A7AD8[B(obj, 0x6A)]);
+                        DuelCard_DeactivateRecord(&D_801A7AD8[B(obj, 0x6A)]);
                         goto tally;
                     }
                     j = 1;

@@ -166,6 +166,7 @@ Duel_CheckQuitInput = 0x8001BD48; // type:func
 Duel_ShuffleDeck = 0x800243F4; // type:func
 Duel_ShuffleBothDecks = 0x800245A0; // type:func
 Util_CompareS16 = 0x80024704; // type:func
+DuelCard_DeactivateRecord = 0x80024914; // type:func
 Duel_GetTerrainBoost = 0x8002497C; // type:func
 Library_MarkOwnedCards = 0x8002BF3C; // type:func
 Duel_FindPlayerDeckCard = 0x8002C4DC; // type:func
@@ -1438,4 +1439,7 @@ SD_SelectSecondaryObject = 0x8004A940; // type:func
 // Semantic names
 SD_FindLowestPrioritySecondaryObject = 0x8004A854; // type:func
 BuildDeck_RefreshCountDisplay = 0x80031E5C; // type:func
+
+// Semantic names
+SD_PrepareSecondaryObjectReuse = 0x8004A8E4; // type:func
 SD_InitVoiceState = 0x80047480; // type:func

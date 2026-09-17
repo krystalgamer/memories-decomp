@@ -949,7 +949,7 @@ with no
 output buffer. The later execution routine `DuelEffect_ApplyRitual` (still
 unmatched assembly)
 requests the output at `0x800262F8`, then calls
-[`func_80024914`](../../src/game/duel_card_record_lifecycle.c) for the three
+[`DuelCard_DeactivateRecord`](../../src/game/duel_card_record_lifecycle.c) for the three
 selected records at `0x800263BC`, `0x800263E0`, and `0x80026404`.
 Eligibility and later tribute removal are separate steps, not a destructive
 test. This is code-backed selection/removal evidence, not a new runtime trace

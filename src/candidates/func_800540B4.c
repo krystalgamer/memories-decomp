@@ -45,6 +45,7 @@
 #include "../game/model_primitive_templates.h"
 #include "../game/model_record_tables.h"
 #define ORDERING_TABLE_SLOT2_ARRAY
+#define D_800E9D9C_IN_DATA
 #include "../game/ordering_tables.h"
 #include "../game/func_80058E1C.h"
 #include "../game/model_control_slot_animation.h"
@@ -56,8 +57,6 @@
 #include "../game/gpu_packets.h"
 #include "../game/screen_projection.h"
 #include "../unmatched.h"
-
-extern GsOT *D_800E9D9C __attribute__((section(".data")));
 
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
