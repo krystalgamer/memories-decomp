@@ -919,7 +919,7 @@ extern u32 gSD_dwCurrentBgmCommand;
 #endif
 
 /* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
- * (script_stream_commands.c) and func_800386B8
+ * (script_stream_commands.c) and DuelEffect_ProcessBgmCommand
  * (duel_effect_play_sound_command.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
  * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy

@@ -11,7 +11,7 @@ void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
     SD_BGMPlay((u16)TextStream_ReadU16LE(object));
 }
 
-void func_800386B8(DuelEffectChannel *object)
+void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
 {
     u8 **slot =
         &((TextStreamOwner *)object)->streams[object->stream_58];
