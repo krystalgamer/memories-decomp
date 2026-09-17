@@ -234,7 +234,7 @@ void Model_ProcessType2Unit(
     u8 *q;
     u8 *b;
     u16 *e;
-    u8 *r;
+    ModelType2Scratch *r;
     u8 *rec;
     s32 n;
     s32 i;
@@ -248,8 +248,8 @@ void Model_ProcessType2Unit(
 
     m = 0x2000001;
     i = 0;
-    q = ((ModelType2Scratch *)scratch)->records;
-    r = scratch;
+    r = (ModelType2Scratch *)scratch;
+    q = r->records;
     n = ((ModelType2RecordHeader *)q)->record_count;
     q += 4;
 
@@ -261,7 +261,7 @@ void Model_ProcessType2Unit(
         do {
             q = p + 0xC;
             if (unit->type == m) {
-                b = ((ModelType2Scratch *)r)->indices;
+                b = r->indices;
                 if (b != (u8 *)0) {
                     j = 0;
                     e = (u16 *)(b +
