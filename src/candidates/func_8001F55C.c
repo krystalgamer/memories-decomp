@@ -223,7 +223,7 @@ void DuelScene_UpdateBattle(void)
             H(made, 0x30) = 0xA;
             H(made, 0x32) = 0x16;
             B(made, 0x21) = 0xC0;
-            DisplayObject_SetDepthOffset(made, -0xA);
+            DisplayObject_SetDepthOffset((DisplayObject *)made, -0xA);
             H(made, 8) = (H(made, 8) | 4) & 0xFFBF;
             D_800E9EF0[2] = (DisplayObject *)made;
             side = D_800E9EF0[1];
@@ -245,7 +245,7 @@ void DuelScene_UpdateBattle(void)
                 H(made, 0x30) = 0xAA;
                 H(made, 0x32) = 0x16;
                 B(made, 0x21) = 0xC0;
-                DisplayObject_SetDepthOffset(made, -0xA);
+                DisplayObject_SetDepthOffset((DisplayObject *)made, -0xA);
                 H(made, 8) = (H(made, 8) | 4) & 0xFFBF;
                 D_800E9EF0[3] = (DisplayObject *)made;
             }

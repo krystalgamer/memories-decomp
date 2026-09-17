@@ -493,7 +493,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B170 = card->stat_modifier;
         } while (0);
         o = func_80017F04(card, S(card, 8), S(card, 0xA));
-        DisplayObject_SetDepthOffset(o, -0xA);
+        DisplayObject_SetDepthOffset((DisplayObject *)o, -0xA);
         D_800E9EF0[0] = (DisplayObject *)o;
         d = S(card, 0xC);
         func_80024914(card);

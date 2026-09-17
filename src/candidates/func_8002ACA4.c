@@ -155,7 +155,7 @@ void func_8002ACA4(u8 *state)
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
                 DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-                DisplayObject_SetDepthOffset(o, 0xA);
+                DisplayObject_SetDepthOffset((DisplayObject *)o, 0xA);
                 W(state, 0x50) = (s32)o;
             }
         }
@@ -226,7 +226,7 @@ void func_8002ACA4(u8 *state)
         S(o, 0x60) = -0x400;
         H(o, 8) |= 8;
         DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-        DisplayObject_SetDepthOffset(o, 4);
+        DisplayObject_SetDepthOffset((DisplayObject *)o, 4);
         W(state, 0x4C) = (s32)o;
         id = H(state, 6);
         state[3] = 1;

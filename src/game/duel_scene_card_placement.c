@@ -81,7 +81,7 @@ void DuelScene_UpdateCardPlacement(void)
             if (object) {
                 PLACEMENT_TX(object) = x;
                 PLACEMENT_TY(object) = y;
-                DisplayObject_SetDepthOffset((u8 *)object, value);
+                DisplayObject_SetDepthOffset(object, value);
                 x -= 16;
                 value++;
             }
@@ -91,7 +91,7 @@ void DuelScene_UpdateCardPlacement(void)
         object = D_800E9EF0[0];
         PLACEMENT_TX(object) = 64;
         PLACEMENT_TY(object) = 82;
-        DisplayObject_SetDepthOffset((u8 *)object, value);
+        DisplayObject_SetDepthOffset(object, value);
         if ((u8)(object->field_6A % 15) < 5)
         D_8009B218 = 1;
         slots = D_800E9EF0;
@@ -242,7 +242,7 @@ void DuelScene_UpdateCardPlacement(void)
                 object->field_60 = 8;
                 PLACEMENT_VX(object) = placement_velocity((64 - (s16)PLACEMENT_PX(object)) * 256);
                 PLACEMENT_VY(object) = placement_velocity((82 - (s16)PLACEMENT_PY(object)) * 256);
-                DisplayObject_SetDepthOffset((u8 *)D_800E9EF0[0], (s8)((u8)object->field_16 - 1));
+                DisplayObject_SetDepthOffset(D_800E9EF0[0], (s8)((u8)object->field_16 - 1));
                 SD_SEPlayFull(10);
                 D_8009B150 = 0;
                 if (D_800E9EF0[0]) {

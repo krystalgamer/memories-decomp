@@ -49,7 +49,7 @@ void Main_RunTrade(void)
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;
         DisplayObject_SelectOrderingTable1(obj);
-        DisplayObject_SetDepthOffset((u8 *)obj, 0xF);
+        DisplayObject_SetDepthOffset(obj, 0xF);
         D_800E9EF0[0] = obj;
         Fade_WaitIn();
     }

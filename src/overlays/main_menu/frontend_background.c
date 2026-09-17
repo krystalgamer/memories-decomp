@@ -163,7 +163,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
         object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(object);
-        DisplayObject_SetDepthOffset((u8 *)object, (s8)(-(u8)entry->field_60));
+        DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
         object->update = MainMenu_UpdateFrontendEntryAfterimage;
         ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
         ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];

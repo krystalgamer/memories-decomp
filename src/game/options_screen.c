@@ -98,7 +98,7 @@ void Options_Init(void) {
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     s2 = 0x10;
     func_800428A8(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);
-    DisplayObject_SetDepthOffset((u8 *)obj, -5);
+    DisplayObject_SetDepthOffset(obj, -5);
     gOptions_bState = 1;
     {
         s8 flag408 = gSD_bOutputType;

@@ -38,7 +38,7 @@ void MainMenu_InitTradeScreen(void)
         D_801845DC->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset((u8 *)D_801845DC, -2);
+        DisplayObject_SetDepthOffset(D_801845DC, -2);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -48,7 +48,7 @@ void MainMenu_InitTradeScreen(void)
         D_801845E0->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset((u8 *)D_801845E0, -1);
+        DisplayObject_SetDepthOffset(D_801845E0, -1);
     }
 
     func_80061008(0, 0x25, 0xA0, 0x25);
@@ -60,7 +60,7 @@ void MainMenu_InitTradeScreen(void)
             entry->flags |=
                 DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-            DisplayObject_SetDepthOffset((u8 *)entry, 0);
+            DisplayObject_SetDepthOffset(entry, 0);
             entry->field_60 = -2;
             D_801845EC[i].object = (u8 *)entry;
         } else {

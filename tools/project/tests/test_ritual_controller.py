@@ -146,7 +146,7 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *p)
     if (clone_count >= 2) { error = 5; return &clone_objects[0]; }
     return &clone_objects[clone_count++];
 }
-s32 DisplayObject_SetDepthOffset(u8 *p, s8 order)
+s32 DisplayObject_SetDepthOffset(DisplayObject *p, s8 order)
 {
     event(13, object_id(p), order, 0, 0);
     return 0;

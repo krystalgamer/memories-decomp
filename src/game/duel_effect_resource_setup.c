@@ -152,7 +152,7 @@ shared_tail:
     object->flags |= 8;
 
     DisplayObject_SelectOrderingTable1(object);
-    DisplayObject_SetDepthOffset((u8 *)object, -1);
+    DisplayObject_SetDepthOffset(object, -1);
 
     ((DisplayObject *)entry->object_04)->field_65 = 3;
     object->field_65 = 3;

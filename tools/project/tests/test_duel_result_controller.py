@@ -139,7 +139,7 @@ void func_800428A8(void *p, s32 a, s32 b, s32 c, s32 d, s32 e,
     if (a || c || f != 16 || g != 8 || resource != D_801AF000) error = 7;
 }
 void DisplayObject_SelectOrderingTable1(DisplayObject *p) { event(10, object_id(p), 0, 0, 0, 0); }
-s32 DisplayObject_SetDepthOffset(u8 *p, s8 order)
+s32 DisplayObject_SetDepthOffset(DisplayObject *p, s8 order)
 {
     event(11, object_id(p), order, 0, 0, 0);
     return 0;

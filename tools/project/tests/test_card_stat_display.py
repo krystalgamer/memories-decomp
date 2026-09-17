@@ -164,7 +164,7 @@ void DisplayObject_SelectOrderingTable1(DisplayObject *object)
     copy_bytes(&actual, expected[3], sizeof(actual));
 }
 
-s32 DisplayObject_SetDepthOffset(u8 *object, s8 value)
+s32 DisplayObject_SetDepthOffset(DisplayObject *object, s8 value)
 {
     check_stage(5, 3);
     if ((void *)object != &actual.object || value != 10) fail(15);

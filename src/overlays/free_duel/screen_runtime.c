@@ -116,7 +116,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     func_800428A8(x, 0, 0, 0, 0, 3, 0x11, 3, D_801AF000);
     ((u8 *)&x->field_5E)[1] = 0x80;
     x->field_48.word = 0x180018;
-    DisplayObject_SetDepthOffset((u8 *)x, 5);
+    DisplayObject_SetDepthOffset(x, 5);
     x->flags |= 0x20;
     return x;
 }
@@ -258,19 +258,19 @@ done:
     }
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 0, 16, 0, D_801AF000);
-    DisplayObject_SetDepthOffset((u8 *)obj, 10);
+    DisplayObject_SetDepthOffset(obj, 10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 1, 16, 0, D_801AF000);
-    DisplayObject_SetDepthOffset((u8 *)obj, -10);
+    DisplayObject_SetDepthOffset(obj, -10);
     obj->attribute |= 0x1000000;
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     func_800428A8(obj, 0, 0, 0, 0, 2, 17, 3, D_801AF000);
     ((u8 *)&obj->field_5E)[1] = 128;
-    DisplayObject_SetDepthOffset((u8 *)obj, 15);
+    DisplayObject_SetDepthOffset(obj, 15);
     obj->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     gFreeDuel_pThumbWidget = obj;
@@ -375,7 +375,7 @@ void FreeDuel_UpdateCursorTween(void)
         sparkle = FreeDuel_SpawnSparkle();
         if (sparkle != 0 && slot != 0) {
             sparkle->field_30.word = widget->field_30.word;
-            DisplayObject_SetDepthOffset((u8 *)sparkle, (s8)((u8)widget->field_16 - 1));
+            DisplayObject_SetDepthOffset(sparkle, (s8)((u8)widget->field_16 - 1));
             DisplayObject_UpdateCommandStream(sparkle);
             sparkle->field_4C = widget->field_4C;
             sparkle->field_6C = 1;

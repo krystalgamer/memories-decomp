@@ -46,7 +46,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         D_80184558->attribute |= 0x1000000;
         D_80184558->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset((u8 *)D_80184558, 0);
+        DisplayObject_SetDepthOffset(D_80184558, 0);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -56,7 +56,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         D_8018455C->attribute |= 0x1000000;
         D_8018455C->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        DisplayObject_SetDepthOffset((u8 *)D_8018455C, 1);
+        DisplayObject_SetDepthOffset(D_8018455C, 1);
     }
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);

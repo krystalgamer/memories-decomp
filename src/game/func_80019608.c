@@ -72,7 +72,7 @@ void DuelScene_UpdateCardUse(void)
             p->field_30.h.field_30 = 0x5A;
             p->field_30.h.field_32 = 0x16;
             p->field_20.b.field_21 = 0xC0;
-            DisplayObject_SetDepthOffset((u8 *)p, -0xA);
+            DisplayObject_SetDepthOffset(p, -0xA);
             p->flags =
                 (p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
@@ -129,7 +129,7 @@ void DuelScene_UpdateCardUse(void)
             D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute & ~GsROTOFF;
             D_800E9EF0[1] =
                 Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
-            DisplayObject_SetDepthOffset((u8 *)D_800E9EF0[1], -1);
+            DisplayObject_SetDepthOffset(D_800E9EF0[1], -1);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute | (GsALON | GsATWO);
             D_800E9EF0[1]->attribute = D_800E9EF0[1]->attribute & ~GsROTOFF;
             func_80029528(0);

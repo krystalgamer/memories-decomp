@@ -244,7 +244,7 @@ void MemCardDialog_CreateObject(void)
     o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_SelectOrderingTable1(o);
-    DisplayObject_SetDepthOffset((u8 *)o, 0xF);
+    DisplayObject_SetDepthOffset(o, 0xF);
     gMemCard_pDialogObject = o;
 }
 
