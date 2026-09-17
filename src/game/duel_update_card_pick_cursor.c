@@ -7,7 +7,7 @@
 #include "duel_card_pick_cursor.h"
 #include "duel_cursor_status.h"
 #include "duel_card.h"
-#include "func_80017034.h"
+#include "duel_get_card_viewer_request_id.h"
 #include "input.h"
 #include "../unmatched.h"
 
@@ -30,7 +30,7 @@
  * byte and returns nonzero while it is still busy; when it is idle, the cell
  * under the cursor is looked up in the field table (row * DUEL_FIELD_ROW_SIZE
  * + column, plus DUEL_FIELD_SIDE_GRID_SLOT_COUNT per player side) and the
- * record it names is offered to func_80017034. A nonzero result is a
+ * record it names is offered to Duel_GetCardViewerRequestId. A nonzero result is a
  * successful pick: it is published in gDuel_wViewerCardID along with the
  * event code 0x14 and state 2. A zero result only re-arms the hold (counter
  * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
@@ -43,9 +43,9 @@
 /* Neither call site narrows the result: each jal is followed by its delay
    slot and then a branch on $v0, with no andi or sll between, so the widened
    value is the callee's own. func_80024060's listing ends `lbu $v0,
-   0x19($s0)` and really returns u8; func_80017034's non-zero exit is `lh $v0,
+   0x19($s0)` and really returns u8; Duel_GetCardViewerRequestId's non-zero exit is `lh $v0,
    0xC($a2)` and really returns s16. Both are declared s32, in
-   duel_cursor_status.h and func_80017034.h, which this file includes. */
+   duel_cursor_status.h and duel_get_card_viewer_request_id.h, which this file includes. */
 void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
     u8 f;
     s32 picked;
@@ -69,7 +69,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
             }
         }
     } else if (func_80024060((DuelCursorStatus *)o) == 0) {
-        picked = func_80017034(
+        picked = Duel_GetCardViewerRequestId(
             &D_801A7AD8[D_800907D8[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +
                 D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT

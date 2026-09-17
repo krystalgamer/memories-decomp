@@ -28,7 +28,7 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_8001BD88.c",
       "target": "src/candidates_target/func_8001BD88.S",
-      "candidate_build_sha256": "7509be00e5056f6c75c067af5af887b3c7f6a718f6f98ccae9680526377aad6e",
+      "candidate_build_sha256": "6e4681822fb39a84512fbfeecac2f6389244624fd01554b970d7a938b2ebe979",
       "target_bytes_sha256": "62bdb7bf251ed0efd1c5060dfabf40c2ce783c315a21863bd86640162e8258b4",
       "canonical_contract_sha256": "83bf715cae5e2d49ef8990ef39bc2344ab8e5924a2f76e295713842a3e92a9d9",
       "canonical_contracts": {
@@ -50,7 +50,7 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "source": "src/candidates/func_8001D670.c",
       "target": "src/candidates_target/func_8001D670.S",
-      "candidate_build_sha256": "cf612f4b98a71f542d1f61b5a504d8dad906b3f2e94e8c37804db070c44e71ae",
+      "candidate_build_sha256": "a7874bd5bc5a9ada5e6891e05a45048f80c2873fdadde42c9206bf0ab71a305d",
       "target_bytes_sha256": "47c9b08eb4dd84c67c5b4a6253a48b0116863fa5096852e41c3eca87a1794a04",
       "canonical_contract_sha256": "3af082a0cdebebc2ac06ef59f3b6a53b7c788cb83759d911e8d25eb6e20e8eb8",
       "canonical_contracts": {

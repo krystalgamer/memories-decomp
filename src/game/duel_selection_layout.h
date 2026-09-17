@@ -144,8 +144,8 @@ extern u8 D_800E9F64[];
  * func_8001B938 assigns `D_800E9F48 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE`
  * and stores a halfword at +0xC and bytes at +0x11, +0x12, +0x13, +0x18 and
  * +0x19 (func_8001B938.c:37-42), +0x11 and +0x12 again (:53-54), +0x10
- * (:59) and +0xF (:68), loading it back for each; func_80017034 loads it
- * directly as a DuelCardPickCursor (src/game/func_80017034.c); and
+ * (:59) and +0xF (:68), loading it back for each; Duel_GetCardViewerRequestId loads it
+ * directly as a DuelCardPickCursor (src/game/duel_get_card_viewer_request_id.c); and
  * func_800235C0 loads it into the DuelFieldDisplaySource view that
  * duel_field_display_objects.c already casts the same record to. Five
  * functions still in assembly, none with a profile in matching_c.json, also
@@ -162,13 +162,13 @@ extern u8 D_800E9F64[];
  * +0x19. That is true of DuelFieldCursor and false of the record as a
  * whole: DuelCardPickCursor is 0x1A bytes and ends at 0x19 exactly, and
  * duel_card_pick_cursor.h already recorded that its col, row and status
- * agree with the narrower views. func_80017034 now uses this owning type
+ * agree with the narrower views. Duel_GetCardViewerRequestId now uses this owning type
  * without a cast.
  *
  * The store at +8 stays a cast: it writes a DuelHandSlot *, and giving
  * the record a pointer member there would raise its alignment to 4 and
  * its size to 0x1C, which the asserted 0x1A forbids. Every access in the binary is a %gp_rel lw or sw
- * (func_80017034.s:6, DuelScene_UpdateStartup.s:94, DuelScene_UpdateDrawPhase.s:38 and :164,
+ * (Duel_GetCardViewerRequestId.s:6, DuelScene_UpdateStartup.s:94, DuelScene_UpdateDrawPhase.s:38 and :164,
  * func_8001B938.s:12 and its nine loads), so this is the plain declaration.
  * Four bytes at 0x8009B1B4, with D_8009B1B8 at +4 (c_symbols.ld:133-134).
  * Initial value not read. */

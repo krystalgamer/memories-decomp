@@ -17,7 +17,7 @@
  *   store in case 10, each reached from the other cases by goto;
  * - func_80017F04 takes its three-argument prototype;
  * - the grid row and column bytes are read signed, the two package-stage
- *   bytes and the func_80017034 result are held in an int;
+ *   bytes and the Duel_GetCardViewerRequestId result are held in an int;
  * - state 8 reads the cursor object before its stores;
  * - the fade step reads the low byte of D_8009B300 through its .data view;
  * - D_8009B170/172/178/17A and D_8009B19C are tentative definitions, as in
@@ -74,7 +74,7 @@
 #include "../game/display_object_core.h"
 #include "../game/display_object_helpers.h"
 #include "../game/display_object_work_slots.h"
-#include "../game/func_80017034.h"
+#include "../game/duel_get_card_viewer_request_id.h"
 #include "../game/func_80022D94.h"
 #include "../game/input.h"
 #include "../game/sorted_entry.h"
@@ -298,7 +298,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             break;
         }
-        a = func_80017034(GRID_CARD(side));
+        a = Duel_GetCardViewerRequestId(GRID_CARD(side));
         if (a == 0) {
             if (gInput_wPad1Pressed & 0xC0) {
                 if (SB(side, 0x10) == 2) {
@@ -440,7 +440,7 @@ void DuelScene_UpdateFieldActions(void)
             v = D_8009B174 | 0x40;
             goto set_state;
         }
-        a = func_80017034(GRID_CARD(s));
+        a = Duel_GetCardViewerRequestId(GRID_CARD(s));
         if (a != 0) {
         view_card:
             gDuel_bCardViewerYOffset = 0x14;

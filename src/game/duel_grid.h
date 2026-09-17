@@ -31,7 +31,7 @@ typedef struct {
  * This describes only those two bytes. duel_card_pick_cursor.h holds a
  * longer view of the same record, DuelCardPickCursor, reaching 0x19.
  * Both views name col and row at the same 0x0F and 0x10, which
- * duel_card_pick_cursor.h states as well. func_80017034 uses the wider
+ * duel_card_pick_cursor.h states as well. Duel_GetCardViewerRequestId uses the wider
  * DuelCardPickCursor directly; this narrow view remains available to
  * readers that only need the coordinates. */
 typedef struct {

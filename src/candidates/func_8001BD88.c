@@ -80,7 +80,7 @@
 #include "../game/display_object_work_slots.h"
 #include "../game/func_8001B780.h"
 #include "../game/func_8001B7AC.h"
-#include "../game/func_80017034.h"
+#include "../game/duel_get_card_viewer_request_id.h"
 #include "../game/duel_check_quit_input.h"
 #include "../game/input.h"
 #include "../game/ai.h"
@@ -561,7 +561,7 @@ void DuelScene_UpdateHandActions(void)
         } else if (func_80024060((void *)D_8009B1B4) == 0) {
             o = (u8 *)(D_8009B1D5 * 0x70) + (s32)D_800E9F10;
             dir = B(o, 0x48);
-            v = func_80017034(&D_801A7AD8[D_800907D8[D_8009B1D5][dir * 5 + (s8)B(o, 0x47)]]);
+            v = Duel_GetCardViewerRequestId(&D_801A7AD8[D_800907D8[D_8009B1D5][dir * 5 + (s8)B(o, 0x47)]]);
             if (v != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
                 gDuel_wViewerCardID = v;
