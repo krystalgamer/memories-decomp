@@ -2,7 +2,7 @@
 #include "sound.h"
 #include "sound_secondary_object_selection.h"
 
-s32 func_8004A854(s32 value)
+s32 SD_FindLowestPrioritySecondaryObject(s32 value)
 {
     s32 result = -1;
     SDSecondaryState *state = D_8009B458;

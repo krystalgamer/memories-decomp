@@ -95,7 +95,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
             stolen = 0;
             if (limit != 0) {
                 if ((rec[6] & 0xF) >= (limit >> 4)) {
-                    idx = func_8004A854(ch);
+                    idx = SD_FindLowestPrioritySecondaryObject(ch);
                     if (idx == -1) {
                         idx = SD_SelectSecondaryObject(ch, key);
                         goto have;
