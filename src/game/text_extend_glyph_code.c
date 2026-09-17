@@ -3,9 +3,8 @@
 #include "text_constants.h"
 #include "text_stream_commands.h"
 
-void Text_ExtendGlyphCode(u8 *object)
+void Text_ExtendGlyphCode(TextStreamOwner *owner)
 {
-    TextStreamOwner *owner = (TextStreamOwner *)object;
     volatile u16 *code = &D_8009B33A;
     s32 index;
     u32 combined;
