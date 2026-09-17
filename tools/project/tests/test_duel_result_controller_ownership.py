@@ -156,7 +156,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
             )
 
     def test_pointer_pair_is_bounded_without_breaking_scalar_views(self) -> None:
-        owner = '#include "func_800179F4.h"\n'
+        owner = '#include "duel_init_scene.h"\n'
         self.probe(
             PAIR + owner
             + "typedef char extent[sizeof(D_8009B1D8) == 8 ? 1 : -1];\n"
@@ -202,7 +202,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         source = self.scratch / "addresses.c"
         includes = (
             "input.h", "text_constants.h", "text_staging.h",
-            "func_800179F4.h", "duel_check_ritual.h",
+            "duel_init_scene.h", "duel_check_ritual.h",
         )
         source.write_text(
             PAIR + RESULT + "#define GINPUT_PAD1_REPEAT_IN_DATA\n"
@@ -290,7 +290,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_migrated_consumers_compile_and_sources_are_normalized(self) -> None:
         names = (
-            "func_800179F4.c", "func_8001B170.c", "duel_scene_callbacks.c",
+            "duel_init_scene.c", "func_8001B170.c", "duel_scene_callbacks.c",
             "campaign_map_load_package_stage.c", "func_80020BE4.c",
             "options_load_package_stage.c",
             "func_8002F4C0.c", "func_800434F4.c",
@@ -325,7 +325,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         source = self.scratch / "backing.c"
         source.write_text(
             PAIR + RESULT
-            + '#include "func_800179F4.h"\n#include "duel_check_ritual.h"\n'
+            + '#include "duel_init_scene.h"\n#include "duel_check_ritual.h"\n'
             '#include "save_data.h"\n#include "text_staging.h"\n'
             "static union { SaveDataState state; u8 bytes[TWO_PLAYER_SAVE_SLOT_STRIDE]; } windows[2];\n"
             "SaveDataState *D_8009B1D8[2] = {&windows[0].state, &windows[1].state};\n"
@@ -359,7 +359,7 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         )
         scalar = self.scratch / "scalar.c"
         scalar.write_text(
-            '#include "func_800179F4.h"\n#include "duel_check_ritual.h"\n'
+            '#include "duel_init_scene.h"\n#include "duel_check_ritual.h"\n'
             "u8 *first_scalar(void) { return D_8009B1D8; }\n"
             "u8 *second_scalar(void) { return D_8009B1DC; }\n"
             "u16 recipe_halfword(void) { return gDuel_awRitualData[0]; }\n"
