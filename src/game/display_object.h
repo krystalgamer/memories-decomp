@@ -284,7 +284,7 @@ typedef struct DisplayObject {
 
        For others it holds a second callback: display_object_updates.c calls
        through it as void (*)(u8 *, s32), and dialog_transition.c,
-       src/candidates/func_800179F4.c and func_8002ABB4.c each store a
+       src/game/duel_init_scene.c and func_8002ABB4.c each store a
        function's address here.
 
        Neither reading governs, so the offset is the name. s32 is the spelling
@@ -296,7 +296,7 @@ typedef struct DisplayObject {
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
 
-       src/candidates/func_800179F4.c stores a pointer to another display
+       src/game/duel_init_scene.c stores a pointer to another display
        object here and Duel_DrawLifePointsAndDeckCounts loads it back.
        DisplayObject_InitializeTexturedGouraudQuad in display_object_helpers.c writes the colour 0x00808080,
        as the fourth of six words at stride 0xC -- 0x2C, 0x38, 0x44, 0x50,
@@ -315,7 +315,7 @@ typedef struct DisplayObject {
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
        user the comment above lists, and the two callers that reach the word
-       by name spell it .word: src/candidates/func_800179F4.c, which stores
+       by name spell it .word: src/game/duel_init_scene.c, which stores
        another object's address here, and Duel_DrawLifePointsAndDeckCounts,
        which loads that address back. Those two are why the word view is s32
        rather than unsigned. */

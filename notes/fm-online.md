@@ -103,12 +103,12 @@ It should be verified with a `rand` call trace before being treated as a game
 invariant.
 
 The project also alternates the starting side between matches by changing one
-byte at `0x80017AF2`, inside `func_800179F4`. The replacement is `0x80` or
+byte at `0x80017AF2`, inside `Duel_InitScene`. The replacement is `0x80` or
 `0x90`; this changes an instruction operand rather than directly writing a
 turn variable. The retail four-byte instruction at `0x80017AF0` is
 `CD 02 80 A3`, or `sb zero, D_8009B1D5(gp)` in little-endian storage. Replacing
 its byte at `+2` with `0x90` changes only the source register, producing
-`sb s0, D_8009B1D5(gp)`. `func_800179F4` initializes `s0` to one before this
+`sb s0, D_8009B1D5(gp)`. `Duel_InitScene` initializes `s0` to one before this
 store, so FM-Online alternates the initial turn byte between zero and one
 without changing the store opcode or destination.
 
@@ -120,7 +120,7 @@ functions:
 | Purpose in FM-Online | Patch address(es) | Containing function |
 |---|---|---|
 | Life-point digit width | `0x80016F14`, `0x80016F98` | `Duel_DrawLifePointsAndDeckCounts` |
-| Alternate starting player | `0x80017AF2` | `func_800179F4` |
+| Alternate starting player | `0x80017AF2` | `Duel_InitScene` |
 | Disable automatic trap rotation | `0x8001CA24`, `0x8001CA2C`, `0x8001CA30` | `DuelScene_UpdateHandActions` |
 | Bypass life-point limit behavior | `0x800251A4` | `func_800250C8` |
 | Hide triangle text | `0x800284D8` | `DuelEffect_UpdateCardViewerState` |

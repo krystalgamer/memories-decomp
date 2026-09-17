@@ -10,7 +10,7 @@
 #define DUEL_SAVE_WINDOWS_AS_PAIR
 #define DUEL_RITUAL_DATA_RESULT_VIEW
 #include "duel_scene_state.h"
-#include "func_800179F4.h"
+#include "duel_init_scene.h"
 #include "text_constants.h"
 #include "text_staging.h"
 #include "display_asset_banks.h"

@@ -39,7 +39,7 @@
 #include "../game/file_transfer.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_action_lock.h"
-#include "../game/func_800179F4.h"
+#include "../game/duel_init_scene.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_card.h"
 #include "../game/display_object.h"
@@ -60,6 +60,7 @@
 #include "../game/duel_battle_stats.h"
 #include "../game/duel_trap_resolution.h"
 #include "../game/duel_card_record_lifecycle.h"
+#include "../game/duel_scene_battle.h"
 #include "../game/duel_scene_card_placement.h"
 #include "../game/sound.h"
 #include "../game/main_modes.h"
@@ -79,10 +80,7 @@ extern u16 D_8009B170;
 extern u16 D_8009B172;
 extern u16 D_8009B178;
 extern u16 D_8009B17A;
-extern s16 D_8009B1A4[2];
-extern s8 D_8009B1B0[2];
 s8 D_8009B208[8];
-extern u8 D_8009B229;
 
 void DuelScene_UpdateBattle(void)
 {

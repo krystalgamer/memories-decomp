@@ -33,8 +33,8 @@
 #include "duel_draw_card_output_position.h"
 #include "func_80016778.h"
 #include "../unmatched.h"
-#include "func_800179F4.h"
-#include "func_8001755C.h"
+#include "duel_init_scene.h"
+#include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
 #include "func_80029574.h"
 #include "text_render_state.h"
@@ -46,7 +46,7 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
-void func_800179F4(void)
+void Duel_InitScene(void)
 {
     DisplayObject *obj;
     u8 *p;
@@ -90,12 +90,12 @@ void func_800179F4(void)
         }
         D_8009B1D5 = 0;
         gDuel_wSceneStateFlags = 1;
-        func_8001778C();
-        func_80017708();
-        func_800175A0();
+        Duel_ResetCardRecords();
+        Duel_InitSelectionRecords();
+        Duel_InitSideStates();
         D_8009B16C |= 0x1000;
     }
-    D_8009B1C8 = (DuelSideState *)((u8 *)D_800E9FF0 + D_8009B1D5 * sizeof(DuelSideState));
+    D_8009B1C8 = &D_800E9FF0[D_8009B1D5];
     func_800178BC();
     D_800F2848.angle =
         D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
@@ -114,7 +114,7 @@ void func_800179F4(void)
     pane[1].field_2C = 0;
     pane[1].field_2E = 254;
     func_80035668(0);
-    func_8001755C();
+    Duel_InitModelScene();
     File_WaitForTransfers();
     D_8009B22C =
         &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];

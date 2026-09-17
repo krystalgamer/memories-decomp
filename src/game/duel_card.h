@@ -28,6 +28,12 @@ typedef struct {
     u8 pad_19[3];
 } DuelCardRecord;
 
+/* Strided view used when a loop needs to retain a flags-relative cursor. */
+typedef struct {
+    u16 flags;
+    u8 pad_02[sizeof(DuelCardRecord) - sizeof(u16)];
+} DuelCardFlagsCursor;
+
 typedef char DuelCardRecord_size_must_be_0x1C[
     sizeof(DuelCardRecord) == DUEL_CARD_RECORD_SIZE ? 1 : -1
 ];
@@ -137,6 +143,6 @@ s32 Duel_CalcBattleDefense(DuelCardRecord *card, DuelCardRecord *opponent);
  * Declared here because this header owns everything the walk is written in
  * terms of: D_801A7AD8 and DuelCardRecord above, and
  * DUEL_CARD_RECORD_COUNT from the duel_card_layout.h it includes. */
-void func_8001778C(void);
+void Duel_ResetCardRecords(void);
 
 #endif

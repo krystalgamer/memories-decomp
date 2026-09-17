@@ -5,7 +5,7 @@
 #include "file_transfer.h"
 
 /* The staged loader for the duel terrain package. Its two consumers never call
- * it: func_800179F4.c and duel_load_terrain_package.c each pass its
+ * it: duel_init_scene.c and duel_load_terrain_package.c each pass its
  * address as the
  * per-stage callback of a transfer request, so the transfer machinery supplies
  * both arguments later. That is why both could declare it `(void)` without the

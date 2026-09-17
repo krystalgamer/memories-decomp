@@ -382,7 +382,7 @@ The counts sum to 235 exactly.
 
 Phase 11 has SHA-256
 `4d7c12766dec03a2d8faca71801dbc336db55144d52b2aad2f95efc263a2e237`
-in all seven terrain records. `func_8001755C` passes the destination pointer,
+in all seven terrain records. `Duel_InitModelScene` passes the destination pointer,
 `0x63000`, and `4` to `func_80056250`, but matching code only null-checks the
 pointer and never uses the latter two arguments or reads the loaded bytes. A
 duel-overlay address scan likewise finds no access into the

@@ -236,9 +236,9 @@ head:
     }
 
 hit:
-    e = (DuelCardRecord *)((u8 *)D_801A7AD8 + D_800907D8[
+    e = &D_801A7AD8[D_800907D8[
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-    ] * DUEL_CARD_RECORD_SIZE);
+    ]];
     p = DuelEffect_CreateRequest(0xB);
     p->field_00 = ((DisplayObject *)e->object)->field_30.h.field_30;
     p->field_02 = ((DisplayObject *)e->object)->field_30.h.field_32;

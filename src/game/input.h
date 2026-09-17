@@ -82,7 +82,7 @@ extern u32 gInput_dwPendingHeld;
  *                     names under uniform G8; DebugMenu_UpdateSoundEntry
  *                     independently selects it for pad-1 pressed.
  *
- * A `[5]` arm used to sit beside that one, for src/game/func_80017034.c
+ * A `[5]` arm used to sit beside that one, for src/game/duel_get_card_viewer_request_id.c
  * under gcc_2_8_1_g8_split. `[5]` and an unknown size are both outside small
  * data at a single -G8 threshold, and the split flag decides only whose
  * %hi/%lo pair the reference becomes, so nothing separated the two

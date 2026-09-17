@@ -69,4 +69,12 @@ void func_8006ADE8(void);
  * than calling it, so this declaration has to keep that exact shape. */
 s32 func_8005FC1C(s32 arg0);
 
+/* The same case one function along, and for the same reason. func_800540B4
+ * (src/candidates/func_800540B4.c:782) is the only outside consumer and takes
+ * its address rather than calling it, handing it to func_8005A53C, whose first
+ * parameter is declared `s32 (*fn)(s32)` (func_8005A53C.h). So this
+ * declaration has to keep that exact shape too; it is the definition's own
+ * spelling, unchanged. */
+s32 func_8005FE44(s32 arg0);
+
 #endif

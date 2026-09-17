@@ -415,7 +415,7 @@ The consequence for typing: the parameter cannot be declared `GsSPRITE *`. It
 is a word that means a `GsSPRITE *` in cases `1`-`3` and an attribute in cases
 `4`-`5`, which is why the inventory row's caution was right.
 
-The matched definition in `src/game/display_object_packet_submit.c` confirms
+The matched definition in `src/game/display_object_helpers.c` confirms
 it. It takes the header's default `SpritePrim *` view. Cases `1`-`3` cast the
 argument to `GsSPRITE *`. Cases `4` and `5` test `(u32)sprite & 0x04000000`
 before projecting the prepared quad, and test bit 30 before routing it through

@@ -695,7 +695,7 @@ and the answer follows the include graph rather than the name.
 
 `D_8009B318` is a movie playback state byte. `movie_playback_control.h`
 describes exactly what its bits mean and is the obvious home by name, but
-`func_80043BCC.c` does not include that header at all, while all three
+`main_run_frontend_loop.c` does not include that header at all, while all three
 consumers already include `graphics_frame.h`. Placing the declaration by what
 the include graph is, rather than by which subsystem the name sounds like,
 costs no new include and cannot strand a consumer.
@@ -922,7 +922,7 @@ them agree.
 | Translation unit | Spelling | Bytes | Relocation |
 | --- | --- | --- | --- |
 | `src/game/func_80024200.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
-| `src/game/func_800179F4.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
+| `src/game/duel_init_scene.c` | `extern u16 D_8009B16C` | 2 | `R_MIPS_GPREL16` |
 | `debug_effect_screen.c` | `extern u8 D_8009B16C[4]` | 4 | `R_MIPS_GPREL16` |
 | `src/game/main_run_duel.c` | `extern u16 D_8009B16C` in `.data` | 2 | `R_MIPS_HI16` + `R_MIPS_LO16` |
 

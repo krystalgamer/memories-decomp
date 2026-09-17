@@ -55,9 +55,11 @@
 #define DUEL_FIELD_GRID_2D
 #include "../types.h"
 #include "../psyq/stdio.h"
+#include "../game/duel_scene_hand_actions.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
+#include "../game/func_8001B938.h"
 #include "../game/func_8001B8B8.h"
 #include "../game/duel_hand.h"
 #include "../game/duel_card.h"
@@ -80,12 +82,13 @@
 #include "../game/display_object_work_slots.h"
 #include "../game/func_8001B780.h"
 #include "../game/func_8001B7AC.h"
-#include "../game/func_80017034.h"
+#include "../game/duel_get_card_viewer_request_id.h"
 #include "../game/duel_check_quit_input.h"
 #include "../game/input.h"
 #include "../game/ai.h"
 #include "../game/script_state.h"
 #include "../game/sound.h"
+#include "../game/duel_card_state_helpers.h"
 #include "../unmatched.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -95,14 +98,7 @@
 #define SB(p, o) (*(s8 *)((u8 *)(p) + (o)))
 #define CARD_ID(i) (big = 0x48000, S(D_8015C424 + (i) * 0x1C + big, 0x36C0))
 
-extern s16 D_8009B19E;
-extern u8 D_8009B1E2;
-extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
-
-void func_8001B938(DuelSelectionRecord *selection);
-void func_8001BAF0(void);
-void func_80028220(void);
 
 void DuelScene_UpdateHandActions(void)
 {
@@ -561,7 +557,7 @@ void DuelScene_UpdateHandActions(void)
         } else if (func_80024060((void *)D_8009B1B4) == 0) {
             o = (u8 *)(D_8009B1D5 * 0x70) + (s32)D_800E9F10;
             dir = B(o, 0x48);
-            v = func_80017034(&D_801A7AD8[D_800907D8[D_8009B1D5][dir * 5 + (s8)B(o, 0x47)]]);
+            v = Duel_GetCardViewerRequestId(&D_801A7AD8[D_800907D8[D_8009B1D5][dir * 5 + (s8)B(o, 0x47)]]);
             if (v != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
                 gDuel_wViewerCardID = v;

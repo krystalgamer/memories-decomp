@@ -39,12 +39,12 @@
  * asked to stop and clears 0x80 when it has, and Movie_ResetPlaybackState
  * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
  * why it is declared here -- this is the header all three consumers already
- * include, and func_80043BCC.c does not include movie_playback_control.h at
+ * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
  * all.
  *
  * Two arms, for the same reason D_8009B0D8 below has them. Every consumer is
  * in the -G8 family, where a byte-sized global is reached %gp_rel by default.
- * func_80043BCC.c and graphics_frame.c both carry section(".data") to escape
+ * main_run_frontend_loop.c and graphics_frame.c both carry section(".data") to escape
  * that; movie_playback_control.c takes the plain spelling and wants the
  * gp-relative form. Each arm reproduces exactly what that file already
  * wrote. */

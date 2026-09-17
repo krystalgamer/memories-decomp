@@ -97,8 +97,8 @@ several functions use interior aliases or derived subranges.
 
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
-| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `Duel_CollectFieldRowCardObjects` exports the same word as an opaque value. |
-| `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
+| `+0x00` | 4 | `object` | `Duel_ResetCardRecords` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `Duel_CollectFieldRowCardObjects` exports the same word as an opaque value. |
+| `+0x04` | 4 | `data` | `Duel_ResetCardRecords` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
 | `+0x0E` | 2 | `attack` | `Duel_SetupCardRecord` stores the first card-stat component with `sh`; exact stat calculation users consume the record. |
@@ -274,7 +274,7 @@ visibility or a complete scratch-buffer layout follows from these writes.
 
 The value editor's shared option has a confirmed resident consumer, even
 though its visible caption remains unassigned. Matching
-[`func_800175A0`](../src/game/duel_state_init.c) first clears
+[`Duel_InitSideStates`](../src/game/duel_state_init.c) first clears
 `DuelSideState.card_view_mode` at byte `+0x1F` of both `D_800E9FF0` side
 records. These are `0x20`-byte records, not the `0x1C`-byte card records
 described above:
@@ -324,7 +324,7 @@ is inferred here, and no new runtime trace is claimed.
 The following matching C sources include `duel_card.h` and use its typed
 extern:
 
-`func_8001778C`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
+`Duel_ResetCardRecords`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
 `func_8001EFD4`, `func_8001F364`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
@@ -345,9 +345,10 @@ Raw local views retained for exact code generation:
 - `Duel_FindFreeFieldSlot` keeps the manual byte-scaled base construction so
   the record-scale result and final pointer share the retail live range, then
   walks a typed `DuelCardRecord` cursor for the flags test.
-- `func_8001778C` keeps byte cursors for the paired `+0x00`/`+0x04` stores
-  and independent `+0x16` cursor; its increments and bound use the shared
-  size/count constants.
+- `Duel_ResetCardRecords` keeps the independent `+0x16` flags cursor that preserves
+  retail allocation. Its `+0x04` word store derives the backward distance
+  between `DuelCardRecord::flags` and `::data`, and its increments and bound
+  use the shared size/count constants.
 - `func_80017DB4` keeps the target's 32-bit read beginning at `+0x14` so the
   `0xA0000000` mask remains a single `lw`-based test.
 - `func_80017F04` uses the shared table declaration for its record-index

@@ -11,7 +11,7 @@
 #include "../types.h"
 #include "../game/ai_opponent_data.h"
 #include "../game/duel_check_quit_input.h"
-#include "../game/func_800179F4.h"
+#include "../game/duel_init_scene.h"
 #include "../game/func_80024DC8.h"
 #include "../game/graphics_frame.h"
 #include "../game/func_800339D0.h"
@@ -72,7 +72,7 @@ void Main_RunDuel(void)
     case 1:
         if (!(value & 0x80)) {
             D_8009B26E = value | 0x80;
-            func_800179F4();
+            Duel_InitScene();
         } else {
             DuelScene_UpdateWithSideInput();
             if (D_8009B16C & 0x2000)

@@ -2,10 +2,10 @@
 #include "../types.h"
 #include "duel_grid.h"
 #include "duel_selection_layout.h"
-#include "func_80017034.h"
+#include "duel_get_card_viewer_request_id.h"
 #include "input.h"
 
-s32 func_80017034(DuelCardRecord *card)
+s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
 {
     DuelCardPickCursor *position = D_8009B1B4;
     s32 valid;

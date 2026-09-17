@@ -22,12 +22,9 @@
    a property of the profile rather than a matter of taste:
 
      -G0 profiles (gcc_2_8_1_g0) put nothing in small data, so a plain scalar
-     already gets lui %hi / %lo and needs no help:
-         src/candidates/func_80071460.c
-             extern u8 gDuel_bTerrain;            (also spelled unsigned char)
-     text_start_campaign_duel.c and func_80024DC8.c use the existing DATA
-     scalar view instead; under their G0 profiles this retains the same
-     absolute accesses.
+     already gets lui %hi / %lo and needs no help: text_start_campaign_duel.c
+     and func_80024DC8.c use the existing DATA scalar view instead; under their
+     G0 profiles this retains the same absolute accesses.
 
      -G8 profiles would make a one-byte object small data and address it
      %gp_rel, so a TU that needs the absolute form must push the symbol out of
@@ -38,8 +35,9 @@
 
      ...or section(".data") does it while keeping the scalar, which is what
      buys the assembler macro form these functions need:
-         src/candidates/func_800179F4.c (gcc_2_8_1_g8_split),
-         main_run_animated_battle.c, func_80024E58.c (gcc_2_8_1_g8_split)
+         src/game/duel_init_scene.c, func_80024E58.c (gcc_2_8_1_g8_split),
+         main_run_animated_battle.c (gcc_2_8_1_g8_split_comm),
+         ai_script_load_terrain.c (gcc_2_8_1_g8_split)
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
      func_80024E58 once needed a NUMBER instead. It matched under a profile

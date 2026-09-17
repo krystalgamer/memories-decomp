@@ -92,7 +92,9 @@ s32 func_8001F0D0(u8 *p) {
     }
     if (n != 0) {
         do {
-            th = Duel_CalcCardStats(&D_801A7AD8[p[0x6A]]) & 0xFFFF;
+            th = Duel_CalcCardStats(
+                &D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]]
+            ) & 0xFFFF;
         } while (0);
         sel = -1;
         off3 = 0x18000;
@@ -202,8 +204,8 @@ m1:
     D_8009B1D0 = t;
     if ((s16)t <= 0) {
     r = D_8015C424;
-    g = (DuelCardReplayRecordBlock *)(r +
-        D_8009B1B8 * sizeof(DuelCardRecord) +
+    g = (DuelCardReplayRecordBlock *)(
+        (u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
         DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
     p = (DisplayObject *)g->record.object;
     e = (DuelEffectObject *)DuelEffect_CreateRequest(8);

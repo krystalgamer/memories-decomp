@@ -86,7 +86,6 @@ void MainMenu_InitTradeScreen(void)
 }
 
 extern CardCountEntry D_80185144[];
-extern u8 D_80185CCB;
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
 #define D_80185C8C D_80185C8C_words

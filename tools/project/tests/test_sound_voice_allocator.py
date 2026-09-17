@@ -300,7 +300,10 @@ class SoundVoiceAllocatorTests(unittest.TestCase):
                     "priority-equality": ("value >= g_SDValue", "value > g_SDValue"),
                     "cursor-wrap": ("field_0435 & 3", "field_0435 & 1"),
                     "occurrence": ("& 0xF0) >> 4", "& 0xF0) >> 3"),
-                    "envelope-order": ("SpuGetVoiceEnvelope(index + 0x14", "SpuGetVoiceEnvelope((3 - index) + 0x14"),
+                    "envelope-order": (
+                        "index + SD_VOICE_SLOT_FIRST_VOICE",
+                        "(3 - index) + SD_VOICE_SLOT_FIRST_VOICE",
+                    ),
                 }
                 old, new = edits[mutation]
                 text = SOURCE.read_text()

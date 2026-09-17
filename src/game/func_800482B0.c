@@ -6,6 +6,7 @@
 
 #include "sound_voice_selection.h"
 #include "sound_effect_voices.h"
+#include "sound_voice_constants.h"
 #include "sound_voice_allocator.h"
 
 void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
@@ -53,7 +54,9 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
         count = 0;
         occurrence = ((u16)mode_snapshot & 0xF0) >> 4;
         for (index = 0; index < SD_VOICE_SLOT_COUNT; index++, slot++) {
-            SpuGetVoiceEnvelope(index + 0x14, &envelope);
+            SpuGetVoiceEnvelope(
+                index + SD_VOICE_SLOT_FIRST_VOICE, &envelope
+            );
             /* Sharing the scratch keeps ID narrowing inside this loop. */
             observed = envelope;
             if (observed != 0) {
@@ -75,7 +78,9 @@ void func_800482B0(s32 id, s16 pitch, u8 volume, s16 pan, u32 mode, u8 value)
     if (found == 0) {
         index = 0;
         do {
-            SpuGetVoiceEnvelope(g_SDValue->field_0435 + 0x14, &envelope);
+            SpuGetVoiceEnvelope(
+                g_SDValue->field_0435 + SD_VOICE_SLOT_FIRST_VOICE, &envelope
+            );
             if (envelope == 0) {
                 found = 1;
                 func_8004803C(sound_id, g_SDValue->field_0435, pitch, volume, pan,

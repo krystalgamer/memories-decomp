@@ -74,8 +74,12 @@ void func_80013C28(s32 arg)
         /* The image phase alternates between the value_08 and value_0C
            buffers. Retail adds the descriptor base first (`addu v0,a0,v0`);
            `(&p->value_08)[i]` puts the scaled index first instead, so the
-           pair is still selected by an integer sum. */
-        dst = (u8 *)*(u32 *)((u32)p + ((p->buffer_index & 1) << 2) + 8);
+           pair is still selected by an integer sum with the member-derived
+           base offset. */
+        dst = (u8 *)*(u32 *)(
+            (u32)p + ((p->buffer_index & 1) << 2) +
+            (u32)&((FileTransferDescriptor *)0)->value_08
+        );
         if ((D_8009B0F4 & 0x40000000) == 0) {
             CdGetSector(dst, 0x200);
         } else {

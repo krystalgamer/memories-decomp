@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_FUNC_8001755C_H
-#define MEMORIES_DECOMP_FUNC_8001755C_H
+#ifndef MEMORIES_DECOMP_DUEL_INIT_MODEL_SCENE_H
+#define MEMORIES_DECOMP_DUEL_INIT_MODEL_SCENE_H
 
 #include "../types.h"
 
@@ -12,8 +12,8 @@
  * selector and the trailing 4 choose is not established here, and nothing in
  * this unit names the buffer's contents.
  *
- * func_800179F4 (src/candidates/func_800179F4.c) is the only consumer and
+ * Duel_InitScene (src/game/duel_init_scene.c) is the only consumer and
  * reached it through a local extern that already agreed with this. */
-void func_8001755C(void);
+void Duel_InitModelScene(void);
 
 #endif

@@ -49,7 +49,8 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
     side = D_8009B1D5;
     page = side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     slot_a = grid[index_a + page];
-    offset_a = slot_a * sizeof(DuelCardRecord);
+    /* Retail computes the typed byte offset before loading the record base. */
+    offset_a = (u32)&((DuelCardRecord *)0)[slot_a];
     records = D_801A7AD8;
     index_b = row_b * DUEL_FIELD_ROW_SIZE + cursor_b->col;
     slot_b = grid[index_b + page];
@@ -267,8 +268,8 @@ s32 func_800235C0(void)
                 for (i = 5; i < 30; i++) {
                     if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
                         (D_801A7AD8[i].flags & 0x8000)) {
-                        o = ((DuelCardReplayRecordBlock *)(records +
-                            i * sizeof(DuelCardRecord) +
+                        o = ((DuelCardReplayRecordBlock *)(
+                            (u8 *)&((DuelCardRecord *)records)[i] +
                             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
                         o->field_6C = 1;
                         o->field_60 = 4;
@@ -405,8 +406,8 @@ s32 func_800235C0(void)
                     for (i = 5; i < 30; i++) {
                         if (i % DUEL_CARD_SIDE_RECORD_COUNT >= DUEL_FIELD_ROW_SIZE &&
                             (D_801A7AD8[i].flags & 0x8000)) {
-                            o = ((DuelCardReplayRecordBlock *)(replay +
-                                i * sizeof(DuelCardRecord) +
+                            o = ((DuelCardReplayRecordBlock *)(
+                                (u8 *)&((DuelCardRecord *)replay)[i] +
                                 DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
                             o->field_6C = 1;
                             o->field_60 = 4;

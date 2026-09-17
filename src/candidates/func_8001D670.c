@@ -17,7 +17,7 @@
  *   store in case 10, each reached from the other cases by goto;
  * - func_80017F04 takes its three-argument prototype;
  * - the grid row and column bytes are read signed, the two package-stage
- *   bytes and the func_80017034 result are held in an int;
+ *   bytes and the Duel_GetCardViewerRequestId result are held in an int;
  * - state 8 reads the cursor object before its stores;
  * - the fade step reads the low byte of D_8009B300 through its .data view;
  * - D_8009B170/172/178/17A and D_8009B19C are tentative definitions, as in
@@ -53,16 +53,23 @@
 #define GDUEL_WVIEWERCARDID_IN_DATA
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "../types.h"
+#include "../game/duel_scene_field_actions.h"
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
 #include "../game/duel_card.h"
+#include "../game/duel_card_can_act_this_turn.h"
 #include "../game/duel_card_staging.h"
 #include "../game/duel_card_display_state.h"
 #include "../game/duel_card_record_lifecycle.h"
 #include "../game/duel_cursor_status.h"
 #include "../game/duel_field_display_objects.h"
 #include "../game/duel_grid.h"
+#include "../game/func_8001D240.h"
+#include "../game/display_object_property_transitions.h"
+#include "../game/func_8001D518.h"
+#include "../game/func_8001D5B4.h"
+#include "../game/func_80020988.h"
 #include "../game/duel_action_lock.h"
 #include "../game/duel_card_viewer.h"
 #include "../game/duel_effect.h"
@@ -74,11 +81,12 @@
 #include "../game/display_object_core.h"
 #include "../game/display_object_helpers.h"
 #include "../game/display_object_work_slots.h"
-#include "../game/func_80017034.h"
+#include "../game/duel_get_card_viewer_request_id.h"
 #include "../game/func_80022D94.h"
 #include "../game/input.h"
 #include "../game/sorted_entry.h"
 #include "../game/sound.h"
+#include "../game/duel_card_state_helpers.h"
 #include "../unmatched.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -94,18 +102,6 @@ u16 D_8009B172;
 u16 D_8009B178;
 u16 D_8009B17A;
 u8 D_8009B19C;
-extern s32 D_8009B1BC;
-extern u8 D_8009B21A;
-extern s8 D_8009B229;
-int DuelCard_CanActThisTurn(DuelCardRecord *object);
-void func_8001D240(DisplayObject *o);
-void func_8001D344(DisplayObject *object);
-void func_8001D3C4(DisplayObject *o);
-DisplayObject *func_8001D518(DisplayObject *source);
-s32 func_8001D5B4(DuelFieldCursor *cursor);
-s32 func_80020988(void);
-void func_800234E4(DuelFieldDisplaySource *source);
-void func_80028220(void);
 
 void DuelScene_UpdateFieldActions(void)
 {
@@ -299,7 +295,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             break;
         }
-        a = func_80017034(GRID_CARD(side));
+        a = Duel_GetCardViewerRequestId(GRID_CARD(side));
         if (a == 0) {
             if (gInput_wPad1Pressed & 0xC0) {
                 if (SB(side, 0x10) == 2) {
@@ -441,7 +437,7 @@ void DuelScene_UpdateFieldActions(void)
             v = D_8009B174 | 0x40;
             goto set_state;
         }
-        a = func_80017034(GRID_CARD(s));
+        a = Duel_GetCardViewerRequestId(GRID_CARD(s));
         if (a != 0) {
         view_card:
             gDuel_bCardViewerYOffset = 0x14;

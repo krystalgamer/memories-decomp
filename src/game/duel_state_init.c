@@ -9,7 +9,7 @@
 #include "duel_card.h"
 #include "../unmatched.h"
 
-void func_800175A0(void) {
+void Duel_InitSideStates(void) {
     u16 sp[DUEL_SIDE_COUNT];
     DuelSideState *e;
     s32 k;
@@ -79,7 +79,7 @@ void Duel_ClearHandSlots(void)
     } while (i < HAND_SIZE);
 }
 
-void func_80017708(void) {
+void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
         DuelSelectionRecord *p = (DuelSelectionRecord *)
@@ -99,18 +99,20 @@ void func_80017708(void) {
         .field_13 = 0;
 }
 
-void func_8001778C(void)
+void Duel_ResetCardRecords(void)
 {
     DuelCardRecord *entry = D_801A7AD8;
     int i = 0;
-    u16 *flags = &entry->flags;
+    DuelCardFlagsCursor *flags = (DuelCardFlagsCursor *)&entry->flags;
 
     do {
         *(s32 *)&entry->object = 0;
-        /* The data clear stays relative to the flags cursor for allocation. */
-        *(s32 *)(flags - 9) = 0;
-        *flags = 0;
-        flags = (u16 *)((u8 *)flags + sizeof(DuelCardRecord));
+        /* Keep the flags-relative cursor while deriving the data distance. */
+        *(s32 *)(&flags->flags -
+            ((u32)&((DuelCardRecord *)0)->flags -
+             (u32)&((DuelCardRecord *)0)->data) / sizeof(flags->flags)) = 0;
+        flags->flags = 0;
+        flags++;
         i++;
         entry++;
     } while (i < DUEL_CARD_RECORD_COUNT);

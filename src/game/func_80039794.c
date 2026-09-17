@@ -21,7 +21,7 @@
 void func_80039794(void)
 {
     DuelEffectChannel *p;
-    ChoiceView *q;
+    ChoiceChannelCursor *q;
     s32 reset_value;
     TblEnt *table;
     s32 n;
@@ -35,20 +35,20 @@ void func_80039794(void)
     n = 4;
     reset_value = -1;
     table = (TblEnt *)D_801D9000;
-    q = (ChoiceView *)&p->field_30;
+    q = (ChoiceChannelCursor *)&p->field_30;
     do {
-        if (q->flags & 0x8000) {
+        if (q->choice.flags & 0x8000) {
             D_8009B35A = 0;
-            if ((q->flags & 0x2000) == 0) {
+            if ((q->choice.flags & 0x2000) == 0) {
                 D_8009B35A = reset_value;
                 cnt = -1;
                 for (;;) {
                     TextBox_BuildStep(p);
                     cnt++;
-                    f = q->flags;
+                    f = q->choice.flags;
                     if (f & 0x2000) {
                         if (f & 8) {
-                            q->obj = Dialog_OpenChoice(p);
+                            q->choice.obj = Dialog_OpenChoice(p);
                         }
                         break;
                     }
@@ -63,11 +63,11 @@ reset:
                     D_8009B35A = reset_value;
                 }
             } else {
-                if (q->flags & 8) {
+                if (q->choice.flags & 8) {
                     if (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) {
-                        q->flags &= 0xFFF7;
-                        DisplayObject_ReleaseIfPresent(q->obj);
-                        q->obj = 0;
+                        q->choice.flags &= 0xFFF7;
+                        DisplayObject_ReleaseIfPresent(q->choice.obj);
+                        q->choice.obj = 0;
                         SD_SEPlayFull(0xB);
                     }
                 }
@@ -86,7 +86,7 @@ reset:
             DisplayEffect_ProcessMenuRecords(arg);
             DuelEffect_ProcessEntries(p);
         }
-        q = (ChoiceView *)((u8 *)q + sizeof(DuelEffectChannel));
+        q++;
         n--;
         p++;
     } while (n != 0);

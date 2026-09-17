@@ -1316,7 +1316,7 @@ skip this increment. At `0x80019674..0x80019698`, the writer requires the
 card object's type byte `+0x68` to equal `0x14` (`CARD_TYPE_MAGIC`), rather
 than accepting every non-monster type.
 
-Matching [`func_80017F04`](../../src/game/func_800179F4.c) fills
+Matching [`func_80017F04`](../../src/game/duel_init_scene.c) fills
 that object byte from the card's packed type field, using
 `CARD_STAT_TYPE_SHIFT` and `CARD_STAT_TYPE_MASK`. The matching
 [`Duel_CalcRankScore`](../../src/game/duel_result_runtime.c) reads statistic
@@ -2237,7 +2237,7 @@ from 500 through 8000. Matching
 initializes the values,
 and [`MainMenu_UpdateValueSetup`](../../src/overlays/main_menu/value_setup.c)
 (`0x801812B4`) edits them. Because 2P uses the negative opponent-ID path,
-`func_800175A0` copies those selections into both the authoritative and
+`Duel_InitSideStates` copies those selections into both the authoritative and
 maximum LP fields; recovery is therefore capped at the chosen starting value.
 
 On this setup screen, **Circle on either pad cancels** and **Start on
@@ -2411,7 +2411,7 @@ extractor gives. The VRAM x-coordinates 640–832 are past the 640-pixel
 framebuffers, i.e. the texture area.
 
 **The per-duelist block.** Before a duel the opponent's block is read:
-**3 sectors at `0x1D33 + 3 × id`** into `0x801781D8` [`func_800179F4`] —
+**3 sectors at `0x1D33 + 3 × id`** into `0x801781D8` [`Duel_InitScene`] —
 deck weights at +0, the POW / BCD / TEC drop pools at +0x5B4 / +0xB68 /
 +0x111C (1,460 bytes each), the rank table at +0x16D0 (200 bytes), then
 104 bytes of `0xFF` sector padding at +0x1798. All 156 weight tables sum to

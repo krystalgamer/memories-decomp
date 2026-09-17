@@ -3,7 +3,9 @@
  * result handoff. The typed DuelEffectObject accumulator view, typed
  * DisplayObject cursor, and cross-path reuse of `side` preserve the retail
  * scheduling and register allocation. The first position store keeps a signed
- * address-of-member view so GCC materializes -0x40 like retail.
+ * address-of-member view so GCC materializes -0x40 like retail. The two
+ * request-completion byte tests retain the global byte pointer but derive
+ * their index from DuelEffectRequest::field_1D.
  */
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -30,12 +32,15 @@
 #include "../game/display_object_helpers.h"
 #define D_8009B214_AS_BYTE_POINTER
 #define D_8009B21C_AS_BYTE_POINTER
-#include "../game/func_800179F4.h"
+#include "../game/duel_init_scene.h"
 #define D_8009B269_AS_SCALAR_DATA
 #define D_8009B26C_AS_SCALAR_DATA
 #include "../game/duel_effect.h"
 #include "../game/duel_effect_allocate_request.h"
 #include "../unmatched.h"
+
+#define DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET \
+    ((u32)&((DuelEffectRequest *)0)->field_1D)
 #include "../game/sound_output.h"
 #include "../game/sound.h"
 #include "../game/model_scene_states.h"
@@ -99,8 +104,9 @@ void DuelScene_UpdateExodiaResult(void)
         rec = (u8 *)D_800EA030;
 next_obj:
         obj = *(DisplayObject **)rec;
+        /* Keep the typed record offset left of the staging base. */
         g = (DuelCardReplayRecordBlock *)(
-            obj->field_6A * sizeof(DuelCardRecord) +
+            (u32)&((DuelCardRecord *)0)[obj->field_6A] +
             (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
         );
         anim = g->record.card_id - 0x11;
@@ -142,7 +148,7 @@ next_obj:
             return;
         }
         if (D_8009B17C != 0) {
-            if (D_8009B17C[0x1D] == 0) {
+            if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
                 return;
             }
             SD_SEPlayFull(0x1D);
@@ -194,7 +200,7 @@ next_obj:
         return;
     }
     if (flags & 0x1000) {
-        if (D_8009B17C[0x1D] == 0) {
+        if (D_8009B17C[DUEL_EFFECT_REQUEST_FIELD_1D_OFFSET] == 0) {
             return;
         }
         D_8009B23A = flags & 0xEFFF;

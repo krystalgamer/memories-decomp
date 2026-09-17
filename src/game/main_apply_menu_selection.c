@@ -14,8 +14,7 @@
 #include "../overlays/free_duel/free_duel.h"
 #define D_8009B3D4_IN_DATA
 #include "mem_card.h"
-
-extern s16 gCampaignSavedSceneIndex[];
+#include "save_data.h"
 
 void Main_ApplyMenuSelection(MainMenuSelection selection)
 {

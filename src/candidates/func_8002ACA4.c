@@ -63,6 +63,7 @@
 #include "../game/func_80039794.h"
 #include "../game/fade.h"
 #include "../game/model_slot_properties.h"
+#include "../game/model_slot_support.h"
 #include "../game/model_slot_state_updates.h"
 #include "../game/model_effect_coefficients.h"
 #include "../unmatched.h"
@@ -73,7 +74,6 @@
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 extern u8 *D_800EB24C;
-unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light);
 
 void func_8002ACA4(u8 *state)
 {

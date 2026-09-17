@@ -56,6 +56,7 @@
 #include "../game/color.h"
 #include "../game/gpu_packets.h"
 #include "../game/screen_projection.h"
+#include "../game/model_handler_registry.h"
 #include "../unmatched.h"
 
 #define B(p, o) (*((u8 *)(p) + (o)))
@@ -63,8 +64,6 @@
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define SP(o) ((u8 *)buf + (o) - 0x20)
-
-s32 func_8005FE44(s32 arg0);
 
 void func_800540B4(s32 index)
 {

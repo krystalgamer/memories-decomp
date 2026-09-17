@@ -5,7 +5,7 @@
 
 /* The opponent's drop-weight table, loaded per opponent and drawn from.
  *
- * func_800179F4 fills it, handing the address to a transfer as the
+ * Duel_InitScene fills it, handing the address to a transfer as the
  * destination and choosing the source from the opponent id:
  *
  *     File_RequestAsyncTransfer(0, 0, gDuel_bOpponentID * 2 + gDuel_bOpponentID

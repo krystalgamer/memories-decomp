@@ -155,7 +155,7 @@ integer ABI boundaries.
 |---|---|---|
 | Default pointer | `Campaign_LoadScenePackageStage`, `DuelEffect_AllocateRequest`, `Main_InitFreeDuelMenu`, overworld `set_location.c` | Plain scalar |
 | `HIGH_MEMORY_ADDRESSES_BASE_IN_DATA` | `Campaign_LoadScenePackage`, `Duel_LoadPackageStage`, `file_transfer_steps.c`, `func_8003A560`, `FreeDuel_LoadPackageStage`, `CampaignMap_LoadPackageStage`, `func_8005B8A0`, `func_80056828` | Forced `.data` declaration, not a storage definition |
-| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `func_8001755C`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | `D_80010000`-relative array addressing |
+| `HIGH_MEMORY_ADDRESSES_MODEL_PREFIX` | `Duel_InitModelScene`, `main_run_duel_and_library.c`, `main_run_selection_menus.c` | `D_80010000`-relative array addressing |
 
 The indexed arm takes `HighMemoryModelAddressPrefix` from
 [`ygo_types.h`](../src/ygo_types.h). This is only the first five address
@@ -167,7 +167,7 @@ Three resident loads and five candidate loads now use these cohort fields.
 
 Only element zero of the incomplete prefix array is used. It is an
 addressing view, not evidence of repeated prefix records or the extent of
-the fourteen-word allocation. `func_8001755C` formerly used a complete
+the fourteen-word allocation. `Duel_InitModelScene` formerly used a complete
 three-word signed array; both that 12-byte declaration and the new
 incomplete view avoid small-data classification under its named profile.
 The other indexed consumers already used incomplete arrays. Measurement

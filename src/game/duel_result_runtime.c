@@ -19,7 +19,7 @@
 #include "input.h"
 #include "rand_get_interval.h"
 #include "trig_constants.h"
-#include "func_800179F4.h"
+#include "duel_init_scene.h"
 #include "file_transfer.h"
 #include "func_80020BE4.h"
 #include "sound.h"

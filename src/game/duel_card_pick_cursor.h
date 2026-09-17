@@ -45,7 +45,7 @@ typedef char DuelCardPickCursor_size_must_be_0x1A[
  *   0x20  the whole cursor mode should be torn down once 0x40 clears
  *
  * Zero therefore means the cursor is not active at all, which is how
- * func_800179F4 uses it: it clears this byte in the run of assignments that
+ * Duel_InitScene uses it: it clears this byte in the run of assignments that
  * resets the duel, alongside D_8009B162, the countdown the 0x40 hold waits
  * on.
  *
