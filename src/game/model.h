@@ -137,6 +137,18 @@ typedef union {
         u8 field_04[4];
         u32 field_08;
     } values;
+    /* The three per-axis minima func_80057E20 clamps an effect adjustment
+     * up to, at slot offsets 0xCFF, 0xD00 and 0xD01. Each is a byte scaled
+     * by 16, and zero means the axis is not clamped. A third arm rather than
+     * members of `bytes` because that arm's field_00 is also the base of the
+     * block move in model_slot_support.c. */
+    struct {
+        u8 pad_00[7];
+        u8 min_x;
+        u8 min_y;
+        u8 min_z;
+        u8 pad_0A[2];
+    } thresholds;
 } ModelSlotCF8Prefix;
 
 typedef struct {
