@@ -243,7 +243,8 @@ void func_80024D34(s32 a, s32 b)
     }
     tb = D_8015C424;
     replay = (DuelCardReplayRecordBlock *)(
-        tb + idx * sizeof(DuelCardRecord) + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
+        (u8 *)&((DuelCardRecord *)tb)[idx] +
+        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
     );
     obj = func_80024C1C(*(s16 *)replay->record.data, D_800908A0[idx].x,
                         D_800908A0[idx].y);
