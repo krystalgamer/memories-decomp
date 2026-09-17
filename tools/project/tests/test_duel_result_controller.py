@@ -50,7 +50,7 @@ DuelResultDisplayState *D_8009B1E8;
 DuelResultDisplayState gDuel_awRitualData;
 u8 D_8009B34E, D_8009B355, gDuel_bWinnerSide;
 s8 D_8009B360[2], gDuel_bOpponentID;
-u8 *D_8009B1D8[2];
+SaveDataState *D_8009B1D8[2];
 s32 D_801D56A8[1];
 u8 D_801AF000[2048], gText_abColorSlots[16];
 u8 D_800E9EC8_arr[FADE_TRANSITION_STATE_SIZE];
@@ -196,7 +196,8 @@ static void setup(u16 flags)
     D_8009B34E = 0xAA; D_8009B355 = 0xBB;
     gDuel_bWinnerSide = 0; gDuel_bOpponentID = 5;
     D_8009B360[0] = D_8009B360[1] = -1;
-    D_8009B1D8[0] = (u8 *)saves[0]; D_8009B1D8[1] = (u8 *)saves[1];
+    D_8009B1D8[0] = (SaveDataState *)saves[0];
+    D_8009B1D8[1] = (SaveDataState *)saves[1];
     D_801D56A8[0] = 0x55555555; gDuel_wSelectedCardID = -1;
     gInput_wPad1Repeat = gInput_wPad1Pressed = 0;
     D_800F2848.angle = -1; expected_angle = 1;
