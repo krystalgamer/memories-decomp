@@ -3080,7 +3080,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80018080,Duel_ApplyCardObjectFlags,matching_c,game,C,src/game/duel_apply_card_object_flags.c,address,,rec = &D_801A7AD8[type];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001825C,DuelScene_UpdateResume,matching_c,game,C,src/game/duel_phase_entry.c,address,,DuelCard_RemoveFromField(&D_801A7AD8[card->field_6A]); | rec = &D_801A7AD8[D_800907D8[
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001898C,DuelScene_UpdateDrawPhase,matching_c,game,C,src/game/duel_phase_entry.c,address,,rec = &D_801A7AD8[idx]; | rec = D_801A7AD8;
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80018DB4,DuelScene_UpdateDrawResolution,matching_c,game,C,src/game/duel_draw_resolution.c,address,,"(DuelCardRecord *)((u8 *)D_801A7AD8 + k * DUEL_CARD_RECORD_SIZE),"
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80018DB4,DuelScene_UpdateDrawResolution,matching_c,game,C,src/game/duel_draw_resolution.c,address,,"&D_801A7AD8[k],"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80019608,DuelScene_UpdateCardUse,matching_c,game,C,src/game/func_80019608.c,address,,slot = &D_801A7AD8[p->field_6A];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80019BD0,func_80019BD0,matching_c,game,C,src/game/func_80019BD0.c,read_write,,D_801A7AD8[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,address,,DuelCardRecord *base = D_801A7AD8; | card = &D_801A7AD8[D_800E9EF0[0]->field_6A]; | (+2 more)
