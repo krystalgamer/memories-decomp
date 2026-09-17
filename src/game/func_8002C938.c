@@ -1,6 +1,7 @@
 #include "../types.h"
 #include "duel_card.h"
 #include "duel_side_state.h"
+#include "display_object.h"
 
 void func_8002C938(u32 *output, s32 alternate)
 {
@@ -60,7 +61,8 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
     } else {
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
-                (selector < 0 || *((u8 *)entry->object + 0x68) == selector))
+                (selector < 0 ||
+                 ((DisplayObject *)entry->object)->field_68 == selector))
                 *output++ = (u32)entry->object;
         }
     }
