@@ -345,9 +345,10 @@ Raw local views retained for exact code generation:
 - `Duel_FindFreeFieldSlot` keeps the manual byte-scaled base construction so
   the record-scale result and final pointer share the retail live range, then
   walks a typed `DuelCardRecord` cursor for the flags test.
-- `func_8001778C` keeps byte cursors for the paired `+0x00`/`+0x04` stores
-  and independent `+0x16` cursor; its increments and bound use the shared
-  size/count constants.
+- `func_8001778C` keeps the independent `+0x16` flags cursor that preserves
+  retail allocation. Its `+0x04` word store derives the backward distance
+  between `DuelCardRecord::flags` and `::data`, and its increments and bound
+  use the shared size/count constants.
 - `func_80017DB4` keeps the target's 32-bit read beginning at `+0x14` so the
   `0xA0000000` mask remains a single `lw`-based test.
 - `func_80017F04` uses the shared table declaration for its record-index
