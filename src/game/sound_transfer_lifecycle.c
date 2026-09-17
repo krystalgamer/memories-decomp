@@ -58,14 +58,15 @@ void SD_Term(void)
  * inactive-state rejection. The function then reloads the state pointer, clears
  * the transfer status, and populates the header pointer, header-derived byte
  * counts, two control bytes, and the final pointer-valued field in retail order.
- * The header remains a byte pointer because this match does not establish a new
- * shared VAB header type.
+ * The header is taken as SDVabHeader *, which this header now declares; the
+ * transfer record still keeps it as a byte pointer, so that one field is the
+ * only cast left.
  *
  * All 38 target instructions agree with retail. The original canonical match
  * and six-entry inline-refinement series ending in deferral remain intact; a new
  * `post_terminal_resolution` row records the initialization-order discriminator.
  */
-s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr)
+s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
 {
     /* Retail reserves eight stack bytes without accessing them. */
     volatile s32 pad[2];
@@ -88,13 +89,11 @@ s32 SD_VabOpenHead(u8 *vab, s16 vab_id, s32 spu_addr)
     state = D_8009B458;
     state->transfer.field_0000 = zero;
     entry = &state->transfer;
-    entry->field_0004 = vab;
-    entry->field_0008 =
-        (((SDVabHeader *)vab)->program_count << 9) + 0xA20;
-    entry->field_0010 =
-        ((SDVabHeader *)vab)->file_size - entry->field_0008;
-    entry->field_0018 = ((SDVabHeader *)vab)->master_volume;
-    entry->field_001B = ((SDVabHeader *)vab)->pan;
+    entry->field_0004 = (u8 *)vab;
+    entry->field_0008 = (vab->program_count << 9) + 0xA20;
+    entry->field_0010 = vab->file_size - entry->field_0008;
+    entry->field_0018 = vab->master_volume;
+    entry->field_001B = vab->pan;
     entry->field_0014 = (u8 *)spu_addr;
     return 0;
 }
