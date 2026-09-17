@@ -27,7 +27,6 @@
 #include "../game/gpu_packets.h"
 
 extern u32 *func_80061A84(GsARGUNIT_NORMAL *arg);
-extern void func_80033CF8(s32 dx, s32 dy, s32 dz);
 
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
 
