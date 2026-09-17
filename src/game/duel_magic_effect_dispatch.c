@@ -31,7 +31,7 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
                 &D_801A7AD8[D_800907D8[position]];
 
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
-                func_80024954(entry);
+                DuelCard_RemoveFromField(entry);
         }
         gDuel_wCardEffectFlags = 0;
     }

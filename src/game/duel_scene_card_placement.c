@@ -331,7 +331,7 @@ request_combination:
                         }
                         if (D_8009B210 & 0x40) {
                             Duel_SetupCardRecord(card_index, (s8)((DuelDeckCardRecord *)card->data)->index_02);
-                            func_80024954(card);
+                            DuelCard_RemoveFromField(card);
                         }
                         value = Duel_CalcCardStats(card);
                         object = (DisplayObject *)func_800291E0(0, value & 0xFFFF, value >> 16);

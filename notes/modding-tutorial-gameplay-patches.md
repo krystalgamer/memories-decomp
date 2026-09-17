@@ -651,7 +651,7 @@ screen effect, starts a first `func_80022D94` phase, and arms a 20-frame
 counter. When that counter expires it copies the selected card object's
 `+0x30`, `+0x32`, and `+0x34` values into a newly allocated type-8 effect
 object, updates the corresponding `0x1C`-byte duel-card record through
-`func_80024954`, and plays sound `0x17`. It then starts a second
+`DuelCard_RemoveFromField`, and plays sound `0x17`. It then starts a second
 `func_80022D94` phase, waits another 20 frames, increments byte `+0x06` in
 the opposing side's `0x20`-byte state record, and reports completion. The
 recovery and damage tables change the LP amount; they do not select separate

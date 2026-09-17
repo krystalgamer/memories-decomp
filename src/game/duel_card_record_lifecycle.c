@@ -79,7 +79,7 @@ void DuelCard_DeactivateRecord(DuelCardRecord *object)
     }
 }
 
-void func_80024954(DuelCardRecord *object)
+void DuelCard_RemoveFromField(DuelCardRecord *object)
 {
     DuelCard_DeactivateRecord(object);
     object->flags = 0;

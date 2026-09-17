@@ -96,7 +96,7 @@ void DuelScene_UpdateResume(void)
                 rec = &D_801A7AD8[D_800907D8[
                     i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
                 if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
-                    func_80024954(rec);
+                    DuelCard_RemoveFromField(rec);
                 }
             }
         } else {
@@ -151,7 +151,7 @@ void DuelScene_UpdateResume(void)
     obj->field_02 = card->field_30.h.field_32;
     obj->field_04 = *(u16 *)&card->field_34;
     obj->field_1A = Duel_GetCardEffectVariant((CardObject *)card);
-    func_80024954(&D_801A7AD8[card->field_6A]);
+    DuelCard_RemoveFromField(&D_801A7AD8[card->field_6A]);
     SD_SEPlayFull(0x1F);
 }
 

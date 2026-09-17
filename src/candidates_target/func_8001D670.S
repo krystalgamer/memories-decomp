@@ -1279,7 +1279,7 @@ glabel DuelScene_UpdateFieldActions
     /* F138 8001E938 C0100300 */  sll        $v0, $v1, 3
     /* F13C 8001E93C 23104300 */  subu       $v0, $v0, $v1
     /* F140 8001E940 80100200 */  sll        $v0, $v0, 2
-    /* F144 8001E944 5592000C */  jal        func_80024954
+    /* F144 8001E944 5592000C */  jal        DuelCard_RemoveFromField
     /* F148 8001E948 21204400 */   addu      $a0, $v0, $a0
     /* F14C 8001E94C C402838F */  lw         $v1, %gp_rel(D_8009B1CC)($gp)
     /* F150 8001E950 09000224 */  addiu      $v0, $zero, 0x9
