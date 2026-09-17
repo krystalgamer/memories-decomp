@@ -109,7 +109,7 @@ identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
 `func_8004703C` continues to expose bit `0x08`, making that bit the
 game-facing startup-busy condition.
 
-Matching `func_80047788` and its adjacent callers establish the link-table
+Matching `SD_QueueValueLinkTransfer` and its adjacent callers establish the link-table
 lifecycle. `func_8004763C` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
 (`0xFFFF`) and initializes
 `field_0438` to the first link's second word plus `0x1010`.
@@ -117,9 +117,9 @@ lifecycle. `func_8004763C` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
 zero or when the same index is already selected; accepted indices are stored
 in `field_0442` before dispatch. `SD_RequestValueLink` is the direct request
 path: it suppresses only a duplicate selected index, then stores the new
-index, marks flags bit 1, and calls `func_80047788`.
+index, marks flags bit 1, and calls `SD_QueueValueLinkTransfer`.
 
-`func_80047788` applies `SD_VALUE_LINK_INDEX_MASK` (`0xFFFF`) and
+`SD_QueueValueLinkTransfer` applies `SD_VALUE_LINK_INDEX_MASK` (`0xFFFF`) and
 `SD_VALUE_LINK_RECORD_SIZE` (`0x08`) to select one `SDValueLink`.
 The mask does not add an index-validity check, and the cache sentinel remains
 distinct from the pending-entry table's other `0xFFFF` markers. The stride is

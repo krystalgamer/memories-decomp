@@ -4462,7 +4462,7 @@
       "address": "0x80047788",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/func_80047788.c"
+      "source": "src/game/sd_queue_value_link_transfer.c"
     },
     {
       "address": "0x80047864",

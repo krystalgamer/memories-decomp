@@ -682,7 +682,7 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  * arm; sound_output_transition.c and sound_output_state.c keep the same
  * measured views for func_800466C8 and func_80045054 through same-symbol local
  * aliases;
- * func_80047788.c, func_80045514.c and func_80046294.c
+ * sd_queue_value_link_transfer.c, func_80045514.c and func_80046294.c
  * take the .data arm.
  *
  *   G_SDVALUE_AGGREGATE -- an unsized array extern is not small data, so
@@ -697,9 +697,9 @@ typedef char SDSecondaryState_field_0844_offset_must_be_0x844[
  *   func_80045054 uses four staged pointer reads around decoded-buffer
  *   selection, accumulation, and result publication.
  *
- *   G_SDVALUE_IN_DATA -- func_80047788 reaches the pointer three times and
- *   retail uses the bare form at every one of them: lui $a3, %hi / lw $a3,
- *   %lo at 0x80047788, again into $v1 at 0x80047804 and into $a0 at
+ *   G_SDVALUE_IN_DATA -- SD_QueueValueLinkTransfer reaches the pointer three
+ *   times and retail uses the bare form at every one of them: lui $a3, %hi /
+ *   lw $a3, %lo at 0x80047788, again into $v1 at 0x80047804 and into $a0 at
  *   0x80047828. Placing the symbol in .data takes it out of small data at
  *   the compiler, with its real type and no assembler -G change. The unit
  *   used to spell this as a second extern of its own beside this header's,

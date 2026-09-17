@@ -1,12 +1,12 @@
 #define G_SDVALUE_IN_DATA
 #include "../types.h"
-#include "func_80047788.h"
+#include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 #include "sound_output.h"
 
 #define SD_VALUE_LINK_BLOCK_SIZE 0x800
 
-void func_80047788(s32 arg0)
+void SD_QueueValueLinkTransfer(s32 index)
 {
     SDCommand req;
     SDValue *a;
@@ -21,7 +21,7 @@ void func_80047788(s32 arg0)
     step = (step + SD_VALUE_LINK_BLOCK_SIZE - 1) /
            SD_VALUE_LINK_BLOCK_SIZE;
     step = step + 1;
-    off = (arg0 & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
+    off = (index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
     entry = (SDValueLink *)(off + (s32)a->field_0448);
     func_800471D0(a->field_0438, 0x801E6800,
                   step + *(u16 *)entry, entry->field_0004, 0x800, 0x10);

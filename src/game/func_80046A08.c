@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "../psyq/stdio.h"
 #include "../unmatched.h"
-#include "func_80047788.h"
+#include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 #include "sound_output.h"
 
@@ -68,7 +68,7 @@ void func_80046A08(void) {
         }
         break;
     case 4:
-        func_80047788(0);
+        SD_QueueValueLinkTransfer(0);
         g_SDValue->field_003C += 1;
         return;
     case 5:

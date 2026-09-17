@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "func_80047788.h"
+#include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 #include "sound_output_state.h"
 #include "sound_pending_entries.h"
@@ -134,7 +134,7 @@ s32 func_80047AD0(s32 value)
         register s32 call_value = index;
         final->field_0442 = value;
         final->flags_0040 |= 2;
-        func_80047788(call_value);
+        SD_QueueValueLinkTransfer(call_value);
     }
     return 1;
 }
@@ -147,7 +147,7 @@ s32 SD_RequestValueLink(u16 value)
         return 1;
     state->field_0442 = value;
     state->flags_0040 |= 2;
-    func_80047788(value);
+    SD_QueueValueLinkTransfer(value);
     return 1;
 }
 
@@ -160,7 +160,7 @@ void func_80047BB4(u16 *items, s32 count)
     g_SDValue->flags_0040 |= 2;
     for (i = 0; i < count; i++) {
         if (items[i] != 0xFFFF)
-            func_80047788(items[i]);
+            SD_QueueValueLinkTransfer(items[i]);
     }
 }
 
