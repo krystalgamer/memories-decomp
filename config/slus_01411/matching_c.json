@@ -3826,7 +3826,7 @@
       "address": "0x80042188",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x654",
-      "source": "src/game/display_object_packet_submit.c"
+      "source": "src/game/display_object_helpers.c"
     },
     {
       "address": "0x800427DC",
