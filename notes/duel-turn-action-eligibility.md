@@ -109,7 +109,7 @@ handles the card presentation separately.
 
 ## Position changes use the same latch
 
-The L1/R1 field-action paths call `func_8001700C`. Its matching body accepts a
+The L1/R1 field-action paths call `DuelCard_CanActThisTurn`. Its matching body accepts a
 record only when:
 
 ```c
