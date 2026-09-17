@@ -101,7 +101,7 @@ extern u8 D_800E9F64[];
 extern u8 D_800EAE91[];
 int func_8001700C(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
-void func_8001D344(u8 *object);
+void func_8001D344(DisplayObject *object);
 void func_8001D3C4(DisplayObject *o);
 DisplayObject *func_8001D518(DisplayObject *source);
 s32 func_8001D5B4(DuelFieldCursor *cursor);
