@@ -3,10 +3,11 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "model.h"
 #include "model_packet_handlers.h"
 #include "../unmatched.h"
 
-void func_8005C6A0(s32 *object, u8 *entry)
+void func_8005C6A0(s32 *object, ModelSlot *entry)
 {
     int local[2];
     int count;
@@ -20,14 +21,14 @@ void func_8005C6A0(s32 *object, u8 *entry)
     handler = func_8005C7BC;
     *(void **)object[1] = handler;
     count = GsLinkAnim(
-        (GsSEQ **)(entry + 0x1E0 + entry[0xE1B] * 4),
+        (GsSEQ **)&entry->field_1E0[entry->field_E1B],
         (u32 *)object[1]
     );
     if (GsScanAnim((u32 *)object[1], 0)) {
         while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
             *(void **)local[1] = func_8005C768(local[0]);
         }
-        entry[0xE1B] += count;
+        entry->field_E1B += count;
     }
 }
 

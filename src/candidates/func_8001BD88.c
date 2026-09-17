@@ -151,7 +151,7 @@ void DuelScene_UpdateHandActions(void)
         DisplayObject_ConfigureSpriteResource((DisplayObject *)o, 3, 0, 2, 0xB, 0x20C);
         H(o, 8) |= 0x28;
         DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-        DisplayObject_SetDepthOffset(o, 0xA);
+        DisplayObject_SetDepthOffset((DisplayObject *)o, 0xA);
         W(side, 4) = (s32)o;
         func_8001B780((DuelHandStackState *)side);
         func_80023144((DuelFieldDisplaySource *)side, D_800907CC[(s8)B(side, 0xE) + D_8009B1D5 * 5]);
@@ -257,7 +257,7 @@ void DuelScene_UpdateHandActions(void)
                 S(obj, 0x2C) = 0x10;
                 B(obj, 0x6C) = 1;
                 W(obj, 0x24) = (s32)func_8001EC70;
-                DisplayObject_SetDepthOffset(obj, (s8)(f + 4));
+                DisplayObject_SetDepthOffset((DisplayObject *)obj, (s8)(f + 4));
                 H(W(side, 4), 8) &= 0xFFBF;
                 return;
             }
@@ -266,7 +266,8 @@ void DuelScene_UpdateHandActions(void)
                     v = (u16)D_8009B20C[0] & 0x1000;
                     D_8009B20C[0] = (u16)D_8009B20C[0] & 0xBFFF;
                     if (v != 0) {
-                        DisplayObject_SetDepthOffset(obj, (s8)(B(obj, 0x16) - 4));
+                        DisplayObject_SetDepthOffset(
+                            (DisplayObject *)obj, (s8)(B(obj, 0x16) - 4));
                         o = (u8 *)W(side, 4);
                         D_8009B20C[0] = 3;
                         H(o, 8) |= 0x40;
@@ -427,7 +428,8 @@ void DuelScene_UpdateHandActions(void)
             H(obj, 0x2E) = H(obj, 0x32);
             DisplayObject_SavePosition((void *)obj);
             S(obj, 0x60) = 0;
-            DisplayObject_SetDepthOffset(obj, (s8)(B(obj, 0x16) + 4));
+            DisplayObject_SetDepthOffset(
+                (DisplayObject *)obj, (s8)(B(obj, 0x16) + 4));
             H(W(side, 4), 8) &= 0xFFBF;
             v = D_8009B174 & 0x40;
         }
@@ -441,7 +443,8 @@ void DuelScene_UpdateHandActions(void)
                 W(obj, 0x30) = W(obj, 0x28);
                 if (v != 0) {
                     H(W(side, 4), 8) |= 0x40;
-                    DisplayObject_SetDepthOffset(obj, (s8)(B(obj, 0x16) - 4));
+                    DisplayObject_SetDepthOffset(
+                        (DisplayObject *)obj, (s8)(B(obj, 0x16) - 4));
                     if (D_8009B174 & 0x20) {
                         D_8009B174 = 4;
                         return;
@@ -458,13 +461,13 @@ void DuelScene_UpdateHandActions(void)
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) - 8, S(obj, 0x32) + 0x1E, 3, 1, 2, 0xB, 0x20C);
                 DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-                DisplayObject_SetDepthOffset(o, 0xA);
+                DisplayObject_SetDepthOffset((DisplayObject *)o, 0xA);
                 H(o, 8) |= 0x28;
                 D_8009B188 = (DisplayObject *)o;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) + 0x3C, S(obj, 0x32) + 0x1E, 3, 1, 0, 0xB, k20c);
                 DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-                DisplayObject_SetDepthOffset(o, 0xA);
+                DisplayObject_SetDepthOffset((DisplayObject *)o, 0xA);
                 H(o, 8) |= 0x28;
                 D_8009B18C = (DisplayObject *)o;
                 return;

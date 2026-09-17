@@ -19,7 +19,7 @@ void func_80029590(void)
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable3(object);
-        DisplayObject_SetDepthOffset((u8 *)object, 0);
+        DisplayObject_SetDepthOffset(object, 0);
         state->slots[i] = object;
     }
 }

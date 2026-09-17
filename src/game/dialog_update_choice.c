@@ -27,7 +27,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         e = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
         func_800427DC(e, 1);
         DisplayObject_SelectOrderingTable1(e);
-        DisplayObject_SetDepthOffset((u8 *)e,
+        DisplayObject_SetDepthOffset(e,
                       (s8)(*((u8 *)p->field_28 + 0x16) + 1));
         p->field_30 = e;
         *(s32 *)&e->field_54 = 0x2000;

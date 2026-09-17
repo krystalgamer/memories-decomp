@@ -30,7 +30,7 @@ s32 func_80020988(void) {
             3, one, 2, b, c
         );
         DisplayObject_SelectOrderingTable1(q);
-        DisplayObject_SetDepthOffset((u8 *)q, 0xA);
+        DisplayObject_SetDepthOffset(q, 0xA);
         /* This merge, the two below it and the first store to 0x60 go
            through the members' addresses with the other signedness rather
            than being plain q->flags and q->field_60 stores. The spelling is
@@ -56,7 +56,7 @@ s32 func_80020988(void) {
             3, one, 0, b, c
         );
         DisplayObject_SelectOrderingTable1(q);
-        DisplayObject_SetDepthOffset((u8 *)q, 0xA);
+        DisplayObject_SetDepthOffset(q, 0xA);
         *(s16 *)&q->flags =
             *(s16 *)&q->flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

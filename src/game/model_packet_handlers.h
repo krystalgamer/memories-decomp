@@ -6,6 +6,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "model.h"
 
 /* One keyframe of a translation-and-rotation track: a position, then three
  * angles in MODEL_ANGLE_FULL_TURN units. */
@@ -47,8 +48,12 @@ u32 *func_8005C7BC(GsARGUNIT_ANIM *ctx);
  * func_8005C768 maps a packet's type word to the routine that consumes it,
  * returning it as a plain address because the slot it is written into is
  * untyped. It answers with the library's own GsU_00000000 for anything it
- * does not recognise, so callers get a valid handler rather than a null. */
-void func_8005C6A0(s32 *object, u8 *entry);
+ * does not recognise, so callers get a valid handler rather than a null.
+ *
+ * The model is a ModelSlot: the table it hands GsLinkAnim is that record's
+ * field_1E0 indexed by field_E1B, which is also the counter it advances by
+ * the number of sequences linked. */
+void func_8005C6A0(s32 *object, ModelSlot *entry);
 void *func_8005C768(u32 value);
 
 #endif

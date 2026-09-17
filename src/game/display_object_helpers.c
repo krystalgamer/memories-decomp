@@ -81,9 +81,8 @@ void func_800428A8(
     DisplayObject_ConfigureSpriteAtPosition(object, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
-s32 DisplayObject_SetDepthOffset(u8 *object, s8 value)
+s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 {
-    DisplayObject *obj = (DisplayObject *)object;
     u32 index = obj->ot_index;
     volatile u16 *table = D_8009AF74;
     s32 result;

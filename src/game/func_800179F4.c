@@ -148,7 +148,7 @@ void func_800179F4(void)
     D_8009B21C = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable1(obj);
-    DisplayObject_SetDepthOffset((u8 *)obj, 1);
+    DisplayObject_SetDepthOffset(obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = (u8 *)D_8009B21C;
     obj->field_50.word = (s32)prev;

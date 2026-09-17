@@ -284,7 +284,7 @@ s32 func_800235C0(void)
                     DisplayObject_SetResourceVariant((DisplayObjectConfig *)o, source->field_13);
                     source->field_16 = 7;
                 }
-                DisplayObject_SetDepthOffset((u8 *)o, -(source->table_index * 2) - 2);
+                DisplayObject_SetDepthOffset(o, -(source->table_index * 2) - 2);
                 o->position.h.field_28 = 0;
                 o->position.h.field_2A = source->field_0C;
                 DisplayObject_SavePosition((DisplayObjectSnapshot *)o);

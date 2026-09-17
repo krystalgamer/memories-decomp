@@ -184,7 +184,7 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
                             index, (ModelTypeUnit *)&ev, scratch);
                         break;
                     case 3:
-                        func_8005C6A0((s32 *)&ev, (u8 *)base);
+                        func_8005C6A0((s32 *)&ev, base);
                         break;
                     default:
                         *ev.ptr = handler;

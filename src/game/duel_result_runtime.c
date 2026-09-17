@@ -93,7 +93,7 @@ void func_80020D4C(DisplayObject *arg0) {
             slot->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                            DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             slot->attribute |= (GsALON | GsAONE);
-            DisplayObject_SetDepthOffset((u8 *)slot, (u8)arg0->field_16 - 1);
+            DisplayObject_SetDepthOffset(slot, (u8)arg0->field_16 - 1);
             slot->field_60 = 8;
             slot->update = (DisplayObjectCallback)func_80042BC0;
         }

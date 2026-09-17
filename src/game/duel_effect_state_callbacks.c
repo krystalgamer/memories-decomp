@@ -54,7 +54,7 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
     cursor->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_SelectOrderingTable1(cursor);
-    DisplayObject_SetDepthOffset((u8 *)cursor, (s8)(record->field_59 + 1));
+    DisplayObject_SetDepthOffset(cursor, (s8)(record->field_59 + 1));
     return cursor;
 }
 

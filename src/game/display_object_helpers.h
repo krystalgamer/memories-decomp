@@ -78,7 +78,14 @@ void func_80042874( DisplayObjectResource *object, s32 arg1, s32 arg2, s32 arg3,
    above it does the same job through DisplayObjectResource::resource and
    spells the parameter this way already. */
 void func_800428A8( void *object, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, void *resource );
-s32 DisplayObject_SetDepthOffset(u8 *object, s8 value);
+/* Stores the object's depth order and returns its resulting ordering-table
+ * depth. It takes the canonical record: it reads ot_index and writes
+ * field_16 and field_14, and two thirds of its call sites were already
+ * holding a DisplayObject and casting it down. The sites that do keep a byte
+ * cursor -- five candidates and three resident units that walk the same
+ * object by offset either side of the call -- name the record at the call
+ * instead. */
+s32 DisplayObject_SetDepthOffset(DisplayObject *object, s8 value);
 void DisplayObject_SelectOrderingTable1(DisplayObject *object);
 void DisplayObject_SelectOrderingTable3(DisplayObject *object);
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object);
