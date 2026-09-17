@@ -7,7 +7,7 @@
 #include "display_object_packet_submit.h"
 
 /* The scratch record at 0x1F8003E0. func_80041F90 projects into its head
-   and func_80042188 reads that head back as the packet origin;
+   and DisplayObject_SubmitPacket reads that head back as the packet origin;
    func_80016784 keeps the card's screen position in the word after it. */
 typedef struct {
     DisplayObjectPacketOrigin origin;
@@ -23,7 +23,7 @@ typedef struct {
  * D_801A7AD8 that func_80017F04 (func_80017DB4.c) writes there, which is what
  * says this object is a duel card's.
  *
- * The second argument is passed straight through to func_80042188, which
+ * The second argument is passed straight through to DisplayObject_SubmitPacket, which
  * takes it as a word in every declaration of it in the tree. One caller
  * hands it a GsOT * from the interior array view D_800E9D98, so a pointer travels
  * through this word-sized channel; that conversion belongs at the call site

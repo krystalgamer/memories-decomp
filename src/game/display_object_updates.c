@@ -18,7 +18,7 @@
    the object, offsets it by the viewport origin unless bit 3 is set, runs
    the bit-2 clip test through func_80041F90 (setting the POLY_FT4 at
    0x1F800344 up as a 9-word packet, semi-transparent when the tag says so),
-   then walks the object's width through func_80042188, advancing the
+   then walks the object's width through DisplayObject_SubmitPacket, advancing the
    position or the size and the texture coordinates (the page step depends on
    the depth bits of the tag) after each strip. */
 void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg) {
@@ -91,7 +91,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *e, s32 tex, s32 mode_arg) {
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        func_80042188(p, (u8 *)g, tex, mode, c->out);
+        DisplayObject_SubmitPacket(p, (u8 *)g, tex, mode, c->out);
         if (c->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {

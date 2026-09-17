@@ -249,7 +249,7 @@ inventory falls from 109 names/206 sites to 106 names/196 sites.
    scratch workspace at `0x1F800398`; reject a nonpositive result or add
    `0x04000000` to the packet control word.
 6. Select the ordering table through slot byte `+0x17` and submit through
-   `func_80042188`.
+   `DisplayObject_SubmitPacket`.
 
 The concrete differences are:
 
@@ -283,7 +283,7 @@ Both renderers copy it **verbatim** into the record they are building —
 `DisplayObject_RenderSpriteStrips`. That record is a `GsSPRITE`: its fields line up one for one
 with `libgs.h`'s, from `attribute` at `+0x0` through `x`/`y`, `w`/`h`,
 `tpage`, `u`/`v`, `cx`/`cy`, `r`/`g`/`b`, `mx`/`my`, `scalex`/`scaley` to
-`rotate` at `+0x20`, and both renderers hand it to `func_80042188`, whose
+`rotate` at `+0x20`, and both renderers hand it to `DisplayObject_SubmitPacket`, whose
 first three dispatch cases pass it straight to `GsSortFastSprite`,
 `GsSortFlipSprite` and `GsSortSprite` — all of which take a `GsSPRITE *`.
 `fade_runtime.c` had already reached the same conclusion for its own
@@ -372,9 +372,9 @@ The `(tag | 0x08000000) & 0x8FFFFFFF` mask in `display_object_transition.c`
 was read as possibly clamping a length field. It sets `GsROTOFF` and clears
 the rate together with `GsALON`: turn rotation off and semi-transparency off.
 
-### `func_80042188`'s first argument is both
+### `DisplayObject_SubmitPacket`'s first argument is both
 
-`func_80042188`'s inventory row records that its first argument cannot be
+`DisplayObject_SubmitPacket`'s inventory row records that its first argument cannot be
 resolved as pointer or value from the call sites, because a scratchpad address
 happens to satisfy the `0x04000000` test the function applies to it. The
 answer is that it is **both, selected by the dispatch case** in the high half
@@ -401,7 +401,7 @@ if ((*(u16 *)(e + 8) & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
     if (func_80041E7C(...) <= 0) goto next;
     v = v | 0x4000000;
 }
-func_80042188(v, g, ..., *(u16 *)(e + 0x14) | bit, h);
+DisplayObject_SubmitPacket(v, g, ..., *(u16 *)(e + 0x14) | bit, h);
 ```
 
 So the `0x04000000` test is a `GsPERS` test. On the value paths the bit is set

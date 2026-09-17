@@ -155,7 +155,7 @@ retry:
         sprite->uv.b.lo = value;
         sprite->uv.b.hi = ((work->cell & 0x3E0) >> 2) + (u8)work->v;
         sprite->tpage += value >> 8;
-        /* From here `value` is the func_80042188 mode: case 1 sorts a fast
+        /* From here `value` is the DisplayObject_SubmitPacket mode: case 1 sorts a fast
          * sprite, 2 a flipped one, 3 a rotated/scaled one. */
         value = (u16)depth | 0x10000;
         if (state->flip != 0) {
@@ -203,7 +203,7 @@ narrow:
                 sprite->xy.h.y += sprite->mxmy.h.y;
             }
         }
-        func_80042188(sprite, quad, ot, value | work->mode, (u8 *)&work->proj);
+        DisplayObject_SubmitPacket(sprite, quad, ot, value | work->mode, (u8 *)&work->proj);
 next:
         part++;
     } while (--count != 0);

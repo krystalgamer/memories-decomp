@@ -70,8 +70,8 @@ PAIRS = [
     ("src/game/func_80014294.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/candidates/func_80028B08.c", "func_80042188", '#include "../game/display_object_packet_submit.h"'),
-    ("src/game/display_object_runtime.c", "func_80042188", '#include "display_object_packet_submit.h"'),
+    ("src/candidates/func_80028B08.c", "DisplayObject_SubmitPacket", '#include "../game/display_object_packet_submit.h"'),
+    ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
     ("src/game/model_debug_controller.c", "func_80056828", '#include "model_load_step.h"'),
@@ -281,16 +281,16 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 (CONFIG / "candidates.json").read_text(encoding="utf-8")
             )["candidates"]
         }
-        index = candidate_builds.canonical_declaration_index({"func_80042188"})
-        declarations = index["func_80042188"]
+        index = candidate_builds.canonical_declaration_index({"DisplayObject_SubmitPacket"})
+        declarations = index["DisplayObject_SubmitPacket"]
         expected = candidate_builds.canonical_symbol_contract_hash(
-            "func_80042188", declarations
+            "DisplayObject_SubmitPacket", declarations
         )
 
         for source in PACKET_SUBMIT_CANDIDATES:
             with self.subTest(source=source):
                 self.assertEqual(
-                    entries[source]["canonical_contracts"]["func_80042188"],
+                    entries[source]["canonical_contracts"]["DisplayObject_SubmitPacket"],
                     expected,
                 )
 
@@ -299,7 +299,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             for path, statement in declarations
         ]
         changed_hash = candidate_builds.canonical_symbol_contract_hash(
-            "func_80042188", changed
+            "DisplayObject_SubmitPacket", changed
         )
         self.assertNotEqual(expected, changed_hash)
 
@@ -356,13 +356,13 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
-        call = "func_80042188(PRM, CTX, arg1, arg, EXT);"
-        swapped = "func_80042188(PRM, EXT, arg1, arg, CTX);"
+        call = "DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);"
+        swapped = "DisplayObject_SubmitPacket(PRM, EXT, arg1, arg, CTX);"
         self.assertIn(call, original)
         base_diagnostics = compiler_diagnostics(path, profile, path.parent)
         self.assertNotRegex(
             base_diagnostics,
-            r"passing arg [25] of `func_80042188' from incompatible pointer type",
+            r"passing arg [25] of `DisplayObject_SubmitPacket' from incompatible pointer type",
         )
 
         (REPOSITORY / "tmp").mkdir(exist_ok=True)
@@ -376,11 +376,11 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             shutil.rmtree(scratch, ignore_errors=True)
         self.assertRegex(
             diagnostics,
-            r"passing arg 2 of `func_80042188' from incompatible pointer type",
+            r"passing arg 2 of `DisplayObject_SubmitPacket' from incompatible pointer type",
         )
         self.assertRegex(
             diagnostics,
-            r"passing arg 5 of `func_80042188' from incompatible pointer type",
+            r"passing arg 5 of `DisplayObject_SubmitPacket' from incompatible pointer type",
         )
 
     def test_parent_search_caller_needs_owning_header(self) -> None:

@@ -26,7 +26,7 @@ COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
 # the candidate trees themselves, and the overlays resident code cannot see.
 HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
 SHARED_OWNER_HEADERS = {
-    "func_80042188": "src/game/display_object_packet_submit.h",
+    "DisplayObject_SubmitPacket": "src/game/display_object_packet_submit.h",
     "func_8004CB0C": "src/game/model_slot_setup.h",
 }
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")

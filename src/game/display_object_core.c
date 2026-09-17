@@ -256,7 +256,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
-   origin unless bit 3 is set, and submits it through func_80042188. With
+   origin unless bit 3 is set, and submits it through DisplayObject_SubmitPacket. With
    bit 2 the position first goes through the clip test in func_80041F90,
    which may ask (D_8009B424) for the object to be run again, and the
    POLY_FT4 at 0x1F800344 is set up as a 9-word semi-transparent packet
@@ -333,7 +333,7 @@ void DisplayObject_RenderSpriteList(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = e->field_14 | 0x30000;
                 }
-                func_80042188(p, (u8 *)g, (s32)ot, mode, h->out);
+                DisplayObject_SubmitPacket(p, (u8 *)g, (s32)ot, mode, h->out);
                 break;
             }
         } while (i >= 0);

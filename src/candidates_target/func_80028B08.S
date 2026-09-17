@@ -106,7 +106,7 @@ glabel func_80028B08
     /* 19478 80028C78 66006292 */  lbu        $v0, 0x66($s3)
     /* 1947C 80028C7C 2138A002 */  addu       $a3, $s5, $zero
     /* 19480 80028C80 1000B7AF */  sw         $s7, 0x10($sp)
-    /* 19484 80028C84 6208010C */  jal        func_80042188
+    /* 19484 80028C84 6208010C */  jal        DisplayObject_SubmitPacket
     /* 19488 80028C88 0C0022A6 */   sh        $v0, 0xC($s1)
     /* 1948C 80028C8C FFFE0A3C */  lui        $t2, (0xFEFFFFFF >> 16)
     /* 19490 80028C90 FFFF4A35 */  ori        $t2, $t2, (0xFEFFFFFF & 0xFFFF)
@@ -140,7 +140,7 @@ glabel func_80028B08
     /* 19500 80028D00 000023AE */  sw         $v1, 0x0($s1)
     /* 19504 80028D04 100022A6 */  sh         $v0, 0x10($s1)
     /* 19508 80028D08 1000B7AF */  sw         $s7, 0x10($sp)
-    /* 1950C 80028D0C 6208010C */  jal        func_80042188
+    /* 1950C 80028D0C 6208010C */  jal        DisplayObject_SubmitPacket
     /* 19510 80028D10 060028A6 */   sh        $t0, 0x6($s1)
     /* 19514 80028D14 0400E0AE */  sw         $zero, 0x4($s7)
     /* 19518 80028D18 67006492 */  lbu        $a0, 0x67($s3)
@@ -187,7 +187,7 @@ glabel func_80028B08
     /* 195B8 80028DB8 4403A534 */  ori        $a1, $a1, (0x1F800344 & 0xFFFF)
     /* 195BC 80028DBC 2130C003 */  addu       $a2, $fp, $zero
     /* 195C0 80028DC0 2138A002 */  addu       $a3, $s5, $zero
-    /* 195C4 80028DC4 6208010C */  jal        func_80042188
+    /* 195C4 80028DC4 6208010C */  jal        DisplayObject_SubmitPacket
     /* 195C8 80028DC8 1000B7AF */   sw        $s7, 0x10($sp)
     /* 195CC 80028DCC 0F002292 */  lbu        $v0, 0xF($s1)
     /* 195D0 80028DD0 0A002392 */  lbu        $v1, 0xA($s1)
@@ -213,7 +213,7 @@ glabel func_80028B08
     /* 1961C 80028E1C 4403A534 */  ori        $a1, $a1, (0x1F800344 & 0xFFFF)
     /* 19620 80028E20 2130C003 */  addu       $a2, $fp, $zero
     /* 19624 80028E24 2138A002 */  addu       $a3, $s5, $zero
-    /* 19628 80028E28 6208010C */  jal        func_80042188
+    /* 19628 80028E28 6208010C */  jal        DisplayObject_SubmitPacket
     /* 1962C 80028E2C 1000B7AF */   sw        $s7, 0x10($sp)
     /* 19630 80028E30 120034A6 */  sh         $s4, 0x12($s1)
     /* 19634 80028E34 32006286 */  lh         $v0, 0x32($s3)
@@ -277,7 +277,7 @@ glabel func_80028B08
     /* 1970C 80028F0C 21104300 */  addu       $v0, $v0, $v1
     /* 19710 80028F10 40100200 */  sll        $v0, $v0, 1
     /* 19714 80028F14 10004224 */  addiu      $v0, $v0, 0x10
-    /* 19718 80028F18 6208010C */  jal        func_80042188
+    /* 19718 80028F18 6208010C */  jal        DisplayObject_SubmitPacket
     /* 1971C 80028F1C 0E0022A2 */   sb        $v0, 0xE($s1)
     /* 19720 80028F20 04002296 */  lhu        $v0, 0x4($s1)
     /* 19724 80028F24 FFFF1026 */  addiu      $s0, $s0, -0x1
@@ -314,7 +314,7 @@ glabel func_80028B08
     /* 19798 80028F98 21104300 */  addu       $v0, $v0, $v1
     /* 1979C 80028F9C 40100200 */  sll        $v0, $v0, 1
     /* 197A0 80028FA0 10004224 */  addiu      $v0, $v0, 0x10
-    /* 197A4 80028FA4 6208010C */  jal        func_80042188
+    /* 197A4 80028FA4 6208010C */  jal        DisplayObject_SubmitPacket
     /* 197A8 80028FA8 0E0022A2 */   sb        $v0, 0xE($s1)
     /* 197AC 80028FAC 04002296 */  lhu        $v0, 0x4($s1)
     /* 197B0 80028FB0 FFFF1026 */  addiu      $s0, $s0, -0x1
@@ -344,7 +344,7 @@ glabel func_80028B08
     /* 1980C 8002900C 2128C002 */  addu       $a1, $s6, $zero
     /* 19810 80029010 2130C003 */  addu       $a2, $fp, $zero
     /* 19814 80029014 2138A002 */  addu       $a3, $s5, $zero
-    /* 19818 80029018 6208010C */  jal        func_80042188
+    /* 19818 80029018 6208010C */  jal        DisplayObject_SubmitPacket
     /* 1981C 8002901C 1000B7AF */   sw        $s7, 0x10($sp)
     /* 19820 80029020 04002296 */  lhu        $v0, 0x4($s1)
     /* 19824 80029024 00000000 */  nop
@@ -364,7 +364,7 @@ glabel func_80028B08
     /* 19858 80029058 801F053C */  lui        $a1, (0x1F800344 >> 16)
     /* 1985C 8002905C 4403A534 */  ori        $a1, $a1, (0x1F800344 & 0xFFFF)
     /* 19860 80029060 2130C003 */  addu       $a2, $fp, $zero
-    /* 19864 80029064 6208010C */  jal        func_80042188
+    /* 19864 80029064 6208010C */  jal        DisplayObject_SubmitPacket
     /* 19868 80029068 2138A002 */   addu      $a3, $s5, $zero
   .L8002906C:
     /* 1986C 8002906C 1000033C */  lui        $v1, (0x100010 >> 16)
@@ -393,7 +393,7 @@ glabel func_80028B08
     /* 198C4 800290C4 120082A4 */  sh         $v0, 0x12($a0)
     /* 198C8 800290C8 1000B7AF */  sw         $s7, 0x10($sp)
     /* 198CC 800290CC 21186800 */  addu       $v1, $v1, $t0
-    /* 198D0 800290D0 6208010C */  jal        func_80042188
+    /* 198D0 800290D0 6208010C */  jal        DisplayObject_SubmitPacket
     /* 198D4 800290D4 100083A4 */   sh        $v1, 0x10($a0)
   .L800290D8:
     /* 198D8 800290D8 4C00BF8F */  lw         $ra, 0x4C($sp)

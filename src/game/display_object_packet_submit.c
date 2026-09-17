@@ -17,7 +17,7 @@
  * submit a prepared POLY_G4 or POLY_GT4, projecting it first when GsPERS
  * (0x04000000) is set. Any other case builds a POLY_FT4 from the sprite and
  * projects it, subdividing through DivideFT4 when `extra` asks for it. */
-void func_80042188(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra)
+void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra)
 {
     SVECTOR *v;
     long *otz;

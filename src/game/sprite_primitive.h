@@ -5,7 +5,7 @@
 #include "../ygo_types.h"
 
 /* The sprite primitive the display-object paths build in the scratchpad at
-   0x1F800320 before handing it to func_80042188. Four sources build one
+   0x1F800320 before handing it to DisplayObject_SubmitPacket. Four sources build one
    there; the address itself is reused for other things elsewhere
    (func_80015EF4.c reads it as a VECTOR, func_80016E70.c as a digit packet,
    func_80060B38.c as a GsSPRITE), so it is the type that identifies the
