@@ -66,7 +66,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         D_80184560->attribute |= 0x1000000;
         D_80184560->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_80042918(D_80184560);
+        DisplayObject_SelectOrderingTable1(D_80184560);
         third = D_80184560;
         third->field_6C = 0x3C;
         fourth = D_80184560;
@@ -89,7 +89,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
                 (entry->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE) &
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             DisplayObject_SetResourceVariant((DisplayObjectConfig *)entry, value);
-            func_80042918(entry);
+            DisplayObject_SelectOrderingTable1(entry);
             gMain_apMenuEntries[i] = (u8 *)entry;
         } else {
             gMain_apMenuEntries[i] = 0;

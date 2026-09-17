@@ -6,7 +6,7 @@
 /* The duel entry point, and the two banner display objects it builds.
 
    func_800179F4 allocates both from DisplayObject_AcquireSlot and hands each to
-   func_80042918, whose parameter is DisplayObject *, which is what #3176
+   DisplayObject_SelectOrderingTable1, whose parameter is DisplayObject *, which is what #3176
    established and what DuelScene_UpdateResultOutro's source already declared. The
    other consumers use the typed view. The Exodia candidate takes the guarded
    byte-pointer arm because its offset-based accesses are codegen-sensitive.

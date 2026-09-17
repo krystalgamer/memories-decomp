@@ -27,7 +27,7 @@ void func_8003D518(MenuRecord *record)
         object->field_30.h.field_32 = 120;
         object->field_48.h.field_48 = 128;
         object->field_48.h.field_4A = 224;
-        func_80042918(object);
+        DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset((u8 *)object, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         object->field_4C = (s32)func_80042C08;
         record->grid[0][1] = (s32)object;
@@ -115,7 +115,7 @@ void func_8003D74C(MenuRecord *record)
         p->field_30.h.field_32 = 0x78;
         p->field_48.h.field_48 = 0x80;
         p->field_48.h.field_4A = 0xE0;
-        func_80042918(p);
+        DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 3));
         p->field_4C = (s32)func_80042C08;
         record->grid[0][1] = (s32)p;
@@ -123,7 +123,7 @@ void func_8003D74C(MenuRecord *record)
         DisplayObject_ConfigureSpriteAtPosition(p, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_80042918(p);
+        DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset((u8 *)p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         record->grid[0][0] = (s32)p;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)p);

@@ -154,7 +154,7 @@ void func_8002ACA4(u8 *state)
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
-                func_80042918((DisplayObject *)o);
+                DisplayObject_SelectOrderingTable1((DisplayObject *)o);
                 DisplayObject_SetDepthOffset(o, 0xA);
                 W(state, 0x50) = (s32)o;
             }
@@ -225,7 +225,7 @@ void func_8002ACA4(u8 *state)
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
         H(o, 8) |= 8;
-        func_80042918((DisplayObject *)o);
+        DisplayObject_SelectOrderingTable1((DisplayObject *)o);
         DisplayObject_SetDepthOffset(o, 4);
         W(state, 0x4C) = (s32)o;
         id = H(state, 6);

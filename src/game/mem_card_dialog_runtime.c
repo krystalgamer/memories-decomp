@@ -243,7 +243,7 @@ void MemCardDialog_CreateObject(void)
     DisplayObject_ConfigureSpriteAtPosition(o, 0x20, -0x40, 3, 2, 1, 0xB, 0x20C);
     o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    func_80042918(o);
+    DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset((u8 *)o, 0xF);
     gMemCard_pDialogObject = o;
 }

@@ -86,16 +86,16 @@ void DuelScene_UpdateResultRewards(void)
         D_8009B1E8->page_index = 0;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 32, 16, 3, 1, 2, 11, 524);
-        func_80042918(object);
+        DisplayObject_SelectOrderingTable1(object);
         object->flags |= 0x28;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 288, 16, 3, 1, 0, 11, 524);
-        func_80042918(object);
+        DisplayObject_SelectOrderingTable1(object);
         count = 9;
         object->flags |= 0x28;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(object, 0, 8, 0, 4, 0, 16, 8, D_801AF000);
-        func_80042918(object);
+        DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset((u8 *)object, -1);
         object->flags |= 0x20;
         D_8009B1E8->root = object;
@@ -123,7 +123,7 @@ void DuelScene_UpdateResultRewards(void)
                     count++;
                     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                     DisplayObject_ConfigureSpriteAtPosition(object, x, 192, 3, 4, 0, 11, 524);
-                    func_80042918(object);
+                    DisplayObject_SelectOrderingTable1(object);
                     x += 20;
                     object->flags |= 0x20;
                     *(DisplayObject **)((u8 *)D_8009B1E8 + offset + 4) = object;
@@ -136,14 +136,14 @@ side_result:
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(object, 0, 16, 0, 5, D_8009B1E8->is_tec_rank,
                 16, 8, D_801AF000);
-            func_80042918(object);
+            DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset((u8 *)object, -2);
             object->flags |= 0x20;
             D_8009B1E8->children[0] = object;
             object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(object, 0, 16, 0, 6, D_8009B1E8->rank_tier,
                 16, 8, D_801AF000);
-            func_80042918(object);
+            DisplayObject_SelectOrderingTable1(object);
             DisplayObject_SetDepthOffset((u8 *)object, -1);
             object->flags |= 0x20;
             D_8009B1E8->children[1] = object;

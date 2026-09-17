@@ -157,7 +157,7 @@ DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     return (DisplayObjectConfigView *)&decoy.object;
 }
 
-void func_80042918(DisplayObject *object)
+void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     check_stage(4, 2);
     if (object != &actual.object) fail(14);

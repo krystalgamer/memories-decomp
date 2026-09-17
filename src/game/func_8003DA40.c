@@ -26,7 +26,7 @@ void func_8003DA40(MenuRecord *record)
         DisplayObject_ConfigureSpriteAtPosition(e, 0x20, -0x40, 3, 2, 0, 0xB, 0x20C);
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_80042918(e);
+        DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset((u8 *)e, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         record->grid[0][0] = (s32)e;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);

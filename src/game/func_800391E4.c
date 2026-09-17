@@ -31,7 +31,7 @@ void func_800391E4(DuelEffectChannel *p) {
         p->field_28 = e;
     }
 
-    func_80042918(e);
+    DisplayObject_SelectOrderingTable1(e);
     DisplayObject_SetDepthOffset((u8 *)e, (s8)p->field_59);
 
     e->field_30.h.field_30 = (u16)p->field_3C;
@@ -53,7 +53,7 @@ void func_800391E4(DuelEffectChannel *p) {
         func_800427DC(e, 1);
         p->field_2C = e;
         e->attribute = e->attribute | (GsALON | GsATWO);
-        func_80042918(e);
+        DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset((u8 *)e, (s8)(p->field_59 - 1));
         *(s32 *)&e->field_54 = 0xA0A0A0;
         e->field_4C = 0xA0A0A0;

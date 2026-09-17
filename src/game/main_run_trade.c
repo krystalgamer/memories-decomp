@@ -48,7 +48,7 @@ void Main_RunTrade(void)
         DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         obj->flags = obj->flags | 0x20;
         obj->attribute = obj->attribute | GsALON;
-        func_80042918(obj);
+        DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset((u8 *)obj, 0xF);
         D_800E9EF0[0] = obj;
         Fade_WaitIn();

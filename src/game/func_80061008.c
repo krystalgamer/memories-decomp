@@ -30,7 +30,7 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
         object->field_30.h.field_30 = record->x;
         object->field_30.h.field_32 = record->y;
         object->field_6A = i++;
-        func_80042918(object);
+        DisplayObject_SelectOrderingTable1(object);
         object->field_4C = (s32)func_80060B38;
         record->object = (DuelCardDisplayObject *)object;
         record++;

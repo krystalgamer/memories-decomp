@@ -90,14 +90,14 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
         obj->field_60 = slide;
-        func_80042918(obj);
+        DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset((u8 *)obj, 0x14);
         D_8009B24C = obj;
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
         obj->field_60 = slide;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        func_80042918(obj);
+        DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset((u8 *)obj, 0x14);
         DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
         obj->field_60 = slide;

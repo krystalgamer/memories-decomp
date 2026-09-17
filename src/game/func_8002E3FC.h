@@ -7,7 +7,7 @@
  *
  * It allocates a type 2 object, configures it through DisplayObject_ConfigureSpriteAtPosition with a
  * fixed geometry and depth, sets DISPLAY_OBJECT_FLAG_SCREEN_SPACE in the flag
- * halfword at +0x08, hands it to func_80042918, and returns the pointer.
+ * halfword at +0x08, hands it to DisplayObject_SelectOrderingTable1, and returns the pointer.
  *
  * The implementation uses DisplayObject for construction and registration.
  * The returned pointer is still handed to the untyped D_8009B2A0 owner, so

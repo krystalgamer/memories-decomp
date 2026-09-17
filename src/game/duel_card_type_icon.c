@@ -51,7 +51,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         *(u16 *)&object->field_40 += 0x30;
         break;
     }
-    func_80042918((DisplayObject *)object);
+    DisplayObject_SelectOrderingTable1((DisplayObject *)object);
     DisplayObject_SetDepthOffset((u8 *)object, 10);
     {
         DisplayObject *output = (DisplayObject *)object;

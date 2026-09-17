@@ -136,7 +136,7 @@ shared_tail:
     entry->field_3C = 0;
 
     object->field_4C = (s32)func_80028B08;
-    func_80042918(object);
+    DisplayObject_SelectOrderingTable1(object);
 
     entry->object_04 = object;
 
@@ -151,7 +151,7 @@ shared_tail:
     object->attribute |= 0x01000000;
     object->flags |= 8;
 
-    func_80042918(object);
+    DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset((u8 *)object, -1);
 
     ((DisplayObject *)entry->object_04)->field_65 = 3;

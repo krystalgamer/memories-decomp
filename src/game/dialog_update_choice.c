@@ -26,7 +26,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         p->state_51 = p->state_51 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         e = DisplayObject_AcquireSlot((s32)DisplayObject_FindFreeSlot(), 4);
         func_800427DC(e, 1);
-        func_80042918(e);
+        DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset((u8 *)e,
                       (s8)(*((u8 *)p->field_28 + 0x16) + 1));
         p->field_30 = e;

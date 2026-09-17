@@ -262,7 +262,7 @@ void DuelScene_UpdateResultOutro(void)
                     obj->attribute |= (GsALON | GsAONE);
                     obj->field_48.h.field_48 = spec->tag;
                     obj->field_48.h.field_4A = 0x18;
-                    func_80042918(obj);
+                    DisplayObject_SelectOrderingTable1(obj);
                     obj->field_2C.word = obj->field_30.word;
                     obj->position.h.field_28 = (rand() & 0x3F) + 0x140;
                     obj->position.h.field_2A =

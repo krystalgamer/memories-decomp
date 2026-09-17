@@ -62,7 +62,7 @@ glabel DuelScene_UpdateHandActions
     /* C648 8001BE48 08006296 */  lhu        $v0, 0x8($s3)
     /* C64C 8001BE4C 21206002 */  addu       $a0, $s3, $zero
     /* C650 8001BE50 28004234 */  ori        $v0, $v0, 0x28
-    /* C654 8001BE54 460A010C */  jal        func_80042918
+    /* C654 8001BE54 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* C658 8001BE58 080062A6 */   sh        $v0, 0x8($s3)
     /* C65C 8001BE5C 21206002 */  addu       $a0, $s3, $zero
     /* C660 8001BE60 3B0A010C */  jal        DisplayObject_SetDepthOffset
@@ -887,7 +887,7 @@ glabel DuelScene_UpdateHandActions
     /* D27C 8001CA7C F8FFA524 */  addiu      $a1, $a1, -0x8
     /* D280 8001CA80 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* D284 8001CA84 1E00C624 */   addiu     $a2, $a2, 0x1E
-    /* D288 8001CA88 460A010C */  jal        func_80042918
+    /* D288 8001CA88 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* D28C 8001CA8C 21208002 */   addu      $a0, $s4, $zero
     /* D290 8001CA90 21208002 */  addu       $a0, $s4, $zero
     /* D294 8001CA94 3B0A010C */  jal        DisplayObject_SetDepthOffset
@@ -914,7 +914,7 @@ glabel DuelScene_UpdateHandActions
     /* D2E8 8001CAE8 3C00A524 */  addiu      $a1, $a1, 0x3C
     /* D2EC 8001CAEC 3301010C */  jal        DisplayObject_ConfigureSpriteAtPosition
     /* D2F0 8001CAF0 1E00C624 */   addiu     $a2, $a2, 0x1E
-    /* D2F4 8001CAF4 460A010C */  jal        func_80042918
+    /* D2F4 8001CAF4 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* D2F8 8001CAF8 21208002 */   addu      $a0, $s4, $zero
     /* D2FC 8001CAFC 21208002 */  addu       $a0, $s4, $zero
     /* D300 8001CB00 3B0A010C */  jal        DisplayObject_SetDepthOffset

@@ -150,7 +150,7 @@ void DuelScene_UpdateHandActions(void)
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(o, 3, 0, 2, 0xB, 0x20C);
         H(o, 8) |= 0x28;
-        func_80042918((DisplayObject *)o);
+        DisplayObject_SelectOrderingTable1((DisplayObject *)o);
         DisplayObject_SetDepthOffset(o, 0xA);
         W(side, 4) = (s32)o;
         func_8001B780((DuelHandStackState *)side);
@@ -457,13 +457,13 @@ void DuelScene_UpdateHandActions(void)
                 }
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) - 8, S(obj, 0x32) + 0x1E, 3, 1, 2, 0xB, 0x20C);
-                func_80042918((DisplayObject *)o);
+                DisplayObject_SelectOrderingTable1((DisplayObject *)o);
                 DisplayObject_SetDepthOffset(o, 0xA);
                 H(o, 8) |= 0x28;
                 D_8009B188 = (DisplayObject *)o;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, (s16)S(obj, 0x30) + 0x3C, S(obj, 0x32) + 0x1E, 3, 1, 0, 0xB, k20c);
-                func_80042918((DisplayObject *)o);
+                DisplayObject_SelectOrderingTable1((DisplayObject *)o);
                 DisplayObject_SetDepthOffset(o, 0xA);
                 H(o, 8) |= 0x28;
                 D_8009B18C = (DisplayObject *)o;

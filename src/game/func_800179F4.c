@@ -120,7 +120,7 @@ void func_800179F4(void)
         &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
-    func_80042918(obj);
+    DisplayObject_SelectOrderingTable1(obj);
     /* Both of this function's flag merges go through the member's address
        as s16 instead of obj->flags, and the spelling is load-bearing rather
        than untidy.
@@ -140,14 +140,14 @@ void func_800179F4(void)
     DisplayObject_ConfigureSpriteAtPosition(
         obj, 280, 32, 4, side, 0, 11, 748
     );
-    func_80042918(obj);
+    DisplayObject_SelectOrderingTable1(obj);
     *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (D_8009B1D5 != 0) {
         *(u16 *)&obj->field_40.h.field_40 += 16;
     }
     D_8009B21C = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    func_80042918(obj);
+    DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset((u8 *)obj, 1);
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = (u8 *)D_8009B21C;
@@ -239,7 +239,7 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->out_y = arg2;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     p->field_10 = func_80016778;
-    func_80042918((DisplayObject *)p);
+    DisplayObject_SelectOrderingTable1((DisplayObject *)p);
     p->field_4C = Duel_DrawCardAtOutputPosition;
     func_80017E3C(p);
     func_80017DB4(p);

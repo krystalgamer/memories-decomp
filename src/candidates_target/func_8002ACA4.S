@@ -139,7 +139,7 @@ glabel func_8002ACA4
     /* 1B694 8002AE94 08000296 */  lhu        $v0, 0x8($s0)
     /* 1B698 8002AE98 21200002 */  addu       $a0, $s0, $zero
     /* 1B69C 8002AE9C 28004234 */  ori        $v0, $v0, 0x28
-    /* 1B6A0 8002AEA0 460A010C */  jal        func_80042918
+    /* 1B6A0 8002AEA0 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* 1B6A4 8002AEA4 080002A6 */   sh        $v0, 0x8($s0)
     /* 1B6A8 8002AEA8 21200002 */  addu       $a0, $s0, $zero
     /* 1B6AC 8002AEAC 3B0A010C */  jal        DisplayObject_SetDepthOffset
@@ -301,7 +301,7 @@ glabel func_8002ACA4
     /* 1B8F4 8002B0F4 00FC0324 */  addiu      $v1, $zero, -0x400
     /* 1B8F8 8002B0F8 600003A6 */  sh         $v1, 0x60($s0)
     /* 1B8FC 8002B0FC 08004234 */  ori        $v0, $v0, 0x8
-    /* 1B900 8002B100 460A010C */  jal        func_80042918
+    /* 1B900 8002B100 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* 1B904 8002B104 080002A6 */   sh        $v0, 0x8($s0)
     /* 1B908 8002B108 21200002 */  addu       $a0, $s0, $zero
     /* 1B90C 8002B10C 3B0A010C */  jal        DisplayObject_SetDepthOffset

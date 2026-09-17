@@ -247,7 +247,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF74,D_8009AF74,D_8009AF74,0x8003DA40,func_8003DA40,matching_c,game,C,src/game/func_8003DA40.c,address,16,"DisplayObject_SetDepthOffset((u8 *)e, (s8)(*(u8 *)&D_8009AF74[1] - 2));"
 0x8009AF74,D_8009AF74,D_8009AF74,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,read,16,slot->field_14 = D_8009AF74[slot->ot_index];
 0x8009AF74,D_8009AF74,D_8009AF74,0x800428EC,DisplayObject_SetDepthOffset,matching_c,game,C,src/game/display_object_helpers.c,address,16,volatile u16 *table = D_8009AF74;
-0x8009AF74,D_8009AF74,D_8009AF74,0x80042918,func_80042918,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[1] - object->field_16;
+0x8009AF74,D_8009AF74,D_8009AF74,0x80042918,DisplayObject_SelectOrderingTable1,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[1] - object->field_16;
 0x8009AF74,D_8009AF74,D_8009AF74,0x8004293C,DisplayObject_SelectOrderingTable3,matching_c,game,C,src/game/display_object_helpers.c,read,16,object->field_14 = D_8009AF74[3] - object->field_16;
 0x8009AF76,D_8009AF76,D_8009AF76,0x800283F4,DuelEffect_UpdateCardViewerState,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,8,"lbu $v0, %lo(D_8009AF76)($v0) | lui $v0, %hi(D_8009AF76)"
 0x8009AF7C,D_8009AF7C,D_8009AF7C,0x80044608,MemCard_DoLoadDirectory,matching_c,game,C,src/game/mem_card_driver.c,address,8,"MemCard_FindFiles(gMemCard_bChannel, (const char *)D_8009AF7C,"

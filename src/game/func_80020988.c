@@ -29,7 +29,7 @@ s32 func_80020988(void) {
             *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,
             3, one, 2, b, c
         );
-        func_80042918(q);
+        DisplayObject_SelectOrderingTable1(q);
         DisplayObject_SetDepthOffset((u8 *)q, 0xA);
         /* This merge, the two below it and the first store to 0x60 go
            through the members' addresses with the other signedness rather
@@ -55,7 +55,7 @@ s32 func_80020988(void) {
             *(s16 *)&D_8009B1CC->field_30.h.field_32 + 0x1E,
             3, one, 0, b, c
         );
-        func_80042918(q);
+        DisplayObject_SelectOrderingTable1(q);
         DisplayObject_SetDepthOffset((u8 *)q, 0xA);
         *(s16 *)&q->flags =
             *(s16 *)&q->flags |

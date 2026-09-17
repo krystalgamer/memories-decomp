@@ -223,7 +223,7 @@ void Password_InitShopScreen(void)
     *(s16 *)(o + 72) = 13;
     *(s16 *)(o + 74) = 13;
     *(u32 *)(o + 4) |= (GsALON | GsAONE);
-    func_80042918(o);
+    DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset(o, 10);
     *(PasswordCursorUpdate *)(o + 36) = Password_UpdateDigitCursor;
     Password_SetDigitCursorTarget(o);
@@ -236,7 +236,7 @@ void Password_InitShopScreen(void)
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
         *(u32 *)(o + 4) |= GsALON;
-        func_80042918(o);
+        DisplayObject_SelectOrderingTable1(o);
         DisplayObject_SetDepthOffset(o, 8);
         *(PasswordCursorUpdate *)(o + 36) = hook;
         *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |

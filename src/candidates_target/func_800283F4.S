@@ -52,7 +52,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18C90 80028490 5E0C010C */  jal        func_80043178
     /* 18C94 80028494 080023A6 */   sh        $v1, 0x8($s1)
     /* 18C98 80028498 21202002 */  addu       $a0, $s1, $zero
-    /* 18C9C 8002849C 460A010C */  jal        func_80042918
+    /* 18C9C 8002849C 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* 18CA0 800284A0 600030A6 */   sh        $s0, 0x60($s1)
     /* 18CA4 800284A4 21202002 */  addu       $a0, $s1, $zero
     /* 18CA8 800284A8 3B0A010C */  jal        DisplayObject_SetDepthOffset
@@ -81,7 +81,7 @@ glabel DuelEffect_UpdateCardViewerState
     /* 18D04 80028504 21202002 */  addu       $a0, $s1, $zero
     /* 18D08 80028508 600030A6 */  sh         $s0, 0x60($s1)
     /* 18D0C 8002850C 08004234 */  ori        $v0, $v0, 0x8
-    /* 18D10 80028510 460A010C */  jal        func_80042918
+    /* 18D10 80028510 460A010C */  jal        DisplayObject_SelectOrderingTable1
     /* 18D14 80028514 080022A6 */   sh        $v0, 0x8($s1)
     /* 18D18 80028518 21202002 */  addu       $a0, $s1, $zero
     /* 18D1C 8002851C 3B0A010C */  jal        DisplayObject_SetDepthOffset

@@ -330,7 +330,7 @@ void func_8003B054(MenuRecord *record)
             o->field_0C = 0;
             o->attribute |=
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-            func_80042918(o);
+            DisplayObject_SelectOrderingTable1(o);
             DisplayObject_SetDepthOffset((u8 *)o, -8);
             record->grid[0][0] = (s32)o;
             *(u16 *)&o->field_60 = 0x14;
@@ -343,7 +343,7 @@ void func_8003B054(MenuRecord *record)
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
         *(u16 *)&o2->field_44.h.field_46 = *(u16 *)&o->field_44.h.field_46;
         *(u16 *)&o2->field_48.h.field_4A = 0;
-        func_80042918(o2);
+        DisplayObject_SelectOrderingTable1(o2);
         DisplayObject_SetDepthOffset((u8 *)o2, -9);
         record->grid[0][1] = (s32)o2;
     }

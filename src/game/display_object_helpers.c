@@ -94,7 +94,7 @@ s32 DisplayObject_SetDepthOffset(u8 *object, s8 value)
     return result;
 }
 
-void func_80042918(DisplayObject *object)
+void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     object->ot_index = 1;
     object->field_14 = D_8009AF74[1] - object->field_16;

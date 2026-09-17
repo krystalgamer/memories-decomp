@@ -51,7 +51,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
                       tb);
-        func_80042918(p);
+        DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset((u8 *)p, f);
         p->attribute = p->attribute | m;
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -61,7 +61,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
-            func_80042918(p);
+            DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset((u8 *)p, f | 1);
             p->attribute = p->attribute | m;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -74,7 +74,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             func_800428A8(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
-            func_80042918(p);
+            DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset((u8 *)p, f | 1);
             p->attribute =
                 p->attribute | GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;

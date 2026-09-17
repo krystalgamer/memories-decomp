@@ -26,7 +26,7 @@ DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *source)
     object->field_48.h.field_48 = 0x46;
     object->field_1A = 0x62;
     object->field_48.h.field_4A = 0x62;
-    func_80042918(object);
+    DisplayObject_SelectOrderingTable1(object);
     object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     return object;
 }
