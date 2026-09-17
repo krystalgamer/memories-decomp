@@ -9,6 +9,7 @@ DisplayObject_AcquireSlot = 0x800400AC;
 DisplayObject_ReleaseIfPresent = 0x8004036C;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8;
 DisplayObject_SetDepthOffset = 0x800428EC;
+DisplayObject_RenderSpotlightMask = 0x80042C08;
 DisplayObject_SavePosition = 0x80043178;
 DisplayObject_InterpolatePositionCosine = 0x8004318C;
 D_8016A274 = gCampaignMap_AlternateState + 0x00;

@@ -25,7 +25,7 @@
 #include "../../game/sorted_entry.h"
 #include "../../game/trig_constants.h"
 #include "../../game/display_object_interpolation.h"
-#include "../../game/func_80042C08.h"
+#include "../../game/display_object_render_spotlight_mask.h"
 #include "../../game/fade.h"
 #include "campaign_map.h"
 #include "../../game/view_state.h"
@@ -287,7 +287,7 @@ void CampaignMap_SetLocation(s32 index)
     ((DisplayObject *)obj)->field_44.h.field_46 = 4096;
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
-    ((DisplayObject *)obj)->field_4C = (s32)func_80042C08;
+    ((DisplayObject *)obj)->field_4C = (s32)DisplayObject_RenderSpotlightMask;
     D_801695D8 = (MapObject *)obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);

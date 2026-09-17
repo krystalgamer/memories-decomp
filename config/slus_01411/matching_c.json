@@ -3958,7 +3958,7 @@
       "address": "0x80042C08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x570",
-      "source": "src/game/func_80042C08.c"
+      "source": "src/game/display_object_render_spotlight_mask.c"
     },
     {
       "address": "0x80043178",

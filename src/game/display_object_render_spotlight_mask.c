@@ -4,7 +4,7 @@
 #include "../psyq/libgs.h"
 #include "display_object.h"
 #include "gpu_packets.h"
-#include "func_80042C08.h"
+#include "display_object_render_spotlight_mask.h"
 
 /* Builds the mask one quadrant step at a time. The eight POLY_G4 quads sit in
  * the scratchpad at 0x1F800020: quads 0-3 are the inner ring, black at the
@@ -20,7 +20,7 @@
  * its own block-local value register, and it lifts the addresses of quads 1,
  * 4, 5, 6 and 7 into pseudos of its own. Those are the spilled pointers at
  * sp+0x1C..0x28 and in $fp. Named pointer locals allocate differently. */
-void func_80042C08(DisplayObject *object, GsOT *ot)
+void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
 {
     s32 depth;
     s32 inner;
