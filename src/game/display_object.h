@@ -493,10 +493,8 @@ extern s16 D_800EFE38[DISPLAY_OBJECT_LIST_COUNT];
  * type is s16 by the same evidence: that store is D_800F2878[key] = index, and
  * the reset walk uses an s16 *.
  *
- * DisplayObject_MoveToListHead in display_object_core.c reached it through a
- * u8 * and scaled by two by hand. It now takes this declaration and casts at
- * the use site, which is the form it already uses one line earlier for
- * D_800EFE38. */
+ * DisplayObject_MoveToListHead in display_object_core.c indexes this typed
+ * array and D_800EFE38 directly by list key. */
 extern s16 D_800F2878[DISPLAY_OBJECT_LIST_COUNT];
 
 extern DisplayObject D_800EFE48[DISPLAY_OBJECT_POOL_CAPACITY];

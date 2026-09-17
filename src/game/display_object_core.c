@@ -128,17 +128,17 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     s32 v;
 
     DisplayObject_Release(slot);
-    v = *(s16 *)((u8 *)D_800EFE38 + key * 2);
+    v = D_800EFE38[key];
     if (v < 0) {
-        *(u16 *)((u8 *)D_800F2878 + key * 2) = slot->field_0A;
+        D_800F2878[key] = slot->field_0A;
         slot->next = -1;
         slot->previous = -1;
     } else {
         D_800EFE48[v].previous = slot->field_0A;
-        slot->next = *(u16 *)((u8 *)D_800EFE38 + key * 2);
+        slot->next = D_800EFE38[key];
     }
     slot->previous = -1;
-    *(u16 *)((u8 *)D_800EFE38 + key * 2) = slot->field_0A;
+    D_800EFE38[key] = slot->field_0A;
     slot->flags = saved;
 }
 
