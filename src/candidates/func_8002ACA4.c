@@ -49,6 +49,7 @@
 #include "../game/sound.h"
 #include "../game/model_scene_setup.h"
 #include "../game/duel_effect_resource_setup.h"
+#include "../game/func_8002ABB4.h"
 #include "../game/func_800291E0.h"
 #include "../game/func_80029934.h"
 #include "../game/model.h"
@@ -73,7 +74,6 @@
 
 extern u8 *D_800EB24C;
 unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light);
-DisplayObject *func_8002ABB4(DisplayObject *src, int add);
 
 void func_8002ACA4(u8 *state)
 {
