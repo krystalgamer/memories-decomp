@@ -3,14 +3,15 @@
 #include "display_object.h"
 #include "duel_display.h"
 #include "duel_hand.h"
+#include "duel_selection_layout.h"
 
-void func_8001B8B8(u8 *arg0) {
+void func_8001B8B8(DuelSelectionRecord *side) {
     s32 i;
     for (i = 0; i < HAND_SIZE; i++)
         if (D_800EA030[i].active_09 == 0)
             ((DisplayObject *)D_800EA030[i].object)->field_0C =
                 DUEL_DISPLAY_COLOR_DIMMED;
-    if (arg0[0x15] == 0)
-        ((DisplayObject *)D_800EA030[(s8)arg0[0xE]].object)->field_0C =
+    if (side->field_15 == 0)
+        ((DisplayObject *)D_800EA030[(s8)side->field_0E].object)->field_0C =
             DUEL_DISPLAY_COLOR_NORMAL;
 }
