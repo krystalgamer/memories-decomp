@@ -5,12 +5,13 @@
 #define DISPLAY_OBJECT_UPDATE_COMMAND_STREAM_AMBIENT_ARGS
 #include "display_object_update_command_stream.h"
 
-void CardPreview_UpdateVariant(DisplayObjectConfig *object, s32 arg1)
+void CardPreview_UpdateVariant(CardVariantSource *source, s32 arg1)
 {
+    DisplayObjectConfig *object = (DisplayObjectConfig *)source;
     int value = 2;
 
     if (arg1 >= 0) {
-        value = object->field_6A;
+        value = source->variant;
     }
     if (value != object->field_69) {
         DisplayObject_SetResourceVariant(object, value);
