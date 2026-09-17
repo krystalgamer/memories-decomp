@@ -34,6 +34,11 @@
 #include "dialog_choice.h"
 #include "main_mode_state.h"
 
+#define DISPLAY_OBJECT_X_HALFWORD_INDEX \
+    ((u32)&((DisplayObject *)0)->field_30.h.field_30 / sizeof(s16))
+#define DISPLAY_OBJECT_Y_HALFWORD_INDEX \
+    ((u32)&((DisplayObject *)0)->field_30.h.field_32 / sizeof(s16))
+
 int Duel_IsPlayerDeckComplete(void)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -209,12 +214,13 @@ void Script_OpSavePrompt(void)
             *(s16 *)&obj->field_30.h.field_30 = 0x10;
             *(s16 *)&obj->field_30.h.field_32 = 0x38;
             D_8009B27C = flags & 0xDFFF;
-            /* This read keeps the halfword-array spelling. The two writes
-               directly above it convert to member access and match; converting
-               this one as well costs sixteen bytes. Same field, same function,
-               and the two spellings are not interchangeable here. */
-            value = ((s16 *)obj)[0x19];
-            TextBox_SetPos(box, ((s16 *)obj)[0x18], value);
+            /* These reads keep the halfword-array spelling: direct member
+               access costs sixteen bytes, while derived halfword indexes keep
+               the accepted allocation tied to the shared layout. */
+            value = ((s16 *)obj)[DISPLAY_OBJECT_Y_HALFWORD_INDEX];
+            TextBox_SetPos(
+                box, ((s16 *)obj)[DISPLAY_OBJECT_X_HALFWORD_INDEX], value
+            );
             return;
         }
         Widget_SlideSine((DisplayObjectPosition *)obj, 0x10, 0x38, (s16)step);
