@@ -18,9 +18,11 @@ u8 func_8003B7E0(TextStreamOwner *object);
  *
  * Text_ExtendGlyphCode and Text_SetStateFromStream both advance one of the
  * byte streams held at the front of the object, chosen by the signed byte at
- * 0x58. */
+ * 0x58. Text_ExtendGlyphCode takes TextStreamOwner *, the record that names
+ * that array and selector; the command table casts every one of its entries
+ * anyway, so the typed declaration costs no call site. */
 void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object);
-void Text_ExtendGlyphCode(u8 *object);
+void Text_ExtendGlyphCode(TextStreamOwner *owner);
 void Text_SetStateFromStream(DuelEffectChannel *object);
 
 /* Writes TextStream_ReadU16LE's result into the low halfword of the same word those

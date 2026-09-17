@@ -118,7 +118,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             state->deck_card_quantities[r] < DECK_CARD_COPY_LIMIT) {
             SD_SEPlayFull(7);
             BuildDeck_AddCard((s32)state, r);
-            func_80031F7C((u8 *)state, r);
+            func_80031F7C(state, r);
             func_80031E5C((u8 *)state);
             func_80031574(r, 3, 0x18, 0x11C, 0xC);
             return;

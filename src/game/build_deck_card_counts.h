@@ -22,7 +22,9 @@ void func_80031E5C(u8 *record);
 void func_80031EE4(BuildDeckTransitionState *base, s32 index);
 
 /* Two updates to the build-deck screen's per-card counts, both taking the
- * screen state block rather than an index into it.
+ * screen state block rather than an index into it. func_80031F7C takes it as
+ * BuildDeckTransitionState *; func_8003201C still takes bytes, because its
+ * count loop walks the quantity table with byte cursors.
  *
  * func_80031F7C decrements one card's count and, when it reaches zero, clears
  * that card's deck record flag and re-sorts. It does nothing at all when the
@@ -30,7 +32,7 @@ void func_80031EE4(BuildDeckTransitionState *base, s32 index);
  *
  * func_8003201C recounts every card from the deck records and stores how many
  * leading records are still marked. */
-void func_80031F7C(u8 *state, s32 id);
+void func_80031F7C(BuildDeckTransitionState *state, s32 id);
 void func_8003201C(u8 *state);
 
 /* Fills the first free entry of the deck list at `base` + 0x2D58 with card
