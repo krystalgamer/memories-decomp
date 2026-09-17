@@ -45,9 +45,9 @@ void func_80049308(void)
     SDValue *state = g_SDValue;
 
     if (state->field_157A != 0) {
-        u8 *entry = (u8 *)state->music_track;
-        s32 result = SD_VabOpenHead(
-            (SDVabHeader *)(entry + 0x50), 0, *(s32 *)(entry + 0x0C));
+        SDMusicPackage *entry = (SDMusicPackage *)state->music_track;
+        s32 result =
+            SD_VabOpenHead((u8 *)&entry->vab_header, 0, entry->spu_address);
 
         g_SDValue->field_157A = result;
         if ((result << 16) != 0) {
