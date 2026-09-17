@@ -56,7 +56,6 @@
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
-void func_8005A0DC(s32 value);
 int func_8005A878(int arg);
 
 void func_8004EB00(void)
