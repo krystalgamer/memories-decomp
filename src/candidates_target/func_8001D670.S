@@ -389,7 +389,7 @@ glabel DuelScene_UpdateFieldActions
     /* E3FC 8001DBFC C0100300 */  sll        $v0, $v1, 3
     /* E400 8001DC00 23104300 */  subu       $v0, $v0, $v1
     /* E404 8001DC04 80100200 */  sll        $v0, $v0, 2
-    /* E408 8001DC08 035C000C */  jal        func_8001700C
+    /* E408 8001DC08 035C000C */  jal        DuelCard_CanActThisTurn
     /* E40C 8001DC0C 21204400 */   addu      $a0, $v0, $a0
     /* E410 8001DC10 07004010 */  beqz       $v0, .L8001DC30
     /* E414 8001DC14 00000000 */   nop
@@ -456,7 +456,7 @@ glabel DuelScene_UpdateFieldActions
     /* E4FC 8001DCFC 02000224 */  addiu      $v0, $zero, 0x2
     /* E500 8001DD00 D003C214 */  bne        $a2, $v0, .L8001EC44
     /* E504 8001DD04 00000000 */   nop
-    /* E508 8001DD08 035C000C */  jal        func_8001700C
+    /* E508 8001DD08 035C000C */  jal        DuelCard_CanActThisTurn
     /* E50C 8001DD0C 21200002 */   addu      $a0, $s0, $zero
     /* E510 8001DD10 CC034010 */  beqz       $v0, .L8001EC44
     /* E514 8001DD14 0B000424 */   addiu     $a0, $zero, 0xB

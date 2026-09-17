@@ -2,7 +2,7 @@
 #include "duel_card.h"
 #include "duel_card_layout.h"
 
-int func_8001700C(DuelCardRecord *object)
+int DuelCard_CanActThisTurn(DuelCardRecord *object)
 {
     u16 flags = object->flags;
 

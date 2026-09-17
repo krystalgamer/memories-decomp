@@ -98,7 +98,7 @@ extern s32 D_8009B1BC;
 extern u8 D_8009B21A;
 extern s8 D_8009B229;
 extern u8 D_800EAE91[];
-int func_8001700C(DuelCardRecord *object);
+int DuelCard_CanActThisTurn(DuelCardRecord *object);
 void func_8001D240(DisplayObject *o);
 void func_8001D344(DisplayObject *object);
 void func_8001D3C4(DisplayObject *o);
@@ -274,7 +274,7 @@ void DuelScene_UpdateFieldActions(void)
         if (D_8009B174 & 0x40) {
             D_8009B174 &= 0xBF;
             if (SB(side, 0x10) == 2
-                && func_8001700C(&D_801A7AD8[D_800907D8[D_8009B1D5][SB(side, 0xF) + 10]]) != 0) {
+                && DuelCard_CanActThisTurn(&D_801A7AD8[D_800907D8[D_8009B1D5][SB(side, 0xF) + 10]]) != 0) {
                 D_8009B1F8 = func_8001D518((DisplayObject *)W(side, 4));
             } else {
                 DisplayObject_ReleaseIfPresent(D_8009B1F8);
@@ -291,7 +291,7 @@ void DuelScene_UpdateFieldActions(void)
         if (gInput_wPad1Pressed & 0xC) {
             row = SB(side, 0x10);
             card = &D_801A7AD8[D_800907D8[D_8009B1D5][row * 5 + (s8)B(side, 0xF)]];
-            if (row == 2 && func_8001700C(card) != 0) {
+            if (row == 2 && DuelCard_CanActThisTurn(card) != 0) {
                 o = card->object;
                 W(o, 0x24) = (s32)func_8001D240;
                 B(o, 0x6C) = 0xF;
