@@ -107,8 +107,6 @@ s32 func_8001D5B4(DuelFieldCursor *cursor);
 s32 func_80020988(void);
 void func_800234E4(DuelFieldDisplaySource *source);
 void func_80028220(void);
-void AiScript_Init(void *arg0);
-s32 AiScript_Run(void);
 
 void DuelScene_UpdateFieldActions(void)
 {
