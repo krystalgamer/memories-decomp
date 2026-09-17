@@ -16,6 +16,8 @@
     (((ModelBackgroundRecord *)D_8009AF88)->field_A8)
 #define BACKGROUND_FIELD_AA \
     (((ModelBackgroundRecord *)D_8009AF88)->field_AA)
+#define BACKGROUND_TEXTURE_WIDTH \
+    (((ModelBackgroundRecord *)D_8009AF88)->texture_width)
 
 void func_8004DE24(void)
 {
@@ -125,12 +127,13 @@ trim_texture:
         }
 tiles:
         sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
-            160 * (u16)(H(0xA6) / 0x500u);
+            160 * (u16)(BACKGROUND_TEXTURE_WIDTH / 0x500u);
         while (sprite.x < 320) {
             if (sprite.x + sprite.w > 0)
                 GsSortFastSprite(&sprite, D_800E9D90[3],
                     (u16)((1u << D_800E9D90[3]->length) - 1));
-            amount = (sprite.u + sprite.w) % (u16)(H(0xA6) / 10u);
+            amount = (sprite.u + sprite.w) %
+                (u16)(BACKGROUND_TEXTURE_WIDTH / 10u);
             sprite.x += sprite.w;
             sprite.u = amount + ubase;
         }
