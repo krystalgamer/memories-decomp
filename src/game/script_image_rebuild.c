@@ -48,7 +48,7 @@
 
 void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     s32 n;
-    u8 *o;
+    DisplayObject *o;
     u8 *t;
     u8 *b;
     s32 k;
@@ -60,12 +60,15 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     p->image_id = n;
     if (n >= 0x200) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
-        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0);
+        DisplayObject_ConfigureScreenSprite(
+            (DisplayObjectConfigView *)o,
+            0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0
+        );
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
-        ((DisplayObject *)o)->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        ((DisplayObject *)o)->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        o->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->entries[0].field_10 = 1;
-        p->entries[0].pointer = o;
+        p->entries[0].pointer = (u8 *)o;
         t = &D_80090C00[n * 6];
         p->entries[0].value = 0;
         if (t[0] & 1) {
