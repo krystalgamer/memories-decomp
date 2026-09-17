@@ -161,6 +161,25 @@ extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];
  * and free_duel/screen_runtime.c read it -- the files that walk it as bytes
  * are copying or scanning the block, not indexing the deck. */
 extern u16 gDuel_awPlayerDeck[];
+
+/* The campaign scene index as it is kept inside that block, which is what
+ * makes it survive a save: Main_ApplyMenuSelection (main_apply_menu_selection.c)
+ * writes 0x30 into it when a new game starts and reads it back into the
+ * runtime gCampaignSceneIndex when the campaign is resumed. Those two are
+ * different objects -- the runtime one is at 0x8009B27A, outside this block --
+ * and this is the only source in the tree that names either of them together.
+ *
+ * It was declared inside that source because this header did not declare it,
+ * though the header already owns both of its neighbours. The address is
+ * 0x801D07DC: gDuel_awRecentCardDrops ends exactly here (0x801D07BC plus
+ * DUEL_RECENT_CARD_DROP_COUNT halfwords is 0x801D07DC, so it abuts without
+ * covering), and gLibrary_dwStarchips begins four bytes on.
+ *
+ * Those four bytes are recorded as evidence about the extent, not asserted as
+ * a bound: the declaration stays the incomplete s16 array its one declarer
+ * wrote, and only [0] is ever read or written. */
+extern s16 gCampaignSavedSceneIndex[];
+
 extern u32 gLibrary_dwStarchips;
 
 extern u8 gSaveData_aTransferBuffer[];
