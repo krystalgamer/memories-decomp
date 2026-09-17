@@ -1429,7 +1429,7 @@ resident implementation is documented separately in [`rng.md`](rng.md).
 Matching resident C includes `rand.h` directly. The password/name-entry
 starter generator and module main, plus the five matching main-menu sort
 comparators, now use `rand.h` rather than duplicate the runtime declaration.
-Newly integrated `Duel_ShuffleDeck`, `DebugMenu_Update`, `func_80043BCC`, and
+Newly integrated `Duel_ShuffleDeck`, `DebugMenu_Update`, `Main_RunFrontendLoop`, and
 `func_80050584` also include `rand.h` for their resident RNG calls.
 
 The imported string headers form a compatibility stack rather than three
@@ -1617,7 +1617,7 @@ Start/Cancel/Confirm gate. Only literals directly masking the documented
 input words are replaced; equal-valued object/state flags and the alternate
 overworld family's unestablished input addresses are not reinterpreted.
 
-`func_80043BCC` has a separate waiting-state gate that tests newly pressed
+`Main_RunFrontendLoop` has a separate waiting-state gate that tests newly pressed
 pad-1 input against `PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK` (`0x8C0`).
 It accepts Start, Cross, or Square; Circle/Cancel is not part of this mask.
 The test remains in the state-bit-`0x40` branch that destroys the waiting

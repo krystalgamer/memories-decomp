@@ -1027,7 +1027,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B142,D_8009B142,D_8009B142,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B142 = 0xFF;
 0x8009B142,D_8009B142,D_8009B142,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B142 = 1;
 0x8009B142,D_8009B142,D_8009B142,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B142[0] = 1;
-0x8009B142,D_8009B142,D_8009B142,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B142 = 0xFF;
+0x8009B142,D_8009B142,D_8009B142,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,write,8,D_8009B142 = 0xFF;
 0x8009B142,D_8009B142,D_8009B142,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B142,D_8009B142,D_8009B142,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B142; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0].g0 = D_8009B143;
@@ -1036,7 +1036,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B143,D_8009B143,D_8009B143,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B143 = 0xFF;
 0x8009B143,D_8009B143,D_8009B143,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B143 = 1;
 0x8009B143,D_8009B143,D_8009B143,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B143[0] = 1;
-0x8009B143,D_8009B143,D_8009B143,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B143 = 0xFF;
+0x8009B143,D_8009B143,D_8009B143,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,write,8,D_8009B143 = 0xFF;
 0x8009B143,D_8009B143,D_8009B143,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B143; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0].r0 = D_8009B144;
@@ -1045,7 +1045,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B144,D_8009B144,D_8009B144,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B144 = 0xFF;
 0x8009B144,D_8009B144,D_8009B144,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B144 = 1;
 0x8009B144,D_8009B144,D_8009B144,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B144[0] = 1;
-0x8009B144,D_8009B144,D_8009B144,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,write,8,D_8009B144 = 0xFF;
+0x8009B144,D_8009B144,D_8009B144,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,write,8,D_8009B144 = 0xFF;
 0x8009B144,D_8009B144,D_8009B144,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B144; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B145,D_8009B145,D_8009B145,0x800151B0,Fade_Init,matching_c,game,C,src/game/fade_init.c,write,8,D_8009B145 = 0;
@@ -1751,7 +1751,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B318,D_8009B318,D_8009B318,0x8003594C,Movie_Play,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0x80;
 0x8009B318,D_8009B318,D_8009B318,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,8,D_8009B318 &= 0x7F; | D_8009B318 = value | 0x40; | (+1 more)
 0x8009B318,D_8009B318,D_8009B318,0x80035A58,Movie_ResetPlaybackState,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0;
-0x8009B318,D_8009B318,D_8009B318,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read,8,g = D_8009B318;
+0x8009B318,D_8009B318,D_8009B318,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,read,8,g = D_8009B318;
 0x8009B320,D_8009B320,D_8009B320,0x80023144,func_80023144,matching_c,game,C,src/game/duel_field_display_objects.c,write,8,D_8009B320 = func_80023090(
 0x8009B320,D_8009B320,D_8009B320,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A3CC.c,write,8,D_8009B320 = 4; | D_8009B320 = o[0x54];
 0x8009B320,D_8009B320,D_8009B320,0x80037DA4,func_80037DA4,matching_c,game,C,src/game/duel_effect_command.c,read,8,object->field_54 = D_8009B320;
@@ -1981,7 +1981,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8003CE48,Input_RestorePad1FromBackup,matching_c,game,C,src/game/input_pad1_backup.c,write,16,gInput_wPad1Pressed = value;
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,read,16,if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) { | } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800438B8,Main_HoldBootScreen,matching_c,game,C,src/game/display_object_transition.c,read,16,if ((gInput_wPad1Pressed &
-0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read,16,if (gInput_wPad1Pressed &
+0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,read,16,if (gInput_wPad1Pressed &
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,16,if ((gInput_wPad1Pressed & 0x20) || (gInput_wPad2Pressed & 0x20)) { | if (gInput_wPad1Pressed & 0x10) | (+4 more)
 0x8009B39A,gInput_wPad2Pressed,gInput_wPad2Pressed,0x800283F4,DuelEffect_UpdateCardViewerState,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_018bf4.s,read,16,"lhu $v1, %lo(gInput_wPad2Pressed)($v1) | lui $v1, %hi(gInput_wPad2Pressed)"
 0x8009B39A,gInput_wPad2Pressed,gInput_wPad2Pressed,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_run_trade.c,read,16,if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0xE0) != 0) {
@@ -2149,7 +2149,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B424,D_8009B424,D_8009B424,0x800408D0,DisplayObject_RenderSpriteStrips,matching_c,game,C,src/game/display_object_updates.c,write,32,D_8009B424 = 0;
 0x8009B424,D_8009B424,D_8009B424,0x8004158C,DisplayObject_RenderSpriteSheet,matching_c,game,C,src/game/display_object_render_sprite_sheet.c,read_write,32,D_8009B424 = 0; | if (D_8009B424 != 0) {
 0x8009B428,D_8009B428,D_8009B428,0x80043960,Main_RunBootSequence,matching_c,game,C,src/game/main_run_boot_sequence.c,write,8,D_8009B428 = 0;
-0x8009B428,D_8009B428,D_8009B428,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,read_write,8,D_8009B428 = 0; | D_8009B428 = 1; | (+2 more)
+0x8009B428,D_8009B428,D_8009B428,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,read_write,8,D_8009B428 = 0; | D_8009B428 = 1; | (+2 more)
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x800441DC,MemCard_ReqReadFile,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x80044278,MemCard_ReqReadSector,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
 0x8009B430,gMemCard_pRequestBuf,gMemCard_pRequestBuf,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,write,32,gMemCard_pRequestBuf = buf;
@@ -2645,7 +2645,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F388,MemCardDialog_CreateObject,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,DuelEffectChannel *p = D_800EB0F8;
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,,TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | p = &D_800EB0F8[D_8009B3EE];
 0x800EB0F8,D_800EB0F8,D_800EB0F8,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,,TextBox_Destroy(&D_800EB0F8[D_8009B3EE]); | q = D_800EB0F8;
-0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80043BCC,func_80043BCC,matching_c,game,C,src/game/func_80043BCC.c,address,,TextBox_Destroy(D_800EB0F8);
+0x800EB0F8,D_800EB0F8,D_800EB0F8,0x80043BCC,Main_RunFrontendLoop,matching_c,game,C,src/game/main_run_frontend_loop.c,address,,TextBox_Destroy(D_800EB0F8);
 0x800EB12C,D_800EB12C,D_800EB12C,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read,32,if ((D_800EB12C & TEXT_BOX_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A3CC.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;

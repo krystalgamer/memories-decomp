@@ -208,6 +208,7 @@ Main_RunCredits = 0x8002DA1C; // type:func
 Main_RunTwoPlayerDuelSetup = 0x8002DC38; // type:func
 Main_Loop = 0x8002DD74; // type:func
 Main_HoldBootScreen = 0x800438B8; // type:func
+Main_RunFrontendLoop = 0x80043BCC; // type:func
 ScriptImage_RequestTransfer = 0x8002DF2C; // type:func
 ScriptImage_ReleaseObjects = 0x8002E00C; // type:func
 ScriptImage_CreateObject = 0x8002E060; // type:func
