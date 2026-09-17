@@ -80,7 +80,7 @@ as `post_terminal_resolution`.
 | `0x80018080` | `Duel_ApplyCardObjectFlags` | `inline_refinement` | `+0x1A: 6a000492 != 6a000392` |
 | `0x800240B0` | `Duel_UpdateCardPickCursor` | `collaborator_match` | `+0x64: 36004014 != 38004014` |
 | `0x8002892C` | `DuelEffect_UpdateState` | `collaborator_match` | `+0xC: 18006010 != 19006010` |
-| `0x8002C938` | `func_8002C938` | `inline_refinement` | `+0x1D: c0180600 != c0100600` |
+| `0x8002C938` | `Duel_CollectFieldRowCardObjects` | `inline_refinement` | `+0x1D: c0180600 != c0100600` |
 | `0x8002E370` | `DuelEffect_MarkObjectIfActive` | `inline_refinement` | `+0x6: 0f80023c != 0f80033c` |
 | `0x80031354` | `DebugMenu_UpdateBustUpEntry` | `collaborator_match` | `+0x38: 0c004014 != 0d004014` |
 | `0x80033CC4` | `func_80033CC4` | `inline_refinement` | `+0x2: 0980023c != 0980033c` |

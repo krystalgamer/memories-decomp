@@ -97,7 +97,7 @@ several functions use interior aliases or derived subranges.
 
 | Offset | Width | Shared field | Exact evidence |
 | --- | ---: | --- | --- |
-| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `func_8002C938` exports the same word as an opaque value. |
+| `+0x00` | 4 | `object` | `func_8001778C` clears it with `sw`; `DuelEffect_ApplySwords`, `func_8002778C`, `func_800278A0`, and `func_80027DF8` load it as an object pointer. `Duel_CollectFieldRowCardObjects` exports the same word as an opaque value. |
 | `+0x04` | 4 | `data` | `func_8001778C` clears it with `sw`; `Duel_SetupCardRecord` stores a pointer into `gDuel_aDeckCardRecords`; `func_80017DB4` loads it and then reads a byte from the pointed-to object. |
 | `+0x08` | 4 | padding | No field type is asserted. |
 | `+0x0C` | 2 | `card_id` | `Duel_SetupCardRecord` stores it with `sh` and later uses `lh`; `Duel_CollectFieldCardsByType` uses `lh`; `func_80027DF8` uses both `lhu` for copying and `lh` for signed table indexing. The shared field therefore fixes the width while exact users retain explicit signed views where required. |
@@ -333,7 +333,8 @@ extern:
 `DuelEffect_ApplyHarpiesFeatherDuster`,
 `Duel_FindFreeFieldSlot`,
 `Duel_CollectFieldCardsBelowType`, `Duel_CollectFieldCardsByType`,
-`func_8002778C`, `func_800278A0`, `func_80027DF8`, `func_8002C938`, and
+`func_8002778C`, `func_800278A0`, `func_80027DF8`,
+`Duel_CollectFieldRowCardObjects`, and
 `Duel_CollectMatchingFieldCardObjects`.
 
 Raw local views retained for exact code generation:
@@ -356,7 +357,8 @@ Raw local views retained for exact code generation:
   `0x90000000` state test.
 - `DuelEffect_ApplyStopDefense` uses the shared record and flags, but keeps
   the target's 32-bit `+0x14` read for its `0x88000000` state test.
-- `func_8002C938` keeps its explicit byte-address construction and fixed
+- `Duel_CollectFieldRowCardObjects` keeps its explicit byte-address
+  construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.
 
 Any matching-C report user not listed in the typed inventory above still
@@ -377,7 +379,7 @@ including the terminator**. The function has no capacity argument.
 
 ## Which row the two object collectors read
 
-Both collectors in `src/game/func_8002C938.c` start from
+Both collectors in `src/game/duel_field_card_objects.c` start from
 `D_8009B1D5 ? 5 : 20`, which is the opposite side's block, not the selecting
 side's: `D_800907CC` in `src/game/duel_field_layout.c` maps the two hands to
 records `{0..4}` and `{15..19}`, and `D_800907D8` paired with `D_80090800`
@@ -390,18 +392,21 @@ caller asks for equip cards at offset 0 and any card at offset 5, which is
 the selecting side's own hand and own front row; the two object collectors
 omit that scale, so they read the other side.
 
-`func_8002C938`'s second argument adds another `DUEL_FIELD_ROW_SIZE`, moving
-it from that front row to the `|y| = 161` row behind it.
+`Duel_CollectFieldRowCardObjects`'s second argument adds another
+`DUEL_FIELD_ROW_SIZE`, moving it from that front row to the `|y| = 161` row
+behind it.
 
-## The traced overlay caller
+## The traced overlay callers
 
 The duel overlay is not split into this project, so `WA_MRG.MRG` is the only
-record of the callers. Two overlay functions call this one, at file offsets
-`0xBB3B18` and `0xBBBE84`, which are addresses `0x80150B18` and `0x80158E84`:
-the `j 0x150bec` at file offset `0xBB3BD8` lands on file offset `0xBB3BEC`,
-which fixes the image base at `0x7F59D000`. Both sets of call sites repeat at
-six further offsets, once per language image, for the 21 `jal` sites the file
-holds.
+record of the callers. Three overlay functions between them call the two
+collectors, at file offsets `0xBB3B18`, `0xBB5C20` and `0xBBBE84`, which are
+addresses `0x80150B18`, `0x80152C20` and `0x80158E84`: the `j 0x150bec` at
+file offset `0xBB3BD8` lands on file offset `0xBB3BEC`, which fixes the image
+base at `0x7F59D000`. Every call site repeats at six further offsets, once per
+language image, which accounts for the 21 `jal` sites to
+`Duel_CollectMatchingFieldCardObjects` and the 14 to
+`Duel_CollectFieldRowCardObjects` that the file holds.
 
 The first caller takes a record pointer and a second argument it rejects
 unless it is below 8, then indexes an eight-entry table at `0x8015ACD4` whose
@@ -424,16 +429,25 @@ Selectors 3, 2, 14, 9, 18 and 12 are `card_constants.h`'s
 `CARD_TYPE_MAGIC`, so it takes the attack comparison instead. The caller
 passes the selector to `Duel_CollectMatchingFieldCardObjects` with the fixed
 output buffer `0x8015B838` and then counts the result by walking it to the
-terminator, but it diverts the `999` entry to `func_8002C938` with a nonzero
+terminator, but it diverts the `999` entry to
+`Duel_CollectFieldRowCardObjects` with a nonzero
 second argument, so that entry reads the row behind the front row unfiltered
 rather than filtering on an attack of 999.
 
-The second caller rejects a second argument that is not below 2, indexes a
+The second caller, at file offset `0xBB5C20`, calls
+`Duel_CollectFieldRowCardObjects` with a nonzero second argument and nothing
+else, then fills mirrored screen offsets of `140`, `190`, `4` and `384`
+chosen by the sign of the halfword at `0x8015B7D4` and walks the list to count
+it. With the `999` branch above, that is both of the row collector's traced
+call sites, and both ask for the back row, so its front-row case has no traced
+caller.
+
+The third caller rejects a second argument that is not below 2, indexes a
 two-entry 16-byte-stride table at `0x8015B7A8`, and branches on the halfword
 at that entry's `+0x0E`, which is `0` in the first entry and `1` in the
-second: zero calls this function with selector `-1` and nonzero calls it with
-selector `0`. So the negative both-sides path does have a traced caller, and
-both callers share the one output buffer.
+second: zero calls `Duel_CollectMatchingFieldCardObjects` with selector `-1`
+and nonzero calls it with selector `0`. So the negative both-sides path does
+have a traced caller, and all three callers share the one output buffer.
 
 That buffer's capacity is consistent with the 21-word worst case. From
 `0x8015B838` the overlay image is zero for `0x58` bytes, up to the next

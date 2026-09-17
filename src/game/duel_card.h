@@ -66,11 +66,18 @@ extern DuelCardRecord D_801A7AD8[];
 /* The same table, entered five records in: 0x801A7B64 is 0x8C past
  * D_801A7AD8 and 0x8C is 5 * DUEL_CARD_RECORD_SIZE, so this is
  * &D_801A7AD8[5]. Duel_CollectMatchingFieldCardObjects retains this alias
- * for its two-side traversal and the original relocation. func_8002C938
- * selects its row through D_801A7AD8 instead. */
+ * for its two-side traversal and the original relocation.
+ * Duel_CollectFieldRowCardObjects selects its row through D_801A7AD8
+ * instead. */
 extern DuelCardRecord D_801A7B64[];
 
-void func_8002C938(u32 *output, s32 alternate);
+/* Writes a zero-terminated list of the occupied cards' object addresses for
+ * one whole row, with no filter. The row is the front row of the side
+ * D_8009B1D5 does not select, or the row behind it when back_row is nonzero.
+ * Six u32 words are always enough: five addresses plus the terminator. Both
+ * traced overlay call sites pass a nonzero back_row, so the front row has no
+ * traced caller; notes/duel-card-record.md records them. */
+void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row);
 /* Writes a zero-terminated list of occupied cards' object addresses.
  * Negative selectors scan both sides. Other selectors scan the front row of
  * the side D_8009B1D5 does not select: 0..20 match the object's 0x68 card
