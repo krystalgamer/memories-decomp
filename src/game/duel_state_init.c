@@ -107,8 +107,10 @@ void func_8001778C(void)
 
     do {
         *(s32 *)&entry->object = 0;
-        /* The data clear stays relative to the flags cursor for allocation. */
-        *(s32 *)(flags - 9) = 0;
+        /* Keep the flags-relative cursor while deriving the data distance. */
+        *(s32 *)(flags -
+            ((u32)&((DuelCardRecord *)0)->flags -
+             (u32)&((DuelCardRecord *)0)->data) / sizeof(*flags)) = 0;
         *flags = 0;
         flags = (u16 *)((u8 *)flags + sizeof(DuelCardRecord));
         i++;

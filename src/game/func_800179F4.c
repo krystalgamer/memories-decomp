@@ -34,7 +34,7 @@
 #include "func_80016778.h"
 #include "../unmatched.h"
 #include "func_800179F4.h"
-#include "func_8001755C.h"
+#include "duel_init_model_scene.h"
 #include "duel_effect_object_pool.h"
 #include "func_80029574.h"
 #include "text_render_state.h"
@@ -114,7 +114,7 @@ void func_800179F4(void)
     pane[1].field_2C = 0;
     pane[1].field_2E = 254;
     func_80035668(0);
-    func_8001755C();
+    Duel_InitModelScene();
     File_WaitForTransfers();
     D_8009B22C =
         &D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];

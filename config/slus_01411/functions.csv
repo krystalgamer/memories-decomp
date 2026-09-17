@@ -95,7 +95,7 @@ address,size,name,status,module,notes
 0x800170C8,0x68,Duel_CalcCardStats,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80017130,0x78,func_80017130,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800171A8,0x3B4,Duel_LoadPackageStage,matching_c,game,"Exact pin-free 13-stage duel package callback: separate volatile flag snapshots and scoped enable-mask capture recover stage-10 scheduling; distinct image scopes share the stage-6/12 tail. All 948 text bytes and 52 table bytes match; uniform G8 split profile, canonical headers, no instruction assembly."
-0x8001755C,0x44,func_8001755C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8001755C,0x44,Duel_InitModelScene,matching_c,game,"Resets model-scene and transfer state, then configures duel model slot 2 from the loaded payload gate; exact match with gcc_2_8_1_g8."
 0x800175A0,0x130,func_800175A0,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800176D0,0x38,Duel_ClearHandSlots,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80017708,0x84,func_80017708,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
