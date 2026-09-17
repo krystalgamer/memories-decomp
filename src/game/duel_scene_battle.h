@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-/* State private to duel scene-state 8, the battle resolution phase.
+/* State private to duel scene-state 9, the battle resolution phase.
  * DuelScene_UpdateBattle (src/candidates/func_8001F55C.c) is the only source in
  * the tree that names either of these, and both were declared inside that
  * source because the unit had no header to take them from. This is the
