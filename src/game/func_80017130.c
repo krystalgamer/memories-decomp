@@ -10,10 +10,10 @@ void func_80017130(void)
 {
     ViewState *s = &D_800F2848;
     /* This second base pointer is load-bearing, not leftover noise. Written
-       as s->field_1C, s->field_20 and s->field_24 the three stores share the
+       as s->view.vrx, s->view.vry and s->view.vrz the three stores share the
        first base with plain displacements and the function comes out one
        instruction short of retail; the original clearly had a cursor here. */
-    s32 *words = (s32 *)((u8 *)s + 0x10);
+    s32 *words = (s32 *)&s->view.vpx;
 
     s->field_00 = 0x258;
     s->angle = 0x400;
