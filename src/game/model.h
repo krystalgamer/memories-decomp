@@ -188,6 +188,13 @@ typedef struct {
     u32 value[7];
 } ModelSlotCF8BlockWords;
 
+/* The staged model metadata copied into a slot: 0x100 bytes of sound entries
+   followed by the word-aligned field_CF8 block. */
+typedef struct {
+    ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
+    ModelSlotCF8BlockWords field_CF8;
+} ModelTransferMetadata;
+
 /* Eight bytes moved as a block. Three units spelled this by hand over three
    different records: func_8004E7B0 and model_scene_setup.c (that code is
    now in func_80052D2C.c) over the view
@@ -419,6 +426,9 @@ typedef char ModelSlotCF8Block_size_must_be_0x1C[
 ];
 typedef char ModelSlotCF8BlockWords_size_must_match_block[
     sizeof(ModelSlotCF8BlockWords) == sizeof(ModelSlotCF8Block) ? 1 : -1
+];
+typedef char ModelTransferMetadata_field_CF8_offset_must_be_0x100[
+    MODEL_OFFSET(ModelTransferMetadata, field_CF8) == 0x100 ? 1 : -1
 ];
 typedef char ModelBytes8_size_must_be_8[
     sizeof(ModelBytes8) == 8 ? 1 : -1

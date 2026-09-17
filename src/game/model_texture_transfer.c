@@ -265,7 +265,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         source = D_801DD000;
         func_8005B620((s32 *)slot->sound_entries, (const s32 *)source, 0x40);
         *(ModelSlotCF8BlockWords *)&slot->field_CF8 =
-            *(ModelSlotCF8BlockWords *)(source + 0x100);
+            ((ModelTransferMetadata *)source)->field_CF8;
         if (slot->field_CF8.prefix.values.field_08 & 0x20200000) {
             func_80059284(index, 4);
         }
@@ -475,7 +475,7 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         src = D_801DD000;
         func_8005B620((s32 *)dst->sound_entries, (const s32 *)src, 0x40);
         *(ModelSlotCF8BlockWords *)&dst->field_CF8 =
-            *(ModelSlotCF8BlockWords *)(src + 0x100);
+            ((ModelTransferMetadata *)src)->field_CF8;
         dst->field_CF8.field_10 = -1;
         dst->field_CF8.field_14 = -1;
         dst->field_CF8.field_18 = -1;
