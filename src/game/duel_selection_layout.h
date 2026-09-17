@@ -38,10 +38,18 @@ typedef struct {
     u32 field_00;
     u32 field_04;
     DuelHandSlot *hand;
-    u8 pad_0C[7];
+    u8 pad_0C[2];
+    /* The hand slot the side's cursor is on: func_8001B8B8 indexes
+     * D_800EA030 with it to pick the card it leaves undimmed, and
+     * func_8001BD88 clears it beside field_15. Read signed at that index. */
+    u8 field_0E;
+    u8 pad_0F[4];
     u8 field_13;
     u8 field_14;
-    u8 pad_15[2];
+    /* Zero while the side is picking from its hand, which is the condition
+     * func_8001B8B8 dims every other card under. */
+    u8 field_15;
+    u8 pad_16;
     u8 field_17;
     u8 field_18;
     u8 pad_19[3];
@@ -49,6 +57,12 @@ typedef struct {
 
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
     (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
+];
+typedef char DuelSelectionRecord_field_0E_offset_must_be_0xE[
+    (u32)&(((DuelSelectionRecord *)0)->field_0E) == 0xE ? 1 : -1
+];
+typedef char DuelSelectionRecord_field_15_offset_must_be_0x15[
+    (u32)&(((DuelSelectionRecord *)0)->field_15) == 0x15 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_field_13_offset_must_be_0x13[
     (u32)&(((DuelSelectionRecord *)0)->field_13) == 0x13 ? 1 : -1

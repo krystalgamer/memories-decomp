@@ -23,7 +23,7 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
             self.assertFalse((ROOT / "src/game" / source).exists())
 
     def test_duel_object_collectors_have_one_owner(self) -> None:
-        owner = "src/game/func_8002C938.c"
+        owner = "src/game/duel_field_card_objects.c"
         self.assertEqual(self.functions["0x8002C938"]["source"], owner)
         self.assertEqual(self.functions["0x8002C9B4"]["source"], owner)
         self.assertFalse((ROOT / "src/game/func_8002C9B4.c").exists())
@@ -51,9 +51,9 @@ class GroupedDuelSearchUnitTests(unittest.TestCase):
         positions = [field_source.index(name) for name in field_names]
         self.assertEqual(positions, sorted(positions))
 
-        object_source = (ROOT / "src/game/func_8002C938.c").read_text()
+        object_source = (ROOT / "src/game/duel_field_card_objects.c").read_text()
         self.assertLess(
-            object_source.index("void func_8002C938("),
+            object_source.index("void Duel_CollectFieldRowCardObjects("),
             object_source.index("void Duel_CollectMatchingFieldCardObjects("),
         )
 

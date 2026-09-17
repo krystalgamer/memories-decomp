@@ -204,7 +204,7 @@ void func_80045514(void)
             SDMusicPackage *list = (SDMusicPackage *)g_SDValue->music_track;
 
             g_SDValue->field_157A = SD_VabOpenHead(
-                list->vab_header, 0, list->spu_address
+                (SDVabHeader *)list->vab_header, 0, list->spu_address
             );
             if ((s16)g_SDValue->field_157A != 0) {
                 g_SDValue->field_007C = 0;

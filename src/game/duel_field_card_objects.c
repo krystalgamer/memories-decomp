@@ -3,14 +3,14 @@
 #include "duel_side_state.h"
 #include "display_object.h"
 
-void func_8002C938(u32 *output, s32 alternate)
+void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
     s32 base =
         D_8009B1D5 ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     s32 scaled;
     DuelCardRecord *entry;
 
-    if (alternate != 0) {
+    if (back_row != 0) {
         base += DUEL_FIELD_ROW_SIZE;
     }
     scaled = base << 3;

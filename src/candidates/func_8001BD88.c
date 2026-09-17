@@ -99,7 +99,7 @@ extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
 
-void func_8001B8B8(u8 *arg0);
+void func_8001B8B8(DuelSelectionRecord *side);
 void func_8001B938(u8 *p);
 void func_8001BAF0(void);
 void func_80028220(void);
@@ -203,7 +203,7 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B1E2++;
                 id = D_800EAE88[(s8)D_8009B1E2];
                 if (id == 0) {
-                    func_8001B8B8(side);
+                    func_8001B8B8((DuelSelectionRecord *)side);
                     D_8009B20C[0] = 2;
                     D_8009B19E = (u16)D_8009B19E & 1;
                     if (D_8009B19E != 0) {
@@ -406,7 +406,7 @@ void DuelScene_UpdateHandActions(void)
             if ((gInput_wPad1Pressed & 0xC0) && B(side, 0x15) != 1) {
                 SD_SEPlayFull(7);
                 D_8009B174 = 4;
-                func_8001B8B8(side);
+                func_8001B8B8((DuelSelectionRecord *)side);
                 if (B(side, 0x15) == 0) {
                     D_8009B174 = 3;
                     return;

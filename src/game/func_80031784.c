@@ -5,7 +5,7 @@
 #include "color_constants.h"
 #include "func_80031784.h"
 
-void func_80031784(GsSPRITE *record, s32 arg1, u8 *data, s32 selected)
+void func_80031784(GsSPRITE *record, GsOT *ot, u8 *data, s32 selected)
 {
     s32 i;
     u8 *cursor;
@@ -22,7 +22,7 @@ void func_80031784(GsSPRITE *record, s32 arg1, u8 *data, s32 selected)
         record->v = data[0] & 240;
         record->cx = (cursor[0] & 240) | 512;
         cursor += 2;
-        GsSortFastSprite(record, (GsOT *)arg1, 0);
+        GsSortFastSprite(record, ot, 0);
         record->x += 18;
         data += 2;
     } while (i < 7);
