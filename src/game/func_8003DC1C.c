@@ -164,7 +164,7 @@ success:
                 goto show_message;
             }
             MemCard_ReqReadSector(zero, MEM_CARD_WORK_FRAME_ADDRESS,
-                *(s32 *)((u8 *)gMemCard_pDirEntries + 40 * index + 0x20) / 64);
+                gMemCard_pDirEntries[index].head / 64);
             break;
         }
         if (D_8009B3D5) {

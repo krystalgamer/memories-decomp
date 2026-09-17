@@ -249,8 +249,11 @@ XOR of the first `0x7F` bytes into `+0x7F`, and writes that sector back. The
 last is the shape of a 128-byte directory frame with its check byte. The sector
 number it passes is the directory entry's word at `+0x20`, the Psy-Q
 `DIRENTRY.head` field, divided by `64`. `MemCard_ReqCardInfo` is the seventh:
-nothing in the executable or the `DATA` files calls it or stores its address,
-so its name rests on its body and on the code-`1` branch alone.
+the matching controller now expresses that read directly as
+`gMemCard_pDirEntries[index].head`, rather than rebuilding the SDK record
+address by byte offset. Nothing in the executable or the `DATA` files calls
+`MemCard_ReqCardInfo` or stores its address, so its name rests on its body and
+on the code-`1` branch alone.
 
 The controller's bounded workspace, absolute directory view, frame backing,
 and inherited `MemCard_FindLoadedEntry` return-register ABI are documented in
