@@ -41,8 +41,8 @@ def disassemble(root: Path, data: bytes, scratch: Path) -> list[str]:
     scratch.parent.mkdir(parents=True, exist_ok=True)
     scratch.write_bytes(data)
     out = subprocess.run(
-        [str(root / OBJDUMP), "-D", "-b", "binary", "-m", "mips:3000", "-EL",
-         str(scratch)],
+        [str(root / OBJDUMP), "-D", "-z", "-b", "binary", "-m", "mips:3000",
+         "-EL", str(scratch)],
         capture_output=True, text=True, check=True).stdout
     return [re.sub(r"\s+", " ", m.group(3).strip())
             for line in out.splitlines() if (m := LINE.match(line))]
