@@ -59,7 +59,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             func_80032C48(&state->lists[1]);
             func_8003201C((u8 *)state);
             func_80031EE4(state, r);
-            func_80031E5C((u8 *)state);
+            func_80031E5C(state);
             func_80031574(r, 0x234, 0x16, 0x162, 0xA);
             return;
         }
@@ -119,7 +119,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             SD_SEPlayFull(7);
             BuildDeck_AddCard((s32)state, r);
             func_80031F7C(state, r);
-            func_80031E5C((u8 *)state);
+            func_80031E5C(state);
             func_80031574(r, 3, 0x18, 0x11C, 0xC);
             return;
         }

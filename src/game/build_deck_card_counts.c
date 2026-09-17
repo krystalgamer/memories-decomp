@@ -15,18 +15,15 @@
    is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
    func_8003201C.
 
-   func_80031EE4 and func_80031F7C take the screen record as itself. An
-   earlier note here said the state had to be cast at each use because a
+   All three take the screen record as itself. An earlier note here said the state had to be cast at each use because a
    BuildDeckTransitionState * local cost an instruction; that is true of a
    local, and not of the parameter, which is the same incoming register
    either way. */
 
-void func_80031E5C(u8 *arg0) {
+void func_80031E5C(BuildDeckTransitionState *record) {
     DuelEffectChannel *p;
-    D_801D5608[0].build_deck.chest =
-        ((BuildDeckTransitionState *)arg0)->chest_total;
-    D_801D5608[0].build_deck.deck =
-        ((BuildDeckTransitionState *)arg0)->deck_total;
+    D_801D5608[0].build_deck.chest = record->chest_total;
+    D_801D5608[0].build_deck.deck = record->deck_total;
     p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
     func_80039A14(p);
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
