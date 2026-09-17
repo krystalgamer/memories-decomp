@@ -30,7 +30,10 @@ void DisplayObject_InitializeGouraudQuad(
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 
-void func_80042824(DisplayObject *object, int value)
+void DisplayObject_InitializeTexturedGouraudQuad(
+    DisplayObject *object,
+    s32 has_secondary_quad
+)
 {
     u32 initial = 0x00808080;
     u16 flags = object->flags;
@@ -48,7 +51,7 @@ void func_80042824(DisplayObject *object, int value)
     object->field_1C = 0;
     object->field_1A = 0;
     object->field_18 = 0;
-    ((u8 *)object)[0x72] = value;
+    ((u8 *)object)[0x72] = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 

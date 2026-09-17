@@ -67,7 +67,10 @@ void DisplayObject_InitializeGouraudQuad(
     DisplayObject *object,
     s32 has_secondary_quad
 );
-void func_80042824(DisplayObject *object, int value);
+void DisplayObject_InitializeTexturedGouraudQuad(
+    DisplayObject *object,
+    s32 has_secondary_quad
+);
 void DisplayObject_ConfigureSpriteWithResource(
     DisplayObject *object,
     s32 arg1,
