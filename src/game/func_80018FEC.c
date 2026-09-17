@@ -104,8 +104,9 @@ void DuelScene_UpdateExodiaResult(void)
         rec = (u8 *)D_800EA030;
 next_obj:
         obj = *(DisplayObject **)rec;
+        /* Keep the typed record offset left of the staging base. */
         g = (DuelCardReplayRecordBlock *)(
-            obj->field_6A * sizeof(DuelCardRecord) +
+            (u32)&((DuelCardRecord *)0)[obj->field_6A] +
             (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
         );
         anim = g->record.card_id - 0x11;
