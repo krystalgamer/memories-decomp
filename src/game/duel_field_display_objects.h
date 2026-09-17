@@ -81,6 +81,20 @@ void func_8002348C(DuelFieldDisplaySource *source);
  * duel_field_display_objects.c and called by func_8002348C there. */
 void func_80023144(DuelFieldDisplaySource *source, s32 index);
 
+/* Creates the field-card panel object and stores it at the record's 0x04,
+ * selecting its graphic from table_index plus the side offset -- the two
+ * behaviours the record comment above already describes. Defined in
+ * duel_field_display_objects.c, which calls it at :423, and called once more
+ * from outside the unit by DuelScene_UpdateFieldActions
+ * (src/candidates/func_8001D670.c:354).
+ *
+ * That candidate declared this prototype for itself while already including
+ * this header, which is the only reason the declaration was not here: the
+ * unit's other four entry points are declared above, and the comment on the
+ * record names this one three times. The spelling is the definition's own,
+ * unchanged. */
+void func_800234E4(DuelFieldDisplaySource *source);
+
 /* Steps the field-card panel for the D_8009B162 request flags: on the first
  * frame it starts the camera tween and the panel's slide in or out, then it
  * advances the cursor, the panel and the camera, and clears the flags once
