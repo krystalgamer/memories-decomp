@@ -50,7 +50,7 @@ void func_800391E4(DuelEffectChannel *p) {
             DisplayObject_ReleaseIfPresent(p->field_2C);
         }
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
-        func_800427DC(e, 1);
+        DisplayObject_InitializeGouraudQuad(e, 1);
         p->field_2C = e;
         e->attribute = e->attribute | (GsALON | GsATWO);
         DisplayObject_SelectOrderingTable1(e);

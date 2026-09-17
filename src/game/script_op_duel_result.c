@@ -75,7 +75,7 @@ void Script_OpDuelResult(void) {
         DisplayObject_SetDepthOffset(o, -1);
         D_800EAE98[2].unk00 = (s32)o;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
-        func_800427DC(q, 0);
+        DisplayObject_InitializeGouraudQuad(q, 0);
         color = 0xF00140;
         q->field_30.word = 0x140;
         q->field_38.word = 0xF00000;
