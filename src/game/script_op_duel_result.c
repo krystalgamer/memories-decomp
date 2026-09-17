@@ -67,11 +67,11 @@ void Script_OpDuelResult(void) {
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         D_800EAE98[0].unk00 = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
         D_800EAE98[1].unk00 = (s32)o;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
+        DisplayObject_ConfigureScreenSprite(o, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(o, -1);
         D_800EAE98[2].unk00 = (s32)o;
         q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);

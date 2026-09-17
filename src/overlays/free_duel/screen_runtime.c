@@ -233,7 +233,7 @@ done:
     for (i = 0; i < 25; i++) {
         if (gFreeDuel_abGridAvailable[i] != 0) {
             obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-            DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj,
+            DisplayObject_ConfigureScreenSprite(obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (i / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,
@@ -246,7 +246,7 @@ done:
     for (k = 25, i = 0; i < 15; i++, k++) {
         if (gFreeDuel_abGridAvailable[k] != 0) {
             obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-            DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj,
+            DisplayObject_ConfigureScreenSprite(obj,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 56 + 20,
                           (k / FREE_DUEL_GRID_COLUMN_COUNT) * 52 + 40, 48, 48,
                           (i % FREE_DUEL_GRID_COLUMN_COUNT) * 48,

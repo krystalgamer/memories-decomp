@@ -41,33 +41,8 @@ void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object, u8 field_67, u8 field_68, u8 field_69
 );
 
-/* Layout view used by DisplayObject_ConfigureScreenSprite, which writes the position, extent and
- * blend fields of a display object in one call. It covers only the fields
- * DisplayObject_ConfigureScreenSprite itself touches.
- *
- * This is deliberately NOT the canonical DisplayObject in display_object.h,
- * and it is not a rival to it. DisplayObject_ConfigureScreenSprite writes 16-bit halves at four
- * offsets the canonical record held as 32-bit words: 0x30, 0x3C, 0x40 and
- * 0x48, plus a pair of bytes inside the halfword at 0x5C. The note here used
- * to say that splitting those words would change how existing users store
- * them -- display_object_core.c zeroes field_40 and field_48 with single
- * word stores, which would become pairs of halfword stores -- and that the
- * build would stop being byte-identical.
- *
- * That is no longer the state of the record. The union device display_object.h
- * adopted for the byte at 0x22 inside field_20, and then for 0x28, 0x30 and
- * 0x3C, now covers 0x40 and 0x48 as well, so every offset this view exists to
- * name is reachable through the canonical record at both widths: the word
- * writes keep their sw through `.word` and the narrow users take `.h`.
- * Measured -- display_object_core.c and
- * display_object_updates.c all still build byte-identically.
- *
- * What keeps this view alive is no longer the layout but the signature below:
- * DisplayObject_ConfigureScreenSprite and its callers pass the record as this type, and several of
- * those callers still hold it as a bare pointer. Retiring the view is that
- * change, not a layout change. Until then the two descriptions coexist: the
- * canonical record owns the pool, and this view records the shape
- * DisplayObject_ConfigureScreenSprite works in. */
+/* Narrow position/extent view retained for Duel_CreateCardEffectOverlay,
+ * whose source object is not otherwise exposed as the canonical record. */
 typedef struct {
     u8 pad_00[0x08];
     u16 flags;
@@ -103,8 +78,8 @@ typedef struct {
 void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 field_67,
                     s32 field_68, s32 field_69, s32 color, s32 texture);
 
-DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
-    DisplayObjectConfigView *object,
+struct DisplayObject *DisplayObject_ConfigureScreenSprite(
+    struct DisplayObject *object,
     s32 x,
     s32 y,
     s32 height,

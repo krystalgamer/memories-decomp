@@ -7077,8 +7077,10 @@ is free or a regression.
 
 **The result is discarded** (most of them). `func_80029164` is declared `void`
 by five consumers against a `FileTransferDescriptor *` definition;
-`DisplayObject_ConfigureScreenSprite` by five against `DisplayObjectConfigView *`. Nobody reads `$v0`,
-so the declaration is misinformation rather than a lever. This is the class the
+`DisplayObject_ConfigureScreenSprite` was formerly declared by five consumers
+against a `DisplayObjectConfigView *` result before its canonical
+`DisplayObject *` signature landed. Nobody reads `$v0`, so the former
+declaration was misinformation rather than a lever. This is the class the
 `sound_voice_selection.h` review already called out: the build cannot tell you
 about a return type nobody uses, so only reading the definition finds these.
 

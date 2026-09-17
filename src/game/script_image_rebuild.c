@@ -61,7 +61,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     if (n >= 0x200) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
         DisplayObject_ConfigureScreenSprite(
-            (DisplayObjectConfigView *)o,
+            o,
             0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0
         );
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);

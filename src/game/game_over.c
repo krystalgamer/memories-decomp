@@ -18,7 +18,7 @@ void func_8003C950(void)
     DisplayObject *object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
     DisplayObject_ConfigureScreenSprite(
-        (DisplayObjectConfigView *)object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+        object, 0, 0, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
         0, 0, 16, 0, 240
     );
     object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;

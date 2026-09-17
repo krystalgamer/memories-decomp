@@ -44,7 +44,7 @@ u8 *func_800291E0(s32 index, s32 x, s32 y)
     entry = &D_800EA0E8[index];
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)object, 0, 0, 0x66, 0x60, 0, 0,
+    DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x66, 0x60, 0, 0,
         ((s16)entry->src_x >> 6) + (((s16)entry->src_y >> 8) << 4),
         (s16)entry->field_2C, (s16)entry->field_2E);
 

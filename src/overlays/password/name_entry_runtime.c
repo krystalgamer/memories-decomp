@@ -157,7 +157,7 @@ void NameEntry_Init(void)
     obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
     D_8016D404 = (SelectionFrame *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
+    DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 256, 240);
     obj->field_48.h.field_4A = 13;
     obj->field_48.h.field_48 = 13;
     obj->attribute = obj->attribute | GsALON;
@@ -165,7 +165,7 @@ void NameEntry_Init(void)
     DisplayObject_SetDepthOffset(obj, 10);
     D_8016D43C = (u8 *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
-    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
+    DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 240, 0, 0, 20, 256, 243);
     obj->field_0C = COLOR_RGB24_DIM_GREY;
     obj->attribute = obj->attribute | 0x1000000;
     DisplayObject_SelectOrderingTable3(obj);
@@ -276,7 +276,7 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                        glyph. */
                     DisplayObject *glyph = (DisplayObject *)object;
 
-                    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)piece,
+                    DisplayObject_ConfigureScreenSprite(piece,
                                   (s16)glyph->field_30.h.field_30 + dx,
                                   (s16)glyph->field_30.h.field_32 + dy,
                                   4, 4,
@@ -360,7 +360,7 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     g->field_60 = n;
     if ((s16)n > 0) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-        DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)o,
+        DisplayObject_ConfigureScreenSprite(o,
                       (s16)g->field_30.h.field_30, (s16)g->field_30.h.field_32,
                       16, 16,
                       *(u8 *)&g->field_5C, ((u8 *)&g->field_5C)[1],
@@ -466,7 +466,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         }
 draw:
         DisplayObject_ConfigureScreenSprite(
-            (DisplayObjectConfigView *)obj,
+            obj,
             p->field_3C + w->x_0C + shift, p->field_40 + w->y_0E,
             16, 16, u, v, 10, 640, p->field_54 + 232
         );
@@ -474,7 +474,7 @@ draw:
         D_8016D408 = D_8016D408 + 1;
     } else {
         DisplayObject_ConfigureScreenSprite(
-            (DisplayObjectConfigView *)obj,
+            obj,
             D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
             256, 240
         );

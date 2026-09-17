@@ -120,7 +120,7 @@ void Options_Init(void) {
                   DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-    DisplayObject_ConfigureScreenSprite((DisplayObjectConfigView *)obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
+    DisplayObject_ConfigureScreenSprite(obj, 0x68, 0x48, 0x10, s2, 0x50, 0x80, s0, 0x210, 0xFC);
 
     {
         s32 flag = gOptions_bSelection;

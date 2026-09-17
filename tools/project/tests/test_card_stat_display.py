@@ -141,8 +141,8 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
     return &actual.object;
 }
 
-DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
-    DisplayObjectConfigView *object, s32 px, s32 py, s32 height,
+DisplayObject *DisplayObject_ConfigureScreenSprite(
+    DisplayObject *object, s32 px, s32 py, s32 height,
     s32 width, s32 field_5C, s32 field_5D, s32 field_66,
     s32 field_40, s32 field_42)
 {
@@ -154,7 +154,7 @@ DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     copy_bytes(&actual, expected[1], sizeof(actual));
     if (mutate_stats) gDuel_adwCardStats[card_index - 1] = final_stats_word;
     /* This result is deliberately distinct: the constructor retains allocation. */
-    return (DisplayObjectConfigView *)&decoy.object;
+    return &decoy.object;
 }
 
 void DisplayObject_SelectOrderingTable1(DisplayObject *object)

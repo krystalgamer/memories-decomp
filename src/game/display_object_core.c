@@ -217,8 +217,8 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 fie
     DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
 }
 
-DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
-    DisplayObjectConfigView *object,
+DisplayObject *DisplayObject_ConfigureScreenSprite(
+    DisplayObject *object,
     s32 x,
     s32 y,
     s32 height,
@@ -232,24 +232,24 @@ DisplayObjectConfigView *DisplayObject_ConfigureScreenSprite(
     s32 half_height;
     s32 half_width;
 
-    object->height = height;
+    object->field_3C.h.field_3C = height;
     half_height = height / 2;
-    object->x = x;
-    object->y = y;
-    object->half_height = half_height;
-    object->half_height_2 = half_height;
+    object->field_30.h.field_30 = x;
+    object->field_30.h.field_32 = y;
+    object->field_18 = half_height;
+    object->field_48.h.field_48 = half_height;
 
     object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
-    object->width = width;
+    object->field_3C.h.field_3E = width;
     half_width = width / 2;
-    object->field_5C = field_5C;
-    object->field_5D = field_5D;
+    *(u8 *)&object->field_5C = field_5C;
+    ((u8 *)&object->field_5C)[1] = field_5D;
     object->field_66 = field_66;
-    object->field_40 = field_40;
-    object->field_42 = field_42;
-    object->half_width = half_width;
-    object->half_width_2 = half_width;
+    object->field_40.h.field_40 = field_40;
+    object->field_40.h.field_42 = field_42;
+    object->field_1A = half_width;
+    object->field_48.h.field_4A = half_width;
     return object;
 }
 

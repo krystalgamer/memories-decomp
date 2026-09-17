@@ -509,8 +509,8 @@ into a half that lands and a half that does not.
                                     password overlay stops matching
 
     name_entry_runtime.c            taking display_object_config.h's
-                                    DisplayObjectConfigView * prototype, with
-                                    casts at six call sites: free
+                                    canonical DisplayObject * prototype and
+                                    removing six narrow-view casts: free
     NameEntry_UpdateGlyphShatter    naming the seven fields it reads through
                                     that view: password overlay stops matching
 
