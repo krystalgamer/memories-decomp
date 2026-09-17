@@ -148,7 +148,7 @@ extern s16 D_8009B22A;
 
 /* Assigned in two units and read by no C statement: Duel_InitScene writes
  * `D_8009B22C = &D_800907D8[D_8009B1D5 * 20];`
- * (src/candidates/duel_init_scene.c:136-137) and
+ * (src/game/duel_init_scene.c:119-120) and
  * DuelScene_UpdateTurnSwitch writes `D_8009B22C = D_800907D8 + D_8009B1D5 *
  * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;` (duel_scene_turn_switch.c:9); no other listing
  * mentions the symbol. u8 * because D_800907D8 is `extern u8 D_800907D8[]`
@@ -304,7 +304,7 @@ extern u8 D_8009B368;
  * lbu and every declarer said u8. Initial value not read.
  *
  * Retail reaches it through %hi/%lo at every site and never through $gp.
- * src/candidates/duel_init_scene.c and src/game/main_run_duel.c reach
+ * src/game/duel_init_scene.c and src/game/main_run_duel.c reach
  * other symbols through $gp, so they define the .data arm below;
  * func_80024DC8.c and src/candidates/func_80038530.c compile with nothing in
  * small data and take the plain byte. src/candidates/func_80018FEC.c also
@@ -337,12 +337,12 @@ extern u16 gDuel_wBgmId;
  * written more than once -- and then, as its last statement, assigns
  * `D_8009B1C8 = &D_800E9FF0[D_8009B1D5];` (duel_state_init.c:62;
  * Duel_InitSideStates.s:85). It does not touch D_8009B22C: that store is in its
- * only caller, src/candidates/duel_init_scene.c:136, after the call at :112.
+ * only caller, src/game/duel_init_scene.c:119, after the call at :95.
  *
  * Declared here because that last statement is the assignment this header
  * already describes: the note on D_8009B1C8 says four translation units
  * assign it exactly `&D_800E9FF0[D_8009B1D5]` on a turn change, and this is
- * one of them. Duel_InitScene (src/candidates/duel_init_scene.c) is the only
+ * one of them. Duel_InitScene (src/game/duel_init_scene.c) is the only
  * caller, and its old duel_init_scene.c had the only declaration. */
 void Duel_InitSideStates(void);
 

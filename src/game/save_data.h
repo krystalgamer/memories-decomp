@@ -186,7 +186,7 @@ extern u8 gSaveData_aTransferBuffer[];
 extern u8 gSaveData_aHeaderTemplate[];
 
 /* 0x801D1200. Five functions in four units take its address and nothing
- * else: Duel_InitScene (src/candidates/duel_init_scene.c, `pool =
+ * else: Duel_InitScene (src/game/duel_init_scene.c, `pool =
  * D_801D1200;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
  * (save_data_transfer_runtime.c as the first argument to MemCardDialog_Request
  * and through SaveDataState casts, the second at

@@ -12,7 +12,7 @@
  * selector and the trailing 4 choose is not established here, and nothing in
  * this unit names the buffer's contents.
  *
- * Duel_InitScene (src/candidates/duel_init_scene.c) is the only consumer and
+ * Duel_InitScene (src/game/duel_init_scene.c) is the only consumer and
  * reached it through a local extern that already agreed with this. */
 void Duel_InitModelScene(void);
 
