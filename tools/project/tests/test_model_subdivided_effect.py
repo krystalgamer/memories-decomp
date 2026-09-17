@@ -460,7 +460,7 @@ static void run_case(s32 mode)
     bytes(storage,initial,TOTAL); bytes(D_800915E8,initial_config,28);
     bytes(alternate,initial_config+28,28);
     fill(seen,0,sizeof(seen)); event_cursor=clears=0; reference_run=0;
-    actual=func_8006AF74(object,mode);
+    actual=func_8006AF74((ModelSubdividedEffect *)object,mode);
     if(actual!=expected || event_cursor!=event_count || clears!=2) fail(12);
     if(!equal(storage,final_state,TOTAL)) fail(13);
     {

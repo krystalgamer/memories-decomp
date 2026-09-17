@@ -41,6 +41,6 @@ typedef char ModelSubdividedEffect_size_must_be_0x1318[
 extern VECTOR D_8001185C;
 extern char D_8001186C[];
 
-s32 func_8006AF74(void *data, s32 mode);
+s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode);
 
 #endif

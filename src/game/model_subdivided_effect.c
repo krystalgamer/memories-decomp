@@ -17,7 +17,7 @@
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
 
-s32 func_8006AF74(void *data, s32 mode)
+s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
 {
     MATRIX base;
     MATRIX matrix;
