@@ -2,7 +2,7 @@
 #include "duel_grid.h"
 #include "display_object.h"
 #include "display_parent_links.h"
-#include "func_80022EEC.h"
+#include "duel_selection_update_linked_object.h"
 
 void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
 {
@@ -15,7 +15,8 @@ void func_80022F98(DisplayParent *parent, volatile DisplayObject *object)
         object->position.h.field_2A = object->field_30.h.field_32 - base->field_30.h.field_32;
         index = parent->index;
         object->field_6C = 1;
-        object->update = (DisplayObjectCallback)func_80022EEC;
+        object->update =
+            (DisplayObjectCallback)DuelSelection_UpdateLinkedObject;
         object->field_2C.h.field_2C = index;
     }
 }

@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "duel_side_state.h"
 #include "duel_selection_layout.h"
-#include "func_80022EEC.h"
+#include "duel_selection_update_linked_object.h"
 #include "display_object_core.h"
 
-void func_80022EEC(DisplayObject *object)
+void DuelSelection_UpdateLinkedObject(DisplayObject *object)
 {
     u8 *base = D_800E9F10;
     s32 offset =

@@ -141,7 +141,7 @@ object, `func_80022F98`:
 - stores object coordinates `+0x30/+0x32` relative to the parent's reference
   object in fields `+0x28/+0x2A`;
 - copies the parent's one-byte index to object halfword `+0x2C`;
-- installs `func_80022EEC` as callback `+0x24`;
+- installs `DuelSelection_UpdateLinkedObject` as callback `+0x24`;
 - sets object byte `+0x6C` to one.
 
 `func_80022FF0` applies that setup first to the parent's standalone base

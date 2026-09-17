@@ -7032,7 +7032,7 @@ in the caller that produces it.
     func_80017F04          def 3 (func_800179F4.c)  <-  decl 1 in func_80018004.c
     func_80019B2C          def 1 (func_80019B2C.c)  <-  decl 0 in func_80019BA0.c
     func_80020BE4          def 2 (func_80020BE4.c)  <-  decl 0 in func_80020F4C.c
-    func_80022EEC          def 1 (func_80022EEC.c)  <-  decl 0 in display_parent_links.c
+    DuelSelection_UpdateLinkedObject def 1 (duel_selection_update_linked_object.c) <- decl 0 in display_parent_links.c
     Widget_SlideSine def 4 (display_object_interpolation.c) <- decl 3 in mem_card_dialog_runtime.c
     func_80060B38          def 2 (func_80060B38.c)  <-  decl 0 in func_80061008.c
 

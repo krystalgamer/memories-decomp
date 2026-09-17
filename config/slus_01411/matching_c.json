@@ -982,7 +982,7 @@
       "address": "0x80022EEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAC",
-      "source": "src/game/func_80022EEC.c"
+      "source": "src/game/duel_selection_update_linked_object.c"
     },
     {
       "address": "0x80022F98",
