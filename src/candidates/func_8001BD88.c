@@ -58,6 +58,7 @@
 #include "../game/duel_scene_state.h"
 #include "../game/duel_side_state.h"
 #include "../game/duel_selection_layout.h"
+#include "../game/func_8001B8B8.h"
 #include "../game/duel_hand.h"
 #include "../game/duel_card.h"
 #include "../game/duel_card_staging.h"
@@ -99,7 +100,6 @@ extern u8 D_8009B1E2;
 extern u16 D_8009B1E4;
 extern s8 D_8009B20A;
 
-void func_8001B8B8(DuelSelectionRecord *side);
 void func_8001B938(u8 *p);
 void func_8001BAF0(void);
 void func_80028220(void);
