@@ -135,7 +135,7 @@ void func_800323F8(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3)
             *(s16 *)(q + 0x5A8C) = 0x28;
             *(s16 *)(q + 0x5A8E) = 0x28;
             func_80032C48((CardList *)(p + 0x2D50));
-            func_8003201C(p);
+            func_8003201C((BuildDeckTransitionState *)p);
             r = q;
             sum = 0;
             j = sum;

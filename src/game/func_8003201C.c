@@ -3,11 +3,11 @@
 #include "card_constants.h"
 #include "build_deck_transition_state.h"
 
-void func_8003201C(u8 *state)
+void func_8003201C(BuildDeckTransitionState *state)
 {
     s32 index;
 
-    ((BuildDeckTransitionState *)state)->deck_card_quantities[0] = 0;
+    state->deck_card_quantities[0] = 0;
     /* The count loop keeps its byte cursors: `count` and `output` walk the
        deck quantity table from `state + index`, and `record` sits on each
        deck row's id (state + 0x2D54, 16 bytes a row) with the flags byte 9
@@ -17,7 +17,7 @@ void func_8003201C(u8 *state)
         u8 *count;
 
         index = CARD_ID_FIRST;
-        count = state + index;
+        count = (u8 *)state + index;
         for (; index < CARD_ID_END; index++, count++) {
             s32 record_index;
             u8 *record;
@@ -26,7 +26,7 @@ void func_8003201C(u8 *state)
             count[0x5AC4] = 0;
             record_index = 0;
             output = count;
-            record = state + 0x2D54;
+            record = (u8 *)state + 0x2D54;
             for (; record_index < DECK_SIZE; record_index++) {
                 if (record[9] != 0 && *(s16 *)record == index)
                     output[0x5AC4]++;
@@ -38,7 +38,7 @@ void func_8003201C(u8 *state)
         CardEntry *record;
         s32 leading;
 
-        record = ((BuildDeckTransitionState *)state)->lists[1].entries;
+        record = state->lists[1].entries;
         leading = 0;
         for (index = 0; index < DECK_SIZE; index++) {
             if (record->flags == 0)
@@ -46,6 +46,6 @@ void func_8003201C(u8 *state)
             leading++;
             record++;
         }
-        ((BuildDeckTransitionState *)state)->deck_total = leading;
+        state->deck_total = leading;
     }
 }
