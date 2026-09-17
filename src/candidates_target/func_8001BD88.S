@@ -1181,7 +1181,7 @@ glabel DuelScene_UpdateHandActions
     /* D6E0 8001CEE0 C0100300 */  sll        $v0, $v1, 3
     /* D6E4 8001CEE4 23104300 */  subu       $v0, $v0, $v1
     /* D6E8 8001CEE8 80100200 */  sll        $v0, $v0, 2
-    /* D6EC 8001CEEC 0D5C000C */  jal        func_80017034
+    /* D6EC 8001CEEC 0D5C000C */  jal        Duel_GetCardViewerRequestId
     /* D6F0 8001CEF0 21204400 */   addu      $a0, $v0, $a0
     /* D6F4 8001CEF4 21804000 */  addu       $s0, $v0, $zero
     /* D6F8 8001CEF8 0A000012 */  beqz       $s0, .L8001CF24

@@ -488,7 +488,7 @@ glabel DuelScene_UpdateFieldActions
     /* E578 8001DD78 C0100300 */  sll        $v0, $v1, 3
     /* E57C 8001DD7C 23104300 */  subu       $v0, $v0, $v1
     /* E580 8001DD80 80100200 */  sll        $v0, $v0, 2
-    /* E584 8001DD84 0D5C000C */  jal        func_80017034
+    /* E584 8001DD84 0D5C000C */  jal        Duel_GetCardViewerRequestId
     /* E588 8001DD88 21204400 */   addu      $a0, $v0, $a0
     /* E58C 8001DD8C 21A04000 */  addu       $s4, $v0, $zero
     /* E590 8001DD90 76018016 */  bnez       $s4, .L8001E36C
@@ -877,7 +877,7 @@ glabel DuelScene_UpdateFieldActions
     /* EB4C 8001E34C C0100300 */  sll        $v0, $v1, 3
     /* EB50 8001E350 23104300 */  subu       $v0, $v0, $v1
     /* EB54 8001E354 80100200 */  sll        $v0, $v0, 2
-    /* EB58 8001E358 0D5C000C */  jal        func_80017034
+    /* EB58 8001E358 0D5C000C */  jal        Duel_GetCardViewerRequestId
     /* EB5C 8001E35C 21204400 */   addu      $a0, $v0, $a0
     /* EB60 8001E360 21A04000 */  addu       $s4, $v0, $zero
     /* EB64 8001E364 0C008012 */  beqz       $s4, .L8001E398

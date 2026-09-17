@@ -118,7 +118,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800907CC,D_800907CC,D_800907CC,0x80018DB4,DuelScene_UpdateDrawResolution,matching_c,game,C,src/game/duel_draw_resolution.c,read,8,a = D_800907CC[i + D_8009B1D5 * HAND_SIZE];
 0x800907CC,D_800907CC,D_800907CC,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,address,8,order = D_800907CC;
 0x800907CC,D_800907CC,D_800907CC,0x8001BD88,DuelScene_UpdateHandActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,address,,"addiu $a0, $a0, %lo(D_800907CC) | lui $a0, %hi(D_800907CC)"
-0x800907D8,D_800907D8,D_800907D8,0x80017034,func_80017034,matching_c,game,C,src/game/func_80017034.c,read,8,D_800907D8[position->row * DUEL_FIELD_ROW_SIZE + position->col];
+0x800907D8,D_800907D8,D_800907D8,0x80017034,Duel_GetCardViewerRequestId,matching_c,game,C,src/game/Duel_GetCardViewerRequestId.c,read,8,D_800907D8[position->row * DUEL_FIELD_ROW_SIZE + position->col];
 0x800907D8,D_800907D8,D_800907D8,0x800179F4,func_800179F4,matching_c,game,C,src/game/func_800179F4.c,address,8,&D_800907D8[D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT];
 0x800907D8,D_800907D8,D_800907D8,0x8001825C,DuelScene_UpdateResume,matching_c,game,C,src/game/duel_phase_entry.c,read,8,rec = &D_801A7AD8[D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,read,8,c = D_800907D8[
@@ -1207,7 +1207,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1AE,D_8009B1AE,D_8009B1AE,0x8002538C,DuelEffect_ApplyMonsterRemoval,matching_c,game,C,src/game/duel_card_effects.c,read_write,16,D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT | D_8009B1AE = 5; | (+4 more)
 0x8009B1B0,D_8009B1B0,D_8009B1B0,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"addiu $s3, $gp, %gp_rel(D_8009B1B0) | sb $a0, %gp_rel(D_8009B1B0)($gp) | (+2 more)"
 0x8009B1B1,D_8009B1B1,D_8009B1B1,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"sb $a0, %gp_rel(D_8009B1B1)($gp) | sb $v0, %gp_rel(D_8009B1B1)($gp)"
-0x8009B1B4,D_8009B1B4,D_8009B1B4,0x80017034,func_80017034,matching_c,game,C,src/game/func_80017034.c,read,,DuelCardPickCursor *position = D_8009B1B4;
+0x8009B1B4,D_8009B1B4,D_8009B1B4,0x80017034,Duel_GetCardViewerRequestId,matching_c,game,C,src/game/Duel_GetCardViewerRequestId.c,read,,DuelCardPickCursor *position = D_8009B1B4;
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,read_write,,*(u16 *)&D_8009B1B4->field_0C = 0xAE; | D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001898C,DuelScene_UpdateDrawPhase,matching_c,game,C,src/game/duel_phase_entry.c,read_write,,*(DuelHandSlot **)((u8 *)D_8009B1B4 + 8) = base; | *(u16 *)&D_8009B1B4->field_0C = 0xAE; | (+1 more)
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read_write,,D_8009B1B4 = | DisplayObject_ReleaseIfPresent(*(u8 **)((u8 *)D_8009B1B4 + 4));
@@ -1946,7 +1946,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B396,gInput_wPad2Repeat,gInput_wPad2Repeat,0x8003CCD8,Input_UpdatePads,matching_c,game,C,src/game/input_pads.c,write,16,gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
 0x8009B396,gInput_wPad2Repeat,gInput_wPad2Repeat,0x8003CDF8,Input_BackupPad1AndUsePad2,matching_c,game,C,src/game/input_pad1_backup.c,read,16,value = gInput_wPad2Repeat;
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80013360,func_80013360,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_003b60.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"
-0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80017034,func_80017034,matching_c,game,C,src/game/func_80017034.c,read,16,if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
+0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x80017034,Duel_GetCardViewerRequestId,matching_c,game,C,src/game/Duel_GetCardViewerRequestId.c,read,16,if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,read,16,(gInput_wPad1Pressed & 0xC0)) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001BD48,Duel_CheckQuitInput,matching_c,game,C,src/game/duel_check_quit_input.c,read,16,if (gInput_wPad1Pressed[0] & PAD_BUTTON_SELECT) {
 0x8009B398,gInput_wPad1Pressed,gInput_wPad1Pressed,0x8001BD88,DuelScene_UpdateHandActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,16,"lhu $v0, %lo(gInput_wPad1Pressed)($v0) | lui $v0, %hi(gInput_wPad1Pressed)"

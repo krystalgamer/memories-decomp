@@ -76,7 +76,7 @@ as `post_terminal_resolution`.
 
 | Address | Project symbol | Mode | First difference |
 | --- | --- | --- | --- |
-| `0x80017034` | `func_80017034` | `inline_refinement` | `+0x0: 21308000 != ac02838f` |
+| `0x80017034` | `Duel_GetCardViewerRequestId` | `inline_refinement` | `+0x0: 21308000 != ac02838f` |
 | `0x80018080` | `Duel_ApplyCardObjectFlags` | `inline_refinement` | `+0x1A: 6a000492 != 6a000392` |
 | `0x800240B0` | `Duel_UpdateCardPickCursor` | `collaborator_match` | `+0x64: 36004014 != 38004014` |
 | `0x8002892C` | `DuelEffect_UpdateState` | `collaborator_match` | `+0xC: 18006010 != 19006010` |

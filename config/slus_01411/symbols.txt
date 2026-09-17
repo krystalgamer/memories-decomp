@@ -13,6 +13,7 @@ loaded_image_end = 0x801E0000; // absolute:True
 // Semantic names
 g_SDValue = 0x8009B45C;
 DuelCard_CanActThisTurn = 0x8001700C; // type:func
+Duel_GetCardViewerRequestId = 0x80017034; // type:func
 Duel_CalcCardStats = 0x800170C8; // type:func
 Duel_ClearHandSlots = 0x800176D0; // type:func
 Duel_UpdateLifePointDisplay = 0x80016DDC; // type:func
