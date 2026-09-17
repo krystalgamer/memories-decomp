@@ -1,7 +1,9 @@
 /*
  * Stages the five-card Exodia presentation, sparkle phases, centre burst, and
- * result handoff. The typed DuelEffectObject accumulator view and cross-path
- * reuse of `side` preserve the retail scheduling and register allocation.
+ * result handoff. The typed DuelEffectObject accumulator view, typed
+ * DisplayObject cursor, and cross-path reuse of `side` preserve the retail
+ * scheduling and register allocation. The first position store keeps a signed
+ * address-of-member view so GCC materializes -0x40 like retail.
  */
 #define gDuel_bEffectRequestStatus_IN_DATA
 #define D_8009B369_IN_DATA
@@ -46,7 +48,7 @@ extern s32 D_800E9F04[];
 void DuelScene_UpdateExodiaResult(void)
 {
     u16 flags;
-    u8 *obj;
+    DisplayObject *obj;
     u8 *pose;
     u8 *rec;
     DuelEffectObject *fx;
@@ -78,39 +80,37 @@ void DuelScene_UpdateExodiaResult(void)
         fnv = r;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
-        obj = (u8 *)D_8009B214;
+        obj = (DisplayObject *)D_8009B214;
         side = D_8009B1D5;
         D_8009B1B4 =
             (DuelCardPickCursor *)&D_800E9F10[(u8)side * 0x70];
-        *(s16 *)(obj + 0x28) = -0x40;
-        ((DisplayObject *)obj)->field_2C.h.field_2C = 0x10;
-        ((DisplayObject *)obj)->field_6C = 1;
-        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
-        ((DisplayObject *)obj)->position.h.field_2A =
-            ((DisplayObject *)obj)->field_30.h.field_32;
-        obj = (u8 *)D_8009B21C;
-        ((DisplayObject *)obj)->position.h.field_28 = 0x180;
-        ((DisplayObject *)obj)->field_2C.h.field_2C = 0x10;
-        ((DisplayObject *)obj)->field_6C = 1;
-        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
-        ((DisplayObject *)obj)->position.h.field_2A =
-            ((DisplayObject *)obj)->field_30.h.field_32;
+        *(s16 *)&obj->position.h.field_28 = -0x40;
+        obj->field_2C.h.field_2C = 0x10;
+        obj->field_6C = 1;
+        obj->update = (DisplayObjectCallback)fnv;
+        obj->position.h.field_2A = obj->field_30.h.field_32;
+        obj = (DisplayObject *)D_8009B21C;
+        obj->position.h.field_28 = 0x180;
+        obj->field_2C.h.field_2C = 0x10;
+        obj->field_6C = 1;
+        obj->update = (DisplayObjectCallback)fnv;
+        obj->position.h.field_2A = obj->field_30.h.field_32;
         rec = (u8 *)D_800EA030;
 next_obj:
-        obj = *(u8 **)rec;
+        obj = *(DisplayObject **)rec;
         g = (DuelCardReplayRecordBlock *)(
-            ((DisplayObject *)obj)->field_6A * sizeof(DuelCardRecord) +
+            obj->field_6A * sizeof(DuelCardRecord) +
             (u32)cards + DUEL_CARD_STAGING_REPLAY_BASE_OFFSET
         );
         anim = g->record.card_id - 0x11;
         pose = (u8 *)(anim * 3 + (u32)poses);
-        ((DisplayObject *)obj)->position.h.field_28 = pose[1] - 0x1A;
+        obj->position.h.field_28 = pose[1] - 0x1A;
         py = pose[2];
-        ((DisplayObject *)obj)->field_2C.h.field_2C = 0xB4;
-        ((DisplayObject *)obj)->field_6C = 1;
-        ((DisplayObject *)obj)->update = (DisplayObjectCallback)fnv;
-        ((DisplayObject *)obj)->position.h.field_2A = py - 0x1E;
-        objs[pose[0]] = (DisplayObject *)obj;
+        obj->field_2C.h.field_2C = 0xB4;
+        obj->field_6C = 1;
+        obj->update = (DisplayObjectCallback)fnv;
+        obj->position.h.field_2A = py - 0x1E;
+        objs[pose[0]] = obj;
         *(u8 **)rec = 0;
         i++;
         rec += 0xC;
