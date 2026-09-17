@@ -774,7 +774,8 @@ void func_800540B4(s32 index)
                         if (list != 0) {
                             do {
                                 if (W(list, 8) != 0) {
-                                    func_8005A53C(func_8005FE44, list + 0xC, W(list, 4), W(list, 8));
+                                    func_8005A53C(func_8005FE44, (ModelHandlerRunEntry *)(list + 0xC),
+                                                  W(list, 4), W(list, 8));
                                 }
                                 list = (u8 *)W(list, 0);
                             } while (list != (u8 *)-1);

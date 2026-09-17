@@ -103,7 +103,7 @@ void func_80059DD8(s32 index)
                 if (node[2] != 0) {
                     func_8005A53C(
                         callback,
-                        (u8 *)&node[3],
+                        (ModelHandlerRunEntry *)&node[3],
                         node[1],
                         node[2]
                     );
