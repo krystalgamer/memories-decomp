@@ -130,7 +130,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800907D8,D_800907D8,D_800907D8,0x8002348C,func_8002348C,matching_c,game,C,src/game/duel_field_display_objects.c,address,8,u8 *table = D_800907D8;
 0x800907D8,D_800907D8,D_800907D8,0x800240B0,Duel_UpdateCardPickCursor,matching_c,game,C,src/game/duel_update_card_pick_cursor.c,read,8,&D_801A7AD8[D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x80025028,func_80025028,matching_c,game,C,src/game/func_80025028.c,read,8,record = &D_801A7AD8[D_800907D8[i + base]];
-0x800907D8,D_800907D8,D_800907D8,0x8002538C,DuelEffect_ApplyMonsterRemoval,matching_c,game,C,src/game/duel_card_effects.c,read,,e = (DuelCardRecord *)((u8 *)D_801A7AD8 + D_800907D8[ | tb = D_800907D8;
+0x800907D8,D_800907D8,D_800907D8,0x8002538C,DuelEffect_ApplyMonsterRemoval,matching_c,game,C,src/game/duel_card_effects.c,read,,e = &D_801A7AD8[D_800907D8[ | tb = D_800907D8;
 0x800907D8,D_800907D8,D_800907D8,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,read,,c = D_800907D8[D_8009B20C[1] + n];
 0x800907D8,D_800907D8,D_800907D8,0x800257A0,DuelEffect_ApplyBoardDestruction,matching_c,game,C,src/game/duel_card_effects.c,read,,p = (DuelCardRecord *)(D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,read,,D_800907D8[D_8009B20C[1] + n] * DUEL_CARD_RECORD_SIZE);
@@ -3103,7 +3103,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,,p = &D_801A7AD8[idx];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,address,,q = D_801A7AD8;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80025028,func_80025028,matching_c,game,C,src/game/func_80025028.c,address,,record = &D_801A7AD8[D_800907D8[i + base]];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002538C,DuelEffect_ApplyMonsterRemoval,matching_c,game,C,src/game/duel_card_effects.c,address,,e = (DuelCardRecord *)((u8 *)D_801A7AD8 + D_800907D8[ | rb = (u8 *)D_801A7AD8;
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002538C,DuelEffect_ApplyMonsterRemoval,matching_c,game,C,src/game/duel_card_effects.c,address,,e = &D_801A7AD8[D_800907D8[ | rb = (u8 *)D_801A7AD8;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,address,,r = &D_801A7AD8[c];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800257A0,DuelEffect_ApplyBoardDestruction,matching_c,game,C,src/game/duel_card_effects.c,address,,] * DUEL_CARD_RECORD_SIZE + (u8 *)D_801A7AD8);
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,address,,r = (DuelCardRecord *)((u8 *)D_801A7AD8 +
