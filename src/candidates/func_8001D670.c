@@ -65,6 +65,11 @@
 #include "../game/duel_cursor_status.h"
 #include "../game/duel_field_display_objects.h"
 #include "../game/duel_grid.h"
+#include "../game/func_8001D240.h"
+#include "../game/display_object_property_transitions.h"
+#include "../game/func_8001D518.h"
+#include "../game/func_8001D5B4.h"
+#include "../game/func_80020988.h"
 #include "../game/duel_action_lock.h"
 #include "../game/duel_card_viewer.h"
 #include "../game/duel_effect.h"
@@ -97,12 +102,6 @@ u16 D_8009B172;
 u16 D_8009B178;
 u16 D_8009B17A;
 u8 D_8009B19C;
-void func_8001D240(DisplayObject *o);
-void func_8001D344(DisplayObject *object);
-void func_8001D3C4(DisplayObject *o);
-DisplayObject *func_8001D518(DisplayObject *source);
-s32 func_8001D5B4(DuelFieldCursor *cursor);
-s32 func_80020988(void);
 
 void DuelScene_UpdateFieldActions(void)
 {
