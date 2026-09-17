@@ -88,6 +88,25 @@ typedef char SDBankHeaderWords_size_must_be_8[
     sizeof(SDBankHeaderWords) == 8 ? 1 : -1
 ];
 
+/* A 0x800-byte mixer-out bank staging buffer, viewed from its tail. The last
+ * eight bytes are the "VolInfo" signature func_80046A08 checks before it
+ * trusts the bank, followed by the volume byte it reads out of it.
+ *
+ * The signature starts at 0x7F8, but this view starts one byte later: retail
+ * tests the leading 'V' through that address's own .data symbol
+ * (D_801E27F8 for the SE bank, D_801E8FF8 for the SMF bank) and carries the
+ * matching relocation, so that byte stays a symbol rather than becoming a
+ * member here. */
+typedef struct {
+    u8 pad_0000[0x7F9];
+    u8 signature[6];
+    u8 volume;
+} SDBankStagingBuffer;
+
+typedef char SDBankStagingBuffer_size_must_be_0x800[
+    sizeof(SDBankStagingBuffer) == 0x800 ? 1 : -1
+];
+
 /* An output-level accumulator: func_80045054 sums sample squares into the
    word and reads back its signed high half (halves[1]) as the level. */
 typedef union {
