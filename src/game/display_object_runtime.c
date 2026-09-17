@@ -42,7 +42,7 @@
  * vertices into the POLY_G4, offsets them by the viewport origin unless bit 3
  * is set, runs the bit-2 clip test through func_80041E7C, and submits the
  * quad -- twice when the +0x5A flag asks for the second texture -- through
- * func_80042188. */
+ * DisplayObject_SubmitPacket. */
 void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *g;
     u8 *h;
@@ -125,8 +125,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
-                              e->field_14 | bit, h);
+                DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                                           e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
                     x0 = e->field_48.word;
@@ -141,8 +141,8 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
-                                  e->field_14 | bit, h);
+                    DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                                               e->field_14 | bit, h);
                 }
             }
         next:
@@ -242,8 +242,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
-                              e->field_14 | bit, h);
+                DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                                           e->field_14 | bit, h);
 
                 if (((u8 *)e)[0x72] != 0) {
                     x0 = *(s32 *)&e->field_58;
@@ -257,8 +257,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    func_80042188(v, (u8 *)g, (s32)tb[e->ot_index],
-                                  e->field_14 | bit, h);
+                    DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                                               e->field_14 | bit, h);
                 }
             }
         next:

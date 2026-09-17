@@ -5,7 +5,7 @@
 #include "../ygo_types.h"
 #include "sprite_primitive.h"
 
-/* The screen origin func_80042188 subtracts from every vertex before the
+/* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
  * perspective transform, followed by the subdivision count for textured
  * quads. A zero count sorts the quad as it is; anything else sends it
  * through DivideFT4. */
@@ -23,9 +23,9 @@ typedef struct {
  * display_object_packet_submit.c uses the default one and reads the first
  * argument either way, depending on the dispatch case. */
 #ifdef DISPLAY_OBJECT_PACKET_SUBMIT_RAW_ATTRIBUTE
-void func_80042188(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
+void DisplayObject_SubmitPacket(s32 attribute, u8 *packet, s32 ot, s32 mode, u8 *extra);
 #elif defined(DISPLAY_OBJECT_PACKET_SUBMIT_CARD_LIST)
-void func_80042188(
+void DisplayObject_SubmitPacket(
     SpritePrim *sprite,
     Func80028B08Ctx *packet,
     s32 ot,
@@ -33,7 +33,7 @@ void func_80042188(
     Func80028B08Extra *extra
 );
 #else
-void func_80042188(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra);
+void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode, u8 *extra);
 #endif
 
 #endif

@@ -28,7 +28,7 @@ typedef struct {
 
 /* Per-object working state DisplayObject_RenderSpriteSheet keeps in the
  * scratchpad at 0x1F800378. `proj` is the projection func_80041F90 fills and
- * func_80042188 takes as its origin record. */
+ * DisplayObject_SubmitPacket takes as its origin record. */
 typedef struct {
     u32 pad_00;
     u32 attribute;
@@ -58,7 +58,7 @@ typedef struct {
 
 /* Draws a display object whose image is a sprite sheet: every part becomes
  * one GsSPRITE-shaped primitive in the scratchpad at 0x1F800320, positioned
- * relative to the object and submitted through func_80042188. */
+ * relative to the object and submitted through DisplayObject_SubmitPacket. */
 void DisplayObject_RenderSpriteSheet(DisplayObject *object, s32 ot, s32 depth);
 
 #endif

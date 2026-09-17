@@ -118,11 +118,11 @@
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80028B08.c",
       "target": "src/candidates_target/func_80028B08.S",
-      "candidate_build_sha256": "59181b48c636706bb6108417b984c01efac4a993ef47131cc726a3a91fd2e186",
+      "candidate_build_sha256": "23672a3a5c716cbe828fafd1bfb2e4cefde175dbcfda833836d47dccfb5d410d",
       "target_bytes_sha256": "fb38e3e28d6d26eaccec138ff5de546f183df0ce2012b07f1513827e2ddc5503",
-      "canonical_contract_sha256": "76edcd37ee8fd2745bef0fd97d2b36f347b8fc63f6e47ff7f6924812549a1d84",
+      "canonical_contract_sha256": "db28a10a7e76764f5b9bad63fcd5eff5eebf796102fd8f81fa4db5bdf22bd795",
       "canonical_contracts": {
-        "func_80042188": "40a95f5930e4f49f51459bcec12d0418f0b3ff9707cd20586a386bafafc83986"
+        "DisplayObject_SubmitPacket": "3a44cc6d2b28304d7d4dd6243b2d6d2ee43f2b60d7f11e439903f857483f8a4b"
       }
     },
     {

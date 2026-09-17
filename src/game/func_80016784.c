@@ -15,7 +15,7 @@
 /* Draws one card's frame on the duel field: position, the hand/field
  * flags, the card-number digits (via Duel_CalcCardStats and
  * Text_EncodeDecimalDigits) and the face/back sprite, through
- * func_80042188 on the 0x1F8003xx scratchpad records.
+ * DisplayObject_SubmitPacket on the 0x1F8003xx scratchpad records.
  *
  * The two records it fills are SpritePrim, the GsSPRITE sprite_primitive.h
  * already spells for the two display-object renderers, which build theirs at
@@ -93,10 +93,10 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->xy.h.x = o->pos.h.x + 0xF;
                         k->xy.h.y = o->pos.h.y + 0xF;
                         k->uv.b.lo = (n / 10) * 0xC;
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                         k->uv.b.lo = (n % 10) * 0xC;
                         k->xy.h.x = k->xy.h.x + 0xC;
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                     }
                 } else if (object->field_69 == 0) {
                     k->extent.word = 0x100020;
@@ -107,24 +107,24 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     case CARD_TYPE_EQUIP:
                         k->uv.b.lo = 0x20;
                     case CARD_TYPE_MAGIC:
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                         k->cxcy.h.cy = k->cxcy.h.cy + 1;
                         break;
                     case CARD_TYPE_TRAP:
                         k->uv.b.lo = 0x40;
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                         k->cxcy.h.cy = k->cxcy.h.cy + 2;
                         break;
                     case CARD_TYPE_RITUAL:
                         k->uv.b.lo = 0x60;
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                         k->cxcy.h.cy = k->cxcy.h.cy + 3;
                         break;
                     default:
                         k->extent.word = 0x100008;
                         k->uv.word = 0x7078;
                         k->xy.h.x = o->pos.h.x + 5;
-                        func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                        DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                         k->uv.b.hi = 0x58;
                         k->extent.wh.h = 8;
                         k->xy.h.x = o->pos.h.x + 0xE;
@@ -134,10 +134,10 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         i = 3;
                         do {
                             k->uv.b.lo = sp18[i] * 8;
-                            func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                            DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                             k->xy.h.y = k->xy.h.y + 8;
                             k->uv.b.lo = sp20[i] * 8;
-                            func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                            DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
                             i--;
                             k->xy.h.x = k->xy.h.x + 8;
                             k->xy.h.y = k->xy.h.y - 8;
@@ -154,7 +154,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     z->uv.b.lo = (i % 5) * 0x28;
                     z->extent.word = 0x200028;
                     z->uv.b.hi = (i / 5) << 5;
-                    func_80042188(z, (u8 *)y, arg1, fl, (u8 *)o);
+                    DisplayObject_SubmitPacket(z, (u8 *)y, arg1, fl, (u8 *)o);
                 }
                 k->extent.word = 0x3C0034;
                 k->uv.word = 0x8000;
@@ -166,7 +166,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     k->uv.word = 0x8038;
                     k->cxcy.word = 0xF10100;
                 }
-                func_80042188(k, (u8 *)y, arg1, fl, (u8 *)o);
+                DisplayObject_SubmitPacket(k, (u8 *)y, arg1, fl, (u8 *)o);
             }
         }
     }

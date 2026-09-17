@@ -99,7 +99,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->rgb = win->field_0C;
     *(u32 *)&PRM->cxcy = obj->field_40.word;
     PRM->tpage = obj->field_66;
-    func_80042188(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 
     CTX->field_7 = CTX->field_7 | 2;
     PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
@@ -110,7 +110,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
     PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
     PRM->cxcy.h.cx = 0x1E0;
-    func_80042188(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 
     EXT->field_4 = 0;
     rec = &D_800EA0E8[obj->field_67];
@@ -124,14 +124,14 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         if (rec->field_3C & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
-        func_80042188(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = 0xF8;
         PRM->uv.b.hi = PRM->uv.b.hi + *(u8 *)&PRM->extent.wh.h;
         PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
         if (rec->field_3C & 0x40) {
             PRM->cxcy.h.cy = 0xF9;
         }
-        func_80042188(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = 0xF8;
 
         i = rec->field_32 + rec->field_36;
@@ -155,7 +155,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         i = 3;
         do {
             PRM->uv.b.lo = buf1[i] * 6 + 0x10;
-            func_80042188(PRM, CTX, arg1, arg, EXT);
+            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
@@ -169,7 +169,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         i = 3;
         do {
             PRM->uv.b.lo = buf2[i] * 6 + 0x10;
-            func_80042188(PRM, CTX, arg1, arg, EXT);
+            DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
         } while (i >= 0);
@@ -184,13 +184,13 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         if (rec->field_3A != 0) {
             i = 0;
             do {
-                func_80042188(PRM, CTX, arg1, arg, EXT);
+                DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
                 PRM->xy.h.x = PRM->xy.h.x - 9;
                 i++;
             } while (i < (s32)rec->field_3A);
         }
     } else {
-        func_80042188(PRM, CTX, arg1, arg, EXT);
+        DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
     }
 
     PRM->xy.h.x = win->field_30.h.field_30 + 0x6E;
@@ -201,5 +201,5 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
     PRM->cxcy.h.cy = 0xFF;
     PRM->cxcy.h.cx = win->field_40.h.field_40 + (u8)tile;
-    func_80042188(PRM, CTX, arg1, arg, EXT);
+    DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 }
