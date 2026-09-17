@@ -26,7 +26,7 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
 ];
 
 /* One whole selection record, DUEL_SELECTION_RECORD_SIZE bytes, four to a
- * side. func_80017708 resets every field named here, which is what fixes
+ * side. Duel_InitSelectionRecords resets every field named here, which is what fixes
  * their widths: three words at the front -- the third being the same hand
  * pointer DuelSelectionSideView views at +8 -- and the four bytes at 0x13,
  * 0x14, 0x17 and 0x18.
@@ -185,6 +185,6 @@ extern DuelCardPickCursor *D_8009B1B4;
  * and the three size constants it is written in terms of.
  * func_800179F4 (src/candidates/func_800179F4.c) is the only caller, and
  * its old func_800179F4.c held the only declaration. */
-void func_80017708(void);
+void Duel_InitSelectionRecords(void);
 
 #endif

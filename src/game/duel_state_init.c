@@ -79,7 +79,7 @@ void Duel_ClearHandSlots(void)
     } while (i < HAND_SIZE);
 }
 
-void func_80017708(void) {
+void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
         DuelSelectionRecord *p = (DuelSelectionRecord *)

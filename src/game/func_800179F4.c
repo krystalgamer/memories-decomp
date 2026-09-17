@@ -91,7 +91,7 @@ void func_800179F4(void)
         D_8009B1D5 = 0;
         gDuel_wSceneStateFlags = 1;
         func_8001778C();
-        func_80017708();
+        Duel_InitSelectionRecords();
         Duel_InitSideStates();
         D_8009B16C |= 0x1000;
     }

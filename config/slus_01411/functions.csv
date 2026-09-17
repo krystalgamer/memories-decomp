@@ -98,7 +98,7 @@ address,size,name,status,module,notes
 0x8001755C,0x44,Duel_InitModelScene,matching_c,game,"Resets model-scene and transfer state, then configures duel model slot 2 from the loaded payload gate; exact match with gcc_2_8_1_g8."
 0x800175A0,0x130,Duel_InitSideStates,matching_c,game,"Initializes both duel-side records, life points, counters, rank statistics, and active-side selection; exact match with gcc_2_8_1_g8_split."
 0x800176D0,0x38,Duel_ClearHandSlots,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
-0x80017708,0x84,func_80017708,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80017708,0x84,Duel_InitSelectionRecords,matching_c,game,"Initializes four duel selection records per side, including cursor, hand, row mapping, and active-state fields; exact match with gcc_2_8_1_g8_split."
 0x8001778C,0x38,func_8001778C,matching_c,game,3 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x800177C4,0xF8,func_800177C4,matching_c,game,"Pure C projection-loop match for issue #5: typed scratchpad stores and approved Psy-Q GTE macros reproduce all thirty RTPS iterations under the no-strength-reduction RTPS profile, without hard-register pins or statement-level inline assembly."
 0x800178BC,0xD0,func_800178BC,matching_c,game,Exact match using scratchpad C stores and official Psy-Q GTE inline macros under the RTPS-normalizing profile. All 208 text bytes and relocations match with no source-authored inline assembly or register pins.
