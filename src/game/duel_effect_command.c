@@ -10,6 +10,8 @@
 #include "duel_effect_command.h"
 #include "../unmatched.h"
 
+#define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
+
 /* Entries 0 through 12 of the secondary text-command table D_80090EAC,
    the handlers the F8 escape reaches, together with func_80038024, the
    helper two of them share -- which is not itself a table entry, so this is
@@ -105,7 +107,7 @@ void func_80037DA4(DuelEffectChannel *object)
         text = (u8 *)((u32)D_801B0000 & 0xFFFF0000) + D_801C0000[n];
     }
 store:
-    slot = &((TextStreamOwner *)object)->streams[object->stream_58];
+    slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     *slot = text;
     return;
 plain:
@@ -134,7 +136,7 @@ void func_80038070(DuelEffectChannel *object)
 void func_80038094(DuelEffectChannel *object)
 {
     u8 **stream =
-        &((TextStreamOwner *)object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
 
     func_80038024(object, *(*stream)++);
 }
@@ -147,7 +149,7 @@ void func_800380D4(DuelEffectChannel *object)
 
     object->field_38 = 0;
     stream =
-        &((TextStreamOwner *)object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     current = *stream;
     value = current[0];
     current++;
@@ -158,7 +160,7 @@ void func_800380D4(DuelEffectChannel *object)
 void func_80038110(DuelEffectChannel *object)
 {
     u8 **stream =
-        &((TextStreamOwner *)object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     register u8 **slot = stream;
     register u8 *current = *slot;
     register u32 value = current[0];
@@ -181,8 +183,8 @@ void func_80038148(DuelEffectChannel *object)
     s32 h;
     s32 w;
 
-    r = TextStream_ReadU32LE((TextStreamOwner *)object);
-    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
+    r = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
+    t = *TEXT_STREAM_OWNER(object)->streams[object->stream_58]++;
     c = t;
     Text_EncodeDecimalDigits(*(s32 *)r, c & 0xF, buf);
 
@@ -238,14 +240,14 @@ write:
 
     *e = TEXT_STRING_TERMINATOR;
     object->stream_58++;
-    ((TextStreamOwner *)object)->streams[object->stream_58] = object->text_44;
+    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = object->text_44;
 }
 
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
     u8 **stream =
-        &((TextStreamOwner *)object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     u8 *cursor = *stream;
     u32 value = *cursor++;
 
@@ -278,7 +280,7 @@ void func_80038334(DuelEffectChannel *object)
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
         u8 **stream =
-            &((TextStreamOwner *)object)->streams[object->stream_58];
+            &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -287,7 +289,7 @@ void func_80038334(DuelEffectChannel *object)
     }
     {
         u8 **stream =
-            &((TextStreamOwner *)object)->streams[object->stream_58];
+            &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -339,7 +341,7 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
 void func_80038498(DuelEffectChannel *object)
 {
     u8 **slot =
-        &((TextStreamOwner *)object)->streams[object->stream_58];
+        &TEXT_STREAM_OWNER(object)->streams[object->stream_58];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
