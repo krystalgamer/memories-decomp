@@ -3284,9 +3284,9 @@
     },
     {
       "address": "0x8003C2B4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x74",
-      "source": "src/game/file_request_options_package.c"
+      "source": "src/game/options_load_package_stage.c"
     },
     {
       "address": "0x8003C328",
