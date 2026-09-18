@@ -16,7 +16,7 @@ void func_800592AC(s32 arg0, GsCOORDUNIT *parent, GsCOORDUNIT *unit) {
     MATRIX sp20;
     ModelSlot *slot;
 
-    memset(&raw, 0, 8);
+    memset(&raw, 0, sizeof(raw));
     raw.vy = (s16)(MODEL_ANGLE_FULL_TURN - D_8009B47A);
     raw.vz = (s16)D_8009B47C;
 
