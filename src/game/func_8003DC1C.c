@@ -10,6 +10,7 @@
 #include "io_event_helpers.h"
 #include "duel_effect_create_channel.h"
 #include "dialog_choice.h"
+#include "file_constants.h"
 #include "func_80039794.h"
 #include "util_memory.h"
 #include "save_data.h"
@@ -205,9 +206,23 @@ success:
                 break;
             }
             DuelEffect_CreateChannel(0x80D6, 0);
-            Util_CopyWords((u8 *)MEM_CARD_WORK_WRITE_ADDRESS, gSaveData_aHeaderTemplate, 0x200);
-            Util_FillMemory((u8 *)MEM_CARD_WORK_WRITE_BODY_ADDRESS, 0x86, 0x800);
-            MemCard_ReqWriteFile(zero, (s32)name, MEM_CARD_WORK_WRITE_ADDRESS, 0, 0xA00);
+            Util_CopyWords(
+                (u8 *)MEM_CARD_WORK_WRITE_ADDRESS,
+                gSaveData_aHeaderTemplate,
+                SAVE_DATA_HEADER_SIZE
+            );
+            Util_FillMemory(
+                (u8 *)MEM_CARD_WORK_WRITE_BODY_ADDRESS,
+                0x86,
+                FILE_SECTOR_SIZE
+            );
+            MemCard_ReqWriteFile(
+                zero,
+                (s32)name,
+                MEM_CARD_WORK_WRITE_ADDRESS,
+                0,
+                SAVE_DATA_HEADER_SIZE + FILE_SECTOR_SIZE
+            );
             D_8009B3CC |= 0x1000;
             break;
         }
