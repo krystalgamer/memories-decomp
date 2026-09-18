@@ -14,6 +14,7 @@
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C)
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
@@ -78,13 +79,13 @@ retry:
     }
     sheet = (u8 *)object->field_4C;
     sprite->rotate = object->field_20.h.field_22 * 5760;
-    ((GsSPRITE *)sprite)->scalex = object->field_44.h.field_44;
-    ((GsSPRITE *)sprite)->scaley = object->field_44.h.field_46;
+    GS_SPRITE_VIEW(sprite)->scalex = object->field_44.h.field_44;
+    GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;
     sprite->mxmy.h.y = 0;
     sprite->mxmy.h.x = 0;
-    ((GsSPRITE *)sprite)->r = ((u8 *)&object->field_0C)[0];
-    ((GsSPRITE *)sprite)->g = ((u8 *)&object->field_0C)[1];
-    ((GsSPRITE *)sprite)->b = ((u8 *)&object->field_0C)[2];
+    GS_SPRITE_VIEW(sprite)->r = ((u8 *)&object->field_0C)[0];
+    GS_SPRITE_VIEW(sprite)->g = ((u8 *)&object->field_0C)[1];
+    GS_SPRITE_VIEW(sprite)->b = ((u8 *)&object->field_0C)[2];
     part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
     sprite->cxcy.h.cx = work->cx;
     sprite->cxcy.h.cy = work->cy;
