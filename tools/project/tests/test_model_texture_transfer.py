@@ -394,9 +394,12 @@ class ModelTextureTransferTests(unittest.TestCase):
             source = SOURCE
             if mutated:
                 text = SOURCE.read_text()
-                original = "d->phase_size = 0x30000;"
+                original = "d->phase_size = 96 * FILE_SECTOR_SIZE;"
                 self.assertEqual(text.count(original), 1)
-                text = text.replace(original, "d->phase_size = 0x30001;")
+                text = text.replace(
+                    original,
+                    "d->phase_size = 97 * FILE_SECTOR_SIZE;",
+                )
                 text = re.sub(
                     r'^#include "([^"]+)"',
                     lambda match: '#include "' + str(
