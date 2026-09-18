@@ -1062,7 +1062,7 @@ parent-coordinate pointer. Matching `func_800530C4` initializes all eight
 words and submits the block to `GsSetRefView2`; `Model_UpdateViewMetrics`
 copies the same eight-word boundary and derives a distance plus two 4096-unit
 angles from the two points; `model_scene_states.c` resubmits the same base
-through a layout-compatible cast. Matching `func_800134E0` separately uses an embedded
+through a layout-compatible cast. Matching `ViewState_SetViewpointOffset` separately uses an embedded
 native `GsRVIEW2` at object offset `+0x10` and calls the canonical one-argument
 interface byte-identically. Other matching sources still use local views until
 their shared-type migrations are proven exact.

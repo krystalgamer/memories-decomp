@@ -6,7 +6,7 @@
 #include "view_state.h"
 #include "view_state_orbit.h"
 
-/* Placing the D_800F2848 view: func_800134E0 puts the viewpoint at an
+/* Placing the D_800F2848 view: ViewState_SetViewpointOffset puts the viewpoint at an
    offset from the reference point and installs the GsRVIEW2, and the two
    after it compute that offset as an orbit - a distance from field_00
    turned through field_04 and angle with rsin/rcos - and hand it over.
@@ -20,7 +20,7 @@
    gcc_2_8_1_g8_split. Bounded below by func_800134B4.c and above by the
    empty func_800136D4, which main_services.c calls and nothing here does. */
 
-void func_800134E0(ViewState *object, s32 x, s32 y, s32 z)
+void ViewState_SetViewpointOffset(ViewState *object, s32 x, s32 y, s32 z)
 {
     GsRVIEW2 *view = &object->view;
 
@@ -42,7 +42,7 @@ void func_8001352C(void) {
     s32 w = x * rcos(p->angle) / MODEL_FIXED_ONE;
 
     x = w;
-    func_800134E0(p, x, z, y);
+    ViewState_SetViewpointOffset(p, x, z, y);
 }
 
 void func_800135FC(void)
@@ -59,5 +59,5 @@ void func_800135FC(void)
     ) / MODEL_FIXED_ONE;
 
     x = w;
-    func_800134E0(record, x, y, z);
+    ViewState_SetViewpointOffset(record, x, y, z);
 }
