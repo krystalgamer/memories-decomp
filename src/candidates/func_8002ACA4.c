@@ -56,6 +56,7 @@
 #include "../game/func_8002ABB4.h"
 #include "../game/func_800291E0.h"
 #include "../game/func_80029934.h"
+#include "../game/func_80029EC4.h"
 #include "../game/model.h"
 #include "../game/model_load_step.h"
 #include "../game/func_80058DD8.h"

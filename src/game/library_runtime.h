@@ -19,9 +19,9 @@ typedef char LibraryViewQuad_size_must_be_0x10[
  * func_8002A3CC.h documents that wider evidence and keeps the incompatible
  * typed declaration of the symbol isolated.
  *
- * src/candidates/func_80029EC4.c is a third reader of this byte spelling: it
- * walks the table with func_80029EB0(D_800EA1E8, index) and had been declaring
- * it privately in the same words. */
+ * func_80029EC4.c is a third reader of this byte spelling: it walks the table
+ * with func_80029EB0(D_800EA1E8, index) and had been declaring it privately
+ * in the same words. */
 extern u8 D_800EA1E8[];
 
 /* Signed coordinate views in the Library overlay work area. The dispatcher

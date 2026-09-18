@@ -88,25 +88,6 @@
       }
     },
     {
-      "address": "0x80029EC4",
-      "profile": "gcc_2_8_1_g0_split",
-      "source": "src/candidates/func_80029EC4.c",
-      "target": "src/candidates_target/func_80029EC4.S",
-      "candidate_build_sha256": "2adf21413c5a179163aaec349c82d8f83cb8fa796f7993f0b197380e329c8c4e",
-      "target_bytes_sha256": "b8c9760e28ee8b889f83a579cc04961219206a3d76af9671624b96497eaacc11",
-      "canonical_contract_sha256": "0227e8c35a19c713572d8e5c30e398fefe39f390aa47efd05a817bccc2095060",
-      "canonical_contracts": {
-        "D_8009B09C": "ec07dfb6151ec26a682eb7cbadee16bea1528262ae3b8086fb09d00fdc8cd91e",
-        "D_800E9D9C": "04f4e34245685f54f6e5ff7409f2870ffa11742d73217963876e8eb2925adbb2",
-        "D_800EA1E8": "0b90eff4f817316f1960d2f15efc2d2caadd4e7693ead42ac27a709c387aa7dc",
-        "GsSortFastSprite": "1623c6dc39bab9987c6b352cc82cefd1a59b284b5da3157da3438a039c53168a",
-        "GsSortGLine": "dc1f37221c373bfe5f8ec7c33505f249ea40070ce5ed52d770c76e4867fcaf9f",
-        "func_80029EB0": "1fa420d05f6d35890e29718ef8302bd4207f739c899acd200ac2246b8a676ee0",
-        "gGraphics_sViewportX": "faf979484c425bd83165d23206d4f2685e21b2823f66dceaf1ce50e4b8e9c444",
-        "gGraphics_sViewportY": "b22540f4aeae3e5de5020bb702b7ce3e5177e84a2ae2b7d19625d9a40af03d64"
-      }
-    },
-    {
       "address": "0x8002ACA4",
       "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "source": "src/candidates/func_8002ACA4.c",

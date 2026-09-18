@@ -1,23 +1,13 @@
+#define GRAPHICS_VIEWPORT_IN_DATA
+#define D_8009B09C_IN_DATA
 #include "../types.h"
-#include "../game/graphics_frame.h"
-#include "../game/library_runtime.h"
-#include "../game/func_80029EB0.h"
-#include "../game/card_constants.h"
+#include "graphics_frame.h"
+#include "library_runtime.h"
+#include "func_80029EB0.h"
+#include "card_constants.h"
 #include "../psyq/libgs.h"
-#include "../game/ordering_tables.h"
-
-/*
- * Current best under gcc_2_8_1_g0_split: 268 instructions against 268, with
- * encoding distance 0. Compiled to an object and compared word for word with
- * the assembled target, 49 of 268 words differ, all placement and register
- * choices. Reusing the initial row-index work, spelling the signed cursor
- * division explicitly, and holding the cursor attribute in the same work
- * variable close the latest differences. The canonical GsGLINE, GsOT and SDK
- * callback declarations and typed sprite fields emit the same bytes as
- * the earlier private views.
- * Remaining differences are the palette ori and row reload in the prologue,
- * the primitive attribute load, and cursor coordinate register allocation.
- */
+#include "ordering_tables.h"
+#include "func_80029EC4.h"
 
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by
@@ -28,7 +18,26 @@
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
    the low seven bits of D_8009B09C through a four-way ramp, and draws its four
-   edges with GsSortGLine. */
+   edges with GsSortGLine.
+
+   Pure C under the uniform gcc_2_8_1_g8_split profile, the profile of the unit
+   that follows it (func_8002A3CC.c). What the -G0 candidate could not reach:
+
+   - Under -G8 the viewport scalars and D_8009B09C are small data, so their
+     loads stay one unsplit instruction through sched2 and the assembler
+     expands each into an adjacent lui/load pair in one register. The two
+     IN_DATA macros above keep them absolute rather than gp-relative. The
+     ordering table is read as D_800E9D90[3]: the 16-byte array is not small
+     data, so that address stays split and reload stores the pointer to its
+     stack slot through the dying %hi register ($v0) instead of $t1.
+   - `first` is a single-set local, so sched1 keeps its shift next to the
+     multiply that consumes it, after the p->x store. That store sits between
+     the spill of `b` and its reuse, which is what makes reload load `b` back
+     into $t1 rather than reuse $v1.
+   - The attribute word is set ahead of the block that stores it. The loop
+     note keeps the constant live across the stores before it, which is what
+     gives it $v1 and lets sched2 float its lui above the p->y store.
+   - The cursor's y is a chained assignment, y1 then y0, from one value. */
 void func_80029EC4(void)
 {
     GsSPRITE *p;
@@ -49,15 +58,16 @@ void func_80029EC4(void)
     s32 b;
     s32 y;
     s32 v;
-    u8 *t;
+    u8 *list;
     u8 *tb;
     s32 e;
     s32 f;
-    s32 phase;
+    s32 first;
+    s32 attribute;
 
     p = (GsSPRITE *)0x1F800320;
     n = (gGraphics_sViewportY - 8) / 178;
-    ot = D_800E9D9C;
+    ot = D_800E9D90[3];
     if (n < 0) {
         return;
     }
@@ -68,14 +78,17 @@ void func_80029EC4(void)
     a = n * 178 + 8;
     b = n * 25;
     p->x = 8;
+    first = b * 8;
+    p->y = first * 178 + 8;
     *(u32 *)&p->w = e;
     *(u32 *)&p->cx = f;
-    y = b * 8;
-    p->y = y * 178 + 8;
-    p->cy = 0xF7;
-    *(u16 *)&p->u = 0xF060;
-    p->attribute = 0x8000000;
-    p->tpage = 0x1B;
+    attribute = 0x8000000;
+    do {
+        p->cy = 0xF7;
+        *(u16 *)&p->u = 0xF060;
+        p->attribute = attribute;
+        p->tpage = 0x1B;
+    } while (0);
     do {
         idx = b * 8;
         p->y = a;
@@ -130,27 +143,17 @@ void func_80029EC4(void)
     } while (n < 4);
 
 done:
-    do {
-        q = (GsGLINE *)0x1F800000;
-    } while (0);
+    q = (GsGLINE *)0x1F800000;
     v = D_8009B09C & 0x7F;
-    y = 0x50000000;
-    q->attribute = y;
+    q->attribute = 0x50000000;
     q->b0 = 0;
     q->g0 = 0;
     q->r0 = 0;
     q->b1 = 0;
     q->g1 = 0;
     q->r1 = 0;
-    phase = v;
-    do {
-        t = D_800EA1E8;
-    } while (0);
-    if (v < 0) {
-        phase = v + 31;
-    }
-    phase >>= 5;
-    switch (phase) {
+    list = D_800EA1E8;
+    switch (v / 32) {
     case 0:
         q->g0 = v * 8;
         break;
@@ -167,10 +170,8 @@ done:
         break;
     }
     q->x1 = 0;
-    q->x0 = *(u16 *)(t + 8) - gGraphics_sViewportX;
-    y = (u16)*(u16 *)(t + 0xA) - (u16)gGraphics_sViewportY;
-    q->y1 = y;
-    q->y0 = y;
+    q->x0 = *(u16 *)(list + 8) - gGraphics_sViewportX;
+    q->y0 = q->y1 = *(u16 *)(list + 0xA) - gGraphics_sViewportY;
     GsSortGLine(q, ot, 1);
     q->x1 = 0x140;
     GsSortGLine(q, ot, 1);

@@ -51,9 +51,9 @@ class ModelConstantTests(unittest.TestCase):
         self.assertNotIn("MODEL_AUX_RECORD_SIZE", loader)
 
     def test_private_card_grid_bound_uses_card_id_end(self) -> None:
-        candidate = (ROOT / "src/candidates/func_80029EC4.c").read_text()
-        self.assertIn("if (k < CARD_ID_END)", candidate)
-        self.assertNotIn("if (k < 0x2D3)", candidate)
+        source = (ROOT / "src/game/func_80029EC4.c").read_text()
+        self.assertIn("if (k < CARD_ID_END)", source)
+        self.assertNotIn("if (k < 0x2D3)", source)
 
 
 if __name__ == "__main__":

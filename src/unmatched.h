@@ -163,9 +163,9 @@ extern s32 D_8009B118;
 
 /* Address-only declarations found by re-measuring the note above rather
  * than by a scan. Every one is installed as data -- into the duel scene
- * callback table or, for func_80029EC4, D_800E9DB0[3]
- * (library_runtime.c:318) -- and none is
- * invoked from C.
+ * callback table -- and none is invoked from C. func_80029EC4, the fourth of
+ * this class (D_800E9DB0[3], library_runtime.c), left for
+ * game/func_80029EC4.h when it matched.
  *
  * Seven of them were declared in duel_scene_callbacks.c, which is a file I
  * added when that table moved out of its blob. The argument there was that
@@ -182,7 +182,6 @@ extern s32 D_8009B118;
 void DuelScene_UpdateHandActions(void);
 void DuelScene_UpdateFieldActions(void);
 void DuelScene_UpdateBattle(void);
-void func_80029EC4(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
  *

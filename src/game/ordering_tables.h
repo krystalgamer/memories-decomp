@@ -28,13 +28,13 @@ extern GsOT *D_800E9D98[];
 extern GsOT *D_800E9D98;
 #endif
 /* Slot 3. Both readers want the bare %hi/%lo form -- two relocations each in
- * their target listings -- and their build profiles are why they reach it by
- * different routes. func_80029EC4 builds gcc_2_8_1_g0_split, where -G0 takes
- * every scalar out of small data and the plain declaration already gives the
- * bare pair. func_800540B4 builds gcc_2_8_1_g8_split, where that same
- * declaration would be gp-relative, so it places the symbol in .data by
- * defining D_800E9D9C_IN_DATA. This is the -G8/-G0 split the note above
- * describes for slots 1 and 2, stated per reader rather than per slot. */
+ * their target listings -- and both build gcc_2_8_1_g8_split, where the plain
+ * scalar declaration would be gp-relative. func_800540B4 places the symbol in
+ * .data by defining D_800E9D9C_IN_DATA, which keeps the load one unsplit
+ * instruction. func_80029EC4 reads it as D_800E9D90[3] instead: the 16-byte
+ * array is not small data, so the address stays split into %hi and %lo insns
+ * and reload stores the spilled pointer through the dying %hi register, which
+ * is the `lw $v0; sw $v0, 0x10($sp)` its target shows. */
 #ifdef D_800E9D9C_IN_DATA
 extern GsOT *D_800E9D9C __attribute__((section(".data")));
 #else
