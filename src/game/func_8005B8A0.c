@@ -14,7 +14,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 
-s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
+s32 func_8005B8A0(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     RECT rect;
     s32 m;
     s32 r;
@@ -57,8 +57,8 @@ s32 func_8005B8A0(u8 *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         GsDefDispBuff(0, 0, 0, 0x100);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 1);
     }
-    if (src != (u8 *)0) {
-        D_8009B49C = *(CdlLOC *)src;
+    if (src != 0) {
+        D_8009B49C = *src;
     }
     if (a1 != 0) {
         D_8009B068 = a1;
