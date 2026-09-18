@@ -12,6 +12,8 @@
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
+#define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
+
 /*
  * Each byte read owns its slot pointer, advancing cursor and unsigned value.
  * Those separate lifetimes recover all 352 bytes under uniform G0 without
@@ -29,7 +31,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &((TextStreamOwner *)o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
         q = *p;
         v = *q++;
         *p = q;
@@ -39,7 +41,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &((TextStreamOwner *)o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
         q = *p;
         v = *q++;
         *p = q;
@@ -49,7 +51,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &((TextStreamOwner *)o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
         q = *p;
         v = *q++;
         *p = q;
@@ -59,7 +61,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &((TextStreamOwner *)o)->streams[o->stream_58];
+        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];
         q = *p;
         v = *q++;
         *p = q;
