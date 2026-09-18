@@ -7,11 +7,11 @@
 /* True only for an occupied duel-card record that is not marked used this
  * turn: the body tests DUEL_CARD_FLAG_OCCUPIED and then
  * DUEL_CARD_FLAG_USED_THIS_TURN on the record's flags
- * (duel_card_can_act_this_turn.c:5).
+ * (duel_selected_card_checks.c).
  *
  * DuelScene_UpdateFieldActions (src/game/duel_scene_field_actions.c) is the only
  * source outside the unit that names it, and it declared the prototype for
- * itself because the unit had no header. The spelling here is the
+ * itself because the defining source had no header. The spelling here is the
  * definition's own, int return included. */
 int DuelCard_CanActThisTurn(DuelCardRecord *object);
 
