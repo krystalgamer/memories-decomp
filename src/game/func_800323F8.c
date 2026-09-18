@@ -23,6 +23,20 @@
  *   two loads of one constant only when the first is at least as wide as the
  *   second, so an SImode 0x2D2 after the HImode one stays unmerged, neither
  *   load is worth hoisting alone, and $s7 stays with the card stats.
+ *
+ * The list and pane fields are written through CardList and
+ * BuildDeckTransitionState, whose layouts are asserted in their headers. Each
+ * conversion was measured on its own and in groups: the object is unchanged.
+ * Two rules came out of that, and both cost an object to learn:
+ * - the cast goes inline at the access. Naming a `CardList *` for the pane and
+ *   writing the fields through it is one pseudo more than this body has room
+ *   for, and it changes the allocation;
+ * - the base pointer has to stay the one the access already uses. `chest_total`
+ *   and `deck_total` are therefore still raw: they sit at +0x5A9C and +0x5AA0
+ *   of the record, `lists` is the record plus 4, and no struct has `lists` as
+ *   its base, so reaching them as members means addressing through `state`
+ *   instead -- which moves the store to another register. Spelling either of
+ *   them as a member changes the object on its own.
  */
 #define GRAPHICS_VIEWPORT_IN_DATA
 #include "../types.h"
@@ -85,7 +99,7 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
     state[0x6343] = flags;
     *(void **)state = deck;
     *(s32 *)(state + 0x6344) = other;
-    state[0x6342] = 0;
+    ((BuildDeckTransitionState *)state)->pane_index = 0;
     state[0xC686] = 0;
     do {
         if (*(s32 *)state != 0) {
@@ -110,14 +124,14 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
             } while (j < 0x2D3);
             deck_list = state + 0x2D50;
             deck_total = 0;
-            lists[0x5A93] = on;
+            ((CardList *)lists)[1].kind = on;
             j = deck_total;
-            *(s16 *)(lists + 0x5A8A) = 0;
-            *(s16 *)(lists + 0x5A88) = 0;
-            lists[0x5A94] = 0;
-            lists[0x5A92] = 0;
-            icon = (u8 *)(lists[0x5A93] * 16 + icons);
-            lists[0x5A91] = icon[1] & 0xF;
+            ((CardList *)lists)[1].first_target = 0;
+            ((CardList *)lists)[1].first = 0;
+            ((CardList *)lists)[1].cursor = 0;
+            ((CardList *)lists)[1].sort_choice = 0;
+            icon = (u8 *)(((CardList *)lists)[1].kind * 16 + icons);
+            ((CardList *)lists)[1].sort_mode = icon[1] & 0xF;
             entry = state + 0x2D58;
             cards = *(u16 **)state;
             for (; j < 0x28; j++, entry += 0x10, cards++) {
@@ -138,23 +152,23 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
             }
             *(s16 *)(deck_list + 0x284) = -1;
             *(s32 *)(lists + 0x5A9C) = deck_total;
-            *(s16 *)(lists + 0x5A8C) = 0x28;
-            *(s16 *)(lists + 0x5A8E) = 0x28;
+            ((CardList *)lists)[1].row_count = 0x28;
+            ((CardList *)lists)[1].sort_row_count = 0x28;
             func_80032C48((CardList *)(state + 0x2D50));
             func_8003201C((BuildDeckTransitionState *)state);
             chest_list = lists;
             n = 0;
             j = n;
             held = 0x80;
-            lists[0x2D47] = 0;
-            *(s16 *)(lists + 0x2D3E) = 0;
-            *(s16 *)(lists + 0x2D3C) = 0;
-            *(s16 *)(lists + 0x2D40) = 0x2D2;
-            lists[0x2D48] = 0;
-            lists[0x2D46] = 0;
-            icon_addr = lists[0x2D47] * 16;
+            ((CardList *)lists)->kind = 0;
+            ((CardList *)lists)->first_target = 0;
+            ((CardList *)lists)->first = 0;
+            ((CardList *)lists)->row_count = 0x2D2;
+            ((CardList *)lists)->cursor = 0;
+            ((CardList *)lists)->sort_choice = 0;
+            icon_addr = ((CardList *)lists)->kind * 16;
             icon_addr += icons;
-            lists[0x2D45] = ((u8 *)icon_addr)[1] & 0xF;
+            ((CardList *)lists)->sort_mode = ((u8 *)icon_addr)[1] & 0xF;
             entry = lists + 0xD;
             stats = all_stats;
             quantity = *(u8 **)state + 0x50;
@@ -178,8 +192,8 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
             *(s16 *)(chest_list + 0x2D24) = 0;
             *(s32 *)(lists + 0x5A98) = n;
             rows = 0x2D2;
-            *(s16 *)(lists + 0x2D42) = rows;
-            *(s16 *)(lists + 0x2D40) = rows;
+            ((CardList *)lists)->sort_row_count = rows;
+            ((CardList *)lists)->row_count = rows;
             func_80032C48((CardList *)lists);
         }
         pane++;
@@ -200,7 +214,7 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
     label[0x67] = 1;
     *(s32 *)(label + 0x30) = *(s32 *)(object + 0x30);
     *(s32 *)(label + 0x4C) = (s32)func_80031874;
-    *(s16 *)(state + 0x633E) = 2;
+    ((BuildDeckTransitionState *)state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x136, 0x29, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
