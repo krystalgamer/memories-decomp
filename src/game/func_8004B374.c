@@ -50,7 +50,7 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
             }
             tbl++;
             do {
-                off += 0x28;
+                off += sizeof(SDSecondaryObject);
                 base = D_8009B458;
                 i++;
                 if (i < base->object_count) goto top;
