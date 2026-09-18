@@ -3,16 +3,35 @@
  * source was byte-exact under gcc_2_8_1_g8_split only by pinning 16 variables
  * to hard registers and building the request table base in an inline helper
  * that was itself inline asm. Current best with no hard register pin and no
- * inline asm: 287/288 instructions and opcode distance 1 (one missing addu).
+ * inline asm: 288 of 288 instructions, and an empty opcode census -- the
+ * multiset of encoded opcodes is the target's, so the addu this entry used to
+ * record as missing is gone.
  *
  * The table base is read directly from D_800F2B50, the slot is indexed as
  * &D_800F2C40[side], func_80059AA8 gets a literal zero, and the three colour
  * channels are plain interpolations. The second declaration of D_800F2C40 is
  * gone.
  *
- * Residual: retail copies the table base into $s5 in the prologue, loads the
- * zero argument in an earlier branch delay slot, and keeps the sprite id in
- * $s2 with its shift and mask split around the func_80059AA8 call.
+ * Three values carry a second name and the row address is named off the table
+ * pointer the function already holds: keep2 for the saved sprite id the second
+ * loop restores, v2 for the shifted id the first loop writes, and rowbase for
+ * (u8 *)table + 1, assigned at the top of the iteration and added as
+ * off + rowbase so the addu takes the offset first. Each name is assigned once
+ * from a live value with no write to its source in between, so the pass does
+ * what it did; what changes is that gcc gives each short live range a register
+ * of its own instead of carrying one value across the whole iteration.
+ *
+ * The shift that produces the sprite id is written as two statements against
+ * the one name, v = v >> 3; v = v & 0x1F;. One name across two statements is
+ * what stops the pair being combined, and it puts the second srl where retail
+ * has it: without it that instruction sits one position later and is the only
+ * difference in the function that is not a register name.
+ *
+ * Residual: 15 blocks, and every one of them is a register name alone. No
+ * opcode, no instruction count and no instruction's position differs. Two
+ * separate values wear the wrong register, not one: the shifted sprite id, and
+ * a halfword the pass holds on the stack across the redraw and hands back as
+ * the second loop's argument.
  */
 #include "../types.h"
 #include "../game/model_view_adjustments.h"
@@ -63,6 +82,9 @@ void func_800528AC(void)
     s32 k;
     u32 v;
     s32 keep;
+    s32 keep2;
+    s32 rowbase;
+    u32 v2;
     s32 old;
     u8 side;
     u16 sav06;
@@ -79,6 +101,7 @@ void func_800528AC(void)
     table = (ModelTintRequest *)D_800F2B50;
     for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
         e = &table[i];
+        rowbase = (s32)((u8 *)table + 1);
         if ((*(u8 *)e & 1) == 0) {
             continue;
         }
@@ -93,9 +116,11 @@ void func_800528AC(void)
         lo = e->elapsed;
         hi = e->duration;
         side = (v >> 1) & 1;
-        v = (v >> 3) & 0x1F;
+        v = v >> 3;
+        v = v & 0x1F;
         slot = &D_800F2C40[side];
         sav06 = slot->field_E06;
+        v2 = v;
         keep = slot->field_BF5;
         old = func_80059AA8(side, 0);
         save = *(ModelTintColor *)slot->field_DC0;
@@ -104,21 +129,22 @@ void func_800528AC(void)
         col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
         col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
         *(ModelTintColor *)slot->field_DC0 = col;
+        keep2 = keep;
 
         aa = a;
         for (j = 0; j < slot->field_E1B; j++) {
             s32 t = slot->field_BF5;
-            if (v != 0) {
-                slot->field_1E0[j]->sid = v;
-                t = v;
+            if (v2 != 0) {
+                slot->field_1E0[j]->sid = v2;
+                t = v2;
             }
             func_8004DC38(slot, j, t, aa);
         }
-        if (v != 0) {
-            slot->field_BF5 = v;
+        if (v2 != 0) {
+            slot->field_BF5 = v2;
         }
 
-        D_8009AF9C = (s32)((u8 *)D_800F2B50 + 1) + off;
+        D_8009AF9C = off + rowbase;
         D_8009AF9B = (e->flags >> 2) & 1;
         func_800540B4(side);
         D_8009AF9C = 0;
@@ -127,14 +153,14 @@ void func_800528AC(void)
         sv = sav06;
         for (k = 0; k < slot->field_E1B; k++) {
             s32 t = slot->field_BF5;
-            if (keep != 0) {
-                slot->field_1E0[k]->sid = keep;
-                t = keep;
+            if (keep2 != 0) {
+                slot->field_1E0[k]->sid = keep2;
+                t = keep2;
             }
             func_8004DC38(slot, k, t, sv);
         }
-        if (keep != 0) {
-            slot->field_BF5 = keep;
+        if (keep2 != 0) {
+            slot->field_BF5 = keep2;
         }
 
         func_80059AA8(side, old);
