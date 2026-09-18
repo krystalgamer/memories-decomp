@@ -1822,7 +1822,7 @@
       "address": "0x8002D7CC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x250",
-      "source": "src/game/main_run_trade.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DA1C",

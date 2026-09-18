@@ -1096,7 +1096,7 @@ expectation was a shift. There was none: dropping the `volatile` and taking
 the declarations from the owning header builds byte-identical. The comment was
 true of the rest of the run and over-claimed for these three.
 
-**Case two: the difference changes the addressing mode.** `main_run_trade.c`
+**Case two: the difference changes the addressing mode.** `Main_RunTrade` in `main_mode_runners.c`
 defines `u8 D_8009B269;`. `script_control_commands.c` compiles at `-G8` and
 declares it `extern u8 D_8009B269[]`, writing `D_8009B269[0]` at two sites.
 Converting that consumer to the scalar spelling does not shift bytes -- it
@@ -1182,7 +1182,7 @@ without a reduction.
 
 Two smaller notes for anyone who picks this symbol up. It is **not** an
 unmatched symbol, so it is out of scope for the `unmatched.h` work: three
-units define it -- `main_run_two_player_duel_setup.c`, `main_run_trade.c` and
+units define it -- `main_run_two_player_duel_setup.c`, `main_mode_runners.c` and
 `main_run_animated_battle.c` -- as common symbols under the `*_comm`
 profiles. And nothing anywhere indexes above `[0]`, which is what the next
 symbol requires: `D_8009B26D` sits one byte above it in `c_symbols.ld` and is
