@@ -74,6 +74,7 @@ void func_8004EB00(void)
     s32 f;
     s32 c0;
     s32 c1;
+    s32 cl;
 
     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
     n = 1;
@@ -220,24 +221,38 @@ void func_8004EB00(void)
         if (D_800F2C40[1].field_E0F == 0) {
             D_8009AFE9 += func_80058E1C();
             if (D_8009AFE9 >= 0x3C) {
-                kind = D_800F2C40[D_800F2C40[0].field_DFE]
-                           .field_CF8.prefix.bytes.field_0A[0] & 0x1F;
+                kind = D_800F2C40[0].field_CF8.prefix.bytes.field_0A[D_800F2C40[0].field_DFE] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
-                    mode = 0;
-                } else if (kind < 2) {
-                    mode = 3;
-                } else if (kind == 2) {
-                    mode = 1;
-                } else if (kind == 3) {
-                    mode = 2;
-                } else {
-                    mode = 3;
+                    goto s10_m0;
                 }
-                if ((u32)mode < 2) {
+                if (kind < 2) {
+                    goto s10_m3;
+                }
+                if (kind == 2) {
+                    goto s10_m1;
+                }
+                if (kind == 3) {
+                    goto s10_m2;
+                }
+                kind = 3;
+                goto s10_teste;
+            s10_m0:
+                kind = 0;
+                goto s10_teste;
+            s10_m1:
+                kind = 1;
+                goto s10_teste;
+            s10_m2:
+                kind = 2;
+                goto s10_teste;
+            s10_m3:
+                kind = 3;
+            s10_teste:
+                if ((u32)kind < 2) {
                     off = off / 2;
                 }
-                func_8005F5C8(0, mode, 0, off);
+                func_8005F5C8(0, kind, 0, off);
                 D_8009AF9A++;
                 break;
             }
@@ -303,10 +318,11 @@ void func_8004EB00(void)
                 func_8005F180(1);
             }
             func_8005F91C(0, (void *)0, (void *)0, 0);
-            if (b < 0xA) {
-                b = 0xA;
+            cl = b;
+            if (cl < 0xA) {
+                cl = 0xA;
             }
-            func_80059F18(1, -1, 1, b);
+            func_80059F18(1, -1, 1, cl);
             D_8009AF9A++;
             break;
         }
@@ -383,10 +399,11 @@ void func_8004EB00(void)
                 func_8005F180(1);
             }
             func_8005F91C(0, (void *)0, (void *)0, 0);
-            if (b < 0xA) {
-                b = 0xA;
+            cl = b;
+            if (cl < 0xA) {
+                cl = 0xA;
             }
-            func_80059F18(1, -1, 0, b);
+            func_80059F18(1, -1, 0, cl);
             D_8009AF9A++;
             break;
         }
@@ -582,8 +599,10 @@ void func_8004EB00(void)
         }
     dim:
         slot->field_DC0[0] = c0 - 2;
-        slot->field_DC0[1] -= 2;
-        slot->field_DC0[2] -= 2;
+        c0 = slot->field_DC0[1];
+        c1 = slot->field_DC0[2];
+        slot->field_DC0[1] = c0 - 2;
+        slot->field_DC0[2] = c1 - 2;
         break;
     case 41:
         func_80059284(2, 3);
