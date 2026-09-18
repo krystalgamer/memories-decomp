@@ -63,7 +63,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         break;
     case 2:
         d->value_08 = d->value_0C = (u32)D_801DD000;
-        d->phase_size = 0x1000;
+        d->phase_size = 2 * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
@@ -79,7 +79,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         LoadImage2(rect, (u32 *)D_801DD000);
         source = D_801DD000;
         do { mask = 0xFFDCFFFF; } while (0);
-        source += 0x1000;
+        source += 2 * FILE_SECTOR_SIZE;
         d->value_08 = d->value_0C = (u32)source;
         d->phase_size = 0x800;
         D_8009B0F4_abs &= mask;
@@ -200,12 +200,12 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         break;
     case 11:
         if (index == 0) {
-            d->phase_size = 0x1000;
+            d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
             d->value_08 = d->value_0C = (u32)D_8001000C;
             d->done = 1;
         } else {
-            d->phase_size = 0x1000;
+            d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFFCFFFF;
             D_8009B0F4_abs |= 0x200000;
             d->done = 1;
@@ -213,12 +213,12 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         break;
     case 12:
         if (index == 1) {
-            d->phase_size = 0x1000;
+            d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
             d->value_08 = d->value_0C = (u32)D_80010010;
             d->done = 1;
         } else {
-            d->phase_size = 0x1000;
+            d->phase_size = 2 * FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFFCFFFF;
             D_8009B0F4_abs |= 0x200000;
             d->done = 1;
