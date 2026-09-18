@@ -21,7 +21,8 @@ typedef char ModelType2Scratch_indices_offset_must_be_0x18[
     ((u32)&(((ModelType2Scratch *)0)->indices)) == 0x18 ? 1 : -1
 ];
 
-/* Four-byte prefix of the type-2 record stream. */
+/* Four-byte prefix of the type-2 record stream; its size advances the stream
+ * cursor in Model_ProcessType2Unit. */
 typedef struct {
     u16 field_00;
     u16 record_count;
@@ -32,7 +33,7 @@ typedef char ModelType2RecordHeader_size_must_be_4[
 ];
 
 /* Twelve-byte stream record. Only fields with established loop/index roles
- * are named. */
+ * are named; sizeof(ModelType2Record) drives both record advances. */
 typedef struct {
     u16 field_00;
     s16 field_02;

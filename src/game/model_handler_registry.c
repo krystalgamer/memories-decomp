@@ -251,7 +251,7 @@ void Model_ProcessType2Unit(
     r = (ModelType2Scratch *)scratch;
     q = r->records;
     n = ((ModelType2RecordHeader *)q)->record_count;
-    q += 4;
+    q += sizeof(ModelType2RecordHeader);
 
     if (n != 0) {
         f = model_index < 2;
@@ -259,7 +259,7 @@ void Model_ProcessType2Unit(
         p = q;
 
         do {
-            q = p + 0xC;
+            q = p + sizeof(ModelType2Record);
             if (unit->type == m) {
                 b = r->indices;
                 if (b != (u8 *)0) {
@@ -302,7 +302,7 @@ void Model_ProcessType2Unit(
                         ((ModelType2Record *)rec)->field_02 =
                             ((ModelType2Record *)rec)->field_02 + 0xF8;
                     }
-                    q += 0xC;
+                    q += sizeof(ModelType2Record);
                 }
             }
             if (f) {
