@@ -534,11 +534,15 @@ void func_8005FB30(Key *key)
         return;
     }
     for (i = 0; i < 2; i++) {
-        ModelTransferItem *item = (ModelTransferItem *)(data + i * 8);
+        ModelTransferItem *item =
+            (ModelTransferItem *)(data + (u32)&((ModelTransferItem *)0)[i]);
 
         if (item->state < 4) {
             if (item->state >= 2) {
-                Model_CopySlotU16Values(item->id, (u16 *)(data + 0x10 + i * 8));
+                Model_CopySlotU16Values(
+                    item->id,
+                    (u16 *)(data + 0x10 + (u32)&((u16 (*)[4])0)[i])
+                );
             }
         }
     }
