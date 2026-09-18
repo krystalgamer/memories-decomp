@@ -31,8 +31,9 @@ void Duel_InitSideStates(void) {
     for (k = 0; k < DUEL_SIDE_COUNT; k++, e++) {
         j = 4;
         r = (s8 *)e + j;
+        /* Preserve the backward cursor while deriving the hand-array base. */
         for (; j >= 0; j--, r--) {
-            r[0x1A] = -1;
+            r[(u32)&((DuelSideState *)0)->hand] = -1;
         }
         q = (u8 *)e;
         e->deck_draw_cursor = 0;
