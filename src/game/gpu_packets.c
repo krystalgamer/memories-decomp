@@ -6,6 +6,7 @@
 
 #define GPU_PACKET_CODE_OFFSET(prefix_words) \
     ((prefix_words) * sizeof(u32) + (u32)&((P_CODE *)0)->code)
+#define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
 
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
@@ -19,7 +20,7 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     draw = 0xE1000200;
     s = src;
     index = idx;
-    len = ((P_TAG *)s)->len;
+    len = GPU_PACKET_TAG(s)->len;
     D_800FE240[0] = *s++;
     D_800FE240[1] = ((flags & 3) << 5) | draw;
     dst = D_800FE240;
@@ -29,7 +30,7 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     }
     draw = (u8)(len + 1);
     i = draw;
-    ((P_TAG *)D_800FE240)->len = i;
+    GPU_PACKET_TAG(D_800FE240)->len = i;
     if (flags >= 0) {
         ((u8 *)D_800FE240)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
     }
@@ -54,7 +55,7 @@ void Graphics_SubmitTextureWindowPacket(
     s32 index;
     u32 first;
 
-    len = ((P_TAG *)src)->len;
+    len = GPU_PACKET_TAG(src)->len;
     index = idx;
     first = src[0];
     D_800FE240[0] = first;
@@ -89,7 +90,7 @@ void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
     mask_on = 0xE6000001;
     s = src;
     index = idx;
-    len = ((P_TAG *)s)->len;
+    len = GPU_PACKET_TAG(s)->len;
     D_800FE240[0] = *s++;
     D_800FE240[1] = ((flags & 3) << 5) | draw_mode;
     D_800FE240[2] = mask_on;
