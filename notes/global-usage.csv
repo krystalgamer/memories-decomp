@@ -2564,7 +2564,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE88,D_800EAE88,D_800EAE88,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,write,,D_800EAE88.field1 = 0; | D_800EAE88.random = 1; | (+6 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,write,,D_800EAE88.field_09 = (s8)ea->table_index % 5 + 6; | D_800EAE88.field_09 = (s8)lista[n]->table_index % 5 + 6; | (+5 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,,"bzero((u8 *)&D_800EAE88, sizeof(D_800EAE88));"
-0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
+0x800EAE88,D_800EAE88,D_800EAE88,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_end.c,write,,D_800EAE88.field_09 = (s8)first; | D_800EAE88.field_0A = (s8)category; | (+3 more)
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072640,AiScript_FindFirstMonster,matching_c,game,C,src/game/ai_fusion.c,read,8,s32 index = D_800EAE88[i];
 0x800EAE88,D_800EAE88,D_800EAE88,0x800726F4,AiScript_FindFirstType,matching_c,game,C,src/game/ai_fusion.c,address,8,u8 *indices = D_800EAE88;
 0x800EAE88,D_800EAE88,D_800EAE88,0x80072F8C,AiScript_PlayFaceUp,matching_c,game,C,src/game/ai_script_actions.c,write,8,D_800EAE88[0] = a; | D_800EAE88[1] = b; | (+4 more)
@@ -2578,7 +2578,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE90,D_800EAE90,D_800EAE90,0x80073458,AiScript_ClearSelectionRandom,matching_c,game,C,src/game/ai_script_state_ops.c,write,8,D_800EAE90 = 0;
 0x800EAE91,D_800EAE91,D_800EAE91,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,a = D_800EAE91[0];
 0x800EAE92,D_800EAE92,D_800EAE92,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,a = D_800EAE92[0];
-0x800EAE92,D_800EAE92,D_800EAE92,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,write,8,D_800EAE92 = 0;
+0x800EAE92,D_800EAE92,D_800EAE92,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_end.c,write,8,D_800EAE92 = 0;
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002CE64,Main_RunCampaign,matching_c,game,C,src/game/main_run_campaign.c,address,,SceneScript_UpdateSlots(D_800EAE98);
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002E470,Script_OpLoadImageScene,matching_c,game,C,src/game/script_op_load_image_scene.c,address,,"SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1); | SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), D_8009B270); | (+1 more)"
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002E730,Script_OpShowImage,matching_c,game,C,src/game/script_image_commands.c,address,,"SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1); | SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), D_8009B270 & 0xFFF); | (+1 more)"
@@ -2845,7 +2845,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070C60,AiScript_JumpRandom,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070E20,AiScript_SetRandom,matching_c,game,C,src/game/ai_script_control_flow.c,write,32,gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070EB4,AiScript_Subtract,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,"void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*value..."
-0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_play_field_card.c,read,32,s32 category = gAiScript_aMemory[AiScript_ReadByte()]; | s32 first = gAiScript_aMemory[AiScript_ReadByte()]; | (+2 more)
+0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070F1C,AiScript_PlayFieldCard,matching_c,game,C,src/game/ai_script_end.c,read,32,s32 category = gAiScript_aMemory[AiScript_ReadByte()]; | s32 first = gAiScript_aMemory[AiScript_ReadByte()]; | (+2 more)
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071008,AiScript_CalcCardPower,matching_c,game,C,src/game/ai_script_calc_card_power.c,write,32,gAiScript_aMemory[dst] = power; | s32 *mem = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071194,AiScript_TestHighStat,matching_c,game,C,src/game/ai_script_query_commands.c,write,32,gAiScript_aMemory[dest] = result; | register s32 *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80071248,AiScript_LoadCardType,matching_c,game,C,src/game/ai_script_query_commands.c,address,32,s32 *memory = gAiScript_aMemory;
