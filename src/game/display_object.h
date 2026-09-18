@@ -129,7 +129,7 @@ typedef struct DisplayObject {
 
        Whole: display_object_helpers.c zeroes it and writes an initial value,
        both renderers copy it into a primitive's colour word,
-       text_box_build_step.c clears it, and func_800391E4.c and
+       text_box_build_step.c clears it, and text_box_layout_helpers.c and
        Dialog_UpdateChoice write colour constants.
 
        Halves: display_object_property_transitions.c compares 0x2C against the
@@ -155,7 +155,7 @@ typedef struct DisplayObject {
        neighbours.
 
        Whole: display_object_helpers.c zeroes it, both renderers copy it into
-       a primitive's colour word, and func_800391E4.c and Dialog_UpdateChoice
+       a primitive's colour word, and text_box_layout_helpers.c and Dialog_UpdateChoice
        write colour constants into it.
 
        Halves: the value-setup screen's widget tween in the main_menu overlay
@@ -357,7 +357,7 @@ typedef struct DisplayObject {
     u8 field_65;                   /* 0x65 */
     u8 field_66;                   /* 0x66 */
     /* Named field_67 by DisplayObjectConfig in display_object_config.h, on
-       this same record, and read by func_800391E4.c. 0x68 is named just
+       this same record, and read by text_box_layout_helpers.c. 0x68 is named just
        below, now that func_80016784 reaches it through this record. */
     u8 field_67;                   /* 0x67 */
     /* The card type of the duel card this object draws. func_80016784
