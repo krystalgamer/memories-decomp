@@ -297,33 +297,31 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
 
 /* Slides the caret to +0x44/+0x46 over the +0x60 frames it was given, then
  * snaps to the target and uninstalls itself. */
-void NameEntry_UpdateCaretTween(u8 *object)
+void NameEntry_UpdateCaretTween(DisplayObject *object)
 {
-    DisplayObject *o = (DisplayObject *)object;
     u8 flags;
     s16 remaining;
 
-    flags = o->field_6C;
+    flags = object->field_6C;
     if ((flags & 0x80) == 0) {
-        o->field_6C = flags | 0x80;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)o);
-        o->field_34.h.field_36 =
-            ((o->field_44.h.field_44 - (s16)o->field_30.h.field_30) << 8) /
-            o->field_60;
-        o->field_38.h.field_38 =
-            ((o->field_44.h.field_46 - (s16)o->field_30.h.field_32) << 8) /
-            o->field_60;
+        object->field_6C = flags | 0x80;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+        object->field_34.h.field_36 =
+            ((object->field_44.h.field_44 -
+              (s16)object->field_30.h.field_30) << 8) /
+            object->field_60;
+        object->field_38.h.field_38 =
+            ((object->field_44.h.field_46 -
+              (s16)object->field_30.h.field_32) << 8) /
+            object->field_60;
     }
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)o);
-    remaining = (u16)o->field_60 - 1;
-    o->field_60 = remaining;
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+    remaining = (u16)object->field_60 - 1;
+    object->field_60 = remaining;
     if (remaining <= 0) {
-        o->update = 0;
-        o->field_6C = 0;
-        /* Stored through the parameter rather than o. With every access
-           on o, GCC copies it into a second callee-saved register at the
-           first branch and the function grows by three instructions. */
-        ((DisplayObject *)object)->field_30.word = o->field_44.word;
+        object->update = 0;
+        object->field_6C = 0;
+        object->field_30.word = object->field_44.word;
     }
 }
 
@@ -501,7 +499,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     D_8016D42C += delta;
     object = (DisplayObject *)D_8016D43C;
     object->field_44.h.field_44 = D_8016D42C * 16 + 0x6B;
-    object->update = NameEntry_UpdateCaretTween;
+    object->update = (DisplayObjectCallback)NameEntry_UpdateCaretTween;
     object->field_6C = 2;
     object->field_60 = arg;
     object->field_44.h.field_46 = object->field_30.h.field_32;

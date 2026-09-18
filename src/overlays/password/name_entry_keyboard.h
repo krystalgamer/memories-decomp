@@ -47,6 +47,6 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg);
 
 /* The caret's slide callback, installed into a sprite's +0x24 slot by
    NameEntry_AdjustLength. */
-void NameEntry_UpdateCaretTween(u8 *object);
+void NameEntry_UpdateCaretTween(struct DisplayObject *object);
 
 #endif
