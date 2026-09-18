@@ -27,6 +27,7 @@
 
 #define DUEL_EFFECT_REQUEST_VIEW(request) \
     ((DuelEffectRequest *)(request))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 /* Small data at 0x8009AF30, owned here: the recovery handler scales the
    first table by 100 and the direct-damage handler scales the second by 10,
@@ -234,7 +235,7 @@ head:
     if ((gDuel_wCardEffectFlags & 1) != 0) {
         goto arm;
     }
-    if (((DisplayObject *)e->object)->field_68 != sp[-1]) {
+    if (DISPLAY_OBJECT_VIEW(e->object)->field_68 != sp[-1]) {
         goto next;
     }
 
@@ -243,9 +244,9 @@ hit:
         D_8009B1AE + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
-    p->field_00 = ((DisplayObject *)e->object)->field_30.h.field_30;
-    p->field_02 = ((DisplayObject *)e->object)->field_30.h.field_32;
-    p->field_04 = *(u16 *)&((DisplayObject *)e->object)->field_34;
+    p->field_00 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_30;
+    p->field_02 = DISPLAY_OBJECT_VIEW(e->object)->field_30.h.field_32;
+    p->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(e->object)->field_34;
     p->field_1A = Duel_GetCardEffectVariant((CardObject *)e->object);
     DuelCard_RemoveFromField(e);
     SD_SEPlayFull(0x1F);
@@ -277,7 +278,7 @@ void DuelEffect_ApplyStopDefense(void) {
                 r = &D_801A7AD8[c];
                 if ((*(s32 *)&r->terrain_modifier & 0x88000000) ==
                     0x88000000) {
-                    func_80019BA0((DisplayObject *)r->object, 0xC0, 0, 6);
+                    func_80019BA0(DISPLAY_OBJECT_VIEW(r->object), 0xC0, 0, 6);
                     r->flags &= ~DUEL_CARD_FLAG_DEFENSE_POSITION;
                 }
                 gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
@@ -359,7 +360,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
                 i + D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ] * DUEL_CARD_RECORD_SIZE + (u8 *)D_801A7AD8);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
-                ((DisplayObject *)p->object)->field_68 == 0) {
+                DISPLAY_OBJECT_VIEW(p->object)->field_68 == 0) {
                 DuelCard_RemoveFromField(p);
             }
             i++;
@@ -434,9 +435,9 @@ void DuelEffect_ApplyRaigeki(void) {
         if (v != 0) {
             q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xB));
             q->buffer = (u8 *)q->buffer + D_8009B20C[1] * 0x3000;
-            q->field_00 = ((DisplayObject *)r->object)->field_30.h.field_30;
-            q->field_02 = ((DisplayObject *)r->object)->field_30.h.field_32;
-            q->field_04 = *(u16 *)&((DisplayObject *)r->object)->field_34;
+            q->field_00 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_30;
+            q->field_02 = DISPLAY_OBJECT_VIEW(r->object)->field_30.h.field_32;
+            q->field_04 = *(u16 *)&DISPLAY_OBJECT_VIEW(r->object)->field_34;
             q->field_1A = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
             a = 0x1F;
@@ -544,7 +545,7 @@ void DuelEffect_ApplyStatPenalty(void) {
                 DUEL_FIELD_ROW_SIZE;
     record = &D_801A7AD8[D_800907D8_flat[(s16)D_8009B1D0 + base_slot]];
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-        card = (DisplayObject *)record->object;
+        card = DISPLAY_OBJECT_VIEW(record->object);
         object = (DuelEffectObject *)DuelEffect_AllocateRequest(0xD);
         object->x = card->field_30.h.field_30;
         object->y = card->field_30.h.field_32;
