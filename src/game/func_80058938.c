@@ -2,8 +2,9 @@
 #include "func_80058938.h"
 #include "model.h"
 
-void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
-                   s32 a4, const u8 *bits)
+void Model_QueueTintRequest(
+    s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3, s32 a4,
+    const u8 *bits)
 {
     ModelSlot *slot;
     ModelTintRequest *r;

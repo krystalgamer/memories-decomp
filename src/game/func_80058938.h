@@ -4,10 +4,22 @@
 #include "../types.h"
 #include "model.h"
 
-/* Fills a model slot's tint request block. `bits` selects which of the
-   per-request fields are written; func_80058838 builds it from its varargs
-   and func_80059AF8 passes 0. */
-void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
-                   s32 a4, const u8 *bits);
+/* Queues a tint ramp for one model slot. `part_mask` selects the model parts
+   affected by the request; Model_QueueTintRequestForParts builds it from
+   variadic part indices and func_80059AF8 passes 0 for every part. */
+void Model_QueueTintRequest(
+    s32 slot, s32 selection, ModelTintColor start, ModelTintColor end,
+    s32 duration, const u8 *part_mask);
+void Model_QueueTintRequestForParts(
+    s32 slot, s32 part, ModelTintColor start, ModelTintColor end,
+    s32 duration, ...);
+
+/* Compatibility symbols for callers outside the matching C surface. */
+void func_80058838(
+    s32 slot, s32 part, ModelTintColor start, ModelTintColor end,
+    s32 duration, ...);
+void func_80058938(
+    s32 slot, s32 selection, ModelTintColor start, ModelTintColor end,
+    s32 duration, const u8 *part_mask);
 
 #endif

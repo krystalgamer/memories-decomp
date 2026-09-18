@@ -360,7 +360,7 @@ typedef struct {
     ModelCameraLeg target;
 } ModelCameraMove;
 
-/* One end of a tint ramp. func_80058938 takes a whole one by value and stores
+/* One end of a tint ramp. Model_QueueTintRequest takes a whole one by value and stores
  * it as a single word, so all four bytes are live even though only b0..b2 are
  * the colour: func_800528AC interpolates those three and copies b3 of the
  * start colour straight through as the part id it draws with. The end
@@ -374,7 +374,7 @@ typedef struct {
 } ModelTintColor;
 
 /* One of the MODEL_TINT_REQUEST_COUNT tint requests at D_800F2B50.
- * func_80058938 fills a free entry in; func_800528AC walks the table once a
+ * Model_QueueTintRequest fills a free entry in; func_800528AC walks the table once a
  * frame, lerps `start` towards `end` by elapsed/duration, drops the result
  * into the model slot's field_DC0, redraws through it and then restores
  * everything it touched.
