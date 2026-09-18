@@ -126,7 +126,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                     *(POLY_GT3 *)out = *gt;
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                     addPrim(&arg->tagp->org[z], out);
-                    out += 0x28;
+                    out += sizeof(POLY_GT3);
                     goto next;
                 }
             }
@@ -169,7 +169,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
             *(LINE_G4 *)out = *lg;
             z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
             addPrim(&arg->tagp->org[z], out);
-            out += 0x28;
+            out += sizeof(LINE_G4);
         next:
             rec += 11;
             rec++;
@@ -219,7 +219,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                 *(POLY_GT3 *)out = *gt;
                 z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                 addPrim(&arg->tagp->org[z], out);
-                out += 0x28;
+                out += sizeof(POLY_GT3);
             }
             rec += 11;
             rec++;
