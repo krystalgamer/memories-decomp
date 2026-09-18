@@ -58,7 +58,7 @@ void SD_MuteSecondaryVoices(void)
                 count = state->object_count;
             } while (0);
             i++;
-            offset += SD_SECONDARY_OBJECT_SIZE;
+            offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
     state = D_8009B458;
@@ -123,7 +123,7 @@ void SD_RestoreSecondaryVoiceVolumes(void)
                 count = state->object_count;
             } while (0);
             i++;
-            offset += SD_SECONDARY_OBJECT_SIZE;
+            offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
     state = D_8009B458;
