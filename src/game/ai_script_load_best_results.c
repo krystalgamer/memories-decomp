@@ -13,3 +13,11 @@ void AiScript_LoadBestDifference(void)
     value = gAi_wBestDifference[0];
     *(u32 *)((u8 *)values + index) = value;
 }
+
+void AiScript_LoadBestAttacker(void)
+{
+    s32 index = AiScript_ReadByte();
+    s32 *values = gAiScript_aMemory;
+
+    values[index] = gAi_bBestAttacker;
+}

@@ -956,7 +956,7 @@ for both translation units when each use spells the element access explicitly:
 
 | Translation unit | Spelling | Profile | Relocation |
 | --- | --- | --- | --- |
-| `src/game/ai_script_load_best_difference.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g0_split_no_sched1` | `R_MIPS_HI16` + `R_MIPS_LO16` |
+| `src/game/ai_script_load_best_results.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g0_split` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 | `src/game/ai_script_find_best_attack.c` | shared `extern u16 gAi_wBestDifference[]`; reads `[0]` | `gcc_2_8_1_g8_split_no_strength_reduce` | `R_MIPS_HI16` + `R_MIPS_LO16` |
 
 The object is still exactly one `u16`: `gAi_bBestAttacker` is the next name at
