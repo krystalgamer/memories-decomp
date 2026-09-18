@@ -18,6 +18,9 @@
 #include "../unmatched.h"
 #include "func_80024E58.h"
 
+#define DUEL_EFFECT_REQUEST_VIEW(request) \
+    ((DuelEffectRequest *)(request))
+
 /* The last two differences of the original match were the `n = v & 0xFF`
  * that gcc sank into the jal's delay slot where retail keeps the andi before
  * the call and puts `n - 1` in the slot. The mask is not a mask: it is the
@@ -42,7 +45,7 @@ void DuelEffect_ApplyTerrain(void) {
         n = gDuel_bTerrain - 1;
         e = DuelEffect_AllocateRequest(0xA);
         D_8009B17C = e;
-        ((DuelEffectRequest *)e)->field_1A = n;
+        DUEL_EFFECT_REQUEST_VIEW(e)->field_1A = n;
         SD_SEPlayFull(0x13);
         return;
     }
@@ -50,7 +53,7 @@ void DuelEffect_ApplyTerrain(void) {
     f = gDuel_wCardEffectFlags;
 
     if ((f & 0x40) == 0) {
-        if (((DuelEffectRequest *)D_8009B17C)->field_1D != 0) {
+        if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
@@ -67,14 +70,15 @@ void DuelEffect_ApplyTerrain(void) {
              D_8009B134_abs) == 0) {
             a = (DisplayObjectConfig *)D_8009B214;
             b = gDuel_bTerrain;
-            ((DuelEffectRequest *)D_8009B17C)->field_1A = -2;
+            DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1A = -2;
             DisplayObject_SetResourceVariant(a, b);
             gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x20;
         }
         return;
     }
 
-    if ((((DuelEffectRequest *)D_8009B17C)->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
+    if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags &
+         DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
         return;
     }
 
