@@ -58,7 +58,7 @@ PAIRS = [
     ("src/game/debug_menu_editor_entries.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
-    ("src/game/func_800262D4.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
+    ("src/game/duel_ritual_effect.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/func_80024E58.c", "SD_SEPlayFull", '#include "sound.h"'),
     (
         "src/game/func_80024E58.c",
