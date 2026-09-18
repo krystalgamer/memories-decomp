@@ -87,7 +87,7 @@ void func_80013C28(s32 arg)
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
         } else {
             src = D_8009B0F8;
-            for (i = 0; i < 512; ++i) {
+            for (i = 0; i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)); ++i) {
                 ((u32 *)dst)[i] = src[i];
             }
             D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
