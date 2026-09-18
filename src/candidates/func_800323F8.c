@@ -47,7 +47,6 @@ void func_800323F8(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3)
     u8 *b;
     u8 *s;
     u8 *z;
-    u8 *dd;
     u16 *t7;
     u16 *w;
     u16 *pt;

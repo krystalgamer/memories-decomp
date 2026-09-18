@@ -64,15 +64,12 @@ s32 func_8006F1B4(void *data, s32 arg1)
     ModelSparkEffect *e;
     SVECTOR *v;
     SVECTOR *w;
-    ModelSparkSize *sz;
-    ModelSparkColor *c;
     s32 i;
     s32 j;
     s32 k;
     s32 sign;
     s32 dir;
     s32 otz;
-    s32 x;
     s32 fade;
     SVECTOR *ps;
     u8 *p8;

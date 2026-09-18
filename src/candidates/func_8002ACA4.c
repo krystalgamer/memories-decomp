@@ -89,8 +89,6 @@ void func_8002ACA4(u8 *state)
     s32 a;
     s32 b;
     s32 c;
-    s32 t;
-    s32 v;
     s32 t_b1;
     s32 t_b4;
     s32 t_b7;

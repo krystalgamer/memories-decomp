@@ -116,7 +116,6 @@ void DuelScene_UpdateHandActions(void)
     s32 v;
     s32 kind;
     s32 flags;
-    s32 found;
     s8 dir;
     u16 f;
     s32 id;
