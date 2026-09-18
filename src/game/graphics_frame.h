@@ -226,7 +226,7 @@ extern volatile s32 D_8009B0C4;
  * only store to it.
  *
  * graphics_frame.c defines it (gp-relative in the target);
- * src/game/main_init.c and src/candidates/func_80013360.c reach it
+ * src/game/main_init.c and src/game/main_services.c reach it
  * gp-relative and take the plain form.
  * main_init.c used to declare it volatile with the rest of its init block;
  * on this symbol the plain form builds byte-identical (measured by the PR

@@ -3,6 +3,10 @@
 #define GRAPHICS_DRAW_ENV_IS_VOLATILE
 #define D_8009B14A_IN_DATA_VOLATILE
 #define GRAPHICS_INIT_STATE_IS_VOLATILE_SCALAR
+/* func_80013360 re-reads both pad words on each path and reaches them outside
+   small data; see the arms in input.h. */
+#define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#define GINPUT_PAD1_HELD_IN_DATA_VOLATILE
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -26,11 +30,10 @@
 /* The resident system layer's per-frame service pump. It is the first of
    four contiguous functions that are the only run in the region built with
    gcc_2_8_1_g8_split - their neighbours on both sides use other profiles.
-   The boot-time graphics and input start-up that installs the pump follows in
-   this unit; the pad-driven screen-offset adjustment loop remains a candidate
-   in src/candidates/func_80013360.c. The last, the reset of the callback
-   registry the pump walks, is in func_800134B4.c; the pump and the reset share
-   the D_800E9DB0 slots and D_8009B0B8. */
+   The boot-time graphics and input start-up that installs the pump and the
+   pad-driven screen-offset adjustment loop follow in this unit. The last, the
+   reset of the callback registry the pump walks, is in func_800134B4.c; the
+   pump and the reset share the D_800E9DB0 slots and D_8009B0B8. */
 
 s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
 
@@ -138,4 +141,54 @@ next:
     MemCardInit(1);
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
+}
+
+/* Debug screen-offset adjustment: zeroes the display origin, raises bit 0x2000
+ * of D_8009B098, then advances frames until Start is pressed. While a
+ * direction is held the origin moves by 2 per frame, or 4 with Cross held.
+ *
+ * The origin is cleared through one pointer and adjusted through a second
+ * that is copied from it after the first Main_AdvanceFrame call. The first
+ * pointer therefore lives only in the entry block and crosses that call, so
+ * local-alloc ties it to the %hi temporary that feeds it and gives the pair
+ * $s0; the loop's pointer inherits $s0 through the copy, which disappears. */
+void func_80013360(void)
+{
+    RECT *origin;
+    RECT *r;
+
+    origin = &gGraphics_DispEnv.disp;
+    origin->x = 0;
+    origin->y = 0;
+    D_8009B098 |= 0x2000;
+
+    Main_AdvanceFrame();
+    r = origin;
+    while ((gInput_wPad1Pressed & PAD_BUTTON_START) == 0) {
+        s32 step;
+
+        if (gInput_wPad1Held & PAD_DIRECTION_MASK) {
+            step = 2;
+            if (gInput_wPad1Held & PAD_BUTTON_CROSS) {
+                step = 4;
+            }
+            if (gInput_wPad1Held & PAD_DIRECTION_RIGHT) {
+                r->x += step;
+            }
+            if (gInput_wPad1Held & PAD_DIRECTION_LEFT) {
+                r->x -= step;
+            }
+            if (gInput_wPad1Held & PAD_DIRECTION_UP) {
+                r->y -= step;
+            }
+            if (gInput_wPad1Held & PAD_DIRECTION_DOWN) {
+                r->y += step;
+            }
+        }
+        FntFlush(-1);
+        Main_AdvanceFrame();
+    }
+
+    D_8009B098 &= 0xDFFF;
+    Input_ResetPads();
 }
