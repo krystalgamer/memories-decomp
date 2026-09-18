@@ -28,10 +28,17 @@
  * so every password-shop user consumes the shared view. */
 
 /* The password shop's view of the 0x801A8000 staging buffer: while this
- * screen runs it holds two words per card, the first being the card's price
- * in starchips. card_list_rows.h explains why each subsystem keeps its own
- * declaration of this address. */
-extern u32 D_801A8000[];
+ * screen runs it holds one record per card id, the card's price in
+ * starchips and then its eight-digit password packed four bits a digit.
+ * Password_LookupCardID walks the passwords from card 1 (D_801A8008) until
+ * a price of -1 ends the table. card_list_rows.h explains why each
+ * subsystem keeps its own declaration of this address. */
+typedef struct {
+    u32 price;
+    s32 password;
+} PasswordShopCard;
+
+extern PasswordShopCard D_801A8000[];
 
 /* D_801A8008 is the password table Password_LookupCardID searches, and
  * D_801B1245 is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
