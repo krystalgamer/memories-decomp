@@ -15,6 +15,8 @@
 #include "duel_effect.h"
 #include "../unmatched.h"
 #include "build_deck_pane_input.h"
+#include "graphics_frame.h"
+#include "build_deck_update_pane_transition.h"
 
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
     CardList *e;
@@ -126,4 +128,33 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
     }
 
     SD_SEPlayFull(9);
+}
+
+#define BUILD_DECK_PANE_TRANSITION_TICKS 16
+
+void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
+{
+    s32 ticks;
+
+    if (func_80032B38(state) == 0) {
+        s32 diff = state->viewport_target_x - (s16)gGraphics_sViewportX;
+
+        state->viewport_step_x = diff / BUILD_DECK_PANE_TRANSITION_TICKS;
+        state->transition_ticks = BUILD_DECK_PANE_TRANSITION_TICKS;
+        SD_SEPlayFull(30);
+    }
+
+    gGraphics_sViewportX += (u16)state->viewport_step_x;
+    ticks = state->transition_ticks - 1;
+    state->transition_ticks = ticks;
+    if (ticks == 0) {
+        u16 position = (u16)state->viewport_target_x;
+
+        state->pane_index = 0;
+        gGraphics_sViewportX = position;
+        if ((s32)position << 16) {
+            state->pane_index = 1;
+        }
+        state->state = state->next_state;
+    }
 }

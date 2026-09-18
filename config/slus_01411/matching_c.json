@@ -2324,9 +2324,9 @@
     },
     {
       "address": "0x800338E4",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0xB4",
-      "source": "src/game/build_deck_update_pane_transition.c"
+      "source": "src/game/build_deck_pane_input.c"
     },
     {
       "address": "0x80033998",
