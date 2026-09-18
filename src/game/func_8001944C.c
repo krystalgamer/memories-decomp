@@ -9,7 +9,7 @@
 #include "func_8001944C.h"
 #include "graphics_frame.h"
 
-void func_8001944C(DisplayObject *o)
+void DuelCard_CaptureRoundedTexture(DisplayObject *o)
 {
     u8 *buf;
     u16 *p;
