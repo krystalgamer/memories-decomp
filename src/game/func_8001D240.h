@@ -4,8 +4,11 @@
 #include "../types.h"
 #include "display_object.h"
 
-/* Display-object update callback: the field-action state installs it at the
-   object's 0x24 and also calls it directly (func_8001D240.c:7). */
-void func_8001D240(DisplayObject *o);
+/* Rotates a displayed duel card between attack and defense orientation while
+   keeping its DuelCardRecord defense-position flag synchronized. */
+void DuelCard_UpdateDefenseRotation(DisplayObject *object);
+
+/* Compatibility symbol used by the tracked field-action candidate. */
+void func_8001D240(DisplayObject *object);
 
 #endif
