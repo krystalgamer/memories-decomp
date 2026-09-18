@@ -2996,15 +2996,15 @@
     },
     {
       "address": "0x80039140",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/func_80039140.c"
+      "source": "src/game/text_box_layout_helpers.c"
     },
     {
       "address": "0x800391E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1CC",
-      "source": "src/game/func_800391E4.c"
+      "source": "src/game/text_box_layout_helpers.c"
     },
     {
       "address": "0x800393B0",
