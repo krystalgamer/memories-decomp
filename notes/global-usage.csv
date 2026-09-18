@@ -1817,7 +1817,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_read_choice_input.c,read_write,8,gDialog_bChoice = 0; | gDialog_bChoice = choice + 1; | (+3 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read_write,8,gDialog_bChoice = g & 7; | m = 1 << gDialog_bChoice;
-0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_control_commands.c,read_write,8,((TextStreamOwner *)object)->streams[object->stream_58] += gDialog_bChoice * 2; | gDialog_bChoice = 0;
+0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80038BF0,Text_HandleChoiceCommand,matching_c,game,C,src/game/text_control_commands.c,read_write,8,gDialog_bChoice * 2; | gDialog_bChoice = 0;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,write,,gDialog_bChoice = -1;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003D74C,func_8003D74C,matching_c,game,C,src/game/dialog_transition.c,read_write,8,gDialog_bChoice = 0; | if (gDialog_bChoice == 0) {
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,8,if (gDialog_bChoice) {
