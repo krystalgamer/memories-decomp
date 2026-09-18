@@ -14,7 +14,7 @@ void func_80032184(FileTransferDescriptor *descriptor, s32 mode);
 
 /* Queues the reward table transfer: one async read of 0x4C sectors from
  * 0x2189 with func_80032184 as the completion callback, then waits for it.
- * main_run_trade.c is the only consumer. */
+ * Main_RunTrade (main_mode_runners.c) is the only consumer. */
 void func_80032328(void);
 
 /* Compacts gDuel_awRecentCardDrops in two passes. The first walks the table
