@@ -716,15 +716,15 @@
     },
     {
       "address": "0x80019B2C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/game/func_80019B2C.c"
+      "source": "src/game/display_object_alpha_transition.c"
     },
     {
       "address": "0x80019BA0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x30",
-      "source": "src/game/func_80019BA0.c"
+      "source": "src/game/display_object_alpha_transition.c"
     },
     {
       "address": "0x80019BD0",
