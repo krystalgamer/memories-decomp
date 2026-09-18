@@ -51,7 +51,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         }
         for (i = 0; i < m->field_E1B; i++) {
             restore_row = m->field_2C8[m->field_E0F][i];
-            src = (u16 *)((u8 *)m->field_DD8 + restore_row * 4);
+            src = (u16 *)(
+                (u32)m->field_DD8 + (u32)&((s32 *)0)[restore_row]);
             if (restore_row != 0xFFFF) {
                 restore_bit = i;
                 if (i < 0) {
@@ -97,7 +98,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         m->field_E10 = 1;
         for (i = 0; i < m->field_E1B; parts++, i++) {
             copy_row = m->field_2C8[m->field_E0F][i];
-            src = (u16 *)((u8 *)m->field_DD8 + copy_row * 4);
+            src = (u16 *)(
+                (u32)m->field_DD8 + (u32)&((s32 *)0)[copy_row]);
             if (copy_row != 0xFFFF) {
                 copy_bit = i;
                 if (i < 0) {
