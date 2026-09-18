@@ -126,7 +126,7 @@ void func_800580D4(s32 index, s32 arg1, u8 *arg2, GsCOORDUNIT *arg3)
     unit.matrix.t[2] = ang.vz;
     unit.workm = unit.matrix;
     unit.super = NULL;
-    memset(&sv90, 0, 8);
+    memset(&sv90, 0, sizeof(sv90));
 
     setup_rotation(&sv90, &sv88, MODEL_ANGLE_FULL_TURN, arg3);
 
