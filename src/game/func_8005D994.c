@@ -27,7 +27,7 @@ void func_8005D994(
     s32 first;
 
     s = func_80059208();
-    memset(a, 0, 8);
+    memset(a, 0, sizeof(a));
     a[3] = arg0 | 0x80;
     one = 1;
 
