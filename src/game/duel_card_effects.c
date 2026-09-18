@@ -25,6 +25,9 @@
 #include "duel_card_effects.h"
 #include "display_object_helpers.h"
 
+#define DUEL_EFFECT_REQUEST_VIEW(request) \
+    ((DuelEffectRequest *)(request))
+
 /* Small data at 0x8009AF30, owned here: the recovery handler scales the
    first table by 100 and the direct-damage handler scales the second by 10,
    one entry per card in each family. */
@@ -267,7 +270,7 @@ void DuelEffect_ApplyStopDefense(void) {
 
     if ((f & 0x40) != 0) {
         if ((f & 0x20) == 0) {
-            if (((DuelEffectRequest *)D_8009B17C)->field_1D != 0) {
+            if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) {
                 n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                     DUEL_FIELD_ROW_SIZE;
                 c = D_800907D8[D_8009B20C[1] + n];
@@ -281,7 +284,7 @@ void DuelEffect_ApplyStopDefense(void) {
             }
         }
 
-        if ((((DuelEffectRequest *)D_8009B17C)->flags &
+        if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags &
              DUEL_EFFECT_REQUEST_FLAG_ACTIVE) != 0) {
             return;
         }
@@ -296,7 +299,7 @@ void DuelEffect_ApplyStopDefense(void) {
         return;
     }
 
-    p = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xC);
+    p = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xC));
     t = (u8 *)D_80090800;
     e = (DuelFieldPosition *)((
         (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -397,7 +400,7 @@ void DuelEffect_ApplyRaigeki(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         D_8009B20C[1] = 0;
-        q = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x10);
+        q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0x10));
         t = (u8 *)D_80090800;
         e = (DuelFieldPosition *)((
             (D_8009B20C[1] + DUEL_FIELD_ROW_SIZE) *
@@ -419,7 +422,8 @@ void DuelEffect_ApplyRaigeki(void) {
         return;
     }
 
-    if (((DuelEffectRequest *)D_8009B17C)->field_1D == D_8009B20C[1] + 1) {
+    if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D ==
+        D_8009B20C[1] + 1) {
         SD_SEPlayFull(0x15);
         n = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
@@ -428,7 +432,7 @@ void DuelEffect_ApplyRaigeki(void) {
         v = r->flags & 0x8000;
         D_8009B20C[1] = *(u16 *)&D_8009B20C[1] + 1;
         if (v != 0) {
-            q = (DuelEffectRequest *)DuelEffect_AllocateRequest(0xB);
+            q = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(0xB));
             q->buffer = (u8 *)q->buffer + D_8009B20C[1] * 0x3000;
             q->field_00 = ((DisplayObject *)r->object)->field_30.h.field_30;
             q->field_02 = ((DisplayObject *)r->object)->field_30.h.field_32;
