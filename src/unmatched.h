@@ -173,8 +173,8 @@ extern s32 D_8009B118;
  * added when that table moved out of its blob. The argument there was that
  * taking a function's address does not depend on its signature, so a local
  * declaration was self-contained. That is true but beside the point: this
- * header already holds exactly this class, in func_80035E20 and
- * func_80067220, and the issue asks for one declaration site rather than
+ * header already holds exactly this class, in func_80067220 (and, until it
+ * matched, func_80035E20), and the issue asks for one declaration site rather than
  * a defensible second one.
  *
  * void (void) is the form all nine consumers already used. As with the
@@ -249,27 +249,15 @@ void func_80015EF4(void *, u8 *, u8 *, s32 *);
 extern u16 D_8009B162;   /* nine declarers  */
 extern u16 D_8009B23A;   /* candidate lexical alias for gDuel_wSceneStateFlags */
 
-/* Two functions found by asking which unmatched functions are never called
+/* A function found by asking which unmatched functions are never called
  * by name rather than which are declared oddly.
  *
- * func_80035E20 goes into a display object's +0x4C slot, in func_800391E4.c.
- * The slot's calling convention is known:
- * DisplayObject_RunSecondaryCallbackList reads +0x4C back and calls it with
- * two arguments, the object and its ordering-table entry. DisplayObject_RenderSpotlightMask, the
- * other callback stored there, has matched and is declared by
- * display_object_render_spotlight_mask.h
- * as (DisplayObject *, GsOT *). This one is still unmatched, so its parameter
- * types are not established by a matched definition; the build-integrated
- * candidate spells the same two-argument shape. Only its semantic parameter
- * types remain open, not its arity.
- *
  * func_80067220 is not a callback at all -- model_primitive_handler.c returns its
- * address as an s32 -- but it lands in the same place for the same reason.
- *
- * Both were spelled without a prototype by their consumers, which is the
- * honest form for a function nobody calls by name. They keep a declared return type
- * here because their consumers cast the address, not the result. */
-s32 func_80035E20();
+ * address as an s32. It was spelled without a prototype by its consumer, which
+ * is the honest form for a function nobody calls by name. It keeps a declared
+ * return type here because its consumer casts the address, not the result.
+ * func_80035E20, which used to sit beside it, has matched and is declared by
+ * game/func_80035E20.h. */
 int func_80067220();
 
 /* Three more undefined globals, moved together for the same reason as the

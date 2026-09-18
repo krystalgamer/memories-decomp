@@ -9,6 +9,7 @@
 #include "display_object_helpers.h"
 #include "color_constants.h"
 #include "duel_effect.h"
+#include "func_80035E20.h"
 #include "text_box_runtime.h"
 
 void func_800391E4(DuelEffectChannel *p) {

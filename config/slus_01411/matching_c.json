@@ -2515,6 +2515,12 @@
       "source": "src/game/duel_effect_entry_occupancy.c"
     },
     {
+      "address": "0x80035E20",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0xDAC",
+      "source": "src/game/func_80035E20.c"
+    },
+    {
       "address": "0x80036BCC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
