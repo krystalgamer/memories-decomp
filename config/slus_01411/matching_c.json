@@ -2146,13 +2146,13 @@
       "address": "0x80030FA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/debug_menu_mapped_mode.c"
+      "source": "src/game/debug_menu_leave_entries.c"
     },
     {
       "address": "0x80030FD0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/debug_menu_exit.c"
+      "source": "src/game/debug_menu_leave_entries.c"
     },
     {
       "address": "0x80031000",
