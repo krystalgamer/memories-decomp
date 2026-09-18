@@ -17,6 +17,7 @@
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
 #define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
 #define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
+#define POLY_FT4_VIEW(packet) ((POLY_FT4 *)(packet))
 
 /* The high half of `mode` selects the handler and the low half is the
  * ordering-table depth. Cases 1-3 hand a GsSPRITE to libgs. Cases 4 and 5 get
@@ -115,32 +116,32 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
 
         /* GsSPRITE's colour-mode bits (24-25) and semi-transparency rate
          * (28-29) go into the tpage's mode and rate fields. */
-        ((POLY_FT4 *)packet)->tpage =
+        POLY_FT4_VIEW(packet)->tpage =
             sprite->tpage | (((attribute >> 17) & 0x180) | ((attribute >> 23) & 0x60));
         if (sprite->attribute & 0x40000000) {
             SetSemiTrans(packet, 1);
         }
-        ((POLY_FT4 *)packet)->clut = (sprite->cxcy.h.cy << 6) | ((sprite->cxcy.h.cx >> 4) & 0x3F);
+        POLY_FT4_VIEW(packet)->clut = (sprite->cxcy.h.cy << 6) | ((sprite->cxcy.h.cx >> 4) & 0x3F);
         if (sprite->attribute & 0x800000) {
             /* Horizontally flipped: the left and right u columns swap. */
-            ((POLY_FT4 *)packet)->u1 = ((POLY_FT4 *)packet)->u3 = sprite->uv.b.lo;
-            ((POLY_FT4 *)packet)->u0 = ((POLY_FT4 *)packet)->u2 =
+            POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 = sprite->uv.b.lo;
+            POLY_FT4_VIEW(packet)->u0 = POLY_FT4_VIEW(packet)->u2 =
                 sprite->uv.b.lo + sprite->extent.wh.w.word - 1;
-            ((POLY_FT4 *)packet)->v0 = ((POLY_FT4 *)packet)->v1 = sprite->uv.b.hi;
-            ((POLY_FT4 *)packet)->v2 = ((POLY_FT4 *)packet)->v3 =
+            POLY_FT4_VIEW(packet)->v0 = POLY_FT4_VIEW(packet)->v1 = sprite->uv.b.hi;
+            POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
                 sprite->uv.b.hi + sprite->extent.wh.h - 1;
         } else {
-            ((POLY_FT4 *)packet)->u0 = ((POLY_FT4 *)packet)->u2 = sprite->uv.b.lo;
-            ((POLY_FT4 *)packet)->v0 = ((POLY_FT4 *)packet)->v1 = sprite->uv.b.hi;
+            POLY_FT4_VIEW(packet)->u0 = POLY_FT4_VIEW(packet)->u2 = sprite->uv.b.lo;
+            POLY_FT4_VIEW(packet)->v0 = POLY_FT4_VIEW(packet)->v1 = sprite->uv.b.hi;
             if (sprite->attribute & 0x80) {
-                ((POLY_FT4 *)packet)->u1 = ((POLY_FT4 *)packet)->u3 =
+                POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 =
                     sprite->uv.b.lo + sprite->extent.wh.w.word;
-                ((POLY_FT4 *)packet)->v2 = ((POLY_FT4 *)packet)->v3 =
+                POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
                     sprite->uv.b.hi + sprite->extent.wh.h;
             } else {
-                ((POLY_FT4 *)packet)->u1 = ((POLY_FT4 *)packet)->u3 =
+                POLY_FT4_VIEW(packet)->u1 = POLY_FT4_VIEW(packet)->u3 =
                     sprite->uv.b.lo + sprite->extent.wh.w.word - 1;
-                ((POLY_FT4 *)packet)->v2 = ((POLY_FT4 *)packet)->v3 =
+                POLY_FT4_VIEW(packet)->v2 = POLY_FT4_VIEW(packet)->v3 =
                     sprite->uv.b.hi + sprite->extent.wh.h - 1;
             }
         }
@@ -156,8 +157,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
         v1->vz = 0;
         v->vz = 0;
         if (RotAverageNclip4(v, v1, v2, v3,
-                             (long *)&((POLY_FT4 *)packet)->x0, (long *)&((POLY_FT4 *)packet)->x1,
-                             (long *)&((POLY_FT4 *)packet)->x2, (long *)&((POLY_FT4 *)packet)->x3,
+                             (long *)&POLY_FT4_VIEW(packet)->x0, (long *)&POLY_FT4_VIEW(packet)->x1,
+                             (long *)&POLY_FT4_VIEW(packet)->x2, (long *)&POLY_FT4_VIEW(packet)->x3,
                              otz, otz + 1, otz + 2) > 0) {
             if (origin->divisions == 0) {
                 GsSortPoly(packet, (GsOT *)ot, pri);
@@ -171,11 +172,11 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
                 divp->ndiv = origin->divisions;
                 divp->pih = 320;
                 divp->piv = 272;
-                *rgbc = *(u32 *)&((POLY_FT4 *)packet)->r0;
-                uv[0] = *(u32 *)&((POLY_FT4 *)packet)->u0;
-                uv[1] = *(u32 *)&((POLY_FT4 *)packet)->u1;
-                uv[2] = *(u32 *)&((POLY_FT4 *)packet)->u2;
-                uv[3] = *(u32 *)&((POLY_FT4 *)packet)->u3;
+                *rgbc = *(u32 *)&POLY_FT4_VIEW(packet)->r0;
+                uv[0] = *(u32 *)&POLY_FT4_VIEW(packet)->u0;
+                uv[1] = *(u32 *)&POLY_FT4_VIEW(packet)->u1;
+                uv[2] = *(u32 *)&POLY_FT4_VIEW(packet)->u2;
+                uv[3] = *(u32 *)&POLY_FT4_VIEW(packet)->u3;
                 D_800FE240 = (u32 *)DivideFT4(v, v1, v2, v3,
                                              uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
                                              (CVECTOR *)rgbc, (POLY_FT4 *)D_800FE240,
