@@ -41,7 +41,7 @@ void func_8005E808(Key *state)
     /* The copier writes four halfwords; only the first three are coordinates. */
     s16 pos[4];
     s16 buf[10][3];
-    u8 *e;
+    Coeff *e;
     SVECTOR *g;
     s32 i;
     s32 j;
@@ -81,22 +81,23 @@ void func_8005E808(Key *state)
         return;
     }
 
-    e = (u8 *)state;
-    for (i = 0; i < 2; i++, e += 8) {
+    /* Coeff preserves the aligned halfword loads of these packed endpoints. */
+    e = (Coeff *)state;
+    for (i = 0; i < 2; i++, e++) {
         g = &D_800F5768[i];
-        switch ((s16)((Coeff *)e)->w) {
+        switch ((s16)e->w) {
         case 0x80:
         case 0x81:
         {
             s32 dx, dy, dz;
-            slot = (s16)(((Coeff *)e)->w & 0xFF7F);
+            slot = (s16)(e->w & 0xFF7F);
             if (func_80058DD8(slot) != 1) {
                 continue;
             }
             Model_CopySlotU16Values(slot, (u16 *)pos);
-            pos[0] = pos[0] + (u16)((Coeff *)e)->x;
-            pos[1] = pos[1] + (u16)((Coeff *)e)->y;
-            pos[2] = pos[2] + (u16)((Coeff *)e)->z;
+            pos[0] = pos[0] + (u16)e->x;
+            pos[1] = pos[1] + (u16)e->y;
+            pos[2] = pos[2] + (u16)e->z;
             dx = pos[0] - g->vx;
             dy = pos[1] - g->vy;
             dz = pos[2] - g->vz;
@@ -127,12 +128,12 @@ void func_8005E808(Key *state)
             s32 radius_scaled;
             s32 factor;
             v = (u16)D_800F5768[2].vx;
-            if (D_800F5768[2].vx < ((Coeff *)e)->x) {
-                v = (u16)((Coeff *)e)->x;
+            if (D_800F5768[2].vx < e->x) {
+                v = (u16)e->x;
             }
             radius_scaled = (s16)v * 6284 / 1000;
             d = k * radius_scaled;
-            factor = __builtin_abs(((Coeff *)e)->y);
+            factor = __builtin_abs(e->y);
             d = (u32)(d * factor) / 4096000;
             if (state->duration < d) {
                 state->duration = d;
