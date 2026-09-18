@@ -219,7 +219,7 @@ void SD_UpdateRuntime(void)
         loop_state->commands.b[off] = e->command;
         *(SDCommand *)((u8 *)g_SDValue + off + SD_COMMAND_QUEUE_BYTE_OFFSET) =
             *e;
-        off += 0x30;
+        off += sizeof(SDCommand);
         loop_state = g_SDValue;
         i += 1;
         e++;
