@@ -21,10 +21,17 @@
  * what it did; what changes is that gcc gives each short live range a register
  * of its own instead of carrying one value across the whole iteration.
  *
- * Residual: 16 blocks over 17 rows, and fourteen of the blocks are a register
- * name alone -- the sprite id lives in $v1, $s6 and $s2 where retail uses $s2
- * and $s6. The other two are one srl of that id sitting an instruction later.
- * No opcode, no instruction count and no block boundary differs.
+ * The shift that produces the sprite id is written as two statements against
+ * the one name, v = v >> 3; v = v & 0x1F;. One name across two statements is
+ * what stops the pair being combined, and it puts the second srl where retail
+ * has it: without it that instruction sits one position later and is the only
+ * difference in the function that is not a register name.
+ *
+ * Residual: 15 blocks, and every one of them is a register name alone. No
+ * opcode, no instruction count and no instruction's position differs. Two
+ * separate values wear the wrong register, not one: the shifted sprite id, and
+ * a halfword the pass holds on the stack across the redraw and hands back as
+ * the second loop's argument.
  */
 #include "../types.h"
 #include "../game/model_view_adjustments.h"
@@ -109,7 +116,8 @@ void func_800528AC(void)
         lo = e->elapsed;
         hi = e->duration;
         side = (v >> 1) & 1;
-        v = (v >> 3) & 0x1F;
+        v = v >> 3;
+        v = v & 0x1F;
         slot = &D_800F2C40[side];
         sav06 = slot->field_E06;
         v2 = v;
