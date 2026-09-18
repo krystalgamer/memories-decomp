@@ -18,6 +18,13 @@
  * update are structural. CTX->field_3 = 9 sits in its own do/while (0), the
  * sprite's uv word is stored right after its first x coordinate, and the
  * field_32 + 0x20 row coordinate is computed into ny2 ahead of its store.
+ * The same hoist is applied at the + 0x32 and + 0xE row coordinates, each
+ * with its own name: retail loads field_32 before the extent stores that
+ * precede the row store and only then adds the offset. Two sites is where
+ * it peaks -- one site is 339/384 aligned over 31 structural blocks, two is
+ * 340/384 over 30, and three through six are all 338/384 over 31, so the
+ * third edit undoes the gain and the rest are inert on top of it. One name
+ * shared by all six is 329/384 over 37.
  *
  * The 0xF8 sprite height is written as a literal at all five of its sites,
  * not held in a local. gcc 2.8 has no global CSE, so a named local becomes
@@ -55,6 +62,8 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     u32 tile;
     s32 wrap;
     s32 ny2;
+    s32 ny;
+    s32 nye;
 
     wrap = 0xFFFF;
     win = (DisplayObject *)obj->field_54;
@@ -93,9 +102,10 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->attribute = obj->attribute;
     PRM->xy.h.x = win->field_30.h.field_30 + 0x13;
     PRM->uv.word = obj->field_5C;
+    ny = win->field_30.h.field_32;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0x32;
+    PRM->xy.h.y = ny + 0x32;
     PRM->rgb = win->field_0C;
     *(u32 *)&PRM->cxcy = obj->field_40.word;
     PRM->tpage = obj->field_66;
@@ -103,8 +113,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
 
     CTX->field_7 = CTX->field_7 | 2;
     PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
+    nye = win->field_30.h.field_32;
     PRM->extent.wh.w.word = 0x60;
-    PRM->xy.h.y = win->field_30.h.field_32 + 0xE;
+    PRM->xy.h.y = nye + 0xE;
     PRM->extent.wh.h = 0xE;
     PRM->cxcy.h.cy = 0xF8;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
