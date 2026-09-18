@@ -36,7 +36,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         e->field_2C.word = 0x2000;
         e->field_44.word = 0xC000;
         e->field_3C.word = 0xC000;
-        e->update = Widget_UpdatePulseColour;
+        e->update = (DisplayObjectCallback)Widget_UpdatePulseColour;
         e->attribute = e->attribute | (GsALON | GsAONE);
         Dialog_HighlightChoice(p);
     }

@@ -3,9 +3,11 @@
 #include "display_object.h"
 #include "widget_update_pulse_colour.h"
 
-void Widget_UpdatePulseColour(u8 *arg0)
+void Widget_UpdatePulseColour(DisplayObject *object)
 {
-    DisplayObject *q = (DisplayObject *)arg0;
+    /* A copy, not the parameter: retail moves the object into a3 at entry
+       and writes the four dimmed words through that copy. */
+    DisplayObject *q = object;
     s32 c = 0;
     s32 t = D_8009B09C & 0x7F;
     if (t >= 0x40)
