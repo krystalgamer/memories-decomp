@@ -1426,6 +1426,7 @@ DisplayPositionGroup_SetPosition = 0x8003A95C; // type:func
 File_SetTransferLocation = 0x80013940; // type:func
 Script_ReadByte = 0x80030050; // type:func
 Model_BuildCameraRelativeCoordinateUnit = 0x800592AC; // type:func
+Model_IsExodiaPresentationComplete = 0x80059C88; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

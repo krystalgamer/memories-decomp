@@ -64,7 +64,7 @@ void Main_RunAnimatedBattle(void)
         Fade_WaitInitIn();
     } else {
         if (f & 0x20) {
-            v = func_80059C88();
+            v = Model_IsExodiaPresentationComplete();
         } else {
             v = ModelDebug_UpdateController();
         }

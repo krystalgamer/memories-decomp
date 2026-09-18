@@ -1053,9 +1053,9 @@ caller-side handover in section 5.10 establishes a use of `0x309` for
 **Exodia presentation**. No fusion-recipe index interpretation is established.
 
 Initialization and polling occupy separate branches. On later calls,
-mode bit `0x20` selects `func_80059C88`; otherwise the handler polls
-`ModelDebug_UpdateController`. A nonzero result calls `SD_KeyOffVoiceSlots` and
-`SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
+mode bit `0x20` selects `Model_IsExodiaPresentationComplete`; otherwise the
+handler polls `ModelDebug_UpdateController`. A nonzero result calls `SD_KeyOffVoiceSlots`
+and `SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
 `D_8009B269`, rather than hard-coding a return to duel mode. The subsequent
 `func_80059CE4` call runs on this polling branch even when completion has
 just been consumed.
