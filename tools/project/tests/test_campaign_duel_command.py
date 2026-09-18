@@ -21,7 +21,7 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/text_start_campaign_duel.c"
-HELPER = REPOSITORY / "src/game/text_stream_read_u16_le.c"
+HELPER = REPOSITORY / "src/game/text_stream_read_le.c"
 CASE_COUNT = 256 * 4 * 8 * 2
 START = """
 .text
