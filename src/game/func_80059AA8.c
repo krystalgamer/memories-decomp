@@ -10,7 +10,7 @@ int func_80059AA8(int index, int value)
     {
         register ModelSlot *base = D_800F2C40;
 
-        entry = (ModelSlot *)(index * sizeof(ModelSlot));
+        entry = &((ModelSlot *)0)[index];
 
         entry = (ModelSlot *)((unsigned int)entry + (unsigned int)base);
     }
