@@ -2,8 +2,8 @@
  * Library screen state 2 handler: opens the card view, runs the model and
  * text-box slide-in, rotates the model light with the view angle, and walks
  * the close sequence back to the grid. Current best under
- * gcc_2_8_1_cc_g8_as_g0_split: 894 instructions against 895 with an opcode
- * census of addiu -1, addu +2, nop -2 (distance 5), with no hard register
+ * gcc_2_8_1_cc_g8_as_g0_split: 895 instructions against 895 with an opcode
+ * census of addiu -1, addu +2, nop -1 (distance 4), with no hard register
  * assignments and no inline assembly.
  *
  * Levers measured on this body:
@@ -21,11 +21,15 @@
  *   its aggregate arm and a split %hi/%lo store;
  * - the close path reads DisplayObject_SetResourceVariant's argument into a
  *   local before clearing D_8009B0C0, and the 0x10 counter is re-read after
- *   its store.
+ *   its store;
+ * - the case 2 slide constant 0x148 sits in its own do/while (0), which
+ *   keeps gcc from hoisting it into the reload's load-delay slot: retail
+ *   materialises it later, in the bgtz delay slot.
  *
  * Residual: the target reloads the slide phase into the register it loaded
- * it from (two load-delay nops) and materialises the case 5 pad address
- * twice; the addu +2 is not attributed yet.
+ * it from, and materialises the case 5 pad address twice. One of the two
+ * load-delay nops is recovered by pinning the case 2 slide constant; the
+ * other and the addu +2 are not attributed yet.
  */
 #define D_800E9ECE_AS_SCALAR
 #include "../types.h"
@@ -188,7 +192,9 @@ void func_8002ACA4(u8 *state)
         v_a2 = H(o, 0x60) - 0x33;
         H(o, 0x60) = v_a2;
         phase = (s16)v_a2;
-        x = 0x148;
+        do {
+            x = 0x148;
+        } while (0);
         if (phase > 0) {
             goto slide;
         }
