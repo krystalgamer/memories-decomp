@@ -12,7 +12,7 @@ void func_8005D994(
     s32 arg1,
     s32 arg2,
     s32 arg3,
-    u8 *arg4,
+    SVECTOR *offset,
     s32 arg5
 ) {
     u16 a[4];
@@ -40,9 +40,7 @@ void func_8005D994(
         a[3] = one;
     }
 
-    if (arg4 != (u8 *)0) {
-        SVECTOR *offset = (SVECTOR *)arg4;
-
+    if (offset != 0) {
         m = -1;
         if (arg0 <= 0) {
             m = 1;

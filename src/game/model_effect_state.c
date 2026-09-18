@@ -314,7 +314,7 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 
-    func_8005D994(arg0, s0, rec->angle, rec->field_04, (u8 *)arg2,
+    func_8005D994(arg0, s0, rec->angle, rec->field_04, (SVECTOR *)arg2,
                   arg3);
 }
 

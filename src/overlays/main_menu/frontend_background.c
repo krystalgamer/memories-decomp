@@ -149,9 +149,8 @@ void MainMenu_DestroyFrontendMenu(void)
     }
     D_800E9DB0[0] = 0;
 }
-void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
+void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 {
-    DisplayObject *entry = (DisplayObject *)source;
     DisplayObject *object;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);

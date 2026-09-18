@@ -67,7 +67,7 @@ s32 MainMenu_UpdateFrontendMenu(void);
 void MainMenu_DestroyFrontendMenu(void);
 void MainMenu_StartFrontendEntryTransition(s32 mode);
 void MainMenu_DrawFrontendBackground(void);
-void MainMenu_SpawnFrontendEntryAfterimage(u8 *source);
+void MainMenu_SpawnFrontendEntryAfterimage(struct DisplayObject *entry);
 void MainMenu_UpdateFrontendEntryAfterimage(struct DisplayObject *object);
 
 #endif
