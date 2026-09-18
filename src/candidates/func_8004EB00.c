@@ -2,8 +2,8 @@
  * Model scene mode 15 controller: copies the scene's four effect handlers
  * and view offset, then steps the signed D_8009AF9A phase through lighting,
  * fades, effect requests and the per-slot handler calls. Current best under
- * gcc_2_8_1_g8_split: 1227 instructions against 1227 with opcode distance 36
- * (18 surplus, 18 missing), with no hard register assignments and no inline
+ * gcc_2_8_1_g8_split: 1226 instructions against 1227 with opcode distance 33
+ * (16 surplus, 17 missing), with no hard register assignments and no inline
  * assembly.
  *
  * Levers measured on this body, following the matched sibling func_8004FE2C:
@@ -13,16 +13,33 @@
  * - the diagnostics string and D_800E9ECE use their unsized declaration arms,
  *   which is retail's %hi/%lo form;
  * - the slot key comparisons read the halfword at +0xCF8;
- * - state 10 picks the mode with a comparison chain and halves the offset
- *   at run time;
+ * - state 10 reads its slot key as field_0A[field_DFE], the two-byte view
+ *   asserted at +0xA, because retail adds the selector to the base unscaled
+ *   and loads at +0xD02; indexing the ModelSlot array instead emits a 0xE20
+ *   stride retail does not have;
+ * - state 10's mode arms are goto targets in retail's own address order, with
+ *   one name for the selector and the mode, which retail carries in $a1;
+ * - the two func_80059F18 clamps are a copy and a clamp on a separate local,
+ *   which is retail's move-then-slti-against-an-immediate; a ternary at the
+ *   call site keeps the constant in a register and compares register against
+ *   register;
  * - state 27 falls through to the fade-out test once the handler reports 2;
  * - the fade-out stores live in state 34 and state 27 reaches them by goto.
  *
- * Residual: census addiu -4, addu +1, and +1, beqz -1, bgez +1, bltz -2,
- * j -1, lb +1, lbu -3, lh +1, lui +5, lw +1, nop -5, sll +4, slti +2,
- * sltiu -1, sra -1, subu +1. Retail tests the two mode bytes of each slot
- * separately where gcc merges them into one masked word compare, lays state
- * 10's mode arms out of line, and keeps states 13 and 17 as comparison chains.
+ * Residual, measured on this source, positive meaning retail has more: addiu
+ * +2, addu +1, and -1, beq -1, bgez -1, bltz +2, bne +2, j -2, lb -1, lbu +3,
+ * lh -1, lui -5, lw -1, nop +6, sll -1, slti -2, sra +1. The counts are read
+ * from the encoded fields rather than from mnemonics, with nop kept separate
+ * from sll, and they sum to the one-instruction shortfall.
+ *
+ * The exact 1227 this entry used to report was two faults cancelling: the
+ * 0xE20 stride above is five instructions retail does not have, and removing
+ * it exposed five missing elsewhere. Retail still tests the two mode bytes of
+ * each slot separately where gcc merges them into one masked word compare,
+ * and keeps states 13 and 17 as comparison chains. Measured and not reached:
+ * the case 12/16 difference in four spellings plus an out-of-line arm, and
+ * the state 34 store and load order in four spellings including a
+ * byte-address form, which is the control that rules out aliasing.
  */
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #include "../types.h"
@@ -74,6 +91,7 @@ void func_8004EB00(void)
     s32 f;
     s32 c0;
     s32 c1;
+    s32 cl;
 
     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)D_800114E8;
     n = 1;
@@ -220,24 +238,38 @@ void func_8004EB00(void)
         if (D_800F2C40[1].field_E0F == 0) {
             D_8009AFE9 += func_80058E1C();
             if (D_8009AFE9 >= 0x3C) {
-                kind = D_800F2C40[D_800F2C40[0].field_DFE]
-                           .field_CF8.prefix.bytes.field_0A[0] & 0x1F;
+                kind = D_800F2C40[0].field_CF8.prefix.bytes.field_0A[D_800F2C40[0].field_DFE] & 0x1F;
                 off = -0x14;
                 if (kind == 1) {
-                    mode = 0;
-                } else if (kind < 2) {
-                    mode = 3;
-                } else if (kind == 2) {
-                    mode = 1;
-                } else if (kind == 3) {
-                    mode = 2;
-                } else {
-                    mode = 3;
+                    goto s10_m0;
                 }
-                if ((u32)mode < 2) {
+                if (kind < 2) {
+                    goto s10_m3;
+                }
+                if (kind == 2) {
+                    goto s10_m1;
+                }
+                if (kind == 3) {
+                    goto s10_m2;
+                }
+                kind = 3;
+                goto s10_teste;
+            s10_m0:
+                kind = 0;
+                goto s10_teste;
+            s10_m1:
+                kind = 1;
+                goto s10_teste;
+            s10_m2:
+                kind = 2;
+                goto s10_teste;
+            s10_m3:
+                kind = 3;
+            s10_teste:
+                if ((u32)kind < 2) {
                     off = off / 2;
                 }
-                func_8005F5C8(0, mode, 0, off);
+                func_8005F5C8(0, kind, 0, off);
                 D_8009AF9A++;
                 break;
             }
@@ -303,10 +335,11 @@ void func_8004EB00(void)
                 func_8005F180(1);
             }
             func_8005F91C(0, (void *)0, (void *)0, 0);
-            if (b < 0xA) {
-                b = 0xA;
+            cl = b;
+            if (cl < 0xA) {
+                cl = 0xA;
             }
-            func_80059F18(1, -1, 1, b);
+            func_80059F18(1, -1, 1, cl);
             D_8009AF9A++;
             break;
         }
@@ -383,10 +416,11 @@ void func_8004EB00(void)
                 func_8005F180(1);
             }
             func_8005F91C(0, (void *)0, (void *)0, 0);
-            if (b < 0xA) {
-                b = 0xA;
+            cl = b;
+            if (cl < 0xA) {
+                cl = 0xA;
             }
-            func_80059F18(1, -1, 0, b);
+            func_80059F18(1, -1, 0, cl);
             D_8009AF9A++;
             break;
         }
@@ -582,8 +616,10 @@ void func_8004EB00(void)
         }
     dim:
         slot->field_DC0[0] = c0 - 2;
-        slot->field_DC0[1] -= 2;
-        slot->field_DC0[2] -= 2;
+        c0 = slot->field_DC0[1];
+        c1 = slot->field_DC0[2];
+        slot->field_DC0[1] = c0 - 2;
+        slot->field_DC0[2] = c1 - 2;
         break;
     case 41:
         func_80059284(2, 3);
