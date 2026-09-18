@@ -252,10 +252,13 @@ class MemCardWorkControllerOwnershipTests(unittest.TestCase):
 
     @unittest.skipUnless(GCC.is_file(), "needs GCC 2.8.1")
     def test_void_definition_still_leaves_the_mips_result_register(self) -> None:
-        path = ROOT / "src/game/mem_card_find_loaded_entry.c"
+        path = ROOT / "src/game/mem_card_driver.c"
         self.assertIn("void MemCard_FindLoadedEntry(u8 *name)", path.read_text())
-        self.build_object(path, "loaded-entry", "gcc_2_8_1_g8")
+        self.build_object(path, "loaded-entry", "gcc_2_8_1_g8_split")
         assembly = (self.scratch / "loaded-entry.o.compiler.s").read_text()
+        # The unit holds the whole driver; keep only this function's body.
+        assembly = assembly.split("\nMemCard_FindLoadedEntry:", 1)[1]
+        assembly = assembly.split(".end\tMemCard_FindLoadedEntry", 1)[0]
         self.assertIn("jal\tMemCard_FindEntry", assembly)
         after_call = assembly.split("jal\tMemCard_FindEntry", 1)[1]
         self.assertNotRegex(after_call, r"(?m)^\s*\w+\s+\$2\s*,")

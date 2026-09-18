@@ -273,7 +273,11 @@ class MemCardIOControllerTests(unittest.TestCase):
             self.assertTrue(separator)
             marker = "s32 MemCard_ProcessRequest"
             self.assertIn(marker, text)
-            text = preamble + text[text.index(marker):]
+            # The dispatcher is followed in the unit by the loaded-directory
+            # lookup, which the controller fixture does not exercise.
+            end = "/* Declared void, which is how it matched"
+            self.assertIn(end, text)
+            text = preamble + text[text.index(marker):text.index(end)]
             if mutation:
                 edits = {
                     "attempts": ("for (tries = 0xA;;)", "for (tries = 9;;)"),
