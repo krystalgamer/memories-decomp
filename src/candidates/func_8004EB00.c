@@ -2,8 +2,8 @@
  * Model scene mode 15 controller: copies the scene's four effect handlers
  * and view offset, then steps the signed D_8009AF9A phase through lighting,
  * fades, effect requests and the per-slot handler calls. Current best under
- * gcc_2_8_1_g8_split: 1227 instructions against 1227 with opcode distance 36
- * (18 surplus, 18 missing), with no hard register assignments and no inline
+ * gcc_2_8_1_g8_split: 1226 instructions against 1227 with opcode distance 33
+ * (16 surplus, 17 missing), with no hard register assignments and no inline
  * assembly.
  *
  * Levers measured on this body, following the matched sibling func_8004FE2C:
@@ -13,16 +13,33 @@
  * - the diagnostics string and D_800E9ECE use their unsized declaration arms,
  *   which is retail's %hi/%lo form;
  * - the slot key comparisons read the halfword at +0xCF8;
- * - state 10 picks the mode with a comparison chain and halves the offset
- *   at run time;
+ * - state 10 reads its slot key as field_0A[field_DFE], the two-byte view
+ *   asserted at +0xA, because retail adds the selector to the base unscaled
+ *   and loads at +0xD02; indexing the ModelSlot array instead emits a 0xE20
+ *   stride retail does not have;
+ * - state 10's mode arms are goto targets in retail's own address order, with
+ *   one name for the selector and the mode, which retail carries in $a1;
+ * - the two func_80059F18 clamps are a copy and a clamp on a separate local,
+ *   which is retail's move-then-slti-against-an-immediate; a ternary at the
+ *   call site keeps the constant in a register and compares register against
+ *   register;
  * - state 27 falls through to the fade-out test once the handler reports 2;
  * - the fade-out stores live in state 34 and state 27 reaches them by goto.
  *
- * Residual: census addiu -4, addu +1, and +1, beqz -1, bgez +1, bltz -2,
- * j -1, lb +1, lbu -3, lh +1, lui +5, lw +1, nop -5, sll +4, slti +2,
- * sltiu -1, sra -1, subu +1. Retail tests the two mode bytes of each slot
- * separately where gcc merges them into one masked word compare, lays state
- * 10's mode arms out of line, and keeps states 13 and 17 as comparison chains.
+ * Residual, measured on this source, positive meaning retail has more: addiu
+ * +2, addu +1, and -1, beq -1, bgez -1, bltz +2, bne +2, j -2, lb -1, lbu +3,
+ * lh -1, lui -5, lw -1, nop +6, sll -1, slti -2, sra +1. The counts are read
+ * from the encoded fields rather than from mnemonics, with nop kept separate
+ * from sll, and they sum to the one-instruction shortfall.
+ *
+ * The exact 1227 this entry used to report was two faults cancelling: the
+ * 0xE20 stride above is five instructions retail does not have, and removing
+ * it exposed five missing elsewhere. Retail still tests the two mode bytes of
+ * each slot separately where gcc merges them into one masked word compare,
+ * and keeps states 13 and 17 as comparison chains. Measured and not reached:
+ * the case 12/16 difference in four spellings plus an out-of-line arm, and
+ * the state 34 store and load order in four spellings including a
+ * byte-address form, which is the control that rules out aliasing.
  */
 #define MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY
 #include "../types.h"
