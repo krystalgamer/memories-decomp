@@ -18,7 +18,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_800262D4.c"
+SOURCE = REPOSITORY / "src/game/duel_ritual_effect.c"
 START = """
 .text
 .globl _start
@@ -139,6 +139,12 @@ void DisplayObject_StepPositionY(DisplayObjectVelocity *p)
     if (mutation == 1) { R16(p, 0x44) = 1000; R16(p, 0x60) = 1; }
 }
 void SD_SEPlayFull(u32 id) { event(10, id, 0, 0, 0); }
+/* DuelEffect_StartRitual shares the unit; the scenarios never call it, but
+   its references still have to resolve. */
+volatile u32 D_8009B0F4_abs;
+u32 D_8009B134_abs;
+DuelEffectRequest *DuelEffect_CreateRequest(s32 id) { error = 200; return 0; }
+FileTransferDescriptor *func_80029164(s32 slot, s32 value) { error = 201; return 0; }
 void func_8001944C(DisplayObject *p) { event(11, object_id(p), 0, 0, 0); }
 DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *p)
 {
@@ -580,7 +586,8 @@ int main(int argc, char **argv)
 
 
 def include_prefix(path: Path) -> str:
-    text = path.read_text().split("void DuelEffect_ApplyRitual(void)", 1)[0]
+    # The prefix ends at the unit's first function, DuelEffect_StartRitual.
+    text = path.read_text().split("void DuelEffect_StartRitual(void)", 1)[0]
     return re.sub(
         r'^#include "([^"]+)"',
         lambda match: '#include "' + str((path.parent / match[1]).resolve()) + '"',

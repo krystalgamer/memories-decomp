@@ -1274,7 +1274,7 @@
     },
     {
       "address": "0x8002622C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
       "source": "src/game/duel_ritual_effect.c"
     },
@@ -1282,7 +1282,7 @@
       "address": "0x800262D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x768",
-      "source": "src/game/func_800262D4.c"
+      "source": "src/game/duel_ritual_effect.c"
     },
     {
       "address": "0x80026A3C",
