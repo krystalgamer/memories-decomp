@@ -51,7 +51,12 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     }
 
     if (mode != 0) {
-        qsort(D_801845FC[slot], CARD_COUNT, 4, comparators.entries[mode - 1]);
+        qsort(
+            D_801845FC[slot],
+            CARD_COUNT,
+            sizeof(CardCountEntry),
+            comparators.entries[mode - 1]
+        );
     }
 
     D_801A8000[slot].object[0x69] = mode;
