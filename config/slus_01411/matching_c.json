@@ -2474,9 +2474,9 @@
     },
     {
       "address": "0x800358A0",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
-      "source": "src/game/text_encode_decimal_no_padding.c"
+      "source": "src/game/text_encode_decimal_digits.c"
     },
     {
       "address": "0x800358FC",
