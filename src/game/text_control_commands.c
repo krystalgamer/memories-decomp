@@ -112,17 +112,14 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 
 void Text_PushStreamOffset(DuelEffectChannel *arg0)
 {
+    TextStreamOwner *owner = (TextStreamOwner *)arg0;
     s32 c;
-    s32 co;
-    s32 no;
     s32 v;
 
     v = TextStream_ReadU16LE(arg0);
     c = arg0->stream_58;
-    no = (c + 1) * 4;
-    co = c * 4;
-    *(s32 *)((u8 *)arg0 + no) =
-        (*(s32 *)((u8 *)arg0 + co) & 0xFFFF0000) | (v & 0xFFFF);
+    owner->streams[c + 1] =
+        (u8 *)(((u32)owner->streams[c] & 0xFFFF0000) | (v & 0xFFFF));
     arg0->stream_58++;
 }
 
