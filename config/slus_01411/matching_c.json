@@ -6674,9 +6674,9 @@
     },
     {
       "address": "0x800736C4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x40",
-      "source": "src/game/ai_script_print.c"
+      "source": "src/game/ai_script_state_ops.c"
     }
   ],
   "schema": 1
