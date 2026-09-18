@@ -89,7 +89,9 @@ void DuelScene_UpdateExodiaResult(void)
         obj = (DisplayObject *)D_8009B214;
         side = D_8009B1D5;
         D_8009B1B4 =
-            (DuelCardPickCursor *)&D_800E9F10[(u8)side * 0x70];
+            (DuelCardPickCursor *)&D_800E9F10[
+                (u8)side * DUEL_SELECTION_SIDE_SIZE
+            ];
         *(s16 *)&obj->position.h.field_28 = -0x40;
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
