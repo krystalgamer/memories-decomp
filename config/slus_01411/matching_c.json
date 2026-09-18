@@ -6472,13 +6472,13 @@
       "address": "0x8007164C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_results.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x80071688",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_results.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x800716C4",
