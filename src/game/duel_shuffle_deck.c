@@ -93,6 +93,6 @@ void Duel_ShuffleBothDecks(void *arg0, void *arg1)
     char *base = gDuel_awPlayerShuffledDeck;
 
     Duel_ShuffleDeck((s32)arg0, (u8 *)base, (u8 *)(base - 0x54));
-    Duel_ShuffleDeck((s32)arg1, (u8 *)(base + DECK_SIZE * sizeof(u16)),
+    Duel_ShuffleDeck((s32)arg1, (u8 *)&((u16 *)base)[DECK_SIZE],
                      (u8 *)(base - 0x2C));
 }
