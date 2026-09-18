@@ -126,8 +126,9 @@ void func_80045514(void)
             s32 base_offset;
 
             first_word = 0xFFFFFF;
-            e = (SoundCommandPair *)((u32)g_SDValue->field_004E * 8
-                                     + (u32)g_SDValue->field_0058);
+            e = (SoundCommandPair *)(
+                (u32)&((SoundCommandPair *)0)[g_SDValue->field_004E]
+                + (u32)g_SDValue->field_0058);
             second_word = e->a;
 
             D_8009B460->field_10 = 0;
