@@ -133,8 +133,8 @@ The remaining request/sector state declarations are owned by two headers:
 | Owner | Symbols and retained views |
 |---|---|
 | `file_transfer.h` | `D_801D4200` scalar request and same-symbol unsized byte alias for the two slot copies |
-| `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `func_80013C28` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
-| `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `func_800140A0` and incremented by `func_80013C28` |
+| `file_transfer.h` | `D_8009AF18` typed descriptor pointer, one declaration; `File_TransferReadyCallback` reads it through the `FileTransferDescriptor` members, except for the image phase's `value_08`/`value_0C` buffer select, which stays an address sum |
+| `file_transfer.h` | `D_8009B0F8` sector word cursor; `D_8009B114` byte and `D_8009B138` signed-word counters, reset by `func_800140A0` and incremented by `File_TransferReadyCallback` |
 | `file_transfer.h` | `D_8009B11C[1]` and its same-symbol scalar byte alias; retain both addressing forms for command `0x0D`, not a one-byte extent claim |
 | `sound_transfer_lifecycle.h` | `D_8009B460` as `FileRequestSlot *`; plain in the initializer and forced `.data` in the sound candidate |
 
