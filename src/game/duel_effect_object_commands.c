@@ -13,15 +13,14 @@ void func_800389C4(DuelEffectChannel *value)
 
 void func_800389D8(DuelEffectChannel *object)
 {
-    s32 offset = object->stream_58 * 4;
+    TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    *(s32 *)((u8 *)object + offset) += D_8009B34E * 2;
+    owner->streams[object->stream_58] += D_8009B34E * 2;
     value = TextStream_ReadU16LE(object);
-    offset = object->stream_58 * 4;
-    *(s32 *)((u8 *)object + offset) =
-        (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |
-        (value & 0xFFFF);
+    owner->streams[object->stream_58] =
+        (u8 *)(((u32)owner->streams[object->stream_58] & 0xFFFF0000) |
+               (value & 0xFFFF));
 }
 
 void func_80038A44(DuelEffectChannel *object)
