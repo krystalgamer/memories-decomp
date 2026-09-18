@@ -1,34 +1,32 @@
 /*
- * Candidate for func_80035E20, a display-object draw callback (two
- * parameters, the object and its ordering table). Current best under
- * gcc_2_8_1_g8_split_no_strength_reduce: 875 instructions against 875 with
- * an empty opcode census, with no hard register assignments and no inline
- * assembly.
+ * func_80035E20, a display-object draw callback (two parameters, the object
+ * and its ordering table), installed in a display object's +0x4C slot by
+ * func_800391E4. It stands in its own file because it is the one function
+ * in this run measured under gcc_2_8_1_g8_split_no_strength_reduce; its
+ * neighbours use plain gcc_2_8_1_g8_split, which gives 886 instructions
+ * against retail's 875.
  *
  * Levers measured on this body:
  * - the tpage attribute flag is read into `w` before the byte at +0x66, and
- *   that byte load is pinned in a do/while. Together they put the load after
+ *   that byte load is held in a do/while. Together they put the load after
  *   the flag test, which is where retail has it, and they also let the
  *   scheduler split the 0x1F8000A0 constant's lui and ori the way retail
  *   does;
- * - `b` is a u32: its width decides the operand order of the tpage `or`,
- *   where seven spellings of the expression itself tied;
- * - the -fno-strength-reduce profile is the measured one: plain
- *   gcc_2_8_1_g8_split is 886 instructions.
- *
- * Residual: every opcode position matches; five rows differ in registers.
- * After GsSetLsMatrix the target computes the three RotAverageNclip4 vector
- * addresses before materialising -8 and 8, where this source materialises the
- * constants first.
+ * - `b` is a u32: its width decides the operand order of the tpage `or`;
+ * - the four RotAverageNclip4 corner vectors are stored vector by vector
+ *   (x, y, z of each in turn) with literal -8 and 8. Grouping the stores by
+ *   value, or naming the 8, materialises the constants ahead of the three
+ *   vector addresses, which retail computes first.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
-#include "../game/display_object.h"
-#include "../game/duel_effect.h"
+#include "display_object.h"
+#include "duel_effect.h"
 #define GRAPHICS_VIEWPORT_IN_DATA
-#include "../game/graphics_frame.h"
+#include "graphics_frame.h"
+#include "func_80035E20.h"
 
 void func_80035E20(DisplayObject *obj, GsOT *ot)
 {
@@ -55,7 +53,6 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     u32 b;
     s32 v78;
     s32 tt;
-    s16 k8;
     s32 hw;
 
     SetGeomScreen(0x12C);
@@ -360,20 +357,17 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
                 vec->vz = p[-0xC] * 0x10;
                 RotMatrixZYX_gte(vec, mat);
                 GsSetLsMatrix(mat);
-                do {
-                    k8 = 8;
-                } while (0);
                 vec[1].vx = -8;
                 vec[1].vy = -8;
-                vec[2].vy = -8;
-                vec[3].vx = -8;
                 vec[1].vz = 0;
-                vec[2].vx = k8;
+                vec[2].vx = 8;
+                vec[2].vy = -8;
                 vec[2].vz = 0;
-                vec[3].vy = k8;
+                vec[3].vx = -8;
+                vec[3].vy = 8;
                 vec[3].vz = 0;
-                vec[4].vx = k8;
-                vec[4].vy = k8;
+                vec[4].vx = 8;
+                vec[4].vy = 8;
                 vec[4].vz = 0;
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
                                      (long *)&ft4->x0, (long *)&ft4->x1,
