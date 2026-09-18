@@ -98,7 +98,7 @@ void func_80032C48(CardList *list)
                 row->key = row->card_id;
             }
         }
-        qsort(list, n, 0x10, func_80032BD4);
+        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     case 2:
         for (i = 0; i < n; row++, i++) {
@@ -107,7 +107,7 @@ void func_80032C48(CardList *list)
                 row->key = 0;
             }
         }
-        qsort(list, n, 0x10, func_80032BD4);
+        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     case 3:
         for (i = 0; i < n; row++, i++) {
@@ -136,7 +136,7 @@ void func_80032C48(CardList *list)
                 }
             }
         }
-        qsort(list, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
         break;
     case 4:
         for (i = 0; i < n; row++, i++) {
@@ -151,7 +151,7 @@ void func_80032C48(CardList *list)
                     1;
             }
         }
-        qsort(list, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
         break;
     case 5:
         for (i = 0; i < n; row++, i++) {
@@ -166,7 +166,7 @@ void func_80032C48(CardList *list)
                     1;
             }
         }
-        qsort(list, n, 0x10, BuildDeck_CompareCard);
+        qsort(list, n, sizeof(CardListSortItem), BuildDeck_CompareCard);
         break;
     case 6:
         for (i = 0; i < n; row++, i++) {
@@ -176,7 +176,7 @@ void func_80032C48(CardList *list)
                             CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
             }
         }
-        qsort(list, n, 0x10, func_80032BD4);
+        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     case 8:
         for (i = 0; i < n; row++, i++) {
@@ -188,7 +188,7 @@ void func_80032C48(CardList *list)
                 }
             }
         }
-        qsort(list, n, 0x10, func_80032BD4);
+        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     case 9:
         n = list->row_count;
@@ -198,7 +198,7 @@ void func_80032C48(CardList *list)
                 row->key = Rand_GetInterval(0x1000);
             }
         }
-        qsort(list, n, 0x10, func_80032BD4);
+        qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     }
     func_80031E04(list, 8);
