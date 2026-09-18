@@ -3220,7 +3220,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,16,u8 *p = (u8 *)gDuel_awPlayerDeck;
 0x801D0200,gDuel_awPlayerDeck,gDuel_awPlayerDeck,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,16,"void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SI..."
 0x801D0250,gLibrary_abCardChest,gLibrary_abCardChest,0x8002BF3C,Library_MarkOwnedCards,matching_c,game,C,src/game/library_runtime.c,address,8,u8 *p = gLibrary_abCardChest;
-0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x80032370,func_80032370,matching_c,game,C,src/game/duel_reward_compaction.c,address,16,source = gDuel_awRecentCardDrops;
+0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x80032370,func_80032370,matching_c,game,C,src/game/duel_reward_setup.c,address,16,source = gDuel_awRecentCardDrops;
 0x801D07BC,gDuel_awRecentCardDrops,gDuel_awRecentCardDrops,0x800323F8,func_800323F8,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_022bf8.s,address,,"addiu $a2, $v0, %lo(gDuel_awRecentCardDrops) | lui $v0, %hi(gDuel_awRecentCardDrops)"
 0x801D07DC,gCampaignSavedSceneIndex,gCampaignSavedSceneIndex,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,read_write,16,gCampaignSavedSceneIndex[0] = 0x30; | gCampaignSceneIndex = gCampaignSavedSceneIndex[0];
 0x801D1200,D_801D1200,D_801D1200,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,address,8,D_8009B1D8 = D_801D1200; | D_8009B1DC = D_801D1200 + 0x1000; | (+1 more)

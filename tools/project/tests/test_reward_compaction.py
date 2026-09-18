@@ -17,7 +17,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/duel_reward_compaction.c"
+SOURCE = REPOSITORY / "src/game/duel_reward_setup.c"
 START = """
 .text
 .globl _start
@@ -178,12 +178,18 @@ class RewardCompactionTests(unittest.TestCase):
             directory = Path(temporary)
             environment = os.environ.copy()
             environment["TMPDIR"] = str(directory)
-            source = SOURCE
+            # The unit also holds the reward-table transfer, whose graphics
+            # headers are PSX-only; compile the compaction pass on its own
+            # against the header that declares it.
+            unit = SOURCE.read_text()
+            text = ('#include "../types.h"\n#include "duel_reward_setup.h"\n' +
+                    unit[unit.index("/*\n * Reward-drop compaction."):])
+            source = directory / "reward-compaction.c"
             if mutation:
-                text = SOURCE.read_text()
                 self.assertEqual(text.count("*source = 0;"), 1)
                 source = directory / "missing-source-clear.c"
-                source.write_text(text.replace("*source = 0;", "(void)source;"))
+                text = text.replace("*source = 0;", "(void)source;")
+            source.write_text(text)
             witness = directory / "witness.c"
             witness.write_text(WITNESS)
             startup = directory / "start.S"

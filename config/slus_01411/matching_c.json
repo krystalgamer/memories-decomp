@@ -2270,9 +2270,9 @@
     },
     {
       "address": "0x80032370",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/duel_reward_compaction.c"
+      "source": "src/game/duel_reward_setup.c"
     },
     {
       "address": "0x80032B38",
