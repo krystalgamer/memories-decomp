@@ -5,6 +5,9 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
+/* The Game Over package load. File_RequestGameOverPackage queues the package
+   transfer with GameOver_LoadPackageStage as its stage callback. */
+
 void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
@@ -43,3 +46,5 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
     }
 }
+
+void File_RequestGameOverPackage(void){File_RequestAsyncTransfer(0,0,0x2157,0x32,GameOver_LoadPackageStage,0,0);File_WaitForTransfers();}
