@@ -6,16 +6,61 @@
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
  *
- * Built under gcc_2_8_1_g8_split_psyq_gte. 859 instructions against 858.
- * Both returns re-read arg->primp rather than keeping primp live, and the
- * POLY_GT4 arm reads arg->tagp into tg before addPrim; each shortens the
- * primitive cursor's spill.
- * The residual is allocation: this source spills the primitive cursor to
- * the stack where retail spills the hoisted 0xFFFFFF mask, which adds the
- * reloads, and z's divide-by-four lacks retail's duplicated sra. A no-op
- * `rec++; rec--;` after the normal-table load removes the spill, the same
- * tie func_80033DB0's candidate records. The LINE_G4 arm stores the second
- * and third vertices' flags both to scr[2], as retail does.
+ * Built under gcc_2_8_1_g8_split_psyq_gte. 856 instructions against 858,
+ * 835 of them aligned on opcode and registers, in 11 divergent blocks of
+ * which 3 are structural. Alignment is tools/project/align_functions.py; a
+ * block is structural when the two sides differ in length or in opcode
+ * sequence.
+ *
+ * Two edits get that, and they are a COUPLED PAIR: each one alone is worth
+ * little or is worse, and only together do they move the function.
+ *   - a no-op `rec++; rec--;` after the normal-table load, which removes the
+ *     primitive cursor's stack spill. Alone: -4, 746 aligned, 71 blocks, 19
+ *     structural.
+ *   - both returns yielding the live `primp` instead of re-reading
+ *     arg->primp. Alone, without the no-op: +3, 743 aligned, 92 blocks, 33
+ *     structural -- i.e. a WORSE length than the 859/858 this replaces.
+ * Together: -2, 835 aligned, 11 blocks, 3 structural, from a base of +1, 738
+ * aligned, 96 blocks, 39 structural. Only one of the two returns is not
+ * enough (the late one alone -2/767/74/20, the early one alone -4/746/73/21).
+ *
+ * The earlier header treated re-reading arg->primp as a virtue that "shortens
+ * the primitive cursor's spill". Retail HAS that spill: instruction 27 is
+ * `sw $s5,0x14($sp)`, with arg->primp loaded into the callee-saved $s5 and
+ * read at +4 and +2 through it, where this source used the caller-saved $v1
+ * and reused it on the next instruction.
+ *
+ * Measured and dead, recorded so the next attempt does not spend a round on
+ * them. Each is the installed source plus one edit, every run measuring the
+ * unmodified source first as its control:
+ *   - the no-op's POSITION: after vertop, after nortop, before nortop, and in
+ *     the else arm alone all give byte-identical results. What matters is that
+ *     it exists, not where it sits.
+ *   - the `z = (scr[4..7]) / 4 >> 4` spelling at all three sites: split into
+ *     two statements against one name, `/ 64`, and `/ 4 / 16` are identical to
+ *     the no-op alone; only `>> 2 >> 4` moves, and it is -13/714/77/28. The
+ *     old header's claim that z's divide lacks retail's duplicated sra is not
+ *     reachable by any spelling of the division. That duplicated sra is real
+ *     but it is in the ABS3 arm (target 93-97), not in z.
+ *   - the LINE_G4 and POLY_GT4 by-value copies: a typed destination local, a
+ *     cast on the source, the POLY_GT4 sites, and both together are all
+ *     identical to the base. PACKET is `unsigned char`, so the destination
+ *     carries alignment 1, but that is not the lever -- if it were, one of the
+ *     four spellings would have moved.
+ *   - the 0x1F8003E8 literal, which retail materialises with lui/ori where
+ *     this source derives `addiu $s8,$t2,8`: the targeted two-site edit in the
+ *     LINE_G4 arm is -6/733/66/23 and the second site alone is -5/762/70/24.
+ *
+ * A false zero worth keeping: spelling that literal inline at every site
+ * reaches EXACT length (+0) with 757 aligned, 51 blocks and 23 structural.
+ * Ranking on the length key alone would install the worst of the states
+ * measured here.
+ *
+ * The remaining 3 structural blocks: target[125:127], retail's lui/ori pair
+ * against this source's `addiu $s8,$t2,8`; target[346:347], an `addiu
+ * $s0,$s0,52` this source has and retail does not; and one more. The LINE_G4
+ * arm stores the second and third vertices' flags both to scr[2], as retail
+ * does.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -58,6 +103,8 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     rec = (u16 *)(arg->primtop + (primp[1] & mask));
     vertop = arg->vertop;
     nortop = arg->nortop;
+    rec++;
+    rec--;
 
     if (flags & 4) {
         s32 x;
@@ -71,7 +118,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             func_80033CF8(x, y, w);
             rec += 14;
         }
-        return (u32 *)arg->primp + 2;
+        return (u32 *)primp + 2;
         } while (0);
     }
 
@@ -259,5 +306,5 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         }
     }
     D_800FE240 = (u32 *)out;
-    return (u32 *)arg->primp + 2;
+    return (u32 *)primp + 2;
 }
