@@ -13,7 +13,7 @@
 #include "game_over.h"
 #include "../unmatched.h"
 
-void func_8003C950(void)
+void GameOver_Init(void)
 {
     DisplayObject *object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
