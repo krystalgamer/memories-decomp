@@ -262,7 +262,7 @@ therefore supplies zero color, not a general "fully faded" or "finished"
 sentinel. Completion is based on the current level reaching its target,
 which need not be `0xFF`.
 
-The [`Fade_Update`](../src/game/fade_update.c) source confirms that this
+The [`Fade_Update`](../src/game/fade_runtime.c) source confirms that this
 separate control byte is not a simple record of fade-in versus fade-out.
 When an active update
 enters with `level == target_level == 0xFF`, `0x80015384..0x800153C8` clears

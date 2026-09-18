@@ -17,10 +17,10 @@ without `extern` and without an initializer, which the compiler emits as a
 common symbol. Those look like exactly the same mistake and are not one. The
 spelling is a deliberate `-G` lever: a common symbol is placed in small data
 and addressed through `$gp`, and writing `extern` instead moves it. Twelve
-of them exist today. Rewriting three more in `fade_update.c` -- whose profile
-`gcc_2_8_1_cc_g8_as_g1_split_comm` is named for this very property -- shrank
-the executable from 0x1D0800 to 0x1D07F4 bytes; #3859 has since moved that
-unit to src/candidates/func_80015310.c. A check that flagged them would
+of them exist today. Rewriting three more in `Fade_Update` -- whose profile
+`gcc_2_8_1_cc_g8_as_g1_split_comm` was named for this very property -- shrank
+the executable from 0x1D0800 to 0x1D07F4 bytes; it now builds as matching C
+inside `fade_runtime.c` under `gcc_2_8_1_g8_split_comm`. A check that flagged them would
 report twelve defects, all of them load-bearing, so it reports none.
 
 The distinction is the point: an *initialized* definition that duplicates an

@@ -821,7 +821,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,32,D_8009B0D8 = 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,32,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009B0D8 = D_8009B0C1 + 1;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x800151D8,Fade_StepBands,matching_c,game,C,src/game/fade_step_bands.c,address,32,state->field_08 + step * *(volatile s32 *)&D_8009B0D8; | state->field_08 - step * *(volatile s32 *)&D_8009B0D8;
-0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,address,32,delta = p->step * *(volatile s32 *)&D_8009B0D8;
+0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,address,32,delta = p->step * *(volatile s32 *)&D_8009B0D8;
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039AFC,func_80039AFC,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,record->field_04 = record->field_04 + D_8009B0D8 * 16; | record->field_05 = record->field_05 + D_8009B0D8 * 16; | (+1 more)
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x80039BE0,func_80039BE0,matching_c,game,C,src/game/display_object_fade_callbacks.c,read,32,v = p->field_04 - (D_8009B0D8 << 4); | v = p->field_06 - (D_8009B0D8 << 4);
 0x8009B0D8,D_8009B0D8,D_8009B0D8,0x8003AAE4,func_8003AAE4,matching_c,game,C,src/game/display_effect_update_callbacks.c,read,32,v = (u16)p->field_40 + D_8009B0D8 * 8;
@@ -1007,20 +1007,20 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B134,D_8009B134,D_8009B134_abs,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,32,if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
 0x8009B138,D_8009B138,D_8009B138,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B138 = (s32)((u32)D_8009B138 + 1);
 0x8009B138,D_8009B138,D_8009B138,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,write,32,D_8009B138 = 0;
-0x8009B140,D_8009B140,D_8009B140,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B140 = 0;
+0x8009B140,D_8009B140,D_8009B140,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B140 = 0;
 0x8009B140,D_8009B140,D_8009B140,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_runtime.c,read,8,depth = D_8009B140;
 0x8009B140,D_8009B140,D_8009B140,0x800283F4,DuelEffect_UpdateCardViewerState,matching_c,game,C,src/game/func_800283F4.c,write,8,D_8009B140 = *(u8 *)&D_8009AF74[1] - 0x13;
 0x8009B140,D_8009B140,D_8009B140,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,write,8,D_8009B140 = *(u8 *)&D_8009AF74[1] - 8;
 0x8009B140,D_8009B140,D_8009B140,0x800388D8,Text_ApplyFadeCommand,matching_c,game,C,src/game/func_800388D8.c,write,8,D_8009B140 = *(u8 *)&D_8009AF74[1] + 9; | D_8009B140 = 4;
 0x8009B141,D_8009B141,D_8009B141,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) { | if (D_8009B141 != 0) {
-0x8009B141,D_8009B141,D_8009B141,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read_write,8,D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY; | if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
+0x8009B141,D_8009B141,D_8009B141,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,read_write,8,D_8009B141 = FADE_ORDERING_TABLE_HIDE_SECONDARY; | if ((D_8009B141 & FADE_ORDERING_TABLE_HIDE_SECONDARY) == 0) {
 0x8009B141,D_8009B141,D_8009B141,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_runtime.c,read,8,(D_8009B141 != 0 && rec->level != 0xFF)) {
 0x8009B141,D_8009B141,D_8009B141,0x80015780,Fade_InitIn,matching_c,game,C,src/game/fade_runtime.c,read_write,8,D_8009B141 &= ~FADE_ORDERING_TABLE_HIDE_SECONDARY;
 0x8009B141,D_8009B141,D_8009B141,0x80015CFC,Fade_EnableOrderingTables,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B141 = FADE_ORDERING_TABLE_ACTIVE;
 0x8009B141,D_8009B141,D_8009B141,0x80015D0C,Fade_DisableOrderingTables,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B141 = 0;
 0x8009B142,D_8009B142,D_8009B142,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0].b0 = D_8009B142;
 0x8009B142,D_8009B142,D_8009B142,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B142 = 1;
-0x8009B142,D_8009B142,D_8009B142,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B142 = D_8009B14A; | D_8009B142 = p->tint_b;
+0x8009B142,D_8009B142,D_8009B142,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B142 = D_8009B14A; | D_8009B142 = p->tint_b;
 0x8009B142,D_8009B142,D_8009B142,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B142 = 0xFF;
 0x8009B142,D_8009B142,D_8009B142,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B142 = 1;
 0x8009B142,D_8009B142,D_8009B142,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B142[0] = 1;
@@ -1029,7 +1029,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B142,D_8009B142,D_8009B142,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B142; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B143,D_8009B143,D_8009B143,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0].g0 = D_8009B143;
 0x8009B143,D_8009B143,D_8009B143,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B143 = 1;
-0x8009B143,D_8009B143,D_8009B143,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B143 = D_8009B14B; | D_8009B143 = p->tint_g;
+0x8009B143,D_8009B143,D_8009B143,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B143 = D_8009B14B; | D_8009B143 = p->tint_g;
 0x8009B143,D_8009B143,D_8009B143,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B143 = 0xFF;
 0x8009B143,D_8009B143,D_8009B143,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B143 = 1;
 0x8009B143,D_8009B143,D_8009B143,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B143[0] = 1;
@@ -1038,7 +1038,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B143,D_8009B143,D_8009B143,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B143; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,D_800FE048[0].r0 = D_8009B144;
 0x8009B144,D_8009B144,D_8009B144,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B144 = 1;
-0x8009B144,D_8009B144,D_8009B144,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B144 = D_8009B14C; | D_8009B144 = p->tint_r;
+0x8009B144,D_8009B144,D_8009B144,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B144 = D_8009B14C; | D_8009B144 = p->tint_r;
 0x8009B144,D_8009B144,D_8009B144,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B144 = 0xFF;
 0x8009B144,D_8009B144,D_8009B144,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B144 = 1;
 0x8009B144,D_8009B144,D_8009B144,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B144[0] = 1;
@@ -1046,7 +1046,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B144,D_8009B144,D_8009B144,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,read,8,"ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B144,D_8009B144,D_8009B144,0x8005BB7C,Movie_StopStream,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"*q++ = D_8009B144; | ClearImage(&rect, D_8009B144, D_8009B143, D_8009B142);"
 0x8009B145,D_8009B145,D_8009B145,0x800151B0,Fade_Init,matching_c,game,C,src/game/fade_init.c,write,8,D_8009B145 = 0;
-0x8009B145,D_8009B145,D_8009B145,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B145 = 0;
+0x8009B145,D_8009B145,D_8009B145,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B145 = 0;
 0x8009B145,D_8009B145,D_8009B145,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B145 = 1;
 0x8009B145,D_8009B145,D_8009B145,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,read,8,if (D_8009B145 != 0) {
 0x8009B145,D_8009B145,D_8009B145,0x8001581C,Fade_InitInColor,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B145 = 1;
@@ -1087,15 +1087,15 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,read,16,dx = gGraphics_sViewportY;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8004158C,DisplayObject_RenderSpriteSheet,matching_c,game,C,src/game/display_object_render_sprite_sheet.c,read,16,y -= gGraphics_sViewportY;
 0x8009B14A,D_8009B14A,D_8009B14A,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B14A = 1;
-0x8009B14A,D_8009B14A,D_8009B14A,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read,8,D_8009B142 = D_8009B14A;
+0x8009B14A,D_8009B14A,D_8009B14A,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,read,8,D_8009B142 = D_8009B14A;
 0x8009B14A,D_8009B14A,D_8009B14A,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14A = 1;
 0x8009B14A,D_8009B14A,D_8009B14A,0x80015870,func_80015870,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14A = 0xFF;
 0x8009B14B,D_8009B14B,D_8009B14B,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B14B = 1;
-0x8009B14B,D_8009B14B,D_8009B14B,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read,8,D_8009B143 = D_8009B14B;
+0x8009B14B,D_8009B14B,D_8009B14B,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,read,8,D_8009B143 = D_8009B14B;
 0x8009B14B,D_8009B14B,D_8009B14B,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14B = 1;
 0x8009B14B,D_8009B14B,D_8009B14B,0x80015870,func_80015870,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14B = 0xFF;
 0x8009B14C,D_8009B14C,D_8009B14C,0x80013154,func_80013154,matching_c,game,C,src/game/main_services.c,write,8,D_8009B14C = 1;
-0x8009B14C,D_8009B14C,D_8009B14C,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read,8,D_8009B144 = D_8009B14C;
+0x8009B14C,D_8009B14C,D_8009B14C,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,read,8,D_8009B144 = D_8009B14C;
 0x8009B14C,D_8009B14C,D_8009B14C,0x8001572C,func_8001572C,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14C = 1;
 0x8009B14C,D_8009B14C,D_8009B14C,0x80015870,func_80015870,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B14C = 0xFF;
 0x8009B150,D_8009B150,D_8009B150,0x80019608,DuelScene_UpdateCardUse,matching_c,game,C,src/game/func_80019608.c,read_write,16,"D_8009B150 = *(u16 *)&slot->card_id; | DuelEffect_StartCardEffect((s16)D_8009B150, 0); | (+1 more)"
@@ -2432,7 +2432,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC0,D_800E9EC0,D_800E9EC0,0x80014C40,func_80014C40,matching_c,game,C,src/game/func_80014294.c,read,8,n = *(s32 *)D_800E9EC0 + p->field_04;
 0x800E9EC8,gFade_State,gFade_State,0x800151B0,Fade_Init,matching_c,game,C,src/game/fade_init.c,address,,FadeTransitionState *state = &gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x800151D8,Fade_StepBands,matching_c,game,C,src/game/fade_step_bands.c,address,,FadeTransitionState *state = &gFade_State;
-0x800E9EC8,gFade_State,gFade_State,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,read_write,,f = gFade_State.flags; | g = gFade_State.flags; | (+6 more)
+0x800E9EC8,gFade_State,gFade_State,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,read_write,,f = gFade_State.flags; | g = gFade_State.flags; | (+6 more)
 0x800E9EC8,gFade_State,D_800E9EC8_arr|gFade_State,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_runtime.c,read,8,if (!(gFade_State.flags & FADE_FLAG_KEEP_OVERLAY)) { | if (gFade_State.flags & FADE_FLAG_KEEP_OVERLAY) { | (+3 more)
 0x800E9EC8,gFade_State,gFade_State,0x800156B8,Fade_FillBandLevels,matching_c,game,C,src/game/fade_runtime.c,address,,u8 *p = (u8 *)&gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x800156DC,func_800156DC,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
@@ -2464,7 +2464,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,gFade_State,gFade_State,0x800388D8,Text_ApplyFadeCommand,matching_c,game,C,src/game/func_800388D8.c,write,,gFade_State.step = 4;
 0x800E9EC8,gFade_State,gFade_State,0x8003C950,GameOver_Init,matching_c,game,C,src/game/game_over.c,write,,gFade_State.step = 2;
 0x800E9EC8,gFade_State,gFade_State,0x8003CA5C,func_8003CA5C,matching_c,game,C,src/game/game_over.c,read,,if (gFade_State.flags & FADE_FLAG_ACTIVE) {
-0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_800E9ECC[0] = lvl;
+0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_runtime.c,write,8,D_800E9ECC[0] = lvl;
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,write,8,D_800E9ECC[0] = 0xFF;
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,8,if (!(D_800E9ECE[0] & 0x80) && func_80049120() == 0) { | if (!(D_800E9ECE[0] & 0x80)) {
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8002ACA4,func_8002ACA4,matching_c,game,C,src/game/library_runtime.c,read,8,if (!(D_800E9ECE[0] & 0x80) && state[3] == 0) { | if (state[4] != 1 && !(D_800E9ECE[0] & 0x80)) {
