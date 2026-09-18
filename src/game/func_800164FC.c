@@ -7,6 +7,7 @@
 #include "sorted_entry.h"
 #include "duel_card.h"
 #include "display_projection.h"
+#include "func_80015EF4.h"
 #include "../unmatched.h"
 
 /* Primes the two scratchpad primitives func_80015EF4 draws every field card
@@ -87,7 +88,7 @@ void func_800164FC(void) {
                     goto next;
                 }
                 *p4 = a->field_0C;
-                func_80015EF4(e, (u8 *)p3, (u8 *)p1, p4);
+                func_80015EF4(e, p3, p1, p4);
             }
         }
         n++;
@@ -109,7 +110,7 @@ void func_800164FC(void) {
                     goto next2;
                 }
                 *p4 = a->field_0C;
-                func_80015EF4(e, (u8 *)p3, (u8 *)p1, p4);
+                func_80015EF4(e, p3, p1, p4);
             }
         }
         n++;

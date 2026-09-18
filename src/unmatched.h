@@ -232,11 +232,8 @@ void func_80034830(void);
 void func_8004EB00(void);
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 
-/* func_800482B0 is now owned by sound_voice_allocator.h.
- * func_80015EF4 was called implicitly. It takes the
- * caller's record and scratch buffers; void * preserves the record boundary
- * without importing a subsystem type into this root header. */
-void func_80015EF4(void *, u8 *, u8 *, s32 *);
+/* func_800482B0 is now owned by sound_voice_allocator.h, and func_80015EF4
+ * has matched and is declared by game/func_80015EF4.h. */
 
 /* This undefined global is declared identically by every consumer and
  * only ever read or written as a scalar.

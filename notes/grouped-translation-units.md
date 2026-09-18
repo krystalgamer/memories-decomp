@@ -394,8 +394,9 @@ matching C built from typed scratchpad stores and the official Psy-Q GTE
 macros under `gcc_2_8_1_g8_split_no_strength_reduce_psyq_rtps`; the same
 normalization path also promoted `func_800178BC.c` and `func_8001B0CC.c`.
 Those one-function sources remain boundaries rather than a groupable
-translation unit. The remaining source-authored encoding is confined to the
-unmatched `src/candidates/func_80015EF4.c`.
+translation unit. `func_80015EF4.c` was the last source-authored encoding; it
+is now matching C under `gcc_2_8_1_g8_split_psyq_rtps` with four
+`gte_ldv0`/`gte_rtps`/`gte_stsxy` groups.
 
 `display_projection.c` used to be an example here and no longer carries the
 encoding at all. #3859/#3904 moved `func_80015D18` and `func_80015DFC` out of
