@@ -15,6 +15,7 @@
  * inputs - its DIVPOLYGON4 at 0x1F800000, the colour at 0x1F800280 and the
  * four texture coordinates from 0x1F800290. */
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
 #define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
 #define POLY_FT4_VIEW(packet) ((POLY_FT4 *)(packet))
@@ -34,13 +35,13 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
 
     switch ((u32)mode >> 16) {
     case 1:
-        GsSortFastSprite((GsSPRITE *)sprite, (GsOT *)ot, pri);
+        GsSortFastSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
         return;
     case 2:
-        GsSortFlipSprite((GsSPRITE *)sprite, (GsOT *)ot, pri);
+        GsSortFlipSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
         return;
     case 3:
-        GsSortSprite((GsSPRITE *)sprite, (GsOT *)ot, pri);
+        GsSortSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
         return;
     case 4: {
         if ((u32)sprite & 0x04000000) {
