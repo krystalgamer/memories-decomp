@@ -16,7 +16,7 @@
    semi-transparency) and the texture fields of a POLY_GT4 at 0x1F800180 --
    and hands each occupied card of both sides to it, or to func_80015DFC for
    cards flagged 0x400. */
-void func_800164FC(void) {
+void Duel_DrawFieldCards(void) {
     DuelCardRecord *e;
     DisplayObject *a;
     POLY_FT4 *p1;

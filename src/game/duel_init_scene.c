@@ -152,7 +152,7 @@ void Duel_InitScene(void)
     obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
     prev = (u8 *)D_8009B21C;
     obj->field_50.word = (s32)prev;
-    D_800E9DB0[3] = func_800164FC;
+    D_800E9DB0[3] = Duel_DrawFieldCards;
     if (D_8009B369 != 1) {
         p = 0;
         D_8009B1DC = 0;

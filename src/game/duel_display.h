@@ -11,6 +11,6 @@
 #define DUEL_CARD_READBACK_WORD_COUNT \
     (DUEL_CARD_READBACK_WIDTH_WORDS * DUEL_CARD_READBACK_HEIGHT)
 
-void func_800164FC(void);
+void Duel_DrawFieldCards(void);
 
 #endif

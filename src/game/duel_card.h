@@ -9,7 +9,7 @@
 
 /* pad_08 is not unknown: func_80015DFC takes this same 0x1C record as
  * DisplayProjectionTrackedObject and writes its projected screen_x and
- * screen_y into 0x08 and 0x0A. func_800164FC walks D_801A7B64 as card
+ * screen_y into 0x08 and 0x0A. Duel_DrawFieldCards walks D_801A7B64 as card
  * records and hands them straight to it, which is what ties the two
  * views together. The remaining disagreement is 0x18: table_index here,
  * s8 field_18 there, and func_80015DFC's `< 0xF` test needs the signed

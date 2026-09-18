@@ -69,14 +69,14 @@ extern SortedEntry *D_8009B304 __attribute__((section(".data")));
 extern SortedEntry *D_8009B304;
 #endif
 /* The entry count, saved by SortedEntry_SortAndRelink across the sort and
- * compared against D_8009B314 by the walk in func_800164FC. */
+ * compared against D_8009B314 by the walk in Duel_DrawFieldCards. */
 #ifdef SORTED_ENTRY_STATE_IN_DATA
 extern u32 D_8009B308 __attribute__((section(".data")));
 #else
 extern u32 D_8009B308;
 #endif
 /* Flag word.  func_80035680 sets bit 2 when it opens the list and
- * SortedEntry_SortAndRelink clears it again. func_800164FC tests bit 1 and
+ * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
  * clears bits 0 and 1; nothing in the decompiled tree sets either, so what
  * raises the flag it tests is not known here.  func_80035668 writes the word
  * wholesale, and both of its call sites pass 0. */

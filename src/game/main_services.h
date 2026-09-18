@@ -21,7 +21,7 @@
  * This is a registry of independent slots, NOT a chain: no slot is called with
  * arguments, none returns a value, and nothing enforces an order beyond the
  * index. Slot 3 is stored by Duel_InitScene (src/game/duel_init_scene.c:155,
- * `D_800E9DB0[3] = func_800164FC;`; Duel_InitScene.s:207-208), func_8002BFCC
+ * `D_800E9DB0[3] = Duel_DrawFieldCards;`; Duel_InitScene.s:207-208), func_8002BFCC
  * (func_8002BD0C.c:189, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation
  * (src/overlays/overworld/set_location.c:56,
