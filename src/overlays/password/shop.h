@@ -43,7 +43,7 @@ extern u8 D_801B1245[];
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
 void Password_InitShopScreen(void);
 void Password_UpdateShopScreen(void);
-void Password_UpdateDigitCursor(u8 *object);
+void Password_UpdateDigitCursor(PasswordCursorView *object);
 void Password_UpdateDigitCursorDecoration(u8 *object);
 /* Retain caller setup; the selected card comes from cached slot 0. */
 void Password_RecreateCardPreview(s32 ignored);

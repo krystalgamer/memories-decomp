@@ -106,31 +106,26 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     return object;
 }
 
-void Password_UpdateDigitCursor(u8 *object)
+void Password_UpdateDigitCursor(PasswordCursorView *object)
 {
     s16 remaining;
 
-    ((PasswordCursorView *)object)->phase += 1;
-    if ((((PasswordCursorView *)object)->updateFlags & 0x40) != 0) {
+    object->phase += 1;
+    if ((object->updateFlags & 0x40) != 0) {
         if (DisplayObject_MarkInitialized(
                 (DisplayObjectLifecycle *)object) == 0) {
-            DisplayObject_ResetVelocity(object);
-            ((PasswordCursorView *)object)->step_x =
-                ((((PasswordCursorView *)object)->target_x -
-                  ((PasswordCursorView *)object)->x) << 8) /
-                ((PasswordCursorView *)object)->timer;
-            ((PasswordCursorView *)object)->step_y =
-                ((((PasswordCursorView *)object)->target_y -
-                  ((PasswordCursorView *)object)->y) << 8) /
-                ((PasswordCursorView *)object)->timer;
+            DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+            object->step_x =
+                ((object->target_x - object->x) << 8) / object->timer;
+            object->step_y =
+                ((object->target_y - object->y) << 8) / object->timer;
         }
-        DisplayObject_StepPositionXY(object);
-        remaining = (u16)((PasswordCursorView *)object)->timer - 1;
-        ((PasswordCursorView *)object)->timer = remaining;
+        DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+        remaining = (u16)object->timer - 1;
+        object->timer = remaining;
         if (remaining <= 0) {
-            *(s32 *)&((PasswordCursorView *)object)->x =
-                *(s32 *)&((PasswordCursorView *)object)->target_x;
-            ((PasswordCursorView *)object)->updateFlags &= 0x3F;
+            *(s32 *)&object->x = *(s32 *)&object->target_x;
+            object->updateFlags &= 0x3F;
         }
     }
 }
@@ -231,7 +226,8 @@ void Password_InitShopScreen(void)
     *(u32 *)(o + 4) |= (GsALON | GsAONE);
     DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset(o, 10);
-    *(PasswordCursorUpdate *)(o + 36) = Password_UpdateDigitCursor;
+    *(PasswordCursorUpdate *)(o + 36) =
+        (PasswordCursorUpdate)Password_UpdateDigitCursor;
     Password_SetDigitCursorTarget(o);
     hook = Password_UpdateDigitCursorDecoration;
     slot = D_8016D440;
