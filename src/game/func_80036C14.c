@@ -33,7 +33,7 @@ loop_check:
     goto loop_check;
 }
 
-void func_80036C14(DuelEffectChannel *p, s32 a)
+void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
     DuelEffectEntry *q;
     s16 *r;
