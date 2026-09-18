@@ -37,7 +37,7 @@
      buys the assembler macro form these functions need:
          src/game/duel_init_scene.c, func_80024E58.c (gcc_2_8_1_g8_split),
          main_run_animated_battle.c (gcc_2_8_1_g8_split_comm),
-         ai_script_load_terrain.c (gcc_2_8_1_g8_split)
+         ai_script_load_duel_globals.c (gcc_2_8_1_g8_split)
              extern u8 gDuel_bTerrain __attribute__((section(".data")));
 
      func_80024E58 once needed a NUMBER instead. It matched under a profile
