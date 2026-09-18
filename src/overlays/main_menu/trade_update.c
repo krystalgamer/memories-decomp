@@ -89,6 +89,8 @@ extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
 #define D_80185C8C D_80185C8C_words
+#define MAIN_MENU_TRADE_BLOCK_INDEX(byte_offset) \
+    ((byte_offset) / sizeof(MainMenuTradeBlock16))
 
 /*
  * Exact pure-C match under gcc_2_8_1_g0_split. Natural restore-pointer roles
@@ -147,10 +149,15 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         if (result == 1) {
             destination = (MainMenuTradeBlock16 *)D_801D1200;
-            source2 = destination + 256;
-            destination2 = destination + 360;
-            source = destination + 104;
-            end = destination + 168;
+            source2 = destination +
+                MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_SLOT_STRIDE);
+            destination2 = destination + MAIN_MENU_TRADE_BLOCK_INDEX(
+                TWO_PLAYER_SAVE_SLOT_STRIDE + SAVE_DATA_STATE_SIZE
+            );
+            source = destination +
+                MAIN_MENU_TRADE_BLOCK_INDEX(SAVE_DATA_STATE_SIZE);
+            end = source +
+                MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_TRANSFER_SIZE);
             do {
                 *destination = *source;
                 source++;
@@ -158,7 +165,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             } while (source != end);
             source = source2;
             destination = destination2;
-            end = destination + 64;
+            end = destination +
+                MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_TRANSFER_SIZE);
             do {
                 *source = *destination;
                 destination++;
@@ -188,12 +196,21 @@ s32 MainMenu_UpdateTradeScreen(void)
 
     if (D_80185CD0 != 0) {
         base = (MainMenuTradeBlock16 *)D_801D1200;
-        backup_source2 = base + 256;
-        backup_destination2 = base + 360;
-        save_destination = base + 104;
+        backup_source2 = base +
+            MAIN_MENU_TRADE_BLOCK_INDEX(TWO_PLAYER_SAVE_SLOT_STRIDE);
+        backup_destination2 = base + MAIN_MENU_TRADE_BLOCK_INDEX(
+            TWO_PLAYER_SAVE_SLOT_STRIDE + SAVE_DATA_STATE_SIZE
+        );
+        save_destination = base +
+            MAIN_MENU_TRADE_BLOCK_INDEX(SAVE_DATA_STATE_SIZE);
         save_source = base;
-        counts[0] = (u8 *)(base + 109);
-        counts[1] = (u8 *)(base + 365);
+        counts[0] = (u8 *)(base + MAIN_MENU_TRADE_BLOCK_INDEX(
+            SAVE_DATA_STATE_SIZE + SAVE_DATA_CARD_QUANTITIES_OFFSET
+        ));
+        counts[1] = (u8 *)(base + MAIN_MENU_TRADE_BLOCK_INDEX(
+            TWO_PLAYER_SAVE_SLOT_STRIDE + SAVE_DATA_STATE_SIZE +
+                SAVE_DATA_CARD_QUANTITIES_OFFSET
+        ));
         *(MainMenuTradeBlock1024 *)save_destination =
             *(MainMenuTradeBlock1024 *)save_source;
         save_source = backup_destination2;
