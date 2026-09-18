@@ -115,7 +115,7 @@ void func_800559D4(s32 index)
         do { base = (s32)D_800F2C40; } while (0);
         other = (ModelSlot *)(other_offset + base);
         own_offset = index * MODEL_SLOT_SIZE;
-        stat_base = base + 0xCF8;
+        stat_base = base + (u32)&((ModelSlot *)0)->field_CF8;
         own_record = own_offset + stat_base;
         other_record = other_offset + stat_base;
         if (other->field_DFF != 0) {
