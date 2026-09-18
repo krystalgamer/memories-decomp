@@ -45,8 +45,8 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
     s32 work;
     s32 red, green, blue;
 
-    memset(&rotation, 0, 8);
-    memset(&position, 0, 8);
+    memset(&rotation, 0, sizeof(rotation));
+    memset(&position, 0, sizeof(position));
     scale = D_8001185C;
     effect = data;
     func_80058DCC();
