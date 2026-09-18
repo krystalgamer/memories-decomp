@@ -186,10 +186,10 @@ void Password_RecreateCardPreview(s32 ignored)
 void Password_InitShopScreen(void)
 {
     s32 i;
-    u8 *o;
-    u8 *cardCache;
-    u8 **slot;
-    PasswordCursorUpdate hook;
+    DisplayObject *o;
+    DuelEffectResourceRecord *cardCache;
+    DisplayObject **slot;
+    DisplayObjectCallback hook;
     u8 *p;
 
     i = 7;
@@ -204,45 +204,47 @@ void Password_InitShopScreen(void)
     Password_RefreshDigitDisplay();
     Password_RefreshStarchipDisplay();
     Password_CreateMessageBox(226, 1);
-    D_8016D430 = (u8 *)D_800EA0E8;
+    D_8016D430 = D_800EA0E8;
     func_80029574(0);
     cardCache = D_8016D430;
-    *(s16 *)(cardCache + 40) = 320;
-    *(s16 *)(cardCache + 42) = 256;
-    *(s16 *)(cardCache + 44) = 512;
-    *(s16 *)(cardCache + 46) = 240;
+    cardCache->src_x = 320;
+    cardCache->src_y = 256;
+    cardCache->field_2C = 512;
+    cardCache->field_2E = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
     DisplayObject_SetDepthOffset(o, -8);
-    *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    o->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(
-        (DisplayObject *)o, 256, 120, 32, 32, 16, 128, 30, 256, 240
+        o, 256, 120, 32, 32, 16, 128, 30, 256, 240
     );
-    *(u32 *)(o + 4) &= ~GsROTOFF;
-    *(s16 *)(o + 72) = 13;
-    *(s16 *)(o + 74) = 13;
-    *(u32 *)(o + 4) |= (GsALON | GsAONE);
+    o->attribute &= ~GsROTOFF;
+    o->field_48.h.field_48 = 13;
+    o->field_48.h.field_4A = 13;
+    o->attribute |= (GsALON | GsAONE);
     DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset(o, 10);
-    *(PasswordCursorUpdate *)(o + 36) =
-        (PasswordCursorUpdate)Password_UpdateDigitCursor;
-    Password_SetDigitCursorTarget(o);
+    o->update = (DisplayObjectCallback)Password_UpdateDigitCursor;
+    Password_SetDigitCursorTarget((u8 *)o);
     hook = Password_UpdateDigitCursorDecoration;
     slot = D_8016D440;
-    *(u32 *)(o + 48) = *(u32 *)(o + 24);
+    /* A non-struct store, through the union's address: as o->field_30.word
+       GCC lets the gPassword_pDigitCursorWidget store pass it, and the
+       target copies the position first. */
+    *(u32 *)&o->field_30 = *(u32 *)&o->field_18;
     gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
     i = 0;
     do {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteResource((DisplayObject *)o, 3, 1, i, 11, 524);
-        *(u32 *)(o + 4) |= GsALON;
+        DisplayObject_ConfigureSpriteResource(o, 3, 1, i, 11, 524);
+        o->attribute |= GsALON;
         DisplayObject_SelectOrderingTable1(o);
         DisplayObject_SetDepthOffset(o, 8);
-        *(PasswordCursorUpdate *)(o + 36) = hook;
-        *(u16 *)(o + 8) |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
-                           DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        o->update = hook;
+        o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         *slot = o;
         i++;
         slot++;

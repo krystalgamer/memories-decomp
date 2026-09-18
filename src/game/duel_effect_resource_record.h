@@ -11,7 +11,7 @@
  * textures from a single source origin, and casts each of the four
  * destination rectangles to RECT before handing it to LoadImage, so the
  * layout is four RECTs followed by that origin. */
-typedef struct {
+typedef struct DuelEffectResourceRecord {
     /* func_80029528 hands both of these to DisplayObject_ReleaseIfPresent, which takes a
      * void *object, and then clears them -- so the two leading words are
      * display-object pointers being released, not padding. */
@@ -72,10 +72,10 @@ typedef char DuelEffectResourceRecord_field_3C_offset_must_be_0x3C[
  * already include this header, which exists to describe one of its entries,
  * so this is where it belongs.
  *
- * src/overlays/password/shop.c includes it too. It never indexes the array --
- * the one use is `D_8016D430 = (u8 *)D_800EA0E8`, which takes the address
- * only -- so it casts at that site rather than keeping a private u8 []
- * spelling. */
+ * src/overlays/password/shop.c includes it too. It never indexes the array:
+ * Password_InitShopScreen parks the first record in D_8016D430 and sets its
+ * source rectangle through that pointer, which module_state.h declares by
+ * this header's struct tag. */
 extern DuelEffectResourceRecord D_800EA0E8[];
 
 #endif
