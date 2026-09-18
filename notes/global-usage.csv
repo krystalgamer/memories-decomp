@@ -109,8 +109,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800118CC,D_800118CC,D_800118CC,0x80070D00,AiScript_Call,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);"
 0x800118CC,D_800118CC,D_800118CC,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,"printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);"
 0x800118E4,D_800118E4,D_800118E4,0x80070DA8,AiScript_Return,matching_c,game,C,src/game/ai_script_control_flow.c,address,8,printf(D_800118E4);
-0x80011908,D_80011908,D_80011908,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,printf(D_80011908);
-0x80011918,D_80011918,D_80011918,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_print.c,address,8,"printf(D_80011918, checkpoint);"
+0x80011908,D_80011908,D_80011908,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,printf(D_80011908);
+0x80011918,D_80011918,D_80011918,0x800736C4,AiScript_Print,matching_c,game,C,src/game/ai_script_state_ops.c,address,8,"printf(D_80011918, checkpoint);"
 0x8009078C,gFile_apszName,gFile_apszName,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,32,name = gFile_apszName;
 0x800907AC,D_800907AC,D_800907AC,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,address,,"addiu $a3, $a3, %lo(D_800907AC) | addiu $t0, $t0, %lo(D_800907AC) | (+2 more)"
 0x800907AC,D_800907AC,D_800907AC,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,16,D_800907AC[D_8009B1D5][source->field_18][source->y]);

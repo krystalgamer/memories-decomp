@@ -8,6 +8,7 @@
 #include "duel_card_layout.h"
 #define D_800EAE88_AS_BYTES
 #define D_800EAE88_VISIBLE
+#include "../psyq/stdio.h"
 #include "../unmatched.h"
 
 /* The AI script VM's state opcodes, eleven former sources in address order:
@@ -208,4 +209,12 @@ void AiScript_Add(void)
 void AiScript_LoadGuardianStarChoice(void)
 {
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+}
+
+void AiScript_Print(void)
+{
+    int checkpoint = AiScript_ReadByte();
+
+    printf(D_80011908);
+    printf(D_80011918, checkpoint);
 }
