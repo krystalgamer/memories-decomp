@@ -51,7 +51,7 @@ CONSUMERS = (
     "src/game/main_run_free_duel_menu.c",
     "src/game/main_run_frontend_menus.c",
     "src/game/main_run_name_entry.c",
-    "src/game/main_run_options_menu.c",
+    "src/game/main_mode_runners.c",
     "src/game/main_run_password_menu.c",
     "src/game/main_run_selection_menus.c",
     "src/game/main_run_trade.c",
@@ -84,7 +84,7 @@ COMMON_ACTIVE = {
     "src/game/main_run_animated_battle.c", "src/game/main_run_build_deck_menu.c",
     "src/game/main_run_duel.c",
     "src/game/main_run_name_entry.c",
-    "src/game/main_run_options_menu.c", "src/game/main_run_trade.c",
+    "src/game/main_mode_runners.c", "src/game/main_run_trade.c",
     "src/game/main_run_two_player_duel_setup.c",
 }
 
