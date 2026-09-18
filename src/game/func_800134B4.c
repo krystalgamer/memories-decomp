@@ -25,7 +25,7 @@
    main_services.c as well. */
 
 /* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
-void func_800134B4(void) {
+void Main_ResetFrameServices(void) {
     void (**v0)(void);
     int v1;
     v1 = 3;

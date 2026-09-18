@@ -788,7 +788,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0B4,gGraphics_pActiveFrameBuffer,gGraphics_pActiveFrameBuffer,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,,gGraphics_pActiveFrameBuffer = p;
 0x8009B0B4,gGraphics_pActiveFrameBuffer,gGraphics_pActiveFrameBuffer,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,,&gGraphics_pActiveFrameBuffer->ordering_tables[0]); | GsDrawOt(&gGraphics_pActiveFrameBuffer->ordering_tables[0]); | (+5 more)
 0x8009B0B8,D_8009B0B8,D_8009B0B8,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read,,fn = D_8009B0B8;
-0x8009B0B8,D_8009B0B8,D_8009B0B8,0x800134B4,func_800134B4,matching_c,game,C,src/game/func_800134B4.c,write,,D_8009B0B8 = 0;
+0x8009B0B8,D_8009B0B8,D_8009B0B8,0x800134B4,Main_ResetFrameServices,matching_c,game,C,src/game/func_800134B4.c,write,,D_8009B0B8 = 0;
 0x8009B0BC,D_8009B0BC,D_8009B0BC,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read_write,32,D_8009B0BC = D_8009B0D4; | if (D_8009B0B0 < D_8009B0A4 || D_8009B0BC < D_8009B0D4) {
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,write,8,D_8009B0C0 = 0;
 0x8009B0C0,D_8009B0C0,D_8009B0C0,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,while (D_8009B0C8 < D_8009B0C0) {
@@ -2413,7 +2413,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $v0, %lo(D_800E9D9C)($v0)"
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0448b4.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $v0, %lo(D_800E9D9C)($v0)"
 0x800E9DB0,D_800E9DB0,D_800E9DB0,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read,32,fn = D_800E9DB0[i];
-0x800E9DB0,D_800E9DB0,D_800E9DB0,0x800134B4,func_800134B4,matching_c,game,C,src/game/func_800134B4.c,address,32,v0 = &D_800E9DB0[v1];
+0x800E9DB0,D_800E9DB0,D_800E9DB0,0x800134B4,Main_ResetFrameServices,matching_c,game,C,src/game/func_800134B4.c,address,32,v0 = &D_800E9DB0[v1];
 0x800E9DB0,D_800E9DB0,D_800E9DB0,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,32,D_800E9DB0[3] = func_800164FC;
 0x800E9DB0,D_800E9DB0,D_800E9DB0,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/library_runtime.c,write,32,D_800E9DB0[3] = func_80029EC4;
 0x800E9DB8,D_800E9DB8,D_800E9DB8,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,write,32,"lui $v0, %hi(D_800E9DB8) | lui $v1, %hi(D_800E9DB8) | (+2 more)"

@@ -88,7 +88,7 @@ void Main_RunDuel(void)
         Fade_WaitOut();
         SD_BGMFadeOut();
         func_80047AD0(2);
-        func_800134B4();
+        Main_ResetFrameServices();
         D_8009B0A3[0] = 6;
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
