@@ -120,7 +120,7 @@ next_obj:
         objs[pose[0]] = obj;
         *(u8 **)rec = 0;
         i++;
-        rec += 0xC;
+        rec += sizeof(DuelHandSlot);
         if (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             goto next_obj;
         }
