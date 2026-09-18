@@ -34,8 +34,8 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     comparators = D_80180004;
 
     if (force != 0 || mode == 0) {
-        row = D_801D1200 + slot * 0x1000;
-        counts = row + 0x50;
+        row = D_801D1200 + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;
+        counts = row + SAVE_DATA_CARD_QUANTITIES_OFFSET;
         for (i = 0; i < CARD_COUNT; i++) {
             if (counts[i] != 0) {
                 id = i + 1;
