@@ -184,7 +184,13 @@ success:
             DuelEffect_CreateChannel(0x80D5, 0);
             slot->entry_index = index;
             D_8009B3CC |= 0x1000;
-            MemCard_ReqReadFile(zero, (s32)name, MEM_CARD_WORK_READ_ADDRESS, 0x200, 0x1E00);
+            MemCard_ReqReadFile(
+                zero,
+                (s32)name,
+                MEM_CARD_WORK_READ_ADDRESS,
+                SAVE_DATA_HEADER_SIZE,
+                MEM_CARD_BLOCK_SIZE - SAVE_DATA_HEADER_SIZE
+            );
             break;
         }
         message = 0xD7;
