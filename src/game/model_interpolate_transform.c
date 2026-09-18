@@ -24,7 +24,7 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx)
     GsSEQ *track;
     GsCOORDUNIT *node;
     s16 *out;
-    u32 **slot;
+    ModelAnimationInterpolationSlots *slot;
     s32 t;
     s32 dur;
     s32 rest;
@@ -38,8 +38,10 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx)
     s32 c;
     s32 scale[3];
 
-    slot = (u32 **)(&ctx->header_size + ctx->header_size);
-    track = (GsSEQ *)slot[0];
+    slot = (ModelAnimationInterpolationSlots *)(
+        &ctx->header_size + ctx->header_size
+    );
+    track = slot->track;
     if (track->tframe == 0) {
         return 1;
     }
@@ -56,16 +58,19 @@ s32 func_8005D378(GsARGUNIT_ANIM *ctx)
                             + (word_offset << 2));
     }
 
-    node->matrix.t[0] = (((ModelAnimationSample *)slot[1])->x * t + ((ModelAnimationSample *)slot[2])->x * rest) / dur;
-    node->matrix.t[1] = (((ModelAnimationSample *)slot[1])->y * t + ((ModelAnimationSample *)slot[2])->y * rest) / dur;
-    node->matrix.t[2] = (((ModelAnimationSample *)slot[1])->z * t + ((ModelAnimationSample *)slot[2])->z * rest) / dur;
+    node->matrix.t[0] =
+        (slot->sample_1->x * t + slot->sample_2->x * rest) / dur;
+    node->matrix.t[1] =
+        (slot->sample_1->y * t + slot->sample_2->y * rest) / dur;
+    node->matrix.t[2] =
+        (slot->sample_1->z * t + slot->sample_2->z * rest) / dur;
 
-    rx = ((ModelAnimationSample *)slot[2])->rotation_x;
-    ry = ((ModelAnimationSample *)slot[2])->rotation_y;
-    rz = ((ModelAnimationSample *)slot[2])->rotation_z;
-    a = ((ModelAnimationSample *)slot[1])->rotation_x;
-    b = ((ModelAnimationSample *)slot[1])->rotation_y;
-    c = ((ModelAnimationSample *)slot[1])->rotation_z;
+    rx = slot->sample_2->rotation_x;
+    ry = slot->sample_2->rotation_y;
+    rz = slot->sample_2->rotation_z;
+    a = slot->sample_1->rotation_x;
+    b = slot->sample_1->rotation_y;
+    c = slot->sample_1->rotation_z;
 
     if (dur == 0x10) {
         s32 d;
@@ -128,22 +133,28 @@ done_z:
     out = &node->rot.vx;
     RotMatrixYXZ_gte((SVECTOR *)out, &node->matrix);
 
-    scale[0] = (((ModelAnimationSample *)slot[1])->scale_x * t + ((ModelAnimationSample *)slot[2])->scale_x * rest2) / dur;
-    scale[1] = (((ModelAnimationSample *)slot[1])->scale_y * t + ((ModelAnimationSample *)slot[2])->scale_y * rest2) / dur;
-    scale[2] = (((ModelAnimationSample *)slot[1])->scale_z * t + ((ModelAnimationSample *)slot[2])->scale_z * rest2) / dur;
+    scale[0] =
+        (slot->sample_1->scale_x * t +
+         slot->sample_2->scale_x * rest2) / dur;
+    scale[1] =
+        (slot->sample_1->scale_y * t +
+         slot->sample_2->scale_y * rest2) / dur;
+    scale[2] =
+        (slot->sample_1->scale_z * t +
+         slot->sample_2->scale_z * rest2) / dur;
     ScaleMatrix(&node->matrix, (VECTOR *)scale);
 
     node->flg = 0;
-    if (slot[3] == 0) goto finished;
-    ((u16 *)slot[3])[0] = *(u16 *)&node->matrix.t[0];
-    ((u16 *)slot[3])[1] = *(u16 *)&node->matrix.t[1];
-    ((u16 *)slot[3])[2] = *(u16 *)&node->matrix.t[2];
-    ((u16 *)slot[3])[3] = *(u16 *)&node->rot.vx;
-    ((u16 *)slot[3])[4] = *(u16 *)&node->rot.vy;
-    ((u16 *)slot[3])[5] = *(u16 *)&node->rot.vz;
-    ((u16 *)slot[3])[6] = *(u16 *)&scale[0];
-    ((u16 *)slot[3])[7] = *(u16 *)&scale[1];
-    ((u16 *)slot[3])[8] = *(u16 *)&scale[2];
+    if (slot->output == 0) goto finished;
+    slot->output[0] = *(u16 *)&node->matrix.t[0];
+    slot->output[1] = *(u16 *)&node->matrix.t[1];
+    slot->output[2] = *(u16 *)&node->matrix.t[2];
+    slot->output[3] = *(u16 *)&node->rot.vx;
+    slot->output[4] = *(u16 *)&node->rot.vy;
+    slot->output[5] = *(u16 *)&node->rot.vz;
+    slot->output[6] = *(u16 *)&scale[0];
+    slot->output[7] = *(u16 *)&scale[1];
+    slot->output[8] = *(u16 *)&scale[2];
 finished:
     return 0;
 }

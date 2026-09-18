@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_PACKET_HANDLERS_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -29,6 +30,14 @@ typedef struct {
     ModelKeyframe *target;
     ModelKeyframe *out;
 } ModelAnimParams;
+
+/* Four pointers following an interpolation packet's header_size words. */
+typedef struct {
+    GsSEQ *track;
+    ModelAnimationSample *sample_1;
+    ModelAnimationSample *sample_2;
+    u16 *output;
+} ModelAnimationInterpolationSlots;
 
 /* Interpolates one animation track; func_8005C768 returns it for type
  * 0x03002019. It is an HMD animation driver, so it takes the argument block
