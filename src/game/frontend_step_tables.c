@@ -4,7 +4,7 @@
 #include "debug_menu_exit.h"
 #include "debug_menu_two_player_entry.h"
 #include "frontend_scene_states.h"
-#include "debug_menu_campaign_entry.h"
+#include "debug_menu_editor_entries.h"
 #include "debug_menu_bust_up_entry.h"
 #include "../unmatched.h"
 
@@ -15,8 +15,9 @@
  * `D_8009B2EB & FRONTEND_STEP_INDEX_MASK`. Both are written here rather than
  * resolved out of the
  * blob at 0x80090BA8 because every entry is a function this tree already
- * names. All twenty-three are matching C; DebugMenu_UpdateCampaignEntry is
- * compiled separately and the next eight states share frontend_scene_states.c.
+ * names. All twenty-three are matching C; DebugMenu_UpdateSoundEntry and
+ * DebugMenu_UpdateCampaignEntry share debug_menu_editor_entries.c and the next
+ * eight states share frontend_scene_states.c.
  *
  * The two are adjacent and that is load bearing. gDebugMenu_apfnAlternatePageSteps holds only two
  * entries while the index mask permits thirty-two, so an index above 1 runs

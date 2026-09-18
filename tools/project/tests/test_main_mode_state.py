@@ -36,7 +36,7 @@ CONSUMERS = (
     "src/game/library_grid_cursor.c",
     "src/game/func_8002EB48.c",
     "src/game/script_op_return_to_menu.c",
-    "src/game/debug_menu_campaign_entry.c",
+    "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
     "src/game/main_apply_menu_selection.c",
     "src/game/main_debug.c",
@@ -70,7 +70,7 @@ NEXT_ARRAY = {"src/game/library_grid_cursor.c", "src/game/script_control_command
 ACTIVE_DATA = {
     "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
     "src/candidates/func_800283F4.c",
-    "src/game/script_op_save_prompt.c", "src/game/debug_menu_campaign_entry.c",
+    "src/game/script_op_save_prompt.c", "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
 }
 ACTIVE_ARRAY = {

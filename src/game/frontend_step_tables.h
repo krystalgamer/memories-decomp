@@ -11,6 +11,5 @@
  * call site does not support. */
 extern void (*gDebugMenu_apfnAlternatePageSteps[])(void);
 extern void (*gDebugMenu_apfnPrimaryPageSteps[])(void);
-void DebugMenu_UpdateSoundEntry(void);
 
 #endif

@@ -55,7 +55,7 @@ PAIRS = [
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/game/func_8001B938.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
-    ("src/game/debug_menu_campaign_entry.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
+    ("src/game/debug_menu_editor_entries.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "DisplayObject_AcquireSlot", '#include "display_object_core.h"'),
     ("src/game/func_800218F0.c", "DisplayObject_ConfigureSpriteAtPosition", '#include "display_object_config.h"'),
     ("src/game/func_800262D4.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),

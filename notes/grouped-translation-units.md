@@ -141,9 +141,10 @@ authority after later semantic renames or source grouping.
 | `src/game/main_debug.c` | `gcc_2_8_1_g8` | The one-call `Main_PrepareFrontendLoop` wrapper (`0x8002CDE8`) and `Main_RunDebugMenu` (`0x8002CE08`) |
 | `src/game/script_control_commands.c` | `gcc_2_8_1_g8` | Two script mode setters at `0x8002F930` and `0x8002F94C`, followed by the contiguous script-delay updater at `0x8002F968` |
 | `src/game/debug_menu_bust_up_entry.c` | `gcc_2_8_1_g8_split` | The primary debug page's BustUp entry `DebugMenu_UpdateBustUpEntry` (`0x80031354`) and its one callee, the empty per-frame hook `func_8003134C` (`0x8003134C`) directly before it; nothing else calls the hook. The hook was recorded at `gcc_2_8_1_g8` and is byte-identical at `g8_split`. |
-| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | The complete eight-function frontend scene-state run from `func_80030C10` (`0x80030C10`) through `DebugMenu_EnterDeckEditor` (`0x80030F80`). The states share the frontend entered/pending byte and cover debug scene/sound selection, asynchronous scene activation, duel-effect setup, trade-load completion, duel transition setup, and return to the main menu. `DebugMenu_UpdateMovieEntry` was previously isolated after requiring inline assembly, then recovered as matching C; the unit is bounded by separately compiled `DebugMenu_UpdateCampaignEntry` and `DebugMenu_EnterMappedMode`. |
 | `src/game/debug_menu_leave_entries.c` | `gcc_2_8_1_g8_split` | The two contiguous primary-page debug entries that leave the debug menu: `DebugMenu_EnterMappedMode` (`0x80030FA0`), which nine `gDebugMenu_apfnPrimaryPageSteps` labels share, stores the cursor entry's mapped main mode from `gDebugMenu_abMainModeByEntry` in `D_8009B26C`, and `DebugMenu_Exit` (`0x80030FD0`), the EXIT label, fades out, resets the display objects and `longjmp`s back to the `Main_Init` save point. The exit entry was recorded at `gcc_2_8_1_g0` and is byte-identical at `g8_split`. |
 | `src/game/duel_reward_setup.c` | `gcc_2_8_1_g8_split_comm` | The duel reward table load: the four-phase transfer callback `func_80032184` (`0x80032184`) and the contiguous `func_80032328` (`0x80032328`), which queues the `0x4C`-sector read at `0x2189` with that callback and waits for it. The requester was recorded at `gcc_2_8_1_g0` and is byte-identical at the callback's `g8_split_comm`. The contiguous `func_80032370` (`0x80032370`) follows: the recent-card-drop compaction declared in the same `duel_reward_setup.h`, which clears and packs `gDuel_awRecentCardDrops` against the chest bytes below it; recorded at `gcc_2_8_1_g0_split`, it is byte-identical at `g8_split_comm`. |
+| `src/game/debug_menu_editor_entries.c` | `gcc_2_8_1_g8_split` | The primary debug page's two contiguous value-editor entries: `DebugMenu_UpdateSoundEntry` (`0x800307B8`, the Sound label) and `DebugMenu_UpdateCampaignEntry` (`0x80030998`, the Campaign label). Both are `gDebugMenu_apfnPrimaryPageSteps` entries that dim the primary display object on entry, drive `func_80030294`'s digit editor over `gDebug_nSceneOrSoundID`, and restore the object when it cancels. They share one pad view: the Campaign entry's single `gInput_wPad1Pressed[0]` read is byte-identical under the Sound entry's sized volatile `.data` arm, so the aggregate arm it used to select is not needed. |
+| `src/game/frontend_scene_states.c` | `gcc_2_8_1_g8` | The complete eight-function frontend scene-state run from `func_80030C10` (`0x80030C10`) through `DebugMenu_EnterDeckEditor` (`0x80030F80`). The states share the frontend entered/pending byte and cover debug scene/sound selection, asynchronous scene activation, duel-effect setup, trade-load completion, duel transition setup, and return to the main menu. `DebugMenu_UpdateMovieEntry` was previously isolated after requiring inline assembly, then recovered as matching C; the unit is bounded by `DebugMenu_UpdateCampaignEntry` in `debug_menu_editor_entries.c` and `DebugMenu_EnterMappedMode` in `debug_menu_leave_entries.c`. |
 | `src/game/build_deck_card_counts.c` | `gcc_2_8_1_g0_split` | Three contiguous Build Deck count helpers: `BuildDeck_RefreshCountDisplay` (`0x80031E5C`) refreshes the count box, `BuildDeck_ReturnCardToChest` (`0x80031EE4`) returns a card to the chest, and `BuildDeck_TakeCardFromChest` (`0x80031F7C`) removes one. All three share the screen record and card-list sorting contract; the unit is bounded below by the card-list text-box group and above by `func_8003201C`. |
 | `src/game/display_object_fade_helpers.c` | `gcc_2_8_1_g8_split` | The two contiguous helpers the fade callbacks below share: `DisplayObjectFade_MarkInitialized` (`0x80039AAC`) latches the channel's first frame through byte `0x13`, and `func_80039AD4` (`0x80039AD4`) frees the channel's `D_800EAF08` slot and raises the entry-list rebuild flag. The latch was recorded at `gcc_2_8_1_g8` and is byte-identical at `g8_split`; the callbacks themselves need `gcc_2_8_1_g0`, which the release helper does not match at. |
 | `src/game/display_object_fade_callbacks.c` | `gcc_2_8_1_g0` | Three contiguous display-object fade callbacks from `0x80039AFC` through `0x80039C94`, sharing initialization flags and frame-step state |
@@ -379,18 +380,13 @@ compiled for them, so the profile was inert and the recorded match reflected
 literal bytes rather than codegen.
 
 #3859 reclassified all five to `unmatched_asm` and removed the sources.
-Three have since returned as pure matching C: `func_800291E0` is grouped with
-`func_80029164` in `duel_effect_resource_setup.c`, `func_8002A4A8` is grouped
-with `func_8002A3CC`, and `func_8002A788` is named
+All five have since returned as pure matching C: `func_800291E0` is grouped
+with `func_80029164` in `duel_effect_resource_setup.c`, `func_8002A4A8` is
+grouped with `func_8002A3CC`, `func_8002A788` is named
 `Library_UpdateGridCursor` and grouped with its preceding card-id lookup in
-`library_grid_cursor.c`.
-
-The remaining assembly functions still leave holes in otherwise nearby
-matched runs. `DebugMenu_UpdateCampaignEntry` sits between two G8 functions,
-and `Main_RunCredits` sits between two G8-split-comm functions. Only the latter
-hole is exactly one function, so it alone blocks a potentially contiguous run;
-the other gap also contains unmatched neighbours. Either way a run spanning
-one of them fails conditions 1 and 4, which needs no special case.
+`library_grid_cursor.c`, `DebugMenu_UpdateCampaignEntry` is grouped with the
+preceding Sound entry in `debug_menu_editor_entries.c`, and `Main_RunCredits`
+builds alone from `main_run_credits.c`.
 
 This used to be contrasted with sources carrying a source-authored
 `.word 0x4A180001` for the GTE `rtps` encoding. `func_800177C4.c` is now
