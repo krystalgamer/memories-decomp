@@ -34,9 +34,9 @@
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
    D_800F2B50, model slots, and the D_8009AFxx scene-control state. The
-   camera/view correction passes that start the runtime are in
-   model_scene_setup.c, and the tint request pass between them and this run,
-   func_800528AC, is now a candidate in src/candidates/func_800528AC.c. */
+   camera/view correction passes that start the runtime, and the tint request
+   pass func_800528AC between them and this run, are in
+   model_scene_setup.c. */
 
 /* Starts a camera move from the live view to model-slot or explicit targets.
  * A zero duration writes the selected endpoints back immediately. */

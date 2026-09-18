@@ -7,7 +7,6 @@
 #include "func_8004DC38.h"
 #include "func_80058E1C.h"
 #include "func_800528AC.h"
-#include "func_80052D2C.h"
 #include "model_record_tables.h"
 #include "model_scene_setup.h"
 #include "model_transfer_flags.h"
@@ -33,9 +32,8 @@
 /* The start of the contiguous model-scene runtime: the two camera/view
    correction passes, which work on D_800F56F0, the camera move at D_800F2B20
    and the D_8009B478/D_8009B47C view values. The tint request pass that
-   follows, func_800528AC, is now a candidate in
-   src/candidates/func_800528AC.c; the camera-move setup and the scene
-   reset/configuration after it are in func_80052D2C.c. */
+   follows them, func_800528AC, closes this file; the camera-move setup and
+   the scene reset/configuration after it are in func_80052D2C.c. */
 
 void func_80052528(void) {
     GsRVIEW2 *view;
@@ -172,3 +170,115 @@ last:
 
 #include "../psyq/stdarg.h"
 #include "model.h"
+
+/* Per-frame tint pass over the ten requests at D_800F2B50. A live request
+ * interpolates its start colour towards its end colour, redraws the slot with
+ * the requested part id, then restores the slot and advances the request.
+ *
+ * What the allocation rests on: the shifted flag word `v` is masked into its
+ * own name, `part`, ahead of the func_80059AA8 call, and `part` is copied to
+ * `sid` after it. `part` therefore lives and dies inside the one basic block
+ * while crossing the call, so local-alloc gives the flag word, the shift and
+ * the mask $s2 and pushes field_0A to $s3; `sid` then inherits $s2 through its
+ * copy preference. `v` itself never crosses the call, which is what holds the
+ * srl and andi ahead of it where the scheduler would otherwise sink them to
+ * the end of the block. The saved field_BF5 is one name, `keep`, across both
+ * loops. */
+void func_800528AC(void)
+{
+    ModelTintColor save;
+    ModelTintColor col;
+    s32 i;
+    s32 j;
+    s32 k;
+    u32 v;
+    s32 keep;
+    s32 rowbase;
+    u32 part;
+    u32 sid;
+    s32 old;
+    u8 side;
+    u16 sav06;
+    s32 off;
+    u16 lo;
+    u16 hi;
+    u16 a;
+    s32 aa;
+    s32 sv;
+    ModelSlot *slot;
+    ModelTintRequest *e;
+    ModelTintRequest *table;
+
+    table = (ModelTintRequest *)D_800F2B50;
+    for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
+        e = &table[i];
+        rowbase = (s32)((u8 *)table + 1);
+        if ((*(u8 *)e & 1) == 0) {
+            continue;
+        }
+        if (D_800F2C40[(e->flags >> 1) & 1].field_E1F == 0) {
+            continue;
+        }
+        if (Model_HasInsufficientBufferSpace((e->flags >> 1) & 1, e->start.b3)) {
+            goto tail;
+        }
+        v = e->flags;
+        a = e->field_0A;
+        lo = e->elapsed;
+        hi = e->duration;
+        side = (v >> 1) & 1;
+        v = v >> 3;
+        slot = &D_800F2C40[side];
+        sav06 = slot->field_E06;
+        part = v & 0x1F;
+        keep = slot->field_BF5;
+        old = func_80059AA8(side, 0);
+        sid = part;
+        save = *(ModelTintColor *)slot->field_DC0;
+        col.b3 = e->start.b3;
+        col.b0 = e->start.b0 * (hi - lo) / hi + e->end.b0 * lo / hi;
+        col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
+        col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
+        *(ModelTintColor *)slot->field_DC0 = col;
+
+        aa = a;
+        for (j = 0; j < slot->field_E1B; j++) {
+            s32 t = slot->field_BF5;
+            if (sid != 0) {
+                slot->field_1E0[j]->sid = sid;
+                t = sid;
+            }
+            func_8004DC38(slot, j, t, aa);
+        }
+        if (sid != 0) {
+            slot->field_BF5 = sid;
+        }
+
+        D_8009AF9C = off + rowbase;
+        D_8009AF9B = (e->flags >> 2) & 1;
+        func_800540B4(side);
+        D_8009AF9C = 0;
+        D_8009AF9B = 0;
+
+        sv = sav06;
+        for (k = 0; k < slot->field_E1B; k++) {
+            s32 t = slot->field_BF5;
+            if (keep != 0) {
+                slot->field_1E0[k]->sid = keep;
+                t = keep;
+            }
+            func_8004DC38(slot, k, t, sv);
+        }
+        if (keep != 0) {
+            slot->field_BF5 = keep;
+        }
+
+        func_80059AA8(side, old);
+        *(ModelTintColor *)slot->field_DC0 = save;
+tail:
+        e->elapsed += func_80058E1C();
+        if (e->elapsed >= e->duration) {
+            e->flags &= 0xFFFE;
+        }
+    }
+}
