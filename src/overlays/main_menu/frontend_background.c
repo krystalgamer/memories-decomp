@@ -164,39 +164,37 @@ void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
-        object->update = MainMenu_UpdateFrontendEntryAfterimage;
+        object->update =
+            (DisplayObjectCallback)MainMenu_UpdateFrontendEntryAfterimage;
         ((u8 *)&object->field_0C)[0] = ((u8 *)&entry->field_0C)[0];
         ((u8 *)&object->field_0C)[1] = ((u8 *)&entry->field_0C)[1];
         ((u8 *)&object->field_0C)[2] = ((u8 *)&entry->field_0C)[2];
     }
 }
 
-void MainMenu_UpdateFrontendEntryAfterimage(u8 *object)
+void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
 {
-    DisplayObject *o = (DisplayObject *)object;
     s32 r;
     s32 g;
     s32 b;
 
-    if ((o->field_0C & 0xFFFFFF) != 0) {
-        r = ((u8 *)&o->field_0C)[0] - 8;
+    if ((object->field_0C & 0xFFFFFF) != 0) {
+        r = ((u8 *)&object->field_0C)[0] - 8;
         if (r < 0) {
             r = 0;
         }
-        ((u8 *)&o->field_0C)[0] = r;
-        g = ((u8 *)&o->field_0C)[1] - 8;
+        ((u8 *)&object->field_0C)[0] = r;
+        g = ((u8 *)&object->field_0C)[1] - 8;
         if (g < 0) {
             g = 0;
         }
-        ((u8 *)&o->field_0C)[1] = g;
-        b = ((u8 *)&o->field_0C)[2] - 8;
+        ((u8 *)&object->field_0C)[1] = g;
+        b = ((u8 *)&object->field_0C)[2] - 8;
         if (b < 0) {
             b = 0;
         }
-        ((u8 *)&o->field_0C)[2] = b;
+        ((u8 *)&object->field_0C)[2] = b;
     } else {
-        /* The parameter, not o: passing o here makes the rebuilt module
-           four bytes longer than the target. */
         DisplayObject_ReleaseIfPresent(object);
     }
 }

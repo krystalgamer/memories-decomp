@@ -3,6 +3,8 @@
 
 #include "../../types.h"
 
+struct DisplayObject;
+
 typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
 
 /* Frontend screen state, all of it owned by the front-end functions in
@@ -66,6 +68,6 @@ void MainMenu_DestroyFrontendMenu(void);
 void MainMenu_StartFrontendEntryTransition(s32 mode);
 void MainMenu_DrawFrontendBackground(void);
 void MainMenu_SpawnFrontendEntryAfterimage(u8 *source);
-void MainMenu_UpdateFrontendEntryAfterimage(u8 *object);
+void MainMenu_UpdateFrontendEntryAfterimage(struct DisplayObject *object);
 
 #endif
