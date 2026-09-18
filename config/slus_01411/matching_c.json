@@ -2972,15 +2972,15 @@
     },
     {
       "address": "0x80039AAC",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_fade_mark_initialized.c"
+      "source": "src/game/display_object_fade_helpers.c"
     },
     {
       "address": "0x80039AD4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/func_80039AD4.c"
+      "source": "src/game/display_object_fade_helpers.c"
     },
     {
       "address": "0x80039AFC",
