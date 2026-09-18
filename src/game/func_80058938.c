@@ -49,7 +49,7 @@ void func_80058938(s32 a0, s32 a1, ModelTintColor a2, ModelTintColor a3,
             }
             break;
         }
-        off += 0x18;
+        off += sizeof(ModelTintRequest);
         r++;
     } while ((s32)r < (s32)end);
 }
