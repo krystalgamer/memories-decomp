@@ -93,10 +93,12 @@ s32 func_80041F90(
     mtx->t[2] = MODEL_DEFAULT_PROJECTION;
 
     if (!(obj->attribute & GsROTOFF)) {
-        ((VECTOR *)v308)->vx = obj->field_44.h.field_44;
-        ((VECTOR *)v308)->vy = obj->field_44.h.field_46;
-        ((VECTOR *)v308)->vz = ONE;
-        ScaleMatrix(mtx, (VECTOR *)0x1F800308);
+        VECTOR *scale = (VECTOR *)v308;
+
+        scale->vx = obj->field_44.h.field_44;
+        scale->vy = obj->field_44.h.field_46;
+        scale->vz = ONE;
+        ScaleMatrix(mtx, scale);
     }
 
     GsSetLsMatrix(mtx);
