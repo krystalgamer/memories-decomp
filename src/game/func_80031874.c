@@ -138,7 +138,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 sprite->y -= 8;
             }
         }
-        row += 0x10;
+        row += sizeof(CardEntry);
         i++;
         ry += 0x16;
     } while (i < 8);
