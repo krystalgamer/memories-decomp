@@ -11,7 +11,7 @@
 #include "func_80058E1C.h"
 #include "model_control_slot_animation.h"
 #include "sound.h"
-#include "func_8005A6A8.h"
+#include "sd_calc_spatial_volume_pan.h"
 
 void func_80050F24(s32 arg0)
 {
@@ -115,7 +115,9 @@ void func_8005106C(s32 index) {
             return;
         }
     }
-    func_8005A6A8(m->field_DD0[0], m->field_DD0[2], &out[0], &out[1]);
+    SD_CalcSpatialVolumePan(
+        m->field_DD0[0], m->field_DD0[2], &out[0], &out[1]
+    );
     i = 0;
 loop:
     flag = e->flags & 0x8000;

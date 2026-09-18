@@ -16,6 +16,11 @@
  * function passes it the address 0x10 bytes into the object. Both callers
  * pass &D_800F2848, and view_state.h now spells that range as the GsRVIEW2
  * it is, so the function takes ViewState and reaches the view by name. */
-void func_800134E0(ViewState *object, s32 x, s32 y, s32 z);
+void ViewState_ApplyViewpointOffset(
+    ViewState *object,
+    s32 x,
+    s32 y,
+    s32 z
+);
 
 #endif
