@@ -924,7 +924,7 @@ void SD_StopAll(void);
  *
  * The split is load bearing and the measurement stands: sound_frontend.c
  * writes it as a scalar, which -G8 reaches gp-relative, while
- * script_stream_commands.c and duel_effect_play_sound_command.c read it
+ * script_stream_commands.c and duel_effect_sound_commands.c read it
  * through an unsized array and `[0]`, which is not assumed small and so is
  * built from an absolute address. Giving all three the scalar form builds the
  * executable eight bytes short.
@@ -943,7 +943,7 @@ extern u32 gSD_dwCurrentBgmCommand;
 
 /* The word right after gSD_dwCurrentBgmCommand. Script_OpSound
  * (script_stream_commands.c) and DuelEffect_ProcessBgmCommand
- * (duel_effect_play_sound_command.c) each hand it to SD_BGMPlay under their
+ * (duel_effect_sound_commands.c) each hand it to SD_BGMPlay under their
  * `& 1` bit, store a two-byte value into it under `& 2` (`q[0] | (q[1] <<
  * 8)` and `TextStream_ReadU16LE(object) & 0xFFFF`), and copy
  * gSD_dwCurrentBgmCommand[0] into it under `& 4`. No other C unit touches

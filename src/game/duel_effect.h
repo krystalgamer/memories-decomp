@@ -205,7 +205,7 @@ extern volatile s32 D_8009B350;
  * the walk has to start again. */
 extern s32 D_8009B330;
 
-/* The repeat count for an effect run. duel_effect_play_sound_command.c
+/* The repeat count for an effect run. duel_effect_sound_commands.c
  * latches it from TextStream_ReadU16LE's result, and duel_effect_state_callbacks.c
  * spends it: it tests the count, decrements it at the end of a run, and
  * repeats while the result is still `> 0`.

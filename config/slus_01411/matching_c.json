@@ -2800,25 +2800,25 @@
       "address": "0x80038690",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/duel_effect_play_sound_command.c"
+      "source": "src/game/duel_effect_sound_commands.c"
     },
     {
       "address": "0x800386B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xE0",
-      "source": "src/game/duel_effect_play_sound_command.c"
+      "source": "src/game/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80038798",
       "profile": "gcc_2_8_1_g8",
       "size": "0x68",
-      "source": "src/game/duel_effect_play_sound_command.c"
+      "source": "src/game/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80038800",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x88",
-      "source": "src/game/duel_effect_fade_out_bgm_command.c"
+      "source": "src/game/duel_effect_sound_commands.c"
     },
     {
       "address": "0x80038888",
