@@ -35,7 +35,10 @@ void func_80013C28(s32 arg)
     case 1:
         if ((D_8009B0F4 & 0x200000) == 0) {
             if ((D_8009B0F4 & 0x40000000) == 0) {
-                CdGetSector((void *)p->value_08, 0x200);
+                CdGetSector(
+                    (void *)p->value_08,
+                    FILE_SECTOR_SIZE / sizeof(u32)
+                );
             } else {
                 i = 0;
                 t = p;
@@ -44,21 +47,21 @@ void func_80013C28(s32 arg)
                     word = src[i];
                     ((u32 *)t->value_08)[i] = word;
                     i++;
-                } while (i < 0x200);
+                } while (i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)));
             }
-            D_8009AF18->value_08 += 0x800;
+            D_8009AF18->value_08 += FILE_SECTOR_SIZE;
         }
         transfer = D_8009AF18;
         remaining = transfer->total_bytes;
-        D_8009B0F8 += 0x200;
-        remaining -= 0x800;
+        D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
+        remaining -= FILE_SECTOR_SIZE;
         transfer->total_bytes = remaining;
         if (remaining <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
         }
         q = D_8009AF18;
-        q->phase_remaining -= 0x800;
+        q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
             if (q->phase_callback != 0) {
@@ -81,15 +84,15 @@ void func_80013C28(s32 arg)
             (u32)&((FileTransferDescriptor *)0)->value_08
         );
         if ((D_8009B0F4 & 0x40000000) == 0) {
-            CdGetSector(dst, 0x200);
+            CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
         } else {
             src = D_8009B0F8;
             for (i = 0; i < 512; ++i) {
                 ((u32 *)dst)[i] = src[i];
             }
-            D_8009B0F8 += 0x200;
+            D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32);
         }
-        D_8009AF18->total_bytes -= 0x800;
+        D_8009AF18->total_bytes -= FILE_SECTOR_SIZE;
         if (D_8009AF18->total_bytes <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
@@ -111,13 +114,13 @@ void func_80013C28(s32 arg)
             }
         }
         q = D_8009AF18;
-        q->phase_remaining -= 0x800;
+        q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining > 0) {
             goto counter;
         }
         goto step;
     case 3:
-        n = 0x800;
+        n = FILE_SECTOR_SIZE;
         dst = (u8 *)p->value_08;
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
@@ -131,7 +134,7 @@ void func_80013C28(s32 arg)
             }
             D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n);
         }
-        D_8009AF18->total_bytes -= 0x800;
+        D_8009AF18->total_bytes -= FILE_SECTOR_SIZE;
         if (D_8009AF18->total_bytes <= 0) {
             DsEndReadySystem();
             CdReadyCallback(0);
@@ -140,7 +143,7 @@ void func_80013C28(s32 arg)
         SpuWrite(dst, (u32)n);
         q = D_8009AF18;
         q->field_30.word += n;
-        q->phase_remaining -= 0x800;
+        q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining > 0) {
             goto counter;
         }
