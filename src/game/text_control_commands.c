@@ -13,6 +13,8 @@
 #include "text_control_commands.h"
 #include "../unmatched.h"
 
+#define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
+
 /* The text stream's primary control-byte handlers, the ones
    TextBox_BuildStep reaches through D_80090F18 for bytes F6 and F8 through
    FF: the F8 escape into the secondary table, the cursor set, the choice
@@ -30,7 +32,7 @@
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-    u8 **pp = &((TextStreamOwner *)object)->streams[object->stream_58];
+    u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
     u8 *p = *pp;
     s32 op = *p;
 
@@ -38,7 +40,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     D_80090EAC[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&((TextStreamOwner *)o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&0xFFFF0000)|(v&0xFFFF));}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&0xFFFF0000)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
@@ -50,16 +52,17 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 d;
 
     D_8009B350 = 1;
-    t = *((TextStreamOwner *)object)->streams[object->stream_58]++;
+    t = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
     c = t;
     d = 0xF;
     if (c & 8) {
-        u = *((TextStreamOwner *)object)->streams[object->stream_58]++;
+        u = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58]++;
         t = u;
         d = t;
     }
     if (c & 0x80) {
-        ((TextStreamOwner *)object)->streams[object->stream_58] += gDialog_bChoice * 2;
+        TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58] +=
+            gDialog_bChoice * 2;
         Text_SetCursorOffset(object);
     } else {
         gDialog_bChoiceCount = 7;
@@ -112,7 +115,7 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 
 void Text_PushStreamOffset(DuelEffectChannel *arg0)
 {
-    TextStreamOwner *owner = (TextStreamOwner *)arg0;
+    TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(arg0);
     s32 c;
     s32 v;
 
