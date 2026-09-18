@@ -10,7 +10,11 @@
 /* Builds `unit`'s local matrix from a camera-relative direction vector
    (derived from D_8009B47A/D_8009B47C) combined with the per-slot base
    angles on D_800F2C40[arg0]'s own coordinate unit, then parents it. */
-void func_800592AC(s32 arg0, GsCOORDUNIT *parent, GsCOORDUNIT *unit) {
+void Model_BuildCameraRelativeCoordinateUnit(
+    s32 arg0,
+    GsCOORDUNIT *parent,
+    GsCOORDUNIT *unit
+) {
     SVECTOR packed;
     SVECTOR raw;
     MATRIX sp20;

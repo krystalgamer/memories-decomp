@@ -19,7 +19,8 @@ instructions in multiple functions:
 - `func_80058F74`, `Model_CopySlotU16Values`, `func_80059284`,
   `func_80059590`, and `func_80059AA8` independently produce the same stride
   while accessing unrelated pointers, arrays, and bytes.
-- `func_80057E20`, `func_80059000`, `func_800592AC`, `func_800593D0`, and
+- `func_80057E20`, `func_80059000`,
+  `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`, and
   `func_800595C8` provide further exact target sequences with the same
   multiplication. GMS describes the base as `dword_800F2C40[904 * index]`,
   independently giving `904 * 4 == 0xE20`.
@@ -46,7 +47,7 @@ Verified shared fields and partial arrays are:
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `func_80058F20`, `func_80058F74`, and `func_800593D0` |
-| `0xD18` | `field_D18` | `func_800592AC` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
+| `0xD18` | `field_D18` | `Model_BuildCameraRelativeCoordinateUnit` repeatedly reads pointee halfwords `+0x44`, `+0x46`, and `+0x48` |
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `func_8004DE24` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
@@ -210,30 +211,32 @@ camera values:
 - `D_8009B47C` is `ratan2(delta_y, horizontal_distance)`;
 - both angles are normalized into the 4096-unit turn range.
 
-`func_800592AC` consumes the two angles when building a model rotation matrix.
-Matching `func_800134E0` now uses `GsRVIEW2` member accesses for a separate
-view record embedded at object offset `+0x10`, with byte-identical code
-generation. Sources accessing the shared `D_800F56F0` block retain local
-byte/word views until that migration is checked independently.
+`Model_BuildCameraRelativeCoordinateUnit` consumes the two angles when
+building a model rotation matrix. Matching `func_800134E0` now uses
+`GsRVIEW2` member accesses for a separate view record embedded at object
+offset `+0x10`, with byte-identical code generation. Sources accessing the
+shared `D_800F56F0` block retain local byte/word views until that migration
+is checked independently.
 
-The output transform in `func_800592AC` uses the imported `libgte.h` types:
-an eight-byte `SVECTOR` for each local angle triplet and a 32-byte `MATRIX`
-at object offset `+0x04`. On the PSX ABI, the matrix's translation vector
-starts at matrix offset `+0x14`, so `f4.t[0..2]` occupies object offsets
-`+0x18`, `+0x1C`, and `+0x20`. The function clears these components after
-`MulMatrix`, preserving the original reverse store order. The object remains
-a game-specific local record; its rotation angles and id are at `+0x44` and
-`+0x4C`, beyond the SDK matrix.
+The output transform in `Model_BuildCameraRelativeCoordinateUnit` uses the
+imported `libgte.h` types: an eight-byte `SVECTOR` for each local angle
+triplet and a 32-byte `MATRIX` at object offset `+0x04`. On the PSX ABI, the
+matrix's translation vector starts at matrix offset `+0x14`, so `f4.t[0..2]`
+occupies object offsets `+0x18`, `+0x1C`, and `+0x20`. The function clears
+these components after `MulMatrix`, preserving the original reverse store
+order. The object remains a game-specific local record; its rotation angles
+and id are at `+0x44` and `+0x4C`, beyond the SDK matrix.
 
 The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
 `func_80058E94`, `func_80058EC0`, `func_80058F20`, `func_80058F74`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
-`Model_InitLightTriplet`, `func_80059284`, `func_800592AC`,
-`func_800593D0`, `func_800594C0`, `func_80059520`, `func_80059590`,
-`func_800595C8`, `func_8005969C`, `func_800597C8`, `func_80059AA8`,
-`func_80059DD8`, `func_8005A468`, and `Model_SetSlotProperties`.
+`Model_InitLightTriplet`, `func_80059284`,
+`Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
+`func_800594C0`, `func_80059520`, `func_80059590`, `func_800595C8`,
+`func_8005969C`, `func_800597C8`, `func_80059AA8`, `func_80059DD8`,
+`func_8005A468`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries
 
