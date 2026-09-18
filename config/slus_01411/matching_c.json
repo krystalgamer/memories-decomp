@@ -2614,13 +2614,13 @@
       "address": "0x80036F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8C",
-      "source": "src/game/dialog_highlight_choice.c"
+      "source": "src/game/dialog_choice_cursor.c"
     },
     {
       "address": "0x8003700C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8",
       "size": "0x104",
-      "source": "src/game/dialog_read_choice_input.c"
+      "source": "src/game/dialog_choice_cursor.c"
     },
     {
       "address": "0x80037110",
