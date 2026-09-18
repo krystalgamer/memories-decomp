@@ -5,7 +5,11 @@
 #include "file_transfer.h"
 #include "duel_load_package_stage.h"
 #include "password_load_package_stage.h"
+#include "file_constants.h"
 #include "../unmatched.h"
+
+/* The Password package load. File_RequestPasswordPackage queues the package
+   transfer with Password_LoadPackageStage as its stage callback. */
 
 void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
@@ -52,3 +56,5 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
     }
 }
+
+void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(0,0,FILE_WA_PASSWORD_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}
