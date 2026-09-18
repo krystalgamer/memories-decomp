@@ -11,6 +11,10 @@
 #include "display_object_packet_submit.h"
 #include "display_object_render_sprite_sheet.h"
 
+/* Caching this pointer shortens retail; each use must reload field_4C. */
+#define SPRITE_SHEET_HEADER(object) \
+    ((SpriteSheetHeader *)(object)->field_4C)
+
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
  * the object is projected once through func_80041F90, which may ask
@@ -53,24 +57,24 @@ retry:
     work->attribute = object->attribute;
     work->u = ((u8 *)&object->field_5E)[0];
     work->v = ((u8 *)&object->field_5E)[1];
-    count = ((SpriteSheetHeader *)object->field_4C)->count;
+    count = SPRITE_SHEET_HEADER(object)->count;
     if (count == 0) {
         return;
     }
-    state->flags = ((SpriteSheetHeader *)object->field_4C)->flags;
+    state->flags = SPRITE_SHEET_HEADER(object)->flags;
     if (work->attribute & 0x01000000) {
         work->wide = 1;
-        tpage = object->field_66 + ((SpriteSheetHeader *)object->field_4C)->tpage * 2;
+        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage * 2;
     } else {
         work->wide = 0;
-        tpage = object->field_66 + ((SpriteSheetHeader *)object->field_4C)->tpage;
+        tpage = object->field_66 + SPRITE_SHEET_HEADER(object)->tpage;
     }
     sprite->tpage = work->tpage = tpage;
     work->cx = object->field_40.h.field_40;
     work->cy = object->field_40.h.field_42;
     if (object->flags & DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET) {
-        work->cx += (((SpriteSheetHeader *)object->field_4C)->clut & 0xF) << 4;
-        work->cy += ((SpriteSheetHeader *)object->field_4C)->clut >> 4;
+        work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
+        work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
     }
     sheet = (u8 *)object->field_4C;
     sprite->rotate = object->field_20.h.field_22 * 5760;
