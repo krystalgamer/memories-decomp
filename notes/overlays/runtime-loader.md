@@ -440,7 +440,7 @@ offset.
 Matching
 [`Main_RunBootSequence`](../../src/game/main_run_boot_sequence.c) requests WA
 `[5776, 5830)`. Callback
-[`Main_LoadBootPackageStage`](../../src/game/main_load_boot_package_stage.c)
+[`Main_LoadBootPackageStage`](../../src/game/main_boot_load_stages.c)
 assigns consecutive phase sizes `0x18000`, `0x1000`, `0x800`, and `0x1800`;
 the last phase goes to the pointer at `D_800101D8`. The original executable
 stores `0x80168000` there. Thus the final image is WA `[5827, 5830)`, file bytes
