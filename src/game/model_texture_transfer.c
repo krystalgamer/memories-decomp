@@ -59,7 +59,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         D_8009B0F4_abs |= 0x10000;
         d->done = 2;
         d->value_08 = (u32)D_8009B118;
-        d->value_0C = (u32)(D_8009B118 + 0x800);
+        d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         break;
     case 2:
         d->value_08 = d->value_0C = (u32)D_801DD000;
@@ -81,7 +81,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         do { mask = 0xFFDCFFFF; } while (0);
         source += 2 * FILE_SECTOR_SIZE;
         d->value_08 = d->value_0C = (u32)source;
-        d->phase_size = 0x800;
+        d->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= mask;
         d->done = 1;
         break;
@@ -108,7 +108,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
             d->done = 2;
             d->phase_size = 0x8000;
             d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + 0x800);
+            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         } else {
             d->phase_size = 0x8000;
             D_8009B0F4_abs &= 0xFFFCFFFF;
@@ -138,7 +138,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
             d->done = 2;
             d->phase_size = 0x8000;
             d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + 0x800);
+            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         } else {
             d->phase_size = 0x8000;
             D_8009B0F4_abs &= 0xFFFCFFFF;
@@ -226,13 +226,14 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         break;
     case 13:
         if (slot->field_E1D != 0) {
-            d->phase_size = 0x800;
+            d->phase_size = FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFFCFFFF;
             D_8009B0F4_abs |= 0x200000;
             d->done = 1;
         } else {
-            d->value_08 = d->value_0C = (u32)(D_801A8000 + index * 0x800);
-            d->phase_size = 0x800;
+            d->value_08 = d->value_0C =
+                (u32)(D_801A8000 + index * FILE_SECTOR_SIZE);
+            d->phase_size = FILE_SECTOR_SIZE;
             D_8009B0F4_abs &= 0xFFDCFFFF;
             d->done = 1;
         }
@@ -250,13 +251,13 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
             d->field_30.word = index * 0x19000 + 0xD810;
             d->phase_size = 0x19000;
             d->value_08 = (u32)D_8009B118;
-            d->value_0C = (u32)(D_8009B118 + 0x800);
+            d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
         }
         break;
     case 5:
     case 15:
         d->value_08 = d->value_0C = (u32)D_801DD000;
-        d->phase_size = 0x800;
+        d->phase_size = FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= 0xFFDCFFFF;
         d->done = 1;
         break;
