@@ -48,13 +48,13 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
 
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
-    scale = *(VECTOR *)D_8001187C;
+    scale = D_8001187C;
     e = arg0;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
 
     if (arg1 >= 0) {
-        e->table = (ModelDiscEffectConfig *)D_80091604;
+        e->table = &D_80091604;
         t = e->table;
         func_80057E20(Model_GetActiveSlotIndex(), &adj);
         if (adj.y < adj.z) {
