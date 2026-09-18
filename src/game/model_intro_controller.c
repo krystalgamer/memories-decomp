@@ -101,7 +101,7 @@ check_ready:
         if (func_8004703C() & 0x80) {
             offset.vy = -2000;
             func_800597C8(0, 0, 10);
-            func_8005D994(0, 2000, 0x100, 0x100, (u8 *)&offset, 110);
+            func_8005D994(0, 2000, 0x100, 0x100, &offset, 110);
             D_8009AF9A++;
         }
         break;
@@ -184,7 +184,7 @@ check_ready:
     case 11:
         if (slot->field_E06 >= 0x8C0) {
             offset.vy = -1500;
-            func_8005D994(0, 3500, 0, -0x80, (u8 *)&offset, 40);
+            func_8005D994(0, 3500, 0, -0x80, &offset, 40);
             D_8009AF9A++;
         }
         break;
