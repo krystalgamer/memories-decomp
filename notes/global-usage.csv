@@ -2208,7 +2208,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049640,func_80049640,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = D_8009B458->field_081C;
 0x8009B458,D_8009B458,D_8009B458,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,initial = D_8009B458; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = D_8009B458;
-0x8009B458,D_8009B458,D_8009B458,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sd_vab_trans_body_chunk.c,read,,D_8009B458->bytes_consumed = total; | SDSecondaryState *v1 = D_8009B458; | (+2 more)
+0x8009B458,D_8009B458,D_8009B458,0x800497E0,SD_VabTransBodyChunk,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,D_8009B458->bytes_consumed = total; | SDSecondaryState *v1 = D_8009B458; | (+2 more)
 0x8009B458,D_8009B458,D_8009B458,0x800498F8,SD_ResetVabTransferState,matching_c,game,C,src/game/sound_secondary_reset.c,read,,s16 *value = &D_8009B458->transfer.field_0000;
 0x8009B458,D_8009B458,D_8009B458,0x80049920,func_80049920,matching_c,game,C,src/game/func_80049920.c,read,,b1 = D_8009B458; | b2 = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x80049A64,SD_OpenSequence,matching_c,game,C,src/game/sound_secondary_playback.c,read,,D_8009B458->flag_0500 = 1; | state = D_8009B458;
