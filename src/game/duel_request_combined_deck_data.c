@@ -23,7 +23,7 @@ void Duel_RequestCombinedDeckData(void)
     Util_CopyWords(
         (u8 *)source,
         (u8 *)source - DUEL_DECK_ID_BUFFER_STRIDE,
-        COMBINED_DECK_SIZE * sizeof(u16)
+        (u32)&((u16 *)0)[COMBINED_DECK_SIZE]
     );
     qsort(source, COMBINED_DECK_SIZE, sizeof(u16), (int (*)())Util_CompareS16);
 
