@@ -89,10 +89,10 @@ void func_8004D58C(s32 arg0, u8 *arg1)
             *(u16 *)(v + (u32)&((ModelSlot *)0)->field_2C8) = ff;
             *(s16 *)(u + (u32)&((ModelSlot *)0)->field_750) = 0;
         } while (j < 0x3A);
-        n += 0x76;
+        n += sizeof(ModelSlotRow);
         m += 0x74;
         i++;
-        c += 0x76;
+        c += sizeof(ModelSlotRow);
     } while (i < 0xA);
     i = 7;
     q = t + i;
