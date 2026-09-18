@@ -160,8 +160,10 @@ void Duel_InitScene(void)
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
                 D_8009B1D8 = D_801D1200;
-                D_8009B1DC = D_801D1200 + 0x1000;
-                Duel_ShuffleBothDecks(D_801D1200, D_801D1200 + 0x1000);
+                D_8009B1DC = D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE;
+                Duel_ShuffleBothDecks(
+                    D_801D1200, D_801D1200 + TWO_PLAYER_SAVE_SLOT_STRIDE
+                );
                 return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
