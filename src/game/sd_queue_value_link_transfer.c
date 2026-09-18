@@ -24,7 +24,7 @@ void SD_QueueValueLinkTransfer(s32 index)
     off = (index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
     entry = (SDValueLink *)(off + (s32)a->field_0448);
     func_800471D0(a->field_0438, 0x801E6800,
-                  step + *(u16 *)entry, entry->field_0004,
+                  step + entry->sector_offset, entry->field_0004,
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
     b = g_SDValue;
     req.command = 0x51;

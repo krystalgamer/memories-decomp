@@ -48,7 +48,9 @@ typedef struct {
 } SDCommandTail;
 
 typedef struct {
-    u8 pad00[4];
+    /* Relative sector added after the resident value-table header blocks. */
+    u16 sector_offset;
+    u8 pad_0002[2];
     u32 field_0004;
 } SDValueLink;
 
@@ -443,6 +445,9 @@ typedef char SDNote_size_must_be_0x08[
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == SD_VALUE_LINK_RECORD_SIZE ? 1 : -1
+];
+typedef char SDValueLink_sector_offset_must_be_at_0x00[
+    SD_STATE_OFFSET(SDValueLink, sector_offset) == 0 ? 1 : -1
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
