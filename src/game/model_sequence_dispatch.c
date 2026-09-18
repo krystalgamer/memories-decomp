@@ -138,7 +138,8 @@ stopped:
                     track->tframe = ((u8 *)&commands[track->ti])[2] << 4;
                 }
             }
-            dispatch_record = (u8 *)((track->ti * sizeof(*commands)) + (u32)commands);
+            dispatch_record = (u8 *)(
+                (u32)&((u32 *)0)[track->ti] + (u32)commands);
             slots = (ModelAnimParams *)(
                 (u8 *)ctx +
                 (u32)&((GsARGUNIT_ANIM *)0)->header_size +
