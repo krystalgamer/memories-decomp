@@ -60,7 +60,7 @@ void Duel_InitScene(void)
     pid = &gDuel_bOpponentID;
     func_8004763C();
     func_80047AD0(1);
-    func_80012D84(4);
+    Main_AdvanceFrames(4);
     File_WaitForTransfers();
     value = gDuel_bTerrain;
     File_RequestAsyncTransfer(

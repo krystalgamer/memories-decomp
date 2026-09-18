@@ -33,7 +33,7 @@ void Main_AdvanceFrame(void)
     Input_UpdatePads();
 }
 
-void func_80012D84(s32 count)
+void Main_AdvanceFrames(s32 count)
 {
     do {
         Main_AdvanceFrame();

@@ -18,6 +18,6 @@ void Main_AdvanceFrame(void);
 
 /* Advance `count` frames through Main_AdvanceFrame. The count is not
    checked, so zero means 2^32. */
-void func_80012D84(s32 count);
+void Main_AdvanceFrames(s32 count);
 
 #endif

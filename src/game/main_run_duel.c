@@ -90,7 +90,7 @@ void Main_RunDuel(void)
         func_80047AD0(2);
         func_800134B4();
         D_8009B0A3[0] = 6;
-        func_80012D84(4);
+        Main_AdvanceFrames(4);
         File_WaitForTransfers();
         next = D_8009B368;
         D_8009B26C = next;

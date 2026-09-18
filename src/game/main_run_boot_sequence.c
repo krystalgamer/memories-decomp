@@ -41,7 +41,7 @@ void Main_RunBootSequence(s32 mode)
         SetDumpFnt(display);
         D_8009B098 = 0;
         func_80047AD0(2);
-        func_80012D84(4);
+        Main_AdvanceFrames(4);
         File_WaitForTransfers();
         return;
     }
@@ -72,7 +72,7 @@ void Main_RunBootSequence(s32 mode)
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     func_8004365C(first, object);
     func_80047AD0(2);
-    func_80012D84(4);
+    Main_AdvanceFrames(4);
     File_RequestMainMenuPackage();
     Main_HoldBootScreen(0xB4);
     Fade_WaitInitOut();

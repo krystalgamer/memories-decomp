@@ -154,7 +154,7 @@ void func_800222F4(void) {
             obj = (DisplayObject *)func_800291E0(0, -1, -1);
             obj->field_30.h.field_30 = 0x5A;
             obj->field_30.h.field_32 = 0x16;
-            func_80012D84(4);
+            Main_AdvanceFrames(4);
             func_8001944C(obj);
             break;
         case 2:
