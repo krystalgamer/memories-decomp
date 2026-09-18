@@ -1868,15 +1868,15 @@
     },
     {
       "address": "0x8002E6B8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/script_op_stage_image.c"
+      "source": "src/game/script_image_commands.c"
     },
     {
       "address": "0x8002E730",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E8",
-      "source": "src/game/script_op_show_image.c"
+      "source": "src/game/script_image_commands.c"
     },
     {
       "address": "0x8002E918",

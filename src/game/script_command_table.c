@@ -2,7 +2,6 @@
 #include "script_command_table.h"
 #include "script_op_load_image_scene.h"
 #include "script_op_show_dialog.h"
-#include "script_op_stage_image.h"
 #include "func_8002EB48.h"
 #include "script_op_show_menu.h"
 #include "script_op_save_prompt.h"
@@ -14,7 +13,7 @@
 #include "script_control_commands.h"
 #include "script_flag_commands.h"
 #include "script_noop_commands.h"
-#include "script_op_show_image.h"
+#include "script_image_commands.h"
 #include "script_stream_commands.h"
 #include "../unmatched.h"
 
