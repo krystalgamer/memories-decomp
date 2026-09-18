@@ -389,14 +389,14 @@ void Password_UpdateShopScreen(void)
         flags2 = D_8016D424;
         if ((flags2 & 0x8000) == 0) {
             D_8016D424 = flags2 | 0x8000;
-            D_801D5608[0].pair.lo = D_801A8000[D_8016D4DC * 2];
+            D_801D5608[0].pair.lo = D_801A8000[D_8016D4DC].price;
             D_801D5608[0].pair.hi = D_8016D4DC;
             if (Campaign_TestStoryFlag(
                     D_8016D4DC + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (gLibrary_dwStarchips < D_801A8000[D_8016D4DC * 2]) {
+            if (gLibrary_dwStarchips < D_801A8000[D_8016D4DC].price) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);
@@ -421,7 +421,7 @@ void Password_UpdateShopScreen(void)
         if ((flags3 & 0x8000) == 0) {
             D_8016D424 = flags3 | 0x8000;
             card = D_8016D4DC;
-            D_8016D438 = D_801A8000[card * 2];
+            D_8016D438 = D_801A8000[card].price;
         }
         count = D_8016D438;
         step = 1;
