@@ -2129,7 +2129,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B404,D_8009B404,D_8009B404,0x800386B8,DuelEffect_ProcessBgmCommand,matching_c,game,C,src/game/duel_effect_sound_commands.c,read_write,32,D_8009B404 = TextStream_ReadU16LE(object) & 0xFFFF; | D_8009B404 = gSD_dwCurrentBgmCommand[0]; | (+1 more)
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,read,8,s8 flag408 = gSD_bOutputType;
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003C7A0,Options_HandleInput,matching_c,game,C,src/game/options_screen.c,write,8,gSD_bOutputType = value;
-0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,read_write,8,gSD_bOutputType = 0; | gSD_bOutputType; | (+1 more)
+0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,read_write,8,data->state.output_type = gSD_bOutputType; | gSD_bOutputType = 0; | (+1 more)
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003D0F4,SaveData_ApplyRuntimeState,matching_c,game,C,src/game/save_data_payload.c,read_write,8,gSD_bOutputType = output_type; | if (gSD_bOutputType < 0) {
 0x8009B408,gSD_bOutputType,gSD_bOutputType,0x8003FE80,Sound_InitFrontend,matching_c,game,C,src/game/sound_frontend.c,write,8,gSD_bOutputType = -1;
 0x8009B410,D_8009B410,D_8009B410,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_8009B410++;
@@ -3206,7 +3206,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D3200,gSaveData_aTransferBuffer,gSaveData_aTransferBuffer,0x8003F7D4,SaveData_RequestLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,8,"gSaveData_aTransferBuffer,"
 0x801D3200,gSaveData_aTransferBuffer,gSaveData_aTransferBuffer,0x8003F810,SaveData_PollLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,8,"Util_CopyWords(p, gSaveData_aTransferBuffer, SAVE_DATA_STATE_SIZE);"
 0x801D3200,gSaveData_aTransferBuffer,gSaveData_aTransferBuffer,0x8003F87C,SaveData_RequestWrite,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,8,"void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SI..."
-0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,address,8,"Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);"
+0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,address,8,"data->header, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE"
 0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,8,"gSaveData_aHeaderTemplate,"
 0x801D4200,D_801D4200,D_801D4200_raw,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/func_80014294.c,read_write,8,*(FileRequestSlot *)(D_801D4200_raw + 32); | *(FileRequestSlot *)D_801D4200_raw =
 0x801D4200,D_801D4200,D_801D4200,0x80014B30,SD_ConfigureTransferPhase,matching_c,game,C,src/game/func_80014294.c,address,,shared = &D_801D4200;
