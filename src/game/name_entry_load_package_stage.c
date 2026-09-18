@@ -3,7 +3,11 @@
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
 #include "name_entry_load_package_stage.h"
+#include "file_constants.h"
 #include "../unmatched.h"
+
+/* The Name Entry package load. File_RequestNameEntryPackage queues the
+   package transfer with NameEntry_LoadPackageStage as its stage callback. */
 
 void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
@@ -110,3 +114,5 @@ tail:
     object->value_08 = (s32)y;
     object->done = one;
 }
+
+void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(0,0,FILE_WA_NAME_ENTRY_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}
