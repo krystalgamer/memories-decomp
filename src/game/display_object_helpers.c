@@ -16,6 +16,7 @@
  * four texture coordinates from 0x1F800290. */
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
 #define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
+#define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
 
 /* The high half of `mode` selects the handler and the low half is the
  * ordering-table depth. Cases 1-3 hand a GsSPRITE to libgs. Cases 4 and 5 get
@@ -74,21 +75,21 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
         if ((u32)sprite & 0x04000000) {
             otz = (long *)0x1F8002E0;
             v = SCRATCH_VERTEX(0);
-            v[0].vx = ((POLY_GT4 *)packet)->x0 - origin->x;
-            v[0].vy = ((POLY_GT4 *)packet)->y0 - origin->y;
-            v[1].vx = ((POLY_GT4 *)packet)->x1 - origin->x;
-            v[1].vy = ((POLY_GT4 *)packet)->y1 - origin->y;
-            v[2].vx = ((POLY_GT4 *)packet)->x2 - origin->x;
-            v[2].vy = ((POLY_GT4 *)packet)->y2 - origin->y;
-            v[3].vx = ((POLY_GT4 *)packet)->x3 - origin->x;
-            v[3].vy = ((POLY_GT4 *)packet)->y3 - origin->y;
+            v[0].vx = POLY_GT4_VIEW(packet)->x0 - origin->x;
+            v[0].vy = POLY_GT4_VIEW(packet)->y0 - origin->y;
+            v[1].vx = POLY_GT4_VIEW(packet)->x1 - origin->x;
+            v[1].vy = POLY_GT4_VIEW(packet)->y1 - origin->y;
+            v[2].vx = POLY_GT4_VIEW(packet)->x2 - origin->x;
+            v[2].vy = POLY_GT4_VIEW(packet)->y2 - origin->y;
+            v[3].vx = POLY_GT4_VIEW(packet)->x3 - origin->x;
+            v[3].vy = POLY_GT4_VIEW(packet)->y3 - origin->y;
             SCRATCH_VERTEX(3)->vz = 0;
             SCRATCH_VERTEX(2)->vz = 0;
             SCRATCH_VERTEX(1)->vz = 0;
             v[0].vz = 0;
             if (RotAverageNclip4(SCRATCH_VERTEX(0), SCRATCH_VERTEX(1), SCRATCH_VERTEX(2), SCRATCH_VERTEX(3),
-                                 (long *)&((POLY_GT4 *)packet)->x0, (long *)&((POLY_GT4 *)packet)->x1,
-                                 (long *)&((POLY_GT4 *)packet)->x2, (long *)&((POLY_GT4 *)packet)->x3,
+                                 (long *)&POLY_GT4_VIEW(packet)->x0, (long *)&POLY_GT4_VIEW(packet)->x1,
+                                 (long *)&POLY_GT4_VIEW(packet)->x2, (long *)&POLY_GT4_VIEW(packet)->x3,
                                  otz, otz + 1, otz + 2) <= 0) {
                 return;
             }
