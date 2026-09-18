@@ -6148,6 +6148,12 @@ it worth stating as a wall rather than as two separate failures.
   needs the reverse of both placements. Every position C offers for a side
   effect relative to a call was measured - before, after, inside the argument
   expression, and in the function designator - and the hoist defeats all four.
+  **Resolved:** the placement was never source order. The store between the
+  two is to `D_8009B0C0`; declared `volatile`, reorg's `resource_conflicts_p`
+  makes it conflict with everything, so the call's backward delay-slot search
+  stops at the store and cannot take `li $a0,3`. The entry branch takes it, and
+  the call is filled *forward* with the constant from beside its first use
+  three calls later (`src/game/func_800283F4.c`).
 - **`func_80012E5C`, a loop rotation.** Two independent chains tie on scheduling
   priority, so `INSN_LUID` breaks it. The losing chain is the call's argument
   setup, which has the highest LUID in the block *because* it is emitted at the

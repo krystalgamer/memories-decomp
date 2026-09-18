@@ -20,7 +20,7 @@
  * declaration of the same type until then; nothing about its object changed
  * when it took this name, only which name its two relocations carry.
  *
- * DuelEffect_UpdateCardViewerState (src/candidates/func_800283F4.c) is the consumer. It hands
+ * DuelEffect_UpdateCardViewerState (src/game/func_800283F4.c) is the consumer. It hands
  * the id to func_80029164 to bring
  * the card's record in, and copies it into gDuel_wSelectedCardID for the
  * effect channels.

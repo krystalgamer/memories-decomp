@@ -25,7 +25,7 @@ DECLARATION = re.compile(
 CONSUMERS = (
     "src/game/func_80018FEC.c",
     "src/candidates/func_8001F55C.c",
-    "src/candidates/func_800283F4.c",
+    "src/game/func_800283F4.c",
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
     "src/game/debug_menu_two_player_entry.c",
@@ -69,7 +69,7 @@ NEXT_DATA = {
 NEXT_ARRAY = {"src/game/library_grid_cursor.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
     "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
-    "src/candidates/func_800283F4.c",
+    "src/game/func_800283F4.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",
 }

@@ -64,12 +64,12 @@ extern s32 D_8009B0D8;
 
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (D_8009B0C8 < D_8009B0C0)`, so this byte is how many frames the
- * caller lets the sync run: Main_RunAnimatedBattle and
- * src/overlays/main_menu/trade_update.c sets it to 1,
- * src/candidates/func_800283F4.c:77 sets it to `flags - 2`, and Main_Init,
+ * caller lets the sync run: Main_RunAnimatedBattle,
+ * src/overlays/main_menu/trade_update.c and src/game/func_800283F4.c
+ * (opening the card viewer) set it to 1, and Main_Init,
  * Main_ResetFrontendRuntime, Main_RunLibraryMenu and
- * src/candidates/func_800283F4.c:207 set it to 0. Every retail access is a
- * byte store or load.
+ * src/game/func_800283F4.c (closing the viewer) set it to 0. Every retail
+ * access is a byte store or load.
  *
  * Two units reach it gp-relative (Main_Init stores, Graphics_SyncFrame
  * re-reads it each iteration); every other retail site is a bare store
@@ -78,15 +78,22 @@ extern s32 D_8009B0D8;
  * plain arm (the PR that added this block records the five results):
  *
  *   _IS_VOLATILE -- graphics_frame.c and src/game/main_init.c
- *   _IN_DATA     -- src/candidates/func_800283F4.c,
- *                   main_run_animated_battle.c and
+ *   _IN_DATA     -- main_run_animated_battle.c and
  *                   main_run_duel_and_library.c and main_run_credits.c,
  *                   all at -G8: out of small
  *                   data at the compiler, with its true width
+ *   _IN_DATA_VOLATILE -- src/game/func_800283F4.c: the same .data view,
+ *                   volatile. reorg treats a volatile reference as
+ *                   conflicting with everything, so the delay-slot search
+ *                   of the call after the store stops at the store; with
+ *                   the plain byte that call takes its own `li a0,3` and
+ *                   the unit differs from retail in two instructions
  *
  * main_reset_frontend_runtime.c (-G0) and the main_menu overlay take the
  * plain byte. */
-#ifdef D_8009B0C0_IN_DATA
+#ifdef D_8009B0C0_IN_DATA_VOLATILE
+extern volatile u8 D_8009B0C0 __attribute__((section(".data")));
+#elif defined(D_8009B0C0_IN_DATA)
 extern u8 D_8009B0C0 __attribute__((section(".data")));
 #elif defined(D_8009B0C0_IS_VOLATILE)
 extern volatile u8 D_8009B0C0;

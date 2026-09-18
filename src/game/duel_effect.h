@@ -291,7 +291,7 @@ extern u8 gDuel_bActiveEffectState;
  * through %hi/%lo everywhere else, including DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions
  * (still assembly). frontend_scene_states.c, main_run_campaign.c and
  * duel_update_card_pick_cursor.c define the .data arm below for that;
- * build_deck_pane_input.c, src/candidates/func_800283F4.c,
+ * build_deck_pane_input.c, src/game/func_800283F4.c,
  * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and
  * MainMenu_UpdateTradeScreen take the plain arm. */
 #ifdef GDUEL_BEFFECTSTATE_IN_DATA

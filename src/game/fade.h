@@ -26,7 +26,7 @@ extern u8 D_8009B145;
 /* The fade depth byte and the fade-active flag. Five of the fade family reach
  * both through $gp (small data) and take the plain arms below.
  *
- * func_800339D0.c and src/candidates/func_800283F4.c address D_8009B140
+ * func_800339D0.c and src/game/func_800283F4.c address D_8009B140
  * with %hi/%lo instead, outside small data, so they take the .data arm the
  * same way script_image_commands.c takes one for D_8009B145. Both set it from
  * D_8009AF74[1] (display_object_helpers.h) and take that table's .data

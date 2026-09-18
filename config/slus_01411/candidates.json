@@ -76,22 +76,6 @@
       }
     },
     {
-      "address": "0x800283F4",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_800283F4.c",
-      "target": "src/candidates_target/func_800283F4.S",
-      "candidate_build_sha256": "71cb3007f3d2cea0c642a396684aa0f1f85f64db0d5205e83ef04b2769e82da0",
-      "target_bytes_sha256": "191b87b8e0c76c75d48fdc5d2424a092de52e53d72d52aea73557b3db53a7df1",
-      "canonical_contract_sha256": "c5259613e2694eb340554630240d0d5e8d686e99b716015c2973dc10adbe7ce3",
-      "canonical_contracts": {
-        "D_8009B240": "aa166e125521461c92d50ddf89164446efa9b9ed266b93ab74f6c7c3331aff83",
-        "D_8009B248": "d118e88af3d165cbebbda18a704bc90b82d50cc6e266488224fb7a7743d1afc7",
-        "D_8009B24C": "1f96708b8b8aba34bb6fb2301e20e4a5a6c69529ad244f8aceed584b56484452",
-        "D_8009B250": "8e62836796a937bc3b5bfc0008b26cc0b503227bd339cbf59a8612dae603c437",
-        "D_8009B26C": "0ff72eda3f037347a48d396cdb46e8ed8d3cebb2d9c371759dc38fbbf88996b7"
-      }
-    },
-    {
       "address": "0x80028B08",
       "profile": "gcc_2_8_1_g8_split",
       "source": "src/candidates/func_80028B08.c",

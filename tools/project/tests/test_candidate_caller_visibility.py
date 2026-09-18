@@ -46,7 +46,7 @@ PAIRS = [
     ("src/game/func_800482B0.c", "func_8004803C", '#include "sound_effect_voices.h"'),
     ("src/game/func_800482B0.c", "func_800451E0", '#include "sound_output_state.h"'),
     ("src/game/display_object_runtime.c", "func_80041E7C", '#include "display_object_projection.h"'),
-    ("src/candidates/func_800283F4.c", "func_80029164", '#include "../game/duel_effect_resource_setup.h"'),
+    ("src/game/func_800283F4.c", "func_80029164", '#include "duel_effect_resource_setup.h"'),
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "../unmatched.h"'),
     ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/overlays/password/shop.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
