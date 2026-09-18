@@ -487,11 +487,6 @@ struct DuelRitualResult;
  * `u8 *record` view in dialog_highlight_choice.h; Script_OpSavePrompt
  * (script_op_save_prompt.c) holds the same object as
  * DuelEffectChannel * and casts. */
-/* Three arguments, and no result: sound_spatialization.c already declared it
-   this way and matched, while two other files carried `extern int
-   SD_SetVoiceVolume()`. The int was never read anywhere in the tree. */
-void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
-
 /* Unmatched linker data consumed by matching C. These declarations preserve
  * the existing caller types. The guarded arms are measured code-generation
  * differences: scalar small-data access, array/address access, explicit
