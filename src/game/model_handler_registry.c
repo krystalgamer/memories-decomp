@@ -235,7 +235,7 @@ void Model_ProcessType2Unit(
     u8 *b;
     u16 *e;
     ModelType2Scratch *r;
-    u8 *rec;
+    ModelType2Record *rec;
     s32 n;
     s32 i;
     s32 j;
@@ -264,10 +264,10 @@ void Model_ProcessType2Unit(
                 b = r->indices;
                 if (b != (u8 *)0) {
                     j = 0;
+                    rec = (ModelType2Record *)q;
                     e = (u16 *)(b +
-                        ((ModelType2Record *)q)->index_offset * 4);
-                    rec = q;
-                    if (((ModelType2Record *)q)->row_count > 0) {
+                        rec->index_offset * 4);
+                    if (rec->row_count > 0) {
                         do {
                             if (f) {
                                 *e = 0;
@@ -275,32 +275,27 @@ void Model_ProcessType2Unit(
                             e++;
                             for (
                                 k = 1;
-                                k < ((ModelType2Record *)rec)->column_count;
+                                k < rec->column_count;
                                 k++
                             ) {
                                 *e |= 0x8000;
                                 e++;
                             }
                             j++;
-                        } while (
-                            j < ((ModelType2Record *)rec)->row_count
-                        );
+                        } while (j < rec->row_count);
                     }
                     if (f) {
-                        v = ((ModelType2Record *)rec)->field_00;
-                        if ((s16)((ModelType2Record *)rec)->field_00 >=
-                            0x280) {
-                            ((ModelType2Record *)rec)->field_00 =
-                                (v - 0x280) + sh;
+                        v = rec->field_00;
+                        if ((s16)rec->field_00 >= 0x280) {
+                            rec->field_00 = (v - 0x280) + sh;
                         } else {
-                            ((ModelType2Record *)rec)->field_00 = sh;
+                            rec->field_00 = sh;
                         }
-                        v = ((ModelType2Record *)rec)->field_02;
+                        v = rec->field_02;
                         if (v >= 8) {
-                            ((ModelType2Record *)rec)->field_02 = v % 8;
+                            rec->field_02 = v % 8;
                         }
-                        ((ModelType2Record *)rec)->field_02 =
-                            ((ModelType2Record *)rec)->field_02 + 0xF8;
+                        rec->field_02 = rec->field_02 + 0xF8;
                     }
                     q += sizeof(ModelType2Record);
                 }
