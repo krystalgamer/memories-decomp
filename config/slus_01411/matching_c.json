@@ -5804,9 +5804,9 @@
     },
     {
       "address": "0x8005B85C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/file_request_main_menu_package.c"
+      "source": "src/game/main_menu_load_package_stage.c"
     },
     {
       "address": "0x8005B8A0",

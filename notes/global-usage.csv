@@ -99,7 +99,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011574,D_80011574,D_80011574,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,FntPrint(D_80011574);
 0x80011580,gFile_szModelMrgPath,gFile_szModelMrgPath,0x80056504,Model_LoadMonsterMerge,matching_c,game,C,src/game/model_load_monster_merge.c,address,8,"2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,"
 0x80011594,D_80011594,D_80011594,0x80056828,func_80056828,matching_c,game,C,src/game/model_load_step.c,address,8,"printf(D_80011594, slot->field_E14, work - started);"
-0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/file_request_main_menu_package.c,address,8,"1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0"
+0x800117C8,gFile_szSuMrgPath,gFile_szSuMrgPath,0x8005B85C,File_RequestMainMenuPackage,matching_c,game,C,src/game/main_menu_load_package_stage.c,address,8,"1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0"
 0x8001185C,D_8001185C,D_8001185C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,read,,scale = D_8001185C;
 0x8001186C,D_8001186C,D_8001186C,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,8,"printf(D_8001186C, 0x1318, 0x1318);"
 0x8001187C,D_8001187C,D_8001187C,0x8006C37C,func_8006C37C,matching_c,game,C,src/game/func_8006C37C.c,read,8,scale = *(VECTOR *)D_8001187C;

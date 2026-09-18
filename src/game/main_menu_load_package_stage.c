@@ -8,6 +8,10 @@
 
 #include "high_memory_addresses.h"
 
+/* The Main Menu package load. File_RequestMainMenuPackage queues the
+   package from gFile_szSuMrgPath with MainMenu_LoadPackageStage as its stage
+   callback. */
+
 void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     RECT rect;
 
@@ -64,4 +68,11 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         object->done = 1;
         break;
     }
+}
+
+void File_RequestMainMenuPackage(void)
+{
+    File_RequestAsyncTransfer(
+        1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0
+    );
 }
