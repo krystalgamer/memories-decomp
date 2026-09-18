@@ -524,7 +524,7 @@ void func_8004D914(s32 arg0)
                         hi = (u32)x >> 16;
                         hi = hi & 0x7F;
                         yp = (u16 *)((u8 *)ch
-                            + (o + hi * sizeof(ch->field_2C8[0]))
+                            + (o + (u32)&((u16 (*)[MODEL_SLOT_PART_COUNT])0)[hi])
                             + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
                         y = *yp;
                         c = &ch->field_DD8[y];
