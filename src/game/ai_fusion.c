@@ -79,7 +79,7 @@ void AiScript_FindFirstType(void)
     do {
         s32 index = *(u8 *)(i + (s32)indices);
         AiActiveCard *card =
-            (AiActiveCard *)(index * sizeof(AiActiveCard) + (s32)cards);
+            (AiActiveCard *)((u32)&((AiActiveCard *)0)[index] + (s32)cards);
 
         if (card->card_id != 0 && card->card_type == type) {
             memory[dest] = index;

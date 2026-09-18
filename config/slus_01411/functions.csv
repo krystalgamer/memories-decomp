@@ -350,7 +350,7 @@ address,size,name,status,module,notes
 0x8002FED0,0x8,SceneScript_NoOpRecordCallback,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002FED8,0xFC,func_8002FED8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002FFD4,0x7C,SceneScript_UpdateSlots,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80030050,0x1C,func_80030050,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
+0x80030050,0x1C,Script_ReadByte,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
 0x8003006C,0x24,func_8003006C,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
 0x80030090,0x1C,DebugMenu_DimPrimaryDisplayObject,matching_c,game,"Sets the primary shared display object to uniform RGB brightness 0x40 when the sound or campaign debug editor opens; exact with gcc_2_8_1_g0_split."
 0x800300AC,0x1C,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,Restores the primary shared display object to neutral uniform RGB brightness 0x80 when the sound or campaign debug editor closes; exact with gcc_2_8_1_g0_split.

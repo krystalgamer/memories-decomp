@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "script_state.h"
 
-int func_80030050(void)
+int Script_ReadByte(void)
 {
     return *D_8009B290++;
 }
