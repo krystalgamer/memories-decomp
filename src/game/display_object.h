@@ -424,7 +424,7 @@ typedef struct DisplayObject {
    member's address, *(s32 *)&e->field_2C, stays a scalar reference as the
    old (u8 *) offset did, so the target keeps it after the store before it;
    a read that no scratchpad store precedes can be an ordinary member read.
-   That is the same device func_80016784.c uses for its 0x0C colour word, and
+   That is the same device duel_card_frame_draw.c uses for its 0x0C colour word, and
    it is how the two DisplayObject_Render*GouraudQuadList functions name
    every offset they touch except 0x72. */
 
