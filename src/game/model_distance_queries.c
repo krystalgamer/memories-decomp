@@ -19,7 +19,7 @@ s32 Model_GetSlotDistanceFromCameraEye(s32 index)
     SVECTOR difference;
     u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 
-    memset(&difference, 0, 8);
+    memset(&difference, 0, sizeof(difference));
     difference.vx = D_800F56F0[0] - entry[0];
     difference.vy = D_800F56F0[2] - entry[1];
     difference.vz = D_800F56F0[4] - entry[2];
@@ -35,7 +35,7 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
     SVECTOR difference;
     u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 
-    memset(&difference, 0, 8);
+    memset(&difference, 0, sizeof(difference));
     difference.vx = D_800F56F0[6] - entry[0];
     difference.vy = D_800F56F0[8] - entry[1];
     difference.vz = D_800F56F0[10] - entry[2];
