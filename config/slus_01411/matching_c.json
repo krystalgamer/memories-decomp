@@ -1658,9 +1658,9 @@
     },
     {
       "address": "0x8002C68C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/duel_effect_request_create.c"
+      "source": "src/game/duel_effect_object_pool.c"
     },
     {
       "address": "0x8002C6C8",
