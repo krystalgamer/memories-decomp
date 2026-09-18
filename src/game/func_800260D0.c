@@ -31,6 +31,7 @@ void DuelEffect_ApplyCursebreaker(void) {
     s32 x;
     s32 timer;
     s32 step;
+    s32 position_index;
     u8 *grid;
 
     if (DuelEffect_MarkInitialized() == 0) {
@@ -65,9 +66,11 @@ void DuelEffect_ApplyCursebreaker(void) {
         object = (DuelEffectObject *)DuelEffect_AllocateRequest(8);
         positions = (u8 *)D_80090800;
         step = D_8009B20C[1];
+        /* Keep the row bias in the typed index for retail scheduling. */
+        position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;
         object->field_1A = 3;
         position = (DuelFieldPosition *)(
-            (step + DUEL_FIELD_SIDE_ZONE_COUNT) * sizeof(DuelFieldPosition) +
+            (u32)&((DuelFieldPosition *)0)[position_index] +
             D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES +
             positions
         );
