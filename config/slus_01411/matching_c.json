@@ -2174,9 +2174,9 @@
     },
     {
       "address": "0x8003134C",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/func_8003134C.c"
+      "source": "src/game/debug_menu_bust_up_entry.c"
     },
     {
       "address": "0x80031354",
