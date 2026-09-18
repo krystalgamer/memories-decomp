@@ -6561,6 +6561,32 @@ reuse the parameter identity for the later `lhu`, so that load stays based on
 shape has made the body exact, record it with `--allow-register-pins`, and
 verify the complete linked bytes and relocations.
 
+**Resolved without pins or the volatile read** (`src/game/model_slot_row_tables.c`).
+Both devices stood in for source structure:
+
+- The `0x20D`/`0x15` tails stay apart because of how jump2 cross-jumps. A jump
+  is compared against the *other jumps to its label* only when that label's
+  UID is below `max_uid`, that is, when the label existed before the pass.
+  Retail's shared compare tail is therefore a label cross-jumping created
+  itself: each selector arm carries its own `if (x < y) x = y; *best = x;`
+  and the pass folds them into the last arm. With one shared compare after
+  the `switch`, the `break` label is original, the two `lhu -4` tails are
+  compared, and the label in front of the `0x20D` load drops the minimum to a
+  one-instruction merge.
+- The prologue order comes from reading `mode` and `kind` as the parameters.
+  Their copies then stay first, `$a0` is dead when the header pointer is born,
+  and local-alloc gives the header `$a0` and a block-local record base `$v1`.
+  The record cursor takes `$v1` by copy preference, the loop temporaries find
+  `$a0`/`$a2`, and `mode` falls to `$t7`. User copies of the parameters are
+  scheduled late instead and keep `$a0` busy.
+- The remaining order is global-alloc priority. A parameter's `REG_EQUIV`
+  home doubles its live length (`local-alloc.c`), which halves its priority.
+  Writing out the two equal-stride arm pairs in the first switch gives the
+  four arm constants eight sets each, returning the count once leaves it
+  three references, and dropping the `do { } while (0)` setup block removes a
+  loop-depth weight. That yields `$t2`-`$t9`, `$a1`, `$s0`, `$s1` as in retail.
+  Cross-jumping merges the duplicate arms again, so the text is unchanged.
+
 ## Combine deletes a copy whose source is a single-use pseudo dying at it
 
 `func_800528AC` was one `addu` short for several sessions. The missing
