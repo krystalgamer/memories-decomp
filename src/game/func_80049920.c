@@ -54,7 +54,7 @@ void func_80049920(void) {
                     }
                 }
             }
-            off += 0x28;
+            off += sizeof(SDSecondaryObject);
             base = D_8009B458;
             tbl++;
         } while (++i < base->object_count);
