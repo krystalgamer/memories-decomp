@@ -3278,9 +3278,9 @@
     },
     {
       "address": "0x8003C0C0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/file_request_egypt_overworld_package.c"
+      "source": "src/game/campaign_map_load_package_stage.c"
     },
     {
       "address": "0x8003C120",
