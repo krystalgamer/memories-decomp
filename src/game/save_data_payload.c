@@ -132,32 +132,31 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
     } while (i);
 }
 
-void SaveData_BuildPayload(u8 *data)
+void SaveData_BuildPayload(SaveDataPayload *data)
 {
     u8 *copy;
     s32 output_type;
     s32 value;
     s32 saved_value;
 
-    Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);
+    Util_CopyWords(
+        data->header, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE
+    );
 
     saved_value = D_8009B0C4;
     output_type = gSD_bOutputType;
-    *(s32 *)(data + SAVE_DATA_HEADER_SIZE + SAVE_DATA_TERTIARY_OFFSET) = 0;
-    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->vblank_counter =
-        saved_value;
+    data->state.field_400 = 0;
+    data->state.vblank_counter = saved_value;
 
     if (output_type < 0) {
         gSD_bOutputType = 0;
     }
 
-    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->output_type =
-        gSD_bOutputType;
-    copy = data + SAVE_DATA_HEADER_SIZE;
+    data->state.output_type = gSD_bOutputType;
+    copy = (u8 *)&data->state;
     value = gSaveDataSequence + 1;
-    ((SaveDataState *)(data + SAVE_DATA_HEADER_SIZE))->save_sequence = value;
-    ((SaveDataState *)(data + SAVE_DATA_DUPLICATE_STATE_OFFSET))->save_sequence =
-        value;
+    data->state.save_sequence = value;
+    data->duplicate.save_sequence = value;
 
     SaveData_WritePrimarySecondaryIntegrity(copy);
     SaveData_WriteTertiaryIntegrity(copy);
@@ -167,15 +166,13 @@ void SaveData_BuildPayload(u8 *data)
 
         i = 0;
         do {
-            *(data + i + SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
+            *((u8 *)data + i + SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
             i++;
         } while (i < SAVE_DATA_RESERVED_TAIL_SIZE);
     }
 
     Util_CopyWords(
-        data + SAVE_DATA_DUPLICATE_STATE_OFFSET,
-        data + SAVE_DATA_HEADER_SIZE,
-        SAVE_DATA_STATE_SIZE
+        (u8 *)&data->duplicate, (u8 *)&data->state, SAVE_DATA_STATE_SIZE
     );
 }
 
