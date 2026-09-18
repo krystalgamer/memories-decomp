@@ -20,9 +20,11 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-int func_8003A198(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
+int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
-s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
+s32 DisplayEffect_BuildResourceObjects(
+    MenuRecord *a, DisplayObject **out, s32 c)
+{
     DisplayObject *p;
     u8 *tb;
     s32 f;
@@ -42,7 +44,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         h = 0x200;
     }
 
-    if (func_8003A198(tb, c, 0, 0) == 0) {
+    if (DisplayEffect_HasResourceEntry(tb, c, 0, 0) == 0) {
         return 0;
     }
 
@@ -55,9 +57,9 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         DisplayObject_SetDepthOffset(p, f);
         p->attribute = p->attribute | m;
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        out[0] = (u8 *)p;
+        out[0] = p;
 
-        if (func_8003A198(tb, c, 1, 0) != 0) {
+        if (DisplayEffect_HasResourceEntry(tb, c, 1, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
                           h, tb);
@@ -68,9 +70,9 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         } else {
             p = (DisplayObject *)0;
         }
-        out[1] = (u8 *)p;
+        out[1] = p;
 
-        if (func_8003A198(tb, c, 2, 0) != 0) {
+        if (DisplayEffect_HasResourceEntry(tb, c, 2, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
             DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
                           h, tb);
@@ -82,7 +84,7 @@ s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c) {
         } else {
             p = (DisplayObject *)0;
         }
-        out[2] = (u8 *)p;
+        out[2] = p;
     }
 
     return 1;
@@ -208,7 +210,8 @@ void func_8003A560(DisplayEffectVramState *a)
             Util_CopyWords(slot->extra, D_801AF000, 0x800);
         }
     } else {
-        func_8003A1EC((MenuRecord *)a, (u8 **)a, a->field_31);
+        DisplayEffect_BuildResourceObjects(
+            (MenuRecord *)a, (DisplayObject **)a, a->field_31);
         a->state = 0;
         a->field_32 |= 0x40;
     }

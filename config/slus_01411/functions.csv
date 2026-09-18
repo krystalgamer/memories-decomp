@@ -350,7 +350,7 @@ address,size,name,status,module,notes
 0x8002FED0,0x8,SceneScript_NoOpRecordCallback,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002FED8,0xFC,func_8002FED8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8002FFD4,0x7C,SceneScript_UpdateSlots,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x80030050,0x1C,func_80030050,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
+0x80030050,0x1C,Script_ReadByte,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
 0x8003006C,0x24,func_8003006C,matching_c,game,First -O2 -G8 candidate matched linked bytes and relocations.
 0x80030090,0x1C,DebugMenu_DimPrimaryDisplayObject,matching_c,game,"Sets the primary shared display object to uniform RGB brightness 0x40 when the sound or campaign debug editor opens; exact with gcc_2_8_1_g0_split."
 0x800300AC,0x1C,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,Restores the primary shared display object to neutral uniform RGB brightness 0x80 when the sound or campaign debug editor closes; exact with gcc_2_8_1_g0_split.
@@ -522,8 +522,8 @@ address,size,name,status,module,notes
 0x80039FD4,0x24,func_80039FD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FF8,0x24,func_80039FF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8003A01C,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
-0x8003A198,0x54,func_8003A198,matching_c,game,"Display-effect resource-table probe grouped with its object builder, layer setup, and VRAM state callback; its object is byte-identical at g0, g0_split, g8, and g8_split."
-0x8003A1EC,0x254,func_8003A1EC,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."
+0x8003A198,0x54,DisplayEffect_HasResourceEntry,matching_c,game,"Display-effect resource-table probe grouped with its object builder, layer setup, and VRAM state callback; its object is byte-identical at g0, g0_split, g8, and g8_split."
+0x8003A1EC,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."
 0x8003A440,0x120,func_8003A440,matching_c,game,"Display-effect child layer/attribute setup grouped with the resource pipeline; its object is byte-identical at g0, g0_split, g8, and g8_split."
 0x8003A560,0x3C0,func_8003A560,matching_c,game,"VRAM page swap state callback completing the display-effect resource pipeline; g8_split is required and fixes the grouped unit's profile."
 0x8003A920,0x3C,func_8003A920,matching_c,game,"Three-child position propagation beginning the seven-function display-effect update callback unit; its object is byte-identical at g0, g0_split, g8, and g8_split."
@@ -933,7 +933,7 @@ address,size,name,status,module,notes
 0x80059220,0xC,func_80059220,matching_c,game,"Returns the secondary model buffer base; g0_split and g8_split objects are byte-identical."
 0x8005922C,0x58,func_8005922C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80059284,0x28,func_80059284,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
-0x800592AC,0x124,func_800592AC,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
+0x800592AC,0x124,Model_BuildCameraRelativeCoordinateUnit,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x800593D0,0xCC,func_800593D0,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005949C,0x24,func_8005949C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800594C0,0x60,func_800594C0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

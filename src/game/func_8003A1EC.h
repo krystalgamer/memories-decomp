@@ -2,15 +2,17 @@
 #define MEMORIES_DECOMP_FUNC_8003A1EC_H
 
 #include "../types.h"
+#include "display_object.h"
 #include "menu_record.h"
 
 /* Builds up to three display objects and writes them back through `out` as
  * out[0], out[1] and out[2], storing NULL in the slots it does not fill. That
- * is why the second parameter is u8 ** and not the u8 * three of the callers
- * declared: func_8003AD6C passes p, p + 0xC, p + 0x18 and p + 0x24, and 0xC
- * is exactly three 4-byte pointers, so each call fills its own three-slot
- * group. Returns 1 when it built anything and 0 when func_8003A198 rejected
- * the first index; every caller discards that result.
+ * is why the second parameter is DisplayObject **. The backing MenuRecord
+ * grid has mixed consumers, so callers cast each three-word row to this
+ * output view. func_8003AD6C passes rows 0 through 3, and each call fills its
+ * own three-slot group. Returns 1 when it built anything and 0 when
+ * DisplayEffect_HasResourceEntry rejected the first index; every caller
+ * discards that result.
  *
  * The first parameter is the record itself. menu_record.h already names the
  * three fields this reads -- field_3C selects which of the two buffer bases
@@ -22,6 +24,7 @@
  * func_8003A560 in display_effect_resource_setup.c holds the same memory as a
  * DisplayEffectState instead and says so with its cast; menu_record.h records
  * that the two views name these same bytes. */
-s32 func_8003A1EC(MenuRecord *a, u8 **out, s32 c);
+s32 DisplayEffect_BuildResourceObjects(
+    MenuRecord *record, DisplayObject **out, s32 resource_index);
 
 #endif

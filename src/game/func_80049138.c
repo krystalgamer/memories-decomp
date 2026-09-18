@@ -23,7 +23,7 @@ s32 func_80049138(s16 arg0, s32 arg1) {
 
         q = g_SDValue;
         q->flags_0040 |= 2;
-        off = ((arg0 & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
+        off = (u32)&((SDMusicTableEntry *)0)[(arg0 & 0xFF0) >> 4];
         entry = (SDMusicTableEntry *)(off + (s32)q->field_1560);
 
         func_800471D0(entry->field_04, (s32)q->music_track, entry->field_02,

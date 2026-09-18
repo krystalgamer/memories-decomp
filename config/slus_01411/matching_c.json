@@ -5512,7 +5512,7 @@
       "address": "0x800592AC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/func_800592AC.c"
+      "source": "src/game/model_build_camera_relative_coordinate_unit.c"
     },
     {
       "address": "0x800593D0",

@@ -204,7 +204,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
 
     {
         u8 *base = (u8 *)D_80090800;
-        s32 offset = index * sizeof(DuelFieldPosition) +
+        s32 offset = (u32)&((DuelFieldPosition *)0)[index] +
             D_8009B1D5 * DUEL_FIELD_SIDE_POSITION_BYTES;
 
         position = (DuelFieldPosition *)(base + offset);
