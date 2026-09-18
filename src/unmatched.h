@@ -68,10 +68,8 @@
 
 /* Load-bearing caller views that cannot share one flat prototype. Consumers
  * select the declaration they measured before including this header. */
-/* Two consumers. main_run_duel_and_library.c spells the first and final
- * parameters with project aliases, while main_run_selection_menus.c uses the
- * equivalent unsigned int and int spellings. */
-void func_800323F8(u32, void *, s32, s32);
+/* func_800323F8, which used to lead this list with two consumers, has
+ * matched and is declared by game/func_800323F8.h. */
 
 /* Three consumers, identical spelling in all three: model_scene_setup.c,
  * model_scene_states.c and model_slot_support.c. The last of those is the site

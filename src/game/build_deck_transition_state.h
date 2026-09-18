@@ -65,12 +65,11 @@ typedef char BuildDeckTransitionState_size_must_be_0x6344[
 
 #undef BUILD_DECK_TRANSITION_STATE_OFFSET
 
-/* Read by the Build Deck C units but stored only in assembly:
- * func_800323F8.s:37 writes $s6 and reloads it at :217. The pointer identifies
- * one complete workspace because that function advances it by 0x6344 at :216.
+/* Stored by func_800323F8.c, which writes the first workspace's address and
+ * reloads it once both panes are set up. The pointer identifies one complete
+ * workspace because that function advances its cursor by 0x6344 per pane.
  * func_80031874.c reads it for lists[kind] and the three card-indexed byte
- * tables; func_800323F8 is still without a profile in matching_c.json. Every
- * global access is a %gp_rel
+ * tables. Every global access is a %gp_rel
  * lw/sw (func_80032C48.s:258, BuildDeck_HasOpenDeckSlot,
  * func_80033BE8.s:17/:31/:43), so the plain declaration. Initial value not
  * read.

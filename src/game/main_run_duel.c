@@ -14,6 +14,7 @@
 #include "../game/duel_init_scene.h"
 #include "../game/func_80024DC8.h"
 #include "../game/graphics_frame.h"
+#include "../game/func_800323F8.h"
 #include "../game/func_800339D0.h"
 #include "../game/save_data.h"
 #include "../game/main_frame.h"

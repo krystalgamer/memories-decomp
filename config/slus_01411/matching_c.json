@@ -2275,6 +2275,12 @@
       "source": "src/game/duel_reward_setup.c"
     },
     {
+      "address": "0x800323F8",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x740",
+      "source": "src/game/func_800323F8.c"
+    },
+    {
       "address": "0x80032B38",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
