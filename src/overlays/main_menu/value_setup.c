@@ -440,9 +440,8 @@ void MainMenu_DrawValueSetup(void)
     }
 }
 
-void MainMenu_UpdateValueWidgetTween(u8 *obj)
+void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 {
-    DisplayObject *o = (DisplayObject *)obj;
     DisplayObject *widget;
     s32 targetX;
     s32 targetY;
@@ -517,7 +516,7 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_6B = index;
     object->field_60 = 0xA;
     object->field_6C = value;
-    object->update = MainMenu_UpdateValueWidgetTween;
+    object->update = (DisplayObjectCallback)MainMenu_UpdateValueWidgetTween;
     object->field_34.h.field_36 = object->field_30.h.field_30;
     object->field_38.h.field_38 = object->field_30.h.field_32;
 }
