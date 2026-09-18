@@ -1370,7 +1370,7 @@ shared `D_800E9DC0` save point with `setjmp`; `Main_RunGameOver`
 returns to it through `longjmp(..., 1)` from the Game Over path; and
 `debug_menu_exit.c` returns through `longjmp(..., 2)`. `Main_Init` remains a
 implementation in `src/game/main_init.c`, while `Main_RunGameOver` now
-matches from `src/game/main_run_options_menu.c`; `debug_menu_exit.c` is the other
+matches from `src/game/main_mode_runners.c`; `debug_menu_exit.c` is the other
 matching user. The imported `longjmp`
 prototype has no compiler attribute, so `DebugMenu_Exit` repeats the compatible
 declaration with GCC's `noreturn` attribute: its `0x30`-byte target ends at the

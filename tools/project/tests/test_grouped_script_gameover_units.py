@@ -25,10 +25,14 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
         )
 
     def test_main_mode_runners_have_one_owner(self) -> None:
-        owner = "src/game/main_run_options_menu.c"
+        owner = "src/game/main_mode_runners.c"
         self.assertEqual(self.functions["0x8002D6C8"]["source"], owner)
         self.assertEqual(self.functions["0x8002D730"]["source"], owner)
+        self.assertEqual(self.functions["0x8002D7C4"]["source"], owner)
         self.assertFalse((ROOT / "src/game/main_run_game_over.c").exists())
+        self.assertFalse(
+            (ROOT / "src/game/main_run_unused_developer_mode.c").exists()
+        )
 
     def test_game_over_runtime_has_one_owner(self) -> None:
         owner = "src/game/game_over.c"
@@ -55,8 +59,12 @@ class GroupedScriptGameOverUnitTests(unittest.TestCase):
                 ),
             ),
             (
-                "src/game/main_run_options_menu.c",
-                ("void Main_RunOptionsMenu(", "void Main_RunGameOver("),
+                "src/game/main_mode_runners.c",
+                (
+                    "void Main_RunOptionsMenu(",
+                    "void Main_RunGameOver(",
+                    "void Main_RunUnusedDeveloperMode(",
+                ),
             ),
             (
                 "src/game/game_over.c",

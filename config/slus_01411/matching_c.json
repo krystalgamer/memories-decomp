@@ -1762,19 +1762,19 @@
       "address": "0x8002D6C8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x68",
-      "source": "src/game/main_run_options_menu.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D730",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/main_run_options_menu.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D7C4",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/main_run_unused_developer_mode.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D7CC",

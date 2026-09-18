@@ -57,3 +57,9 @@ void Main_RunGameOver(void)
         }
     }
 }
+
+/* gMain_apfnModeRunner entry 13: the developer-mode slot's runner is empty in
+   the retail build. */
+void Main_RunUnusedDeveloperMode(void)
+{
+}
