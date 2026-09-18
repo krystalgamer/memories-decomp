@@ -4104,9 +4104,9 @@ into the argument register. Storing through the *state* pointer at `0x4C0`
 offsets instead does not: the base stays in `$v1` and the argument is derived
 as `addiu $a0, $v1, 0x4C0`, which is retail's shape. All three functions then
 reach their exact instruction count with opcode distance 0, at 6, 8 and 9
-differing positions, and what is left in each is prologue scheduling. The
-remaining `func_8004A27C` candidate is build-integrated at
-`src/candidates/func_8004A27C.c`; the two envelope helpers are exact in
+differing positions, and what is left in each is prologue scheduling. All
+three are now exact: `func_8004A27C` in `src/game/sound_voice_volume.c` once
+the voice-mask table is declared const, and the two envelope helpers in
 `src/game/sound_voice_envelope.c`.
 
 ### Emission order is not source order for a run of stores to one struct

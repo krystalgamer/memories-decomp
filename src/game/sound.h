@@ -762,8 +762,10 @@ extern u8 *D_8009B458_r asm("D_8009B458");
  * D_80011434_IS_CONST is a codegen input, measured rather than assumed:
  * with sound_voice_envelope.c on the plain declaration that unit compiled to
  * 204 bytes of text instead of 200 and the executable stopped linking,
- * because .initialized_data then overlapped .text. Nothing else needs the
- * qualifier; sound_voice_envelope.c defines it.
+ * because .initialized_data then overlapped .text. SD_SetVoiceVolume needs it
+ * too: only an unchanging table load is free of the stores through the state
+ * pointer, which is what puts its right-channel master in $a1.
+ * sound_voice_envelope.c and sound_voice_volume.c define it.
  */
 #ifdef D_80011434_IS_CONST
 extern const s32 D_80011434[20];
@@ -771,6 +773,10 @@ extern const s32 D_80011434[20];
 extern s32 D_80011434[20];
 #endif
 
+/* Submits one secondary object's stereo level, scaled by the two channel
+ * masters, as a volume-only SpuSetVoiceAttr request (sound_voice_volume.c).
+ * Three arguments and no result: callers never read one. */
+void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 /* Copies a tone record's ADSR fields into one SPU voice. */
 void SD_SetVoiceEnvelopeFromTone(s32 index, SDToneEnvelopeView *tone);
 /* Resets one SPU voice's envelope through the shared attribute block. */
