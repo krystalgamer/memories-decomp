@@ -5,7 +5,7 @@
 #include "gpu_packets.h"
 
 #define GPU_PACKET_CODE_OFFSET(prefix_words) \
-    ((prefix_words) * sizeof(u32) + (u32)&((P_CODE *)0)->code)
+    ((u32)&((u32 *)0)[prefix_words] + (u32)&((P_CODE *)0)->code)
 #define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
 
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
