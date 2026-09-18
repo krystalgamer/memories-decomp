@@ -7,6 +7,9 @@
 #include "scene_image_overlay_tables.h"
 #include "display_object_config.h"
 
+#define SCRIPT_IMAGE_ENTRY_OBJECT(entry) \
+    ((DisplayObject *)(entry).pointer)
+
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
  * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.
  * gp=0, at=0, no addressing work; default flags.
@@ -74,21 +77,21 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
         if (t->mask & 1) {
             ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
-            ((DisplayObject *)p->entries[1].pointer)
-                ->field_30.h.field_30 = t->x1;
-            ((DisplayObject *)p->entries[1].pointer)
-                ->field_30.h.field_32 = t->y1;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_30 =
+                t->x1;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->field_30.h.field_32 =
+                t->y1;
         }
         if (t->mask & 2) {
             ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
-            ((DisplayObject *)p->entries[2].pointer)
-                ->field_30.h.field_30 = t->x2;
-            ((DisplayObject *)p->entries[2].pointer)
-                ->field_30.h.field_32 = t->y2;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_30 =
+                t->x2;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->field_30.h.field_32 =
+                t->y2;
             p->entries[2].value = t->value;
             if (t->mask & 0x80) {
-                ((DisplayObject *)p->entries[2].pointer)->flags |=
+                SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
         }
