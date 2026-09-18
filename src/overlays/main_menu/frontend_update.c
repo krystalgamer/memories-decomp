@@ -220,7 +220,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         *(volatile s16 *)&eloop->field_30.h.field_30 = value;
         if ((frame & 1) != 0) {
-            MainMenu_SpawnFrontendEntryAfterimage(*slot);
+            MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
         }
         ((DisplayObject *)*slot)->flags =
             ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;

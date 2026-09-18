@@ -99,9 +99,9 @@ static void consume(s32 kind, s32 argument)
     if (!equal(memory, e->snapshot, SIZE)) fail(3);
 }
 int rsin(int angle) { consume(SIN, angle); return sine_value; }
-void MainMenu_SpawnFrontendEntryAfterimage(u8 *source)
+void MainMenu_SpawnFrontendEntryAfterimage(struct DisplayObject *entry)
 {
-    if (source != object) fail(4);
+    if ((u8 *)entry != object) fail(4);
     /* Snapshot includes the newly interpolated coordinate, but old flags. */
     consume(AFTERIMAGE, 0);
 }
