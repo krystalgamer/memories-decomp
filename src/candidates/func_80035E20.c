@@ -16,10 +16,34 @@
  * - the -fno-strength-reduce profile is the measured one: plain
  *   gcc_2_8_1_g8_split is 886 instructions.
  *
- * Residual: every opcode position matches; five rows differ in registers.
- * After GsSetLsMatrix the target computes the three RotAverageNclip4 vector
- * addresses before materialising -8 and 8, where this source materialises the
- * constants first.
+ * Residual: 875 of 875 instructions with an empty census, 873 aligned on
+ * opcode and registers, in two blocks that are one displaced pair. After
+ * GsSetLsMatrix the target computes the three RotAverageNclip4 argument
+ * addresses first -- addiu a0,s4,8 / a1,s4,16 / a2,s4,24 at words 655-657 --
+ * and materialises -8 and 8 only after them, at 658-659. This source emits
+ * those two li at 655-656 instead: same two instructions, same registers,
+ * three words early. It is where the scheduler placed them, not a register
+ * assignment or a missing name.
+ *
+ * Measured against that residual, and dead:
+ * - the position of the `k8 = 8` do/while pin. Removing it is 870 aligned in
+ *   four blocks, moving it to its first consumer 867, moving the bare
+ *   assignment down 870 (byte-identical to removing the pin), and placing it
+ *   after the four -8 stores 868. The pin earns its place;
+ * - a second name for -8, in four spellings. Assigned after the pin it is
+ *   byte-identical to this source; assigned or pinned before it, the
+ *   displacement widens to three words and alignment drops to 872;
+ * - locals for the three, or four, RotAverageNclip4 address arguments,
+ *   assigned before or after the pin. All four are byte-identical to this
+ *   source: a local equal to an address expression coalesces away, and the
+ *   target's stores go through the base register anyway, not through the
+ *   hoisted pointers;
+ * - six profiles. g8_split_no_sched1 and g8_no_sched1 are +20 instructions,
+ *   g8_no_sched2 +24, and g8_split and g8_split_comm +11 and byte-identical
+ *   to each other. Disabling the first scheduler pass is much worse, which
+ *   is the evidence that the scheduler places 873 of these correctly;
+ * - the permuter, seeded from this source. Its runs stored no output at all
+ *   and their scores rise away from the base, which is saturation.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
