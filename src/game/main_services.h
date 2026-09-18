@@ -42,7 +42,7 @@ extern void (*D_800E9DB0[4])(void);
 /* The recovery point the registry's comment above already places at
  * 0x800E9DC0. Main_Init arms it with setjmp once the boot sequence is up,
  * and two functions jump back into it: Main_RunGameOver passes 1 from the
- * game-over path and debug_menu_exit.c passes 2, so the value distinguishes
+ * game-over path and DebugMenu_Exit passes 2, so the value distinguishes
  * which unwound (the first two are now in src/candidates/). All three spell
  * it jmp_buf and include psyq/setjmp.h, which this header now includes so
  * the declaration stands on its own. */

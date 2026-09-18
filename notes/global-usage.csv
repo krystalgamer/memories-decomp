@@ -1549,7 +1549,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x80030C10,func_80030C10,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B26C[0] = 5;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80030CB0,DebugMenu_UpdateTitleEntry,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B26C[0] = 8;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80030EC8,DebugMenu_UpdateTradeEntry,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B26C[0] = 14;
-0x8009B26C,D_8009B26C,D_8009B26C,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_mapped_mode.c,write,8,D_8009B26C = v;
+0x8009B26C,D_8009B26C,D_8009B26C,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,write,8,D_8009B26C = v;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80031000,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,C,src/game/debug_menu_two_player_entry.c,write,8,D_8009B26C[0] = 0x10;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
@@ -1647,7 +1647,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2AA,D_8009B2AA,Base2_8009B2AA|D_8009B2AA,0x8003767C,func_8003767C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,16,Base2_8009B2AA[0] = value; | D_8009B2AA[0] = 0;
 0x8009B2AA,D_8009B2AA,D_8009B2AA_scalar,0x8003771C,func_8003771C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,16,D_8009B2AA_scalar = TextStream_ReadU16LE(object); | D_8009B2AA_scalar = raw_value - 0x1000; | (+2 more)
 0x8009B2B2,D_8009B2B2,D_8009B2B2,0x80030198,DebugMenu_Init,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2B2 = 0x80;
-0x8009B2B2,D_8009B2B2,D_8009B2B2,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_mapped_mode.c,write,8,D_8009B2B2 = 0;
+0x8009B2B2,D_8009B2B2,D_8009B2B2,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,write,8,D_8009B2B2 = 0;
 0x8009B2B4,D_8009B2B4,D_8009B2B4,0x80030250,func_80030250,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2B4 = field_B4;
 0x8009B2B4,D_8009B2B4,D_8009B2B4,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,,D_8009B2B4[gDebug_bEditorRow] - gDebug_bEditorDigit];
 0x8009B2B5,D_8009B2B5,D_8009B2B5,0x80030250,func_80030250,matching_c,game,C,src/game/duel_interface_setup.c,write,,D_8009B2B5 = field_B5;
@@ -1707,7 +1707,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2F0,gDebugMenu_bPage,gDebugMenu_bPage,0x80030198,DebugMenu_Init,matching_c,game,C,src/game/duel_interface_setup.c,write,,gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
 0x8009B2F0,gDebugMenu_bPage,gDebugMenu_bPage,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,read_write,8,"TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0); | gDebugMenu_bPage = gDebugMenu_bPage ^ one; | (+1 more)"
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,read,8,s32 index = gDebugMenu_bCursor;
-0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_mapped_mode.c,read,8,s32 i = gDebugMenu_bCursor;
+0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,read,8,s32 i = gDebugMenu_bCursor;
 0x8009B2F1,gDebugMenu_bCursor,gDebugMenu_bCursor,0x80031084,DebugMenu_Update,matching_c,game,C,src/game/debug_menu_update.c,read_write,8,D_8009B2EB = gDebugMenu_bCursor + 1; | gDebugMenu_bCursor + DEBUG_MENU_COLUMN_ENTRY_COUNT; | (+13 more)
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,write,8,D_8009B2F8[0] = 0x80;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,8,D_8009B2F8[0]
@@ -1886,7 +1886,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,gDuel_bTerrain = v;
 0x8009B364,gDuel_bTerrain,gDuel_bTerrain,0x80071460,AiScript_LoadTerrain,matching_c,game,C,src/game/ai_script_load_terrain.c,read,8,u32 value = gDuel_bTerrain;
 0x8009B365,gFreeDuel_bReturnFlags,gFreeDuel_bReturnFlags,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,write,8,gFreeDuel_bReturnFlags = 0;
-0x8009B365,gFreeDuel_bReturnFlags,gFreeDuel_bReturnFlags,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_mapped_mode.c,write,8,gFreeDuel_bReturnFlags = 0;
+0x8009B365,gFreeDuel_bReturnFlags,gFreeDuel_bReturnFlags,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,write,8,gFreeDuel_bReturnFlags = 0;
 0x8009B368,D_8009B368,D_8009B368,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,8,next = D_8009B368;
 0x8009B368,D_8009B368,D_8009B368,0x8002DC38,Main_RunTwoPlayerDuelSetup,matching_c,game,C,src/game/main_run_two_player_duel_setup.c,write,8,D_8009B368 = 8;
 0x8009B368,D_8009B368,D_8009B368,0x80030F40,DebugMenu_EnterDuel,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B368 = 0;
@@ -2421,7 +2421,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9DBC,D_800E9DBC,D_800E9DBC,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,write,32,"lui $v0, %hi(D_800E9DBC) | lui $v1, %hi(D_800E9DBC) | (+2 more)"
 0x800E9DC0,D_800E9DC0,D_800E9DC0,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,read,,r = setjmp(D_800E9DC0);
 0x800E9DC0,D_800E9DC0,D_800E9DC0,0x8002D730,Main_RunGameOver,matching_c,game,C,src/game/main_mode_runners.c,read,,"longjmp(D_800E9DC0, 1);"
-0x800E9DC0,D_800E9DC0,D_800E9DC0,0x80030FD0,DebugMenu_Exit,matching_c,game,C,src/game/debug_menu_exit.c,read,,"longjmp(D_800E9DC0, 2);"
+0x800E9DC0,D_800E9DC0,D_800E9DC0,0x80030FD0,DebugMenu_Exit,matching_c,game,C,src/game/debug_menu_leave_entries.c,read,,"longjmp(D_800E9DC0, 2);"
 0x800E9DF0,D_800E9DF0,D_800E9DF0,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,write,,D_800E9DF0.attribute = 0x8000000; | state = &D_800E9DF0;
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80013A94,func_80013A94,matching_c,game,C,src/game/file_stream.c,address,,transfer = &gFile_SecondaryTransferDescriptor;
 0x800E9E18,gFile_SecondaryTransferDescriptor,gFile_SecondaryTransferDescriptor,0x80013B68,File_RequestSecondaryRangeTransfer,matching_c,game,C,src/game/file_transfer_setup.c,address,,p = &gFile_SecondaryTransferDescriptor;

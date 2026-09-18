@@ -43,7 +43,7 @@ extern u8 D_80090D44[0x24];
 extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
 
 /* DebugMenu_EnterMappedMode reads it as the index into gDebugMenu_abMainModeByEntry (`s32 i =
-   gDebugMenu_bCursor;` at debug_menu_mapped_mode.c:11, `v = p[i];` at :15);
+   gDebugMenu_bCursor;` at debug_menu_leave_entries.c:21, `v = p[i];` at :25);
    DebugMenu_UpdateCursorLayout reads it as `s32 index = gDebugMenu_bCursor;`.
    DebugMenu_Update
    is the only C writer: it adds 0xA when the sum is below 0x14

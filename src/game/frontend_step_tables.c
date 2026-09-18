@@ -27,7 +27,7 @@
  *
  * What this does NOT claim: the tables are attributed to the frontend
  * because their entries live in frontend_scene_states.c,
- * debug_menu_mapped_mode.c and
+ * debug_menu_leave_entries.c and
  * their neighbours in the 0x80030000 range, not because anything in the tree
  * names them. The state byte they index, D_8009B2EB, is also written by the
  * memory card paths, so this is not evidence that the tables are
