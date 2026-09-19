@@ -92,6 +92,7 @@
 #define CARD_KIND(id) \
     ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & \
      CARD_STAT_TYPE_MASK)
+#define HAND_CARD_OBJECT_VIEW(object) ((HandCardObject *)(object))
 /* The two choice sprites set their flags through the halfword, not the
  * record: the store stays ahead of the pointer's own store. */
 #define SPRITE_FLAGS(sprite) (*(u16 *)((u8 *)(sprite) + 8))
@@ -126,7 +127,8 @@ void DuelScene_UpdateHandActions(void)
         D_8009B162 = 0;
         side->field_0E = 0;
         side->field_15 = 0;
-        obj = (HandCardObject *)DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        obj = HAND_CARD_OBJECT_VIEW(
+            DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2));
         DisplayObject_ConfigureSpriteResource((DisplayObject *)obj, 3, 0, 2, 0xB, 0x20C);
         obj->flags |= 0x28;
         DisplayObject_SelectOrderingTable1((DisplayObject *)obj);
@@ -220,7 +222,7 @@ void DuelScene_UpdateHandActions(void)
             }
             return;
         case 2:
-            obj = (HandCardObject *)hand->object;
+            obj = HAND_CARD_OBJECT_VIEW(hand->object);
             if (!(SUBSTATE & 0x8000)) {
                 SUBSTATE |= 0xC000;
                 card_id = CARD_ID(obj->card_index);
@@ -315,7 +317,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             for (n = 0; n < 5; n++) {
-                ((HandCardObject *)D_800EA030[n].object)->color = 0x808080;
+                HAND_CARD_OBJECT_VIEW(D_800EA030[n].object)->color = 0x808080;
             }
         }
         if (Duel_CheckQuitInput() != 0) {
@@ -359,7 +361,7 @@ void DuelScene_UpdateHandActions(void)
             if (value != 0) {
                 SD_SEPlayFull(0x2F);
                 hand->active_09 = 0;
-                ((HandCardObject *)hand->object)->pos.xy.y += 4;
+                HAND_CARD_OBJECT_VIEW(hand->object)->pos.xy.y += 4;
                 DisplayObject_ReleaseIfPresent(hand->child);
                 hand->child = 0;
                 side->field_15--;
@@ -368,7 +370,8 @@ void DuelScene_UpdateHandActions(void)
                     v = hand->active_09;
                     if (v >= value) {
                         hand->active_09 = v - 1;
-                        ((HandCardObject *)hand->child)->icon_state = (v - 2) * 0x10;
+                        HAND_CARD_OBJECT_VIEW(hand->child)->icon_state =
+                            (v - 2) * 0x10;
                     }
                 }
                 return;
@@ -392,7 +395,7 @@ void DuelScene_UpdateHandActions(void)
         }
         break;
     case 3:
-        obj = (HandCardObject *)hand->object;
+        obj = HAND_CARD_OBJECT_VIEW(hand->object);
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0xC0;
             obj->target.xy.x = 0x86;
@@ -559,18 +562,19 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B19C = value;
                 i = 0;
                 if (card->flags & 0x8000) {
-                    obj = (HandCardObject *)card->object;
+                    obj = HAND_CARD_OBJECT_VIEW(card->object);
                     i = 1;
                     D_800E9EF0[0] = (DisplayObject *)func_80017F04(card, CARD_PLACE_X(card), CARD_PLACE_Y(card));
                     DuelCard_DeactivateRecord(&D_801A7AD8[obj->card_index]);
                 } else if (side->field_15 == 0 &&
-                           ((HandCardObject *)hand->object)->kind == CARD_TYPE_EQUIP &&
+                           HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
+                               CARD_TYPE_EQUIP &&
                            D_8009B1B4->row == 2) {
                     return;
                 }
                 if (side->field_15 == 0) {
                     hand->active_09 = 1;
-                    if (((HandCardObject *)hand->object)->face != 0) {
+                    if (HAND_CARD_OBJECT_VIEW(hand->object)->face != 0) {
                         D_8009B1C8->rank.face_down_plays++;
                     }
                 }
