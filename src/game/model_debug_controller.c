@@ -38,7 +38,7 @@ s32 ModelDebug_UpdateController(void)
     }
     slots = D_800F2C40;
     if (!slots[2].field_E1F) {
-        func_80059AEC(1);
+        Model_SetFrameStepOverride(1);
         FntPrint(D_80011518, slots[2].field_DF8, slots[2].field_E14);
         if (slots[2].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
@@ -68,7 +68,7 @@ s32 ModelDebug_UpdateController(void)
             D_8009AF9A = 0;
         }
     } else if (!slots[0].field_E1F) {
-        func_80059AEC(1);
+        Model_SetFrameStepOverride(1);
         FntPrint(D_8001152C, slots[0].field_DF8, slots[0].field_E14);
         if (slots[0].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
@@ -79,7 +79,7 @@ s32 ModelDebug_UpdateController(void)
         if (D_800F2C40[0].field_E1F)
             func_80059AA8(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     } else if (!slots[1].field_E1F) {
-        func_80059AEC(1);
+        Model_SetFrameStepOverride(1);
         FntPrint(D_80011540, slots[1].field_DF8, slots[1].field_E14);
         if (slots[1].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))

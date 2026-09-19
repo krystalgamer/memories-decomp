@@ -305,7 +305,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
 0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/func_80058E1C.c,read,8,if (D_8009AFA3 < 6) { | result = D_8009AFA3;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009AFA4 = 0;
-0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80059AEC,func_80059AEC,matching_c,game,C,src/game/model_state_setters.c,write,8,D_8009AFA4 = value;
+0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80059AEC,Model_SetFrameStepOverride,matching_c,game,C,src/game/model_state_setters.c,write,8,D_8009AFA4 = value;
 0x8009AFA6,D_8009AFA6,D_8009AFA6,0x80058DC0,func_80058DC0,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA6;
 0x8009AFAC,D_8009AFAC,D_8009AFAC,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,write,32,D_8009AFAC = 0x24808080;
 0x8009AFAC,D_8009AFAC,D_8009AFAC,0x800612C0,func_800612C0,handwritten_asm,game,assembly,tmp/splat/asm/generated/text_051ac0.s,read,32,"lui $s0, %hi(D_8009AFAC) | lw $s0, %lo(D_8009AFAC)($s0)"

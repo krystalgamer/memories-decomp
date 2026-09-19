@@ -143,7 +143,7 @@ s32 func_8006CD78(void *data, s32 arg1)
 
     ot = func_80058F10();
     Model_GetFrameStep();
-    func_80059AEC(1);
+    Model_SetFrameStepOverride(1);
     PushMatrix();
     ls = *(MATRIX *)func_80059220();
     Model_CopySlotU16Values(slot, (u16 *)&pos);

@@ -950,7 +950,7 @@ address,size,name,status,module,notes
 0x80059A50,0x58,func_80059A50,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8.
 0x80059AA8,0x38,func_80059AA8,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80059AE0,0xC,func_80059AE0,matching_c,game,1 pre-policy variants: Straight unsigned-halfword G8 setter matched linked bytes and GPREL16 relocation.
-0x80059AEC,0xC,func_80059AEC,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 setter matched linked bytes and GPREL16 relocation.
+0x80059AEC,0xC,Model_SetFrameStepOverride,matching_c,game,1 pre-policy variants: Straight unsigned-byte G8 setter matched linked bytes and GPREL16 relocation.
 0x80059AF8,0x98,func_80059AF8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80059B90,0x88,func_80059B90,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x80059C18,0xC,func_80059C18,matching_c,game,Animated-battle scene-state setter; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.

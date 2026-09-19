@@ -650,7 +650,7 @@ void func_8004FE2C(void)
     slot = D_800F2C40;
     first = (s32 (*)(s32, s32))(D_80010014 + 4);
     second = (s32 (*)(s32, s32))(D_80010018 + 4);
-    func_80059AEC(1);
+    Model_SetFrameStepOverride(1);
     if ((u32)((u8)D_8009AF9A - 8) < 2 && slot->field_E15 == 0) {
         D_8009AFA0 = 0;
         if (first(D_80010024, -1) == 2) {
@@ -964,7 +964,7 @@ void func_800507D0(void)
   u32 peer_blue;
   s32 result;
 
-  func_80059AEC(1);
+  Model_SetFrameStepOverride(1);
   switch ( D_8009AF9A )
   {
     case -1:

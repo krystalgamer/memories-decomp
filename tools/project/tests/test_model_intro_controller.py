@@ -207,7 +207,7 @@ static s32 observe(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f, s32 g,
     return results[kind];
 }
 
-void func_80059AEC(s32 a) { observe(INITIAL,a,0,0,0,0,0,0,0); }
+void Model_SetFrameStepOverride(s32 a) { observe(INITIAL,a,0,0,0,0,0,0,0); }
 static s32 old_first(s32 a, s32 b) { return observe(OLD_FIRST,a,b,0,0,0,0,0,0); }
 static s32 old_second(s32 a, s32 b) { return observe(OLD_SECOND,a,b,0,0,0,0,0,0); }
 static s32 new_first(s32 a, s32 b) { return observe(NEW_FIRST,a,b,0,0,0,0,0,0); }

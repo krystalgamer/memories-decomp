@@ -100,7 +100,7 @@ static void record(s32 kind, s32 a, s32 b, s32 c, s32 d)
     count++;
 }
 
-void func_80059AEC(s32 value)
+void Model_SetFrameStepOverride(s32 value)
 {
     record(1, value, 0, 0, 0);
     D_8009AFA4[0] = value;
