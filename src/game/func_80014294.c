@@ -259,7 +259,7 @@ void File_ServiceTransfers(s32 arg0)
     D_8009B0E8 = 0;
 }
 
-/* func_80014B30 is a transfer-phase callback of the same family as
+/* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
    func_80057544 and func_80057728: func_80014C40 below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
@@ -267,7 +267,7 @@ void File_ServiceTransfers(s32 arg0)
    phase_size, the word at field_30 and done -- which is what its old private
    record named
    value_8, value_c, value_1c, value_30 and mode_46. */
-void func_80014B30(FileTransferDescriptor *object, s32 mode)
+void SD_ConfigureTransferPhase(FileTransferDescriptor *object, s32 mode)
 {
     FileRequestSlot *shared;
     s32 value;
@@ -380,7 +380,7 @@ s32 func_80014C40(FileRequestSlot *p, u8 *q) {
         D_8009B0F4 =
             D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         v = w | 0x1400000;
-        f = func_80014B30_callback;
+        f = SD_ConfigureTransferPhase_callback;
 
         if ((D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
             if ((D_8009B0F4 & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {

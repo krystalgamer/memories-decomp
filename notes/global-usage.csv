@@ -854,7 +854,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800144B8,func_800144B8,matching_c,game,C,src/game/func_80014294.c,read_write,32,void func_800144B8(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED...
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8001455C,File_StepActiveTransfer,matching_c,game,C,src/game/func_80014294.c,read_write,32,D_8009B0F4 = | D_8009B0F4 = D_8009B0F4 & 0xFFBFFFFF; | (+16 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014A5C,File_ServiceTransfers,matching_c,game,C,src/game/func_80014294.c,read,32,(D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)) { | if (!(D_8009B0F4 & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) && | (+1 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014B30,func_80014B30,matching_c,game,C,src/game/func_80014294.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF;
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014B30,SD_ConfigureTransferPhase,matching_c,game,C,src/game/func_80014294.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014C40,func_80014C40,matching_c,game,C,src/game/func_80014294.c,read_write,32,D_8009B0F4 & ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | D_8009B0F4 = | (+4 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014E1C,File_RequestAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read_write,32,D_8009B0F4 = | D_8009B0F4 |= FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014EEC,File_TryRequestAsyncTransfer,matching_c,game,C,src/game/file_transfer_flags.c,read,32,if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -938,7 +938,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B114,D_8009B114,D_8009B114,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,write,8,D_8009B114 = 0;
 0x8009B118,D_8009B118,D_8009B118,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B118 = value;
 0x8009B118,D_8009B118,D_8009B118,0x80013998,File_InitTransferDescriptor,matching_c,game,C,src/game/file_stream.c,read,32,transfer->value_08 = D_8009B118; | transfer->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
-0x8009B118,D_8009B118,D_8009B118,0x80014B30,func_80014B30,matching_c,game,C,src/game/func_80014294.c,read,32,base = D_8009B118;
+0x8009B118,D_8009B118,D_8009B118,0x80014B30,SD_ConfigureTransferPhase,matching_c,game,C,src/game/func_80014294.c,read,32,base = D_8009B118;
 0x8009B118,D_8009B118,D_8009B118,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,"LoadImage2(&D_800E9D70[0], (u32 *)D_8009B118); | d->value_08 = (u32)D_8009B118; | (+3 more)"
 0x8009B118,D_8009B118,D_8009B118,0x80020BE4,func_80020BE4,matching_c,game,C,src/game/func_80020BE4.c,read,32,d = D_8009B118; | e = D_8009B118; | (+2 more)
 0x8009B118,D_8009B118,D_8009B118,0x800289BC,func_800289BC,matching_c,game,C,src/game/func_800289BC.c,read,32,b = D_8009B118 + 0x2640; | b = D_8009B118 + 0x2840; | (+4 more)
@@ -967,7 +967,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B120,D_8009B120,D_8009B120,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B120 = func_800466C8;
 0x8009B124,D_8009B124,D_8009B124,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,16,D_8009B124 = 0;
 0x8009B124,D_8009B124,D_8009B124,0x80014A5C,File_ServiceTransfers,matching_c,game,C,src/game/func_80014294.c,read_write,16,D_8009B124 = 0; | D_8009B124 = 1; | (+1 more)
-0x8009B128,D_8009B128,D_8009B128,0x80014B30,func_80014B30,matching_c,game,C,src/game/func_80014294.c,read,,callback = D_8009B128;
+0x8009B128,D_8009B128,D_8009B128,0x80014B30,SD_ConfigureTransferPhase,matching_c,game,C,src/game/func_80014294.c,read,,callback = D_8009B128;
 0x8009B128,D_8009B128,D_8009B128,0x8004545C,SD_ArmBusyCallback,matching_c,game,C,src/game/sd_arm_busy_callback.c,write,,D_8009B128 = SD_ClearBusyFlag;
 0x8009B12C,D_8009B12C,D_8009B12C,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B12C = 0;
 0x8009B130,D_8009B130,D_8009B130,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B130 = 0;
@@ -3215,7 +3215,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003D03C,SaveData_BuildPayload,matching_c,game,C,src/game/save_data_payload.c,address,8,"Util_CopyWords(data, gSaveData_aHeaderTemplate, SAVE_DATA_HEADER_SIZE);"
 0x801D4000,gSaveData_aHeaderTemplate,gSaveData_aHeaderTemplate,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,8,"gSaveData_aHeaderTemplate,"
 0x801D4200,D_801D4200,D_801D4200_raw,0x800143DC,File_ActivateTransfer,matching_c,game,C,src/game/func_80014294.c,read_write,8,*(FileRequestSlot *)(D_801D4200_raw + 32); | *(FileRequestSlot *)D_801D4200_raw =
-0x801D4200,D_801D4200,D_801D4200,0x80014B30,func_80014B30,matching_c,game,C,src/game/func_80014294.c,address,,shared = &D_801D4200;
+0x801D4200,D_801D4200,D_801D4200,0x80014B30,SD_ConfigureTransferPhase,matching_c,game,C,src/game/func_80014294.c,address,,shared = &D_801D4200;
 0x801D4200,D_801D4200,D_801D4200_raw,0x80014C40,func_80014C40,matching_c,game,C,src/game/func_80014294.c,address,8,r = D_801D4200_raw;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80017F04,func_80017F04,matching_c,game,C,src/game/duel_init_scene.c,address,32,tbl = gDuel_adwCardStats;
 0x801D4244,gDuel_adwCardStats,gDuel_adwCardStats,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,read,32,stat = gDuel_adwCardStats[rec->id - 1]; | stat2 = gDuel_adwCardStats[rec->id - 1];

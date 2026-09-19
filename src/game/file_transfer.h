@@ -13,7 +13,7 @@
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
-   func_80014B30 consumes slot 0. Preserve the scalar and same-symbol byte
+   SD_ConfigureTransferPhase consumes slot 0. Preserve the scalar and same-symbol byte
    views used by the callback and whole-record copies, respectively. */
 extern FileRequestSlot D_801D4200;
 /* The asm-labelled byte views below are opted into by their only consumer,
@@ -69,7 +69,7 @@ void func_80013C28(s32);
 #endif
 void File_StepActiveTransfer(void);
 void File_ServiceTransfers(s32 arg0);
-void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
+void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 mode);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
    state. The result retains its historical status-or-descriptor integer ABI. */
 s32 func_80014C40(FileRequestSlot *request, u8 *source);

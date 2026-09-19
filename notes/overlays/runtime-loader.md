@@ -86,7 +86,7 @@ is what sets the move width, so it is deliberately not interchangeable with
 The separate `0x20`-byte record at `D_801D4200` is not a descriptor. It is a
 two-slot request table, `FileRequestSlot`: `func_80014C40` stages a request
 into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
-whole-record copies at that stride, and `func_80014B30` then programs the
+whole-record copies at that stride, and `SD_ConfigureTransferPhase` then programs the
 descriptor from slot 0.
 
 ### Sound-to-loader request contract
@@ -110,7 +110,7 @@ four-byte alignment retain the existing word copies:
 | `+0x00` | `s32 field_00` | Sound writes file values 4, 5 and 6; dispatcher forwards the word to `func_80013A94` or ORs it with request flags |
 | `+0x04` | `s32 field_04` | Sound writes its current offset; dispatcher adds it to the LBA base or forwards it to descriptor setup |
 | `+0x08` | four unknown bytes | Included in whole-record copies; no field interpretation introduced |
-| `+0x0C` | `s32 field_0C` | Sound writes its `+0x68` word; `func_80014B30` assigns it to descriptor `field_30.word` |
+| `+0x0C` | `s32 field_0C` | Sound writes its `+0x68` word; `SD_ConfigureTransferPhase` assigns it to descriptor `field_30.word` |
 | `+0x10` | `s32 field_10` | Sound writes its `+0x6C` word; the callback copies it to both destination words |
 | `+0x14/+0x18` | `s32 field_14/field_18` | Sound writes its two phase quantities; dispatcher tests their sum and callback consumes them by phase |
 | `+0x1C` | `s16 field_1C` | Sound clears or writes a range length; dispatcher distinguishes negative, zero and positive values with a signed halfword read |
