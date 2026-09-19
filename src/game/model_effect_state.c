@@ -19,6 +19,8 @@
 #include "func_8005D994.h"
 #include "func_8005FBC4.h"
 
+#define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
+
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
    `cur - D_800F5788` is the ring index; the three keys the segment spans are
@@ -360,7 +362,7 @@ void func_8005F7B0(s32 value, s32 arg)
         flag = flag > 0;
     }
     func_8005F91C(
-        flag, (ModelEffectEndpoint *)&d, (ModelEffectEndpoint *)&d, arg
+        flag, MODEL_EFFECT_ENDPOINT_VIEW(&d), MODEL_EFFECT_ENDPOINT_VIEW(&d), arg
     );
 }
 
@@ -388,8 +390,8 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
     do {
         func_8005F91C(
             flag,
-            (ModelEffectEndpoint *)p1,
-            (ModelEffectEndpoint *)p2,
+            MODEL_EFFECT_ENDPOINT_VIEW(p1),
+            MODEL_EFFECT_ENDPOINT_VIEW(p2),
             arg3
         );
 
@@ -401,13 +403,13 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
         }
 
         if (p1 != 0 &&
-            *(s16 *)&((ModelEffectEndpoint *)p1)->kind != 0) {
+            *(s16 *)&MODEL_EFFECT_ENDPOINT_VIEW(p1)->kind != 0) {
             goto cont;
         }
         if (p2 == 0) {
             return;
         }
-        if (*(s16 *)&((ModelEffectEndpoint *)p2)->kind == 0) {
+        if (*(s16 *)&MODEL_EFFECT_ENDPOINT_VIEW(p2)->kind == 0) {
             return;
         }
 cont:
