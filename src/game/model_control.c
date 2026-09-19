@@ -31,6 +31,8 @@
 #include "duel_card.h"
 #include "sound.h"
 
+#define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *)(address))
+
 void func_800559D4(s32 index)
 {
     ModelSlot *slot = &D_800F2C40[index];
@@ -121,16 +123,16 @@ void func_800559D4(s32 index)
         if (other->field_DFF != 0) {
             {
                 u16 own_value =
-                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
                 u16 other_value =
-                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
                 selected = own_value > other_value ? 6 : 8;
             }
         } else {
             u16 own_value =
-                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
             u16 other_value =
-                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
             selected = own_value > other_value ? 6 : 5;
             if (own_value == other_value) {
                 selected |= 0x80;
@@ -181,16 +183,16 @@ void func_800559D4(s32 index)
         if ((((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
             {
                 u32 own_value =
-                    ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
                 u32 other_value =
-                    ((ModelSlotCF8TailView *)other_record)->prefix.values.field_02;
+                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_02;
                 reaction = other_value < own_value ? 6 : 8;
             }
         } else {
             u32 own_value =
-                ((ModelSlotCF8TailView *)own_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.field_00;
             u32 other_value =
-                ((ModelSlotCF8TailView *)other_record)->prefix.values.field_00;
+                MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.field_00;
             reaction = other_value < own_value ? 6 : 5;
             if (own_value == other_value) {
                 reaction |= 0x80;
@@ -262,19 +264,19 @@ no_handler:
                      offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
                     {
                         u32 own_value =
-                            ((ModelSlotCF8TailView *)own_record)->
+                            MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
                                 prefix.values.field_00;
                         u32 other_value =
-                            ((ModelSlotCF8TailView *)other_record)->
+                            MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
                                 prefix.values.field_02;
                         fallback_action = other_value < own_value ? 6 : 8;
                     }
                 } else {
                     u32 own_value =
-                        ((ModelSlotCF8TailView *)own_record)->
+                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
                             prefix.values.field_00;
                     u32 other_value =
-                        ((ModelSlotCF8TailView *)other_record)->
+                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
                             prefix.values.field_00;
                     fallback_action = other_value < own_value ? 6 : 5;
                     if (own_value == other_value) {
