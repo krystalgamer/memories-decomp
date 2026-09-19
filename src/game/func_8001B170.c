@@ -31,6 +31,9 @@
 #include "sound.h"
 #include "../unmatched.h"
 
+#define DISPLAY_OBJECT_POSITION_VIEW(object) \
+    ((DisplayObjectPosition *)(object))
+
 void func_8001B170(void)
 {
     DisplayObject *object;
@@ -69,7 +72,8 @@ void func_8001B170(void)
     switch (D_8009B174 & 0xF) {
     case 1:
         DisplayObject_InterpolatePositionCosine(
-            (DisplayObjectPosition *)object, 0x86, 0x2A, object->field_60);
+            DISPLAY_OBJECT_POSITION_VIEW(object),
+            0x86, 0x2A, object->field_60);
         object->field_60 += 0x80;
         if (object->field_60 < 0x800) {
             break;
@@ -122,7 +126,7 @@ state_four:
             object->field_60 = 0x400;
         }
         if (!(D_8009B174 & 0x40)) {
-            Widget_SlideSine((DisplayObjectPosition *)object,
+            Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(object),
                              object->field_2C.h.field_2E, -0xBC,
                              object->field_60);
             object->field_60 -= 0x2A;
@@ -144,19 +148,19 @@ state_four:
             D_800E9EF0[0] = card->object;
             object = D_800E9EF0[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
-            ((DisplayObjectPosition *)object)->out_y = -0xF0;
+            DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = -0xF0;
             DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
             object->field_60 = -0x400;
             break;
         }
-        Widget_SlideSine((DisplayObjectPosition *)object,
+        Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(object),
                          (s16)object->field_30.h.field_30, -0x18,
                          object->field_60);
         object->field_60 += 0x2A;
         if (object->field_60 < 0) {
             break;
         }
-        ((DisplayObjectPosition *)object)->out_y = -0x18;
+        DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = -0x18;
         D_8009B174 = 5;
         SD_SEPlayFull(0xC);
         break;
