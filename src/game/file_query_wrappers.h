@@ -10,7 +10,7 @@ int HostFile_GetSize(char *path);
 /* Reads the whole of host file `path` to `destination` through
  * HostFile_ReadRange and returns the byte count, or 0 on failure.
  * model_texture_upload.c loads a TIM to 0x80400000 with it. */
-s32 func_800598E4(char *path, char *destination);
+s32 HostFile_ReadAll(char *path, char *destination);
 
 /* Reads `length` bytes of a host file into memory through the SN fileserver,
    in 0x1000-byte chunks. A zero `length` means "to the end of the file".
