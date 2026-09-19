@@ -31,6 +31,7 @@
 
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
@@ -134,7 +135,7 @@ void func_8003AAE4(MenuRecord *p) {
         }
         func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
-        q = (DisplayObject *)p->grid[0][0];
+        q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = q->field_16;
         b = q->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), a);
@@ -150,7 +151,7 @@ void func_8003AAE4(MenuRecord *p) {
     if (p->field_40 >= 0x80) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
-                      ((DisplayObject *)p->grid[0][0])->field_16);
+                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
         func_80039F90((void **)p->grid[1]);
         p->field_32 &= 0xEF;
     } else {
@@ -158,10 +159,10 @@ void func_8003AAE4(MenuRecord *p) {
         m |= (m << 8) | (m << 16);
         for (i = 2, c = &p->grid[0][2]; i >= 0; i--, c--) {
             if (c[0] != 0) {
-                ((DisplayObject *)c[0])->field_0C = m;
+                DISPLAY_OBJECT_VIEW(c[0])->field_0C = m;
             }
             if (c[3] != 0) {
-                ((DisplayObject *)c[3])->field_0C = m;
+                DISPLAY_OBJECT_VIEW(c[3])->field_0C = m;
             }
         }
     }
@@ -181,7 +182,7 @@ void func_8003AC48(MenuRecord *p)
 
     if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
-        h = (DisplayObject *)p->grid[0][0];
+        h = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         x = h->field_16;
         y = h->field_67;
         func_8003A440((u8 **)p->grid[0], (GsALON | GsAONE), x);
@@ -202,11 +203,11 @@ void func_8003AC48(MenuRecord *p)
         m = u;
         m |= (m << 8) | (m << 16);
         for (i = 2; i >= 0; i--) {
-            e = (DisplayObject *)p->grid[0][i];
+            e = DISPLAY_OBJECT_VIEW(p->grid[0][i]);
             if (e != 0) {
                 e->field_0C = m;
             }
-            e = (DisplayObject *)p->grid[1][i];
+            e = DISPLAY_OBJECT_VIEW(p->grid[1][i]);
             if (e != 0) {
                 e->field_0C = m;
             }
@@ -231,7 +232,7 @@ void func_8003AD6C(MenuRecord *p)
 
     if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
-        r = (DisplayObject *)p->grid[0][0];
+        r = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = r->field_67;
         b = r->field_16;
         func_80039F90((void **)p->grid[0]);
@@ -255,7 +256,7 @@ void func_8003AD6C(MenuRecord *p)
     if (n <= 0) {
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
-                      ((DisplayObject *)p->grid[0][0])->field_16);
+                      DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
         func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         func_80039F90((void **)p->grid[1]);
@@ -319,7 +320,7 @@ void func_8003B054(MenuRecord *record)
        words of grid, as integers like the rest of that array. */
     if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
         if (record->field_40 != 0) {
-            o = (DisplayObject *)record->grid[0][0];
+            o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
             *(u16 *)&o->field_60 = 0;
         } else {
             id = record->field_30;
@@ -356,8 +357,8 @@ void func_8003B054(MenuRecord *record)
         DisplayObject_SetDepthOffset(o2, -9);
         record->grid[0][1] = (s32)o2;
     }
-    o = (DisplayObject *)record->grid[0][0];
-    o2 = (DisplayObject *)record->grid[0][1];
+    o = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
+    o2 = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (record->field_40 != 0) {
         *(u16 *)&o->field_60 += (u16)D_8009B0D8;
     } else {
