@@ -25,6 +25,6 @@ void func_8005A53C(s32 (*fn)(s32), ModelHandlerRunEntry *entry, s32 arg2,
                 entry->key = result;
             }
         }
-        entry = (ModelHandlerRunEntry *)((u8 *)entry + step * 4);
+        entry = (ModelHandlerRunEntry *)&((u32 *)entry)[step];
     }
 }
