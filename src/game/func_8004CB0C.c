@@ -14,6 +14,8 @@
 #define MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
 #include "../game/model_slot_setup.h"
 
+#define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
+
 /* Initializes one model channel rooted at D_800F2C40[index]: resets its
    state, maps the HMD block, scans every unit's type records into the
    handlers, links the coordinate slots, and picks the first coordinate
@@ -206,7 +208,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
     link:
         base->entry_count++;
         if (slot->primtop != 0) {
-            slot->coord = (GsCOORDUNIT *)(base->entries + off);
+            slot->coord = GS_COORD_UNIT_VIEW(base->entries + off);
         }
         off += MODEL_SLOT_DATA_ENTRY_SIZE;
         i++;
@@ -215,7 +217,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
             goto link;
         }
     }
-    scan = (GsCOORDUNIT *)base->entries;
+    scan = GS_COORD_UNIT_VIEW(base->entries);
     if (scan != 0) {
         i = 0;
         while (scan->super != 0) {
@@ -223,13 +225,13 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
             i++;
         }
         base->field_E18 = i;
-        q = (GsCOORDUNIT *)base->entries + i;
+        q = GS_COORD_UNIT_VIEW(base->entries) + i;
         base->field_D18 = q;
         base->field_E19 = func_8005A3D0(base, q);
         if (!(base->field_E19 < base->entry_count)) {
             base->field_E19 = base->field_E18;
         }
-        cur = (GsCOORDUNIT *)base->entries + base->field_E19;
+        cur = GS_COORD_UNIT_VIEW(base->entries) + base->field_E19;
         base->field_D1C = cur;
     retry:
         slot = (GsUNIT *)base->field_000;
@@ -267,7 +269,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
         if (rec != base->field_D18) {
             base->field_D1C = rec;
             if (rec != 0) {
-                base->field_E19 = rec - (GsCOORDUNIT *)base->entries;
+                base->field_E19 = rec - GS_COORD_UNIT_VIEW(base->entries);
             }
         }
     }
