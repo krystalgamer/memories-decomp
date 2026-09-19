@@ -29,6 +29,9 @@
 #include "func_8003AC48.h"
 #include "display_effect_update_callbacks.h"
 
+#define DISPLAY_EFFECT_STATE_VIEW(record) \
+    ((DisplayEffectState *)(record))
+
 void func_8003A920(
     DisplayPositionGroup *group,
     s16 x,
@@ -74,7 +77,7 @@ void func_8003A990(MenuRecord *p)
     s32 dx;
     s32 dy;
 
-    if (func_80039F1C((DisplayEffectState *)r) == 0) {
+    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(r)) == 0) {
         r->field_48 = TRIG_ANGLE_QUARTER_TURN;
         d = TRIG_ANGLE_QUARTER_TURN / r->field_44;
         r->field_4A = d;
@@ -121,7 +124,7 @@ void func_8003AAE4(MenuRecord *p) {
     s32 m;
     s32 i;
 
-    if (func_80039F1C((DisplayEffectState *)p) == 0) {
+    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         *(s16 *)&p->field_34 = 0x68;
         p->field_32 |= 0x10;
         if (p->field_3C != 0) {
@@ -174,7 +177,7 @@ void func_8003AC48(MenuRecord *p)
     s32 m;
     s32 i;
 
-    if (func_80039F1C((DisplayEffectState *)p) == 0) {
+    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
         h = (DisplayObject *)p->grid[0][0];
         x = h->field_16;
@@ -224,7 +227,7 @@ void func_8003AD6C(MenuRecord *p)
     s32 x;
     DisplayObject *o;
 
-    if (func_80039F1C((DisplayEffectState *)p) == 0) {
+    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
         p->field_32 |= 0x10;
         r = (DisplayObject *)p->grid[0][0];
         a = r->field_67;
@@ -312,7 +315,7 @@ void func_8003B054(MenuRecord *record)
 
     /* A portrait record keeps its two display objects in the first two
        words of grid, as integers like the rest of that array. */
-    if (func_80039F1C((DisplayEffectState *)record) == 0) {
+    if (func_80039F1C(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
         if (record->field_40 != 0) {
             o = (DisplayObject *)record->grid[0][0];
             *(u16 *)&o->field_60 = 0;
