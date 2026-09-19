@@ -16,6 +16,8 @@
 #include "display_object_render_spotlight_mask.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_POSITION_VIEW(object) \
+    ((DisplayObjectPosition *)(object))
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
@@ -76,7 +78,7 @@ void func_8003D614(MenuRecord *record)
             record->grid[0][0] = 0;
         } else {
             Widget_SlideSine(
-                (DisplayObjectPosition *)object,
+                DISPLAY_OBJECT_POSITION_VIEW(object),
                 0x20,
                 -0x40,
                 object->field_60
@@ -170,7 +172,8 @@ void func_8003D74C(MenuRecord *record)
             p->field_60 = 0;
             p->field_30.h.field_32 = 0x50;
         } else {
-            Widget_SlideSine((DisplayObjectPosition *)p, 0x20, 0x50, (s16)v);
+            Widget_SlideSine(
+                DISPLAY_OBJECT_POSITION_VIEW(p), 0x20, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
