@@ -53,7 +53,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800101D8,D_800101D8,D_800101D8,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_load_boot_package_stage.c,read,8,obj->value_08 = (s32)D_800101D8; | obj->value_0C = (s32)D_800101D8;
 0x800101DC,D_800101DC,D_800101DC,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,read,8,d->value_08 = d->value_0C = (u32)D_800101DC;
 0x80010288,D_80010288,D_80010288,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,address,8,"printf(D_80010288,"
-0x800102B8,D_800102B8,D_800102B8,0x80035E20,func_80035E20,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_026620.s,address,,"addiu $v0, $v0, %lo(D_800102B8) | lui $v0, %hi(D_800102B8)"
 0x80010330,D_80010330,D_80010330,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,,buf = D_80010330;
 0x80010378,D_80010378,D_80010378,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,address,8,"FntPrint(D_80010378, slot->free_blocks);"
 0x80010384,gMemCard_szSaveFileName,gMemCard_szSaveFileName,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,,"MemCard_ReqCreateFile(zero, (s32)gMemCard_szSaveFileName, root->blocks); | index = MemCard_FindLoadedEntry(gMemCard_szSaveFileName); | (+1 more)"
