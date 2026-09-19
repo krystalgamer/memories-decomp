@@ -41,4 +41,6 @@ typedef struct {
     u8 dust_b;
 } ModelSparkEffect;
 
+s32 func_8006F1B4(void *data, s32 arg1);
+
 #endif

@@ -112,18 +112,6 @@
       "target_bytes_sha256": "9ac7225576d72290cc3f3612a72695629c1998db5db165ea7d4e85d57324d596",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
-    },
-    {
-      "address": "0x8006F1B4",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8006F1B4.c",
-      "target": "src/candidates_target/func_8006F1B4.S",
-      "candidate_build_sha256": "9cf20e67ab132a4d26a440af914e53ff4a097509459ec25c42c2ac8baad2490f",
-      "target_bytes_sha256": "f400d41eb7ae75765b079e184a5a9e1e8e6f14c0db76720fe856556fccc2c390",
-      "canonical_contract_sha256": "91e16b6d6d0cf7dd470689e09ed2c50969f2517a5136e88df3c271c59746e356",
-      "canonical_contracts": {
-        "D_8001189C": "0ae623d585817b8e90a600a0d0a637eb6e80412d74dcbf406a74d088538c54d6"
-      }
     }
   ]
 }
