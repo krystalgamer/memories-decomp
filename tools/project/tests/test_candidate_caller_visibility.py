@@ -51,7 +51,7 @@ PAIRS = [
     ("src/game/sound_secondary_commands.c", "func_8004AAFC", '#include "sound.h"'),
     ("src/overlays/password/shop.c", "func_80029164", '#include "../../game/duel_effect_resource_setup.h"'),
     ("src/game/func_8004A6D8.c", "func_8004A518", '#include "sound.h"'),
-    ("src/game/fade_update.c", "Fade_StepBands", '#include "fade.h"'),
+    ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/func_8004AAFC.c", "func_8004A43C", '#include "sound.h"'),
     ("src/game/func_8001B938.c", "DisplayObject_ReleaseIfPresent", '#include "display_object_core.h"'),
