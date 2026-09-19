@@ -28,6 +28,8 @@
 #define DUEL_EFFECT_REQUEST_VIEW(request) \
     ((DuelEffectRequest *)(request))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DUEL_FIELD_EFFECT_OBJECT_VIEW(object) \
+    ((DuelFieldEffectObject *)(object))
 
 /* Small data at 0x8009AF30, owned here: the recovery handler scales the
    first table by 100 and the direct-damage handler scales the second by 10,
@@ -483,7 +485,8 @@ void DuelEffect_ApplyDarkPiercingLight(void)
     s32 i;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelFieldEffectObject *)DuelEffect_AllocateRequest(0x13);
+        object =
+            DUEL_FIELD_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
         object->x = 0xA0;
         D_8009B17C = (u8 *)object;
         object->y = 0x68;
@@ -492,7 +495,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
     }
     flags = gDuel_wCardEffectFlags;
     if ((flags & 0x40) == 0 &&
-        ((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
+        DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count != 0) {
         gDuel_wCardEffectFlags = flags | 0x40;
         SD_SEPlayFull(0x1D);
         for (i = DUEL_FIELD_ROW_SIZE; i < DUEL_CARD_SIDE_RECORD_COUNT; i++) {
@@ -501,7 +504,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
                word; 0x90000000 selects bits 0x9000 of flags at +0x16. */
             if ((*(u32 *)&record->terrain_modifier & 0x90000000) ==
                 0x90000000) {
-                target = (DuelFieldEffectObject *)record->object;
+                target = DUEL_FIELD_EFFECT_OBJECT_VIEW(record->object);
                 target->callback = DuelEffect_UpdateRevealCard;
                 target->active = 1;
             }
