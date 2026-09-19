@@ -8,6 +8,9 @@
 #include "display_object.h"
 #include "display_effect_step_table.h"
 
+#define DISPLAY_OBJECT_CONFIG_VIEW(object) \
+    ((DisplayObjectConfig *)(object))
+
 void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     s32 f;
     s32 g;
@@ -28,7 +31,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
                     DISPLAY_EFFECT_DELAY_BASE;
                 p->field_32 = p->field_32 & 0xFE;
                 DisplayObject_SetResourceVariant(
-                    (DisplayObjectConfig *)p->grid[0][1], 0);
+                    DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 0);
             }
         } else {
             v = p->field_3E - 1;
@@ -36,7 +39,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
             if ((s16)v <= 0) {
                 p->field_32 = p->field_32 | 1;
                 DisplayObject_SetResourceVariant(
-                    (DisplayObjectConfig *)p->grid[0][1], 1);
+                    DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][1]), 1);
             }
         }
     }
@@ -69,7 +72,8 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
 
     p->field_3B = 6;
     p->field_3A = n;
-    DisplayObject_SetResourceVariant((DisplayObjectConfig *)p->grid[0][2], n);
+    DisplayObject_SetResourceVariant(
+        DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]), n);
     return;
 
 slow:
@@ -78,7 +82,7 @@ slow:
         return;
     }
     DisplayObject_UpdateResourceVariant(
-        (DisplayObjectConfig *)p->grid[0][2],
+        DISPLAY_OBJECT_CONFIG_VIEW(p->grid[0][2]),
         0
     );
 }
