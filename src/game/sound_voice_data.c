@@ -141,7 +141,7 @@ void func_80048C70(u32 *dst, u32 *src)
     }
 }
 
-void func_80048D08(s32 side, u32 *src)
+void SD_LoadSequenceBankPair(s32 side, u32 *src)
 {
     SDSeqBlock *blk;
     SDSeqBlock *other;

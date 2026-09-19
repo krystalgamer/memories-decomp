@@ -30,7 +30,7 @@ Konami type or field naming.
 | `0x0438` | `field_0438` | Cursor initialized from the first link entry and advanced by each selected entry's second word. |
 | `0x0442` | `field_0442` | Selected link-table index; reset to `0xFFFF` and used to suppress duplicate requests. |
 | `0x0448` | `field_0448` | Pointer to the 8-byte `SDValueLink` table used by pending sound-data requests. |
-| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `func_80048D08`, and selected by the indirect voice-code decoders. |
+| `0x044C` | `field_044C[2][32]` | Two halfword lookup banks, reset by `SD_InitVoiceState`, populated by `SD_LoadSequenceBankPair`, and selected by the indirect voice-code decoders. |
 | `0x0510` | `cd_volume` | Sound output changes recalculate and store this signed 16-bit value. |
 | `0x0514` | `channel_volume[2]` | Two byte channel-volume scalars. |
 | `0x0533` | `mix_multiplier` | Multiplies the shared CD mix scale. |
@@ -151,7 +151,7 @@ their original advancement even for skipped IDs. Register pins,
 pointer/count reloads, and the halfword rate adjustment remain unchanged.
 
 The shared `SDSeqBlock` in `sound_pending_entries.h` is consumed by both the
-pending-entry loader and `func_80048D08`. It has
+pending-entry loader and `SD_LoadSequenceBankPair`. It has
 `SD_PENDING_INPUT_ENTRY_CAPACITY` IDs and note records. That capacity is
 derived from the ID region: `(0x1A0 - 0x08) / 2 = 204`, with an explicit
 assertion rejecting partial-ID remainders. Its size is
@@ -173,7 +173,7 @@ This does not change code tags, sentinels, the four dedicated voice slots, or
 the pending-input block's capacity and count-driven population loops.
 
 The missing-entry marker is shared by the pending-input and indirect-lookup
-paths: `func_80048D08` retains each input key in the selected lookup bank even
+paths: `SD_LoadSequenceBankPair` retains each input key in the selected lookup bank even
 when that key is `SD_PENDING_ENTRY_NONE`. Mapping initialization, table reset,
 and decoder missing-result tests therefore reuse that marker. This does not
 merge the lookup stages or change which routines perform the second mapping.
