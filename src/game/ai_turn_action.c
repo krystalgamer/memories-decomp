@@ -14,6 +14,8 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+
 /* The AI's turn-action run: spell and fusion searches feed the action pick
    through D_800EAE88, followed by the occupied and face-up field-target
    selectors and the final per-turn play decision that consumes them. All six
@@ -192,8 +194,8 @@ int func_8002778C(DuelSelectionSource *source)
 
         if (entry->flags & DUEL_CARD_FLAG_OCCUPIED) {
             count++;
-            if (func_8001EFD4((DisplayObject *)source->ptr,
-                              (DisplayObject *)entry->object) > 0)
+            if (func_8001EFD4(DISPLAY_OBJECT_VIEW(source->ptr),
+                              DISPLAY_OBJECT_VIEW(entry->object)) > 0)
                 return ((DuelSelectionObject *)entry->object)->index;
         }
         slot++;
@@ -221,8 +223,8 @@ s32 func_800278A0(DuelSelectionSource *source)
             found++;
             if (!(entry->flags & DUEL_CARD_FLAG_FACE_DOWN)) {
                 s32 result = func_8001EFD4(
-                    (DisplayObject *)source->ptr,
-                    (DisplayObject *)entry->object);
+                    DISPLAY_OBJECT_VIEW(source->ptr),
+                    DISPLAY_OBJECT_VIEW(entry->object));
                 if (result > 0) {
                     return ((DuelSelectionObject *)entry->object)->index;
                 }
