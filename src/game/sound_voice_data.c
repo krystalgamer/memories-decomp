@@ -178,7 +178,10 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
 
                 g_SDValue->field_043C[key] = n;
                 g_SDValue->field_0444[n] = cur->data[j];
-                e = (SDNote *)(n * 8 + (u32)g_SDValue->field_0444);
+                e = (SDNote *)(
+                    (u32)&((SDNote *)0)[n] +
+                    (u32)g_SDValue->field_0444
+                );
                 v = e->field_0006;
                 e->field_0006 =
                     (i != 0) ? (u16)(v + (addr_side >> 4))
