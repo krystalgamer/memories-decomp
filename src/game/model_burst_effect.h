@@ -3,6 +3,7 @@
 
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
 
 /* Particle state for func_8006CD78, a handler in the D_800114E8 model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and
@@ -15,8 +16,33 @@ typedef struct {
     u8 pad;
 } ModelBurstColor;
 
+/* The ring colours `table` points at, D_800916D4 in model_geometry_tables.c:
+ * one byte per ring for each channel. */
 typedef struct {
-    u8 *table;
+    u8 r[3];
+    u8 g[3];
+    u8 b[3];
+} ModelBurstPalette;
+
+/* One texture record of D_80091610 in model_geometry_tables.c: the pixel mode
+ * and the frame-buffer rectangles of the image and of its colour table. */
+typedef struct {
+    u16 mode;
+    u16 unk_02;
+    RECT prect;
+    u32 *paddr;
+    RECT crect;
+    u32 *caddr;
+} ModelBurstImage;
+
+/* The texture page and colour table words built from a ModelBurstImage. */
+typedef struct {
+    u16 tpage;
+    u16 clut;
+} ModelBurstTexture;
+
+typedef struct {
+    ModelBurstPalette *table;
     s32 frame;
     SVECTOR rings[3];
     SVECTOR ring_speed[3];
@@ -36,12 +62,11 @@ typedef struct {
     u16 phase;
     u16 stage;
     u16 spark_count;
-    s8 fade;
+    u8 fade;
     u8 pad_d89;
     u16 tpage;
     u16 clut;
-    u16 spark_tpage;
-    u16 spark_clut;
+    ModelBurstTexture spark_texture[1];
     ModelBurstColor colors[3];
     u8 flash_r;
     u8 flash_g;
@@ -52,5 +77,7 @@ typedef struct {
     u8 smoke_g;
     u8 smoke_b;
 } ModelBurstEffect;
+
+s32 func_8006CD78(void *data, s32 arg1);
 
 #endif

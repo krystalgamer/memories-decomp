@@ -9,13 +9,13 @@
    durations. The four-byte element view remains the storage owner; the
    consumer describes the measured 28-byte record locally.
 
-   func_8006C37C.c reads D_80091604 and is matching C too; func_8006CD78,
-   which reads D_80091610 and D_800916D4, is the only reader still in
-   assembly. D_800916D4 is
-   two 0x404040FF words and one 0x000000FF, which is what a colour looks
-   like; the rest are left flat. D_80091610's ninety-eight halfwords have no
-   established row width -- ninety-eight is 2 x 7 x 7 and nothing chooses
-   between those -- so it is not folded into rows.
+   func_8006C37C.c reads D_80091604 and is matching C too, and so is
+   func_8006CD78.c, which reads D_80091610 and D_800916D4. It reads
+   D_800916D4 as three ring colours stored a channel at a time
+   (ModelBurstPalette in model_burst_effect.h), and the head of D_80091610 as
+   one 28-byte image record (ModelBurstImage): a pixel mode and the
+   frame-buffer rectangles of the image and its colour table. Only that first
+   record is ever read, so the storage keeps its flat halfword view.
 
    Element widths are the ones the extractor assigned from the labelling and
    alignment in the image.
