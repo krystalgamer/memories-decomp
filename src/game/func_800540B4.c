@@ -64,6 +64,7 @@
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 
 /* Defined rather than declared so the assembler pads the loads that feed
  * their gp-relative stores; model_primitive_templates.c and
@@ -290,13 +291,15 @@ void func_800540B4(s32 index)
         if (e->field_04 == 0) {
             continue;
         }
-        if (slot->field_D1C != 0 && ((GsCOORDUNIT *)e->field_00)->super == slot->field_D1C) {
+        if (slot->field_D1C != 0 &&
+            GS_COORD_UNIT_VIEW(e->field_00)->super == slot->field_D1C) {
             s32 k;
             s32 found;
             u8 n;
             s32 idx;
 
-            idx = ((GsCOORDUNIT *)e->field_00 - (GsCOORDUNIT *)slot->entries) * 0x14 + 0x04000001;
+            idx = (GS_COORD_UNIT_VIEW(e->field_00) -
+                   GS_COORD_UNIT_VIEW(slot->entries)) * 0x14 + 0x04000001;
             k = 0;
             found = 0;
             n = slot->field_E1B;
@@ -313,14 +316,16 @@ void func_800540B4(s32 index)
             if (found) {
                 ScaleMatrix((MATRIX *)((u8 *)e->field_00 + 4), (VECTOR *)&slot->field_DB0);
             } else {
-                func_8005922C((GsCOORDUNIT *)e->field_00, (VECTOR *)&slot->field_DB0);
+                func_8005922C(
+                    GS_COORD_UNIT_VIEW(e->field_00),
+                    (VECTOR *)&slot->field_DB0);
             }
         }
         if (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0) {
             if (a) {
                 memset(&zero, 0, 0x20);
                 GsSetLsMatrix(&zero);
-            } else if ((unit = (GsCOORDUNIT *)e->field_00) != 0) {
+            } else if ((unit = GS_COORD_UNIT_VIEW(e->field_00)) != 0) {
                 if (D_8009AFE4 != 0) {
                     s32 k;
                     s32 m;
@@ -379,7 +384,7 @@ void func_800540B4(s32 index)
         count = x = y = z = 0;
         e = slot->field_000;
         for (i = 0; i < slot->field_E1A; i++, e++) {
-            unit = (GsCOORDUNIT *)e->field_00;
+            unit = GS_COORD_UNIT_VIEW(e->field_00);
             if (unit != 0 && e->field_04 != 0
                 && (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0)) {
                 count++;
@@ -406,7 +411,7 @@ void func_800540B4(s32 index)
         slot->field_DD0[2] = z;
         e = slot->field_000;
         for (i = 0; i < slot->field_E1A; i++, e++) {
-            unit = (GsCOORDUNIT *)e->field_00;
+            unit = GS_COORD_UNIT_VIEW(e->field_00);
             if (unit != slot->field_D1C && unit != slot->field_D18 && unit != 0 && (list = e->field_04) != 0) {
                 s32 uy;
 
