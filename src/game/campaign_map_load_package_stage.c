@@ -6,10 +6,17 @@
 #define D_800101D8_IN_DATA
 #include "file_transfer.h"
 #include "campaign_map_load_package_stage.h"
+#include "campaign_flags.h"
+#include "file_constants.h"
 #include "../unmatched.h"
 
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
+
+/* The Campaign Map package load. File_RequestEgyptOverworldPackage queues
+   the Egypt overworld package with CampaignMap_LoadPackageStage as its stage
+   callback, starting one package length further on the disc once
+   CAMPAIGN_FLAG_TOURNAMENT_COMPLETE is set. */
 
 void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
@@ -67,3 +74,5 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
     }
 }
+
+void File_RequestEgyptOverworldPackage(void){int x=0;if(Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE))x=FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT;File_RequestAsyncTransfer(0,0,x+FILE_WA_EGYPT_OVERWORLD_START_SECTOR,FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT,CampaignMap_LoadPackageStage,0,0);File_WaitForTransfers();}
