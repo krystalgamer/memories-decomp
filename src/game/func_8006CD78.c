@@ -69,7 +69,7 @@ s32 func_8006CD78(void *data, s32 arg1)
     memset(&pos, 0, 8);
     scale = D_8001188C;
     e = data;
-    slot = func_80058DCC();
+    slot = Model_GetActiveSlotIndex();
 
     if (arg1 >= 0) {
         e->table = (ModelBurstPalette *)D_800916D4;

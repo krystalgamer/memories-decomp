@@ -40,6 +40,7 @@ extern s8 D_8009AF9A;
  * a one-byte flag and a word-sized address expressed as s32 in retail C. */
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;
+/* Model slot whose handler is currently running. */
 extern u8 D_8009AFA0;
 extern u8 D_8009AFA1;
 
@@ -76,6 +77,6 @@ extern u8 D_8009AFA4;
 
 extern u8 D_8009AFA6;
 
-s32 func_80058DCC(void);
+s32 Model_GetActiveSlotIndex(void);
 
 #endif

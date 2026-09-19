@@ -50,13 +50,13 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     memset(&pos, 0, 8);
     scale = *(VECTOR *)D_8001187C;
     e = arg0;
-    func_80058DCC();
+    Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
 
     if (arg1 >= 0) {
         e->table = (ModelDiscEffectConfig *)D_80091604;
         t = e->table;
-        func_80057E20(func_80058DCC(), &adj);
+        func_80057E20(Model_GetActiveSlotIndex(), &adj);
         if (adj.y < adj.z) {
             v = adj.z;
         } else {
@@ -126,7 +126,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     scale.vx = v;
     scale.vy = v;
     scale.vz = v;
-    Model_CopySlotU16Values(func_80058DCC(), (u16 *)&pos);
+    Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&pos);
     GsSetLsMatrix(&ls);
     RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
     RotMatrix(&rot, &m);
