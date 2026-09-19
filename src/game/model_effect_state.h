@@ -9,8 +9,8 @@
  *
  * func_8005F3B8's last parameter is a pointer in the definition -- the SVECTOR
  * whose offset the step applies -- not the fifth s32 its two callers declared.
- * model_scene_states.c passes a literal 0, which was always a null pointer;
- * func_8005F27C forwards the same optional pointer type.
+ * model_scene_states.c passes literal zeroes, which were always null pointers;
+ * func_8005F27C and func_8005F5C8 forward the same optional pointer type.
  *
  * func_8005F714 takes two indices into gModel_aEffectEndpoints rather than
  * pointers, and a negative index means "no endpoint" -- that is how a caller
@@ -28,7 +28,7 @@ void func_8005DBA4(void);
 void func_8005F3B8(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
 s32 func_8005F564(void);
 void func_8005F588(s32 value);
-void func_8005F5C8(s32 mode, s32 coefficient, s32 offset, s32 arg);
+void func_8005F5C8(s32 mode, s32 coefficient, SVECTOR *offset, s32 arg);
 void func_8005F714(s32 first, s32 second, s32 arg);
 void func_8005F7B0(s32 value, s32 arg);
 void func_8005F828(s32 count, void *first, void *second, s32 arg);
