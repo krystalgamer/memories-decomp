@@ -20,8 +20,8 @@ typedef char LibraryViewQuad_size_must_be_0x10[
  * typed declaration of the symbol isolated.
  *
  * func_80029EC4.c is a third reader of this byte spelling: it walks the table
- * with func_80029EB0(D_800EA1E8, index) and had been declaring it privately
- * in the same words. */
+ * with Library_GetCardFlags(D_800EA1E8, index) and had been declaring it
+ * privately in the same words. */
 extern u8 D_800EA1E8[];
 
 /* Signed coordinate views in the Library overlay work area. The dispatcher

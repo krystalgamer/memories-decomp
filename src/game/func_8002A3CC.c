@@ -31,7 +31,7 @@ void func_8002A2F4(u8 *p)
     n = t;
 
     if (n != 0) {
-        r = func_80029EB0(p, n);
+        r = Library_GetCardFlags(p, n);
         mode = 5;
         if ((r & 0x80) == 0) {
             gDuel_wSelectedCardID = 0;
