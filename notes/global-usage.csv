@@ -1353,7 +1353,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B204,D_8009B204,D_8009B204,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,16,D_8009B204 = 0;
 0x8009B204,D_8009B204,D_8009B204,0x80022D94,func_80022D94,matching_c,game,C,src/game/func_80022D94.c,write,16,D_8009B204=frames;D_8009B1EE=x;D_8009B192=z;D_8009B190=y;
 0x8009B204,D_8009B204,D_8009B204,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,16,D_8009B204 = count; | count = (u16)D_8009B204 - 1; | (+1 more)
-0x8009B206,D_8009B206,D_8009B206,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,16,D_8009B206 = PLACEMENT_REPLAY_CARD(object).card_id; | effect = (DuelEffectRequest *)DuelEffect_AllocateRequest(((u32)((u16)D_8009B206 - 301) < 2) * 4); | (+3 more)
+0x8009B206,D_8009B206,D_8009B206,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,16,((u32)((u16)D_8009B206 - 301) < 2) * 4)); | D_8009B206 = PLACEMENT_REPLAY_CARD(object).card_id; | (+3 more)
 0x8009B208,D_8009B208,D_8009B208,0x8001825C,DuelScene_UpdateResume,matching_c,game,C,src/game/duel_phase_entry.c,read,8,(u8 *)&((DuelCardRecord *)b)[D_8009B208[n]] + replay_offset); | if (D_8009B208[n] >= 0) {
 0x8009B208,D_8009B208,D_8009B208,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,8,D_8009B208[2] = D_800EAE88[6] - 1; | D_8009B208[2] = D_800EAE88[6] - 6; | (+6 more)
 0x8009B208,D_8009B208,D_8009B208,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"sb $v0, %gp_rel(D_8009B208)($gp)"
