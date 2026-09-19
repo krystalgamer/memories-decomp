@@ -52,8 +52,7 @@ extern void (*D_800E9DB0[4])(void);
 extern jmp_buf D_800E9DC0;
 
 /* The single extra callback the pump runs after the four slots, and that
- * main_clear_frame_service_callbacks.c clears alongside them; only it and
- * main_services.c use it. */
+ * Main_ClearFrameServiceCallbacks clears alongside them. */
 extern void (*D_8009B0B8)(void);
 
 /* The signed per-frame watchdog owned and initialized by main_services.c. */
