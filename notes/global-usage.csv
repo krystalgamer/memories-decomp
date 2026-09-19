@@ -1166,7 +1166,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B17A,D_8009B17A,D_8009B17A,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,16,"D_8009B17A = H(pick, 0x16);"
 0x8009B17C,D_8009B17C,D_8009B17C,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read_write,8,D_8009B17C = (u8 *)fx; | D_8009B17C = 0; | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,8,D_8009B17C = (u8 *)effect; | D_8009B17C = (u8 *)request; | (+2 more)
-0x8009B17C,D_8009B17C,D_8009B17C,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read_write,8,DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) { | D_8009B17C = (u8 *)req; | (+2 more)
+0x8009B17C,D_8009B17C,D_8009B17C,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read_write,8,DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D != 0) { | D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req); | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read_write,8,DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1A = -2; | D_8009B17C = e; | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,D_8009B17C = (u8 *)p; | if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & | (+1 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,D_8009B17C = (u8 *)p; | if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D ==
