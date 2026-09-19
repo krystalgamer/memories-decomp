@@ -1439,6 +1439,7 @@ Model_IsExodiaPresentationComplete = 0x80059C88; // type:func
 ViewState_ApplyViewpointOffset = 0x800134E0; // type:func
 File_StepActiveTransfer = 0x8001455C; // type:func
 gModel_ImageCopyRect = 0x8009B468;
+Main_ClearFrameServiceCallbacks = 0x800134B4; // type:func
 
 // Semantic names that generated assembly needs once #3859 moved their
 // callers or definitions out of matching C

@@ -72,7 +72,7 @@ s32 Main_Init(void)
     func_80013154(p);
     DisplayObject_Reset();
     Fade_Init();
-    func_800134B4();
+    Main_ClearFrameServiceCallbacks();
     Movie_ResetPlaybackState();
     func_80035A64();
     Text_InitDecimalDigitGlyphMap();

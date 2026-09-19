@@ -17,8 +17,9 @@
 
    The three sources were recorded at gcc_2_8_1_g8, gcc_2_8_1_g0_split and
    gcc_2_8_1_g8_split, and each compiles to an identical object at
-   gcc_2_8_1_g8_split. Bounded below by func_800134B4.c and above by the
-   empty func_800136D4, which main_services.c calls and nothing here does. */
+   gcc_2_8_1_g8_split. Bounded below by
+   main_clear_frame_service_callbacks.c and above by the empty func_800136D4,
+   which main_services.c calls and nothing here does. */
 
 void ViewState_ApplyViewpointOffset(ViewState *object, s32 x, s32 y, s32 z)
 {

@@ -32,7 +32,8 @@
    gcc_2_8_1_g8_split - their neighbours on both sides use other profiles.
    The boot-time graphics and input start-up that installs the pump and the
    pad-driven screen-offset adjustment loop follow in this unit. The last, the
-   reset of the callback registry the pump walks, is in func_800134B4.c; the
+   reset of the callback registry the pump walks is in
+   main_clear_frame_service_callbacks.c; the
    pump and the reset share the D_800E9DB0 slots and D_8009B0B8. */
 
 s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
