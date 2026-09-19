@@ -3,7 +3,7 @@
 #include "camera_view.h"
 #include "model_update_view_metrics.h"
 
-void *func_800591FC(void)
+void *Model_GetCameraViewBuffer(void)
 {
     return &D_800F56F0;
 }
