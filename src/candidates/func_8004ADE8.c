@@ -1,19 +1,53 @@
 /*
  * Starts one secondary-driver note by walking Psy-Q VAB program/tone data,
  * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
- * keying on, and routing reverb. Current best under
- * gcc_2_8_1_cc_g8_as_g0: 355/355 instructions, opcode multiset distance 2,
- * and 124 differing words, with no register binding.
+ * keying on, and routing reverb. Current best under gcc_2_8_1_cc_g8_as_g0:
+ * 355/355 instructions, an EMPTY opcode census, and 305 of 355 aligned on
+ * opcode and registers in 23 structural blocks, with no register binding.
+ *
+ * READ THE CENSUS FROM THE ENCODED FIELDS ON THIS FUNCTION. align_functions.py
+ * compares rendered mnemonics and reports `move +1, addu -1, sll +1, nop -1`,
+ * a distance of 4. Decoded from bits 31-26 with SPECIAL taking funct, the
+ * census is empty: SPECIAL:21 (every addu) is 37 against 37 and SPECIAL:00
+ * (every sll, nop included) is 59 against 59. What exists is one register
+ * difference -- objdump prints `addu rd,rs,$zero` as `move`, and the target
+ * has 17 of those against 16 -- and one operand difference, a real sll where
+ * this source has a nop. Two operand differences counted as four opcode
+ * deltas. The distance-2 figure the previous header quoted has the same
+ * origin.
  *
  * Unsigned key/tone indices, uncached driver-root loads, block-scoped reverb
  * masks, folded VAB indices, two allocation call sites, and one forced root
  * reload reproduce the current shape. The incoming channel keeps retail's
  * callee-saved register because its name is reused after its last use, first
- * for tone[3] and then as the pitch shift count. tone[2] is read into tr
- * ahead of the voice attribute stores, and the key's lower bound is tested
- * against the tone record's address expression.
+ * for tone[3] and then as the pitch shift count.
  *
- * Residual: register choices, one extra nop and one missing sll.
+ * Three levers, each measured alone and in combination against the state
+ * below it, and they compose:
+ *  - tone[2] is read inline at its single use rather than through a `tr`
+ *    local (296 -> 301 aligned, 26 -> 25 structural);
+ *  - the two stores of `level` are one chained assignment,
+ *    `obj[6] = obj[5] = level;` (301 -> 304, 25 -> 23). BOTH ORDERS TIE
+ *    EXACTLY here, which is worth knowing because the chain's order is
+ *    usually load-bearing; `obj[5] = obj[6] = level;` is the same figures.
+ *  - the key's upper bound is tested against the tone record's address
+ *    expression, matching the lower bound beside it (304 -> 305).
+ *
+ * MEASURED AND CLOSED: reading tone[6] through the `tone` pointer instead of
+ * the repeated address expression is 282 aligned over 23 structural blocks
+ * AND BREAKS THE EMPTY CENSUS (distance 2). The repeated expression is
+ * deliberate. Extending the same spelling to the vag read is 280 over 38
+ * with census 14, and moving the `tone` assignment down to its first use is
+ * 289 over 29. Only the [7] site pays.
+ *
+ * decomp-permuter, rerun after refreshing its in-tree base, produced 34
+ * outputs; all were re-scored by splicing each body into the real source.
+ * Seven beat the installed state on the project's key. Its best, at 301/25,
+ * decomposes to the tone[2] lever alone -- the pointer local and the
+ * `->`/`(*x).` rewrite it also carried are worth nothing. The chained
+ * assignment came from two other outputs.
+ *
+ * Residual: register choices only.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
@@ -86,7 +120,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         if (key < (&vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820])[6]) {
             goto next;
         }
-        if (tone[7] < key) {
+        if ((&vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820])[7] < key) {
             goto next;
         }
         {
@@ -125,7 +159,6 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         sum <<= 3;
         voice = &D_80011434[idx];
         *(s32 *)(D_8009B458 + 0x4C4) = 0x6019F;
-        tr = tone[2];
         *(s16 *)(D_8009B458 + 0x4CC) = 0;
         *(s16 *)(D_8009B458 + 0x4CE) = 0;
         *(s32 *)(D_8009B458 + 0x4C0) = *voice;
@@ -150,14 +183,13 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         obj[0] = idx;
         obj[4] = tidx;
         obj[2] = program;
-        obj[5] = level;
+        obj[6] = obj[5] = level;
         obj[3] = channel;
         obj[0xD] = 1;
         obj[0x10] = tone[0xD];
-        obj[6] = level;
         ((SDSecondaryObject *)obj)->field_0008 = prog[1];
         ((SDSecondaryObject *)obj)->field_000A = prog[4];
-        ((SDSecondaryObject *)obj)->field_0009 = tr;
+        ((SDSecondaryObject *)obj)->field_0009 = tone[2];
         ((SDSecondaryObject *)obj)->field_000E = velocity;
         *(u16 *)(obj + 0x1E) = 0xFFFF;
         channel = tone[3];
