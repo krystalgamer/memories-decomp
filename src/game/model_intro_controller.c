@@ -985,12 +985,12 @@ void func_800507D0(void)
       goto store_phase;
     case 0:
       first_base = D_800F2C40;
-      active_offset = 904 * (u8)ACTIVE_SLOT;
-      if ( ((ModelSlot *)((u8 *)first_base + (active_offset) * 4))->field_E1F )
+      active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
+      if ( ((ModelSlot *)((u8 *)first_base + active_offset))->field_E1F )
       {
-        if ( (((ModelSlot *)((u8 *)D_800F2C40 + (active_offset) * 4))->field_E15 & 3) == 0 )
+        if ( (((ModelSlot *)((u8 *)D_800F2C40 + active_offset))->field_E15 & 3) == 0 )
         {
-          active_color = ((ModelSlot *)((u8 *)D_800F2C40 + (active_offset) * 4))->field_DC0;
+          active_color = ((ModelSlot *)((u8 *)D_800F2C40 + active_offset))->field_DC0;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
