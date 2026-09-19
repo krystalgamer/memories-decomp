@@ -25,12 +25,12 @@ void func_800389D8(DuelEffectChannel *object)
 
 void func_80038A44(DuelEffectChannel *object)
 {
-    s32 offset = object->stream_58 * 4;
+    s32 offset = (u32)&((u8 **)0)[object->stream_58];
     s32 value;
 
     *(s32 *)((u8 *)object + offset) += D_8009B355 * 2;
     value = TextStream_ReadU16LE(object);
-    offset = object->stream_58 * 4;
+    offset = (u32)&((u8 **)0)[object->stream_58];
     *(s32 *)((u8 *)object + offset) =
         (*(s32 *)((u8 *)object + offset) & 0xFFFF0000) |
         (value & 0xFFFF);
