@@ -45,7 +45,7 @@ extern s8 gDialog_bChoiceCount;
  * also needs an absolute load and selects GDIALOG_CHOICE_IN_DATA here.
  *
  * Of the five that reach it from small data, four spelled it s8 and
- * dialog_read_choice_input.c uses a u8 local. That was an abstention rather
+ * Dialog_ReadChoiceInput (dialog_choice_cursor.c) uses a u8 local. That was an abstention rather
  * than a disagreement: every use there is `u8 choice = gDialog_bChoice`,
  * assigning straight into a u8 local, so the load's signedness does not
  * survive. Taking s8 there builds byte for byte.
