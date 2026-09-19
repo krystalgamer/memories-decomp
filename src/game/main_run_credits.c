@@ -131,7 +131,7 @@ run_credits_scene:
         D_8009B0C0 = one;
         func_800530C4();
         func_800533D8();
-        func_80059C9C();
+        Model_StartCreditsPresentation();
         return;
     }
     Model_IsCreditsPresentationComplete();

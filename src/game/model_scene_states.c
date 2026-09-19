@@ -40,7 +40,7 @@ s32 Model_IsExodiaPresentationComplete(void)
     return D_8009AF9A == -2;
 }
 
-void func_80059C9C(void)
+void Model_StartCreditsPresentation(void)
 {
     func_800533D8();
     func_800530C4();
