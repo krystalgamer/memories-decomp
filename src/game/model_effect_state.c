@@ -20,6 +20,7 @@
 #include "func_8005FBC4.h"
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
+#define CAMERA_VIEW(view) ((GsRVIEW2 *)(view))
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
@@ -244,17 +245,17 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
     if (mode >= 0) {
         short v[4];
         Model_CopySlotU16Values(mode, (u16 *)v);
-        ((int *)p)[3] = v[0];
-        ((int *)p)[4] = v[1];
-        ((int *)p)[5] = v[2];
+        CAMERA_VIEW(p)->vrx = v[0];
+        CAMERA_VIEW(p)->vry = v[1];
+        CAMERA_VIEW(p)->vrz = v[2];
     }
     if (offset) {
         int sign = -1;
         if (mode <= 0)
             sign = 1;
-        ((int *)p)[3] += offset->vx * sign;
-        ((int *)p)[4] += offset->vy;
-        ((int *)p)[5] += offset->vz * sign;
+        CAMERA_VIEW(p)->vrx += offset->vx * sign;
+        CAMERA_VIEW(p)->vry += offset->vy;
+        CAMERA_VIEW(p)->vrz += offset->vz * sign;
     }
     q[0] = y;
     q[1] = (a + MODEL_ANGLE_FULL_TURN +
