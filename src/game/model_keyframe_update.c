@@ -30,6 +30,7 @@
 
 #define LIMIT(v, n) ((v) > 0 ? ((v) < (n) ? (v) : (n)) : \
     ((v) > -(n) ? (v) : -(n)))
+#define KEY_VIEW(key) ((Key *)(key))
 
 static inline s32 Keyframe_ApplyDeadzone(s16 *axis, s32 amount)
 {
@@ -102,8 +103,8 @@ void func_8005DBA4(void)
         case 0x80:
         case 0x81: {
             s32 slot = (s16)((u16)record[3] & 0xFF7F);
-            s32 elapsed = ((Key *)key)->progress;
-            s32 duration = ((Key *)key)->duration;
+            s32 elapsed = KEY_VIEW(key)->progress;
+            s32 duration = KEY_VIEW(key)->duration;
             s32 remaining;
             if (func_80058DD8(slot) != 1) {
                 break;
@@ -128,8 +129,8 @@ void func_8005DBA4(void)
             s32 j;
             s16 *component;
             s32 **destination;
-            func_8005EBF4((Key *)key, channel,
-                ((Key *)key)->progress, 0, interpolated);
+            func_8005EBF4(KEY_VIEW(key), channel,
+                KEY_VIEW(key)->progress, 0, interpolated);
             j = 0;
             destination = output;
             component = interpolated;
@@ -224,7 +225,7 @@ void func_8005DBA4(void)
             s32 first;
             s32 second;
             persistent++;
-            if (((Key *)key)->progress >= ((Key *)key)->duration) {
+            if (KEY_VIEW(key)->progress >= KEY_VIEW(key)->duration) {
                 (*output)[0] = pose[0];
                 (*output)[2] = pose[2];
                 break;
@@ -261,8 +262,8 @@ next_channel:
             u8 *key = (u8 *)D_8009B074;
             s16 *record = (s16 *)(key + channel * 8);
             if (record[3] == 4) {
-                s32 duration = (elapsed = ((Key *)key)->progress,
-                    ((Key *)key)->duration);
+                s32 duration = (elapsed = KEY_VIEW(key)->progress,
+                    KEY_VIEW(key)->duration);
                 s32 yaw_step = record[1] * elapsed / duration;
                 s32 pitch_step = record[2] * elapsed / duration;
                 s32 radius = orbit_pose[8];
