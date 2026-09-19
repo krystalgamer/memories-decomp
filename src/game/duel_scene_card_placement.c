@@ -40,6 +40,8 @@
 #define PLACEMENT_ALPHA(object) ((object)->field_20.b.field_21)
 #define PLACEMENT_ROTATION(object) ((object)->field_20.b.field_22)
 #define PLACEMENT_REPLAY_CARD(object) (D_8015C424_cards.field_cards[(object)->field_6A])
+#define DISPLAY_OBJECT_VELOCITY_VIEW(object) \
+    ((DisplayObjectVelocity *)(object))
 
 s16 D_8009B206;
 
@@ -238,7 +240,8 @@ void DuelScene_UpdateCardPlacement(void)
                     object = selected;
                 }
                 D_800E9EF0[1] = object;
-                DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+                DisplayObject_ResetVelocity(
+                    DISPLAY_OBJECT_VELOCITY_VIEW(object));
                 object->field_60 = 8;
                 PLACEMENT_VX(object) = placement_velocity((64 - (s16)PLACEMENT_PX(object)) * 256);
                 PLACEMENT_VY(object) = placement_velocity((82 - (s16)PLACEMENT_PY(object)) * 256);
@@ -269,7 +272,8 @@ request_combination:
             }
             slots = D_800E9EF0;
             object = slots[1];
-            DisplayObject_StepPositionX((DisplayObjectVelocity *)object);
+            DisplayObject_StepPositionX(
+                DISPLAY_OBJECT_VELOCITY_VIEW(object));
             object->field_60--;
             if (object->field_60)
             return;
@@ -631,13 +635,15 @@ finish_effect_step:
                     object = other;
                     slots[0] = other;
                 }
-                DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+                DisplayObject_ResetVelocity(
+                    DISPLAY_OBJECT_VELOCITY_VIEW(object));
                 PLACEMENT_VX(object) = -((rand() & 255) + 768);
                 PLACEMENT_VY(object) = -640;
             }
             PLACEMENT_VX(object) = DisplayObject_StepTowardZero(PLACEMENT_VX(object), 8);
             PLACEMENT_VY(object) = DisplayObject_StepToward(PLACEMENT_VY(object), 2048, 96);
-            DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+            DisplayObject_StepPositionXY(
+                DISPLAY_OBJECT_VELOCITY_VIEW(object));
             if ((s16)PLACEMENT_PX(object) < -52 || (s16)PLACEMENT_PY(object) >= 240) {
                 DisplayObject_ReleaseIfPresent(object);
                 D_800E9EF0[0] = D_800E9EF0[1];
