@@ -928,6 +928,7 @@ void func_80050584(s32 arg0) {
 #include "sound_pending_entries.h"
 
 #define ACTIVE_SLOT D_8009AFA4[3]
+#define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 
 void func_800507D0(void)
 {
@@ -986,11 +987,11 @@ void func_800507D0(void)
     case 0:
       first_base = D_800F2C40;
       active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
-      if ( ((ModelSlot *)((u8 *)first_base + active_offset))->field_E1F )
+      if ( MODEL_SLOT_VIEW((u8 *)first_base + active_offset)->field_E1F )
       {
-        if ( (((ModelSlot *)((u8 *)D_800F2C40 + active_offset))->field_E15 & 3) == 0 )
+        if ( (MODEL_SLOT_VIEW((u8 *)D_800F2C40 + active_offset)->field_E15 & 3) == 0 )
         {
-          active_color = ((ModelSlot *)((u8 *)D_800F2C40 + active_offset))->field_DC0;
+          active_color = MODEL_SLOT_VIEW((u8 *)D_800F2C40 + active_offset)->field_DC0;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1032,9 +1033,9 @@ void func_800507D0(void)
           func_80050584((u8)ACTIVE_SLOT ^ 1);
         lookup_base = D_800F2C40;
         active_model = (s32 *)&lookup_base[(u8)ACTIVE_SLOT];
-        if ( !((ModelSlot *)active_model)->field_E0F )
+        if ( !MODEL_SLOT_VIEW(active_model)->field_E0F )
         {
-          frame = ((ModelSlot *)active_model)->field_E15;
+          frame = MODEL_SLOT_VIEW(active_model)->field_E15;
           animation = -1;
           if ( !(u8)(frame % 0x1E) )
           {
@@ -1062,7 +1063,7 @@ void func_800507D0(void)
                 goto set_phase_and_tick;
               }
               peer = (u8)ACTIVE_SLOT ^ 1;
-              if ( ((ModelSlot *)((u8 *)D_800F2C40 + (904 * peer) * 4))->field_E1F )
+              if ( MODEL_SLOT_VIEW((u8 *)D_800F2C40 + (904 * peer) * 4)->field_E1F )
               {
                 func_80059F18(1, -1, peer, 90);
                 next_phase = D_8009AF9A + 1;
@@ -1080,17 +1081,21 @@ void func_800507D0(void)
       else
       {
         func_80050584((u8)ACTIVE_SLOT);
-        if ( ((ModelSlot *)((u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4))->field_E1F )
+        if ( MODEL_SLOT_VIEW(
+                 (u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
           func_80059F18(1, -1, (u8)ACTIVE_SLOT, 30);
       }
       goto poll_module;
     case 1:
       cross_base = D_800F2C40;
       crossfade_offset = 904 * (u8)ACTIVE_SLOT;
-      if ( (((ModelSlot *)((u8 *)cross_base + (crossfade_offset) * 4))->field_E15 & 3) == 0 )
+      if ( (MODEL_SLOT_VIEW(
+                (u8 *)cross_base + (crossfade_offset) * 4)->field_E15 & 3) == 0 )
       {
-        outgoing_color = ((ModelSlot *)((u8 *)D_800F2C40 + (crossfade_offset) * 4))->field_DC0;
-        incoming_color = ((ModelSlot *)((u8 *)D_800F2C40 + (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4))->field_DC0;
+        outgoing_color = MODEL_SLOT_VIEW(
+            (u8 *)D_800F2C40 + (crossfade_offset) * 4)->field_DC0;
+        incoming_color = MODEL_SLOT_VIEW(
+            (u8 *)D_800F2C40 + (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->field_DC0;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1108,7 +1113,8 @@ void func_800507D0(void)
           incoming_color[2] = peer_blue + 1;
         if ( !outgoing_color[0] && !outgoing_color[1] && !outgoing_color[2] )
         {
-          ((ModelSlot *)((u8 *)cross_base + (904 * (u8)ACTIVE_SLOT) * 4))->field_E1F = 0;
+          MODEL_SLOT_VIEW(
+              (u8 *)cross_base + (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F = 0;
           D_8009AF9A = 0;
           ACTIVE_SLOT ^= 1u;
         }
@@ -1116,7 +1122,8 @@ void func_800507D0(void)
       goto tick_active_slot;
     case 2:
       fade_models = D_800F2C40;
-      if ( (((ModelSlot *)((u8 *)fade_models + (904 * (u8)ACTIVE_SLOT) * 4))->field_E15 & 3) != 0 )
+      if ( (MODEL_SLOT_VIEW(
+                (u8 *)fade_models + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
         goto tick_active_slot;
       fade_a = fade_models[0].field_DC0;
       fade_b = fade_models[1].field_DC0;
@@ -1146,7 +1153,7 @@ void func_800507D0(void)
 set_phase_and_tick:
       D_8009AF9A = next_phase;
 tick_active_slot:
-      ++((ModelSlot *)((u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4))->field_E15;
+      ++MODEL_SLOT_VIEW((u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
       goto poll_module;
     case 3:
       func_800493F8();
