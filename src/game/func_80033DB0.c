@@ -25,6 +25,7 @@
 #include "func_8006151C.h"
 
 #define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
+#define CVECTOR_WORD(color) (*(u32 *)(color))
 
 u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 {
@@ -79,8 +80,8 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
         LINE_G4 *lg = (LINE_G4 *)0x1F800380;
         POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
 
-        *(u32 *)white = mask;
-        *(u32 *)grey = D_8009B300;
+        CVECTOR_WORD(white) = mask;
+        CVECTOR_WORD(grey) = D_8009B300;
         while (--n != -1) {
             if (D_8009B30C & 2) {
                 z = D_8009B310->sorted_position;
@@ -179,7 +180,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT3 *gt = (POLY_GT3 *)0x1F800380;
 
-        *(u32 *)white = D_8009B300;
+        CVECTOR_WORD(white) = D_8009B300;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
