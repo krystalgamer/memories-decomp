@@ -390,8 +390,8 @@ typedef struct {
     void (*field_050C)(void);
     s16 object_count;
     s16 field_0512;
-    s16 field_0514;
-    s16 field_0516;
+    u16 field_0514;
+    u16 field_0516;
     SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
     u8 pad07D8[4];
     u8 *field_07DC;
