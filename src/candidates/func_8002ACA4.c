@@ -2,9 +2,15 @@
  * Library screen state 2 handler: opens the card view, runs the model and
  * text-box slide-in, rotates the model light with the view angle, and walks
  * the close sequence back to the grid. Current best under
- * gcc_2_8_1_cc_g8_as_g0_split: 895 instructions against 895 with an opcode
- * census of addiu -1, addu +2, nop -1 (distance 4), with no hard register
- * assignments and no inline assembly.
+ * gcc_2_8_1_cc_g8_as_g0_split: 895 instructions against 895, 832 of them
+ * aligned on opcode and registers, in 43 divergent blocks of which 24 are
+ * structural. No hard register assignments and no inline assembly.
+ *
+ * Opcode census, with the sign convention stated: POSITIVE MEANS RETAIL HAS
+ * MORE. addu -2, nop +1, addiu +1, distance 4, summing to zero. An earlier
+ * revision of this header wrote the same census as "addiu -1, addu +2,
+ * nop -1"; that is the same measurement under the opposite, undeclared
+ * convention, not a census that changed.
  *
  * Levers measured on this body:
  * - the two slide states share one settle block, one Widget_SlideSine call
@@ -26,10 +32,41 @@
  *   keeps gcc from hoisting it into the reload's load-delay slot: retail
  *   materialises it later, in the bgtz delay slot.
  *
+ * Three further levers, found with decomp-permuter and then DECOMPOSED and
+ * measured one at a time against this base in the same run. None of them
+ * changes a single emitted opcode: the census composition is identical before
+ * and after, so the whole gain is allocation and ordering.
+ *   - the case 2 slide step is split across two statements against one name,
+ *     `v_b4 = H(o, 0x60); v_b4 = v_b4 + 0xCC;`, which blocks the fold the
+ *     single expression allows. Alone: 825 aligned, 27 structural.
+ *   - `s32 b` is declared between `x` and `phase` rather than after `a`.
+ *     Declaration order alone: 831 aligned, 31 structural.
+ *   - the state 0 y-position subtraction is named in a local before its
+ *     store. Alone: 827 aligned, 30 structural.
+ * Together: 832 aligned, 24 structural, from a base of 820 and 33.
+ *
+ * Measured and dead on this base, recorded so the next attempt does not spend
+ * a round on them. Every row is this source plus one edit, with the unmodified
+ * source measured first in the same run as its control:
+ *   - naming the 0x08000000 state 1 test constant in a local: 819 aligned and
+ *     the census distance rises from 4 to 6. It is in the permuter output that
+ *     scored best on that tool's own metric; installing that output whole
+ *     would have carried it.
+ *   - delaying the two zero stores at +0x46 and +0x44 past the second
+ *     subtraction, and past DisplayObject_SavePosition: both give 824 aligned
+ *     with blocks, structural count and census unchanged. Two positions with
+ *     an identical result is the wrong-axis tell.
+ *
+ * A note on the permuter's score, since it is easy to cross-read: its best
+ * output here scored 3375 against a base of 3880 on its own weighted metric,
+ * and is WORSE than this source by (length, census, structural, aligned) --
+ * 817 aligned against 820 and 35 structural against 33. Nine of its 31 outputs
+ * beat the base on the project's ranking; the tool's own ordering does not
+ * track it.
+ *
  * Residual: the target reloads the slide phase into the register it loaded
- * it from, and materialises the case 5 pad address twice. One of the two
- * load-delay nops is recovered by pinning the case 2 slide constant; the
- * other and the addu +2 are not attributed yet.
+ * it from, and materialises the case 5 pad address twice. The two remaining
+ * load-delay nops and the addu -2 are not attributed yet.
  */
 #define D_800E9ECE_AS_SCALAR
 #include "../types.h"
@@ -90,9 +127,9 @@ void func_8002ACA4(u8 *state)
     s32 id;
     s32 i;
     s32 x;
+    s32 b;
     s32 phase;
     s32 a;
-    s32 b;
     s32 c;
     s32 t_b1;
     s32 t_b4;
@@ -220,7 +257,8 @@ void func_8002ACA4(u8 *state)
         S(o, 0x30) = H(state, 0x12) - (u16)gGraphics_sViewportX - H(o, 0x48);
         S(o, 0x46) = 0;
         S(o, 0x44) = 0;
-        S(o, 0x32) = H(state, 0x14) - (u16)gGraphics_sViewportY - H(o, 0x4A);
+        b = H(state, 0x14) - (u16)gGraphics_sViewportY - H(o, 0x4A);
+        S(o, 0x32) = b;
         DisplayObject_SavePosition((void *)o);
         H(o, 0x60) = 0;
         SD_SEPlayFull(0x32);
@@ -393,7 +431,8 @@ void func_8002ACA4(u8 *state)
         case 2:
             o = rec->object_00;
             if (H(o, 8) & 4) {
-                v_b4 = H(o, 0x60) + 0xCC;
+                v_b4 = H(o, 0x60);
+                v_b4 = v_b4 + 0xCC;
                 B(o, 0x21) += 4;
                 H(o, 0x60) = v_b4;
                 DisplayObject_InterpolatePositionCosine((void *)o, 2, 4, (s16)v_b4);
