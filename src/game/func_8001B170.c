@@ -179,7 +179,7 @@ state_four:
             D_8009B210 = 0;
         }
         if (D_8009B174 & 0x40) {
-            if (func_8001F364()) {
+            if (Duel_UpdateTrapPresentation()) {
                 break;
             }
             request = DuelEffect_CreateRequest(0xD);

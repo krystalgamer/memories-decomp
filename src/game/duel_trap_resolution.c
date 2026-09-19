@@ -155,7 +155,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
  * the card record and plays the SE when that counter expires; mode 2 starts
  * the second screen effect; mode 3 waits once more, advances the opposing
  * side's state byte at +6 and completes. Returns 1 while busy. */
-s32 func_8001F364(void) {
+s32 Duel_UpdateTrapPresentation(void) {
     DuelEffectObject *e;
     DuelCardReplayRecordBlock *g;
     DisplayObject *p;

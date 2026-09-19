@@ -91,7 +91,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
     }
 block_9:
     if (gDuel_wCardEffectFlags & 0x20) {
-        if (func_8001F364() == 0) {
+        if (Duel_UpdateTrapPresentation() == 0) {
             gDuel_wCardEffectFlags &= 0xFFDF;
             obj = DuelEffect_CreateRequest(9);
             obj->field_00 = 0xA0;
@@ -142,7 +142,7 @@ void DuelEffect_ApplyDirectDamage(void) {
         D_8009B210 = 0;
     }
     if (gDuel_wCardEffectFlags & 0x20) {
-        if (func_8001F364() == 0) {
+        if (Duel_UpdateTrapPresentation() == 0) {
             gDuel_wCardEffectFlags &= 0xFFDF;
             obj = DuelEffect_CreateRequest(7);
             obj->field_00 = 0xA0;

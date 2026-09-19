@@ -326,7 +326,7 @@ extern:
 
 `Duel_ResetCardRecords`, `func_80017DB4`, `func_80017E3C`, `func_80017F04`,
 `Duel_ApplyCardObjectFlags`, `func_80019BD0`, `func_8001D240`,
-`func_8001EFD4`, `func_8001F364`, `func_80023090`,
+`func_8001EFD4`, `Duel_UpdateTrapPresentation`, `func_80023090`,
 `Duel_UpdateCardPickCursor`, `Duel_SetupCardRecord`,
 `DuelEffect_ApplyStopDefense`, `DuelEffect_UpdateRevealCard`,
 `DuelEffect_ApplyDarkPiercingLight`, `DuelEffect_ApplySwords`,
