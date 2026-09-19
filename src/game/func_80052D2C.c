@@ -31,6 +31,8 @@
 #define D_8009B_MODEL_VISIBLE
 #include "../unmatched.h"
 
+#define SVECTOR_VIEW(vector) ((SVECTOR *)(vector))
+
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
    D_800F2B50, model slots, and the D_8009AFxx scene-control state. The
@@ -132,15 +134,15 @@ have_flags:
         p->eye.start_z = a.vz;
         /* arg1/arg2 now hold a slot's field_DD0 position or &a/&b; both
            are SVECTOR-shaped. */
-        p->eye.end_x = ((SVECTOR *)arg1)->vx;
-        p->eye.end_y = ((SVECTOR *)arg1)->vy;
-        p->eye.end_z = ((SVECTOR *)arg1)->vz;
+        p->eye.end_x = SVECTOR_VIEW(arg1)->vx;
+        p->eye.end_y = SVECTOR_VIEW(arg1)->vy;
+        p->eye.end_z = SVECTOR_VIEW(arg1)->vz;
         p->target.start_x = b.vx;
         p->target.start_y = b.vy;
         p->target.start_z = b.vz;
-        p->target.end_x = ((SVECTOR *)arg2)->vx;
-        p->target.end_y = ((SVECTOR *)arg2)->vy;
-        p->target.end_z = ((SVECTOR *)arg2)->vz;
+        p->target.end_x = SVECTOR_VIEW(arg2)->vx;
+        p->target.end_y = SVECTOR_VIEW(arg2)->vy;
+        p->target.end_z = SVECTOR_VIEW(arg2)->vz;
         arg3 = (arg3 < 0 ? -arg3 : arg3) * 2;
         if (arg3 > 0xFFFE) {
             p->duration = 0xFFFF;
