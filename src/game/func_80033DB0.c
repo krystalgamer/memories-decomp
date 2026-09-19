@@ -24,6 +24,8 @@
 #include "func_80033DB0.h"
 #include "func_8006151C.h"
 
+#define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
+
 u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
 {
     long z;
@@ -139,11 +141,11 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
             gte_ncds();
             gte_strgb(&lg->r0);
             gte_stszotz(&scr[4]);
-            c0 = ((u32 *)lg)[1];
-            c1 = ((u32 *)lg)[2];
+            c0 = LINE_G4_WORD_VIEW(lg)[1];
+            c1 = LINE_G4_WORD_VIEW(lg)[2];
             v1 = &vertop[rec[9]];
-            ((u32 *)lg)[7] = c0;
-            ((u32 *)lg)[8] = c1;
+            LINE_G4_WORD_VIEW(lg)[7] = c0;
+            LINE_G4_WORD_VIEW(lg)[8] = c1;
             gte_ldv0(v1);
             gte_rtps();
             gte_stsxy(&lg->x1);
