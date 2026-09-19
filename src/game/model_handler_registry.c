@@ -18,6 +18,8 @@
 #include "model_handler_registry.h"
 #include "../unmatched.h"
 
+#define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
+
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
@@ -264,7 +266,7 @@ void Model_ProcessType2Unit(
                 b = r->indices;
                 if (b != (u8 *)0) {
                     j = 0;
-                    rec = (ModelType2Record *)q;
+                    rec = MODEL_TYPE2_RECORD_VIEW(q);
                     e = (u16 *)(b +
                         rec->index_offset * 4);
                     if (rec->row_count > 0) {
@@ -301,8 +303,8 @@ void Model_ProcessType2Unit(
                 }
             }
             if (f) {
-                w = ((ModelType2Record *)p)->field_00;
-                ((ModelType2Record *)p)->field_00 = (w - 0x280) + sh;
+                w = MODEL_TYPE2_RECORD_VIEW(p)->field_00;
+                MODEL_TYPE2_RECORD_VIEW(p)->field_00 = (w - 0x280) + sh;
             }
             i++;
             p = q;
