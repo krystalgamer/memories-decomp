@@ -20,7 +20,13 @@ extern u8 D_8009AFE5;
 extern u16 D_8009AFE6;
 extern u8 D_8009AFE8;
 extern u8 D_8009AFE9;
+/* The mode 15 controller copies this view offset through a split absolute
+ * address; its unknown-bound view changes no storage extent. */
+#ifdef MODEL_HANDLER_VIEW_OFFSET_ABSOLUTE
+extern u32 D_8009AFEC[];
+#else
 extern u32 D_8009AFEC[2];
+#endif
 /* The control dispatcher needs split absolute addresses for these calls.
  * Its unknown-bound view changes no storage extent. */
 #ifdef MODEL_HANDLER_DIAGNOSTICS_AS_ARRAY

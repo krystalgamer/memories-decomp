@@ -11,14 +11,14 @@
  * and nothing else.
  *
  * func_8004EB00, the model scene mode 15 controller
- * (src/candidates/func_8004EB00.c), is the only source in the tree that names
- * it, and it declared the prototype for itself because this unit had no header
- * to take it from. All eleven of its call sites pass 1, so there the test
+ * (src/game/model_intro_controller.c), is the only source in the tree that
+ * names it, and as a candidate it declared the prototype for itself because
+ * this unit had no header to take it from. All eleven of its call sites pass 1, so there the test
  * reduces to `flags == 0` and the `arg == 0` path has no reader here; that is a
  * statement about this tree, not about the rest of the binary.
  *
  * The declaration is moved verbatim, `int` included: that is the spelling both
- * the definition and the candidate already used. */
+ * the definition and the former candidate already used. */
 int func_8005A878(int arg);
 
 #endif

@@ -11,7 +11,7 @@
    Returns a pointer to the matching record, or NULL if not found / list
    ends first. */
 
-s32 func_80036BCC(s32 id) {
+s32 Text_FindRecordById(s32 id) {
     u8 *rec;
     u8 *key;
     s32 v;
@@ -33,7 +33,7 @@ loop_check:
     goto loop_check;
 }
 
-void func_80036C14(DuelEffectChannel *p, s32 a)
+void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
     DuelEffectEntry *q;
     s16 *r;
