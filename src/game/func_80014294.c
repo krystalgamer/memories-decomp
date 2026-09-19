@@ -9,6 +9,9 @@
 #include "../external_funcs.h"
 #include "../unmatched.h"
 
+#define CDL_LOC_VIEW(location) ((CdlLOC *)(location))
+#define DSL_LOC_VIEW(location) ((DslLOC *)(location))
+
 /* The rest of the asynchronous disc-transfer runtime: the later
    command-completion callbacks, secondary-to-primary activation, transfer
    advancement and request dispatch. The nine functions are contiguous and
@@ -31,7 +34,9 @@ void func_80014308(u8 event)
 {
     if (event == 5) {
         D_8009B130++;
-        DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1);
+        DsPacket(
+            0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
+            (DslCB)func_80014308, -1);
     } else if (event == 2) {
         D_8009B100 = 5;
         D_8009B0F4 |= FILE_TRANSFER_STATE_POSITION_QUERY_PENDING;
@@ -141,9 +146,11 @@ set_state3:
             return;
         case 4:
             CdIntToPos_8007E600(
-                p->absolute_lba, (CdlLOC *)D_8009B104
+                p->absolute_lba, CDL_LOC_VIEW(D_8009B104)
             );
-            if (DsPacket(0x4A, (DslLOC *)D_8009B104, 0x1B, (DslCB)func_80014308, -1) <= 0) {
+            if (DsPacket(
+                    0x4A, DSL_LOC_VIEW(D_8009B104), 0x1B,
+                    (DslCB)func_80014308, -1) <= 0) {
                 return;
             }
             D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -197,12 +204,14 @@ call_back:
         }
         goto call_144B8;
     }
-    CdIntToPos_8007E600(p->absolute_lba, (CdlLOC *)D_8009B104);
+    CdIntToPos_8007E600(p->absolute_lba, CDL_LOC_VIEW(D_8009B104));
     if (D_8009B0F4 & 0x100000) {
         if ((s32)D_8009B0F4 < 0) {
             goto call_144B8;
         }
-        if (DsPacket(0xA0, (DslLOC *)D_8009B104, 0x15, (DslCB)func_80014134, -1) <= 0) {
+        if (DsPacket(
+                0xA0, DSL_LOC_VIEW(D_8009B104), 0x15,
+                (DslCB)func_80014134, -1) <= 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | 0x480;
@@ -223,7 +232,9 @@ call_back:
         D_8009B0F4 = D_8009B0F4 & 0xFFBFFFFF;
     }
     if ((s32)D_8009B0F4 >= 0) {
-        if (DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1) == 0) {
+        if (DsPacket(
+                0xA0, DSL_LOC_VIEW(D_8009B104), 6,
+                (DslCB)func_800140A0, -1) == 0) {
             return;
         }
         D_8009B0F4 = D_8009B0F4 | FILE_TRANSFER_STATE_COMMAND_BUSY;
