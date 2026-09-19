@@ -15,6 +15,7 @@
 #include "../game/model_slot_setup.h"
 
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
+#define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
 
 /* Initializes one model channel rooted at D_800F2C40[index]: resets its
    state, maps the HMD block, scans every unit's type records into the
@@ -50,7 +51,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
 
     handler = (s32)GsU_00000000;
     base = &D_800F2C40[index];
-    slot = (GsUNIT *)base->field_000;
+    slot = GS_UNIT_VIEW(base->field_000);
     cursor = hmd;
     if (index < 2) {
         table = D_800E9D90[2];
@@ -199,7 +200,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
             slot++;
         } while (i < base->field_E1A);
     }
-    slot = (GsUNIT *)base->field_000 + 1;
+    slot = GS_UNIT_VIEW(base->field_000) + 1;
     i = 1;
     base->field_E00 = count;
     base->field_E02 = acc + i;
@@ -234,7 +235,7 @@ void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
         cur = GS_COORD_UNIT_VIEW(base->entries) + base->field_E19;
         base->field_D1C = cur;
     retry:
-        slot = (GsUNIT *)base->field_000;
+        slot = GS_UNIT_VIEW(base->field_000);
         loaded_limit = base->field_E1A;
         i = 0;
         if (loaded_limit != 0) {
