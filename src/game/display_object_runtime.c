@@ -19,6 +19,9 @@
 
 #include "ordering_tables.h"
 
+#define POLY_G4_BYTES(packet) ((u8 *)(packet))
+#define POLY_GT4_BYTES(packet) ((u8 *)(packet))
+
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
  * word are setlen and setcode, 8 and 0x38 here, which is setPolyG4, and 12
@@ -125,7 +128,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), (s32)tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (*(u8 *)&e->field_5A != 0) {
@@ -141,7 +144,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(g, eight);
                     setcode(g, hi);
                     *(s32 *)&g->r1 = x2;
-                    DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                    DisplayObject_SubmitPacket(v, POLY_G4_BYTES(g), (s32)tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }
@@ -242,7 +245,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     v = v | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), (s32)tb[e->ot_index],
                                            e->field_14 | bit, h);
 
                 if (((u8 *)e)[0x72] != 0) {
@@ -257,7 +260,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(g, twelve);
                     setcode(g, hi);
                     *(u16 *)&g->u1 = x2;
-                    DisplayObject_SubmitPacket(v, (u8 *)g, (s32)tb[e->ot_index],
+                    DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), (s32)tb[e->ot_index],
                                                e->field_14 | bit, h);
                 }
             }
