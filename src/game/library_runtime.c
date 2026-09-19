@@ -450,7 +450,7 @@ void func_8002ACA4(u8 *state)
                 i++;
             } while (i < 9);
             H(D_800EB0F8[3].field_28, 8) |= 0x40;
-            D_800E9DB0[3] = func_80029EC4;
+            D_800E9DB0[3] = Library_DrawCardGrid;
             func_80015C0C();
             state[3] = 2;
             state[1] = 7;
@@ -729,7 +729,7 @@ void func_8002BFCC(void) {
                               (FileTransferCallback)func_8002BD0C, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
-    D_800E9DB0[3] = func_80029EC4;
+    D_800E9DB0[3] = Library_DrawCardGrid;
     func_80029590();
     r = D_800EA1E8;
     D_800EA1E8[0] = 0;

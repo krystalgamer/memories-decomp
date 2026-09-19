@@ -30,7 +30,7 @@ extern GsOT *D_800E9D98;
 /* Slot 3. Both readers want the bare %hi/%lo form -- two relocations each in
  * their target listings -- and both build gcc_2_8_1_g8_split, where the plain
  * scalar declaration would be gp-relative. Neither uses this scalar for it:
- * func_800540B4 reads the slot as D_800E9D98[1] and func_80029EC4 as
+ * func_800540B4 reads the slot as D_800E9D98[1] and Library_DrawCardGrid as
  * D_800E9D90[3]. An array of unknown or 16-byte extent is not small data, so
  * the address stays split into %hi and %lo insns and reload stores the
  * spilled pointer through the dying %hi register, which is the

@@ -38,7 +38,7 @@
      note keeps the constant live across the stores before it, which is what
      gives it $v1 and lets sched2 float its lui above the p->y store.
    - The cursor's y is a chained assignment, y1 then y0, from one value. */
-void func_80029EC4(void)
+void Library_DrawCardGrid(void)
 {
     GsSPRITE *p;
     GsGLINE *q;
