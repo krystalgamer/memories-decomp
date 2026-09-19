@@ -20,6 +20,7 @@ void func_8002A2F4(u8 *p)
     s32 t;
     s32 n;
     s32 mode;
+    s32 offset;
     u8 *o;
 
     mode = 0;
@@ -39,7 +40,8 @@ void func_8002A2F4(u8 *p)
 
     o = TextBox_Create(1, mode, 0x10, 0xCA, 0x120, 0x30);
     D_8009B320 = o[(u32)&((DisplayObject *)0)->field_54];
-    if (*(p + (n << 2) + 0x56) & 1) {
+    offset = (u32)&((u32 *)0)[n];
+    if (*(p + offset + 0x56) & 1) {
         D_8009B320 = 4;
     }
     func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
