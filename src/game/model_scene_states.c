@@ -85,7 +85,7 @@ void Model_UpdateScene(void)
     func_80051A48();
 }
 
-void func_80059DD8(s32 index)
+void Model_RunSlotHandlers(s32 index)
 {
     ModelSlot *base = &D_800F2C40[index];
     ModelSlotHeadEntry *slot = base->field_000;

@@ -903,7 +903,7 @@ void func_80050584(s32 arg0) {
                 s->field_D18->matrix.t[2] = 0;
             }
             func_8005922C(s->field_D18, 0);
-            func_80059DD8(arg0);
+            Model_RunSlotHandlers(arg0);
             s->field_E15 = 0;
         }
     }

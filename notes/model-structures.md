@@ -38,7 +38,7 @@ Verified shared fields and partial arrays are:
 
 | Offset | Shared member | Exact local evidence |
 |---:|---|---|
-| `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `func_80059DD8` advances by 8 and reads the pointer at `+4` |
+| `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
 | `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `func_80058EC0` reads it as `field_BF5 * 118` |
@@ -66,9 +66,9 @@ Verified shared fields and partial arrays are:
 | `0xE12` | `field_E12` | read/conditional write in `func_80059AA8` |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `func_8005969C`; clamp/index fields in `func_80058F20` and `Model_GetCurrentDataEntry` |
-| `0xE1A` | `field_E1A` | head-entry count in `func_80059DD8` |
+| `0xE1A` | `field_E1A` | head-entry count in `Model_RunSlotHandlers` |
 | `0xE1B` | `field_E1B` | pointer-array count in `func_800597C8` and `func_8005A468` |
-| `0xE1F` | `field_E1F` | status tests in `func_80058DD8` and `func_80059DD8` |
+| `0xE1F` | `field_E1F` | status tests in `func_80058DD8` and `Model_RunSlotHandlers` |
 
 `field_000` is still a one-element declaration: it expresses verified element
 layout and stride only, because the runtime count establishes it is an array
@@ -237,7 +237,7 @@ all include the shared header:
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
 `func_800594C0`, `func_80059520`, `func_80059590`, `func_800595C8`,
-`func_8005969C`, `func_800597C8`, `func_80059AA8`, `func_80059DD8`,
+`func_8005969C`, `func_800597C8`, `func_80059AA8`, `Model_RunSlotHandlers`,
 `func_8005A468`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries

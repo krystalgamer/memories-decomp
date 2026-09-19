@@ -4,6 +4,6 @@
 #include "../types.h"
 
 void Model_UpdateScene(void);
-void func_80059DD8(s32 index);
+void Model_RunSlotHandlers(s32 index);
 
 #endif
