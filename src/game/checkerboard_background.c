@@ -8,6 +8,7 @@
 #define CHECKERBOARD_CELL_HEIGHT 0x20
 #define CHECKERBOARD_SCREEN_WIDTH 0x140
 #define CHECKERBOARD_SCREEN_HEIGHT 0xF0
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 
 void func_8003D32C(void)
 {
@@ -45,7 +46,7 @@ void Checkerboard_DrawBackground(
         sprite->field_06 = y;
         sprite->field_10 = 0x2C0;
         do {
-            GsSortFastSprite((GsSPRITE *)sprite, ordering_table,
+            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
             sprite->field_04 =
@@ -57,7 +58,7 @@ void Checkerboard_DrawBackground(
         sprite->field_0E.bytes.field_0E = 0x50;
         sprite->field_10 = 0x2D0;
         do {
-            GsSortFastSprite((GsSPRITE *)sprite, ordering_table,
+            GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
             x += CHECKERBOARD_CELL_WIDTH;
             sprite->field_04 =
