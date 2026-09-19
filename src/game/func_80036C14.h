@@ -6,6 +6,9 @@
 
 extern s16 D_801DA000[];
 
+/* Finds the 30-byte text record selected by a parallel big-endian ID table. */
+s32 Text_FindRecordById(s32 id);
+
 /* Appends one 0x1C-byte packet to the buffer the object holds at 0x20, then
  * advances that pointer past it.
  *
@@ -18,6 +21,8 @@ extern s16 D_801DA000[];
 void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 
 /* Compatibility symbol used by existing text and command handlers. */
+/* The lookup's original symbol remains for non-C callers. */
+s32 func_80036BCC(s32 id);
 void func_80036C14(DuelEffectChannel *channel, s32 tagged_value);
 
 #endif

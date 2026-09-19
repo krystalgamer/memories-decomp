@@ -2851,7 +2851,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5750,D_800F5750,D_800F5750,0x8005C464,Movie_StartFileStream,matching_c,game,C,src/game/movie_stream_requests.c,address,8,CdlFILE *file = (CdlFILE *)D_800F5750;
 0x800F5768,D_800F5768,D_800F5768,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,orbit_pose = (s16 *)D_800F5768; | pose = (s16 *)D_800F5768;
 0x800F5768,D_800F5768,D_800F5768,0x8005E808,func_8005E808,matching_c,game,C,src/game/func_8005E808.c,read,,g = &D_800F5768[i]; | if (D_800F5768[2].vx < e->x) { | (+1 more)
-0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,pts[0] = (s16 *)((u8 *)D_800F5768 + k * 8);
+0x800F5768,D_800F5768,D_800F5768,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,(u8 *)D_800F5768 + (u32)&((u8 (*)[8])0)[k]);
 0x800F5768,D_800F5768,D_800F5768,0x8005F070,func_8005F070,matching_c,game,C,src/game/model_effect_state.c,write,,D_800F5768[0].vx = left->vpx; | D_800F5768[0].vy = left->vpy; | (+7 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,D_8009B074 = D_800F5788; | Key *key = D_800F5788; | (+1 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,"&D_800F5788[(cur - D_800F5788 + 1) % D_8009B078], | &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078] | (+2 more)"
@@ -3296,7 +3296,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D9000,D_801D9000,D_801D9000,0x80039794,func_80039794,matching_c,game,C,src/game/func_80039794.c,address,32,table = (TblEnt *)D_801D9000;
 0x801D9000,D_801D9000,D_801D9000,0x8003BC40,Text_SjisToGlyphCodes,matching_c,game,C,src/game/text_sjis_to_glyph_codes.c,address,32,u32 *entry = &D_801D9000[index];
 0x801D9004,D_801D9004,D_801D9004,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,32,e = D_801D9004; | if (D_801D9004[0] != 0) {
-0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,func_80036BCC,matching_c,game,C,src/game/func_80036C14.c,address,8,key = D_801D9174_b; | rec = D_801D9174;
+0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,Text_FindRecordById,matching_c,game,C,src/game/func_80036C14.c,address,8,key = D_801D9174_b; | rec = D_801D9174;
 0x801DA000,D_801DA000,D_801DA000,0x80036C14,DuelEffect_AppendEntry,matching_c,game,C,src/game/func_80036C14.c,address,16,r = D_801DA000;
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,File_InitTransferState((s32)gLibrary_aCardArtRecord);
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(SaveDataState *)gLibrary_aCardArtRecord) != 0) { | (unsigned long *)gLibrary_aCardArtRecord,"
