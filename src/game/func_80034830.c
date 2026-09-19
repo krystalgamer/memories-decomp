@@ -6,61 +6,27 @@
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
  *
- * Built under gcc_2_8_1_g8_split_psyq_gte. 856 instructions against 858,
- * 835 of them aligned on opcode and registers, in 11 divergent blocks of
- * which 3 are structural. Alignment is tools/project/align_functions.py; a
- * block is structural when the two sides differ in length or in opcode
- * sequence.
- *
- * Two edits get that, and they are a COUPLED PAIR: each one alone is worth
- * little or is worse, and only together do they move the function.
+ * Matches under gcc_2_8_1_g8_split_psyq_gte with no hard register
+ * assignments; the GTE commands are the official inline_c.h macros. The
+ * shapes that decide the bytes, each read off the retail listing:
+ *   - the LINE_G4 outline visits the quad's vertices as v0, v1, v3, v2 -- the
+ *     third loaded vertex is rec[13] and the fourth rec[11] -- which is the
+ *     closed outline of a quad rather than a bow tie. That order also makes
+ *     rec[10] the last address giv in the loop, and gcc 2.8's loop pass takes
+ *     the last giv as the representative of the combined cursor, which is
+ *     why the cursor is biased at rec[10] (`addiu t3,s3,20`);
+ *   - the flag words retail addresses through $s8 go through a second
+ *     scratchpad pointer, flg = (s32 *)0x1F8003E8, used only at the three
+ *     gte_stflg calls where retail uses $s8 and assigned at the top of the
+ *     while body so the loop pass hoists it to where retail materialises it;
+ *   - the first POLY_GT4 arm's addPrim reads arg->tagp inline, so the field
+ *     is reloaded around the store through the packet pointer;
+ *   - the flags & 4 arm's three ABS3 statements sit in a do { } while (0),
+ *     which keeps each sum in a register of its own so the quotient gets a
+ *     fresh one and the sra is duplicated into the bgez delay slot;
  *   - a no-op `rec++; rec--;` after the normal-table load, which removes the
- *     primitive cursor's stack spill. Alone: -4, 746 aligned, 71 blocks, 19
- *     structural.
- *   - both returns yielding the live `primp` instead of re-reading
- *     arg->primp. Alone, without the no-op: +3, 743 aligned, 92 blocks, 33
- *     structural -- i.e. a WORSE length than the 859/858 this replaces.
- * Together: -2, 835 aligned, 11 blocks, 3 structural, from a base of +1, 738
- * aligned, 96 blocks, 39 structural. Only one of the two returns is not
- * enough (the late one alone -2/767/74/20, the early one alone -4/746/73/21).
- *
- * The earlier header treated re-reading arg->primp as a virtue that "shortens
- * the primitive cursor's spill". Retail HAS that spill: instruction 27 is
- * `sw $s5,0x14($sp)`, with arg->primp loaded into the callee-saved $s5 and
- * read at +4 and +2 through it, where this source used the caller-saved $v1
- * and reused it on the next instruction.
- *
- * Measured and dead, recorded so the next attempt does not spend a round on
- * them. Each is the installed source plus one edit, every run measuring the
- * unmodified source first as its control:
- *   - the no-op's POSITION: after vertop, after nortop, before nortop, and in
- *     the else arm alone all give byte-identical results. What matters is that
- *     it exists, not where it sits.
- *   - the `z = (scr[4..7]) / 4 >> 4` spelling at all three sites: split into
- *     two statements against one name, `/ 64`, and `/ 4 / 16` are identical to
- *     the no-op alone; only `>> 2 >> 4` moves, and it is -13/714/77/28. The
- *     old header's claim that z's divide lacks retail's duplicated sra is not
- *     reachable by any spelling of the division. That duplicated sra is real
- *     but it is in the ABS3 arm (target 93-97), not in z.
- *   - the LINE_G4 and POLY_GT4 by-value copies: a typed destination local, a
- *     cast on the source, the POLY_GT4 sites, and both together are all
- *     identical to the base. PACKET is `unsigned char`, so the destination
- *     carries alignment 1, but that is not the lever -- if it were, one of the
- *     four spellings would have moved.
- *   - the 0x1F8003E8 literal, which retail materialises with lui/ori where
- *     this source derives `addiu $s8,$t2,8`: the targeted two-site edit in the
- *     LINE_G4 arm is -6/733/66/23 and the second site alone is -5/762/70/24.
- *
- * A false zero worth keeping: spelling that literal inline at every site
- * reaches EXACT length (+0) with 757 aligned, 51 blocks and 23 structural.
- * Ranking on the length key alone would install the worst of the states
- * measured here.
- *
- * The remaining 3 structural blocks: target[125:127], retail's lui/ori pair
- * against this source's `addiu $s8,$t2,8`; target[346:347], an `addiu
- * $s0,$s0,52` this source has and retail does not; and one more. The LINE_G4
- * arm stores the second and third vertices' flags both to scr[2], as retail
- * does.
+ *     primitive cursor's stack spill, and both returns yielding the live
+ *     `primp` rather than re-reading arg->primp.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -70,8 +36,8 @@
 #include "../psyq/inline_c.h"
 #include "../game/sorted_entry.h"
 #include "../game/gpu_packets.h"
-
-extern u32 *func_80061A84(GsARGUNIT_NORMAL *arg);
+#include "../game/func_80034830.h"
+#include "../game/func_80061A84.h"
 
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
 
@@ -82,6 +48,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     u32 mask;
     CVECTOR *white;
     s32 *scr;
+    s32 *flg;
     u32 *primp;
     PACKET *out;
     s32 n;
@@ -112,9 +79,11 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         s32 w;
         do {
         while (--n != -1) {
-            x = ABS3((vertop[rec[7]].vx + vertop[rec[9]].vx + vertop[rec[11]].vx + vertop[rec[13]].vx) / 4);
-            y = ABS3((vertop[rec[7]].vy + vertop[rec[9]].vy + vertop[rec[11]].vy + vertop[rec[13]].vy) / 4);
-            w = ABS3((vertop[rec[7]].vz + vertop[rec[9]].vz + vertop[rec[11]].vz + vertop[rec[13]].vz) / 4);
+            do {
+                x = ABS3((vertop[rec[7]].vx + vertop[rec[9]].vx + vertop[rec[11]].vx + vertop[rec[13]].vx) / 4);
+                y = ABS3((vertop[rec[7]].vy + vertop[rec[9]].vy + vertop[rec[11]].vy + vertop[rec[13]].vy) / 4);
+                w = ABS3((vertop[rec[7]].vz + vertop[rec[9]].vz + vertop[rec[11]].vz + vertop[rec[13]].vz) / 4);
+            } while (0);
             func_80033CF8(x, y, w);
             rec += 14;
         }
@@ -130,6 +99,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         *(u32 *)white = mask;
         *(u32 *)grey = D_8009B300;
         while (--n != -1) {
+            flg = (s32 *)0x1F8003E8;
             if (D_8009B30C & 2) {
                 z = D_8009B310->sorted_position;
                 D_8009B310++;
@@ -155,7 +125,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                     gte_ldv0(&vertop[rec[11]]);
                     gte_rtps();
                     gte_stsxy(&gt->x2);
-                    gte_stflg(&scr[2]);
+                    gte_stflg(flg);
                     gte_ldv0(&nortop[rec[10]]);
                     gte_ldrgb(grey);
                     gte_ncds();
@@ -185,8 +155,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                     gt->clut = rec[1];
                     *(POLY_GT4 *)out = *gt;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                    tg = arg->tagp;
-                    addPrim(&tg->org[z], out);
+                    addPrim(&arg->tagp->org[z], out);
                     out += 0x34;
                     goto next;
                 }
@@ -203,26 +172,26 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             gte_ldv0(&vertop[rec[9]]);
             gte_rtps();
             gte_stsxy(&lg->x1);
-            gte_stflg(&scr[2]);
+            gte_stflg(flg);
             gte_ldv0(&nortop[rec[8]]);
             gte_ldrgb(white);
             gte_ncds();
             gte_strgb(&lg->r1);
             gte_stszotz(&scr[5]);
-            gte_ldv0(&vertop[rec[11]]);
+            gte_ldv0(&vertop[rec[13]]);
             gte_rtps();
             gte_stsxy(&lg->x2);
-            gte_stflg(&scr[2]);
-            gte_ldv0(&nortop[rec[10]]);
+            gte_stflg(flg);
+            gte_ldv0(&nortop[rec[12]]);
             gte_ldrgb(white);
             gte_ncds();
             gte_strgb(&lg->r2);
             gte_stszotz(&scr[6]);
-            gte_ldv0(&vertop[rec[13]]);
+            gte_ldv0(&vertop[rec[11]]);
             gte_rtps();
             gte_stsxy(&lg->x3);
             gte_stflg(&scr[3]);
-            gte_ldv0(&nortop[rec[12]]);
+            gte_ldv0(&nortop[rec[10]]);
             gte_ldrgb(white);
             gte_ncds();
             gte_strgb(&lg->r3);
