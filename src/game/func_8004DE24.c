@@ -12,12 +12,14 @@
 #include "ordering_tables.h"
 
 #define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
+#define MODEL_BACKGROUND_RECORD_VIEW(record) \
+    ((ModelBackgroundRecord *)(record))
 #define BACKGROUND_FIELD_A8 \
-    (((ModelBackgroundRecord *)D_8009AF88)->field_A8)
+    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->field_A8)
 #define BACKGROUND_FIELD_AA \
-    (((ModelBackgroundRecord *)D_8009AF88)->field_AA)
+    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->field_AA)
 #define BACKGROUND_TEXTURE_WIDTH \
-    (((ModelBackgroundRecord *)D_8009AF88)->texture_width)
+    (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->texture_width)
 
 void func_8004DE24(void)
 {
