@@ -61,7 +61,7 @@ void DuelEffect_ApplyLifePointRecovery(void) {
     s0 = gDuel_wEffectCardID;
     s1 = s0 - DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
-        if (func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
+        if (Duel_SelectTrapByCardId(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID) != 0) {
             s1 = s0 - (DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID -
                        DUEL_LIFE_POINT_EFFECT_COUNT);
         }
@@ -122,7 +122,7 @@ void DuelEffect_ApplyDirectDamage(void) {
 
     unit = gDuel_wEffectCardID - DUEL_DIRECT_DAMAGE_FIRST_CARD_ID;
     if (DuelEffect_MarkInitialized() == 0) {
-        if (func_80025028(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
+        if (Duel_SelectTrapByCardId(DUEL_GOBLIN_FAN_CARD_ID) != 0) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
         obj = DuelEffect_CreateRequest(6);

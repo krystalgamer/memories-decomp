@@ -189,7 +189,7 @@ extern volatile s32 D_8009B0CC;
  * the end of its block; func_80033BE8 and Widget_UpdatePulseColour fold its
  * low six and seven bits into a triangle wave for a pulsing colour; the
  * password overlay's NameEntry_Main shifts it left by eight and ors it
- * above a name checksum into the save block's stamped word; func_80029EC4
+ * above a name checksum into the save block's stamped word; Library_DrawCardGrid
  * masks its low seven bits for the Library cursor's colour ramp. Sign is not visible in any use (& 0x3F,
  * & 0x7F, << 8, ++, = 0), so s32 follows D_8009B0C8 and is not established.
  *

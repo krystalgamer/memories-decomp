@@ -167,7 +167,8 @@ state_four:
         SD_SEPlayFull(0xC);
         break;
     case 5:
-        if (D_8009B154 && func_80025028(0x2B1)) {
+        if (D_8009B154 &&
+            Duel_SelectTrapByCardId(DUEL_REVERSE_TRAP_CARD_ID)) {
             D_8009B174 = 6;
             break;
         }
