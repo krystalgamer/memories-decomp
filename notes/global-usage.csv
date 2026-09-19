@@ -268,7 +268,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF94,D_8009AF94,D_8009AF94,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,write,8,D_8009AF94 = 15;
 0x8009AF94,D_8009AF94,D_8009AF94,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,write,8,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
 0x8009AF94,D_8009AF94,D_8009AF94,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
-0x8009AF94,D_8009AF94,D_8009AF94,0x80059C24,func_80059C24,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 0x13;
+0x8009AF94,D_8009AF94,D_8009AF94,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 0x13;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 20;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,read,8,if (D_8009AF94 == 15) { | if (D_8009AF94 == 19) { | (+1 more)
 0x8009AF96,D_8009AF96,D_8009AF96,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,16,func_80047314(D_8009AF96);
@@ -284,7 +284,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800507D0,func_800507D0,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AF9A = 0; | D_8009AF9A = 2; | (+5 more)
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,write,8,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read_write,8,D_8009AF9A = 0; | D_8009AF9A = 40; | (+3 more)
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C24,func_80059C24,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
+0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C88,Model_IsExodiaPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059CD0,Model_IsCreditsPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;

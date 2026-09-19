@@ -12,13 +12,13 @@ void func_800507D0(void);
 void func_8004EB00(void);
 
 /* The animated-battle scene's small state machine. func_80059C18 arms a
-   scene, func_80059C24 starts the Exodia presentation, and
+   scene, Model_StartExodiaPresentation starts the Exodia presentation, and
    Model_IsExodiaPresentationComplete reports when it has finished.
    Model_StartCreditsPresentation and Model_IsCreditsPresentationComplete are
    the second initializer/predicate pair. */
 void func_8004FE2C(void);
 void func_80059C18(s32 value);
-void func_80059C24(void);
+void Model_StartExodiaPresentation(void);
 s32 Model_IsExodiaPresentationComplete(void);
 void Model_StartCreditsPresentation(void);
 s32 Model_IsCreditsPresentationComplete(void);
