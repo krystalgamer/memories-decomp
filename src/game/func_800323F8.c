@@ -57,6 +57,7 @@
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define BUILD_DECK_TRANSITION_STATE_VIEW(state) \
     ((BuildDeckTransitionState *)(state))
+#define CARD_STAT_WORD(record) (*(s32 *)(record))
 
 void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
 {
@@ -149,10 +150,11 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
                     v *= 4;
                     v += (s32)all_stats;
                     entry[5] = on;
-                    entry[2] = (*(s32 *)v >> 26) & 0x1F;
-                    *(s16 *)(entry - 2) = (*(s32 *)v & 0x1FF) * 10;
+                    entry[2] = (CARD_STAT_WORD(v) >> 26) & 0x1F;
+                    *(s16 *)(entry - 2) = (CARD_STAT_WORD(v) & 0x1FF) * 10;
                     deck_total++;
-                    *(s16 *)entry = ((*(s32 *)v >> 9) & 0x1FF) * 10;
+                    *(s16 *)entry =
+                        ((CARD_STAT_WORD(v) >> 9) & 0x1FF) * 10;
                 }
             }
             *(s16 *)(deck_list + 0x284) = -1;
