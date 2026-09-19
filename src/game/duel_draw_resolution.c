@@ -107,7 +107,7 @@ void DuelScene_UpdateDrawResolution(void) {
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)base)[p->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
-        y = *(s8 *)&((DuelDeckCardRecord *)g->record.data)->index_02;
+        y = ((DuelDeckCardRecord *)g->record.data)->deck_index;
         D_8009B1C8->hand[i] = y;
         n = (u8)D_8009B1C8->deck_draw_cursor;
         D_8009B1C8->deck_draw_cursor = n + 1;

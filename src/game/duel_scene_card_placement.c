@@ -330,7 +330,10 @@ request_combination:
                             return;
                         }
                         if (D_8009B210 & 0x40) {
-                            Duel_SetupCardRecord(card_index, (s8)((DuelDeckCardRecord *)card->data)->index_02);
+                            Duel_SetupCardRecord(
+                                card_index,
+                                ((DuelDeckCardRecord *)card->data)->deck_index
+                            );
                             DuelCard_RemoveFromField(card);
                         }
                         value = Duel_CalcCardStats(card);

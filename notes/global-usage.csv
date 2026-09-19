@@ -1239,7 +1239,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80018DB4,DuelScene_UpdateDrawResolution,matching_c,game,C,src/game/duel_draw_resolution.c,read,,D_8009B1C8->deck_draw_cursor = n + 1; | D_8009B1C8->hand[i] = y; | (+3 more)
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80019608,DuelScene_UpdateCardUse,matching_c,game,C,src/game/func_80019608.c,read,,D_8009B1C8->rank.pure_magic_used + 1; | D_8009B1C8->rank.pure_magic_used =
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read,,D_8009B1C8->rank.equips_used++; | D_8009B1C8->rank.field_07++; | (+1 more)
-0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,read,,D_8009B1C8->hand[j] = rec->index_02; | sel[i] = D_8009B1C8->hand[i];
+0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,read,,D_8009B1C8->hand[j] = rec->deck_index; | sel[i] = D_8009B1C8->hand[i];
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001BD88,DuelScene_UpdateHandActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00c588.s,read,32,"lw $v0, %gp_rel(D_8009B1C8)($gp) | lw $v1, %gp_rel(D_8009B1C8)($gp)"
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,read,32,"lw $v0, %gp_rel(D_8009B1C8)($gp)"
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,32,"lw $v1, %gp_rel(D_8009B1C8)($gp)"

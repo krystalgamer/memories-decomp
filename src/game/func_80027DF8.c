@@ -147,7 +147,7 @@ void func_80027DF8(AiActiveCard *out, s32 who) {
                 out->guardian_star_2 =
                     (*p >> CARD_STAT_GUARDIAN_STAR_2_SHIFT) &
                     CARD_STAT_GUARDIAN_STAR_MASK;
-                out->deck_index = rp->index_02;
+                out->deck_index = rp->deck_index;
                 rp += 1;
                 out += 1;
             } while (i < DECK_SIZE);
