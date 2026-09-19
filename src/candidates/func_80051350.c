@@ -2,12 +2,14 @@
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
  * gcc_2_8_1_g8_split: 446 of 446 instructions at exact length, an EMPTY
- * opcode census by encoded fields, 12 structural blocks, 307 of 446 aligned
- * on opcode and registers, 291 raw words differing with relocations masked
- * (262 with the register fields masked as well), with no hard register
- * assignments and no inline assembly. The previous state was 446, census 0,
- * 21 structural blocks, 289 aligned, 304 raw, 262 register-masked: the two
- * levers below move registers only, not one structural word.
+ * opcode census by encoded fields, 11 structural blocks, 324 of 446 aligned
+ * on opcode and registers, 290 raw words differing with relocations masked,
+ * 261 with the register fields masked as well, and a shift-aware structural
+ * distance of 51 words (difflib over the register-masked words; the
+ * positional count above cannot tell a fixed word from a shifted one), with
+ * no hard register assignments and no inline assembly. The previous state
+ * was 446, census 0, 12 structural blocks, 307 aligned, 291 raw, 262
+ * register-masked, shift-aware 55.
  *
  * TWO BEHAVIOURAL CORRECTIONS, both read off the retail listing before they
  * were measured, and both worth more than any alignment figure:
@@ -39,16 +41,25 @@
  *    ahead of the bgez (word 271); this is the last instruction of the count;
  *  - each clamp is `v = (s16)x; v = v / 2;` against one name, which is
  *    retail's `sra v1,v1,0x1` into the halfword's own register;
- *  - `hits` is a PLAIN local, not volatile (permuter find, decomposed): the
- *    volatile was the earlier structure's way of keeping the reload, add and
- *    store per increment, and the out-of-line `hits++` arm already gives
- *    retail that shape on its own; the qualifier only pinned the counter's
- *    slot and rotated the loop's registers. 21 -> 16 structural blocks,
- *    289 -> 306 aligned, on that one word;
+ *  - `hits` is a PLAIN local, not volatile: the out-of-line `hits++` arm
+ *    already gives retail's reload, add and store per increment, and the
+ *    qualifier only pinned the counter's slot and rotated the loop's
+ *    registers (21 -> 16 structural blocks on that one word);
  *  - the reference vector's length is `SquareRoot0(uz * uz + ux * ux)`, the z
- *    product first (permuter find): retail computes the z square into the
- *    register the sum accumulates in. 21 -> 17 structural alone; the two
- *    together are the 12 above;
+ *    product first: retail computes the z square into the register the sum
+ *    accumulates in (21 -> 17 alone; 12 with the line above);
+ *  - the z reference `D_800F56F0.vpz + oz` is computed into its own name
+ *    `ry` right after clamp 0 (between its `if` and the `dx.values[0]` store;
+ *    before the `moved =` clamp is identical) and consumed later as
+ *    `ref = ry;` (permuter find, decomposed): the sum then has a pseudo of
+ *    its own numbered before the last clamp pair, and the clamp block around
+ *    words 142-148 takes retail's shape. Register-masked 262 -> 261,
+ *    shift-aware 55 -> 51, 12 -> 11 structural blocks. Written ABOVE clamp
+ *    0 instead it is -1: the position is a different basic block from the
+ *    `ref` reads, not a hoist;
+ *  - `sd = (...) / len;` in its own do { } while (0) (permuter find): the
+ *    quotient's sum lands in retail's register (word 364, `addu v0,v0,s4`),
+ *    a register-only move (raw 291 -> 290, 324 aligned);
  *  - from before: the push sign test written `sd < 0` first (bgez, not
  *    bltz); the last clamp computed in `moved` before `moved` is zeroed;
  *    `e0 = e1;` and `e1 = e2;` in their own do { } while (0) blocks; the y
@@ -68,25 +79,45 @@
  * pins as written hold the length and leave the nop; every widening or
  * narrowing gains or loses instructions.
  *
- * MEASURED AND DEAD on this base: the declaration position of `t` (moves the
+ * MEASURED AND DEAD on this base, from two permuter rounds (22 and 13
+ * outputs, each re-scored by splicing its body into the real source):
+ *  - `dx.values[1] * dx.values[1]` named BEFORE the first SquareRoot0 call
+ *    (fresh name, borrowed `ry`, one name reused for the whole sum, both
+ *    squares named): the positional counts improve (raw 285-288,
+ *    register-masked 257) and it is a FALSE GAIN -- retail computes that
+ *    square AFTER the first call (words 194-197 follow the jal at 192) and
+ *    the words only coincide because the block is shifted; the shift-aware
+ *    distance goes 51 -> 54 and the aligner 11 -> 13 structural blocks. The
+ *    whole sums named before both calls is +1. Rank by the shift-aware
+ *    distance, not by the positional count, whenever a lever moves words
+ *    across a call;
+ *  - a `u8 *` local for `D_800F2C40[1].field_DC0` assigned beside `ry` and
+ *    read through in the flag test: raw -2, shift-aware unchanged, aligned
+ *    324 -> 319; a passenger;
+ *  - `oz = e2.values[i] * scale; pz = oz / 4096;` (borrowed dead `oz`):
+ *    raw -1 and nothing else; a fresh name for the same is nothing at all;
+ *  - `pz = scale; pz = e2.values[i] * pz / 4096;`: raw +1;
+ *  - a named read of `hits` before the recursion test, and the chained
+ *    `v = mv = (s16)...;` / `mv = moved != 0;` the permuter reached through
+ *    an uninitialised `new_var`: identical to the base in every figure.
+ * From the earlier headers: the declaration position of `t` (moves the
  * slot, not a word); do { } while (0) around whole clamp groups (+8) or
  * around every copy (+7); `e0.values[i]` named for the max test and the
- * multiply (identical -- gcc already keeps one load in a2); the e1 read
- * named after rather than before `v` (identical). From the earlier header:
- * which side of the clamp comparison the load sits on, min_extent named per
- * clamp, the negation guards as ternaries, and borrowed names for `nv`. The
- * earlier claim that the two `continue`s as an if/else chain give the same
- * CFG was measured on the wrong structure and is withdrawn: the arms were
- * never both `continue`s. decomp-permuter on the previous state (23 outputs,
- * each re-scored by splicing its body into the real source) found nothing
- * beyond the two one-word levers above.
+ * multiply (identical); the e1 read named after rather than before `v`
+ * (identical); which side of the clamp comparison the load sits on;
+ * min_extent named per clamp; the negation guards as ternaries; borrowed
+ * names for `nv`. The earlier claim that the two `continue`s as an if/else
+ * chain give the same CFG was measured on the wrong structure and is
+ * withdrawn: the arms were never both `continue`s.
  *
  * Residual: register choices, all in the loop (s0/s4 where retail has
  * s1/s5, the address chain of D_800F56F0 in a2/a3 where retail has t0/t1
  * with a caller-save around the call), plus the coupled nop above. Measure
- * by raw words with relocations masked: align_functions.py erases the a0-a3
- * register names (#5358). See notes/research/func-80051350-decode.md for the
- * structural map, whose push and loop-exit passage carries both corrections.
+ * by raw words with relocations masked and by the shift-aware distance on
+ * the register-masked words: align_functions.py erases the a0-a3 register
+ * names (#5358), and the positional count cannot see a shift. See
+ * notes/research/func-80051350-decode.md for the structural map, whose push
+ * and loop-exit passage carries both corrections.
  */
 #include "../types.h"
 #include "../game/model.h"
@@ -114,6 +145,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     s32 oz;
     s32 ref;
     s32 nv;
+    s32 ry;
     s32 v;
 
     ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
@@ -168,6 +200,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     if (v < min_extent) {
         v = min_extent;
     }
+    ry = D_800F56F0.vpz + oz;
     dx.values[0] = v;
     moved = (s16)D_800F2C40[1].field_DC8[2];
     moved = moved / 2;
@@ -186,7 +219,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     dz.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[1];
     dz.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[1];
     dy = dz;
-    ref = D_800F56F0.vpz + oz;
+    ref = ry;
     dist.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[2];
     dist.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[2];
     dz = dist;
@@ -276,7 +309,9 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                 s32 sd = 0;
 
                 if (len != 0) {
-                    sd = ((cx + px) * ux + (az + pz) * uz + cross) / len;
+                    do {
+                        sd = ((cx + px) * ux + (az + pz) * uz + cross) / len;
+                    } while (0);
                 }
                 if (D_8009AF98 == 0) {
                     if (sd < 0) {
