@@ -289,7 +289,7 @@ void func_8005F588(int value)
    the stat by a growth ratio derived from func_80059000's output clamped
    to >=50 then offset by -300, divided by 750, and adds the delta. Passes
    the (possibly adjusted) value plus angle/field_04 on to setup_positional_sfx. */
-void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
     ModelEffectCoefficient *rec = &D_80091570[arg1];
     s32 s0;
 
@@ -316,8 +316,7 @@ void func_8005F5C8(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 
-    func_8005D994(arg0, s0, rec->angle, rec->field_04, (SVECTOR *)arg2,
-                  arg3);
+    func_8005D994(arg0, s0, rec->angle, rec->field_04, offset, arg3);
 }
 
 void func_8005F714(s32 a, s32 b, s32 c)
