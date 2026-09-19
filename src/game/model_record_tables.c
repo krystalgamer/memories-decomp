@@ -17,10 +17,10 @@
    &D_80091008[D_800F5678[0] * 0xB2]. Eighty of its 1248 bytes are non-zero;
    the rest are written out so the array is unambiguously initialized data.
 
-   D_800914E8 has no reader in tracked C, but its shape is not in doubt:
-   four rows of four halfwords holding +/-0x0B50 in both axes with a
-   trailing +/-0x1000, which is the four corners of a square. Written in
-   that shape and left unnamed. */
+   D_800914E8 is read by func_800540B4 as eight x/z direction pairs, the
+   rim of the ground shadow fan (ModelShadowFanStep in the header): +/-0x0B50
+   in both axes for the diagonals and +/-0x1000 on one axis for the rest,
+   which is a unit circle in Q12 sampled every 45 degrees. */
 s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,

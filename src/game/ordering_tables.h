@@ -29,17 +29,13 @@ extern GsOT *D_800E9D98;
 #endif
 /* Slot 3. Both readers want the bare %hi/%lo form -- two relocations each in
  * their target listings -- and both build gcc_2_8_1_g8_split, where the plain
- * scalar declaration would be gp-relative. func_800540B4 places the symbol in
- * .data by defining D_800E9D9C_IN_DATA, which keeps the load one unsplit
- * instruction. func_80029EC4 reads it as D_800E9D90[3] instead: the 16-byte
- * array is not small data, so the address stays split into %hi and %lo insns
- * and reload stores the spilled pointer through the dying %hi register, which
- * is the `lw $v0; sw $v0, 0x10($sp)` its target shows. */
-#ifdef D_800E9D9C_IN_DATA
-extern GsOT *D_800E9D9C __attribute__((section(".data")));
-#else
+ * scalar declaration would be gp-relative. Neither uses this scalar for it:
+ * func_800540B4 reads the slot as D_800E9D98[1] and func_80029EC4 as
+ * D_800E9D90[3]. An array of unknown or 16-byte extent is not small data, so
+ * the address stays split into %hi and %lo insns and reload stores the
+ * spilled pointer through the dying %hi register, which is the
+ * `lw $v0; sw $v0, N($sp)` both targets show. */
 extern GsOT *D_800E9D9C;
-#endif
 
 typedef char OrderingTable_descriptor_size_must_be_0x14[
     sizeof(GsOT) == 0x14 ? 1 : -1

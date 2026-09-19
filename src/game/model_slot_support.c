@@ -6,6 +6,7 @@
 #include "model_slot_data.h"
 #include "model_slot_support.h"
 #include "../unmatched.h"
+#include "../game/func_800540B4.h"
 
 void *func_80058F20(s32 index, s32 slot)
 {

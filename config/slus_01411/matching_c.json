@@ -5275,6 +5275,12 @@
       "source": "src/game/model_debug_controller.c"
     },
     {
+      "address": "0x800540B4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1634",
+      "source": "src/game/func_800540B4.c"
+    },
+    {
       "address": "0x800556E8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",

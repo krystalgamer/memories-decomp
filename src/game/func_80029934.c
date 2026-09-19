@@ -8,6 +8,7 @@
 #include "../psyq/libgs.h"
 #include "screen_projection.h"
 #include "../unmatched.h"
+#include "../game/func_800540B4.h"
 #include "func_800556E8.h"
 #include "gpu_packets.h"
 #include "ordering_tables.h"

@@ -71,19 +71,8 @@
 /* func_800323F8, which used to lead this list with two consumers, has
  * matched and is declared by game/func_800323F8.h. */
 
-/* Three consumers, identical spelling in all three: model_scene_setup.c,
- * model_scene_states.c and model_slot_support.c. The last of those is the site
- * described above, which used to declare no parameters; once it was given the
- * true one-parameter signature all three agreed, which is what made this
- * safe to move.
- *
- * func_800164FC also calls it, but had no declaration at all -- it was
- * relying on an implicit one, which is worse than a duplicate because there
- * is no spelling to disagree with. Its candidate takes this header now.
- *
- * src/overlays/overworld/set_location.c spells the parameter int rather than
- * s32. The two are the same type, but that site is outside this change. */
-void func_800540B4(s32);
+/* func_800540B4, which had six consumers sharing one spelling, has matched
+ * and is declared by game/func_800540B4.h. */
 
 /* The five below each have exactly one consumer today, so there is no second
  * spelling to reconcile and nothing was measured away to move them. They are

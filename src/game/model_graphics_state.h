@@ -35,7 +35,7 @@ extern u8 D_8009AF98;
 extern s8 D_8009AF99;
 extern s8 D_8009AF9A;
 
-/* Out-of-band arguments func_800528AC publishes for unmatched func_800540B4:
+/* Out-of-band arguments func_800528AC publishes for func_800540B4:
  * a one-byte flag and a word-sized address expressed as s32 in retail C. */
 extern u8 D_8009AF9B;
 extern s32 D_8009AF9C;

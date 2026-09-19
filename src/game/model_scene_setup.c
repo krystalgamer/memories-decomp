@@ -28,6 +28,7 @@
 #include "model_scene_states.h"
 #include "model_transfer_state.h"
 #include "../unmatched.h"
+#include "../game/func_800540B4.h"
 
 /* The start of the contiguous model-scene runtime: the two camera/view
    correction passes, which work on D_800F56F0, the camera move at D_800F2B20

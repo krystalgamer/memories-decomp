@@ -18,6 +18,7 @@
 #include "model_scene_setup.h"
 #include "model_transfer_state.h"
 #include "../unmatched.h"
+#include "../game/func_800540B4.h"
 
 void func_80059C18(s32 value)
 {

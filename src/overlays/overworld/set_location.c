@@ -6,6 +6,7 @@
 #define GCAMPAIGN_SCENE_INDEX_AS_SCALAR
 #include "../../types.h"
 #include "../../unmatched.h"
+#include "../../game/func_800540B4.h"
 #include "camera_state.h"
 #include "camera_transition.h"
 #include "location_objects.h"

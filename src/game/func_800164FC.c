@@ -9,6 +9,7 @@
 #include "display_projection.h"
 #include "func_80015EF4.h"
 #include "../unmatched.h"
+#include "../game/func_800540B4.h"
 
 /* Primes the two scratchpad primitives func_80015EF4 draws every field card
    with -- a POLY_FT4 at 0x1F800140 (len 9, code 0x2C, then 0x2E for

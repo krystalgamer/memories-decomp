@@ -1,4 +1,5 @@
 #include "../types.h"
+#define COLOR_CALLER_VIEWS
 #include "color.h"
 
 HsvT *Color_RgbToHsl(HsvT *out, u8 r, u8 g, u8 b, u8 lim) {
