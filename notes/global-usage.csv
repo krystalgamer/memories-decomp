@@ -3068,7 +3068,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,address,,e = &D_801A7AD8[c];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,address,,records = D_801A7AD8;
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,,&D_801A7AD8[D_800907D8[FIELD_CURSOR.row * 5 + FIELD_CURSOR.col + | D_801A7AD8[obj->card_index].flags &= 0xEFFF; | (+3 more)
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001D240,func_8001D240,matching_c,game,C,src/game/func_8001D240.c,address,,DuelCardRecord *e = &D_801A7AD8[o->field_6A];
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001D240,DuelCard_UpdateDefenseRotation,matching_c,game,C,src/game/func_8001D240.c,address,,DuelCardRecord *e = &D_801A7AD8[o->field_6A];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,"D_801A7AD8[B(D_8009B1CC, 0x6A)].flags |= 0x8000; | DuelCard_RemoveFromField(&D_801A7AD8[B(D_8009B1CC, 0x6A)]); | (+5 more)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001EFD4,func_8001EFD4,matching_c,game,C,src/game/duel_battle_stats.c,address,,DuelCardRecord *a = &D_801A7AD8[left->field_6A]; | b = &D_801A7AD8[right->field_6A];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,address,,&D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]] | rec2 = (u8 *)D_801A7AD8; | (+1 more)

@@ -4,7 +4,7 @@
 #include "display_object_layout.h"
 #include "duel_card.h"
 
-void func_8001D240(DisplayObject *o)
+void DuelCard_UpdateDefenseRotation(DisplayObject *o)
 {
     if (!DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o)) {
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
