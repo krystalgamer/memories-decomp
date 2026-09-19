@@ -337,7 +337,7 @@ void func_8002ACA4(u8 *state)
                 D_800F2848.view.vrz = (s16)H(p, 4);
                 D_800F2848.field_00 = func_8005F1B8(0, 0x334);
                 func_80059AA8(0, 1);
-                func_80059AE0(0);
+                Model_SetScreenYOverride(0);
             }
             Model_ControlSlotAnimation(0, 0, 1);
             func_800597C8(0, 1, 0);

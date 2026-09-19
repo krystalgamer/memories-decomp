@@ -26,6 +26,7 @@ extern u8 *D_8009AF88;
 extern u16 D_8009AF8C;
 extern s16 D_8009AF8E;
 extern s16 D_8009AF90;
+/* Signed model screen-Y override; 0x8000 selects the slot-derived default. */
 extern u16 D_8009AF92;
 extern u8 D_8009AF94;
 /* BGM command replayed by the model presentation's opening phase. */

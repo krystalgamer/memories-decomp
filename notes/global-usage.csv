@@ -264,7 +264,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF90,D_8009AF90,D_8009AF90,0x8004E7B0,func_8004E7B0,matching_c,game,C,src/game/func_8004E7B0.c,write,16,D_8009AF90 = r;
 0x8009AF90,D_8009AF90,D_8009AF90,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,write,16,D_8009AF90 = 0;
 0x8009AF92,D_8009AF92,D_8009AF92,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,read,16,if (D_8009AF92 != 0x8000) { | y = (s16)D_8009AF92;
-0x8009AF92,D_8009AF92,D_8009AF92,0x80059AE0,func_80059AE0,matching_c,game,C,src/game/model_state_setters.c,write,16,D_8009AF92 = value;
+0x8009AF92,D_8009AF92,D_8009AF92,0x80059AE0,Model_SetScreenYOverride,matching_c,game,C,src/game/model_state_setters.c,write,16,D_8009AF92 = value;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,write,8,D_8009AF94 = 15;
 0x8009AF94,D_8009AF94,D_8009AF94,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,write,8,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
 0x8009AF94,D_8009AF94,D_8009AF94,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (D_8009AF94 == 0xF && changed != 0 && command == 8) {

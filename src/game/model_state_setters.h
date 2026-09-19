@@ -4,8 +4,9 @@
 #include "../types.h"
 
 /* The unit's two one-line setters, each storing its argument into a single
- * model state global and doing nothing else: func_80059AE0 writes the
- * halfword at D_8009AF92, Model_SetFrameStepOverride the byte at D_8009AFA4.
+ * model state global and doing nothing else: Model_SetScreenYOverride writes
+ * the halfword at D_8009AF92, Model_SetFrameStepOverride the byte at
+ * D_8009AFA4.
  *
  * Both are declared s32 here, which is the type the definitions already use --
  * src/types.h defines s32 as `signed int`. The store narrows to the global's
@@ -14,7 +15,7 @@
  * setter", each matching with its GPREL16 relocation.
  * The intro controller calls Model_SetFrameStepOverride before reading its
  * live phase. */
-void func_80059AE0(s32 value);
+void Model_SetScreenYOverride(s32 value);
 void Model_SetFrameStepOverride(s32 value);
 
 #endif
