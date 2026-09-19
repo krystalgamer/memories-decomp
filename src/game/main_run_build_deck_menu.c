@@ -31,7 +31,7 @@ void Main_RunBuildDeckMenu(void)
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
         func_800323F8(
-            (u32)D_80010000[0].payload_bases[0],
+            D_80010000[0].payload_bases[0],
             (unsigned char *)gDuel_awPlayerDeck,
             0,
             D_8009B2F8[0]

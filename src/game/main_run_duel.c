@@ -61,7 +61,7 @@ void Main_RunDuel(void)
         if (!(value & 0x80)) {
             D_8009B26E = value | 0x80;
             D_8009B2F8[0] = 0x80;
-            func_800323F8((u32)D_80010000[0].payload_bases[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
+            func_800323F8(D_80010000[0].payload_bases[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
         } else if (func_80033BE8() == 0) {
             SD_BGMFadeOut();

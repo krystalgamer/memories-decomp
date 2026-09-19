@@ -53,7 +53,7 @@
 #include "card_type_icon_table.h"
 #include "func_800323F8.h"
 
-void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
+void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
 {
     u8 *state;
     u8 *lists;
@@ -88,7 +88,7 @@ void func_800323F8(u32 base, void *deck, s32 other, s32 flags)
     SD_BGMPlay(0x70E0);
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
-    state = (u8 *)base;
+    state = base;
     func_80032370();
     pane = 0;
     on = 1;
