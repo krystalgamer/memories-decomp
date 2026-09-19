@@ -95,6 +95,7 @@
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
+#define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
 
 void func_8002ACA4(u8 *state)
 {
@@ -740,13 +741,13 @@ void func_8002BFCC(void) {
     } else {
         x = (d % CARD_GRID_SECTION_SIDE_LENGTH) * 0xE + 0xE;
     }
-    ((LibraryMotionState *)r)->rest_x = x;
-    ((LibraryMotionState *)r)->x = x;
+    LIBRARY_MOTION_STATE_VIEW(r)->rest_x = x;
+    LIBRARY_MOTION_STATE_VIEW(r)->x = x;
     k = gCardGrid_bCursorRow;
     y = (k / CARD_GRID_SECTION_SIDE_LENGTH) * 0xB2
         + (k % CARD_GRID_SECTION_SIDE_LENGTH) * 0x10 + 0xE;
-    ((LibraryMotionState *)r)->rest_y = y;
-    ((LibraryMotionState *)r)->y = y;
+    LIBRARY_MOTION_STATE_VIEW(r)->rest_y = y;
+    LIBRARY_MOTION_STATE_VIEW(r)->y = y;
     func_8002A660(r);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
@@ -757,10 +758,12 @@ void func_8002BFCC(void) {
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     *(u8 **)(r + 0x48) = o;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(o, ((LibraryMotionState *)r)->x, ((LibraryMotionState *)r)->y, 0, 2, 2, 0x1B, 0x147);
+    DisplayObject_ConfigureSpriteAtPosition(
+        o, LIBRARY_MOTION_STATE_VIEW(r)->x, LIBRARY_MOTION_STATE_VIEW(r)->y,
+        0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;
-    ((LibraryMotionState *)r)->render = (DisplayObject *)o;
+    LIBRARY_MOTION_STATE_VIEW(r)->render = (DisplayObject *)o;
     r[0x56] = 0;
     *(s16 *)(r + 0x54) = 0;
     do {
