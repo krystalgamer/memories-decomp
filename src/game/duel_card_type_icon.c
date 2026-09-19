@@ -10,6 +10,8 @@
 
 #include "duel_card_stat_display.h"
 
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+
 /*
  * The object is the return value, not just a discarded temporary: retail
  * moves it to v0 before the final field stores and retains it through exit.
@@ -32,7 +34,10 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     s32 *stats;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
-    DisplayObject_ConfigureScreenSprite((DisplayObject *)object, x, y, 0x10, 0x10, 0, 0xC8, 0xB, 0x260, 0xFC);
+    DisplayObject_ConfigureScreenSprite(
+        DISPLAY_OBJECT_VIEW(object), x, y, 0x10, 0x10,
+        0, 0xC8, 0xB, 0x260, 0xFC
+    );
     do { stats = gDuel_adwCardStats; } while (0);
     table_index--;
     table_index <<= 2;
@@ -51,10 +56,10 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
         *(u16 *)&object->field_40 += 0x30;
         break;
     }
-    DisplayObject_SelectOrderingTable1((DisplayObject *)object);
-    DisplayObject_SetDepthOffset((DisplayObject *)object, 10);
+    DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(object));
+    DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 10);
     {
-        DisplayObject *output = (DisplayObject *)object;
+        DisplayObject *output = DISPLAY_OBJECT_VIEW(object);
         output->field_44.word = 0;
         output->field_18 = field_18;
         output->field_1A = arg4;
