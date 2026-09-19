@@ -40,6 +40,7 @@
 #include "../game/func_80061A84.h"
 
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
+#define LINE_G2_VIEW(packet) ((LINE_G2 *)(packet))
 
 u32 *func_80034830(GsARGUNIT_NORMAL *arg)
 {
@@ -204,11 +205,11 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
             addPrim(&arg->tagp->org[z], out);
             out += 0x28;
-            *(u32 *)&((LINE_G2 *)out)->x0 = *(u32 *)&lg->x0;
-            *(u32 *)&((LINE_G2 *)out)->x1 = *(u32 *)&lg->x3;
-            *(u32 *)&((LINE_G2 *)out)->r0 = *(u32 *)&lg->r0;
-            *(u32 *)&((LINE_G2 *)out)->r1 = *(u32 *)&lg->r3;
-            setLineG2((LINE_G2 *)out);
+            *(u32 *)&LINE_G2_VIEW(out)->x0 = *(u32 *)&lg->x0;
+            *(u32 *)&LINE_G2_VIEW(out)->x1 = *(u32 *)&lg->x3;
+            *(u32 *)&LINE_G2_VIEW(out)->r0 = *(u32 *)&lg->r0;
+            *(u32 *)&LINE_G2_VIEW(out)->r1 = *(u32 *)&lg->r3;
+            setLineG2(LINE_G2_VIEW(out));
             addPrim(&arg->tagp->org[z], out);
             out += 0x14;
         next:
