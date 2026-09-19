@@ -5,7 +5,7 @@
 
 /* The size of host file `path`, found by opening it through the SN fileserver
  * and seeking to its end. Returns -1 when the open fails. */
-int func_8005988C(char *path);
+int HostFile_GetSize(char *path);
 
 /* Reads the whole of host file `path` to `destination` through
  * HostFile_ReadRange and returns the byte count, or 0 on failure.

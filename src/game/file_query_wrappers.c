@@ -2,7 +2,7 @@
 #include "../psyq/libsn.h"
 #include "file_query_wrappers.h"
 
-int func_8005988C(char *path)
+int HostFile_GetSize(char *path)
 {
     int handle = PCopen(path, 0, 0);
     int size;
