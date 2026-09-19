@@ -14,7 +14,7 @@
    the 178-pixel row pitch; from there four rows of ten lines are walked, each
    line holding ten cells on the left at column 8 and, while the paired index
    is still below CARD_ID_END, ten more on the right at column 0xA8. A cell is drawn
-   only when func_80029EB0 reports bit 0x80, tinted 0x808080 or 0x404040 on
+   only when Library_GetCardFlags reports bit 0x80, tinted 0x808080 or 0x404040 on
    bit 0, and the run stops as soon as a line falls off the bottom of the
    screen. The tail then builds the cursor box at 0x1F800000, colouring it from
    the low seven bits of D_8009B09C through a four-way ramp, and draws its four
@@ -106,7 +106,7 @@ void func_80029EC4(void)
                 pk = &D_800EA1E8[k * 4];
                 pj = &D_800EA1E8[j * 4];
                 do {
-                    r = func_80029EB0(tb, j);
+                    r = Library_GetCardFlags(tb, j);
                     if (r & 0x80) {
                         *(u32 *)&p->r = white;
                         if (r & 1) {
@@ -117,7 +117,7 @@ void func_80029EC4(void)
                         GsSortFastSprite(p, ot, 2);
                     }
                     if (k < CARD_ID_END) {
-                        r = func_80029EB0(tb, k);
+                        r = Library_GetCardFlags(tb, k);
                         if (r & 0x80) {
                             *(u32 *)&p->r = white;
                             if (r & 1) {

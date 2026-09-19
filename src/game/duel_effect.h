@@ -156,7 +156,8 @@ extern u8 D_8009B320;
  * DuelEffect_UpdateCardViewerState stores `id = gDuel_wViewerCardID;` (its candidate, :111);
  * func_8002A2F4 stores Library_GetGridCursorCardId's result
  * (src/game/func_8002A3CC.c:26) and then, under `if (n != 0)`, stores
- * 0 when func_80029EB0's result `r` (:32) has `(r & 0x80) == 0` (:34-35);
+ * 0 when Library_GetCardFlags' result `r` (:32) has `(r & 0x80) == 0`
+ * (:34-35);
  * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). func_8002ACA4 (src/game/library_runtime.c) stores the
