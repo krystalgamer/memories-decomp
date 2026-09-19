@@ -8,6 +8,7 @@
 #include "duel_scene_resume.h"
 #include "duel_scene_hand_actions.h"
 #include "duel_scene_field_actions.h"
+#include "duel_scene_battle.h"
 #include "duel_scene_card_use.h"
 #include "duel_scene_card_placement.h"
 #include "duel_scene_exodia_result.h"
