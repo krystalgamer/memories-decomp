@@ -30,6 +30,8 @@
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
 
+#define MODEL_TINT_COLOR_VIEW(color) ((ModelTintColor *)(color))
+
 /* The start of the contiguous model-scene runtime: the two camera/view
    correction passes, which work on D_800F56F0, the camera move at D_800F2B20
    and the D_8009B478/D_8009B47C view values. The tint request pass that
@@ -235,12 +237,12 @@ void func_800528AC(void)
         keep = slot->field_BF5;
         old = func_80059AA8(side, 0);
         sid = part;
-        save = *(ModelTintColor *)slot->field_DC0;
+        save = *MODEL_TINT_COLOR_VIEW(slot->field_DC0);
         col.b3 = e->start.b3;
         col.b0 = e->start.b0 * (hi - lo) / hi + e->end.b0 * lo / hi;
         col.b1 = e->start.b1 * (hi - lo) / hi + e->end.b1 * lo / hi;
         col.b2 = e->start.b2 * (hi - lo) / hi + e->end.b2 * lo / hi;
-        *(ModelTintColor *)slot->field_DC0 = col;
+        *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = col;
 
         aa = a;
         for (j = 0; j < slot->field_E1B; j++) {
@@ -275,7 +277,7 @@ void func_800528AC(void)
         }
 
         func_80059AA8(side, old);
-        *(ModelTintColor *)slot->field_DC0 = save;
+        *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = save;
 tail:
         e->elapsed += func_80058E1C();
         if (e->elapsed >= e->duration) {
