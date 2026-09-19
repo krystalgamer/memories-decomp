@@ -21,6 +21,7 @@
 
 #define POLY_G4_BYTES(packet) ((u8 *)(packet))
 #define POLY_GT4_BYTES(packet) ((u8 *)(packet))
+#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 
 /* Both renderers build their packet in the scratchpad at 0x1F800344, and the
  * packet is a libgpu primitive: the two bytes each one writes into the tag
@@ -83,7 +84,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
             fn = e->update;
             i = e->next;
             if (fn != (DisplayObjectCallback)0) {
-                fn((u8 *)e);
+                fn(DISPLAY_OBJECT_BYTES(e));
             }
             if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
@@ -196,7 +197,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
             fn = e->update;
             i = e->next;
             if (fn != (DisplayObjectCallback)0) {
-                fn((u8 *)e);
+                fn(DISPLAY_OBJECT_BYTES(e));
             }
             if (((e->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
@@ -248,7 +249,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 DisplayObject_SubmitPacket(v, POLY_GT4_BYTES(g), (s32)tb[e->ot_index],
                                            e->field_14 | bit, h);
 
-                if (((u8 *)e)[0x72] != 0) {
+                if (DISPLAY_OBJECT_BYTES(e)[0x72] != 0) {
                     x0 = *(s32 *)&e->field_58;
                     x1 = *(s32 *)&e->field_64;
                     *(s32 *)&g->x0 = x0;
