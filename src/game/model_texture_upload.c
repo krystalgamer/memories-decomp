@@ -5,7 +5,7 @@
 #include "model_texture_upload.h"
 #include "file_query_wrappers.h"
 
-u32 func_80058A7C(int side, int mode, GsIMAGE *params)
+u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params)
 {
     register int offset;
     u32 high;
@@ -72,7 +72,7 @@ s32 func_80058B4C(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
                 *(u16 *)&data->cy = *(u16 *)&data->cy + mode;
             }
         } else if (mode >= 3) {
-            func_80058A7C(mode - 3, arg3, data);
+            ModelTexture_PackPageClut(mode - 3, arg3, data);
         }
 
         bounds.x = *(u16 *)&data->px;

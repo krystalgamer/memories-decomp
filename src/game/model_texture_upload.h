@@ -8,7 +8,7 @@
 
 /* Packs a texture-page word from a GsIMAGE's page and CLUT rectangles,
  * biasing both by the side. */
-u32 func_80058A7C(int side, int mode, GsIMAGE *params);
+u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params);
 
 /* Reads a TIM into the caller's GsIMAGE, uploads its pixels and CLUT, and
  * returns the packed texture-page word. */

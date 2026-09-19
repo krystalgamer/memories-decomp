@@ -2472,7 +2472,7 @@ object model through two related parent/child constructors.
 | `SD_VabTransBodyChunk` | Transfer ID validation, clamped read length, and accumulated byte count |
 | `func_80049CF8` | `0x28`-byte object loop and split table-base relocation |
 | `SD_StartSequenceTracks` | `0x2C`-byte record initialization and variable-length decoding |
-| `func_80058A7C` | Mixed signed comparisons and unsigned halfword bit extraction |
+| `ModelTexture_PackPageClut` | Mixed signed comparisons and unsigned halfword bit extraction |
 | `func_80059000` | `0xE20` record stride and unaligned eight-byte copy |
 | `func_80059CE4` | G8-gated teardown while preserving an absolute state pointer |
 | `func_8005A1F4` / `func_8005A2E0` | Coordinate triplets, packed vector copy, and signed square accumulation |
