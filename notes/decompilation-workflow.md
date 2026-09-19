@@ -718,7 +718,7 @@ where `file_stream.c` declares both without the qualifier, and no header owns
 either symbol though `file_transfer.h` already owns the rest of that family.
 Dropping the two qualifiers does not merely change the encoding; the
 executable comes out four bytes short and fails on size alone. The cause is
-scheduling, not elimination. `func_80014A5C` stores one word and then tests
+scheduling, not elimination. `File_ServiceTransfers` stores one word and then tests
 the other:
 
     D_8009B124 = 1;

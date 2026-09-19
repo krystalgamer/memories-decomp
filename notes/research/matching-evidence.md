@@ -436,7 +436,7 @@ profile-era six means.
 free-form, and every one of them blames the branch orientation: "inverted the
 busy branch", "moved the null return to the shared epilogue". Both claims are
 wrong. Under `gcc_2_8_1_g8_split` — the profile its matched neighbour
-`func_80014A5C` uses, and the one the target's `%hi`/`%lo(gFile_anLba)` pair
+`File_ServiceTransfers` uses, and the one the target's `%hi`/`%lo(gFile_anLba)` pair
 requires — writing the guard positively puts the null return inline exactly
 where the target has it:
 

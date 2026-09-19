@@ -231,7 +231,7 @@ call_back:
     D_8009B0F4 = D_8009B0F4 | 0x180;
 }
 
-void func_80014A5C(s32 arg0)
+void File_ServiceTransfers(s32 arg0)
 {
     if (D_8009B124 != 0) {
         D_8009B124 = 0;

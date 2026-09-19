@@ -65,7 +65,7 @@ void func_80013C28(u8, u8 *, u32 *);
 void func_80013C28(s32);
 #endif
 void File_StepActiveTransfer(void);
-void func_80014A5C(s32 arg0);
+void File_ServiceTransfers(s32 arg0);
 void func_80014B30(FileTransferDescriptor *descriptor, s32 mode);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
    state. The result retains its historical status-or-descriptor integer ABI. */
@@ -187,13 +187,13 @@ extern u16 D_8009B112_abs __attribute__((section(".data")));
  * `(D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | D_8009B134` predicate
  * that eighteen units use to ask whether a transfer is still in flight.
  * `func_80014FA4` and `func_800144B8` raise it to 0x80, the frame pump
- * `func_80014A5C` latches 0x40 into it once and otherwise clears it, and
+ * `File_ServiceTransfers` latches 0x40 into it once and otherwise clears it, and
  * `File_InitTransferState` zeroes it with the rest of the loader block.
  *
  * It takes the same two addressing views as D_8009B0F4, for the same reason,
  * but it is deliberately *not* volatile. That is a measured difference
  * between the two neighbouring words, not an oversight: declaring it
- * volatile makes `func_80014A5C` re-load it for the 0x40 test and again for
+ * volatile makes `File_ServiceTransfers` re-load it for the 0x40 test and again for
  * the `|=`, where retail keeps one load live in `$3` across all three uses.
  */
 extern u32 D_8009B134;
@@ -308,7 +308,7 @@ extern s32 D_8009B130;
  * file_stream.c spelled both plain, and neither declaration was shared.
  *
  * The qualifier is not decoration on the runtime's side, and the reason is
- * instruction scheduling rather than anything being discarded. func_80014A5C
+ * instruction scheduling rather than anything being discarded. File_ServiceTransfers
  * stores one word and then immediately tests the other:
  *
  *     D_8009B124 = 1;

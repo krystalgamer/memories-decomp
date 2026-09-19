@@ -42,7 +42,8 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
    the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If
    neither of the two progress pairs (f1A8/f19C, f1B4/f1CC) has advanced and
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
-   and re-syncs both progress pairs. Finishes with func_80014A5C/func_800136D4. */
+   and re-syncs both progress pairs. Finishes with
+   File_ServiceTransfers/func_800136D4. */
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
@@ -75,7 +76,7 @@ void Main_RunFrameServices(void) {
         D_8009B0BC = D_8009B0D4;
     }
 
-    func_80014A5C(0);
+    File_ServiceTransfers(0);
     func_800136D4();
 }
 /* Boot-time graphics and input startup. The work area contains two 0x5160

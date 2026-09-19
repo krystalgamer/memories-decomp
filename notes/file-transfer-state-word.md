@@ -151,7 +151,7 @@ the constant that was already in `file_transfer.h`.
 | `extern s32 D_8009B134_signed asm("D_8009B134");` | 1 |
 
 It behaves as a small state word rather than a bitfield: `func_80014FA4` and
-`func_800144B8` raise it to `0x80`, the frame pump `func_80014A5C` latches
+`func_800144B8` raise it to `0x80`, the frame pump `File_ServiceTransfers` latches
 `0x40` into it exactly once (setting the primary descriptor's `done` to 5 and
 its `substate` to 0) and clears the word outright when the primary transfer
 is not active, and `File_InitTransferState` zeroes it along with the rest of
@@ -164,7 +164,7 @@ view and 14 take the absolute one.
 
 This is the one place the two neighbouring words differ. `D_8009B0F4` needs
 `volatile` and `D_8009B134` must not have it. Declaring 0x8009B134 volatile
-compiles and links but overshoots `.text` by 16 bytes, because `func_80014A5C`
+compiles and links but overshoots `.text` by 16 bytes, because `File_ServiceTransfers`
 then re-loads the word for the `& 0x40` test and again for the `|= 0x40`,
 where retail issues one `lw $3` and keeps it live across the zero test, the
 bit test and the or. Two globals sixteen words apart in the same subsystem,
