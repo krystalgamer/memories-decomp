@@ -225,7 +225,7 @@ The mechanics above are settled, but a name should describe what a wrapper is
 none at all in the tree (`0x80015A50`, `0x80015A94`, `0x80015B50`,
 `0x80015B94`, `0x80015C48`, `0x80015CC0`), and the two that do --
 `0x80015C0C` and `0x80015C84`, both reached from `Script_OpShowImage` and
-`func_800388D8` -- establish one use case, not the distinction between the
+`Text_ApplyFadeCommand` -- establish one use case, not the distinction between the
 `2` and `6` forms, because every `6` form is uncalled. Naming them from bit mechanics alone would record the flags twice
 rather than add anything, so they keep their addresses until a caller
 distinguishes them.

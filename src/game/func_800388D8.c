@@ -5,7 +5,7 @@
 #include "display_object_helpers.h"
 #include "duel_effect_basic_commands.h"
 
-void func_800388D8(DuelEffectChannel *object)
+void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {
     u8 **cursor = &((TextStreamOwner *)object)->streams[object->stream_58];
     u8 *stream = *cursor;
