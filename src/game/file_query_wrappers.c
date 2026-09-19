@@ -2,15 +2,16 @@
 #include "../psyq/libsn.h"
 #include "file_query_wrappers.h"
 
-int func_8005988C(int value)
+int func_8005988C(char *path)
 {
-    int handle = PCopen((char *)value, 0, 0);
+    int handle = PCopen(path, 0, 0);
+    int size;
 
     if (handle < 0)
         return -1;
-    value = PClseek(handle, 0, 2);
+    size = PClseek(handle, 0, 2);
     PCclose(handle);
-    return value;
+    return size;
 }
 
 s32 func_800598E4(char *path, char *destination)

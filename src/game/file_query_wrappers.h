@@ -3,10 +3,9 @@
 
 #include "../types.h"
 
-/* The size of host file `value`, a path pointer passed as an int, found by
- * opening it through the SN fileserver and seeking to its end. Returns -1
- * when the open fails. */
-int func_8005988C(int value);
+/* The size of host file `path`, found by opening it through the SN fileserver
+ * and seeking to its end. Returns -1 when the open fails. */
+int func_8005988C(char *path);
 
 /* Reads the whole of host file `path` to `destination` through
  * HostFile_ReadRange and returns the byte count, or 0 on failure.
