@@ -33,6 +33,8 @@
 
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
     ((DisplayObjectPosition *)(object))
+#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
+    ((DisplayObjectSnapshot *)(object))
 
 void func_8001B170(void)
 {
@@ -60,7 +62,7 @@ void func_8001B170(void)
             goto state_four;
         }
         D_8009B174 = 1;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
         object->field_60 = 0;
         if ((s16)object->field_30.h.field_30 == 0x86 ||
             (s16)object->field_30.h.field_32 == 0x2A) {
@@ -122,7 +124,7 @@ state_four:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             object->field_2C.h.field_2E = func_8001B0CC(D_8009B19C) - 0x1E;
-            DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+            DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = 0x400;
         }
         if (!(D_8009B174 & 0x40)) {
@@ -149,7 +151,7 @@ state_four:
             object = D_800E9EF0[0];
             Duel_ApplyCardObjectFlags((DuelCardDisplayObject *)object);
             DISPLAY_OBJECT_POSITION_VIEW(object)->out_y = -0xF0;
-            DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+            DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
             object->field_60 = -0x400;
             break;
         }
