@@ -105,8 +105,8 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
-            s32 *cursor =
-                (s32 *)((u8 *)object + object->stream_58 * 4);
+            s32 *cursor = (s32 *)(
+                (u32)object + (u32)&((u8 **)0)[object->stream_58]);
 
             *cursor = (*cursor & 0xFFFF0000) | target;
         }

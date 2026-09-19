@@ -61,9 +61,9 @@ void func_8005611C(s32 arg0)
     }
 
     for (i = 0; i < 0x40; i++) {
-        *(s32 *)((u8 *)p + i * 4 + 0xBF8) &= 0x8000FFFF;
-        ((u8 *)p)[i * 4 + 0xBF9] = 0;
-        ((u8 *)p)[i * 4 + 0xBF8] = 0;
+        *(s32 *)&p->sound_entries[i] &= 0x8000FFFF;
+        p->sound_entries[i].id = 0;
+        p->sound_entries[i].frame = 0;
     }
 
     p->field_CF8.field_10 = -1;
