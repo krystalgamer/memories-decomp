@@ -2584,7 +2584,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002E730,Script_OpShowImage,matching_c,game,C,src/game/script_image_commands.c,address,,"SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1); | SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), D_8009B270 & 0xFFF); | (+1 more)"
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,write,,D_800EAE98[0].unk00 = (s32)o; | D_800EAE98[1].unk00 = (s32)o; | (+2 more)
 0x800EAE98,D_800EAE98,D_800EAE98,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,address,,slot = D_800EAE98;
-0x800EAE98,D_800EAE98,D_800EAE98,0x8002FED8,func_8002FED8,matching_c,game,C,src/game/func_8002FED8.c,read,,object = (DisplayObject *)D_800EAE98[0].unk00; | object = (DisplayObject *)D_800EAE98[1].unk00;
+0x800EAE98,D_800EAE98,D_800EAE98,0x8002FED8,func_8002FED8,matching_c,game,C,src/game/scene_script_slots.c,read,,object = (DisplayObject *)D_800EAE98[0].unk00; | object = (DisplayObject *)D_800EAE98[1].unk00;
 0x800EAED8,D_800EAED8,D_800EAED8,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,"FntPrint(D_8009AF58, D_800EAED8); | r = &D_800EAED8[ | (+1 more)"
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035CA8,func_80035CA8,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,u8 *entry = D_800EAF08;
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,v0 = D_800EAF08;

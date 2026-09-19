@@ -4,6 +4,15 @@
 #include "trig_constants.h"
 #include "display_object.h"
 #include "func_8002FED8.h"
+#include "scene_script_noop_record_callback.h"
+
+/* The two scene-script record callbacks, in the order D_80090CAC
+   (scene_script_record_callbacks.c) holds them: SceneScript_UpdateSlots picks
+   one by each live record's byte at +4. */
+
+void SceneScript_NoOpRecordCallback(void)
+{
+}
 
 void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
 {
