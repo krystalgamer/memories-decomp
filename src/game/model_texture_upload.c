@@ -33,8 +33,8 @@ u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params)
     return (high << 16) | (low & 0xFFFF);
 }
 
-s32 func_80058B4C(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
-                  s32 z, s32 w)
+s32 ModelTexture_LoadTim(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x,
+                         s32 y, s32 z, s32 w)
 {
     RECT bounds;
     s32 high;
