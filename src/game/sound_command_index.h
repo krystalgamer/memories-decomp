@@ -10,14 +10,14 @@ typedef struct {
     u16 count;
     u8 field_04[8];
     s32 payload_size;
-    u16 index_words[32];
+    u16 index_records[16][2];
 } CommandIndexTable;
 
 typedef char CommandIndexTable_size_must_be_0x50[
     sizeof(CommandIndexTable) == 0x50 ? 1 : -1
 ];
 typedef char CommandIndexTable_indices_must_be_at_0x10[
-    (u32)&((CommandIndexTable *)0)->index_words == 0x10 ? 1 : -1
+    (u32)&((CommandIndexTable *)0)->index_records == 0x10 ? 1 : -1
 ];
 
 #endif
