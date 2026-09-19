@@ -2366,7 +2366,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B498,D_8009B498,D_8009B498,0x8005BE3C,Movie_DecodeAndPresentFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"DecDCTin((u32 *)(D_8009B498 + 0x1B000 + slot * 0xE000), side); | DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00), | (+4 more)"
 0x8009B498,D_8009B498,D_8009B498,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,"(u16 *)D_8009B498); | DecDCTvlc2(ring, (u32 *)(D_8009B498 + 0x1B000 + D_8009B066 * 0xE000), | (+1 more)"
 0x8009B498,D_8009B498,D_8009B498,0x8005C1F4,func_8005C1F4,matching_c,game,C,src/game/movie_frame_pipeline.c,read,8,D_8009B498 + 0x37000 + | D_8009B498 + 0x37000 + (u32)&((u8 (*)[0x2D00])0)[idx])); | (+4 more)
-0x8009B49C,D_8009B49C,D_8009B49C,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,,D_8009B49C = *(CdlLOC *)src; | func_8005C62C(&D_8009B49C);
+0x8009B49C,D_8009B49C,D_8009B49C,0x8005B8A0,func_8005B8A0,matching_c,game,C,src/game/func_8005B8A0.c,write,,D_8009B49C = *src; | func_8005C62C(&D_8009B49C);
 0x8009B49C,D_8009B49C,D_8009B49C,0x8005BFC8,Movie_WaitAndDecodeFrame,matching_c,game,C,src/game/movie_frame_pipeline.c,address,,D_8009B068 = StGetBackloc(&D_8009B49C); | func_8005C62C(&D_8009B49C);
 0x8009B4A0,D_8009B4A0,D_8009B4A0,0x8005C374,func_8005C374,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B4A0 = first;
 0x8009B4A1,D_8009B4A1,D_8009B4A1,0x8005C374,func_8005C374,matching_c,game,C,src/game/movie_frame_pipeline.c,write,8,D_8009B4A1 = second;
