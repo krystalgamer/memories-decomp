@@ -15,7 +15,7 @@
  * rectangle halfwords now use their native SDK type here, while the separate
  * animation gate remains centralized in unmatched.h.
  *
- * func_80059CE4 in model_scene_states.c is the only caller and held the only
+ * Model_UpdateScene in model_scene_states.c is the only caller and held the only
  * declaration. */
 void func_8004E9A0(void);
 extern RECT gModel_ImageCopyRect asm("D_8009B468");

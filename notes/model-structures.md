@@ -170,7 +170,7 @@ and a duration equal to twice its fifth argument. Optional variadic indices
 become an eight-byte part-selection bitset. These are storage and control
 relationships, not names for the remaining offset-based fields.
 
-The shared model tick `func_80059CE4` calls `func_800528AC` after the ordinary
+The shared model tick `Model_UpdateScene` calls `func_800528AC` after the ordinary
 slot draw/update helpers. For each active request whose selected model slot is
 active, the processor:
 
@@ -189,9 +189,9 @@ unchanged. `Model_HasInsufficientBufferSpace` takes a different path: it skips
 the temporary mutation and redraw but still advances elapsed and can expire the
 request. The processor restores model state after each successful redraw, so
 the matching code proves a temporary render override rather than a persistent
-slot-colour assignment. Although animated battle reaches this processor through
-`func_80059CE4`, the pipeline is shared; current matching callers do not justify
-calling the queue battle-exclusive.
+slot-colour assignment. Although animated battle reaches this processor through `Model_UpdateScene`,
+the pipeline is shared; current matching callers do not justify calling the
+queue battle-exclusive.
 
 ## `D_800F56F0`: 32-byte reference-view record
 

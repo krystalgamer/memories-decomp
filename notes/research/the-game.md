@@ -1058,7 +1058,7 @@ mode bit `0x20` selects `Model_IsExodiaPresentationComplete`; otherwise the
 handler polls `ModelDebug_UpdateController`. A nonzero result calls `SD_KeyOffVoiceSlots`
 and `SD_BGMFadeOut`, then replaces the **whole mode byte** `D_8009B26C` with
 `D_8009B269`, rather than hard-coding a return to duel mode. The subsequent
-`func_80059CE4` call runs on this polling branch even when completion has
+`Model_UpdateScene` runs on this polling branch even when completion has
 just been consumed.
 
 That call enters the shared model pipeline, not a battle-only helper. Matching

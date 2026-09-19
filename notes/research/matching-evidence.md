@@ -2474,7 +2474,7 @@ object model through two related parent/child constructors.
 | `SD_StartSequenceTracks` | `0x2C`-byte record initialization and variable-length decoding |
 | `ModelTexture_PackPageClut` | Mixed signed comparisons and unsigned halfword bit extraction |
 | `func_80059000` | `0xE20` record stride and unaligned eight-byte copy |
-| `func_80059CE4` | G8-gated teardown while preserving an absolute state pointer |
+| `Model_UpdateScene` | G8-gated teardown while preserving an absolute state pointer |
 | `func_8005A1F4` / `func_8005A2E0` | Coordinate triplets, packed vector copy, and signed square accumulation |
 | `func_8005C6A0` | Relocation enumeration and translated handler count |
 | `func_8005F828` | Nullable eight-byte record iteration and repeated throttle-byte loads |

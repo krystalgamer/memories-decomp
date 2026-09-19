@@ -958,7 +958,7 @@ address,size,name,status,module,notes
 0x80059C88,0x14,Model_IsExodiaPresentationComplete,matching_c,game,Animated-battle completion predicate; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059C9C,0x34,Model_StartCreditsPresentation,matching_c,game,Second animated-battle scene initializer; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
 0x80059CD0,0x14,Model_IsCreditsPresentationComplete,matching_c,game,Second animated-battle completion predicate; g8 and g8_split objects are byte-identical in the scene-state/cleanup unit.
-0x80059CE4,0xF4,func_80059CE4,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80059CE4,0xF4,Model_UpdateScene,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
 0x80059DD8,0xE4,func_80059DD8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80059EBC,0x5C,func_80059EBC,matching_c,game,"Transfer-gated camera-effect request; byte-identical at g0, g0_split, g8, and g8_split and grouped with the contiguous parameter setters."
 0x80059F18,0x94,func_80059F18,matching_c,game,"Transfer-gated adjusted camera-effect request; byte-identical at g0, g0_split, g8, and g8_split and grouped with the contiguous parameter setters."

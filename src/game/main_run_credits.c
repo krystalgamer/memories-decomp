@@ -135,5 +135,5 @@ run_credits_scene:
         return;
     }
     Model_IsCreditsPresentationComplete();
-    func_80059CE4();
+    Model_UpdateScene();
 }

@@ -73,6 +73,6 @@ void Main_RunAnimatedBattle(void)
             SD_BGMFadeOut();
             D_8009B26C = D_8009B269;
         }
-        func_80059CE4();
+        Model_UpdateScene();
     }
 }

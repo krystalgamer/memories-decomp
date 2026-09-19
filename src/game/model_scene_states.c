@@ -53,7 +53,7 @@ s32 Model_IsCreditsPresentationComplete(void)
     return D_8009AF9A == -2;
 }
 
-void func_80059CE4(void)
+void Model_UpdateScene(void)
 {
     u8 *state = (u8 *)&D_800F56F0;
 

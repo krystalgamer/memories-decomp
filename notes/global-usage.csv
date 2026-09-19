@@ -270,7 +270,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF94,D_8009AF94,D_8009AF94,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,read,8,if (D_8009AF94 == 0xF && changed != 0 && command == 8) {
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059C24,Model_StartExodiaPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 0x13;
 0x8009AF94,D_8009AF94,D_8009AF94,0x80059C9C,Model_StartCreditsPresentation,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF94 = 20;
-0x8009AF94,D_8009AF94,D_8009AF94,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,read,8,if (D_8009AF94 == 15) { | if (D_8009AF94 == 19) { | (+1 more)
+0x8009AF94,D_8009AF94,D_8009AF94,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,read,8,if (D_8009AF94 == 15) { | if (D_8009AF94 == 19) { | (+1 more)
 0x8009AF96,D_8009AF96,D_8009AF96,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,16,func_80047314(D_8009AF96);
 0x8009AF96,D_8009AF96,D_8009AF96,0x80059C18,Model_SetPresentationBgmCommand,matching_c,game,C,src/game/model_scene_states.c,write,16,D_8009AF96 = value;
 0x8009AF98,D_8009AF98,D_8009AF98,0x80051350,func_80051350,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_041b50.s,read_write,8,"lbu $v1, %gp_rel(D_8009AF98)($gp) | sb $v0, %gp_rel(D_8009AF98)($gp)"
@@ -2818,7 +2818,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058434,func_80058434,matching_c,game,C,src/game/func_80058434.c,address,,b = &D_800F56F0.vpx;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80058624,SD_ApplyPositionalSound,matching_c,game,C,src/game/func_80058624.c,read,,a = D_800F56F0.vpx; | b = D_800F56F0.vpz; | (+4 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x800591FC,Model_GetCameraViewBuffer,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56F0;
-0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,func_80059CE4,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
+0x800F56F0,D_800F56F0,D_800F56F0,0x80059CE4,Model_UpdateScene,matching_c,game,C,src/game/model_scene_states.c,address,,u8 *state = (u8 *)&D_800F56F0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[0] - entry[0]; | difference.vy = D_800F56F0[2] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,read,16,difference.vx = D_800F56F0[6] - entry[0]; | difference.vy = D_800F56F0[8] - entry[1]; | (+1 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x8005A6A8,SD_CalcSpatialVolumePan,matching_c,game,C,src/game/sd_calc_spatial_volume_pan.c,read,,a = D_800F56F0.vpx - arg0; | b = D_800F56F0.vpz - arg1; | (+5 more)

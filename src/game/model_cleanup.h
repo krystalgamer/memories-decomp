@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-void func_80059CE4(void);
+void Model_UpdateScene(void);
 void func_80059DD8(s32 index);
 
 #endif

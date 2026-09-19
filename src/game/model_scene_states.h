@@ -3,11 +3,11 @@
 
 #include "../types.h"
 
-/* Per-slot preparation and the scene update called by func_80059CE4. */
+/* Per-slot preparation and the shared model-scene update. */
 void func_80050584(s32 index);
 void func_800507D0(void);
 
-/* Scene mode 15's phase controller, which func_80059CE4 runs while
+/* Scene mode 15's phase controller, which Model_UpdateScene runs while
    D_8009AF94 is 15; func_8004FE2C below is its mode 19 counterpart. */
 void func_8004EB00(void);
 
