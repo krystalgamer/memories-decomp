@@ -17,6 +17,9 @@
 #include "duel_field_effect_steps.h"
 #include "duel_swords_effect.h"
 
+#define DUEL_FIELD_EFFECT_OBJECT_VIEW(object) \
+    ((DuelFieldEffectObject *)(object))
+
 void DuelEffect_ApplySwords(void)
 {
     DuelFieldEffectObject *object;
@@ -26,7 +29,8 @@ void DuelEffect_ApplySwords(void)
     int field_side;
 
     if (DuelEffect_MarkInitialized() == 0) {
-        object = (DuelFieldEffectObject *)DuelEffect_AllocateRequest(0x15);
+        object = DUEL_FIELD_EFFECT_OBJECT_VIEW(
+            DuelEffect_AllocateRequest(0x15));
         side = D_8009B1D5 ^ 1;
         D_8009B17C = (u8 *)object;
         gDuel_apSwordsEffectObjects[side] = object;
@@ -37,7 +41,7 @@ void DuelEffect_ApplySwords(void)
         object->field_1A = field_side;
         SD_SEPlayFull(0x23);
     } else if (!(gDuel_wCardEffectFlags & 0x40)) {
-        if (((DuelFieldEffectObject *)D_8009B17C)->count != 0) {
+        if (DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count != 0) {
             gDuel_wCardEffectFlags |= 0x40;
             for (
                 slot = DUEL_FIELD_ROW_SIZE;
@@ -49,14 +53,14 @@ void DuelEffect_ApplySwords(void)
                     0x90000000) {
                     DuelFieldEffectObject *current;
 
-                    current = (DuelFieldEffectObject *)entry->object;
+                    current = DUEL_FIELD_EFFECT_OBJECT_VIEW(entry->object);
                     current->callback = DuelEffect_UpdateRevealCard;
                     current->active = 1;
                 }
             }
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
-               ((DuelFieldEffectObject *)D_8009B17C)->count >= 2) {
+               DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count >= 2) {
         D_800E9FF0[D_8009B1D5 ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
