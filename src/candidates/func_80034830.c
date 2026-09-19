@@ -6,61 +6,66 @@
  * and the rest as a LINE_G4 outline closed by a LINE_G2; otherwise every
  * front-facing quad is drawn as POLY_GT4.
  *
- * Built under gcc_2_8_1_g8_split_psyq_gte. 856 instructions against 858,
- * 835 of them aligned on opcode and registers, in 11 divergent blocks of
- * which 3 are structural. Alignment is tools/project/align_functions.py; a
- * block is structural when the two sides differ in length or in opcode
- * sequence.
+ * Built under gcc_2_8_1_g8_split_psyq_gte. 858 of 858 instructions at exact
+ * length, opcode census distance 2 by encoded fields (sra -1, nop +1), 0
+ * structural blocks of 7, 842 of 858 aligned on opcode and registers, and
+ * 43 raw words differing from retail with relocations masked, all of them
+ * register names. The previous state was 856 (-2), distance 6, 3 structural
+ * blocks, 835 aligned. No hard register assignments; the GTE commands are the
+ * official inline_c.h macros.
  *
- * Two edits get that, and they are a COUPLED PAIR: each one alone is worth
- * little or is worse, and only together do they move the function.
- *   - a no-op `rec++; rec--;` after the normal-table load, which removes the
- *     primitive cursor's stack spill. Alone: -4, 746 aligned, 71 blocks, 19
- *     structural.
- *   - both returns yielding the live `primp` instead of re-reading
- *     arg->primp. Alone, without the no-op: +3, 743 aligned, 92 blocks, 33
- *     structural -- i.e. a WORSE length than the 859/858 this replaces.
- * Together: -2, 835 aligned, 11 blocks, 3 structural, from a base of +1, 738
- * aligned, 96 blocks, 39 structural. Only one of the two returns is not
- * enough (the late one alone -2/767/74/20, the early one alone -4/746/73/21).
+ * The two edits that took it from -2 to exact length and closed every
+ * structural block, each read off the target before it was measured:
+ *   - the first POLY_GT4 arm's addPrim reads `arg->tagp` INLINE, not through
+ *     a named `tg`. Retail loads `4(s6)` twice around addPrim's store through
+ *     the packet pointer (words 346-359): the store may alias, so the source
+ *     re-read the field. A named local kept it in a1 across the store and
+ *     dropped a load: -2 -> -1, 3 structural blocks -> 1. The second arm was
+ *     already written inline. The earlier header called naming `tg` a lever;
+ *     it was measured on a base that still spilled the cursor, and on this
+ *     base it is the wrong direction.
+ *   - the flag stores retail addresses through $s8. The cfc2 map of the
+ *     target shows twelve flag stores whose destinations this source already
+ *     matched one for one -- 0(t2), 0(v0) and 0(s8) in the same order -- and
+ *     the one remaining block was how s8 is made: retail materialises the
+ *     literal 0x1F8003E8 with lui/ori, this source derived `addiu s8,t2,8`
+ *     from scr. So `flg = (s32 *)0x1F8003E8` is a second pointer used at
+ *     exactly the three gte_stflg calls where retail uses s8 (the second
+ *     vertex of the first POLY_GT4 arm, the second and third vertices of the
+ *     LINE_G4 arm), and nowhere else: -1 -> +0. WHERE it is assigned decides
+ *     WHERE it is materialised: beside scr it lands at word 24 (2 structural
+ *     blocks), before the while at word 41 (3), and assigned at the top of
+ *     the `while (--n != -1)` body it is hoisted to word 125, exactly where
+ *     retail has it, with 0 structural blocks.
  *
- * The earlier header treated re-reading arg->primp as a virtue that "shortens
- * the primitive cursor's spill". Retail HAS that spill: instruction 27 is
- * `sw $s5,0x14($sp)`, with arg->primp loaded into the callee-saved $s5 and
- * read at +4 and +2 through it, where this source used the caller-saved $v1
- * and reused it on the next instruction.
+ * Two earlier edits still hold and are a COUPLED PAIR: a no-op `rec++;
+ * rec--;` after the normal-table load, which removes the primitive cursor's
+ * stack spill, and both returns yielding the live `primp` instead of
+ * re-reading arg->primp. Alone each is worse (the no-op -4 with 19 structural
+ * blocks, the returns +3 with 33); together they took the candidate from +1
+ * with 39 structural blocks to the -2 this replaces. Retail HAS the cursor
+ * spill: instruction 27 is `sw $s5,0x14($sp)`.
  *
- * Measured and dead, recorded so the next attempt does not spend a round on
- * them. Each is the installed source plus one edit, every run measuring the
- * unmodified source first as its control:
- *   - the no-op's POSITION: after vertop, after nortop, before nortop, and in
- *     the else arm alone all give byte-identical results. What matters is that
- *     it exists, not where it sits.
- *   - the `z = (scr[4..7]) / 4 >> 4` spelling at all three sites: split into
- *     two statements against one name, `/ 64`, and `/ 4 / 16` are identical to
- *     the no-op alone; only `>> 2 >> 4` moves, and it is -13/714/77/28. The
- *     old header's claim that z's divide lacks retail's duplicated sra is not
- *     reachable by any spelling of the division. That duplicated sra is real
- *     but it is in the ABS3 arm (target 93-97), not in z.
- *   - the LINE_G4 and POLY_GT4 by-value copies: a typed destination local, a
- *     cast on the source, the POLY_GT4 sites, and both together are all
- *     identical to the base. PACKET is `unsigned char`, so the destination
- *     carries alignment 1, but that is not the lever -- if it were, one of the
- *     four spellings would have moved.
- *   - the 0x1F8003E8 literal, which retail materialises with lui/ori where
- *     this source derives `addiu $s8,$t2,8`: the targeted two-site edit in the
- *     LINE_G4 arm is -6/733/66/23 and the second site alone is -5/762/70/24.
+ * MEASURED AND DEAD on this base, so the next attempt does not repeat them:
+ * the literal inline at the three stflg sites (-2, 14 structural); a second
+ * pointer for every scr[2]/scr[3] reference (+6, 36 structural); the ABS3
+ * arm's sums named, one name or three (worse or identical); its four vertex
+ * pointers named (3 structural); the quotient named (-2); ABS3 as an if
+ * (4 structural); the fourth vertex written first in each sum (4); and all
+ * orders of the x/y/w declarations (identical). From the earlier header, on
+ * the old base: the no-op's position (identical wherever it sits), every
+ * spelling of the `/ 4 >> 4` z divide (identical; only `>> 2 >> 4` moves, and
+ * it is -13), and the LINE_G4/POLY_GT4 by-value copies through a typed local
+ * or a cast (identical).
  *
- * A false zero worth keeping: spelling that literal inline at every site
- * reaches EXACT length (+0) with 757 aligned, 51 blocks and 23 structural.
- * Ranking on the length key alone would install the worst of the states
- * measured here.
- *
- * The remaining 3 structural blocks: target[125:127], retail's lui/ori pair
- * against this source's `addiu $s8,$t2,8`; target[346:347], an `addiu
- * $s0,$s0,52` this source has and retail does not; and one more. The LINE_G4
- * arm stores the second and third vertices' flags both to scr[2], as retail
- * does.
+ * Residual, all in the `flags & 4` arm (words 58-96): retail allocates the
+ * fourth vertex pointer to a3 and the y sum to a2, this source the reverse,
+ * and the w sum then lands in a2 and is divided in place with a nop in the
+ * bgez delay slot where retail sums in v1 and divides into a fresh a2 with
+ * the sra duplicated into the slot. That is one local-alloc priority
+ * decision between two quantities and no hand spelling above moves it.
+ * Measure by raw words with relocations masked: align_functions.py erases
+ * the a0-a3 register names (#5358).
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -82,6 +87,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     u32 mask;
     CVECTOR *white;
     s32 *scr;
+    s32 *flg;
     u32 *primp;
     PACKET *out;
     s32 n;
@@ -130,6 +136,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         *(u32 *)white = mask;
         *(u32 *)grey = D_8009B300;
         while (--n != -1) {
+            flg = (s32 *)0x1F8003E8;
             if (D_8009B30C & 2) {
                 z = D_8009B310->sorted_position;
                 D_8009B310++;
@@ -155,7 +162,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                     gte_ldv0(&vertop[rec[11]]);
                     gte_rtps();
                     gte_stsxy(&gt->x2);
-                    gte_stflg(&scr[2]);
+                    gte_stflg(flg);
                     gte_ldv0(&nortop[rec[10]]);
                     gte_ldrgb(grey);
                     gte_ncds();
@@ -185,8 +192,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
                     gt->clut = rec[1];
                     *(POLY_GT4 *)out = *gt;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
-                    tg = arg->tagp;
-                    addPrim(&tg->org[z], out);
+                    addPrim(&arg->tagp->org[z], out);
                     out += 0x34;
                     goto next;
                 }
@@ -203,7 +209,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             gte_ldv0(&vertop[rec[9]]);
             gte_rtps();
             gte_stsxy(&lg->x1);
-            gte_stflg(&scr[2]);
+            gte_stflg(flg);
             gte_ldv0(&nortop[rec[8]]);
             gte_ldrgb(white);
             gte_ncds();
@@ -212,7 +218,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
             gte_ldv0(&vertop[rec[11]]);
             gte_rtps();
             gte_stsxy(&lg->x2);
-            gte_stflg(&scr[2]);
+            gte_stflg(flg);
             gte_ldv0(&nortop[rec[10]]);
             gte_ldrgb(white);
             gte_ncds();
