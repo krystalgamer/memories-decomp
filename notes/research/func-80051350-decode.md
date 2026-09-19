@@ -268,8 +268,16 @@ That changes the reading of the first argument too: it gates both the
 rather than a selector.
 
 The push itself is applied at `0x80051974` as `D_800F56F0[0] += s7` and
-`rec->+0x8 += s6`, which is the resolve step; `$s1` is set from the limit when a
-record is skipped, so the return value reports the largest extent considered.
+`rec->+0x8 += s6`, which is the resolve step. The push magnitude is the
+loaded extent, not the delta: `mult $a2,$a1` at `0x80051810` multiplies the
+`e0[i]` loaded for the maximum test by `scale`, and `lw $v0,0($a3)` at
+`0x80051838` re-reads `e2[i]` through the `&e2.values[i]` pointer set up at
+`0x80051744` before multiplying it; `dx[i]` and `dz[i]` are loaded only for the
+`bgtz` sign tests. `$s1` is set from the limit (`move $s1,$s5` in the delay
+slot of the `j` at `0x8005198c`) both after the normal body -- which falls
+into that jump -- and on the `mode == 0` path, which branches to it; so
+`moved = limit` follows the body as well, and the return value reports the
+largest extent considered.
 
 **Still undecoded:** the vector block between `0x80051868` and `0x80051930`. It
 multiplies pairs drawn from `D_800F56F0` at `+0x8`, `+0xC` and `+0x14`, squares

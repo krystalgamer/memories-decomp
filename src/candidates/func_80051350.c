@@ -65,7 +65,7 @@
  * with a caller-save around the call), plus the coupled nop above. Measure
  * by raw words with relocations masked: align_functions.py erases the a0-a3
  * register names (#5358). See notes/research/func-80051350-decode.md for the
- * structural map; its loop-exit description predates the two corrections.
+ * structural map, whose push and loop-exit passage carries both corrections.
  */
 #include "../types.h"
 #include "../game/model.h"
