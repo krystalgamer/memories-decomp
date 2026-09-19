@@ -176,7 +176,8 @@ stopped:
             }
         }
 next_track:
-        cursor = (GsSEQ *)((u8 *)cursor + cursor->size * 4);
+        cursor = (GsSEQ *)(
+            (u8 *)cursor + (u32)&((u32 *)0)[cursor->size]);
     }
     end = (u32 *)ctx->primp;
     return end + *(u16 *)end;
