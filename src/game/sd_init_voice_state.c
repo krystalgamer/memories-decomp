@@ -53,7 +53,9 @@ void SD_InitVoiceState(void) {
     p->field_0440 = 0;
     p->field_0442 = 0xFFFF;
     p->field_0444 =
-        (SDNote *)(((p->field_0000 * 2 + 0xF) & 0xFFF0) + 0x801E4000);
+        (SDNote *)(
+            (((u32)&((u16 *)0)[p->field_0000] + 0xF) & 0xFFF0) +
+            0x801E4000);
 
     i = 0;
     if (p->field_0000 != 0) {
