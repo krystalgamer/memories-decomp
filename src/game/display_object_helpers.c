@@ -16,6 +16,7 @@
  * four texture coordinates from 0x1F800290. */
 #define SCRATCH_VERTEX(i) ((SVECTOR *)0x1F800300 + (i))
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
+#define GS_OT_VIEW(ordering_table) ((GsOT *)(ordering_table))
 #define POLY_G4_VIEW(packet) ((POLY_G4 *)(packet))
 #define POLY_GT4_VIEW(packet) ((POLY_GT4 *)(packet))
 #define POLY_FT4_VIEW(packet) ((POLY_FT4 *)(packet))
@@ -35,13 +36,13 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
 
     switch ((u32)mode >> 16) {
     case 1:
-        GsSortFastSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
+        GsSortFastSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
         return;
     case 2:
-        GsSortFlipSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
+        GsSortFlipSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
         return;
     case 3:
-        GsSortSprite(GS_SPRITE_VIEW(sprite), (GsOT *)ot, pri);
+        GsSortSprite(GS_SPRITE_VIEW(sprite), GS_OT_VIEW(ot), pri);
         return;
     case 4: {
         if ((u32)sprite & 0x04000000) {
@@ -67,9 +68,9 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
             }
         }
         if ((u32)sprite & 0x40000000) {
-            func_8005B260((u32 *)packet, (GsOT *)ot, (u16)pri, ((u32)sprite >> 28) & 3);
+            func_8005B260((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
-            GsSortPoly(packet, (GsOT *)ot, pri);
+            GsSortPoly(packet, GS_OT_VIEW(ot), pri);
         }
         return;
     }
@@ -97,9 +98,9 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
             }
         }
         if ((u32)sprite & 0x40000000) {
-            func_8005B260((u32 *)packet, (GsOT *)ot, (u16)pri, ((u32)sprite >> 28) & 3);
+            func_8005B260((u32 *)packet, GS_OT_VIEW(ot), (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
-            GsSortPoly(packet, (GsOT *)ot, pri);
+            GsSortPoly(packet, GS_OT_VIEW(ot), pri);
         }
         return;
     }
@@ -162,7 +163,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
                              (long *)&POLY_FT4_VIEW(packet)->x2, (long *)&POLY_FT4_VIEW(packet)->x3,
                              otz, otz + 1, otz + 2) > 0) {
             if (origin->divisions == 0) {
-                GsSortPoly(packet, (GsOT *)ot, pri);
+                GsSortPoly(packet, GS_OT_VIEW(ot), pri);
                 return;
             }
             {
@@ -181,7 +182,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
                 D_800FE240 = (u32 *)DivideFT4(v, v1, v2, v3,
                                              uv, (u32 *)0x1F800294, (u32 *)0x1F800298, (u32 *)0x1F80029C,
                                              (CVECTOR *)rgbc, (POLY_FT4 *)D_800FE240,
-                                             (u32 *)((GsOT *)ot)->org + pri, divp);
+                                             (u32 *)GS_OT_VIEW(ot)->org + pri, divp);
             }
         }
         return;
