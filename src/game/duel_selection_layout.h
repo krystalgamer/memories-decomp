@@ -160,14 +160,14 @@ extern u8 D_800E9F48[];
  *     D_800E9F64 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE
  *
  * DuelScene_UpdateBattle assigns exactly that to D_8009B1B4
- * (src/candidates/func_8001F55C.c:164) and DuelScene_UpdateFieldActions forms
+ * (src/game/duel_scene_battle.c) and DuelScene_UpdateFieldActions forms
  * it six times, once reaching back 0x18 into record 2
  * (src/game/duel_scene_field_actions.c). No
  * other source in the tree mentions the symbol.
  *
  * Like D_800E9F48 above, this name has to stay separate rather than become an
  * offset from D_800E9F10: each listing carries its own relocations for it --
- * five %hi/%lo pairs in DuelScene_UpdateFieldActions and one in func_8001F55C.S -- and
+ * five %hi/%lo pairs in DuelScene_UpdateFieldActions and one in DuelScene_UpdateBattle -- and
  * folding it would change which symbol they name. No access is gp-relative,
  * so this is the plain array declaration. */
 extern u8 D_800E9F64[];

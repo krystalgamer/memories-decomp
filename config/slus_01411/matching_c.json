@@ -895,6 +895,12 @@
       "source": "src/game/duel_trap_resolution.c"
     },
     {
+      "address": "0x8001F55C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1378",
+      "source": "src/game/duel_scene_battle.c"
+    },
+    {
       "address": "0x800208D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
@@ -6481,13 +6487,13 @@
       "source": "src/game/ai_script_query_commands.c"
     },
     {
-      "address": "0x80071460",
+      "address": "0x80071424",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
       "source": "src/game/ai_script_load_duel_globals.c"
     },
     {
-      "address": "0x80071424",
+      "address": "0x80071460",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
       "source": "src/game/ai_script_load_duel_globals.c"

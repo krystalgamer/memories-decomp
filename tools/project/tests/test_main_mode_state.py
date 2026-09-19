@@ -24,7 +24,7 @@ DECLARATION = re.compile(
 )
 CONSUMERS = (
     "src/game/func_80018FEC.c",
-    "src/candidates/func_8001F55C.c",
+    "src/game/duel_scene_battle.c",
     "src/game/func_800283F4.c",
     "src/game/script_op_save_prompt.c",
     "src/overlays/password/shop.c",
@@ -61,13 +61,13 @@ CONSUMERS = (
     "src/overlays/overworld/set_location.c",
 )
 NEXT_DATA = {
-    "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/game/func_80018FEC.c", "src/game/duel_scene_battle.c",
     "src/game/script_op_save_prompt.c",
     "src/game/main_init.c",
 }
 NEXT_ARRAY = {"src/game/library_grid_cursor.c", "src/game/script_control_commands.c"}
 ACTIVE_DATA = {
-    "src/game/func_80018FEC.c", "src/candidates/func_8001F55C.c",
+    "src/game/func_80018FEC.c", "src/game/duel_scene_battle.c",
     "src/game/func_800283F4.c",
     "src/game/script_op_save_prompt.c", "src/game/debug_menu_editor_entries.c",
     "src/game/debug_menu_leave_entries.c",

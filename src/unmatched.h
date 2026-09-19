@@ -161,7 +161,6 @@ extern s32 D_8009B118;
  * entries above, it is safe precisely because there are no call sites for it
  * to be wrong at, and it is what has to change if a caller is ever matched
  * and passes an argument. */
-void DuelScene_UpdateBattle(void);
 
 /* One byte at 0x8009B363, written by four files that share nothing else.
  *
@@ -540,8 +539,8 @@ extern u8 D_8009B370[];
 extern u16 D_8009B370;
 #endif
 extern u16 D_8009B372;
-/* The DuelScene_UpdateBattle candidate reads it through a %hi/%lo pair into
- * the load's own register, which is the .data form. */
+/* DuelScene_UpdateBattle (src/game/duel_scene_battle.c) reads it through a
+ * %hi/%lo pair into the load's own register, which is the .data form. */
 #ifdef D_8009B374_IN_DATA
 extern u16 D_8009B374 __attribute__((section(".data")));
 #else

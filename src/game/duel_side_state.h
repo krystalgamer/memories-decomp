@@ -121,7 +121,7 @@ extern DuelFieldEffectObject
  * DuelScene_UpdateFieldActions stores 0 twice and 1 once
  * (src/game/duel_scene_field_actions.c), DuelScene_UpdateBattle stores 0 twice and
  * is the only reader, testing it against 0
- * (src/candidates/func_8001F55C.c:408). That single load is lbu and the five
+ * (src/game/duel_scene_battle.c). That single load is lbu and the five
  * stores are sb and cannot say, so the byte is unsigned -- which settles a
  * disagreement the two units carried, one declaring it u8 and the other s8
  * while every use is a store of 0 or 1 or a test against 0, so neither
@@ -136,11 +136,11 @@ extern u8 D_8009B229;
  * Duel_SelectAttackTrap stores `sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one
  * arm and `v` under its `hit:` label;
  * DuelEffect_ApplyLifePointRecovery and DuelEffect_ApplyDirectDamage test it
- * against 0. DuelScene_UpdateBattle, still
- * assembly, stores 0 once and loads it eight times. Every retail load is lh
+ * against 0. DuelScene_UpdateBattle (src/game/duel_scene_battle.c) stores 0
+ * once and loads it eight times. Every retail load is lh
  * (DuelEffect_ApplyLifePointRecovery, DuelEffect_ApplyDirectDamage, and the
- * eight in
- * DuelScene_UpdateBattle.s), so the halfword is signed; the stores are sh and cannot
+ * eight in DuelScene_UpdateBattle), so the halfword is signed; the stores
+ * are sh and cannot
  * say. Every access in all five listings is gp-relative, so this is the
  * plain declaration for duel_card_effects.c, duel_trap_resolution.c and
  * func_80025028.c alike, and the `u16` one of them used to write was the same
@@ -299,7 +299,7 @@ extern u8 D_8009B368;
  * func_80024DC8 stores 0 beside gDuel_bOpponentID, D_8009B370, D_8009B372
  * and gDuel_bTerrain; Text_StartCampaignDuel stores 0 after its own copy
  * of that setup; matching DuelScene_UpdateExodiaResult stores 1;
- * DuelScene_UpdateBattle (still assembly) stores it too. Duel_InitScene skips two
+ * DuelScene_UpdateBattle stores it too. Duel_InitScene skips two
  * blocks when it is 1, and Main_RunDuel clears D_8009B26E only when it is
  * 0 and gDuel_bOpponentID is not negative. Every retail access is sb or
  * lbu and every declarer said u8. Initial value not read.
