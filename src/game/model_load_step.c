@@ -52,7 +52,7 @@ void func_80056828(s32 index)
         if (*(s32 *)payload != 0) {
             size = *(s32 *)payload;
         }
-        func_8004CB0C(index, (s32)payload, size, -1);
+        func_8004CB0C(index, payload, size, -1);
         break;
     }
     case 2:

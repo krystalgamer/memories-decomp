@@ -23,7 +23,7 @@
    register's references by loop nesting, and only these loop forms give
    the 0x1F800000 scratch base, the shared slot cursor, the command cursor
    and the channel index the retail callee-saved registers. */
-void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
+void func_8004CB0C(s32 index, u8 *hmd, s32 size, s32 flags)
 {
     ModelSlot *base;
     GsUNIT *slot;
@@ -49,7 +49,7 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
     handler = (s32)GsU_00000000;
     base = &D_800F2C40[index];
     slot = (GsUNIT *)base->field_000;
-    cursor = (u8 *)hmd;
+    cursor = hmd;
     if (index < 2) {
         table = D_800E9D90[2];
     } else {
@@ -128,7 +128,7 @@ void func_8004CB0C(s32 index, s32 hmd, s32 size, s32 flags)
     }
     GsMapUnit((u32 *)hmd);
     cursor += 0xC;
-    func_8004D58C(index, (u8 *)hmd);
+    func_8004D58C(index, hmd);
     base->field_E1A = *cursor;
     cursor += 4;
     if (base->field_E1A >= 0x3D) {
