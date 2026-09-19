@@ -682,11 +682,12 @@ the incoming values can be expressed at the call site: `func_8004CB0C`'s three
 extra registers cannot be, and `func_800540B4`'s single one already was.
 
 A caller that passes MORE than the callee reads is the case that looks equally
-unfixable and is not. duel_card_effects.c declared `s32 func_8001F364(s32)`
-and called it with a flag at both sites; the definition takes void and never
-looks at the register. Dropping the argument and the parameter is
-byte-identical, so the declaration follows the definition. The instinct that
-retail sets $a0 because the declaration says to was wrong here.
+unfixable and is not. duel_card_effects.c declared
+`s32 Duel_UpdateTrapPresentation(s32)` and called it with a flag at both sites;
+the definition takes void and never looks at the register. Dropping the
+argument and the parameter is byte-identical, so the declaration follows the
+definition. The instinct that retail sets $a0 because the declaration says to
+was wrong here.
 
 One more in the same family, also recorded in unmatched.h: func_80013C28
 keeps two incompatible spellings on purpose.

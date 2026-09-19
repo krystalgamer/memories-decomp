@@ -645,7 +645,7 @@ reflected-damage routing without assigning a semantic name to that state
 halfword.
 
 Both handlers use the same resident presentation sequencer when bit `0x20` of
-`gDuel_wCardEffectFlags` is set. Newly matching `func_8001F364` waits for the
+`gDuel_wCardEffectFlags` is set. `Duel_UpdateTrapPresentation` waits for the
 preceding
 screen effect, starts a first `func_80022D94` phase, and arms a 20-frame
 counter. When that counter expires it copies the selected card object's
@@ -705,7 +705,7 @@ terrain-package and phase layout is detailed in
 - **Confirmed** that the recovery path's `+0x16` halfword is the maximum LP
   value that caps the authoritative LP at `+0x14`.
 - **Confirmed** that recovery and direct damage share the matching
-  `func_8001F364` presentation sequence and its two 20-frame waits.
+  `Duel_UpdateTrapPresentation` sequence and its two 20-frame waits.
 - **Confirmed** that the tutorial's ten WA values match the retail archive,
   occupy the indexed phase-7 record members above, and are duplicated across
   all seven terrain packages.
