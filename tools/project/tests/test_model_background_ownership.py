@@ -86,19 +86,19 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
         header = SDK + '#include "model_background.h"\n#include "screen_projection.h"\n'
         self.probe(
             header + "void (*render)(void) = func_8004DE24;\n"
-            "void *(*matrix)(void) = func_80059220;\n"
-            "void set(void) { GsSetLsMatrix(func_80059220()); }",
+            "void *(*matrix)(void) = Model_GetLightSourceMatrix;\n"
+            "void set(void) { GsSetLsMatrix(Model_GetLightSourceMatrix()); }",
             accepted=True,
         )
         for declaration in (
             "s32 (*render)(void) = func_8004DE24;",
-            "MATRIX *(*matrix)(void) = func_80059220;",
+            "MATRIX *(*matrix)(void) = Model_GetLightSourceMatrix;",
         ):
             self.probe(
                 header + declaration, accepted=False,
                 diagnostic="incompatible pointer|incompatible-pointer",
             )
-        for call in ("func_8004DE24(1)", "func_80059220(1)"):
+        for call in ("func_8004DE24(1)", "Model_GetLightSourceMatrix(1)"):
             self.probe(
                 header + f"void call(void) {{ {call}; }}",
                 accepted=False, diagnostic="too many arguments",
@@ -246,7 +246,7 @@ class ModelBackgroundOwnershipTests(unittest.TestCase):
             " placement.matrix.t[1] = 123;\nslot->field_E1F = 0;\n"
             " if (slot->field_D18->matrix.t[1] + 300 != 423) return 3;\n"
             " if ((u32)&D_800F56A0.matrix - (u32)&D_800F56A0 != 4) return 4;\n"
-            " GsSetLsMatrix(func_80059220());\n"
+            " GsSetLsMatrix(Model_GetLightSourceMatrix());\n"
             " if (observed_matrix != &D_800FE148) return 5;\n"
             " for (i = 0; i < 7; i++) if (!supported(D_80091008 + i * 0xB2)) return 6;\n"
             " for (i = 0; i < 0xB2; i++) record.bytes[i] = D_80091008[i];\n"

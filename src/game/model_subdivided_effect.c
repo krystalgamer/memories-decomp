@@ -145,7 +145,7 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
         config = effect->config;
         vertex = effect->subdivided_vertices;
         ot = func_80058F10();
-        base = *(MATRIX *)func_80059220();
+        base = *(MATRIX *)Model_GetLightSourceMatrix();
         color = effect->subdivided_colors;
         PushMatrix();
         SetPolyG3(&triangle);

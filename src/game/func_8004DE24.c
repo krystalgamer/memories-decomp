@@ -186,7 +186,7 @@ tiles:
     vertices[3].vy = height;
     vertices[5].vy = height;
     vertices[7].vy = height;
-    GsSetLsMatrix(func_80059220());
+    GsSetLsMatrix(Model_GetLightSourceMatrix());
     phase = 256;
     do {
         cosine = rcos(phase);

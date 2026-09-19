@@ -19,6 +19,6 @@ extern MATRIX D_800FE148;
 /* Returns &D_800FE148 through the definition's existing void * interface.
  * The background renderer converts that object pointer to the SDK's
  * MATRIX * parameter of GsSetLsMatrix; no alternate allocation is involved. */
-void *func_80059220(void);
+void *Model_GetLightSourceMatrix(void);
 
 #endif

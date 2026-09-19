@@ -233,7 +233,7 @@ int printf(const char *format,...)
     event(PRINT,args,format,16); return 0;
 }
 GsOT *func_80058F10(void) { simple(OT); return &ordering_table; }
-void *func_80059220(void) { simple(BASE); return &base_matrix; }
+void *Model_GetLightSourceMatrix(void) { simple(BASE); return &base_matrix; }
 void PushMatrix(void) { simple(PUSH); }
 void PopMatrix(void) { simple(POP); }
 void SetPolyG3(POLY_G3 *p)
@@ -367,7 +367,7 @@ static s32 oracle(s32 mode)
         printf(D_8001186C,0x1318,0x1318); return 0;
     }
     config=(u8 *)get32(object); ot=func_80058F10();
-    base=*(MATRIX *)func_80059220(); PushMatrix();
+    base=*(MATRIX *)Model_GetLightSourceMatrix(); PushMatrix();
     SetPolyG3(&triangle); SetPolyG4(&quad); line.attribute=0x50000000;
     elapsed=(s32)get32(object+0x1310); remaining=(s32)get32(object+0x1314);
     rotation.vx=0; rotation.vy=(u32)elapsed<<5; rotation.vz=0;

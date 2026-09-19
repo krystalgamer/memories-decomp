@@ -117,7 +117,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     SetPolyG3(&g3);
     SetPolyG4(&g4);
     PushMatrix();
-    ls = *(MATRIX *)func_80059220();
+    ls = *(MATRIX *)Model_GetLightSourceMatrix();
     GsSetLsMatrix(&ls);
     rot.vx = 0;
     rot.vy = 0;
