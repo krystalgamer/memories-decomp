@@ -535,7 +535,7 @@ void func_8002BAB4(void)
         model = &D_800F2848;
         r = func_80058DD8(0);
         if (r == one) {
-            if (func_80058E68(0) != r) {
+            if (Model_GetSlotAnimationIndex(0) != r) {
                 Model_CopySlotU16Values(0, (u16 *)0x80181010);
                 r = D_80181012 - D_80181002;
                 a = r >= 0 ? r : -r;

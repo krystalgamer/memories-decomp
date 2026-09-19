@@ -8,7 +8,7 @@ s32 Model_GetSlotAnimationSpeed(s32 index)
     return D_800F2C40[index].field_E0D;
 }
 
-s32 func_80058E68(s32 index)
+s32 Model_GetSlotAnimationIndex(s32 index)
 {
     return D_800F2C40[index].field_BF5;
 }
