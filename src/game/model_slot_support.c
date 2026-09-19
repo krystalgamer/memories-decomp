@@ -8,7 +8,7 @@
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
 
-void *func_80058F20(s32 index, s32 slot)
+void *Model_GetSlotDataEntry(s32 index, s32 slot)
 {
     ModelSlot *entry = &D_800F2C40[index];
 
