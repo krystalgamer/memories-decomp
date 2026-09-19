@@ -1,5 +1,6 @@
 SD_BGMFadeOutWithStep = 0x8003FF58;
 SD_BGMPlay = 0x8003FF08;
+ViewState_ApplyOrbit = 0x8001352C;
 D_800E9DB0 = 0x800E9DB0;
 gCampaignSceneIndex = 0x8009B27A;
 TextBox_Create = 0x80035BE4;

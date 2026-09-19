@@ -90,7 +90,7 @@ static s32 object_id(void *p)
     return -1;
 }
 
-void func_8001352C(void)
+void ViewState_ApplyOrbit(void)
 {
     event(1, 0, (u16)D_800F2848.angle, 0, 0, 0);
     if ((u16)D_800F2848.angle != expected_angle) error = 3;
