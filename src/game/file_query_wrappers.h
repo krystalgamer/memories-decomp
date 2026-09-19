@@ -18,7 +18,7 @@ s32 func_800598E4(int first, int second);
    Returns the number of bytes transferred, or 0 if the open failed or a chunk
    came up short. */
 s32 HostFile_ReadRange(
-    s32 path, s32 destination, s32 offset, s32 length
+    char *path, char *destination, s32 offset, s32 length
 );
 
 #endif
