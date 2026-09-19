@@ -1707,7 +1707,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = 0;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,read,,"gBuildDeck_pState->chest_card_quantities[id], 3, text); | list = &gBuildDeck_pState->lists[kind]; | (+2 more)"
-0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x800323F8,func_800323F8,matching_c,game,C,src/game/func_800323F8.c,read_write,,gBuildDeck_pState = (BuildDeckTransitionState *)state; | state = (u8 *)gBuildDeck_pState;
+0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x800323F8,func_800323F8,matching_c,game,C,src/game/func_800323F8.c,read_write,,gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state); | state = (u8 *)gBuildDeck_pState;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80032C48,func_80032C48,matching_c,game,C,src/game/card_list_sort.c,read,,if (gBuildDeck_pState->card_sort_rank[row->card_id] != 0) { | row->key = gBuildDeck_pState->card_sort_rank[row->card_id];
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80033998,BuildDeck_HasOpenDeckSlot,matching_c,game,C,src/game/build_deck_deck_capacity.c,read,,CardEntry *entry = gBuildDeck_pState->lists[1].entries;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,,D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState); | base = gBuildDeck_pState; | (+1 more)
