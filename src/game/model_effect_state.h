@@ -10,7 +10,7 @@
  * func_8005F3B8's last parameter is a pointer in the definition -- the SVECTOR
  * whose offset the step applies -- not the fifth s32 its two callers declared.
  * model_scene_states.c passes a literal 0, which was always a null pointer;
- * func_8005F27C forwards its own s32 argument and casts.
+ * func_8005F27C forwards the same optional pointer type.
  *
  * func_8005F714 takes two indices into gModel_aEffectEndpoints rather than
  * pointers, and a negative index means "no endpoint" -- that is how a caller
@@ -23,7 +23,7 @@
  * tests use the typed kind member through an aligned s16 view; retail loads
  * that field with lh, while direct access through the packed type expands it.
  * These operations return early while D_8009B07B and D_8009B07C are both 1. */
-void func_8005F27C(s32 mode, s32 coefficient, s32 offset);
+void func_8005F27C(s32 mode, s32 coefficient, SVECTOR *offset);
 void func_8005DBA4(void);
 void func_8005F3B8(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
 s32 func_8005F564(void);
