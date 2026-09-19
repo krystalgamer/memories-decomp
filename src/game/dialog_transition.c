@@ -16,6 +16,8 @@
 #include "display_object_render_spotlight_mask.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
+    ((DisplayObjectSnapshot *)(object))
 
 void func_8003D518(MenuRecord *record)
 {
@@ -60,7 +62,7 @@ void func_8003D614(MenuRecord *record)
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
         object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(object));
         object->field_60 = 0x400;
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
@@ -128,7 +130,7 @@ void func_8003D74C(MenuRecord *record)
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&D_8009AF74[1] - 2));
         record->grid[0][0] = (s32)p;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)p);
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(p));
         a = D_8009B3C7;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
