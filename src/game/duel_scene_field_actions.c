@@ -89,6 +89,8 @@
     (&D_801A7AD8[D_800907D8[(s)->row * 5 + (s)->col + D_8009B1D5 * 20]])
 #define BANK(i, o) (big = 0x48000, H(pw + (i) * 0x1C + big, (o)))
 #define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
+#define DUEL_CARD_PICK_CURSOR_VIEW(cursor) \
+    ((DuelCardPickCursor *)(cursor))
 
 /* Tentative definitions: the _comm profile keeps them common, which is what
  * puts retail's load-delay nop in front of each gp-relative store. */
@@ -139,7 +141,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         D_8009B1F8 = 0;
         D_8009B21A = 0;
-        D_8009B1B4 = (DuelCardPickCursor *)side;
+        D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
         side->field_12 = 4;
         side->field_0C = 0xAE;
         y = 1;
@@ -363,7 +365,7 @@ void DuelScene_UpdateFieldActions(void)
         side = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            D_8009B1B4 = (DuelCardPickCursor *)side;
+            D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
             side->field_18 = 0;
             side->field_0C = 0x74;
             func_800234E4((DuelFieldDisplaySource *)side);
@@ -417,14 +419,15 @@ void DuelScene_UpdateFieldActions(void)
         side = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
         if (D_8009B174 & 0x80) {
             D_8009B174 |= 0x80;
-            D_8009B1B4 = (DuelCardPickCursor *)side;
+            D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
         }
         if (D_8009B174 & 0x40) {
             if (D_8009B162 == 0) {
                 DisplayObject_ReleaseIfPresent(side->cursor_object);
                 side->cursor_object = 0;
                 D_8009B174 = 3;
-                D_8009B1B4 = (DuelCardPickCursor *)&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
+                D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(
+                    &((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2]);
             }
             return;
         }
@@ -639,7 +642,7 @@ void DuelScene_UpdateFieldActions(void)
             rec = SEL_REC3 + D_8009B1D5 * SIDE_SIZE;
             co = rec->cursor_object;
             D_8009B174 |= 0x80;
-            D_8009B1B4 = (DuelCardPickCursor *)rec;
+            D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(rec);
             DisplayObject_ReleaseIfPresent(co);
             D_8009B162 = 8;
             ((DuelSelectionRecord *)D_8009B1B4)->cursor_object = 0;
@@ -650,7 +653,8 @@ void DuelScene_UpdateFieldActions(void)
         if (!(D_8009B174 & 0x40)) {
             D_8009B174 |= 0x40;
             D_8009B162 = 0xC;
-            D_8009B1B4 = (DuelCardPickCursor *)&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
+            D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(
+                &((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2]);
             return;
         }
         gDuel_wSceneStateFlags = 7;
