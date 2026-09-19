@@ -1047,7 +1047,7 @@ successive eight-byte records at `D_800EF658` to
 [`Model_SetSlotProperties`](../../src/game/func_80052D2C.c)
 for slots 0 and 1, then passes **the current terrain** (`gDuel_bTerrain`)
 to slot 2. A first record halfword of `0x309` instead selects the separate
-`func_80059C24` initialization path and sets mode bit `0x20`; it does not
+`Model_StartExodiaPresentation` path and sets mode bit `0x20`; it does not
 make those three slot-property calls. Both initialization paths then call
 `Fade_WaitInitIn`. The wrapper alone does not identify the selector, but the
 caller-side handover in section 5.10 establishes a use of `0x309` for

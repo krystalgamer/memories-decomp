@@ -40,7 +40,7 @@ void Main_RunAnimatedBattle(void)
         p = D_800EF658;
         if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
             D_8009B26C = D_8009B26C | 0x20;
-            func_80059C24();
+            Model_StartExodiaPresentation();
         } else {
             Model_SetSlotProperties(
                 0,

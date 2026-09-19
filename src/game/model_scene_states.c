@@ -25,7 +25,7 @@ void func_80059C18(s32 value)
     D_8009AF96 = value;
 }
 
-void func_80059C24(void)
+void Model_StartExodiaPresentation(void)
 {
     func_800533D8();
     func_800530C4();
