@@ -31,6 +31,8 @@
 
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
+#define DISPLAY_POSITION_GROUP_VIEW(record) \
+    ((DisplayPositionGroup *)(record))
 
 void func_8003A920(
     DisplayPositionGroup *group,
@@ -93,7 +95,7 @@ void func_8003A990(MenuRecord *p)
 
     if ((u16)(t - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         DisplayPositionGroup_SetPosition(
-            (DisplayPositionGroup *)r,
+            DISPLAY_POSITION_GROUP_VIEW(r),
             r->field_40,
             r->field_42
         );
@@ -107,7 +109,7 @@ void func_8003A990(MenuRecord *p)
             dy = r->field_46 - dy;
         }
         DisplayPositionGroup_SetPosition(
-            (DisplayPositionGroup *)r,
+            DISPLAY_POSITION_GROUP_VIEW(r),
             (s16)(*(u16 *)&r->field_40 - dx),
             (s16)(*(u16 *)&r->field_42 - dy)
         );
@@ -130,7 +132,7 @@ void func_8003AAE4(MenuRecord *p) {
         if (p->field_3C != 0) {
             *(s16 *)&p->field_34 = 0xD8;
         }
-        func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
+        func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         q = (DisplayObject *)p->grid[0][0];
         a = q->field_16;
@@ -254,7 +256,7 @@ void func_8003AD6C(MenuRecord *p)
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
                       ((DisplayObject *)p->grid[0][0])->field_16);
-        func_8003A920((DisplayPositionGroup *)p, *(s16 *)&p->field_34,
+        func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
                       *(s16 *)&p->field_36);
         func_80039F90((void **)p->grid[1]);
         func_80039F90((void **)p->grid[2]);
@@ -296,12 +298,12 @@ void func_8003AD6C(MenuRecord *p)
     y = *(s16 *)&p->field_36;
     x = *(s16 *)&p->field_34 + dd[0];
     x = (s16)x;
-    func_8003A920((DisplayPositionGroup *)p, x, y);
-    func_8003A920((DisplayPositionGroup *)p->grid[1], x, y);
+    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
+    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y);
     x = *(s16 *)&p->field_34 - dd[1];
     x = (s16)x;
-    func_8003A920((DisplayPositionGroup *)p->grid[2], x, y);
-    func_8003A920((DisplayPositionGroup *)p->grid[3], x, y);
+    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y);
+    func_8003A920(DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y);
 }
 
 void func_8003B054(MenuRecord *record)
