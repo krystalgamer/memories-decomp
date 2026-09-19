@@ -34,7 +34,7 @@ void func_800556E8(s32 index) {
     if (m->field_DD8 != 0) {
         anim = m->field_BF5;
         length = m->field_750[anim].max << 4;
-        speed = m->field_E0D * func_80058E1C();
+        speed = m->field_E0D * Model_GetFrameStep();
         if (anim == 6) {
             lim = length - speed;
             if ((m->field_E16 == 0x3E && m->field_E06 >= lim) ||
@@ -94,7 +94,7 @@ void func_800556E8(s32 index) {
     }
     if (m->field_E16 != 0x23) {
         if (m->field_E0D == 0x10) {
-            if (func_80058E1C() == 2) {
+            if (Model_GetFrameStep() == 2) {
                 return;
             }
         }

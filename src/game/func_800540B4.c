@@ -200,7 +200,7 @@ void func_800540B4(s32 index)
             s32 limg;
             s32 limb;
 
-            step = func_80058E1C() * 2;
+            step = Model_GetFrameStep() * 2;
             h = slot->field_DC0[6];
             w = slot->field_DC0[5];
             r = slot->field_DC0[4];

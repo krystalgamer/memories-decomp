@@ -303,7 +303,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AFA2,D_8009AFA2,D_8009AFA2,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,D_8009AFA2 = idx;
 0x8009AFA2,D_8009AFA2,D_8009AFA2,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,read,8,used -= D_8009AFA2 * GRAPHICS_PACKET_BUFFER_SIZE;
 0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8;
-0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80058E1C,func_80058E1C,matching_c,game,C,src/game/func_80058E1C.c,read,8,if (D_8009AFA3 < 6) { | result = D_8009AFA3;
+0x8009AFA3,D_8009AFA3,D_8009AFA3,0x80058E1C,Model_GetFrameStep,matching_c,game,C,src/game/func_80058E1C.c,read,8,if (D_8009AFA3 < 6) { | result = D_8009AFA3;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80012DB4,Graphics_SyncFrame,matching_c,game,C,src/game/graphics_frame.c,read_write,8,D_8009AFA3 = D_8009AFA4 ? 2 : D_8009B0D8; | D_8009AFA4 = 0;
 0x8009AFA4,D_8009AFA4,D_8009AFA4,0x80059AEC,func_80059AEC,matching_c,game,C,src/game/model_state_setters.c,write,8,D_8009AFA4 = value;
 0x8009AFA6,D_8009AFA6,D_8009AFA6,0x80058DC0,func_80058DC0,matching_c,game,C,src/game/model_state_getters.c,read,8,return D_8009AFA6;
@@ -652,7 +652,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AFE5,D_8009AFE5,D_8009AFE5,0x80069B40,func_80069B40,handwritten_asm,game,assembly,tmp/splat/asm/generated/text_051ac0.s,read,8,"lb $v0, %lo(D_8009AFE5)($v0) | lui $v0, %hi(D_8009AFE5)"
 0x8009AFE6,D_8009AFE6,D_8009AFE6,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,address,16,"B(&D_8009AFE6, 0) = 0x80; | B(&D_8009AFE6, 1) = 0x80; | (+6 more)"
 0x8009AFE8,D_8009AFE8,D_8009AFE8,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,read_write,8,D_8009AFE8 = 0x80; | poly.b0 = D_8009AFE8; | (+2 more)
-0x8009AFE9,D_8009AFE9,D_8009AFE9,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AFE9 += func_80058E1C(); | D_8009AFE9 = 0; | (+3 more)
+0x8009AFE9,D_8009AFE9,D_8009AFE9,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read_write,8,D_8009AFE9 += Model_GetFrameStep(); | D_8009AFE9 = 0; | (+3 more)
 0x8009AFEC,D_8009AFEC,D_8009AFEC,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,32,*(ModelBytes8 *)&offset = *(ModelBytes8 *)D_8009AFEC;
 0x8009AFF4,D_8009AFF4,D_8009AFF4,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,address,8,FntPrint(D_8009AFF4);
 0x8009AFF4,D_8009AFF4,D_8009AFF4,0x800559D4,func_800559D4,matching_c,game,C,src/game/model_control.c,address,8,FntPrint(D_8009AFF4);

@@ -151,7 +151,7 @@ int FntPrint(char *text)
     return 0;
 }
 
-s32 func_80058E1C(void)
+s32 Model_GetFrameStep(void)
 {
     event(30, serial % 6, 0, 0);
     return serial % 6;
@@ -266,7 +266,7 @@ static void reference(s32 index)
     case 4: break;
     default: FntPrint(D_8009AFF4); self->field_E0E = 2; return;
     }
-    step = func_80058E1C();
+    step = Model_GetFrameStep();
     step = self->field_E0D * (step + 1);
     decision = selection(self, other, index) & 0x7F;
     changed = 0;

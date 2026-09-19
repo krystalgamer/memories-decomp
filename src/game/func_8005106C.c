@@ -77,7 +77,7 @@ void func_8005106C(s32 index) {
     }
     anim = m->field_BF5;
     length = m->field_750[anim].max << 4;
-    speed = m->field_E0D * func_80058E1C();
+    speed = m->field_E0D * Model_GetFrameStep();
     e = m->sound_entries;
     tag = (index << 8) + 0x4000;
     if (length != 0) {
@@ -98,7 +98,7 @@ void func_8005106C(s32 index) {
             s32 cur2;
             s32 value2;
 
-            speed2 = m->field_E0D * func_80058E1C();
+            speed2 = m->field_E0D * Model_GetFrameStep();
             cur2 = m->field_DFE;
             phase = m->field_E08;
             m->field_E08 = phase + speed2;

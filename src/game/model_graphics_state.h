@@ -11,8 +11,9 @@
  *
  * graphics_frame.c needs the absolute-address declaration arm below. Its
  * retail stores use %hi/%lo and its view of D_8009AFA3 is non-volatile.
- * func_80058E1C also uses a non-volatile view, but keeps two explicit source
- * reads. The C owner remains volatile and in .sdata for the default view. */
+ * Model_GetFrameStep also uses a non-volatile view, but keeps two explicit
+ * source reads. The C owner remains volatile and in .sdata for the default
+ * view. */
 /* Pointer to the active 0xB2-byte model record. Model_SetSlotProperties
  * selects it from D_80091008; model view/update code reads fields through it.
  * The background renderer reads through +0xB1, including texture metadata,

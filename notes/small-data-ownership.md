@@ -172,7 +172,7 @@ the original 36 bytes.
 
 Existing scalar compiler views are deliberately retained. `graphics_frame.c` needs
 absolute, non-volatile declarations for `D_8009AFA2`-`D_8009AFA4`, while
-`func_80058E1C` needs the volatile small-data view of `D_8009AFA3`.
+`Model_GetFrameStep` needs the volatile small-data view of `D_8009AFA3`.
 `MODEL_GRAPHICS_STATE_SCENE_BYTES` selects the bounded four-byte view for
 the owner and scene consumer; it cannot be combined with the absolute frame
 view. Scalar readers and writers still address the first byte.

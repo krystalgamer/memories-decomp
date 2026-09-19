@@ -51,7 +51,7 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
     effect = data;
     func_80058DCC();
     {
-        s32 ticks = func_80058E1C();
+        s32 ticks = Model_GetFrameStep();
         if (mode >= 0) {
             config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
             func_80057E20(func_80058DCC(), &bounds);

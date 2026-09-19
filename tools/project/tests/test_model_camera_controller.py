@@ -141,7 +141,7 @@ static s32 observe(s32 kind, s32 a, s32 b, s32 c, s32 d, s32 e)
 }
 s32 func_8005FB08(void) { return observe(GATE, 0, 0, 0, 0, 0); }
 s32 func_8005FB14(void) { return observe(KEY, 0, 0, 0, 0, 0); }
-s32 func_80058E1C(void) { return observe(STEP, 0, 0, 0, 0, 0); }
+s32 Model_GetFrameStep(void) { return observe(STEP, 0, 0, 0, 0, 0); }
 void func_80058434(s32 a, s32 b, s32 c, s32 d, s32 e)
 { observe(ORBIT, a, b, c, d, e); }
 void Model_UpdateViewMetrics(u8 *view) { observe(METRICS, (s32)view, 0, 0, 0, 0); }
@@ -395,7 +395,7 @@ class ModelCameraControllerTests(unittest.TestCase):
                     ),
                     "key-kind": ("key->requested[1].kind != 4", "key->requested[1].kind != 3"),
                     "timer-step": (
-                        "step = func_80058E1C();\n            progress = move->field_02 - step;",
+                        "step = Model_GetFrameStep();\n            progress = move->field_02 - step;",
                         "step = 6;\n            progress = move->field_02 - step;",
                     ),
                     "late-index": (

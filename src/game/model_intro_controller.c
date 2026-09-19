@@ -157,7 +157,7 @@ void func_8004EB00(void)
             func_80059284(0, 3);
         }
         if (D_800F2C40[0].field_E0F == 0) {
-            D_8009AFE9 += func_80058E1C();
+            D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C && D_800F2C40[1].field_E1F != 0) {
                 func_8005F588(1);
                 func_8005F5C8(1, 0, 0, -0xA);
@@ -192,7 +192,7 @@ void func_8004EB00(void)
         break;
     case 10:
         if (D_800F2C40[1].field_E0F == 0) {
-            D_8009AFE9 += func_80058E1C();
+            D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
                 s32 kind;
                 s32 off;
@@ -246,7 +246,7 @@ void func_8004EB00(void)
             s32 d;
 
             a = func_8005A618(0);
-            b = (func_80058E1C() + 2) * 8;
+            b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)D_8009B47A - a;
             if (d >= 0 ? b >= d : b >= a - (s16)D_8009B47A) {
                 func_80050F24(0);
@@ -336,7 +336,7 @@ void func_8004EB00(void)
             s32 d;
 
             a = func_8005A618(1);
-            b = (func_80058E1C() + 2) * 8;
+            b = (Model_GetFrameStep() + 2) * 8;
             d = (s16)D_8009B47A - a;
             if (d >= 0 ? b >= d : b >= a - (s16)D_8009B47A) {
                 func_80050F24(1);
@@ -508,7 +508,7 @@ void func_8004EB00(void)
         s32 f = D_800F2C40[0].field_E0F == 6;
 
         if (D_800F2C40[f].field_E13 == 0 && func_8005A878(1) != 0) {
-            D_8009AFE9 += func_80058E1C();
+            D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
                 func_80059590(f, 5, 0x80, 0x80, 0x80);
                 D_8009AF9A++;
@@ -820,7 +820,7 @@ check_ready:
         break;
     case 15: {
         s32 remaining = slot->field_750[slot->field_BF5].max << 4;
-        s32 timing = func_80058E1C();
+        s32 timing = Model_GetFrameStep();
         remaining -= slot->field_E0D * timing;
         if (slot->field_E06 >= remaining) {
             func_80059700(0, 0);
