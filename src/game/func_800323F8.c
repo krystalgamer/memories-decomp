@@ -55,6 +55,8 @@
 
 #define CARD_LIST_VIEW(list) ((CardList *)(list))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define BUILD_DECK_TRANSITION_STATE_VIEW(state) \
+    ((BuildDeckTransitionState *)(state))
 
 void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
 {
@@ -98,11 +100,11 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     icons = (s32)D_80090DD8;
     all_stats = gDuel_adwCardStats;
     lists = state + 4;
-    gBuildDeck_pState = (BuildDeckTransitionState *)state;
+    gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state);
     state[0x6343] = flags;
     *(void **)state = deck;
     *(s32 *)(state + 0x6344) = other;
-    ((BuildDeckTransitionState *)state)->pane_index = 0;
+    BUILD_DECK_TRANSITION_STATE_VIEW(state)->pane_index = 0;
     state[0xC686] = 0;
     do {
         if (*(s32 *)state != 0) {
@@ -158,7 +160,7 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             CARD_LIST_VIEW(lists)[1].row_count = 0x28;
             CARD_LIST_VIEW(lists)[1].sort_row_count = 0x28;
             func_80032C48(CARD_LIST_VIEW(state + 0x2D50));
-            func_8003201C((BuildDeckTransitionState *)state);
+            func_8003201C(BUILD_DECK_TRANSITION_STATE_VIEW(state));
             chest_list = lists;
             n = 0;
             j = n;
@@ -217,7 +219,7 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     label[0x67] = 1;
     *(s32 *)(label + 0x30) = *(s32 *)(object + 0x30);
     *(s32 *)(label + 0x4C) = (s32)func_80031874;
-    ((BuildDeckTransitionState *)state)->state = 2;
+    BUILD_DECK_TRANSITION_STATE_VIEW(state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x136, 0x29, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
@@ -257,5 +259,5 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 3, 0, 3, 0xB, 0x2F8);
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
-    BuildDeck_RefreshCountDisplay((BuildDeckTransitionState *)state);
+    BuildDeck_RefreshCountDisplay(BUILD_DECK_TRANSITION_STATE_VIEW(state));
 }
