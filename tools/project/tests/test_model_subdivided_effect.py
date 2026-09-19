@@ -193,7 +193,7 @@ void *memset(void *out,int value,int size)
     clears++; fill(out,value,size); return out;
 }
 s32 func_80058DCC(void) { return simple(SLOT)&1; }
-int func_80058E1C(void) { simple(TIME); return step_value; }
+int Model_GetFrameStep(void) { simple(TIME); return step_value; }
 void func_80057E20(s32 slot,ModelEffectAdjustment *out)
 {
     s32 args[8]={0}; args[0]=slot; event(BOUNDS,args,0,0);
@@ -328,7 +328,7 @@ static s32 oracle(s32 mode)
     s32 ticks,i,j,radius,height,elapsed,remaining,facing;
     long flag,interpolation,depth;
     memset(&rotation,0,8); memset(&position,0,8);
-    scale=D_8001185C; func_80058DCC(); ticks=func_80058E1C();
+    scale=D_8001185C; func_80058DCC(); ticks=Model_GetFrameStep();
     if(mode>=0) {
         config=(u8 *)D_800915E8; put32(object,(u32)config);
         func_80057E20(func_80058DCC(),(ModelEffectAdjustment *)bounds);

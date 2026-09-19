@@ -174,7 +174,7 @@ void func_800559D4(s32 index)
         s32 offset;
         s32 own_record;
         s32 other_record;
-        amount = func_80058E1C();
+        amount = Model_GetFrameStep();
         offset = index * MODEL_SLOT_SIZE;
         do { own_record = offset + (s32)&D_800F3938; } while (0);
         offset = (index ^ 1) * MODEL_SLOT_SIZE;

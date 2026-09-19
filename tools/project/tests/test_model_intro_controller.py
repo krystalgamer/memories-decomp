@@ -227,7 +227,7 @@ s32 func_8004703C(void) { return observe(AUDIO_READY,0,0,0,0,0,0,0,0); }
 void func_8005D994(s32 a,s32 b,s32 c,s32 d,SVECTOR *v,s32 f)
 { observe(PATH,a,b,c,d,0,f,0,(const u8 *)v); }
 s32 func_8005FB08(void) { return observe(TRANSFER_READY,0,0,0,0,0,0,0,0); }
-s32 func_80058E1C(void) { return observe(TIMING,0,0,0,0,0,0,0,0); }
+s32 Model_GetFrameStep(void) { return observe(TIMING,0,0,0,0,0,0,0,0); }
 void func_800156DC(void) { observe(FADE,0,0,0,0,0,0,0,0); }
 
 static void pending(s32 a, s32 b) { expect(PENDING,0,a,b,0,0,0,0,0); }
@@ -631,9 +631,9 @@ class ModelIntroControllerTests(unittest.TestCase):
                 replacements = {
                     "terminal-state": ("D_8009AF9A = -2;", "D_8009AF9A = -3;"),
                     "unsequenced-timing": (
-                        "s32 timing = func_80058E1C();\n"
+                        "s32 timing = Model_GetFrameStep();\n"
                         "        remaining -= slot->field_E0D * timing;",
-                        "remaining -= slot->field_E0D * func_80058E1C();",
+                        "remaining -= slot->field_E0D * Model_GetFrameStep();",
                     ),
                 }
                 original, replacement = replacements[mutation]

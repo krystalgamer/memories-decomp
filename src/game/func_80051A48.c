@@ -22,7 +22,7 @@ void func_80051A48(void)
         if (D_800F2B20.duration <= 0xFFFE) {
             s32 next_elapsed;
 
-            rate = func_80058E1C();
+            rate = Model_GetFrameStep();
             if (D_800F2B20.elapsed < (u16)(D_800F2B20.duration / 5u) ||
                 D_800F2B20.elapsed > 4 * D_800F2B20.duration / 5) {
                 rate /= 2;
@@ -117,7 +117,7 @@ void func_80051A48(void)
             if (D_800F56F0.vpy >= -100)
                 D_800F56F0.vpy = -100;
         } else if (D_800F2B20.mode) {
-            rate = func_80058E1C();
+            rate = Model_GetFrameStep();
             func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);
         }
         if (D_800F2B20.flags & 2) {
@@ -186,7 +186,7 @@ void func_80051A48(void)
             D_800F56F0.vry = -100;
     }
     if (!key || (key->requested[0].kind != 4 && key->requested[1].kind != 4)) {
-        rate = func_80058E1C();
+        rate = Model_GetFrameStep();
         func_80058434(1, D_800F2B20.field_04 * rate * D_8009AF99, 0, 0, 0);
         func_80052694(1);
     }
@@ -194,9 +194,9 @@ void func_80051A48(void)
         ModelCameraMove *move = &D_800F2B20;
         s32 step;
 
-        step = func_80058E1C();
+        step = Model_GetFrameStep();
         if (move->field_02 - step > 0) {
-            step = func_80058E1C();
+            step = Model_GetFrameStep();
             progress = move->field_02 - step;
         } else {
             progress = 0;

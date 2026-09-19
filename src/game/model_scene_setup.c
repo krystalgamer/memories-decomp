@@ -279,7 +279,7 @@ void func_800528AC(void)
         func_80059AA8(side, old);
         *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = save;
 tail:
-        e->elapsed += func_80058E1C();
+        e->elapsed += Model_GetFrameStep();
         if (e->elapsed >= e->duration) {
             e->flags &= 0xFFFE;
         }

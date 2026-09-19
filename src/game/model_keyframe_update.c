@@ -76,11 +76,11 @@ void func_8005DBA4(void)
     }
     if (D_8009B074->duration != 0x4000) {
         Key *previous = D_8009B074;
-        s32 step = func_80058E1C();
+        s32 step = Model_GetFrameStep();
         s32 elapsed;
         if (D_8009B074->progress + step <
             D_8009B074->duration) {
-            step = func_80058E1C();
+            step = Model_GetFrameStep();
             elapsed = D_8009B074->progress + step;
         } else {
             elapsed = D_8009B074->duration;

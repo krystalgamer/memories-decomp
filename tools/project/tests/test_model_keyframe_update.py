@@ -207,7 +207,7 @@ static s32 call(s32 kind,s32 a,s32 b,s32 c,s32 d,s32 e,s16 *out)
 { return invoke(0,kind,a,b,c,d,e,out); }
 void *Model_GetCameraViewBuffer(void) { return (void *)invoke(1,GET,0,0,0,0,0,0); }
 void func_8005E808(Key *key) { invoke(1,PREPARE,(u32)key,0,0,0,0,0); }
-s32 func_80058E1C(void) { return invoke(1,TIMING,0,0,0,0,0,0); }
+s32 Model_GetFrameStep(void) { return invoke(1,TIMING,0,0,0,0,0,0); }
 s32 func_80058DD8(s32 slot) { return invoke(1,READY,slot,0,0,0,0,0); }
 void Model_CopySlotU16Values(s32 slot,u16 *out)
 { invoke(1,COPY,slot,out != 0,0,0,0,(s16 *)out); }

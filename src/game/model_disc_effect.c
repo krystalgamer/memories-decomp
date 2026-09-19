@@ -51,7 +51,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *arg0, s32 arg1)
     scale = *(VECTOR *)D_8001187C;
     e = arg0;
     func_80058DCC();
-    step = func_80058E1C();
+    step = Model_GetFrameStep();
 
     if (arg1 >= 0) {
         e->table = (ModelDiscEffectConfig *)D_80091604;

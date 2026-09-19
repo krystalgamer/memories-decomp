@@ -181,7 +181,7 @@ active, the processor:
    affected per-part bytes, installs the request values, and redraws the slot;
 3. clears the two draw-context globals, restores every saved model value, and
    restores the prior `func_80059AA8` state;
-4. advances elapsed by `func_80058E1C()` and clears the request's active bit
+4. advances elapsed by `Model_GetFrameStep()` and clears the request's active bit
    once elapsed is at least duration.
 
 An inactive selected model slot leaves the request and its elapsed value
