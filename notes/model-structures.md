@@ -13,7 +13,8 @@ corroborating evidence, not as sources of guessed reference types.
 The stride is independently established by exact matching C and target
 instructions in multiple functions:
 
-- `Model_GetSlotAnimationSpeed`, `func_80058E68`, and `func_80058E94` all compile the index
+- `Model_GetSlotAnimationSpeed`, `Model_GetSlotAnimationIndex`, and
+  `func_80058E94` all compile the index
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
@@ -43,7 +44,7 @@ Verified shared fields and partial arrays are:
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
 | `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `func_80058EC0` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `func_80056250` widens a card for the parts it flags |
-| `0xBF5` | `field_BF5` | direct reads in `func_80058E68`, `func_80058EC0`, and `func_800597C8` |
+| `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `func_80058EC0` uses it to select an animation row, while `func_800597C8` stores an animation row after seeking each part to it |
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `func_800593D0` |
@@ -230,7 +231,8 @@ and id are at `+0x44` and `+0x4C`, beyond the SDK matrix.
 
 The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
-`func_80057E20`, `func_80058DD8`, `Model_GetSlotAnimationSpeed`, `func_80058E68`,
+`func_80057E20`, `func_80058DD8`, `Model_GetSlotAnimationSpeed`,
+`Model_GetSlotAnimationIndex`,
 `func_80058E94`, `func_80058EC0`, `Model_GetSlotDataEntry`,
 `Model_GetCurrentDataEntry`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
