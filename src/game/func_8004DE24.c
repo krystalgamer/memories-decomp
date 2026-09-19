@@ -12,6 +12,7 @@
 #include "ordering_tables.h"
 
 #define H(offset) (*(u16 *)(D_8009AF88 + (offset)))
+#define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 #define MODEL_BACKGROUND_RECORD_VIEW(record) \
     ((ModelBackgroundRecord *)(record))
 #define BACKGROUND_FIELD_A8 \
@@ -70,7 +71,7 @@ void func_8004DE24(void)
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->field_D70[2]);
     GsSetAmbient(slot->field_DA0[0], slot->field_DA0[1], slot->field_DA0[2]);
     GsSetLightMatrix(&D_800F56A0.matrix);
-    NormalColorCol(&normals.values[0], &colors[0], (CVECTOR *)&sprite.r);
+    NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
     sprite.tpage = ((BACKGROUND_FIELD_A8 >> 6) & 0x180) |
         ((H(0xAC) & 0x100) >> 4) |
         ((BACKGROUND_FIELD_AA & 0x3FF) >> 6) |
@@ -142,18 +143,30 @@ tiles:
     }
     if (!(D_8009AF88[0xA1] & 1))
         return;
-    NormalColorCol(&normals.values[1], &colors[1], (CVECTOR *)&polygons[0].r0);
-    NormalColorCol(&normals.values[1], &colors[1], (CVECTOR *)&polygons[0].r1);
-    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[0].r2);
-    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[0].r3);
-    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[1].r0);
-    NormalColorCol(&normals.values[1], &colors[2], (CVECTOR *)&polygons[1].r1);
-    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[1].r2);
-    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[1].r3);
-    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[2].r0);
-    NormalColorCol(&normals.values[1], &colors[3], (CVECTOR *)&polygons[2].r1);
-    NormalColorCol(&normals.values[1], &colors[4], (CVECTOR *)&polygons[2].r2);
-    NormalColorCol(&normals.values[1], &colors[4], (CVECTOR *)&polygons[2].r3);
+    NormalColorCol(&normals.values[1], &colors[1],
+                   CVECTOR_VIEW(&polygons[0].r0));
+    NormalColorCol(&normals.values[1], &colors[1],
+                   CVECTOR_VIEW(&polygons[0].r1));
+    NormalColorCol(&normals.values[1], &colors[2],
+                   CVECTOR_VIEW(&polygons[0].r2));
+    NormalColorCol(&normals.values[1], &colors[2],
+                   CVECTOR_VIEW(&polygons[0].r3));
+    NormalColorCol(&normals.values[1], &colors[2],
+                   CVECTOR_VIEW(&polygons[1].r0));
+    NormalColorCol(&normals.values[1], &colors[2],
+                   CVECTOR_VIEW(&polygons[1].r1));
+    NormalColorCol(&normals.values[1], &colors[3],
+                   CVECTOR_VIEW(&polygons[1].r2));
+    NormalColorCol(&normals.values[1], &colors[3],
+                   CVECTOR_VIEW(&polygons[1].r3));
+    NormalColorCol(&normals.values[1], &colors[3],
+                   CVECTOR_VIEW(&polygons[2].r0));
+    NormalColorCol(&normals.values[1], &colors[3],
+                   CVECTOR_VIEW(&polygons[2].r1));
+    NormalColorCol(&normals.values[1], &colors[4],
+                   CVECTOR_VIEW(&polygons[2].r2));
+    NormalColorCol(&normals.values[1], &colors[4],
+                   CVECTOR_VIEW(&polygons[2].r3));
     setPolyG4(&polygons[0]);
     setPolyG4(&polygons[1]);
     setPolyG4(&polygons[2]);
