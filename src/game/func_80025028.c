@@ -12,11 +12,11 @@
    common symbol, so no storage is allocated here. */
 u8 D_8009B1B8;
 
-/* Searches the acting side's five monster slots for an occupied card whose id
-   equals the argument. A hit records the id in D_8009B22A, copies the owning
-   object's field_6A slot index to D_8009B1B8 and returns the id; a miss leaves
-   D_8009B22A cleared and returns 0. */
-s32 func_80025028(s32 arg0)
+/* Searches the acting side's five mapped field slots for an occupied trap
+   whose id equals the argument. A hit records the id in D_8009B22A, copies
+   the owning object's field_6A slot index to D_8009B1B8 and returns the id; a
+   miss leaves D_8009B22A cleared and returns 0. */
+s32 Duel_SelectTrapByCardId(s32 arg0)
 {
     s32 i;
     s32 base;
