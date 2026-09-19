@@ -100,31 +100,20 @@ typedef struct {
  * declaration is therefore a deliberate alias of AiSelection.random, not a
  * duplicate to be folded into the struct.
  *
- * The func_8001BD88 candidate reaches the same byte with %hi/%lo and defines
- * D_800EAE90_IN_DATA to take the .data arm. */
-#ifdef D_800EAE90_IN_DATA
-extern u8 D_800EAE90 __attribute__((section(".data")));
-#else
+ * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
+ * D_800EAE88[8]: the symbol-plus-offset form is what orders its %hi ahead of
+ * the neighbouring constants. */
 extern u8 D_800EAE90;
-#endif
 
-/* Byte 0x01 of the same selection -- AiSelection.field1 above -- which also
- * carries its own address-based symbol. Seven sites across four sources write
- * the byte, none of them through this name: ai_script_actions.c stores the
- * second of the five combo bytes as D_800EAE88[1], duel_select_trap_play.c and
- * duel_field_equip_search.c clear it the same way, and ai_turn_action.c writes
- * it as D_800EAE88.field1. The func_8001BD88
- * candidate is the only reader, and it reaches the byte through this symbol
- * rather than through the table: its listing has lui %hi / lbu %lo for
- * D_800EAE89 and lui %hi / addiu %lo for D_800EAE88, two relocations in the one
- * function, so the name has to stay separate. That candidate defines
- * D_800EAE89_IN_DATA to take the .data arm, as it already does for
- * D_800EAE90. */
-#ifdef D_800EAE89_IN_DATA
-extern u8 D_800EAE89 __attribute__((section(".data")));
-#else
-extern u8 D_800EAE89;
-#endif
+/* Byte 0x01 of the same selection -- AiSelection.field1 above -- has the
+ * address-based name D_800EAE89 in the generated listings, but no source
+ * declares it. Seven sites across four sources write the byte:
+ * ai_script_actions.c stores the second of the five combo bytes as
+ * D_800EAE88[1], duel_select_trap_play.c and duel_field_equip_search.c clear
+ * it the same way, and ai_turn_action.c writes it as D_800EAE88.field1.
+ * DuelScene_UpdateHandActions is the only reader and reads D_800EAE88[1] too:
+ * retail's `lui %hi` / `lbu %lo` pair links to the same bytes either way, and
+ * the table form is the one that reproduces the instruction order. */
 
 /* The preceding selection byte is written by AiScript_LoadGuardianStarChoice from an AI
  * register. The presentation sequence reads bit 0 after updating the card

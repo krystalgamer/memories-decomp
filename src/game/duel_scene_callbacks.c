@@ -6,6 +6,7 @@
 #include "duel_draw_resolution.h"
 #include "duel_phase_entry.h"
 #include "duel_scene_resume.h"
+#include "duel_scene_hand_actions.h"
 #include "duel_scene_card_use.h"
 #include "duel_scene_card_placement.h"
 #include "duel_scene_exodia_result.h"

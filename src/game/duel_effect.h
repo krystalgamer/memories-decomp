@@ -291,9 +291,10 @@ extern u8 gDuel_bActiveEffectState;
  * next named byte is gCardGrid_bCursorColumn at 0x8009B258.
  * Retail reaches it through $gp in DuelEffect_UpdateState,
  * DuelEffect_UpdateCardViewerState and DuelEffect_UpdateDialogState, and
- * through %hi/%lo everywhere else, including DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions
- * (still assembly). frontend_scene_states.c, main_run_campaign.c and
- * duel_update_card_pick_cursor.c define the .data arm below for that;
+ * through %hi/%lo everywhere else, including DuelScene_UpdateFieldActions
+ * (still assembly). frontend_scene_states.c, main_run_campaign.c,
+ * duel_scene_hand_actions.c and duel_update_card_pick_cursor.c define the
+ * .data arm below for that;
  * build_deck_pane_input.c, src/game/func_800283F4.c,
  * duel_effect_dialog_state.c, main_reset_frontend_runtime.c and
  * MainMenu_UpdateTradeScreen take the plain arm. */

@@ -36,14 +36,16 @@ typedef char DuelSelectionSideView_size_must_be_0xC[
  * carries the hand pointer and the record's real stride instead. */
 typedef struct {
     u32 field_00;
-    /* The cursor sprite func_8001BD88 creates for the side and flags through
-     * its halfword at +8; DuelScene_UpdateExodiaResult releases it. */
+    /* The cursor sprite DuelScene_UpdateHandActions creates for the side and
+     * flags through its halfword at +8; DuelScene_UpdateExodiaResult releases
+     * it. */
     struct DisplayObject *cursor_object;
     DuelHandSlot *hand;
     u8 pad_0C[2];
     /* The hand slot the side's cursor is on: func_8001B8B8 indexes
      * D_800EA030 with it to pick the card it leaves undimmed, and
-     * func_8001BD88 clears it beside field_15. Read signed at that index. */
+     * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
+     * that index. */
     u8 field_0E;
     u8 pad_0F[4];
     u8 field_13;
@@ -76,6 +78,21 @@ typedef char DuelSelectionRecord_size_must_be_record_size[
     sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1
 ];
 
+/* One side of the selection table with record 2 seen as its pick cursor.
+ * DuelScene_UpdateHandActions indexes D_800E9F10 through this view so that
+ * the record's 0x38 stays in the load displacement (`lb 0x48` / `lb 0x47`)
+ * instead of folding into the symbol, which pointer arithmetic does. */
+typedef struct {
+    u8 pad_00[2 * DUEL_SELECTION_RECORD_SIZE];
+    DuelCardPickCursor field;
+    u8 pad_52[DUEL_SELECTION_SIDE_SIZE - 2 * DUEL_SELECTION_RECORD_SIZE -
+              sizeof(DuelCardPickCursor)];
+} DuelSelectionSideCursors;
+
+typedef char DuelSelectionSideCursors_size_must_be_side_size[
+    sizeof(DuelSelectionSideCursors) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
+];
+
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
 extern u8 D_800E9F10[];
 
@@ -84,16 +101,15 @@ extern u8 D_800E9F10[];
  * is indexed with the same per-side stride it is record 1 of whichever side
  * is selected:
  *
- *     D_8009B1B4 = (DuelCardPickCursor *)((u8 *)(D_8009B1D5 *
- *         DUEL_SELECTION_SIDE_SIZE) + (s32)D_800E9F2C);
+ *     D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F2C +
+ *         D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
  *
- * DuelScene_UpdateHandActions (src/candidates/func_8001BD88.c:403) is the only
- * source in the tree that mentions it, and it writes the sum with the cast on
- * the base because retail adds the base to the index rather than the other
- * way round.
+ * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) is the only source
+ * in the tree that mentions it; the plain pointer sum already adds the base
+ * to the index, which is retail's operand order.
  *
  * Like the other names into this table it keeps its own relocations -- one
- * %hi/%lo pair in func_8001BD88.S, and no access is gp-relative -- so this is
+ * %hi/%lo pair in that function, and no access is gp-relative -- so this is
  * the plain array declaration. */
 extern u8 D_800E9F2C[];
 
@@ -147,11 +163,11 @@ extern u8 D_800E9F64[];
  * (:59) and +0xF (:68), loading it back for each; Duel_GetCardViewerRequestId loads it
  * directly as a DuelCardPickCursor (src/game/duel_get_card_viewer_request_id.c); and
  * func_800235C0 loads it into the DuelFieldDisplaySource view that
- * duel_field_display_objects.c already casts the same record to. Five
- * functions still in assembly, none with a profile in matching_c.json, also
- * store or load it: DuelScene_UpdateCardPlacement.s:32,
- * DuelScene_UpdateHandActions (stores :35, :106, :720, :1140, :1369, :1394;
- * loads :92, :501, :507, :1150, :1227), DuelScene_UpdateFieldActions
+ * duel_field_display_objects.c already casts the same record to.
+ * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) stores it six times
+ * and loads it five. Four functions still in assembly, none with a profile in
+ * matching_c.json, also store or load it: DuelScene_UpdateCardPlacement.s:32,
+ * DuelScene_UpdateFieldActions
  * (stores :56, :613, :753, :1409,
  * :1439; load :1412), DuelScene_UpdateBattle.s (stores :93, :183; load :96) and
  * func_800235C0.

@@ -38,8 +38,10 @@ extern s16 gDuel_wEffectCardID;
  * DuelEffect_ApplyStatPenalty runs it down from 0x10; the other three reset it
  * to 0 or
  * -1, advance it and index D_800907D8 by it. [0] is written and read only
- * by DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions, still assembly, 30 sites at +0;
- * whether it belongs to the same object is not established. Four bytes,
+ * by DuelScene_UpdateHandActions, which views it as a scalar
+ * (`*(u16 *)D_8009B20C`) because sched treats an array element as part of an
+ * aggregate, and by DuelScene_UpdateFieldActions, still assembly; 30 sites at
+ * +0. Whether it belongs to the same object is not established. Four bytes,
  * the extent up to D_8009B210, stays gp-relative at every threshold in
  * play; with [4] shared instead, an assembler -G4
  * (DuelEffect_ApplyRaigeki's until

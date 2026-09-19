@@ -28,7 +28,7 @@
  * Stored unsigned; readers cast to s16 before using it as a one-based index
  * into gDuel_adwCardStats.
  *
- * The func_8001BD88 candidate addresses it with %hi/%lo and defines
+ * DuelScene_UpdateHandActions addresses it with %hi/%lo and defines
  * GDUEL_WVIEWERCARDID_IN_DATA to take the .data arm. */
 #ifdef GDUEL_WVIEWERCARDID_IN_DATA
 extern u16 gDuel_wViewerCardID __attribute__((section(".data")));
@@ -53,8 +53,8 @@ extern u16 gDuel_wViewerCardID;
  * direction: retail loads a2 from this byte at 0x800284D8 and the later call
  * adds 0x0E.
  *
- * DuelScene_UpdateHandActions and DuelScene_UpdateFieldActions also write it and are still assembly.
- * The func_8001BD88 candidate addresses it with %hi/%lo and defines
+ * DuelScene_UpdateFieldActions also writes it and is still assembly.
+ * DuelScene_UpdateHandActions writes it with %hi/%lo and defines
  * GDUEL_BCARDVIEWERYOFFSET_IN_DATA to take the .data arm. */
 extern DisplayObject *gDuel_pCardViewerBackground;
 #ifdef GDUEL_BCARDVIEWERYOFFSET_IN_DATA

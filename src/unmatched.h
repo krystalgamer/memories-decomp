@@ -161,7 +161,6 @@ extern s32 D_8009B118;
  * entries above, it is safe precisely because there are no call sites for it
  * to be wrong at, and it is what has to change if a caller is ever matched
  * and passes an argument. */
-void DuelScene_UpdateHandActions(void);
 void DuelScene_UpdateFieldActions(void);
 void DuelScene_UpdateBattle(void);
 

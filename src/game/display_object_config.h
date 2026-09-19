@@ -73,8 +73,8 @@ typedef struct {
  *
  * It takes the canonical record: it writes seven of its members and nothing
  * the narrow views above cover. The two callers that still hand it a byte
- * cursor -- shop.c and the func_8001BD88 candidate -- keep their own byte
- * arithmetic and name the record at the call. */
+ * cursor keep their own view and name the record at the call: shop.c its
+ * byte arithmetic, DuelScene_UpdateHandActions its hand-card view. */
 void *DisplayObject_ConfigureSpriteResource(struct DisplayObject *object, s32 field_67,
                     s32 field_68, s32 field_69, s32 color, s32 texture);
 

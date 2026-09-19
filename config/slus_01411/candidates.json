@@ -2,28 +2,6 @@
   "schema": 2,
   "candidates": [
     {
-      "address": "0x8001BD88",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_8001BD88.c",
-      "target": "src/candidates_target/func_8001BD88.S",
-      "candidate_build_sha256": "6e4681822fb39a84512fbfeecac2f6389244624fd01554b970d7a938b2ebe979",
-      "target_bytes_sha256": "62bdb7bf251ed0efd1c5060dfabf40c2ce783c315a21863bd86640162e8258b4",
-      "canonical_contract_sha256": "2732ac23902919ce598773aa3c51645d46ab89b20d0b8ff3193c139457866ed9",
-      "canonical_contracts": {
-        "D_8009B160": "cf91209f566fe94a5bd733b6ebab2c82fa3f248a7c726915b722fc5699a15e07",
-        "D_8009B19C": "f8812f9c2cdf1151ce6ea050a6f6ab1933bc8328316dc075e616b70d8a634969",
-        "D_8009B19E": "1d6f27036bdd591e5c78344e8591840db2a25108cf9921e5fca2ef525f6d7b82",
-        "D_8009B1E2": "4acdefe98969966d66803c13bad6bbe2778fa338231548a8c82a6cb36c682802",
-        "D_8009B1E4": "52d01357d0f691ef1d2b14035c32c41ad71c0386e83cc71245c99dff7d6e7a3d",
-        "D_8009B20A": "1e7338bdbb30cca1f8498317014fa502cab961e59e6d7e6ad1bbaba70258ae25",
-        "D_800E9F2C": "ff91803f814a22adb7818eea17b76ca1819bf7cbf28f4af2c4ddaf66cd8673bb",
-        "D_800EAE89": "587c5930c47f9051eb2bba4bedaaf4c982d80ec4d1444d416288f42bb30fe906",
-        "D_800EAE90": "1d2e998f4bfd761af5536ae21b6f1302688c3a799865c825352969f4014eee26",
-        "gDuel_bCardViewerYOffset": "119e78b26d2257ef42bb7df4fc0cf677ec05775467b60664f64a3b932560f578",
-        "gDuel_wViewerCardID": "3d168cdfbc3ce9bcbcc90c0b847272e8b9d2a7fef8880fa9a0ab64e7c33b5338"
-      }
-    },
-    {
       "address": "0x8001D670",
       "profile": "gcc_2_8_1_g8_split_comm",
       "source": "src/candidates/func_8001D670.c",
