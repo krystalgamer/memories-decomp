@@ -96,6 +96,7 @@
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 void func_8002ACA4(u8 *state)
 {
@@ -167,8 +168,8 @@ void func_8002ACA4(u8 *state)
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
-                DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-                DisplayObject_SetDepthOffset((DisplayObject *)o, 0xA);
+                DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
+                DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 0xA);
                 W(state, 0x50) = (s32)o;
             }
         }
@@ -237,8 +238,8 @@ void func_8002ACA4(u8 *state)
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
         H(o, 8) |= 8;
-        DisplayObject_SelectOrderingTable1((DisplayObject *)o);
-        DisplayObject_SetDepthOffset((DisplayObject *)o, 4);
+        DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
+        DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 4);
         W(state, 0x4C) = (s32)o;
         state[3] = 1;
         gDuel_wSelectedCardID = H(state, 6);
@@ -254,7 +255,7 @@ void func_8002ACA4(u8 *state)
         return;
     case 1:
         o = rec->object_00;
-        func_8002ABB4((DisplayObject *)o, -1);
+        func_8002ABB4(DISPLAY_OBJECT_VIEW(o), -1);
         if (!(W(o, 4) & 0x08000000)) {
             B(o, 0x22) += 0xC;
             B(o, 0x21) += 6;
@@ -462,7 +463,7 @@ void func_8002ACA4(u8 *state)
     case 7:
         o = rec->object_00;
         if (o != 0) {
-            func_8002ABB4((DisplayObject *)o, 1);
+            func_8002ABB4(DISPLAY_OBJECT_VIEW(o), 1);
             B(o, 0x22) += 0xC;
             B(o, 0x21) += 6;
             H(o, 0x60) += 0x66;
@@ -752,7 +753,7 @@ void func_8002BFCC(void) {
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
     o[0x5F] = 0x80;
-    DisplayObject_SelectOrderingTable1((DisplayObject *)o);
+    DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
     n = CARD_ID_FIRST;
     *(u16 *)(o + 8) =
         *(u16 *)(o + 8) | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -763,7 +764,7 @@ void func_8002BFCC(void) {
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
     o[0x5F] = 0x80;
-    LIBRARY_MOTION_STATE_VIEW(r)->render = (DisplayObject *)o;
+    LIBRARY_MOTION_STATE_VIEW(r)->render = DISPLAY_OBJECT_VIEW(o);
     r[0x56] = 0;
     *(s16 *)(r + 0x54) = 0;
     do {
