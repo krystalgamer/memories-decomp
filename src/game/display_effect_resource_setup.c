@@ -51,7 +51,7 @@ s32 DisplayEffect_BuildResourceObjects(
     {
         m = GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 0, 0, g, h,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(p, (s16)a->field_34, (s16)a->field_36, c, 0, 0, g, h,
                       tb);
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, f);
@@ -61,7 +61,7 @@ s32 DisplayEffect_BuildResourceObjects(
 
         if (DisplayEffect_HasResourceEntry(tb, c, 1, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 1, 0, g,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(p, (s16)a->field_34, (s16)a->field_36, c, 1, 0, g,
                           h, tb);
             DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset(p, f | 1);
@@ -74,7 +74,7 @@ s32 DisplayEffect_BuildResourceObjects(
 
         if (DisplayEffect_HasResourceEntry(tb, c, 2, 0) != 0) {
             p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-            DisplayObject_ConfigureSpriteAtPositionWithResource(p, *(s16 *)&a->field_34, *(s16 *)&a->field_36, c, 2, 0, g,
+            DisplayObject_ConfigureSpriteAtPositionWithResource(p, (s16)a->field_34, (s16)a->field_36, c, 2, 0, g,
                           h, tb);
             DisplayObject_SelectOrderingTable1(p);
             DisplayObject_SetDepthOffset(p, f | 1);
