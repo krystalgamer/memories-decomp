@@ -12,6 +12,9 @@
 #include "sound_voice_data.h"
 #include "sound_voice_selection.h"
 
+#define SD_INIT_BLOCK_10_VIEW(block) ((SDInitBlk10 *)(block))
+#define SD_INIT_BLOCK_11_VIEW(block) ((SDInitBlk11 *)(block))
+
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
  * word at a time, the two command callbacks are installed, three tables are
@@ -44,9 +47,12 @@ void SD_InitState(u8 arg0)
     } while (p <= (u32 *)0x801EA7FF);
     D_8009B0F0 = func_8004666C;
     D_8009B120 = func_800466C8;
-    *(SDInitBlk11 *)g_SDValue->field_1619 = *(SDInitBlk11 *)D_80010784;
-    *(SDInitBlk10 *)g_SDValue->field_1629 = *(SDInitBlk10 *)D_80010790;
-    *(SDInitBlk10 *)g_SDValue->field_1639 = *(SDInitBlk10 *)D_8001079C;
+    *SD_INIT_BLOCK_11_VIEW(g_SDValue->field_1619) =
+        *SD_INIT_BLOCK_11_VIEW(D_80010784);
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) =
+        *SD_INIT_BLOCK_10_VIEW(D_80010790);
+    *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1639) =
+        *SD_INIT_BLOCK_10_VIEW(D_8001079C);
     g_SDValue->flags_004A = 3;
     if (arg0 != 0) {
         g_SDValue->flags_004A |= 0xF0;
