@@ -23,12 +23,12 @@ extern void Color_HslToRgb_wide(
 #endif
 
 /* Tint a packed BGR555 pixel, preserving its STP bit. Returns 0 unchanged. */
-s32 func_8005AE68(u16 color, s32 flags, u16 scale);
+s32 Color_TintBgr555Pixel(u16 color, s32 flags, u16 scale);
 
 /* Hue/lightness/saturation straight to a packed BGR555 pixel, no STP bit. */
 s32 func_8005B054(s32 value, u32 a, u32 b);
 
-/* Tint an unpacked colour triple; the triple form of func_8005AE68. */
+/* Tint an unpacked colour triple; the triple form of Color_TintBgr555Pixel. */
 Color *func_8005B0B4(
     Color *out, u8 r, u8 g, u8 b, s32 flags, u16 scale, u8 lim);
 

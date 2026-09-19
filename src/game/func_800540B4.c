@@ -679,7 +679,7 @@ void func_800540B4(s32 index)
             while (IsIdleGPU(3) != 0) {
             }
             for (i = 0, cp = pal; i < 0x10; i++, cp++) {
-                *cp = func_8005AE68(*cp, 6, 0x1000) & 0x7FFF;
+                *cp = Color_TintBgr555Pixel(*cp, 6, 0x1000) & 0x7FFF;
             }
             prect.y = 0xF0;
             while (IsIdleGPU(3) != 0) {

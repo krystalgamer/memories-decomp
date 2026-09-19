@@ -540,6 +540,7 @@ MemCard_SetIOResultNewCardCB = 0x80044D34; // type:func
 Model_HasInsufficientBufferSpace = 0x8005A8C4; // type:func
 Color_RgbToHsl = 0x8005A98C; // type:func
 Color_HslToRgb = 0x8005ABA0; // type:func
+Color_TintBgr555Pixel = 0x8005AE68; // type:func
 func_80058F10 = 0x80058F10; // type:func
 SaveData_RequestLoad = 0x8003F7D4; // type:func
 SaveData_PollLoad = 0x8003F810; // type:func

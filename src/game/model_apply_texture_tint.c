@@ -37,7 +37,7 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
 
             q = buf;
             for (i = 0; i < 0x400; i++, q++) {
-                *q = func_8005AE68(*q, (u8)arg1, (u16)arg2);
+                *q = Color_TintBgr555Pixel(*q, (u8)arg1, (u16)arg2);
             }
 
             D_8009B472 = y + 0xF0;

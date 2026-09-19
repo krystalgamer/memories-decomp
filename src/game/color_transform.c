@@ -119,7 +119,7 @@ Color *Color_HslToRgb(Color *out, s32 h, u16 s, u16 v, u8 lim)
     *out = t;
     return out;
 }
-s32 func_8005AE68(u16 color, s32 flags, u16 scale)
+s32 Color_TintBgr555Pixel(u16 color, s32 flags, u16 scale)
 {
     Color packed;
     HsvT hsv;
