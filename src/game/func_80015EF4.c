@@ -32,6 +32,8 @@
 #include "ordering_tables.h"
 #include "func_80015EF4.h"
 
+#define CVECTOR_VIEW(color) ((CVECTOR *)(color))
+
 void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
     DuelCardRenderHolder *holder = record;
@@ -122,17 +124,17 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     GsSetLightMatrix(lm);
     GsSetLsMatrix(&D_800FE148);
 
-    depth[4] = RotColorDpq(&rot[0], up, (CVECTOR *)color,
-                (long *)&prim->x0, (CVECTOR *)&prim->r0,
+    depth[4] = RotColorDpq(&rot[0], up, CVECTOR_VIEW(color),
+                (long *)&prim->x0, CVECTOR_VIEW(&prim->r0),
                 (long *)&depth[0]);
-    depth[5] = RotColorDpq(&rot[1], up, (CVECTOR *)color,
-                (long *)&prim->x1, (CVECTOR *)&prim->r1,
+    depth[5] = RotColorDpq(&rot[1], up, CVECTOR_VIEW(color),
+                (long *)&prim->x1, CVECTOR_VIEW(&prim->r1),
                 (long *)&depth[1]);
-    depth[6] = RotColorDpq(&rot[2], up, (CVECTOR *)color,
-                (long *)&prim->x2, (CVECTOR *)&prim->r2,
+    depth[6] = RotColorDpq(&rot[2], up, CVECTOR_VIEW(color),
+                (long *)&prim->x2, CVECTOR_VIEW(&prim->r2),
                 (long *)&depth[2]);
-    depth[7] = RotColorDpq(&rot[3], up, (CVECTOR *)color,
-                (long *)&prim->x3, (CVECTOR *)&prim->r3,
+    depth[7] = RotColorDpq(&rot[3], up, CVECTOR_VIEW(color),
+                (long *)&prim->x3, CVECTOR_VIEW(&prim->r3),
                 (long *)&depth[3]);
 
     if ((depth[0] | depth[1] | depth[2]
