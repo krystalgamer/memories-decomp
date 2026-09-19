@@ -49,6 +49,8 @@
 #include "../psyq/rand.h"
 #include "../game/main_mode_state.h"
 
+#define DUEL_EFFECT_OBJECT_VIEW(object) ((DuelEffectObject *)(object))
+
 extern s32 D_800E9F04[];
 
 void DuelScene_UpdateExodiaResult(void)
@@ -159,7 +161,7 @@ next_obj:
                 return;
             }
         }
-        fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0x13);
+        fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
         D_8009B17C = (u8 *)fx;
         fx->x = (rand() & 0xFF) + 0x20;
         r = Rand_GetInterval(0xB0);
@@ -178,7 +180,7 @@ next_obj:
         }
         if ((s8)D_8009B1B9 >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             D_8009B23A = (flags & 0xDFFF) | 0x1000;
-            fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0x13);
+            fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0x13));
             fx->x = 0xA0;
             fx->y = 0x78;
             D_8009B17C = (u8 *)fx;
@@ -186,7 +188,7 @@ next_obj:
             return;
         }
         D_8009B1D0 = 4;
-        fx = (DuelEffectObject *)DuelEffect_AllocateRequest(0);
+        fx = DUEL_EFFECT_OBJECT_VIEW(DuelEffect_AllocateRequest(0));
         k = (s8)D_8009B1B9;
         slot = &D_800E9EF0[k];
         d = *slot;
