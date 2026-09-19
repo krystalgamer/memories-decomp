@@ -39,14 +39,14 @@ void func_80014308(u8 event)
     }
 }
 
-void func_80014390(u8 event, s32 arg1)
+void func_80014390(u8 event, u8 *result)
 {
     s32 value;
     s32 *destination;
 
     if (event == 2) {
         destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
-        value = CdPosToInt_8007E710((const CdlLOC *)arg1);
+        value = CdPosToInt_8007E710((const CdlLOC *)result);
         if (value > 0)
             *destination = value;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
