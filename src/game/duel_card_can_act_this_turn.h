@@ -9,7 +9,7 @@
  * DUEL_CARD_FLAG_USED_THIS_TURN on the record's flags
  * (duel_card_can_act_this_turn.c:5).
  *
- * DuelScene_UpdateFieldActions (src/candidates/func_8001D670.c) is the only
+ * DuelScene_UpdateFieldActions (src/game/duel_scene_field_actions.c) is the only
  * source outside the unit that names it, and it declared the prototype for
  * itself because the unit had no header. The spelling here is the
  * definition's own, int return included. */

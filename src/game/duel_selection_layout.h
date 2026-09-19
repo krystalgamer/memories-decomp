@@ -41,13 +41,19 @@ typedef struct {
      * it. */
     struct DisplayObject *cursor_object;
     DuelHandSlot *hand;
-    u8 pad_0C[2];
+    /* The cursor step counter DuelCardPickCursor names field_0C. */
+    s16 field_0C;
     /* The hand slot the side's cursor is on: func_8001B8B8 indexes
      * D_800EA030 with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
      * that index. */
     u8 field_0E;
-    u8 pad_0F[4];
+    /* The grid column and row, as DuelFieldCursor and DuelCardPickCursor
+     * name them; DuelScene_UpdateFieldActions reads them through this record. */
+    s8 col;
+    s8 row;
+    u8 field_11;
+    u8 field_12;
     u8 field_13;
     u8 field_14;
     /* Zero while the side is picking from its hand, which is the condition
@@ -56,7 +62,9 @@ typedef struct {
     u8 pad_16;
     u8 field_17;
     u8 field_18;
-    u8 pad_19[3];
+    /* DuelCardPickCursor's status byte. */
+    u8 status;
+    u8 pad_1A[2];
 } DuelSelectionRecord;
 
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
@@ -91,6 +99,18 @@ typedef struct {
 
 typedef char DuelSelectionSideCursors_size_must_be_side_size[
     sizeof(DuelSelectionSideCursors) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
+];
+
+/* One side of the table as its four records, for the unit that reaches
+ * record 2 and record 3 of the current side through the same base:
+ * DuelScene_UpdateFieldActions keeps the 0x38 and 0x54 record offsets in the
+ * load displacements this way. */
+typedef struct {
+    DuelSelectionRecord records[DUEL_SELECTION_RECORDS_PER_SIDE];
+} DuelSelectionSide;
+
+typedef char DuelSelectionSide_size_must_be_side_size[
+    sizeof(DuelSelectionSide) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
 ];
 
 /* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side. */
@@ -142,12 +162,12 @@ extern u8 D_800E9F48[];
  * DuelScene_UpdateBattle assigns exactly that to D_8009B1B4
  * (src/candidates/func_8001F55C.c:164) and DuelScene_UpdateFieldActions forms
  * it six times, once reaching back 0x18 into record 2
- * (src/candidates/func_8001D670.c:319, :345, :355, :378, :403, :635). No
+ * (src/game/duel_scene_field_actions.c). No
  * other source in the tree mentions the symbol.
  *
  * Like D_800E9F48 above, this name has to stay separate rather than become an
  * offset from D_800E9F10: each listing carries its own relocations for it --
- * five %hi/%lo pairs in func_8001D670.S and one in func_8001F55C.S -- and
+ * five %hi/%lo pairs in DuelScene_UpdateFieldActions and one in func_8001F55C.S -- and
  * folding it would change which symbol they name. No access is gp-relative,
  * so this is the plain array declaration. */
 extern u8 D_800E9F64[];

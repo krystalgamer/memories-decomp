@@ -119,7 +119,7 @@ extern DuelFieldEffectObject
 
 /* The flag the field-action step raises for the battle step.
  * DuelScene_UpdateFieldActions stores 0 twice and 1 once
- * (src/candidates/func_8001D670.c), DuelScene_UpdateBattle stores 0 twice and
+ * (src/game/duel_scene_field_actions.c), DuelScene_UpdateBattle stores 0 twice and
  * is the only reader, testing it against 0
  * (src/candidates/func_8001F55C.c:408). That single load is lbu and the five
  * stores are sb and cannot say, so the byte is unsigned -- which settles a

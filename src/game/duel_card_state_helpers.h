@@ -8,7 +8,7 @@
  *
  * Two sources declared this for themselves before this header existed:
  * DuelScene_UpdateHandActions (duel_scene_hand_actions.c) and
- * DuelScene_UpdateFieldActions (src/candidates/func_8001D670.c), with the same
+ * DuelScene_UpdateFieldActions (src/game/duel_scene_field_actions.c), with the same
  * spelling the definition uses. It is the declaration this header exists to
  * hold.
  *

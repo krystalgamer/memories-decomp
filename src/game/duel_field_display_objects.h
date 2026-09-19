@@ -86,7 +86,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index);
  * behaviours the record comment above already describes. Defined in
  * duel_field_display_objects.c, which calls it at :423, and called once more
  * from outside the unit by DuelScene_UpdateFieldActions
- * (src/candidates/func_8001D670.c:354).
+ * (src/game/duel_scene_field_actions.c).
  *
  * That candidate declared this prototype for itself while already including
  * this header, which is the only reason the declaration was not here: the
