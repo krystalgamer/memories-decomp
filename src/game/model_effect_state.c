@@ -21,6 +21,7 @@
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
 #define CAMERA_VIEW(view) ((GsRVIEW2 *)(view))
+#define KEY_BYTES(key) ((u8 *)(key))
 
 /* Evaluates one channel of the keyframe ring that func_8005F91C fills and
    func_8005F070 seeds. `cur` points at a 0x28-byte key inside D_800F5788, so
@@ -52,7 +53,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         s16 *e;
 
         e = (s16 *)(
-            (u8 *)keys[i] + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(keys[i]) + (u32)&((u8 (*)[8])0)[k]);
         if (e[3] != 1) {
             break;
         }
@@ -65,14 +66,14 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
     }
     for (i = 0; i < 3; i++) {
         pts[i + 1] = (s16 *)(
-            (u8 *)keys[i] + (u32)&((u8 (*)[8])0)[k]);
+            KEY_BYTES(keys[i]) + (u32)&((u8 (*)[8])0)[k]);
     }
     if (den != 0) {
         Key *kp;
         s16 *p;
 
         kp = &D_800F5788[(cur - D_800F5788 + D_8009B078 - 1) % D_8009B078];
-        p = (s16 *)((u8 *)kp + (u32)&((u8 (*)[8])0)[k]);
+        p = (s16 *)(KEY_BYTES(kp) + (u32)&((u8 (*)[8])0)[k]);
         if (p[3] == 1) {
             pts[0] = p;
         }
@@ -124,13 +125,13 @@ void func_8005F070(s32 enabled)
             s32 offset = 16;
             /* A byte cursor over key->requested: ModelEffectEndpoint is
                packed, so reading its members costs byte loads (+0x30). */
-            u8 *entry = (u8 *)key;
+            u8 *entry = KEY_BYTES(key);
             for (; i < 2; offset += 8, i++, entry += 8) {
                 s32 kind = *(s16 *)(entry + 6);
                 if (kind < 4) {
                     if (kind >= 2)
                         Model_CopySlotU16Values(
-                            *(s16 *)entry, (u16 *)((u8 *)key + offset)
+                            *(s16 *)entry, (u16 *)(KEY_BYTES(key) + offset)
                         );
                 }
             }
@@ -469,7 +470,7 @@ m0:
 m1:
     if (D_8009B078 < 0xA) {
         Key *key = &D_800F5788[D_8009B078];
-        r = (u8 *)key;
+        r = KEY_BYTES(key);
         if (arg1 != (ModelEffectEndpoint *)0) {
             key->requested[0] = *arg1;
         } else {
@@ -491,7 +492,7 @@ m1:
     return;
 
 m2:
-    q = (u8 *)D_800F5788;
+    q = KEY_BYTES(D_800F5788);
     for (i = 0; i < D_8009B078; i++) {
         p = q;
         q += 0x28;
@@ -528,11 +529,11 @@ int func_8005FB14(void)
 
 void func_8005FB30(Key *key)
 {
-    u8 *data = (u8 *)key;
+    u8 *data = KEY_BYTES(key);
     int i;
 
     if (!data) {
-        data = (u8 *)D_8009B074;
+        data = KEY_BYTES(D_8009B074);
     }
     if (!data) {
         return;
