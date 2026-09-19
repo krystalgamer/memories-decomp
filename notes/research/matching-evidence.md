@@ -870,7 +870,7 @@ defines a global, so that path is never taken in this project.
 
 ##### The worked example
 
-`func_80025028` (`0x80025028`, 0xA0) is exact C today. Under `gcc_2_8_1_g8_split`
+`Duel_SelectTrapByCardId` (`0x80025028`, 0xA0) is exact C today. Under `gcc_2_8_1_g8_split`
 it reproduces every instruction and relocation of the target and comes out 0x9C,
 four bytes short, missing exactly one `nop` between `lbu $v1, 0x6A($v0)` and
 `sb $v1, %gp_rel(D_8009B1B8)($gp)`. Inserting that one `nop` into maspsx's output
@@ -889,7 +889,7 @@ have been matched.
 grep -B2 '%gp_rel' tmp/splat/asm/generated/*.s
 ```
 
-The smallest are `func_80025028` (0xA0) and `func_80012DB4` (0xA8); as with the
+The smallest are `Duel_SelectTrapByCardId` (0xA0) and `func_80012DB4` (0xA8); as with the
 jump tables, the weight is in the large ones — `func_80019D18` alone is 5,044
 bytes.
 
@@ -921,7 +921,7 @@ translation unit *defines* it. Everything under `src/` declares its globals
 the delay unfilled, and the function comes out one instruction short. The retail
 unit defined the global, which is why retail has the `nop`.
 
-Two things follow, and both are reproducible on `func_80025028`:
+Two things follow, and both are reproducible on `Duel_SelectTrapByCardId`:
 
 - Declaring the global in the unit (`u8 D_8009B1B8;` instead of `extern`) makes
   GCC emit `.comm D_8009B1B8,1`, which lands in `sbss_entries`, so `_uses_gp`
@@ -934,7 +934,7 @@ Two things follow, and both are reproducible on `func_80025028`:
   `.sbss`, `nm` reports `8009b1b8 A D_8009B1B8`, and the executable hash is
   unchanged.
 
-`gcc_2_8_1_g8_split_comm` is that profile. `func_80025028` matches 40 of 40
+`gcc_2_8_1_g8_split_comm` is that profile. `Duel_SelectTrapByCardId` matches 40 of 40
 through it, so the pattern is not a blocker at all — it is a signal that the
 function's unit owns one of the globals it touches.
 
@@ -1143,7 +1143,7 @@ because the store is still in bare-symbol form at that point; and
 and the assembler then resolves the symbol gp-relative in a single instruction.
 MASPSX cannot see what `as` is about to do.
 
-`func_80025028` (`0x80025028`) is the worked example, and it is otherwise
+`Duel_SelectTrapByCardId` (`0x80025028`) is the worked example, and it is otherwise
 finished. 39 of the target's 40 instructions are byte-exact, registers and
 relocations included, from a body that uses only the cohort's own idioms —
 `ai_turn_action.c` supplies `slot + D_8009B1D5 * 20`, the
@@ -1174,7 +1174,7 @@ nop
 sb $v0, %gp_rel(D_8009B0C1)($gp)
 ```
 
-where the candidate emits the `lw` and the `sb` adjacent. In `func_80025028` the
+where the candidate emits the `lw` and the `sb` adjacent. In `Duel_SelectTrapByCardId` the
 hazard was a `lbu` through a pointer feeding a store to a small extern; here it
 is a `lw` from one small extern feeding a store to another. Both operands being
 gp-relative changes nothing, because `_uses_gp` fails on the *store's* symbol
@@ -1283,7 +1283,7 @@ the global in the unit and build with `--use-comm-section`
 (`gcc_2_8_1_g8_split_comm`): it enters `sbss_entries`, so the hazard check fires
 and the nop appears, the rewrite converts only that symbol, and the emitted
 `.comm` stays a COMMON that `c_symbols.ld` overrides — no storage, no section,
-and the address still fixed absolutely. `func_80025028` matches 40 of 40 this
+and the address still fixed absolutely. `Duel_SelectTrapByCardId` matches 40 of 40 this
 way against an unpatched, pinned maspsx.
 
 The `runtime_gp` truncation cannot recur under this route, because a unit only
@@ -1504,7 +1504,7 @@ The route above is powerful and its surface signature is misleading, so it is
 worth saying what actually indicates it. `func_8004E7B0` was filed as a maspsx
 defect - a missing post-`mfhi` `nop` before a `-G8` store - and matched with no
 tooling change once its nine globals were defined rather than declared. That is
-the second function to reach this conclusion after `func_80025028`, and the
+the second function to reach this conclusion after `Duel_SelectTrapByCardId`, and the
 report should never have been written, because both this section and
 `tools/maspsx_bugs/README.md` already recorded the finding and the fix.
 
@@ -1694,7 +1694,7 @@ five levers above as already settled.
 
 ### A third instance, in a loop rather than a call
 
-`func_80025028` reaches the exact instruction count with the correct shape,
+`Duel_SelectTrapByCardId` reaches the exact instruction count with the correct shape,
 the confirmed profile (`gcc_2_8_1_o1_g8`, G8 by four `%gp_rel` operands) and
 the shared `DuelCardRecord` type, and then stops on the same residual.
 
@@ -1900,7 +1900,7 @@ lw   $v1, %lo(D_80011434)($at)
 
 Writing `s32 *tbl = D_80011434;` and indexing `tbl[...]` moved the candidate
 from one instruction over the target to **two** over, and cost a diff. The
-same lever on `func_80025028` also went one instruction over. Two functions,
+same lever on `Duel_SelectTrapByCardId` also went one instruction over. Two functions,
 opposite-looking evidence in the disassembly, identical measured outcome.
 
 The reason is that the two forms are not the same operation. Retail's base
@@ -2148,7 +2148,7 @@ close costs cycles in the direction of false confidence.
 ## Choosing the right instrument to verify a candidate
 
 Diff count is the cheap instrument and it is the one that misleads. Three
-separate verification lessons from working `func_80025028`, each of which
+separate verification lessons from working `Duel_SelectTrapByCardId`, each of which
 cost a cycle.
 
 **The link validates size; the diff does not.** A candidate at 39 of 40

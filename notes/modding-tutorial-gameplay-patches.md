@@ -621,7 +621,7 @@ matching [`func_800250C8`](../src/game/duel_card_effects.c) subtracts
 `DUEL_LIFE_POINT_RECOVERY_FIRST_CARD_ID` (`338`) to obtain table indices
 `0`-`4`, indexes `gDuel_abLifePointRecoveryUnits`, and multiplies the selected
 byte by `DUEL_LIFE_POINT_RECOVERY_SCALE` (`100`). During presentation setup,
-`func_80025028(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID)` detects Bad Reaction to
+`Duel_SelectTrapByCardId(DUEL_BAD_REACTION_TO_SIMOCHI_CARD_ID)` detects Bad Reaction to
 Simochi (`688`) and shifts only the effect-object index into `5`-`9`; that
 branch returns before any table lookup. The later application phase still
 uses indices `0`-`4`: its normal branch adds the amount to LP at `+0x14` and
@@ -635,7 +635,7 @@ Tremendous Fire. Exact matching
 from `gDuel_abDirectDamageUnits`, and multiplies it by
 `DUEL_DIRECT_DAMAGE_SCALE` (`10`) before reducing the selected LP halfword at
 `+0x14` and clamping a negative result to zero. During the presentation-setup
-phase, `func_80025028(DUEL_GOBLIN_FAN_CARD_ID)` detects Goblin Fan (`687`) and
+phase, `Duel_SelectTrapByCardId(DUEL_GOBLIN_FAN_CARD_ID)` detects Goblin Fan (`687`) and
 uses sentinel effect index `DUEL_LIFE_POINT_EFFECT_COUNT` (`5`) instead of a
 damage-table index. The later LP target is still selected separately: when the
 alternate-state halfword at `0x8009B22A` is zero, the function selects
