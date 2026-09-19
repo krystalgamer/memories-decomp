@@ -33,7 +33,7 @@ u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params)
     return (high << 16) | (low & 0xFFFF);
 }
 
-s32 ModelTexture_LoadTim(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x,
+s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
                          s32 y, s32 z, s32 w)
 {
     RECT bounds;
@@ -43,7 +43,7 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x,
     high = 0;
     low = high;
 
-    if (HostFile_ReadAll((char *)arg1, (char *)0x80400000) > 0) {
+    if (HostFile_ReadAll(path, (char *)0x80400000) > 0) {
         GsGetTimInfo((unsigned long *)0x80400004, data);
         if (mode < 2) {
             if (*(s32 *)&data->px == 0) {
