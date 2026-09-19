@@ -467,7 +467,7 @@ void DuelScene_UpdateBattle(void)
         if (!(D_800E9ECE[0] & 0x80) && func_80049120() == 0) {
             pair = D_800E9EF0;
             func_800472A8(D_8009B374);
-            func_80059C18(D_8009B374);
+            Model_SetPresentationBgmCommand(D_8009B374);
             left = &D_801A7AD8[pair[0]->field_6A];
             right = &D_801A7AD8[pair[1]->field_6A];
             func_80024D34(pair[0]->field_6A, pair[0]->field_6B);

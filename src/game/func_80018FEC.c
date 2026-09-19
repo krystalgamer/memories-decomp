@@ -223,7 +223,7 @@ next_obj:
     other->life_points.unsigned_value = 0;
     other->displayed_life_points = 0;
     func_800472A8(0x7310);
-    func_80059C18(0x7310);
+    Model_SetPresentationBgmCommand(0x7310);
     D_8009B369 = 1;
     D_8009B269 = 3;
     D_8009B26C = 1;

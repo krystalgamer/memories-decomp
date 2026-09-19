@@ -28,6 +28,7 @@ extern s16 D_8009AF8E;
 extern s16 D_8009AF90;
 extern u16 D_8009AF92;
 extern u8 D_8009AF94;
+/* BGM command replayed by the model presentation's opening phase. */
 extern u16 D_8009AF96;
 extern u8 D_8009AF98;
 /* Its definition is `s8 D_8009AF99 = 1;` (model_graphics_state.c:14), the

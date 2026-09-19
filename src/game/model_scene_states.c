@@ -20,7 +20,7 @@
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
 
-void func_80059C18(s32 value)
+void Model_SetPresentationBgmCommand(s32 value)
 {
     D_8009AF96 = value;
 }
