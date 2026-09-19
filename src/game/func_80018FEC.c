@@ -50,6 +50,7 @@
 #include "../game/main_mode_state.h"
 
 #define DUEL_EFFECT_OBJECT_VIEW(object) ((DuelEffectObject *)(object))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 extern s32 D_800E9F04[];
 
@@ -88,7 +89,7 @@ void DuelScene_UpdateExodiaResult(void)
         fnv = r;
         objs = D_800E9EF0;
         D_8009B23A = flags | DUEL_SCENE_FLAG_INITIALIZED;
-        obj = (DisplayObject *)D_8009B214;
+        obj = DISPLAY_OBJECT_VIEW(D_8009B214);
         side = D_8009B1D5;
         D_8009B1B4 =
             (DuelCardPickCursor *)&D_800E9F10[
@@ -99,7 +100,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->field_30.h.field_32;
-        obj = (DisplayObject *)D_8009B21C;
+        obj = DISPLAY_OBJECT_VIEW(D_8009B21C);
         obj->position.h.field_28 = 0x180;
         obj->field_2C.h.field_2C = 0x10;
         obj->field_6C = 1;
