@@ -39,6 +39,7 @@
 #define QUAD_Z(n) (-(e->radius >> 2) * (n))
 #define BURST_ABS(x) ((x) >= 0 ? (x) : -(x))
 #define VECTOR_VIEW(value) ((VECTOR *)(value))
+#define PACKET_WORD_VIEW(packet) ((u32 *)(packet))
 /* The red and green bytes of a colour, read as the high half of the word that
  * starts two bytes before it. */
 #define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
@@ -190,7 +191,7 @@ s32 func_8006CD78(void *data, s32 arg1)
                                               (long *)&f->x1, (long *)&f->x2,
                                               (long *)&f->x3, (long *)&p, (long *)&flag);
                             if (otz >= 0 && flag >= 0) {
-                                func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                             }
                         }
                     }
@@ -256,7 +257,7 @@ s32 func_8006CD78(void *data, s32 arg1)
                                       (long *)&f->x1, (long *)&f->x2,
                                       (long *)&f->x3, (long *)&p, (long *)&flag);
                     if (otz >= 0 && flag >= 0) {
-                        func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                        func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                     }
                 }
             }
@@ -343,7 +344,7 @@ s32 func_8006CD78(void *data, s32 arg1)
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             addVector(&e->dust[i], &e->dust_speed[i]);
@@ -389,7 +390,7 @@ s32 func_8006CD78(void *data, s32 arg1)
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
             e->spark_frame[i] = (e->spark_frame[i] + 1) % 8;
             if (e->stage < 2) {
@@ -471,7 +472,7 @@ stage_test:
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             setRGB0(f, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
@@ -479,7 +480,7 @@ stage_test:
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
         }
         setUVWH(f, 0, 0x80, 0x1F, 0x7F);
@@ -494,7 +495,7 @@ stage_test:
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0 && flag >= 0) {
-                func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
             }
         }
         for (i = 0; i < 64; i++) {
@@ -512,7 +513,7 @@ stage_test:
                               (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    func_8005B260((u32 *)f, ot, otz & 0xFFFF, 1);
+                    func_8005B260(PACKET_WORD_VIEW(f), ot, otz & 0xFFFF, 1);
                 }
             }
             addVector(&e->smoke[i], &e->smoke_speed[i]);
