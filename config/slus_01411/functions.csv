@@ -929,7 +929,7 @@ address,size,name,status,module,notes
 0x800591C0,0x3C,Model_GetFlatLight,matching_c,game,"Returns one of the three GsF_LIGHT flat-light records initialized immediately before it; byte-identical at g0, g0_split, and g8_split."
 0x800591FC,0xC,Model_GetCameraViewBuffer,matching_c,game,"Returns the camera-view buffer base; g0_split and g8_split objects are byte-identical in the four-getter unit."
 0x80059208,0xC,func_80059208,matching_c,game,"Returns the view-metrics buffer base; g8 and g8_split objects are byte-identical in the four-getter unit."
-0x80059214,0xC,func_80059214,matching_c,game,"Returns the screen-projection buffer base; g0_split and g8_split objects are byte-identical."
+0x80059214,0xC,Model_GetCameraCoordinateUnit,matching_c,game,"Returns the camera GsCOORDUNIT base; g0_split and g8_split objects are byte-identical."
 0x80059220,0xC,func_80059220,matching_c,game,"Returns the secondary model buffer base; g0_split and g8_split objects are byte-identical."
 0x8005922C,0x58,func_8005922C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80059284,0x28,func_80059284,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
