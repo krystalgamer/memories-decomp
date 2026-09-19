@@ -706,8 +706,6 @@ typedef struct {
     u16 y;
 } PasswordCardPreviewView;
 
-typedef void (*PasswordCursorUpdate)(u8 *object);
-
 typedef struct {
     u8 pad00[0x8];
     u16 flags;
