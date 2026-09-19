@@ -766,7 +766,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B098,D_8009B098,D_8009B098,0x80043960,Main_RunBootSequence,matching_c,game,C,src/game/main_run_boot_sequence.c,write,16,D_8009B098 = 0;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80012B50,Main_Init,matching_c,game,C,src/game/main_init.c,read_write,32,D_8009B09C = 0; | t = D_8009B09C;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,32,D_8009B09C++;
-0x8009B09C,D_8009B09C,D_8009B09C,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,32,"lui $v0, %hi(D_8009B09C) | lw $v0, %lo(D_8009B09C)($v0)"
+0x8009B09C,D_8009B09C,D_8009B09C,0x80029EC4,func_80029EC4,matching_c,game,C,src/game/func_80029EC4.c,read,32,v = D_8009B09C & 0x7F;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,32,intensity = D_8009B09C & 0x3F;
 0x8009B09C,D_8009B09C,D_8009B09C,0x80037110,Widget_UpdatePulseColour,matching_c,game,C,src/game/widget_update_pulse_colour.c,read,32,s32 t = D_8009B09C & 0x7F;
 0x8009B0A0,D_8009B0A0,D_8009B0A0,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,ptr->length = D_8009B0A0[i];
@@ -1056,7 +1056,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B145,D_8009B145,D_8009B145,0x80015944,Fade_InitOutColor,matching_c,game,C,src/game/fade_runtime.c,write,8,D_8009B145 = 1;
 0x8009B145,D_8009B145,D_8009B145,0x8002E730,Script_OpShowImage,matching_c,game,C,src/game/script_image_commands.c,read,8,func_80015C84(D_8009B145); | if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) { | (+1 more)
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,16,gGraphics_sViewportX = 0;
-0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,16,"lhu $a3, %lo(gGraphics_sViewportX)($a3) | lui $a3, %hi(gGraphics_sViewportX)"
+0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80029EC4,func_80029EC4,matching_c,game,C,src/game/func_80029EC4.c,read,16,q->x0 = *(u16 *)(list + 8) - gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002A660,func_8002A660,matching_c,game,C,src/game/func_8002A660.c,write,16,gGraphics_sViewportX = 0;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,read,16,"lh $v1, %lo(gGraphics_sViewportX)($v1) | lhu $v1, %lo(gGraphics_sViewportX)($v1) | (+1 more)"
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/library_runtime.c,write,16,gGraphics_sViewportX = 0;
@@ -1073,7 +1073,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x80041068,DisplayObject_RenderTexturedGouraudQuadList,matching_c,game,C,src/game/display_object_runtime.c,read,16,dx = gGraphics_sViewportX;
 0x8009B146,gGraphics_sViewportX,gGraphics_sViewportX,0x8004158C,DisplayObject_RenderSpriteSheet,matching_c,game,C,src/game/display_object_render_sprite_sheet.c,read,16,x -= gGraphics_sViewportX;
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,16,gGraphics_sViewportY = 0;
-0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,16,"lh $v0, %lo(gGraphics_sViewportY)($v0) | lhu $t0, %lo(gGraphics_sViewportY)($t0) | (+3 more)"
+0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x80029EC4,func_80029EC4,matching_c,game,C,src/game/func_80029EC4.c,read,16,n = (gGraphics_sViewportY - 8) / 178; | p->y = a - gGraphics_sViewportY; | (+1 more)
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002A660,func_8002A660,matching_c,game,C,src/game/func_8002A660.c,read_write,16,((LibraryMotionState *)record)->y - gGraphics_sViewportY; | gGraphics_sViewportY = (u16)motion->y - 0xB0; | (+1 more)
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002ACA4,func_8002ACA4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01b4a4.s,read,16,"lh $v1, %lo(gGraphics_sViewportY)($v1) | lhu $v1, %lo(gGraphics_sViewportY)($v1) | (+1 more)"
 0x8009B148,gGraphics_sViewportY,gGraphics_sViewportY,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/library_runtime.c,write,16,gGraphics_sViewportY = 0;
@@ -1216,7 +1216,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001D670,DuelScene_UpdateFieldActions,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00de70.s,read_write,32,"lw $v1, %gp_rel(D_8009B1B4)($gp) | sw $s5, %gp_rel(D_8009B1B4)($gp) | (+2 more)"
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read_write,32,"lw $v1, %gp_rel(D_8009B1B4)($gp) | sw $v0, %gp_rel(D_8009B1B4)($gp) | (+1 more)"
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,,source = (DuelFieldDisplaySource *)D_8009B1B4;
-0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,write,8,D_8009B1B8 = *(u8 *)(b4 + j2 * 2 + off4 + 0x3C68); | D_8009B1B8 = w->field_6A;
+0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,write,8,D_8009B1B8 = | D_8009B1B8 = w->field_6A;
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read,8,(u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"sb $zero, %gp_rel(D_8009B1B8)($gp)"
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x80025028,func_80025028,matching_c,game,C,src/game/func_80025028.c,write,8,D_8009B1B8 = object->field_6A;
@@ -2275,7 +2275,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x8004544C,SD_ClearBusyFlag,matching_c,game,C,src/game/sound_output_state.c,read,,g_SDValue->busy = 0;
 0x8009B45C,g_SDValue,g_SDValue,0x8004545C,SD_ArmBusyCallback,matching_c,game,C,src/game/sd_arm_busy_callback.c,read,,g_SDValue->busy = 1;
 0x8009B45C,g_SDValue,g_SDValue,0x80045484,SD_HasQueuedStreamCommand,matching_c,game,C,src/game/sd_has_queued_stream_command.c,read,,for (i = 1; i < g_SDValue->command_count; i++) { | s32 c = g_SDValue->commands.c[i].command;
-0x8009B45C,g_SDValue,g_SDValue,0x80045514,func_80045514,matching_c,game,C,src/game/func_80045514.c,read,,(u32)g_SDValue->field_0050); | + (u32)g_SDValue->field_0058); | (+51 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80045514,func_80045514,matching_c,game,C,src/game/func_80045514.c,read,,(u32)&((SoundCommandPair *)0)[g_SDValue->field_004E] | (u32)g_SDValue->field_0050); | (+51 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80045BE8,SD_EnqueueCommand,matching_c,game,C,src/game/sound_runtime.c,read,,b1 = g_SDValue; | b2 = g_SDValue; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80045C98,SD_UpdateFades,matching_c,game,C,src/game/sound_runtime.c,read,,g_SDValue->cd_volume += g_SDValue->field_0512; | g_SDValue->cd_volume = g_SDValue->field_0049; | (+26 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80045F3C,SD_UpdateRuntime,matching_c,game,C,src/game/sound_runtime.c,read,,*(SDCommand *)((u8 *)g_SDValue + off + SD_COMMAND_QUEUE_BYTE_OFFSET) = | SD_StopSequence(g_SDValue->field_157E); | (+6 more)
@@ -2397,6 +2397,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D90,D_800E9D90,D_800E9D90,0x80015EF4,func_80015EF4,matching_c,game,C,src/game/func_80015EF4.c,address,32,tab = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x80016D2C,func_80016D2C,matching_c,game,C,src/game/duel_draw_status_numbers.c,read,32,"D_800E9D90[style->ot_index],"
 0x800E9D90,D_800E9D90,D_800E9D90,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,32,ot = D_800E9D90[3];
+0x800E9D90,D_800E9D90,D_800E9D90,0x80029EC4,func_80029EC4,matching_c,game,C,src/game/func_80029EC4.c,read,32,ot = D_800E9D90[3];
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C604,DuelEffect_AllocateRequest,matching_c,game,C,src/game/duel_effect_object_pool.c,address,32,t = D_800E9D90;
 0x800E9D90,D_800E9D90,D_800E9D90,0x8002C6C8,DuelEffect_UpdateRequests,matching_c,game,C,src/game/duel_effect_request_update.c,read,32,rec->field_08 = (s32)D_800E9D90[2]; | rec->field_0C = (s32)D_800E9D90[1];
 0x800E9D90,D_800E9D90,D_800E9D90,0x80040588,DisplayObject_RenderSpriteList,matching_c,game,C,src/game/display_object_core.c,address,32,tb = D_800E9D90;
@@ -2410,7 +2411,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9D94,D_800E9D94,D_800E9D94,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_runtime.c,read,32,ot = D_800E9D94[0];
 0x800E9D98,D_800E9D98,D_800E9D98,0x80015DFC,func_80015DFC,matching_c,game,C,src/game/func_80015DFC.c,read,32,"func_80016784(object->record, (s32)D_800E9D98[0], object->screen_x,"
 0x800E9D98,D_800E9D98,D_800E9D98,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0448b4.s,read,32,"lui $v0, %hi(D_800E9D98) | lw $v0, %lo(D_800E9D98)($v0)"
-0x800E9D9C,D_800E9D9C,D_800E9D9C,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $v0, %lo(D_800E9D9C)($v0)"
 0x800E9D9C,D_800E9D9C,D_800E9D9C,0x800540B4,func_800540B4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_0448b4.s,read,32,"lui $v0, %hi(D_800E9D9C) | lw $v0, %lo(D_800E9D9C)($v0)"
 0x800E9DB0,D_800E9DB0,D_800E9DB0,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read,32,fn = D_800E9DB0[i];
 0x800E9DB0,D_800E9DB0,D_800E9DB0,0x800134B4,func_800134B4,matching_c,game,C,src/game/func_800134B4.c,address,32,v0 = &D_800E9DB0[v1];
@@ -2561,7 +2561,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EA128,D_800EA128,D_800EA128,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,address,16,u16 *rects = D_800EA128;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029590,func_80029590,matching_c,game,C,src/game/func_80029590.c,address,,LibraryMotionState *state = &D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029934,func_80029934,matching_c,game,C,src/game/func_80029934.c,read,,ctl[2] = D_800EA1E8.globe_radius * rcos(angle) / 4096; | ctl[3] = D_800EA1E8.globe_radius * rsin(angle) / 4096; | (+1 more)
-0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029EC4,func_80029EC4,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_01a6c4.s,address,,"addiu $a0, $a0, %lo(D_800EA1E8) | addiu $t0, $v0, %lo(D_800EA1E8) | (+4 more)"
+0x800EA1E8,D_800EA1E8,D_800EA1E8,0x80029EC4,func_80029EC4,matching_c,game,C,src/game/func_80029EC4.c,address,8,list = D_800EA1E8; | pj = &D_800EA1E8[j * 4]; | (+2 more)
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A3CC,func_8002A3CC,matching_c,game,C,src/game/func_8002A3CC.c,address,,LibraryMotionState *object = &D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002A4A8,func_8002A4A8,matching_c,game,C,src/game/func_8002A3CC.c,address,,LibraryMotionState *state = &D_800EA1E8;
 0x800EA1E8,D_800EA1E8,D_800EA1E8,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/library_runtime.c,read,8,mode = D_800EA1E8[0]; | state = D_800EA1E8;
