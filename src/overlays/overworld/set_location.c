@@ -99,7 +99,7 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     camera->field_00 = (u16)entry->camera_field_00;
     camera->view.vrx = entry->view_x;
     camera->view.vrz = entry->view_z;
-    func_8001352C();
+    ViewState_ApplyOrbit();
 }
 
 void CampaignMap_UpdateView(void)
@@ -144,7 +144,7 @@ void CampaignMap_ResetCamera(void)
     camera->field_08 = 0;
     view->vrz = 0;
     camera->field_0A = 0;
-    func_8001352C();
+    ViewState_ApplyOrbit();
 }
 
 void CampaignMap_MoveCameraDpad(void)
@@ -212,7 +212,7 @@ void CampaignMap_MoveCameraDpad(void)
                 camera->field_00 = camera->field_00 + step;
             }
         }
-        func_8001352C();
+        ViewState_ApplyOrbit();
     }
 }
 
@@ -449,7 +449,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
                 ].f14;
         }
     }
-    func_8001352C();
+    ViewState_ApplyOrbit();
     return D_801695D4;
 }
 
@@ -540,7 +540,7 @@ void CampaignMap_UpdateLocation(void)
             SD_BGMFadeOutWithStep(4);
         }
         D_800F2848.field_00 = D_800F2848.field_00 - 2;
-        func_8001352C();
+        ViewState_ApplyOrbit();
         if ((D_800E9ECE & 0x80) == 0) {
             D_8009B26C = 2;
             gCampaignSceneIndex = gCampaignMap_Location + 32;

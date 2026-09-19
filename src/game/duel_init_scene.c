@@ -99,7 +99,7 @@ void Duel_InitScene(void)
     func_800178BC();
     D_800F2848.angle =
         D_8009B1D5 * TRIG_ANGLE_HALF_TURN + TRIG_ANGLE_QUARTER_TURN;
-    func_8001352C();
+    ViewState_ApplyOrbit();
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
     DuelEffect_ResetRequestPool();

@@ -23,7 +23,7 @@ void func_800178BC(void)
     D_800F2848.field_00 = 0x14E;
     D_800F2848.field_04 = 0x3FE;
     D_800F2848.angle = D_8009AF20[0];
-    func_8001352C();
+    ViewState_ApplyOrbit();
     GsSetLsMatrix(&D_800FE148);
     {
         SVECTOR *scratch = (SVECTOR *)0x1F8003E0;

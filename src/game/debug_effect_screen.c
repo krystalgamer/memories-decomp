@@ -67,7 +67,7 @@ void func_800220B8(void) {
             v -= a * 2;
         }
         D_800F2848.field_00 = v;
-        func_8001352C();
+        ViewState_ApplyOrbit();
     }
 
     if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
@@ -111,7 +111,7 @@ void func_800220B8(void) {
             c->angle = y;
             c->field_04 = x;
         }
-        func_8001352C();
+        ViewState_ApplyOrbit();
     }
 }
 

@@ -10,7 +10,7 @@
    viewpoint at an offset from the reference point and installs the
    GsRVIEW2, and the two after it compute that offset as an orbit - a
    distance from field_00 turned through field_04 and angle with rsin/rcos -
-   and hand it over. func_8001352C is the one the duel, Library and overworld
+   and hand it over. ViewState_ApplyOrbit is the one the duel, Library and overworld
    code call after moving the view; func_800135FC is the same orbit with the
    two angles swapped, a quarter turn added to the second, and its last two
    offsets exchanged.
@@ -34,7 +34,7 @@ void ViewState_ApplyViewpointOffset(ViewState *object, s32 x, s32 y, s32 z)
     GsSetRefView2(view);
 }
 
-void func_8001352C(void) {
+void ViewState_ApplyOrbit(void) {
     ViewState *p = &D_800F2848;
     s32 n = -D_800F2848.field_00;
     s32 x = n * rcos(p->field_04) / MODEL_FIXED_ONE;

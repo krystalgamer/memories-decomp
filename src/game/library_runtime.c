@@ -578,7 +578,7 @@ void func_8002BAB4(void)
         }
         p = &D_800F2848;
         p->angle += 0xC;
-        func_8001352C();
+        ViewState_ApplyOrbit();
         dst = Model_GetCameraViewBuffer();
         ((LibraryViewQuad *)dst)[0] = *(LibraryViewQuad *)&model->view.vpx;
         ((LibraryViewQuad *)dst)[1] = *(LibraryViewQuad *)&model->view.vry;

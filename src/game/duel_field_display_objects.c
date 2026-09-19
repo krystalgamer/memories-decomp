@@ -417,7 +417,7 @@ s32 func_800235C0(void)
                     D_8009B162 |= 0x4000;
                 }
             }
-            func_8001352C();
+            ViewState_ApplyOrbit();
         }
         if (busy == 0) {
             if (D_8009B162 & 1) {

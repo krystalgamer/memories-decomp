@@ -29,5 +29,5 @@ void func_80017130(void)
     s->field_08 = 0;
     words[5] = 0;
     s->field_0A = 0;
-    func_8001352C();
+    ViewState_ApplyOrbit();
 }

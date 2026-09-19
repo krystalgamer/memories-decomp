@@ -82,7 +82,7 @@ void DuelScene_UpdateResume(void)
                     DUEL_CARD_DISPLAY_OBJECT_VIEW(rec->object));
             }
         }
-        func_8001352C();
+        ViewState_ApplyOrbit();
         for (i = 0; i < DUEL_SIDE_COUNT; i++) {
             if (D_800E9FF0[i].swords_turns_remaining != 0) {
                 obj = (DuelEffectRequest *)DuelEffect_AllocateRequest(0x15);
@@ -148,7 +148,7 @@ void DuelScene_UpdateResume(void)
             (u8 *)&((DuelCardRecord *)b)[D_8009B208[n]] + replay_offset);
         card = replay->record.object;
     }
-    func_8001352C();
+    ViewState_ApplyOrbit();
     obj = DuelEffect_CreateRequest(0xB);
     obj->field_00 = card->field_30.h.field_30;
     obj->field_02 = card->field_30.h.field_32;
@@ -175,7 +175,7 @@ void DuelScene_UpdateStartup(void)
         D_800F2848.field_00 = 0x4B0;
         w[2] = 0x358;
         w[1] = 0x16C0;
-        func_8001352C();
+        ViewState_ApplyOrbit();
         D_8009B174 = 2;
         Fade_StartIn();
         return;
@@ -192,7 +192,7 @@ void DuelScene_UpdateStartup(void)
             w[1] = 0x400;
             D_8009B174 = 3;
         }
-        func_8001352C();
+        ViewState_ApplyOrbit();
         break;
     case 3:
         if ((D_8009B174 & 0x80) == 0) {

@@ -91,6 +91,8 @@ typedef char ViewState_super_offset_must_be_0x2C[
 
 extern ViewState D_800F2848;
 
+void ViewState_ApplyOrbit(void);
+/* Address-based alias retained for the unmatched caller and its candidate. */
 void func_8001352C(void);
 
 

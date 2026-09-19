@@ -45,7 +45,7 @@ void DuelScene_UpdateResultRewards(void)
     u8 opponent;
 
     D_800F2848.angle = (u16)D_800F2848.angle + 2;
-    func_8001352C();
+    ViewState_ApplyOrbit();
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
         func_80015C84();
