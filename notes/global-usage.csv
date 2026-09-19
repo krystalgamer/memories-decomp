@@ -710,7 +710,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B074,D_8009B074,D_8009B074,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/model_effect_state.c,write,,D_8009B074 = D_800F5788;
 0x8009B074,D_8009B074,D_8009B074,0x8005FAE4,func_8005FAE4,matching_c,game,C,src/game/model_effect_state.c,write,,D_8009B074 = 0;
 0x8009B074,D_8009B074,D_8009B074,0x8005FB14,func_8005FB14,matching_c,game,C,src/game/model_effect_state.c,read,,value = (s32)D_8009B074;
-0x8009B074,D_8009B074,D_8009B074,0x8005FB30,func_8005FB30,matching_c,game,C,src/game/model_effect_state.c,read,,data = (u8 *)D_8009B074;
+0x8009B074,D_8009B074,D_8009B074,0x8005FB30,func_8005FB30,matching_c,game,C,src/game/model_effect_state.c,read,,data = KEY_BYTES(D_8009B074);
 0x8009B078,D_8009B078,D_8009B078,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,read_write,8,D_8009B078 = 0; | for (i = 0; i < D_8009B078; i++) { | (+3 more)
 0x8009B078,D_8009B078,D_8009B078,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,read,8,"&D_800F5788[(cur - D_800F5788 + 1) % D_8009B078], | &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078] | (+2 more)"
 0x8009B078,D_8009B078,D_8009B078,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/model_effect_state.c,read_write,8,D_8009B078 = 0; | D_8009B078 = n + 1; | (+4 more)
