@@ -3,6 +3,6 @@
 
 unsigned int func_80029EB0(unsigned char *base, int index)
 {
-    base += index * 4;
+    base = (u8 *)&((u32 *)base)[index];
     return base[0x56];
 }
