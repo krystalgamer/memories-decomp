@@ -66,9 +66,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010538,D_80010538,D_80010538,0x800442E4,MemCard_ReqWriteFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x80010538,D_80010538,D_80010538,0x800443EC,MemCard_ReqCreateFile,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf((char *)gMemCard_szRequestPath, (char *)D_80010538, chan, name);"
 0x80010538,D_80010538,D_80010538,0x80044470,MemCard_FindFiles,matching_c,game,C,src/game/mem_card_driver.c,address,8,"sprintf(work, (char *)D_80010538, chan, pattern);"
-0x80010784,D_80010784,D_80010784,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,8,*(SDInitBlk11 *)g_SDValue->field_1619 = *(SDInitBlk11 *)D_80010784;
-0x80010790,D_80010790,D_80010790,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,8,*(SDInitBlk10 *)g_SDValue->field_1629 = *(SDInitBlk10 *)D_80010790;
-0x8001079C,D_8001079C,D_8001079C,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,8,*(SDInitBlk10 *)g_SDValue->field_1639 = *(SDInitBlk10 *)D_8001079C;
+0x80010784,D_80010784,D_80010784,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_11_VIEW(D_80010784);
+0x80010790,D_80010790,D_80010790,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_80010790);
+0x8001079C,D_8001079C,D_8001079C,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,address,8,*SD_INIT_BLOCK_10_VIEW(D_8001079C);
 0x800107A8,D_800107A8,D_800107A8,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107A8, g_SDValue->field_0002);"
 0x800107DC,D_800107DC,D_800107DC,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107DC, g_SDValue->field_164A);"
 0x800107F4,D_800107F4,D_800107F4,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,address,8,"printf(D_800107F4, g_SDValue->field_1649);"
@@ -122,7 +122,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800907D8,D_800907D8,D_800907D8,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,read,8,c = D_800907D8[
 0x800907D8,D_800907D8,D_800907D8,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read,8,&D_801A7AD8[D_800907D8[FIELD_CURSOR.row * 5 + FIELD_CURSOR.col + | value = D_800907D8[n + D_8009B1D5 * 20];
 0x800907D8,D_800907D8,D_800907D8,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,card = &D_801A7AD8[D_800907D8[i + D_8009B1D5 * 20]]; | card = &D_801A7AD8[D_800907D8[r * 5 + side->col + D_8009B1D5 * 20]]; | (+1 more)
-0x800907D8,D_800907D8,D_800907D8,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,tbl2 = D_800907D8; | tbl3 = D_800907D8;
+0x800907D8,D_800907D8,D_800907D8,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,tbl2 = D_800907D8; | tbl3 = D_800907D8;
 0x800907D8,D_800907D8,D_800907D8,0x800208D4,DuelScene_UpdateTurnSwitch,matching_c,game,C,src/game/duel_scene_turn_switch.c,address,8,if(!D_8009B162){D_8009B1D5^=1;gDuel_wSceneStateFlags=2;D_8009B1C8=&D_800E9FF0[D_8009B1D5];D_8009B22C=D_800907D8+D_800...
 0x800907D8,D_800907D8,D_800907D8,0x80023090,func_80023090,matching_c,game,C,src/game/duel_field_display_objects.c,address,8,u8 *grid = D_800907D8;
 0x800907D8,D_800907D8,D_800907D8,0x8002348C,func_8002348C,matching_c,game,C,src/game/duel_field_display_objects.c,address,8,u8 *table = D_800907D8;
@@ -214,7 +214,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF20,D_8009AF20,D_8009AF20,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,16,"func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],"
 0x8009AF20,D_8009AF20,D_8009AF20,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,16,"func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5], | func_80022D94(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);"
 0x8009AF20,D_8009AF20,D_8009AF20,0x80023D08,func_80023D08,matching_c,game,C,src/game/func_80023D08.c,read,16,"func_80022D94(shift, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],"
-0x8009AF24,gDuel_abTrapAttackThresholds,gDuel_abTrapAttackThresholds,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,tb = gDuel_abTrapAttackThresholds;
+0x8009AF24,gDuel_abTrapAttackThresholds,gDuel_abTrapAttackThresholds,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,tb = gDuel_abTrapAttackThresholds;
 0x8009AF30,gDuel_abLifePointRecoveryUnits,gDuel_abLifePointRecoveryUnits,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,address,8,u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
 0x8009AF38,gDuel_abDirectDamageUnits,gDuel_abDirectDamageUnits,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,read,8,gDuel_abDirectDamageUnits[unit] *
 0x8009AF40,D_8009AF40,D_8009AF40,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,8,"printf(D_8009AF40, (short)object->field_04);"
@@ -1211,10 +1211,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,write,,D_8009B1B4 = (DuelCardPickCursor *)side;
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,read_write,,D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F48 + | D_8009B1B4->col = i; | (+10 more)
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read_write,,D_8009B1B4 = (DuelCardPickCursor *)side; | D_8009B1B4 = SIDE_CURSOR(D_800E9F10); | (+9 more)
-0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,((DuelSelectionRecord *)D_8009B1B4)->cursor_object = 0; | D_8009B1B4 = (DuelCardPickCursor *)&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2]; | (+2 more)
+0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,((DuelSelectionRecord *)D_8009B1B4)->cursor_object = 0; | D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW( | (+2 more)
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read_write,32,"lw $v1, %gp_rel(D_8009B1B4)($gp) | sw $v0, %gp_rel(D_8009B1B4)($gp) | (+1 more)"
 0x8009B1B4,D_8009B1B4,D_8009B1B4,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,,source = (DuelFieldDisplaySource *)D_8009B1B4;
-0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,write,8,D_8009B1B8 = | D_8009B1B8 = w->field_6A;
+0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,write,8,D_8009B1B8 = | D_8009B1B8 = w->field_6A;
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read,8,(u8 *)&((DuelCardRecord *)r)[D_8009B1B8] +
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,write,8,"sb $zero, %gp_rel(D_8009B1B8)($gp)"
 0x8009B1B8,D_8009B1B8,D_8009B1B8,0x80025028,func_80025028,matching_c,game,C,src/game/func_80025028.c,write,8,D_8009B1B8 = object->field_6A;
@@ -1246,7 +1246,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read,,r = D_8009B1C8;
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,read,,(u16) D_8009B1C8->max_life_points; | D_8009B1C8->life_points.unsigned_value = | (+5 more)
 0x8009B1C8,D_8009B1C8,D_8009B1C8,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,,if (D_8009B1C8->swords_turns_remaining == 0) {
-0x8009B1CC,D_8009B1CC,D_8009B1CC,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,D_8009B1CC = (DisplayObject *)o; | D_800E9EF0[0] = D_8009B1CC; | (+4 more)
+0x8009B1CC,D_8009B1CC,D_8009B1CC,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,D_8009B1CC = DISPLAY_OBJECT_VIEW(o); | D_800E9EF0[0] = D_8009B1CC; | (+4 more)
 0x8009B1CC,D_8009B1CC,D_8009B1CC,0x80020988,func_80020988,matching_c,game,C,src/game/func_80020988.c,read,,"*(s16 *)&D_8009B1CC->field_30.h.field_30 + 0x3C, | *(s16 *)&D_8009B1CC->field_30.h.field_30 - 8, | (+2 more)"
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read_write,16,D_8009B1D0 = 0; | D_8009B1D0 = 4; | (+2 more)
 0x8009B1D0,D_8009B1D0,D_8009B1D0,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read_write,16,D_8009B1D0 = 0x14; | D_8009B1D0 = t; | (+1 more)
@@ -1282,8 +1282,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,read,8,D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT | D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001BAF0,func_8001BAF0,matching_c,game,C,src/game/func_8001B938.c,read,8,k = D_8009B1D5 * HAND_SIZE;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,read,8,D_8009B1D5 * 20]]); | if (D_8009B360[D_8009B1D5] >= 0) { | (+2 more)
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,D_800907AC[D_8009B1D5][FIELD_CURSOR.field_18][FIELD_CURSOR.row]); | D_800907AC[D_8009B1D5][side->field_18][side->row]); | (+14 more)
-0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,read,8,h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT; | h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,8,&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2]); | D_800907AC[D_8009B1D5][FIELD_CURSOR.field_18][FIELD_CURSOR.row]); | (+14 more)
+0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,read,8,h2 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT; | h3 = D_8009B1D5 * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,read,8,0xB2 - D_8009B1D5 * 0x164); | q = &D_800E9FF0[D_8009B1D5 ^ 1];
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,8,"lbu $v0, %gp_rel(D_8009B1D5)($gp) | lbu $v1, %gp_rel(D_8009B1D5)($gp)"
 0x8009B1D5,D_8009B1D5,D_8009B1D5,0x800208D4,DuelScene_UpdateTurnSwitch,matching_c,game,C,src/game/duel_scene_turn_switch.c,read_write,8,if(!D_8009B162){D_8009B1D5^=1;gDuel_wSceneStateFlags=2;D_8009B1C8=&D_800E9FF0[D_8009B1D5];D_8009B22C=D_800907D8+D_800... | void DuelScene_UpdateTurnSwitch(void){if(!(gDuel_wSceneStateFlags&DUEL_SCENE_FLAG_INITIALIZED)){gDuel_wSceneStateFlag...
@@ -1408,7 +1408,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B224,D_8009B224,D_8009B224,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read_write,32,w = D_8009B224 += D_8009B168;
 0x8009B229,D_8009B229,D_8009B229,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,8,D_8009B229 = 0; | D_8009B229 = 1;
 0x8009B229,D_8009B229,D_8009B229,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read_write,8,"lbu $v1, %gp_rel(D_8009B229)($gp) | sb $zero, %gp_rel(D_8009B229)($gp)"
-0x8009B22A,D_8009B22A,D_8009B22A,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,write,16,D_8009B22A = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID; | D_8009B22A = v;
+0x8009B22A,D_8009B22A,D_8009B22A,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,write,16,D_8009B22A = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID; | D_8009B22A = v;
 0x8009B22A,D_8009B22A,D_8009B22A,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read_write,16,"lh $a1, %gp_rel(D_8009B22A)($gp) | lh $v0, %gp_rel(D_8009B22A)($gp) | (+2 more)"
 0x8009B22A,D_8009B22A,D_8009B22A,0x80025028,func_80025028,matching_c,game,C,src/game/func_80025028.c,write,16,D_8009B22A = 0; | D_8009B22A = arg0;
 0x8009B22A,D_8009B22A,D_8009B22A,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,read,16,if (D_8009B22A == 0) {
@@ -2280,7 +2280,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x800464F0,func_800464F0,matching_c,game,C,src/game/func_800464F0.c,read_write,32,((SDCommandShiftView *)g_SDValue[0])->c[i + 1]; | for (i = 0; i < g_SDValue[0]->command_count && i >= 0 && | (+7 more)
 0x8009B45C,g_SDValue,g_SDValue,0x8004666C,func_8004666C,matching_c,game,C,src/game/sound_output_transition.c,read,,SDValue *first = g_SDValue; | state = g_SDValue;
 0x8009B45C,g_SDValue,g_SDValue,0x800466C8,func_800466C8,matching_c,game,C,src/game/sound_output_transition.c,read,,SDValue *state = g_SDValue; | flags = g_SDValue; | (+1 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read_write,,*(SDInitBlk10 *)g_SDValue->field_1629 = *(SDInitBlk10 *)D_80010790; | *(SDInitBlk10 *)g_SDValue->field_1639 = *(SDInitBlk10 *)D_8001079C; | (+10 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read_write,,*SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1629) = | *SD_INIT_BLOCK_10_VIEW(g_SDValue->field_1639) = | (+10 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046990,SD_InitDataSourceFlags,matching_c,game,C,src/game/sound_state_control.c,read,,g_SDValue->field_003C = 0; | g_SDValue->flags_0040 |= 0xA; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046A08,func_80046A08,matching_c,game,C,src/game/func_80046A08.c,read,,*(SDBankHeaderWords *)g_SDValue = | a2 = g_SDValue->field_0002; | (+19 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80046DE8,SD_ResetRuntime,matching_c,game,C,src/game/sound_output.c,read,,SD_StopSequence(g_SDValue->field_157E); | func_80049CB0(g_SDValue->field_157E); | (+13 more)
@@ -2482,7 +2482,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,read_write,32,"(*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->field_02)) = PLACEMENT_PY(D_800E9EF0[0]) + 30; | D_8009B150 = Duel_CheckEquip(PLACEMENT_REPLAY_CARD(D_800E9EF0[0]).card_id, | (+28 more)"
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,read_write,32,D_800E9EF0[0] = card->object; | object = D_800E9EF0[0];
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,write,32,"D_800E9EF0[0] = (DisplayObject *)func_80017F04(card, CARD_PLACE_X(card), CARD_PLACE_Y(card)); | D_800E9EF0[0] = (DisplayObject *)obj; | (+2 more)"
-0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,32,D_800E9EF0[0] = (DisplayObject *)o; | D_800E9EF0[0] = D_8009B1CC; | (+2 more)
+0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,32,D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o); | D_800E9EF0[0] = D_8009B1CC; | (+2 more)
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,32,"addiu $a0, $a0, %lo(D_800E9EF0) | addiu $a1, $v0, %lo(D_800E9EF0) | (+20 more)"
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read_write,,"&D_800E9EF0.ritual.result, gDuel_wEffectCardID); | D_8009B19C = D_800E9EF0.slots[3]->field_6A; | (+21 more)"
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002CB50,func_8002CB50,matching_c,game,C,src/game/func_8002CB50.c,address,32,source = D_800E9EF0;
@@ -2496,7 +2496,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9F10,D_800E9F10,D_800E9F10,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,address,8,(DuelCardPickCursor *)&D_800E9F10[
 0x800E9F10,D_800E9F10,D_800E9F10,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,address,8,(D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
 0x800E9F10,D_800E9F10,D_800E9F10,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,D_8009B1B4 = SIDE_CURSOR(D_800E9F10); | side = (DuelSelectionRecord *)(D_800E9F10 + D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-0x800E9F10,D_800E9F10,D_800E9F10,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,D_8009B1B4 = (DuelCardPickCursor *)&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2];
+0x800E9F10,D_800E9F10,D_800E9F10,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,&((DuelSelectionSide *)D_800E9F10)[D_8009B1D5].records[2]);
 0x800E9F10,D_800E9F10,D_800E9F10,0x80022EEC,DuelSelection_UpdateLinkedObject,matching_c,game,C,src/game/duel_selection_update_linked_object.c,address,8,u8 *base = D_800E9F10;
 0x800E9F2C,D_800E9F2C,D_800E9F2C,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,D_8009B1B4 = SIDE_CURSOR(D_800E9F2C);
 0x800E9F48,D_800E9F48,D_800E9F48,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,address,8,D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F48 +
@@ -3015,7 +3015,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C424,D_8015C424,D_8015C424_cards,0x8001B170,func_8001B170,matching_c,game,C,src/game/func_8001B170.c,read,,D_8015C424_cards.field_cards[object->field_6A].card_id;
 0x8015C424,D_8015C424,D_8015C424,0x8001B938,func_8001B938,matching_c,game,C,src/game/func_8001B938.c,address,8,b = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,address,8,pw = D_8015C424;
-0x8015C424,D_8015C424,D_8015C424,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,b1 = D_8015C424; | b2 = D_8015C424; | (+2 more)
+0x8015C424,D_8015C424,D_8015C424,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,b1 = D_8015C424; | b2 = D_8015C424; | (+2 more)
 0x8015C424,D_8015C424,D_8015C424,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,address,8,r = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,address,,"addiu $v1, $v1, %lo(D_8015C424) | lui $v1, %hi(D_8015C424)"
 0x8015C424,D_8015C424,D_8015C424,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,address,8,records = D_8015C424; | replay = D_8015C424;
@@ -3071,7 +3071,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001D240,func_8001D240,matching_c,game,C,src/game/func_8001D240.c,address,,DuelCardRecord *e = &D_801A7AD8[o->field_6A];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,,"D_801A7AD8[B(D_8009B1CC, 0x6A)].flags |= 0x8000; | DuelCard_RemoveFromField(&D_801A7AD8[B(D_8009B1CC, 0x6A)]); | (+5 more)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001EFD4,func_8001EFD4,matching_c,game,C,src/game/duel_battle_stats.c,address,,DuelCardRecord *a = &D_801A7AD8[left->field_6A]; | b = &D_801A7AD8[right->field_6A];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F0D0,func_8001F0D0,matching_c,game,C,src/game/duel_trap_resolution.c,address,,&D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]] | rec2 = (u8 *)D_801A7AD8; | (+1 more)
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F0D0,Duel_SelectAttackTrap,matching_c,game,C,src/game/duel_trap_resolution.c,address,,&D_801A7AD8[p[(u32)&((DisplayObject *)0)->field_6A]] | rec2 = (u8 *)D_801A7AD8; | (+1 more)
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F364,func_8001F364,matching_c,game,C,src/game/duel_trap_resolution.c,address,,DuelCard_RemoveFromField(&D_801A7AD8[p->field_6A]);
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,address,,"addiu $s3, $v0, %lo(D_801A7AD8) | addiu $s4, $v0, %lo(D_801A7AD8) | (+4 more)"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80022674,func_80022674,matching_c,game,C,src/game/duel_card_turn_animations.c,address,,e = &D_801A7AD8[p->record_index];
