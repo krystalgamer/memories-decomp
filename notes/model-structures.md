@@ -13,7 +13,7 @@ corroborating evidence, not as sources of guessed reference types.
 The stride is independently established by exact matching C and target
 instructions in multiple functions:
 
-- `func_80058E3C`, `func_80058E68`, and `func_80058E94` all compile the index
+- `Model_GetSlotAnimationSpeed`, `func_80058E68`, and `func_80058E94` all compile the index
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
