@@ -538,6 +538,5 @@ extern u16 D_8009B412;
  * This names one callback and claims nothing about the others that share the
  * slot; DisplayObject_FadeBrightnessAndRelease in display_object_lifecycle.h is a sibling by role but
  * takes DisplayObjectLifecycle *, not this type. */
-void func_80020D4C(DisplayObject *object);
 
 #endif

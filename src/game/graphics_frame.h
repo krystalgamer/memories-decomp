@@ -169,11 +169,12 @@ extern volatile s32 D_8009B0C8;
 #endif
 
 /* The frame count: Graphics_SyncFrame increments it after VSync, Main_Init
- * zeroes it, func_80037A58 and func_80020D4C test its bit 0 and the free_duel
- * overlay's screen_runtime.c reads its low seven bits. Retail reaches it
- * gp-relative in Main_Init and graphics_frame.c and through a lui/lw pair
- * in the other two, which is the .data arm. volatile is measured: without
- * it Main_Init's zeroing store sinks below the volatile D_8009B0C8 store
+ * zeroes it, and func_80037A58 and DuelResult_UpdateOrbitSprite test its bit
+ * 0. The free_duel overlay's screen_runtime.c reads its low seven bits.
+ * Retail reaches it gp-relative in Main_Init and graphics_frame.c and through
+ * a lui/lw pair in the other two, which is the .data arm.
+ * volatile is measured: without it Main_Init's zeroing store sinks below the
+ * volatile D_8009B0C8 store
  * beside it (mismatch at 0x80012BAC). Sign is not visible in any use
  * (& 1, & 0x7F, ++, = 0), so s32 follows D_8009B0C8 above and is not
  * established. */
