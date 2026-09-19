@@ -97,7 +97,7 @@ void func_80015B50(void);
 void func_80015B94(void);
 void Fade_SetTargetLevel(s32, s32);
 void Fade_SetLevel(s32);
-void func_80015C0C(void);
+void Fade_StartInKeepOverlay(void);
 void func_80015C48(void);
 void func_80015C84();
 void func_80015CC0(void);

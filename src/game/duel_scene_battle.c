@@ -714,7 +714,7 @@ void DuelScene_UpdateBattle(void)
             }
             if (D_800E9EF0[2] == 0 && D_800E9EF0[3] == 0) {
                 D_8009B174 |= 0x40;
-                func_80015C0C();
+                Fade_StartInKeepOverlay();
                 return;
             }
         } else {

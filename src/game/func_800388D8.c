@@ -30,7 +30,7 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     } else if (opcode & 1) {
         func_80015C84();
     } else {
-        func_80015C0C();
+        Fade_StartInKeepOverlay();
     }
     if (opcode & 0x80) {
         Fade_Wait();

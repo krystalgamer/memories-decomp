@@ -348,7 +348,7 @@ void func_8002ACA4(u8 *state)
             DisplayObject_SavePosition((void *)o);
             H(o, 0x60) = 0;
             SD_SEPlayFull(0x34);
-            func_80015C0C();
+            Fade_StartInKeepOverlay();
             return;
         }
         sel = state[2];
@@ -453,7 +453,7 @@ void func_8002ACA4(u8 *state)
             } while (i < 9);
             H(D_800EB0F8[3].field_28, 8) |= 0x40;
             D_800E9DB0[3] = Library_DrawCardGrid;
-            func_80015C0C();
+            Fade_StartInKeepOverlay();
             state[3] = 2;
             state[1] = 7;
             SD_SEPlayFull(0x33);

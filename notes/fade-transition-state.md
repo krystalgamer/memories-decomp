@@ -332,7 +332,8 @@ Matching pure-C users migrated to this shared header include:
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
 - `Fade_SetTargetLevel`, `Fade_SetLevel`;
-- `func_80015C0C`, `func_80015C48`, `func_80015C84`, `func_80015CC0`.
+- `Fade_StartInKeepOverlay`, `func_80015C48`, `func_80015C84`,
+  `func_80015CC0`.
 
 The colour initializers and their blocking wrappers now carry an explicit
 `s32 color` parameter, replacing the old reliance on an incoming `$a0`.

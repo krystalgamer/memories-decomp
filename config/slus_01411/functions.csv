@@ -73,7 +73,7 @@ address,size,name,status,module,notes
 0x80015B94,0x44,func_80015B94,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015BD8,0x18,Fade_SetTargetLevel,matching_c,game,"Sets the fade target level and replaces the flag byte with the caller flags plus the active bit; does not wait. 19 pre-policy variants: shared state pointer reproduced one absolute base load and the ordered value and flagged-byte stores."
 0x80015BF0,0x1C,Fade_SetLevel,matching_c,game,"Snaps level and target_level to the same value with only the active bit set, so the next update completes at once. 17 pre-policy variants: shared state pointer and ordered assignments reproduced the exact three-byte store sequence."
-0x80015C0C,0x3C,func_80015C0C,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80015C0C,0x3C,Fade_StartInKeepOverlay,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015C48,0x3C,func_80015C48,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015C84,0x3C,func_80015C84,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80015CC0,0x3C,func_80015CC0,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.

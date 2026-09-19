@@ -366,7 +366,7 @@ void Fade_SetLevel(s32 value)
     state->flags = FADE_FLAG_ACTIVE;
 }
 
-void func_80015C0C(void)
+void Fade_StartInKeepOverlay(void)
 {
     FadeTransitionState *state;
 

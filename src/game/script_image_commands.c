@@ -77,7 +77,7 @@ void Script_OpShowImage(void) {
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
         if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) {
-            func_80015C0C();
+            Fade_StartInKeepOverlay();
         }
         return;
     }
