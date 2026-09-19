@@ -1373,7 +1373,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B210,D_8009B210,D_8009B210,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,write,16,D_8009B210 = 0;
 0x8009B210,D_8009B210,D_8009B210,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read_write,16,D_8009B210 = 0; | D_8009B210 = 1; | (+14 more)
 0x8009B214,D_8009B214,D_8009B214,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,,D_8009B214 = obj;
-0x8009B214,D_8009B214,D_8009B214,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,obj = (DisplayObject *)D_8009B214;
+0x8009B214,D_8009B214,D_8009B214,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,obj = DISPLAY_OBJECT_VIEW(D_8009B214);
 0x8009B214,D_8009B214,D_8009B214,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,32,"lw $s1, %gp_rel(D_8009B214)($gp)"
 0x8009B214,D_8009B214,D_8009B214,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read,,obj = D_8009B214;
 0x8009B214,D_8009B214,D_8009B214,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read,,a = (DisplayObjectConfig *)D_8009B214;
@@ -1381,7 +1381,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B21A,D_8009B21A,D_8009B21A,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,8,D_8009B21A = 0; | D_8009B21A = 1; | (+2 more)
 0x8009B21C,D_8009B21C,D_8009B21C,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,read_write,,D_8009B21C = obj; | prev = (u8 *)D_8009B21C;
 0x8009B21C,D_8009B21C,D_8009B21C,0x8001898C,DuelScene_UpdateDrawPhase,matching_c,game,C,src/game/duel_phase_entry.c,read,,*(u16 *)&D_8009B21C->field_40.h.field_40 =
-0x8009B21C,D_8009B21C,D_8009B21C,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,obj = (DisplayObject *)D_8009B21C;
+0x8009B21C,D_8009B21C,D_8009B21C,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,read,8,obj = DISPLAY_OBJECT_VIEW(D_8009B21C);
 0x8009B21C,D_8009B21C,D_8009B21C,0x8001F55C,DuelScene_UpdateBattle,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_00fd5c.s,read,32,"lw $s1, %gp_rel(D_8009B21C)($gp)"
 0x8009B21C,D_8009B21C,D_8009B21C,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read,,obj = D_8009B21C;
 0x8009B220,gDuel_wCardEffectFlags,gDuel_wCardEffectFlags,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,write,16,gDuel_wCardEffectFlags = 0;
