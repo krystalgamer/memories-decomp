@@ -17,7 +17,8 @@
 #include "duel_trap_resolution.h"
 
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
-   from House of Adhesive Tape through Widespread Ruin, which func_8001F0D0
+   from House of Adhesive Tape through Widespread Ruin, which
+   Duel_SelectAttackTrap
    scales by 100 before comparing. The last entry is the 255 that keeps
    Widespread Ruin unconditional. */
 u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
@@ -30,7 +31,7 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
     DUEL_WIDESPREAD_RUIN_ATTACK_THRESHOLD / DUEL_ATTACK_TRAP_THRESHOLD_SCALE,
 };
 
-s32 func_8001F0D0(u8 *p) {
+s32 Duel_SelectAttackTrap(u8 *p) {
     s32 i;
     s32 off1;
     u8 *b1;

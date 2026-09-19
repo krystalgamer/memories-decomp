@@ -132,8 +132,9 @@ extern u8 D_8009B229;
 
 /* The card id the last search or trap selection left behind. func_80025028
  * stores 0 before its slot loop and its argument on a hit, and its own
- * comment says what a hit and a miss leave; func_8001F0D0 stores `sel +
- * DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one arm and `v` under its `hit:` label;
+ * comment says what a hit and a miss leave; Duel_SelectAttackTrap stores
+ * `sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID` in one arm and `v` under its `hit:`
+ * label;
  * DuelEffect_ApplyLifePointRecovery and DuelEffect_ApplyDirectDamage test it
  * against 0. DuelScene_UpdateBattle, still
  * assembly, stores 0 once and loads it eight times. Every retail load is lh

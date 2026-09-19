@@ -8,6 +8,9 @@
  * The input remains the caller's byte-view DisplayObject; its field_6A record
  * index is reached through the asserted member offset. The table is defined
  * in this unit and its comment names each entry. */
+s32 Duel_SelectAttackTrap(u8 *record);
+
+/* Historical call symbol retained by the unmatched battle candidate. */
 s32 func_8001F0D0(u8 *record);
 
 /* Runs the trap presentation one step and reports whether it is still busy:
