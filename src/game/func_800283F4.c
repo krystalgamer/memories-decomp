@@ -42,6 +42,9 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+#define DISPLAY_OBJECT_POSITION_VIEW(object) \
+    ((DisplayObjectPosition *)(object))
+
 void DuelEffect_UpdateCardViewerState(void)
 {
     s32 slide_in;
@@ -132,7 +135,10 @@ void DuelEffect_UpdateCardViewerState(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (state & 0x10) {
-                Widget_SlideSine((DisplayObjectPosition *)obj, 0x148, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 0x148,
+                                 *(s16 *)&obj->field_30.h.field_32,
+                                 speed);
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
@@ -140,7 +146,10 @@ void DuelEffect_UpdateCardViewerState(void)
                     obj->field_60 = 0;
                 }
             } else {
-                Widget_SlideSine((DisplayObjectPosition *)obj, 0x94, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 0x94,
+                                 *(s16 *)&obj->field_30.h.field_32,
+                                 speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
@@ -158,7 +167,10 @@ void DuelEffect_UpdateCardViewerState(void)
         speed = obj->field_60;
         if (speed != 0) {
             if (D_8009B248 & 0x10) {
-                Widget_SlideSine((DisplayObjectPosition *)obj, -0x8C, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 -0x8C,
+                                 *(s16 *)&obj->field_30.h.field_32,
+                                 speed);
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
@@ -166,7 +178,10 @@ void DuelEffect_UpdateCardViewerState(void)
                     obj->field_60 = 0;
                 }
             } else {
-                Widget_SlideSine((DisplayObjectPosition *)obj, 2, *(s16 *)&obj->field_30.h.field_32, speed);
+                Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
+                                 2,
+                                 *(s16 *)&obj->field_30.h.field_32,
+                                 speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
