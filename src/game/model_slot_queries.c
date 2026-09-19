@@ -3,7 +3,7 @@
 #include "model.h"
 #include "model_slot_queries.h"
 
-s32 func_80058E3C(s32 index)
+s32 Model_GetSlotAnimationSpeed(s32 index)
 {
     return D_800F2C40[index].field_E0D;
 }

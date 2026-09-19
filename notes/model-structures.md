@@ -13,7 +13,7 @@ corroborating evidence, not as sources of guessed reference types.
 The stride is independently established by exact matching C and target
 instructions in multiple functions:
 
-- `func_80058E3C`, `func_80058E68`, and `func_80058E94` all compile the index
+- `Model_GetSlotAnimationSpeed`, `func_80058E68`, and `func_80058E94` all compile the index
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
@@ -61,7 +61,7 @@ Verified shared fields and partial arrays are:
 | `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B490[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
 | `0xE06` | `field_E06` | shifted read in `func_80058E94`; write/read in `func_800597C8` |
-| `0xE0D` | `field_E0D` | `func_80058E3C` reads it and `func_8005969C` writes it |
+| `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `func_8005969C` writes it |
 | `0xE11` | `field_E11` | `func_800590DC`, `func_80059284`, and `func_800595C8` |
 | `0xE12` | `field_E12` | read/conditional write in `func_80059AA8` |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
@@ -230,7 +230,7 @@ and id are at `+0x44` and `+0x4C`, beyond the SDK matrix.
 
 The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
-`func_80057E20`, `func_80058DD8`, `func_80058E3C`, `func_80058E68`,
+`func_80057E20`, `func_80058DD8`, `Model_GetSlotAnimationSpeed`, `func_80058E68`,
 `func_80058E94`, `func_80058EC0`, `Model_GetSlotDataEntry`,
 `Model_GetCurrentDataEntry`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
