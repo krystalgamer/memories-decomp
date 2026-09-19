@@ -18,7 +18,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);
 
 void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, DuelEffectEntry *glyphNode);
 void NameEntry_UpdateGlyphPulse(u8 *sprite);
-void NameEntry_UpdateGlyphFragment(u8 *sprite);
+void NameEntry_UpdateGlyphFragment(struct DisplayObject *sprite);
 void NameEntry_UpdateGlyphShatter(u8 *sprite);
 void NameEntry_UpdateGlyphTransfer(u8 *sprite);
 
