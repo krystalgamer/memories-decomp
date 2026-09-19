@@ -29,7 +29,7 @@ void func_8005A010(s32 first, s32 second);
  * consumers outside it. func_8005A0DC was the fourth such case and the only
  * one whose caller wrote the prototype by hand: func_8004EB00, the model scene
  * mode 15 controller, calls it once with 0x78
- * (src/candidates/func_8004EB00.c:326) while already including this header.
+ * (src/game/model_intro_controller.c:319) while already including this header.
  * Its two immediate neighbours in the file, func_8005A074 and func_8005A130,
  * have no uses outside the unit at all, which is why they are still not
  * declared here. */

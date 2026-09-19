@@ -227,8 +227,8 @@ void func_80034830(void);
  * from the consumer that had it, not restated.
  * DisplayObject_RenderSpriteSheet has since matched and is declared by
  * display_object_render_sprite_sheet.h. ModelDebug_UpdateController is owned
- * by model_debug_controller.h. */
-void func_8004EB00(void);
+ * by model_debug_controller.h. func_8004EB00 has since matched and is declared
+ * by game/model_scene_states.h beside func_8004FE2C. */
 s32 func_80051350(s32 arg0, s32 arg1, s32 arg2);
 
 /* func_800482B0 is now owned by sound_voice_allocator.h, and func_80015EF4

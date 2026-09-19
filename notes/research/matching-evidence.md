@@ -1008,9 +1008,20 @@ profiles land two long and two short respectively.
 Screening the generated assembly for the specific shape MASPSX cannot make — a
 delay-slot `lui $r, %hi(S)`, a branch or `jal`, then a delay-slot
 `%lo(S)` through the same register, which is a macro expanded across a branch —
-gives **7 unmatched functions, 13,188 bytes**, and **nothing matched**, the same
-signature the other two blockers have. Zero matched is the point: a body that
-cannot reproduce the pattern cannot have been accepted.
+gives **6 unmatched functions, 8,280 bytes**, and **nothing matched** under a
+macro-address profile, the same signature the other two blockers have. Zero
+matched is the point: a body that cannot reproduce the pattern cannot have been
+accepted.
+
+The screen originally listed a seventh function, `func_8004EB00` (0x132C). It
+has since matched in pure C under `gcc_2_8_1_g8_split`, which makes it a false
+positive of the screen rather than an instance of the blocker: with
+`-msplit-addresses` the `lui` and the `addiu` are two real instructions, and
+GCC's own delay-slot pass copied them from the head of a join into the two
+branches that reach it (phase 27, where a block-local base pointer is set at
+the join before the slot index is scaled). A hit in a split-address function is
+therefore only a candidate until the stores around it are checked for `$at`
+macro form.
 
 ```python
 # delay slots are the lines splat indents by one extra space
@@ -1026,7 +1037,6 @@ PLAIN = re.compile(r'\*/\s{2}(\S+)\s+(.*)')
 | `func_8003A560` | 0x3C0 |
 | `Main_RunFrontendLoop` | 0x17C |
 | `func_8001BD88` | 0x14B8 |
-| `func_8004EB00` | 0x132C |
 
 The count is a floor for the same reason the others are: it only sees functions
 still in assembly. It is also narrower than the true exposure, because it

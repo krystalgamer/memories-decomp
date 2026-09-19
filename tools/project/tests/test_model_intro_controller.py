@@ -13,6 +13,9 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 SOURCE = REPOSITORY / "src/game/model_intro_controller.c"
+# The unit opens with the mode 15 controller; the intro contract starts at the
+# intro controller's own comment and keeps its own include block.
+SOURCE_START = "/*\n * Scene mode 19's intro controller."
 SOURCE_MARKER = (
     '\n#include "../unmatched.h"\n'
     '#include "../psyq/libgte.h"\n'
@@ -610,8 +613,9 @@ class ModelIntroControllerTests(unittest.TestCase):
     @staticmethod
     def source_text() -> str:
         text = SOURCE.read_text()
-        if text.count(SOURCE_MARKER) != 1:
+        if text.count(SOURCE_START) != 1 or text.count(SOURCE_MARKER) != 1:
             raise AssertionError("model intro source boundary changed")
+        text = text[text.index(SOURCE_START):]
         return text.split(SOURCE_MARKER, 1)[0] + "\n"
 
     def build_and_run(
