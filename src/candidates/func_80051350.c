@@ -2,10 +2,12 @@
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
  * gcc_2_8_1_g8_split: 446 of 446 instructions at exact length, an EMPTY
- * opcode census by encoded fields, 21 structural blocks, 289 of 446 aligned
- * on opcode and registers, 304 raw words differing with relocations masked,
- * with no hard register assignments and no inline assembly. The previous
- * state was 446, census 2, 23 structural blocks, 202 aligned.
+ * opcode census by encoded fields, 12 structural blocks, 307 of 446 aligned
+ * on opcode and registers, 291 raw words differing with relocations masked
+ * (262 with the register fields masked as well), with no hard register
+ * assignments and no inline assembly. The previous state was 446, census 0,
+ * 21 structural blocks, 289 aligned, 304 raw, 262 register-masked: the two
+ * levers below move registers only, not one structural word.
  *
  * TWO BEHAVIOURAL CORRECTIONS, both read off the retail listing before they
  * were measured, and both worth more than any alignment figure:
@@ -37,17 +39,34 @@
  *    ahead of the bgez (word 271); this is the last instruction of the count;
  *  - each clamp is `v = (s16)x; v = v / 2;` against one name, which is
  *    retail's `sra v1,v1,0x1` into the halfword's own register;
+ *  - `hits` is a PLAIN local, not volatile (permuter find, decomposed): the
+ *    volatile was the earlier structure's way of keeping the reload, add and
+ *    store per increment, and the out-of-line `hits++` arm already gives
+ *    retail that shape on its own; the qualifier only pinned the counter's
+ *    slot and rotated the loop's registers. 21 -> 16 structural blocks,
+ *    289 -> 306 aligned, on that one word;
+ *  - the reference vector's length is `SquareRoot0(uz * uz + ux * ux)`, the z
+ *    product first (permuter find): retail computes the z square into the
+ *    register the sum accumulates in. 21 -> 17 structural alone; the two
+ *    together are the 12 above;
  *  - from before: the push sign test written `sd < 0` first (bgez, not
  *    bltz); the last clamp computed in `moved` before `moved` is zeroed;
- *    `hits` volatile (retail reloads, adds and stores it); `e0 = e1;` and
- *    `e1 = e2;` in their own do { } while (0) blocks; the y reference read
- *    into `nv` as its own statement before `ref` takes it.
+ *    `e0 = e1;` and `e1 = e2;` in their own do { } while (0) blocks; the y
+ *    reference read into `nv` as its own statement before `ref` takes it.
  *
  * COUPLED RESIDUE, recorded so it is not chased one half at a time: the two
  * do { } while (0) pins hold two instructions (without them the count is -2,
  * without the first -1) and they are also what leaves a nop in the delay
  * slot of clamp 3's lhu at word 93, where retail schedules the min_extent
- * reload; that one displaced word is the whole masked run 98-359.
+ * reload; that one displaced word is the whole register-masked run 98-359.
+ * The pin's extent was swept on both sides and the axis is CLOSED: a pin
+ * over the whole of clamp 3 up to and including its store closes 92-102
+ * but the store inside the pin stops the next clamp's lhu/lw from hoisting
+ * above it (retail loads both, THEN stores), so the run starts at 110
+ * instead (length +0, register-masked 252); a pin up to the `if` with the
+ * store outside is -1 and -2; a pin over the whole pair is -1 and +3. The
+ * pins as written hold the length and leave the nop; every widening or
+ * narrowing gains or loses instructions.
  *
  * MEASURED AND DEAD on this base: the declaration position of `t` (moves the
  * slot, not a word); do { } while (0) around whole clamp groups (+8) or
@@ -58,7 +77,9 @@
  * clamp, the negation guards as ternaries, and borrowed names for `nv`. The
  * earlier claim that the two `continue`s as an if/else chain give the same
  * CFG was measured on the wrong structure and is withdrawn: the arms were
- * never both `continue`s.
+ * never both `continue`s. decomp-permuter on the previous state (23 outputs,
+ * each re-scored by splicing its body into the real source) found nothing
+ * beyond the two one-word levers above.
  *
  * Residual: register choices, all in the loop (s0/s4 where retail has
  * s1/s5, the address chain of D_800F56F0 in a2/a3 where retail has t0/t1
@@ -87,7 +108,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     ModelSeparationPair dist;
     ModelSeparationPair t;
     s32 moved;
-    volatile s32 hits;
+    s32 hits;
     s32 i;
     s32 ox;
     s32 oz;
@@ -251,7 +272,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                 s32 ux = bx - az;
                 s32 uz = cx - ax;
                 s32 cross = ax * az - cx * bx;
-                s32 len = SquareRoot0(ux * ux + uz * uz);
+                s32 len = SquareRoot0(uz * uz + ux * ux);
                 s32 sd = 0;
 
                 if (len != 0) {
