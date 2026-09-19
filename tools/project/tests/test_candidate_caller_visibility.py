@@ -323,7 +323,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertEqual(
             {statement for _, statement in declarations},
             {
-                "void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);",
+                "void func_8004CB0C(s32 slot, u8 *hmd, s32 size, s32 flags);",
                 "void func_8004CB0C(void);",
             },
         )
@@ -342,7 +342,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 compiler_diagnostics(probe, self.profile(source), path.parent)
 
         changed = [
-            (path, statement.replace("s32 arg3", "u32 arg3", 1))
+            (path, statement.replace("s32 flags", "u32 flags", 1))
             for path, statement in declarations
         ]
         changed_hash = candidate_builds.canonical_symbol_contract_hash(

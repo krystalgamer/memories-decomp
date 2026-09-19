@@ -4,7 +4,7 @@
 #include "../types.h"
 
 #ifdef MODEL_SLOT_SETUP_EXPLICIT_TRANSFER_ARGS
-void func_8004CB0C(s32 slot, s32 arg1, s32 arg2, s32 arg3);
+void func_8004CB0C(s32 slot, u8 *hmd, s32 size, s32 flags);
 #else
 void func_8004CB0C(void);
 #endif
