@@ -53,10 +53,10 @@
     },
     {
       "address": "0x8004A27C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
       "source": "src/candidates/func_8004A27C.c",
       "target": "src/candidates_target/func_8004A27C.S",
-      "candidate_build_sha256": "410c65a5adbf5c36785d2eed69773962209ecb98c8e475969256b3d009ce81f2",
+      "candidate_build_sha256": "719eaac18ea4bdc37680bc12459775e84c8d6bfd2a065e0dffd5a6234e4878fc",
       "target_bytes_sha256": "318195a18936dea967c0d69d3fc59fa0fb429bcabfcb55501b8c1cdfd05d1b3b",
       "canonical_contract_sha256": "0e5d0632a5a5dc3a429e8cfd2e12f0ef0a9b048caa675c9e8bfc2101542798ef",
       "canonical_contracts": {}
