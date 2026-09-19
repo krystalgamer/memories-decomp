@@ -45,6 +45,7 @@ WITNESS = r"""
 #include "src/psyq/libgpu.h"
 #include "src/psyq/libspu.h"
 #include "src/game/file_transfer.h"
+#include "src/game/file_ready_sector.h"
 
 FileTransferDescriptor *D_8009AF18;
 volatile u32 D_8009B0F4;
@@ -226,7 +227,7 @@ static s32 ignored_events(void)
     for (i = 0; i < 6; i++) {
         setup(1, 1);
         D_8009B114 = 255;
-        func_80013C28(ignored[i]);
+        File_TransferReadyCallback(ignored[i]);
         CHECK(D_8009B114 == 0 && D_8009B138 == 17, 10);
         CHECK(!event_count && D_8009B0F8 == input, 11);
         CHECK(descriptor.total_bytes == 0x1800 &&
@@ -236,7 +237,7 @@ static s32 ignored_events(void)
     }
     setup(99, 1);
     D_8009B138 = 0x7FFFFFFF;
-    func_80013C28(0x101);
+    File_TransferReadyCallback(0x101);
     CHECK(D_8009B114 == 10 && (u32)D_8009B138 == 0x80000000, 13);
     CHECK(!event_count && D_8009B0F8 == input &&
           descriptor.total_bytes == 0x1800 && D_8009B0F4 == 0x40000510, 14);
@@ -250,7 +251,7 @@ static s32 ram(void)
     for (skip = 0; skip < 2; skip++) {
         setup(1, software);
         if (skip) D_8009B0F4 |= 0x200000;
-        func_80013C28(0x101);
+        File_TransferReadyCallback(0x101);
         CHECK(descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 2048), 20);
         CHECK(D_8009B0F8 == input + 512 && descriptor.total_bytes == 4096 &&
               descriptor.phase_remaining == 4096 && descriptor.buffer_index == 0, 21);
@@ -260,7 +261,7 @@ static s32 ram(void)
             CHECK(cd_words == 512 && cd_destination == buffers[0], 24);
         if (skip) CHECK(buffers[0][0] == 0xCCCCCCCC, 25);
         else CHECK(copied(0, 0, 512, 0) && buffers[0][512] == 0xCCCCCCCC, 26);
-        func_80013C28(1);
+        File_TransferReadyCallback(1);
         CHECK(D_8009B0F8 == input + 1024 &&
               descriptor.value_08 == (u32)buffers[0] + (skip ? 0 : 4096), 27);
         if (!skip) CHECK(copied(0, 512, 512, software ? 512 : 0), 28);
@@ -276,7 +277,7 @@ static s32 ram_descriptor_reload(void)
     /* Word two changes the descriptor's destination. Subsequent indexed
        stores must reload it, rather than walking a cached destination. */
     input[2] = (u32)buffers[0];
-    func_80013C28(1);
+    File_TransferReadyCallback(1);
     CHECK(descriptor.value_08 == (u32)buffers[0] + 2048, 30);
     for (i = 0; i < 3; i++) CHECK(buffers[0][i] == 0xCCCCCCCC, 31);
     CHECK(copied(0, 3, 509, 3) && buffers[0][512] == 0xCCCCCCCC, 32);
@@ -299,7 +300,7 @@ static s32 image(void)
         descriptor.field_30.h.field_32 = y;
         if (horizontal) D_8009B0F4 |= 0x20000;
         image_busy = 2;
-        func_80013C28(1);
+        File_TransferReadyCallback(1);
         CHECK(image_calls == 3 && image_destination == buffers[index] &&
               image_rect.x == (s16)x && image_rect.y == y &&
               image_rect.w == 64 && image_rect.h == 16, 40);
@@ -332,7 +333,7 @@ static s32 spu(void)
         descriptor.phase_remaining = sizes[j];
         descriptor.field_30.word = 0xFFFFFFFC;
         descriptor.buffer_index = 0xFFFF;
-        func_80013C28(1);
+        File_TransferReadyCallback(1);
         CHECK(copied(0, 0, n / 4, 0) &&
               buffers[0][n / 4] == 0xCCCCCCCC &&
               buffers[1][0] == 0xCCCCCCCC, 50);
@@ -365,7 +366,7 @@ static s32 phase_callbacks(void)
         callback_action = action;
         alternate.total_bytes = 4096;
         alternate.buffer_index = 9;
-        func_80013C28(1);
+        File_TransferReadyCallback(1);
         CHECK(!error && callback_calls == 1 && descriptor.result == 0xABCDEF01 &&
               descriptor.phase_remaining == 0x1234 && descriptor.phase_size == 0x1234, 60);
         CHECK(events[event_count - 1] == 7, 61);
@@ -391,7 +392,7 @@ static s32 completion(void)
         descriptor.total_bytes = partial ? 1 : 2048;
         descriptor.phase_remaining = 2048;
         descriptor.buffer_index = 0xFFFF;
-        func_80013C28(1);
+        File_TransferReadyCallback(1);
         CHECK(descriptor.total_bytes == (partial ? -2047 : 0) &&
               !(D_8009B0F4 & 0x100) && !error, 70);
         CHECK(events[software ? 0 : 1] == 2 && events[software ? 1 : 2] == 3, 71);

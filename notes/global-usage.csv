@@ -209,7 +209,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800917F0,gDuel_aOpponentData,gDuel_aOpponentData,0x800734DC,AiScript_LoadOpponentData,matching_c,game,C,src/game/ai_script_state_ops.c,read,,mem[dst] = gDuel_aOpponentData[index].values[1] * 100; | mem[dst] = gDuel_aOpponentData[index].values[field + 1];
 0x8009AF08,runtime_gp,runtime_gp,0x8001306C,Main_RunFrameServices,matching_c,game,C,src/game/main_services.c,read_write,32,cnt = runtime_gp - 1; | runtime_gp = 0x3C; | (+1 more)
 0x8009AF0C,D_8009AF0C,D_8009AF0C,0x80012CD4,Main_VBlankCB,matching_c,game,C,src/game/main_frame.c,read_write,8,D_8009AF0C = 0; | D_8009AF0C = 1; | (+1 more)
-0x8009AF18,D_8009AF18,D_8009AF18,0x80013C28,func_80013C28,matching_c,game,C,src/game/func_80013C28.c,read,,D_8009AF18->field_30.h.counter += 0x40; | D_8009AF18->total_bytes -= FILE_SECTOR_SIZE; | (+10 more)
+0x8009AF18,D_8009AF18,D_8009AF18,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read,,D_8009AF18->field_30.h.counter += 0x40; | D_8009AF18->total_bytes -= FILE_SECTOR_SIZE; | (+10 more)
 0x8009AF20,D_8009AF20,D_8009AF20,0x800178BC,func_800178BC,matching_c,game,C,src/game/func_800178BC.c,read,16,D_800F2848.angle = D_8009AF20[0];
 0x8009AF20,D_8009AF20,D_8009AF20,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read,16,"func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],"
 0x8009AF20,D_8009AF20,D_8009AF20,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,read,16,"func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5], | func_80022D94(0x10, 0x258, 0x100, D_8009AF20[D_8009B1D5], 0);"
@@ -842,7 +842,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013A94,func_80013A94,matching_c,game,C,src/game/file_stream.c,read_write,32,D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING; | if (D_8009B0F4 & FILE_TRANSFER_STATE_SECONDARY_PENDING)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013B04,File_TryStartPrimaryTransfer,matching_c,game,C,src/game/file_transfer_setup.c,read_write,32,D_8009B0F4 = 0x100010; | if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013B68,File_RequestSecondaryRangeTransfer,matching_c,game,C,src/game/file_transfer_setup.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_SECONDARY_PENDING; | D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING; | (+2 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013C28,func_80013C28,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F4 &= ~0x100; | if ((D_8009B0F4 & 0x20000) != 0) { | (+2 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F4 &= ~0x100; | if ((D_8009B0F4 & 0x20000) != 0) { | (+2 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80014134,func_80014134,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800141A8,func_800141A8,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
@@ -911,7 +911,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x80057544,func_80057544,matching_c,game,C,src/game/model_texture_transfer.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x800577B0,func_800577B0,matching_c,game,C,src/game/model_texture_transfer.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
-0x8009B0F8,D_8009B0F8,D_8009B0F8,0x80013C28,func_80013C28,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32); | D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n); | (+1 more)
+0x8009B0F8,D_8009B0F8,D_8009B0F8,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B0F8 += FILE_SECTOR_SIZE / sizeof(u32); | D_8009B0F8 = (u32 *)((u8 *)D_8009B0F8 + n); | (+1 more)
 0x8009B0FC,D_8009B0FC,D_8009B0FC,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B0FC = 1;
 0x8009B100,D_8009B100,D_8009B100,0x80014220,func_80014220,matching_c,game,C,src/game/func_80013C28.c,write,16,D_8009B100 = event;
 0x8009B100,D_8009B100,D_8009B100,0x80014294,func_80014294,matching_c,game,C,src/game/func_80014294.c,write,16,D_8009B100 = 4;
@@ -934,7 +934,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B112,D_8009B112,D_8009B112,0x80015010,func_80015010,matching_c,game,C,src/game/file_transfer_flags.c,read_write,16,D_8009B112 &= 0x3FFC; | D_8009B112 |= 2;
 0x8009B112,D_8009B112,D_8009B112_abs,0x800257A0,DuelEffect_ApplyBoardDestruction,matching_c,game,C,src/game/duel_card_effects.c,read,16,if ((D_8009B112_abs & 0x4000) != 0) { | if ((D_8009B112_abs & 0x4000) == 0) {
 0x8009B112,D_8009B112,D_8009B112_abs,0x80037B40,func_80037B40,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read,16,if ((D_8009B112_abs & 0x4000) == 0) {
-0x8009B114,D_8009B114,D_8009B114,0x80013C28,func_80013C28,matching_c,game,C,src/game/func_80013C28.c,read_write,8,D_8009B114++;
+0x8009B114,D_8009B114,D_8009B114,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read_write,8,D_8009B114++;
 0x8009B114,D_8009B114,D_8009B114,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,write,8,D_8009B114 = 0;
 0x8009B118,D_8009B118,D_8009B118,0x80013898,File_InitTransferState,matching_c,game,C,src/game/file_stream.c,write,32,D_8009B118 = value;
 0x8009B118,D_8009B118,D_8009B118,0x80013998,File_InitTransferDescriptor,matching_c,game,C,src/game/file_stream.c,read,32,transfer->value_08 = D_8009B118; | transfer->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
@@ -1005,7 +1005,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B134,D_8009B134,D_8009B134_abs,0x8004FE2C,func_8004FE2C,matching_c,game,C,src/game/model_intro_controller.c,read,32,if ((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs) {
 0x8009B134,D_8009B134,D_8009B134_abs,0x80050584,func_80050584,matching_c,game,C,src/game/model_intro_controller.c,read,32,D_8009B134_abs) == 0) {
 0x8009B134,D_8009B134,D_8009B134_abs,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,32,if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
-0x8009B138,D_8009B138,D_8009B138,0x80013C28,func_80013C28,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B138 = (s32)((u32)D_8009B138 + 1);
+0x8009B138,D_8009B138,D_8009B138,0x80013C28,File_TransferReadyCallback,matching_c,game,C,src/game/func_80013C28.c,read_write,32,D_8009B138 = (s32)((u32)D_8009B138 + 1);
 0x8009B138,D_8009B138,D_8009B138,0x800140A0,func_800140A0,matching_c,game,C,src/game/func_80013C28.c,write,32,D_8009B138 = 0;
 0x8009B140,D_8009B140,D_8009B140,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_8009B140 = 0;
 0x8009B140,D_8009B140,D_8009B140,0x800154E4,Fade_DrawOverlay,matching_c,game,C,src/game/fade_runtime.c,read,8,depth = D_8009B140;

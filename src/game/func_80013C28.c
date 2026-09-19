@@ -5,8 +5,9 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libspu.h"
 #include "file_transfer.h"
+#include "file_ready_sector.h"
 
-void func_80013C28(s32 arg)
+void File_TransferReadyCallback(s32 arg)
 {
     s32 event;
     s32 remaining;
@@ -175,7 +176,7 @@ void func_800140A0(u8 event)
         DsPacket(0xA0, (DslLOC *)D_8009B104, 6, (DslCB)func_800140A0, -1);
     } else if (event == 2) {
         DsReadySystemMode(1);
-        DsStartReadySystem((DslRCB)func_80013C28, -1);
+        DsStartReadySystem((DslRCB)File_TransferReadyCallback, -1);
         D_8009B114 = 0;
         D_8009B138 = 0;
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;

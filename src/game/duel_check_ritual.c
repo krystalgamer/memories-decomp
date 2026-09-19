@@ -56,7 +56,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     for (j = 0; j < DUEL_RITUAL_TRIBUTE_COUNT; j++) {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             card = (c = first[i]);
-            if (card != 0 && (s16)card->card_id == q[0]) {
+            if (card != 0 && card->card_id == q[0]) {
                 goto matched;
             }
         }
