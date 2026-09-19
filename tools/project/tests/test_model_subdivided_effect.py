@@ -192,7 +192,7 @@ void *memset(void *out,int value,int size)
     if(size!=8 || value!=0) fail(7);
     clears++; fill(out,value,size); return out;
 }
-s32 func_80058DCC(void) { return simple(SLOT)&1; }
+s32 Model_GetActiveSlotIndex(void) { return simple(SLOT)&1; }
 int Model_GetFrameStep(void) { simple(TIME); return step_value; }
 void func_80057E20(s32 slot,ModelEffectAdjustment *out)
 {
@@ -328,10 +328,10 @@ static s32 oracle(s32 mode)
     s32 ticks,i,j,radius,height,elapsed,remaining,facing;
     long flag,interpolation,depth;
     memset(&rotation,0,8); memset(&position,0,8);
-    scale=D_8001185C; func_80058DCC(); ticks=Model_GetFrameStep();
+    scale=D_8001185C; Model_GetActiveSlotIndex(); ticks=Model_GetFrameStep();
     if(mode>=0) {
         config=(u8 *)D_800915E8; put32(object,(u32)config);
-        func_80057E20(func_80058DCC(),(ModelEffectAdjustment *)bounds);
+        func_80057E20(Model_GetActiveSlotIndex(),(ModelEffectAdjustment *)bounds);
         radius=height=signed16(bounds+6)/2;
         if(radius<signed16(config+20)) radius=signed16(config+20);
         else if(radius>700) radius=700;
@@ -372,7 +372,7 @@ static s32 oracle(s32 mode)
     elapsed=(s32)get32(object+0x1310); remaining=(s32)get32(object+0x1314);
     rotation.vx=0; rotation.vy=(u32)elapsed<<5; rotation.vz=0;
     GsSetLsMatrix(&base);
-    Model_CopySlotU16Values(func_80058DCC(),(u16 *)&position);
+    Model_CopySlotU16Values(Model_GetActiveSlotIndex(),(u16 *)&position);
     GsSetLsMatrix(&base); RotTrans(&position,(VECTOR *)matrix.t,&flag);
     RotMatrix(&rotation,&matrix); MulMatrix2(&base,&matrix);
     ScaleMatrix(&matrix,&scale); GsSetLsMatrix(&matrix);

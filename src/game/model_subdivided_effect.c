@@ -49,12 +49,12 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
     memset(&position, 0, sizeof(position));
     scale = D_8001185C;
     effect = data;
-    func_80058DCC();
+    Model_GetActiveSlotIndex();
     {
         s32 ticks = Model_GetFrameStep();
         if (mode >= 0) {
             config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
-            func_80057E20(func_80058DCC(), &bounds);
+            func_80057E20(Model_GetActiveSlotIndex(), &bounds);
             work = height = bounds.max;
             work /= 2;
             height /= 2;
@@ -157,7 +157,7 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
         rotation.vy = (u32)elapsed << 5;
         rotation.vz = 0;
         GsSetLsMatrix(&base);
-        Model_CopySlotU16Values(func_80058DCC(), (u16 *)&position);
+        Model_CopySlotU16Values(Model_GetActiveSlotIndex(), (u16 *)&position);
         GsSetLsMatrix(&base);
         /* RotTrans writes three words, exactly the extent of MATRIX.t. */
         RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
