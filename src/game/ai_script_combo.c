@@ -72,3 +72,14 @@ void AiScript_LoadBestAttacker(void)
 
     values[index] = gAi_bBestAttacker;
 }
+
+void AiScript_LoadBestTarget(void)
+{
+    s32 index = AiScript_ReadByte();
+    s32 *values = gAiScript_aMemory;
+    u32 value;
+
+    index *= sizeof(*values);
+    value = gAi_bBestTarget;
+    *(u32 *)((u8 *)values + index) = value;
+}
