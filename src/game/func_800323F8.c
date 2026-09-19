@@ -53,6 +53,8 @@
 #include "card_type_icon_table.h"
 #include "func_800323F8.h"
 
+#define CARD_LIST_VIEW(list) ((CardList *)(list))
+
 void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
 {
     u8 *state;
@@ -124,14 +126,14 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             } while (j < 0x2D3);
             deck_list = state + 0x2D50;
             deck_total = 0;
-            ((CardList *)lists)[1].kind = on;
+            CARD_LIST_VIEW(lists)[1].kind = on;
             j = deck_total;
-            ((CardList *)lists)[1].first_target = 0;
-            ((CardList *)lists)[1].first = 0;
-            ((CardList *)lists)[1].cursor = 0;
-            ((CardList *)lists)[1].sort_choice = 0;
-            icon = (u8 *)(((CardList *)lists)[1].kind * 16 + icons);
-            ((CardList *)lists)[1].sort_mode = icon[1] & 0xF;
+            CARD_LIST_VIEW(lists)[1].first_target = 0;
+            CARD_LIST_VIEW(lists)[1].first = 0;
+            CARD_LIST_VIEW(lists)[1].cursor = 0;
+            CARD_LIST_VIEW(lists)[1].sort_choice = 0;
+            icon = (u8 *)(CARD_LIST_VIEW(lists)[1].kind * 16 + icons);
+            CARD_LIST_VIEW(lists)[1].sort_mode = icon[1] & 0xF;
             entry = state + 0x2D58;
             cards = *(u16 **)state;
             for (; j < 0x28; j++, entry += 0x10, cards++) {
@@ -152,23 +154,23 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             }
             *(s16 *)(deck_list + 0x284) = -1;
             *(s32 *)(lists + 0x5A9C) = deck_total;
-            ((CardList *)lists)[1].row_count = 0x28;
-            ((CardList *)lists)[1].sort_row_count = 0x28;
-            func_80032C48((CardList *)(state + 0x2D50));
+            CARD_LIST_VIEW(lists)[1].row_count = 0x28;
+            CARD_LIST_VIEW(lists)[1].sort_row_count = 0x28;
+            func_80032C48(CARD_LIST_VIEW(state + 0x2D50));
             func_8003201C((BuildDeckTransitionState *)state);
             chest_list = lists;
             n = 0;
             j = n;
             held = 0x80;
-            ((CardList *)lists)->kind = 0;
-            ((CardList *)lists)->first_target = 0;
-            ((CardList *)lists)->first = 0;
-            ((CardList *)lists)->row_count = 0x2D2;
-            ((CardList *)lists)->cursor = 0;
-            ((CardList *)lists)->sort_choice = 0;
-            icon_addr = ((CardList *)lists)->kind * 16;
+            CARD_LIST_VIEW(lists)->kind = 0;
+            CARD_LIST_VIEW(lists)->first_target = 0;
+            CARD_LIST_VIEW(lists)->first = 0;
+            CARD_LIST_VIEW(lists)->row_count = 0x2D2;
+            CARD_LIST_VIEW(lists)->cursor = 0;
+            CARD_LIST_VIEW(lists)->sort_choice = 0;
+            icon_addr = CARD_LIST_VIEW(lists)->kind * 16;
             icon_addr += icons;
-            ((CardList *)lists)->sort_mode = ((u8 *)icon_addr)[1] & 0xF;
+            CARD_LIST_VIEW(lists)->sort_mode = ((u8 *)icon_addr)[1] & 0xF;
             entry = lists + 0xD;
             stats = all_stats;
             quantity = *(u8 **)state + 0x50;
@@ -192,9 +194,9 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
             *(s16 *)(chest_list + 0x2D24) = 0;
             *(s32 *)(lists + 0x5A98) = n;
             rows = 0x2D2;
-            ((CardList *)lists)->sort_row_count = rows;
-            ((CardList *)lists)->row_count = rows;
-            func_80032C48((CardList *)lists);
+            CARD_LIST_VIEW(lists)->sort_row_count = rows;
+            CARD_LIST_VIEW(lists)->row_count = rows;
+            func_80032C48(CARD_LIST_VIEW(lists));
         }
         pane++;
         lists += 0x6344;
