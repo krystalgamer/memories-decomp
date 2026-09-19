@@ -14,7 +14,7 @@ int HostFile_GetSize(char *path)
     return size;
 }
 
-s32 func_800598E4(char *path, char *destination)
+s32 HostFile_ReadAll(char *path, char *destination)
 {
     return HostFile_ReadRange(path, destination, 0, 0);
 }
