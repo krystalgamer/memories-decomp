@@ -233,27 +233,23 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
 
 /* One frame of a single shard: seeded once with a random sideways kick and an
  * upward one, then thrown until it falls off the bottom of the screen. */
-void NameEntry_UpdateGlyphFragment(u8 *object)
+void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 {
-    DisplayObject *o = (DisplayObject *)object;
     u8 flags;
 
-    flags = o->field_6C;
+    flags = object->field_6C;
     if ((flags & 0x80) == 0) {
-        o->field_6C = flags | 0x80;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)o);
-        o->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
-        o->field_38.h.field_38 = -Rand_GetInterval(0x180);
+        object->field_6C = flags | 0x80;
+        DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+        object->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
+        object->field_38.h.field_38 = -Rand_GetInterval(0x180);
     }
-    o->field_34.h.field_36 =
-        DisplayObject_StepTowardZero(o->field_34.h.field_36, 8);
-    o->field_38.h.field_38 =
-        DisplayObject_StepToward(o->field_38.h.field_38, 0x800, 0x40);
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)o);
-    if ((s16)o->field_30.h.field_32 >= 0xF0) {
-        /* The parameter, not o: with every use on o, GCC keeps a second
-           callee-saved copy of it and the function grows by three
-           instructions. */
+    object->field_34.h.field_36 =
+        DisplayObject_StepTowardZero(object->field_34.h.field_36, 8);
+    object->field_38.h.field_38 =
+        DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
+    DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+    if ((s16)object->field_30.h.field_32 >= 0xF0) {
         DisplayObject_ReleaseIfPresent(object);
     }
 }
@@ -286,7 +282,8 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                                   (u16)glyph->field_40.h.field_40,
                                   (u16)glyph->field_40.h.field_42);
                     piece->field_6C = 3;
-                    piece->update = NameEntry_UpdateGlyphFragment;
+                    piece->update =
+                        (DisplayObjectCallback)NameEntry_UpdateGlyphFragment;
                 }
             }
         }
