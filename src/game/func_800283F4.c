@@ -44,6 +44,8 @@
 
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
     ((DisplayObjectPosition *)(object))
+#define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
+    ((DisplayObjectSnapshot *)(object))
 
 void DuelEffect_UpdateCardViewerState(void)
 {
@@ -86,7 +88,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->field_20.b.field_21 = 0x80;
         obj->field_30.h.field_32 += adj;
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
         obj->field_60 = slide_in;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
@@ -97,7 +99,7 @@ void DuelEffect_UpdateCardViewerState(void)
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)obj);
+        DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(obj));
         obj->field_60 = slide_in;
         D_8009B240 = obj;
         D_8009B250 = 0;
@@ -243,10 +245,10 @@ void DuelEffect_UpdateCardViewerState(void)
     }
 press:
     slide_out = 0x400;
-    DisplayObject_SavePosition((DisplayObjectSnapshot *)D_8009B240);
+    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(D_8009B240));
     next_obj = D_8009B24C;
     D_8009B240->field_60 = slide_out;
-    DisplayObject_SavePosition((DisplayObjectSnapshot *)next_obj);
+    DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(next_obj));
     D_8009B24C->field_60 = slide_out;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
