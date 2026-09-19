@@ -94,6 +94,7 @@
      CARD_STAT_TYPE_MASK)
 #define HAND_CARD_OBJECT_VIEW(object) ((HandCardObject *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DUEL_HAND_STACK_STATE_VIEW(state) ((DuelHandStackState *)(state))
 /* The two choice sprites set their flags through the halfword, not the
  * record: the store stays ahead of the pointer's own store. */
 #define SPRITE_FLAGS(sprite) (*(u16 *)((u8 *)(sprite) + 8))
@@ -136,7 +137,7 @@ void DuelScene_UpdateHandActions(void)
         DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(obj));
         DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(obj), 0xA);
         side->cursor_object = DISPLAY_OBJECT_VIEW(obj);
-        func_8001B780((DuelHandStackState *)side);
+        func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
         func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
         if (D_8009B360[D_8009B1D5] >= 0) {
@@ -212,12 +213,12 @@ void DuelScene_UpdateHandActions(void)
                     } else {
                         side->field_0E += 1;
                     }
-                    func_8001B780((DuelHandStackState *)side);
+                    func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
                     func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
                     return;
                 }
                 if (D_8009B19E & 1) {
-                    func_8001B7AC((DuelHandStackState *)side);
+                    func_8001B7AC(DUEL_HAND_STACK_STATE_VIEW(side));
                 }
                 SUBSTATE &= 0x7FFF;
                 return;
@@ -347,14 +348,14 @@ void DuelScene_UpdateHandActions(void)
                 }
             }
             side->field_0E = value;
-            func_8001B780((DuelHandStackState *)side);
+            func_8001B780(DUEL_HAND_STACK_STATE_VIEW(side));
             func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
             SD_SEPlayFull(6);
             return;
         }
         if ((gInput_wPad1Pressed & 0xFFFF) == 0x1000 && gInput_wPad1Held == 0x1000) {
             if (hand->active_09 == 0) {
-                func_8001B7AC((DuelHandStackState *)side);
+                func_8001B7AC(DUEL_HAND_STACK_STATE_VIEW(side));
                 return;
             }
         } else if ((gInput_wPad1Pressed & 0x20) ||
