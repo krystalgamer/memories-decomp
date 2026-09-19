@@ -13,6 +13,7 @@
 #include "func_80016784.h"
 
 #define POLY_FT4_BYTES(packet) ((u8 *)(packet))
+#define CARD_FRAME_SCRATCH_BYTES(scratch) ((u8 *)(scratch))
 
 /* Draws one card's frame on the duel field: position, the hand/field
  * flags, the card-number digits (via Duel_CalcCardStats and
@@ -96,11 +97,13 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->xy.h.y = o->pos.h.y + 0xF;
                         k->uv.b.lo = (n / 10) * 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                         k->uv.b.lo = (n % 10) * 0xC;
                         k->xy.h.x = k->xy.h.x + 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                     }
                 } else if (object->field_69 == 0) {
                     k->extent.word = 0x100020;
@@ -112,19 +115,22 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->uv.b.lo = 0x20;
                     case CARD_TYPE_MAGIC:
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 1;
                         break;
                     case CARD_TYPE_TRAP:
                         k->uv.b.lo = 0x40;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 2;
                         break;
                     case CARD_TYPE_RITUAL:
                         k->uv.b.lo = 0x60;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                         k->cxcy.h.cy = k->cxcy.h.cy + 3;
                         break;
                     default:
@@ -132,7 +138,8 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         k->uv.word = 0x7078;
                         k->xy.h.x = o->pos.h.x + 5;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                            k, POLY_FT4_BYTES(y), arg1, fl,
+                            CARD_FRAME_SCRATCH_BYTES(o));
                         k->uv.b.hi = 0x58;
                         k->extent.wh.h = 8;
                         k->xy.h.x = o->pos.h.x + 0xE;
@@ -143,11 +150,13 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                         do {
                             k->uv.b.lo = sp18[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                                k, POLY_FT4_BYTES(y), arg1, fl,
+                                CARD_FRAME_SCRATCH_BYTES(o));
                             k->xy.h.y = k->xy.h.y + 8;
                             k->uv.b.lo = sp20[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                                k, POLY_FT4_BYTES(y), arg1, fl,
+                                CARD_FRAME_SCRATCH_BYTES(o));
                             i--;
                             k->xy.h.x = k->xy.h.x + 8;
                             k->xy.h.y = k->xy.h.y - 8;
@@ -165,7 +174,8 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     z->extent.word = 0x200028;
                     z->uv.b.hi = (i / 5) << 5;
                     DisplayObject_SubmitPacket(
-                        z, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                        z, POLY_FT4_BYTES(y), arg1, fl,
+                        CARD_FRAME_SCRATCH_BYTES(o));
                 }
                 k->extent.word = 0x3C0034;
                 k->uv.word = 0x8000;
@@ -178,7 +188,8 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                     k->cxcy.word = 0xF10100;
                 }
                 DisplayObject_SubmitPacket(
-                    k, POLY_FT4_BYTES(y), arg1, fl, (u8 *)o);
+                    k, POLY_FT4_BYTES(y), arg1, fl,
+                    CARD_FRAME_SCRATCH_BYTES(o));
             }
         }
     }
