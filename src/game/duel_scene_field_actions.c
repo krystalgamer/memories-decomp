@@ -91,6 +91,7 @@
 #define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
 #define DUEL_CARD_PICK_CURSOR_VIEW(cursor) \
     ((DuelCardPickCursor *)(cursor))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
 /* Tentative definitions: the _comm profile keeps them common, which is what
  * puts retail's load-delay nop in front of each gp-relative store. */
@@ -380,7 +381,8 @@ void DuelScene_UpdateFieldActions(void)
             S(o, 0x36) = ((S(o, 0x28) - S(other, 0x28)) << 8) / 16;
             S(o, 0x3A) = ((S(o, 0x2A) - S(other, 0x2A)) << 8) / 16;
             D_8009B162 = 0x52;
-            ((DisplayObject *)o)->position.word = ((DisplayObject *)other)->position.word;
+            DISPLAY_OBJECT_VIEW(o)->position.word =
+                DISPLAY_OBJECT_VIEW(other)->position.word;
             return;
         }
         if (D_8009B162 == 0) {
@@ -491,8 +493,8 @@ void DuelScene_UpdateFieldActions(void)
         D_8009B178 = H(pick, 0x16);
         D_8009B170 = H(pick, 0x12);
         o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
-        DisplayObject_SetDepthOffset((DisplayObject *)o, -0xA);
-        D_800E9EF0[0] = (DisplayObject *)o;
+        DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), -0xA);
+        D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o);
         d = pick->card_id;
         DuelCard_DeactivateRecord(pick);
         i = side->row * 5 + side->col;
@@ -501,7 +503,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B17A = H(pick, 0x16);
             D_8009B172 = H(pick, 0x12);
             o = func_80017F04(pick, S(pick, 8), S(pick, 0xA));
-            D_800E9EF0[1] = (DisplayObject *)o;
+            D_800E9EF0[1] = DISPLAY_OBJECT_VIEW(o);
             D_8009B19C = B(o, 0x6A);
             DuelCard_DeactivateRecord(pick);
             if (CARD_KIND(d) == 0x17) {
@@ -528,7 +530,7 @@ void DuelScene_UpdateFieldActions(void)
             S(o, 0x2A) = 0x5A;
             S(o, 0x2C) = 0;
             B(o, 0x6C) = 1;
-            D_8009B1CC = (DisplayObject *)o;
+            D_8009B1CC = DISPLAY_OBJECT_VIEW(o);
             co = side->cursor_object;
             co->flags &= 0xFFBF;
             if (D_8009B21A == 0) {
