@@ -1,60 +1,71 @@
 /*
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
- * gcc_2_8_1_g8_split: 446 instructions against 446, opcode census distance 2
- * over the divergent blocks (lw +1, j -1) and 202 of 446 aligned on opcode
- * and registers in 24 structural blocks, with no hard register assignments
- * and no inline assembly.
+ * gcc_2_8_1_g8_split: 446 of 446 instructions at exact length, an EMPTY
+ * opcode census by encoded fields, 21 structural blocks, 289 of 446 aligned
+ * on opcode and registers, 304 raw words differing with relocations masked,
+ * with no hard register assignments and no inline assembly. The previous
+ * state was 446, census 2, 23 structural blocks, 202 aligned.
  *
- * The full vector block, inverted negation guard, reference-vector push, and
- * depth-three retry are present. A scalar clamp temporary feeding one shared
- * two-word ModelSeparationPair temporary reproduces the target assignments.
+ * TWO BEHAVIOURAL CORRECTIONS, both read off the retail listing before they
+ * were measured, and both worth more than any alignment figure:
+ *  - retail sets `moved = limit` AFTER the main body as well as on the
+ *    `mode == 0` path: the body's own fall-through lands on `j next` with
+ *    `move s1,s5` in the delay slot (words 399-400), and the `mode == 0`
+ *    branch jumps to that same instruction. The loop is therefore
+ *    `if (moved) { hits++; continue; } if (mode != 0) { body } moved = limit;`
+ *    The earlier source wrote `if (mode == 0) { moved = limit; continue; }`
+ *    and left `moved` untouched after the body, so with `mode != 0` it never
+ *    reached the `hits++` path and never recursed.
+ *  - the push is scaled by the EXTENTS, not by the distance: `mult a2,a1` at
+ *    word 304 multiplies the e0[i] loaded for the max test by `scale`, and
+ *    `lw v0,0(a3)` at 314 re-reads e2[i] through the `&e2.values[i]` pointer
+ *    materialised at 253-254 (the two instructions the earlier source
+ *    lacked) before multiplying it by `scale`; dx[i] and dz[i] decide only
+ *    the sign. So `px = e0.values[i] * scale / 4096` and
+ *    `pz = e2.values[i] * scale / 4096`, with the sign tests unchanged.
  *
- * Measured levers on top of that shape:
- *  - the sign test of the push is written `sd < 0` first, which gives the
- *    target's bgez instead of bltz;
- *  - the last clamp (record 1, field_DC8[2]) computes its value in `moved`
- *    before `moved` is zeroed, which gives `moved` the long-lived register
- *    and brings back four of the target's five register copies;
- *  - `hits` is volatile: the target keeps it in memory and reloads, adds and
- *    stores it on each increment;
- *  - `e0 = t;` and `e1 = t;` each sit in their own do { } while (0) block,
- *    which keeps the next clamp's halfword load after the pair copy;
- *  - the y reference is read into `nv` as its own statement before `ref`
- *    takes it (197 -> 202 aligned, census and structural blocks unchanged).
- *    A FRESH name is the lever here: borrowing a dead `ox` is 199 over 26
- *    structural and borrowing `v` is 198 over 25, both worse than either.
- *    `s32` and `u32` tie exactly.
+ * Levers measured on this body, in the order they were found:
+ *  - each clamp pair is written into the struct declared AFTER its
+ *    destination and copied down (pair 1 into e0 then `e3 = e0`, ..., dist
+ *    into `t` then `dist = t`): retail's frame writes every pair to the next
+ *    slot and copies it, and the declaration order is otherwise unchanged;
+ *  - the `hits++` arm sits out of line after the `continue` at the loop
+ *    bottom (`goto hit`), which is why retail needs the `j next` whose slot
+ *    carries `moved = limit`; inline, gcc emits no jump and is -1;
+ *  - `eb = e1.values[i]` is read before the |dy| test, where retail loads it
+ *    ahead of the bgez (word 271); this is the last instruction of the count;
+ *  - each clamp is `v = (s16)x; v = v / 2;` against one name, which is
+ *    retail's `sra v1,v1,0x1` into the halfword's own register;
+ *  - from before: the push sign test written `sd < 0` first (bgez, not
+ *    bltz); the last clamp computed in `moved` before `moved` is zeroed;
+ *    `hits` volatile (retail reloads, adds and stores it); `e0 = e1;` and
+ *    `e1 = e2;` in their own do { } while (0) blocks; the y reference read
+ *    into `nv` as its own statement before `ref` takes it.
  *
- * MEASURED AND CLOSED -- four axes, fourteen spellings, every one of them
- * byte-identical to the state it was measured against, so the next attempt
- * should not spend a round on any:
- *  - which side of the clamp comparison the loaded value sits on:
- *    `if (v < min_extent)` against `if (min_extent > v)` at all seven sites
- *    and at the `moved` site. gcc canonicalises both to the same RTL.
- *  - `min_extent` named into a block-scoped local per clamp, assigned before
- *    and after the division.
- *  - the negation guards `if (dx.values[i] <= 0) px = -px;` written as a
- *    ternary, for px, for pz, for both, and with an empty else arm.
- *  - the two `continue` statements written as an if/else if/else chain, in
- *    which all three arms fall through to one loop end. The target has one
- *    jump where this source has three, but gcc builds the same CFG from
- *    either spelling.
+ * COUPLED RESIDUE, recorded so it is not chased one half at a time: the two
+ * do { } while (0) pins hold two instructions (without them the count is -2,
+ * without the first -1) and they are also what leaves a nop in the delay
+ * slot of clamp 3's lhu at word 93, where retail schedules the min_extent
+ * reload; that one displaced word is the whole masked run 98-359.
  *
- * decomp-permuter, rerun from this source, produced 126 outputs; all were
- * re-scored by splicing each body into the real source rather than by the
- * tool's own metric. Three ranked better on the project's key and were
- * rejected on reading their diffs: one duplicates a call under `if
- * (min_extent)` with identical arms, one moves `hits = 0;` inside the loop
- * (which resets the counter the recursion test reads), and one recomputes
- * `dy.values[1]` from the vpz reference and deletes the D_8009AF98 update.
- * The two latter change behaviour.
+ * MEASURED AND DEAD on this base: the declaration position of `t` (moves the
+ * slot, not a word); do { } while (0) around whole clamp groups (+8) or
+ * around every copy (+7); `e0.values[i]` named for the max test and the
+ * multiply (identical -- gcc already keeps one load in a2); the e1 read
+ * named after rather than before `v` (identical). From the earlier header:
+ * which side of the clamp comparison the load sits on, min_extent named per
+ * clamp, the negation guards as ternaries, and borrowed names for `nv`. The
+ * earlier claim that the two `continue`s as an if/else chain give the same
+ * CFG was measured on the wrong structure and is withdrawn: the arms were
+ * never both `continue`s.
  *
- * Residual: in the `moved != 0` dispatch `moved` sits in $fp where the target
- * uses $s1 with the opposite branch polarity, and `mode` is reloaded from its
- * stack slot. All eleven of the target's min_extent reloads from its stack
- * slot are present. Addressing matches. See
- * notes/research/func-80051350-decode.md for the structural map.
+ * Residual: register choices, all in the loop (s0/s4 where retail has
+ * s1/s5, the address chain of D_800F56F0 in a2/a3 where retail has t0/t1
+ * with a caller-save around the call), plus the coupled nop above. Measure
+ * by raw words with relocations masked: align_functions.py erases the a0-a3
+ * register names (#5358). See notes/research/func-80051350-decode.md for the
+ * structural map, whose push and loop-exit passage carries both corrections.
  */
 #include "../types.h"
 #include "../game/model.h"
@@ -87,68 +98,77 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
     oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
 
-    v = (s16)D_800F2C40[0].field_DC8[3] / 2;
+    v = (s16)D_800F2C40[0].field_DC8[3];
+
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[3] / 2;
+    e0.values[0] = v;
+    v = (s16)D_800F2C40[1].field_DC8[3];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[1] = v;
-    e3 = t;
-    v = (s16)D_800F2C40[0].field_DC8[0] / 2;
+    e0.values[1] = v;
+    e3 = e0;
+    v = (s16)D_800F2C40[0].field_DC8[0];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[0] / 2;
+    e1.values[0] = v;
+    v = (s16)D_800F2C40[1].field_DC8[0];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[1] = v;
+    e1.values[1] = v;
     do {
-        e0 = t;
+        e0 = e1;
     } while (0);
-    v = (s16)D_800F2C40[0].field_DC8[1] / 2;
+    v = (s16)D_800F2C40[0].field_DC8[1];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[1] / 2;
+    e2.values[0] = v;
+    v = (s16)D_800F2C40[1].field_DC8[1];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[1] = v;
+    e2.values[1] = v;
     do {
-        e1 = t;
+        e1 = e2;
     } while (0);
-    v = (s16)D_800F2C40[0].field_DC8[2] / 2;
+    v = (s16)D_800F2C40[0].field_DC8[2];
+    v = v / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    t.values[0] = v;
-    moved = (s16)D_800F2C40[1].field_DC8[2] / 2;
+    dx.values[0] = v;
+    moved = (s16)D_800F2C40[1].field_DC8[2];
+    moved = moved / 2;
     if (moved < min_extent) {
         moved = min_extent;
     }
-    t.values[1] = moved;
-    e2 = t;
+    dx.values[1] = moved;
+    e2 = dx;
 
     ref = D_800F56F0.vpx + ox;
-    t.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[0];
-    t.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[0];
-    dx = t;
+    dy.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[0];
+    dy.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[0];
+    dx = dy;
     nv = D_800F56F0.vpy;
     ref = nv;
-    t.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[1];
-    t.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[1];
-    dy = t;
+    dz.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[1];
+    dz.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[1];
+    dy = dz;
     ref = D_800F56F0.vpz + oz;
-    t.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[2];
-    t.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[2];
-    dz = t;
+    dist.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[2];
+    dist.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[2];
+    dz = dist;
 
     t.values[0] = SquareRoot0(
         dx.values[0] * dx.values[0] + dz.values[0] * dz.values[0]);
@@ -180,6 +200,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     depth = depth + 1;
     for (i = 0; i < 2; i++) {
         s32 limit;
+        s32 eb;
         s32 d;
         s32 v;
 
@@ -190,11 +211,12 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         if (limit < e3.values[i]) {
             limit = e3.values[i];
         }
+        eb = e1.values[i];
         v = dy.values[i];
         if (v < 0) {
             v = -v;
         }
-        if (e1.values[i] < v) {
+        if (eb < v) {
             continue;
         }
         d = dist.values[i];
@@ -205,24 +227,19 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
             continue;
         }
         if (moved != 0) {
-            hits = hits + 1;
-            continue;
+            goto hit;
         }
-        if (mode == 0) {
-            moved = limit;
-            continue;
-        }
-        {
+        if (mode != 0) {
             s32 scale;
             s32 px;
             s32 pz;
 
             scale = ((limit - d) << 12) / limit;
-            px = dx.values[i] * scale / 4096;
+            px = e0.values[i] * scale / 4096;
             if (dx.values[i] <= 0) {
                 px = -px;
             }
-            pz = dz.values[i] * scale / 4096;
+            pz = e2.values[i] * scale / 4096;
             if (dz.values[i] <= 0) {
                 pz = -pz;
             }
@@ -254,6 +271,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
             D_800F56F0.vpx = D_800F56F0.vpx + px;
             D_800F56F0.vpz = D_800F56F0.vpz + pz;
         }
+        moved = limit;
+        continue;
+    hit:
+        hits = hits + 1;
     }
 
     if (mode != 0 && moved != 0) {
