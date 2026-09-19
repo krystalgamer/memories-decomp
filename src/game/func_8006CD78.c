@@ -38,6 +38,7 @@
 #define QUAD_X(n) (sign * -(e->radius >> 2) * (n))
 #define QUAD_Z(n) (-(e->radius >> 2) * (n))
 #define BURST_ABS(x) ((x) >= 0 ? (x) : -(x))
+#define VECTOR_VIEW(value) ((VECTOR *)(value))
 /* The red and green bytes of a colour, read as the high half of the word that
  * starts two bytes before it. */
 #define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
@@ -155,7 +156,7 @@ s32 func_8006CD78(void *data, s32 arg1)
         rot.vz = 0;
     }
     GsSetLsMatrix(&ls);
-    RotTrans(&e->origin, (VECTOR *)m.t, (long *)&flag);
+    RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
     RotMatrix(&rot, &m);
     MulMatrix2(&ls, &m);
     ScaleMatrix(&m, &scale);
@@ -324,7 +325,7 @@ s32 func_8006CD78(void *data, s32 arg1)
         (HI16(e, 0xD94) != 0 || e->colors[1].b != 0) &&
         (HI16(e, 0xD98) != 0 || e->colors[2].b != 0)) {
         GsSetLsMatrix(&ls);
-        RotTrans(&e->origin, (VECTOR *)m.t, (long *)&flag);
+        RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
@@ -379,7 +380,7 @@ s32 func_8006CD78(void *data, s32 arg1)
             copyVector(&pos, &e->origin);
             addVector(&pos, &e->sparks[i]);
             GsSetLsMatrix(&ls);
-            RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+            RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
@@ -453,7 +454,7 @@ stage_test:
         setVector(&pos, 0, -0x220, 0);
         addVector(&pos, &e->origin);
         GsSetLsMatrix(&ls);
-        RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+        RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
