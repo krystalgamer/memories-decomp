@@ -13,9 +13,9 @@ int func_8005988C(int value)
     return value;
 }
 
-s32 func_800598E4(int first, int second)
+s32 func_800598E4(char *path, char *destination)
 {
-    return HostFile_ReadRange((char *)first, (char *)second, 0, 0);
+    return HostFile_ReadRange(path, destination, 0, 0);
 }
 
 #define FILE_READ_CHUNK_SIZE 0x1000

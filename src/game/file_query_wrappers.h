@@ -8,10 +8,10 @@
  * when the open fails. */
 int func_8005988C(int value);
 
-/* Reads the whole of host file `first` to `second` through
+/* Reads the whole of host file `path` to `destination` through
  * HostFile_ReadRange and returns the byte count, or 0 on failure.
  * model_texture_upload.c loads a TIM to 0x80400000 with it. */
-s32 func_800598E4(int first, int second);
+s32 func_800598E4(char *path, char *destination);
 
 /* Reads `length` bytes of a host file into memory through the SN fileserver,
    in 0x1000-byte chunks. A zero `length` means "to the end of the file".

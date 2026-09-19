@@ -43,7 +43,7 @@ s32 func_80058B4C(GsIMAGE *data, s32 arg1, s32 mode, s32 arg3, s32 x, s32 y,
     high = 0;
     low = high;
 
-    if (func_800598E4(arg1, 0x80400000) > 0) {
+    if (func_800598E4((char *)arg1, (char *)0x80400000) > 0) {
         GsGetTimInfo((unsigned long *)0x80400004, data);
         if (mode < 2) {
             if (*(s32 *)&data->px == 0) {
