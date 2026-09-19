@@ -101,7 +101,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
     Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     PushMatrix();
-    ls = *(MATRIX *)func_80059220();
+    ls = *(MATRIX *)Model_GetLightSourceMatrix();
     Model_CopySlotU16Values(slot, (u16 *)&pos);
     pos.vy = 0;
     GsSetLsMatrix(&ls);

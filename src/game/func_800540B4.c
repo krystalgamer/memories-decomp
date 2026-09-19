@@ -542,7 +542,7 @@ void func_800540B4(s32 index)
             poly.r2 = (s16)B(&D_8009AFE6, 0) / 16;
             poly.g2 = (s16)B(&D_8009AFE6, 1) / 16;
             poly.b2 = (s16)D_8009AFE8 / 16;
-            GsSetLsMatrix((MATRIX *)func_80059220());
+            GsSetLsMatrix((MATRIX *)Model_GetLightSourceMatrix());
             func_80057E20(index, &adj);
             w = adj.x;
             d = adj.z;

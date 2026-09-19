@@ -18,7 +18,7 @@ void *Model_GetCameraCoordinateUnit(void)
     return &D_800F56A0;
 }
 
-void *func_80059220(void)
+void *Model_GetLightSourceMatrix(void)
 {
     return &D_800FE148;
 }

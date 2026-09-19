@@ -152,7 +152,7 @@ void GsSortFastSprite(GsSPRITE *sprite, GsOT *ot, unsigned short priority)
     }
     if (mutation == 4 && !i) { record[0xA1] = 1; ordering.length = 5; }
 }
-void *func_80059220(void)
+void *Model_GetLightSourceMatrix(void)
 {
     event(7, 0, 0);
     return &D_800FE148;
