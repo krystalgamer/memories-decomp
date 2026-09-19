@@ -159,9 +159,11 @@ extern u8 D_8009B320;
  * 0 when func_80029EB0's result `r` (:32) has `(r & 0x80) == 0` (:34-35);
  * func_80060E70 stores `id` (func_80060E70.c). func_80037DA4 reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
- * (in its candidate). Four functions still in assembly also store it:
- * func_8001B170.s:140-141, DuelScene_UpdateResultRewards.s:202-203 and :235-236,
- * DuelEffect_ApplyRitual assembly:379-380, func_8002ACA4.s:311-312.
+ * (in its candidate). func_8002ACA4 (src/game/library_runtime.c) stores the
+ * Library's selected card and reads it straight back as that index. Three
+ * functions still in assembly also store it: func_8001B170.s:140-141,
+ * DuelScene_UpdateResultRewards.s:202-203 and :235-236,
+ * DuelEffect_ApplyRitual assembly:379-380.
  *
  * s16 because func_80037DA4, the only function that loads it, declared it s16
  * when it matched; the five loads are lh (func_80037DA4.s:27/:34/:56/:68/
@@ -171,10 +173,11 @@ extern u8 D_8009B320;
  * Those five loads are %gp_rel and every C writer's sh goes through $at
  * (CardList_CreateSlotTextBox at 0x80031CD4, func_80023144.s:36-37,
  * DuelEffect_UpdateCardViewerState.s:102-103,
- * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the four
+ * func_8002A2F4.s:13-14 and :26-27, func_80060E70.s:61-62), so the five
  * units whose profiles are -G8 at both the compiler and maspsx --
  * duel_field_display_objects.c (func_80023144), func_80060E70.c,
- * func_8002A3CC.c and the DuelEffect_UpdateCardViewerState candidate --
+ * func_8002A3CC.c, library_runtime.c (func_8002ACA4) and the
+ * DuelEffect_UpdateCardViewerState candidate --
  * define the .data arm, and card_list_text_boxes.c, whose unit assembles
  * at -G0, takes the plain declaration.
  * Initial value not read. */

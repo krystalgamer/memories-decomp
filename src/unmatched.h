@@ -81,7 +81,6 @@
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
 void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
-void func_8002ACA4(u8 *);           /* library_runtime.c */
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to DisplayObject_ConfigureSpriteAtPositionWithResource or stores it into an object field, and

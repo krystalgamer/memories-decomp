@@ -1537,6 +1537,12 @@
       "source": "src/game/func_8002ABB4.c"
     },
     {
+      "address": "0x8002ACA4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDFC",
+      "source": "src/game/library_runtime.c"
+    },
+    {
       "address": "0x8002BAA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",

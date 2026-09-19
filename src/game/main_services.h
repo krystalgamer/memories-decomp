@@ -24,10 +24,12 @@
  * (func_8002BD0C.c:189, `D_800E9DB0[3] = func_80029EC4;`; func_8002BFCC.s:52
  * and :56) and CampaignMap_SetLocation
  * (src/overlays/overworld/set_location.c:56,
- * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by func_8002ACA4.s, still
- * assembly: `sw $zero` at :407 and the address of func_80029EC4 at :854.
- * Slot 2 is stored only by func_8002ACA4.s (:509, :745), under splat's name
- * for that address, D_800E9DB8; no other listing and no C unit names it.
+ * `D_800E9DB0[3] = CampaignMap_UpdateView;`), and by func_8002ACA4
+ * (src/game/library_runtime.c), which clears it when the card view opens and
+ * restores func_80029EC4 when it closes.
+ * Slot 2 is stored only by func_8002ACA4, which installs func_80029934 for
+ * the model view and clears it on the way out; splat's name for that address
+ * is D_800E9DB8, and no other listing or C unit names it.
  * Slot 1 is stored by the main_menu overlay, by index:
  * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
  * `D_800E9DB0[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
