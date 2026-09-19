@@ -15,6 +15,8 @@
 #include "dialog_choice.h"
 #include "display_object_render_spotlight_mask.h"
 
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+
 void func_8003D518(MenuRecord *record)
 {
     DisplayObject *object;
@@ -33,7 +35,7 @@ void func_8003D518(MenuRecord *record)
         record->grid[0][1] = (s32)object;
     }
     flags = D_8009B3C1;
-    object = (DisplayObject *)record->grid[0][1];
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (flags & 64) {
         D_8009B3C1 = 0;
     } else {
@@ -56,7 +58,7 @@ void func_8003D614(MenuRecord *record)
     DuelEffectChannel *entry;
 
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
-        object = (DisplayObject *)record->grid[0][0];
+        object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
         object->field_60 = 0x400;
@@ -64,7 +66,7 @@ void func_8003D614(MenuRecord *record)
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
     entry = &D_800EB0F8[((u8 *)record)[0x1A]];
-    object = (DisplayObject *)record->grid[0][0];
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
         if (object->field_60 <= 0) {
@@ -84,7 +86,7 @@ void func_8003D614(MenuRecord *record)
             );
         }
     }
-    object = (DisplayObject *)record->grid[0][1];
+    object = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     if (object) {
         *(u16 *)&object->field_48.h.field_4A += 8;
         *(u16 *)&object->field_48.h.field_48 += 8;
@@ -156,7 +158,7 @@ void func_8003D74C(MenuRecord *record)
         }
         return;
     }
-    p = (DisplayObject *)record->grid[0][0];
+    p = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     t = *(u16 *)&p->field_60;
     if (p->field_60 < 0) {
         v = t + 0x40;
@@ -171,13 +173,13 @@ void func_8003D74C(MenuRecord *record)
         TextBox_SetPos(r, *(s16 *)&p->field_30.h.field_30,
                        *(s16 *)&p->field_30.h.field_32);
     }
-    p = (DisplayObject *)record->grid[0][1];
+    p = DISPLAY_OBJECT_VIEW(record->grid[0][1]);
     p->field_48.h.field_4A = *(u16 *)&p->field_48.h.field_4A - 8;
     p->field_48.h.field_48 = *(u16 *)&p->field_48.h.field_48 - 8;
     if (p->field_48.h.field_48 <= 0) {
         p->field_48.h.field_48 = 0;
         p->field_48.h.field_4A = 0x40;
-        if (((DisplayObject *)record->grid[0][0])->field_60 == 0) {
+        if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
             g = D_8009B3C1;
             r->flags_34 = r->flags_34 & 0xFFFB;
             D_8009B3C1 = g | 0x40;
