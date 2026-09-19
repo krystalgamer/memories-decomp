@@ -2808,7 +2808,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F569F,D_800F569F,D_800F569F,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,if (D_800F569F[0] != 0) {
 0x800F56A0,D_800F56A0,D_800F56A0,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,address,,GsSetLightMatrix(&D_800F56A0.matrix);
 0x800F56A0,D_800F56A0,D_800F56A0,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,address,,GsCOORDUNIT *o = &D_800F56A0;
-0x800F56A0,D_800F56A0,D_800F56A0,0x80059214,func_80059214,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56A0;
+0x800F56A0,D_800F56A0,D_800F56A0,0x80059214,Model_GetCameraCoordinateUnit,matching_c,game,C,src/game/model_buffer_getters.c,address,,return &D_800F56A0;
 0x800F56F0,D_800F56F0,D_800F56F0,0x80051350,func_80051350,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_041b50.s,read,32,"addiu $a1, $a1, %lo(D_800F56F0) | addiu $t0, $t1, %lo(D_800F56F0) | (+4 more)"
 0x800F56F0,D_800F56F0,D_800F56F0,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,D_800F56F0.vpx = (D_800F2B20.eye.end_x - D_800F2B20.eye.start_x) * | D_800F56F0.vpx = D_800F56F0.vpx + | (+20 more)
 0x800F56F0,D_800F56F0,D_800F56F0,0x80052528,func_80052528,matching_c,game,C,src/game/model_scene_setup.c,address,,view = &D_800F56F0;

@@ -50,10 +50,11 @@ extern GsRVIEW2 D_800F5710;
 /* 0x800F56A0, the GsCOORDUNIT func_800530C4 rebuilds in the block after its
  * GsSetRefView2 call (func_80052D2C.c:201): it zeroes rot (:204-206),
  * matrix.t (:207-209) and super (:210), passes &o->rot and &o->matrix to
- * RotMatrix_gte (:211) and clears flg (:212). func_80059214 returns its
- * address as void * (model_buffer_getters.c:7); nothing in src or the listings
+ * RotMatrix_gte (:211) and clears flg (:212). Model_GetCameraCoordinateUnit returns its
+ * address as void * (model_buffer_getters.c:16); nothing in src or the listings
  * calls it. D_800F56F0 above starts at +0x50, the size of GsCOORDUNIT. The
  * two units used to declare it GsCOORDUNIT and u8. */
 extern GsCOORDUNIT D_800F56A0;
+void *Model_GetCameraCoordinateUnit(void);
 
 #endif
