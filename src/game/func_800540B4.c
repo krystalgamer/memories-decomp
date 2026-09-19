@@ -65,6 +65,7 @@
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
+#define VECTOR_VIEW(vector) ((VECTOR *)(vector))
 
 /* Defined rather than declared so the assembler pads the loads that feed
  * their gp-relative stores; model_primitive_templates.c and
@@ -314,11 +315,13 @@ void func_800540B4(s32 index)
                 }
             }
             if (found) {
-                ScaleMatrix((MATRIX *)((u8 *)e->field_00 + 4), (VECTOR *)&slot->field_DB0);
+                ScaleMatrix(
+                    (MATRIX *)((u8 *)e->field_00 + 4),
+                    VECTOR_VIEW(&slot->field_DB0));
             } else {
                 func_8005922C(
                     GS_COORD_UNIT_VIEW(e->field_00),
-                    (VECTOR *)&slot->field_DB0);
+                    VECTOR_VIEW(&slot->field_DB0));
             }
         }
         if (W(e->field_04, 0) != -1 || W(e->field_04, 8) != 0) {
