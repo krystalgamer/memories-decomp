@@ -88,6 +88,7 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
    are displayed life points and DECK_SIZE minus the signed deck_draw_cursor
    of the corresponding D_800E9FF0 entry. */
 
+#define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define SCRATCH ((DuelStatusDigitPacket *)0x1F800320)
 
 void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
@@ -116,7 +117,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     scratch->field_06 = pos->field_30.h.field_32 - 0xD;
     func_80016D2C(
         pos,
-        (GsSPRITE *)scratch,
+        GS_SPRITE_VIEW(scratch),
         D_800E9FF0[1].displayed_life_points,
         4
     );
@@ -125,7 +126,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     scratch->field_06 = pos->field_30.h.field_32 - 5;
     func_80016D2C(
         pos,
-        (GsSPRITE *)scratch,
+        GS_SPRITE_VIEW(scratch),
         DECK_SIZE - D_800E9FF0[1].deck_draw_cursor,
         2
     );
@@ -139,7 +140,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     scratch->field_06 = pos->field_30.h.field_32 + 0xD;
     func_80016D2C(
         pos,
-        (GsSPRITE *)scratch,
+        GS_SPRITE_VIEW(scratch),
         D_800E9FF0[0].displayed_life_points,
         4
     );
@@ -148,7 +149,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
     scratch->field_06 = pos->field_30.h.field_32 + 5;
     func_80016D2C(
         pos,
-        (GsSPRITE *)scratch,
+        GS_SPRITE_VIEW(scratch),
         DECK_SIZE - D_800E9FF0[0].deck_draw_cursor,
         2
     );
