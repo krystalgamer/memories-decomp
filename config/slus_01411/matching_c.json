@@ -4042,13 +4042,13 @@
       "address": "0x80043328",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1CC",
-      "source": "src/game/main_load_boot_package_stage.c"
+      "source": "src/game/main_boot_load_stages.c"
     },
     {
       "address": "0x800434F4",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x168",
-      "source": "src/game/func_800434F4.c"
+      "source": "src/game/main_boot_load_stages.c"
     },
     {
       "address": "0x8004365C",
