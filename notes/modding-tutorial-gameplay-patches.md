@@ -718,7 +718,7 @@ terrain-package and phase layout is detailed in
 **Tutorial:** `FM2 Traps e  Imunidade - Por Claudio Lima.txt`
 
 This is not a one-byte balance edit. It replaces seven instruction sequences
-inside the resident `func_8001F0D0` trap-selection routine and installs two
+inside the resident `Duel_SelectAttackTrap` routine and installs two
 code/data payloads:
 
 | SLUS range | VRAM range | Size | Retail destination |
@@ -778,7 +778,8 @@ intended meaning of those IDs in a patched game.
 
 **Confidence:**
 
-- **Confirmed** that all seven hook offsets are inside `func_8001F0D0` and
+- **Confirmed** that all seven hook offsets are inside `Duel_SelectAttackTrap`
+  and
   redirect to the zero-filled `0x801CDA30` payload.
 - **Confirmed** that the smaller payload overwrites three live `0xB2`-byte
   descriptor records and is reached as executable helper code.
