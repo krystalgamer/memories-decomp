@@ -1712,7 +1712,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80033998,BuildDeck_HasOpenDeckSlot,matching_c,game,C,src/game/build_deck_deck_capacity.c,read,,CardEntry *entry = gBuildDeck_pState->lists[1].entries;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,,D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState); | base = gBuildDeck_pState; | (+1 more)
 0x8009B300,D_8009B300,D_8009B300,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,32,D_8009B300 = t; | a = *(u8 *)&D_8009B300;
-0x8009B300,D_8009B300,D_8009B300,0x80033DB0,func_80033DB0,matching_c,game,C,src/game/func_80033DB0.c,read,32,*(u32 *)grey = D_8009B300; | *(u32 *)white = D_8009B300;
+0x8009B300,D_8009B300,D_8009B300,0x80033DB0,func_80033DB0,matching_c,game,C,src/game/func_80033DB0.c,read,32,CVECTOR_WORD(grey) = D_8009B300; | CVECTOR_WORD(white) = D_8009B300;
 0x8009B300,D_8009B300,D_8009B300,0x80034830,func_80034830,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_025030.s,read,32,"lw $v0, %gp_rel(D_8009B300)($gp)"
 0x8009B300,D_8009B300,D_8009B300,0x80035668,func_80035668,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B300 = 0x808080;
 0x8009B304,D_8009B304,D_8009B304,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read,,D_8009B310 = D_8009B304;
