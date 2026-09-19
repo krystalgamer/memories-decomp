@@ -93,6 +93,7 @@
     ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & \
      CARD_STAT_TYPE_MASK)
 #define HAND_CARD_OBJECT_VIEW(object) ((HandCardObject *)(object))
+#define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 /* The two choice sprites set their flags through the halfword, not the
  * record: the store stays ahead of the pointer's own store. */
 #define SPRITE_FLAGS(sprite) (*(u16 *)((u8 *)(sprite) + 8))
@@ -129,11 +130,12 @@ void DuelScene_UpdateHandActions(void)
         side->field_15 = 0;
         obj = HAND_CARD_OBJECT_VIEW(
             DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2));
-        DisplayObject_ConfigureSpriteResource((DisplayObject *)obj, 3, 0, 2, 0xB, 0x20C);
+        DisplayObject_ConfigureSpriteResource(
+            DISPLAY_OBJECT_VIEW(obj), 3, 0, 2, 0xB, 0x20C);
         obj->flags |= 0x28;
-        DisplayObject_SelectOrderingTable1((DisplayObject *)obj);
-        DisplayObject_SetDepthOffset((DisplayObject *)obj, 0xA);
-        side->cursor_object = (DisplayObject *)obj;
+        DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(obj));
+        DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(obj), 0xA);
+        side->cursor_object = DISPLAY_OBJECT_VIEW(obj);
         func_8001B780((DuelHandStackState *)side);
         func_80023144((DuelFieldDisplaySource *)side, HAND_CARD_INDEX(side));
         D_8009B174 = 1;
@@ -237,7 +239,8 @@ void DuelScene_UpdateHandActions(void)
                 obj->saved.xy.x = 0x10;
                 obj->field_6C = 1;
                 obj->update = func_8001EC70;
-                DisplayObject_SetDepthOffset((DisplayObject *)obj, (s8)(obj->depth + 4));
+                DisplayObject_SetDepthOffset(
+                    DISPLAY_OBJECT_VIEW(obj), (s8)(obj->depth + 4));
                 side->cursor_object->flags &= 0xFFBF;
                 return;
             }
@@ -246,7 +249,7 @@ void DuelScene_UpdateHandActions(void)
                     SUBSTATE &= 0xBFFF;
                     if (SUBSTATE & 0x1000) {
                         DisplayObject_SetDepthOffset(
-                            (DisplayObject *)obj, (s8)(obj->depth - 4));
+                            DISPLAY_OBJECT_VIEW(obj), (s8)(obj->depth - 4));
                         SUBSTATE = 3;
                         side->cursor_object->flags |= 0x40;
                         return;
@@ -273,7 +276,7 @@ void DuelScene_UpdateHandActions(void)
                 value = CARD_KIND(card_id);
                 if (value >= CARD_TYPE_MAGIC && obj->face == 0 &&
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
-                    D_800E9EF0[0] = (DisplayObject *)obj;
+                    D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
                     D_8009B1C8->hand[(s8)side->field_0E] = -1;
                     D_8009B174 = 5;
                     return;
@@ -405,7 +408,7 @@ void DuelScene_UpdateHandActions(void)
             DisplayObject_SavePosition((void *)obj);
             obj->step = 0;
             DisplayObject_SetDepthOffset(
-                (DisplayObject *)obj, (s8)(obj->depth + 4));
+                DISPLAY_OBJECT_VIEW(obj), (s8)(obj->depth + 4));
             side->cursor_object->flags &= 0xFFBF;
         }
         if (D_8009B174 & 0x40) {
@@ -418,7 +421,7 @@ void DuelScene_UpdateHandActions(void)
                 if (D_8009B174 & 0x10) {
                     side->cursor_object->flags |= 0x40;
                     DisplayObject_SetDepthOffset(
-                        (DisplayObject *)obj, (s8)(obj->depth - 4));
+                        DISPLAY_OBJECT_VIEW(obj), (s8)(obj->depth - 4));
                     if (D_8009B174 & 0x20) {
                         D_8009B174 = 4;
                         return;
@@ -437,18 +440,18 @@ void DuelScene_UpdateHandActions(void)
                 DisplayObject_ConfigureSpriteAtPosition(
                     sprite, (s16)obj->pos.xy.x - 8, (s16)obj->pos.xy.y + 0x1E,
                     3, 1, 2, 0xB, 0x20C);
-                DisplayObject_SelectOrderingTable1((DisplayObject *)sprite);
-                DisplayObject_SetDepthOffset((DisplayObject *)sprite, 0xA);
+                DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(sprite));
+                DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(sprite), 0xA);
                 SPRITE_FLAGS(sprite) |= 0x28;
-                D_8009B188 = (DisplayObject *)sprite;
+                D_8009B188 = DISPLAY_OBJECT_VIEW(sprite);
                 sprite = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(
                     sprite, (s16)obj->pos.xy.x + 0x3C, (s16)obj->pos.xy.y + 0x1E,
                     3, 1, 0, 0xB, 0x20C);
-                DisplayObject_SelectOrderingTable1((DisplayObject *)sprite);
-                DisplayObject_SetDepthOffset((DisplayObject *)sprite, 0xA);
+                DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(sprite));
+                DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(sprite), 0xA);
                 SPRITE_FLAGS(sprite) |= 0x28;
-                D_8009B18C = (DisplayObject *)sprite;
+                D_8009B18C = DISPLAY_OBJECT_VIEW(sprite);
                 return;
             }
         } else if (D_8009B174 & 0x20) {
@@ -503,7 +506,7 @@ void DuelScene_UpdateHandActions(void)
                     value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
                     DisplayObject_ReleaseIfPresent(D_8009B188);
                     DisplayObject_ReleaseIfPresent(D_8009B18C);
-                    D_800E9EF0[0] = (DisplayObject *)obj;
+                    D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(obj);
                     D_8009B18C = 0;
                     D_8009B188 = 0;
                     D_8009B1C8->hand[(s8)side->field_0E] = -1;
@@ -564,7 +567,9 @@ void DuelScene_UpdateHandActions(void)
                 if (card->flags & 0x8000) {
                     obj = HAND_CARD_OBJECT_VIEW(card->object);
                     i = 1;
-                    D_800E9EF0[0] = (DisplayObject *)func_80017F04(card, CARD_PLACE_X(card), CARD_PLACE_Y(card));
+                    D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(
+                        func_80017F04(
+                            card, CARD_PLACE_X(card), CARD_PLACE_Y(card)));
                     DuelCard_DeactivateRecord(&D_801A7AD8[obj->card_index]);
                 } else if (side->field_15 == 0 &&
                            HAND_CARD_OBJECT_VIEW(hand->object)->kind ==
@@ -591,7 +596,7 @@ void DuelScene_UpdateHandActions(void)
                             if (slot->active_09 == value) {
                                 D_8009B1C8->hand[n] = none;
                                 i++;
-                                *out = (DisplayObject *)slot->object;
+                                *out = DISPLAY_OBJECT_VIEW(slot->object);
                                 break;
                             }
                             n++;
