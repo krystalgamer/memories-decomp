@@ -9,16 +9,18 @@
    durations. The four-byte element view remains the storage owner; the
    consumer describes the measured 28-byte record locally.
 
-   model_disc_effect.c reads D_80091604 and is matching C too, and so is
-   func_8006CD78.c, which reads D_80091610 and D_800916D4. It reads
+   model_disc_effect.c reads D_80091604 and is matching C too, so
+   D_80091604 is stored as the ModelDiscEffectConfig record it reads.
+   func_8006CD78.c, which reads D_80091610 and D_800916D4, is matching C as
+   well. It reads
    D_800916D4 as three ring colours stored a channel at a time
    (ModelBurstPalette in model_burst_effect.h), and the head of D_80091610 as
    one 28-byte image record (ModelBurstImage): a pixel mode and the
    frame-buffer rectangles of the image and its colour table. Only that first
    record is ever read, so the storage keeps its flat halfword view.
 
-   Element widths are the ones the extractor assigned from the labelling and
-   alignment in the image.
+   The other element widths are the ones the extractor assigned from the
+   labelling and alignment in the image.
 
    The file name comes from the neighbourhood, not from these tables: the
    matched siblings just past their readers are recursive triangle
@@ -29,8 +31,8 @@ u32 D_800915E8[] = {
     0x012CA000, 0x000A012C, 0x0000005A,
 };
 
-u16 D_80091604[] = {
-    0x2020, 0x0020, 0x012C, 0x0014, 0x000A, 0x0000,
+ModelDiscEffectConfig D_80091604 = {
+    0x20, 0x20, 0x20, 0, 300, 20, 10, 0,
 };
 
 u16 D_80091610[] = {
