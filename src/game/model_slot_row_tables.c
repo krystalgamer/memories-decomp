@@ -3,6 +3,8 @@
 #include "func_8004D914.h"
 #include "model_slot_row_tables.h"
 
+#define MODEL_CHANNEL_HALFWORD(cursor) (*(u16 *)(cursor))
+
 /* One model slot's animation channel and row-table helpers: the channel
    decoder, the reset that imports the command list, and the walk that
    consumes it. The three form the complete gcc_2_8_1_g0 run below
@@ -113,23 +115,24 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
         do {
             if (mode < 2) {
                 p = rec + off1;
-                v = *(u16 *)p;
+                v = MODEL_CHANNEL_HALFWORD(p);
                 adjusted = v + add1;
-                *(u16 *)p = adjusted;
+                MODEL_CHANNEL_HALFWORD(p) = adjusted;
                 f = (v >> 7) & 3;
                 if (f >= 3) {
-                    *(u16 *)p = adjusted & 0xFF7F;
+                    MODEL_CHANNEL_HALFWORD(p) = adjusted & 0xFF7F;
                 }
                 if (f < 2) {
                     q = rec + off2;
-                    v = *(u16 *)q;
+                    v = MODEL_CHANNEL_HALFWORD(q);
                     y = v + add2;
-                    *(u16 *)q = y;
+                    MODEL_CHANNEL_HALFWORD(q) = y;
                     x = v >> 6;
                     if (x >= 0x10) {
                         y = (y & 0x3F) + 0x10;
-                        *(u16 *)q = y;
-                        *(u16 *)q = y | ((x % 0x10) << 6);
+                        MODEL_CHANNEL_HALFWORD(q) = y;
+                        MODEL_CHANNEL_HALFWORD(q) =
+                            y | ((x % 0x10) << 6);
                     }
                 }
             }
