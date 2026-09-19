@@ -50,6 +50,9 @@ FileTransferDescriptor *File_InitTransferDescriptor(
     s32
 );
 FileTransferDescriptor *func_80013A94(s32 file_index, s32 sector_offset);
+FileTransferDescriptor *File_TryStartPrimaryTransfer(
+    s32 file_index, s32 sector_offset
+);
 /* The four command-completion callbacks the runtime installs through
  * DsCommand and DsPacket: each re-issues its command on event 5 and clears
  * the busy bit on event 2. */
