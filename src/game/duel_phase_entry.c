@@ -33,6 +33,9 @@
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
 
+#define DUEL_CARD_DISPLAY_OBJECT_VIEW(object) \
+    ((DuelCardDisplayObject *)(object))
+
 /* Three contiguous entries from the gDuel_apfnSceneStateHandler duel-phase callback table:
    resume/replay reconstruction, initial deck and selection setup, and draw
    phase hand reconstruction. All three use gDuel_wSceneStateFlags as their first-call
@@ -63,7 +66,7 @@ void DuelScene_UpdateResume(void)
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(
-                    (DuelCardDisplayObject *)rec->object);
+                    DUEL_CARD_DISPLAY_OBJECT_VIEW(rec->object));
             }
         }
         rec = D_801A7B64 + 15;
@@ -76,7 +79,7 @@ void DuelScene_UpdateResume(void)
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(
-                    (DuelCardDisplayObject *)rec->object);
+                    DUEL_CARD_DISPLAY_OBJECT_VIEW(rec->object));
             }
         }
         func_8001352C();
@@ -300,7 +303,7 @@ void DuelScene_UpdateDrawPhase(void) {
             if (flags & DUEL_CARD_FLAG_OCCUPIED) {
                 rec->flags = flags & ~DUEL_CARD_FLAG_USED_THIS_TURN;
                 Duel_ApplyCardObjectFlags(
-                    (DuelCardDisplayObject *)rec->object);
+                    DUEL_CARD_DISPLAY_OBJECT_VIEW(rec->object));
             } else {
                 rec->flags = 0;
             }
