@@ -48,7 +48,7 @@ void func_80059C9C(void)
     D_8009AF9A = -1;
 }
 
-s32 func_80059CD0(void)
+s32 Model_IsCreditsPresentationComplete(void)
 {
     return D_8009AF9A == -2;
 }

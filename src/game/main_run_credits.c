@@ -134,6 +134,6 @@ run_credits_scene:
         func_80059C9C();
         return;
     }
-    func_80059CD0();
+    Model_IsCreditsPresentationComplete();
     func_80059CE4();
 }

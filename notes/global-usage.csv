@@ -287,7 +287,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C24,func_80059C24,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C88,Model_IsExodiaPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
 0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059C9C,func_80059C9C,matching_c,game,C,src/game/model_scene_states.c,write,8,D_8009AF9A = -1;
-0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059CD0,func_80059CD0,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
+0x8009AF9A,D_8009AF9A,D_8009AF9A,0x80059CD0,Model_IsCreditsPresentationComplete,matching_c,game,C,src/game/model_scene_states.c,read,8,return D_8009AF9A == -2;
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800528AC,func_800528AC,matching_c,game,C,src/game/model_scene_setup.c,write,8,D_8009AF9B = (e->flags >> 2) & 1; | D_8009AF9B = 0;
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,write,8,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
 0x8009AF9B,D_8009AF9B,D_8009AF9B,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,read,8,if (D_8009AF9B != 0 && slot->entry_count < i) { | if (D_8009AF9B != 0) {
@@ -1172,7 +1172,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B17C,D_8009B17C,D_8009B17C,0x80024E58,DuelEffect_ApplyTerrain,matching_c,game,C,src/game/func_80024E58.c,read_write,8,DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1A = -2; | D_8009B17C = e; | (+2 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x800255FC,DuelEffect_ApplyStopDefense,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,D_8009B17C = (u8 *)p; | if ((DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & | (+1 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x8002596C,DuelEffect_ApplyRaigeki,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,D_8009B17C = (u8 *)p; | if (DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->field_1D ==
-0x8009B17C,D_8009B17C,D_8009B17C,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,((DuelFieldEffectObject *)D_8009B17C)->count != 0) { | D_8009B17C = (u8 *)object;
+0x8009B17C,D_8009B17C,D_8009B17C,0x80025BEC,DuelEffect_ApplyDarkPiercingLight,matching_c,game,C,src/game/duel_card_effects.c,read_write,8,DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count != 0) { | D_8009B17C = (u8 *)object;
 0x8009B17C,D_8009B17C,D_8009B17C,0x80025F3C,DuelEffect_ApplySwords,matching_c,game,C,src/game/duel_field_effect_steps.c,read_write,8,DUEL_FIELD_EFFECT_OBJECT_VIEW(D_8009B17C)->count >= 2) { | D_8009B17C = (u8 *)object; | (+1 more)
 0x8009B17C,D_8009B17C,D_8009B17C,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read_write,8,((DuelEffectRequest *)D_8009B17C)->field_1A = gDuel_wEffectCardID; | D_8009B17C = DuelEffect_AllocateRequest(22); | (+1 more)
 0x8009B180,D_8009B180,D_8009B180,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read_write,8,"D_8009B180 = 0; | D_8009B180 = func_80017F04(D_801A7B80, 0x5C, 0x52); | (+2 more)"
