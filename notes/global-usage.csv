@@ -2324,7 +2324,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80049230,func_80049230,matching_c,game,C,src/game/sound_init.c,read,,g_SDValue->field_1582 = data; | g_SDValue->field_1584 = 255; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80049308,func_80049308,matching_c,game,C,src/game/sound_init.c,read,,SDValue *state = g_SDValue; | g_SDValue->field_1578 = -1; | (+3 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80049394,SD_SetMusicTrackBuffer,matching_c,game,C,src/game/sound_init.c,read,,*g_SDValue->music_track = 0xFFFF; | g_SDValue->music_track = (u16 *)0x801EA800; | (+1 more)
-0x8009B45C,g_SDValue,g_SDValue,0x800493F8,func_800493F8,matching_c,game,C,src/game/sound_init.c,read,,*(void **)&g_SDValue->music_track = entry;
+0x8009B45C,g_SDValue,g_SDValue,0x800493F8,SD_ResetMusicTrackBuffer,matching_c,game,C,src/game/sound_init.c,read,,*(void **)&g_SDValue->music_track = entry;
 0x8009B460,D_8009B460,D_8009B460,0x80045514,func_80045514,matching_c,game,C,src/game/func_80045514.c,read,,D_8009B460->field_00 = (s32)g_SDValue->field_005C[0]; | D_8009B460->field_00 = 4; | (+19 more)
 0x8009B460,D_8009B460,D_8009B460,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B460 = (FileRequestSlot *)0x801E1650;
 0x8009B468,gModel_ImageCopyRect,gModel_ImageCopyRect,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,write,,"MoveImage(&gModel_ImageCopyRect, 0x220, 0x168); | MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0); | (+2 more)"

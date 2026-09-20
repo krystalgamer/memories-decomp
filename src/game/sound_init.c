@@ -73,7 +73,7 @@ void SD_SetMusicTrackBuffer(u16 *track)
     *g_SDValue->music_track = 0xFFFF;
 }
 
-void func_800493F8(void)
+void SD_ResetMusicTrackBuffer(void)
 {
     u16 *entry;
 

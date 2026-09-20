@@ -1166,7 +1166,7 @@ tick_active_slot:
       ++MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(D_800F2C40) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
       goto poll_module;
     case 3:
-      func_800493F8();
+      SD_ResetMusicTrackBuffer();
       func_8004763C();
       phase_value = -2;
 store_phase:

@@ -352,7 +352,7 @@ byte-pointer access. The first, `func_80045054`'s decoded-data argument,
 is now the `buffer_053C` member quoted in the SPU section above. The other
 two:
 
-- `func_800493F8` wrote the music-track pointer through
+- `SD_ResetMusicTrackBuffer` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
   register allocation. Since #4457 it stores through the member's address,
   `*(void **)&g_SDValue->music_track` in `src/game/sound_init.c`, and the
@@ -365,7 +365,7 @@ two:
   the function matches. Only the description is stale; the three-instruction
   cost it claimed was not re-measured against the current source.
 
-`func_800493F8`'s expression is an exact-code-generation view of a field
+`SD_ResetMusicTrackBuffer`'s expression is an exact-code-generation view of a field
 whose offset and type are defined by `SDValue`. The rest are byte-pointer
 arithmetic over the same layout, with no reason for the spelling recorded
 here.
@@ -530,8 +530,8 @@ without changing or adding those devices.
 
 The contiguous initialization block at `0x80049200-0x800495EC` now builds as
 `src/game/sound_init.c`. It preserves the explicit raw music-pointer write in
-`func_800493F8` while sharing `SDValue` declarations across the other
-music/sequence helpers.
+`SD_ResetMusicTrackBuffer` while sharing `SDValue` declarations across the
+other music/sequence helpers.
 
 ## Spatial volume and pan
 
