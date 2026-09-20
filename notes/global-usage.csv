@@ -3014,7 +3014,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8015C424,D_8015C424,D_8015C424,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,address,8,pw = D_8015C424; | u8 *pw1 = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x800235C0,func_800235C0,matching_c,game,C,src/game/duel_field_display_objects.c,address,8,records = D_8015C424; | replay = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x80024734,Duel_RequestCombinedDeckData,matching_c,game,C,src/game/duel_request_combined_deck_data.c,address,8,table = D_8015C424;
-0x8015C424,D_8015C424,D_8015C424,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,q = D_8015C424 + i * 2; | r = D_8015C424 + i; | (+1 more)
+0x8015C424,D_8015C424,D_8015C424,0x80024824,Duel_PopulateCombinedDeckData,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,q = (u8 *)&((u16 *)D_8015C424)[i]; | r = D_8015C424 + i; | (+1 more)
 0x8015C424,D_8015C424,D_8015C424,0x800249E0,Duel_SetupCardRecord,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,tb = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424,0x80024D34,func_80024D34,matching_c,game,C,src/game/duel_card_record_lifecycle.c,address,8,tb = D_8015C424;
 0x8015C424,D_8015C424,D_8015C424_cards,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read,,D_8015C424_cards.field_cards[object->field_6A].card_id;
