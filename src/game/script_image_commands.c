@@ -30,7 +30,7 @@ void Script_OpShowImage(void) {
     s32 masked;
     u32 mask;
 
-    ret = func_8002E3B4();
+    ret = ScriptCommand_MarkStarted();
     mask = DISPLAY_OBJECT_ATTRIBUTE_16BPP;
     if (ret == 0) {
         D_800E9D70[0].x = 0;

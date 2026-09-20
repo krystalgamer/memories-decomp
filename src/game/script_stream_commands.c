@@ -13,7 +13,7 @@ void Script_OpSound(void)
     s32 c;
     s32 f;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         q = D_8009B290;
         c = *q;
         q++;
@@ -53,7 +53,7 @@ void Script_OpSound(void)
 
 void Script_OpFadeBgm(void)
 {
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         u8 *stream = D_8009B290;
         u32 raw = *stream;
         u32 argument;

@@ -3,7 +3,7 @@
 The resident story-script dispatcher has 23 entries at `D_80090C50`.
 `Script_RunTick` selects an entry with the low five bits of `D_8009B27C`.
 Handlers that span frames preserve their slot in that word and use bit
-`0x8000` as the first-entry latch through `func_8002E3B4`.
+`0x8000` as the first-entry latch through `ScriptCommand_MarkStarted`.
 `TextBox_BuildStep` can also redispatch the current low byte while script text
 is active.
 

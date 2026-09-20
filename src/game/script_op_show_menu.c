@@ -14,7 +14,7 @@ void Script_OpShowMenu(void)
     s32 flags;
     s32 bit;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         first = *D_8009B290++;
         flags = *D_8009B290++;
         bit = flags & 0x80;
