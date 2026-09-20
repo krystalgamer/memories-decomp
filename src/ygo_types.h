@@ -492,7 +492,8 @@ typedef struct DuelEffectChannel {
     u16 field_0C;
     u16 field_0E;
     /* The object's slot in the D_800EAF08 occupancy table and the byte
-       beside it; func_80039AD4 clears D_800EAF08[field_10] and zeroes
+       beside it; DisplayObjectFade_ReleaseChannel clears
+       D_800EAF08[field_10] and zeroes
        field_11 when it releases the slot. */
     u8 field_10;
     u8 field_11;

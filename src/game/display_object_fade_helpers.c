@@ -18,7 +18,7 @@ s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
     return 1;
 }
 
-void func_80039AD4(DuelEffectChannel *object)
+void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 {
     D_800EAF08[object->field_10] = 0;
     object->field_11 = 0;

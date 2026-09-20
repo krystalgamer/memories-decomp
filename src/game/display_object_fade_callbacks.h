@@ -22,7 +22,7 @@
  *                  by 4 a frame until they reach 0x40.
  *
  * The last two end by releasing the record's occupancy slot through
- * func_80039AD4. */
+ * DisplayObjectFade_ReleaseChannel. */
 void func_80039AFC(DuelEffectChannel *record);
 void func_80039BE0(DuelEffectChannel *record);
 void func_80039C94(DuelEffectChannel *record);

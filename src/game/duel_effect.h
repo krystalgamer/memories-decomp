@@ -33,8 +33,9 @@
 /* The entry occupancy table: one byte per DUEL_EFFECT_OCCUPANCY_COUNT entry,
  * declared with that bound because both consumers already wrote it and the
  * constant is defined above. DuelEffect_ResetOccupancy walks it from the base,
- * func_80035D10 scans for the first zero, and func_80039AD4 clears the slot an
- * object names at its offset 0x10.
+ * func_80035D10 scans for the first zero, and
+ * DisplayObjectFade_ReleaseChannel clears the slot an object names at its
+ * offset 0x10.
  *
  * Two hundred and forty bytes is well over the -G8 threshold, so unlike the
  * small arrays elsewhere in this tree the bound here costs nothing: it does
@@ -202,7 +203,7 @@ extern s16 gDuel_wSelectedCardID;
  */
 extern volatile s32 D_8009B350;
 
-/* The entry-list rebuild flag. func_80039AD4 raises it -- its own header
+/* The entry-list rebuild flag. DisplayObjectFade_ReleaseChannel raises it -- its own header
  * calls it "the D_8009B330 rebuild flag so the next pass" picks the change up
  * -- and duel_effect_process_entries.c is the other end: it clears the flag
  * before walking the entries and tests `D_8009B330 != 0` to decide whether

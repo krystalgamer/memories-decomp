@@ -53,7 +53,7 @@ void func_80039BE0(DuelEffectChannel *p)
     } else {
         v = p->field_06 - (D_8009B0D8 << 4);
         if (v <= 0) {
-            func_80039AD4(p);
+            DisplayObjectFade_ReleaseChannel(p);
             v = 0;
         }
         p->field_06 = v;
@@ -91,7 +91,7 @@ void func_80039C94(DuelEffectChannel *arg0) {
         arg0->field_08 = v;
 
         if (v >= 0x40) {
-            func_80039AD4(arg0);
+            DisplayObjectFade_ReleaseChannel(arg0);
         }
     }
 }

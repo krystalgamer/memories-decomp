@@ -11,6 +11,6 @@ struct DuelEffectChannel;
  * recompacts. The object is not freed here; only its claim on the occupancy
  * table is. Two fade callbacks, func_80039BE0 and func_80039C94, end by
  * calling it. */
-void func_80039AD4(struct DuelEffectChannel *object);
+void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
 
 #endif

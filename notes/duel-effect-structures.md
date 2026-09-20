@@ -51,7 +51,7 @@ The public text-box build/wait pair and `TextBox_SetPos` now also take
 consumers retain raw byte cursors internally and cast only at the call
 boundary; `TextBox_SetPos` likewise keeps its repeated member casts because a
 typed local changes the GCC 2.8.1 prologue schedule. The occupancy-release
-helper `func_80039AD4` takes `DuelEffectChannel *`, which removes the
+helper `DisplayObjectFade_ReleaseChannel` takes `DuelEffectChannel *`, which removes the
 incompatible-pointer calls from both fade callbacks. It reads the channel's
 byte at `0x10`, `field_10`, as the object's index into the `D_800EAF08`
 occupancy table and clears that table entry. It then zeroes the next byte,

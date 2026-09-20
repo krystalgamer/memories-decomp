@@ -1765,7 +1765,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B32C,D_8009B32C,D_8009B32C,0x800375A4,func_800375A4,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->...
 0x8009B32E,D_8009B32E,D_8009B32E,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,16,D_8009B32E = (s8)opponent - 31960;
 0x8009B32E,D_8009B32E,D_8009B32E,0x800383DC,func_800383DC,matching_c,game,C,src/game/duel_effect_command.c,read,16,s32 a2 = D_8009B32E;
-0x8009B330,D_8009B330,D_8009B330,0x80039AD4,func_80039AD4,matching_c,game,C,src/game/display_object_fade_helpers.c,write,32,D_8009B330 = 1;
+0x8009B330,D_8009B330,D_8009B330,0x80039AD4,DisplayObjectFade_ReleaseChannel,matching_c,game,C,src/game/display_object_fade_helpers.c,write,32,D_8009B330 = 1;
 0x8009B330,D_8009B330,D_8009B330,0x80039D64,DuelEffect_ProcessEntries,matching_c,game,C,src/game/duel_effect_process_entries.c,read_write,32,D_8009B330 = 0; | if (D_8009B330 != 0) {
 0x8009B335,D_8009B335,D_8009B335,0x80037B40,func_80037B40,matching_c,game,C,src/game/duel_effect_state_callbacks.c,read_write,8,D_8009B335 = 0; | D_8009B335 = 1; | (+2 more)
 0x8009B336,gDialog_bChoiceEnabled,gDialog_bChoiceEnabled,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_highlight_choice.c,read,8,if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
@@ -2589,7 +2589,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035CA8,func_80035CA8,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,u8 *entry = D_800EAF08;
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035CE4,DuelEffect_ResetOccupancy,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,address,8,v0 = D_800EAF08;
 0x800EAF08,D_800EAF08,D_800EAF08,0x80035D10,func_80035D10,matching_c,game,C,src/game/duel_effect_entry_occupancy.c,read,8,if (D_800EAF08[index] == 0)
-0x800EAF08,D_800EAF08,D_800EAF08,0x80039AD4,func_80039AD4,matching_c,game,C,src/game/display_object_fade_helpers.c,write,8,D_800EAF08[object->field_10] = 0;
+0x800EAF08,D_800EAF08,D_800EAF08,0x80039AD4,DisplayObjectFade_ReleaseChannel,matching_c,game,C,src/game/display_object_fade_helpers.c,write,8,D_800EAF08[object->field_10] = 0;
 0x800EAFF8,D_800EAFF8,D_800EAFF8,0x80038148,func_80038148,matching_c,game,C,src/game/duel_effect_command.c,address,16,h = *(u16 *)&D_800EAFF8[0]; | w = *(u16 *)&D_800EAFF8[buf[i]];
 0x800EAFF8,D_800EAFF8,D_800EAFF8,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,address,16,out = D_800EAFF8;
 0x800EB010,D_800EB010,D_800EB010,0x8002E370,DuelEffect_MarkObjectIfActive,matching_c,game,C,src/game/duel_effect_mark_object_if_active.c,address,,p = &D_800EB010[count];
