@@ -9,6 +9,9 @@
    object, and a word whose sign bit it stores at +0x69. Both installers had
    declared it `void (void)`, which is what that slot's struct view says, so
    assigning it needs a cast at each site. */
-void func_80016778(DisplayObjectConfig *object, u32 value);
+void DisplayObject_SetResourceVariantFromSign(
+    DisplayObjectConfig *object,
+    u32 value
+);
 
 #endif

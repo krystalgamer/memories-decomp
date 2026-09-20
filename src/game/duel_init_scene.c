@@ -240,7 +240,7 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     p->out_x = arg1;
     p->out_y = arg2;
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-    p->field_10 = func_80016778;
+    p->field_10 = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
     p->field_4C = Duel_DrawCardAtOutputPosition;
     func_80017E3C(p);
