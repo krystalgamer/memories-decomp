@@ -224,7 +224,7 @@ void func_8004733C(s32 arg0, s32 arg1)
         if (masked >= SD_BGM_COMMAND_BASE)
             arg0 -= SD_BGM_COMMAND_BASE;
         arg1 = (s16)arg1;
-        func_80049230((s16)arg0, arg1);
+        SD_RequestBgmPlayback((s16)arg0, arg1);
     }
 }
 
@@ -238,7 +238,7 @@ void func_800473F0(u16 flags, s32 value)
     if ((flags & 0x8000) != 0)
         func_80045114();
     else
-        func_80049230_s16(-1, value);
+        SD_RequestBgmPlayback_s16(-1, value);
 }
 
 void func_80047430(s32 value, s32 flag)

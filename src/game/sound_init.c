@@ -11,10 +11,10 @@
 
 void func_80049200(s32 value)
 {
-    func_80049230((s16)value, g_SDValue->field_164B);
+    SD_RequestBgmPlayback((s16)value, g_SDValue->field_164B);
 }
 
-void func_80049230(s32 value, s32 data)
+void SD_RequestBgmPlayback(s32 value, s32 data)
 {
     SDCommand command;
     s16 small = value;

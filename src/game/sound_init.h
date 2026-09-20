@@ -9,12 +9,13 @@ extern u8 D_80010790[];
 extern u8 D_8001079C[];
 
 void func_80049200(s32 value);
-void func_80049230(s32 value, s32 data);
+void SD_RequestBgmPlayback(s32 value, s32 data);
 /* func_800473CC passes the second argument as s16, which the caller-side
  * sign extension depends on. That consumer defines SOUND_INIT_S16_VIEW; every
  * other unit sees only the word prototype above and no assembler label. */
 #ifdef SOUND_INIT_S16_VIEW
-extern void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
+extern void SD_RequestBgmPlayback_s16(s32 value, s16 data)
+    asm("SD_RequestBgmPlayback");
 #endif
 void SD_Init(void);
 void SD_OpenMusicVab(void);
