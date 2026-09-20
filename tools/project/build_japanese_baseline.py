@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
 from pathlib import Path
 
+from build_baseline import BuildError, compile_c, load_compiler_profiles
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -14,14 +16,10 @@ from workspace import (
     resolve_within,
 )
 
-
-class BuildError(RuntimeError):
-    pass
-
-
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
 SPLAT_DIRECTORY = "tmp/splat/slpm_86398"
 OUTPUT_DIRECTORY = "tmp/project-build"
+MATCHING_CONFIG = "config/slpm_86398/matching_c.json"
 
 
 def run(root: Path, command: list[str]) -> None:
@@ -135,12 +133,46 @@ def wrap_binary(root: Path, source: Path) -> None:
     )
 
 
+def compile_matching_sources(root: Path) -> None:
+    config_path = resolve_within(root, MATCHING_CONFIG, must_exist=True)
+    with config_path.open("r", encoding="utf-8") as handle:
+        config = json.load(handle)
+    if config.get("schema") != 1 or not isinstance(config.get("functions"), list):
+        raise BuildError(f"{config_path}: unsupported matching-C configuration")
+
+    profiles = load_compiler_profiles(root)
+    assembler = tool(root, "as")
+    for index, function in enumerate(config["functions"]):
+        if not isinstance(function, dict):
+            raise BuildError(f"matching function {index} must be an object")
+        source_value = function.get("source")
+        if not isinstance(source_value, str):
+            raise BuildError(f"matching function {index} has no source")
+        source = Path(source_value)
+        if source.suffix != ".c" or source.is_absolute():
+            raise BuildError(f"matching function {index} has an invalid source")
+        compile_c(
+            root,
+            assembler,
+            {
+                **function,
+                "object": f"{source.stem}.o",
+            },
+            profiles,
+            object_directory=(
+                f"{SPLAT_DIRECTORY}/build/{source.parent.as_posix()}"
+            ),
+            asm_directory=f"{OUTPUT_DIRECTORY}/japanese-asm",
+        )
+
+
 def build(root: Path) -> Path:
     splat = resolve_within(root, SPLAT_DIRECTORY, must_exist=True)
     for source in sorted((splat / "asm").rglob("*.s")):
         assemble(root, source)
     for source in sorted((splat / "assets").rglob("*.bin")):
         wrap_binary(root, source)
+    compile_matching_sources(root)
 
     output_directory = resolve_within(root, OUTPUT_DIRECTORY)
     output_directory.mkdir(parents=True, exist_ok=True)
