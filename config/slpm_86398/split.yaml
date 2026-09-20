@@ -66,6 +66,8 @@ segments:
       - [0x30c4, asm, entry]
       - [0x6e64, c, game/func_80016778]
       - [0x6e70, asm, func_80016670]
+      - [0x14d30, c, game/util_compare_s16]
+      - [0x14d60, asm, func_80024560]
       - [0x1a490, c, game/func_80029EB0]
       - [0x1a4a4, asm, func_80029CA4]
       - [0x1d288, c, game/campaign_test_story_flag]
