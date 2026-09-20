@@ -40,7 +40,7 @@ void SD_Init(void)
     SpuSetReverbModeType(SPU_REV_MODE_OFF);
 }
 
-void func_80049308(void)
+void SD_OpenMusicVab(void)
 {
     SDValue *state = g_SDValue;
 

@@ -55,7 +55,7 @@ typedef struct {
 } SDValueLink;
 
 /* Prefix shared by the music packages consumed by func_80045514 and
- * func_80049308. Both pass the embedded pBAV header and its SPU destination
+ * SD_OpenMusicVab. Both pass the embedded pBAV header and its SPU destination
  * to SD_VabOpenHead. */
 typedef struct {
     u8 pad_0000[0x0C];

@@ -789,7 +789,7 @@ address,size,name,status,module,notes
 0x80049200,0x30,func_80049200,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049230,0xA8,func_80049230,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800492D8,0x30,SD_Init,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80049308,0x8C,func_80049308,matching_c,game,Pure-C inline refinement matched the full executable.
+0x80049308,0x8C,SD_OpenMusicVab,matching_c,game,"High-confidence semantic name: conditionally opens the embedded pBAV header from the current music package, records the returned VAB id or clears failed music state, then publishes the package's leading track id; exact full-executable match under gcc_2_8_1_g0."
 0x80049394,0x64,SD_SetMusicTrackBuffer,matching_c,game,"High-confidence semantic name: releases current music playback state, selects the caller's buffer or the fixed 0x801EA800 default when null, and writes the 0xFFFF empty-track sentinel; exact full-executable match under gcc_2_8_1_g0."
 0x800493F8,0x3C,SD_ResetMusicTrackBuffer,matching_c,game,"High-confidence semantic name: releases current music playback state, restores the fixed 0x801EA800 music-track buffer, and writes the 0xFFFF empty-track sentinel; exact full-executable match under gcc_2_8_1_g0."
 0x80049434,0xC0,SD_ResetSecondaryState,matching_c,game,"High-confidence semantic name: clears sequence-update flags, disables updates, restores object, level, transfer, sequence, cursor, and mode defaults, and marks the VAB transfer inactive; exact full-executable match under gcc_2_8_1_g0."
