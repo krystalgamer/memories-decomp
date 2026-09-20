@@ -40,7 +40,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010028,D_80010028,D_80010028,0x8004FE2C,func_8004FE2C,matching_c,game,C,src/game/model_intro_controller.c,read,32,"if (second(D_80010028, -1) == 2) { | second(D_80010028, 0);"
 0x8001002C,D_8001002C,D_8001002C,0x8005B64C,MainMenu_LoadPackageStage,matching_c,game,C,src/game/main_menu_load_package_stage.c,read,32,object->value_08 = D_8001002C; | object->value_0C = D_8001002C;
 0x80010030,D_80010030,D_80010030,0x800507D0,func_800507D0,matching_c,game,C,src/game/model_intro_controller.c,read,32,"File_RequestAsyncTransfer(1, D_800114F8, 1223, 16, 0, 0, D_80010030);"
-0x80010034,D_80010034,D_80010034,0x800507D0,func_800507D0,matching_c,game,C,src/game/model_intro_controller.c,read,,func_80049394((u16 *)D_80010034);
+0x80010034,D_80010034,D_80010034,0x800507D0,func_800507D0,matching_c,game,C,src/game/model_intro_controller.c,read,,SD_SetMusicTrackBuffer((u16 *)D_80010034);
 0x80010038,D_80010038,D_80010038,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,"printf((const char *)D_80010038, current, *position);"
 0x80010060,D_80010060,D_80010060,0x8001BD88,DuelScene_UpdateHandActions,matching_c,game,C,src/game/duel_scene_hand_actions.c,address,8,printf(D_80010060);
 0x80010074,D_80010074,D_80010074,0x80022618,DuelScene_UpdateEffectPreview,matching_c,game,C,src/game/debug_effect_screen.c,address,8,"D_80010074,"
@@ -2323,7 +2323,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80049200,func_80049200,matching_c,game,C,src/game/sound_init.c,read,,"func_80049230((s16)value, g_SDValue->field_164B);"
 0x8009B45C,g_SDValue,g_SDValue,0x80049230,func_80049230,matching_c,game,C,src/game/sound_init.c,read,,g_SDValue->field_1582 = data; | g_SDValue->field_1584 = 255; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80049308,func_80049308,matching_c,game,C,src/game/sound_init.c,read,,SDValue *state = g_SDValue; | g_SDValue->field_1578 = -1; | (+3 more)
-0x8009B45C,g_SDValue,g_SDValue,0x80049394,func_80049394,matching_c,game,C,src/game/sound_init.c,read,,*g_SDValue->music_track = 0xFFFF; | g_SDValue->music_track = (u16 *)0x801EA800; | (+1 more)
+0x8009B45C,g_SDValue,g_SDValue,0x80049394,SD_SetMusicTrackBuffer,matching_c,game,C,src/game/sound_init.c,read,,*g_SDValue->music_track = 0xFFFF; | g_SDValue->music_track = (u16 *)0x801EA800; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800493F8,func_800493F8,matching_c,game,C,src/game/sound_init.c,read,,*(void **)&g_SDValue->music_track = entry;
 0x8009B460,D_8009B460,D_8009B460,0x80045514,func_80045514,matching_c,game,C,src/game/func_80045514.c,read,,D_8009B460->field_00 = (s32)g_SDValue->field_005C[0]; | D_8009B460->field_00 = 4; | (+19 more)
 0x8009B460,D_8009B460,D_8009B460,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B460 = (FileRequestSlot *)0x801E1650;

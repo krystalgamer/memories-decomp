@@ -63,7 +63,7 @@ void func_80049308(void)
     }
 }
 
-void func_80049394(u16 *track)
+void SD_SetMusicTrackBuffer(u16 *track)
 {
     func_80049010();
     if (track != 0)

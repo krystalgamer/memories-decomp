@@ -157,7 +157,7 @@ class ModelSceneOwnershipTests(unittest.TestCase):
             '#include "file_names.h"\n#include "sound_init.h"\n'
             "void checked(void) {\n"
             " File_RequestAsyncTransfer(1, D_800114F8, 1223, 16, 0, 0, D_80010030);\n"
-            " func_80049394(D_80010034);\n}\n",
+            " SD_SetMusicTrackBuffer(D_80010034);\n}\n",
             accepted=True,
         )
 

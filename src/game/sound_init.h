@@ -18,7 +18,7 @@ extern void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
 #endif
 void SD_Init(void);
 void func_80049308(void);
-void func_80049394(u16 *track);
+void SD_SetMusicTrackBuffer(u16 *track);
 void func_800493F8(void);
 void SD_ResetSecondaryState(void);
 void SD_InitSecondaryWorkArea(s32 *data);
