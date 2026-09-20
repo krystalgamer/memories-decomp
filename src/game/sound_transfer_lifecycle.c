@@ -6,7 +6,7 @@
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
 
-void func_80049640(void)
+void SD_ResetSecondaryRuntime(void)
 {
     s32 value;
 

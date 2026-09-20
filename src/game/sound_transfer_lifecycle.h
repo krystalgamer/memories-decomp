@@ -43,7 +43,7 @@ typedef char SDVabHeader_size_must_be_0x20[
     sizeof(SDVabHeader) == 0x20 ? 1 : -1
 ];
 
-void func_80049640(void);
+void SD_ResetSecondaryRuntime(void);
 void SD_Term(void);
 s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr);
 s32 SD_VabTransBody(s32 value, s16 expected);

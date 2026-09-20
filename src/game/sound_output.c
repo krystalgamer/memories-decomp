@@ -79,7 +79,7 @@ void func_80046F58(void)
     SD_KeyOffVoiceSlots();
     func_8004763C();
     SD_Init();
-    func_80049640();
+    SD_ResetSecondaryRuntime();
     SpuSetIRQ(SPU_OFF);
     SpuQuit();
 }
