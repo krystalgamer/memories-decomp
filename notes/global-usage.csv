@@ -898,8 +898,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read_write,32,D_8009B0F4 = v & m; | D_8009B0F4 = v2 & 0xFFDDFFFF; | (+8 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4_abs,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read_write,32,D_8009B0F4_abs &= 0xFFDCFFFF; | D_8009B0F4_abs &= 0xFFDDFFFF; | (+1 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/options_load_package_stage.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
-0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/game_over_load_package_stage.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
+0x8009B0F4,D_8009B0F4,D_8009B0F4,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_load_boot_package_stage.c,read_write,32,D_8009B0F4 &= 0xFFDCFFFF; | D_8009B0F4 &= 0xFFDDFFFF; | (+1 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800434F4,Main_LoadBootImageStage,matching_c,game,C,src/game/func_800434F4.c,read_write,32,D_8009B0F4 = D_8009B0F4 & 0xFFDCFFFF; | D_8009B0F4 = v & m; | (+5 more)
 0x8009B0F4,D_8009B0F4,D_8009B0F4,0x800438B8,Main_HoldBootScreen,matching_c,game,C,src/game/display_object_transition.c,read,32,(((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -952,8 +952,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B118,D_8009B118,D_8009B118,0x8003BA14,NameEntry_LoadPackageStage,matching_c,game,C,src/game/name_entry_load_package_stage.c,read,32,d = D_8009B118; | d2 = D_8009B118; | (+2 more)
 0x8009B118,D_8009B118,D_8009B118,0x8003BD14,Password_LoadPackageStage,matching_c,game,C,src/game/password_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
 0x8009B118,D_8009B118,D_8009B118,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
-0x8009B118,D_8009B118,D_8009B118,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/options_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
-0x8009B118,D_8009B118,D_8009B118,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/game_over_load_package_stage.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
+0x8009B118,D_8009B118,D_8009B118,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
+0x8009B118,D_8009B118,D_8009B118,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,read,32,"LoadImage2((RECT *)object, (u32 *)D_8009B118); | object->value_08 = D_8009B118; | (+2 more)"
 0x8009B118,D_8009B118,D_8009B118,0x80043328,Main_LoadBootPackageStage,matching_c,game,C,src/game/main_load_boot_package_stage.c,read,32,"LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE)); | LoadImage2((RECT *)obj, (u32 *)D_8009B118); | (+5 more)"
 0x8009B118,D_8009B118,D_8009B118,0x800434F4,Main_LoadBootImageStage,matching_c,game,C,src/game/func_800434F4.c,read,32,d = D_8009B118; | e = D_8009B118; | (+2 more)
 0x8009B118,D_8009B118,D_8009B118,0x80056D7C,func_80056D7C,matching_c,game,C,src/game/model_texture_transfer.c,read,8,d->value_08 = (u32)D_8009B118; | d->value_0C = (u32)(D_8009B118 + FILE_SECTOR_SIZE);
@@ -1612,7 +1612,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B290,D_8009B290,D_8009B290,0x8002F9D4,Script_OpJumpIfDeckIncomplete,matching_c,game,C,src/game/script_op_jump_if_deck_incomplete.c,read_write,8,D_8009B290 = current + 2; | if (Duel_IsPlayerDeckComplete() == 0) D_8009B290 = D_801A8000 + offset; | (+1 more)
 0x8009B290,D_8009B290,D_8009B290,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read_write,8,D_8009B27C = *D_8009B290++; | D_8009B290 = D_801A8000 + ((u16 *)D_801A8000)[g]; | (+1 more)
 0x8009B290,D_8009B290,D_8009B290,0x80030050,Script_ReadByte,matching_c,game,C,src/game/script_readers.c,read_write,8,return *D_8009B290++;
-0x8009B290,D_8009B290,D_8009B290,0x8003006C,func_8003006C,matching_c,game,C,src/game/script_readers.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
+0x8009B290,D_8009B290,D_8009B290,0x8003006C,Script_ReadU16LE,matching_c,game,C,src/game/script_readers.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
 0x8009B294,D_8009B294,D_8009B294,0x8002EA0C,Script_UpdateViewportTween,matching_c,game,C,src/game/script_flag_commands.c,read_write,32,D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n; | do { b = D_8009B294; } while (0);
 0x8009B298,D_8009B298,D_8009B298,0x8002EA0C,Script_UpdateViewportTween,matching_c,game,C,src/game/script_flag_commands.c,read_write,32,D_8009B298 = ((*(s16 *)&D_8009B2AA - sy) << 16) / n; | d = D_8009B298;
 0x8009B29C,D_8009B29C,D_8009B29C,0x8002E9A0,Script_OpViewportTween,matching_c,game,C,src/game/script_flag_commands.c,write,16,D_8009B29C = cursor[0] | (cursor[1] << 8);
@@ -3157,8 +3157,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801AF000,D_801AF000,D_801AF000,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,,"Util_CopyWords(D_801AF000, slot->extra, 0x800); | Util_CopyWords(slot->extra, D_801AF000, 0x800); | (+1 more)"
 0x801AF000,D_801AF000,D_801AF000,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003BF00,CampaignMap_LoadPackageStage,matching_c,game,C,src/game/campaign_map_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
-0x801AF000,D_801AF000,D_801AF000,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/options_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
-0x801AF000,D_801AF000,D_801AF000,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/game_over_load_package_stage.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
+0x801AF000,D_801AF000,D_801AF000,0x8003C120,Options_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
+0x801AF000,D_801AF000,D_801AF000,0x8003C328,GameOver_LoadPackageStage,matching_c,game,C,src/game/frontend_package_stages.c,address,8,object->value_08 = (s32)D_801AF000; | object->value_0C = (s32)D_801AF000;
 0x801AF000,D_801AF000,D_801AF000,0x8003C628,Options_Init,matching_c,game,C,src/game/options_screen.c,read,,"DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 0, 0, 0, 0, 0, s2, 0x100, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x8003C950,GameOver_Init,matching_c,game,C,src/game/game_over.c,read,,"DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, D_801AF000);"
 0x801AF000,D_801AF000,D_801AF000,0x800434F4,Main_LoadBootImageStage,matching_c,game,C,src/game/func_800434F4.c,address,8,p->value_08 = (u32)D_801AF000; | p->value_0C = (u32)D_801AF000;
