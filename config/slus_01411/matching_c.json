@@ -4238,9 +4238,9 @@
     },
     {
       "address": "0x80044DC0",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xD0",
-      "source": "src/game/func_80044DC0.c"
+      "source": "src/game/sound_mix.c"
     },
     {
       "address": "0x80044E90",
@@ -6548,9 +6548,9 @@
     },
     {
       "address": "0x800716C4",
-      "profile": "gcc_2_8_1_g0_split_no_sched1",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x3C",
-      "source": "src/game/ai_script_load_best_target.c"
+      "source": "src/game/ai_script_combo.c"
     },
     {
       "address": "0x80071700",
