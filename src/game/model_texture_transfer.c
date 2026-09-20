@@ -264,7 +264,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
     case 16: {
         u8 *source;
         source = D_801DD000;
-        func_8005B620(
+        Model_CopyWords(
             (s32 *)slot->sound_entries,
             (const s32 *)source,
             MODEL_SLOT_SOUND_ENTRY_COUNT
@@ -478,7 +478,7 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
     case 10:
         dst = D_800F2C40;
         src = D_801DD000;
-        func_8005B620(
+        Model_CopyWords(
             (s32 *)dst->sound_entries,
             (const s32 *)src,
             MODEL_SLOT_SOUND_ENTRY_COUNT

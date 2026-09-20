@@ -56,7 +56,7 @@ s32 D_80010008, D_80010014, D_80010018;
 u8 *D_8009B118;
 volatile u32 D_8009B0F4_abs;
 void func_80056D7C(FileTransferDescriptor *, s32);
-void __real_func_8005B620(s32 *, const s32 *, u32);
+void __real_Model_CopyWords(s32 *, const s32 *, u32);
 
 static u8 descriptor[DESC] __attribute__((aligned(16)));
 static u8 expected_descriptor[DESC], expected_slots[SLOTS], expected_raw[RAW];
@@ -202,11 +202,11 @@ int LoadImage2(RECT *rect, u32 *source)
     actual_effects(IMAGE);
     return 0x76543210;
 }
-void __wrap_func_8005B620(s32 *destination, const s32 *source, u32 count)
+void __wrap_Model_CopyWords(s32 *destination, const s32 *source, u32 count)
 {
     observe(COPY, (u32)destination, (u32)source, count, 0);
     copy_calls++;
-    __real_func_8005B620(destination, source, count);
+    __real_Model_CopyWords(destination, source, count);
     actual_effects(COPY);
 }
 void func_80059284(s32 index, s32 value)
@@ -429,7 +429,7 @@ class ModelTextureTransferTests(unittest.TestCase):
                 objects.append(str(obj))
             binary = directory / "witness"
             result = subprocess.run(
-                ["cc", *flags, *objects, "-Wl,--wrap=func_8005B620",
+                ["cc", *flags, *objects, "-Wl,--wrap=Model_CopyWords",
                  "-o", str(binary)],
                 text=True, capture_output=True, timeout=60,
             )

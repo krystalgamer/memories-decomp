@@ -20,7 +20,7 @@
 #include "duel_effect_state_callbacks.h"
 #include "script_state.h"
 #include "sound.h"
-#define FUNC_80049120_IGNORES_OBJECT
+#define SD_IS_BGM_FADE_ACTIVE_IGNORES_OBJECT
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
@@ -226,7 +226,7 @@ void func_8003798C(DuelEffectChannel *object)
 
 void func_800379C4(DuelEffectChannel *object)
 {
-    if (func_80049120(object) != 1) {
+    if (SD_IsBgmFadeActive(object) != 1) {
         object->state_51 = 0;
     }
 }
