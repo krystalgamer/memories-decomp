@@ -4,6 +4,9 @@
 #include "sound_sequence_timing.h"
 #include "sound_sequence_parser.h"
 
+#define SD_SEQUENCE_TRACK_OFFSET_VIEW(state, offset) \
+    ((SDSequenceTrack *)((u8 *)(state) + (offset)))
+
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {
     entry->pos = SD_FindMidiTrackChunk(entry->pos);
@@ -106,7 +109,7 @@ s32 SD_StartSequenceTracks(void)
             offset = SD_SEQUENCE_TRACK_ARRAY_OFFSET;
             do {
                 SDSequenceTrack *entry =
-                    (SDSequenceTrack *)((u8 *)state + offset);
+                    SD_SEQUENCE_TRACK_OFFSET_VIEW(state, offset);
                 s32 value = entry->pos;
 
                 entry->pos_saved = value;
