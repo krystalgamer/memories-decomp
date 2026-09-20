@@ -43,9 +43,9 @@ Verified shared fields and partial arrays are:
 | `0x000` | `field_000`, partial array of `0x8`-byte entries | `func_800593D0` indexes `(arg1 + 1) * 8`; `Model_RunSlotHandlers` advances by 8 and reads the pointer at `+4` |
 | `0x1E0` | `field_1E0[58]`, `ModelSlotPart *` (a `GsSEQ`) | `func_800597C8` and `func_8005A468` advance pointers by 4, bounded at runtime by `field_E1B`; `func_8004D58C` bounds the array at 58 by filling the key table that pairs with it at a `0x74` stride |
 | `0x2C8` | `field_2C8[10][58]`, `u16` | `func_8004D58C` fills it with `0xFFFF` at a `0x74` stride over ten rows; `func_8004D75C` indexes it `[row][part]`; `Model_ControlSlotAnimation` reaches it as `0x2C8 + current * 116 + part * 2` |
-| `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `func_80058EC0` reads it as `field_BF5 * 118` |
+| `0x750` | `field_750[10]`, `ModelSlotRow` | `func_8004D58C` zeroes the 58 halfwords at `0x750 + row * 0x76` and the halfword at `0x7C4 + row * 0x76` in one loop iteration, which is what groups them into one `0x76`-byte record; `func_8004D75C` leaves that halfword holding the largest of the 58, and `Model_GetSlotAnimationLength` reads it as `field_BF5 * 118` |
 | `0xBEC` | `field_BEC[8]`, part bitfield | `func_8004D58C` sets bit `part % 8` of byte `part / 8`; `Model_ControlSlotAnimation` reads it back the same way; `func_80056250` widens a card for the parts it flags |
-| `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `func_80058EC0` uses it to select an animation row, while `func_800597C8` stores an animation row after seeking each part to it |
+| `0xBF5` | `field_BF5` | `Model_GetSlotAnimationIndex` returns it; `Model_GetSlotAnimationLength` uses it to select an animation row, while `func_800597C8` stores an animation row after seeking each part to it |
 | `0xBF8` | `sound_entries[64]` | `model_slot_setup.c` clears 64 four-byte records; `func_8005106C` reads each record as `{frame, id, flags}` |
 | `0xCF8` | `field_CF8`, `0x1C`-byte mixed block | `func_80057E20` and `func_80059000` read threshold bytes `+7`, `+8`, and `+9`; `func_80050F24` indexes the two halfwords at `+0xC`; four setup/transfer paths reset the signed words at `+0x10`, `+0x14`, and `+0x18` |
 | `0xD14` | `field_D14` | 80-byte entry selection in `Model_GetSlotDataEntry`, `Model_GetCurrentDataEntry`, and `func_800593D0` |
@@ -234,7 +234,7 @@ The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `Model_GetSlotAnimationSpeed`,
 `Model_GetSlotAnimationIndex`,
-`Model_GetSlotAnimationFrame`, `func_80058EC0`, `Model_GetSlotDataEntry`,
+`Model_GetSlotAnimationFrame`, `Model_GetSlotAnimationLength`, `Model_GetSlotDataEntry`,
 `Model_GetCurrentDataEntry`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
 `Model_InitLightTriplet`, `func_80059284`,

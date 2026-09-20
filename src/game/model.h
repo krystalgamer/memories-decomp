@@ -58,9 +58,10 @@ typedef struct {
  * iteration -- 58 halfwords at 0x750 + row * 0x76 and the halfword at
  * 0x7C4 + row * 0x76 -- which is what groups `values` and `max` into one
  * 0x76-byte record. func_8004D75C then accumulates one entry of `values`
- * per part and leaves `max` holding the largest of them, and Model_ControlSlotAnimation,
- * func_800556E8, func_8005106C and func_80058EC0 read that same `max` as the
- * length of animation `row`. */
+ * per part and leaves `max` holding the largest of them, and
+ * Model_ControlSlotAnimation, func_800556E8, func_8005106C and
+ * Model_GetSlotAnimationLength read that same `max` as the length of animation
+ * `row`. */
 typedef struct {
     u16 values[MODEL_SLOT_PART_COUNT];
     u16 max;
