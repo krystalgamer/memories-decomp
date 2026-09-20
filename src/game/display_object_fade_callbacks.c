@@ -6,11 +6,14 @@
 #include "func_80039AD4.h"
 #include "display_object_fade_callbacks.h"
 
+#define DUEL_EFFECT_FIELD_04_WORD(type, object) \
+    (*(type *)&(object)->field_04)
+
 void func_80039AFC(DuelEffectChannel *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->field_15 = 2;
-        *(s32 *)&record->field_04 = 0;
+        DUEL_EFFECT_FIELD_04_WORD(s32, record) = 0;
         record->field_14 = 32;
     }
     record->field_14 = record->field_14 - D_8009B0D8 * 2;
@@ -39,7 +42,7 @@ void func_80039BE0(DuelEffectChannel *p)
 
     if (!DisplayObjectFade_MarkInitialized(p)) {
         p->field_15 = 2;
-        *(u32 *)&p->field_04 = 0x80808080;
+        DUEL_EFFECT_FIELD_04_WORD(u32, p) = 0x80808080;
         p->field_14 = 0;
     }
     if (!(p->field_13 & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
