@@ -16,6 +16,6 @@ void func_80048A28(s32 arg0, s32 arg1, s32 arg2);
 void func_80048C0C(u16 value, u8 enabled);
 void func_80048C70(u32 *dst, u32 *src);
 void SD_LoadSequenceBankPair(s32 side, u32 *src);
-void func_80048F14(void);
+void SD_InitSecondaryRuntime(void);
 
 #endif

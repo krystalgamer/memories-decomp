@@ -203,7 +203,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
  * and finishes through SD_SetSequenceTickMode, SD_SetSecondaryObjectCount and
  * SD_EnableSecondarySequenceUpdates.
  * sd_init_state.c calls it once. */
-void func_80048F14(void)
+void SD_InitSecondaryRuntime(void)
 {
     SpuReverbAttr packet;
     /* g_SDValue is reloaded three times, as retail does. The first load gets

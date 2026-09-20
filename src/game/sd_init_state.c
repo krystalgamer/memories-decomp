@@ -71,7 +71,7 @@ void SD_InitState(u8 arg0)
     func_800494F4((s32 *)0x801E1670);
     func_8004671C();
     SD_InitBufferState();
-    func_80048F14();
+    SD_InitSecondaryRuntime();
     SD_SetOutputType(0);
     D_8009B458->field_0509 = 0;
     sec = D_8009B458;

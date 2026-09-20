@@ -103,7 +103,7 @@ class SharedDeclarationTests(unittest.TestCase):
                 "func_80048C0C",
                 "func_80048C70",
                 "SD_LoadSequenceBankPair",
-                "func_80048F14",
+                "SD_InitSecondaryRuntime",
             ],
         )
 

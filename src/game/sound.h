@@ -827,7 +827,8 @@ void func_80046A08(void);
 
 /* Sets the live secondary-object count in the 0x510 field of *D_8009B458,
    accepting 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
-   is zero or out of range. func_80048F14 (src/game/sound_voice_data.c)
+   is zero or out of range. SD_InitSecondaryRuntime
+   (src/game/sound_voice_data.c)
    is the only caller, passes the constant 0x14, and discards the result; its
    original local extern disagreed with the definition on both the return
    type and the parameter's signedness. */
