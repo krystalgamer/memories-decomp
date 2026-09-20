@@ -2800,7 +2800,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F3938,D_800F3938,D_800F3938,0x8005A618,func_8005A618,matching_c,game,C,src/game/model_effect_wrapped_value.c,address,,(((u8 *)&D_800F3938) + offset)[MODEL_SLOT_CF8_DFE_OFFSET] | record = (ModelSlotCF8TailView *)(offset + (s32)&D_800F3938);
 0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
-0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,address,16,arg1 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE); | arg2 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,address,16,"arg1 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index); | arg2 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);"
 0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
 0x800F5678,D_800F5678,D_800F5678,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,read,16,D_8009AF88 = &D_80091008[D_800F5678[0] * 0xB2];
