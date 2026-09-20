@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map split split-incremental build build-incremental match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -38,6 +38,7 @@ help:
 		'  split          Split the executable into temporary analysis output' \
 		'  build          Build the assembly/data PS-X executable baseline' \
 		'  match          Build and compare the complete target executable' \
+		'  japanese-match Build and compare the complete Japanese executable' \
 		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
@@ -76,6 +77,8 @@ help:
 		'  clean          Remove known generated project output under tmp/' \
 		'  verify-target  Validate only the SLUS executable needed to build' \
 		'  verify-inputs  Validate the SLUS-01411 executable and DATA files' \
+		'  verify-japanese-target  Validate only the SLPM-86398 executable' \
+		'  verify-japanese-inputs  Validate SLPM-86398 plus Japanese SU/WA archives' \
 		'  workspace      Validate that commands are running from the project root'
 
 workspace:
@@ -86,6 +89,17 @@ verify-target: workspace
 
 verify-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py
+
+verify-japanese-target: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/slpm_86398/target.yaml \
+		--checksums config/slpm_86398/files.sha256 \
+		--executable-only
+
+verify-japanese-inputs: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/slpm_86398/target.yaml \
+		--checksums config/slpm_86398/files.sha256
 
 tools: python-tools toolchain compiler
 
@@ -125,18 +139,36 @@ extract: verify-target
 map: verify-target
 	@$(PYTHON) tools/project/validate_image_map.py
 
+japanese-map: verify-japanese-target
+	@$(PYTHON) tools/project/validate_image_map.py \
+		--target config/slpm_86398/target.yaml \
+		--image-map config/slpm_86398/image_map.json
+
 split: map check-build-tools
 	@$(PYTHON) tools/project/clean.py generated splat
 	@$(PYTHON) tools/project/generate_build_config.py
 	@$(SPLAT) split tmp/generated/slus_01411.split.yaml
+
+japanese-split: japanese-map check-build-tools
+	@$(PYTHON) tools/project/clean.py splat
+	@$(SPLAT) split config/slpm_86398/split.yaml
 
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
 	@$(PYTHON) tools/project/build_baseline.py
 	@$(PYTHON) tools/project/candidate_builds.py
 
+japanese-build: japanese-split
+	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/build_japanese_baseline.py
+
 match: build
 	@$(PYTHON) tools/project/match.py
+
+japanese-match: japanese-build
+	@$(PYTHON) tools/project/match.py \
+		--target config/slpm_86398/target.yaml \
+		--output tmp/project-build/SLPM_863.98
 
 overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract
