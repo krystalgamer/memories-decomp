@@ -8,7 +8,7 @@ extern u8 D_80010784[];
 extern u8 D_80010790[];
 extern u8 D_8001079C[];
 
-void func_80049200(s32 value);
+void SD_RequestBgmPlaybackDefaultStep(s32 value);
 void SD_RequestBgmPlayback(s32 value, s32 data);
 /* func_800473CC passes the second argument as s16, which the caller-side
  * sign extension depends on. That consumer defines SOUND_INIT_S16_VIEW; every
