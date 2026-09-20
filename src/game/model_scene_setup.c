@@ -179,10 +179,11 @@ last:
  * the requested part id, then restores the slot and advances the request.
  *
  * What the allocation rests on: the shifted flag word `v` is masked into its
- * own name, `part`, ahead of the func_80059AA8 call, and `part` is copied to
- * `sid` after it. `part` therefore lives and dies inside the one basic block
- * while crossing the call, so local-alloc gives the flag word, the shift and
- * the mask $s2 and pushes field_0A to $s3; `sid` then inherits $s2 through its
+ * own name, `part`, ahead of the Model_SetSlotShadowEnabled call, and `part`
+ * is copied to `sid` after it. `part` therefore lives and dies inside the one
+ * basic block while crossing the call, so local-alloc gives the flag word,
+ * shift and mask $s2 and pushes field_0A to $s3; `sid` then inherits $s2
+ * through its
  * copy preference. `v` itself never crosses the call, which is what holds the
  * srl and andi ahead of it where the scheduler would otherwise sink them to
  * the end of the block. The saved field_BF5 is one name, `keep`, across both
@@ -235,7 +236,7 @@ void func_800528AC(void)
         sav06 = slot->field_E06;
         part = v & 0x1F;
         keep = slot->field_BF5;
-        old = func_80059AA8(side, 0);
+        old = Model_SetSlotShadowEnabled(side, 0);
         sid = part;
         save = *MODEL_TINT_COLOR_VIEW(slot->field_DC0);
         col.b3 = e->start.b3;
@@ -276,7 +277,7 @@ void func_800528AC(void)
             slot->field_BF5 = keep;
         }
 
-        func_80059AA8(side, old);
+        Model_SetSlotShadowEnabled(side, old);
         *MODEL_TINT_COLOR_VIEW(slot->field_DC0) = save;
 tail:
         e->elapsed += Model_GetFrameStep();

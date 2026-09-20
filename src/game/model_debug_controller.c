@@ -77,7 +77,7 @@ s32 ModelDebug_UpdateController(void)
             func_80056828(0);
         }
         if (D_800F2C40[0].field_E1F)
-            func_80059AA8(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
+            Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     } else if (!slots[1].field_E1F) {
         Model_SetFrameStepOverride(1);
         FntPrint(D_80011540, slots[1].field_DF8, slots[1].field_E14);
@@ -88,7 +88,7 @@ s32 ModelDebug_UpdateController(void)
             func_80056828(1);
         }
         if (D_800F2C40[1].field_E1F)
-            func_80059AA8(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
+            Model_SetSlotShadowEnabled(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     }
     if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))
         D_8009B008.display_enabled ^= 1;
