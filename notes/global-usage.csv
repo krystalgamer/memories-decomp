@@ -2318,7 +2318,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80049010,func_80049010,matching_c,game,C,src/game/func_80049010.c,read,,SD_StopSequence(g_SDValue->field_157E); | func_80049CB0(g_SDValue->field_157E); | (+10 more)
 0x8009B45C,g_SDValue,g_SDValue,0x800490F0,func_800490F0,matching_c,game,C,src/game/sound_sequence_state.c,read,,g_SDValue->field_1582 = value; | g_SDValue->field_1584 = flag;
 0x8009B45C,g_SDValue,g_SDValue,0x80049108,func_80049108,matching_c,game,C,src/game/sound_sequence_state.c,read,,g_SDValue->field_1582 = value; | g_SDValue->field_1584 = flag;
-0x8009B45C,g_SDValue,g_SDValue,0x80049120,func_80049120,matching_c,game,C,src/game/sound_sequence_state.c,read,,return g_SDValue->field_1582 != 0;
+0x8009B45C,g_SDValue,g_SDValue,0x80049120,SD_IsBgmFadeActive,matching_c,game,C,src/game/sound_sequence_state.c,read,,return g_SDValue->field_1582 != 0;
 0x8009B45C,g_SDValue,g_SDValue,0x80049138,func_80049138,matching_c,game,C,src/game/func_80049138.c,read,,*g_SDValue->music_track = 0xFFFF; | SDValue *p = g_SDValue; | (+1 more)
 0x8009B45C,g_SDValue,g_SDValue,0x80049200,func_80049200,matching_c,game,C,src/game/sound_init.c,read,,"func_80049230((s16)value, g_SDValue->field_164B);"
 0x8009B45C,g_SDValue,g_SDValue,0x80049230,func_80049230,matching_c,game,C,src/game/sound_init.c,read,,g_SDValue->field_1582 = data; | g_SDValue->field_1584 = 255; | (+1 more)
@@ -2466,7 +2466,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,gFade_State,gFade_State,0x8003CA5C,func_8003CA5C,matching_c,game,C,src/game/game_over.c,read,,if (gFade_State.flags & FADE_FLAG_ACTIVE) {
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x80015310,Fade_Update,matching_c,game,C,src/game/fade_update.c,write,8,D_800E9ECC[0] = lvl;
 0x800E9ECC,D_800E9ECC,D_800E9ECC,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,write,8,D_800E9ECC[0] = 0xFF;
-0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,8,if (!(D_800E9ECE[0] & 0x80) && func_80049120() == 0) { | if (!(D_800E9ECE[0] & 0x80)) {
+0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read,8,if (!(D_800E9ECE[0] & 0x80) && SD_IsBgmFadeActive() == 0) { | if (!(D_800E9ECE[0] & 0x80)) {
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8002ACA4,func_8002ACA4,matching_c,game,C,src/game/library_runtime.c,read,8,if (!(D_800E9ECE[0] & 0x80) && state[3] == 0) { | if (state[4] != 1 && !(D_800E9ECE[0] & 0x80)) {
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8002F440,Script_OpFadeOut,matching_c,game,C,src/game/script_op_fade_out.c,address,8,void Script_OpFadeOut(void){unsigned char*base=D_800E9ECE;int command;if(func_8002E3B4()==0){command=*D_8009B290++;Fa...
 0x800E9ECE,D_800E9ECE,D_800E9ECE,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,8,if (!(D_800E9ECE[0] & 0x80)) {

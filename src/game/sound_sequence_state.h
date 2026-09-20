@@ -13,10 +13,10 @@ void func_80049108(s16 value, u8 flag);
 
 /* The state query reads only g_SDValue. func_800379C4 still passes its effect
  * object in $a0, matching the retail caller sequence. */
-#ifdef FUNC_80049120_IGNORES_OBJECT
-s32 func_80049120(void *object);
+#ifdef SD_IS_BGM_FADE_ACTIVE_IGNORES_OBJECT
+s32 SD_IsBgmFadeActive(void *object);
 #else
-s32 func_80049120(void);
+s32 SD_IsBgmFadeActive(void);
 #endif
 
 #endif

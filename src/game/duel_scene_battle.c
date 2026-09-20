@@ -465,7 +465,7 @@ void DuelScene_UpdateBattle(void)
             Fade_FillBandLevels(0xFF);
             return;
         }
-        if (!(D_800E9ECE[0] & 0x80) && func_80049120() == 0) {
+        if (!(D_800E9ECE[0] & 0x80) && SD_IsBgmFadeActive() == 0) {
             pair = D_800E9EF0;
             func_800472A8(D_8009B374);
             Model_SetPresentationBgmCommand(D_8009B374);

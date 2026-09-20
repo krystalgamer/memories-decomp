@@ -14,7 +14,7 @@ void func_80049108(s16 value, u8 flag)
     g_SDValue->field_1584 = flag;
 }
 
-s32 func_80049120(void)
+s32 SD_IsBgmFadeActive(void)
 {
     return g_SDValue->field_1582 != 0;
 }
