@@ -22,7 +22,7 @@ void func_80049394(u16 *track);
 void func_800493F8(void);
 void func_80049434(void);
 void func_800494F4(s32 *data);
-void func_80049544(void);
+void SD_EnableSecondarySequenceUpdates(void);
 void func_80049594(s32 value);
 void SD_UpdateSecondarySequenceIfEnabled(void);
 void SD_EnableSecondaryPanning(void);

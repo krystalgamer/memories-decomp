@@ -200,7 +200,8 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
 /* Sound driver initialisation after the SPU is up: enables reverb in studio-A
  * mode at full depth, clears and seeds the driver's level and track fields,
  * points the music track at its buffer at 0x801EA800 with an empty header,
- * and finishes through func_80049594, func_80049600 and func_80049544.
+ * and finishes through func_80049594, func_80049600 and
+ * SD_EnableSecondarySequenceUpdates.
  * sd_init_state.c calls it once. */
 void func_80048F14(void)
 {
@@ -240,5 +241,5 @@ void func_80048F14(void)
     *(s32 *)&c->music_track[6] = 0x40000;
     func_80049594(2);
     func_80049600(0x14);
-    func_80049544();
+    SD_EnableSecondarySequenceUpdates();
 }

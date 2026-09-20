@@ -138,7 +138,7 @@ void func_800494F4(s32 *data)
     func_80049434();
 }
 
-void func_80049544(void)
+void SD_EnableSecondarySequenceUpdates(void)
 {
     s32 value = D_8009B458->field_081C;
 
