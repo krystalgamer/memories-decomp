@@ -3088,7 +3088,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800260D0,DuelEffect_ApplyCursebreaker,matching_c,game,C,src/game/duel_field_effect_steps.c,address,,record = &D_801A7AD8[card];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/duel_ritual_effect.c,address,,DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[2]->field_6A]); | DuelCard_DeactivateRecord(&D_801A7AD8[D_800E9EF0.slots[3]->field_6A]); | (+3 more)
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,,&D_801A7AD8[D_800907D8[position]];
-0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C0C,Duel_FindFreeFieldSlot,matching_c,game,C,src/game/duel_field_equip_search.c,address,,p = (DuelCardRecord *)((u8 *)D_801A7AD8 + off);
+0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C0C,Duel_FindFreeFieldSlot,matching_c,game,C,src/game/duel_field_equip_search.c,address,,"p = DUEL_CARD_RECORD_AT_OFFSET(D_801A7AD8, off);"
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026C6C,Duel_CollectFieldCardsBelowType,matching_c,game,C,src/game/duel_field_equip_search.c,address,,&D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80026D18,Duel_CollectFieldCardsByType,matching_c,game,C,src/game/duel_field_equip_search.c,address,,&D_801A7AD8[d * DUEL_CARD_SIDE_RECORD_COUNT + arg1];
 0x801A7AD8,D_801A7AD8,D_801A7AD8,0x80027508,func_80027508,matching_c,game,C,src/game/ai_turn_action.c,address,,card = &D_801A7AD8[
