@@ -5,6 +5,8 @@
 #include "display_object.h"
 #include "func_8002FED8.h"
 
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+
 void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
 {
     s32 angle;
@@ -24,21 +26,21 @@ void func_8002FED8(SceneScriptSlot *state, DisplayObject *color)
     if (intensity == 24)
         intensity = 23;
     component = intensity - 104;
-    ((u8 *)&color->field_0C)[2] = component;
-    ((u8 *)&color->field_0C)[1] = component;
-    ((u8 *)&color->field_0C)[0] = component;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
+    DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
     object = (DisplayObject *)D_800EAE98[0].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        ((u8 *)&object->field_0C)[2] = component;
-        ((u8 *)&object->field_0C)[1] = component;
-        ((u8 *)&object->field_0C)[0] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
     object = (DisplayObject *)D_800EAE98[1].unk00;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        ((u8 *)&object->field_0C)[2] = component;
-        ((u8 *)&object->field_0C)[1] = component;
-        ((u8 *)&object->field_0C)[0] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
+        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
     }
 }
