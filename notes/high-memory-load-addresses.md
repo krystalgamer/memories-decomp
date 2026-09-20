@@ -32,7 +32,7 @@ therefore erase distinctions established by the consumers.
 | `0x80010028` | `0x80176000` | paired MODEL data | Slot-1 data argument stored at channel offset `+0xDEC` |
 | `0x8001002C` | `0x80180000` | SU-specific | Destination selected by `MainMenu_LoadPackageStage` for SU sectors `98-114` |
 | `0x80010030` | `0x80180000` | SU-specific | Direct destination for the 16-sector SU load beginning at sector `0x4C7` |
-| `0x80010034` | `0x80185CD4` | SU-specific | Interior pointer passed to `func_80049394` after that direct SU load |
+| `0x80010034` | `0x80185CD4` | SU-specific | Interior pointer passed to `SD_SetMusicTrackBuffer` after that direct SU load |
 
 The repeated value `0x80180000` does not make the three words aliases in
 source. They occur in different call paths and preserve different relocation
@@ -108,7 +108,7 @@ The last three words are a separate SU cohort:
   `0x4C7..0x4D7`.
 - After the direct load, the same routine calls loaded SU entries and passes
   `0x80010034`, whose value `0x80185CD4` lies inside that module, to
-  `func_80049394`.
+  `SD_SetMusicTrackBuffer`.
 
 The matching `func_800507D0` uses the owning declarations in
 `high_memory_addresses.h`. Its three fixed imports are declared by
