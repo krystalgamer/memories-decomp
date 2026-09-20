@@ -1717,7 +1717,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B300,D_8009B300,D_8009B300,0x80035668,func_80035668,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B300 = 0x808080;
 0x8009B304,D_8009B304,D_8009B304,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read,,D_8009B310 = D_8009B304;
 0x8009B304,D_8009B304,D_8009B304,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,read,,D_8009B310 = D_8009B304; | SortedEntry *base = D_8009B304;
-0x8009B304,D_8009B304,D_8009B304,0x80035680,func_80035680,matching_c,game,C,src/game/text_render_state.c,write,,D_8009B304 = list;
+0x8009B304,D_8009B304,D_8009B304,0x80035680,SortedEntry_BeginCollection,matching_c,game,C,src/game/text_render_state.c,write,,D_8009B304 = list;
 0x8009B308,D_8009B308,D_8009B308,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read,32,if (D_8009B314 >= D_8009B308) {
 0x8009B308,D_8009B308,D_8009B308,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,read_write,32,D_8009B308 = count; | sorted_count = D_8009B308;
 0x8009B30C,D_8009B30C,D_8009B30C,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read_write,32,D_8009B30C = D_8009B30C & ~3; | if ((D_8009B30C & 2) != 0) {
@@ -1726,19 +1726,19 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B30C,D_8009B30C,D_8009B30C,0x80034830,func_80034830,matching_c,game,C,src/game/func_80034830.c,read,32,flags = D_8009B30C; | if (D_8009B30C & 2) {
 0x8009B30C,D_8009B30C,D_8009B30C,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,read_write,32,D_8009B30C &= ~4;
 0x8009B30C,D_8009B30C,D_8009B30C,0x80035668,func_80035668,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B30C = value;
-0x8009B30C,D_8009B30C,D_8009B30C,0x80035680,func_80035680,matching_c,game,C,src/game/text_render_state.c,read_write,32,D_8009B30C |= 4;
+0x8009B30C,D_8009B30C,D_8009B30C,0x80035680,SortedEntry_BeginCollection,matching_c,game,C,src/game/text_render_state.c,read_write,32,D_8009B30C |= 4;
 0x8009B310,D_8009B310,D_8009B310,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,write,,D_8009B310 = D_8009B304;
 0x8009B310,D_8009B310,D_8009B310,0x80033CF8,func_80033CF8,matching_c,game,C,src/game/func_80033CF8.c,read_write,,D_8009B310 = p + 1; | D_8009B310->distance = SquareRoot0(dx * dx + dz * dz); | (+1 more)
 0x8009B310,D_8009B310,D_8009B310,0x80033DB0,func_80033DB0,matching_c,game,C,src/game/func_80033DB0.c,read_write,,D_8009B310++; | z = D_8009B310->sorted_position;
 0x8009B310,D_8009B310,D_8009B310,0x80034830,func_80034830,matching_c,game,C,src/game/func_80034830.c,read_write,,D_8009B310++; | z = D_8009B310->sorted_position;
 0x8009B310,D_8009B310,D_8009B310,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,write,,D_8009B310 = D_8009B304;
-0x8009B310,D_8009B310,D_8009B310,0x80035680,func_80035680,matching_c,game,C,src/game/text_render_state.c,write,,D_8009B310 = list;
+0x8009B310,D_8009B310,D_8009B310,0x80035680,SortedEntry_BeginCollection,matching_c,game,C,src/game/text_render_state.c,write,,D_8009B310 = list;
 0x8009B314,D_8009B314,D_8009B314,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read_write,32,D_8009B314 = D_8009B314 + 1; | if (D_8009B314 >= D_8009B308) {
 0x8009B314,D_8009B314,D_8009B314,0x80033CF8,func_80033CF8,matching_c,game,C,src/game/func_80033CF8.c,read_write,32,D_8009B314 = D_8009B314 + 1; | p->append_index = D_8009B314;
 0x8009B314,D_8009B314,D_8009B314,0x80033DB0,func_80033DB0,matching_c,game,C,src/game/func_80033DB0.c,read,32,if (z < D_8009B314) {
 0x8009B314,D_8009B314,D_8009B314,0x80034830,func_80034830,matching_c,game,C,src/game/func_80034830.c,read,32,if (z < D_8009B314) {
 0x8009B314,D_8009B314,D_8009B314,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,read_write,32,D_8009B314 = 0; | u32 count = D_8009B314;
-0x8009B314,D_8009B314,D_8009B314,0x80035680,func_80035680,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B314 = 0;
+0x8009B314,D_8009B314,D_8009B314,0x80035680,SortedEntry_BeginCollection,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B314 = 0;
 0x8009B318,D_8009B318,D_8009B318,0x80012E5C,Graphics_BeginFrame,matching_c,game,C,src/game/graphics_frame.c,read,8,if ((D_8009B318 & 0x80) != 0) { | if ((D_8009B318 & 0x80) == 0) {
 0x8009B318,D_8009B318,D_8009B318,0x8003594C,Movie_Play,matching_c,game,C,src/game/movie_playback_control.c,write,8,D_8009B318 = 0x80;
 0x8009B318,D_8009B318,D_8009B318,0x800359B0,func_800359B0,matching_c,game,C,src/game/movie_playback_control.c,read_write,8,D_8009B318 &= 0x7F; | D_8009B318 = value | 0x40; | (+1 more)

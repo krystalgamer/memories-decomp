@@ -268,8 +268,7 @@ void Model_ProcessType2Unit(
                 if (b != (u8 *)0) {
                     j = 0;
                     rec = MODEL_TYPE2_RECORD_VIEW(q);
-                    e = (u16 *)(b +
-                        rec->index_offset * 4);
+                    e = (u16 *)&((u32 *)b)[rec->index_offset];
                     if (rec->row_count > 0) {
                         do {
                             if (f) {
