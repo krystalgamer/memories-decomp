@@ -215,7 +215,7 @@ void func_80045514(void)
         if (g_SDValue->field_157E == 0) {
             if ((g_SDValue->flags_0040 & 0x80) != 0) {
                 SD_StopSequence(0);
-                func_80049F10(0, 0);
+                SD_SetSecondaryMasterLevels(0, 0);
                 g_SDValue->field_1586 = 0;
                 g_SDValue->field_1588 = 0;
                 g_SDValue->flags_0040 = g_SDValue->flags_0040 & 0xFF7F;

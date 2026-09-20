@@ -779,7 +779,7 @@ above.
 | `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
 | `0x0510` | `s16` | `object_count` | Initialized/set by `func_80049434` and `func_80049600`; bounds the `0x28`-byte object scans in several matched functions. |
-| `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses. |
+| `0x0512`, `0x0514`, `0x0516` | `s16` | `field_0512`, `field_0514`, `field_0516` | Initialization and parameter-update functions establish signed halfword accesses; `SD_SetSecondaryMasterLevels` writes the latter pair consumed by `SD_SetVoiceVolume`. |
 | `0x07DC` | pointer | `field_07DC` | Playback copies `field_07E8` here; `SD_ReadSequenceByte` reads indexed stream bytes through it, and `SD_FindMidiTrackChunk` scans for `MTrk`. |
 | `0x07E0`-`0x07E6` | four `s16` | `field_07E0`-`field_07E6` | Playback setup/reset and parameter functions consistently use halfword accesses. |
 | `0x07E8` | pointer | `field_07E8` | `SD_OpenSequence` stores the sequence/stream input pointer. |
@@ -848,9 +848,9 @@ polls it.
 Its three callers all pair that with `SDValue`'s flag `0x80` and
 `field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
 when the poll is not `1`, and `func_80046294` stops it when the poll is `1`.
-`SD_SetSecondarySpatialLevels` and `func_80049F10` read the same halfword for
-a different question, skipping `SD_UpdateSecondaryObjectVolumes` while it is
-`2`.
+`SD_SetSecondarySpatialLevels` and `SD_SetSecondaryMasterLevels` read the same
+halfword for a different question, skipping `SD_UpdateSecondaryObjectVolumes`
+while it is `2`.
 
 ### Transfer-window state and results
 

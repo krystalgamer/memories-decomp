@@ -86,7 +86,7 @@ void SD_UpdateFades(void) {
             v = 0;
         }
         y = v;
-        func_80049F10(y, y);
+        SD_SetSecondaryMasterLevels(y, y);
     }
     if (g_SDValue->field_0512 != 0) {
         g_SDValue->cd_volume += g_SDValue->field_0512;

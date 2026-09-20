@@ -928,7 +928,7 @@ void func_80049DD8(void);
  * twice; it declared this itself before, in the same s16 pair the definition
  * takes. It is not the only caller -- func_80045514.c calls it with two
  * literal zeros, and used to declare it as an s32 pair of its own. */
-void func_80049F10(s16 first, s16 second);
+void SD_SetSecondaryMasterLevels(s16 left, s16 right);
 void SD_KeyOffVoiceSlots(void);
 void SD_StopAll(void);
 

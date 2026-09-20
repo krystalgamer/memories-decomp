@@ -15,12 +15,12 @@ void SD_SetSecondarySpatialLevels(s32 arg0, s32 arg1)
         SD_UpdateSecondaryObjectVolumes();
 }
 
-void func_80049F10(s16 first, s16 second)
+void SD_SetSecondaryMasterLevels(s16 left, s16 right)
 {
     SDSecondaryState *state = D_8009B458;
 
-    state->field_0514 = first;
-    state->field_0516 = second;
+    state->field_0514 = left;
+    state->field_0516 = right;
     if (state->field_07E2 != 2)
         SD_UpdateSecondaryObjectVolumes();
 }
