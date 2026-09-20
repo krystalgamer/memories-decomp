@@ -9,6 +9,7 @@
     ((u32)&((BuildDeckTransitionState *)0)->lists[1].entries[0].id)
 #define CARD_ENTRY_ID_TO_FLAGS_OFFSET \
     ((u32)&((CardEntry *)0)->flags - (u32)&((CardEntry *)0)->id)
+#define BUILD_DECK_STATE_BYTES(state) ((u8 *)(state))
 
 void func_8003201C(BuildDeckTransitionState *state)
 {
@@ -22,7 +23,7 @@ void func_8003201C(BuildDeckTransitionState *state)
         u8 *count;
 
         index = CARD_ID_FIRST;
-        count = (u8 *)state + index;
+        count = BUILD_DECK_STATE_BYTES(state) + index;
         for (; index < CARD_ID_END; index++, count++) {
             s32 record_index;
             u8 *record;
@@ -31,7 +32,8 @@ void func_8003201C(BuildDeckTransitionState *state)
             count[BUILD_DECK_RECOUNT_QUANTITY_OFFSET] = 0;
             record_index = 0;
             output = count;
-            record = (u8 *)state + BUILD_DECK_RECOUNT_ROW_ID_OFFSET;
+            record = BUILD_DECK_STATE_BYTES(state) +
+                     BUILD_DECK_RECOUNT_ROW_ID_OFFSET;
             for (; record_index < DECK_SIZE; record_index++) {
                 if (record[CARD_ENTRY_ID_TO_FLAGS_OFFSET] != 0 &&
                     *(s16 *)record == index)
