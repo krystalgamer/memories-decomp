@@ -3,6 +3,6 @@
 
 #include "card_list_text_boxes.h"
 
-void func_80033CC4(CardList *list);
+void CardList_UpdateSortMode(CardList *list);
 
 #endif

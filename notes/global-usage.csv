@@ -175,7 +175,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80090DD8,D_80090DD8,D_80090DD8,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,address,8,"func_80031784(header, ot, &D_80090DD8[kind * 16], | func_80031784(header, ot, D_80090DD8, list->sort_mode);"
 0x80090DD8,D_80090DD8,D_80090DD8,0x800323F8,func_800323F8,matching_c,game,C,src/game/func_800323F8.c,address,8,icons = (s32)D_80090DD8;
 0x80090DD8,D_80090DD8,D_80090DD8,0x800330BC,BuildDeck_UpdateCardListInput,matching_c,game,C,src/game/card_list_sort.c,address,8,entry = D_80090DD8 + slot;
-0x80090DD8,D_80090DD8,D_80090DD8,0x80033CC4,func_80033CC4,matching_c,game,C,src/game/func_80033CC4.c,address,8,p = D_80090DD8 + v1;
+0x80090DD8,D_80090DD8,D_80090DD8,0x80033CC4,CardList_UpdateSortMode,matching_c,game,C,src/game/func_80033CC4.c,address,8,p = D_80090DD8 + v1;
 0x80090DD8,D_80090DD8,D_80090DD8,0x80060B38,CardList_RenderDeckBoxStats,matching_c,game,C,src/game/card_list_render_deck_box_stats.c,address,8,tbl = D_80090DD8;
 0x80090DF8,D_80090DF8,D_80090DF8,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,32,D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
 0x80090E0C,D_80090E0C,D_80090E0C,0x800357E8,Text_EncodeDecimalDigits,matching_c,game,C,src/game/text_encode_decimal_digits.c,read,32,s32 d = D_80090E0C[arg1];
