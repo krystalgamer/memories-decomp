@@ -9,6 +9,9 @@
 #include "func_8001944C.h"
 #include "graphics_frame.h"
 
+#define DUEL_CARD_READBACK_HALFWORDS(buffer) ((u16 *)(buffer))
+#define DUEL_CARD_READBACK_WORDS(buffer) ((u32 *)(buffer))
+
 void DuelCard_CaptureRoundedTexture(DisplayObject *o)
 {
     u8 *buf;
@@ -29,9 +32,9 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     D_800E9D70[0].y = o->field_30.h.field_32;
     D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
-    StoreImage2(&D_800E9D70[0], (u32 *)buf);
+    StoreImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(buf));
 
-    p = (u16 *)buf;
+    p = DUEL_CARD_READBACK_HALFWORDS(buf);
     xoff = DUEL_CARD_READBACK_WORD_COUNT;
     do {
         *p = *p | COLOR_BGR555_STP_MASK;
@@ -43,7 +46,7 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
        corner pixels of the 140x196 readback back to 0 -- (0, 0), (0, 1),
        (1, 0) and the matching three at each other corner -- which rounds
        the card's corners. (0, 0) is the store through D_8015C424 below. */
-    p = (u16 *)D_8015C424;
+    p = DUEL_CARD_READBACK_HALFWORDS(D_8015C424);
     p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 138] = 0;
     p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[195 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
@@ -56,10 +59,10 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *o)
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 139] = 0;
     p[0 * DUEL_CARD_READBACK_WIDTH_WORDS + 1] = 0;
 
-    *(u16 *)D_8015C424 = 0;
+    DUEL_CARD_READBACK_HALFWORDS(D_8015C424)[0] = 0;
     D_800E9D70[0].x = 0x140;
     D_800E9D70[0].y = 0x100;
     D_800E9D70[0].w = DUEL_CARD_READBACK_WIDTH_WORDS;
     D_800E9D70[0].h = DUEL_CARD_READBACK_HEIGHT;
-    LoadImage2(&D_800E9D70[0], (u32 *)D_8015C424);
+    LoadImage2(&D_800E9D70[0], DUEL_CARD_READBACK_WORDS(D_8015C424));
 }
