@@ -226,7 +226,7 @@ void func_80032C48(CardList *list)
      Duplicating it in both branches leaves the two copies unmerged.
    - "list->row_count - 8" is respelled at every use; a single local
      would collapse the reloads the target makes at each join point.
-   - The D_80090DD8 lookup keeps func_80033CC4's statement-by-statement
+   - The D_80090DD8 lookup keeps CardList_UpdateSortMode's statement-by-statement
      spelling so the base and slot pseudos land in the same registers.
 */
 

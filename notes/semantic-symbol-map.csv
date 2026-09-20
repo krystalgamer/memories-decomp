@@ -273,6 +273,7 @@ function,0x8002EC74,Script_OpSound,high,"matching opcode body; gScript_pStream a
 function,0x8002FFD4,SceneScript_UpdateSlots,high,"matching body walks the first three canonical SceneScriptSlot records at 0x14-byte stride; Main_RunCampaign sole caller; D_80090CAC callback dispatch by the low byte at slot offset 4","Updates the three active scene-script slots and invokes each live slot's selected callback."
 function,0x8002FA54,Script_RunTick,confirmed,"matching dispatcher body; Main_RunCampaign caller; story-script command and stream state; Unchiga F111 trace","Selects or advances the active story-script bytecode stream for one campaign frame."
 function,0x80032B60,BuildDeck_CompareCard,high,"gms.c compDeckCard; local sort comparator","Compares deck-builder card records."
+function,0x80033CC4,CardList_UpdateSortMode,high,"matching body indexes D_80090DD8 by CardList.kind and sort_choice, takes the selected entry's low nibble, and stores it in CardList.sort_mode; card_list_sort.c identifies the same table lookup as part of cursor/sort input handling","Updates a card list's resolved sort mode from its kind and selected sort option."
 function,0x800356A0,Util_CopyWords,high,"gms.c copyWords; local body and callers","Copies a caller-supplied number of words."
 function,0x800357E8,Text_EncodeDecimalDigits,high,"gms.c fillDigits; local decimal table","Encodes decimal digits and leading blank markers."
 function,0x800358FC,Rand_GetInterval,high,"gms.c randInterval; local body","Returns a PRNG value modulo the requested interval."

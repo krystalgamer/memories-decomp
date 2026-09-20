@@ -2,7 +2,7 @@
 #include "card_type_icon_table.h"
 #include "func_80033CC4.h"
 
-void func_80033CC4(CardList *a0) {
+void CardList_UpdateSortMode(CardList *a0) {
     int a1;
     int v1;
     u8 *p;
