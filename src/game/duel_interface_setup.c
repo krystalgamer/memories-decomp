@@ -11,6 +11,8 @@
 #include "text_box_runtime.h"
 #include "../unmatched.h"
 
+#define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
+
 void DebugMenu_Init(void)
 {
     DuelEffectChannel *text_box;
@@ -27,10 +29,10 @@ void DebugMenu_Init(void)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
     D_8009B2E4 = object;
     DisplayObject_InitializeGouraudQuad(object, 0);
-    ((u8 *)&object->field_44)[1] = 0xC0;
-    ((u8 *)&object->field_3C)[1] = 0xC0;
-    ((u8 *)&object->field_34)[1] = 0xC0;
-    ((u8 *)&object->field_2C)[1] = 0xC0;
+    DISPLAY_OBJECT_WORD_BYTES(object->field_44)[1] = 0xC0;
+    DISPLAY_OBJECT_WORD_BYTES(object->field_3C)[1] = 0xC0;
+    DISPLAY_OBJECT_WORD_BYTES(object->field_34)[1] = 0xC0;
+    DISPLAY_OBJECT_WORD_BYTES(object->field_2C)[1] = 0xC0;
     DebugMenu_UpdateCursorLayout();
     Fade_WaitIn();
 }
