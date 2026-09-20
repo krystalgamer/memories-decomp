@@ -220,7 +220,7 @@ void func_8005F3B8(s32 a,s32 b,s32 c,s32 d,SVECTOR *v)
 void func_800597C8(s32 a,s32 b,s32 c) { observe(PENDING,a,b,c,0,0,0,0,0); }
 void Model_ControlSlotAnimation(s32 a,s32 b,s32 c) { observe(ANIMATE,a,b,c,0,0,0,0,0); }
 void func_80059700(s32 a,s32 b) { observe(VELOCITY,a,b,0,0,0,0,0,0); }
-void func_80059590(s32 a,s32 b,s32 c,s32 d,s32 e)
+void Model_SetSlotTintTarget(s32 a,s32 b,s32 c,s32 d,s32 e)
 { observe(PROPERTIES,a,b,c,d,e,0,0,0); }
 void func_80047314(u32 a) { observe(AUDIO,a,0,0,0,0,0,0,0); }
 s32 SD_GetStatusFlags(void) { return observe(AUDIO_READY,0,0,0,0,0,0,0,0); }

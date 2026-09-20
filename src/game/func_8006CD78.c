@@ -538,9 +538,9 @@ stage_test:
     }
 
     if ((s8)e->fade >= 0) {
-        func_80059590(slot, 5, e->fade, e->fade, e->fade);
+        Model_SetSlotTintTarget(slot, 5, e->fade, e->fade, e->fade);
     } else {
-        func_80059590(slot, 0, 0x80, 0x80, 0x80);
+        Model_SetSlotTintTarget(slot, 0, 0x80, 0x80, 0x80);
     }
     if (e->stage != 0) {
         if (e->fade < 0x7C) {
