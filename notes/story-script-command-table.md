@@ -17,7 +17,7 @@ is active.
 | 5 | `Script_OpShowImage` | Creates or replaces the staged story image. |
 | 6 | `Script_OpViewportTween` | Reads a viewport target and duration, then selects slot 7. |
 | 7 | `Script_UpdateViewportTween` | Advances the viewport interpolation until it completes. |
-| 8 | `func_8002EB48` | Copies one operand byte into `D_8009B363` and requests mode 5. |
+| 8 | `Script_OpOpenCampaignMap` | Reads a Campaign Map location and requests mode 5. |
 | 9 | `Script_OpShowMenu` | Arms a menu-effect record and waits for its effect step to finish. |
 | 10 | `Script_OpSound` | Starts a BGM or sound effect, or updates the retained BGM command. |
 | 11 | `Script_OpFadeBgm` | Starts a default or operand-sized BGM fade. |

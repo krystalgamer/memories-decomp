@@ -3,9 +3,8 @@
 
 #include "../types.h"
 
-/* D_80090C50 handler: takes one byte from the stream into D_8009B363 and puts
- * the scene mode at 5. It does not consult the busy latch, so it runs once per
- * dispatch and consumes a byte every time. */
-void func_8002EB48(void);
+/* D_80090C50 handler: takes the Campaign Map location from the stream and
+ * requests frontend mode 5. */
+void Script_OpOpenCampaignMap(void);
 
 #endif

@@ -34,7 +34,7 @@ ScriptCommandHandler D_80090C50[] = {
     Script_OpShowImage,
     Script_OpViewportTween,
     Script_UpdateViewportTween,
-    func_8002EB48,
+    Script_OpOpenCampaignMap,
     Script_OpShowMenu,
     Script_OpSound,
     Script_OpFadeBgm,
