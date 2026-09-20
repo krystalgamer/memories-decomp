@@ -3,6 +3,8 @@
 #include "display_object.h"
 #include "widget_update_pulse_colour.h"
 
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+
 void Widget_UpdatePulseColour(DisplayObject *object)
 {
     /* A copy, not the parameter: retail moves the object into a3 at entry
@@ -13,11 +15,11 @@ void Widget_UpdatePulseColour(DisplayObject *object)
     if (t >= 0x40)
         t = 0x7F - t;
     t = t * 2 + 0x80;
-    if (((u8 *)&q->field_0C)[0] != 0)
+    if (DISPLAY_OBJECT_COLOR_BYTES(q)[0] != 0)
         c = t;
-    if (((u8 *)&q->field_0C)[1] != 0)
+    if (DISPLAY_OBJECT_COLOR_BYTES(q)[1] != 0)
         c |= t << 8;
-    if (((u8 *)&q->field_0C)[2] != 0)
+    if (DISPLAY_OBJECT_COLOR_BYTES(q)[2] != 0)
         c |= t << 16;
     q->field_3C.word = c;
     q->field_44.word = c;
