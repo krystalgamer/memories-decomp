@@ -18,7 +18,8 @@ instructions in multiple functions:
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
-  `func_80059590`, and `Model_SetSlotShadowEnabled` independently produce the same stride
+  `Model_SetSlotTintTarget`, and `Model_SetSlotShadowEnabled` independently
+  produce the same stride
   while accessing unrelated pointers, arrays, and bytes.
 - `func_80057E20`, `func_80059000`,
   `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`, and
@@ -52,7 +53,7 @@ Verified shared fields and partial arrays are:
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `func_8004DE24` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
-| `0xDC0` | `field_DC0[8]` | byte writes in `func_80059590` and selection in `func_80059520` |
+| `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `func_80059520` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `func_800597C8` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `D_8009B488[index]` for all three slots when non-negative |
@@ -238,8 +239,9 @@ all include the shared header:
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
-`func_800594C0`, `func_80059520`, `func_80059590`, `func_800595C8`,
-`func_8005969C`, `func_800597C8`, `Model_SetSlotShadowEnabled`, `Model_RunSlotHandlers`,
+`func_800594C0`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
+`func_8005969C`, `func_800597C8`, `Model_SetSlotShadowEnabled`,
+`Model_RunSlotHandlers`,
 `func_8005A468`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries

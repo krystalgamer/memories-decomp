@@ -260,7 +260,9 @@ next_channel:
         do {
             s32 elapsed;
             u8 *key = (u8 *)D_8009B074;
-            s16 *record = (s16 *)(key + channel * 8);
+            s16 *record = (s16 *)(
+                key + (u32)&((s16 (*)[4])0)[channel]
+            );
             if (record[3] == 4) {
                 s32 duration = (elapsed = KEY_VIEW(key)->progress,
                     KEY_VIEW(key)->duration);

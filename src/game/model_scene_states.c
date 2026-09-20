@@ -31,7 +31,7 @@ void Model_StartExodiaPresentation(void)
     func_800530C4();
     D_8009AF94 = 0x13;
     func_8005F3B8(0, 10000, 0xE00, 0, 0);
-    func_80059590(0, 5, 0, 0, 0);
+    Model_SetSlotTintTarget(0, 5, 0, 0, 0);
     D_8009AF9A = -1;
 }
 

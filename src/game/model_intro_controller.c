@@ -65,8 +65,8 @@ void func_8004EB00(void)
         break;
     case 1:
         func_800595C8(2, -0x1000, -0x1000, -0x1000);
-        func_80059590(0, 5, 0, 0, 0);
-        func_80059590(1, 5, 0, 0, 0);
+        Model_SetSlotTintTarget(0, 5, 0, 0, 0);
+        Model_SetSlotTintTarget(1, 5, 0, 0, 0);
         D_8009AF9A++;
         break;
     case 2:
@@ -145,8 +145,8 @@ void func_8004EB00(void)
             if (D_800F2C40[0].field_E11 != 4) {
                 func_80059284(0, 3);
             }
-            func_80059590(0, 0, 0x80, 0x80, 0x80);
-            func_80059590(1, 0, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(1, 0, 0x80, 0x80, 0x80);
             Model_ControlSlotAnimation(0, 2, 1);
             D_8009AFE9 = 0;
             D_8009AF9A++;
@@ -425,7 +425,7 @@ void func_8004EB00(void)
         ModelSlot *slot = &D_800F2C40[f];
 
         if (slot->field_E13 == 0 && func_8005A878(1) != 0) {
-            func_80059590(f, 5, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
             D_8009AFA0 = f;
             handlers[3](slot->field_DEC, 0);
             slot->field_E15 = 0;
@@ -510,7 +510,7 @@ void func_8004EB00(void)
         if (D_800F2C40[f].field_E13 == 0 && func_8005A878(1) != 0) {
             D_8009AFE9 += Model_GetFrameStep();
             if (D_8009AFE9 >= 0x3C) {
-                func_80059590(f, 5, 0x80, 0x80, 0x80);
+                Model_SetSlotTintTarget(f, 5, 0x80, 0x80, 0x80);
                 D_8009AF9A++;
             }
         }
@@ -552,7 +552,7 @@ void func_8004EB00(void)
                 D_800F2C40[1].field_E15++;
             }
         } else if (func_8005A878(1) != 0) {
-            func_80059590(1, 5, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(1, 5, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }
         break;
@@ -576,7 +576,7 @@ void func_8004EB00(void)
         break;
     case 33:
         if (func_8005FB08() != 0 && func_8005A878(1) != 0) {
-            func_80059590(0, 5, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(0, 5, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }
         break;
@@ -688,7 +688,7 @@ check_ready:
             Model_ControlSlotAnimation(0, 0, 0);
         }
         func_80059700(0, 1);
-        func_80059590(0, 5, 0, 0, 0);
+        Model_SetSlotTintTarget(0, 5, 0, 0, 0);
         slot->field_BF6 = 1;
         slot->field_BF4 = 2;
         func_80047314(0x7310);
@@ -718,7 +718,7 @@ check_ready:
             current->field_DC0[1] += 2;
             current->field_DC0[2] += 2;
         } else {
-            func_80059590(0, 0, 0x80, 0x80, 0x80);
+            Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
             D_8009AF9A++;
         }
         break;
@@ -977,8 +977,8 @@ void func_800507D0(void)
       ACTIVE_SLOT = 0;
       D_800F2C40[0].field_E1F = 0;
       D_800F2C40[1].field_E1F = 0;
-      func_80059590(0, 2, 0, 0, 0);
-      func_80059590(1, 2, 0, 0, 0);
+      Model_SetSlotTintTarget(0, 2, 0, 0, 0);
+      Model_SetSlotTintTarget(1, 2, 0, 0, 0);
       func_801807B0();
       func_80181C4C(0);
       func_80049394((u16 *)D_80010034);

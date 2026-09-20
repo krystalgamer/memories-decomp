@@ -272,7 +272,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
             }
         }
     }
-    func_80059590(slot, 5, e->fade, e->fade, e->fade);
+    Model_SetSlotTintTarget(slot, 5, e->fade, e->fade, e->fade);
     if (e->fade >= 4) {
         e->fade = e->fade - 2;
     } else {
@@ -287,7 +287,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
         e->flash_colors[0].b = 0;
         e->flash_count = 0;
         e->mode = 1;
-        func_80059590(slot, 5, 0, 0, 0);
+        Model_SetSlotTintTarget(slot, 5, 0, 0, 0);
     }
     if (HI16(e, 0x80E) != 0 || e->dust_b != 0) {
         if (e->mode == 1) {

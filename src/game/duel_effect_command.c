@@ -332,8 +332,8 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
 
     counter = *(u8 *)&a3->stream_58 + 1;
     *(u8 *)&a3->stream_58 = counter;
-    offset = (s8)counter;
-    slot = (u32 *)((u8 *)a3 + offset * 4);
+    offset = (u32)&((u32 *)0)[(s8)counter];
+    slot = (u32 *)((u8 *)a3 + offset);
     *slot = v1;
     return slot;
 }
