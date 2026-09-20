@@ -21,6 +21,8 @@
 #include "dialog_choice.h"
 #include "../unmatched.h"
 
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+
 /* Handles leaving the deck editor. When the editor's own check passes, the
  * confirm sound plays and, if the deck has an open slot
  * (BuildDeck_HasOpenDeckSlot), bit 14 of the state word at +0x633E is set, a
@@ -137,12 +139,12 @@ s32 func_80033BE8(void)
     first = base->lists[0].cursor_box;
     second = base->lists[1].cursor_box;
 
-    ((u8 *)&second->field_0C)[2] = color;
-    ((u8 *)&second->field_0C)[1] = color;
-    ((u8 *)&second->field_0C)[0] = color;
-    ((u8 *)&first->field_0C)[2] = color;
-    ((u8 *)&first->field_0C)[1] = color;
-    ((u8 *)&first->field_0C)[0] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(second)[2] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(second)[1] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(second)[0] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(first)[2] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(first)[1] = color;
+    DISPLAY_OBJECT_COLOR_BYTES(first)[0] = color;
 
     if (DuelEffect_UpdateState() == 0) {
         D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
