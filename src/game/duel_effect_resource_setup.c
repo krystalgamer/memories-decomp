@@ -11,6 +11,8 @@
 #include "func_800291E0.h"
 #include "card_preview_callbacks.h"
 
+#define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
+
 FileTransferDescriptor *func_80029164(s32 slot, s32 value)
 {
     FileTransferDescriptor *object;
@@ -86,9 +88,9 @@ disp_16:
     goto shared_tail;
 
 disp_17:
-    byte_value = ((u8 *)&object->field_5E)[1];
+    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1];
     byte_value = (u8)(byte_value + 0x20);
-    ((u8 *)&object->field_5E)[1] = byte_value;
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = byte_value;
     /* fallthrough */
 disp_14:
     setup = 0x101;
@@ -97,15 +99,15 @@ disp_14:
 
 disp_15:
     setup = 0x102;
-    byte_value = ((u8 *)&object->field_5E)[1];
+    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1];
     variant = 1;
     byte_value = (u8)(byte_value + 0x10);
-    ((u8 *)&object->field_5E)[1] = byte_value;
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = byte_value;
     goto shared_tail;
 
 path_a:
     object->field_30.h.field_32 = 0x9E;
-    ((u8 *)&object->field_5E)[1] = 0xCE;
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = 0xCE;
     object->field_3C.h.field_3C = 0x18;
     object->field_3C.h.field_3E = 0xC;
 
