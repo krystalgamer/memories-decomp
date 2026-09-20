@@ -198,7 +198,7 @@ void func_800472A8(s32 arg0)
 
         if (masked >= SD_BGM_COMMAND_BASE)
             arg0 -= SD_BGM_COMMAND_BASE;
-        func_80049138((s16)arg0, 1);
+        SD_RequestMusicPackageLoad((s16)arg0, 1);
     }
 }
 

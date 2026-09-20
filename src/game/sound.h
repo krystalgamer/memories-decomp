@@ -839,12 +839,12 @@ s32 SD_SetSecondaryObjectCount(u32 count);
    externs in two files each and both agreed, except that
    SD_ProcessSequenceTracks is defined returning int and all its callers
    declared it void -- they discard the value, which costs nothing.
-   func_80049138 likewise returns a result nobody reads; its two callers
-   disagreed only about whether the first parameter was s16, and the one that
-   said s32 already casts to s16 at the call. */
+   SD_RequestMusicPackageLoad likewise returns a result nobody reads; its two
+   callers disagreed only about whether the first parameter was s16, and the
+   one that said s32 already casts to s16 at the call. */
 s32 SD_ProcessSequenceTracks(void);
 void func_800464F0(void);
-s32 func_80049138(s16 arg0, s32 arg1);
+s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 
 /* The third export of sd_sequence_tracks.c, joining its two siblings above.
    It walks the track records from D_8009B458 for track_count entries and

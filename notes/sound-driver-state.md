@@ -513,7 +513,7 @@ only variable -- but the general lesson is cheaper than six of them: when a
 type substitution moves an object, vary the ACCESS with the type held
 fixed before varying the type any further.
 
-`func_80049138` is a third deliberate exception and is no longer a raw
+`SD_RequestMusicPackageLoad` is a third deliberate exception and is no longer a raw
 view. The global pointer is volatile in that routine, which the unit
 selects by defining `G_SDVALUE_VOLATILE` -- an arm of `sound.h`'s own
 declaration chain rather than a suppression of it -- and `sound.h` carries

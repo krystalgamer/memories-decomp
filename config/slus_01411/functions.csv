@@ -785,7 +785,7 @@ address,size,name,status,module,notes
 0x800490F0,0x18,func_800490F0,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049108,0x18,func_80049108,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049120,0x18,SD_IsBgmFadeActive,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
-0x80049138,0xC8,func_80049138,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80049138,0xC8,SD_RequestMusicPackageLoad,matching_c,game,"High-confidence semantic name: when the requested packed music id differs from the loaded package, resets current output/music state, selects the eight-byte package table entry, and queues command 0x20 to load it into the music-track buffer; exact full-executable match under gcc_2_8_1_g0_no_split."
 0x80049200,0x30,func_80049200,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049230,0xA8,func_80049230,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800492D8,0x30,SD_Init,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.

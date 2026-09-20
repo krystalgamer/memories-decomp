@@ -24,7 +24,7 @@ void func_80049230(s32 value, s32 data)
         return;
     }
     if (*g_SDValue->music_track != (small >> 4))
-        func_80049138(small, 1);
+        SD_RequestMusicPackageLoad(small, 1);
     command.command = 0x48;
     command.field_0002 = value;
     command.field_0008 = (s16)data;

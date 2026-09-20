@@ -9,7 +9,7 @@
 #include "func_80049138.h"
 #include "../unmatched.h"
 
-s32 func_80049138(s16 arg0, s32 arg1) {
+s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1) {
     SDValue *p = g_SDValue;
 
     if (*p->music_track != arg0 >> 4) {
