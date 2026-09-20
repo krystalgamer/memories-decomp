@@ -89,7 +89,7 @@ void Script_OpDuelResult(void) {
         gFade_State.step = four;
         Fade_Wait();
     } else {
-        if (func_8004703C() & 0x80) {
+        if (SD_GetStatusFlags() & 0x80) {
             return;
         }
         Fade_WaitOut();

@@ -2283,7 +2283,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B45C,g_SDValue,g_SDValue,0x80046FA0,SD_SetOutputType,matching_c,game,C,src/game/sound_output.c,read,,SDValue *state = g_SDValue; | func_80044DC0(g_SDValue->cd_volume);
 0x8009B45C,g_SDValue,g_SDValue,0x80047008,SD_GetOutputType,matching_c,game,C,src/game/sound_output.c,read,,return g_SDValue->output_type;
 0x8009B45C,g_SDValue,g_SDValue,0x8004701C,func_8004701C,matching_c,game,C,src/game/sound_output.c,read,,(g_SDValue->flags_004A & 0xF0) | value; | g_SDValue->flags_004A =
-0x8009B45C,g_SDValue,g_SDValue,0x8004703C,func_8004703C,matching_c,game,C,src/game/sound_output.c,read,,return (s16)g_SDValue->flags_0040;
+0x8009B45C,g_SDValue,g_SDValue,0x8004703C,SD_GetStatusFlags,matching_c,game,C,src/game/sound_output.c,read,,return (s16)g_SDValue->flags_0040;
 0x8009B45C,g_SDValue,g_SDValue,0x80047050,SD_VSync,matching_c,game,C,src/game/sound_output.c,read,,if (g_SDValue->flags_0040 & 8)
 0x8009B45C,g_SDValue,g_SDValue,0x800470B0,func_800470B0,matching_c,game,C,src/game/sound_output.c,read,,g_SDValue->flags_0040 |= 2;
 0x8009B45C,g_SDValue,g_SDValue,0x80047140,func_80047140,matching_c,game,C,src/game/sound_output.c,read,,g_SDValue->flags_0040 |= 2;

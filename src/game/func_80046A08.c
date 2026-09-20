@@ -45,7 +45,7 @@ void func_80046A08(void) {
         g_SDValue->field_003C += 6;
         return;
     case 1:
-        if ((func_8004703C() & 7) == 0) {
+        if ((SD_GetStatusFlags() & 7) == 0) {
             *(SDBankHeaderWords *)g_SDValue =
                 *(SDBankHeaderWords *)0x801E6800;
             g_SDValue->field_003C += 1;
@@ -61,7 +61,7 @@ void func_80046A08(void) {
         a2 = a2 * 8;
         goto call;
     case 3:
-        if ((func_8004703C() & 7) == 0) {
+        if ((SD_GetStatusFlags() & 7) == 0) {
             SD_InitVoiceState();
             g_SDValue->field_003C += 1;
             return;
@@ -72,7 +72,7 @@ void func_80046A08(void) {
         g_SDValue->field_003C += 1;
         return;
     case 5:
-        if (func_8004703C() & 7) {
+        if (SD_GetStatusFlags() & 7) {
             return;
         }
         g_SDValue->field_003C += 1;
@@ -88,7 +88,7 @@ void func_80046A08(void) {
         g_SDValue->field_003C += 2;
         return;
     case 7:
-        if ((func_8004703C() & 7) == 0) {
+        if ((SD_GetStatusFlags() & 7) == 0) {
             b = (SDBankStagingBuffer *)0x801E2000;
             if (D_801E27F8 == 'V') {
                 c = b->signature[0];
@@ -120,7 +120,7 @@ void func_80046A08(void) {
         g_SDValue->field_003C = 0x3E7;
         return;
     case 9:
-        if ((func_8004703C() & 7) == 0) {
+        if ((SD_GetStatusFlags() & 7) == 0) {
             b = (SDBankStagingBuffer *)0x801E8800;
             if (D_801E8FF8 == 'V') {
                 c = b->signature[0];
@@ -140,7 +140,7 @@ void func_80046A08(void) {
         }
         break;
     default:
-        if ((func_8004703C() & 7) == 0) {
+        if ((SD_GetStatusFlags() & 7) == 0) {
             g_SDValue->flags_0040 &= 0xFFF7;
         }
         break;

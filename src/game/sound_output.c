@@ -109,7 +109,7 @@ void func_8004701C(s32 value)
         (g_SDValue->flags_004A & 0xF0) | value;
 }
 
-s32 func_8004703C(void)
+s32 SD_GetStatusFlags(void)
 {
     return (s16)g_SDValue->flags_0040;
 }

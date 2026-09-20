@@ -8,11 +8,11 @@
  * SD_SetOutputType is deliberately absent: sound.h already declares it, and
  * one function belongs in one header.
  *
- * func_8004703C returns the driver's flag word sign-extended from a
+ * SD_GetStatusFlags returns the driver's flag word sign-extended from a
  * halfword, so it is s32 rather than the u32 its callers assumed. Every
  * observed use masks the result, so the two spellings agree in practice --
  * but only one of them matches the definition. */
-s32 func_8004703C(void);
+s32 SD_GetStatusFlags(void);
 void SD_VSync(void);
 void func_800470B0(s32 first, s32 second, s32 third, s32 fourth);
 void func_800471D0(s32, s32, s32, s32, s32, s32);

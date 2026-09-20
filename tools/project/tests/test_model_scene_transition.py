@@ -180,7 +180,7 @@ s32 func_80180A24(void)
     return poll_result;
 }
 
-s32 func_8004703C(void)
+s32 SD_GetStatusFlags(void)
 {
     record(16, 0, 0, 0, 0);
     status_calls++;

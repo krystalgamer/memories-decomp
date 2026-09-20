@@ -223,7 +223,7 @@ void func_80059700(s32 a,s32 b) { observe(VELOCITY,a,b,0,0,0,0,0,0); }
 void func_80059590(s32 a,s32 b,s32 c,s32 d,s32 e)
 { observe(PROPERTIES,a,b,c,d,e,0,0,0); }
 void func_80047314(u32 a) { observe(AUDIO,a,0,0,0,0,0,0,0); }
-s32 func_8004703C(void) { return observe(AUDIO_READY,0,0,0,0,0,0,0,0); }
+s32 SD_GetStatusFlags(void) { return observe(AUDIO_READY,0,0,0,0,0,0,0,0); }
 void func_8005D994(s32 a,s32 b,s32 c,s32 d,SVECTOR *v,s32 f)
 { observe(PATH,a,b,c,d,0,f,0,(const u8 *)v); }
 s32 func_8005FB08(void) { return observe(TRANSFER_READY,0,0,0,0,0,0,0,0); }

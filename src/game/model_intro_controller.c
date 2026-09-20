@@ -704,7 +704,7 @@ check_ready:
         break;
     }
     case 1:
-        if (func_8004703C() & 0x80) {
+        if (SD_GetStatusFlags() & 0x80) {
             offset.vy = -2000;
             func_800597C8(0, 0, 10);
             func_8005D994(0, 2000, 0x100, 0x100, &offset, 110);
@@ -1184,7 +1184,7 @@ poll_module:
           result = D_8009B004.fields.field_01;
           if ( !D_8009B004.fields.field_01 )
           {
-            result = (s16)func_8004703C();
+            result = (s16)SD_GetStatusFlags();
             if ( (s16)result != 128 )
             {
               ++D_8009B004.fields.field_01;
@@ -1195,7 +1195,7 @@ poll_module:
       }
       else
       {
-        if (func_8004703C() & 0x80)
+        if (SD_GetStatusFlags() & 0x80)
         {
           result = (u8)D_800F2C40[0].field_E1F;
           if ( D_800F2C40[0].field_E1F )
