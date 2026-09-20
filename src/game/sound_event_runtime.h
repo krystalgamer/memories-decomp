@@ -6,7 +6,7 @@ long SD_SequenceTimerCallback(void);
 
 void SD_OpenSequenceTimerEvent(void);
 void SD_CloseSequenceTimerEvent(void);
-void func_8004B990(void);
+void SD_StopSequenceTimer(void);
 void SD_UpdateSecondarySequence(void);
 
 #endif

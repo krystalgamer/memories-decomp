@@ -15,7 +15,7 @@ void SD_CloseSequenceTimerEvent(void)
     D_8009B458->flag_0500 = 0;
 }
 
-void func_8004B990(void)
+void SD_StopSequenceTimer(void)
 {
     D_8009B458->event_guard = 1;
     EnterCriticalSection();

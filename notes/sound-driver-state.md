@@ -798,10 +798,10 @@ above.
 `SD_OpenSequenceTimerEvent` registers `SD_SequenceTimerCallback` for an
 interrupt event on `RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`,
 stores the event handle at `+0x504`, and enables it.
-`SD_CloseSequenceTimerEvent` later disables and closes that handle. Both
-lifecycle paths now use the imported Psy-Q `libapi.h` declarations and
-`kernel.h` constants; the remaining unnamed counter-control wrapper retains its
-address-based identity.
+`SD_StopSequenceTimer` stops the counter while leaving that event registered;
+`SD_CloseSequenceTimerEvent` stops the counter and also disables and closes the
+event handle. All three lifecycle paths use the imported Psy-Q `libapi.h`
+declarations and `kernel.h` constants.
 
 The callback now follows the three contiguous secondary command handlers in
 `src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
