@@ -14,7 +14,7 @@ void func_80049640(void)
     value = D_8009B458->field_081C;
     if (value > 0) {
         if (value < 4)
-            func_8004B910();
+            SD_CloseSequenceTimerEvent();
     }
     func_80049434();
 }

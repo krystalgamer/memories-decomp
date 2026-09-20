@@ -774,7 +774,7 @@ above.
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
-| `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
+| `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
 | `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
@@ -797,8 +797,8 @@ above.
 
 `func_8004B854` registers `SD_SequenceTimerCallback` for an interrupt event on
 `RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`, stores the event
-handle at `+0x504`, and enables it. `func_8004B910` later disables and closes
-that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
+handle at `+0x504`, and enables it. `SD_CloseSequenceTimerEvent` later disables
+and closes that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
 declarations and `kernel.h` constants; the remaining unnamed counter-control
 wrappers retain their address-based identities.
 
