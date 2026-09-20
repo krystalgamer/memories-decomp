@@ -123,7 +123,7 @@ void SD_ResetSecondaryState(void)
     final->field_081C = 0x1000;
 }
 
-void func_800494F4(s32 *data)
+void SD_InitSecondaryWorkArea(s32 *data)
 {
     u32 i = 0;
 
