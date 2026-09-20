@@ -33,6 +33,7 @@
 #include "func_80015EF4.h"
 
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
+#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 
 void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
 {
@@ -78,10 +79,10 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     if (holder->field_18 >= 0xF) {
         rot[0].vy = y + 0x800;
     }
-    lm->t[0] = *(s16 *)((u8 *)obj + 0x30);
-    a = *(s16 *)((u8 *)obj + 0x32);
+    lm->t[0] = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x30);
+    a = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x32);
     lm->t[1] = a;
-    d = *(s16 *)((u8 *)obj + 0x34);
+    d = *(s16 *)(DISPLAY_OBJECT_BYTES(obj) + 0x34);
     lm->t[2] = d;
     a += 0xFF;
     if (a < 0) {
@@ -142,8 +143,8 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
         return;
     }
 
-    prim->u0 = prim->u2 = ((u8 *)obj)[0x5C];
-    prim->v0 = prim->v1 = ((u8 *)obj)[0x5D];
+    prim->u0 = prim->u2 = DISPLAY_OBJECT_BYTES(obj)[0x5C];
+    prim->v0 = prim->v1 = DISPLAY_OBJECT_BYTES(obj)[0x5D];
     if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
                    *(long *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
@@ -166,9 +167,9 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     prim->tpage = prim->tpage | ((obj->attribute >> 23) & 0x60);
     if ((obj->attribute & GsALON) != 0) {
         SetSemiTrans(prim, 1);
-        sprite->r0 = ((u8 *)obj)[0xC];
-        sprite->g0 = ((u8 *)obj)[0xD];
-        sprite->b0 = ((u8 *)obj)[0xE];
+        sprite->r0 = DISPLAY_OBJECT_BYTES(obj)[0xC];
+        sprite->g0 = DISPLAY_OBJECT_BYTES(obj)[0xD];
+        sprite->b0 = DISPLAY_OBJECT_BYTES(obj)[0xE];
     }
 
     depth[0] = (depth[4] + depth[5]
