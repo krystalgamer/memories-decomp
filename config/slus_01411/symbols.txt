@@ -1479,3 +1479,4 @@ SD_ResetSecondaryPlayback = 0x8004A518; // type:func
 
 // Semantic names
 SD_SetSequenceChannelProgram = 0x8004B6E8; // type:func
+SD_SetSequenceChannelPitchBendMsb = 0x8004B70C; // type:func
