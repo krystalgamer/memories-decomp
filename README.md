@@ -23,10 +23,11 @@ The current mixed C/assembly build reproduces `game/SLUS_014.11` with SHA-256:
 
 | Metric | Current |
 |---|---:|
-| Matching C functions | **1,120 / 1,195 (93.72%)** |
-| Matching C bytes | **302,264 (`0x49CB8`) / 396,196 (`0x60BA4`) (76.29%)** |
-| Unmatched game assembly | 15 functions, 54,124 (`0xD36C`) |
-| Evidence-backed handwritten game assembly | 60 functions, 39,808 (`0x9B80`) |
+| Game C-decompilation targets matched | **1,133 / 1,134 (99.91%)** |
+| Game C-decompilation target bytes matched | **354,544 (`0x568F0`) / 356,080 (`0x56EF0`) (99.57%)** |
+| Remaining game C-decompilation targets | 1 function, 1,536 (`0x600`) |
+| Evidence-backed handwritten game assembly | 61 functions, 40,116 (`0x9CB4`) |
+| Total game-owned functions | 1,195 |
 | Preserved Psy-Q CRT/SDK assembly | 591 functions, 117,348 (`0x1CA64`) |
 | Total discovered functions | 1,786 |
 | Embedded/unassigned resident text | 1,780 (`0x6F4`) |
@@ -45,9 +46,11 @@ _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlay
 
 <!-- END GENERATED PROGRESS -->
 
-Matching progress covers game-owned code only. Psy-Q CRT/SDK functions are
-identified and preserved as assembly rather than counted as decompilation
-targets.
+Matching C progress covers game-owned C-decompilation targets. Evidence-backed
+handwritten game assembly is tracked separately because it is not a
+C-decompilation target; those routines would still need portable replacements
+for a native PC port. Psy-Q CRT/SDK functions are likewise identified and
+preserved as assembly outside the game-code totals.
 
 Run `make progress` when intentionally refreshing the project-wide snapshot.
 It updates the generated table above and writes detailed machine-readable

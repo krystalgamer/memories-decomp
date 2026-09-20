@@ -235,7 +235,8 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
 
 def render_readme_progress(progress: dict[str, Any]) -> str:
     game_count = progress["game_function_count"]
-    game_bytes = progress["game_function_bytes"]
+    target_count = progress["decompilation_target_function_count"]
+    target_bytes = progress["decompilation_target_function_bytes"]
     matching_count = progress["matching_c_function_count"]
     matching_bytes = progress["matching_c_bytes"]
     assembly_count = progress["assembly_function_count"]
@@ -250,24 +251,28 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
             "| Metric | Current |",
             "|---|---:|",
             (
-                "| Matching C functions | "
-                f"**{matching_count:,} / {game_count:,} "
-                f"({format_percentage(matching_count, game_count)})** |"
+                "| Game C-decompilation targets matched | "
+                f"**{matching_count:,} / {target_count:,} "
+                f"({format_percentage(matching_count, target_count)})** |"
             ),
             (
-                "| Matching C bytes | "
-                f"**{format_bytes(matching_bytes)} / {format_bytes(game_bytes)} "
-                f"({format_percentage(matching_bytes, game_bytes)})** |"
+                "| Game C-decompilation target bytes matched | "
+                f"**{format_bytes(matching_bytes)} / "
+                f"{format_bytes(target_bytes)} "
+                f"({format_percentage(matching_bytes, target_bytes)})** |"
             ),
             (
-                "| Unmatched game assembly | "
-                f"{assembly_count:,} functions, {format_bytes(assembly_bytes)} |"
+                "| Remaining game C-decompilation targets | "
+                f"{assembly_count:,} "
+                f"{'function' if assembly_count == 1 else 'functions'}, "
+                f"{format_bytes(assembly_bytes)} |"
             ),
             (
                 "| Evidence-backed handwritten game assembly | "
                 f"{handwritten_count:,} functions, "
                 f"{format_bytes(handwritten_bytes)} |"
             ),
+            f"| Total game-owned functions | {game_count:,} |",
             (
                 "| Preserved Psy-Q CRT/SDK assembly | "
                 f"{sdk_count:,} functions, {format_bytes(sdk_bytes)} |"
@@ -352,6 +357,8 @@ def calculate(root: Path) -> dict[str, Any]:
     matching_bytes = sum(function.size for function in matching)
     game = [function for function in functions if function.module == "game"]
     game_bytes = sum(function.size for function in game)
+    decompilation_target_count = len(matching) + len(assembly)
+    decompilation_target_bytes = matching_bytes + assembly_bytes
     game_status_count = len(handwritten) + len(assembly) + len(matching)
     if len(game) != game_status_count:
         raise ProgressError(
@@ -377,6 +384,8 @@ def calculate(root: Path) -> dict[str, Any]:
         "function_bytes": function_bytes,
         "game_function_count": len(game),
         "game_function_bytes": game_bytes,
+        "decompilation_target_function_count": decompilation_target_count,
+        "decompilation_target_function_bytes": decompilation_target_bytes,
         "handwritten_function_count": len(handwritten),
         "handwritten_function_bytes": handwritten_bytes,
         "assembly_function_count": len(assembly),

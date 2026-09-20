@@ -33,8 +33,14 @@ make a direct `make check-progress` or `make check-global-usage` invocation
 non-failing. Read the actual error rather than assuming every failure is
 ordinary snapshot drift; split/inventory disagreements need investigation.
 
-Matching C is measured only against game-owned code; exact fallback assembly
-and identified Psy-Q CRT/SDK functions do not count as decompiled C.
+Matching C is measured against the game-owned C-decompilation targets: accepted
+matching C plus unresolved assembly that has not been independently classified
+as handwritten. Evidence-backed handwritten game assembly is reported
+separately and excluded from that denominator because it is not a
+C-decompilation target. This classification describes reconstruction progress,
+not native portability: a PC port would still need portable replacements for
+those platform-specific routines. Identified Psy-Q CRT/SDK functions likewise
+remain outside the game-code totals.
 
 ## Unchanged matching counts do not imply fresh reports
 

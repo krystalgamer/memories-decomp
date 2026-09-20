@@ -57,5 +57,40 @@ class ProgressInventoryTests(unittest.TestCase):
             progress.validate_inventory(generated, inventory)
 
 
+class ProgressRenderingTests(unittest.TestCase):
+    def test_matching_denominator_excludes_handwritten_assembly(self) -> None:
+        rendered = progress.render_readme_progress(
+            {
+                "game_function_count": 12,
+                "game_function_bytes": 0x180,
+                "decompilation_target_function_count": 10,
+                "decompilation_target_function_bytes": 0x100,
+                "matching_c_function_count": 9,
+                "matching_c_bytes": 0xE0,
+                "assembly_function_count": 1,
+                "assembly_function_bytes": 0x20,
+                "handwritten_function_count": 2,
+                "handwritten_function_bytes": 0x80,
+                "sdk_function_count": 3,
+                "sdk_function_bytes": 0x60,
+                "function_count": 15,
+                "unassigned_text_bytes": 0,
+                "overlays": {},
+            }
+        )
+
+        self.assertIn(
+            "Game C-decompilation targets matched | "
+            "**9 / 10 (90.00%)**",
+            rendered,
+        )
+        self.assertIn(
+            "Game C-decompilation target bytes matched | "
+            "**224 (`0xE0`) / 256 (`0x100`) (87.50%)**",
+            rendered,
+        )
+        self.assertIn("Total game-owned functions | 12", rendered)
+        self.assertNotIn("**9 / 12", rendered)
+
 if __name__ == "__main__":
     unittest.main()
