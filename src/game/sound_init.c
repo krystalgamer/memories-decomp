@@ -157,7 +157,7 @@ void func_80049594(s32 value)
 void func_800495A4(void)
 {
     if (D_8009B458->field_0814)
-        func_8004B9E0();
+        SD_UpdateSecondarySequence();
 }
 
 void SD_EnableSecondaryPanning(void)

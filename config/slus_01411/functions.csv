@@ -843,7 +843,7 @@ address,size,name,status,module,notes
 0x8004B854,0xBC,func_8004B854,matching_c,game,"Exact pure-C match: D_8009B458_IN_DATA plus a direct OpenEvent call let uniform gcc_2_8_1_g8_split reproduce all four argument registers and callback scheduling; no mixed threshold, private extern declarations, register pins, or inline assembly."
 0x8004B910,0x80,func_8004B910,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004B990,0x50,func_8004B990,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x8004B9E0,0xC0,func_8004B9E0,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8004B9E0,0xC0,SD_UpdateSecondarySequence,matching_c,game,"High-confidence semantic name: guards against reentry, advances active sequence tracks ten ticks when enabled, updates sequence state, and refreshes secondary sound objects; exact full-executable match under gcc_2_8_1_g0."
 0x8004BAA0,0x44,SD_CompareBytes,matching_c,game,Pure-C inline refinement matched the full executable.
 0x8004BAE4,0x50,SD_ReadSequenceByte,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8004BB34,0x88,SD_ReadVariableLengthValue,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.

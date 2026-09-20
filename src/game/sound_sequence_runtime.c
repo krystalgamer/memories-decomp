@@ -24,7 +24,7 @@ void func_8004B990(void)
     D_8009B458->flag_0500 = 0;
 }
 
-void func_8004B9E0(void)
+void SD_UpdateSecondarySequence(void)
 {
     if (D_8009B458->flag_0501)
         return;
