@@ -31,7 +31,7 @@ void func_8005611C(s32 arg0)
     s32 n;
 
     p = &D_800F2C40[arg0];
-    func_8005B5FC((s32 *)p, 0, 0x388);
+    Model_FillWords((s32 *)p, 0, 0x388);
 
     p->field_DA0[2] = MODEL_FIXED_HALF;
     p->field_DA0[1] = MODEL_FIXED_HALF;
