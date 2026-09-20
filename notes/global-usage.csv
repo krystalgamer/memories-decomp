@@ -2631,8 +2631,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EB15C,D_800EB15C,D_800EB15C,0x8002A2F4,func_8002A2F4,matching_c,game,C,src/game/func_8002A3CC.c,address,,func_80039A60((struct DuelEffectChannel *)&D_800EB15C);
 0x800EB15C,D_800EB15C,D_800EB15C,0x800300C8,DebugMenu_UpdateCursorLayout,matching_c,game,C,src/game/debug_menu_update_cursor_layout.c,address,,struct LayoutSource *source = (struct LayoutSource *)&D_800EB15C;
 0x800EB15C,D_800EB15C,D_800EB15C,0x8003C4E0,Options_InitTextDisplay,matching_c,game,C,src/game/options_screen.c,address,,func_80039A14(&D_800EB15C);
-0x800EB184,D_800EB184,D_800EB184,0x80030090,DebugMenu_DimPrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,address,32,((u8 *)&D_800EB184[0]->field_0C)[0] = | ((u8 *)&D_800EB184[0]->field_0C)[1] = | (+1 more)
-0x800EB184,D_800EB184,D_800EB184,0x800300AC,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,address,32,((u8 *)&D_800EB184[0]->field_0C)[0] = | ((u8 *)&D_800EB184[0]->field_0C)[1] = | (+1 more)
+0x800EB184,D_800EB184,D_800EB184,0x80030090,DebugMenu_DimPrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] = | (+1 more)
+0x800EB184,D_800EB184,D_800EB184,0x800300AC,DebugMenu_RestorePrimaryDisplayObject,matching_c,game,C,src/game/display_object_brightness.c,read,32,DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] = | DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] = | (+1 more)
 0x800EB184,D_800EB184,D_800EB184,0x80031354,DebugMenu_UpdateBustUpEntry,matching_c,game,C,src/game/debug_menu_bust_up_entry.c,read,32,DisplayObject *first = D_800EB184[0];
 0x800EB224,D_800EB224,D_800EB224,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,address,8,cleanup = (DuelEffectChannel *)D_800EB224;
 0x800EB288,D_800EB288,D_800EB288,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read,,D_800EB288[gDuelEffect_awEntryRangeBoundaries[0]].field_18);

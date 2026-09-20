@@ -2,16 +2,18 @@
 #include "display_object.h"
 #include "display_object_brightness.h"
 
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+
 void DebugMenu_DimPrimaryDisplayObject(void)
 {
-    ((u8 *)&D_800EB184[0]->field_0C)[0] =
-        ((u8 *)&D_800EB184[0]->field_0C)[1] =
-        ((u8 *)&D_800EB184[0]->field_0C)[2] = 0x40;
+    DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[2] = 0x40;
 }
 
 void DebugMenu_RestorePrimaryDisplayObject(void)
 {
-    ((u8 *)&D_800EB184[0]->field_0C)[0] =
-        ((u8 *)&D_800EB184[0]->field_0C)[1] =
-        ((u8 *)&D_800EB184[0]->field_0C)[2] = 0x80;
+    DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(D_800EB184[0])[2] = 0x80;
 }
