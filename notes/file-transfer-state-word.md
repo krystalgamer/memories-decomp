@@ -108,7 +108,7 @@ and the full executable still matched:
   address. That unit now reaches the word through one name in
   both of its statements, and the `c_symbols.ld` entry is gone.
 - The two signed comparisons in `File_StepActiveTransfer` within
-  [`func_80013C28.c`](../src/game/func_80013C28.c) (`< 0` and
+  [`func_80014294.c`](../src/game/func_80014294.c) (`< 0` and
   `>= 0`, testing bit 31) do not need a signed declaration; an `(s32)` cast at
   the two use sites reproduces both sign-bit branches unchanged.
 

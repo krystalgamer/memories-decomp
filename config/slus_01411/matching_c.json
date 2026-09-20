@@ -130,43 +130,43 @@
       "address": "0x80013B04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/file_transfer_setup.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x80013B68",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC0",
-      "source": "src/game/file_transfer_setup.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x80013C28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x478",
-      "source": "src/game/func_80013C28.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x800140A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/func_80013C28.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x80014134",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/func_80013C28.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x800141A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/func_80013C28.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x80014220",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/func_80013C28.c"
+      "source": "src/game/file_transfer_runtime.c"
     },
     {
       "address": "0x80014294",

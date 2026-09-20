@@ -17,7 +17,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/func_80013C28.c"
+SOURCE = REPOSITORY / "src/game/file_transfer_runtime.c"
 COMPILER = REPOSITORY / "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
 CALLBACK_VIEW = "#define FUNC_80013C28_CALLBACK_VIEW\n"
 START = """
@@ -51,11 +51,14 @@ FileTransferDescriptor *D_8009AF18;
 volatile u32 D_8009B0F4;
 u32 *D_8009B0F8;
 u8 D_8009B114;
+s32 gFile_anLba[1];
+u32 D_8009B134;
 s32 D_8009B138;
 s32 D_8009B130;
 volatile u16 D_8009B100;
 char D_8009B104[1];
 FileTransferDescriptor gFile_PrimaryTransferDescriptor;
+FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 static FileTransferDescriptor descriptor, alternate;
 static u32 input[2048], buffers[2][1024];
@@ -128,6 +131,8 @@ int DsStartReadySystem(DslRCB callback, int count)
     (void)count;
     return 0;
 }
+
+void func_80015010(void) {}
 
 CdlCB CdReadyCallback(CdlCB callback)
 {
