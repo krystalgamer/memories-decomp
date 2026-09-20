@@ -6,8 +6,8 @@
 /* The list of pending eight-byte entries that SortedEntry_SortAndRelink sorts
  * and whose inverse index links it rebuilds.
  *
- * func_80035680 opens the list: it points both the base D_8009B304 and the
- * append pointer D_8009B310 at the same address and zeroes the count
+ * SortedEntry_BeginCollection opens the list: it points both the base
+ * D_8009B304 and the append pointer D_8009B310 at the same address and zeroes the count
  * D_8009B314.  func_80033CF8 appends one entry per call, advancing D_8009B310
  * by one entry and bumping D_8009B314, so the live entries are always
  * [D_8009B304, D_8009B310). SortedEntry_SortAndRelink sorts them, writes the
@@ -75,7 +75,7 @@ extern u32 D_8009B308 __attribute__((section(".data")));
 #else
 extern u32 D_8009B308;
 #endif
-/* Flag word.  func_80035680 sets bit 2 when it opens the list and
+/* Flag word.  SortedEntry_BeginCollection sets bit 2 when it opens the list and
  * SortedEntry_SortAndRelink clears it again. Duel_DrawFieldCards tests bit 1 and
  * clears bits 0 and 1; nothing in the decompiled tree sets either, so what
  * raises the flag it tests is not known here.  func_80035668 writes the word

@@ -412,7 +412,7 @@ address,size,name,status,module,notes
 0x80035598,0x30,SortedEntry_Compare,matching_c,game,"Three-way qsort comparator over a SortedEntry's first word, ordering distance before packed angle/height data; exact full-executable match with gcc_2_8_1_g8."
 0x800355C8,0xA0,SortedEntry_SortAndRelink,matching_c,game,"Sorts pending eight-byte entries, stores each sorted position into the entry selected by its append index, clears the open flag, and resets the append pointer."
 0x80035668,0x18,func_80035668,matching_c,game,First -O2 -G8 constant/global-store candidate matched.
-0x80035680,0x20,func_80035680,matching_c,game,First -O2 -G8 global-update candidate matched.
+0x80035680,0x20,SortedEntry_BeginCollection,matching_c,game,First -O2 -G8 global-update candidate matched.
 0x800356A0,0xA8,Util_CopyWords,matching_c,game,Post-terminal pure-C match; duplicate switch case bodies reproduce retail tail dispatch without reference headers.
 0x80035748,0xA0,Util_FillMemory,matching_c,game,Post-terminal pure-C match; duplicate switch case bodies reproduce retail tail dispatch without reference headers.
 0x800357E8,0xB8,Text_EncodeDecimalDigits,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
