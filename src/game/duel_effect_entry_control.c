@@ -6,6 +6,7 @@
     ((DuelEffectEntry *)((field) - 0x13))
 #define DUEL_EFFECT_ENTRY_FROM_FIELD_15(field) \
     ((DuelEffectEntry *)((field) - 0x15))
+#define DUEL_EFFECT_ENTRY_BYTES(entry) ((u8 *)(entry))
 
 /* Starting from the record's entry range, scans up to range_count_5C entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
@@ -17,7 +18,7 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     u8 *v1;
     v0 = a0->range_start_5C;
     count = a0->range_count_5E;
-    v1 = (u8 *)&D_800EB288[v0];
+    v1 = DUEL_EFFECT_ENTRY_BYTES(&D_800EB288[v0]);
     if (count == 0) {
         goto ret_zero_a;
     }
@@ -51,7 +52,7 @@ void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
 
     v0 = a0->range_start_5C;
     count = a0->range_count_5E;
-    v1 = (u8 *)&D_800EB288[v0];
+    v1 = DUEL_EFFECT_ENTRY_BYTES(&D_800EB288[v0]);
     if (count == 0) {
         return;
     }
