@@ -77,7 +77,7 @@ void SD_ResetRuntime(void)
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();
-    func_8004763C();
+    SD_ResetPendingEntries();
     SD_Init();
     SD_ResetSecondaryRuntime();
     SpuSetIRQ(SPU_OFF);

@@ -597,7 +597,7 @@ void func_8004EB00(void)
     case 42:
         func_80059284(2, 3);
         if (!(D_800E9ECE[0] & 0x80)) {
-            func_8004763C();
+            SD_ResetPendingEntries();
             D_8009AF9A = -2;
         }
         break;
@@ -1167,7 +1167,7 @@ tick_active_slot:
       goto poll_module;
     case 3:
       SD_ResetMusicTrackBuffer();
-      func_8004763C();
+      SD_ResetPendingEntries();
       phase_value = -2;
 store_phase:
       D_8009AF9A = phase_value;

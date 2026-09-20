@@ -128,7 +128,7 @@ s32 func_80047AD0(s32 value)
     if (state->field_0442 == index)
         return 1;
     func_80047A68();
-    func_8004763C();
+    SD_ResetPendingEntries();
     {
         register SDValue *final = g_SDValue;
         register s32 call_value = index;
@@ -156,7 +156,7 @@ void func_80047BB4(u16 *items, s32 count)
     s32 i;
 
     SpuSetKey(SPU_OFF, SD_VOICE_SLOT_MASK_ALL);
-    func_8004763C();
+    SD_ResetPendingEntries();
     g_SDValue->flags_0040 |= 2;
     for (i = 0; i < count; i++) {
         if (items[i] != 0xFFFF)

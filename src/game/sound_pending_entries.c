@@ -9,7 +9,7 @@
    f440 and recomputes f438 from f448's own f4 field plus 0x1010. The
    final field group is read via a fresh g_SDValue dereference rather
    than the cached local (see project_d8009b45c_reload_pointer_trick). */
-void func_8004763C(void) {
+void SD_ResetPendingEntries(void) {
     SDValue *a1 = g_SDValue;
     s32 i = a1->field_0004;
 
