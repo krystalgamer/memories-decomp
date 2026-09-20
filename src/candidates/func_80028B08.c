@@ -12,12 +12,14 @@
 #include "../ygo_types.h"
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions at exact length,
- * an empty opcode census, 369 of 384 aligned on opcode and registers in 4
- * structural blocks, 17 raw words differing with relocations masked, 7 with
+ * an empty opcode census, 371 of 384 aligned on opcode and registers in 4
+ * structural blocks, 15 raw words differing with relocations masked, 7 with
  * the register fields masked as well, and a shift-aware structural distance
  * of 8 (difflib over the register-masked words). The previous state was 384,
- * census 0, 13 structural blocks, 356 aligned, 54 raw, 46 register-masked,
- * shift-aware 36 -- and its header said "register choices only". It was not:
+ * census 0, 4 blocks, 369 aligned, 17 raw, 7 register-masked, shift-aware 8;
+ * the one before it was 384, census 0, 13 structural blocks, 356 aligned, 54
+ * raw, 46 register-masked, shift-aware 36 -- and its header said "register
+ * choices only". It was not:
  * read by raw words, the residue was seven zones of ORDER, and each fell to a
  * source lever. Read the raw words, not the aligner (#5358 erases a0-a3).
  *
@@ -79,14 +81,46 @@
  * "monotone gradient" was the aligner counting a shifted block as aligned;
  * shared constants as locals stay worse; the 0xE constant as a local is inert.
  *
- * Residual, 17 words: the 14 and the 0xF8 are materialised in the other
+ *  - in the last block the cx sum is written `win->field_40.h.field_40 +
+ *    PRM->uv.b.lo` (permuter find): the addu takes its operands in retail's
+ *    order and the pair lands in t0/v1 (words 363 and 365): 17 -> 15 raw,
+ *    369 -> 371 aligned, every other key unchanged.
+ *
+ * THE SECOND BLOCK, read off the -dS/-dR dumps (tmp/agents dumps of this
+ * source, sched1 block 5 = insns 185-381) rather than swept: the three
+ * halfword stores (w at 8, h at 10, cy at 18) have equal priority at sched2
+ * and are ordered by LUID, which is sched1's output order, which is the
+ * source order; writing them w, y, h, cy gives retail's w, h, cy (117-119).
+ * The 14 and the 0xF8 are single-set pseudos (the 0xF8 shared by cse with
+ * the stores at 180 and 202, so it crosses three calls), and sched1's
+ * adjust_priority gives such an insn LAUNCH_PRIORITY when it becomes ready
+ * (birthing_insn_p: REG_N_SETS == 1), which glues each `li` directly above
+ * its store; at sched2 a `li` floats to the block top only when its hard
+ * register is free above it, and retail's t1 and s4 are. With the cy store
+ * written last the 0xF8 is born after the w store, no longer conflicts with
+ * the 0x60 in s0, takes s0, and `sh s0,8(s1)` pins it (v61: 26 raw, 17
+ * masked); with the cy store early (this source) it conflicts and takes s4
+ * but the store is early. The 14 takes v0 or v1 because the uv.b.hi load
+ * (v0) and the attribute load (v1) are scheduled below it; retail has both
+ * above and the 14 in t1. MEASURED AND DEAD on the w,y,h,cy order: the 0xF8
+ * in a local born after nye and stored late (+1, the launch glues it); a
+ * second live set of that local at the 0xF8 site of the `< 0x14` arm (cse
+ * folds a single-use set back into a constant store and the count returns
+ * to one; a two-use version re-materialises the 180/202 stores, +2); a named
+ * 14 with a second set in the first block (breaks the cse sharing of the
+ * 0x60, `li v0,96`, +1); a fresh `attr` for the attribute (v1 as retail, 24)
+ * or the read-modify-write inline (24); the attribute read, the uv bump or
+ * the whole attribute statement written above the stores (22, 31, 31, 26);
+ * decomp-permuter from the fresh-`attr` state (one output, the cx operand
+ * swap above) and from this state (nothing in nine minutes).
+ *
+ * Residual, 15 words: the 14 and the 0xF8 are materialised in the other
  * order at the top of the second block (retail `li t1,14` then `li s4,248`;
  * here 248 first and 14 into v1) and the cy store is emitted before the w
  * and h stores instead of after them (117-119); the 0x90009 `lui` sits one
  * word before the x load instead of after it (302-303); and register-only
- * words: the 0xFEFFFFFF mask in t1 where retail has t2, the attribute in t1
- * where retail has v1, the 0xF0000 constant in t2 where retail has v0, and
- * the (u8)tile / field_40 pair in v1/t0 where retail has t0/v1.
+ * words: the 0xFEFFFFFF mask in t1 where retail has t2, the attribute in t2
+ * where retail has v1, and the 0xF0000 constant in t2 where retail has v0.
  *
  * HOW THE 2026-09 REGRESSION WAS MISSED, kept from the earlier header so it
  * is not repeated: align_functions.py prints `target N instructions,
@@ -266,7 +300,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     tile = rec->field_3B << 4;
     PRM->uv.b.lo = tile;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
-    PRM->cxcy.h.cx = PRM->uv.b.lo + win->field_40.h.field_40;
+    PRM->cxcy.h.cx = win->field_40.h.field_40 + PRM->uv.b.lo;
     PRM->cxcy.h.cy = 0xFF;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 }
