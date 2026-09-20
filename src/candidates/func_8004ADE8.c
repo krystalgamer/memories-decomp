@@ -3,12 +3,12 @@
  * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
  * keying on, and routing reverb. Current best under gcc_2_8_1_cc_g8_as_g0:
  * 355/355 instructions at exact length, an EMPTY opcode census by encoded
- * fields (bits 31-26, SPECIAL by funct), 339 of 355 aligned on opcode and
- * registers in 9 structural blocks, 24 raw words differing with relocations
- * masked, 17 with the register fields masked as well, and a shift-aware
- * structural distance of 16 (difflib over the register-masked words). The
- * previous state was 355, census 0, 13 structural blocks, 294 aligned, 75
- * raw, 28 register-masked, shift-aware 25.
+ * fields (bits 31-26, SPECIAL by funct), 344 of 355 aligned on opcode and
+ * registers in 4 structural blocks, 14 raw words differing with relocations
+ * masked, 5 with the register fields masked as well, and a shift-aware
+ * structural distance of 5 (difflib over the register-masked words). The
+ * previous state was 355, census 0, 9 structural blocks, 339 aligned, 24
+ * raw, 17 register-masked, shift-aware 16.
  *
  * Read the census from the encoded fields on this function: the aligner
  * compares rendered mnemonics and reports `move` against `addu` and `nop`
@@ -74,6 +74,24 @@
  *    register-masked count and the shift-aware distance rise by two each,
  *    from the 55-56 emission order below, and the trade is taken for the
  *    fourteen raw words);
+ *  - the voice-mask table entry is read into `tv` (`s32 tv;` declared after
+ *    `voice`) BEFORE the 0x6019F store and stored into +0x4C0 where it was:
+ *    retail issues the table load above the three SpuVoiceAttr stores
+ *    (words 136-142). The stores go through the driver root, a pointer
+ *    loaded from memory, so gcc 2.8.1's dependence test cannot separate the
+ *    table load from them (`memrefs_conflict_p` returns 1 for an unknown
+ *    base against anything), and the -dR dump shows the load with true
+ *    dependences on all three; written above them the order is an
+ *    anti-dependence, which is what the source has. The `const` route the
+ *    workflow names for SD_SetVoiceVolume (`D_80011434_IS_CONST`) does not
+ *    reach it here: an INDIRECT_REF is unchanging only when it is
+ *    `TREE_READONLY & TREE_STATIC` (expr.c), so `*voice` through a const
+ *    pointer is byte-identical to the non-const source, and the direct
+ *    `D_80011434[idx]` with the guard is unchanging but changes the
+ *    addressing in this profile (no -mgas): one instruction short. 24 -> 14
+ *    raw, 17 -> 5 register-masked, 16 -> 5 shift-aware, 9 -> 4 blocks;
+ *    `nb` read before the stores as well is identical, `nb` before `tv` is
+ *    340 aligned;
  *  - from before: unsigned key/tone indices, uncached driver-root loads,
  *    block-scoped reverb masks, folded VAB indices, two allocation call
  *    sites, one forced root reload, tone[2] read inline at its single use,
@@ -89,7 +107,15 @@
  * pointer folds the root reloads retail repeats. In this byte-view unit
  * the cast stores are what keep the reloads, and the block stays as it is.
  *
- * MEASURED AND DEAD on this base: tone[3] through a u8 temporary in three
+ * MEASURED AND DEAD on this base: the const guard with a const `voice`
+ * pointer, with const mask pointers as well, or alone (all identical); the
+ * direct `D_80011434[idx]` with the guard (-1) and with the four mask reads
+ * inline as well (-9); an empty `do { } while (0);` before the spatialize
+ * offset or a pin around it, meant to make `idx * 4` recompute as retail
+ * does at word 173 (+1 and +2: the note is a scheduling barrier and cse2
+ * merges the two products anyway); `(idx * 5) * 8` for the offset
+ * (identical). From
+ * the base before: tone[3] through a u8 temporary in three
  * spellings (retail loads it into v1; each opens the census with an extra
  * `andi` or `lbu`, and dropping the `channel` assignment is +3);
  * `obj[0xD] = 1` before the tidx store; `program` read into a named byte;
@@ -104,13 +130,14 @@
  * the idx test (register-only, +1 raw); `used = 0; i = 0;` in the other
  * order or at the function top.
  *
- * Residual, 24 words: the velocity spill store and the `used = 0` store in
+ * Residual, 14 words: the velocity spill store and the `used = 0` store in
  * the other order (18-19); `move s5,zero` and `andi s6,s7,0xff` in the
- * other order (55-56); the SpuVoiceAttr block (128-143: retail materialises
- * 0x6019F in two halves around the loads and shifts `sum` first); the amode
- * constant in v1 where retail has v0 (157-159); the spatialize argument's
- * `sll` where this source has a `nop` (173); the tone[3] byte in s7 where
- * retail has v1 (202, 207). See config/slus_01411/candidates.json.
+ * other order (55-56, with the parameter's register at 57); `idx * 4`
+ * computed once into a3 and reused (130, 133, 176) where retail computes
+ * it twice, the second time into the spatialize argument's delay slot at
+ * 173 that this source leaves a `nop`; the amode constant in v1 where
+ * retail has v0 (157-159); the tone[3] byte in s7 where retail has v1
+ * (202, 207). See config/slus_01411/candidates.json.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
@@ -151,6 +178,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
     s32 pitch;
     s32 amode;
     s32 *voice;
+    s32 tv;
     s32 soff;
     s32 vi;
     u16 adsr1;
@@ -227,11 +255,12 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         }
         sum <<= 3;
         voice = &D_80011434[idx];
+        tv = *voice;
         *(s32 *)(D_8009B458 + 0x4C4) = 0x6019F;
         *(s16 *)(D_8009B458 + 0x4CC) = 0;
         *(s16 *)(D_8009B458 + 0x4CE) = 0;
         nb = *(s32 *)(D_8009B458 + 0x4B8);
-        *(s32 *)(D_8009B458 + 0x4C0) = *voice;
+        *(s32 *)(D_8009B458 + 0x4C0) = tv;
         *(s32 *)(D_8009B458 + 0x4DC) = nb + sum;
         adsr1 = *(u16 *)(tone + 0x10);
         *(s16 *)(D_8009B458 + 0x4FA) = adsr1;
