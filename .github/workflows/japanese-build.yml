@@ -1,0 +1,98 @@
+name: Japanese matching build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: japanese-matching-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clean-build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      USE_SYSTEM_MIPS_BINUTILS: "1"
+      YGOFM_SLPM_86398_URL: ${{ secrets.YGOFM_SLPM_86398_URL }}
+      YGOFM_JAP_SU_MRG_URL: ${{ secrets.YGOFM_JAP_SU_MRG_URL }}
+      YGOFM_JAP_WA_MRG_URL: ${{ secrets.YGOFM_JAP_WA_MRG_URL }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install host build dependencies
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/*.list \
+                     /etc/apt/sources.list.d/*.sources
+          sudo apt-get update || true
+          sudo apt-get install --yes --no-install-recommends \
+            build-essential \
+            binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
+            ca-certificates \
+            curl \
+            patch \
+            python3-pip \
+            python3-venv
+
+      - name: Require private Japanese retail input secrets
+        run: |
+          for name in \
+            YGOFM_SLPM_86398_URL \
+            YGOFM_JAP_SU_MRG_URL \
+            YGOFM_JAP_WA_MRG_URL
+          do
+            if [ -z "$(printenv "$name")" ]; then
+              echo "::error::Configure the corresponding YGOFM Japanese input secret."
+              exit 1
+            fi
+          done
+
+      - name: Download and verify Japanese retail inputs
+        run: |
+          mkdir -p game/japanese/DATA
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_SLPM_86398_URL" \
+            --output game/japanese/SLPM_863.98
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_JAP_SU_MRG_URL" \
+            --output game/japanese/DATA/SU.MRG
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_JAP_WA_MRG_URL" \
+            --output game/japanese/DATA/WA_MRG.MRG
+          sha256sum --check --strict config/slpm_86398/files.sha256
+
+      - name: Restore pinned project tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/downloads
+            tools/environments
+            tools/toolchains
+            tools/vendor
+          key: ${{ runner.os }}-project-tools-${{ hashFiles('tools/bootstrap/*.json', 'tools/bootstrap/*.py') }}
+
+      - name: Install or verify pinned tools
+        run: |
+          python3 tools/bootstrap/bootstrap.py
+          python3 tools/bootstrap/binutils_system.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py
+          make check-build-tools
+
+      - name: Verify Japanese inputs and clean exact build
+        run: |
+          make verify-japanese-inputs
+          make japanese-match
+          sha256sum --check --strict <<'EOF'
+          ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585  tmp/project-build/SLPM_863.98
+          EOF

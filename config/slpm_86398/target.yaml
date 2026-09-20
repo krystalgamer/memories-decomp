@@ -1,0 +1,23 @@
+id: slpm_86398
+title: "Yu-Gi-Oh! Shin Duel Monsters: Fuuin Sareshi Kioku"
+region: japan
+serial: SLPM-86398
+
+executable:
+  path: game/japanese/SLPM_863.98
+  format: ps-x_exe
+  sha256: ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585
+  file_size: 0x001d0800
+  header_size: 0x00000800
+  payload_size: 0x001d0000
+  load_address: 0x80010000
+  entry_point: 0x800128c4
+  initial_stack: 0x801ffff0
+
+inputs:
+  - path: game/japanese/DATA/SU.MRG
+    size: 2537472
+    sha256: 9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a
+  - path: game/japanese/DATA/WA_MRG.MRG
+    size: 37738496
+    sha256: e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc

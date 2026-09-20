@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "target_sha256": "ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585",
+  "regions": [
+    {
+      "name": "header",
+      "kind": "psx_exe_header",
+      "file_start": "0x000000",
+      "file_end": "0x000800",
+      "sha256": "1153b217ccc89298c8709b8441429012ac6d0762bbd96863cfde77d7a854844a"
+    },
+    {
+      "name": "initial_data",
+      "kind": "initialized_data",
+      "file_start": "0x000800",
+      "file_end": "0x0030c4",
+      "vram_start": "0x80010000",
+      "vram_end": "0x800128c4",
+      "sha256": "63a4b9d3e62d2221e57d24425a22ccb01c563a5c72b4f933ed5bcdb341efb6e4",
+      "evidence": "Pointer tables, strings, constants, and jump tables end at the Japanese executable entry point."
+    },
+    {
+      "name": "text",
+      "kind": "mips_text",
+      "file_start": "0x0030c4",
+      "file_end": "0x080d84",
+      "vram_start": "0x800128c4",
+      "vram_end": "0x80090584",
+      "sha256": "d7c8610f67c25c73dd9654f94ea238ebdedd383c8e4716137008a7857797f343",
+      "evidence": "Starts at the PS-X EXE entry point and ends after the final jr ra delay slot at 0x80090580."
+    },
+    {
+      "name": "text_padding",
+      "kind": "alignment",
+      "file_start": "0x080d84",
+      "file_end": "0x080d90",
+      "vram_start": "0x80090584",
+      "vram_end": "0x80090590",
+      "sha256": "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b",
+      "fill": "0x00"
+    },
+    {
+      "name": "initialized_data",
+      "kind": "initialized_data",
+      "file_start": "0x080d90",
+      "file_end": "0x08b780",
+      "vram_start": "0x80090590",
+      "vram_end": "0x8009af80",
+      "sha256": "f86e18e2136d6cd4d847509b669e0c25f725a74309dc7d9a71336ff56402502b"
+    },
+    {
+      "name": "bss_image",
+      "kind": "runtime_cleared_zero_image",
+      "file_start": "0x08b780",
+      "file_end": "0x0ec798",
+      "vram_start": "0x8009af80",
+      "vram_end": "0x800fbf98",
+      "sha256": "06c3455aca84cbc103ea0dfa074c456cf4e39392ae5c6b70b3bbd9dac3c6548c",
+      "fill": "0x00",
+      "evidence": "The Japanese entry point clears this exact address range before establishing the runtime stack and global pointer."
+    },
+    {
+      "name": "reserved_zero",
+      "kind": "reserved_zero_image",
+      "file_start": "0x0ec798",
+      "file_end": "0x12a800",
+      "vram_start": "0x800fbf98",
+      "vram_end": "0x8013a000",
+      "sha256": "e25d1924e84ab82a258062f91541daa7531c367b444d000cda8427a0805e8b70",
+      "fill": "0x00"
+    },
+    {
+      "name": "overlay_slot_8013a000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x12a800",
+      "file_end": "0x144800",
+      "vram_start": "0x8013a000",
+      "vram_end": "0x80154000",
+      "sha256": "59cd8cd6699cec7ca38a68b7760dbd5f18e27a9c9ac986dd0a29e09e39b07f55",
+      "evidence": "The Japanese resident image retains MODEL slot identifiers at 0x8013A000 and 0x8013B000."
+    },
+    {
+      "name": "overlay_slot_80154000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x144800",
+      "file_end": "0x158800",
+      "vram_start": "0x80154000",
+      "vram_end": "0x80168000",
+      "sha256": "cee3ecc9c3c37a7a6b23d0a8f8b3df926dbb1892a23a644e2e75be498a434dea",
+      "evidence": "The Japanese WA load-slot marker 0x17 is at 0x80154000 rather than the North American 0x80146000 boundary."
+    },
+    {
+      "name": "overlay_slot_80168000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x158800",
+      "file_end": "0x16a800",
+      "vram_start": "0x80168000",
+      "vram_end": "0x8017a000",
+      "sha256": "0c23a76a59b0db8b67d0c4cfae88774dc95f63bed518daf6fe3cbc3afa69894b"
+    },
+    {
+      "name": "overlay_slot_8017a000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x16a800",
+      "file_end": "0x170800",
+      "vram_start": "0x8017a000",
+      "vram_end": "0x80180000",
+      "sha256": "51f0f35979371fcaef99986fcc31848ccc2ccc5a25e46e89f12a4f03718cbdf6"
+    },
+    {
+      "name": "overlay_slot_80180000",
+      "kind": "overlay_load_slot",
+      "file_start": "0x170800",
+      "file_end": "0x1ac800",
+      "vram_start": "0x80180000",
+      "vram_end": "0x801bc000",
+      "sha256": "1074ddb0eb130fb3940cd9fe5a06b0cf314dd85d276cd75ae44c33808a6bbbca",
+      "evidence": "The Japanese SU load slot extends to 0x801BC000."
+    },
+    {
+      "name": "tail_data",
+      "kind": "resident_structured_data",
+      "file_start": "0x1ac800",
+      "file_end": "0x1d0800",
+      "vram_start": "0x801bc000",
+      "vram_end": "0x801e0000",
+      "sha256": "4f8ae4998108fb8e3ce1f86a21b16044c399d2ed498d08e561b4c066a68e7a09"
+    }
+  ]
+}

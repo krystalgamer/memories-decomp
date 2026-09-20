@@ -125,10 +125,9 @@ def parse_header(header: bytes) -> PsxExeHeader:
 
 def load_verified_executable(
     root: Path,
+    target_manifest: str = "config/slus_01411/target.yaml",
 ) -> tuple[Path, dict[str, Any], bytes, PsxExeHeader]:
-    target_path = resolve_within(
-        root, "config/slus_01411/target.yaml", must_exist=True
-    )
+    target_path = resolve_within(root, target_manifest, must_exist=True)
     manifest = load_target_manifest(target_path)
     executable = manifest["executable"]
     source = resolve_within(root, str(executable["path"]), must_exist=True)
