@@ -5,7 +5,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80010000,D_80010000,D_80010000,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,,"func_800323F8(D_80010000[0].payload_bases[0], (u8 *)gDuel_awPlayerDeck, 0, 0x80);"
 0x80010000,D_80010000,D_80010000,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,,"D_80010000[0].payload_bases[0],"
 0x80010000,D_80010000,D_80010000,0x8002FB78,Campaign_LoadScenePackageStage,matching_c,game,C,src/game/campaign_load_scene_package_stage.c,read,8,t = (s32)D_80010000;
-0x80010000,D_80010000,D_80010000,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,read,8,src = (u32 *)D_80010000;
+0x80010000,D_80010000,D_80010000,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,read,8,src = CAMPAIGN_PACKAGE_WORDS(D_80010000);
 0x80010000,D_80010000,D_80010000,0x8003A560,func_8003A560,matching_c,game,C,src/game/display_effect_resource_setup.c,read,8,slot = &((DisplayEffectVramSlot *)D_80010000)[D_8009B326]; | slots = (DisplayEffectVramSlot *)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8003B808,FreeDuel_LoadPackageStage,matching_c,game,C,src/game/free_duel_load_package_stage.c,read,8,object->value_08 = (s32)D_80010000; | object->value_0C = (s32)D_80010000;
 0x80010000,D_80010000,D_80010000,0x8003B9BC,Main_InitFreeDuelMenu,matching_c,game,C,src/game/main_init_free_duel_menu.c,read,8,"void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FILE_WA_FREE_DUEL_START_SECTOR,FILE_WA_FREE_DUEL_SECTO..."
