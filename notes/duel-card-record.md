@@ -116,7 +116,7 @@ stride: `Duel_SetupCardRecord` scales an index by 28,
 five-record slices within 15 records per side, and `func_80027DF8` selects
 the two 15-record side blocks.
 
-The encoded field-card slot paths in `func_80028260`,
+The encoded field-card slot paths in `DuelCard_DecodeTaggedSlotIndex`,
 `Duel_SetupCardRecord`, `func_80024D34`, and `DuelScene_UpdateDrawResolution` add
 `DUEL_CARD_SIDE_RECORD_COUNT` (`15`) after masking a tagged value with
 `0x7F`. The `0x80` tag test is unchanged, and untagged values are still

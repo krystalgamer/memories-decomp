@@ -6,6 +6,8 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
+#define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
+
 void func_800289BC(FileTransferDescriptor *object, s32 mode)
 {
     DuelEffectResourceRecord *e;
@@ -30,7 +32,7 @@ void func_800289BC(FileTransferDescriptor *object, s32 mode)
     e->rects[0].h = 0x60;
     e->rects[0].x = e->src_x;
     e->rects[0].y = e->src_y;
-    LoadImage(rect, (u32 *)b);
+    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 
     rect = &e->rects[1];
     x = e->field_2C;
@@ -39,7 +41,7 @@ void func_800289BC(FileTransferDescriptor *object, s32 mode)
     e->rects[1].h = 1;
     e->rects[1].x = x;
     e->rects[1].y = e->field_2E;
-    LoadImage(rect, (u32 *)b);
+    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 
     rect = &e->rects[2];
     x = e->src_x;
@@ -48,7 +50,7 @@ void func_800289BC(FileTransferDescriptor *object, s32 mode)
     e->rects[2].h = 0xE;
     e->rects[2].x = x;
     e->rects[2].y = e->src_y + 0x60;
-    LoadImage(rect, (u32 *)b);
+    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 
     rect = &e->rects[3];
     b = D_8009B118 + 0x2AE0;
@@ -56,5 +58,5 @@ void func_800289BC(FileTransferDescriptor *object, s32 mode)
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;
     e->rects[3].y = e->src_y;
-    LoadImage(rect, (u32 *)b);
+    LoadImage(rect, VRAM_UPLOAD_WORDS(b));
 }
