@@ -9,6 +9,8 @@
 #include "ordering_tables.h"
 #include "func_80029EC4.h"
 
+#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
+
 /* Draws the scrolling card-list grid straight into the scratchpad primitive at
    0x1F800320. The first visible row comes from the viewport scroll divided by
    the 178-pixel row pitch; from there four rows of ten lines are walked, each
@@ -108,9 +110,9 @@ void Library_DrawCardGrid(void)
                 do {
                     r = Library_GetCardFlags(tb, j);
                     if (r & 0x80) {
-                        *(u32 *)&p->r = white;
+                        GS_SPRITE_COLOR_WORD(p) = white;
                         if (r & 1) {
-                            *(u32 *)&p->r = grey;
+                            GS_SPRITE_COLOR_WORD(p) = grey;
                         }
                         p->x = c + 8;
                         p->cx = *(u16 *)(pj + 0x54);
@@ -119,9 +121,9 @@ void Library_DrawCardGrid(void)
                     if (k < CARD_ID_END) {
                         r = Library_GetCardFlags(tb, k);
                         if (r & 0x80) {
-                            *(u32 *)&p->r = white;
+                            GS_SPRITE_COLOR_WORD(p) = white;
                             if (r & 1) {
-                                *(u32 *)&p->r = grey;
+                                GS_SPRITE_COLOR_WORD(p) = grey;
                             }
                             p->x = c + 0xA8;
                             p->cx = *(u16 *)(pk + 0x54);
