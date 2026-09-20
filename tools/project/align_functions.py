@@ -34,7 +34,11 @@ from workspace import require_workspace_root  # noqa: E402
 OBJDUMP = "tools/toolchains/binutils-2.42/bin/mipsel-none-elf-objdump"
 TARGET = "game/SLUS_014.11"
 LINE = re.compile(r"\s*([0-9a-f]+):\s+([0-9a-f]{8})\s+(.*)")
-NUMBER = re.compile(r"-?\b(?:0x)?[0-9a-fA-F]+\b")
+# A literal is a decimal immediate or displacement, or 0x-prefixed hex, and
+# never a token that follows a letter: objdump spells four general registers
+# as hex words (a0-a3) and one as a hex word (ra), and a key that erases them
+# cannot tell `mult a1,a2` from `mult a2,a1` (#5358).
+NUMBER = re.compile(r"(?<![A-Za-z_$])-?(?:0x[0-9a-fA-F]+|[0-9]+)\b")
 
 
 def disassemble(root: Path, data: bytes, scratch: Path) -> list[str]:

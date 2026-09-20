@@ -49,5 +49,38 @@ class DisassembleTests(unittest.TestCase):
         self.assertNotIn("...", lines)
 
 
+class KeyTests(unittest.TestCase):
+    """The key must keep every register name and erase every literal.
+
+    objdump spells the argument registers a0-a3 and ra as words made of hex
+    digits, so a literal regex that means "a word of hex digits" erased them
+    and reported `mult a1,a2` and `mult a2,a1` as the same row (#5358). The
+    rows below are the control table from that issue: the first four pairs
+    must differ, the last three must be equal.
+    """
+
+    def test_argument_registers_survive(self) -> None:
+        for left, right in (
+            ("mult\ta1,a2", "mult\ta2,a1"),
+            ("mflo\tt1", "mflo\ta1"),
+            ("sra\tv0,t1,0x7", "sra\ta3,a1,0x7"),
+            ("lw\tv1,-19368(v1)", "lw\tv0,-19368(v0)"),
+        ):
+            with self.subTest(left=left, right=right):
+                self.assertNotEqual(align_functions.key(left), align_functions.key(right))
+
+    def test_literals_are_erased(self) -> None:
+        for line, expected in (
+            ("addiu\tv0,v0,4095", "addiu\tv0,v0,#"),
+            ("sra\tv0,t1,0x7", "sra\tv0,t1,#"),
+            ("lw\tv1,-19368(v1)", "lw\tv1,#(v1)"),
+            ("lui\ta0,0x800f", "lui\ta0,#"),
+            ("jal\t0x86e50", "jal\t#"),
+            ("sw\tra,76(sp)", "sw\tra,#(sp)"),
+        ):
+            with self.subTest(line=line):
+                self.assertEqual(align_functions.key(line), expected)
+
+
 if __name__ == "__main__":
     unittest.main()
