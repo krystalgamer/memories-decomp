@@ -134,7 +134,7 @@ void SD_SetMusicTrackBuffer(u16 *value)
 }
 void func_80047314(u32 value) { record(8, value, 0, 0, 0); }
 void SD_ResetMusicTrackBuffer(void) { record(9, 0, 0, 0, 0); }
-void func_8004763C(void) { record(10, 0, 0, 0, 0); }
+void SD_ResetPendingEntries(void) { record(10, 0, 0, 0, 0); }
 
 void func_80050584(s32 index)
 {

@@ -110,7 +110,7 @@ identifies those positions as `SD_SE.DAT`, `SD_BGM.DAT`, and `MASTER.XA`.
 game-facing startup-busy condition.
 
 Matching `SD_QueueValueLinkTransfer` and its adjacent callers establish the link-table
-lifecycle. `func_8004763C` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
+lifecycle. `SD_ResetPendingEntries` resets `field_0442` to `SD_VALUE_LINK_INDEX_NONE`
 (`0xFFFF`) and initializes
 `field_0438` to the first link's second word plus `0x1010`.
 `func_80047AD0` ignores a requested index when that entry's second word is
