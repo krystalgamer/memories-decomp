@@ -4,7 +4,7 @@
 #include "sound.h"
 #include "sound_event_runtime.h"
 
-void func_8004B910(void)
+void SD_CloseSequenceTimerEvent(void)
 {
     D_8009B458->event_guard = 1;
     EnterCriticalSection();

@@ -1394,9 +1394,9 @@
     },
     {
       "address": "0x800282E8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_effect_state_latch.c"
+      "source": "src/game/duel_effect_dialog_state.c"
     },
     {
       "address": "0x80028310",
@@ -3248,9 +3248,9 @@
     },
     {
       "address": "0x8003BBF8",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x48",
-      "source": "src/game/file_request_name_entry_package.c"
+      "source": "src/game/name_entry_load_package_stage.c"
     },
     {
       "address": "0x8003BC40",
@@ -4048,13 +4048,13 @@
       "address": "0x80043328",
       "profile": "gcc_2_8_1_g0",
       "size": "0x1CC",
-      "source": "src/game/main_load_boot_package_stage.c"
+      "source": "src/game/main_boot_load_stages.c"
     },
     {
       "address": "0x800434F4",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0x168",
-      "source": "src/game/func_800434F4.c"
+      "source": "src/game/main_boot_load_stages.c"
     },
     {
       "address": "0x8004365C",
@@ -4808,9 +4808,9 @@
     },
     {
       "address": "0x800497E0",
-      "profile": "gcc_2_8_1_g0_no_split",
+      "profile": "gcc_2_8_1_g0",
       "size": "0xDC",
-      "source": "src/game/sd_vab_trans_body_chunk.c"
+      "source": "src/game/sound_transfer_lifecycle.c"
     },
     {
       "address": "0x800498BC",
