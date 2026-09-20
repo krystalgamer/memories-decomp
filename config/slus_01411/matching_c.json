@@ -3286,19 +3286,19 @@
       "address": "0x8003C120",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x194",
-      "source": "src/game/options_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C2B4",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x74",
-      "source": "src/game/options_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C328",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x170",
-      "source": "src/game/game_over_load_package_stage.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C498",
