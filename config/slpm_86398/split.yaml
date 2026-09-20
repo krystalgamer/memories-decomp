@@ -26,6 +26,9 @@ options:
   undefined_funcs_auto_path: tmp/splat/slpm_86398/undefined_funcs_auto.txt
   undefined_syms_auto_path: tmp/splat/slpm_86398/undefined_syms_auto.txt
 
+  symbol_addrs_path:
+    - config/slpm_86398/symbols.txt
+
   gp_value: 0x8009ae48
   find_file_boundaries: false
   check_consecutive_segment_types: false
@@ -61,6 +64,8 @@ segments:
     subsegments:
       - [0x800, rodata, initial_data]
       - [0x30c4, asm, entry]
+      - [0x1d2c4, c, game/library_update_card_used_flag]
+      - [0x1d328, asm, func_8002CB28]
       - [0x80d84, pad]
 
   - name: initialized_data
