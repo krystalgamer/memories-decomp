@@ -100,7 +100,7 @@ void Fade_SetLevel(s32);
 void Fade_StartInKeepOverlay(void);
 void func_80015C48(void);
 void Fade_StartOutKeepOverlay();
-void func_80015CC0(void);
+void Fade_StartOutKeepOverlayAndHideSecondaryTables(void);
 void Fade_EnableOrderingTables(void);
 void Fade_DisableOrderingTables(void);
 

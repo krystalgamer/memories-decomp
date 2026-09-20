@@ -333,7 +333,7 @@ Matching pure-C users migrated to this shared header include:
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
 - `Fade_SetTargetLevel`, `Fade_SetLevel`;
 - `Fade_StartInKeepOverlay`, `func_80015C48`, `Fade_StartOutKeepOverlay`,
-  `func_80015CC0`.
+  `Fade_StartOutKeepOverlayAndHideSecondaryTables`.
 
 The colour initializers and their blocking wrappers now carry an explicit
 `s32 color` parameter, replacing the old reliance on an incoming `$a0`.
