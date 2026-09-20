@@ -41,6 +41,7 @@
 
 #define ABS3(v) ((v) >= 0 ? (v) : -(v))
 #define LINE_G2_VIEW(packet) ((LINE_G2 *)(packet))
+#define CVECTOR_WORD(color) (*(u32 *)(color))
 
 u32 *func_80034830(GsARGUNIT_NORMAL *arg)
 {
@@ -97,8 +98,8 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
         POLY_GT4 *gt = (POLY_GT4 *)0x1F800380;
         CVECTOR *grey = (CVECTOR *)0x1F8003D0;
 
-        *(u32 *)white = mask;
-        *(u32 *)grey = D_8009B300;
+        CVECTOR_WORD(white) = mask;
+        CVECTOR_WORD(grey) = D_8009B300;
         while (--n != -1) {
             flg = (s32 *)0x1F8003E8;
             if (D_8009B30C & 2) {
@@ -218,7 +219,7 @@ u32 *func_80034830(GsARGUNIT_NORMAL *arg)
     } else {
         POLY_GT4 *gt = (POLY_GT4 *)0x1F800380;
 
-        *(u32 *)white = D_8009B300;
+        CVECTOR_WORD(white) = D_8009B300;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
