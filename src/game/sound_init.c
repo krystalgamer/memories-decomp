@@ -9,7 +9,7 @@
 #include "sound_transfer_lifecycle.h"
 #include "../unmatched.h"
 
-void func_80049200(s32 value)
+void SD_RequestBgmPlaybackDefaultStep(s32 value)
 {
     SD_RequestBgmPlayback((s16)value, g_SDValue->field_164B);
 }
