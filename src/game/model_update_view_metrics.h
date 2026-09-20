@@ -40,7 +40,7 @@ extern u16 D_8009B47C;
    type is void * because that is what the definition returns, which is how
    three callers each spelled the result differently -- unsigned short * and
    u8 * -- without anything complaining. */
-void *func_80059208(void);
+void *Model_GetViewMetricsBuffer(void);
 
 void Model_UpdateViewMetrics(u8 *view);
 

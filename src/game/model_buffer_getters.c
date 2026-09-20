@@ -8,7 +8,7 @@ void *Model_GetCameraViewBuffer(void)
     return &D_800F56F0;
 }
 
-void *func_80059208(void)
+void *Model_GetViewMetricsBuffer(void)
 {
     return &D_8009B478;
 }

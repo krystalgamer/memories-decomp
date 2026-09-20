@@ -41,9 +41,9 @@ extern GsRVIEW2 D_800F56F0;
 /* Advance the camera move or follow/orbit the selected model slots. */
 void func_80051A48(void);
 
-/* Returns &D_800F56F0. void * for the same reason as func_80059208: it is
-   what the definition returns, and callers consume the shared buffer as
-   GsRVIEW2, halfword, or byte-oriented views. */
+/* Returns &D_800F56F0. void * for the same reason as
+   Model_GetViewMetricsBuffer: it is what the definition returns, and callers
+   consume the shared buffer as GsRVIEW2, halfword, or byte-oriented views. */
 void *Model_GetCameraViewBuffer(void);
 extern GsRVIEW2 D_800F5710;
 
