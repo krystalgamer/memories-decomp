@@ -579,7 +579,7 @@ explicit typed/raw views rather than speculative fields.
 
 The leading channel records and the later track records are distinct layouts.
 `SD_DispatchSequenceChannelEvent` selects a channel with the MIDI status byte's low nibble and
-indexes the leading records with a `0x18`-byte stride; `func_8004A518`
+indexes the leading records with a `0x18`-byte stride; `SD_ResetSecondaryPlayback`
 initializes all sixteen. `SD_SEQUENCE_CHANNEL_COUNT` and
 `SD_SEQUENCE_CHANNEL_RECORD_SIZE` describe this `0x180`-byte prefix.
 The separate `SD_SEQUENCE_TRACK_COUNT` and `SD_SEQUENCE_TRACK_RECORD_SIZE`
@@ -617,7 +617,7 @@ channel controls without changing their byte storage:
 | `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
 | `+0x07` | `pitch_bend_msb` | Pitch-bend dispatch passes the second data byte to `func_8004B70C`; `func_8004A43C` caches it and obtains the pitch adjustment through `SD_CalcPitchBend`. |
 
-`func_8004A518` writes every channel record through these members. Its other
+`SD_ResetSecondaryPlayback` writes every channel record through these members. Its other
 stores name four more channel members: the byte `field_0004`, which
 `func_8004B374` also clears, the two words `field_0008` and `field_000C`,
 both reset to `0x7F`, and the halfword `field_0014`. In the other layouts it

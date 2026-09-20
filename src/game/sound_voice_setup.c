@@ -42,7 +42,7 @@ void func_8004A43C(SDSecondaryObject *p, s32 force)
  * and keyed off with a fresh envelope, and every channel record returns to
  * centre pan and full volume/expression. The two offsets walk the state's
  * `tracks` and `channels` arrays by byte stride, as retail does. */
-void func_8004A518(void) {
+void SD_ResetSecondaryPlayback(void) {
     SDSecondaryState *base;
     SDSequenceTrack *track;
     SDSecondaryRecord *channel;

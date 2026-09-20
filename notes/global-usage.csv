@@ -78,7 +78,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x80011434,D_80011434,D_80011434,0x80049DD8,SD_RestoreSecondaryVoiceVolumes,matching_c,game,C,src/game/func_80049CF8.c,address,32,voice_bits = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,32,s->voice_attr.voice = D_80011434[voice];
 0x80011434,D_80011434,D_80011434,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,32,D_8009B458->voice_attr.voice = D_80011434[p->voice_index];
-0x80011434,D_80011434,D_80011434,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
+0x80011434,D_80011434,D_80011434,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,address,32,tbl = D_80011434;
 0x80011434,D_80011434,D_80011434,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = D_80011434[index];
 0x80011434,D_80011434,D_80011434,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,32,p->voice_attr.voice = D_80011434[index];
 0x80011434,D_80011434,D_80011434,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,address,32,item = &D_80011434[index];
@@ -2225,7 +2225,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x8004A27C,SD_SetVoiceVolume,matching_c,game,C,src/game/sound_voice_volume.c,read,,s = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A2F8,SD_UpdateSecondaryObjectVolumes,matching_c,game,C,src/game/sound_spatialization.c,read,,SDSecondaryState *state = D_8009B458; | current = D_8009B458; | (+1 more)
 0x8009B458,D_8009B458,D_8009B458,0x8004A43C,func_8004A43C,matching_c,game,C,src/game/sound_voice_setup.c,read,,D_8009B458->voice_attr.mask = SPU_VOICE_PITCH; | D_8009B458->voice_attr.pitch = v; | (+3 more)
-0x8009B458,D_8009B458,D_8009B458,0x8004A518,func_8004A518,matching_c,game,C,src/game/sound_voice_setup.c,read,,"SDSecondaryRecord, D_8009B458, channel_off); | SDSequenceTrack, D_8009B458, track_off); | (+1 more)"
+0x8009B458,D_8009B458,D_8009B458,0x8004A518,SD_ResetSecondaryPlayback,matching_c,game,C,src/game/sound_voice_setup.c,read,,"SDSecondaryRecord, D_8009B458, channel_off); | SDSequenceTrack, D_8009B458, track_off); | (+1 more)"
 0x8009B458,D_8009B458,D_8009B458,0x8004A6F8,SD_SetVoiceEnvelopeFromTone,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A764,SD_ResetVoiceEnvelope,matching_c,game,C,src/game/sound_voice_envelope.c,read,,SDSecondaryState *p = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004A7C0,func_8004A7C0,matching_c,game,C,src/game/func_8004A7C0.c,read,,"D_8009B458, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);"

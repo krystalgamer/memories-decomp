@@ -86,7 +86,7 @@ void SD_StopSequence(void)
         SDSecondaryState *other;
         initial->flag_0500 = 1;
         SD_ResetSequenceTracks();
-        func_8004A518();
+        SD_ResetSecondaryPlayback();
         state = D_8009B458;
         state->flag_0500 = 0;
         other = D_8009B458;

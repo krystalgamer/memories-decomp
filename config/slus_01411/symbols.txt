@@ -1473,3 +1473,6 @@ BuildDeck_RefreshCountDisplay = 0x80031E5C; // type:func
 SD_PrepareSecondaryObjectReuse = 0x8004A8E4; // type:func
 SD_InitVoiceState = 0x80047480; // type:func
 SD_QueueValueLinkTransfer = 0x80047788; // type:func
+
+// Semantic names
+SD_ResetSecondaryPlayback = 0x8004A518; // type:func
