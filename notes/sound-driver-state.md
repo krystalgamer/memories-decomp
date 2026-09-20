@@ -848,8 +848,9 @@ polls it.
 Its three callers all pair that with `SDValue`'s flag `0x80` and
 `field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
 when the poll is not `1`, and `func_80046294` stops it when the poll is `1`.
-`func_80049EC8` and `func_80049F10` read the same halfword for a different
-question, skipping `SD_UpdateSecondaryObjectVolumes` while it is `2`.
+`SD_SetSecondarySpatialLevels` and `func_80049F10` read the same halfword for
+a different question, skipping `SD_UpdateSecondaryObjectVolumes` while it is
+`2`.
 
 ### Transfer-window state and results
 
