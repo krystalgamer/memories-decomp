@@ -6,6 +6,9 @@
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
+#define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
+    ((SDSecondaryObject *)((u8 *)(state) + (offset)))
+
 /* Per-entry sweep over the SDSecondaryObject records at
  * D_8009B458->objects: sends the under-0x10 ones through func_8004A43C,
  * resets a record whose voice is SPU_OFF, advances the +0xD counter for
@@ -41,7 +44,7 @@ void func_8004AAFC(void) {
         q = sp10;
         o = SD_SECONDARY_OBJECT_ARRAY_OFFSET;
         do {
-            e = (SDSecondaryObject *)((u8 *)p + o);
+            e = SD_SECONDARY_OBJECT_OFFSET_VIEW(p, o);
             if (e->channel_index < SD_SEQUENCE_CHANNEL_COUNT) {
                 func_8004A43C(e, 0);
             }
