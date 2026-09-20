@@ -205,7 +205,7 @@ void Password_InitShopScreen(void)
     Password_RefreshStarchipDisplay();
     Password_CreateMessageBox(226, 1);
     D_8016D430 = D_800EA0E8;
-    func_80029574(0);
+    DuelEffect_ClearResourceObjectPointers(0);
     cardCache = D_8016D430;
     cardCache->src_x = 320;
     cardCache->src_y = 256;

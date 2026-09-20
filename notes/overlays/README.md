@@ -687,7 +687,7 @@ compiler what is there, so the load buys nothing unless the object is
 the qualifier:
 
 ```
-jal  func_80029574
+jal  DuelEffect_ClearResourceObjectPointers
 sw   v0,%lo(D_8016D430)(s0)      # store, in the call's delay slot
 lw   v1,%lo(D_8016D430)(s0)      # reload into a different register
 li   v0,320

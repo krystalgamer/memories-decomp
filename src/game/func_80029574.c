@@ -2,7 +2,7 @@
 #include "duel_effect_resource_record.h"
 #include "func_80029574.h"
 
-void func_80029574(int index)
+void DuelEffect_ClearResourceObjectPointers(int index)
 {
     DuelEffectResourceRecord *entry = &D_800EA0E8[index];
 

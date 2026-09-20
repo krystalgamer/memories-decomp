@@ -103,12 +103,12 @@ void Duel_InitScene(void)
     Duel_ClearHandSlots();
     pane = &D_800EA0E8[0];
     DuelEffect_ResetRequestPool();
-    func_80029574(0);
+    DuelEffect_ClearResourceObjectPointers(0);
     pane->src_x = 0;
     pane->src_y = 256;
     pane->field_2C = 0;
     pane->field_2E = 255;
-    func_80029574(1);
+    DuelEffect_ClearResourceObjectPointers(1);
     pane[1].src_x = 64;
     pane[1].src_y = 256;
     pane[1].field_2C = 0;
