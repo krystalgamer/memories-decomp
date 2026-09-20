@@ -14,6 +14,8 @@
 #include "graphics_frame.h"
 #include "func_80031874.h"
 
+#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
+
 /* Both sprites are GsSPRITE records in the scratchpad: `sprite` at 0x1F800020
  * draws the rows' digits and icons, `header` at 0x1F800060 the sort menu, and
  * the digit text is built at 0x1F800000. `row` points 8 bytes into the page's
@@ -47,7 +49,7 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
     attr = obj->attribute;
     header->tpage = 0xB;
     sprite->tpage = 0xB;
-    *(u32 *)&sprite->r = COLOR_RGB24_NEUTRAL_GREY;
+    GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)&sprite->w = 0x80008;
     *(u32 *)&header->w = 0x100010;
     sprite->cx = 0x290;
@@ -80,10 +82,10 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
         sprite->x = x + 4;
         sprite->y = ry;
         if (row[5] != 0) {
-            *(u32 *)&sprite->r = COLOR_RGB24_NEUTRAL_GREY;
+            GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
             id = *(s16 *)(row - 4);
             if (row[5] & 0x80) {
-                *(u32 *)&sprite->r = COLOR_RGB24_DIM_GREY;
+                GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_DIM_GREY;
             }
             if (kind != 0) {
                 sprite->x = x + 0x11;
@@ -129,12 +131,12 @@ void func_80031874(DisplayObject *obj, GsOT *ot)
                 /* Red once the deck holds the limit: three copies, or one of
                    ids 0x11-0x15. */
                 if (n >= 3 || ((u32)(id - 0x11) < 5 && n != 0)) {
-                    *(u32 *)&sprite->r = 0x2020FF;
+                    GS_SPRITE_COLOR_WORD(sprite) = 0x2020FF;
                 }
                 sprite->x = x + 0x122;
                 Text_EncodeDecimalDigits(n, 2, text);
                 func_800316F0(sprite, ot, text, 2);
-                *(u32 *)&sprite->r = COLOR_RGB24_NEUTRAL_GREY;
+                GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
                 sprite->y -= 8;
             }
         }
