@@ -2,52 +2,97 @@
  * Starts one secondary-driver note by walking Psy-Q VAB program/tone data,
  * allocating a voice, filling SpuVoiceAttr, applying pitch/spatial volume,
  * keying on, and routing reverb. Current best under gcc_2_8_1_cc_g8_as_g0:
- * 355/355 instructions, an EMPTY opcode census, and 305 of 355 aligned on
- * opcode and registers in 23 structural blocks, with no register binding.
+ * 355/355 instructions at exact length, an EMPTY opcode census by encoded
+ * fields (bits 31-26, SPECIAL by funct), 294 of 355 aligned on opcode and
+ * registers in 13 structural blocks, 75 raw words differing with relocations
+ * masked, 28 with the register fields masked as well, and a shift-aware
+ * structural distance of 25 (difflib over the register-masked words). The
+ * previous state was 355, 21 structural blocks, 305 aligned, 153 raw, 137
+ * register-masked, shift-aware 71, with a census that was empty only by
+ * cancellation: it recomputed the tone pointer at word 72 where retail has a
+ * nop (one addu too many) and lacked retail's copy of the loop bound at
+ * word 121 (one addu too few). Its header said "register choices only";
+ * read by raw words it was six zones of order and layout.
  *
- * READ THE CENSUS FROM THE ENCODED FIELDS ON THIS FUNCTION. align_functions.py
- * compares rendered mnemonics and reports `move +1, addu -1, sll +1, nop -1`,
- * a distance of 4. Decoded from bits 31-26 with SPECIAL taking funct, the
- * census is empty: SPECIAL:21 (every addu) is 37 against 37 and SPECIAL:00
- * (every sll, nop included) is 59 against 59. What exists is one register
- * difference -- objdump prints `addu rd,rs,$zero` as `move`, and the target
- * has 17 of those against 16 -- and one operand difference, a real sll where
- * this source has a nop. Two operand differences counted as four opcode
- * deltas. The distance-2 figure the previous header quoted has the same
- * origin.
+ * Read the census from the encoded fields on this function: the aligner
+ * compares rendered mnemonics and reports `move` against `addu` and `nop`
+ * against `sll`. And read the residue by raw words, not by the aligner
+ * (#5358 erases the a0-a3 names).
  *
- * Unsigned key/tone indices, uncached driver-root loads, block-scoped reverb
- * masks, folded VAB indices, two allocation call sites, and one forced root
- * reload reproduce the current shape. The incoming channel keeps retail's
- * callee-saved register because its name is reused after its last use, first
- * for tone[3] and then as the pitch shift count.
+ * Levers, each measured alone against the state below it and then combined:
+ *  - the spilled locals are declared `used`, `program`, `vab`, `rec` (in
+ *    that order, after `prog`): spill slots follow declaration order and
+ *    retail's frame is used at 20(sp), program at 24, vab at 32, rec at 36.
+ *    Five orders measured; only this one and its rec/vab swap reach it
+ *    (raw 153 -> 142, shift-aware 71 -> 59);
+ *  - the spatialize call's first argument carries its offset in a local,
+ *    `soff = idx * SD_SECONDARY_OBJECT_SIZE + 0x180;` assigned after the
+ *    tone[5] store and added to the root at the call: retail computes the
+ *    offset early, interleaved with the byte stores, and adds the reloaded
+ *    root last (shift-aware 59 -> 54). Passing `obj` itself is -2, and a
+ *    local holding the whole address is +5;
+ *  - `vag` is an `s16` local: retail copies the loop bound into a0 before
+ *    the size loop (`move a0,a1`, word 121) and the s32 local has no copy.
+ *    A second name for the bound and a re-read of the tone field measure
+ *    identically; the narrow type is the plain spelling;
+ *  - `*(s16 *)(obj + 0x1C) = rec[7];` is written BEFORE `+0x1A = -1`:
+ *    retail loads rec[7] first and fills its delay slot with the -1. Alone,
+ *    each of these two is one instruction off in opposite directions (+1
+ *    and -1) and reads as worse on every count; together they are 142 ->
+ *    75 raw, 125 -> 48 register-masked, 54 -> 40;
+ *  - `td = tone[0xD];` (a u8) read right after the `obj[0x11] = tone[0xC]`
+ *    store and stored into obj[0x10] later (permuter find): retail batches
+ *    the two tone loads and keeps the second store where the source has it
+ *    (75 -> 63 raw, 48 -> 36, 40 -> 32). Naming tone[0xC] as well, or both
+ *    before the stores, is worse;
+ *  - `nb = *(s32 *)(D_8009B458 + 0x4B8);` read before the `*voice` store
+ *    and added to `sum` after it (permuter find): the load is issued ahead
+ *    of the store group as retail does (63 -> 60, 36 -> 34, 32 -> 30);
+ *  - `level = note & 0x7F;` inside the tone loop rather than before it
+ *    (permuter find): register-only, 60 -> 52 raw, 313 -> 320 aligned;
+ *  - the key tests read `tone[6]` and `tone[7]` through the `tone` pointer
+ *    computed above them, not through the repeated address expression:
+ *    retail computes the pointer once into s2 (words 66-67) and word 72 is
+ *    a nop where the repeated expression recomputes it. This is what closes
+ *    the census (register-masked 34 -> 31, shift-aware 30 -> 27). It costs
+ *    the allocation of two callee-saved registers: with the pointer live
+ *    from the key tests on, `tone` takes s1 and `idx` s2, the reverse of
+ *    retail, at every one of their uses (raw 52 -> 71). The earlier header
+ *    called this spelling "worse and census-breaking" on the aligner's
+ *    mnemonic census; on the encoded census it is the opposite;
+ *  - the pitch shift count is the literal 7, not `channel = 7;` reused: the
+ *    reuse materialised the 7 into channel's callee-saved register in a
+ *    branch delay slot where retail has `li v0,1` (shift-aware 27 -> 25,
+ *    register-masked 31 -> 28, four register-only words);
+ *  - from before: unsigned key/tone indices, uncached driver-root loads,
+ *    block-scoped reverb masks, folded VAB indices, two allocation call
+ *    sites, one forced root reload, tone[2] read inline at its single use,
+ *    `obj[6] = obj[5] = level;` as one chained assignment (both orders tie),
+ *    and the key's upper bound tested against the record like the lower.
  *
- * Three levers, each measured alone and in combination against the state
- * below it, and they compose:
- *  - tone[2] is read inline at its single use rather than through a `tr`
- *    local (296 -> 301 aligned, 26 -> 25 structural);
- *  - the two stores of `level` are one chained assignment,
- *    `obj[6] = obj[5] = level;` (301 -> 304, 25 -> 23). BOTH ORDERS TIE
- *    EXACTLY here, which is worth knowing because the chain's order is
- *    usually load-bearing; `obj[5] = obj[6] = level;` is the same figures.
- *  - the key's upper bound is tested against the tone record's address
- *    expression, matching the lower bound beside it (304 -> 305).
+ * MEASURED AND DEAD on this base: `idx` declared before `hdr`, first of all
+ * locals, or `tone` declared last (the s1/s2 swap does not move); a named
+ * 0x820 shared by the tone address and the sizes address (identical to the
+ * pointer spelling); `tone` given a birth before the loop (nothing); the
+ * tone[3] reuse of `channel` removed (mixed), and both `channel` reuses
+ * removed together (+4 instructions); D_80011434 as `const` with const
+ * pointers (nothing) or read inline instead of through `voice` (-1); the
+ * amode as a ternary, inline or with the branch flipped (nothing or worse);
+ * a named -1 for the idx test (register-only, +1 raw); `used = 0; i = 0;`
+ * in the other order or at the function top (nothing). The velocity spill
+ * store and the `used = 0` store are emitted in the other order (words
+ * 18-19) from every spelling measured.
  *
- * MEASURED AND CLOSED: reading tone[6] through the `tone` pointer instead of
- * the repeated address expression is 282 aligned over 23 structural blocks
- * AND BREAKS THE EMPTY CENSUS (distance 2). The repeated expression is
- * deliberate. Extending the same spelling to the vag read is 280 over 38
- * with census 14, and moving the `tone` assignment down to its first use is
- * 289 over 29. Only the [7] site pays.
- *
- * decomp-permuter, rerun after refreshing its in-tree base, produced 34
- * outputs; all were re-scored by splicing each body into the real source.
- * Seven beat the installed state on the project's key. Its best, at 301/25,
- * decomposes to the tone[2] lever alone -- the pointer local and the
- * `->`/`(*x).` rewrite it also carried are worth nothing. The chained
- * assignment came from two other outputs.
- *
- * Residual: register choices only.
+ * Residual, 75 words: `tone`/`idx` in s1/s2 where retail has s2/s1, at
+ * every use (about twenty register-only words); the two parameters in
+ * s4/s7 where retail has s7/s4 (the frame saves follow; `key` computed first
+ * is -1); in the SpuVoiceAttr block retail materialises 0x6019F in two
+ * halves around the loads (`lui` first, `ori` right before the store) and
+ * shifts `sum` first, this source stores the constant first; the program
+ * spill is reloaded before the tidx store where retail loads it after; the
+ * tone[2]/tone[3]/velocity/0xFFFF stores are emitted in another order; and
+ * the amode constant is in v1 where retail has v0. See
+ * config/slus_01411/candidates.json.
  */
 #include "../types.h"
 #include "../psyq/libspu.h"
@@ -68,29 +113,32 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
 {
     s32 channel;
     u8 *prog;
+    s32 used;
+    u8 program;
+    u8 *vab;
+    u8 *rec;
     s32 ch;
     u32 tidx;
     u32 key;
-    u8 *rec;
-    u8 *vab;
     u8 *hdr;
     u8 *tone;
     u8 *obj;
     s32 idx;
-    s32 used;
     s32 i;
     s32 sum;
-    s32 vag;
+    s16 vag;
     u16 *sizes;
-    u8 program;
     u8 stolen;
     s32 level;
     s32 pitch;
     s32 amode;
     s32 *voice;
+    s32 soff;
     u16 adsr1;
     u16 adsr2;
     u8 tr;
+    s32 nb;
+    u8 td;
 
     channel = arg0;
     rec = D_8009B458 + (channel & 0xFF) * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
@@ -114,13 +162,13 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
     tidx = 0;
     key = note & 0xFF;
     ch = channel & 0xFF;
-    level = note & 0x7F;
     do {
+        level = note & 0x7F;
         tone = &vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820];
-        if (key < (&vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820])[6]) {
+        if (key < tone[6]) {
             goto next;
         }
-        if ((&vab[(used * 16 + (tidx & 0xFFFF)) * 32 + 0x820])[7] < key) {
+        if (tone[7] < key) {
             goto next;
         }
         {
@@ -161,8 +209,9 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         *(s32 *)(D_8009B458 + 0x4C4) = 0x6019F;
         *(s16 *)(D_8009B458 + 0x4CC) = 0;
         *(s16 *)(D_8009B458 + 0x4CE) = 0;
+        nb = *(s32 *)(D_8009B458 + 0x4B8);
         *(s32 *)(D_8009B458 + 0x4C0) = *voice;
-        *(s32 *)(D_8009B458 + 0x4DC) = *(s32 *)(D_8009B458 + 0x4B8) + sum;
+        *(s32 *)(D_8009B458 + 0x4DC) = nb + sum;
         adsr1 = *(u16 *)(tone + 0x10);
         *(s16 *)(D_8009B458 + 0x4FA) = adsr1;
         *(u16 *)(obj + 0x20) = adsr1;
@@ -179,14 +228,16 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         rec[4] = velocity;
         obj[0x12] = tone[4];
         obj[0x13] = tone[5];
+        soff = idx * SD_SECONDARY_OBJECT_SIZE + 0x180;
         obj[0x11] = tone[0xC];
+        td = tone[0xD];
         obj[0] = idx;
         obj[4] = tidx;
         obj[2] = program;
         obj[6] = obj[5] = level;
         obj[3] = channel;
         obj[0xD] = 1;
-        obj[0x10] = tone[0xD];
+        obj[0x10] = td;
         ((SDSecondaryObject *)obj)->field_0008 = prog[1];
         ((SDSecondaryObject *)obj)->field_000A = prog[4];
         ((SDSecondaryObject *)obj)->field_0009 = tone[2];
@@ -195,7 +246,7 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
         channel = tone[3];
         ((SDSecondaryObject *)obj)->field_000B = channel;
         SD_SpatializeSecondaryObject(
-            (SDSecondaryObject *)(D_8009B458 + idx * SD_SECONDARY_OBJECT_SIZE + 0x180),
+            (SDSecondaryObject *)(D_8009B458 + soff),
             (SDSecondaryRecord *)(D_8009B458 + ch * SD_SEQUENCE_CHANNEL_RECORD_SIZE));
         *(s16 *)(D_8009B458 + 0x4C8) =
             (((SDSecondaryObject *)obj)->level_left *
@@ -204,12 +255,11 @@ void func_8004ADE8(s32 arg0, s32 note, u8 velocity)
             (((SDSecondaryObject *)obj)->level_right *
              *(u16 *)(D_8009B458 + 0x516)) >> 7;
         obj[5] = level;
-        *(s16 *)(obj + 0x1A) = -1;
         *(s16 *)(obj + 0x1C) = rec[7];
+        *(s16 *)(obj + 0x1A) = -1;
         pitch = SD_CalcPitchBend((SDSecondaryObject *)obj, rec[7]) + obj[6] * 128;
-        channel = 7;
         *(s16 *)(D_8009B458 + 0x4D4) =
-            func_80049FB4((s16)pitch >> channel, pitch & 0x7F, tone[4], tone[5]);
+            func_80049FB4((s16)pitch >> 7, pitch & 0x7F, tone[4], tone[5]);
         SpuSetKeyOnWithAttr((SpuVoiceAttr *)(D_8009B458 + 0x4C0));
         if (stolen == 0) {
             if ((rec[6] & 0xF) < 0xF) {
