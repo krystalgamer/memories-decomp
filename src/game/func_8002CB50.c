@@ -1,7 +1,7 @@
 #include "../types.h"
 #include "display_object_work_slots.h"
 
-void func_8002CB50(s32 *destination)
+void DisplayObject_CopyWorkSlots(s32 *destination)
 {
     s32 i;
     DisplayObject **source;

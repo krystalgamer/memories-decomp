@@ -66,6 +66,6 @@ extern DisplayObject *D_800E9EF0[];
 #endif
 
 /* Copies five pointer words and appends zero; the destination ABI is integer. */
-void func_8002CB50(s32 *destination);
+void DisplayObject_CopyWorkSlots(s32 *destination);
 
 #endif

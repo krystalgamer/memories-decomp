@@ -2481,7 +2481,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,32,D_800E9EF0[0] = DISPLAY_OBJECT_VIEW(o); | D_800E9EF0[0] = D_8009B1CC; | (+2 more)
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,read_write,32,&D_801A7AD8[D_800E9EF0[1]->field_6A]); | D_800E9EF0[0]->flags &= 0xFFBF; | (+44 more)
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,read_write,,"&D_800E9EF0.ritual.result, gDuel_wEffectCardID); | D_8009B19C = D_800E9EF0.slots[3]->field_6A; | (+21 more)"
-0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002CB50,func_8002CB50,matching_c,game,C,src/game/func_8002CB50.c,address,32,source = D_800E9EF0;
+0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002CB50,DisplayObject_CopyWorkSlots,matching_c,game,C,src/game/func_8002CB50.c,address,32,source = D_800E9EF0;
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_mode_runners.c,read_write,32,D_800E9EF0[0] = 0; | D_800E9EF0[0] = obj; | (+2 more)
 0x800E9F04,D_800E9F04,D_800E9F04,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,write,,D_800E9F04[0] = 0;
 0x800E9F10,D_800E9F10,D_800E9F10,0x80017708,Duel_InitSelectionRecords,matching_c,game,C,src/game/duel_state_init.c,address,8,((DuelSelectionRecord *)D_800E9F10)[0].field_13 = 0; | ((DuelSelectionRecord *)D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE] | (+1 more)
