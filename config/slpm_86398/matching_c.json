@@ -2,6 +2,12 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x8002CA88",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
+      "source": "src/game/campaign_test_story_flag.c"
+    },
+    {
       "address": "0x8002CAC4",
       "profile": "gcc_2_8_1_o1_g0",
       "size": "0x64",

@@ -64,6 +64,7 @@ segments:
     subsegments:
       - [0x800, rodata, initial_data]
       - [0x30c4, asm, entry]
+      - [0x1d288, c, game/campaign_test_story_flag]
       - [0x1d2c4, c, game/library_update_card_used_flag]
       - [0x1d328, asm, func_8002CB28]
       - [0x80d84, pad]
