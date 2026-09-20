@@ -33,7 +33,7 @@ address,size,name,gte_commands,gte_transfers,heuristic_flags,non_gte_flags,unimp
 0x80066828,0x32C,func_80066828,3,24,3,0,0,avsz3;ncct;rtpt,cfc2;lwc2;mfc2;mtc2;swc2,handwritten_asm
 0x80066B54,0x30C,func_80066B54,4,20,4,0,0,avsz4;nccs;rtps;rtpt,cfc2;lwc2;mfc2;mtc2;swc2,handwritten_asm
 0x80066E60,0x3C0,func_80066E60,5,32,4,0,0,avsz4;nccs;ncct;rtps;rtpt,cfc2;lwc2;mfc2;mtc2;swc2,handwritten_asm
-0x80067220,0x134,func_80067220,2,10,8,0,0,nccs;rtps,cfc2;mfc2;mtc2;swc2,unmatched_asm
+0x80067220,0x134,func_80067220,2,10,8,0,0,nccs;rtps,cfc2;mfc2;mtc2;swc2,handwritten_asm
 0x80067354,0x248,func_80067354,2,8,8,0,0,avsz3;nclip,mfc2;mtc2,handwritten_asm
 0x8006759C,0x2BC,func_8006759C,3,11,11,0,0,avsz4;nclip,mfc2;mtc2,handwritten_asm
 0x80067858,0x264,func_80067858,2,8,8,0,0,avsz3;nclip,mfc2;mtc2,handwritten_asm

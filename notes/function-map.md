@@ -140,7 +140,7 @@ recovered or that no custom C/assembly wrapper could reproduce the function.
 |---|---:|---:|---|
 | Matching C | `func_80033DB0` | `0xA80` | Official Psy-Q RTPS/NCDS/NCLIP macro expansions plus split 12-halfword cursor strides reproduce all bytes and relocations without register bindings. |
 | Reopened `unmatched_asm` | `func_80034830` | `0xD68` | Conventional `0x58` stack frame, ordinary O32 saves and shared epilogue; fixed-register FLAG/depth reads match SDK C-macro shapes. |
-| Reopened `unmatched_asm`, origin unresolved | `func_80067220` | `0x134` | No custom incoming-register preservation; software-pipelined GTE loops are not exact stock macro sequences. |
+| Reclassified `handwritten_asm` (2026-09-20) | `func_80067220` | `0x134` | No custom incoming-register preservation and software-pipelined GTE loops outside the stock macro sequences, as before; what settles it is word `0x80067244`, `and $t5, $t5, $at` after `lui/ori $at, 0xFFFFFF`: the assembler's expansion of an immediate `and`, which gcc 2.8.1 never emits. Over the split listings an ALU instruction reading `$at` occurs in all 60 retained functions, in 7 `sdk_asm` functions and in none of the 1132 `matching_c` functions. A dead `addiu $t4, $zero, 0xFF` at `0x80067260` points the same way. It joins no save-slot cohort below: it is a leaf. |
 | Retained `handwritten_asm` | 60 functions | `0x9B80` | Custom incoming-register preservation in caller-owned object fields, with no stack frames. |
 
 The retained functions form four end-exclusive cohorts:
