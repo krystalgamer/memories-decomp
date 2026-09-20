@@ -29,10 +29,10 @@ extern u16 D_8009B27C;
 /* The script instruction cursor: a byte pointer walking the script stream.
  *
  * script_readers.c is the clearest statement of the encoding:
- * Script_ReadByte returns *D_8009B290++ for a single-byte operand; the second
- * reader returns current[0] | (current[1] << 8) after advancing two. Operands
- * are little-endian and the cursor is byte-granular. Command handlers advance
- * it by two, four or six according to how many operands they take, and
+ * Script_ReadByte returns *D_8009B290++ for a single-byte operand;
+ * Script_ReadU16LE returns current[0] | (current[1] << 8) after advancing two.
+ * Operands are little-endian and the cursor is byte-granular. Command handlers
+ * advance it by two, four or six according to how many operands they take, and
  * script_run_tick.c fetches the next opcode through it into D_8009B27C.
  */
 extern u8 *D_8009B290;

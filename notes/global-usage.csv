@@ -1612,7 +1612,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B290,D_8009B290,D_8009B290,0x8002F9D4,Script_OpJumpIfDeckIncomplete,matching_c,game,C,src/game/script_op_jump_if_deck_incomplete.c,read_write,8,D_8009B290 = current + 2; | if (Duel_IsPlayerDeckComplete() == 0) D_8009B290 = D_801A8000 + offset; | (+1 more)
 0x8009B290,D_8009B290,D_8009B290,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read_write,8,D_8009B27C = *D_8009B290++; | D_8009B290 = D_801A8000 + ((u16 *)D_801A8000)[g]; | (+1 more)
 0x8009B290,D_8009B290,D_8009B290,0x80030050,Script_ReadByte,matching_c,game,C,src/game/script_readers.c,read_write,8,return *D_8009B290++;
-0x8009B290,D_8009B290,D_8009B290,0x8003006C,func_8003006C,matching_c,game,C,src/game/script_readers.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
+0x8009B290,D_8009B290,D_8009B290,0x8003006C,Script_ReadU16LE,matching_c,game,C,src/game/script_readers.c,read_write,8,D_8009B290 = current + 2; | u8 *current = D_8009B290;
 0x8009B294,D_8009B294,D_8009B294,0x8002EA0C,Script_UpdateViewportTween,matching_c,game,C,src/game/script_flag_commands.c,read_write,32,D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n; | do { b = D_8009B294; } while (0);
 0x8009B298,D_8009B298,D_8009B298,0x8002EA0C,Script_UpdateViewportTween,matching_c,game,C,src/game/script_flag_commands.c,read_write,32,D_8009B298 = ((*(s16 *)&D_8009B2AA - sy) << 16) / n; | d = D_8009B298;
 0x8009B29C,D_8009B29C,D_8009B29C,0x8002E9A0,Script_OpViewportTween,matching_c,game,C,src/game/script_flag_commands.c,write,16,D_8009B29C = cursor[0] | (cursor[1] << 8);
