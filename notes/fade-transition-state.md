@@ -332,7 +332,8 @@ Matching pure-C users migrated to this shared header include:
 - `Fade_StartOut`, `Fade_InitOutColor`, `Fade_Wait`;
 - `func_80015A50`, `func_80015A94`, `func_80015B50`, `func_80015B94`;
 - `Fade_SetTargetLevel`, `Fade_SetLevel`;
-- `Fade_StartInKeepOverlay`, `func_80015C48`, `Fade_StartOutKeepOverlay`,
+- `Fade_StartInKeepOverlay`, `Fade_StartInKeepOverlayAndHideSecondaryTables`,
+  `Fade_StartOutKeepOverlay`,
   `Fade_StartOutKeepOverlayAndHideSecondaryTables`.
 
 The colour initializers and their blocking wrappers now carry an explicit
