@@ -5,6 +5,9 @@
 #include "sound_sequence_constants.h"
 #include "sound.h"
 
+#define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
+    ((SDSecondaryState *)((u8 *)(state) + (offset)))
+
 /* D_8009B458 is held in its own register and D_80011434 is materialized
  * through cc1psx's address pair.
  *
@@ -42,7 +45,7 @@ void func_8004B374(s32 arg0, s32 arg1, s32 unused) {
         tbl = D_80011434;
         off = 0;
         top:
-            p = (SDSecondaryState *)((u8 *)base + off);
+            p = SD_SECONDARY_STATE_AT_OFFSET(base, off);
             if (p->objects[0].channel_index == t1 &&
                 p->objects[0].field_0005 == (u8)a1) {
                 func_8004A7C0(i);
