@@ -7,6 +7,10 @@
 #include "model_packet_handlers.h"
 #include "../unmatched.h"
 
+#define MODEL_ANIMATION_SEQUENCE_SLOT(entry) \
+    ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
+#define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
+
 void func_8005C6A0(s32 *object, ModelSlot *entry)
 {
     int local[2];
@@ -21,10 +25,10 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
     handler = func_8005C7BC;
     *(void **)object[1] = handler;
     count = GsLinkAnim(
-        (GsSEQ **)&entry->field_1E0[entry->field_E1B],
-        (u32 *)object[1]
+        MODEL_ANIMATION_SEQUENCE_SLOT(entry),
+        MODEL_ANIMATION_WORDS(object)
     );
-    if (GsScanAnim((u32 *)object[1], 0)) {
+    if (GsScanAnim(MODEL_ANIMATION_WORDS(object), 0)) {
         while (GsScanAnim(0, (GsTYPEUNIT *)local)) {
             *(void **)local[1] = func_8005C768(local[0]);
         }
