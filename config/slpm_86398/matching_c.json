@@ -1,4 +1,11 @@
 {
   "schema": 1,
-  "functions": []
+  "functions": [
+    {
+      "address": "0x8002CAC4",
+      "profile": "gcc_2_8_1_o1_g0",
+      "size": "0x64",
+      "source": "src/game/library_update_card_used_flag.c"
+    }
+  ]
 }
