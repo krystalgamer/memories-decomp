@@ -5,6 +5,11 @@
 #include "sound_sequence_reader.h"
 #include "sd_read_sequence_event.h"
 
+#define SD_SEQUENCE_TRACK_BYTES(state) ((u8 *)(state)->tracks)
+#define SD_SEQUENCE_TRACK_VIEW(bytes) ((SDSequenceTrack *)(bytes))
+#define SD_SECONDARY_STATE_NEXT_TRACK(state) \
+    ((SDSecondaryState *)((u8 *)(state) + SD_SEQUENCE_TRACK_RECORD_SIZE))
+
 /* Advances every MIDI track by one runtime tick. Each track carries a
    fixed-point tempo accumulator: tempo_step is added to
    tempo_accumulator, and a carry out of the low byte is one sequencer
@@ -17,7 +22,7 @@ int SD_ProcessSequenceTracks(void) {
        live register and does not match. STATE_WORD spells them as their
        real SDSecondaryState offsets. Every track field below is typed. */
 #define STATE_WORD(type, off)     (*(type *)(base + (off) - SD_SEQUENCE_TRACK_ARRAY_OFFSET))
-    u8 *base = (u8 *)D_8009B458->tracks;
+    u8 *base = SD_SEQUENCE_TRACK_BYTES(D_8009B458);
     int i;
     SDSequenceTrack *entry;
 
@@ -26,7 +31,7 @@ int SD_ProcessSequenceTracks(void) {
     if (STATE_WORD(u16, 0x7FA) == 0) /* track_count */
         return 0;
     i = 0;
-    entry = (SDSequenceTrack *)base;
+    entry = SD_SEQUENCE_TRACK_VIEW(base);
 loop:
     if (entry->ended == 0) {
         int sum = entry->tempo_accumulator + entry->tempo_step;
@@ -100,8 +105,7 @@ s32 SD_GetSequenceStatus(void)
     for (
         index = 0;
         index < count;
-        index++, object = (SDSecondaryState *)((u8 *)object +
-                                               SD_SEQUENCE_TRACK_RECORD_SIZE)
+        index++, object = SD_SECONDARY_STATE_NEXT_TRACK(object)
     ) {
         if (object->tracks[0].ended != 1) {
             return 1;
