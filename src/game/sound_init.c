@@ -20,7 +20,7 @@ void func_80049230(s32 value, s32 data)
     s16 small = value;
 
     if (small < 0) {
-        func_80049010();
+        SD_ResetMusicState();
         return;
     }
     if (*g_SDValue->music_track != (small >> 4))
@@ -36,7 +36,7 @@ void func_80049230(s32 value, s32 data)
 void SD_Init(void)
 {
     func_80046294();
-    func_80049010();
+    SD_ResetMusicState();
     SpuSetReverbModeType(SPU_REV_MODE_OFF);
 }
 
@@ -65,7 +65,7 @@ void func_80049308(void)
 
 void SD_SetMusicTrackBuffer(u16 *track)
 {
-    func_80049010();
+    SD_ResetMusicState();
     if (track != 0)
         g_SDValue->music_track = track;
     else
@@ -77,7 +77,7 @@ void SD_ResetMusicTrackBuffer(void)
 {
     u16 *entry;
 
-    func_80049010();
+    SD_ResetMusicState();
     entry = (u16 *)0x801EA800;
     /* Stored through the member's address as void **: a plain member store
        (or a u16 ** cast, which fold turns back into one) picks a different

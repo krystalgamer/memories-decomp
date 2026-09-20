@@ -12,7 +12,7 @@
    run out, it stops the sequence through SD_ResetVabTransferState and resets
    0x157A/0x1578. Always zeroes 0x1586/0x1588. */
 
-void func_80049010(void) {
+void SD_ResetMusicState(void) {
     if (g_SDValue->field_157E != -1) {
         if (g_SDValue->flags_0040 & 0x80) {
             SD_StopSequence(g_SDValue->field_157E);

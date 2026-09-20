@@ -781,7 +781,7 @@ address,size,name,status,module,notes
 0x80048C70,0x98,func_80048C70,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80048D08,0x20C,SD_LoadSequenceBankPair,matching_c,game,"Loads one sequence bank pair: copies the 0x800-byte block for the given side, then registers every non-0xFFFF key from both blocks into the driver note table, offsetting each note by the side's SPU base."
 0x80048F14,0xFC,SD_InitSecondaryRuntime,matching_c,game,"High-confidence semantic name: after SPU startup, enables studio-A reverb at full depth, initializes driver levels and sequence-buffer pointers/header, selects SS_TICK240, sets all 20 secondary objects active for scanning, and enables sequence updates; exact full-executable match under gcc_2_8_1_g0."
-0x80049010,0xE0,func_80049010,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
+0x80049010,0xE0,SD_ResetMusicState,matching_c,game,"High-confidence semantic name: stops and closes the active sequence, releases its VAB when transfer state allows, marks the sequence/VAB/track slots inactive, and clears the two music-transition fields; exact full-executable match under gcc_2_8_1_g0_no_split."
 0x800490F0,0x18,func_800490F0,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049108,0x18,func_80049108,matching_c,game,4 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x80049120,0x18,SD_IsBgmFadeActive,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access

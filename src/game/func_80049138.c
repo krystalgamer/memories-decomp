@@ -18,7 +18,7 @@ s32 func_80049138(s16 arg0, s32 arg1) {
         s32 off;
 
         func_80046294();
-        func_80049010();
+        SD_ResetMusicState();
         SpuSetReverbModeType(SPU_REV_MODE_OFF);
 
         q = g_SDValue;
