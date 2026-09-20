@@ -2,16 +2,14 @@
  * Recursively separates two model records when their projected distance is
  * below the largest paired half-extent. Current best under
  * gcc_2_8_1_g8_split: 446 of 446 instructions at exact length, an EMPTY
- * opcode census by encoded fields, 15 structural blocks, 392 of 446 aligned
- * on opcode and registers, 212 raw words differing with relocations masked,
- * 178 with the register fields masked as well, and a shift-aware structural
- * distance of 47 (difflib over the register-masked words). The previous
- * state was 446, census 0, 11 structural blocks, 324 aligned, 290 raw, 261
- * register-masked, shift-aware 51. Almost all of the register-masked count
- * is ONE displaced word: the nop in the load-delay slot of clamp 3's lhu at
- * word 93, where retail schedules the min_extent reload, shifts everything
- * from 98 to 267 by one; read the shift-aware distance, not the positional
- * counts, on this function.
+ * opcode census by encoded fields, 2 structural blocks, 439 of 446 aligned
+ * on opcode and registers, 8 raw words differing with relocations masked,
+ * 3 with the register fields masked as well, and a shift-aware structural
+ * distance of 4 (difflib over the register-masked words). The previous
+ * state was 446, census 0, 15 structural blocks, 392 aligned, 212 raw, 178
+ * register-masked, shift-aware 47. Words 0-266 and 277-445 now match the
+ * target except for relocations; the residue is one basic block, the pair
+ * reads at the loop top (267-276, below).
  *
  * TWO BEHAVIOURAL CORRECTIONS, both read off the retail listing before they
  * were measured, and both worth more than any alignment figure:
@@ -31,69 +29,126 @@
  *    the sign. So `px = e0.values[i] * scale / 4096` and
  *    `pz = e2.values[i] * scale / 4096`, with the sign tests unchanged.
  *
+ * WHY THE do { } while (0) PINS AND THE DEAD READ ARE WHERE THEY ARE, read
+ * off gcc 2.8.1's sched.c, cse.c, reorg.c and rtlanal.c rather than swept.
+ *
+ * Retail keeps every global load that follows a pair copy BELOW the copy
+ * (words 64, 92, 120 after the copies at 60-63, 88-91, 116-119; the
+ * D_800F56F0 loads at 148, 161, 172 after the copies at 144-147, 157-160,
+ * 168-171) and never below a plain frame store (the lhu at 47 sits above
+ * the store at 49, the lh at 151 above the store at 155). gcc's dependence
+ * test cannot produce that from any spelling of a frame copy:
+ * memrefs_conflict_p returns 0 for a frame-pointer address against any
+ * constant address before it looks at a size or a flag, so a copy whose
+ * destination is `fp + c` never holds a load whose base is a known symbol,
+ * and a load whose base is unknown is held by the plain stores as well
+ * (measured: the base hidden behind an empty asm holds the loads under
+ * every store, +5). The reverse list scheduler's own trace shows the retail
+ * copy has the load as a successor: with no dependence the copy is the only
+ * ready insn in the load's latency gap and lands under it, which is where
+ * every unpinned copy of this source lands. Which source property gave
+ * retail that dependence is NOT established. The pins emulate it: a
+ * NOTE_INSN_LOOP_BEG/END between two insns of a block makes the next insn a
+ * full barrier (sched_analyze_insn, `if (loop_notes)`: a true dependence on
+ * the last setter of every register plus reg_pending_sets_all), so every
+ * later insn depends on it at that insn's own latency. Hence the pin closes
+ * on the STORE before the copy, never on the copy or inside a statement
+ * with a load: the insn after LOOP_END is then the block move (type
+ * "store", cost 1) and the min_extent reload can still fill the next lhu's
+ * delay slot; with the pin around the copy the lhu is the barrier and the
+ * slot is a nop (the old word 93); with a load inside the pinned statement
+ * the lh is the barrier at cost 2 (+2).
+ *
+ * The barrier holds registers too, and that is why the D_800F56F0 sites
+ * needed more than a pin. reorg's fill_slots_from_thread fills the beqz
+ * slot from the join block (two predecessors, so not an owned thread) only
+ * with that block's FIRST insn; with a pin at `e2 = dx` sched1 leaves the
+ * `sw v1,52(sp)` at the head (it reads the v1 the other arm sets, so it
+ * cannot move) and the `lui a1,%hi(D_800F56F0)` stays behind the copy: +1.
+ * The dead read `nv = D_800F56F0.vpx;` written just above that pin puts the
+ * `high` half before the barrier: cse1 ends its extended basic block at
+ * every LOOP_END (cse.c, only before loop.c), so it cannot common the two
+ * reads; cse2 (after loop.c) shares the `high` between them, flow deletes
+ * the dead load, and the surviving `high` is the join block's first insn,
+ * which reorg hoists into the slot while the live load stays below the copy
+ * (words 141-151 exact). The dead read has to land in a variable cse1
+ * cannot copy-propagate away: with one `ref` for the three references and
+ * `ref = nv;` after the vpy read, cse1 emptied `nv` and delete_dead_from_cse
+ * removed the dead read before cse2 ran (the lui left the slot again, +1).
+ * With three names (`ref`, `nv`, `ry`) each reference has its own short
+ * pseudo, the dead read survives to cse2, and `ref` gets v1 as in retail
+ * (one name for all three was one long local-alloc quantity, allocated
+ * after the short temporaries and pushed into a2). At `dy = dz` the pinned
+ * store takes a FRESH temporary `dz1`: with `v` or `v5` reused their live
+ * ranges reach the reference block and the clamp-7 store moves into the
+ * beqz slot (+0 with 89 raw, +1).
+ *
+ * One more fact from the same reading, for whoever touches the pair
+ * stores: rtx_addr_varies_p is 1 for ANY BLKmode MEM, and true_dependence
+ * exempts "struct at a varying address vs non-struct at a fixed address",
+ * so a pair store spelled as a cast (`*(s32 *)((u8 *)&e0 + 4) = v`) sinks
+ * BELOW the copy that reads it (measured, 447 and a miscompile). The
+ * members stay members.
+ *
  * Levers measured on this body, in the order they were found:
  *  - each clamp pair is written into the struct declared AFTER its
  *    destination and copied down (pair 1 into e0 then `e3 = e0`, ..., dist
  *    into `t` then `dist = t`): retail's frame writes every pair to the next
- *    slot and copies it, and the declaration order is otherwise unchanged;
+ *    slot and copies it (the nine pairs sit at 16 + 8k, an array's layout,
+ *    but writing them as an array changes no RTL);
  *  - the `hits++` arm sits out of line after the `continue` at the loop
  *    bottom (`goto hit`), which is why retail needs the `j next` whose slot
  *    carries `moved = limit`; inline, gcc emits no jump and is -1;
- *  - `eb = e1.values[i]` is read before the |dy| test, where retail loads it
- *    ahead of the bgez (word 271); this is the last instruction of the count;
- *  - each clamp is `v = (s16)x; v = v / 2;` against one name, which is
- *    retail's `sra v1,v1,0x1` into the halfword's own register;
- *  - `hits` is a PLAIN local, not volatile; the reference vector's length is
- *    `SquareRoot0(uz * uz + ux * ux)`, the z product first; the z reference
- *    `D_800F56F0.vpz + oz` is computed into `ry` right after clamp 0 and
- *    consumed as `ref = ry;` (inline at the dist computation it is +1);
- *    `sd = (...) / len;` in its own do { } while (0);
+ *  - `hits` is a PLAIN local, not volatile; `sd = (...) / len;` in its own
+ *    do { } while (0);
  *  - the LAST clamp (record 1, field_DC8[2]) is computed in its own name
- *    `v5`, not in `moved`: with the clamp in `moved` that name carried four
- *    more references, won the allocation and took s0, pushing the record
- *    base D_800F2C40 into s1 and ox into s2; retail has the base in s0 and
- *    `moved` in s1 sharing with ox (word 25). Alone it is -1 (the address
- *    chain of D_800F56F0 re-forms); it is exact with the next lever, which
- *    is the coupled pair the permuter found;
- *  - the two sums the projection consumes are DECLARED before the length
- *    call: `s32 cpx = cx + px; s32 apz = az + pz;` above
- *    `s32 len = SquareRoot0(uz * uz + ux * ux);` and `sd = (cpx * ux + apz *
- *    uz + cross) / len;`. Retail computes both sums into s2/s3 before the
- *    jal (words 346-347) and keeps cross in the delay slot; written in the
- *    quotient the candidate keeps cx and az alive across the call instead
- *    and computes the sums after it. The permuter reached the second sum
- *    by borrowing `limit`, which is live (`moved = limit` at the loop
- *    bottom) and therefore wrong; the fresh name measures identically.
- *    With `v5`: 290 -> 212 raw, 261 -> 178 register-masked, 51 -> 47,
- *    324 -> 392 aligned, and the s1/s2 pair of the record base is gone.
+ *    `v5`, not in `moved`, and the two sums the projection consumes are
+ *    declared before the length call (`s32 cpx = cx + px; s32 apz = az +
+ *    pz;`): retail computes both into s2/s3 before the jal (346-347);
+ *  - the reference vector's length is `SquareRoot0(ux * ux + uz * uz)`, the
+ *    x product first;
+ *  - the store pins before `e3 = e0`, `e0 = e1`, `e1 = e2` and `e2 = dx`,
+ *    the dead read above the last of them, the three reference names and
+ *    the `dz1` pin before `dy = dz` (the mechanism above): 15 -> 2
+ *    structural blocks, 212 -> 28 raw, 178 -> 3 register-masked, 47 -> 4;
+ *  - each clamp as ONE expression, `v = (s16)rec[k].field_DC8[j] / 2;`:
+ *    the sign fix-up is then added into the halfword's own register
+ *    (`addu v1,v1,v0; sra v1,v1,1`) instead of a temporary, 16 register
+ *    words. As two statements against one name it had been measured better
+ *    on the old base, with the nop at 93 still open;
+ *  - `s32 cross = ax * az - cx * bx;` declared AFTER `cpx` and `apz`: the
+ *    `cx * bx` mflo then no longer overlaps the `uz * uz` one before sched2
+ *    and local-alloc gives them retail's a1/t6 (4 register words).
  *
- * COUPLED RESIDUE, recorded so it is not chased one half at a time: the two
- * do { } while (0) pins hold two instructions (without them the count is -2,
- * without the first -1) and they are also what leaves a nop in the delay
- * slot of clamp 3's lhu at word 93, where retail schedules the min_extent
- * reload (`lw t3,148(sp)`; this source issues it at 98 after the halfword
- * arithmetic). The pin's extent was swept on both sides on the earlier
- * base and the axis is closed there; it has not been re-swept on this base.
+ * MEASURED AND DEAD on this base: `v /= 2;` (identical to `v = v / 2`);
+ * the halving expanded by hand, `v = v + ((u32)v >> 31); v = v >> 1;`
+ * (-16); the sqrt argument named before `cross` (+1); the z square first
+ * (425 aligned); the same fresh-temporary store pin before `dx = dy` (432
+ * aligned, 21 raw) or before `dz = dist` (433, 15): the loads there are
+ * already below their copies and the pin only moves registers; on the
+ * one-name base, an empty `do { } while (0);`, an `asm volatile("")` or a
+ * pin around the copy at `dy = dz` (the lui leaves the slot, +1/+2); a
+ * `ModelSlot *rec` pointer hidden from cse (+5); the
+ * pair copies as two word assignments; volatile on the pairs (the copy
+ * becomes a memcpy call); the copies through pointers (+4, and the same
+ * dependence only where cse's path limit stops folding them);
+ * gcc_2_8_1_g8_split_no_sched1 (+15). At the loop top: `v = dy.values[i];
+ * eb = e1.values[i];` in either order (445, retail minus the copy);
+ * `(u8 *)&dy.values[i] - 56` as a pointer (identical to the installed
+ * form); `(u8 *)&e1.values[i] - 32` (the 445 form); a dead `pv = 0` before
+ * the loop (no effect); `(u8 *)&e3 - 16 + i * 4` (a pseudo equal to the
+ * frame pointer, which cse never substitutes and reload spills, +6).
  *
- * MEASURED AND DEAD on this base: a second name for `moved` at the loop-top
- * test (nothing); `oz` sharing the name `moved` (+1); the last clamp in the
- * shared `v` (-1 and worse); the sum named inside the do { } while (0)
- * (identical to none); `cx + px` left in the quotient with only `az + pz`
- * named (221 raw, 185 masked); the two declarations in the other order
- * (identical). From the earlier headers: `dx.values[1] * dx.values[1]`
- * named before the first SquareRoot0 call (a false positional gain, the
- * square is computed after the call), a `u8 *` local for field_DC0, `oz`
- * borrowed for the pz product, `pz = scale;` chained, a named read of
- * `hits`, the declaration position of `t`, do { } while (0) around whole
- * clamp groups or every copy, and the earlier if/else chain claim.
- *
- * Residual: the nop at 93 and the one-word shift it causes to 267; retail's
- * `move v1,v0` at 269 (a second address register for the pair reads at the
- * loop top, which this source reads through one); the order of the four
- * D_800F56F0 reads in the push block (retail loads vrx, vpz, vrz, vpx; this
- * source vrx, vpz, vpx, vrz) and the register-only words that follow. See
+ * Residual: words 267-276. Retail computes `sp + i*4` into v0, copies it
+ * into v1, and reads `dy.values[i]` as 56(v0) and `e1.values[i]` as
+ * 32(v1): two pseudos of the same address, the second canonical for cse
+ * (make_regs_eqv keeps a later pseudo canonical only when it is referenced
+ * outside the extended basic block and dies after the first). The
+ * installed `pv = &dy.values[i]; v = *pv; eb = *(s32 *)((u8 *)pv - 24);`
+ * keeps the count and gives `addiu v0,sp,56; addu v0,v0,a0; lw v1,0(v0);
+ * lw v0,-24(v0)` and the v0/v1 swap of the four words after it. See
  * notes/research/func-80051350-decode.md for the structural map, whose push
- * and loop-exit passage carries both corrections.
+ * and loop-exit passage carries both behavioural corrections.
  */
 #include "../types.h"
 #include "../game/model.h"
@@ -122,83 +177,84 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
     s32 ref;
     s32 nv;
     s32 ry;
+    s32 dz1;
     s32 v;
     s32 v5;
+    ModelSlot *rec;
 
     ox = rcos(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
     oz = rsin(*(s16 *)&D_8009B47A + 0x800) * min_extent / 4096;
 
-    v = (s16)D_800F2C40[0].field_DC8[3];
-
-    v = v / 2;
+    rec = D_800F2C40;
+    v = (s16)rec[0].field_DC8[3] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e0.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[3];
-    v = v / 2;
+    v = (s16)rec[1].field_DC8[3] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    e0.values[1] = v;
+    do {
+        e0.values[1] = v;
+    } while (0);
     e3 = e0;
-    v = (s16)D_800F2C40[0].field_DC8[0];
-    v = v / 2;
+    v = (s16)rec[0].field_DC8[0] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e1.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[0];
-    v = v / 2;
+    v = (s16)rec[1].field_DC8[0] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    e1.values[1] = v;
     do {
-        e0 = e1;
+        e1.values[1] = v;
     } while (0);
-    v = (s16)D_800F2C40[0].field_DC8[1];
-    v = v / 2;
+    e0 = e1;
+    v = (s16)rec[0].field_DC8[1] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
     e2.values[0] = v;
-    v = (s16)D_800F2C40[1].field_DC8[1];
-    v = v / 2;
+    v = (s16)rec[1].field_DC8[1] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    e2.values[1] = v;
     do {
-        e1 = e2;
+        e2.values[1] = v;
     } while (0);
-    v = (s16)D_800F2C40[0].field_DC8[2];
-    v = v / 2;
+    e1 = e2;
+    v = (s16)rec[0].field_DC8[2] / 2;
     if (v < min_extent) {
         v = min_extent;
     }
-    ry = D_800F56F0.vpz + oz;
     dx.values[0] = v;
-    v5 = (s16)D_800F2C40[1].field_DC8[2];
-    v5 = v5 / 2;
+    v5 = (s16)rec[1].field_DC8[2] / 2;
     if (v5 < min_extent) {
         v5 = min_extent;
     }
-    dx.values[1] = v5;
+    nv = D_800F56F0.vpx;
+    do {
+        dx.values[1] = v5;
+    } while (0);
     e2 = dx;
 
-    ref = D_800F56F0.vpx + ox;
-    dy.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[0];
-    dy.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[0];
+    ref = D_800F56F0.vpx;
+    ref = ref + ox;
+    dy.values[0] = ref - *(s16 *)&rec[0].field_DD0[0];
+    dy.values[1] = ref - *(s16 *)&rec[1].field_DD0[0];
     dx = dy;
     nv = D_800F56F0.vpy;
-    ref = nv;
-    dz.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[1];
-    dz.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[1];
+    dz.values[0] = nv - *(s16 *)&rec[0].field_DD0[1];
+    dz1 = nv - *(s16 *)&rec[1].field_DD0[1];
+    do {
+        dz.values[1] = dz1;
+    } while (0);
     dy = dz;
-    ref = ry;
-    dist.values[0] = ref - *(s16 *)&D_800F2C40[0].field_DD0[2];
-    dist.values[1] = ref - *(s16 *)&D_800F2C40[1].field_DD0[2];
+    ry = D_800F56F0.vpz + oz;
+    dist.values[0] = ry - *(s16 *)&rec[0].field_DD0[2];
+    dist.values[1] = ry - *(s16 *)&rec[1].field_DD0[2];
     dz = dist;
 
     t.values[0] = SquareRoot0(
@@ -234,6 +290,7 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         s32 eb;
         s32 d;
         s32 v;
+        s32 *pv;
 
         limit = e2.values[i];
         if (limit < e0.values[i]) {
@@ -242,8 +299,9 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
         if (limit < e3.values[i]) {
             limit = e3.values[i];
         }
-        eb = e1.values[i];
-        v = dy.values[i];
+        pv = &dy.values[i];
+        v = *pv;
+        eb = *(s32 *)((u8 *)pv - 24);
         if (v < 0) {
             v = -v;
         }
@@ -281,10 +339,10 @@ s32 func_80051350(s32 mode, s32 min_extent, s32 depth)
                 s32 cx = D_800F56F0.vpx;
                 s32 ux = bx - az;
                 s32 uz = cx - ax;
-                s32 cross = ax * az - cx * bx;
                 s32 cpx = cx + px;
                 s32 apz = az + pz;
-                s32 len = SquareRoot0(uz * uz + ux * ux);
+                s32 cross = ax * az - cx * bx;
+                s32 len = SquareRoot0(ux * ux + uz * uz);
                 s32 sd = 0;
 
                 if (len != 0) {
