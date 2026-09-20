@@ -5,6 +5,9 @@
 #include "../unmatched.h"
 #include "func_8003A01C.h"
 
+#define FILE_TRANSFER_PHASE_SIZE_WORD(descriptor) \
+    (*(s32 *)&(descriptor)->phase_size)
+
 void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 v_0;
@@ -42,7 +45,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
 
     case 1:
         m2 = 0xFFDCFFFF;
-        *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
+        FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
         v_1 = D_8009B0F4;
         t = D_8009B118;
         v_1 &= m2;
@@ -61,7 +64,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         p->y = k * 2 + 0xF0;
         LoadImage2((RECT *)p, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        *(s32 *)&p->phase_size = FILE_SECTOR_SIZE;
+        FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
         v_2 = D_8009B0F4;
         t = (s32)p->callback_data;
         v_2 &= m2;
