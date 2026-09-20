@@ -74,7 +74,7 @@ void SD_ResetRuntime(void)
 #include "sound_init.h"
 #include "sound_pending_entries.h"
 #include "sound_output.h"
-void func_80046F58(void)
+void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();
     func_8004763C();

@@ -737,7 +737,7 @@ address,size,name,status,module,notes
 0x80046990,0x78,SD_InitDataSourceFlags,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80046A08,0x3E0,func_80046A08,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference. Owns jtbl_8001080C, declared as a .rodata subsegment in split.yaml."
 0x80046DE8,0x170,SD_ResetRuntime,matching_c,game,"Sound driver reset: stops the active sequence, keys off every SPU voice and clears the voice, command and mix state in g_SDValue"
-0x80046F58,0x48,func_80046F58,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80046F58,0x48,SD_Shutdown,matching_c,game,"High-confidence semantic name: keys off active voices, resets output and music state, resets the secondary runtime, disables the SPU IRQ, and terminates the SPU; exact full-executable match under gcc_2_8_1_g8."
 0x80046FA0,0x68,SD_SetOutputType,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80047008,0x14,SD_GetOutputType,matching_c,game,"Returns the output type SD_SetOutputType stores. 2 pre-policy variants: exact -G8; -G0 used absolute global access"
 0x8004701C,0x20,func_8004701C,matching_c,game,4 pre-policy variants: exact -G8; -G0 used absolute global access

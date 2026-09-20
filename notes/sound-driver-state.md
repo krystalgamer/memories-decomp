@@ -270,7 +270,7 @@ while resetting sound state.
 
 SPU shutdown is now explicit at both game-owned boundaries. `SD_Term` performs
 its secondary-state cleanup and then calls `SpuQuit`. The output teardown path
-at `0x80046F58` calls `SD_ResetSecondaryRuntime`, disables the SPU IRQ with
+`SD_Shutdown` calls `SD_ResetSecondaryRuntime`, disables the SPU IRQ with
 `SpuSetIRQ(0)`, and then calls `SpuQuit`.
 
 ## SPU transfer and voice interfaces
