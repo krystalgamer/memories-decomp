@@ -8,9 +8,9 @@
 
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
    when the 0x80 flag bit is set (clearing the bit), releases the slot through
-   func_80049CB0, and marks it inactive. Separately, if the 0x157A counter has
-   run out, it stops the sequence through SD_ResetVabTransferState and resets
-   0x157A/0x1578. Always zeroes 0x1586/0x1588. */
+   func_80049CB0, and marks it inactive. Separately, if the VAB slot at 0x157A
+   is ready for release, it resets that VAB transfer state and marks
+   0x157A/0x1578 inactive. Always zeroes 0x1586/0x1588. */
 
 void SD_ResetMusicState(void) {
     if (g_SDValue->field_157E != -1) {
