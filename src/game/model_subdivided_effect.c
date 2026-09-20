@@ -86,7 +86,7 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
             vertex->vz = 0;
             color = effect->colors;
             for (i = 0; i < 6; color++, i++) {
-                func_8006C2FC(*color, config->colors[0][i],
+                Triplet_SetComponents(*color, config->colors[0][i],
                     config->colors[1][i], config->colors[2][i]);
             }
             vertex = effect->vertices;

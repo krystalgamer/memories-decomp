@@ -1114,7 +1114,7 @@ address,size,name,status,module,notes
 0x8006AF74,0xD30,func_8006AF74,matching_c,game,"Exact3376-byte subdivided geometry effect; typed six-corner/eight-face storage, phase-local counters and signed extent assignment order preserve every instruction without pins. See src/game/model_subdivided_effect.c."
 0x8006BCA4,0x47C,func_8006BCA4,matching_c,game,Exact linked bytes with gcc_2_8_1_g8 from the ygofm reference; the sums-then-halvings order of the midpoint stores is load-bearing.
 0x8006C120,0x1DC,func_8006C120,matching_c,game,"Matching C. Recursive triangle subdivision. The prologue register assignment follows the GCC 2.8.1 allocno priority floor_log2(n_refs) * n_refs / live_length, so the number of times the depth parameter is referenced decides which hard registers it and the two corner pointers receive."
-0x8006C2FC,0x10,func_8006C2FC,matching_c,game,1 pre-policy variants: Three byte stores through the output pointer matched including the return delay slot.
+0x8006C2FC,0x10,Triplet_SetComponents,matching_c,game,"High-confidence semantic name: writes three caller-supplied values to bytes 0-2 of one Triplet; the subdivided model effect uses it to initialize six colour triplets; exact full-executable match under gcc_2_8_1_g0."
 0x8006C30C,0x24,func_8006C30C,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C330,0x4C,func_8006C330,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x8006C37C,0x9FC,Model_UpdateDiscEffect,matching_c,game,Draws the 67-point disc effect from the D_800114E8 handler table; pure C under gcc_2_8_1_g8_split
