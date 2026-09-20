@@ -1544,7 +1544,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B26C,D_8009B26C,D_8009B26C,0x80030FA0,DebugMenu_EnterMappedMode,matching_c,game,C,src/game/debug_menu_leave_entries.c,write,8,D_8009B26C = v;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80031000,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,C,src/game/debug_menu_two_player_entry.c,write,8,D_8009B26C[0] = 0x10;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
-0x8009B26C,D_8009B26C,D_8009B26C,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
+0x8009B26C,D_8009B26C,D_8009B26C,0x80033CA8,BuildDeck_EnterWideConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B26C[0] = 7;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80038530,Text_StartCampaignDuel,matching_c,game,C,src/game/text_start_campaign_duel.c,write,8,D_8009B26C = 3;
 0x8009B26C,D_8009B26C,D_8009B26C,0x80038898,func_80038898,matching_c,game,C,src/game/duel_effect_basic_commands.c,write,8,D_8009B26C[0] = 5;
 0x8009B26D,D_8009B26D,D_8009B26D,0x8002D458,Main_ApplyMenuSelection,matching_c,game,C,src/game/main_apply_menu_selection.c,write,8,D_8009B26D = selection;
@@ -1705,7 +1705,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x8002D370,Main_RunBuildDeckMenu,matching_c,game,C,src/game/main_run_build_deck_menu.c,read,8,D_8009B2F8[0]
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) && | mode = D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
 0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033C90,func_80033C90,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = 0;
-0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033CA8,func_80033CA8,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
+0x8009B2F8,D_8009B2F8,D_8009B2F8,0x80033CA8,BuildDeck_EnterWideConfirmMode,matching_c,game,C,src/game/duel_effect_mode_7.c,write,8,D_8009B2F8 = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80031874,func_80031874,matching_c,game,C,src/game/func_80031874.c,read,,"gBuildDeck_pState->chest_card_quantities[id], 3, text); | list = &gBuildDeck_pState->lists[kind]; | (+2 more)"
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x800323F8,func_800323F8,matching_c,game,C,src/game/func_800323F8.c,read_write,,gBuildDeck_pState = BUILD_DECK_TRANSITION_STATE_VIEW(state); | state = (u8 *)gBuildDeck_pState;
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80032C48,func_80032C48,matching_c,game,C,src/game/card_list_sort.c,read,,if (gBuildDeck_pState->card_sort_rank[row->card_id] != 0) { | row->key = gBuildDeck_pState->card_sort_rank[row->card_id];

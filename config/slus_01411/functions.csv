@@ -404,7 +404,7 @@ address,size,name,status,module,notes
 0x800339D0,0x218,func_800339D0,matching_c,game,"Deck editor exit handler; matched post-terminal under the split profile with three globals moved out of small data, the mode byte read before the flag store, the box variable reused for the effect channel, the copy source computed before the branch and one shared loop counter"
 0x80033BE8,0xA8,func_80033BE8,matching_c,game,Reference structure independently verified with aggregate random-state data and semantic duel-effect interfaces; exact linked bytes and relocations.
 0x80033C90,0x18,func_80033C90,matching_c,game,First -O2 -G8 mixed GPREL/absolute-store candidate matched.
-0x80033CA8,0x1C,func_80033CA8,matching_c,game,First -O2 -G8 mixed GPREL/absolute-store candidate matched.
+0x80033CA8,0x1C,BuildDeck_EnterWideConfirmMode,matching_c,game,"High-confidence semantic name: selects the wide Build Deck exit-confirmation dialog and enters main-mode state 7; exact full-executable match under gcc_2_8_1_g8."
 0x80033CC4,0x34,func_80033CC4,matching_c,game,Pure-C profile recovery; exact linked bytes and relocations with gcc_2_8_1_g8_split.
 0x80033CF8,0xB8,func_80033CF8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80033DB0,0xA80,func_80033DB0,matching_c,game,Exact HMD fog-shaded textured-triangle driver under the shared Psy-Q GTE profile. Splitting each 12-halfword primitive cursor stride into rec += 11 and rec++ preserves the retail addiu 24 while resolving the cursor/normal-table t6/t7 allocation without hard-register bindings.
