@@ -81,7 +81,7 @@ s32 func_8005B8A0(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
     if (D_8009B06C >= 5) {
         D_8009B06C = D_8009B06C - 4;
     }
-    func_8005C62C(&D_8009B49C);
+    Movie_SeekAndStartRead(&D_8009B49C);
     r = Movie_WaitAndDecodeFrame(0);
     if (r != 0) {
         return r;

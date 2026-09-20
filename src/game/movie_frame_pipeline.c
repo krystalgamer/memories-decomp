@@ -225,7 +225,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
             }
             timeouts++;
             if (resync != 0 || timeouts >= 10) {
-                func_8005C62C(&D_8009B49C);
+                Movie_SeekAndStartRead(&D_8009B49C);
                 timeouts = 0;
             }
             /* One shared store: reorg copies it into both back-jump delay

@@ -550,7 +550,7 @@ Every row below is now an applied project symbol.
 | `0x8007E370` | `DsShellOpen` | Public `D2_003.OBJ` identity in the 4.6/4.7 catalogues; the complete wrapper calls confirmed private `DS_shell_open` and directly returns its shell-open state. |
 | `0x8007E390` | `DsFlush` | Applied Psy-Q 4.6 identity from the unique 64-byte `LIBDS.LIB/D2_005.OBJ` signature. |
 | `0x8007E790` | `DsLastPos` | Applied Psy-Q 4.6 identity from the unique 96-byte `LIBDS.LIB/D3_008.OBJ` signature. |
-| `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`; matching `func_8005C62C` uses the canonical `libcd.h` declaration for its set-location and physical-seek commands. |
+| `0x8007E7F0` | `CdControlB` | Applied confirmed identity for the three-argument CD command that blocks until the internal completion code is `2`; matching `Movie_SeekAndStartRead` uses the canonical `libcd.h` declaration for its set-location and physical-seek commands. |
 | `0x8007E860` | `CdReadyCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked with a ready-event status and result pointer; matching `File_StepActiveTransfer` clears it through the canonical `libcd.h` declaration after ending the DS ready system. |
 | `0x8007E880` | `CdSyncCallback` | Applied confirmed identity for the setter that replaces and returns the callback invoked from the command-completion path. |
 | `0x8007E8D0` | `SetDumpFnt` | Applied at offset zero of the unique Psy-Q 4.6 `LIBGPU.LIB/FONT.OBJ` signature; matching setup paths select the debug-font stream returned by `FntOpen`. |
@@ -1658,7 +1658,7 @@ to one byte, submits the command and parameter pointer, then repeatedly polls
 the command handle while passing through the caller's result pointer. It
 returns one only when the internal completion code is `2`, and zero when
 command submission fails. Game callers corroborate the command contract:
-`func_8005C62C` issues command `0x02` (`CdlSetloc`) followed by `0x16`
+`Movie_SeekAndStartRead` issues command `0x02` (`CdlSetloc`) followed by `0x16`
 (`CdlSeekP`), while another caller loops on command `0x09` (`CdlPause`).
 
 `CdFlush` at `0x8007E350` calls `0x8007BE00`, which clears the
@@ -1761,7 +1761,7 @@ The existing C sources expose several useful starting points:
 | Current source pattern | SDK target | Required proof |
 |---|---|---|
 | Local `InitPAD` / `StartPAD` declarations | `libapi.h` | Initial migration complete in `src/game/input_pads.c`; the real prototypes preserve the exact build. |
-| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in [`file_stream.c`](../src/game/file_stream.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; [`func_8005C62C.c`](../src/game/func_8005C62C.c) retains an integer parameter and converts it to `u8 *` at the two `CdControlB` calls and to `DslLOC *` at the `DsRead2` boundary. |
+| Local four-byte CD position buffers | `DslLOC` in `libds.h`; `CdlLOC` in `libcd.h` | Typed migration is established in [`file_stream.c`](../src/game/file_stream.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `File_GetPosition` explicitly views `DslFILE.pos` as `CdlLOC`, while movie streaming keeps native `CdlLOC` storage; [`func_8005C62C.c`](../src/game/func_8005C62C.c) defines `Movie_SeekAndStartRead` with a native `CdlLOC *` parameter, converts it to `u8 *` at the two `CdControlB` calls, and to `DslLOC *` at the `DsRead2` boundary. |
 | `DslFILE` in [`libds.h`](../src/psyq/libds.h) | Ds file-search result | Migration complete in [`file_stream.c`](../src/game/file_stream.c) and `File_Exists` in [`file_cd_helpers.c`](../src/game/file_cd_helpers.c); the latter preserves its integer wrapper interface with explicit casts at the SDK boundary. |
 | Local movie-sector metadata | `StHEADER` in `libcd.h` / `libds.h` | Native migration is established by `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): `StGetNext` supplies the typed header, whose `loc`, `nSectors`, `frameCount`, `width`, and `height` fields drive stream bounds and frame geometry; `libpress.h` remains the separate owner of the `DecDCT*` codec interfaces. |
 | Game-owned movie work-area prefix | `DECDCTTAB` in `libpress.h` | ABI-compatible submission boundaries are established across [`func_8005B8A0.c`](../src/game/func_8005B8A0.c) and `Movie_WaitAndDecodeFrame` in [`movie_frame_pipeline.c`](../src/game/movie_frame_pipeline.c): the 34,816-entry `u16` table occupies exactly `0x11000` bytes at the work-area base, the CD ring begins immediately afterward, and `DecDCTvlc2` receives the same base as its table argument; retain the shared `u8 *` because the rest of the allocation contains unrelated streaming state. |

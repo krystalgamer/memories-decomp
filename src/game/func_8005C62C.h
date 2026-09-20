@@ -12,6 +12,6 @@
  * DslLOC, which is the same four fields under the other library's name, so
  * those three casts stay -- but the parameter no longer has to be an
  * integer for them. */
-void func_8005C62C(CdlLOC *loc);
+void Movie_SeekAndStartRead(CdlLOC *loc);
 
 #endif

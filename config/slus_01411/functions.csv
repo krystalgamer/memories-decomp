@@ -1003,7 +1003,7 @@ address,size,name,status,module,notes
 0x8005C568,0x5C,Movie_MoveDisplayImage,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0; waits for the GPU and moves the current display rectangle by the requested offset.
 0x8005C5C4,0x10,Movie_StartFadeOut,matching_c,game,"Sets D_8009B064 so the movie player fades the stream's CD audio out by 0x40 per frame and then reports completion; the START skip in func_800359B0 is the only caller. 1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation."
 0x8005C5D4,0x58,Movie_WaitFrameDecoded,matching_c,game,"Waits for the DecDCTout callback to mark the movie frame decoded. Timeout wait on the D_8009B062 flag; counter starts at 0x800000 with the first decrement peeled before the loop, calls DecDCTReset(1) if it expires, and clears the flag on every path."
-0x8005C62C,0x64,func_8005C62C,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x8005C62C,0x64,Movie_SeekAndStartRead,matching_c,game,"Sets the movie CD location, waits for a physical seek, then starts the 0x1E0-sector streaming read. Both callers use the shared movie stream position D_8009B49C; exact full-executable SHA-256 match with gcc_2_8_1_g0."
 0x8005C690,0x10,func_8005C690,matching_c,game,1 pre-policy variants: Straight G8 byte assignment of one matched linked bytes and GPREL16 relocation.
 0x8005C6A0,0xC8,func_8005C6A0,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x8005C768,0x54,func_8005C768,matching_c,game,6 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
