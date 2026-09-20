@@ -714,7 +714,7 @@ void func_8002BFCC(void) {
     gGraphics_sViewportY = 0;
     gGraphics_sViewportX = 0;
     func_80035668(0);
-    func_80029574(0);
+    DuelEffect_ClearResourceObjectPointers(0);
     n = CARD_COUNT - 1;
     q = (s16 *)0x801805A2;
     b = &D_800EA0E8[0];

@@ -2540,7 +2540,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029164,func_80029164,matching_c,game,C,src/game/duel_effect_resource_setup.c,write,,D_800EA0E8[slot].field_30 = value;
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x800291E0,func_800291E0,matching_c,game,C,src/game/duel_effect_resource_setup.c,address,,entry = &D_800EA0E8[index];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029528,func_80029528,matching_c,game,C,src/game/func_80029528.c,address,,DuelEffectResourceRecord *entry = &D_800EA0E8[index];
-0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029574,func_80029574,matching_c,game,C,src/game/func_80029574.c,address,,DuelEffectResourceRecord *entry = &D_800EA0E8[index];
+0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029574,DuelEffect_ClearResourceObjectPointers,matching_c,game,C,src/game/func_80029574.c,address,,DuelEffectResourceRecord *entry = &D_800EA0E8[index];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x8002ACA4,func_8002ACA4,matching_c,game,C,src/game/library_runtime.c,address,,rec = D_800EA0E8;
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x8002BFCC,func_8002BFCC,matching_c,game,C,src/game/library_runtime.c,address,,b = &D_800EA0E8[0];
 0x800EA128,D_800EA128,D_800EA128,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/func_800262D4.c,address,16,u16 *rects = D_800EA128;

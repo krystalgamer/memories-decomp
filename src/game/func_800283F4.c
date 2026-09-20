@@ -1,5 +1,5 @@
 /* D_8009B0C0 is volatile here. reorg will not look past a volatile store
- * for a delay-slot candidate, so the func_80029574 call cannot take its own
+ * for a delay-slot candidate, so the DuelEffect_ClearResourceObjectPointers call cannot take its own
  * `li a0,3`. That goes to the entry branch instead, and the call is filled
  * forward with the slide_in constant, which otherwise sits with its first
  * use three calls further down. The opening and closing slides are separate
@@ -75,7 +75,7 @@ void DuelEffect_UpdateCardViewerState(void)
     if (DuelEffect_MarkStateInitialized() == 0) {
         slide_in = -0x400;
         D_8009B0C0 = 1;
-        func_80029574(3);
+        DuelEffect_ClearResourceObjectPointers(3);
         p = &D_800EA0E8[0];
         p[3].src_y = 0x100;
         p[3].src_x = 0;

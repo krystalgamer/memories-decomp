@@ -95,7 +95,8 @@ The initializer clears eight decimal digit bytes, index and shop state,
 rebuilds the digit/starchip displays and creates message 226. It configures
 the cached preview record, a display object, one digit cursor and **four**
 kind-specific cursor decorations, not one decoration per digit.
-`func_80029574(0)` only clears the cached record's two display pointers; it
+`DuelEffect_ClearResourceObjectPointers(0)` only clears the cached record's
+two display pointers; it
 does not load a background. The halfwords `320,256,512,240` feed texture
 configuration, not proven background dimensions, and the separate selectors
 `2,3` are not established pixel widths.
