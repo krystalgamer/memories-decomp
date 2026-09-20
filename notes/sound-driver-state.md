@@ -773,8 +773,8 @@ above.
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
-| `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
-| `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
+| `0x0503` | `u8` | `event_guard` | `SD_OpenSequenceTimerEvent` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
+| `0x0504` | `long` | `event_handle` | `SD_OpenSequenceTimerEvent` stores the `OpenEvent` result; `SD_CloseSequenceTimerEvent` disables and closes the same handle. |
 | `0x0508` | `u8` | `field_0508` | `SD_SequenceTimerCallback` increments and wraps it at 11. |
 | `0x0509` | `u8` | `field_0509` | `SD_SetSequenceVSyncMode` sets it; `SD_VSync` and `SD_SequenceTimerCallback` test it. |
 | `0x050C` | callback pointer | `field_050C` | `SD_SequenceTimerCallback` conditionally invokes it. |
@@ -795,19 +795,20 @@ above.
 | `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
 
-`func_8004B854` registers `SD_SequenceTimerCallback` for an interrupt event on
-`RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`, stores the event
-handle at `+0x504`, and enables it. `SD_CloseSequenceTimerEvent` later disables
-and closes that handle. Both lifecycle paths now use the imported Psy-Q `libapi.h`
-declarations and `kernel.h` constants; the remaining unnamed counter-control
-wrappers retain their address-based identities.
+`SD_OpenSequenceTimerEvent` registers `SD_SequenceTimerCallback` for an
+interrupt event on `RCntCNT2` with specification `EvSpINT` and mode `EvMdINTR`,
+stores the event handle at `+0x504`, and enables it.
+`SD_CloseSequenceTimerEvent` later disables and closes that handle. Both
+lifecycle paths now use the imported Psy-Q `libapi.h` declarations and
+`kernel.h` constants; the remaining unnamed counter-control wrapper retains its
+address-based identity.
 
 The callback now follows the three contiguous secondary command handlers in
 `src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
 `0x8004B854` translation unit after its pure-C promotion. The command handlers
 update the channel/object state that the interrupt callback advances and
-periodically maintains; the different-profile event setup at `func_8004B854`
-fixes the upper boundary.
+periodically maintains; the different-profile event setup at
+`SD_OpenSequenceTimerEvent` fixes the upper boundary.
 
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and

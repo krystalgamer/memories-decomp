@@ -144,7 +144,7 @@ void func_80049544(void)
 
     if (value > 0) {
         if (value < 4)
-            func_8004B854();
+            SD_OpenSequenceTimerEvent();
     }
     D_8009B458->field_0814 = 1;
 }

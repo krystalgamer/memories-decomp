@@ -4,7 +4,7 @@
 #include "sound.h"
 #include "sound_event_runtime.h"
 
-void func_8004B854(void)
+void SD_OpenSequenceTimerEvent(void)
 {
     long event;
 
