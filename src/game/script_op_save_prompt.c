@@ -249,7 +249,7 @@ void Script_OpSavePrompt(void)
             break;
         case 1:
             SD_SEPlayFull(7);
-            func_80033C90();
+            BuildDeck_EnterNarrowConfirmMode();
             D_8009B269 = 2;
             gCampaignSceneIndex = (u8)D_8009B2A6;
             break;

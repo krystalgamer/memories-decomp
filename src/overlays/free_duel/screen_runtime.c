@@ -448,7 +448,7 @@ void FreeDuel_UpdateScreen(void)
             return;
         }
         if ((gFreeDuel_bCursorColumn | gFreeDuel_bCursorRow) == 0) {
-            func_80033C90();
+            BuildDeck_EnterNarrowConfirmMode();
             D_8009B269 = 6;
             gFreeDuel_bReturnFlags = 0x40;
             SD_SEPlayFull(0x30);

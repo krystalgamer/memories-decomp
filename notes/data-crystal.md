@@ -91,7 +91,8 @@ to different internal handler indices:
 
 New Game also enters internal index `0x02` after additional initialization.
 Load and Save leave the internal state at zero after the selection is stored;
-Build Deck instead calls `func_80033C90` and clears `D_8009B268`. None is a
+Build Deck instead calls `BuildDeck_EnterNarrowConfirmMode` and clears
+`D_8009B268`. None is a
 single direct nonzero handler assignment in this converter. Input `0x0B` fails
 the `selection < 0x0B` range check, so the hidden Debug Menu entry can be
 forced in the module but cannot be selected through this normal conversion

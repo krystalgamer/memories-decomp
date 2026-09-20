@@ -32,6 +32,7 @@
 #define DISPLAY_EFFECT_STATE_VIEW(record) \
     ((DisplayEffectState *)(record))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
@@ -379,16 +380,16 @@ void func_8003B054(MenuRecord *record)
         return;
     }
     c = -0x80 - o->field_60 * 6;
-    ((u8 *)&o2->field_0C)[2] = c;
-    ((u8 *)&o2->field_0C)[1] = c;
-    *(u8 *)&o2->field_0C = c;
-    ((u8 *)&o->field_0C)[2] = c;
-    ((u8 *)&o->field_0C)[1] = c;
-    *(u8 *)&o->field_0C = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[2] = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[1] = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o2)[0] = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[2] = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[1] = c;
+    DISPLAY_OBJECT_COLOR_BYTES(o)[0] = c;
     idx = o->field_60 * 204 + 0x1000;
     *(u16 *)&o2->field_44.h.field_46 = idx;
     *(u16 *)&o->field_44.h.field_46 = idx;
-    q = *(u8 *)&o->field_0C << 5;
+    q = DISPLAY_OBJECT_COLOR_BYTES(o)[0] << 5;
     *(u16 *)&o2->field_44.h.field_44 = q;
     *(u16 *)&o->field_44.h.field_44 = q;
 }

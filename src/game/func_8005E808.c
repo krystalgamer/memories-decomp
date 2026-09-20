@@ -110,7 +110,7 @@ void func_8005E808(Key *state)
         case 1:
             sum = 0;
             for (j = 0; j < 10; j++) {
-                func_8005EBF4((Key *)state, i, j, 0x1E, buf[j]);
+                func_8005EBF4(state, i, j, 0x1E, buf[j]);
             }
             for (j = 1; j < 10; j++) {
                 dx = buf[j - 1][0] - buf[j][0];

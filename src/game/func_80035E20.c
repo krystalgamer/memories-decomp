@@ -28,6 +28,8 @@
 #include "graphics_frame.h"
 #include "func_80035E20.h"
 
+#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
+
 void func_80035E20(DisplayObject *obj, GsOT *ot)
 {
     s32 x;
@@ -89,9 +91,9 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
     ft4->tpage = t | b;
     sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
         obj->attribute | 0x08000000;
-    *(u32 *)&sprites[0]->r = obj->field_0C;
-    *(u32 *)&sprites[1]->r = obj->field_0C;
-    *(u32 *)&sprites[2]->r = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->field_0C;
     *(u32 *)&sprites[0]->w = 0x100010;
     *(u32 *)&sprites[1]->w = 0x100010;
     *(u32 *)&sprites[2]->w = 0x80008;

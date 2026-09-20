@@ -122,7 +122,7 @@ void DuelScene_UpdateCardUse(void)
         if ((state & 0x80) == 0) {
             p = D_800E9EF0[1];
             D_8009B174 = state | 0x80;
-            func_8001944C((DisplayObject *)p);
+            func_8001944C(p);
             D_800E9EF0[0] =
                 Duel_CreateCardEffectOverlay((DisplayObjectConfigView *)p);
             D_800E9EF0[0]->attribute = D_800E9EF0[0]->attribute | (GsALON | GsAONE);

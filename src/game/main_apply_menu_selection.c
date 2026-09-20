@@ -49,7 +49,7 @@ void Main_ApplyMenuSelection(MainMenuSelection selection)
         D_8009B26C = MAIN_MODE_FREE_DUEL;
         break;
     case MAIN_MENU_SELECTION_BUILD_DECK:
-        func_80033C90();
+        BuildDeck_EnterNarrowConfirmMode();
         D_8009B268 = 0;
         break;
     case MAIN_MENU_SELECTION_OPTIONS:
