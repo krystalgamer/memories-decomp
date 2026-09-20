@@ -4,7 +4,7 @@
 #include "../types.h"
 
 void SD_ApplyVoiceSlotVolume(s32 index);
-void func_800478EC(void);
+void SD_UpdateVoiceSlots(void);
 void func_80047A68(void);
 s32 func_80047AD0(s32 value);
 s32 SD_RequestValueLink(u16 value);

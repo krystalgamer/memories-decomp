@@ -49,7 +49,7 @@ void SD_ApplyVoiceSlotVolume(s32 index)
     SpuSetVoiceAttr((SpuVoiceAttr *)&state->field_03C4);
 }
 
-void func_800478EC(void)
+void SD_UpdateVoiceSlots(void)
 {
     s32 mask;
     s32 bit2;
