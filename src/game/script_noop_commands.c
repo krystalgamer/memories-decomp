@@ -1,10 +1,10 @@
 #include "../types.h"
 #include "script_noop_commands.h"
 
-void func_8002F430(void)
+void Script_OpNoOp14(void)
 {
 }
 
-void func_8002F438(void)
+void Script_OpNoOp15(void)
 {
 }

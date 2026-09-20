@@ -334,8 +334,8 @@ address,size,name,status,module,notes
 0x8002EE20,0x3C,Script_OpJump,matching_c,game,"Story-script opcode 12 unconditionally repoints the stream to its 16-bit package offset. 1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8."
 0x8002EE5C,0x38,Duel_IsPlayerDeckComplete,matching_c,game,"Returns one only when every player-deck slot is nonzero. Grouped with the adjacent save-prompt opcode in script_op_save_prompt.c under their shared G8 split profile."
 0x8002EE94,0x59C,Script_OpSavePrompt,matching_c,game,"Story-script opcode 13 drives the deck-completeness warning, save confirmation, memory-card poll, and return-to-menu paths. Grouped with its adjacent deck-completeness predicate; one-pass choice handling and a shared text/Y value preserve the exact 1436-byte match under uniform G8 split."
-0x8002F430,0x8,func_8002F430,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x8002F438,0x8,func_8002F438,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8002F430,0x8,Script_OpNoOp14,matching_c,game,Empty story-script slot 14 handler; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x8002F438,0x8,Script_OpNoOp15,matching_c,game,Empty story-script slot 15 handler; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x8002F440,0x80,Script_OpFadeOut,matching_c,game,"Story-script opcode 16 starts a fade out, optionally replaces the fade step, and optionally waits for completion. 4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split."
 0x8002F4C0,0x170,func_8002F4C0,matching_c,game,Matched from updated collaborator source: volatile display-state accesses and scoped constants reproduce retail code generation.
 0x8002F630,0x300,Script_OpDuelResult,matching_c,game,"Story-script opcode 17 loads and presents the duel-result screen, then restores the previous scene objects after its fade completes. Struct-typed objects, shared constant local, .data flag globals, colour constant local before the fill stores."

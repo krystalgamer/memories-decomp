@@ -23,8 +23,8 @@ is active.
 | 11 | `Script_OpFadeBgm` | Starts a default or operand-sized BGM fade. |
 | 12 | `Script_OpJump` | Jumps to a little-endian offset in the loaded script bank. |
 | 13 | `Script_OpSavePrompt` | Runs the save prompt and memory-card dialog state machine. |
-| 14 | `func_8002F430` | Empty handler. |
-| 15 | `func_8002F438` | Empty handler. |
+| 14 | `Script_OpNoOp14` | Empty handler. |
+| 15 | `Script_OpNoOp15` | Empty handler. |
 | 16 | `Script_OpFadeOut` | Starts and optionally waits for a screen fade-out. |
 | 17 | `Script_OpDuelResult` | Loads, presents, and releases the scripted duel-result screen. |
 | 18 | `Script_OpGameOver` | Transfers control to frontend mode 12. |
