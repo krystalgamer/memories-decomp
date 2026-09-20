@@ -101,5 +101,5 @@ void Campaign_LoadScenePackage(s16 arg0)
         src += CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE / sizeof(u32);
     } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);
 
-    D_8009B2A0 = func_8002E3FC();
+    D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
 }

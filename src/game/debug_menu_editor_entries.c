@@ -173,7 +173,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             printf(D_80010288,
                    D_800EB288[gDuelEffect_awEntryRangeBoundaries[0]].field_18);
             TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, 0x30);
-            D_8009B2A0 = func_8002E3FC();
+            D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
             return;
         }
         selection = gDebug_nSceneOrSoundID;

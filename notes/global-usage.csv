@@ -1620,8 +1620,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B29C,D_8009B29C,D_8009B29C,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,write,16,D_8009B29C = p[0] | (p[1] << 8);
 0x8009B29C,D_8009B29C,D_8009B29C,0x8003771C,func_8003771C,matching_c,game,C,src/game/duel_effect_state_callbacks.c,write,16,D_8009B29C = TextStream_ReadU16LE(object);
 0x8009B2A0,D_8009B2A0,D_8009B2A0,0x8002F630,Script_OpDuelResult,matching_c,game,C,src/game/script_op_duel_result.c,read,,D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE; | D_8009B2A0->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE; | (+1 more)
-0x8009B2A0,D_8009B2A0,D_8009B2A0,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,write,,D_8009B2A0 = 0; | D_8009B2A0 = func_8002E3FC();
-0x8009B2A0,D_8009B2A0,D_8009B2A0,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,,D_8009B2A0 = func_8002E3FC(); | DisplayObject_ReleaseIfPresent(D_8009B2A0);
+0x8009B2A0,D_8009B2A0,D_8009B2A0,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,write,,D_8009B2A0 = 0; | D_8009B2A0 = Campaign_CreatePrimaryDisplayObject();
+0x8009B2A0,D_8009B2A0,D_8009B2A0,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,,D_8009B2A0 = Campaign_CreatePrimaryDisplayObject(); | DisplayObject_ReleaseIfPresent(D_8009B2A0);
 0x8009B2A4,D_8009B2A4,D_8009B2A4,0x8002E5AC,Script_OpShowDialog,matching_c,game,C,src/game/script_op_show_dialog.c,read_write,16,D_8009B2A4 |= 0x4000; | if ((D_8009B2A4 & 0x4000) == 0) {
 0x8009B2A4,D_8009B2A4,D_8009B2A4,0x8002FA54,Script_RunTick,matching_c,game,C,src/game/script_run_tick.c,read_write,16,D_8009B2A4 &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE; | D_8009B2A4 = g | DUEL_EVENT_SCRIPT_FLAG_STARTED; | (+2 more)
 0x8009B2A4,D_8009B2A4,D_8009B2A4,0x8002FD10,Campaign_LoadScenePackage,matching_c,game,C,src/game/campaign_load_scene_package.c,write,16,D_8009B2A4 = arg0;
