@@ -83,7 +83,7 @@ void Script_OpSavePrompt(void)
     u16 flags;
     u16 next;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         p = D_8009B290;
         p2 = p + 2;
         gDialog_bChoice = -1;

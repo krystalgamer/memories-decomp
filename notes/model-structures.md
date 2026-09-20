@@ -18,7 +18,8 @@ instructions in multiple functions:
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
-  `func_80059590`, and `func_80059AA8` independently produce the same stride
+  `Model_SetSlotTintTarget`, and `Model_SetSlotShadowEnabled` independently
+  produce the same stride
   while accessing unrelated pointers, arrays, and bytes.
 - `func_80057E20`, `func_80059000`,
   `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`, and
@@ -52,7 +53,7 @@ Verified shared fields and partial arrays are:
 | `0xD70` | `field_D70[3]`, `GsF_LIGHT`-shaped | `Model_InitLightTriplet` writes three `0x10`-byte records; `func_800540B4` and `func_8004DE24` pass `+0xD70`, `+0xD80` and `+0xD90` to `GsSetFlatLight(0)`, `(1)` and `(2)`; `Model_GetFlatLight` returns one of them |
 | `0xDA0` | `field_DA0[3]` | three adjacent clamped `s32` writes in `func_800595C8` |
 | `0xDB0` | `field_DB0` | four-word copy/reset block in `func_800594C0` |
-| `0xDC0` | `field_DC0[8]` | byte writes in `func_80059590` and selection in `func_80059520` |
+| `0xDC0` | `field_DC0[8]` | target colour/mode writes in `Model_SetSlotTintTarget` and selection in `func_80059520` |
 | `0xDC8` | `field_DC8[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `func_800597C8` |
 | `0xDD0` | `field_DD0[4]` | four adjacent `u16` reads in `Model_CopySlotU16Values` |
 | `0xDF8` | `field_DF8` | first property in `Model_SetSlotProperties`; mirrored to `D_8009B488[index]` for all three slots when non-negative |
@@ -64,7 +65,7 @@ Verified shared fields and partial arrays are:
 | `0xE06` | `field_E06` | shifted read in `func_80058E94`; write/read in `func_800597C8` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `func_8005969C` writes it |
 | `0xE11` | `field_E11` | `func_800590DC`, `func_80059284`, and `func_800595C8` |
-| `0xE12` | `field_E12` | read/conditional write in `func_80059AA8` |
+| `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `func_800540B4` guards its projected ground-fan path with the same byte |
 | `0xE14` | `field_E14` | sentinel test in `func_80058DD8` |
 | `0xE16`-`0xE18` | byte fields | notification test in `func_8005969C`; clamp/index fields in `Model_GetSlotDataEntry` and `Model_GetCurrentDataEntry` |
 | `0xE1A` | `field_E1A` | head-entry count in `Model_RunSlotHandlers` |
@@ -181,7 +182,7 @@ active, the processor:
 2. saves the slot colour at `field_DC0`, `field_BF5`, `field_E06`, and the
    affected per-part bytes, installs the request values, and redraws the slot;
 3. clears the two draw-context globals, restores every saved model value, and
-   restores the prior `func_80059AA8` state;
+   restores the prior `Model_SetSlotShadowEnabled` state;
 4. advances elapsed by `Model_GetFrameStep()` and clears the request's active bit
    once elapsed is at least duration.
 
@@ -238,8 +239,9 @@ all include the shared header:
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
 `Model_InitLightTriplet`, `func_80059284`,
 `Model_BuildCameraRelativeCoordinateUnit`, `func_800593D0`,
-`func_800594C0`, `func_80059520`, `func_80059590`, `func_800595C8`,
-`func_8005969C`, `func_800597C8`, `func_80059AA8`, `Model_RunSlotHandlers`,
+`func_800594C0`, `func_80059520`, `Model_SetSlotTintTarget`, `func_800595C8`,
+`func_8005969C`, `func_800597C8`, `Model_SetSlotShadowEnabled`,
+`Model_RunSlotHandlers`,
 `func_8005A468`, and `Model_SetSlotProperties`.
 
 ## `D_800F5918`: 80 handler registry entries

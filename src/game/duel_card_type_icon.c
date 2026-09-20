@@ -11,6 +11,7 @@
 #include "duel_card_stat_display.h"
 
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
+#define DISPLAY_OBJECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
 
 /*
  * The object is the return value, not just a discarded temporary: retail
@@ -47,13 +48,13 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     switch (kind) {
     case CARD_TYPE_MAGIC:
     case CARD_TYPE_EQUIP:
-        *(u16 *)&object->field_40 += 0x10;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x10;
         break;
     case CARD_TYPE_TRAP:
-        *(u16 *)&object->field_40 += 0x20;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x20;
         break;
     case CARD_TYPE_RITUAL:
-        *(u16 *)&object->field_40 += 0x30;
+        DISPLAY_OBJECT_UNSIGNED_HALFWORD(object->field_40) += 0x30;
         break;
     }
     DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(object));

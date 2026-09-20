@@ -21,7 +21,7 @@ void Script_OpCredits(void)
 
 void Script_OpWait(void)
 {
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         u8 *p = D_8009B290;
         D_8009B290 = p + 2;
         D_8009B278 = p[0] | (p[1] << 8);

@@ -46,13 +46,13 @@ void DisplayObject_UpdateCommandStream(DisplayObject *arg0, s32 arg1, s32 arg2) 
         arg0->field_58 = 0;
         arg0->field_5A = 1;
 
-        p1 = base + arg0->field_67 * 2;
+        p1 = (u8 *)&((u16 *)base)[arg0->field_67];
         off1 = p1[1] << 8;
         off1 |= p1[0];
-        p2 = base + off1 + arg0->field_68 * 2;
+        p2 = (u8 *)&((u16 *)(base + off1))[arg0->field_68];
         off2 = p2[1] << 8;
         off2 |= p2[0];
-        p3 = base + off2 + arg0->field_69 * 2;
+        p3 = (u8 *)&((u16 *)(base + off2))[arg0->field_69];
         off3 = p3[1] << 8;
         off3 |= p3[0];
         p = base + off3;

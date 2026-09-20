@@ -99,11 +99,12 @@ unexplained; this is declaration centralization, not a claim that they form a
 single packed structure.
 
 The Build Deck mode-7 entry pair has a related but separate byte at
-`D_8009B2F8`. Its high bit selects the wide confirmation dialog in
-`func_800339D0`; in narrow mode, a nonzero choice cancels the pending exit.
-That flag now lives beside `BuildDeckTransitionState` rather than in two local
-magic-number uses. Its two local scalar declarations remain because the byte
-also has candidate-only array views whose relocation contracts are reviewed
+`D_8009B2F8`. `BuildDeck_EnterWideConfirmMode` sets its high bit before
+entering state 7; that bit selects the wide confirmation dialog in
+`func_800339D0`. In narrow mode, a nonzero choice cancels the pending exit.
+The flag lives beside `BuildDeckTransitionState` rather than in local
+magic-number uses. Its local scalar declarations remain because the byte also
+has candidate-only array views whose relocation contracts are reviewed
 separately.
 
 `DuelEffect_UpdateObjectLayout` now provides an additional exact-C read of

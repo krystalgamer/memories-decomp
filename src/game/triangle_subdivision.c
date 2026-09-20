@@ -20,7 +20,8 @@
    buffer is a Triplet, which strides 4 - the fourth byte is never read or
    written by any of the four functions here, so it is carried, not used.
 
-   model_subdivided_effect.c initializes six colours with func_8006C2FC and
+   model_subdivided_effect.c initializes six colours with
+   Triplet_SetComponents and
    calls both subdividers at depth two for each of its eight base faces. */
 
 /* Recursive triangle subdivision: splits the triangle (a, b, c) at its
@@ -158,7 +159,7 @@ Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
     return result;
 }
 
-void func_8006C2FC(u8 *output, s32 first, s32 second, s32 third)
+void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
 {
     output[0] = first;
     output[1] = second;

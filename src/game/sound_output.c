@@ -44,7 +44,7 @@ void SD_ResetRuntime(void)
     r->field_157C = -1;
     r->field_157E = -1;
     if (value != -1) {
-        func_800498F8(value);
+        SD_ResetVabTransferState(value);
     }
     s = g_SDValue;
     s->field_1578 = -1;

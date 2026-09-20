@@ -204,7 +204,7 @@ class SoundCommandPumpHeaderTests(unittest.TestCase):
                     "  SD_ArmBusyCallback();\n"
                     "  (void)SD_HasQueuedStreamCommand();\n"
                     "  (void)SD_OpenSequence((u8 *)0, (s16)0);\n"
-                    f"  func_800498F8({arguments});\n"
+                    f"  SD_ResetVabTransferState({arguments});\n"
                     f"  SD_StopSequence({arguments});\n"
                     f"  func_80049CB0({arguments});\n"
                     "}\n",

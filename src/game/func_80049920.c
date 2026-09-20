@@ -3,6 +3,9 @@
 #include "../psyq/libspu.h"
 #include "sound.h"
 
+#define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
+    ((SDSecondaryState *)((u8 *)(state) + (offset)))
+
 /* Second pass over the 0x28-byte records at D_8009B458: for each record
  * whose +0x18D counter is set and whose channel reports SPU_ON_ENV_OFF, either
  * bumps the counter or, once it reaches 2, requests key-off through the
@@ -33,11 +36,11 @@ void func_80049920(void) {
         off = 0;
         tbl = D_80011434;
         do {
-            if (((SDSecondaryState *)((u8 *)base + off))
+            if (SD_SECONDARY_STATE_AT_OFFSET(base, off)
                     ->objects[0].field_000D != 0) {
                 if (SpuGetKeyStatus(*tbl) == SPU_ON_ENV_OFF) {
                     b1 = D_8009B458;
-                    p = (SDSecondaryState *)((u8 *)b1 + off);
+                    p = SD_SECONDARY_STATE_AT_OFFSET(b1, off);
                     b = p->objects[0].field_000D;
                     if (b >= 2) {
                         mask |= *tbl;
@@ -47,7 +50,7 @@ void func_80049920(void) {
                             v = SpuGetKeyStatus(*q);
                         } while (v != key_off_env_on && v != SPU_OFF);
                         b2 = D_8009B458;
-                        ((SDSecondaryState *)((u8 *)b2 + off))
+                        SD_SECONDARY_STATE_AT_OFFSET(b2, off)
                             ->objects[0].field_000D = 0;
                     } else {
                         p->objects[0].field_000D = b + 1;

@@ -771,7 +771,7 @@ above.
 |---|---:|---|---|
 | `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
-| `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `func_800498F8`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
+| `0x04A4` | `0x1C` | `transfer` | `func_80049434`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |
 | `0x0503` | `u8` | `event_guard` | `func_8004B854` prevents duplicate setup with it; shutdown leaves it set to block further event setup. |
 | `0x0504` | `long` | `event_handle` | `func_8004B854` stores the `OpenEvent` result; `func_8004B910` disables and closes the same handle. |
@@ -848,15 +848,16 @@ polls it.
 Its three callers all pair that with `SDValue`'s flag `0x80` and
 `field_157E != -1`: `SD_UpdateRuntime` and `SD_ResetRuntime` stop the sequence
 when the poll is not `1`, and `func_80046294` stops it when the poll is `1`.
-`func_80049EC8` and `func_80049F10` read the same halfword for a different
-question, skipping `SD_UpdateSecondaryObjectVolumes` while it is `2`.
+`SD_SetSecondarySpatialLevels` and `func_80049F10` read the same halfword for
+a different question, skipping `SD_UpdateSecondaryObjectVolumes` while it is
+`2`.
 
 ### Transfer-window state and results
 
 The leading halfword of `transfer` uses `SD_TRANSFER_STATE_INACTIVE` (`-1`)
-as its inactive marker. `func_80049434` initializes it and `func_800498F8`
-restores that marker. This is a software state marker, not a claim that a
-hardware DMA transfer has completed.
+as its inactive marker. `func_80049434` initializes it and
+`SD_ResetVabTransferState` restores that marker. This is a software state
+marker, not a claim that a hardware DMA transfer has completed.
 
 `SD_VabOpenHead` checks for that marker when its caller requests an inactive
 window, then prepares the window with state zero. `SD_VabTransBody` and

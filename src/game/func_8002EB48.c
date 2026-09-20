@@ -6,7 +6,7 @@
 #include "func_8002EB48.h"
 #include "main_mode_state.h"
 
-void func_8002EB48(void)
+void Script_OpOpenCampaignMap(void)
 {
     unsigned char value = *D_8009B290++;
 

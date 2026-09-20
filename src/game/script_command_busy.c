@@ -2,7 +2,7 @@
 #include "script_command_busy.h"
 #include "script_state.h"
 
-s32 func_8002E3B4(void)
+s32 ScriptCommand_MarkStarted(void)
 {
     u16 value = D_8009B27C;
 
@@ -13,7 +13,7 @@ s32 func_8002E3B4(void)
     return 1;
 }
 
-void func_8002E3DC(void)
+void Script_OpHalt(void)
 {
-    func_8002E3B4();
+    ScriptCommand_MarkStarted();
 }

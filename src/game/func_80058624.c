@@ -5,6 +5,8 @@
 #include "sound.h"
 #include "positional_sound.h"
 
+#define POSITIONAL_SOUND_PAN_PTR(buffer) ((s8 *)&(buffer)[1])
+
 void SD_ApplyPositionalSound(
     s32 sound_id, s32 play, s32 world_x, s32 world_z)
 {
@@ -26,7 +28,7 @@ void SD_ApplyPositionalSound(
 
     dx = D_800F56F0.vpx - world_x;
     dz = D_800F56F0.vpz - world_z;
-    pp = (s8 *)&st[1];
+    pp = POSITIONAL_SOUND_PAN_PTR(st);
     st[0] = 0;
     st[1] = 0;
     r = SquareRoot0(dx * dx + dz * dz);
@@ -66,8 +68,9 @@ void SD_ApplyPositionalSound(
     }
 
     if (play != 0) {
-        SD_SEPlay(sound_id & 0xFFFF, st[0], *(s8 *)&st[1]);
+        SD_SEPlay(sound_id & 0xFFFF, st[0], *POSITIONAL_SOUND_PAN_PTR(st));
     } else {
-        func_80048A28(sound_id & 0xFFFF, st[0], *(s8 *)&st[1]);
+        func_80048A28(sound_id & 0xFFFF, st[0],
+                     *POSITIONAL_SOUND_PAN_PTR(st));
     }
 }

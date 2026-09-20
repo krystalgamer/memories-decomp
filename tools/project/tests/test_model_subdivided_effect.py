@@ -200,7 +200,7 @@ void func_80057E20(s32 slot,ModelEffectAdjustment *out)
     put16((u8 *)out,73); put16((u8 *)out+2,121);
     put16((u8 *)out+4,31); put16((u8 *)out+6,bounds_value);
 }
-void func_8006C2FC(u8 *out,s32 r,s32 g,s32 b)
+void Triplet_SetComponents(u8 *out,s32 r,s32 g,s32 b)
 {
     s32 args[8]={0};
     args[0]=location(out); args[1]=r; args[2]=g; args[3]=b;
@@ -342,7 +342,7 @@ static s32 oracle(s32 mode)
             put16(object+6+i*8, i==0 ? -height : i==5 ? height : 0);
             put16(object+8+i*8, i==1 ? -radius : i==3 ? radius : 0);
         }
-        for(i=0;i<6;i++) func_8006C2FC(object+0xC94+i*4,config[i],config[i+6],config[i+12]);
+        for(i=0;i<6;i++) Triplet_SetComponents(object+0xC94+i*4,config[i],config[i+6],config[i+12]);
         for(i=0;i<8;i++) {
             s32 corners[3],side=i%4+1,next=side%4+1;
             corners[0]=i<4 ? 0 : 5;
@@ -558,8 +558,11 @@ class ModelSubdividedEffectTests(unittest.TestCase):
                 "-fno-strict-aliasing", optimization, "-I", str(ROOT),
             ]
             renames = [
-                "-Dfunc_800" + suffix + "=native_800" + suffix
-                for suffix in ("6BCA4", "6C120", "6C2FC", "6C30C", "6C330")
+                "-Dfunc_8006BCA4=native_8006BCA4",
+                "-Dfunc_8006C120=native_8006C120",
+                "-DTriplet_SetComponents=native_8006C2FC",
+                "-Dfunc_8006C30C=native_8006C30C",
+                "-Dfunc_8006C330=native_8006C330",
             ]
             objects = []
             for name, path, extra in (

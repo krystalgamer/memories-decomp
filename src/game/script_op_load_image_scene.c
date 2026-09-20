@@ -20,7 +20,7 @@ void Script_OpLoadImageScene(void)
     s32 value;
     u16 flags;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
         ScriptImage_ReleaseObjects(SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98));

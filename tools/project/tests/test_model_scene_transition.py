@@ -118,7 +118,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
 
 void File_WaitForTransfers(void) { record(3, 0, 0, 0, 0); }
 
-void func_80059590(s32 index, s32 fourth, s32 first, s32 second, s32 third)
+void Model_SetSlotTintTarget(s32 index, s32 fourth, s32 first, s32 second, s32 third)
 {
     record(4, index, fourth, first, second);
     if (third || ACTIVE || FLAGS[0] || FLAGS[1] ||

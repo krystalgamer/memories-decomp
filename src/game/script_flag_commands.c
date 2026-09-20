@@ -61,7 +61,7 @@ void Script_UpdateViewportTween(void) {
     s32 c;
     s32 d;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         sx = *(s16 *)&gGraphics_uViewportX[0];
         n = *(s16 *)&D_8009B29C;
         D_8009B294 = ((*(s16 *)&D_8009B2A8 - sx) << 16) / n;

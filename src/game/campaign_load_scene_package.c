@@ -14,6 +14,9 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+#define SCENE_SCRIPT_SLOT_SIGNED_HEAD(slot) (*(s16 *)(slot))
+#define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
+
 /* Loads the fixed scene presentation/event package. The argument initializes
  * D_8009B2A4 for the event driver; it does not select a different disc page.
  * The 0x1E57/0x31 request uses Campaign_LoadScenePackageStage to route image,
@@ -51,7 +54,7 @@ void Campaign_LoadScenePackage(s16 arg0)
     );
     func_80039E9C();
 
-    *(s16 *)&slot[3] = -1;
+    SCENE_SCRIPT_SLOT_SIGNED_HEAD(&slot[3]) = -1;
     for (i = 0; i < 3; i++) {
         slot[i].unk00 = 0;
         slot[i].unk04 = 0;
@@ -62,7 +65,7 @@ void Campaign_LoadScenePackage(s16 arg0)
         ;
     }
 
-    src = (u32 *)D_80010000;
+    src = CAMPAIGN_PACKAGE_WORDS(D_80010000);
     D_800E9D70[0].x = 0x380;
     D_800E9D70[0].y = 0;
     D_800E9D70[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;

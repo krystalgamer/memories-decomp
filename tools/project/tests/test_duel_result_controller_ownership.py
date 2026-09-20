@@ -292,9 +292,8 @@ class DuelResultControllerOwnershipTests(unittest.TestCase):
         names = (
             "duel_init_scene.c", "func_8001B170.c", "duel_scene_callbacks.c",
             "campaign_map_load_package_stage.c", "func_80020BE4.c",
-            "options_load_package_stage.c",
+            "frontend_package_stages.c",
             "func_8002F4C0.c", "func_800434F4.c",
-            "game_over_load_package_stage.c",
             "password_load_package_stage.c",
             "free_duel_load_package_stage.c",
         )

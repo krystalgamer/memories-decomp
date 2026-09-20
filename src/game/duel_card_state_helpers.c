@@ -12,7 +12,7 @@ void func_80028220(void)
                  D_8009B1D5 ^ 1);
 }
 
-int func_80028260(int value)
+int DuelCard_DecodeTaggedSlotIndex(int value)
 {
     if (value & 0x80) {
         return (value & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;

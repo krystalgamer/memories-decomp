@@ -22,7 +22,7 @@ void Script_OpShowDialog(void)
     u16 flags;
     u16 boxflags;
 
-    if (func_8002E3B4() == 0) {
+    if (ScriptCommand_MarkStarted() == 0) {
         script = D_8009B290;
         D_8009B290 = script + 2;
         value = script[0] | (script[1] << 8);

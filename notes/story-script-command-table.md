@@ -3,13 +3,13 @@
 The resident story-script dispatcher has 23 entries at `D_80090C50`.
 `Script_RunTick` selects an entry with the low five bits of `D_8009B27C`.
 Handlers that span frames preserve their slot in that word and use bit
-`0x8000` as the first-entry latch through `func_8002E3B4`.
+`0x8000` as the first-entry latch through `ScriptCommand_MarkStarted`.
 `TextBox_BuildStep` can also redispatch the current low byte while script text
 is active.
 
 | Slot | Handler | Established behavior |
 | ---: | --- | --- |
-| 0 | `func_8002E3DC` | Calls the command-busy latch and otherwise has no visible effect. |
+| 0 | `Script_OpHalt` | Latches itself active and stops script advancement. |
 | 1 | `func_8002E470` | Loads an image-scene package and waits for its transfer lifecycle. |
 | 2 | `Script_OpShowDialog` | Creates a story dialog from a text id and waits for completion. |
 | 3 | `Script_OpStoryFlag` | Writes a story flag or conditionally jumps when a flag is set. |
@@ -17,7 +17,7 @@ is active.
 | 5 | `Script_OpShowImage` | Creates or replaces the staged story image. |
 | 6 | `Script_OpViewportTween` | Reads a viewport target and duration, then selects slot 7. |
 | 7 | `Script_UpdateViewportTween` | Advances the viewport interpolation until it completes. |
-| 8 | `func_8002EB48` | Copies one operand byte into `D_8009B363` and requests mode 5. |
+| 8 | `Script_OpOpenCampaignMap` | Reads a Campaign Map location and requests mode 5. |
 | 9 | `Script_OpShowMenu` | Arms a menu-effect record and waits for its effect step to finish. |
 | 10 | `Script_OpSound` | Starts a BGM or sound effect, or updates the retained BGM command. |
 | 11 | `Script_OpFadeBgm` | Starts a default or operand-sized BGM fade. |

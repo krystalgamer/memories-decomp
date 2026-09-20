@@ -32,6 +32,8 @@
 #include "../unmatched.h"
 
 #define SVECTOR_VIEW(vector) ((SVECTOR *)(vector))
+#define MODEL_SLOT_BYTES(slots, index) \
+    ((u8 *)(slots) + (index) * MODEL_SLOT_SIZE)
 
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
@@ -70,7 +72,7 @@ void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (arg1 != 0 || arg0 <= 0) {
         if (arg1 > 0) {
             index = arg1 - 1;
-            arg1 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+            arg1 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);
             if (arg3 >= 0) {
                 D_800F2B20.eye.pair_slot = index ^ 1;
             } else {
@@ -87,7 +89,7 @@ void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     if (arg2 != 0 || arg0 <= 0) {
         if (arg2 > 0) {
             index = arg2 - 1;
-            arg2 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+            arg2 = (s32)MODEL_SLOT_BYTES(D_800F3A10, index);
             if (arg3 >= 0) {
                 D_800F2B20.target.pair_slot = index ^ 1;
             } else {

@@ -26,7 +26,7 @@
  */
 
 ScriptCommandHandler D_80090C50[] = {
-    func_8002E3DC,
+    Script_OpHalt,
     Script_OpLoadImageScene,
     Script_OpShowDialog,
     Script_OpStoryFlag,
@@ -34,7 +34,7 @@ ScriptCommandHandler D_80090C50[] = {
     Script_OpShowImage,
     Script_OpViewportTween,
     Script_UpdateViewportTween,
-    func_8002EB48,
+    Script_OpOpenCampaignMap,
     Script_OpShowMenu,
     Script_OpSound,
     Script_OpFadeBgm,

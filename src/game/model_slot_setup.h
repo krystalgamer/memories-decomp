@@ -10,7 +10,7 @@ void func_8004CB0C(void);
 #endif
 
 /* One model slot's reset, the initializer half of this unit: it zeroes the
- * slot's first 0x388 words through func_8005B5FC and then writes the
+ * slot's first 0x388 words through Model_FillWords and then writes the
  * defaults -- MODEL_FIXED_HALF at +0xDA0/+0xDA4/+0xDA8, MODEL_FIXED_ONE at
  * +0xDB0/+0xDB4/+0xDB8, 0x80 at +0xDC0..+0xDC2, and the mode byte at +0xE16.
  *

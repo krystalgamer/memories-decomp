@@ -6,7 +6,7 @@ int Script_ReadByte(void)
     return *D_8009B290++;
 }
 
-int func_8003006C(void)
+int Script_ReadU16LE(void)
 {
     u8 *current = D_8009B290;
 

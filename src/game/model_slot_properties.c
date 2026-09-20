@@ -75,19 +75,19 @@ u8 *func_80059520(s32 index)
     return descriptor;
 }
 
-void func_80059590(
-    s32 index,
-    s32 fourth,
-    s32 first,
-    s32 second,
-    s32 third)
+void Model_SetSlotTintTarget(
+    s32 slot,
+    s32 mode,
+    s32 target0,
+    s32 target1,
+    s32 target2)
 {
-    ModelSlot *entry = &D_800F2C40[index];
+    ModelSlot *entry = &D_800F2C40[slot];
 
-    entry->field_DC0[3] = fourth;
-    entry->field_DC0[0] = first;
-    entry->field_DC0[1] = second;
-    entry->field_DC0[2] = third;
+    entry->field_DC0[3] = mode;
+    entry->field_DC0[0] = target0;
+    entry->field_DC0[1] = target1;
+    entry->field_DC0[2] = target2;
 }
 
 void func_800595C8(s32 index, s32 x, s32 y, s32 z)
