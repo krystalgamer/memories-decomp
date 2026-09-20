@@ -140,7 +140,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 a, s32 b, s32 c, s32 d, s32 e, s32 f)
     completed(slot);
     return 0;
 }
-s32 func_80059AA8(s32 slot, s32 flag)
+s32 Model_SetSlotShadowEnabled(s32 slot, s32 flag)
 {
     event(ORIENT, slot, flag, 0, 0, 0, 0);
     CHECK(flag == (((record[0xA1] >> 1) ^ 1) & 1));

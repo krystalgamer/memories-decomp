@@ -254,7 +254,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF88,D_8009AF88,D_8009AF88,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,k = D_8009AF88[0xA0];
 0x8009AF88,D_8009AF88,D_8009AF88,0x8004EB00,func_8004EB00,matching_c,game,C,src/game/model_intro_controller.c,read,8,switch (D_8009AF88[0xA0]) {
 0x8009AF88,D_8009AF88,D_8009AF88,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,write,8,D_8009AF88 = &D_80091008[D_800F5678[0] * 0xB2];
-0x8009AF88,D_8009AF88,D_8009AF88,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,8,"((ModelBackgroundRecord *)D_8009AF88)->stage_height; | func_80059AA8(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1); | (+1 more)"
+0x8009AF88,D_8009AF88,D_8009AF88,0x800534B8,ModelDebug_UpdateController,matching_c,game,C,src/game/model_debug_controller.c,read,8,"((ModelBackgroundRecord *)D_8009AF88)->stage_height; | Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1); | (+1 more)"
 0x8009AF88,D_8009AF88,D_8009AF88,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,read,8,"if (B(D_8009AF88, 0xA1) & 1) { | y = D_800F2C40[2].field_D18->matrix.t[1] + S(D_8009AF88, 0xA2);"
 0x8009AF8C,D_8009AF8C,D_8009AF8C,0x800530C4,func_800530C4,matching_c,game,C,src/game/func_80052D2C.c,read,16,int old = D_8009AF8C;
 0x8009AF8E,D_8009AF8E,D_8009AF8E,0x8004DE24,func_8004DE24,matching_c,game,C,src/game/func_8004DE24.c,address,16,sprite.x = (s16)*(u16 *)&D_8009AF8E / 10 -
@@ -2792,7 +2792,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2C40,D_800F2C40,D_800F2C40,0x8005969C,func_8005969C,matching_c,game,C,src/game/model_slot_state_updates.c,address,,ModelSlot *slot = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x80059700,func_80059700,matching_c,game,C,src/game/func_80059700.c,address,,ModelSlot *base = D_800F2C40; | ModelSlot *current = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x800597C8,func_800597C8,matching_c,game,C,src/game/func_800597C8.c,address,,ModelSlot *rec = &D_800F2C40[idx];
-0x800F2C40,D_800F2C40,D_800F2C40,0x80059AA8,func_80059AA8,matching_c,game,C,src/game/func_80059AA8.c,address,,register ModelSlot *base = D_800F2C40;
+0x800F2C40,D_800F2C40,D_800F2C40,0x80059AA8,Model_SetSlotShadowEnabled,matching_c,game,C,src/game/func_80059AA8.c,address,,register ModelSlot *base = D_800F2C40;
 0x800F2C40,D_800F2C40,D_800F2C40,0x80059DD8,Model_RunSlotHandlers,matching_c,game,C,src/game/model_scene_states.c,address,,ModelSlot *base = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8005A468,func_8005A468,matching_c,game,C,src/game/model_slot_updates.c,address,,ModelSlot *rec = &D_800F2C40[arg0];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8005A8C4,Model_HasInsufficientBufferSpace,matching_c,game,C,src/game/model_has_insufficient_buffer_space.c,address,,record = (ModelSlot *)((u8 *)D_800F2C40 + index * MODEL_SLOT_SIZE);

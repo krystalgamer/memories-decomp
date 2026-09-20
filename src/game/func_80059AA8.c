@@ -2,7 +2,7 @@
 #include "model.h"
 #include "func_80059AA8.h"
 
-int func_80059AA8(int index, int value)
+int Model_SetSlotShadowEnabled(int index, int value)
 {
     register ModelSlot *entry;
     register int old;
