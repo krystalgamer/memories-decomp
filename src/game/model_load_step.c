@@ -142,7 +142,7 @@ void func_80056828(s32 index)
         s32 position;
         s32 i;
         work = ((ModelControlCommandView *)p)->commands[2];
-        context = *(u8 **)((u8 *)p + 0xDE8);
+        context = (u8 *)p->field_DE8;
         D_8009AFA0 = index;
         if (work >= 0) {
             if (index != 0) {
