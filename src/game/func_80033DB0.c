@@ -25,6 +25,7 @@
 #include "func_8006151C.h"
 
 #define LINE_G4_WORD_VIEW(packet) ((u32 *)(packet))
+#define PACKET_OBJECT_VIEW(type, packet) (*(type *)(packet))
 #define CVECTOR_WORD(color) (*(u32 *)(color))
 
 u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
@@ -126,7 +127,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                     *(u16 *)&gt->u2 = rec[4];
                     gt->tpage = rec[3];
                     gt->clut = rec[1];
-                    *(POLY_GT3 *)out = *gt;
+                    PACKET_OBJECT_VIEW(POLY_GT3, out) = *gt;
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                     addPrim(&arg->tagp->org[z], out);
                     out += sizeof(POLY_GT3);
@@ -169,7 +170,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                 goto next;
             }
             setLineG4(lg);
-            *(LINE_G4 *)out = *lg;
+            PACKET_OBJECT_VIEW(LINE_G4, out) = *lg;
             z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
             addPrim(&arg->tagp->org[z], out);
             out += sizeof(LINE_G4);
@@ -219,7 +220,7 @@ u32 *func_80033DB0(GsARGUNIT_NORMAL *arg)
                 *(u16 *)&gt->u2 = rec[4];
                 gt->tpage = rec[3];
                 gt->clut = rec[1];
-                *(POLY_GT3 *)out = *gt;
+                PACKET_OBJECT_VIEW(POLY_GT3, out) = *gt;
                 z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                 addPrim(&arg->tagp->org[z], out);
                 out += sizeof(POLY_GT3);
