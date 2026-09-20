@@ -11,6 +11,8 @@
 #include "card_list_render_deck_box_stats.h"
 #include "card_list_rows.h"
 
+#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
+
 /* Draws a deck box's six type-count digits and its seven card stat rows
    as 16x16 and 8x8 sprites into the ordering table. The glyph table
    D_80090DD8 gives the u/v and page bits of each type icon; the selected
@@ -38,16 +40,16 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     pri = *(s16 *)&obj->field_14;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;
-    *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
+    GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
     *(u32 *)&sp->w = 0x100010;
     sp->x = obj->field_30.h.field_30 + 0x22;
     sp->y = obj->field_30.h.field_32 - 0x18;
     sp->cy = 0xFB;
     i = 0;
     do {
-        *(u32 *)&sp->r = 0x202020;
+        GS_SPRITE_COLOR_WORD(sp) = 0x202020;
         if (i == obj->field_69) {
-            *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
+            GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
         }
         sp->u = (tbl[0] & 0xF) * 8 - 0x80;
         sp->v = tbl[0] & 0xF0;
@@ -76,9 +78,9 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
                 if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                     sp->x = obj->field_30.h.field_30 + 0x24;
-                    *(u32 *)&sp->r = COLOR_RGB24_NEUTRAL_GREY;
+                    GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
                     if (*entries & 0x8000) {
-                        *(u32 *)&sp->r = COLOR_RGB24_DIM_GREY;
+                        GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_DIM_GREY;
                     }
                     Text_EncodeDecimalDigits(
                         (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) *
