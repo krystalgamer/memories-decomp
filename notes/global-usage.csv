@@ -1806,7 +1806,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800262D4,DuelEffect_ApplyRitual,matching_c,game,C,src/game/duel_ritual_effect.c,read,8,if (gDialog_bChoice)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8002EE94,Script_OpSavePrompt,matching_c,game,C,src/game/script_op_save_prompt.c,read_write,8,choice = gDialog_bChoice; | gDialog_bChoice = -1; | (+3 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800339D0,func_800339D0,matching_c,game,C,src/game/func_800339D0.c,read,8,gDialog_bChoice != 0) {
-0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,8,v = *(u16 *)&p->field_40 + a + gDialog_bChoice * 0x10; | v0 = *(u16 *)&p->field_40 + c + gDialog_bChoice * 0xC; | (+1 more)
+0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036DBC,DuelEffect_UpdateObjectLayout,matching_c,game,C,src/game/duel_effect_update_object_layout.c,read,8,a + gDialog_bChoice * 0x10; | b + gDialog_bChoice * 0xC; | (+1 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x80036F80,Dialog_HighlightChoice,matching_c,game,C,src/game/dialog_choice_cursor.c,read,8,if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x8003700C,Dialog_ReadChoiceInput,matching_c,game,C,src/game/dialog_choice_cursor.c,read_write,8,gDialog_bChoice = 0; | gDialog_bChoice = choice + 1; | (+3 more)
 0x8009B34D,gDialog_bChoice,gDialog_bChoice,0x800371A8,Dialog_UpdateChoice,matching_c,game,C,src/game/dialog_update_choice.c,read_write,8,gDialog_bChoice = g & 7; | m = 1 << gDialog_bChoice;
