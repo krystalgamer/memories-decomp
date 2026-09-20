@@ -9,6 +9,8 @@
 #include "duel_card.h"
 #include "../unmatched.h"
 
+#define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
+
 void Duel_InitSideStates(void) {
     u16 sp[DUEL_SIDE_COUNT];
     DuelSideState *e;
@@ -83,8 +85,8 @@ void Duel_ClearHandSlots(void)
 void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
-        DuelSelectionRecord *p = (DuelSelectionRecord *)
-            (D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE);
+        DuelSelectionRecord *p = DUEL_SELECTION_RECORDS(
+            D_800E9F10 + row * DUEL_SELECTION_SIDE_SIZE);
         for (j = 0; j < DUEL_SELECTION_RECORDS_PER_SIDE; p++, j++) {
             p->field_00 = 0;
             p->cursor_object = 0;
@@ -95,8 +97,8 @@ void Duel_InitSelectionRecords(void) {
             p->field_14 = (j != 3) ? j : 1;
         }
     }
-    ((DuelSelectionRecord *)D_800E9F10)[0].field_13 = 0;
-    ((DuelSelectionRecord *)D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
+    DUEL_SELECTION_RECORDS(D_800E9F10)[0].field_13 = 0;
+    DUEL_SELECTION_RECORDS(D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
         .field_13 = 0;
 }
 

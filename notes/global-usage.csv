@@ -2484,7 +2484,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002CB50,DisplayObject_CopyWorkSlots,matching_c,game,C,src/game/func_8002CB50.c,address,32,source = D_800E9EF0;
 0x800E9EF0,D_800E9EF0,D_800E9EF0,0x8002D7CC,Main_RunTrade,matching_c,game,C,src/game/main_mode_runners.c,read_write,32,D_800E9EF0[0] = 0; | D_800E9EF0[0] = obj; | (+2 more)
 0x800E9F04,D_800E9F04,D_800E9F04,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,write,,D_800E9F04[0] = 0;
-0x800E9F10,D_800E9F10,D_800E9F10,0x80017708,Duel_InitSelectionRecords,matching_c,game,C,src/game/duel_state_init.c,address,8,((DuelSelectionRecord *)D_800E9F10)[0].field_13 = 0; | ((DuelSelectionRecord *)D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE] | (+1 more)
+0x800E9F10,D_800E9F10,D_800E9F10,0x80017708,Duel_InitSelectionRecords,matching_c,game,C,src/game/duel_state_init.c,address,8,DUEL_SELECTION_RECORDS(D_800E9F10)[0].field_13 = 0; | DUEL_SELECTION_RECORDS(D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE] | (+1 more)
 0x800E9F10,D_800E9F10,D_800E9F10,0x80018608,DuelScene_UpdateStartup,matching_c,game,C,src/game/duel_phase_entry.c,address,8,((DuelSelectionSideView *)(D_800E9F10 + | D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
 0x800E9F10,D_800E9F10,D_800E9F10,0x8001898C,DuelScene_UpdateDrawPhase,matching_c,game,C,src/game/duel_phase_entry.c,address,8,D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
 0x800E9F10,D_800E9F10,D_800E9F10,0x80018FEC,DuelScene_UpdateExodiaResult,matching_c,game,C,src/game/func_80018FEC.c,address,8,(DuelCardPickCursor *)&D_800E9F10[
