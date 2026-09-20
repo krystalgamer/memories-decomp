@@ -398,10 +398,10 @@ void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
         );
 
         if (p1 != 0) {
-            p1 = (u8 *)p1 + 8;
+            p1 = MODEL_EFFECT_ENDPOINT_VIEW(p1) + 1;
         }
         if (p2 != 0) {
-            p2 = (u8 *)p2 + 8;
+            p2 = MODEL_EFFECT_ENDPOINT_VIEW(p2) + 1;
         }
 
         if (p1 != 0 &&
