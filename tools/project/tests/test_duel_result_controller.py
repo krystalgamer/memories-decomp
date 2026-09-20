@@ -96,7 +96,7 @@ void ViewState_ApplyOrbit(void)
     if ((u16)D_800F2848.angle != expected_angle) error = 3;
     if (mutation == 1) gDuel_wSceneStateFlags = 0x8000;
 }
-void func_80015C84(void) { event(2, 0, 0, 0, 0, 0); }
+void Fade_StartOutKeepOverlay(void) { event(2, 0, 0, 0, 0, 0); }
 void Fade_SetTargetLevel(s32 level, s32 speed)
 {
     event(3, 0, level, speed, 0, 0);

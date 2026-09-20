@@ -48,7 +48,7 @@ void DuelScene_UpdateResultRewards(void)
     ViewState_ApplyOrbit();
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
         gDuel_wSceneStateFlags |= 0x8000;
-        func_80015C84();
+        Fade_StartOutKeepOverlay();
         Fade_SetTargetLevel(128, 2);
         D_8009B1E8 = &gDuel_awRitualData;
         gGraphics_sViewportY = 0;

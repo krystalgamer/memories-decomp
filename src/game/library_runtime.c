@@ -145,7 +145,7 @@ void func_8002ACA4(u8 *state)
         D_800F2848.field_0A = 0;
         func_8001352C();
         func_80029164(0, H(state, 6));
-        func_80015C84();
+        Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 6;
         W(state, 0x50) = 0;
         return;
@@ -380,7 +380,7 @@ void func_8002ACA4(u8 *state)
             break;
         case 1:
             if (gInput_wPad1Pressed & 0x80E0) {
-                func_80015C84();
+                Fade_StartOutKeepOverlay();
                 state[3] = 1;
                 state[2] = 2;
                 SD_SEPlayFull(0x34);

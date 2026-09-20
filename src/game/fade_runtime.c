@@ -387,7 +387,7 @@ void func_80015C48(void)
     func_8001572C();
 }
 
-void func_80015C84(void)
+void Fade_StartOutKeepOverlay(void)
 {
     FadeTransitionState *state;
 

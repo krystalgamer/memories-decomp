@@ -65,7 +65,7 @@ void Script_OpShowImage(void) {
         gGraphics_sViewportX = D_8009B2A8;
         gGraphics_sViewportY = D_8009B2AA;
         if (D_8009B145 == 0) {
-            func_80015C84(D_8009B145);
+            Fade_StartOutKeepOverlay(D_8009B145);
         }
         ScriptImage_RequestTransfer(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), D_8009B270 & 0xFFF);
