@@ -798,7 +798,7 @@ address,size,name,status,module,notes
 0x80049594,0x10,func_80049594,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
 0x800495A4,0x38,func_800495A4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800495DC,0x10,SD_EnableSecondaryPanning,matching_c,game,"High-confidence semantic name: clears the secondary pan override selected by stereo output mode, allowing SD_SpatializeSecondaryObject to use computed pan; exact full-executable match under gcc_2_8_1_g0."
-0x800495EC,0x14,func_800495EC,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access
+0x800495EC,0x14,SD_DisableSecondaryPanning,matching_c,game,"High-confidence semantic name: sets the secondary pan override selected by mono output mode, forcing SD_SpatializeSecondaryObject to use centre pan; exact full-executable match under gcc_2_8_1_g0."
 0x80049600,0x40,func_80049600,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g0_no_split; the MASPSX -G8 it was first recorded with is inert (#3859).
 0x80049640,0x54,func_80049640,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049694,0x30,SD_Term,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g0.

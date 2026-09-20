@@ -93,7 +93,7 @@ void SD_SetOutputType(s16 value)
         if (value == 0)
             SD_EnableSecondaryPanning();
         else
-            func_800495EC();
+            SD_DisableSecondaryPanning();
         func_80044DC0(g_SDValue->cd_volume);
     }
 }

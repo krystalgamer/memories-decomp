@@ -165,7 +165,7 @@ void SD_EnableSecondaryPanning(void)
     D_8009B458->field_0815 = 0;
 }
 
-void func_800495EC(void)
+void SD_DisableSecondaryPanning(void)
 {
     D_8009B458->field_0815 = 1;
 }
