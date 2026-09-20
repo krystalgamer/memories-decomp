@@ -6,6 +6,9 @@
 #include "color.h"
 #include "model_apply_texture_tint.h"
 
+#define TEXTURE_TINT_RECT ((RECT *)&D_8009B470)
+#define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
+
 void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
 {
     u16 buf[0x400];
@@ -30,7 +33,7 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
             D_8009B472 = y + 0xF8;
             while (IsIdleGPU(3) != 0) {
             }
-            while (StoreImage2((RECT *)&D_8009B470, (u32 *)buf) != 0) {
+            while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
@@ -43,7 +46,7 @@ void Model_ApplyTextureTint(s32 arg0, s32 arg1, s32 arg2)
             D_8009B472 = y + 0xF0;
             while (IsIdleGPU(3) != 0) {
             }
-            while (LoadImage2((RECT *)&D_8009B470, (u32 *)buf) != 0) {
+            while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(buf)) != 0) {
             }
             while (IsIdleGPU(3) != 0) {
             }
@@ -58,5 +61,5 @@ big:
     D_8009B474 = 0x100;
     D_8009B470 = arg0 << 8;
     D_8009B476 = 8;
-    MoveImage((RECT *)&D_8009B470, arg0 << 8, 0xF0);
+    MoveImage(TEXTURE_TINT_RECT, arg0 << 8, 0xF0);
 }

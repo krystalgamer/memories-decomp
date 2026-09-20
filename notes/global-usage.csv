@@ -2328,7 +2328,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B460,D_8009B460,D_8009B460,0x80045514,func_80045514,matching_c,game,C,src/game/func_80045514.c,read,,D_8009B460->field_00 = (s32)g_SDValue->field_005C[0]; | D_8009B460->field_00 = 4; | (+19 more)
 0x8009B460,D_8009B460,D_8009B460,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,write,,D_8009B460 = (FileRequestSlot *)0x801E1650;
 0x8009B468,gModel_ImageCopyRect,gModel_ImageCopyRect,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,write,,"MoveImage(&gModel_ImageCopyRect, 0x220, 0x168); | MoveImage(&gModel_ImageCopyRect, 0x2C0, 0x1C0); | (+2 more)"
-0x8009B470,D_8009B470,D_8009B470,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,"D_8009B470 = arg0 << 8; | MoveImage((RECT *)&D_8009B470, arg0 << 8, 0xF0); | (+2 more)"
+0x8009B470,D_8009B470,D_8009B470,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B470 = arg0 << 8;
 0x8009B472,D_8009B472,D_8009B472,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B472 = 0xF8; | D_8009B472 = y + 0xF0; | (+1 more)
 0x8009B474,D_8009B474,D_8009B474,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B474 = 0x100;
 0x8009B476,D_8009B476,D_8009B476,0x800582C0,Model_ApplyTextureTint,matching_c,game,C,src/game/model_apply_texture_tint.c,write,16,D_8009B476 = 4; | D_8009B476 = 8;
