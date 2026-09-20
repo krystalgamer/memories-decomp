@@ -7,6 +7,7 @@
 #define GPU_PACKET_CODE_OFFSET(prefix_words) \
     ((u32)&((u32 *)0)[prefix_words] + (u32)&((P_CODE *)0)->code)
 #define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
+#define GPU_PACKET_BYTES(packet) ((u8 *)(packet))
 
 void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
 {
@@ -32,7 +33,7 @@ void func_8005B260(u32 *src, GsOT *ot, s32 idx, s32 flags)
     i = draw;
     GPU_PACKET_TAG(D_800FE240)->len = i;
     if (flags >= 0) {
-        ((u8 *)D_800FE240)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
+        GPU_PACKET_BYTES(D_800FE240)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 2);
@@ -101,7 +102,7 @@ void func_8005B4D8(u32 *src, GsOT *ot, s32 idx, s32 flags)
     *(D_800FE240 + len + 3) = 0xE6000000;
     setlen(D_800FE240, len + 3);
     if (flags >= 0) {
-        ((u8 *)D_800FE240)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
+        GPU_PACKET_BYTES(D_800FE240)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], D_800FE240);
     D_800FE240 = D_800FE240 + (len + 4);
