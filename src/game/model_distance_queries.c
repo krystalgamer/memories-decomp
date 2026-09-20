@@ -7,6 +7,9 @@
 #include "camera_view.h"
 #include "model_distance_queries.h"
 
+#define MODEL_SLOT_HALFWORDS(slots, index) \
+    ((u16 *)((u8 *)(slots) + (index) * MODEL_SLOT_SIZE))
+
 /* These six reads deliberately take camera_view.h's raw halfword arm rather
    than its GsRVIEW2 view. Written as
    `*(u16 *)&D_800F56F0.vpx` the two functions come out four bytes short
@@ -17,7 +20,7 @@ s32 Model_GetSlotDistanceFromCameraEye(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+    u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = D_800F56F0[0] - entry[0];
@@ -33,7 +36,7 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+    u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = D_800F56F0[6] - entry[0];

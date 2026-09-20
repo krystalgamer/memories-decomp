@@ -2801,8 +2801,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F39B0,D_800F39B0,D_800F39B0,0x800591C0,Model_GetFlatLight,matching_c,game,C,src/game/model_slot_support.c,address,,entry = (u8 *)D_800F39B0 + index * MODEL_SLOT_SIZE;
 0x800F39F0,D_800F39F0,D_800F39F0,0x8005949C,func_8005949C,matching_c,game,C,src/game/model_slot_properties.c,address,,(u8 *)&D_800F39F0 + index * MODEL_SLOT_SIZE
 0x800F3A10,D_800F3A10,D_800F3A10,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,address,16,arg1 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE); | arg2 = (s32)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
-0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,u16 *entry = (u16 *)((u8 *)D_800F3A10 + index * MODEL_SLOT_SIZE);
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A1F4,Model_GetSlotDistanceFromCameraEye,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);"
+0x800F3A10,D_800F3A10,D_800F3A10,0x8005A2E0,Model_GetSlotDistanceFromCameraTarget,matching_c,game,C,src/game/model_distance_queries.c,address,16,"u16 *entry = MODEL_SLOT_HALFWORDS(D_800F3A10, index);"
 0x800F5678,D_800F5678,D_800F5678,0x80053248,Model_SetSlotProperties,matching_c,game,C,src/game/func_80052D2C.c,read,16,D_8009AF88 = &D_80091008[D_800F5678[0] * 0xB2];
 0x800F5694,D_800F5694,D_800F5694,0x80057544,func_80057544,matching_c,game,C,src/game/model_texture_transfer.c,write,8,D_800F5694[0] = 1;
 0x800F569F,D_800F569F,D_800F569F,0x8004E9A0,func_8004E9A0,matching_c,game,C,src/game/func_8004E9A0.c,read,8,if (D_800F569F[0] != 0) {
