@@ -929,6 +929,7 @@ void func_80050584(s32 arg0) {
 
 #define ACTIVE_SLOT D_8009AFA4[3]
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
+#define MODEL_SLOT_BYTES(slot) ((u8 *)(slot))
 
 void func_800507D0(void)
 {
@@ -987,11 +988,12 @@ void func_800507D0(void)
     case 0:
       first_base = D_800F2C40;
       active_offset = (u32)&((ModelSlot *)0)[(u8)ACTIVE_SLOT];
-      if ( MODEL_SLOT_VIEW((u8 *)first_base + active_offset)->field_E1F )
+      if ( MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(first_base) + active_offset)->field_E1F )
       {
-        if ( (MODEL_SLOT_VIEW((u8 *)D_800F2C40 + active_offset)->field_E15 & 3) == 0 )
+        if ( (MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(D_800F2C40) + active_offset)->field_E15 & 3) == 0 )
         {
-          active_color = MODEL_SLOT_VIEW((u8 *)D_800F2C40 + active_offset)->field_DC0;
+          active_color = MODEL_SLOT_VIEW(
+              MODEL_SLOT_BYTES(D_800F2C40) + active_offset)->field_DC0;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1063,7 +1065,9 @@ void func_800507D0(void)
                 goto set_phase_and_tick;
               }
               peer = (u8)ACTIVE_SLOT ^ 1;
-              if ( MODEL_SLOT_VIEW((u8 *)D_800F2C40 + (904 * peer) * 4)->field_E1F )
+              if ( MODEL_SLOT_VIEW(
+                       MODEL_SLOT_BYTES(D_800F2C40) +
+                       (904 * peer) * 4)->field_E1F )
               {
                 func_80059F18(1, -1, peer, 90);
                 next_phase = D_8009AF9A + 1;
@@ -1082,7 +1086,8 @@ void func_800507D0(void)
       {
         func_80050584((u8)ACTIVE_SLOT);
         if ( MODEL_SLOT_VIEW(
-                 (u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
+                 MODEL_SLOT_BYTES(D_800F2C40) +
+                 (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F )
           func_80059F18(1, -1, (u8)ACTIVE_SLOT, 30);
       }
       goto poll_module;
@@ -1090,12 +1095,15 @@ void func_800507D0(void)
       cross_base = D_800F2C40;
       crossfade_offset = 904 * (u8)ACTIVE_SLOT;
       if ( (MODEL_SLOT_VIEW(
-                (u8 *)cross_base + (crossfade_offset) * 4)->field_E15 & 3) == 0 )
+                MODEL_SLOT_BYTES(cross_base) +
+                (crossfade_offset) * 4)->field_E15 & 3) == 0 )
       {
         outgoing_color = MODEL_SLOT_VIEW(
-            (u8 *)D_800F2C40 + (crossfade_offset) * 4)->field_DC0;
+            MODEL_SLOT_BYTES(D_800F2C40) +
+            (crossfade_offset) * 4)->field_DC0;
         incoming_color = MODEL_SLOT_VIEW(
-            (u8 *)D_800F2C40 + (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->field_DC0;
+            MODEL_SLOT_BYTES(D_800F2C40) +
+            (904 * ((u8)ACTIVE_SLOT ^ 1)) * 4)->field_DC0;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1114,7 +1122,8 @@ void func_800507D0(void)
         if ( !outgoing_color[0] && !outgoing_color[1] && !outgoing_color[2] )
         {
           MODEL_SLOT_VIEW(
-              (u8 *)cross_base + (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F = 0;
+              MODEL_SLOT_BYTES(cross_base) +
+              (904 * (u8)ACTIVE_SLOT) * 4)->field_E1F = 0;
           D_8009AF9A = 0;
           ACTIVE_SLOT ^= 1u;
         }
@@ -1123,7 +1132,8 @@ void func_800507D0(void)
     case 2:
       fade_models = D_800F2C40;
       if ( (MODEL_SLOT_VIEW(
-                (u8 *)fade_models + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
+                MODEL_SLOT_BYTES(fade_models) +
+                (904 * (u8)ACTIVE_SLOT) * 4)->field_E15 & 3) != 0 )
         goto tick_active_slot;
       fade_a = fade_models[0].field_DC0;
       fade_b = fade_models[1].field_DC0;
@@ -1153,7 +1163,7 @@ void func_800507D0(void)
 set_phase_and_tick:
       D_8009AF9A = next_phase;
 tick_active_slot:
-      ++MODEL_SLOT_VIEW((u8 *)D_800F2C40 + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
+      ++MODEL_SLOT_VIEW(MODEL_SLOT_BYTES(D_800F2C40) + (904 * (u8)ACTIVE_SLOT) * 4)->field_E15;
       goto poll_module;
     case 3:
       func_800493F8();
