@@ -9,7 +9,7 @@
    If the 0x157E slot is active, it stops that sequence through SD_StopSequence
    when the 0x80 flag bit is set (clearing the bit), releases the slot through
    func_80049CB0, and marks it inactive. Separately, if the 0x157A counter has
-   run out, it stops the sequence through func_800498F8 and resets
+   run out, it stops the sequence through SD_ResetVabTransferState and resets
    0x157A/0x1578. Always zeroes 0x1586/0x1588. */
 
 void func_80049010(void) {
@@ -24,7 +24,7 @@ void func_80049010(void) {
     }
 
     if (g_SDValue->field_157A == 0) {
-        func_800498F8(0);
+        SD_ResetVabTransferState(0);
         g_SDValue->field_157A = -1;
         g_SDValue->field_1578 = -1;
     }

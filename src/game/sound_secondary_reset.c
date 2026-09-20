@@ -9,7 +9,7 @@ s16 SD_VabTransCompleted(s16 wait)
     return SpuIsTransferCompleted(SPU_TRANSFER_WAIT);
 }
 
-void func_800498F8(void)
+void SD_ResetVabTransferState(void)
 {
     s16 *value = &D_8009B458->transfer.field_0000;
 
