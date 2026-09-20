@@ -656,16 +656,16 @@ fields that happen to contain similar values.
 `sound_spatialize_object.h` now declares both parameters with the existing
 `SDSecondaryObject` and `SDSecondaryRecord` types from `sound.h`.
 `SD_SpatializeSecondaryObject` at `0x8004A0FC` uses those members throughout,
-including typed `SDSecondaryState` root reads. The two matching callers
-(`SD_UpdateSecondaryObjectVolumes` and `func_8004B49C`) and retained
-`func_8004ADE8` candidate consume the same prototype. Their original byte-stride
+including typed `SDSecondaryState` root reads. The three matching callers
+(`SD_UpdateSecondaryObjectVolumes`, `func_8004B49C` and `func_8004ADE8`)
+consume the same prototype. Their original byte-stride
 argument calculations remain where needed; the parameter ABI is still two
 32-bit pointers.
 
 The layout evidence predates this conversion: the controller writer stores
-channel pan, volume and expression, while the note-start candidate fills
+channel pan, volume and expression, while the note starter `func_8004ADE8` fills
 object `+0x08/+0x09` from program/tone gain bytes and `+0x0A/+0x0B` from
-program/tone pan bytes, then stores velocity at `+0x0E`. The candidate now
+program/tone pan bytes, then stores velocity at `+0x0E`. It now
 uses the shared object members for those five stores and the two result
 loads. The kernel writes pan at `+0x0C` and unsigned levels at `+0x14/+0x16`;
 the caller forwards those levels to `SD_SetVoiceVolume`. Existing
@@ -693,8 +693,8 @@ linker assignment or volatile global is introduced. The candidate also uses
 the existing twenty-entry `D_80011434` contract instead of its private
 incomplete declaration. Only those two obsolete private-extern dependencies
 are removed from its metadata; all nineteen candidate object fingerprints,
-targets and profiles remain unchanged, and the note-start candidate is still
-a near miss.
+targets and profiles remain unchanged; the note starter was still a near
+miss at that point (it has since matched as `src/game/func_8004ADE8.c`).
 
 The volume sweep retains four raw reads: two channel-index byte reads at
 state-plus-byte-stride `+0x183`, and the unsigned result pair at

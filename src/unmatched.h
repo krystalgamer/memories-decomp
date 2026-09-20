@@ -80,7 +80,6 @@
  * place, not only the ones that had already drifted: a declaration with one
  * consumer is simply a duplicate that has not happened yet. Each names the
  * file that used to declare it. */
-void func_8004ADE8(s32, s32, s32);  /* sound_sequence_events.c */
 
 /* A buffer base address rather than a byte array anyone indexes: every user
  * either passes it to DisplayObject_ConfigureSpriteAtPositionWithResource or stores it into an object field, and

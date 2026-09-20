@@ -746,12 +746,6 @@ extern u8 *D_8009B458;
 extern SDSecondaryState *D_8009B458;
 #endif
 
-/* A separate compiler identity retains the candidate's measured root reload;
- * it resolves to the same linker word. */
-#ifdef SDSECONDARYSTATE_RELOAD_ALIAS
-extern u8 *D_8009B458_r asm("D_8009B458");
-#endif
-
 /* One SPU voice bit per entry.  The object at D_80011434 is twenty words
  * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
  * agree that these are voice masks: SD_SetVoiceVolume submits D_80011434[voice]

@@ -3,6 +3,7 @@
 #include "sound_secondary_commands.h"
 #include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
+#include "func_8004ADE8.h"
 #include "../unmatched.h"
 
 /* The sequence parser: the fixed-width big-endian readers, the header reader
