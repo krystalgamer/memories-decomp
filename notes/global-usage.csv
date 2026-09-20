@@ -2202,7 +2202,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80049544,func_80049544,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0814 = 1; | s32 value = D_8009B458->field_081C;
 0x8009B458,D_8009B458,D_8009B458,0x80049594,func_80049594,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_081C = value;
 0x8009B458,D_8009B458,D_8009B458,0x800495A4,func_800495A4,matching_c,game,C,src/game/sound_init.c,read,,if (D_8009B458->field_0814)
-0x8009B458,D_8009B458,D_8009B458,0x800495DC,func_800495DC,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 0;
+0x8009B458,D_8009B458,D_8009B458,0x800495DC,SD_EnableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 0;
 0x8009B458,D_8009B458,D_8009B458,0x800495EC,func_800495EC,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 1;
 0x8009B458,D_8009B458,D_8009B458,0x80049600,func_80049600,matching_c,game,C,src/game/func_80049600.c,read,,D_8009B458->object_count = x;
 0x8009B458,D_8009B458,D_8009B458,0x80049640,func_80049640,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = D_8009B458->field_081C;

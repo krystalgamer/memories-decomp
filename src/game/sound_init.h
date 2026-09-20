@@ -25,7 +25,7 @@ void func_800494F4(s32 *data);
 void func_80049544(void);
 void func_80049594(s32 value);
 void func_800495A4(void);
-void func_800495DC(void);
+void SD_EnableSecondaryPanning(void);
 void func_800495EC(void);
 
 #endif

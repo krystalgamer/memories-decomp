@@ -91,7 +91,7 @@ void SD_SetOutputType(s16 value)
     if (state->output_type != value) {
         state->output_type = value;
         if (value == 0)
-            func_800495DC();
+            SD_EnableSecondaryPanning();
         else
             func_800495EC();
         func_80044DC0(g_SDValue->cd_volume);
