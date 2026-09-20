@@ -4,6 +4,8 @@
 #include "gpu_packets.h"
 #include "duel_projection_axes.h"
 
+#define LINE_G3_COORD_WORD(packet, member) ((long *)&(packet)->member)
+
 /* The two axis sweeps of the globe wireframe, called from func_80029934 with
  * everything living in PSX scratchpad: `packet` is the LINE_G3 at 0x1F800000
  * whose three packed screen-coordinate words RotAverage3 writes, `points` is
@@ -36,9 +38,9 @@ void func_80029684(
         &points[0],
         &points[1],
         &points[2],
-        (long *)&packet->x0,
-        (long *)&packet->x1,
-        (long *)&packet->x2,
+        LINE_G3_COORD_WORD(packet, x0),
+        LINE_G3_COORD_WORD(packet, x1),
+        LINE_G3_COORD_WORD(packet, x2),
         &control[0],
         &control[1]
     );
@@ -50,9 +52,9 @@ void func_80029684(
             &points[0],
             &points[1],
             &points[2],
-            (long *)&packet->x0,
-            (long *)&packet->x1,
-            (long *)&packet->x2,
+            LINE_G3_COORD_WORD(packet, x0),
+            LINE_G3_COORD_WORD(packet, x1),
+            LINE_G3_COORD_WORD(packet, x2),
             &control[0],
             &control[1]
         );
@@ -78,9 +80,9 @@ void func_800297DC(
         &points[0],
         &points[1],
         &points[2],
-        (long *)&packet->x0,
-        (long *)&packet->x1,
-        (long *)&packet->x2,
+        LINE_G3_COORD_WORD(packet, x0),
+        LINE_G3_COORD_WORD(packet, x1),
+        LINE_G3_COORD_WORD(packet, x2),
         &control[0],
         &control[1]
     );
@@ -92,9 +94,9 @@ void func_800297DC(
             &points[0],
             &points[1],
             &points[2],
-            (long *)&packet->x0,
-            (long *)&packet->x1,
-            (long *)&packet->x2,
+            LINE_G3_COORD_WORD(packet, x0),
+            LINE_G3_COORD_WORD(packet, x1),
+            LINE_G3_COORD_WORD(packet, x2),
             &control[0],
             &control[1]
         );
