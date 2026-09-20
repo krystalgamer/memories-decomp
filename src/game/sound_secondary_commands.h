@@ -21,7 +21,7 @@
  * sound_event_runtime.h because it is installed through the SDK event ABI,
  * rather than dispatched as a sequence command. */
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2);
-void func_8004B6E8(u8 index, s32 value);
+void SD_SetSequenceChannelProgram(u8 index, s32 value);
 void func_8004B70C(u8 index, s32 unused, s32 value);
 
 #endif
