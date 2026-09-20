@@ -32,8 +32,9 @@ void DuelSelection_LinkDisplayObject(
  * Passing `parent` and `clear` directly, rather than copying the arguments into
  * locals, first removes the saved-register displacement. Maintaining two
  * independent 12-byte cursors still exchanges `$s0` and `$s1` at nine instructions.
- * Deriving the second object pointer at `entry + 4` inside each iteration lets
- * ordinary loop strength reduction allocate both cursors as retail does.
+ * Deriving the second object pointer from `entry->field_04` inside each
+ * iteration lets ordinary loop strength reduction allocate both cursors as
+ * retail does.
  *
  * The remaining two-word discriminator is the increment order:
  * `entry++, slot++` gives retail's second-cursor increment before its slot
@@ -55,7 +56,7 @@ void DuelSelection_LinkDisplayObjects(DisplayParent *parent, s32 clear)
         DuelSelection_LinkDisplayObject(parent, parent->base);
         parent->base = 0;
         for (slot = 0; slot < DUEL_FIELD_ROW_SIZE; entry++, slot++) {
-            child = (DisplayLinkEntry *)((u8 *)entry + 4);
+            child = (DisplayLinkEntry *)&entry->field_04;
             DuelSelection_LinkDisplayObject(parent, entry->object);
             DuelSelection_LinkDisplayObject(parent, child->object);
             if (clear) {
