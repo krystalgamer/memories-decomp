@@ -74,9 +74,12 @@ typedef struct {
      * parking campaign_scene_index at 0x30 and marking every card used. */
     u8 field_3DE;
     u8 pad_3DF[
-        SAVE_DATA_SEQUENCE_OFFSET -
+        SAVE_DATA_TERTIARY_OFFSET -
         (SAVE_DATA_CREDITS_FLAGS_OFFSET + sizeof(u8))
     ];
+    /* The first word the tertiary CRC covers. SaveData_BuildPayload zeroes
+     * it before sealing; no reader of it is known. */
+    s32 field_400;
     u32 save_sequence;
     u32 vblank_counter;
     u8 player_name_sjis[SAVE_DATA_PLAYER_NAME_SIZE];
@@ -103,6 +106,21 @@ typedef struct {
     u8 prefix[SAVE_DATA_HEADER_SIZE];
     SaveDataState state;
 } SaveDataWorkspace;
+
+/* A whole save payload as SaveData_BuildPayload assembles it: the header
+ * template, the 0x680-byte state block, and the 0x680-byte duplicate the
+ * memory card layer compares against it. SaveDataState only names the
+ * state's first 0x5E4 bytes; state_tail is the rest, where the tertiary seal
+ * ends and the reserved tail that BuildPayload clears begins. BuildPayload
+ * copies all SAVE_DATA_STATE_SIZE bytes into duplicate, so duplicate_tail
+ * carries the copy of state_tail and the payload ends at 0xF00. */
+typedef struct {
+    u8 header[SAVE_DATA_HEADER_SIZE];
+    SaveDataState state;
+    u8 state_tail[SAVE_DATA_STATE_SIZE - sizeof(SaveDataState)];
+    SaveDataState duplicate;
+    u8 duplicate_tail[SAVE_DATA_STATE_SIZE - sizeof(SaveDataState)];
+} SaveDataPayload;
 
 typedef char SaveDataState_card_quantities_offset_must_be_0x50[
     (u32)&(((SaveDataState *)0)->card_quantities) ==
@@ -138,6 +156,14 @@ typedef char SaveDataState_starchips_offset_must_be_0x5E0[
 ];
 typedef char SaveDataState_size_must_be_0x5E4[
     sizeof(SaveDataState) == 0x5E4 ? 1 : -1
+];
+typedef char SaveDataPayload_duplicate_offset_must_follow_the_state[
+    (u32)&(((SaveDataPayload *)0)->duplicate) ==
+        SAVE_DATA_DUPLICATE_STATE_OFFSET ? 1 : -1
+];
+typedef char SaveDataPayload_size_must_be_0xF00[
+    sizeof(SaveDataPayload) ==
+        SAVE_DATA_HEADER_SIZE + SAVE_DATA_REPLICATED_STATE_SIZE ? 1 : -1
 ];
 typedef char SaveDataWorkspace_state_offset_must_be_0x200[
     (u32)&(((SaveDataWorkspace *)0)->state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
@@ -237,7 +263,7 @@ void SaveData_SetMaskSeed(u32);
 u32 SaveData_CalcCrc16(u8 *, s32);
 void SaveData_WritePrimarySecondaryIntegrity(u8 *);
 void SaveData_WriteTertiaryIntegrity(u8 *);
-void SaveData_BuildPayload(u8 *);
+void SaveData_BuildPayload(SaveDataPayload *);
 s32 SaveData_ValidateIntegrity(u8 *);
 void SaveData_ApplyRuntimeState(SaveDataState *state);
 

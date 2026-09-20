@@ -6448,17 +6448,17 @@
       "address": "0x80070F1C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
-      "source": "src/game/ai_script_play_field_card.c"
+      "source": "src/game/ai_script_end.c"
     },
     {
       "address": "0x80070FF8",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
       "source": "src/game/ai_script_end.c"
     },
     {
       "address": "0x80071000",
-      "profile": "gcc_2_8_1_g0",
+      "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
       "source": "src/game/ai_script_end.c"
     },
