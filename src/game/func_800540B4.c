@@ -316,7 +316,7 @@ void func_800540B4(s32 index)
             }
             if (found) {
                 ScaleMatrix(
-                    (MATRIX *)((u8 *)e->field_00 + 4),
+                    &GS_COORD_UNIT_VIEW(e->field_00)->matrix,
                     VECTOR_VIEW(&slot->field_DB0));
             } else {
                 func_8005922C(
