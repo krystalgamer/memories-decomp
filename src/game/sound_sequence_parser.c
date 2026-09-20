@@ -6,6 +6,9 @@
 #include "func_8004ADE8.h"
 #include "../unmatched.h"
 
+#define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
+    ((SDSecondaryState *)((u8 *)(state) + (offset)))
+
 /* The sequence parser: the fixed-width big-endian readers, the header reader
    that uses them to set up track and tempo, and the handlers for the meta,
    SysEx and channel events the running-status reader dispatches. All eight
@@ -184,7 +187,8 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
             off = z;
             i = z;
             do {
-                SDSecondaryState *at = (SDSecondaryState *)((u8 *)f + off);
+                SDSecondaryState *at =
+                    SD_SECONDARY_STATE_AT_OFFSET(f, off);
 
                 at->tracks[0].tempo_step = v;
                 at->tracks[0].tempo_accumulator = v;
