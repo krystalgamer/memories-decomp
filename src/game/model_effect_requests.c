@@ -25,7 +25,7 @@ void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
     }
 }
 
-void func_80059FAC(s32 first, s32 second)
+void Model_SetCameraEyeSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();
 

@@ -2732,7 +2732,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2B20,D_800F2B20,D_800F2B20,0x80051A48,func_80051A48,matching_c,game,C,src/game/func_80051A48.c,read_write,,D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_x; | D_800F2B20.elapsed / D_800F2B20.duration + D_800F2B20.eye.start_y; | (+47 more)
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052694,func_80052694,matching_c,game,C,src/game/model_scene_setup.c,address,,e = &D_800F2B20; | g = &D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x80052D2C,func_80052D2C,matching_c,game,C,src/game/func_80052D2C.c,write,,D_800F2B20.eye.pair_slot = -1; | D_800F2B20.eye.pair_slot = index ^ 1; | (+6 more)
-0x800F2B20,D_800F2B20,D_800F2B20,0x80059FAC,func_80059FAC,matching_c,game,C,src/game/model_effect_requests.c,address,,ModelCameraMove *move = &D_800F2B20;
+0x800F2B20,D_800F2B20,D_800F2B20,0x80059FAC,Model_SetCameraEyeSlots,matching_c,game,C,src/game/model_effect_requests.c,address,,ModelCameraMove *move = &D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x8005A010,func_8005A010,matching_c,game,C,src/game/model_effect_requests.c,address,,ModelCameraMove *move = &D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x8005A074,func_8005A074,matching_c,game,C,src/game/model_effect_requests.c,address,,ModelCameraMove *move = &D_800F2B20;
 0x800F2B20,D_800F2B20,D_800F2B20,0x8005A130,func_8005A130,matching_c,game,C,src/game/model_effect_requests.c,address,,move = &D_800F2B20;

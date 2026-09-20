@@ -962,7 +962,7 @@ address,size,name,status,module,notes
 0x80059DD8,0xE4,Model_RunSlotHandlers,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80059EBC,0x5C,func_80059EBC,matching_c,game,"Transfer-gated camera-effect request; byte-identical at g0, g0_split, g8, and g8_split and grouped with the contiguous parameter setters."
 0x80059F18,0x94,func_80059F18,matching_c,game,"Transfer-gated adjusted camera-effect request; byte-identical at g0, g0_split, g8, and g8_split and grouped with the contiguous parameter setters."
-0x80059FAC,0x64,func_80059FAC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
+0x80059FAC,0x64,Model_SetCameraEyeSlots,matching_c,game,"High-confidence semantic name: stores the caller's pair-slot and slot indices into the eye leg of the shared ModelCameraMove unless the transfer-state guard suppresses the request; exact full-executable match under gcc_2_8_1_g0_split."
 0x8005A010,0x64,func_8005A010,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A074,0x68,func_8005A074,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x8005A0DC,0x54,func_8005A0DC,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
