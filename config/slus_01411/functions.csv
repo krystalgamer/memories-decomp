@@ -792,7 +792,7 @@ address,size,name,status,module,notes
 0x80049308,0x8C,func_80049308,matching_c,game,Pure-C inline refinement matched the full executable.
 0x80049394,0x64,func_80049394,matching_c,game,1 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x800493F8,0x3C,func_800493F8,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
-0x80049434,0xC0,func_80049434,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
+0x80049434,0xC0,SD_ResetSecondaryState,matching_c,game,"High-confidence semantic name: clears sequence-update flags, disables updates, restores object, level, transfer, sequence, cursor, and mode defaults, and marks the VAB transfer inactive; exact full-executable match under gcc_2_8_1_g0."
 0x800494F4,0x50,func_800494F4,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0.
 0x80049544,0x50,SD_EnableSecondarySequenceUpdates,matching_c,game,"High-confidence semantic name: conditionally opens the secondary sequence timer for modes 1 through 3, then sets the enable flag shared by timer- and VSync-driven updates; exact full-executable match under gcc_2_8_1_g0."
 0x80049594,0x10,func_80049594,matching_c,game,2 pre-policy variants: exact -G0; -G8 used GP-relative global access

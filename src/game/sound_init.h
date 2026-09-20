@@ -20,7 +20,7 @@ void SD_Init(void);
 void func_80049308(void);
 void func_80049394(u16 *track);
 void func_800493F8(void);
-void func_80049434(void);
+void SD_ResetSecondaryState(void);
 void func_800494F4(s32 *data);
 void SD_EnableSecondarySequenceUpdates(void);
 void func_80049594(s32 value);

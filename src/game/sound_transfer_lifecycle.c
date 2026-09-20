@@ -16,13 +16,13 @@ void func_80049640(void)
         if (value < 4)
             SD_CloseSequenceTimerEvent();
     }
-    func_80049434();
+    SD_ResetSecondaryState();
 }
 
 void SD_Term(void)
 {
     func_8004A6D8();
-    func_80049434();
+    SD_ResetSecondaryState();
     SpuQuit();
 }
 
