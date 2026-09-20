@@ -13,8 +13,8 @@ class WorkspaceError(RuntimeError):
 
 WORKSPACE_MARKERS = (
     ".git",
+    "Makefile",
     "config/slus_01411/target.yaml",
-    "game/SLUS_014.11",
 )
 
 

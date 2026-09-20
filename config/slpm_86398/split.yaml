@@ -1,0 +1,138 @@
+name: SLPM_863.98
+sha1: 4c829d5b467e8efc6e0694f4641663827c94f00f
+
+options:
+  basename: slpm_86398
+  base_path: ../..
+  target_path: game/japanese/SLPM_863.98
+  elf_path: tmp/splat/slpm_86398/build/slpm_86398.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/splat/slpm_86398/asm
+  src_path: src
+  build_path: tmp/splat/slpm_86398/build
+  asset_path: tmp/splat/slpm_86398/assets
+  cache_path: tmp/splat/slpm_86398/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/splat/slpm_86398/slpm_86398.ld
+  generated_asm_macros_directory: tmp/splat/slpm_86398/include
+  lib_path: tmp/splat/slpm_86398/lib
+  o_path: tmp/splat/slpm_86398/build
+  undefined_funcs_auto_path: tmp/splat/slpm_86398/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/splat/slpm_86398/undefined_syms_auto.txt
+
+  gp_value: 0x8009ae48
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80010000
+    align: 4
+    subsegments:
+      - [0x800, rodata, initial_data]
+      - [0x30c4, asm, entry]
+      - [0x80d84, pad]
+
+  - name: initialized_data
+    type: code
+    start: 0x80d90
+    vram: 0x80090590
+    align: 4
+    subsegments:
+      - [0x80d90, data, initialized_data]
+
+  - name: bss_image
+    type: bin
+    start: 0x8b780
+    vram: 0x8009af80
+    align: 4
+    subsegments:
+      - [0x8b780, bin, bss_image]
+
+  - name: reserved_zero
+    type: bin
+    start: 0xec798
+    vram: 0x800fbf98
+    align: 4
+    subsegments:
+      - [0xec798, bin, reserved_zero]
+
+  - name: overlays/slot_8013a000
+    type: bin
+    start: 0x12a800
+    vram: 0x8013a000
+    align: 4
+    subsegments:
+      - [0x12a800, bin, overlays/slot_8013a000]
+
+  - name: overlays/slot_80154000
+    type: bin
+    start: 0x144800
+    vram: 0x80154000
+    align: 4
+    subsegments:
+      - [0x144800, bin, overlays/slot_80154000]
+
+  - name: overlays/slot_80168000
+    type: bin
+    start: 0x158800
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x158800, bin, overlays/slot_80168000]
+
+  - name: overlays/slot_8017a000
+    type: bin
+    start: 0x16a800
+    vram: 0x8017a000
+    align: 4
+    subsegments:
+      - [0x16a800, bin, overlays/slot_8017a000]
+
+  - name: overlays/slot_80180000
+    type: bin
+    start: 0x170800
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x170800, bin, overlays/slot_80180000]
+
+  - name: tail_data
+    type: bin
+    start: 0x1ac800
+    vram: 0x801bc000
+    align: 4
+    subsegments:
+      - [0x1ac800, bin, tail_data]
+
+  - [0x1d0800]

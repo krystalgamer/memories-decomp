@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import struct
@@ -30,10 +31,8 @@ def parse_integer(value: Any, description: str) -> int:
     raise ImageMapError(f"{description} must be an integer or integer string")
 
 
-def load_image_map(root: Path) -> dict[str, Any]:
-    path = resolve_within(
-        root, "config/slus_01411/image_map.json", must_exist=True
-    )
+def load_image_map(root: Path, relative_path: str) -> dict[str, Any]:
+    path = resolve_within(root, relative_path, must_exist=True)
     with path.open("r", encoding="utf-8") as handle:
         image_map = json.load(handle)
     if image_map.get("schema") != 1:
@@ -160,14 +159,34 @@ def validate_structural_evidence(
         raise ImageMapError("startup clear end does not match bss_image")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Validate one configured executable image map."
+    )
+    parser.add_argument(
+        "--target",
+        default="config/slus_01411/target.yaml",
+        help="target metadata path relative to the repository root",
+    )
+    parser.add_argument(
+        "--image-map",
+        default="config/slus_01411/image_map.json",
+        help="image map path relative to the repository root",
+    )
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
     try:
         root = require_workspace_root()
-        source, executable, _header_bytes, header = load_verified_executable(root)
+        source, executable, _header_bytes, header = load_verified_executable(
+            root, args.target
+        )
         image = source.read_bytes()
         if sha256_file_from_bytes(image) != str(executable["sha256"]):
             raise ImageMapError("target executable changed during map validation")
-        image_map = load_image_map(root)
+        image_map = load_image_map(root, args.image_map)
         if image_map.get("target_sha256") != executable["sha256"]:
             raise ImageMapError("image map targets a different executable hash")
 

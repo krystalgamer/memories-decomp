@@ -39,8 +39,10 @@ def first_difference(expected: Path, actual: Path) -> tuple[int, int | None, int
                 offset += len(expected_chunk)
 
 
-def compare(root: Path, output_path: str) -> None:
-    expected, executable, _header_bytes, header = load_verified_executable(root)
+def compare(root: Path, target_path: str, output_path: str) -> None:
+    expected, executable, _header_bytes, header = load_verified_executable(
+        root, target_path
+    )
     actual = resolve_within(root, output_path, must_exist=True)
     if not actual.is_file():
         raise MatchError(f"rebuilt output is not a file: {output_path}")
@@ -69,7 +71,12 @@ def compare(root: Path, output_path: str) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Compare a rebuilt PS-X executable with SLUS-01411."
+        description="Compare a rebuilt PS-X executable with a configured target."
+    )
+    parser.add_argument(
+        "--target",
+        default="config/slus_01411/target.yaml",
+        help="target metadata path relative to the repository root",
     )
     parser.add_argument(
         "--output",
@@ -83,7 +90,7 @@ def main() -> int:
     args = parse_args()
     try:
         root = require_workspace_root()
-        compare(root, args.output)
+        compare(root, args.target, args.output)
     except (MatchError, WorkspaceError, OSError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1
