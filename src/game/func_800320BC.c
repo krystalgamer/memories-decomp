@@ -15,6 +15,7 @@
      2 * sizeof(s16))
 #define BUILD_DECK_ADD_ENTRY_HALFWORD_STRIDE \
     (sizeof(CardEntry) / sizeof(s16))
+#define CARD_ENTRY_BYTES(entry) ((u8 *)(entry))
 
 /* The Build Deck screen's card counts: the count box refresh, returning a
    copy to the chest, taking one out, recounting the deck, and adding a card
@@ -41,10 +42,10 @@ void BuildDeck_AddCard(s32 arg0, s32 arg1)
     }
     entry = (s16 *)(arg0 + BUILD_DECK_ADD_ENTRY_CURSOR_OFFSET);
     do {
-        if (((u8 *)entry)[5] == 0) {
-            ((u8 *)entry)[5] = 1;
+        if (CARD_ENTRY_BYTES(entry)[5] == 0) {
+            CARD_ENTRY_BYTES(entry)[5] = 1;
             entry[-2] = (s16)arg1;
-            ((u8 *)entry)[2] =
+            CARD_ENTRY_BYTES(entry)[2] =
                 (u8)((*record >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK);
             entry[-1] =
                 (s16)((*record & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
