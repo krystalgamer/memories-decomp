@@ -13,7 +13,7 @@ s32 ScriptCommand_MarkStarted(void)
     return 1;
 }
 
-void func_8002E3DC(void)
+void Script_OpHalt(void)
 {
     ScriptCommand_MarkStarted();
 }

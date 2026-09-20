@@ -9,6 +9,6 @@
  * uniformly spell the test as ScriptCommand_MarkStarted() == 0. */
 s32 ScriptCommand_MarkStarted(void);
 
-void func_8002E3DC(void);
+void Script_OpHalt(void);
 
 #endif

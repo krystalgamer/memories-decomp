@@ -9,7 +9,7 @@ is active.
 
 | Slot | Handler | Established behavior |
 | ---: | --- | --- |
-| 0 | `func_8002E3DC` | Calls the command-busy latch and otherwise has no visible effect. |
+| 0 | `Script_OpHalt` | Latches itself active and stops script advancement. |
 | 1 | `func_8002E470` | Loads an image-scene package and waits for its transfer lifecycle. |
 | 2 | `Script_OpShowDialog` | Creates a story dialog from a text id and waits for completion. |
 | 3 | `Script_OpStoryFlag` | Writes a story flag or conditionally jumps when a flag is set. |

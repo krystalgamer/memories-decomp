@@ -26,7 +26,7 @@
  */
 
 ScriptCommandHandler D_80090C50[] = {
-    func_8002E3DC,
+    Script_OpHalt,
     Script_OpLoadImageScene,
     Script_OpShowDialog,
     Script_OpStoryFlag,
