@@ -1,17 +1,4 @@
 {
   "schema": 2,
-  "candidates": [
-    {
-      "address": "0x80028B08",
-      "profile": "gcc_2_8_1_g8_split",
-      "source": "src/candidates/func_80028B08.c",
-      "target": "src/candidates_target/func_80028B08.S",
-      "candidate_build_sha256": "dcf35b31486a9d2745add60162987e88ec115ce1144e06e85722ef5a1828dab6",
-      "target_bytes_sha256": "fb38e3e28d6d26eaccec138ff5de546f183df0ce2012b07f1513827e2ddc5503",
-      "canonical_contract_sha256": "db28a10a7e76764f5b9bad63fcd5eff5eebf796102fd8f81fa4db5bdf22bd795",
-      "canonical_contracts": {
-        "DisplayObject_SubmitPacket": "3a44cc6d2b28304d7d4dd6243b2d6d2ee43f2b60d7f11e439903f857483f8a4b"
-      }
-    }
-  ]
+  "candidates": []
 }

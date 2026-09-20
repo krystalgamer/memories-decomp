@@ -70,7 +70,7 @@ PAIRS = [
     ("src/game/func_80014294.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdIntToPos_8007E600", '#include "file_cd_helpers.h"'),
     ("src/game/movie_stream_requests.c", "CdPosToInt_8007E710", '#include "file_cd_helpers.h"'),
-    ("src/candidates/func_80028B08.c", "DisplayObject_SubmitPacket", '#include "../game/display_object_packet_submit.h"'),
+    ("src/game/func_80028B08.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/display_object_runtime.c", "DisplayObject_SubmitPacket", '#include "display_object_packet_submit.h"'),
     ("src/game/model_load_step.c", "func_8004CB0C", '#include "model_slot_setup.h"'),
     ("src/game/model_intro_controller.c", "func_80056828", '#include "model_load_step.h"'),
@@ -84,9 +84,9 @@ PAIRS = [
     ("src/game/library_runtime.c", "func_8002A2F4", '#include "func_8002A2F4.h"'),
 ]
 
-PACKET_SUBMIT_CANDIDATES = (
-    "src/candidates/func_80028B08.c",
-)
+# func_80028B08 was the last candidate pinned to this contract; it has since
+# matched and lives in src/game/func_80028B08.c, outside candidates.json.
+PACKET_SUBMIT_CANDIDATES: tuple[str, ...] = ()
 
 
 def profiles_by_source() -> dict[str, str]:
@@ -351,7 +351,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         self.assertNotEqual(expected, changed_hash)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
-        source = "src/candidates/func_80028B08.c"
+        source = "src/game/func_80028B08.c"
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")

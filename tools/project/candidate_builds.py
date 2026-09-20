@@ -619,10 +619,11 @@ def load_candidates(
             "schema 2 canonical contract metadata is required"
         )
     items = configuration.get("candidates")
-    if not isinstance(items, list) or not items:
+    # The list is empty once every resident function has matched.
+    if not isinstance(items, list):
         raise CandidateBuildError(
             f"{CONFIG_PATH.relative_to(ROOT)}: "
-            "candidates must be a non-empty list"
+            "candidates must be a list"
         )
 
     profiles = load_profiles()
