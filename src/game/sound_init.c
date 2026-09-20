@@ -86,7 +86,7 @@ void func_800493F8(void)
     entry[0] = 0xFFFF;
 }
 
-void func_80049434(void)
+void SD_ResetSecondaryState(void)
 {
     SDSecondaryState *state;
     SDSecondaryState *other;
@@ -135,7 +135,7 @@ void func_800494F4(s32 *data)
     } while (i < 530);
     SpuInit();
     func_8004A6D8();
-    func_80049434();
+    SD_ResetSecondaryState();
 }
 
 void SD_EnableSecondarySequenceUpdates(void)

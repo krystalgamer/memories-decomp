@@ -2197,7 +2197,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x80046768,SD_InitState,matching_c,game,C,src/game/sd_init_state.c,read,,D_8009B458->field_0509 = 0; | sec = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004695C,SD_SetSequenceVSyncMode,matching_c,game,C,src/game/sound_state_control.c,read,,D_8009B458->field_0509 = value; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x80047050,SD_VSync,matching_c,game,C,src/game/sound_output.c,read,,if (D_8009B458->field_0509)
-0x8009B458,D_8009B458,D_8009B458,0x80049434,func_80049434,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0501 = 0; | (+7 more)
+0x8009B458,D_8009B458,D_8009B458,0x80049434,SD_ResetSecondaryState,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->flag_0500 = 0; | D_8009B458->flag_0501 = 0; | (+7 more)
 0x8009B458,D_8009B458,D_8009B458,0x800494F4,func_800494F4,matching_c,game,C,src/game/sound_init.c,write,,D_8009B458 = (SDSecondaryState *)data;
 0x8009B458,D_8009B458,D_8009B458,0x80049544,SD_EnableSecondarySequenceUpdates,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0814 = 1; | s32 value = D_8009B458->field_081C;
 0x8009B458,D_8009B458,D_8009B458,0x80049594,func_80049594,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_081C = value;
