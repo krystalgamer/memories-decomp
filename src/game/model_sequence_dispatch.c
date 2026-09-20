@@ -18,9 +18,10 @@
  * The single-pass endpoint checks preserve GCC 2.8.1's reference weighting.
  * Flattening them exchanges the context and cached-sentinel registers in
  * fifteen words. The GsSEQ cursor starts after one canonical GsSEH header and
- * advances by each record's u32 size. The ModelAnimParams tail keeps its
- * byte-addressed form but derives its base from GsARGUNIT_ANIM::header_size.
- * No register bindings or instruction assembly are used.
+ * advances by each record's u32 size. The command byte offset derives from
+ * the typed command width. The ModelAnimParams tail keeps its byte-addressed
+ * form but derives its base from GsARGUNIT_ANIM::header_size. No register
+ * bindings or instruction assembly are used.
  */
 static __inline__ u32 scan_command(GsSEQ *track, u32 *commands, u32 index)
 {
@@ -140,7 +141,7 @@ stopped:
                 }
             }
             dispatch_record = (u8 *)(
-                (u32)&((u32 *)0)[track->ti] + (u32)commands);
+                track->ti * sizeof(*commands) + (u32)commands);
             slots = (ModelAnimParams *)(
                 (u8 *)ctx +
                 (u32)&((GsARGUNIT_ANIM *)0)->header_size +
