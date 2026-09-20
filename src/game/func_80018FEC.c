@@ -137,7 +137,7 @@ next_obj:
         D_8009B1B9 = 0;
         D_8009B17C = 0;
         D_8009B23A = D_8009B23A | 0x4000;
-        func_80015C84();
+        Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 2;
         SD_BGMFadeOutWithStep(2);
         return;

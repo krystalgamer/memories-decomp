@@ -28,7 +28,7 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
         }
         gFade_State.step = 4;
     } else if (opcode & 1) {
-        func_80015C84();
+        Fade_StartOutKeepOverlay();
     } else {
         Fade_StartInKeepOverlay();
     }
