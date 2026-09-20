@@ -2536,7 +2536,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x8001F55C,DuelScene_UpdateBattle,matching_c,game,C,src/game/duel_scene_battle.c,address,,effects = D_800EA0E8; | view = (u8 *)&D_800EA0E8[D_8009B1B9];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x800283F4,DuelEffect_UpdateCardViewerState,matching_c,game,C,src/game/func_800283F4.c,address,,p = &D_800EA0E8[0];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x800289BC,func_800289BC,matching_c,game,C,src/game/func_800289BC.c,address,,e = &D_800EA0E8[(s32)object->callback_data];
-0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80028B08,func_80028B08,unmatched_asm,game,assembly,tmp/splat/asm/generated/text_019308.s,address,,"addiu $v0, $v0, %lo(D_800EA0E8) | lui $v0, %hi(D_800EA0E8)"
+0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80028B08,func_80028B08,matching_c,game,C,src/game/func_80028B08.c,address,,rec = &D_800EA0E8[obj->field_67];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029164,func_80029164,matching_c,game,C,src/game/duel_effect_resource_setup.c,write,,D_800EA0E8[slot].field_30 = value;
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x800291E0,func_800291E0,matching_c,game,C,src/game/duel_effect_resource_setup.c,address,,entry = &D_800EA0E8[index];
 0x800EA0E8,D_800EA0E8,D_800EA0E8,0x80029528,func_80029528,matching_c,game,C,src/game/func_80029528.c,address,,DuelEffectResourceRecord *entry = &D_800EA0E8[index];
