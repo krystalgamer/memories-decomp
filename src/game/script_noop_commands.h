@@ -7,7 +7,7 @@
  * distinct addresses in the target, not one entry repeated, so the table needs
  * both names -- and neither clears D_8009B27C, which means a script command
  * that lands on either never reports itself finished. */
-void Script_OpNoOp14(void);
-void Script_OpNoOp15(void);
+void Script_OpUnusedHalt14(void);
+void Script_OpUnusedHalt15(void);
 
 #endif
