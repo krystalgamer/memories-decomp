@@ -530,7 +530,7 @@ void DuelScene_UpdateBattle(void)
             side = D_800E9EF0[ix + 2];
             if (!(flags & 0x80)) {
                 D_8009B174 = flags | 0xC0;
-                *(u32 *)((u8 *)side + 0x28) = *(u32 *)((u8 *)side + 0x30);
+                *(u32 *)&side->position = *(u32 *)&side->field_30;
                 wins = D_8009B1B0;
                 if (wins[ix] != 0) {
                     req =
@@ -566,7 +566,7 @@ void DuelScene_UpdateBattle(void)
                 if (!(DUEL_EFFECT_REQUEST_VIEW(D_8009B17C)->flags & 0x80)) {
                     f &= 0xBF;
                     D_8009B174 = f;
-                    *(u32 *)((u8 *)side + 0x30) = side->position.word;
+                    *(u32 *)&side->field_30 = side->position.word;
                     D_8009B1D0 = 0xA;
                     return;
                 }
