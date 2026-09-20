@@ -317,7 +317,7 @@ void DuelScene_UpdateBattle(void)
     case 3:
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            func_80015CC0();
+            Fade_StartOutKeepOverlayAndHideSecondaryTables();
             return;
         }
         if (!(D_800E9ECE[0] & 0x80)) {

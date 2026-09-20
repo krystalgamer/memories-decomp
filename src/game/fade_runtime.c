@@ -397,7 +397,7 @@ void Fade_StartOutKeepOverlay(void)
     func_80015870();
 }
 
-void func_80015CC0(void)
+void Fade_StartOutKeepOverlayAndHideSecondaryTables(void)
 {
     FadeTransitionState *state;
 

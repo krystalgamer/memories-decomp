@@ -1713,7 +1713,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B2FC,gBuildDeck_pState,gBuildDeck_pState,0x80033BE8,func_80033BE8,matching_c,game,C,src/game/func_800339D0.c,read,,D_80090DF8[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState); | base = gBuildDeck_pState; | (+1 more)
 0x8009B300,D_8009B300,D_8009B300,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,write,32,D_8009B300 = t; | a = *(u8 *)&D_8009B300;
 0x8009B300,D_8009B300,D_8009B300,0x80033DB0,func_80033DB0,matching_c,game,C,src/game/func_80033DB0.c,read,32,CVECTOR_WORD(grey) = D_8009B300; | CVECTOR_WORD(white) = D_8009B300;
-0x8009B300,D_8009B300,D_8009B300,0x80034830,func_80034830,matching_c,game,C,src/game/func_80034830.c,read,32,*(u32 *)grey = D_8009B300; | *(u32 *)white = D_8009B300;
+0x8009B300,D_8009B300,D_8009B300,0x80034830,func_80034830,matching_c,game,C,src/game/func_80034830.c,read,32,CVECTOR_WORD(grey) = D_8009B300; | CVECTOR_WORD(white) = D_8009B300;
 0x8009B300,D_8009B300,D_8009B300,0x80035668,func_80035668,matching_c,game,C,src/game/text_render_state.c,write,32,D_8009B300 = 0x808080;
 0x8009B304,D_8009B304,D_8009B304,0x800164FC,Duel_DrawFieldCards,matching_c,game,C,src/game/func_800164FC.c,read,,D_8009B310 = D_8009B304;
 0x8009B304,D_8009B304,D_8009B304,0x800355C8,SortedEntry_SortAndRelink,matching_c,game,C,src/game/sorted_entry_relink.c,read,,D_8009B310 = D_8009B304; | SortedEntry *base = D_8009B304;
@@ -2454,7 +2454,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800E9EC8,gFade_State,gFade_State,0x80015C0C,Fade_StartInKeepOverlay,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x80015C48,func_80015C48,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x80015C84,Fade_StartOutKeepOverlay,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
-0x800E9EC8,gFade_State,gFade_State,0x80015CC0,func_80015CC0,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
+0x800E9EC8,gFade_State,gFade_State,0x80015CC0,Fade_StartOutKeepOverlayAndHideSecondaryTables,matching_c,game,C,src/game/fade_runtime.c,address,,state = &gFade_State;
 0x800E9EC8,gFade_State,gFade_State,0x8001825C,DuelScene_UpdateResume,matching_c,game,C,src/game/duel_phase_entry.c,read,,if ((gFade_State.flags & FADE_FLAG_ACTIVE) != 0) {
 0x800E9EC8,gFade_State,gFade_State,0x80020F4C,DuelScene_UpdateResultOutro,matching_c,game,C,src/game/duel_result_runtime.c,read,,if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
 0x800E9EC8,gFade_State,D_800E9EC8_arr,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,address,8,((FadeTransitionState *)D_800E9EC8_arr)->level = 255; | if (!(((FadeTransitionState *)D_800E9EC8_arr)->flags & 0x80)) {
