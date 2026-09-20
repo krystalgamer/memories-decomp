@@ -24,7 +24,7 @@ void func_80049434(void);
 void func_800494F4(s32 *data);
 void func_80049544(void);
 void func_80049594(s32 value);
-void func_800495A4(void);
+void SD_UpdateSecondarySequenceIfEnabled(void);
 void SD_EnableSecondaryPanning(void);
 void SD_DisableSecondaryPanning(void);
 

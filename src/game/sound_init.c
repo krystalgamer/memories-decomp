@@ -154,7 +154,7 @@ void func_80049594(s32 value)
     D_8009B458->field_081C = value;
 }
 
-void func_800495A4(void)
+void SD_UpdateSecondarySequenceIfEnabled(void)
 {
     if (D_8009B458->field_0814)
         SD_UpdateSecondarySequence();
