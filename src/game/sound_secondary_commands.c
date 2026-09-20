@@ -115,7 +115,7 @@ void SD_SetSequenceChannelProgram(unsigned char index, int value)
     entries->program = value;
 }
 
-void func_8004B70C(unsigned char index, int unused, int value)
+void SD_SetSequenceChannelPitchBendMsb(unsigned char index, int unused, int value)
 {
     register SDSecondaryRecord *entries =
         (SDSecondaryRecord *)D_8009B458;

@@ -345,7 +345,7 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
         SD_SetSequenceChannelProgram(ch, d1);
         break;
     case SD_SEQUENCE_PITCH_BEND:
-        func_8004B70C(ch, d1, d2);
+        SD_SetSequenceChannelPitchBendMsb(ch, d1, d2);
         break;
     }
 }
