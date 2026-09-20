@@ -5,6 +5,11 @@
 #include "display_object.h"
 #include "trig_constants.h"
 
+#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#define DISPLAY_OBJECT_SIGNED_HALFWORD(bytes, offset) \
+    (*(s16 *)((bytes) + (offset)))
+
 void func_8001D344(DisplayObject *object)
 {
     s32 step = object->field_60;
@@ -14,13 +19,13 @@ void func_8001D344(DisplayObject *object)
        of field_0C step against the halfwords at 0x28, 0x2A and 0x2C, which
        are position.h and field_2C.h -- two different members, so no member
        array covers the walk. */
-    u8 *current = (u8 *)&object->field_0C;
-    u8 *target = (u8 *)object;
+    u8 *current = DISPLAY_OBJECT_COLOR_BYTES(object);
+    u8 *target = DISPLAY_OBJECT_BYTES(object);
 
     for (; i < 3; i++) {
         s32 value = *current;
-        s32 limit = *(s16 *)(target +
-            (u32)&((DisplayObject *)0)->position.h.field_28);
+        s32 limit = DISPLAY_OBJECT_SIGNED_HALFWORD(
+            target, (u32)&((DisplayObject *)0)->position.h.field_28);
 
         if (value < limit) {
             value += step;
