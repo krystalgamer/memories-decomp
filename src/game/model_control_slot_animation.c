@@ -64,8 +64,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     1) {
                     restore_words = 5;
                 }
-                func_8005B620((s32 *)(base + src[0] * 4), (const s32 *)dst,
-                              restore_words);
+                Model_CopyWords((s32 *)(base + src[0] * 4), (const s32 *)dst,
+                                restore_words);
                 dst += restore_words * 4;
             }
         }
@@ -112,8 +112,8 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     copy_words = 5;
                 }
                 (*parts)->ii = ((u8 *)src - (u8 *)m->field_DD8) >> 2;
-                func_8005B620((s32 *)dst, (const s32 *)(base + src[0] * 4),
-                              copy_words);
+                Model_CopyWords((s32 *)dst,
+                                (const s32 *)(base + src[0] * 4), copy_words);
                 dst += copy_words * 4;
             }
         }
