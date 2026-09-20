@@ -23,7 +23,7 @@ void func_800493F8(void);
 void SD_ResetSecondaryState(void);
 void func_800494F4(s32 *data);
 void SD_EnableSecondarySequenceUpdates(void);
-void func_80049594(s32 value);
+void SD_SetSequenceTickMode(s32 value);
 void SD_UpdateSecondarySequenceIfEnabled(void);
 void SD_EnableSecondaryPanning(void);
 void SD_DisableSecondaryPanning(void);

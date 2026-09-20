@@ -149,7 +149,7 @@ void SD_EnableSecondarySequenceUpdates(void)
     D_8009B458->field_0814 = 1;
 }
 
-void func_80049594(s32 value)
+void SD_SetSequenceTickMode(s32 value)
 {
     D_8009B458->field_081C = value;
 }

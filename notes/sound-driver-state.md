@@ -792,7 +792,7 @@ above.
 | `0x0810` | `s32` | `field_0810` | Each time a track advances a sequencer tick, `SD_ProcessSequenceTracks` stores that track's read address (`field_07DC + pos`) here. Sound init clears it, and no matched code reads it. |
 | `0x0814`, `0x0815` | `u8` | offset-based fields | `SD_Init` clears `0x0814`, `SD_EnableSecondarySequenceUpdates` sets it after optional timer-event setup, and both `SD_SequenceTimerCallback` and `SD_UpdateSecondarySequenceIfEnabled` require it before advancing the secondary sequence. `SD_EnableSecondaryPanning` clears `0x0815`, while `SD_DisableSecondaryPanning` sets it; when set, `SD_SpatializeSecondaryObject` forces centre pan instead of using its computed value. |
 | `0x0818` | `u32` | `bytes_consumed` | `SD_VabOpenHead` clears it and `SD_VabTransBodyChunk` advances it across a transfer window. |
-| `0x081C` | `s32` | `field_081C` | Initialized to `0x1000`, read by update/termination paths, and set by `func_80049594`. |
+| `0x081C` | `s32` | `field_081C` | Sequence tick mode set by `SD_SetSequenceTickMode`: initialization selects `2` (`SS_TICK240`), reset restores `0x1000` (`SS_NOTICK`), and update/termination paths open or close the timer event only for modes `1` through `3`. |
 | `0x0844`, `0x0845` | `u8` | offset-based fields | `func_8004ACE4` stores two control-event byte values. |
 
 `SD_OpenSequenceTimerEvent` registers `SD_SequenceTimerCallback` for an
