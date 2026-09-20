@@ -1,13 +1,11 @@
 # Decode of `func_80051350`
 
-A measured candidate now lives in
-[`src/candidates/func_80051350.c`](../../src/candidates/func_80051350.c),
-with its
-[exact target](../../src/candidates_target/func_80051350.S) and reproducible
-fingerprints in
-[`candidates.json`](../../config/slus_01411/candidates.json). This note
-preserves the structural decode that preceded that candidate; current build
-metrics and residual analysis belong in the candidate source comment.
+The function is matched in pure C in
+[`src/game/func_80051350.c`](../../src/game/func_80051350.c) under
+`gcc_2_8_1_g8_split`, with its prototype in
+[`func_80051350.h`](../../src/game/func_80051350.h). This note preserves the
+structural decode that preceded the match; the levers the compiler needed are
+in the source comment.
 
 Takes three arguments and spills all of them immediately to the incoming
 argument slots, then reloads them repeatedly; the second argument alone is
@@ -16,9 +14,9 @@ reproduce, not an artefact. The frame is 0x90 bytes and the function saves ten
 callee-saved registers, s0 through s7 plus fp and ra, so the arguments lose
 theirs.
 
-This file remains under `notes/research/` as the pre-candidate structural
-record, not as a second candidate source. The build-integrated source, target,
-profile, and fingerprint metadata are the current candidate artifacts.
+This file remains under `notes/research/` as the pre-match structural
+record, not as a second source; the matching source and its profile are the
+current artifacts.
 
 ## What it calls and touches
 

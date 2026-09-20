@@ -5263,6 +5263,12 @@
       "source": "src/game/func_8005106C.c"
     },
     {
+      "address": "0x80051350",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6F8",
+      "source": "src/game/func_80051350.c"
+    },
+    {
       "address": "0x80051A48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xAE0",

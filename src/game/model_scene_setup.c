@@ -6,6 +6,7 @@
 #include "model_effect_coefficients.h"
 #include "func_8004DC38.h"
 #include "func_80058E1C.h"
+#include "func_80051350.h"
 #include "func_800528AC.h"
 #include "model_record_tables.h"
 #include "model_scene_setup.h"

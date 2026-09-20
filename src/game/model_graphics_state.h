@@ -34,7 +34,7 @@ extern u16 D_8009AF96;
 extern u8 D_8009AF98;
 /* Its definition is `s8 D_8009AF99 = 1;` (model_graphics_state.c:14), the
  * two assembly readers load it `lb` and none `lbu`, and both writers store
- * -1: func_8005A188 (matched) and the func_80051350 candidate. */
+ * -1: func_8005A188 (matched) and func_80051350. */
 extern s8 D_8009AF99;
 extern s8 D_8009AF9A;
 
