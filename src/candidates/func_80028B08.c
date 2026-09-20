@@ -12,59 +12,87 @@
 #include "../ygo_types.h"
 /*
  * Current best under gcc_2_8_1_g8_split: 384/384 instructions at exact length,
- * an empty opcode census, and 356 of 384 aligned on opcode and registers in 17
- * structural blocks.
+ * an empty opcode census, 369 of 384 aligned on opcode and registers in 4
+ * structural blocks, 17 raw words differing with relocations masked, 7 with
+ * the register fields masked as well, and a shift-aware structural distance
+ * of 8 (difflib over the register-masked words). The previous state was 384,
+ * census 0, 13 structural blocks, 356 aligned, 54 raw, 46 register-masked,
+ * shift-aware 36 -- and its header said "register choices only". It was not:
+ * read by raw words, the residue was seven zones of ORDER, and each fell to a
+ * source lever. Read the raw words, not the aligner (#5358 erases a0-a3).
  *
- * THIS SUPERSEDES THE STATE MERGED IN #5334, WHICH WAS A REGRESSION. That
- * change reported 384/384 and was in fact 383/384 (-1): one of its six levers,
- * naming obj->field_3C.word into a local before the uv store, removed an
- * instruction. Applying the six cumulatively to the pre-#5334 source shows
- * exactly where:
+ * Levers, each measured alone against the state below it and then combined:
+ *  - the three scratchpad pointers are assigned EXT, PRM, CTX: retail
+ *    materialises 0x1F800398 into s7 before 0x1F800344 into s6, and the
+ *    order of the three assignments is what decides it (raw 54 -> 50);
+ *  - the uv halfword is read as `*(u16 *)((u8 *)obj + 0x5C)` and written
+ *    BEFORE the tpage store, and the same for the 0x5E read after the extent
+ *    copy: retail never hoists a load from obj above the PRM store that
+ *    precedes it, and the plain member read is hoisted the moment the two
+ *    statements are swapped (the swap alone is 72 raw and shifts the whole
+ *    first block); the byte-address cast is the address gcc cannot
+ *    disambiguate, so the load stays where the source puts it. Both together
+ *    54 -> 42 raw, shift-aware 36 -> 20;
+ *  - in the 0x77 block `PRM->uv.b.lo = 0;` is written FIRST, before cx and
+ *    the extent constant (permuter find): 42 -> 34;
+ *  - in the last block the cx store is written before cy, with the sum as
+ *    `(u8)tile + win->field_40.h.field_40`, and the cx sum reads the byte
+ *    back through `PRM->uv.b.lo` instead of casting `tile`: the read-back is
+ *    forwarded as retail's `andi 0xff` right after the `sb` (34 -> 27,
+ *    shift-aware 16 -> 10). A named `(u8)tile` local at the same point, a
+ *    `u8` local, a chained `tile = PRM->uv.b.lo = ...` (which folds to
+ *    `andi 0xf0`, a false gain the aligner likes) and `u8 tile` are all
+ *    worth nothing or worse;
+ *  - `i = rec->field_32 + rec->field_36;` inline after the second submit,
+ *    with `wrap` never reassigned: retail reads field_36 AFTER the call
+ *    (words 203-204) and the `wrap = rec->field_36;` before it kept the value
+ *    in s0 across the call. Alone this costs the 0xF8 constant its s4 (the
+ *    counter's pseudo no longer occupies s0 across the call, so 0xF8 takes
+ *    s0), and the partner is the next lever;
+ *  - `PRM->cxcy.h.cy = 0xF8;` in the second block is written right after
+ *    `nye = win->field_30.h.field_32;`, before the w/y/h stores: the 0xF8
+ *    pseudo is then born while 0x60 still holds s0, conflicts with it, and
+ *    gets s4 as retail has; the store itself is scheduled among the three.
+ *    Eight positions were measured: at the block top or after the CTX
+ *    read-modify-write it is 16 raw with the store emitted early; after x or
+ *    nye it is 7 register-masked words; after w, y, h or the uv.b.hi bump it
+ *    is 16-18 masked and worse on every key;
+ *  - `hi = PRM->attribute;` read into the dead `hi` (the 0xF0000 name from
+ *    the first block) before the uv.b.hi bump, and the attribute mask written
+ *    against `hi` (permuter find): shift-aware 11 -> 7 at a cost in
+ *    register-only words (the borrowed name rotates t0/t1/t2 and moves the
+ *    0xF0000 constant into t2 in the first block). A FRESH name is worth
+ *    nothing; `tile` borrows to the same figures; f0c, w14, f4, ny, nab and
+ *    ny2 are all worse.
  *
- *     pre-#5334               +0   340 aligned
- *     + w14 / f0c             +0   345
- *     + the field_3C local    -1   346     <-- costs the instruction
- *     + nab                   -1   349
- *     + uv store at end       -1   353
- *     + hi                    -1   354
- *     + wrap borrow           -1   357
+ * MEASURED AND DEAD on this base: `volatile` on PRM (+4), on CTX (nothing),
+ * on all three; a `do { } while (0)` pin or a plain local for the 14 or the
+ * 0xF8 at the block top (+1/+2 and 200+ raw); the h store before or after
+ * the w store, the y store, or first in the block (no change: the scheduler
+ * decides the store order, not the source); the 0x90009 extent store as a
+ * pinned or plain local, as two halfword member stores (+1), or after cy or
+ * y (no change); byte-address casts on the extent store and on the uv.b.lo /
+ * uv.b.hi stores of the last block (no change); the x store after y (worse);
+ * `PRM->uv.b.hi += 0x60` (no change); a `u8 *` local for the tpage read
+ * (worse); the extent copy before the uv copy with a plain member read (-1).
+ * From the earlier header, on the aligner and re-read here: the uv store's
+ * "monotone gradient" was the aligner counting a shifted block as aligned;
+ * shared constants as locals stay worse; the 0xE constant as a local is inert.
  *
- * Length is the first key of (|length error|, census, structural blocks,
- * aligned), so -1 with 357 aligned ranks below +0 with 340. Dropping that one
- * lever restores exact length and an empty census while keeping the rest:
- * (+0, 0, 17, 356) against the pre-#5334 (+0, 0, 23, 340). Keeping the local
- * but assigning it after the uv store also measures (+0, 0, 17, 356), so the
- * lever is recoverable; dropping it is the simpler spelling and is installed.
+ * Residual, 17 words: the 14 and the 0xF8 are materialised in the other
+ * order at the top of the second block (retail `li t1,14` then `li s4,248`;
+ * here 248 first and 14 into v1) and the cy store is emitted before the w
+ * and h stores instead of after them (117-119); the 0x90009 `lui` sits one
+ * word before the x load instead of after it (302-303); and register-only
+ * words: the 0xFEFFFFFF mask in t1 where retail has t2, the attribute in t1
+ * where retail has v1, the 0xF0000 constant in t2 where retail has v0, and
+ * the (u8)tile / field_40 pair in v1/t0 where retail has t0/v1.
  *
- * The five levers that hold, each measured alone and against the state below
- * it, all of one family -- retail batches a group of loads before the stores
- * that consume them:
- *  - w14 and f0c name win->field_14 and win->field_0C before the
- *    do { CTX->field_3 = 9; } while (0), because retail loads both before
- *    that sb;
- *  - nab hoists the row coordinate at the +0xAB site, where retail loads
- *    field_32 before materialising 0xF8;
- *  - the uv store moves to the end of the first block, after tpage: retail
- *    writes it eighth and the source wrote it third. Measured at five
- *    positions, the gradient is monotone;
- *  - hi names 0xF0000 and wrap is borrowed for rec->field_36, assigned before
- *    the submit that precedes its use.
- *
- * MEASURED AND CLOSED: shared constants as locals are worse in every
- * combination (0xF8 alone 348 over 31 structural, 0x60 336 over 36, all three
- * 326 over 44, 0xE inert) -- register reuse in a listing is not evidence of
- * name reuse in the source. Statement order inside the 104-120 and 302-312
- * zones ties five ways. The +0x9D and +0xD row-coordinate sites are inert
- * alone and on top of the +0xAB site.
- *
- * HOW THE REGRESSION WAS MISSED, so it is not repeated: align_functions.py
- * prints `target N instructions, candidate M (+d)` as its FIRST line. A
- * harness that greps only the `aligned on opcode and registers:` line discards
- * it and reports figures computed across a length error. No gate catches this:
- * make candidate-builds compares the build hash to the recorded hash, never
- * the candidate's length to the target. Read the first line.
- *
- * Residual: register choices only.
+ * HOW THE 2026-09 REGRESSION WAS MISSED, kept from the earlier header so it
+ * is not repeated: align_functions.py prints `target N instructions,
+ * candidate M (+d)` as its FIRST line; a harness that greps only the
+ * `aligned on opcode and registers:` line discards it and reports figures
+ * computed across a length error. No gate catches this. Read the first line.
  */
 void func_80028B08(DisplayObject *obj, s32 arg1) {
     u8 buf1[5];
@@ -97,9 +125,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     if ((flags & 0x40) == 0) {
         return;
     }
-    CTX = (Func80028B08Ctx *)0x1F800344;
-    PRM = (SpritePrim *)0x1F800320;
     EXT = (Func80028B08Extra *)0x1F800398;
+    PRM = (SpritePrim *)0x1F800320;
+    CTX = (Func80028B08Ctx *)0x1F800344;
     arg = (((s16)win->field_14 - 1) & 0xFFFF) | 0x10000;
     if (flags & 0x4) {
         obj->field_20.word = win->field_20.word;
@@ -133,19 +161,20 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->xy.h.y = ny + 0x32;
     PRM->rgb = win->field_0C;
     *(u32 *)&PRM->cxcy = obj->field_40.word;
+    PRM->uv.word = *(u16 *)((u8 *)obj + 0x5C);
     PRM->tpage = obj->field_66;
-    PRM->uv.word = obj->field_5C;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 
     CTX->field_7 = CTX->field_7 | 2;
     PRM->xy.h.x = win->field_30.h.field_30 + 0xC;
     nye = win->field_30.h.field_32;
+    PRM->cxcy.h.cy = 0xF8;
     PRM->extent.wh.w.word = 0x60;
     PRM->xy.h.y = nye + 0xE;
     PRM->extent.wh.h = 0xE;
-    PRM->cxcy.h.cy = 0xF8;
+    hi = PRM->attribute;
     PRM->uv.b.hi = PRM->uv.b.hi + 0x60;
-    PRM->attribute = (PRM->attribute & 0xFEFFFFFF) | 0x60000000;
+    PRM->attribute = (hi & 0xFEFFFFFF) | 0x60000000;
     PRM->cxcy.h.cx = 0x1E0;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 
@@ -155,8 +184,8 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     PRM->cxcy.h.cx = PRM->cxcy.h.cx + 0x10;
     PRM->xy.h.x = win->field_30.h.field_30 + obj->field_30.h.field_30;
     PRM->xy.h.y = win->field_30.h.field_32 + obj->field_30.h.field_32;
-    PRM->uv.word = obj->field_5E;
     *(u32 *)&PRM->extent = obj->field_3C.word;
+    PRM->uv.word = *(u16 *)((u8 *)obj + 0x5E);
     if (obj->field_68 < 0x14) {
         if (rec->field_3C & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
@@ -168,11 +197,10 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
         if (rec->field_3C & 0x40) {
             PRM->cxcy.h.cy = 0xF9;
         }
-        wrap = rec->field_36;
         DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
         PRM->cxcy.h.cy = 0xF8;
 
-        i = rec->field_32 + wrap;
+        i = rec->field_32 + rec->field_36;
         if (i > CARD_STAT_MAX) {
             i = CARD_STAT_MAX;
         }
@@ -215,9 +243,9 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
 
         PRM->xy.h.x = win->field_30.h.field_30 + 0x77;
         ny2 = win->field_30.h.field_32 + 0x20;
+        PRM->uv.b.lo = 0;
         PRM->cxcy.h.cx = 0x1C0;
         *(u32 *)&PRM->extent = 0x00090009;
-        PRM->uv.b.lo = 0;
         PRM->cxcy.h.cy = 0xF8;
         PRM->xy.h.y = ny2;
         if (rec->field_3A != 0) {
@@ -238,7 +266,7 @@ void func_80028B08(DisplayObject *obj, s32 arg1) {
     tile = rec->field_3B << 4;
     PRM->uv.b.lo = tile;
     PRM->uv.b.hi = PRM->uv.b.hi & 0x80;
+    PRM->cxcy.h.cx = PRM->uv.b.lo + win->field_40.h.field_40;
     PRM->cxcy.h.cy = 0xFF;
-    PRM->cxcy.h.cx = win->field_40.h.field_40 + (u8)tile;
     DisplayObject_SubmitPacket(PRM, CTX, arg1, arg, EXT);
 }
