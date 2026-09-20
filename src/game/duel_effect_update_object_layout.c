@@ -6,6 +6,8 @@
 #include "../unmatched.h"
 #include "dialog_choice.h"
 
+#define DUEL_EFFECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
+
 /* Lays out the choice widget's six x/y pairs on the display object the
    channel holds at 0x30. The pairs sit at stride 8 from 0x28; three of them
    take the channel's field_3C as x and three take field_3C + field_3E, and
@@ -31,11 +33,12 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     s32 y;
 
     q = (DisplayObject *)p->field_30;
-    n = *(u16 *)&p->field_3C;
+    n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3C);
     q->field_48.h.field_48 = n;
     q->field_38.h.field_38 = n;
     q->position.h.field_28 = n;
-    m = *(u16 *)&p->field_3C + *(u16 *)&p->field_3E;
+    m = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3C) +
+        DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_3E);
     q->field_50.h.field_50 = m;
     q->field_40.h.field_40 = m;
     q->field_30.h.field_30 = m;
@@ -47,7 +50,8 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 1) {
         t = D_8009B34C & 0x30;
         a = t / 16 * 0x10;
-        v = *(u16 *)&p->field_40 + a + gDialog_bChoice * 0x10;
+        v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+            a + gDialog_bChoice * 0x10;
         q->position.h.field_2A = v;
 
         do {
@@ -66,13 +70,15 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 2) {
         t2 = D_8009B34C & 0x30;
         b = t2 / 16 * 0xC;
-        v2 = *(u16 *)&p->field_40 + b + gDialog_bChoice * 0xC;
+        v2 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+             b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
         t0 = D_8009B34C & 0x30;
         c = t0 / 16 * 0xC;
-        v0 = *(u16 *)&p->field_40 + c + gDialog_bChoice * 0xC;
+        v0 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) +
+             c + gDialog_bChoice * 0xC;
         x = v0 + 2;
         y = v0 + 0xA;
     } else {
