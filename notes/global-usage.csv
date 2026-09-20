@@ -3038,7 +3038,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8017A1D8,gDuel_awEquipTable,gDuel_awEquipTable,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,16,d->value_08 = d->value_0C = (u32)gDuel_awEquipTable;
 0x8017A1D8,gDuel_awEquipTable,gDuel_awEquipTable,0x80019A08,Duel_CheckEquip,matching_c,game,C,src/game/duel_card_checks.c,address,16,u16 *p = gDuel_awEquipTable;
 0x8017C2D8,gDuel_aFusionTable,gDuel_aFusionTable,0x800171A8,Duel_LoadPackageStage,matching_c,game,C,src/game/duel_load_package_stage.c,address,16,d->value_08 = d->value_0C = (u32)gDuel_aFusionTable;
-0x8017C2D8,gDuel_aFusionTable,gDuel_aFusionTable,0x80019A60,Duel_CheckFusion,matching_c,game,C,src/game/duel_card_checks.c,address,16,u8 *base = (u8 *)gDuel_aFusionTable;
+0x8017C2D8,gDuel_aFusionTable,gDuel_aFusionTable,0x80019A60,Duel_CheckFusion,matching_c,game,C,src/game/duel_card_checks.c,address,16,u8 *base = FUSION_TABLE_BYTES(gDuel_aFusionTable);
 0x80181002,D_80181002,D_80181002,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/library_runtime.c,read,16,r = D_80181012 - D_80181002; | target = D_80181002;
 0x80181012,D_80181012,D_80181012,0x8002BAB4,func_8002BAB4,matching_c,game,C,src/game/library_runtime.c,read,16,if (D_80181012 < cur) { | if (cur < D_80181012) { | (+1 more)
 0x8018C2D8,D_8018C2D8,D_8018C2D8,0x80019D18,DuelScene_UpdateCardPlacement,matching_c,game,C,src/game/duel_scene_card_placement.c,address,8,"StoreImage2(&resource->rects[0], (u32 *)(D_8018C2D8 + value * 1408));"

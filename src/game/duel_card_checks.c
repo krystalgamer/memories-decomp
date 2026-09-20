@@ -2,6 +2,9 @@
 #include "card_constants.h"
 #include "duel_card_checks.h"
 
+#define FUSION_TABLE_BYTES(table) ((u8 *)(table))
+#define FUSION_TABLE_OFFSETS(table) ((u16 *)(table))
+
 s32 Duel_CheckEquip(s32 arg0, s32 arg1)
 {
     u16 *p = gDuel_awEquipTable;
@@ -31,7 +34,7 @@ s32 Duel_CheckEquip(s32 arg0, s32 arg1)
 
 s32 Duel_CheckFusion(s32 arg0, s32 arg1)
 {
-    u8 *base = (u8 *)gDuel_aFusionTable;
+    u8 *base = FUSION_TABLE_BYTES(gDuel_aFusionTable);
     u8 *p;
     s32 off;
     s32 n;
@@ -42,7 +45,7 @@ s32 Duel_CheckFusion(s32 arg0, s32 arg1)
         arg1 = arg0;
         arg0 = t;
     }
-    off = ((u16 *)base)[arg0];
+    off = FUSION_TABLE_OFFSETS(base)[arg0];
     if (off == 0) {
         return 0;
     }
