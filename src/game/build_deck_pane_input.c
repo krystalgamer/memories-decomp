@@ -24,7 +24,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
 
     e = &state->lists[state->pane_index];
 
-    func_80032B38(state);
+    BuildDeck_TestAndSetInitialized(state);
 
     if (BuildDeck_UpdateCardListInput(e) != 0) {
         return;
@@ -76,7 +76,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
     u32 c;
 
     e = &state->lists[state->pane_index];
-    func_80032B38(state);
+    BuildDeck_TestAndSetInitialized(state);
     if (BuildDeck_UpdateCardListInput(e) != 0) {
         return;
     }
@@ -136,7 +136,7 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
 {
     s32 ticks;
 
-    if (func_80032B38(state) == 0) {
+    if (BuildDeck_TestAndSetInitialized(state) == 0) {
         s32 diff = state->viewport_target_x - (s16)gGraphics_sViewportX;
 
         state->viewport_step_x = diff / BUILD_DECK_PANE_TRANSITION_TICKS;

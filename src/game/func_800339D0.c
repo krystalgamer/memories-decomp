@@ -48,7 +48,7 @@ void func_800339D0(BuildDeckTransitionState *record)
     s32 mode;
     s32 i;
 
-    if (func_80032B38(workspace) == 0) {
+    if (BuildDeck_TestAndSetInitialized(workspace) == 0) {
         SD_SEPlayFull(8);
         if (BuildDeck_HasOpenDeckSlot() != 0) {
             /* The mode byte is read before the flag store, as retail
