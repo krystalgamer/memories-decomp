@@ -12,9 +12,9 @@
  * spelling the definition uses. It is the declaration this header exists to
  * hold.
  *
- * The unit's other function, func_80028260, is deliberately not declared here:
- * it has no consumer outside the unit, so a declaration would widen this
- * header for nobody. */
+ * The unit's other function, DuelCard_DecodeTaggedSlotIndex, is deliberately
+ * not declared here: it has no consumer outside the unit, so a declaration
+ * would widen this header for nobody. */
 void func_80028220(void);
 
 #endif

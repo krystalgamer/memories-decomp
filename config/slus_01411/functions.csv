@@ -232,7 +232,7 @@ address,size,name,status,module,notes
 0x800279BC,0x43C,func_800279BC,matching_c,game,"The AI's per-turn play decision, writing the action code, argument and flag into D_800EAE88+9. Pure-C match under uniform gcc_2_8_1_g8_split with no register bindings or inline assembly: retail walk-body block order inside a do-while(0), a named table_index read ahead of the play block's stores, the give-up % 15 through v read before its stores, the random zone index in v, a named 0x90000000 mask with its own pool cursor, and index-first integer casts for the record, grid and give-up arithmetic."
 0x80027DF8,0x428,func_80027DF8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80028220,0x40,func_80028220,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80028260,0x1C,func_80028260,matching_c,game,High-bit conditional adjustment matched first variant.
+0x80028260,0x1C,DuelCard_DecodeTaggedSlotIndex,matching_c,game,"High-confidence semantic name: passes an untagged slot through and maps a 0x80-tagged local slot into the second 15-record DuelCardRecord side block; exact full-executable match under gcc_2_8_1_g8."
 0x8002827C,0x6C,func_8002827C,matching_c,game,4 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g0_split.
 0x800282E8,0x28,DuelEffect_MarkStateInitialized,matching_c,game,Test-and-sets the active effect handler's one-time initialization bit.
 0x80028310,0xDC,DuelEffect_UpdateDialogState,matching_c,game,Runs effect-state slots 0 and 1 through text completion and optional choice confirmation.
