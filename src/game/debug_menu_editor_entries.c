@@ -73,7 +73,7 @@ void DebugMenu_UpdateSoundEntry(void)
     case 0:
         gDebug_nLastSoundID[0] = gDebug_nSceneOrSoundID;
         if (gDebug_bEditorDigit == 3) {
-            func_8004763C();
+            SD_ResetPendingEntries();
             func_80047AD0((u16)((s16)gDebug_nLastSoundID[0] >> 12));
             return;
         }

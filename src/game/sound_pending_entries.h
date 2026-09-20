@@ -32,7 +32,7 @@ typedef char SDSeqBlock_data_must_match_input_offset[
         SD_PENDING_INPUT_PAYLOAD_BYTE_OFFSET ? 1 : -1
 ];
 
-void func_8004763C(void);
+void SD_ResetPendingEntries(void);
 void func_800476B4(SDSeqBlock *input, u32 rate);
 
 #endif

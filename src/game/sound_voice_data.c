@@ -163,7 +163,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
     blk = (SDSeqBlock *)(0x801E7800 + (side << SD_PENDING_INPUT_BLOCK_SHIFT));
     other = (SDSeqBlock *)(0x801E7800 + (rev << SD_PENDING_INPUT_BLOCK_SHIFT));
     func_80048C70((u32 *)blk, src);
-    func_8004763C();
+    SD_ResetPendingEntries();
 
     for (i = 0; i < 2; i++) {
         cur = other;

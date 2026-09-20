@@ -58,7 +58,7 @@ void Duel_InitScene(void)
     s8 *pid;
 
     pid = &gDuel_bOpponentID;
-    func_8004763C();
+    SD_ResetPendingEntries();
     func_80047AD0(1);
     Main_AdvanceFrames(4);
     File_WaitForTransfers();
