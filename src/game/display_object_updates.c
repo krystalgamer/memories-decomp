@@ -13,6 +13,8 @@
 
 #include "ordering_tables.h"
 
+#define DISPLAY_OBJECT_CALLBACK_BYTES(object) ((u8 *)(object))
+
 /* Submits one display object as a sprite in vertical strips of up to 64
    pixels. Fills the sprite primitive in the scratchpad at 0x1F800320 from
    the object, offsets it by the viewport origin unless bit 3 is set, runs
@@ -117,7 +119,7 @@ void DisplayObject_RenderSpriteStripList(void)
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = (u8 *)object;
+            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
 
             i = object->next;
 
@@ -144,7 +146,7 @@ void DisplayObject_RunUpdateCallbackList(void)
 
         i = object->next;
         if (callback != 0) {
-            callback((u8 *)object);
+            callback(DISPLAY_OBJECT_CALLBACK_BYTES(object));
         }
     }
 }
@@ -161,7 +163,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = (u8 *)object;
+            u8 *data = DISPLAY_OBJECT_CALLBACK_BYTES(object);
 
             i = object->next;
 

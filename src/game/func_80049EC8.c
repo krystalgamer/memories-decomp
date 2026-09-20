@@ -4,7 +4,7 @@
 #include "sound_spatialization.h"
 #include "sound_sequence_timing.h"
 
-void func_80049EC8(s32 arg0, s32 arg1)
+void SD_SetSecondarySpatialLevels(s32 arg0, s32 arg1)
 {
     SDSecondaryState *state = D_8009B458;
     s32 mode = state->field_07E2;
