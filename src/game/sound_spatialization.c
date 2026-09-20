@@ -5,6 +5,9 @@
 #include "sound_spatialization.h"
 #include "../unmatched.h"
 
+#define SD_SECONDARY_OFFSET_VIEW(type, state, offset) \
+    ((type *)((u8 *)(state) + (offset)))
+
 void SD_UpdateSecondaryObjectVolumes(void)
 {
     SDSecondaryState *state = D_8009B458;
@@ -20,7 +23,7 @@ void SD_UpdateSecondaryObjectVolumes(void)
         offset = i;
         do {
             SDSecondaryState *entry =
-                (SDSecondaryState *)((u8 *)state + offset);
+                SD_SECONDARY_OFFSET_VIEW(SDSecondaryState, state, offset);
 
             if (entry->objects[0].channel_index <
                 SD_SEQUENCE_CHANNEL_COUNT) {
@@ -28,14 +31,17 @@ void SD_UpdateSecondaryObjectVolumes(void)
                 SDSecondaryState *current;
 
                 SD_SpatializeSecondaryObject(
-                    (SDSecondaryObject *)((u8 *)state + object_offset),
+                    SD_SECONDARY_OFFSET_VIEW(
+                        SDSecondaryObject, state, object_offset),
                     &state->channels[value]);
                 current = D_8009B458;
                 SD_SetVoiceVolume(
                     i,
-                    ((SDSecondaryState *)((u8 *)current + offset))
+                    SD_SECONDARY_OFFSET_VIEW(
+                        SDSecondaryState, current, offset)
                         ->objects[0].level_left,
-                    ((SDSecondaryState *)((u8 *)current + offset))
+                    SD_SECONDARY_OFFSET_VIEW(
+                        SDSecondaryState, current, offset)
                         ->objects[0].level_right);
             }
             object_offset += SD_SECONDARY_OBJECT_SIZE;
