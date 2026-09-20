@@ -17,7 +17,7 @@ void func_80049230(s32 value, s32 data);
 extern void func_80049230_s16(s32 value, s16 data) asm("func_80049230");
 #endif
 void SD_Init(void);
-void func_80049308(void);
+void SD_OpenMusicVab(void);
 void SD_SetMusicTrackBuffer(u16 *track);
 void SD_ResetMusicTrackBuffer(void);
 void SD_ResetSecondaryState(void);
