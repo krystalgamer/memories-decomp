@@ -15,6 +15,7 @@
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C)
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
@@ -83,9 +84,9 @@ retry:
     GS_SPRITE_VIEW(sprite)->scaley = object->field_44.h.field_46;
     sprite->mxmy.h.y = 0;
     sprite->mxmy.h.x = 0;
-    GS_SPRITE_VIEW(sprite)->r = ((u8 *)&object->field_0C)[0];
-    GS_SPRITE_VIEW(sprite)->g = ((u8 *)&object->field_0C)[1];
-    GS_SPRITE_VIEW(sprite)->b = ((u8 *)&object->field_0C)[2];
+    GS_SPRITE_VIEW(sprite)->r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
+    GS_SPRITE_VIEW(sprite)->g = DISPLAY_OBJECT_COLOR_BYTES(object)[1];
+    GS_SPRITE_VIEW(sprite)->b = DISPLAY_OBJECT_COLOR_BYTES(object)[2];
     part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
     sprite->cxcy.h.cx = work->cx;
     sprite->cxcy.h.cy = work->cy;
