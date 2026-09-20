@@ -13,6 +13,7 @@ DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800428A8;
 DisplayObject_SetDepthOffset = 0x800428EC;
 DisplayObject_ResetVelocity = 0x800429D8;
 DisplayObject_StepPositionXY = 0x80042A78;
+BuildDeck_EnterNarrowConfirmMode = 0x80033C90;
 gDuel_awPlayerDeck = 0x801D0200;
 TextBox_Create = 0x80035BE4;
 TextBox_CreateFlagged = 0x80035C38;

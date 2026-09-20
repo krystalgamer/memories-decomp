@@ -163,5 +163,5 @@ void DebugMenu_EnterDuel(void)
 
 void DebugMenu_EnterDeckEditor(void)
 {
-    func_80033C90();
+    BuildDeck_EnterNarrowConfirmMode();
 }

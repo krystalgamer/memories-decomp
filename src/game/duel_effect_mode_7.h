@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_DUEL_EFFECT_MODE_7_H
 #define MEMORIES_DECOMP_DUEL_EFFECT_MODE_7_H
 
-void func_80033C90(void);
+void BuildDeck_EnterNarrowConfirmMode(void);
 void BuildDeck_EnterWideConfirmMode(void);
 
 #endif
