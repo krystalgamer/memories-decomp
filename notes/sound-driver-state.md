@@ -611,7 +611,7 @@ channel controls without changing their byte storage:
 
 | Offset | Member | Evidence |
 |---|---|---|
-| `+0x00` | `program` | Program-change dispatch calls `func_8004B6E8`, which stores its program byte here. |
+| `+0x00` | `program` | Program-change dispatch calls `SD_SetSequenceChannelProgram`, which stores its program byte here. |
 | `+0x01` | `pan` | Controller `0x0A` writes it; `SD_SpatializeSecondaryObject` includes it in the pan sum. |
 | `+0x03` | `volume` | Controller `7` writes it; `SD_SpatializeSecondaryObject` multiplies it into the level. |
 | `+0x05` | `expression` | Controller `0x0B` writes it; `SD_SpatializeSecondaryObject` applies it as another level factor. |
@@ -769,7 +769,7 @@ above.
 
 | Offset | Width | Field | Local matching-C evidence |
 |---|---:|---|---|
-| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `func_8004B6E8`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
+| `0x0000` | `0x18` stride | `SDSecondaryRecord` channel view | `func_8004B49C`, `SD_SetSequenceChannelProgram`, and `func_8004B70C` establish `program`, `pan`, `volume`, `expression`, `pitch_bend_msb`, and staged controller selector/mode/value bytes; `+0x06` and `+0x10` retain offset-based names. |
 | `0x0180` | `0x28` stride | `objects[20]` | `func_8004A7C0`, `func_8004B49C`, and `func_8004C84C` establish the object base/stride; additional matched inline-assembly functions use the same view. Verified members are `channel_index` at `+0x03`, a byte at `+0x0F`, and a `u16` at `+0x1E`. |
 | `0x04A4` | `0x1C` | `transfer` | `SD_ResetSecondaryState`, `SD_VabOpenHead`, `SD_VabTransBody`, `SD_VabTransBodyChunk`, and `SD_ResetVabTransferState`. Members are `s16 +0x00`, pointer `+0x04`, `s32 +0x08/+0x0C/+0x10`, pointer `+0x14`, and bytes `+0x18`-`+0x1B`. |
 | `0x0500`-`0x0502` | `u8` | `flag_0500`-`flag_0502` | Initialization, playback, update, and callback routines independently read/write these flags. |

@@ -105,7 +105,7 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
     }
 }
 
-void func_8004B6E8(unsigned char index, int value)
+void SD_SetSequenceChannelProgram(unsigned char index, int value)
 {
     register SDSecondaryRecord *entries =
         (SDSecondaryRecord *)D_8009B458;
