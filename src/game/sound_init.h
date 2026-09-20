@@ -21,7 +21,7 @@ void func_80049308(void);
 void func_80049394(u16 *track);
 void func_800493F8(void);
 void SD_ResetSecondaryState(void);
-void func_800494F4(s32 *data);
+void SD_InitSecondaryWorkArea(s32 *data);
 void SD_EnableSecondarySequenceUpdates(void);
 void SD_SetSequenceTickMode(s32 value);
 void SD_UpdateSecondarySequenceIfEnabled(void);

@@ -568,8 +568,8 @@ the game-owned reference-view storage.
 ## Secondary state (`D_8009B458`)
 
 `D_8009B458` is a second global pointer used by the sequence/stream side of the
-sound driver. `func_800494F4` installs the pointer and clears exactly 530
-32-bit words, establishing a total allocation size of `0x848` bytes.
+sound driver. `SD_InitSecondaryWorkArea` installs the pointer and clears exactly
+530 32-bit words, establishing a total allocation size of `0x848` bytes.
 
 `src/game/sound.h` defines the partial `SDSecondaryState`,
 `SDSecondaryTransfer`, `SDSecondaryRecord`, and `SDSecondaryObject` views.

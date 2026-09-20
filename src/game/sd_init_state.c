@@ -68,7 +68,7 @@ void SD_InitState(u8 arg0)
     st->mix_scale = x;
     st->field_0044 = y;
     q->field_1584 = 0xFF;
-    func_800494F4((s32 *)0x801E1670);
+    SD_InitSecondaryWorkArea((s32 *)0x801E1670);
     func_8004671C();
     SD_InitBufferState();
     SD_InitSecondaryRuntime();
