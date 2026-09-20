@@ -6,6 +6,9 @@
 #include "sound_sequence_constants.h"
 #include "sound_spatialization.h"
 
+#define SD_SECONDARY_OFFSET_VIEW(type, state, offset) \
+    ((type *)((u8 *)(state) + (offset)))
+
 /* Re-derives a voice's raw pitch when its channel's pitch-bend MSB changes
  * (or when forced). Caches the bend value in the object, adds SD_CalcPitchBend's
  * adjustment to the note in 7.7 units, fills the voice_attr request block
@@ -68,7 +71,8 @@ void func_8004A518(void) {
     base = D_8009B458;
     base->field_0512 = 0x7F;
     do {
-        track = (SDSequenceTrack *)((u8 *)D_8009B458 + track_off);
+        track = SD_SECONDARY_OFFSET_VIEW(
+            SDSequenceTrack, D_8009B458, track_off);
         i++;
         track->pos = 0;
         track->pos_saved = 0;
@@ -96,7 +100,7 @@ void func_8004A518(void) {
         tbl = D_80011434;
         off = (u32)&((SDSecondaryState *)0)->objects;
     top2:
-            obj = (SDSecondaryObject *)((u8 *)base + off);
+            obj = SD_SECONDARY_OFFSET_VIEW(SDSecondaryObject, base, off);
             key = *tbl;
             obj->channel_index = SD_SECONDARY_RECORD_NONE;
             obj->voice_index = i;
@@ -123,7 +127,8 @@ void func_8004A518(void) {
     w7f = 0x7F;
     channel_off = i;
     do {
-        channel = (SDSecondaryRecord *)((u8 *)D_8009B458 + channel_off);
+        channel = SD_SECONDARY_OFFSET_VIEW(
+            SDSecondaryRecord, D_8009B458, channel_off);
         i++;
         channel->pan = b40;
         channel->volume = b7f;
