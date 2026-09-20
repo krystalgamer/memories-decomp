@@ -3,6 +3,9 @@
 #include "duel_side_state.h"
 #include "display_object.h"
 
+#define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \
+    ((DuelCardRecord *)((u8 *)(records) + (offset)))
+
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
     s32 base =
@@ -16,7 +19,7 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
     scaled = base << 3;
     scaled -= base;
     scaled <<= 2;
-    entry = (DuelCardRecord *)((u8 *)D_801A7AD8 + scaled);
+    entry = DUEL_CARD_RECORD_AT_OFFSET(D_801A7AD8, scaled);
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
         if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
