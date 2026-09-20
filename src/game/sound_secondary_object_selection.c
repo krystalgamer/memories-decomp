@@ -2,6 +2,9 @@
 #include "sound.h"
 #include "sound_secondary_object_selection.h"
 
+#define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
+    ((SDSecondaryState *)((u8 *)(state) + (offset)))
+
 s32 SD_FindLowestPrioritySecondaryObject(s32 value)
 {
     s32 result = -1;
@@ -16,7 +19,7 @@ s32 SD_FindLowestPrioritySecondaryObject(s32 value)
         offset = 0;
         do {
             SDSecondaryState *entry =
-                (SDSecondaryState *)((u8 *)state + offset);
+                SD_SECONDARY_STATE_AT_OFFSET(state, offset);
             u16 candidate = entry->objects[0].field_001E;
 
             if ((u16)best >= candidate &&
