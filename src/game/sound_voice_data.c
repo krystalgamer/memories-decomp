@@ -100,7 +100,7 @@ loop:
                     d->voice_volume_right[i] = v;
                 }
             }
-            func_80047864(i);
+            SD_ApplyVoiceSlotVolume(i);
         }
     }
     if (++i < SD_VOICE_SLOT_COUNT) {

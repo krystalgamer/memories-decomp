@@ -51,7 +51,7 @@ void SD_SESetVolume(s32 arg0, s32 arg1)
         b = g_SDValue;
         if (b->voice_ids[i] == idm && local != 0) {
             b->voice_value[i] = a1v;
-            func_80047864(i);
+            SD_ApplyVoiceSlotVolume(i);
         }
     } while (++i < SD_VOICE_SLOT_COUNT);
 }

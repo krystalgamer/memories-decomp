@@ -7,7 +7,7 @@
 #include "sound_voice_selection.h"
 
 /*
- * func_80047864: voice-slot attribute initialization order
+ * SD_ApplyVoiceSlotVolume: voice-slot attribute initialization order
  *
  * The 136-byte routine at `0x80047864` matches all 34 instructions with the
  * existing uniform `gcc_2_8_1_g0` profile. It uses the incoming index directly
@@ -27,7 +27,7 @@
  * their eight-bit shifts and halfword stores, and the final SDK attribute
  * publication remain intact.
  */
-void func_80047864(s32 index)
+void SD_ApplyVoiceSlotVolume(s32 index)
 {
     u32 mask = SD_VOICE_SLOT_MASK_BASE;
     SDValue *state;
@@ -70,7 +70,7 @@ void func_800478EC(void)
                     g_SDValue->voice_value[i] - g_SDValue->voice_step[i];
             }
             if (g_SDValue->voice_value[i] != 0) {
-                func_80047864(i);
+                SD_ApplyVoiceSlotVolume(i);
                 goto tail;
             }
             g_SDValue->voice_active_mask &= ~bit2;

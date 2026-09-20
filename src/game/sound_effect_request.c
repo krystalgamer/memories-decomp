@@ -151,7 +151,7 @@ loop:
                         g_SDValue->voice_volume_right[i] = prod;
                     }
                 }
-                func_80047864(i);
+                SD_ApplyVoiceSlotVolume(i);
             }
         }
         i++;

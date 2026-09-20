@@ -3,7 +3,7 @@
 
 #include "../types.h"
 
-void func_80047864(s32 index);
+void SD_ApplyVoiceSlotVolume(s32 index);
 void func_800478EC(void);
 void func_80047A68(void);
 s32 func_80047AD0(s32 value);

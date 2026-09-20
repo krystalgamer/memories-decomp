@@ -94,7 +94,7 @@ void SpuGetVoiceEnvelope(s32 voice,s16 *envelope)
 {
     (void)voice; (void)envelope;
 }
-void func_80047864(s32 index) { (void)index; }
+void SD_ApplyVoiceSlotVolume(s32 index) { (void)index; }
 /* The scenario supplies its expected dispatch class and resolved ID; the
  * oracle does not classify the request using the implementation's masks.
  * Entire state/index/note allocations, including unused records, are frozen. */
