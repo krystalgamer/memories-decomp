@@ -2204,7 +2204,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B458,D_8009B458,D_8009B458,0x800495A4,SD_UpdateSecondarySequenceIfEnabled,matching_c,game,C,src/game/sound_init.c,read,,if (D_8009B458->field_0814)
 0x8009B458,D_8009B458,D_8009B458,0x800495DC,SD_EnableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 0;
 0x8009B458,D_8009B458,D_8009B458,0x800495EC,SD_DisableSecondaryPanning,matching_c,game,C,src/game/sound_init.c,read,,D_8009B458->field_0815 = 1;
-0x8009B458,D_8009B458,D_8009B458,0x80049600,func_80049600,matching_c,game,C,src/game/func_80049600.c,read,,D_8009B458->object_count = x;
+0x8009B458,D_8009B458,D_8009B458,0x80049600,SD_SetSecondaryObjectCount,matching_c,game,C,src/game/func_80049600.c,read,,D_8009B458->object_count = x;
 0x8009B458,D_8009B458,D_8009B458,0x80049640,SD_ResetSecondaryRuntime,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,value = D_8009B458->field_081C;
 0x8009B458,D_8009B458,D_8009B458,0x800496C4,SD_VabOpenHead,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,initial = D_8009B458; | state = D_8009B458;
 0x8009B458,D_8009B458,D_8009B458,0x8004975C,SD_VabTransBody,matching_c,game,C,src/game/sound_transfer_lifecycle.c,read,,SDSecondaryState *state = D_8009B458;
