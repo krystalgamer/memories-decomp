@@ -3,14 +3,17 @@
 #include "func_8004A7C0.h"
 #include "sound.h"
 
+#define SD_SECONDARY_OBJECT_OFFSET_VIEW(state, offset) \
+    ((SDSecondaryObject *)((u8 *)(state) + (offset)))
+
 void func_8004A7C0(int index)
 {
     int table_offset = index << 2;
     int object_offset = (table_offset + index) << 3;
     /* Direct objects[index] syntax changes GCC's index calculation. */
     SDSecondaryObject *entry =
-        (SDSecondaryObject *)((u8 *)D_8009B458 +
-            SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
+        SD_SECONDARY_OBJECT_OFFSET_VIEW(
+            D_8009B458, SD_SECONDARY_OBJECT_ARRAY_OFFSET + object_offset);
     int *item;
     int result;
     if (entry->channel_index >= SD_SEQUENCE_CHANNEL_COUNT)
