@@ -10,6 +10,8 @@
 #include "sound_secondary_commands.h"
 #include "../unmatched.h"
 
+#define SD_SECONDARY_STATE_BYTES(state) ((u8 *)(state))
+
 void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
 {
     SDSecondaryState *b;
@@ -89,8 +91,8 @@ void func_8004B49C(s32 arg0, s32 arg1, u8 arg2)
                 if (id2 == c->objects[i].channel_index) {
                     if (c->objects[i].field_000D != 0) {
                         SD_SpatializeSecondaryObject(
-                            (SDSecondaryObject *)((u8 *)c + m),
-                            (SDSecondaryRecord *)((u8 *)c + off));
+                            (SDSecondaryObject *)(SD_SECONDARY_STATE_BYTES(c) + m),
+                            (SDSecondaryRecord *)(SD_SECONDARY_STATE_BYTES(c) + off));
                         SD_SetVoiceVolume(i, D_8009B458->objects[i].level_left,
                                           D_8009B458->objects[i].level_right);
                     }

@@ -5,6 +5,6 @@
 
 /* Marks the build-deck transition record initialized and reports whether its
  * bit was already set. */
-s32 func_80032B38(BuildDeckTransitionState *state);
+s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state);
 
 #endif

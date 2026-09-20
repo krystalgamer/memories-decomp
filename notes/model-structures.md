@@ -14,7 +14,7 @@ The stride is independently established by exact matching C and target
 instructions in multiple functions:
 
 - `Model_GetSlotAnimationSpeed`, `Model_GetSlotAnimationIndex`, and
-  `func_80058E94` all compile the index
+  `Model_GetSlotAnimationFrame` all compile the index
   as `((index * 8 - index) * 16 + index) * 32`, which is `index * 0xE20`,
   before accessing three different late-slot fields.
 - `Model_GetCurrentDataEntry`, `Model_CopySlotU16Values`, `func_80059284`,
@@ -62,7 +62,7 @@ Verified shared fields and partial arrays are:
 | `0xDFE` | `field_DFE` | fourth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B48E[index]` |
 | `0xDFF` | `field_DFF` | fifth property in `Model_SetSlotProperties`; when non-negative, normalized to a boolean and mirrored to `D_8009B490[index]` |
 | `0xE00` | model-data size, `u16` | `Model_HasInsufficientBufferSpace` subtracts this value from the remaining model-data bank capacity |
-| `0xE06` | `field_E06` | shifted read in `func_80058E94`; write/read in `func_800597C8` |
+| `0xE06` | `field_E06` | 12.4 fixed-point animation frame returned as an integer by `Model_GetSlotAnimationFrame`; write/read in `func_800597C8` |
 | `0xE0D` | `field_E0D` | `Model_GetSlotAnimationSpeed` reads it and `func_8005969C` writes it |
 | `0xE11` | `field_E11` | `func_800590DC`, `func_80059284`, and `func_800595C8` |
 | `0xE12` | `field_E12` | shadow-render enable read/conditional write in `Model_SetSlotShadowEnabled`; `func_800540B4` guards its projected ground-fan path with the same byte |
@@ -234,7 +234,7 @@ The current typed-migration snapshot has 25 pure-C users of `D_800F2C40`;
 all include the shared header:
 `func_80057E20`, `func_80058DD8`, `Model_GetSlotAnimationSpeed`,
 `Model_GetSlotAnimationIndex`,
-`func_80058E94`, `func_80058EC0`, `Model_GetSlotDataEntry`,
+`Model_GetSlotAnimationFrame`, `func_80058EC0`, `Model_GetSlotDataEntry`,
 `Model_GetCurrentDataEntry`,
 `Model_CopySlotU16Values`, `func_80059000`, `func_800590DC`,
 `Model_InitLightTriplet`, `func_80059284`,
