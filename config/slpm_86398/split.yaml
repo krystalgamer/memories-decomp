@@ -83,6 +83,8 @@ segments:
       - [0x1d328, asm, func_8002CB28]
       - [0x1ffd0, c, game/japanese/script_op_return_to_menu]
       - [0x1fffc, asm, func_8002F7FC]
+      - [0x2057c, c, game/japanese/scene_script_update_slots]
+      - [0x205f8, asm, func_8002FDF8]
       - [0x230a0, c, game/func_80032B38]
       - [0x230c8, asm, func_800328C8]
       - [0x23a68, c, game/build_deck_active_card]
