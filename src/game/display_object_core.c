@@ -192,7 +192,9 @@ void DisplayObject_SetResourcePath(
     object->field_69 = field_69;
     object->flags &= 0xFFEF;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_RESOURCE)
 void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
                     int field_69, int color, int texture)
 {
@@ -213,7 +215,9 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
     }
     return configured;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
