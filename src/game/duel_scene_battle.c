@@ -175,7 +175,7 @@ void DuelScene_UpdateBattle(void)
         DisplayObject_ReleaseIfPresent(cur->cursor_object);
         D_8009B162 = 8;
         D_8009B174 = 1;
-        *(void **)((u8 *)D_8009B1B4 + 4) = 0;
+        ((DuelSelectionRecord *)D_8009B1B4)->cursor_object = 0;
     }
 
     switch (D_8009B174 & 0xF) {
