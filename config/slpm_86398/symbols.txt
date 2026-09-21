@@ -206,6 +206,7 @@ gJapanese_AiSelectionRandom = 0x800EAD70;
 func_80073464 = 0x80072074;
 func_80073474 = 0x80072084;
 Triplet_SetComponents = 0x8006AF0C;
+Triplet_CopyComponents = 0x8006AF1C;
 gJapanese_AiScriptState = 0x800F32C0;
 SD_RequestBgmPlaybackDefaultStep = 0x800488EC;
 SD_RequestBgmPlayback = 0x8004891C;

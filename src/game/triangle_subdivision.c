@@ -161,21 +161,25 @@ Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TRIPLET_SET_COMPONENTS)
 void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
 {
     output[0] = first;
     output[1] = second;
     output[2] = third;
 }
+#endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TRIPLET_COPY_COMPONENTS)
 void func_8006C30C(u8 *destination, const u8 *source)
 {
     destination[0] = source[0];
     destination[1] = source[1];
     destination[2] = source[2];
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8006C330(u8 *out, u8 *a, u8 *b)
 {
     out[0]=(a[0]+b[0])/2; out[1]=(a[1]+b[1])/2; out[2]=(a[2]+b[2])/2;
