@@ -200,6 +200,8 @@ segments:
       - [0x3b740, asm, func_8004AF40]
       - [0x3b7fc, c, game/sound_sequence_runtime]
       - [0x3baa8, asm, func_8004B2A8]
+      - [0x3bd58, c, game/japanese/sd_advance_sequence_position]
+      - [0x3bd6c, asm, func_8004B56C]
       - [0x3c44c, c, game/sound_sequence_timing]
       - [0x3c738, c, game/func_8004C84C]
       - [0x3c7b4, c, game/sd_sequence_tracks]
