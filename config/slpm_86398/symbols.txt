@@ -196,6 +196,7 @@ SpuGetVoiceEnvelope = 0x800768F0;
 func_800490F0 = 0x800487DC;
 func_80049108 = 0x800487F4;
 SD_IsBgmFadeActive = 0x8004880C;
+SD_ClearBusyFlag = 0x80044B38;
 gJapanese_ModelTintRequests = 0x800F03F0;
 gJapanese_AiSelectionRandom = 0x800EAD70;
 func_80073464 = 0x80072074;
