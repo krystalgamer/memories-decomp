@@ -1124,6 +1124,12 @@
       "source": "src/game/sound_sequence_runtime.c"
     },
     {
+      "address": "0x8004B558",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x14",
+      "source": "src/game/japanese/sd_advance_sequence_position.c"
+    },
+    {
       "address": "0x8004BC4C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",

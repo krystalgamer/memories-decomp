@@ -20,6 +20,7 @@
    with -G0. Bounded below by SD_FindMidiTrackChunk, which does need its
    profile, and above by SD_ReadSequenceEvent at gcc_2_8_1_g8_split. */
 
+#ifndef VERSION_JAPAN
 s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
 {
     s32 first = SD_ReadSequenceByte(input);
@@ -128,12 +129,16 @@ store:
     D_8009B458->field_0804 = D_8009B458->timebase;
     return 1;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_ADVANCE_SEQUENCE_POSITION)
 void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 {
     *value += amount;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void SD_IgnoreSequenceEvent(u8 status)
 {
 }
@@ -349,3 +354,4 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
         break;
     }
 }
+#endif

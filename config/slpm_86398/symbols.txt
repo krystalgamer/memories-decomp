@@ -276,6 +276,7 @@ SD_ScaleSequenceDelta = 0x8004BCB4;
 SD_FindMidiTrackChunk = 0x8004B2A8;
 SD_ReadSequenceU32BE = 0x8004B318;
 SD_ReadSequenceHeader = 0x8004B3D4;
+SD_AdvanceSequencePosition = 0x8004B558;
 SD_GetSequenceStatus = 0x8004C1A8;
 SD_ReadSequenceEvent = 0x8004BB0C;
 func_8004D134 = 0x80050A30;
