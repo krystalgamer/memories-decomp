@@ -33,6 +33,7 @@ DuelEffect_ClearChannelFlag8 = 0x80038080;
 DisplayObjectFade_MarkInitialized = 0x80039120;
 func_80039F1C = 0x8003959C;
 func_80039FF8 = 0x80039678;
+DisplayEffect_HasResourceEntry = 0x80039818;
 Text_InitDecimalDigitGlyphMap = 0x8003AC60;
 Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
