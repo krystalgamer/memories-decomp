@@ -3,21 +3,6 @@
 #include "card_constants.h"
 #include "duel_deck_lookup.h"
 
-int Duel_FindPlayerDeckCard(int card_id)
-{
-    unsigned short *entry = gDuel_awPlayerDeck;
-    int i = 0;
-
-    while (i < DECK_SIZE) {
-        if (*entry == card_id) {
-            return i;
-        }
-        i++;
-        entry++;
-    }
-    return -1;
-}
-
 /* Any copy in the trunk returns 1 at once; otherwise the deck slot decides. */
 int Library_CheckCardOwned(int card_id)
 {

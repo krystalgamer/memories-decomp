@@ -11,6 +11,7 @@ DuelEffect_ClearResourceObjectPointers = 0x80029354;
 Library_GetCardFlags = 0x80029C90;
 func_8002A660 = 0x8002A440;
 func_8002BAA0 = 0x8002B880;
+Duel_FindPlayerDeckCard = 0x8002C2A8;
 Duel_CalcGuardianStarMatchup = 0x8002C960;
 Campaign_TestStoryFlag = 0x8002CA88;
 Library_UpdateCardUsedFlag = 0x8002CAC4;
