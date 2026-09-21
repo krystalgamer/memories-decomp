@@ -540,7 +540,7 @@ void func_8005FB30(Key *key)
     }
     for (i = 0; i < 2; i++) {
         ModelTransferItem *item =
-            (ModelTransferItem *)(data + (u32)&((ModelTransferItem *)0)[i]);
+            (ModelTransferItem *)(data + i * sizeof(ModelTransferItem));
 
         if (item->state < 4) {
             if (item->state >= 2) {
