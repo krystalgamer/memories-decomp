@@ -60,6 +60,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x6C",
       "source": "src/game/text_box_wrap_line.c"
+    },
+    {
+      "address": "0x8004D394",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x24",
+      "source": "src/game/model_fill_words.c"
     }
   ]
 }
