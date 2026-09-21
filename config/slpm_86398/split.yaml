@@ -103,6 +103,8 @@ segments:
       - [0x26ec8, asm, func_800366C8]
       - [0x27c2c, c, game/text_box_wrap_line]
       - [0x27c98, asm, func_80037498]
+      - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
+      - [0x31c40, asm, func_80041440]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
       - [0x3db94, c, game/model_word_memory]
