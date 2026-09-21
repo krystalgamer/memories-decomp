@@ -21,7 +21,7 @@ void func_8002A2F4(u8 *p)
     s32 n;
     s32 mode;
     s32 offset;
-    u8 *o;
+    DisplayObject *o;
 
     mode = 0;
     r = Library_GetGridCursorCardId(p);
@@ -38,8 +38,8 @@ void func_8002A2F4(u8 *p)
         }
     }
 
-    o = TextBox_Create(1, mode, 0x10, 0xCA, 0x120, 0x30);
-    D_8009B320 = o[(u32)&((DisplayObject *)0)->field_54];
+    o = (DisplayObject *)TextBox_Create(1, mode, 0x10, 0xCA, 0x120, 0x30);
+    D_8009B320 = *(u8 *)&o->field_54;
     offset = (u32)&((u32 *)0)[n];
     if (*(p + offset + 0x56) & 1) {
         D_8009B320 = 4;
