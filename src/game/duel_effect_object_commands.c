@@ -6,11 +6,14 @@
 #include "duel_effect.h"
 #include "duel_effect_object_commands.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_FLAG_8)
 void func_800389C4(DuelEffectChannel *value)
 {
     value->flags_34 &= (u16)~8;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800389D8(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -62,3 +65,4 @@ void Text_CloseChoice(DuelEffectChannel *object)
     object->field_62 = 0;
     D_8009B350 = 1;
 }
+#endif

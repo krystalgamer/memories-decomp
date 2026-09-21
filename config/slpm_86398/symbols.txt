@@ -25,6 +25,7 @@ TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 Widget_UpdatePulseColour = 0x800368CC;
 TextBox_WrapLineIfNeeded = 0x8003742C;
+DuelEffect_ClearChannelFlag8 = 0x80038080;
 Text_InitDecimalDigitGlyphMap = 0x8003AC60;
 Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
