@@ -3436,13 +3436,13 @@
       "address": "0x8003D288",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/save_data_payload.c"
+      "source": "src/game/save_data_has_same_duelist_code.c"
     },
     {
       "address": "0x8003D2B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/save_data_payload.c"
+      "source": "src/game/save_data_matches_duelist_and_sequence.c"
     },
     {
       "address": "0x8003D300",
