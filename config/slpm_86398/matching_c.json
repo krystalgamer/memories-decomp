@@ -374,6 +374,12 @@
       "source": "src/game/library_update_card_used_flag.c"
     },
     {
+      "address": "0x8002EC34",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/duel_is_player_deck_complete.c"
+    },
+    {
       "address": "0x8002F6D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
