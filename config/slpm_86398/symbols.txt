@@ -23,6 +23,7 @@ SceneScript_UpdateSlots = 0x8002FD7C;
 func_8003201C = 0x80031D84;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_CompareCard = 0x800328C8;
+func_80032BD4 = 0x8003293C;
 BuildDeck_GetActiveCardID = 0x80033268;
 SortedEntry_Compare = 0x80035300;
 Util_CopyWords = 0x80035408;
