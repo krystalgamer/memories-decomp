@@ -2446,7 +2446,7 @@
       "address": "0x80035598",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/sorted_entry_relink.c"
+      "source": "src/game/sorted_entry_compare.c"
     },
     {
       "address": "0x800355C8",
