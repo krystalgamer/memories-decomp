@@ -25,6 +25,7 @@ TextBox_WrapLineIfNeeded = 0x8003742C;
 Text_InitDecimalDigitGlyphMap = 0x8003AC60;
 Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
+DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 SD_HasQueuedStreamCommand = 0x80044B70;
 func_800464F0 = 0x80045BDC;
