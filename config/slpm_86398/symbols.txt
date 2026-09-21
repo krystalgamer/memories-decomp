@@ -62,6 +62,7 @@ SD_AdvanceSequencePosition = 0x8004B558;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
 func_8005FBC4 = 0x8004F614;
+Model_GetSlotAnimationSpeed = 0x8005BC98;
 Model_SetSlotShadowEnabled = 0x8005C8D8;
 D_800F2C40 = 0x800F04E0;
 func_8005A3D0 = 0x8005D1F8;
