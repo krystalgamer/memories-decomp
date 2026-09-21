@@ -14,6 +14,7 @@
     ((DuelCardDisplayObject *)(object))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_HAND_STACK_POSITION)
 void func_8001B780(DuelHandStackState *object)
 {
     DisplayObject *inner = object->position_object;
@@ -21,10 +22,13 @@ void func_8001B780(DuelHandStackState *object)
     inner->field_30.h.field_30 = object->slot_index * 60 + 14;
     inner->field_30.h.field_32 = 194;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8001B7AC(DuelHandStackState *arg)
 {
  register DuelHandStackState*object=arg;register DuelHandSlot*slot=&D_800EA030[object->slot_index];register DuelCardDisplayObject*child;
  DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(DISPLAY_OBJECT_VIEW(child),DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_x,DUEL_CARD_DISPLAY_OBJECT_VIEW(slot->object)->out_y,0x10,0x10,object->count<<4,0xB8,0xB,0x250,0xFC);
  DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(child));DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(child),(s8)(slot->object[(u32)&((DisplayObject *)0)->field_16]+1));slot->child=(u8*)child;object->count++;slot->active_09=object->count;SD_SEPlayFull(0x2F);
 }
+#endif
