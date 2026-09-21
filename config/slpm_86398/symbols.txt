@@ -35,6 +35,7 @@ Text_InitDecimalDigitGlyphMap = 0x8003AC60;
 Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
 DisplayObject_SetResourceVariant = 0x8003FAF0;
+DisplayObject_UpdateResourceVariant = 0x8003FB04;
 DisplayObjectStream_Stop = 0x80040AFC;
 DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
