@@ -960,6 +960,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC",
       "source": "src/game/japanese/ai_script_clear_selection_random.c"
+    },
+    {
+      "address": "0x80072084",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC",
+      "source": "src/game/japanese/func_80073474.c"
     }
   ]
 }
