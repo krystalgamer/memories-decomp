@@ -17,52 +17,6 @@
 
 extern u8 tail_data_start[];
 
-void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
-                   s32 field_69, s32 color, s32 texture)
-{
-    DisplayObject *o = object;
-
-    o->field_30.h.field_30 = x;
-    o->field_30.h.field_32 = y;
-    DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
-}
-
-DisplayObject *DisplayObject_ConfigureScreenSprite(
-    DisplayObject *object,
-    s32 x,
-    s32 y,
-    s32 height,
-    s32 width,
-    s32 field_5C,
-    s32 field_5D,
-    s32 field_66,
-    s32 field_40,
-    s32 field_42)
-{
-    s32 half_height;
-    s32 half_width;
-
-    object->field_3C.h.field_3C = height;
-    half_height = height / 2;
-    object->field_30.h.field_30 = x;
-    object->field_30.h.field_32 = y;
-    object->field_18 = half_height;
-    object->field_48.h.field_48 = half_height;
-
-    object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-
-    object->field_3C.h.field_3E = width;
-    half_width = width / 2;
-    *(u8 *)&object->field_5C = field_5C;
-    ((u8 *)&object->field_5C)[1] = field_5D;
-    object->field_66 = field_66;
-    object->field_40.h.field_40 = field_40;
-    object->field_40.h.field_42 = field_42;
-    object->field_1A = half_width;
-    object->field_48.h.field_4A = half_width;
-    return object;
-}
-
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport

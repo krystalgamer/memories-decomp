@@ -3760,13 +3760,13 @@
       "address": "0x800404CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/display_object_core_suffix.c"
+      "source": "src/game/display_object_configure_sprite_at_position.c"
     },
     {
       "address": "0x80040510",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/display_object_core_suffix.c"
+      "source": "src/game/display_object_configure_screen_sprite.c"
     },
     {
       "address": "0x80040588",
