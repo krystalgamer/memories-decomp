@@ -560,6 +560,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x800377FC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/japanese/func_800380D4.c"
+    },
+    {
       "address": "0x80037838",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
