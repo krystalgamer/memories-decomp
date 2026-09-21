@@ -40,7 +40,7 @@ void func_8002A2F4(u8 *p)
 
     o = (DisplayObject *)TextBox_Create(1, mode, 0x10, 0xCA, 0x120, 0x30);
     D_8009B320 = *(u8 *)&o->field_54;
-    offset = (u32)&((u32 *)0)[n];
+    offset = n * sizeof(u32);
     if (*(p + offset + 0x56) & 1) {
         D_8009B320 = 4;
     }
