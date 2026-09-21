@@ -46,6 +46,7 @@ DisplayObject_UpdateResourceVariant = 0x8003FB04;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
+func_80047C50 = 0x8004733C;
 SD_AdvanceSequencePosition = 0x8004B558;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;

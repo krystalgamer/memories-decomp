@@ -153,6 +153,8 @@ segments:
       - [0x3306c, asm, func_8004286C]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
+      - [0x37b3c, c, game/func_80047C50]
+      - [0x37b5c, asm, func_8004735C]
       - [0x3bd58, c, game/sd_advance_sequence_position]
       - [0x3bd6c, asm, func_8004B56C]
       - [0x3db94, c, game/model_word_memory]
