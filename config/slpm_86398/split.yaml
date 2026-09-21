@@ -111,6 +111,8 @@ segments:
       - [0x1ac98, asm, func_8002A498]
       - [0x1c080, c, game/japanese/func_8002BAA0]
       - [0x1c08c, asm, func_8002B88C]
+      - [0x1caa8, c, game/japanese/duel_find_player_deck_card]
+      - [0x1cae4, asm, func_8002C2E4]
       - [0x1cb3c, c, game/duel_effect_object_pool]
       - [0x1cc94, asm, func_8002C494]
       - [0x1d160, c, game/duel_calc_guardian_star_matchup]
