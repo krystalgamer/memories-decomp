@@ -342,7 +342,9 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     *slot = v1;
     return slot;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_SET_COLOR_SLOT)
 void func_80038498(DuelEffectChannel *object)
 {
     u8 **slot =
