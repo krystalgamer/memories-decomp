@@ -31,6 +31,7 @@ Util_FillMemory = 0x800354B0;
 TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
+func_800380D4 = 0x800377FC;
 func_80038110 = 0x80037838;
 func_80038498 = 0x80037B54;
 func_800384E4 = 0x80037BA0;
