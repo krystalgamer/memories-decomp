@@ -62,6 +62,12 @@
       "source": "src/game/japanese/script_op_return_to_menu.c"
     },
     {
+      "address": "0x8002FD7C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/game/japanese/scene_script_update_slots.c"
+    },
+    {
       "address": "0x800328A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
