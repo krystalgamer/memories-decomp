@@ -1706,6 +1706,12 @@
       "source": "src/game/japanese/triplet_copy_components.c"
     },
     {
+      "address": "0x80071F90",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x28",
+      "source": "src/game/japanese/ai_script_clear_cards.c"
+    },
+    {
       "address": "0x80072058",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
