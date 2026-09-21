@@ -83,6 +83,8 @@ segments:
       - [0x9C0, .rodata, game/duel_ritual_effect]
       - [0x9D8, rodata, initial_data_0b2]
       - [0x9E0, .rodata, game/library_runtime]
+      - [0xA04, rodata, initial_data_0b3]
+      - [0xA08, .rodata, game/library_runtime_tail]
       - [0xA24, .rodata, game/main_apply_menu_selection]
       - [0xA50, .rodata, game/func_80030294]
       - [0xA88, rodata, initial_data_1]
