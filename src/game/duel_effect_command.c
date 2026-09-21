@@ -314,7 +314,6 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     s32 a2 = D_8009B32E;
     u32 v1;
     u8 counter;
-    s32 offset;
     u32 *slot;
 
     if (a2 > 0xCFFF) {
@@ -332,8 +331,7 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
 
     counter = *(u8 *)&a3->stream_58 + 1;
     *(u8 *)&a3->stream_58 = counter;
-    offset = (u32)&((u32 *)0)[(s8)counter];
-    slot = (u32 *)((u8 *)a3 + offset);
+    slot = (u32 *)&TEXT_STREAM_OWNER(a3)->streams[(s8)counter];
     *slot = v1;
     return slot;
 }
