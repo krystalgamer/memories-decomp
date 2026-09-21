@@ -1,4 +1,5 @@
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
+Library_GetCardFlags = 0x80029C90;
 Campaign_TestStoryFlag = 0x8002CA88;
 Library_UpdateCardUsedFlag = 0x8002CAC4;
 D_801D0000 = 0x801D0000;
