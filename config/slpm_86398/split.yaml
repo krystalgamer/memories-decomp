@@ -89,6 +89,8 @@ segments:
       - [0x1d328, asm, func_8002CB28]
       - [0x1e954, c, game/duel_effect_mark_object_if_active]
       - [0x1e998, asm, func_8002E198]
+      - [0x1f434, c, game/duel_is_player_deck_complete]
+      - [0x1f46c, asm, func_8002EC6C]
       - [0x1ffd0, c, game/japanese/script_op_return_to_menu]
       - [0x1fffc, asm, func_8002F7FC]
       - [0x2057c, c, game/japanese/scene_script_update_slots]

@@ -382,11 +382,10 @@ lookup its caller-visible `u8 *state` parameter also removes the old
 translation-unit-specific prototype split without changing either caller's
 argument register.
 
-`Duel_IsPlayerDeckComplete` at `0x8002EE5C` directly precedes
-`Script_OpSavePrompt` at `0x8002EE94`. Both use
-`gcc_2_8_1_g8_split`, share `script_op_save_prompt.h`, and the prompt calls
-the predicate before opening its incomplete-deck warning. They now build once
-from `script_op_save_prompt.c` in that image order.
+`Duel_IsPlayerDeckComplete` at `0x8002EE5C` is matched in its own
+`duel_is_player_deck_complete.c` unit. The contiguous
+`Script_OpSavePrompt` at `0x8002EE94` keeps `script_op_save_prompt.c` and
+calls the standalone predicate before opening its incomplete-deck warning.
 
 ## Former literal-word sources
 
