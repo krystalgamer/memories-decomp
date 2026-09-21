@@ -102,6 +102,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x2C",
       "source": "src/game/model_word_memory.c"
+    },
+    {
+      "address": "0x8005C8D8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x38",
+      "source": "src/game/func_80059AA8.c"
     }
   ]
 }

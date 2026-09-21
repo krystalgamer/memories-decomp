@@ -15,5 +15,7 @@ TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
+Model_SetSlotShadowEnabled = 0x8005C8D8;
+D_800F2C40 = 0x800F04E0;
 D_800EA0E8 = 0x800E9FC8;
 D_801D0000 = 0x801D0000;
