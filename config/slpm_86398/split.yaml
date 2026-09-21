@@ -153,6 +153,8 @@ segments:
       - [0x34c34, c, game/japanese/sound_buffer_init]
       - [0x34cac, c, game/japanese/sound_mix]
       - [0x34ee8, asm, func_800446E8]
+      - [0x35338, c, game/japanese/sd_clear_busy_flag]
+      - [0x35348, asm, func_80044B48]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
       - [0x35ad4, c, game/japanese/sound_runtime]
