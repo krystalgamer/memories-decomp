@@ -120,7 +120,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
             b4 = D_8015C424;
             j2 = sel + 0x10;
             D_8009B1B8 =
-                *(u8 *)(b4 + (u32)&((u16 *)0)[j2] + off4 + 0x3C68);
+                *(u8 *)(b4 + j2 * sizeof(u16) + off4 + 0x3C68);
             return 1;
         }
         if (0) {
