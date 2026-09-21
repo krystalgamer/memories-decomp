@@ -66,6 +66,8 @@ segments:
       - [0x30c4, asm, entry]
       - [0x3dc0, c, game/func_800136D4]
       - [0x3dd0, asm, func_800135D0]
+      - [0x5828, c, game/func_8001513C]
+      - [0x589c, asm, func_8001509C]
       - [0x6e64, c, game/func_80016778]
       - [0x6e70, asm, func_80016670]
       - [0x76f8, c, game/duel_card_can_act_this_turn]

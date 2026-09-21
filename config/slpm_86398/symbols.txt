@@ -1,4 +1,5 @@
 func_800136D4 = 0x800135C0;
+func_8001513C = 0x80015028;
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
 DuelCard_CanActThisTurn = 0x80016EF8;
 Duel_CalcCardStats = 0x80016F64;
