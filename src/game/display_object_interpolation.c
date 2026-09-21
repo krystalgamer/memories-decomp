@@ -3,12 +3,6 @@
 #include "trig_constants.h"
 #include "display_object_interpolation.h"
 
-void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
-{
-    object->field_36 = object->field_30;
-    object->field_38 = object->field_32;
-}
-
 void DisplayObject_InterpolatePositionCosine(
     DisplayObjectPosition *object, s32 arg1, s32 arg2, s32 arg3
 )

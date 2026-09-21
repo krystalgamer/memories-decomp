@@ -132,6 +132,8 @@ segments:
       - [0x3131c, asm, func_80040B1C]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
+      - [0x33058, c, game/display_object_save_position]
+      - [0x3306c, asm, func_8004286C]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
       - [0x363dc, c, game/japanese/func_800464F0]
