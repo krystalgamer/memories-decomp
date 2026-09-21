@@ -232,6 +232,8 @@ segments:
       - [0x4c3f0, asm, func_8005BBF0]
       - [0x4c408, c, game/func_80058DD8]
       - [0x4c44c, asm, func_8005BC4C]
+      - [0x4c498, c, game/japanese/model_get_slot_animation_index]
+      - [0x4c4c4, asm, func_8005BCC4]
       - [0x4c550, c, game/model_slot_support]
       - [0x4c82c, c, game/model_buffer_getters]
       - [0x4c85c, asm, func_8005C05C]
