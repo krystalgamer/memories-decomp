@@ -252,6 +252,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
       "source": "src/game/func_8005A3D0.c"
+    },
+    {
+      "address": "0x8006AF40",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x4C",
+      "source": "src/game/func_8006C330.c"
     }
   ]
 }
