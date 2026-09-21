@@ -26,6 +26,12 @@
       "source": "src/game/japanese/func_8001B8B8.c"
     },
     {
+      "address": "0x80024418",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x118",
+      "source": "src/game/japanese/duel_card_data_transfer.c"
+    },
+    {
       "address": "0x80024530",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
