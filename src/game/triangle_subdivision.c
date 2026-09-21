@@ -165,10 +165,3 @@ void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
     output[1] = second;
     output[2] = third;
 }
-
-void func_8006C30C(u8 *destination, const u8 *source)
-{
-    destination[0] = source[0];
-    destination[1] = source[1];
-    destination[2] = source[2];
-}

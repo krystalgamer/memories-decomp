@@ -6310,7 +6310,7 @@
       "address": "0x8006C30C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/func_8006C30C.c"
     },
     {
       "address": "0x8006C330",
