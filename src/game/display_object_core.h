@@ -6,6 +6,7 @@
 struct DisplayObject;
 
 extern s16 D_800EFE3A[];
+extern u8 tail_data_start[];
 
 s32 DisplayObject_FindFreeGeneralSlot(void);
 s32 DisplayObject_FindFreeSlot(void);
