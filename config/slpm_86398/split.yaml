@@ -80,6 +80,8 @@ segments:
       - [0x7720, asm, func_80016F20]
       - [0x7764, c, game/duel_calc_card_stats]
       - [0x77cc, asm, func_80016FCC]
+      - [0x7d6c, c, game/japanese/duel_clear_hand_slots]
+      - [0x7da4, asm, func_800175A4]
       - [0x87cc, c, game/duel_card_object_helpers]
       - [0x88d8, asm, func_800180D8]
       - [0xa1a8, c, game/display_object_alpha_transition]

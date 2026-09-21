@@ -11,6 +11,7 @@
 
 #define DUEL_SELECTION_RECORDS(address) ((DuelSelectionRecord *)(address))
 
+#ifndef VERSION_JAPAN
 void Duel_InitSideStates(void) {
     u16 sp[DUEL_SIDE_COUNT];
     DuelSideState *e;
@@ -65,7 +66,9 @@ void Duel_InitSideStates(void) {
     }
     D_8009B1C8 = &D_800E9FF0[D_8009B1D5];
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CLEAR_HAND_SLOTS)
 void Duel_ClearHandSlots(void)
 {
     u8 *entry = (u8 *)D_800EA030;
@@ -81,7 +84,9 @@ void Duel_ClearHandSlots(void)
         entry += sizeof(DuelHandSlot);
     } while (i < HAND_SIZE);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
@@ -120,3 +125,4 @@ void Duel_ResetCardRecords(void)
         entry++;
     } while (i < DUEL_CARD_RECORD_COUNT);
 }
+#endif
