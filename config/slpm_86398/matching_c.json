@@ -350,6 +350,12 @@
       "source": "src/game/model_buffer_getters.c"
     },
     {
+      "address": "0x8005C0B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x28",
+      "source": "src/game/func_80059284.c"
+    },
+    {
       "address": "0x8005C8D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
