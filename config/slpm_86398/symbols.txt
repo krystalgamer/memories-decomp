@@ -27,6 +27,7 @@ Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 SD_HasQueuedStreamCommand = 0x80044B70;
+func_800464F0 = 0x80045BDC;
 SD_SetSecondaryObjectCount = 0x80048CEC;
 func_8004C84C = 0x8004BF38;
 Model_FillWords = 0x8004D394;
