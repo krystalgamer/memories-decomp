@@ -2588,6 +2588,12 @@
       "source": "src/game/japanese/model_effect_get_coefficient.c"
     },
     {
+      "address": "0x8004F614",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x58",
+      "source": "src/game/japanese/func_8005FBC4.c"
+    },
+    {
       "address": "0x80050A30",
       "profile": "gcc_2_8_1_g0",
       "size": "0x458",
