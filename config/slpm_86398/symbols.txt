@@ -20,6 +20,7 @@ TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
+DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;

@@ -4036,7 +4036,7 @@
       "address": "0x80043178",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
-      "source": "src/game/display_object_interpolation.c"
+      "source": "src/game/display_object_save_position.c"
     },
     {
       "address": "0x8004318C",
