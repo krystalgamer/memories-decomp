@@ -12,8 +12,8 @@
  * record: duel_card_pick_cursor.h's DuelCardPickCursor and func_8001D5B4.c
  * each hold a fuller view of the same memory.
  *
- * The callers use different checked views of func_80024088 -- see the note in
- * duel_cursor_status.c. */
+ * The callers use different checked views of DuelCursor_UpdateDirection --
+ * see the note in duel_cursor_status.c. */
 typedef struct {
     u8 pad_00[0x19];
     u8 status;
@@ -31,12 +31,12 @@ extern u8 D_8009B1D6;
 extern u8 D_8009B1D7;
 #endif
 
-s32 func_80024060(DuelCursorStatus *object);
+s32 DuelCursor_UpdateFromInput(DuelCursorStatus *object);
 
 #ifdef FUNC_80024088_WIDE_DIRECTION
-s32 func_80024088(DuelFieldCursor *cursor, s8 dir);
+s32 DuelCursor_UpdateDirection(DuelFieldCursor *cursor, s8 dir);
 #else
-s32 func_80024088(DuelCursorStatus *object);
+s32 DuelCursor_UpdateDirection(DuelCursorStatus *object);
 #endif
 
 #endif

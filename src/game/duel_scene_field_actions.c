@@ -272,7 +272,7 @@ void DuelScene_UpdateFieldActions(void)
         if (DisplayObject_FindAllocatedByTag(0xF) != 0) {
             return;
         }
-        if (func_80024060((DuelCursorStatus *)side) != 0) {
+        if (DuelCursor_UpdateFromInput((DuelCursorStatus *)side) != 0) {
             D_8009B174 |= 0x40;
             return;
         }
@@ -433,7 +433,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             return;
         }
-        if (func_80024060((DuelCursorStatus *)side) != 0) {
+        if (DuelCursor_UpdateFromInput((DuelCursorStatus *)side) != 0) {
             return;
         }
         if (gInput_wPad1Pressed & 0x20) {

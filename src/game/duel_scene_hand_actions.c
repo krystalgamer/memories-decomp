@@ -305,7 +305,7 @@ void DuelScene_UpdateHandActions(void)
                 D_8009B160 = -1;
                 return;
             }
-            if (func_80024088((void *)D_8009B1B4, D_8009B160) == 0) {
+            if (DuelCursor_UpdateDirection((void *)D_8009B1B4, D_8009B160) == 0) {
                 if (D_8009B1B4->col == D_8009B208[2]) {
                     goto confirm;
                 }
@@ -538,7 +538,7 @@ void DuelScene_UpdateHandActions(void)
                     }
                 }
             }
-        } else if (func_80024060((void *)D_8009B1B4) == 0) {
+        } else if (DuelCursor_UpdateFromInput((void *)D_8009B1B4) == 0) {
             value = Duel_GetCardViewerRequestId(
                 &D_801A7AD8[D_800907D8[FIELD_CURSOR.row * 5 + FIELD_CURSOR.col +
                                        D_8009B1D5 * 20]]);
