@@ -141,7 +141,9 @@ void func_80038094(DuelEffectChannel *object)
 
     func_80038024(object, *(*stream)++);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_ADD_SIGNED_BYTE)
 void func_800380D4(DuelEffectChannel *object)
 {
     register u8 **stream;
