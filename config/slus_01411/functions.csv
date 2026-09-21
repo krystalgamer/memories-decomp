@@ -162,7 +162,7 @@ address,size,name,status,module,notes
 0x80021558,0x40,Duel_CalcRankScoreChange,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80021598,0x278,Duel_CalcRankScore,matching_c,game,"Pointer bivs for the entry and stat table, p-indexed score, scores set to 50 before the loop"
 0x80021810,0x84,Duel_SelectCardDrop,matching_c,game,Unchiga pure-C structure independently reproduced; exact linked bytes and relocations with gcc_2_8_1_g8_split.
-0x80021894,0x5C,Duel_AwardCard,matching_c,game,5 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8_split.
+0x80021894,0x5C,Duel_AwardCard,matching_c,game,Updates saturated card quantity and recent-drop history; exact standalone match with gcc_2_8_1_g8_split.
 0x800218F0,0x7C8,DuelScene_UpdateResultRewards,matching_c,game,"Complete pure-C duel-results controller with rank display, rewards, page navigation, fade exit, and bounded save counters. Canonical camera access, full-width score and coordinate temporaries, signed card-drop storage, and adjacent color-slot stores recover all 1992 instruction bytes under uniform G8 split. Owning headers preserve the two save windows and complete result-record scratch view. No pins or executable assembly."
 0x800220B8,0x23C,func_800220B8,matching_c,game,"Exact linked bytes on gcc_2_8_1_g8_split from the ygofm reference (batch port, probe-verified)."
 0x800222F4,0x324,func_800222F4,matching_c,game,"Small-data sized arrays, empty case 0 for the dispatch tree, separate case bodies"
