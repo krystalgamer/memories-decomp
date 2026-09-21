@@ -368,6 +368,12 @@
       "source": "src/game/japanese/display_object_stream_read_next_command.c"
     },
     {
+      "address": "0x80044B38",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x10",
+      "source": "src/game/japanese/sd_clear_busy_flag.c"
+    },
+    {
       "address": "0x800443E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
