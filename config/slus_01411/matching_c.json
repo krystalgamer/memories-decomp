@@ -3748,13 +3748,13 @@
       "address": "0x8004044C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/display_object_core_suffix.c"
+      "source": "src/game/display_object_set_resource_path.c"
     },
     {
       "address": "0x80040468",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/display_object_core_suffix.c"
+      "source": "src/game/display_object_configure_sprite_resource.c"
     },
     {
       "address": "0x800404CC",

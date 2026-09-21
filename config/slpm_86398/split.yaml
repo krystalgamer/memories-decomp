@@ -152,6 +152,8 @@ segments:
       - [0x302f0, c, game/display_object_set_resource_variant]
       - [0x30304, c, game/display_object_update_resource_variant]
       - [0x3032c, asm, func_8003FB2C]
+      - [0x30348, c, game/display_object_configure_sprite_resource]
+      - [0x303ac, asm, func_8003FBAC]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x328b8, c, game/display_object_reset_velocity]
