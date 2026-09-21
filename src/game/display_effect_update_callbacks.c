@@ -36,22 +36,6 @@
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
-void func_8003A920(
-    DisplayPositionGroup *group,
-    s16 x,
-    s16 y
-)
-{
-    s32 i;
-
-    for (i = 2; i >= 0; i--) {
-        if (group->children[i] != 0) {
-            group->children[i]->x = x;
-            group->children[i]->y = y;
-        }
-    }
-}
-
 void DisplayPositionGroup_SetPosition(
     DisplayPositionGroup *group,
     s32 x,

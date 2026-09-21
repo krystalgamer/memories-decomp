@@ -620,6 +620,12 @@
       "source": "src/game/display_effect_has_resource_entry.c"
     },
     {
+      "address": "0x80039FB8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x3C",
+      "source": "src/game/func_8003A920.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

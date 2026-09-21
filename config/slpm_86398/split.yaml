@@ -156,6 +156,8 @@ segments:
       - [0x29e9c, asm, func_8003969C]
       - [0x2a018, c, game/display_effect_has_resource_entry]
       - [0x2a06c, asm, func_8003986C]
+      - [0x2a7b8, c, game/func_8003A920]
+      - [0x2a7f4, asm, func_80039FF4]
       - [0x2b460, c, game/japanese/text_init_decimal_digit_glyph_map]
       - [0x2b544, asm, func_8003AD44]
       - [0x2b564, c, game/japanese/input_is_pad1_confirm_pressed]
