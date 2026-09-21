@@ -176,6 +176,12 @@
       "source": "src/game/japanese/sd_has_queued_stream_command.c"
     },
     {
+      "address": "0x80048CEC",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x40",
+      "source": "src/game/func_80049600.c"
+    },
+    {
       "address": "0x8004BF38",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x7C",
