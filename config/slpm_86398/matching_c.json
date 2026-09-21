@@ -380,6 +380,12 @@
       "source": "src/game/japanese/mem_card_set_io_result_complete.c"
     },
     {
+      "address": "0x80044420",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x14",
+      "source": "src/game/japanese/mem_card_set_io_result_new_card.c"
+    },
+    {
       "address": "0x80042858",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
