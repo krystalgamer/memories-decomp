@@ -147,6 +147,8 @@ segments:
       - [0x31c40, asm, func_80041440]
       - [0x33058, c, game/display_object_save_position]
       - [0x3306c, asm, func_8004286C]
+      - [0x34be8, c, game/japanese/mem_card_set_io_result_complete]
+      - [0x34bf8, asm, func_800443F8]
       - [0x34c34, c, game/japanese/sound_buffer_init]
       - [0x34cac, c, game/japanese/sound_mix]
       - [0x34ee8, asm, func_800446E8]
