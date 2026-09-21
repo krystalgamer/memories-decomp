@@ -5902,7 +5902,7 @@
       "address": "0x8005B5FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/model_word_memory.c"
+      "source": "src/game/model_fill_words.c"
     },
     {
       "address": "0x8005B620",
