@@ -27,6 +27,7 @@
    at gcc_2_8_1_g8, so the unit builds there. */
 
 /* Advances the two-word save-data mask state and returns the next word. */
+#ifndef VERSION_JAPAN
 u32 SaveData_NextMaskWord(void)
 {
     u32 *state = &gSaveData_dwMaskStateLow;
@@ -251,7 +252,9 @@ s32 SaveData_ValidateIntegrity(u8 *data)
 
     return 1;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DUELIST_CODE_COMPARE)
 s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
 {
     s32 i;
@@ -264,7 +267,9 @@ s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 SaveData_MatchesDuelistAndCurrentSequence(
     SaveDataState *left,
     SaveDataState *right)
@@ -278,3 +283,4 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
     }
     return result;
 }
+#endif

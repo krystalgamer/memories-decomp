@@ -560,6 +560,12 @@
       "source": "src/game/japanese/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x8003C84C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x30",
+      "source": "src/game/japanese/save_data_has_same_duelist_code.c"
+    },
+    {
       "address": "0x8003FAF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
