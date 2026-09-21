@@ -64,6 +64,8 @@ segments:
     subsegments:
       - [0x800, rodata, initial_data]
       - [0x30c4, asm, entry]
+      - [0x3dc0, c, game/func_800135C0]
+      - [0x3dd0, asm, func_800135D0]
       - [0x6e64, c, game/func_80016778]
       - [0x6e70, asm, func_80016670]
       - [0x7764, c, game/duel_calc_card_stats]
