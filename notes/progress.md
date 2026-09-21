@@ -1,14 +1,14 @@
 # Decompilation Progress
 
 The root [`README.md`](../README.md) contains the current high-level matching
-totals. Its marked progress section is generated from the authoritative
-function inventory rather than maintained by hand.
+totals for both supported regional executables. Its marked progress section is
+generated from tracked target metadata rather than maintained by hand.
 
 There are two reporting families, not just the README table:
 
 | Generator | Outputs | Contents |
 |---|---|---|
-| `make progress` | Marked section of `README.md`; ignored `tmp/reports/progress.json` | Resident and configured-overlay function/byte metrics |
+| `make progress` | Marked section of `README.md`; ignored `tmp/reports/progress.json` | North American inventory/overlay metrics plus Japanese exact-C and resident-text metrics |
 | `make global-usage` | `notes/global-usage.csv` | Global names, function identity/status, evidence paths, access widths, and source contexts |
 
 For a scheduled report refresh, synchronize with master and run both generators
@@ -41,6 +41,14 @@ C-decompilation target. This classification describes reconstruction progress,
 not native portability: a PC port would still need portable replacements for
 those platform-specific routines. Identified Psy-Q CRT/SDK functions likewise
 remain outside the game-code totals.
+
+The Japanese target does not yet have a complete function ownership and status
+inventory equivalent to `config/slus_01411/functions.csv`. Its generated report
+therefore counts exact entries from `config/slpm_86398/matching_c.json` and
+measures their bytes against the resident text extent in
+`config/slpm_86398/image_map.json`. It deliberately does not present a Japanese
+function-count percentage or infer ownership from the cross-version evidence
+CSV. The target SHA-256 for each region also comes from its tracked image map.
 
 ## Unchanged matching counts do not imply fresh reports
 

@@ -132,9 +132,9 @@ make verify-disc
   `config/slus_01411/functions.csv`.
 - `classify-functions` applies the verified game/CRT/SDK ownership ranges
   without overwriting a future `matching_c` status.
-- `progress` refreshes the generated progress section in the root `README.md`
-  and writes current status and ownership metrics to
-  `tmp/reports/progress.json`.
+- `progress` refreshes the generated dual-region progress section in the root
+  `README.md` and writes North American status/ownership metrics plus Japanese
+  exact-C/resident-text metrics to `tmp/reports/progress.json`.
 - `verify-disc` verifies the original MODE2/2352 BIN/CUE, tracked ISO9660 LBAs,
   and every extracted file against its disc extent.
 
