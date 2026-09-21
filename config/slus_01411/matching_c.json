@@ -586,7 +586,7 @@
       "address": "0x8001778C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/duel_state_init.c"
+      "source": "src/game/duel_reset_card_records.c"
     },
     {
       "address": "0x800177C4",

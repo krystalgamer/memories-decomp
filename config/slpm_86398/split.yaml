@@ -74,6 +74,8 @@ segments:
       - [0x7720, asm, func_80016F20]
       - [0x7764, c, game/duel_calc_card_stats]
       - [0x77cc, asm, func_80016FCC]
+      - [0x7e18, c, game/duel_reset_card_records]
+      - [0x7e50, asm, func_80017650]
       - [0xbde0, c, game/func_8001B780]
       - [0xbe0c, asm, func_8001B60C]
       - [0xbf18, c, game/japanese/func_8001B8B8]
