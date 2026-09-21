@@ -17,17 +17,6 @@
 
 extern u8 tail_data_start[];
 
-void DisplayObject_UpdateResourceVariant(
-    DisplayObjectConfig *object,
-    s32 value
-)
-{
-    if (object->field_69 != value) {
-        object->field_69 = value;
-        object->flags &= 0xFFEF;
-    }
-}
-
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,

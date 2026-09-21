@@ -42,6 +42,7 @@ DisplayEffect_HasResourceEntry = 0x80039818;
 func_8003A920 = 0x80039FB8;
 SaveData_HasSameDuelistCode = 0x8003C84C;
 DisplayObject_SetResourceVariant = 0x8003FAF0;
+DisplayObject_UpdateResourceVariant = 0x8003FB04;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
