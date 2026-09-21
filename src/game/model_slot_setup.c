@@ -123,7 +123,7 @@ void func_80056250(s32 arg0, u8 *arg1, s32 arg2, s32 arg3) {
         }
     }
     v = (p->field_DF0 = (s32)p->field_DE0 + sum);
-    p->field_DF4 = v + (u32)&((u32 *)0)[p->field_E02];
+    p->field_DF4 = v + p->field_E02 * sizeof(u32);
     func_8005A4C4(p, 0, 0, 0, arg0 == 1 ? 0x800 : 0);
 
     q = &D_800F2C40[arg0];
