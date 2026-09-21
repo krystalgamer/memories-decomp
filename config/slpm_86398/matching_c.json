@@ -314,6 +314,12 @@
       "source": "src/game/japanese/func_80049FB4.c"
     },
     {
+      "address": "0x800497E8",
+      "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
+      "size": "0x180",
+      "source": "src/game/sound_spatialize_object.c"
+    },
+    {
       "address": "0x8004BF38",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x7C",
