@@ -15,6 +15,7 @@ Script_OpReturnToMenu = 0x8002F7D0;
 SceneScript_UpdateSlots = 0x8002FD7C;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_GetActiveCardID = 0x80033268;
+SortedEntry_Compare = 0x80035300;
 Util_CopyWords = 0x80035408;
 Util_FillMemory = 0x800354B0;
 TextStream_ReadU16LE = 0x80036648;

@@ -97,6 +97,8 @@ segments:
       - [0x230c8, asm, func_800328C8]
       - [0x23a68, c, game/build_deck_active_card]
       - [0x23aa4, asm, func_800332A4]
+      - [0x25b00, c, game/sorted_entry_compare]
+      - [0x25b30, asm, func_80035330]
       - [0x25c08, c, game/util_copy_words]
       - [0x25cb0, c, game/util_memory]
       - [0x25d50, asm, func_80035550]
