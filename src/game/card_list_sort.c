@@ -7,28 +7,6 @@
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
 
-/* The descending comparator, sort, and input handler share this unit. */
-s32 func_80032BD4(
-    CardListSortItem *arg0,
-    CardListSortItem *arg1
-)
-{
-    u32 a = arg0->key;
-    u32 b = arg1->key;
-
-    if (a == b) {
-        if (
-            gCard_asNameSortKey[arg0->card_id - 1] <
-            gCard_asNameSortKey[arg1->card_id - 1]
-        )
-            return -1;
-        return 1;
-    }
-    if (b < a)
-        return 1;
-    return -1;
-}
-
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
    by the list's sort_mode.
