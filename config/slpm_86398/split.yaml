@@ -80,6 +80,8 @@ segments:
       - [0x19b70, asm, func_80029370]
       - [0x1a490, c, game/func_80029EB0]
       - [0x1a4a4, asm, func_80029CA4]
+      - [0x1ac40, c, game/func_8002A660]
+      - [0x1ac98, asm, func_8002A498]
       - [0x1d160, c, game/duel_calc_guardian_star_matchup]
       - [0x1d1d4, asm, func_8002C9D4]
       - [0x1d288, c, game/campaign_test_story_flag]
