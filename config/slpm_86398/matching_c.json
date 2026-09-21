@@ -308,6 +308,18 @@
       "source": "src/game/duel_card_object_helpers.c"
     },
     {
+      "address": "0x80019884",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x58",
+      "source": "src/game/duel_card_checks.c"
+    },
+    {
+      "address": "0x800198DC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xCC",
+      "source": "src/game/duel_card_checks.c"
+    },
+    {
       "address": "0x800199A8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
@@ -384,6 +396,18 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
       "source": "src/game/japanese/func_80024DC8.c"
+    },
+    {
+      "address": "0x80024C50",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x28",
+      "source": "src/game/duel_action_lock.c"
+    },
+    {
+      "address": "0x80024C78",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/duel_action_lock.c"
     },
     {
       "address": "0x8002878C",
@@ -464,6 +488,18 @@
       "source": "src/game/duel_effect_object_pool.c"
     },
     {
+      "address": "0x8002CBC8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x20",
+      "source": "src/game/japanese/main_debug.c"
+    },
+    {
+      "address": "0x8002CBE8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x5C",
+      "source": "src/game/japanese/main_debug.c"
+    },
+    {
       "address": "0x8002E154",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
@@ -510,6 +546,18 @@
       "profile": "gcc_2_8_1_o1_g0",
       "size": "0x64",
       "source": "src/game/library_update_card_used_flag.c"
+    },
+    {
+      "address": "0x8002E198",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x28",
+      "source": "src/game/script_command_busy.c"
+    },
+    {
+      "address": "0x8002E1C0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x20",
+      "source": "src/game/script_command_busy.c"
     },
     {
       "address": "0x8002E6F0",
@@ -590,10 +638,34 @@
       "source": "src/game/japanese/script_op_return_to_menu.c"
     },
     {
+      "address": "0x8002FC78",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8",
+      "source": "src/game/scene_script_slots.c"
+    },
+    {
+      "address": "0x8002FC80",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xFC",
+      "source": "src/game/scene_script_slots.c"
+    },
+    {
       "address": "0x8002FD7C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
       "source": "src/game/japanese/scene_script_update_slots.c"
+    },
+    {
+      "address": "0x8002FDF8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/japanese/script_readers.c"
+    },
+    {
+      "address": "0x8002FE14",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x24",
+      "source": "src/game/japanese/script_readers.c"
     },
     {
       "address": "0x8002FE38",
@@ -644,10 +716,34 @@
       "source": "src/game/build_deck_active_card.c"
     },
     {
+      "address": "0x800339F8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x18",
+      "source": "src/game/japanese/duel_effect_mode_7.c"
+    },
+    {
+      "address": "0x80033A10",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/japanese/duel_effect_mode_7.c"
+    },
+    {
       "address": "0x80035300",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
       "source": "src/game/sorted_entry_compare.c"
+    },
+    {
+      "address": "0x800353D0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x18",
+      "source": "src/game/japanese/text_render_state.c"
+    },
+    {
+      "address": "0x800353E8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x20",
+      "source": "src/game/japanese/text_render_state.c"
     },
     {
       "address": "0x80035408",
@@ -866,10 +962,34 @@
       "source": "src/game/japanese/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x8003C3BC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x50",
+      "source": "src/game/input_pad1_backup.c"
+    },
+    {
+      "address": "0x8003C40C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x2C",
+      "source": "src/game/input_pad1_backup.c"
+    },
+    {
       "address": "0x8003C84C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
       "source": "src/game/japanese/save_data_has_same_duelist_code.c"
+    },
+    {
+      "address": "0x8003C8F0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/checkerboard_background.c"
+    },
+    {
+      "address": "0x8003C8F8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x138",
+      "source": "src/game/checkerboard_background.c"
     },
     {
       "address": "0x8003F550",
@@ -1422,6 +1542,18 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x17C",
       "source": "src/game/japanese/func_800464F0.c"
+    },
+    {
+      "address": "0x80046048",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x34",
+      "source": "src/game/japanese/sound_state_control.c"
+    },
+    {
+      "address": "0x8004607C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x78",
+      "source": "src/game/japanese/sound_state_control.c"
     },
     {
       "address": "0x800464D4",
@@ -2084,6 +2216,18 @@
       "source": "src/game/model_texture_upload.c"
     },
     {
+      "address": "0x8005BBF0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/japanese/model_state_getters.c"
+    },
+    {
+      "address": "0x8005BBFC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/japanese/model_state_getters.c"
+    },
+    {
       "address": "0x8005BC08",
       "profile": "gcc_2_8_1_g0",
       "size": "0x44",
@@ -2226,6 +2370,18 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
       "source": "src/game/func_80059AA8.c"
+    },
+    {
+      "address": "0x8005C910",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/japanese/model_state_setters.c"
+    },
+    {
+      "address": "0x8005C91C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/japanese/model_state_setters.c"
     },
     {
       "address": "0x8005CA48",
@@ -2414,6 +2570,18 @@
       "source": "src/game/japanese/ai_script_query_commands.c"
     },
     {
+      "address": "0x80070034",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/japanese/ai_script_load_duel_globals.c"
+    },
+    {
+      "address": "0x80070070",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/japanese/ai_script_load_duel_globals.c"
+    },
+    {
       "address": "0x800700AC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
@@ -2508,6 +2676,18 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x15C",
       "source": "src/game/japanese/ai_fusion.c"
+    },
+    {
+      "address": "0x80071B2C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x38",
+      "source": "src/game/ai_script_skip.c"
+    },
+    {
+      "address": "0x80071B64",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x38",
+      "source": "src/game/ai_script_skip.c"
     },
     {
       "address": "0x80071E30",
