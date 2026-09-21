@@ -1,6 +1,7 @@
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
 Duel_CalcCardStats = 0x80016F64;
 Util_CompareS16 = 0x80024530;
+DuelEffect_ClearResourceObjectPointers = 0x80029354;
 Library_GetCardFlags = 0x80029C90;
 Duel_CalcGuardianStarMatchup = 0x8002C960;
 Campaign_TestStoryFlag = 0x8002CA88;
@@ -12,4 +13,5 @@ TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
+D_800EA0E8 = 0x800E9FC8;
 D_801D0000 = 0x801D0000;
