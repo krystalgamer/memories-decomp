@@ -130,20 +130,20 @@ s32 func_80045208(u16 arg0, s32 unused)
                 case 0x8000:
                     code = arg0 + 0x8000;
                     table = (u8 **)a->bank_0518[1];
-                    second = (u8 *)table + 8;
+                    second = (u8 *)&table[2];
                     kind = 0x50;
                     break;
                 case 0x9000:
                     code = arg0 + 0x7000;
                     table = (u8 **)a->bank_0518[0];
-                    second = (u8 *)table + 8;
+                    second = (u8 *)&table[2];
                     kind = 0x60;
                     break;
                 default:
                     code = code + 0x6000;
                     kind = 0x70;
                     table = (u8 **)g_SDValue->bank_0518[2];
-                    second = (u8 *)table + 8;
+                    second = (u8 *)&table[2];
                     break;
                 }
                 {
@@ -200,13 +200,13 @@ void func_80045334(s32 arg0)
         value = arg0 + value;
         code = value;
         table = (u8 **)a->bank_0518[1];
-        second = (u8 *)table + 8;
+        second = (u8 *)&table[2];
         kind = 0x50;
         break;
     case 0x9000:
         code = arg0 + 0x7000;
         table = (u8 **)a->bank_0518[0];
-        second = (u8 *)table + 8;
+        second = (u8 *)&table[2];
         kind = 0x60;
         break;
     default:
@@ -214,7 +214,7 @@ void func_80045334(s32 arg0)
         kind = 0x70;
         b = g_SDValue;
         table = (u8 **)b->bank_0518[2];
-        second = (u8 *)table + 8;
+        second = (u8 *)&table[2];
         break;
     }
     {
