@@ -46,6 +46,7 @@ DisplayObject_UpdateResourceVariant = 0x8003FB04;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_ResetVelocity = 0x800420B8;
 DisplayObject_StepPositionX = 0x800420E0;
+DisplayObject_StepPositionY = 0x80042108;
 DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
 func_80047C50 = 0x8004733C;
