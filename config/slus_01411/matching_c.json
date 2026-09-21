@@ -3964,67 +3964,67 @@
       "address": "0x800429D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_reset_velocity.c"
     },
     {
       "address": "0x80042A00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042A28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042A50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042A78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042AA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042AD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042B08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042B40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042B98",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042BC0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042C08",
