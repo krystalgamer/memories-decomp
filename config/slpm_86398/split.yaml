@@ -81,6 +81,8 @@ segments:
       - [0x1d288, c, game/campaign_test_story_flag]
       - [0x1d2c4, c, game/library_update_card_used_flag]
       - [0x1d328, asm, func_8002CB28]
+      - [0x1e954, c, game/duel_effect_mark_object_if_active]
+      - [0x1e998, asm, func_8002E198]
       - [0x1ffd0, c, game/japanese/script_op_return_to_menu]
       - [0x1fffc, asm, func_8002F7FC]
       - [0x230a0, c, game/func_80032B38]
