@@ -302,6 +302,12 @@
       "source": "src/game/display_object_step_position_z.c"
     },
     {
+      "address": "0x800421E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/display_object_step_toward_zero.c"
+    },
+    {
       "address": "0x80042858",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
