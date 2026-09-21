@@ -192,7 +192,7 @@ segments:
       - [0x4dea0, c, game/func_8005A878]
       - [0x4deec, asm, func_8005D6EC]
       - [0x62868, c, game/japanese/ai_script_clear_selection_random]
-      - [0x62874, asm, func_80072074]
+      - [0x62874, c, game/japanese/func_80073464]
       - [0x62884, c, game/japanese/func_80073474]
       - [0x62890, asm, func_80072090]
       - [0x80d84, pad]
