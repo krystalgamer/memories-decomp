@@ -8,4 +8,5 @@ Library_UpdateCardUsedFlag = 0x8002CAC4;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_GetActiveCardID = 0x80033268;
 TextBox_WrapLineIfNeeded = 0x8003742C;
+Model_FillWords = 0x8004D394;
 D_801D0000 = 0x801D0000;

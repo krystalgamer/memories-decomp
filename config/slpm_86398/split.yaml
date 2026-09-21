@@ -83,6 +83,8 @@ segments:
       - [0x23aa4, asm, func_800332A4]
       - [0x27c2c, c, game/text_box_wrap_line]
       - [0x27c98, asm, func_80037498]
+      - [0x3db94, c, game/model_fill_words]
+      - [0x3dbb8, asm, func_8004D3B8]
       - [0x80d84, pad]
 
   - name: initialized_data
