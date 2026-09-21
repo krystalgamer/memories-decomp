@@ -68,8 +68,6 @@ segments:
       - [0x3dd0, asm, func_800135D0]
       - [0x5508, c, game/japanese/file_transfer_flags]
       - [0x589c, asm, func_8001509C]
-      - [0x58c4, c, game/japanese/fade_step_bands]
-      - [0x59fc, asm, func_800151FC]
       - [0x6e64, c, game/func_80016778]
       - [0x6e70, asm, func_80016670]
       - [0x7418, c, game/duel_draw_status_numbers]
