@@ -24,6 +24,7 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
+#ifndef VERSION_JAPAN
 void func_800374A8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
@@ -215,7 +216,9 @@ void func_80037950(DuelEffectChannel *object)
         object->state_51 = 8;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_WAIT_TRANSFER)
 void func_8003798C(DuelEffectChannel *object)
 {
     if (((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -223,7 +226,9 @@ void func_8003798C(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800379C4(DuelEffectChannel *object)
 {
     if (SD_IsBgmFadeActive(object) != 1) {
@@ -320,3 +325,4 @@ void func_80037B40(DuelEffectChannel *object)
     p->state_51 = 0;
     p->delay_52 = 1;
 }
+#endif
