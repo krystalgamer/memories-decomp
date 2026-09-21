@@ -34,6 +34,7 @@ DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
 MemCard_SetIOResultCompleteCB = 0x800443E8;
 MemCard_SetIOResultTimeoutCB = 0x800443F8;
+MemCard_SetIOResultErrorCB = 0x8004440C;
 SD_HasQueuedStreamCommand = 0x80044B70;
 func_800464F0 = 0x80045BDC;
 SD_SetSecondaryObjectCount = 0x80048CEC;
