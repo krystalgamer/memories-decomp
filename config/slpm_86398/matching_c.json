@@ -110,6 +110,12 @@
       "source": "src/game/func_80032B38.c"
     },
     {
+      "address": "0x800328C8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/build_deck_compare_card.c"
+    },
+    {
       "address": "0x80033268",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
