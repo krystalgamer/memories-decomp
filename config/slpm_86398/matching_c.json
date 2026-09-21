@@ -986,6 +986,12 @@
       "source": "src/game/japanese/triplet_set_components.c"
     },
     {
+      "address": "0x80072058",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x10",
+      "source": "src/game/japanese/ai_script_set_selection_random.c"
+    },
+    {
       "address": "0x80072068",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC",

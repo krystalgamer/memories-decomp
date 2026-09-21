@@ -23,6 +23,7 @@
    AiScript_FindBestAttack (gcc_2_8_1_g8_split_no_strength_reduce) and above
    by AiScript_Print (gcc_2_8_1_g8). */
 
+#ifndef VERSION_JAPAN
 void AiScript_PushComboCard(void)
 {
     s32 count = 0;
@@ -131,12 +132,14 @@ void AiScript_ClearTypes(void)
         entries--;
     } while (i >= 0);
 }
+#endif
 
 void AiScript_SetSelectionRandom(void)
 {
     D_800EAE90 = 1;
 }
 
+#ifndef VERSION_JAPAN
 void AiScript_ClearSelectionRandom(void)
 {
     D_800EAE90 = 0;
@@ -218,3 +221,4 @@ void AiScript_Print(void)
     printf(D_80011908);
     printf(D_80011918, checkpoint);
 }
+#endif
