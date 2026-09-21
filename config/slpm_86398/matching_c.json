@@ -126,6 +126,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
       "source": "src/game/func_80059AA8.c"
+    },
+    {
+      "address": "0x8005D1F8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x98",
+      "source": "src/game/func_8005A3D0.c"
     }
   ]
 }
