@@ -524,6 +524,12 @@
       "source": "src/game/text_encode_decimal_digits.c"
     },
     {
+      "address": "0x800359FC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/japanese/duel_effect_clear_occupancy_value.c"
+    },
+    {
       "address": "0x80036648",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
