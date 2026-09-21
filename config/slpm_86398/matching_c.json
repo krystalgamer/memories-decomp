@@ -116,6 +116,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x80044B70",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x90",
+      "source": "src/game/japanese/sd_has_queued_stream_command.c"
+    },
+    {
       "address": "0x8004D394",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
