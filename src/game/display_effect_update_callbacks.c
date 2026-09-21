@@ -36,6 +36,7 @@
 #define DISPLAY_POSITION_GROUP_VIEW(record) \
     ((DisplayPositionGroup *)(record))
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_GROUP_CHILD_POSITION)
 void func_8003A920(
     DisplayPositionGroup *group,
     s16 x,
@@ -51,7 +52,9 @@ void func_8003A920(
         }
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DisplayPositionGroup_SetPosition(
     DisplayPositionGroup *group,
     s32 x,
@@ -393,3 +396,4 @@ void func_8003B054(MenuRecord *record)
     *(u16 *)&o2->field_44.h.field_44 = q;
     *(u16 *)&o->field_44.h.field_44 = q;
 }
+#endif
