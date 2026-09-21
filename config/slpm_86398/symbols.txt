@@ -18,6 +18,7 @@ DuelEffect_MarkObjectIfActive = 0x8002E154;
 Duel_IsPlayerDeckComplete = 0x8002EC34;
 Script_OpReturnToMenu = 0x8002F7D0;
 SceneScript_UpdateSlots = 0x8002FD7C;
+func_8003201C = 0x80031D84;
 func_80032370 = 0x800320D8;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_CompareCard = 0x800328C8;
