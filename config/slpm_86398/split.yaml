@@ -128,6 +128,8 @@ segments:
       - [0x283ec, asm, func_80037BEC]
       - [0x28880, c, game/func_800389C4]
       - [0x28894, asm, func_80038094]
+      - [0x28ff8, c, game/func_80039140]
+      - [0x2909c, asm, func_8003889C]
       - [0x29920, c, game/display_object_fade_mark_initialized]
       - [0x29948, asm, func_80039148]
       - [0x29d9c, c, game/func_80039F1C]
