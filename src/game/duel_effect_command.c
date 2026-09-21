@@ -26,6 +26,7 @@
    the primary handlers Text_ExtendGlyphCode and Text_SetStateFromStream in
    text_stream_commands.c. */
 
+#ifndef VERSION_JAPAN
 void func_80037DA4(DuelEffectChannel *object)
 {
     s32 op;
@@ -156,7 +157,9 @@ void func_800380D4(DuelEffectChannel *object)
     *stream = current;
     object->field_3A += (s8)value;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_ADD_STREAM_BYTE)
 void func_80038110(DuelEffectChannel *object)
 {
     u8 **stream =
@@ -169,7 +172,9 @@ void func_80038110(DuelEffectChannel *object)
     *slot = current;
     object->field_38 += value;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80038148(DuelEffectChannel *object)
 {
     u8 buf[8];
@@ -353,3 +358,4 @@ void func_80038498(DuelEffectChannel *object)
 }
 
 void func_800384E4(DuelEffectChannel*object){register DuelEffectChannel*obj;register u8**stream;register u8*current;register unsigned int value;obj=object;obj->flags_34&=0xEFFF;stream=&((u8**)obj)[obj->stream_58];current=*stream;value=*current;current++;*stream=current;if(value)obj->flags_34|=0x1000;}
+#endif
