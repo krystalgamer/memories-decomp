@@ -7,6 +7,7 @@ Campaign_TestStoryFlag = 0x8002CA88;
 Library_UpdateCardUsedFlag = 0x8002CAC4;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_GetActiveCardID = 0x80033268;
+TextStream_ReadU16LE = 0x80036648;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
