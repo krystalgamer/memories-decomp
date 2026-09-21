@@ -170,6 +170,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x80037B54",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x4C",
+      "source": "src/game/func_80038498.c"
+    },
+    {
       "address": "0x80037BA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
