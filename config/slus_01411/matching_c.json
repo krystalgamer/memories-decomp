@@ -964,7 +964,7 @@
       "address": "0x80021894",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/duel_result_runtime.c"
+      "source": "src/game/duel_award_card.c"
     },
     {
       "address": "0x800218F0",

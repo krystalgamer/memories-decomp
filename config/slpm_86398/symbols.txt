@@ -3,6 +3,7 @@ DisplayObject_SetResourceVariantFromSign = 0x80016664;
 DuelCard_CanActThisTurn = 0x80016EF8;
 Duel_CalcCardStats = 0x80016F64;
 func_8001B8B8 = 0x8001B718;
+Duel_AwardCard = 0x800216DC;
 Util_CompareS16 = 0x80024530;
 func_80024DC8 = 0x80024BF4;
 DuelEffect_ClearResourceObjectPointers = 0x80029354;
