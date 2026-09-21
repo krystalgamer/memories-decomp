@@ -115,6 +115,8 @@ segments:
       - [0xf2b8, c, game/display_object_motion]
       - [0xf48c, c, game/japanese/duel_battle_stats]
       - [0xf718, asm, func_8001EF18]
+      - [0x11edc, c, game/duel_award_card]
+      - [0x11f38, asm, func_80021738]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x133dc, asm, func_80022BDC]
       - [0x135e0, c, game/display_parent_links]

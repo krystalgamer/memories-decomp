@@ -8,6 +8,7 @@ Duel_ResetCardRecords = 0x80017618;
 gJapanese_DuelCardRecords = 0x801B7AD8;
 func_8001B780 = 0x8001B5E0;
 func_8001B8B8 = 0x8001B718;
+Duel_AwardCard = 0x800216DC;
 Duel_StepCardDataTransfer = 0x80024418;
 Util_CompareS16 = 0x80024530;
 func_80024DC8 = 0x80024BF4;
