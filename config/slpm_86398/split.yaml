@@ -113,6 +113,8 @@ segments:
       - [0x27c98, asm, func_80037498]
       - [0x29920, c, game/display_object_fade_mark_initialized]
       - [0x29948, asm, func_80039148]
+      - [0x2a018, c, game/display_effect_has_resource_entry]
+      - [0x2a06c, asm, func_8003986C]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x33058, c, game/display_object_save_position]
