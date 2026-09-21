@@ -3004,7 +3004,7 @@
       "address": "0x80039140",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/text_box_layout_helpers.c"
+      "source": "src/game/func_80039140.c"
     },
     {
       "address": "0x800391E4",
