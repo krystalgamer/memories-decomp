@@ -2830,25 +2830,25 @@
       "address": "0x80038334",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/duel_effect_command_suffix.c"
+      "source": "src/game/func_80038334.c"
     },
     {
       "address": "0x80038388",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_effect_command_suffix.c"
+      "source": "src/game/duel_effect_command_tail.c"
     },
     {
       "address": "0x800383B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/duel_effect_command_suffix.c"
+      "source": "src/game/duel_effect_command_tail.c"
     },
     {
       "address": "0x800383DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/duel_effect_command_suffix.c"
+      "source": "src/game/duel_effect_command_tail.c"
     },
     {
       "address": "0x80038498",
