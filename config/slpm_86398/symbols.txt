@@ -37,6 +37,7 @@ Widget_UpdatePulseColour = 0x800368CC;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 func_800380D4 = 0x800377FC;
 func_80038110 = 0x80037838;
+func_800384E4 = 0x80037BA0;
 DuelEffect_ClearChannelFlag8 = 0x80038080;
 DisplayObjectFade_MarkInitialized = 0x80039120;
 func_80039F1C = 0x8003959C;
