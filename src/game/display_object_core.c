@@ -15,8 +15,7 @@
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
 
-extern u8 tail_data_start[];
-
+#ifndef VERSION_JAPAN
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = D_800F0548;
@@ -155,13 +154,17 @@ void DisplayObject_Reset(void)
 {
     DisplayObject_ResetPool();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_SET_RESOURCE_VARIANT)
 void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
     object->field_69 = value;
     object->flags &= 0xFFEF;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DisplayObject_UpdateResourceVariant(
     DisplayObjectConfig *object,
     s32 value
@@ -339,3 +342,4 @@ void DisplayObject_RenderSpriteList(void) {
         } while (i >= 0);
     }
 }
+#endif
