@@ -224,6 +224,12 @@
       "source": "src/game/duel_draw_status_numbers.c"
     },
     {
+      "address": "0x80016EF8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/japanese/duel_card_can_act_this_turn.c"
+    },
+    {
       "address": "0x80016F64",
       "profile": "gcc_2_8_1_g8",
       "size": "0x68",
