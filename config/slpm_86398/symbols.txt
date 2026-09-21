@@ -10,6 +10,7 @@ Library_UpdateCardUsedFlag = 0x8002CAC4;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_GetActiveCardID = 0x80033268;
 Util_CopyWords = 0x80035408;
+Util_FillMemory = 0x800354B0;
 TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
