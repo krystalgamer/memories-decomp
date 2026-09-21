@@ -6190,7 +6190,7 @@
       "address": "0x8005FBC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/model_effect_state.c"
+      "source": "src/game/func_8005FBC4.c"
     },
     {
       "address": "0x8005FC1C",
