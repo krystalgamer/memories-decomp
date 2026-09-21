@@ -2860,7 +2860,7 @@
       "address": "0x800384E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/duel_effect_command.c"
+      "source": "src/game/func_800384E4.c"
     },
     {
       "address": "0x80038530",

@@ -478,7 +478,7 @@ address,size,name,status,module,notes
 0x800383B0,0x2C,func_800383B0,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800383DC,0xBC,func_800383DC,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038498,0x4C,func_80038498,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
-0x800384E4,0x4C,func_800384E4,matching_c,game,Pure-C inline refinement matched the full executable.
+0x800384E4,0x4C,func_800384E4,matching_c,game,Reads one stream byte and conditionally sets channel flag 0x1000; exact standalone match with gcc_2_8_1_g8_split.
 0x80038530,0x160,Text_StartCampaignDuel,matching_c,game,Exact pin-free campaign duel command: separate per-byte slot/cursor/value lifetimes recover all 352 bytes under uniform G0. Canonical globals with unsigned opponent reload after the word reader and explicit signed equality views. No instruction assembly or source-local externs.
 0x80038690,0x28,DuelEffect_PlayBgmCommand,matching_c,game,Reads one 16-bit command operand and starts BGM playback with it; exact match with gcc_2_8_1_g8.
 0x800386B8,0xE0,DuelEffect_ProcessBgmCommand,matching_c,game,"Reads one BGM control byte, dispatches its playback or saved-command operations, and optionally enters wait state 0xC; exact linked bytes and relocations."

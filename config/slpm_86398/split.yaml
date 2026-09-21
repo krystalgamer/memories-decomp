@@ -116,6 +116,8 @@ segments:
       - [0x26ec8, asm, func_800366C8]
       - [0x27c2c, c, game/text_box_wrap_line]
       - [0x27c98, asm, func_80037498]
+      - [0x283a0, c, game/func_800384E4]
+      - [0x283ec, asm, func_80037BEC]
       - [0x28880, c, game/func_800389C4]
       - [0x28894, asm, func_80038094]
       - [0x29920, c, game/display_object_fade_mark_initialized]
