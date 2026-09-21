@@ -1424,6 +1424,12 @@
       "source": "src/game/japanese/triplet_set_components.c"
     },
     {
+      "address": "0x8006AF1C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x24",
+      "source": "src/game/japanese/triplet_copy_components.c"
+    },
+    {
       "address": "0x80072058",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
