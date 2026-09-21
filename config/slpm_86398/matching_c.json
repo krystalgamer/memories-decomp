@@ -134,6 +134,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x8003AC60",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/game/japanese/text_init_decimal_digit_glyph_map.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

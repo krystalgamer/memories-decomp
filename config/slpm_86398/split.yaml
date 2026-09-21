@@ -105,6 +105,8 @@ segments:
       - [0x27164, asm, func_80036964]
       - [0x27c2c, c, game/text_box_wrap_line]
       - [0x27c98, asm, func_80037498]
+      - [0x2b460, c, game/japanese/text_init_decimal_digit_glyph_map]
+      - [0x2b544, asm, func_8003AD44]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
