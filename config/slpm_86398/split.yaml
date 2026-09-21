@@ -126,6 +126,8 @@ segments:
       - [0x4d110, asm, func_8005C910]
       - [0x4d9f8, c, game/func_8005A3D0]
       - [0x4da90, asm, func_8005D290]
+      - [0x4dea0, c, game/func_8005A878]
+      - [0x4deec, asm, func_8005D6EC]
       - [0x80d84, pad]
 
   - name: initialized_data
