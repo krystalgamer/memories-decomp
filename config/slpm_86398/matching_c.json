@@ -260,6 +260,12 @@
       "source": "src/game/save_data_has_same_duelist_code.c"
     },
     {
+      "address": "0x8003FAF0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x14",
+      "source": "src/game/display_object_set_resource_variant.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

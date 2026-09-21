@@ -144,6 +144,8 @@ segments:
       - [0x2a7f4, asm, func_80039FF4]
       - [0x2d04c, c, game/save_data_has_same_duelist_code]
       - [0x2d07c, asm, func_8003C87C]
+      - [0x302f0, c, game/display_object_set_resource_variant]
+      - [0x30304, asm, func_8003FB04]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x33058, c, game/display_object_save_position]
