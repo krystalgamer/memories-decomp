@@ -270,6 +270,8 @@ segments:
       - [0x3032c, asm, func_8003FB2C]
       - [0x30348, c, game/japanese/display_object_configure_sprite_resource]
       - [0x303ac, asm, func_8003FBAC]
+      - [0x303f0, c, game/japanese/display_object_configure_screen_sprite]
+      - [0x30468, asm, func_8003FC68]
       - [0x307b0, c, game/display_object_updates]
       - [0x30cb8, c, game/japanese/display_object_runtime]
       - [0x3146c, asm, func_80040C6C]

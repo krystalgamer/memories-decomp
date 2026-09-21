@@ -227,7 +227,9 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 fie
     o->field_30.h.field_32 = y;
     DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SCREEN_SPRITE)
 DisplayObject *DisplayObject_ConfigureScreenSprite(
     DisplayObject *object,
     s32 x,
@@ -263,7 +265,9 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     object->field_48.h.field_4A = half_width;
     return object;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
