@@ -50,6 +50,12 @@
       "source": "src/game/library_update_card_used_flag.c"
     },
     {
+      "address": "0x8002F7D0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2C",
+      "source": "src/game/japanese/script_op_return_to_menu.c"
+    },
+    {
       "address": "0x800328A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
