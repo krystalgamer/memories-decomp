@@ -65,7 +65,7 @@ s32 Duel_SelectAttackTrap(u8 *p) {
     off1 = 0x18000;
     b1 = D_8015C424;
     for (; i < DUEL_ATTACK_TRAP_COUNT; i++) {
-        *(u16 *)(b1 + (u32)&((u16 *)0)[i] + off1 + 0x3C68) = 0;
+        *(u16 *)(b1 + i * sizeof(u16) + off1 + 0x3C68) = 0;
     }
     n = 0;
     i = n;
@@ -84,9 +84,9 @@ s32 Duel_SelectAttackTrap(u8 *p) {
                 sx = (s16)id;
                 th = sx - DUEL_ATTACK_TRAP_FIRST_CARD_ID;
                 n++;
-                *(u16 *)(b2 + (u32)&((u16 *)0)[th] + off2 + 0x3C68) = id;
+                *(u16 *)(b2 + th * sizeof(u16) + off2 + 0x3C68) = id;
                 sx2 = sx - 0x299;
-                *(u16 *)(b2 + (u32)&((u16 *)0)[sx2] + off2 + 0x3C68) =
+                *(u16 *)(b2 + sx2 * sizeof(u16) + off2 + 0x3C68) =
                     ((DisplayObject *)e->object)->field_6A;
             }
         }
