@@ -546,7 +546,7 @@ void func_8005FB30(Key *key)
             if (item->state >= 2) {
                 Model_CopySlotU16Values(
                     item->id,
-                    (u16 *)(data + 0x10 + (u32)&((u16 (*)[4])0)[i])
+                    (u16 *)(data + 0x10 + i * sizeof(u16[4]))
                 );
             }
         }
