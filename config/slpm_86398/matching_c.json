@@ -8,48 +8,6 @@
       "source": "src/game/func_800136D4.c"
     },
     {
-      "address": "0x80014D08",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0xD0",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80014DD8",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0xB8",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80014E90",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0x6C",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80014EFC",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0x28",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80014F24",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0x40",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80014F64",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0xC4",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
-      "address": "0x80015028",
-      "profile": "gcc_2_8_1_g8",
-      "size": "0x74",
-      "source": "src/game/japanese/file_transfer_flags.c"
-    },
-    {
       "address": "0x80016664",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
@@ -104,18 +62,6 @@
       "source": "src/game/display_object_alpha_transition.c"
     },
     {
-      "address": "0x8001B5E0",
-      "profile": "gcc_2_8_1_g8_split",
-      "size": "0x2C",
-      "source": "src/game/japanese/func_8001B7AC.c"
-    },
-    {
-      "address": "0x8001B60C",
-      "profile": "gcc_2_8_1_g8_split",
-      "size": "0x10C",
-      "source": "src/game/japanese/func_8001B7AC.c"
-    },
-    {
       "address": "0x8001B718",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
@@ -156,18 +102,6 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
       "source": "src/game/func_80029574.c"
-    },
-    {
-      "address": "0x8002C2A8",
-      "profile": "gcc_2_8_1_g8_split",
-      "size": "0x3C",
-      "source": "src/game/duel_deck_lookup.c"
-    },
-    {
-      "address": "0x8002C2E4",
-      "profile": "gcc_2_8_1_g8_split",
-      "size": "0x48",
-      "source": "src/game/duel_deck_lookup.c"
     },
     {
       "address": "0x8002C33C",
