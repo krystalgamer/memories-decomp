@@ -542,6 +542,12 @@
       "source": "src/game/japanese/display_object_set_resource_variant.c"
     },
     {
+      "address": "0x8003FB04",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/japanese/display_object_update_resource_variant.c"
+    },
+    {
       "address": "0x8003FFB0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x328",

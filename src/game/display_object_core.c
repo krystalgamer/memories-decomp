@@ -164,7 +164,7 @@ void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_UPDATE_RESOURCE_VARIANT)
 void DisplayObject_UpdateResourceVariant(
     DisplayObjectConfig *object,
     s32 value
@@ -175,7 +175,9 @@ void DisplayObject_UpdateResourceVariant(
         object->flags &= 0xFFEF;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
