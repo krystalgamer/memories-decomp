@@ -7,6 +7,7 @@ Util_CompareS16 = 0x80024530;
 func_80024DC8 = 0x80024BF4;
 DuelEffect_ClearResourceObjectPointers = 0x80029354;
 Library_GetCardFlags = 0x80029C90;
+Duel_FindPlayerDeckCard = 0x8002C2A8;
 Duel_CalcGuardianStarMatchup = 0x8002C960;
 Campaign_TestStoryFlag = 0x8002CA88;
 Library_UpdateCardUsedFlag = 0x8002CAC4;
