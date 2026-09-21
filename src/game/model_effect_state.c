@@ -34,6 +34,7 @@
    key when that one is kind 1. With `den` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
    Horner-evaluated at scale/den and added to the constant term. */
+#ifndef VERSION_JAPAN
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
@@ -158,12 +159,16 @@ void func_8005F198(s32 value)
 {
     D_8009B07C = value;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GET_COEFFICIENT)
 ModelEffectCoefficient *func_8005F1A4(s32 index)
 {
     return &D_80091570[index];
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 func_8005F1B8(s32 level, s32 value)
 {
     ModelEffectAdjustment local;
@@ -563,3 +568,4 @@ void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
     out->y = y;
     out->z = z;
 }
+#endif
