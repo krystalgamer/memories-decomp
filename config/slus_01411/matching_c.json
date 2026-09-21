@@ -4012,19 +4012,19 @@
       "address": "0x80042B40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/display_object_motion_helpers_suffix.c"
+      "source": "src/game/display_object_find_allocated_by_tag.c"
     },
     {
       "address": "0x80042B98",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_motion_helpers_suffix.c"
+      "source": "src/game/display_object_mark_initialized.c"
     },
     {
       "address": "0x80042BC0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/display_object_motion_helpers_suffix.c"
+      "source": "src/game/display_object_fade_brightness_and_release.c"
     },
     {
       "address": "0x80042C08",

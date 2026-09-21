@@ -156,6 +156,8 @@ segments:
       - [0x32958, asm, func_80042158]
       - [0x329e8, c, game/display_object_step_toward_zero]
       - [0x32a20, asm, func_80042220]
+      - [0x32a78, c, game/display_object_mark_initialized]
+      - [0x32aa0, asm, func_800422A0]
       - [0x33058, c, game/display_object_save_position]
       - [0x3306c, asm, func_8004286C]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
