@@ -27,15 +27,6 @@
  * submit a prepared POLY_G4 or POLY_GT4, projecting it first when GsPERS
  * (0x04000000) is set. Any other case builds a POLY_FT4 from the sprite and
  * projects it, subdividing through DivideFT4 when `extra` asks for it. */
-void DisplayObject_StepPositionZ(DisplayObjectVelocity *object)
-{
-    int value = (object->z << 8) | object->fraction_z;
-
-    value += object->velocity_z;
-    object->fraction_z = value;
-    object->z = value >> 8;
-}
-
 void DisplayObject_StepPositionXY(DisplayObjectVelocity *object)
 {
     DisplayObject_StepPositionX(object);
