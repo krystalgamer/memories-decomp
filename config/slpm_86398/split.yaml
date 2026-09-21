@@ -112,6 +112,8 @@ segments:
       - [0x2b544, asm, func_8003AD44]
       - [0x2b564, c, game/japanese/input_is_pad1_confirm_pressed]
       - [0x2b574, asm, func_8003AD74]
+      - [0x2ba38, c, game/japanese/text_sjis_to_glyph_codes]
+      - [0x2bb0c, asm, func_8003B30C]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
