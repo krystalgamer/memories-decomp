@@ -63,12 +63,12 @@ typedef struct {
  * direction, bit 0 picking the axis and bit 1 the sign. A set 0x80 flag means
  * a move is still settling, and that arm ignores `dir` entirely.
  *
- * func_80024088 reaches it with the object alone. Its prologue assigns only
- * $a0, so `dir` arrives as whatever that function's own caller left in $a1,
- * and there is no expression duel_cursor_status.c could write for it -- the
- * call site does not compute one. The arm below preserves that one-argument
- * call while func_80023FBC, which does compute the argument, gets the real
- * prototype. */
+ * DuelCursor_UpdateDirection reaches it with the object alone. Its prologue
+ * assigns only $a0, so `dir` arrives as whatever that function's own caller
+ * left in $a1, and there is no expression duel_cursor_status.c could write for
+ * it -- the call site does not compute one. The arm below preserves that
+ * one-argument call while func_80023FBC, which does compute the argument, gets
+ * the real prototype. */
 #ifdef FUNC_80023D08_AMBIENT_DIRECTION_ARG
 void func_80023D08(GridCursor *o);
 #else

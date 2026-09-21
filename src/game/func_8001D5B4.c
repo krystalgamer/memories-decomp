@@ -8,7 +8,7 @@
 s32 func_8001D5B4(DuelFieldCursor *cursor)
 {
     if (D_8009B162 != 0) { D_8009B160 = -1; return 1; }
-    if (func_80024088(cursor, D_8009B160) != 0) { return 1; }
+    if (DuelCursor_UpdateDirection(cursor, D_8009B160) != 0) { return 1; }
     D_8009B160 = -1;
     if (D_8009B1D7 != cursor->row) {
         D_8009B160 = 1;

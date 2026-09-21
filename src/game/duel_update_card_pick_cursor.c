@@ -26,12 +26,13 @@
  * reaches 0, then 0x40 is cleared and -- if 0x20 was also set -- the whole
  * mode byte is zeroed, ending the cursor.
  *
- * Otherwise the cursor is live. func_80024060 refreshes the object's status
- * byte and returns nonzero while it is still busy; when it is idle, the cell
- * under the cursor is looked up in the field table (row * DUEL_FIELD_ROW_SIZE
- * + column, plus DUEL_FIELD_SIDE_GRID_SLOT_COUNT per player side) and the
- * record it names is offered to Duel_GetCardViewerRequestId. A nonzero result is a
- * successful pick: it is published in gDuel_wViewerCardID along with the
+ * Otherwise the cursor is live. DuelCursor_UpdateFromInput refreshes the
+ * object's status byte and returns nonzero while it is still busy; when it is
+ * idle, the cell under the cursor is looked up in the field table (row *
+ * DUEL_FIELD_ROW_SIZE + column, plus DUEL_FIELD_SIDE_GRID_SLOT_COUNT per
+ * player side) and the record it names is offered to
+ * Duel_GetCardViewerRequestId. A nonzero result is a successful pick: it is
+ * published in gDuel_wViewerCardID along with the
  * event code 0x14 and state 2. A zero result only re-arms the hold (counter
  * 0xC, mode |= 0x60) when neither L2 nor R2 is held.
  */
@@ -42,7 +43,7 @@
 
 /* Neither call site narrows the result: each jal is followed by its delay
    slot and then a branch on $v0, with no andi or sll between, so the widened
-   value is the callee's own. func_80024060's listing ends `lbu $v0,
+   value is the callee's own. DuelCursor_UpdateFromInput's listing ends `lbu $v0,
    0x19($s0)` and really returns u8; Duel_GetCardViewerRequestId's non-zero exit is `lh $v0,
    0xC($a2)` and really returns s16. Both are declared s32, in
    duel_cursor_status.h and duel_get_card_viewer_request_id.h, which this file includes. */
@@ -68,7 +69,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
                 D_8009B1D4 = 0;
             }
         }
-    } else if (func_80024060((DuelCursorStatus *)o) == 0) {
+    } else if (DuelCursor_UpdateFromInput((DuelCursorStatus *)o) == 0) {
         picked = Duel_GetCardViewerRequestId(
             &D_801A7AD8[D_800907D8[
                 o->row * DUEL_FIELD_ROW_SIZE + o->col +
