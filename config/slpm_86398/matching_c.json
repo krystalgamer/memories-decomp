@@ -44,6 +44,12 @@
       "source": "src/game/func_80029574.c"
     },
     {
+      "address": "0x8002E154",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x44",
+      "source": "src/game/duel_effect_mark_object_if_active.c"
+    },
+    {
       "address": "0x8002A440",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
@@ -60,12 +66,6 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
       "source": "src/game/duel_calc_guardian_star_matchup.c"
-    },
-    {
-      "address": "0x8002E154",
-      "profile": "gcc_2_8_1_g8_split",
-      "size": "0x44",
-      "source": "src/game/duel_effect_mark_object_if_active.c"
     },
     {
       "address": "0x8002CA88",
