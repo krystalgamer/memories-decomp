@@ -128,6 +128,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x8004136C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD4",
+      "source": "src/game/japanese/display_object_stream_read_next_command.c"
+    },
+    {
       "address": "0x80044B70",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x90",
