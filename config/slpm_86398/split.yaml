@@ -126,6 +126,8 @@ segments:
       - [0x20670, asm, func_8002FE70]
       - [0x22584, c, game/func_8003201C]
       - [0x22624, asm, func_80031E24]
+      - [0x228d8, c, game/func_80032370]
+      - [0x22960, asm, func_80032160]
       - [0x230a0, c, game/func_80032B38]
       - [0x230c8, c, game/build_deck_compare_card]
       - [0x2313c, c, game/func_80032BD4]
