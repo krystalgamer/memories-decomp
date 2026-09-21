@@ -139,6 +139,8 @@ segments:
       - [0x31c40, asm, func_80041440]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
+      - [0x394ec, c, game/func_80049600]
+      - [0x3952c, asm, func_80048D2C]
       - [0x3c738, c, game/func_8004C84C]
       - [0x3c7b4, asm, func_8004BFB4]
       - [0x3db94, c, game/model_word_memory]
