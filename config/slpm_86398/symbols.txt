@@ -2,6 +2,7 @@ DisplayObject_SetResourceVariantFromSign = 0x80016664;
 Duel_CalcCardStats = 0x80016F64;
 Util_CompareS16 = 0x80024530;
 Library_GetCardFlags = 0x80029C90;
+Duel_CalcGuardianStarMatchup = 0x8002C960;
 Campaign_TestStoryFlag = 0x8002CA88;
 Library_UpdateCardUsedFlag = 0x8002CAC4;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
