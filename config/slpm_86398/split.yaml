@@ -149,6 +149,8 @@ segments:
       - [0x3c7b4, asm, func_8004BFB4]
       - [0x3db94, c, game/model_word_memory]
       - [0x3dbe4, asm, func_8004D3E4]
+      - [0x4c408, c, game/func_80058DD8]
+      - [0x4c44c, asm, func_8005BC4C]
       - [0x4c82c, c, game/model_buffer_getters]
       - [0x4c85c, asm, func_8005C05C]
       - [0x4c8b4, c, game/func_80059284]

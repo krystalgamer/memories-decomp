@@ -37,6 +37,7 @@ SD_SpatializeSecondaryObject = 0x800497E8;
 func_8004C84C = 0x8004BF38;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
+func_80058DD8 = 0x8005BC08;
 func_80059284 = 0x8005C0B4;
 Model_SetSlotShadowEnabled = 0x8005C8D8;
 D_800F2C40 = 0x800F04E0;
