@@ -70,6 +70,7 @@ gJapanese_bRequestedMenu = 0x8009B15D;
 gJapanese_SceneScriptRecordCallbacks = 0x80090B5C;
 gJapanese_DuelHandDisplayRecords = 0x800E9F10;
 gJapanese_SDValue = 0x8009B34C;
+func_8004503C = 0x80044728;
 gJapanese_DuelPlayerState = 0x8009B250;
 gJapanese_DuelOpponentId = 0x8009B251;
 gJapanese_DuelTerrain = 0x8009B254;

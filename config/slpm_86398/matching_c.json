@@ -890,6 +890,12 @@
       "source": "src/game/japanese/sound_mix.c"
     },
     {
+      "address": "0x80044728",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x18",
+      "source": "src/game/japanese/func_8004503C.c"
+    },
+    {
       "address": "0x80044B70",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x90",
