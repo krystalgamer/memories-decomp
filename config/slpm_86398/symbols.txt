@@ -1,4 +1,5 @@
 func_800136D4 = 0x800135C0;
+Fade_StepBands = 0x800150C4;
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
 Duel_CalcCardStats = 0x80016F64;
 func_8001B8B8 = 0x8001B718;
@@ -121,6 +122,8 @@ gJapanese_D_8009B290 = 0x8009B180;
 DebugMenu_DimPrimaryDisplayObject = 0x8002FE38;
 DebugMenu_RestorePrimaryDisplayObject = 0x8002FE54;
 D_800EB184 = 0x800EB060;
+gJapanese_FadeState = 0x800E9DA8;
+gJapanese_FrameStep = 0x8009AFC8;
 Text_EncodeDecimalNoPadding = 0x80035608;
 D_80090E0C = 0x80090CBC;
 func_80038888 = 0x80037F44;
