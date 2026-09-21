@@ -3826,13 +3826,13 @@
       "address": "0x8004141C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_stop.c"
     },
     {
       "address": "0x80041428",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_reset_offset.c"
     },
     {
       "address": "0x80041434",

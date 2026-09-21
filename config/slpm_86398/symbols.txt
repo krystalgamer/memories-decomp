@@ -39,6 +39,7 @@ func_80039F1C = 0x8003959C;
 func_80039FF8 = 0x80039678;
 DisplayEffect_HasResourceEntry = 0x80039818;
 func_8003A920 = 0x80039FB8;
+DisplayObjectStream_Stop = 0x80040AFC;
 DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
