@@ -108,6 +108,8 @@ segments:
       - [0x205f8, asm, func_8002FDF8]
       - [0x20638, c, game/display_object_brightness]
       - [0x20670, asm, func_8002FE70]
+      - [0x22584, c, game/func_8003201C]
+      - [0x22624, asm, func_80031E24]
       - [0x230a0, c, game/func_80032B38]
       - [0x230c8, asm, func_800328C8]
       - [0x23a68, c, game/build_deck_active_card]

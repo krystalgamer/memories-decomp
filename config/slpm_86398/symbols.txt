@@ -14,6 +14,7 @@ Library_UpdateCardUsedFlag = 0x8002CAC4;
 DuelEffect_MarkObjectIfActive = 0x8002E154;
 Script_OpReturnToMenu = 0x8002F7D0;
 SceneScript_UpdateSlots = 0x8002FD7C;
+func_8003201C = 0x80031D84;
 BuildDeck_TestAndSetInitialized = 0x800328A0;
 BuildDeck_GetActiveCardID = 0x80033268;
 Util_CopyWords = 0x80035408;
