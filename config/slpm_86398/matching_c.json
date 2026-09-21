@@ -434,6 +434,12 @@
       "source": "src/game/build_deck_active_card.c"
     },
     {
+      "address": "0x80035300",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/sorted_entry_compare.c"
+    },
+    {
       "address": "0x80035408",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA8",
