@@ -26,6 +26,12 @@
       "source": "src/game/util_compare_s16.c"
     },
     {
+      "address": "0x80029354",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/func_80029574.c"
+    },
+    {
       "address": "0x80029C90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
