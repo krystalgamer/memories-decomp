@@ -140,6 +140,30 @@
       "source": "src/game/model_word_memory.c"
     },
     {
+      "address": "0x8005C02C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/model_buffer_getters.c"
+    },
+    {
+      "address": "0x8005C038",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/model_buffer_getters.c"
+    },
+    {
+      "address": "0x8005C044",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/model_buffer_getters.c"
+    },
+    {
+      "address": "0x8005C050",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/model_buffer_getters.c"
+    },
+    {
       "address": "0x8005C8D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
