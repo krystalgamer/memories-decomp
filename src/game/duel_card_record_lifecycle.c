@@ -130,7 +130,7 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
         b = (b & 0x7F) + DECK_SIZE;
     }
 
-    n = (u32)&((DuelDeckCardRecord *)0)[b];
+    n = b * sizeof(DuelDeckCardRecord);
     tb = D_8015C424;
     p->data = (u8 *)gDuel_aDeckCardRecords + n;
     p->table_index = idx;
