@@ -43,6 +43,7 @@ SaveData_HasSameDuelistCode = 0x8003C84C;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
+SD_AdvanceSequencePosition = 0x8004B558;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
 func_8005FBC4 = 0x8004F614;
