@@ -3,8 +3,9 @@
 [![Matching build](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml/badge.svg)](https://github.com/krystalgamer/memories-decomp/actions/workflows/matching-build.yml)
 
 This repository is a byte-matching decompilation of the North American
-PlayStation release of **Yu-Gi-Oh! Forbidden Memories** (`SLUS-01411`).
-Accepted changes must continue to rebuild the complete PS-X executable exactly.
+(`SLUS-01411`) and Japanese (`SLPM-86398`) PlayStation releases of
+**Yu-Gi-Oh! Forbidden Memories**. Accepted changes must continue to rebuild
+each supported PS-X executable exactly.
 
 > [!IMPORTANT]
 > The repository does not contain game data or proprietary Psy-Q tools. Supply
@@ -13,13 +14,13 @@ Accepted changes must continue to rebuild the complete PS-X executable exactly.
 
 ## Project status
 
-The current mixed C/assembly build reproduces `game/SLUS_014.11` with SHA-256:
-
-```text
-84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88
-```
+The generated regional report tracks both supported executable targets.
 
 <!-- BEGIN GENERATED PROGRESS -->
+
+### North American (`SLUS-01411`)
+
+Target SHA-256: `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`
 
 | Metric | Current |
 |---|---:|
@@ -44,13 +45,26 @@ Runtime overlay modules:
 
 _Generated from `config/slus_01411/functions.csv` and `config/slus_01411/overlays/*_functions.csv` by `tools/project/progress.py`._
 
+### Japanese (`SLPM-86398`)
+
+Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa89585`
+
+| Metric | Current |
+|---|---:|
+| Exact matching C functions | **36** |
+| Exact matching C bytes | **3,508 (`0xDB4`)** |
+| Resident text represented by matching C | **3,508 (`0xDB4`) / 515,264 (`0x7DCC0`) (0.68%)** |
+| Resident text using exact assembly/binary fallback | 511,756 (`0x7CF0C`) |
+
+_Generated from `config/slpm_86398/matching_c.json` and `config/slpm_86398/image_map.json` by `tools/project/progress.py`._
+
 <!-- END GENERATED PROGRESS -->
 
-Matching C progress covers game-owned C-decompilation targets. Evidence-backed
-handwritten game assembly is tracked separately because it is not a
-C-decompilation target; those routines would still need portable replacements
-for a native PC port. Psy-Q CRT/SDK functions are likewise identified and
-preserved as assembly outside the game-code totals.
+North American matching C progress uses the authoritative function inventory.
+Japanese progress reports exact C functions and bytes against the resident text
+extent because a complete Japanese ownership/classification inventory does not
+yet exist. Evidence-backed handwritten game assembly and Psy-Q CRT/SDK routines
+remain outside the North American C-decompilation denominator.
 
 Run `make progress` when intentionally refreshing the project-wide snapshot.
 It updates the generated table above and writes detailed machine-readable
@@ -60,17 +74,21 @@ as an opt-in consistency check.
 
 ## Quick start
 
-Place the original executable at `game/SLUS_014.11`, then run:
+Place the original executables at `game/SLUS_014.11` and
+`game/japanese/SLPM_863.98`, then run:
 
 ```sh
 make verify-target
+make verify-japanese-target
 make tools
 MAKEFLAGS=-j"$(nproc)" make match
+MAKEFLAGS=-j"$(nproc)" make japanese-match
 ```
 
-`make match` succeeds only when the rebuilt executable is byte-identical to the
-retail target. Between clean acceptance builds, seed the object cache immediately
-after an unchanged matching build, then use the incremental edit loop:
+The match targets succeed only when each rebuilt executable is byte-identical
+to its retail target. Between clean acceptance builds, seed the object cache
+immediately after an unchanged matching build, then use the incremental edit
+loop:
 
 ```sh
 tools/environments/python/bin/python tools/project/build_incremental.py --seed-existing

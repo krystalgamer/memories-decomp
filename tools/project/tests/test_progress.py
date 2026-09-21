@@ -92,5 +92,37 @@ class ProgressRenderingTests(unittest.TestCase):
         self.assertIn("Total game-owned functions | 12", rendered)
         self.assertNotIn("**9 / 12", rendered)
 
+    def test_regional_progress_includes_japanese_target(self) -> None:
+        rendered = progress.render_regional_progress(
+            {
+                "target_sha256": "north-american-hash",
+                "game_function_count": 12,
+                "decompilation_target_function_count": 10,
+                "decompilation_target_function_bytes": 0x100,
+                "matching_c_function_count": 9,
+                "matching_c_bytes": 0xE0,
+                "assembly_function_count": 1,
+                "assembly_function_bytes": 0x20,
+                "handwritten_function_count": 2,
+                "handwritten_function_bytes": 0x80,
+                "sdk_function_count": 3,
+                "sdk_function_bytes": 0x60,
+                "function_count": 15,
+                "unassigned_text_bytes": 0,
+                "overlays": {},
+            },
+            {
+                "target_sha256": "japanese-hash",
+                "text_bytes": 0x400,
+                "matching_c_function_count": 4,
+                "matching_c_bytes": 0x100,
+            },
+        )
+
+        self.assertIn("North American (`SLUS-01411`)", rendered)
+        self.assertIn("Japanese (`SLPM-86398`)", rendered)
+        self.assertIn("`japanese-hash`", rendered)
+        self.assertIn("256 (`0x100`) / 1,024 (`0x400`) (25.00%)", rendered)
+
 if __name__ == "__main__":
     unittest.main()

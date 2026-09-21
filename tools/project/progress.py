@@ -38,12 +38,16 @@ def parse_integer(value: Any, description: str) -> int:
     raise ProgressError(f"{description} must be an integer or integer string")
 
 
-def load_text_size(root: Path) -> int:
+def load_image_map(root: Path, config: str) -> dict[str, Any]:
     path = resolve_within(
-        root, "config/slus_01411/image_map.json", must_exist=True
+        root, f"{config}/image_map.json", must_exist=True
     )
     with path.open("r", encoding="utf-8") as handle:
-        image_map = json.load(handle)
+        return json.load(handle)
+
+
+def load_text_size(root: Path, config: str = "config/slus_01411") -> int:
+    image_map = load_image_map(root, config)
     for region in image_map["regions"]:
         if region["name"] == "text":
             start = parse_integer(region["file_start"], "text.file_start")
@@ -296,6 +300,58 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
     )
 
 
+def render_japanese_progress(progress: dict[str, Any]) -> str:
+    matching_bytes = progress["matching_c_bytes"]
+    text_bytes = progress["text_bytes"]
+    return "\n".join(
+        (
+            "### Japanese (`SLPM-86398`)",
+            "",
+            f"Target SHA-256: `{progress['target_sha256']}`",
+            "",
+            "| Metric | Current |",
+            "|---|---:|",
+            (
+                "| Exact matching C functions | "
+                f"**{progress['matching_c_function_count']:,}** |"
+            ),
+            (
+                "| Exact matching C bytes | "
+                f"**{format_bytes(matching_bytes)}** |"
+            ),
+            (
+                "| Resident text represented by matching C | "
+                f"**{format_bytes(matching_bytes)} / "
+                f"{format_bytes(text_bytes)} "
+                f"({format_percentage(matching_bytes, text_bytes)})** |"
+            ),
+            (
+                "| Resident text using exact assembly/binary fallback | "
+                f"{format_bytes(text_bytes - matching_bytes)} |"
+            ),
+            "",
+            (
+                "_Generated from `config/slpm_86398/matching_c.json` and "
+                "`config/slpm_86398/image_map.json` by "
+                "`tools/project/progress.py`._"
+            ),
+        )
+    )
+
+
+def render_regional_progress(
+    north_american: dict[str, Any], japanese: dict[str, Any]
+) -> str:
+    return "\n\n".join(
+        (
+            "### North American (`SLUS-01411`)\n\n"
+            f"Target SHA-256: `{north_american['target_sha256']}`\n\n"
+            + render_readme_progress(north_american),
+            render_japanese_progress(japanese),
+        )
+    )
+
+
 def expected_readme(current: str, generated: str) -> str:
     if current.count(README_PROGRESS_START) != 1:
         raise ProgressError(
@@ -315,11 +371,17 @@ def expected_readme(current: str, generated: str) -> str:
 
 
 def sync_readme(
-    root: Path, progress: dict[str, Any], *, check: bool
+    root: Path,
+    progress: dict[str, Any],
+    japanese: dict[str, Any],
+    *,
+    check: bool,
 ) -> str:
     path = resolve_within(root, "README.md", must_exist=True)
     current = path.read_text(encoding="utf-8")
-    expected = expected_readme(current, render_readme_progress(progress))
+    expected = expected_readme(
+        current, render_regional_progress(progress, japanese)
+    )
     if check:
         if current != expected:
             raise ProgressError("README.md progress is stale; run make progress")
@@ -341,6 +403,7 @@ def calculate(root: Path) -> dict[str, Any]:
     )
     functions = load_inventory(inventory_path)
     validate_inventory(generated, functions)
+    image_map = load_image_map(root, "config/slus_01411")
     text_bytes = load_text_size(root)
     function_bytes = sum(function.size for function in functions)
     handwritten = [
@@ -379,6 +442,7 @@ def calculate(root: Path) -> dict[str, Any]:
 
     return {
         "target": "SLUS-01411",
+        "target_sha256": image_map["target_sha256"],
         "text_bytes": text_bytes,
         "function_count": len(functions),
         "function_bytes": function_bytes,
@@ -400,6 +464,52 @@ def calculate(root: Path) -> dict[str, Any]:
     }
 
 
+def calculate_japanese(root: Path) -> dict[str, Any]:
+    config = "config/slpm_86398"
+    image_map = load_image_map(root, config)
+    path = resolve_within(root, f"{config}/matching_c.json", must_exist=True)
+    with path.open("r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    functions = manifest.get("functions")
+    if manifest.get("schema") != 1 or not isinstance(functions, list):
+        raise ProgressError(f"{path}: unsupported matching-C configuration")
+
+    addresses: set[int] = set()
+    matching_bytes = 0
+    for index, function in enumerate(functions):
+        if not isinstance(function, dict):
+            raise ProgressError(f"{path}: function {index} must be an object")
+        address = parse_integer(
+            function.get("address"), f"{path}: function {index} address"
+        )
+        size = parse_integer(
+            function.get("size"), f"{path}: function {index} size"
+        )
+        if address in addresses:
+            raise ProgressError(
+                f"{path}: duplicate function address {address:#010x}"
+            )
+        if size <= 0:
+            raise ProgressError(f"{path}: function {index} has invalid size")
+        addresses.add(address)
+        matching_bytes += size
+
+    text_bytes = load_text_size(root, config)
+    if matching_bytes > text_bytes:
+        raise ProgressError(
+            f"Japanese matching bytes {matching_bytes:#x} exceed "
+            f"text size {text_bytes:#x}"
+        )
+    return {
+        "target": "SLPM-86398",
+        "target_sha256": image_map["target_sha256"],
+        "text_bytes": text_bytes,
+        "matching_c_function_count": len(functions),
+        "matching_c_bytes": matching_bytes,
+        "fallback_bytes": text_bytes - matching_bytes,
+    }
+
+
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate project progress metrics and README status."
@@ -417,11 +527,13 @@ def main() -> int:
     try:
         root = require_workspace_root()
         progress = calculate(root)
+        japanese = calculate_japanese(root)
         output = resolve_within(root, "tmp/reports/progress.json")
-        atomic_write_json(output, progress)
+        atomic_write_json(output, {**progress, "japanese": japanese})
         readme_status = sync_readme(
             root,
             progress,
+            japanese,
             check=arguments.check,
         )
     except (
@@ -452,6 +564,11 @@ def main() -> int:
     )
     print(f"assembly functions: {progress['assembly_function_bytes']:#x} bytes")
     print(f"matching C:         {progress['matching_c_bytes']:#x} bytes")
+    print(
+        "Japanese matching:  "
+        f"{japanese['matching_c_function_count']} functions, "
+        f"{japanese['matching_c_bytes']:#x} bytes"
+    )
     print(f"unassigned text:    {progress['unassigned_text_bytes']:#x} bytes")
     print(f"report:             {output.relative_to(root)}")
     print(f"README.md:          {readme_status}")
