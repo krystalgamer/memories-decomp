@@ -140,6 +140,8 @@ segments:
       - [0x2a06c, asm, func_8003986C]
       - [0x2a7b8, c, game/func_8003A920]
       - [0x2a7f4, asm, func_80039FF4]
+      - [0x31314, c, game/display_object_stream_noop]
+      - [0x3131c, asm, func_80040B1C]
       - [0x31b6c, c, game/japanese/display_object_stream_read_next_command]
       - [0x31c40, asm, func_80041440]
       - [0x33058, c, game/display_object_save_position]
