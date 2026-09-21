@@ -2470,7 +2470,7 @@
       "address": "0x800356A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA8",
-      "source": "src/game/util_memory.c"
+      "source": "src/game/util_copy_words.c"
     },
     {
       "address": "0x80035748",
