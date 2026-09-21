@@ -5,7 +5,7 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_LATCH)
 s32 func_80039F1C(DisplayEffectState *object)
 {
     u8 state = object->state;
@@ -16,7 +16,9 @@ s32 func_80039F1C(DisplayEffectState *object)
     }
     return 1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80039F44(DisplayEffectState *object)
 {
     object->field_34 = 0x68;
