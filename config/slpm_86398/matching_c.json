@@ -68,6 +68,12 @@
       "source": "src/game/build_deck_active_card.c"
     },
     {
+      "address": "0x80035408",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA8",
+      "source": "src/game/util_copy_words.c"
+    },
+    {
       "address": "0x80036648",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
