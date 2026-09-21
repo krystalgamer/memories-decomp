@@ -5,6 +5,7 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
+#ifndef VERSION_JAPAN
 s32 func_80039F1C(DisplayEffectState *object)
 {
     u8 state = object->state;
@@ -42,7 +43,9 @@ void func_80039FD4(MenuRecord *record)
     record->field_30 = -1;
     func_80039F90((void **)record->grid[0]);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_STATE_RESET)
 void func_80039FF8(DisplayEffectState *object)
 {
     u8 flags = object->field_32;
@@ -52,3 +55,4 @@ void func_80039FF8(DisplayEffectState *object)
         object->state = 0;
     }
 }
+#endif
