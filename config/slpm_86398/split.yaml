@@ -81,6 +81,8 @@ segments:
       - [0x230c8, asm, func_800328C8]
       - [0x23a68, c, game/build_deck_active_card]
       - [0x23aa4, asm, func_800332A4]
+      - [0x27c2c, c, game/text_box_wrap_line]
+      - [0x27c98, asm, func_80037498]
       - [0x80d84, pad]
 
   - name: initialized_data
