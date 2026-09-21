@@ -134,6 +134,12 @@
       "source": "src/game/text_box_wrap_line.c"
     },
     {
+      "address": "0x80039120",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/display_object_fade_mark_initialized.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

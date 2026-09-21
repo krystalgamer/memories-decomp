@@ -20,6 +20,7 @@ Util_FillMemory = 0x800354B0;
 TextStream_ReadU16LE = 0x80036648;
 TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
+DisplayObjectFade_MarkInitialized = 0x80039120;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
 SD_HasQueuedStreamCommand = 0x80044B70;
