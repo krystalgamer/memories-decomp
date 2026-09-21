@@ -141,6 +141,8 @@ segments:
       - [0x28894, asm, func_80038094]
       - [0x29920, c, game/japanese/display_object_fade_mark_initialized]
       - [0x29948, asm, func_80039148]
+      - [0x29d9c, c, game/japanese/func_80039F1C]
+      - [0x29dc4, asm, func_800395C4]
       - [0x29e78, c, game/japanese/func_80039FF8]
       - [0x29e9c, asm, func_8003969C]
       - [0x2b460, c, game/japanese/text_init_decimal_digit_glyph_map]

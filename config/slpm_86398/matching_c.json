@@ -512,6 +512,12 @@
       "source": "src/game/japanese/display_object_fade_mark_initialized.c"
     },
     {
+      "address": "0x8003959C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x28",
+      "source": "src/game/japanese/func_80039F1C.c"
+    },
+    {
       "address": "0x80039678",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
