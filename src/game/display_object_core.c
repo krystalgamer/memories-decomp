@@ -15,7 +15,7 @@
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_FREE_GENERAL_SLOT)
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = D_800F0548;
@@ -30,7 +30,9 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
     }
     return -1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 DisplayObject_FindFreeSlot(void)
 {
     DisplayObject *entry = D_800EFE48;
