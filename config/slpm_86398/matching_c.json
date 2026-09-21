@@ -362,6 +362,12 @@
       "source": "src/game/model_word_memory.c"
     },
     {
+      "address": "0x8005AC50",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x118",
+      "source": "src/game/func_80057E20.c"
+    },
+    {
       "address": "0x8005BC08",
       "profile": "gcc_2_8_1_g0",
       "size": "0x44",
