@@ -63,6 +63,7 @@ gInput_wPad1Pressed = 0x8009B288;
 gGraphics_sViewportX = 0x8009B036;
 gGraphics_sViewportY = 0x8009B038;
 func_8005A878 = 0x8005D6A0;
+AiScript_ClearCards = 0x80071F90;
 AiScript_SetSelectionRandom = 0x80072058;
 AiScript_ClearSelectionRandom = 0x80072068;
 D_800F2B20 = 0x800F03C0;
