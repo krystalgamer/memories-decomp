@@ -233,6 +233,8 @@ segments:
       - [0x3dbe4, asm, func_8004D3E4]
       - [0x3f3f4, c, game/japanese/model_effect_get_coefficient]
       - [0x3f408, asm, func_8004EC08]
+      - [0x3fe14, c, game/japanese/func_8005FBC4]
+      - [0x3fe6c, asm, func_8004F66C]
       - [0x41230, c, game/model_slot_row_tables]
       - [0x41c10, c, game/func_8004DC38]
       - [0x41f20, asm, func_80051720]
