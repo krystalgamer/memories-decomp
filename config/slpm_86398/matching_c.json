@@ -152,6 +152,12 @@
       "source": "src/game/func_8002A660.c"
     },
     {
+      "address": "0x8002B880",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/japanese/func_8002BAA0.c"
+    },
+    {
       "address": "0x80029C90",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
