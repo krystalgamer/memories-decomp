@@ -488,7 +488,7 @@ address,size,name,status,module,notes
 0x80038890,0x8,func_80038890,matching_c,game,First empty-function candidate matched.
 0x80038898,0x40,func_80038898,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x800388D8,0xEC,Text_ApplyFadeCommand,matching_c,game,Exact pure-C match: existing .data views for D_8009AF74 and D_8009B140 reproduce the retail absolute accesses under gcc_2_8_1_g8_split.
-0x800389C4,0x14,func_800389C4,matching_c,game,First halfword bit-clear candidate matched.
+0x800389C4,0x14,func_800389C4,matching_c,game,Clears flag 0x8 from a duel-effect channel; exact standalone match with gcc_2_8_1_g8.
 0x800389D8,0x6C,func_800389D8,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038A44,0x6C,func_80038A44,matching_c,game,Reference structure only; declarations and types independently recovered locally; exact linked bytes and relocations.
 0x80038AB0,0x58,Text_UnlockDuelist,matching_c,game,High-confidence semantic name: secondary text command 0x19 consumes one duelist ID and sets both its campaign-defeated and Free Duel unlock flags. Pure-C post-terminal resolution: an s16 duelist-id local fed by the unsigned stream byte preserves both the target copy and signed blez without either register pin. Exact 88-byte text and two call relocations using gcc_2_8_1_g8 and existing headers (issue #5).
