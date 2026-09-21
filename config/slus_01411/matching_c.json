@@ -6304,7 +6304,7 @@
       "address": "0x8006C2FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/triplet_set_components.c"
     },
     {
       "address": "0x8006C30C",

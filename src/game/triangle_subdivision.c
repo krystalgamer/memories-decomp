@@ -158,10 +158,3 @@ Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
     }
     return result;
 }
-
-void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
-{
-    output[0] = first;
-    output[1] = second;
-    output[2] = third;
-}
