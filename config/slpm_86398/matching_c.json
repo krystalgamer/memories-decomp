@@ -164,6 +164,12 @@
       "source": "src/game/japanese/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x80040B14",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8",
+      "source": "src/game/japanese/display_object_stream_noop.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",
