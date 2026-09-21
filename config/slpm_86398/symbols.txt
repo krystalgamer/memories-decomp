@@ -31,6 +31,7 @@ SD_HasQueuedStreamCommand = 0x80044B70;
 func_800464F0 = 0x80045BDC;
 SD_SetSecondaryObjectCount = 0x80048CEC;
 func_80049FB4 = 0x800496A0;
+SD_SpatializeSecondaryObject = 0x800497E8;
 func_8004C84C = 0x8004BF38;
 Model_FillWords = 0x8004D394;
 Model_CopyWords = 0x8004D3B8;
