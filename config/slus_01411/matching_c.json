@@ -3088,7 +3088,7 @@
       "address": "0x80039F1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
-      "source": "src/game/display_effect_lifecycle.c"
+      "source": "src/game/func_80039F1C.c"
     },
     {
       "address": "0x80039F44",

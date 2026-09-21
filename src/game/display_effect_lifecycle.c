@@ -5,17 +5,6 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
-s32 func_80039F1C(DisplayEffectState *object)
-{
-    u8 state = object->state;
-
-    if ((state & 0x80) == 0) {
-        object->state = state | 0x80;
-        return 0;
-    }
-    return 1;
-}
-
 void func_80039F44(DisplayEffectState *object)
 {
     object->field_34 = 0x68;

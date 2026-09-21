@@ -27,6 +27,7 @@ TextStream_ReadU32LE = 0x8003667C;
 TextBox_WrapLineIfNeeded = 0x8003742C;
 func_800389C4 = 0x80038080;
 DisplayObjectFade_MarkInitialized = 0x80039120;
+func_80039F1C = 0x8003959C;
 func_80039FF8 = 0x80039678;
 DisplayEffect_HasResourceEntry = 0x80039818;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
