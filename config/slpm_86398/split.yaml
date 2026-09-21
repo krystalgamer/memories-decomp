@@ -255,13 +255,8 @@ segments:
       - [0x5b70c, c, game/japanese/triplet_set_components]
       - [0x5b71c, c, game/japanese/triplet_copy_components]
       - [0x5b740, asm, func_8006AF40]
-      - [0x62790, c, game/japanese/ai_script_clear_cards]
-      - [0x627b8, asm, func_80071FB8]
-      - [0x62858, c, game/japanese/ai_script_set_selection_random]
-      - [0x62868, c, game/japanese/ai_script_clear_selection_random]
-      - [0x62874, c, game/japanese/func_80073464]
-      - [0x62884, c, game/japanese/func_80073474]
-      - [0x62890, asm, func_80072090]
+      - [0x62630, c, game/japanese/ai_script_state_ops]
+      - [0x62b14, asm, func_80072314]
       - [0x80d84, pad]
 
   - name: initialized_data
