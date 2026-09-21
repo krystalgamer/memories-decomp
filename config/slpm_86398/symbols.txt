@@ -1,6 +1,7 @@
 func_800136D4 = 0x800135C0;
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
 Duel_CalcCardStats = 0x80016F64;
+func_8001B8B8 = 0x8001B718;
 Util_CompareS16 = 0x80024530;
 DuelEffect_ClearResourceObjectPointers = 0x80029354;
 Library_GetCardFlags = 0x80029C90;
@@ -26,3 +27,4 @@ gJapanese_bMenuRequest = 0x8009B158;
 gJapanese_bActiveMainMode = 0x8009B15C;
 gJapanese_bRequestedMenu = 0x8009B15D;
 gJapanese_SceneScriptRecordCallbacks = 0x80090B5C;
+gJapanese_DuelHandDisplayRecords = 0x800E9F10;

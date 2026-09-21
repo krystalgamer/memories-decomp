@@ -70,6 +70,8 @@ segments:
       - [0x6e70, asm, func_80016670]
       - [0x7764, c, game/duel_calc_card_stats]
       - [0x77cc, asm, func_80016FCC]
+      - [0xbf18, c, game/japanese/func_8001B8B8]
+      - [0xbf98, asm, func_8001B798]
       - [0x14d30, c, game/util_compare_s16]
       - [0x14d60, asm, func_80024560]
       - [0x19b54, c, game/func_80029574]
