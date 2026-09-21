@@ -520,7 +520,7 @@ address,size,name,status,module,notes
 0x80039F44,0x4C,func_80039F44,matching_c,game,2 recorded attempts; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039F90,0x44,func_80039F90,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
 0x80039FD4,0x24,func_80039FD4,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
-0x80039FF8,0x24,func_80039FF8,matching_c,game,1 recorded attempt; exact full-executable SHA-256 match with gcc_2_8_1_g8.
+0x80039FF8,0x24,func_80039FF8,matching_c,game,Conditionally sets display-effect flag 0x10 and clears its state byte; exact standalone match with gcc_2_8_1_g8.
 0x8003A01C,0x17C,DisplayEffect_LoadResourceStage,matching_c,game,Matched from updated collaborator source: volatile display-state accesses reproduce the retail reload sequence.
 0x8003A198,0x54,DisplayEffect_HasResourceEntry,matching_c,game,"Display-effect resource-table probe; exact standalone match at gcc_2_8_1_g8_split and byte-identical under every standard g0/g8 profile."
 0x8003A1EC,0x254,DisplayEffect_BuildResourceObjects,matching_c,game,"Three-object display-effect resource builder grouped at g8_split with its table probe and VRAM consumer; its g0_split and g8_split objects are byte-identical."

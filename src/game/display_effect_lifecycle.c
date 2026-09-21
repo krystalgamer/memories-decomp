@@ -42,13 +42,3 @@ void func_80039FD4(MenuRecord *record)
     record->field_30 = -1;
     func_80039F90((void **)record->grid[0]);
 }
-
-void func_80039FF8(DisplayEffectState *object)
-{
-    u8 flags = object->field_32;
-
-    if ((flags & 3) == 0) {
-        object->field_32 = flags | 0x10;
-        object->state = 0;
-    }
-}
