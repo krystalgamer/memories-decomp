@@ -138,6 +138,8 @@ segments:
       - [0x25cb0, c, game/util_memory]
       - [0x25d50, c, game/text_encode_decimal_digits]
       - [0x25e64, asm, func_80035664]
+      - [0x261fc, c, game/japanese/duel_effect_clear_occupancy_value]
+      - [0x26238, asm, func_80035A38]
       - [0x26e48, c, game/text_stream_read_u16_le]
       - [0x26e7c, c, game/text_stream_read_le]
       - [0x26ec8, asm, func_800366C8]

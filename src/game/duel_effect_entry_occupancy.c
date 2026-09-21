@@ -3,6 +3,7 @@
 #include "duel_effect_entry_occupancy.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CLEAR_DUEL_EFFECT_OCCUPANCY)
 void func_80035CA8(int value)
 {
     int index;
@@ -18,9 +19,11 @@ void func_80035CA8(int value)
         }
     }
 }
+#endif
 
 /* Clears the D_800EAF08 occupancy table (see func_80035CA8) and resets its
    scan cursor to (0,0). */
+#ifndef VERSION_JAPAN
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
@@ -97,3 +100,4 @@ void DuelEffect_ResetEntryMarkers(void) {
         v0 = v0 + 1;
     }
 }
+#endif
