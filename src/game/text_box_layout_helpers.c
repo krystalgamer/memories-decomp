@@ -12,6 +12,7 @@
 #include "func_80035E20.h"
 #include "text_box_runtime.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_BOX_OUTLINE)
 /* Lays the text box's second object out as a six-point outline around the
  * first: the top corners 8 above the box, the side points 8 outside it at
  * its half height, and the bottom corners 8 below it. The six x/y pairs are
@@ -40,7 +41,9 @@ void func_80039140(struct DuelEffectChannel *record) {
     b->field_50.h.field_52 = v;
     b->field_48.h.field_4A = v;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800391E4(DuelEffectChannel *p) {
     DisplayObject *e;
     s32 v;
@@ -94,3 +97,4 @@ void func_800391E4(DuelEffectChannel *p) {
         func_80039140(p);
     }
 }
+#endif
