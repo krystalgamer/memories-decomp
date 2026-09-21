@@ -3970,7 +3970,7 @@
       "address": "0x80042A00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_motion_helpers.c"
+      "source": "src/game/display_object_step_position_x.c"
     },
     {
       "address": "0x80042A28",
