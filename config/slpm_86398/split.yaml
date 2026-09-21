@@ -222,6 +222,8 @@ segments:
       - [0x27ffc, c, game/japanese/func_800380D4]
       - [0x28038, c, game/japanese/func_80038110]
       - [0x28070, asm, func_80037870]
+      - [0x28230, c, game/japanese/func_80038334]
+      - [0x28284, asm, func_80037A84]
       - [0x28354, c, game/japanese/func_80038498]
       - [0x283a0, c, game/japanese/func_800384E4]
       - [0x283ec, asm, func_80037BEC]
