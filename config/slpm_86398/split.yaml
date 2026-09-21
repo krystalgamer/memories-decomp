@@ -189,6 +189,8 @@ segments:
       - [0x4da90, asm, func_8005D290]
       - [0x4dea0, c, game/func_8005A878]
       - [0x4deec, asm, func_8005D6EC]
+      - [0x62868, c, game/japanese/ai_script_clear_selection_random]
+      - [0x62874, asm, func_80072074]
       - [0x80d84, pad]
 
   - name: initialized_data
