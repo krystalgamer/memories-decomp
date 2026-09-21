@@ -32,6 +32,12 @@
       "source": "src/game/util_compare_s16.c"
     },
     {
+      "address": "0x80024BF4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x5C",
+      "source": "src/game/japanese/func_80024DC8.c"
+    },
+    {
       "address": "0x80029354",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
