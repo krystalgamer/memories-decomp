@@ -374,6 +374,12 @@
       "source": "src/game/func_80029EB0.c"
     },
     {
+      "address": "0x8002C2A8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/japanese/duel_find_player_deck_card.c"
+    },
+    {
       "address": "0x8002C960",
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
