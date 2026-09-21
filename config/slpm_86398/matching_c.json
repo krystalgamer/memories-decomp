@@ -14,6 +14,192 @@
       "source": "src/game/japanese/fade_step_bands.c"
     },
     {
+      "address": "0x800151FC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1D4",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800153D0",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1D4",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800155A4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x24",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800155C8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x50",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015618",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x54",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x8001566C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x5C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800156C8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x40",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015708",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x54",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x8001575C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x48",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800157A4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x4C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800157F0",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x40",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015830",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x54",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015884",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x40",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800158C4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800158EC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015914",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x8001593C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x44",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015980",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x44",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800159C4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x800159EC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015A14",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x28",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015A3C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x44",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015A80",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x44",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015AC4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x18",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015ADC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015AF8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015B34",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015B70",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015BAC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3C",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015BE8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x10",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
+      "address": "0x80015BF8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0xC",
+      "source": "src/game/japanese/fade_runtime.c"
+    },
+    {
       "address": "0x80016664",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC",
