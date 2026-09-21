@@ -106,7 +106,9 @@ void Duel_InitSelectionRecords(void) {
     DUEL_SELECTION_RECORDS(D_800E9F10)[DUEL_SELECTION_RECORDS_PER_SIDE]
         .field_13 = 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESET_CARD_RECORDS)
 void Duel_ResetCardRecords(void)
 {
     DuelCardRecord *entry = D_801A7AD8;

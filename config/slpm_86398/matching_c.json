@@ -242,6 +242,12 @@
       "source": "src/game/japanese/duel_clear_hand_slots.c"
     },
     {
+      "address": "0x80017618",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/japanese/duel_reset_card_records.c"
+    },
+    {
       "address": "0x80017FCC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x9C",
