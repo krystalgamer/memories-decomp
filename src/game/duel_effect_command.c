@@ -292,7 +292,9 @@ void func_800382A8(DuelEffectChannel *object)
     if (value == 1)
         object->flags_34 |= 0x100;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_READ_OPERAND_PAIR)
 void func_80038334(DuelEffectChannel *object)
 {
     /* Separate lifetimes preserve allocation across the two stream reads. */
