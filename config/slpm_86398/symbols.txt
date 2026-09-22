@@ -594,6 +594,7 @@ D_80011918 = 0x80011804;
 AiScript_ReadByte = 0x8006F19C;
 AiScript_ReadShort = 0x8006F1BC;
 Ai_IsCardInSet = 0x8006F480;
+Ai_IsTypeInSet = 0x8006F4D4;
 AiScript_Jump = 0x8006F598;
 printf = 0x8008E720;
 gDuel_aOpponentData = 0x800916A0;
