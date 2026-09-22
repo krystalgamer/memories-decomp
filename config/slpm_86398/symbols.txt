@@ -139,6 +139,7 @@ DuelEffect_ClearOccupancyValue = 0x800359FC;
 gJapanese_DuelEffectOccupancy = 0x800EADE8;
 GsSortFastSprite = 0x800835E0;
 func_800316F0 = 0x80031428;
+BuildDeck_DrawSortIcons = 0x800314BC;
 D_8009B1D5 = 0x8009B0C5;
 D_800E9D90 = 0x800E9C70;
 D_800E9FF0 = 0x800E9ED0;
