@@ -3632,6 +3632,12 @@
       "source": "src/game/japanese/ai_get_hand_size.c"
     },
     {
+      "address": "0x8006F480",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/game/japanese/ai_is_card_in_set.c"
+    },
+    {
       "address": "0x8006F598",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
