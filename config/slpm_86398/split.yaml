@@ -399,7 +399,7 @@ segments:
       - [0x2755c, asm, func_80036D5C]
       - [0x27764, c, game/japanese/text_script_wait]
       - [0x27780, c, game/japanese/duel_effect_display_wait]
-      - [0x27834, asm, func_80037034]
+      - [0x27834, c, game/japanese/func_8003787C]
       - [0x27890, c, game/japanese/display_effect_wait_clear]
       - [0x278cc, c, game/japanese/duel_effect_state_six]
       - [0x27908, c, game/japanese/duel_effect_state_four]
