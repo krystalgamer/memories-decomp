@@ -810,6 +810,7 @@ DebugMenu_Init = 0x8002FF40;
 DebugMenu_Update = 0x80030DD8;
 DuelEffect_MarkInitialized = 0x80024C50;
 DuelEffect_ClearCardEffect = 0x80024C78;
+DuelEffect_StartSwords = 0x80025D04;
 func_8002827C = 0x80028090;
 gDuel_wCardEffectFlags = 0x8009B110;
 Script_OpHalt = 0x8002E1C0;
