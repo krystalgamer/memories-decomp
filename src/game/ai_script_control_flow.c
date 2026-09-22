@@ -98,7 +98,7 @@ s32 Ai_IsCardInSet(s32 arg0)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_IS_TYPE_IN_SET)
 s32 Ai_IsTypeInSet(s32 arg0)
 {
     s32 value;
@@ -113,7 +113,9 @@ s32 Ai_IsTypeInSet(s32 arg0)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 Ai_IsCardInSets(s32 mode, s32 index)
 {
     if (mode == 1 && Ai_IsCardInSet(index))

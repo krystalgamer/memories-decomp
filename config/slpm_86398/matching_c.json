@@ -4070,6 +4070,12 @@
       "source": "src/game/japanese/ai_is_card_in_set.c"
     },
     {
+      "address": "0x8006F4D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/game/japanese/ai_is_type_in_set.c"
+    },
+    {
       "address": "0x8006F598",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
