@@ -1562,6 +1562,12 @@
       "source": "src/game/japanese/display_object_find_free_general_slot.c"
     },
     {
+      "address": "0x8003FA4C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/japanese/display_object_release_if_present.c"
+    },
+    {
       "address": "0x8003FAF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",

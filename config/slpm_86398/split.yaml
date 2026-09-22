@@ -304,6 +304,8 @@ segments:
       - [0x2fd60, c, game/sound_frontend]
       - [0x2ff0c, c, game/japanese/display_object_find_free_general_slot]
       - [0x2ff4c, asm, func_8003F74C]
+      - [0x3024c, c, game/japanese/display_object_release_if_present]
+      - [0x30270, asm, func_8003FA70]
       - [0x302f0, c, game/japanese/display_object_set_resource_variant]
       - [0x30304, c, game/japanese/display_object_update_resource_variant]
       - [0x3032c, c, game/japanese/display_object_set_resource_path]
