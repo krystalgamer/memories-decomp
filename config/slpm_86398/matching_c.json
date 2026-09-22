@@ -2012,6 +2012,12 @@
       "source": "src/game/japanese/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x8003BB34",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC0",
+      "source": "src/game/japanese/options_update_layout.c"
+    },
+    {
       "address": "0x8003C3BC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
