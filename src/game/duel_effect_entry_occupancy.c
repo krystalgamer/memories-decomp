@@ -76,12 +76,6 @@ s32 func_80035D10(void)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_MATCHING_MARKER)
 void DuelEffect_ClearMatchingMarker(int a0) {
 #ifdef VERSION_JAPAN
-    typedef struct {
-        u8 pad_00[0x11];
-        u8 flags_11;
-        u8 field_12;
-        u8 pad_13[5];
-    } JapaneseDuelEffectEntry;
     JapaneseDuelEffectEntry *v1;
     int a1;
     u8 v0;
