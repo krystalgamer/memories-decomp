@@ -1922,6 +1922,12 @@
       "source": "src/game/japanese/sound_output_state.c"
     },
     {
+      "address": "0x80044B48",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/japanese/sd_arm_busy_callback.c"
+    },
+    {
       "address": "0x80044B70",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x90",

@@ -292,7 +292,7 @@ segments:
       - [0x34cac, c, game/japanese/sound_mix]
       - [0x34ee8, c, game/func_80044FFC]
       - [0x34f28, c, game/japanese/sound_output_state]
-      - [0x35348, asm, func_80044B48]
+      - [0x35348, c, game/japanese/sd_arm_busy_callback]
       - [0x35370, c, game/japanese/sd_has_queued_stream_command]
       - [0x35400, asm, func_80044C00]
       - [0x35ad4, c, game/japanese/sound_runtime]
