@@ -527,7 +527,7 @@ int func_8005FB08(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FB14)
 int func_8005FB14(void)
 {
     int value = 0;
@@ -537,7 +537,9 @@ int func_8005FB14(void)
     }
     return value;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005FB30(Key *key)
 {
     u8 *data = KEY_BYTES(key);
