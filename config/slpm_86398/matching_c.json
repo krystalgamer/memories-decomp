@@ -482,6 +482,12 @@
       "source": "src/game/japanese/duel_draw_resolution.c"
     },
     {
+      "address": "0x80018E68",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x460",
+      "source": "src/game/japanese/func_80018FEC.c"
+    },
+    {
       "address": "0x800192C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x118",
@@ -522,6 +528,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
       "source": "src/game/japanese/func_80019CC8.c"
+    },
+    {
+      "address": "0x80019B94",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x13B4",
+      "source": "src/game/japanese/duel_scene_card_placement.c"
     },
     {
       "address": "0x8001AF48",
@@ -1116,6 +1128,12 @@
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x88",
       "source": "src/game/japanese/main_run_build_deck_menu.c"
+    },
+    {
+      "address": "0x8002D238",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/japanese/main_apply_menu_selection.c"
     },
     {
       "address": "0x8002D40C",
