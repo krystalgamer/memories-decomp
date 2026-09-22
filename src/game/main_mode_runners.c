@@ -32,6 +32,7 @@ u8 D_8009B269;
 u8 D_8009B26C;
 u8 D_8009B26E;
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_OPTIONS)
 void Main_RunOptionsMenu(void)
 {
     u8 flags = D_8009B26C;
@@ -50,7 +51,9 @@ void Main_RunOptionsMenu(void)
         D_8009B26C = value;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Main_RunGameOver(void)
 {
     u8 flags = D_8009B26C;
@@ -147,3 +150,4 @@ void Main_RunTrade(void)
         break;
     }
 }
+#endif
