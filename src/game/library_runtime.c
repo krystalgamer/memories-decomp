@@ -98,6 +98,7 @@
 #define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
+#ifndef VERSION_JAPAN
 void func_8002ACA4(u8 *state)
 {
     DuelEffectResourceRecord *rec;
@@ -672,7 +673,9 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         break;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_MARK_OWNED_CARDS)
 void Library_MarkOwnedCards(void)
 {
     u8 *p = gLibrary_abCardChest;
@@ -693,7 +696,9 @@ void Library_MarkOwnedCards(void)
         q++;
     } while (i < DECK_SIZE);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8002BFCC(void) {
     s16 *q;
     DuelEffectResourceRecord *b;
@@ -812,3 +817,4 @@ void func_8002BFCC(void) {
     func_8002A2F4(r);
     SD_BGMPlay(0x72D0);
 }
+#endif
