@@ -20,7 +20,7 @@ s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_FADE_RELEASE_CHANNEL)
 void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 {
     D_800EAF08[object->field_10] = 0;
