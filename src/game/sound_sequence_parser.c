@@ -20,7 +20,7 @@
    with -G0. Bounded below by SD_FindMidiTrackChunk, which does need its
    profile, and above by SD_ReadSequenceEvent at gcc_2_8_1_g8_split. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_U32_BE)
 s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
 {
     s32 first = SD_ReadSequenceByte(input);

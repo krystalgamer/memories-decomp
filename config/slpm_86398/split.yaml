@@ -474,6 +474,7 @@ segments:
       - [0x3b740, c, game/func_8004B854]
       - [0x3b7fc, c, game/sound_sequence_runtime]
       - [0x3baa8, asm, func_8004B2A8]
+      - [0x3bb18, c, game/japanese/sd_read_sequence_u32_be]
       - [0x3bb94, c, game/japanese/sd_read_sequence_u16_be]
       - [0x3bbd4, asm, func_8004B3D4]
       - [0x3bd58, c, game/japanese/sd_advance_sequence_position]
