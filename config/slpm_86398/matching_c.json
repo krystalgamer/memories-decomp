@@ -2570,6 +2570,12 @@
       "source": "src/game/sound_sequence_runtime.c"
     },
     {
+      "address": "0x8004B394",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x40",
+      "source": "src/game/japanese/sd_read_sequence_u16_be.c"
+    },
+    {
       "address": "0x8004B558",
       "profile": "gcc_2_8_1_g0",
       "size": "0x14",
