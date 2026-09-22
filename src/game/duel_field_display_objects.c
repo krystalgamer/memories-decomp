@@ -30,6 +30,7 @@
 #include "view_state.h"
 #include "../unmatched.h"
 
+#ifndef VERSION_JAPAN
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
     u8 *grid = D_800907D8;
@@ -174,7 +175,9 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
     func_80039A14((struct DuelEffectChannel *)box);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_SOURCE)
 void func_8002348C(DuelFieldDisplaySource *source)
 {
     u8 *table = D_800907D8;
@@ -184,7 +187,9 @@ void func_8002348C(DuelFieldDisplaySource *source)
 
     func_80023144(source, table[index]);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800234E4(DuelFieldDisplaySource *source)
 {
     s32 index;
@@ -430,3 +435,4 @@ s32 func_800235C0(void)
     }
     return result;
 }
+#endif
