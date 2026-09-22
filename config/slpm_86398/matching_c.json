@@ -644,6 +644,24 @@
       "source": "src/game/japanese/duel_battle_stats.c"
     },
     {
+      "address": "0x8001EF18",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x294",
+      "source": "src/game/japanese/duel_trap_resolution.c"
+    },
+    {
+      "address": "0x8001F1AC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1F8",
+      "source": "src/game/japanese/duel_trap_resolution.c"
+    },
+    {
+      "address": "0x8001F3A4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1378",
+      "source": "src/game/japanese/duel_scene_battle.c"
+    },
+    {
       "address": "0x8002071C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
