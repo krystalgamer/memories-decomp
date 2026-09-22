@@ -11,6 +11,7 @@
     ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
 #define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
 
+#ifndef VERSION_JAPAN
 void func_8005C6A0(s32 *object, ModelSlot *entry)
 {
     int local[2];
@@ -35,7 +36,9 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
         entry->field_E1B += count;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_PACKET_HANDLER_LOOKUP)
 void *func_8005C768(u32 value)
 {
     if ((value & 0xFFFF0000) != 0x03000000) {
@@ -57,3 +60,4 @@ case_2119:
 default_case:
     return (void *)GsU_00000000;
 }
+#endif

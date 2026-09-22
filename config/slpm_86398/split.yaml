@@ -454,6 +454,8 @@ segments:
       - [0x4e568, c, game/japanese/model_find_handler_key]
       - [0x4e5b8, c, game/color_transform]
       - [0x4ee8c, asm, func_8005E68C]
+      - [0x4ef54, c, game/japanese/model_packet_handler_lookup]
+      - [0x4efa8, asm, func_8005E7A8]
       - [0x5033c, c, game/japanese/func_8005fb3c]
       - [0x5037c, asm, func_8005FB7C]
       - [0x5a340, c, game/japanese/file_request_main_menu_package]
