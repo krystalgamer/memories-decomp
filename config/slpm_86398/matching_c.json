@@ -614,6 +614,12 @@
       "source": "src/game/duel_swords_effect.c"
     },
     {
+      "address": "0x80028074",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/japanese/duel_card_decode_tagged_slot_index.c"
+    },
+    {
       "address": "0x80028090",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
