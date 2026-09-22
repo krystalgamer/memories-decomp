@@ -1628,6 +1628,12 @@
       "source": "src/game/japanese/display_object_configure_sprite_resource.c"
     },
     {
+      "address": "0x8003FBAC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x44",
+      "source": "src/game/japanese/display_object_configure_sprite_at_position.c"
+    },
+    {
       "address": "0x8003FBF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",

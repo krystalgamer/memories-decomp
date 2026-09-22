@@ -222,7 +222,7 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_AT_POSITION)
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
