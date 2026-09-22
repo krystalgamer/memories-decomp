@@ -30,6 +30,8 @@ void func_80039F44(DisplayEffectState *object)
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RELEASE_OBJECTS)
 void func_80039F90(void **objects)
 {
     s32 i;
