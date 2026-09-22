@@ -26,6 +26,7 @@
    trade or duel setup, and the final request writes the paired trade result
    back. */
 
+#ifndef VERSION_JAPAN
 void SaveData_RequestLoad(void)
 {
     /* The symbolic store changes the target $at scheduling and relocation. */
@@ -198,7 +199,9 @@ s32 SaveData_UpdateLoadPair(void)
     }
     return 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_TRADE_LOAD)
 s32 SaveData_UpdateTradeLoad(void)
 {
     if ((D_8009B3ED & 0x80) == 0) {
@@ -207,7 +210,9 @@ s32 SaveData_UpdateTradeLoad(void)
     }
     return SaveData_UpdateLoadPair();
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 SaveData_UpdateDuelLoad(void)
 {
     s32 result;
@@ -267,3 +272,4 @@ void SaveData_RequestTradeWrite(void)
         4
     );
 }
+#endif
