@@ -125,6 +125,8 @@ segments:
       - [0x14c18, c, game/japanese/duel_card_data_transfer]
       - [0x14d30, c, game/util_compare_s16]
       - [0x14d60, asm, func_80024560]
+      - [0x14f80, c, game/japanese/duel_card_remove_from_field]
+      - [0x14fa8, asm, func_800247A8]
       - [0x153f4, c, game/japanese/func_80024DC8]
       - [0x15450, c, game/duel_action_lock]
       - [0x15484, asm, func_80024C84]
