@@ -150,6 +150,8 @@ void Text_NewLine(DuelEffectChannel *record)
 #endif
 
 #ifndef VERSION_JAPAN
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_END_STREAM)
 void Text_EndStream(DuelEffectChannel *record)
 {
     u16 flags;
@@ -164,6 +166,7 @@ void Text_EndStream(DuelEffectChannel *record)
 }
 #endif
 
+#ifndef VERSION_JAPAN
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
    in D_800EB010 (ids below 0x41 live in the first two records, others in

@@ -426,7 +426,7 @@ segments:
       - [0x28bcc, c, game/japanese/text_start_page_wait]
       - [0x28be4, asm, func_800383E4]
       - [0x28cd4, c, game/japanese/text_new_line]
-      - [0x28d34, asm, func_80038534]
+      - [0x28d34, c, game/japanese/text_end_stream]
       - [0x28d68, c, game/japanese/text_display_effect]
       - [0x28ff8, asm, func_800387F8]
       - [0x297a8, c, game/text_box_runtime]
