@@ -2618,6 +2618,12 @@
       "source": "src/game/sd_sequence_tracks.c"
     },
     {
+      "address": "0x8004CE88",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x38",
+      "source": "src/game/japanese/movie_step_playback.c"
+    },
+    {
       "address": "0x8004CFF8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10C",
