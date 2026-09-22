@@ -1274,6 +1274,12 @@
       "source": "src/game/input_pad1_backup.c"
     },
     {
+      "address": "0x8003C47C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x5C",
+      "source": "src/game/japanese/save_data_calc_crc16.c"
+    },
+    {
       "address": "0x8003C84C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",

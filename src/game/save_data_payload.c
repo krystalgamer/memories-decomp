@@ -45,8 +45,10 @@ u32 SaveData_NextMaskWord(void)
     state[1] = high;
     return state[0] = next ^ (next >> 20);
 }
+#endif
 
 /* CRC-16/XMODEM (poly 0x1021, zero-initialized) over data[0..len). */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_CALC_CRC16)
 u32 SaveData_CalcCrc16(u8 *data, s32 len)
 {
     u16 crc = 0;
@@ -70,7 +72,9 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
     }
     return crc;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
