@@ -1,0 +1,9 @@
+#include "../../types.h"
+
+/* SLPM-86398 build of src/game/sd_se_set_volume.c: the symbols below sit at other addresses in the
+ * Japanese executable and their US names are taken there, so they are aliased
+ * (config/slpm_86398/symbols.txt has the addresses). The US source is included
+ * unchanged. */
+#define g_SDValue gJapanese_SDValue
+
+#include "../sd_se_set_volume.c"
