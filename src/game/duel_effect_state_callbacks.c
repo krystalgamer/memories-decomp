@@ -106,14 +106,18 @@ void func_8003771C(DuelEffectChannel *object)
     D_8009B357 = 7;
     D_8009B27C_scalar = 7;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_BOX_WAIT_FOR_SCRIPT_COMPLETION)
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
 {
     if (D_8009B357 == 0) {
         object->state_51 = 0;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800377C8(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
     MenuRecord *p;
