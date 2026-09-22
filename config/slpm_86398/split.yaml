@@ -231,7 +231,7 @@ segments:
       - [0x15484, asm, func_80024C84]
       - [0x1564c, c, game/japanese/func_80025028]
       - [0x156ec, c, game/japanese/duel_card_effects]
-      - [0x16504, asm, func_80025D04]
+      - [0x16504, c, game/duel_swords_effect]
       - [0x16560, c, game/japanese/duel_field_effect_steps]
       - [0x16850, c, game/japanese/duel_effect_start_ritual]
       - [0x168f8, asm, func_800260F8]
