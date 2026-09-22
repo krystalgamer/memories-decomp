@@ -362,6 +362,12 @@
       "source": "src/game/duel_calc_card_stats.c"
     },
     {
+      "address": "0x800173F8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x44",
+      "source": "src/game/japanese/duel_init_model_scene.c"
+    },
+    {
       "address": "0x8001756C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
