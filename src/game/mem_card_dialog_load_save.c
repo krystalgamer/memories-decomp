@@ -20,6 +20,7 @@
    then the value with the new bits set. Without volatile the first store is
    dead and GCC drops it, so this function reaches the word through a volatile
    lvalue rather than forcing volatile on every reader in mem_card.h. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_SET_MESSAGE)
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
     u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
@@ -30,7 +31,9 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
     *(volatile u16 *)&gMemCard_wDialogFlags = flags;
     *(volatile u16 *)&gMemCard_wDialogFlags = flags | bits;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Memory-card load dialog state machine.
 
    Levers that mattered here:
@@ -503,3 +506,4 @@ void MemCardDialog_StepSave(void)
     }
     MemCardDialog_UpdateSave();
 }
+#endif
