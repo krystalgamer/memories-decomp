@@ -329,6 +329,7 @@ func_8004DB14 = 0x80051410;
 func_8004DC38 = 0x80051534;
 ModelTexture_PackPageClut = 0x8005B8AC;
 ModelTexture_LoadTim = 0x8005B97C;
+func_800599FC = 0x8005C82C;
 HostFile_ReadAll = 0x8005C714;
 LoadImage2 = 0x800809D8;
 IsIdleGPU = 0x80080F14;

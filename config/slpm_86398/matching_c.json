@@ -2882,6 +2882,12 @@
       "source": "src/game/file_query_wrappers.c"
     },
     {
+      "address": "0x8005C82C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x54",
+      "source": "src/game/func_800599FC.c"
+    },
+    {
       "address": "0x8005C8D8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",
