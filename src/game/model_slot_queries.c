@@ -28,7 +28,7 @@ s32 Model_GetSlotAnimationFrame(s32 index)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_SLOT_ANIMATION_LENGTH)
 u16 Model_GetSlotAnimationLength(s32 idx)
 {
     u8 sub = D_800F2C40[idx].field_BF5;
