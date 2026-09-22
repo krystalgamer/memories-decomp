@@ -262,6 +262,8 @@ segments:
       - [0x28794, asm, func_80037F94]
       - [0x28880, c, game/japanese/duel_effect_clear_channel_flag_8]
       - [0x28894, asm, func_80038094]
+      - [0x28a04, c, game/japanese/text_dispatch_secondary_command]
+      - [0x28a60, asm, func_80038260]
       - [0x28ff8, c, game/japanese/func_80039140]
       - [0x2909c, asm, func_8003889C]
       - [0x297a8, c, game/text_box_runtime]

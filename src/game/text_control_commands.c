@@ -30,6 +30,7 @@
    the secondary-table object commands and above by the text-box layout
    helpers func_80039140 and func_800391E4. */
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_DISPATCH_SECONDARY_COMMAND)
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
     u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
@@ -39,7 +40,9 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     *pp = p + 1;
     D_80090EAC[op](object);
 }
+#endif
 
+#ifndef VERSION_JAPAN
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&0xFFFF0000)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
@@ -264,3 +267,4 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         e->field_31 = (flags >> 1) & 3;
     }
 }
+#endif
