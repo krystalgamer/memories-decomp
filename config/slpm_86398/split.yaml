@@ -151,7 +151,7 @@ segments:
       - [0x1c08c, asm, func_8002B88C]
       - [0x1c9cc, c, game/duel_grid_offsets]
       - [0x1caa8, c, game/japanese/duel_find_player_deck_card]
-      - [0x1cae4, asm, func_8002C2E4]
+      - [0x1cae4, c, game/japanese/library_check_card_owned]
       - [0x1cb2c, c, game/noop_callbacks]
       - [0x1cb3c, c, game/duel_effect_object_pool]
       - [0x1cc94, asm, func_8002C494]

@@ -21,7 +21,7 @@ int Duel_FindPlayerDeckCard(int card_id)
 #endif
 
 /* Any copy in the trunk returns 1 at once; otherwise the deck slot decides. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_CHECK_CARD_OWNED)
 int Library_CheckCardOwned(int card_id)
 {
     int flag;
