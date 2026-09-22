@@ -636,6 +636,7 @@ Model_IsCreditsPresentationComplete = 0x8005CB00;
 Model_UpdateScene = 0x8005CB14;
 Model_RunSlotHandlers = 0x8005CC08;
 func_8005DBA4 = 0x8004D5F4;
+func_8005F1B8 = 0x8004EC08;
 func_8005F3B8 = 0x8004EE08;
 func_8005FB08 = 0x8004F558;
 gJapanese_ModelEffectKeyCount = 0x8009AEE8;
