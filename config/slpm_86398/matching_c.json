@@ -374,6 +374,12 @@
       "source": "src/game/japanese/duel_reset_card_records.c"
     },
     {
+      "address": "0x80017E80",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x7C",
+      "source": "src/game/func_80018004.c"
+    },
+    {
       "address": "0x80017EFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
