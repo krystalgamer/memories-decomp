@@ -1352,6 +1352,12 @@
       "source": "src/game/checkerboard_background.c"
     },
     {
+      "address": "0x8003DA10",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x24",
+      "source": "src/game/japanese/mem_card_dialog_set_message.c"
+    },
+    {
       "address": "0x8003EE14",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
