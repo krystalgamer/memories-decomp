@@ -215,6 +215,8 @@ segments:
       - [0x1b284, asm, func_8002AA84]
       - [0x1c080, c, game/japanese/func_8002BAA0]
       - [0x1c08c, asm, func_8002B88C]
+      - [0x1c51c, c, game/japanese/library_mark_owned_cards]
+      - [0x1c5ac, asm, func_8002BDAC]
       - [0x1c9cc, c, game/duel_grid_offsets]
       - [0x1caa8, c, game/japanese/duel_find_player_deck_card]
       - [0x1cae4, c, game/japanese/library_check_card_owned]
