@@ -516,12 +516,16 @@ void func_8005FAE4(void)
     D_8009B07B = 0;
     D_8009B07C = 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FB08)
 int func_8005FB08(void)
 {
     return D_8009B078 == 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 int func_8005FB14(void)
 {
     int value = 0;
