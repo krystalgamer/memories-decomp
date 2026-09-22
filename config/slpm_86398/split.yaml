@@ -245,6 +245,8 @@ segments:
       - [0x2bb0c, asm, func_8003B30C]
       - [0x2cbbc, c, game/input_pad1_backup]
       - [0x2cc38, asm, func_8003C438]
+      - [0x2cc7c, c, game/japanese/save_data_calc_crc16]
+      - [0x2ccd8, asm, func_8003C4D8]
       - [0x2d04c, c, game/japanese/save_data_has_same_duelist_code]
       - [0x2d07c, asm, func_8003C87C]
       - [0x2d0c4, c, game/func_8003D300]

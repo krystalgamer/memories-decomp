@@ -47,6 +47,7 @@ DisplayPositionGroup_SetChildPositions = 0x80039FB8;
 Text_InitDecimalDigitGlyphMap = 0x8003AC60;
 Input_IsPad1ConfirmPressed = 0x8003AD64;
 Text_SjisToGlyphCodes = 0x8003B238;
+SaveData_CalcCrc16 = 0x8003C47C;
 SaveData_HasSameDuelistCode = 0x8003C84C;
 DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
 gJapanese_DisplayObjectGeneralSlots = 0x800EDC20;
