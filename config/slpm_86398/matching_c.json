@@ -1340,6 +1340,12 @@
       "source": "src/game/japanese/text_dispatch_secondary_command.c"
     },
     {
+      "address": "0x800383CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x18",
+      "source": "src/game/japanese/text_start_page_wait.c"
+    },
+    {
       "address": "0x800387F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",

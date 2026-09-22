@@ -264,6 +264,8 @@ segments:
       - [0x28894, asm, func_80038094]
       - [0x28a04, c, game/japanese/text_dispatch_secondary_command]
       - [0x28a60, asm, func_80038260]
+      - [0x28bcc, c, game/japanese/text_start_page_wait]
+      - [0x28be4, asm, func_800383E4]
       - [0x28ff8, c, game/japanese/func_80039140]
       - [0x2909c, asm, func_8003889C]
       - [0x297a8, c, game/text_box_runtime]

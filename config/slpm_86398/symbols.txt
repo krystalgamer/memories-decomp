@@ -69,6 +69,7 @@ func_8004671C = 0x80045E08;
 SpuSetCommonAttr = 0x80076910;
 Text_DispatchSecondaryCommand = 0x80038204;
 gJapanese_SecondaryTextCommandTable = 0x80090D5C;
+Text_StartPageWait = 0x800383CC;
 TextBox_WaitForScriptCompletion = 0x80036F64;
 gJapanese_TextBoxScriptCompletionState = 0x8009B247;
 func_800378D8 = 0x80037090;
