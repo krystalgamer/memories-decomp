@@ -1268,6 +1268,12 @@
       "source": "src/game/script_noop_commands.c"
     },
     {
+      "address": "0x8002F1E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x80",
+      "source": "src/game/japanese/script_op_fade_out.c"
+    },
+    {
       "address": "0x8002F268",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x170",
@@ -3548,6 +3554,12 @@
       "source": "src/game/func_8004E7B0.c"
     },
     {
+      "address": "0x80054BA4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6F8",
+      "source": "src/game/func_80051350.c"
+    },
+    {
       "address": "0x800585D0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
@@ -4224,6 +4236,36 @@
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x14C",
       "source": "src/game/ai_script_find_killer.c"
+    },
+    {
+      "address": "0x800708C0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x208",
+      "source": "src/game/ai_script_find_card.c"
+    },
+    {
+      "address": "0x80070AC8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/game/ai_script_find_card.c"
+    },
+    {
+      "address": "0x80070BD8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x184",
+      "source": "src/game/ai_script_find_card.c"
+    },
+    {
+      "address": "0x80070D5C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x180",
+      "source": "src/game/ai_script_find_card.c"
+    },
+    {
+      "address": "0x80070EDC",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x1D0",
+      "source": "src/game/ai_script_match_type.c"
     },
     {
       "address": "0x800710AC",
