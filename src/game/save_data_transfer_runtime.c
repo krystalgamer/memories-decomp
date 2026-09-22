@@ -38,7 +38,9 @@ void SaveData_RequestLoad(void)
         0
     );
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_POLL_LOAD)
 s32 SaveData_PollLoad(void) {
     s32 r = MemCardDialog_Poll();
     if (r != 0) {

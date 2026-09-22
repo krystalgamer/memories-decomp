@@ -1994,6 +1994,12 @@
       "source": "src/game/japanese/mem_card_dialog_start.c"
     },
     {
+      "address": "0x8003EEE4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6C",
+      "source": "src/game/japanese/save_data_poll_load.c"
+    },
+    {
       "address": "0x8003EF50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
