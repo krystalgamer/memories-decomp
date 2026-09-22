@@ -3872,6 +3872,12 @@
       "source": "src/game/japanese/model_scene_states.c"
     },
     {
+      "address": "0x8005CCEC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/game/japanese/model_effect_request.c"
+    },
+    {
       "address": "0x8005CFB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
