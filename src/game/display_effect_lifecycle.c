@@ -41,7 +41,9 @@ void func_80039F90(void **objects)
         objects[i] = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RELEASE_RECORD)
 void func_80039FD4(MenuRecord *record)
 {
     record->field_30 = -1;

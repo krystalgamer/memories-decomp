@@ -274,6 +274,7 @@ segments:
       - [0x29d9c, c, game/japanese/func_80039F1C]
       - [0x29dc4, c, game/japanese/func_80039F44]
       - [0x29e10, asm, func_80039610]
+      - [0x29e54, c, game/japanese/func_80039FD4]
       - [0x29e78, c, game/japanese/func_80039FF8]
       - [0x29e9c, asm, func_8003969C]
       - [0x2a018, c, game/display_effect_has_resource_entry]
