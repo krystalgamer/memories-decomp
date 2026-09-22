@@ -232,7 +232,9 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
         break;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SKIP_SEQUENCE_SYSEX)
 void SD_SkipSequenceSysEx(SDSequenceTrack *input)
 {
     unsigned int i = 0;
@@ -244,7 +246,9 @@ void SD_SkipSequenceSysEx(SDSequenceTrack *input)
             break;
     } while (i < count);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Sequence channel event dispatcher: routes a note off (0x80), note on
    (0x90, a zero velocity is a note off), controller (0xB0), program (0xC0)
    or pitch (0xE0) message to the secondary-object handlers. Controller
