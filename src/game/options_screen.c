@@ -36,6 +36,7 @@
    .data arm of that declaration, which leaves the assembler threshold with
    nothing to decide. */
 
+#ifndef VERSION_JAPAN
 void Options_InitTextDisplay(s32 arg0) {
     u8 *t = gText_abColorSlots;
     t[0]=4; t[1]=4; t[2]=4; t[3]=4; t[4]=4;
@@ -44,7 +45,9 @@ void Options_InitTextDisplay(s32 arg0) {
     TextBox_Create(1,0xEF,0x18,0x38,0x120,0x100);
     func_80039A14(&D_800EB15C);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_UPDATE_LAYOUT)
 void Options_UpdateLayout(s32 selection) {
     OptionsLayoutBuffer positions;
     DisplayObject *a;
@@ -72,7 +75,9 @@ void Options_UpdateLayout(s32 selection) {
         a->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Creates 3 objects via DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg DisplayObject_ConfigureSpriteAtPositionWithResource setup
    plus a DisplayObject_SetDepthOffset(obj1, -5), then sets the options state and output type
@@ -182,3 +187,4 @@ s32 Options_Update(void)
     }
     return gOptions_bState;
 }
+#endif
