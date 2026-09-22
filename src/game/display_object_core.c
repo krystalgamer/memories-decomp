@@ -32,7 +32,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_FREE_SLOT)
 s32 DisplayObject_FindFreeSlot(void)
 {
     DisplayObject *entry = D_800EFE48;
@@ -45,7 +45,9 @@ s32 DisplayObject_FindFreeSlot(void)
     }
     return -1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     DisplayObject *slot;
