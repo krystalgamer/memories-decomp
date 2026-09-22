@@ -64,6 +64,7 @@ func_800373C8 = 0x80036B84;
 func_800374A8 = 0x80036C60;
 func_80036C14 = 0x8003648C;
 func_80038024 = 0x8003774C;
+func_80039F44 = 0x800395C4;
 TextBox_WaitForScriptCompletion = 0x80036F64;
 gJapanese_TextBoxScriptCompletionState = 0x8009B247;
 func_800378D8 = 0x80037090;

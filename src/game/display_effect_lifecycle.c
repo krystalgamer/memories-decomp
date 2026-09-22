@@ -18,7 +18,7 @@ s32 func_80039F1C(DisplayEffectState *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_INITIALIZE)
 void func_80039F44(DisplayEffectState *object)
 {
     object->field_34 = 0x68;
@@ -29,7 +29,9 @@ void func_80039F44(DisplayEffectState *object)
     object->field_3E =
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80039F90(void **objects)
 {
     s32 i;
