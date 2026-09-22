@@ -835,6 +835,7 @@ gDuel_aFusionTable = 0x8018C2D8;
 DuelSelection_LinkDisplayObject = 0x80022DE0;
 DuelSelection_LinkDisplayObjects = 0x80022E38;
 DuelSelection_UpdateLinkedObject = 0x80022D34;
+gJapanese_DuelSelectionDisplayRecords = 0x800E9DF0;
 SD_SetVoiceEnvelopeFromTone = 0x80049DE4;
 SD_ResetVoiceEnvelope = 0x80049E50;
 D_80011434 = 0x800113B0;

@@ -548,6 +548,12 @@
       "source": "src/game/japanese/duel_card_turn_animations.c"
     },
     {
+      "address": "0x80022D34",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xAC",
+      "source": "src/game/japanese/duel_selection_update_linked_object.c"
+    },
+    {
       "address": "0x80022DE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x58",

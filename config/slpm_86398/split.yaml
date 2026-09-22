@@ -125,6 +125,7 @@ segments:
       - [0x11f38, asm, func_80021738]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x133dc, asm, func_80022BDC]
+      - [0x13534, c, game/japanese/duel_selection_update_linked_object]
       - [0x135e0, c, game/display_parent_links]
       - [0x136d8, asm, func_80022ED8]
       - [0x14a20, c, game/duel_shuffle_deck]
