@@ -144,6 +144,7 @@ segments:
       - [0x10fd0, asm, func_800207D0]
       - [0x1122c, c, game/japanese/func_80020BE4]
       - [0x11394, asm, func_80020B94]
+      - [0x12c60, c, game/japanese/duel_effect_preview_hud]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x133dc, c, game/japanese/func_80022D94]
       - [0x13534, asm, func_80022D34]

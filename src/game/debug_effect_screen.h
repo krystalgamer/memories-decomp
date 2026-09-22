@@ -11,6 +11,7 @@
  *
  * The other two functions this unit defines are reached only from within it. */
 extern u8 gDebugEffect_abPreviewState[6];
+extern u8 gJapanese_DebugEffectPreviewState[6];
 extern u8 *D_8009B180;
 extern u8 *D_8009B184;
 extern DuelCardRecord D_801A7B80[];

@@ -35,7 +35,9 @@
 /* One packed small-data window: byte 0 selects one of the two coordinate
    bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
    unused. Keeping it as one object preserves the retail interior gap. */
+#ifndef VERSION_JAPAN
 u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
+#endif
 #define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
 #define gDebugEffect_abCoordinates (&gDebugEffect_abPreviewState[2])
 #define gDebugEffect_bPage gDebugEffect_abPreviewState[4]
@@ -43,6 +45,7 @@ u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */
 
+#ifndef VERSION_JAPAN
 void func_800220B8(void) {
     ViewState *b;
     ViewState *c;
@@ -204,9 +207,11 @@ void func_800222F4(void) {
         }
     }
 }
+#endif
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on the selected coordinate axis. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_PREVIEW_HUD)
 void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
@@ -222,3 +227,4 @@ void DuelScene_UpdateEffectPreview(void) {
         FntPrint(D_800100A8);
     }
 }
+#endif
