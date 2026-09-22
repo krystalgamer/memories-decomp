@@ -21,6 +21,7 @@
 
 #define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
 
+#ifndef VERSION_JAPAN
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
@@ -192,9 +193,11 @@ have:
     }
     return arg0;
 }
+#endif
 
 /* Finds `key` in the table; if absent and there is a free slot, claims it
    with (key, val). No-op once all 80 slots are taken and no match exists. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
 void Model_RegisterHandlerKey(s32 key, s32 val) {
     s32 i;
     ModelHandlerRegistryEntry *e = D_800F5918;
@@ -213,7 +216,9 @@ void Model_RegisterHandlerKey(s32 key, s32 val) {
         return;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Reverse lookup: finds the entry whose val matches, returns its key (or -1
    if val is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 val) {
@@ -316,3 +321,4 @@ void Model_ProcessType2Unit(
     DrawSync(0);
     *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
 }
+#endif

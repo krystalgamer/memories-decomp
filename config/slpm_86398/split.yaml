@@ -369,6 +369,8 @@ segments:
       - [0x4db64, asm, func_8005D364]
       - [0x4dea0, c, game/func_8005A878]
       - [0x4deec, asm, func_8005D6EC]
+      - [0x4e508, c, game/japanese/model_register_handler_key]
+      - [0x4e568, asm, func_8005DD68]
       - [0x4e5b8, c, game/color_transform]
       - [0x4ee8c, asm, func_8005E68C]
       - [0x5b70c, c, game/japanese/triplet_set_components]
