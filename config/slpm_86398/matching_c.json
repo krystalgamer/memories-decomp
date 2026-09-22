@@ -662,6 +662,12 @@
       "source": "src/game/display_parent_links.c"
     },
     {
+      "address": "0x800232D4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x58",
+      "source": "src/game/japanese/duel_field_display_source.c"
+    },
+    {
       "address": "0x800241B4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",

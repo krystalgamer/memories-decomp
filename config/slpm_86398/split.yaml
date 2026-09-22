@@ -149,6 +149,8 @@ segments:
       - [0x13534, asm, func_80022D34]
       - [0x135e0, c, game/display_parent_links]
       - [0x136d8, asm, func_80022ED8]
+      - [0x13ad4, c, game/japanese/duel_field_display_source]
+      - [0x13b2c, asm, func_8002332C]
       - [0x149b4, c, game/japanese/duel_scene_update]
       - [0x14a20, c, game/duel_shuffle_deck]
       - [0x14c18, c, game/japanese/duel_card_data_transfer]
