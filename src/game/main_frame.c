@@ -40,6 +40,8 @@ void Main_AdvanceFrame(void)
 #endif
 
 #ifndef VERSION_JAPAN
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_ADVANCE_FRAMES)
 void Main_AdvanceFrames(s32 count)
 {
     do {
