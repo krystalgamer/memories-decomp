@@ -800,6 +800,18 @@
       "source": "src/game/japanese/func_80025028.c"
     },
     {
+      "address": "0x80025D60",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x194",
+      "source": "src/game/japanese/duel_field_effect_steps.c"
+    },
+    {
+      "address": "0x80025EF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x15C",
+      "source": "src/game/japanese/duel_field_effect_steps.c"
+    },
+    {
       "address": "0x80026850",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
@@ -1464,6 +1476,18 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
       "source": "src/game/japanese/frontend_scene_states.c"
+    },
+    {
+      "address": "0x80030CF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/japanese/debug_menu_leave_entries.c"
+    },
+    {
+      "address": "0x80030D24",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/japanese/debug_menu_leave_entries.c"
     },
     {
       "address": "0x80030D54",
@@ -3612,6 +3636,12 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
       "source": "src/game/func_8004E7B0.c"
+    },
+    {
+      "address": "0x8005229C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x160",
+      "source": "src/game/func_8004E9A0.c"
     },
     {
       "address": "0x80054BA4",
