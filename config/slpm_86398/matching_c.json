@@ -566,6 +566,12 @@
       "source": "src/game/util_compare_s16.c"
     },
     {
+      "address": "0x80024740",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/japanese/duel_card_deactivate_record.c"
+    },
+    {
       "address": "0x80024780",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",

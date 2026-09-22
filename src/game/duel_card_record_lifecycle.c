@@ -70,7 +70,9 @@ void Duel_PopulateCombinedDeckData(void)
         rec++;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_DEACTIVATE_RECORD)
 void DuelCard_DeactivateRecord(DuelCardRecord *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
