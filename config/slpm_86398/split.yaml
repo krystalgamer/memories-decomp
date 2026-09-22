@@ -204,6 +204,8 @@ segments:
       - [0x205f8, c, game/japanese/script_readers]
       - [0x20638, c, game/display_object_brightness]
       - [0x20670, asm, func_8002FE70]
+      - [0x207e0, c, game/japanese/func_8002ffe0]
+      - [0x20824, asm, func_80030024]
       - [0x223c4, c, game/build_deck_card_counts]
       - [0x22584, c, game/func_8003201C]
       - [0x22624, c, game/func_800320BC]
