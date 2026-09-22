@@ -234,7 +234,9 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
 end:
     return obj;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80024D34)
 void func_80024D34(s32 a, s32 b)
 {
     u8 *slot;
