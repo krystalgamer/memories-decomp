@@ -234,6 +234,8 @@ segments:
       - [0x26f3c, c, game/dialog_choice_cursor]
       - [0x270cc, c, game/japanese/widget_update_pulse_colour]
       - [0x27164, asm, func_80036964]
+      - [0x27460, c, game/japanese/func_800374A8]
+      - [0x274ac, asm, func_80036CAC]
       - [0x27764, c, game/japanese/text_box_wait_for_script_completion]
       - [0x27780, asm, func_80036F80]
       - [0x27890, c, game/japanese/func_800378D8]
