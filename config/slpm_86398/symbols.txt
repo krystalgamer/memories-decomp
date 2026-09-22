@@ -852,6 +852,7 @@ DuelCard_DecodeTaggedSlotIndex = 0x80028074;
 func_8002827C = 0x80028090;
 gDuel_wCardEffectFlags = 0x8009B110;
 Script_OpHalt = 0x8002E1C0;
+ScriptImage_ReleaseObjects = 0x8002DDF0;
 SD_SetSequenceVSyncMode = 0x80046048;
 AiScript_SkipHand = 0x80071B2C;
 AiScript_SkipField = 0x80071B64;

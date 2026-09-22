@@ -8,6 +8,7 @@
 #include "../unmatched.h"
 #include "script_image_objects.h"
 
+#ifndef VERSION_JAPAN
 void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 {
     switch (mode) {
@@ -81,7 +82,9 @@ void ScriptImage_RequestTransfer(
     D_8009B0F4 =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SCRIPT_IMAGE_RELEASE_OBJECTS)
 void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 {
     ScriptImageEntry *entries = set->entries;
@@ -94,7 +97,9 @@ void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
         entries->value = 0;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
 {
     ScriptImageEntry *record = entry;
@@ -114,3 +119,4 @@ void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
        GCC keeps a second copy of the pointer and six instructions change. */
     entry->pointer = object;
 }
+#endif

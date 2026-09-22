@@ -794,6 +794,12 @@
       "source": "src/game/japanese/main_run_password_menu.c"
     },
     {
+      "address": "0x8002DDF0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x54",
+      "source": "src/game/japanese/script_image_release_objects.c"
+    },
+    {
       "address": "0x8002E154",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",

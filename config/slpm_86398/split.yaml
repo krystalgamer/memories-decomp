@@ -176,6 +176,8 @@ segments:
       - [0x1da38, asm, func_8002D238]
       - [0x1dc64, c, game/japanese/main_run_password_menu]
       - [0x1dca8, asm, func_8002D4A8]
+      - [0x1e5f0, c, game/japanese/script_image_release_objects]
+      - [0x1e644, asm, func_8002DE44]
       - [0x1e954, c, game/duel_effect_mark_object_if_active]
       - [0x1e998, c, game/script_command_busy]
       - [0x1e9e0, c, game/func_8002E3FC]
