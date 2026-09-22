@@ -119,7 +119,9 @@ plain:
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038024)
 void func_80038024(DuelEffectChannel *object, s32 value)
 {
     *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
@@ -128,7 +130,9 @@ void func_80038024(DuelEffectChannel *object, s32 value)
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80038070(DuelEffectChannel *object)
 {
     func_80038024(object, D_8009B344);
