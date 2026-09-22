@@ -824,6 +824,12 @@
       "source": "src/game/script_command_busy.c"
     },
     {
+      "address": "0x8002E1E0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x74",
+      "source": "src/game/func_8002E3FC.c"
+    },
+    {
       "address": "0x8002E6F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
