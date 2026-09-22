@@ -3230,6 +3230,12 @@
       "source": "src/game/japanese/func_8005fb3c.c"
     },
     {
+      "address": "0x80069B40",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x44",
+      "source": "src/game/japanese/file_request_main_menu_package.c"
+    },
+    {
       "address": "0x8006AF0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
