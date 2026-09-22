@@ -251,7 +251,7 @@ segments:
       - [0x18f8c, c, game/duel_effect_noop_handlers]
       - [0x18f9c, c, game/japanese/func_800289BC]
       - [0x190e8, c, game/func_80028B08]
-      - [0x196e8, asm, func_80028EE8]
+      - [0x196e8, c, game/card_preview_update_variant]
       - [0x19744, c, game/japanese/duel_effect_resource_setup]
       - [0x19b08, c, game/func_80029528]
       - [0x19b54, c, game/func_80029574]
