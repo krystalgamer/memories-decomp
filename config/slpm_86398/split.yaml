@@ -202,7 +202,7 @@ segments:
       - [0x12c60, c, game/japanese/duel_effect_preview_hud]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x133dc, c, game/japanese/func_80022D94]
-      - [0x13534, asm, func_80022D34]
+      - [0x13534, c, game/japanese/duel_selection_update_linked_object]
       - [0x135e0, c, game/display_parent_links]
       - [0x136d8, c, game/japanese/duel_field_guardian_star_order]
       - [0x1378c, c, game/japanese/duel_field_display_source_objects]
