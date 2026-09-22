@@ -1565,3 +1565,4 @@ gJapanese_MemCardTransferSize = 0x8009B2B2;
 gJapanese_MemCardTransferOffset = 0x8009B2B4;
 gJapanese_MemCardBlockCount = 0x8009B2CC;
 gJapanese_PrimaryTransferCursor = 0x8009B2C0;
+func_80017DB4 = 0x80017C30;

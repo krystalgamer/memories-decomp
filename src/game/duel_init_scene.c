@@ -179,7 +179,9 @@ void Duel_InitScene(void)
         Duel_ShuffleBothDecks(p, q);
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017DB4)
 void func_80017DB4(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &D_801A7AD8[object->card_index];
