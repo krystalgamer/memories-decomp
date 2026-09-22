@@ -54,7 +54,7 @@ void func_8003A920(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_GROUP_SET_POSITION)
 void DisplayPositionGroup_SetPosition(
     DisplayPositionGroup *group,
     s32 x,
@@ -65,7 +65,9 @@ void DisplayPositionGroup_SetPosition(
     group->y = y;
     func_8003A920(group, (s16)x, (s16)y);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Eases one display-effect record from its 0x34/0x36 position to the
    0x40/0x42 destination over a quarter turn of cosine, then clears the step
    byte. The record is a MenuRecord, the element type of D_800EB010 and the

@@ -1268,6 +1268,12 @@
       "source": "src/game/japanese/display_position_group_set_child_positions.c"
     },
     {
+      "address": "0x80039FF4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x34",
+      "source": "src/game/japanese/display_position_group_set_position.c"
+    },
+    {
       "address": "0x8003AA10",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x194",
