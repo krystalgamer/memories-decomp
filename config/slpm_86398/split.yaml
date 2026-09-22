@@ -285,7 +285,7 @@ segments:
       - [0x2cc7c, c, game/japanese/save_data_calc_crc16]
       - [0x2ccd8, asm, func_8003C4D8]
       - [0x2d04c, c, game/japanese/save_data_has_same_duelist_code]
-      - [0x2d07c, asm, func_8003C87C]
+      - [0x2d07c, c, game/japanese/save_data_matches_duelist_and_sequence]
       - [0x2d0c4, c, game/func_8003D300]
       - [0x2d0f0, c, game/checkerboard_background]
       - [0x2d230, asm, func_8003CA30]

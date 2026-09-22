@@ -273,7 +273,7 @@ s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_MATCHES_DUELIST_AND_SEQUENCE)
 s32 SaveData_MatchesDuelistAndCurrentSequence(
     SaveDataState *left,
     SaveDataState *right)
