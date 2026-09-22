@@ -2798,6 +2798,12 @@
       "source": "src/game/sd_sequence_tracks.c"
     },
     {
+      "address": "0x8004CE48",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x40",
+      "source": "src/game/japanese/file_exists.c"
+    },
+    {
       "address": "0x8004CF84",
       "profile": "gcc_2_8_1_g0",
       "size": "0x64",

@@ -699,6 +699,7 @@ File_InitTransferDescriptor = 0x80013884;
 func_80013A94 = 0x80013980;
 DsInit = 0x80079C10;
 DsSearchFile = 0x8007BFE0;
+File_Exists = 0x8004CE48;
 CdPosToInt_8007E710 = 0x8007D300;
 gJapanese_D_8009B0E8 = 0x8009AFD8;
 gJapanese_D_8009B0F0 = 0x8009AFE0;

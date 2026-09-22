@@ -391,6 +391,8 @@ segments:
       - [0x3c738, c, game/func_8004C84C]
       - [0x3c7b4, c, game/sd_sequence_tracks]
       - [0x3c9f8, asm, func_8004C1F8]
+      - [0x3d648, c, game/japanese/file_exists]
+      - [0x3d688, asm, func_8004CE88]
       - [0x3d784, c, game/japanese/func_8005C62C]
       - [0x3d7e8, asm, func_8004CFE8]
       - [0x3d7f8, c, game/gpu_packets]
