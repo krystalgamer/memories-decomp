@@ -882,6 +882,7 @@ func_8001EC70 = 0x8001EAB8;
 func_8001ED20 = 0x8001EB68;
 Duel_HasAllExodiaPieces = 0x80018B74;
 DuelScene_UpdateDrawResolution = 0x80018C30;
+Duel_CreateCardEffectOverlay = 0x800193E0;
 func_80018004 = 0x80017E80;
 Duel_UpdateDrawCardSlide = 0x80018AB0;
 Duel_SetupCardRecord = 0x8002480C;

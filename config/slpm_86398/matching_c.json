@@ -410,6 +410,12 @@
       "source": "src/game/japanese/duel_draw_resolution.c"
     },
     {
+      "address": "0x800193E0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA4",
+      "source": "src/game/duel_create_card_effect_overlay.c"
+    },
+    {
       "address": "0x80019884",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x58",

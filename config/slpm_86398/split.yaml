@@ -101,6 +101,8 @@ segments:
       - [0x88d8, asm, func_800180D8]
       - [0x9374, c, game/japanese/duel_draw_resolution]
       - [0x9668, asm, func_80018E68]
+      - [0x9be0, c, game/duel_create_card_effect_overlay]
+      - [0x9c84, asm, func_80019484]
       - [0xa084, c, game/duel_card_checks]
       - [0xa1a8, c, game/display_object_alpha_transition]
       - [0xa24c, asm, func_80019A4C]
