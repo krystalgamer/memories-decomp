@@ -81,7 +81,9 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
 
     *high = value;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_IS_CARD_IN_SET)
 s32 Ai_IsCardInSet(s32 arg0)
 {
     s32 value;
@@ -94,7 +96,9 @@ s32 Ai_IsCardInSet(s32 arg0)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 Ai_IsTypeInSet(s32 arg0)
 {
     s32 value;
