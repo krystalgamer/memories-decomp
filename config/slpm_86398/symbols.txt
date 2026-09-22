@@ -1482,3 +1482,7 @@ func_80051350 = 0x80054BA4;
 Script_OpFadeOut = 0x8002F1E8;
 D_800E9ECF = 0x800E9DAF;
 File_TryStartPrimaryTransfer = 0x800139F0;
+Main_RunOptionsMenu = 0x8002D4A8;
+func_8003B8AC = 0x8003B8AC;
+func_8003BBF4 = 0x8003BBF4;
+func_8003BEF4 = 0x8003BEF4;

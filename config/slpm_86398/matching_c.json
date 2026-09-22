@@ -1124,6 +1124,12 @@
       "source": "src/game/japanese/main_run_name_entry.c"
     },
     {
+      "address": "0x8002D4A8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x68",
+      "source": "src/game/japanese/main_run_options.c"
+    },
+    {
       "address": "0x8002D7FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x21C",
