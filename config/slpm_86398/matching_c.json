@@ -2348,6 +2348,12 @@
       "source": "src/game/japanese/func_80038110.c"
     },
     {
+      "address": "0x80037A84",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/japanese/func_80038388.c"
+    },
+    {
       "address": "0x80037BEC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x160",
