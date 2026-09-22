@@ -1100,6 +1100,12 @@
       "source": "src/game/japanese/movie_playback_control.c"
     },
     {
+      "address": "0x800357CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/game/japanese/func_80035A64.c"
+    },
+    {
       "address": "0x800358D0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",
