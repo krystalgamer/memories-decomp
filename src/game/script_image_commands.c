@@ -21,8 +21,11 @@
 #define VRAM_COPY_HEIGHT 0xA0
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SCRIPT_STAGE_IMAGE)
 void Script_OpStageImage(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;D_8009B290=p2;value=p[0]|(p[1]<<8);D_8009B270=value;if(value&0x8000){p4=p+4;D_8009B290=p4;D_8009B2A8=p[2]|(p2[1]<<8);D_8009B290=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}D_8009B27C=5;}
+#endif
 
+#ifndef VERSION_JAPAN
 void Script_OpShowImage(void) {
     DisplayObject *rec;
     u16 flags;
@@ -83,3 +86,4 @@ void Script_OpShowImage(void) {
     }
     D_8009B27C = 0;
 }
+#endif
