@@ -4154,6 +4154,12 @@
       "source": "src/game/japanese/ai_is_type_in_set.c"
     },
     {
+      "address": "0x8006F530",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x68",
+      "source": "src/game/japanese/ai_is_card_in_sets.c"
+    },
+    {
       "address": "0x8006F598",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
