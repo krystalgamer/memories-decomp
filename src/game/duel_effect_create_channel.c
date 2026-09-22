@@ -5,7 +5,11 @@
 #include "display_object_helpers.h"
 #include "duel_effect_create_channel.h"
 
-#define gDialog_bChoice (*(s8 *)0x8009B34D)
+#ifndef DIALOG_CHOICE_ADDRESS
+#define DIALOG_CHOICE_ADDRESS 0x8009B34D
+#endif
+
+#define gDialog_bChoice (*(s8 *)DIALOG_CHOICE_ADDRESS)
 
 DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     DuelEffectChannel *channel;
