@@ -291,7 +291,7 @@ segments:
       - [0x2ff4c, asm, func_8003F74C]
       - [0x302f0, c, game/japanese/display_object_set_resource_variant]
       - [0x30304, c, game/japanese/display_object_update_resource_variant]
-      - [0x3032c, asm, func_8003FB2C]
+      - [0x3032c, c, game/japanese/display_object_set_resource_path]
       - [0x30348, c, game/japanese/display_object_configure_sprite_resource]
       - [0x303ac, asm, func_8003FBAC]
       - [0x303f0, c, game/japanese/display_object_configure_screen_sprite]

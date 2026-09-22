@@ -59,6 +59,7 @@ DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
 gJapanese_DisplayObjectGeneralSlots = 0x800EDC20;
 DisplayObject_SetResourceVariant = 0x8003FAF0;
 DisplayObject_UpdateResourceVariant = 0x8003FB04;
+DisplayObject_SetResourcePath = 0x8003FB2C;
 DisplayObjectStream_Stop = 0x80040AFC;
 DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;

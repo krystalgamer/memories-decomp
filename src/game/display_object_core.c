@@ -179,7 +179,7 @@ void DisplayObject_UpdateResourceVariant(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_SET_RESOURCE_PATH)
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
