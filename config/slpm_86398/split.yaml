@@ -119,6 +119,7 @@ segments:
       - [0x7e50, c, game/func_800177C4]
       - [0x7f48, c, game/japanese/func_800178BC]
       - [0x8018, asm, func_80017818]
+      - [0x8430, c, game/japanese/func_80017db4]
       - [0x84b8, c, game/japanese/func_80017cb8]
       - [0x8580, asm, func_80017D80]
       - [0x87cc, c, game/duel_card_object_helpers]
