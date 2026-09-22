@@ -1232,6 +1232,12 @@
       "source": "src/game/japanese/duel_effect_wait_for_file_transfer.c"
     },
     {
+      "address": "0x8003717C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x34",
+      "source": "src/game/japanese/func_800379C4.c"
+    },
+    {
       "address": "0x8003742C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x6C",
