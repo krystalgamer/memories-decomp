@@ -200,6 +200,8 @@ segments:
       - [0x260d0, c, game/japanese/text_box_lifecycle]
       - [0x261fc, c, game/japanese/duel_effect_clear_occupancy_value]
       - [0x26238, asm, func_80035A38]
+      - [0x26a64, c, game/japanese/text_find_record_by_id]
+      - [0x26aac, asm, func_800362AC]
       - [0x26e48, c, game/text_stream_read_u16_le]
       - [0x26e7c, c, game/text_stream_read_le]
       - [0x26ec8, asm, func_800366C8]

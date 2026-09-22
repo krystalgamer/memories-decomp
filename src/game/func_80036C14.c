@@ -11,6 +11,7 @@
    Returns a pointer to the matching record, or NULL if not found / list
    ends first. */
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_FIND_RECORD_BY_ID)
 s32 Text_FindRecordById(s32 id) {
     u8 *rec;
     u8 *key;
@@ -32,7 +33,9 @@ loop_check:
     rec += 0x1E;
     goto loop_check;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
     DuelEffectEntry *q;
@@ -90,3 +93,4 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q->flags_11 = 0;
     p->entry_end_20 = q;
 }
+#endif
