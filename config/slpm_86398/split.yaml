@@ -333,6 +333,8 @@ segments:
       - [0x36180, asm, func_80045980]
       - [0x363dc, c, game/japanese/func_800464F0]
       - [0x36558, asm, func_80045D58]
+      - [0x36608, c, game/japanese/func_8004671C]
+      - [0x36654, asm, func_80045E54]
       - [0x36848, c, game/japanese/sound_state_control]
       - [0x368f4, asm, func_800460F4]
       - [0x36cd4, c, game/japanese/sound_output]

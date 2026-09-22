@@ -4,6 +4,7 @@
 #include "sound.h"
 #include "sound_output_transition.h"
 
+#ifndef VERSION_JAPAN
 extern SDValue *volatile g_SDValue_output_transition asm("g_SDValue");
 
 void func_8004666C(void)
@@ -47,7 +48,9 @@ void func_800466C8(void)
 }
 
 #undef g_SDValue
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004671C)
 void func_8004671C(void)
 {
     SpuCommonAttr entry;
@@ -64,3 +67,4 @@ void func_8004671C(void)
     entry.cd.mix = SPU_ON;
     SpuSetCommonAttr(&entry);
 }
+#endif
