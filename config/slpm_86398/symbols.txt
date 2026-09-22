@@ -777,6 +777,7 @@ gJapanese_D_8009AFA0 = 0x8009AF08;
 D_8009AFA6 = 0x8009AF0D;
 Model_SetScreenYOverride = 0x8005C910;
 Model_SetFrameStepOverride = 0x8005C91C;
+func_80059AF8 = 0x8005C928;
 gJapanese_D_8009AF92 = 0x8009AEFA;
 gJapanese_D_8009AFA4 = 0x8009AF0B;
 BuildDeck_EnterNarrowConfirmMode = 0x800339F8;

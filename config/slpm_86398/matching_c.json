@@ -2912,6 +2912,12 @@
       "source": "src/game/japanese/model_state_setters.c"
     },
     {
+      "address": "0x8005C928",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x98",
+      "source": "src/game/func_80059AF8.c"
+    },
+    {
       "address": "0x8005CA48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
