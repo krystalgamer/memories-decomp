@@ -34,6 +34,7 @@
    pad-driven screen-offset adjustment loop follow in this unit. The last
    clears the D_800E9DB0 slots and D_8009B0B8 callback that the pump runs. */
 
+#ifndef VERSION_JAPAN
 s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
@@ -192,8 +193,10 @@ void func_80013360(void)
     D_8009B098 &= 0xDFFF;
     Input_ResetPads();
 }
+#endif
 
 /* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_CLEAR_FRAME_SERVICE_CALLBACKS)
 void Main_ClearFrameServiceCallbacks(void)
 {
     void (**v0)(void);
@@ -208,3 +211,4 @@ void Main_ClearFrameServiceCallbacks(void)
     } while (v1 >= 0);
     D_8009B0B8 = 0;
 }
+#endif
