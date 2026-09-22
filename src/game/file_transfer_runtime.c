@@ -7,6 +7,7 @@
 #include "file_transfer.h"
 #include "file_ready_sector.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_PRIMARY_TRANSFER)
 FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 {
     if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -19,7 +20,9 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     s32 a,
     s32 b,
@@ -256,3 +259,4 @@ void func_80014220(s32 event)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
+#endif
