@@ -145,6 +145,9 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     slot->flags = saved;
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RELEASE_IF_PRESENT)
 void DisplayObject_ReleaseIfPresent(void *object)
 {
     if (object != 0) {
@@ -154,6 +157,7 @@ void DisplayObject_ReleaseIfPresent(void *object)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RESET_POOL)
+#ifndef VERSION_JAPAN
 void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=D_800EFE48;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
 #endif
 
