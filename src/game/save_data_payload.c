@@ -112,7 +112,9 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
         output--;
     } while (i != 0);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_WRITE_TERTIARY_INTEGRITY)
 void SaveData_WriteTertiaryIntegrity(u8 *p)
 {
     register s32 i;
@@ -136,7 +138,9 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
         dst--;
     } while (i);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void SaveData_BuildPayload(SaveDataPayload *data)
 {
     u8 *copy;

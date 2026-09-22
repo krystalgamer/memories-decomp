@@ -1488,3 +1488,5 @@ func_8003BBF4 = 0x8003BBF4;
 func_8003BEF4 = 0x8003BEF4;
 SaveData_PollLoad = 0x8003EEE4;
 func_8003C6B8 = 0x8003C6B8;
+SaveData_WriteTertiaryIntegrity = 0x8003C58C;
+func_8003C438 = 0x8003C438;
