@@ -11,8 +11,11 @@
 #include "model_handler_registry.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800603DC)
 void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
+#endif
 
+#ifndef VERSION_JAPAN
 void *Model_GetPrimitiveHandler(u32 arg0) {
     s32 temp_a0_2;
     u32 temp_a0;
@@ -372,3 +375,4 @@ void func_80060AEC(ModelHandlerObject *object)
     *object->handler = (void *)func_800608B8(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
+#endif
