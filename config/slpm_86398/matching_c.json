@@ -2,6 +2,12 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x80012A3C",
+      "profile": "gcc_2_8_1_g8_split_no_sched1",
+      "size": "0x184",
+      "source": "src/game/japanese/main_init.c"
+    },
+    {
       "address": "0x80012CA0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
@@ -956,6 +962,12 @@
       "source": "src/game/japanese/main_run_duel_and_library.c"
     },
     {
+      "address": "0x8002CF60",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x158",
+      "source": "src/game/japanese/main_run_animated_battle.c"
+    },
+    {
       "address": "0x8002D150",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x88",
@@ -966,6 +978,12 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
       "source": "src/game/japanese/main_run_name_entry.c"
+    },
+    {
+      "address": "0x8002D7FC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x21C",
+      "source": "src/game/japanese/main_run_credits.c"
     },
     {
       "address": "0x8002DB58",
@@ -1100,6 +1118,12 @@
       "source": "src/game/script_noop_commands.c"
     },
     {
+      "address": "0x8002F268",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x170",
+      "source": "src/game/japanese/func_8002F4C0.c"
+    },
+    {
       "address": "0x8002F6D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
@@ -1220,6 +1244,12 @@
       "source": "src/game/func_800320BC.c"
     },
     {
+      "address": "0x80032160",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x740",
+      "source": "src/game/japanese/func_800323F8.c"
+    },
+    {
       "address": "0x800328A0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
@@ -1260,6 +1290,18 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
       "source": "src/game/func_80033CF8.c"
+    },
+    {
+      "address": "0x80033B18",
+      "profile": "gcc_2_8_1_g8_split_psyq_gte",
+      "size": "0xA80",
+      "source": "src/game/japanese/func_80033DB0.c"
+    },
+    {
+      "address": "0x80034598",
+      "profile": "gcc_2_8_1_g8_split_psyq_gte",
+      "size": "0xD68",
+      "source": "src/game/japanese/func_80034830.c"
     },
     {
       "address": "0x80035300",
@@ -1536,6 +1578,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
       "source": "src/game/japanese/func_80039FF8.c"
+    },
+    {
+      "address": "0x8003969C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x17C",
+      "source": "src/game/japanese/func_8003A01C.c"
     },
     {
       "address": "0x80039FB8",
@@ -2270,6 +2318,12 @@
       "source": "src/game/japanese/sd_has_queued_stream_command.c"
     },
     {
+      "address": "0x80044C00",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6D4",
+      "source": "src/game/japanese/func_80045514.c"
+    },
+    {
       "address": "0x800452D4",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB0",
@@ -2304,6 +2358,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",
       "source": "src/game/japanese/sound_state_control.c"
+    },
+    {
+      "address": "0x800460F4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3E0",
+      "source": "src/game/japanese/func_80046A08.c"
     },
     {
       "address": "0x800464D4",
@@ -2510,6 +2570,12 @@
       "source": "src/game/japanese/sound_effect_voices.c"
     },
     {
+      "address": "0x8004799C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3A8",
+      "source": "src/game/japanese/func_800482B0.c"
+    },
+    {
       "address": "0x80047D44",
       "profile": "gcc_2_8_1_g0",
       "size": "0x110",
@@ -2550,6 +2616,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0xFC",
       "source": "src/game/japanese/sound_voice_data.c"
+    },
+    {
+      "address": "0x800486FC",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0xE0",
+      "source": "src/game/japanese/func_80049010.c"
     },
     {
       "address": "0x800487DC",
@@ -2702,6 +2774,12 @@
       "source": "src/game/sound_secondary_reset.c"
     },
     {
+      "address": "0x8004900C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x144",
+      "source": "src/game/func_80049920.c"
+    },
+    {
       "address": "0x80049150",
       "profile": "gcc_2_8_1_g0",
       "size": "0x90",
@@ -2844,6 +2922,30 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x1BC",
       "source": "src/game/sound_secondary_object_selection.c"
+    },
+    {
+      "address": "0x8004A1E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E8",
+      "source": "src/game/func_8004AAFC.c"
+    },
+    {
+      "address": "0x8004A3D0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x104",
+      "source": "src/game/func_8004ACE4.c"
+    },
+    {
+      "address": "0x8004A4D4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x58C",
+      "source": "src/game/func_8004ADE8.c"
+    },
+    {
+      "address": "0x8004AA60",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x128",
+      "source": "src/game/func_8004B374.c"
     },
     {
       "address": "0x8004AB88",
@@ -3008,10 +3110,28 @@
       "source": "src/game/model_word_memory.c"
     },
     {
+      "address": "0x8004D3E4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x210",
+      "source": "src/game/japanese/func_8005D994.c"
+    },
+    {
+      "address": "0x8004E258",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3EC",
+      "source": "src/game/japanese/func_8005E808.c"
+    },
+    {
       "address": "0x8004EBF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
       "source": "src/game/japanese/model_effect_get_coefficient.c"
+    },
+    {
+      "address": "0x80050408",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x628",
+      "source": "src/game/func_8004CB0C.c"
     },
     {
       "address": "0x80050A30",
@@ -3050,6 +3170,12 @@
       "source": "src/game/func_8004DC38.c"
     },
     {
+      "address": "0x800520AC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1F0",
+      "source": "src/game/func_8004E7B0.c"
+    },
+    {
       "address": "0x8005AC50",
       "profile": "gcc_2_8_1_g8",
       "size": "0x118",
@@ -3066,6 +3192,30 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1EC",
       "source": "src/game/model_update_view_metrics.c"
+    },
+    {
+      "address": "0x8005B0F0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x174",
+      "source": "src/game/model_apply_texture_tint.c"
+    },
+    {
+      "address": "0x8005B264",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1F0",
+      "source": "src/game/func_80058434.c"
+    },
+    {
+      "address": "0x8005B454",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x214",
+      "source": "src/game/func_80058624.c"
+    },
+    {
+      "address": "0x8005B668",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x100",
+      "source": "src/game/func_80058838.c"
     },
     {
       "address": "0x8005B768",
@@ -3222,6 +3372,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0xD4",
       "source": "src/game/model_slot_properties.c"
+    },
+    {
+      "address": "0x8005C530",
+      "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
+      "size": "0xC8",
+      "source": "src/game/func_80059700.c"
     },
     {
       "address": "0x8005C5F8",
@@ -3414,6 +3570,18 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
       "source": "src/game/japanese/triplet_copy_components.c"
+    },
+    {
+      "address": "0x8006B988",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x243C",
+      "source": "src/game/func_8006CD78.c"
+    },
+    {
+      "address": "0x8006DDC4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x13D8",
+      "source": "src/game/func_8006F1B4.c"
     },
     {
       "address": "0x8006F19C",
