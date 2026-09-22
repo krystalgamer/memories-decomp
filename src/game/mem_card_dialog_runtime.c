@@ -362,7 +362,7 @@ void MemCardDialog_Start(s32 step)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_REQUEST)
 void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step)
 {
     strcpy(D_800EFE18, name);
