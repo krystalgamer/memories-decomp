@@ -31,7 +31,9 @@ s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
     return (fourth & 0xFF) + ((third & 0xFF) << 8) +
            ((second & 0xFF) << 16) + (first << 24);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_U16_BE)
 s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 {
     s32 high = SD_ReadSequenceByte(input);
@@ -39,7 +41,9 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 
     return (low & 0xFF) | ((high & 0xFF) << 8);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
  * this is the C. Flags: -O2 -G0 -mno-split-addresses, as -G0 (gp == 0, the
