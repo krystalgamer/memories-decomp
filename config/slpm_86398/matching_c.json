@@ -2,6 +2,12 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x80012C70",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x30",
+      "source": "src/game/japanese/main_advance_frames.c"
+    },
+    {
       "address": "0x80012CA0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",

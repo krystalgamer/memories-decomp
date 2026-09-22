@@ -7,6 +7,7 @@
 
 /* Small data at 0x8009AF0C: prevents a nested VBlank callback from calling
    SD_VSync while the previous call is still running. */
+#ifndef VERSION_JAPAN
 u8 D_8009AF0C __attribute__((section(".sdata"))) = 0;
 
 void Main_VBlankCB(void)
@@ -32,10 +33,13 @@ void Main_AdvanceFrame(void)
     Graphics_BeginFrame();
     Input_UpdatePads();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_ADVANCE_FRAMES)
 void Main_AdvanceFrames(s32 count)
 {
     do {
         Main_AdvanceFrame();
     } while (--count != 0);
 }
+#endif

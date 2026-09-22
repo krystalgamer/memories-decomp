@@ -527,6 +527,7 @@ Fade_StartOutKeepOverlayAndHideSecondaryTables = 0x80015BAC;
 Fade_EnableOrderingTables = 0x80015BE8;
 Fade_DisableOrderingTables = 0x80015BF8;
 Main_AdvanceFrame = 0x80012C38;
+Main_AdvanceFrames = 0x80012C70;
 GsSortBoxFill = 0x80082E30;
 gJapanese_D_8009B140 = 0x8009B030;
 D_8009B141 = 0x8009B031;

@@ -70,6 +70,7 @@ segments:
       - [0x2080, .rodata, game/japanese/ai_script_query_commands]
       - [0x2094, rodata, initial_data_2094]
       - [0x30c4, asm, entry]
+      - [0x3470, c, game/japanese/main_advance_frames]
       - [0x34a0, c, game/japanese/graphics_frame]
       - [0x3758, asm, func_80012F58]
       - [0x3bcc, c, game/view_state_orbit]
