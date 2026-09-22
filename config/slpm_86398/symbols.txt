@@ -92,6 +92,7 @@ AiScript_SetSelectionRandom = 0x80072058;
 AiScript_ClearSelectionRandom = 0x80072068;
 D_800F2B20 = 0x800F03C0;
 D_8009B458 = 0x8009B348;
+gJapanese_SequenceTrackMarker = 0x8009AEC8;
 func_8006C330 = 0x8006AF40;
 D_800EA0E8 = 0x800E9FC8;
 D_800EB010 = 0x800EAEF0;
