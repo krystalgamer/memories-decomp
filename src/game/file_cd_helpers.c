@@ -5,6 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
+#ifndef VERSION_JAPAN
 s32 File_Exists(const char *path, CdlFILE *file)
 {
     DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
@@ -14,7 +15,9 @@ s32 File_Exists(const char *path, CdlFILE *file)
     }
     return 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MOVIE_STEP_PLAYBACK)
 int Movie_StepPlayback(void)
 {
     int result = Movie_DecodeAndPresentFrame();
@@ -24,7 +27,9 @@ int Movie_StepPlayback(void)
     }
     return result;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 int Movie_MoveDisplayImage(int first, int second)
 {
     DISPENV local;
@@ -34,3 +39,4 @@ int Movie_MoveDisplayImage(int first, int second)
     while (MoveImage2(&local.disp, first, second) != 0) {}
     return 0;
 }
+#endif
