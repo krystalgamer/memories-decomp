@@ -247,7 +247,9 @@ void func_800141A8(u8 event)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_COMMAND_CALLBACK)
 void func_80014220(s32 event)
 {
     event &= 0xFF;
