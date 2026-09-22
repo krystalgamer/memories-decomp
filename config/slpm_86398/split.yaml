@@ -459,7 +459,7 @@ segments:
       - [0x2b574, asm, func_8003AD74]
       - [0x2b5d8, c, game/text_stream_read_byte]
       - [0x2b600, c, game/japanese/free_duel_load_package_stage]
-      - [0x2b7b4, asm, func_8003AFB4]
+      - [0x2b7b4, c, game/japanese/main_init_free_duel_menu]
       - [0x2b80c, c, game/japanese/name_entry_load_package_stage]
       - [0x2ba38, c, game/japanese/text_sjis_to_glyph_codes]
       - [0x2bb0c, c, game/japanese/password_load_package_stage]
