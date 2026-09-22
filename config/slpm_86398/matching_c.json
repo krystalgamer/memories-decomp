@@ -944,6 +944,12 @@
       "source": "src/game/display_object_brightness.c"
     },
     {
+      "address": "0x8002FFE0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x44",
+      "source": "src/game/japanese/func_8002ffe0.c"
+    },
+    {
       "address": "0x80031BC4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
