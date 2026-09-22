@@ -20,8 +20,6 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
-
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *a, DisplayObject **out, s32 c)
 {

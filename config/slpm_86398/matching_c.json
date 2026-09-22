@@ -1460,6 +1460,12 @@
       "source": "src/game/japanese/display_object_runtime.c"
     },
     {
+      "address": "0x80039818",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x54",
+      "source": "src/game/display_effect_has_resource_entry.c"
+    },
+    {
       "address": "0x8004136C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",

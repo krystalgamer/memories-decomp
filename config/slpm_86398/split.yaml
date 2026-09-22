@@ -228,6 +228,8 @@ segments:
       - [0x29dc4, asm, func_800395C4]
       - [0x29e78, c, game/japanese/func_80039FF8]
       - [0x29e9c, asm, func_8003969C]
+      - [0x2a018, c, game/display_effect_has_resource_entry]
+      - [0x2a06c, asm, func_8003986C]
       - [0x2a7b8, c, game/japanese/display_position_group_set_child_positions]
       - [0x2a7f4, asm, func_80039FF4]
       - [0x2b210, c, game/display_effect_process_menu_records]
