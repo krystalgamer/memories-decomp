@@ -92,6 +92,8 @@ segments:
       - [0x3f84, c, game/japanese/file_stream]
       - [0x41f0, c, game/japanese/file_primary_transfer]
       - [0x4254, asm, func_80013A54]
+      - [0x490c, c, game/japanese/file_command_callback]
+      - [0x4980, asm, func_80014180]
       - [0x5508, c, game/japanese/file_transfer_flags]
       - [0x589c, c, game/japanese/fade_init]
       - [0x58c4, c, game/japanese/fade_step_bands]

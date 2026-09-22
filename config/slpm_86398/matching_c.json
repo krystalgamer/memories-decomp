@@ -98,6 +98,12 @@
       "source": "src/game/japanese/file_primary_transfer.c"
     },
     {
+      "address": "0x8001410C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/japanese/file_command_callback.c"
+    },
+    {
       "address": "0x80014D08",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD0",
