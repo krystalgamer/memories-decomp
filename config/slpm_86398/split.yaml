@@ -622,6 +622,7 @@ segments:
       - [0x3f4cc, c, game/japanese/model_effect_adjust]
       - [0x3f608, c, game/japanese/model_effect_camera]
       - [0x3f7b4, asm, func_8004EFB4]
+      - [0x3fd34, c, game/japanese/func_8005FAE4]
       - [0x3fd58, c, game/japanese/model_key_count_empty]
       - [0x3fd64, c, game/japanese/model_keyframe_pointer]
       - [0x3fd80, c, game/japanese/model_effect_transfer_items]
