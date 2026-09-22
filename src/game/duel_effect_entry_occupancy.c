@@ -23,7 +23,7 @@ void func_80035CA8(int value)
 
 /* Clears the D_800EAF08 occupancy table (see func_80035CA8) and resets its
    scan cursor to (0,0). */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_RESET_OCCUPANCY)
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
@@ -37,7 +37,9 @@ void DuelEffect_ResetOccupancy(void) {
     D_8009B324 = 0;
     D_8009B325 = 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 func_80035D10(void)
 {
     s32 col = D_8009B324;
