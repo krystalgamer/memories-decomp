@@ -51,10 +51,10 @@ Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa8958
 
 | Metric | Current |
 |---|---:|
-| Exact matching C functions | **548** |
-| Exact matching C bytes | **81,088 (`0x13CC0`)** |
-| Resident text represented by matching C | **81,088 (`0x13CC0`) / 515,264 (`0x7DCC0`) (15.74%)** |
-| Resident text using exact assembly/binary fallback | 434,176 (`0x6A000`) |
+| Exact matching C functions | **553** |
+| Exact matching C bytes | **81,432 (`0x13E18`)** |
+| Resident text represented by matching C | **81,432 (`0x13E18`) / 515,264 (`0x7DCC0`) (15.80%)** |
+| Resident text using exact assembly/binary fallback | 433,832 (`0x69EA8`) |
 
 _Generated from `config/slpm_86398/matching_c.json` and `config/slpm_86398/image_map.json` by `tools/project/progress.py`._
 
