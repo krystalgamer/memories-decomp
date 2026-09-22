@@ -311,7 +311,7 @@ segments:
       - [0x1e70c, c, game/script_image_rebuild]
       - [0x1e954, c, game/duel_effect_mark_object_if_active]
       - [0x1e998, c, game/script_command_busy]
-      - [0x1e9e0, asm, func_8002E1E0]
+      - [0x1e9e0, c, game/func_8002E3FC]
       - [0x1ea54, c, game/japanese/script_op_load_image_scene]
       - [0x1eb90, asm, func_8002E390]
       - [0x1ec90, c, game/japanese/script_stage_image]
