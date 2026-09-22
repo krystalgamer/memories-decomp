@@ -3938,6 +3938,12 @@
       "source": "src/game/japanese/model_effect_request.c"
     },
     {
+      "address": "0x8005CD48",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x94",
+      "source": "src/game/japanese/model_effect_request_args.c"
+    },
+    {
       "address": "0x8005CFB0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",

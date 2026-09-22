@@ -16,7 +16,7 @@ void func_80059EBC(s32 value)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_REQUEST_ARGS)
 void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
 {
     s32 adjusted_second = second < 0 ? 0 : second + 1;
@@ -27,7 +27,9 @@ void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
         func_80052D2C(first, adjusted_second, adjusted_third, fourth);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Model_SetCameraEyeSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();

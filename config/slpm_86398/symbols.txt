@@ -1470,6 +1470,7 @@ D_800100A8 = 0x800100A8;
 func_800283EC = 0x80028200;
 func_80059EBC = 0x8005CCEC;
 func_80056544 = 0x80056544;
+func_80059F18 = 0x8005CD48;
 AiScript_FindDefenseStopper = 0x800708C0;
 AiScript_CountCards = 0x80070AC8;
 AiScript_FindFirstCard = 0x80070BD8;
