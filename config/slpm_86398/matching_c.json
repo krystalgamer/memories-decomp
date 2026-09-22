@@ -1232,6 +1232,12 @@
       "source": "src/game/japanese/text_box_wait_for_script_completion.c"
     },
     {
+      "address": "0x80037034",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x5C",
+      "source": "src/game/japanese/func_8003787C.c"
+    },
+    {
       "address": "0x80037090",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",

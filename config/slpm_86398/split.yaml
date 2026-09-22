@@ -242,6 +242,7 @@ segments:
       - [0x274ac, asm, func_80036CAC]
       - [0x27764, c, game/japanese/text_box_wait_for_script_completion]
       - [0x27780, asm, func_80036F80]
+      - [0x27834, c, game/japanese/func_8003787C]
       - [0x27890, c, game/japanese/func_800378D8]
       - [0x278cc, asm, func_800370CC]
       - [0x27944, c, game/japanese/duel_effect_wait_for_file_transfer]

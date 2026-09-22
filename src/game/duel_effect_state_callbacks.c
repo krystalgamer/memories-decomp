@@ -173,6 +173,9 @@ void func_800377C8(DuelEffectChannel *arg0) {
 /* Same state_51/bit80 gating as func_800378D8, but additionally calls
    func_80039FD4(D_8009B328) before clearing state_51 when the display-effect
    step is zero. */
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003787C)
 void func_8003787C(DuelEffectChannel *object)
 {
     u8 flags;
