@@ -1418,6 +1418,12 @@
       "source": "src/game/japanese/func_80039F44.c"
     },
     {
+      "address": "0x80039610",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x44",
+      "source": "src/game/japanese/func_80039F90.c"
+    },
+    {
       "address": "0x80039654",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",

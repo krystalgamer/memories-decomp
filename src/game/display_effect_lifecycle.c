@@ -31,7 +31,7 @@ void func_80039F44(DisplayEffectState *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_RELEASE_OBJECTS)
 void func_80039F90(void **objects)
 {
     s32 i;
