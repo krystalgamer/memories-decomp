@@ -903,6 +903,7 @@ D_800F3A10 = 0x800F12B0;
 func_80048768 = 0x80047E54;
 func_800482B0 = 0x8004799C;
 ScaleMatrix = 0x80086260;
+RotMatrixYXZ_gte = 0x80087C50;
 SetRotMatrix = 0x800863A0;
 RotMatrixZYX_gte = 0x80087840;
 RotAverageNclip3_nom = 0x800888E0;

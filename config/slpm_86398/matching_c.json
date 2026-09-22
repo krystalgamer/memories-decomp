@@ -2840,6 +2840,12 @@
       "source": "src/game/model_buffer_getters.c"
     },
     {
+      "address": "0x8005C05C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x58",
+      "source": "src/game/func_8005922C.c"
+    },
+    {
       "address": "0x8005C0B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28",

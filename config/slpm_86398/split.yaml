@@ -372,7 +372,7 @@ segments:
       - [0x4c4c4, asm, func_8005BCC4]
       - [0x4c550, c, game/model_slot_support]
       - [0x4c82c, c, game/model_buffer_getters]
-      - [0x4c85c, asm, func_8005C05C]
+      - [0x4c85c, c, game/func_8005922C]
       - [0x4c8b4, c, game/func_80059284]
       - [0x4c8dc, asm, func_8005C0DC]
       - [0x4ca00, c, game/model_slot_properties]
