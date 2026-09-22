@@ -2876,6 +2876,12 @@
       "source": "src/game/japanese/model_get_slot_animation_index.c"
     },
     {
+      "address": "0x8005BCC4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2C",
+      "source": "src/game/japanese/model_get_slot_animation_frame.c"
+    },
+    {
       "address": "0x8005BD50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",

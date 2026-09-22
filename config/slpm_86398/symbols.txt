@@ -83,6 +83,7 @@ func_80057E20 = 0x8005AC50;
 Model_QueueTintRequest = 0x8005B768;
 func_80058DD8 = 0x8005BC08;
 Model_GetSlotAnimationIndex = 0x8005BC98;
+Model_GetSlotAnimationFrame = 0x8005BCC4;
 func_80059284 = 0x8005C0B4;
 Model_SetSlotShadowEnabled = 0x8005C8D8;
 D_800F2C40 = 0x800F04E0;
