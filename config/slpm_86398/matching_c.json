@@ -2900,6 +2900,12 @@
       "source": "src/game/func_8005A878.c"
     },
     {
+      "address": "0x8005DD08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x60",
+      "source": "src/game/japanese/model_register_handler_key.c"
+    },
+    {
       "address": "0x8005DDB8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x214",
