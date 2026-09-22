@@ -242,7 +242,7 @@ void func_8003798C(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800379C4)
 void func_800379C4(DuelEffectChannel *object)
 {
     if (SD_IsBgmFadeActive(object) != 1) {
@@ -252,6 +252,7 @@ void func_800379C4(DuelEffectChannel *object)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_EFFECT_RESULT_CLEAR)
+#ifndef VERSION_JAPAN
 void func_800379F8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;

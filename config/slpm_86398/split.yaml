@@ -401,7 +401,7 @@ segments:
       - [0x278cc, c, game/japanese/duel_effect_state_six]
       - [0x27908, c, game/japanese/duel_effect_state_four]
       - [0x27944, c, game/japanese/duel_effect_wait_for_file_transfer]
-      - [0x2797c, asm, func_8003717C]
+      - [0x2797c, c, game/japanese/func_800379C4]
       - [0x279b0, c, game/japanese/duel_effect_result_clear]
       - [0x27a10, asm, func_80037210]
       - [0x27c2c, c, game/text_box_wrap_line]
