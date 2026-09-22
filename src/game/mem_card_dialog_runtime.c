@@ -340,7 +340,9 @@ b25:
     gMemCard_pDialogObject->field_60 = 0x400;
     MemCardStop();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_POLL)
 int MemCardDialog_Poll(void)
 {
     MemCardDialog_Update();

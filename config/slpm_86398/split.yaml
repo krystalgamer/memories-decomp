@@ -266,6 +266,7 @@ segments:
       - [0x2d230, asm, func_8003CA30]
       - [0x2e210, c, game/japanese/mem_card_dialog_set_message]
       - [0x2e234, asm, func_8003DA34]
+      - [0x2f5e0, c, game/japanese/mem_card_dialog_poll]
       - [0x2f614, c, game/japanese/mem_card_dialog_start]
       - [0x2f62c, asm, func_8003EE2C]
       - [0x2fd50, c, game/save_data_set_mask_seed]
