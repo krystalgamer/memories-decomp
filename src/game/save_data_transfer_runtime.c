@@ -260,7 +260,9 @@ s32 SaveData_UpdateDuelLoad(void)
     }
     return result;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_TRADE_WRITE)
 void SaveData_RequestTradeWrite(void)
 {
     u8 *p = D_801D1880;
