@@ -1,4 +1,7 @@
 func_800136D4 = 0x800135C0;
+Main_ClearFrameServiceCallbacks = 0x800133A0;
+D_800E9DB0 = 0x800E9C90;
+D_8009B0B8 = 0x8009AFA8;
 Fade_StepBands = 0x800150C4;
 DisplayObject_SetResourceVariantFromSign = 0x80016664;
 DuelCard_CanActThisTurn = 0x80016EF8;

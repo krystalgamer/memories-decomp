@@ -72,6 +72,7 @@ segments:
       - [0x30c4, asm, entry]
       - [0x34a0, c, game/japanese/graphics_frame]
       - [0x3758, asm, func_80012F58]
+      - [0x3ba0, c, game/japanese/main_clear_frame_service_callbacks]
       - [0x3bcc, c, game/view_state_orbit]
       - [0x3dc0, c, game/func_800136D4]
       - [0x3dd0, asm, func_800135D0]
