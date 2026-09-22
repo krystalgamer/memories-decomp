@@ -5,6 +5,7 @@
 #include "model_effect_requests.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_REQUEST)
 void func_80059EBC(s32 value)
 {
     s32 state = func_8005F174();
@@ -13,7 +14,9 @@ void func_80059EBC(s32 value)
         func_80052D2C(value, 0, 0, 0);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
 {
     s32 adjusted_second = second < 0 ? 0 : second + 1;
@@ -93,3 +96,4 @@ void func_8005A130(s32 value)
     move->field_06 = value;
     move->field_04 = value;
 }
+#endif
