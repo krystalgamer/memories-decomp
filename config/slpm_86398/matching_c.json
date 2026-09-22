@@ -1076,6 +1076,12 @@
       "source": "src/game/japanese/duel_effect_clear_occupancy_value.c"
     },
     {
+      "address": "0x80035A38",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/japanese/duel_effect_reset_occupancy.c"
+    },
+    {
       "address": "0x80036264",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
