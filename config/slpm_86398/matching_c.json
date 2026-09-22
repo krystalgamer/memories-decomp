@@ -1928,6 +1928,12 @@
       "source": "src/game/japanese/save_data_update_trade_load.c"
     },
     {
+      "address": "0x8003F4F4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x5C",
+      "source": "src/game/japanese/save_data_request_trade_write.c"
+    },
+    {
       "address": "0x8003F550",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
