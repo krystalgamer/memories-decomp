@@ -1481,3 +1481,4 @@ AiScript_MatchType = 0x80070EDC;
 func_80051350 = 0x80054BA4;
 Script_OpFadeOut = 0x8002F1E8;
 D_800E9ECF = 0x800E9DAF;
+File_TryStartPrimaryTransfer = 0x800139F0;
