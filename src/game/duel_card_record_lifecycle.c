@@ -32,6 +32,7 @@
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
+#ifndef VERSION_JAPAN
 void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
@@ -78,13 +79,17 @@ void DuelCard_DeactivateRecord(DuelCardRecord *object)
         object->object = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_REMOVE_FROM_FIELD)
 void DuelCard_RemoveFromField(DuelCardRecord *object)
 {
     DuelCard_DeactivateRecord(object);
     object->flags = 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Same byte, distinct compiler identity: keep both address materializations. */
 
 s32 Duel_GetTerrainBoost(s32 cardType)
@@ -251,3 +256,4 @@ void func_80024D34(s32 a, s32 b)
     *(DuelCardDisplayObject **)slot = obj;
     obj->card_index = idx;
 }
+#endif
