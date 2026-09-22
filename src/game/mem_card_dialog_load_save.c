@@ -198,7 +198,9 @@ void MemCardDialog_StepLoad(void)
     }
     MemCardDialog_UpdateLoad();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_LOAD_UNPROMPTED)
 void MemCardDialog_StepLoadUnprompted(void)
 {
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
@@ -208,7 +210,9 @@ void MemCardDialog_StepLoadUnprompted(void)
     }
     MemCardDialog_UpdateLoad();
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Memory-card save dialog state machine, the third of the family beside
    MemCardDialog_UpdateLoad and MemCardDialog_UpdateTradeSave.
 
