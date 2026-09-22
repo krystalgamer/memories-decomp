@@ -95,6 +95,7 @@ segments:
       - [0x7da4, asm, func_800175A4]
       - [0x7e18, c, game/japanese/duel_reset_card_records]
       - [0x7e50, asm, func_80017650]
+      - [0x86fc, c, game/japanese/duel_apply_card_object_flags]
       - [0x87cc, c, game/duel_card_object_helpers]
       - [0x88d8, asm, func_800180D8]
       - [0x9374, c, game/japanese/duel_draw_resolution]
