@@ -835,6 +835,7 @@ File_TryRequestAsyncTransfer = 0x80014DD8;
 func_800289BC = 0x8002879C;
 func_80028B08 = 0x800288E8;
 CardPreview_UpdateVariant = 0x80028EE8;
+DisplayObject_UpdateCommandStream = 0x80041440;
 DisplayObject_ConfigureScreenSprite = 0x8003FBF0;
 gDuel_abCardLevelAttr = 0x801D5332;
 func_8002C400 = 0x8002C1CC;
