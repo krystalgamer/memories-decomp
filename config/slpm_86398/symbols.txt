@@ -142,6 +142,7 @@ gJapanese_DuelEffectOccupancy = 0x800EADE8;
 DuelEffect_ResetOccupancy = 0x80035A38;
 D_8009B324 = 0x8009B214;
 D_8009B325 = 0x8009B215;
+gJapanese_DuelEffectEntries = 0x800EB158;
 GsSortFastSprite = 0x800835E0;
 D_8009B1D5 = 0x8009B0C5;
 D_800E9D90 = 0x800E9C70;
