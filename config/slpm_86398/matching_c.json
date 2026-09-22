@@ -632,6 +632,12 @@
       "source": "src/game/japanese/func_80020BE4.c"
     },
     {
+      "address": "0x80022460",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x5C",
+      "source": "src/game/japanese/duel_effect_preview_hud.c"
+    },
+    {
       "address": "0x800224BC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x380",
