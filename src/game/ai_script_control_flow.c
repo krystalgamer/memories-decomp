@@ -10,6 +10,7 @@
 #include "ai_script_source_line_format.h"
 #include "../unmatched.h"
 
+#ifndef VERSION_JAPAN
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;
@@ -117,7 +118,9 @@ s32 Ai_IsCardInSets(s32 mode, s32 index)
         return 1;
     return 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_JUMP)
 void AiScript_Jump(void)
 {
     s32 result = AiScript_ReadShort();
@@ -126,7 +129,9 @@ void AiScript_Jump(void)
     state->script_cursor =
         (u8 *)(result + (s32)state->script_base);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* The AI script VM's control-flow opcodes: the six conditional jumps, which
    read register operands and a script-relative offset and move
    gAiScript_State.script_cursor when their test holds, then the call and
@@ -270,3 +275,4 @@ void AiScript_SetRandom(void) {
 }
 
 void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*values=gAiScript_aMemory;values[c]=values[a]-values[b];}
+#endif

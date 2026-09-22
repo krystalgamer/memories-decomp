@@ -565,6 +565,7 @@ D_80011908 = 0x800117F4;
 D_80011918 = 0x80011804;
 AiScript_ReadByte = 0x8006F19C;
 AiScript_ReadShort = 0x8006F1BC;
+AiScript_Jump = 0x8006F598;
 printf = 0x8008E720;
 gDuel_aOpponentData = 0x800916A0;
 D_800EAE88 = 0x800EAD68;
