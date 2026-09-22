@@ -401,6 +401,8 @@ segments:
       - [0x5f99c, c, game/japanese/ai_script_vm]
       - [0x5fb20, c, game/japanese/ai_get_hand_size]
       - [0x5fb48, asm, func_8006F348]
+      - [0x5fd98, c, game/japanese/ai_script_jump]
+      - [0x5fdd0, asm, func_8006F5D0]
       - [0x6032c, c, game/ai_script_end]
       - [0x60418, c, game/japanese/ai_script_query_commands]
       - [0x60834, c, game/japanese/ai_script_load_duel_globals]

@@ -3074,6 +3074,12 @@
       "source": "src/game/japanese/ai_get_hand_size.c"
     },
     {
+      "address": "0x8006F598",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x38",
+      "source": "src/game/japanese/ai_script_jump.c"
+    },
+    {
       "address": "0x8006FB2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
