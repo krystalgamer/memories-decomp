@@ -1370,6 +1370,12 @@
       "source": "src/game/text_stream_read_byte.c"
     },
     {
+      "address": "0x8003AFB4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x58",
+      "source": "src/game/japanese/main_init_free_duel_menu.c"
+    },
+    {
       "address": "0x8003B238",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
