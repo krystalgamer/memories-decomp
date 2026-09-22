@@ -46,6 +46,7 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
+#ifndef VERSION_JAPAN
 void Duel_InitScene(void)
 {
     DisplayObject *obj;
@@ -193,7 +194,9 @@ void func_80017DB4(DuelCardDisplayObject *object)
         object->field_67 = 0xFF;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017E3C)
 void func_80017E3C(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &D_801A7AD8[object->card_index];
@@ -221,7 +224,9 @@ void func_80017E3C(DuelCardDisplayObject *object)
         object->color = DUEL_DISPLAY_COLOR_DIMMED;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p =
@@ -247,3 +252,4 @@ u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
     func_80017DB4(p);
     return (u8 *)p;
 }
+#endif
