@@ -1622,6 +1622,12 @@
       "source": "src/game/func_8002A660.c"
     },
     {
+      "address": "0x8002A498",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xD0",
+      "source": "src/game/japanese/library_get_grid_cursor_card_id.c"
+    },
+    {
       "address": "0x8002B880",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",

@@ -13,6 +13,8 @@
 #include "library_grid_cursor.h"
 #include "main_mode_state.h"
 
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_LIBRARY_GET_GRID_CURSOR_CARD_ID)
 s32 Library_GetGridCursorCardId(u8 *state)
 {
     s32 row = gCardGrid_bCursorRow;
@@ -43,7 +45,9 @@ s32 Library_GetGridCursorCardId(u8 *state)
     }
     return index;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /*
  * State 1 of the Library screen. The held-input view remains volatile because
  * every direction path must retain the retail input reloads.
@@ -138,3 +142,4 @@ wrap_delay:
     }
     func_8002A660(state);
 }
+#endif
