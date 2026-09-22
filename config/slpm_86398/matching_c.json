@@ -2888,6 +2888,12 @@
       "source": "src/game/model_slot_properties.c"
     },
     {
+      "address": "0x8005C4CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64",
+      "source": "src/game/model_slot_state_updates.c"
+    },
+    {
       "address": "0x8005C6BC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",
