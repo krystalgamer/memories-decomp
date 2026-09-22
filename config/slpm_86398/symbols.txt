@@ -1566,3 +1566,5 @@ gJapanese_MemCardTransferOffset = 0x8009B2B4;
 gJapanese_MemCardBlockCount = 0x8009B2CC;
 gJapanese_PrimaryTransferCursor = 0x8009B2C0;
 func_80017DB4 = 0x80017C30;
+Script_OpStageImage = 0x8002E490;
+gJapanese_ScriptImageId = 0x8009B160;
