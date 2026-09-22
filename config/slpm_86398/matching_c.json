@@ -3104,6 +3104,12 @@
       "source": "src/game/model_slot_updates.c"
     },
     {
+      "address": "0x8005D364",
+      "profile": "gcc_2_8_1_g0_no_sched1",
+      "size": "0xDC",
+      "source": "src/game/func_8005A53C.c"
+    },
+    {
       "address": "0x8005D6A0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
