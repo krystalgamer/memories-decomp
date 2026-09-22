@@ -170,6 +170,8 @@ segments:
       - [0x1d36c, asm, func_8002CB6C]
       - [0x1d3c8, c, game/japanese/main_debug]
       - [0x1d444, asm, func_8002CC44]
+      - [0x1d9d8, c, game/japanese/main_run_free_duel_menu]
+      - [0x1da38, asm, func_8002D238]
       - [0x1dc64, c, game/japanese/main_run_password_menu]
       - [0x1dca8, asm, func_8002D4A8]
       - [0x1e954, c, game/duel_effect_mark_object_if_active]

@@ -770,6 +770,12 @@
       "source": "src/game/japanese/main_debug.c"
     },
     {
+      "address": "0x8002D1D8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x60",
+      "source": "src/game/japanese/main_run_free_duel_menu.c"
+    },
+    {
       "address": "0x8002D464",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
