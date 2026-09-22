@@ -218,7 +218,7 @@ void Model_RegisterHandlerKey(s32 key, s32 val) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_FIND_HANDLER_KEY)
 /* Reverse lookup: finds the entry whose val matches, returns its key (or -1
    if val is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 val) {
@@ -234,7 +234,9 @@ s32 Model_FindHandlerKey(s32 val) {
     }
     return -1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Model_ProcessType2Unit(
     s32 model_index, ModelTypeUnit *unit, u8 *scratch)
 {
