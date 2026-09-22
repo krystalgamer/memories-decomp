@@ -119,6 +119,7 @@ gGraphics_sViewportX = 0x8009B036;
 gGraphics_sViewportY = 0x8009B038;
 func_8005A878 = 0x8005D6A0;
 Model_RegisterHandlerKey = 0x8005DD08;
+Model_FindHandlerKey = 0x8005DD68;
 gJapanese_ModelHandlerRegistry = 0x800F2FF0;
 func_800603DC = 0x8005FB3C;
 GsU_02000000 = 0x80088A30;
