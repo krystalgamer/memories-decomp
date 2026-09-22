@@ -37,7 +37,9 @@ void func_80038A44(DuelEffectChannel *object)
         (u8 *)(((u32)owner->streams[object->stream_58] & 0xFFFF0000) |
                (value & 0xFFFF));
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_UNLOCK_DUELIST)
 void Text_UnlockDuelist(DuelEffectChannel *object)
 {
     s16 duelist_id;
@@ -56,7 +58,9 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
         Library_UpdateCardUsedFlag(duelist_id + FREE_DUEL_UNLOCK_FLAG_BASE);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Text_CloseChoice(DuelEffectChannel *object)
 {
     DisplayObject_ReleaseIfPresent(object->field_30);
