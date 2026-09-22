@@ -69,10 +69,34 @@ s32 func_80035D10(void)
     } while (count != 0);
     return -1;
 }
+#endif
 
 /* Clears field17 on the first (only) entry whose field18 equals a0+1,
    scanning 620 entries. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_MATCHING_MARKER)
 void DuelEffect_ClearMatchingMarker(int a0) {
+#ifdef VERSION_JAPAN
+    typedef struct {
+        u8 pad_00[0x11];
+        u8 flags_11;
+        u8 field_12;
+        u8 pad_13[5];
+    } JapaneseDuelEffectEntry;
+    JapaneseDuelEffectEntry *v1;
+    int a1;
+    u8 v0;
+    a1 = 300;
+    a0 = a0 + 1;
+    v1 = (JapaneseDuelEffectEntry *)D_800EB288;
+    do {
+        v0 = v1->field_12;
+        if (v0 == a0) {
+            v1->flags_11 = 0;
+        }
+        a1 -= 1;
+        v1 += 1;
+    } while (a1 != 0);
+#else
     DuelEffectEntry *v1;
     int a1;
     u8 v0;
@@ -87,8 +111,11 @@ void DuelEffect_ClearMatchingMarker(int a0) {
         a1 -= 1;
         v1 += 1;
     } while (a1 != 0);
+#endif
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Clears field17 and the byte at struct-relative offset 7 on all 620
    stride-28 entries. */
 void DuelEffect_ResetEntryMarkers(void) {
