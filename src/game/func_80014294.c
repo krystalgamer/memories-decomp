@@ -19,6 +19,7 @@
    state word. The ready-sector callback and first four command callbacks are
    grouped in func_80013C28.c. */
 
+#ifndef VERSION_JAPAN
 void func_80014294(u8 event)
 {
     if (event == 5) {
@@ -70,9 +71,13 @@ void File_ActivateTransfer(void)
         gFile_PrimaryTransferDescriptor.status_flags |
         FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800144B8)
 void func_800144B8(void){D_8009B0F4&=FILE_TRANSFER_STATE_SECONDARY_PENDING|FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED;if((D_8009B0F4&FILE_TRANSFER_STATE_SECONDARY_PENDING)&&!(D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_REQUEST_LOCKED)){File_ActivateTransfer();if(D_8009B134){int v=0x80;if((D_8009B0F4&FILE_TRANSFER_STATE_PRIMARY_ACTIVE)&&(D_8009B0F4&FILE_TRANSFER_FLAG_SECTOR_RANGE))func_80015010();D_8009B134=v;}}else D_8009B134=0;}
+#endif
 
+#ifndef VERSION_JAPAN
 void File_StepActiveTransfer(void)
 {
     FileTransferDescriptor *p;
@@ -409,3 +414,4 @@ s32 func_80014C40(FileRequestSlot *p, u8 *q) {
 
     return (s32)e;
 }
+#endif
