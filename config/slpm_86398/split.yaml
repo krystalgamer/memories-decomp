@@ -350,6 +350,8 @@ segments:
       - [0x3c738, c, game/func_8004C84C]
       - [0x3c7b4, c, game/sd_sequence_tracks]
       - [0x3c9f8, asm, func_8004C1F8]
+      - [0x3d4cc, c, game/japanese/func_8004cccc]
+      - [0x3d4e0, asm, func_8004CCE0]
       - [0x3d688, c, game/japanese/movie_step_playback]
       - [0x3d6c0, asm, func_8004CEC0]
       - [0x3d7f8, c, game/gpu_packets]
