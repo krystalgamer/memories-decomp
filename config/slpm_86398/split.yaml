@@ -399,6 +399,8 @@ segments:
       - [0x4e568, asm, func_8005DD68]
       - [0x4e5b8, c, game/color_transform]
       - [0x4ee8c, asm, func_8005E68C]
+      - [0x5033c, c, game/japanese/func_8005fb3c]
+      - [0x5037c, asm, func_8005FB7C]
       - [0x5b70c, c, game/japanese/triplet_set_components]
       - [0x5b71c, c, game/japanese/triplet_copy_components]
       - [0x5b740, asm, func_8006AF40]
