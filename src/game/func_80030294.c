@@ -23,6 +23,17 @@
 #include "frontend_debug_constants.h"
 #include "input.h"
 
+/* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
+ * Circle, so a regional build names its own. */
+#ifndef DEBUG_SCREEN_CONFIRM_MASK
+#define DEBUG_SCREEN_CONFIRM_MASK 0xC0
+#endif
+
+/* The cancel button (Circle), swapped the same way. */
+#ifndef DEBUG_SCREEN_CANCEL_BUTTON
+#define DEBUG_SCREEN_CANCEL_BUTTON 0x20
+#endif
+
 s32 func_80030294(void)
 {
     s32 a[5] = {1, 10, 100, 1000, 10000};
@@ -77,11 +88,11 @@ s32 func_80030294(void)
     if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
         goto fill;
     }
-    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & 0xC0) != 0) {
+    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CONFIRM_MASK) != 0) {
         ret = 1;
         goto out;
     }
-    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & 0x20) != 0) {
+    if (((gInput_wPad1Pressed[0] | gInput_wPad2Pressed[0]) & DEBUG_SCREEN_CANCEL_BUTTON) != 0) {
         ret = -1;
         goto out;
     }
