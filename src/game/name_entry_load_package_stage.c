@@ -6,6 +6,11 @@
 #include "file_constants.h"
 #include "../unmatched.h"
 
+/* The package's first sector in WA.MRG. A regional build defines its own. */
+#ifndef NAME_ENTRY_PACKAGE_START_SECTOR
+#define NAME_ENTRY_PACKAGE_START_SECTOR FILE_WA_NAME_ENTRY_START_SECTOR
+#endif
+
 /* The Name Entry package load. File_RequestNameEntryPackage queues the
    package transfer with NameEntry_LoadPackageStage as its stage callback. */
 
@@ -115,4 +120,4 @@ tail:
     object->done = one;
 }
 
-void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(0,0,FILE_WA_NAME_ENTRY_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(0,0,NAME_ENTRY_PACKAGE_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}
