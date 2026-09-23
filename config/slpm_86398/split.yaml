@@ -63,6 +63,8 @@ segments:
     align: 4
     subsegments:
       - [0x800, rodata, initial_data]
+      - [0x844, .rodata, game/japanese/file_step_active_transfer]
+      - [0x860, rodata, initial_data_860]
       - [0x8c0, .rodata, game/japanese/duel_load_package_stage]
       - [0x8f4, rodata, initial_data_8f4]
       - [0x8f8, .rodata, game/japanese/duel_scene_card_placement]
@@ -111,7 +113,7 @@ segments:
       - [0x49f4, c, game/japanese/file_transfer_event_handlers]
       - [0x4ac8, c, game/japanese/file_activate_transfer]
       - [0x4ba4, c, game/japanese/func_800144b8]
-      - [0x4c48, asm, func_80014448]
+      - [0x4c48, c, game/japanese/file_step_active_transfer]
       - [0x5148, c, game/japanese/file_service_transfers]
       - [0x521c, c, game/japanese/sd_configure_transfer_phase]
       - [0x532c, asm, func_80014B2C]
