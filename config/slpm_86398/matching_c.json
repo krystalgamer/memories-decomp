@@ -4082,6 +4082,24 @@
       "source": "src/game/japanese/func_8005B8A0.c"
     },
     {
+      "address": "0x8004C794",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x18C",
+      "source": "src/game/japanese/movie_frame_decode.c"
+    },
+    {
+      "address": "0x8004C920",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x22C",
+      "source": "src/game/japanese/movie_frame_decode.c"
+    },
+    {
+      "address": "0x8004CB4C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x180",
+      "source": "src/game/japanese/movie_frame_decode.c"
+    },
+    {
       "address": "0x8004CCCC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
@@ -4782,6 +4800,30 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x40",
       "source": "src/game/japanese/func_8005fb3c.c"
+    },
+    {
+      "address": "0x8005FB7C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x450",
+      "source": "src/game/japanese/model_primitive_handlers.c"
+    },
+    {
+      "address": "0x8005FFCC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/game/japanese/model_primitive_handlers.c"
+    },
+    {
+      "address": "0x80060018",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x234",
+      "source": "src/game/japanese/model_primitive_handlers.c"
+    },
+    {
+      "address": "0x8006024C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4C",
+      "source": "src/game/japanese/model_primitive_handlers.c"
     },
     {
       "address": "0x80069B40",
