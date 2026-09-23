@@ -39,7 +39,7 @@ void DuelEffect_ResetOccupancy(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_FIND_OCCUPANCY)
 s32 func_80035D10(void)
 {
     s32 col = D_8009B324;
