@@ -11,7 +11,7 @@
     ((GsSEQ **)&(entry)->field_1E0[(entry)->field_E1B])
 #define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_ANIMATION_PACKET_HANDLER)
 void func_8005C6A0(s32 *object, ModelSlot *entry)
 {
     int local[2];

@@ -575,7 +575,7 @@ segments:
       - [0x4e508, c, game/japanese/model_register_handler_key]
       - [0x4e568, c, game/japanese/model_find_handler_key]
       - [0x4e5b8, c, game/color_transform]
-      - [0x4ee8c, asm, func_8005E68C]
+      - [0x4ee8c, c, game/japanese/model_animation_packet_handler]
       - [0x4ef54, c, game/japanese/model_packet_handler_lookup]
       - [0x4efa8, c, game/model_sequence_dispatch]
       - [0x4f6dc, c, game/japanese/func_8005CEF0]
