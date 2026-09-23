@@ -193,7 +193,7 @@ void AiScript_JumpEqual(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_JUMP_NOT_EQUAL)
 void AiScript_JumpNotEqual(void)
 {
     s32 first = AiScript_ReadByte();
@@ -207,7 +207,9 @@ void AiScript_JumpNotEqual(void)
         state->script_cursor = (u8 *)offset;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void AiScript_JumpBetween(void)
 {
     s32 first = AiScript_ReadByte();
