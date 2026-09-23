@@ -19,6 +19,11 @@
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
 
+/* The menu assets' first sector in WA.MRG. A regional build defines its own. */
+#ifndef SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR
+#define SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR FILE_WA_MENU_ASSETS_START_SECTOR
+#endif
+
 /* Duel result screen setup. Reads the two-byte result code from the script
    stream, queues the result sector through File_RequestAsyncTransfer with
    func_8002F4C0 as the completion callback, and on the first pass (once the
@@ -41,7 +46,7 @@ void Script_OpDuelResult(void) {
         D_8009B29C = p[0] | (p[1] << 8);
         File_RequestAsyncTransfer(
             0, 0,
-            FILE_WA_MENU_ASSETS_START_SECTOR,
+            SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR,
             FILE_WA_MENU_ASSETS_SECTOR_COUNT,
             func_8002F4C0, 0, 0
         );

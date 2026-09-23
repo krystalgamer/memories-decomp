@@ -8,6 +8,11 @@
 #include "file_constants.h"
 #include "../unmatched.h"
 
+/* The package's first sector in WA.MRG. A regional build defines its own. */
+#ifndef PASSWORD_PACKAGE_START_SECTOR
+#define PASSWORD_PACKAGE_START_SECTOR FILE_WA_PASSWORD_START_SECTOR
+#endif
+
 /* The Password package load. File_RequestPasswordPackage queues the package
    transfer with Password_LoadPackageStage as its stage callback. */
 
@@ -57,4 +62,4 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(0,0,FILE_WA_PASSWORD_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(0,0,PASSWORD_PACKAGE_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}

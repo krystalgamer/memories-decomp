@@ -14,6 +14,11 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* The package's first sector in WA.MRG. A regional build defines its own. */
+#ifndef CAMPAIGN_SCENE_PACKAGE_START_SECTOR
+#define CAMPAIGN_SCENE_PACKAGE_START_SECTOR FILE_WA_CAMPAIGN_SCENE_START_SECTOR
+#endif
+
 #define SCENE_SCRIPT_SLOT_SIGNED_HEAD(slot) (*(s16 *)(slot))
 #define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
 
@@ -48,7 +53,7 @@ void Campaign_LoadScenePackage(s16 arg0)
     D_8009B2A0 = 0;
     File_RequestAsyncTransfer(
         0, 0,
-        FILE_WA_CAMPAIGN_SCENE_START_SECTOR,
+        CAMPAIGN_SCENE_PACKAGE_START_SECTOR,
         FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT,
         Campaign_LoadScenePackageStage, 0, 0
     );
