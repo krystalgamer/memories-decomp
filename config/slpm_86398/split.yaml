@@ -146,7 +146,7 @@ segments:
       - [0xb748, c, game/func_8001B0CC]
       - [0xb7ec, asm, func_8001AFEC]
       - [0xbde0, c, game/japanese/func_8001B780]
-      - [0xbe0c, asm, func_8001B60C]
+      - [0xbe0c, c, game/japanese/func_8001b7ac]
       - [0xbf18, c, game/japanese/func_8001B8B8]
       - [0xbf98, c, game/japanese/func_8001B938]
       - [0xc3a8, c, game/japanese/duel_check_quit_input]
