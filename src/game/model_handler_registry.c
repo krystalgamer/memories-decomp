@@ -21,7 +21,7 @@
 
 #define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the

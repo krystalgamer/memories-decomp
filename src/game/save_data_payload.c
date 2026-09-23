@@ -27,7 +27,7 @@
    at gcc_2_8_1_g8, so the unit builds there. */
 
 /* Advances the two-word save-data mask state and returns the next word. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_NEXT_MASK_WORD)
 u32 SaveData_NextMaskWord(void)
 {
     u32 *state = &gSaveData_dwMaskStateLow;
@@ -140,7 +140,7 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_BUILD_PAYLOAD)
 void SaveData_BuildPayload(SaveDataPayload *data)
 {
     u8 *copy;
@@ -184,6 +184,9 @@ void SaveData_BuildPayload(SaveDataPayload *data)
         (u8 *)&data->duplicate, (u8 *)&data->state, SAVE_DATA_STATE_SIZE
     );
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 #define gCampaignSceneIndex (*(u8 *)0x8009B27A)
 
