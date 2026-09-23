@@ -29,6 +29,7 @@
 #include "debug_menu_editor_entries.h"
 #include "main_mode_state.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_UPDATE_SOUND_ENTRY)
 void DebugMenu_UpdateSoundEntry(void)
 {
     s32 flags;
@@ -93,6 +94,9 @@ void DebugMenu_UpdateSoundEntry(void)
         return;
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 /*
  * `DebugMenu_UpdateCampaignEntry` matches all 632 bytes on uniform `gcc_2_8_1_g8_split` after
@@ -182,3 +186,4 @@ void DebugMenu_UpdateCampaignEntry(void)
         gCampaignSceneIndex = selection;
     }
 }
+#endif

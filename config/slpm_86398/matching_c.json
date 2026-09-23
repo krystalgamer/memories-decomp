@@ -1838,6 +1838,12 @@
       "source": "src/game/japanese/func_80030294.c"
     },
     {
+      "address": "0x80030548",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E0",
+      "source": "src/game/japanese/debug_menu_update_sound_entry.c"
+    },
+    {
       "address": "0x80030964",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
@@ -2664,6 +2670,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
       "source": "src/game/japanese/save_data_build_payload.c"
+    },
+    {
+      "address": "0x8003C6B8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x80",
+      "source": "src/game/japanese/save_data_apply_runtime_state.c"
     },
     {
       "address": "0x8003C738",
