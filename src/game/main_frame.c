@@ -29,7 +29,7 @@ void Main_VBlankCB(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_ADVANCE_FRAME)
 void Main_AdvanceFrame(void)
 {
     Main_RunFrameServices();
@@ -37,7 +37,9 @@ void Main_AdvanceFrame(void)
     Graphics_BeginFrame();
     Input_UpdatePads();
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Main_AdvanceFrames(s32 count)
 {
     do {
