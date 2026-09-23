@@ -12,6 +12,7 @@
 #include "../unmatched.h"
 #include "display_object_transition.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_TRANSITION)
 void func_8004365C(DisplayObject *a, DisplayObject *b)
 {
     DisplayObject *x;
@@ -75,7 +76,9 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     DisplayObject_ReleaseIfPresent(x);
     DisplayObject_ReleaseIfPresent(y);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Main_HoldBootScreen(s32 count)
 {
     s32 found = 0;
@@ -99,3 +102,4 @@ void Main_HoldBootScreen(s32 count)
         break;
     }
 }
+#endif

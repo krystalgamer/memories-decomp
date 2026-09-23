@@ -444,6 +444,8 @@ segments:
       - [0x33058, c, game/display_object_save_position]
       - [0x3306c, c, game/display_object_interpolation]
       - [0x33208, asm, func_80042A08]
+      - [0x334cc, c, game/japanese/display_object_transition]
+      - [0x33728, asm, func_80042F28]
       - [0x33c34, c, game/japanese/mem_card_driver]
       - [0x34be8, c, game/japanese/mem_card_set_io_result_complete]
       - [0x34bf8, c, game/japanese/mem_card_set_io_result_timeout]
