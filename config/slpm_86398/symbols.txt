@@ -1589,3 +1589,4 @@ func_80180DD0 = 0x80180DD0;
 Duel_PopulateCombinedDeckData = 0x80024650;
 func_80035D10 = 0x80035A64;
 File_RequestSecondaryRangeTransfer = 0x80013A54;
+func_80039C94 = 0x80039308;
