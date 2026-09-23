@@ -603,6 +603,7 @@ AiScript_JumpGreater = 0x8006F650;
 AiScript_JumpEqual = 0x8006F6D0;
 AiScript_JumpNotEqual = 0x8006F74C;
 AiScript_Return = 0x8006F9B8;
+AiScript_SetRandom = 0x8006FA30;
 AiScript_Subtract = 0x8006FAC4;
 printf = 0x8008E720;
 gDuel_aOpponentData = 0x800916A0;
