@@ -52,7 +52,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_TRANSFER_CALLBACKS)
 void File_TransferReadyCallback(s32 arg)
 {
     s32 event;

@@ -31,6 +31,9 @@ void func_80014294(u8 event)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_TRANSFER_EVENT_HANDLERS)
 void func_80014308(u8 event)
 {
     if (event == 5) {

@@ -71,7 +71,7 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_SOURCE_OBJECTS)
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
     DuelCardRecord *record = &D_801A7AD8[index];

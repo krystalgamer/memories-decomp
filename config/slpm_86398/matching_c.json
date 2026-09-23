@@ -134,10 +134,46 @@
       "source": "src/game/japanese/file_secondary_range_transfer.c"
     },
     {
+      "address": "0x80013B14",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x478",
+      "source": "src/game/japanese/file_transfer_callbacks.c"
+    },
+    {
+      "address": "0x80013F8C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x94",
+      "source": "src/game/japanese/file_transfer_callbacks.c"
+    },
+    {
+      "address": "0x80014020",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/japanese/file_transfer_callbacks.c"
+    },
+    {
+      "address": "0x80014094",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x78",
+      "source": "src/game/japanese/file_transfer_callbacks.c"
+    },
+    {
       "address": "0x8001410C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
       "source": "src/game/japanese/file_command_callback.c"
+    },
+    {
+      "address": "0x800141F4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x88",
+      "source": "src/game/japanese/file_transfer_event_handlers.c"
+    },
+    {
+      "address": "0x8001427C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x4C",
+      "source": "src/game/japanese/file_transfer_event_handlers.c"
     },
     {
       "address": "0x800142C8",
@@ -866,6 +902,12 @@
       "source": "src/game/japanese/duel_field_guardian_star_order.c"
     },
     {
+      "address": "0x80022F8C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x348",
+      "source": "src/game/japanese/duel_field_display_source_objects.c"
+    },
+    {
       "address": "0x800232D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
@@ -1566,6 +1608,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
       "source": "src/game/japanese/script_stage_image.c"
+    },
+    {
+      "address": "0x8002E508",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1E8",
+      "source": "src/game/japanese/script_op_show_image.c"
     },
     {
       "address": "0x8002E6F0",
