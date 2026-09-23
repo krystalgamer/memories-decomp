@@ -1715,3 +1715,4 @@ D_8009B2CC = 0x8009B1BC;
 D_800EAED8 = 0x800EADB8;
 gJapanese_OptionsSelection = 0x8009B274;
 gJapanese_OptionsState = 0x8009B26C;
+func_80039F90 = 0x80039610;
