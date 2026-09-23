@@ -794,6 +794,12 @@
       "source": "src/game/japanese/func_800218F0.c"
     },
     {
+      "address": "0x80021F00",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x23C",
+      "source": "src/game/japanese/debug_effect_screen_input.c"
+    },
+    {
       "address": "0x80022460",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",

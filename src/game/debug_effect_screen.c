@@ -45,7 +45,17 @@ u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_SCREEN_INPUT)
+/* Held, the first speeds up the orbit and view steps and the second the
+ * movement. The Japanese release swaps Cross and Circle, so a regional build
+ * names its own. */
+#ifndef DEBUG_EFFECT_FAST_STEP_BUTTON
+#define DEBUG_EFFECT_FAST_STEP_BUTTON PAD_BUTTON_CROSS
+#endif
+#ifndef DEBUG_EFFECT_FAST_MOVE_BUTTON
+#define DEBUG_EFFECT_FAST_MOVE_BUTTON PAD_BUTTON_CIRCLE
+#endif
+
 void func_800220B8(void) {
     ViewState *b;
     ViewState *c;
@@ -62,7 +72,7 @@ void func_800220B8(void) {
 
     if ((gInput_wPad1Repeat & PAD_BUTTON_L1_R1_MASK) != 0) {
         a = 2;
-        if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+        if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
             a = 0x10;
         }
         v = D_800F2848.field_00 + a;
@@ -76,7 +86,7 @@ void func_800220B8(void) {
     if ((gInput_wPad1Repeat & PAD_DIRECTION_MASK) != 0) {
         if ((gInput_wPad1Held & PAD_BUTTON_TRIANGLE) != 0) {
             a = 2;
-            if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+            if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_STEP_BUTTON) != 0) {
                 a = 0x10;
             }
             if ((gInput_wPad1Repeat & PAD_DIRECTION_RIGHT) != 0) {
@@ -93,7 +103,7 @@ void func_800220B8(void) {
             }
         } else {
             v = 0x20;
-            if ((gInput_wPad1Held & PAD_BUTTON_CIRCLE) != 0) {
+            if ((gInput_wPad1Held & DEBUG_EFFECT_FAST_MOVE_BUTTON) != 0) {
                 v = 0x80;
             }
             y = b->angle;
@@ -117,6 +127,9 @@ void func_800220B8(void) {
         ViewState_ApplyOrbit();
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
    first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
