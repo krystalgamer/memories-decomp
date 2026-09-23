@@ -388,6 +388,7 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
         p++;
     }
 }
+#endif
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.
@@ -395,6 +396,7 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    the end-reason and threshold-rule adjustments. Raw statistics are also
    copied into the separate D_801D5608[0].rank_rows[stat][side] display
    table. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CALC_RANK_SCORE)
 void Duel_CalcRankScore(void) {
     DuelResultDisplayState *p;
     DuelSideState *e;
