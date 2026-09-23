@@ -189,7 +189,8 @@ segments:
       - [0x15450, c, game/duel_action_lock]
       - [0x15484, asm, func_80024C84]
       - [0x1564c, c, game/japanese/func_80025028]
-      - [0x156ec, asm, func_80024EEC]
+      - [0x156ec, c, game/japanese/duel_card_effects]
+      - [0x16504, asm, func_80025D04]
       - [0x16560, c, game/japanese/duel_field_effect_steps]
       - [0x16850, asm, func_80026050]
       - [0x17050, c, game/japanese/duel_magic_effect_dispatch]
@@ -637,7 +638,10 @@ segments:
     subsegments:
       - [0x80d90, data, initialized_data]
       - [0x8b664, .sdata, game/japanese/duel_trap_resolution]
-      - [0x8b66a, sdata, initialized_data_8b66a]
+      - {start: 0x8b66a, type: bin, name: initialized_data_8b66a, linker_section_order: .sdata}
+      - [0x8b670, .sdata, game/japanese/duel_card_effects]
+      - [0x8b67d, pad]
+      - [0x8b680, sdata, initialized_data_8b680]
 
   - name: bss_image
     type: bin

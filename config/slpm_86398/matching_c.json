@@ -866,6 +866,60 @@
       "source": "src/game/japanese/func_80025028.c"
     },
     {
+      "address": "0x80024EEC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x194",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025080",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x800251B0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x270",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025420",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1A4",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x800255C4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1CC",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025790",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1BC",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x8002594C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC4",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025A10",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x144",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
+      "address": "0x80025B54",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1B0",
+      "source": "src/game/japanese/duel_card_effects.c"
+    },
+    {
       "address": "0x80025D60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
