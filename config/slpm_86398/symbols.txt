@@ -1491,7 +1491,6 @@ Main_RunGameOver = 0x8002D510;
 func_8003BA64 = 0x8003BA64;
 func_8003BFA4 = 0x8003BFA4;
 func_8003C0B0 = 0x8003C0B0;
-func_8008FA3C = 0x8008FA3C;
 SaveData_PollLoad = 0x8003EEE4;
 func_8003C6B8 = 0x8003C6B8;
 SaveData_WriteTertiaryIntegrity = 0x8003C58C;
