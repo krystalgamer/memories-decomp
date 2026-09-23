@@ -18,7 +18,16 @@
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BUILD_DECK_PANE_INPUT)
+/* The cancel and confirm buttons. The Japanese release swaps Cross and Circle,
+ * so a regional build names its own. */
+#ifndef BUILD_DECK_PANE_CANCEL_BUTTON
+#define BUILD_DECK_PANE_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+#ifndef BUILD_DECK_PANE_CONFIRM_MASK
+#define BUILD_DECK_PANE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
     CardList *e;
     s32 r;
@@ -48,13 +57,13 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
         return;
     }
 
-    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
         state->state = 4;
         state->next_state = 3;
         return;
     }
 
-    if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) != 0) {
+    if ((gInput_wPad1Repeat & BUILD_DECK_PANE_CONFIRM_MASK) != 0) {
         r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
             SD_SEPlayFull(7);
@@ -99,13 +108,13 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         return;
     }
 
-    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & BUILD_DECK_PANE_CANCEL_BUTTON) != 0) {
         state->state = 4;
         state->next_state = 2;
         return;
     }
 
-    if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
+    if ((gInput_wPad1Repeat & BUILD_DECK_PANE_CONFIRM_MASK) == 0) {
         return;
     }
 

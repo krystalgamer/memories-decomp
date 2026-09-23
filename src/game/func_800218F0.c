@@ -31,6 +31,12 @@
 #include "display_object_core.h"
 #include "display_object_config.h"
 
+/* The confirm button (Cross). The Japanese release swaps Cross and Circle, so a
+ * regional build names its own. */
+#ifndef DUEL_RESULT_REWARDS_CONFIRM_BUTTON
+#define DUEL_RESULT_REWARDS_CONFIRM_BUTTON 0x40
+#endif
+
 void DuelScene_UpdateResultRewards(void)
 {
     DisplayObject *object;
@@ -198,7 +204,7 @@ side_result:
         SD_SEPlayFull(6);
 show_page:
         Duel_ShowResultPage((s8)D_8009B1E8->page_index);
-    } else if (gInput_wPad1Pressed & 0x40) {
+    } else if (gInput_wPad1Pressed & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
         Fade_SetTargetLevel(0, 6);
         SD_SEPlayFull(0x30);
