@@ -29,7 +29,8 @@ int Movie_StepPlayback(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_MOVIE_MOVE_DISPLAY_IMAGE)
 int Movie_MoveDisplayImage(int first, int second)
 {
     DISPENV local;
