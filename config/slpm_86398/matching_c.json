@@ -26,6 +26,12 @@
       "source": "src/game/japanese/main_run_frame_services.c"
     },
     {
+      "address": "0x80013040",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x20C",
+      "source": "src/game/japanese/main_graphics_startup.c"
+    },
+    {
       "address": "0x800133A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
@@ -1818,6 +1824,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
       "source": "src/game/build_deck_active_card.c"
+    },
+    {
+      "address": "0x8003364C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0xB4",
+      "source": "src/game/japanese/build_deck_update_pane_transition.c"
     },
     {
       "address": "0x80033700",

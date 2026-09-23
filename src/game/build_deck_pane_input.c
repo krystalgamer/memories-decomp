@@ -18,6 +18,7 @@
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"
 
+#ifndef VERSION_JAPAN
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
     CardList *e;
     s32 r;
@@ -130,7 +131,11 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
     SD_SEPlayFull(9);
 }
 
+#endif
+
 #define BUILD_DECK_PANE_TRANSITION_TICKS 16
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BUILD_DECK_PANE_TRANSITION)
 
 void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
 {
@@ -158,3 +163,4 @@ void BuildDeck_UpdatePaneTransition(BuildDeckTransitionState *state)
         state->state = state->next_state;
     }
 }
+#endif

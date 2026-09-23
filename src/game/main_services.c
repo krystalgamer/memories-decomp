@@ -82,7 +82,7 @@ void Main_RunFrameServices(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_GRAPHICS_STARTUP)
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */
@@ -148,6 +148,9 @@ next:
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 /* Debug screen-offset adjustment: zeroes the display origin, raises bit 0x2000
  * of D_8009B098, then advances frames until Start is pressed. While a
