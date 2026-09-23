@@ -9,6 +9,7 @@
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
     (*(type *)&(object)->field_04)
 
+#ifndef VERSION_JAPAN
 void func_80039AFC(DuelEffectChannel *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
@@ -63,7 +64,9 @@ void func_80039BE0(DuelEffectChannel *p)
         p->field_07 = v;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039C94)
 void func_80039C94(DuelEffectChannel *arg0) {
     if (DisplayObjectFade_MarkInitialized(arg0) == 0) {
         s32 a;
@@ -98,3 +101,4 @@ void func_80039C94(DuelEffectChannel *arg0) {
         }
     }
 }
+#endif
