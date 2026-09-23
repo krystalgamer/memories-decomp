@@ -357,7 +357,7 @@ segments:
       - [0x270cc, c, game/japanese/widget_update_pulse_colour]
       - [0x27164, asm, func_80036964]
       - [0x278cc, c, game/japanese/duel_effect_state_six]
-      - [0x27908, asm, func_80037108]
+      - [0x27908, c, game/japanese/duel_effect_state_four]
       - [0x27944, c, game/japanese/duel_effect_wait_for_file_transfer]
       - [0x2797c, asm, func_8003717C]
       - [0x27c2c, c, game/text_box_wrap_line]
