@@ -37,6 +37,9 @@ void func_80039AFC(DuelEffectChannel *record)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039BE0)
 void func_80039BE0(DuelEffectChannel *p)
 {
     s32 v;
