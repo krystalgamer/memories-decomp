@@ -43,7 +43,7 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_HEADER)
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
  * this is the C. Flags: -O2 -G0 -mno-split-addresses, as -G0 (gp == 0, the
@@ -142,7 +142,7 @@ void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SEQUENCE_META_EVENTS)
 void SD_IgnoreSequenceEvent(u8 status)
 {
 }
@@ -248,7 +248,7 @@ void SD_SkipSequenceSysEx(SDSequenceTrack *input)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPATCH_SEQUENCE_CHANNEL_EVENT)
 /* Sequence channel event dispatcher: routes a note off (0x80), note on
    (0x90, a zero velocity is a note off), controller (0xB0), program (0xC0)
    or pitch (0xE0) message to the secondary-object handlers. Controller
