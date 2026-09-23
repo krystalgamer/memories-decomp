@@ -96,6 +96,9 @@ s32 Movie_StopStream(s32 arg0) {
     return 0;
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MOVIE_FRAME_DECODE)
 /* Decodes and presents one movie frame. D_8009B063 marks the stream as
  * finished and D_8009B064 as fading out, in which case the fade level in
  * D_8009B065 drops by 0x40 a frame and the stream ends once it reaches zero.
