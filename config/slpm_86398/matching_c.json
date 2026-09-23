@@ -5132,6 +5132,12 @@
       "source": "src/game/japanese/ai_get_hand_size.c"
     },
     {
+      "address": "0x8006F348",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x8C",
+      "source": "src/game/japanese/ai_winning_card_range.c"
+    },
+    {
       "address": "0x8006F480",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
