@@ -2042,6 +2042,12 @@
       "source": "src/game/japanese/save_data_calc_crc16.c"
     },
     {
+      "address": "0x8003C4D8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xB4",
+      "source": "src/game/japanese/save_data_write_primary_secondary_integrity.c"
+    },
+    {
       "address": "0x8003C58C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
