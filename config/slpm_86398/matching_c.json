@@ -4484,6 +4484,12 @@
       "source": "src/game/japanese/ai_script_jump_not_equal.c"
     },
     {
+      "address": "0x8006F7C8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA8",
+      "source": "src/game/japanese/ai_script_jump_between.c"
+    },
+    {
       "address": "0x8006F9B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",

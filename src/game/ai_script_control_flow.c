@@ -211,7 +211,7 @@ void AiScript_JumpNotEqual(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_JUMP_BETWEEN)
 void AiScript_JumpBetween(void)
 {
     s32 first = AiScript_ReadByte();
@@ -228,7 +228,9 @@ void AiScript_JumpBetween(void)
         gAiScript_State.script_cursor = (u8 *)offset;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void AiScript_JumpRandom(void)
 {
     register s32 *values = gAiScript_aMemory;
