@@ -150,7 +150,12 @@ next:
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_SCREEN_ADJUST)
+/* Held with a direction, this button doubles the adjustment step. The Japanese
+ * release swaps Cross and Circle, so a regional build names its own. */
+#ifndef MAIN_SCREEN_ADJUST_BUTTON
+#define MAIN_SCREEN_ADJUST_BUTTON PAD_BUTTON_CROSS
+#endif
 
 /* Debug screen-offset adjustment: zeroes the display origin, raises bit 0x2000
  * of D_8009B098, then advances frames until Start is pressed. While a
@@ -178,7 +183,7 @@ void func_80013360(void)
 
         if (gInput_wPad1Held & PAD_DIRECTION_MASK) {
             step = 2;
-            if (gInput_wPad1Held & PAD_BUTTON_CROSS) {
+            if (gInput_wPad1Held & MAIN_SCREEN_ADJUST_BUTTON) {
                 step = 4;
             }
             if (gInput_wPad1Held & PAD_DIRECTION_RIGHT) {

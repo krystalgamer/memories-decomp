@@ -91,7 +91,7 @@ segments:
       - [0x34a0, c, game/japanese/graphics_frame]
       - [0x3758, c, game/japanese/main_run_frame_services]
       - [0x3840, c, game/japanese/main_graphics_startup]
-      - [0x3a4c, asm, func_8001324C]
+      - [0x3a4c, c, game/japanese/main_screen_adjust]
       - [0x3ba0, c, game/japanese/main_clear_frame_service_callbacks]
       - [0x3bcc, c, game/view_state_orbit]
       - [0x3dc0, c, game/func_800136D4]
