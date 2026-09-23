@@ -2144,6 +2144,12 @@
       "source": "src/game/japanese/dialog_open_choice.c"
     },
     {
+      "address": "0x80036F80",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xB4",
+      "source": "src/game/japanese/duel_effect_display_wait.c"
+    },
+    {
       "address": "0x800370CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
