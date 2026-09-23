@@ -20,4 +20,6 @@ void Main_AdvanceFrame(void);
    checked, so zero means 2^32. */
 void Main_AdvanceFrames(s32 count);
 
+extern u8 D_8009AF0C;
+
 #endif

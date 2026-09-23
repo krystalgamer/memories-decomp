@@ -164,6 +164,7 @@ gJapanese_DuelBgmId2 = 0x8009B264;
 gJapanese_DisplayObjectStreamCommandTable = 0x80090E9C;
 gDuel_awPlayerDeck = 0x801D0200;
 gJapanese_FrameCounter = 0x8009AF8C;
+D_8009AE4C = 0x8009AE4C;
 gJapanese_DecimalDigitSjisKeys = 0x800102AC;
 gJapanese_DecimalDigitGlyphMap = 0x800EAED8;
 gJapanese_GlyphLookupTableEntries = 0x801D8604;
