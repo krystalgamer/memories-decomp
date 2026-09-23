@@ -30,7 +30,7 @@
 #include "view_state.h"
 #include "../unmatched.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_GUARDIAN_STAR_ORDER)
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
     u8 *grid = D_800907D8;
@@ -69,7 +69,9 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
     }
     return 6;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
     DuelCardRecord *record = &D_801A7AD8[index];
