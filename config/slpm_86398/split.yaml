@@ -573,6 +573,8 @@ segments:
       - [0x3ee44, asm, func_8004E644]
       - [0x3f3f4, c, game/japanese/model_effect_get_coefficient]
       - [0x3f408, asm, func_8004EC08]
+      - [0x3fd80, c, game/japanese/model_effect_transfer_items]
+      - [0x3fe14, asm, func_8004F614]
       - [0x3fe6c, c, game/card_list_render_deck_box_stats]
       - [0x401a4, c, game/func_80060E70]
       - [0x4033c, asm, func_8004FB3C]

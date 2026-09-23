@@ -531,7 +531,9 @@ int func_8005FB14(void)
     }
     return value;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_TRANSFER_ITEMS)
 void func_8005FB30(Key *key)
 {
     u8 *data = KEY_BYTES(key);
@@ -557,7 +559,9 @@ void func_8005FB30(Key *key)
         }
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
 {
     int x = (b - c) * scale;
