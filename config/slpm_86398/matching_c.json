@@ -1106,6 +1106,12 @@
       "source": "src/game/japanese/func_80027DF8.c"
     },
     {
+      "address": "0x80028034",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x40",
+      "source": "src/game/japanese/duel_card_state_reset.c"
+    },
+    {
       "address": "0x800280FC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",
