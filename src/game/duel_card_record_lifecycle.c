@@ -104,10 +104,12 @@ s32 Duel_GetTerrainBoost(s32 cardType)
 
     return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
 }
+#endif
 
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SETUP_CARD_RECORD)
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;
     RECT *q;
