@@ -74,7 +74,7 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_WRITE_PRIMARY_SECONDARY_INTEGRITY)
 void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
