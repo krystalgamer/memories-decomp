@@ -53,7 +53,7 @@ void Main_RunOptionsMenu(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_GAME_OVER)
 void Main_RunGameOver(void)
 {
     u8 flags = D_8009B26C;
@@ -79,7 +79,9 @@ void Main_RunGameOver(void)
         }
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* gMain_apfnModeRunner entry 13: the developer-mode slot's runner is empty in
    the retail build. */
 void Main_RunUnusedDeveloperMode(void)
