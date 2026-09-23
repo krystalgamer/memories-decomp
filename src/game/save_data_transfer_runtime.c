@@ -218,7 +218,7 @@ s32 SaveData_UpdateTradeLoad(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_DUEL_LOAD)
 s32 SaveData_UpdateDuelLoad(void)
 {
     s32 result;
