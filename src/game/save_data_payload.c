@@ -7,6 +7,13 @@
 #include "text_sjis_to_glyph_codes.h"
 #include "util_memory.h"
 
+/* SaveData_ApplyRuntimeState stores the campaign scene index through this
+ * absolute address (the literal form is what matches); a regional build names
+ * its own. */
+#ifndef SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS
+#define SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS 0x8009B27A
+#endif
+
 /* The save payload: sealing it, building it, applying it, and checking it.
 
    Each of the three payload regions is sealed the same way - a CRC-16 over
@@ -186,10 +193,9 @@ void SaveData_BuildPayload(SaveDataPayload *data)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#define gCampaignSceneIndex (*(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS)
 
-#define gCampaignSceneIndex (*(u8 *)0x8009B27A)
-
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_APPLY_RUNTIME_STATE)
 void SaveData_ApplyRuntimeState(SaveDataState *state) {
     Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
