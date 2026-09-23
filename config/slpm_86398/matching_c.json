@@ -3950,6 +3950,12 @@
       "source": "src/game/japanese/movie_step_playback.c"
     },
     {
+      "address": "0x8004CEC0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x5C",
+      "source": "src/game/japanese/movie_move_display_image.c"
+    },
+    {
       "address": "0x8004CF1C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",

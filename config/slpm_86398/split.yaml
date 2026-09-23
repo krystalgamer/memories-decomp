@@ -541,7 +541,7 @@ segments:
       - [0x3d4e0, c, game/movie_stream_requests]
       - [0x3d648, asm, func_8004CE48]
       - [0x3d688, c, game/japanese/movie_step_playback]
-      - [0x3d6c0, asm, func_8004CEC0]
+      - [0x3d6c0, c, game/japanese/movie_move_display_image]
       - [0x3d71c, c, game/japanese/mdec_sync]
       - [0x3d784, asm, func_8004CF84]
       - [0x3d7e8, c, game/func_8005C690]
