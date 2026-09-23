@@ -1679,3 +1679,5 @@ BuildDeck_UpdatePaneTransition = 0x8003364C;
 Main_RunDuel = 0x8002CCC8;
 Duel_InitScene = 0x80017878;
 gJapanese_D_8009B362 = 0x8009B252;
+FntFlush = 0x8007D858;
+Input_ResetPads = 0x8003C1D0;
