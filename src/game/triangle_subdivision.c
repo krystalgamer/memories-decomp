@@ -123,7 +123,9 @@ s16 *func_8006BCA4(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
     out = func_8006BCA4(m0, m1, m2, out, depth);
     return out;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TRIPLET_SUBDIVISION)
 Triplet *func_8006C120(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
 {
     Triplet *result;
