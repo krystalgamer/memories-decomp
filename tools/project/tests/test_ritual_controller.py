@@ -588,6 +588,8 @@ int main(int argc, char **argv)
 def include_prefix(path: Path) -> str:
     # The prefix ends at the unit's first function, DuelEffect_StartRitual.
     text = path.read_text().split("void DuelEffect_StartRitual(void)", 1)[0]
+    # A regional guard opened just above that function belongs to it.
+    text = re.sub(r"^#if [^\n]*\n\Z", "", text, flags=re.MULTILINE)
     return re.sub(
         r'^#include "([^"]+)"',
         lambda match: '#include "' + str((path.parent / match[1]).resolve()) + '"',
