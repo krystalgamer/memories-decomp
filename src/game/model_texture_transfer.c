@@ -24,6 +24,7 @@
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "duel_load_package_stage.h"
 
+#ifndef VERSION_JAPAN
 void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 {
     RECT rect0;
@@ -291,6 +292,9 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TEXTURE_TRANSFER_TAIL)
 /* Two transfer-phase callbacks of the FreeDuel_LoadPackageStage family, kept
    in one translation unit because they are the same routine over different
    assets: each takes the descriptor plus a phase index, and each switch arm
@@ -494,3 +498,4 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
     }
 }
+#endif
