@@ -320,7 +320,7 @@ segments:
       - [0x260d0, c, game/japanese/text_box_lifecycle]
       - [0x261fc, c, game/japanese/duel_effect_clear_occupancy_value]
       - [0x26238, c, game/japanese/duel_effect_reset_occupancy]
-      - [0x26264, asm, func_80035A64]
+      - [0x26264, c, game/japanese/duel_effect_find_occupancy]
       - [0x2630c, c, game/japanese/duel_effect_clear_matching_marker]
       - [0x26348, asm, func_80035B48]
       - [0x26a64, c, game/japanese/text_find_record_by_id]
