@@ -1581,3 +1581,4 @@ Main_RunMenu = 0x8002D368;
 func_8018001C = 0x8018001C;
 func_80180390 = 0x80180390;
 func_80180DD0 = 0x80180DD0;
+Duel_PopulateCombinedDeckData = 0x80024650;
