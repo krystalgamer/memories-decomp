@@ -279,6 +279,8 @@ void AiScript_SetRandom(void) {
 
     gAiScript_aMemory[idx] = rand() % (hi - lo + 1) + lo;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_SUBTRACT)
 void AiScript_Subtract(void){int a=AiScript_ReadByte(),b=AiScript_ReadByte(),c=AiScript_ReadByte();register int*values=gAiScript_aMemory;values[c]=values[a]-values[b];}
 #endif

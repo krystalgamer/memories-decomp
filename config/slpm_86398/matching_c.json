@@ -4310,6 +4310,12 @@
       "source": "src/game/japanese/ai_script_jump.c"
     },
     {
+      "address": "0x8006FAC4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x68",
+      "source": "src/game/japanese/ai_script_subtract.c"
+    },
+    {
       "address": "0x8006FB2C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
