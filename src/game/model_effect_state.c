@@ -199,7 +199,9 @@ s32 func_8005F1B8(s32 level, s32 value)
 
     return value;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_ADJUST)
 void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
     ModelEffectCoefficient *r;
@@ -241,7 +243,9 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 
     func_8005F3B8(arg0, v, r->angle, r->field_04, arg2);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = Model_GetCameraViewBuffer();
