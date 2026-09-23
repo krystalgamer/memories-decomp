@@ -605,6 +605,8 @@ segments:
       - [0x5fd30, c, game/japanese/ai_is_card_in_sets]
       - [0x5fd98, c, game/japanese/ai_script_jump]
       - [0x5fdd0, asm, func_8006F5D0]
+      - [0x601b8, c, game/japanese/ai_script_return]
+      - [0x60230, asm, func_8006FA30]
       - [0x602c4, c, game/japanese/ai_script_subtract]
       - [0x6032c, c, game/ai_script_end]
       - [0x60418, c, game/japanese/ai_script_query_commands]

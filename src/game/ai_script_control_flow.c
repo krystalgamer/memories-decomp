@@ -257,7 +257,9 @@ void AiScript_Call(void) {
         state->script_cursor = (u8 *)val;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_RETURN)
 void AiScript_Return(void) {
     u8 count = gAiScript_State.return_depth;
     if (count != 0) {
@@ -271,7 +273,9 @@ void AiScript_Return(void) {
     for (;;)
         ;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void AiScript_SetRandom(void) {
     s32 lo = AiScript_ReadShort();
     s32 hi = AiScript_ReadShort();
