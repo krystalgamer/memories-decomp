@@ -530,6 +530,12 @@
       "source": "src/game/japanese/duel_load_package_stage.c"
     },
     {
+      "address": "0x8001743C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x130",
+      "source": "src/game/japanese/duel_init_side_states.c"
+    },
+    {
       "address": "0x8001756C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
@@ -2358,6 +2364,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
       "source": "src/game/japanese/display_object_fade_release_channel.c"
+    },
+    {
+      "address": "0x80039254",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xB4",
+      "source": "src/game/japanese/display_object_fade_func_80039be0.c"
     },
     {
       "address": "0x80039308",
