@@ -257,7 +257,7 @@ segments:
       - [0x1d36c, c, game/japanese/main_reset_frontend_runtime]
       - [0x1d3c8, c, game/japanese/main_debug]
       - [0x1d444, c, game/japanese/main_run_campaign]
-      - [0x1d4c8, asm, func_8002CCC8]
+      - [0x1d4c8, c, game/japanese/main_run_duel]
       - [0x1d6c0, c, game/japanese/main_run_duel_and_library]
       - [0x1d760, c, game/japanese/main_run_animated_battle]
       - [0x1d8b8, asm, func_8002D0B8]
