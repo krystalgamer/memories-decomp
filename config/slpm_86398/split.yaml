@@ -180,6 +180,8 @@ segments:
       - [0x11394, asm, func_80020B94]
       - [0x11530, c, game/japanese/duel_result_fly_off]
       - [0x11594, asm, func_80020D94]
+      - [0x11ac8, c, game/japanese/duel_show_result_page]
+      - [0x11ba0, asm, func_800213A0]
       - [0x11e58, c, game/japanese/duel_select_card_drop]
       - [0x11edc, asm, func_800216DC]
       - [0x11f38, c, game/japanese/func_800218F0]

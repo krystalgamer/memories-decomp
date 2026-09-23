@@ -338,6 +338,9 @@ void DuelScene_UpdateResultOutro(void)
    and gcc_2_8_1_g0_split and compile to identical objects at this unit's
    gcc_2_8_1_g8_split. */
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SHOW_RESULT_PAGE)
 void Duel_ShowResultPage(s32 page)
 {
     s32 i;
@@ -371,7 +374,9 @@ void Duel_ShowResultPage(s32 page)
     );
     func_80039A14(object);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
 {
     DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
