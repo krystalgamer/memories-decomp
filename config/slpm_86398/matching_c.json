@@ -5138,6 +5138,12 @@
       "source": "src/game/japanese/ai_winning_card_range.c"
     },
     {
+      "address": "0x8006F3D4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAC",
+      "source": "src/game/japanese/ai_card_range.c"
+    },
+    {
       "address": "0x8006F480",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
