@@ -137,7 +137,7 @@ void AiScript_Jump(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_JUMP_GREATER_EQUAL)
 /* The AI script VM's control-flow opcodes: the six conditional jumps, which
    read register operands and a script-relative offset and move
    gAiScript_State.script_cursor when their test holds, then the call and
@@ -162,7 +162,9 @@ void AiScript_JumpGreaterEqual(void)
         s->script_cursor = (u8 *)offset;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void AiScript_JumpGreater(void)
 {
     s32 a = AiScript_ReadByte();
