@@ -454,6 +454,8 @@ segments:
       - [0x2ff0c, c, game/japanese/display_object_find_free_general_slot]
       - [0x2ff4c, c, game/japanese/display_object_find_free_slot]
       - [0x2ff8c, asm, func_8003F78C]
+      - [0x30270, c, game/japanese/display_object_reset_pool]
+      - [0x302d0, asm, func_8003FAD0]
       - [0x302f0, c, game/japanese/display_object_set_resource_variant]
       - [0x30304, c, game/japanese/display_object_update_resource_variant]
       - [0x3032c, asm, func_8003FB2C]

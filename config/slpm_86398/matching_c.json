@@ -2618,6 +2618,12 @@
       "source": "src/game/japanese/display_object_find_free_slot.c"
     },
     {
+      "address": "0x8003FA70",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x60",
+      "source": "src/game/japanese/display_object_reset_pool.c"
+    },
+    {
       "address": "0x8003FAF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
