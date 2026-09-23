@@ -117,7 +117,9 @@ void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_DISPLAY_WAIT)
 void func_800377C8(DuelEffectChannel *arg0) {
     u8 v = arg0->state_51;
     MenuRecord *p;
@@ -167,7 +169,9 @@ void func_800377C8(DuelEffectChannel *arg0) {
         s->field_44 = -0x10;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Same state_51/bit80 gating as func_800378D8, but additionally calls
    func_80039FD4(D_8009B328) before clearing state_51 when the display-effect
    step is zero. */
