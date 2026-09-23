@@ -3860,6 +3860,12 @@
       "source": "src/game/model_slot_setup.c"
     },
     {
+      "address": "0x80056BBC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE0",
+      "source": "src/game/japanese/model_texture_reset.c"
+    },
+    {
       "address": "0x80059364",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x324",
