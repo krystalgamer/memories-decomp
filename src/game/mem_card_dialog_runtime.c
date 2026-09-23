@@ -20,6 +20,10 @@
 #include "mem_card_dialog_steps.h"
 #include "mem_card_dialog_runtime.h"
 
+#ifndef MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE
+#define MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
+#endif
+
 /* The empty callback, trade write-back operation, and modal runtime that
    drive the operation table. MemCardDialog_Update dispatches the save and
    trade operations through D_80090F9C; all paths share the dialog flags,
@@ -212,7 +216,9 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     return object->field_6C;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_CREATE_OBJECT)
 void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
@@ -226,7 +232,9 @@ void MemCardDialog_CreateObject(void)
             D_8009B3EE = i;
             break;
         }
-        p++;
+        p = (DuelEffectChannel *)(
+            (u8 *)p + MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE
+        );
     }
 
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -237,7 +245,9 @@ void MemCardDialog_CreateObject(void)
     DisplayObject_SetDepthOffset(o, 0xF);
     gMemCard_pDialogObject = o;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void MemCardDialog_Update(void)
 {
     DuelEffectChannel *p;

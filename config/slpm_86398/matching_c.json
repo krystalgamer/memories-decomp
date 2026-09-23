@@ -2138,6 +2138,12 @@
       "source": "src/game/japanese/mem_card_dialog_step_load_unprompted.c"
     },
     {
+      "address": "0x8003EA64",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xCC",
+      "source": "src/game/japanese/mem_card_dialog_create_object.c"
+    },
+    {
       "address": "0x8003EDE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
