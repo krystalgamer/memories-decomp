@@ -25,6 +25,11 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* Stage 7's sector count. A regional build defines its own. */
+#ifndef DUEL_PACKAGE_STAGE7_SECTORS
+#define DUEL_PACKAGE_STAGE7_SECTORS 44
+#endif
+
 void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 {
     u32 flags;
@@ -108,7 +113,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     }
     case 7:
         mask = 0xFFDCFFFF;
-        d->phase_size = 44 * FILE_SECTOR_SIZE;
+        d->phase_size = DUEL_PACKAGE_STAGE7_SECTORS * FILE_SECTOR_SIZE;
         D_8009B0F4_abs &= mask;
         d->value_08 = d->value_0C = (u32)D_800101DC;
         d->done = 1;

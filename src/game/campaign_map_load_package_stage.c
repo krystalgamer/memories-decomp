@@ -13,6 +13,11 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* The package's first sector in WA.MRG. A regional build defines its own. */
+#ifndef CAMPAIGN_MAP_PACKAGE_START_SECTOR
+#define CAMPAIGN_MAP_PACKAGE_START_SECTOR FILE_WA_EGYPT_OVERWORLD_START_SECTOR
+#endif
+
 /* The Campaign Map package load. File_RequestEgyptOverworldPackage queues
    the Egypt overworld package with CampaignMap_LoadPackageStage as its stage
    callback, starting one package length further on the disc once
@@ -75,4 +80,4 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void File_RequestEgyptOverworldPackage(void){int x=0;if(Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE))x=FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT;File_RequestAsyncTransfer(0,0,x+FILE_WA_EGYPT_OVERWORLD_START_SECTOR,FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT,CampaignMap_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestEgyptOverworldPackage(void){int x=0;if(Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE))x=FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT;File_RequestAsyncTransfer(0,0,x+CAMPAIGN_MAP_PACKAGE_START_SECTOR,FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT,CampaignMap_LoadPackageStage,0,0);File_WaitForTransfers();}

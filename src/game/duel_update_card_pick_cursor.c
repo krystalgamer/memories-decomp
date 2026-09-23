@@ -11,6 +11,17 @@
 #include "input.h"
 #include "../unmatched.h"
 
+/* The absolute spellings below are load-bearing (see the two stores in
+ * Duel_UpdateCardPickCursor); the addresses are named so a regional build can
+ * supply its own. */
+#ifndef DUEL_VIEWER_CARD_ID_ADDRESS
+#define DUEL_VIEWER_CARD_ID_ADDRESS 0x8009B246
+#endif
+
+#ifndef DUEL_VIEWER_Y_OFFSET_ADDRESS
+#define DUEL_VIEWER_Y_OFFSET_ADDRESS 0x8009B24B
+#endif
+
 /* Per-frame step for the "pick a card off the field" cursor.
  *
  * D_8009B1D4 (0x2CC($gp)) is the mode byte for this cursor:
@@ -81,8 +92,8 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
                through $at, which the symbolic form does not do. The third
                store, to gDuel_bEffectState, reaches the same $at form through the
                .data arm duel_effect.h declares for it. */
-            *(u16 *) 0x8009B246 = picked;
-            *(u8 *) 0x8009B24B = 0x14;
+            *(u16 *) DUEL_VIEWER_CARD_ID_ADDRESS = picked;
+            *(u8 *) DUEL_VIEWER_Y_OFFSET_ADDRESS = 0x14;
             gDuel_bEffectState = DUEL_EFFECT_STATE_CARD_VIEWER;
         } else if (!(gInput_wPad1Held[0] & PAD_BUTTON_TRIGGER_MASK)) {
             D_8009B162 = 0xC;
