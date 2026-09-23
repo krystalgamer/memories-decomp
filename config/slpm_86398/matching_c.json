@@ -800,6 +800,12 @@
       "source": "src/game/japanese/func_80020BE4.c"
     },
     {
+      "address": "0x80020D30",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x64",
+      "source": "src/game/japanese/duel_result_fly_off.c"
+    },
+    {
       "address": "0x80021738",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",

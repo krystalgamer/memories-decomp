@@ -68,6 +68,7 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
+#ifndef VERSION_JAPAN
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
@@ -108,7 +109,9 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
     arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESULT_FLY_OFF)
 void func_80020EE8(DuelCardDisplayObject *object)
 {
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
@@ -119,7 +122,9 @@ void func_80020EE8(DuelCardDisplayObject *object)
         DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
@@ -485,3 +490,4 @@ void Duel_AwardCard(s32 card_id)
     } while (i >= 0);
     *destination = card_id;
 }
+#endif
