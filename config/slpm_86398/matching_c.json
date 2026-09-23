@@ -104,6 +104,12 @@
       "source": "src/game/japanese/file_command_callback.c"
     },
     {
+      "address": "0x800143A4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xA4",
+      "source": "src/game/japanese/func_800144b8.c"
+    },
+    {
       "address": "0x80014D08",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD0",

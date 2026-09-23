@@ -1575,3 +1575,5 @@ gJapanese_OptionsLayoutPositions = 0x8009AEA4;
 gJapanese_OptionsOutputType = 0x8009B26D;
 gJapanese_OptionsOutputCursor = 0x8009B270;
 gJapanese_OptionsSelectionCursor = 0x8009B278;
+func_800144B8 = 0x800143A4;
+func_800142C8 = 0x800142C8;
