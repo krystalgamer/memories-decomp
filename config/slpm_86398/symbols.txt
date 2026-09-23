@@ -1577,3 +1577,7 @@ gJapanese_OptionsOutputCursor = 0x8009B270;
 gJapanese_OptionsSelectionCursor = 0x8009B278;
 func_800144B8 = 0x800143A4;
 func_800142C8 = 0x800142C8;
+Main_RunMenu = 0x8002D368;
+func_8018001C = 0x8018001C;
+func_80180390 = 0x80180390;
+func_80180DD0 = 0x80180DD0;
