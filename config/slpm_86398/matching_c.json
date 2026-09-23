@@ -2414,10 +2414,22 @@
       "source": "src/game/japanese/file_request_game_over_package.c"
     },
     {
+      "address": "0x8003BAAC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x88",
+      "source": "src/game/japanese/options_init_text_display.c"
+    },
+    {
       "address": "0x8003BB34",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC0",
       "source": "src/game/japanese/options_update_layout.c"
+    },
+    {
+      "address": "0x8003BBF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x178",
+      "source": "src/game/japanese/options_init.c"
     },
     {
       "address": "0x8003BFA4",
