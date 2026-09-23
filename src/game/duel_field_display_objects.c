@@ -191,7 +191,7 @@ void func_8002348C(DuelFieldDisplaySource *source)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_OBJECT)
 void func_800234E4(DuelFieldDisplaySource *source)
 {
     s32 index;
@@ -224,7 +224,9 @@ void func_800234E4(DuelFieldDisplaySource *source)
     object->update = (DisplayObjectCallback)func_80015D18;
     source->object = object;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* The empty do-while loops are scheduling barriers. The first keeps the
  * D_8009B162 load above the entry test and `result = 0` below the view
  * address, so the zero lands in $v0 for the early exit. The second follows
