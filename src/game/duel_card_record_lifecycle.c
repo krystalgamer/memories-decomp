@@ -32,7 +32,7 @@
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_POPULATE_COMBINED_DECK_DATA)
 void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
