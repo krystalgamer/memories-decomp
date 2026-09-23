@@ -174,6 +174,7 @@ last:
 
     func_80052528();
 }
+#endif
 
 #include "../psyq/stdarg.h"
 #include "model.h"
@@ -192,6 +193,7 @@ last:
  * srl and andi ahead of it where the scheduler would otherwise sink them to
  * the end of the block. The saved field_BF5 is one name, `keep`, across both
  * loops. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TINT_PASS)
 void func_800528AC(void)
 {
     ModelTintColor save;
