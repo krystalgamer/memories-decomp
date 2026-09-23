@@ -3,10 +3,13 @@
 #include "model.h"
 #include "model_slot_queries.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_SLOT_ANIMATION_INDEX)
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_MODEL_SLOT_ANIMATION_INDEX) || \
+    defined(VERSION_JAPAN_MODEL_SLOT_ANIMATION_SPEED)
 s32 Model_GetSlotAnimationSpeed(s32 index)
 {
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN) && \
+    !defined(VERSION_JAPAN_MODEL_SLOT_ANIMATION_SPEED)
     return D_800F2C40[index].field_BF5;
 #else
     return D_800F2C40[index].field_E0D;
