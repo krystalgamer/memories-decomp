@@ -1676,3 +1676,6 @@ InitGeom = 0x800859B8;
 Input_InitPads = 0x8003C23C;
 MemCardInit = 0x8008A3A0;
 BuildDeck_UpdatePaneTransition = 0x8003364C;
+Main_RunDuel = 0x8002CCC8;
+Duel_InitScene = 0x80017878;
+gJapanese_D_8009B362 = 0x8009B252;

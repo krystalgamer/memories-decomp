@@ -1352,6 +1352,12 @@
       "source": "src/game/japanese/main_run_campaign.c"
     },
     {
+      "address": "0x8002CCC8",
+      "profile": "gcc_2_8_1_g8_comm",
+      "size": "0x1F8",
+      "source": "src/game/japanese/main_run_duel.c"
+    },
+    {
       "address": "0x8002CEC0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
