@@ -30,7 +30,7 @@
  * pointer; otherwise recurses into the four sub-triangles. The three sums
  * are written before the three halvings on purpose: per-component pairs
  * let gcc forward the first store and the function comes out short. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_VERTEX_SUBDIVISION)
 s16 *func_8006BCA4(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
     s16 A[4];
     s16 B[4];
