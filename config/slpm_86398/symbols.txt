@@ -1660,3 +1660,4 @@ GameOver_LoadPackageStage = 0x8003B8F4;
 Script_OpDuelResult = 0x8002F3D8;
 gJapanese_D_8009B280 = 0x8009B170;
 NameEntry_LoadPackageStage = 0x8003B00C;
+Duel_LoadTerrainPackage = 0x80017818;

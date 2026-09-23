@@ -494,6 +494,12 @@
       "source": "src/game/japanese/func_800178BC.c"
     },
     {
+      "address": "0x80017818",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x60",
+      "source": "src/game/japanese/duel_load_terrain_package.c"
+    },
+    {
       "address": "0x80017C30",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
