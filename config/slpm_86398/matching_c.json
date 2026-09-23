@@ -4490,6 +4490,12 @@
       "source": "src/game/japanese/func_80052528.c"
     },
     {
+      "address": "0x800560C4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x480",
+      "source": "src/game/japanese/model_tint_pass.c"
+    },
+    {
       "address": "0x80056BBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
