@@ -74,6 +74,17 @@
 #include "duel_card_state_helpers.h"
 #include "../unmatched.h"
 
+/* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
+ * Circle, so a regional build names its own. */
+#ifndef DUEL_FIELD_ACTIONS_CONFIRM_MASK
+#define DUEL_FIELD_ACTIONS_CONFIRM_MASK 0xC0
+#endif
+
+/* The cancel button (Circle), swapped the same way. */
+#ifndef DUEL_FIELD_ACTIONS_CANCEL_BUTTON
+#define DUEL_FIELD_ACTIONS_CANCEL_BUTTON 0x20
+#endif
+
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -311,7 +322,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bEffectState = 2;
             return;
         }
-        if (gInput_wPad1Pressed & 0xC0) {
+        if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CONFIRM_MASK) {
             if (side->row == 2) {
                 if (D_8009B1C8->swords_turns_remaining != 0) {
                     SD_SEPlayFull(9);
@@ -436,7 +447,7 @@ void DuelScene_UpdateFieldActions(void)
         if (DuelCursor_UpdateFromInput((DuelCursorStatus *)side) != 0) {
             return;
         }
-        if (gInput_wPad1Pressed & 0x20) {
+        if (gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CANCEL_BUTTON) {
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][FIELD_CURSOR.field_18][FIELD_CURSOR.row]);
             o = (u8 *)side->cursor_object;
@@ -458,7 +469,7 @@ void DuelScene_UpdateFieldActions(void)
             gDuel_bEffectState = 2;
             return;
         }
-        if (!(gInput_wPad1Pressed & 0xC0)) {
+        if (!(gInput_wPad1Pressed & DUEL_FIELD_ACTIONS_CONFIRM_MASK)) {
             return;
         }
         D_8009B229 = 0;
