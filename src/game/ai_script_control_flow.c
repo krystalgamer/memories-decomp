@@ -10,7 +10,7 @@
 #include "ai_script_source_line_format.h"
 #include "../unmatched.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_WINNING_CARD_RANGE)
 void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;
@@ -41,7 +41,9 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
 
     *high = value;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
 {
     s32 value;
