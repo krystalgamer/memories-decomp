@@ -1,0 +1,8 @@
+#include "../../types.h"
+
+#define VERSION_JAPAN
+#define VERSION_JAPAN_DEBUG_EFFECT_SCREEN_INPUT
+#define DEBUG_EFFECT_FAST_STEP_BUTTON PAD_BUTTON_CIRCLE
+#define DEBUG_EFFECT_FAST_MOVE_BUTTON PAD_BUTTON_CROSS
+#define func_800220B8 func_80021F00
+#include "../debug_effect_screen.c"
