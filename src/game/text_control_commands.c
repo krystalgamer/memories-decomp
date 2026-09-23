@@ -160,6 +160,7 @@ void Text_EndStream(DuelEffectChannel *record)
         record->flags_34 = flags;
     }
 }
+#endif
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
@@ -167,6 +168,7 @@ void Text_EndStream(DuelEffectChannel *record)
    the third), and depending on the flags either stops it (bit 7), adjusts a
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_DISPLAY_EFFECT)
 void Text_HandleDisplayEffectCommand(EffectObject *o) {
     MenuRecord *e;
     s32 id;

@@ -410,6 +410,8 @@ segments:
       - [0x28bcc, asm, func_800383CC]
       - [0x28cd4, c, game/japanese/text_new_line]
       - [0x28d34, asm, func_80038534]
+      - [0x28d68, c, game/japanese/text_display_effect]
+      - [0x28ff8, asm, func_800387F8]
       - [0x297a8, c, game/text_box_runtime]
       - [0x29920, c, game/japanese/display_object_fade_mark_initialized]
       - [0x29948, c, game/japanese/display_object_fade_release_channel]

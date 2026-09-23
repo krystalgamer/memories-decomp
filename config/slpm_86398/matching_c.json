@@ -2372,6 +2372,12 @@
       "source": "src/game/japanese/text_new_line.c"
     },
     {
+      "address": "0x80038568",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x290",
+      "source": "src/game/japanese/text_display_effect.c"
+    },
+    {
       "address": "0x80038FA8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xE0",
