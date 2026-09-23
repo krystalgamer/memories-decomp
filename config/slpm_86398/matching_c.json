@@ -2240,6 +2240,12 @@
       "source": "src/game/japanese/save_data_write_tertiary_integrity.c"
     },
     {
+      "address": "0x8003C738",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x114",
+      "source": "src/game/japanese/save_data_validate_integrity.c"
+    },
+    {
       "address": "0x8003C84C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
