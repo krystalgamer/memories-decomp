@@ -205,7 +205,9 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
         SD_SetOutputType((s8)output_type);
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_VALIDATE_INTEGRITY)
 s32 SaveData_ValidateIntegrity(u8 *data)
 {
     s32 seed;
