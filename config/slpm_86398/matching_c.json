@@ -4196,6 +4196,12 @@
       "source": "src/game/color_transform.c"
     },
     {
+      "address": "0x8005E68C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xC8",
+      "source": "src/game/japanese/model_animation_packet_handler.c"
+    },
+    {
       "address": "0x8005E754",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
