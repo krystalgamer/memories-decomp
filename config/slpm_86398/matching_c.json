@@ -4544,6 +4544,18 @@
       "source": "src/game/japanese/model_load_monster_merge.c"
     },
     {
+      "address": "0x8005A374",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x26C",
+      "source": "src/game/japanese/model_texture_transfer_tail.c"
+    },
+    {
+      "address": "0x8005A5E0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x344",
+      "source": "src/game/japanese/model_texture_transfer_tail.c"
+    },
+    {
       "address": "0x8005A924",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
