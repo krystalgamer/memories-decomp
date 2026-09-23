@@ -1694,6 +1694,7 @@ DuelScene_UpdateResultRewards = 0x80021738;
 Duel_ShowResultPage = 0x800212C8;
 Duel_CalcRankScore = 0x800213E0;
 Duel_SelectCardDrop = 0x80021658;
+D_8018878C = 0x8018878C;
 Duel_AwardCard = 0x800216DC;
 D_8009B1D8 = 0x8009B0C8;
 D_8009B1E8 = 0x8009B0D8;

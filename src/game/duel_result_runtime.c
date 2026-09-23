@@ -454,7 +454,9 @@ void Duel_CalcRankScore(void) {
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SELECT_CARD_DROP)
 s32 Duel_SelectCardDrop(s32 pool_index)
 {
     DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
@@ -469,7 +471,9 @@ s32 Duel_SelectCardDrop(s32 pool_index)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
