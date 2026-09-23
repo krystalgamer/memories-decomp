@@ -209,7 +209,7 @@ void func_80037914(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_EFFECT_STATE_FOUR)
 void func_80037950(DuelEffectChannel *object)
 {
     u8 flags = D_8009B328->field_32;
