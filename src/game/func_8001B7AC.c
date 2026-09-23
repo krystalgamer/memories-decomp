@@ -24,7 +24,7 @@ void func_8001B780(DuelHandStackState *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_HAND_STACK_CHILD)
 void func_8001B7AC(DuelHandStackState *arg)
 {
  register DuelHandStackState*object=arg;register DuelHandSlot*slot=&D_800EA030[object->slot_index];register DuelCardDisplayObject*child;

@@ -36,6 +36,7 @@
 
 #ifndef VERSION_JAPAN
 s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
+#endif
 
 /* Per-frame dispatcher: runs the two fixed housekeeping calls, then each of
    the 4 slots in D_800E9DB0 and the single D_8009B0B8 callback if set. If
@@ -43,6 +44,7 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
    and re-syncs both progress pairs. Finishes with
    File_ServiceTransfers/func_800136D4. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_FRAME_SERVICES)
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
@@ -78,6 +80,9 @@ void Main_RunFrameServices(void) {
     File_ServiceTransfers(0);
     func_800136D4();
 }
+#endif
+
+#ifndef VERSION_JAPAN
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */

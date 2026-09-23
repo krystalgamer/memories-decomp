@@ -228,7 +228,7 @@ void func_80017E3C(DuelCardDisplayObject *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017F04)
 u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p =
