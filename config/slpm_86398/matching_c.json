@@ -2042,6 +2042,12 @@
       "source": "src/game/japanese/widget_update_pulse_colour.c"
     },
     {
+      "address": "0x800370CC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x3C",
+      "source": "src/game/japanese/duel_effect_state_six.c"
+    },
+    {
       "address": "0x80037144",
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
