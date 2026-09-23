@@ -97,6 +97,7 @@ segments:
       - [0x4314, asm, func_80013B14]
       - [0x490c, c, game/japanese/file_command_callback]
       - [0x4980, asm, func_80014180]
+      - [0x4ac8, c, game/japanese/file_activate_transfer]
       - [0x4ba4, c, game/japanese/func_800144b8]
       - [0x4c48, asm, func_80014448]
       - [0x5148, c, game/japanese/file_service_transfers]

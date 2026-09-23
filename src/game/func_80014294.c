@@ -58,7 +58,9 @@ void func_80014390(u8 event, u8 *result)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_POSITION_QUERY_BUSY;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_ACTIVATE_TRANSFER)
 void File_ActivateTransfer(void)
 {
     *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
