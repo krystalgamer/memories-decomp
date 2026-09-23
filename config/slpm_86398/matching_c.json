@@ -8,6 +8,12 @@
       "source": "src/game/japanese/main_init.c"
     },
     {
+      "address": "0x80012BC0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x78",
+      "source": "src/game/japanese/main_vblank_cb.c"
+    },
+    {
       "address": "0x80012CA0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
