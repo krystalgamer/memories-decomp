@@ -141,12 +141,16 @@ void func_8005F070(s32 enabled)
         }
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_GET)
 s32 func_8005F174(void)
 {
     return D_8009B07B;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F180(s32 value)
 {
     D_8009B07B = value;
