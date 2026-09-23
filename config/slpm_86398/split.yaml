@@ -391,6 +391,8 @@ segments:
       - [0x28894, asm, func_80038094]
       - [0x2896c, c, game/japanese/text_unlock_duelist]
       - [0x289c4, asm, func_800381C4]
+      - [0x28cd4, c, game/japanese/text_new_line]
+      - [0x28d34, asm, func_80038534]
       - [0x297a8, c, game/text_box_runtime]
       - [0x29920, c, game/japanese/display_object_fade_mark_initialized]
       - [0x29948, c, game/japanese/display_object_fade_release_channel]
