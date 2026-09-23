@@ -20,6 +20,12 @@
       "source": "src/game/japanese/graphics_frame.c"
     },
     {
+      "address": "0x80012F58",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE8",
+      "source": "src/game/japanese/main_run_frame_services.c"
+    },
+    {
       "address": "0x800133A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
