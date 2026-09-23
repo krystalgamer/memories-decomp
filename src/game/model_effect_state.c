@@ -34,7 +34,7 @@
    key when that one is kind 1. With `den` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
    Horner-evaluated at scale/den and added to the constant term. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_KEYFRAME_SPLINE)
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
@@ -98,7 +98,9 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         out[i] = co[i].w + v;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
