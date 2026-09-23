@@ -9,6 +9,13 @@
 #define D_8009B_DISPLAY_OBJECTS_VISIBLE
 #include "../unmatched.h"
 
+/* The cancel button. The Japanese release swaps Cross and Circle, so a regional
+ * build names its own. The function's combined confirm|cancel test is 0xE0 in
+ * both builds and keeps its spelling. */
+#ifndef FUNC_80020988_CANCEL_BUTTON
+#define FUNC_80020988_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+
 s32 func_80020988(void) {
     DisplayObject *q;
     s32 one;
@@ -97,7 +104,7 @@ s32 func_80020988(void) {
          (PAD_BUTTON_CONFIRM_MASK | PAD_BUTTON_CANCEL)) != 0) {
         DisplayObject_ReleaseIfPresent(D_8009B188);
         DisplayObject_ReleaseIfPresent(D_8009B18C);
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+        if ((gInput_wPad1Pressed & FUNC_80020988_CANCEL_BUTTON) != 0) {
             return -1;
         }
         if (q->field_20.b.field_21 == 0) {

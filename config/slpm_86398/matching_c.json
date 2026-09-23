@@ -770,6 +770,12 @@
       "source": "src/game/japanese/duel_scene_turn_switch.c"
     },
     {
+      "address": "0x800207D0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x25C",
+      "source": "src/game/japanese/func_80020988.c"
+    },
+    {
       "address": "0x80020A2C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x168",
@@ -2058,6 +2064,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
       "source": "src/game/japanese/widget_update_pulse_colour.c"
+    },
+    {
+      "address": "0x80036964",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1B4",
+      "source": "src/game/japanese/dialog_update_choice.c"
     },
     {
       "address": "0x800370CC",
