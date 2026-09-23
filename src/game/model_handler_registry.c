@@ -236,7 +236,7 @@ s32 Model_FindHandlerKey(s32 val) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_PROCESS_TYPE2_UNIT)
 void Model_ProcessType2Unit(
     s32 model_index, ModelTypeUnit *unit, u8 *scratch)
 {

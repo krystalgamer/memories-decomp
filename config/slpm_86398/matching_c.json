@@ -4424,6 +4424,12 @@
       "source": "src/game/japanese/model_interpolate_transform.c"
     },
     {
+      "address": "0x8005F980",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1BC",
+      "source": "src/game/japanese/model_process_type2_unit.c"
+    },
+    {
       "address": "0x8005FB3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x40",
