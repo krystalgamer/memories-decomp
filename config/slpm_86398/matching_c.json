@@ -2330,6 +2330,30 @@
       "source": "src/game/japanese/display_effect_position_interpolation.c"
     },
     {
+      "address": "0x8003A17C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x164",
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003A2E0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x124",
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003A404",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x2E8",
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003A6EC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x324",
+      "source": "src/game/japanese/display_effect_update_callbacks.c"
+    },
+    {
       "address": "0x8003AA10",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x194",

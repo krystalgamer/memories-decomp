@@ -124,7 +124,7 @@ void func_8003A990(MenuRecord *p)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_UPDATE_CALLBACKS)
 void func_8003AAE4(MenuRecord *p) {
     DisplayObject *q;
     s32 *e;
