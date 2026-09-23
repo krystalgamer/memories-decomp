@@ -3950,6 +3950,12 @@
       "source": "src/game/model_slot_setup.c"
     },
     {
+      "address": "0x80055D7C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x16C",
+      "source": "src/game/japanese/func_80052528.c"
+    },
+    {
       "address": "0x80056BBC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",

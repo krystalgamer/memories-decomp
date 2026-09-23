@@ -39,6 +39,7 @@
    follows them, func_800528AC, closes this file; the camera-move setup and
    the scene reset/configuration after it are in func_80052D2C.c. */
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052528)
 void func_80052528(void) {
     GsRVIEW2 *view;
     s32 x;
@@ -88,7 +89,9 @@ void func_80052528(void) {
         func_80058434(1, 0, -4, 0, 0);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80052694(s32 arg0) {
     ModelCameraMove *e;
     ModelCameraMove *g;
@@ -287,3 +290,4 @@ tail:
         }
     }
 }
+#endif

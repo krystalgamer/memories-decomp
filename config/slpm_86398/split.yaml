@@ -546,6 +546,8 @@ segments:
       - [0x45128, asm, func_80054928]
       - [0x453a4, c, game/func_80051350]
       - [0x45a9c, asm, func_8005529C]
+      - [0x4657c, c, game/japanese/func_80052528]
+      - [0x466e8, asm, func_80055EE8]
       - [0x473bc, c, game/japanese/model_texture_reset]
       - [0x4749c, asm, func_80056C9C]
       - [0x48dd0, c, game/func_800556E8]
