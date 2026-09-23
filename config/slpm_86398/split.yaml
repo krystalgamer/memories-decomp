@@ -620,7 +620,7 @@ segments:
       - [0x5ff4c, c, game/japanese/ai_script_jump_not_equal]
       - [0x5ffc8, c, game/japanese/ai_script_jump_between]
       - [0x60070, c, game/japanese/ai_script_jump_random]
-      - [0x60110, asm, func_8006F910]
+      - [0x60110, c, game/japanese/ai_script_call]
       - [0x601b8, c, game/japanese/ai_script_return]
       - [0x60230, c, game/japanese/ai_script_set_random]
       - [0x602c4, c, game/japanese/ai_script_subtract]

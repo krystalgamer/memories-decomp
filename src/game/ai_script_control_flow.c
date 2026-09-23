@@ -247,7 +247,7 @@ void AiScript_JumpRandom(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_CALL)
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();
 
