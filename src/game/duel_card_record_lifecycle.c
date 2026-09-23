@@ -91,7 +91,7 @@ void DuelCard_RemoveFromField(DuelCardRecord *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_GET_TERRAIN_BOOST)
 /* Same byte, distinct compiler identity: keep both address materializations. */
 
 s32 Duel_GetTerrainBoost(s32 cardType)
