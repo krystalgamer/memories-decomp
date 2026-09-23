@@ -287,6 +287,7 @@ segments:
       - [0x1e218, asm, func_8002DA18]
       - [0x1e358, c, game/japanese/main_loop]
       - [0x1e3e0, asm, func_8002DBE0]
+      - [0x1e644, c, game/japanese/script_image_create_object]
       - [0x1e70c, c, game/script_image_rebuild]
       - [0x1e954, c, game/duel_effect_mark_object_if_active]
       - [0x1e998, c, game/script_command_busy]
