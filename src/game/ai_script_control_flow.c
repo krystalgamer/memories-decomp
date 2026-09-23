@@ -164,7 +164,7 @@ void AiScript_JumpGreaterEqual(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_JUMP_GREATER)
 void AiScript_JumpGreater(void)
 {
     s32 a = AiScript_ReadByte();
