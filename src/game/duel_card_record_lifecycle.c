@@ -180,9 +180,11 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
 
     return (u8 *)p;
 }
+#endif
 
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80024C1C)
 DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
     u32 desc;

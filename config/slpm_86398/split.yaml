@@ -188,6 +188,7 @@ segments:
       - [0x14f40, c, game/japanese/duel_card_deactivate_record]
       - [0x14f80, c, game/japanese/duel_card_remove_from_field]
       - [0x14fa8, asm, func_800247A8]
+      - [0x15248, c, game/japanese/func_80024c1c]
       - [0x15360, c, game/japanese/func_80024d34]
       - [0x153f4, c, game/japanese/func_80024DC8]
       - [0x15450, c, game/duel_action_lock]
