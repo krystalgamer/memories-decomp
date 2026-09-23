@@ -530,6 +530,12 @@
       "source": "src/game/japanese/func_8001944C.c"
     },
     {
+      "address": "0x80019484",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x400",
+      "source": "src/game/japanese/func_80019608.c"
+    },
+    {
       "address": "0x80019884",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x58",
@@ -1400,6 +1406,12 @@
       "source": "src/game/script_command_busy.c"
     },
     {
+      "address": "0x8002E254",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x13C",
+      "source": "src/game/japanese/script_op_load_image_scene.c"
+    },
+    {
       "address": "0x8002E490",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
@@ -1736,6 +1748,18 @@
       "source": "src/game/build_deck_deck_capacity.c"
     },
     {
+      "address": "0x80033738",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x218",
+      "source": "src/game/japanese/func_800339D0.c"
+    },
+    {
+      "address": "0x80033950",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xA8",
+      "source": "src/game/japanese/func_800339D0.c"
+    },
+    {
       "address": "0x800339F8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18",
@@ -2012,6 +2036,12 @@
       "source": "src/game/japanese/duel_effect_basic_commands.c"
     },
     {
+      "address": "0x80037F94",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xEC",
+      "source": "src/game/japanese/func_800388D8.c"
+    },
+    {
       "address": "0x80038080",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
@@ -2142,6 +2172,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC0",
       "source": "src/game/japanese/options_update_layout.c"
+    },
+    {
+      "address": "0x8003BFA4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x10C",
+      "source": "src/game/japanese/game_over.c"
+    },
+    {
+      "address": "0x8003C0B0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x120",
+      "source": "src/game/japanese/game_over.c"
     },
     {
       "address": "0x8003C3BC",
