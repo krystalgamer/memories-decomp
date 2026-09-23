@@ -77,6 +77,7 @@ D_8009B3C6 = 0x8009B2B6;
 MemCardDialog_UpdateLoad = 0x8003DA34;
 MemCardDialog_StepLoadUnprompted = 0x8003DDB0;
 gJapanese_MemCardDialogStepState = 0x8009B2DB;
+MemCardDialog_CreateObject = 0x8003EA64;
 MemCardDialog_Update = 0x8003EB30;
 MemCardDialog_Poll = 0x8003EDE0;
 D_8009B3EF = 0x8009B2DF;
