@@ -4352,6 +4352,12 @@
       "source": "src/game/japanese/ai_script_jump.c"
     },
     {
+      "address": "0x8006F6D0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/game/japanese/ai_script_jump_equal.c"
+    },
+    {
       "address": "0x8006F9B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
