@@ -992,6 +992,7 @@ func_80017E3C = 0x80017CB8;
 Duel_ApplyCardObjectFlags = 0x80017EFC;
 func_80016784 = 0x80016670;
 Duel_DrawCardAtOutputPosition = 0x80016BF0;
+File_ServiceTransfers = 0x80014948;
 File_RequestAsyncTransfer = 0x80014D08;
 File_RequestMainMenuPackage = 0x80069B40;
 gJapanese_MainMenuLoadPackageStage = 0x80069930;

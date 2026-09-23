@@ -246,7 +246,9 @@ call_back:
     }
     D_8009B0F4 = D_8009B0F4 | 0x180;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_SERVICE_TRANSFERS)
 void File_ServiceTransfers(s32 arg0)
 {
     if (D_8009B124 != 0) {
@@ -274,7 +276,9 @@ void File_ServiceTransfers(s32 arg0)
     }
     D_8009B0E8 = 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* SD_ConfigureTransferPhase is a transfer-phase callback of the same family as
    func_80057544 and func_80057728: func_80014C40 below installs it through
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first

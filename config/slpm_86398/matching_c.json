@@ -116,6 +116,12 @@
       "source": "src/game/japanese/func_800144b8.c"
     },
     {
+      "address": "0x80014948",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD4",
+      "source": "src/game/japanese/file_service_transfers.c"
+    },
+    {
       "address": "0x80014D08",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD0",
