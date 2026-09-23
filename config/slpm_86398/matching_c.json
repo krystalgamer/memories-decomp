@@ -734,6 +734,12 @@
       "source": "src/game/display_parent_links.c"
     },
     {
+      "address": "0x80022ED8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xB4",
+      "source": "src/game/japanese/duel_field_guardian_star_order.c"
+    },
+    {
       "address": "0x800232D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
