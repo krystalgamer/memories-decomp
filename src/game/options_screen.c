@@ -36,13 +36,19 @@
    .data arm of that declaration, which leaves the assembler threshold with
    nothing to decide. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_INIT_TEXT_DISPLAY)
+/* The options screen's text box string; the Japanese string table numbers
+ * it differently, so a regional build names its own. */
+#ifndef OPTIONS_TEXT_BOX_STRING
+#define OPTIONS_TEXT_BOX_STRING 0xEF
+#endif
+
 void Options_InitTextDisplay(s32 arg0) {
     u8 *t = gText_abColorSlots;
     t[0]=4; t[1]=4; t[2]=4; t[3]=4; t[4]=4;
     t[arg0]=0;
     if (arg0 != 0) t[3]=2; else t[4]=2;
-    TextBox_Create(1,0xEF,0x18,0x38,0x120,0x100);
+    TextBox_Create(1,OPTIONS_TEXT_BOX_STRING,0x18,0x38,0x120,0x100);
     func_80039A14(&D_800EB15C);
 }
 #endif
@@ -77,7 +83,7 @@ void Options_UpdateLayout(s32 selection) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_INIT)
 /* Creates 3 objects via DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),
    kind) and configures each: obj1 gets an 8-arg DisplayObject_ConfigureSpriteAtPositionWithResource setup
    plus a DisplayObject_SetDepthOffset(obj1, -5), then sets the options state and output type
@@ -134,6 +140,9 @@ void Options_Init(void) {
     }
     SD_BGMPlay(0x7350);
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 /* Retail performs a fresh absolute load for each input-state test. */
 
