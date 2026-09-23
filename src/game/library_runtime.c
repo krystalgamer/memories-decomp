@@ -501,6 +501,9 @@ void func_8002BAA0(u8 *value)
     *value = 1;
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)
 void func_8002BAAC(u8 *value)
 {
 }
@@ -592,6 +595,9 @@ void func_8002BAB4(void)
         break;
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 /* The latter three Library functions in address order: the package-transfer
    callback, the pass that marks every owned card in the screen's state, and
