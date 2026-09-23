@@ -603,6 +603,7 @@ AiScript_JumpGreater = 0x8006F650;
 AiScript_JumpEqual = 0x8006F6D0;
 AiScript_JumpNotEqual = 0x8006F74C;
 AiScript_JumpBetween = 0x8006F7C8;
+AiScript_JumpRandom = 0x8006F870;
 AiScript_Return = 0x8006F9B8;
 AiScript_SetRandom = 0x8006FA30;
 AiScript_Subtract = 0x8006FAC4;
