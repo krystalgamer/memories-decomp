@@ -950,6 +950,12 @@
       "source": "src/game/japanese/duel_effect_mark_state_initialized.c"
     },
     {
+      "address": "0x80028124",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDC",
+      "source": "src/game/japanese/duel_effect_update_dialog_state.c"
+    },
+    {
       "address": "0x80028200",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",

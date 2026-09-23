@@ -194,7 +194,7 @@ segments:
       - [0x1840c, c, game/japanese/func_80027DF8]
       - [0x18834, asm, func_80028034]
       - [0x188fc, c, game/japanese/duel_effect_mark_state_initialized]
-      - [0x18924, asm, func_80028124]
+      - [0x18924, c, game/japanese/duel_effect_update_dialog_state]
       - [0x18a00, c, game/func_800283EC]
       - [0x18a08, asm, func_80028208]
       - [0x18f0c, c, game/duel_effect_update_state]
