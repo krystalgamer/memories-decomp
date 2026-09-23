@@ -4520,6 +4520,12 @@
       "source": "src/game/model_subdivided_effect.c"
     },
     {
+      "address": "0x8006AD30",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1DC",
+      "source": "src/game/japanese/triplet_subdivision.c"
+    },
+    {
       "address": "0x8006AF0C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
