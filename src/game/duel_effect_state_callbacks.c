@@ -35,7 +35,9 @@ void func_800374A8(DuelEffectChannel *object)
         object->state_51 = 0x82;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DIALOG_OPEN_CHOICE)
 DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 {
     DisplayObject *cursor = DisplayObject_AcquireSlot(
@@ -58,7 +60,9 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
     DisplayObject_SetDepthOffset(cursor, (s8)(record->field_59 + 1));
     return cursor;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800375A4(DuelEffectChannel*o){unsigned char f=o->state_51;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->state_51=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;D_8009B32C=10;o->field_30=Dialog_OpenChoice(o);}else{if(gInput_wPad1Held[0]&PAD_BUTTON_SQUARE){D_8009B32C--;if(D_8009B32C<0)D_8009B32C=0;}else D_8009B32C=10;if(D_8009B32C!=0&&!(gInput_wPad1Pressed[0]&PAD_BUTTON_CONFIRM_MASK))return;SD_SEPlayFull(11);o->state_51=2;DisplayObject_ReleaseIfPresent(o->field_30);o->field_30=0;}}
 
 void func_8003767C(DuelEffectChannel *state)
