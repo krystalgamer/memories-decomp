@@ -2138,6 +2138,12 @@
       "source": "src/game/japanese/func_8003A01C.c"
     },
     {
+      "address": "0x80039AC0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x120",
+      "source": "src/game/japanese/display_effect_resource_state.c"
+    },
+    {
       "address": "0x80039FB8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",
