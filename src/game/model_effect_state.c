@@ -245,7 +245,7 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_CAMERA)
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = Model_GetCameraViewBuffer();
@@ -277,7 +277,9 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
     func_8005F070(1);
     func_80059EBC(-1);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 int func_8005F564(void)
 {
     if (D_8009B07A < 0) {
