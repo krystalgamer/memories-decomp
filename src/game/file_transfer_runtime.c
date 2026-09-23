@@ -22,7 +22,7 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_SECONDARY_RANGE_TRANSFER)
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     s32 a,
     s32 b,
@@ -50,7 +50,9 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return p;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void File_TransferReadyCallback(s32 arg)
 {
     s32 event;
