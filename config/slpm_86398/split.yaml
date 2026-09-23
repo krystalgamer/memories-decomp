@@ -590,7 +590,7 @@ segments:
       - [0x4c3f0, c, game/japanese/model_state_getters]
       - [0x4c408, c, game/func_80058DD8]
       - [0x4c44c, c, game/func_80058E1C]
-      - [0x4c46c, asm, func_8005BC6C]
+      - [0x4c46c, c, game/japanese/model_get_slot_animation_speed]
       - [0x4c498, c, game/japanese/model_get_slot_animation_index]
       - [0x4c4c4, asm, func_8005BCC4]
       - [0x4c550, c, game/model_slot_support]
