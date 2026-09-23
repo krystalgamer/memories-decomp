@@ -99,6 +99,8 @@ segments:
       - [0x4980, asm, func_80014180]
       - [0x4ba4, c, game/japanese/func_800144b8]
       - [0x4c48, asm, func_80014448]
+      - [0x5148, c, game/japanese/file_service_transfers]
+      - [0x521c, asm, func_80014A1C]
       - [0x5508, c, game/japanese/file_transfer_flags]
       - [0x589c, c, game/japanese/fade_init]
       - [0x58c4, c, game/japanese/fade_step_bands]
