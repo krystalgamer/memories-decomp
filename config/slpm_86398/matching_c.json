@@ -4448,6 +4448,12 @@
       "source": "src/game/japanese/ai_script_return.c"
     },
     {
+      "address": "0x8006FA30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x94",
+      "source": "src/game/japanese/ai_script_set_random.c"
+    },
+    {
       "address": "0x8006FAC4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",

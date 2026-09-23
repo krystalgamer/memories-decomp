@@ -283,7 +283,7 @@ void AiScript_Return(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SCRIPT_SET_RANDOM)
 void AiScript_SetRandom(void) {
     s32 lo = AiScript_ReadShort();
     s32 hi = AiScript_ReadShort();
