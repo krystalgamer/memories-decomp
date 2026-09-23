@@ -16,6 +16,12 @@
 #include "duel_effect.h"
 #include "widget_update_pulse_colour.h"
 
+/* The confirm buttons. The Japanese release swaps Cross and Circle, so a
+ * regional build names its own. */
+#ifndef DIALOG_UPDATE_CHOICE_CONFIRM_MASK
+#define DIALOG_UPDATE_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 void Dialog_UpdateChoice(DuelEffectChannel *p) {
     DisplayObject *e;
     s32 f;
@@ -63,7 +69,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         if (Dialog_ReadChoiceInput(p) != 0) {
             return;
         }
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
+        if ((gInput_wPad1Pressed & DIALOG_UPDATE_CHOICE_CONFIRM_MASK) == 0) {
             return;
         }
     }
