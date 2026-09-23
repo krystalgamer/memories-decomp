@@ -2330,6 +2330,12 @@
       "source": "src/game/japanese/text_unlock_duelist.c"
     },
     {
+      "address": "0x800382A8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x124",
+      "source": "src/game/japanese/text_handle_choice.c"
+    },
+    {
       "address": "0x800384D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
