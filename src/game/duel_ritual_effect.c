@@ -38,6 +38,7 @@
 #include "duel_effect_resource_setup.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_START_RITUAL)
 void DuelEffect_StartRitual(void)
 {
     if (!DuelEffect_MarkInitialized()) {
@@ -58,6 +59,9 @@ void DuelEffect_StartRitual(void)
         gDuel_wCardEffectFlags = 0;
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void DuelEffect_ApplyRitual(void)
 {
@@ -288,3 +292,4 @@ done:
     }
     }
 }
+#endif
