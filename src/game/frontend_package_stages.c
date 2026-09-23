@@ -5,6 +5,7 @@
 #include "file_transfer.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_LOAD_PACKAGE_STAGE)
 /* The Options package load. File_RequestOptionsPackage queues the package
    transfer with Options_LoadPackageStage as its stage callback, then loads
    a second 0x10-sector block. */
@@ -55,9 +56,15 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void File_RequestOptionsPackage(void){File_RequestAsyncTransfer(0,0,0x2115,0x32,Options_LoadPackageStage,0,0);File_WaitForTransfers();File_RequestAsyncTransfer(0,0,0x2147,0x10,0,0,(int)0x80140000);File_WaitForTransfers();}
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_GAME_OVER_LOAD_PACKAGE_STAGE)
 void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
@@ -96,3 +103,4 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
     }
 }
+#endif

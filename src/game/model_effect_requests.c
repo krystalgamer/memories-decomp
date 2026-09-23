@@ -75,6 +75,9 @@ void func_8005A074(s32 value)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_CAMERA_SPEED)
 void func_8005A0DC(s32 value)
 {
     s32 state = func_8005F174();
@@ -83,6 +86,9 @@ void func_8005A0DC(s32 value)
         D_800F2B22 = value * 2;
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void func_8005A130(s32 value)
 {

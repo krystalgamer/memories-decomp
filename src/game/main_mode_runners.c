@@ -81,12 +81,15 @@ void Main_RunGameOver(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_UNUSED_DEVELOPER_MODE)
 /* gMain_apfnModeRunner entry 13: the developer-mode slot's runner is empty in
    the retail build. */
 void Main_RunUnusedDeveloperMode(void)
 {
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void Main_RunTrade(void)
 {
