@@ -134,6 +134,12 @@
       "source": "src/game/japanese/file_service_transfers.c"
     },
     {
+      "address": "0x80014A1C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x110",
+      "source": "src/game/japanese/sd_configure_transfer_phase.c"
+    },
+    {
       "address": "0x80014D08",
       "profile": "gcc_2_8_1_g8",
       "size": "0xD0",

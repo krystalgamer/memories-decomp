@@ -168,6 +168,7 @@ gJapanese_DecimalDigitGlyphMap = 0x800EAED8;
 gJapanese_GlyphLookupTableEntries = 0x801D8604;
 gJapanese_NotePitchTable = 0x800107B0;
 gJapanese_FileTransferFlags = 0x8009AFE4;
+D_8009B018 = 0x8009B018;
 gJapanese_FileSecondaryRequest = 0x8009B024;
 DuelEffect_WaitForFileTransfer = 0x80037144;
 gJapanese_GlyphLookupTable = 0x801D8600;
