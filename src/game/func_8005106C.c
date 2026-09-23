@@ -13,6 +13,7 @@
 #include "sound.h"
 #include "sd_calc_spatial_volume_pan.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80050F24)
 void func_80050F24(s32 arg0)
 {
     ModelSlot *p;
@@ -42,8 +43,10 @@ void func_80050F24(s32 arg0)
         func_8005F180(1);
     }
 }
+#endif
 
 /* "e%03ld(%ld)=%d\n" */
+#ifndef VERSION_JAPAN
 void func_8005106C(s32 index) {
     u8 buf[0x50];
     u8 out[8];
@@ -144,3 +147,4 @@ loop:
         goto loop;
     }
 }
+#endif
