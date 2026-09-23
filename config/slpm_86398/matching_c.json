@@ -1424,6 +1424,12 @@
       "source": "src/game/japanese/duel_check_ritual.c"
     },
     {
+      "address": "0x8002C704",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/game/japanese/duel_collect_field_row_card_objects.c"
+    },
+    {
       "address": "0x8002C930",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
@@ -1518,6 +1524,12 @@
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
       "source": "src/game/japanese/main_run_game_over.c"
+    },
+    {
+      "address": "0x8002D5A4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x8",
+      "source": "src/game/japanese/main_run_unused_developer_mode.c"
     },
     {
       "address": "0x8002D7FC",
@@ -2546,6 +2558,18 @@
       "source": "src/game/japanese/campaign_map_load_package_stage.c"
     },
     {
+      "address": "0x8003B718",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x194",
+      "source": "src/game/japanese/options_load_package_stage.c"
+    },
+    {
+      "address": "0x8003B8F4",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x170",
+      "source": "src/game/japanese/game_over_load_package_stage.c"
+    },
+    {
       "address": "0x8003BA64",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
@@ -2580,6 +2604,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
       "source": "src/game/japanese/game_over.c"
+    },
+    {
+      "address": "0x8003C1D0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6C",
+      "source": "src/game/japanese/input_reset_pads.c"
+    },
+    {
+      "address": "0x8003C29C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x120",
+      "source": "src/game/japanese/input_update_pads.c"
     },
     {
       "address": "0x8003C3BC",
@@ -2658,6 +2694,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x138",
       "source": "src/game/checkerboard_background.c"
+    },
+    {
+      "address": "0x8003CADC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xFC",
+      "source": "src/game/japanese/dialog_transition_func_8003d518.c"
     },
     {
       "address": "0x8003DA10",
@@ -4740,6 +4782,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",
       "source": "src/game/japanese/model_effect_request_args.c"
+    },
+    {
+      "address": "0x8005CF0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/game/japanese/model_camera_speed.c"
     },
     {
       "address": "0x8005CFB0",

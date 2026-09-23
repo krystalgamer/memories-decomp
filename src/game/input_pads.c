@@ -9,6 +9,7 @@
 #include "graphics_frame.h"
 #include "input.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_RESET_PADS)
 /* The controller runtime: reset, LIBAPI startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the
    gInput_* state input.h describes, and each hands that state to the next -
@@ -50,6 +51,9 @@ void Input_ResetPads(void) {
     gInput_dwDeferredPressed = 0;
     gInput_dwPendingHeld = 0;
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void Input_InitPads(void)
 {
@@ -81,6 +85,9 @@ void Input_ReadRawPads(void)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_UPDATE_PADS)
 /* Preserve the low-half/high-half publication order at the function tail. */
 void Input_UpdatePads(void)
 {
@@ -135,4 +142,4 @@ void Input_UpdatePads(void)
     gInput_wPad1Repeat = repeat;
     gInput_wPad2Repeat = repeat >> INPUT_PAD_BUTTON_BITS;
 }
-
+#endif

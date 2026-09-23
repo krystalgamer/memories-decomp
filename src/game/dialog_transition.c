@@ -21,6 +21,7 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D518)
 void func_8003D518(MenuRecord *record)
 {
     DisplayObject *object;
@@ -55,6 +56,9 @@ void func_8003D518(MenuRecord *record)
         }
     }
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void func_8003D614(MenuRecord *record)
 {
@@ -191,3 +195,4 @@ void func_8003D74C(MenuRecord *record)
         }
     }
 }
+#endif
