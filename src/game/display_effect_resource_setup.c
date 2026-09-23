@@ -20,7 +20,7 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_BUILD_RESOURCE_OBJECTS)
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *a, DisplayObject **out, s32 c)
 {
