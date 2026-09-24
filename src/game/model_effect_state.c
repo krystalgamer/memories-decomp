@@ -372,7 +372,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F7B0)
 void func_8005F7B0(s32 value, s32 arg)
 {
     /* The aligned array keeps retail's four halfword stores; a packed local
@@ -396,7 +396,9 @@ void func_8005F7B0(s32 value, s32 arg)
         flag, MODEL_EFFECT_ENDPOINT_VIEW(&d), MODEL_EFFECT_ENDPOINT_VIEW(&d), arg
     );
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
 {
     s8 raw172;
