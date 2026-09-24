@@ -17,6 +17,7 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_PASSWORD_MENU)
 void Main_RunPasswordMenu(void)
 {
     unsigned char flags = D_8009B26C;
@@ -28,3 +29,4 @@ void Main_RunPasswordMenu(void)
     }
     Password_UpdateShopScreen();
 }
+#endif
