@@ -149,7 +149,7 @@ void Text_NewLine(DuelEffectChannel *record)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_END_STREAM)
 void Text_EndStream(DuelEffectChannel *record)
 {
     u16 flags;
