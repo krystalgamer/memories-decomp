@@ -2456,6 +2456,12 @@
       "source": "src/game/japanese/duel_effect_read_u16.c"
     },
     {
+      "address": "0x80037AAC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/japanese/func_800383B0.c"
+    },
+    {
       "address": "0x80037BEC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x160",
