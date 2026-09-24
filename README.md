@@ -51,20 +51,24 @@ Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa8958
 
 | Metric | Current |
 |---|---:|
-| Exact matching C functions | **751** |
-| Exact matching C bytes | **185,776 (`0x2D5B0`)** |
-| Resident text represented by matching C | **185,776 (`0x2D5B0`) / 515,264 (`0x7DCC0`) (36.05%)** |
-| Resident text using exact assembly/binary fallback | 329,488 (`0x50710`) |
+| Game C-decompilation targets matched | **941 / 1,197 (78.61%)** |
+| Game C-decompilation target bytes matched | **260,912 (`0x3FB30`) / 391,384 (`0x5F8D8`) (66.66%)** |
+| Remaining game C-decompilation targets | 256 functions, 130,472 (`0x1FDA8`) |
+| Evidence-backed handwritten game assembly | 0 functions, 0 (`0x0`) |
+| Total game-owned functions | 1,197 |
+| Preserved Psy-Q CRT/SDK assembly | 629 functions, 122,048 (`0x1DCC0`) |
+| Total discovered functions | 1,826 |
+| Embedded/unassigned resident text | 1,832 (`0x728`) |
 
-_Generated from `config/slpm_86398/matching_c.json` and `config/slpm_86398/image_map.json` by `tools/project/progress.py`._
+_Generated from `config/slpm_86398/matching_c.json`, `config/slpm_86398/function_regions.json`, and the generated Japanese split inventory by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 
-North American matching C progress uses the authoritative function inventory.
-Japanese progress reports exact C functions and bytes against the resident text
-extent because a complete Japanese ownership/classification inventory does not
-yet exist. Evidence-backed handwritten game assembly and Psy-Q CRT/SDK routines
-remain outside the North American C-decompilation denominator.
+Both regional tables separate game-owned C-decompilation targets from
+evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
+North American ownership comes from its authoritative function inventory;
+Japanese ownership combines the generated split inventory with tracked
+resident-code regions.
 
 Run `make progress` when intentionally refreshing the project-wide snapshot.
 It updates the generated table above and writes detailed machine-readable

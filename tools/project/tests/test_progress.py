@@ -114,15 +114,35 @@ class ProgressRenderingTests(unittest.TestCase):
             {
                 "target_sha256": "japanese-hash",
                 "text_bytes": 0x400,
+                "function_count": 9,
+                "game_function_count": 7,
+                "decompilation_target_function_count": 6,
+                "decompilation_target_function_bytes": 0x240,
+                "handwritten_function_count": 1,
+                "handwritten_function_bytes": 0x40,
+                "assembly_function_count": 2,
+                "assembly_function_bytes": 0x140,
+                "sdk_function_count": 2,
+                "sdk_function_bytes": 0x80,
                 "matching_c_function_count": 4,
                 "matching_c_bytes": 0x100,
+                "unassigned_text_bytes": 0x100,
+                "overlays": {},
             },
         )
 
         self.assertIn("North American (`SLUS-01411`)", rendered)
         self.assertIn("Japanese (`SLPM-86398`)", rendered)
         self.assertIn("`japanese-hash`", rendered)
-        self.assertIn("256 (`0x100`) / 1,024 (`0x400`) (25.00%)", rendered)
+        self.assertIn("**4 / 6 (66.67%)**", rendered)
+        self.assertIn(
+            "**256 (`0x100`) / 576 (`0x240`) (44.44%)**", rendered
+        )
+        self.assertIn(
+            "Preserved Psy-Q CRT/SDK assembly | "
+            "2 functions, 128 (`0x80`)",
+            rendered,
+        )
 
 if __name__ == "__main__":
     unittest.main()

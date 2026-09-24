@@ -237,7 +237,13 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
     return lines
 
 
-def render_readme_progress(progress: dict[str, Any]) -> str:
+def render_readme_progress(
+    progress: dict[str, Any],
+    source_description: str = (
+        "`config/slus_01411/functions.csv` and "
+        "`config/slus_01411/overlays/*_functions.csv`"
+    ),
+) -> str:
     game_count = progress["game_function_count"]
     target_count = progress["decompilation_target_function_count"]
     target_bytes = progress["decompilation_target_function_bytes"]
@@ -292,8 +298,7 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
             "",
             *render_overlay_progress(progress.get("overlays", {})),
             (
-                "_Generated from `config/slus_01411/functions.csv` and "
-                "`config/slus_01411/overlays/*_functions.csv` by "
+                f"_Generated from {source_description} by "
                 "`tools/project/progress.py`._"
             ),
         )
@@ -301,39 +306,19 @@ def render_readme_progress(progress: dict[str, Any]) -> str:
 
 
 def render_japanese_progress(progress: dict[str, Any]) -> str:
-    matching_bytes = progress["matching_c_bytes"]
-    text_bytes = progress["text_bytes"]
     return "\n".join(
         (
             "### Japanese (`SLPM-86398`)",
             "",
             f"Target SHA-256: `{progress['target_sha256']}`",
             "",
-            "| Metric | Current |",
-            "|---|---:|",
-            (
-                "| Exact matching C functions | "
-                f"**{progress['matching_c_function_count']:,}** |"
-            ),
-            (
-                "| Exact matching C bytes | "
-                f"**{format_bytes(matching_bytes)}** |"
-            ),
-            (
-                "| Resident text represented by matching C | "
-                f"**{format_bytes(matching_bytes)} / "
-                f"{format_bytes(text_bytes)} "
-                f"({format_percentage(matching_bytes, text_bytes)})** |"
-            ),
-            (
-                "| Resident text using exact assembly/binary fallback | "
-                f"{format_bytes(text_bytes - matching_bytes)} |"
-            ),
-            "",
-            (
-                "_Generated from `config/slpm_86398/matching_c.json` and "
-                "`config/slpm_86398/image_map.json` by "
-                "`tools/project/progress.py`._"
+            render_readme_progress(
+                progress,
+                (
+                    "`config/slpm_86398/matching_c.json`, "
+                    "`config/slpm_86398/function_regions.json`, and the "
+                    "generated Japanese split inventory"
+                ),
             ),
         )
     )
@@ -467,6 +452,10 @@ def calculate(root: Path) -> dict[str, Any]:
 def calculate_japanese(root: Path) -> dict[str, Any]:
     config = "config/slpm_86398"
     image_map = load_image_map(root, config)
+    assembly_root = resolve_within(
+        root, "tmp/splat/slpm_86398/asm", must_exist=True
+    )
+    generated = parse_generated_function_tree(assembly_root)
     path = resolve_within(root, f"{config}/matching_c.json", must_exist=True)
     with path.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
@@ -474,8 +463,91 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
     if manifest.get("schema") != 1 or not isinstance(functions, list):
         raise ProgressError(f"{path}: unsupported matching-C configuration")
 
-    addresses: set[int] = set()
+    regions_path = resolve_within(
+        root, f"{config}/function_regions.json", must_exist=True
+    )
+    with regions_path.open("r", encoding="utf-8") as handle:
+        region_config = json.load(handle)
+    raw_regions = region_config.get("regions")
+    if region_config.get("schema") != 1 or not isinstance(raw_regions, list):
+        raise ProgressError(f"{regions_path}: unsupported region configuration")
+
+    regions: list[dict[str, Any]] = []
+    previous_end: int | None = None
+    for index, region in enumerate(raw_regions):
+        if not isinstance(region, dict):
+            raise ProgressError(f"{regions_path}: region {index} is not an object")
+        name = region.get("name")
+        module = region.get("module")
+        if not isinstance(name, str) or not name:
+            raise ProgressError(f"{regions_path}: region {index} has no name")
+        if not isinstance(module, str) or not module:
+            raise ProgressError(f"{regions_path}: region {name} has no module")
+        start = parse_integer(region.get("start"), f"{name}.start")
+        end = parse_integer(region.get("end"), f"{name}.end")
+        if end <= start:
+            raise ProgressError(f"{regions_path}: region {name} is empty")
+        if previous_end is not None and start != previous_end:
+            raise ProgressError(
+                f"{regions_path}: region {name} starts at {start:#010x}; "
+                f"expected {previous_end:#010x}"
+            )
+        status = region.get("status")
+        if status not in {None, "handwritten_asm", "sdk_asm"}:
+            raise ProgressError(
+                f"{regions_path}: region {name} has unsupported status {status}"
+            )
+        regions.append(
+            {
+                "name": name,
+                "start": start,
+                "end": end,
+                "module": module,
+                "status": status,
+            }
+        )
+        previous_end = end
+
+    text_region = next(
+        (
+            region
+            for region in image_map["regions"]
+            if region.get("name") == "text"
+        ),
+        None,
+    )
+    if text_region is None:
+        raise ProgressError("Japanese image map has no text region")
+    text_start = parse_integer(
+        text_region.get("vram_start"), "Japanese text.vram_start"
+    )
+    text_end = parse_integer(
+        text_region.get("vram_end"), "Japanese text.vram_end"
+    )
+    if regions[0]["start"] != text_start or regions[-1]["end"] != text_end:
+        raise ProgressError(
+            f"{regions_path}: regions must cover Japanese resident text "
+            f"{text_start:#010x}..{text_end:#010x}"
+        )
+
+    def region_for(address: int, size: int) -> dict[str, Any]:
+        for region in regions:
+            if region["start"] <= address < region["end"]:
+                if address + size > region["end"]:
+                    raise ProgressError(
+                        f"Japanese function at {address:#010x} crosses "
+                        f"region {region['name']}"
+                    )
+                return region
+        raise ProgressError(
+            f"Japanese function at {address:#010x} is outside all regions"
+        )
+
+    addresses = {function.address for function in generated}
+    if len(addresses) != len(generated):
+        raise ProgressError("Japanese split contains duplicate function addresses")
     matching_bytes = 0
+    matching_count = 0
     for index, function in enumerate(functions):
         if not isinstance(function, dict):
             raise ProgressError(f"{path}: function {index} must be an object")
@@ -491,21 +563,65 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
             )
         if size <= 0:
             raise ProgressError(f"{path}: function {index} has invalid size")
+        region = region_for(address, size)
+        if region["module"] != "game" or region["status"] is not None:
+            raise ProgressError(
+                f"{path}: matching C function {address:#010x} is not game-owned"
+            )
         addresses.add(address)
+        matching_count += 1
         matching_bytes += size
 
     text_bytes = load_text_size(root, config)
-    if matching_bytes > text_bytes:
+    assembly = []
+    handwritten = []
+    sdk = []
+    for function in generated:
+        region = region_for(function.address, function.size)
+        if region["status"] == "sdk_asm":
+            sdk.append(function)
+        elif region["status"] == "handwritten_asm":
+            handwritten.append(function)
+        elif region["module"] == "game":
+            assembly.append(function)
+        else:
+            raise ProgressError(
+                f"Japanese function {function.address:#010x} has no status"
+            )
+
+    assembly_bytes = sum(function.size for function in assembly)
+    handwritten_bytes = sum(function.size for function in handwritten)
+    sdk_bytes = sum(function.size for function in sdk)
+    function_bytes = (
+        matching_bytes + assembly_bytes + handwritten_bytes + sdk_bytes
+    )
+    if function_bytes > text_bytes:
         raise ProgressError(
-            f"Japanese matching bytes {matching_bytes:#x} exceed "
+            f"Japanese function bytes {function_bytes:#x} exceed "
             f"text size {text_bytes:#x}"
         )
+    game_count = matching_count + len(assembly) + len(handwritten)
+    game_bytes = matching_bytes + assembly_bytes + handwritten_bytes
     return {
         "target": "SLPM-86398",
         "target_sha256": image_map["target_sha256"],
         "text_bytes": text_bytes,
-        "matching_c_function_count": len(functions),
+        "function_count": matching_count + len(generated),
+        "function_bytes": function_bytes,
+        "game_function_count": game_count,
+        "game_function_bytes": game_bytes,
+        "decompilation_target_function_count": matching_count + len(assembly),
+        "decompilation_target_function_bytes": matching_bytes + assembly_bytes,
+        "handwritten_function_count": len(handwritten),
+        "handwritten_function_bytes": handwritten_bytes,
+        "assembly_function_count": len(assembly),
+        "assembly_function_bytes": assembly_bytes,
+        "sdk_function_count": len(sdk),
+        "sdk_function_bytes": sdk_bytes,
+        "matching_c_function_count": matching_count,
         "matching_c_bytes": matching_bytes,
+        "overlays": {},
+        "unassigned_text_bytes": text_bytes - function_bytes,
         "fallback_bytes": text_bytes - matching_bytes,
     }
 
