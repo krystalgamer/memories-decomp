@@ -11,6 +11,9 @@
 #include "../unmatched.h"
 
 #define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
+#ifndef DUEL_EFFECT_U16_RESULT_OFFSET
+#define DUEL_EFFECT_U16_RESULT_OFFSET 0x60
+#endif
 
 /* Entries 0 through 12 of the secondary text-command table D_80090EAC,
    the handlers the F8 escape reaches, together with func_80038024, the
@@ -319,13 +322,16 @@ void func_80038388(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800383B0)
 void func_800383B0(DuelEffectChannel *object)
 {
-    object->field_60 = 0;
-    object->field_61 = TextStream_ReadU16LE(object);
+    ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET] = 0;
+    ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET + 1] =
+        TextStream_ReadU16LE(object);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 u32 *func_800383DC(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
