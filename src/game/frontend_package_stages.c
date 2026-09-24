@@ -58,9 +58,24 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef OPTIONS_PACKAGE_START_SECTOR
+#define OPTIONS_PACKAGE_START_SECTOR 0x2115
+#endif
 
-void File_RequestOptionsPackage(void){File_RequestAsyncTransfer(0,0,0x2115,0x32,Options_LoadPackageStage,0,0);File_WaitForTransfers();File_RequestAsyncTransfer(0,0,0x2147,0x10,0,0,(int)0x80140000);File_WaitForTransfers();}
+#ifndef OPTIONS_PACKAGE_LOAD_SECOND_BLOCK
+#define OPTIONS_PACKAGE_LOAD_SECOND_BLOCK 1
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_REQUEST_OPTIONS_PACKAGE)
+void File_RequestOptionsPackage(void)
+{
+    File_RequestAsyncTransfer(0, 0, OPTIONS_PACKAGE_START_SECTOR, 0x32, Options_LoadPackageStage, 0, 0);
+    File_WaitForTransfers();
+#if OPTIONS_PACKAGE_LOAD_SECOND_BLOCK
+    File_RequestAsyncTransfer(0, 0, 0x2147, 0x10, 0, 0, (int)0x80140000);
+    File_WaitForTransfers();
+#endif
+}
 
 #endif
 

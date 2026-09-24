@@ -2768,6 +2768,12 @@
       "source": "src/game/japanese/options_load_package_stage.c"
     },
     {
+      "address": "0x8003B8AC",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x48",
+      "source": "src/game/japanese/file_request_options_package.c"
+    },
+    {
       "address": "0x8003B8F4",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x170",
