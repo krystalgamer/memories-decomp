@@ -4586,6 +4586,12 @@
       "source": "src/game/japanese/model_effect_counter.c"
     },
     {
+      "address": "0x8004F018",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x14C",
+      "source": "src/game/japanese/func_8005F5C8.c"
+    },
+    {
       "address": "0x8004F534",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",

@@ -311,6 +311,8 @@ void func_8005F588(int value)
     }
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F5C8)
 /* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
    D_80091570[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
    the stat by a growth ratio derived from func_80059000's output clamped
@@ -345,7 +347,9 @@ void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
 
     func_8005D994(arg0, s0, rec->angle, rec->field_04, offset, arg3);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F714(s32 a, s32 b, s32 c)
 {
     ModelEffectEndpoint *x =
