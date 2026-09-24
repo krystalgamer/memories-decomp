@@ -356,6 +356,7 @@ segments:
       - [0x22584, c, game/func_8003201C]
       - [0x22624, c, game/func_800320BC]
       - [0x226ec, asm, func_80031EEC]
+      - [0x228d8, c, game/japanese/func_80032370]
       - [0x22960, c, game/japanese/func_800323F8]
       - [0x230a0, c, game/func_80032B38]
       - [0x230c8, c, game/build_deck_compare_card]
