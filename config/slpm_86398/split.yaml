@@ -742,7 +742,7 @@ segments:
       - [0x5b530, c, game/japanese/triplet_subdivision]
       - [0x5b70c, c, game/japanese/triplet_set_components]
       - [0x5b71c, c, game/japanese/triplet_copy_components]
-      - [0x5b740, asm, func_8006AF40]
+      - [0x5b740, c, game/japanese/triplet_average_components]
       - [0x5b78c, c, game/model_disc_effect]
       - [0x5c188, c, game/func_8006CD78]
       - [0x5e5c4, c, game/func_8006F1B4]
