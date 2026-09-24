@@ -229,6 +229,8 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
     return configured;
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_AT_POSITION)
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
@@ -238,7 +240,9 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 fie
     o->field_30.h.field_32 = y;
     DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 DisplayObject *DisplayObject_ConfigureScreenSprite(
     DisplayObject *object,
     s32 x,
