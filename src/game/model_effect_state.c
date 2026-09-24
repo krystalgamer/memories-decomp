@@ -164,7 +164,7 @@ s32 func_8005F18C(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_SET2)
 void func_8005F198(s32 value)
 {
     D_8009B07C = value;
