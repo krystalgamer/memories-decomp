@@ -289,7 +289,7 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_COUNTER)
 int func_8005F564(void)
 {
     if (D_8009B07A < 0) {
@@ -297,7 +297,9 @@ int func_8005F564(void)
     }
     return D_8009B07A++ > 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F588(int value)
 {
     if (D_8009B07B != 1 || D_8009B07C != 1) {
