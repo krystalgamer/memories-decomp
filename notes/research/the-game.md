@@ -1182,6 +1182,12 @@ scripts *do*, as observed by every guide since 1999:
   that deck, so Dark Magic Ritual (721) and Magician of Black Chaos (722)
   cannot be selected from their final two weights (§6.4).
 
+The two scripts (one hand, one field, shared by all 39 duelists) are decoded
+opcode by opcode in [ai-scripts.md](../ai-scripts.md) with
+`tools/ai_script_disasm.py`, which also shows that the terrain restorers are
+the five gate Mages and Guardian Neku rather than the High Mages, and that
+six duelists, not only Pegasus, see face-down cards.
+
 The scripts can also request an explicit card-power value
 [`AiScript_CalcCardPower`, `0x80071008`]. For monsters they choose ATK, DEF, or
 the higher stat. For non-monsters, mode 0 recognizes only Sparks through
