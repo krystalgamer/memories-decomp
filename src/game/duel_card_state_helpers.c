@@ -14,7 +14,7 @@ void func_80028220(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_DECODE_TAGGED_SLOT)
 int DuelCard_DecodeTaggedSlotIndex(int value)
 {
     if (value & 0x80) {
