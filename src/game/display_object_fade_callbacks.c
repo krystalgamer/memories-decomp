@@ -9,7 +9,7 @@
 #define DUEL_EFFECT_FIELD_04_WORD(type, object) \
     (*(type *)&(object)->field_04)
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039AFC)
 void func_80039AFC(DuelEffectChannel *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {

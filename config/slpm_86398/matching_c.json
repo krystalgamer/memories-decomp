@@ -2600,6 +2600,12 @@
       "source": "src/game/japanese/display_object_fade_release_channel.c"
     },
     {
+      "address": "0x80039170",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xE4",
+      "source": "src/game/japanese/display_object_fade_func_80039afc.c"
+    },
+    {
       "address": "0x80039254",
       "profile": "gcc_2_8_1_g0",
       "size": "0xB4",
