@@ -59,7 +59,16 @@ void func_8005A010(s32 first, s32 second)
         move->target.slot = second;
     }
 }
+#endif
 
+#ifndef MODEL_CAMERA_DURATION_FIELD
+#define MODEL_CAMERA_DURATION_FIELD duration
+#endif
+#ifndef MODEL_CAMERA_ELAPSED_FIELD
+#define MODEL_CAMERA_ELAPSED_FIELD elapsed
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_CAMERA_DURATION)
 void func_8005A074(s32 value)
 {
     s32 state = func_8005F174();
@@ -70,8 +79,8 @@ void func_8005A074(s32 value)
     {
         ModelCameraMove *move = &D_800F2B20;
 
-        move->duration = (value < 0 ? -value : value) * 2;
-        move->elapsed = 0;
+        move->MODEL_CAMERA_DURATION_FIELD = (value < 0 ? -value : value) * 2;
+        move->MODEL_CAMERA_ELAPSED_FIELD = 0;
     }
 }
 

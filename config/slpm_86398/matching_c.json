@@ -5252,6 +5252,12 @@
       "source": "src/game/japanese/model_effect_request_args.c"
     },
     {
+      "address": "0x8005CEA4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x68",
+      "source": "src/game/japanese/model_camera_duration.c"
+    },
+    {
       "address": "0x8005CF0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
