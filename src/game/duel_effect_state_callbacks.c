@@ -242,7 +242,7 @@ void func_8003798C(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BGM_FADE_WAIT)
 void func_800379C4(DuelEffectChannel *object)
 {
     if (SD_IsBgmFadeActive(object) != 1) {
