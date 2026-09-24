@@ -1366,6 +1366,8 @@ D_8001079C = 0x80010718;
 func_8004666C = 0x80045D58;
 func_800466C8 = 0x80045DB4;
 func_8004671C = 0x80045E08;
+Text_DispatchSecondaryCommand = 0x80038204;
+gJapanese_SecondaryTextCommandTable = 0x80090D5C;
 loaded_image_end = 0x801E0000;
 SpuSetTransferMode = 0x80075EB0;
 

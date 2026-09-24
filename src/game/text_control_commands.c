@@ -33,7 +33,7 @@
    the secondary-table object commands and above by the text-box layout
    helpers func_80039140 and func_800391E4. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_DISPATCH_SECONDARY_COMMAND)
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
     u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
