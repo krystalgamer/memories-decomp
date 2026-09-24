@@ -193,6 +193,8 @@ void func_8003787C(DuelEffectChannel *object)
     }
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800378D8)
 void func_800378D8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
