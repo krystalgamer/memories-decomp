@@ -2318,6 +2318,12 @@
       "source": "src/game/japanese/duel_effect_display_wait.c"
     },
     {
+      "address": "0x80037090",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x3C",
+      "source": "src/game/japanese/display_effect_wait_clear.c"
+    },
+    {
       "address": "0x800370CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
