@@ -78,7 +78,11 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef MAIN_HOLD_CONFIRM_MASK
+#define MAIN_HOLD_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_HOLD_BOOT_SCREEN)
 void Main_HoldBootScreen(s32 count)
 {
     s32 found = 0;
@@ -90,7 +94,7 @@ void Main_HoldBootScreen(s32 count)
               D_8009B134) == 0))
             found = 1;
         if ((gInput_wPad1Pressed &
-             (PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK)) && found)
+             (PAD_BUTTON_START | MAIN_HOLD_CONFIRM_MASK)) && found)
             count = 0;
         count--;
         if (count >= 0)
