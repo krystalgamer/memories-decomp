@@ -2720,6 +2720,12 @@
       "source": "src/game/japanese/func_80039F1C.c"
     },
     {
+      "address": "0x800395C4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x4C",
+      "source": "src/game/japanese/display_effect_initialize.c"
+    },
+    {
       "address": "0x80039610",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
