@@ -480,7 +480,7 @@ s32 Duel_SelectCardDrop(s32 pool_index)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_AWARD_CARD)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;

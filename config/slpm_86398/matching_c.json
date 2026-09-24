@@ -884,6 +884,12 @@
       "source": "src/game/japanese/duel_select_card_drop.c"
     },
     {
+      "address": "0x800216DC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x5C",
+      "source": "src/game/japanese/duel_award_card.c"
+    },
+    {
       "address": "0x80021738",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",

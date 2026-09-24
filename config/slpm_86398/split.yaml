@@ -195,7 +195,7 @@ segments:
       - [0x11ba0, c, game/japanese/duel_rank_score_change]
       - [0x11be0, c, game/japanese/duel_calc_rank_score]
       - [0x11e58, c, game/japanese/duel_select_card_drop]
-      - [0x11edc, asm, func_800216DC]
+      - [0x11edc, c, game/japanese/duel_award_card]
       - [0x11f38, c, game/japanese/func_800218F0]
       - [0x12700, c, game/japanese/debug_effect_screen_input]
       - [0x1293c, asm, func_8002213C]
