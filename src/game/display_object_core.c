@@ -128,7 +128,8 @@ void DisplayObject_Release(DisplayObject *slot)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_DISPLAY_OBJECT_MOVE_TO_LIST_HEAD)
 void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
 {
     u16 saved = slot->flags;
