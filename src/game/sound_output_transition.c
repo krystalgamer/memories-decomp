@@ -4,8 +4,11 @@
 #include "sound.h"
 #include "sound_output_transition.h"
 
+#ifndef VERSION_JAPAN
 extern SDValue *volatile g_SDValue_output_transition asm("g_SDValue");
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004666C)
 void func_8004666C(void)
 {
     SDValue *first = g_SDValue;
@@ -21,7 +24,9 @@ void func_8004666C(void)
         state->field_1584 = 220;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Preserve this function's volatile pointer view inside the grouped unit. */
 #define g_SDValue g_SDValue_output_transition
 
@@ -64,3 +69,4 @@ void func_8004671C(void)
     entry.cd.mix = SPU_ON;
     SpuSetCommonAttr(&entry);
 }
+#endif
