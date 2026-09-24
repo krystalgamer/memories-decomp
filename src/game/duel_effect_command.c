@@ -128,12 +128,16 @@ void func_80038024(DuelEffectChannel *object, s32 value)
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_FORWARD_SELECTOR)
 void func_80038070(DuelEffectChannel *object)
 {
     func_80038024(object, D_8009B344);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80038094(DuelEffectChannel *object)
 {
     u8 **stream =
