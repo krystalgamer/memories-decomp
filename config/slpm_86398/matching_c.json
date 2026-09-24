@@ -2312,6 +2312,12 @@
       "source": "src/game/japanese/widget_update_pulse_colour.c"
     },
     {
+      "address": "0x80036C60",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x4C",
+      "source": "src/game/japanese/func_800374A8.c"
+    },
+    {
       "address": "0x80036964",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",

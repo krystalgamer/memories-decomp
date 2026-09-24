@@ -24,7 +24,7 @@
 #include "sound_sequence_state.h"
 #include "../unmatched.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800374A8)
 void func_800374A8(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
