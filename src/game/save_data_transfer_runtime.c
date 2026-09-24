@@ -26,11 +26,15 @@
    trade or duel setup, and the final request writes the paired trade result
    back. */
 
-#ifndef VERSION_JAPAN
+#ifndef SAVE_DATA_LOAD_STATUS_ADDRESS
+#define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009B0D1
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_LOAD)
 void SaveData_RequestLoad(void)
 {
     /* The symbolic store changes the target $at scheduling and relocation. */
-    *(u8 *)0x8009B0D1 = 0;
+    *(u8 *)SAVE_DATA_LOAD_STATUS_ADDRESS = 0;
     MemCardDialog_Request(
         gSaveData_aTransferBuffer,
         SAVE_DATA_STATE_SIZE,
