@@ -308,12 +308,16 @@ void func_80038334(DuelEffectChannel *object)
         object->field_5B = value;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_READ_U16)
 void func_80038388(DuelEffectChannel *object)
 {
     object->field_38 = TextStream_ReadU16LE(object);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_800383B0(DuelEffectChannel *object)
 {
     object->field_60 = 0;
