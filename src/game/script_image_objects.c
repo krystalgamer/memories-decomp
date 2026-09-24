@@ -83,6 +83,8 @@ void ScriptImage_RequestTransfer(
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SCRIPT_IMAGE_RELEASE_OBJECTS)
 void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 {
     ScriptImageEntry *entries = set->entries;
