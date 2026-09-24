@@ -294,7 +294,7 @@ segments:
       - [0x1d760, c, game/japanese/main_run_animated_battle]
       - [0x1d8b8, asm, func_8002D0B8]
       - [0x1d950, c, game/japanese/main_run_build_deck_menu]
-      - [0x1d9d8, asm, func_8002D1D8]
+      - [0x1d9d8, c, game/japanese/main_run_free_duel_menu]
       - [0x1da38, c, game/japanese/main_apply_menu_selection]
       - [0x1db68, c, game/japanese/main_run_menu]
       - [0x1dc0c, c, game/japanese/main_run_name_entry]
