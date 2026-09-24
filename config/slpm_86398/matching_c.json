@@ -3122,6 +3122,12 @@
       "source": "src/game/japanese/display_object_find_free_slot.c"
     },
     {
+      "address": "0x8003F8EC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x94",
+      "source": "src/game/japanese/display_object_release.c"
+    },
+    {
       "address": "0x8003FA4C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
