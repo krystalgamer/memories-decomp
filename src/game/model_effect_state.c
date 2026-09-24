@@ -349,7 +349,7 @@ void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F714)
 void func_8005F714(s32 a, s32 b, s32 c)
 {
     ModelEffectEndpoint *x =
@@ -370,7 +370,9 @@ void func_8005F714(s32 a, s32 b, s32 c)
     }
     func_8005F91C(flag, x, y, c);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8005F7B0(s32 value, s32 arg)
 {
     /* The aligned array keeps retail's four halfword stores; a packed local

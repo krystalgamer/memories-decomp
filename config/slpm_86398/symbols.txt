@@ -307,6 +307,7 @@ SD_ClearBusyFlag = 0x80044B38;
 gJapanese_ModelTintRequests = 0x800F03F0;
 ModelEffect_GetCoefficient = 0x8004EBF4;
 gJapanese_ModelEffectCoefficients = 0x80090F0C;
+gJapanese_ModelEffectEndpoints = 0x80090EEC;
 gJapanese_AiSelectionRandom = 0x800EAD70;
 func_80073464 = 0x80072074;
 func_80073474 = 0x80072084;
@@ -1454,7 +1455,6 @@ gDuel_aDeckCardRecords = 0x801B7E20;
 
 func_800316F0 = 0x80031428;
 func_80031784 = 0x800314BC;
-func_8005F714 = 0x8004F164;
 func_8005106C = 0x80054928;
 Movie_WaitAndDecodeFrame = 0x8004C920;
 func_8005C1F4 = 0x8004CB4C;
