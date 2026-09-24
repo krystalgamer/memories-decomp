@@ -2696,6 +2696,12 @@
       "source": "src/game/japanese/free_duel_load_package_stage.c"
     },
     {
+      "address": "0x8003AFB4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x58",
+      "source": "src/game/japanese/main_init_free_duel_menu.c"
+    },
+    {
       "address": "0x8003B00C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x1E4",
