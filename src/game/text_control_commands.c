@@ -125,6 +125,8 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
     }
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_PUSH_STREAM_OFFSET)
 void Text_PushStreamOffset(DuelEffectChannel *arg0)
 {
     TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(arg0);
@@ -134,7 +136,8 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
     v = TextStream_ReadU16LE(arg0);
     c = arg0->stream_58;
     owner->streams[c + 1] =
-        (u8 *)(((u32)owner->streams[c] & 0xFFFF0000) | (v & 0xFFFF));
+        (u8 *)(((u32)owner->streams[c] & TEXT_STREAM_CURSOR_HIGH_MASK) |
+               (v & 0xFFFF));
     arg0->stream_58++;
 }
 #endif
