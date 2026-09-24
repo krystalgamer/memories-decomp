@@ -594,19 +594,26 @@ def main():
     report = []
     R = report.append
 
+    all_ok = True
     chunks = {}
     for name, rel, base in CHUNKS:
-        hashes = set()
+        hashes = []
         for t in range(TERRAIN_COUNT):
             off = (TERRAIN_FIRST_SECTOR + t * TERRAIN_SECTORS + rel) * SECTOR
             blob = mrg[off:off + CHUNK_SIZE]
-            hashes.add(hashlib.sha256(blob).hexdigest())
+            hashes.append(hashlib.sha256(blob).hexdigest())
             if t == 0:
                 chunks[name] = (base, blob)
-        R('%s chunk: %d distinct SHA-256 over the %d terrain records (%s)'
-          % (name, len(hashes), TERRAIN_COUNT, sorted(hashes)[0][:16]))
+        R('%s chunk: %d distinct SHA-256 over the %d terrain records (terrain 0: %s)'
+          % (name, len(set(hashes)), TERRAIN_COUNT, hashes[0][:16]))
+        # One program for every terrain is what the listings below assume:
+        # only terrain 0's copy is disassembled.
+        differ = [t for t in range(1, TERRAIN_COUNT) if hashes[t] != hashes[0]]
+        if differ:
+            all_ok = False
+            R('  terrain records whose %s chunk differs from terrain 0: %s'
+              % (name, ', '.join('%d (%s)' % (t, hashes[t][:16]) for t in differ)))
 
-    all_ok = True
     per_opp = {}
     for name, (base, data) in chunks.items():
         insns, problems = descend(data)
