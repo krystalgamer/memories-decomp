@@ -637,7 +637,7 @@ segments:
       - [0x3ddf4, c, game/japanese/model_keyframe_update]
       - [0x3ea58, c, game/japanese/func_8005E808]
       - [0x3ee44, c, game/japanese/keyframe_spline]
-      - [0x3f2c0, asm, func_8004EAC0]
+      - [0x3f2c0, c, game/japanese/func_8005F070]
       - [0x3f3c4, c, game/japanese/model_effect_gate_get]
       - [0x3f3d0, c, game/japanese/model_effect_gate_set]
       - [0x3f3dc, c, game/japanese/model_effect_gate_get2]
