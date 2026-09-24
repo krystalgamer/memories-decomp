@@ -155,6 +155,7 @@ segments:
       - [0x84b8, c, game/japanese/func_80017cb8]
       - [0x8580, c, game/japanese/func_80017f04]
       - [0x8680, asm, func_80018004]
+      - [0x86fc, c, game/japanese/duel_apply_card_object_flags]
       - [0x87cc, c, game/duel_card_object_helpers]
       - [0x88d8, c, game/japanese/duel_phase_entry]
       - [0x92b0, c, game/duel_update_draw_card_slide]
