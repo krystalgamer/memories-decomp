@@ -1280,6 +1280,12 @@
       "source": "src/game/japanese/duel_card_decode_tagged_slot.c"
     },
     {
+      "address": "0x80028090",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x6C",
+      "source": "src/game/japanese/duel_card_get_guardian_star.c"
+    },
+    {
       "address": "0x800280FC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",

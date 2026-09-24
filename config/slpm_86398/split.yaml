@@ -242,7 +242,7 @@ segments:
       - [0x1840c, c, game/japanese/func_80027DF8]
       - [0x18834, c, game/japanese/duel_card_state_reset]
       - [0x18874, c, game/japanese/duel_card_decode_tagged_slot]
-      - [0x18890, asm, func_80028090]
+      - [0x18890, c, game/japanese/duel_card_get_guardian_star]
       - [0x188fc, c, game/japanese/duel_effect_mark_state_initialized]
       - [0x18924, c, game/japanese/duel_effect_update_dialog_state]
       - [0x18a00, c, game/func_800283EC]
