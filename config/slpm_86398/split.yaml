@@ -352,7 +352,7 @@ segments:
       - [0x21884, c, game/japanese/debug_menu_bust_up_entry]
       - [0x21920, c, game/func_800313E8]
       - [0x21aac, c, game/duel_card_type_icon]
-      - [0x21c28, asm, func_80031428]
+      - [0x21c28, c, game/duel_card_stat_display]
       - [0x21cbc, c, game/japanese/func_80031784]
       - [0x21dac, c, game/japanese/func_80031874]
       - [0x2220c, asm, func_80031A0C]
