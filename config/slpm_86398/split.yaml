@@ -633,7 +633,7 @@ segments:
       - [0x3f3dc, c, game/japanese/model_effect_gate_get2]
       - [0x3f3e8, c, game/japanese/model_effect_gate_set2]
       - [0x3f3f4, c, game/japanese/model_effect_get_coefficient]
-      - [0x3f408, asm, func_8004EC08]
+      - [0x3f408, c, game/japanese/func_8005F1B8]
       - [0x3f4cc, c, game/japanese/model_effect_adjust]
       - [0x3f608, c, game/japanese/model_effect_camera]
       - [0x3f7b4, c, game/japanese/model_effect_counter]
