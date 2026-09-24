@@ -47,7 +47,8 @@ s32 DisplayObject_FindFreeSlot(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_DISPLAY_OBJECT_ACQUIRE_SLOT)
 void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     DisplayObject *slot;

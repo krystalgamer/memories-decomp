@@ -529,7 +529,7 @@ segments:
       - [0x2fd60, c, game/sound_frontend]
       - [0x2ff0c, c, game/japanese/display_object_find_free_general_slot]
       - [0x2ff4c, c, game/japanese/display_object_find_free_slot]
-      - [0x2ff8c, asm, func_8003F78C]
+      - [0x2ff8c, c, game/japanese/display_object_acquire_slot]
       - [0x300ec, c, game/japanese/display_object_release]
       - [0x30180, c, game/japanese/display_object_move_to_list_head]
       - [0x3024c, c, game/japanese/display_object_release_if_present]

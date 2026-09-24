@@ -1,3 +1,4 @@
+tail_data_start = 0x801BC000;
 func_800136D4 = 0x800135C0;
 Main_ClearFrameServiceCallbacks = 0x800133A0;
 D_800E9DB0 = 0x800E9C90;
