@@ -185,7 +185,7 @@ void DisplayObject_UpdateResourceVariant(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_SET_RESOURCE_PATH)
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
@@ -198,7 +198,9 @@ void DisplayObject_SetResourcePath(
     object->field_69 = field_69;
     object->flags &= 0xFFEF;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
                     int field_69, int color, int texture)
 {
