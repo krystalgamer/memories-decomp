@@ -42,7 +42,14 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         break;
     }
 }
+#endif
 
+#ifndef SCRIPT_IMAGE_TRANSFER_BASE
+#define SCRIPT_IMAGE_TRANSFER_BASE 0x21D5
+#endif
+
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_SCRIPT_IMAGE_REQUEST_TRANSFER)
 void ScriptImage_RequestTransfer(
     volatile ScriptImageObjectSet *owner, s32 value)
 {
@@ -75,7 +82,7 @@ void ScriptImage_RequestTransfer(
         return;
     }
     object = File_TryRequestAsyncTransfer(
-        0, 0, base + index * stride + 0x21D5, stride,
+        0, 0, base + index * stride + SCRIPT_IMAGE_TRANSFER_BASE, stride,
         ScriptImage_TransferCallback, 0, 0
     );
     object->callback_data = (void *)(stride - 1);

@@ -1664,6 +1664,12 @@
       "source": "src/game/japanese/main_loop.c"
     },
     {
+      "address": "0x8002DD10",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xE0",
+      "source": "src/game/japanese/script_image_request_transfer.c"
+    },
+    {
       "address": "0x8002DE44",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
