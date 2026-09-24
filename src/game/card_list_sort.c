@@ -8,6 +8,7 @@
 #include "build_deck_transition_state.h"
 
 /* The descending comparator, sort, and input handler share this unit. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032BD4)
 s32 func_80032BD4(
     CardListSortItem *arg0,
     CardListSortItem *arg1
@@ -28,7 +29,9 @@ s32 func_80032BD4(
         return 1;
     return -1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
    by the list's sort_mode.
@@ -356,3 +359,4 @@ top:
 
     return 0;
 }
+#endif
