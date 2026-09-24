@@ -427,6 +427,7 @@ segments:
       - [0x28894, asm, func_80038094]
       - [0x2896c, c, game/japanese/text_unlock_duelist]
       - [0x289c4, asm, func_800381C4]
+      - [0x28a60, c, game/japanese/text_set_cursor_offset]
       - [0x28aa8, c, game/japanese/text_handle_choice]
       - [0x28bcc, c, game/japanese/text_start_page_wait]
       - [0x28be4, asm, func_800383E4]

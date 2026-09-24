@@ -14,6 +14,9 @@
 #include "../unmatched.h"
 
 #define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
+#ifndef TEXT_STREAM_CURSOR_HIGH_MASK
+#define TEXT_STREAM_CURSOR_HIGH_MASK 0xFFFF0000
+#endif
 
 /* The text stream's primary control-byte handlers, the ones
    TextBox_BuildStep reaches through D_80090F18 for bytes F6 and F8 through
@@ -41,7 +44,9 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     D_80090EAC[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&0xFFFF0000)|(v&0xFFFF));}
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_SET_CURSOR_OFFSET)
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_HANDLE_CHOICE)
