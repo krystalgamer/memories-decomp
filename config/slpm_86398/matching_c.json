@@ -4496,6 +4496,12 @@
       "source": "src/game/japanese/model_effect_camera.c"
     },
     {
+      "address": "0x8004EFB4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/japanese/model_effect_counter.c"
+    },
+    {
       "address": "0x8004F534",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
