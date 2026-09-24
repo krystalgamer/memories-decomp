@@ -19,7 +19,7 @@
    state word. The ready-sector callback and first four command callbacks are
    grouped in func_80013C28.c. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80014294)
 void func_80014294(u8 event)
 {
     if (event == 5) {
