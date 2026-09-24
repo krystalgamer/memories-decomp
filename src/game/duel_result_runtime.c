@@ -68,7 +68,8 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_DUEL_RESULT_UPDATE_ORBIT_SPRITE)
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
