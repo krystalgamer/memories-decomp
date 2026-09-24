@@ -26,9 +26,11 @@ void func_8004666C(void)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800466C8)
 #ifndef VERSION_JAPAN
 /* Preserve this function's volatile pointer view inside the grouped unit. */
 #define g_SDValue g_SDValue_output_transition
+#endif
 
 void func_800466C8(void)
 {
@@ -51,8 +53,12 @@ void func_800466C8(void)
     flags->flags_0040 &= 0xFFFB;
 }
 
+#ifndef VERSION_JAPAN
 #undef g_SDValue
+#endif
+#endif
 
+#ifndef VERSION_JAPAN
 void func_8004671C(void)
 {
     SpuCommonAttr entry;
