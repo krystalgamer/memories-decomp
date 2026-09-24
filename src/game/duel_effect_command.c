@@ -185,7 +185,7 @@ void func_80038110(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038148)
 void func_80038148(DuelEffectChannel *object)
 {
     u8 buf[8];
@@ -258,7 +258,9 @@ write:
     object->stream_58++;
     TEXT_STREAM_OWNER(object)->streams[object->stream_58] = object->text_44;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
