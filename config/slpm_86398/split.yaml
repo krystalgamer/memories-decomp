@@ -470,7 +470,7 @@ segments:
       - [0x2bb0c, c, game/japanese/password_load_package_stage]
       - [0x2bcf8, c, game/japanese/campaign_map_load_package_stage]
       - [0x2bf18, c, game/japanese/options_load_package_stage]
-      - [0x2c0ac, asm, func_8003B8AC]
+      - [0x2c0ac, c, game/japanese/file_request_options_package]
       - [0x2c0f4, c, game/japanese/game_over_load_package_stage]
       - [0x2c264, c, game/japanese/file_request_game_over_package]
       - [0x2c2ac, c, game/japanese/options_init_text_display]
