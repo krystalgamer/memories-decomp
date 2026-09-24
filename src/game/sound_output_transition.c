@@ -58,7 +58,7 @@ void func_800466C8(void)
 #endif
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004671C)
 void func_8004671C(void)
 {
     SpuCommonAttr entry;
