@@ -1171,9 +1171,12 @@ scripts *do*, as observed by every guide since 1999:
   magic/trap — the standard TEC-farming trick is to open face-down so the
   opponent burns cards fusing;
 * it changes the terrain back to its home terrain whenever you change it
-  (the five High Mages);
+  (guides name the five High Mages; the script gives this rule to the five
+  gate Mages, ids 21/23/25/27/29, and Guardian Neku, see
+  [ai-scripts.md](../ai-scripts.md));
 * Pegasus's script reads your face-down cards, so hiding is useless against
-  him;
+  him (the script gives the same sight to Heishin, Heishin 2nd, Seto 3rd,
+  DarkNite and Nitemare);
 * Duel Master K's duel setup passes your deck as both inputs to the shuffle
   helper, so the computer receives a **copy of your own deck** (§8);
 * the scripts differ per duelist in aggression and in what they fuse for,

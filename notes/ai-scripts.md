@@ -319,13 +319,23 @@ decision it reaches.
    These are the five shrine-gate Mages and Neku. **No High Mage has this
    rule.** The claim in the-game.md §5.11 that the High Mages restore their
    terrain is not what the script does. High Mages do play field cards, but
-   only through the generic combo rule in step 7.
+   only through strategy A in step 6 (the `FindBestCombo` result-2 path at
+   `0x0BFE`).
 4. **Who is winning, `0x024C`.** The script compares the strongest AI field
    monster with the strongest player field monster, both by the higher of
    ATK and DEF, with r14 deciding whether face-down player cards count.
-   * If the AI has no monster, or its best is not stronger, it goes to
-     **"behind"** (step 8).
+   * If **both** sides have no monster (the usual opening turn), it
+     continues with step 5, as if ahead (`0x0270` tests the sum first).
+   * Otherwise, if the AI has no monster, or its best is not stronger, it
+     goes to **"behind"** (step 8).
    * Otherwise it continues with step 5.
+   * **[code]** The two field monsters are *chosen* by the snapshot's
+     `attack`/`defense`, which `func_80027DF8` fills from
+     `Duel_CalcCardStats` (terrain and equips included). They are then
+     *compared* by `CalcCardPower`, which uses base stats
+     (`Duel_GetBaseCardStat`). The same split applies to the field script's
+     lethal check (field step 4.1), while `FindKiller` and
+     `FindDefenseStopper` use only the boosted snapshot values.
 5. **Harpie's Feather Duster, `0x0299`.** If the player has a magic/trap
    card and the AI holds Harpie's Feather Duster, the AI plays it with
    probability r16 (`values[7]`).
