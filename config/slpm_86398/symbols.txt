@@ -1,4 +1,6 @@
 tail_data_start = 0x801BC000;
+Base2_8009B2A8 = 0x8009B198; // rom:0x8B998
+Base2_8009B2AA = 0x8009B19A; // rom:0x8B99A
 func_800136D4 = 0x800135C0;
 Main_ClearFrameServiceCallbacks = 0x800133A0;
 D_800E9DB0 = 0x800E9C90;
