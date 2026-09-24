@@ -144,7 +144,9 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     D_800EFE38[key] = slot->field_0A;
     slot->flags = saved;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RELEASE_IF_PRESENT)
 void DisplayObject_ReleaseIfPresent(void *object)
 {
     if (object != 0) {
