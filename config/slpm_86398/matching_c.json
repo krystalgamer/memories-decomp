@@ -4394,6 +4394,12 @@
       "source": "src/game/movie_stream_requests.c"
     },
     {
+      "address": "0x8004CE48",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x40",
+      "source": "src/game/japanese/file_exists.c"
+    },
+    {
       "address": "0x8004CE88",
       "profile": "gcc_2_8_1_g0",
       "size": "0x38",

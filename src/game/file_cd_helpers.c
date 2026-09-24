@@ -5,7 +5,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_EXISTS)
 s32 File_Exists(const char *path, CdlFILE *file)
 {
     DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
