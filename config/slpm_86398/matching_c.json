@@ -4580,6 +4580,12 @@
       "source": "src/game/japanese/mdec_sync.c"
     },
     {
+      "address": "0x8004CF84",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x64",
+      "source": "src/game/japanese/movie_seek_and_start_read.c"
+    },
+    {
       "address": "0x8004CFE8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x10",
