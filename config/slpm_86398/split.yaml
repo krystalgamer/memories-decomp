@@ -298,7 +298,7 @@ segments:
       - [0x1da38, c, game/japanese/main_apply_menu_selection]
       - [0x1db68, c, game/japanese/main_run_menu]
       - [0x1dc0c, c, game/japanese/main_run_name_entry]
-      - [0x1dc64, asm, func_8002D464]
+      - [0x1dc64, c, game/japanese/main_run_password_menu]
       - [0x1dca8, c, game/japanese/main_run_options]
       - [0x1dd10, c, game/japanese/main_run_game_over]
       - [0x1dda4, c, game/japanese/main_run_unused_developer_mode]
