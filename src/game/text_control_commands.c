@@ -101,7 +101,8 @@ void Text_StartPageWait(DuelEffectChannel *value)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_TEXT_HANDLE_CAMPAIGN_FLAG_COMMAND)
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 {
     s32 flag = TextStream_ReadU16LE(object);
@@ -120,7 +121,7 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
             s32 *cursor = (s32 *)(
                 (u32)object + (u32)&((u8 **)0)[object->stream_58]);
 
-            *cursor = (*cursor & 0xFFFF0000) | target;
+            *cursor = (*cursor & TEXT_STREAM_CURSOR_HIGH_MASK) | target;
         }
     }
 }

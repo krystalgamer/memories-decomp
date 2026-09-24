@@ -2564,6 +2564,12 @@
       "source": "src/game/japanese/text_start_page_wait.c"
     },
     {
+      "address": "0x800383E4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8C",
+      "source": "src/game/japanese/text_handle_campaign_flag_command.c"
+    },
+    {
       "address": "0x80038470",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
