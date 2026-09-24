@@ -4712,6 +4712,12 @@
       "source": "src/game/japanese/model_effect_transfer_items.c"
     },
     {
+      "address": "0x8004F614",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x58",
+      "source": "src/game/japanese/model_effect_build_coefficients.c"
+    },
+    {
       "address": "0x8004F66C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x338",
