@@ -541,7 +541,7 @@ int func_8005FB08(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_KEYFRAME_POINTER)
 int func_8005FB14(void)
 {
     int value = 0;
