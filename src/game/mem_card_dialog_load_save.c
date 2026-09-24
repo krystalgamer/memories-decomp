@@ -189,7 +189,9 @@ void MemCardDialog_UpdateLoad(void)
         break;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_LOAD)
 void MemCardDialog_StepLoad(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
