@@ -398,7 +398,7 @@ void func_8005F7B0(s32 value, s32 arg)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F828)
 void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
 {
     s8 raw172;

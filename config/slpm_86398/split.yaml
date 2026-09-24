@@ -642,7 +642,7 @@ segments:
       - [0x3f818, c, game/japanese/func_8005F5C8]
       - [0x3f964, c, game/japanese/func_8005F714]
       - [0x3fa00, c, game/japanese/func_8005F7B0]
-      - [0x3fa78, asm, func_8004F278]
+      - [0x3fa78, c, game/japanese/func_8005F828]
       - [0x3fb6c, c, game/japanese/func_8005F91C]
       - [0x3fd34, c, game/japanese/func_8005FAE4]
       - [0x3fd58, c, game/japanese/model_key_count_empty]
