@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Disassemble the opponent AI scripts of Yu-Gi-Oh! Forbidden Memories.
 
-    python tools/ai_script_disasm.py [--mrg game/DATA/WA_MRG.MRG]
-                                     [--out tmp/ai-scripts] [--cards CSV]
+    python tools/project/ai_script_disasm.py [--mrg game/DATA/WA_MRG.MRG]
+                                             [--out tmp/ai-scripts] [--cards CSV]
 
 The duel package loader (src/game/duel_load_package_stage.c, phases 8 and 9)
 copies two 3-sector chunks of the terrain record at WA_MRG.MRG sector
@@ -37,7 +37,7 @@ import os
 import re
 import sys
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 
 SECTOR = 2048
 TERRAIN_FIRST_SECTOR = 0x16C6       # DUEL_TERRAIN_PACKAGE_FIRST_SECTOR

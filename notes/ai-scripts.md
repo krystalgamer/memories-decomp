@@ -6,11 +6,11 @@ covers where the programs live, the full instruction set, and what the programs
 do for each duelist. Use it together with [ai-structures.md](ai-structures.md),
 which describes the VM state and the slot map.
 
-`tools/ai_script_disasm.py` disassembles the programs from your own disc
-image. The tool uses only the Python standard library:
+`tools/project/ai_script_disasm.py` disassembles the programs from your own
+disc image. The tool uses only the Python standard library:
 
 ```text
-python tools/ai_script_disasm.py            # reads game/DATA/WA_MRG.MRG
+python tools/project/ai_script_disasm.py    # reads game/DATA/WA_MRG.MRG
 # writes tmp/ai-scripts/: hand_full.txt, field_full.txt, NN_<duelist>.txt,
 # index.md, verify.txt
 ```
@@ -566,8 +566,8 @@ Notable points:
 
 ## 7. Verification
 
-These numbers are produced by `tools/ai_script_disasm.py`, which writes them
-to `tmp/ai-scripts/verify.txt`.
+These numbers are produced by `tools/project/ai_script_disasm.py`, which writes
+them to `tmp/ai-scripts/verify.txt`.
 
 | Check | hand | field |
 |---|---|---|
