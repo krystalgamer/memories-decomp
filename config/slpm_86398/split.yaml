@@ -734,7 +734,7 @@ segments:
       - [0x4d81c, c, game/model_distance_queries]
       - [0x4d9f8, c, game/func_8005A3D0]
       - [0x4da90, c, game/model_slot_updates]
-      - [0x4db64, asm, func_8005D364]
+      - [0x4db64, c, game/func_8005A53C]
       - [0x4dc40, c, game/japanese/model_effect_wrapped_value]
       - [0x4dcd0, c, game/sd_calc_spatial_volume_pan]
       - [0x4dea0, c, game/func_8005A878]
