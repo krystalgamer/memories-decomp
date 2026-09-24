@@ -1148,6 +1148,12 @@
       "source": "src/game/japanese/duel_card_effects.c"
     },
     {
+      "address": "0x80025D04",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x5C",
+      "source": "src/game/japanese/duel_swords_effect.c"
+    },
+    {
       "address": "0x80025D60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x194",
