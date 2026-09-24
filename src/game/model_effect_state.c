@@ -178,7 +178,7 @@ ModelEffectCoefficient *func_8005F1A4(s32 index)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F1B8)
 s32 func_8005F1B8(s32 level, s32 value)
 {
     ModelEffectAdjustment local;
