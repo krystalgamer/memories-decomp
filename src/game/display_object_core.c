@@ -101,7 +101,9 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
     }
     return slot;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RELEASE)
 void DisplayObject_Release(DisplayObject *slot)
 {
     s32 first = slot->previous;
@@ -124,7 +126,9 @@ void DisplayObject_Release(DisplayObject *slot)
 
     slot->flags = 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
 {
     u16 saved = slot->flags;
