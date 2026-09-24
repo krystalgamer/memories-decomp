@@ -110,7 +110,9 @@ void func_8003771C(DuelEffectChannel *object)
     D_8009B357 = 7;
     D_8009B27C_scalar = 7;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_SCRIPT_WAIT)
 void TextBox_WaitForScriptCompletion(DuelEffectChannel *object)
 {
     if (D_8009B357 == 0) {

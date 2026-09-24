@@ -2270,6 +2270,12 @@
       "source": "src/game/japanese/dialog_open_choice.c"
     },
     {
+      "address": "0x80036F64",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/japanese/text_script_wait.c"
+    },
+    {
       "address": "0x80036F80",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB4",
