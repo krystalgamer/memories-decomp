@@ -138,6 +138,8 @@ void func_80038070(DuelEffectChannel *object)
 #endif
 
 #ifndef VERSION_JAPAN
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038094)
 void func_80038094(DuelEffectChannel *object)
 {
     u8 **stream =

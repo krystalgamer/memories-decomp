@@ -104,6 +104,7 @@ DisplayObjectStream_Stop = 0x80040AFC;
 DisplayObjectStream_Noop = 0x80040B14;
 DisplayObjectStream_ReadNextCommand = 0x8004136C;
 DisplayObject_SavePosition = 0x80042858;
+func_8003774C = 0x8003774C;
 MemCard_SetIOResultCompleteCB = 0x800443E8;
 MemCard_SetIOResultTimeoutCB = 0x800443F8;
 MemCard_SetIOResultErrorCB = 0x8004440C;
