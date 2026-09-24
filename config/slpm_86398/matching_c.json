@@ -1562,6 +1562,12 @@
       "source": "src/game/japanese/main_run_animated_battle.c"
     },
     {
+      "address": "0x8002D0B8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x98",
+      "source": "src/game/japanese/main_run_campaign_map.c"
+    },
+    {
       "address": "0x8002D150",
       "profile": "gcc_2_8_1_g8_comm",
       "size": "0x88",
