@@ -137,7 +137,7 @@ knowing by name before reading any of them:
                          └► Option  ─► options ─► back            ├► Library ─► back
                                                                   ├► Password ─► back
                                                                   └► Save ─► back
- campaign final duel won ─► ending ─► credits ─► (save prompt) ─► title
+ campaign final duel won ─► ending ─► (save prompt) ─► secret number ─► credits (never left; §7.9)
 ```
 
 Every duel, whatever started it, runs in `Main_RunDuel` and returns to whoever
@@ -1171,9 +1171,12 @@ scripts *do*, as observed by every guide since 1999:
   magic/trap — the standard TEC-farming trick is to open face-down so the
   opponent burns cards fusing;
 * it changes the terrain back to its home terrain whenever you change it
-  (the five High Mages);
+  (guides name the five High Mages; the script gives this rule to the five
+  gate Mages, ids 21/23/25/27/29, and Guardian Neku, see
+  [ai-scripts.md](../ai-scripts.md));
 * Pegasus's script reads your face-down cards, so hiding is useless against
-  him;
+  him (the script gives the same sight to Heishin, Heishin 2nd, Seto 3rd,
+  DarkNite and Nitemare);
 * Duel Master K's duel setup passes your deck as both inputs to the shuffle
   helper, so the computer receives a **copy of your own deck** (§8);
 * the scripts differ per duelist in aggression and in what they fuse for,
@@ -1181,6 +1184,12 @@ scripts *do*, as observed by every guide since 1999:
   than being a fixed 40. Retail only considers card ids 1–720 while building
   that deck, so Dark Magic Ritual (721) and Magician of Black Chaos (722)
   cannot be selected from their final two weights (§6.4).
+
+The two scripts (one hand, one field, shared by all 39 duelists) are decoded
+opcode by opcode in [ai-scripts.md](../ai-scripts.md) with
+`tools/project/ai_script_disasm.py`, which also shows that the terrain
+restorers are the five gate Mages and Guardian Neku rather than the High
+Mages, and that six duelists, not only Pegasus, see face-down cards.
 
 The scripts can also request an explicit card-power value
 [`AiScript_CalcCardPower`, `0x80071008`]. For monsters they choose ATK, DEF, or
@@ -1929,10 +1938,14 @@ reneges and becomes **Nitemare**: the last duel (id 38).
 
 Nitemare vanishes, Seto flees, the ruins are sealed and the prince takes the
 throne. The game offers a **save** (the completed-game flag is what enables
-the Japanese PocketStation password menu) and rolls the **credits**
-[`Main_RunCredits` `0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest
-function in the game]. Afterwards the title returns; a completed save
-continues in Free Duel with every campaign duelist available.
+the Japanese PocketStation password menu), shows a **secret number** picked
+by the duelist code, and rolls the **credits** [`Main_RunCredits`
+`0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest function in the
+game]. The credits are the last mode: `Main_RunCredits` phase 2 calls
+`Model_IsCreditsPresentationComplete` every frame and drops the result, so
+once the last credit has shown the screen stays as it is until the console is
+reset. A completed save, loaded again, continues in Free Duel with every
+campaign duelist available.
 
 ### 7.10 What the campaign reads and writes
 
