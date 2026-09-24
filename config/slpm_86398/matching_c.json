@@ -5150,6 +5150,12 @@
       "source": "src/game/model_slot_properties.c"
     },
     {
+      "address": "0x8005C4CC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x64",
+      "source": "src/game/japanese/model_slot_set_type.c"
+    },
+    {
       "address": "0x8005C530",
       "profile": "gcc_2_8_1_g0_split_no_cse_follow_jumps",
       "size": "0xC8",
