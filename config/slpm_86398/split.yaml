@@ -396,6 +396,7 @@ segments:
       - [0x270cc, c, game/japanese/widget_update_pulse_colour]
       - [0x27164, c, game/japanese/dialog_update_choice]
       - [0x27318, asm, func_80036B18]
+      - [0x27460, c, game/japanese/func_800374A8]
       - [0x274ac, c, game/japanese/dialog_open_choice]
       - [0x2755c, asm, func_80036D5C]
       - [0x27764, c, game/japanese/text_script_wait]
