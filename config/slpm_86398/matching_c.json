@@ -866,6 +866,12 @@
       "source": "src/game/japanese/duel_show_result_page.c"
     },
     {
+      "address": "0x800213A0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/japanese/duel_rank_score_change.c"
+    },
+    {
       "address": "0x800213E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x278",
