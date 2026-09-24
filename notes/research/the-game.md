@@ -137,7 +137,7 @@ knowing by name before reading any of them:
                          └► Option  ─► options ─► back            ├► Library ─► back
                                                                   ├► Password ─► back
                                                                   └► Save ─► back
- campaign final duel won ─► ending ─► credits ─► (save prompt) ─► title
+ campaign final duel won ─► ending ─► (save prompt) ─► secret number ─► credits (never left; §7.9)
 ```
 
 Every duel, whatever started it, runs in `Main_RunDuel` and returns to whoever
@@ -1938,10 +1938,14 @@ reneges and becomes **Nitemare**: the last duel (id 38).
 
 Nitemare vanishes, Seto flees, the ruins are sealed and the prince takes the
 throne. The game offers a **save** (the completed-game flag is what enables
-the Japanese PocketStation password menu) and rolls the **credits**
-[`Main_RunCredits` `0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest
-function in the game]. Afterwards the title returns; a completed save
-continues in Free Duel with every campaign duelist available.
+the Japanese PocketStation password menu), shows a **secret number** picked
+by the duelist code, and rolls the **credits** [`Main_RunCredits`
+`0x8002DA1C` → the 3-D sequence `func_8006CD78`, the largest function in the
+game]. The credits are the last mode: `Main_RunCredits` phase 2 calls
+`Model_IsCreditsPresentationComplete` every frame and drops the result, so
+once the last credit has shown the screen stays as it is until the console is
+reset. A completed save, loaded again, continues in Free Duel with every
+campaign duelist available.
 
 ### 7.10 What the campaign reads and writes
 

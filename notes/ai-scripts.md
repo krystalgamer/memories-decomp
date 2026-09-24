@@ -7,8 +7,7 @@ do for each duelist. Use it together with [ai-structures.md](ai-structures.md),
 which describes the VM state and the slot map.
 
 `tools/ai_script_disasm.py` disassembles the programs from your own disc
-image. The tool uses only the Python standard library and has no link to the
-PC port:
+image. The tool uses only the Python standard library:
 
 ```text
 python tools/ai_script_disasm.py            # reads game/DATA/WA_MRG.MRG
