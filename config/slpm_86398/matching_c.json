@@ -2540,6 +2540,12 @@
       "source": "src/game/japanese/text_start_page_wait.c"
     },
     {
+      "address": "0x80038470",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x64",
+      "source": "src/game/japanese/text_push_stream_offset.c"
+    },
+    {
       "address": "0x800384D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",

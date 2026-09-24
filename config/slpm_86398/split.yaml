@@ -433,6 +433,7 @@ segments:
       - [0x28aa8, c, game/japanese/text_handle_choice]
       - [0x28bcc, c, game/japanese/text_start_page_wait]
       - [0x28be4, asm, func_800383E4]
+      - [0x28c70, c, game/japanese/text_push_stream_offset]
       - [0x28cd4, c, game/japanese/text_new_line]
       - [0x28d34, c, game/japanese/text_end_stream]
       - [0x28d68, c, game/japanese/text_display_effect]
