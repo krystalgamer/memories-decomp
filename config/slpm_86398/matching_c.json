@@ -4400,6 +4400,12 @@
       "source": "src/game/japanese/model_effect_gate_set.c"
     },
     {
+      "address": "0x8004EBDC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/japanese/model_effect_gate_get2.c"
+    },
+    {
       "address": "0x8004EBF4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
