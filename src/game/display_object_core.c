@@ -207,7 +207,7 @@ void DisplayObject_SetResourcePath(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_RESOURCE)
 void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
                     int field_69, int color, int texture)
 {
