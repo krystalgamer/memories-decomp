@@ -25,7 +25,8 @@ Each claim below carries one of these tags:
 * **[script]**: read from the disassembled bytecode, which the tool
   reproduces;
 * **[inferred]**: an interpretation that no code or listing states directly.
-  Each one says why it is believed.
+  Each one says why it is believed;
+* **[traced]**: observed while the game ran (§7).
 
 ## 1. Where the scripts are and how they are selected
 
@@ -94,6 +95,14 @@ are in [ai-structures.md](ai-structures.md#interpreter-dispatch-and-yielding).
   instruction it returns 0 if `VSync(1) >= 240` (a time slice). The caller
   runs it again on the next frame, and the cursor continues from where it
   stopped. The scripts contain no explicit yield instruction.
+* **Thinking time does not change a decision.** A slower or faster machine
+  changes only how many frames a decision spans. The one input that could
+  differ is `rand()`: another caller drawing between two of the AI's own
+  draws would shift its later rolls. **[traced]** (§7) With the interpreter
+  forced to yield after every command, up to 281 frames per decision, no
+  code other than the AI's handlers drew a number while a decision was in
+  progress. The AI's rolls are therefore the same consecutive draws at any
+  speed.
 * **Hand phase:** a single run ends at the one `EndHand` that is reached. The
   outcome is the selection record at `D_800EAE88` (`AiSelection`):
   * bytes 0-4: the hand slots to play, a list of up to five, which is the
@@ -588,10 +597,37 @@ inferred. The constant-propagation pass resolves a branch only when all of
 its operands are known constants. A per-duelist listing is therefore a
 superset of what that duelist can execute, never a subset.
 
-**Not verified dynamically.** No trace of the VM's program counter against a
-running game was taken for this note. That check is optional: log
-`gAiScript_State.previous_cursor - script_base` in `AiScript_Run` under a
-trace switch in any build that runs the retail code, then confirm that
-every logged offset is an instruction start in the listing. It was not done
-here. The claims marked [inferred] above are the ones that such a trace, or
-a closer reading of the two scene-state callers, would settle.
+**Dynamic check, partial.** A trace was taken in a native build of this
+repository's `src/game` C: the PC port in
+`Unchiga/Yu-Gi-Oh-Forbidden-Memories-Re-Decomp`, with its
+`MEMORIES_AI_TRACE`, `MEMORIES_AI_YIELD` and `ai_trace_check.py` (that
+repository's PR #19), in its deterministic mode. The build logged
+`gAiScript_State.previous_cursor - script_base` at every `VSync(1)` that
+`AiScript_Run` makes, which is once per command that is not the last one of
+a run. It also logged the caller of every `rand()`. The runs were 16
+sessions of 60,000 frames driven by random button presses:
+
+* four left the interpreter alone. That mode's clock moves a fixed 1 ms per
+  `VSync(1)`, so the interpreter yields after about 17 commands. The
+  console's rate is not what this measures;
+* nine forced a yield after every command;
+* three forced a yield after every eighth command.
+
+The totals are:
+
+| Check | Result |
+|---|---|
+| Decisions, duelists | 943, Simon Muran (1) and Teana (2) |
+| Commands logged | 156,234 |
+| Frames per decision | up to 281 |
+| Distinct offsets reached | hand 489 of 1314, field 296 of 795 |
+| Logged offsets that are not an instruction start in the listing | 0 |
+| `rand()` draws by other code while a decision was in progress | 0 |
+
+Only the AI's own `JumpRandom` drew numbers in those frames. The other
+duel-time callers (`DuelScene_UpdateBattle`'s shake, the result screen and
+the shuffle) run between decisions, for a fixed number of frames. The trace
+covers two duelists and the parts of the scripts that their duels reached.
+The result holds for the others too: inside the interpreter only
+`JumpRandom` and `SetRandom` draw. The claims marked [inferred] above are
+still open. A trace of the two scene-state callers would settle them.
