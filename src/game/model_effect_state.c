@@ -100,7 +100,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F070)
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
