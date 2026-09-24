@@ -523,6 +523,8 @@ m2:
     D_8009B07A = -1;
 }
 
+#endif
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FAE4)
 void func_8005FAE4(void)
 {
     D_8009B074 = 0;
