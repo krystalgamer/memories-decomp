@@ -818,6 +818,12 @@
       "source": "src/game/japanese/duel_battle_stats.c"
     },
     {
+      "address": "0x800213A0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/japanese/duel_calc_rank_score_change.c"
+    },
+    {
       "address": "0x8001EF18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x294",

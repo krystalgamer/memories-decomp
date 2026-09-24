@@ -376,7 +376,7 @@ void Duel_ShowResultPage(s32 page)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CALC_RANK_SCORE_CHANGE)
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
 {
     DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
