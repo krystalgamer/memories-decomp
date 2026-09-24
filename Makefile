@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split regional-progress-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -153,6 +153,9 @@ japanese-split: japanese-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/slpm_86398/split.yaml
 
+regional-progress-split: split japanese-map check-build-tools
+	@$(SPLAT) split config/slpm_86398/split.yaml
+
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
 	@$(PYTHON) tools/project/build_baseline.py
@@ -260,10 +263,10 @@ global-usage: split
 check-global-usage: split
 	@$(PYTHON) tools/project/global_usage.py --check
 
-progress: split
+progress: regional-progress-split
 	@$(PYTHON) tools/project/progress.py
 
-check-progress: split
+check-progress: regional-progress-split
 	@$(PYTHON) tools/project/progress.py --check
 
 check-notes:
