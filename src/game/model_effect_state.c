@@ -299,7 +299,7 @@ int func_8005F564(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F588)
 void func_8005F588(int value)
 {
     if (D_8009B07B != 1 || D_8009B07C != 1) {
