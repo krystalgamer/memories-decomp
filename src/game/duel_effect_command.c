@@ -137,7 +137,7 @@ void func_80038070(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_STREAM_SELECTOR)
 void func_80038094(DuelEffectChannel *object)
 {
     u8 **stream =

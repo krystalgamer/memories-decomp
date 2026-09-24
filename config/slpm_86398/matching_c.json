@@ -2354,6 +2354,12 @@
       "source": "src/game/japanese/duel_effect_forward_selector.c"
     },
     {
+      "address": "0x800377BC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/japanese/duel_effect_stream_selector.c"
+    },
+    {
       "address": "0x800377FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
