@@ -29,6 +29,9 @@ void func_8005F3B8(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);
 s32 func_8005F564(void);
 void func_8005F588(s32 value);
 void func_8005F5C8(s32 mode, s32 coefficient, SVECTOR *offset, s32 arg);
+#ifdef VERSION_JAPAN
+#define func_8005F714 func_8004F164
+#endif
 void func_8005F714(s32 first, s32 second, s32 arg);
 void func_8005F7B0(s32 value, s32 arg);
 void func_8005F828(s32 count, void *first, void *second, s32 arg);
