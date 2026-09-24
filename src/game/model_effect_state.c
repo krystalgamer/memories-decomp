@@ -589,7 +589,7 @@ void func_8005FB30(Key *key)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FBC4)
 void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
 {
     int x = (b - c) * scale;
