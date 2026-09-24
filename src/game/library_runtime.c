@@ -597,8 +597,6 @@ void func_8002BAB4(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
-
 /* The latter three Library functions in address order: the package-transfer
    callback, the pass that marks every owned card in the screen's state, and
    func_8002BFCC, which sets the screen up, installs that callback and hands
@@ -610,6 +608,7 @@ void func_8002BAB4(void)
 
 #define gStageRect (D_800E9D70[0])
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
