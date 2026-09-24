@@ -2390,6 +2390,12 @@
       "source": "src/game/japanese/dialog_open_choice.c"
     },
     {
+      "address": "0x80036E34",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA0",
+      "source": "src/game/japanese/func_8003767C.c"
+    },
+    {
       "address": "0x80036F64",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
