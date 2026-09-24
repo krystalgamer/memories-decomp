@@ -88,13 +88,15 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_START_PAGE_WAIT)
 void Text_StartPageWait(DuelEffectChannel *value)
 {
     value->state_51 = 4;
     D_8009B350 = 1;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 {
     s32 flag = TextStream_ReadU16LE(object);
