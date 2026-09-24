@@ -2344,7 +2344,7 @@
       "address": "0x80032B60",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/card_list_sort.c"
+      "source": "src/game/build_deck_compare_card.c"
     },
     {
       "address": "0x80032BD4",
