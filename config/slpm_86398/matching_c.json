@@ -3026,6 +3026,12 @@
       "source": "src/game/japanese/display_effect_resource_state.c"
     },
     {
+      "address": "0x80039BE0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3D8",
+      "source": "src/game/japanese/func_8003a560.c"
+    },
+    {
       "address": "0x80039FB8",
       "profile": "gcc_2_8_1_g0",
       "size": "0x3C",

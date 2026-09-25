@@ -496,7 +496,7 @@ segments:
       - [0x2a018, c, game/display_effect_has_resource_entry]
       - [0x2a06c, c, game/japanese/display_effect_build_resource_objects]
       - [0x2a2c0, c, game/japanese/display_effect_resource_state]
-      - [0x2a3e0, asm, func_80039BE0]
+      - [0x2a3e0, c, game/japanese/func_8003a560]
       - [0x2a7b8, c, game/japanese/display_position_group_set_child_positions]
       - [0x2a7f4, c, game/japanese/display_position_group_set_position]
       - [0x2a828, c, game/japanese/display_effect_position_interpolation]
