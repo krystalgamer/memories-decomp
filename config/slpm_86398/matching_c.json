@@ -1250,6 +1250,12 @@
       "source": "src/game/japanese/duel_effect_start_ritual.c"
     },
     {
+      "address": "0x800260F8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x758",
+      "source": "src/game/japanese/duel_effect_apply_ritual.c"
+    },
+    {
       "address": "0x80026850",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF8",
