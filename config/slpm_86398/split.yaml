@@ -320,7 +320,7 @@ segments:
       - [0x1dda4, c, game/japanese/main_run_unused_developer_mode]
       - [0x1ddac, asm, func_8002D5AC]
       - [0x1dffc, c, game/japanese/main_run_credits]
-      - [0x1e218, asm, func_8002DA18]
+      - [0x1e218, c, game/japanese/main_run_two_player_duel_setup]
       - [0x1e358, c, game/japanese/main_loop]
       - [0x1e3e0, c, game/japanese/script_image_transfer_callback]
       - [0x1e510, c, game/japanese/script_image_request_transfer]
