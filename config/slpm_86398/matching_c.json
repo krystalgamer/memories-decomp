@@ -2906,6 +2906,12 @@
       "source": "src/game/japanese/text_display_effect.c"
     },
     {
+      "address": "0x80038A68",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x3A0",
+      "source": "src/game/japanese/text_box_build_step.c"
+    },
+    {
       "address": "0x80038E08",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0x1A0",
