@@ -63,6 +63,9 @@ extern u8 gMemCard_bChannel;
 
 extern u8 gMemCard_szSaveFileName[];
 
+/* Japanese options-screen filename stored separately in the image. */
+extern u8 D_8001032C[];
+
 /* The filename buffer every memory card request is issued against.
  *
  * mem_card_dialog_runtime.c strcpy()s a name into it, and the load/save
