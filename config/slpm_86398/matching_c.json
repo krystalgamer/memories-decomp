@@ -2066,6 +2066,12 @@
       "source": "src/game/japanese/func_80031784.c"
     },
     {
+      "address": "0x80031A0C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x160",
+      "source": "src/game/japanese/card_list_create_slot_text_box.c"
+    },
+    {
       "address": "0x80031B6C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",

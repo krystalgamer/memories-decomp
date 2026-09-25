@@ -6,12 +6,15 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "card_list_text_boxes.h"
+#ifdef VERSION_JAPAN
+#include "duel_card.h"
+#endif
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
    kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_CREATE_SLOT_TEXT_BOX)
 void CardList_CreateSlotTextBox(CardList *list, s32 slot)
 {
     DuelEffectChannel *box;
@@ -21,6 +24,14 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
     style = 0;
     if (list->entries[list->first + slot].flags != 0) {
         style = 6;
+#ifdef VERSION_JAPAN
+        /* The Japanese build gives a magic or other non-monster card its own
+           box style. */
+        if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
+            style = 7;
+        }
+#endif
     }
     box = TextBox_Create(list->kind + 1, style, 0x22, 0x2B, 0x120, 0xB0);
     box->field_3A = slot * 22;
