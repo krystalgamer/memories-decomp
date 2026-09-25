@@ -30,6 +30,14 @@
 #define SAVE_DATA_LOAD_STATUS_ADDRESS 0x8009B0D1
 #endif
 
+#ifndef SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON
+#define SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+
+#ifndef SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON
+#define SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_LOAD)
 void SaveData_RequestLoad(void)
 {
@@ -63,7 +71,14 @@ s32 SaveData_PollLoad(void) {
 void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,gMemCard_szSaveFileName,2);}
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_LOAD_PAIR)
+#ifdef VERSION_JAPAN
+#define SAVE_DATA_LOAD_PAIR_CHANNEL(base, index) \
+    ((DuelEffectChannel *)((u8 *)(base) + (index) * 0x60))
+#else
+#define SAVE_DATA_LOAD_PAIR_CHANNEL(base, index) (&(base)[index])
+#endif
+
 /* The two-player load, validation and write-back runtime. The state machine
    first loads both card slots, then the two wrappers add trade or duel setup,
    and the final request writes the paired trade result back. */
@@ -110,11 +125,11 @@ s32 SaveData_UpdateLoadPair(void)
         }
         return 0;
     case 1:
-        if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) {
+        if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
             SD_SEPlayFull(8);
             D_8009B3EA = 0x82;
             gMemCard_pDialogObject->field_60 = 0x400;
-        } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
+        } else if (gInput_wPad1Pressed & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
             SD_SEPlayFull(7);
             D_8009B3EA = 2;
             gMemCard_pDialogObject->field_60 = 0x400;
@@ -123,7 +138,8 @@ s32 SaveData_UpdateLoadPair(void)
     case 2:
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
-            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
+            TextBox_Destroy(
+                SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, D_8009B3EE));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             if ((D_8009B3EA & 0x80) == 0) {
@@ -189,7 +205,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         func_80039794();
         q = D_800EB0F8;
-        if ((q[D_8009B3EE].flags_34 & 8) == 0) {
+        if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, D_8009B3EE)->flags_34 & 8) == 0) {
             D_8009B3EA = 0xB;
         }
         return 0;
@@ -200,7 +216,8 @@ s32 SaveData_UpdateLoadPair(void)
         }
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE) == 0) {
-            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
+            TextBox_Destroy(
+                SAVE_DATA_LOAD_PAIR_CHANNEL(D_800EB0F8, D_8009B3EE));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
             return 2;
@@ -209,6 +226,7 @@ s32 SaveData_UpdateLoadPair(void)
     }
     return 0;
 }
+#undef SAVE_DATA_LOAD_PAIR_CHANNEL
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_UPDATE_TRADE_LOAD)
