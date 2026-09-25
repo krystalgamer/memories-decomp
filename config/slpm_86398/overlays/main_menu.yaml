@@ -1,0 +1,70 @@
+name: japanese_main_menu
+sha1: 4e006e39611e19f7c990c6cddbb2a50fb95082db
+
+options:
+  basename: japanese_main_menu
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_main_menu/module.bin
+  elf_path: tmp/overlays/japanese_main_menu/build/japanese_main_menu.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/japanese_main_menu/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_main_menu/build
+  asset_path: tmp/overlays/japanese_main_menu/assets
+  cache_path: tmp/overlays/japanese_main_menu/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/japanese_main_menu/japanese_main_menu.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_main_menu/include
+  lib_path: tmp/overlays/japanese_main_menu/lib
+  o_path: tmp/overlays/japanese_main_menu/build
+  undefined_funcs_auto_path: tmp/overlays/japanese_main_menu/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_main_menu/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - notes/research/Unchiga_Symbols/modules/main_menu.txt
+    - config/slus_01411/overlays/main_menu_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/japanese_main_menu/header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80180004
+    align: 4
+    subsegments:
+      - [0x4, rodata, overlays/japanese_main_menu/rodata]
+      - [0x1C, asm, overlays/japanese_main_menu/text]
+      - [0x40F8, c, overlays/japanese/main_menu/adjust_trade_card_count]
+      - [0x416C, asm, overlays/japanese_main_menu/text_tail]
+      - [0x4558, data, overlays/japanese_main_menu/data]
+
+  - [0x8000]
