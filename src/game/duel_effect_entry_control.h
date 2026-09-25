@@ -4,6 +4,12 @@
 #include "../types.h"
 #include "duel_effect.h"
 
+typedef struct {
+    u8 pad_00[0x5C];
+    u8 range_start_5C;
+    u8 range_count_5D;
+} JapaneseDuelEffectEntryRange;
+
 /* DuelEffect_HasActiveEntry reports whether a channel still has an entry in
  * flight, and Text_CompletePageAdvance is the D_80090E64 state that waits for
  * that to clear.

@@ -7,7 +7,10 @@ typedef struct {
     u8 pad_00[0x11];
     u8 flags_11;
     u8 field_12;
-    u8 pad_13[5];
+    u8 field_13;
+    u8 pad_14;
+    u8 field_15;
+    u8 pad_16[2];
 } JapaneseDuelEffectEntry;
 
 typedef char JapaneseDuelEffectEntry_size_must_be_0x18[
