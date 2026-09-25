@@ -1748,6 +1748,12 @@
       "source": "src/game/japanese/library_get_grid_cursor_card_id.c"
     },
     {
+      "address": "0x8002A568",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x238",
+      "source": "src/game/japanese/library_update_grid_cursor.c"
+    },
+    {
       "address": "0x8002B880",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",

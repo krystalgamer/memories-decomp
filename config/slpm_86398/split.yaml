@@ -268,7 +268,7 @@ segments:
       - [0x1a8d4, c, game/func_8002A3CC]
       - [0x1ac40, c, game/func_8002A660]
       - [0x1ac98, c, game/japanese/library_get_grid_cursor_card_id]
-      - [0x1ad68, asm, func_8002A568]
+      - [0x1ad68, c, game/japanese/library_update_grid_cursor]
       - [0x1afa0, c, game/func_8002A9C0]
       - [0x1b194, c, game/func_8002ABB4]
       - [0x1b284, asm, func_8002AA84]
