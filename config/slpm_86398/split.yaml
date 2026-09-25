@@ -524,7 +524,7 @@ segments:
       - [0x2c7a4, c, game/japanese/game_over]
       - [0x2c9d0, c, game/japanese/input_reset_pads]
       - [0x2ca3c, c, game/japanese/input_init_pads]
-      - [0x2ca74, asm, func_8003C274]
+      - [0x2ca74, c, game/japanese/input_read_raw_pads]
       - [0x2ca9c, c, game/japanese/input_update_pads]
       - [0x2cbbc, c, game/input_pad1_backup]
       - [0x2cc38, c, game/japanese/save_data_next_mask_word]
