@@ -2534,6 +2534,12 @@
       "source": "src/game/japanese/duel_effect_result_clear.c"
     },
     {
+      "address": "0x80037210",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xE8",
+      "source": "src/game/japanese/func_80037210.c"
+    },
+    {
       "address": "0x800372F8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x134",
