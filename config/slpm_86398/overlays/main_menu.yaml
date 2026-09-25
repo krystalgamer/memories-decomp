@@ -65,6 +65,8 @@ segments:
       - [0x1C, asm, overlays/japanese_main_menu/text]
       - [0xD2C, c, overlays/japanese/main_menu/start_frontend_entry_transition]
       - [0xDD0, asm, overlays/japanese_main_menu/frontend_tail]
+      - [0x1CB8, c, overlays/japanese/main_menu/update_value_widget_tween]
+      - [0x1E30, asm, overlays/japanese_main_menu/value_setup_finish]
       - [0x1EEC, c, overlays/japanese/main_menu/count_decimal_digits]
       - [0x1F20, c, overlays/japanese/main_menu/start_value_widget_tween]
       - [0x1F68, asm, overlays/japanese_main_menu/value_setup_tail]

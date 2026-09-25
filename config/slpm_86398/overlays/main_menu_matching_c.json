@@ -7,6 +7,12 @@
       "source": "src/overlays/japanese/main_menu/start_frontend_entry_transition.c"
     },
     {
+      "address": "0x80181CB8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x178",
+      "source": "src/overlays/japanese/main_menu/update_value_widget_tween.c"
+    },
+    {
       "address": "0x80181EEC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",

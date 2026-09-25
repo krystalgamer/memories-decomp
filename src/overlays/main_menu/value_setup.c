@@ -441,6 +441,9 @@ void MainMenu_DrawValueSetup(void)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN)
 void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 {
     DisplayObject *widget;
@@ -477,7 +480,9 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
         (o->field_38.h.field_38 * o->field_60) / 10 +
         (targetY * (10 - o->field_60)) / 10;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void MainMenu_FinishValueSetup(void)
 {
     *D_801845C0[0].out = D_801845C0[0].value;
