@@ -304,7 +304,7 @@ DisplayObject **FreeDuel_GetSparkleSlot(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SPARKLE)
 void FreeDuel_UpdateSparkle(void)
 {
     DisplayObject *obj;
@@ -334,7 +334,9 @@ void FreeDuel_UpdateSparkle(void)
         }
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void FreeDuel_UpdateCursorTween(void)
 {
     DisplayObject *widget = gFreeDuel_pCursorWidget;
