@@ -29,7 +29,83 @@
    the primary handlers Text_ExtendGlyphCode and Text_SetStateFromStream in
    text_stream_commands.c. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80037DA4)
+#ifdef VERSION_JAPAN
+/* The Japanese card-text command: no field_62 (the Japanese channel record
+   ends at 0x60), a +0x100 rather than +0xD100 id for op bit 6, the stars
+   without the US type and 0x17 tests, an unconditional glyph for the plain
+   case, and the two-bank string lookup of the Japanese Text_LookupString. */
+void func_80037DA4(DuelEffectChannel *object)
+{
+    s32 op;
+    s32 id;
+    s32 n;
+    u8 *text;
+    u8 *current;
+
+    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *)((u32)text * 4);
+    {
+        u8 *stream = (u8 *)object;
+
+        stream += (u32)text;
+        text = stream;
+        current = *(u8 **)text;
+        op = *current++;
+        *(u8 **)text = current;
+    }
+    if (op & 0x10) {
+        object->field_54 = D_8009B320;
+        return;
+    }
+    if (op & 0x20) {
+        id = gDuel_wSelectedCardID + 0x8000;
+    } else if (op & 0x40) {
+        id = gDuel_wSelectedCardID + 0x100;
+    } else {
+        id = 0;
+        switch (op & 0xF) {
+        case 0:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+            break;
+        case 1:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+            id += 0x17;
+            break;
+        case 2:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+            id += 0x17;
+            break;
+        }
+        if (!(op & 0x80)) {
+            goto plain;
+        }
+        id += 0x8300;
+    }
+    object->stream_58++;
+    n = id;
+    if (id & TEXT_GLOBAL_STRING_ID_BASE) {
+        text = (u8 *)(((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
+                      D_801D6000[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
+    } else {
+        if (id >= 0x500) {
+            n = id - 0x100;
+        }
+        text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) |
+                      D_801C0000[n]);
+    }
+    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
+    return;
+plain:
+    object->flags_34 |= 0x80;
+    func_80036C14(object, id);
+    object->flags_34 &= 0xFF7F;
+    object->field_38 += 0x10;
+}
+#else
 void func_80037DA4(DuelEffectChannel *object)
 {
     s32 op;
@@ -122,6 +198,7 @@ plain:
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#endif
 
 #endif
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038024)
