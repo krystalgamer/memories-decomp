@@ -43,6 +43,12 @@
       "source": "src/overlays/japanese/overworld_after_coup/move_camera_dpad.c"
     },
     {
+      "address": "0x80168588",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/japanese/overworld_after_coup/create_location_marker.c"
+    },
+    {
       "address": "0x801688BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1EC",
