@@ -418,6 +418,7 @@ segments:
       - [0x2797c, c, game/japanese/bgm_fade_wait]
       - [0x279b0, c, game/japanese/duel_effect_result_clear]
       - [0x27a10, asm, func_80037210]
+      - [0x27af8, c, game/japanese/func_800372f8]
       - [0x27c2c, c, game/text_box_wrap_line]
       - [0x27c98, c, game/text_try_complete_choice_layout]
       - [0x27ce4, c, game/japanese/text_extend_glyph_code]
