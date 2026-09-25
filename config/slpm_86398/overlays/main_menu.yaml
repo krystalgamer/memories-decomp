@@ -74,7 +74,8 @@ segments:
       - [0x3E8C, asm, overlays/japanese_main_menu/trade_offers_tail]
       - [0x4030, c, overlays/japanese/main_menu/apply_trade_offer_inventory_delta]
       - [0x40F8, c, overlays/japanese/main_menu/adjust_trade_card_count]
-      - [0x416C, asm, overlays/japanese_main_menu/text_tail]
+      - [0x416C, c, overlays/japanese/main_menu/compare_cards_by_name]
+      - [0x4254, asm, overlays/japanese_main_menu/text_tail]
       - [0x44D8, c, overlays/japanese/main_menu/rebuild_trade_inventory_rows]
       - [0x4558, data, overlays/japanese_main_menu/data]
 

@@ -4,6 +4,7 @@
 #include "card_comparators.h"
 #include "card_tables.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_NAME)
 s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
 {
     s32 result;
@@ -53,7 +54,9 @@ s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
     }
     return result;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
 {
     s32 result;
@@ -101,3 +104,4 @@ s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
     }
     return result;
 }
+#endif
