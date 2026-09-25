@@ -733,7 +733,13 @@ void Library_MarkOwnedCards(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BFCC)
+/* The Library package's first sector; the Japanese WA.MRG places it
+   elsewhere, so a regional build supplies its own. */
+#ifndef LIBRARY_PACKAGE_FIRST_SECTOR
+#define LIBRARY_PACKAGE_FIRST_SECTOR 0x1DCD
+#endif
+
 void func_8002BFCC(void) {
     s16 *q;
     DuelEffectResourceRecord *b;
@@ -767,7 +773,7 @@ void func_8002BFCC(void) {
         n--;
         q--;
     } while (n >= 0);
-    File_RequestAsyncTransfer(0, (u8 *)0, 0x1DCD, 0x8A,
+    File_RequestAsyncTransfer(0, (u8 *)0, LIBRARY_PACKAGE_FIRST_SECTOR, 0x8A,
                               (FileTransferCallback)func_8002BD0C, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
@@ -841,10 +847,16 @@ void func_8002BFCC(void) {
         }
         n++;
     } while (n < CARD_ID_END);
+#ifndef VERSION_JAPAN
+    /* The Japanese build makes neither this call nor the two field stores
+       below. */
     func_8003B6AC(3, 1);
+#endif
     m = TextBox_Create(3, 0xF8, 0x58, -0x18, 0x90, 0x10);
+#ifndef VERSION_JAPAN
     m[0x5A] = 0x10;
     m[0x5B] = 0x10;
+#endif
     func_80039A14((struct DuelEffectChannel *)m);
     DisplayObject_SelectOrderingTable3(*(DisplayObject **)(m + 0x28));
     *(u16 *)(*(u8 **)(m + 0x28) + 8) &=

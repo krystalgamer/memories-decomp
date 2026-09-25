@@ -1514,6 +1514,12 @@
       "source": "src/game/japanese/library_mark_owned_cards.c"
     },
     {
+      "address": "0x8002BDAC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x420",
+      "source": "src/game/japanese/func_8002bfcc.c"
+    },
+    {
       "address": "0x8002C1CC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",
