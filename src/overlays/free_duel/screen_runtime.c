@@ -344,7 +344,7 @@ void FreeDuel_UpdateSparkle(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_CURSOR_TWEEN)
 void FreeDuel_UpdateCursorTween(void)
 {
     DisplayObject *widget = gFreeDuel_pCursorWidget;
@@ -401,6 +401,9 @@ void FreeDuel_UpdateCursorTween(void)
     }
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void FreeDuel_UpdateScreen(void)
 {
     DuelEffectChannel *panel;

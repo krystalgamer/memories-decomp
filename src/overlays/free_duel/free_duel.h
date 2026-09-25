@@ -39,6 +39,10 @@ extern u8 gFreeDuel_bReturnFlags;
  * has finished, and c_symbols.ld gives the resident link its address. */
 void FreeDuel_Init(u8 *src);
 
+void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm);
+DisplayObject **FreeDuel_GetSparkleSlot(void);
+DisplayObject *FreeDuel_SpawnSparkle(void);
+
 void FreeDuel_Entry(void);
 /* Resident entry alias used before this overlay is linked into its slot. */
 void func_80168FB4(void);
