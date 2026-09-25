@@ -43,6 +43,25 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->field_40.h.field_40 = m;
     q->field_30.h.field_30 = m;
 
+#ifdef VERSION_JAPAN
+    /* The Japanese build has one layout for every entry: no field_18 % 10
+       selection, and y steps of 8 from the choice row rather than the US
+       spacings below. */
+    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->field_40) + (D_8009B34C & 0x30) +
+        ((s32)(*(u8 *)&gDialog_bChoice << 24) >> 20);
+    q->position.h.field_2A = v;
+
+    do {
+        w = v;
+    } while (0);
+    q->field_30.h.field_32 = v;
+    v = v + 8;
+    w = w + 0x10;
+    q->field_40.h.field_42 = v;
+    q->field_38.h.field_3A = v;
+    q->field_50.h.field_52 = w;
+    q->field_48.h.field_4A = w;
+#else
     k = D_800EB288[
         gDuelEffect_awEntryRangeBoundaries[p->index_57]
     ].field_18 % 10;
@@ -92,4 +111,5 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->field_38.h.field_3A = y;
     q->field_50.h.field_52 = x;
     q->field_48.h.field_4A = x;
+#endif
 }

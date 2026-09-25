@@ -416,7 +416,7 @@ segments:
       - [0x26aac, asm, func_800362AC]
       - [0x26e48, c, game/text_stream_read_u16_le]
       - [0x26e7c, c, game/text_stream_read_le]
-      - [0x26ec8, asm, func_800366C8]
+      - [0x26ec8, c, game/japanese/duel_effect_update_object_layout]
       - [0x26f3c, c, game/dialog_choice_cursor]
       - [0x270cc, c, game/japanese/widget_update_pulse_colour]
       - [0x27164, c, game/japanese/dialog_update_choice]
