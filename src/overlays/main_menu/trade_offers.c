@@ -147,7 +147,9 @@ void MainMenu_ReleaseTradeDisplayHandles(void)
     D_801845E0 = 0;
     D_800E9DB0[1] = 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_APPLY_TRADE_OFFER_INVENTORY_DELTA)
 void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 {
     s32 i;
@@ -160,6 +162,7 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_ADJUST_TRADE_CARD_COUNT)
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
     CardCountEntry *p;
@@ -184,3 +187,4 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
         i++;
     }
 }
+#endif
