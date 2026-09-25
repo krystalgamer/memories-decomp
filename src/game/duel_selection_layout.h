@@ -55,6 +55,7 @@ typedef struct {
     u8 field_11;
     u8 field_12;
     u8 field_13;
+    /* Japanese keeps the record index; North America maps index 3 to 1. */
     u8 field_14;
     /* Zero while the side is picking from its hand, which is the condition
      * func_8001B8B8 dims every other card under. */
