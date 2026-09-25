@@ -33,7 +33,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE_LOAD)
 /* Memory-card load dialog state machine.
 
    Levers that mattered here:
