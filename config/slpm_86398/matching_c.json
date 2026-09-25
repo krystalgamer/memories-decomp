@@ -3638,6 +3638,12 @@
       "source": "src/game/display_object_interpolation.c"
     },
     {
+      "address": "0x80042B64",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x168",
+      "source": "src/game/japanese/main_load_boot_image_stage.c"
+    },
+    {
       "address": "0x80042CCC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",
