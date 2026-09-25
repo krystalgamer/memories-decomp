@@ -62,7 +62,7 @@ segments:
     subsegments:
       - [0x4, c, overlays/japanese/overworld_after_coup/clear_location_objects]
       - [0x50, c, overlays/japanese/overworld_after_coup/rebuild_location_objects]
-      - [0x18C, asm, overlays/japanese_overworld_after_coup/text_18c]
+      - [0x18C, c, overlays/japanese/overworld_after_coup/create_location_label]
       - [0x1E8, c, overlays/japanese/overworld_after_coup/set_camera_from_location]
       - [0x258, c, overlays/japanese/overworld_after_coup/update_view]
       - [0x310, asm, overlays/japanese_overworld_after_coup/text_310]
