@@ -250,6 +250,7 @@ D_8009B269 = 0x8009B159;
 gJapanese_D_8009B278 = 0x8009B168;
 D_8009B27C = 0x8009B16C;
 gJapanese_D_8009B290 = 0x8009B180;
+gJapanese_D_8009B2A6 = 0x8009B196;
 DebugMenu_DimPrimaryDisplayObject = 0x8002FE38;
 DebugMenu_RestorePrimaryDisplayObject = 0x8002FE54;
 D_800EB184 = 0x800EB060;
