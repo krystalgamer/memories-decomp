@@ -3200,6 +3200,12 @@
       "source": "src/game/japanese/input_init_pads.c"
     },
     {
+      "address": "0x8003C274",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/japanese/input_read_raw_pads.c"
+    },
+    {
       "address": "0x8003C29C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",

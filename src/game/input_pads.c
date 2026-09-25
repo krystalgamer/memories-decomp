@@ -6,7 +6,8 @@
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 #include "../psyq/libapi.h"
-#ifdef VERSION_JAPAN_INPUT_INIT_PADS
+#if defined(VERSION_JAPAN_INPUT_INIT_PADS) || \
+    defined(VERSION_JAPAN_INPUT_READ_RAW_PADS)
 #include "../psyq/libetc.h"
 #endif
 #include "graphics_frame.h"
@@ -76,9 +77,12 @@ void Input_InitPads(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_READ_RAW_PADS)
 void Input_ReadRawPads(void)
 {
+#ifdef VERSION_JAPAN
+    gInput_dwPendingHeld |= PadRead(2);
+#else
     u8 *p = gInput_abRawPadBuffers;
     if (p[0] == 0 && (p[1] & 0xF) != 0)
         gInput_dwPendingHeld |= ((p[2] << 8) | p[3]) ^ INPUT_PAD_BUTTON_MASK;
@@ -91,6 +95,7 @@ void Input_ReadRawPads(void)
                    q[INPUT_RAW_PAD_BUFFER_SIZE + 3]) ^ INPUT_PAD_BUTTON_MASK) <<
                  INPUT_PAD_BUTTON_BITS);
     }
+#endif
 }
 
 #endif
