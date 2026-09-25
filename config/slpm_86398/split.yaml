@@ -355,7 +355,7 @@ segments:
       - [0x205f8, c, game/japanese/script_readers]
       - [0x20638, c, game/display_object_brightness]
       - [0x20670, c, game/japanese/debug_menu_update_cursor_layout]
-      - [0x20740, asm, func_8002FF40]
+      - [0x20740, c, game/japanese/debug_menu_init]
       - [0x207e0, c, game/japanese/func_8002ffe0]
       - [0x20824, c, game/japanese/func_80030294]
       - [0x20d48, c, game/japanese/debug_menu_update_sound_entry]
