@@ -47,7 +47,15 @@ s32 Library_GetGridCursorCardId(u8 *state)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef LIBRARY_GRID_CONFIRM_BUTTON
+#define LIBRARY_GRID_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#endif
+
+#ifndef LIBRARY_GRID_CANCEL_BUTTON
+#define LIBRARY_GRID_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_GRID_CURSOR)
 /*
  * State 1 of the Library screen. The held-input view remains volatile because
  * every direction path must retain the retail input reloads.
@@ -61,7 +69,7 @@ void Library_UpdateGridCursor(u8 *state)
     s32 distance;
 
     if (func_8002A3CC() == 0) {
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
+        if ((gInput_wPad1Pressed & LIBRARY_GRID_CONFIRM_BUTTON) != 0) {
             card_id = Library_GetGridCursorCardId(state);
             if ((Library_GetCardFlags(state, card_id) & 0x80) != 0) {
                 ((LibrarySelectionState *)state)->selected_card_id = card_id;
@@ -69,7 +77,7 @@ void Library_UpdateGridCursor(u8 *state)
                 return;
             }
         }
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+        if ((gInput_wPad1Pressed & LIBRARY_GRID_CANCEL_BUTTON) != 0) {
             D_8009B26C[0] = D_8009B269[0];
             return;
         }
