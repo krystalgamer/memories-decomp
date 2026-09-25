@@ -856,6 +856,7 @@ D_800EAE92 = 0x800EAD72;
 TextBox_SetPos = 0x80038FA8;
 DuelEffect_UpdateObjectLayout = 0x800366C8;
 func_80039140 = 0x800387F8;
+func_80035E20 = 0x80035B6C;
 TextBox_BuildStep = 0x80038A68;
 Script_OpSound = 0x8002EA4C;
 Script_OpFadeBgm = 0x8002EB88;
