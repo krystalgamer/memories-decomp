@@ -484,6 +484,9 @@ void FreeDuel_UpdateScreen(void)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_ENTRY)
 void FreeDuel_Entry(void)
 {
     s32 phase;
