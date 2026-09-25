@@ -403,7 +403,14 @@ void FreeDuel_UpdateCursorTween(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCREEN)
+#ifdef VERSION_JAPAN
+#define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CROSS
+#define FREE_DUEL_CONFIRM_BUTTONS (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
+#define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#define FREE_DUEL_CONFIRM_BUTTONS PAD_BUTTON_CONFIRM_MASK
+#endif
 void FreeDuel_UpdateScreen(void)
 {
     DuelEffectChannel *panel;
@@ -453,12 +460,12 @@ void FreeDuel_UpdateScreen(void)
             }
         }
     } else {
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+        if ((gInput_wPad1Pressed & FREE_DUEL_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(8);
             D_8009B26C = 8;
             return;
         }
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) == 0) {
+        if ((gInput_wPad1Pressed & FREE_DUEL_CONFIRM_BUTTONS) == 0) {
             return;
         }
         if (gFreeDuel_abGridAvailable[
