@@ -2168,6 +2168,12 @@
       "source": "src/game/func_800320BC.c"
     },
     {
+      "address": "0x80031EEC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1A4",
+      "source": "src/game/japanese/func_80031eec.c"
+    },
+    {
       "address": "0x800320D8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
