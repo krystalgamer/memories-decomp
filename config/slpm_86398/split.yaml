@@ -775,7 +775,7 @@ segments:
       - [0x4d640, c, game/japanese/model_camera_target_slots]
       - [0x4d6a4, c, game/japanese/model_camera_duration]
       - [0x4d70c, c, game/japanese/model_camera_speed]
-      - [0x4d760, asm, func_8005CF60]
+      - [0x4d760, c, game/japanese/model_camera_field_04]
       - [0x4d7b0, c, game/func_8005A188]
       - [0x4d81c, c, game/model_distance_queries]
       - [0x4d9f8, c, game/func_8005A3D0]

@@ -32,7 +32,8 @@ void func_8005A010(s32 first, s32 second);
  * (src/game/model_intro_controller.c:319) while already including this header.
  * Its two immediate neighbours in the file, func_8005A074 and func_8005A130,
  * have no uses outside the unit at all, which is why they are still not
- * declared here. */
+ * declared here. The latter writes both field_06 and field_04 in the US
+ * camera record, but only field_04 in the compact Japanese record. */
 void func_8005A0DC(s32 value);
 
 #endif
