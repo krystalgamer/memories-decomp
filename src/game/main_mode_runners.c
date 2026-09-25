@@ -89,8 +89,7 @@ void Main_RunUnusedDeveloperMode(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
-
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_TRADE)
 void Main_RunTrade(void)
 {
     DuelEffectChannel *box;
