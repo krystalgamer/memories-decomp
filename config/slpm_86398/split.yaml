@@ -727,7 +727,7 @@ segments:
       - [0x468c4, c, game/japanese/model_tint_pass]
       - [0x46d44, asm, func_80056544]
       - [0x470d8, c, game/japanese/func_800568d8]
-      - [0x4725c, asm, Model_SetSlotProperties]
+      - [0x4725c, c, game/japanese/model_set_slot_properties]
       - [0x473bc, c, game/japanese/model_texture_reset]
       - [0x4749c, asm, func_80056C9C]
       - [0x48dd0, c, game/japanese/func_800556E8]

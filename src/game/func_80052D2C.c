@@ -229,7 +229,9 @@ void func_800530C4(void)
 #include "../psyq/stdarg.h"
 #include "model.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_SET_SLOT_PROPERTIES)
+/* The Japanese build sets only the slot record, without the three
+   D_8009B488/D_8009B48E/D_8009B490 mirrors. */
 void Model_SetSlotProperties(s32 idx, ...)
 {
     va_list ap;
@@ -243,7 +245,9 @@ void Model_SetSlotProperties(s32 idx, ...)
     p1 = va_arg(ap, s32);
     if (p1 >= 0) {
         D_800F2C40[idx].field_DF8 = p1;
+#ifndef VERSION_JAPAN
         D_8009B488[idx] = p1;
+#endif
     }
     if (idx < 2) {
         p2 = va_arg(ap, s32);
@@ -258,11 +262,15 @@ void Model_SetSlotProperties(s32 idx, ...)
         }
         if (p4 >= 0) {
             D_800F2C40[idx].field_DFE = (p4 != 0);
+#ifndef VERSION_JAPAN
             D_8009B48E[idx] = (p4 != 0);
+#endif
         }
         if (p5 >= 0) {
             D_800F2C40[idx].field_DFF = (p5 != 0);
+#ifndef VERSION_JAPAN
             D_8009B490[idx] = (p5 != 0);
+#endif
         }
     } else {
         D_8009AF88 = &D_80091008[D_800F5678[0] * 0xB2];
