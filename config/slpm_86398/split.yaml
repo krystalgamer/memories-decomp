@@ -547,7 +547,7 @@ segments:
       - [0x2ed34, c, game/japanese/mem_card_dialog_step_save]
       - [0x2ed6c, asm, func_8003E56C]
       - [0x2edb4, c, game/japanese/mem_card_dialog_update_trade_save]
-      - [0x2f194, asm, func_8003E994]
+      - [0x2f194, c, game/japanese/mem_card_dialog_step_slide]
       - [0x2f264, c, game/japanese/mem_card_dialog_create_object]
       - [0x2f330, asm, func_8003EB30]
       - [0x2f5e0, c, game/japanese/mem_card_dialog_poll]
