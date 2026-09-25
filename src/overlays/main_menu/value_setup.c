@@ -495,7 +495,9 @@ void MainMenu_FinishValueSetup(void)
     D_801845B0[2] = 0;
     D_800E9DB0[0] = 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COUNT_DECIMAL_DIGITS)
 s32 MainMenu_CountDecimalDigits(s32 value)
 {
     s32 digits = 0;
@@ -511,6 +513,7 @@ s32 MainMenu_CountDecimalDigits(s32 value)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
     DisplayObject *object = D_801845B0[index];
@@ -522,3 +525,4 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_34.h.field_36 = object->field_30.h.field_30;
     object->field_38.h.field_38 = object->field_30.h.field_32;
 }
+#endif
