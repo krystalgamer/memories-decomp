@@ -203,7 +203,7 @@ segments:
       - [0x11edc, c, game/japanese/duel_award_card]
       - [0x11f38, c, game/japanese/func_800218F0]
       - [0x12700, c, game/japanese/debug_effect_screen_input]
-      - [0x1293c, asm, func_8002213C]
+      - [0x1293c, c, game/japanese/func_8002213c]
       - [0x12c60, c, game/japanese/duel_effect_preview_hud]
       - [0x12cbc, c, game/japanese/duel_card_turn_animations]
       - [0x133dc, c, game/japanese/func_80022D94]
