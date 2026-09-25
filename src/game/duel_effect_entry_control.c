@@ -2,12 +2,29 @@
 #include "duel_effect.h"
 #include "duel_effect_entry_control.h"
 
+#ifdef VERSION_JAPAN_DUEL_EFFECT_COMPACT_ENTRIES
+#include "duel_effect_entry_occupancy.h"
+
+#define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
+#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)D_800EB288)
+#define DUEL_EFFECT_RANGE_START(channel) \
+    (((JapaneseDuelEffectEntryRange *)(channel))->range_start_5C)
+#define DUEL_EFFECT_RANGE_COUNT(channel) \
+    (((JapaneseDuelEffectEntryRange *)(channel))->range_count_5D)
+#else
+#define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
+#define DUEL_EFFECT_ENTRIES D_800EB288
+#define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
+#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
+#endif
+
 #define DUEL_EFFECT_ENTRY_FROM_FIELD_13(field) \
-    ((DuelEffectEntry *)((field) - 0x13))
+    ((DUEL_EFFECT_ENTRY_TYPE *)((field) - 0x13))
 #define DUEL_EFFECT_ENTRY_FROM_FIELD_15(field) \
-    ((DuelEffectEntry *)((field) - 0x15))
+    ((DUEL_EFFECT_ENTRY_TYPE *)((field) - 0x15))
 #define DUEL_EFFECT_ENTRY_BYTES(entry) ((u8 *)(entry))
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_HAS_ACTIVE_ENTRY)
 /* Starting from the record's entry range, scans up to range_count_5C entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
    field_13 nonzero, 0
@@ -16,9 +33,9 @@ int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     int v0;
     int count;
     u8 *v1;
-    v0 = a0->range_start_5C;
-    count = a0->range_count_5E;
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&D_800EB288[v0]);
+    v0 = DUEL_EFFECT_RANGE_START(a0);
+    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
     if (count == 0) {
         goto ret_zero_a;
     }
@@ -33,14 +50,16 @@ loop:
         return 1;
     }
     count = count - 1;
-    v1 = v1 + sizeof(DuelEffectEntry);
+    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
     if (count != 0) {
         goto loop;
     }
 ret_zero_a:
     return 0;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_SET_ENTRY_FIELDS)
 /* Starting from the record's entry range, walks up to range_count_5E entries;
    for each active entry, writes a1 to field_13 and a2 to field_15,
    stopping at the first entry with that flag clear or when the count runs
@@ -50,9 +69,9 @@ void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
     int count;
     u8 *v1;
 
-    v0 = a0->range_start_5C;
-    count = a0->range_count_5E;
-    v1 = DUEL_EFFECT_ENTRY_BYTES(&D_800EB288[v0]);
+    v0 = DUEL_EFFECT_RANGE_START(a0);
+    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
     if (count == 0) {
         return;
     }
@@ -65,12 +84,14 @@ loop:
     count = count - 1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_13 = a1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_15 = a2;
-    v1 = v1 + sizeof(DuelEffectEntry);
+    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
     if (count != 0) {
         goto loop;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
     u8 state = object->state_51;
@@ -93,3 +114,4 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     object->state_51 = 0;
     object->field_62 = 0;
 }
+#endif
