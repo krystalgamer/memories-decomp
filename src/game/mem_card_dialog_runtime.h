@@ -16,6 +16,12 @@
 void MemCardDialog_UpdateTradeSave(void);
 void MemCardDialog_Update(void);
 
+#ifdef VERSION_JAPAN
+/* The Japanese dialog brackets the card session with these SDK helpers. */
+void func_8008D680(void);
+void func_8008D6F0(void);
+#endif
+
 /* Picks the first free effect channel into D_8009B3EE and opens the dialog's
  * display object into gMemCard_pDialogObject. */
 void MemCardDialog_CreateObject(void);
