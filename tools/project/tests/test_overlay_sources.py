@@ -30,6 +30,8 @@ class OverlaySourceTests(unittest.TestCase):
         self.addCleanup(temporary.cleanup)
         self.root = Path(temporary.name) / "workspace"
         self.config = "config/slus_01411/overlays"
+        self.japanese_config = "config/slpm_86398/overlays"
+        (self.root / self.japanese_config).mkdir(parents=True)
         self.text = "src/overlays/example/runtime.c"
         self.data = "src/overlays/example/header.c"
         self.write(self.text, "void Example_Run(void) {}\n")
@@ -234,6 +236,49 @@ class OverlaySourceTests(unittest.TestCase):
         self.write("src/overlays/example/unwired.c", "/* fixture */\n")
         with self.assertRaisesRegex(overlay_extract.OverlayError, "not wired"):
             overlay_extract.verify_sources_wired(self.root)
+
+    def test_japanese_overlay_source_requires_japanese_manifest_wiring(self) -> None:
+        source = "src/overlays/japanese/example/runtime.c"
+        self.write(source, "void JapaneseExample_Run(void) {}\n")
+        layout = self.write(
+            f"{self.japanese_config}/example.yaml",
+            "segments:\n"
+            "  - name: module\n"
+            "    type: code\n"
+            "    subsegments:\n"
+            "      - [4, c, overlays/japanese/example/runtime]\n",
+        )
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "missing units"):
+            overlay_extract.verify_sources_wired(self.root)
+        manifest = self.write_json(
+            f"{self.japanese_config}/example_matching_c.json",
+            {"schema": 1, "functions": [self.entry(source)]},
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            overlay_extract.verify_sources_wired(self.root)
+        manifest.unlink()
+        layout.unlink()
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "not wired"):
+            overlay_extract.verify_sources_wired(self.root)
+
+    def test_japanese_region_selects_its_own_overlay_manifest(self) -> None:
+        module = {
+            "name": "japanese_example",
+            "archive": "game/japanese/DATA/SU.MRG",
+            "archive_sha256": "archive-hash",
+            "sector_offset": 98,
+            "sector_count": 16,
+            "load_address": "0x80180000",
+            "output": "tmp/overlays/japanese_example/module.bin",
+            "sha256": "module-hash",
+            "layout": f"{self.japanese_config}/example.yaml",
+        }
+        self.write_json(
+            "config/slpm_86398/overlays.json",
+            {"schema": 1, "sector_size": 2048, "modules": [module]},
+        )
+        self.assertEqual(overlay_extract.load_manifest(self.root, "japan"), (2048, [module]))
+        self.assertEqual(overlay_build.load_modules(self.root, "japan"), [module])
 
     def test_compiler_receives_data_object_paths_and_profiles(self) -> None:
         module_root = self.root / "tmp/overlays/example"

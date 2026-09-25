@@ -1,0 +1,17 @@
+{
+  "modules": [
+    {
+      "archive": "game/japanese/DATA/SU.MRG",
+      "archive_sha256": "9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a",
+      "layout": "config/slpm_86398/overlays/main_menu.yaml",
+      "load_address": "0x80180000",
+      "name": "japanese_main_menu",
+      "output": "tmp/overlays/japanese_main_menu/module.bin",
+      "sector_count": 16,
+      "sector_offset": 98,
+      "sha256": "e471607e6045324d26da9c1b95dcb54a3eab5510268939d74794d545cd407ddb"
+    }
+  ],
+  "schema": 1,
+  "sector_size": 2048
+}

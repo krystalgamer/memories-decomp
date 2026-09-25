@@ -27,6 +27,7 @@
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
    D_80185C9C is read by the draw and written through by the delta. */
 
+#ifndef VERSION_JAPAN
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
     DisplayObject *volatile obj[2];
@@ -157,6 +158,7 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
         i++;
     }
 }
+#endif
 
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {

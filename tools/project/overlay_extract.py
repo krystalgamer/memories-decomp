@@ -30,6 +30,10 @@ REQUIRED_MODULE_FIELDS = (
     "sha256",
 )
 
+OVERLAY_MANIFESTS = {
+    "usa": "config/slus_01411/overlays.json",
+    "japan": "config/slpm_86398/overlays.json",
+}
 
 def require_string(module: dict[str, Any], field: str) -> str:
     value = module[field]
@@ -45,9 +49,9 @@ def require_nonnegative_int(module: dict[str, Any], field: str) -> int:
     return value
 
 
-def load_manifest(root: Path) -> tuple[int, list[dict[str, Any]]]:
+def load_manifest(root: Path, region: str = "usa") -> tuple[int, list[dict[str, Any]]]:
     path = resolve_within(
-        root, "config/slus_01411/overlays.json", must_exist=True
+        root, OVERLAY_MANIFESTS[region], must_exist=True
     )
     with path.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
@@ -175,6 +179,8 @@ def verify_manifest_format(root: Path) -> None:
     config = resolve_within(root, "config/slus_01411", must_exist=True)
     paths = [config / "matching_c.json"]
     paths.extend(sorted((config / "overlays").glob("*_matching_c.json")))
+    japanese = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
+    paths.extend(sorted(japanese.glob("*_matching_c.json")))
     for path in paths:
         name = path.relative_to(root)
         if not path.is_file():
@@ -242,17 +248,18 @@ def verify_sources_wired(root: Path) -> None:
     `c` or owned-data subsegments. Two modules share `src/overlays/overworld`,
     so the subsegments are gathered across every module yaml before comparing.
     """
-    overlays = resolve_within(root, "config/slus_01411/overlays", must_exist=True)
     sources_root = resolve_within(root, "src/overlays", must_exist=True)
 
     wired: dict[str, Path] = {}
-    for path in sorted(overlays.glob("*.yaml")):
-        try:
-            segments = c_segments(root, path)
-        except OverlaySourceError as error:
-            raise OverlayError(str(error)) from error
-        for segment in segments:
-            wired.setdefault(segment["source"], path)
+    for config in ("slus_01411", "slpm_86398"):
+        overlays = resolve_within(root, f"config/{config}/overlays", must_exist=True)
+        for path in sorted(overlays.glob("*.yaml")):
+            try:
+                segments = c_segments(root, path)
+            except OverlaySourceError as error:
+                raise OverlayError(str(error)) from error
+            for segment in segments:
+                wired.setdefault(segment["source"], path)
 
     present = {
         p.relative_to(root).as_posix(): p
@@ -329,6 +336,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "command", choices=("extract", "verify", "verify-metadata")
     )
+    parser.add_argument("--region", choices=tuple(OVERLAY_MANIFESTS), default="usa")
     return parser.parse_args()
 
 
@@ -339,7 +347,7 @@ def main() -> int:
             verify_metadata(require_metadata_root())
             return 0
         root = require_workspace_root()
-        sector_size, modules = load_manifest(root)
+        sector_size, modules = load_manifest(root, args.region)
         if args.command == "extract":
             extract(root, sector_size, modules)
         else:

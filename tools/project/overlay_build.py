@@ -22,6 +22,7 @@ from build_baseline import (
     tool,
 )
 from overlay_sources import OverlaySourceError, c_segments
+from overlay_extract import OVERLAY_MANIFESTS
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -29,9 +30,9 @@ class OverlayBuildError(RuntimeError):
     pass
 
 
-def load_modules(root: Path) -> list[dict[str, Any]]:
+def load_modules(root: Path, region: str = "usa") -> list[dict[str, Any]]:
     path = resolve_within(
-        root, "config/slus_01411/overlays.json", must_exist=True
+        root, OVERLAY_MANIFESTS[region], must_exist=True
     )
     with path.open("r", encoding="utf-8") as handle:
         manifest = json.load(handle)
@@ -282,6 +283,7 @@ def parse_args() -> argparse.Namespace:
         description="Build and verify configured runtime overlay modules."
     )
     parser.add_argument("command", choices=("build", "verify"))
+    parser.add_argument("--region", choices=tuple(OVERLAY_MANIFESTS), default="usa")
     return parser.parse_args()
 
 
@@ -289,7 +291,7 @@ def main() -> int:
     args = parse_args()
     try:
         root = require_workspace_root()
-        modules = load_modules(root)
+        modules = load_modules(root, args.region)
         for module in modules:
             if args.command == "build":
                 build_module(root, module)
