@@ -121,7 +121,7 @@ void CampaignMap_SetCameraFromLocation(s32 index)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_VIEW)
 void CampaignMap_UpdateView(void)
 {
     ViewState *camera = &D_800F2848;
@@ -143,6 +143,9 @@ void CampaignMap_UpdateView(void)
     func_800540B4(2);
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_ResetCamera(void)
 {
     ViewState *camera = &D_800F2848;
