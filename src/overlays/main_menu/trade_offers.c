@@ -141,6 +141,9 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_RELEASE_TRADE_DISPLAY_HANDLES)
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {
     DisplayObject_ReleaseIfPresent(D_801845DC);
