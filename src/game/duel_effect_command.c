@@ -260,7 +260,7 @@ write:
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_SCALED_OPERAND)
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
@@ -279,6 +279,10 @@ void func_800382A8(DuelEffectChannel *object)
 
     object->flags_34 &= 0xFEFF;
     value = read_operand(object);
+#ifdef VERSION_JAPAN
+    object->field_5B = value << 3;
+    object->field_5A = value << 3;
+#else
     switch (value) {
     case 1:
         object->field_5A = 8;
@@ -289,6 +293,7 @@ void func_800382A8(DuelEffectChannel *object)
         object->field_5B = 12;
         break;
     }
+#endif
     if (value == 1)
         object->flags_34 |= 0x100;
 }

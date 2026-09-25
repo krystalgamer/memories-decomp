@@ -450,7 +450,7 @@ segments:
       - [0x27ffc, c, game/japanese/func_800380D4]
       - [0x28038, c, game/japanese/func_80038110]
       - [0x28070, c, game/japanese/func_80038148]
-      - [0x281d0, asm, func_800379D0]
+      - [0x281d0, c, game/japanese/duel_effect_scaled_operand]
       - [0x28230, c, game/japanese/func_80038334]
       - [0x28284, c, game/japanese/duel_effect_read_u16]
       - [0x282ac, c, game/japanese/func_800383B0]
