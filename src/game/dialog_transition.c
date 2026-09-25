@@ -112,9 +112,7 @@ void func_8003D614(MenuRecord *record)
         D_8009B3C1 = 0;
 }
 #endif
-
-#ifndef VERSION_JAPAN
-
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D74C)
 void func_8003D74C(MenuRecord *record)
 {
     DisplayObject *p;
@@ -162,7 +160,12 @@ void func_8003D74C(MenuRecord *record)
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    r = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
     r = &D_800EB0F8[((u8 *)record)[0x1A]];
+#endif
     if ((f & 0x40) != 0) {
         func_80039794();
         if ((r->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {

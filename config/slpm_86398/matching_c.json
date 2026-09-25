@@ -3362,6 +3362,12 @@
       "source": "src/game/japanese/dialog_transition_func_8003d614.c"
     },
     {
+      "address": "0x8003CD08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2EC",
+      "source": "src/game/japanese/dialog_transition_func_8003d74c.c"
+    },
+    {
       "address": "0x8003DA10",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",
