@@ -18,6 +18,17 @@
 #include "debug_menu_update_cursor_layout.h"
 #include "text_box_runtime.h"
 
+/* The second text box, and the cancel and confirm buttons. The Japanese
+   channel record is 0x60 bytes and that release swaps Cross for Circle, so a
+   regional build supplies its own. */
+#ifndef DEBUG_MENU_SECOND_BOX
+#define DEBUG_MENU_SECOND_BOX(boxes) (&(boxes)[1])
+#endif
+#ifndef DEBUG_MENU_CANCEL_BUTTON
+#define DEBUG_MENU_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#define DEBUG_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 void DebugMenu_Update(void) {
     DuelEffectChannel *boxes;
     s32 i;
@@ -90,7 +101,7 @@ void DebugMenu_Update(void) {
         }
         DebugMenu_UpdateCursorLayout();
     }
-    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & DEBUG_MENU_CANCEL_BUTTON) != 0) {
         k = DEBUG_MENU_ENTRY_EXIT;
         if (gDebugMenu_bCursor != k) {
             gDebugMenu_bCursor = k;
@@ -102,19 +113,25 @@ void DebugMenu_Update(void) {
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
         one = 1;
+#ifndef VERSION_JAPAN
+        /* The Japanese build makes neither this call nor the two field
+           stores below. */
         func_8003B6AC(one, one);
+#endif
         gDebugMenu_bPage = gDebugMenu_bPage ^ one;
         TextBox_Create(1, gDebugMenu_bPage + 0xF, 0x10, 0x10, 0x120, 0xA0);
         /* The array base has to stay in a local: writing `&D_800EB0F8[1]`
          * directly folds the record offset into the address computation and
          * drops the `addiu` retail keeps for the call argument. */
         boxes = D_800EB0F8;
+#ifndef VERSION_JAPAN
         boxes[1].field_5A = 0x10;
         boxes[1].field_5B = 0x10;
-        func_80039A14(&boxes[1]);
+#endif
+        func_80039A14(DEBUG_MENU_SECOND_BOX(boxes));
         return;
     }
-    if ((gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) != 0) {
+    if ((gInput_wPad1Pressed & DEBUG_MENU_CONFIRM_MASK) != 0) {
         D_8009B2EB = gDebugMenu_bCursor + 1;
     }
 }

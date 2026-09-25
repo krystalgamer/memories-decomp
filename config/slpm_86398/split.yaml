@@ -374,7 +374,7 @@ segments:
       - [0x21164, c, game/japanese/frontend_scene_states]
       - [0x214f4, c, game/japanese/debug_menu_leave_entries]
       - [0x21554, c, game/japanese/debug_menu_two_player_entry]
-      - [0x215d8, asm, func_80030DD8]
+      - [0x215d8, c, game/japanese/debug_menu_update]
       - [0x21884, c, game/japanese/debug_menu_bust_up_entry]
       - [0x21920, c, game/func_800313E8]
       - [0x21aac, c, game/duel_card_type_icon]

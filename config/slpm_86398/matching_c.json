@@ -2102,6 +2102,12 @@
       "source": "src/game/japanese/debug_menu_update_campaign_entry.c"
     },
     {
+      "address": "0x80030DD8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2AC",
+      "source": "src/game/japanese/debug_menu_update.c"
+    },
+    {
       "address": "0x800314BC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xF0",
