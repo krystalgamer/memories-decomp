@@ -114,7 +114,13 @@ success:
     if (status >= 0)
         return;
     if (D_8009B3CC & 0x400) {
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+        DuelEffectChannel *text = (DuelEffectChannel *)(
+            (u8 *)D_800EB0F8 +
+            root->text_index * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
         DuelEffectChannel *text = &D_800EB0F8[root->text_index];
+#endif
         func_80039794();
         if ((*(u32 *)&text->flags_34 & 0x2008) == 0x2000)
             D_8009B3CC &= ~0x400;

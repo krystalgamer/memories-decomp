@@ -3380,6 +3380,12 @@
       "source": "src/game/japanese/func_8003da40.c"
     },
     {
+      "address": "0x8003D1C8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x848",
+      "source": "src/game/japanese/func_8003dc1c.c"
+    },
+    {
       "address": "0x8003DA10",
       "profile": "gcc_2_8_1_g8",
       "size": "0x24",

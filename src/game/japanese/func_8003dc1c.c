@@ -1,0 +1,18 @@
+#include "../../types.h"
+
+#define VERSION_JAPAN
+#define func_8003DC1C func_8003D1C8
+#define D_800EF6D0 D_800ECDA8
+#define D_800EB0F8 gJapanese_D_800EB0F8
+#define D_80090F88 D_80090E38
+#define D_8009AF6C D_8009AEB4
+#define D_8009B3E4 D_8009B2D4
+#define D_8009B3C8 D_8009B2B8
+#define D_8009B3D5 D_8009B2C5
+#define D_80010378 D_800102F4
+#define D_80010398 D_80010314
+#define D_800103A4 D_80010320
+#define gMemCard_szSaveFileName D_80010300
+#define FntPrint func_8007DB74
+#define DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE 0x60
+#include "../func_8003DC1C.c"
