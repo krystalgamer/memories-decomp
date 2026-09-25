@@ -125,7 +125,15 @@ void func_80020EE8(DuelCardDisplayObject *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef DUEL_RESULT_OUTRO_START_SECTOR
+#define DUEL_RESULT_OUTRO_START_SECTOR FILE_WA_DUEL_RESULTS_START_SECTOR
+#endif
+
+#ifndef DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR
+#define DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR DUELIST_DATA_FIRST_SECTOR
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESULT_OUTRO)
 /* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
@@ -180,7 +188,7 @@ void DuelScene_UpdateResultOutro(void)
         D_8009B238 = id;
         File_RequestAsyncTransfer(
             0, 0,
-            FILE_WA_DUEL_RESULTS_START_SECTOR,
+            DUEL_RESULT_OUTRO_START_SECTOR,
             FILE_WA_DUEL_RESULTS_SECTOR_COUNT,
             func_80020BE4, 0, 0
         );
@@ -233,7 +241,8 @@ void DuelScene_UpdateResultOutro(void)
             }
             File_RequestAsyncTransfer(
                 0, 0,
-                id * DUELIST_DATA_SECTOR_COUNT + DUELIST_DATA_FIRST_SECTOR,
+                id * DUELIST_DATA_SECTOR_COUNT +
+                    DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)((u8 *)slots - 0x1800));
             func_800472A8(D_8009B1E0);
