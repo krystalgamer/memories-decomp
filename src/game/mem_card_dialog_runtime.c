@@ -260,7 +260,19 @@ void MemCardDialog_CreateObject(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE)
+/* The dialog's channel, and the calls that start and stop card I/O. The
+   Japanese build indexes the 0x60-byte channel record and makes two library
+   calls at each end where the US build makes MemCardStart/MemCardStop, so a
+   regional build supplies its own. */
+#ifndef MEM_CARD_DIALOG_CHANNEL
+#define MEM_CARD_DIALOG_CHANNEL(index) (&D_800EB0F8[index])
+#endif
+#ifndef MEM_CARD_DIALOG_START_IO
+#define MEM_CARD_DIALOG_START_IO() MemCardStart()
+#define MEM_CARD_DIALOG_STOP_IO() MemCardStop()
+#endif
+
 void MemCardDialog_Update(void)
 {
     DuelEffectChannel *p;
@@ -278,7 +290,7 @@ void MemCardDialog_Update(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE
             ) == 0) {
-            TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
+            TextBox_Destroy(MEM_CARD_DIALOG_CHANNEL(D_8009B3EE));
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
         }
@@ -309,7 +321,7 @@ void MemCardDialog_Update(void)
             goto b14;
         }
         func_80039794();
-        p = &D_800EB0F8[D_8009B3EE];
+        p = MEM_CARD_DIALOG_CHANNEL(D_8009B3EE);
         if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
             TEXT_BOX_FLAG_DONE) {
             return;
@@ -328,7 +340,7 @@ void MemCardDialog_Update(void)
     if ((f & MEM_CARD_DIALOG_FLAG_OPENED) == 0) {
         if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
             gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
-            MemCardStart();
+            MEM_CARD_DIALOG_START_IO();
             D_8009B3EF = 2;
             MemCardDialog_CreateObject();
             gMemCard_pDialogObject->field_60 = -0x400;
@@ -361,7 +373,7 @@ b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
     gMemCard_pDialogObject->field_60 = 0x400;
-    MemCardStop();
+    MEM_CARD_DIALOG_STOP_IO();
 }
 #endif
 
