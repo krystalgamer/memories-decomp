@@ -1,0 +1,107 @@
+name: japanese_overworld_before_coup
+sha1: f8011500c9a6986b5334fbfe11b7792d84926e7b
+
+options:
+  basename: japanese_overworld_before_coup
+  base_path: ../../..
+  target_path: tmp/overlays/japanese_overworld_before_coup/module.bin
+  elf_path: tmp/overlays/japanese_overworld_before_coup/build/japanese_overworld_before_coup.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/japanese_overworld_before_coup/asm
+  src_path: src
+  build_path: tmp/overlays/japanese_overworld_before_coup/build
+  asset_path: tmp/overlays/japanese_overworld_before_coup/assets
+  cache_path: tmp/overlays/japanese_overworld_before_coup/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/japanese_overworld_before_coup/japanese_overworld_before_coup.ld
+  generated_asm_macros_directory: tmp/overlays/japanese_overworld_before_coup/include
+  lib_path: tmp/overlays/japanese_overworld_before_coup/lib
+  o_path: tmp/overlays/japanese_overworld_before_coup/build
+  o_as_suffix: true
+  undefined_funcs_auto_path: tmp/overlays/japanese_overworld_before_coup/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/japanese_overworld_before_coup/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/slus_01411/overlays/overworld_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".text"
+    - ".rodata"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/japanese_overworld_before_coup/module_header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, c, overlays/japanese/overworld_before_coup/clear_location_objects]
+      - [0x50, asm, overlays/japanese_overworld_before_coup/text_50]
+
+  - name: location_table
+    type: code
+    start: 0x11A8
+    vram: 0x801691A8
+    align: 4
+    subsegments:
+      - [0x11A8, data, overlays/japanese_overworld_before_coup/location_table]
+
+  - name: live_state
+    type: code
+    start: 0x15C8
+    vram: 0x801695C8
+    align: 4
+    subsegments:
+      - [0x15C8, data, overlays/japanese_overworld_before_coup/live_state]
+
+  - name: module_tail
+    type: code
+    start: 0x1618
+    vram: 0x80169618
+    align: 4
+    subsegments:
+      - [0x1618, asm, overlays/japanese_overworld_before_coup/text_1618]
+
+  - name: alternate_location_table
+    type: code
+    start: 0x1E54
+    vram: 0x80169E54
+    align: 4
+    subsegments:
+      - [0x1E54, data, overlays/japanese_overworld_before_coup/alternate_location]
+
+  - name: module_data
+    type: code
+    start: 0x2274
+    vram: 0x8016A274
+    align: 4
+    subsegments:
+      - [0x2274, data, overlays/japanese_overworld_before_coup/alternate_state]
+      - [0x22C8, data, overlays/japanese_overworld_before_coup/data]
+
+  - [0x3000]

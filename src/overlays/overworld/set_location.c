@@ -39,6 +39,7 @@
 #include "../../game/high_memory_addresses.h"
 #include "../../game/main_mode_state.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CLEAR_LOCATION_OBJECTS)
 void CampaignMap_ClearLocationObjects(void)
 {
     s32 i;
@@ -49,6 +50,9 @@ void CampaignMap_ClearLocationObjects(void)
     }
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_RebuildLocationObjects(s32 index)
 {
     MapLocation *record;
@@ -564,3 +568,4 @@ void CampaignMap_UpdateLocation(void)
     CampaignMap_ClearLocationObjects();
     D_801695EC = 1;
 }
+#endif
