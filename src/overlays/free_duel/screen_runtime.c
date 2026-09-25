@@ -129,7 +129,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_INIT)
 void FreeDuel_Init(u8 *src)
 {
     s32 i;
