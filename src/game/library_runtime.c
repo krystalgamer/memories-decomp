@@ -98,7 +98,30 @@
 #define LIBRARY_MOTION_STATE_VIEW(state) ((LibraryMotionState *)(state))
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 
-#ifndef VERSION_JAPAN
+#ifndef LIBRARY_CARD_VIEW_BOX_FIELD_54
+#define LIBRARY_CARD_VIEW_BOX_FIELD_54 0
+#endif
+#ifndef LIBRARY_CARD_VIEW_X
+#define LIBRARY_CARD_VIEW_X 0x94
+#endif
+#ifndef LIBRARY_CARD_VIEW_BOX_WIDTH
+#define LIBRARY_CARD_VIEW_BOX_WIDTH 0xA8
+#endif
+#ifndef LIBRARY_EFFECT_CHANNEL_STRIDE
+#define LIBRARY_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
+#endif
+#ifndef LIBRARY_CARD_VIEW_CANCEL_BUTTON
+#define LIBRARY_CARD_VIEW_CANCEL_BUTTON PAD_BUTTON_CIRCLE
+#endif
+#ifndef LIBRARY_CARD_VIEW_ACTION_MASK
+#define LIBRARY_CARD_VIEW_ACTION_MASK 0x20C0
+#endif
+
+#define LIBRARY_EFFECT_CHANNEL(index) \
+    ((DuelEffectChannel *)((u8 *)D_800EB0F8 + \
+                           (index) * LIBRARY_EFFECT_CHANNEL_STRIDE))
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)
 void func_8002ACA4(u8 *state)
 {
     DuelEffectResourceRecord *rec;
@@ -189,11 +212,12 @@ void func_8002ACA4(u8 *state)
         }
         H(o, 0x60) += 0x33;
         if (S(o, 0x60) >= 0) {
-            S(o, 0x30) = 0x94;
+            S(o, 0x30) = LIBRARY_CARD_VIEW_X;
             S(o, 0x32) = 0xE;
             state[3] = 0;
         } else {
-            Widget_SlideSine((void *)o, 0x94, 0xE, S(o, 0x60));
+            Widget_SlideSine(
+                (void *)o, LIBRARY_CARD_VIEW_X, 0xE, S(o, 0x60));
         }
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
@@ -248,8 +272,10 @@ void func_8002ACA4(u8 *state)
         if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
             layout = 4;
         }
-        box = TextBox_Create(0, layout, 0x94, 0xE, 0xA8, 0xC0);
-        B(box, 0x54) = 0;
+        box = TextBox_Create(
+            0, layout, LIBRARY_CARD_VIEW_X, 0xE,
+            LIBRARY_CARD_VIEW_BOX_WIDTH, 0xC0);
+        B(box, 0x54) = LIBRARY_CARD_VIEW_BOX_FIELD_54;
         B(box, 0x53) = 1;
         B(box, 0x59) = 4;
         state[1] = 1;
@@ -286,7 +312,7 @@ void func_8002ACA4(u8 *state)
                 H(W(state + i * 4, 0x24), 8) &= 0xFFBF;
                 i++;
             } while (i < 9);
-            H(D_800EB0F8[3].field_28, 8) &= 0xFFBF;
+            H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) &= 0xFFBF;
             state[1] = 3;
             SD_SEPlayFull(0x31);
     case 3:
@@ -423,7 +449,7 @@ void func_8002ACA4(u8 *state)
         }
         break;
     case 5:
-        if (gInput_wPad1Pressed & 0x20) {
+        if (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
             H(rec->object_00, 8) |= 4;
             state[1] = 6;
             state[4] = 0;
@@ -432,7 +458,8 @@ void func_8002ACA4(u8 *state)
             SD_SEPlayFull(0x31);
             return;
         }
-        if (state[4] == 0 && (gInput_wPad1Pressed & 0x20C0)
+        if (state[4] == 0 &&
+            (gInput_wPad1Pressed & LIBRARY_CARD_VIEW_ACTION_MASK)
             && ((gDuel_adwCardStats[H(state, 6) - 1] >> 0x1A) & 0x1F) < 0x14
             && state[3] == 0) {
             state[1] = 4;
@@ -452,7 +479,7 @@ void func_8002ACA4(u8 *state)
                 H(W(state + i * 4, 0x24), 8) |= 0x40;
                 i++;
             } while (i < 9);
-            H(D_800EB0F8[3].field_28, 8) |= 0x40;
+            H(LIBRARY_EFFECT_CHANNEL(3)->field_28, 8) |= 0x40;
             D_800E9DB0[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
             state[3] = 2;
@@ -490,12 +517,15 @@ void func_8002ACA4(u8 *state)
         break;
     }
 }
+#endif
 
 #undef B
 #undef H
 #undef S
 #undef W
+#undef LIBRARY_EFFECT_CHANNEL
 
+#ifndef VERSION_JAPAN
 void func_8002BAA0(u8 *value)
 {
     *value = 1;
