@@ -5672,6 +5672,12 @@
       "source": "src/game/japanese/model_camera_eye_slots.c"
     },
     {
+      "address": "0x8005CE40",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64",
+      "source": "src/game/japanese/model_camera_target_slots.c"
+    },
+    {
       "address": "0x8005CEA4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",

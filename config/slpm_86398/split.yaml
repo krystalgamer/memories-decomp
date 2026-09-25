@@ -769,7 +769,7 @@ segments:
       - [0x4d4ec, c, game/japanese/model_effect_request]
       - [0x4d548, c, game/japanese/model_effect_request_args]
       - [0x4d5dc, c, game/japanese/model_camera_eye_slots]
-      - [0x4d640, asm, func_8005CE40]
+      - [0x4d640, c, game/japanese/model_camera_target_slots]
       - [0x4d6a4, c, game/japanese/model_camera_duration]
       - [0x4d70c, c, game/japanese/model_camera_speed]
       - [0x4d760, asm, func_8005CF60]
