@@ -85,6 +85,12 @@
       "source": "src/overlays/japanese/main_menu/compare_cards_by_count.c"
     },
     {
+      "address": "0x80184344",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x110",
+      "source": "src/overlays/japanese/main_menu/draw_card_type_icon.c"
+    },
+    {
       "address": "0x801844D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
