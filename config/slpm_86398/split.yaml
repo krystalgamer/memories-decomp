@@ -704,7 +704,7 @@ segments:
       - [0x3fe14, c, game/japanese/model_effect_build_coefficients]
       - [0x3fe6c, c, game/card_list_render_deck_box_stats]
       - [0x401a4, c, game/func_80060E70]
-      - [0x4033c, asm, func_8004FB3C]
+      - [0x4033c, c, game/japanese/func_80061008]
       - [0x4040c, c, game/func_800610E0]
       - [0x404fc, c, game/func_800611D0]
       - [0x405ec, asm, func_8004FDEC]

@@ -7,9 +7,15 @@
 #include "card_list_rows.h"
 #include "func_80061008.h"
 
-/* Keep symbolic usage evidence while preserving the literal-address codegen. */
+/* Keep symbolic usage evidence while preserving the literal-address codegen.
+   A regional build supplies its own addresses and row bias. */
+#ifndef gGraphics_sViewportY_abs
 #define gGraphics_sViewportY_abs (*(s16 *)0x8009B148)
 #define gGraphics_sViewportX_abs (*(s16 *)0x8009B146)
+#endif
+#ifndef CARD_LIST_ROW_X_BIAS
+#define CARD_LIST_ROW_X_BIAS 2
+#endif
 
 void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
 {
@@ -17,9 +23,9 @@ void func_80061008(s32 x0, s32 y0, s32 x1, s32 y1)
     DisplayObject *object;
     s32 i = 0;
 
-    record[0].x = x0 + 2;
+    record[0].x = x0 + CARD_LIST_ROW_X_BIAS;
     record[0].y = y0;
-    record[1].x = x1 + 2;
+    record[1].x = x1 + CARD_LIST_ROW_X_BIAS;
     record[1].y = y1;
 
     do {
