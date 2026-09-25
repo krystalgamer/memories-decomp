@@ -19,6 +19,12 @@
       "source": "src/overlays/japanese/main_menu/update_value_widget_tween.c"
     },
     {
+      "address": "0x80181E30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xBC",
+      "source": "src/overlays/japanese/main_menu/finish_value_setup.c"
+    },
+    {
       "address": "0x80181EEC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
