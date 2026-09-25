@@ -12,6 +12,54 @@
 #if !defined(VERSION_JAPAN) || \
     defined(VERSION_JAPAN_MAIN_LOAD_BOOT_PACKAGE_STAGE)
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
+#ifdef VERSION_JAPAN
+    /* The Japanese boot package is transferred in three stages rather than
+       four: a 32-sector first stage at 0x2C0, and a last stage that uploads
+       the image and then points at D_800101D8, folding the US stages 2
+       and 3 together. */
+    switch (stage) {
+    case 0: {
+        u32 m;
+        s32 w;
+
+        m = 0xFFDDFFFF;
+        obj->field_30.h.counter = 0x2C0;
+        w = 0x40;
+        obj->field_30.h.field_32 = 0;
+        obj->w = w;
+        D_8009B0F4 &= m;
+        m = 0x10000;
+        obj->phase_size = m;
+        D_8009B0F4 |= m;
+        obj->done = 2;
+        obj->h = 0x10;
+        obj->value_08 = D_8009B118;
+        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+    }
+
+    case 1:
+        obj->phase_size = 2 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = D_8009B118;
+        obj->value_08 = D_8009B118;
+        obj->done = 1;
+        break;
+
+    case 2:
+        obj->x = 0x200;
+        obj->y = 0xF8;
+        obj->w = 0x100;
+        obj->h = 8;
+        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        obj->phase_size = 3 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = (s32)D_800101D8;
+        obj->value_08 = (s32)D_800101D8;
+        obj->done = 1;
+        break;
+    }
+#else
     switch (stage) {
     case 0:
         obj->field_30.h.counter = 0x280;
@@ -60,6 +108,7 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         obj->done = 1;
         break;
     }
+#endif
 }
 #endif
 
