@@ -1760,6 +1760,12 @@
       "source": "src/game/japanese/library_update_grid_cursor.c"
     },
     {
+      "address": "0x8002AA84",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDFC",
+      "source": "src/game/japanese/func_8002aa84.c"
+    },
+    {
       "address": "0x8002B880",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
