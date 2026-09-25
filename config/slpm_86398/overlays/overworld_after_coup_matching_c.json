@@ -11,6 +11,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x13C",
       "source": "src/overlays/japanese/overworld_after_coup/rebuild_location_objects.c"
+    },
+    {
+      "address": "0x801681E8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x70",
+      "source": "src/overlays/japanese/overworld_after_coup/set_camera_from_location.c"
     }
   ],
   "schema": 1
