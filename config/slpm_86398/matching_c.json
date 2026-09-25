@@ -614,6 +614,12 @@
       "source": "src/game/japanese/func_80017f04.c"
     },
     {
+      "address": "0x80017E80",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x7C",
+      "source": "src/game/func_80018004.c"
+    },
+    {
       "address": "0x80017FCC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x9C",
