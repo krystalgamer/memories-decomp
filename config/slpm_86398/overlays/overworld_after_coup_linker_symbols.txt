@@ -1,0 +1,2 @@
+DisplayObject_ReleaseIfPresent = 0x8003FA4C;
+D_801695F8 = 0x801695F8;
