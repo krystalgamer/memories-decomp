@@ -26,6 +26,7 @@ void MemCardDialog_CreateObject(void);
  * index >= 0, moves text box `index` to the result. When the phase reaches
  * zero it clears field_6C, and that byte is the return value, so every
  * caller tests it against zero to mean "slide finished".
+ * Japanese text-box channels have a 0x60-byte stride instead of 0x64.
  *
  * The byte is returned as s32. Returning it as u8 costs nothing in the
  * definition, where the lbu already zero-extends, but makes each caller mask

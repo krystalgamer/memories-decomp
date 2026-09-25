@@ -186,7 +186,7 @@ void MemCardDialog_UpdateTradeSave(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_SLIDE)
 s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
                             s32 index)
 {
@@ -217,7 +217,12 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     if (saved_index >= 0) {
         TextBox_SetPos(
+#ifdef VERSION_JAPAN
+            (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+                                  saved_index * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE),
+#else
             &D_800EB0F8[saved_index],
+#endif
             (s16)object->field_30.h.field_30,
             (s16)object->field_30.h.field_32);
     }
