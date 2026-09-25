@@ -6,3 +6,6 @@ DisplayObject_AcquireSlot = 0x8003F78C;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
 DisplayObject_SetDepthOffset = 0x80041FCC;
 D_801AF000 = 0x801BF000;
+gCampaignMap_Location = 0x8016960C;
+TextBox_Create = 0x80035938;
+func_80039A60 = 0x800390D4;

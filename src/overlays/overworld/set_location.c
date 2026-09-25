@@ -84,18 +84,28 @@ void CampaignMap_RebuildLocationObjects(s32 index)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_LABEL)
+#ifdef VERSION_JAPAN
+#define CAMPAIGN_MAP_LABEL_RENDER_MODE 0x10
+#else
+#define CAMPAIGN_MAP_LABEL_RENDER_MODE 0xC
+#endif
 u8 *CampaignMap_CreateLocationLabel(s32 unused)
 {
     u8 *object;
 
     object = TextBox_Create(
-        0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80, 0xC
+        0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80,
+        CAMPAIGN_MAP_LABEL_RENDER_MODE
     );
     func_80039A60((struct DuelEffectChannel *)object);
     return object;
 }
 
+#undef CAMPAIGN_MAP_LABEL_RENDER_MODE
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
     MapLocation *entry = gCampaignMap_aLocationTable + index;
