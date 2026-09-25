@@ -104,6 +104,7 @@ void MainMenu_DrawFrontendBackground(void)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION)
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
@@ -133,6 +134,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
     D_80184596 = mode;
     D_80184599 = 1;
 }
+#endif
 
 #ifndef VERSION_JAPAN
 void MainMenu_DestroyFrontendMenu(void)
@@ -175,6 +177,9 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
     }
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
 {
     s32 r;
