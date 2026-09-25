@@ -647,7 +647,7 @@ segments:
       - [0x3c738, c, game/func_8004C84C]
       - [0x3c7b4, c, game/sd_sequence_tracks]
       - [0x3c9f8, c, game/japanese/func_8005B8A0]
-      - [0x3ccd4, asm, func_8004C4D4]
+      - [0x3ccd4, c, game/japanese/movie_stop_stream]
       - [0x3cf94, c, game/japanese/movie_frame_decode]
       - [0x3d4cc, c, game/japanese/func_8004cccc]
       - [0x3d4e0, c, game/movie_stream_requests]

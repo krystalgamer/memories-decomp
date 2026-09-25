@@ -4790,6 +4790,12 @@
       "source": "src/game/japanese/func_8005B8A0.c"
     },
     {
+      "address": "0x8004C4D4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2C0",
+      "source": "src/game/japanese/movie_stop_stream.c"
+    },
+    {
       "address": "0x8004C794",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18C",
