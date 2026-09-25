@@ -26,6 +26,22 @@
    read-back after the store, which retail issues at every use. */
 volatile u16 D_8009B33A;
 
+/* The glyph counter and its limit, and the buttons that skip ahead. The
+   Japanese channel record is 0x60 bytes, so both fields sit two bytes lower
+   there, and that release confirms with Circle rather than Cross. A regional
+   build supplies its own. */
+#ifndef TEXT_BOX_GLYPH_COUNT
+#define TEXT_BOX_GLYPH_COUNT(o) ((o)->field_60)
+#define TEXT_BOX_GLYPH_LIMIT(o) ((o)->field_61)
+#define TEXT_BOX_RANGE_START(o) ((o)->range_start_5C)
+#endif
+#ifndef TEXT_BOX_ENTRY_TYPE
+#define TEXT_BOX_ENTRY_TYPE DuelEffectEntry
+#endif
+#ifndef TEXT_BOX_ADVANCE_MASK
+#define TEXT_BOX_ADVANCE_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 void TextBox_BuildStep(DuelEffectChannel *object)
 {
     u16 flags;
@@ -52,8 +68,21 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         D_8009B357 = 0;
         D_8009B340 = 0;
         object->delay_52 = 1;
-        object->field_60 = 0;
+        TEXT_BOX_GLYPH_COUNT(object) = 0;
         object->stream_58 = 0;
+#ifdef VERSION_JAPAN
+        /* The Japanese two-bank layout, as in its Text_LookupString. */
+        if (id & TEXT_GLOBAL_STRING_ID_BASE) {
+            text = (u8 *)(((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
+                D_801D6000[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
+        } else {
+            if (id >= 0x500) {
+                id -= 0x100;
+            }
+            text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) |
+                D_801C0000[id]);
+        }
+#else
         if (id > 0xCFFF) {
             text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
                 D_801C0000[id - 0xD000]);
@@ -67,6 +96,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             text = (u8 *)(((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) +
                 D_801C0000[id]);
         }
+#endif
         object->text_00 = text;
         object->field_56 = 0;
         object->state_51 = 0;
@@ -76,7 +106,8 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->field_2C = 0;
         func_800391E4(object);
         if ((object->flags_34 & 0x40) == 0) {
-            entry = &D_800EB288[object->range_start_5C];
+            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)D_800EB288)[
+                TEXT_BOX_RANGE_START(object)];
             object->entry_head_24 = entry;
             object->entry_end_20 = entry;
             func_80035CA8(object->index_57);
@@ -98,7 +129,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
     if ((object->flags_34 & 0x1C00) == 0) {
         if ((gInput_wPad1Held & PAD_BUTTON_SQUARE) ||
-            (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK)) {
+            (gInput_wPad1Pressed & TEXT_BOX_ADVANCE_MASK)) {
             func_800373C8(object, 0, 0);
             object->delay_52 = 1;
             object->flags_34 = object->flags_34 | 0x400;
@@ -132,8 +163,9 @@ next_opcode:
     }
     D_8009B35A = D_8009B33A;
     func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
-    object->field_60 = object->field_60 + 1;
-    if (object->field_61 != 0 && object->field_60 >= object->field_61) {
+    TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
+    if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
+        TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {
         object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
     object->field_38 = object->field_38 + object->field_5A;
