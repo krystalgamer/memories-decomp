@@ -21,6 +21,14 @@
 #define DUEL_EFFECT_REQUEST_VIEW(request) \
     ((DuelEffectRequest *)(request))
 
+/* The first sector of a terrain's effect data. A regional build whose WA.MRG
+   lays the terrain packages out differently supplies its own. */
+#ifndef DUEL_TERRAIN_EFFECT_SECTOR
+#define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
+    ((terrain) * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT + \
+     DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR)
+#endif
+
 /* The last two differences of the original match were the `n = v & 0xFF`
  * that gcc sank into the jal's delay slot where retail keeps the andi before
  * the call and puts `n - 1` in the slot. The mask is not a mask: it is the
@@ -57,8 +65,7 @@ void DuelEffect_ApplyTerrain(void) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
                 0, (u8 *)0,
-                gDuel_bTerrain * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT +
-                    DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR,
+                DUEL_TERRAIN_EFFECT_SECTOR(gDuel_bTerrain),
                 DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
                 (FileTransferCallback)0, 0, 0x1000280);
         }
