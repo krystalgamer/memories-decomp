@@ -8,7 +8,8 @@
 #include "../unmatched.h"
 #include "script_image_objects.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_SCRIPT_IMAGE_TRANSFER_CALLBACK)
 void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 {
     switch (mode) {
