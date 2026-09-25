@@ -47,6 +47,13 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
+#ifndef DUEL_CARD_VIEWER_CHANNEL_TYPE
+#define DUEL_CARD_VIEWER_CHANNEL_TYPE DuelEffectChannel
+#endif
+#ifndef DUEL_CARD_VIEWER_SHOWN_X
+#define DUEL_CARD_VIEWER_SHOWN_X 0x94
+#endif
+
 void DuelEffect_UpdateCardViewerState(void)
 {
     s32 slide_in;
@@ -57,7 +64,7 @@ void DuelEffect_UpdateCardViewerState(void)
     DisplayObject *next_obj;
     s32 *stats;
     DuelEffectChannel *box;
-    DuelEffectChannel *chan;
+    DUEL_CARD_VIEWER_CHANNEL_TYPE *chan;
     DuelEffectChannel *pos_box;
     DuelEffectChannel *dead_box;
     s32 adj;
@@ -105,7 +112,7 @@ void DuelEffect_UpdateCardViewerState(void)
         D_8009B250 = 0;
         i = 0;
         stats = gDuel_adwCardStats;
-        chan = D_800EB0F8;
+        chan = (DUEL_CARD_VIEWER_CHANNEL_TYPE *)D_800EB0F8;
         for (; i < 3; i++, chan++) {
             if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
                 id = gDuel_wViewerCardID;
@@ -115,9 +122,15 @@ void DuelEffect_UpdateCardViewerState(void)
                      CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
                     kind = 4;
                 }
+#ifdef VERSION_JAPAN
+                box = TextBox_Create(i, kind, 0x148, 0xE, 0xA0, 0xC0);
+                box->field_54 = 4;
+                box->field_53 = 1;
+#else
                 box = TextBox_Create(i, kind, 0x148, 0xE, 0xA8, 0xC0);
                 box->field_53 = 1;
                 box->field_54 = 0;
+#endif
                 box->field_59 = 0x15;
                 D_8009B250 = box;
                 func_80039A14((struct DuelEffectChannel *)box);
@@ -149,13 +162,13 @@ void DuelEffect_UpdateCardViewerState(void)
                 }
             } else {
                 Widget_SlideSine(DISPLAY_OBJECT_POSITION_VIEW(obj),
-                                 0x94,
+                                 DUEL_CARD_VIEWER_SHOWN_X,
                                  *(s16 *)&obj->field_30.h.field_32,
                                  speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
-                    *(s16 *)&obj->field_30.h.field_30 = 0x94;
+                    *(s16 *)&obj->field_30.h.field_30 = DUEL_CARD_VIEWER_SHOWN_X;
                     obj->field_60 = 0;
                 }
             }
@@ -234,6 +247,11 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 
+#ifdef VERSION_JAPAN
+    if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & PAD_BUTTON_CROSS) == 0) {
+        return;
+    }
+#else
     if ((D_8009B26C & 0x1F) == 0xE) {
         if (((gInput_wPad1Pressed | gInput_wPad2Pressed) & 0x20) != 0) {
             goto press;
@@ -244,6 +262,7 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 press:
+#endif
     slide_out = 0x400;
     DisplayObject_SavePosition(DISPLAY_OBJECT_SNAPSHOT_VIEW(D_8009B240));
     next_obj = D_8009B24C;

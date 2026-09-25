@@ -1376,6 +1376,12 @@
       "source": "src/game/func_800283EC.c"
     },
     {
+      "address": "0x80028208",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x504",
+      "source": "src/game/japanese/duel_effect_update_card_viewer_state.c"
+    },
+    {
       "address": "0x8002870C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
