@@ -199,6 +199,7 @@ Text_EncodeDecimalDigits = 0x80035550;
 DuelEffect_ClearOccupancyValue = 0x800359FC;
 gJapanese_DuelEffectOccupancy = 0x800EADE8;
 DuelEffect_ResetOccupancy = 0x80035A38;
+DuelEffect_ResetEntryMarkers = 0x80035B48;
 D_8009B324 = 0x8009B214;
 D_8009B325 = 0x8009B215;
 gJapanese_DuelEffectEntries = 0x800EB158;

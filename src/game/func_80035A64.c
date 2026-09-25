@@ -13,7 +13,11 @@ void func_80035A64(void)
         entry->field_30 = 0;
         entry->field_2C = 0;
         entry->field_28 = 0;
+#ifdef VERSION_JAPAN
+        entry = (DuelEffectChannel *)((u8 *)entry + 0x60);
+#else
         entry++;
+#endif
     } while (--i != 0);
     DuelEffect_ResetOccupancy();
     DuelEffect_ResetEntryMarkers();
