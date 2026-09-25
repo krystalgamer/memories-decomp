@@ -3062,6 +3062,12 @@
       "source": "src/game/checkerboard_background.c"
     },
     {
+      "address": "0x8003CA30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAC",
+      "source": "src/game/japanese/duel_effect_create_channel.c"
+    },
+    {
       "address": "0x8003CADC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xFC",
