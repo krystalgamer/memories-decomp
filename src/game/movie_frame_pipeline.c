@@ -19,7 +19,7 @@
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow func_8005B85C. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MOVIE_STOP_STREAM)
 s32 Movie_StopStream(s32 arg0) {
     RECT rect;
     u8 buf[0x3C0];
