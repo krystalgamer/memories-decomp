@@ -180,7 +180,9 @@ have_flags:
         p->flags = 0;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800530C4)
 void func_800530C4(void)
 {
     int old = D_8009AF8C;
@@ -222,10 +224,12 @@ void func_800530C4(void)
     }
     func_8005FAE4();
 }
+#endif
 
 #include "../psyq/stdarg.h"
 #include "model.h"
 
+#ifndef VERSION_JAPAN
 void Model_SetSlotProperties(s32 idx, ...)
 {
     va_list ap;
