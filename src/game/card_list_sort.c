@@ -210,7 +210,8 @@ void func_80032C48(CardList *list)
      spelling so the base and slot pseudos land in the same registers.
 */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_BUILD_DECK_CARD_LIST_INPUT)
 s32 BuildDeck_UpdateCardListInput(CardList *list)
 {
     s32 row;
