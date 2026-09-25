@@ -370,7 +370,7 @@ segments:
       - [0x21c28, c, game/duel_card_stat_display]
       - [0x21cbc, c, game/japanese/func_80031784]
       - [0x21dac, c, game/japanese/func_80031874]
-      - [0x2220c, asm, func_80031A0C]
+      - [0x2220c, c, game/japanese/card_list_create_slot_text_box]
       - [0x2236c, c, game/japanese/func_80031E04]
       - [0x223c4, c, game/build_deck_card_counts]
       - [0x22584, c, game/func_8003201C]
