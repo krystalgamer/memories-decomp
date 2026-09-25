@@ -3932,6 +3932,12 @@
       "source": "src/game/japanese/sound_runtime.c"
     },
     {
+      "address": "0x80045980",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x25C",
+      "source": "src/game/japanese/func_80045980.c"
+    },
+    {
       "address": "0x80045BDC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x17C",
