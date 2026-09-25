@@ -9,6 +9,8 @@
    image with Main_LoadBootImageStage (declared as func_800434F4 in
    file_transfer.h) and the boot package with Main_LoadBootPackageStage. */
 
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_MAIN_LOAD_BOOT_PACKAGE_STAGE)
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
     switch (stage) {
     case 0:
@@ -59,7 +61,10 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         break;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_MAIN_LOAD_BOOT_IMAGE_STAGE)
 void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
@@ -141,3 +146,4 @@ m2:
 tail:
     p->done = one;
 }
+#endif
