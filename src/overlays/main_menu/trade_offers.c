@@ -90,7 +90,7 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_THREE_DIGIT_NUMBER)
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 {
     POLY_FT4 sprite;

@@ -61,6 +61,12 @@
       "source": "src/overlays/japanese/main_menu/draw_trade_offers_and_highlights.c"
     },
     {
+      "address": "0x80183E8C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x158",
+      "source": "src/overlays/japanese/main_menu/draw_three_digit_number.c"
+    },
+    {
       "address": "0x80183FE4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
