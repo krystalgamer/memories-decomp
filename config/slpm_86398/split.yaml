@@ -590,7 +590,7 @@ segments:
       - [0x32ae8, c, game/display_object_render_spotlight_mask]
       - [0x33058, c, game/display_object_save_position]
       - [0x3306c, c, game/display_object_interpolation]
-      - [0x33208, asm, func_80042A08]
+      - [0x33208, c, game/japanese/main_load_boot_package_stage]
       - [0x33364, c, game/japanese/main_load_boot_image_stage]
       - [0x334cc, c, game/japanese/display_object_transition]
       - [0x33728, c, game/japanese/main_hold_boot_screen]
