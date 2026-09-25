@@ -43,7 +43,15 @@ void func_80039140(struct DuelEffectChannel *record) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef TEXT_BOX_LAYOUT_WIDTH
+#define TEXT_BOX_LAYOUT_WIDTH 0x280
+#endif
+
+#ifndef TEXT_BOX_LAYOUT_HEIGHT
+#define TEXT_BOX_LAYOUT_HEIGHT 0xE8
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_BOX_LAYOUT)
 void func_800391E4(DuelEffectChannel *p) {
     DisplayObject *e;
     s32 v;
@@ -54,8 +62,8 @@ void func_800391E4(DuelEffectChannel *p) {
     if (e == (DisplayObject *)0) {
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
         b = p->index_57;
-        e->field_40.h.field_40 = 0x280;
-        e->field_40.h.field_42 = 0xE8;
+        e->field_40.h.field_40 = TEXT_BOX_LAYOUT_WIDTH;
+        e->field_40.h.field_42 = TEXT_BOX_LAYOUT_HEIGHT;
         e->field_66 = 0xA;
         f = e->flags;
         e->field_4C = (s32)func_80035E20;
