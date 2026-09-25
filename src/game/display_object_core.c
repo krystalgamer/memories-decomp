@@ -283,7 +283,8 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_DISPLAY_OBJECT_RENDER_SPRITE_LIST)
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
