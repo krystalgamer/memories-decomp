@@ -29,7 +29,7 @@ void func_80059F18(s32 first, s32 second, s32 third, s32 fourth)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_CAMERA_EYE_SLOTS)
 void Model_SetCameraEyeSlots(s32 first, s32 second)
 {
     s32 state = func_8005F174();
@@ -44,7 +44,9 @@ void Model_SetCameraEyeSlots(s32 first, s32 second)
         move->eye.slot = second;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_CAMERA_TARGET_SLOTS)
 void func_8005A010(s32 first, s32 second)
 {
     s32 state = func_8005F174();
