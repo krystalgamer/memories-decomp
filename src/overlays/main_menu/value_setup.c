@@ -482,7 +482,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_FINISH_VALUE_SETUP)
 void MainMenu_FinishValueSetup(void)
 {
     *D_801845C0[0].out = D_801845C0[0].value;
