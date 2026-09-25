@@ -31,7 +31,7 @@ s32 func_80032BD4(
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_SORT)
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
    by the list's sort_mode.
@@ -182,6 +182,7 @@ void func_80032C48(CardList *list)
     }
     func_80031E04(list, 8);
 }
+#endif
 
 /* The two explicit volatile .data input views retain absolute pad loads under
  * the uniform -G8 compiler/assembler profile used by the surrounding card
@@ -209,6 +210,7 @@ void func_80032C48(CardList *list)
      spelling so the base and slot pseudos land in the same registers.
 */
 
+#ifndef VERSION_JAPAN
 s32 BuildDeck_UpdateCardListInput(CardList *list)
 {
     s32 row;
