@@ -13,7 +13,11 @@ void func_800389C4(DuelEffectChannel *value)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#ifndef DUEL_EFFECT_STREAM_HIGH_MASK
+#define DUEL_EFFECT_STREAM_HIGH_MASK 0xFFFF0000
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800389D8)
 void func_800389D8(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -22,10 +26,13 @@ void func_800389D8(DuelEffectChannel *object)
     owner->streams[object->stream_58] += D_8009B34E * 2;
     value = TextStream_ReadU16LE(object);
     owner->streams[object->stream_58] =
-        (u8 *)(((u32)owner->streams[object->stream_58] & 0xFFFF0000) |
+        (u8 *)(((u32)owner->streams[object->stream_58] &
+                DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80038A44)
 void func_80038A44(DuelEffectChannel *object)
 {
     TextStreamOwner *owner = (TextStreamOwner *)object;
@@ -34,7 +41,8 @@ void func_80038A44(DuelEffectChannel *object)
     owner->streams[object->stream_58] += D_8009B355 * 2;
     value = TextStream_ReadU16LE(object);
     owner->streams[object->stream_58] =
-        (u8 *)(((u32)owner->streams[object->stream_58] & 0xFFFF0000) |
+        (u8 *)(((u32)owner->streams[object->stream_58] &
+                DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
 #endif

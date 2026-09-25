@@ -2732,6 +2732,12 @@
       "source": "src/game/japanese/duel_effect_clear_channel_flag_8.c"
     },
     {
+      "address": "0x80038094",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x6C",
+      "source": "src/game/japanese/func_80038094.c"
+    },
+    {
       "address": "0x800387F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
