@@ -26,9 +26,20 @@ int DuelCard_CanActThisTurn(DuelCardRecord *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_GET_CARD_VIEWER_REQUEST_ID)
 s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
 {
+#ifdef VERSION_JAPAN
+    /* The Japanese build asks only that the card be occupied and carry no
+       display marker (flags 0x8000 set, 0x2000 clear), read as the word that
+       ends at flags, as func_80017DB4 does. The US build instead reads the
+       cursor's grid cell and rejects a face-down card when that cell's value
+       is DUEL_FIELD_SIDE_GRID_SLOT_COUNT or more. */
+    if ((gInput_wPad1Pressed[0] & PAD_BUTTON_TRIANGLE) &&
+        (*(s32 *)&card->terrain_modifier & 0xA0000000) == 0x80000000)
+        return card->card_id;
+    return 0;
+#else
     DuelCardPickCursor *position = D_8009B1B4;
     s32 valid;
     u32 value =
@@ -45,5 +56,6 @@ s32 Duel_GetCardViewerRequestId(DuelCardRecord *card)
         (card->flags & DUEL_CARD_FLAG_OCCUPIED) && valid)
         return card->card_id;
     return 0;
+#endif
 }
 #endif
