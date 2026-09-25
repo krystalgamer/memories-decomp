@@ -2222,6 +2222,12 @@
       "source": "src/game/japanese/func_800329b0.c"
     },
     {
+      "address": "0x80032E24",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x444",
+      "source": "src/game/japanese/build_deck_card_list_input.c"
+    },
+    {
       "address": "0x80033268",
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
