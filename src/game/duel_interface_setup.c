@@ -13,7 +13,7 @@
 
 #define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_INIT)
 void DebugMenu_Init(void)
 {
     DuelEffectChannel *text_box;
@@ -22,10 +22,16 @@ void DebugMenu_Init(void)
     D_8009B2B2 = 0x80;
     D_8009B2EB = 0;
     gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
+    /* The Japanese build makes neither the func_8003B6AC call nor the two
+       text-box field stores. */
+#ifndef VERSION_JAPAN
     func_8003B6AC(1, 1);
+#endif
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
+#ifndef VERSION_JAPAN
     text_box->field_5A = 16;
     text_box->field_5B = 16;
+#endif
     func_80039A14(text_box);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
     D_8009B2E4 = object;
