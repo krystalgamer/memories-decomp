@@ -27,7 +27,7 @@
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
    D_80185C9C is read by the draw and written through by the delta. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_OFFERS_AND_HIGHLIGHTS)
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
     DisplayObject *volatile obj[2];
@@ -88,7 +88,9 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         } while (i < D_80185C9C[1][0]);
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 {
     POLY_FT4 sprite;
