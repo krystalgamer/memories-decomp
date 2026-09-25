@@ -9,7 +9,7 @@
 #include "duel_reward_setup.h"
 #include "../ygo_types.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_REWARD_SETUP)
 void func_80032184(FileTransferDescriptor *p, s32 mode) {
     s32 one;
     s32 w;
@@ -98,7 +98,9 @@ m3:
     g[3] = 0x10;
     LoadImage2((RECT *)g, (u32 *)D_8009B118);
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void func_80032328(void)
 {
     File_RequestAsyncTransfer(0, 0, 0x2189, 0x4C, func_80032184, 0, 0);
