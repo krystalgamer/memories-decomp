@@ -226,7 +226,13 @@ void func_800234E4(DuelFieldDisplaySource *source)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_UPDATE)
+#ifndef DUEL_FIELD_DISPLAY_CHANNEL_TYPE
+#define DUEL_FIELD_DISPLAY_CHANNEL_TYPE DuelEffectChannel
+#endif
+#define DUEL_FIELD_DISPLAY_CHANNEL(index) \
+    ((DuelEffectChannel *)&((DUEL_FIELD_DISPLAY_CHANNEL_TYPE *)D_800EB0F8)[index])
+
 /* The empty do-while loops are scheduling barriers. The first keeps the
  * D_8009B162 load above the entry test and `result = 0` below the view
  * address, so the zero lands in $v0 for the early exit. The second follows
@@ -366,7 +372,7 @@ s32 func_800235C0(void)
             o->field_60 -= 0x40;
             moving = busy;
             if (o->field_60 < 0) {
-                TextBox_Destroy(&D_800EB0F8[source->field_14]);
+                TextBox_Destroy(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14));
                 DisplayObject_ReleaseIfPresent(o);
                 source->field_00 = 0;
                 if (source->entries != 0) {
@@ -382,7 +388,7 @@ s32 func_800235C0(void)
             }
         }
         if (moving != 0) {
-            TextBox_SetPos(&D_800EB0F8[source->field_14],
+            TextBox_SetPos(DUEL_FIELD_DISPLAY_CHANNEL(source->field_14),
                            *(s16 *)&o->field_30.h.field_30 + 0x10,
                            *(s16 *)&o->field_30.h.field_32 + source->field_16);
         }
