@@ -51,9 +51,9 @@ Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa8958
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,060 / 1,197 (88.55%)** |
-| Game C-decompilation target bytes matched | **290,464 (`0x46EA0`) / 391,384 (`0x5F8D8`) (74.21%)** |
-| Remaining game C-decompilation targets | 137 functions, 100,920 (`0x18A38`) |
+| Game C-decompilation targets matched | **1,062 / 1,197 (88.72%)** |
+| Game C-decompilation target bytes matched | **296,036 (`0x48464`) / 391,384 (`0x5F8D8`) (75.64%)** |
+| Remaining game C-decompilation targets | 135 functions, 95,348 (`0x17474`) |
 | Evidence-backed handwritten game assembly | 0 functions, 0 (`0x0`) |
 | Total game-owned functions | 1,197 |
 | Preserved Psy-Q CRT/SDK assembly | 629 functions, 122,048 (`0x1DCC0`) |
