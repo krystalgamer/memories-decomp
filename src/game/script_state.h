@@ -90,8 +90,13 @@ extern u16 D_8009B2A8[];
 extern u16 D_8009B2AA[];
 extern u16 Base2_8009B2A8[];
 extern u16 Base2_8009B2AA[];
+#ifdef SCRIPT_STATE_JAPANESE_D_8009B2A8_SCALAR
+extern s16 D_8009B2A8_scalar asm("gJapanese_D_8009B2A8")
+    __attribute__((section(".data")));
+#else
 extern s16 D_8009B2A8_scalar asm("D_8009B2A8")
     __attribute__((section(".data")));
+#endif
 extern s16 D_8009B2AA_scalar asm("D_8009B2AA")
     __attribute__((section(".data")));
 #else

@@ -406,7 +406,7 @@ segments:
       - [0x274ac, c, game/japanese/dialog_open_choice]
       - [0x2755c, asm, func_80036D5C]
       - [0x27634, c, game/japanese/func_8003767C]
-      - [0x276d4, asm, func_80036ED4]
+      - [0x276d4, c, game/japanese/func_8003771C]
       - [0x27764, c, game/japanese/text_script_wait]
       - [0x27780, c, game/japanese/duel_effect_display_wait]
       - [0x27834, c, game/japanese/func_8003787C]

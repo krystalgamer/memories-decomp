@@ -93,7 +93,7 @@ void func_8003767C(DuelEffectChannel *state)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003771C)
 void func_8003771C(DuelEffectChannel *object)
 {
     s32 signed_value;
