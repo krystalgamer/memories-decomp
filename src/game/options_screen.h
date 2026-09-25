@@ -5,5 +5,6 @@
 
 void Options_InitTextDisplay(s32 slot);
 void Options_UpdateLayout(s32 selection);
+void Options_HandleInput(void);
 
 #endif

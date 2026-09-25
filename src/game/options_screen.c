@@ -8,6 +8,7 @@
 #include "display_object_config.h"
 #include "display_object_helpers.h"
 #include "display_object_layout.h"
+#include "data_transfer_request.h"
 #include "duel_effect.h"
 #include "fade.h"
 #include "input.h"
@@ -185,14 +186,30 @@ void Options_HandleInput(void)
         SD_SEPlayFull(8);
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_UPDATE)
 s32 Options_Update(void)
 {
+    s32 active = 1;
+
     switch (gOptions_bState & 0xF) {
     case 0: Fade_WaitOut(); break;
     case 1: Options_HandleInput(); break;
-    case 2: break;
-    case 3: gOptions_bState = 1; break;
+    case 2:
+#ifdef VERSION_JAPAN
+        if ((gOptions_bState & 0x80) == 0) {
+            gOptions_bState |= 0x80;
+            func_8003EFA8();
+        }
+        if (MemCardDialog_Poll() == 0) {
+            break;
+        }
+        /* Fall through when the dialog finishes. */
+#else
+        break;
+#endif
+    case 3: gOptions_bState = active; break;
     }
     return gOptions_bState;
 }

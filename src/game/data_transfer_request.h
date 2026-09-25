@@ -17,4 +17,7 @@ void MemCardDialog_Start(s32 step);
  * (load), 1 (load without the confirmation prompt), 2 (save) and 4. */
 void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step);
 
+/* Japanese options-screen save request, using memory-card step 3. */
+void func_8003EFA8(void);
+
 #endif
