@@ -354,7 +354,9 @@ typedef struct {
     u8 flags;
     u16 field_02;
     u16 field_04;
+#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
     u16 field_06;
+#endif
     u16 elapsed;
     u16 duration;
     ModelCameraLeg eye;
@@ -614,6 +616,20 @@ typedef char ModelCameraLeg_slot_offset_must_be_0xE[
     MODEL_OFFSET(ModelCameraLeg, slot) == 0xE ? 1 : -1
 ];
 
+#ifdef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
+typedef char ModelCameraMove_size_must_be_0x2A[
+    sizeof(ModelCameraMove) == 0x2A ? 1 : -1
+];
+typedef char ModelCameraMove_duration_offset_must_be_0x8[
+    MODEL_OFFSET(ModelCameraMove, duration) == 0x8 ? 1 : -1
+];
+typedef char ModelCameraMove_eye_offset_must_be_0xA[
+    MODEL_OFFSET(ModelCameraMove, eye) == 0xA ? 1 : -1
+];
+typedef char ModelCameraMove_target_offset_must_be_0x1A[
+    MODEL_OFFSET(ModelCameraMove, target) == 0x1A ? 1 : -1
+];
+#else
 typedef char ModelCameraMove_size_must_be_0x2C[
     sizeof(ModelCameraMove) == 0x2C ? 1 : -1
 ];
@@ -626,6 +642,7 @@ typedef char ModelCameraMove_eye_offset_must_be_0xC[
 typedef char ModelCameraMove_target_offset_must_be_0x1C[
     MODEL_OFFSET(ModelCameraMove, target) == 0x1C ? 1 : -1
 ];
+#endif
 
 /* One entry of the eight-byte table at D_80091570.  Every access in the tree
  * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads

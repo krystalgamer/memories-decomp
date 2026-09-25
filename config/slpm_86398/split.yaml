@@ -710,7 +710,7 @@ segments:
       - [0x44fe0, c, game/japanese/func_80050f24]
       - [0x45128, asm, func_80054928]
       - [0x453a4, c, game/func_80051350]
-      - [0x45a9c, asm, func_8005529C]
+      - [0x45a9c, c, game/japanese/func_8005529c]
       - [0x4657c, c, game/japanese/func_80052528]
       - [0x466e8, asm, func_80055EE8]
       - [0x468c4, c, game/japanese/model_tint_pass]
