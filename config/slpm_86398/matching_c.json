@@ -2408,6 +2408,12 @@
       "source": "src/game/japanese/text_box_set_rect.c"
     },
     {
+      "address": "0x80035850",
+      "profile": "gcc_2_8_1_o1_g0",
+      "size": "0x80",
+      "source": "src/game/japanese/duel_effect_init_entry.c"
+    },
+    {
       "address": "0x800358D0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x68",
