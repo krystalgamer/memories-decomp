@@ -52,7 +52,7 @@ void CampaignMap_ClearLocationObjects(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_REBUILD_LOCATION_OBJECTS)
 void CampaignMap_RebuildLocationObjects(s32 index)
 {
     MapLocation *record;
@@ -82,6 +82,9 @@ void CampaignMap_RebuildLocationObjects(s32 index)
     }
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 u8 *CampaignMap_CreateLocationLabel(s32 unused)
 {
     u8 *object;

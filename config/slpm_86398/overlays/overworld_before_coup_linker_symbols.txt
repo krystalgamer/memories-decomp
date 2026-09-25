@@ -1,2 +1,8 @@
 DisplayObject_ReleaseIfPresent = 0x8003FA4C;
 D_801695F8 = 0x801695F8;
+Campaign_TestStoryFlag = 0x8002CA88;
+DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
+DisplayObject_AcquireSlot = 0x8003F78C;
+DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
+DisplayObject_SetDepthOffset = 0x80041FCC;
+D_801AF000 = 0x801BF000;
