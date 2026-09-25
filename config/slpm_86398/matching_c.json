@@ -902,6 +902,12 @@
       "source": "src/game/japanese/duel_result_fly_off.c"
     },
     {
+      "address": "0x80020D94",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x534",
+      "source": "src/game/japanese/duel_result_outro.c"
+    },
+    {
       "address": "0x800212C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
