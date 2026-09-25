@@ -4,6 +4,7 @@
 #include "card_comparators.h"
 #include "card_tables.h"
 
+#ifndef VERSION_JAPAN
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
 {
     s32 result;
@@ -282,6 +283,9 @@ s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
     return result;
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_TYPE)
 s32 MainMenu_CompareCardsByType(s16 *a, s16 *b)
 {
     s32 result;
@@ -337,3 +341,4 @@ s32 MainMenu_CompareCardsByType(s16 *a, s16 *b)
     }
     return result;
 }
+#endif
