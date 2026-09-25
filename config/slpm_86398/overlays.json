@@ -16,6 +16,7 @@
       "archive": "game/japanese/DATA/SU.MRG",
       "archive_sha256": "9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a",
       "layout": "config/slpm_86398/overlays/main_menu.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/main_menu_linker_symbols.txt",
       "load_address": "0x80180000",
       "name": "japanese_main_menu",
       "output": "tmp/overlays/japanese_main_menu/module.bin",

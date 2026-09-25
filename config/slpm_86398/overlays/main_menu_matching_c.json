@@ -41,6 +41,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
       "source": "src/overlays/japanese/main_menu/adjust_trade_card_count.c"
+    },
+    {
+      "address": "0x801844D8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x80",
+      "source": "src/overlays/japanese/main_menu/rebuild_trade_inventory_rows.c"
     }
   ],
   "schema": 1

@@ -25,6 +25,7 @@
    trade_helpers.h, and the row rebuild walks D_801845FC and D_801845E0, the
    same trade inventory and display handle the offer group writes. */
 
+#ifndef VERSION_JAPAN
 void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 {
     POLY_FT4 sprite;
@@ -91,7 +92,9 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.y3 = 0xF0;
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_REBUILD_TRADE_INVENTORY_ROWS)
 void MainMenu_RebuildTradeInventoryRows(s32 side)
 {
     s32 flags;
@@ -100,3 +103,4 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
     func_80060E70((u16 *)(side * 2888 + (s32)D_801845FC + D_80185C8C[side][0] * 4), side,
                   flags & (1 << side), flags);
 }
+#endif
