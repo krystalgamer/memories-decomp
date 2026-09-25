@@ -6,3 +6,5 @@ DisplayObject_AcquireSlot = 0x8003F78C;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
 DisplayObject_SetDepthOffset = 0x80041FCC;
 D_801AF000 = 0x801BF000;
+D_800F2848 = 0x800EFF20;
+ViewState_ApplyOrbit = 0x80013418;

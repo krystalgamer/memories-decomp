@@ -105,7 +105,7 @@ u8 *CampaignMap_CreateLocationLabel(s32 unused)
 #undef CAMPAIGN_MAP_LABEL_RENDER_MODE
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_CAMERA_FROM_LOCATION)
 void CampaignMap_SetCameraFromLocation(s32 index)
 {
     MapLocation *entry = gCampaignMap_aLocationTable + index;
@@ -119,6 +119,9 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     ViewState_ApplyOrbit();
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_UpdateView(void)
 {
     ViewState *camera = &D_800F2848;
