@@ -27,7 +27,10 @@ void Script_OpShowDialog(void)
         D_8009B290 = script + 2;
         value = script[0] | (script[1] << 8);
         D_8009B2A4 |= 0x4000;
+#ifndef VERSION_JAPAN
+        /* The Japanese build makes no func_8003B6AC call here. */
         func_8003B6AC(0, 2);
+#endif
         box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, 0x30);
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= 8;
