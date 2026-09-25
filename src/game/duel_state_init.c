@@ -86,7 +86,7 @@ void Duel_ClearHandSlots(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SELECTION_RECORDS)
 void Duel_InitSelectionRecords(void) {
     s32 row, j;
     for (row = 0; row < DUEL_SIDE_COUNT; row++) {
@@ -99,7 +99,11 @@ void Duel_InitSelectionRecords(void) {
             p->field_18 = 0;
             p->field_13 = 1;
             p->field_17 = j;
+#ifdef VERSION_JAPAN
+            p->field_14 = j;
+#else
             p->field_14 = (j != 3) ? j : 1;
+#endif
         }
     }
     DUEL_SELECTION_RECORDS(D_800E9F10)[0].field_13 = 0;

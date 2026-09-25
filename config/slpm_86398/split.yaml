@@ -159,7 +159,7 @@ segments:
       - [0x7bf8, c, game/japanese/duel_init_model_scene]
       - [0x7c3c, c, game/japanese/duel_init_side_states]
       - [0x7d6c, c, game/japanese/duel_clear_hand_slots]
-      - [0x7da4, asm, func_800175A4]
+      - [0x7da4, c, game/japanese/duel_init_selection_records]
       - [0x7e18, c, game/japanese/duel_reset_card_records]
       - [0x7e50, c, game/func_800177C4]
       - [0x7f48, c, game/japanese/func_800178BC]
