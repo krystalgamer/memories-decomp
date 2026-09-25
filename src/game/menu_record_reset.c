@@ -2,13 +2,20 @@
 #include "func_8003A560.h"
 #include "menu_record.h"
 #include "menu_record_reset.h"
+#ifdef VERSION_JAPAN
+#include "high_memory_addresses.h"
+#endif
 
 s8 *func_80039E9C(void)
 {
     s32 i;
     s32 column;
+#ifdef VERSION_JAPAN
+    s32 has_more;
+#else
     s32 empty;
     s8 *entry;
+#endif
 
     for (i = MENU_RECORD_COUNT - 1; i >= 0; i--) {
         MenuRecord *record = &D_800EB010[i];
@@ -25,6 +32,16 @@ s8 *func_80039E9C(void)
         }
     }
 
+#ifdef VERSION_JAPAN
+    i = 0;
+    do {
+        ((s8 *)D_80010000)[0x7FFF0 + i] = -1;
+        i++;
+        has_more = i < DISPLAY_EFFECT_VRAM_SLOT_COUNT;
+    } while (has_more);
+    /* The final false loop predicate is the Japanese null return. */
+    return (s8 *)has_more;
+#else
     empty = -1;
     i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1;
     entry = D_8015C410 + i;
@@ -34,4 +51,5 @@ s8 *func_80039E9C(void)
         entry--;
     } while (i >= 0);
     return entry;
+#endif
 }
