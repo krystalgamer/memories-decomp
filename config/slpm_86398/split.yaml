@@ -505,7 +505,7 @@ segments:
       - [0x2b460, c, game/japanese/text_init_decimal_digit_glyph_map]
       - [0x2b544, c, game/duel_effect_init_entry_default_flags]
       - [0x2b564, c, game/japanese/input_is_pad1_confirm_pressed]
-      - [0x2b574, asm, func_8003AD74]
+      - [0x2b574, c, game/japanese/text_lookup_string]
       - [0x2b5d8, c, game/text_stream_read_byte]
       - [0x2b600, c, game/japanese/free_duel_load_package_stage]
       - [0x2b7b4, c, game/japanese/main_init_free_duel_menu]

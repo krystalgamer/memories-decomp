@@ -3050,6 +3050,12 @@
       "source": "src/game/japanese/input_is_pad1_confirm_pressed.c"
     },
     {
+      "address": "0x8003AD74",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x64",
+      "source": "src/game/japanese/text_lookup_string.c"
+    },
+    {
       "address": "0x8003ADD8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",

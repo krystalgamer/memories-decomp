@@ -4,13 +4,19 @@
 #include "../types.h"
 
 #define TEXT_GLOBAL_STRING_ID_BASE 0x8000
+#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
+#define TEXT_BANK_ADDRESS_MASK 0x801F0000
+#else
 #define TEXT_BANK_ADDRESS_MASK 0xFFFF0000
+#endif
 #define TEXT_SINGLE_BYTE_GLYPH_LIMIT 0xF0
 #define TEXT_STRING_TERMINATOR 0xFF
 #define TEXT_DECIMAL_RADIX 10
 #define TEXT_DECIMAL_BLANK_DIGIT 0xA
 
-/* The three text banks the string lookup reads through.
+/* The three North American text banks the string lookup reads through.
+ * The Japanese lookup selects D_801D6000 for ids with bit 15 set and
+ * D_801C0000 otherwise, using a narrower bank-address mask.
  *
  * text_lookup_string.c resolves a string id by masking a bank's own address
  * with TEXT_BANK_ADDRESS_MASK and adding a halfword read out of it, so the
@@ -26,6 +32,9 @@
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
+#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
+extern u16 D_801D6000[];
+#endif
 
 /* 0x8009B32E, the string id func_800383DC resolves through the three banks
  * above (duel_effect_command.c:270 reads it into `a2`). It is two bytes: D_8009B330
