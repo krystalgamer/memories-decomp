@@ -1,0 +1,1 @@
+DisplayObject_ReleaseIfPresent = 0x8003FA4C;

@@ -62,7 +62,8 @@ segments:
     subsegments:
       - [0x4, asm, overlays/japanese_free_duel/screen_runtime_start]
       - [0x99C, c, overlays/japanese/free_duel/get_sparkle_slot]
-      - [0x9D4, asm, overlays/japanese_free_duel/screen_runtime_tail]
+      - [0x9D4, c, overlays/japanese/free_duel/update_sparkle]
+      - [0xA9C, asm, overlays/japanese_free_duel/screen_runtime_tail]
       - [0x1030, data, overlays/japanese_free_duel/module_state]
       - [0x10A8, data, overlays/japanese_free_duel/data]
 

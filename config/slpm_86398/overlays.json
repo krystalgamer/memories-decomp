@@ -4,7 +4,7 @@
       "archive": "game/japanese/DATA/WA_MRG.MRG",
       "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
       "layout": "config/slpm_86398/overlays/free_duel.yaml",
-      "linker_symbols": "config/slus_01411/overlays/free_duel_linker_symbols.txt",
+      "linker_symbols": "config/slpm_86398/overlays/free_duel_linker_symbols.txt",
       "load_address": "0x80168000",
       "name": "japanese_free_duel",
       "output": "tmp/overlays/japanese_free_duel/module.bin",
