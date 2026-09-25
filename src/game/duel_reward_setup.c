@@ -9,6 +9,7 @@
 #include "duel_reward_setup.h"
 #include "../ygo_types.h"
 
+#ifndef VERSION_JAPAN
 void func_80032184(FileTransferDescriptor *p, s32 mode) {
     s32 one;
     s32 w;
@@ -103,6 +104,7 @@ void func_80032328(void)
     File_RequestAsyncTransfer(0, 0, 0x2189, 0x4C, func_80032184, 0, 0);
     File_WaitForTransfers();
 }
+#endif
 
 /*
  * Reward-drop compaction. It matches all 136 bytes under split-address
@@ -115,6 +117,7 @@ void func_80032328(void)
  * the chest is a separate object below the drop table, and the last reverse
  * decrement runs after slot zero without dereferencing the resulting address.
  */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032370)
 void func_80032370(void)
 {
     s16 *source;
@@ -142,3 +145,4 @@ void func_80032370(void)
         }
     }
 }
+#endif
