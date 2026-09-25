@@ -42,6 +42,9 @@ void FreeDuel_Init(u8 *src);
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm);
 DisplayObject **FreeDuel_GetSparkleSlot(void);
 DisplayObject *FreeDuel_SpawnSparkle(void);
+void FreeDuel_UpdateScrollbar(void);
+void FreeDuel_UpdateCursorTween(void);
+void FreeDuel_UpdateScreen(void);
 
 void FreeDuel_Entry(void);
 /* Resident entry alias used before this overlay is linked into its slot. */
