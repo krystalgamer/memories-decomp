@@ -58,7 +58,7 @@ void func_8003D518(MenuRecord *record)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D614)
 
 void func_8003D614(MenuRecord *record)
 {
@@ -73,7 +73,12 @@ void func_8003D614(MenuRecord *record)
     }
     /* The dialog channel's index: the byte at 0x1A, inside grid's third
        row, which MenuRecord does not name. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    entry = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
     entry = &D_800EB0F8[((u8 *)record)[0x1A]];
+#endif
     object = DISPLAY_OBJECT_VIEW(record->grid[0][0]);
     if (object) {
         *(u16 *)&object->field_60 -= 0x40;
@@ -106,6 +111,9 @@ void func_8003D614(MenuRecord *record)
     if (!record->grid[0][0] && !record->grid[0][1])
         D_8009B3C1 = 0;
 }
+#endif
+
+#ifndef VERSION_JAPAN
 
 void func_8003D74C(MenuRecord *record)
 {

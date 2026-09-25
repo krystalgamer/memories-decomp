@@ -12,7 +12,8 @@
  *
  * func_8003D518 and func_8003D74C build the frame object at screen centre and
  * grow it; func_8003D614 is the close, shrinking the object's +0x60 by 0x40 a
- * frame and releasing it at zero. */
+ * frame and releasing it at zero. Japan indexes the dialog channel array at
+ * 0x60-byte intervals rather than North America's 0x64-byte intervals. */
 void func_8003D518(MenuRecord *state);
 void func_8003D614(MenuRecord *state);
 void func_8003D74C(MenuRecord *state);
