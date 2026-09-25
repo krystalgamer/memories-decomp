@@ -45,7 +45,12 @@ void func_8003DA40(MenuRecord *record)
     /* The dialog channel's index. It is the byte at 0x1A, inside grid's
        third row, and dialog_transition.c reads it the same way; nothing
        matched yet writes it, so MenuRecord has no name for it. */
+#ifdef DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE
+    q = (DuelEffectChannel *)((u8 *)D_800EB0F8 +
+        ((u8 *)record)[0x1A] * DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE);
+#else
     q = &D_800EB0F8[((u8 *)record)[0x1A]];
+#endif
     g = D_8009B3C1;
 
     if ((g & 0x40) != 0) {
