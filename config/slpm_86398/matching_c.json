@@ -806,6 +806,12 @@
       "source": "src/game/japanese/duel_check_quit_input.c"
     },
     {
+      "address": "0x8001BBE8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x14A0",
+      "source": "src/game/japanese/duel_scene_hand_actions.c"
+    },
+    {
       "address": "0x8001D088",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x104",
