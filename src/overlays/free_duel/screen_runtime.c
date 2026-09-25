@@ -71,7 +71,7 @@ void FreeDuel_UpdateScrollbar(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_PLACE_CURSOR)
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 {
     s32 col;
