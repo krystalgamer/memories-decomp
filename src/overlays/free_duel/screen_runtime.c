@@ -54,6 +54,7 @@
    `void DisplayObject_ReleaseIfPresent(void *)` declaration would make the compiler set up an
    argument retail does not. */
 
+#ifndef VERSION_JAPAN
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
@@ -287,6 +288,9 @@ done:
     SD_BGMPlay(29376);
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_GET_SPARKLE_SLOT)
 DisplayObject **FreeDuel_GetSparkleSlot(void)
 {
     s32 i;
@@ -298,7 +302,9 @@ DisplayObject **FreeDuel_GetSparkleSlot(void)
     }
     return 0;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void FreeDuel_UpdateSparkle(void)
 {
     DisplayObject *obj;
@@ -494,3 +500,4 @@ void FreeDuel_Entry(void)
     }
     FreeDuel_UpdateSparkle();
 }
+#endif

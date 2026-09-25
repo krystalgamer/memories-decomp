@@ -1,6 +1,18 @@
 {
   "modules": [
     {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "layout": "config/slpm_86398/overlays/free_duel.yaml",
+      "linker_symbols": "config/slus_01411/overlays/free_duel_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "japanese_free_duel",
+      "output": "tmp/overlays/japanese_free_duel/module.bin",
+      "sector_count": 5,
+      "sector_offset": 7909,
+      "sha256": "70a09326947dda268adb8a8ab3f143b3ee6b20c2e69b2a18b6c27250b87470c2"
+    },
+    {
       "archive": "game/japanese/DATA/SU.MRG",
       "archive_sha256": "9723c1b955542ac744774c2044eeb0a5d6880752dbad1896a2e03c67fd02ee8a",
       "layout": "config/slpm_86398/overlays/main_menu.yaml",

@@ -1,0 +1,11 @@
+{
+  "functions": [
+    {
+      "address": "0x8016899C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x38",
+      "source": "src/overlays/japanese/free_duel/get_sparkle_slot.c"
+    }
+  ],
+  "schema": 1
+}
