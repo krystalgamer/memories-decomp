@@ -35,6 +35,10 @@
 /* One packed small-data window: byte 0 selects one of the two coordinate
    bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
    unused. Keeping it as one object preserves the retail interior gap. */
+#ifndef DEBUG_EFFECT_PLACE_BUTTON
+#define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CROSS
+#endif
+
 #ifndef VERSION_JAPAN
 u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 #endif
@@ -129,7 +133,7 @@ void func_800220B8(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_CONTROLLER)
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
    first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
@@ -194,7 +198,7 @@ void func_800222F4(void) {
         if (gInput_wPad1Repeat & PAD_DIRECTION_DOWN) {
             gDebugEffect_abCoordinates[gDebugEffect_bCoordinateAxis] -= 2;
         }
-    } else if (gInput_wPad1Pressed & PAD_BUTTON_CROSS) {
+    } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
         p = (DuelEffectRequest *)DuelEffect_AllocateRequest(
             gDebugEffect_abCoordinates[0]);
         D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
