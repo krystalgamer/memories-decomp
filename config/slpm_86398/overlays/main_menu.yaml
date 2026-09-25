@@ -70,6 +70,8 @@ segments:
       - [0x1EEC, c, overlays/japanese/main_menu/count_decimal_digits]
       - [0x1F20, c, overlays/japanese/main_menu/start_value_widget_tween]
       - [0x1F68, asm, overlays/japanese_main_menu/value_setup_tail]
+      - [0x3B2C, c, overlays/japanese/main_menu/draw_trade_offers_and_highlights]
+      - [0x3E8C, asm, overlays/japanese_main_menu/trade_offers_tail]
       - [0x4030, c, overlays/japanese/main_menu/apply_trade_offer_inventory_delta]
       - [0x40F8, c, overlays/japanese/main_menu/adjust_trade_card_count]
       - [0x416C, asm, overlays/japanese_main_menu/text_tail]
