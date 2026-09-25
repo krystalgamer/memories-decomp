@@ -172,7 +172,12 @@ void CampaignMap_ResetCamera(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_MOVE_CAMERA_DPAD)
+#ifdef VERSION_JAPAN
+#define CAMPAIGN_MAP_CAMERA_FAST_BUTTON PAD_BUTTON_CIRCLE
+#else
+#define CAMPAIGN_MAP_CAMERA_FAST_BUTTON PAD_BUTTON_CROSS
+#endif
 void CampaignMap_MoveCameraDpad(void)
 {
     ViewState *camera = &D_800F2848;
@@ -182,7 +187,7 @@ void CampaignMap_MoveCameraDpad(void)
          (PAD_DIRECTION_MASK | PAD_BUTTON_L1_R1_MASK)) != 0) {
         if ((gInput_wPad1Held & PAD_BUTTON_TRIGGER_MASK) != 0) {
             if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
@@ -193,7 +198,7 @@ void CampaignMap_MoveCameraDpad(void)
                 camera->view.vrx = camera->view.vrx + step;
             }
             if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
@@ -205,7 +210,7 @@ void CampaignMap_MoveCameraDpad(void)
             }
         } else {
             if ((gInput_wPad1Held & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
@@ -216,7 +221,7 @@ void CampaignMap_MoveCameraDpad(void)
                 camera->angle = camera->angle + step;
             }
             if ((gInput_wPad1Held & PAD_DIRECTION_VERTICAL_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 32;
                 } else {
                     step = 2;
@@ -227,7 +232,7 @@ void CampaignMap_MoveCameraDpad(void)
                 camera->field_04 = camera->field_04 + step;
             }
             if ((gInput_wPad1Held & PAD_BUTTON_L1_R1_MASK) != 0) {
-                if ((gInput_wPad1Held & PAD_BUTTON_CROSS) != 0) {
+                if ((gInput_wPad1Held & CAMPAIGN_MAP_CAMERA_FAST_BUTTON) != 0) {
                     step = 20;
                 } else {
                     step = 4;
@@ -241,7 +246,11 @@ void CampaignMap_MoveCameraDpad(void)
         ViewState_ApplyOrbit();
     }
 }
+#undef CAMPAIGN_MAP_CAMERA_FAST_BUTTON
 
+#endif
+
+#ifndef VERSION_JAPAN
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
     u8 *object;
