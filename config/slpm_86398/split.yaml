@@ -463,7 +463,7 @@ segments:
       - [0x28894, c, game/japanese/func_80038094]
       - [0x28900, c, game/japanese/func_80038100]
       - [0x2896c, c, game/japanese/text_unlock_duelist]
-      - [0x289c4, asm, func_800381C4]
+      - [0x289c4, c, game/japanese/text_close_choice]
       - [0x28a04, c, game/japanese/text_dispatch_secondary_command]
       - [0x28a60, c, game/japanese/text_set_cursor_offset]
       - [0x28aa8, c, game/japanese/text_handle_choice]

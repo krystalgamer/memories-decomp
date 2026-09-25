@@ -68,13 +68,15 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_CLOSE_CHOICE)
 void Text_CloseChoice(DuelEffectChannel *object)
 {
     DisplayObject_ReleaseIfPresent(object->field_30);
     object->field_30 = 0;
     object->state_51 = 2;
+#ifndef VERSION_JAPAN
     object->field_62 = 0;
+#endif
     D_8009B350 = 1;
 }
 #endif
