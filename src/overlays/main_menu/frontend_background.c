@@ -25,6 +25,7 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
+#ifndef VERSION_JAPAN
 void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;
@@ -101,6 +102,8 @@ void MainMenu_DrawFrontendBackground(void)
     shade.y3 = GRAPHICS_DEFAULT_HEIGHT;
     func_8005B260((u32 *)&shade, (GsOT *)D_800E9D90[2], 4094, 2);
 }
+#endif
+
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
@@ -131,6 +134,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
     D_80184599 = 1;
 }
 
+#ifndef VERSION_JAPAN
 void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
@@ -197,3 +201,4 @@ void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
+#endif
