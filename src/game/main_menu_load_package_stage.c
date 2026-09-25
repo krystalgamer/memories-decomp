@@ -12,7 +12,8 @@
    package from gFile_szSuMrgPath with MainMenu_LoadPackageStage as its stage
    callback. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_MAIN_MENU_LOAD_PACKAGE_STAGE)
 void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     RECT rect;
 
