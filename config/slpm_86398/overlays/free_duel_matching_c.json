@@ -7,6 +7,12 @@
       "source": "src/overlays/japanese/free_duel/update_scrollbar.c"
     },
     {
+      "address": "0x801681B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x98",
+      "source": "src/overlays/japanese/free_duel/spawn_sparkle.c"
+    },
+    {
       "address": "0x8016899C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
