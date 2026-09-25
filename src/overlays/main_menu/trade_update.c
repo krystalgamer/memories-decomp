@@ -25,6 +25,7 @@
 #include "../../game/func_800611D0.h"
 #include "../../unmatched.h"
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN)
 void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
@@ -85,6 +86,9 @@ void MainMenu_InitTradeScreen(void)
     D_8009B0C0 = 1;
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
@@ -605,3 +609,4 @@ update:
 out:
     return 0;
 }
+#endif
