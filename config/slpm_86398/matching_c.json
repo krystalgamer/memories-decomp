@@ -3194,6 +3194,12 @@
       "source": "src/game/japanese/mem_card_dialog_set_message.c"
     },
     {
+      "address": "0x8003DA34",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x344",
+      "source": "src/game/japanese/mem_card_dialog_update_load.c"
+    },
+    {
       "address": "0x8003DD78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
