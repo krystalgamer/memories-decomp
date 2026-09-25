@@ -2504,6 +2504,12 @@
       "source": "src/game/japanese/duel_effect_set_entry_fields.c"
     },
     {
+      "address": "0x80036BD8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x88",
+      "source": "src/game/japanese/text_complete_page_advance.c"
+    },
+    {
       "address": "0x80036CAC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB0",
