@@ -3,6 +3,8 @@
 
 #include "../types.h"
 
+#define JAPANESE_DUEL_EFFECT_ENTRY_COUNT 300
+
 typedef struct {
     u8 pad_00[0x11];
     u8 flags_11;
