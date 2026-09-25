@@ -23,6 +23,18 @@
       "sector_count": 16,
       "sector_offset": 98,
       "sha256": "e471607e6045324d26da9c1b95dcb54a3eab5510268939d74794d545cd407ddb"
+    },
+    {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "layout": "config/slpm_86398/overlays/overworld_before_coup.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/overworld_before_coup_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "japanese_overworld_before_coup",
+      "output": "tmp/overlays/japanese_overworld_before_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 8164,
+      "sha256": "0c82d46b5d7ea0f563a4c9317975f753c8fb470c4c4879702960fdbcc28fb67f"
     }
   ],
   "schema": 1,
