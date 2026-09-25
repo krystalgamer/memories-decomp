@@ -4,5 +4,6 @@ gCard_asNameSortKey = 0x801D4D8E;
 gDuel_adwCardStats = 0x801D4244;
 rand = 0x8008E3B0;
 D_800E9D94 = 0x800E9C74;
+D_800E9D90 = 0x800E9C70;
 GsSortPoly = 0x80082F10;
 D_800E9DB0 = 0x800E9C90;
