@@ -85,7 +85,7 @@ segments:
       - [0x416C, c, overlays/japanese/main_menu/compare_cards_by_name]
       - [0x4254, c, overlays/japanese/main_menu/compare_cards_by_count]
       - [0x4344, c, overlays/japanese/main_menu/draw_card_type_icon]
-      - [0x4454, asm, overlays/japanese_main_menu/text_tail]
+      - [0x4454, c, overlays/japanese/main_menu/draw_trade_column_overlay]
       - [0x44D8, c, overlays/japanese/main_menu/rebuild_trade_inventory_rows]
       - [0x4558, data, overlays/japanese_main_menu/data]
 

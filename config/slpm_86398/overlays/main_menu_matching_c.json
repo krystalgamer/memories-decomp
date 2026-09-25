@@ -115,6 +115,12 @@
       "source": "src/overlays/japanese/main_menu/draw_card_type_icon.c"
     },
     {
+      "address": "0x80184454",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/overlays/japanese/main_menu/draw_trade_column_overlay.c"
+    },
+    {
       "address": "0x801844D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
