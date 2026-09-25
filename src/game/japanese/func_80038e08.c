@@ -1,0 +1,12 @@
+#include "../../types.h"
+
+#define D_800EB0F8 gJapanese_D_800EB0F8
+#define D_801D9000 gJapanese_GlyphLookupTable
+#define D_8009B35A gJapanese_D_8009B35A
+#define D_8009B356 gJapanese_D_8009B356
+#define Dialog_OpenChoice func_80036CAC
+#define DuelEffect_ProcessEntries func_800393D8
+#define DISPLAY_EFFECT_MENU_CONFIRM_MASK \
+    (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#define DISPLAY_EFFECT_MENU_CHANNEL_STRIDE 0x60
+#include "../func_80039794.c"
