@@ -91,11 +91,11 @@ loop:
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_COMPLETE_PAGE_ADVANCE)
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
     u8 state = object->state_51;
-    DuelEffectEntry *entry;
+    DUEL_EFFECT_ENTRY_TYPE *entry;
 
     if ((state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->state_51 = state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
@@ -103,7 +103,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
         return;
     }
 
-    entry = &D_800EB288[object->range_start_5C];
+    entry = &DUEL_EFFECT_ENTRIES[DUEL_EFFECT_RANGE_START(object)];
     if (entry->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         return;
     }
@@ -112,6 +112,8 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     object->field_38 = 0;
     object->field_3A = 0;
     object->state_51 = 0;
+#ifndef VERSION_JAPAN
     object->field_62 = 0;
+#endif
 }
 #endif
