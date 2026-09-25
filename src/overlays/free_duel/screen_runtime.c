@@ -111,6 +111,9 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     func_80039A60((struct DuelEffectChannel *)panel);
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_SPAWN_SPARKLE)
 DisplayObject *FreeDuel_SpawnSparkle(void)
 {
     DisplayObject *x;
@@ -124,6 +127,9 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     return x;
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void FreeDuel_Init(u8 *src)
 {
     s32 i;
