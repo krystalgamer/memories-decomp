@@ -24,16 +24,22 @@
 #define MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
 #endif
 
+#ifndef MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE
+#define MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE 0xC0
+#endif
+
 /* The empty callback, trade write-back operation, and modal runtime that
    drive the operation table. MemCardDialog_Update dispatches the save and
    trade operations through D_80090F9C; all paths share the dialog flags,
    result words, active channel, and request outcome. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_NONE)
 void MemCardDialog_StepNone(void)
 {
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE_TRADE_SAVE)
 void MemCardDialog_UpdateTradeSave(void)
 {
     s32 files;
@@ -41,7 +47,7 @@ void MemCardDialog_UpdateTradeSave(void)
 
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        MemCardDialog_SetMessage(0xC0, 0);
+        MemCardDialog_SetMessage(MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE, 0);
         D_8009B3EB = 0;
     }
     switch (D_8009B3EB & 0xF) {
@@ -178,7 +184,9 @@ void MemCardDialog_UpdateTradeSave(void)
         goto write;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
                             s32 index)
 {
