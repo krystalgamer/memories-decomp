@@ -2498,6 +2498,12 @@
       "source": "src/game/japanese/duel_effect_has_active_entry.c"
     },
     {
+      "address": "0x80036B84",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x54",
+      "source": "src/game/japanese/duel_effect_set_entry_fields.c"
+    },
+    {
       "address": "0x80036CAC",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB0",
