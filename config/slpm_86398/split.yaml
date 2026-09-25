@@ -189,7 +189,7 @@ segments:
       - [0x10f1c, c, game/japanese/duel_scene_turn_switch]
       - [0x10fd0, c, game/japanese/func_80020988]
       - [0x1122c, c, game/japanese/func_80020BE4]
-      - [0x11394, asm, func_80020B94]
+      - [0x11394, c, game/japanese/duel_result_update_orbit_sprite]
       - [0x11530, c, game/japanese/duel_result_fly_off]
       - [0x11594, asm, func_80020D94]
       - [0x11ac8, c, game/japanese/duel_show_result_page]
