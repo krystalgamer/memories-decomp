@@ -113,7 +113,7 @@ s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_ATTACK)
 s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
 {
     s32 result;
@@ -200,6 +200,9 @@ s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
     return result;
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
 {
     s32 result;
