@@ -359,7 +359,7 @@ segments:
       - [0x207e0, c, game/japanese/func_8002ffe0]
       - [0x20824, c, game/japanese/func_80030294]
       - [0x20d48, c, game/japanese/debug_menu_update_sound_entry]
-      - [0x20f28, asm, func_80030728]
+      - [0x20f28, c, game/japanese/debug_menu_update_campaign_entry]
       - [0x21164, c, game/japanese/frontend_scene_states]
       - [0x214f4, c, game/japanese/debug_menu_leave_entries]
       - [0x21554, c, game/japanese/debug_menu_two_player_entry]
