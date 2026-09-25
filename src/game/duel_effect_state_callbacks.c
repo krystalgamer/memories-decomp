@@ -298,6 +298,7 @@ void func_80037A58(DuelEffectChannel *object)
         object->state_51 = 0;
     }
 }
+#endif
 
 /* The last of the eight, and the only one that waits on the file transfer
    itself: it drives the sector-range request through three D_8009B335 stages
@@ -305,6 +306,8 @@ void func_80037A58(DuelEffectChannel *object)
    times before clearing the state. The switch falls through deliberately -
    each stage re-arms the 0xFF countdown and drops into the next test in the
    same call. */
+#if !defined(VERSION_JAPAN) || \
+    defined(VERSION_JAPAN_DUEL_EFFECT_TRANSFER_REPEAT)
 void func_80037B40(DuelEffectChannel *object)
 {
     DuelEffectChannel *p = object;
