@@ -2048,6 +2048,12 @@
       "source": "src/game/japanese/debug_menu_update_cursor_layout.c"
     },
     {
+      "address": "0x8002FF40",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA0",
+      "source": "src/game/japanese/debug_menu_init.c"
+    },
+    {
       "address": "0x8002FFE0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",

@@ -1605,6 +1605,7 @@ DebugMenu_Exit = 0x80030D24;
 longjmp = 0x8008FA3C;
 gDebugMenu_abMainModeByEntry = 0x80090C18;
 gJapanese_D_8009B2B2 = 0x8009B1A2;
+gJapanese_DebugMenuPage = 0x8009B1E0;
 DuelEffect_ApplySwords = 0x80025D60;
 DuelEffect_ApplyCursebreaker = 0x80025EF4;
 DuelEffect_UpdateRevealCard = 0x8002594C;
