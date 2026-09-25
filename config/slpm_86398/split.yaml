@@ -126,7 +126,7 @@ segments:
       - [0x4c48, c, game/japanese/file_step_active_transfer]
       - [0x5148, c, game/japanese/file_service_transfers]
       - [0x521c, c, game/japanese/sd_configure_transfer_phase]
-      - [0x532c, asm, func_80014B2C]
+      - [0x532c, c, game/japanese/func_80014b2c]
       - [0x5508, c, game/japanese/file_transfer_flags]
       - [0x589c, c, game/japanese/fade_init]
       - [0x58c4, c, game/japanese/fade_step_bands]

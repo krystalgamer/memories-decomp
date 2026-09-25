@@ -346,7 +346,7 @@ tail:
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80014C40)
 s32 func_80014C40(FileRequestSlot *p, u8 *q) {
     u8 *e;
     u8 *r;
