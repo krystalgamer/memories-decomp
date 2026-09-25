@@ -145,7 +145,7 @@ void CampaignMap_UpdateView(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_RESET_CAMERA)
 void CampaignMap_ResetCamera(void)
 {
     ViewState *camera = &D_800F2848;
@@ -170,6 +170,9 @@ void CampaignMap_ResetCamera(void)
     ViewState_ApplyOrbit();
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_MoveCameraDpad(void)
 {
     ViewState *camera = &D_800F2848;
