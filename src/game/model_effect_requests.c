@@ -99,8 +99,7 @@ void func_8005A0DC(s32 value)
 }
 #endif
 
-#ifndef VERSION_JAPAN
-
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_CAMERA_FIELD_04)
 void func_8005A130(s32 value)
 {
     s32 state = func_8005F174();
@@ -112,7 +111,9 @@ void func_8005A130(s32 value)
         }
     }
     move = &D_800F2B20;
+#ifndef VERSION_JAPAN
     move->field_06 = value;
+#endif
     move->field_04 = value;
 }
 #endif
