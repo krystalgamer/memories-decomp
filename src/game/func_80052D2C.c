@@ -44,7 +44,7 @@
 
 /* Starts a camera move from the live view to model-slot or explicit targets.
  * A zero duration writes the selected endpoints back immediately. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052D2C)
 void func_80052D2C(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
 {
     SVECTOR a;
@@ -113,7 +113,9 @@ have_flags:
         ModelCameraMove *p = &D_800F2B20;
 
         p->field_02 = MODEL_DEFAULT_PROJECTION;
+#ifndef MODEL_CAMERA_MOVE_COMPACT_LAYOUT
         p->field_06 = 8;
+#endif
         p->field_04 = 8;
         p->flags = 0;
         if (arg1 != 0) {
