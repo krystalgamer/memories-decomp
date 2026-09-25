@@ -4,7 +4,8 @@
 #include "../types.h"
 
 #define TEXT_GLOBAL_STRING_ID_BASE 0x8000
-#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
+#if defined(VERSION_JAPAN_TEXT_LOOKUP_STRING) || \
+    defined(VERSION_JAPAN_FUNC_800383DC)
 #define TEXT_BANK_ADDRESS_MASK 0x801F0000
 #else
 #define TEXT_BANK_ADDRESS_MASK 0xFFFF0000
@@ -32,21 +33,24 @@
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
-#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
+#if defined(VERSION_JAPAN_TEXT_LOOKUP_STRING) || \
+    defined(VERSION_JAPAN_FUNC_800383DC)
 extern u16 D_801D6000[];
 #endif
 
-/* 0x8009B32E, the string id func_800383DC resolves through the three banks
- * above (duel_effect_command.c:270 reads it into `a2`). It is two bytes: D_8009B330
- * (duel_effect.h:368) starts at +2. The one loader in C, func_800383DC,
- * matched with it u16, and retail loads it lhu, gp-relative
- * (func_800383DC.s:4). FreeDuel_PlaceCursor stores into it through a named
+/* 0x8009B32E, the string id func_800383DC resolves through the regional banks
+ * above. It is two bytes: D_8009B330 (duel_effect.h:368) starts at +2.
+ * North America loads it unsigned, while Japan loads it signed before
+ * testing bit 15 and masking the bank index. FreeDuel_PlaceCursor stores
+ * into it through a named
  * address local, `slot = &D_8009B32E;` (screen_runtime.c:129-131), and
  * DuelScene_UpdateResultRewards stores a halfword to it through $at
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
-#ifdef TEXT_STRING_ID_IN_DATA
+#ifdef VERSION_JAPAN_FUNC_800383DC
+extern s16 D_8009B32E;
+#elif defined(TEXT_STRING_ID_IN_DATA)
 extern u16 D_8009B32E __attribute__((section(".data")));
 #else
 extern u16 D_8009B32E;
