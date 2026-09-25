@@ -46,7 +46,22 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SCENE)
+/* The terrain package's first sector and length. The Japanese WA.MRG gives
+   each terrain 0xEF sectors from 0x16B5 (see duel_load_terrain_package.c),
+   so a regional build supplies its own. */
+#ifndef DUEL_INIT_TERRAIN_SECTOR
+#define DUEL_INIT_TERRAIN_SECTOR(value) \
+    ((((value) * 15) * 4 - (value)) * 4 - (value)) + \
+        DUEL_TERRAIN_PACKAGE_FIRST_SECTOR
+#define DUEL_INIT_TERRAIN_SECTOR_COUNT DUEL_TERRAIN_PACKAGE_SECTOR_COUNT
+#endif
+/* Likewise the duelist data's first sector (duel_result_runtime.c's
+   DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR is the same value). */
+#ifndef DUEL_INIT_DUELIST_DATA_FIRST_SECTOR
+#define DUEL_INIT_DUELIST_DATA_FIRST_SECTOR DUELIST_DATA_FIRST_SECTOR
+#endif
+
 void Duel_InitScene(void)
 {
     DisplayObject *obj;
@@ -66,9 +81,8 @@ void Duel_InitScene(void)
     value = gDuel_bTerrain;
     File_RequestAsyncTransfer(
         0, 0,
-        (((value * 15) * 4 - value) * 4 - value) +
-            DUEL_TERRAIN_PACKAGE_FIRST_SECTOR,
-        DUEL_TERRAIN_PACKAGE_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
+        DUEL_INIT_TERRAIN_SECTOR(value),
+        DUEL_INIT_TERRAIN_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
     D_8009B238 = -1;
     gDuel_wSceneStateFlags = 11;
@@ -84,7 +98,7 @@ void Duel_InitScene(void)
             File_RequestAsyncTransfer(
                 0, 0,
                 gDuel_bOpponentID * (DUELIST_DATA_SECTOR_COUNT - 1) +
-                    gDuel_bOpponentID + DUELIST_DATA_FIRST_SECTOR,
+                    gDuel_bOpponentID + DUEL_INIT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)gDuel_awOpponentDeckPool
             );
