@@ -280,7 +280,7 @@ void func_800379F8(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_VIEWPORT_SHAKE)
 void func_80037A58(DuelEffectChannel *object)
 {
     u8 flags = object->state_51;
