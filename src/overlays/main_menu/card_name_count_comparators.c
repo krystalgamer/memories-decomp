@@ -56,7 +56,7 @@ s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_COUNT)
 s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
 {
     s32 result;
