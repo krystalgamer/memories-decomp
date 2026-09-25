@@ -6,7 +6,9 @@
 #define JAPANESE_DUEL_EFFECT_ENTRY_COUNT 300
 
 typedef struct {
-    u8 pad_00[0x11];
+    /* Word alignment preserves whole-record copies during compaction. */
+    u32 pad_00[4];
+    u8 pad_10;
     u8 flags_11;
     u8 field_12;
     u8 field_13;
@@ -17,6 +19,9 @@ typedef struct {
 
 typedef char JapaneseDuelEffectEntry_size_must_be_0x18[
     sizeof(JapaneseDuelEffectEntry) == 0x18 ? 1 : -1
+];
+typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
+    sizeof(struct { u8 lead; JapaneseDuelEffectEntry entry; }) == 0x1C ? 1 : -1
 ];
 
 void func_80035CA8(s32 value);
