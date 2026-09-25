@@ -66,6 +66,7 @@
    reads it by its own name. Left exactly as it is. They are distinct symbols
    at distinct addresses as far as C is concerned, so one unit does not force
    the question, and naming it is what #2602 exists for. */
+#ifndef VERSION_JAPAN
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
@@ -508,6 +509,7 @@ s32 MainMenu_CountDecimalDigits(s32 value)
 
     return digits;
 }
+#endif
 
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
