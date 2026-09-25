@@ -61,7 +61,8 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/japanese/overworld_after_coup/clear_location_objects]
-      - [0x50, asm, overlays/japanese_overworld_after_coup/text_50]
+      - [0x50, c, overlays/japanese/overworld_after_coup/rebuild_location_objects]
+      - [0x18C, asm, overlays/japanese_overworld_after_coup/text_18c]
 
   - name: location_table
     type: code

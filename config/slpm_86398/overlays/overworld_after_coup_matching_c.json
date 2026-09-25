@@ -5,6 +5,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
       "source": "src/overlays/japanese/overworld_after_coup/clear_location_objects.c"
+    },
+    {
+      "address": "0x80168050",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x13C",
+      "source": "src/overlays/japanese/overworld_after_coup/rebuild_location_objects.c"
     }
   ],
   "schema": 1
