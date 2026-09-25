@@ -79,7 +79,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     JapaneseDuelEffectEntry *v1;
     int a1;
     u8 v0;
-    a1 = 300;
+    a1 = JAPANESE_DUEL_EFFECT_ENTRY_COUNT;
     a0 = a0 + 1;
     v1 = (JapaneseDuelEffectEntry *)D_800EB288;
     do {
@@ -109,17 +109,33 @@ void DuelEffect_ClearMatchingMarker(int a0) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
-/* Clears field17 and the byte at struct-relative offset 7 on all 620
-   stride-28 entries. */
+#ifdef VERSION_JAPAN
+#define DUEL_EFFECT_MARKER_ENTRY_TYPE JapaneseDuelEffectEntry
+#define DUEL_EFFECT_MARKER_ENTRY_COUNT JAPANESE_DUEL_EFFECT_ENTRY_COUNT
+#else
+#define DUEL_EFFECT_MARKER_ENTRY_TYPE DuelEffectEntry
+#define DUEL_EFFECT_MARKER_ENTRY_COUNT DUEL_EFFECT_ENTRY_COUNT
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_RESET_ENTRY_MARKERS)
+/* Clears the marker byte in every entry; the North American layout also
+   clears field_18. */
 void DuelEffect_ResetEntryMarkers(void) {
-    DuelEffectEntry *v0;
+    DUEL_EFFECT_MARKER_ENTRY_TYPE *v0;
     int v1;
-    v1 = DUEL_EFFECT_ENTRY_COUNT;
+    /* Old GCC preserves the regional initialization order in the output. */
+#ifdef VERSION_JAPAN
+    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)D_800EB288;
+    v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+#else
+    v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
     v0 = D_800EB288;
+#endif
     for (; v1 != 0; v1 = v1 - 1) {
         v0->flags_11 = 0;
+#ifndef VERSION_JAPAN
         v0->field_18 = 0;
+#endif
         v0 = v0 + 1;
     }
 }
