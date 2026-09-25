@@ -550,7 +550,7 @@ segments:
       - [0x30348, c, game/japanese/display_object_configure_sprite_resource]
       - [0x303ac, c, game/japanese/display_object_configure_sprite_at_position]
       - [0x303f0, c, game/japanese/display_object_configure_screen_sprite]
-      - [0x30468, asm, func_8003FC68]
+      - [0x30468, c, game/japanese/display_object_render_sprite_list]
       - [0x306f4, c, game/display_object_render_sprite_sheet_list]
       - [0x307b0, c, game/display_object_updates]
       - [0x30cb8, c, game/japanese/display_object_runtime]
