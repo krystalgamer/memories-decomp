@@ -61,7 +61,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/japanese/free_duel/update_scrollbar]
-      - [0x90, asm, overlays/japanese_free_duel/screen_runtime_start]
+      - [0x90, c, overlays/japanese/free_duel/place_cursor]
       - [0x1B4, c, overlays/japanese/free_duel/spawn_sparkle]
       - [0x24C, asm, overlays/japanese_free_duel/screen_runtime_init]
       - [0x99C, c, overlays/japanese/free_duel/get_sparkle_slot]
