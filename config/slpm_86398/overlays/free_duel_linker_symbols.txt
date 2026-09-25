@@ -1,1 +1,3 @@
 DisplayObject_ReleaseIfPresent = 0x8003FA4C;
+D_8009B0CC = 0x8009AFBC;
+rand = 0x8008E3B0;
