@@ -3182,6 +3182,12 @@
       "source": "src/game/japanese/input_reset_pads.c"
     },
     {
+      "address": "0x8003C23C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/japanese/input_init_pads.c"
+    },
+    {
       "address": "0x8003C29C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",

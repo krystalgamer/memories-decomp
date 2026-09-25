@@ -6,11 +6,14 @@
 #define D_8009B0D8_IN_DATA
 #include "../types.h"
 #include "../psyq/libapi.h"
+#ifdef VERSION_JAPAN_INPUT_INIT_PADS
+#include "../psyq/libetc.h"
+#endif
 #include "graphics_frame.h"
 #include "input.h"
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_RESET_PADS)
-/* The controller runtime: reset, LIBAPI startup, and the per-frame raw-packet
+/* The controller runtime: reset, regional SDK startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the
    gInput_* state input.h describes, and each hands that state to the next -
    Input_InitPads ends by calling Input_ResetPads, and Input_ReadRawPads fills
@@ -53,10 +56,12 @@ void Input_ResetPads(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
-
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_INIT_PADS)
 void Input_InitPads(void)
 {
+#ifdef VERSION_JAPAN
+    PadInit(0);
+#else
     InitPAD(
         gInput_abRawPadBuffers,
         INPUT_RAW_PAD_BUFFER_SIZE,
@@ -64,11 +69,14 @@ void Input_InitPads(void)
         INPUT_RAW_PAD_BUFFER_SIZE
     );
     StartPAD();
+#endif
     gInput_bRepeatDelay = INPUT_REPEAT_THRESHOLD;
     gInput_bRepeatInterval = INPUT_REPEAT_RELOAD_VALUE;
     Input_ResetPads();
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Input_ReadRawPads(void)
 {
     u8 *p = gInput_abRawPadBuffers;
