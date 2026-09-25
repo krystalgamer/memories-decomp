@@ -24,6 +24,16 @@
    overrides this common symbol, so no storage is allocated here. */
 u8 D_8009B26C;
 
+/* The first text box's x and width; the Japanese build draws it wider. */
+#ifndef TWO_PLAYER_SETUP_BOX_X
+#define TWO_PLAYER_SETUP_BOX_X 0x34
+#define TWO_PLAYER_SETUP_BOX_WIDTH 0xD8
+#endif
+/* The text-box channel record; the Japanese one is 0x60 bytes. */
+#ifndef TWO_PLAYER_SETUP_CHANNEL_TYPE
+#define TWO_PLAYER_SETUP_CHANNEL_TYPE DuelEffectChannel
+#endif
+
 void Main_RunTwoPlayerDuelSetup(void)
 {
     s32 result;
@@ -33,10 +43,12 @@ void Main_RunTwoPlayerDuelSetup(void)
         D_8009B236 = DUEL_STARTING_LIFE_POINTS;
         D_8009B234 = DUEL_STARTING_LIFE_POINTS;
         MainMenu_StartValueSetup(&D_8009B234, &D_8009B236, (u8 *)&D_8009B230);
-        TextBox_CreateFlagged(0, 0x25, 0x34, 0xB4, 0xD8, 0x20, 0x20);
+        TextBox_CreateFlagged(0, 0x25, TWO_PLAYER_SETUP_BOX_X, 0xB4,
+                              TWO_PLAYER_SETUP_BOX_WIDTH, 0x20, 0x20);
         func_80039A14(D_800EB0F8);
         TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
-        func_80039A14(&D_800EB0F8[1]);
+        func_80039A14((DuelEffectChannel *)&(
+            (TWO_PLAYER_SETUP_CHANNEL_TYPE *)D_800EB0F8)[1]);
         SD_BGMPlay(0x72C0);
         Fade_WaitIn();
     }

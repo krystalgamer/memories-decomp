@@ -1622,6 +1622,12 @@
       "source": "src/game/japanese/main_debug.c"
     },
     {
+      "address": "0x8002DA18",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x140",
+      "source": "src/game/japanese/main_run_two_player_duel_setup.c"
+    },
+    {
       "address": "0x8002DDF0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x54",
