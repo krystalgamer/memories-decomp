@@ -1348,6 +1348,7 @@ gJapanese_SecondaryTransferCursor = 0x8009B2D0;
 gCredits_awSecretNumbers = 0x80090A00;
 D_8009B26E = 0x8009B15E;
 gJapanese_D_800EB0F8 = 0x800EAFD8;
+gJapanese_DuelEffectEntryHandlers = 0x80090E08;
 gJapanese_DuelEffect_awEntryRangeBoundaries = 0x80090D08;
 Model_ApplyTextureTint = 0x8005B0F0;
 MoveImage = 0x8007E628;
