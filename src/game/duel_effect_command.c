@@ -340,7 +340,7 @@ void func_800383B0(DuelEffectChannel *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800383DC)
 u32 *func_800383DC(DuelEffectChannel *a0) {
     DuelEffectChannel *a3 = a0;
     s32 a2 = D_8009B32E;
@@ -348,6 +348,17 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
     u8 counter;
     u32 *slot;
 
+#ifdef VERSION_JAPAN
+    if (a2 & TEXT_GLOBAL_STRING_ID_BASE) {
+        v1 = ((u32)D_801D6000 & TEXT_BANK_ADDRESS_MASK) |
+             D_801D6000[a2 & (TEXT_GLOBAL_STRING_ID_BASE - 1)];
+    } else {
+        if (a2 >= 0x500) {
+            a2 -= 0x100;
+        }
+        v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[a2];
+    }
+#else
     if (a2 > 0xCFFF) {
         v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
              D_801C0000[a2 - 0xD000];
@@ -360,6 +371,7 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
         }
         v1 = ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) + D_801C0000[a2];
     }
+#endif
 
     counter = *(u8 *)&a3->stream_58 + 1;
     *(u8 *)&a3->stream_58 = counter;

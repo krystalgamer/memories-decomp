@@ -48,8 +48,8 @@ void func_80038388(DuelEffectChannel *object);
 void func_800383B0(DuelEffectChannel *object);
 
 /* D_80090EAC entry: resolves the text bank pointer for the string id in
- * D_8009B32E -- above 0xCFFF from D_801C0000, above the global-string base from
- * D_801D5800, otherwise the campaign bank -- and hands back the slot it found.
+ * D_8009B32E. North America selects three banks; Japan selects D_801D6000
+ * for ids with bit 15 set and D_801C0000 otherwise. It hands back the slot.
  *
  * Its parameter is the DuelEffectChannel whose stream_58 byte selects one of
  * the pointer words at the front of the record. It returns the selected slot,
