@@ -686,6 +686,8 @@ segments:
       - [0x428ac, c, game/func_8004E7B0]
       - [0x42a9c, c, game/func_8004E9A0]
       - [0x42bfc, asm, func_800523FC]
+      - [0x44640, c, game/japanese/func_80053e40]
+      - [0x4488c, asm, func_8005408C]
       - [0x44fe0, c, game/japanese/func_80050f24]
       - [0x45128, asm, func_80054928]
       - [0x453a4, c, game/func_80051350]
