@@ -13,6 +13,14 @@
 #include "dialog_choice_state.h"
 #include "text_constants.h"
 
+#ifndef DISPLAY_EFFECT_MENU_CONFIRM_MASK
+#define DISPLAY_EFFECT_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
+#ifndef DISPLAY_EFFECT_MENU_CHANNEL_STRIDE
+#define DISPLAY_EFFECT_MENU_CHANNEL_STRIDE sizeof(DuelEffectChannel)
+#endif
+
 /* The retail body walks two pointers over the same four records: the record
  * base it hands to the per-record calls, and a second cursor parked on the
  * record's 0x30 pair, so the choice object and its flags are reached at
@@ -64,7 +72,8 @@ reset:
                 }
             } else {
                 if (q->choice.flags & 8) {
-                    if (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK) {
+                    if (gInput_wPad1Pressed &
+                        DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
                         q->choice.flags &= 0xFFF7;
                         DisplayObject_ReleaseIfPresent(q->choice.obj);
                         q->choice.obj = 0;
@@ -86,8 +95,10 @@ reset:
             DisplayEffect_ProcessMenuRecords(arg);
             DuelEffect_ProcessEntries(p);
         }
-        q++;
+        q = (ChoiceChannelCursor *)(
+            (u8 *)q + DISPLAY_EFFECT_MENU_CHANNEL_STRIDE);
         n--;
-        p++;
+        p = (DuelEffectChannel *)(
+            (u8 *)p + DISPLAY_EFFECT_MENU_CHANNEL_STRIDE);
     } while (n != 0);
 }
