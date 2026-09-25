@@ -54,7 +54,7 @@
    `void DisplayObject_ReleaseIfPresent(void *)` declaration would make the compiler set up an
    argument retail does not. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR)
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
@@ -69,7 +69,9 @@ void FreeDuel_UpdateScrollbar(void)
     gFreeDuel_pThumbWidget->field_30.h.field_32 =
         ((s16)cursor->field_30.h.field_32 - 0x28) * 72 / 364 + 7;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 {
     s32 col;

@@ -1,0 +1,4 @@
+#include "../../../types.h"
+#define VERSION_JAPAN
+#define VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR
+#include "../../free_duel/screen_runtime.c"
