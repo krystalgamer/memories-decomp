@@ -443,7 +443,7 @@ segments:
       - [0x27c98, c, game/text_try_complete_choice_layout]
       - [0x27ce4, c, game/japanese/text_extend_glyph_code]
       - [0x27d24, c, game/japanese/text_stream_commands]
-      - [0x27d5c, asm, func_8003755C]
+      - [0x27d5c, c, game/japanese/func_80037da4]
       - [0x27f4c, c, game/japanese/func_80038024]
       - [0x27f98, c, game/japanese/duel_effect_forward_selector]
       - [0x27fbc, c, game/japanese/duel_effect_stream_selector]
