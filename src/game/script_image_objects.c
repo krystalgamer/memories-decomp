@@ -85,7 +85,6 @@ void ScriptImage_RequestTransfer(
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
 }
 
-
 void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
 {
     ScriptImageEntry *entries = set->entries;
