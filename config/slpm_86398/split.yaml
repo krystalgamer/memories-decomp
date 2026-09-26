@@ -308,7 +308,7 @@ segments:
       - [0x1cc94, c, game/duel_effect_request_update]
       - [0x1cdb4, c, game/japanese/duel_check_ritual]
       - [0x1cf04, c, game/japanese/duel_collect_field_row_card_objects]
-      - [0x1cf80, asm, func_8002C780]
+      - [0x1cf80, c, game/japanese/duel_collect_matching_field_card_objects]
       - [0x1d130, c, game/func_8002CB50]
       - [0x1d160, c, game/duel_calc_guardian_star_matchup]
       - [0x1d1d4, c, game/duel_get_base_card_stat]

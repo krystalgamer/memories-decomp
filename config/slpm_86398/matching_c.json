@@ -1628,6 +1628,12 @@
       "source": "src/game/japanese/duel_collect_field_row_card_objects.c"
     },
     {
+      "address": "0x8002C780",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1B0",
+      "source": "src/game/japanese/duel_collect_matching_field_card_objects.c"
+    },
+    {
       "address": "0x8002C930",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",

@@ -31,7 +31,7 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_COLLECT_MATCHING_FIELD_CARD_OBJECTS)
 
 void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
 {
@@ -60,6 +60,11 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
         DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     entry = &D_801A7AD8[base];
     if (selector >= 21) {
+#ifdef VERSION_JAPAN
+        /* The Japanese build still carries a debug print of the selector,
+           through the "Ex %d\n" string already in its image. */
+        printf(DUEL_FIELD_CARD_OBJECTS_EX_FORMAT, selector);
+#endif
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (u16)Duel_CalcCardStats(entry) >= selector)
