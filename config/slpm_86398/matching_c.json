@@ -3689,91 +3689,91 @@
       "address": "0x8003F70C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/japanese/display_object_find_free_general_slot.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003F74C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/japanese/display_object_find_free_slot.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003F78C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/japanese/display_object_acquire_slot.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003F8EC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/japanese/display_object_release.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003F980",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xCC",
-      "source": "src/game/japanese/display_object_move_to_list_head.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FA4C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/japanese/display_object_release_if_present.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FA70",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/japanese/display_object_reset_pool.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FAD0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x20",
-      "source": "src/game/japanese/display_object_reset.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FAF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/japanese/display_object_set_resource_variant.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FB04",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/japanese/display_object_update_resource_variant.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FB2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/japanese/display_object_set_resource_path.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FB48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/japanese/display_object_configure_sprite_resource.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FBF0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/japanese/display_object_configure_screen_sprite.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FBAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/japanese/display_object_configure_sprite_at_position.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FC68",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28C",
-      "source": "src/game/japanese/display_object_render_sprite_list.c"
+      "source": "src/game/japanese/display_object_core.c"
     },
     {
       "address": "0x8003FEF4",
