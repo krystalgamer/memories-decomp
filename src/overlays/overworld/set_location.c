@@ -394,7 +394,7 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION_TRANSITION)
 s32 CampaignMap_UpdateLocationTransition(void)
 {
     MapObject *obj;

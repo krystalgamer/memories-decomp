@@ -40,3 +40,5 @@ D_8009B26C = 0x8009B15C;
 gCampaignSceneIndex = 0x8009B16A;
 Fade_InitOut = 0x800157A4;
 SD_SEPlayFull = 0x8003F5C0;
+DisplayObject_SavePosition = 0x80042858;
+DisplayObject_InterpolatePositionCosine = 0x8004286C;
