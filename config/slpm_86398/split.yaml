@@ -520,7 +520,7 @@ segments:
       - [0x2c2ac, c, game/japanese/options_init_text_display]
       - [0x2c334, c, game/japanese/options_update_layout]
       - [0x2c3f4, c, game/japanese/options_init]
-      - [0x2c56c, asm, func_8003BD6C]
+      - [0x2c56c, c, game/japanese/options_handle_input]
       - [0x2c6f4, c, game/japanese/options_update]
       - [0x2c7a4, c, game/japanese/game_over]
       - [0x2c9d0, c, game/japanese/input_reset_pads]
