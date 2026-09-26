@@ -16,6 +16,7 @@ from global_usage import (
     load_included_declarations,
     override_declarations,
     parse_c_functions,
+    us_source_view,
 )
 
 
@@ -448,6 +449,57 @@ class SharedDeclarationTests(unittest.TestCase):
         ]
 
         self.assertEqual(accesses, ["read", "read", "unknown"])
+
+
+class UsSourceViewTests(unittest.TestCase):
+    def assertView(self, source: str, kept: list[str], dropped: list[str]) -> None:
+        view = us_source_view(source)
+        self.assertEqual(len(view.split("\n")), len(source.split("\n")))
+        for text in kept:
+            self.assertIn(text, view)
+        for text in dropped:
+            self.assertNotIn(text, view)
+
+    def test_drops_japanese_body_and_keeps_us_else(self) -> None:
+        self.assertView(
+            "#ifdef VERSION_JAPAN\nvoid f(void) { jp(); }\n#else\n"
+            "void f(void) { us(); }\n#endif\n",
+            kept=["us();"],
+            dropped=["jp();"],
+        )
+
+    def test_keeps_us_guard_with_regional_alternative(self) -> None:
+        self.assertView(
+            "#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_F)\n"
+            "void f(void) { us(); }\n#endif\n"
+            "#ifndef VERSION_JAPAN\nvoid g(void) { g_us(); }\n#endif\n",
+            kept=["us();", "g_us();"],
+            dropped=[],
+        )
+
+    def test_honours_regional_macro_defined_by_the_us_build(self) -> None:
+        self.assertView(
+            "#ifndef VERSION_JAPAN\n#define VERSION_JAPAN_DECK\n#endif\n"
+            "#ifdef VERSION_JAPAN_DECK\nint deck(void) { return 1; }\n#endif\n",
+            kept=["return 1;"],
+            dropped=[],
+        )
+
+    def test_leaves_non_regional_conditionals_alone(self) -> None:
+        self.assertView(
+            "#ifndef WIDTH\n#define WIDTH 4\n#endif\n"
+            "#ifdef OTHER\nint a;\n#else\nint b;\n#endif\n",
+            kept=["#define WIDTH 4", "int a;", "int b;"],
+            dropped=[],
+        )
+
+    def test_joins_continued_regional_directive(self) -> None:
+        self.assertView(
+            "#if !defined(VERSION_JAPAN) || \\\n    defined(VERSION_JAPAN_F)\n"
+            "int us;\n#endif\n#if defined(VERSION_JAPAN) && \\\n    1\nint jp;\n#endif\n",
+            kept=["int us;"],
+            dropped=["int jp;"],
+        )
 
 
 if __name__ == "__main__":

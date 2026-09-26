@@ -398,6 +398,98 @@ def function_name_before_body(tokens: list[Token], brace_index: int) -> int | No
     return None
 
 
+REGIONAL_NAME = re.compile(r"\bVERSION_JAPAN\w*")
+CONDITIONAL = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)$")
+REGIONAL_DEFINE = re.compile(r"^\s*#\s*define\s+(VERSION_JAPAN\w*)\b")
+
+
+def regional_condition(expression: str, defined: set[str]) -> bool:
+    """Evaluate a condition over VERSION_JAPAN* macros for the US build."""
+    expression = re.sub(
+        r"\bdefined\s*\(\s*(\w+)\s*\)|\bdefined\s+(\w+)",
+        lambda match: "1" if (match.group(1) or match.group(2)) in defined else "0",
+        expression,
+    )
+    expression = expression.replace("&&", " and ").replace("||", " or ")
+    expression = re.sub(r"!(?!=)", " not ", expression)
+    return bool(eval(expression, {"__builtins__": {}}, {}))
+
+
+def us_source_view(text: str) -> str:
+    """Return text as the US build sees it, blanking Japanese-only regions.
+
+    Only conditionals on VERSION_JAPAN* macros are evaluated; every other
+    conditional keeps all of its branches, as the raw text did. Dropped lines
+    are blanked rather than removed, so line numbers are unchanged.
+    """
+    defined: set[str] = set()
+    # Each frame: (regional, active_before, taken, active).
+    stack: list[tuple[bool, bool, bool, bool]] = []
+    active = True
+    output: list[str] = []
+    lines = text.split("\n")
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        index += 1
+        match = CONDITIONAL.match(line)
+        continued = 0
+        while match is not None and line.rstrip().endswith("\\") and index < len(lines):
+            line = line.rstrip()[:-1] + " " + lines[index]
+            index += 1
+            continued += 1
+        if match is not None:
+            match = CONDITIONAL.match(line)
+        if continued:
+            # Keep the line count: the joined directive's extra lines are blank.
+            output.extend([""] * continued)
+        if match is None:
+            if active:
+                define = REGIONAL_DEFINE.match(line)
+                if define is not None:
+                    defined.add(define.group(1))
+            output.append(line if active else "")
+            continue
+        directive, rest = match.group(1), match.group(2).strip()
+        rest = re.sub(r"/\*.*?\*/|//.*$", "", rest).strip()
+        if directive in ("if", "ifdef", "ifndef"):
+            regional = REGIONAL_NAME.search(rest) is not None
+            if not regional:
+                stack.append((False, active, True, active))
+                output.append(line if active else "")
+                continue
+            if directive == "ifdef":
+                value = rest in defined
+            elif directive == "ifndef":
+                value = rest not in defined
+            else:
+                value = regional_condition(rest, defined)
+            stack.append((True, active, value, active and value))
+            active = active and value
+            output.append("")
+            continue
+        if not stack:
+            output.append(line)
+            continue
+        regional, before, taken, _ = stack[-1]
+        if directive == "endif":
+            stack.pop()
+            active = before
+            output.append("" if regional else (line if active else ""))
+            continue
+        if not regional:
+            output.append(line if active else "")
+            continue
+        if directive == "elif":
+            value = not taken and regional_condition(rest, defined)
+        else:
+            value = not taken
+        stack[-1] = (True, before, taken or value, before and value)
+        active = before and value
+        output.append("")
+    return "\n".join(output)
+
+
 def parse_c_functions(text: str) -> tuple[list[CFunction], list[Token]]:
     cleaned = blank_non_code(text)
     tokens = tokenize(cleaned)
@@ -1154,7 +1246,7 @@ def collect_c_usages(
     known_names = set(symbols_by_name)
     for source_name in sorted(addresses_by_source):
         source_path = resolve_within(root, source_name, must_exist=True)
-        text = source_path.read_text(encoding="utf-8")
+        text = us_source_view(source_path.read_text(encoding="utf-8"))
         lines = text.splitlines()
         parsed_functions, top_level_tokens = parse_c_functions(text)
         parsed_by_name = {function.name: function for function in parsed_functions}
