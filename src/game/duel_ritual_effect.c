@@ -61,7 +61,11 @@ void DuelEffect_StartRitual(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_APPLY_RITUAL)
+
+#ifndef DUEL_EFFECT_RITUAL_CONFIRM_MASK
+#define DUEL_EFFECT_RITUAL_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 
 void DuelEffect_ApplyRitual(void)
 {
@@ -240,9 +244,13 @@ void DuelEffect_ApplyRitual(void)
             if (!DisplayObject_FindAllocatedByTag(1)) {
                 gDuel_wSelectedCardID =
                     D_8015C424_cards.field_cards[object->field_6A].card_id;
+#ifdef VERSION_JAPAN
+                text = TextBox_CreateFlagged(0, 33, 80, 110, 160, 48, 32);
+#else
                 text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 32);
                 text->field_5A = 8;
                 text->field_5B = 16;
+#endif
                 do {
                     func_80039794();
                 } while (!text->field_30);
@@ -250,7 +258,7 @@ void DuelEffect_ApplyRitual(void)
             }
         } else if (!(D_8009B210 & 0x20)) {
             if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
-                (gInput_wPad1Pressed & 0xC0)) {
+                (gInput_wPad1Pressed & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
                 SD_SEPlayFull(7);
                 object->position.h.field_28 = 134;
                 *(s16 *)&object->position.h.field_2A = -128;
