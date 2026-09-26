@@ -47,6 +47,24 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
       "source": "src/overlays/japanese/overworld_before_coup/create_location_marker.c"
+    },
+    {
+      "address": "0x8016866C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x250",
+      "source": "src/overlays/japanese/overworld_before_coup/set_location.c"
+    },
+    {
+      "address": "0x801688BC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1EC",
+      "source": "src/overlays/japanese/overworld_before_coup/start_camera_tween.c"
+    },
+    {
+      "address": "0x80168AA8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x364",
+      "source": "src/overlays/japanese/overworld_before_coup/update_location_transition.c"
     }
   ],
   "schema": 1
