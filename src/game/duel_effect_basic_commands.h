@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* Four D_80090EAC entries. func_80038898 reads one byte from the object's
+/* Four tent_SecondaryTextCommandTable entries. func_80038898 reads one byte from the object's
  * current stream into D_8009B363 and puts the scene mode at 5.
  *
  * func_80038888 and func_80038890 take NO argument at all -- they are defined

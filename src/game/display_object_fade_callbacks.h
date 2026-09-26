@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* The last four entries of the duel effect command table D_80090EAC
+/* The last four entries of the duel effect command table tent_SecondaryTextCommandTable
  * (duel_effect_command_table.c), in table order: func_80039BE0,
  * func_80039AFC, func_80039BE0 again, func_80039C94.
  *

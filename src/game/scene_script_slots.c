@@ -6,7 +6,7 @@
 #include "func_8002FED8.h"
 #include "scene_script_noop_record_callback.h"
 
-/* The two scene-script record callbacks, in the order D_80090CAC
+/* The two scene-script record callbacks, in the order tent_SceneScriptRecordCallbacks
    (scene_script_record_callbacks.c) holds them: SceneScript_UpdateSlots picks
    one by each live record's byte at +4. */
 

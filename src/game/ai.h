@@ -95,7 +95,7 @@ typedef struct {
  * reach it as a standalone u8 rather than through the struct, and they must
  * keep doing so: the recorded attempts for AiScript_LoadSelectionRandom fail to
  * link with
- * "relocation truncated to fit: R_MIPS_GPREL16 against `D_800EAE90'", so the
+ * "relocation truncated to fit: R_MIPS_GPREL16 against `tent_AiSelectionRandom'", so the
  * symbol's own small-data addressing is what those functions match on. This
  * declaration is therefore a deliberate alias of AiSelection.random, not a
  * duplicate to be folded into the struct.
@@ -103,7 +103,7 @@ typedef struct {
  * DuelScene_UpdateHandActions reads the same byte with %hi/%lo, and does so as
  * D_800EAE88[8]: the symbol-plus-offset form is what orders its %hi ahead of
  * the neighbouring constants. */
-extern u8 D_800EAE90;
+extern u8 tent_AiSelectionRandom;
 
 /* Byte 0x01 of the same selection -- AiSelection.field1 above -- has the
  * address-based name D_800EAE89 in the generated listings, but no source

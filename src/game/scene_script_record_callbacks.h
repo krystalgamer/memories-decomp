@@ -4,6 +4,6 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-extern SceneScriptRecordCallback D_80090CAC[];
+extern SceneScriptRecordCallback tent_SceneScriptRecordCallbacks[];
 
 #endif

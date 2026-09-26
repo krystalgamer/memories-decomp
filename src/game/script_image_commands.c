@@ -21,7 +21,7 @@
 #define VRAM_COPY_HEIGHT 0xA0
 #define SCRIPT_IMAGE_OBJECT_SET_VIEW(set) ((ScriptImageObjectSet *)(set))
 
-void Script_OpStageImage(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;D_8009B290=p2;value=p[0]|(p[1]<<8);D_8009B270=value;if(value&0x8000){p4=p+4;D_8009B290=p4;D_8009B2A8=p[2]|(p2[1]<<8);D_8009B290=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}D_8009B27C=5;}
+void Script_OpStageImage(void){register unsigned char*p=D_8009B290;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;D_8009B2AA=0;D_8009B2A8=0;D_8009B290=p2;value=p[0]|(p[1]<<8);tent_ScriptImageId=value;if(value&0x8000){p4=p+4;D_8009B290=p4;D_8009B2A8=p[2]|(p2[1]<<8);D_8009B290=p+6;D_8009B2AA=p[4]|(p4[1]<<8);}D_8009B27C=5;}
 
 void Script_OpShowImage(void) {
     DisplayObject *rec;
@@ -68,7 +68,7 @@ void Script_OpShowImage(void) {
             Fade_StartOutKeepOverlay(D_8009B145);
         }
         ScriptImage_RequestTransfer(
-            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), D_8009B270 & 0xFFF);
+            SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), tent_ScriptImageId & 0xFFF);
         return;
     }
     if (!(flags & 0x2000)) {
@@ -76,7 +76,7 @@ void Script_OpShowImage(void) {
         DisplayObject_ReleaseIfPresent(D_8009B280);
         ScriptImage_RebuildObjects(
             SCRIPT_IMAGE_OBJECT_SET_VIEW(D_800EAE98), -1);
-        if (D_8009B145 == 0 && !(D_8009B270 & 0x4000)) {
+        if (D_8009B145 == 0 && !(tent_ScriptImageId & 0x4000)) {
             Fade_StartInKeepOverlay();
         }
         return;

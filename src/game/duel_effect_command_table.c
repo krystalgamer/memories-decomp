@@ -25,7 +25,7 @@
  * Every entry now comes through its unit's header in the include block
  * above. */
 
-void (*D_80090EAC[])(DuelEffectChannel *) = {
+void (*tent_SecondaryTextCommandTable[])(DuelEffectChannel *) = {
     func_80037DA4,
     func_800380D4,
     func_80038110,

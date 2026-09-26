@@ -470,7 +470,7 @@ typedef char LibraryMotionState_size_must_be_0x48[
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *text_00;
-    /* The fade callbacks in D_80090EAC reach this block. They are reached as
+    /* The fade callbacks in tent_SecondaryTextCommandTable reach this block. They are reached as
        bytes at 0x04-0x0A, as halfwords at 0x0C and 0x0E, and as single bytes
        at 0x13-0x15; 0x04 is additionally written as one word (0 and
        0x80808080), which those sites spell as a width over field_04 rather

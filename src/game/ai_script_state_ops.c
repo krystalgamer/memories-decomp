@@ -141,14 +141,14 @@ void AiScript_ClearTypes(void)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_AI_SET_SELECTION_RANDOM)
 void AiScript_SetSelectionRandom(void)
 {
-    D_800EAE90 = 1;
+    tent_AiSelectionRandom = 1;
 }
 #endif
 
 #ifndef VERSION_JAPAN
 void AiScript_ClearSelectionRandom(void)
 {
-    D_800EAE90 = 0;
+    tent_AiSelectionRandom = 0;
 }
 
 void func_80073464(void)
