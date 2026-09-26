@@ -21,9 +21,4 @@
 #define MemCardFormat func_8008BAF0
 #define MemCardDialog_UpdateSave func_8003DDF8
 
-/* Japanese-only library calls that state 2 polls; the US build has none. */
-void func_8008D070(long chan);
-long func_8008DCB4(long mode, long *cmds, long *result);
-void func_8008CF10(long chan, long *apl);
-
 #include "../mem_card_dialog_load_save.c"
