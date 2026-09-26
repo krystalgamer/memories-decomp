@@ -9,8 +9,8 @@ extern s16 D_801DA000[];
 /* Finds the 30-byte text record selected by a parallel big-endian ID table. */
 s32 Text_FindRecordById(s32 id);
 
-/* Appends one 0x1C-byte packet to the buffer the object holds at 0x20, then
- * advances that pointer past it.
+/* Appends one packet (0x1C bytes in the US game, 0x18 in Japan) to the buffer
+ * the object holds at 0x20, then advances that pointer past it.
  *
  * The second argument is a tagged value, not a plain number: the flags at
  * 0x34 decide how it is read. With 0x80 it is stored as-is, with 0x100 only
@@ -19,6 +19,10 @@ s32 Text_FindRecordById(s32 id);
  * anything when the value comes out zero, so a caller cannot assume a packet
  * was appended, and nothing is returned to say whether one was. */
 void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
+
+#ifdef VERSION_JAPAN
+void func_800362AC(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
+#endif
 
 /* Compatibility symbol used by existing text and command handlers. */
 /* The lookup's original symbol remains for non-C callers. */
