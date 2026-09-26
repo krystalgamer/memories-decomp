@@ -6377,97 +6377,97 @@
       "address": "0x8006F348",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8C",
-      "source": "src/game/japanese/ai_winning_card_range.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F3D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xAC",
-      "source": "src/game/japanese/ai_card_range.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F480",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/japanese/ai_is_card_in_set.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F4D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
-      "source": "src/game/japanese/ai_is_type_in_set.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F530",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/japanese/ai_is_card_in_sets.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F598",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
-      "source": "src/game/japanese/ai_script_jump.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F5D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/game/japanese/ai_script_jump_greater_equal.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F650",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/game/japanese/ai_script_jump_greater.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F6D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/japanese/ai_script_jump_equal.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F74C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/game/japanese/ai_script_jump_not_equal.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F7C8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA8",
-      "source": "src/game/japanese/ai_script_jump_between.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F870",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
-      "source": "src/game/japanese/ai_script_jump_random.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F910",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA8",
-      "source": "src/game/japanese/ai_script_call.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006F9B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
-      "source": "src/game/japanese/ai_script_return.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006FA30",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x94",
-      "source": "src/game/japanese/ai_script_set_random.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006FAC4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x68",
-      "source": "src/game/japanese/ai_script_subtract.c"
+      "source": "src/game/japanese/ai_script_control_flow.c"
     },
     {
       "address": "0x8006FB2C",
