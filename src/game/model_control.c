@@ -33,6 +33,12 @@
 
 #define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *)(address))
 
+/* The state trace printed on the debug font. The Japanese build carries none
+   of these prints, so a regional build defines it away. */
+#ifndef MODEL_CONTROL_TRACE
+#define MODEL_CONTROL_TRACE(message) FntPrint(message)
+#endif
+
 void func_800559D4(s32 index)
 {
     ModelSlot *slot = &D_800F2C40[index];
@@ -148,16 +154,16 @@ void func_800559D4(s32 index)
     func_8005F198(0);
     switch (slot->field_E0E) {
     case 0:
-        FntPrint(D_80011574);
+        MODEL_CONTROL_TRACE(D_80011574);
         return;
     case 5:
-        FntPrint(D_8009B030);
+        MODEL_CONTROL_TRACE(D_8009B030);
         if (other->field_E0F == 5 && other->field_E06 >= 0x60) {
             Model_ControlSlotAnimation(index ^ 1, 1, 1);
         }
         return;
     case 3:
-        FntPrint(D_8009B038);
+        MODEL_CONTROL_TRACE(D_8009B038);
         if (action == 6) {
             other->field_E13 = 0x80;
             Model_ControlSlotAnimation(index ^ 1, 6, 1);
@@ -204,10 +210,10 @@ void func_800559D4(s32 index)
         command = reaction & 0x7F;
         changed = 0;
         if (slot->field_E0E == 1) {
-            FntPrint(D_8009B040);
+            MODEL_CONTROL_TRACE(D_8009B040);
         }
         if (slot->field_E0E == 4) {
-            FntPrint(D_8009B048);
+            MODEL_CONTROL_TRACE(D_8009B048);
             if (slot->field_E0E == 4 && command == 6 && other->field_E0F != 6) {
                 command = 5;
             }
@@ -238,10 +244,10 @@ void func_800559D4(s32 index)
         return;
     }
     case 2:
-        FntPrint(D_8009B050);
+        MODEL_CONTROL_TRACE(D_8009B050);
         return;
     default:
-        FntPrint(D_8009AFF4);
+        MODEL_CONTROL_TRACE(D_8009AFF4);
         slot->field_E0E = 2;
         return;
     }

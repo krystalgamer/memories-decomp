@@ -5570,6 +5570,12 @@
       "source": "src/game/japanese/func_800556E8.c"
     },
     {
+      "address": "0x800588BC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6C0",
+      "source": "src/game/japanese/model_control.c"
+    },
+    {
       "address": "0x80058F7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x134",
