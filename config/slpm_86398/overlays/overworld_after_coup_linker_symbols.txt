@@ -22,3 +22,4 @@ func_800540B4 = 0x80056F9C;
 gCampaignMap_Location = 0x8016960C;
 TextBox_Create = 0x80035938;
 func_80039A60 = 0x800390D4;
+gInput_wPad1Held = 0x8009B294;

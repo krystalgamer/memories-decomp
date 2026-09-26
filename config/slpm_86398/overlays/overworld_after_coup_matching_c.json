@@ -35,6 +35,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
       "source": "src/overlays/japanese/overworld_after_coup/reset_camera.c"
+    },
+    {
+      "address": "0x80168388",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x200",
+      "source": "src/overlays/japanese/overworld_after_coup/move_camera_dpad.c"
     }
   ],
   "schema": 1
