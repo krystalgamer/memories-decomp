@@ -60,7 +60,29 @@ int Duel_IsPlayerDeckComplete(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SCRIPT_OP_SAVE_PROMPT)
+#ifdef VERSION_JAPAN
+/* The Japanese build makes no func_8003B6AC(0, 2) call before any of the
+ * prompt's boxes, sizes three of them differently, and confirms with Circle
+ * or Square. */
+#define SAVE_PROMPT_PREPARE_BOX()
+#define SAVE_PROMPT_SLIDE_BOX_SIZE 0x70, 0x40
+#define SAVE_PROMPT_CHOICE_BOX_RECT 0x50, 0x30, 0x20
+#define SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT 0x30
+#define SAVE_PROMPT_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
+#define SAVE_PROMPT_PREPARE_BOX() func_8003B6AC(0, 2)
+#define SAVE_PROMPT_SLIDE_BOX_SIZE 0x78, 0x30
+#define SAVE_PROMPT_CHOICE_BOX_RECT 0x70, 0x18, 0x18
+#define SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT 0x24
+#define SAVE_PROMPT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+#ifndef SAVE_PROMPT_CHANNEL_TYPE
+#define SAVE_PROMPT_CHANNEL_TYPE DuelEffectChannel
+#endif
+#define SAVE_PROMPT_CHANNEL(index) \
+    ((DuelEffectChannel *)&((SAVE_PROMPT_CHANNEL_TYPE *)D_800EB0F8)[index])
+
 /* Save-prompt dialog step for the campaign script.
  *
  * On entry it reads the prompt's text id and scene index from the script
@@ -99,7 +121,7 @@ void Script_OpSavePrompt(void)
         value = lo | (p[1] << 8);
         D_8009B290 = p + 4;
         D_8009B2A6 = p[2] | (p2[1] << 8);
-        func_8003B6AC(0, 2);
+        SAVE_PROMPT_PREPARE_BOX();
         DuelEffect_MarkObjectIfActive(
             TextBox_Create(0, value, 0x10, 0xB0, 0x120, 0x30));
         return;
@@ -132,8 +154,8 @@ void Script_OpSavePrompt(void)
             SD_SEPlayFull(0x2A);
             return;
         }
-        func_8003B6AC(0, 2);
-        box = TextBox_Create(3, 0x11, -0x90, 0x38, 0x78, 0x30);
+        SAVE_PROMPT_PREPARE_BOX();
+        box = TextBox_Create(3, 0x11, -0x90, 0x38, SAVE_PROMPT_SLIDE_BOX_SIZE);
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
         box->flags_34 |= 0x24;
         do {
@@ -147,21 +169,21 @@ void Script_OpSavePrompt(void)
         return;
     }
 
-    box = &D_800EB0F8[3];
+    box = SAVE_PROMPT_CHANNEL(3);
     obj = box->field_28;
 
     if ((flags & 0x400) != 0) {
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
-            func_8003B6AC(0, 2);
-            box = TextBox_Create(2, 0x12, 0x90, 0x70, 0x18, 0x18);
+            SAVE_PROMPT_PREPARE_BOX();
+            box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
             DuelEffect_MarkObjectIfActive((MenuRecord *)box);
             box->flags_34 |= 0x20;
             do {
                 func_80039794();
             } while (box->field_30 == 0);
         }
-        prompt = &D_800EB0F8[2];
+        prompt = SAVE_PROMPT_CHANNEL(2);
         if ((prompt->flags_34 & 0x2000) == 0) {
             return;
         }
@@ -180,12 +202,12 @@ void Script_OpSavePrompt(void)
     if ((flags & 0x200) != 0) {
         if ((flags & 0x800) == 0) {
             D_8009B27C = flags | 0x800;
-            func_8003B6AC(0, 2);
+            SAVE_PROMPT_PREPARE_BOX();
             DuelEffect_MarkObjectIfActive(TextBox_CreateFlagged(
-                0, 0x1C, 0x10, 0xB0, 0x120, 0x24, 0x1008));
+                0, 0x1C, 0x10, 0xB0, 0x120, SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT, 0x1008));
             return;
         }
-        if ((D_800EB0F8[0].flags_34 & 8) != 0) {
+        if ((SAVE_PROMPT_CHANNEL(0)->flags_34 & 8) != 0) {
             return;
         }
         SD_SEPlayFull(8);
@@ -240,7 +262,7 @@ void Script_OpSavePrompt(void)
         if (Dialog_ReadChoiceInput(box) != 0) {
             return;
         }
-        if ((gInput_wPad1Pressed & 0xC0) == 0) {
+        if ((gInput_wPad1Pressed & SAVE_PROMPT_CONFIRM_MASK) == 0) {
             return;
         }
         D_801D0000[(SAVE_DATA_HEADER_SIZE + SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) /
