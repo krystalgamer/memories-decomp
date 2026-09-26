@@ -5,6 +5,5 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_800EAE90 gJapanese_AiSelectionRandom
-#define gAiScript_State gJapanese_AiScriptState
 
 #include "../ai_script_combo.c"
