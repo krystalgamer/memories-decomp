@@ -1,5 +1,6 @@
 #include "../types.h"
 #include "display_object_config.h"
+#include "display_object_core.h"
 #include "display_object_helpers.h"
 
 void DisplayObject_InitializeTexturedGouraudQuad(

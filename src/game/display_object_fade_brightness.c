@@ -1,4 +1,5 @@
 #include "../types.h"
+#include "display_object_core.h"
 #include "display_object_lifecycle.h"
 
 void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object)
