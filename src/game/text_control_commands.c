@@ -40,7 +40,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     s32 op = *p;
 
     *pp = p + 1;
-    D_80090EAC[op](object);
+    tent_SecondaryTextCommandTable[op](object);
 }
 
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}

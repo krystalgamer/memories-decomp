@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* D_80090EAC entry: arms a campaign duel from the object's script stream. It
+/* tent_SecondaryTextCommandTable entry: arms a campaign duel from the object's script stream. It
  * takes four bytes in order -- opponent id, D_8009B370, D_8009B372, terrain --
  * then a word through TextStream_ReadU16LE for gDuel_wBgmId, picks the duel's music
  * bank from the opponent id (0x7280 for ids 9 through 16, 0x7290 for 0x11,

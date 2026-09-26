@@ -6,7 +6,6 @@
  * unchanged. */
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define D_8009B270 gJapanese_ScriptImageId
 #define D_8009B290 gJapanese_D_8009B290
 
 #include "../script_op_load_image_scene.c"

@@ -11,6 +11,6 @@ struct DuelEffectChannel;
  * deliberately: Text_DispatchSecondaryCommand selects an entry with a byte
  * taken from a bytecode stream, so nothing at the call site bounds the index
  * and a size here would assert more than is known. */
-extern void (*D_80090EAC[])(struct DuelEffectChannel *);
+extern void (*tent_SecondaryTextCommandTable[])(struct DuelEffectChannel *);
 
 #endif

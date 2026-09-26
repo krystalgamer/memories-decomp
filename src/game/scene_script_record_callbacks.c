@@ -9,7 +9,7 @@
  * sole consumer and casts at the initializer boundary.
  */
 
-SceneScriptRecordCallback D_80090CAC[] = {
+SceneScriptRecordCallback tent_SceneScriptRecordCallbacks[] = {
     (SceneScriptRecordCallback)SceneScript_NoOpRecordCallback,
     (SceneScriptRecordCallback)func_8002FED8,
 };

@@ -78,7 +78,7 @@ void func_8003767C(DuelEffectChannel *state)
     D_8009B2AA[0] = 0;
     D_8009B2A8[0] = 0;
     result = TextStream_ReadU16LE(state);
-    D_8009B270[0] = result;
+    tent_ScriptImageId[0] = result;
 
     if (result & 0x8000) {
         u8 **slot =
