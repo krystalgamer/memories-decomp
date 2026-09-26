@@ -28,7 +28,9 @@ static inline s16 load_phase(ModelSlot *slot)
 void func_80056828(s32 index)
 {
     ModelSlot *slot = &D_800F2C40[index];
+#ifndef VERSION_JAPAN
     s32 started = VSync(1);
+#endif
     s32 state = slot->field_E14;
     s32 work;
     s32 amount;
@@ -184,8 +186,10 @@ void func_80056828(s32 index)
         slot->field_E1F = 1;
         break;
     }
+#ifndef VERSION_JAPAN
     work = VSync(1);
     printf(D_80011594, slot->field_E14, work - started);
+#endif
     {
         s32 next;
         if (slot->field_E1F != 0) {

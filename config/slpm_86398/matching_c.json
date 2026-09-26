@@ -5486,6 +5486,12 @@
       "source": "src/game/japanese/model_load_monster_merge.c"
     },
     {
+      "address": "0x80059688",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x524",
+      "source": "src/game/japanese/func_80059688.c"
+    },
+    {
       "address": "0x80059BAC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
