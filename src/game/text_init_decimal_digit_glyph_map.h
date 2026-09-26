@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-extern TextDecimalDigitKeyBlock D_80010330;
+extern TextDecimalDigitKeyBlock tent_DecimalDigitSjisKeys;
 extern const u32 D_801D9004[];
 
 void Text_InitDecimalDigitGlyphMap(void);
