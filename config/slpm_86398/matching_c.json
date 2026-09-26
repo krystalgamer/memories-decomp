@@ -1670,6 +1670,12 @@
       "source": "src/game/japanese/main_debug.c"
     },
     {
+      "address": "0x8002D5AC",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x250",
+      "source": "src/game/japanese/main_run_trade.c"
+    },
+    {
       "address": "0x8002DA18",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x140",
