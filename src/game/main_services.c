@@ -44,7 +44,6 @@ s32 runtime_gp __attribute__((section(".sdata"))) = 0x3C;
    the watchdog counter D_8009AF08 underflows, resets the counter to 0x3C
    and re-syncs both progress pairs. Finishes with
    File_ServiceTransfers/func_800136D4. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_RUN_FRAME_SERVICES)
 void Main_RunFrameServices(void) {
     void (*fn)(void);
     s32 i;
@@ -80,9 +79,7 @@ void Main_RunFrameServices(void) {
     File_ServiceTransfers(0);
     func_800136D4();
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_GRAPHICS_STARTUP)
 /* Boot-time graphics and input startup. The work area contains two 0x5160
  * byte frame buffers; each receives four ordering tables before the display
  * environment and frontend services are initialized. */
@@ -148,9 +145,7 @@ next:
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_SCREEN_ADJUST)
 /* Held with a direction, this button doubles the adjustment step. The Japanese
  * release swaps Cross and Circle, so a regional build names its own. */
 #ifndef MAIN_SCREEN_ADJUST_BUTTON
@@ -206,10 +201,8 @@ void func_80013360(void)
     D_8009B098 &= 0xDFFF;
     Input_ResetPads();
 }
-#endif
 
 /* Zeroes D_800E9DB0[0..3] and D_8009B0B8. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_CLEAR_FRAME_SERVICE_CALLBACKS)
 void Main_ClearFrameServiceCallbacks(void)
 {
     void (**v0)(void);
@@ -224,4 +217,3 @@ void Main_ClearFrameServiceCallbacks(void)
     } while (v1 >= 0);
     D_8009B0B8 = 0;
 }
-#endif
