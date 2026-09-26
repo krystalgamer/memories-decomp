@@ -868,6 +868,7 @@ D_800EB15C = 0x800EB038;
 D_800EAE92 = 0x800EAD72;
 TextBox_SetPos = 0x80038FA8;
 DuelEffect_UpdateObjectLayout = 0x800366C8;
+Text_HandleChoiceCommand = 0x800382A8;
 func_80039140 = 0x800387F8;
 func_80035E20 = 0x80035B6C;
 TextBox_BuildStep = 0x80038A68;
