@@ -93,7 +93,8 @@ typedef char AlternateLocationState_size_must_be_0x54[
  *                indexed by D_8016A2BC at the 66-byte stride above.
  *   D_8016A2BC   The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
- *   D_800C4E68   A pad or status word, tested for 0x4, 0x20 and 0xC0.
+ *   D_800C4E68   A pad or status word; the alternate exit selector tests
+ *                0x20/0xC0 in US and 0x40/0xA0 in Japan.
  *
  * The adjacent controller state declarations are centralized here with their
  * C-owned enclosing record. */
