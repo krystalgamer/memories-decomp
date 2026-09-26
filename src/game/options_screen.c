@@ -1,4 +1,7 @@
 #define GINPUT_PAD1_PRESSED_IN_DATA_VOLATILE
+#ifdef VERSION_JAPAN_OPTIONS_HANDLE_INPUT
+#define GINPUT_PAD1_REPEAT_IN_DATA_VOLATILE
+#endif
 #define GSD_BOUTPUTTYPE_IN_DATA
 #define D_8009AF5C_AS_BYTE_ARRAY
 #include "../types.h"
@@ -143,13 +146,44 @@ void Options_Init(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_OPTIONS_HANDLE_INPUT)
 
 /* Retail performs a fresh absolute load for each input-state test. */
+
+#ifdef VERSION_JAPAN
+#define OPTIONS_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#define OPTIONS_CANCEL_BUTTON PAD_BUTTON_CROSS
+#else
+#define OPTIONS_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#define OPTIONS_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
 
 void Options_HandleInput(void)
 {
     s32 value;
+
+#ifdef VERSION_JAPAN
+    if (gInput_wPad1Repeat & PAD_DIRECTION_VERTICAL_MASK) {
+        s32 selection = gOptions_bSelection;
+
+        if (gInput_wPad1Repeat & PAD_DIRECTION_UP) {
+            selection--;
+            if (selection < 0) {
+                return;
+            }
+        } else {
+            selection++;
+            if (selection >= 2) {
+                return;
+            }
+        }
+        gOptions_bSelection = selection;
+        Options_InitTextDisplay(selection);
+        Options_UpdateLayout(selection);
+        SD_SEPlayFull(6);
+        return;
+    }
+#endif
 
     if (gOptions_bSelection == 0 &&
         (gInput_wPad1Pressed & PAD_DIRECTION_HORIZONTAL_MASK)) {
@@ -157,9 +191,13 @@ void Options_HandleInput(void)
             if (gOptions_bOutputType != 0) {
                 return;
             }
+#ifdef VERSION_JAPAN
+            value = (gOptions_bOutputType = (gSD_bOutputType = 1));
+#else
             value = 1;
             gSD_bOutputType = value;
             gOptions_bOutputType = 1;
+#endif
         } else {
             if (gOptions_bOutputType == 0) {
                 return;
@@ -175,13 +213,13 @@ void Options_HandleInput(void)
     }
 
     if (gOptions_bSelection != 0 &&
-        (gInput_wPad1Pressed & PAD_BUTTON_CONFIRM_MASK)) {
+        (gInput_wPad1Pressed & OPTIONS_CONFIRM_MASK)) {
         SD_SEPlayFull(7);
         gOptions_bState = (u8)gOptions_bSelection + 1;
         return;
     }
 
-    if (gInput_wPad1Pressed & PAD_BUTTON_CANCEL) {
+    if (gInput_wPad1Pressed & OPTIONS_CANCEL_BUTTON) {
         gOptions_bState = 0;
         SD_SEPlayFull(8);
     }
