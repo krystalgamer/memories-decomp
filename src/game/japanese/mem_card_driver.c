@@ -1,9 +1,5 @@
 #include "../../types.h"
 
-/* SLPM-86398 build of src/game/mem_card_driver.c: the symbols below sit at other addresses in the
- * Japanese executable and their US names are taken there, so they are aliased
- * (config/slpm_86398/symbols.txt has the addresses). The US source is included
- * unchanged. */
-#define gMemCard_nIOResult gJapanese_MemCardIOResult
+/* SLPM-86398 build of src/game/mem_card_driver.c: the US source is included unchanged. */
 
 #include "../mem_card_driver.c"

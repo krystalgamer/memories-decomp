@@ -10,7 +10,6 @@
 #define D_8009B290 gJapanese_D_8009B290
 #define D_8009B29C gJapanese_D_8009B29C
 #define D_8009B2A0 gJapanese_D_8009B2A0
-#define gFade_State gJapanese_FadeState
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

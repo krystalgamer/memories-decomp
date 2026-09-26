@@ -6,6 +6,5 @@
  * unchanged. */
 #define GameOver_Init func_8003BFA4
 #define func_8003CA5C func_8003C0B0
-#define gFade_State gJapanese_FadeState
 
 #include "../game_over.c"

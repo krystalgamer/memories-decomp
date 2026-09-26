@@ -5,7 +5,6 @@
  * terrain's effect data starts at 0x1784 + 0xEF * terrain. */
 #define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
     ((((terrain) * 15) * 16 - (terrain)) + 0x1784)
-#define gDuel_bTerrain gJapanese_DuelTerrain
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_801A7AD8 gJapanese_DuelCardRecords

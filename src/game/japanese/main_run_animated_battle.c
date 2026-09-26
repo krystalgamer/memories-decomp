@@ -6,6 +6,5 @@
  * unchanged. */
 #define D_8009B0C0 gJapanese_D_8009B0C0
 #define D_8009B26C gJapanese_bActiveMainMode
-#define gDuel_bTerrain gJapanese_DuelTerrain
 
 #include "../main_run_animated_battle.c"

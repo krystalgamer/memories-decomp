@@ -3,7 +3,6 @@
 #define VERSION_JAPAN
 #define VERSION_JAPAN_DEBUG_EFFECT_CONTROLLER
 #define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CIRCLE
-#define gDebugEffect_abPreviewState gJapanese_DebugEffectPreviewState
 #define func_800222F4 func_8002213C
 #define func_800220B8 func_80021F00
 #define D_8009B180 gJapanese_DebugEffectObject0

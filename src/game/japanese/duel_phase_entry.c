@@ -12,7 +12,5 @@
 #define D_8009B21C gJapanese_D_8009B21C
 #define D_800EA030 gJapanese_DuelHandDisplayRecords
 #define D_801A7AD8 gJapanese_DuelCardRecords
-#define gDuel_wBgmId gJapanese_DuelBgmId
-#define gFade_State gJapanese_FadeState
 
 #include "../duel_phase_entry.c"

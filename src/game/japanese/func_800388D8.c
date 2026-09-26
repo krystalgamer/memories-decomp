@@ -6,6 +6,5 @@
  * unchanged. */
 #define D_8009AF74 gJapanese_D_8009AF74
 #define D_8009B140 gJapanese_D_8009B140
-#define gFade_State gJapanese_FadeState
 
 #include "../func_800388D8.c"

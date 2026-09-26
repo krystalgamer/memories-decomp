@@ -9,5 +9,4 @@
 #define D_8009B290 gJapanese_D_8009B290
 #define D_8009B2A8 gJapanese_D_8009B2A8
 #define D_800E9D70 gJapanese_D_800E9D70
-#define gFade_State gJapanese_FadeState
 #include "../script_image_commands.c"
