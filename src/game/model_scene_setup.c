@@ -91,7 +91,7 @@ void func_80052528(void) {
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052694)
 void func_80052694(s32 arg0) {
     ModelCameraMove *e;
     ModelCameraMove *g;
@@ -114,18 +114,25 @@ void func_80052694(s32 arg0) {
         }
     }
 
+    /* The Japanese build only clears the flag bit here; it neither steps
+       field_04 up nor, on the other branch, back down towards field_06. */
     if (func_80051350(1, 0x96, 0) != 0) {
         e = &D_800F2B20;
+#ifndef VERSION_JAPAN
         if (e->field_04 < 0x10) {
             e->field_04 = e->field_04 + 1;
         }
+#endif
         e->flags = e->flags & 0xFE;
-    } else {
+    }
+#ifndef VERSION_JAPAN
+    else {
         g = &D_800F2B20;
         if (g->field_06 < g->field_04) {
             g->field_04 = g->field_04 - 1;
         }
     }
+#endif
 
     func_80052528();
 
