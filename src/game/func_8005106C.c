@@ -46,9 +46,12 @@ void func_80050F24(s32 arg0)
 #endif
 
 /* "e%03ld(%ld)=%d\n" */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005106C)
 void func_8005106C(s32 index) {
+#ifndef VERSION_JAPAN
+    /* The Japanese build has no debug print, and no buffer for it. */
     u8 buf[0x50];
+#endif
     u8 out[8];
     ModelSlot *m;
     ModelSlotSoundEntry *e;
@@ -98,6 +101,12 @@ void func_8005106C(s32 index) {
             }
         }
         if (show) {
+#ifdef VERSION_JAPAN
+            speed2 = m->field_E0D * Model_GetFrameStep();
+            phase = m->field_E08;
+            m->field_E08 = phase + speed2;
+            anim = m->field_DFE + 3;
+#else
             s32 cur2;
             s32 value2;
 
@@ -111,6 +120,7 @@ void func_8005106C(s32 index) {
                plainly, GCC reuses the value it just stored instead. */
             sprintf(buf, D_80011508, value2 / 1000, value2 % 1000, *(volatile u16 *)&m->field_E08 >> 4);
             FntPrint(buf);
+#endif
         }
     }
     if (show == 0) {
@@ -125,24 +135,28 @@ void func_8005106C(s32 index) {
 loop:
     flag = e->flags & 0x8000;
     id = e->id;
-    if (flag) {
-        code = flag | id;
-    } else {
-        code = (u16)tag | id;
-    }
-    if (e->frame == 0) {
-        return;
-    }
-    if (e->frame == anim) {
-        if (flag != 0 && phase == 0) {
-            func_80045334(code);
+    /* A one-pass block around the loop body; it decides which of phase
+     * and the counter get $s1 and $s3. */
+    do {
+        if (flag) {
+            code = flag | id;
+        } else {
+            code = (u16)tag | id;
         }
-        if ((e->flags & 0x7FFF) >= phase && (e->flags & 0x7FFF) < phase + speed) {
-            SD_SEPlay(code, 0xFF, 0);
+        if (e->frame == 0) {
+            return;
         }
-    }
-    i++;
-    e++;
+        if (e->frame == anim) {
+            if (flag != 0 && phase == 0) {
+                func_80045334(code);
+            }
+            if ((e->flags & 0x7FFF) >= phase && (e->flags & 0x7FFF) < phase + speed) {
+                SD_SEPlay(code, 0xFF, 0);
+            }
+        }
+        i++;
+        e++;
+    } while (0);
     if (i < 0x40) {
         goto loop;
     }
