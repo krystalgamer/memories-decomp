@@ -51,16 +51,25 @@ Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa8958
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,077 / 1,197 (89.97%)** |
-| Game C-decompilation target bytes matched | **297,512 (`0x48A28`) / 391,384 (`0x5F8D8`) (76.02%)** |
-| Remaining game C-decompilation targets | 120 functions, 93,872 (`0x16EB0`) |
+| Game C-decompilation targets matched | **1,105 / 1,197 (92.31%)** |
+| Game C-decompilation target bytes matched | **308,628 (`0x4B594`) / 391,384 (`0x5F8D8`) (78.86%)** |
+| Remaining game C-decompilation targets | 92 functions, 82,756 (`0x14344`) |
 | Evidence-backed handwritten game assembly | 0 functions, 0 (`0x0`) |
 | Total game-owned functions | 1,197 |
 | Preserved Psy-Q CRT/SDK assembly | 629 functions, 122,048 (`0x1DCC0`) |
 | Total discovered functions | 1,826 |
 | Embedded/unassigned resident text | 1,832 (`0x728`) |
 
-_Generated from `config/slpm_86398/matching_c.json`, `config/slpm_86398/function_regions.json`, and the generated Japanese split inventory by `tools/project/progress.py`._
+Runtime overlay modules (matched C; full function inventories not yet tracked):
+
+| Module | Matching C functions | Matching C bytes |
+|---|---:|---:|
+| `free_duel` | 9 | 4,140 (`0x102C`) |
+| `main_menu` | 20 | 5,648 (`0x1610`) |
+| `overworld_after_coup` | 4 | 688 (`0x2B0`) |
+| `overworld_before_coup` | 4 | 668 (`0x29C`) |
+
+_Generated from `config/slpm_86398/matching_c.json`, `config/slpm_86398/function_regions.json`, `config/slpm_86398/overlays/*_matching_c.json`, and the generated Japanese split inventory by `tools/project/progress.py`._
 
 <!-- END GENERATED PROGRESS -->
 
@@ -68,7 +77,9 @@ Both regional tables separate game-owned C-decompilation targets from
 evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
 North American ownership comes from its authoritative function inventory;
 Japanese ownership combines the generated split inventory with tracked
-resident-code regions.
+resident-code regions. Japanese overlay rows report matching C functions and
+bytes from tracked manifests; complete overlay function inventories are not
+yet tracked, so those rows omit denominators and percentages.
 
 Run `make progress` when intentionally refreshing the project-wide snapshot.
 It updates the generated table above and writes detailed machine-readable
