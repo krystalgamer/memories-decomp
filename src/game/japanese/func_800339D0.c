@@ -8,6 +8,5 @@
 #define D_8009B09C gJapanese_FrameCounter
 #define D_8009B140 gJapanese_D_8009B140
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define gBuildDeck_pState gBuildDeck_pState
 
 #include "../func_800339D0.c"
