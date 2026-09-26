@@ -365,7 +365,7 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_TRANSFER)
 /* Flies an accepted glyph from the keyboard to the name field on the same
  * tween prologue as the caret, dropping a fading copy of itself each frame.
  * On arrival it looks the destination glyph up and shatters it. */
@@ -404,7 +404,11 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
                       16, 16,
                       *(u8 *)&g->field_5C, ((u8 *)&g->field_5C)[1],
                       g->field_66,
+#ifdef VERSION_JAPAN
+                      0x210, 0xFF);
+#else
                       (u16)g->field_40.h.field_40, (u16)g->field_40.h.field_42);
+#endif
         o->field_0C = 0x606060;
         o->field_60 = 6;
         o->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
@@ -429,7 +433,9 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
     o->update = NameEntry_UpdateGlyphShatter;
     o->field_6C = 5;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Makes the sprite for one glyph node: maps the node's Shift-JIS code to a
  * cell in the 16x16 font page, places it at the text box's origin plus the
  * node's local position, and stamps the spawn order into +0x6A. With no node
