@@ -106,7 +106,9 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     }
     return object;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR)
 void Password_UpdateDigitCursor(PasswordCursorView *object)
 {
     s16 remaining;
@@ -130,7 +132,9 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
         }
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Password_UpdateDigitCursorDecoration(u8 *object)
 {
     PasswordCursorView *obj = (PasswordCursorView *)object;
