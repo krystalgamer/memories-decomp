@@ -399,6 +399,13 @@ def function_name_before_body(tokens: list[Token], brace_index: int) -> int | No
 
 
 REGIONAL_NAME = re.compile(r"\bVERSION_JAPAN\w*")
+IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
+
+
+def only_regional_names(expression: str) -> bool:
+    """True when every macro an expression names is a VERSION_JAPAN* macro."""
+    names = set(IDENTIFIER.findall(expression)) - {"defined"}
+    return bool(names) and all(REGIONAL_NAME.fullmatch(name) for name in names)
 CONDITIONAL = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)$")
 REGIONAL_DEFINE = re.compile(r"^\s*#\s*define\s+(VERSION_JAPAN\w*)\b")
 
@@ -424,7 +431,7 @@ def us_source_view(text: str) -> str:
     """
     defined: set[str] = set()
     # Each frame: (regional, active_before, taken, active).
-    stack: list[tuple[bool, bool, bool, bool]] = []
+    stack: list[tuple[bool, bool, bool | None, bool]] = []
     active = True
     output: list[str] = []
     lines = text.split("\n")
@@ -453,7 +460,7 @@ def us_source_view(text: str) -> str:
         directive, rest = match.group(1), match.group(2).strip()
         rest = re.sub(r"/\*.*?\*/|//.*$", "", rest).strip()
         if directive in ("if", "ifdef", "ifndef"):
-            regional = REGIONAL_NAME.search(rest) is not None
+            regional = only_regional_names(rest)
             if not regional:
                 stack.append((False, active, True, active))
                 output.append(line if active else "")
@@ -480,11 +487,21 @@ def us_source_view(text: str) -> str:
         if not regional:
             output.append(line if active else "")
             continue
-        if directive == "elif":
-            value = not taken and regional_condition(rest, defined)
+        # taken is True (an earlier arm was selected), False (none was), or
+        # None (an earlier arm was kept without being evaluated, so any later
+        # arm may be the one the US build selects; keep them all).
+        if taken is True:
+            value, taken = False, True
+        elif taken is None:
+            value = True
+        elif directive == "elif" and not only_regional_names(rest):
+            value, taken = True, None
+        elif directive == "elif":
+            value = regional_condition(rest, defined)
+            taken = value
         else:
-            value = not taken
-        stack[-1] = (True, before, taken or value, before and value)
+            value, taken = True, True
+        stack[-1] = (True, before, taken, before and value)
         active = before and value
         output.append("")
     return "\n".join(output)

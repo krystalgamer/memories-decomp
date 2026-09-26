@@ -493,6 +493,32 @@ class UsSourceViewTests(unittest.TestCase):
             dropped=[],
         )
 
+    def test_keeps_non_regional_elif_after_regional_arm(self) -> None:
+        self.assertView(
+            "#ifdef VERSION_JAPAN_F\nint jp;\n"
+            "#elif defined(TEXT_STRING_ID_IN_DATA)\nint in_data;\n"
+            "#else\nint plain;\n#endif\n",
+            kept=["int in_data;", "int plain;"],
+            dropped=["int jp;"],
+        )
+
+    def test_leaves_mixed_conditionals_alone(self) -> None:
+        self.assertView(
+            "#if defined(VERSION_JAPAN_F) || defined(OTHER)\nint mixed;\n"
+            "#else\nint rest;\n#endif\n",
+            kept=["int mixed;", "int rest;"],
+            dropped=[],
+        )
+
+    def test_regional_elif_still_selects_one_arm(self) -> None:
+        self.assertView(
+            "#ifdef VERSION_JAPAN\nint jp;\n"
+            "#elif !defined(VERSION_JAPAN_F)\nint us;\n"
+            "#else\nint never;\n#endif\n",
+            kept=["int us;"],
+            dropped=["int jp;", "int never;"],
+        )
+
     def test_joins_continued_regional_directive(self) -> None:
         self.assertView(
             "#if !defined(VERSION_JAPAN) || \\\n    defined(VERSION_JAPAN_F)\n"
