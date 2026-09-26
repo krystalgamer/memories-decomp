@@ -14,6 +14,7 @@ from function_inventory import (
     load_inventory,
     parse_generated_function_tree,
 )
+from overlay_extract import OverlayError, load_manifest as load_overlay_manifest
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -211,11 +212,78 @@ def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     return overlays
 
 
-def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
+def load_japanese_overlay_matches(root: Path) -> dict[str, dict[str, int]]:
+    sector_size, modules = load_overlay_manifest(root, "japan")
+    directory = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
+    overlays: dict[str, dict[str, int]] = {}
+    for module in modules:
+        layout_name = module.get("layout")
+        if not isinstance(layout_name, str) or not layout_name:
+            raise ProgressError(f"{module['name']}: missing overlay layout")
+        layout = resolve_within(root, layout_name, must_exist=True)
+        name = layout.stem
+        if layout.parent != directory or module["name"] != f"japanese_{name}":
+            raise ProgressError(f"{module['name']}: invalid Japanese overlay layout")
+        if name in overlays:
+            raise ProgressError(f"duplicate Japanese overlay layout: {name}")
+
+        path = resolve_within(
+            root,
+            layout.with_name(f"{name}_matching_c.json").relative_to(root),
+            must_exist=True,
+        )
+        with path.open("r", encoding="utf-8") as handle:
+            manifest = json.load(handle)
+        functions = manifest.get("functions") if isinstance(manifest, dict) else None
+        if (
+            not isinstance(manifest, dict)
+            or manifest.get("schema") != 1
+            or not isinstance(functions, list)
+        ):
+            raise ProgressError(f"{path}: unsupported matching-C configuration")
+
+        start = parse_integer(module["load_address"], f"{name}.load_address")
+        sectors = parse_integer(module["sector_count"], f"{name}.sector_count")
+        if sectors <= 0:
+            raise ProgressError(f"{name}: sector_count must be positive")
+        end = start + sectors * sector_size
+        ranges: list[tuple[int, int]] = []
+        for index, function in enumerate(functions):
+            if not isinstance(function, dict):
+                raise ProgressError(f"{path}: function {index} must be an object")
+            address = parse_integer(
+                function.get("address"), f"{path}: function {index} address"
+            )
+            size = parse_integer(
+                function.get("size"), f"{path}: function {index} size"
+            )
+            if size <= 0 or not start <= address < address + size <= end:
+                raise ProgressError(
+                    f"{path}: function {index} is outside the overlay image"
+                )
+            ranges.append((address, address + size))
+        ranges.sort()
+        if any(first[1] > second[0] for first, second in zip(ranges, ranges[1:])):
+            raise ProgressError(f"{path}: overlapping matching-C functions")
+        overlays[name] = {
+            "matching_c_function_count": len(ranges),
+            "matching_c_bytes": sum(end - start for start, end in ranges),
+        }
+    return overlays
+
+
+def render_overlay_progress(
+    overlays: dict[str, dict[str, int]], *, totals_available: bool = True
+) -> list[str]:
     if not overlays:
         return []
     lines = [
-        "Runtime overlay modules:",
+        (
+            "Runtime overlay modules:"
+            if totals_available
+            else "Runtime overlay modules (matched C; full function inventories "
+            "not yet tracked):"
+        ),
         "",
         "| Module | Matching C functions | Matching C bytes |",
         "|---|---:|---:|",
@@ -223,16 +291,19 @@ def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
     for name in sorted(overlays):
         overlay = overlays[name]
         count = overlay["matching_c_function_count"]
-        total_count = overlay["function_count"]
         matched = overlay["matching_c_bytes"]
-        total_bytes = overlay["function_bytes"]
-        lines.append(
-            f"| `{name}` | "
-            f"{count:,} / {total_count:,} "
-            f"({format_percentage(count, total_count)}) | "
-            f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
-            f"({format_percentage(matched, total_bytes)}) |"
-        )
+        if totals_available:
+            total_count = overlay["function_count"]
+            total_bytes = overlay["function_bytes"]
+            lines.append(
+                f"| `{name}` | "
+                f"{count:,} / {total_count:,} "
+                f"({format_percentage(count, total_count)}) | "
+                f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
+                f"({format_percentage(matched, total_bytes)}) |"
+            )
+        else:
+            lines.append(f"| `{name}` | {count:,} | {format_bytes(matched)} |")
     lines.append("")
     return lines
 
@@ -243,6 +314,8 @@ def render_readme_progress(
         "`config/slus_01411/functions.csv` and "
         "`config/slus_01411/overlays/*_functions.csv`"
     ),
+    *,
+    overlay_totals_available: bool = True,
 ) -> str:
     game_count = progress["game_function_count"]
     target_count = progress["decompilation_target_function_count"]
@@ -296,7 +369,10 @@ def render_readme_progress(
                 f"{format_bytes(progress['unassigned_text_bytes'])} |"
             ),
             "",
-            *render_overlay_progress(progress.get("overlays", {})),
+            *render_overlay_progress(
+                progress.get("overlays", {}),
+                totals_available=overlay_totals_available,
+            ),
             (
                 f"_Generated from {source_description} by "
                 "`tools/project/progress.py`._"
@@ -316,9 +392,11 @@ def render_japanese_progress(progress: dict[str, Any]) -> str:
                 progress,
                 (
                     "`config/slpm_86398/matching_c.json`, "
-                    "`config/slpm_86398/function_regions.json`, and the "
+                    "`config/slpm_86398/function_regions.json`, "
+                    "`config/slpm_86398/overlays/*_matching_c.json`, and the "
                     "generated Japanese split inventory"
                 ),
+                overlay_totals_available=False,
             ),
         )
     )
@@ -620,7 +698,7 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
         "sdk_function_bytes": sdk_bytes,
         "matching_c_function_count": matching_count,
         "matching_c_bytes": matching_bytes,
-        "overlays": {},
+        "overlays": load_japanese_overlay_matches(root),
         "unassigned_text_bytes": text_bytes - function_bytes,
         "fallback_bytes": text_bytes - matching_bytes,
     }
@@ -655,6 +733,7 @@ def main() -> int:
     except (
         ProgressError,
         InventoryError,
+        OverlayError,
         WorkspaceError,
         OSError,
         UnicodeError,

@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import sys
 import unittest
+from unittest import mock
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
@@ -40,6 +42,48 @@ class ProgressInventoryTests(unittest.TestCase):
             "inventory does not match",
         ):
             progress.validate_inventory(generated, inventory)
+
+    def test_japanese_overlay_counts_follow_matching_manifests(self) -> None:
+        overlays = progress.load_japanese_overlay_matches(REPOSITORY)
+        _, modules = progress.load_overlay_manifest(REPOSITORY, "japan")
+        self.assertEqual(
+            set(overlays),
+            {module["name"].removeprefix("japanese_") for module in modules},
+        )
+        for name, counts in overlays.items():
+            path = (
+                REPOSITORY / "config/slpm_86398/overlays"
+                / f"{name}_matching_c.json"
+            )
+            functions = json.loads(path.read_text(encoding="utf-8"))["functions"]
+            self.assertEqual(counts["matching_c_function_count"], len(functions))
+            self.assertEqual(
+                counts["matching_c_bytes"],
+                sum(int(function["size"], 0) for function in functions),
+            )
+
+    def test_japanese_overlay_rejects_overlapping_matches(self) -> None:
+        module = {
+            "name": "japanese_free_duel",
+            "layout": "config/slpm_86398/overlays/free_duel.yaml",
+            "load_address": "0x80168000",
+            "sector_count": 5,
+        }
+        manifest = {
+            "schema": 1,
+            "functions": [
+                {"address": "0x80168004", "size": "0x20"},
+                {"address": "0x80168014", "size": "0x20"},
+            ],
+        }
+        with (
+            mock.patch.object(
+                progress, "load_overlay_manifest", return_value=(2048, [module])
+            ),
+            mock.patch.object(progress.json, "load", return_value=manifest),
+            self.assertRaisesRegex(progress.ProgressError, "overlapping"),
+        ):
+            progress.load_japanese_overlay_matches(REPOSITORY)
 
     def test_incomplete_sdk_fragments_remain_visible_to_validation(self) -> None:
         inventory = [
@@ -127,7 +171,12 @@ class ProgressRenderingTests(unittest.TestCase):
                 "matching_c_function_count": 4,
                 "matching_c_bytes": 0x100,
                 "unassigned_text_bytes": 0x100,
-                "overlays": {},
+                "overlays": {
+                    "free_duel": {
+                        "matching_c_function_count": 2,
+                        "matching_c_bytes": 0x30,
+                    }
+                },
             },
         )
 
@@ -143,6 +192,13 @@ class ProgressRenderingTests(unittest.TestCase):
             "2 functions, 128 (`0x80`)",
             rendered,
         )
+        self.assertIn(
+            "Runtime overlay modules (matched C; full function inventories "
+            "not yet tracked):",
+            rendered,
+        )
+        self.assertIn("| `free_duel` | 2 | 48 (`0x30`) |", rendered)
+        self.assertNotIn("| `free_duel` | 2 /", rendered)
 
 if __name__ == "__main__":
     unittest.main()
