@@ -136,7 +136,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DESTROY_FRONTEND_MENU)
 void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
@@ -155,6 +155,9 @@ void MainMenu_DestroyFrontendMenu(void)
     }
     D_800E9DB0[0] = 0;
 }
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 {
     DisplayObject *object;

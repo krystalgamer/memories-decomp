@@ -14,3 +14,6 @@ func_80061008 = 0x8004FB3C;
 D_800E9DB0 = 0x800E9C90;
 D_8009B0C0 = 0x8009AFB0;
 func_8005B260 = 0x8004CFF8;
+D_801AF800 = 0x801BF800;
+DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
+DisplayObject_SelectOrderingTable1 = 0x80041FF8;
