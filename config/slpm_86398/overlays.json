@@ -27,6 +27,18 @@
     {
       "archive": "game/japanese/DATA/WA_MRG.MRG",
       "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
+      "layout": "config/slpm_86398/overlays/password.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "japanese_password",
+      "output": "tmp/overlays/japanese_password/module.bin",
+      "sector_count": 14,
+      "sector_offset": 8065,
+      "sha256": "d70e71d67506d95257d18d41dd013d2ea8bc6977d12dcdcb27eaf77c8cfbb520"
+    },
+    {
+      "archive": "game/japanese/DATA/WA_MRG.MRG",
+      "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
       "layout": "config/slpm_86398/overlays/overworld_before_coup.yaml",
       "linker_symbols": "config/slpm_86398/overlays/overworld_before_coup_linker_symbols.txt",
       "load_address": "0x80168000",

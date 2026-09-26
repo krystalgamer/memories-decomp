@@ -60,6 +60,7 @@ void NameEntry_BuildStarterDeck(void)
     }
 }
 
+#ifndef VERSION_JAPAN
 void NameEntry_Main(void)
 {
     SaveDataState *state;
@@ -88,3 +89,4 @@ void NameEntry_Main(void)
         value = rand() << 8;
     }
 }
+#endif
