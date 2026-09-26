@@ -250,7 +250,7 @@ void CampaignMap_MoveCameraDpad(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_MARKER)
 u8 *CampaignMap_CreateLocationMarker(s32 index)
 {
     u8 *object;
@@ -275,6 +275,9 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     return object;
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 void CampaignMap_SetLocation(s32 index)
 {
     u8 *obj;

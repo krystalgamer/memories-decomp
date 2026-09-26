@@ -12,6 +12,7 @@ func_80039A60 = 0x800390D4;
 D_800F2848 = 0x800EFF20;
 GsSetProjection = 0x800843B0;
 ViewState_ApplyOrbit = 0x80013418;
+gInput_wPad1Held = 0x8009B294;
 SetGeomScreen = 0x800864C0;
 SetGeomOffset = 0x800864A0;
 SetFarColor = 0x80086480;

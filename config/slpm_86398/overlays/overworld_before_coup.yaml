@@ -66,7 +66,9 @@ segments:
       - [0x1E8, c, overlays/japanese/overworld_before_coup/set_camera_from_location]
       - [0x258, c, overlays/japanese/overworld_before_coup/update_view]
       - [0x310, c, overlays/japanese/overworld_before_coup/reset_camera]
-      - [0x388, asm, overlays/japanese_overworld_before_coup/text_388]
+      - [0x388, c, overlays/japanese/overworld_before_coup/move_camera_dpad]
+      - [0x588, c, overlays/japanese/overworld_before_coup/create_location_marker]
+      - [0x66C, asm, overlays/japanese_overworld_before_coup/text_66c]
 
   - name: location_table
     type: code
