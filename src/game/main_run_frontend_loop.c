@@ -15,6 +15,10 @@
 #include "sound.h"
 #include "main_frame.h"
 
+#ifndef MAIN_FRONTEND_CONFIRM_MASK
+#define MAIN_FRONTEND_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 s32 Main_RunFrontendLoop(void) {
     s32 r;
     u32 f;
@@ -40,7 +44,7 @@ s32 Main_RunFrontendLoop(void) {
                 }
                 if (f & 0x40) {
                     if (gInput_wPad1Pressed &
-                        (PAD_BUTTON_START | PAD_BUTTON_CONFIRM_MASK)) {
+                        (PAD_BUTTON_START | MAIN_FRONTEND_CONFIRM_MASK)) {
                         TextBox_Destroy(D_800EB0F8);
                         D_8009B428 = 1;
                     }

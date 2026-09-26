@@ -18,6 +18,76 @@
 #include "../external_funcs.h"
 #include "../unmatched.h"
 
+#ifdef VERSION_JAPAN
+void Main_RunBootSequence(s32 mode)
+{
+    DisplayObject *object;
+    DisplayObject *first;
+    D_8009B428 = 0;
+    if (mode == 0) {
+        File_RequestAsyncTransfer(0, 0, 0x1F90, 0x22, func_800434F4, 0, 0);
+        File_WaitForTransfers();
+    }
+    File_RequestAsyncTransfer(
+        0, 0, 0x1690, 0x25, Main_LoadBootPackageStage, 0, 0
+    );
+    if (mode != 0) {
+        int display;
+        File_WaitForTransfers();
+        FntLoad(0x2C0, 0);
+        display = FntOpen(
+            0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+            0, 1000
+        );
+        SetDumpFnt(display);
+        D_8009B098 = 0;
+        func_80047AD0(2);
+        Main_AdvanceFrames(4);
+        File_WaitForTransfers();
+        return;
+    }
+    Fade_InitIn();
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 0, 0x10, 0x100,
+                  D_801AF000);
+    first = object;
+    first->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_8004365C(0, first);
+    Main_HoldBootScreen(4);
+    FntLoad(0x2C0, 0);
+    SetDumpFnt(FntOpen(
+        0x10, 0x10, GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT,
+        0, 1000
+    ));
+    D_8009B098 = 0;
+    CdFlush();
+    func_801680F4();
+    while (func_80168160(1) != 0) {
+    }
+    DsInit();
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,
+                  D_801AF000);
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_8004365C(first, object);
+    first = object;
+    func_80047AD0(2);
+    Main_AdvanceFrames(4);
+    Main_HoldBootScreen(0xB4);
+    object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+    DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 2, 0x10, 0x100,
+                  D_801AF000);
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    func_8004365C(first, object);
+    File_RequestMainMenuPackage();
+    Main_HoldBootScreen(0xB4);
+    Fade_WaitInitOut();
+    Main_ResetFrontendRuntime();
+}
+#else
 void Main_RunBootSequence(s32 mode)
 {
     register DisplayObject *object;
@@ -78,3 +148,4 @@ void Main_RunBootSequence(s32 mode)
     Fade_WaitInitOut();
     Main_ResetFrontendRuntime();
 }
+#endif

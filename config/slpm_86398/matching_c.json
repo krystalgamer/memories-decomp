@@ -3986,6 +3986,18 @@
       "source": "src/game/japanese/main_hold_boot_screen.c"
     },
     {
+      "address": "0x80042FD0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2E8",
+      "source": "src/game/japanese/main_run_boot_sequence.c"
+    },
+    {
+      "address": "0x800432B8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x17C",
+      "source": "src/game/japanese/main_run_frontend_loop.c"
+    },
+    {
       "address": "0x80043434",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
