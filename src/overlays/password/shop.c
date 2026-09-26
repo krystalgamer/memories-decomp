@@ -281,7 +281,9 @@ void Password_InitShopScreen(void)
     SD_BGMPlay(29520);
     Fade_WaitIn();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_LOOKUP_CARD_ID)
 s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
@@ -306,7 +308,9 @@ s32 Password_LookupCardID(void)
         index++;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Password_UpdateShopScreen(void)
 {
     PasswordCursorView *cursor;
