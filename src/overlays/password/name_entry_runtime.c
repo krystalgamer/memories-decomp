@@ -192,20 +192,30 @@ void NameEntry_Init(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_GET_GLYPH_AT)
 DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
+#ifdef VERSION_JAPAN
+    JapaneseDuelEffectEntry *node;
+#else
     DuelEffectChannel *base;
     DuelEffectEntry *node;
+#endif
 
+#ifdef VERSION_JAPAN
+    node = (JapaneseDuelEffectEntry *)
+        ((DuelEffectChannel *)&((JapaneseDuelEffectChannel *)D_800EB0F8)[index])->entry_head_24;
+#else
     base = D_800EB0F8;
     node = base[index].entry_head_24;
+#endif
     for (;;) {
-        if (!(node->flags_11 & 0x80)) {
+        if (!(((DuelEffectEntry *)node)->flags_11 & 0x80)) {
             return (DuelEffectEntry *)0;
         }
-        if (node->x_0C == x && node->y_0E == y) {
-            return node;
+        if (((DuelEffectEntry *)node)->x_0C == x &&
+            ((DuelEffectEntry *)node)->y_0E == y) {
+            return (DuelEffectEntry *)node;
         }
         node++;
     }
