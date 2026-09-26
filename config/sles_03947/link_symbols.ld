@@ -1,0 +1,1 @@
+loaded_image_end = 0x801E0000;

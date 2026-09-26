@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split regional-progress-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -39,6 +39,7 @@ help:
 		'  build          Build the assembly/data PS-X executable baseline' \
 		'  match          Build and compare the complete target executable' \
 		'  japanese-match Build and compare the complete Japanese executable' \
+		'  european-match Build and compare the complete European executable' \
 		'  match-incremental  Reuse validated split output and unchanged objects, then relink and match' \
 		'  overlays       Extract verified runtime overlay module images' \
 		'  verify-overlays  Verify extracted overlay images and metadata' \
@@ -81,6 +82,8 @@ help:
 		'  verify-inputs  Validate the SLUS-01411 executable and DATA files' \
 		'  verify-japanese-target  Validate only the SLPM-86398 executable' \
 		'  verify-japanese-inputs  Validate SLPM-86398 plus Japanese SU/WA archives' \
+		'  verify-european-target  Validate only the SLES-03947 executable' \
+		'  verify-european-inputs  Validate SLES-03947 plus European SU/WA archives' \
 		'  workspace      Validate that commands are running from the project root'
 
 workspace:
@@ -102,6 +105,17 @@ verify-japanese-inputs: workspace
 	@$(PYTHON) tools/project/verify_inputs.py \
 		--target config/slpm_86398/target.yaml \
 		--checksums config/slpm_86398/files.sha256
+
+verify-european-target: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03947/target.yaml \
+		--checksums config/sles_03947/files.sha256 \
+		--executable-only
+
+verify-european-inputs: workspace
+	@$(PYTHON) tools/project/verify_inputs.py \
+		--target config/sles_03947/target.yaml \
+		--checksums config/sles_03947/files.sha256
 
 tools: python-tools toolchain compiler
 
@@ -146,6 +160,11 @@ japanese-map: verify-japanese-target
 		--target config/slpm_86398/target.yaml \
 		--image-map config/slpm_86398/image_map.json
 
+european-map: verify-european-target
+	@$(PYTHON) tools/project/validate_image_map.py \
+		--target config/sles_03947/target.yaml \
+		--image-map config/sles_03947/image_map.json
+
 split: map check-build-tools
 	@$(PYTHON) tools/project/clean.py generated splat
 	@$(PYTHON) tools/project/generate_build_config.py
@@ -154,6 +173,10 @@ split: map check-build-tools
 japanese-split: japanese-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/slpm_86398/split.yaml
+
+european-split: european-map check-build-tools
+	@$(PYTHON) tools/project/clean.py splat
+	@$(SPLAT) split config/sles_03947/split.yaml
 
 regional-progress-split: split japanese-map check-build-tools
 	@$(SPLAT) split config/slpm_86398/split.yaml
@@ -167,6 +190,10 @@ japanese-build: japanese-split
 	@$(PYTHON) tools/project/clean.py project-build
 	@$(PYTHON) tools/project/build_japanese_baseline.py
 
+european-build: european-split
+	@$(PYTHON) tools/project/clean.py project-build
+	@$(PYTHON) tools/project/build_european_baseline.py
+
 match: build
 	@$(PYTHON) tools/project/match.py
 
@@ -174,6 +201,11 @@ japanese-match: japanese-build
 	@$(PYTHON) tools/project/match.py \
 		--target config/slpm_86398/target.yaml \
 		--output tmp/project-build/SLPM_863.98
+
+european-match: european-build
+	@$(PYTHON) tools/project/match.py \
+		--target config/sles_03947/target.yaml \
+		--output tmp/project-build/SLES_039.47
 
 overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py extract

@@ -1,0 +1,177 @@
+name: SLES_039.47
+sha1: b097547086d5c77461223d3f70d5bfc83c2644b9
+
+options:
+  basename: sles_03947
+  base_path: ../..
+  target_path: game/europe/SLES_039.47
+  elf_path: tmp/splat/sles_03947/build/sles_03947.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/splat/sles_03947/asm
+  src_path: src
+  build_path: tmp/splat/sles_03947/build
+  asset_path: tmp/splat/sles_03947/assets
+  cache_path: tmp/splat/sles_03947/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/splat/sles_03947/sles_03947.ld
+  generated_asm_macros_directory: tmp/splat/sles_03947/include
+  lib_path: tmp/splat/sles_03947/lib
+  o_path: tmp/splat/sles_03947/build
+  undefined_funcs_auto_path: tmp/splat/sles_03947/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/splat/sles_03947/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/sles_03947/symbols.txt
+
+  gp_value: 0x8009BE84
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+  string_encoding: ASCII
+  data_string_encoding: ASCII
+  rodata_string_guesser_level: 2
+  data_string_guesser_level: 2
+
+segments:
+  - name: header
+    type: header
+    start: 0x0
+
+  - name: main
+    type: code
+    start: 0x800
+    vram: 0x80010000
+    align: 4
+    subsegments:
+      - [0x000800, rodata, initial_data]
+      - [0x0030CC, asm, generated/text_0030cc]
+      - [0x003DEC, c, game/func_800136D4]
+      - [0x003DFC, asm, generated/text_003dfc]
+      - [0x006E90, c, game/func_80016778]
+      - [0x006E9C, asm, generated/text_006e9c]
+      - [0x0077E0, c, game/duel_calc_card_stats]
+      - [0x007848, asm, generated/text_007848]
+      - [0x014E7C, c, game/util_compare_s16]
+      - [0x014EAC, asm, generated/text_014eac]
+      - [0x01A704, c, game/func_80029EB0]
+      - [0x01A718, asm, generated/text_01a718]
+      - [0x01D410, c, game/duel_calc_guardian_star_matchup]
+      - [0x01D484, asm, generated/text_01d484]
+      - [0x022A04, c, game/func_8003201C]
+      - [0x022AA4, asm, generated/text_022aa4]
+      - [0x023648, c, game/func_80032B38]
+      - [0x023670, asm, generated/text_023670]
+      - [0x024014, c, game/build_deck_active_card]
+      - [0x024050, asm, generated/text_024050]
+      - [0x0260AC, c, game/sorted_entry_compare]
+      - [0x0260DC, asm, generated/text_0260dc]
+      - [0x0261B4, c, game/util_copy_words]
+      - [0x02625C, c, game/util_memory]
+      - [0x0262FC, asm, generated/text_0262fc]
+      - [0x027410, c, game/text_stream_read_u16_le]
+      - [0x027444, c, game/text_stream_read_le]
+      - [0x027490, asm, generated/text_027490]
+      - [0x02820C, c, game/text_box_wrap_line]
+      - [0x028278, asm, generated/text_028278]
+      - [0x02AB28, c, game/display_effect_has_resource_entry]
+      - [0x02AB7C, asm, generated/text_02ab7c]
+      - [0x033AA8, c, game/display_object_save_position]
+      - [0x033ABC, asm, generated/text_033abc]
+      - [0x03DF50, c, game/model_word_memory]
+      - [0x03DFA0, asm, generated/text_03dfa0]
+      - [0x04F094, c, game/func_8005A3D0]
+      - [0x04F12C, asm, generated/text_04f12c]
+      - [0x081ED8, pad]
+
+  - name: initialized_data
+    type: bin
+    start: 0x081EE0
+    vram: 0x800916E0
+    align: 4
+    subsegments:
+      - [0x081EE0, bin, initialized_data]
+
+  - name: bss_image
+    type: bin
+    start: 0x08C7E8
+    vram: 0x8009BFE8
+    align: 4
+    subsegments:
+      - [0x08C7E8, bin, bss_image]
+
+  - name: reserved_zero
+    type: bin
+    start: 0x0F0010
+    vram: 0x800FF810
+    align: 4
+    subsegments:
+      - [0x0F0010, bin, reserved_zero]
+
+  - name: overlays/slot_8013a000
+    type: bin
+    start: 0x12A800
+    vram: 0x8013A000
+    align: 4
+    subsegments:
+      - [0x12A800, bin, overlays/slot_8013a000]
+
+  - name: overlays/slot_80146000
+    type: bin
+    start: 0x136800
+    vram: 0x80146000
+    align: 4
+    subsegments:
+      - [0x136800, bin, overlays/slot_80146000]
+
+  - name: overlays/slot_80168000
+    type: bin
+    start: 0x158800
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x158800, bin, overlays/slot_80168000]
+
+  - name: overlays/slot_8017a000
+    type: bin
+    start: 0x16A800
+    vram: 0x8017A000
+    align: 4
+    subsegments:
+      - [0x16A800, bin, overlays/slot_8017a000]
+
+  - name: overlays/slot_80180000
+    type: bin
+    start: 0x170800
+    vram: 0x80180000
+    align: 4
+    subsegments:
+      - [0x170800, bin, overlays/slot_80180000]
+
+  - name: tail_data
+    type: bin
+    start: 0x19C800
+    vram: 0x801AC000
+    align: 4
+    subsegments:
+      - [0x19C800, bin, tail_data]
+
+  - [0x1D0800]
