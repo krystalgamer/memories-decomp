@@ -1,8 +1,9 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define VERSION_JAPAN_TEXT_HANDLE_CHOICE
+#define D_80090EAC gJapanese_SecondaryTextCommandTable
+#define D_8009B328 D_8009B218
 #define D_8009B350 gJapanese_D_8009B350
-#define Text_HandleChoiceCommand func_800382A8
+#define TEXT_STREAM_CURSOR_HIGH_MASK 0x801F0000
 #define func_80035CA8 DuelEffect_ClearOccupancyValue
 #include "../text_control_commands.c"

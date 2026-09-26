@@ -2963,13 +2963,13 @@
       "address": "0x80038204",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/japanese/text_dispatch_secondary_command.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x80038260",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/japanese/text_set_cursor_offset.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x8003816C",
@@ -2981,43 +2981,43 @@
       "address": "0x800382A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
-      "source": "src/game/japanese/text_handle_choice.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x800383CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/japanese/text_start_page_wait.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x800383E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/japanese/text_handle_campaign_flag_command.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x80038470",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/japanese/text_push_stream_offset.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x800384D4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/japanese/text_new_line.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x80038534",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/japanese/text_end_stream.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x80038568",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x290",
-      "source": "src/game/japanese/text_display_effect.c"
+      "source": "src/game/japanese/text_control_commands.c"
     },
     {
       "address": "0x80038A68",
