@@ -74,7 +74,7 @@ void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_COLUMN_OVERLAY)
 void MainMenu_DrawTradeColumnOverlay(s32 column)
 {
     POLY_F4 quad;
