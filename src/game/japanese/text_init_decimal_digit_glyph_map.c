@@ -1,6 +1,5 @@
 #define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
 #define D_801D9004 gJapanese_GlyphLookupTableEntries
-#define D_80010330 gJapanese_DecimalDigitSjisKeys
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../text_init_decimal_digit_glyph_map.h"
@@ -22,7 +21,7 @@ void Text_InitDecimalDigitGlyphMap(void)
     i = 1;
     p = (s32)buf.bytes;
     end = (s32)buf.bytes + 2 * TEXT_DECIMAL_RADIX;
-    buf = gJapanese_DecimalDigitSjisKeys;
+    buf = tent_DecimalDigitSjisKeys;
 
     do {
         e = gJapanese_GlyphLookupTableEntries;

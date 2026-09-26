@@ -3,12 +3,11 @@
 #include "text_init_decimal_digit_glyph_map.h"
 #include "text_constants.h"
 
-/* Copies the ten two-byte Shift-JIS digit keys from D_80010330 into a local
-   buffer and walks them as big-endian u16 keys. Each key is looked up in the
-   4-byte-stride table at D_801D9004 (key in the low halfword, a zero word
-   terminating) and the 1-based
-   match index is written to D_800EAFF8. The lookup is skipped entirely when the
-   table is empty.
+/* Copies the ten two-byte Shift-JIS digit keys from tent_DecimalDigitSjisKeys
+   into a local buffer and walks them as big-endian u16 keys. Each key is
+   looked up in the 4-byte-stride table at D_801D9004 (key in the low halfword,
+   a zero word terminating) and the 1-based match index is written to
+   D_800EAFF8. The lookup is skipped entirely when the table is empty.
 
    D_801D9004 is const so that the guard read hoists out of the loop: GCC treats
    a load from unchanging memory as loop-invariant regardless of the stores in
@@ -29,7 +28,7 @@ void Text_InitDecimalDigitGlyphMap(void) {
     i = 1;
     p = (s32)buf.bytes;
     end = (s32)buf.bytes + 2 * TEXT_DECIMAL_RADIX;
-    buf = D_80010330;
+    buf = tent_DecimalDigitSjisKeys;
 
     do {
         e = D_801D9004;

@@ -157,6 +157,7 @@ SD_CalcPitchBend = 0x8004A3BC; // type:func
 SD_VabOpenHead = 0x800496C4; // type:func
 gSD_dwCurrentBgmCommand = 0x8009B400;
 gSaveDataSequence = 0x8009B3B8;
+tent_DecimalDigitSjisKeys = 0x80010330;
 gMemCard_szSaveFileName = 0x80010384;
 gSaveData_aTransferBuffer = 0x801D3200;
 gSaveData_aHeaderTemplate = 0x801D4000;
