@@ -61,6 +61,12 @@
       "source": "src/overlays/japanese/overworld_after_coup/start_camera_tween.c"
     },
     {
+      "address": "0x80168AA8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x364",
+      "source": "src/overlays/japanese/overworld_after_coup/update_location_transition.c"
+    },
+    {
       "address": "0x80168E0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C0",
