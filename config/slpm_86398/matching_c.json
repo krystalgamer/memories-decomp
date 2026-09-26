@@ -1694,12 +1694,6 @@
       "source": "src/game/japanese/main_run_two_player_duel_setup.c"
     },
     {
-      "address": "0x8002DDF0",
-      "profile": "gcc_2_8_1_g0",
-      "size": "0x54",
-      "source": "src/game/japanese/script_image_release_objects.c"
-    },
-    {
       "address": "0x8002CC44",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
@@ -1799,19 +1793,25 @@
       "address": "0x8002DBE0",
       "profile": "gcc_2_8_1_g0",
       "size": "0x130",
-      "source": "src/game/japanese/script_image_transfer_callback.c"
+      "source": "src/game/japanese/script_image_objects.c"
     },
     {
       "address": "0x8002DD10",
       "profile": "gcc_2_8_1_g0",
       "size": "0xE0",
-      "source": "src/game/japanese/script_image_request_transfer.c"
+      "source": "src/game/japanese/script_image_objects.c"
+    },
+    {
+      "address": "0x8002DDF0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x54",
+      "source": "src/game/japanese/script_image_objects.c"
     },
     {
       "address": "0x8002DE44",
       "profile": "gcc_2_8_1_g0",
       "size": "0xC8",
-      "source": "src/game/japanese/script_image_create_object.c"
+      "source": "src/game/japanese/script_image_objects.c"
     },
     {
       "address": "0x8002DF0C",
@@ -1925,13 +1925,13 @@
       "address": "0x8002E490",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/japanese/script_stage_image.c"
+      "source": "src/game/japanese/script_image_commands.c"
     },
     {
       "address": "0x8002E508",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E8",
-      "source": "src/game/japanese/script_op_show_image.c"
+      "source": "src/game/japanese/script_image_commands.c"
     },
     {
       "address": "0x8002E6F0",
