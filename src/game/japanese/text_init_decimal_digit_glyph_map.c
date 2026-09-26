@@ -1,5 +1,4 @@
 #define D_800EAFF8 gJapanese_DecimalDigitGlyphMap
-#define D_801D9004 gJapanese_GlyphLookupTableEntries
 #include "../../types.h"
 #include "../../ygo_types.h"
 #include "../text_init_decimal_digit_glyph_map.h"
@@ -24,10 +23,10 @@ void Text_InitDecimalDigitGlyphMap(void)
     buf = tent_DecimalDigitSjisKeys;
 
     do {
-        e = gJapanese_GlyphLookupTableEntries;
+        e = tent_GlyphLookupTableEntries;
         n = 1;
         key = (*(u8 *)p << 8) | buf.bytes[i];
-        if (gJapanese_GlyphLookupTableEntries[0] != 0) {
+        if (tent_GlyphLookupTableEntries[0] != 0) {
             q = out;
         search:
             if (key == *(u16 *)e) {

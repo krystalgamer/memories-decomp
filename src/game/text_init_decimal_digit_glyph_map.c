@@ -5,11 +5,11 @@
 
 /* Copies the ten two-byte Shift-JIS digit keys from tent_DecimalDigitSjisKeys
    into a local buffer and walks them as big-endian u16 keys. Each key is
-   looked up in the 4-byte-stride table at D_801D9004 (key in the low halfword,
+   looked up in the 4-byte-stride table at tent_GlyphLookupTableEntries (key in the low halfword,
    a zero word terminating) and the 1-based match index is written to
    D_800EAFF8. The lookup is skipped entirely when the table is empty.
 
-   D_801D9004 is const so that the guard read hoists out of the loop: GCC treats
+   tent_GlyphLookupTableEntries is const so that the guard read hoists out of the loop: GCC treats
    a load from unchanging memory as loop-invariant regardless of the stores in
    the body, which is what leaves one shared %hi in the preheader feeding both
    the guard load and the per-iteration table address. */
@@ -31,10 +31,10 @@ void Text_InitDecimalDigitGlyphMap(void) {
     buf = tent_DecimalDigitSjisKeys;
 
     do {
-        e = D_801D9004;
+        e = tent_GlyphLookupTableEntries;
         n = 1;
         key = (*(u8 *)p << 8) | buf.bytes[i];
-        if (D_801D9004[0] != 0) {
+        if (tent_GlyphLookupTableEntries[0] != 0) {
             q = out;
         search:
             if (key == *(u16 *)e) {

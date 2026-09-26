@@ -186,7 +186,7 @@ last:
 #include "../psyq/stdarg.h"
 #include "model.h"
 
-/* Per-frame tint pass over the ten requests at D_800F2B50. A live request
+/* Per-frame tint pass over the ten requests at tent_ModelTintRequests. A live request
  * interpolates its start colour towards its end colour, redraws the slot with
  * the requested part id, then restores the slot and advances the request.
  *
@@ -226,7 +226,7 @@ void func_800528AC(void)
     ModelTintRequest *e;
     ModelTintRequest *table;
 
-    table = (ModelTintRequest *)D_800F2B50;
+    table = (ModelTintRequest *)tent_ModelTintRequests;
     for (i = 0, off = 0; i < MODEL_TINT_REQUEST_COUNT; off += 0x18, i++) {
         e = &table[i];
         rowbase = (s32)((u8 *)table + 1);

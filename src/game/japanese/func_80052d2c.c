@@ -8,7 +8,6 @@
 #define D_8009AF94 gJapanese_D_8009AF94
 #define D_8009AF9B D_8009AF03
 #define D_8009AF9C D_8009AF04
-#define D_800F2B50 gJapanese_ModelTintRequests
 #define D_800F5710 D_800F2FB0
 #define D_800F5678 D_800F2F18
 #define func_80052D2C func_80056544

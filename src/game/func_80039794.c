@@ -42,7 +42,7 @@ void func_80039794(void)
     p = D_800EB0F8;
     n = 4;
     reset_value = -1;
-    table = (TblEnt *)D_801D9000;
+    table = (TblEnt *)tent_GlyphLookupTable;
     q = (ChoiceChannelCursor *)&p->field_30;
     do {
         if (q->choice.flags & 0x8000) {

@@ -3,7 +3,7 @@
 
 /* Initialized data at 0x80091570: fifteen model-effect coefficient records in
    the order consumed by func_8005F1A4, func_8005F27C and func_8005F5C8. */
-ModelEffectCoefficient D_80091570[] = {
+ModelEffectCoefficient tent_ModelEffectCoefficients[] = {
     { 700, -512, -256, 0 },
     { 700, 512, -256, 0 },
     { 700, 1536, -256, 0 },

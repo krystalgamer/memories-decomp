@@ -64,7 +64,7 @@ void func_8006AC88(void);
 void func_8006ADE8(void);
 
 /* Open-codes the same reverse lookup as Model_FindHandlerKey -- same
- * sentinel, same eighty-entry scan of D_800F5918, same -1 -- and dispatches on
+ * sentinel, same eighty-entry scan of tent_ModelHandlerRegistry, same -1 -- and dispatches on
  * the packed id it returns. Model_RunSlotHandlers in model_scene_states.c is
  * the only outside consumer and takes its address as an s32 (*)(s32) callback
  * rather than calling it, so this declaration has to keep that exact shape. */

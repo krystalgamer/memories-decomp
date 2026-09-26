@@ -5,7 +5,7 @@
 #include "../ygo_types.h"
 
 extern TextDecimalDigitKeyBlock tent_DecimalDigitSjisKeys;
-extern const u32 D_801D9004[];
+extern const u32 tent_GlyphLookupTableEntries[];
 
 void Text_InitDecimalDigitGlyphMap(void);
 

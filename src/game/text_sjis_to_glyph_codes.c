@@ -16,7 +16,7 @@ void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
     for (i = 0; i < count; i++, input++) {
         s32 value = *input;
         s32 index = value != 0;
-        u32 *entry = &D_801D9000[index];
+        u32 *entry = &tent_GlyphLookupTable[index];
         u32 word = *entry;
 
         goto test;

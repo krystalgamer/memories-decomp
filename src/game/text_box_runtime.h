@@ -16,7 +16,7 @@ void TextBox_BuildStep(struct DuelEffectChannel *object);
  * func_80039794 is the consumer:
  *
  *     idx = D_8009B35A;
- *     if (idx >= 0) { kind = D_801D9000[idx].hi & 7; ... }
+ *     if (idx >= 0) { kind = tent_GlyphLookupTable[idx].hi & 7; ... }
  *
  * -1 means "nothing selected": func_80039794 arms it with that before pumping
  * and again at each reset, and only a non-negative value indexes the table.
