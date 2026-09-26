@@ -134,7 +134,7 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIGIT_CURSOR_DECORATION)
 void Password_UpdateDigitCursorDecoration(u8 *object)
 {
     PasswordCursorView *obj = (PasswordCursorView *)object;
