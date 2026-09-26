@@ -5552,6 +5552,12 @@
       "source": "src/game/japanese/func_800507d0.c"
     },
     {
+      "address": "0x80054928",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x27C",
+      "source": "src/game/japanese/func_8005106c.c"
+    },
+    {
       "address": "0x80054BA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6F8",
