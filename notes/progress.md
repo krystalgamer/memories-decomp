@@ -42,13 +42,16 @@ not native portability: a PC port would still need portable replacements for
 those platform-specific routines. Identified Psy-Q CRT/SDK functions likewise
 remain outside the game-code totals.
 
-The Japanese target does not yet have a complete function ownership and status
-inventory equivalent to `config/slus_01411/functions.csv`. Its generated report
-therefore counts exact entries from `config/slpm_86398/matching_c.json` and
-measures their bytes against the resident text extent in
-`config/slpm_86398/image_map.json`. It deliberately does not present a Japanese
-function-count percentage or infer ownership from the cross-version evidence
-CSV. The target SHA-256 for each region also comes from its tracked image map.
+The Japanese target has its own
+[`functions.csv`](../config/slpm_86398/functions.csv) and five overlay
+inventories. Its generated report verifies matching-C ranges against the
+regional manifests, unmatched functions against the generated resident split,
+and ownership against
+[`function_regions.json`](../config/slpm_86398/function_regions.json).
+Japanese denominators come from Japanese boundaries, not North American
+byte totals. The target SHA-256 for each region comes from its tracked image
+map. See [function-inventories.md](function-inventories.md) for the reusable
+version-neutral inventory scaffold and refresh procedure.
 
 ## Unchanged matching counts do not imply fresh reports
 

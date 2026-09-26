@@ -12,9 +12,24 @@
     {
       "name": "game",
       "start": "0x80012A3C",
+      "end": "0x8005BD40",
+      "module": "game",
+      "evidence": "Game and engine code begins at Main_Init and continues up to the embedded SDK getter."
+    },
+    {
+      "name": "embedded-sdk-getter",
+      "start": "0x8005BD40",
+      "end": "0x8005BD50",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "Sixteen-byte getter func_80058F10 matches the embedded SDK assembly entry classified in the North American inventory."
+    },
+    {
+      "name": "game-after-sdk-getter",
+      "start": "0x8005BD50",
       "end": "0x80072314",
       "module": "game",
-      "evidence": "Game and engine code begins at Main_Init and ends before the first SN/Psy-Q host-I/O break wrapper."
+      "evidence": "Game and engine code resumes after the embedded SDK getter and ends before the first SN/Psy-Q host-I/O break wrapper."
     },
     {
       "name": "sdk",

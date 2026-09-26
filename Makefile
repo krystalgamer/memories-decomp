@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split regional-progress-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map split japanese-split regional-progress-split split-incremental build japanese-build build-incremental match japanese-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -56,6 +56,7 @@ help:
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
+		'  japanese-inventory  Verify Japanese images and refresh resident/overlay inventories' \
 		'  classify-functions  Apply verified ownership classifications' \
 		'  candidates     List smallest zero-attempt game functions' \
 		'  review-deferred  List terminal histories for hypothesis review' \
@@ -239,6 +240,26 @@ match-incremental: build-incremental
 
 inventory: split
 	@$(PYTHON) tools/project/function_inventory.py
+
+japanese-inventory: japanese-match
+	@$(MAKE) japanese-match-overlays
+	@$(MAKE) regional-progress-split
+	@$(PYTHON) tools/project/regional_inventory.py \
+		--assembly-root tmp/splat/slpm_86398/asm \
+		--manifest config/slpm_86398/matching_c.json \
+		--elf tmp/project-build/SLPM_863.98.elf \
+		--regions config/slpm_86398/function_regions.json \
+		--handwritten-reference config/slus_01411/functions.csv \
+		--reference-assembly-root tmp/splat/asm \
+		--output config/slpm_86398/functions.csv
+	@set -e; for name in free_duel main_menu overworld_before_coup overworld_after_coup password; do \
+		$(PYTHON) tools/project/regional_inventory.py \
+			--assembly-root tmp/overlays/japanese_$${name}/asm \
+			--manifest config/slpm_86398/overlays/$${name}_matching_c.json \
+			--elf tmp/overlays/japanese_$${name}/build/japanese_$${name}.elf \
+			--module overlay/$${name} \
+			--output config/slpm_86398/overlays/$${name}_functions.csv; \
+	done
 
 classify-functions: inventory
 	@$(PYTHON) tools/project/classify_functions.py
