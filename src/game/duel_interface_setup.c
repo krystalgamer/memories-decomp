@@ -56,17 +56,17 @@ void func_80030250(
     s32 field_E0
 )
 {
-    D_8009B2EA = 0;
-    D_8009B2EC = data;
-    D_8009B2B4 = field_B4;
-    D_8009B2B5 = field_B5;
-    D_8009B2B6 = field_B6;
+    tent_DebugInterfaceFlags = 0;
+    tent_DebugInterfaceData = data;
+    tent_DebugInterfaceFieldB4 = field_B4;
+    tent_DebugInterfaceFieldB5 = field_B5;
+    tent_DebugInterfaceFieldB6 = field_B6;
     gDebug_bEditorDigit = 0;
     gDebug_bEditorRow = 0;
-    D_8009B2B8 = field_B8;
-    D_8009B2C2 = field_C0;
-    D_8009B2C1 = field_C0;
-    D_8009B2C0 = field_C0;
-    D_8009B2E0 = field_E0;
+    tent_DebugInterfaceFieldB8 = field_B8;
+    tent_DebugInterfaceFieldC2 = field_C0;
+    tent_DebugInterfaceFieldC1 = field_C0;
+    tent_DebugInterfaceFieldC0 = field_C0;
+    tent_DebugInterfaceFieldE0 = field_E0;
 }
 #endif

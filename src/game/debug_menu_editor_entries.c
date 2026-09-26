@@ -45,8 +45,8 @@ void DebugMenu_UpdateSoundEntry(void)
         D_8009B2CA = D_8009B2DA;
         D_8009B2CC = gDebug_nLastSoundID[1];
         func_80030250(D_80090CB4, 0x11, 0x19, 0x21, 9, 4, count);
-        D_8009B2C2 = count;
-        D_8009B2C1 = count;
+        tent_DebugInterfaceFieldC2 = count;
+        tent_DebugInterfaceFieldC1 = count;
         return;
     }
 
@@ -161,7 +161,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             TextBox_Destroy(textbox);
             DisplayObject_ReleaseIfPresent(D_8009B2A0);
             D_8009B2EB = D_8009B2EB & 0x9F;
-            D_8009B2EA = D_8009B2EA & 0xFE;
+            tent_DebugInterfaceFlags = tent_DebugInterfaceFlags & 0xFE;
         }
     } else if (result != 0) {
         if (result < 0) {
@@ -172,7 +172,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         if (D_8009B2BC == 0) {
             D_8009B2EB = flags | 0x40;
             D_8009AF44 = gDebug_nSceneOrSoundID;
-            D_8009B2EA = D_8009B2EA | 1;
+            tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 1;
 #ifndef VERSION_JAPAN
             /* The Japanese build makes neither this call nor the
                diagnostic print. */

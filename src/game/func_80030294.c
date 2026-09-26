@@ -63,10 +63,10 @@ s32 func_80030294(void)
     ret = 0;
     *(Bytes8 *)d = *(Bytes8 *)D_8009AF4C;
     db = d;
-    t2 = D_8009B2C0[gDebug_bEditorRow];
-    if ((D_8009B2EA & 0x80) == 0) {
-        D_8009B2EA = D_8009B2EA | 0x80;
-        if ((D_8009B2EA & 0x40) != 0) {
+    t2 = tent_DebugInterfaceFieldC0[gDebug_bEditorRow];
+    if ((tent_DebugInterfaceFlags & 0x80) == 0) {
+        tent_DebugInterfaceFlags = tent_DebugInterfaceFlags | 0x80;
+        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
             jj = (s8)t2 - 1;
             row.words = &((u16 *)&gDebug_nSceneOrSoundID)[gDebug_bEditorRow];
             val = *row.words;
@@ -82,7 +82,7 @@ s32 func_80030294(void)
         }
         goto fill;
     }
-    if ((D_8009B2EA & 1) != 0) {
+    if ((tent_DebugInterfaceFlags & 1) != 0) {
         goto fill;
     }
     if (((gInput_wPad1Held[0] | gInput_wPad2Held[0]) & 0x800) != 0) {
@@ -103,7 +103,7 @@ s32 func_80030294(void)
         if (((gInput_wPad1Repeat[0] | gInput_wPad2Repeat[0]) & 0x4000) != 0) {
             step = -step;
         }
-        if ((D_8009B2EA & 0x40) != 0) {
+        if ((tent_DebugInterfaceFlags & 0x40) != 0) {
             mask = *(u16 *)(db - -(e * 2));
             i = e;
             if (i < (s8)t2) {
@@ -143,12 +143,12 @@ s32 func_80030294(void)
         gDebug_bEditorDigit = gDebug_bEditorDigit - 1;
         if (gDebug_bEditorDigit < 0) {
             gDebug_bEditorRow = gDebug_bEditorRow + 1;
-            if (gDebug_bEditorRow >= (s8)D_8009B2E0) {
-                gDebug_bEditorRow = D_8009B2E0 - 1;
+            if (gDebug_bEditorRow >= (s8)tent_DebugInterfaceFieldE0) {
+                gDebug_bEditorRow = tent_DebugInterfaceFieldE0 - 1;
                 gDebug_bEditorDigit = 0;
                 goto fill;
             }
-            f = D_8009B2C0[gDebug_bEditorRow] - 1;
+            f = tent_DebugInterfaceFieldC0[gDebug_bEditorRow] - 1;
             goto setpos;
         }
     } else {
@@ -157,7 +157,7 @@ s32 func_80030294(void)
             gDebug_bEditorDigit = 0;
             gDebug_bEditorRow = gDebug_bEditorRow - 1;
             if (gDebug_bEditorRow < 0) {
-                f = D_8009B2C0[0] - 1;
+                f = tent_DebugInterfaceFieldC0[0] - 1;
                 gDebug_bEditorRow = 0;
             setpos:
                 gDebug_bEditorDigit = f;
@@ -175,18 +175,19 @@ fill:
         z = z - 1;
     } while (i >= 0);
     r = &D_800EAED8[
-        D_8009B2B4[gDebug_bEditorRow] - gDebug_bEditorDigit];
+        tent_DebugInterfaceFieldB4[gDebug_bEditorRow] - gDebug_bEditorDigit];
     r[0] = 0x2A;
     r[1] = 0;
 out:
-    i = (s8)D_8009B2B8;
+    i = (s8)tent_DebugInterfaceFieldB8;
     if (i != 0) {
         do {
             FntPrint(D_8009AF54);
             i = i - 1;
         } while (i != 0);
     }
-    FntPrint((char *)D_8009B2EC, gDebug_nSceneOrSoundID, D_8009B2CA, D_8009B2CC);
+    FntPrint((char *)tent_DebugInterfaceData, gDebug_nSceneOrSoundID,
+             D_8009B2CA, D_8009B2CC);
     FntPrint(D_8009AF58, D_800EAED8);
     return ret;
 }
