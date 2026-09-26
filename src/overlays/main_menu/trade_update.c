@@ -88,7 +88,17 @@ void MainMenu_InitTradeScreen(void)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_TRADE_SCREEN)
+#ifdef VERSION_JAPAN
+#define MAIN_MENU_TRADE_CANCEL_BUTTON PAD_BUTTON_CROSS
+#define MAIN_MENU_TRADE_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
+#define MAIN_MENU_TRADE_CANCEL_SHIFT 6
+#else
+#define MAIN_MENU_TRADE_CANCEL_BUTTON PAD_BUTTON_CIRCLE
+#define MAIN_MENU_TRADE_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#define MAIN_MENU_TRADE_CANCEL_SHIFT 5
+#endif
+#define MAIN_MENU_TRADE_CONFIRM_MASK (MAIN_MENU_TRADE_CONFIRM_BUTTON | PAD_BUTTON_SQUARE)
 extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
@@ -253,9 +263,9 @@ s32 MainMenu_UpdateTradeScreen(void)
             func_800611D0(*(volatile u8 *)&D_80185CCE);
             goto modal_return;
         }
-        if ((gInput_wPad1Pressed[0] & 0x20) != 0 ||
-            (gInput_wPad1Pressed[1] & 0x20) != 0) {
-            other = ((gInput_wPad1Pressed[0] >> 5) ^ 1) & 1;
+        if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0 ||
+            (gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
+            other = ((gInput_wPad1Pressed[0] >> MAIN_MENU_TRADE_CANCEL_SHIFT) ^ 1) & 1;
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[other] = 0;
@@ -263,8 +273,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             D_80185CCF = 0;
             goto modal_return;
         }
-        if ((gInput_wPad1Pressed[0] & 0xC0) != 0 ||
-            (gInput_wPad1Pressed[1] & 0xC0) != 0) {
+        if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
+            (gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0) {
             SD_SEPlay(48, 255, 0);
             switch (D_80185CCE) {
             case 0:
@@ -296,7 +306,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     card0 = &D_801845FC[0][D_80185C8C[0][0] + D_80185CCA[0]];
     if (D_80185CC8[0] != 0) {
-        if ((gInput_wPad1Pressed[0] & 0x20) != 0) {
+        if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[0] = 0;
@@ -343,7 +353,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         goto dirty0;
     }
-    if ((gInput_wPad1Pressed[0] & 0x20) != 0) {
+    if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
         if (D_80185C9C[0][0] != 0) {
             MainMenu_AdjustTradeCardCount(0, D_80185C9C[0][D_80185C9C[0][0]], 1);
             SD_SEPlay(8, 255, 0);
@@ -356,7 +366,7 @@ s32 MainMenu_UpdateTradeScreen(void)
         }
         goto leave;
     }
-    if ((gInput_wPad1Pressed[0] & 0x40) != 0) {
+    if ((gInput_wPad1Pressed[0] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
         if (D_80185C9C[0][0] < 10) {
             if (card0->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll0; }
@@ -439,7 +449,7 @@ player1:
     }
     card1 = &D_80185144[D_80185C8C[1][0] + D_80185CCA[1]];
     if (D_80185CC8[1] != 0) {
-        if ((gInput_wPad1Pressed[1] & 0x20) != 0) {
+        if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             SD_SEPlay(8, 255, 0);
             TextBox_Destroy((DuelEffectChannel *)D_800EB224);
             D_80185CC8[1] = 0;
@@ -484,7 +494,7 @@ player1:
         }
         goto dirty1_label;
     }
-    if ((gInput_wPad1Pressed[1] & 0x20) != 0) {
+    if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
         if (D_80185C9C[1][0] != 0) {
             MainMenu_AdjustTradeCardCount(1, D_80185C9C[1][D_80185C9C[1][0]], 1);
             SD_SEPlay(8, 255, 0);
@@ -499,7 +509,7 @@ player1:
         SD_SEPlay(8, 255, 0);
         return 1;
     }
-    if ((gInput_wPad1Pressed[1] & 0x40) != 0) {
+    if ((gInput_wPad1Pressed[1] & MAIN_MENU_TRADE_CONFIRM_BUTTON) != 0) {
         if (D_80185C9C[1][0] < 10) {
             if (card1->id == 0) {
                 { SD_SEPlay(9, 255, 0); goto check_scroll1; }
@@ -609,4 +619,8 @@ update:
 out:
     return 0;
 }
+#undef MAIN_MENU_TRADE_CANCEL_BUTTON
+#undef MAIN_MENU_TRADE_CONFIRM_BUTTON
+#undef MAIN_MENU_TRADE_CANCEL_SHIFT
+#undef MAIN_MENU_TRADE_CONFIRM_MASK
 #endif
