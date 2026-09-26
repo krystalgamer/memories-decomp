@@ -4,8 +4,7 @@
 #include "../types.h"
 
 #define TEXT_GLOBAL_STRING_ID_BASE 0x8000
-#if defined(VERSION_JAPAN_TEXT_LOOKUP_STRING) || \
-    defined(VERSION_JAPAN_FUNC_800383DC)
+#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
 #define TEXT_BANK_ADDRESS_MASK 0x801F0000
 #else
 #define TEXT_BANK_ADDRESS_MASK 0xFFFF0000
@@ -33,8 +32,7 @@
 extern u16 D_801B0000[];
 extern u16 D_801C0000[];
 extern u16 D_801D5800[];
-#if defined(VERSION_JAPAN_TEXT_LOOKUP_STRING) || \
-    defined(VERSION_JAPAN_FUNC_800383DC)
+#ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
 extern u16 D_801D6000[];
 #endif
 
@@ -48,7 +46,7 @@ extern u16 D_801D6000[];
  * (func_800218F0.s:61-62). the-game.md:1511 calls it string ID 0x8328 + i.
  * The result controller selects the absolute arm for that store; the
  * existing readers keep the plain GP-relative declaration. */
-#ifdef VERSION_JAPAN_FUNC_800383DC
+#ifdef TEXT_STRING_ID_SIGNED
 extern s16 D_8009B32E;
 #elif defined(TEXT_STRING_ID_IN_DATA)
 extern u16 D_8009B32E __attribute__((section(".data")));
