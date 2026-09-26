@@ -3826,43 +3826,43 @@
       "address": "0x8004141C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_basic.c"
     },
     {
       "address": "0x80041428",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_basic.c"
     },
     {
       "address": "0x80041434",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_basic.c"
     },
     {
       "address": "0x8004143C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_basic.c"
     },
     {
       "address": "0x80041464",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_basic.c"
     },
     {
       "address": "0x8004149C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_random.c"
     },
     {
       "address": "0x80041534",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/display_object_runtime.c"
+      "source": "src/game/display_object_stream_configure_rotation.c"
     },
     {
       "address": "0x8004158C",
@@ -3904,127 +3904,127 @@
       "address": "0x800427DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_initialize_gouraud_quad.c"
     },
     {
       "address": "0x80042824",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x80042874",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x800428A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x800428EC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x80042918",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x8004293C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_quad_helpers.c"
     },
     {
       "address": "0x80042960",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_run_update.c"
     },
     {
       "address": "0x800429A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_stream_helpers.c"
     },
     {
       "address": "0x800429BC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_stream_helpers.c"
     },
     {
       "address": "0x800429D8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_velocity.c"
     },
     {
       "address": "0x80042A00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_velocity.c"
     },
     {
       "address": "0x80042A28",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_velocity.c"
     },
     {
       "address": "0x80042A50",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_velocity.c"
     },
     {
       "address": "0x80042A78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2C",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042AA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042AD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_motion_helpers.c"
     },
     {
       "address": "0x80042B08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_step_toward_zero.c"
     },
     {
       "address": "0x80042B40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_find_allocated.c"
     },
     {
       "address": "0x80042B98",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_mark_initialized.c"
     },
     {
       "address": "0x80042BC0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/display_object_helpers.c"
+      "source": "src/game/display_object_fade_brightness.c"
     },
     {
       "address": "0x80042C08",
@@ -6304,19 +6304,19 @@
       "address": "0x8006C2FC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x10",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/triplet_components.c"
     },
     {
       "address": "0x8006C30C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x24",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/triplet_components.c"
     },
     {
       "address": "0x8006C330",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/triplet_components.c"
     },
     {
       "address": "0x8006C37C",
