@@ -90,7 +90,9 @@ void Password_RefreshStarchipDisplay(void)
     boxes[3].field_5B = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_CREATE_MESSAGE_BOX)
 DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
 {
     DuelEffectChannel *object;
