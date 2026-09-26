@@ -1,4 +1,3 @@
-#define gFade_State gJapanese_FadeState
 #define D_8009B0D8 gJapanese_FrameStep
 #define D_8009B0D8_IN_DATA
 #include "../../types.h"
@@ -7,7 +6,7 @@
 
 void Fade_StepBands(void)
 {
-    FadeTransitionState *state = &gJapanese_FadeState;
+    FadeTransitionState *state = &gFade_State;
     s32 step = state->step;
     s32 i;
     s32 level;

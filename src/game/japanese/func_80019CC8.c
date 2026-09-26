@@ -5,6 +5,5 @@
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * unchanged. */
 #define D_8009B360 gJapanese_DuelPlayerState
-#define gDuel_bOpponentID gJapanese_DuelOpponentId
 
 #include "../func_80019CC8.c"

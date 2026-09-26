@@ -5,8 +5,6 @@
 #define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16 - (value)) + 0x16B5)
 #define DUEL_INIT_TERRAIN_SECTOR_COUNT 0xEF
 #define DUEL_INIT_DUELIST_DATA_FIRST_SECTOR 0x1D3E
-#define gDuel_bTerrain gJapanese_DuelTerrain
-#define gDuel_bOpponentID gJapanese_DuelOpponentId
 #define D_8009B369 gJapanese_DuelFlag
 #define D_8009B238 gJapanese_D_8009B238
 #define D_8009B21C gJapanese_D_8009B21C

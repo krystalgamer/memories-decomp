@@ -6,6 +6,5 @@
  * unchanged. */
 #define D_8009B0F0 gJapanese_D_8009B0F0
 #define D_8009B120 gJapanese_D_8009B120
-#define g_SDValue gJapanese_SDValue
 
 #include "../sd_init_state.c"

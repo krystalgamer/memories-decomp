@@ -9,6 +9,5 @@
 #define D_8009B368 gJapanese_D_8009B368
 #define D_8009B369 gJapanese_DuelFlag
 #define D_8009B370 gJapanese_DuelValue0
-#define gDuel_bOpponentID gJapanese_DuelOpponentId
 
 #include "../main_run_duel.c"
