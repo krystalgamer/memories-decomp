@@ -1,6 +1,6 @@
 /* The model handler registry and the two maps that search it.
  *
- * D_800F5918 is the eighty-entry table; Model_RegisterHandlerKey fills it and
+ * tent_ModelHandlerRegistry is the eighty-entry table; Model_RegisterHandlerKey fills it and
  * Model_FindHandlerKey reads it back. func_8005FC1C and func_8005FE44 open-code
  * that same reverse lookup -- same sentinel, same eighty-entry scan, same -1 --
  * and then dispatch on the packed id it returns, which is why they belong here
@@ -23,7 +23,7 @@
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 /* Maps an id to its handler in the second dispatch family: looks the id up
- * in the handler registry at D_800F5918 (GsU_00000000 is the sentinel that
+ * in the handler registry at tent_ModelHandlerRegistry (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
  * low halfword's kind. Returns arg0 unchanged when nothing matches. */
 
@@ -33,7 +33,7 @@ s32 func_8005FC1C(s32 arg0) {
     s32 v;
     u32 t;
 
-    e = D_800F5918;
+    e = tent_ModelHandlerRegistry;
     n = 0;
 
     if (arg0 == (s32)GsU_00000000) {
@@ -105,7 +105,7 @@ s32 func_8005FE44(s32 arg0) {
     s32 v;
     u32 t;
 
-    e = D_800F5918;
+    e = tent_ModelHandlerRegistry;
     n = 0;
 
     if (arg0 == (s32)GsU_00000000) {
@@ -200,7 +200,7 @@ have:
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
 void Model_RegisterHandlerKey(s32 key, s32 val) {
     s32 i;
-    ModelHandlerRegistryEntry *e = D_800F5918;
+    ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
     for (i = 0; i < MODEL_HANDLER_REGISTRY_COUNT; i++, e++) {
         if (e->key == key) {
             return;
@@ -222,7 +222,7 @@ void Model_RegisterHandlerKey(s32 key, s32 val) {
 /* Reverse lookup: finds the entry whose val matches, returns its key (or -1
    if val is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 val) {
-    ModelHandlerRegistryEntry *e = D_800F5918;
+    ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
     s32 i;
     if (val == (s32) GsU_00000000) {
         return -1;

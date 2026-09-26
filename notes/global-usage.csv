@@ -198,9 +198,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800914E8,D_800914E8,D_800914E8,0x800540B4,func_800540B4,matching_c,game,C,src/game/func_800540B4.c,address,16,v1.vx = x + ((ModelShadowFanStep *)D_800914E8)[i].x * a / 4096; | v1.vz = z + ((ModelShadowFanStep *)D_800914E8)[i].z * b / 4096;
 0x8009151C,gMovie_aStreamRanges,gMovie_aStreamRanges,0x8005C388,func_8005C388,matching_c,game,C,src/game/movie_stream_requests.c,address,,base = gMovie_aStreamRanges; | table = gMovie_aStreamRanges;
 0x80091550,gModel_aEffectEndpoints,gModel_aEffectEndpoints,0x8005F714,func_8005F714,matching_c,game,C,src/game/model_effect_state.c,address,,a < 0 ? 0 : &gModel_aEffectEndpoints[a]; | b < 0 ? 0 : &gModel_aEffectEndpoints[b];
-0x80091570,D_80091570,D_80091570,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/model_effect_state.c,address,,return &D_80091570[index];
-0x80091570,D_80091570,D_80091570,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,address,,r = &D_80091570[arg1];
-0x80091570,D_80091570,D_80091570,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,address,,ModelEffectCoefficient *rec = &D_80091570[arg1];
+0x80091570,tent_ModelEffectCoefficients,tent_ModelEffectCoefficients,0x8005F1A4,func_8005F1A4,matching_c,game,C,src/game/model_effect_state.c,address,,return &tent_ModelEffectCoefficients[index];
+0x80091570,tent_ModelEffectCoefficients,tent_ModelEffectCoefficients,0x8005F27C,func_8005F27C,matching_c,game,C,src/game/model_effect_state.c,address,,r = &tent_ModelEffectCoefficients[arg1];
+0x80091570,tent_ModelEffectCoefficients,tent_ModelEffectCoefficients,0x8005F5C8,func_8005F5C8,matching_c,game,C,src/game/model_effect_state.c,address,,ModelEffectCoefficient *rec = &tent_ModelEffectCoefficients[arg1];
 0x800915E8,D_800915E8,D_800915E8,0x8006AF74,func_8006AF74,matching_c,game,C,src/game/model_subdivided_effect.c,address,32,config = effect->config = (ModelSubdividedEffectConfig *)D_800915E8;
 0x80091604,D_80091604,D_80091604,0x8006C37C,Model_UpdateDiscEffect,matching_c,game,C,src/game/model_disc_effect.c,address,,e->table = &D_80091604;
 0x800916D4,D_800916D4,D_800916D4,0x8006CD78,func_8006CD78,matching_c,game,C,src/game/func_8006CD78.c,address,32,e->table = (ModelBurstPalette *)D_800916D4;
@@ -2735,9 +2735,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F2B20,D_800F2B20,D_800F2B20,0x8005A878,func_8005A878,matching_c,game,C,src/game/func_8005A878.c,read,,if (D_800F2B20.flags == 0) { | if (arg != 0 || D_800F2B20.mode == 0 || D_800F2B20.field_02 == 0)
 0x800F2B22,D_800F2B22,D_800F2B22,0x8005A0DC,func_8005A0DC,matching_c,game,C,src/game/model_effect_requests.c,write,16,D_800F2B22 = value * 2;
 0x800F2B4A,D_800F2B4A,D_800F2B4A,0x80052694,func_80052694,matching_c,game,C,src/game/model_scene_setup.c,read,16,n = D_800F2B4A[0];
-0x800F2B50,D_800F2B50,D_800F2B50,0x800528AC,func_800528AC,matching_c,game,C,src/game/model_scene_setup.c,address,,table = (ModelTintRequest *)D_800F2B50;
-0x800F2B50,D_800F2B50,D_800F2B50,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,read_write,,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
-0x800F2B50,D_800F2B50,D_800F2B50,0x80058938,Model_QueueTintRequest,matching_c,game,C,src/game/func_80058938.c,address,,r = D_800F2B50; | register u8 *base = (u8 *)D_800F2B50;
+0x800F2B50,tent_ModelTintRequests,tent_ModelTintRequests,0x800528AC,func_800528AC,matching_c,game,C,src/game/model_scene_setup.c,address,,table = (ModelTintRequest *)tent_ModelTintRequests;
+0x800F2B50,tent_ModelTintRequests,tent_ModelTintRequests,0x800533D8,func_800533D8,matching_c,game,C,src/game/func_80052D2C.c,read_write,,void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 co...
+0x800F2B50,tent_ModelTintRequests,tent_ModelTintRequests,0x80058938,Model_QueueTintRequest,matching_c,game,C,src/game/func_80058938.c,address,,r = tent_ModelTintRequests; | register u8 *base = (u8 *)tent_ModelTintRequests;
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004CB0C,func_8004CB0C,matching_c,game,C,src/game/func_8004CB0C.c,address,,base = &D_800F2C40[index];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004D58C,func_8004D58C,matching_c,game,C,src/game/model_slot_row_tables.c,address,,ch = &D_800F2C40[arg0];
 0x800F2C40,D_800F2C40,D_800F2C40,0x8004D75C,func_8004D75C,matching_c,game,C,src/game/model_slot_row_tables.c,address,,ch = &D_800F2C40[index];
@@ -2828,10 +2828,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800F5788,D_800F5788,D_800F5788,0x8005DBA4,func_8005DBA4,matching_c,game,C,src/game/model_keyframe_update.c,address,,D_8009B074 = D_800F5788; | Key *key = D_800F5788; | (+1 more)
 0x800F5788,D_800F5788,D_800F5788,0x8005EBF4,func_8005EBF4,matching_c,game,C,src/game/model_effect_state.c,address,,"&D_800F5788[(cur - D_800F5788 + 1) % D_8009B078], | &D_800F5788[(cur - D_800F5788 + 2) % D_8009B078] | (+2 more)"
 0x800F5788,D_800F5788,D_800F5788,0x8005F91C,func_8005F91C,matching_c,game,C,src/game/model_effect_state.c,address,,D_8009B074 = D_800F5788; | Key *key = &D_800F5788[D_8009B078]; | (+1 more)
-0x800F5918,D_800F5918,D_800F5918,0x8005FC1C,func_8005FC1C,matching_c,game,C,src/game/model_handler_registry.c,address,,e = D_800F5918;
-0x800F5918,D_800F5918,D_800F5918,0x8005FE44,func_8005FE44,matching_c,game,C,src/game/model_handler_registry.c,address,,e = D_800F5918;
-0x800F5918,D_800F5918,D_800F5918,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = D_800F5918;
-0x800F5918,D_800F5918,D_800F5918,0x800601D0,Model_FindHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = D_800F5918;
+0x800F5918,tent_ModelHandlerRegistry,tent_ModelHandlerRegistry,0x8005FC1C,func_8005FC1C,matching_c,game,C,src/game/model_handler_registry.c,address,,e = tent_ModelHandlerRegistry;
+0x800F5918,tent_ModelHandlerRegistry,tent_ModelHandlerRegistry,0x8005FE44,func_8005FE44,matching_c,game,C,src/game/model_handler_registry.c,address,,e = tent_ModelHandlerRegistry;
+0x800F5918,tent_ModelHandlerRegistry,tent_ModelHandlerRegistry,0x80060170,Model_RegisterHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
+0x800F5918,tent_ModelHandlerRegistry,tent_ModelHandlerRegistry,0x800601D0,Model_FindHandlerKey,matching_c,game,C,src/game/model_handler_registry.c,address,,ModelHandlerRegistryEntry *e = tent_ModelHandlerRegistry;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800705D8,AiScript_Init,matching_c,game,C,src/game/ai_script_vm.c,address,32,"bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));"
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x800709C0,AiScript_JumpGreaterEqual,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
 0x800F5B98,gAiScript_aMemory,gAiScript_aMemory,0x80070A40,AiScript_JumpGreater,matching_c,game,C,src/game/ai_script_control_flow.c,address,32,register s32 *values = gAiScript_aMemory;
@@ -3260,10 +3260,10 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5800,D_801D5800,D_801D5800,0x800383DC,func_800383DC,matching_c,game,C,src/game/duel_effect_command.c,read,16,D_801D5800[a2 - TEXT_GLOBAL_STRING_ID_BASE]; | v1 = ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
 0x801D5800,D_801D5800,D_801D5800,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,16,D_801D5800[id - TEXT_GLOBAL_STRING_ID_BASE]); | text = (u8 *)(((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) +
 0x801D5800,D_801D5800,D_801D5800,0x8003B744,Text_LookupString,matching_c,game,C,src/game/text_lookup_string.c,read,16,D_801D5800[index - TEXT_GLOBAL_STRING_ID_BASE]; | return ((u32)D_801D5800 & TEXT_BANK_ADDRESS_MASK) |
-0x801D9000,D_801D9000,D_801D9000,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,32,"func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);"
-0x801D9000,D_801D9000,D_801D9000,0x80039794,func_80039794,matching_c,game,C,src/game/func_80039794.c,address,32,table = (TblEnt *)D_801D9000;
-0x801D9000,D_801D9000,D_801D9000,0x8003BC40,Text_SjisToGlyphCodes,matching_c,game,C,src/game/text_sjis_to_glyph_codes.c,address,32,u32 *entry = &D_801D9000[index];
-0x801D9004,D_801D9004,D_801D9004,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,32,e = D_801D9004; | if (D_801D9004[0] != 0) {
+0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x800393B0,TextBox_BuildStep,matching_c,game,C,src/game/text_box_build_step.c,read,32,"func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A] & 0x8FF0FFFF);"
+0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x80039794,func_80039794,matching_c,game,C,src/game/func_80039794.c,address,32,table = (TblEnt *)tent_GlyphLookupTable;
+0x801D9000,tent_GlyphLookupTable,tent_GlyphLookupTable,0x8003BC40,Text_SjisToGlyphCodes,matching_c,game,C,src/game/text_sjis_to_glyph_codes.c,address,32,u32 *entry = &tent_GlyphLookupTable[index];
+0x801D9004,tent_GlyphLookupTableEntries,tent_GlyphLookupTableEntries,0x8003B5C8,Text_InitDecimalDigitGlyphMap,matching_c,game,C,src/game/text_init_decimal_digit_glyph_map.c,read,32,e = tent_GlyphLookupTableEntries; | if (tent_GlyphLookupTableEntries[0] != 0) {
 0x801D9174,D_801D9174,D_801D9174|D_801D9174_b,0x80036BCC,Text_FindRecordById,matching_c,game,C,src/game/func_80036C14.c,address,8,key = D_801D9174_b; | rec = D_801D9174;
 0x801DA000,D_801DA000,D_801DA000,0x80036C14,DuelEffect_AppendEntry,matching_c,game,C,src/game/func_80036C14.c,address,16,r = D_801DA000;
 0x801DC000,gLibrary_aCardArtRecord,gLibrary_aCardArtRecord,0x800136E4,File_SetPositionTable,matching_c,game,C,src/game/file_set_position_table.c,address,8,File_InitTransferState((s32)gLibrary_aCardArtRecord);

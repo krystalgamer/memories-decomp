@@ -12,7 +12,6 @@
 #define D_8009B357 D_8009B247
 #define D_8009B350 gJapanese_D_8009B350
 #define D_8009B35A gJapanese_D_8009B35A
-#define D_801D9000 gJapanese_GlyphLookupTable
 #define D_80090F18 D_80090DC8
 #define D_80090E64 D_80090D14
 #define func_80035CA8 DuelEffect_ClearOccupancyValue

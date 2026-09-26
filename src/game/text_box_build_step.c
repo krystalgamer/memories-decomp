@@ -162,7 +162,7 @@ next_opcode:
         return;
     }
     D_8009B35A = D_8009B33A;
-    func_80036C14(object, D_801D9000[(s16)D_8009B33A] & 0x8FF0FFFF);
+    func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A] & 0x8FF0FFFF);
     TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
     if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
         TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {

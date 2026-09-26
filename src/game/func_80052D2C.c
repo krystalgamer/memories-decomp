@@ -37,7 +37,7 @@
 
 /* The end of the contiguous model-scene runtime: camera-move setup and scene
    reset/configuration. The four functions share D_800F56F0, D_800F2B20,
-   D_800F2B50, model slots, and the D_8009AFxx scene-control state. The
+   tent_ModelTintRequests, model slots, and the D_8009AFxx scene-control state. The
    camera/view correction passes that start the runtime, and the tint request
    pass func_800528AC between them and this run, are in
    model_scene_setup.c. */
@@ -282,5 +282,5 @@ void Model_SetSlotProperties(s32 idx, ...)
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TEXTURE_RESET)
-void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=0x200;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}func_8005611C(0);func_8005611C(1);func_8005611C(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)D_800F2B50[i].flags&=0xfffe;D_8009AF9B=0;D_8009AF9C=0;Model_SetScreenYOverride(0x8000);D_8009AF94=0;D_8009AF9A=-1;}
+void func_800533D8(void){s16 table[256];RECT packet;register s16*p=&table[1];register s32 fill=0xffff;register s32 counter=254;s32 i;table[0]=0;do{*p=fill;counter--;p++;}while(counter>=0);packet.x=0x200;packet.y=0xF0;packet.w=0x100;packet.h=1;while(IsIdleGPU(3)){}while(LoadImage2(&packet,(u32 *)table)){}while(IsIdleGPU(3)){}func_8005611C(0);func_8005611C(1);func_8005611C(2);for(i=0;i<MODEL_TINT_REQUEST_COUNT;i++)tent_ModelTintRequests[i].flags&=0xfffe;D_8009AF9B=0;D_8009AF9C=0;Model_SetScreenYOverride(0x8000);D_8009AF94=0;D_8009AF9A=-1;}
 #endif

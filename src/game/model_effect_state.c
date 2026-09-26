@@ -174,7 +174,7 @@ void func_8005F198(s32 value)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GET_COEFFICIENT)
 ModelEffectCoefficient *func_8005F1A4(s32 index)
 {
-    return &D_80091570[index];
+    return &tent_ModelEffectCoefficients[index];
 }
 #endif
 
@@ -222,7 +222,7 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
     s32 u;
     ModelEffectAdjustment sp18;
 
-    r = &D_80091570[arg1];
+    r = &tent_ModelEffectCoefficients[arg1];
 
     if (D_8009B07B == 1) {
         if (D_8009B07C == 1) {
@@ -314,12 +314,12 @@ void func_8005F588(int value)
 #endif
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F5C8)
 /* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
-   D_80091570[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
+   tent_ModelEffectCoefficients[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
    the stat by a growth ratio derived from func_80059000's output clamped
    to >=50 then offset by -300, divided by 750, and adds the delta. Passes
    the (possibly adjusted) value plus angle/field_04 on to setup_positional_sfx. */
 void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
-    ModelEffectCoefficient *rec = &D_80091570[arg1];
+    ModelEffectCoefficient *rec = &tent_ModelEffectCoefficients[arg1];
     s32 s0;
 
     if (D_8009B07B == 1 && D_8009B07C == D_8009B07B) {

@@ -9,7 +9,7 @@ void Model_QueueTintRequest(
     ModelSlot *slot;
     ModelTintRequest *r;
     ModelTintRequest *end;
-    register u8 *base = (u8 *)D_800F2B50;
+    register u8 *base = (u8 *)tent_ModelTintRequests;
     s32 off;
     s32 fill;
     s32 f;
@@ -22,7 +22,7 @@ void Model_QueueTintRequest(
     sel = (a1 & 1) << 2;
     fill = 0xFF;
     off = 0;
-    r = D_800F2B50;
+    r = tent_ModelTintRequests;
     end = r + MODEL_TINT_REQUEST_COUNT;
     do {
         if ((*(u8 *)r & 1) == 0) {

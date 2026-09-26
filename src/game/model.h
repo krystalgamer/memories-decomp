@@ -376,7 +376,7 @@ typedef struct {
     u8 b3;
 } ModelTintColor;
 
-/* One of the MODEL_TINT_REQUEST_COUNT tint requests at D_800F2B50.
+/* One of the MODEL_TINT_REQUEST_COUNT tint requests at tent_ModelTintRequests.
  * Model_QueueTintRequest fills a free entry in; func_800528AC walks the table once a
  * frame, lerps `start` towards `end` by elapsed/duration, drops the result
  * into the model slot's field_DC0, redraws through it and then restores
@@ -644,7 +644,7 @@ typedef char ModelCameraMove_target_offset_must_be_0x1C[
 ];
 #endif
 
-/* One entry of the eight-byte table at D_80091570.  Every access in the tree
+/* One entry of the eight-byte table at tent_ModelEffectCoefficients.  Every access in the tree
  * is sixteen bits wide: func_8005F5C8 reads field_00, func_8005F27C reads
  * field_00, angle and field_04 of one record, and func_8005A618 reads
  * `angle` and wraps it modulo a full turn.  The retail bytes agree -- the
@@ -694,7 +694,7 @@ typedef char ModelEffectCoefficient_field_04_offset_must_be_0x4[
 #undef MODEL_OFFSET
 
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
-extern ModelEffectCoefficient D_80091570[];
+extern ModelEffectCoefficient tent_ModelEffectCoefficients[];
 #endif
 #ifndef MODEL_SLOT_CUSTOM_EXTERN
 extern ModelSlot D_800F2C40[MODEL_SLOT_COUNT];
@@ -731,11 +731,11 @@ extern u16 D_800F3A10[];
 extern ModelCameraMove D_800F2B20;
 #endif
 #ifndef MODEL_TINT_REQUEST_CUSTOM_EXTERN
-extern ModelTintRequest D_800F2B50[MODEL_TINT_REQUEST_COUNT];
+extern ModelTintRequest tent_ModelTintRequests[MODEL_TINT_REQUEST_COUNT];
 #endif
 
 extern ModelHandlerRegistryEntry
-    D_800F5918[MODEL_HANDLER_REGISTRY_COUNT];
+    tent_ModelHandlerRegistry[MODEL_HANDLER_REGISTRY_COUNT];
 
 s32 Model_LoadMonsterMerge(
     s32 slot, s32 model, s32 p2, s32 p3, s32 p4, s32 p5, s32 arg6
