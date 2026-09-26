@@ -560,6 +560,12 @@
       "source": "src/game/text_stream_read_byte.c"
     },
     {
+      "address": "0x8003BD3C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD4",
+      "source": "src/game/text_sjis_to_glyph_codes.c"
+    },
+    {
       "address": "0x8003CDC4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
@@ -606,6 +612,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
       "source": "src/game/display_object_stream_configure_rotation.c"
+    },
+    {
+      "address": "0x80041DBC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD4",
+      "source": "src/game/display_object_stream_read_next_command.c"
     },
     {
       "address": "0x8004290C",
@@ -686,6 +698,12 @@
       "source": "src/game/sd_has_queued_stream_command.c"
     },
     {
+      "address": "0x800467A8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x17C",
+      "source": "src/game/func_800464F0.c"
+    },
+    {
       "address": "0x8004988C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x40",
@@ -702,6 +720,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x28",
       "source": "src/game/sound_secondary_reset.c"
+    },
+    {
+      "address": "0x8004A240",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x148",
+      "source": "src/game/func_80049FB4.c"
     },
     {
       "address": "0x8004BE48",
