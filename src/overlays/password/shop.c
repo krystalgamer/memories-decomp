@@ -164,6 +164,7 @@ void Password_UpdateDigitCursorDecoration(u8 *object)
 }
 #endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_SET_DIGIT_CURSOR_TARGET)
 void Password_SetDigitCursorTarget(u8 *a)
 {
     PasswordCursorView *obj = (PasswordCursorView *)a;
@@ -172,8 +173,9 @@ void Password_SetDigitCursorTarget(u8 *a)
     obj->target_y = 0x63;
     obj->target_x = value * 16 + 0xA3;
 }
+#endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_RECREATE_CARD_PREVIEW)
 void Password_RecreateCardPreview(s32 ignored)
 {
     PasswordCardPreviewView *obj;
@@ -185,7 +187,9 @@ void Password_RecreateCardPreview(s32 ignored)
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     D_8016D4D8 = obj;
 }
+#endif
 
+#ifndef VERSION_JAPAN
 void Password_InitShopScreen(void)
 {
     s32 i;
