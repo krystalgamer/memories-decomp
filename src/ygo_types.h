@@ -1154,7 +1154,7 @@ typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
 ];
 
-/* Display-object script state shared by the seven D_80090FEC handlers,
+/* Display-object script state shared by the seven tent_DisplayObjectStreamCommandTable handlers,
    DisplayObjectStream_Stop through DisplayObjectStream_ConfigureRotation.
    The two pointers delimit the script buffer and the trailing halfwords are
    handler status fields. */

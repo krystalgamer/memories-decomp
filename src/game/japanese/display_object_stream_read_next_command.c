@@ -1,4 +1,3 @@
-#define D_80090FEC gJapanese_DisplayObjectStreamCommandTable
 #include "../../types.h"
 #include "../model_record_tables.h"
 #include "../display_object_stream_read_next_command.h"
@@ -15,7 +14,7 @@ void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
     p++;
 
     if (op >= 0xF0) {
-        table = gJapanese_DisplayObjectStreamCommandTable;
+        table = tent_DisplayObjectStreamCommandTable;
         do {
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;

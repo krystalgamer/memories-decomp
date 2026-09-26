@@ -155,16 +155,16 @@ void func_800222F4(void) {
         gDebugEffect_bPage = 0;
         gDebugEffect_bCoordinateAxis = 0;
         gDebugEffect_abCoordinates[1] = 0;
-        D_8009B184 = 0;
-        D_8009B180 = 0;
+        tent_DebugEffectObject1 = 0;
+        tent_DebugEffectObject0 = 0;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
         gDuel_wSceneStateFlags &= 0xBFFF;
         func_80029528(0);
-        DisplayObject_ReleaseIfPresent(D_8009B180);
-        DisplayObject_ReleaseIfPresent(D_8009B184);
-        D_8009B184 = 0;
-        D_8009B180 = 0;
+        DisplayObject_ReleaseIfPresent(tent_DebugEffectObject0);
+        DisplayObject_ReleaseIfPresent(tent_DebugEffectObject1);
+        tent_DebugEffectObject1 = 0;
+        tent_DebugEffectObject0 = 0;
         switch (gDebugEffect_bPage) {
         case 0:
             break;
@@ -178,11 +178,11 @@ void func_800222F4(void) {
             func_8001944C(obj);
             break;
         case 2:
-            D_8009B180 = func_80017F04(D_801A7B80, 0x86, 0x52);
+            tent_DebugEffectObject0 = func_80017F04(D_801A7B80, 0x86, 0x52);
             break;
         case 3:
-            D_8009B180 = func_80017F04(D_801A7B80, 0x5C, 0x52);
-            D_8009B184 = func_80017F04(&D_801A7B80[1], 0xB0, 0x52);
+            tent_DebugEffectObject0 = func_80017F04(D_801A7B80, 0x5C, 0x52);
+            tent_DebugEffectObject1 = func_80017F04(&D_801A7B80[1], 0xB0, 0x52);
             break;
         }
     } else if (gInput_wPad1Pressed & PAD_BUTTON_SELECT) {
