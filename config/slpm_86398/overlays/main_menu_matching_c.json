@@ -25,6 +25,24 @@
       "source": "src/overlays/japanese/main_menu/update_frontend_entry_afterimage.c"
     },
     {
+      "address": "0x80180FD8",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2DC",
+      "source": "src/overlays/japanese/main_menu/start_value_setup.c"
+    },
+    {
+      "address": "0x801812B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x474",
+      "source": "src/overlays/japanese/main_menu/update_value_setup.c"
+    },
+    {
+      "address": "0x80181728",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x590",
+      "source": "src/overlays/japanese/main_menu/draw_value_setup.c"
+    },
+    {
       "address": "0x80181CB8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
