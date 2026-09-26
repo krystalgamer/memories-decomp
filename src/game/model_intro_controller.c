@@ -389,11 +389,18 @@ void func_8004EB00(void)
             D_8009AF9A = 0x14;
             break;
         }
+#ifdef VERSION_JAPAN
+        /* The Japanese build polls the same two calls but prints nothing. */
+        if (func_8005A878(1) != 0) {
+            func_8005FB08();
+        }
+#else
         if (func_8005A878(1) != 0 && func_8005FB08() != 0
             && D_800F2C40[0].field_E0E == 2 && D_800F2C40[0].field_E0F == 0
             && D_800F2C40[1].field_E0E == 2 && D_800F2C40[1].field_E0F == 0) {
             FntPrint(D_8009AFF4);
         }
+#endif
         break;
     case 21: {
         s32 f = D_800F2C40[0].field_E0F != 6;
