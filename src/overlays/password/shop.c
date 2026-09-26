@@ -35,6 +35,14 @@
 #include "../../unmatched.h"
 #include "../../game/main_mode_state.h"
 
+#ifdef VERSION_JAPAN
+#define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CROSS
+#define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
+#else
+#define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CROSS
+#endif
+
 /* The password shop screen: its initialiser, the preview helper, the
    password lookup and the per-tick updater, Password_UpdateShopScreen, which
    is the preview helper's other caller and the lookup's only one.
@@ -193,7 +201,7 @@ void Password_RecreateCardPreview(s32 ignored)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_INIT_SHOP_SCREEN)
 void Password_InitShopScreen(void)
 {
     s32 i;
@@ -223,7 +231,11 @@ void Password_InitShopScreen(void)
     cardCache->field_2C = 512;
     cardCache->field_2E = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+#ifdef VERSION_JAPAN
+    DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 0, 31, 257);
+#else
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
+#endif
     DisplayObject_SetDepthOffset(o, -8);
     o->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
@@ -263,7 +275,9 @@ void Password_InitShopScreen(void)
     SD_BGMPlay(29520);
     Fade_WaitIn();
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_LOOKUP_CARD_ID)
 s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
@@ -288,7 +302,9 @@ s32 Password_LookupCardID(void)
         index++;
     }
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_SHOP_SCREEN)
 void Password_UpdateShopScreen(void)
 {
     PasswordCursorView *cursor;
@@ -355,14 +371,14 @@ void Password_UpdateShopScreen(void)
             Password_RefreshDigitDisplay();
             return;
         }
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+        if ((gInput_wPad1Pressed & PASSWORD_SHOP_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(8);
             SD_BGMFadeOut();
             Fade_WaitOut();
             D_8009B26C = D_8009B269;
             return;
         }
-        if ((gInput_wPad1Pressed & PAD_BUTTON_CROSS) != 0) {
+        if ((gInput_wPad1Pressed & PASSWORD_SHOP_CONFIRM_BUTTON) != 0) {
             card = Password_LookupCardID();
             D_8016D4DC = card;
             if (card == 0) {
