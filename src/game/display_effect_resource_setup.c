@@ -128,7 +128,16 @@ void func_8003A440(u8 **arg0, u32 arg1, s32 arg2)
 
 /* The scalars carry section(".data") so -G8 keeps them off $gp and they take
    the assembler macro form, while the one-byte D_8009B326 stays gp-relative. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003A560)
+/* Which effect each VRAM slot holds, and the first sector of the effect
+   packages. The Japanese build keeps the slot ids inside the D_80010000 arena
+   at +0x7FFF0 (as its func_80039E9C resets them) and its packages start five
+   sectors lower, so a regional build supplies its own. */
+#ifndef DISPLAY_EFFECT_SLOT_ID
+#define DISPLAY_EFFECT_SLOT_ID(i) (D_8015C410[i])
+#define DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR 15182
+#endif
+
 void func_8003A560(DisplayEffectVramState *a)
 {
     DisplayEffectVramSlot *slots;
@@ -145,10 +154,10 @@ void func_8003A560(DisplayEffectVramState *a)
            move plus the fifth callee-saved register. */
         slot = &slots[DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1];
         for (i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1; i >= 0; i--) {
-            if (D_8015C410[i] < 0) {
+            if (DISPLAY_EFFECT_SLOT_ID(i) < 0) {
                 D_8009B326 = i;
             }
-            if (D_8015C410[i] == a->field_30) {
+            if (DISPLAY_EFFECT_SLOT_ID(i) == a->field_30) {
                 while (IsIdleGPU(10) != 0) {
                     ;
                 }
@@ -178,7 +187,8 @@ void func_8003A560(DisplayEffectVramState *a)
             return;
         }
         req = File_TryRequestAsyncTransfer(
-            0, 0, a->field_30 * 50 + 15182, 50, func_8003A01C, 0, 0
+            0, 0, a->field_30 * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
+            func_8003A01C, 0, 0
         );
         req->callback_data = D_801AF000;
         req->position = a->field_3C;
@@ -192,7 +202,7 @@ void func_8003A560(DisplayEffectVramState *a)
             return;
         }
         a->state |= 0x40;
-        D_8015C410[D_8009B326] = a->field_30;
+        DISPLAY_EFFECT_SLOT_ID(D_8009B326) = a->field_30;
         while (IsIdleGPU(10) != 0) {
             ;
         }
