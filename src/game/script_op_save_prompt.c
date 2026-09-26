@@ -39,11 +39,6 @@
 #define DISPLAY_OBJECT_Y_HALFWORD_INDEX \
     ((u32)&((DisplayObject *)0)->field_30.h.field_32 / sizeof(s16))
 
-#ifndef VERSION_JAPAN
-#define VERSION_JAPAN_DECK_COMPLETE
-#endif
-
-#ifdef VERSION_JAPAN_DECK_COMPLETE
 int Duel_IsPlayerDeckComplete(void)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -58,9 +53,7 @@ int Duel_IsPlayerDeckComplete(void)
     }
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SCRIPT_OP_SAVE_PROMPT)
 #ifdef VERSION_JAPAN
 /* The Japanese build makes no func_8003B6AC(0, 2) call before any of the
  * prompt's boxes, sizes three of them differently, and confirms with Circle
@@ -293,4 +286,3 @@ void Script_OpSavePrompt(void)
         }
     } while (0);
 }
-#endif

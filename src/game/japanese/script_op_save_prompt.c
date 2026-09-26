@@ -2,7 +2,6 @@
 #include "duel_effect_channel.h"
 
 #define VERSION_JAPAN
-#define VERSION_JAPAN_SCRIPT_OP_SAVE_PROMPT
 #define SAVE_PROMPT_CHANNEL_TYPE JapaneseDuelEffectChannel
 #define D_8009B268 gJapanese_bMenuRequest
 #define D_8009B26C gJapanese_bActiveMainMode
