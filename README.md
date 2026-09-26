@@ -51,9 +51,9 @@ Target SHA-256: `ee3f45584fb747fd33c9560f0fc68ced03b399fbd9a2e9d6a71eb0f5daa8958
 
 | Metric | Current |
 |---|---:|
-| Game C-decompilation targets matched | **1,129 / 1,197 (94.32%)** |
-| Game C-decompilation target bytes matched | **340,832 (`0x53360`) / 391,384 (`0x5F8D8`) (87.08%)** |
-| Remaining game C-decompilation targets | 68 functions, 50,552 (`0xC578`) |
+| Game C-decompilation targets matched | **1,134 / 1,197 (94.74%)** |
+| Game C-decompilation target bytes matched | **349,468 (`0x5551C`) / 391,384 (`0x5F8D8`) (89.29%)** |
+| Remaining game C-decompilation targets | 63 functions, 41,916 (`0xA3BC`) |
 | Evidence-backed handwritten game assembly | 0 functions, 0 (`0x0`) |
 | Total game-owned functions | 1,197 |
 | Preserved Psy-Q CRT/SDK assembly | 629 functions, 122,048 (`0x1DCC0`) |
@@ -65,9 +65,10 @@ Runtime overlay modules (matched C; full function inventories not yet tracked):
 | Module | Matching C functions | Matching C bytes |
 |---|---:|---:|
 | `free_duel` | 9 | 4,140 (`0x102C`) |
-| `main_menu` | 23 | 6,164 (`0x1814`) |
+| `main_menu` | 31 | 17,724 (`0x453C`) |
 | `overworld_after_coup` | 15 | 6,184 (`0x1828`) |
 | `overworld_before_coup` | 15 | 6,184 (`0x1828`) |
+| `password` | 17 | 4,156 (`0x103C`) |
 
 _Generated from `config/slpm_86398/matching_c.json`, `config/slpm_86398/function_regions.json`, `config/slpm_86398/overlays/*_matching_c.json`, and the generated Japanese split inventory by `tools/project/progress.py`._
 
