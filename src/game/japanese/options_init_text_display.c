@@ -5,5 +5,4 @@
 #define OPTIONS_TEXT_BOX_STRING 0xEE
 #define D_8009B380 gJapanese_OptionsOutputCursor
 #define D_8009B388 gJapanese_OptionsSelectionCursor
-#define Options_Init func_8003BBF4
 #include "../options_screen.c"

@@ -12,7 +12,6 @@
 #define D_8009B2E0 gJapanese_DebugInterfaceFieldE0
 #define D_8009B2EA gJapanese_DebugInterfaceFlags
 #define D_8009B2EC gJapanese_DebugInterfaceData
-#define FntPrint func_8007DB74
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

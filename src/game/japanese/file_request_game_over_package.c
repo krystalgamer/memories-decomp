@@ -4,7 +4,6 @@
  * Japanese executable and their US names are taken there, so they are aliased
  * (config/slpm_86398/symbols.txt has the addresses). The US source is included
  * as is. */
-#define File_RequestGameOverPackage func_8003BA64
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

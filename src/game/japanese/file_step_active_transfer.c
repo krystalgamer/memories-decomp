@@ -12,7 +12,6 @@
 #define D_8009B128 D_8009B018
 #define D_8009B130 gJapanese_D_8009B130
 #define D_8009B134 gJapanese_FileSecondaryRequest
-#define DsCommand func_80079E60
 #define func_80014294 Japanese_func_80014294
 
 /* Same-file functions this one uses but that stay outside its guard. */
