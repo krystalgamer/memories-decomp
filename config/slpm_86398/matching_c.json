@@ -3506,6 +3506,12 @@
       "source": "src/game/japanese/mem_card_dialog_step_load_unprompted.c"
     },
     {
+      "address": "0x8003DDF8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x73C",
+      "source": "src/game/japanese/mem_card_dialog_update_save.c"
+    },
+    {
       "address": "0x8003E534",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
