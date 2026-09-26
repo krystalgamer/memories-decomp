@@ -13,6 +13,12 @@
       "source": "src/overlays/japanese/overworld_after_coup/rebuild_location_objects.c"
     },
     {
+      "address": "0x8016818C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5C",
+      "source": "src/overlays/japanese/overworld_after_coup/create_location_label.c"
+    },
+    {
       "address": "0x801681E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x70",
