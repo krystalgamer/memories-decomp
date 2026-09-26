@@ -34,7 +34,6 @@
    at gcc_2_8_1_g8, so the unit builds there. */
 
 /* Advances the two-word save-data mask state and returns the next word. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_NEXT_MASK_WORD)
 u32 SaveData_NextMaskWord(void)
 {
     u32 *state = &gSaveData_dwMaskStateLow;
@@ -52,10 +51,8 @@ u32 SaveData_NextMaskWord(void)
     state[1] = high;
     return state[0] = next ^ (next >> 20);
 }
-#endif
 
 /* CRC-16/XMODEM (poly 0x1021, zero-initialized) over data[0..len). */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_CALC_CRC16)
 u32 SaveData_CalcCrc16(u8 *data, s32 len)
 {
     u16 crc = 0;
@@ -79,9 +76,7 @@ u32 SaveData_CalcCrc16(u8 *data, s32 len)
     }
     return crc;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_WRITE_PRIMARY_SECONDARY_INTEGRITY)
 void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
 {
     s32 value = SaveData_CalcCrc16(data, SAVE_DATA_PRIMARY_LENGTH);
@@ -119,9 +114,7 @@ void SaveData_WritePrimarySecondaryIntegrity(u8 *data)
         output--;
     } while (i != 0);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_WRITE_TERTIARY_INTEGRITY)
 void SaveData_WriteTertiaryIntegrity(u8 *p)
 {
     register s32 i;
@@ -145,9 +138,7 @@ void SaveData_WriteTertiaryIntegrity(u8 *p)
         dst--;
     } while (i);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_BUILD_PAYLOAD)
 void SaveData_BuildPayload(SaveDataPayload *data)
 {
     u8 *copy;
@@ -191,11 +182,9 @@ void SaveData_BuildPayload(SaveDataPayload *data)
         (u8 *)&data->duplicate, (u8 *)&data->state, SAVE_DATA_STATE_SIZE
     );
 }
-#endif
 
 #define gCampaignSceneIndex (*(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS)
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_APPLY_RUNTIME_STATE)
 void SaveData_ApplyRuntimeState(SaveDataState *state) {
     Text_SjisToGlyphCodes(D_801B125A, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
@@ -214,9 +203,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
         SD_SetOutputType((s8)output_type);
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_VALIDATE_INTEGRITY)
 s32 SaveData_ValidateIntegrity(u8 *data)
 {
     s32 seed;
@@ -271,9 +258,7 @@ s32 SaveData_ValidateIntegrity(u8 *data)
 
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DUELIST_CODE_COMPARE)
 s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
 {
     s32 i;
@@ -286,9 +271,7 @@ s32 SaveData_HasSameDuelistCode(SaveDataState *left, SaveDataState *right)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_MATCHES_DUELIST_AND_SEQUENCE)
 s32 SaveData_MatchesDuelistAndCurrentSequence(
     SaveDataState *left,
     SaveDataState *right)
@@ -302,4 +285,3 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
     }
     return result;
 }
-#endif

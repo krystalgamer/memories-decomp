@@ -3389,55 +3389,55 @@
       "address": "0x8003C438",
       "profile": "gcc_2_8_1_g8",
       "size": "0x44",
-      "source": "src/game/japanese/save_data_next_mask_word.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C47C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x5C",
-      "source": "src/game/japanese/save_data_calc_crc16.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C4D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB4",
-      "source": "src/game/japanese/save_data_write_primary_secondary_integrity.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C58C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
-      "source": "src/game/japanese/save_data_write_tertiary_integrity.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C600",
       "profile": "gcc_2_8_1_g8",
       "size": "0xB8",
-      "source": "src/game/japanese/save_data_build_payload.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C6B8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x80",
-      "source": "src/game/japanese/save_data_apply_runtime_state.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C738",
       "profile": "gcc_2_8_1_g8",
       "size": "0x114",
-      "source": "src/game/japanese/save_data_validate_integrity.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C84C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x30",
-      "source": "src/game/japanese/save_data_has_same_duelist_code.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C87C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x48",
-      "source": "src/game/japanese/save_data_matches_duelist_and_sequence.c"
+      "source": "src/game/japanese/save_data_payload.c"
     },
     {
       "address": "0x8003C8C4",
