@@ -547,6 +547,9 @@ s32 CampaignMap_PickExit(void)
     return -1;
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_UPDATE_LOCATION)
 void CampaignMap_UpdateLocation(void)
 {
     MapLocation *table;
