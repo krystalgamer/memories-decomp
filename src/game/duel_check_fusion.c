@@ -1,0 +1,48 @@
+#include "../types.h"
+#include "card_constants.h"
+#include "duel_card_checks.h"
+
+#define FUSION_TABLE_BYTES(table) ((u8 *)(table))
+#define FUSION_TABLE_OFFSETS(table) ((u16 *)(table))
+
+s32 Duel_CheckFusion(s32 arg0, s32 arg1)
+{
+    u8 *base = FUSION_TABLE_BYTES(gDuel_aFusionTable);
+    u8 *p;
+    s32 off;
+    s32 n;
+    s32 b;
+
+    if (arg1 < arg0) {
+        s32 t = arg1;
+        arg1 = arg0;
+        arg0 = t;
+    }
+    off = FUSION_TABLE_OFFSETS(base)[arg0];
+    if (off == 0) {
+        return 0;
+    }
+    p = base + off;
+    n = p[0];
+    if (n == 0) {
+        n = FUSION_TABLE_EXTENDED_COUNT_BASE - p[1];
+        p++;
+    }
+    p++;
+    do {
+        b = p[0];
+        if ((((b << FUSION_TABLE_FIRST_PARTNER_SHIFT) &
+              FUSION_TABLE_CARD_ID_HIGH_MASK) | p[1]) == arg1) {
+            return ((b << FUSION_TABLE_FIRST_RESULT_SHIFT) &
+                    FUSION_TABLE_CARD_ID_HIGH_MASK) | p[2];
+        }
+        if ((((b << FUSION_TABLE_SECOND_PARTNER_SHIFT) &
+              FUSION_TABLE_CARD_ID_HIGH_MASK) | p[3]) == arg1) {
+            return ((b << FUSION_TABLE_SECOND_RESULT_SHIFT) &
+                    FUSION_TABLE_CARD_ID_HIGH_MASK) | p[4];
+        }
+        p += FUSION_TABLE_ENTRY_SIZE;
+        n -= FUSION_TABLE_PAIRS_PER_ENTRY;
+    } while (n > 0);
+    return 0;
+}

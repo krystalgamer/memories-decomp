@@ -187,6 +187,7 @@ segments:
       - [0x9be0, c, game/duel_create_card_effect_overlay]
       - [0x9c84, c, game/japanese/func_80019608]
       - [0xa084, c, game/duel_card_checks]
+      - [0xa0dc, c, game/duel_check_fusion]
       - [0xa1a8, c, game/display_object_alpha_transition]
       - [0xa24c, c, game/japanese/func_80019BD0]
       - [0xa344, c, game/japanese/func_80019CC8]
