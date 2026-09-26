@@ -29,6 +29,13 @@
 #include "../../game/text_sjis_to_glyph_codes.h"
 #include "name_entry_tables.h"
 
+#ifndef NAME_ENTRY_CONFIRM_MASK
+#define NAME_ENTRY_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+#ifndef NAME_ENTRY_CANCEL_MASK
+#define NAME_ENTRY_CANCEL_MASK PAD_BUTTON_CANCEL
+#endif
+
 static __inline__ s32 NameEntry_GetKeyboardCellCode(s8 *table, s32 row, s32 column)
 {
     column += row * 15;
@@ -154,16 +161,41 @@ alt800:
     D_8016D402 = 8;
     goto tail47;
 select:
-    if ((gInput_wPad1Repeat & PAD_BUTTON_CONFIRM_MASK) == 0) {
+    if ((gInput_wPad1Repeat & NAME_ENTRY_CONFIRM_MASK) == 0) {
         goto sel_ret;
     }
     kind = 0;
     work = kind;
+#ifdef VERSION_JAPAN
+    gy = kind;
+#endif
     glyphTable = &D_8016AB38[0][0];
     glyphRow = (s8)D_8016D402;
     glyphCol = col = (s8)D_8016D401;
     glyphCode = NameEntry_GetKeyboardCellCode(glyphTable, glyphRow, glyphCol);
     gx = kind;
+#ifdef VERSION_JAPAN
+    switch (glyphCode) {
+    case 2:
+        goto arm2;
+    case 4:
+        goto arm4;
+    case 6:
+        goto arm6;
+    }
+    goto arme;
+arm2:
+    /* The Japanese keyboard's mode key: it cycles the character set
+     * D_8016D4D0 through 0, 1 and 2 and rebuilds the keyboard for it. */
+    D_8016D4D0++;
+    if (D_8016D4D0 >= 3) {
+        D_8016D4D0 = 0;
+    }
+    NameEntry_BuildKeyboardTextBox(D_8016D4D0);
+    work = 2;
+    SD_SEPlayFull(7);
+    goto join;
+#else
     if (glyphCode == 4) {
         goto arm4;
     }
@@ -171,6 +203,7 @@ select:
         goto arm6;
     }
     goto arme;
+#endif
 arm4:
     d = 1;
     if (glyphCol == 11) {
@@ -231,7 +264,7 @@ join:
     }
     return;
 sel_ret:
-    if ((gInput_wPad1Repeat & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Repeat & NAME_ENTRY_CANCEL_MASK) != 0) {
         n = NameEntry_AdjustLength(-1, 6);
         if (n != 0) {
             n = 12;
