@@ -234,24 +234,24 @@ int func_80067220();
  * and reads or writes whole. None is ever indexed, so there is no array
  * hiding behind the scalar and no per-consumer addressing form to preserve.
  *
- * D_8009B3F9 is the strongest of the three structurally: c_symbols.ld names
+ * tent_MemCardPort is the strongest of the three structurally: c_symbols.ld names
  * gMemCard_wDialogFlags one byte later, so the object is exactly one byte and
  * nothing can carry a second name inside it. It is the memory card slot the
  * MemCard* calls are issued against.
  *
- * D_8009B3EB and D_8009B174 have larger gaps to the next name -- two bytes
+ * tent_MemCardDialogStepState and D_8009B174 have larger gaps to the next name -- two bytes
  * and eight -- but those are upper bounds rather than sizes, like the gap
  * after gDuel_wSceneStateFlags. Nothing is named inside either gap, and no
  * consumer of either reads past the byte, so the u8 all five consumers agree
  * on is what is declared and the bytes above stay unclaimed.
  *
  * Both of the latter two are packed state bytes rather than plain counters,
- * which is why the byte width matters to every reader: D_8009B3EB is switched
+ * which is why the byte width matters to every reader: tent_MemCardDialogStepState is switched
  * on through `& 0xF` with MEM_CARD_DIALOG_FLAG_* bits set above it, and
  * D_8009B174 carries a step in its low nibble with 0x20, 0x40 and 0x80 used
  * as independent flags. */
-extern u8 D_8009B3F9;   /* five declarers */
-extern u8 D_8009B3EB;   /* five declarers */
+extern u8 tent_MemCardPort;   /* five declarers */
+extern u8 tent_MemCardDialogStepState;   /* five declarers */
 extern u8 D_8009B174;   /* five declarers */
 
 /* Five more undefined scalars, batched for the reason the two batches above
@@ -265,8 +265,8 @@ extern u8 D_8009B174;   /* five declarers */
  * consumers that had them.
  *
  * Three are pinned exactly, with the next name sitting at precisely the end
- * of the declared width, so no element can hide inside them: D_8009B3C2 and
- * D_8009B3C4 are two bytes each with a name two bytes on, and D_8009B1D0 is
+ * of the declared width, so no element can hide inside them: tent_MemCardTransferSize and
+ * tent_MemCardTransferOffset are two bytes each with a name two bytes on, and D_8009B1D0 is
  * two bytes with gDuel_wEffectCardID immediately after it.
  *
  * D_8009B3F4 has a larger gap than its width and is treated as an upper
@@ -278,8 +278,8 @@ extern u8 D_8009B174;   /* five declarers */
  * dialog paths together with mem_card_dialog_runtime.c. D_8009B1D0 is
  * unrelated to them and belongs to the duel side; it is here because it
  * passed the same checks, not because it is part of that group. */
-extern u16 D_8009B3C2;   /* four declarers */
-extern u16 D_8009B3C4;   /* four declarers */
+extern u16 tent_MemCardTransferSize;   /* four declarers */
+extern u16 tent_MemCardTransferOffset;   /* four declarers */
 extern s32 D_8009B3F4;   /* four declarers */
 extern u16 D_8009B1D0;   /* four declarers */
 
