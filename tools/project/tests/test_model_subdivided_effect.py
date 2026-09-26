@@ -568,6 +568,7 @@ class ModelSubdividedEffectTests(unittest.TestCase):
             for name, path, extra in (
                 ("game", source, []), ("fixture", fixture, []), ("start", start, []),
                 ("subdivision", ROOT / "src/game/triangle_subdivision.c", renames),
+                ("triplet", ROOT / "src/game/triplet_components.c", renames),
             ):
                 obj = directory / (name + ".o")
                 result = subprocess.run(
