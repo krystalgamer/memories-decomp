@@ -2,7 +2,6 @@
 #include "../../psyq/libapi.h"
 
 #define VERSION_JAPAN
-#define Krom2RawAdd2 func_80081800
 #define D_800EAF08 gJapanese_DuelEffectOccupancy
 #include "../func_80036C14.h"
 

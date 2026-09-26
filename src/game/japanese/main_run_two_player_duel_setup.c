@@ -12,5 +12,4 @@
 #define MainMenu_StartValueSetup func_80180FD8
 #define MainMenu_UpdateValueSetup func_801812B4
 #define MainMenu_FinishValueSetup func_80181E30
-#define Main_RunTwoPlayerDuelSetup func_8002DA18
 #include "../main_run_two_player_duel_setup.c"

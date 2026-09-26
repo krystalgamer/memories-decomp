@@ -7,7 +7,6 @@
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define gMemCard_pDialogObject D_8009B2C8
 #define gMemCard_szSaveFileName D_80010300
-#define MemCardDialog_StepSlide func_8003E994
 #define SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
 #include "../save_data_transfer_runtime.c"

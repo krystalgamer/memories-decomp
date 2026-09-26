@@ -8,5 +8,4 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_801A7AD8 gJapanese_DuelCardRecords
-#define DuelEffect_ApplyTerrain func_80024C84
 #include "../func_80024E58.c"

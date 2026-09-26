@@ -11,12 +11,5 @@
 #define D_800EFBC0 D_800ED298
 #define D_8009B3C4 gJapanese_MemCardTransferOffset
 #define D_8009B3C2 gJapanese_MemCardTransferSize
-#define MemCardAccept func_8008A880
-#define MemCardGetDirentry func_8008B668
-#define MemCardReadFile func_8008B228
-#define MemCardWriteFile func_8008B448
-#define MemCardCreateFile func_8008B9F4
-#define MemCardFormat func_8008BAF0
-#define MemCardDialog_UpdateSave func_8003DDF8
 
 #include "../mem_card_dialog_load_save.c"
