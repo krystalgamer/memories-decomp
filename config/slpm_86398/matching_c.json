@@ -2582,6 +2582,12 @@
       "source": "src/game/japanese/duel_effect_reset_entry_markers.c"
     },
     {
+      "address": "0x80035B6C",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x6F8",
+      "source": "src/game/japanese/func_80035e20.c"
+    },
+    {
       "address": "0x80036264",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",

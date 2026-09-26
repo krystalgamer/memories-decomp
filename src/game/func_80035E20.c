@@ -30,6 +30,208 @@
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
+#ifndef FUNC_80035E20_CHANNEL_TYPE
+#define FUNC_80035E20_CHANNEL_TYPE DuelEffectChannel
+#endif
+
+#ifdef VERSION_JAPAN
+/* The Japanese renderer walks 0x18-byte glyph records and draws each glyph
+ * from a single byte: it has neither the Shift-JIS table nor the half-width
+ * glyphs, so every glyph is 16 pixels square.
+ *
+ * Case 1 falls through to case 0 for the plain sprite. With one
+ * GsSortFastSprite call, pri has one reference fewer, so gcc spills it and
+ * gives $s7 to the (u16)pri it hoists out of the loop for case 2's calls,
+ * as retail does; two calls give pri $s7 instead. */
+void func_80035E20(DisplayObject *obj, GsOT *ot)
+{
+    s32 x;
+    s32 y;
+    MATRIX *mat;
+    s32 pri;
+    POLY_FT4 *ft4;
+    SVECTOR *vec;
+    long *res;
+    GsSPRITE *sprites[3];
+    GsSPRITE *spr;
+    POLY_GT4 *gt4;
+    u8 *p;
+    s32 t;
+    s32 w;
+    s32 su;
+    s32 tt;
+    u8 f;
+    u32 b;
+
+    SetGeomScreen(0x12C);
+    x = (s16)obj->field_30.h.field_30;
+    y = (s16)obj->field_30.h.field_32;
+    pri = (s16)obj->field_14;
+    if (!(obj->flags & 8)) {
+        x = x - gGraphics_sViewportX;
+        y = y - gGraphics_sViewportY;
+    }
+    ft4 = (POLY_FT4 *)0x1F800038;
+    vec = (SVECTOR *)0x1F800060;
+    mat = (MATRIX *)0x1F800078;
+    res = (long *)0x1F8000A0;
+    gt4 = (POLY_GT4 *)0x1F800000;
+    sprites[0] = (GsSPRITE *)0x1F8000C0;
+    sprites[1] = (GsSPRITE *)0x1F800100;
+    sprites[2] = (GsSPRITE *)0x1F800140;
+    SetPolyGT4((POLY_GT4 *)0x1F800000);
+    SetSemiTrans((void *)0x1F800000, 1);
+    *(u32 *)&ft4->r0 = 0x808080;
+    setlen(ft4, 9);
+    setcode(ft4, 0x2C);
+    ft4->clut = (obj->field_40.h.field_42 << 6) |
+                (((u16)obj->field_40.h.field_40 >> 4) & 0x3F);
+    t = (obj->attribute >> 0x17) & 0x60;
+    w = obj->attribute & 0x01000000;
+    do {
+        b = obj->field_66;
+    } while (0);
+    if (w) {
+        b |= 0x80;
+    }
+    ft4->tpage = t | b;
+    sprites[0]->attribute = sprites[1]->attribute = sprites[2]->attribute =
+        obj->attribute | 0x08000000;
+    GS_SPRITE_COLOR_WORD(sprites[0]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[1]) = obj->field_0C;
+    GS_SPRITE_COLOR_WORD(sprites[2]) = obj->field_0C;
+    *(u32 *)&sprites[0]->w = 0x100010;
+    *(u32 *)&sprites[1]->w = 0x100010;
+    *(u32 *)&sprites[2]->w = 0x80008;
+    *(u32 *)&sprites[0]->cx = obj->field_40.word;
+    sprites[0]->tpage = obj->field_66;
+    sprites[1]->tpage = sprites[2]->tpage = 0xB;
+    p = (u8 *)((DuelEffectChannel *)&((FUNC_80035E20_CHANNEL_TYPE *)
+                                          D_800EB0F8)[obj->field_67])
+            ->entry_head_24 + 0x14;
+
+    while (1) {
+        f = p[-3];
+        if (!(f & 0x80)) {
+            return;
+        }
+        if (f & 0x60) {
+            if (f & 0x20) {
+                res[0] = p[-4];
+                spr = sprites[1];
+                if (res[0] >= 0x22) {
+                    tt = (u8)res[0];
+                    spr->v = 0x80;
+                    spr->cx = 0x200;
+                    spr->cy = 0xFC;
+                    tt *= 0x10;
+                    tt -= 0x210;
+                    spr->u = tt;
+                    if ((tt & 0xFF) == 0x50) {
+                        spr->cx = 0x210;
+                    }
+                } else {
+                    spr->u = (((u8)res[0] & 7) * 0x10) - 0x80;
+                    spr->v = ((u8)res[0] & 0x38) * 2;
+                    if (res[0] >= 0x19) {
+                        res[0] = 0x18;
+                    }
+                    su = (((u16)res[0] & 0xF) * 0x10) + 0x200;
+                    tt = ((u8)res[0] >> 4) + 0xF9;
+                    spr->cx = su;
+                    spr->cy = tt;
+                }
+            } else {
+                spr = sprites[2];
+                spr->cx = (p[2] * 0x10) + 0x290;
+                spr->cy = 0xFA;
+                spr->u = ((p[-4] & 0xF) * 8) - 0x80;
+                spr->v = (u32)(p[-4] & 0xF0) >> 1;
+            }
+        } else {
+            spr = sprites[0];
+            spr->u = (p[-4] & 0xF) * 0x10;
+            spr->v = p[-4] & 0xF0;
+        }
+        spr->x = *(u16 *)(p - 8) + x;
+        spr->y = *(u16 *)(p - 6) + y;
+        switch (p[1]) {
+        case 1:
+            if ((p[-0xA] | (p[-0xC] | p[-0xB])) != 0) {
+                SetGeomOffset((s16)spr->x + 8, (s16)spr->y + 8);
+                ft4->u0 = ft4->u2 = spr->u;
+                ft4->u1 = ft4->u3 = spr->u + 0xF;
+                ft4->v0 = ft4->v1 = spr->v;
+                tt = spr->v + 0xF;
+                mat->t[0] = 0;
+                mat->t[1] = 0;
+                mat->t[2] = 0x12C;
+                ft4->v2 = ft4->v3 = tt;
+                vec->vx = p[-0xC] * 0x10;
+                vec->vy = p[-0xB] * 0x10;
+                vec->vz = p[-0xA] * 0x10;
+                RotMatrixZYX_gte(vec, mat);
+                GsSetLsMatrix(mat);
+                vec[1].vx = -8;
+                vec[1].vy = -8;
+                vec[1].vz = 0;
+                vec[2].vx = 8;
+                vec[2].vy = -8;
+                vec[2].vz = 0;
+                vec[3].vx = -8;
+                vec[3].vy = 8;
+                vec[3].vz = 0;
+                vec[4].vx = 8;
+                vec[4].vy = 8;
+                vec[4].vz = 0;
+                if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
+                                     (long *)&ft4->x0, (long *)&ft4->x1,
+                                     (long *)&ft4->x2, (long *)&ft4->x3,
+                                     &res[0], &res[1], &res[2]) > 0) {
+                    GsSortPoly(ft4, ot, pri);
+                }
+                break;
+            }
+            /* fallthrough */
+        case 0:
+            GsSortFastSprite(spr, ot, pri);
+            break;
+        case 2:
+            gt4->r0 = gt4->g0 = gt4->b0 = p[-0x10];
+            gt4->r1 = gt4->g1 = gt4->b1 = p[-0xF];
+            gt4->r2 = gt4->g2 = gt4->b2 = p[-0xE];
+            gt4->r3 = gt4->g3 = gt4->b3 = p[-0xD];
+            gt4->x0 = gt4->x2 = spr->x;
+            gt4->x1 = gt4->x3 = spr->x + (p[0] + 0x10);
+            gt4->y0 = spr->y + ((u8)p[0] >> 2);
+            gt4->y1 = spr->y;
+            gt4->y2 = gt4->y3 = spr->y + 0x10;
+            gt4->u0 = gt4->u2 = spr->u;
+            su = spr->u + 0x10;
+            gt4->u1 = gt4->u3 = su;
+            if (!(su & 0xFF)) {
+                gt4->u3 = 0xFF;
+                gt4->u1 = 0xFF;
+            }
+            gt4->v0 = gt4->v1 = spr->v;
+            su = spr->v + 0x10;
+            gt4->v2 = gt4->v3 = su;
+            if (!(su & 0xFF)) {
+                gt4->v3 = 0xFF;
+                gt4->v2 = 0xFF;
+            }
+            gt4->tpage = spr->tpage | 0x20;
+            gt4->clut = (spr->cy << 6) | (((u16)spr->cx >> 4) & 0x3F);
+            GsSortPoly(gt4, ot, pri);
+            gt4->tpage = spr->tpage | 0x40;
+            gt4->clut = 0x3FE2;
+            GsSortPoly(gt4, ot, pri);
+            break;
+        }
+        p += 0x18;
+    }
+}
+#else
 void func_80035E20(DisplayObject *obj, GsOT *ot)
 {
     s32 x;
@@ -437,3 +639,4 @@ void func_80035E20(DisplayObject *obj, GsOT *ot)
         code += 0xE;
     }
 }
+#endif
