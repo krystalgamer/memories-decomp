@@ -64,6 +64,8 @@ segments:
       - [0x50, c, overlays/japanese/overworld_before_coup/rebuild_location_objects]
       - [0x18C, c, overlays/japanese/overworld_before_coup/create_location_label]
       - [0x1E8, asm, overlays/japanese_overworld_before_coup/text_1e8]
+      - [0x258, c, overlays/japanese/overworld_before_coup/update_view]
+      - [0x310, asm, overlays/japanese_overworld_before_coup/text_310]
 
   - name: location_table
     type: code
