@@ -2041,14 +2041,14 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED; | if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
 0x8009B3C1,D_8009B3C1,D_8009B3C1,0x8003F740,MemCardDialog_Start,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3C1 = 0;
-0x8009B3C2,D_8009B3C2,D_8009B3C2,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,16,D_8009B3C2);
-0x8009B3C2,D_8009B3C2,D_8009B3C2,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,D_8009B3C2 += SAVE_DATA_HEADER_SIZE; | D_8009B3C2);
-0x8009B3C2,D_8009B3C2,D_8009B3C2,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,D_8009B3C2 -= 0x80; | if (D_8009B3C2 == 0) {
-0x8009B3C2,D_8009B3C2,D_8009B3C2,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,16,D_8009B3C2 = size;
-0x8009B3C4,D_8009B3C4,D_8009B3C4,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,"D_8009B3C4 += SAVE_DATA_STATE_SIZE; | D_8009B3C4,"
-0x8009B3C4,D_8009B3C4,D_8009B3C4,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,"D_8009B3C4 + SAVE_DATA_STATE_SIZE, 0x480); | D_8009B3C4 = 0; | (+2 more)"
-0x8009B3C4,D_8009B3C4,D_8009B3C4,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,"D_8009B3C4 + SAVE_DATA_STATE_SIZE, 0x480); | D_8009B3C4 += 0x80; | (+2 more)"
-0x8009B3C4,D_8009B3C4,D_8009B3C4,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,16,D_8009B3C4 = 0x200;
+0x8009B3C2,tent_MemCardTransferSize,tent_MemCardTransferSize,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,16,tent_MemCardTransferSize);
+0x8009B3C2,tent_MemCardTransferSize,tent_MemCardTransferSize,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,tent_MemCardTransferSize += SAVE_DATA_HEADER_SIZE; | tent_MemCardTransferSize);
+0x8009B3C2,tent_MemCardTransferSize,tent_MemCardTransferSize,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,if (tent_MemCardTransferSize == 0) { | tent_MemCardTransferSize -= 0x80;
+0x8009B3C2,tent_MemCardTransferSize,tent_MemCardTransferSize,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,16,tent_MemCardTransferSize = size;
+0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,"tent_MemCardTransferOffset += SAVE_DATA_STATE_SIZE; | tent_MemCardTransferOffset,"
+0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,"tent_MemCardTransferOffset + SAVE_DATA_STATE_SIZE, 0x480); | tent_MemCardTransferOffset = 0; | (+2 more)"
+0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,16,"tent_MemCardTransferOffset + SAVE_DATA_STATE_SIZE, 0x480); | tent_MemCardTransferOffset += 0x80; | (+2 more)"
+0x8009B3C4,tent_MemCardTransferOffset,tent_MemCardTransferOffset,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,16,tent_MemCardTransferOffset = 0x200;
 0x8009B3C6,D_8009B3C6,D_8009B3C6,0x8003E46C,MemCardDialog_SetMessage,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3C6 = value;
 0x8009B3C6,D_8009B3C6,D_8009B3C6,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,"D_8009B3EE, D_8009B3C6, 0x20, 0x50, 0x100, 0x30"
 0x8009B3C7,D_8009B3C7,D_8009B3C7,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_8009B3C7 = value;
@@ -2070,8 +2070,8 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3D8,gMemCard_pDialogObject,gMemCard_pDialogObject,0x8003F388,MemCardDialog_CreateObject,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,,gMemCard_pDialogObject = o;
 0x8009B3D8,gMemCard_pDialogObject,gMemCard_pDialogObject,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,,DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject); | gMemCard_pDialogObject = (DisplayObject *)0; | (+5 more)
 0x8009B3D8,gMemCard_pDialogObject,gMemCard_pDialogObject,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,read_write,,DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject); | gMemCard_pDialogObject = (DisplayObject *)0; | (+4 more)
-0x8009B3DC,D_8009B3DC,D_8009B3DC,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"if (MemCardCreateFile(0, (char *)D_800EFE18, D_8009B3DC) != 0) { | needed = D_8009B3DC;"
-0x8009B3DC,D_8009B3DC,D_8009B3DC,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3DC =
+0x8009B3DC,tent_MemCardBlockCount,tent_MemCardBlockCount,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"if (MemCardCreateFile(0, (char *)tent_MemCardFileNameBuffer, tent_MemCardBlockCount) != 0) { | needed = tent_MemCardBlockCount;"
+0x8009B3DC,tent_MemCardBlockCount,tent_MemCardBlockCount,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,tent_MemCardBlockCount =
 0x8009B3DD,D_8009B3DD,D_8009B3DD,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_8009B3DD = 0;
 0x8009B3DD,D_8009B3DD,D_8009B3DD,0x8003DC1C,func_8003DC1C,matching_c,game,C,src/game/func_8003DC1C.c,read,8,MemCardWorkSlot *slot = &D_800EF6D0.slots[D_8009B3DD];
 0x8009B3DE,D_8009B3DE,D_8009B3DE,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,8,D_80090F9C[D_8009B3DE]();
@@ -2083,12 +2083,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x80031000,DebugMenu_UpdateTwoPlayerDuelEntry,matching_c,game,C,src/game/debug_menu_two_player_entry.c,write,8,D_8009B3EA = 0;
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,read_write,8,D_8009B3EA &= 0xBF; | D_8009B3EA = 0x82; | (+11 more)
 0x8009B3EA,D_8009B3EA,D_8009B3EA,0x8003FD14,SaveData_UpdateDuelLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,write,8,D_8009B3EA = 10;
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3EB = 1; | D_8009B3EB = 2; | (+12 more)
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E7D4,MemCardDialog_StepLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 0;
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 1;
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3EB &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED; | D_8009B3EB = 0xA; | (+17 more)
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,D_8009B3EB = 0;
-0x8009B3EB,D_8009B3EB,D_8009B3EB,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3EB &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED; | D_8009B3EB = 0; | (+9 more)
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) { | if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) { | (+12 more)
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003E7D4,MemCardDialog_StepLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,tent_MemCardDialogStepState = 0;
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,tent_MemCardDialogStepState = 1;
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) { | if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) { | (+17 more)
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003EE90,MemCardDialog_StepSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,8,tent_MemCardDialogStepState = 0;
+0x8009B3EB,tent_MemCardDialogStepState,tent_MemCardDialogStepState,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) { | if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) { | (+9 more)
 0x8009B3EC,D_8009B3EC,D_8009B3EC,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,8,D_8009B3EC = 0; | D_8009B3EC = 3; | (+2 more)
 0x8009B3EC,D_8009B3EC,D_8009B3EC,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3EC = 0; | D_8009B3EC++; | (+1 more)
 0x8009B3ED,D_8009B3ED,D_8009B3ED,0x80030EC8,DebugMenu_UpdateTradeEntry,matching_c,game,C,src/game/frontend_scene_states.c,write,8,D_8009B3ED = 0;
@@ -2109,11 +2109,11 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,32,mode = D_8009B3F4; | result = D_8009B3F4; | (+1 more)
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read,32,if (D_8009B3F4 != 0) { | switch (D_8009B3F4) {
 0x8009B3F4,D_8009B3F4,D_8009B3F4,0x8003F454,MemCardDialog_Update,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,32,"1, (long *)&D_8009B3F0, (long *)&D_8009B3F4"
-0x8009B3F9,D_8009B3F9,D_8009B3F9,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"D_801D5648[0] = (D_8009B3F9 >> 4) + 1; | MemCardReadFile(D_8009B3F9, (char *)D_800EFE18, | (+2 more)"
-0x8009B3F9,D_8009B3F9,D_8009B3F9,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
-0x8009B3F9,D_8009B3F9,D_8009B3F9,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,D_8009B3F9 ^= 0x10; | D_801D5648[0] = (D_8009B3F9 >> 4) + 1; | (+6 more)
-0x8009B3F9,D_8009B3F9,D_8009B3F9,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,D_8009B3F9 = 0;
-0x8009B3F9,D_8009B3F9,D_8009B3F9,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,write,8,D_8009B3F9 = 0x10;
+0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,"D_801D5648[0] = (tent_MemCardPort >> 4) + 1; | MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+2 more)"
+0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read,8,D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
+0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,read_write,8,"D_801D5648[0] = (tent_MemCardPort >> 4) + 1; | MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+6 more)"
+0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,8,tent_MemCardPort = 0;
+0x8009B3F9,tent_MemCardPort,tent_MemCardPort,0x8003F8D4,SaveData_UpdateLoadPair,matching_c,game,C,src/game/save_data_transfer_runtime.c,write,8,tent_MemCardPort = 0x10;
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003E46C,MemCardDialog_SetMessage,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,16,*(volatile u16 *)&gMemCard_wDialogFlags = flags | bits; | *(volatile u16 *)&gMemCard_wDialogFlags = flags; | (+1 more)
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,gMemCard_wDialogFlags |= 0x400; | gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING; | (+2 more)
 0x8009B3FA,gMemCard_wDialogFlags,gMemCard_wDialogFlags,0x8003E80C,MemCardDialog_StepLoadUnprompted,matching_c,game,C,src/game/mem_card_dialog_load_save.c,read_write,16,gMemCard_wDialogFlags |= 0x200;
@@ -2652,12 +2652,12 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x800EF6E0,D_800EF6E0,D_800EF6E0,0x8003D300,func_8003D300,matching_c,game,C,src/game/func_8003D300.c,write,8,D_800EF6E0[0] = 1;
 0x800EF6EA,D_800EF6EA,D_800EF6EA,0x8003D46C,DuelEffect_CreateChannel,matching_c,game,C,src/game/duel_effect_create_channel.c,read,8,"D_800EF6EA,"
 0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,"
-0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0, | if (MemCard_FindEntry(D_800EFE18, (struct DIRENTRY *)D_800EFBC0, files) >= 0) { | (+1 more)"
+0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0, | if (MemCard_FindEntry(tent_MemCardFileNameBuffer, (struct DIRENTRY *)D_800EFBC0, files) >= 0) { | (+1 more)"
 0x800EFBC0,D_800EFBC0,D_800EFBC0,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"(struct DIRENTRY *)D_800EFBC0, (long *)&files, 0,"
-0x800EFE18,D_800EFE18,D_800EFE18,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(D_8009B3F9, (char *)D_800EFE18, | if (MemCardGetDirentry(D_8009B3F9, (char *)D_800EFE18,"
-0x800EFE18,D_800EFE18,D_800EFE18,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(0, (char *)D_800EFE18, | MemCardWriteFile(0, (char *)D_800EFE18, | (+2 more)"
-0x800EFE18,D_800EFE18,D_800EFE18,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"MemCardReadFile(D_8009B3F9, (char *)D_800EFE18, | MemCardWriteFile(D_8009B3F9, (char *)D_800EFE18, | (+1 more)"
-0x800EFE18,D_800EFE18,D_800EFE18,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"strcpy(D_800EFE18, name);"
+0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | if (MemCardGetDirentry(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer,"
+0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,address,8,"MemCardReadFile(0, (char *)tent_MemCardFileNameBuffer, | MemCardWriteFile(0, (char *)tent_MemCardFileNameBuffer, | (+2 more)"
+0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"MemCardReadFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | MemCardWriteFile(tent_MemCardPort, (char *)tent_MemCardFileNameBuffer, | (+1 more)"
+0x800EFE18,tent_MemCardFileNameBuffer,tent_MemCardFileNameBuffer,0x8003F758,MemCardDialog_Request,matching_c,game,C,src/game/mem_card_dialog_runtime.c,address,8,"strcpy(tent_MemCardFileNameBuffer, name);"
 0x800EFE38,D_800EFE38,D_800EFE38,0x800400AC,DisplayObject_AcquireSlot,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_800EFE38[key] = index; | other = D_800EFE38[key]; | (+1 more)
 0x800EFE38,D_800EFE38,D_800EFE38,0x8004020C,DisplayObject_Release,matching_c,game,C,src/game/display_object_core.c,write,16,D_800EFE38[index] = second;
 0x800EFE38,D_800EFE38,D_800EFE38,0x800402A0,DisplayObject_MoveToListHead,matching_c,game,C,src/game/display_object_core.c,read_write,16,D_800EFE38[key] = slot->field_0A; | slot->next = D_800EFE38[key]; | (+1 more)
@@ -3248,9 +3248,9 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x801D5608,D_801D5608,D_801D5608,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,,D_801D5608[0].blocks.needed = needed; | D_801D5608[0].blocks.used = MEM_CARD_BLOCK_COUNT - message;
 0x801D5608,D_801D5608,D_801D5608,0x8003FD14,SaveData_UpdateDuelLoad,matching_c,game,C,src/game/save_data_transfer_runtime.c,address,,state = D_801D5608;
 0x801D5608,D_801D5608,D_801D5608,0x80060E70,func_80060E70,matching_c,game,C,src/game/func_80060E70.c,write,,D_801D5608[0].card.card_id = id; | dst = D_801D5608;
-0x801D5648,D_801D5648,D_801D5648,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,32,D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
-0x801D5648,D_801D5648,D_801D5648,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,32,D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
-0x801D5648,D_801D5648,D_801D5648,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,32,D_801D5648[0] = (D_8009B3F9 >> 4) + 1;
+0x801D5648,D_801D5648,D_801D5648,0x8003E490,MemCardDialog_UpdateLoad,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,32,D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
+0x801D5648,D_801D5648,D_801D5648,0x8003E854,MemCardDialog_UpdateSave,matching_c,game,C,src/game/mem_card_dialog_load_save.c,write,32,D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
+0x801D5648,D_801D5648,D_801D5648,0x8003EED0,MemCardDialog_UpdateTradeSave,matching_c,game,C,src/game/mem_card_dialog_runtime.c,write,32,D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
 0x801D56A8,D_801D56A8,D_801D56A8,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,32,D_801D56A8[0] = dropped_card;
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,write,8,gText_abColorSlots[0] = 4; | gText_abColorSlots[1] = 4; | (+1 more)
 0x801D5708,gText_abColorSlots,gText_abColorSlots,0x80038498,func_80038498,matching_c,game,C,src/game/duel_effect_command.c,read,8,w = gText_abColorSlots[v & 0xF];

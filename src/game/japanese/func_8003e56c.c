@@ -1,5 +1,3 @@
-#define D_8009B3C4 gJapanese_MemCardTransferOffset
-#define D_8009B3EB gJapanese_MemCardDialogStepState
 #include "../../types.h"
 #include "../duel_effect.h"
 #include "../mem_card.h"
@@ -13,8 +11,8 @@ void func_8003E56C(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
-        D_8009B3C4 = 0;
-        D_8009B3EB = 0;
+        tent_MemCardTransferOffset = 0;
+        tent_MemCardDialogStepState = 0;
         gMemCard_wDialogFlags |= 0x100;
     }
     MemCardDialog_UpdateSave();

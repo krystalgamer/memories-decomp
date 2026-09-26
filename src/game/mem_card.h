@@ -78,7 +78,7 @@ extern u8 D_8001032C[];
  * The incomplete-array spelling is the one all four consumers already wrote
  * and is kept. c_symbols.ld names D_800EFE38 thirty-two bytes later, but
  * nothing reads or writes through a bound, so no size is asserted here. */
-extern u8 D_800EFE18[];
+extern u8 tent_MemCardFileNameBuffer[];
 
 /* Takes full words. The body only stores the low byte of `value` and ors
  * `bits` into the flag halfword, so every constant caller builds the same
@@ -110,7 +110,7 @@ extern long gMemCard_aHwIOEventHandles[];
  *
  *   D_8009B3EF  The request's outcome, set to 1, 2 or 3 by the create, load
  *               and save paths and read back by the dialog runtime.
- *   D_8009B3DC  The block count a save needs; computed by
+ *   tent_MemCardBlockCount  The block count a save needs; computed by
  *               mem_card_dialog_runtime.c and passed as MemCardCreateFile's
  *               third argument.
  *   D_8009B3DE  The dialog step index. mem_card_dialog_runtime.c calls
@@ -237,7 +237,7 @@ extern u8 D_8009B3C6;
 extern DisplayObject *gMemCard_pDialogObject;
 extern u8 *gMemCard_pPrimaryTransferCursor;
 extern u8 *gMemCard_pSecondaryTransferCursor;
-extern u8 D_8009B3DC;
+extern u8 tent_MemCardBlockCount;
 extern u8 D_8009B3DE;
 extern u8 D_8009B3EC;
 extern s32 D_8009B3F0;

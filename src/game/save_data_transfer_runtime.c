@@ -93,7 +93,7 @@ void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)
  * sprite pointer in cases 0 and 0xA, which is what puts it in $s0 (its live
  * range crosses the wait loop's calls in 0xA); the record passed to
  * TextBox_Destroy as its ADDRESS, index-first (`&D_800EB0F8[i]`; m2c had read
- * it as a load); case 3's `v = 0` before the D_8009B3F9 store reaching a
+ * it as a load); case 3's `v = 0` before the tent_MemCardPort store reaching a
  * SHARED `return v` through a goto, so the zero stays a variable; and the
  * flags read through a block-local base `q = D_800EB0F8` so the 0x34 is a
  * load displacement rather than folded into %lo. */
@@ -176,7 +176,7 @@ s32 SaveData_UpdateLoadPair(void)
                     1
                 );
                 v = 0;
-                D_8009B3F9 = 0x10;
+                tent_MemCardPort = 0x10;
                 goto done;
             }
             return v;
