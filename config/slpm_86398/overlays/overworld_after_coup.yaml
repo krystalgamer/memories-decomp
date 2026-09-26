@@ -67,7 +67,8 @@ segments:
       - [0x258, c, overlays/japanese/overworld_after_coup/update_view]
       - [0x310, c, overlays/japanese/overworld_after_coup/reset_camera]
       - [0x388, c, overlays/japanese/overworld_after_coup/move_camera_dpad]
-      - [0x588, asm, overlays/japanese_overworld_after_coup/text_588]
+      - [0x588, c, overlays/japanese/overworld_after_coup/create_location_marker]
+      - [0x66C, asm, overlays/japanese_overworld_after_coup/text_66c]
       - [0x8BC, c, overlays/japanese/overworld_after_coup/start_camera_tween]
       - [0xAA8, asm, overlays/japanese_overworld_after_coup/text_aa8]
 
