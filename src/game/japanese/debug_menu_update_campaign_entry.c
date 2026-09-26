@@ -10,5 +10,4 @@
 #define D_80090CDC D_80090B8C
 #define D_80090CF4 D_80090BA4
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define Dialog_OpenChoice func_80036CAC
 #include "../debug_menu_editor_entries.c"
