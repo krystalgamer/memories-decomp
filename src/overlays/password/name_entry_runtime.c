@@ -36,17 +36,22 @@
    name_entry_keyboard_update.c; the
    dialog and completion handling after it are in name_entry_dialog.c. */
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_BUILD_KEYBOARD_TEXT_BOX)
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;
 
+#ifndef VERSION_JAPAN
     func_8003B6AC(1, 1);
+#endif
     object = TextBox_Create(1, textOffset + 0xF0, 0x16, 0x18, 0x140, 0xF0);
     object->field_5A = 0x14;
     object->field_5B = 0x12;
     func_80039A14((struct DuelEffectChannel *)object);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_DRAW_SELECTION_FRAME)
 void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 {
     LINE_F3 *poly;
@@ -113,7 +118,9 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
     line->x1 = 320;
     func_8005B260((u32 *)line, ot, (u16)pri, 1);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_INIT)
 void NameEntry_Init(void)
 {
     DisplayObject *obj;
@@ -128,19 +135,30 @@ void NameEntry_Init(void)
     D_8016D418 = gSaveData_aPlayerNameSjis;
     Text_SjisToGlyphCodes(D_801B125A, gSaveData_aPlayerNameSjis,
                   SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
+#ifndef VERSION_JAPAN
     func_8003B6AC(3, 1);
+#endif
     TextBox_Create(3, 254, 112, 204, 96, 16);
+#ifdef VERSION_JAPAN
+    func_80039A14((struct DuelEffectChannel *)D_800EB0F8);
+#else
     boxes = D_800EB0F8;
     boxes[3].field_5A = 16;
     boxes[3].field_5B = 16;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
     func_8003B6AC(0, 1);
+#endif
     sprite = TextBox_Create(0, 243, 262, 60, 100, 100);
     sprite->field_5A = 20;
     sprite->field_5B = 18;
     func_80039A14((struct DuelEffectChannel *)sprite);
+#ifdef VERSION_JAPAN
+    D_8016D4D0 = 0;
+    NameEntry_BuildKeyboardTextBox(0);
+#else
     D_8016D4D0 = 2;
     NameEntry_BuildKeyboardTextBox(2);
+#endif
     D_8016D426 = 0;
     D_8016D402 = 0;
     D_8016D401 = 0;
@@ -172,7 +190,9 @@ void NameEntry_Init(void)
     D_8016D4D2 = 244;
     Fade_WaitIn();
 }
+#endif
 
+#ifndef VERSION_JAPAN
 DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
     DuelEffectChannel *base;
@@ -503,3 +523,4 @@ s32 NameEntry_AdjustLength(s32 delta, s32 arg)
     SD_SEPlayFull(0xC);
     return 1;
 }
+#endif
