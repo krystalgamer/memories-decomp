@@ -71,6 +71,7 @@ segments:
       - [0x66C, c, overlays/japanese/overworld_after_coup/set_location]
       - [0x8BC, c, overlays/japanese/overworld_after_coup/start_camera_tween]
       - [0xAA8, asm, overlays/japanese_overworld_after_coup/text_aa8]
+      - [0xFCC, c, overlays/japanese/overworld_after_coup/update_location]
 
   - name: location_table
     type: code
