@@ -22,6 +22,12 @@
 #include "../../game/sound.h"
 #include "../../game/graphics_frame.h"
 
+#ifdef VERSION_JAPAN
+#define MAIN_MENU_FRONTEND_CANCEL_BUTTON PAD_BUTTON_CROSS
+#else
+#define MAIN_MENU_FRONTEND_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+
 s32 MainMenu_UpdateFrontendMenu(void)
 {
     DisplayObject *ent3;
@@ -303,7 +309,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     if ((gInput_wPad1Pressed & (PAD_BUTTON_START | PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
         return -1;
     }
-    if ((gInput_wPad1Pressed & PAD_BUTTON_CANCEL) != 0) {
+    if ((gInput_wPad1Pressed & MAIN_MENU_FRONTEND_CANCEL_BUTTON) != 0) {
         if ((u32)gMain_bMenuID < 5) {
             SD_SEPlay(9, 0xFF, 0);
             return -1;
