@@ -101,6 +101,18 @@
 #define CARD_PLACE_X(card) (*(s16 *)((u8 *)(card) + 8))
 #define CARD_PLACE_Y(card) (*(s16 *)((u8 *)(card) + 0xA))
 
+#ifdef VERSION_JAPAN
+/* The Japanese build cancels with Cross, confirms with Circle or Square, and
+ * reads the card viewer's cell from the side's own column and row. */
+#define HAND_ACTIONS_CANCEL_MASK PAD_BUTTON_CROSS
+#define HAND_ACTIONS_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#define HAND_ACTIONS_VIEWER_CELL (side->row * 5 + side->col)
+#else
+#define HAND_ACTIONS_CANCEL_MASK PAD_BUTTON_CANCEL
+#define HAND_ACTIONS_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#define HAND_ACTIONS_VIEWER_CELL (FIELD_CURSOR.row * 5 + FIELD_CURSOR.col)
+#endif
+
 void DuelScene_UpdateHandActions(void)
 {
     DuelSelectionRecord *side;
@@ -358,7 +370,7 @@ void DuelScene_UpdateHandActions(void)
                 func_8001B7AC(DUEL_HAND_STACK_STATE_VIEW(side));
                 return;
             }
-        } else if ((gInput_wPad1Pressed & 0x20) ||
+        } else if ((gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) ||
                    ((gInput_wPad1Pressed & 0xFFFF) == 0x4000 &&
                     gInput_wPad1Held == 0x4000)) {
             value = hand->active_09;
@@ -387,7 +399,7 @@ void DuelScene_UpdateHandActions(void)
                 gDuel_wSceneStateFlags |= 0x4000;
                 return;
             }
-            if ((gInput_wPad1Pressed & 0xC0) && side->field_15 != 1) {
+            if ((gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) && side->field_15 != 1) {
                 SD_SEPlayFull(7);
                 D_8009B174 = 4;
                 func_8001B8B8(side);
@@ -486,7 +498,7 @@ void DuelScene_UpdateHandActions(void)
                 SD_SEPlayFull(0xB);
                 return;
             }
-            if (gInput_wPad1Pressed & 0x20) {
+            if (gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) {
                 SD_SEPlayFull(8);
                 if (obj->face != 0) {
                     obj->step = 0x10;
@@ -495,7 +507,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 goto restore;
             }
-            if (gInput_wPad1Pressed & 0xC0) {
+            if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
                 SD_SEPlayFull(7);
                 D_801A7AD8[obj->card_index].flags &= 0xEFFF;
                 if (obj->face != 0) {
@@ -540,7 +552,7 @@ void DuelScene_UpdateHandActions(void)
             }
         } else if (DuelCursor_UpdateFromInput((void *)D_8009B1B4) == 0) {
             value = Duel_GetCardViewerRequestId(
-                &D_801A7AD8[D_800907D8[FIELD_CURSOR.row * 5 + FIELD_CURSOR.col +
+                &D_801A7AD8[D_800907D8[HAND_ACTIONS_VIEWER_CELL +
                                        D_8009B1D5 * 20]]);
             if (value != 0) {
                 gDuel_bCardViewerYOffset = 0x14;
@@ -548,13 +560,13 @@ void DuelScene_UpdateHandActions(void)
                 gDuel_bEffectState = 2;
                 return;
             }
-            if (gInput_wPad1Pressed & 0x20) {
+            if (gInput_wPad1Pressed & HAND_ACTIONS_CANCEL_MASK) {
                 D_8009B162 = 0xC;
                 D_8009B174 |= 0x50;
                 SD_SEPlayFull(8);
                 return;
             }
-            if (gInput_wPad1Pressed & 0xC0) {
+            if (gInput_wPad1Pressed & HAND_ACTIONS_CONFIRM_MASK) {
             confirm:
                 SD_SEPlayFull(7);
                 for (n = 6; n >= 0; n--) {
