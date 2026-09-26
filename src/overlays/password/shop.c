@@ -211,7 +211,7 @@ void Password_RecreateCardPreview(s32 ignored)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_INIT_SHOP_SCREEN)
 void Password_InitShopScreen(void)
 {
     s32 i;
@@ -241,7 +241,11 @@ void Password_InitShopScreen(void)
     cardCache->field_2C = 512;
     cardCache->field_2E = 240;
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+#ifdef VERSION_JAPAN
+    DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 0, 31, 257);
+#else
     DisplayObject_ConfigureSpriteAtPosition(o, 152, 40, 0, 2, 3, 31, 257);
+#endif
     DisplayObject_SetDepthOffset(o, -8);
     o->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Password_RecreateCardPreview(1);
