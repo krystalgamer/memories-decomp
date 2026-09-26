@@ -23,6 +23,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB8",
       "source": "src/overlays/japanese/overworld_after_coup/update_view.c"
+    },
+    {
+      "address": "0x80168310",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x78",
+      "source": "src/overlays/japanese/overworld_after_coup/reset_camera.c"
     }
   ],
   "schema": 1
