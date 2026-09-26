@@ -277,7 +277,7 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
 
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_SET_LOCATION)
 void CampaignMap_SetLocation(s32 index)
 {
     u8 *obj;
