@@ -31,6 +31,10 @@
 #include "sound.h"
 #include "../unmatched.h"
 
+#ifndef DUEL_CARD_STAGING_CONFIRM_MASK
+#define DUEL_CARD_STAGING_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
+
 #define DISPLAY_OBJECT_POSITION_VIEW(object) \
     ((DisplayObjectPosition *)(object))
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
@@ -95,10 +99,14 @@ void func_8001B170(void)
             D_8009B174 |= 0x80;
             gDuel_wSelectedCardID =
                 D_8015C424_cards.field_cards[object->field_6A].card_id;
+#ifdef VERSION_JAPAN
+            box = TextBox_CreateFlagged(0, 0x21, 0x50, 0x6E, 0xA0, 0x30, 0x20);
+#else
             func_8003B6AC(0, 0xB);
             box = TextBox_CreateFlagged(0, 0x21, 0x48, 0x6E, 0xB0, 0x30, 0x20);
             box->field_5A = 8;
             box->field_5B = 0x10;
+#endif
             do {
                 func_80039794();
             } while (box->field_30 == 0);
@@ -115,7 +123,7 @@ state_four:
             break;
         }
         if (!Dialog_ReadChoiceInput(D_800EB0F8) &&
-            (gInput_wPad1Pressed & 0xC0)) {
+            (gInput_wPad1Pressed & DUEL_CARD_STAGING_CONFIRM_MASK)) {
             SD_SEPlayFull(7);
             D_8009B174 |= 0x10;
         }
