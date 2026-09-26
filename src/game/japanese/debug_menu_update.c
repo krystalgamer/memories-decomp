@@ -10,7 +10,6 @@
 #define FntPrint func_8007DB74
 #define D_8009AF54 gJapanese_D_8009AF54
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define gDebugMenu_bPage gJapanese_DebugMenuPage
 #define gDebugMenu_apfnAlternatePageSteps D_80090C2C
 #define gDebugMenu_apfnPrimaryPageSteps D_80090C34
 #include "../debug_menu_update.c"

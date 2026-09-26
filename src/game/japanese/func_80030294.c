@@ -13,8 +13,6 @@
 #define D_8009B2EA gJapanese_DebugInterfaceFlags
 #define D_8009B2EC gJapanese_DebugInterfaceData
 #define FntPrint func_8007DB74
-#define gDebug_bEditorDigit gJapanese_DebugEditorDigit
-#define gDebug_bEditorRow gJapanese_DebugEditorRow
 
 /* Values that differ in the Japanese release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */

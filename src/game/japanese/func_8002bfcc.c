@@ -6,5 +6,4 @@
 #define D_8009B0C0 gJapanese_D_8009B0C0
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_800E9D70 gJapanese_D_800E9D70
-#define gLibrary_abCardChest gJapanese_LibraryCardChest
 #include "../library_runtime.c"
