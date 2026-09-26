@@ -5,6 +5,5 @@
 #define D_8009B0F4 gJapanese_FileTransferFlags
 #define D_8009B100 D_8009AFF0
 #define D_8009B130 gJapanese_D_8009B130
-#define DsCommand func_80079E60
 #define func_80014294 Japanese_func_80014294
 #include "../func_80014294.c"

@@ -9,7 +9,4 @@
 #define D_8009B234 gJapanese_D_8009B234
 #define D_8009B368 gJapanese_D_8009B368
 #define D_800EB0F8 gJapanese_D_800EB0F8
-#define MainMenu_StartValueSetup func_80180FD8
-#define MainMenu_UpdateValueSetup func_801812B4
-#define MainMenu_FinishValueSetup func_80181E30
 #include "../main_run_two_player_duel_setup.c"
