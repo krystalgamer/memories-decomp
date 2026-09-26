@@ -260,7 +260,7 @@ void MemCardDialog_CreateObject(void)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE)
 void MemCardDialog_Update(void)
 {
     DuelEffectChannel *p;
@@ -278,7 +278,13 @@ void MemCardDialog_Update(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, 0x20, 0x100, D_8009B3EE
             ) == 0) {
+#ifdef VERSION_JAPAN
+            TextBox_Destroy((DuelEffectChannel *)(
+                (u8 *)D_800EB0F8 +
+                D_8009B3EE * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE));
+#else
             TextBox_Destroy(&D_800EB0F8[D_8009B3EE]);
+#endif
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
             gMemCard_pDialogObject = (DisplayObject *)0;
         }
@@ -309,7 +315,13 @@ void MemCardDialog_Update(void)
             goto b14;
         }
         func_80039794();
+#ifdef VERSION_JAPAN
+        p = (DuelEffectChannel *)(
+            (u8 *)D_800EB0F8 +
+            D_8009B3EE * MEM_CARD_DIALOG_EFFECT_CHANNEL_STRIDE);
+#else
         p = &D_800EB0F8[D_8009B3EE];
+#endif
         if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
             TEXT_BOX_FLAG_DONE) {
             return;
@@ -329,6 +341,9 @@ void MemCardDialog_Update(void)
         if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
             gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
             MemCardStart();
+#ifdef VERSION_JAPAN
+            func_8008D680();
+#endif
             D_8009B3EF = 2;
             MemCardDialog_CreateObject();
             gMemCard_pDialogObject->field_60 = -0x400;
@@ -361,6 +376,9 @@ b25:
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
     gMemCard_pDialogObject->field_60 = 0x400;
+#ifdef VERSION_JAPAN
+    func_8008D6F0();
+#endif
     MemCardStop();
 }
 #endif
