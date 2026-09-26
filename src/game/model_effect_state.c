@@ -34,7 +34,6 @@
    key when that one is kind 1. With `den` zero the divisor is instead the sum
    of the distinct keys' +0x22 durations. Each of the three components is then
    Horner-evaluated at scale/den and added to the constant term. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_KEYFRAME_SPLINE)
 void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
 {
     Key *keys[3] = {
@@ -98,9 +97,7 @@ void func_8005EBF4(Key *cur, s32 k, s32 scale, s32 den, s16 *out)
         out[i] = co[i].w + v;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F070)
 /* Refreshes the current pose at D_800F5768 that the evaluator above uses as
    its first control point, from the two source records returned by
    Model_GetCameraViewBuffer and Model_GetViewMetricsBuffer, and optionally
@@ -141,44 +138,32 @@ void func_8005F070(s32 enabled)
         }
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_GET)
 s32 func_8005F174(void)
 {
     return D_8009B07B;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_SET)
 void func_8005F180(s32 value)
 {
     D_8009B07B = value;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_GET2)
 s32 func_8005F18C(void)
 {
     return D_8009B07C;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GATE_SET2)
 void func_8005F198(s32 value)
 {
     D_8009B07C = value;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_GET_COEFFICIENT)
 ModelEffectCoefficient *func_8005F1A4(s32 index)
 {
     return &tent_ModelEffectCoefficients[index];
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F1B8)
 s32 func_8005F1B8(s32 level, s32 value)
 {
     ModelEffectAdjustment local;
@@ -209,9 +194,7 @@ s32 func_8005F1B8(s32 level, s32 value)
 
     return value;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_ADJUST)
 void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 {
     ModelEffectCoefficient *r;
@@ -253,9 +236,7 @@ void func_8005F27C(s32 arg0, s32 arg1, SVECTOR *arg2)
 
     func_8005F3B8(arg0, v, r->angle, r->field_04, arg2);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_CAMERA)
 void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
 {
     unsigned short *p = Model_GetCameraViewBuffer();
@@ -287,9 +268,7 @@ void func_8005F3B8(int mode, int y, int a, int b, SVECTOR *offset)
     func_8005F070(1);
     func_80059EBC(-1);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_COUNTER)
 int func_8005F564(void)
 {
     if (D_8009B07A < 0) {
@@ -297,9 +276,7 @@ int func_8005F564(void)
     }
     return D_8009B07A++ > 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F588)
 void func_8005F588(int value)
 {
     if (D_8009B07B != 1 || D_8009B07C != 1) {
@@ -311,8 +288,6 @@ void func_8005F588(int value)
     }
 }
 
-#endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F5C8)
 /* If D_8009B07B==1 and D_8009B07C matches it, bail early. Otherwise reads
    tent_ModelEffectCoefficients[arg1].field_00 as a base stat value; if arg0 (level?) < 2, scales
    the stat by a growth ratio derived from func_80059000's output clamped
@@ -347,9 +322,7 @@ void func_8005F5C8(s32 arg0, s32 arg1, SVECTOR *offset, s32 arg3) {
 
     func_8005D994(arg0, s0, rec->angle, rec->field_04, offset, arg3);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F714)
 void func_8005F714(s32 a, s32 b, s32 c)
 {
     ModelEffectEndpoint *x =
@@ -370,9 +343,7 @@ void func_8005F714(s32 a, s32 b, s32 c)
     }
     func_8005F91C(flag, x, y, c);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F7B0)
 void func_8005F7B0(s32 value, s32 arg)
 {
     /* The aligned array keeps retail's four halfword stores; a packed local
@@ -396,9 +367,7 @@ void func_8005F7B0(s32 value, s32 arg)
         flag, MODEL_EFFECT_ENDPOINT_VIEW(&d), MODEL_EFFECT_ENDPOINT_VIEW(&d), arg
     );
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F828)
 void func_8005F828(s32 count, void *p1, void *p2, s32 arg3)
 {
     s8 raw172;
@@ -453,8 +422,6 @@ cont:
     } while (count != 0);
 }
 
-#endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005F91C)
 void func_8005F91C(
     s32 arg0,
     ModelEffectEndpoint *arg1,
@@ -534,9 +501,7 @@ m2:
     D_8009B079 = 0;
     D_8009B07A = -1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FAE4)
 void func_8005FAE4(void)
 {
     D_8009B074 = 0;
@@ -546,16 +511,12 @@ void func_8005FAE4(void)
     D_8009B07B = 0;
     D_8009B07C = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_KEY_COUNT_EMPTY)
 int func_8005FB08(void)
 {
     return D_8009B078 == 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_KEYFRAME_POINTER)
 int func_8005FB14(void)
 {
     int value = 0;
@@ -565,9 +526,7 @@ int func_8005FB14(void)
     }
     return value;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_EFFECT_TRANSFER_ITEMS)
 void func_8005FB30(Key *key)
 {
     u8 *data = KEY_BYTES(key);
@@ -593,9 +552,7 @@ void func_8005FB30(Key *key)
         }
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8005FBC4)
 void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
 {
     int x = (b - c) * scale;
@@ -606,4 +563,3 @@ void func_8005FBC4(int a, int b, int c, int d, Coeff *out, int scale)
     out->y = y;
     out->z = z;
 }
-#endif
