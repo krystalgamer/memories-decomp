@@ -42,3 +42,7 @@ Fade_InitOut = 0x800157A4;
 SD_SEPlayFull = 0x8003F5C0;
 DisplayObject_SavePosition = 0x80042858;
 DisplayObject_InterpolatePositionCosine = 0x8004286C;
+func_8004EB9C = 0x8004E8E0;
+func_80065B24 = 0x80064BCC;
+D_800C4E68 = 0x800C57D0;
+D_800C4E74 = 0x800C57DC;

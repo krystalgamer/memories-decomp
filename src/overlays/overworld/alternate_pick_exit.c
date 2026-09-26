@@ -1,6 +1,14 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
+#if defined(VERSION_JAPAN)
+#define ALTERNATE_EXIT_CANCEL_BUTTON 0x40
+#define ALTERNATE_EXIT_CONFIRM_BUTTONS 0xA0
+#else
+#define ALTERNATE_EXIT_CANCEL_BUTTON 0x20
+#define ALTERNATE_EXIT_CONFIRM_BUTTONS 0xC0
+#endif
+
 s32 CampaignMap_PickAlternateExit(void)
 {
     s32 i;
@@ -12,14 +20,14 @@ s32 CampaignMap_PickAlternateExit(void)
     q = p->exits;
     if (D_8016A2BC >= 10) {
         if (func_8004EB9C(71) != 0) {
-            if ((D_800C4E68 & 0x20) != 0) {
+            if ((D_800C4E68 & ALTERNATE_EXIT_CANCEL_BUTTON) != 0) {
                 func_80065B24(48);
                 D_8016A2B8 = 24;
                 return 0;
             }
         }
     }
-    if ((D_800C4E68 & 0xC0) != 0) {
+    if ((D_800C4E68 & ALTERNATE_EXIT_CONFIRM_BUTTONS) != 0) {
         if ((r = p->f0) != 0) {
             if (func_8004EB9C(q->f0) != 0) {
                 r = 0;
