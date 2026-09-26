@@ -234,7 +234,7 @@ segments:
       - [0x1378c, c, game/japanese/duel_field_display_source_objects]
       - [0x13ad4, c, game/japanese/duel_field_display_source]
       - [0x13b2c, c, game/japanese/duel_field_display_object]
-      - [0x13c08, asm, func_80023408]
+      - [0x13c08, c, game/japanese/duel_field_display_update]
       - [0x14338, c, game/japanese/func_80023D08]
       - [0x145ec, c, game/func_80023FBC]
       - [0x14690, c, game/duel_cursor_status]
