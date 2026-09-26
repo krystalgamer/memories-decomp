@@ -33,13 +33,12 @@
    trade operations through D_80090F9C; all paths share the dialog flags,
    result words, active channel, and request outcome. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_NONE)
+#ifndef VERSION_JAPAN
 void MemCardDialog_StepNone(void)
 {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE_TRADE_SAVE)
 void MemCardDialog_UpdateTradeSave(void)
 {
     s32 files;
@@ -184,9 +183,7 @@ void MemCardDialog_UpdateTradeSave(void)
         goto write;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_STEP_SLIDE)
 s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
                             s32 index)
 {
@@ -229,9 +226,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 arg1, s32 arg2,
 
     return object->field_6C;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_CREATE_OBJECT)
 void MemCardDialog_CreateObject(void)
 {
     s32 i = 0;
@@ -258,9 +253,7 @@ void MemCardDialog_CreateObject(void)
     DisplayObject_SetDepthOffset(o, 0xF);
     gMemCard_pDialogObject = o;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_UPDATE)
 void MemCardDialog_Update(void)
 {
     DuelEffectChannel *p;
@@ -381,9 +374,7 @@ b25:
 #endif
     MemCardStop();
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_POLL)
 int MemCardDialog_Poll(void)
 {
     MemCardDialog_Update();
@@ -392,18 +383,14 @@ int MemCardDialog_Poll(void)
     }
     return D_8009B3EF;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_START)
 void MemCardDialog_Start(s32 step)
 {
     gMemCard_wDialogFlags = MEM_CARD_DIALOG_FLAG_ACTIVE;
     D_8009B3DE = step;
     D_8009B3C1 = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MEM_CARD_DIALOG_REQUEST)
 void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step)
 {
     strcpy(tent_MemCardFileNameBuffer, name);
@@ -415,4 +402,3 @@ void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step)
     gMemCard_pPrimaryTransferCursor = buf;
     MemCardDialog_Start(step);
 }
-#endif
