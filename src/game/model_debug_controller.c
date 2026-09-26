@@ -19,7 +19,14 @@
 #include "file_transfer.h"
 #include "../psyq/rand.h"
 
+#ifdef VERSION_JAPAN
+#define MODEL_DEBUG_CANCEL_MASK 0x40
+/* Keep the load delay while the original data segment owns the storage. */
+ModelDebugState D_8009B004;
+#else
+#define MODEL_DEBUG_CANCEL_MASK 0x20
 ModelDebugState D_8009B004 = {0};
+#endif
 
 s32 ModelDebug_UpdateController(void)
 {
@@ -32,14 +39,17 @@ s32 ModelDebug_UpdateController(void)
         return 1;
     if (D_8009AF9A >= 40)
         return 0;
-    if ((gInput_wPad1Pressed & 0x20) || (gInput_wPad2Pressed & 0x20)) {
+    if ((gInput_wPad1Pressed & MODEL_DEBUG_CANCEL_MASK) ||
+        (gInput_wPad2Pressed & MODEL_DEBUG_CANCEL_MASK)) {
         D_8009AF9A = 40;
         return 0;
     }
     slots = D_800F2C40;
     if (!slots[2].field_E1F) {
         Model_SetFrameStepOverride(1);
+#ifndef VERSION_JAPAN
         FntPrint(D_80011518, slots[2].field_DF8, slots[2].field_E14);
+#endif
         if (slots[2].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(2, -1, -1, -1, -1, -1, 0);
@@ -69,7 +79,9 @@ s32 ModelDebug_UpdateController(void)
         }
     } else if (!slots[0].field_E1F) {
         Model_SetFrameStepOverride(1);
+#ifndef VERSION_JAPAN
         FntPrint(D_8001152C, slots[0].field_DF8, slots[0].field_E14);
+#endif
         if (slots[0].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(0, -1, -1, -1, -1, -1, 0);
@@ -80,7 +92,9 @@ s32 ModelDebug_UpdateController(void)
             Model_SetSlotShadowEnabled(0, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     } else if (!slots[1].field_E1F) {
         Model_SetFrameStepOverride(1);
+#ifndef VERSION_JAPAN
         FntPrint(D_80011540, slots[1].field_DF8, slots[1].field_E14);
+#endif
         if (slots[1].field_E14 == 255) {
             if (!((D_8009B0F4_abs & 0x2000030) | D_8009B134_abs))
                 Model_LoadMonsterMerge(1, -1, -1, -1, -1, -1, 0);
@@ -90,6 +104,7 @@ s32 ModelDebug_UpdateController(void)
         if (D_800F2C40[1].field_E1F)
             Model_SetSlotShadowEnabled(1, ((D_8009AF88[0xA1] >> 1) ^ 1) & 1);
     }
+#ifndef VERSION_JAPAN
     if ((gInput_wPad1Held & 0x100) && (gInput_wPad2Pressed & 0x100))
         D_8009B008.display_enabled ^= 1;
     if (!D_8009B008.display_enabled)
@@ -207,5 +222,6 @@ s32 ModelDebug_UpdateController(void)
             D_8009B48E[1], D_8009B490[1]);
         Model_SetSlotProperties(2, (u16)D_8009B488[2]);
     }
+#endif
     return 0;
 }
