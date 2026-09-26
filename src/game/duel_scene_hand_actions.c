@@ -167,7 +167,7 @@ void DuelScene_UpdateHandActions(void)
         return;
     }
 
-    hand = &D_800EA030[(s8)side->field_0E];
+    hand = &tent_DuelHandDisplayRecords[(s8)side->field_0E];
     switch (D_8009B174 & 0xF) {
     case 2:
         if (!(D_8009B174 & 0x80)) {
@@ -333,7 +333,7 @@ void DuelScene_UpdateHandActions(void)
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
             for (n = 0; n < 5; n++) {
-                HAND_CARD_OBJECT_VIEW(D_800EA030[n].object)->color = 0x808080;
+                HAND_CARD_OBJECT_VIEW(tent_DuelHandDisplayRecords[n].object)->color = 0x808080;
             }
         }
         if (Duel_CheckQuitInput() != 0) {
@@ -381,7 +381,7 @@ void DuelScene_UpdateHandActions(void)
                 DisplayObject_ReleaseIfPresent(hand->child);
                 hand->child = 0;
                 side->field_15--;
-                hand = D_800EA030;
+                hand = tent_DuelHandDisplayRecords;
                 for (n = 0; n < 5; n++, hand++) {
                     v = hand->active_09;
                     if (v >= value) {
@@ -598,7 +598,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 /* Collect the marked cards in pick order. A missing order
                  * ends the walk: 8 is past the loop bound. */
-                for (value = 1, first_slot = D_800EA030; value < 6; value++) {
+                for (value = 1, first_slot = tent_DuelHandDisplayRecords; value < 6; value++) {
                     s8 none = -1;
 
                     do {

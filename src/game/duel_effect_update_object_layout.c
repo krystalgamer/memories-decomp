@@ -62,7 +62,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q->field_50.h.field_52 = w;
     q->field_48.h.field_4A = w;
 #else
-    k = D_800EB288[
+    k = tent_DuelEffectEntries[
         gDuelEffect_awEntryRangeBoundaries[p->index_57]
     ].field_18 % 10;
 

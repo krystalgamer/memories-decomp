@@ -8,7 +8,7 @@ struct DisplayObject;
 
 #define DUEL_HAND_SLOT_OFFSET(member) ((u32)&(((DuelHandSlot *)0)->member))
 
-/* One of the HAND_SIZE hand slots at D_800EA030.
+/* One of the HAND_SIZE hand slots at tent_DuelHandDisplayRecords.
  *
  * `object` is the card object the draw spawns for the slot; `child` is the
  * sprite func_8001B7AC stacks on top of it. Both are display objects, held as
@@ -37,7 +37,7 @@ typedef char DuelHandSlot_active_09_offset_must_be_0x09[
 
 #undef DUEL_HAND_SLOT_OFFSET
 
-extern DuelHandSlot D_800EA030[HAND_SIZE];
+extern DuelHandSlot tent_DuelHandDisplayRecords[HAND_SIZE];
 
 /* How many cards are still to be drawn into those slots. duel_phase_entry.c
  * arms it -- 5 for a full opening hand, and HAND_SIZE - n to top an existing

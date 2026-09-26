@@ -2,7 +2,6 @@
 #include "../../psyq/libapi.h"
 
 #define VERSION_JAPAN
-#define D_800EAF08 gJapanese_DuelEffectOccupancy
 #include "../func_80036C14.h"
 
 /* Rasterises one 16x16 glyph into a 4bpp bitmap for the Japanese text
@@ -21,7 +20,7 @@ void func_800362AC(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *
     s32 v;
     s32 i;
 
-    D_800EAF08[slot] = channel->index_57 + 1;
+    tent_DuelEffectOccupancy[slot] = channel->index_57 + 1;
     if (tagged_value < 0) {
         glyph = (u16 *)Text_FindRecordById(tagged_value & 0xFFFF);
     } else {

@@ -9,6 +9,5 @@
 #define D_8009B23A gDuel_wSceneStateFlags
 #define D_8009B26C gJapanese_bActiveMainMode
 #define D_8009B369 gJapanese_DuelFlag
-#define D_800EA030 gJapanese_DuelHandDisplayRecords
 
 #include "../func_80018FEC.c"

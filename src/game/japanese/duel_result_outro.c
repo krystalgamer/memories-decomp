@@ -7,10 +7,7 @@
 #define D_8009B362 gJapanese_D_8009B362
 #define D_8009B238 gJapanese_D_8009B238
 #define D_8009B21C gJapanese_D_8009B21C
-#define D_8009B1E0 gJapanese_DuelResultBgmId
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
-#define D_80090928 gJapanese_DuelResultSpriteSpecsOpponent
-#define D_80090960 gJapanese_DuelResultSpriteSpecsNoOpponent
 #define func_80020EE8 func_80020D30
 #include "../duel_result_runtime.c"

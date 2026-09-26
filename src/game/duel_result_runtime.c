@@ -139,7 +139,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
    side in D_8009B362/D_8009B238, requests the outro package (0x1DAB, 0x22
    sectors) through func_80020BE4, picks the win or lose track for
-   D_8009B1E0 -- 0x72F0 only when the player won against a real opponent --
+   tent_DuelResultBgmId -- 0x72F0 only when the player won against a real opponent --
    and hands the two banner objects D_8009B214/D_8009B21C to func_8001EC70
    before entering step 1 of D_8009B174.
 
@@ -148,10 +148,10 @@ void func_80020EE8(DuelCardDisplayObject *object)
 
      1  wait for the DMA/queue flags to drain, then reload the selected
         three-sector duelist data block into 0x801781D8. The adjacent
-        func_800472A8 call handles D_8009B1E0 separately; once the transfer
+        func_800472A8 call handles tent_DuelResultBgmId separately; once the transfer
         has drained, SD_BGMPlay starts that track.
-     2  spawn the seven confetti sprites from the D_80090928 (real opponent)
-        or D_80090960 (no opponent) table row for the winning side, each on
+     2  spawn the seven confetti sprites from the tent_DuelResultSpriteSpecsOpponent (real opponent)
+        or tent_DuelResultSpriteSpecsNoOpponent (no opponent) table row for the winning side, each on
         DuelResult_UpdateOrbitSprite with a random radius and orbit key, and
         remember them in the gDuel_awRitualData slot table; then wait for
         DisplayObject_FindAllocatedByTag.
@@ -199,7 +199,7 @@ void DuelScene_UpdateResultOutro(void)
             }
         }
         obj = D_8009B214;
-        D_8009B1E0 = mode;
+        tent_DuelResultBgmId = mode;
         /* The record spells 0x28 u16 and this is the one site that puts a
            negative value there. Through the plain member GCC materialises
            -116 as `ori 0xff8c` where retail has `addiu -116`; the store at
@@ -245,14 +245,14 @@ void DuelScene_UpdateResultOutro(void)
                     DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
                 (s32)((u8 *)slots - 0x1800));
-            func_800472A8(D_8009B1E0);
+            func_800472A8(tent_DuelResultBgmId);
         } else {
             if ((D_8009B0F4_abs & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                 D_8009B134_abs) {
                 return;
             }
             D_8009B174 = 2;
-            SD_BGMPlay(D_8009B1E0);
+            SD_BGMPlay(tent_DuelResultBgmId);
         }
         break;
     case 2:
@@ -260,9 +260,9 @@ void DuelScene_UpdateResultOutro(void)
             D_8009B174 = flags | 0x80;
             for (i = 0; i < DUEL_RESULT_SPRITE_COUNT; i++) {
                 if (gDuel_bOpponentID >= 0) {
-                    spec = &D_80090928[gDuel_bWinnerSide][i];
+                    spec = &tent_DuelResultSpriteSpecsOpponent[gDuel_bWinnerSide][i];
                 } else {
-                    spec = &D_80090960[gDuel_bWinnerSide][i];
+                    spec = &tent_DuelResultSpriteSpecsNoOpponent[gDuel_bWinnerSide][i];
                 }
                 slots[i].object = 0;
                 if (spec->kind != 0) {

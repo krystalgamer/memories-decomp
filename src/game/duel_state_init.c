@@ -71,7 +71,7 @@ void Duel_InitSideStates(void) {
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CLEAR_HAND_SLOTS)
 void Duel_ClearHandSlots(void)
 {
-    u8 *entry = (u8 *)D_800EA030;
+    u8 *entry = (u8 *)tent_DuelHandDisplayRecords;
     int i = 0;
     u8 *field_09 = entry + 9;
 

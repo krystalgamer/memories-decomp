@@ -465,8 +465,8 @@ typedef char LibraryMotionState_size_must_be_0x48[
 
 /* One text-box record, 0x64 bytes, the element type of D_800EB0F8. 0x00 is the
    decoded string the record is playing back (TextBox_BuildStep stores it
-   there), and 0x20/0x24 bracket the record's slice of D_800EB288:
-   TextBox_BuildStep seeds both with &D_800EB288[range_start_5C],
+   there), and 0x20/0x24 bracket the record's slice of tent_DuelEffectEntries:
+   TextBox_BuildStep seeds both with &tent_DuelEffectEntries[range_start_5C],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
     u8 *text_00;
@@ -491,9 +491,9 @@ typedef struct DuelEffectChannel {
     u8 pad_0B;
     u16 field_0C;
     u16 field_0E;
-    /* The object's slot in the D_800EAF08 occupancy table and the byte
+    /* The object's slot in the tent_DuelEffectOccupancy occupancy table and the byte
        beside it; DisplayObjectFade_ReleaseChannel clears
-       D_800EAF08[field_10] and zeroes
+       tent_DuelEffectOccupancy[field_10] and zeroes
        field_11 when it releases the slot. */
     u8 field_10;
     u8 field_11;

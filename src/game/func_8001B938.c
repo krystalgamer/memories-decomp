@@ -44,7 +44,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
 
     if (selection->field_15 == 0) {
         b = D_8015C424;
-        r = (DisplayObject *)D_800EA030[(s8)selection->field_0E].object;
+        r = (DisplayObject *)tent_DuelHandDisplayRecords[(s8)selection->field_0E].object;
         g = (DuelCardReplayRecordBlock *)(
             (u8 *)&((DuelCardRecord *)b)[r->field_6A] +
             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
@@ -128,7 +128,7 @@ void func_8001BAF0(void)
                 j = 0;
                 order = D_800907CC;
                 records = D_801A7AD8;
-                slot = D_800EA030;
+                slot = tent_DuelHandDisplayRecords;
             search:
                 if (sel[j] >= 0) {
                     card = &gDuel_aActiveCards[v];

@@ -10,7 +10,6 @@
 #define D_8009B1B4 gJapanese_D_8009B1B4
 #define D_8009B1EC gJapanese_D_8009B1EC
 #define D_8009B21C gJapanese_D_8009B21C
-#define D_800EA030 gJapanese_DuelHandDisplayRecords
 #define D_801A7AD8 gJapanese_DuelCardRecords
 
 #include "../duel_phase_entry.c"

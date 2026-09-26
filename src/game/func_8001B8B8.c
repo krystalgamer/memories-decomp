@@ -9,10 +9,10 @@
 void func_8001B8B8(DuelSelectionRecord *side) {
     s32 i;
     for (i = 0; i < HAND_SIZE; i++)
-        if (D_800EA030[i].active_09 == 0)
-            ((DisplayObject *)D_800EA030[i].object)->field_0C =
+        if (tent_DuelHandDisplayRecords[i].active_09 == 0)
+            ((DisplayObject *)tent_DuelHandDisplayRecords[i].object)->field_0C =
                 DUEL_DISPLAY_COLOR_DIMMED;
     if (side->field_15 == 0)
-        ((DisplayObject *)D_800EA030[(s8)side->field_0E].object)->field_0C =
+        ((DisplayObject *)tent_DuelHandDisplayRecords[(s8)side->field_0E].object)->field_0C =
             DUEL_DISPLAY_COLOR_NORMAL;
 }

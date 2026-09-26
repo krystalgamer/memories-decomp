@@ -23,7 +23,7 @@ s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *object)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_FADE_RELEASE_CHANNEL)
 void DisplayObjectFade_ReleaseChannel(DuelEffectChannel *object)
 {
-    D_800EAF08[object->field_10] = 0;
+    tent_DuelEffectOccupancy[object->field_10] = 0;
     object->field_11 = 0;
     D_8009B330 = 1;
 }

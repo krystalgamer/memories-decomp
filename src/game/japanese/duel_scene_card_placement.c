@@ -8,7 +8,6 @@
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_8009B1B4 gJapanese_D_8009B1B4
 #define D_8009B218 gJapanese_D_8009B218
-#define D_800EA030 gJapanese_DuelHandDisplayRecords
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define D_801A7AD8 gJapanese_DuelCardRecords
 

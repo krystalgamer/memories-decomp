@@ -610,7 +610,7 @@ initial callback; there is no fixed lifetime or X clipping.
 [`name_entry_keyboard.h`](name_entry_keyboard.h) supplies one declaration
 per function and a truthful one-argument byte-pointer callback type, included
 by definitions and installers. The glyph nodes this screen walks are the
-resident `DuelEffectEntry` records of `D_800EB288`, so the header consumes
+resident `DuelEffectEntry` records of `tent_DuelEffectEntries`, so the header consumes
 that type from [`duel_effect.h`](../../game/duel_effect.h) instead of
 describing the node again: `code_00` is the SJIS code and `x_0C`/`y_0E` the
 signed local position this screen searches. The text-box records the screen

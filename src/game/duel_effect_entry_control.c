@@ -6,14 +6,14 @@
 #include "duel_effect_entry_occupancy.h"
 
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
-#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)D_800EB288)
+#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)tent_DuelEffectEntries)
 #define DUEL_EFFECT_RANGE_START(channel) \
     (((JapaneseDuelEffectEntryRange *)(channel))->range_start_5C)
 #define DUEL_EFFECT_RANGE_COUNT(channel) \
     (((JapaneseDuelEffectEntryRange *)(channel))->range_count_5D)
 #else
 #define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
-#define DUEL_EFFECT_ENTRIES D_800EB288
+#define DUEL_EFFECT_ENTRIES tent_DuelEffectEntries
 #define DUEL_EFFECT_RANGE_START(channel) ((channel)->range_start_5C)
 #define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->range_count_5E)
 #endif

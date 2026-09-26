@@ -245,7 +245,7 @@ void DuelScene_UpdateStartup(void)
         D_8009B1EC = HAND_SIZE;
         gDuel_wSceneStateFlags = 3;
         ((DuelSelectionSideView *)(D_800E9F10 +
-            D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = D_800EA030;
+            D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE))->hand = tent_DuelHandDisplayRecords;
         break;
     }
 }
@@ -284,7 +284,7 @@ void DuelScene_UpdateDrawPhase(void) {
         D_8009B1C8 = &D_800E9FF0[side];
         D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
                 side * DUEL_SELECTION_SIDE_SIZE);
-        base = D_800EA030;
+        base = tent_DuelHandDisplayRecords;
         ((DuelSelectionSideView *)D_8009B1B4)->hand = base;
         if (D_8009B1C8->swords_turns_remaining != 0) {
             c = D_8009B1C8->swords_turns_remaining - 1;

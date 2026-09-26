@@ -18,7 +18,7 @@
 #define DUEL_EFFECT_ENTRY_FLAG_ACTIVE 0x80
 #define DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK 0x1F
 
-/* One text/effect entry, 0x1C bytes, the element type of D_800EB288. The
+/* One text/effect entry, 0x1C bytes, the element type of tent_DuelEffectEntries. The
    leading words are unnamed but must stay four-byte aligned: retail copies a
    whole entry with aligned lw/sw pairs during the compaction in
    DuelEffect_ProcessEntries, and a byte-aligned struct turns that into
@@ -40,7 +40,7 @@
  * Two hundred and forty bytes is well over the -G8 threshold, so unlike the
  * small arrays elsewhere in this tree the bound here costs nothing: it does
  * not move the object between sections. */
-extern u8 D_800EAF08[DUEL_EFFECT_OCCUPANCY_COUNT];
+extern u8 tent_DuelEffectOccupancy[DUEL_EFFECT_OCCUPANCY_COUNT];
 
 extern DuelEffectChannel D_800EB0F8[DUEL_EFFECT_CHANNEL_COUNT];
 /* D_800EB15C is D_800EB0F8[1] under its own name: 0x800EB0F8 + 0x64, one
@@ -77,7 +77,7 @@ extern u32 D_800EB12C __attribute__((section(".data")));
 #else
 extern u32 D_800EB12C;
 #endif
-extern DuelEffectEntry D_800EB288[DUEL_EFFECT_ENTRY_COUNT];
+extern DuelEffectEntry tent_DuelEffectEntries[DUEL_EFFECT_ENTRY_COUNT];
 
 /* The selected card's guardian-star text id. func_80023144 stores guardian
  * star 1 or 2 plus 0x17 while it prepares the field-card display, and
