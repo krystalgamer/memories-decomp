@@ -8,5 +8,4 @@
 #define D_8009B3C2 gJapanese_MemCardTransferSize
 #define D_8009B3C4 gJapanese_MemCardTransferOffset
 #define D_8009B3DC gJapanese_MemCardBlockCount
-#define gMemCard_pPrimaryTransferCursor gJapanese_PrimaryTransferCursor
 #include "../mem_card_dialog_runtime.c"

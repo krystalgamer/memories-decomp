@@ -5,5 +5,4 @@
 #define SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS 0x8009B16A
 #define D_8009B0C4 gJapanese_D_8009B0C4
 #define SaveData_ApplyRuntimeState func_8003C6B8
-#define gSaveDataSequence gJapanese_SaveDataSequence
 #include "../save_data_payload.c"

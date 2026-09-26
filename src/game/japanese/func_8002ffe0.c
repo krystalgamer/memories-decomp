@@ -7,8 +7,6 @@
 #define D_8009B2B4 gJapanese_DebugInterfaceFieldB4
 #define D_8009B2B5 gJapanese_DebugInterfaceFieldB5
 #define D_8009B2B6 gJapanese_DebugInterfaceFieldB6
-#define gDebug_bEditorDigit gJapanese_DebugEditorDigit
-#define gDebug_bEditorRow gJapanese_DebugEditorRow
 #define D_8009B2B8 gJapanese_DebugInterfaceFieldB8
 #define D_8009B2C2 gJapanese_DebugInterfaceFieldC2
 #define D_8009B2C1 gJapanese_DebugInterfaceFieldC1

@@ -7,7 +7,6 @@
 #define D_8009B3F4 D_8009B2E4
 #define D_800EFE18 gJapanese_MemCardFileNameBuffer
 #define D_800EFBC0 D_800ED298
-#define gMemCard_pPrimaryTransferCursor gJapanese_PrimaryTransferCursor
 #define D_8009B3C4 gJapanese_MemCardTransferOffset
 #define D_8009B3C2 gJapanese_MemCardTransferSize
 #define MemCardAccept func_8008A880
