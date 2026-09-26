@@ -66,7 +66,7 @@
    reads it by its own name. Left exactly as it is. They are distinct symbols
    at distinct addresses as far as C is concerned, so one unit does not force
    the question, and naming it is what #2602 exists for. */
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP)
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
@@ -125,7 +125,14 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     D_801845C0[1].value = D_801845C0[1].shown = *second;
     D_800E9DB0[0] = MainMenu_DrawValueSetup;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_SETUP)
+#ifdef VERSION_JAPAN
+#define MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON PAD_BUTTON_CROSS
+#else
+#define MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
 s32 MainMenu_UpdateValueSetup(void)
 {
     s32 busyA;
@@ -173,7 +180,8 @@ s32 MainMenu_UpdateValueSetup(void)
     }
 
     if (busyA == 0 && busyB == 0) {
-        if ((gInput_wPad1Pressed[0] & PAD_BUTTON_CANCEL) || (gInput_wPad1Pressed[1] & PAD_BUTTON_CANCEL)) {
+        if ((gInput_wPad1Pressed[0] & MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON) ||
+            (gInput_wPad1Pressed[1] & MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON)) {
             SD_SEPlay(8, 0xFF, 0);
             return -1;
         }
@@ -265,7 +273,10 @@ s32 MainMenu_UpdateValueSetup(void)
 
     return 0;
 }
+#undef MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_VALUE_SETUP)
 void MainMenu_DrawValueSetup(void)
 {
     POLY_GT4 digit;

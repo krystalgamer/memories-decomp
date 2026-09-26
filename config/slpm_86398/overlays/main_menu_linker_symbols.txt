@@ -17,3 +17,6 @@ func_8005B260 = 0x8004CFF8;
 D_801AF800 = 0x801BF800;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x80041F88;
 DisplayObject_SelectOrderingTable1 = 0x80041FF8;
+gInput_wPad1Pressed = 0x8009B288;
+gInput_wPad1Repeat = 0x8009B284;
+SD_SEPlay = 0x80047D44;
