@@ -9,7 +9,7 @@
  * - The pad words are volatile: every test re-reads them.
  * - The AI selection bytes are read as elements of D_800EAE88 ([1], [6] and
  *   [8]). spimdisasm names those addresses D_800EAE89, D_800EAE8E and
- *   D_800EAE90, but the symbol-plus-offset form is what puts the %hi ahead of
+ *   tent_AiSelectionRandom, but the symbol-plus-offset form is what puts the %hi ahead of
  *   the neighbouring constants, and the linked bytes are the same.
  * - The substate word is a scalar. sched lets a struct-member load through a
  *   pointer pass a store to a fixed scalar, which is the order of every

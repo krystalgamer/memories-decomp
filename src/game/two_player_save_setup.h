@@ -16,7 +16,7 @@
  * requires a full deck in both saves and converts both player names.
  *
  * SaveData_RequestTradeWrite stamps integrity over both slots of the pair at
- * D_801D1880, records the second slot in
+ * tent_TradeSaveBuffer, records the second slot in
  * gMemCard_pSecondaryTransferCursor, and starts dialog step 4
  * to write them back. MainMenu_UpdateTradeScreen
  * (src/overlays/main_menu/trade_update.c) calls it once, after moving the

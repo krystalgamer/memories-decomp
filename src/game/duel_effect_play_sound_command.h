@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* The three D_80090EAC sound commands. All read their operand through
+/* The three tent_SecondaryTextCommandTable sound commands. All read their operand through
  * TextStream_ReadU16LE, which is the "next word of this object's current script
  * stream" accessor, so none of them touches the cursor arithmetic directly
  * except DuelEffect_ProcessBgmCommand, which reads a raw opcode byte first.

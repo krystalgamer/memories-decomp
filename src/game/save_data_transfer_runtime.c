@@ -289,7 +289,7 @@ s32 SaveData_UpdateDuelLoad(void)
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SAVE_DATA_REQUEST_TRADE_WRITE)
 void SaveData_RequestTradeWrite(void)
 {
-    u8 *p = D_801D1880;
+    u8 *p = tent_TradeSaveBuffer;
     u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;
 
     SaveData_WritePrimarySecondaryIntegrity(p);

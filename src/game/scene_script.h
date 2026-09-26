@@ -45,7 +45,7 @@
 extern SceneScriptSlot D_800EAE98[];
 
 /* The per-tick sweep over the first three slots. It dispatches each live
- * slot through D_80090CAC using the low byte at +4 as the callback index. */
+ * slot through tent_SceneScriptRecordCallbacks using the low byte at +4 as the callback index. */
 void SceneScript_UpdateSlots(SceneScriptSlot *records);
 
 #endif

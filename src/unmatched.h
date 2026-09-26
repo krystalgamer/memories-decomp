@@ -571,7 +571,7 @@ extern AiActiveCard D_801AB00C[];
 extern u8 D_801B122B[];
 extern u8 D_801B1238[];
 extern u8 D_801D160C[];
-extern u8 D_801D1880[];
+extern u8 tent_TradeSaveBuffer[];
 extern u8 D_801D9174[];
 extern u8 D_801D9174_b[];
 extern u8 D_801E27F8 __attribute__((section(".data")));

@@ -15,7 +15,7 @@
 #define DUEL_EFFECT_U16_RESULT_OFFSET 0x60
 #endif
 
-/* Entries 0 through 12 of the secondary text-command table D_80090EAC,
+/* Entries 0 through 12 of the secondary text-command table tent_SecondaryTextCommandTable,
    the handlers the F8 escape reaches, together with func_80038024, the
    helper two of them share -- which is not itself a table entry, so this is
    fourteen definitions rather than thirteen entries. Each entry takes the

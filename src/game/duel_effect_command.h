@@ -4,7 +4,7 @@
 #include "../types.h"
 #include "duel_effect.h"
 
-/* D_80090EAC entry: the card-name and stat text command. It reads an opcode
+/* tent_SecondaryTextCommandTable entry: the card-name and stat text command. It reads an opcode
  * byte, resolves a card id -- gDuel_wSelectedCardID or one taken from the
  * stream -- and appends the requested field to the object's text.
  *
@@ -30,13 +30,13 @@ void func_80038094(DuelEffectChannel *object);
 void func_800380D4(DuelEffectChannel *object);
 void func_80038110(DuelEffectChannel *object);
 
-/* D_80090EAC entry: formats a decimal number into the object's text. The value
+/* tent_SecondaryTextCommandTable entry: formats a decimal number into the object's text. The value
  * comes through TextStream_ReadU32LE as a pointer, the width from the low
  * nibble of the next stream byte, and Text_EncodeDecimalDigits does the
  * conversion into a local buffer before the glyphs are appended. */
 void func_80038148(DuelEffectChannel *object);
 
-/* D_80090EAC entry: sets the object's glyph cell size from a one-byte operand.
+/* tent_SecondaryTextCommandTable entry: sets the object's glyph cell size from a one-byte operand.
  * North America uses 8 by 8 for 1, 8 by 12 for 2, unchanged otherwise;
  * Japan stores operand * 8 into both size bytes. Both mirror case 1 into bit
  * 0x100 of the object's 0x34 flags after clearing it. The stream read is
@@ -47,7 +47,7 @@ void func_80038334(DuelEffectChannel *object);
 void func_80038388(DuelEffectChannel *object);
 void func_800383B0(DuelEffectChannel *object);
 
-/* D_80090EAC entry: resolves the text bank pointer for the string id in
+/* tent_SecondaryTextCommandTable entry: resolves the text bank pointer for the string id in
  * D_8009B32E. North America selects three banks; Japan selects D_801D6000
  * for ids with bit 15 set and D_801C0000 otherwise. It hands back the slot.
  *
@@ -56,13 +56,13 @@ void func_800383B0(DuelEffectChannel *object);
  * although the generic command table discards that result. */
 u32 *func_800383DC(DuelEffectChannel *channel);
 
-/* D_80090EAC entry: sets the object's colour slot at +0x54 from a one-byte
+/* tent_SecondaryTextCommandTable entry: sets the object's colour slot at +0x54 from a one-byte
  * operand. With bit 7 set the low nibble indexes gText_abColorSlots instead of
  * being used directly, so a palette entry and a literal colour share one
  * opcode. */
 void func_80038498(DuelEffectChannel *object);
 
-/* D_80090EAC entry: clears bit 0x1000 of the object's 0x34 flags and sets it
+/* tent_SecondaryTextCommandTable entry: clears bit 0x1000 of the object's 0x34 flags and sets it
  * again when its one-byte operand is non-zero. Register-pinned. */
 void func_800384E4(DuelEffectChannel *object);
 

@@ -1,4 +1,3 @@
-#define D_80090CAC gJapanese_SceneScriptRecordCallbacks
 #include "../../types.h"
 #include "../scene_script.h"
 #include "../scene_script_record_callbacks.h"
@@ -11,7 +10,7 @@ void SceneScript_UpdateSlots(SceneScriptSlot *records)
         s32 value = records->unk00;
 
         if (value != 0) {
-            gJapanese_SceneScriptRecordCallbacks[*(u8 *)&records->unk04](
+            tent_SceneScriptRecordCallbacks[*(u8 *)&records->unk04](
                 records, value);
         }
         records++;

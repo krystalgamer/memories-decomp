@@ -134,9 +134,9 @@ extern struct DisplayObject *D_8009B280;
  * The text callbacks store TextStream_ReadU16LE's result through $at, requiring
  * the unsized-array arm rather than a small scalar. */
 #ifdef SCRIPT_STATE_TEXT_CALLBACK_VIEWS
-extern u16 D_8009B270[];
+extern u16 tent_ScriptImageId[];
 #else
-extern u16 D_8009B270;
+extern u16 tent_ScriptImageId;
 #endif
 
 /* Two halfwords the event driver keeps at 0x8009B2A4 and 0x8009B2A6.

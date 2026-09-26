@@ -26,7 +26,7 @@ void AiScript_LoadSelectionRandom(void)
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
 
-    values[index] = D_800EAE90;
+    values[index] = tent_AiSelectionRandom;
 }
 
 void AiScript_TestPinned(void)
