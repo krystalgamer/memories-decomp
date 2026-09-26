@@ -12,6 +12,11 @@ struct DuelEffectChannel;
  * in these same words. Left unsized, which is what both declarers said. */
 extern u8 D_800EB224[];
 
+#ifdef TEXT_BOX_JAPANESE_QUIT_CHANNEL_VIEW
+/* Japanese channel 3 begins at the US channel-array symbol's address. */
+extern u8 gJapanese_DuelQuitChannel[] asm("D_800EB0F8");
+#endif
+
 void TextBox_Destroy(struct DuelEffectChannel *record);
 void *TextBox_Create(
     s32 index, s32 string_id, s32 x, s32 y, s32 width, s32 height
