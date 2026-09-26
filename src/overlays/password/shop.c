@@ -77,18 +77,27 @@ void Password_RefreshDigitDisplay(void)
     boxes[2].field_5B = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[2]);
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_REFRESH_STARCHIP_DISPLAY)
 void Password_RefreshStarchipDisplay(void)
 {
     DuelEffectChannel *boxes;
 
     D_801D5608[0].starchips = gLibrary_dwStarchips;
+#ifndef VERSION_JAPAN
     func_8003B6AC(3, 1);
+#endif
     TextBox_Create(3, 0xE1, 0x98, 0x28, 0xA0, 0x20);
+#ifdef VERSION_JAPAN
+    func_80039A14(
+        (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0x120));
+#else
     boxes = D_800EB0F8;
     boxes[3].field_5A = 0x10;
     boxes[3].field_5B = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[3]);
+#endif
 }
 #endif
 
