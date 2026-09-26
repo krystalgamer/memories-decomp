@@ -29,6 +29,24 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB8",
       "source": "src/overlays/japanese/overworld_before_coup/update_view.c"
+    },
+    {
+      "address": "0x80168310",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x78",
+      "source": "src/overlays/japanese/overworld_before_coup/reset_camera.c"
+    },
+    {
+      "address": "0x80168388",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x200",
+      "source": "src/overlays/japanese/overworld_before_coup/move_camera_dpad.c"
+    },
+    {
+      "address": "0x80168588",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE4",
+      "source": "src/overlays/japanese/overworld_before_coup/create_location_marker.c"
     }
   ],
   "schema": 1
