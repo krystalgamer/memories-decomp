@@ -167,7 +167,7 @@ void DuelScene_UpdateBattle(void)
         } else {
             D_8009B229 = 0;
         }
-        if (func_8001F0D0((u8 *)D_800E9EF0[0]) != 0) {
+        if (Duel_SelectAttackTrap((u8 *)D_800E9EF0[0]) != 0) {
             D_8009B229 = 0;
         }
         cur = (DuelSelectionRecord *)(D_800E9F64 + D_8009B1D5 * 0x70);
@@ -269,7 +269,7 @@ void DuelScene_UpdateBattle(void)
         }
         f = D_8009B174;
         if (f & 0x20) {
-            if (func_8001F364() == 0) {
+            if (Duel_UpdateTrapPresentation() == 0) {
                 D_8009B174 &= 0xDF;
                 return;
             }
@@ -617,7 +617,7 @@ void DuelScene_UpdateBattle(void)
         side = D_800E9EF0[D_8009B1B9 + 2];
         if (!(D_8009B174 & 0x80)) {
             D_8009B174 |= 0x80;
-            func_8001944C(side);
+            DuelCard_CaptureRoundedTexture(side);
             SD_SEPlayFull(0x1B);
             req = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(3));
             D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);

@@ -145,7 +145,7 @@ volatile u32 D_8009B0F4_abs;
 u32 D_8009B134_abs;
 DuelEffectRequest *DuelEffect_CreateRequest(s32 id) { error = 200; return 0; }
 FileTransferDescriptor *func_80029164(s32 slot, s32 value) { error = 201; return 0; }
-void func_8001944C(DisplayObject *p) { event(11, object_id(p), 0, 0, 0); }
+void DuelCard_CaptureRoundedTexture(DisplayObject *p) { event(11, object_id(p), 0, 0, 0); }
 DisplayObject *Duel_CreateCardEffectOverlay(DisplayObjectConfigView *p)
 {
     event(12, object_id(p), clone_count, 0, 0);

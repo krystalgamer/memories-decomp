@@ -5,7 +5,6 @@
 #define D_8009AFA0 gJapanese_D_8009AFA0
 #define func_80050F24 func_800547E0
 #define func_8005A010 func_8005CE40
-#define func_8005A2E0 Model_GetSlotDistanceFromCameraTarget
 #define func_8005F180 func_8004EBD0
 #define func_8005F1A4 ModelEffect_GetCoefficient
 #define func_8005F27C func_8004ECCC

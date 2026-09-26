@@ -290,7 +290,7 @@ void func_8004EB00(void)
             a = 0;
         }
         if (a != 0) {
-            a = func_8005A2E0(1) * 0x1E / 1000;
+            a = Model_GetSlotDistanceFromCameraTarget(1) * 0x1E / 1000;
             if (func_8005F174() == 2) {
                 func_8005F180(1);
             }
@@ -370,7 +370,7 @@ void func_8004EB00(void)
             a = 0;
         }
         if (a != 0) {
-            a = func_8005A2E0(0) * 0x1E / 1000;
+            a = Model_GetSlotDistanceFromCameraTarget(0) * 0x1E / 1000;
             if (func_8005F174() == 2) {
                 func_8005F180(1);
             }
@@ -417,7 +417,7 @@ void func_8004EB00(void)
                 }
                 func_8005F91C(0, (void *)0, (void *)0, 0);
                 if (func_8005A878(1) != 0) {
-                    s32 b = func_8005A2E0(f) * 0x1E / 1000;
+                    s32 b = Model_GetSlotDistanceFromCameraTarget(f) * 0x1E / 1000;
                     if (b < 0xA) {
                         b = 0xA;
                     }
@@ -468,7 +468,7 @@ void func_8004EB00(void)
         }
         if ((u32)(a - 0x201) < 0xBFF) {
             s32 g = f ^ 1;
-            s32 b = func_8005A2E0(g) * 0x1E / 1000;
+            s32 b = Model_GetSlotDistanceFromCameraTarget(g) * 0x1E / 1000;
 
             if (b < 0x1E) {
                 b = 0x1E;
@@ -573,7 +573,7 @@ void func_8004EB00(void)
             s32 a = (s16)D_8009B47A + 0xC00;
 
             if ((u32)(a % 0x1000 - 0x201) < 0xBFF) {
-                s32 b = func_8005A2E0(0) * 0x1E / 1000;
+                s32 b = Model_GetSlotDistanceFromCameraTarget(0) * 0x1E / 1000;
                 if (b < 0x1E) {
                     b = 0x1E;
                 }

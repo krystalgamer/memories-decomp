@@ -5,7 +5,4 @@
 
 void DuelCard_CaptureRoundedTexture(DisplayObject *object);
 
-/* Compatibility symbol used by existing matching and candidate callers. */
-void func_8001944C(DisplayObject *object);
-
 #endif

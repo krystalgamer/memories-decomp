@@ -188,7 +188,7 @@ void func_8003A560(DisplayEffectVramState *a)
         }
         req = File_TryRequestAsyncTransfer(
             0, 0, a->field_30 * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
-            func_8003A01C, 0, 0
+            DisplayEffect_LoadResourceStage, 0, 0
         );
         req->callback_data = D_801AF000;
         req->position = a->field_3C;

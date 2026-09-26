@@ -14,7 +14,6 @@
 #define D_8009B300 gJapanese_D_8009B300
 #define D_8009B360 gJapanese_DuelPlayerState
 #define D_801A7AD8 gJapanese_DuelCardRecords
-#define func_8001D240 DuelCard_UpdateDefenseRotation
 #define func_80028220 func_80028034
 
 /* Values that differ in the Japanese release; the US source names each

@@ -157,7 +157,7 @@ void DuelEffect_ApplyRitual(void)
             D_8009B20C[1] = timer;
             if ((s32)((u32)timer << 16) <= 0) {
                 D_8009B210 |= 0x40;
-                func_8001944C(object);
+                DuelCard_CaptureRoundedTexture(object);
                 D_800E9EF0.slots[0] =
                     Duel_CreateCardEffectOverlay(
                         (DisplayObjectConfigView *)object);

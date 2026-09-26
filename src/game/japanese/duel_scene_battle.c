@@ -13,8 +13,5 @@
 #define D_8009B369 gJapanese_DuelFlag
 #define D_8009B374 gJapanese_DuelBgmId2
 #define D_801A7AD8 gJapanese_DuelCardRecords
-#define func_8001944C DuelCard_CaptureRoundedTexture
-#define func_8001F0D0 Duel_SelectAttackTrap
-#define func_8001F364 Duel_UpdateTrapPresentation
 
 #include "../duel_scene_battle.c"
