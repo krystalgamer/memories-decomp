@@ -1685,7 +1685,7 @@
       "address": "0x8002D5AC",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x250",
-      "source": "src/game/japanese/main_run_trade.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002DA18",
@@ -1769,19 +1769,19 @@
       "address": "0x8002D4A8",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x68",
-      "source": "src/game/japanese/main_run_options.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D510",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/japanese/main_run_game_over.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D5A4",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/japanese/main_run_unused_developer_mode.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002D7FC",
