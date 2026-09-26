@@ -47,6 +47,7 @@
    NameEntry_BuildStarterDeck, which follows this run in the image, is not
    part of it: its caller is name_entry_main.c, not the shop. */
 
+#ifndef VERSION_JAPAN
 void Password_RefreshDigitDisplay(void)
 {
     DuelEffectChannel *boxes;
@@ -161,6 +162,7 @@ void Password_UpdateDigitCursorDecoration(u8 *object)
         break;
     }
 }
+#endif
 
 void Password_SetDigitCursorTarget(u8 *a)
 {
@@ -171,6 +173,7 @@ void Password_SetDigitCursorTarget(u8 *a)
     obj->target_x = value * 16 + 0xA3;
 }
 
+#ifndef VERSION_JAPAN
 void Password_RecreateCardPreview(s32 ignored)
 {
     PasswordCardPreviewView *obj;
@@ -465,3 +468,4 @@ void Password_UpdateShopScreen(void)
         return;
     }
 }
+#endif
