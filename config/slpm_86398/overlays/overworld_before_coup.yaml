@@ -97,6 +97,8 @@ segments:
     align: 4
     subsegments:
       - [0x1618, asm, overlays/japanese_overworld_before_coup/text_1618]
+      - [0x17D0, c, overlays/japanese/overworld_before_coup/pick_alternate_exit]
+      - [0x1A9C, c, overlays/japanese/overworld_before_coup/update_alternate_location]
 
   - name: alternate_location_table
     type: code
