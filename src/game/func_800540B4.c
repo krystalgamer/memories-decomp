@@ -346,8 +346,14 @@ void func_800540B4(s32 index)
                             max = m;
                         }
                     }
+                    /* Japanese retail leaves cp advanced when max is zero. */
+#ifndef VERSION_JAPAN
                     cp = (s16 *)&lw;
+#endif
                     if (max != 0) {
+#ifdef VERSION_JAPAN
+                        cp = (s16 *)&lw;
+#endif
                         for (k = 0; k < 9; k++, cp++) {
                             *cp = (*cp << 12) / max;
                         }
