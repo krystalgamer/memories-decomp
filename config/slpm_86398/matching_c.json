@@ -590,6 +590,12 @@
       "source": "src/game/japanese/duel_init_selection_records.c"
     },
     {
+      "address": "0x80017878",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3B8",
+      "source": "src/game/japanese/duel_init_scene.c"
+    },
+    {
       "address": "0x80017EFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
