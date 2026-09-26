@@ -37,10 +37,12 @@ def parse_integer(value: Any, description: str) -> int:
     )
 
 
-def load_regions(root: Path) -> list[dict[str, Any]]:
+def load_regions(
+    root: Path, configuration_path: str = "config/slus_01411/function_regions.json"
+) -> list[dict[str, Any]]:
     path = resolve_within(
         root,
-        "config/slus_01411/function_regions.json",
+        configuration_path,
         must_exist=True,
     )
     with path.open("r", encoding="utf-8") as handle:
@@ -98,6 +100,11 @@ def classify_function(
 ) -> Function:
     for region in regions:
         if region["start"] <= function.address < region["end"]:
+            if function.address + function.size > region["end"]:
+                raise ClassificationError(
+                    f"{function.name} at {function.address:#010x} crosses "
+                    f"region {region['name']}"
+                )
             status = function.status
             if region["status"] is not None and status != "matching_c":
                 status = region["status"]
@@ -114,6 +121,8 @@ def classify_function(
 def validate_coverage(
     functions: list[Function], regions: list[dict[str, Any]]
 ) -> None:
+    if not functions:
+        raise ClassificationError("function inventory is empty")
     if functions[0].address != regions[0]["start"]:
         raise ClassificationError(
             "function inventory does not start at the first classification region"

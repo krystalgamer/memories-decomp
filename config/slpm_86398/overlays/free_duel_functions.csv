@@ -1,0 +1,10 @@
+address,size,name,status,module,notes
+0x80168004,0x8C,FreeDuel_UpdateScrollbar,matching_c,overlay/free_duel,
+0x80168090,0x124,FreeDuel_PlaceCursor,matching_c,overlay/free_duel,
+0x801681B4,0x98,FreeDuel_SpawnSparkle,matching_c,overlay/free_duel,
+0x8016824C,0x750,FreeDuel_Init,matching_c,overlay/free_duel,
+0x8016899C,0x38,FreeDuel_GetSparkleSlot,matching_c,overlay/free_duel,
+0x801689D4,0xC8,FreeDuel_UpdateSparkle,matching_c,overlay/free_duel,
+0x80168A9C,0x1E0,FreeDuel_UpdateCursorTween,matching_c,overlay/free_duel,
+0x80168C7C,0x338,FreeDuel_UpdateScreen,matching_c,overlay/free_duel,
+0x80168FB4,0x7C,FreeDuel_Entry,matching_c,overlay/free_duel,

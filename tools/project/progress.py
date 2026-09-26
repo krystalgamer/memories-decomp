@@ -8,13 +8,21 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from classify_functions import (
+    ClassificationError,
+    classify_function,
+    load_regions,
+    validate_coverage,
+)
 from function_inventory import (
     Function,
     InventoryError,
     load_inventory,
     parse_generated_function_tree,
+    validate_function_order,
 )
 from overlay_extract import OverlayError, load_manifest as load_overlay_manifest
+from regional_inventory import load_matching_ranges
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -212,7 +220,7 @@ def load_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     return overlays
 
 
-def load_japanese_overlay_matches(root: Path) -> dict[str, dict[str, int]]:
+def load_japanese_overlay_inventories(root: Path) -> dict[str, dict[str, int]]:
     sector_size, modules = load_overlay_manifest(root, "japan")
     directory = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
     overlays: dict[str, dict[str, int]] = {}
@@ -227,63 +235,66 @@ def load_japanese_overlay_matches(root: Path) -> dict[str, dict[str, int]]:
         if name in overlays:
             raise ProgressError(f"duplicate Japanese overlay layout: {name}")
 
-        path = resolve_within(
+        manifest_path = resolve_within(
             root,
             layout.with_name(f"{name}_matching_c.json").relative_to(root),
             must_exist=True,
         )
-        with path.open("r", encoding="utf-8") as handle:
-            manifest = json.load(handle)
-        functions = manifest.get("functions") if isinstance(manifest, dict) else None
-        if (
-            not isinstance(manifest, dict)
-            or manifest.get("schema") != 1
-            or not isinstance(functions, list)
-        ):
-            raise ProgressError(f"{path}: unsupported matching-C configuration")
-
         start = parse_integer(module["load_address"], f"{name}.load_address")
         sectors = parse_integer(module["sector_count"], f"{name}.sector_count")
         if sectors <= 0:
             raise ProgressError(f"{name}: sector_count must be positive")
         end = start + sectors * sector_size
-        ranges: list[tuple[int, int]] = []
-        for index, function in enumerate(functions):
-            if not isinstance(function, dict):
-                raise ProgressError(f"{path}: function {index} must be an object")
-            address = parse_integer(
-                function.get("address"), f"{path}: function {index} address"
-            )
-            size = parse_integer(
-                function.get("size"), f"{path}: function {index} size"
-            )
-            if size <= 0 or not start <= address < address + size <= end:
-                raise ProgressError(
-                    f"{path}: function {index} is outside the overlay image"
-                )
-            ranges.append((address, address + size))
-        ranges.sort()
-        if any(first[1] > second[0] for first, second in zip(ranges, ranges[1:])):
-            raise ProgressError(f"{path}: overlapping matching-C functions")
+        ranges = load_matching_ranges(manifest_path)
+        inventory_path = resolve_within(
+            root,
+            layout.with_name(f"{name}_functions.csv").relative_to(root),
+            must_exist=True,
+        )
+        functions = load_inventory(inventory_path)
+        validate_overlay_inventory(
+            functions, ranges, start=start, end=end, name=name
+        )
+        matched = [function for function in functions if function.status == "matching_c"]
         overlays[name] = {
-            "matching_c_function_count": len(ranges),
-            "matching_c_bytes": sum(end - start for start, end in ranges),
+            "function_count": len(functions),
+            "function_bytes": sum(function.size for function in functions),
+            "matching_c_function_count": len(matched),
+            "matching_c_bytes": sum(function.size for function in matched),
         }
     return overlays
 
 
-def render_overlay_progress(
-    overlays: dict[str, dict[str, int]], *, totals_available: bool = True
-) -> list[str]:
+def validate_overlay_inventory(
+    functions: list[Function],
+    ranges: list[tuple[int, int]],
+    *,
+    start: int,
+    end: int,
+    name: str,
+) -> None:
+    validate_function_order(functions, f"{name} function inventory")
+    actual_matches: dict[int, int] = {}
+    for function in functions:
+        if not start <= function.address < function.address + function.size <= end:
+            raise ProgressError(f"{name}: function outside overlay image")
+        if function.module != f"overlay/{name}":
+            raise ProgressError(f"{name}: unexpected function module {function.module}")
+        if function.status not in {"matching_c", "unmatched_asm", "handwritten_asm"}:
+            raise ProgressError(f"{name}: unexpected function status {function.status}")
+        if function.status == "matching_c":
+            actual_matches[function.address] = function.size
+    if actual_matches != dict(ranges):
+        raise ProgressError(
+            f"{name}: matching-C inventory does not agree with the matching manifest"
+        )
+
+
+def render_overlay_progress(overlays: dict[str, dict[str, int]]) -> list[str]:
     if not overlays:
         return []
     lines = [
-        (
-            "Runtime overlay modules:"
-            if totals_available
-            else "Runtime overlay modules (matched C; full function inventories "
-            "not yet tracked):"
-        ),
+        "Runtime overlay modules:",
         "",
         "| Module | Matching C functions | Matching C bytes |",
         "|---|---:|---:|",
@@ -292,18 +303,15 @@ def render_overlay_progress(
         overlay = overlays[name]
         count = overlay["matching_c_function_count"]
         matched = overlay["matching_c_bytes"]
-        if totals_available:
-            total_count = overlay["function_count"]
-            total_bytes = overlay["function_bytes"]
-            lines.append(
-                f"| `{name}` | "
-                f"{count:,} / {total_count:,} "
-                f"({format_percentage(count, total_count)}) | "
-                f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
-                f"({format_percentage(matched, total_bytes)}) |"
-            )
-        else:
-            lines.append(f"| `{name}` | {count:,} | {format_bytes(matched)} |")
+        total_count = overlay["function_count"]
+        total_bytes = overlay["function_bytes"]
+        lines.append(
+            f"| `{name}` | "
+            f"{count:,} / {total_count:,} "
+            f"({format_percentage(count, total_count)}) | "
+            f"{format_bytes(matched)} / {format_bytes(total_bytes)} "
+            f"({format_percentage(matched, total_bytes)}) |"
+        )
     lines.append("")
     return lines
 
@@ -314,8 +322,6 @@ def render_readme_progress(
         "`config/slus_01411/functions.csv` and "
         "`config/slus_01411/overlays/*_functions.csv`"
     ),
-    *,
-    overlay_totals_available: bool = True,
 ) -> str:
     game_count = progress["game_function_count"]
     target_count = progress["decompilation_target_function_count"]
@@ -369,10 +375,7 @@ def render_readme_progress(
                 f"{format_bytes(progress['unassigned_text_bytes'])} |"
             ),
             "",
-            *render_overlay_progress(
-                progress.get("overlays", {}),
-                totals_available=overlay_totals_available,
-            ),
+            *render_overlay_progress(progress.get("overlays", {})),
             (
                 f"_Generated from {source_description} by "
                 "`tools/project/progress.py`._"
@@ -391,12 +394,10 @@ def render_japanese_progress(progress: dict[str, Any]) -> str:
             render_readme_progress(
                 progress,
                 (
-                    "`config/slpm_86398/matching_c.json`, "
-                    "`config/slpm_86398/function_regions.json`, "
-                    "`config/slpm_86398/overlays/*_matching_c.json`, and the "
-                    "generated Japanese split inventory"
+                    "`config/slpm_86398/functions.csv` and "
+                    "`config/slpm_86398/overlays/*_functions.csv`, "
+                    "validated against their matching-C manifests"
                 ),
-                overlay_totals_available=False,
             ),
         )
     )
@@ -456,18 +457,7 @@ def sync_readme(
     return "updated"
 
 
-def calculate(root: Path) -> dict[str, Any]:
-    assembly_root = resolve_within(
-        root, "tmp/splat/asm", must_exist=True
-    )
-    generated = parse_generated_function_tree(assembly_root)
-    inventory_path = resolve_within(
-        root, "config/slus_01411/functions.csv", must_exist=True
-    )
-    functions = load_inventory(inventory_path)
-    validate_inventory(generated, functions)
-    image_map = load_image_map(root, "config/slus_01411")
-    text_bytes = load_text_size(root)
+def summarize_functions(functions: list[Function], text_bytes: int) -> dict[str, Any]:
     function_bytes = sum(function.size for function in functions)
     handwritten = [
         function for function in functions if function.status == "handwritten_asm"
@@ -504,9 +494,6 @@ def calculate(root: Path) -> dict[str, Any]:
         )
 
     return {
-        "target": "SLUS-01411",
-        "target_sha256": image_map["target_sha256"],
-        "text_bytes": text_bytes,
         "function_count": len(functions),
         "function_bytes": function_bytes,
         "game_function_count": len(game),
@@ -522,70 +509,37 @@ def calculate(root: Path) -> dict[str, Any]:
         "matching_c_function_count": len(matching),
         "matching_c_bytes": matching_bytes,
         "modules": modules,
-        "overlays": load_overlay_inventories(root),
         "unassigned_text_bytes": text_bytes - function_bytes,
     }
 
 
-def calculate_japanese(root: Path) -> dict[str, Any]:
-    config = "config/slpm_86398"
-    image_map = load_image_map(root, config)
+def calculate(root: Path) -> dict[str, Any]:
     assembly_root = resolve_within(
-        root, "tmp/splat/slpm_86398/asm", must_exist=True
+        root, "tmp/splat/asm", must_exist=True
     )
     generated = parse_generated_function_tree(assembly_root)
-    path = resolve_within(root, f"{config}/matching_c.json", must_exist=True)
-    with path.open("r", encoding="utf-8") as handle:
-        manifest = json.load(handle)
-    functions = manifest.get("functions")
-    if manifest.get("schema") != 1 or not isinstance(functions, list):
-        raise ProgressError(f"{path}: unsupported matching-C configuration")
-
-    regions_path = resolve_within(
-        root, f"{config}/function_regions.json", must_exist=True
+    inventory_path = resolve_within(
+        root, "config/slus_01411/functions.csv", must_exist=True
     )
-    with regions_path.open("r", encoding="utf-8") as handle:
-        region_config = json.load(handle)
-    raw_regions = region_config.get("regions")
-    if region_config.get("schema") != 1 or not isinstance(raw_regions, list):
-        raise ProgressError(f"{regions_path}: unsupported region configuration")
+    functions = load_inventory(inventory_path)
+    validate_inventory(generated, functions)
+    image_map = load_image_map(root, "config/slus_01411")
+    text_bytes = load_text_size(root)
+    return {
+        "target": "SLUS-01411",
+        "target_sha256": image_map["target_sha256"],
+        "text_bytes": text_bytes,
+        **summarize_functions(functions, text_bytes),
+        "overlays": load_overlay_inventories(root),
+    }
 
-    regions: list[dict[str, Any]] = []
-    previous_end: int | None = None
-    for index, region in enumerate(raw_regions):
-        if not isinstance(region, dict):
-            raise ProgressError(f"{regions_path}: region {index} is not an object")
-        name = region.get("name")
-        module = region.get("module")
-        if not isinstance(name, str) or not name:
-            raise ProgressError(f"{regions_path}: region {index} has no name")
-        if not isinstance(module, str) or not module:
-            raise ProgressError(f"{regions_path}: region {name} has no module")
-        start = parse_integer(region.get("start"), f"{name}.start")
-        end = parse_integer(region.get("end"), f"{name}.end")
-        if end <= start:
-            raise ProgressError(f"{regions_path}: region {name} is empty")
-        if previous_end is not None and start != previous_end:
-            raise ProgressError(
-                f"{regions_path}: region {name} starts at {start:#010x}; "
-                f"expected {previous_end:#010x}"
-            )
-        status = region.get("status")
-        if status not in {None, "handwritten_asm", "sdk_asm"}:
-            raise ProgressError(
-                f"{regions_path}: region {name} has unsupported status {status}"
-            )
-        regions.append(
-            {
-                "name": name,
-                "start": start,
-                "end": end,
-                "module": module,
-                "status": status,
-            }
-        )
-        previous_end = end
 
+def validate_japanese_inventory(
+    root: Path, functions: list[Function], image_map: dict[str, Any]
+) -> None:
+    config = "config/slpm_86398"
+    regions_path = f"{config}/function_regions.json"
+    regions = load_regions(root, regions_path)
     text_region = next(
         (
             region
@@ -607,100 +561,74 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
             f"{regions_path}: regions must cover Japanese resident text "
             f"{text_start:#010x}..{text_end:#010x}"
         )
+    validate_function_order(functions, "Japanese function inventory")
+    validate_coverage(functions, regions)
+    for function in functions:
+        classified = classify_function(function, regions)
+        if classified != function:
+            raise ProgressError(
+                f"Japanese function {function.address:#010x} disagrees with "
+                f"{regions_path}"
+            )
+        if function.module == "game":
+            if function.status not in {
+                "matching_c", "unmatched_asm", "handwritten_asm"
+            }:
+                raise ProgressError(
+                    f"Japanese game function {function.address:#010x} is not game code"
+                )
+        elif function.status != "sdk_asm" or function.module not in {
+            "psyq/crt", "psyq/sdk"
+        }:
+            raise ProgressError(
+                f"Japanese non-game function {function.address:#010x} is not SDK code"
+            )
+        if (
+            function.status == "matching_c"
+            and any(
+                region["start"] <= function.address < region["end"]
+                and region["status"] is not None
+                for region in regions
+            )
+        ):
+            raise ProgressError(
+                f"Japanese matching C {function.address:#010x} is in assembly region"
+            )
 
-    def region_for(address: int, size: int) -> dict[str, Any]:
-        for region in regions:
-            if region["start"] <= address < region["end"]:
-                if address + size > region["end"]:
-                    raise ProgressError(
-                        f"Japanese function at {address:#010x} crosses "
-                        f"region {region['name']}"
-                    )
-                return region
+    manifest = resolve_within(root, f"{config}/matching_c.json", must_exist=True)
+    expected = dict(load_matching_ranges(manifest))
+    actual = {
+        function.address: function.size
+        for function in functions if function.status == "matching_c"
+    }
+    if actual != expected:
         raise ProgressError(
-            f"Japanese function at {address:#010x} is outside all regions"
+            "Japanese matching-C inventory does not agree with the matching manifest"
         )
 
-    addresses = {function.address for function in generated}
-    if len(addresses) != len(generated):
-        raise ProgressError("Japanese split contains duplicate function addresses")
-    matching_bytes = 0
-    matching_count = 0
-    for index, function in enumerate(functions):
-        if not isinstance(function, dict):
-            raise ProgressError(f"{path}: function {index} must be an object")
-        address = parse_integer(
-            function.get("address"), f"{path}: function {index} address"
-        )
-        size = parse_integer(
-            function.get("size"), f"{path}: function {index} size"
-        )
-        if address in addresses:
-            raise ProgressError(
-                f"{path}: duplicate function address {address:#010x}"
-            )
-        if size <= 0:
-            raise ProgressError(f"{path}: function {index} has invalid size")
-        region = region_for(address, size)
-        if region["module"] != "game" or region["status"] is not None:
-            raise ProgressError(
-                f"{path}: matching C function {address:#010x} is not game-owned"
-            )
-        addresses.add(address)
-        matching_count += 1
-        matching_bytes += size
 
-    text_bytes = load_text_size(root, config)
-    assembly = []
-    handwritten = []
-    sdk = []
-    for function in generated:
-        region = region_for(function.address, function.size)
-        if region["status"] == "sdk_asm":
-            sdk.append(function)
-        elif region["status"] == "handwritten_asm":
-            handwritten.append(function)
-        elif region["module"] == "game":
-            assembly.append(function)
-        else:
-            raise ProgressError(
-                f"Japanese function {function.address:#010x} has no status"
-            )
-
-    assembly_bytes = sum(function.size for function in assembly)
-    handwritten_bytes = sum(function.size for function in handwritten)
-    sdk_bytes = sum(function.size for function in sdk)
-    function_bytes = (
-        matching_bytes + assembly_bytes + handwritten_bytes + sdk_bytes
+def calculate_japanese(root: Path) -> dict[str, Any]:
+    config = "config/slpm_86398"
+    image_map = load_image_map(root, config)
+    assembly_root = resolve_within(
+        root, "tmp/splat/slpm_86398/asm", must_exist=True
     )
-    if function_bytes > text_bytes:
-        raise ProgressError(
-            f"Japanese function bytes {function_bytes:#x} exceed "
-            f"text size {text_bytes:#x}"
-        )
-    game_count = matching_count + len(assembly) + len(handwritten)
-    game_bytes = matching_bytes + assembly_bytes + handwritten_bytes
+    generated = parse_generated_function_tree(assembly_root)
+    inventory_path = resolve_within(
+        root, f"{config}/functions.csv", must_exist=True
+    )
+    functions = load_inventory(inventory_path)
+    validate_inventory(generated, functions)
+    validate_japanese_inventory(root, functions, image_map)
+    text_bytes = load_text_size(root, config)
+    metrics = summarize_functions(functions, text_bytes)
     return {
         "target": "SLPM-86398",
         "target_sha256": image_map["target_sha256"],
         "text_bytes": text_bytes,
-        "function_count": matching_count + len(generated),
-        "function_bytes": function_bytes,
-        "game_function_count": game_count,
-        "game_function_bytes": game_bytes,
-        "decompilation_target_function_count": matching_count + len(assembly),
-        "decompilation_target_function_bytes": matching_bytes + assembly_bytes,
-        "handwritten_function_count": len(handwritten),
-        "handwritten_function_bytes": handwritten_bytes,
-        "assembly_function_count": len(assembly),
-        "assembly_function_bytes": assembly_bytes,
-        "sdk_function_count": len(sdk),
-        "sdk_function_bytes": sdk_bytes,
-        "matching_c_function_count": matching_count,
-        "matching_c_bytes": matching_bytes,
-        "overlays": load_japanese_overlay_matches(root),
-        "unassigned_text_bytes": text_bytes - function_bytes,
-        "fallback_bytes": text_bytes - matching_bytes,
+        **metrics,
+        "overlays": load_japanese_overlay_inventories(root),
+        "fallback_bytes": text_bytes - metrics["matching_c_bytes"],
     }
 
 
@@ -731,6 +659,7 @@ def main() -> int:
             check=arguments.check,
         )
     except (
+        ClassificationError,
         ProgressError,
         InventoryError,
         OverlayError,

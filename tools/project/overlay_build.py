@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -130,6 +131,13 @@ def assemble_sources(root: Path, module_root: Path) -> list[Path]:
     return objects
 
 
+def clear_generated_assembly(root: Path, module_root: Path) -> None:
+    assembly = resolve_within(root, module_root.relative_to(root) / "asm")
+    if assembly.exists():
+        # Splat does not remove assembly files for functions newly replaced by C.
+        shutil.rmtree(assembly)
+
+
 def object_symbols(root: Path, path: Path) -> dict[str, str]:
     result = subprocess.run(
         [str(tool(root, "objdump")), "-t", str(path)],
@@ -201,6 +209,7 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
     splat = resolve_within(
         root, "tools/environments/python/bin/splat", must_exist=True
     )
+    clear_generated_assembly(root, module_root)
     run(root, [str(splat), "split", str(config)])
     c_objects = compile_sources(root, module_root, segments)
     asm_objects = assemble_sources(root, module_root)

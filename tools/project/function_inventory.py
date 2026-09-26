@@ -109,7 +109,9 @@ def validate_function_order(
         previous_end = function.address + function.size
 
 
-def parse_generated_function_tree(path: Path) -> list[Function]:
+def parse_generated_function_tree(
+    path: Path, *, require_functions: bool = True
+) -> list[Function]:
     if not path.is_dir():
         raise InventoryError(f"{path}: assembly root is not a directory")
     functions: list[Function] = []
@@ -121,7 +123,8 @@ def parse_generated_function_tree(path: Path) -> list[Function]:
             )
         )
     functions.sort(key=lambda function: function.address)
-    validate_function_order(functions, str(path))
+    if functions or require_functions:
+        validate_function_order(functions, str(path))
     return functions
 
 
