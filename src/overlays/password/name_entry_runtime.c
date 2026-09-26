@@ -523,7 +523,9 @@ draw:
     obj->sourceGlyph = w;
     return obj;
 }
+#endif
 
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH)
 s32 NameEntry_AdjustLength(s32 delta, s32 arg)
 {
     DisplayObject *object;
