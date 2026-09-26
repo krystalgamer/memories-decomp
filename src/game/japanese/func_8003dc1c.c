@@ -12,6 +12,5 @@
 #define D_80010378 D_800102F4
 #define D_80010398 D_80010314
 #define D_800103A4 D_80010320
-#define gMemCard_szSaveFileName D_80010300
 #define DIALOG_TRANSITION_EFFECT_CHANNEL_STRIDE 0x60
 #include "../func_8003DC1C.c"

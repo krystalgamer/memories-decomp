@@ -8,5 +8,4 @@
 
 #define D_800EB224 gJapanese_DuelQuitChannel
 #define func_800235C0 func_80023408
-#define gDuel_apfnSceneStateHandler D_80090848
 #include "../func_80024200.c"
