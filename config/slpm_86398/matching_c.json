@@ -2951,13 +2951,13 @@
       "address": "0x800387F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/japanese/func_80039140.c"
+      "source": "src/game/japanese/text_box_layout_helpers.c"
     },
     {
       "address": "0x8003889C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1CC",
-      "source": "src/game/japanese/func_8003889c.c"
+      "source": "src/game/japanese/text_box_layout_helpers.c"
     },
     {
       "address": "0x80038204",
