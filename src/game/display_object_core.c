@@ -18,7 +18,7 @@
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_FREE_GENERAL_SLOT)
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
-    DisplayObject *entry = D_800F0548;
+    DisplayObject *entry = tent_DisplayObjectGeneralSlots;
     s32 i;
 
     for (i = DISPLAY_OBJECT_RESERVED_CAPACITY;

@@ -14,7 +14,7 @@ void DisplayObjectStream_ReadNextCommand(DisplayObjectStreamState *object)
     p++;
 
     if (op >= 0xF0) {
-        table = D_80090FEC;
+        table = tent_DisplayObjectStreamCommandTable;
         do {
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;

@@ -5,7 +5,7 @@
 /* Initialized data at 0x80090FEC through 0x80091508, previously a generated
    blob (#2602). Three tables, contiguous, so one translation unit.
 
-   D_80090FEC is the display-object stream handler table.
+   tent_DisplayObjectStreamCommandTable is the display-object stream handler table.
    DisplayObjectStream_ReadNextCommand dispatches table[op ^ 0xFF] for opcodes
    from 0xF0 up. All seven callbacks receive the shared DisplayObjectStreamState
    and operand cursor, including the reset and no-op entries that do not need
@@ -21,7 +21,7 @@
    rim of the ground shadow fan (ModelShadowFanStep in the header): +/-0x0B50
    in both axes for the diagonals and +/-0x1000 on one axis for the rest,
    which is a unit circle in Q12 sampled every 45 degrees. */
-s32 (*D_80090FEC[])(DisplayObjectStreamState *, const u8 *) = {
+s32 (*tent_DisplayObjectStreamCommandTable[])(DisplayObjectStreamState *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,
     DisplayObjectStream_Noop,
