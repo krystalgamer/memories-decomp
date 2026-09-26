@@ -25,7 +25,7 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_FRONTEND_BACKGROUND)
 void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;
