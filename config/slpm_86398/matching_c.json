@@ -1082,6 +1082,12 @@
       "source": "src/game/japanese/duel_update_card_pick_cursor.c"
     },
     {
+      "address": "0x80024030",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x184",
+      "source": "src/game/japanese/duel_scene_update_quit.c"
+    },
+    {
       "address": "0x800241B4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",

@@ -21,6 +21,14 @@
  * gDuel_bQuitDialogState is live -- creating the box on the first frame and
  * tearing it down once its 0x2000 flag clears -- and otherwise dispatches the
  * current scene step through the scene callback table. */
+/* The quit dialog's box. The Japanese build draws it at another size, so a
+   regional build supplies its own. */
+#ifndef DUEL_QUIT_BOX_X
+#define DUEL_QUIT_BOX_X 0x78
+#define DUEL_QUIT_BOX_WIDTH 0x50
+#define DUEL_QUIT_BOX_HEIGHT 0x24
+#endif
+
 void DuelScene_Update(void)
 {
     u8 value;
@@ -47,7 +55,9 @@ void DuelScene_Update(void)
             gDuel_bQuitDialogState = value | 0x80;
             SD_SEPlayFull(0x30);
             window =
-                TextBox_CreateFlagged(3, 0x22, 0x78, 0x58, 0x50, 0x24, 0x20);
+                TextBox_CreateFlagged(3, 0x22, DUEL_QUIT_BOX_X, 0x58,
+                                      DUEL_QUIT_BOX_WIDTH,
+                                      DUEL_QUIT_BOX_HEIGHT, 0x20);
             do {
                 func_80039794();
             } while (window->field_30 == 0);
