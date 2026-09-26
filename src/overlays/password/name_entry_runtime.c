@@ -435,7 +435,50 @@ void NameEntry_UpdateGlyphTransfer(u8 *w)
 }
 #endif
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_SPAWN_GLYPH_SPRITE)
+#ifdef VERSION_JAPAN
+/* The Japanese build has no Shift-JIS lookup: the node's glyph byte picks a
+ * 4x16 cell of the font page, MoveImage copies it into one of sixteen VRAM
+ * slots in turn, and the sprite samples that slot. */
+extern RECT D_8016D158[];
+
+void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
+{
+    GlyphSprite *obj;
+    NAME_ENTRY_SPAWN_CHANNEL_TYPE *p;
+    RECT *r;
+    s32 c;
+
+    obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+    if (w != 0) {
+        r = &D_8016D158[D_8016D403];
+        c = D_8016D408;
+        r->x = ((w->field_10 & 0xF) << 2) + 0x280;
+        r->y = w->field_10 & 0xF0;
+        r->w = 4;
+        r->h = 16;
+        MoveImage(r, ((c & 0xF) << 2) | 0x240, (c & 0xF0) | 0x100);
+        p = &((NAME_ENTRY_SPAWN_CHANNEL_TYPE *)D_800EB0F8)[slot];
+        D_8016D403 = (D_8016D403 + 1) & 0xF;
+        DisplayObject_ConfigureScreenSprite(
+            obj, p->field_3C + w->x_0C, p->field_40 + w->y_0E,
+            16, 16, (D_8016D408 & 0xF) << 4, D_8016D408 & 0xF0, 25, 0x210, 0xFF
+        );
+        obj->sequence = D_8016D408;
+        D_8016D408 = D_8016D408 + 1;
+    } else {
+        DisplayObject_ConfigureScreenSprite(
+            obj,
+            D_8016D404->x, D_8016D404->y, 16, 16, 128, 128, 23,
+            256, 240
+        );
+    }
+    obj->field_48 = 0x80008;
+    obj->textBoxSlot = slot;
+    obj->sourceGlyph = w;
+    return obj;
+}
+#else
 /* Makes the sprite for one glyph node: maps the node's Shift-JIS code to a
  * cell in the 16x16 font page, places it at the text box's origin plus the
  * node's local position, and stamps the spawn order into +0x6A. With no node
@@ -529,6 +572,7 @@ draw:
     obj->sourceGlyph = w;
     return obj;
 }
+#endif
 #endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH)
