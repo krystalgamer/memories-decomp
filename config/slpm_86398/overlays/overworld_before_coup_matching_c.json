@@ -65,6 +65,18 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x364",
       "source": "src/overlays/japanese/overworld_before_coup/update_location_transition.c"
+    },
+    {
+      "address": "0x80168E0C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1C0",
+      "source": "src/overlays/japanese/overworld_before_coup/pick_exit.c"
+    },
+    {
+      "address": "0x80168FCC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x1DC",
+      "source": "src/overlays/japanese/overworld_before_coup/update_location.c"
     }
   ],
   "schema": 1
