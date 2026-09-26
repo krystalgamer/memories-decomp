@@ -343,6 +343,9 @@ void CampaignMap_SetLocation(s32 index)
     SD_BGMPlay(track);
 }
 
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CAMPAIGN_MAP_START_CAMERA_TWEEN)
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     ViewState *camera = &D_800F2848;
@@ -386,6 +389,9 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     D_801695E0 = stepDist;
 }
 
+#endif
+
+#ifndef VERSION_JAPAN
 s32 CampaignMap_UpdateLocationTransition(void)
 {
     MapObject *obj;
