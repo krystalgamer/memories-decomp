@@ -60,7 +60,6 @@ void NameEntry_BuildStarterDeck(void)
     }
 }
 
-#ifndef VERSION_JAPAN
 void NameEntry_Main(void)
 {
     SaveDataState *state;
@@ -70,7 +69,10 @@ void NameEntry_Main(void)
     s32 i;
 
     Util_FillMemory(D_801D0000, 0, 0x3000);
+#ifndef VERSION_JAPAN
+    /* The Japanese build has no load-buffer trace. */
     printf("SaveLoadBuf add = 0x%x size = 0x%x\n", D_801D0000, 0x3000);
+#endif
     NameEntry_Init();
     do {
         Main_AdvanceFrame();
@@ -89,4 +91,3 @@ void NameEntry_Main(void)
         value = rand() << 8;
     }
 }
-#endif
