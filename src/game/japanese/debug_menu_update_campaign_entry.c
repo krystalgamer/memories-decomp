@@ -11,5 +11,4 @@
 #define D_80090CF4 D_80090BA4
 #define D_800EB0F8 gJapanese_D_800EB0F8
 #define Dialog_OpenChoice func_80036CAC
-#define DebugMenu_UpdateCampaignEntry func_80030728
 #include "../debug_menu_editor_entries.c"

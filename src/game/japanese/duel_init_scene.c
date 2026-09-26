@@ -11,8 +11,6 @@
 #define D_8009B238 gJapanese_D_8009B238
 #define D_8009B21C gJapanese_D_8009B21C
 #define D_800907D8 gJapanese_D_800907D8
-#define Duel_InitSelectionRecords func_800175A4
-#define Duel_InitModelScene func_800173F8
 /* 0x110 below the US address, like its neighbour D_8009B1D8; splat labels it
    D_8009B0CC in the Japanese image. */
 #define D_8009B1DC D_8009B0CC

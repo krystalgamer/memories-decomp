@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define DuelScene_UpdateHandActions func_8001BBE8
 #define func_80023144 func_80022F8C
 #define func_80028220 func_80028034
 #define D_800907D8 gJapanese_D_800907D8

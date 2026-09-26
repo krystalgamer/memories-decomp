@@ -5,5 +5,4 @@
 #define D_8009B410 D_8009B300
 #define D_8009B412 D_8009B302
 #define D_800F2878 D_800EFF50
-#define DisplayObject_ResetPool func_8003FA70
 #include "../display_object_core.c"

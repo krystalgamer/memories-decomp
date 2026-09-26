@@ -4,7 +4,6 @@
 #define VERSION_JAPAN
 #define DUEL_CARD_VIEWER_SHOWN_X 0x98
 #define DUEL_CARD_VIEWER_CHANNEL_TYPE JapaneseDuelEffectChannel
-#define DuelEffect_UpdateCardViewerState func_80028208
 #define D_8009B0C0 gJapanese_D_8009B0C0
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest

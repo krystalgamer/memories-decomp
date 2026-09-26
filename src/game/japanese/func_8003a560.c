@@ -8,7 +8,5 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define func_8003A01C DisplayEffect_LoadResourceStage
-#define StoreImage func_8007E5C8
-#define DisplayEffect_BuildResourceObjects func_8003986C
 #define func_8003A560 func_80039BE0
 #include "../display_effect_resource_setup.c"

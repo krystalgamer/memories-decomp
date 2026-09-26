@@ -5,7 +5,6 @@
 #define D_8009B35A gJapanese_D_8009B35A
 #define D_8009B356 gJapanese_D_8009B356
 #define Dialog_OpenChoice func_80036CAC
-#define DuelEffect_ProcessEntries func_800393D8
 #define DISPLAY_EFFECT_MENU_CONFIRM_MASK \
     (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
 #define DISPLAY_EFFECT_MENU_CHANNEL_STRIDE 0x60

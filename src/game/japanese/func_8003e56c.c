@@ -1,6 +1,5 @@
 #define D_8009B3C4 gJapanese_MemCardTransferOffset
 #define D_8009B3EB gJapanese_MemCardDialogStepState
-#define MemCardDialog_UpdateSave func_8003DDF8
 #include "../../types.h"
 #include "../duel_effect.h"
 #include "../mem_card.h"
