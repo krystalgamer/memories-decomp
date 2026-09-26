@@ -3554,6 +3554,12 @@
       "source": "src/game/japanese/save_data_request_write.c"
     },
     {
+      "address": "0x8003EFA8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/japanese/func_8003efa8.c"
+    },
+    {
       "address": "0x8003EFD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3E0",
