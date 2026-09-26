@@ -210,10 +210,12 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
         node++;
     }
 }
+#endif
 
 /* One frame of the flash a glyph makes when it is picked on the keyboard: the
  * source node is parked off-screen for the twelve frames the sprite scales up
  * and back down, then restored. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_PULSE)
 void NameEntry_UpdateGlyphPulse(u8 *sprite)
 {
     GlyphSprite *obj = (GlyphSprite *)sprite;
@@ -250,9 +252,11 @@ void NameEntry_UpdateGlyphPulse(u8 *sprite)
         }
     }
 }
+#endif
 
 /* One frame of a single shard: seeded once with a random sideways kick and an
  * upward one, then thrown until it falls off the bottom of the screen. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_FRAGMENT)
 void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 {
     u8 flags;
@@ -273,9 +277,11 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
+#endif
 
 /* Breaks one 16x16 glyph into sixteen 4x4 shards, each on
  * NameEntry_UpdateGlyphFragment, and retires the glyph itself. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_SHATTER)
 void NameEntry_UpdateGlyphShatter(u8 *object)
 {
     DisplayObject *piece;
@@ -298,7 +304,11 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
                                   4, 4,
                                   *(u8 *)&glyph->field_5C + dx,
                                   ((u8 *)&glyph->field_5C)[1] + dy,
+#ifdef VERSION_JAPAN
+                                  25,
+#else
                                   glyph->field_66,
+#endif
                                   (u16)glyph->field_40.h.field_40,
                                   (u16)glyph->field_40.h.field_42);
                     piece->field_6C = 3;
@@ -311,9 +321,11 @@ void NameEntry_UpdateGlyphShatter(u8 *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
+#endif
 
 /* Slides the caret to +0x44/+0x46 over the +0x60 frames it was given, then
  * snaps to the target and uninstalls itself. */
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_CARET_TWEEN)
 void NameEntry_UpdateCaretTween(DisplayObject *object)
 {
     u8 flags;
@@ -341,7 +353,9 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
         object->field_30.word = object->field_44.word;
     }
 }
+#endif
 
+#ifndef VERSION_JAPAN
 /* Flies an accepted glyph from the keyboard to the name field on the same
  * tween prologue as the caret, dropping a fading copy of itself each frame.
  * On arrival it looks the destination glyph up and shatters it. */
