@@ -167,7 +167,7 @@ void func_8002ACA4(u8 *state)
         D_800F2848.field_08 = 0;
         rv->vrz = 0;
         D_800F2848.field_0A = 0;
-        func_8001352C();
+        ViewState_ApplyOrbit();
         func_80029164(0, H(state, 6));
         Fade_StartOutKeepOverlay();
         D_800E9ECF[0] = 6;

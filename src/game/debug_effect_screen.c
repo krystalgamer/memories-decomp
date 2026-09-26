@@ -175,7 +175,7 @@ void func_800222F4(void) {
             obj->field_30.h.field_30 = 0x5A;
             obj->field_30.h.field_32 = 0x16;
             Main_AdvanceFrames(4);
-            func_8001944C(obj);
+            DuelCard_CaptureRoundedTexture(obj);
             break;
         case 2:
             tent_DebugEffectObject0 = func_80017F04(D_801A7B80, 0x86, 0x52);

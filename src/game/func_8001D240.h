@@ -8,7 +8,4 @@
    keeping its DuelCardRecord defense-position flag synchronized. */
 void DuelCard_UpdateDefenseRotation(DisplayObject *object);
 
-/* Compatibility symbol used by the tracked field-action candidate. */
-void func_8001D240(DisplayObject *object);
-
 #endif

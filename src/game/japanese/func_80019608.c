@@ -7,6 +7,5 @@
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_801A7AD8 gJapanese_DuelCardRecords
-#define func_8001944C DuelCard_CaptureRoundedTexture
 
 #include "../func_80019608.c"

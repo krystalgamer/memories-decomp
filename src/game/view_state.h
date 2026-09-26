@@ -93,7 +93,6 @@ extern ViewState D_800F2848;
 
 void ViewState_ApplyOrbit(void);
 /* Address-based alias retained for the unmatched caller and its candidate. */
-void func_8001352C(void);
 
 
 #endif

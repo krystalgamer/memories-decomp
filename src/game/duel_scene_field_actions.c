@@ -237,7 +237,7 @@ void DuelScene_UpdateFieldActions(void)
                         goto back_to_menu;
                     }
                     o = card->object;
-                    W(o, 0x24) = (s32)func_8001D240;
+                    W(o, 0x24) = (s32)DuelCard_UpdateDefenseRotation;
                     B(o, 0x6C) = 0xF;
                     return;
                 }
@@ -258,7 +258,7 @@ void DuelScene_UpdateFieldActions(void)
                 if (card->flags & 0x800) {
                     D_8009B20C[0] = flags | 0xC000;
                     o = card->object;
-                    W(o, 0x24) = (s32)func_8001D240;
+                    W(o, 0x24) = (s32)DuelCard_UpdateDefenseRotation;
                     B(o, 0x6C) = 0xF;
                 }
                 return;
@@ -309,7 +309,7 @@ void DuelScene_UpdateFieldActions(void)
             card = &D_801A7AD8[D_800907D8[r * 5 + side->col + D_8009B1D5 * 20]];
             if (r == 2 && DuelCard_CanActThisTurn(card) != 0) {
                 o = card->object;
-                W(o, 0x24) = (s32)func_8001D240;
+                W(o, 0x24) = (s32)DuelCard_UpdateDefenseRotation;
                 B(o, 0x6C) = 0xF;
                 SD_SEPlayFull(0xB);
             }

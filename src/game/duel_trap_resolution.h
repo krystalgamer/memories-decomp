@@ -11,7 +11,6 @@
 s32 Duel_SelectAttackTrap(u8 *record);
 
 /* Historical call symbol retained by the unmatched battle candidate. */
-s32 func_8001F0D0(u8 *record);
 
 /* Runs the trap presentation one step and reports whether it is still busy:
  * zero once the sequence has finished, non-zero while it is running or when
@@ -30,6 +29,5 @@ s32 func_8001F0D0(u8 *record);
 s32 Duel_UpdateTrapPresentation(void);
 
 /* Historical call symbol retained by the unmatched battle candidate. */
-s32 func_8001F364(void);
 
 #endif
