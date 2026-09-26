@@ -21,14 +21,14 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *arg0)
 
     while (p->flags_11 & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         if (p->field_13 != 0) {
-            D_80090F58[p->field_13 & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
+            tent_DuelEffectEntryHandlers[p->field_13 & DUEL_EFFECT_ENTRY_HANDLER_INDEX_MASK](
                 (DuelEffectEntry *)p, arg0);
         }
         p++;
     }
 
     if (D_8009B330 != 0) {
-        q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)D_800EB288)[
+        q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)tent_DuelEffectEntries)[
             DUEL_EFFECT_PROCESS_RANGE_START(arg0)];
         e = (DUEL_EFFECT_PROCESS_ENTRY_TYPE *)arg0->entry_end_20;
         s = q;

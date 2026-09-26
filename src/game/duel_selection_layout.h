@@ -44,7 +44,7 @@ typedef struct {
     /* The cursor step counter DuelCardPickCursor names field_0C. */
     s16 field_0C;
     /* The hand slot the side's cursor is on: func_8001B8B8 indexes
-     * D_800EA030 with it to pick the card it leaves undimmed, and
+     * tent_DuelHandDisplayRecords with it to pick the card it leaves undimmed, and
      * DuelScene_UpdateHandActions clears it beside field_15. Read signed at
      * that index. */
     u8 field_0E;

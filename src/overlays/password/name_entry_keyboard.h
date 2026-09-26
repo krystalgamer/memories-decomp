@@ -7,7 +7,7 @@
 
 void NameEntry_BuildKeyboardTextBox(s32 textOffset);
 void NameEntry_UpdateKeyboard(void);
-/* The glyph nodes this screen walks are D_800EB288 entries: the record's
+/* The glyph nodes this screen walks are tent_DuelEffectEntries entries: the record's
    0x24 pointer is where TextBox_GetGlyphAt starts, and it returns the entry
    whose x_0C/y_0E pair matches. */
 DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);

@@ -10,8 +10,8 @@ void func_80020EE8(DuelCardDisplayObject *object);
 
 #define DUEL_RESULT_SPRITE_COUNT 7
 
-/* One row entry of the duel-result sprite tables D_80090928 (a real opponent)
-   and D_80090960 (none). Each table is indexed by the winning side and then
+/* One row entry of the duel-result sprite tables tent_DuelResultSpriteSpecsOpponent (a real opponent)
+   and tent_DuelResultSpriteSpecsNoOpponent (none). Each table is indexed by the winning side and then
    by sprite, DUEL_RESULT_SPRITE_COUNT of them, and DuelScene_UpdateResultOutro spends the
    whole entry in one call: `x` and `y` are the spawn position it hands
    DisplayObject_ConfigureSpriteAtPositionWithResource, `kind` is that call's part selector and doubles as the
@@ -39,11 +39,11 @@ typedef char DuelResultSpriteSlot_size_must_be_0xC[
     sizeof(DuelResultSpriteSlot) == 0xC ? 1 : -1
 ];
 
-extern u16 D_8009B1E0;
+extern u16 tent_DuelResultBgmId;
 
 /* gDuel_apfnSceneStateHandler duel phase entry: the result outro. It spawns one object per row
- * of the winning side's sprite table -- D_80090928 with a real opponent,
- * D_80090960 without -- keeps them in the gDuel_awRitualData scratch as
+ * of the winning side's sprite table -- tent_DuelResultSpriteSpecsOpponent with a real opponent,
+ * tent_DuelResultSpriteSpecsNoOpponent without -- keeps them in the gDuel_awRitualData scratch as
  * DuelResultSpriteSlot entries, and retargets all of them on its third step. */
 void DuelScene_UpdateResultOutro(void);
 

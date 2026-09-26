@@ -106,7 +106,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->field_2C = 0;
         func_800391E4(object);
         if ((object->flags_34 & 0x40) == 0) {
-            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)D_800EB288)[
+            entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)tent_DuelEffectEntries)[
                 TEXT_BOX_RANGE_START(object)];
             object->entry_head_24 = entry;
             object->entry_end_20 = entry;

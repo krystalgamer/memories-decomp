@@ -7,7 +7,7 @@
 void func_80035CA8(int value)
 {
     int index;
-    u8 *entry = D_800EAF08;
+    u8 *entry = tent_DuelEffectOccupancy;
     value++;
     for (
         index = 0;
@@ -21,13 +21,13 @@ void func_80035CA8(int value)
 }
 #endif
 
-/* Clears the D_800EAF08 occupancy table (see func_80035CA8) and resets its
+/* Clears the tent_DuelEffectOccupancy occupancy table (see func_80035CA8) and resets its
    scan cursor to (0,0). */
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_RESET_OCCUPANCY)
 void DuelEffect_ResetOccupancy(void) {
     u8 *v0;
     int v1;
-    v0 = D_800EAF08;
+    v0 = tent_DuelEffectOccupancy;
     v1 = DUEL_EFFECT_OCCUPANCY_COUNT - 1;
     do {
         *v0 = 0;
@@ -47,7 +47,7 @@ s32 func_80035D10(void)
     s32 count = 0x100;
     do {
         s32 index = row * 16 + col;
-        if (D_800EAF08[index] == 0)
+        if (tent_DuelEffectOccupancy[index] == 0)
             return index;
         col++;
         if ((col & 3) == 0) {
@@ -81,7 +81,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     u8 v0;
     a1 = JAPANESE_DUEL_EFFECT_ENTRY_COUNT;
     a0 = a0 + 1;
-    v1 = (JapaneseDuelEffectEntry *)D_800EB288;
+    v1 = (JapaneseDuelEffectEntry *)tent_DuelEffectEntries;
     do {
         v0 = v1->field_12;
         if (v0 == a0) {
@@ -96,7 +96,7 @@ void DuelEffect_ClearMatchingMarker(int a0) {
     u8 v0;
     a1 = DUEL_EFFECT_ENTRY_COUNT;
     a0 = a0 + 1;
-    v1 = D_800EB288;
+    v1 = tent_DuelEffectEntries;
     do {
         v0 = v1->field_12;
         if (v0 == a0) {
@@ -125,11 +125,11 @@ void DuelEffect_ResetEntryMarkers(void) {
     int v1;
     /* Old GCC preserves the regional initialization order in the output. */
 #ifdef VERSION_JAPAN
-    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)D_800EB288;
+    v0 = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)tent_DuelEffectEntries;
     v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
 #else
     v1 = DUEL_EFFECT_MARKER_ENTRY_COUNT;
-    v0 = D_800EB288;
+    v0 = tent_DuelEffectEntries;
 #endif
     for (; v1 != 0; v1 = v1 - 1) {
         v0->flags_11 = 0;

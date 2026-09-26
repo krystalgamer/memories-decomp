@@ -106,7 +106,7 @@ void DuelScene_UpdateExodiaResult(void)
         obj->field_6C = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->field_30.h.field_32;
-        rec = (u8 *)D_800EA030;
+        rec = (u8 *)tent_DuelHandDisplayRecords;
 next_obj:
         obj = *(DisplayObject **)rec;
         /* Keep the typed record offset left of the staging base. */

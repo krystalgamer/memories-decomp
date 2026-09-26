@@ -21,9 +21,9 @@
    record, whose first byte chooses one of the five shared display-object work
    slots and whose remaining bytes become object x/y after removing the
    candidate's 0x1A/0x1E coordinate biases. The trailing byte preserves the
-   table's 16-byte extent before D_80090928.
+   table's 16-byte extent before tent_DuelResultSpriteSpecsOpponent.
 
-   D_80090928 and D_80090960 are the duel-result sprite tables, for a real
+   tent_DuelResultSpriteSpecsOpponent and tent_DuelResultSpriteSpecsNoOpponent are the duel-result sprite tables, for a real
    opponent and for none. The outro already declared both as
    DuelResultSpriteSpec[][DUEL_RESULT_SPRITE_COUNT], and the extracted sizes
    agree: two winning sides by seven sprites by a four-byte spec. */
@@ -71,7 +71,7 @@ DuelExodiaCardPoseTable D_80090918 = {
     0,
 };
 
-DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT] = {
+DuelResultSpriteSpec tent_DuelResultSpriteSpecsOpponent[][DUEL_RESULT_SPRITE_COUNT] = {
     {
         { 112, 68, 1, 20 },
         { 160, 68, 2, 20 },
@@ -92,7 +92,7 @@ DuelResultSpriteSpec D_80090928[][DUEL_RESULT_SPRITE_COUNT] = {
     },
 };
 
-DuelResultSpriteSpec D_80090960[][DUEL_RESULT_SPRITE_COUNT] = {
+DuelResultSpriteSpec tent_DuelResultSpriteSpecsNoOpponent[][DUEL_RESULT_SPRITE_COUNT] = {
     {
         { 136, 68, 16, 12 },
         { 184, 68, 17, 20 },

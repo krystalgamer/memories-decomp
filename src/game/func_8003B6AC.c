@@ -12,7 +12,7 @@ void DuelEffect_SetEntryRangeLayout(s32 arg0, s32 arg1)
     s32 i = *lo;
 
     if (i < *hi) {
-        DuelEffectEntry *base = D_800EB288;
+        DuelEffectEntry *base = tent_DuelEffectEntries;
         DuelEffectEntry *p = &base[i];
         do {
             p->field_18 = arg1;
