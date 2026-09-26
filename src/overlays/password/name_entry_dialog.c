@@ -33,6 +33,7 @@
    name_entry_runtime.c. The shop display unit after them has no proven
    ownership in this lifecycle. */
 
+#ifndef VERSION_JAPAN
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
@@ -213,6 +214,7 @@ ztest:
     }
     SD_SEPlayFull(9);
 }
+#endif
 
 s32 NameEntry_PollCompletion(void)
 {
