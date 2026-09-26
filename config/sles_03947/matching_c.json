@@ -26,6 +26,12 @@
       "source": "src/game/fade_init.c"
     },
     {
+      "address": "0x800150F0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x138",
+      "source": "src/game/european/fade_step_bands.c"
+    },
+    {
       "address": "0x80015C30",
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA0",
@@ -162,6 +168,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
       "source": "src/game/duel_scene_turn_switch.c"
+    },
+    {
+      "address": "0x80022D0C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x158",
+      "source": "src/game/func_80022D94.c"
     },
     {
       "address": "0x80022E64",
@@ -848,6 +860,12 @@
       "source": "src/game/func_80049FB4.c"
     },
     {
+      "address": "0x8004A388",
+      "profile": "gcc_2_8_1_g0_no_cse_follow_jumps",
+      "size": "0x180",
+      "source": "src/game/sound_spatialize_object.c"
+    },
+    {
       "address": "0x8004BAE0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
@@ -906,6 +924,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x100",
       "source": "src/game/func_80058838.c"
+    },
+    {
+      "address": "0x8005CE8C",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x144",
+      "source": "src/game/func_80058938.c"
     },
     {
       "address": "0x8005D29C",
