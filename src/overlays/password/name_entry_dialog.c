@@ -33,7 +33,11 @@
    name_entry_runtime.c. The shop display unit after them has no proven
    ownership in this lifecycle. */
 
-#ifndef VERSION_JAPAN
+#ifndef NAME_ENTRY_DIALOG_CHANNEL_TYPE
+#define NAME_ENTRY_DIALOG_CHANNEL_TYPE DuelEffectChannel
+#endif
+
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG)
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
@@ -57,7 +61,10 @@ void NameEntry_UpdateDialog(void)
         flags = D_8016D400;
         if ((flags & 4) == 0) {
             D_8016D400 = flags | 4;
+#ifndef VERSION_JAPAN
+            /* The Japanese build makes no func_8003B6AC call here. */
             func_8003B6AC(2, 2);
+#endif
             box = TextBox_Create(2, D_8016D4D2 & 0xFFF, 16, 248,
                                  288, 48);
             box->field_59 = 20;
@@ -162,10 +169,16 @@ void NameEntry_UpdateDialog(void)
         D_8016D400 = ff & 0x7F;
         Text_SjisToGlyphCodes(D_801B125A, D_8016D418, 6);
         TextBox_Create(3, 254, 112, 204, 96, 16);
+#ifdef VERSION_JAPAN
+        /* No field_5A/field_5B stores, and 0x60-byte channel records. */
+        func_80039A60((struct DuelEffectChannel *)&(
+            (NAME_ENTRY_DIALOG_CHANNEL_TYPE *)D_800EB0F8)[3]);
+#else
         panel = D_800EB0F8;
         panel[3].field_5A = 16;
         panel[3].field_5B = 16;
         func_80039A60((struct DuelEffectChannel *)&panel[3]);
+#endif
         NameEntry_AdjustLength(1, 6);
         return;
     }
