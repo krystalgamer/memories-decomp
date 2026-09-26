@@ -15,7 +15,6 @@
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_FREE_GENERAL_SLOT)
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = tent_DisplayObjectGeneralSlots;
@@ -30,9 +29,7 @@ s32 DisplayObject_FindFreeGeneralSlot(void)
     }
     return -1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FIND_FREE_SLOT)
 s32 DisplayObject_FindFreeSlot(void)
 {
     DisplayObject *entry = D_800EFE48;
@@ -45,10 +42,7 @@ s32 DisplayObject_FindFreeSlot(void)
     }
     return -1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_DISPLAY_OBJECT_ACQUIRE_SLOT)
 void *DisplayObject_AcquireSlot(s32 index, s32 key)
 {
     DisplayObject *slot;
@@ -102,9 +96,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
     }
     return slot;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RELEASE)
 void DisplayObject_Release(DisplayObject *slot)
 {
     s32 first = slot->previous;
@@ -127,10 +119,7 @@ void DisplayObject_Release(DisplayObject *slot)
 
     slot->flags = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_DISPLAY_OBJECT_MOVE_TO_LIST_HEAD)
 void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
 {
     u16 saved = slot->flags;
@@ -150,37 +139,27 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     D_800EFE38[key] = slot->field_0A;
     slot->flags = saved;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RELEASE_IF_PRESENT)
 void DisplayObject_ReleaseIfPresent(void *object)
 {
     if (object != 0) {
         DisplayObject_Release((DisplayObject *)object);
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RESET_POOL)
 void DisplayObject_ResetPool(void){int i=0;int neg=-1;s16*a; s16*b;a=D_800F2878;b=D_800EFE38;D_8009B410=0;D_8009B412=0;for(;i<DISPLAY_OBJECT_LIST_COUNT;i++){*b=neg;*a=neg;a++;b++;}{DisplayObject*p=D_800EFE48;for(i=DISPLAY_OBJECT_POOL_CAPACITY-1;i>=0;i--){p->flags=0;p++;}}}
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_RESET)
 void DisplayObject_Reset(void)
 {
     DisplayObject_ResetPool();
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_SET_RESOURCE_VARIANT)
 void DisplayObject_SetResourceVariant(DisplayObjectConfig *object, s32 value)
 {
     object->field_69 = value;
     object->flags &= 0xFFEF;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_UPDATE_RESOURCE_VARIANT)
 void DisplayObject_UpdateResourceVariant(
     DisplayObjectConfig *object,
     s32 value
@@ -191,9 +170,7 @@ void DisplayObject_UpdateResourceVariant(
         object->flags &= 0xFFEF;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_SET_RESOURCE_PATH)
 void DisplayObject_SetResourcePath(
     DisplayObjectConfig *object,
     u8 field_67,
@@ -206,9 +183,7 @@ void DisplayObject_SetResourcePath(
     object->field_69 = field_69;
     object->flags &= 0xFFEF;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_RESOURCE)
 void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field_67, int field_68,
                     int field_69, int color, int texture)
 {
@@ -230,8 +205,6 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
     return configured;
 }
 
-#endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SPRITE_AT_POSITION)
 void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 field_67, s32 field_68,
                    s32 field_69, s32 color, s32 texture)
 {
@@ -241,11 +214,7 @@ void DisplayObject_ConfigureSpriteAtPosition(void *object, s32 x, s32 y, s32 fie
     o->field_30.h.field_32 = y;
     DisplayObject_ConfigureSpriteResource(object, field_67, field_68, field_69, color, texture);
 }
-#endif
 
-#ifndef VERSION_JAPAN
-#endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_CONFIGURE_SCREEN_SPRITE)
 DisplayObject *DisplayObject_ConfigureScreenSprite(
     DisplayObject *object,
     s32 x,
@@ -281,10 +250,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
     object->field_48.h.field_4A = half_width;
     return object;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_DISPLAY_OBJECT_RENDER_SPRITE_LIST)
 /* Walks the display-object list rooted at D_800EFE3A: calls each object's
    callback, and for every renderable object fills the sprite primitive in
    the scratchpad at 0x1F800320 from the object, offsets it by the viewport
@@ -371,4 +337,3 @@ void DisplayObject_RenderSpriteList(void) {
         } while (i >= 0);
     }
 }
-#endif
