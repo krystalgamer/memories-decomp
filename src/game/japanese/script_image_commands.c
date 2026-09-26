@@ -1,7 +1,6 @@
 #include "../../types.h"
 
 #define VERSION_JAPAN
-#define VERSION_JAPAN_SCRIPT_SHOW_IMAGE
 #define D_8009B0F4_abs gJapanese_FileTransferFlags
 #define D_8009B134_abs gJapanese_FileSecondaryRequest
 #define D_8009B270 gJapanese_ScriptImageId
