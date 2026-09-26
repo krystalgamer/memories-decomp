@@ -47,7 +47,7 @@
    NameEntry_BuildStarterDeck, which follows this run in the image, is not
    part of it: its caller is name_entry_main.c, not the shop. */
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_PASSWORD_REFRESH_DIGIT_DISPLAY)
 void Password_RefreshDigitDisplay(void)
 {
     DuelEffectChannel *boxes;
@@ -70,12 +70,19 @@ void Password_RefreshDigitDisplay(void)
         }
     }
     *out = TEXT_STRING_TERMINATOR;
+#ifndef VERSION_JAPAN
     func_8003B6AC(2, 1);
+#endif
     TextBox_Create(2, 0xFD, 0xA8, 0x68, 0xA0, 0x10);
+#ifdef VERSION_JAPAN
+    func_80039A14(
+        (struct DuelEffectChannel *)((u8 *)D_800EB0F8 + 0xC0));
+#else
     boxes = D_800EB0F8;
     boxes[2].field_5A = 0x10;
     boxes[2].field_5B = 0x10;
     func_80039A14((struct DuelEffectChannel *)&boxes[2]);
+#endif
 }
 #endif
 
