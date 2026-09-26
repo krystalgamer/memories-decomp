@@ -9,21 +9,22 @@ from build_regional_baseline import RegionalBuildConfiguration, build
 from workspace import WorkspaceError, require_workspace_root
 
 
-JAPANESE_BUILD = RegionalBuildConfiguration(
-    splat_directory="tmp/splat/slpm_86398",
+EUROPEAN_BUILD = RegionalBuildConfiguration(
+    splat_directory="tmp/splat/sles_03947",
     output_directory="tmp/project-build",
-    matching_config="config/slpm_86398/matching_c.json",
-    output_name="SLPM_863.98",
-    linker_script="slpm_86398.ld",
-    asm_directory="tmp/project-build/japanese-asm",
+    matching_config="config/sles_03947/matching_c.json",
+    output_name="SLES_039.47",
+    linker_script="sles_03947.ld",
+    asm_directory="tmp/project-build/european-asm",
     expected_size=0x1D0800,
+    link_symbols="config/sles_03947/link_symbols.ld",
 )
 
 
 def main() -> int:
     try:
         root = require_workspace_root()
-        output = build(root, JAPANESE_BUILD)
+        output = build(root, EUROPEAN_BUILD)
     except (BuildError, WorkspaceError, OSError, ValueError) as error:
         print(f"error: {error}", file=sys.stderr)
         return 1

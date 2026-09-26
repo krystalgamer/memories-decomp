@@ -1,0 +1,99 @@
+name: European matching build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: european-matching-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  clean-build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    env:
+      MAKEFLAGS: -j4
+      USE_SYSTEM_MIPS_BINUTILS: "1"
+      YGOFM_SLES_03947_URL: ${{ secrets.YGOFM_SLES_03947_URL }}
+      YGOFM_EUR_SU_MRG_URL: ${{ secrets.YGOFM_EUR_SU_MRG_URL }}
+      YGOFM_EUR_WA_MRG_URL: ${{ secrets.YGOFM_EUR_WA_MRG_URL }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Install host build dependencies
+        run: |
+          sudo rm -f /etc/apt/sources.list.d/*.list \
+                     /etc/apt/sources.list.d/*.sources
+          sudo apt-get update || true
+          sudo apt-get install --yes --no-install-recommends \
+            build-essential \
+            binutils-mips-linux-gnu=2.38-1ubuntu1cross2 \
+            ca-certificates \
+            curl \
+            patch \
+            python3-pip \
+            python3-venv
+
+      - name: Require private European retail input secrets
+        run: |
+          for name in \
+            YGOFM_SLES_03947_URL \
+            YGOFM_EUR_SU_MRG_URL \
+            YGOFM_EUR_WA_MRG_URL
+          do
+            if [ -z "$(printenv "$name")" ]; then
+              echo "::error::Configure the corresponding YGOFM European input secret."
+              exit 1
+            fi
+          done
+
+      - name: Download and verify European retail inputs
+        run: |
+          mkdir -p game/europe/DATA
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_SLES_03947_URL" \
+            --output game/europe/SLES_039.47
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_EUR_SU_MRG_URL" \
+            --output game/europe/DATA/SU.MRG
+          curl --fail --location --retry 3 --silent --show-error \
+            "$YGOFM_EUR_WA_MRG_URL" \
+            --output game/europe/DATA/WA_MRG.MRG
+          sha256sum --check --strict config/sles_03947/files.sha256
+
+      - name: Restore pinned project tools
+        uses: actions/cache@v4
+        with:
+          path: |
+            tools/downloads
+            tools/environments
+            tools/toolchains
+            tools/vendor
+          key: ${{ runner.os }}-project-tools-${{ hashFiles('tools/bootstrap/*.json', 'tools/bootstrap/*.py') }}
+
+      - name: Install or verify pinned tools
+        run: |
+          python3 tools/bootstrap/bootstrap.py
+          python3 tools/bootstrap/binutils_system.py
+          python3 tools/bootstrap/old_gcc_prebuilt.py
+          make check-build-tools
+
+      - name: Verify European inputs and clean exact build
+        run: |
+          make verify-european-inputs
+          make european-match
+          sha256sum --check --strict <<'EOF'
+          49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40e  tmp/project-build/SLES_039.47
+          EOF
