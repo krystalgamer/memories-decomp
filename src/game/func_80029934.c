@@ -16,6 +16,12 @@
 #include "duel_projection_axes.h"
 #include "func_80029934.h"
 
+/* Regional value: the geometry offset y (0x60 -> 0x68). The European build
+ * (src/game/european/) defines its own. */
+#ifndef GLOBE_GEOM_OFFSET_Y
+#define GLOBE_GEOM_OFFSET_Y 0x60
+#endif
+
 void func_80029934(void)
 {
     LINE_G3 *prim;
@@ -34,7 +40,7 @@ void func_80029934(void)
     s32 next_angle;
 
     angle = 0;
-    SetGeomOffset(0xD0, 0x60);
+    SetGeomOffset(0xD0, GLOBE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     vec = (SVECTOR *)0x1F800038;
     ctl = (long *)0x1F800060;
