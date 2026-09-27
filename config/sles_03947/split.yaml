@@ -580,7 +580,7 @@ segments:
       - [0x04C834, c, game/model_control_slot_animation]
       - [0x04CB60, c, game/func_80057E20]
       - [0x04CC78, c, game/model_update_view_metrics]
-      - [0x04D000, asm, generated/text_04d000]
+      - [0x04D000, c, game/european/model_apply_texture_tint]
       - [0x04D188, c, game/func_80058434]
       - [0x04D378, c, game/func_80058624]
       - [0x04D58C, c, game/func_80058838]
