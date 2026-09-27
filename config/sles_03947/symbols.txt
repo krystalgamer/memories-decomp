@@ -989,6 +989,7 @@ Text_HandleDisplayEffectCommand = 0x80038CB8;
 func_80019CC8 = 0x80019C54;
 DuelScene_UpdateCardPlacement = 0x80019CA4;
 func_8001B0CC = 0x8001B058;
+func_8001B170 = 0x8001B0FC;
 func_8001B780 = 0x8001B6F0;
 func_8001B7AC = 0x8001B71C;
 func_8001B8B8 = 0x8001B828;
