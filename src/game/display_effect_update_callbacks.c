@@ -134,8 +134,11 @@ void func_8003AAE4(MenuRecord *p) {
         if (p->field_3C != 0) {
             *(s16 *)&p->field_34 = 0xD8;
         }
-        DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
-                      *(s16 *)&p->field_36);
+        DisplayPositionGroup_SetChildPositions(
+            DISPLAY_POSITION_GROUP_VIEW(p),
+            *(s16 *)&p->field_34,
+            *(s16 *)&p->field_36
+        );
         q = DISPLAY_OBJECT_VIEW(p->grid[0][0]);
         a = q->field_16;
         b = q->field_67;
@@ -258,8 +261,11 @@ void func_8003AD6C(MenuRecord *p)
         p->display_effect_step = 0;
         func_8003A440((u8 **)p->grid[0], 0,
                       DISPLAY_OBJECT_VIEW(p->grid[0][0])->field_16);
-        DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), *(s16 *)&p->field_34,
-                      *(s16 *)&p->field_36);
+        DisplayPositionGroup_SetChildPositions(
+            DISPLAY_POSITION_GROUP_VIEW(p),
+            *(s16 *)&p->field_34,
+            *(s16 *)&p->field_36
+        );
         func_80039F90((void **)p->grid[1]);
         func_80039F90((void **)p->grid[2]);
         func_80039F90((void **)p->grid[3]);
@@ -301,11 +307,17 @@ void func_8003AD6C(MenuRecord *p)
     x = *(s16 *)&p->field_34 + dd[0];
     x = (s16)x;
     DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
-    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y);
+    DisplayPositionGroup_SetChildPositions(
+        DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y
+    );
     x = *(s16 *)&p->field_34 - dd[1];
     x = (s16)x;
-    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y);
-    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y);
+    DisplayPositionGroup_SetChildPositions(
+        DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y
+    );
+    DisplayPositionGroup_SetChildPositions(
+        DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y
+    );
 }
 
 void func_8003B054(MenuRecord *record)
