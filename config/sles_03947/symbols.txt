@@ -1425,6 +1425,7 @@ gDuel_wSceneStateFlags = 0x8009C144;
 func_8002827C = 0x800281C0;
 DuelEffect_UpdateState = 0x80028860;
 func_800289AC = 0x800288E0;
+func_800289B4 = 0x800288E8;
 gDuel_adwCardStats = 0x801D4244;
 gDuel_abCardLevelAttr = 0x801D5332;
 D_801D5804 = 0x801D5804;

@@ -1413,8 +1413,14 @@
     },
     {
       "address": "0x800288E0",
-      "profile": "gcc_2_8_1_g8",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
+      "source": "src/game/european/duel_effect_noop_800289AC.c"
+    },
+    {
+      "address": "0x800288E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
       "source": "src/game/european/duel_effect_noop_800289AC.c"
     },
     {

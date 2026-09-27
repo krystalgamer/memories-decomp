@@ -232,7 +232,6 @@ segments:
       - [0x018B38, asm, generated/text_018b38]
       - [0x019060, c, game/duel_effect_update_state]
       - [0x0190E0, c, game/european/duel_effect_noop_800289AC]
-      - [0x0190E8, asm, generated/text_0190e8]
       - [0x01915C, c, game/european/func_800289BC]
       - [0x0192C8, c, game/european/func_80028B08]
       - [0x01993C, c, game/card_preview_update_variant]

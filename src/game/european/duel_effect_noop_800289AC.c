@@ -4,5 +4,8 @@
 
 #define VERSION_EUROPE
 #define VERSION_EUROPE_FUNC_800289AC
+#define VERSION_EUROPE_FUNC_800289B4
+
+#define D_8009B3D4_IN_DATA
 
 #include "../duel_effect_noop_handlers.c"
