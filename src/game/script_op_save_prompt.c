@@ -56,20 +56,41 @@ int Duel_IsPlayerDeckComplete(void)
 }
 #endif
 
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN)
 /* The Japanese build makes no func_8003B6AC(0, 2) call before any of the
  * prompt's boxes, sizes three of them differently, and confirms with Circle
  * or Square. */
 #define SAVE_PROMPT_PREPARE_BOX()
+#define SAVE_PROMPT_INITIAL_BOX_HEIGHT 0x30
 #define SAVE_PROMPT_SLIDE_BOX_SIZE 0x70, 0x40
+#define SAVE_PROMPT_SLIDE_BOX_FLAGS 0x24
 #define SAVE_PROMPT_CHOICE_BOX_RECT 0x50, 0x30, 0x20
+#define SAVE_PROMPT_CHOICE_BOX_FLAGS 0x20
 #define SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT 0x30
+#define SAVE_PROMPT_DECK_ERROR_BOX_FLAGS 0x1008
+#define SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG 8
 #define SAVE_PROMPT_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#elif defined(VERSION_EUROPE)
+#define SAVE_PROMPT_PREPARE_BOX()
+#define SAVE_PROMPT_INITIAL_BOX_HEIGHT 0x40
+#define SAVE_PROMPT_SLIDE_BOX_SIZE 0x78, 0x40
+#define SAVE_PROMPT_SLIDE_BOX_FLAGS 0x48
+#define SAVE_PROMPT_CHOICE_BOX_RECT 0x70, 0x18, 0x20
+#define SAVE_PROMPT_CHOICE_BOX_FLAGS 0x40
+#define SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT 0x30
+#define SAVE_PROMPT_DECK_ERROR_BOX_FLAGS 0x1010
+#define SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG 0x10
+#define SAVE_PROMPT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #else
 #define SAVE_PROMPT_PREPARE_BOX() func_8003B6AC(0, 2)
+#define SAVE_PROMPT_INITIAL_BOX_HEIGHT 0x30
 #define SAVE_PROMPT_SLIDE_BOX_SIZE 0x78, 0x30
+#define SAVE_PROMPT_SLIDE_BOX_FLAGS 0x24
 #define SAVE_PROMPT_CHOICE_BOX_RECT 0x70, 0x18, 0x18
+#define SAVE_PROMPT_CHOICE_BOX_FLAGS 0x20
 #define SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT 0x24
+#define SAVE_PROMPT_DECK_ERROR_BOX_FLAGS 0x1008
+#define SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG 8
 #define SAVE_PROMPT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 #ifndef SAVE_PROMPT_CHANNEL_TYPE
@@ -119,7 +140,9 @@ void Script_OpSavePrompt(void)
         D_8009B2A6 = p[2] | (p2[1] << 8);
         SAVE_PROMPT_PREPARE_BOX();
         DuelEffect_MarkObjectIfActive(
-            TextBox_Create(0, value, 0x10, 0xB0, 0x120, 0x30));
+            TextBox_Create(
+                0, value, 0x10, 0xB0, 0x120, SAVE_PROMPT_INITIAL_BOX_HEIGHT
+            ));
         return;
     }
 
@@ -153,7 +176,7 @@ void Script_OpSavePrompt(void)
         SAVE_PROMPT_PREPARE_BOX();
         box = TextBox_Create(3, 0x11, -0x90, 0x38, SAVE_PROMPT_SLIDE_BOX_SIZE);
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
-        box->flags_34 |= 0x24;
+        box->flags_34 |= SAVE_PROMPT_SLIDE_BOX_FLAGS;
         do {
             func_80039794();
         } while (box->field_30 == 0);
@@ -174,7 +197,7 @@ void Script_OpSavePrompt(void)
             SAVE_PROMPT_PREPARE_BOX();
             box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
             DuelEffect_MarkObjectIfActive((MenuRecord *)box);
-            box->flags_34 |= 0x20;
+            box->flags_34 |= SAVE_PROMPT_CHOICE_BOX_FLAGS;
             do {
                 func_80039794();
             } while (box->field_30 == 0);
@@ -200,10 +223,17 @@ void Script_OpSavePrompt(void)
             D_8009B27C = flags | 0x800;
             SAVE_PROMPT_PREPARE_BOX();
             DuelEffect_MarkObjectIfActive(TextBox_CreateFlagged(
-                0, 0x1C, 0x10, 0xB0, 0x120, SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT, 0x1008));
+                0,
+                0x1C,
+                0x10,
+                0xB0,
+                0x120,
+                SAVE_PROMPT_DECK_ERROR_BOX_HEIGHT,
+                SAVE_PROMPT_DECK_ERROR_BOX_FLAGS));
             return;
         }
-        if ((SAVE_PROMPT_CHANNEL(0)->flags_34 & 8) != 0) {
+        if ((SAVE_PROMPT_CHANNEL(0)->flags_34 &
+             SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG) != 0) {
             return;
         }
         SD_SEPlayFull(8);
