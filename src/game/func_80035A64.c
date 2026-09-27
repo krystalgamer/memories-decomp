@@ -15,10 +15,16 @@ void func_80035A64(void)
         entry->field_28 = 0;
 #ifdef VERSION_JAPAN
         entry = (DuelEffectChannel *)((u8 *)entry + 0x60);
+#elif defined(VERSION_EUROPE)
+        /* The European channel is 100 bytes. */
+        entry = (DuelEffectChannel *)((u8 *)entry + 100);
 #else
         entry++;
 #endif
     } while (--i != 0);
+#ifndef VERSION_EUROPE
+    /* The European build makes no occupancy reset here. */
     DuelEffect_ResetOccupancy();
+#endif
     DuelEffect_ResetEntryMarkers();
 }
