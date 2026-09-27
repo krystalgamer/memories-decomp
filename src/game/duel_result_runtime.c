@@ -42,6 +42,9 @@
 #include "text_box_runtime.h"
 #include "display_object_config.h"
 #include "../unmatched.h"
+#ifdef VERSION_EUROPE
+#include "duel_effect_resource_setup.h"
+#endif
 
 #define DUEL_RESULT_ORBIT_ANGLE_STEP 0x30
 
@@ -348,6 +351,15 @@ void DuelScene_UpdateResultOutro(void)
    and gcc_2_8_1_g0_split and compile to identical objects at this unit's
    gcc_2_8_1_g8_split. */
 
+/* Regional values: the result page's text box y and height (0x28/0x120 ->
+   0x38/0xF0). The European build (src/game/european/) defines its own. */
+#ifndef DUEL_RESULT_PAGE_TEXT_Y
+#define DUEL_RESULT_PAGE_TEXT_Y 0x28
+#endif
+#ifndef DUEL_RESULT_PAGE_TEXT_HEIGHT
+#define DUEL_RESULT_PAGE_TEXT_HEIGHT 0x120
+#endif
+
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SHOW_RESULT_PAGE)
 void Duel_ShowResultPage(s32 page)
 {
@@ -378,7 +390,8 @@ void Duel_ShowResultPage(s32 page)
         }
     }
     object = TextBox_Create(
-        0, D_8009B1E8->page_text_ids[page], 0x1A, 0x28, 0x120, 0x120
+        0, D_8009B1E8->page_text_ids[page], 0x1A, DUEL_RESULT_PAGE_TEXT_Y, 0x120,
+        DUEL_RESULT_PAGE_TEXT_HEIGHT
     );
     func_80039A14(object);
 }
