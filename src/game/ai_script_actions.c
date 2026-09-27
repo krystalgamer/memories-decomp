@@ -6,6 +6,18 @@
 #define D_800EAE88_VISIBLE
 #include "../unmatched.h"
 
+#ifdef VERSION_EUROPE
+/* Two empty European-only script handlers, right before AiScript_PlayFaceUp
+   in the image; the European AI script table points at both. */
+void func_800732E0(void)
+{
+}
+
+void func_800732E8(void)
+{
+}
+#endif
+
 void AiScript_PlayFaceUp(void)
 {
     s32 *memory = gAiScript_aMemory;
