@@ -33,6 +33,9 @@
 #ifndef MODEL_TEXTURE_PALETTE_RECT_X
 #define MODEL_TEXTURE_PALETTE_RECT_X 0x200
 #endif
+#ifndef MODEL_TEXTURE_TAIL_ROW_Y
+#define MODEL_TEXTURE_TAIL_ROW_Y 0xF0
+#endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80056D7C)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80056D7C))
@@ -431,9 +434,16 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 3:
-        rect0.y = 0xF8;
+#ifdef VERSION_EUROPE
+        /* The European build stores the row's x first. */
+        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
+        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
         rect0.w = 0x100;
-        rect0.x = 0;
+#else
+        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(0);
+        rect0.w = 0x100;
+        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(0);
+#endif
         rect0.h = 8;
         LoadImage2(&rect0, (u32 *)D_801DD000);
         object->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -452,8 +462,8 @@ void func_800577B0(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 6:
-        rect1.x = 0x100;
-        rect1.y = 0xF0;
+        rect1.x = MODEL_TEXTURE_STAGE3_RECT_X(1);
+        rect1.y = MODEL_TEXTURE_TAIL_ROW_Y;
         rect1.w = 0x100;
         rect1.h = 2;
         LoadImage2(&rect1, (u32 *)D_801DD000);
