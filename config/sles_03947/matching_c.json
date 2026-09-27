@@ -2522,6 +2522,18 @@
       "source": "src/game/func_80059AA8.c"
     },
     {
+      "address": "0x8005DFA4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/model_state_setters.c"
+    },
+    {
+      "address": "0x8005DFB0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/model_state_setters.c"
+    },
+    {
       "address": "0x8005DFBC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x98",
