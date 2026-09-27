@@ -2,6 +2,12 @@
   "schema": 1,
   "functions": [
     {
+      "address": "0x80012A44",
+      "profile": "gcc_2_8_1_g8_split_no_sched1",
+      "size": "0x190",
+      "source": "src/game/european/main_init.c"
+    },
+    {
       "address": "0x80012BD4",
       "profile": "gcc_2_8_1_g8",
       "size": "0x78",

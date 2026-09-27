@@ -14,6 +14,7 @@
 #include "../types.h"
 #include "../unmatched.h"
 #include "duel_side_state.h"
+#include "duel_effect_resource_setup.h"
 #include "display_object_core.h"
 #include "sound.h"
 #include "text_init_decimal_digit_glyph_map.h"
@@ -47,6 +48,9 @@ s32 Main_Init(void)
     register GraphicsFrameBuffer *p;
 
     __main();
+#ifdef VERSION_EUROPE
+    SetVideoMode(1);
+#endif
     EnterCriticalSection();
     ResetCallback();
     GsInitVcount();
@@ -61,6 +65,9 @@ s32 Main_Init(void)
     D_8009B0C0 = 0;
     D_8009B09C = 0;
     t = D_8009B09C;
+#ifdef VERSION_EUROPE
+    D_8009C02B = 0;
+#endif
     D_8009B0C3 = 0;
     D_8009B0C1 = 0;
     D_8009B0D8 = 1;
