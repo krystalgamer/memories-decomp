@@ -2528,6 +2528,12 @@
       "source": "src/game/european/duel_effect_has_active_entry.c"
     },
     {
+      "address": "0x80037154",
+      "profile": "gcc_2_8_1_g0_no_sched1",
+      "size": "0x5C",
+      "source": "src/game/european/duel_effect_entry_write.c"
+    },
+    {
       "address": "0x800371B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",

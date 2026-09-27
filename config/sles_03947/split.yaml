@@ -370,7 +370,7 @@ segments:
       - [0x027694, c, game/european/widget_update_pulse_colour]
       - [0x02772C, c, game/european/dialog_update_choice]
       - [0x0278E0, c, game/european/duel_effect_has_active_entry]
-      - [0x027954, asm, generated/text_027954]
+      - [0x027954, c, game/european/duel_effect_entry_write]
       - [0x0279B0, c, game/european/duel_effect_entry_control]
       - [0x027A40, c, game/european/dialog_open_choice]
       - [0x027B3C, c, game/european/duel_effect_choice]
