@@ -450,7 +450,6 @@ segments:
       - [0x02F79C, c, game/european/func_8003EF9C]
       - [0x02F7E4, c, game/european/mem_card_dialog_trade_save]
       - [0x02FD68, c, game/european/mem_card_dialog_update]
-      - [0x030030, asm, generated/text_030030]
       - [0x03007C, c, game/european/mem_card_dialog_request]
       - [0x0300F8, c, game/european/save_data_transfer_runtime]
       - [0x030794, c, game/save_data_set_mask_seed]

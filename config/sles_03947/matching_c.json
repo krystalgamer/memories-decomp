@@ -3122,6 +3122,18 @@
       "source": "src/game/european/mem_card_dialog_update.c"
     },
     {
+      "address": "0x8003F830",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x34",
+      "source": "src/game/european/mem_card_dialog_update.c"
+    },
+    {
+      "address": "0x8003F864",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x18",
+      "source": "src/game/european/mem_card_dialog_update.c"
+    },
+    {
       "address": "0x8003F87C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
