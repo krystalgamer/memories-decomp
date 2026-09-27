@@ -371,7 +371,7 @@ segments:
       - [0x027C14, c, game/european/duel_effect_script_state]
       - [0x027CB4, asm, generated/text_027cb4]
       - [0x027D44, c, game/european/duel_effect_display_waits]
-      - [0x027E14, asm, generated/text_027e14]
+      - [0x027E14, c, game/european/duel_effect_display_finalize_wait]
       - [0x027E70, c, game/european/duel_effect_display_states]
       - [0x027F5C, asm, generated/text_027f5c]
       - [0x0280D8, c, game/european/duel_effect_transfer_repeat]
