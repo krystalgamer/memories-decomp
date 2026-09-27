@@ -6215,13 +6215,13 @@
       "address": "0x8005E68C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/game/japanese/model_animation_packet_handler.c"
+      "source": "src/game/japanese/model_packet_handlers.c"
     },
     {
       "address": "0x8005E754",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
-      "source": "src/game/japanese/model_packet_handler_lookup.c"
+      "source": "src/game/japanese/model_packet_handlers.c"
     },
     {
       "address": "0x8005E7A8",
@@ -6251,7 +6251,7 @@
       "address": "0x8005FB3C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x40",
-      "source": "src/game/japanese/func_8005fb3c.c"
+      "source": "src/game/japanese/model_primitive_handlers.c"
     },
     {
       "address": "0x8005FB7C",
