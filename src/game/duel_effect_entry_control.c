@@ -2,7 +2,7 @@
 #include "duel_effect.h"
 #include "duel_effect_entry_control.h"
 
-#ifdef VERSION_JAPAN_DUEL_EFFECT_COMPACT_ENTRIES
+#ifdef VERSION_JAPAN
 #include "duel_effect_entry_occupancy.h"
 
 #define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
@@ -24,8 +24,7 @@
     ((DUEL_EFFECT_ENTRY_TYPE *)((field) - 0x15))
 #define DUEL_EFFECT_ENTRY_BYTES(entry) ((u8 *)(entry))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_HAS_ACTIVE_ENTRY)
-/* Starting from the record's entry range, scans up to range_count_5C entries;
+/* Starting from the record's entry range, scans its active entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
    field_13 nonzero, 0
    if that flag clears, the count runs out, or the range is empty. */
@@ -57,10 +56,8 @@ loop:
 ret_zero_a:
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_SET_ENTRY_FIELDS)
-/* Starting from the record's entry range, walks up to range_count_5E entries;
+/* Starting from the record's entry range, walks its active entries;
    for each active entry, writes a1 to field_13 and a2 to field_15,
    stopping at the first entry with that flag clear or when the count runs
    out. */
@@ -89,9 +86,7 @@ loop:
         goto loop;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_COMPLETE_PAGE_ADVANCE)
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
     u8 state = object->state_51;
@@ -116,4 +111,3 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
     object->field_62 = 0;
 #endif
 }
-#endif

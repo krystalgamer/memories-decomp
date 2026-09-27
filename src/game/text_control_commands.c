@@ -78,7 +78,7 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         if (w != 0) {
             gDialog_bInputState = 1;
         }
-        func_80035CA8(object->index_57);
+        DuelEffect_ClearOccupancyValue(object->index_57);
         DuelEffect_ClearMatchingMarker(object->index_57);
         v = object->flags_34;
         object->field_56 = 0;

@@ -14,5 +14,4 @@
 #define D_8009B35A gJapanese_D_8009B35A
 #define D_80090F18 D_80090DC8
 #define D_80090E64 D_80090D14
-#define func_80035CA8 DuelEffect_ClearOccupancyValue
 #include "../text_box_build_step.c"
