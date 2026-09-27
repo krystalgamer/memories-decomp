@@ -1144,7 +1144,6 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009B16C,D_8009B16C,D_8009B16C,0x800179F4,Duel_InitScene,matching_c,game,C,src/game/duel_init_scene.c,read_write,16,D_8009B16C = 0; | D_8009B16C |= 0x1000;
 0x8009B16C,D_8009B16C,D_8009B16C,0x8001D670,DuelScene_UpdateFieldActions,matching_c,game,C,src/game/duel_scene_field_actions.c,read_write,16,D_8009B16C &= 0xEFFF; | if (D_8009B16C & 0x1000) {
 0x8009B16C,D_8009B16C,D_8009B16C,0x800218F0,DuelScene_UpdateResultRewards,matching_c,game,C,src/game/func_800218F0.c,read_write,16,D_8009B16C |= 0x2000;
-0x8009B16C,D_8009B16C,D_8009B16C,0x800222F4,func_800222F4,matching_c,game,C,src/game/debug_effect_screen.c,read_write,8,D_8009B16C[2] = (D_8009B16C[2] + 1) & 7; | D_8009B16C[2] = 0;
 0x8009B16C,D_8009B16C,D_8009B16C,0x80024200,DuelScene_Update,matching_c,game,C,src/game/func_80024200.c,read_write,16,D_8009B16C |= 0x2000;
 0x8009B16C,D_8009B16C,D_8009B16C,0x800279BC,func_800279BC,matching_c,game,C,src/game/ai_turn_action.c,read,16,if (D_8009B16C & 0x1000) {
 0x8009B16C,D_8009B16C,D_8009B16C,0x8002CEE8,Main_RunDuel,matching_c,game,C,src/game/main_run_duel.c,read,16,if (D_8009B16C & 0x2000)

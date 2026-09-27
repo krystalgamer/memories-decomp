@@ -35,11 +35,27 @@
 /* One packed small-data window: byte 0 selects one of the two coordinate
    bytes at 2..3, byte 4 selects the preview page, and bytes 1 and 5 are
    unused. Keeping it as one object preserves the retail interior gap. */
+/* The byte two past D_8009B16C in the US build; the European one has its
+   own address (duel_check_quit_input.h). */
+#ifdef VERSION_EUROPE
+#define DEBUG_EFFECT_PAGE_BYTE D_8009B16E
+#else
+#define DEBUG_EFFECT_PAGE_BYTE D_8009B16C[2]
+#endif
+
+/* Regional value: page 1's card object field_32 (0x16 -> 0x0E). The
+   European build defines its own. */
+#ifndef DEBUG_EFFECT_PAGE1_FIELD_32
+#define DEBUG_EFFECT_PAGE1_FIELD_32 0x16
+#endif
+
 #ifndef DEBUG_EFFECT_PLACE_BUTTON
 #define DEBUG_EFFECT_PLACE_BUTTON PAD_BUTTON_CROSS
 #endif
 
-#ifndef VERSION_JAPAN
+/* Defined here in the US build only; the Japanese and European symbol
+   files place it. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
 u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 #endif
 #define gDebugEffect_bCoordinateAxis gDebugEffect_abPreviewState[0]
@@ -49,7 +65,8 @@ u8 gDebugEffect_abPreviewState[6] __attribute__((section(".sdata"))) = {0};
 /* "               **\n~c777\0" */
 /* "            **\n~c777\0" */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_SCREEN_INPUT)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_SCREEN_INPUT)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_EFFECT_SCREEN_INPUT))
 /* Held, the first speeds up the orbit and view steps and the second the
  * movement. The Japanese release swaps Cross and Circle, so a regional build
  * names its own. */
@@ -133,7 +150,8 @@ void func_800220B8(void) {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_CONTROLLER)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_EFFECT_CONTROLLER)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_EFFECT_CONTROLLER))
 
 /* Debug display controller: START hands the pad to func_800220B8; on the
    first call it initialises the gDuel_wSceneStateFlags mode flags and the cursor state.
@@ -151,7 +169,7 @@ void func_800222F4(void) {
     }
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= 0xC000;
-        D_8009B16C[2] = 0;
+        DEBUG_EFFECT_PAGE_BYTE = 0;
         gDebugEffect_bPage = 0;
         gDebugEffect_bCoordinateAxis = 0;
         gDebugEffect_abCoordinates[1] = 0;
@@ -173,7 +191,7 @@ void func_800222F4(void) {
             File_WaitForTransfers();
             obj = (DisplayObject *)func_800291E0(0, -1, -1);
             obj->field_30.h.field_30 = 0x5A;
-            obj->field_30.h.field_32 = 0x16;
+            obj->field_30.h.field_32 = DEBUG_EFFECT_PAGE1_FIELD_32;
             Main_AdvanceFrames(4);
             DuelCard_CaptureRoundedTexture(obj);
             break;
@@ -201,7 +219,7 @@ void func_800222F4(void) {
     } else if (gInput_wPad1Pressed & DEBUG_EFFECT_PLACE_BUTTON) {
         p = (DuelEffectRequest *)DuelEffect_AllocateRequest(
             gDebugEffect_abCoordinates[0]);
-        D_8009B16C[2] = (D_8009B16C[2] + 1) & 7;
+        DEBUG_EFFECT_PAGE_BYTE = (DEBUG_EFFECT_PAGE_BYTE + 1) & 7;
         p->field_1A = gDebugEffect_abCoordinates[1];
         switch (gDebugEffect_bPage) {
         case 0:
@@ -228,7 +246,8 @@ void func_800222F4(void) {
 
 /* Prints the "EFFECT = %2d %2d" debug line, then one of two divider strings
    depending on the selected coordinate axis. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_PREVIEW_HUD)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_PREVIEW_HUD)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_PREVIEW_HUD))
 void DuelScene_UpdateEffectPreview(void) {
     u8 v0;
 
