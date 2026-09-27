@@ -854,6 +854,24 @@
       "source": "src/game/european/duel_result_orbit_sprites.c"
     },
     {
+      "address": "0x800214D0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x40",
+      "source": "src/game/european/duel_result_rank_change.c"
+    },
+    {
+      "address": "0x80021788",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x84",
+      "source": "src/game/european/duel_result_card_drop.c"
+    },
+    {
+      "address": "0x8002180C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x5C",
+      "source": "src/game/european/duel_result_card_drop.c"
+    },
+    {
       "address": "0x80021868",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C8",
