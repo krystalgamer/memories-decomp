@@ -514,6 +514,7 @@ D_8009B2E8 = 0x8009C251;
 tent_DebugInterfaceFlags = 0x8009C252;
 D_8009B2EB = 0x8009C253;
 tent_DebugInterfaceData = 0x8009C254;
+gDebugMenu_bPage = 0x8009C258;
 D_8009B363 = 0x8009C2D8;
 CardList_UpdateSortMode = 0x80033FD8;
 func_80033CF8 = 0x8003400C;
