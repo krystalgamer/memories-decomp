@@ -35,6 +35,13 @@ extern u16 D_801D5800[];
 #ifdef VERSION_JAPAN_TEXT_LOOKUP_STRING
 extern u16 D_801D6000[];
 #endif
+/* The European banks: each table starts four bytes into its bank, and the
+   global strings (ids from 0x8000) sit at D_801D5804. */
+#ifdef VERSION_EUROPE
+extern u16 D_801B0004[];
+extern u16 D_801C0004[];
+extern u16 D_801D5804[];
+#endif
 
 /* 0x8009B32E, the string id func_800383DC resolves through the regional banks
  * above. It is two bytes: D_8009B330 (duel_effect.h:368) starts at +2.
