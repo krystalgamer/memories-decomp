@@ -15,6 +15,14 @@
 #include "sprite_primitive.h"
 #include "display_object_packet_submit.h"
 
+#ifndef DISPLAY_OBJECT_SPRITE_TEXTURE_U
+#define DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture) ((texture) & 0x3F0)
+#endif
+
+#ifndef DISPLAY_OBJECT_SPRITE_TEXTURE_V
+#define DISPLAY_OBJECT_SPRITE_TEXTURE_V(texture) (((texture) & 0xF) + 0xF0)
+#endif
+
 s32 DisplayObject_FindFreeGeneralSlot(void)
 {
     DisplayObject *entry = tent_DisplayObjectGeneralSlots;
@@ -188,6 +196,9 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
                     int field_69, int color, int texture)
 {
     u16 flags;
+#ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
+    int texture_v;
+#endif
 
     configured->field_67 = field_67;
     configured->field_68 = field_68;
@@ -195,8 +206,13 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int field
     configured->field_66 = color;
     *(u8 *)&configured->field_5E = color >> 16;
     *((u8 *)&configured->field_5E + 1) = color >> 8;
-    configured->field_40.h.field_40 = texture & 0x3F0;
-    configured->field_40.h.field_42 = (texture & 0xF) + 0xF0;
+    configured->field_40.h.field_40 = DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture);
+#ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
+    texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(texture);
+    configured->field_40.h.field_42 = texture_v + (texture & 0xF);
+#else
+    configured->field_40.h.field_42 = DISPLAY_OBJECT_SPRITE_TEXTURE_V(texture);
+#endif
     flags = configured->flags & ~DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     configured->flags = flags;
     if (texture & 0x8000) {

@@ -328,6 +328,7 @@ segments:
       - [0x02DC38, asm, generated/text_02dc38]
       - [0x02E204, c, game/european/func_8003DA40]
       - [0x02E3E0, asm, generated/text_02e3e0]
+      - [0x030950, c, game/european/display_object_core]
       - [0x031148, c, game/display_object_render_sprite_sheet_list]
       - [0x031204, c, game/display_object_updates]
       - [0x03170C, c, game/display_object_runtime]
