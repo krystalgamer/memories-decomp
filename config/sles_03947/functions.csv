@@ -1046,7 +1046,7 @@ address,size,name,status,module,notes
 0x80060488,0x464,func_80060488,unmatched_asm,game,
 0x800608EC,0x4C,func_8006086C,matching_c,game,
 0x80060938,0x258,func_80060938,unmatched_asm,game,
-0x80060B90,0x4C,func_80060AEC,unmatched_asm,game,
+0x80060B90,0x4C,func_80060AEC,matching_c,game,
 0x80060BDC,0x25C,func_800612C0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800612c0."
 0x80060E38,0x2A4,func_800617E0,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x800617e0."
 0x800610DC,0x27C,func_80061DDC,handwritten_asm,game,"Matches the name, size, and opcode/register instruction shape of independently classified North American handwritten function at 0x80061ddc."

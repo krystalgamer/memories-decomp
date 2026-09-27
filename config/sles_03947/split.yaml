@@ -650,6 +650,8 @@ segments:
       - [0x050C28, asm, generated/text_050c28]
       - [0x0510EC, c, game/european/model_bind_primitive_handler]
       - [0x051138, asm, generated/text_051138]
+      - [0x051390, c, game/european/func_80060B90]
+      - [0x0513DC, asm, generated/text_0513dc]
       - [0x059944, c, game/color_transform]
       - [0x05A218, c, game/european/model_handler_dispatch]
       - [0x05A76C, c, game/european/model_register_handler_key]
