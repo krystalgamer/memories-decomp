@@ -944,6 +944,36 @@
       "source": "src/game/text_stream_commands.c"
     },
     {
+      "address": "0x80037E44",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/european/duel_effect_stream_offsets.c"
+    },
+    {
+      "address": "0x80037E80",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/european/duel_effect_stream_offsets.c"
+    },
+    {
+      "address": "0x800380EC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x54",
+      "source": "src/game/european/duel_effect_operand_pair.c"
+    },
+    {
+      "address": "0x8003826C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x4C",
+      "source": "src/game/european/duel_effect_slot_flags.c"
+    },
+    {
+      "address": "0x800382B8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x4C",
+      "source": "src/game/european/duel_effect_slot_flags.c"
+    },
+    {
       "address": "0x80038304",
       "profile": "gcc_2_8_1_g0",
       "size": "0x160",
