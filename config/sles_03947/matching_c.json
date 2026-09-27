@@ -3074,6 +3074,18 @@
       "source": "src/game/european/campaign_map_load_package_stage.c"
     },
     {
+      "address": "0x8003C224",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1A0",
+      "source": "src/game/european/func_8003C224.c"
+    },
+    {
+      "address": "0x8003C3C4",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1A8",
+      "source": "src/game/european/func_8003C3C4.c"
+    },
+    {
       "address": "0x8003C56C",
       "profile": "gcc_2_8_1_g0_no_split",
       "size": "0x1A0",

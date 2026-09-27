@@ -557,8 +557,8 @@ address,size,name,status,module,notes
 0x8003BFB8,0x48,File_RequestPasswordPackage,matching_c,game,The shared password request matches exactly under the G0 no-split profile with the European WA.MRG package sector.
 0x8003C000,0x1C4,CampaignMap_LoadPackageStage,matching_c,game,
 0x8003C1C4,0x60,File_RequestEgyptOverworldPackage,matching_c,game,
-0x8003C224,0x1A0,func_8003C224,unmatched_asm,game,
-0x8003C3C4,0x1A8,func_8003C3C4,unmatched_asm,game,
+0x8003C224,0x1A0,func_8003C224,matching_c,game,The first PAL frontend package callback reuses the shared four-mode stage with 640x224 upload coordinates and exact G0 no-split code generation.
+0x8003C3C4,0x1A8,func_8003C3C4,matching_c,game,The second PAL frontend package callback reuses the same four-mode stage with a 48-sector opening phase and exact G0 no-split code generation.
 0x8003C56C,0x1A0,func_8003C56C,matching_c,game,
 0x8003C70C,0x60,func_8003C70C,matching_c,game,
 0x8003C76C,0x174,GameOver_LoadPackageStage,matching_c,game,The shared three-mode game-over package callback matches exactly under the G0 no-split profile with the European 640x208 texture upload coordinates.

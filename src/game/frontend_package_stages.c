@@ -14,6 +14,10 @@
 #define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x100
 #endif
 
+#ifndef OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS
+#define OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS 32
+#endif
+
 #ifndef OPTIONS_PACKAGE_STAGE_MODE_2_Y
 #define OPTIONS_PACKAGE_STAGE_MODE_2_Y 0xF0
 #endif
@@ -58,7 +62,8 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->w = 0x40;
         object->h = 0x10;
         D_8009B0F4 &= 0xFFDDFFFF;
-        object->phase_size = 32 * FILE_SECTOR_SIZE;
+        object->phase_size =
+            OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS * FILE_SECTOR_SIZE;
         D_8009B0F4 |= 0x10000;
         object->done = 2;
         object->value_08 = D_8009B118;
