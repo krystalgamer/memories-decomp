@@ -4698,6 +4698,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
       "source": "src/game/european/ai_script_state_ops.c"
+    },
+    {
+      "address": "0x80073A28",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x20",
+      "source": "src/game/european/ai_script_state_ops.c"
     }
   ]
 }
