@@ -1616,6 +1616,12 @@
       "source": "src/game/european/script_op_load_image_scene.c"
     },
     {
+      "address": "0x8002E75C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x78",
+      "source": "src/game/european/script_op_stage_image.c"
+    },
+    {
       "address": "0x8002E9C0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
@@ -1662,6 +1668,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
       "source": "src/game/european/script_stream_commands.c"
+    },
+    {
+      "address": "0x8002EF04",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/european/script_op_deck_complete.c"
     },
     {
       "address": "0x8002F4B0",

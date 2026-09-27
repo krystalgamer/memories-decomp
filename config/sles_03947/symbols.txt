@@ -1325,6 +1325,7 @@ SD_ReadVariableLengthValue = 0x8004BDC0;
 D_8009AF80 = 0x8009BEE8;
 Campaign_CreatePrimaryDisplayObject = 0x8002E4AC;
 Script_OpLoadImageScene = 0x8002E520;
+Script_OpStageImage = 0x8002E75C;
 Script_OpStoryFlag = 0x8002E9C0;
 Script_OpViewportTween = 0x8002EA48;
 Script_UpdateViewportTween = 0x8002EAB4;
