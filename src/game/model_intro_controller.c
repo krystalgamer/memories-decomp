@@ -49,6 +49,10 @@
 #include "sound_pending_entries.h"
 #include "../unmatched.h"
 
+#ifndef MODEL_INTRO_PACKAGE_START_SECTOR
+#define MODEL_INTRO_PACKAGE_START_SECTOR 1223
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004EB00)
 void func_8004EB00(void)
 {
@@ -984,7 +988,9 @@ void func_800507D0(void)
   switch ( D_8009AF9A )
   {
     case -1:
-      File_RequestAsyncTransfer(1, D_800114F8, 1223, 16, 0, 0, D_80010030);
+      File_RequestAsyncTransfer(
+          1, D_800114F8, MODEL_INTRO_PACKAGE_START_SECTOR,
+          16, 0, 0, D_80010030);
       File_WaitForTransfers();
       D_8009B004.fields.field_01 = 0;
       D_8009B004.fields.field_00 = 0;
