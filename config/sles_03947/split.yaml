@@ -293,7 +293,7 @@ segments:
       - [0x0265C4, c, game/text_box_set_rect]
       - [0x0265FC, asm, generated/text_0265fc]
       - [0x0266EC, c, game/european/text_box_lifecycle]
-      - [0x0267EC, asm, generated/text_0267ec]
+      - [0x02684C, asm, generated/text_02684c]
       - [0x027410, c, game/text_stream_read_u16_le]
       - [0x027444, c, game/text_stream_read_le]
       - [0x027490, asm, generated/text_027490]
