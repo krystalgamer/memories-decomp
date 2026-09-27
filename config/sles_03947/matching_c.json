@@ -4550,6 +4550,12 @@
       "source": "src/game/european/model_effect_state.c"
     },
     {
+      "address": "0x80050170",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x22C",
+      "source": "src/game/european/movie_wait_and_decode_frame.c"
+    },
+    {
       "address": "0x8005051C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
