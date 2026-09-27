@@ -308,7 +308,7 @@ address,size,name,status,module,notes
 0x8002D7B0,0x94,Main_RunGameOver,matching_c,game,
 0x8002D844,0x8,func_8002D844,unmatched_asm,game,
 0x8002D84C,0x250,func_8002D84C,matching_c,game,
-0x8002DA9C,0x234,func_8002DA9C,unmatched_asm,game,
+0x8002DA9C,0x234,func_8002DA9C,matching_c,game,
 0x8002DCD0,0x14C,func_8002DCD0,unmatched_asm,game,
 0x8002DE1C,0x88,Main_Loop,matching_c,game,
 0x8002DEA4,0x134,ScriptImage_TransferCallback,matching_c,game,
