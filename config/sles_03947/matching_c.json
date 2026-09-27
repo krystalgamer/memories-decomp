@@ -5558,6 +5558,12 @@
       "source": "src/game/european/ai_script_winning_card_range.c"
     },
     {
+      "address": "0x80070BEC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xAC",
+      "source": "src/game/european/ai_script_winning_card_range.c"
+    },
+    {
       "address": "0x80070C98",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x54",
