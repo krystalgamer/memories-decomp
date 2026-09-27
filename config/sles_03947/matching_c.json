@@ -20,6 +20,12 @@
       "source": "src/game/european/main_services_frame_services.c"
     },
     {
+      "address": "0x80013054",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x224",
+      "source": "src/game/european/main_services_80013154.c"
+    },
+    {
       "address": "0x800133F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",

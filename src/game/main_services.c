@@ -100,6 +100,11 @@ void func_80013154(GraphicsFrameBuffer *base)
     GsDefDispBuff(0, 0, 0x140, 0);
     six = 6;
     buf = base;
+#ifdef VERSION_EUROPE
+    /* The European build moves the display 20 lines down and shows 256. */
+    D_800FE0A8.screen.y = 20;
+    D_800FE0A8.screen.h = 256;
+#endif
     D_8009B0AD = 1;
     D_8009B0D0 = 1;
     D_8009B0A8 = 0;
@@ -145,8 +150,14 @@ next:
     GsInit3D();
     GsSetOrign(0, 0);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
+#ifdef VERSION_EUROPE
+    /* The European build starts the memory cards before the pads. */
+    MemCardInit(1);
+    Input_InitPads();
+#else
     Input_InitPads();
     MemCardInit(1);
+#endif
     File_SetPositionTable();
     srand(RAND_GRAPHICS_INIT_SEED);
 }
