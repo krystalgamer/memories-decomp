@@ -2063,13 +2063,19 @@
       "address": "0x8003109C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/debug_menu_leave_entries.c"
+      "source": "src/game/european/debug_menu_leave_entries.c"
     },
     {
       "address": "0x800310CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/debug_menu_leave_entries.c"
+      "source": "src/game/european/debug_menu_leave_entries.c"
+    },
+    {
+      "address": "0x800310FC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1C",
+      "source": "src/game/european/debug_menu_leave_entries.c"
     },
     {
       "address": "0x80031118",
@@ -2088,6 +2094,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2AC",
       "source": "src/game/european/debug_menu_update.c"
+    },
+    {
+      "address": "0x80031448",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/european/debug_menu_bust_up_entry.c"
     },
     {
       "address": "0x80031454",
