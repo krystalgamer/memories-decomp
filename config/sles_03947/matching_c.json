@@ -3944,6 +3944,12 @@
       "source": "src/game/european/display_object_transition.c"
     },
     {
+      "address": "0x80043E80",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x180",
+      "source": "src/game/european/main_run_frontend_loop.c"
+    },
+    {
       "address": "0x80044000",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",

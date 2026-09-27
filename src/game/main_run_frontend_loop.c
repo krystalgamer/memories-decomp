@@ -24,6 +24,10 @@ s32 Main_RunFrontendLoop(void) {
     u32 f;
     s32 g;
 
+#ifdef VERSION_EUROPE
+    /* The European loop resets the frontend runtime before the fade. */
+    Main_ResetFrontendRuntime();
+#endif
     Fade_WaitInitIn();
 
     for (;;) {

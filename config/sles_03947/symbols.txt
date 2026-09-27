@@ -974,6 +974,7 @@ gMemCard_aHwIOEventHandles = 0x800F3800;
 gMemCard_szRequestPath = 0x800F3810;
 gMemCard_aDirEntries = 0x800F3830;
 D_8009B412 = 0x8009C386;
+D_8009B428 = 0x8009C388;
 gMemCard_bChannel = 0x8009C390;
 gMemCard_bRetries = 0x8009C391;
 gMemCard_nDirEntries = 0x8009C394;
