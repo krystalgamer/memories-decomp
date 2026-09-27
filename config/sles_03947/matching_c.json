@@ -4940,6 +4940,12 @@
       "source": "src/game/european/model_scene_view_pass.c"
     },
     {
+      "address": "0x80056BA4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x22C",
+      "source": "src/game/european/model_scene_view_pass.c"
+    },
+    {
       "address": "0x80056DD0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x480",
