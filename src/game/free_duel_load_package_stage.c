@@ -11,6 +11,20 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* Regional values, which the European wrapper defines for itself: the
+   sectors mode 0 transfers (32 in the US build, 48 in the European one)
+   and where mode 2 uploads its image row, (0, 0xF0) in the US build and
+   (0x280, 0xD0) in the European one. */
+#ifndef FREE_DUEL_STAGE0_SECTORS
+#define FREE_DUEL_STAGE0_SECTORS 32
+#endif
+#ifndef FREE_DUEL_IMAGE_X
+#define FREE_DUEL_IMAGE_X 0
+#endif
+#ifndef FREE_DUEL_IMAGE_Y
+#define FREE_DUEL_IMAGE_Y 0xF0
+#endif
+
 void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
@@ -21,7 +35,7 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         D_8009B0F4_abs &= 0xFFDDFFFF;
         D_8009B0F4_abs |= 0x10000;
         object->done = 2;
-        object->phase_size = 32 * FILE_SECTOR_SIZE;
+        object->phase_size = FREE_DUEL_STAGE0_SECTORS * FILE_SECTOR_SIZE;
         object->value_08 = D_8009B118;
         object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
         break;
@@ -35,8 +49,8 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 2:
-        object->x = 0;
-        object->y = 0xF0;
+        object->x = FREE_DUEL_IMAGE_X;
+        object->y = FREE_DUEL_IMAGE_Y;
         object->w = 0x100;
         object->h = 4;
         LoadImage2((RECT *)object, (u32 *)D_8009B118);
