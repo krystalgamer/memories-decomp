@@ -1178,6 +1178,12 @@
       "source": "src/game/duel_effect_update_state.c"
     },
     {
+      "address": "0x800288E0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/european/duel_effect_noop_800289AC.c"
+    },
+    {
       "address": "0x8002913C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
@@ -1272,6 +1278,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0xF0",
       "source": "src/game/func_8002ABB4.c"
+    },
+    {
+      "address": "0x8002BAEC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x8",
+      "source": "src/game/european/library_runtime_8002BAAC.c"
     },
     {
       "address": "0x8002BAF4",
@@ -1584,6 +1596,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
       "source": "src/game/european/script_stream_commands.c"
+    },
+    {
+      "address": "0x8002F4B0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x8",
+      "source": "src/game/european/script_noop_halt15.c"
     },
     {
       "address": "0x8002F4B8",
@@ -2084,6 +2102,12 @@
       "source": "src/game/european/duel_effect_operand_pair.c"
     },
     {
+      "address": "0x80038140",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/european/duel_effect_read_u16.c"
+    },
+    {
       "address": "0x8003826C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
@@ -2150,6 +2174,12 @@
       "source": "src/game/func_800388D8.c"
     },
     {
+      "address": "0x80038818",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x6C",
+      "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
       "address": "0x8003894C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
@@ -2160,6 +2190,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
       "source": "src/game/european/text_control_dispatch_cursor.c"
+    },
+    {
+      "address": "0x80038B08",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x18",
+      "source": "src/game/european/text_control_page_wait.c"
     },
     {
       "address": "0x80038B20",
