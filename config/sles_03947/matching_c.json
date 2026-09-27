@@ -5066,6 +5066,12 @@
       "source": "src/game/model_update_view_metrics.c"
     },
     {
+      "address": "0x8005C800",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x188",
+      "source": "src/game/european/model_apply_texture_tint.c"
+    },
+    {
       "address": "0x8005C988",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F0",
