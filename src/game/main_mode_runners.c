@@ -26,6 +26,22 @@
 #include "../unmatched.h"
 #include "main_mode_state.h"
 
+#ifndef MAIN_RUN_TRADE_TEXT_BOX_HEIGHT
+#define MAIN_RUN_TRADE_TEXT_BOX_HEIGHT 0x20
+#endif
+
+#ifndef MAIN_RUN_TRADE_TEXT_BOX_FLAGS
+#define MAIN_RUN_TRADE_TEXT_BOX_FLAGS 0x20
+#endif
+
+#ifndef MAIN_RUN_TRADE_SCREEN_HEIGHT
+#define MAIN_RUN_TRADE_SCREEN_HEIGHT 0xF0
+#endif
+
+#ifndef MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
+#define MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET 0x20
+#endif
+
 /* The grouped mode runners use common-symbol forms overridden by the tracked
    link symbols, so these definitions do not allocate storage here. */
 u8 D_8009B269;
@@ -102,7 +118,15 @@ void Main_RunTrade(void)
         SD_BGMPlay(0x72D0);
         MainMenu_InitTradeScreen();
         D_8009B26E = 1;
-        box = TextBox_CreateFlagged(0, 0xB, 0x18, 0x20, 0x110, 0xA0, 0x20);
+        box = TextBox_CreateFlagged(
+            0,
+            0xB,
+            0x18,
+            MAIN_RUN_TRADE_TEXT_BOX_HEIGHT,
+            0x110,
+            0xA0,
+            MAIN_RUN_TRADE_TEXT_BOX_FLAGS
+        );
         box->field_59 = 0x10;
         func_80039A14(box);
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -129,11 +153,16 @@ void Main_RunTrade(void)
     case 2:
         y = *(u16 *)&obj->field_60 - 0x20;
         obj->field_60 = y;
-        Widget_SlideSine((DisplayObjectPosition *)obj, 0, 0xF0, (s16)y);
+        Widget_SlideSine(
+            (DisplayObjectPosition *)obj,
+            0,
+            MAIN_RUN_TRADE_SCREEN_HEIGHT,
+            (s16)y
+        );
         TextBox_SetPos(
             box,
             *(s16 *)&obj->field_30.h.field_30 + 0x18,
-            *(s16 *)&obj->field_30.h.field_32 + 0x20
+            *(s16 *)&obj->field_30.h.field_32 + MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
         );
         if (obj->field_60 <= 0) {
             D_8009B26E = 0;

@@ -1664,6 +1664,12 @@
       "source": "src/game/european/main_run_game_over.c"
     },
     {
+      "address": "0x8002D84C",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x250",
+      "source": "src/game/european/main_run_trade.c"
+    },
+    {
       "address": "0x8002DE1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
