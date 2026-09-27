@@ -404,6 +404,7 @@ segments:
       - [0x02DF14, c, game/european/dialog_transition_8003D74C]
       - [0x02E204, c, game/european/func_8003DA40]
       - [0x02E3E0, asm, generated/text_02e3e0]
+      - [0x02F79C, c, game/european/func_8003EF9C]
       - [0x02F7E4, c, game/european/mem_card_dialog_trade_save]
       - [0x02FD68, asm, generated/text_02fd68]
       - [0x03007C, c, game/european/mem_card_dialog_request]
