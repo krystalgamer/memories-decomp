@@ -11,12 +11,20 @@
 #include "frontend_debug_state.h"
 #include "debug_menu_bust_up_entry.h"
 
+#ifndef VERSION_EUROPE
 void func_8003134C(void)
 {
 }
+#endif
 
 void DebugMenu_UpdateBustUpEntry(void)
 {
+#ifdef VERSION_EUROPE
+    /* The European entry (the same slot of the debug menu's handler table)
+       only clears the step flags; the European image has no
+       func_8003134C. */
+    D_8009B2EB = 0;
+#else
     u8 flags = D_8009B2EB;
 
     if (!(flags & FRONTEND_STEP_FLAG_ENTERED)) {
@@ -42,4 +50,5 @@ void DebugMenu_UpdateBustUpEntry(void)
         s32 value = Rand_GetInterval(4);
         DisplayEffect_UpdateMenuRecord(D_800EB010, value);
     }
+#endif
 }

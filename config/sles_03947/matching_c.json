@@ -2084,6 +2084,12 @@
       "source": "src/game/european/debug_menu_update.c"
     },
     {
+      "address": "0x80031448",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/european/debug_menu_bust_up_entry.c"
+    },
+    {
       "address": "0x80031454",
       "profile": "gcc_2_8_1_g8",
       "size": "0x18C",
