@@ -3788,6 +3788,12 @@
       "source": "src/game/sound_state_control.c"
     },
     {
+      "address": "0x80046CC0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3B4",
+      "source": "src/game/european/func_80046A08.c"
+    },
+    {
       "address": "0x80047074",
       "profile": "gcc_2_8_1_g8",
       "size": "0x170",
@@ -5693,6 +5699,18 @@
       "address": "0x80071088",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA0",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x80071128",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/game/european/ai_script_set_tests_and_jumps.c"
+    },
+    {
+      "address": "0x800711AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C",
       "source": "src/game/european/ai_script_set_tests_and_jumps.c"
     },
     {
