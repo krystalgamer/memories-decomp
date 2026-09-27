@@ -206,6 +206,12 @@
       "source": "src/game/func_80017130.c"
     },
     {
+      "address": "0x800174FC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x44",
+      "source": "src/game/european/duel_init_model_scene.c"
+    },
+    {
       "address": "0x80017540",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x130",
@@ -860,6 +866,12 @@
       "source": "src/game/campaign_ensure_story_flag.c"
     },
     {
+      "address": "0x8002CE1C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x5C",
+      "source": "src/game/european/main_reset_frontend_runtime.c"
+    },
+    {
       "address": "0x8002CE78",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",
@@ -936,6 +948,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
       "source": "src/game/main_loop.c"
+    },
+    {
+      "address": "0x8002E420",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x44",
+      "source": "src/game/european/duel_effect_mark_object_if_active.c"
     },
     {
       "address": "0x8002E464",
@@ -1022,6 +1040,12 @@
       "source": "src/game/script_op_return_to_menu.c"
     },
     {
+      "address": "0x8002FAB8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x124",
+      "source": "src/game/european/script_run_tick.c"
+    },
+    {
       "address": "0x8003003C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
@@ -1088,6 +1112,24 @@
       "source": "src/game/european/duel_card_stat_display.c"
     },
     {
+      "address": "0x80032044",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x88",
+      "source": "src/game/european/build_deck_card_counts.c"
+    },
+    {
+      "address": "0x800320CC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x98",
+      "source": "src/game/european/build_deck_card_counts.c"
+    },
+    {
+      "address": "0x80032164",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA0",
+      "source": "src/game/european/build_deck_card_counts.c"
+    },
+    {
       "address": "0x80032204",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xA0",
@@ -1122,6 +1164,24 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x3C",
       "source": "src/game/build_deck_active_card.c"
+    },
+    {
+      "address": "0x80033850",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1B4",
+      "source": "src/game/european/build_deck_pane_input.c"
+    },
+    {
+      "address": "0x80033A04",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1F4",
+      "source": "src/game/european/build_deck_pane_input.c"
+    },
+    {
+      "address": "0x80033BF8",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0xB4",
+      "source": "src/game/european/build_deck_pane_input.c"
     },
     {
       "address": "0x80033CAC",
@@ -1412,6 +1472,18 @@
       "source": "src/game/text_box_outline_layout.c"
     },
     {
+      "address": "0x80038FEC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1CC",
+      "source": "src/game/european/text_box_layout_helpers.c"
+    },
+    {
+      "address": "0x80039570",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0x1A0",
+      "source": "src/game/european/func_80039794.c"
+    },
+    {
       "address": "0x80039710",
       "profile": "gcc_2_8_1_g8",
       "size": "0xE0",
@@ -1550,6 +1622,12 @@
       "source": "src/game/text_stream_read_byte.c"
     },
     {
+      "address": "0x8003BAB4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x58",
+      "source": "src/game/european/main_init_free_duel_menu.c"
+    },
+    {
       "address": "0x8003BD3C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
@@ -1578,6 +1656,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x138",
       "source": "src/game/european/checkerboard_background.c"
+    },
+    {
+      "address": "0x8003DA04",
+      "profile": "gcc_2_8_1_g8_no_split",
+      "size": "0x1DC",
+      "source": "src/game/european/func_8003DA40.c"
     },
     {
       "address": "0x80040948",
