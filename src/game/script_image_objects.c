@@ -10,11 +10,11 @@
 
 /* Regional values: the image row's upload position, (0, 0xF0) in the US build
    and (0x280, 0xD0) in the European one, whose wrapper defines its own. */
-#ifndef SCRIPT_IMAGE_ROW_X
-#define SCRIPT_IMAGE_ROW_X 0
+#ifndef SCRIPT_IMAGE_SCREEN_X
+#define SCRIPT_IMAGE_SCREEN_X 0
 #endif
-#ifndef SCRIPT_IMAGE_ROW_Y
-#define SCRIPT_IMAGE_ROW_Y 0xF0
+#ifndef SCRIPT_IMAGE_SCREEN_Y
+#define SCRIPT_IMAGE_SCREEN_Y 0xF0
 #endif
 
 void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
@@ -42,8 +42,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         break;
 
     case 2:
-        obj->x = SCRIPT_IMAGE_ROW_X;
-        obj->y = SCRIPT_IMAGE_ROW_Y;
+        obj->x = SCRIPT_IMAGE_SCREEN_X;
+        obj->y = SCRIPT_IMAGE_SCREEN_Y;
         obj->w = 0x100;
         obj->h = 4;
         LoadImage2((RECT *)obj, (u32 *)D_8009B118);
