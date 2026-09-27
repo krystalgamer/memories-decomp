@@ -550,11 +550,11 @@ address,size,name,status,module,notes
 0x8003B8CC,0x28,TextStream_ReadByte,matching_c,game,
 0x8003B8F4,0x1C0,FreeDuel_LoadPackageStage,matching_c,game,
 0x8003BAB4,0x58,Main_InitFreeDuelMenu,matching_c,game,
-0x8003BB0C,0x1E8,func_8003BB0C,unmatched_asm,game,
-0x8003BCF4,0x48,File_RequestNameEntryPackage,unmatched_asm,game,
+0x8003BB0C,0x1E8,NameEntry_LoadPackageStage,matching_c,game,The shared four-mode name-entry package callback matches exactly under the G0 no-split profile with the European 640x224 texture upload coordinates.
+0x8003BCF4,0x48,File_RequestNameEntryPackage,matching_c,game,The shared name-entry request matches exactly under the G0 no-split profile with the European WA.MRG package sector.
 0x8003BD3C,0xD4,Text_SjisToGlyphCodes,matching_c,game,
-0x8003BE10,0x1A8,func_8003BE10,unmatched_asm,game,
-0x8003BFB8,0x48,File_RequestPasswordPackage,unmatched_asm,game,
+0x8003BE10,0x1A8,Password_LoadPackageStage,matching_c,game,The shared four-mode password package callback matches exactly under the G0 no-split profile with the European 640x224 texture upload coordinates.
+0x8003BFB8,0x48,File_RequestPasswordPackage,matching_c,game,The shared password request matches exactly under the G0 no-split profile with the European WA.MRG package sector.
 0x8003C000,0x1C4,CampaignMap_LoadPackageStage,matching_c,game,
 0x8003C1C4,0x60,File_RequestEgyptOverworldPackage,matching_c,game,
 0x8003C224,0x1A0,func_8003C224,unmatched_asm,game,

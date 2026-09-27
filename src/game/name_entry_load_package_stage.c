@@ -11,6 +11,14 @@
 #define NAME_ENTRY_PACKAGE_START_SECTOR FILE_WA_NAME_ENTRY_START_SECTOR
 #endif
 
+#ifndef NAME_ENTRY_PACKAGE_IMAGE_X
+#define NAME_ENTRY_PACKAGE_IMAGE_X 0x100
+#endif
+
+#ifndef NAME_ENTRY_PACKAGE_IMAGE_Y
+#define NAME_ENTRY_PACKAGE_IMAGE_Y 0xF0
+#endif
+
 /* The Name Entry package load. File_RequestNameEntryPackage queues the
    package transfer with NameEntry_LoadPackageStage as its stage callback. */
 
@@ -99,6 +107,15 @@ m2:
     goto tail;
 
 m3:
+#ifdef VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE
+    do {
+        hun = NAME_ENTRY_PACKAGE_IMAGE_X;
+    } while (0);
+    object->x = hun;
+    *(u16 *)&object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
+    k = D_8009B118;
+    object->w = 0x100;
+#else
     do {
         hun = 0x100;
     } while (0);
@@ -106,6 +123,7 @@ m3:
     k = D_8009B118;
     object->x = hun;
     object->w = hun;
+#endif
     object->h = 4;
     LoadImage2((RECT *)object, (u32 *)k);
     m = 0xFFDCFFFF;
