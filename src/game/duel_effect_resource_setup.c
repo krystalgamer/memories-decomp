@@ -13,13 +13,52 @@
 
 #define DISPLAY_OBJECT_FIELD_5E_BYTES(object) ((u8 *)&(object)->field_5E)
 
+#ifndef DUEL_RESOURCE_TRANSFER_POSITION
+#define DUEL_RESOURCE_TRANSFER_POSITION(value) \
+    (((value) - 1) * 7 + CARD_COUNT)
+#endif
+#ifndef DUEL_RESOURCE_TRANSFER_SECTORS
+#define DUEL_RESOURCE_TRANSFER_SECTORS 7
+#endif
+#ifndef DUEL_RESOURCE_DEFAULT_X
+#define DUEL_RESOURCE_DEFAULT_X 0x48
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_BYTE
+#define DUEL_RESOURCE_VARIANT_BYTE 1
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_17_DELTA
+#define DUEL_RESOURCE_VARIANT_17_DELTA 0x20
+#endif
+#ifndef DUEL_RESOURCE_VARIANT_15_DELTA
+#define DUEL_RESOURCE_VARIANT_15_DELTA 0x10
+#endif
+#ifndef DUEL_RESOURCE_PATH_Y
+#define DUEL_RESOURCE_PATH_Y 0x9E
+#endif
+#ifndef DUEL_RESOURCE_PATH_FIELD_5E
+#define DUEL_RESOURCE_PATH_FIELD_5E 0xCE
+#endif
+#ifndef DUEL_RESOURCE_PATH_FIELD_3C
+#define DUEL_RESOURCE_PATH_FIELD_3C 0x18
+#endif
+#ifndef DUEL_RESOURCE_PATH_FIELD_3E
+#define DUEL_RESOURCE_PATH_FIELD_3E 0xC
+#endif
+#ifndef DUEL_RESOURCE_SECONDARY_X
+#define DUEL_RESOURCE_SECONDARY_X 4
+#endif
+#ifndef DUEL_RESOURCE_SECONDARY_Y
+#define DUEL_RESOURCE_SECONDARY_Y 0x62
+#endif
+
 FileTransferDescriptor *func_80029164(s32 slot, s32 value)
 {
     FileTransferDescriptor *object;
 
     D_800EA0E8[slot].field_30 = value;
     object = File_TryRequestAsyncTransfer(
-        0, 0, (value - 1) * 7 + CARD_COUNT, 7, func_800289BC, 0, 0);
+        0, 0, DUEL_RESOURCE_TRANSFER_POSITION(value),
+        DUEL_RESOURCE_TRANSFER_SECTORS, func_800289BC, 0, 0);
     object->callback_data = (void *)slot;
     D_8009B0F4_abs =
         object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
@@ -52,8 +91,13 @@ u8 *func_800291E0(s32 index, s32 x, s32 y)
 
     object->field_30.word = 0x001F0048;
     object->field_3C.word = 0x00100038;
+#ifdef VERSION_EUROPE
+    object->attribute |= 0x01000000;
+    object->field_5E = ((D_8009C02B << 4) + 0x9E) << 8;
+#else
     object->field_5E = 0x9E00;
     object->attribute |= 0x01000000;
+#endif
 
     card_id = (s16)entry->field_30;
     variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
@@ -69,7 +113,7 @@ u8 *func_800291E0(s32 index, s32 x, s32 y)
     if (variant == 0x14) {
         goto disp_14;
     }
-    object->field_30.h.field_30 = 0x48;
+    object->field_30.h.field_30 = DUEL_RESOURCE_DEFAULT_X;
     goto path_a;
 
 disp_ge16:
@@ -79,7 +123,7 @@ disp_ge16:
     if (variant == 0x17) {
         goto disp_17;
     }
-    object->field_30.h.field_30 = 0x48;
+    object->field_30.h.field_30 = DUEL_RESOURCE_DEFAULT_X;
     goto path_a;
 
 disp_16:
@@ -88,9 +132,11 @@ disp_16:
     goto shared_tail;
 
 disp_17:
-    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1];
-    byte_value = (u8)(byte_value + 0x20);
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = byte_value;
+    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[
+        DUEL_RESOURCE_VARIANT_BYTE];
+    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        byte_value;
     /* fallthrough */
 disp_14:
     setup = 0x101;
@@ -99,17 +145,24 @@ disp_14:
 
 disp_15:
     setup = 0x102;
-    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1];
+    byte_value = DISPLAY_OBJECT_FIELD_5E_BYTES(object)[
+        DUEL_RESOURCE_VARIANT_BYTE];
     variant = 1;
-    byte_value = (u8)(byte_value + 0x10);
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = byte_value;
+    byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        byte_value;
     goto shared_tail;
 
 path_a:
-    object->field_30.h.field_32 = 0x9E;
-    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] = 0xCE;
-    object->field_3C.h.field_3C = 0x18;
-    object->field_3C.h.field_3E = 0xC;
+    object->field_30.h.field_32 = DUEL_RESOURCE_PATH_Y;
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
+        DUEL_RESOURCE_PATH_FIELD_5E;
+    object->field_3C.h.field_3C = DUEL_RESOURCE_PATH_FIELD_3C;
+    object->field_3C.h.field_3E = DUEL_RESOURCE_PATH_FIELD_3E;
+#ifdef VERSION_EUROPE
+    DISPLAY_OBJECT_FIELD_5E_BYTES(object)[1] =
+        (D_8009C02B << 4) - 0x60;
+#endif
 
     {
         s16 x_value = setup;
@@ -143,12 +196,14 @@ shared_tail:
     entry->object_04 = object;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, 2, 4, 1, 0, variant, 0x1C, setup + 8);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 2, DUEL_RESOURCE_SECONDARY_X, 1, 0, variant, 0x1C,
+        setup + 8);
 
     object->field_18 = 0x46;
     object->field_48.h.field_48 = 0x46;
-    object->field_1A = 0x62;
-    object->field_48.h.field_4A = 0x62;
+    object->field_1A = DUEL_RESOURCE_SECONDARY_Y;
+    object->field_48.h.field_4A = DUEL_RESOURCE_SECONDARY_Y;
     object->field_6A = (u8)variant;
     object->attribute |= 0x01000000;
     object->flags |= 8;

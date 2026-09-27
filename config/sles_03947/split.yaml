@@ -213,7 +213,7 @@ segments:
       - [0x0190E0, c, game/european/duel_effect_noop_800289AC]
       - [0x0190E8, asm, generated/text_0190e8]
       - [0x01993C, c, game/card_preview_update_variant]
-      - [0x019998, asm, generated/text_019998]
+      - [0x019998, c, game/european/duel_effect_resource_setup]
       - [0x019D7C, c, game/func_80029528]
       - [0x019DC8, c, game/func_80029574]
       - [0x019DE4, c, game/func_80029590]

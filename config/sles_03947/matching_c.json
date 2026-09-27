@@ -1304,6 +1304,18 @@
       "source": "src/game/card_preview_update_variant.c"
     },
     {
+      "address": "0x80029198",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x78",
+      "source": "src/game/european/duel_effect_resource_setup.c"
+    },
+    {
+      "address": "0x80029210",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x36C",
+      "source": "src/game/european/duel_effect_resource_setup.c"
+    },
+    {
       "address": "0x8002957C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
