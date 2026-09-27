@@ -392,7 +392,7 @@ address,size,name,status,module,notes
 0x8003236C,0x1FC,func_8003236C,matching_c,game,"Exact European five-phase duel-reward transfer callback with language-selected image upload and carved jump table."
 0x80032568,0x48,func_80032568,unmatched_asm,game,
 0x800325B0,0x88,func_80032370,matching_c,game,
-0x80032638,0x810,func_800323F8,unmatched_asm,game,
+0x80032638,0x810,func_800323F8,matching_c,game,"Exact European Build Deck setup with PAL widget offsets and two Gouraud side masks."
 0x80032E48,0x28,BuildDeck_TestAndSetInitialized,matching_c,game,
 0x80032E70,0x74,BuildDeck_CompareCard,matching_c,game,
 0x80032EE4,0x74,func_80032BD4,matching_c,game,

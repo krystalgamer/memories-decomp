@@ -59,6 +59,14 @@
     ((BuildDeckTransitionState *)(state))
 #define CARD_STAT_WORD(record) (*(s32 *)(record))
 
+#ifndef BUILD_DECK_CURSOR_Y
+#define BUILD_DECK_CURSOR_Y 0x29
+#endif
+
+#ifndef BUILD_DECK_LIST_Y
+#define BUILD_DECK_LIST_Y 0x2A
+#endif
+
 void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
 {
     u8 *state;
@@ -89,6 +97,11 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     s32 deck_total;
     s32 n;
     s32 v;
+#ifdef VERSION_EUROPE
+    s32 quad_kind;
+    s32 shade;
+    DisplayObject *quad;
+#endif
 
     func_80032328();
     SD_BGMPlay(0x70E0);
@@ -209,8 +222,14 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     } while (pane < 2);
 
     state = (u8 *)gBuildDeck_pState;
+#ifdef VERSION_EUROPE
+    quad_kind = 4;
+#endif
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0, 0xC, 0x208);
+#ifdef VERSION_EUROPE
+    shade = 0x808080;
+#endif
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     label[0x67] = 0;
     *(s32 *)(label + 0x30) = *(s32 *)(object + 0x30);
@@ -223,22 +242,26 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     *(s32 *)(label + 0x4C) = (s32)func_80031874;
     BUILD_DECK_TRANSITION_STATE_VIEW(state)->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, 0x136, 0x29, 0, 4, 0xC, 0xC, 0x208);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 0x136, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
     *(u8 **)(state + 0x2D3C) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, 0x26A, 0x29, 0, 4, 0xC, 0xC, 0x208);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 0x26A, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 8);
     *(u8 **)(state + 0x5A88) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, 0, 0x2A, 0, 4, 2, 0xC, 0x208);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 0, BUILD_DECK_LIST_Y, 0, 4, 2, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     *(u8 **)(state + 0x2D38) = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(object, 0x148, 0x2A, 0, 4, 3, 0xC, 0x218);
+    DisplayObject_ConfigureSpriteAtPosition(
+        object, 0x148, BUILD_DECK_LIST_Y, 0, 4, 3, 0xC, 0x218);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), 0xA);
     *(u8 **)(state + 0x5A84) = object;
@@ -258,6 +281,30 @@ void func_800323F8(u8 *base, void *deck, s32 other, s32 flags)
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xB, 0xC, 0x208);
     *(u16 *)(object + 8) |= 0x20;
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);
+#ifdef VERSION_EUROPE
+    quad = DISPLAY_OBJECT_VIEW(DisplayObject_AcquireSlot(
+        DisplayObject_FindFreeGeneralSlot(), quad_kind));
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -3);
+    quad->position.word = 0xF80000;
+    quad->field_30.word = 0xF80140;
+    quad->field_38.word = 0x1000000;
+    quad->field_40.word = 0x1000140;
+    quad->field_3C.word = shade;
+    quad->field_44.word = shade;
+    quad = DISPLAY_OBJECT_VIEW(DisplayObject_AcquireSlot(
+        DisplayObject_FindFreeGeneralSlot(), quad_kind));
+    DisplayObject_InitializeGouraudQuad(quad, 0);
+    quad->attribute |= 0x60000000;
+    DisplayObject_SetDepthOffset(quad, -3);
+    quad->position.word = 0;
+    quad->field_30.word = 0x140;
+    quad->field_38.word = 0x80000;
+    quad->field_40.word = 0x80140;
+    quad->field_2C.word = shade;
+    quad->field_34.word = shade;
+#endif
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 3, 0, 3, 0xB, 0x2F8);
     DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(object), -4);

@@ -330,7 +330,7 @@ segments:
       - [0x022B6C, c, game/european/duel_reward_setup]
       - [0x022D68, asm, generated/text_022d68]
       - [0x022DB0, c, game/duel_reward_compact_drops]
-      - [0x022E38, asm, generated/text_022e38]
+      - [0x022E38, c, game/european/func_800323F8]
       - [0x023648, c, game/func_80032B38]
       - [0x023670, c, game/build_deck_compare_card]
       - [0x0236E4, c, game/european/card_list_sort_80032BD4]
