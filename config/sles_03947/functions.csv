@@ -11,7 +11,7 @@ address,size,name,status,module,notes
 0x80012F6C,0xE8,Main_RunFrameServices,matching_c,game,
 0x80013054,0x224,func_80013154,matching_c,game,
 0x80013278,0x154,func_80013278,unmatched_asm,game,
-0x800133CC,0x2C,Main_ClearFrameServiceCallbacks,matching_c,game,The shared reverse callback-table clear loop matches exactly under the G8 split profile.
+0x800133CC,0x2C,Main_ClearFrameServiceCallbacks,unmatched_asm,game,
 0x800133F8,0x4C,ViewState_ApplyViewpointOffset,matching_c,game,
 0x80013444,0xD0,ViewState_ApplyOrbit,matching_c,game,
 0x80013514,0xD8,func_800135FC,matching_c,game,
