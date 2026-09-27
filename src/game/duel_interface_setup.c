@@ -23,13 +23,13 @@ void DebugMenu_Init(void)
     D_8009B2B2 = 0x80;
     D_8009B2EB = 0;
     gDebugMenu_bPage = DEBUG_MENU_PAGE_PRIMARY;
-    /* The Japanese build makes neither the func_8003B6AC call nor the two
-       text-box field stores. */
-#ifndef VERSION_JAPAN
+    /* The Japanese and European builds make neither the func_8003B6AC call
+       nor the two text-box field stores. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     func_8003B6AC(1, 1);
 #endif
     text_box = TextBox_Create(1, 15, 16, 16, 0x120, 0xA0);
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     text_box->field_5A = 16;
     text_box->field_5B = 16;
 #endif
