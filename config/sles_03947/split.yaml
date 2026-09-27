@@ -63,6 +63,8 @@ segments:
     align: 4
     subsegments:
       - [0x000800, rodata, initial_data]
+      - [0x000844, .rodata, game/european/file_transfer_control]
+      - [0x000860, rodata, initial_data_860]
       - [0x8f8, .rodata, game/european/duel_scene_card_placement]
       - [0x92c, rodata, initial_data_92c]
       - [0xa34, .rodata, game/main_apply_menu_selection]
@@ -90,7 +92,7 @@ segments:
       - [0x003EFC, c, game/file_wait_for_transfers]
       - [0x003FB0, c, game/file_stream]
       - [0x00421C, c, game/european/file_transfer_runtime]
-      - [0x0049AC, asm, generated/text_0049ac]
+      - [0x0049AC, c, game/european/file_transfer_control]
       - [0x005534, c, game/file_transfer_flags]
       - [0x005854, c, game/file_transfer_phase_step]
       - [0x0058C8, c, game/fade_init]
