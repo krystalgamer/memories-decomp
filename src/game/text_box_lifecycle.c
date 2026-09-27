@@ -72,11 +72,17 @@ void *TextBox_CreateFlagged(
     s32 flags
 )
 {
+#ifdef VERSION_EUROPE
+    /* The European build hands the flags to DuelEffect_InitEntry. */
+    TextBox_SetRect(index, x, y, width, height);
+    return DuelEffect_InitEntry(index, string_id, flags);
+#else
     DuelEffectChannel *result;
 
     TextBox_SetRect(index, x, y, width, height);
     result = DuelEffect_InitEntry(index, string_id, 0);
     result->flags_34 |= flags;
     return result;
+#endif
 }
 #endif
