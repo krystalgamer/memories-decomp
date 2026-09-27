@@ -53,10 +53,10 @@
    DuelScene_UpdateResultOutro is the outro sequence that spawns the sprites
    on the first and retargets them at the second. The three sources were
    recorded at gcc_2_8_1_g8_no_split,
-   gcc_2_8_1_g8 and gcc_2_8_1_g8_split, and each compiles to an identical
-   object at gcc_2_8_1_g8_split. Bounded below by the outro package's
-   transfer callback func_80020BE4, which cannot reproduce its object under
-   this unit's split profile, and above by unmatched assembly. */
+   gcc_2_8_1_g8 and gcc_2_8_1_g8_split; all eight functions compile at
+   gcc_2_8_1_g8_split. Bounded below by the outro package's transfer callback
+   func_80020BE4, which cannot reproduce its object under this unit's
+   split profile, and above by func_800218F0. */
 
 /* Per-frame update for an object that orbits a fixed base position
    (field_2C/field_2E) at DUEL_RESULT_ORBIT_ANGLE_STEP per frame, with radius
@@ -68,8 +68,6 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_DUEL_RESULT_UPDATE_ORBIT_SPRITE)
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
@@ -110,9 +108,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
     arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESULT_FLY_OFF)
 void func_80020EE8(DuelCardDisplayObject *object)
 {
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
@@ -123,7 +119,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
         DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }
-#endif
 
 #ifndef DUEL_RESULT_OUTRO_START_SECTOR
 #define DUEL_RESULT_OUTRO_START_SECTOR FILE_WA_DUEL_RESULTS_START_SECTOR
@@ -133,7 +128,6 @@ void func_80020EE8(DuelCardDisplayObject *object)
 #define DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR DUELIST_DATA_FIRST_SECTOR
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RESULT_OUTRO)
 /* Duel-result outro sequence, driven from the scene state word gDuel_wSceneStateFlags.
 
    The first call (bit 0x8000 clear) fades the BGM out, records the winning
@@ -348,9 +342,6 @@ void DuelScene_UpdateResultOutro(void)
    and gcc_2_8_1_g0_split and compile to identical objects at this unit's
    gcc_2_8_1_g8_split. */
 
-#endif
-
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SHOW_RESULT_PAGE)
 void Duel_ShowResultPage(s32 page)
 {
     s32 i;
@@ -384,9 +375,7 @@ void Duel_ShowResultPage(s32 page)
     );
     func_80039A14(object);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_RANK_SCORE_CHANGE)
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
 {
     DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
@@ -398,7 +387,6 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
         p++;
     }
 }
-#endif
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.
@@ -406,7 +394,6 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    the end-reason and threshold-rule adjustments. Raw statistics are also
    copied into the separate D_801D5608[0].rank_rows[stat][side] display
    table. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CALC_RANK_SCORE)
 void Duel_CalcRankScore(void) {
     DuelResultDisplayState *p;
     DuelSideState *e;
@@ -471,9 +458,7 @@ void Duel_CalcRankScore(void) {
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SELECT_CARD_DROP)
 s32 Duel_SelectCardDrop(s32 pool_index)
 {
     DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
@@ -488,9 +473,7 @@ s32 Duel_SelectCardDrop(s32 pool_index)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_AWARD_CARD)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
@@ -511,4 +494,3 @@ void Duel_AwardCard(s32 card_id)
     } while (i >= 0);
     *destination = card_id;
 }
-#endif
