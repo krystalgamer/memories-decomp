@@ -923,49 +923,49 @@
       "address": "0x80020B94",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x19C",
-      "source": "src/game/japanese/duel_result_update_orbit_sprite.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x80020D30",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/japanese/duel_result_fly_off.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x80020D94",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x534",
-      "source": "src/game/japanese/duel_result_outro.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x800212C8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/japanese/duel_show_result_page.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x800213A0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",
-      "source": "src/game/japanese/duel_rank_score_change.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x800213E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x278",
-      "source": "src/game/japanese/duel_calc_rank_score.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x80021658",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/japanese/duel_select_card_drop.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x800216DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/japanese/duel_award_card.c"
+      "source": "src/game/japanese/duel_result_runtime.c"
     },
     {
       "address": "0x80021738",
