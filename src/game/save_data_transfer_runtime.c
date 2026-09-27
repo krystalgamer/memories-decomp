@@ -20,6 +20,16 @@
 #include "sound.h"
 #include "text_box_runtime.h"
 
+/* Regional values: the load box's flags (0x1008 -> 0x1010) and the channel
+ * flag bit it waits on (0x8 -> 0x10). The European build
+ * (src/game/european/) defines its own. */
+#ifndef SAVE_DATA_LOAD_BOX_FLAGS
+#define SAVE_DATA_LOAD_BOX_FLAGS 0x1008
+#endif
+#ifndef SAVE_DATA_LOAD_CHANNEL_FLAG
+#define SAVE_DATA_LOAD_CHANNEL_FLAG 8
+#endif
+
 /* The complete single-player and two-player save-transfer runtime. The first
    three functions request, poll, apply, build, and write the resident save;
    the remaining state machine loads both card slots, then the two wrappers add
@@ -190,7 +200,7 @@ s32 SaveData_UpdateLoadPair(void)
             a = D_8009B3EE;
             b = D_8009B3C0;
             gMemCard_pDialogObject->field_60 = -0x400;
-            o = TextBox_CreateFlagged(a, b, 0x20, 0x50, 0x100, 0x30, 0x1008);
+            o = TextBox_CreateFlagged(a, b, 0x20, 0x50, 0x100, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
             o->field_59 = 0x10;
             do {
                 func_80039794();
@@ -205,7 +215,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         func_80039794();
         q = D_800EB0F8;
-        if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, D_8009B3EE)->flags_34 & 8) == 0) {
+        if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, D_8009B3EE)->flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
             D_8009B3EA = 0xB;
         }
         return 0;

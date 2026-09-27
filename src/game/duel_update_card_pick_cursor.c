@@ -11,6 +11,12 @@
 #include "input.h"
 #include "../unmatched.h"
 
+/* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_PICK_CURSOR_FIELD_0C
+#define DUEL_PICK_CURSOR_FIELD_0C 0x74
+#endif
+
 /* The absolute spellings below are load-bearing (see the two stores in
  * Duel_UpdateCardPickCursor); the addresses are named so a regional build can
  * supply its own. */
@@ -66,7 +72,7 @@ void Duel_UpdateCardPickCursor(DuelCardPickCursor *o) {
     if (!(f & 0x80)) {
         D_8009B1D4 = f | 0xC0;
         o->field_12 = 4;
-        o->field_0C = 0x74;
+        o->field_0C = DUEL_PICK_CURSOR_FIELD_0C;
         o->field_18 = 0;
         o->field_11 = 0;
         o->status = 0;
