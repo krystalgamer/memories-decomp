@@ -836,6 +836,12 @@
       "source": "src/game/european/duel_result_orbit_sprites.c"
     },
     {
+      "address": "0x80021868",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x7C8",
+      "source": "src/game/european/func_800218F0.c"
+    },
+    {
       "address": "0x800225EC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x380",
