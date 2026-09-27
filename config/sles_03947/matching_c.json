@@ -2978,6 +2978,18 @@
       "source": "src/game/display_effect_process_menu_records.c"
     },
     {
+      "address": "0x8003B758",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x38",
+      "source": "src/game/european/text_init_decimal_digit_glyph_map.c"
+    },
+    {
+      "address": "0x8003B790",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x74",
+      "source": "src/game/european/text_init_decimal_digit_glyph_map.c"
+    },
+    {
       "address": "0x8003B804",
       "profile": "gcc_2_8_1_g8",
       "size": "0x20",

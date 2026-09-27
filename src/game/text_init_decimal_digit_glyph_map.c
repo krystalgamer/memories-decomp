@@ -13,6 +13,55 @@
    a load from unchanging memory as loop-invariant regardless of the stores in
    the body, which is what leaves one shared %hi in the preheader feeding both
    the guard load and the per-iteration table address. */
+#ifdef VERSION_EUROPE
+/* European only: the 1-based index of key in the glyph lookup table (the
+   entries from four bytes into tent_GlyphLookupTable, code in the low
+   halfword), or 0 when the zero terminator comes first. */
+s32 func_8003B758(s32 key)
+{
+    s32 n = 0;
+    u16 *e = (u16 *)tent_GlyphLookupTable;
+    s32 code;
+
+    do {
+        e += 2;
+        code = *e;
+        n++;
+        if (code == 0) {
+            return 0;
+        }
+    } while (code != key);
+    return n;
+}
+
+/* The European map stores the ten digit codes themselves, read from the
+   byte string at D_801BF870: a byte from 0xF0 up starts a two-byte code
+   (its low nibble is the high byte), and 0xFF ends the string early. */
+void Text_InitDecimalDigitGlyphMap(void)
+{
+    u8 *p = D_801BF870;
+    s32 i = 0;
+    s32 c = *p;
+
+    if (c != 0xFF) {
+        do {
+            if (c >= 0xF0) {
+                c &= 0xF;
+                p++;
+                c <<= 8;
+                c |= *p;
+            }
+            p++;
+            D_800EAFF8[i] = c;
+            i++;
+            if (i >= 10) {
+                break;
+            }
+            c = *p;
+        } while (c != 0xFF);
+    }
+}
+#else
 void Text_InitDecimalDigitGlyphMap(void) {
     TextDecimalDigitKeyBlock buf;
     u16 *out;
@@ -54,3 +103,4 @@ void Text_InitDecimalDigitGlyphMap(void) {
         i += 2;
     } while (p < end);
 }
+#endif

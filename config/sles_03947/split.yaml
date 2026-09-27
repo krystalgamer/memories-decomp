@@ -417,7 +417,7 @@ segments:
       - [0x02AB7C, c, game/european/display_effect_resource_setup]
       - [0x02B2B0, c, game/european/display_effect_update_callbacks]
       - [0x02BD08, c, game/display_effect_process_menu_records]
-      - [0x02BF58, asm, generated/text_02bf58]
+      - [0x02BF58, c, game/european/text_init_decimal_digit_glyph_map]
       - [0x02C004, c, game/duel_effect_init_entry_default_flags]
       - [0x02C024, c, game/input_is_pad1_confirm_pressed]
       - [0x02C034, c, game/european/text_lookup_string]

@@ -41,6 +41,9 @@ extern u16 D_801D6000[];
 extern u16 D_801B0004[];
 extern u16 D_801C0004[];
 extern u16 D_801D5804[];
+/* The byte string the European Text_InitDecimalDigitGlyphMap reads the ten
+   digit codes from. */
+extern u8 D_801BF870[];
 #endif
 
 /* 0x8009B32E, the string id func_800383DC resolves through the regional banks
