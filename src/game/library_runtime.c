@@ -743,10 +743,21 @@ void Library_MarkOwnedCards(void)
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BFCC)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BFCC))
-/* The Library package's first sector; the Japanese WA.MRG places it
-   elsewhere, so a regional build supplies its own. */
+/* The Library package's first sector and length; the Japanese and European
+   WA.MRG place it elsewhere, so a regional build supplies its own. */
 #ifndef LIBRARY_PACKAGE_FIRST_SECTOR
 #define LIBRARY_PACKAGE_FIRST_SECTOR 0x1DCD
+#endif
+#ifndef LIBRARY_PACKAGE_SECTOR_COUNT
+#define LIBRARY_PACKAGE_SECTOR_COUNT 0x8A
+#endif
+/* The resource record's field_2C (0x200 in the US build, 0x280 in the
+   European one) and the y of the sprite at x 0x10 (0xD8, 0xE8). */
+#ifndef LIBRARY_RESOURCE_FIELD_2C
+#define LIBRARY_RESOURCE_FIELD_2C 0x200
+#endif
+#ifndef LIBRARY_SELECTOR_SPRITE_Y
+#define LIBRARY_SELECTOR_SPRITE_Y 0xD8
 #endif
 
 void func_8002BFCC(void) {
@@ -775,14 +786,15 @@ void func_8002BFCC(void) {
     b = &D_800EA0E8[0];
     b->src_x = 0x100;
     b->src_y = 0x100;
-    b->field_2C = 0x200;
+    b->field_2C = LIBRARY_RESOURCE_FIELD_2C;
     b->field_2E = 0xF0;
     do {
         *q = n + 1;
         n--;
         q--;
     } while (n >= 0);
-    File_RequestAsyncTransfer(0, (u8 *)0, LIBRARY_PACKAGE_FIRST_SECTOR, 0x8A,
+    File_RequestAsyncTransfer(0, (u8 *)0, LIBRARY_PACKAGE_FIRST_SECTOR,
+                              LIBRARY_PACKAGE_SECTOR_COUNT,
                               (FileTransferCallback)func_8002BD0C, 0, 0);
     File_WaitForTransfers();
     Library_MarkOwnedCards();
@@ -806,7 +818,8 @@ void func_8002BFCC(void) {
     LIBRARY_MOTION_STATE_VIEW(r)->y = y;
     func_8002A660(r);
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    DisplayObject_ConfigureSpriteAtPosition(o, 0x10, 0xD8, 0, 2, 1, 0x1B, 0x127);
+    DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
+                                            0, 2, 1, 0x1B, 0x127);
     o[0x5F] = 0x80;
     DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
     n = CARD_ID_FIRST;
@@ -856,13 +869,18 @@ void func_8002BFCC(void) {
         }
         n++;
     } while (n < CARD_ID_END);
-#ifndef VERSION_JAPAN
-    /* The Japanese build makes neither this call nor the two field stores
-       below. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+    /* The Japanese and European builds make neither this call nor the two
+       field stores below. */
     func_8003B6AC(3, 1);
 #endif
+#ifdef VERSION_EUROPE
+    /* The European build creates the box with flags 3. */
+    m = TextBox_CreateFlagged(3, 0xF8, 0x58, -0x18, 0x90, 0x10, 3);
+#else
     m = TextBox_Create(3, 0xF8, 0x58, -0x18, 0x90, 0x10);
-#ifndef VERSION_JAPAN
+#endif
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
     m[0x5A] = 0x10;
     m[0x5B] = 0x10;
 #endif
