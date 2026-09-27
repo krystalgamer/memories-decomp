@@ -403,8 +403,28 @@ def render_japanese_progress(progress: dict[str, Any]) -> str:
     )
 
 
+def render_european_progress(progress: dict[str, Any]) -> str:
+    return "\n".join(
+        (
+            "### European (`SLES-03947`)",
+            "",
+            f"Target SHA-256: `{progress['target_sha256']}`",
+            "",
+            render_readme_progress(
+                progress,
+                (
+                    "`config/sles_03947/functions.csv`, validated against "
+                    "`config/sles_03947/matching_c.json`"
+                ),
+            ),
+        )
+    )
+
+
 def render_regional_progress(
-    north_american: dict[str, Any], japanese: dict[str, Any]
+    north_american: dict[str, Any],
+    japanese: dict[str, Any],
+    european: dict[str, Any],
 ) -> str:
     return "\n\n".join(
         (
@@ -412,6 +432,7 @@ def render_regional_progress(
             f"Target SHA-256: `{north_american['target_sha256']}`\n\n"
             + render_readme_progress(north_american),
             render_japanese_progress(japanese),
+            render_european_progress(european),
         )
     )
 
@@ -438,13 +459,14 @@ def sync_readme(
     root: Path,
     progress: dict[str, Any],
     japanese: dict[str, Any],
+    european: dict[str, Any],
     *,
     check: bool,
 ) -> str:
     path = resolve_within(root, "README.md", must_exist=True)
     current = path.read_text(encoding="utf-8")
     expected = expected_readme(
-        current, render_regional_progress(progress, japanese)
+        current, render_regional_progress(progress, japanese, european)
     )
     if check:
         if current != expected:
@@ -534,10 +556,14 @@ def calculate(root: Path) -> dict[str, Any]:
     }
 
 
-def validate_japanese_inventory(
-    root: Path, functions: list[Function], image_map: dict[str, Any]
+def validate_regional_inventory(
+    root: Path,
+    functions: list[Function],
+    image_map: dict[str, Any],
+    *,
+    config: str,
+    region_name: str,
 ) -> None:
-    config = "config/slpm_86398"
     regions_path = f"{config}/function_regions.json"
     regions = load_regions(root, regions_path)
     text_region = next(
@@ -549,25 +575,25 @@ def validate_japanese_inventory(
         None,
     )
     if text_region is None:
-        raise ProgressError("Japanese image map has no text region")
+        raise ProgressError(f"{region_name} image map has no text region")
     text_start = parse_integer(
-        text_region.get("vram_start"), "Japanese text.vram_start"
+        text_region.get("vram_start"), f"{region_name} text.vram_start"
     )
     text_end = parse_integer(
-        text_region.get("vram_end"), "Japanese text.vram_end"
+        text_region.get("vram_end"), f"{region_name} text.vram_end"
     )
     if regions[0]["start"] != text_start or regions[-1]["end"] != text_end:
         raise ProgressError(
-            f"{regions_path}: regions must cover Japanese resident text "
+            f"{regions_path}: regions must cover {region_name} resident text "
             f"{text_start:#010x}..{text_end:#010x}"
         )
-    validate_function_order(functions, "Japanese function inventory")
+    validate_function_order(functions, f"{region_name} function inventory")
     validate_coverage(functions, regions)
     for function in functions:
         classified = classify_function(function, regions)
         if classified != function:
             raise ProgressError(
-                f"Japanese function {function.address:#010x} disagrees with "
+                f"{region_name} function {function.address:#010x} disagrees with "
                 f"{regions_path}"
             )
         if function.module == "game":
@@ -575,13 +601,15 @@ def validate_japanese_inventory(
                 "matching_c", "unmatched_asm", "handwritten_asm"
             }:
                 raise ProgressError(
-                    f"Japanese game function {function.address:#010x} is not game code"
+                    f"{region_name} game function {function.address:#010x} "
+                    "is not game code"
                 )
         elif function.status != "sdk_asm" or function.module not in {
             "psyq/crt", "psyq/sdk"
         }:
             raise ProgressError(
-                f"Japanese non-game function {function.address:#010x} is not SDK code"
+                f"{region_name} non-game function {function.address:#010x} "
+                "is not SDK code"
             )
         if (
             function.status == "matching_c"
@@ -592,7 +620,8 @@ def validate_japanese_inventory(
             )
         ):
             raise ProgressError(
-                f"Japanese matching C {function.address:#010x} is in assembly region"
+                f"{region_name} matching C {function.address:#010x} "
+                "is in assembly region"
             )
 
     manifest = resolve_within(root, f"{config}/matching_c.json", must_exist=True)
@@ -603,7 +632,8 @@ def validate_japanese_inventory(
     }
     if actual != expected:
         raise ProgressError(
-            "Japanese matching-C inventory does not agree with the matching manifest"
+            f"{region_name} matching-C inventory does not agree with "
+            "the matching manifest"
         )
 
 
@@ -619,7 +649,13 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
     )
     functions = load_inventory(inventory_path)
     validate_inventory(generated, functions)
-    validate_japanese_inventory(root, functions, image_map)
+    validate_regional_inventory(
+        root,
+        functions,
+        image_map,
+        config=config,
+        region_name="Japanese",
+    )
     text_bytes = load_text_size(root, config)
     metrics = summarize_functions(functions, text_bytes)
     return {
@@ -628,6 +664,37 @@ def calculate_japanese(root: Path) -> dict[str, Any]:
         "text_bytes": text_bytes,
         **metrics,
         "overlays": load_japanese_overlay_inventories(root),
+        "fallback_bytes": text_bytes - metrics["matching_c_bytes"],
+    }
+
+
+def calculate_european(root: Path) -> dict[str, Any]:
+    config = "config/sles_03947"
+    image_map = load_image_map(root, config)
+    assembly_root = resolve_within(
+        root, "tmp/splat/sles_03947/asm", must_exist=True
+    )
+    generated = parse_generated_function_tree(assembly_root)
+    inventory_path = resolve_within(
+        root, f"{config}/functions.csv", must_exist=True
+    )
+    functions = load_inventory(inventory_path)
+    validate_inventory(generated, functions)
+    validate_regional_inventory(
+        root,
+        functions,
+        image_map,
+        config=config,
+        region_name="European",
+    )
+    text_bytes = load_text_size(root, config)
+    metrics = summarize_functions(functions, text_bytes)
+    return {
+        "target": "SLES-03947",
+        "target_sha256": image_map["target_sha256"],
+        "text_bytes": text_bytes,
+        **metrics,
+        "overlays": {},
         "fallback_bytes": text_bytes - metrics["matching_c_bytes"],
     }
 
@@ -650,12 +717,17 @@ def main() -> int:
         root = require_workspace_root()
         progress = calculate(root)
         japanese = calculate_japanese(root)
+        european = calculate_european(root)
         output = resolve_within(root, "tmp/reports/progress.json")
-        atomic_write_json(output, {**progress, "japanese": japanese})
+        atomic_write_json(
+            output,
+            {**progress, "japanese": japanese, "european": european},
+        )
         readme_status = sync_readme(
             root,
             progress,
             japanese,
+            european,
             check=arguments.check,
         )
     except (
@@ -692,6 +764,11 @@ def main() -> int:
         "Japanese matching:  "
         f"{japanese['matching_c_function_count']} functions, "
         f"{japanese['matching_c_bytes']:#x} bytes"
+    )
+    print(
+        "European matching:  "
+        f"{european['matching_c_function_count']} functions, "
+        f"{european['matching_c_bytes']:#x} bytes"
     )
     print(f"unassigned text:    {progress['unassigned_text_bytes']:#x} bytes")
     print(f"report:             {output.relative_to(root)}")

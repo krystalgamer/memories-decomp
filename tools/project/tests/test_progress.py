@@ -177,7 +177,7 @@ class ProgressRenderingTests(unittest.TestCase):
         self.assertIn("Total game-owned functions | 12", rendered)
         self.assertNotIn("**9 / 12", rendered)
 
-    def test_regional_progress_includes_japanese_target(self) -> None:
+    def test_regional_progress_includes_japanese_and_european_targets(self) -> None:
         rendered = progress.render_regional_progress(
             {
                 "target_sha256": "north-american-hash",
@@ -221,12 +221,33 @@ class ProgressRenderingTests(unittest.TestCase):
                     }
                 },
             },
+            {
+                "target_sha256": "european-hash",
+                "text_bytes": 0x500,
+                "function_count": 11,
+                "game_function_count": 8,
+                "decompilation_target_function_count": 7,
+                "decompilation_target_function_bytes": 0x300,
+                "handwritten_function_count": 1,
+                "handwritten_function_bytes": 0x40,
+                "assembly_function_count": 3,
+                "assembly_function_bytes": 0x180,
+                "sdk_function_count": 3,
+                "sdk_function_bytes": 0x100,
+                "matching_c_function_count": 4,
+                "matching_c_bytes": 0x180,
+                "unassigned_text_bytes": 0xC0,
+                "overlays": {},
+            },
         )
 
         self.assertIn("North American (`SLUS-01411`)", rendered)
         self.assertIn("Japanese (`SLPM-86398`)", rendered)
+        self.assertIn("European (`SLES-03947`)", rendered)
         self.assertIn("`japanese-hash`", rendered)
+        self.assertIn("`european-hash`", rendered)
         self.assertIn("**4 / 6 (66.67%)**", rendered)
+        self.assertIn("**4 / 7 (57.14%)**", rendered)
         self.assertIn(
             "**256 (`0x100`) / 576 (`0x240`) (44.44%)**", rendered
         )

@@ -72,15 +72,33 @@ Runtime overlay modules:
 
 _Generated from `config/slpm_86398/functions.csv` and `config/slpm_86398/overlays/*_functions.csv`, validated against their matching-C manifests by `tools/project/progress.py`._
 
+### European (`SLES-03947`)
+
+Target SHA-256: `49544302dbe341489ae0eaf7888cac002a6160c57454970c434cdcb171d2a40e`
+
+| Metric | Current |
+|---|---:|
+| Game C-decompilation targets matched | **774 / 1,165 (66.44%)** |
+| Game C-decompilation target bytes matched | **200,376 (`0x30EB8`) / 376,300 (`0x5BDEC`) (53.25%)** |
+| Remaining game C-decompilation targets | 391 functions, 175,924 (`0x2AF34`) |
+| Evidence-backed handwritten game assembly | 36 functions, 21,000 (`0x5208`) |
+| Total game-owned functions | 1,201 |
+| Preserved Psy-Q CRT/SDK assembly | 623 functions, 120,584 (`0x1D708`) |
+| Total discovered functions | 1,824 |
+| Embedded/unassigned resident text | 1,808 (`0x710`) |
+
+_Generated from `config/sles_03947/functions.csv`, validated against `config/sles_03947/matching_c.json` by `tools/project/progress.py`._
+
 <!-- END GENERATED PROGRESS -->
 
-Both regional tables separate game-owned C-decompilation targets from
+All three regional tables separate game-owned C-decompilation targets from
 evidence-backed handwritten assembly and preserved Psy-Q CRT/SDK routines.
-Each version has its own authoritative resident and runtime-overlay function
-inventories, validated against its matching manifests. Overlay percentages
-describe identified function boundaries, not all executable bytes: the
-Japanese overworld modules include a mixed code/data tail with no separately
-verified function boundaries, excluded from their denominators. See
+Each version has its own authoritative resident function inventory, validated
+against its matching manifest. North American and Japanese runtime-overlay
+inventories are reported separately. Overlay percentages describe identified
+function boundaries, not all executable bytes: the Japanese overworld modules
+include a mixed code/data tail with no separately verified function
+boundaries, excluded from their denominators. See
 [function-inventories.md](notes/function-inventories.md) for the reusable
 version-neutral inventory scaffold.
 

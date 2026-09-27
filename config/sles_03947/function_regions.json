@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "regions": [
+    {
+      "name": "startup",
+      "start": "0x800128CC",
+      "end": "0x80012A44",
+      "module": "psyq/crt",
+      "status": "sdk_asm",
+      "evidence": "PS-X startup clears BSS, establishes stack and GP, runs constructor tables, and transfers control to the game entry routine."
+    },
+    {
+      "name": "game",
+      "start": "0x80012A44",
+      "end": "0x8005D3D4",
+      "module": "game",
+      "evidence": "Game and engine code begins at Main_Init and continues up to the embedded SDK getter."
+    },
+    {
+      "name": "embedded-sdk-getter",
+      "start": "0x8005D3D4",
+      "end": "0x8005D3E4",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "Sixteen-byte getter func_80058F10 matches the embedded SDK assembly entry classified in the North American and Japanese inventories."
+    },
+    {
+      "name": "game-after-sdk-getter",
+      "start": "0x8005D3E4",
+      "end": "0x80073A48",
+      "module": "game",
+      "evidence": "Game and engine code resumes after the embedded SDK getter and ends before the first SN/Psy-Q host-I/O break wrapper."
+    },
+    {
+      "name": "sdk",
+      "start": "0x80073A48",
+      "end": "0x800916D8",
+      "module": "psyq/sdk",
+      "status": "sdk_asm",
+      "evidence": "SN host-I/O wrappers followed by Sony runtime, hardware, GTE, libc, memory-card, CD, GPU, SPU, and MDEC library code through the end of resident text."
+    }
+  ]
+}

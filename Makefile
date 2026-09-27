@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -178,8 +178,9 @@ european-split: european-map check-build-tools
 	@$(PYTHON) tools/project/clean.py splat
 	@$(SPLAT) split config/sles_03947/split.yaml
 
-regional-progress-split: split japanese-map check-build-tools
+regional-progress-split: split japanese-map european-map check-build-tools
 	@$(SPLAT) split config/slpm_86398/split.yaml
+	@$(SPLAT) split config/sles_03947/split.yaml
 
 build: split
 	@$(PYTHON) tools/project/clean.py project-build
@@ -292,6 +293,17 @@ japanese-inventory: japanese-match
 			--module overlay/$${name} \
 			--output config/slpm_86398/overlays/$${name}_functions.csv; \
 	done
+
+european-inventory: european-match
+	@$(MAKE) regional-progress-split
+	@$(PYTHON) tools/project/regional_inventory.py \
+		--assembly-root tmp/splat/sles_03947/asm \
+		--manifest config/sles_03947/matching_c.json \
+		--elf tmp/project-build/SLES_039.47.elf \
+		--regions config/sles_03947/function_regions.json \
+		--handwritten-reference config/slus_01411/functions.csv \
+		--reference-assembly-root tmp/splat/asm \
+		--output config/sles_03947/functions.csv
 
 classify-functions: inventory
 	@$(PYTHON) tools/project/classify_functions.py
