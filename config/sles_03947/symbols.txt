@@ -452,6 +452,7 @@ TextStream_ReadByte = 0x8003B8CC;
 FreeDuel_LoadPackageStage = 0x8003B8F4;
 Script_OpReturnToMenu = 0x8002FA8C;
 Script_RunTick = 0x8002FAB8;
+Campaign_LoadScenePackageStage = 0x8002FBDC;
 Campaign_LoadScenePackage = 0x8002FD78;
 SceneScript_NoOpRecordCallback = 0x8002FF38;
 func_8002FED8 = 0x8002FF40;

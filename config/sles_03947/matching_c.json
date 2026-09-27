@@ -1724,6 +1724,12 @@
       "source": "src/game/european/script_run_tick.c"
     },
     {
+      "address": "0x8002FBDC",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x19C",
+      "source": "src/game/european/campaign_load_scene_package_stage.c"
+    },
+    {
       "address": "0x8002FF38",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
