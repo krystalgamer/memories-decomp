@@ -16,8 +16,6 @@
 #define DecDCToutCallback func_80090E80
 #define DecDCTvlcBuild func_800915F4
 #define func_8005C1F4 func_8005039C
-#define GRAPHICS_CURRENT_HEIGHT_SYMBOL "gEuropean_D_800FE0D4"
-#define GRAPHICS_CURRENT_WIDTH_SYMBOL "gEuropean_D_800FE0D0"
 #define GsDefDispBuff func_80085424
 #define GsDISPENV gEuropean_GsDISPENV
 #define GsInitGraph2 func_80084CE4
