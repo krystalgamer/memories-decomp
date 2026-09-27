@@ -2402,6 +2402,12 @@
       "source": "src/game/european/duel_effect_object_80038A44.c"
     },
     {
+      "address": "0x80038884",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x58",
+      "source": "src/game/european/text_unlock_duelist.c"
+    },
+    {
       "address": "0x800388DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x40",

@@ -941,6 +941,7 @@ func_80038890 = 0x80038664;
 func_80038898 = 0x8003866C;
 Text_ApplyFadeCommand = 0x800386AC;
 func_80038A44 = 0x80038818;
+Text_UnlockDuelist = 0x80038884;
 Text_CloseChoice = 0x800388DC;
 Text_PushPlayerNameStream = 0x8003891C;
 Text_DispatchSecondaryCommand = 0x8003894C;
