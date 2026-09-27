@@ -1136,6 +1136,12 @@
       "source": "src/game/duel_field_effect_steps.c"
     },
     {
+      "address": "0x80026198",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xA8",
+      "source": "src/game/european/duel_effect_start_ritual.c"
+    },
+    {
       "address": "0x80026998",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xE0",
@@ -1994,6 +2000,12 @@
       "source": "src/game/build_deck_compare_card.c"
     },
     {
+      "address": "0x80032EE4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/european/card_list_sort_80032BD4.c"
+    },
+    {
       "address": "0x800333CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",
@@ -2190,6 +2202,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x4C",
       "source": "src/game/text_stream_read_le.c"
+    },
+    {
+      "address": "0x80036C90",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/european/duel_effect_update_object_layout.c"
     },
     {
       "address": "0x80036D04",
@@ -2394,6 +2412,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
       "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
+      "address": "0x80038884",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x58",
+      "source": "src/game/european/text_unlock_duelist.c"
     },
     {
       "address": "0x800388DC",
