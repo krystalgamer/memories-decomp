@@ -8,7 +8,8 @@
 #include "build_deck_transition_state.h"
 
 /* The descending comparator, sort, and input handler share this unit. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032BD4)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032BD4)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032BD4))
 s32 func_80032BD4(
     CardListSortItem *arg0,
     CardListSortItem *arg1
@@ -31,7 +32,8 @@ s32 func_80032BD4(
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_SORT)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_SORT)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_SORT))
 /* Card-list sort. Builds a 32-bit sort key into each sixteen-byte row of the
    list at p and hands the block to qsort with one of two comparators, chosen
    by the list's sort_mode.
@@ -194,24 +196,42 @@ void func_80032C48(CardList *list)
 #include "input.h"
 #include "sound.h"
 
+#ifndef CARD_LIST_VISIBLE_ROWS
+#define CARD_LIST_VISIBLE_ROWS 8
+#endif
+#ifndef CARD_LIST_LAST_CURSOR
+#define CARD_LIST_LAST_CURSOR 7
+#endif
+#ifndef CARD_LIST_SCROLL_SCALE
+#define CARD_LIST_SCROLL_SCALE 152
+#endif
+#ifndef CARD_LIST_SCROLL_Y_BASE
+#define CARD_LIST_SCROLL_Y_BASE 0x29
+#endif
+#ifndef CARD_LIST_CURSOR_Y_BASE
+#define CARD_LIST_CURSOR_Y_BASE 0x2A
+#endif
+
 /* Card-list cursor and page input handler.
 
    Levers that mattered here:
    - The retry path is a backward goto, not a for(;;)/continue loop: with a
-     real loop construct loop.c hoists the constant 7 into a callee-saved
-     register instead of rematerialising it at each of its three uses.
+     real loop construct loop.c hoists the last cursor constant into a
+     callee-saved register instead of rematerialising it at each use.
    - The shared sub-row commit tail is written once and reached by
      "goto finish" from the second branch, which reproduces the retail block
      order (the tail sits between the L1/R1 block and the L2/R2 block).
      Duplicating it in both branches leaves the two copies unmerged.
-   - "list->row_count - 8" is respelled at every use; a single local
+   - The visible-row subtraction is respelled at every use; a single local
      would collapse the reloads the target makes at each join point.
    - The D_80090DD8 lookup keeps CardList_UpdateSortMode's statement-by-statement
      spelling so the base and slot pseudos land in the same registers.
 */
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_BUILD_DECK_CARD_LIST_INPUT)
+#if (!defined(VERSION_JAPAN) || \
+     defined(VERSION_JAPAN_BUILD_DECK_CARD_LIST_INPUT)) && \
+    (!defined(VERSION_EUROPE) || \
+     defined(VERSION_EUROPE_BUILD_DECK_CARD_LIST_INPUT))
 s32 BuildDeck_UpdateCardListInput(CardList *list)
 {
     s32 row;
@@ -222,10 +242,10 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
 
     row = list->first | list->cursor;
     if (row != 0) {
-        row = (list->first + list->cursor + 1) * 152 /
+        row = (list->first + list->cursor + 1) * CARD_LIST_SCROLL_SCALE /
               list->sort_row_count;
     }
-    list->scroll_box->field_30.h.field_32 = row + 0x29;
+    list->scroll_box->field_30.h.field_32 = row + CARD_LIST_SCROLL_Y_BASE;
 
 top:
     if (list->first != list->first_target) {
@@ -234,7 +254,7 @@ top:
         } else {
             *(u16 *)&list->first = *(u16 *)&list->first + 1;
         }
-        func_80031E04(list, 8);
+        func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
         return 1;
     }
 
@@ -242,19 +262,19 @@ top:
         sel = -1;
         row = list->first;
         if ((gInput_wPad1Held & PAD_BUTTON_R1) != 0) {
-            if (row == list->row_count - 8 &&
-                list->cursor != 7) {
-                sel = 7;
+            if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
+                list->cursor != CARD_LIST_LAST_CURSOR) {
+                sel = CARD_LIST_LAST_CURSOR;
             }
-            row += 8;
-            if (list->row_count - 8 < row) {
-                row = list->row_count - 8;
+            row += CARD_LIST_VISIBLE_ROWS;
+            if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
+                row = list->row_count - CARD_LIST_VISIBLE_ROWS;
             }
         } else {
             if (row == 0 && list->cursor != 0) {
                 sel = 0;
             }
-            row -= 8;
+            row -= CARD_LIST_VISIBLE_ROWS;
         }
         if (row < 0) {
             row = 0;
@@ -267,7 +287,8 @@ top:
     finish:
         if (sel >= 0) {
             list->cursor = sel;
-            list->cursor_box->field_30.h.field_32 = sel * 22 + 0x2A;
+            list->cursor_box->field_30.h.field_32 =
+                sel * 22 + CARD_LIST_CURSOR_Y_BASE;
             SD_SEPlayFull(6);
         }
         return 1;
@@ -277,13 +298,13 @@ top:
         sel = -1;
         row = list->first;
         if ((gInput_wPad1Repeat & PAD_BUTTON_R2) != 0) {
-            if (row == list->row_count - 8 &&
-                list->cursor != 7) {
-                sel = 7;
+            if (row == list->row_count - CARD_LIST_VISIBLE_ROWS &&
+                list->cursor != CARD_LIST_LAST_CURSOR) {
+                sel = CARD_LIST_LAST_CURSOR;
             }
             row += 0x32;
-            if (list->row_count - 8 < row) {
-                row = list->row_count - 8;
+            if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
+                row = list->row_count - CARD_LIST_VISIBLE_ROWS;
             }
         } else {
             if (row == 0 && list->cursor != 0) {
@@ -298,7 +319,7 @@ top:
             SD_SEPlayFull(6);
             list->first_target = row;
             list->first = row;
-            func_80031E04(list, 8);
+            func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
             return 1;
         }
         goto finish;
@@ -308,9 +329,9 @@ top:
         row = list->first;
         if ((gInput_wPad1Repeat & PAD_DIRECTION_DOWN) != 0) {
             list->cursor += 1;
-            if (list->cursor >= 8) {
+            if (list->cursor >= CARD_LIST_VISIBLE_ROWS) {
                 row += 1;
-                list->cursor = 7;
+                list->cursor = CARD_LIST_LAST_CURSOR;
             }
         } else {
             list->cursor -= 1;
@@ -320,8 +341,8 @@ top:
             }
         }
         list->cursor_box->field_30.h.field_32 =
-            list->cursor * 22 + 0x2A;
-        if (list->row_count - 8 < row) {
+            list->cursor * 22 + CARD_LIST_CURSOR_Y_BASE;
+        if (list->row_count - CARD_LIST_VISIBLE_ROWS < row) {
             return 1;
         }
         if (row < 0) {

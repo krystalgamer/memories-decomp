@@ -1,0 +1,10 @@
+#include "../../types.h"
+
+#define VERSION_EUROPE
+#define VERSION_EUROPE_BUILD_DECK_CARD_LIST_INPUT
+#define CARD_LIST_VISIBLE_ROWS 9
+#define CARD_LIST_LAST_CURSOR 8
+#define CARD_LIST_SCROLL_SCALE 175
+#define CARD_LIST_SCROLL_Y_BASE 0x2A
+#define CARD_LIST_CURSOR_Y_BASE 0x2B
+#include "../card_list_sort.c"
