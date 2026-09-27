@@ -26,6 +26,18 @@
       "source": "src/game/european/main_services_80013154.c"
     },
     {
+      "address": "0x80013278",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x154",
+      "source": "src/game/european/main_services_80013154.c"
+    },
+    {
+      "address": "0x800133CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/european/main_services_80013154.c"
+    },
+    {
       "address": "0x800133F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
