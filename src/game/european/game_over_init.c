@@ -1,0 +1,9 @@
+#include "../../types.h"
+
+#define VERSION_EUROPE
+#define VERSION_EUROPE_GAME_OVER_INIT
+#define GAME_OVER_SCREEN_HEIGHT 0x100
+#define GAME_OVER_BACKGROUND_TEXTURE_X 0x280
+#define GAME_OVER_BACKGROUND_TEXTURE_Y 0xD0
+
+#include "../game_over.c"
