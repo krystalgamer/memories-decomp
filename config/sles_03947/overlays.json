@@ -11,6 +11,18 @@
       "sector_count": 5,
       "sector_offset": 9304,
       "sha256": "a7ed0a8347c18f293d5587de165d09b4b8e28bcf6c33723e822affc1e9773d59"
+    },
+    {
+      "archive": "game/europe/DATA/SU.MRG",
+      "archive_sha256": "11176112d2d403c331069b0e30c3461e7d5f589ae531a9393e0b2b0e741bca74",
+      "layout": "config/sles_03947/overlays/main_menu.yaml",
+      "linker_symbols": "config/sles_03947/overlays/main_menu_linker_symbols.txt",
+      "load_address": "0x80180000",
+      "name": "european_main_menu",
+      "output": "tmp/overlays/european_main_menu/module.bin",
+      "sector_count": 16,
+      "sector_offset": 98,
+      "sha256": "a2562a4b774e5a03161b6df8c183bb9500333c88a298b66d964301f7666fa4f1"
     }
   ],
   "schema": 1,

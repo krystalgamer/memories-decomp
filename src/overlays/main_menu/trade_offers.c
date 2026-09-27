@@ -27,7 +27,25 @@
    MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
    D_80185C9C is read by the draw and written through by the delta. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_OFFERS_AND_HIGHLIGHTS)
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_TRADE_OFFER_Y 0xD2
+#define MAIN_MENU_TRADE_DIGIT_V_TOP 0x40
+#define MAIN_MENU_TRADE_DIGIT_V_BOTTOM 0x48
+#define MAIN_MENU_TRADE_DIGIT_CLUT 0x3168
+#define MAIN_MENU_TRADE_DIGIT_COLOR 0x80
+#define MAIN_MENU_TRADE_DIGIT_TPAGE 10
+#else
+#define MAIN_MENU_TRADE_OFFER_Y 0xBC
+#define MAIN_MENU_TRADE_DIGIT_V_TOP 0x70
+#define MAIN_MENU_TRADE_DIGIT_V_BOTTOM 0x78
+#define MAIN_MENU_TRADE_DIGIT_CLUT 0x3EA9
+#define MAIN_MENU_TRADE_DIGIT_COLOR 0xFF
+#define MAIN_MENU_TRADE_DIGIT_TPAGE 11
+#endif
+
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_OFFERS_AND_HIGHLIGHTS) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_TRADE_OFFERS_AND_HIGHLIGHTS)
 void MainMenu_DrawTradeOffersAndHighlights(void)
 {
     DisplayObject *volatile obj[2];
@@ -69,9 +87,11 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     i = 0;
     if (D_80185C9C[0][0] != 0) {
         do {
-            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC,
+            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0x10,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
                           D_80185C9C[0][i + 1]);
-            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0x10, (i / 5) * 17 + 0xBC,
+            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0x10,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
                           D_80185C9C[0][i + 1]);
             i++;
         } while (i < D_80185C9C[0][0]);
@@ -80,9 +100,11 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     i = 0;
     if (D_80185C9C[1][0] != 0) {
         do {
-            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0xB0, (i / 5) * 17 + 0xBC,
+            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0xB0,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
                           D_80185C9C[1][i + 1]);
-            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0xB0, (i / 5) * 17 + 0xBC,
+            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0xB0,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
                           D_80185C9C[1][i + 1]);
             i++;
         } while (i < D_80185C9C[1][0]);
@@ -90,7 +112,9 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_THREE_DIGIT_NUMBER)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_THREE_DIGIT_NUMBER) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_THREE_DIGIT_NUMBER)
 void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 {
     POLY_FT4 sprite;
@@ -108,11 +132,11 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
     top = y + 4;
     bottom = y + 12;
     setPolyFT4(&sprite);
-    sprite.tpage = 11;
-    sprite.clut = 0x3EA9;
-    sprite.r0 = 255;
-    sprite.g0 = 255;
-    sprite.b0 = 255;
+    sprite.tpage = MAIN_MENU_TRADE_DIGIT_TPAGE;
+    sprite.clut = MAIN_MENU_TRADE_DIGIT_CLUT;
+    sprite.r0 = MAIN_MENU_TRADE_DIGIT_COLOR;
+    sprite.g0 = MAIN_MENU_TRADE_DIGIT_COLOR;
+    sprite.b0 = MAIN_MENU_TRADE_DIGIT_COLOR;
     for (; i < 3; i++) {
         base = x + 24 - i * 8;
         left = base - 12;
@@ -126,10 +150,10 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
         sprite.x2 = left;
         sprite.y2 = bottom;
         sprite.y3 = bottom;
-        sprite.v0 = 112;
-        sprite.v1 = 112;
-        sprite.v2 = 120;
-        sprite.v3 = 120;
+        sprite.v0 = MAIN_MENU_TRADE_DIGIT_V_TOP;
+        sprite.v1 = MAIN_MENU_TRADE_DIGIT_V_TOP;
+        sprite.v2 = MAIN_MENU_TRADE_DIGIT_V_BOTTOM;
+        sprite.v3 = MAIN_MENU_TRADE_DIGIT_V_BOTTOM;
         digit = value - quotient * 10;
         u = digit * 8;
         sprite.u0 = u - 128;
@@ -143,7 +167,9 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_RELEASE_TRADE_DISPLAY_HANDLES)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_RELEASE_TRADE_DISPLAY_HANDLES) || \
+    defined(VERSION_EUROPE_MAIN_MENU_RELEASE_TRADE_DISPLAY_HANDLES)
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {
     DisplayObject_ReleaseIfPresent(D_801845DC);
@@ -154,7 +180,9 @@ void MainMenu_ReleaseTradeDisplayHandles(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_APPLY_TRADE_OFFER_INVENTORY_DELTA)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_APPLY_TRADE_OFFER_INVENTORY_DELTA) || \
+    defined(VERSION_EUROPE_MAIN_MENU_APPLY_TRADE_OFFER_INVENTORY_DELTA)
 void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 {
     s32 i;
@@ -167,7 +195,9 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_ADJUST_TRADE_CARD_COUNT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_ADJUST_TRADE_CARD_COUNT) || \
+    defined(VERSION_EUROPE_MAIN_MENU_ADJUST_TRADE_CARD_COUNT)
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
     CardCountEntry *p;

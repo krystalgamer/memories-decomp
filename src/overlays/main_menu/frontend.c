@@ -26,6 +26,14 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_ENTRY_TOP_Y 58
+#define MAIN_MENU_ENTRY_BOTTOM_Y 50
+#else
+#define MAIN_MENU_ENTRY_TOP_Y 50
+#define MAIN_MENU_ENTRY_BOTTOM_Y 42
+#endif
+
 void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
 {
     DisplayObject *object;
@@ -77,9 +85,9 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     for (i = 0; i < 11; i++) {
         entry = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         if (i < 5) {
-            y = i * 32 + 50;
+            y = i * 32 + MAIN_MENU_ENTRY_TOP_Y;
         } else {
-            y = (i - 5) * 32 + 42;
+            y = (i - 5) * 32 + MAIN_MENU_ENTRY_BOTTOM_Y;
         }
         if (entry != 0) {
             DisplayObject_ConfigureSpriteAtPositionWithResource(entry, 0xA0, y, 0, 0, 0, 0x18, 0, D_801AF800);
@@ -114,3 +122,6 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
     D_800E9DB0[0] = MainMenu_DrawFrontendBackground;
     func_80047314(0x7000);
 }
+
+#undef MAIN_MENU_ENTRY_TOP_Y
+#undef MAIN_MENU_ENTRY_BOTTOM_Y

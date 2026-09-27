@@ -4,7 +4,9 @@
 #include "card_comparators.h"
 #include "card_tables.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_MAX_STAT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_MAX_STAT) || \
+    defined(VERSION_EUROPE_MAIN_MENU_COMPARE_CARDS_BY_MAX_STAT)
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
 {
     s32 result;
@@ -113,7 +115,9 @@ s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_ATTACK)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_ATTACK) || \
+    defined(VERSION_EUROPE_MAIN_MENU_COMPARE_CARDS_BY_ATTACK)
 s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
 {
     s32 result;
@@ -202,7 +206,9 @@ s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_DEFENSE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_DEFENSE) || \
+    defined(VERSION_EUROPE_MAIN_MENU_COMPARE_CARDS_BY_DEFENSE)
 s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
 {
     s32 result;
@@ -291,7 +297,9 @@ s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_TYPE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_COMPARE_CARDS_BY_TYPE) || \
+    defined(VERSION_EUROPE_MAIN_MENU_COMPARE_CARDS_BY_TYPE)
 s32 MainMenu_CompareCardsByType(s16 *a, s16 *b)
 {
     s32 result;

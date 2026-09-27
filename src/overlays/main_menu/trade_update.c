@@ -25,7 +25,9 @@
 #include "../../game/func_800611D0.h"
 #include "../../unmatched.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN) || \
+    defined(VERSION_EUROPE_MAIN_MENU_INIT_TRADE_SCREEN)
 void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
@@ -88,7 +90,9 @@ void MainMenu_InitTradeScreen(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_TRADE_SCREEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_TRADE_SCREEN) || \
+    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_TRADE_SCREEN)
 #ifdef VERSION_JAPAN
 #define MAIN_MENU_TRADE_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define MAIN_MENU_TRADE_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
@@ -99,6 +103,15 @@ void MainMenu_InitTradeScreen(void)
 #define MAIN_MENU_TRADE_CANCEL_SHIFT 5
 #endif
 #define MAIN_MENU_TRADE_CONFIRM_MASK (MAIN_MENU_TRADE_CONFIRM_BUTTON | PAD_BUTTON_SQUARE)
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_TRADE_MAXIMUM 714
+#define MAIN_MENU_TRADE_PAGE_STEP 8
+#define MAIN_MENU_TRADE_SCROLL_MAX 7
+#else
+#define MAIN_MENU_TRADE_MAXIMUM 715
+#define MAIN_MENU_TRADE_PAGE_STEP 7
+#define MAIN_MENU_TRADE_SCROLL_MAX 6
+#endif
 extern CardCountEntry D_80185144[];
 extern u16 D_80185C8C_words[2][2] asm("D_80185C8C");
 
@@ -154,7 +167,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     value = D_801845E0->frame - 4;
     previousFlags = value;
     flags = value;
-    maximum = 715;
+    maximum = MAIN_MENU_TRADE_MAXIMUM;
 
     if (D_80185CD1 != 0) {
         result = MemCardDialog_Poll();
@@ -384,11 +397,11 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
     if ((gInput_wPad1Held[0] & 0xC) != 0) {
         if ((gInput_wPad1Held[0] & 4) != 0) {
-            low = D_80185C8C[0][1] - 7;
+            low = D_80185C8C[0][1] - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
             D_80185C8C[0][1] = low;
         } else {
-            value = D_80185C8C[0][1] + 7;
+            value = D_80185C8C[0][1] + MAIN_MENU_TRADE_PAGE_STEP;
             D_80185C8C[0][1] = value < maximum ? value : maximum;
         }
         if (D_80185C8C[0][0] == D_80185C8C[0][1]) {
@@ -424,7 +437,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 D_80185C8C[0][0] = --D_80185C8C[0][1];
                 dirty0++;
             }
-        } else if (D_80185CCA[0] < 6) {
+        } else if (D_80185CCA[0] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
             D_80185CCA[0]++;
             cursor0++;
@@ -527,13 +540,13 @@ player1:
     }
     if ((gInput_wPad1Held[1] & 0xC) != 0) {
         if ((gInput_wPad1Held[1] & 4) != 0) {
-            low = D_80185C8C[1][1] - 7;
+            low = D_80185C8C[1][1] - MAIN_MENU_TRADE_PAGE_STEP;
             if (low < 0) { low = 0; }
             D_80185C8C[1][1] = low;
         } else {
             bounded = maximum;
-            if (D_80185C8C[1][1] + 7 < bounded) {
-                bounded = D_80185C8C[1][1] + 7;
+            if (D_80185C8C[1][1] + MAIN_MENU_TRADE_PAGE_STEP < bounded) {
+                bounded = D_80185C8C[1][1] + MAIN_MENU_TRADE_PAGE_STEP;
             }
             D_80185C8C[1][1] = bounded;
         }
@@ -573,7 +586,7 @@ player1:
                 D_80185C8C[1][0] = --D_80185C8C[1][1];
                 dirty1.dirty++;
             }
-        } else if (D_80185CCA[1] < 6) {
+        } else if (D_80185CCA[1] < MAIN_MENU_TRADE_SCROLL_MAX) {
             SD_SEPlay(6, 255, 0);
             D_80185CCA[1]++;
             cursor1++;
@@ -623,4 +636,7 @@ out:
 #undef MAIN_MENU_TRADE_CONFIRM_BUTTON
 #undef MAIN_MENU_TRADE_CANCEL_SHIFT
 #undef MAIN_MENU_TRADE_CONFIRM_MASK
+#undef MAIN_MENU_TRADE_MAXIMUM
+#undef MAIN_MENU_TRADE_PAGE_STEP
+#undef MAIN_MENU_TRADE_SCROLL_MAX
 #endif

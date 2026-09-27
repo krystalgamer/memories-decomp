@@ -25,7 +25,9 @@
 #include "ordering_tables.h"
 #include "../../game/sound.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_FRONTEND_BACKGROUND)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_FRONTEND_BACKGROUND) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_FRONTEND_BACKGROUND)
 void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;
@@ -104,7 +106,9 @@ void MainMenu_DrawFrontendBackground(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION) || \
+    defined(VERSION_EUROPE_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION)
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
@@ -136,7 +140,9 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DESTROY_FRONTEND_MENU)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DESTROY_FRONTEND_MENU) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DESTROY_FRONTEND_MENU)
 void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
@@ -157,7 +163,9 @@ void MainMenu_DestroyFrontendMenu(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE) || \
+    defined(VERSION_EUROPE_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 {
     DisplayObject *object;
@@ -182,7 +190,9 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE) || \
+    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
 {
     s32 r;
