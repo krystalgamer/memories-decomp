@@ -21,6 +21,12 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
+/* Regional value: the spotlight's centre y, 120 in the US build and 128 in
+   the European one, whose wrapper defines its own. */
+#ifndef DIALOG_TRANSITION_SPOTLIGHT_Y
+#define DIALOG_TRANSITION_SPOTLIGHT_Y 120
+#endif
+
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D518)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D518))
 void func_8003D518(MenuRecord *record)
@@ -32,7 +38,7 @@ void func_8003D518(MenuRecord *record)
         D_8009B3C1 |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         object->field_30.h.field_30 = 160;
-        object->field_30.h.field_32 = 120;
+        object->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
         object->field_48.h.field_48 = 128;
         object->field_48.h.field_4A = 224;
         DisplayObject_SelectOrderingTable1(object);
