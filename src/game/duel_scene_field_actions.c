@@ -85,6 +85,15 @@
 #define DUEL_FIELD_ACTIONS_CANCEL_BUTTON 0x20
 #endif
 
+/* European layout shifts both cursor field_0C values by 0x10. */
+#ifndef DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C
+#define DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C 0xAE
+#endif
+
+#ifndef DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C
+#define DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C 0x74
+#endif
+
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define H(p, o) (*(u16 *)((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
@@ -155,7 +164,7 @@ void DuelScene_UpdateFieldActions(void)
         D_8009B21A = 0;
         D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
         side->field_12 = 4;
-        side->field_0C = 0xAE;
+        side->field_0C = DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C;
         y = 1;
         side->field_18 = y;
         side->field_13 = 0;
@@ -379,7 +388,7 @@ void DuelScene_UpdateFieldActions(void)
             D_8009B174 |= 0x80;
             D_8009B1B4 = DUEL_CARD_PICK_CURSOR_VIEW(side);
             side->field_18 = 0;
-            side->field_0C = 0x74;
+            side->field_0C = DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C;
             func_800234E4((DuelFieldDisplaySource *)side);
             func_80022D94(0x10, 0x14E, 0x3FE, D_8009AF20[D_8009B1D5],
                 D_800907AC[D_8009B1D5][side->field_18][side->row]);

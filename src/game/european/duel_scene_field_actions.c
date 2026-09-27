@@ -1,0 +1,16 @@
+#include "../../types.h"
+
+#define D_8009B170 D_8009C134
+#define D_8009B172 D_8009C136
+#define D_8009B178 D_8009C174
+#define D_8009B17A D_8009C176
+#define D_8009B19C D_8009C17C
+#define D_8009B1BC D_8009C0D0
+#define D_8009B20C D_8009C10E
+#define D_8009B21A D_8009C0CC
+#define D_8009B229 D_8009C148
+#define DUEL_FIELD_ACTIONS_INITIAL_CURSOR_FIELD_0C 0xBE
+#define DUEL_FIELD_ACTIONS_TARGET_CURSOR_FIELD_0C 0x84
+#define DuelScene_UpdateFieldActions func_8001D5CC
+
+#include "../duel_scene_field_actions.c"
