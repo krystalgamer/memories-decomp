@@ -113,9 +113,9 @@ void DebugMenu_Update(void) {
     }
     if ((gInput_wPad1Pressed & PAD_BUTTON_SELECT) != 0) {
         one = 1;
-#ifndef VERSION_JAPAN
-        /* The Japanese build makes neither this call nor the two field
-           stores below. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+        /* The Japanese and European builds make neither this call nor the
+           two field stores below. */
         func_8003B6AC(one, one);
 #endif
         gDebugMenu_bPage = gDebugMenu_bPage ^ one;
@@ -124,7 +124,7 @@ void DebugMenu_Update(void) {
          * directly folds the record offset into the address computation and
          * drops the `addiu` retail keeps for the call argument. */
         boxes = D_800EB0F8;
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         boxes[1].field_5A = 0x10;
         boxes[1].field_5B = 0x10;
 #endif

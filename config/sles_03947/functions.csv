@@ -374,7 +374,7 @@ address,size,name,status,module,notes
 0x800310FC,0x1C,func_800310FC,unmatched_asm,game,
 0x80031118,0x78,func_80031118,unmatched_asm,game,
 0x80031190,0xC,func_80031190,unmatched_asm,game,
-0x8003119C,0x2AC,DebugMenu_Update,unmatched_asm,game,
+0x8003119C,0x2AC,DebugMenu_Update,matching_c,game,
 0x80031448,0xC,func_80031448,unmatched_asm,game,
 0x80031454,0x18C,func_800313E8,matching_c,game,
 0x800315E0,0x17C,func_80031574,matching_c,game,
