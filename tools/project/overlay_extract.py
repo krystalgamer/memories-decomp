@@ -33,7 +33,9 @@ REQUIRED_MODULE_FIELDS = (
 OVERLAY_MANIFESTS = {
     "usa": "config/slus_01411/overlays.json",
     "japan": "config/slpm_86398/overlays.json",
+    "europe": "config/sles_03947/overlays.json",
 }
+
 
 def require_string(module: dict[str, Any], field: str) -> str:
     value = module[field]
@@ -181,6 +183,8 @@ def verify_manifest_format(root: Path) -> None:
     paths.extend(sorted((config / "overlays").glob("*_matching_c.json")))
     japanese = resolve_within(root, "config/slpm_86398/overlays", must_exist=True)
     paths.extend(sorted(japanese.glob("*_matching_c.json")))
+    european = resolve_within(root, "config/sles_03947/overlays", must_exist=True)
+    paths.extend(sorted(european.glob("*_matching_c.json")))
     for path in paths:
         name = path.relative_to(root)
         if not path.is_file():
@@ -251,8 +255,11 @@ def verify_sources_wired(root: Path) -> None:
     sources_root = resolve_within(root, "src/overlays", must_exist=True)
 
     wired: dict[str, Path] = {}
-    for config in ("slus_01411", "slpm_86398"):
-        overlays = resolve_within(root, f"config/{config}/overlays", must_exist=True)
+    overlay_directories = {
+        Path(manifest).with_suffix("") for manifest in OVERLAY_MANIFESTS.values()
+    }
+    for relative in sorted(overlay_directories):
+        overlays = resolve_within(root, relative.as_posix(), must_exist=True)
         for path in sorted(overlays.glob("*.yaml")):
             try:
                 segments = c_segments(root, path)

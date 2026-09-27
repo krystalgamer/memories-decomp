@@ -31,7 +31,9 @@ class OverlaySourceTests(unittest.TestCase):
         self.root = Path(temporary.name) / "workspace"
         self.config = "config/slus_01411/overlays"
         self.japanese_config = "config/slpm_86398/overlays"
+        self.european_config = "config/sles_03947/overlays"
         (self.root / self.japanese_config).mkdir(parents=True)
+        (self.root / self.european_config).mkdir(parents=True)
         self.text = "src/overlays/example/runtime.c"
         self.data = "src/overlays/example/header.c"
         self.write(self.text, "void Example_Run(void) {}\n")
@@ -252,6 +254,30 @@ class OverlaySourceTests(unittest.TestCase):
             overlay_extract.verify_sources_wired(self.root)
         manifest = self.write_json(
             f"{self.japanese_config}/example_matching_c.json",
+            {"schema": 1, "functions": [self.entry(source)]},
+        )
+        with contextlib.redirect_stdout(io.StringIO()):
+            overlay_extract.verify_sources_wired(self.root)
+        manifest.unlink()
+        layout.unlink()
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "not wired"):
+            overlay_extract.verify_sources_wired(self.root)
+
+    def test_european_overlay_source_requires_european_manifest_wiring(self) -> None:
+        source = "src/overlays/european/example/runtime.c"
+        self.write(source, "void EuropeanExample_Run(void) {}\n")
+        layout = self.write(
+            f"{self.european_config}/example.yaml",
+            "segments:\n"
+            "  - name: module\n"
+            "    type: code\n"
+            "    subsegments:\n"
+            "      - [4, c, overlays/european/example/runtime]\n",
+        )
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "missing units"):
+            overlay_extract.verify_sources_wired(self.root)
+        manifest = self.write_json(
+            f"{self.european_config}/example_matching_c.json",
             {"schema": 1, "functions": [self.entry(source)]},
         )
         with contextlib.redirect_stdout(io.StringIO()):
