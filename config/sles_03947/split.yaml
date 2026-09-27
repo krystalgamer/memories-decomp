@@ -387,7 +387,7 @@ segments:
       - [0x02DACC, c, game/func_8003D300]
       - [0x02DAF8, c, game/european/checkerboard_background]
       - [0x02DC38, c, game/european/duel_effect_create_channel]
-      - [0x02DCE4, asm, generated/text_02dce4]
+      - [0x02DCE4, c, game/european/dialog_transition_8003D518]
       - [0x02DDDC, c, game/european/dialog_transition_8003D614]
       - [0x02DF14, asm, generated/text_02df14]
       - [0x02E204, c, game/european/func_8003DA40]

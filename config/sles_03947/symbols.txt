@@ -1257,6 +1257,7 @@ Input_RestorePad1FromBackup = 0x8003CE14;
 func_8003D32C = 0x8003D2F8;
 Checkerboard_DrawBackground = 0x8003D300;
 DuelEffect_CreateChannel = 0x8003D438;
+func_8003D518 = 0x8003D4E4;
 func_8003D614 = 0x8003D5DC;
 func_8003DA40 = 0x8003DA04;
 MemCardDialog_SetMessage = 0x8003E3C0;
