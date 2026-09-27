@@ -309,7 +309,11 @@ void MemCardDialog_Update(void)
                 return;
             }
             if ((gMemCard_wDialogFlags & 0x10) != 0) {
+#ifdef VERSION_EUROPE
+                p->flags_34 = p->flags_34 | 0x1010;
+#else
                 p->flags_34 = p->flags_34 | 0x1008;
+#endif
                 return;
             }
             func_80039A14(p);
@@ -323,7 +327,11 @@ void MemCardDialog_Update(void)
 #else
         p = &D_800EB0F8[D_8009B3EE];
 #endif
+#ifdef VERSION_EUROPE
+        if ((*(s32 *)&p->flags_34 & 0x2010) !=
+#else
         if ((*(s32 *)&p->flags_34 & TEXT_BOX_COMPLETION_MASK) !=
+#endif
             TEXT_BOX_FLAG_DONE) {
             return;
         }
@@ -342,7 +350,7 @@ void MemCardDialog_Update(void)
         if ((f & MEM_CARD_DIALOG_FLAG_STARTED) == 0) {
             gMemCard_wDialogFlags = f | MEM_CARD_DIALOG_FLAG_STARTED;
             MemCardStart();
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
             func_8008D680();
 #endif
             D_8009B3EF = 2;
@@ -381,6 +389,9 @@ b25:
     func_8008D6F0();
 #endif
     MemCardStop();
+#ifdef VERSION_EUROPE
+    func_8008D6F0();
+#endif
 }
 #endif
 
