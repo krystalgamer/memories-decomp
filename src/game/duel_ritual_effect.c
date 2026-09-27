@@ -65,6 +65,19 @@ void DuelEffect_StartRitual(void)
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_APPLY_RITUAL)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_APPLY_RITUAL))
 
+/* Regional values: the ritual card's slide-in start and rest y (-34/22 ->
+   -42/14) and the screen height it slides from (240 -> 256). The European
+   build (src/game/european/) defines its own. */
+#ifndef DUEL_RITUAL_CARD_START_Y
+#define DUEL_RITUAL_CARD_START_Y -34
+#endif
+#ifndef DUEL_RITUAL_CARD_REST_Y
+#define DUEL_RITUAL_CARD_REST_Y 22
+#endif
+#ifndef DUEL_RITUAL_SCREEN_HEIGHT
+#define DUEL_RITUAL_SCREEN_HEIGHT 240
+#endif
+
 #ifndef DUEL_EFFECT_RITUAL_CONFIRM_MASK
 #define DUEL_EFFECT_RITUAL_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
@@ -115,7 +128,7 @@ void DuelEffect_ApplyRitual(void)
             /* Negative constants go into these u16 halves through an s16
                view here and below; stored as u16, GCC materialises the
                zero-extended value (li 0xffde) where retail has li -34. */
-            *(s16 *)&object->field_30.h.field_32 = -34;
+            *(s16 *)&object->field_30.h.field_32 = DUEL_RITUAL_CARD_START_Y;
             object->field_60 = 24;
             attribute = object->attribute;
             object_flags = object->flags;
@@ -139,7 +152,7 @@ void DuelEffect_ApplyRitual(void)
             s16 object_flags;
             object->field_44.h.field_46 = 4096;
             object->field_44.h.field_44 = 4096;
-            object->field_30.h.field_32 = 22;
+            object->field_30.h.field_32 = DUEL_RITUAL_CARD_REST_Y;
             D_8009B210 = 2;
             attribute = object->attribute | 0x08000000;
             object_flags = object->flags & 0xFFFB;
@@ -223,14 +236,15 @@ void DuelEffect_ApplyRitual(void)
         func_80024D34(D_8009B19C, ((s8 *)card->data)[2]);
         object = card->object;
         D_800E9EF0.slots[0] = object;
-        *(s16 *)&object->field_30.h.field_32 = -240;
+        *(s16 *)&object->field_30.h.field_32 = -DUEL_RITUAL_SCREEN_HEIGHT;
         if (D_8009B360[D_8009B1D5] >= 0) {
             card->flags &= ~0x200;
             if (rand() & 1)
                 card->flags |= 0x200;
             goto state_five;
         }
-        D_800E9EF0.slots[1] = (DisplayObject *)func_80017F04(card, 134, 240);
+        D_800E9EF0.slots[1] =
+            (DisplayObject *)func_80017F04(card, 134, DUEL_RITUAL_SCREEN_HEIGHT);
         D_8009B210 = 4;
     }
     case 4:
@@ -248,6 +262,10 @@ void DuelEffect_ApplyRitual(void)
                     D_8015C424_cards.field_cards[object->field_6A].card_id;
 #ifdef VERSION_JAPAN
                 text = TextBox_CreateFlagged(0, 33, 80, 110, 160, 48, 32);
+#elif defined(VERSION_EUROPE)
+                /* The European box takes 64 in its last argument and keeps
+                   the text size InitEntry sets. */
+                text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 64);
 #else
                 text = TextBox_CreateFlagged(0, 33, 72, 110, 176, 48, 32);
                 text->field_5A = 8;
