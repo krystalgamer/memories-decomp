@@ -138,7 +138,10 @@ s32 func_8006AF74(ModelSubdividedEffect *data, s32 mode)
             effect->remaining = config->fade_duration;
             effect->field_130C = 0;
             effect->field_130D = 0;
+#ifndef VERSION_EUROPE
+            /* The European build makes no printf call here. */
             printf(D_8001186C, 0x1318, 0x1318);
+#endif
             return 0;
         }
 
