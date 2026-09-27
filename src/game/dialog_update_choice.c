@@ -22,6 +22,13 @@
 #define DIALOG_UPDATE_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
+/* Regional value: the channel flag that makes this update return at once,
+   4 in the US build and 8 in the European one (func_8003D74C sets and
+   clears the same bit, as DIALOG_TRANSITION_CHANNEL_FLAG). */
+#ifndef DIALOG_UPDATE_CHOICE_SKIP_FLAG
+#define DIALOG_UPDATE_CHOICE_SKIP_FLAG 4
+#endif
+
 void Dialog_UpdateChoice(DuelEffectChannel *p) {
     DisplayObject *e;
     s32 f;
@@ -47,7 +54,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         Dialog_HighlightChoice(p);
     }
 
-    if ((p->flags_34 & 4) != 0) {
+    if ((p->flags_34 & DIALOG_UPDATE_CHOICE_SKIP_FLAG) != 0) {
         return;
     }
 
