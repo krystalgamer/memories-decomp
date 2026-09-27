@@ -250,6 +250,8 @@ void AiScript_JumpRandom(void)
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_CALL)
+/* The European build keeps the overflow and underflow traps of
+   AiScript_Call and AiScript_Return without their printf calls. */
 void AiScript_Call(void) {
     s32 val = AiScript_ReadShort();
 
@@ -259,8 +261,10 @@ void AiScript_Call(void) {
         gAiScript_State.return_depth =
             gAiScript_State.return_depth + 1;
     } else {
+#ifndef VERSION_EUROPE
         printf(D_800118AC);
         printf(gAiScript_szSourceLineFormat, D_800118CC, 0x17B);
+#endif
         for (;;)
             ;
     }
@@ -282,8 +286,10 @@ void AiScript_Return(void) {
         gAiScript_State.script_cursor = gAiScript_State.return_stack[count];
         return;
     }
+#ifndef VERSION_EUROPE
     printf(D_800118E4);
     printf(gAiScript_szSourceLineFormat, D_800118CC, 0x193);
+#endif
     for (;;)
         ;
 }
