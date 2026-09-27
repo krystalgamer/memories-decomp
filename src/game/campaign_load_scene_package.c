@@ -19,6 +19,10 @@
 #define CAMPAIGN_SCENE_PACKAGE_START_SECTOR FILE_WA_CAMPAIGN_SCENE_START_SECTOR
 #endif
 
+#ifndef CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT
+#define CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT
+#endif
+
 #define SCENE_SCRIPT_SLOT_SIGNED_HEAD(slot) (*(s16 *)(slot))
 #define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
 
@@ -54,7 +58,7 @@ void Campaign_LoadScenePackage(s16 arg0)
     File_RequestAsyncTransfer(
         0, 0,
         CAMPAIGN_SCENE_PACKAGE_START_SECTOR,
-        FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT,
+        CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT,
         Campaign_LoadScenePackageStage, 0, 0
     );
     func_80039E9C();
