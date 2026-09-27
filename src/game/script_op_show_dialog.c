@@ -14,6 +14,17 @@
    so no storage is allocated here. */
 u16 D_8009B28C;
 
+/* Regional values, which the European wrapper defines for itself: the
+   dialog box's height (0x30 in the US build, 0x40 in the European one)
+   and the flag set on it while the command runs (8 in the US build, 0x10
+   in the European one). */
+#ifndef SCRIPT_DIALOG_BOX_HEIGHT
+#define SCRIPT_DIALOG_BOX_HEIGHT 0x30
+#endif
+#ifndef SCRIPT_DIALOG_BOX_FLAG
+#define SCRIPT_DIALOG_BOX_FLAG 8
+#endif
+
 void Script_OpShowDialog(void)
 {
     u8 *script;
@@ -27,18 +38,18 @@ void Script_OpShowDialog(void)
         D_8009B290 = script + 2;
         value = script[0] | (script[1] << 8);
         D_8009B2A4 |= 0x4000;
-#ifndef VERSION_JAPAN
-        /* The Japanese build makes no func_8003B6AC call here. */
+#if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
+        /* The Japanese and European builds make no func_8003B6AC call here. */
         func_8003B6AC(0, 2);
 #endif
-        box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, 0x30);
+        box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, SCRIPT_DIALOG_BOX_HEIGHT);
         DuelEffect_MarkObjectIfActive((MenuRecord *)box);
-        box->flags_34 |= 8;
+        box->flags_34 |= SCRIPT_DIALOG_BOX_FLAG;
         if ((value & 0x8000) != 0) {
             flags = D_8009B27C;
             boxflags = *(volatile u16 *)&box->flags_34;
             D_8009B27C = flags | 0x4000;
-            box->flags_34 = boxflags & 0xFFF7;
+            box->flags_34 = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
         }
         D_8009B28C = D_8009B27C;
     } else {
