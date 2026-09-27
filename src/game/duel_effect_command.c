@@ -105,6 +105,87 @@ plain:
     object->flags_34 &= 0xFF7F;
     object->field_38 += 0x10;
 }
+#elif defined(VERSION_EUROPE)
+/* The European card-text command: the Japanese shape (no field_62 reset,
+   +0x100 for op bit 6, the stars without the US type and 0x17 tests), a
+   fourth selector (the card type with bit 7 set), the European string banks
+   and the plain glyph flagged 0x100 rather than 0x80. */
+void func_80037DA4(DuelEffectChannel *object)
+{
+    s32 op;
+    s32 id;
+    u8 *text;
+    u8 *current;
+
+    text = (u8 *)(s32)object->stream_58;
+    text = (u8 *)((u32)text * 4);
+    {
+        u8 *stream = (u8 *)object;
+
+        stream += (u32)text;
+        text = stream;
+        current = *(u8 **)text;
+        op = *current++;
+        *(u8 **)text = current;
+    }
+    if (op & 0x10) {
+        object->field_54 = D_8009B320;
+        return;
+    }
+    if (op & 0x20) {
+        id = gDuel_wSelectedCardID + 0x8000;
+    } else if (op & 0x40) {
+        id = gDuel_wSelectedCardID + 0x100;
+    } else {
+        id = 0;
+        switch (op & 0xF) {
+        case 0:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+            break;
+        case 1:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_GUARDIAN_STAR_1_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+            id += 0x17;
+            break;
+        case 2:
+            id = (gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                  CARD_STAT_GUARDIAN_STAR_2_SHIFT) & CARD_STAT_GUARDIAN_STAR_MASK;
+            id += 0x17;
+            break;
+        case 3:
+            id = ((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
+                   CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) | 0x80;
+            break;
+        }
+        if (!(op & 0x80)) {
+            goto plain;
+        }
+        id += 0x8300;
+    }
+    object->stream_58++;
+    if (id <= 0x7FFF) {
+        if (id >= 0x500) {
+            s32 n = id - 0x100;
+
+            text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
+                          D_801B0004[n]);
+        } else {
+            text = (u8 *)(((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) +
+                          D_801B0004[id]);
+        }
+    } else {
+        text = (u8 *)(((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
+                      D_801D5804[id - 0x8000]);
+    }
+    TEXT_STREAM_OWNER(object)->streams[object->stream_58] = text;
+    return;
+plain:
+    object->flags_34 |= 0x100;
+    func_80036C14(object, id);
+    object->flags_34 &= 0xFEFF;
+    object->field_38 += 0x10;
+}
 #else
 void func_80037DA4(DuelEffectChannel *object)
 {
