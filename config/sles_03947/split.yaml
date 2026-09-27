@@ -372,7 +372,7 @@ segments:
       - [0x029084, c, game/european/text_unlock_duelist]
       - [0x0290DC, c, game/european/text_close_choice]
       - [0x02914C, c, game/european/text_control_dispatch_cursor]
-      - [0x0291F0, asm, generated/text_0291f0]
+      - [0x0291F0, c, game/european/text_control_choice]
       - [0x029308, c, game/european/text_control_page_wait]
       - [0x029320, c, game/european/text_control_flag_push]
       - [0x029410, c, game/european/text_control_new_line]

@@ -83,7 +83,11 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         if (w != 0) {
             gDialog_bInputState = 1;
         }
+#ifndef VERSION_EUROPE
+        /* The European build no longer clears the channel's occupancy value
+           here, as in TextBox_Destroy. */
         DuelEffect_ClearOccupancyValue(object->index_57);
+#endif
         DuelEffect_ClearMatchingMarker(object->index_57);
         v = object->flags_34;
         object->field_56 = 0;

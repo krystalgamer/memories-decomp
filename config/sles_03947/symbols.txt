@@ -961,6 +961,7 @@ Text_CloseChoice = 0x800388DC;
 Text_PushPlayerNameStream = 0x8003891C;
 Text_DispatchSecondaryCommand = 0x8003894C;
 Text_SetCursorOffset = 0x800389A8;
+Text_HandleChoiceCommand = 0x800389F0;
 Text_StartPageWait = 0x80038B08;
 Text_HandleCampaignFlagCommand = 0x80038B20;
 Text_PushStreamOffset = 0x80038BAC;
