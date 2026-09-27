@@ -12,6 +12,13 @@
 #include "func_80035E20.h"
 #include "text_box_runtime.h"
 
+/* Regional value: the flags_34 bit under which the box rebuilds its gouraud
+ * quad (0x20 -> 0x40). The European build (src/game/european/) defines its
+ * own. */
+#ifndef TEXT_BOX_LAYOUT_QUAD_FLAG
+#define TEXT_BOX_LAYOUT_QUAD_FLAG 0x20
+#endif
+
 #ifndef TEXT_BOX_LAYOUT_WIDTH
 #define TEXT_BOX_LAYOUT_WIDTH 0x280
 #endif
@@ -54,7 +61,7 @@ void func_800391E4(DuelEffectChannel *p) {
     e->field_1A = v;
     e->field_48.h.field_4A = v;
 
-    if ((p->flags_34 & 0x20) != 0) {
+    if ((p->flags_34 & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
         if (p->field_2C != 0) {
             DisplayObject_ReleaseIfPresent(p->field_2C);
         }

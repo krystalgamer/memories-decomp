@@ -2,6 +2,12 @@
 #include "menu_record.h"
 #include "duel_effect_mark_object_if_active.h"
 
+/* Regional value: the field_34 bit this sets (0x2 -> 0x4). The European
+ * build (src/game/european/) defines its own. */
+#ifndef DUEL_EFFECT_MARK_OBJECT_FLAG
+#define DUEL_EFFECT_MARK_OBJECT_FLAG 2
+#endif
+
 /* Walks D_800EB010 backward from the last record to the first; on the first
    record whose field_30 marker is non-negative, sets bit 0x2 in the caller's
    field_34 and returns. Does nothing if every marker is negative.
@@ -20,7 +26,7 @@ void DuelEffect_MarkObjectIfActive(MenuRecord *a0) {
         v0 = p->field_30;
         count -= 1;
         if (v0 >= 0) {
-            a0->field_34 |= 2;
+            a0->field_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;
             return;
         }
         p -= 1;

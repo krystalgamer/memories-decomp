@@ -18,6 +18,26 @@
 #include "graphics_frame.h"
 #include "build_deck_update_pane_transition.h"
 
+/* Regional values: the two func_80031574 calls' x, y and last argument (deck
+ * pane 0x234, 0x16, 0xA -> 0x235, 0x14, 0xC; chest pane y 0x18 -> 0x14 and
+ * last argument 0xC -> 0xD). The European build (src/game/european/) defines
+ * its own. */
+#ifndef BUILD_DECK_DECK_PANE_X
+#define BUILD_DECK_DECK_PANE_X 0x234
+#endif
+#ifndef BUILD_DECK_DECK_PANE_Y
+#define BUILD_DECK_DECK_PANE_Y 0x16
+#endif
+#ifndef BUILD_DECK_DECK_PANE_ARG4
+#define BUILD_DECK_DECK_PANE_ARG4 0xA
+#endif
+#ifndef BUILD_DECK_CHEST_PANE_Y
+#define BUILD_DECK_CHEST_PANE_Y 0x18
+#endif
+#ifndef BUILD_DECK_CHEST_PANE_ARG4
+#define BUILD_DECK_CHEST_PANE_ARG4 0xC
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_BUILD_DECK_PANE_INPUT)
 /* The cancel and confirm buttons. The Japanese release swaps Cross and Circle,
  * so a regional build names its own. */
@@ -72,7 +92,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             func_8003201C(state);
             BuildDeck_ReturnCardToChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            func_80031574(r, 0x234, 0x16, 0x162, 0xA);
+            func_80031574(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_ARG4);
             return;
         }
         SD_SEPlayFull(9);
@@ -132,7 +152,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             BuildDeck_AddCard((s32)state, r);
             BuildDeck_TakeCardFromChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
-            func_80031574(r, 3, 0x18, 0x11C, 0xC);
+            func_80031574(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_ARG4);
             return;
         }
     }

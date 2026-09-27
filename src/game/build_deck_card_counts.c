@@ -10,6 +10,15 @@
 #include "text_staging.h"
 #include "display_object.h"
 
+/* Regional values: the count box's y (0x17 -> 0x19) and flags (0x100 ->
+ * 0x1). The European build (src/game/european/) defines its own. */
+#ifndef BUILD_DECK_COUNT_BOX_Y
+#define BUILD_DECK_COUNT_BOX_Y 0x17
+#endif
+#ifndef BUILD_DECK_COUNT_BOX_FLAGS
+#define BUILD_DECK_COUNT_BOX_FLAGS 0x100
+#endif
+
 /* The Build Deck screen's three contiguous count helpers. They refresh the
    count box, return a card to the chest, and remove a card from it. The unit
    is the complete gcc_2_8_1_g0_split run between the card-list text boxes and
@@ -24,7 +33,7 @@ void BuildDeck_RefreshCountDisplay(BuildDeckTransitionState *record) {
     DuelEffectChannel *p;
     D_801D5608[0].build_deck.chest = record->chest_total;
     D_801D5608[0].build_deck.deck = record->deck_total;
-    p = TextBox_CreateFlagged(3, 0xE, 0x16, 0x17, 0x280, 0x10, 0x100);
+    p = TextBox_CreateFlagged(3, 0xE, 0x16, BUILD_DECK_COUNT_BOX_Y, 0x280, 0x10, BUILD_DECK_COUNT_BOX_FLAGS);
     func_80039A14(p);
     p->field_28->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
