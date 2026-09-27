@@ -27,6 +27,18 @@
     {
       "archive": "game/europe/DATA/WA_MRG.MRG",
       "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "layout": "config/sles_03947/overlays/overworld_after_coup.yaml",
+      "linker_symbols": "config/sles_03947/overlays/overworld_after_coup_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_overworld_after_coup",
+      "output": "tmp/overlays/european_overworld_after_coup/module.bin",
+      "sector_count": 6,
+      "sector_offset": 9920,
+      "sha256": "abac7e516fea9171c4103e527ccccc6f00cbf2e85b4cf6ef11afe6ee81ec62d4"
+    },
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
       "layout": "config/sles_03947/overlays/overworld_before_coup.yaml",
       "linker_symbols": "config/sles_03947/overlays/overworld_before_coup_linker_symbols.txt",
       "load_address": "0x80168000",

@@ -47,8 +47,10 @@ The twenty-six matching functions reuse the shared main-menu sources through
 European wrappers. The five larger region-divergent bodies remain generated
 assembly.
 
-The six-sector pre-coup overworld module begins at `WA_MRG.MRG` sector `9762`.
-Its verified layout is:
+The six-sector pre-coup and post-coup overworld modules begin at `WA_MRG.MRG`
+sectors `9762` and `9920`, respectively. Their executable ranges and initial
+state are identical; the alternate location tables and remaining module data
+differ. Both use this verified layout:
 
 | File range | Runtime range | Content |
 |---:|---:|---|
@@ -59,6 +61,6 @@ Its verified layout is:
 | `0x17D0-0x1E54` | `0x801697D0-0x80169E54` | Two matching C functions |
 | `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Alternate table and module data |
 
-All fifteen inventoried functions reuse the shared overworld sources. European
-wrappers isolate each function so the relocated resident and module symbols do
-not change the North American or Japanese objects.
+All fifteen inventoried functions in each variant reuse the shared overworld
+sources. European wrappers isolate each function so the relocated resident and
+module symbols do not change the North American or Japanese objects.
