@@ -33,6 +33,7 @@
    the secondary-table object commands and above by the text-box layout
    helpers func_80039140 and func_800391E4. */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_DISPATCH_SECONDARY_COMMAND)
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
     u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_58];
@@ -42,9 +43,13 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     *pp = p + 1;
     tent_SecondaryTextCommandTable[op](object);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_SET_CURSOR_OFFSET)
   void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_58];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_HANDLE_CHOICE_COMMAND)
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
     s32 t;
@@ -86,13 +91,17 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         object->flags_34 = v | 0x1000;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_START_PAGE_WAIT)
 void Text_StartPageWait(DuelEffectChannel *value)
 {
     value->state_51 = 4;
     D_8009B350 = 1;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_HANDLE_CAMPAIGN_FLAG_COMMAND)
 void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 {
     s32 flag = TextStream_ReadU16LE(object);
@@ -115,7 +124,9 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
         }
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_PUSH_STREAM_OFFSET)
 void Text_PushStreamOffset(DuelEffectChannel *arg0)
 {
     TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(arg0);
@@ -129,7 +140,9 @@ void Text_PushStreamOffset(DuelEffectChannel *arg0)
                (v & 0xFFFF));
     arg0->stream_58++;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_NEW_LINE)
 void Text_NewLine(DuelEffectChannel *record)
 {
     record->field_56++;
@@ -142,7 +155,9 @@ void Text_NewLine(DuelEffectChannel *record)
         D_8009B340(record);
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_END_STREAM)
 void Text_EndStream(DuelEffectChannel *record)
 {
     u16 flags;
@@ -155,6 +170,7 @@ void Text_EndStream(DuelEffectChannel *record)
         record->flags_34 = flags;
     }
 }
+#endif
 
 /* Effect-script command handler: reads a command id and a flag byte from the
    object's current script stream, finds the display effect record for the id
@@ -162,6 +178,7 @@ void Text_EndStream(DuelEffectChannel *record)
    the third), and depending on the flags either stops it (bit 7), adjusts a
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_HANDLE_DISPLAY_EFFECT_COMMAND)
 void Text_HandleDisplayEffectCommand(EffectObject *o) {
     MenuRecord *e;
     s32 id;
@@ -268,3 +285,4 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         e->field_31 = (flags >> 1) & 3;
     }
 }
+#endif

@@ -68,6 +68,7 @@
    sub_table_lookup_set_flag using field_16-1), then advances the angle and
    recomputes the orbit position from base + (rcos,rsin)*radius/ONE. */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_RESULT_UPDATE_ORBIT_SPRITE)
 void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     s16 timer;
     u16 angle;
@@ -108,7 +109,9 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *arg0) {
     vy = rsin((s16) arg0->position.h.field_2A) * (s16)arg0->position.h.field_28;
     arg0->field_30.h.field_32 = arg0->field_2C.h.field_2E + vy / ONE;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80020EE8)
 void func_80020EE8(DuelCardDisplayObject *object)
 {
     if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)object) == 0) {
@@ -119,6 +122,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
         DisplayObject_ReleaseIfPresent((u8 *)object);
     }
 }
+#endif
 
 #ifndef DUEL_RESULT_OUTRO_START_SECTOR
 #define DUEL_RESULT_OUTRO_START_SECTOR FILE_WA_DUEL_RESULTS_START_SECTOR
@@ -155,6 +159,7 @@ void func_80020EE8(DuelCardDisplayObject *object)
      4  once the fade at gFade_State.flags has finished, hand the scene over to
         state 0xD.  */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SCENE_UPDATE_RESULT_OUTRO)
 void DuelScene_UpdateResultOutro(void)
 {
     DuelResultSpriteSlot *slots;
@@ -334,6 +339,7 @@ void DuelScene_UpdateResultOutro(void)
         break;
     }
 }
+#endif
 
 /* The duel's reward step: Duel_ShowResultPage shows one of the three result
    pages and opens its text box, Duel_CalcRankScoreChange is the per-rule
@@ -342,6 +348,7 @@ void DuelScene_UpdateResultOutro(void)
    and gcc_2_8_1_g0_split and compile to identical objects at this unit's
    gcc_2_8_1_g8_split. */
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SHOW_RESULT_PAGE)
 void Duel_ShowResultPage(s32 page)
 {
     s32 i;
@@ -375,7 +382,9 @@ void Duel_ShowResultPage(s32 page)
     );
     func_80039A14(object);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_CALC_RANK_SCORE_CHANGE)
 s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
 {
     DuelRankScoreChangeEntry *p = &gDuel_awRankScoreChange[arg0][0];
@@ -387,6 +396,7 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
         p++;
     }
 }
+#endif
 
 /* Initializes result-message selectors at +0x34; the winner's signed
    end-reason adjustment selects the middle variant, not a rank letter.
@@ -394,6 +404,7 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    the end-reason and threshold-rule adjustments. Raw statistics are also
    copied into the separate D_801D5608[0].rank_rows[stat][side] display
    table. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_CALC_RANK_SCORE)
 void Duel_CalcRankScore(void) {
     DuelResultDisplayState *p;
     DuelSideState *e;
@@ -458,7 +469,9 @@ void Duel_CalcRankScore(void) {
             Duel_CalcRankScoreChange(DUEL_RANK_RULE_TURNS, v);
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_SELECT_CARD_DROP)
 s32 Duel_SelectCardDrop(s32 pool_index)
 {
     DuelDropTable *table = &gDuel_awSaPowCardDrops[pool_index];
@@ -473,7 +486,9 @@ s32 Duel_SelectCardDrop(s32 pool_index)
     }
     return 0;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_AWARD_CARD)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
@@ -494,3 +509,4 @@ void Duel_AwardCard(s32 card_id)
     } while (i >= 0);
     *destination = card_id;
 }
+#endif
