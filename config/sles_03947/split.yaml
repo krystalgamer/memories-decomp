@@ -153,6 +153,7 @@ segments:
       - [0x01664C, c, game/duel_swords_effect]
       - [0x0166A8, c, game/duel_field_effect_steps]
       - [0x016998, asm, generated/text_016998]
+      - [0x017198, c, game/european/duel_magic_effect_dispatch]
       - [0x017350, c, game/duel_field_equip_search]
       - [0x0177A4, c, game/duel_select_trap_play]
       - [0x017870, asm, generated/text_017870]
