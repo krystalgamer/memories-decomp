@@ -298,6 +298,8 @@ segments:
       - [0x03D354, asm, generated/text_03d354]
       - [0x03DF50, c, game/model_word_memory]
       - [0x03DFA0, asm, generated/text_03dfa0]
+      - [0x03F200, c, game/european/model_effect_state]
+      - [0x040228, asm, generated/text_040228]
       - [0x040E84, c, game/file_cd_helpers]
       - [0x040F58, asm, generated/text_040f58]
       - [0x040FC0, c, game/func_8005C62C]
