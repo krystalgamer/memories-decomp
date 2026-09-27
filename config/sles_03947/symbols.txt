@@ -219,7 +219,6 @@ Main_RunLibraryMenu = 0x8002D170;
 Main_RunCampaignMap = 0x8002D368;
 Main_RunBuildDeckMenu = 0x8002D400;
 Model_QueueTintRequestForParts = 0x8005CD8C;
-Model_QueueTintRequest = 0x8005CE8C;
 Triplet_SetComponents = 0x8006C724; // type:func size:0x10
 func_8006C30C = 0x8006C734; // type:func size:0x24
 func_8006C330 = 0x8006C758; // type:func size:0x4C
