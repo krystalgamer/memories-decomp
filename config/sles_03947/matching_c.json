@@ -836,6 +836,12 @@
       "source": "src/game/func_80029590.c"
     },
     {
+      "address": "0x80029988",
+      "profile": "gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks",
+      "size": "0x57C",
+      "source": "src/game/european/func_80029934.c"
+    },
+    {
       "address": "0x80029F04",
       "profile": "gcc_2_8_1_g8",
       "size": "0x14",
