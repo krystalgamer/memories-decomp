@@ -20,7 +20,6 @@
    with -G0. Bounded below by SD_FindMidiTrackChunk, which does need its
    profile, and above by SD_ReadSequenceEvent at gcc_2_8_1_g8_split. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_U32_BE)
 s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
 {
     s32 first = SD_ReadSequenceByte(input);
@@ -31,9 +30,7 @@ s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
     return (fourth & 0xFF) + ((third & 0xFF) << 8) +
            ((second & 0xFF) << 16) + (first << 24);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_U16_BE)
 s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 {
     s32 high = SD_ReadSequenceByte(input);
@@ -41,9 +38,7 @@ s32 SD_ReadSequenceU16BE(SDSequenceTrack *input)
 
     return (low & 0xFF) | ((high & 0xFF) << 8);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_READ_SEQUENCE_HEADER)
 /* MATCH (2026-09-05). Was an ASSEMBLY TRANSCRIPTION (Unchiga's port of
  * 2026-08-30, an inline asm block) counted as debt in docs/ASM_DEBT.md;
  * this is the C. Flags: -O2 -G0 -mno-split-addresses, as -G0 (gp == 0, the
@@ -133,16 +128,12 @@ store:
     D_8009B458->field_0804 = D_8009B458->timebase;
     return 1;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_ADVANCE_SEQUENCE_POSITION)
 void SD_AdvanceSequencePosition(s32 *value, s32 amount)
 {
     *value += amount;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SEQUENCE_META_EVENTS)
 void SD_IgnoreSequenceEvent(u8 status)
 {
 }
@@ -232,9 +223,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 arg1)
         break;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_SKIP_SEQUENCE_SYSEX)
 void SD_SkipSequenceSysEx(SDSequenceTrack *input)
 {
     unsigned int i = 0;
@@ -246,9 +235,7 @@ void SD_SkipSequenceSysEx(SDSequenceTrack *input)
             break;
     } while (i < count);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPATCH_SEQUENCE_CHANNEL_EVENT)
 /* Sequence channel event dispatcher: routes a note off (0x80), note on
    (0x90, a zero velocity is a note off), controller (0xB0), program (0xC0)
    or pitch (0xE0) message to the secondary-object handlers. Controller
@@ -362,4 +349,3 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
         break;
     }
 }
-#endif
