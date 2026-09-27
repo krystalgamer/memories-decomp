@@ -17,6 +17,16 @@
 #define EU_ENTRY(record) ((EuropeanDuelEffectEntry *)(record))
 #define EU_ENTRY_FADE_VALUE(record) (((u8 *)(record))[0x15])
 
+#ifdef VERSION_EUROPE_FUNC_80039D84
+void func_80039D84(DuelEffectChannel *record, void *context)
+{
+    EU_ENTRY(record)->field_14 = ((rand() & 0x1F) + 8) | -0x80;
+    EU_ENTRY(record)->field_14 = ((rand() & 0x1F) + 32) | -0x80;
+    EU_ENTRY(record)->field_13 = 4;
+    func_80039B3C(record, context);
+}
+#endif
+
 #ifdef VERSION_EUROPE_FUNC_80039DF8
 void func_80039DF8(DuelEffectChannel *record)
 {

@@ -425,7 +425,7 @@ segments:
       - [0x02A0C4, c, game/european/display_object_fade_callbacks]
       - [0x02A33C, asm, generated/text_02a33c]
       - [0x02A524, c, game/european/func_80039D24]
-      - [0x02A584, asm, generated/text_02a584]
+      - [0x02A584, c, game/european/func_80039D84]
       - [0x02A5F8, c, game/european/func_80039DF8]
       - [0x02A688, asm, generated/text_02a688]
       - [0x02A82C, c, game/menu_record_reset]
