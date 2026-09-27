@@ -54,8 +54,15 @@ s32 func_8005B8A0(CdlLOC *src, s32 a1, s32 a2, s32 a3, s32 a4, s32 a5) {
         VSync(0);
         D_800FE0CC = 1;
         GsSwapDispBuff();
+#ifdef VERSION_EUROPE
+        GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, 0x100, 4, 1, 1);
+        GsDefDispBuff(0, 0, 0, 0x100);
+        GsDISPENV.screen.y = 20;
+        GsDISPENV.screen.h = 0x100;
+#else
         GsDefDispBuff(0, 0, 0, 0x100);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 1);
+#endif
     }
     if (src != 0) {
         D_8009B49C = *src;

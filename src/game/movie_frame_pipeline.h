@@ -70,9 +70,14 @@ typedef char GraphicsDimension_size_must_be_4[
     sizeof(GraphicsDimension) == 4 ? 1 : -1
 ];
 
-extern GraphicsDimension gGraphics_CurrentWidth asm("D_800FE0D0")
+#ifndef GRAPHICS_CURRENT_WIDTH_SYMBOL
+#define GRAPHICS_CURRENT_WIDTH_SYMBOL "D_800FE0D0"
+#define GRAPHICS_CURRENT_HEIGHT_SYMBOL "D_800FE0D4"
+#endif
+
+extern GraphicsDimension gGraphics_CurrentWidth asm(GRAPHICS_CURRENT_WIDTH_SYMBOL)
     __attribute__((section(".data")));
-extern GraphicsDimension gGraphics_CurrentHeight asm("D_800FE0D4")
+extern GraphicsDimension gGraphics_CurrentHeight asm(GRAPHICS_CURRENT_HEIGHT_SYMBOL)
     __attribute__((section(".data")));
 
 /* The pending-interrupt word func_8005C1F4 tests, and clears after calling
