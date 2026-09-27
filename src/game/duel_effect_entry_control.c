@@ -49,6 +49,31 @@
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_EFFECT_HAS_ACTIVE_ENTRY)
 int DuelEffect_HasActiveEntry(DuelEffectChannel *a0) {
     int v0;
+#ifdef VERSION_EUROPE
+    int count;
+    u32 address;
+    u8 *v1;
+    v0 = DUEL_EFFECT_RANGE_START(a0);
+    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    address = (u32)&DUEL_EFFECT_ENTRIES[v0];
+    if (count == 0) {
+        goto ret_zero_a;
+    }
+    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_13_OFFSET);
+loop:
+    if ((DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->flags_11 &
+         DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
+        return 0;
+    }
+    if (DUEL_EFFECT_ENTRY_FROM_FIELD_13(v1)->field_13 != 0) {
+        return 1;
+    }
+    count--;
+    v1 = v1 + sizeof(DUEL_EFFECT_ENTRY_TYPE);
+    if (count != 0) {
+        goto loop;
+    }
+#else
     int count;
     u8 *v1;
     v0 = DUEL_EFFECT_RANGE_START(a0);
@@ -72,6 +97,7 @@ loop:
     if (count != 0) {
         goto loop;
     }
+#endif
 ret_zero_a:
     return 0;
 }
