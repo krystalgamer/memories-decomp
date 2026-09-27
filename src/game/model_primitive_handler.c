@@ -11,8 +11,11 @@
 #include "model_handler_registry.h"
 #include "../unmatched.h"
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800603DC)
 void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_GET_PRIMITIVE_HANDLER)
 void *Model_GetPrimitiveHandler(u32 arg0) {
     s32 temp_a0_2;
     u32 temp_a0;
@@ -296,13 +299,17 @@ block_106:
 block_107:
     return (void *)GsU_00000000;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8006086C)
 void func_8006086C(ModelHandlerObject *object)
 {
     *object->handler = Model_GetPrimitiveHandler(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800608B8)
 s32 func_800608B8(s32 arg0) {
     u32 t;
     u32 u;
@@ -366,9 +373,12 @@ s32 func_800608B8(s32 arg0) {
     }
     return (s32)GsU_00000000;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80060AEC)
 void func_80060AEC(ModelHandlerObject *object)
 {
     *object->handler = (void *)func_800608B8(object->key);
     Model_RegisterHandlerKey(object->key, (int)*object->handler);
 }
+#endif
