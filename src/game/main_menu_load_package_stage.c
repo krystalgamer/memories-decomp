@@ -8,6 +8,12 @@
 
 #include "high_memory_addresses.h"
 
+/* Regional value: the main-menu package's first sector in SU.MRG. The US
+ * package starts at 0; the European wrapper computes it from D_8009C02B. */
+#ifndef MAIN_MENU_PACKAGE_FIRST_SECTOR
+#define MAIN_MENU_PACKAGE_FIRST_SECTOR 0
+#endif
+
 /* The Main Menu package load. File_RequestMainMenuPackage queues the
    package from gFile_szSuMrgPath with MainMenu_LoadPackageStage as its stage
    callback. */
@@ -82,7 +88,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
 void File_RequestMainMenuPackage(void)
 {
     File_RequestAsyncTransfer(
-        1, gFile_szSuMrgPath, 0, 0x73, MainMenu_LoadPackageStage, 0, 0
+        1, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,
+        MainMenu_LoadPackageStage, 0, 0
     );
 }
 #endif
