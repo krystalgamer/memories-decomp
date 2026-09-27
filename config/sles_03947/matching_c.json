@@ -2780,6 +2780,12 @@
       "source": "src/game/european/func_8003DA40.c"
     },
     {
+      "address": "0x8003EF9C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x48",
+      "source": "src/game/european/func_8003EF9C.c"
+    },
+    {
       "address": "0x8003EFE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3E0",
