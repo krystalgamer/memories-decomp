@@ -4802,6 +4802,12 @@
       "source": "src/game/european/model_effect_state.c"
     },
     {
+      "address": "0x8004FA28",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2EC",
+      "source": "src/game/european/func_8005B8A0.c"
+    },
+    {
       "address": "0x8004FFEC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x184",

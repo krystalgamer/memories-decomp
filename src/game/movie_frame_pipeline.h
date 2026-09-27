@@ -70,10 +70,17 @@ typedef char GraphicsDimension_size_must_be_4[
     sizeof(GraphicsDimension) == 4 ? 1 : -1
 ];
 
+#ifdef VERSION_EUROPE
+extern GraphicsDimension gGraphics_CurrentWidth asm("gEuropean_D_800FE0D0")
+    __attribute__((section(".data")));
+extern GraphicsDimension gGraphics_CurrentHeight asm("gEuropean_D_800FE0D4")
+    __attribute__((section(".data")));
+#else
 extern GraphicsDimension gGraphics_CurrentWidth asm("D_800FE0D0")
     __attribute__((section(".data")));
 extern GraphicsDimension gGraphics_CurrentHeight asm("D_800FE0D4")
     __attribute__((section(".data")));
+#endif
 
 /* The pending-interrupt word func_8005C1F4 tests, and clears after calling
  * StCdInterrupt, while the stream is running (D_8009B060). Four bytes, so at
