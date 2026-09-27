@@ -1,6 +1,22 @@
 #include "../types.h"
 #include "text_constants.h"
 
+#ifdef VERSION_EUROPE
+u32 Text_LookupString(s32 arg0, s32 arg1)
+{
+    /* The European banks, as in TextBox_BuildStep. */
+    if (arg1 <= 0x7FFF) {
+        if (arg1 >= 0x500) {
+            arg1 -= 0x100;
+            return ((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) |
+                D_801B0004[arg1];
+        }
+        return ((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) | D_801B0004[arg1];
+    }
+    return ((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) |
+        D_801D5804[arg1 - 0x8000];
+}
+#else
 u32 Text_LookupString(s32 arg0, s32 arg1)
 {
     s32 index = arg1;
@@ -24,3 +40,4 @@ u32 Text_LookupString(s32 arg0, s32 arg1)
     return ((u32)D_801B0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[index];
 #endif
 }
+#endif
