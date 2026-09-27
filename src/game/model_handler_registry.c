@@ -265,7 +265,9 @@ void Model_ProcessType2Unit(
 
     if (n != 0) {
         f = model_index < 2;
+#ifndef VERSION_EUROPE
         sh = model_index << 8;
+#endif
         p = q;
 
         do {
@@ -294,6 +296,14 @@ void Model_ProcessType2Unit(
                         } while (j < rec->row_count);
                     }
                     if (f) {
+#ifdef VERSION_EUROPE
+                        rec->field_00 = 0x280;
+                        v = rec->field_02;
+                        if (v >= 8) {
+                            rec->field_02 = v % 8;
+                        }
+                        rec->field_02 += 0xD0 + (model_index << 4);
+#else
                         v = rec->field_00;
                         if ((s16)rec->field_00 >= 0x280) {
                             rec->field_00 = (v - 0x280) + sh;
@@ -305,13 +315,33 @@ void Model_ProcessType2Unit(
                             rec->field_02 = v % 8;
                         }
                         rec->field_02 = rec->field_02 + 0xF8;
+#endif
+#ifdef VERSION_EUROPE
+                    } else {
+                        if (rec->field_02 < 0x100) {
+                            rec->field_00 = rec->field_00 + 0x280;
+                            rec->field_02 =
+                                (rec->field_02 & 0xF) + 0xD0;
+                        }
+                        v = MODEL_TYPE2_RECORD_VIEW(p)->field_02 +
+                            MODEL_TYPE2_RECORD_VIEW(p)->row_count - 0x200;
+                        if (v > 0) {
+                            MODEL_TYPE2_RECORD_VIEW(p)->row_count =
+                                MODEL_TYPE2_RECORD_VIEW(p)->row_count - v;
+                        }
+#endif
                     }
                     q += sizeof(ModelType2Record);
                 }
             }
             if (f) {
                 w = MODEL_TYPE2_RECORD_VIEW(p)->field_00;
+#ifdef VERSION_EUROPE
+                MODEL_TYPE2_RECORD_VIEW(p)->field_00 =
+                    (w - 0x280) + (model_index << 8);
+#else
                 MODEL_TYPE2_RECORD_VIEW(p)->field_00 = (w - 0x280) + sh;
+#endif
             }
             i++;
             p = q;

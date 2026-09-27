@@ -1041,7 +1041,7 @@ address,size,name,status,module,notes
 0x8005F060,0x734,func_8005C7BC,matching_c,game,
 0x8005F794,0x488,func_8005CEF0,matching_c,game,
 0x8005FC1C,0x61C,func_8005D378,matching_c,game,
-0x80060238,0x1F0,Model_ProcessType2Unit,unmatched_asm,game,
+0x80060238,0x1F0,Model_ProcessType2Unit,matching_c,game,"Exact European type-2 model record conversion with PAL coordinate remapping, row clipping, and relocated handler dispatch."
 0x80060428,0x60,func_80060428,unmatched_asm,game,
 0x80060488,0x464,func_80060488,unmatched_asm,game,
 0x800608EC,0x4C,func_8006086C,unmatched_asm,game,
