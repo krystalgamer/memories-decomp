@@ -1838,6 +1838,12 @@
       "source": "src/game/european/script_op_deck_complete.c"
     },
     {
+      "address": "0x8002EF3C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x56C",
+      "source": "src/game/european/script_op_save_prompt.c"
+    },
+    {
       "address": "0x8002F4B0",
       "profile": "gcc_2_8_1_g8",
       "size": "0x8",
