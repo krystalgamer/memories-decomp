@@ -433,7 +433,7 @@ address,size,name,status,module,notes
 0x8003604C,0x3C,DuelEffect_ClearMatchingMarker,matching_c,game,
 0x80036088,0x24,DuelEffect_ResetEntryMarkers,matching_c,game,
 0x800360AC,0x9CC,func_80035E20,unmatched_asm,game,
-0x80036A78,0x198,func_80036C14,unmatched_asm,game,
+0x80036A78,0x198,func_80036C14,matching_c,game,
 0x80036C10,0x34,TextStream_ReadU16LE,matching_c,game,
 0x80036C44,0x4C,TextStream_ReadU32LE,matching_c,game,
 0x80036C90,0x74,DuelEffect_UpdateObjectLayout,matching_c,game,

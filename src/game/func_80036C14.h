@@ -32,7 +32,7 @@ extern u16 D_80090E48[];
 /* The lookup's original symbol remains for non-C callers. */
 s32 func_80036BCC(s32 id);
 #ifdef VERSION_EUROPE
-/* The European glyph draw returns the glyph's width (a proportional font). */
+/* Appends a compact 0x16-byte entry and returns its spacing adjustment. */
 s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value);
 #else
 void func_80036C14(DuelEffectChannel *channel, s32 tagged_value);

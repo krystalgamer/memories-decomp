@@ -2,10 +2,12 @@
 #include "duel_effect.h"
 #include "func_80036C14.h"
 #include "../unmatched.h"
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+#include "duel_effect_entry_occupancy.h"
+#endif
 #ifdef VERSION_JAPAN
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "duel_effect_entry_occupancy.h"
 #include "japanese/duel_effect_channel.h"
 #endif
 
@@ -17,7 +19,8 @@
    Returns a pointer to the matching record, or NULL if not found / list
    ends first. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_FIND_RECORD_BY_ID)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_TEXT_FIND_RECORD_BY_ID)) && \
+    !defined(VERSION_EUROPE)
 s32 Text_FindRecordById(s32 id) {
     u8 *rec;
     u8 *key;
@@ -41,7 +44,82 @@ loop_check:
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_APPEND_ENTRY)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_APPEND_ENTRY)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80036C14))
+#ifdef VERSION_EUROPE
+s32 func_80036C14(DuelEffectChannel *channel, s32 tagged_value)
+{
+    EuropeanDuelEffectEntry *entry;
+    u16 flags;
+    s32 glyph;
+    s32 mode;
+    s32 result;
+
+    flags = 0;
+    entry = (EuropeanDuelEffectEntry *)channel->entry_end_20;
+    entry->field_12 = channel->index_57 + 1;
+    entry->field_13 = 1;
+    entry->field_15 = 0;
+    entry->field_0C = channel->field_38;
+    entry->field_0E = channel->field_3A;
+    entry->code_00 = tagged_value;
+    flags = channel->flags_34;
+    result = 0;
+
+    if (flags & 0x100) {
+        entry->pad_0D[1] = tagged_value;
+        entry->flags_11 = 0xC0;
+        goto append;
+    }
+
+    glyph = (tagged_value >> 20) & 0xFF;
+    mode = flags & 3;
+    if (glyph == 0) {
+        if (mode != 3) {
+            return -1;
+        }
+        return 0;
+    }
+
+    entry->pad_0D[1] = glyph;
+    entry->pad_14[0] = channel->field_54;
+    entry->flags_11 = mode | 0x80;
+
+    if (mode == 3) {
+        entry->field_0C += 2;
+    }
+    if (mode == 2) {
+        if (glyph == 0x28 || glyph == 0x42 || glyph == 0x45) {
+            entry->field_0C -= 2;
+            result = -4;
+        }
+        if (glyph == 0x3F || glyph == 0x43 || glyph == 0x4D) {
+            entry->field_0C -= 1;
+            result = -2;
+        }
+    }
+    if (mode == 0) {
+        if (glyph == 7) {
+            entry->field_0C -= 3;
+            result = -6;
+        }
+        if (glyph == 0x3F || glyph == 0x42 || glyph == 0x45 ||
+            glyph == 0xE || glyph == 0xC) {
+            entry->field_0C -= 1;
+            result = -2;
+        }
+    }
+
+append:
+    if (channel->flags_34 & 0x1C00) {
+        entry->field_13 = 0;
+    }
+    entry++;
+    entry->flags_11 = 0;
+    channel->entry_end_20 = (DuelEffectEntry *)entry;
+    return result;
+}
+#else
 void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
     DuelEffectEntry *q;
@@ -137,4 +215,5 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q->flags_11 = 0;
     p->entry_end_20 = q;
 }
+#endif
 #endif
