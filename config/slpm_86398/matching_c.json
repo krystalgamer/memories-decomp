@@ -725,7 +725,7 @@
       "address": "0x800198DC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
-      "source": "src/game/duel_card_checks.c"
+      "source": "src/game/duel_check_fusion.c"
     },
     {
       "address": "0x800199A8",

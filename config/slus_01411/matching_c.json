@@ -262,7 +262,7 @@
       "address": "0x8001513C",
       "profile": "gcc_2_8_1_g8",
       "size": "0x74",
-      "source": "src/game/file_transfer_flags.c"
+      "source": "src/game/file_transfer_phase_step.c"
     },
     {
       "address": "0x800151B0",
@@ -724,7 +724,7 @@
       "address": "0x80019A60",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
-      "source": "src/game/duel_card_checks.c"
+      "source": "src/game/duel_check_fusion.c"
     },
     {
       "address": "0x80019B2C",
@@ -2326,7 +2326,7 @@
       "address": "0x80032370",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/duel_reward_setup.c"
+      "source": "src/game/duel_reward_compact_drops.c"
     },
     {
       "address": "0x800323F8",
@@ -3004,7 +3004,7 @@
       "address": "0x80039140",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA4",
-      "source": "src/game/text_box_layout_helpers.c"
+      "source": "src/game/text_box_outline_layout.c"
     },
     {
       "address": "0x800391E4",

@@ -9,3 +9,4 @@
 #define D_8009B134 gJapanese_FileSecondaryRequest
 
 #include "../file_transfer_flags.c"
+#include "../file_transfer_phase_step.c"

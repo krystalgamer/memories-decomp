@@ -17,7 +17,7 @@ import unittest
 
 
 REPOSITORY = Path(__file__).resolve().parents[3]
-SOURCE = REPOSITORY / "src/game/duel_reward_setup.c"
+SOURCE = REPOSITORY / "src/game/duel_reward_compact_drops.c"
 START = """
 .text
 .globl _start
