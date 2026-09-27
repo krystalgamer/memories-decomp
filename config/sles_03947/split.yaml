@@ -534,7 +534,7 @@ segments:
       - [0x0475D0, c, game/european/model_scene_tint_pass]
       - [0x047A50, asm, generated/text_047a50]
       - [0x0481DC, c, game/european/model_debug_controller]
-      - [0x048DD8, asm, generated/text_048dd8]
+      - [0x048DD8, c, game/european/func_800540b4]
       - [0x04A41C, c, game/func_800556E8]
       - [0x04A708, c, game/european/model_control]
       - [0x04AE50, c, game/european/model_slot_setup]

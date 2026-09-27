@@ -67,6 +67,10 @@
 #define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define VECTOR_VIEW(vector) ((VECTOR *)(vector))
 
+#ifndef MODEL_RENDER_BLEND_MODE_5_WORD
+#define MODEL_RENDER_BLEND_MODE_5_WORD 0x3C200000
+#endif
+
 /* Defined rather than declared so the assembler pads the loads that feed
  * their gp-relative stores; model_primitive_templates.c and
  * model_handler_state.c hold the initialised definitions these commons merge
@@ -113,7 +117,7 @@ u8 D_8009AFE4;
         D_8009AFD8 = 0x200000; \
     } \
     if ((fl) == 5) { \
-        D_8009AFDC = 0x3C200000; \
+        D_8009AFDC = MODEL_RENDER_BLEND_MODE_5_WORD; \
     } else { \
         D_8009AFDC = 0; \
     } \
@@ -129,6 +133,10 @@ u8 D_8009AFE4;
 /* The ground shadow is kept inside the +/-0x4B0 duel field. */
 #define CLAMP_FIELD(v) ((v) < -0x4B0 ? -0x4B0 : (v) < 0x4B1 ? (v) : 0x4B0)
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
+
+#ifndef MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+#define MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT 0
+#endif
 
 /* Slot 1 faces slot 0, so its x and z offsets are applied mirrored. */
 static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
@@ -160,6 +168,9 @@ void func_800540B4(s32 index)
     s32 d;
     s32 v;
     s32 t;
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+    s32 texture_y;
+#endif
     u8 fl;
 
     if (index < 2) {
@@ -169,6 +180,9 @@ void func_800540B4(s32 index)
     }
     slot = &D_800F2C40[index];
     blk = (s8 *)&slot->field_CF8;
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+    texture_y = (index << 4) + 0xD0;
+#endif
     if (slot->field_E1F == 0) {
         return;
     }
@@ -642,11 +656,20 @@ void func_800540B4(s32 index)
             s32 row;
             u16 *cp;
 
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+            rect.x = 0x280;
+            rect.y = (index << 4) + 0xD0;
+#else
             rect.x = index << 8;
             rect.y = 0xF0;
+#endif
             rect.w = 0x100;
             rect.h = 4;
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+            for (i = 0, row = texture_y; i < 8; i += 4, row += 4) {
+#else
             for (i = 0, row = 0xF0; i < 8; i += 4, row += 4) {
+#endif
                 rect.y = row;
                 while (IsIdleGPU(3) != 0) {
                 }
@@ -674,8 +697,13 @@ void func_800540B4(s32 index)
             u16 *cp;
 
             slot->field_E13 = fl - 1;
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+            prect.x = 0x280 + slot->field_E13 * 2;
+            prect.y = (index << 4) + 0xD8;
+#else
             prect.x = (index << 8) + slot->field_E13 * 2;
             prect.y = 0xF8;
+#endif
             prect.w = 2;
             prect.h = 8;
             while (IsIdleGPU(3) != 0) {
@@ -687,7 +715,11 @@ void func_800540B4(s32 index)
             for (i = 0, cp = pal; i < 0x10; i++, cp++) {
                 *cp = Color_TintBgr555Pixel(*cp, 6, 0x1000) & 0x7FFF;
             }
+#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
+            prect.y = texture_y;
+#else
             prect.y = 0xF0;
+#endif
             while (IsIdleGPU(3) != 0) {
             }
             while (LoadImage2(&prect, (u32 *)pal) != 0) {
