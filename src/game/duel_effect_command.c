@@ -201,13 +201,19 @@ plain:
 #endif
 #endif
 
+/* The channel flag bit func_80038024 holds across its call; 0x100 in the
+ * European build, whose wrapper defines it. */
+#ifndef DUEL_EFFECT_SELECTOR_FLAG
+#define DUEL_EFFECT_SELECTOR_FLAG 0x80
+#endif
+
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80038024)
 void func_80038024(DuelEffectChannel *object, s32 value)
 {
     *(u8 *)&object->flags_34 = *(u8 *)&object->flags_34;
-    object->flags_34 |= 0x80;
+    object->flags_34 |= DUEL_EFFECT_SELECTOR_FLAG;
     func_80036C14(object, value);
-    object->flags_34 &= 0xFF7F;
+    object->flags_34 &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
     object->field_38 += 0x10;
 }
 #endif
