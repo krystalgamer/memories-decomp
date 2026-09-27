@@ -13,6 +13,40 @@
 /* The European build's entries are 0x16 bytes (EuropeanDuelEffectEntry):
    its callbacks reach their fields through this view. */
 #define EU_ENTRY(record) ((EuropeanDuelEffectEntry *)(record))
+#define EU_ENTRY_FADE_VALUE(record) (((u8 *)(record))[0x15])
+
+#ifdef VERSION_EUROPE_FUNC_80039DF8
+void func_80039DF8(DuelEffectChannel *record)
+{
+    s32 value;
+
+    if (DisplayObjectFade_MarkInitialized(record) == 0) {
+        EU_ENTRY(record)->field_15 = 3;
+        value = EU_ENTRY(record)->field_14;
+        EU_ENTRY_FADE_VALUE(record) = 0;
+        if (value != 0) {
+            EU_ENTRY_FADE_VALUE(record) = 0x80;
+        }
+    }
+
+    value = EU_ENTRY_FADE_VALUE(record);
+    if (EU_ENTRY(record)->field_14 != 0) {
+        value -= 5;
+        if (value <= 0) {
+            DisplayObjectFade_ReleaseChannel(record);
+            return;
+        }
+    } else {
+        value += 5;
+        if (value >= 0x80) {
+            EU_ENTRY(record)->field_15 = 0;
+            EU_ENTRY(record)->field_13 = 0;
+            return;
+        }
+    }
+    EU_ENTRY_FADE_VALUE(record) = value;
+}
+#endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80039AFC)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80039AFC))
