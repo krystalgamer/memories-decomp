@@ -9,11 +9,17 @@
 #include "save_data.h"
 #endif
 
+/* Regional value: the channel flag func_800389C4 clears (8 -> 0x10). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DUEL_EFFECT_CLEARED_CHANNEL_FLAG
+#define DUEL_EFFECT_CLEARED_CHANNEL_FLAG 8
+#endif
+
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_EFFECT_CLEAR_FLAG_8)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800389C4))
 void func_800389C4(DuelEffectChannel *value)
 {
-    value->flags_34 &= (u16)~8;
+    value->flags_34 &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
 }
 #endif
 

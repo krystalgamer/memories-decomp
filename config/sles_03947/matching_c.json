@@ -2648,6 +2648,18 @@
       "source": "src/game/func_800388D8.c"
     },
     {
+      "address": "0x80038798",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x14",
+      "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
+      "address": "0x800387AC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x6C",
+      "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
       "address": "0x80038818",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
