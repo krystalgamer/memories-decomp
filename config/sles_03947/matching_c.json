@@ -2570,6 +2570,12 @@
       "source": "src/game/european/duel_effect_result_clear_wait.c"
     },
     {
+      "address": "0x800377F0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xE8",
+      "source": "src/game/european/duel_effect_viewport_shake.c"
+    },
+    {
       "address": "0x800378D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x134",

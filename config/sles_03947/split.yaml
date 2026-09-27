@@ -375,7 +375,7 @@ segments:
       - [0x027E70, c, game/european/duel_effect_display_states]
       - [0x027F5C, c, game/european/duel_effect_bgm_fade_wait]
       - [0x027F90, c, game/european/duel_effect_result_clear_wait]
-      - [0x027FF0, asm, generated/text_027ff0]
+      - [0x027FF0, c, game/european/duel_effect_viewport_shake]
       - [0x0280D8, c, game/european/duel_effect_transfer_repeat]
       - [0x02820C, c, game/text_box_wrap_line]
       - [0x028278, c, game/text_try_complete_choice_layout]
