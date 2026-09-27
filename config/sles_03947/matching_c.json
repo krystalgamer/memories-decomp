@@ -4766,6 +4766,30 @@
       "source": "src/game/european/model_scene_tint_pass.c"
     },
     {
+      "address": "0x80057250",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x398",
+      "source": "src/game/european/func_80052D2C.c"
+    },
+    {
+      "address": "0x800575E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x184",
+      "source": "src/game/european/func_80052D2C.c"
+    },
+    {
+      "address": "0x8005776C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x190",
+      "source": "src/game/european/func_80052D2C.c"
+    },
+    {
+      "address": "0x800578FC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xE0",
+      "source": "src/game/european/func_80052D2C.c"
+    },
+    {
       "address": "0x800579DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBFC",
