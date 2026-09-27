@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "../psyq/stdio.h"
 #include "model.h"
 #include "model_packet_handlers.h"
 #include "../unmatched.h"
@@ -18,6 +19,9 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
     void *handler;
 
     if (object[0] != 0x03800000) {
+#ifdef VERSION_EUROPE
+        printf("unsupported ANIMATION primitive 0x%08lx.\n", object[0]);
+#endif
         handler = (void *)GsU_00000000;
         *(void **)object[1] = handler;
         return;
@@ -38,14 +42,16 @@ void func_8005C6A0(s32 *object, ModelSlot *entry)
 
 void *func_8005C768(u32 value)
 {
+    u32 masked;
+
     if ((value & 0xFFFF0000) != 0x03000000) {
         goto default_case;
     }
-    value &= 0xFFFF;
-    if (value == 0x2019) {
+    masked = value & 0xFFFF;
+    if (masked == 0x2019) {
         goto case_2019;
     }
-    if (value == 0x2119) {
+    if (masked == 0x2119) {
         goto case_2119;
     }
     goto default_case;
@@ -55,5 +61,8 @@ case_2019:
 case_2119:
     return func_8005D378;
 default_case:
+#ifdef VERSION_EUROPE
+    printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);
+#endif
     return (void *)GsU_00000000;
 }

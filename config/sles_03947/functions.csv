@@ -1036,8 +1036,8 @@ address,size,name,status,module,notes
 0x8005ED3C,0x4C,func_8005A878,matching_c,game,
 0x8005ED88,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,
 0x8005EE50,0xC4,ModelTexture_PackPageClut,matching_c,game,The European helper preserves the shared texture-page packing logic but leaves low-page CLUT X unchanged.
-0x8005EF14,0xD4,func_8005C6A0,unmatched_asm,game,
-0x8005EFE8,0x78,func_8005EFE8,unmatched_asm,game,
+0x8005EF14,0xD4,func_8005C6A0,matching_c,game,The European packet linker reports unsupported animation primitives before installing the default handler.
+0x8005EFE8,0x78,func_8005EFE8,matching_c,game,The European interpolation dispatcher reports unsupported animation codes before returning the default handler.
 0x8005F060,0x734,func_8005C7BC,matching_c,game,
 0x8005F794,0x488,func_8005CEF0,matching_c,game,
 0x8005FC1C,0x61C,func_8005D378,matching_c,game,
