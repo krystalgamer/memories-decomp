@@ -646,6 +646,95 @@ void func_8002BAB4(void)
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BD0C))
+#ifdef VERSION_EUROPE
+void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
+{
+    /* The European build loads one more stage, case 2: a 64x16 image picked
+       by the language (D_8009C02B) into (896, 352). The US cases 2-6 follow
+       as 3-7, case 1 transfers five sectors rather than four, and the image
+       rows sit at x 0x280 (y 0xE0 and 0xE6). */
+    switch (mode) {
+    case 0:
+        object->field_30.h.counter = 0x300;
+        object->field_30.h.field_32 = 0x100;
+        object->w = 0x40;
+        object->h = 0x10;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
+        object->done = 2;
+        object->phase_size = 64 * FILE_SECTOR_SIZE;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+
+    case 1:
+        object->phase_size = 5 * FILE_SECTOR_SIZE;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
+        object->value_0C = D_8009B118;
+        object->value_08 = D_8009B118;
+        object->done = 1;
+        break;
+
+    case 2:
+        gStageRect.x = 0x380;
+        gStageRect.y = 0x160;
+        gStageRect.w = 0x40;
+        gStageRect.h = 0x10;
+        LoadImage2(&gStageRect,
+                   (u32 *)(D_8009B118 + D_8009C02B * FILE_SECTOR_SIZE));
+        object->phase_size = 4 * FILE_SECTOR_SIZE;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
+        object->value_0C = D_8009B118;
+        object->value_08 = D_8009B118;
+        object->done = 1;
+        break;
+
+    case 3:
+        gStageRect.x = 0x280;
+        gStageRect.y = 0xE0;
+        gStageRect.w = 0x100;
+        gStageRect.h = 0x10;
+        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        object->field_30.h.counter = 0x240;
+        object->field_30.h.field_32 = 0x100;
+        object->w = 0x40;
+        object->h = 0x10;
+        D_8009B0F4_abs &= 0xFFDDFFFF;
+        D_8009B0F4_abs |= 0x10000;
+        object->done = 2;
+        object->phase_size = 48 * FILE_SECTOR_SIZE;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+
+    case 5:
+        gStageRect.x = 0x280;
+        gStageRect.y = 0xE6;
+        gStageRect.w = 0x100;
+        gStageRect.h = 2;
+        LoadImage2(&gStageRect, (u32 *)D_8009B118);
+        object->done = 3;
+        object->field_30.word = 0x26810;
+        object->phase_size = 20 * FILE_SECTOR_SIZE;
+        object->value_08 = D_8009B118;
+        object->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+
+    case 4:
+    case 6:
+        object->phase_size = FILE_SECTOR_SIZE;
+        D_8009B0F4_abs &= 0xFFDCFFFF;
+        object->value_0C = D_8009B118;
+        object->value_08 = D_8009B118;
+        object->done = 1;
+        break;
+
+    case 7:
+        SD_LoadSequenceBankPair(1, (u32 *)D_8009B118);
+        break;
+    }
+}
+#else
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
@@ -715,6 +804,7 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
         break;
     }
 }
+#endif
 #endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_MARK_OWNED_CARDS)) && \
