@@ -67,7 +67,10 @@ extern DisplayObject *tent_OptionsSelectionCursor;
  *
  * Main_RunOptionsMenu (src/candidates/func_8002D6C8.c) is the only caller;
  * main_run_frontend_menus.c, which held it, had the only declaration. */
-void Options_Init(void);
+#ifndef OPTIONS_INIT_ARGS
+#define OPTIONS_INIT_ARGS void
+#endif
+void Options_Init(OPTIONS_INIT_ARGS);
 s32 Options_Update(void);
 
 #endif

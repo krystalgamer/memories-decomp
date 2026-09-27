@@ -1,0 +1,22 @@
+#include "../../types.h"
+
+/* SLES-03947 build of the contiguous Options package stage and request functions. */
+
+#define VERSION_EUROPE
+#define VERSION_EUROPE_OPTIONS_LOAD_PACKAGE_STAGE
+#define VERSION_EUROPE_FILE_REQUEST_OPTIONS_PACKAGE
+
+#define Options_LoadPackageStage func_8003C56C
+#define File_RequestOptionsPackage func_8003C70C
+#define D_8009C02B_IN_DATA
+#define OPTIONS_PACKAGE_STAGE_MODE_2_X 0x280
+#define OPTIONS_PACKAGE_STAGE_MODE_2_Y 0xE0
+#define OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS 2
+#define OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS 6
+#define OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION D_800101D8
+#define OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL 1
+#define OPTIONS_PACKAGE_START_SECTOR (D_8009C02B * 0x29 + 0x2797)
+#define OPTIONS_PACKAGE_SECTOR_COUNT 0x29
+#define OPTIONS_PACKAGE_LOAD_SECOND_BLOCK 0
+
+#include "../frontend_package_stages.c"

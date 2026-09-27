@@ -42,6 +42,22 @@
 #define MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET 0x20
 #endif
 
+#ifndef MAIN_RUN_OPTIONS_INIT
+#define MAIN_RUN_OPTIONS_INIT() \
+    do { \
+        Options_Init(); \
+        Fade_WaitIn(); \
+    } while (0)
+#endif
+
+#ifndef MAIN_RUN_OPTIONS_IS_DONE
+#define MAIN_RUN_OPTIONS_IS_DONE(result) ((result) == 0)
+#endif
+
+#ifndef MAIN_RUN_OPTIONS_FINISH
+#define MAIN_RUN_OPTIONS_FINISH() SD_BGMFadeOut()
+#endif
+
 /* The grouped mode runners use common-symbol forms overridden by the tracked
    link symbols, so these definitions do not allocate storage here. */
 u8 D_8009B269;
@@ -56,13 +72,12 @@ void Main_RunOptionsMenu(void)
     if ((flags & 0x40) == 0) {
         D_8009B26C = flags | 0x40;
         File_RequestOptionsPackage();
-        Options_Init();
-        Fade_WaitIn();
+        MAIN_RUN_OPTIONS_INIT();
     }
-    if (Options_Update() == 0) {
+    if (MAIN_RUN_OPTIONS_IS_DONE(Options_Update())) {
         u8 value;
 
-        SD_BGMFadeOut();
+        MAIN_RUN_OPTIONS_FINISH();
         value = D_8009B269;
         D_8009B26C = value;
     }
