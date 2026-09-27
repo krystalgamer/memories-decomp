@@ -107,6 +107,24 @@
 #ifndef LIBRARY_CARD_VIEW_BOX_WIDTH
 #define LIBRARY_CARD_VIEW_BOX_WIDTH 0xA8
 #endif
+/* Regional values (US defaults): the card view's y (0xE; European 6), the
+   loading icon's y (0xCD; 0xDD), the card text box's height (0xC0; 0xD0),
+   the zoomed card's y (4; 0) and its smallest scale byte (0xD8; 0xD7). */
+#ifndef LIBRARY_CARD_VIEW_Y
+#define LIBRARY_CARD_VIEW_Y 0xE
+#endif
+#ifndef LIBRARY_LOADING_ICON_Y
+#define LIBRARY_LOADING_ICON_Y 0xCD
+#endif
+#ifndef LIBRARY_CARD_VIEW_BOX_HEIGHT
+#define LIBRARY_CARD_VIEW_BOX_HEIGHT 0xC0
+#endif
+#ifndef LIBRARY_CARD_ZOOM_Y
+#define LIBRARY_CARD_ZOOM_Y 4
+#endif
+#ifndef LIBRARY_CARD_ZOOM_MIN_SCALE
+#define LIBRARY_CARD_ZOOM_MIN_SCALE 0xD8
+#endif
 #ifndef LIBRARY_EFFECT_CHANNEL_STRIDE
 #define LIBRARY_EFFECT_CHANNEL_STRIDE sizeof(DuelEffectChannel)
 #endif
@@ -191,7 +209,7 @@ void func_8002ACA4(u8 *state)
             if (func_80058DD8(0) == 1) {
                 state[4] = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-                DisplayObject_ConfigureSpriteAtPosition(o, 0x130, 0xCD, 3, 0, 2, 0xB, 0x20C);
+                DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
                 H(o, 8) |= 0x28;
                 DisplayObject_SelectOrderingTable1(DISPLAY_OBJECT_VIEW(o));
                 DisplayObject_SetDepthOffset(DISPLAY_OBJECT_VIEW(o), 0xA);
@@ -207,18 +225,18 @@ void func_8002ACA4(u8 *state)
         if (!(flags & 0x80)) {
             state[3] = flags | 0x80;
             S(o, 0x30) = 0x148;
-            S(o, 0x32) = 0xE;
+            S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             DisplayObject_SavePosition((void *)o);
             S(o, 0x60) = -0x400;
         }
         H(o, 0x60) += 0x33;
         if (S(o, 0x60) >= 0) {
             S(o, 0x30) = LIBRARY_CARD_VIEW_X;
-            S(o, 0x32) = 0xE;
+            S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             state[3] = 0;
         } else {
             Widget_SlideSine(
-                (void *)o, LIBRARY_CARD_VIEW_X, 0xE, S(o, 0x60));
+                (void *)o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
         }
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
@@ -232,10 +250,10 @@ void func_8002ACA4(u8 *state)
         H(o, 0x60) -= 0x33;
         if (S(o, 0x60) <= 0) {
             S(o, 0x30) = 0x148;
-            S(o, 0x32) = 0xE;
+            S(o, 0x32) = LIBRARY_CARD_VIEW_Y;
             state[3] = 0;
         } else {
-            Widget_SlideSine((void *)o, 0x148, 0xE, S(o, 0x60));
+            Widget_SlideSine((void *)o, 0x148, LIBRARY_CARD_VIEW_Y, S(o, 0x60));
         }
         TextBox_SetPos(&D_800EB0F8[0], S(o, 0x30), S(o, 0x32));
         break;
@@ -260,7 +278,7 @@ void func_8002ACA4(u8 *state)
         SD_SEPlayFull(0x32);
         W(rec->object_04, 4) |= 0x80000000;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-        DisplayObject_ConfigureSpriteAtPosition(o, 0x148, 0xE, 0, 2, 0, 0x1B, 0x107);
+        DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         B(o, 0x5F) = 0x80;
         S(o, 0x60) = -0x400;
         H(o, 8) |= 8;
@@ -274,9 +292,12 @@ void func_8002ACA4(u8 *state)
             layout = 4;
         }
         box = TextBox_Create(
-            0, layout, LIBRARY_CARD_VIEW_X, 0xE,
-            LIBRARY_CARD_VIEW_BOX_WIDTH, 0xC0);
+            0, layout, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y,
+            LIBRARY_CARD_VIEW_BOX_WIDTH, LIBRARY_CARD_VIEW_BOX_HEIGHT);
+#ifndef VERSION_EUROPE
+        /* The European build does not write field_54 here. */
         B(box, 0x54) = LIBRARY_CARD_VIEW_BOX_FIELD_54;
+#endif
         B(box, 0x53) = 1;
         B(box, 0x59) = 4;
         state[1] = 1;
@@ -289,10 +310,10 @@ void func_8002ACA4(u8 *state)
             B(o, 0x21) += 6;
             H(o, 0x46) = H(o, 0x44) += 0xCC;
             H(o, 0x60) += 0x66;
-            DisplayObject_InterpolatePositionCosine((void *)o, 2, 4, S(o, 0x60));
+            DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
             if (S(o, 0x60) >= 0x800) {
                 W(o, 0x20) = 0x8000;
-                W(o, 0x30) = 0x40002;
+                W(o, 0x30) = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
                 W(o, 0x44) = 0x10001000;
                 W(rec->object_04, 4) &= 0x7FFFFFFF;
                 W(o, 4) |= 0x08000000;
@@ -385,15 +406,15 @@ void func_8002ACA4(u8 *state)
             o = rec->object_00;
             if (S(o, 0x60) < 0x800) {
                 B(o, 0x21) -= 4;
-                if (B(o, 0x21) < 0xD8) {
-                    B(o, 0x21) = 0xD8;
+                if (B(o, 0x21) < LIBRARY_CARD_ZOOM_MIN_SCALE) {
+                    B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
                 }
                 H(o, 0x60) += 0xCC;
-                DisplayObject_InterpolatePositionCosine((void *)o, -0x16, 4, S(o, 0x60));
+                DisplayObject_InterpolatePositionCosine((void *)o, -0x16, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
                 if (S(o, 0x60) >= 0x800) {
-                    B(o, 0x21) = 0xD8;
+                    B(o, 0x21) = LIBRARY_CARD_ZOOM_MIN_SCALE;
                     S(o, 0x30) = -0x16;
-                    S(o, 0x32) = 4;
+                    S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
                 }
             }
             H(state, 0x10) = H(state, 0x10) + 0x2A;
@@ -423,11 +444,11 @@ void func_8002ACA4(u8 *state)
             if (H(o, 8) & 4) {
                 B(o, 0x21) += 4;
                 H(o, 0x60) += 0xCC;
-                DisplayObject_InterpolatePositionCosine((void *)o, 2, 4, S(o, 0x60));
+                DisplayObject_InterpolatePositionCosine((void *)o, 2, LIBRARY_CARD_ZOOM_Y, S(o, 0x60));
                 if (S(o, 0x60) >= 0x800) {
                     B(o, 0x21) = 0;
                     S(o, 0x30) = 2;
-                    S(o, 0x32) = 4;
+                    S(o, 0x32) = LIBRARY_CARD_ZOOM_Y;
                     H(o, 8) &= 0xFFFB;
                 }
                 if (H(o, 8) & 4) {
