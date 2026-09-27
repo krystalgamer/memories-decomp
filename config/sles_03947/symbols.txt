@@ -598,6 +598,7 @@ Duel_CalcBattleDefense = 0x8001EED4;
 func_8001EFD4 = 0x8001EF30;
 DuelScene_UpdateTurnSwitch = 0x80020830;
 func_80020988 = 0x800208E4;
+func_80020BE4 = 0x80020B40;
 DuelResult_UpdateOrbitSprite = 0x80020CAC;
 func_80020EE8 = 0x80020E48;
 func_80022674 = 0x800225EC;
