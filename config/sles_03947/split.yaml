@@ -623,6 +623,7 @@ segments:
       - [0x05A81C, asm, generated/text_05a81c]
       - [0x05B94C, c, game/european/main_menu_load_package_stage]
       - [0x05BB5C, asm, generated/text_05bb5c]
+      - [0x05BBB0, c, game/european/model_subdivided_effect]
       - [0x05C8CC, c, game/triangle_subdivision]
       - [0x05CF24, c, game/triplet_components]
       - [0x05CFA4, c, game/model_disc_effect]
