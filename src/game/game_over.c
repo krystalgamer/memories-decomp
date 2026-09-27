@@ -16,6 +16,7 @@
 #define DISPLAY_OBJECT_CONFIG_VIEW(object) \
     ((DisplayObjectConfig *)(object))
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_GAME_OVER_INIT)
 void GameOver_Init(void)
 {
     DisplayObject *object;
@@ -38,7 +39,9 @@ void GameOver_Init(void)
     Fade_StartIn();
     gFade_State.step = 2;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003CA5C)
 s32 func_8003CA5C(void)
 {
     DisplayObject *p;
@@ -98,3 +101,4 @@ s32 func_8003CA5C(void)
         return result;
     }
 }
+#endif

@@ -21,7 +21,8 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D518)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D518)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D518))
 void func_8003D518(MenuRecord *record)
 {
     DisplayObject *object;
@@ -58,7 +59,8 @@ void func_8003D518(MenuRecord *record)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D614)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D614)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D614))
 
 void func_8003D614(MenuRecord *record)
 {
@@ -112,7 +114,8 @@ void func_8003D614(MenuRecord *record)
         D_8009B3C1 = 0;
 }
 #endif
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D74C)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D74C)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8003D74C))
 void func_8003D74C(MenuRecord *record)
 {
     DisplayObject *p;

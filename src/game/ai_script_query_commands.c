@@ -8,6 +8,7 @@
 #include "duel_card_layout.h"
 #include "duel_side_state.h"
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_CALC_CARD_POWER)
 void AiScript_CalcCardPower(void)
 {
     s32 *mem = gAiScript_aMemory;
@@ -62,7 +63,9 @@ void AiScript_CalcCardPower(void)
 
     gAiScript_aMemory[dst] = power;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_TEST_HIGH_STAT)
 void AiScript_TestHighStat(void)
 {
     register s32 *values = gAiScript_aMemory;
@@ -80,7 +83,9 @@ void AiScript_TestHighStat(void)
     }
     gAiScript_aMemory[dest] = result;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_LOAD_CARD_TYPE)
 void AiScript_LoadCardType(void)
 {
     s32 *memory = gAiScript_aMemory;
@@ -90,7 +95,9 @@ void AiScript_LoadCardType(void)
         (gDuel_adwCardStats[index] >> CARD_STAT_TYPE_SHIFT) &
         CARD_STAT_TYPE_MASK;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_LOAD_CARD_ID)
 void AiScript_LoadCardID(void)
 {
     s32 *memory = gAiScript_aMemory;
@@ -98,10 +105,12 @@ void AiScript_LoadCardID(void)
 
     memory[AiScript_ReadByte()] = gDuel_aActiveCards[index].card_id;
 }
+#endif
 
 /* Looks up gDuel_aActiveCards[gAiScript_aMemory[idx1]] and classifies it: 0 if
    field0 is zero, 2 if the card is face-down, else 1. Stores the result at
    gAiScript_aMemory[idx2]. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_SET_FACE_DOWN)
 void AiScript_SetFaceDown(void) {
     s32 *table = gAiScript_aMemory;
     s32 idx1 = AiScript_ReadByte();
@@ -119,9 +128,12 @@ void AiScript_SetFaceDown(void) {
 
     gAiScript_aMemory[idx2] = flagval;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_LOAD_LIFE_POINT)
 void AiScript_LoadLifePoint(void) {
     s32 *p = gAiScript_aMemory;
     s32 i = p[AiScript_ReadByte()];
     p[AiScript_ReadByte()] = D_800E9FF0[1 - i].life_points.signed_value;
 }
+#endif

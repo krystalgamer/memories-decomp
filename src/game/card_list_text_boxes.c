@@ -14,7 +14,8 @@
    is picked out of the list at the scroll offset plus the slot, and the list
    kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_CREATE_SLOT_TEXT_BOX)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_CREATE_SLOT_TEXT_BOX)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_CREATE_SLOT_TEXT_BOX))
 void CardList_CreateSlotTextBox(CardList *list, s32 slot)
 {
     DuelEffectChannel *box;
@@ -50,7 +51,8 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80031E04)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80031E04)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80031E04))
 void func_80031E04(CardList *list, s32 count)
 {
     s32 i;

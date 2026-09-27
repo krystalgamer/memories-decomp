@@ -32,6 +32,7 @@ u8 D_8009B269;
 u8 D_8009B26C;
 u8 D_8009B26E;
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_RUN_OPTIONS_MENU)
 void Main_RunOptionsMenu(void)
 {
     u8 flags = D_8009B26C;
@@ -50,7 +51,9 @@ void Main_RunOptionsMenu(void)
         D_8009B26C = value;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_RUN_GAME_OVER)
 void Main_RunGameOver(void)
 {
     u8 flags = D_8009B26C;
@@ -76,13 +79,17 @@ void Main_RunGameOver(void)
         }
     }
 }
+#endif
 
 /* gMain_apfnModeRunner entry 13: the developer-mode slot's runner is empty in
    the retail build. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_RUN_UNUSED_DEVELOPER_MODE)
 void Main_RunUnusedDeveloperMode(void)
 {
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_RUN_TRADE)
 void Main_RunTrade(void)
 {
     DuelEffectChannel *box;
@@ -147,3 +154,4 @@ void Main_RunTrade(void)
         break;
     }
 }
+#endif
