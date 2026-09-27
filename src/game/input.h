@@ -4,7 +4,10 @@
 #include "../types.h"
 
 #define INPUT_PAD_COUNT 2
+/* 0x24 in the European build, whose wrapper defines it. */
+#ifndef INPUT_RAW_PAD_BUFFER_SIZE
 #define INPUT_RAW_PAD_BUFFER_SIZE 0x22
+#endif
 #define INPUT_PAD_BUTTON_BITS 16
 #define INPUT_PAD_BUTTON_MASK ((1 << INPUT_PAD_BUTTON_BITS) - 1)
 #define INPUT_REPEAT_TIMER_COUNT (INPUT_PAD_COUNT * INPUT_PAD_BUTTON_BITS)
