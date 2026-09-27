@@ -189,7 +189,6 @@ segments:
       - [0x0110E4, c, game/func_80020988]
       - [0x011340, c, game/european/func_80020BE4]
       - [0x0114AC, c, game/european/duel_result_orbit_sprites]
-      - [0x0116AC, asm, generated/text_0116ac]
       - [0x011CD0, c, game/european/duel_result_rank_change]
       - [0x011F88, c, game/european/duel_result_card_drop]
       - [0x012068, c, game/european/func_800218F0]
