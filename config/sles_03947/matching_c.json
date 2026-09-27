@@ -812,6 +812,12 @@
       "source": "src/game/duel_battle_stats.c"
     },
     {
+      "address": "0x8001F4B8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1378",
+      "source": "src/game/european/duel_scene_battle.c"
+    },
+    {
       "address": "0x80020830",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
