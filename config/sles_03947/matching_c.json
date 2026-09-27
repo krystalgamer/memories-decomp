@@ -2438,6 +2438,12 @@
       "source": "src/game/european/dialog_update_choice.c"
     },
     {
+      "address": "0x8003728C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xB0",
+      "source": "src/game/european/dialog_open_choice.c"
+    },
+    {
       "address": "0x80037544",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
