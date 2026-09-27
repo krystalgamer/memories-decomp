@@ -51,4 +51,10 @@ extern u16 D_8009B16C __attribute__((section(".data")));
 extern u16 D_8009B16C;
 #endif
 
+#ifdef VERSION_EUROPE
+/* The byte debug_effect_screen.c reads as D_8009B16C[2] in the US build is
+   not next to D_8009B16C in the European image: it sits at 0x8009C118. */
+extern u8 D_8009B16E;
+#endif
+
 #endif
