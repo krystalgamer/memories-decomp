@@ -13,6 +13,16 @@
 #include "func_80016784.h"
 #include "duel_draw_card_output_position.h"
 
+/* Regional values: the screen height the frame is drawn above (0xF0 ->
+ * 0x100) and the sprite's cxcy, CLUT (0x100, 0xF1) -> (0x280, 0xE1). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DUEL_CARD_FRAME_SCREEN_HEIGHT
+#define DUEL_CARD_FRAME_SCREEN_HEIGHT 0xF0
+#endif
+#ifndef DUEL_CARD_FRAME_CXCY
+#define DUEL_CARD_FRAME_CXCY 0xF10100
+#endif
+
 #define POLY_FT4_BYTES(packet) ((u8 *)(packet))
 #define CARD_FRAME_SCRATCH_BYTES(scratch) ((u8 *)(scratch))
 
@@ -55,7 +65,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
 
     if ((u32)(arg2 + 0x33) < 0x173) {
         if (arg3 >= -0x3B) {
-            if (arg3 < 0xF0) {
+            if (arg3 < DUEL_CARD_FRAME_SCREEN_HEIGHT) {
                 o = (CardFrameScratch *)0x1F8003E0;
                 k = (SpritePrim *)0x1F800320;
                 y = (POLY_FT4 *)0x1F800344;
@@ -87,7 +97,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                 }
                 k->tpage = 0x1E;
                 g2 = object->field_0C;
-                k->cxcy.word = 0xF10100;
+                k->cxcy.word = DUEL_CARD_FRAME_CXCY;
                 k->rgb = g2;
                 n = object->field_67;
                 if (n != 0) {
@@ -186,7 +196,7 @@ void func_80016784(DisplayObject *object, s32 arg1, s32 arg2, s32 arg3) {
                 }
                 if (object->field_69 != 0) {
                     k->uv.word = 0x8038;
-                    k->cxcy.word = 0xF10100;
+                    k->cxcy.word = DUEL_CARD_FRAME_CXCY;
                 }
                 DisplayObject_SubmitPacket(
                     k, POLY_FT4_BYTES(y), arg1, fl,

@@ -19,6 +19,12 @@
 #include "display_object_core.h"
 #include "../unmatched.h"
 
+/* Regional value: the cursor's field_0C (0x74 -> 0x84). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_SELECTION_CURSOR_FIELD_0C
+#define DUEL_SELECTION_CURSOR_FIELD_0C 0x74
+#endif
+
 /* Private helpers of the same duel action controller,
    DuelScene_UpdateHandActions:
    selection-side setup in its state-3 paths followed by execution of the
@@ -37,7 +43,7 @@ void func_8001B938(DuelSelectionRecord *selection) {
                                        D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
     D_8009B1B4->status = 0;
     D_8009B1B4->field_13 = 1;
-    D_8009B1B4->field_0C = 0x74;
+    D_8009B1B4->field_0C = DUEL_SELECTION_CURSOR_FIELD_0C;
     D_8009B1B4->field_18 = 0;
     D_8009B1B4->field_11 = 2;
     D_8009B1B4->field_12 = 3;

@@ -17,6 +17,12 @@
 #include "duel_terrain_boost.h"
 #include "main_mode_state.h"
 
+/* Regional value: the geometry offset y, half the screen height (0x78 ->
+ * 0x80). The European build (src/game/european/) defines its own. */
+#ifndef ANIMATED_BATTLE_GEOM_OFFSET_Y
+#define ANIMATED_BATTLE_GEOM_OFFSET_Y 0x78
+#endif
+
 /* Defined rather than declared: the assembler only resolves a small global
    gp-relative when the translation unit defines it, and that is what supplies
    the load-delay nop before the first read of it below. c_symbols.ld overrides
@@ -29,7 +35,7 @@ void Main_RunAnimatedBattle(void)
     u8 f;
     s32 v;
 
-    SetGeomOffset(0xA0, 0x78);
+    SetGeomOffset(0xA0, ANIMATED_BATTLE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     f = D_8009B26C;
     if ((f & 0x40) == 0) {

@@ -13,6 +13,12 @@
 #include "text_box_runtime.h"
 #include "text_staging.h"
 
+/* Regional value: the text box's y (0xCA -> 0xD5). The European build
+ * (src/game/european/) defines its own. */
+#ifndef FUNC_8002A3CC_TEXT_BOX_Y
+#define FUNC_8002A3CC_TEXT_BOX_Y 0xCA
+#endif
+
 void func_8002A2F4(u8 *p)
 {
     TextStagingValues *q = D_801D5608;
@@ -38,7 +44,7 @@ void func_8002A2F4(u8 *p)
         }
     }
 
-    o = (DisplayObject *)TextBox_Create(1, mode, 0x10, 0xCA, 0x120, 0x30);
+    o = (DisplayObject *)TextBox_Create(1, mode, 0x10, FUNC_8002A3CC_TEXT_BOX_Y, 0x120, 0x30);
     D_8009B320 = *(u8 *)&o->field_54;
     offset = n * sizeof(u32);
     if (*(p + offset + 0x56) & 1) {

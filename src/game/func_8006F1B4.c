@@ -31,6 +31,12 @@
 #include "../game/screen_projection.h"
 #include "../game/sound.h"
 
+/* Regional value: the burst CLUT (0x3D20 -> 0x3D28: x 0x200 -> 0x280, y
+ * 0xF4). The European build (src/game/european/) defines its own. */
+#ifndef MODEL_BURST_CLUT
+#define MODEL_BURST_CLUT 0x3D20
+#endif
+
 #define RAND_SPREAD(n) ((rand() - rand()) % 4096 * (n) / 4096)
 #define RAND_DROP(n) (-(rand() % 4096 * (n)) / 4096)
 #define HI16(p, o) (*(u16 *)((u8 *)(p) + (o)))
@@ -68,7 +74,7 @@ s32 func_8006F1B4(void *data, s32 arg1)
 
     if (arg1 >= 0) {
         e->tpage = 0xAE;
-        e->clut = 0x3D20;
+        e->clut = MODEL_BURST_CLUT;
         for (i = 0; i < 32; i++) {
             setVector(&e->sparks[i], RAND_SPREAD(320), 0, RAND_SPREAD(320));
             e->spark_colors[i].r = 0x60;

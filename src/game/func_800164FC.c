@@ -11,6 +11,15 @@
 #include "../unmatched.h"
 #include "../game/func_800540B4.h"
 
+/* Regional values: the two CLUTs (0x3C11 -> 0x3829, 0x3C50 -> 0x3868). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DUEL_FIELD_CARDS_CLUT_1
+#define DUEL_FIELD_CARDS_CLUT_1 0x3C11
+#endif
+#ifndef DUEL_FIELD_CARDS_CLUT_3
+#define DUEL_FIELD_CARDS_CLUT_3 0x3C50
+#endif
+
 /* Primes the two scratchpad primitives func_80015EF4 draws every field card
    with -- a POLY_FT4 at 0x1F800140 (len 9, code 0x2C, then 0x2E for
    semi-transparency) and the texture fields of a POLY_GT4 at 0x1F800180 --
@@ -59,7 +68,7 @@ void Duel_DrawFieldCards(void) {
         p1->b0 = 0xFF;
         p1->tpage = 0x5F;
         f = 0x80;
-        p1->clut = 0x3C11;
+        p1->clut = DUEL_FIELD_CARDS_CLUT_1;
     } while (0);
     p1->u3 = 0xAF;
     p1->u1 = 0xAF;
@@ -71,7 +80,7 @@ void Duel_DrawFieldCards(void) {
     p1->v1 = 0;
     p1->v0 = 0;
     p3->tpage = 0x9E;
-    p3->clut = 0x3C50;
+    p3->clut = DUEL_FIELD_CARDS_CLUT_3;
     p3->v1 = f;
     p3->v0 = f;
     p3->v3 = 0xBC;

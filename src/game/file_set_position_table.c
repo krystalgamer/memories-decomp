@@ -5,6 +5,12 @@
 #define D_8009B10C_IN_DATA
 #include "file_transfer.h"
 
+/* Regional value: the table's y position (0xD0 -> 0xE0). The European build
+ * (src/game/european/) defines its own. */
+#ifndef FILE_POSITION_TABLE_Y
+#define FILE_POSITION_TABLE_Y 0xD0
+#endif
+
 void File_SetPositionTable(void)
 {
     s32 *position;
@@ -18,7 +24,7 @@ void File_SetPositionTable(void)
     D_8009B10C = File_WaitForTransfers;
     state = &D_800E9DF0;
     state->xy.h.x = 0x120;
-    state->xy.h.y = 0xD0;
+    state->xy.h.y = FILE_POSITION_TABLE_Y;
     state->tpage = 0xB;
     D_800E9DF0.attribute = 0x8000000;
     D_8009B0E0 = 0;

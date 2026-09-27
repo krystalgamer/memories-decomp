@@ -32,6 +32,16 @@
 #include "ordering_tables.h"
 #include "func_80015EF4.h"
 
+/* Regional values: the CLUT's y base and its x in 16-pixel units (0xF1 ->
+ * 0xE1, 0x10 -> 0x28). The European build (src/game/european/) defines its
+ * own. */
+#ifndef DUEL_FIELD_CARD_CLUT_Y
+#define DUEL_FIELD_CARD_CLUT_Y 0xF1
+#endif
+#ifndef DUEL_FIELD_CARD_CLUT_X16
+#define DUEL_FIELD_CARD_CLUT_X16 0x10
+#endif
+
 #define CVECTOR_VIEW(color) ((CVECTOR *)(color))
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 
@@ -160,7 +170,7 @@ void func_80015EF4(void *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color)
     prim->u1 = c;
     prim->v3 = d;
     prim->v2 = d;
-    prim->clut = (((u16)obj->field_40.h.field_42 + 0xF1) << 6) | 0x10;
+    prim->clut = (((u16)obj->field_40.h.field_42 + DUEL_FIELD_CARD_CLUT_Y) << 6) | DUEL_FIELD_CARD_CLUT_X16;
     setPolyGT4(prim);
     SetSemiTrans(prim, 0);
     prim->tpage = prim->tpage & 0xFF9F;
