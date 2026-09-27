@@ -13,6 +13,12 @@
 #include "dialog_choice_state.h"
 #include "text_constants.h"
 
+/* Regional value: the choice.flags bit that opens and closes the choice (0x8
+ * -> 0x10). The European build (src/game/european/) defines its own. */
+#ifndef FUNC_80039794_CHOICE_FLAG
+#define FUNC_80039794_CHOICE_FLAG 8
+#endif
+
 #ifndef DISPLAY_EFFECT_MENU_CONFIRM_MASK
 #define DISPLAY_EFFECT_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
@@ -55,7 +61,7 @@ void func_80039794(void)
                     cnt++;
                     f = q->choice.flags;
                     if (f & 0x2000) {
-                        if (f & 8) {
+                        if (f & FUNC_80039794_CHOICE_FLAG) {
                             q->choice.obj = Dialog_OpenChoice(p);
                         }
                         break;
@@ -71,10 +77,10 @@ reset:
                     D_8009B35A = reset_value;
                 }
             } else {
-                if (q->choice.flags & 8) {
+                if (q->choice.flags & FUNC_80039794_CHOICE_FLAG) {
                     if (gInput_wPad1Pressed &
                         DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
-                        q->choice.flags &= 0xFFF7;
+                        q->choice.flags &= 0xFFFF ^ FUNC_80039794_CHOICE_FLAG;
                         DisplayObject_ReleaseIfPresent(q->choice.obj);
                         q->choice.obj = 0;
                         SD_SEPlayFull(0xB);

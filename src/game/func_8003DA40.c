@@ -10,6 +10,12 @@
 #include "duel_effect_create_channel.h"
 #include "func_8003DA40.h"
 
+/* Regional value: the flags_34 bit set and cleared on the channel (0x4 ->
+ * 0x8). The European build (src/game/european/) defines its own. */
+#ifndef FUNC_8003DA40_CHANNEL_FLAG
+#define FUNC_8003DA40_CHANNEL_FLAG 4
+#endif
+
 void func_8003DA40(MenuRecord *record)
 {
     DisplayObject *e;
@@ -32,7 +38,7 @@ void func_8003DA40(MenuRecord *record)
         DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
         e->field_60 = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
-        q->flags_34 = q->flags_34 | 4;
+        q->flags_34 = q->flags_34 | FUNC_8003DA40_CHANNEL_FLAG;
         do {
             func_80039794();
         } while (q->field_30 == 0);
@@ -66,7 +72,7 @@ void func_8003DA40(MenuRecord *record)
             *(s16 *)&e->field_30.h.field_32 = 0x50;
             h = q->flags_34;
             D_8009B3C1 = g | 0x40;
-            q->flags_34 = h & 0xFFFB;
+            q->flags_34 = h & (0xFFFF ^ FUNC_8003DA40_CHANNEL_FLAG);
         } else {
             Widget_SlideSine((DisplayObjectPosition *)e, 0x20, 0x50, (s16)v);
         }

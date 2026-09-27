@@ -36,8 +36,13 @@
 #define PAD_BUTTON_CANCEL PAD_BUTTON_CIRCLE
 #define PAD_BUTTON_CONFIRM_MASK (PAD_BUTTON_CROSS | PAD_BUTTON_SQUARE)
 
+/* The European build's wrappers define their own (0x14 and 0x11). */
+#ifndef INPUT_REPEAT_THRESHOLD
 #define INPUT_REPEAT_THRESHOLD 0x18
+#endif
+#ifndef INPUT_REPEAT_RELOAD_VALUE
 #define INPUT_REPEAT_RELOAD_VALUE 0x14
+#endif
 
 extern u8 gInput_abRawPadBuffers[INPUT_PAD_COUNT * INPUT_RAW_PAD_BUFFER_SIZE];
 extern u8 gInput_abRepeatTimers[INPUT_REPEAT_TIMER_COUNT];
