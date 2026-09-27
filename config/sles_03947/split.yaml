@@ -208,7 +208,7 @@ segments:
       - [0x014F9C, c, game/duel_card_record_lifecycle]
       - [0x015540, c, game/func_80024DC8]
       - [0x01559C, c, game/duel_action_lock]
-      - [0x0155D0, asm, generated/text_0155d0]
+      - [0x0155D0, c, game/european/func_80024E58]
       - [0x015794, c, game/func_80025028]
       - [0x015834, c, game/duel_card_effects]
       - [0x01664C, c, game/duel_swords_effect]

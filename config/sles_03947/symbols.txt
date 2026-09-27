@@ -1150,6 +1150,7 @@ func_800278A0 = 0x800277E4;
 func_800279BC = 0x80027900;
 DuelEffect_MarkInitialized = 0x80024D9C;
 DuelEffect_ClearCardEffect = 0x80024DC4;
+DuelEffect_ApplyTerrain = 0x80024DD0;
 Duel_SelectTrapByCardId = 0x80024F94;
 DuelEffect_UpdateRevealCard = 0x80025A94;
 DuelEffect_CreateRequest = 0x8002C71C;
