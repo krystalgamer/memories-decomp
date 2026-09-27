@@ -41,8 +41,30 @@
 #include "model_scene_setup.h"
 #include "model_scene_states.h"
 #include "model_cleanup.h"
+#include "func_80035A64.h"
+#include "menu_record_reset.h"
 #include "../unmatched.h"
 #include "main_mode_state.h"
+
+#ifndef MAIN_RUN_CREDITS_GEOM_OFFSET_Y
+#define MAIN_RUN_CREDITS_GEOM_OFFSET_Y 0x78
+#endif
+
+#ifndef MAIN_RUN_CREDITS_GEOM_SCREEN
+#define MAIN_RUN_CREDITS_GEOM_SCREEN MODEL_DEFAULT_PROJECTION
+#endif
+
+#ifndef MAIN_RUN_CREDITS_TEXT_BOX_Y
+#define MAIN_RUN_CREDITS_TEXT_BOX_Y 0x20
+#endif
+
+#ifndef MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
+#define MAIN_RUN_CREDITS_TEXT_BOX_FLAGS 8
+#endif
+
+#ifndef MAIN_RUN_CREDITS_COMPLETION_FLAG
+#define MAIN_RUN_CREDITS_COMPLETION_FLAG 8
+#endif
 
 void Main_RunCredits(void)
 {
@@ -56,8 +78,8 @@ void Main_RunCredits(void)
     s32 state;
     s32 phase;
 
-    SetGeomOffset(0xA0, 0x78);
-    SetGeomScreen(MODEL_DEFAULT_PROJECTION);
+    SetGeomOffset(0xA0, MAIN_RUN_CREDITS_GEOM_OFFSET_Y);
+    SetGeomScreen(MAIN_RUN_CREDITS_GEOM_SCREEN);
 
     mode = D_8009B26C;
     if ((mode & 0x40) == 0) {
@@ -115,11 +137,19 @@ show_secret_number:
         number = &table[state * 2];
         D_801D5608[0].pair.lo = number[0];
         D_801D5608[0].pair.hi = number[1];
-        TextBox_CreateFlagged(0, 0x23, 0x10, 0x70, 0x120, 0x20, 8);
+        TextBox_CreateFlagged(
+            0,
+            0x23,
+            0x10,
+            0x70,
+            0x120,
+            MAIN_RUN_CREDITS_TEXT_BOX_Y,
+            MAIN_RUN_CREDITS_TEXT_BOX_FLAGS
+        );
     }
     func_80039794();
     textbox = D_800EB0F8;
-    if ((textbox->flags_34 & 8) == 0) {
+    if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
         TextBox_Destroy(textbox);
         D_8009B26E = 2;
     }
@@ -128,6 +158,10 @@ show_secret_number:
 run_credits_scene:
     if ((state & 0x80) == 0) {
         D_8009B26E = state | 0x80;
+#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
+        func_80035A64();
+        func_80039E9C();
+#endif
         D_8009B0C0 = one;
         func_800530C4();
         func_800533D8();
@@ -135,5 +169,8 @@ run_credits_scene:
         return;
     }
     Model_IsCreditsPresentationComplete();
+#ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
+    func_80039794();
+#endif
     Model_UpdateScene();
 }
