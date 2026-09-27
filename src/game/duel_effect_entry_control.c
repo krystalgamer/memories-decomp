@@ -108,11 +108,29 @@ ret_zero_a:
    stopping at the first entry with that flag clear or when the count runs
    out. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800373C8)
+#ifdef VERSION_EUROPE
+void func_800373C8(register DuelEffectChannel *a0, u8 a1, u8 a2) {
+#else
 void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
+#endif
     int v0;
     int count;
+#ifdef VERSION_EUROPE
+    u32 address;
+    int active;
+#endif
     u8 *v1;
 
+#ifdef VERSION_EUROPE
+    v0 = DUEL_EFFECT_RANGE_START(a0);
+    count = DUEL_EFFECT_RANGE_COUNT(a0);
+    address = (u32)DUEL_EFFECT_ENTRIES +
+              v0 * sizeof(DUEL_EFFECT_ENTRY_TYPE);
+    if (count == 0) {
+        return;
+    }
+    v1 = (u8 *)(address + DUEL_EFFECT_FIELD_15_OFFSET);
+#else
     v0 = DUEL_EFFECT_RANGE_START(a0);
     count = DUEL_EFFECT_RANGE_COUNT(a0);
     v1 = DUEL_EFFECT_ENTRY_BYTES(&DUEL_EFFECT_ENTRIES[v0]);
@@ -120,11 +138,20 @@ void func_800373C8(DuelEffectChannel *a0, u8 a1, u8 a2) {
         return;
     }
     v1 = v1 + DUEL_EFFECT_FIELD_15_OFFSET;
+#endif
 loop:
+#ifdef VERSION_EUROPE
+    active = DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->flags_11 &
+             DUEL_EFFECT_ENTRY_FLAG_ACTIVE;
+    if (active == 0) {
+        return;
+    }
+#else
     if ((DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->flags_11 &
          DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
         return;
     }
+#endif
     count = count - 1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_13 = a1;
     DUEL_EFFECT_ENTRY_FROM_FIELD_15(v1)->field_15 = a2;
