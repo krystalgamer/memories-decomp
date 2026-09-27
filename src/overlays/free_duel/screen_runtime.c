@@ -54,7 +54,9 @@
    `void DisplayObject_ReleaseIfPresent(void *)` declaration would make the compiler set up an
    argument retail does not. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR) || \
+    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SCROLLBAR)
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
@@ -71,7 +73,9 @@ void FreeDuel_UpdateScrollbar(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_PLACE_CURSOR)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_PLACE_CURSOR) || \
+    defined(VERSION_EUROPE_FREE_DUEL_PLACE_CURSOR)
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 {
     s32 col;
@@ -113,7 +117,9 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_SPAWN_SPARKLE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_SPAWN_SPARKLE) || \
+    defined(VERSION_EUROPE_FREE_DUEL_SPAWN_SPARKLE)
 DisplayObject *FreeDuel_SpawnSparkle(void)
 {
     DisplayObject *x;
@@ -129,7 +135,9 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_INIT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_INIT) || \
+    defined(VERSION_EUROPE_FREE_DUEL_INIT)
 void FreeDuel_Init(u8 *src)
 {
     s32 i;
@@ -298,7 +306,9 @@ done:
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_GET_SPARKLE_SLOT)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_GET_SPARKLE_SLOT) || \
+    defined(VERSION_EUROPE_FREE_DUEL_GET_SPARKLE_SLOT)
 DisplayObject **FreeDuel_GetSparkleSlot(void)
 {
     s32 i;
@@ -312,7 +322,9 @@ DisplayObject **FreeDuel_GetSparkleSlot(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SPARKLE)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SPARKLE) || \
+    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SPARKLE)
 void FreeDuel_UpdateSparkle(void)
 {
     DisplayObject *obj;
@@ -344,7 +356,9 @@ void FreeDuel_UpdateSparkle(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_CURSOR_TWEEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_CURSOR_TWEEN) || \
+    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_CURSOR_TWEEN)
 void FreeDuel_UpdateCursorTween(void)
 {
     DisplayObject *widget = gFreeDuel_pCursorWidget;
@@ -403,13 +417,24 @@ void FreeDuel_UpdateCursorTween(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCREEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCREEN) || \
+    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SCREEN)
 #ifdef VERSION_JAPAN
 #define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define FREE_DUEL_CONFIRM_BUTTONS (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#define FREE_DUEL_PANEL_COMPLETE_FLAG 8
+#define FREE_DUEL_EMPTY_DECK_DIALOG_ID 0x1028
+#elif defined(VERSION_EUROPE)
+#define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#define FREE_DUEL_CONFIRM_BUTTONS PAD_BUTTON_CONFIRM_MASK
+#define FREE_DUEL_PANEL_COMPLETE_FLAG 0x10
+#define FREE_DUEL_EMPTY_DECK_DIALOG_ID 0x1050
 #else
 #define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #define FREE_DUEL_CONFIRM_BUTTONS PAD_BUTTON_CONFIRM_MASK
+#define FREE_DUEL_PANEL_COMPLETE_FLAG 8
+#define FREE_DUEL_EMPTY_DECK_DIALOG_ID 0x1028
 #endif
 void FreeDuel_UpdateScreen(void)
 {
@@ -420,7 +445,7 @@ void FreeDuel_UpdateScreen(void)
     if ((gFreeDuel_bScreenFlags & 0x20) != 0) {
         func_80039794();
         panel = &D_800EB15C;
-        if ((panel->flags_34 & 8) == 0) {
+        if ((panel->flags_34 & FREE_DUEL_PANEL_COMPLETE_FLAG) == 0) {
             gFreeDuel_bScreenFlags &= 0xDF;
             TextBox_Destroy(panel);
             gFreeDuel_pCursorWidget->flags |=
@@ -484,7 +509,10 @@ void FreeDuel_UpdateScreen(void)
         for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
                 SD_SEPlayFull(9);
-                TextBox_CreateFlagged(1, 8, 0x30, 0x6C, 0xE0, 0x10, 0x1028);
+                TextBox_CreateFlagged(
+                    1, 8, 0x30, 0x6C, 0xE0, 0x10,
+                    FREE_DUEL_EMPTY_DECK_DIALOG_ID
+                );
                 gFreeDuel_bScreenFlags |= 0x20;
                 return;
             }
@@ -504,7 +532,9 @@ void FreeDuel_UpdateScreen(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FREE_DUEL_ENTRY)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_FREE_DUEL_ENTRY) || \
+    defined(VERSION_EUROPE_FREE_DUEL_ENTRY)
 void FreeDuel_Entry(void)
 {
     s32 phase;

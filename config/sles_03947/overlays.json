@@ -1,0 +1,18 @@
+{
+  "modules": [
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "layout": "config/sles_03947/overlays/free_duel.yaml",
+      "linker_symbols": "config/sles_03947/overlays/free_duel_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_free_duel",
+      "output": "tmp/overlays/european_free_duel/module.bin",
+      "sector_count": 5,
+      "sector_offset": 9304,
+      "sha256": "a7ed0a8347c18f293d5587de165d09b4b8e28bcf6c33723e822affc1e9773d59"
+    }
+  ],
+  "schema": 1,
+  "sector_size": 2048
+}

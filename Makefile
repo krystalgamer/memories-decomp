@@ -24,7 +24,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 
 .DEFAULT_GOAL := help
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays japanese-build-overlays japanese-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -220,6 +220,12 @@ japanese-overlays: workspace
 japanese-verify-overlays: workspace
 	@$(PYTHON) tools/project/overlay_extract.py verify --region japan
 
+european-overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py extract --region europe
+
+european-verify-overlays: workspace
+	@$(PYTHON) tools/project/overlay_extract.py verify --region europe
+
 check-metadata:
 	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
 	@$(PYTHON) tools/project/candidate_builds.py --check
@@ -260,6 +266,12 @@ japanese-build-overlays: japanese-overlays check-build-tools
 
 japanese-match-overlays: japanese-build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify --region japan
+
+european-build-overlays: european-overlays check-build-tools
+	@$(PYTHON) tools/project/overlay_build.py build --region europe
+
+european-match-overlays: european-build-overlays
+	@$(PYTHON) tools/project/overlay_build.py verify --region europe
 
 split-incremental: map check-build-tools
 	@$(PYTHON) tools/project/split_incremental.py
