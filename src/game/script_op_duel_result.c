@@ -18,6 +18,9 @@
 #include "script_op_duel_result.h"
 #include "func_8002F4C0.h"
 #include "campaign_scene_package.h"
+#ifdef VERSION_EUROPE
+#include "duel_effect_resource_setup.h"
+#endif
 
 /* The menu assets' first sector in WA.MRG. A regional build defines its own. */
 #ifndef SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR
@@ -63,6 +66,38 @@ void Script_OpDuelResult(void) {
             D_8009B2A0->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
         ScriptImage_ReleaseObjects((ScriptImageObjectSet *)D_800EAE98);
+#ifdef VERSION_EUROPE
+        /* The European banner takes D_8009C02B as its sixth argument, one
+           0x140 by 0x100 panel stands in for the US two, and the fill quad
+           is initialised in mode 1 with corners at y 0, 0x40 and 0x100. */
+        four = 4;
+        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+        DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, D_8009C02B, 0x17, four, D_801AF000);
+        DisplayObject_SetDepthOffset(o, 1);
+        o->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        D_800EAE98[0].unk00 = (s32)o;
+        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
+        DisplayObject_ConfigureScreenSprite(o, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
+        DisplayObject_SetDepthOffset(o, -1);
+        D_800EAE98[1].unk00 = (s32)o;
+        D_800EAE98[2].unk00 = 0;
+        q = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
+        DisplayObject_InitializeGouraudQuad(q, 1);
+        q->field_30.word = 0x140;
+        q->field_38.word = 0x400000;
+        q->position.word = 0;
+        q->field_40.word = 0x400140;
+        q->field_48.word = 0x1000000;
+        q->field_50.word = 0x1000140;
+        q->field_2C.word = 0xFFFFFF;
+        q->field_34.word = 0xFFFFFF;
+        q->field_4C = 0xFFFFFF;
+        q->field_54 = (void *)0xFFFFFF;
+        D_8009B280 = q;
+        q->attribute |= (GsALON | GsATWO);
+#else
         four = 4;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(o, 0, 0, 0, 0, 0, 0x17, four, D_801AF000);
@@ -90,6 +125,7 @@ void Script_OpDuelResult(void) {
         q->field_40.word = color;
         D_8009B280 = q;
         q->attribute |= (GsALON | GsATWO);
+#endif
         Fade_StartIn();
         gFade_State.step = four;
         Fade_Wait();
