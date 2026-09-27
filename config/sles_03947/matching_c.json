@@ -3866,6 +3866,12 @@
       "source": "src/game/display_object_interpolation.c"
     },
     {
+      "address": "0x80043458",
+      "profile": "gcc_2_8_1_cc_g8_as_g0_split",
+      "size": "0x27C",
+      "source": "src/game/european/main_load_boot_package_stage.c"
+    },
+    {
       "address": "0x80043878",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",

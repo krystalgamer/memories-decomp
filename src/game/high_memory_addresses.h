@@ -38,6 +38,14 @@ extern void *D_80010034 __attribute__((section(".data")));
 /* Staging base selected by duel package stage 7. */
 extern u8 *D_800101DC __attribute__((section(".data")));
 
+#ifdef VERSION_EUROPE
+/* The European boot package's last three stages load to the words here:
+   0x801B0000, 0x801C0000 and 0x801D5800, the European text banks. */
+extern u8 *D_800101E0;
+extern u8 *D_800101E4;
+extern u8 *D_800101E8;
+#endif
+
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
  * func_8004CB0C reads each as an absolute word under -G8, so like the
  * destinations above they carry .data rather than a small-data view. */

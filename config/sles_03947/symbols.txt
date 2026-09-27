@@ -302,6 +302,7 @@ DisplayObject_RenderSpotlightMask = 0x80042D38;
 DisplayObject_SavePosition = 0x800432A8; // type:func size:0x14
 DisplayObject_InterpolatePositionCosine = 0x800432BC;
 Widget_SlideSine = 0x80043360;
+Main_LoadBootPackageStage = 0x80043458;
 func_8004365C = 0x80043878;
 Main_HoldBootScreen = 0x80043AD4;
 MemCard_ClearIOEvents = 0x80044000;

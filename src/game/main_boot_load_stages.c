@@ -4,13 +4,16 @@
 #include "file_transfer.h"
 #include "display_asset_banks.h"
 #include "../unmatched.h"
+#ifdef VERSION_EUROPE
+#include "high_memory_addresses.h"
+#endif
 
 /* The two boot transfer stage callbacks. Main_RunBootSequence queues the boot
    image with Main_LoadBootImageStage (declared as func_800434F4 in
    file_transfer.h) and the boot package with Main_LoadBootPackageStage. */
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_MAIN_LOAD_BOOT_PACKAGE_STAGE)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_LOAD_BOOT_PACKAGE_STAGE)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_PACKAGE_STAGE))
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #ifdef VERSION_JAPAN
     /* The Japanese boot package is transferred in three stages rather than
@@ -56,6 +59,125 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         D_8009B0F4 &= 0xFFDCFFFF;
         obj->value_0C = (s32)D_800101D8;
         obj->value_08 = (s32)D_800101D8;
+        obj->done = 1;
+        break;
+    }
+#elif defined(VERSION_EUROPE)
+    /* The European boot package takes eight stages: three header stages
+       (0x280, 0x2C0 and 0x300 in the counter), the US image stages with the
+       image at x 0x280, and three last stages that land in the European
+       text banks. */
+    switch (stage) {
+    case 0: {
+        u32 cleared;
+        u32 loaded;
+        u32 enabled;
+
+        obj->field_30.h.counter = 0x280;
+        obj->w = 0x40;
+        obj->h = 0x10;
+        cleared = D_8009B0F4 & 0xFFDDFFFF;
+        D_8009B0F4 = cleared;
+        do { loaded = D_8009B0F4; } while (0);
+        do { enabled = 0x10000; } while (0);
+        obj->field_30.h.field_32 = 0;
+        D_8009B0F4 = loaded | enabled;
+        obj->done = 2;
+        obj->phase_size = 12 * FILE_SECTOR_SIZE;
+        obj->value_08 = D_8009B118;
+        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+    }
+
+    case 1: {
+        u32 cleared;
+        u32 loaded;
+        u32 enabled;
+
+        obj->field_30.h.counter = 0x2C0;
+        obj->w = 0x40;
+        obj->h = 0x10;
+        cleared = D_8009B0F4 & 0xFFDDFFFF;
+        D_8009B0F4 = cleared;
+        do { loaded = D_8009B0F4; } while (0);
+        do { enabled = 0x10000; } while (0);
+        obj->field_30.h.field_32 = 0;
+        D_8009B0F4 = loaded | enabled;
+        obj->done = 2;
+        obj->phase_size = 13 * FILE_SECTOR_SIZE;
+        obj->value_08 = D_8009B118;
+        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+    }
+
+    case 2: {
+        u32 cleared;
+        u32 loaded;
+        u32 enabled;
+
+        obj->field_30.h.counter = 0x300;
+        obj->w = 0x40;
+        obj->h = 0x10;
+        cleared = D_8009B0F4 & 0xFFDDFFFF;
+        D_8009B0F4 = cleared;
+        do { loaded = D_8009B0F4; } while (0);
+        do { enabled = 0x10000; } while (0);
+        obj->field_30.h.field_32 = 0;
+        D_8009B0F4 = loaded | enabled;
+        obj->done = 2;
+        obj->phase_size = 13 * FILE_SECTOR_SIZE;
+        obj->value_08 = D_8009B118;
+        obj->value_0C = D_8009B118 + FILE_SECTOR_SIZE;
+        break;
+    }
+
+    case 3:
+        obj->phase_size = 2 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = D_8009B118;
+        obj->value_08 = D_8009B118;
+        obj->done = 1;
+        break;
+
+    case 4:
+        obj->x = 0x280;
+        obj->y = 0xF8;
+        obj->w = 0x100;
+        obj->h = 8;
+        LoadImage2((RECT *)obj, (u32 *)D_8009B118);
+        obj->phase_size = FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = D_8009B118 + 2 * FILE_SECTOR_SIZE;
+        obj->value_08 = D_8009B118 + 2 * FILE_SECTOR_SIZE;
+        obj->done = 1;
+        break;
+
+    case 5:
+        obj->x = 0x280;
+        obj->y = 0xC0;
+        obj->w = 0x10;
+        obj->h = 8;
+        LoadImage2((RECT *)obj, (u32 *)(D_8009B118 + 2 * FILE_SECTOR_SIZE));
+        obj->phase_size = 30 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = (s32)D_800101E0;
+        obj->value_08 = (s32)D_800101E0;
+        obj->done = 1;
+        break;
+
+    case 6:
+        obj->phase_size = 32 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = (s32)D_800101E4;
+        obj->value_08 = (s32)D_800101E4;
+        obj->done = 1;
+        break;
+
+    case 7:
+        obj->phase_size = 7 * FILE_SECTOR_SIZE;
+        D_8009B0F4 &= 0xFFDCFFFF;
+        obj->value_0C = (s32)D_800101E8;
+        obj->value_08 = (s32)D_800101E8;
         obj->done = 1;
         break;
     }
@@ -112,8 +234,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || \
-    defined(VERSION_JAPAN_MAIN_LOAD_BOOT_IMAGE_STAGE)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_LOAD_BOOT_IMAGE_STAGE)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MAIN_LOAD_BOOT_IMAGE_STAGE))
 void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 one;
