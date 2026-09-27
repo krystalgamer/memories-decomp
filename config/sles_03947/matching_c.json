@@ -1436,6 +1436,12 @@
       "source": "src/game/european/library_runtime_8002BAB4.c"
     },
     {
+      "address": "0x8002BD4C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28C",
+      "source": "src/game/european/library_runtime_8002BD0C.c"
+    },
+    {
       "address": "0x8002BFD8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",
