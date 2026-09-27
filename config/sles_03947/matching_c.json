@@ -44,6 +44,18 @@
       "source": "src/game/european/main_services_80013154.c"
     },
     {
+      "address": "0x80013278",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x154",
+      "source": "src/game/european/main_services_80013154.c"
+    },
+    {
+      "address": "0x800133CC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/european/main_services_80013154.c"
+    },
+    {
       "address": "0x800133F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
@@ -6168,6 +6180,12 @@
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8",
       "source": "src/game/ai_script_end.c"
+    },
+    {
+      "address": "0x800713D0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x188",
+      "source": "src/game/european/ai_script_card_queries.c"
     },
     {
       "address": "0x80071558",

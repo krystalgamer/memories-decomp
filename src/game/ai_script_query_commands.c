@@ -21,6 +21,11 @@ void AiScript_CalcCardPower(void)
     mode = mem[AiScript_ReadByte()];
     dst = AiScript_ReadByte();
 
+#ifdef VERSION_EUROPE
+    /* The European build clears the result before the type test, so a
+       monster with an unknown mode stores 0 too. */
+    power = 0;
+#endif
     if (((gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) &
          CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
         switch (mode) {
@@ -39,7 +44,9 @@ void AiScript_CalcCardPower(void)
             break;
         }
     } else {
+#ifndef VERSION_EUROPE
         power = 0;
+#endif
         if (mode == 0) {
             switch (card) {
             case DUEL_DIRECT_DAMAGE_FIRST_CARD_ID:
