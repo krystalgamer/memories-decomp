@@ -2822,6 +2822,12 @@
       "source": "src/game/input_is_pad1_confirm_pressed.c"
     },
     {
+      "address": "0x8003B834",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x98",
+      "source": "src/game/european/text_lookup_string.c"
+    },
+    {
       "address": "0x8003B8CC",
       "profile": "gcc_2_8_1_g8",
       "size": "0x28",

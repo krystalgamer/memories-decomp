@@ -414,7 +414,7 @@ segments:
       - [0x02BF58, asm, generated/text_02bf58]
       - [0x02C004, c, game/duel_effect_init_entry_default_flags]
       - [0x02C024, c, game/input_is_pad1_confirm_pressed]
-      - [0x02C034, asm, generated/text_02c034]
+      - [0x02C034, c, game/european/text_lookup_string]
       - [0x02C0CC, c, game/text_stream_read_byte]
       - [0x02C0F4, c, game/european/free_duel_load_package_stage]
       - [0x02C2B4, c, game/european/main_init_free_duel_menu]

@@ -1587,6 +1587,7 @@ TextBox_DestroyIndex = 0x80035F5C;
 Dialog_OpenChoice = 0x8003728C; // type:func
 func_80039794 = 0x80039570; // type:func
 Input_IsPad1ConfirmPressed = 0x8003B824; // type:func size:0x10
+Text_LookupString = 0x8003B834;
 Script_OpHalt = 0x8002E48C; // type:func size:0x20
 DebugMenu_DimPrimaryDisplayObject = 0x800300F8; // type:func size:0x1C
 DebugMenu_RestorePrimaryDisplayObject = 0x80030114; // type:func size:0x1C
