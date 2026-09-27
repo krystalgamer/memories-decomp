@@ -2210,6 +2210,12 @@
       "source": "src/game/european/text_control_flag_push.c"
     },
     {
+      "address": "0x80038C10",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/european/text_control_new_line.c"
+    },
+    {
       "address": "0x80038C84",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",

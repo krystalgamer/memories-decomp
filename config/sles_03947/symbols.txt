@@ -854,6 +854,7 @@ Text_SetCursorOffset = 0x800389A8;
 Text_StartPageWait = 0x80038B08;
 Text_HandleCampaignFlagCommand = 0x80038B20;
 Text_PushStreamOffset = 0x80038BAC;
+Text_NewLine = 0x80038C10;
 Text_EndStream = 0x80038C84;
 Text_HandleDisplayEffectCommand = 0x80038CB8;
 func_80019CC8 = 0x80019C54;
