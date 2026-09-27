@@ -218,7 +218,7 @@ global_address,global_name,observed_names,function_address,function_name,functio
 0x8009AF30,gDuel_abLifePointRecoveryUnits,gDuel_abLifePointRecoveryUnits,0x800250C8,DuelEffect_ApplyLifePointRecovery,matching_c,game,C,src/game/duel_card_effects.c,address,8,u8 *p = &gDuel_abLifePointRecoveryUnits[s1];
 0x8009AF38,gDuel_abDirectDamageUnits,gDuel_abDirectDamageUnits,0x8002525C,DuelEffect_ApplyDirectDamage,matching_c,game,C,src/game/duel_card_effects.c,read,8,gDuel_abDirectDamageUnits[unit] *
 0x8009AF40,D_8009AF40,D_8009AF40,0x80026A3C,DuelEffect_ApplyHarpiesFeatherDuster,matching_c,game,C,src/game/duel_magic_effect_dispatch.c,address,8,"printf(D_8009AF40, (short)object->field_04);"
-0x8009AF44,D_8009AF44,D_8009AF44,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,16,"D_8009AF44 = gDebug_nSceneOrSoundID; | TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, 0x30); | (+1 more)"
+0x8009AF44,D_8009AF44,D_8009AF44,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,16,"D_8009AF44 = gDebug_nSceneOrSoundID; | TextBox_Create(0, D_8009AF44, 0x10, 0xB0, 0x120, | (+1 more)"
 0x8009AF46,D_8009AF46,D_8009AF46,0x80030998,DebugMenu_UpdateCampaignEntry,matching_c,game,C,src/game/debug_menu_editor_entries.c,read_write,16,D_8009AF46 = selection; | selection = D_8009AF46;
 0x8009AF4C,D_8009AF4C,D_8009AF4C,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,read,16,*(Bytes8 *)d = *(Bytes8 *)D_8009AF4C;
 0x8009AF54,D_8009AF54,D_8009AF54,0x80030294,func_80030294,matching_c,game,C,src/game/func_80030294.c,address,8,FntPrint(D_8009AF54);
