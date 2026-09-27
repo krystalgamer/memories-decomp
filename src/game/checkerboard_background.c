@@ -7,7 +7,14 @@
 #define CHECKERBOARD_CELL_WIDTH 0x40
 #define CHECKERBOARD_CELL_HEIGHT 0x20
 #define CHECKERBOARD_SCREEN_WIDTH 0x140
+/* Regional values: the European build (src/game/european/) defines its own. */
+#ifndef CHECKERBOARD_SCREEN_HEIGHT
 #define CHECKERBOARD_SCREEN_HEIGHT 0xF0
+#endif
+/* GsSPRITE cx: the CLUT x of the first cell colour; the second is 0x10 on. */
+#ifndef CHECKERBOARD_CLUT_X
+#define CHECKERBOARD_CLUT_X 0x2C0
+#endif
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 
 void func_8003D32C(void)
@@ -31,7 +38,7 @@ void Checkerboard_DrawBackground(
     sprite->field_00 = field_04;
     field_0C = state->field_0C;
     sprite->field_0C = 0xB;
-    sprite->field_10 = 0x2C0;
+    sprite->field_10 = CHECKERBOARD_CLUT_X;
     sprite->field_12 = 0xFC;
     mode = state->field_14;
     sprite->field_0E.word = 0x3030;
@@ -44,7 +51,7 @@ void Checkerboard_DrawBackground(
         sprite->field_04 = flip << 5;
         sprite->field_0E.bytes.field_0E = 0x30;
         sprite->field_06 = y;
-        sprite->field_10 = 0x2C0;
+        sprite->field_10 = CHECKERBOARD_CLUT_X;
         do {
             GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
@@ -56,7 +63,7 @@ void Checkerboard_DrawBackground(
         x = 0;
         sprite->field_04 = (flip ^ 1) << 5;
         sprite->field_0E.bytes.field_0E = 0x50;
-        sprite->field_10 = 0x2D0;
+        sprite->field_10 = CHECKERBOARD_CLUT_X + 0x10;
         do {
             GsSortFastSprite(GS_SPRITE_VIEW(sprite), ordering_table,
                              mode & 0xFFFF);
