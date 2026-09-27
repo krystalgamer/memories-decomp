@@ -255,6 +255,7 @@ func_8003AD6C = 0x8003AEFC;
 func_8003B054 = 0x8003B1E4;
 DisplayEffect_UpdateMenuRecord = 0x8003B508;
 DisplayEffect_ProcessMenuRecords = 0x8003B69C;
+Text_InitDecimalDigitGlyphMap = 0x8003B790;
 Text_SjisToGlyphCodes = 0x8003BD3C; // type:func size:0xD4
 SaveData_NextMaskWord = 0x8003CE40; // type:func size:0x44
 SaveData_CalcCrc16 = 0x8003CE84; // type:func size:0x5C
