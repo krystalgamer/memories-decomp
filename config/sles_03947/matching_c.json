@@ -4994,6 +4994,24 @@
       "source": "src/game/model_build_camera_relative_coordinate_unit.c"
     },
     {
+      "address": "0x8005D894",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xCC",
+      "source": "src/game/european/model_slot_properties.c"
+    },
+    {
+      "address": "0x8005D960",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x24",
+      "source": "src/game/european/model_slot_properties.c"
+    },
+    {
+      "address": "0x8005D984",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x60",
+      "source": "src/game/european/model_slot_properties.c"
+    },
+    {
       "address": "0x8005D9E4",
       "profile": "gcc_2_8_1_g0",
       "size": "0x70",
