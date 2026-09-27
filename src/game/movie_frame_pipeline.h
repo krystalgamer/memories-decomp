@@ -89,9 +89,14 @@ extern s32 D_800F5D44 __attribute__((section(".data")));
  * rects that follow are the frame the display is centred on
  * ((screen - w) / 2 on both axes) and the strip the MDEC is filling
  * (w * h / 2 words to DecDCTout). Nothing before 0x2400 is reached
- * through this type, so the head stays an opaque block. */
+ * through this type, so the head stays an opaque block. The European
+ * build keeps its tail 0xC00 further in; its wrappers define the head's
+ * size. */
+#ifndef MOVIE_WORK_AREA_HEAD_SIZE
+#define MOVIE_WORK_AREA_HEAD_SIZE 0x2400
+#endif
 typedef struct {
-    u8 head[0x2400];
+    u8 head[MOVIE_WORK_AREA_HEAD_SIZE];
     RECT slots[4];
     RECT frame;
     RECT strip;
