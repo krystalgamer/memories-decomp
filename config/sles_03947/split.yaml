@@ -484,7 +484,7 @@ segments:
       - [0x033AA8, c, game/display_object_save_position]
       - [0x033ABC, c, game/display_object_interpolation]
       - [0x033C58, c, game/european/main_load_boot_package_stage]
-      - [0x033ED4, asm, generated/text_033ed4]
+      - [0x033ED4, c, game/european/main_load_boot_image_stage]
       - [0x034078, c, game/european/display_object_transition]
       - [0x03437C, asm, generated/text_03437c]
       - [0x034800, c, game/european/mem_card_driver]

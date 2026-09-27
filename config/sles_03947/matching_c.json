@@ -3872,6 +3872,12 @@
       "source": "src/game/european/main_load_boot_package_stage.c"
     },
     {
+      "address": "0x800436D4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1A4",
+      "source": "src/game/european/main_load_boot_image_stage.c"
+    },
+    {
       "address": "0x80043878",
       "profile": "gcc_2_8_1_g0",
       "size": "0x25C",
