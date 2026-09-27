@@ -1494,6 +1494,7 @@ ScriptImage_RebuildObjects = 0x8002E1D4;
 DuelEffect_MarkObjectIfActive = 0x8002E420;
 ScriptCommand_MarkStarted = 0x8002E464;
 File_RequestPasswordPackage = 0x8003BFB8;
+CampaignMap_LoadPackageStage = 0x8003C000;
 File_RequestEgyptOverworldPackage = 0x8003C1C4;
 File_RequestGameOverPackage = 0x8003C8E0;
 GameOver_Init = 0x8003C944;
