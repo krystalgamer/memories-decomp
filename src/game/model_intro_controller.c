@@ -49,10 +49,6 @@
 #include "sound_pending_entries.h"
 #include "../unmatched.h"
 
-#ifndef MODEL_INTRO_PACKAGE_START_SECTOR
-#define MODEL_INTRO_PACKAGE_START_SECTOR 1223
-#endif
-
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8004EB00)
 void func_8004EB00(void)
 {
@@ -947,6 +943,10 @@ void func_80050584(s32 arg0) {
 #define ACTIVE_SLOT D_8009AFA4[3]
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 #define MODEL_SLOT_BYTES(slot) ((u8 *)(slot))
+
+#ifndef MODEL_INTRO_PACKAGE_START_SECTOR
+#define MODEL_INTRO_PACKAGE_START_SECTOR 1223
+#endif
 
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800507D0)
 void func_800507D0(void)
