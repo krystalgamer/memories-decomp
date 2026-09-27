@@ -97,7 +97,7 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row);
  * notes/duel-card-record.md records them. */
 void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector);
 
-#ifdef VERSION_JAPAN_DUEL_COLLECT_MATCHING_FIELD_CARD_OBJECTS
+#ifdef VERSION_JAPAN
 /* Japanese debug print uses this format already stored in the image. */
 extern char D_8009AE84[];
 #endif

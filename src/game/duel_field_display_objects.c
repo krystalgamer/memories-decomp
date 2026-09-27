@@ -30,7 +30,6 @@
 #include "view_state.h"
 #include "../unmatched.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_GUARDIAN_STAR_ORDER)
 s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
 {
     u8 *grid = D_800907D8;
@@ -69,9 +68,7 @@ s32 func_80023090(DuelFieldCursor *cursor_a, DuelFieldCursor *cursor_b)
     }
     return 6;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_SOURCE_OBJECTS)
 void func_80023144(DuelFieldDisplaySource *source, s32 index)
 {
     DuelCardRecord *record = &D_801A7AD8[index];
@@ -177,9 +174,7 @@ void func_80023144(DuelFieldDisplaySource *source, s32 index)
     box->field_59 = *(u8 *)&source->field_00->field_16 + 1;
     func_80039A14((struct DuelEffectChannel *)box);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_SOURCE)
 void func_8002348C(DuelFieldDisplaySource *source)
 {
     u8 *table = D_800907D8;
@@ -189,9 +184,7 @@ void func_8002348C(DuelFieldDisplaySource *source)
 
     func_80023144(source, table[index]);
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_OBJECT)
 void func_800234E4(DuelFieldDisplaySource *source)
 {
     s32 index;
@@ -224,9 +217,7 @@ void func_800234E4(DuelFieldDisplaySource *source)
     object->update = (DisplayObjectCallback)func_80015D18;
     source->object = object;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_FIELD_DISPLAY_UPDATE)
 #ifndef DUEL_FIELD_DISPLAY_CHANNEL_TYPE
 #define DUEL_FIELD_DISPLAY_CHANNEL_TYPE DuelEffectChannel
 #endif
@@ -445,4 +436,3 @@ s32 func_800235C0(void)
     }
     return result;
 }
-#endif

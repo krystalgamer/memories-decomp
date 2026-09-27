@@ -6,7 +6,6 @@
 #define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \
     ((DuelCardRecord *)((u8 *)(records) + (offset)))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_COLLECT_FIELD_ROW_CARD_OBJECTS)
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
     s32 base =
@@ -29,9 +28,6 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
     }
     *output = 0;
 }
-#endif
-
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_COLLECT_MATCHING_FIELD_CARD_OBJECTS)
 
 void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
 {
@@ -80,4 +76,3 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
     }
     *output = 0;
 }
-#endif
