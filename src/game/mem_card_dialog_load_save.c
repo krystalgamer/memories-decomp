@@ -211,14 +211,19 @@ void MemCardDialog_StepLoadUnprompted(void)
     }
     MemCardDialog_UpdateLoad();
 }
+#endif
 
-#ifdef VERSION_JAPAN
-/* The Japanese save dialog. Against the US one below: with
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MEM_CARD_DIALOG_UPDATE_SAVE)
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+/* The Japanese save dialog and European derivative. Against the US one below: with
    gMemCard_wDialogFlags & 0x100 set, six states show a different message and
    state 1 goes to state 2 instead of reading the directory; state 2 polls
    three calls the US build does not have, retrying three times; state 4's
    choice is the other way round; state 5 formats without accepting the card
-   again; and state 7 skips the read-back when the flag is set. */
+   again; and state 7 skips the read-back when the flag is set. Europe keeps
+   the message, state 2 and read-back differences, but restores the port
+   marker, state 4 choice direction and state 5 flow used by the US build. */
 void MemCardDialog_UpdateSave(void)
 {
     long cmds;
@@ -251,6 +256,9 @@ void MemCardDialog_UpdateSave(void)
     case 1:
         if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             tent_MemCardDialogStepState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
+#ifdef VERSION_EUROPE
+            D_801D5648[0] = (tent_MemCardPort >> 4) + 1;
+#endif
             message = 0xD4;
             if (gMemCard_wDialogFlags & 0x100) {
                 message = 0xBA;
@@ -357,7 +365,11 @@ void MemCardDialog_UpdateSave(void)
             MemCardDialog_SetMessage(0xDF, 0x20);
             break;
         }
+#ifdef VERSION_EUROPE
+        if (gDialog_bChoice == 0) {
+#else
         if (gDialog_bChoice != 0) {
+#endif
             tent_MemCardDialogStepState = 0xC;
             break;
         }
@@ -365,6 +377,43 @@ void MemCardDialog_UpdateSave(void)
         MemCardDialog_SetMessage(0xBE, 0);
         break;
     case 5:
+#ifdef VERSION_EUROPE
+        if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
+            tent_MemCardDialogStepState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
+            do {
+            } while (MemCardAccept(0) == 0);
+            goto io_pending;
+        }
+        if (D_8009B3F0 != 2) {
+            break;
+        }
+        switch (D_8009B3F4) {
+        case 0:
+            MemCardDialog_SetMessage(0xC3, 0x18);
+            break;
+        case 3:
+            MemCardDialog_SetMessage(0xC3, 0x18);
+            break;
+        case 2:
+            tent_MemCardDialogStepState = 0xD;
+            break;
+        case 4:
+            if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
+                tent_MemCardDialogStepState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
+                if (MemCardFormat(0) != 0) {
+                    MemCardDialog_SetMessage(0xDD, 0x18);
+                    break;
+                }
+                MemCardDialog_SetMessage(0xBF, 0x10);
+                break;
+            }
+            tent_MemCardDialogStepState = 1;
+            break;
+        case 1:
+            tent_MemCardDialogStepState = 9;
+            break;
+        }
+#else
         if ((tent_MemCardDialogStepState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             tent_MemCardDialogStepState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
             break;
@@ -379,6 +428,7 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         tent_MemCardDialogStepState = 1;
+#endif
         break;
     case 6:
     create:
@@ -804,7 +854,9 @@ void MemCardDialog_UpdateSave(void)
     }
 }
 #endif
+#endif
 
+#if !defined(VERSION_EUROPE)
 void MemCardDialog_StepSave(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
