@@ -130,6 +130,7 @@ Duel_InitSelectionRecords = 0x800176A8; // type:func size:0x84
 Duel_ResetCardRecords = 0x8001772C; // type:func size:0x38
 func_800177C4 = 0x80017764;
 func_800178BC = 0x8001785C;
+Duel_LoadTerrainPackage = 0x8001792C;
 Duel_InitScene = 0x80017988;
 func_80017DB4 = 0x80017D40;
 func_80017E3C = 0x80017DC8;

@@ -142,7 +142,7 @@ segments:
       - [0x007D40, c, game/duel_state_init]
       - [0x007F64, c, game/func_800177C4]
       - [0x00805C, c, game/func_800178BC]
-      - [0x00812C, asm, generated/text_00812c]
+      - [0x00812C, c, game/european/duel_load_terrain_package]
       - [0x008188, c, game/european/duel_init_scene]
       - [0x008540, c, game/european/duel_card_display_state]
       - [0x008790, c, game/func_80018004]
