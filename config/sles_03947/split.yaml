@@ -282,6 +282,7 @@ segments:
       - [0x023648, c, game/func_80032B38]
       - [0x023670, c, game/build_deck_compare_card]
       - [0x0236E4, asm, generated/text_0236e4]
+      - [0x023BCC, c, game/european/build_deck_card_list_input]
       - [0x024014, c, game/build_deck_active_card]
       - [0x024050, c, game/european/build_deck_pane_input]
       - [0x0244AC, c, game/build_deck_deck_capacity]
