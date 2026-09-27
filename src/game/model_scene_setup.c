@@ -39,7 +39,8 @@
    follows them, func_800528AC, closes this file; the camera-move setup and
    the scene reset/configuration after it are in func_80052D2C.c. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052528)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052528)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80052528))
 void func_80052528(void) {
     GsRVIEW2 *view;
     s32 x;
@@ -91,7 +92,8 @@ void func_80052528(void) {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052694)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80052694)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80052694))
 void func_80052694(s32 arg0) {
     ModelCameraMove *e;
     ModelCameraMove *g;
@@ -200,7 +202,8 @@ last:
  * srl and andi ahead of it where the scheduler would otherwise sink them to
  * the end of the block. The saved field_BF5 is one name, `keep`, across both
  * loops. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TINT_PASS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TINT_PASS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_TINT_PASS))
 void func_800528AC(void)
 {
     ModelTintColor save;
