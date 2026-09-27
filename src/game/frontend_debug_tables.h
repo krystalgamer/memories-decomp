@@ -40,6 +40,10 @@ extern u8 D_80090CF4[0x18];
 extern u8 D_80090D0C[0x1C];
 extern u8 D_80090D28[0x1C];
 extern u8 D_80090D44[0x24];
+#ifdef VERSION_EUROPE
+/* The field table of the European-only language entry (func_80030808). */
+extern u8 D_80091CB8[0x1C];
+#endif
 extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
 
 /* DebugMenu_EnterMappedMode reads it as the index into gDebugMenu_abMainModeByEntry (`s32 i =
