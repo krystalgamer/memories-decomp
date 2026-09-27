@@ -4772,6 +4772,12 @@
       "source": "src/game/european/model_debug_controller.c"
     },
     {
+      "address": "0x800585D8",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x1644",
+      "source": "src/game/european/func_800540b4.c"
+    },
+    {
       "address": "0x80059C1C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
