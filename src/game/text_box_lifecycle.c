@@ -5,6 +5,7 @@
 #include "display_object_core.h"
 #include "text_box_set_rect.h"
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_DESTROY)
 void TextBox_Destroy(DuelEffectChannel *record)
 {
     DuelEffect_ClearOccupancyValue(record->index_57);
@@ -17,7 +18,9 @@ void TextBox_Destroy(DuelEffectChannel *record)
     record->field_2C = 0;
     record->field_28 = 0;
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_CREATE)
 void *TextBox_Create(
     s32 index,
     s32 string_id,
@@ -30,7 +33,9 @@ void *TextBox_Create(
     TextBox_SetRect(index, x, y, width, height);
     return (u8 *)DuelEffect_InitEntry(index, string_id, 0);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_TEXT_BOX_CREATE_FLAGGED)
 void *TextBox_CreateFlagged(
     s32 index,
     s32 string_id,
@@ -48,3 +53,4 @@ void *TextBox_CreateFlagged(
     result->flags_34 |= flags;
     return result;
 }
+#endif

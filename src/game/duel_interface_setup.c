@@ -13,7 +13,8 @@
 
 #define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_INIT)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_INIT)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_INIT))
 void DebugMenu_Init(void)
 {
     DuelEffectChannel *text_box;
@@ -45,7 +46,8 @@ void DebugMenu_Init(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80030250)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80030250)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80030250))
 void func_80030250(
     u8 *data,
     s32 field_B4,
