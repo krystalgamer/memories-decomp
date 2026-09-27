@@ -21,6 +21,12 @@
 #include "duel_scene_card_use.h"
 #include "display_object_work_slots.h"
 
+/* Regional value: the object's y (0x16 -> 0xE). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DUEL_CARD_USE_OBJECT_Y
+#define DUEL_CARD_USE_OBJECT_Y 0x16
+#endif
+
 /* The COMMON definition preserves the GP-relative store and its load delay.
    The linker resolves it to the existing global without allocating storage. */
 u16 D_8009B150;
@@ -70,7 +76,7 @@ void DuelScene_UpdateCardUse(void)
             p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
             p = (DisplayObject *)func_800291E0(0, -1, -1);
             p->field_30.h.field_30 = 0x5A;
-            p->field_30.h.field_32 = 0x16;
+            p->field_30.h.field_32 = DUEL_CARD_USE_OBJECT_Y;
             p->field_20.b.field_21 = 0xC0;
             DisplayObject_SetDepthOffset(p, -0xA);
             p->flags =

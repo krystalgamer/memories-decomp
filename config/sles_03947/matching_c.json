@@ -272,6 +272,24 @@
       "source": "src/game/duel_card_object_helpers.c"
     },
     {
+      "address": "0x800181E8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3AC",
+      "source": "src/game/european/duel_phase_entry.c"
+    },
+    {
+      "address": "0x80018594",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x384",
+      "source": "src/game/european/duel_phase_entry.c"
+    },
+    {
+      "address": "0x80018918",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2A8",
+      "source": "src/game/european/duel_phase_entry.c"
+    },
+    {
       "address": "0x80018BC0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xC4",
@@ -294,6 +312,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xA4",
       "source": "src/game/european/duel_create_card_effect_overlay.c"
+    },
+    {
+      "address": "0x80019594",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x400",
+      "source": "src/game/european/func_80019608.c"
     },
     {
       "address": "0x80019994",
@@ -330,6 +354,12 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x50",
       "source": "src/game/func_80019CC8.c"
+    },
+    {
+      "address": "0x80019CA4",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x13B4",
+      "source": "src/game/european/duel_scene_card_placement.c"
     },
     {
       "address": "0x8001B058",
@@ -1566,6 +1596,24 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
       "source": "src/game/display_effect_has_resource_entry.c"
+    },
+    {
+      "address": "0x8003A37C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x254",
+      "source": "src/game/european/display_effect_resource_setup.c"
+    },
+    {
+      "address": "0x8003A5D0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x120",
+      "source": "src/game/european/display_effect_resource_setup.c"
+    },
+    {
+      "address": "0x8003A6F0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C0",
+      "source": "src/game/european/display_effect_resource_setup.c"
     },
     {
       "address": "0x8003AAB0",
@@ -2886,6 +2934,12 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2EC",
       "source": "src/game/func_800556E8.c"
+    },
+    {
+      "address": "0x8005AA38",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x324",
+      "source": "src/game/european/model_load_monster_merge.c"
     },
     {
       "address": "0x8005C034",
