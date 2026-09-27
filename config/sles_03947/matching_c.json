@@ -2054,6 +2054,18 @@
       "source": "src/game/debug_menu_leave_entries.c"
     },
     {
+      "address": "0x80031118",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x78",
+      "source": "src/game/european/debug_menu_two_player_entry.c"
+    },
+    {
+      "address": "0x80031190",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xC",
+      "source": "src/game/european/debug_menu_two_player_entry.c"
+    },
+    {
       "address": "0x8003119C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2AC",
