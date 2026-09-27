@@ -21,6 +21,29 @@
 #include "dialog_choice.h"
 #include "../unmatched.h"
 
+/* Regional values: the confirmation boxes' y and flags (wide 0x78, 0x1028 ->
+ * 0x84, 0x1050; narrow 0x60, 0x20 -> 0x6C, 0x40), the fade level (0xA0 ->
+ * 0xC0) and the completion mask (0x2008 -> 0x2010). The European build
+ * (src/game/european/) defines its own. */
+#ifndef BUILD_DECK_WIDE_BOX_Y
+#define BUILD_DECK_WIDE_BOX_Y 0x78
+#endif
+#ifndef BUILD_DECK_WIDE_BOX_FLAGS
+#define BUILD_DECK_WIDE_BOX_FLAGS 0x1028
+#endif
+#ifndef BUILD_DECK_NARROW_BOX_Y
+#define BUILD_DECK_NARROW_BOX_Y 0x60
+#endif
+#ifndef BUILD_DECK_NARROW_BOX_FLAGS
+#define BUILD_DECK_NARROW_BOX_FLAGS 0x20
+#endif
+#ifndef BUILD_DECK_CONFIRM_FADE_LEVEL
+#define BUILD_DECK_CONFIRM_FADE_LEVEL 0xA0
+#endif
+#ifndef BUILD_DECK_CONFIRM_COMPLETION_MASK
+#define BUILD_DECK_CONFIRM_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
+#endif
+
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 
 /* Handles leaving the deck editor. When the editor's own check passes, the
@@ -59,16 +82,16 @@ void func_800339D0(BuildDeckTransitionState *record)
             workspace->state |= 0x4000;
             if (mode) {
                 ((DuelEffectChannel *)TextBox_CreateFlagged(
-                    0, 8, 0x28, 0x78, 0xF0, 0x10, 0x1028
+                    0, 8, 0x28, BUILD_DECK_WIDE_BOX_Y, 0xF0, 0x10, BUILD_DECK_WIDE_BOX_FLAGS
                 ))->field_59 = 0xA;
             } else {
-                box = TextBox_CreateFlagged(0, 9, 0x30, 0x60, 0xE0, 0x30, 0x20);
+                box = TextBox_CreateFlagged(0, 9, 0x30, BUILD_DECK_NARROW_BOX_Y, 0xE0, 0x30, BUILD_DECK_NARROW_BOX_FLAGS);
                 box->field_59 = 0xA;
                 do {
                     func_80039794();
                 } while (box->field_30 == 0);
             }
-            Fade_SetTargetLevel(0xA0, 2);
+            Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
             D_8009B140 = *(u8 *)&D_8009AF74[1] - 8;
         }
     }
@@ -80,7 +103,7 @@ void func_800339D0(BuildDeckTransitionState *record)
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
         box = D_800EB0F8;
-        if ((*(u32 *)&box->flags_34 & TEXT_BOX_COMPLETION_MASK) ==
+        if ((*(u32 *)&box->flags_34 & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);
             if (!(D_8009B2F8 & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
