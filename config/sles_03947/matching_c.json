@@ -5648,6 +5648,12 @@
       "source": "src/game/model_interpolate_transform.c"
     },
     {
+      "address": "0x80060238",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1F0",
+      "source": "src/game/european/model_process_type2_unit.c"
+    },
+    {
       "address": "0x80069144",
       "profile": "gcc_2_8_1_g8",
       "size": "0x214",
