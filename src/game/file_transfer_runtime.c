@@ -7,7 +7,6 @@
 #include "file_transfer.h"
 #include "file_ready_sector.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_PRIMARY_TRANSFER)
 FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
 {
     if (((D_8009B0F4 & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
@@ -20,9 +19,7 @@ FileTransferDescriptor *File_TryStartPrimaryTransfer(s32 index, s32 offset)
     }
     return 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_SECONDARY_RANGE_TRANSFER)
 FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     s32 a,
     s32 b,
@@ -50,9 +47,7 @@ FileTransferDescriptor *File_RequestSecondaryRangeTransfer(
     D_8009B0F4 |= FILE_TRANSFER_STATE_SECONDARY_PENDING;
     return p;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_TRANSFER_CALLBACKS)
 void File_TransferReadyCallback(s32 arg)
 {
     s32 event;
@@ -249,9 +244,7 @@ void func_800141A8(u8 event)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FILE_COMMAND_CALLBACK)
 void func_80014220(s32 event)
 {
     event &= 0xFF;
@@ -263,4 +256,3 @@ void func_80014220(s32 event)
         D_8009B0F4 &= ~FILE_TRANSFER_STATE_COMMAND_BUSY;
     }
 }
-#endif

@@ -131,43 +131,43 @@
       "address": "0x800139F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/japanese/file_primary_transfer.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80013A54",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC0",
-      "source": "src/game/japanese/file_secondary_range_transfer.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80013B14",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x478",
-      "source": "src/game/japanese/file_transfer_callbacks.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80013F8C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/japanese/file_transfer_callbacks.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80014020",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/japanese/file_transfer_callbacks.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80014094",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/japanese/file_transfer_callbacks.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x8001410C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/japanese/file_command_callback.c"
+      "source": "src/game/japanese/file_transfer_runtime.c"
     },
     {
       "address": "0x80014180",
