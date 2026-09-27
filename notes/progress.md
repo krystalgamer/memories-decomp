@@ -1,14 +1,15 @@
 # Decompilation Progress
 
 The root [`README.md`](../README.md) contains the current high-level matching
-totals for both supported regional executables. Its marked progress section is
-generated from tracked target metadata rather than maintained by hand.
+totals for all three supported regional executables. Its marked progress
+section is generated from tracked target metadata rather than maintained by
+hand.
 
 There are two reporting families, not just the README table:
 
 | Generator | Outputs | Contents |
 |---|---|---|
-| `make progress` | Marked section of `README.md`; ignored `tmp/reports/progress.json` | North American inventory/overlay metrics plus Japanese exact-C and resident-text metrics |
+| `make progress` | Marked section of `README.md`; ignored `tmp/reports/progress.json` | North American inventory/overlay metrics plus Japanese and European exact-C and resident-text metrics |
 | `make global-usage` | `notes/global-usage.csv` | Global names, function identity/status, evidence paths, access widths, and source contexts |
 
 For a scheduled report refresh, synchronize with master and run both generators
@@ -52,6 +53,15 @@ Japanese denominators come from Japanese boundaries, not North American
 byte totals. The target SHA-256 for each region comes from its tracked image
 map. See [function-inventories.md](function-inventories.md) for the reusable
 version-neutral inventory scaffold and refresh procedure.
+
+The European target has its own
+[`functions.csv`](../config/sles_03947/functions.csv). Its generated report
+verifies matching-C ranges against the European manifest, unmatched functions
+against the generated resident split, and ownership against
+[`function_regions.json`](../config/sles_03947/function_regions.json).
+European denominators likewise come from European function boundaries rather
+than North American byte totals. Runtime-overlay inventories are not yet
+tracked for this region.
 
 ## Unchanged matching counts do not imply fresh reports
 
