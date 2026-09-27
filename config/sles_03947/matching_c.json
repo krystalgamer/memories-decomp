@@ -896,6 +896,18 @@
       "source": "src/game/func_8002ABB4.c"
     },
     {
+      "address": "0x8002BAF4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x258",
+      "source": "src/game/european/library_runtime_8002BAB4.c"
+    },
+    {
+      "address": "0x8002BFD8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x90",
+      "source": "src/game/european/library_mark_owned_cards.c"
+    },
+    {
       "address": "0x8002C490",
       "profile": "gcc_2_8_1_g0",
       "size": "0x84",
