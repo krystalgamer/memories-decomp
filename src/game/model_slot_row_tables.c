@@ -23,6 +23,7 @@
    for an unknown kind. Every selector arm is written out in both switches,
    the two pairs with equal strides included, and carries its own final
    compare; cross-jumping folds them into retail's shared tails. */
+#if !defined(VERSION_EUROPE)
 s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
 {
     u8 *hdr;
@@ -261,6 +262,7 @@ s32 func_8004D134(s32 mode, u16 *kind, u8 *ctx, s32 *best, s32 *total)
     }
     return count;
 }
+#endif
 
 void func_8004D58C(s32 arg0, u8 *arg1)
 {

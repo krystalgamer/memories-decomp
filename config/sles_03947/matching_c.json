@@ -1406,6 +1406,24 @@
       "source": "src/game/func_800611D0.c"
     },
     {
+      "address": "0x80051A9C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1D0",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
+      "address": "0x80051C6C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1B8",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
+      "address": "0x80051E24",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x200",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
       "address": "0x80052CC0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
@@ -1494,6 +1512,24 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x124",
       "source": "src/game/model_build_camera_relative_coordinate_unit.c"
+    },
+    {
+      "address": "0x8005D9E4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x70",
+      "source": "src/game/european/model_slot_properties.c"
+    },
+    {
+      "address": "0x8005DA54",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x38",
+      "source": "src/game/european/model_slot_properties.c"
+    },
+    {
+      "address": "0x8005DA8C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xD4",
+      "source": "src/game/european/model_slot_properties.c"
     },
     {
       "address": "0x8005DB60",

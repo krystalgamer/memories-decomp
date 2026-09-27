@@ -15,6 +15,7 @@
    scratch is the flag pair. GsGetLwUnit and GsSetLsMatrix likewise agree that
    the 32-byte local is a MATRIX. No caller survives in C, so nothing outside
    this file had to change. */
+#if !defined(VERSION_EUROPE)
 s32 func_800593D0(s32 arg0, s32 arg1, s32 arg2, VECTOR *out)
 {
     MATRIX sp10;
@@ -62,6 +63,7 @@ void func_800594C0(s32 index, ModelSlotS32Quad *source)
         entry->field_DB0.field_00 = MODEL_FIXED_ONE;
     }
 }
+#endif
 
 u8 *func_80059520(s32 index)
 {
