@@ -308,6 +308,12 @@
       "source": "src/game/european/duel_draw_resolution.c"
     },
     {
+      "address": "0x800193D8",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x118",
+      "source": "src/game/european/func_8001944C.c"
+    },
+    {
       "address": "0x800194F0",
       "profile": "gcc_2_8_1_g8",
       "size": "0xA4",
@@ -1236,6 +1242,18 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
       "source": "src/game/build_deck_deck_capacity.c"
+    },
+    {
+      "address": "0x80033CE4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x218",
+      "source": "src/game/european/func_800339D0.c"
+    },
+    {
+      "address": "0x80033EFC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xA8",
+      "source": "src/game/european/func_800339D0.c"
     },
     {
       "address": "0x80033FA4",
