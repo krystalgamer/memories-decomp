@@ -5,6 +5,12 @@
 #include "../unmatched.h"
 #include "func_8003A01C.h"
 
+/* Regional value: the load descriptor's x (0x200 -> 0x280). The European
+ * build (src/game/european/) defines its own. */
+#ifndef DISPLAY_EFFECT_RESOURCE_LOAD_X
+#define DISPLAY_EFFECT_RESOURCE_LOAD_X 0x200
+#endif
+
 #define FILE_TRANSFER_PHASE_SIZE_WORD(descriptor) \
     (*(s32 *)&(descriptor)->phase_size)
 
@@ -56,7 +62,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 2:
-        p->x = 0x200;
+        p->x = DISPLAY_EFFECT_RESOURCE_LOAD_X;
         k = p->position;
         p->h = 2;
         c = D_8009B118;

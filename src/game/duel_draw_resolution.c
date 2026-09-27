@@ -19,6 +19,12 @@
 #include "duel_update_draw_card_slide.h"
 #include "display_object_helpers.h"
 
+/* Regional value: the y func_80018004 places the drawn card at (0x92 ->
+ * 0xA2). The European build (src/game/european/) defines its own. */
+#ifndef DUEL_DRAW_RESOLUTION_CARD_Y
+#define DUEL_DRAW_RESOLUTION_CARD_Y 0x92
+#endif
+
 s32 Duel_HasAllExodiaPieces(void) {
     s16 hand[HAND_SIZE];
     s32 i;
@@ -97,7 +103,7 @@ void DuelScene_UpdateDrawResolution(void) {
         p = (DisplayObject *)func_80018004(
             &D_801A7AD8[k],
             i * 60 + 0x14E,
-            0x92
+            DUEL_DRAW_RESOLUTION_CARD_Y
         );
         p->field_6C = 1;
         p->field_60 = 0xC;

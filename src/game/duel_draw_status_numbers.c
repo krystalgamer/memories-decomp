@@ -11,6 +11,12 @@
 #include "duel_grid.h"
 #include "ordering_tables.h"
 
+/* Regional value: the sprite's cxcy, CLUT (0x100, 0xF1) -> (0x280, 0xE1).
+ * The European build (src/game/european/) defines its own. */
+#ifndef DUEL_STATUS_NUMBERS_CXCY
+#define DUEL_STATUS_NUMBERS_CXCY 0xF10100
+#endif
+
 /* The duel screen's life-point and deck-count readout: func_80016D2C sorts
    one row of digit sprites, Duel_UpdateLifePointDisplay steps the drawn
    life-point counter a frame towards the real total, and
@@ -103,7 +109,7 @@ void Duel_DrawLifePointsAndDeckCounts(DisplayObject *arg0)
 
     scratch = SCRATCH;
     scratch->field_00 = 0x09000000;
-    tmp10 = 0xF10100;
+    tmp10 = DUEL_STATUS_NUMBERS_CXCY;
     scratch->field_10 = tmp10;
     scratch->field_0C = 0x1E;
     scratch->field_0E = 0x5800;

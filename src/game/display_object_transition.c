@@ -12,6 +12,12 @@
 #include "../unmatched.h"
 #include "display_object_transition.h"
 
+/* Regional value: field_4A beside field_48 = 0xA0: half the screen height
+ * (0x78 -> 0x80). The European build (src/game/european/) defines its own. */
+#ifndef DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT
+#define DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT 0x78
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_OBJECT_TRANSITION)
 void func_8004365C(DisplayObject *a, DisplayObject *b)
 {
@@ -36,7 +42,7 @@ void func_8004365C(DisplayObject *a, DisplayObject *b)
     }
 
     b->field_48.h.field_48 = 0xA0;
-    b->field_48.h.field_4A = 0x78;
+    b->field_48.h.field_4A = DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT;
     b->attribute = b->attribute & ~GsROTOFF;
 
     y = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);

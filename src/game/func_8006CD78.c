@@ -31,6 +31,12 @@
 #include "../game/screen_projection.h"
 #include "../game/sound.h"
 
+/* Regional value: the burst CLUT (0x3D20 -> 0x3D28: x 0x200 -> 0x280, y
+ * 0xF4). The European build (src/game/european/) defines its own. */
+#ifndef MODEL_BURST_CLUT
+#define MODEL_BURST_CLUT 0x3D20
+#endif
+
 #define BURST_IMAGES ((ModelBurstImage *)D_80091610)
 /* The larger of the two horizontal extents func_80057E20 reports. */
 #define BURST_EXTENT(v) ((s16)((v).vz < (v).vx ? (v).vx : (v).vz))
@@ -76,7 +82,7 @@ s32 func_8006CD78(void *data, s32 arg1)
     if (arg1 >= 0) {
         e->table = (ModelBurstPalette *)D_800916D4;
         e->tpage = 0xAE;
-        e->clut = 0x3D20;
+        e->clut = MODEL_BURST_CLUT;
         for (i = 0; i < 1; i++) {
             e->spark_texture[i].tpage = getTPage(BURST_IMAGES[i].mode, 1, BURST_IMAGES[i].prect.x,
                                                  BURST_IMAGES[i].prect.y);

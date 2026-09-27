@@ -10,6 +10,12 @@
 #include "display_object_lifecycle.h"
 #include "display_object_packet_submit.h"
 
+/* Regional value: DIVPOLYGON4 piv (272 -> 288). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DISPLAY_OBJECT_DIVP_PIV
+#define DISPLAY_OBJECT_DIVP_PIV 272
+#endif
+
 /* Scratchpad work areas: the four quad vertices at 0x1F800300, the
  * RotAverageNclip4 depth/flag results at 0x1F8002E0, and the DivideFT4
  * inputs - its DIVPOLYGON4 at 0x1F800000, the colour at 0x1F800280 and the
@@ -173,7 +179,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, s32 ot, s32 mode
 
                 divp->ndiv = origin->divisions;
                 divp->pih = 320;
-                divp->piv = 272;
+                divp->piv = DISPLAY_OBJECT_DIVP_PIV;
                 *rgbc = *(u32 *)&POLY_FT4_VIEW(packet)->r0;
                 uv[0] = *(u32 *)&POLY_FT4_VIEW(packet)->u0;
                 uv[1] = *(u32 *)&POLY_FT4_VIEW(packet)->u1;
