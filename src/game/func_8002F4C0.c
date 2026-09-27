@@ -61,11 +61,20 @@ void func_8002F4C0(FileTransferDescriptor *d, s32 mode)
         goto join;
 
     case 2:
+#ifdef VERSION_EUROPE
+        /* The European image goes to (0x280, 0xD4). */
+        d->x = 0x280;
+        d->y = 0xD4;
+        d->h = mode;
+        c = D_8009B118;
+        d->w = 0x100;
+#else
         d->y = 0xF4;
         d->h = mode;
         c = D_8009B118;
         d->x = 0;
         d->w = 0x100;
+#endif
         LoadImage2((RECT *)d, (u32 *)c);
         m2 = 0xFFDCFFFF;
         d->value_0C = (s32)D_801AF000;

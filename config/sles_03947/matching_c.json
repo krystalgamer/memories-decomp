@@ -1922,6 +1922,18 @@
       "source": "src/game/script_op_fade_out.c"
     },
     {
+      "address": "0x8002F538",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x174",
+      "source": "src/game/european/func_8002F4C0.c"
+    },
+    {
+      "address": "0x8002F6AC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2E8",
+      "source": "src/game/european/script_op_duel_result.c"
+    },
+    {
       "address": "0x8002F994",
       "profile": "gcc_2_8_1_g8",
       "size": "0x1C",
