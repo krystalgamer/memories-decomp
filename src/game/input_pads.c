@@ -13,7 +13,8 @@
 #include "graphics_frame.h"
 #include "input.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_RESET_PADS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_RESET_PADS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_RESET_PADS))
 /* The controller runtime: reset, regional SDK startup, and the per-frame raw-packet
    decode and held/pressed/repeat publication. All four operate on the
    gInput_* state input.h describes, and each hands that state to the next -
@@ -57,7 +58,8 @@ void Input_ResetPads(void) {
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_INIT_PADS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_INIT_PADS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_INIT_PADS))
 void Input_InitPads(void)
 {
 #ifdef VERSION_JAPAN
@@ -77,7 +79,8 @@ void Input_InitPads(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_READ_RAW_PADS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_READ_RAW_PADS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_READ_RAW_PADS))
 void Input_ReadRawPads(void)
 {
 #ifdef VERSION_JAPAN
@@ -100,7 +103,8 @@ void Input_ReadRawPads(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_UPDATE_PADS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_INPUT_UPDATE_PADS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_INPUT_UPDATE_PADS))
 /* Preserve the low-half/high-half publication order at the function tail. */
 void Input_UpdatePads(void)
 {
