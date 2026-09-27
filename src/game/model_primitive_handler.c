@@ -3,6 +3,7 @@
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+#include "../psyq/stdio.h"
 #include "func_80033DB0.h"
 #include "func_80034830.h"
 #include "func_8006151C.h"
@@ -12,7 +13,11 @@
 #include "../unmatched.h"
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800603DC)
-void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:return (void*)GsU_00000000;}
+void *func_800603DC(unsigned int v){if(v==0x2000000)goto a;if(v==0x2000001)goto b;goto d;a:return (void*)GsU_02000000;b:return (void*)GsU_02000001;d:
+#ifdef VERSION_EUROPE
+printf("unsupported IMAGE primitive 0x%08lx.\n", v);
+#endif
+return (void*)GsU_00000000;}
 #endif
 
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_GET_PRIMITIVE_HANDLER)
@@ -297,6 +302,9 @@ block_105:
 block_106:
     return func_80066E60;
 block_107:
+#ifdef VERSION_EUROPE
+    printf("unsupported POLYGON primitive 0x%08lx.\n", arg0);
+#endif
     return (void *)GsU_00000000;
 }
 #endif
