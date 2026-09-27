@@ -1418,6 +1418,12 @@
       "source": "src/game/european/duel_effect_noop_800289AC.c"
     },
     {
+      "address": "0x8002895C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x16C",
+      "source": "src/game/european/func_800289BC.c"
+    },
+    {
       "address": "0x8002913C",
       "profile": "gcc_2_8_1_g0",
       "size": "0x5C",
