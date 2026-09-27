@@ -448,6 +448,20 @@ u32 *func_800383DC(DuelEffectChannel *a0) {
         }
         v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) | D_801C0000[a2];
     }
+#elif defined(VERSION_EUROPE)
+    /* The European banks, as in TextBox_BuildStep. */
+    if (a2 <= 0x7FFF) {
+        if (a2 >= 0x500) {
+            s32 n = a2 - 0x100;
+
+            v1 = ((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) + D_801B0004[n];
+        } else {
+            v1 = ((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) + D_801B0004[a2];
+        }
+    } else {
+        v1 = ((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
+             D_801D5804[a2 - 0x8000];
+    }
 #else
     if (a2 > 0xCFFF) {
         v1 = ((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) +
