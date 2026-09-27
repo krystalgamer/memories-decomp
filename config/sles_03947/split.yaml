@@ -376,7 +376,7 @@ segments:
       - [0x031D50, c, game/display_object_stream_basic]
       - [0x031DD0, c, game/display_object_stream_random]
       - [0x031E68, c, game/display_object_stream_configure_rotation]
-      - [0x031EC0, asm, generated/text_031ec0]
+      - [0x031EC0, c, game/european/display_object_render_sprite_sheet]
       - [0x0325BC, c, game/display_object_stream_read_next_command]
       - [0x032690, c, game/display_object_update_command_stream]
       - [0x0327AC, c, game/display_object_projection_checks]

@@ -2732,6 +2732,12 @@
       "source": "src/game/display_object_stream_configure_rotation.c"
     },
     {
+      "address": "0x800416C0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x6FC",
+      "source": "src/game/european/display_object_render_sprite_sheet.c"
+    },
+    {
       "address": "0x80041DBC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD4",
