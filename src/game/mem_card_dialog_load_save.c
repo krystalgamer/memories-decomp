@@ -20,6 +20,7 @@
    then the value with the new bits set. Without volatile the first store is
    dead and GCC drops it, so this function reaches the word through a volatile
    lvalue rather than forcing volatile on every reader in mem_card.h. */
+#if !defined(VERSION_EUROPE)
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
     u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
@@ -30,6 +31,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
     *(volatile u16 *)&gMemCard_wDialogFlags = flags;
     *(volatile u16 *)&gMemCard_wDialogFlags = flags | bits;
 }
+#endif
 
 /* Memory-card load dialog state machine.
 
@@ -47,6 +49,8 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
      bodies: retail keeps two distinct jump-table targets for them.
 */
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MEM_CARD_DIALOG_UPDATE_LOAD)
 void MemCardDialog_UpdateLoad(void)
 {
     s32 files;
@@ -186,7 +190,9 @@ void MemCardDialog_UpdateLoad(void)
         break;
     }
 }
+#endif
 
+#if !defined(VERSION_EUROPE)
 void MemCardDialog_StepLoad(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
@@ -807,3 +813,4 @@ void MemCardDialog_StepSave(void)
     }
     MemCardDialog_UpdateSave();
 }
+#endif
