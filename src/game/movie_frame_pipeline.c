@@ -15,6 +15,14 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libetc.h"
 
+#ifndef MOVIE_FRAME_HEIGHT
+#define MOVIE_FRAME_HEIGHT 0xF0
+#endif
+
+#ifndef MOVIE_DECODED_SLOT_SIZE
+#define MOVIE_DECODED_SLOT_SIZE 0x2D00
+#endif
+
 /* The start of the movie player, in image order: the stop path that tears the
    stream down and repaints the screen, then the three stages that decode and
    present one frame. The four are contiguous and follow func_8005B85C. */
@@ -160,13 +168,14 @@ s32 Movie_DecodeAndPresentFrame(void) {
         (u32)&((MovieWorkArea *)0)->frame.x) = x;
 
     rects = (MovieWorkArea *)(D_8009B498 + 0x40000);
-    y = *(u16 *)&env.clip.y + (0xF0 - rects->frame.h) / 2;
+    y = *(u16 *)&env.clip.y + (MOVIE_FRAME_HEIGHT - rects->frame.h) / 2;
     rects->strip.y = y;
     rects->frame.y = y;
     DecDCTin((u32 *)(D_8009B498 + 0x1B000 + slot * 0xE000), side);
 
     out = (MovieWorkArea *)(D_8009B498 + 0x40000);
-    DecDCTout((u32 *)(D_8009B498 + 0x37000 + D_8009B067 * 0x2D00),
+    DecDCTout((u32 *)(D_8009B498 + 0x37000 +
+                      D_8009B067 * MOVIE_DECODED_SLOT_SIZE),
               out->strip.w * out->strip.h / 2);
 
     result = Movie_WaitAndDecodeFrame(1);
