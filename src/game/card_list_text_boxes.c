@@ -6,13 +6,25 @@
 #include "text_box_lifecycle.h"
 #include "text_box_runtime.h"
 #include "card_list_text_boxes.h"
-#ifdef VERSION_JAPAN
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
 #include "duel_card.h"
 #endif
 
 /* Builds the text box for one card slot of a trade or deck screen. The entry
    is picked out of the list at the scroll offset plus the slot, and the list
    kind at +0x2D47 selects both the box template and a fixed 0x160 shift. */
+
+#ifndef CARD_LIST_SLOT_BOX_Y
+#define CARD_LIST_SLOT_BOX_Y 0x2B
+#endif
+
+#ifndef CARD_LIST_SLOT_BOX_HEIGHT
+#define CARD_LIST_SLOT_BOX_HEIGHT 0xB0
+#endif
+
+#ifndef CARD_LIST_SLOT_FOLLOWING_FLAG
+#define CARD_LIST_SLOT_FOLLOWING_FLAG 0x40
+#endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_CARD_LIST_CREATE_SLOT_TEXT_BOX)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_CARD_LIST_CREATE_SLOT_TEXT_BOX))
@@ -25,16 +37,18 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
     style = 0;
     if (list->entries[list->first + slot].flags != 0) {
         style = 6;
-#ifdef VERSION_JAPAN
-        /* The Japanese build gives a magic or other non-monster card its own
-           box style. */
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+        /* The later regional builds give a magic or other non-monster card
+           its own box style. */
         if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >>
               CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
             style = 7;
         }
 #endif
     }
-    box = TextBox_Create(list->kind + 1, style, 0x22, 0x2B, 0x120, 0xB0);
+    box = TextBox_Create(list->kind + 1, style, 0x22,
+                         CARD_LIST_SLOT_BOX_Y, 0x120,
+                         CARD_LIST_SLOT_BOX_HEIGHT);
     box->field_3A = slot * 22;
     box->field_28->flags &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -45,7 +59,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
         *(u16 *)&box->field_3C += 0x160;
     }
     if (slot != 0) {
-        box->flags_34 |= 0x40;
+        box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
     }
     func_80039A14(box);
 }
