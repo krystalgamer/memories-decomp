@@ -379,6 +379,9 @@ s32 func_800608B8(s32 arg0) {
         }
         break;
     }
+#ifdef VERSION_EUROPE
+    printf("unsupported SHARED primitive 0x%08lx.\n", arg0);
+#endif
     return (s32)GsU_00000000;
 }
 #endif

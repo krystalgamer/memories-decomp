@@ -6116,6 +6116,12 @@
       "source": "src/game/european/model_bind_primitive_handler.c"
     },
     {
+      "address": "0x80060938",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x258",
+      "source": "src/game/european/model_shared_primitive_handler.c"
+    },
+    {
       "address": "0x80060B90",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
