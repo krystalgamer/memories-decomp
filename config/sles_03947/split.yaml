@@ -391,6 +391,8 @@ segments:
       - [0x029D70, c, game/european/func_80039794]
       - [0x029F10, c, game/text_box_runtime]
       - [0x02A088, asm, generated/text_02a088]
+      - [0x02A0C4, c, game/european/display_object_fade_callbacks]
+      - [0x02A33C, asm, generated/text_02a33c]
       - [0x02A82C, c, game/menu_record_reset]
       - [0x02A8AC, c, game/display_effect_lifecycle]
       - [0x02A9AC, c, game/european/func_8003A01C]
