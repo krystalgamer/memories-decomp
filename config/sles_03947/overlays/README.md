@@ -46,3 +46,19 @@ beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
 The twenty-six matching functions reuse the shared main-menu sources through
 European wrappers. The five larger region-divergent bodies remain generated
 assembly.
+
+The six-sector pre-coup overworld module begins at `WA_MRG.MRG` sector `9762`.
+Its verified layout is:
+
+| File range | Runtime range | Content |
+|---:|---:|---|
+| `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
+| `0x0004-0x11A8` | `0x80168004-0x801691A8` | Thirteen matching C functions |
+| `0x11A8-0x1618` | `0x801691A8-0x80169618` | Location table and live state |
+| `0x1618-0x17D0` | `0x80169618-0x801697D0` | Preserved generated assembly |
+| `0x17D0-0x1E54` | `0x801697D0-0x80169E54` | Two matching C functions |
+| `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Alternate table and module data |
+
+All fifteen inventoried functions reuse the shared overworld sources. European
+wrappers isolate each function so the relocated resident and module symbols do
+not change the North American or Japanese objects.
