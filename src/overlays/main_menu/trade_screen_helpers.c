@@ -25,7 +25,21 @@
    trade_helpers.h, and the row rebuild walks D_801845FC and D_801845E0, the
    same trade inventory and display handle the offer group writes. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_CARD_TYPE_ICON)
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_CARD_TYPE_PALETTE_OFFSET 0x80
+#define MAIN_MENU_CARD_TYPE_V_TOP 0xC0
+#define MAIN_MENU_CARD_TYPE_V_BOTTOM 0xD0
+#define MAIN_MENU_TRADE_COLUMN_BOTTOM 0x100
+#else
+#define MAIN_MENU_CARD_TYPE_PALETTE_OFFSET 0
+#define MAIN_MENU_CARD_TYPE_V_TOP 0xC8
+#define MAIN_MENU_CARD_TYPE_V_BOTTOM 0xD8
+#define MAIN_MENU_TRADE_COLUMN_BOTTOM 0xF0
+#endif
+
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_CARD_TYPE_ICON) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_CARD_TYPE_ICON)
 void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
 {
     POLY_FT4 sprite;
@@ -37,15 +51,15 @@ void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
     if (cardType != CARD_TYPE_MAGIC && cardType != CARD_TYPE_EQUIP) {
         if (cardType != CARD_TYPE_TRAP) {
             if (cardType == CARD_TYPE_RITUAL) {
-                palette = 0x290;
+                palette = 0x290 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
             } else {
-                palette = 0x260;
+                palette = 0x260 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
             }
         } else {
-            palette = 0x280;
+            palette = 0x280 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
         }
     } else {
-        palette = 0x270;
+        palette = 0x270 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
     }
     setPolyFT4(&sprite);
     sprite.r0 = 0x80;
@@ -62,19 +76,21 @@ void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
     sprite.x3 = x + 0x10;
     sprite.y3 = y + 0x10;
     sprite.u0 = 0;
-    sprite.v0 = 0xC8;
+    sprite.v0 = MAIN_MENU_CARD_TYPE_V_TOP;
     sprite.u1 = 0x10;
-    sprite.v1 = 0xC8;
+    sprite.v1 = MAIN_MENU_CARD_TYPE_V_TOP;
     sprite.u2 = 0;
-    sprite.v2 = 0xD8;
+    sprite.v2 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
     sprite.u3 = 0x10;
-    sprite.v3 = 0xD8;
+    sprite.v3 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
     GsSortPoly(&sprite, D_800E9D94, 0x20);
 }
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_COLUMN_OVERLAY)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_TRADE_COLUMN_OVERLAY) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_TRADE_COLUMN_OVERLAY)
 void MainMenu_DrawTradeColumnOverlay(s32 column)
 {
     POLY_F4 quad;
@@ -90,14 +106,16 @@ void MainMenu_DrawTradeColumnOverlay(s32 column)
     quad.x1 = right;
     quad.y1 = 0;
     quad.x2 = left;
-    quad.y2 = 0xF0;
+    quad.y2 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
     quad.x3 = right;
-    quad.y3 = 0xF0;
+    quad.y3 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
     func_8005B260((u32 *)&quad, (GsOT *)D_800E9D94, 0x1F, 2);
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_REBUILD_TRADE_INVENTORY_ROWS)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_REBUILD_TRADE_INVENTORY_ROWS) || \
+    defined(VERSION_EUROPE_MAIN_MENU_REBUILD_TRADE_INVENTORY_ROWS)
 void MainMenu_RebuildTradeInventoryRows(s32 side)
 {
     s32 flags;

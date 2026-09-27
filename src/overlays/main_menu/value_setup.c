@@ -66,7 +66,9 @@
    reads it by its own name. Left exactly as it is. They are distinct symbols
    at distinct addresses as far as C is concerned, so one unit does not force
    the question, and naming it is what #2602 exists for. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP) || \
+    defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_SETUP)
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
@@ -127,7 +129,9 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_SETUP)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_SETUP) || \
+    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_VALUE_SETUP)
 #ifdef VERSION_JAPAN
 #define MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON PAD_BUTTON_CROSS
 #else
@@ -276,7 +280,9 @@ s32 MainMenu_UpdateValueSetup(void)
 #undef MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_DRAW_VALUE_SETUP)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_DRAW_VALUE_SETUP) || \
+    defined(VERSION_EUROPE_MAIN_MENU_DRAW_VALUE_SETUP)
 void MainMenu_DrawValueSetup(void)
 {
     POLY_GT4 digit;
@@ -454,7 +460,9 @@ void MainMenu_DrawValueSetup(void)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN) || \
+    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN)
 void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 {
     DisplayObject *widget;
@@ -493,7 +501,9 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_FINISH_VALUE_SETUP)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_FINISH_VALUE_SETUP) || \
+    defined(VERSION_EUROPE_MAIN_MENU_FINISH_VALUE_SETUP)
 void MainMenu_FinishValueSetup(void)
 {
     *D_801845C0[0].out = D_801845C0[0].value;
@@ -513,7 +523,9 @@ void MainMenu_FinishValueSetup(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_COUNT_DECIMAL_DIGITS)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_COUNT_DECIMAL_DIGITS) || \
+    defined(VERSION_EUROPE_MAIN_MENU_COUNT_DECIMAL_DIGITS)
 s32 MainMenu_CountDecimalDigits(s32 value)
 {
     s32 digits = 0;
@@ -529,7 +541,9 @@ s32 MainMenu_CountDecimalDigits(s32 value)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
+#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
+    defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_WIDGET_TWEEN) || \
+    defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
     DisplayObject *object = D_801845B0[index];
