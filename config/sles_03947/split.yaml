@@ -531,6 +531,7 @@ segments:
       - [0x03EE14, c, game/european/func_8005E808]
       - [0x03F200, c, game/european/model_effect_state]
       - [0x040228, asm, generated/text_040228]
+      - [0x0407EC, c, game/european/movie_decode_present]
       - [0x040970, c, game/european/movie_wait_and_decode_frame]
       - [0x040B9C, asm, generated/text_040b9c]
       - [0x040D08, c, game/european/movie_frame_pipeline_8005C374]
