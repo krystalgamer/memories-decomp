@@ -552,7 +552,7 @@ segments:
       - [0x063AF0, c, game/ai_script_actions]
       - [0x063BF0, c, game/ai_script_find_best_attack]
       - [0x063D84, c, game/european/ai_script_state_ops]
-      - [0x064228, asm, generated/text_064228]
+      - [0x064248, asm, generated/text_064248]
       - [0x081ED8, pad]
 
   - name: initialized_data

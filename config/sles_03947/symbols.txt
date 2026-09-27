@@ -1222,6 +1222,7 @@ AiScript_Store = 0x80073904;
 AiScript_SetRegister = 0x80073940;
 AiScript_Add = 0x80073988;
 AiScript_LoadGuardianStarChoice = 0x800739F0;
+AiScript_Print = 0x80073A28;
 PCopen = 0x80073A48;
 PCclose = 0x80073A68;
 PClseek = 0x80073A78;
