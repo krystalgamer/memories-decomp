@@ -448,7 +448,7 @@ address,size,name,status,module,notes
 0x8003728C,0xB0,Dialog_OpenChoice,matching_c,game,
 0x8003733C,0xD8,func_8003733C,matching_c,game,
 0x80037414,0xA0,func_80037414,matching_c,game,
-0x800374B4,0x90,func_800374B4,unmatched_asm,game,
+0x800374B4,0x90,func_800374B4,matching_c,game,
 0x80037544,0x1C,func_80037544,matching_c,game,
 0x80037560,0xB4,func_80037560,matching_c,game,
 0x80037614,0x5C,func_80037614,unmatched_asm,game,
