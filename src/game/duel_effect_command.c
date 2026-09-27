@@ -444,13 +444,45 @@ static __inline__ u32 read_operand(DuelEffectChannel *object)
 
 void func_800382A8(DuelEffectChannel *object)
 {
+#ifdef VERSION_EUROPE
+    u8 value;
+#else
     u32 value;
+#endif
 
+#ifdef VERSION_EUROPE
+    object->flags_34 &= 0xFFFC;
+#else
     object->flags_34 &= 0xFEFF;
+#endif
     value = read_operand(object);
 #ifdef VERSION_JAPAN
     object->field_5B = value << 3;
     object->field_5A = value << 3;
+#elif defined(VERSION_EUROPE)
+    /* The European release has four text sizes and keeps the size in the
+       channel's two low flag bits. */
+    switch (value) {
+    case 0:
+        object->field_5A = 8;
+        object->field_5B = 16;
+        break;
+    case 1:
+        object->field_5A = 8;
+        object->field_5B = 8;
+        object->flags_34 |= 1;
+        break;
+    case 2:
+        object->field_5A = 12;
+        object->field_5B = 16;
+        object->flags_34 |= 2;
+        break;
+    case 3:
+        object->field_5A = 16;
+        object->field_5B = 16;
+        object->flags_34 |= 3;
+        break;
+    }
 #else
     switch (value) {
     case 1:
@@ -463,8 +495,10 @@ void func_800382A8(DuelEffectChannel *object)
         break;
     }
 #endif
+#ifndef VERSION_EUROPE
     if (value == 1)
         object->flags_34 |= 0x100;
+#endif
 }
 #endif
 

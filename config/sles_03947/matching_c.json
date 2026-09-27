@@ -2486,6 +2486,12 @@
       "source": "src/game/european/duel_effect_command_80038148.c"
     },
     {
+      "address": "0x80038018",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD4",
+      "source": "src/game/european/duel_effect_command_800382A8.c"
+    },
+    {
       "address": "0x800380EC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",

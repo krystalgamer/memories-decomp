@@ -379,7 +379,7 @@ segments:
       - [0x028594, c, game/european/duel_effect_selector_commands]
       - [0x028644, c, game/european/duel_effect_stream_offsets]
       - [0x0286B8, c, game/european/duel_effect_command_80038148]
-      - [0x028818, asm, generated/text_028818]
+      - [0x028818, c, game/european/duel_effect_command_800382A8]
       - [0x0288EC, c, game/european/duel_effect_operand_pair]
       - [0x028940, c, game/european/duel_effect_read_u16]
       - [0x028968, asm, generated/text_028968]
