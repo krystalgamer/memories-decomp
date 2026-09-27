@@ -255,7 +255,7 @@ segments:
       - [0x01EC64, c, game/script_command_busy]
       - [0x01ECAC, c, game/func_8002E3FC]
       - [0x01ED20, c, game/european/script_op_load_image_scene]
-      - [0x01EE5C, asm, generated/text_01ee5c]
+      - [0x01EE5C, c, game/european/script_op_show_dialog]
       - [0x01EF5C, c, game/european/script_op_stage_image]
       - [0x01EFD4, asm, generated/text_01efd4]
       - [0x01F1C0, c, game/script_flag_commands]
