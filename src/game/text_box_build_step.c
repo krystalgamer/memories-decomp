@@ -42,6 +42,17 @@ volatile u16 D_8009B33A;
 #define TEXT_BOX_ADVANCE_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
 
+/* The flag that keeps the box's previous contents: 2 in the US build, 4 in
+   the European one, whose wrapper defines its own. */
+#ifndef TEXT_BOX_BUILD_KEEP_FLAG
+#define TEXT_BOX_BUILD_KEEP_FLAG 2
+#endif
+/* The flag that keeps the channel's entries: 0x40, 0x80 in the European
+   build. */
+#ifndef TEXT_BOX_BUILD_OWN_ENTRIES_FLAG
+#define TEXT_BOX_BUILD_OWN_ENTRIES_FLAG 0x40
+#endif
+
 void TextBox_BuildStep(DuelEffectChannel *object)
 {
     u16 flags;
@@ -57,13 +68,16 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {
         flags |= TEXT_BOX_FLAG_BUILD_ACTIVE;
         object->flags_34 = flags;
-        if ((flags & 2) == 0) {
+        if ((flags & TEXT_BOX_BUILD_KEEP_FLAG) == 0) {
             func_80039E9C();
         }
+#ifndef VERSION_EUROPE
+        /* The European build makes neither field store. */
         if ((object->flags_34 & 0x100) != 0) {
             object->field_5B = 8;
             object->field_5A = 8;
         }
+#endif
         id = object->field_36;
         D_8009B357 = 0;
         D_8009B340 = 0;
@@ -81,6 +95,24 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             }
             text = (u8 *)(((u32)D_801C0000 & TEXT_BANK_ADDRESS_MASK) |
                 D_801C0000[id]);
+        }
+#elif defined(VERSION_EUROPE)
+        /* The European banks: global strings from 0x8000, ids below 0x500
+           in the first bank and the rest in the second, all through the
+           tables four bytes into each bank. */
+        if (id <= 0x7FFF) {
+            if (id >= 0x500) {
+                s32 n = id - 0x100;
+
+                text = (u8 *)(((u32)D_801C0004 & TEXT_BANK_ADDRESS_MASK) +
+                    D_801B0004[n]);
+            } else {
+                text = (u8 *)(((u32)D_801B0004 & TEXT_BANK_ADDRESS_MASK) +
+                    D_801B0004[id]);
+            }
+        } else {
+            text = (u8 *)(((u32)D_801D5804 & TEXT_BANK_ADDRESS_MASK) +
+                D_801D5804[id - 0x8000]);
         }
 #else
         if (id > 0xCFFF) {
@@ -105,12 +137,16 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->field_30 = (void *)0;
         object->field_2C = 0;
         func_800391E4(object);
-        if ((object->flags_34 & 0x40) == 0) {
+        if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = (DuelEffectEntry *)&((TEXT_BOX_ENTRY_TYPE *)tent_DuelEffectEntries)[
                 TEXT_BOX_RANGE_START(object)];
             object->entry_head_24 = entry;
             object->entry_end_20 = entry;
+#ifndef VERSION_EUROPE
+            /* The European build no longer clears the channel's occupancy
+               value, as in TextBox_Destroy. */
             DuelEffect_ClearOccupancyValue(object->index_57);
+#endif
             DuelEffect_ClearMatchingMarker(object->index_57);
         }
         return;
@@ -162,6 +198,30 @@ next_opcode:
         return;
     }
     D_8009B35A = D_8009B33A;
+#ifdef VERSION_EUROPE
+    /* The European font is proportional: the glyph call returns the
+       glyph's width, and the box counts pixels (the wrapper makes the
+       counter and its limit halfwords at 0x60 and 0x62) rather than
+       glyphs. */
+    {
+        s32 w;
+        s32 n;
+        s32 limit;
+
+        w = object->field_5A +
+            func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A] & 0x8FF0FFFF);
+        limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
+        object->field_38 = object->field_38 + w;
+        n = TEXT_BOX_GLYPH_COUNT(object) + w;
+        TEXT_BOX_GLYPH_COUNT(object) = n;
+        if (limit != 0) {
+            w = (s16)n + object->field_5A;
+            if (limit < w) {
+                object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
+            }
+        }
+    }
+#else
     func_80036C14(object, tent_GlyphLookupTable[(s16)D_8009B33A] & 0x8FF0FFFF);
     TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
     if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
@@ -169,4 +229,5 @@ next_opcode:
         object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
     object->field_38 = object->field_38 + object->field_5A;
+#endif
 }
