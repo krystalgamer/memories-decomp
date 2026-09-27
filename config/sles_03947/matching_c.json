@@ -284,6 +284,12 @@
       "source": "src/game/european/duel_draw_resolution.c"
     },
     {
+      "address": "0x800194F0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0xA4",
+      "source": "src/game/european/duel_create_card_effect_overlay.c"
+    },
+    {
       "address": "0x80019994",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x58",
@@ -324,6 +330,18 @@
       "profile": "gcc_2_8_1_g8_split_psyq_rtps",
       "size": "0xA4",
       "source": "src/game/func_8001B0CC.c"
+    },
+    {
+      "address": "0x8001B6F0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C",
+      "source": "src/game/european/func_8001B7AC.c"
+    },
+    {
+      "address": "0x8001B71C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x10C",
+      "source": "src/game/european/func_8001B7AC.c"
     },
     {
       "address": "0x8001B828",
@@ -456,6 +474,36 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0xA0",
       "source": "src/game/display_parent_links.c"
+    },
+    {
+      "address": "0x80023008",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xB4",
+      "source": "src/game/european/duel_field_display_objects.c"
+    },
+    {
+      "address": "0x800230BC",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x348",
+      "source": "src/game/european/duel_field_display_objects.c"
+    },
+    {
+      "address": "0x80023404",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x58",
+      "source": "src/game/european/duel_field_display_objects.c"
+    },
+    {
+      "address": "0x8002345C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDC",
+      "source": "src/game/european/duel_field_display_objects.c"
+    },
+    {
+      "address": "0x80023538",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x748",
+      "source": "src/game/european/duel_field_display_objects.c"
     },
     {
       "address": "0x80023C80",
@@ -1028,6 +1076,18 @@
       "source": "src/game/func_800313E8.c"
     },
     {
+      "address": "0x800315E0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x17C",
+      "source": "src/game/european/duel_card_type_icon.c"
+    },
+    {
+      "address": "0x8003175C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x94",
+      "source": "src/game/european/duel_card_stat_display.c"
+    },
+    {
       "address": "0x80032204",
       "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
       "size": "0xA0",
@@ -1416,6 +1476,48 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
       "source": "src/game/display_effect_has_resource_entry.c"
+    },
+    {
+      "address": "0x8003AAB0",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x3C",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003AAEC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x34",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003AB20",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x154",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003AC74",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x164",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003ADD8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x124",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003AEFC",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x2E8",
+      "source": "src/game/european/display_effect_update_callbacks.c"
+    },
+    {
+      "address": "0x8003B1E4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x324",
+      "source": "src/game/european/display_effect_update_callbacks.c"
     },
     {
       "address": "0x8003B508",

@@ -10,6 +10,16 @@
 
 #include "duel_card_stat_display.h"
 
+/* Regional values: the icon sprite's field_5D (0xC8 -> 0xC0) and field_40,
+ * its CLUT x (0x260 -> 0x2E0). The European build (src/game/european/)
+ * defines its own. */
+#ifndef DUEL_CARD_TYPE_ICON_FIELD_5D
+#define DUEL_CARD_TYPE_ICON_FIELD_5D 0xC8
+#endif
+#ifndef DUEL_CARD_TYPE_ICON_CX
+#define DUEL_CARD_TYPE_ICON_CX 0x260
+#endif
+
 #define DISPLAY_OBJECT_VIEW(object) ((DisplayObject *)(object))
 #define DISPLAY_OBJECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
 
@@ -37,7 +47,7 @@ DisplayObject *func_80031574(s32 index, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     DisplayObject_ConfigureScreenSprite(
         DISPLAY_OBJECT_VIEW(object), x, y, 0x10, 0x10,
-        0, 0xC8, 0xB, 0x260, 0xFC
+        0, DUEL_CARD_TYPE_ICON_FIELD_5D, 0xB, DUEL_CARD_TYPE_ICON_CX, 0xFC
     );
     do { stats = gDuel_adwCardStats; } while (0);
     table_index--;
