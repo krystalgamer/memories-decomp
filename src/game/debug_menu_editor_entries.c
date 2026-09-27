@@ -28,6 +28,48 @@
 #include "../unmatched.h"
 #include "debug_menu_editor_entries.h"
 #include "main_mode_state.h"
+#ifdef VERSION_EUROPE
+#include "duel_effect_resource_setup.h"
+#endif
+
+#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_FUNC_80030808)
+/* A European-only debug-menu entry, with its own slot in the menu's handler
+   table: it edits D_8009C02B (the index duel_effect_resource_setup.c
+   reads) through the same editor as the sound entry, and sets it back to 0
+   from 5 up. */
+void func_80030808(void)
+{
+    s32 flags;
+    s32 result;
+
+    flags = D_8009B2EB;
+    if ((flags & FRONTEND_STEP_FLAG_ENTERED) == 0) {
+        D_8009B2EB = flags | FRONTEND_STEP_FLAG_ENTERED;
+        DebugMenu_DimPrimaryDisplayObject();
+        gDebug_nSceneOrSoundID = D_8009C02B;
+        func_80030250(D_80091CB8, 0x15, 0x15, 0x15, 5, 1, 1);
+        tent_DebugInterfaceFieldC2 = 3;
+        tent_DebugInterfaceFieldC1 = 3;
+        return;
+    }
+
+    result = func_80030294();
+    if (result == 0) {
+        return;
+    }
+    if (result < 0) {
+        D_8009B2EB = 0;
+        DebugMenu_RestorePrimaryDisplayObject();
+        return;
+    }
+    if (D_8009C02B != gDebug_nSceneOrSoundID) {
+        D_8009C02B = gDebug_nSceneOrSoundID;
+        if (D_8009C02B >= 5) {
+            D_8009C02B = 0;
+        }
+    }
+}
+#endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DEBUG_MENU_UPDATE_SOUND_ENTRY)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DEBUG_MENU_UPDATE_SOUND_ENTRY))
