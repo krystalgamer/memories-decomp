@@ -32,7 +32,6 @@
    gcc_2_8_1_g8_split, which is the profile duel_terrain_boost.h's notes on
    gDuel_bTerrain assume for Duel_GetTerrainBoost, so the unit builds there. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_POPULATE_COMBINED_DECK_DATA)
 void Duel_PopulateCombinedDeckData(void)
 {
     u8 *dst = D_8018C2D8;
@@ -70,9 +69,7 @@ void Duel_PopulateCombinedDeckData(void)
         rec++;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_DEACTIVATE_RECORD)
 void DuelCard_DeactivateRecord(DuelCardRecord *object)
 {
     object->flags &= ~DUEL_CARD_FLAG_OCCUPIED;
@@ -81,17 +78,13 @@ void DuelCard_DeactivateRecord(DuelCardRecord *object)
         object->object = 0;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_CARD_REMOVE_FROM_FIELD)
 void DuelCard_RemoveFromField(DuelCardRecord *object)
 {
     DuelCard_DeactivateRecord(object);
     object->flags = 0;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_GET_TERRAIN_BOOST)
 /* Same byte, distinct compiler identity: keep both address materializations. */
 
 s32 Duel_GetTerrainBoost(s32 cardType)
@@ -104,12 +97,10 @@ s32 Duel_GetTerrainBoost(s32 cardType)
 
     return gDuel_aTerrainBoost[cardType][terrain[0] - 1] * CARD_STAT_SCALE;
 }
-#endif
 
 /* Two RECTs per field slot: the card art at 2 * slot and the name strip at
    2 * slot + 1. LoadImage consumes both, which is what types the table. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_SETUP_CARD_RECORD)
 u8 *Duel_SetupCardRecord(s32 a, s32 b) {
     DuelCardRecord *p;
     RECT *q;
@@ -182,11 +173,9 @@ u8 *Duel_SetupCardRecord(s32 a, s32 b) {
 
     return (u8 *)p;
 }
-#endif
 
 /* Allocates a display object, positions it, wires up its per-frame callback,
    and selects a small icon variant for non-monster card types. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80024C1C)
 DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
     DuelCardDisplayObject *obj;
     u32 desc;
@@ -238,9 +227,7 @@ DuelCardDisplayObject *func_80024C1C(s32 cardId, s32 x, s32 y) {
 end:
     return obj;
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80024D34)
 void func_80024D34(s32 a, s32 b)
 {
     u8 *slot;
@@ -264,4 +251,3 @@ void func_80024D34(s32 a, s32 b)
     *(DuelCardDisplayObject **)slot = obj;
     obj->card_index = idx;
 }
-#endif
