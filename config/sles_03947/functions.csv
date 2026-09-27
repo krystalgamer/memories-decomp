@@ -903,7 +903,7 @@ address,size,name,status,module,notes
 0x8004F93C,0x94,func_8005FB30,matching_c,game,
 0x8004F9D0,0x58,func_8005FBC4,matching_c,game,
 0x8004FA28,0x2EC,func_8005B8A0,unmatched_asm,game,
-0x8004FD14,0x2D8,Movie_StopStream,unmatched_asm,game,
+0x8004FD14,0x2D8,Movie_StopStream,matching_c,game,"Exact European movie-stream shutdown with PAL graph reset ordering, dimensions, and relocated Psy-Q/global aliases."
 0x8004FFEC,0x184,Movie_DecodeAndPresentFrame,matching_c,game,
 0x80050170,0x22C,Movie_WaitAndDecodeFrame,matching_c,game,
 0x8005039C,0x16C,func_8005039C,unmatched_asm,game,

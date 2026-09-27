@@ -93,8 +93,15 @@ s32 Movie_StopStream(s32 arg0) {
         VSync(0);
         D_800FE0CC = 1;
         GsSwapDispBuff();
+#ifdef VERSION_EUROPE
+        GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, 0x100, 4, 1, 0);
+        GsDefDispBuff(0, 0, GRAPHICS_DEFAULT_WIDTH, 0);
+        GsDISPENV.screen.y = 20;
+        GsDISPENV.screen.h = 0x100;
+#else
         GsDefDispBuff(0, 0, 0x140, 0);
         GsInitGraph2(GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT, 4, 1, 0);
+#endif
         rect.x = 0;
         rect.y = 0;
         rect.w = gGraphics_CurrentWidth.word * 2;
