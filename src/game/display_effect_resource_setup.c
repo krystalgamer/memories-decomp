@@ -20,6 +20,12 @@
 #define HIGH_MEMORY_ADDRESSES_BASE_IN_DATA
 #include "high_memory_addresses.h"
 
+/* Regional value: the CLUT rectangles' x (512 -> 640). The European build
+ * (src/game/european/) defines its own. */
+#ifndef DISPLAY_EFFECT_CLUT_X
+#define DISPLAY_EFFECT_CLUT_X 512
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DISPLAY_EFFECT_BUILD_RESOURCE_OBJECTS)
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *a, DisplayObject **out, s32 c)
@@ -166,7 +172,7 @@ void func_8003A560(DisplayEffectVramState *a)
                 slot->image_rect.w = 192;
                 slot->image_rect.h = 256;
                 LoadImage(&slot->image_rect, (u32 *)slot->image);
-                slot->clut_rect.x = 512;
+                slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
                 slot->clut_rect.y = a->field_3C * 2 + 240;
                 slot->clut_rect.w = 256;
                 slot->clut_rect.h = 2;
@@ -212,7 +218,7 @@ void func_8003A560(DisplayEffectVramState *a)
         slot->image_rect.w = 192;
         slot->image_rect.h = 256;
         StoreImage(&slot->image_rect, (u32 *)slot->image);
-        slot->clut_rect.x = 512;
+        slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
         slot->clut_rect.y = a->field_3C * 2 + 240;
         slot->clut_rect.w = 256;
         slot->clut_rect.h = 2;

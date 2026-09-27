@@ -31,6 +31,12 @@
 #include "../unmatched.h"
 #include "duel_scene_card_placement.h"
 
+/* Regional value: the screen height a card leaves at (240 -> 256). The
+ * European build (src/game/european/) defines its own. */
+#ifndef DUEL_CARD_PLACEMENT_SCREEN_HEIGHT
+#define DUEL_CARD_PLACEMENT_SCREEN_HEIGHT 240
+#endif
+
 #define PLACEMENT_PX(object) ((object)->field_30.h.field_30)
 #define PLACEMENT_PY(object) ((object)->field_30.h.field_32)
 #define PLACEMENT_TX(object) ((object)->position.h.field_28)
@@ -649,7 +655,7 @@ finish_effect_step:
             PLACEMENT_VY(object) = DisplayObject_StepToward(PLACEMENT_VY(object), 2048, 96);
             DisplayObject_StepPositionXY(
                 DISPLAY_OBJECT_VELOCITY_VIEW(object));
-            if ((s16)PLACEMENT_PX(object) < -52 || (s16)PLACEMENT_PY(object) >= 240) {
+            if ((s16)PLACEMENT_PX(object) < -52 || (s16)PLACEMENT_PY(object) >= DUEL_CARD_PLACEMENT_SCREEN_HEIGHT) {
                 DisplayObject_ReleaseIfPresent(object);
                 D_800E9EF0[0] = D_800E9EF0[1];
                 TextBox_Destroy(D_800EB0F8);

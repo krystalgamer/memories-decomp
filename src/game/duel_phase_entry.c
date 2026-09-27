@@ -33,6 +33,19 @@
 #include "duel_deck_card_data.h"
 #include "duel_swords_effect.h"
 
+/* Regional values: the cursor's field_0C (0xAE -> 0xBE), the base of
+ * field_40 (0x2E0 -> 0x360) and the y func_80018004 places a hand card at
+ * (0x292 -> 0x2A2). The European build (src/game/european/) defines its own. */
+#ifndef DUEL_PHASE_CURSOR_FIELD_0C
+#define DUEL_PHASE_CURSOR_FIELD_0C 0xAE
+#endif
+#ifndef DUEL_PHASE_FIELD_40_BASE
+#define DUEL_PHASE_FIELD_40_BASE 0x2E0
+#endif
+#ifndef DUEL_PHASE_HAND_CARD_Y
+#define DUEL_PHASE_HAND_CARD_Y 0x292
+#endif
+
 #define DUEL_CARD_DISPLAY_OBJECT_VIEW(object) \
     ((DuelCardDisplayObject *)(object))
 
@@ -200,7 +213,7 @@ void DuelScene_UpdateStartup(void)
             D_8009B162 = 2;
             D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-            *(u16 *)&D_8009B1B4->field_0C = 0xAE;
+            *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
         }
         if (D_8009B162 == 0) {
             D_8009B174 = 4;
@@ -278,7 +291,7 @@ void DuelScene_UpdateDrawPhase(void) {
     if ((gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         *(u16 *)&D_8009B21C->field_40.h.field_40 =
-            (D_8009B1D5 << 4) | 0x2E0;
+            (D_8009B1D5 << 4) | DUEL_PHASE_FIELD_40_BASE;
         Duel_ClearHandSlots();
         side = D_8009B1D5;
         D_8009B1C8 = &D_800E9FF0[side];
@@ -328,7 +341,7 @@ void DuelScene_UpdateDrawPhase(void) {
                 Duel_SetupCardRecord(idx, *(s8 *)p);
                 idx++;
                 n++;
-                slot->object = (u8 *)func_80018004(placed, y, 0x292);
+                slot->object = (u8 *)func_80018004(placed, y, DUEL_PHASE_HAND_CARD_Y);
                 slot++;
                 y += 0x3C;
                 placed++;
@@ -338,7 +351,7 @@ void DuelScene_UpdateDrawPhase(void) {
         D_8009B162 = 2;
         D_8009B1B4 = (DuelCardPickCursor *)(D_800E9F10 +
                 D_8009B1D5 * DUEL_SELECTION_SIDE_SIZE);
-        *(u16 *)&D_8009B1B4->field_0C = 0xAE;
+        *(u16 *)&D_8009B1B4->field_0C = DUEL_PHASE_CURSOR_FIELD_0C;
     } else if (D_8009B162 == 0) {
         gDuel_wSceneStateFlags = 3;
     }
