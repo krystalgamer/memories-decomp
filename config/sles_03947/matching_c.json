@@ -2522,6 +2522,12 @@
       "source": "src/game/european/duel_effect_display_states.c"
     },
     {
+      "address": "0x8003775C",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x34",
+      "source": "src/game/european/duel_effect_bgm_fade_wait.c"
+    },
+    {
       "address": "0x800378D8",
       "profile": "gcc_2_8_1_g8",
       "size": "0x134",
