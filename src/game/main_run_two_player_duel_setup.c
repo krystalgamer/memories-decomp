@@ -29,6 +29,18 @@ u8 D_8009B26C;
 #define TWO_PLAYER_SETUP_BOX_X 0x34
 #define TWO_PLAYER_SETUP_BOX_WIDTH 0xD8
 #endif
+#ifndef TWO_PLAYER_SETUP_BOX_Y
+#define TWO_PLAYER_SETUP_BOX_Y 0xB4
+#endif
+#ifndef TWO_PLAYER_SETUP_BOX_HEIGHT
+#define TWO_PLAYER_SETUP_BOX_HEIGHT 0x20
+#endif
+#ifndef TWO_PLAYER_SETUP_BOX_FLAGS
+#define TWO_PLAYER_SETUP_BOX_FLAGS 0x20
+#endif
+#ifndef TWO_PLAYER_SETUP_SECOND_BOX_X
+#define TWO_PLAYER_SETUP_SECOND_BOX_X 0xE
+#endif
 /* The text-box channel record; the Japanese one is 0x60 bytes. */
 #ifndef TWO_PLAYER_SETUP_CHANNEL_TYPE
 #define TWO_PLAYER_SETUP_CHANNEL_TYPE DuelEffectChannel
@@ -43,10 +55,36 @@ void Main_RunTwoPlayerDuelSetup(void)
         D_8009B236 = DUEL_STARTING_LIFE_POINTS;
         D_8009B234 = DUEL_STARTING_LIFE_POINTS;
         MainMenu_StartValueSetup(&D_8009B234, &D_8009B236, (u8 *)&D_8009B230);
-        TextBox_CreateFlagged(0, 0x25, TWO_PLAYER_SETUP_BOX_X, 0xB4,
-                              TWO_PLAYER_SETUP_BOX_WIDTH, 0x20, 0x20);
+        TextBox_CreateFlagged(
+            0,
+            0x25,
+            TWO_PLAYER_SETUP_BOX_X,
+            TWO_PLAYER_SETUP_BOX_Y,
+            TWO_PLAYER_SETUP_BOX_WIDTH,
+            TWO_PLAYER_SETUP_BOX_HEIGHT,
+            TWO_PLAYER_SETUP_BOX_FLAGS
+        );
         func_80039A14(D_800EB0F8);
-        TextBox_Create(1, 0x26, 0xE, 0x66, 0x100, 0x30);
+#ifdef TWO_PLAYER_SETUP_SECOND_BOX_FLAGS
+        TextBox_CreateFlagged(
+            1,
+            0x26,
+            TWO_PLAYER_SETUP_SECOND_BOX_X,
+            0x66,
+            0x100,
+            0x30,
+            TWO_PLAYER_SETUP_SECOND_BOX_FLAGS
+        );
+#else
+        TextBox_Create(
+            1,
+            0x26,
+            TWO_PLAYER_SETUP_SECOND_BOX_X,
+            0x66,
+            0x100,
+            0x30
+        );
+#endif
         func_80039A14((DuelEffectChannel *)&(
             (TWO_PLAYER_SETUP_CHANNEL_TYPE *)D_800EB0F8)[1]);
         SD_BGMPlay(0x72C0);
