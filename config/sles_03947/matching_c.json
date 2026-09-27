@@ -1556,6 +1556,18 @@
       "source": "src/game/func_8002ABB4.c"
     },
     {
+      "address": "0x8002ACF0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDF0",
+      "source": "src/game/european/library_runtime_8002ACA4.c"
+    },
+    {
+      "address": "0x8002BAE0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xC",
+      "source": "src/game/european/library_runtime_8002ACA4.c"
+    },
+    {
       "address": "0x8002BAEC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
