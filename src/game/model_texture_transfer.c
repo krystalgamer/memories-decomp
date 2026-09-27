@@ -24,7 +24,18 @@
 #define DUEL_PACKAGE_STAGE_RAW_ARENAS
 #include "duel_load_package_stage.h"
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80056D7C)
+#ifndef MODEL_TEXTURE_STAGE3_RECT_X
+#define MODEL_TEXTURE_STAGE3_RECT_X(index) ((index) << 8)
+#endif
+#ifndef MODEL_TEXTURE_STAGE3_RECT_Y
+#define MODEL_TEXTURE_STAGE3_RECT_Y(index) 0xF8
+#endif
+#ifndef MODEL_TEXTURE_PALETTE_RECT_X
+#define MODEL_TEXTURE_PALETTE_RECT_X 0x200
+#endif
+
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80056D7C)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80056D7C))
 void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 {
     RECT rect0;
@@ -73,8 +84,8 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         u8 *source;
         RECT *rect;
         do { rect = &rect0; } while (0);
-        rect0.x = index << 8;
-        rect0.y = 0xF8;
+        rect0.x = MODEL_TEXTURE_STAGE3_RECT_X(index);
+        rect0.y = MODEL_TEXTURE_STAGE3_RECT_Y(index);
         rect0.w = 0x100;
         rect0.h = 8;
         LoadImage2(rect, (u32 *)D_801DD000);
@@ -89,7 +100,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
     }
     case 4:
         if (alternate == 0) {
-            rect1.x = 0x200;
+            rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
             rect1.y = index + 0xF2;
             rect1.w = 0x100;
             rect1.h = 1;
@@ -119,7 +130,7 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
         break;
     case 6:
         if (alternate == 1) {
-            rect1.x = 0x200;
+            rect1.x = MODEL_TEXTURE_PALETTE_RECT_X;
             rect1.y = index + 0xF2;
             rect1.w = 0x100;
             rect1.h = 1;
@@ -294,7 +305,10 @@ void func_80056D7C(FileTransferDescriptor *d, s32 stage)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_TEXTURE_TRANSFER_TAIL)
+#if (!defined(VERSION_JAPAN) || \
+     defined(VERSION_JAPAN_MODEL_TEXTURE_TRANSFER_TAIL)) && \
+    (!defined(VERSION_EUROPE) || \
+     defined(VERSION_EUROPE_MODEL_TEXTURE_TRANSFER_TAIL))
 /* Two transfer-phase callbacks of the FreeDuel_LoadPackageStage family, kept
    in one translation unit because they are the same routine over different
    assets: each takes the descriptor plus a phase index, and each switch arm
