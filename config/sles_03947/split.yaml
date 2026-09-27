@@ -283,6 +283,8 @@ segments:
       - [0x02C610, asm, generated/text_02c610]
       - [0x02D5C4, c, game/input_pad1_backup]
       - [0x02D640, asm, generated/text_02d640]
+      - [0x02DAF8, c, game/european/checkerboard_background]
+      - [0x02DC38, asm, generated/text_02dc38]
       - [0x031148, c, game/display_object_render_sprite_sheet_list]
       - [0x031204, c, game/display_object_updates]
       - [0x03170C, c, game/display_object_runtime]
