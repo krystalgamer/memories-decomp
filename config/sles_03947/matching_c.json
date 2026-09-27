@@ -3134,9 +3134,27 @@
       "source": "src/game/european/func_8003DC1C.c"
     },
     {
+      "address": "0x8003E3C0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
       "address": "0x8003E3E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
+      "address": "0x8003E728",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
+      "address": "0x8003E760",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x48",
       "source": "src/game/european/mem_card_dialog_update_load.c"
     },
     {
