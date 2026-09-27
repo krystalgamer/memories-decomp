@@ -2690,6 +2690,18 @@
       "source": "src/game/func_800388D8.c"
     },
     {
+      "address": "0x80038798",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x14",
+      "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
+      "address": "0x800387AC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x6C",
+      "source": "src/game/european/duel_effect_object_80038A44.c"
+    },
+    {
       "address": "0x80038818",
       "profile": "gcc_2_8_1_g8",
       "size": "0x6C",
@@ -3194,9 +3206,27 @@
       "source": "src/game/european/func_8003DC1C.c"
     },
     {
+      "address": "0x8003E3C0",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
       "address": "0x8003E3E4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x344",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
+      "address": "0x8003E728",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x38",
+      "source": "src/game/european/mem_card_dialog_update_load.c"
+    },
+    {
+      "address": "0x8003E760",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x48",
       "source": "src/game/european/mem_card_dialog_update_load.c"
     },
     {

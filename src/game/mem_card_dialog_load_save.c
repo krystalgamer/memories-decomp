@@ -20,7 +20,8 @@
    then the value with the new bits set. Without volatile the first store is
    dead and GCC drops it, so this function reaches the word through a volatile
    lvalue rather than forcing volatile on every reader in mem_card.h. */
-#if !defined(VERSION_EUROPE)
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MEM_CARD_DIALOG_SET_MESSAGE)
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
     u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
@@ -192,7 +193,8 @@ void MemCardDialog_UpdateLoad(void)
 }
 #endif
 
-#if !defined(VERSION_EUROPE)
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_LOAD)
 void MemCardDialog_StepLoad(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
@@ -201,7 +203,10 @@ void MemCardDialog_StepLoad(void)
     }
     MemCardDialog_UpdateLoad();
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_LOAD_UNPROMPTED)
 void MemCardDialog_StepLoadUnprompted(void)
 {
     if (!(D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED)) {
