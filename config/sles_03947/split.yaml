@@ -331,7 +331,7 @@ segments:
       - [0x02684C, asm, generated/text_02684c]
       - [0x027410, c, game/text_stream_read_u16_le]
       - [0x027444, c, game/text_stream_read_le]
-      - [0x027490, asm, generated/text_027490]
+      - [0x027490, c, game/european/duel_effect_update_object_layout]
       - [0x027504, c, game/dialog_choice_cursor]
       - [0x027694, c, game/european/widget_update_pulse_colour]
       - [0x02772C, asm, generated/text_02772c]
