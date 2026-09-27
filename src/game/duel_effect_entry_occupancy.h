@@ -24,6 +24,23 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
     sizeof(struct { u8 lead; JapaneseDuelEffectEntry entry; }) == 0x1C ? 1 : -1
 ];
 
+/* The European build's entries: 800 of them, 0x16 bytes each, with the
+   marker flag at 0xF and the channel byte at 0x10 (DuelEffect_ClearMatching-
+   Marker and DuelEffect_ResetEntryMarkers read them there). Only those two
+   bytes are named; they keep the US field names. */
+#define EUROPEAN_DUEL_EFFECT_ENTRY_COUNT 800
+
+typedef struct {
+    u8 pad_00[0xF];
+    u8 flags_11;
+    u8 field_12;
+    u8 pad_11[5];
+} EuropeanDuelEffectEntry;
+
+typedef char EuropeanDuelEffectEntry_size_must_be_0x16[
+    sizeof(EuropeanDuelEffectEntry) == 0x16 ? 1 : -1
+];
+
 void DuelEffect_ClearOccupancyValue(s32 value);
 void DuelEffect_ResetOccupancy(void);
 s32 func_80035D10(void);
