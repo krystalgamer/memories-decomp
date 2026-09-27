@@ -372,7 +372,7 @@ segments:
       - [0x028278, c, game/text_try_complete_choice_layout]
       - [0x0282C4, c, game/text_extend_glyph_code]
       - [0x028304, c, game/text_stream_commands]
-      - [0x02833C, asm, generated/text_02833c]
+      - [0x02833C, c, game/european/duel_effect_command_80037DA4]
       - [0x028594, c, game/european/duel_effect_selector_commands]
       - [0x028644, c, game/european/duel_effect_stream_offsets]
       - [0x0286B8, c, game/european/duel_effect_command_80038148]
