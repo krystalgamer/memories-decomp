@@ -1406,6 +1406,24 @@
       "source": "src/game/func_800611D0.c"
     },
     {
+      "address": "0x80051A9C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1D0",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
+      "address": "0x80051C6C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x1B8",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
+      "address": "0x80051E24",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0x200",
+      "source": "src/game/european/model_slot_row_tables.c"
+    },
+    {
       "address": "0x80052CC0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",

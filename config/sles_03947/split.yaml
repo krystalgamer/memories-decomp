@@ -325,6 +325,8 @@ segments:
       - [0x041608, c, game/func_800610E0]
       - [0x0416F8, c, game/func_800611D0]
       - [0x0417E8, asm, generated/text_0417e8]
+      - [0x04229C, c, game/european/model_slot_row_tables]
+      - [0x042824, asm, generated/text_042824]
       - [0x0434C0, c, game/func_8004E7B0]
       - [0x0436B0, c, game/func_8004E9A0]
       - [0x043810, asm, generated/text_043810]
