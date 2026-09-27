@@ -526,6 +526,8 @@ segments:
       - [0x0473A4, asm, generated/text_0473a4]
       - [0x0475D0, c, game/european/model_scene_tint_pass]
       - [0x047A50, asm, generated/text_047a50]
+      - [0x0481DC, c, game/european/model_debug_controller]
+      - [0x048DD8, asm, generated/text_048dd8]
       - [0x04A41C, c, game/func_800556E8]
       - [0x04A708, c, game/european/model_control]
       - [0x04AE50, c, game/european/model_slot_setup]
@@ -624,6 +626,8 @@ segments:
       - [0x08C6AC, .sdata, game/duel_card_effects]
       - [0x08C6B9, pad]
       - [0x08C6BC, sdata, initialized_sdata_8009bebc]
+      - [0x08C78C, .sdata, game/european/model_debug_controller]
+      - [0x08C790, sdata, initialized_sdata_8009bf90]
 
   - name: bss_image
     type: bin
