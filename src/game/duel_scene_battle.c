@@ -92,6 +92,15 @@
 #define DUEL_EFFECT_REQUEST_VIEW(request) ((DuelEffectRequest *)(request))
 #define DUEL_EFFECT_REQUEST_BYTES(request) ((u8 *)(request))
 
+/* Regional battle layouts override these two vertical coordinates. */
+#ifndef DUEL_BATTLE_STAT_DISPLAY_Y
+#define DUEL_BATTLE_STAT_DISPLAY_Y 0x16
+#endif
+
+#ifndef DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET
+#define DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET 0x62
+#endif
+
 s8 D_8009B208;
 s8 D_8009B209;
 
@@ -235,7 +244,7 @@ void DuelScene_UpdateBattle(void)
             effects = D_800EA0E8;
             effects[0].field_3C |= 0x40;
             o->field_30.h.field_30 = 0xA;
-            o->field_30.h.field_32 = 0x16;
+            o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
             o->field_20.b.field_21 = 0xC0;
             DisplayObject_SetDepthOffset(o, -0xA);
             o->flags = (o->flags | 4) & 0xFFBF;
@@ -260,7 +269,7 @@ void DuelScene_UpdateBattle(void)
             }
             if (o != 0) {
                 o->field_30.h.field_30 = 0xAA;
-                o->field_30.h.field_32 = 0x16;
+                o->field_30.h.field_32 = DUEL_BATTLE_STAT_DISPLAY_Y;
                 o->field_20.b.field_21 = 0xC0;
                 DisplayObject_SetDepthOffset(o, -0xA);
                 o->flags = (o->flags | 4) & 0xFFBF;
@@ -416,7 +425,7 @@ void DuelScene_UpdateBattle(void)
                         req->field_00 = pos;
                         D_8009B1D0 = 0;
                         arg = side->field_30.h.field_32;
-                        arg += 0x62;
+                        arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                         req->field_02 = arg;
                         pos = result - 1;
                         req->field_1A = pos;
@@ -536,7 +545,9 @@ void DuelScene_UpdateBattle(void)
                     req =
                         DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(2));
                     req->field_00 = side->field_30.h.field_30 + 0x46;
-                    req->field_02 = side->field_30.h.field_32 + 0x62;
+                    req->field_02 =
+                        side->field_30.h.field_32 +
+                        DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                     result = D_8009B1A4[D_8009B1B9];
                     D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);
                     req->field_12 = result;
@@ -622,7 +633,9 @@ void DuelScene_UpdateBattle(void)
             req = DUEL_EFFECT_REQUEST_VIEW(DuelEffect_AllocateRequest(3));
             D_8009B17C = DUEL_EFFECT_REQUEST_BYTES(req);
             req->field_00 = side->field_30.h.field_30 + 0x46;
-            req->field_02 = side->field_30.h.field_32 + 0x62;
+            req->field_02 =
+                side->field_30.h.field_32 +
+                DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
             if (D_8009B22A != 0) {
                 req->field_1A = 1;
             }
