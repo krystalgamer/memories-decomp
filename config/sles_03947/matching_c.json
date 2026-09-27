@@ -2696,6 +2696,12 @@
       "source": "src/game/european/dialog_transition_8003D614.c"
     },
     {
+      "address": "0x8003D714",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x2F0",
+      "source": "src/game/european/dialog_transition_8003D74C.c"
+    },
+    {
       "address": "0x8003DA04",
       "profile": "gcc_2_8_1_g8_no_split",
       "size": "0x1DC",

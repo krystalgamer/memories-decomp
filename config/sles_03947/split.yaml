@@ -389,7 +389,7 @@ segments:
       - [0x02DC38, c, game/european/duel_effect_create_channel]
       - [0x02DCE4, c, game/european/dialog_transition_8003D518]
       - [0x02DDDC, c, game/european/dialog_transition_8003D614]
-      - [0x02DF14, asm, generated/text_02df14]
+      - [0x02DF14, c, game/european/dialog_transition_8003D74C]
       - [0x02E204, c, game/european/func_8003DA40]
       - [0x02E3E0, asm, generated/text_02e3e0]
       - [0x02F7E4, c, game/european/mem_card_dialog_trade_save]
