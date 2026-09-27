@@ -1119,6 +1119,7 @@ func_8005D378 = 0x8005FC1C;
 Model_ProcessType2Unit = 0x80060238;
 Model_GetPrimitiveHandler = 0x80060488;
 func_8006086C = 0x800608EC;
+func_800608B8 = 0x80060938;
 func_80060AEC = 0x80060B90;
 Color_RgbToHsl = 0x80069144;
 Color_HslToRgb = 0x80069358;
