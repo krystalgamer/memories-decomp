@@ -110,17 +110,17 @@ step:
    the Main_RunFrameServices dispatcher.
 
    The fade state lives in the gFade_State record: byte 4 is the current
-   level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and
-   bytes 0xA..0x27 are 30 per-band levels. Fade_Update updates the state
-   before the draw gate: FADE_FLAG_ACTIVE, or a nonzero D_8009B141 with
-   level != 0xFF. Level 0xFF is not a universal completion sentinel.
+   level, byte 6 is the flag byte, bytes 0/1/2 are per-channel tint, and the
+   bytes from 0xA hold FADE_BAND_COUNT per-band levels. Fade_Update updates
+   the state before the draw gate: FADE_FLAG_ACTIVE, or a nonzero D_8009B141
+   with level != 0xFF. Level 0xFF is not a universal completion sentinel.
 
    Rendering reuses a GsBOXF-compatible descriptor in PS1 scratchpad RAM
    at 0x1F8003C0. GsSortBoxFill builds the GPU packet from it:
 
-     - FADE_FLAG_BANDED: 30 stacked bands, each 320x8, stepping y by 8 for
-       240 lines total -- one band per band_levels[i], each shaded
-       0xFF - that level. This is the banded/wipe variant.
+     - FADE_FLAG_BANDED: FADE_BAND_COUNT stacked 320x8 bands, one per
+       band_levels[i], each shaded 0xFF - that level. This is the banded/wipe
+       variant.
      - without band mode, the tail submits one 320x240 box at (0,0).
        After the bands it returns unless FADE_FLAG_KEEP_OVERLAY is set; that combined
        path reaches the tail with height 8 and y=240, not a full-screen
