@@ -944,6 +944,10 @@ void func_80050584(s32 arg0) {
 #define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
 #define MODEL_SLOT_BYTES(slot) ((u8 *)(slot))
 
+#ifndef MODEL_INTRO_PACKAGE_START_SECTOR
+#define MODEL_INTRO_PACKAGE_START_SECTOR 1223
+#endif
+
 #if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_800507D0)
 void func_800507D0(void)
 {
@@ -984,7 +988,9 @@ void func_800507D0(void)
   switch ( D_8009AF9A )
   {
     case -1:
-      File_RequestAsyncTransfer(1, D_800114F8, 1223, 16, 0, 0, D_80010030);
+      File_RequestAsyncTransfer(
+          1, D_800114F8, MODEL_INTRO_PACKAGE_START_SECTOR,
+          16, 0, 0, D_80010030);
       File_WaitForTransfers();
       D_8009B004.fields.field_01 = 0;
       D_8009B004.fields.field_00 = 0;
