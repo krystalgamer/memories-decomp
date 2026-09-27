@@ -154,6 +154,8 @@ segments:
       - [0x011340, asm, generated/text_011340]
       - [0x0114AC, c, game/european/duel_result_orbit_sprites]
       - [0x0116AC, asm, generated/text_0116ac]
+      - [0x012068, c, game/european/func_800218F0]
+      - [0x012830, asm, generated/text_012830]
       - [0x012DEC, c, game/duel_card_turn_animations]
       - [0x01350C, c, game/func_80022D94]
       - [0x013664, c, game/duel_selection_update_linked_object]
