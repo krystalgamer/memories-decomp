@@ -147,7 +147,12 @@ void Text_NewLine(DuelEffectChannel *record)
 {
     record->field_56++;
     record->field_38 = 0x1000;
+#ifdef VERSION_EUROPE
+    /* The European build moves to state 4 only from the fourth line on. */
+    if (TextBox_WrapLineIfNeeded(record) && record->field_56 >= 4) {
+#else
     if (TextBox_WrapLineIfNeeded(record)) {
+#endif
         record->state_51 = 4;
     }
     D_8009B350 = 1;
