@@ -2714,6 +2714,18 @@
       "source": "src/game/text_sjis_to_glyph_codes.c"
     },
     {
+      "address": "0x8003C000",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x1C4",
+      "source": "src/game/european/campaign_map_load_package_stage.c"
+    },
+    {
+      "address": "0x8003C1C4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x60",
+      "source": "src/game/european/campaign_map_load_package_stage.c"
+    },
+    {
       "address": "0x8003CA58",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
