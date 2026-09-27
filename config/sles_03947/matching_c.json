@@ -4880,6 +4880,12 @@
       "source": "src/game/european/model_texture_transfer_phase.c"
     },
     {
+      "address": "0x8005BA7C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x26C",
+      "source": "src/game/european/model_texture_transfer_phase.c"
+    },
+    {
       "address": "0x8005C034",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
