@@ -405,6 +405,13 @@ s32 Duel_CalcRankScoreChange(s32 arg0, s32 arg1)
    copied into the separate D_801D5608[0].rank_rows[stat][side] display
    table. */
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_CALC_RANK_SCORE)
+/* The results page that shows the selected text. */
+#ifdef VERSION_EUROPE
+#define DUEL_RESULT_SELECTOR_PAGE 0
+#else
+#define DUEL_RESULT_SELECTOR_PAGE 1
+#endif
+
 void Duel_CalcRankScore(void) {
     DuelResultDisplayState *p;
     DuelSideState *e;
@@ -415,16 +422,25 @@ void Duel_CalcRankScore(void) {
     p = D_8009B1E8;
     e = D_800E9FF0;
     q = &D_801D5608[0].rank_rows[0][0];
+#ifdef VERSION_EUROPE
+    /* The European build shows the selected text on the first page and
+       0x44 on the second. */
+    p->page_text_ids[0] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
+    p->page_text_ids[1] = 0x44;
+#else
     p->page_text_ids[0] = 0x44;
     p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DEFAULT;
+#endif
     p->page_text_ids[2] = 0x45;
     if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
         DUEL_RANK_ADJUST_EXODIA_WIN) {
-        p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_EXODIA;
+        p->page_text_ids[DUEL_RESULT_SELECTOR_PAGE] =
+            DUEL_RESULT_TEXT_SELECTOR_EXODIA;
     }
     if (D_800E9FF0[gDuel_bWinnerSide].rank.result_adjustment ==
         DUEL_RANK_ADJUST_DECK_OUT_WIN) {
-        p->page_text_ids[1] = DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
+        p->page_text_ids[DUEL_RESULT_SELECTOR_PAGE] =
+            DUEL_RESULT_TEXT_SELECTOR_DECK_OUT;
     }
 
     p->side_scores[1] = DUEL_RANK_SCORE_INITIAL;
