@@ -428,8 +428,6 @@ write:
 }
 #endif
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_DUEL_EFFECT_SCALED_OPERAND)
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
@@ -442,6 +440,8 @@ static __inline__ u32 read_operand(DuelEffectChannel *object)
     return value;
 }
 
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_DUEL_EFFECT_SCALED_OPERAND)
 void func_800382A8(DuelEffectChannel *object)
 {
 #ifdef VERSION_EUROPE
@@ -536,12 +536,29 @@ void func_80038388(DuelEffectChannel *object)
 }
 #endif
 
+#if defined(VERSION_EUROPE) && defined(VERSION_EUROPE_FUNC_80038168)
+/* A European-only command, next to func_80038388 in the image: the same
+   read into field_3A. */
+void func_80038168(DuelEffectChannel *object)
+{
+    object->field_3A = TextStream_ReadU16LE(object);
+}
+#endif
+
 #if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_800383B0)
 void func_800383B0(DuelEffectChannel *object)
 {
+#ifdef VERSION_EUROPE
+    /* The European build clears the glyph counter and sets the limit
+       (halfwords at 0x60 and 0x62) from one operand byte, times eight. */
+    *(u16 *)((u8 *)object + DUEL_EFFECT_U16_RESULT_OFFSET) = 0;
+    *(u16 *)((u8 *)object + DUEL_EFFECT_U16_RESULT_OFFSET + 2) =
+        read_operand(object) << 3;
+#else
     ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET] = 0;
     ((u8 *)object)[DUEL_EFFECT_U16_RESULT_OFFSET + 1] =
         TextStream_ReadU16LE(object);
+#endif
 }
 #endif
 

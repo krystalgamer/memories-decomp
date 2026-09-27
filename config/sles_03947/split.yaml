@@ -382,7 +382,7 @@ segments:
       - [0x028818, c, game/european/duel_effect_command_800382A8]
       - [0x0288EC, c, game/european/duel_effect_operand_pair]
       - [0x028940, c, game/european/duel_effect_read_u16]
-      - [0x028968, asm, generated/text_028968]
+      - [0x028968, c, game/european/duel_effect_command_80038168]
       - [0x0289C0, c, game/european/duel_effect_command_800383DC]
       - [0x028A6C, c, game/european/duel_effect_slot_flags]
       - [0x028B04, c, game/text_start_campaign_duel]
