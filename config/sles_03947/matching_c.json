@@ -2054,6 +2054,12 @@
       "source": "src/game/european/duel_card_stat_display.c"
     },
     {
+      "address": "0x80031E8C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x160",
+      "source": "src/game/european/card_list_create_slot_text_box.c"
+    },
+    {
       "address": "0x80031FEC",
       "profile": "gcc_2_8_1_g0",
       "size": "0x58",

@@ -382,7 +382,7 @@ address,size,name,status,module,notes
 0x800317F0,0x8C,func_800317F0,unmatched_asm,game,
 0x8003187C,0xF0,func_8003187C,unmatched_asm,game,
 0x8003196C,0x520,func_8003196C,unmatched_asm,game,
-0x80031E8C,0x160,CardList_CreateSlotTextBox,unmatched_asm,game,
+0x80031E8C,0x160,CardList_CreateSlotTextBox,matching_c,game,"Exact European match reusing the later-regional card-style path with isolated PAL box Y/height and following-slot flag constants."
 0x80031FEC,0x58,func_80031E04,matching_c,game,
 0x80032044,0x88,BuildDeck_RefreshCountDisplay,matching_c,game,
 0x800320CC,0x98,BuildDeck_ReturnCardToChest,matching_c,game,
