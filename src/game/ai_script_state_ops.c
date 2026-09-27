@@ -220,6 +220,8 @@ void AiScript_LoadGuardianStarChoice(void)
     D_800EAE8F = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
 }
 
+/* Differs in the European build, which takes the rest of this file. */
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_AI_SCRIPT_PRINT)
 void AiScript_Print(void)
 {
     int checkpoint = AiScript_ReadByte();
@@ -227,4 +229,5 @@ void AiScript_Print(void)
     printf(D_80011908);
     printf(D_80011918, checkpoint);
 }
+#endif
 #endif
