@@ -10,6 +10,13 @@
 #define SCRIPT_IMAGE_ENTRY_OBJECT(entry) \
     ((DisplayObject *)(entry).pointer)
 
+#ifndef SCRIPT_IMAGE_SCREEN_X
+#define SCRIPT_IMAGE_SCREEN_X 0
+#endif
+#ifndef SCRIPT_IMAGE_SCREEN_Y
+#define SCRIPT_IMAGE_SCREEN_Y 0xF0
+#endif
+
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
  * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.
  * gp=0, at=0, no addressing work; default flags.
@@ -64,8 +71,8 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 arg1) {
     if (n >= 0x200) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
         DisplayObject_ConfigureScreenSprite(
-            o,
-            0, 0, 0x200, 0x100, 0, 0, 0x10, 0, 0xF0
+            o, 0, 0, 0x200, 0x100, 0, 0, 0x10,
+            SCRIPT_IMAGE_SCREEN_X, SCRIPT_IMAGE_SCREEN_Y
         );
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;

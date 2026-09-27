@@ -1658,6 +1658,12 @@
       "source": "src/game/european/script_image_objects.c"
     },
     {
+      "address": "0x8002E1D4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24C",
+      "source": "src/game/european/script_image_rebuild.c"
+    },
+    {
       "address": "0x8002E420",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x44",

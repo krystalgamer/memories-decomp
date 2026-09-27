@@ -263,7 +263,7 @@ segments:
       - [0x01E044, asm, generated/text_01e044]
       - [0x01E61C, c, game/main_loop]
       - [0x01E6A4, c, game/european/script_image_objects]
-      - [0x01E9D4, asm, generated/text_01e9d4]
+      - [0x01E9D4, c, game/european/script_image_rebuild]
       - [0x01EC20, c, game/european/duel_effect_mark_object_if_active]
       - [0x01EC64, c, game/script_command_busy]
       - [0x01ECAC, c, game/func_8002E3FC]
