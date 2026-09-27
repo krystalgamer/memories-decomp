@@ -360,7 +360,7 @@ segments:
       - [0x035878, c, game/sound_mix]
       - [0x035AB4, c, game/func_80044FFC]
       - [0x035AF4, c, game/sound_output_state]
-      - [0x035F14, asm, generated/text_035f14]
+      - [0x035F14, c, game/european/sd_arm_busy_callback]
       - [0x035F3C, c, game/sd_has_queued_stream_command]
       - [0x035FCC, c, game/func_80045514]
       - [0x0366A0, c, game/sound_runtime]
