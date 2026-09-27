@@ -1358,6 +1358,12 @@
       "source": "src/game/func_80029EB0.c"
     },
     {
+      "address": "0x80029F18",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x428",
+      "source": "src/game/european/library_draw_card_grid.c"
+    },
+    {
       "address": "0x8002A340",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
