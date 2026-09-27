@@ -985,7 +985,6 @@ gDuel_awEquipTable = 0x8017A1D8;
 tent_GlyphLookupTable = 0x801D9000;
 gLibrary_aCardArtRecord = 0x801DC000;
 DuelEffect_ApplyHarpiesFeatherDuster = 0x80026998; // type:func size:0xE0
-DuelEffect_UpdateCardEffect = 0x80026A78; // type:func size:0x70
 DuelEffect_StartCardEffect = 0x80026AE8; // type:func size:0x68
 DuelCard_RemoveFromField = 0x800248CC; // type:func
 gDuel_sCardEffectIndex = 0x8009C184;
