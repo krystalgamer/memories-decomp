@@ -2996,6 +2996,12 @@
       "source": "src/game/european/display_object_fade_callbacks.c"
     },
     {
+      "address": "0x80039DF8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x90",
+      "source": "src/game/european/func_80039DF8.c"
+    },
+    {
       "address": "0x8003A02C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
