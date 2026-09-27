@@ -856,7 +856,7 @@ void MemCardDialog_UpdateSave(void)
 #endif
 #endif
 
-#if !defined(VERSION_EUROPE)
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MEM_CARD_DIALOG_STEP_SAVE)
 void MemCardDialog_StepSave(void)
 {
     if ((D_8009B3C1 & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {

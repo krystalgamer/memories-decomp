@@ -1340,6 +1340,7 @@ func_8003D74C = 0x8003D714;
 func_8003DA40 = 0x8003DA04;
 MemCardDialog_SetMessage = 0x8003E3C0;
 MemCardDialog_UpdateSave = 0x8003E7A8;
+MemCardDialog_StepSave = 0x8003EF64;
 gEuropean_D_80090F9C = 0x80091FB4;
 func_8003EF9C = 0x8003EF9C;
 MemCardDialog_UpdateTradeSave = 0x8003EFE4;

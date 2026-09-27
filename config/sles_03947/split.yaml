@@ -442,7 +442,6 @@ segments:
       - [0x02EBE4, c, game/european/mem_card_dialog_update_load]
       - [0x02EF28, asm, generated/text_02ef28]
       - [0x02EFA8, c, game/european/mem_card_dialog_update_save]
-      - [0x02F764, asm, generated/text_02f764]
       - [0x02F79C, c, game/european/func_8003EF9C]
       - [0x02F7E4, c, game/european/mem_card_dialog_trade_save]
       - [0x02FD68, c, game/european/mem_card_dialog_update]
