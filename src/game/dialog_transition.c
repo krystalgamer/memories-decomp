@@ -21,10 +21,15 @@
 #define DISPLAY_OBJECT_SNAPSHOT_VIEW(object) \
     ((DisplayObjectSnapshot *)(object))
 
-/* Regional value: the spotlight's centre y, 120 in the US build and 128 in
-   the European one, whose wrapper defines its own. */
+/* Regional values, which the European wrappers define for themselves: the
+   spotlight's centre y (120 in the US build, 128 in the European one) and
+   the channel flag func_8003D74C sets while its text box is up (4 in the US
+   build, 8 in the European one). */
 #ifndef DIALOG_TRANSITION_SPOTLIGHT_Y
 #define DIALOG_TRANSITION_SPOTLIGHT_Y 120
+#endif
+#ifndef DIALOG_TRANSITION_CHANNEL_FLAG
+#define DIALOG_TRANSITION_CHANNEL_FLAG 4
 #endif
 
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8003D518)) && \
@@ -137,7 +142,7 @@ void func_8003D74C(MenuRecord *record)
             D_8009B3C1 | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
         p->field_30.h.field_30 = 0xA0;
-        p->field_30.h.field_32 = 0x78;
+        p->field_30.h.field_32 = DIALOG_TRANSITION_SPOTLIGHT_Y;
         p->field_48.h.field_48 = 0x80;
         p->field_48.h.field_4A = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
@@ -155,7 +160,7 @@ void func_8003D74C(MenuRecord *record)
         a = D_8009B3C7;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
-        r->flags_34 = r->flags_34 | 4;
+        r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;
         do {
             func_80039794();
         } while (r->field_30 == 0);
@@ -210,7 +215,7 @@ void func_8003D74C(MenuRecord *record)
         p->field_48.h.field_4A = 0x40;
         if (DISPLAY_OBJECT_VIEW(record->grid[0][0])->field_60 == 0) {
             g = D_8009B3C1;
-            r->flags_34 = r->flags_34 & 0xFFFB;
+            r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
             D_8009B3C1 = g | 0x40;
         }
     }
