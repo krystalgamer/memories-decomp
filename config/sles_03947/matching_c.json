@@ -2054,6 +2054,24 @@
       "source": "src/game/model_word_memory.c"
     },
     {
+      "address": "0x8004D7A0",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x210",
+      "source": "src/game/european/func_8005D994.c"
+    },
+    {
+      "address": "0x8004D9B0",
+      "profile": "gcc_2_8_1_g8_split_no_strength_reduce",
+      "size": "0xC64",
+      "source": "src/game/european/model_keyframe_update.c"
+    },
+    {
+      "address": "0x8004E614",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3EC",
+      "source": "src/game/european/func_8005E808.c"
+    },
+    {
       "address": "0x8004EA00",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x47C",
