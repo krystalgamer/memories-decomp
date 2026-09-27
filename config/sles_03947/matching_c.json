@@ -2210,6 +2210,18 @@
       "source": "src/game/european/text_box_lifecycle.c"
     },
     {
+      "address": "0x8003604C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x3C",
+      "source": "src/game/european/duel_effect_entry_markers.c"
+    },
+    {
+      "address": "0x80036088",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x24",
+      "source": "src/game/european/duel_effect_entry_markers.c"
+    },
+    {
       "address": "0x80036C10",
       "profile": "gcc_2_8_1_g8",
       "size": "0x34",
