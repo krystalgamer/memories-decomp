@@ -1931,19 +1931,25 @@
       "address": "0x8003CB78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x6C",
-      "source": "src/game/european/input_pads_reset_init.c"
+      "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CBE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/european/input_pads_reset_init.c"
+      "source": "src/game/european/input_pads.c"
+    },
+    {
+      "address": "0x8003CC34",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x70",
+      "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CCA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/european/input_pads_update.c"
+      "source": "src/game/european/input_pads.c"
     },
     {
       "address": "0x8003CDC4",

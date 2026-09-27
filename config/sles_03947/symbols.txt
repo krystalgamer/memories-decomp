@@ -1235,6 +1235,7 @@ File_RequestPasswordPackage = 0x8003BFB8;
 File_RequestEgyptOverworldPackage = 0x8003C1C4;
 Input_ResetPads = 0x8003CB78;
 Input_InitPads = 0x8003CBE4;
+Input_ReadRawPads = 0x8003CC34;
 Input_UpdatePads = 0x8003CCA4;
 Password_InitShopScreen = 0x80169E64;
 Password_UpdateShopScreen = 0x8016A160;
