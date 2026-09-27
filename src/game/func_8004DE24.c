@@ -22,6 +22,10 @@
 #define BACKGROUND_TEXTURE_WIDTH \
     (MODEL_BACKGROUND_RECORD_VIEW(D_8009AF88)->texture_width)
 
+#ifndef BACKGROUND_RENDER_CLIP_LIMIT
+#define BACKGROUND_RENDER_CLIP_LIMIT 241
+#endif
+
 void func_8004DE24(void)
 {
     CVECTOR colors[5] = {
@@ -98,10 +102,10 @@ void func_8004DE24(void)
             s32 edge = (BACKGROUND_FIELD_A8 & 0x1FFF) + (s16)pitch_bits;
             s32 full_height;
             s32 amount;
-            if (edge < 241) {
+            if (edge < BACKGROUND_RENDER_CLIP_LIMIT) {
                 if (edge >= end)
                     goto second_clip;
-            } else if (end < 241) {
+            } else if (end < BACKGROUND_RENDER_CLIP_LIMIT) {
                 goto second_clip;
             }
             full_height = sprite.h;
@@ -115,12 +119,12 @@ second_clip:
             s32 edge = BACKGROUND_FIELD_A8 & 0x1FFF;
             s32 full_height;
             s32 amount;
-            if ((u32)edge < 241) {
+            if ((u32)edge < BACKGROUND_RENDER_CLIP_LIMIT) {
                 if (edge < end)
                     goto trim_texture;
                 goto tiles;
             }
-            if (end < 241)
+            if (end < BACKGROUND_RENDER_CLIP_LIMIT)
                 goto tiles;
 trim_texture:
             full_height = sprite.h;
