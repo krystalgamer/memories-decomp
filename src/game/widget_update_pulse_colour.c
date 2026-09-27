@@ -5,6 +5,10 @@
 
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
 
+#ifndef WIDGET_PULSE_BASE
+#define WIDGET_PULSE_BASE 0x80
+#endif
+
 void Widget_UpdatePulseColour(DisplayObject *object)
 {
     /* A copy, not the parameter: retail moves the object into a3 at entry
@@ -14,7 +18,7 @@ void Widget_UpdatePulseColour(DisplayObject *object)
     s32 t = D_8009B09C & 0x7F;
     if (t >= 0x40)
         t = 0x7F - t;
-    t = t * 2 + 0x80;
+    t = t * 2 + WIDGET_PULSE_BASE;
     if (DISPLAY_OBJECT_COLOR_BYTES(q)[0] != 0)
         c = t;
     if (DISPLAY_OBJECT_COLOR_BYTES(q)[1] != 0)

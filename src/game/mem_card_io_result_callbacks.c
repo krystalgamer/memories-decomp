@@ -2,6 +2,10 @@
 #include "mem_card.h"
 #include "mem_card_io_result_callbacks.h"
 
+#ifndef MEM_CARD_IO_RESULT_PAGE_OFFSET
+#define MEM_CARD_IO_RESULT_PAGE_OFFSET 0x4BB0
+#endif
+
 long MemCard_SetIOResultCompleteCB(void)
 {
     gMemCard_nIOResult = 0;
@@ -24,6 +28,6 @@ long MemCard_SetIOResultNewCardCB(void)
 {
     u8 *page = (u8 *)0x800A0000;
 
-    *(volatile s32 *)(page - 0x4BB0) = 3;
+    *(volatile s32 *)(page - MEM_CARD_IO_RESULT_PAGE_OFFSET) = 3;
     return 0;
 }
