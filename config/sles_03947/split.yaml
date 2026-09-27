@@ -166,7 +166,7 @@ segments:
       - [0x01559C, c, game/duel_action_lock]
       - [0x0155D0, asm, generated/text_0155d0]
       - [0x015794, c, game/func_80025028]
-      - [0x015834, asm, generated/text_015834]
+      - [0x015834, c, game/duel_card_effects]
       - [0x01664C, c, game/duel_swords_effect]
       - [0x0166A8, c, game/duel_field_effect_steps]
       - [0x016998, asm, generated/text_016998]
@@ -556,12 +556,16 @@ segments:
       - [0x081ED8, pad]
 
   - name: initialized_data
-    type: bin
+    type: code
     start: 0x081EE0
     vram: 0x800916E0
     align: 4
     subsegments:
-      - [0x081EE0, bin, initialized_data]
+      - [0x081EE0, data, initialized_data_800916e0]
+      - [0x08C684, sdata, initialized_sdata_8009be84]
+      - [0x08C6AC, .sdata, game/duel_card_effects]
+      - [0x08C6B9, pad]
+      - [0x08C6BC, sdata, initialized_sdata_8009bebc]
 
   - name: bss_image
     type: bin
