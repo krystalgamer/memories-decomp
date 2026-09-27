@@ -524,6 +524,18 @@
       "source": "src/game/func_8002827C.c"
     },
     {
+      "address": "0x8002822C",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/european/duel_effect_dialog_state.c"
+    },
+    {
+      "address": "0x80028254",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xDC",
+      "source": "src/game/european/duel_effect_dialog_state.c"
+    },
+    {
       "address": "0x80028860",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x80",
@@ -540,6 +552,12 @@
       "profile": "gcc_2_8_1_g0",
       "size": "0x4C",
       "source": "src/game/func_80029528.c"
+    },
+    {
+      "address": "0x800295C8",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/func_80029574.c"
     },
     {
       "address": "0x800295E4",
@@ -918,6 +936,18 @@
       "profile": "gcc_2_8_1_g8",
       "size": "0x38",
       "source": "src/game/build_deck_deck_capacity.c"
+    },
+    {
+      "address": "0x80033FA4",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x18",
+      "source": "src/game/duel_effect_mode_7.c"
+    },
+    {
+      "address": "0x80033FBC",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x1C",
+      "source": "src/game/duel_effect_mode_7.c"
     },
     {
       "address": "0x80033FD8",
