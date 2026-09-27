@@ -398,23 +398,32 @@ def function_name_before_body(tokens: list[Token], brace_index: int) -> int | No
     return None
 
 
-REGIONAL_NAME = re.compile(r"\bVERSION_JAPAN\w*")
+REGIONAL_NAME_TEXT = (
+    r"(?:VERSION_(?:JAPAN|EUROPE)\w*|\w*(?:JAPANESE|EUROPEAN)\w*)"
+)
+REGIONAL_NAME = re.compile(rf"\b{REGIONAL_NAME_TEXT}\b")
 IDENTIFIER = re.compile(r"\b[A-Za-z_]\w*\b")
 
 
 def only_regional_names(expression: str) -> bool:
-    """True when every macro an expression names is a VERSION_JAPAN* macro."""
+    """True when every macro named is a recognized regional selector."""
     names = set(IDENTIFIER.findall(expression)) - {"defined"}
     return bool(names) and all(REGIONAL_NAME.fullmatch(name) for name in names)
 CONDITIONAL = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif)\b(.*)$")
-REGIONAL_DEFINE = re.compile(r"^\s*#\s*define\s+(VERSION_JAPAN\w*)\b")
+REGIONAL_DEFINE = re.compile(
+    rf"^\s*#\s*define\s+({REGIONAL_NAME_TEXT})\b(?:\s+([01]))?"
+)
 
 
-def regional_condition(expression: str, defined: set[str]) -> bool:
-    """Evaluate a condition over VERSION_JAPAN* macros for the US build."""
+def regional_condition(expression: str, defined: dict[str, bool]) -> bool:
+    """Evaluate a condition over regional macros for the US build."""
     expression = re.sub(
         r"\bdefined\s*\(\s*(\w+)\s*\)|\bdefined\s+(\w+)",
         lambda match: "1" if (match.group(1) or match.group(2)) in defined else "0",
+        expression,
+    )
+    expression = REGIONAL_NAME.sub(
+        lambda match: "1" if defined.get(match.group(0), False) else "0",
         expression,
     )
     expression = expression.replace("&&", " and ").replace("||", " or ")
@@ -423,13 +432,14 @@ def regional_condition(expression: str, defined: set[str]) -> bool:
 
 
 def us_source_view(text: str) -> str:
-    """Return text as the US build sees it, blanking Japanese-only regions.
+    """Return text as the US build sees it, blanking regional-only regions.
 
-    Only conditionals on VERSION_JAPAN* macros are evaluated; every other
-    conditional keeps all of its branches, as the raw text did. Dropped lines
-    are blanked rather than removed, so line numbers are unchanged.
+    Conditionals on VERSION_JAPAN*, VERSION_EUROPE*, and explicit regional
+    layout selectors are evaluated; every other conditional keeps all of its
+    branches, as the raw text did. Dropped lines are blanked rather than
+    removed, so line numbers are unchanged.
     """
-    defined: set[str] = set()
+    defined: dict[str, bool] = {}
     # Each frame: (regional, active_before, taken, active).
     stack: list[tuple[bool, bool, bool | None, bool]] = []
     active = True
@@ -454,7 +464,7 @@ def us_source_view(text: str) -> str:
             if active:
                 define = REGIONAL_DEFINE.match(line)
                 if define is not None:
-                    defined.add(define.group(1))
+                    defined[define.group(1)] = define.group(2) != "0"
             output.append(line if active else "")
             continue
         directive, rest = match.group(1), match.group(2).strip()

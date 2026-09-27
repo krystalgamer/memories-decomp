@@ -468,6 +468,34 @@ class UsSourceViewTests(unittest.TestCase):
             dropped=["jp();"],
         )
 
+    def test_drops_european_body_and_keeps_us_else(self) -> None:
+        self.assertView(
+            "#ifdef VERSION_EUROPE\nvoid f(void) { eu(); }\n#else\n"
+            "void f(void) { us(); }\n#endif\n",
+            kept=["us();"],
+            dropped=["eu();"],
+        )
+
+    def test_selects_us_body_with_combined_regional_guards(self) -> None:
+        self.assertView(
+            "#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_F)) && "
+            "(!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_F))\n"
+            "#ifdef VERSION_EUROPE\nvoid f(void) { eu(); }\n#else\n"
+            "void f(void) { us(); }\n#endif\n#endif\n",
+            kept=["us();"],
+            dropped=["eu();"],
+        )
+
+    def test_honours_zero_valued_european_layout_macro(self) -> None:
+        self.assertView(
+            "#ifndef MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT\n"
+            "#define MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT 0\n#endif\n"
+            "#if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT\nint eu;\n"
+            "#else\nint us;\n#endif\n",
+            kept=["int us;"],
+            dropped=["int eu;"],
+        )
+
     def test_keeps_us_guard_with_regional_alternative(self) -> None:
         self.assertView(
             "#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_F)\n"
