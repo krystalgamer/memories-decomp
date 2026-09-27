@@ -967,7 +967,7 @@ address,size,name,status,module,notes
 0x8005CB78,0x214,SD_ApplyPositionalSound,matching_c,game,
 0x8005CD8C,0x100,Model_QueueTintRequestForParts,matching_c,game,
 0x8005CE8C,0x144,Model_QueueTintRequest,matching_c,game,
-0x8005CFD0,0x2B4,ModelTexture_LoadTim,unmatched_asm,game,
+0x8005CFD0,0x2B4,ModelTexture_LoadTim,matching_c,game,The European loader inlines the regional texture-page helper while preserving the shared TIM upload flow.
 0x8005D284,0xC,func_80058DC0,matching_c,game,
 0x8005D290,0xC,Model_GetActiveSlotIndex,matching_c,game,
 0x8005D29C,0x44,func_80058DD8,matching_c,game,
@@ -1035,7 +1035,7 @@ address,size,name,status,module,notes
 0x8005EB6C,0x1D0,SD_CalcSpatialVolumePan,matching_c,game,
 0x8005ED3C,0x4C,func_8005A878,matching_c,game,
 0x8005ED88,0xC8,Model_HasInsufficientBufferSpace,matching_c,game,
-0x8005EE50,0xC4,ModelTexture_PackPageClut,unmatched_asm,game,
+0x8005EE50,0xC4,ModelTexture_PackPageClut,matching_c,game,The European helper preserves the shared texture-page packing logic but leaves low-page CLUT X unchanged.
 0x8005EF14,0xD4,func_8005C6A0,unmatched_asm,game,
 0x8005EFE8,0x78,func_8005EFE8,unmatched_asm,game,
 0x8005F060,0x734,func_8005C7BC,matching_c,game,

@@ -5,18 +5,30 @@
 #include "model_texture_upload.h"
 #include "file_query_wrappers.h"
 
-u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params)
+#ifndef MODEL_TEXTURE_PACK_DECL
+#define MODEL_TEXTURE_PACK_DECL u32
+#endif
+
+#if !defined(VERSION_EUROPE) || \
+    defined(VERSION_EUROPE_MODEL_TEXTURE_PACK_PAGE_CLUT)
+MODEL_TEXTURE_PACK_DECL ModelTexture_PackPageClut(
+    int side, int mode, GsIMAGE *params)
 {
     register int offset;
     u32 high;
     u32 low;
 
+#ifdef MODEL_TEXTURE_PACK_SIDE_BIAS
+    side -= MODEL_TEXTURE_PACK_SIDE_BIAS;
+#endif
     side &= 1;
     offset = side << 8;
     *(u16 *)&params->px -= 0x280;
     *(u16 *)&params->px += offset;
     if (params->cy < 0x100) {
+#ifndef VERSION_EUROPE
         *(u16 *)&params->cx -= 0x80;
+#endif
         if (params->cy == 8) {
             params->cy = side + 0xF2;
         }
@@ -32,7 +44,9 @@ u32 ModelTexture_PackPageClut(int side, int mode, GsIMAGE *params)
           ((*(u16 *)&params->cx >> 4) & 0x3F);
     return (high << 16) | (low & 0xFFFF);
 }
+#endif
 
+#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_MODEL_TEXTURE_LOAD_TIM)
 s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
                          s32 y, s32 z, s32 w)
 {
@@ -51,7 +65,11 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
                 data->py = 0x100;
             }
             if (*(s32 *)&data->cx == 0) {
+#ifdef VERSION_EUROPE
+                data->cx = 0x280;
+#else
                 data->cx = 0x200;
+#endif
                 data->cy = 0xF2;
             }
             if (x >= 0) {
@@ -72,7 +90,11 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
                 *(u16 *)&data->cy = *(u16 *)&data->cy + mode;
             }
         } else if (mode >= 3) {
+#ifdef VERSION_EUROPE
+            ModelTexture_PackPageClut(mode, arg3, data);
+#else
             ModelTexture_PackPageClut(mode - 3, arg3, data);
+#endif
         }
 
         bounds.x = *(u16 *)&data->px;
@@ -107,3 +129,4 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 mode, s32 arg3, s32 x,
 
     return (high << 16) | (low & 0xFFFF);
 }
+#endif
