@@ -4556,6 +4556,12 @@
       "source": "src/game/european/movie_wait_and_decode_frame.c"
     },
     {
+      "address": "0x80050508",
+      "profile": "gcc_2_8_1_g8",
+      "size": "0x14",
+      "source": "src/game/european/movie_frame_pipeline_8005C374.c"
+    },
+    {
       "address": "0x8005051C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDC",
