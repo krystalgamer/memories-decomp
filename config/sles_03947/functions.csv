@@ -2,7 +2,7 @@ address,size,name,status,module,notes
 0x800128CC,0xA0,entrypoint,sdk_asm,psyq/crt,
 0x8001296C,0x70,__main,sdk_asm,psyq/crt,
 0x800129DC,0x68,func_800129DC,sdk_asm,psyq/crt,
-0x80012A44,0x190,Main_Init,unmatched_asm,game,
+0x80012A44,0x190,Main_Init,matching_c,game,The shared startup sequence matches exactly with the PAL video-mode call and language-index reset plus European SDK symbol aliases.
 0x80012BD4,0x78,func_80012BD4,matching_c,game,The shared Main_VBlankCB body matches exactly through the European address name and tracked relocated frame-state bytes.
 0x80012C4C,0x38,Main_AdvanceFrame,matching_c,game,The shared four-call frame-advance primitive matches exactly under the G8 profile.
 0x80012C84,0x30,Main_AdvanceFrames,matching_c,game,The shared counted frame-advance wrapper matches exactly under the G8 profile.
