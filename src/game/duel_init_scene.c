@@ -46,7 +46,8 @@
 
 /* Initializes the duel scene, then selects and shuffles both deck buffers. */
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SCENE)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_DUEL_INIT_SCENE)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_DUEL_INIT_SCENE))
 /* The terrain package's first sector and length. The Japanese WA.MRG gives
    each terrain 0xEF sectors from 0x16B5 (see duel_load_terrain_package.c),
    so a regional build supplies its own. */
@@ -195,7 +196,8 @@ void Duel_InitScene(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017DB4)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017DB4)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017DB4))
 void func_80017DB4(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &D_801A7AD8[object->card_index];
@@ -212,7 +214,8 @@ void func_80017DB4(DuelCardDisplayObject *object)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017E3C)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017E3C)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017E3C))
 void func_80017E3C(DuelCardDisplayObject *object)
 {
     DuelCardRecord *card = &D_801A7AD8[object->card_index];
@@ -242,7 +245,8 @@ void func_80017E3C(DuelCardDisplayObject *object)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017F04)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80017F04)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80017F04))
 u8 *func_80017F04(DuelCardRecord *arg0, s32 arg1, s32 arg2)
 {
     DuelCardDisplayObject *p =
