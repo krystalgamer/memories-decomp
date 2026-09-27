@@ -2504,6 +2504,12 @@
       "source": "src/game/european/duel_effect_command_80038148.c"
     },
     {
+      "address": "0x80038018",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0xD4",
+      "source": "src/game/european/duel_effect_command_800382A8.c"
+    },
+    {
       "address": "0x800380EC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
@@ -2514,6 +2520,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
       "source": "src/game/european/duel_effect_read_u16.c"
+    },
+    {
+      "address": "0x80038168",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x28",
+      "source": "src/game/european/duel_effect_command_80038168.c"
+    },
+    {
+      "address": "0x80038190",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x30",
+      "source": "src/game/european/duel_effect_command_80038168.c"
     },
     {
       "address": "0x800381C0",
