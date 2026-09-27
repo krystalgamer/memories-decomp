@@ -603,6 +603,7 @@ func_80038070 = 0x80037DE0;
 func_80038094 = 0x80037E04;
 func_80038148 = 0x80037EB8;
 func_80038388 = 0x80038140;
+func_800383DC = 0x800381C0;
 Text_StartCampaignDuel = 0x80038304;
 DuelEffect_PlayBgmCommand = 0x80038464;
 DuelEffect_ProcessBgmCommand = 0x8003848C;
