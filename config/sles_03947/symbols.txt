@@ -1539,6 +1539,7 @@ D_800FE148 = 0x800FF0B0;
 D_800FE240 = 0x800FF1A4;
 Main_RunPasswordMenu = 0x8002D714;
 Main_RunGameOver = 0x8002D7B0;
+Main_RunUnusedDeveloperMode = 0x8002D844;
 Main_Loop = 0x8002DE1C;
 ScriptImage_TransferCallback = 0x8002DEA4;
 ScriptImage_RequestTransfer = 0x8002DFD8;

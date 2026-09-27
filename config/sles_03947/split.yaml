@@ -272,7 +272,6 @@ segments:
       - [0x01DF14, c, game/main_run_password_menu]
       - [0x01DF58, c, game/european/main_run_options_menu]
       - [0x01DFB0, c, game/european/main_run_game_over]
-      - [0x01E044, asm, generated/text_01e044]
       - [0x01E04C, c, game/european/main_run_trade]
       - [0x01E29C, c, game/european/main_run_credits]
       - [0x01E4D0, c, game/european/main_run_two_player_duel_setup]
