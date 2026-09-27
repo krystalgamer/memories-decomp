@@ -121,7 +121,8 @@
     ((DuelEffectChannel *)((u8 *)D_800EB0F8 + \
                            (index) * LIBRARY_EFFECT_CHANNEL_STRIDE))
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002ACA4)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002ACA4))
 void func_8002ACA4(u8 *state)
 {
     DuelEffectResourceRecord *rec;
@@ -525,7 +526,8 @@ void func_8002ACA4(u8 *state)
 #undef W
 #undef LIBRARY_EFFECT_CHANNEL
 
-#ifndef VERSION_JAPAN
+#if !defined(VERSION_JAPAN) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAA0))
 void func_8002BAA0(u8 *value)
 {
     *value = 1;
@@ -533,11 +535,15 @@ void func_8002BAA0(u8 *value)
 
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAAC))
 void func_8002BAAC(u8 *value)
 {
 }
+#endif
 
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BAAC)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BAB4))
 void func_8002BAB4(void)
 {
     u8 *state;
@@ -638,7 +644,8 @@ void func_8002BAB4(void)
 
 #define gStageRect (D_800E9D70[0])
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BD0C)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BD0C))
 void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
@@ -710,7 +717,8 @@ void func_8002BD0C(FileTransferDescriptor *object, s32 mode)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_MARK_OWNED_CARDS)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_LIBRARY_MARK_OWNED_CARDS)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_LIBRARY_MARK_OWNED_CARDS))
 void Library_MarkOwnedCards(void)
 {
     u8 *p = gLibrary_abCardChest;
@@ -733,7 +741,8 @@ void Library_MarkOwnedCards(void)
 }
 #endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BFCC)
+#if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_8002BFCC)) && \
+    (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_8002BFCC))
 /* The Library package's first sector; the Japanese WA.MRG places it
    elsewhere, so a regional build supplies its own. */
 #ifndef LIBRARY_PACKAGE_FIRST_SECTOR
