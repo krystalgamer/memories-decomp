@@ -1988,6 +1988,12 @@
       "source": "src/game/build_deck_compare_card.c"
     },
     {
+      "address": "0x80032EE4",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x74",
+      "source": "src/game/european/card_list_sort_80032BD4.c"
+    },
+    {
       "address": "0x800333CC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",

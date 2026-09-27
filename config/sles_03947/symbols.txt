@@ -191,6 +191,7 @@ func_80032370 = 0x800325B0; // type:func size:0x88
 func_800323F8 = 0x80032638;
 BuildDeck_TestAndSetInitialized = 0x80032E48; // type:func size:0x28
 BuildDeck_CompareCard = 0x80032E70; // type:func size:0x74
+func_80032BD4 = 0x80032EE4;
 func_80032C48 = 0x80032F58;
 BuildDeck_UpdateCardListInput = 0x800333CC;
 BuildDeck_GetActiveCardID = 0x80033814; // type:func size:0x3C
