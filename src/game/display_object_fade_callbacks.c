@@ -1,8 +1,10 @@
 #define D_8009B0D8_IS_VOLATILE
 #include "../types.h"
+#include "../psyq/rand.h"
 #include "duel_effect.h"
 #include "graphics_frame.h"
 #include "display_object_fade.h"
+#include "func_80039B3C.h"
 #include "func_80039AD4.h"
 #include "display_object_fade_callbacks.h"
 #include "duel_effect_entry_occupancy.h"
@@ -45,6 +47,16 @@ void func_80039DF8(DuelEffectChannel *record)
         }
     }
     EU_ENTRY_FADE_VALUE(record) = value;
+}
+#endif
+
+#ifdef VERSION_EUROPE_FUNC_80039D24
+void func_80039D24(DuelEffectChannel *record, void *context)
+{
+    EU_ENTRY(record)->field_14 = (rand() & 0x1F) + 8;
+    EU_ENTRY(record)->field_14 = (rand() & 0x1F) + 32;
+    EU_ENTRY(record)->field_13 = 4;
+    func_80039B3C(record, context);
 }
 #endif
 
