@@ -15,6 +15,12 @@
 #include "util_memory.h"
 #include "save_data.h"
 
+/* Regional value: the completion mask it tests (0x2008 -> 0x2010). The
+ * European build (src/game/european/) defines its own. */
+#ifndef MEM_CARD_MESSAGE_COMPLETION_MASK
+#define MEM_CARD_MESSAGE_COMPLETION_MASK 0x2008
+#endif
+
 void func_8003DC1C(void)
 {
     MemCardWorkRoot *root = &D_800EF6D0.root;
@@ -33,11 +39,15 @@ void func_8003DC1C(void)
         index = zero;
         if (index < gMemCard_nDirEntries) {
             do {
+#ifndef VERSION_EUROPE
                 FntPrint(D_8009AF6C, &gMemCard_pDirEntries[index]);
+#endif
                 index++;
             } while (index < gMemCard_nDirEntries);
         }
+#ifndef VERSION_EUROPE
         FntPrint(D_80010378, slot->free_blocks);
+#endif
     }
     status = -1;
     if (D_8009B3CC & 0x4000)
@@ -122,7 +132,7 @@ success:
         DuelEffectChannel *text = &D_800EB0F8[root->text_index];
 #endif
         func_80039794();
-        if ((*(u32 *)&text->flags_34 & 0x2008) == 0x2000)
+        if ((*(u32 *)&text->flags_34 & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
             D_8009B3CC &= ~0x400;
         return;
     }
@@ -206,14 +216,15 @@ success:
     case 7: {
         s32 wait;
         s32 result;
+        u8 *file;
         if (!(D_8009B3CF & 0x80)) {
             D_8009B3CF |= 0x80;
             if (D_8009B3CC & 2) {
                 D_8009B3CF = 9;
                 break;
             }
-            name = gMemCard_szSaveFileName;
-            if (MemCard_FindLoadedEntry(name) < 0) {
+            file = gMemCard_szSaveFileName;
+            if (MemCard_FindLoadedEntry(file) < 0) {
                 D_8009B3CF = 10;
                 break;
             }
@@ -230,7 +241,7 @@ success:
             );
             MemCard_ReqWriteFile(
                 zero,
-                (s32)name,
+                (s32)file,
                 MEM_CARD_WORK_WRITE_ADDRESS,
                 0,
                 SAVE_DATA_HEADER_SIZE + FILE_SECTOR_SIZE
@@ -292,9 +303,11 @@ show_message:
                 MemCard_ReqCreateFile(zero, (s32)gMemCard_szSaveFileName, root->blocks);
             break;
         }
+#ifndef VERSION_EUROPE
         if (!D_8009B3D5)
             printf(D_80010398);
         printf(D_800103A4);
+#endif
         break;
     }
 }
