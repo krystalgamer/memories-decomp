@@ -16,13 +16,16 @@
     ((SpriteSheetHeader *)(object)->field_4C)
 #define GS_SPRITE_VIEW(sprite) ((GsSPRITE *)(sprite))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->field_0C)
+#ifndef SPRITE_SHEET_SCREEN_HEIGHT
+#define SPRITE_SHEET_SCREEN_HEIGHT 240
+#endif
 
 /* Emits one sprite per sheet part. The object's position is offset by the
  * viewport unless it is screen-space (flag 8). With the clip-test flag (4)
  * the object is projected once through func_80041F90, which may ask
  * (D_8009B424) for the setup to run again, and every part is submitted as a
  * 9-word semi-transparent quad at 0x1F800344. Otherwise each part either
- * goes out as a plain sprite, culled against the 320x240 screen when the
+ * goes out as a plain sprite, culled against the regional screen bounds when the
  * attribute's 0x08000000 bit asked for that, or as a rotated/scaled sprite
  * about the object's +0x48 pivot. The scale and colour are written through
  * GsSPRITE's own members, which is the view libgs gives the record. */
@@ -148,10 +151,19 @@ retry:
                 sprite->cxcy.h.cy = work->cy + (work->size & 0x1F);
             } else {
                 cx = work->cx;
+#ifdef VERSION_EUROPE
+                /* European CLUT X coordinates wrap around the 0x280 base. */
+                value = cx - 0x280;
+#else
                 value = cx & 0xFF;
+#endif
                 value += (work->size & 0xF) << 4;
                 sprite->tpage = work->tpage + ((part->cell >> 10) & 7);
+#ifdef VERSION_EUROPE
+                sprite->cxcy.h.cx = (value & 0xFF) + 0x280;
+#else
                 sprite->cxcy.h.cx = (cx & 0x300) | (value & 0xFF);
+#endif
                 sprite->cxcy.h.cy = work->cy + (value >> 8);
             }
         }
@@ -197,7 +209,7 @@ narrow:
             if (state->screen != 0) {
                 if ((s16)sprite->xy.h.x >= 320 ||
                     (s16)sprite->xy.h.x + sprite->extent.wh.w.word <= 0 ||
-                    (s16)sprite->xy.h.y >= 240 ||
+                    (s16)sprite->xy.h.y >= SPRITE_SHEET_SCREEN_HEIGHT ||
                     (s16)sprite->xy.h.y + sprite->extent.wh.h <= 0) {
                     goto next;
                 }
