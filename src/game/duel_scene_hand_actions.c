@@ -101,6 +101,10 @@
 #define CARD_PLACE_X(card) (*(s16 *)((u8 *)(card) + 8))
 #define CARD_PLACE_Y(card) (*(s16 *)((u8 *)(card) + 0xA))
 
+#ifndef DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
+#define DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION 1
+#endif
+
 #ifdef VERSION_JAPAN
 /* The Japanese build cancels with Cross, confirms with Circle or Square, and
  * reads the card viewer's cell from the side's own column and row. */
@@ -209,7 +213,9 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
                 if (value < 0xB) {
+#if DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
                     printf(D_80010060);
+#endif
                     return;
                 }
                 D_8009B208[2] = value - 0xB;
