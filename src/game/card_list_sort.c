@@ -7,6 +7,10 @@
 #include "duel_card.h"
 #include "build_deck_transition_state.h"
 
+#ifndef CARD_LIST_VISIBLE_ROWS
+#define CARD_LIST_VISIBLE_ROWS 8
+#endif
+
 /* The descending comparator, sort, and input handler share this unit. */
 #if (!defined(VERSION_JAPAN) || defined(VERSION_JAPAN_FUNC_80032BD4)) && \
     (!defined(VERSION_EUROPE) || defined(VERSION_EUROPE_FUNC_80032BD4))
@@ -182,7 +186,7 @@ void func_80032C48(CardList *list)
         qsort(list, n, sizeof(CardListSortItem), func_80032BD4);
         break;
     }
-    func_80031E04(list, 8);
+    func_80031E04(list, CARD_LIST_VISIBLE_ROWS);
 }
 #endif
 
@@ -196,9 +200,6 @@ void func_80032C48(CardList *list)
 #include "input.h"
 #include "sound.h"
 
-#ifndef CARD_LIST_VISIBLE_ROWS
-#define CARD_LIST_VISIBLE_ROWS 8
-#endif
 #ifndef CARD_LIST_LAST_CURSOR
 #define CARD_LIST_LAST_CURSOR 7
 #endif
