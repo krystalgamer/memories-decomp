@@ -6,9 +6,8 @@
 
 /* Starts the async read of one card's effect artwork into slot `slot` of the
  * D_800EA0E8 record array. `value` is the card id: it is stored at +0x30 of
- * the record and turned into the disc position (value - 1) * 7 + CARD_COUNT,
- * seven sectors long, so a card's art is seven sectors and the table begins
- * one card's worth past the card data.
+ * the record and turned into the build's card-art disc position. US/Japan
+ * use seven sectors per card; Europe uses eight.
  *
  * It hands back the transfer descriptor it started, with `slot` already
  * stored in the descriptor's callback_data for func_800289BC to pick up, and
@@ -18,10 +17,17 @@
  * overlay's shop.c calls it too. */
 FileTransferDescriptor *func_80029164(s32 slot, s32 value);
 
-/* Async phase callback for func_80029164's seven-sector request. Phase 0
+/* Async phase callback for func_80029164's card-art request. Phase 0
  * points both buffer words at D_8009B118 for 0x3800 bytes; the next phase
  * uploads the four rects of the D_800EA0E8 entry whose index func_80029164
  * left in callback_data. */
 void func_800289BC(FileTransferDescriptor *descriptor, s32 mode);
+
+/* European vertical layout selector used while preparing preview sprites. */
+#ifdef D_8009C02B_IN_DATA
+extern u8 D_8009C02B __attribute__((section(".data")));
+#else
+extern u8 D_8009C02B;
+#endif
 
 #endif
