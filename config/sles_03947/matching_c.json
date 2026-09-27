@@ -2600,6 +2600,24 @@
       "source": "src/game/text_box_runtime.c"
     },
     {
+      "address": "0x800398C4",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xE4",
+      "source": "src/game/european/display_object_fade_callbacks.c"
+    },
+    {
+      "address": "0x800399A8",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xC4",
+      "source": "src/game/european/display_object_fade_callbacks.c"
+    },
+    {
+      "address": "0x80039A6C",
+      "profile": "gcc_2_8_1_g0",
+      "size": "0xD0",
+      "source": "src/game/european/display_object_fade_callbacks.c"
+    },
+    {
       "address": "0x8003A02C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
