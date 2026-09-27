@@ -2948,6 +2948,12 @@
       "source": "src/game/european/mem_card_dialog_trade_save.c"
     },
     {
+      "address": "0x8003F568",
+      "profile": "gcc_2_8_1_g8_split",
+      "size": "0x2C8",
+      "source": "src/game/european/mem_card_dialog_update.c"
+    },
+    {
       "address": "0x8003F87C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x7C",
