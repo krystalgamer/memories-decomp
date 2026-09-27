@@ -1670,6 +1670,12 @@
       "source": "src/game/main_run_password_menu.c"
     },
     {
+      "address": "0x8002D758",
+      "profile": "gcc_2_8_1_g8_split_comm",
+      "size": "0x58",
+      "source": "src/game/european/main_run_options_menu.c"
+    },
+    {
       "address": "0x8002D7B0",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
@@ -2832,6 +2838,18 @@
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
       "source": "src/game/european/campaign_map_load_package_stage.c"
+    },
+    {
+      "address": "0x8003C56C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x1A0",
+      "source": "src/game/european/options_package_stages.c"
+    },
+    {
+      "address": "0x8003C70C",
+      "profile": "gcc_2_8_1_g0_no_split",
+      "size": "0x60",
+      "source": "src/game/european/options_package_stages.c"
     },
     {
       "address": "0x8003CA58",
